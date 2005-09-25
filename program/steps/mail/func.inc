@@ -427,13 +427,13 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE) // $body, $ctype_pr
     $url_chars_within = '\?\.~,!';
 
     $convert_patterns[] = "/([\w]+):\/\/([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/ie";
-    $convert_replaces[] = "rcmail_str_replacement('<a href=\"\\1://\\2\" target=\"_blank\">\\1://\\2</a>', &\$replace_strings)";
+    $convert_replaces[] = "rcmail_str_replacement('<a href=\"\\1://\\2\" target=\"_blank\">\\1://\\2</a>', \$replace_strings)";
 
     $convert_patterns[] = "/([^\/:]|\s)(www\.)([a-z0-9\-]{2,}[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/ie";
-    $convert_replaces[] = "rcmail_str_replacement('\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>', &\$replace_strings)";
+    $convert_replaces[] = "rcmail_str_replacement('\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>', \$replace_strings)";
     
     $convert_patterns[] = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/ie';
-    $convert_replaces[] = "rcmail_str_replacement('<a href=\"mailto:\\1\" onclick=\"return $JS_OBJECT_NAME.command(\'compose\',\'\\1\',this)\">\\1</a>', &\$replace_strings)";
+    $convert_replaces[] = "rcmail_str_replacement('<a href=\"mailto:\\1\" onclick=\"return $JS_OBJECT_NAME.command(\'compose\',\'\\1\',this)\">\\1</a>', \$replace_strings)";
 
     $body = wordwrap(trim($body), 80);
     $body = preg_replace($convert_patterns, $convert_replaces, $body);

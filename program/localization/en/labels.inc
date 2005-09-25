@@ -90,7 +90,7 @@ $labels['today'] = 'Today';
 // toolbar buttons
 $labels['writenewmessage']  = 'Create a new message';
 $labels['replytomessage']   = 'Reply to the message';
-$labels['forwardmessage']   = 'Forwad the message';
+$labels['forwardmessage']   = 'Forward the message';
 $labels['deletemessage']    = 'Move message to trash';
 $labels['printmessage']     = 'Print this message';
 $labels['previousmessages'] = 'Show previous set of messages';
@@ -107,6 +107,7 @@ $labels['compose']  = 'Compose a message';
 $labels['sendmessage']  = 'Send the message now';
 $labels['addattachment']  = 'Attach a file';
 
+$labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
 $labels['close']  = 'Close';
 

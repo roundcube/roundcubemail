@@ -187,6 +187,8 @@
   background-color: #F9F9F9;
   list-style-image: none;
   list-style-type: none;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #mailboxlist li

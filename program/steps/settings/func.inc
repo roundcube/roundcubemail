@@ -51,8 +51,13 @@ function rcmail_user_prefs_form($attrib)
   // show language selection
   $field_id = 'rcmfd_lang';
   $select_lang = new select(array('name' => '_language', 'id' => $field_id));
-  $select_lang->add('English', 'en');
+  // $select_lang->add('Czech', 'cs');
+  $select_lang->add('Dansk', 'da');
   $select_lang->add('Deutsch', 'de');
+  $select_lang->add('English', 'en');
+  $select_lang->add('Espanol', 'es');
+  $select_lang->add('Franais', 'fr');
+  $select_lang->add('Italiano', 'it');
 
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,

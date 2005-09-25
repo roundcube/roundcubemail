@@ -107,6 +107,7 @@ $labels['compose']  = 'Neue Nachricht verfassen';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
 
+$labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
 $labels['close']  = 'Schliessen';
 
