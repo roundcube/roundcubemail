@@ -1,0 +1,12 @@
+php_flag   display_errors 	On
+php_value  session.gc_maxlifetime  21600
+php_value  session.gc_divisor   500
+php_value  upload_max_filesize  2m
+
+<FilesMatch "(\.inc|\~)$|^_">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+Order deny,allow
+Allow from all

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<link rel="stylesheet" type="text/css" href="/common.css" />
+<link rel="stylesheet" type="text/css" href="/settings.css" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+<roundcube:include file="/includes/settingstabs.html" />
+
+<div id="userprefs-box">
+<div id="userprefs-title"><roundcube:label name="userpreferences" /></div>
+
+<div style="padding:15px">
+<roundcube:object name="userprefs">
+
+<p><br /><roundcube:button command="save" type="input" class="button" label="save" /></p>
+</div>
+</div>
+
+
+<roundcube:include file="/includes/taskbar.html" />
+<roundcube:include file="/includes/settingscripts.html" />
+
+</body>
+</html>

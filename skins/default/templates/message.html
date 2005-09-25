@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<link rel="stylesheet" type="text/css" href="/common.css" />
+<link rel="stylesheet" type="text/css" href="/mail.css" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="messagetoolbar">
+<roundcube:button command="list" image="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
+<roundcube:button command="reply" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
+<roundcube:button command="forward" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
+<roundcube:button command="delete" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
+<roundcube:button command="print" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
+<roundcube:button command="viewsource" imageAct="/images/buttons/source_act.png" imagePas="/images/buttons/source_pas.png" width="32" height="32" title="viewsource" />
+<roundcube:object name="mailboxlist" type="select" noSelection="moveto" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
+</div>
+
+<div id="messagecountbar">
+<roundcube:button command="previousmessage" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
+&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
+<roundcube:button command="nextmessage" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
+</div>
+
+<div id="mailboxlist-header"><roundcube:label name="mailboxlist" /></div>
+<roundcube:object name="mailboxlist" id="mailboxlist" />
+
+<div id="messageframe">
+<roundcube:object name="messageHeaders" class="headers-table" cellspacing="0" cellpadding="2" addicon="/images/icons/plus.gif" summary="Message headers" />
+<roundcube:object name="messageAttachments" id="attachment-list" />
+<roundcube:object name="blockedObjects" id="remote-objects-message" />
+<roundcube:object name="messageBody" id="messagebody" showImages="true" />
+</div>
+
+<roundcube:include file="/includes/taskbar.html" />
+
+</body>
+</html>

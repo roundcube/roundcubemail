@@ -1,0 +1,26 @@
+CHANGELOG RoundCube Webmail
+---------------------------
+
+2005/08/11
+----------
+- Write list header to client even if list is empty
+- Add functions "select all", "select none" to message list
+- Improved filter for HTML messages to remove potentially malicious tags (script, iframe, object) and event handlers.
+- Buttons for next/previous message in view mode
+- Add new created contact to list and show confirmation status
+- Added folder management (subscribe/create/delete)
+- Log message sending (SMTP log)
+- Grant access for Camino browser
+- Added German translation
+
+
+2005/08/20
+----------
+- Improved cacheing of mailbox messagecount
+- Fixed javascript bug when creating a new message folder
+- Fixed javascript bugs #1260990 and #1260992: folder selection
+- Make Trash folder configurable
+- Auto create folders Inbox, Sent and Trash (if configured)
+- Support for IMAP root folder
+- Added support fot text/enriched messages
+- Make list of special mailboxes configurable

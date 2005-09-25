@@ -1,0 +1,277 @@
+/***** RoundCube|Mail basic styles *****/
+
+body
+{
+  margin: 8px;
+  background-color: #F2F2F2; /* #EBEBEB; */
+  color: #000000;
+}
+
+body.iframe
+{
+  margin: 0px;
+}
+
+body.extwin
+{
+  margin: 10px;
+}
+
+body, td, th, span, div, p, h3
+{
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #000000;
+}
+
+th
+{
+  font-weight: normal;
+}
+
+h3
+{
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: #000000;
+}
+
+a, a:active, a:visited
+{
+  color: #000000;
+}
+
+a.button, a.button:visited, a.tab, a.tab:visited, a.axislist
+{
+  color: #000000;
+  text-decoration: none;
+}
+
+a.tab
+{
+  width: 80px;
+  display: block;
+  text-align: center;
+}
+
+hr
+{
+  height: 1px;
+  background-color: #666666;
+  border-style: none;
+}
+
+input, textarea
+{
+  font-size: 9pt;
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  padding: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+  background-color: #ffffff;
+  border: 1px solid #666666;
+}
+
+input.button
+{
+  height: 20px;
+  color: #333333;
+  font-size: 12px;
+  padding-left: 8px;
+  padding-right: 8px;
+  background: url(images/buttons/bg.gif) repeat-x #f0f0f0;
+  border: 1px solid #a4a4a4;
+}
+
+input.button:hover
+{
+  color: black;
+}
+
+img
+{
+  behavior: url('skins/default/pngbehavior.htc');
+}
+
+.alttext
+{
+  font-size: 11px;
+}
+
+
+/** common user interface objects */
+
+#header
+{
+/* margin: 10px auto; */
+  width: 170px;
+  height: 40px;
+  margin-top: 0px;
+  margin-left: 10px;
+/* border: 1px solid #cccccc;  */
+}
+
+#footer
+{
+  position: fixed !important;
+  left: 0px;
+  right: 0px;
+  bottom: 0px !important;
+  height: 40px;
+  background-color: #f2f2f2;
+
+  /* css hack for IE */
+  position: absolute;
+  bottom: auto;
+  top: expression((parseInt(document.documentElement.clientHeight)+parseInt(document.documentElement.scrollTop)-42)+'px');
+  width: expression(parseInt(document.documentElement.clientWidth)+'px');
+}
+
+#taskbar
+{
+  margin: 0px auto;
+  width: 400px;
+  height: 34px;
+  padding: 3px;
+  text-align: center;
+  border: 1px solid #cccccc;  
+}
+
+#taskbar a
+{
+  padding-right: 10px;
+}
+
+
+#message
+{
+  position: absolute;
+  display: none;
+  top: 0px;
+  left: 200px;
+  right: 200px;
+  z-index: 5000;
+}
+
+#message div
+{
+  width: 400px;
+  margin: 0px auto;
+  height: 22px;
+  min-height: 22px;
+  padding: 8px 10px 8px 46px;
+}
+
+#message div.notice,
+#remote-objects-message
+{
+  background: url(images/display/info.png) 6px 3px no-repeat;
+  background-color: #F7FDCB;
+  border: 1px solid #C2D071;
+}
+
+#message div.error,
+#message div.warning
+{
+  background: url(images/display/warning.png) 6px 3px no-repeat;
+  background-color: #EF9398;
+  border: 1px solid #DC5757;
+}
+
+#message div.confirmation
+{
+  background: url(images/display/confirm.png) 6px 3px no-repeat;
+  background-color: #A6EF7B;
+  border: 1px solid #76C83F;
+}
+
+#message div.loading
+{
+  background: url(images/display/loading.gif) 6px 3px no-repeat;
+  background-color: #EFEFEF;
+  border: 1px solid #CCCCCC;
+}
+
+
+/***** common table settings ******/
+
+table.records-table thead tr td
+{
+  height: 20px;
+  padding: 0px 4px 0px 4px;
+  vertical-align: middle;
+  border-bottom: 1px solid #999999;
+  color: #333333;
+  background-color: #EBEBEB;
+  background-image: url(images/listheader_aqua.gif); 
+  font-size: 11px;
+  font-weight: bold;
+}
+
+table.records-table tbody tr td
+{
+  height: 16px;
+  padding: 2px 4px 2px 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  border-bottom: 1px solid #EBEBEB;
+  overflow: hidden;
+  text-align: left;  
+}
+
+table.records-table tr
+{
+  background-color: #FFFFFF;
+}
+
+table.records-table tr.selected td
+{
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #CC3333;
+}
+
+
+
+/***** roundcube webmail pre-defined classes *****/
+
+a.rcmContactAddress
+{
+  text-decoration: none;
+}
+
+a.rcmContactAddress:hover
+{
+  text-decoration: underline;
+}
+
+#rcmKSearchpane
+{
+  background-color: #F9F9F9;
+  border: 1px solid #CCCCCC;
+}
+
+#rcmKSearchpane ul
+{
+  margin: 0px;
+  padding: 2px;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#rcmKSearchpane ul li
+{
+  height: 16px;
+  font-size: 11px;
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-right: 8px;
+  white-space: nowrap;  
+}
+
+#rcmKSearchpane ul li.selected
+{
+  color: #ffffff;
+  background-color: #CC3333;
+}
+

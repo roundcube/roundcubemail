@@ -1,0 +1,111 @@
+/***** RoundCube|Mail message print styles *****/
+
+body
+{
+  background-color: #ffffff;
+  color: #000000;
+  margin: 2mm;
+}
+
+body, td, th, span, div, p, h3
+{
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  color: #000000;
+}
+
+h3
+{
+  font-size: 18px;
+  color: #000000;
+}
+
+a, a:active, a:visited
+{
+  color: #000000;
+}
+
+#header
+{
+  margin-left: 5mm;
+  margin-bottom: 3mm;
+}
+
+#messageframe
+{
+  position: relative;
+}
+
+table.headers-table
+{
+  table-layout: fixed;
+}
+
+table.headers-table tr td
+{
+  font-size: 9pt;
+}
+
+table.headers-table td.header-title
+{
+  color: #666666;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+  padding-right: 4mm;
+  white-space: nowrap;
+}
+
+table.headers-table tr td.subject
+{
+  width: 90%;
+  font-weight: bold;
+}
+  
+#attachment-list
+{
+  margin-top: 3mm;
+  padding-top: 3mm;
+  border-top: 1pt solid #cccccc;
+}
+
+#attachment-list li
+{
+  font-size: 9pt;
+}
+
+#attachment-list li a
+{
+  text-decoration: none;
+}
+
+#attachment-list li a:hover
+{
+  text-decoration: underline;
+}
+
+#messagebody
+{
+  margin-top: 5mm;
+  border-top: none;
+}
+
+div.message-part
+{
+  padding: 2mm;
+  margin-top: 5mm;
+  margin-bottom: 5mm;
+  border-top: 1pt solid #cccccc;
+}
+
+div.message-part a
+{
+  color: #0000CC;
+}
+
+div.message-part pre
+{
+  margin: 0;
+  padding: 0;
+  font-size: 9pt;
+}

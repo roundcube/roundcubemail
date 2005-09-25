@@ -1,0 +1,32 @@
+
+INSTALLATION
+============
+
+1. Decompress and put this folder somewhere inside your document root
+2. Make shure that the following directories are writable by the webserver
+   - /temp
+   - /logs
+3. Modify the files in /config to suit your local environment
+4. Create database tables using the queries in file 'SQL/initial.sql'
+   Rename tables if you like, but make shure the names are also changed in /config/db.inc
+5. Done!
+
+
+REQUIREMENTS
+============
+
+* The Apache Webserver
+* .htaccess support allowing overrides for DirectoryIndex
+* PHP Version 4.3.1 or greater
+* php.ini options:
+   - error_reporting E_ALL & ~E_NOTICE (or lower)
+   - file_uploads on (for attachment upload features)
+* The MySQL database engine
+* A database with permission to create tables
+
+
+CONFIGURATION
+=============
+
+Change the files in /config/ according your environment and you needs.
+Details about the config paramaters can be found in the config files.

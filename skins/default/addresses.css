@@ -1,0 +1,119 @@
+/***** RoundCube|Mail address book task styles *****/
+
+
+#abooktoolbar
+{
+  position: absolute;
+  top: 32px;
+  left: 200px;
+  height: 35px;
+}
+
+#abooktoolbar a
+{
+  padding-right: 10px;
+}
+
+#abookcountbar
+{
+  position: absolute;
+  top: 50px;
+  left: 490px;
+  width: 200px;
+  height: 20px;
+  text-align: left;
+}
+
+#abookcountbar span
+{
+  font-size: 11px;
+  color: #333333;
+}
+
+
+#addresslist
+{
+  position: absolute;
+  top: 75px;
+  left: 20px;
+  width: 450px;
+  bottom: 60px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  overflow: auto;
+  /* css hack for IE */
+  height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
+}
+
+#contacts-table
+{
+  width: 100%;
+  table-layout: fixed;
+  /* css hack for IE */
+  width: expression(document.getElementById('addresslist').clientWidth);
+}
+
+
+#contacts-table tbody td
+{
+  cursor: pointer;
+}
+
+
+#contacts-box
+{
+  position: absolute;
+  top: 75px;
+  left: 490px;
+  right: 40px;
+  bottom: 60px;
+  border: 1px solid #999999;
+  overflow: hidden;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-530)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
+}
+
+body.iframe,
+#contact-frame
+{
+  background-color: #F9F9F9;
+}
+
+#contact-frame
+{
+  border: none;
+/* visibility: hidden; */
+}
+
+#contact-title
+{
+  height: 12px !important;
+/*  height: 20px; */
+  padding: 4px 20px 3px 20px;
+  border-bottom: 1px solid #999999;
+  color: #333333;
+  font-size: 11px;
+  font-weight: bold;
+  background-color: #EBEBEB;
+  background-image: url(images/listheader_aqua.gif); 
+}
+
+#contact-details
+{
+  padding: 15px 20px 10px 20px;
+}
+
+#contact-details table td.title
+{
+  color: #666666;
+  font-weight: bold;
+  text-align: right;
+  padding-right: 10px;
+}
+
+
+
+
+
+

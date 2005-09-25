@@ -1,0 +1,11 @@
+<script type="text/javascript">
+
+if (window.rcmail && rcmail.env.action)
+  var tab = document.getElementById('settingstab'+rcmail.env.action);
+else 
+  var tab = document.getElementById('settingstabdefault');
+  
+if (tab)
+  tab.className = 'tablink-selected';
+
+</script>

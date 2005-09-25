@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>RoundCube|Mail :: <roundcube:label name="compose" /></title>
+<link rel="stylesheet" type="text/css" href="/common.css" />
+<link rel="stylesheet" type="text/css" href="/mail.css" />
+<script type="text/javascript">
+<!--
+
+function rcmail_toggle_display(id)
+  {
+  var row, disp;
+  if (row = document.getElementById(id))
+    {
+    disp = (!row.style.display || row.style.display=='none') ? (document.all ? 'block' : 'table-row') : 'none';
+    row.style.display = disp;
+    }
+    
+  return false;
+  }
+
+//-->
+</script>
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+
+<form name="form" method="post">
+
+<div id="messagetoolbar">
+<roundcube:button command="list" image="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
+<roundcube:button command="send" imageAct="/images/buttons/send_act.png" imagePas="/images/buttons/send_pas.png" width="32" height="32" title="sendmessage" />
+<roundcube:button command="contacts" imageAct="/images/buttons/contacts_act.png" imagePas="/images/buttons/contacts_pas.png" width="32" height="32" title="addressbook" />
+<roundcube:button command="add-attachment" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
+
+<div id="priority-selector">
+<roundcube:label name="priority" />:&nbsp;<roundcube:object name="prioritySelector" form="form" />
+</div>
+
+</div>
+
+<div id="compose-container">
+<table border="0" cellspacing="0" cellpadding="1" style="width:100%; height:100%;" summary=""><tr>
+<td>
+
+<table border="0" cellspacing="0" cellpadding="1" id="compose-headers" summary=""><tr>
+
+<td class="title"><roundcube:label name="from" /></td>
+<td><roundcube:object name="composeHeaders" part="from" form="form" /></td>
+
+</tr><tr>
+
+<td class="title top"><roundcube:label name="to" /></td>
+<td><roundcube:object name="composeHeaders" part="to" form="form" cols="80" rows="2" /></td>
+<td class="add-button"><a href="#" onclick="return rcmail_toggle_display('compose-cc')">[Cc]</a><br />
+<a href="#" onclick="return rcmail_toggle_display('compose-bcc')">[Bcc]</a><br /></td>
+
+</tr><tr id="compose-cc">
+
+<td class="title top"><roundcube:label name="cc" /></td>
+<td><roundcube:object name="composeHeaders" part="cc" form="form" cols="80" rows="2" /></td>
+
+</tr><tr id="compose-bcc">
+
+<td class="title top"><roundcube:label name="bcc" /></td>
+<td><roundcube:object name="composeHeaders" part="bcc" form="form" cols="80" rows="2" /></td>
+
+</tr><tr id="compose-replyto">
+
+<td class="title top"><roundcube:label name="replyto" /></td>
+<td><roundcube:object name="composeHeaders" part="replyto" form="form" size="80" /></td>
+
+<!-- </tr><tr>
+
+<td><roundcube:object name="composeAttachment" size="20" /></td> -->
+
+</tr><tr>
+
+<td class="title"><roundcube:label name="subject" /></td>
+<td><roundcube:object name="composeSubject" id="compose-subject" form="form" /></td>
+
+</tr></table>
+
+</td>
+
+</tr><tr>
+
+<td style="width:100%; height:100%;">
+<roundcube:object name="composeBody" id="compose-body" form="form" cols="80" rows="20" warp="virtual" />
+</td>
+
+</tr></table>
+
+</div>
+
+<div id="compose-attachments">
+<div>Attachments</div>
+<roundcube:object name="composeAttachmentList" />
+<p><roundcube:button command="add-attachment" imagePas="/images/buttons/add_pas.png" imageAct="/images/buttons/add_act.png" width="23" height="18" title="addattachment" />
+</div>
+
+</form>
+
+<roundcube:object name="composeAttachmentForm" id="attachment-form" />
+
+<!--
+<div id="attachment-form">
+<roundcube:object name="composeAttachment" size="20" /><br />
+<input type="button" value="<roundcube:label name='close' />" onclick="rcmail_show_attachment_form(0)" />
+<input type="button" value="<roundcube:label name='send' />" onclick="rcmail.command('send-attachment', this)" />
+</div>
+-->
+
+<roundcube:include file="/includes/taskbar.html" />
+
+</body>
+</html>

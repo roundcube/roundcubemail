@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<link rel="stylesheet" type="text/css" href="/common.css" />
+<link rel="stylesheet" type="text/css" href="/settings.css" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+<roundcube:include file="/includes/settingstabs.html" />
+
+<form name="subscriptionform" action="./">
+
+<div id="folder-manager">
+<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"
+  cellpadding="1" cellspacing="0" summary="Folder subscription table"
+  deleteIcon="/images/icons/folder-trash.png" />
+
+
+<div class="settingsbox">
+<div class="boxtitle"><roundcube:label name="createfolder" /></div>
+
+<div class="settingspart">
+<roundcube:label name="foldername" />:&nbsp;
+<roundcube:object name="createfolder" form="subscriptionform" />
+<roundcube:button command="create-folder" type="input" class="button" label="create" />
+</div>
+</div>
+</div>
+
+</form>
+
+<roundcube:include file="/includes/taskbar.html" />
+<roundcube:include file="/includes/settingscripts.html" />
+
+</body>
+</html>

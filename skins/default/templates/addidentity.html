@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<link rel="stylesheet" type="text/css" href="/common.css" />
+<link rel="stylesheet" type="text/css" href="/settings.css" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+<roundcube:include file="/includes/settingstabs.html" />
+
+
+<div id="identities-list">
+<roundcube:object name="itentitiesList" id="identities-table" class="records-table" cellspacing="0" summary="Identities list" editIcon="" />
+
+<p><roundcube:button command="add" type="input" label="newidentity" class="button" /></p>
+
+<div id="identity-details">
+<div id="identity-title"><roundcube:label name="newidentity" /></div>
+
+<div style="padding:15px;">
+<roundcube:object name="identityform" size="40" />
+
+<p><br />
+<roundcube:button command="save" type="input" class="button" label="save" />
+</p>
+</div>
+</div>
+</div>
+
+<roundcube:include file="/includes/taskbar.html" />
+
+</body>
+</html>

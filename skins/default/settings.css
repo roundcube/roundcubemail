@@ -1,0 +1,150 @@
+/***** RoundCube|Mail settings task styles *****/
+
+
+#tabsbar
+{
+  position: absolute;
+  top: 42px;
+  left: 220px;
+  right: 60px;
+  height: 22px;
+  border-bottom: 1px solid #999999;
+  white-space: nowrap;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-280)+'px');
+}
+
+span.tablink,
+span.tablink-selected
+{
+  float: left;
+  width: 80px;
+  height: 17px !important;
+  height: 15px;
+  padding: 5px 10px 2px 10px;
+  background: url('images/tab_pas.gif') top left no-repeat;
+}
+
+span.tablink-selected
+{
+  background: url('images/tab_act.gif') top left no-repeat;
+}
+
+span.tablink a
+{
+  color: #555555;
+}
+
+span.tablink a,
+span.tablink-selected a
+{
+  text-decoration: none;
+}
+
+#userprefs-box
+{
+  position: absolute;
+  top: 90px;
+  left: 20px;
+  width: 550px;
+  border: 1px solid #999999;  
+}
+
+#userprefs-box table td.title
+{
+  color: #666666;
+  padding-right: 10px;
+}
+
+#identities-list,
+#folder-manager
+{
+  position: absolute;
+  top: 90px;
+  left: 20px;
+}
+
+#identities-table
+{
+  width: 500px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+}
+
+#identities-table tbody td
+{
+  cursor: pointer;
+}
+
+#identity-frame
+{
+  position: relative;
+  margin-top: 20px;
+  border: 1px solid #999999;
+}
+
+#identity-details
+{
+  margin-top: 30px;
+  width: 500px;
+  border: 1px solid #999999;
+}
+
+#identity-details table td.title
+{
+  color: #666666;
+  font-weight: bold;
+  text-align: right;
+  padding-right: 10px;
+}
+
+#userprefs-title,
+#identity-title,
+div.boxtitle,
+#subscription-table thead td
+{
+  height: 12px !important;
+  padding: 4px 20px 3px 6px;
+  border-bottom: 1px solid #999999;
+  color: #333333;
+  font-size: 11px;
+  font-weight: bold;
+  background-color: #EBEBEB;
+  background-image: url(images/listheader_aqua.gif); 
+}
+
+div.settingsbox
+{
+  width: 500px;
+  margin-top: 20px;
+  border: 1px solid #999999;
+}
+
+div.settingspart
+{
+  display: block;
+  padding: 10px;
+}
+
+#subscription-table
+{
+  width: 500px;
+  border: 1px solid #999999;
+}
+
+#subscription-table tbody td
+{
+  padding-left: 6px;
+  padding-right: 20px;
+  white-space: nowrap;
+  border-bottom: 1px solid #EBEBEB;
+  background-color: #F9F9F9;
+}
+
+/*
+#subscription-table tbody td select
+{
+  width: 150px;
+}
+*/
+
