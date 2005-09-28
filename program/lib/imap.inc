@@ -840,7 +840,7 @@ function iil_C_UIDToMID(&$conn, $mailbox, $uid){
 function iil_C_FetchUIDs(&$conn,$mailbox){
 	global $clock;
 	
-	$num = iil_C_CountMessages(&$conn, $mailbox);
+	$num = iil_C_CountMessages($conn, $mailbox);
 	if ($num==0) return array();
 	$message_set = '1'.($num>1?':'.$num:'');
 	
@@ -1812,7 +1812,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode){
         
         if ($result){
 			$result = chop($result);
-            return substr($result, 0, strlen($result)-1);
+            return $result; // substr($result, 0, strlen($result)-1);
         }else return false;
 	}else{
 		echo "Select failed.";

@@ -4,7 +4,7 @@
  |                                                                       |
  | This file is part of the RoundCube web development suite              |
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | Modified: 19.08.2005 (tbr)                                            |
  |                                                                       |

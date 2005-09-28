@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the RoundCube PHP suite                          |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |
  |   Shared functions and classes used in PHP projects                   |

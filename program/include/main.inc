@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide basic functions for the webmail package                     |
@@ -887,10 +887,10 @@ function format_date($date, $format=NULL)
   $week_secs = 60 * 60 * 24 * 7;
   $diff = $now - $timestamp;
 
-  // define daate format depending on current time  
-  if (!$format && $diff < $day_secs)
+  // define date format depending on current time  
+  if ($CONFIG['prettydate'] && !$format && $diff < $day_secs)
     return sprintf('%s %s', rcube_label('today'), date('H:i', $timestamp));
-  else if (!$format && $diff < $week_secs)
+  else if ($CONFIG['prettydate'] && !$format && $diff < $week_secs)
     $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
   else if (!$format)
     $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';

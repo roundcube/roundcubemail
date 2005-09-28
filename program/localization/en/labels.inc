@@ -6,7 +6,7 @@
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -64,6 +64,7 @@ $labels['filesize'] = 'File size';
 
 $labels['preferhtml'] = 'Prefer HTML';
 $labels['htmlmessage'] = 'HTML Message';
+$labels['prettydate'] = 'Pretty dates';
 
 $labels['addtoaddressbook'] = 'Add to address book';
 

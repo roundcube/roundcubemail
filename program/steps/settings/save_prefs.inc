@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Save user preferences to DB and to the current session              |
@@ -27,6 +27,9 @@ if (!is_array($a_user_prefs))
 $a_user_prefs['timezone'] = isset($_POST['_timezone']) ? (int)$_POST['_timezone'] : $CONFIG['timezone'];
 $a_user_prefs['pagesize'] = is_numeric($_POST['_pagesize']) ? (int)$_POST['_pagesize'] : $CONFIG['pagesize'];
 $a_user_prefs['prefer_html'] = isset($_POST['_prefer_html']) ? TRUE : FALSE;
+
+// MM: Date format toggle (Pretty / Standard)
+$a_user_prefs['prettydate'] = isset($_POST['_pretty_date']) ? TRUE : FALSE;
 
 if (isset($_POST['_language']))
   $sess_user_lang = $_SESSION['user_lang'] = $_POST['_language'];

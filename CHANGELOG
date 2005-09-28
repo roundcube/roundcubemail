@@ -24,3 +24,13 @@ CHANGELOG RoundCube Webmail
 - Support for IMAP root folder
 - Added support fot text/enriched messages
 - Make list of special mailboxes configurable
+
+
+2005/09/28
+----------
+- Added French, Italian, Spanish, Danish translation
+- Fixed PHP warnings (Bug #1299403)
+- Fixed english translation bug #1295406
+- Fixed bug #1290833: Last character of email not seen
+- Added setting for showing pretty dates
+

@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
  |   MySQL wrapper class that implements PHP MySQL functions             |

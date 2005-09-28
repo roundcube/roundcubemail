@@ -91,6 +91,9 @@ $rcmail_config['timezone'] = 1;
 // prefer displaying HTML messages
 $rcmail_config['prefer_html'] = TRUE;
 
+// show pretty dates as standard
+$rcmail_config['prettydate'] = TRUE;
+
 
 // end of config file
 ?>

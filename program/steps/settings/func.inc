@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide functionality for user's settings & preferences             |
@@ -44,9 +44,10 @@ function rcmail_user_prefs_form($attrib)
   // return the complete edit form as table
   $out = "$form_start<table" . $attrib_str . ">\n\n";
 
-  $a_show_cols = array('language'  => array('type' => 'text'),
-                       'pagesize'  => array('type' => 'text'),
-                       'timezone'  => array('type' => 'text'));
+  $a_show_cols = array('language'   => array('type' => 'text'),
+                       'pagesize'   => array('type' => 'text'),
+                       'timezone'   => array('type' => 'text'),
+                       'prettydate' => array('type' => 'text'));
                        
   // show language selection
   $field_id = 'rcmfd_lang';
@@ -119,6 +120,15 @@ function rcmail_user_prefs_form($attrib)
                   $field_id,
                   rcube_label('preferhtml'),
                   $input_pagesize->show($CONFIG['prefer_html']?1:0));
+
+  // MM: Show checkbox for toggling 'pretty dates' 
+  $field_id = 'rcmfd_prettydate';
+  $input_prettydate = new checkbox(array('name' => '_pretty_date', 'id' => $field_id, 'value' => 1));
+
+  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                  $field_id,
+                  rcube_label('prettydate'),
+                  $input_prettydate->show($CONFIG['prettydate']?1:0));
 
 
   $out .= "\n</table>$form_end";

@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Compose a new mail message with all headers and attachments         |
@@ -283,7 +283,7 @@ function rcmail_compose_body($attrib)
   
   // use posted message body
   if ($_POST['_message'])
-    $body = $_POST['_message'];
+    $body = stripslashes($_POST['_message']);
     
   // compose reply-body
   else if (is_array($REPLY_MESSAGE['parts']))
@@ -371,7 +371,7 @@ function rcmail_compose_subject($attrib)
 
   // use subject from post
   if ($_POST['_subject'])
-    $subject = $_POST['_subject'];
+    $subject = stripslashes($_POST['_subject']);
     
   // create a reply-subject
   else if (isset($REPLY_MESSAGE['subject']))

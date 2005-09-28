@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the BQube Webmail client                         |
  | Copyright (C) 2005, BQube Dev - Switzerland                           |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide error handling and logging functions                        |
