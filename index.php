@@ -267,7 +267,19 @@ if ($_task=='settings')
   }
 
 
-// parse main template
-parse_template($_task);
+// only allow these templates to be included
+$valid_tasks = array('mail','settings','addressbook');
 
+// parse main template
+if (in_array($_task, $valid_tasks))
+  parse_template($_task);
+
+
+// if we arrive here, something went wrong
+raise_error(array('code' => 404,
+                  'type' => 'php',
+                  'line' => __LINE__,
+                  'file' => __FILE__,
+                  'message' => "Invalid request"), TRUE, TRUE);
+                      
 ?>

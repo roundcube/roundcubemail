@@ -52,7 +52,7 @@ else if ($ERROR_CODE==401)
 else if ($ERROR_CODE==404)
   {
   $__error_title = "REQUEST FAILED/FILE NOT FOUND";
-  $request_url = $GLOBALS['HTTP_HOST'].$GLOBALS['REQUEST_URI'];
+  $request_url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
   $__error_text  = <<<EOF
 The requested page was not found!<br />
 Please contact your server-administrator.
