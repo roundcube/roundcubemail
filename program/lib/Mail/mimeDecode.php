@@ -3,7 +3,7 @@
 // +-----------------------------------------------------------------------+
 // | Copyright (c) 2002-2003  Richard Heyes                                |
 // | Copyright (c) 2003-2005  The PHP Group                                |
-// | Licensed under the GNU GPL                                            |
+// | All rights reserved.                                                  |
 // |                                                                       |
 // | Redistribution and use in source and binary forms, with or without    |
 // | modification, are permitted provided that the following conditions    |
@@ -294,8 +294,9 @@ class Mail_mimeDecode extends PEAR
                         $this->_error = 'No boundary found for ' . $content_type['value'] . ' part';
                         return false;
                     }
-                    
+
                     $default_ctype = (strtolower($content_type['value']) === 'multipart/digest') ? 'message/rfc822' : 'text/plain';
+
                     $parts = $this->_boundarySplit($body, $content_type['other']['boundary']);
                     for ($i = 0; $i < count($parts); $i++) {
                         list($part_header, $part_body) = $this->_splitBodyHeader($parts[$i]);
@@ -498,14 +499,8 @@ class Mail_mimeDecode extends PEAR
         }
 
         $tmp = explode('--' . $boundary, $input);
-        $count = count($tmp);
 
-        // when boundaries are set correctly we should have at least 3 parts;
-        // if not, return the last one (tbr)
-        if ($count<3)
-          return array($tmp[$count-1]);
-        
-        for ($i = 1; $i < $count - 1; $i++) {
+        for ($i = 1; $i < count($tmp) - 1; $i++) {
             $parts[] = $tmp[$i];
         }
 

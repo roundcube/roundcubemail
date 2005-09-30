@@ -3,7 +3,7 @@
 // +-----------------------------------------------------------------------+
 // | Copyright (c) 2002-2003  Richard Heyes                                |
 // | Copyright (c) 2003-2005  The PHP Group                                |
-// | Licensed under the GNU GPL                                            |
+// | All rights reserved.                                                  |
 // |                                                                       |
 // | Redistribution and use in source and binary forms, with or without    |
 // | modification, are permitted provided that the following conditions    |
@@ -51,8 +51,8 @@ require_once('Mail/mimePart.php');
  *   in the mime_mail.class by Tobias Ratschiller <tobias@dnet.it> and
  *   Sascha Schumann <sascha@schumann.cx>
  *
- *   Function _encodeHeaders() changed by Thomas Bruederli <roundcube@gmail.com>
- *   in order to be read correctly by Google Gmail
+ * @notes Replaced method _encodeHeaders by the version of ed@avi.ru
+ *        See http://pear.php.net/bugs/bug.php?id=30 for details
  *
  * @author   Richard Heyes <richard.heyes@heyes-computing.net>
  * @author   Tomas V.V.Cox <cox@idecnet.com>
@@ -119,6 +119,7 @@ class Mail_mime
         $this->_build_params = array(
                                      'text_encoding' => '7bit',
                                      'html_encoding' => 'quoted-printable',
+                                     'header_encoding' => 'quoted-printable',
                                      '7bit_wrap'     => 998,
                                      'html_charset'  => 'ISO-8859-1',
                                      'text_charset'  => 'ISO-8859-1',
@@ -292,7 +293,12 @@ class Mail_mime
         if (!$fd = fopen($file_name, 'rb')) {
             return PEAR::raiseError('Could not open ' . $file_name);
         }
-        $cont = fread($fd, filesize($file_name));
+        $filesize = filesize($file_name);
+        if ($filesize == 0){
+            $cont =  "";
+        }else{
+            $cont = fread($fd, $filesize);
+        }
         fclose($fd);
         return $cont;
     }
@@ -463,9 +469,9 @@ class Mail_mime
 
         if (!empty($this->_html_images) AND isset($this->_htmlbody)) {
             foreach ($this->_html_images as $value) {
-                $regex = '#src\s*=\s*(["\']?)' . preg_quote($value['name']) .
-                         '(["\'])?#';
-                $rep = 'src=\1cid:' . $value['cid'] .'\2';
+                $regex = '#(\s)((?i)src|background|href(?-i))\s*=\s*(["\']?)' . preg_quote($value['name'], '#') .
+                         '\3#';
+                $rep = '\1\2=\3cid:' . $value['cid'] .'\3';
                 $this->_htmlbody = preg_replace($regex, $rep,
                                        $this->_htmlbody
                                    );
@@ -665,53 +671,42 @@ class Mail_mime
     }
 
     /**
-     * Encodes a header as per RFC2047
-     *
-     * @param  string  $input The header data to encode
-     * @return string  Encoded data
-     * @access private
-     */
+    * Encodes a header as per RFC2047
+    *
+    * @param  string  $input The header data to encode
+    * @return string         Encoded data
+    * @access private
+    */
     function _encodeHeaders($input)
     {
-    $enc_prefix = '=?' . $this->_build_params['head_charset'] . '?Q?';
         foreach ($input as $hdr_name => $hdr_value) {
-            if (preg_match('/(\w*[\x80-\xFF]+\w*)/', $hdr_value)) {
-                $enc_value = preg_replace('/([\x80-\xFF])/e', '"=".strtoupper(dechex(ord("\1")))', $hdr_value);
-                // check for <email address> in string
-                if (preg_match('/<[a-z0-9\-\.\+\_]+@[a-z0-9]([a-z0-9\-].?)*[a-z0-9]\\.[a-z]{2,5}>/i', $enc_value) && ($p = strrpos($enc_value, '<'))) {
-                    $hdr_value = $enc_prefix . substr($enc_value, 0, $p-1) . '?= ' . substr($enc_value, $p, strlen($enc_value)-$p);
-                } else {
-                    $hdr_value = $enc_prefix . $enc_value . '?=';
-                }
-            }
-            $input[$hdr_name] = $hdr_value;
-        }
-
-        return $input;
-    }
-
-    /* replaced 2005/07/08 by roundcube@gmail.com
-    
-    function _encodeHeaders_old($input)
-    {
-        foreach ($input as $hdr_name => $hdr_value) {
-            preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
+            preg_match_all('/([\w\-]*[\x80-\xFF]+[\w\-]*(\s+[\w\-]*[\x80-\xFF]+[\w\-]*)*)\s*/',
+            $hdr_value, $matches);
             foreach ($matches[1] as $value) {
-                $replacement = preg_replace('/([\x80-\xFF])/e',
-                                            '"=" .
-                                            strtoupper(dechex(ord("\1")))',
-                                            $value);
-                $hdr_value = str_replace($value, '=?' .
-                                         $this->_build_params['head_charset'] .
-                                         '?Q?' . $replacement . '?=',
-                                         $hdr_value);
+                switch ($head_encoding = $this->_build_params['head_encoding']) {
+                case 'base64':
+                    $symbol = 'B';
+                    $replacement = base64_encode($value);
+                    break;
+
+                default:
+                    if ($head_encoding != 'quoted-printable') {
+                        PEAR::raiseError('Invalid header encoding specified; using `quoted-printable` instead',
+                                        NULL,
+                                        PEAR_ERROR_TRIGGER,
+                                        E_USER_WARNING);
+                    }
+
+                    $symbol = 'Q';
+                    $replacement = preg_replace('/([\s_=\?\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
+                }
+                $hdr_value = str_replace($value, '=?' . $this->_build_params['head_charset'] . '?' . $symbol . '?' . $replacement . '?=', $hdr_value);
             }
             $input[$hdr_name] = $hdr_value;
         }
-
+        
         return $input;
     }
-    */
 
     /**
      * Set the object's end-of-line and define the constant if applicable
