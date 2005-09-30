@@ -21,7 +21,8 @@
 */
 
 
-require_once('lib/smtp.inc');
+//require_once('lib/smtp.inc');
+require_once('include/rcube_smtp.inc');
 require_once('Mail/mime.php');
 
 
@@ -155,30 +156,28 @@ $msg_subject = $headers['Subject'];
 // send thru SMTP server using cusotm SMTP library
 if ($CONFIG['smtp_server'])
   {
-  // connect to SMTP server
-  $smtp_conn = smtp_connect($CONFIG['smtp_server'], '25', $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
-	
-  if ($smtp_conn)
-    {
-    // generate list of recipients
-    $recipients = $mailto.', '.$headers['Cc'].', '.$headers['Bcc'];
-    $a_recipients = smtp_expand($recipients);
+  // generate list of recipients
+  $a_recipients = array($mailto);
 
-    // generate message headers
-    $header_str = $MAIL_MIME->txtHeaders($headers);
-	
-    // send message
-    $sent = smtp_mail($smtp_conn, $from, $a_recipients, $header_str."\r\n".$msg_body, FALSE);
-	}
-	
+  if (strlen($headers['Cc']))
+    $a_recipients[] = $headers['Cc'];
+  if (strlen($headers['Bcc']))
+    $a_recipients[] = $headers['Bcc'];
+
+  // generate message headers
+  $header_str = $MAIL_MIME->txtHeaders($headers);
+
+  // send message
+  $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body);
+
   // log error
-  if (!$smtp_conn || !$sent)
+  if (!$sent)
     {
     raise_error(array('code' => 800,
                       'type' => 'smtp',
                       'line' => __LINE__,
                       'file' => __FILE__,
-                      'message' => "Connection failed: $smtp_error"), TRUE, FALSE);
+                      'message' => "SMTP error: $SMTP_ERROR"), TRUE, FALSE);
     }
   }
 

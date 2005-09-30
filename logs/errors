@@ -1,0 +1,10 @@
+[30-Sep-2005 23:12:17 +0200] SMTP Error: Connection failed: SMTP: Failed to send data
+ in /www/roundcube/webmail/program/steps/mail/sendmail.inc on line 198
+[30-Sep-2005 23:18:44 +0200] SMTP Error: Connection failed: SMTP: Failed to send data
+ in /www/roundcube/webmail/program/steps/mail/sendmail.inc on line 198
+[30-Sep-2005 23:26:41 +0200] SMTP Error: Connection failed: SMTP: Failed to send data
+ in /www/roundcube/webmail/program/steps/mail/sendmail.inc on line 198
+[30-Sep-2005 23:31:29 +0200] SMTP Error: Connection failed: SMTP: Failed to send data
+ in /www/roundcube/webmail/program/steps/mail/sendmail.inc on line 198
+[30-Sep-2005 23:31:56 +0200] SMTP Error: Connection failed: SMTP: Failed to send data
+ in /www/roundcube/webmail/program/steps/mail/sendmail.inc on line 198

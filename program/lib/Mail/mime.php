@@ -119,7 +119,7 @@ class Mail_mime
         $this->_build_params = array(
                                      'text_encoding' => '7bit',
                                      'html_encoding' => 'quoted-printable',
-                                     'header_encoding' => 'quoted-printable',
+                                     'head_encoding' => 'quoted-printable',
                                      '7bit_wrap'     => 998,
                                      'html_charset'  => 'ISO-8859-1',
                                      'text_charset'  => 'ISO-8859-1',

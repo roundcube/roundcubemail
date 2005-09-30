@@ -14,6 +14,7 @@ from versions 0.1-alpha and 0.1-20050811
   $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
   $rcmail_config['prefer_html'] = TRUE;
   $rcmail_config['prettydate'] = TRUE;
+  $rcmail_config['smtp_port'] = 25;
 
 
 from version 0.1-20050820
@@ -21,4 +22,4 @@ from version 0.1-20050820
 - replace all files in folder /program/
 - add these line to /config/main.inc.php
   $rcmail_config['prettydate'] = TRUE;
-
+  $rcmail_config['smtp_port'] = 25;
