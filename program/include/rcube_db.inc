@@ -51,7 +51,9 @@ class rcube_db
 	// Connect to specific database	
 	function dsn_connect($dsn)
 	{
-		$dbh = DB::connect($dsn);
+		// Use persistent connections if available
+		
+		$dbh = DB::connect($dsn, array('persistent' => $true));
 
 		if (DB::isError($dbh))
 			raise_error(array('code' => 500,
@@ -65,10 +67,20 @@ class rcube_db
 	// Connect to appropiate databse	
 	function db_connect ($mode)
 	{
-		if ($this->db_connected && $this->db_mode=='w') return;
+		// Already connected
+		
+		if ($this->db_connected)
+			{
+			// no replication, current connection is ok
+			if ($this->db_dsnw==$this->db_dsnr) return;
+			
+			// connected to master, current connection is ok
+			if ($this->db_mode=='w') return;
 
-		if ($this->db_connected && $this->db_mode==$mode) return;
-
+			// Same mode, current connection is ok
+			if ($this->db_mode==$mode) return;
+			}
+			
 		if ($mode=='r')
 			$dsn=$this->db_dsnr;
 		else
