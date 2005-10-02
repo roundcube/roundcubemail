@@ -9,8 +9,8 @@ message filters. RoundCube Webmail is written in PHP and requires the MySQL
 database. The user interface is fully skinnable using XHTML and CSS 2.
 
 This project is meant to be a modern webmail solution which is easy to
-install/configure and that runs on a standard PHP/MySQL configuration. It
-includes open-source classes/libraries like PEAR (http://pear.php.net) and the
+install/configure and that runs on a standard PHP plus MySQL or Postgres configuration.
+It includes open-source classes/libraries like PEAR (http://pear.php.net) and the
 IMAP wrapper from IlohaMail (http://www.ilohamail.org).
 
 The current development skin uses icons designed by Stephen Horlander and Kevin 

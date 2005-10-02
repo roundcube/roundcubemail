@@ -21,7 +21,7 @@ REQUIREMENTS
 * php.ini options:
    - error_reporting E_ALL & ~E_NOTICE (or lower)
    - file_uploads on (for attachment upload features)
-* The MySQL database engine
+* A MySQL or Postgres database engine
 * A database with permission to create tables
 
 
