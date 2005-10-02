@@ -61,7 +61,7 @@ set_time_limit('120');
 // include base files
 require_once('include/rcube_shared.inc');
 require_once('include/rcube_imap.inc');
-require_once('include/rcube_mysql.inc');
+require_once('include/rcube_db.inc');
 require_once('include/bugs.inc');
 require_once('include/main.inc');
 require_once('include/cache.inc');

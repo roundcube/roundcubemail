@@ -14,21 +14,15 @@
 
 $rcmail_config = array();
 
-// database engine (currently supported: mysql)
-$rcmail_config['db_type'] = 'mysql';
+// PEAR database DSN for read/write operations
+//format is db_provider://user:password@host/databse
 
-// database host
-$rcmail_config['db_host'] = 'localhost';
+$rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 
-// database user
-$rcmail_config['db_user'] = 'roundcube';
+// PEAR database DSN for read only operations (if empty write database will be used)
+// userful for database replication
 
-// pwd
-$rcmail_config['db_pass'] = 'pass';
-
-// database name
-$rcmail_config['db_name'] = 'roundcubemail';
-
+$rcmail_config['db_dsnr'] = '';
 
 // you can define specific table names used to store webmail data
 $rcmail_config['db_table_users'] = 'users';

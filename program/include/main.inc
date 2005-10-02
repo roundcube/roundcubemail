@@ -54,23 +54,10 @@ function rcmail_startup($task='mail')
 
 
   // prepare DB connection
-  if (strtolower($CONFIG['db_type'])=='mysql')
-    $DB = new rcube_mysql($CONFIG['db_name'], $CONFIG['db_user'], $CONFIG['db_pass'], $CONFIG['db_host']);
-    
-  // database not supported
-  else
-    {
-    raise_error(array('code' => 500,
-                      'type' => 'php',
-                      'line' => __LINE__,
-                      'file' => __FILE__,
-                      'message' => "Database not supported"), TRUE, TRUE);
-    return;
-    }  
-
+  $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr']);
 
   // we can use the database for storing session data
-  if (is_object($DB) && $DB->connect())
+  if (is_object($DB))
     include_once('include/session.inc');
 
 
