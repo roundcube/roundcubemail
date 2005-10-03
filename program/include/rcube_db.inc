@@ -142,7 +142,7 @@ class rcube_db
         if (!$this->db_handle)
             return FALSE;
     
-        return $this->last_res_id->affectedRows();
+        return $this->db_handle->affectedRows();
     }
 
     function insert_id($sequence = '')
