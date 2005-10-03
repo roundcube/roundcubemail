@@ -13,7 +13,7 @@
  |   See http://pear.php.net/package/DB                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: David Saez Padros <david@ols.es>                              |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -24,11 +24,11 @@ require_once('DB.php');
 
 class rcube_db
 {
-    var $db_dsnw;				// DSN for write operations
-    var $db_dsnr;				// DSN for read operations
-    var $db_connected=false;	// Already connected ?
-	var $db_mode='';			// Connection mode
-	var $db_handle=0;			// Connection handle
+    var $db_dsnw;               // DSN for write operations
+    var $db_dsnr;               // DSN for read operations
+    var $db_connected=false;    // Already connected ?
+    var $db_mode='';            // Connection mode
+    var $db_handle=0;           // Connection handle
 
     var $a_query_results = array('dummy');
     var $last_res_id = 0;
@@ -36,8 +36,8 @@ class rcube_db
     // PHP 5 constructor
     function __construct($db_dsnw,$db_dsnr='')
     {
-		if ($db_dsnr=='') $db_dsnr=$db_dsnw;
-		
+        if ($db_dsnr=='') $db_dsnr=$db_dsnw;
+        
         $this->db_dsnw = $db_dsnw;
         $this->db_dsnr = $db_dsnr;
     }
@@ -48,83 +48,83 @@ class rcube_db
         $this->__construct($db_dsnw,$db_dsnr);
     }
 
-	// Connect to specific database	
-	function dsn_connect($dsn)
-	{
-		// Use persistent connections if available
-		
-		$dbh = DB::connect($dsn, array('persistent' => $true));
+    // Connect to specific database 
+    function dsn_connect($dsn)
+    {
+        // Use persistent connections if available
+        
+        $dbh = DB::connect($dsn, array('persistent' => $true));
 
-		if (DB::isError($dbh))
-			raise_error(array('code' => 500,
+        if (DB::isError($dbh))
+            raise_error(array('code' => 500,
                         'type' => 'db',
                         'line' => __LINE__,
                         'file' => __FILE__,
                         'message' => $dbh->getMessage()), TRUE, FALSE);
-		return $dbh;
-	}
+        return $dbh;
+    }
 
-	// Connect to appropiate databse	
-	function db_connect ($mode)
-	{
-		// Already connected
-		
-		if ($this->db_connected)
-			{
-			// no replication, current connection is ok
-			if ($this->db_dsnw==$this->db_dsnr) return;
-			
-			// connected to master, current connection is ok
-			if ($this->db_mode=='w') return;
+    // Connect to appropiate databse    
+    function db_connect ($mode)
+    {
+        // Already connected
+        
+        if ($this->db_connected)
+            {
+            // no replication, current connection is ok
+            if ($this->db_dsnw==$this->db_dsnr) return;
+            
+            // connected to master, current connection is ok
+            if ($this->db_mode=='w') return;
 
-			// Same mode, current connection is ok
-			if ($this->db_mode==$mode) return;
-			}
-			
-		if ($mode=='r')
-			$dsn=$this->db_dsnr;
-		else
-			$dsn=$this->db_dsnw;
+            // Same mode, current connection is ok
+            if ($this->db_mode==$mode) return;
+            }
+            
+        if ($mode=='r')
+            $dsn=$this->db_dsnr;
+        else
+            $dsn=$this->db_dsnw;
 
-		$this->db_handle = $this->dsn_connect($dsn);
-		$this->db_connected = true;
-		$this->db_mode = $mode;
-	}
+        $this->db_handle = $this->dsn_connect($dsn);
+        $this->db_connected = true;
+        $this->db_mode = $mode;
+    }
 
-	// Query database (read operations)
-	
+    // Query database (read operations)
+    
     function query($query)
     {
-		// Read or write ?
-		
-		if (strtolower(trim(substr($query,0,6)))=='select')
-			$mode='r';
-		else
-			{
-			$mode='w';
-			}
-		
-		$this->db_connect($mode);			
+        // Read or write ?
+        
+        if (strtolower(trim(substr($query,0,6)))=='select')
+            $mode='r';
+        else
+            {
+            $mode='w';
+            }
+        
+        $this->db_connect($mode);           
     
         $result = $this->db_handle->query($query);
         
         if (DB::isError($result))
-			raise_error( array('code' => 500, 'type' => 'db', 'line' => __LINE__, 
-			             'file' => __FILE__, 
-			             'message' => $result->getMessage()), TRUE, FALSE);
+            raise_error( array('code' => 500, 'type' => 'db', 'line' => __LINE__, 
+                         'file' => __FILE__, 
+                         'message' => $result->getMessage()), TRUE, FALSE);
         
         return $this->_add_result($result, $query);
     }
 
-	function db_execute ($query)
-	{
-		db_connect('w');
+    function db_execute ($query)
+    {
+        db_connect('w');
 
-		$result = $this->db_handle->query($query);
+        $result = $this->db_handle->query($query);
 
-	}
-	
-	function num_rows($res_id=NULL)
+    }
+    
+    function num_rows($res_id=NULL)
     {
         if (!$this->db_handle)
             return FALSE;
@@ -185,7 +185,7 @@ class rcube_db
         // sql error occured
         if (DB::isError($res))
         {
-            raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 'message' => $res->getMessage() . " Query: " . preg_replace('/[\r\n]+\s*/', ' ', $query)), TRUE, FALSE);
+            raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 'message' => $res->getMessage() . " Query: " . substr(preg_replace('/[\r\n]+\s*/', ' ', $query), 0, 1024)), TRUE, FALSE);
              return FALSE;
         }
         else
