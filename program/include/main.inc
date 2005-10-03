@@ -132,8 +132,12 @@ function rcmail_auth_hash($sess_id, $ts)
 function rcmail_imap_init($connect=FALSE)
   {
   global $CONFIG, $IMAP;
-  
+
   $IMAP = new rcube_imap();
+
+  // enable caching of imap data
+  if ($CONFIG['enable_caching']===TRUE)
+    $IMAP->set_caching(TRUE);
 
   // set root dir from config
   if (strlen($CONFIG['imap_root']))

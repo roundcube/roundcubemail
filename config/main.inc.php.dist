@@ -18,6 +18,10 @@ $rcmail_config = array();
 // system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
 $rcmail_config['debug_level'] = 5;
 
+// enable caching of messages and mailbox data in the local database.
+// this is recommended if the IMAP server does not run on the same machine
+$rcmail_config['enable_caching'] = TRUE;
+
 // automatically create a new user when log-in the first time
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = TRUE;

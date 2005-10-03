@@ -35,7 +35,7 @@ class rcube_imap
   var $mailbox = 'INBOX';
   var $list_page = 1;
   var $page_size = 10;
-  var $cacheing_enabled = FALSE;
+  var $caching_enabled = FALSE;
   var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
   var $cache = array();
   var $cache_changes = array();  
@@ -46,8 +46,7 @@ class rcube_imap
   // PHP 5 constructor
   function __construct()
     {
-    if (function_exists('rcube_read_cache'))
-      $this->cacheing_enabled = TRUE;
+    
     }
 
   // PHP 4 compatibility
@@ -681,14 +680,22 @@ class rcube_imap
 
 
   /* --------------------------------
-   *   internal cacheing functions
+   *   internal caching functions
    * --------------------------------*/
-   
+
+
+  function set_caching($set)
+    {
+    if ($set && function_exists('rcube_read_cache'))
+      $this->caching_enabled = TRUE;
+    else
+      $this->caching_enabled = FALSE;
+    }
 
   function get_cache($key)
     {
     // read cache
-    if (!isset($this->cache[$key]) && $this->cacheing_enabled)
+    if (!isset($this->cache[$key]) && $this->caching_enabled)
       {
       $cache_data = rcube_read_cache('IMAP.'.$key);
       $this->cache[$key] = strlen($cache_data) ? unserialize($cache_data) : FALSE;
@@ -708,7 +715,7 @@ class rcube_imap
 
   function write_cache()
     {
-    if ($this->cacheing_enabled && $this->cache_changed)
+    if ($this->caching_enabled && $this->cache_changed)
       {
       foreach ($this->cache as $key => $data)
         {
