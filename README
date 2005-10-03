@@ -9,12 +9,24 @@ message filters. RoundCube Webmail is written in PHP and requires the MySQL
 database. The user interface is fully skinnable using XHTML and CSS 2.
 
 This project is meant to be a modern webmail solution which is easy to
-install/configure and that runs on a standard PHP plus MySQL or Postgres configuration.
-It includes open-source classes/libraries like PEAR (http://pear.php.net) and the
-IMAP wrapper from IlohaMail (http://www.ilohamail.org).
+install/configure and that runs on a standard PHP plus MySQL or Postgres
+configuration. It includes open-source classes/libraries like PEAR
+(http://pear.php.net) and the IMAP wrapper from IlohaMail
+(http://www.ilohamail.org).
 
 The current development skin uses icons designed by Stephen Horlander and Kevin 
 Gerich for Mozilla.org.
+
+
+How it works:
+-------------
+The main authority for the RoundCube access is the IMAP server. If
+'auto_create_user' is set to TRUE in config/main.inc.php a new record in the
+user table will be created once the IMAP login succeeded. This user record does
+not store a password, it's just used to assign identities, contacts and cache
+records. If you have 'auto_create_user' set to FALSE only IMAP logins which
+already have a corresponding entry in the user's table (username and hostname)
+will be allowed.
 
 
 Installation:

@@ -303,15 +303,17 @@ function rcmail_create_user($user, $host)
 
   if ($user_id = $DB->insert_id())
     {
+    $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $host);
+    $user_name = $user!=$user_email ? $user : '';
+    
     // also create a new identity record
     $DB->query(sprintf("INSERT INTO %s
                         (user_id, `default`, name, email)
-                        VALUES (%d, '1', '%s', '%s@%s')",
+                        VALUES (%d, '1', '%s', '%s')",
                        get_table_name('identities'),
                        $user_id,
-                       $user,
-                       $user,
-                       $host));
+                       $user_name,
+                       $user_email));
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();

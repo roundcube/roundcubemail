@@ -6,10 +6,11 @@ INSTALLATION
 2. Make shure that the following directories are writable by the webserver
    - /temp
    - /logs
-3. Modify the files in /config to suit your local environment
-4. Create database tables using the queries in file 'SQL/initial.sql'
-   Rename tables if you like, but make shure the names are also changed in /config/db.inc
-5. Done!
+3. Rename the files config/*.inc.php.dist to config/*.inc.php
+4. Modify the files in config/* to suit your local environment
+5. Create database tables using the queries in file 'SQL/*.initial.sql'
+   Rename tables if you like, but make shure the names are also changed in config/db.inc.php
+6. Done!
 
 
 REQUIREMENTS
@@ -28,5 +29,5 @@ REQUIREMENTS
 CONFIGURATION
 =============
 
-Change the files in /config/ according your environment and you needs.
+Change the files in config/* according your environment and you needs.
 Details about the config paramaters can be found in the config files.
