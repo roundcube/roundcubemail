@@ -68,10 +68,10 @@ require_once('include/cache.inc');
 
 
 // catch some url/post parameters
-$_auth = strlen($_POST['_auth']) ? $_POST['_auth'] : $_GET['_auth'];
-$_task = strlen($_POST['_task']) ? $_POST['_task'] : ($_GET['_task'] ? $_GET['_task'] : 'mail');
-$_action = strlen($_POST['_action']) ? $_POST['_action'] : $_GET['_action'];
-$_framed = ($_GET['_framed'] || $_POST['_framed']);
+$_auth = !empty($_POST['_auth']) ? $_POST['_auth'] : $_GET['_auth'];
+$_task = !empty($_POST['_task']) ? $_POST['_task'] : (!empty($_GET['_task']) ? $_GET['_task'] : 'mail');
+$_action = !empty($_POST['_action']) ? $_POST['_action'] : (!empty($_GET['_action']) ? $_GET['_action'] : '');
+$_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
 
 // start session with requested task
 rcmail_startup($_task);
@@ -83,7 +83,7 @@ $SESS_HIDDEN_FIELD = sprintf('<input type="hidden" name="_auth" value="%s" />', 
 
 
 // add framed parameter
-if ($_GET['_framed'] || $_POST['_framed'])
+if ($_framed)
   {
   $COMM_PATH .= '&_framed=1';
   $SESS_HIDDEN_FIELD = "\n".'<input type="hidden" name="_framed" value="1" />';
@@ -95,7 +95,7 @@ load_gui();
 
 
 // error steps
-if ($_action=='error' && strlen($_GET['_code']))
+if ($_action=='error' && !empty($_GET['_code']))
   {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
   }
@@ -107,11 +107,11 @@ if ($_action=='login' && $_task=='mail')
   $host = $_POST['_host'] ? $_POST['_host'] : $CONFIG['default_host'];
   
   // check if client supports cookies
-  if (!$_COOKIE[session_name()])
+  if (empty($_COOKIE))
     {
     show_message("cookiesdisabled", 'warning');
     }
-  else if ($_POST['_user'] && $_POST['_pass'] && rcmail_login($_POST['_user'], $_POST['_pass'], $host))
+  else if (isset($_POST['_user']) && isset($_POST['_pass']) && rcmail_login($_POST['_user'], $_POST['_pass'], $host))
     {
     // send redirect
     header("Location: $COMM_PATH");
@@ -143,7 +143,7 @@ else if ($_action!='login' && $_auth && $sess_auth)
 
 
 // log in to imap server
-if ($_SESSION['user_id'] && $_task=='mail')
+if (!empty($_SESSION['user_id']) && $_task=='mail')
   {
   $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']));
   if (!$conn)
@@ -155,12 +155,12 @@ if ($_SESSION['user_id'] && $_task=='mail')
 
 
 // not logged in -> set task to 'login
-if (!$_SESSION['user_id'])
+if (empty($_SESSION['user_id']))
   $_task = 'login';
 
 
 
-// set taask and action to client
+// set task and action to client
 $script = sprintf("%s.set_env('task', '%s');", $JS_OBJECT_NAME, $_task);
 if (!empty($_action))
   $script .= sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $_action);

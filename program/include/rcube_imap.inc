@@ -35,6 +35,7 @@ class rcube_imap
   var $mailbox = 'INBOX';
   var $list_page = 1;
   var $page_size = 10;
+  var $delimiter = NULL;
   var $caching_enabled = FALSE;
   var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
   var $cache = array();
@@ -152,6 +153,14 @@ class rcube_imap
     return $this->conn ? $this->_mod_mailbox($this->mailbox, 'out') : '';
     }
 
+
+  function get_hierarchy_delimiter()
+    {
+    if ($this->conn && empty($this->delimiter))
+      $this->delimiter = iil_C_GetHierarchyDelimiter($this->conn);
+
+    return $this->delimiter;
+    }
 
   // public method for mailbox listing
   // convert mailbox name with root dir first

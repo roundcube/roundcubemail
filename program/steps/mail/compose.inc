@@ -120,7 +120,7 @@ function rcmail_compose_headers($attrib)
       $header = 'to';
       
       // we have contact id's as get parameters
-      if (strlen($_GET['_to']) && preg_match('/[0-9]+,?/', $_GET['_to']))
+      if (!empty($_GET['_to']) && preg_match('/[0-9]+,?/', $_GET['_to']))
         {
         $a_recipients = array();
         $sql_result = $DB->query(sprintf("SELECT name, email
@@ -138,7 +138,7 @@ function rcmail_compose_headers($attrib)
         if (sizeof($a_recipients))
           $fvalue = join(', ', $a_recipients);
         }
-      else if (strlen($_GET['_to']))
+      else if (!empty($_GET['_to']))
         $fvalue = $_GET['_to'];
         
     case 'cc':
@@ -165,7 +165,7 @@ function rcmail_compose_headers($attrib)
     }
     
     
-  if ($fname && $_POST[$fname])
+  if ($fname && !empty($_POST[$fname]))
     $fvalue = $_POST[$fname];
   else if ($header && is_object($REPLY_MESSAGE['headers']))
     {
@@ -282,7 +282,7 @@ function rcmail_compose_body($attrib)
   $body = '';
   
   // use posted message body
-  if ($_POST['_message'])
+  if (!empty($_POST['_message']))
     $body = stripslashes($_POST['_message']);
     
   // compose reply-body
@@ -352,6 +352,34 @@ function rcmail_create_forward_body($body)
                    $IMAP->decode_header($FORWARD_MESSAGE['headers']->from),
                    $IMAP->decode_header($FORWARD_MESSAGE['headers']->to));
 
+  // add attachments
+  if (!isset($_SESSION['compose']['forward_attachments']) && is_array($FORWARD_MESSAGE['parts']) && sizeof($FORWARD_MESSAGE['parts'])>1)
+    {
+    $temp_dir = rcmail_create_compose_tempdir();
+
+    if (!is_array($_SESSION['compose']['attachments']))
+      $_SESSION['compose']['attachments'] = array();
+  
+    foreach ($FORWARD_MESSAGE['parts'] as $part)
+      {
+      if ($part->disposition != 'attachment')
+        continue;
+
+      $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
+      if ($fp = fopen($tmp_path, 'w'))
+        {
+        fwrite($fp, $IMAP->mime_decode($part->body, $part->headers['content-transfer-encoding']));
+        fclose($fp);
+
+        $_SESSION['compose']['attachments'][] = array('name' => $part->d_parameters['filename'],
+                                                      'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                      'path' => $tmp_path);
+        }
+      }
+
+    $_SESSION['compose']['forward_attachments'] = TRUE;
+    }
+
   return $prefix.$body;
   }
 
@@ -370,7 +398,7 @@ function rcmail_compose_subject($attrib)
   $subject = '';
 
   // use subject from post
-  if ($_POST['_subject'])
+  if (isset($_POST['_subject']))
     $subject = stripslashes($_POST['_subject']);
     
   // create a reply-subject
@@ -473,7 +501,7 @@ function rcmail_priority_selector($attrib)
                        rcube_label('highest')),
                  array(1, 2, 0, 4, 5));
                  
-  $sel = $_POST['_priority'] ? $_POST['_priority'] : 0;
+  $sel = isset($_POST['_priority']) ? $_POST['_priority'] : 0;
 
   $out = $form_start ? "$form_start\n" : '';
   $out .= $selector->show($sel);
@@ -493,13 +521,13 @@ function get_form_tags($attrib)
     $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
     
-    $form_start = !strlen($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
+    $form_start = empty($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
     $form_start .= "\n$SESS_HIDDEN_FIELD\n";
     $form_start .= $hiddenfields->show();
     }
     
   $form_end = (strlen($MESSAGE_FORM) && !strlen($attrib['form'])) ? '</form>' : '';
-  $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';
+  $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
   
   if (!strlen($MESSAGE_FORM))
     $OUTPUT->add_script("$JS_OBJECT_NAME.gui_object('messageform', '$form_name');");

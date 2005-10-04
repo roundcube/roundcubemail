@@ -193,7 +193,7 @@
 
 #mailboxlist li
 {
-  height: 18px;
+ /* height: 18px; */
   font-size: 11px;
   background: url(images/icons/folder-closed.png) no-repeat;
   background-position: 10px 1px;
@@ -243,13 +243,44 @@
 #mailboxlist li.selected
 {
   background-color: #929292;
-  border-bottom: 1px solid #898989;  
+  border-bottom: 1px solid #898989;
 }
 
 #mailboxlist li.selected a
 {
   color: #FFF;
   font-weight: bold;
+}
+
+
+/* styles for nested folders */
+#mailboxlist ul {
+  list-style: none;
+  padding: 0;
+  margin:0;
+  border-top: 1px solid #EBEBEB;  
+}
+
+#mailboxlist ul li {
+  padding-left: 15px;
+  background-position: 25px 1px;
+}
+
+#mailboxlist li.selected li {
+  background-color: #F9F9F9;
+}
+
+#mailboxlist li.unread li {
+  font-weight: normal;
+}
+
+#mailboxlist li.unread li.unread {
+  font-weight: bold;
+}
+
+#mailboxlist li.selected li a{
+  color: black;
+  font-weight: normal;
 }
 
 

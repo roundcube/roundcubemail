@@ -51,8 +51,10 @@ class rcube_db
     // Connect to specific database 
     function dsn_connect($dsn)
     {
-        // Use persistent connections if available
+        $dsn_array = DB::parseDSN($dsn);
+        $this->db_provider = $dsn_array['phptype'];
         
+        // Use persistent connections if available
         $dbh = DB::connect($dsn, array('persistent' => $true));
 
         if (DB::isError($dbh))
@@ -61,6 +63,12 @@ class rcube_db
                         'line' => __LINE__,
                         'file' => __FILE__,
                         'message' => $dbh->getMessage()), TRUE, FALSE);
+        else if ($this->db_provider=='sqlite')
+        {
+            if (!is_file($dsn_array['database']) || !filesize($dsn_array['database']))
+                $this->_sqlite_create_database($dbh, 'SQL/sqlite.initial.sql');
+        }
+        
         return $dbh;
     }
 
@@ -96,22 +104,23 @@ class rcube_db
     function query($query)
     {
         // Read or write ?
-        
         if (strtolower(trim(substr($query,0,6)))=='select')
             $mode='r';
         else
-            {
             $mode='w';
-            }
         
-        $this->db_connect($mode);           
-    
+        $this->db_connect($mode);
+
+        if ($this->db_provider == 'sqlite')
+            $query = $this->_sqlite_prepare_query($query);
+            
         $result = $this->db_handle->query($query);
         
         if (DB::isError($result))
-            raise_error( array('code' => 500, 'type' => 'db', 'line' => __LINE__, 
-                         'file' => __FILE__, 
-                         'message' => $result->getMessage()), TRUE, FALSE);
+            raise_error(array('code' => 500, 'type' => 'db',
+                              'line' => __LINE__, 
+                              'file' => __FILE__, 
+                              'message' => $result->getMessage()), TRUE, FALSE);
         
         return $this->_add_result($result, $query);
     }
@@ -119,6 +128,9 @@ class rcube_db
     function db_execute ($query)
     {
         db_connect('w');
+
+        if ($this->db_provider == 'sqlite')
+            $query = $this->_sqlite_prepare_query($query);
 
         $result = $this->db_handle->query($query);
 
@@ -162,7 +174,10 @@ class rcube_db
                 
             case 'mysql': // This is unfortuneate
                 return mysql_insert_id($this->db_handle);
-                
+
+            case 'sqlite':
+                return sqlite_last_insert_rowid($this->db_handle->connection);
+
             default:
                 die("portability issue with this database, please have the developer fix");
         }
@@ -209,6 +224,40 @@ class rcube_db
         return FALSE;
     }
 
+
+    // create a sqlite database from a file
+    function _sqlite_create_database($dbh, $fileName)
+    {
+        if (empty($fileName) || !is_string($fileName))
+            return ;
+
+        $fd = fopen($fileName, 'r');
+        if (!$fd)
+            return ;
+
+        $data = '';
+        while ($line = fgets($fd, 4096))
+            $data .= $line;
+
+        fclose($fd);
+        sqlite_exec($dbh->connection, $data);
+    }
+
+    // transform a query so that it is sqlite2 compliant
+    function _sqlite_prepare_query($query)
+    {
+        if (!is_string($query))
+            return ($query);
+
+        $search = array('/NOW\(\)/',
+                        '/`/');
+        $replace = array("datetime('now')",
+                         '"');
+        $query = preg_replace($search, $replace, $query);
+
+        return ($query);
+    }
+    
 }
 
 ?>

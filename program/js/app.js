@@ -1985,9 +1985,11 @@ function rcube_webmail()
       var item, reg, text_obj;
       var s_mbox = String(mbox).toLowerCase().replace(this.mbox_expression, '');
       var s_current = this.env.mailbox.toLowerCase().replace(this.mbox_expression, '');
-      for (var n=0; n<this.gui_objects.mailboxlist.childNodes.length; n++)
+      var nodes = this.gui_objects.mailboxlist.getElementsByTagName('LI');
+      
+      for (var n=0; n<nodes.length; n++)
         {
-        item = this.gui_objects.mailboxlist.childNodes[n];
+        item = nodes[n];
         if (item.className && item.className.indexOf('mailbox '+s_mbox+' ')>=0)
           this.set_classname(item, 'selected', true);
         else if (item.className && item.className.indexOf('mailbox '+s_current)>=0)

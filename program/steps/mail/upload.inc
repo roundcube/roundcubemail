@@ -26,20 +26,12 @@ if (!$_SESSION['compose'])
   }
 
 
-if (strlen($CONFIG['temp_dir']))
-  $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '').$_SESSION['compose']['id'];
+// create temp dir for file uploads
+$temp_dir = rcmail_create_compose_tempdir();
+
 
 if (!is_array($_SESSION['compose']['attachments']))
-  {
   $_SESSION['compose']['attachments'] = array();
-
-  // create temp-dir for uploaded attachments
-  if ($CONFIG['temp_dir'] && is_writeable($CONFIG['temp_dir']))
-    {
-    mkdir($temp_dir);
-    $_SESSION['compose']['temp_dir'] = $temp_dir;
-    }
-  }
 
 
 $response = '';

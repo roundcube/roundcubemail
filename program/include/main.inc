@@ -219,7 +219,7 @@ function load_gui()
   $javascript = "var $JS_OBJECT_NAME = new rcube_webmail();\n";
   $javascript .= "$JS_OBJECT_NAME.set_env('comm_path', '$COMM_PATH');\n";
 
-  if ($_GET['_framed'] || $_POST['_framed'])
+  if (!empty($GLOBALS['_framed']))
     $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
 
   $OUTPUT->add_script($javascript);
@@ -339,7 +339,7 @@ function show_message($message, $type='notice')
   {
   global $OUTPUT, $JS_OBJECT_NAME, $REMOTE_REQUEST;
 
-  $framed = ($_GET['framed'] || $_POST['_framed']);
+  $framed = $GLOBALS['_framed'];
   $command = sprintf("display_message('%s', '%s');",
                      addslashes(rep_specialchars_output(rcube_label($message))),
                      $type);
@@ -837,7 +837,7 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
     $input = new textfield($attrib);
 
   // use value from post
-  if ($_POST[$fname])
+  if (!empty($_POST[$fname]))
     $value = $_POST[$fname];
 
   $out = $input->show($value);

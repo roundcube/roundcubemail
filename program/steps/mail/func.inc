@@ -58,6 +58,7 @@ function rcmail_mailbox_list($attrib)
   {
   global $IMAP, $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $COMM_PATH;
   static $s_added_script = FALSE;
+  static $a_mailboxes;
   
   $type = $attrib['type'] ? $attrib['type'] : 'ul';
   $add_attrib = $type=='select' ? array('style', 'class', 'id', 'name', 'onchange') :
@@ -77,37 +78,63 @@ function rcmail_mailbox_list($attrib)
                     rcube_label($attrib['noselection']));
   
   // get mailbox list
-  $a_folders = $IMAP->list_mailboxes();
   $mbox = $IMAP->get_mailbox_name();
   
   // for these mailboxes we have localized labels
   $special_mailboxes = array('inbox', 'sent', 'drafts', 'trash', 'junk');
 
+
+  // build the folders tree
+  if (empty($a_mailboxes))
+    {
+    // get mailbox list
+    $a_folders = $IMAP->list_mailboxes();
+    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $a_mailboxes = array();
+    
+    foreach ($a_folders as $folder)
+      rcmail_build_folder_tree($a_mailboxes, $folder, $delimiter);
+    }
+
+// var_dump($a_mailboxes);
+
+  if ($type=='select')
+    $out .= rcmail_render_folder_tree_select($a_mailboxes, $special_mailboxes, $mbox);
+   else
+    $out .= rcmail_render_folder_tree_html($a_mailboxes, $special_mailboxes, $mbox);
+
+
+/*
   foreach ($a_folders as $i => $folder)
     {
     $zebra_class = $i%2 ? 'even' : 'odd';
-    
-    $folder_lc = strtolower($folder);
+    $folder_prop = $a_subfolders[$folder];
+    $foldername = isset($folder_prop) ? $folder_prop['name'] : $folder;
+
+    $folder_lc = strtolower($foldername);
     if (in_array($folder_lc, $special_mailboxes))
       $foldername = rcube_label($folder_lc);
-    else
-      $foldername = $folder;
         
     if ($unread_count = $IMAP->messagecount($folder, 'UNSEEN'))
       $foldername .= sprintf(' (%d)', $unread_count);
-      
+
+    $indent = isset($folder_prop) ? sprintf(' indent%d', $folder_prop['level']) : '';
+    $indent_str = isset($folder_prop) ? str_repeat('&nbsp;&nbsp;', (int)$folder_prop['level']) : '';
+  
     // compose mailbox line
     if ($type=='select')
-      $out .= sprintf('<option value="%s">%s</option>'."\n",
+      $out .= sprintf('<option value="%s">%s%s</option>'."\n",
                       $folder,
+                      $indent_str,
                       rep_specialchars_output($foldername));
     
     else
-      $out .= sprintf('<li class="mailbox %s %s%s%s"><a href="#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a></li>'."\n",
-                       preg_replace('/[^a-z0-9\-_]/', '', $folder_lc),
+      $out .= sprintf('<li class="mailbox %s %s%s%s%s"><a href="#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a></li>'."\n",
+                       preg_replace('/[^a-z0-9\-_]/', '', strtolower($folder)),
                        $zebra_class,
                        $unread_count ? ' unread' : '',
                        $folder==$mbox ? ' selected' : '',
+                       $indent,
                        $folder,
                        $JS_OBJECT_NAME,
                        $folder,
@@ -115,6 +142,7 @@ function rcmail_mailbox_list($attrib)
                        $folder,
                        rep_specialchars_output($foldername));
     }
+*/
 
   if ($type=='ul')
     $OUTPUT->add_script(sprintf("%s.gui_object('mailboxlist', '%s');", $JS_OBJECT_NAME, $attrib['id']));
@@ -129,6 +157,104 @@ function rcmail_mailbox_list($attrib)
     }
 */
   return $out . "</$type>";
+  }
+
+
+
+
+// create a hierarchical array of the mailbox list
+function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
+  {
+  $pos = strpos($folder, $delm);
+  if ($pos !== false)
+    {
+    $subFolders = substr($folder, $pos+1);
+    $currentFolder = substr($folder, 0, $pos);
+    }
+  else
+    {
+    $subFolders = false;
+    $currentFolder = $folder;
+    }
+
+  $path .= $currentFolder;
+
+  if (!isset($arrFolders[$currentFolder]))
+    {
+    $arrFolders[$currentFolder] = array('id' => $path,
+                                        'name' => $currentFolder,
+                                        'folders' => array());
+    }
+
+  if (!empty($subFolders))
+    rcmail_build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
+  }
+  
+
+// return html for a structured list <ul> for the mailbox tree
+function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $nestLevel = 0)
+  {
+  global $JS_OBJECT_NAME, $IMAP;
+
+  $idx = 0;
+  $out = '';
+  foreach ($arrFolders as $key => $folder)
+    {
+    $zebra_class = ($nestLevel*$idx)%2 ? 'even' : 'odd';
+
+    $folder_lc = strtolower($folder['id']);
+    if (in_array($folder_lc, $special))
+      $foldername = rcube_label($folder_lc);
+    else
+      $foldername = $folder['name'];
+
+    if ($unread_count = $IMAP->messagecount($folder['id'], 'UNSEEN'))
+      $foldername .= sprintf(' (%d)', $unread_count);
+
+    $out .= sprintf('<li class="mailbox %s %s%s%s"><a href="#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a>'."\n",
+                    preg_replace('/[^a-z0-9\-_]/', '', $folder_lc),
+                    $zebra_class,
+                    $unread_count ? ' unread' : '',
+                    $folder['id']==$mbox ? ' selected' : '',
+                    $folder['id'],
+                    $JS_OBJECT_NAME,
+                    $folder['id'],
+                    $JS_OBJECT_NAME,
+                    $folder['id'],
+                    rep_specialchars_output($foldername));
+
+    if (!empty($folder['folders']))
+      $out .= '<ul>' . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox, $nestLevel+1) . "</ul>\n";
+
+    $out .= "</li>\n";
+    $idx++;
+    }
+
+  return $out;
+  }
+
+
+// return html for a flat list <select> for the mailbox tree
+function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $nestLevel=0)
+  {
+  global $IMAP;
+
+  $idx = 0;
+  $out = '';
+  foreach ($arrFolders as $key=>$folder)
+    {
+    $out .= sprintf('<option value="%s">%s%s</option>'."\n",
+                    $folder['id'],
+                    str_repeat('&nbsp;', $nestLevel*4),
+                    rep_specialchars_output($folder['name']));
+
+    if (!empty($folder['folders']))
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $special, $mbox, $nestLevel+1);
+
+    $idx++;
+    }
+
+  return $out;
   }
 
 
@@ -1077,6 +1203,27 @@ function rcmail_message_part_frame($attrib)
   return $out;
   }
 
+
+// create temp dir for attachments
+function rcmail_create_compose_tempdir()
+  {
+  global $CONFIG;
+  
+  if ($_SESSION['compose']['temp_dir'])
+    return $_SESSION['compose']['temp_dir'];
+  
+  if (!empty($CONFIG['temp_dir']))
+    $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '').$_SESSION['compose']['id'];
+
+  // create temp-dir for uploaded attachments
+  if (!empty($CONFIG['temp_dir']) && is_writeable($CONFIG['temp_dir']))
+    {
+    mkdir($temp_dir);
+    $_SESSION['compose']['temp_dir'] = $temp_dir;
+    }
+
+  return $_SESSION['compose']['temp_dir'];
+  }
 
 
 // clear message composing settings
