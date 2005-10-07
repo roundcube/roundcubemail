@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20050929                                                  |
+ | Version 0.1-20051007                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -52,7 +52,6 @@ ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$INSTALL_PATH.PAT
 ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
 ini_set('error_reporting', E_ALL&~E_NOTICE);
-//ini_set('session.save_path', $INSTALL_PATH.'session');
 
 
 // increase maximum execution time for php scripts
