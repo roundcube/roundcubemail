@@ -47,8 +47,8 @@ function roundcube_browser()
   this.ns4 = (this.ns && parseInt(this.ver)==4);
   this.ns6 = (this.ns && parseInt(this.vendver)==6);  // (this.mz && this.ns) ? true : false;
   this.ns7 = (this.ns && parseInt(this.vendver)==7);  // this.agent.indexOf('Netscape/7')>0);
-  this.safari = this.agent.toLowerCase().indexOf('safari')>0;
-  this.konq   = (this.agent.toLowerCase().indexOf('konqueror')>0); 
+  this.safari = (this.agent.toLowerCase().indexOf('safari')>0 || this.agent.toLowerCase().indexOf('applewebkit')>0);
+  this.konq   = (this.agent.toLowerCase().indexOf('konqueror')>0);
 
   this.opera = (window.opera) ? true : false;
   this.opera5 = (this.opera5 && this.agent.indexOf('Opera 5')>0) ? true : false;
@@ -58,11 +58,14 @@ function roundcube_browser()
   if(this.opera && window.RegExp)
     this.vendver = (/opera(\s|\/)([0-9\.]+)/i.test(navigator.userAgent)) ? parseFloat(RegExp.$2) : -1;
   else if(!this.vendver && this.safari)
-    this.vendver = (/safari\/([0-9]+)/i.test(this.agent)) ? parseInt(RegExp.$1) : 0;
+    this.vendver = (/(safari|applewebkit)\/([0-9]+)/i.test(this.agent)) ? parseInt(RegExp.$2) : 0;
   else if((!this.vendver && this.mz) || this.agent.indexOf('Camino')>0)
     this.vendver = (/rv:([0-9\.]+)/.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
   else if(this.ie && window.RegExp)
     this.vendver = (/msie\s+([0-9\.]+)/i.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
+  else if(this.konq && window.RegExp)
+    this.vendver = (/khtml\/([0-9\.]+)/i.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
+
 
   // get real language out of safari's user agent
   if(this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/i.test(this.agent)))

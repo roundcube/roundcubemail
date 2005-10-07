@@ -26,14 +26,18 @@ CHANGELOG RoundCube Webmail
 - Make list of special mailboxes configurable
 
 
-2005/10/04
+2005/10/09
 ----------
-- Added French, Italian, Spanish, Danish translation
+- Added French, Italian, Spanish, Danish, Dutch translation
+- Clearified license (Bug #1305966)
 - Fixed PHP warnings (Bug #1299403)
 - Fixed english translation bug #1295406
 - Fixed bug #1290833: Last character of email not seen
+- Fixed bug #1292199 when creating new user
+- Allow more borwsers (Bug #1285101)
 - Added setting for showing pretty dates
 - Added support for SQLite database
 - Make use of message caching configurable
 - Also add attachments when forwarding a message
 - Show nested mailboxes hieracically
+- Enable IMAPS by host

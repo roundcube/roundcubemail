@@ -40,6 +40,9 @@ class rcube_db
         
         $this->db_dsnw = $db_dsnw;
         $this->db_dsnr = $db_dsnr;
+        
+        $dsn_array = DB::parseDSN($db_dsnw);
+        $this->db_provider = $dsn_array['phptype'];        
     }
 
     // PHP 4 compatibility
@@ -51,22 +54,21 @@ class rcube_db
     // Connect to specific database 
     function dsn_connect($dsn)
     {
-        $dsn_array = DB::parseDSN($dsn);
-        $this->db_provider = $dsn_array['phptype'];
-        
         // Use persistent connections if available
         $dbh = DB::connect($dsn, array('persistent' => $true));
-
+        
         if (DB::isError($dbh))
             raise_error(array('code' => 500,
                         'type' => 'db',
                         'line' => __LINE__,
                         'file' => __FILE__,
                         'message' => $dbh->getMessage()), TRUE, FALSE);
+
         else if ($this->db_provider=='sqlite')
         {
-            if (!is_file($dsn_array['database']) || !filesize($dsn_array['database']))
-                $this->_sqlite_create_database($dbh, 'SQL/sqlite.initial.sql');
+            $dsn_array = DB::parseDSN($dsn);
+            if (!filesize($dsn_array['database']) && !empty($this->sqlite_initials))
+                $this->_sqlite_create_database($dbh, $this->sqlite_initials);
         }
         
         return $dbh;
@@ -75,8 +77,9 @@ class rcube_db
     // Connect to appropiate databse    
     function db_connect ($mode)
     {
+        $this->db_mode = $mode;
+
         // Already connected
-        
         if ($this->db_connected)
             {
             // no replication, current connection is ok
@@ -96,7 +99,6 @@ class rcube_db
 
         $this->db_handle = $this->dsn_connect($dsn);
         $this->db_connected = true;
-        $this->db_mode = $mode;
     }
 
     // Query database (read operations)
@@ -117,7 +119,8 @@ class rcube_db
         $result = $this->db_handle->query($query);
         
         if (DB::isError($result))
-            raise_error(array('code' => 500, 'type' => 'db',
+            raise_error(array('code' => 500,
+                              'type' => 'db',
                               'line' => __LINE__, 
                               'file' => __FILE__, 
                               'message' => $result->getMessage()), TRUE, FALSE);
@@ -127,7 +130,7 @@ class rcube_db
 
     function db_execute ($query)
     {
-        db_connect('w');
+        $this->db_connect('w');
 
         if ($this->db_provider == 'sqlite')
             $query = $this->_sqlite_prepare_query($query);
@@ -159,7 +162,7 @@ class rcube_db
 
     function insert_id($sequence = '')
     {
-        if (!$this->db_link || $this->db_mode=='r')
+        if (!$this->db_handle || $this->db_mode=='r')
             return FALSE;
 
         switch($this->db_provider)
@@ -167,13 +170,14 @@ class rcube_db
             case 'pgsql':
                 // PostgreSQL uses sequences
                 $result =& $this->db_handle->getOne("SELECT CURRVAL('$sequence')");    
-                if (DB::isError($result))
+                if (DB::isError($result)) {
                     raise_error( array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 
                     'message' => $result->getMessage()), TRUE, TRUE);
+                }
                 return $result;
                 
             case 'mysql': // This is unfortuneate
-                return mysql_insert_id($this->db_handle);
+                return mysql_insert_id();
 
             case 'sqlite':
                 return sqlite_last_insert_rowid($this->db_handle->connection);
@@ -189,8 +193,11 @@ class rcube_db
         $result = $this->_get_result($res_id);
 
         if (DB::isError($result))
+        {
             raise_error( array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                         'message' => $this->db_link->getMessage()), TRUE, TRUE);
+                         'message' => $this->db_link->getMessage()), TRUE, FALSE);
+            return FALSE;
+        }
                          
         return $result->fetchRow(DB_FETCHMODE_ASSOC);
     }
@@ -231,16 +238,15 @@ class rcube_db
         if (empty($fileName) || !is_string($fileName))
             return ;
 
-        $fd = fopen($fileName, 'r');
-        if (!$fd)
-            return ;
-
         $data = '';
-        while ($line = fgets($fd, 4096))
-            $data .= $line;
+        if ($fd = fopen($fileName, 'r'))
+          {
+          $data = fread($fd, filesize($fileName));
+          fclose($fd);
+          }
 
-        fclose($fd);
-        sqlite_exec($dbh->connection, $data);
+        if (strlen($data))
+          sqlite_exec($dbh->connection, $data);
     }
 
     // transform a query so that it is sqlite2 compliant

@@ -71,6 +71,7 @@ CREATE TABLE `session` (
   `sess_id` varchar(32) NOT NULL default '',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `changed` datetime NOT NULL default '0000-00-00 00:00:00',
+  `ip` VARCHAR(15) NOT NULL default '',
   `vars` text NOT NULL,
   PRIMARY KEY  (`sess_id`)
 ) TYPE=MyISAM;
@@ -84,7 +85,8 @@ CREATE TABLE `session` (
 CREATE TABLE `users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
   `username` varchar(128) NOT NULL default '',
-  `mail_host` varchar(255) NOT NULL default '',
+  `mail_host` varchar(128) NOT NULL default '',
+  `alias` varchar(128) NOT NULL default '',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
   `language` varchar(5) NOT NULL default 'en',

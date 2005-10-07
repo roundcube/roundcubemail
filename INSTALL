@@ -6,11 +6,17 @@ INSTALLATION
 2. Make shure that the following directories are writable by the webserver
    - /temp
    - /logs
-3. Rename the files config/*.inc.php.dist to config/*.inc.php
-4. Modify the files in config/* to suit your local environment
-5. Create database tables using the queries in file 'SQL/*.initial.sql'
-   Rename tables if you like, but make shure the names are also changed in config/db.inc.php
-6. Done!
+3. Create a new database and a database user for RoundCube
+4. Create database tables using the queries in file 'SQL/*.initial.sql'
+5. Rename the files config/*.inc.php.dist to config/*.inc.php
+6. Modify the files in config/* to suit your local environment
+7. Done!
+
+
+UPGRADING
+=========
+If you already have a previous version of RoundCube installed,
+please refer to the instructions in UPGRADING guide.
 
 
 REQUIREMENTS
@@ -22,7 +28,7 @@ REQUIREMENTS
 * php.ini options:
    - error_reporting E_ALL & ~E_NOTICE (or lower)
    - file_uploads on (for attachment upload features)
-* A MySQL or Postgres database engine
+* A MySQL or PostgreSQL database engine or the SQLite extension for PHP
 * A database with permission to create tables
 
 

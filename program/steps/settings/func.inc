@@ -57,12 +57,13 @@ function rcmail_user_prefs_form($attrib)
   $select_lang->add('Deutsch', 'de');
   $select_lang->add('English', 'en');
   $select_lang->add('Espanol', 'es');
-  $select_lang->add('Franais', 'fr');
+  $select_lang->add('Fran&ccedil;ais', 'fr');
   $select_lang->add('Italiano', 'it');
+  $select_lang->add('Nederlands', 'nl');
 
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,
-                  rcube_label('language'),
+                  rep_specialchars_output(rcube_label('language')),
                   $select_lang->show($sess_user_lang));
 
 
@@ -99,7 +100,7 @@ function rcmail_user_prefs_form($attrib)
   
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,
-                  rcube_label('timezone'),
+                  rep_specialchars_output(rcube_label('timezone')),
                   $select_timezone->show($CONFIG['timezone']));
 
 
@@ -109,7 +110,7 @@ function rcmail_user_prefs_form($attrib)
 
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,
-                  rcube_label('pagesize'),
+                  rep_specialchars_output(rcube_label('pagesize')),
                   $input_pagesize->show($CONFIG['pagesize']));
 
   // show checkbox for HTML/plaintext messages
@@ -118,7 +119,7 @@ function rcmail_user_prefs_form($attrib)
 
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,
-                  rcube_label('preferhtml'),
+                  rep_specialchars_output(rcube_label('preferhtml')),
                   $input_pagesize->show($CONFIG['prefer_html']?1:0));
 
   // MM: Show checkbox for toggling 'pretty dates' 
@@ -127,7 +128,7 @@ function rcmail_user_prefs_form($attrib)
 
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,
-                  rcube_label('prettydate'),
+                  rep_specialchars_output(rcube_label('prettydate')),
                   $input_prettydate->show($CONFIG['prettydate']?1:0));
 
 

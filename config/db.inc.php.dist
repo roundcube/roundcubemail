@@ -15,13 +15,14 @@
 $rcmail_config = array();
 
 // PEAR database DSN for read/write operations
-//format is db_provider://user:password@host/databse
+// format is db_provider://user:password@host/databse
+// currentyl suported db_providers: mysql, sqlite, pgsql
 
 $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
+// sqlite example: 'sqlite://./sqlite.db?mode=0646';
 
 // PEAR database DSN for read only operations (if empty write database will be used)
 // userful for database replication
-
 $rcmail_config['db_dsnr'] = '';
 
 // you can define specific table names used to store webmail data

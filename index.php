@@ -48,9 +48,10 @@ $JS_OBJECT_NAME = 'rcmail';
 
 
 // set environment first
-ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'program'.PATH_SEPARATOR.'program/lib');
+ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$INSTALL_PATH.PATH_SEPARATOR.'program'.PATH_SEPARATOR.'program/lib');
 ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
+ini_set('error_reporting', E_ALL&~E_NOTICE);
 //ini_set('session.save_path', $INSTALL_PATH.'session');
 
 
@@ -72,6 +73,10 @@ $_auth = !empty($_POST['_auth']) ? $_POST['_auth'] : $_GET['_auth'];
 $_task = !empty($_POST['_task']) ? $_POST['_task'] : (!empty($_GET['_task']) ? $_GET['_task'] : 'mail');
 $_action = !empty($_POST['_action']) ? $_POST['_action'] : (!empty($_GET['_action']) ? $_GET['_action'] : '');
 $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
+
+if (!empty($_GET['_remote']))
+  $REMOTE_REQUEST = TRUE;
+
 
 // start session with requested task
 rcmail_startup($_task);
@@ -136,7 +141,7 @@ else if ($_action!='login' && $_auth && $sess_auth)
   {
   if ($_auth !== $sess_auth || $_auth != rcmail_auth_hash($_SESSION['client_id'], $_SESSION['auth_time']))
     {
-    show_message('sessionerror', 'error');
+    $message = show_message('sessionerror', 'error');
     rcmail_kill_session();
     }
   }
@@ -156,7 +161,15 @@ if (!empty($_SESSION['user_id']) && $_task=='mail')
 
 // not logged in -> set task to 'login
 if (empty($_SESSION['user_id']))
+  {
+  if ($REMOTE_REQUEST)
+    {
+    $message .= "setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);";
+    rcube_remote_response($message);
+    }
+  
   $_task = 'login';
+  }
 
 
 

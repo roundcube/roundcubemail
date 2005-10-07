@@ -147,6 +147,7 @@ CREATE TABLE users (
     user_id integer DEFAULT nextval('user_ids'::text) NOT NULL,
     username character varying(128) DEFAULT ''::character varying NOT NULL,
     mail_host character varying(128) DEFAULT ''::character varying NOT NULL,
+    alias character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     last_login timestamp with time zone DEFAULT now() NOT NULL,
     "language" character varying(5) DEFAULT 'en'::character varying NOT NULL,

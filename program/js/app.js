@@ -76,7 +76,8 @@ function rcube_webmail()
     this.task = this.env.task;
     
     // check browser
-    if (!(bw.dom && ((bw.ie && bw.vendver>=5.5 && !bw.opera) || (bw.mz && bw.vendver>=1) || (bw.safari && bw.vendver>=125) || (bw.opera && bw.vendver>=8))))
+    if (!(bw.dom && ((bw.ie && bw.vendver>=5.5 && !bw.opera) || (bw.mz && bw.vendver>=1) || (bw.safari && bw.vendver>=125) ||
+                     (bw.opera && bw.vendver>=8) || (bw.konq && bw.vendver>=3.4))))
       {
       location.href = this.env.comm_path+'&_action=error&_code=0x199';
       return;

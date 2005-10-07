@@ -28,8 +28,12 @@ $rcmail_config['auto_create_user'] = TRUE;
 
 // the mail host chosen to perform the log-in
 // leave blank to show a textbox at login, give a list of hosts
-// to display a pulldown menu or set one host as string
+// to display a pulldown menu or set one host as string.
+// To use SSL connection, enter ssl://hostname:993
 $rcmail_config['default_host'] = '';
+
+// TCP port used for IMAP connections
+$rcmail_config['default_port'] = 143;
 
 // use this host for sending mails.
 // if left blank, the PHP mail() function is used

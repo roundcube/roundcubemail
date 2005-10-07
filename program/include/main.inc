@@ -55,9 +55,10 @@ function rcmail_startup($task='mail')
 
   // prepare DB connection
   $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr']);
+  $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
 
   // we can use the database for storing session data
-  if (is_object($DB))
+  if (is_object($DB) && $DB->db_provider!='sqlite')
     include_once('include/session.inc');
 
 
@@ -232,26 +233,43 @@ function load_gui()
 function rcmail_login($user, $pass, $host=NULL)
   {
   global $CONFIG, $IMAP, $DB, $sess_user_lang;
+  $user_id = NULL;
   
   if (!$host)
     $host = $CONFIG['default_host'];
 
-  // exit if IMAP login failed
-  if (!($imap_login  = $IMAP->connect($host, $user, $pass)))
-    return FALSE;
-
   // query if user already registered
-  $sql_result = $DB->query(sprintf("SELECT user_id, language, preferences
-                                    FROM %s
-                                    WHERE  username='%s' AND mail_host='%s'",
+  $sql_result = $DB->query(sprintf("SELECT user_id, username, language, preferences
+                                    FROM   %s
+                                    WHERE  mail_host='%s' AND (username='%s' OR alias='%s')",
                                    get_table_name('users'),
-                                   $user, $host));
+                                   addslashes($host),
+                                   addslashes($user),
+                                   addslashes($user)));
 
-  // user already registered
+  // user already registered -> overwrite username
   if ($sql_arr = $DB->fetch_assoc($sql_result))
     {
     $user_id = $sql_arr['user_id'];
-    
+    $user = $sql_arr['username'];
+    }
+
+  // parse $host URL
+  $a_host = parse_url($host);
+  if ($a_host['host'])
+    {
+    $host = $a_host['host'];
+    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
+    $imap_port = isset($a_host['post']) ? $a_host['post'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
+    }
+
+  // exit if IMAP login failed
+  if (!($imap_login  = $IMAP->connect($host, $user, $pass, $imap_port, $imap_ssl)))
+    return FALSE;
+
+  // user already registered
+  if ($user_id && !empty($sql_arr))
+    {
     // get user prefs
     if (strlen($sql_arr['preferences']))
       {
@@ -303,7 +321,8 @@ function rcmail_create_user($user, $host)
                       (created, last_login, username, mail_host)
                       VALUES (NOW(), NOW(), '%s', '%s')",
                      get_table_name('users'),
-                     $user, $host));
+                     addslashes($user),
+                     addslashes($host)));
 
   if ($user_id = $DB->insert_id())
     {
@@ -316,8 +335,8 @@ function rcmail_create_user($user, $host)
                         VALUES (%d, '1', '%s', '%s')",
                        get_table_name('identities'),
                        $user_id,
-                       $user_name,
-                       $user_email));
+                       addslashes($user_name),
+                       addslashes($user_email)));
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();
@@ -329,6 +348,14 @@ function rcmail_create_user($user, $host)
     // check if the configured mailbox for sent messages exists
     if ($CONFIG['trash_mbox'] && !in_array_nocase($CONFIG['trash_mbox'], $a_mailboxes))
       $IMAP->create_mailbox($CONFIG['trash_mbox'], TRUE);
+    }
+  else
+    {
+    raise_error(array('code' => 500,
+                      'type' => 'php',
+                      'line' => __LINE__,
+                      'file' => __FILE__,
+                      'message' => "Failed to create new user"), TRUE, FALSE);
     }
     
   return $user_id;
@@ -963,7 +990,10 @@ function rcmail_login_form($attrib)
   if (is_array($CONFIG['default_host']))
     {
     $select_host = new select(array('name' => '_host'));
-    $select_host->add($CONFIG['default_host']);
+    
+    foreach ($CONFIG['default_host'] as $key => $value)
+      $select_host->add($value, (is_numeric($key) ? $value : $key));
+      
     $fields['host'] = $select_host->show($_POST['_host']);
     }
   else if (!strlen($CONFIG['default_host']))

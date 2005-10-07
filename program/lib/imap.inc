@@ -345,6 +345,7 @@ function iil_Connect($host, $user, $password){
 		fputs($conn->fp, "cp01 CAPABILITY\r\n");
 		do{
 		$line = trim(chop(iil_ReadLine($conn->fp, 100)));
+		$conn->message.="$line\n";
 			$a = explode(" ", $line);
 			if ($line[0]=="*"){
 				while ( list($k, $w) = each($a) ){
@@ -362,6 +363,7 @@ function iil_Connect($host, $user, $password){
 		//do CRAM-MD5 authentication
 		fputs($conn->fp, "a000 AUTHENTICATE CRAM-MD5\r\n");
 		$line = trim(chop(iil_ReadLine($conn->fp, 1024)));
+		$conn->message.="$line\n";
 		if ($line[0]=="+"){
 			$conn->message.='Got challenge: '.htmlspecialchars($line)."\n";
 			//got a challenge string, try CRAM-5

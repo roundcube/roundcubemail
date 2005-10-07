@@ -24,9 +24,6 @@
 require_once('lib/imap.inc');
 require_once('lib/mime.inc');
 
-// check for Open-SSL support in PHP build
-//$ICL_SSL = TRUE;
-//$ICL_PORT = 993;
 
 class rcube_imap
   {
@@ -75,15 +72,29 @@ class rcube_imap
     }
 
 
-  function connect($host, $user, $pass, $port=143)
+  function connect($host, $user, $pass, $port=143, $use_ssl=FALSE)
     {
-    global $ICL_PORT;
+    global $ICL_PORT, $CONFIG;
+    
+    // check for Open-SSL support in PHP build
+    if ($use_ssl && in_array('openssl', get_loaded_extensions()))
+      $ICL_SSL = TRUE;
 
     $ICL_PORT = $port;
-    $this->conn = iil_Connect($host, $user, $pass);
+    $this->conn = iil_Connect($host, $user, $pass, array('imap' => 'check'));
     $this->host = $host;
     $this->user = $user;
     $this->pass = $pass;
+    
+    if ($this->conn && ($CONFIG['debug_level'] & 8))
+      print $this->conn->message;
+      
+    else if (!$this->conn && $GLOBALS['iil_error'])
+      {
+      raise_error(array('code' => 403,
+                       'type' => 'imap',
+                       'message' => $GLOBALS['iil_error']), TRUE, FALSE);
+      }
 
     return $this->conn ? TRUE : FALSE;
     }

@@ -38,7 +38,7 @@ function sess_read($key)
   {
   global $DB, $SESS_CHANGED;
   
-  $sql_result = $DB->query(sprintf("SELECT vars, UNIX_TIMESTAMP(changed) AS changed
+  $sql_result = $DB->query(sprintf("SELECT vars, ip, UNIX_TIMESTAMP(changed) AS changed
                                     FROM   %s
                                     WHERE  sess_id='%s'",
                                    get_table_name('session'),
@@ -81,11 +81,12 @@ function sess_write($key, $vars)
   else
     {
     $DB->query(sprintf("INSERT INTO %s
-                        (sess_id, vars, created, changed)
-                        VALUES ('%s', '%s', NOW(), NOW())",
+                        (sess_id, vars, ip, created, changed)
+                        VALUES ('%s', '%s', '%s', NOW(), NOW())",
                        get_table_name('session'),
                        $key,
-                       $vars));
+                       $vars,
+                       $_SERVER['REMOTE_ADDR']));
     }
 
   return TRUE;

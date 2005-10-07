@@ -9,17 +9,28 @@ of RoundCube Webmail.
 from versions 0.1-alpha and 0.1-20050811
 ----------------------------------------
 - replace all files in folder /program/
+- rund SQL queries in order to update the database
 - add these line to /config/main.inc.php
   $rcmail_config['trash_mbox'] = 'Trash';
   $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
   $rcmail_config['prefer_html'] = TRUE;
   $rcmail_config['prettydate'] = TRUE;
   $rcmail_config['smtp_port'] = 25;
+  $rcmail_config['default_port'] = 143;
+- replace database properties (db_type, db_host, db_user, db_pass, $d_name)
+  in /config/db.inc.php with the following line:
+  $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 
 
 from version 0.1-20050820
 ----------------------------------------
 - replace all files in folder /program/
+- rund SQL queries in order to update the database
 - add these line to /config/main.inc.php
   $rcmail_config['prettydate'] = TRUE;
   $rcmail_config['smtp_port'] = 25;
+  $rcmail_config['default_port'] = 143;
+- replace database properties (db_type, db_host, db_user, db_pass, $d_name)
+  in /config/db.inc.php with the following line:
+  $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
+  
