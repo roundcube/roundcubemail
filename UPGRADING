@@ -8,7 +8,9 @@ of RoundCube Webmail.
 
 from versions 0.1-alpha and 0.1-20050811
 ----------------------------------------
+- replace index.php
 - replace all files in folder /program/
+- replace all files in folder /skins/default/
 - rund SQL queries in order to update the database
 - add these line to /config/main.inc.php
   $rcmail_config['trash_mbox'] = 'Trash';
@@ -24,7 +26,9 @@ from versions 0.1-alpha and 0.1-20050811
 
 from version 0.1-20050820
 ----------------------------------------
+- replace index.php
 - replace all files in folder /program/
+- replace all files in folder /skins/default/
 - rund SQL queries in order to update the database
 - add these line to /config/main.inc.php
   $rcmail_config['prettydate'] = TRUE;

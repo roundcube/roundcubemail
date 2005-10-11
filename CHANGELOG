@@ -39,5 +39,6 @@ CHANGELOG RoundCube Webmail
 - Added support for SQLite database
 - Make use of message caching configurable
 - Also add attachments when forwarding a message
+- Long folder names will not flow over message list (Bug #1267232)
 - Show nested mailboxes hieracically
 - Enable IMAPS by host
