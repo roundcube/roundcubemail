@@ -386,8 +386,13 @@ function show_message($message, $type='notice')
 
 function console($msg, $type=1)
   {
-  print $msg;
-  print "\n<hr>\n";
+  if ($GLOBALS['REMOTE_REQUEST'])
+    print "// $msg\n";
+  else
+    {
+    print $msg;
+    print "\n<hr>\n";
+    }
   }
 
 

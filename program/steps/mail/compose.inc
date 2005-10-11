@@ -403,7 +403,12 @@ function rcmail_compose_subject($attrib)
     
   // create a reply-subject
   else if (isset($REPLY_MESSAGE['subject']))
-    $subject = 'Re: '.$REPLY_MESSAGE['subject'];
+    {
+    if (strpos($REPLY_MESSAGE['subject'], 'Re:')===0)
+      $subject = $REPLY_MESSAGE['subject'];
+    else
+      $subject = 'Re: '.$REPLY_MESSAGE['subject'];
+    }
 
   // create a forward-subject
   else if (isset($FORWARD_MESSAGE['subject']))

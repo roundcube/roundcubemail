@@ -51,7 +51,7 @@ else if ($_action=='create-folder')
 
   if ($create && $_GET['_remote'])
     {
-    $commands = sprintf("this.add_folder_row('%s')", rep_specialchars_output($_GET['_name'], 'js'));
+    $commands = sprintf("this.add_folder_row('%s')", rep_specialchars_output($create, 'js'));
     rcube_remote_response($commands);
     }
   else if (!$create && $_GET['_remote'])

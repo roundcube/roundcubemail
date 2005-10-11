@@ -28,6 +28,7 @@ require_once('lib/mime.inc');
 class rcube_imap
   {
   var $conn;
+  var $root_ns = '';
   var $root_dir = '';
   var $mailbox = 'INBOX';
   var $list_page = 1;
@@ -54,24 +55,6 @@ class rcube_imap
     }
 
 
-  function iloha_imap($connection='')
-    {
-    if ($connection)
-      {
-      $a_url = parse_url($connection);
-      $scheme = $a_url['scheme'] ? $a_url['scheme'] : 'imap';
-      $port = $a_url['port'] ? $a_url['port'] : ($scheme=='imaps' ? 993 : 143);
-      $host = $a_url['host'];
-      $user = $a_url['user'];
-      $pass = $a_url['pass'];
-      
-      //var_dump($a_url);
-      
-      $this->connect($host, $user, $pass, $port);
-      }
-    }
-
-
   function connect($host, $user, $pass, $port=143, $use_ssl=FALSE)
     {
     global $ICL_PORT, $CONFIG;
@@ -79,21 +62,43 @@ class rcube_imap
     // check for Open-SSL support in PHP build
     if ($use_ssl && in_array('openssl', get_loaded_extensions()))
       $ICL_SSL = TRUE;
+    else if ($use_ssl)
+      {
+      raise_error(array('code' => 403,
+                        'type' => 'imap',
+                        'message' => 'Open SSL not available;'), TRUE, FALSE);
+      $port = 143;
+      }
 
     $ICL_PORT = $port;
     $this->conn = iil_Connect($host, $user, $pass, array('imap' => 'check'));
     $this->host = $host;
     $this->user = $user;
     $this->pass = $pass;
+    $this->port = $port;
+    $this->ssl = $use_ssl;
     
+    // print trace mesages
     if ($this->conn && ($CONFIG['debug_level'] & 8))
-      print $this->conn->message;
-      
+      console($this->conn->message);
+    
+    // write error log
     else if (!$this->conn && $GLOBALS['iil_error'])
       {
       raise_error(array('code' => 403,
                        'type' => 'imap',
                        'message' => $GLOBALS['iil_error']), TRUE, FALSE);
+      }
+
+    // get account namespace
+    if ($this->conn)
+      {
+      iil_C_NameSpace($this->conn);
+      
+      if (!empty($this->conn->delimiter))
+        $this->delimiter = $this->conn->delimiter;
+      if (!empty($this->conn->rootdir))
+        $this->root_ns = $this->conn->rootdir;
       }
 
     return $this->conn ? TRUE : FALSE;
@@ -107,12 +112,22 @@ class rcube_imap
     }
 
 
+  function reconnect()
+    {
+    $this->close();
+    $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
+    }
+
+
   function set_rootdir($root)
     {
-    if (substr($root, -1, 1)==='/')
+    if (ereg('[\.\/]$', $root)) //(substr($root, -1, 1)==='/')
       $root = substr($root, 0, -1);
 
     $this->root_dir = $root;
+    
+    if (empty($this->delimiter))
+      $this->get_hierarchy_delimiter();
     }
 
 
@@ -368,10 +383,10 @@ class rcube_imap
     // return cached header
     if ($a_msg_headers[$uid])
       return $a_msg_headers[$uid];
-    
+
     $msg_id = $this->_uid2id($uid);
     $header = iil_C_FetchHeader($this->conn, $mailbox, $msg_id);
-    
+
     // write headers cache
     $a_msg_headers[$uid] = $header;
     $this->update_cache($mailbox.'.msg', $a_msg_headers);
@@ -427,11 +442,13 @@ class rcube_imap
     else
       $result = iil_C_Flag($this->conn, $this->mailbox, join(',', $msg_ids), $flag);
 
-
     // reload message headers if cached
     $cache_key = $this->mailbox.'.msg';
-    if ($result && ($a_cached_headers = $this->get_cache($cache_key)))
+    if ($this->caching_enabled && $result && ($a_cached_headers = $this->get_cache($cache_key)))
       {
+      // close and re-open connection      
+      $this->reconnect();
+
       foreach ($uids as $uid)
         {
         if (isset($a_cached_headers[$uid]))
@@ -492,12 +509,12 @@ class rcube_imap
     // exit if no message uids are specified
     if (!is_array($a_uids))
       return false;
-      
+
     // convert uids to message ids
     $a_mids = array();
     foreach ($a_uids as $uid)
       $a_mids[] = $this->_uid2id($uid, $from_mbox);
-        
+
     $moved = iil_C_Move($this->conn, join(',', $a_mids), $from_mbox, $to_mbox);
     
     // send expunge command in order to have the moved message
@@ -646,15 +663,18 @@ class rcube_imap
     $result = FALSE;
     $abs_name = $this->_mod_mailbox($name);
     $a_mailbox_cache = $this->get_cache('mailboxes');
+    
+    if (strlen($this->root_ns))
+      $abs_name = $this->root_ns.$abs_name;
 
     if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array($abs_name, $a_mailbox_cache)))
-      $result = iil_C_CreateFolder($this->conn, $abs_name);
+      $result = iil_C_CreateFolder($this->conn, iil_utf7_encode($abs_name));
 
     // update mailboxlist cache
     if ($result && $subscribe)
-      $this->subscribe($name);
+      $this->subscribe($this->root_ns.$name);
 
-    return $result;
+    return $result ? $this->root_ns.$name : FALSE;
     }
 
 
@@ -911,9 +931,9 @@ class rcube_imap
 
   function _mod_mailbox($mbox, $mode='in')
     {
-    if ($this->root_dir && $mode=='in')
-      $mbox = $this->root_dir.'/'.$mbox;
-    else if ($this->root_dir && $mode=='out')
+    if (!empty($this->root_dir) && $mode=='in')
+      $mbox = $this->root_dir.$this->delimiter.$mbox;
+    else if (strlen($this->root_dir) && $mode=='out')
       $mbox = substr($mbox, strlen($this->root_dir)+1);
 
     return $mbox;

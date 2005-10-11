@@ -325,9 +325,9 @@ function iil_Connect($host, $user, $password){
 	}
 	
 	//open socket connection
-	$conn->fp = @fsockopen($host, $ICL_PORT);
+	$conn->fp = @fsockopen($host, $ICL_PORT, &$errno, &$errstr, 10);
 	if (!$conn->fp){
-        $iil_error = "Could not connect to $host at port $ICL_PORT";
+        $iil_error = "Could not connect to $host at port $ICL_PORT: $errstr";
         $iil_errornum = -1;
 		return false;
 	}
@@ -1440,7 +1440,7 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod){
 			$line=chop(iil_ReadLine($fp, 100));
 			if ($line[0]=="*") $c++;
 		}while (!iil_StartsWith($line, "flg"));
-		
+
 		if (iil_ParseResult($line) == 0){
 			iil_C_ExpireCachedItems($conn, $mailbox, $messages);
 			return $c;

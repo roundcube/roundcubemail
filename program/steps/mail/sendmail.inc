@@ -216,10 +216,20 @@ if ($CONFIG['sent_mbox'])
 
   // check if mailbox exists
   if (!in_array_nocase($CONFIG['sent_mbox'], $IMAP->list_mailboxes()))
-    $IMAP->create_mailbox($CONFIG['sent_mbox'], TRUE);
+    $mbox = $IMAP->create_mailbox($CONFIG['sent_mbox'], TRUE);
+  else
+    $mbox = TRUE;
 
   // append message to sent box
-  $saved = $IMAP->save_message($CONFIG['sent_mbox'], $header_str."\r\n".$msg_body);
+  if ($mbox)
+    $saved = $IMAP->save_message($CONFIG['sent_mbox'], $header_str."\r\n".$msg_body);
+
+  // raise error if saving failed
+  if (!$saved)
+    raise_error(array('code' => 800,
+                      'type' => 'imap',
+                      'file' => __FILE__,
+                      'message' => "Could not save message in $CONFIG[sent_mbox]"), TRUE, FALSE);
   }
 
 
