@@ -1802,6 +1802,10 @@ function rcube_webmail()
        }
      if (row.cells[2].firstChild.tagName=='A')
        row.cells[2].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name+"')");
+
+    var form;
+    if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
+      form.elements['_folder_name'].value = '';
      };
 
 

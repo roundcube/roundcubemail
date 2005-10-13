@@ -10,7 +10,7 @@
 <roundcube:include file="/includes/header.html" />
 <roundcube:include file="/includes/settingstabs.html" />
 
-<form name="subscriptionform" action="./">
+<form name="subscriptionform" action="./" onsubmit="rcmail.command('create-folder');return false;">
 
 <div id="folder-manager">
 <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"

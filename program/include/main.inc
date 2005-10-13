@@ -671,7 +671,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
 // create and register a button
 function rcube_button($attrib)
   {
-  global $CONFIG, $OUTPUT, $JS_OBJECT_NAME;
+  global $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $BROWSER;
   static $sa_buttons = array();
   static $s_button_count = 100;
   
@@ -728,7 +728,14 @@ function rcube_button($attrib)
 
   if ($attrib['alt'])
     $attrib['alt'] = rep_specialchars_output(rcube_label($attrib['alt']));
-    
+
+  // set title to alt attribute for IE browsers
+  if ($BROWSER['ie'] && $attrib['title'] && !$attrib['alt'])
+    {
+    $attrib['alt'] = $attrib['title'];
+    unset($attrib['title']);
+    }
+
   // add empty alt attribute for XHTML compatibility
   if (!isset($attrib['alt']))
     $attrib['alt'] = '';
