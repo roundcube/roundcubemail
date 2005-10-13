@@ -579,7 +579,6 @@ class rcube_imap
       }
 
     return $deleted;
-
     }
 
 

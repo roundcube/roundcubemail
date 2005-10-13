@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/08/19 (tbr)                                            |
+ | Modified: 2005/10/13 (tbr)                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -565,12 +565,14 @@ function rcube_webmail()
 
       case 'nextmessage':
         if (this.env.next_uid)
-          location.href = this.env.comm_path+'&_action=show&_uid='+this.env.next_uid+'&_mbox='+this.env.mailbox;
+          this.show_message(this.env.next_uid);
+          //location.href = this.env.comm_path+'&_action=show&_uid='+this.env.next_uid+'&_mbox='+this.env.mailbox;
         break;
 
       case 'previousmessage':
         if (this.env.prev_uid)
-          location.href = this.env.comm_path+'&_action=show&_uid='+this.env.prev_uid+'&_mbox='+this.env.mailbox;
+          this.show_message(this.env.prev_uid);
+          //location.href = this.env.comm_path+'&_action=show&_uid='+this.env.prev_uid+'&_mbox='+this.env.mailbox;
         break;
 
       case 'compose':
@@ -964,7 +966,7 @@ function rcube_webmail()
 
     if (id)
       {
-      this.set_busy(true);   
+      this.set_busy(true, 'loading');
       target.location.href = this.env.comm_path+'&_action=show&_uid='+id+'&_mbox='+escape(this.env.mailbox)+add_url;
       }
     };

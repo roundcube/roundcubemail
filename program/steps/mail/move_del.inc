@@ -30,6 +30,9 @@ if ($_action=='moveto' && $_GET['_uid'] && $_GET['_target_mbox'])
   if (!$moved)
     {
     // send error message
+    $commands = "this.list_mailbox();\n";
+    $commands .= show_message('errormoving', 'error');
+    rcube_remote_response($commands);
     exit;
     }
   }
@@ -43,6 +46,9 @@ else if ($_action=='delete' && $_GET['_uid'])
   if (!$del)
     {
     // send error message
+    $commands = "this.list_mailbox();\n";
+    $commands .= show_message('errordeleting', 'error');
+    rcube_remote_response($commands);
     exit;
     }
   }

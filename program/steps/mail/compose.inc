@@ -404,7 +404,7 @@ function rcmail_compose_subject($attrib)
   // create a reply-subject
   else if (isset($REPLY_MESSAGE['subject']))
     {
-    if (strpos($REPLY_MESSAGE['subject'], 'Re:')===0)
+    if (eregi('^re:', $REPLY_MESSAGE['subject']))
       $subject = $REPLY_MESSAGE['subject'];
     else
       $subject = 'Re: '.$REPLY_MESSAGE['subject'];
@@ -412,7 +412,12 @@ function rcmail_compose_subject($attrib)
 
   // create a forward-subject
   else if (isset($FORWARD_MESSAGE['subject']))
-    $subject = 'Fwd: '.$FORWARD_MESSAGE['subject'];
+    {
+    if (eregi('^fwd:', $REPLY_MESSAGE['subject']))
+      $subject = $FORWARD_MESSAGE['subject'];
+    else
+      $subject = 'Fwd: '.$FORWARD_MESSAGE['subject'];
+    }
 
   
   $out = $form_start ? "$form_start\n" : '';

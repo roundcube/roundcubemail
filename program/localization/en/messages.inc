@@ -52,5 +52,9 @@ $messages['sendingfailed'] = 'Failed to send message';
 
 $messages['errorsaving'] = 'An error occured while saving';
 
+$messages['errormoving'] = 'Could not move the message';
+
+$messages['errordeleting'] = 'Could not delete the message';
+
 
 ?>
