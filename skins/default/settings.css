@@ -18,10 +18,9 @@ span.tablink,
 span.tablink-selected
 {
   float: left;
-  width: 80px;
-  height: 17px !important;
-  height: 15px;
-  padding: 5px 10px 2px 10px;
+  width: 100px;
+  height: 24px !important;
+  height: 22px;
   background: url('images/tab_pas.gif') top left no-repeat;
 }
 
@@ -30,15 +29,19 @@ span.tablink-selected
   background: url('images/tab_act.gif') top left no-repeat;
 }
 
-span.tablink a
-{
-  color: #555555;
-}
-
 span.tablink a,
 span.tablink-selected a
 {
+  display: block;
+  padding-left: 10px;
+  padding-top: 5px;
+  color: #555555;
   text-decoration: none;
+}
+
+span.tablink-selected a
+{
+  color: #000000;
 }
 
 #userprefs-box
