@@ -55,7 +55,8 @@ ini_set('error_reporting', E_ALL&~E_NOTICE);
 
 
 // increase maximum execution time for php scripts
-set_time_limit('120');
+// (does not work in safe mode)
+@set_time_limit('120');
 
 
 // include base files
@@ -76,10 +77,8 @@ $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
 if (!empty($_GET['_remote']))
   $REMOTE_REQUEST = TRUE;
 
-
 // start session with requested task
 rcmail_startup($_task);
-
 
 // set session related variables
 $COMM_PATH = sprintf('./?_auth=%s&_task=%s', $sess_auth, $_task);
@@ -96,7 +95,6 @@ if ($_framed)
 
 // init necessary objects for GUI
 load_gui();
-
 
 // error steps
 if ($_action=='error' && !empty($_GET['_code']))
@@ -129,7 +127,7 @@ if ($_action=='login' && $_task=='mail')
   }
 
 // end session
-else if ($_action=='logout' && $_SESSION['user_id'])
+else if ($_action=='logout' && isset($_SESSION['user_id']))
   {
   show_message('loggedout');
   rcmail_kill_session();
