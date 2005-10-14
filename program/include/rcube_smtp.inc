@@ -72,12 +72,23 @@ function smtp_mail($from, $recipients, $headers, $body)
       $SMTP_ERROR .= "Connection failed\n";
       return FALSE;
       }
-
-
+      
     // attempt to authenticate to the SMTP server
     if ($CONFIG['smtp_user'] && $CONFIG['smtp_pass'])
       {
-      if (PEAR::isError($SMTP_CONN->auth($CONFIG['smtp_user'], $CONFIG['smtp_pass'])))
+      if ($CONFIG['smtp_user'] == '%u')
+		$smtp_user = $_SESSION['username'];
+      else
+		$smtp_user = $CONFIG['smtp_user'];
+	
+	  if ($CONFIG['smtp_pass'] == '%p')
+		$smtp_pass = decrypt_passwd($_SESSION['password']);
+      else
+		$smtp_pass = $CONFIG['smtp_pass'];
+
+	  $smtp_auth_type = smpty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
+	  	
+      if (PEAR::isError($SMTP_CONN->auth($smtp_user, $smtp_pass, $smtp_auth_type)))
         {
         smtp_reset();
         $SMTP_ERROR .= "authentication failure\n";
