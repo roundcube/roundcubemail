@@ -45,10 +45,13 @@
 $INSTALL_PATH = './';
 $OUTPUT_TYPE = 'html';
 $JS_OBJECT_NAME = 'rcmail';
+$CURRENT_PATH=dirname($_SERVER['SCRIPT_FILENAME']);
 
-
+if ($CURRENT_PATH!='')
+	$CURRENT_PATH.='/';
+	
 // set environment first
-ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$INSTALL_PATH.PATH_SEPARATOR.'program'.PATH_SEPARATOR.'program/lib');
+ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$INSTALL_PATH.PATH_SEPARATOR.$CURRENT_PATH.'program'.PATH_SEPARATOR.$CURRENT_PATH.'program/lib');
 ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
 ini_set('error_reporting', E_ALL&~E_NOTICE);
