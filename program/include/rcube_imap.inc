@@ -297,11 +297,9 @@ class rcube_imap
   function _list_headers($mailbox='', $page=NULL, $sort_field='date', $sort_order='DESC')
     {
     $max = $this->_messagecount($mailbox /*, 'ALL', TRUE*/);
-    $a_out = array();
     
     if (!strlen($mailbox))
-      return $a_out;
-
+      return array();
 
     // get cached headers
     $a_msg_headers = $this->get_cache($mailbox.'.msg');
@@ -314,7 +312,8 @@ class rcube_imap
       $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, "1:$max");
       $a_msg_headers = array();
       foreach ($a_header_index as $i => $headers)
-        $a_msg_headers[$headers->uid] = $headers;
+		if (!$headers->deleted)
+			$a_msg_headers[$headers->uid] = $headers;
         
 // print "/**** fetch headers ****/\n";
       }
@@ -323,22 +322,19 @@ class rcube_imap
 
     // sort headers by a specific col
     $a_headers = iil_SortHeaders($a_msg_headers, $sort_field, $sort_order);
-    
+	// free memory
+	unset($a_msg_headers);
+	
     // write headers list to cache
     if (!$headers_cached)
-      $this->update_cache($mailbox.'.msg', $a_msg_headers);
-
-    if (is_array($a_headers))
-      foreach ($a_headers as $header)
-        if (!$header->deleted)
-          $a_out[] = $header;
+      $this->update_cache($mailbox.'.msg', $a_headers);
 
     // return complete list of messages
     if (strtolower($page)=='all')
-      return $a_out;
-
+      return $a_headers;
+	
     $start_msg = ($this->list_page-1) * $this->page_size;
-    return array_slice($a_out, $start_msg, $this->page_size);
+    return array_slice($a_headers, $start_msg, $this->page_size);
     }
 
 
