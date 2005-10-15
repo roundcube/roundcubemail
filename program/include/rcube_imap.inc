@@ -320,6 +320,9 @@ class rcube_imap
     else
       $headers_cached = TRUE;
 
+	if (!is_array(a_msg_headers))
+		return array();
+		
     // sort headers by a specific col
     $a_headers = iil_SortHeaders($a_msg_headers, $sort_field, $sort_order);
 	// free memory
