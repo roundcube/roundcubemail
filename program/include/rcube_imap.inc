@@ -320,7 +320,7 @@ class rcube_imap
     else
       $headers_cached = TRUE;
 
-	if (!is_array(a_msg_headers))
+	if (!is_array($a_msg_headers))
 		return array();
 		
     // sort headers by a specific col
