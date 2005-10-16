@@ -28,7 +28,7 @@ $messages['imaperror'] = 'Keine Verbindung zum IMAP server';
 
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Order';
 
-$messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendeet. Auf Wiedersehen!';
+$messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wiedersehen!';
 
 $messages['mailboxempty'] = 'Ordner ist leer';
 
