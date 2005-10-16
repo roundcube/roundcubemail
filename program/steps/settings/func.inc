@@ -50,15 +50,13 @@ function rcmail_user_prefs_form($attrib)
                        'prettydate' => array('type' => 'text'));
                        
   // show language selection
+  $a_lang = rcube_list_languages();
+  asort($a_lang);
+  
   $field_id = 'rcmfd_lang';
   $select_lang = new select(array('name' => '_language', 'id' => $field_id));
-  $select_lang->add('Dansk', 'da');
-  $select_lang->add('Deutsch', 'de');
-  $select_lang->add('English', 'en');
-  $select_lang->add('Espanol', 'es');
-  $select_lang->add('Fran&ccedil;ais', 'fr');
-  $select_lang->add('Italiano', 'it');
-  $select_lang->add('Nederlands', 'nl');
+  $select_lang->add(array_values($a_lang), array_keys($a_lang));
+  
 
   $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,

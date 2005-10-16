@@ -99,63 +99,14 @@ function rcmail_mailbox_list($attrib)
 // var_dump($a_mailboxes);
 
   if ($type=='select')
-    $out .= rcmail_render_folder_tree_select($a_mailboxes, $special_mailboxes, $mbox);
+    $out .= rcmail_render_folder_tree_select($a_mailboxes, $special_mailboxes, $mbox, $attrib['maxlength']);
    else
-    $out .= rcmail_render_folder_tree_html($a_mailboxes, $special_mailboxes, $mbox);
+    $out .= rcmail_render_folder_tree_html($a_mailboxes, $special_mailboxes, $mbox, $attrib['maxlength']);
 
-
-/*
-  foreach ($a_folders as $i => $folder)
-    {
-    $zebra_class = $i%2 ? 'even' : 'odd';
-    $folder_prop = $a_subfolders[$folder];
-    $foldername = isset($folder_prop) ? $folder_prop['name'] : $folder;
-
-    $folder_lc = strtolower($foldername);
-    if (in_array($folder_lc, $special_mailboxes))
-      $foldername = rcube_label($folder_lc);
-        
-    if ($unread_count = $IMAP->messagecount($folder, 'UNSEEN'))
-      $foldername .= sprintf(' (%d)', $unread_count);
-
-    $indent = isset($folder_prop) ? sprintf(' indent%d', $folder_prop['level']) : '';
-    $indent_str = isset($folder_prop) ? str_repeat('&nbsp;&nbsp;', (int)$folder_prop['level']) : '';
-  
-    // compose mailbox line
-    if ($type=='select')
-      $out .= sprintf('<option value="%s">%s%s</option>'."\n",
-                      $folder,
-                      $indent_str,
-                      rep_specialchars_output($foldername));
-    
-    else
-      $out .= sprintf('<li class="mailbox %s %s%s%s%s"><a href="#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a></li>'."\n",
-                       preg_replace('/[^a-z0-9\-_]/', '', strtolower($folder)),
-                       $zebra_class,
-                       $unread_count ? ' unread' : '',
-                       $folder==$mbox ? ' selected' : '',
-                       $indent,
-                       $folder,
-                       $JS_OBJECT_NAME,
-                       $folder,
-                       $JS_OBJECT_NAME,
-                       $folder,
-                       rep_specialchars_output($foldername));
-    }
-*/
 
   if ($type=='ul')
     $OUTPUT->add_script(sprintf("%s.gui_object('mailboxlist', '%s');", $JS_OBJECT_NAME, $attrib['id']));
 
-
-/*  this is added further up
-  if (!$s_added_script)
-    {
-    $javascript .= sprintf("%s.set_env('mailbox', '%s');", $JS_OBJECT_NAME, $mbox);
-    $OUTPUT->add_script($javascript);
-    $s_added_script = TRUE;
-    }
-*/
   return $out . "</$type>";
   }
 
@@ -192,7 +143,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   
 
 // return html for a structured list <ul> for the mailbox tree
-function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $nestLevel = 0)
+function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlength, $nestLevel=0)
   {
   global $JS_OBJECT_NAME, $IMAP;
 
@@ -208,7 +159,11 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $nestLe
     else
       $foldername = $folder['name'];
 
-    if ($unread_count = $IMAP->messagecount($folder['id'], 'UNSEEN'))
+    // shorten the folder name to a given length
+    if ($maxlength && $maxlength>1)
+      $foldername = abbrevate_string($foldername, $maxlength);
+
+    if ($unread_count = $IMAP->messagecount($folder['id'], 'UNSEEN', ($folder['id']==$mbox)))
       $foldername .= sprintf(' (%d)', $unread_count);
 
     $out .= sprintf('<li class="mailbox %s %s%s%s"><a href="#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a>'."\n",
@@ -224,7 +179,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $nestLe
                     rep_specialchars_output($foldername));
 
     if (!empty($folder['folders']))
-      $out .= '<ul>' . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox, $nestLevel+1) . "</ul>\n";
+      $out .= '<ul>' . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox, $maxlength, $nestLevel+1) . "</ul>\n";
 
     $out .= "</li>\n";
     $idx++;
@@ -235,7 +190,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $nestLe
 
 
 // return html for a flat list <select> for the mailbox tree
-function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $nestLevel=0)
+function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $maxlength, $nestLevel=0)
   {
   global $IMAP;
 
@@ -243,13 +198,19 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $nest
   $out = '';
   foreach ($arrFolders as $key=>$folder)
     {
+    // shorten the folder name to a given length
+    if ($maxlength && $maxlength>1)
+      $foldername = abbrevate_string($folder['name'], $maxlength);
+    else
+      $foldername = $folder['name'];
+
     $out .= sprintf('<option value="%s">%s%s</option>'."\n",
                     $folder['id'],
                     str_repeat('&nbsp;', $nestLevel*4),
-                    rep_specialchars_output($folder['name']));
+                    rep_specialchars_output($foldername));
 
     if (!empty($folder['folders']))
-      $out .= rcmail_render_folder_tree_select($folder['folders'], $special, $mbox, $nestLevel+1);
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $special, $mbox, $maxlength, $nestLevel+1);
 
     $idx++;
     }
@@ -485,7 +446,7 @@ function rcmail_get_messagecount_text()
                                               'to'    => min($max, $start_msg + $IMAP->page_size - 1),
                                               'count' => $max)));
 
-  return $out;
+  return rep_specialchars_output($out);
   }
 
 

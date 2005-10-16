@@ -174,17 +174,26 @@
   font-weight: bold;  
 }
 
-#mailboxlist
+#mailboxlist-container
 {
   position: absolute;
   top: 100px;
   left: 20px;
   width: 160px;
+  bottom: 80px;
+  border: 1px solid #CCCCCC;
+  background-color: #F9F9F9;
+  overflow: auto;
+  /* css hack for IE */
+  height: expression((parseInt(document.documentElement.clientHeight)-180)+'px');
+}
+
+#mailboxlist
+{
+  width: 100%;
   height: auto;
   margin: 0px;
   padding: 0px;
-  border: 1px solid #CCCCCC;
-  background-color: #F9F9F9;
   list-style-image: none;
   list-style-type: none;
   overflow: hidden;

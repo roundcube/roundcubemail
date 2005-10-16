@@ -97,6 +97,7 @@ $labels['printmessage']     = 'Print this message';
 $labels['previousmessages'] = 'Show previous set of messages';
 $labels['nextmessages']     = 'Show next set of messages';
 $labels['backtolist']       = 'Back to message list';
+$labels['viewsource']       = 'Show source';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
@@ -139,6 +140,8 @@ $labels['newcontact']     = 'Create new contact card';
 $labels['deletecontact']  = 'Delete selected contacts';
 $labels['composeto']      = 'Compose mail to';
 $labels['contactsfromto'] = 'Contacts $from to $to of $count';
+$labels['print']          = 'Imprimir';
+$labels['export']         = 'Exportar';
 
 
 // settings

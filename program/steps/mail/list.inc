@@ -20,7 +20,9 @@
 */
 
 $REMOTE_REQUEST = TRUE;
+$OUTPUT_TYPE = 'js';
 
+$unseen = $IMAP->messagecount($mbox, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
 $count = $IMAP->messagecount();
 
 // update message count display
@@ -31,7 +33,7 @@ $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text(
 
 // update mailboxlist
 $mbox = $IMAP->get_mailbox_name();
-$commands .= sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
+$commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox), $unseen);
 
 
 // add message rows
