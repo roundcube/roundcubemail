@@ -325,7 +325,7 @@ function iil_Connect($host, $user, $password){
 	}
 	
 	//open socket connection
-	$conn->fp = @fsockopen($host, $ICL_PORT, &$errno, &$errstr, 10);
+	$conn->fp = @fsockopen($host, $ICL_PORT, $errno, $errstr, 10);
 	if (!$conn->fp){
         $iil_error = "Could not connect to $host at port $ICL_PORT: $errstr";
         $iil_errornum = -1;
@@ -1388,7 +1388,7 @@ function iil_SortHeaders($a, $field, $flag){
 		$result=array();
 		reset($index);
 		while (list($key, $val)=each($index)){
-			$result[$i]=$a[$key];
+			$result[$key]=$a[$key];
 			$i++;
 		}
 	}

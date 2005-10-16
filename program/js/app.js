@@ -1,4 +1,4 @@
-/*
+﻿/*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail Client Script                                       |
  |                                                                       |
@@ -1006,6 +1006,7 @@ function rcube_webmail()
     if (!page && mbox != this.env.mailbox)
       {
       page = 1;
+      add_url += '&_refresh=1';
       this.env.current_page = page;
       this.clear_selection();
       }
@@ -1016,14 +1017,14 @@ function rcube_webmail()
     // load message list remotely
     if (this.gui_objects.messagelist)
       {
-      this.list_mailbox_remote(mbox, page);
+      this.list_mailbox_remote(mbox, page, add_url);
       return;
       }
     
     if (this.env.contentframe && window.frames && window.frames[this.env.contentframe])
       {
       target = window.frames[this.env.contentframe];
-      add_url = '&_framed=1';
+      add_url += '&_framed=1';
       }
 
     // load message list to target frame/window
@@ -1036,7 +1037,7 @@ function rcube_webmail()
 
 
   // send remote request to load message list
-  this.list_mailbox_remote = function(mbox, page)
+  this.list_mailbox_remote = function(mbox, page, add_url)
     {
     // clear message list
     var table = this.gui_objects.messagelist;
@@ -1050,7 +1051,7 @@ function rcube_webmail()
     // send request to server
     var url = '_mbox='+escape(mbox)+(page ? '&_page='+page : '');
     this.set_busy(true, 'loading');
-    this.http_request('list', url);
+    this.http_request('list', url+add_url);
     };
 
 

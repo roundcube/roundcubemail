@@ -268,7 +268,7 @@ class rcube_imap
     else
       $count = iil_C_CountMessages($this->conn, $mailbox);
 
-//print "/**** get messagecount for $mailbox ($mode): $count ****/\n";
+// print "/**** get messagecount for $mailbox ($mode): $count ****/\n";
 
     if (is_array($a_mailbox_cache[$mailbox]))
       $a_mailbox_cache[$mailbox] = array();
@@ -312,8 +312,8 @@ class rcube_imap
       $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, "1:$max");
       $a_msg_headers = array();
       foreach ($a_header_index as $i => $headers)
-		if (!$headers->deleted)
-			$a_msg_headers[$headers->uid] = $headers;
+      if (!$headers->deleted)
+        $a_msg_headers[$headers->uid] = $headers;
         
 // print "/**** fetch headers ****/\n";
       }
@@ -445,7 +445,7 @@ class rcube_imap
     $cache_key = $this->mailbox.'.msg';
     if ($this->caching_enabled && $result && ($a_cached_headers = $this->get_cache($cache_key)))
       {
-      // close and re-open connection      
+      // close and re-open connection
       $this->reconnect();
 
       foreach ($uids as $uid)

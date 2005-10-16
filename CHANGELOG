@@ -42,3 +42,11 @@ CHANGELOG RoundCube Webmail
 - Long folder names will not flow over message list (Bug #1267232)
 - Show nested mailboxes hieracically
 - Enable IMAPS by host
+
+
+2005/15/16
+----------
+- Added Portuguese and Catalan translation
+- Make SMTP auth method configurable
+- Make mailboxlist scrollable (Bug #1326372)
+

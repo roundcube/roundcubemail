@@ -423,6 +423,33 @@ function rcube_remote_response($js_code)
   }
 
 
+// read directory program/localization/ and return a list of available languages
+function rcube_list_languages()
+  {
+  global $CONFIG, $INSTALL_PATH;
+  static $sa_languages = array();
+
+  if (!sizeof($sa_languages))
+    {
+    @include_once($INSTLL_PATH.'program/localization/index.inc');
+
+    if ($dh = @opendir($INSTLL_PATH.'program/localization'))
+      {
+      while (($name = readdir($dh)) !== false)
+        {
+        if ($name{0}=='.' || !is_dir($INSTLL_PATH.'program/localization/'.$name))
+          continue;
+
+        if ($label = $rcube_languages[$name])
+          $sa_languages[$name] = $label ? $label : $name;
+        }
+      closedir($dh);
+      }
+    }
+
+  return $sa_languages;
+  }
+
 
 
 // ************** template parsing and gui functions **************

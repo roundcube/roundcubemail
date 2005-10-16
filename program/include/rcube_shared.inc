@@ -1109,6 +1109,9 @@ function rcube_label($attrib)
   if ($text=='')
     $text = $a_text_item['single'];
 
+  // perform utf-8 decoding
+  //if (function_exists('utf8_decode'))
+  //  $text = utf8_decode($text);
 
   // replace vars in text
   if (is_array($attrib['vars']))
@@ -1412,6 +1415,22 @@ function make_absolute_url($path, $base_url)
     return $abs_path;
     }
 
+
+
+function abbrevate_string($str, $maxlength, $place_holder='...')
+  {
+  $length = strlen($str);
+  $first_part_length = floor($maxlength/2) - strlen($place_holder);
+  
+  if ($length > $maxlength)
+    {
+    $second_starting_location = $length - $maxlength + $first_part_length + 1;
+    $str = substr($str, 0, $first_part_length) . $place_holder . substr($str, $second_starting_location, $length);
+    }
+
+  return $str;
+  }
+  
 
 
 ?>
