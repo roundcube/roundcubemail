@@ -979,7 +979,7 @@ class select extends base_form_element
 // provide details about the client's browser
 function rcube_browser()
   {
-  global $HTTP_USER_AGENT;
+  $HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
 
   $bw['ver'] = 0;
   $bw['win'] = stristr($HTTP_USER_AGENT, 'win');

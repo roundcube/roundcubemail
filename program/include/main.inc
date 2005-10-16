@@ -30,7 +30,7 @@ function rcmail_startup($task='mail')
 
   // check client
   $BROWSER = rcube_browser();
-  
+
   // load config file
   include_once('config/main.inc.php');
   $CONFIG = is_array($rcmail_config) ? $rcmail_config : array();
