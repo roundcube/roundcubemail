@@ -59,12 +59,11 @@ function rcmail_contacts_list($attrib)
     $sql_result = $DB->query(sprintf("SELECT * FROM %s
                                       WHERE  del!='1'
                                       AND    user_id=%d
-                                      ORDER BY name
-                                      LIMIT %d, %d",
+                                      ORDER BY name",
                                      get_table_name('contacts'),
-                                     $_SESSION['user_id'],
+                                     $_SESSION['user_id']),
                                      $start_row,
-                                     $CONFIG['pagesize']));
+                                     $CONFIG['pagesize']);
     }
   else
     $sql_result = NULL;

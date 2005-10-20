@@ -103,7 +103,7 @@ class rcube_db
 
     // Query database (read operations)
     
-    function query($query)
+    function query($query, $offset=0, $numrows=0)
     {
         // Read or write ?
         if (strtolower(trim(substr($query,0,6)))=='select')
@@ -115,8 +115,13 @@ class rcube_db
 
         if ($this->db_provider == 'sqlite')
             $query = $this->_sqlite_prepare_query($query);
-            
-        $result = $this->db_handle->query($query);
+        
+        if ($numrows || $offset)
+			{
+			$result = $this->db_handle->limitQuery($query,$offset,$numrows);
+			}
+        else    
+			$result = $this->db_handle->query($query);
         
         if (DB::isError($result))
             raise_error(array('code' => 500,

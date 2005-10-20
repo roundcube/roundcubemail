@@ -65,12 +65,11 @@ if ($_GET['_cid'])
     $sql_result = $DB->query(sprintf("SELECT * FROM %s
                                       WHERE  del!='1'
                                       AND    user_id=%d
-                                      ORDER BY name
-                                      LIMIT %d, %d",
+                                      ORDER BY name",
                                      get_table_name('contacts'),
-                                     $_SESSION['user_id'],
+                                     $_SESSION['user_id']),
                                      $start_row,
-                                     $count));
+                                     $count);
                                      
     $commands .= rcmail_js_contacts_list($sql_result);
 

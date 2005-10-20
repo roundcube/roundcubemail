@@ -103,7 +103,7 @@ class rcube_db
 
     // Query database (read operations)
     
-    function query($query)
+    function query($query, $offset=0, $numrows=0)
     {
         // Read or write ?
         if (strtolower(trim(substr($query,0,6)))=='select')
@@ -116,6 +116,9 @@ class rcube_db
         if ($this->db_provider == 'sqlite')
             $query = $this->_sqlite_prepare_query($query);
             
+        $this->db_handle->row_offset = $offset;
+		$this->db_handle->row_limit = $numrows;
+		
         $result = $this->db_handle->query($query);
         
         if (PEAR::isError($result))

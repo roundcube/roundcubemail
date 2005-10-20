@@ -43,12 +43,11 @@ $start_row = ($CONTACTS_LIST['page']-1) * $CONFIG['pagesize'];
 $sql_result = $DB->query(sprintf("SELECT * FROM %s
                                   WHERE  del!='1'
                                   AND    user_id=%d
-                                  ORDER BY name
-                                  LIMIT %d, %d",
+                                  ORDER BY name",
                                  get_table_name('contacts'),
-                                 $_SESSION['user_id'],
+                                 $_SESSION['user_id']),
                                  $start_row,
-                                 $CONFIG['pagesize']));
+                                 $CONFIG['pagesize']);
                                  
 $commands .= rcmail_js_contacts_list($sql_result);
   
