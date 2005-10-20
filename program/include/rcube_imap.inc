@@ -311,9 +311,11 @@ class rcube_imap
       {
       $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, "1:$max");
       $a_msg_headers = array();
-      foreach ($a_header_index as $i => $headers)
-      if (!$headers->deleted)
-        $a_msg_headers[$headers->uid] = $headers;
+      
+      if (!empty($a_header_index))
+		foreach ($a_header_index as $i => $headers)
+			if (!$headers->deleted)
+				$a_msg_headers[$headers->uid] = $headers;
         
 // print "/**** fetch headers ****/\n";
       }
@@ -325,6 +327,7 @@ class rcube_imap
 		
     // sort headers by a specific col
     $a_headers = iil_SortHeaders($a_msg_headers, $sort_field, $sort_order);
+
 	// free memory
 	unset($a_msg_headers);
 	
@@ -332,6 +335,9 @@ class rcube_imap
     if (!$headers_cached)
       $this->update_cache($mailbox.'.msg', $a_headers);
 
+	if (empty($a_headers))
+		return array();
+		
     // return complete list of messages
     if (strtolower($page)=='all')
       return $a_headers;
