@@ -54,6 +54,8 @@ function rcmail_startup($task='mail')
 
 
   // prepare DB connection
+  require_once('include/rcube_'.(empty($CONFIG['db_backend']) ? 'db' : $CONFIG['db_backend']).'.inc');
+  
   $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr']);
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
 

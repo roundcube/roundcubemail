@@ -25,6 +25,9 @@ $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 // userful for database replication
 $rcmail_config['db_dsnr'] = '';
 
+// database backend to use (only db or mdb2 are supported)
+$rcmail_config['db_backend'] = 'db';
+
 // you can define specific table names used to store webmail data
 $rcmail_config['db_table_users'] = 'users';
 
