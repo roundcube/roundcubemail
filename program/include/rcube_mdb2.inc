@@ -128,17 +128,6 @@ class rcube_db
         return $this->_add_result($result, $query);
     }
 
-    function db_execute ($query)
-    {
-        $this->db_connect('w');
-
-        if ($this->db_provider == 'sqlite')
-            $query = $this->_sqlite_prepare_query($query);
-
-        $result = $this->db_handle->query($query);
-
-    }
-    
     function num_rows($res_id=NULL)
     {
         if (!$this->db_handle)
