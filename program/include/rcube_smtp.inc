@@ -86,7 +86,7 @@ function smtp_mail($from, $recipients, $headers, $body)
       else
 		$smtp_pass = $CONFIG['smtp_pass'];
 
-	  $smtp_auth_type = smpty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
+	  $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
 	  	
       if (PEAR::isError($SMTP_CONN->auth($smtp_user, $smtp_pass, $smtp_auth_type)))
         {
