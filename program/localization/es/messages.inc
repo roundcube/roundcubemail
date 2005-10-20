@@ -43,8 +43,7 @@ $messages['contactexists'] = 'Ya existe un contacto con esta dirección de correo
 
 $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes remotas han sido bloqueadas en este mensaje';
 
-$messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede
-ser mostrado. ¡Lo siento!';
+$messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo siento!';
 
 $messages['nocontactsfound'] = 'No hay contactos';
 

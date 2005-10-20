@@ -260,9 +260,10 @@ function rcmail_message_list($attrib)
   // no messages in this mailbox
   if (!sizeof($a_headers))
     {
-    $out .= sprintf('<tr><td colspan="%d">%s</td></tr>',
+    $out .= rep_specialchars_output(
+				sprintf('<tr><td colspan="%d">%s</td></tr>',
                    sizeof($a_show_cols)+2,
-                   rcube_label('nomessagesfound'));
+                   rcube_label('nomessagesfound')));
     }
 
 
