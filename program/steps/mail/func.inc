@@ -198,11 +198,15 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $maxl
   $out = '';
   foreach ($arrFolders as $key=>$folder)
     {
-    // shorten the folder name to a given length
-    if ($maxlength && $maxlength>1)
-      $foldername = abbrevate_string($folder['name'], $maxlength);
+    $folder_lc = strtolower($folder['id']);
+    if (in_array($folder_lc, $special))
+      $foldername = rcube_label($folder_lc);
     else
       $foldername = $folder['name'];
+
+    // shorten the folder name to a given length
+    if ($maxlength && $maxlength>1)
+      $foldername = abbrevate_string($foldername, $maxlength);
 
     $out .= sprintf('<option value="%s">%s%s</option>'."\n",
                     $folder['id'],
@@ -303,13 +307,13 @@ function rcmail_message_list($attrib)
       if ($col=='from' || $col=='to')
         $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3, $attrib['addicon']));
       else if ($col=='subject')
-        $cont = rep_specialchars_output($IMAP->decode_header($header->$col));
+        $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')
         $cont = format_date($header->date); //date('m.d.Y G:i:s', strtotime($header->date));
       else
-        $cont = rep_specialchars_output($header->$col);
+        $cont = rep_specialchars_output($header->$col, 'html', 'all');
         
 	  $out .= '<td class="'.$col.'">' . $cont . "</td>\n";
       }
@@ -377,13 +381,13 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       if ($col=='from' || $col=='to')
         $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3));
       else if ($col=='subject')
-        $cont = rep_specialchars_output($IMAP->decode_header($header->$col));
+        $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')
         $cont = format_date($header->date); //date('m.d.Y G:i:s', strtotime($header->date));
       else
-        $cont = rep_specialchars_output($header->$col);
+        $cont = rep_specialchars_output($header->$col, 'html', 'all');
           
       $a_msg_cols[$col] = $cont;
       }

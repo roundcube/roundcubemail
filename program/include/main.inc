@@ -51,6 +51,10 @@ function rcmail_startup($task='mail')
     ini_set('display_errors', 1);
   else
     ini_set('display_errors', 0);
+  
+  // set session garbage collecting time according to session_lifetime
+  if (!empty($CONFIG['session_lifetime']))
+    ini_set('session.gc_maxlifetime', ($CONFIG['session_lifetime']+2)*60);
 
 
   // prepare DB connection
@@ -138,34 +142,43 @@ function rcmail_imap_init($connect=FALSE)
 
   $IMAP = new rcube_imap();
 
+  // connect with stored session data
+  if ($connect)
+    {
+    if (!($conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'])))
+      show_message('imaperror', 'error');
+      
+    rcmail_set_imap_prop();
+    }
+
   // enable caching of imap data
   if ($CONFIG['enable_caching']===TRUE)
     $IMAP->set_caching(TRUE);
 
-  // set root dir from config
-  if (strlen($CONFIG['imap_root']))
-    $IMAP->set_rootdir($CONFIG['imap_root']);
-    
   if (is_array($CONFIG['default_imap_folders']))
     $IMAP->set_default_mailboxes($CONFIG['default_imap_folders']);
-
-  if (strlen($_SESSION['mbox']))
-    $IMAP->set_mailbox($_SESSION['mbox']);
-
-  if (isset($_SESSION['page']))
-    $IMAP->set_page($_SESSION['page']);
 
   // set pagesize from config
   if (isset($CONFIG['pagesize']))
     $IMAP->set_pagesize($CONFIG['pagesize']);
+  }
 
 
-  // connect with stored session data
-  if ($connect)
-    {
-    if (!($conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']))))
-      show_message('imaperror', 'error');
-    }
+// set root dir and last stored mailbox
+// this must be done AFTER connecting to the server
+function rcmail_set_imap_prop()
+  {
+  global $CONFIG, $IMAP;
+
+  // set root dir from config
+  if (strlen($CONFIG['imap_root']))
+    $IMAP->set_rootdir($CONFIG['imap_root']);
+
+  if (strlen($_SESSION['mbox']))
+    $IMAP->set_mailbox($_SESSION['mbox']);
+    
+  if (isset($_SESSION['page']))
+    $IMAP->set_page($_SESSION['page']);
   }
 
 
@@ -262,7 +275,7 @@ function rcmail_login($user, $pass, $host=NULL)
     {
     $host = $a_host['host'];
     $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
-    $imap_port = isset($a_host['post']) ? $a_host['post'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
+    $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
     }
 
   // exit if IMAP login failed
@@ -301,6 +314,8 @@ function rcmail_login($user, $pass, $host=NULL)
     {
     $_SESSION['user_id']   = $user_id;
     $_SESSION['imap_host'] = $host;
+    $_SESSION['imap_port'] = $imap_port;
+    $_SESSION['imap_ssl']  = $imap_ssl;
     $_SESSION['username']  = $user;
     $_SESSION['password']  = encrypt_passwd($pass);
 

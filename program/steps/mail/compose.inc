@@ -509,7 +509,7 @@ function rcmail_priority_selector($attrib)
                        rcube_label('normal'),
                        rcube_label('high'),
                        rcube_label('highest')),
-                 array(1, 2, 0, 4, 5));
+                 array(5, 4, 0, 2, 1));
                  
   $sel = isset($_POST['_priority']) ? $_POST['_priority'] : 0;
 

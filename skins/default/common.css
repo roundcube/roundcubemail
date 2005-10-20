@@ -3,7 +3,7 @@
 body
 {
   margin: 8px;
-  background-color: #F2F2F2; /* #EBEBEB; */
+  background-color: #F6F6F6; /* #EBEBEB; */
   color: #000000;
 }
 
@@ -103,43 +103,62 @@ img
 
 #header
 {
-/* margin: 10px auto; */
+  position: absolute;
+  top: 10px;
+  left: 20px;
   width: 170px;
   height: 40px;
-  margin-top: 0px;
-  margin-left: 10px;
-/* border: 1px solid #cccccc;  */
-}
-
-#footer
-{
-  position: fixed !important;
-  left: 0px;
-  right: 0px;
-  bottom: 0px !important;
-  height: 40px;
-  background-color: #f2f2f2;
-
-  /* css hack for IE */
-  position: absolute;
-  bottom: auto;
-  top: expression((parseInt(document.documentElement.clientHeight)+parseInt(document.documentElement.scrollTop)-42)+'px');
-  width: expression(parseInt(document.documentElement.clientWidth)+'px');
+  z-index: 100;
 }
 
 #taskbar
 {
-  margin: 0px auto;
-  width: 400px;
-  height: 34px;
-  padding: 3px;
-  text-align: center;
-  border: 1px solid #cccccc;  
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 600px;
+  height: 37px;
+  background: url(images/taskbar.gif) top right no-repeat;
+  padding: 10px 24px 0px 0px;
+  text-align: right;
+  white-space: nowrap;
+  z-index: 2;
 }
 
-#taskbar a
+#taskbar a,
+#taskbar a:active,
+#taskbar a:visited
 {
-  padding-right: 10px;
+  font-size: 11px;
+  color: #666666;
+  text-decoration: none;
+  padding: 6px 16px 6px 30px;
+  background-repeat: no-repeat;
+}
+
+#taskbar a:hover
+{
+  color: #333333;
+}
+
+a.button-mail
+{
+  background-image: url(images/buttons/mail.gif);
+}
+
+a.button-addressbook
+{
+  background-image: url(images/buttons/addressbook.gif);
+}
+
+a.button-settings
+{
+  background-image: url(images/buttons/settings.gif);
+}
+
+a.button-logout
+{
+  background-image: url(images/buttons/logout.gif);
 }
 
 
@@ -147,7 +166,7 @@ img
 {
   position: absolute;
   display: none;
-  top: 0px;
+  top: -1px;
   left: 200px;
   right: 200px;
   z-index: 5000;
@@ -157,8 +176,8 @@ img
 {
   width: 400px;
   margin: 0px auto;
-  height: 22px;
-  min-height: 22px;
+  height: 24px;
+  min-height: 24px;
   padding: 8px 10px 8px 46px;
 }
 
@@ -188,7 +207,7 @@ img
 #message div.loading
 {
   background: url(images/display/loading.gif) 6px 3px no-repeat;
-  background-color: #EFEFEF;
+  background-color: #EBEBEB;
   border: 1px solid #CCCCCC;
 }
 

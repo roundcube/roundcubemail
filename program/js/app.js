@@ -204,7 +204,7 @@ function rcube_webmail()
 
     // flag object as complete
     this.loaded = true;
-      
+          
     // show message
     if (this.pending_message)
       this.display_message(this.pending_message[0], this.pending_message[1]);

@@ -65,11 +65,13 @@ $pages = ceil($IMAP->messagecount()/$IMAP->page_size);
 $commands = sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
 $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 
-  
+
 // update mailboxlist
 $mbox = $IMAP->get_mailbox_name();
 $commands .= sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
-$commands .= sprintf("this.set_unread_count('%s', %d);\n", $_GET['_target_mbox'], $IMAP->messagecount($_GET['_target_mbox'], 'UNSEEN'));
+
+if ($_action=='moveto')
+  $commands .= sprintf("this.set_unread_count('%s', %d);\n", $_GET['_target_mbox'], $IMAP->messagecount($_GET['_target_mbox'], 'UNSEEN'));
 
 
 // add new rows from next page (if any)

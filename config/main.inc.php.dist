@@ -22,7 +22,8 @@ $rcmail_config['debug_level'] = 5;
 // this is recommended if the IMAP server does not run on the same machine
 $rcmail_config['enable_caching'] = TRUE;
 
-// automatically create a new user when log-in the first time
+// automatically create a new RoundCube user when log-in the first time.
+// a new user will be created once the IMAP login succeeded.
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = TRUE;
 
@@ -67,6 +68,9 @@ $rcmail_config['skin_path'] = 'skins/default/';
 // use this folder to store temp files (must be writebale for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
 
+// session lifetime in minutes
+$rcmail_config['session_lifetime'] = 10;
+
 // check client IP in session athorization
 $rcmail_config['ip_check'] = TRUE;
 
@@ -80,7 +84,7 @@ $rcmail_config['date_short'] = 'D H:i';
 $rcmail_config['date_long'] = 'd.m.Y H:i';
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/0.1-20051011';
+$rcmail_config['useragent'] = 'RoundCube Webmail/0.1-20051021';
 
 // only list folders within this path
 $rcmail_config['imap_root'] = '';

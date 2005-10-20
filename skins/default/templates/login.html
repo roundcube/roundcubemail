@@ -7,7 +7,7 @@
 
 #login-form
   {
-	margin: 50px auto;
+	margin: 150px auto;
 	width: 350px;
   }
 
@@ -15,7 +15,9 @@
 </head>
 <body>
 
-<roundcube:include file="/includes/header.html" />
+<div id="header"><img src="skins/default/images/roundcube_logo.png" id="rcmbtn104" width="165" height="55" border="0" alt="RoundCube Webmail" /></div>
+
+<roundcube:object name="message" id="message" />
 
 <div id="login-form">
 <form name="form" action="./" method="post">

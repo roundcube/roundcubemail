@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20051007                                                  |
+ | Version 0.1-20051018                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -68,6 +68,11 @@ require_once('include/rcube_imap.inc');
 require_once('include/bugs.inc');
 require_once('include/main.inc');
 require_once('include/cache.inc');
+require_once('PEAR.php');
+
+
+// set PEAR error handling
+// PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
 
 
 // catch some url/post parameters
@@ -138,7 +143,8 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
 // check session cookie and auth string
 else if ($_action!='login' && $_auth && $sess_auth)
   {
-  if ($_auth !== $sess_auth || $_auth != rcmail_auth_hash($_SESSION['client_id'], $_SESSION['auth_time']))
+  if ($_auth !== $sess_auth || $_auth != rcmail_auth_hash($_SESSION['client_id'], $_SESSION['auth_time']) ||
+      ($CONFIG['session_lifetime'] && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
     {
     $message = show_message('sessionerror', 'error');
     rcmail_kill_session();
@@ -149,12 +155,14 @@ else if ($_action!='login' && $_auth && $sess_auth)
 // log in to imap server
 if (!empty($_SESSION['user_id']) && $_task=='mail')
   {
-  $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']));
+  $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']);
   if (!$conn)
     {
     show_message('imaperror', 'error');
     $_SESSION['user_id'] = '';
     }
+  else
+    rcmail_set_imap_prop();
   }
 
 

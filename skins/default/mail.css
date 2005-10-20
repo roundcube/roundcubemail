@@ -4,7 +4,7 @@
 #messagetoolbar
 {
   position: absolute;
-  top: 20px;
+  top: 45px;
   left: 200px;
   right: 250px;
   height: 35px;
@@ -44,7 +44,7 @@
 {
   position: absolute;
   left: 200px;
-  bottom: 60px;
+  bottom: 20px;
   height: 16px;
   width: 400px;
 }
@@ -73,8 +73,8 @@
 #messagecountbar
 {
   position: absolute;
-  top: 35px;
-  right: 60px;
+  top: 60px;
+  right: 40px;
   width: 250px;
   height: 20px;
   text-align: right;
@@ -98,10 +98,10 @@
 #mailcontframe
 {
   position: absolute;
-  top: 60px;
+  top: 85px;
   left: 200px;
   right: 40px;
-  bottom: 80px;
+  bottom: 40px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
@@ -160,7 +160,7 @@
 #mailboxlist-header
 {
   position: absolute;
-  top: 80px;
+  top: 85px;
   left: 20px;
   width: 140px !important;
 /*  width: 162px; */
@@ -177,10 +177,10 @@
 #mailboxlist-container
 {
   position: absolute;
-  top: 100px;
+  top: 105px;
   left: 20px;
   width: 160px;
-  bottom: 80px;
+  bottom: 40px;
   border: 1px solid #CCCCCC;
   background-color: #F9F9F9;
   overflow: auto;
@@ -403,11 +403,11 @@ body.messagelist
 #messageframe
 {
   position: absolute;
-  top: 70px;
+  top: 85px;
   left: 200px;
   right: 40px;
   /* css hack for IE */
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   width: expression(document.body.clientWidth-240);
 }
 
@@ -476,7 +476,7 @@ table.headers-table tr td.subject
 {
   min-height: 300px;
   margin-top: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   background-color: #FFFFFF;
   border: 1px solid #cccccc;
   border-top: none;
@@ -535,10 +535,10 @@ div.message-part pre
 #compose-container
 {
   position: absolute;
-  top: 70px;
+  top: 90px;
   left: 200px;
   right: 40px;
-  bottom: 60px;
+  bottom: 20px;
   padding: 0px;
   margin: 0px;
   /* css hack for IE */

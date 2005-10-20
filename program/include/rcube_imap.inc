@@ -57,7 +57,7 @@ class rcube_imap
 
   function connect($host, $user, $pass, $port=143, $use_ssl=FALSE)
     {
-    global $ICL_PORT, $CONFIG;
+    global $ICL_SSL, $ICL_PORT, $CONFIG;
     
     // check for Open-SSL support in PHP build
     if ($use_ssl && in_array('openssl', get_loaded_extensions()))
@@ -66,6 +66,7 @@ class rcube_imap
       {
       raise_error(array('code' => 403,
                         'type' => 'imap',
+                        'file' => __FILE__,
                         'message' => 'Open SSL not available;'), TRUE, FALSE);
       $port = 143;
       }
@@ -98,7 +99,10 @@ class rcube_imap
       if (!empty($this->conn->delimiter))
         $this->delimiter = $this->conn->delimiter;
       if (!empty($this->conn->rootdir))
-        $this->root_ns = $this->conn->rootdir;
+        {
+        $this->set_rootdir($this->conn->rootdir);
+        $this->root_ns = ereg_replace('[\.\/]$', '', $this->conn->rootdir);
+        }
       }
 
     return $this->conn ? TRUE : FALSE;
@@ -185,6 +189,9 @@ class rcube_imap
     if ($this->conn && empty($this->delimiter))
       $this->delimiter = iil_C_GetHierarchyDelimiter($this->conn);
 
+    if (empty($this->delimiter))
+      $this->delimiter = '/';
+
     return $this->delimiter;
     }
 
@@ -268,8 +275,6 @@ class rcube_imap
     else
       $count = iil_C_CountMessages($this->conn, $mailbox);
 
-// print "/**** get messagecount for $mailbox ($mode): $count ****/\n";
-
     if (is_array($a_mailbox_cache[$mailbox]))
       $a_mailbox_cache[$mailbox] = array();
       
@@ -277,8 +282,6 @@ class rcube_imap
     
     // write back to cache
     $this->update_cache('messagecount', $a_mailbox_cache);
-
-//var_dump($a_mailbox_cache);
 
     return (int)$count;
     }
@@ -294,30 +297,163 @@ class rcube_imap
 
 
   // private method for listing message header
+  // by DrSlump <drslump@drslump.biz>
+  function __list_headers($mailbox='', $page=NULL, $sort_field='date', $sort_order='DESC')
+    {
+    $a_out = array();
+    $cached_count = 0;
+
+    if (!strlen($mailbox))
+      return $a_out;
+
+    $mbox_count = $this->_messagecount($mailbox /*, 'ALL', TRUE*/);
+
+    $revalidate = false;
+    if ($mbox_count)
+      {
+      // get cached headers
+      $a_out = $this->get_cache($mailbox.'.msg');
+      $a_out = is_array($a_out) ? $a_out : array(); // make sure we get an array
+
+      $cached_count = count($a_out);
+      $a_new = array();
+      $revalidate = true; // revalidate by default
+     
+      // if the cache count is greater then there have been changes for sure
+      if ($cached_count <= $mbox_count)
+        {
+        $from = $cached_count?$cached_count:1;
+       
+        //get new headers (at least one is returned)
+        $a_temp = iil_C_FetchHeaders($this->conn, $mailbox, $from . ':' . $mbox_count);
+        $duplicated = $cached_count?true:false;
+       
+        foreach ($a_temp as $hdr)
+          {
+          //skip the first one if duplicated
+          if ($duplicated)
+            {
+            //check for changes using the UID
+            $lastCacheHdr = end($a_out);
+            if ($hdr->uid === $lastCacheHdr->uid)
+              $revalidate = false;
+
+            $duplicated = false;
+            continue;
+            }
+           
+          //skip deleted ones
+          if (! $hdr->deleted)
+            $a_new[ $hdr->uid ] = $hdr;
+          }
+        }
+
+      //revalidate cache if needed
+      $to = $mbox_count - count($a_new);
+      if ($revalidate && $to !== 0)    //we'll need to reindex the array so we have to make a copy
+        {
+        $a_dirty = $a_out;
+        $a_out = array();
+        $a_buffers = array();
+
+        //fetch chunks of 20 headers
+        $step = 20;
+        $found = false;
+         
+        //fetch headers in blocks starting from new to old
+        do {
+          $from = $to-$step;
+          if ($from < 1) $from = 1;
+
+          //store the block in a temporal buffer
+          $a_buffers[$from] = iil_C_FetchHeaders($this->conn, $mailbox, $from . ':' . $to);
+
+          //compare the fetched headers with the ones in the cache
+          $idx = 0;
+          foreach ($a_buffers[$from] as $k=>$hdr)
+            {
+            //if it's different the comparison ends
+            if (!isset($a_dirty[$hdr->uid]) || $a_dirty[$hdr->uid]->id !== $hdr->id)
+              break;
+
+            //if we arrive here then we know that the older messages in cache are ok
+            $found = $hdr->id;
+            $idx++;
+            }
+
+          //remove from the buffer the headers which are already cached
+          if ($found)
+            $a_buffers[$from] = array_splice($a_buffers[$from], 0, $idx );
+             
+          $to = $from-1;
+          }
+        while ($found===false && $from > 1);
+
+        //just keep the headers we are certain that didn't change in the cache
+        if ($found !== false)
+          {
+          foreach ($a_dirty as $hdr)
+            {
+            if ($hdr->id > $found) break;
+            $a_out[$hdr->uid] = $hdr;
+            }
+          }
+           
+        //we builded the block buffers from new to older, we process them in reverse order
+        ksort($a_buffers, SORT_NUMERIC);
+        foreach ($a_buffers as $a_buff)
+          {
+          foreach ($a_buff as $hdr)
+            {
+            if (! $hdr->deleted)
+              $a_out[$hdr->uid] = $hdr;
+            }
+          }
+        }
+         
+      //array_merge() would reindex the keys, so we use this 'hack'
+      $a_out += $a_new;
+      }
+ 
+    //write headers list to cache if needed
+    if ($revalidate || count($a_out)!=$cached_count) {
+      $this->update_cache($mailbox.'.msg', $a_out);
+     }
+
+    //sort headers by a specific col
+    $a_out = iil_SortHeaders( $a_out, $sort_field, $sort_order );
+   
+    // return complete list of messages
+    if (strtolower($page)=='all')
+      return $a_out;
+
+    $start_msg = ($this->list_page-1) * $this->page_size;
+    return array_slice($a_out, $start_msg, $this->page_size);
+    }
+
+
+  // old function; replaced 2005/10/18
+  // private method for listing message header
   function _list_headers($mailbox='', $page=NULL, $sort_field='date', $sort_order='DESC')
     {
-    $max = $this->_messagecount($mailbox /*, 'ALL', TRUE*/);
-    
+    $max = $this->_messagecount($mailbox);
+
     if (!strlen($mailbox))
       return array();
 
     // get cached headers
     $a_msg_headers = $this->get_cache($mailbox.'.msg');
 
-// print "/**** count = $max; headers = ".sizeof($a_msg_headers)." ****/\n";
-
     // retrieve headers from IMAP
     if (!is_array($a_msg_headers) || sizeof($a_msg_headers) != $max)
       {
       $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, "1:$max");
       $a_msg_headers = array();
-      
+
       if (!empty($a_header_index))
-		foreach ($a_header_index as $i => $headers)
-			if (!$headers->deleted)
-				$a_msg_headers[$headers->uid] = $headers;
-        
-// print "/**** fetch headers ****/\n";
+        foreach ($a_header_index as $i => $headers)
+          if (!$headers->deleted)
+            $a_msg_headers[$headers->uid] = $headers;
       }
     else
       $headers_cached = TRUE;
@@ -345,7 +481,7 @@ class rcube_imap
     $start_msg = ($this->list_page-1) * $this->page_size;
     return array_slice($a_headers, $start_msg, $this->page_size);
     }
-
+  
 
   // return sorted array of message UIDs
   function message_index($mbox='', $sort_field='date', $sort_order='DESC')
@@ -668,17 +804,17 @@ class rcube_imap
     $abs_name = $this->_mod_mailbox($name);
     $a_mailbox_cache = $this->get_cache('mailboxes');
     
-    if (strlen($this->root_ns))
-      $abs_name = $this->root_ns.$abs_name;
+    //if (strlen($this->root_ns))
+    //  $abs_name = $this->root_ns.$abs_name;
 
     if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array($abs_name, $a_mailbox_cache)))
       $result = iil_C_CreateFolder($this->conn, iil_utf7_encode($abs_name));
 
     // update mailboxlist cache
     if ($result && $subscribe)
-      $this->subscribe($this->root_ns.$name);
+      $this->subscribe($name);
 
-    return $result ? $this->root_ns.$name : FALSE;
+    return $result ? $name : FALSE;
     }
 
 
@@ -935,9 +1071,12 @@ class rcube_imap
 
   function _mod_mailbox($mbox, $mode='in')
     {
-    if (!empty($this->root_dir) && $mode=='in')
+    if (!empty($this->root_ns) && $this->root_ns == $mbox)
+      return $mbox;
+
+    if (!empty($this->root_dir) &&  $mode=='in') 
       $mbox = $this->root_dir.$this->delimiter.$mbox;
-    else if (strlen($this->root_dir) && $mode=='out')
+    else if (strlen($this->root_dir) && $mode=='out') 
       $mbox = substr($mbox, strlen($this->root_dir)+1);
 
     return $mbox;

@@ -4,7 +4,7 @@
 #tabsbar
 {
   position: absolute;
-  top: 42px;
+  top: 45px;
   left: 220px;
   right: 60px;
   height: 22px;
@@ -120,7 +120,7 @@ div.settingsbox
 {
   width: 500px;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   border: 1px solid #999999;
 }
 
