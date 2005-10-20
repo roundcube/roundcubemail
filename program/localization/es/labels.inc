@@ -63,7 +63,7 @@ $labels['filesize'] = 'Tamaño del fichero';
 
 $labels['preferhtml'] = 'Prefiero HTML';
 $labels['htmlmessage'] = 'Mensaje HTML';
-//$labels['prettydate'] = '';
+$labels['prettydate'] = 'Fechas cortas';
 
 $labels['addtoaddressbook'] = 'Añadir a contactos';
 

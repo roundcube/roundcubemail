@@ -64,6 +64,7 @@ $labels['filesize'] = 'Mida del fitxer';
 
 $labels['preferhtml'] = 'Prefereix HTML';
 $labels['htmlmessage'] = 'Missatge HTML';
+$labels['prettydate'] = 'Dates curtes';
 
 $labels['addtoaddressbook'] = 'Afegir a la llibreta d\'adreces';
 

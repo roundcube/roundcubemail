@@ -251,7 +251,7 @@ function rcmail_message_list($attrib)
   $out .= "<thead><tr>\n<td class=\"icon\">&nbsp;</td>\n";
  
   foreach ($a_show_cols as $col)
-    $out .= '<td class="'.$col.'">' . rcube_label($col) . "</td>\n";
+    $out .= '<td class="'.$col.'">' . rep_specialchars_output(rcube_label($col)) . "</td>\n";
 
   $out .= '<td class="icon">'.($attrib['attachmenticon'] ? sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '') : '')."</td>\n";
   $out .= "</tr></thead>\n<tbody>\n";
@@ -813,7 +813,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
       $header_value = rep_specialchars_output($IMAP->decode_header($headers[$hkey]), '', 'all');
 
     $out .= "\n<tr>\n";
-    $out .= '<td class="header-title">'.rcube_label($hkey).":&nbsp;</td>\n";
+    $out .= '<td class="header-title">'.rep_specialchars_output(rcube_label($hkey)).":&nbsp;</td>\n";
     $out .= '<td class="'.$hkey.'" width="90%">'.$header_value."</td>\n</tr>";
     $header_count++;
     }

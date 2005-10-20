@@ -856,7 +856,7 @@ function rcube_table_output($attrib, $sql_result, $a_show_cols, $id_col)
   $table .= "<thead><tr>\n";
 
   foreach ($a_show_cols as $col)
-    $table .= '<td class="'.$col.'">' . rcube_label($col) . "</td>\n";
+    $table .= '<td class="'.$col.'">' . rep_specialchars_output(rcube_label($col)) . "</td>\n";
 
   $table .= "</tr></thead>\n<tbody>\n";
   
