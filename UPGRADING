@@ -37,4 +37,11 @@ from version 0.1-20050820
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
-  
+
+
+from version 0.1-20051007
+----------------------------------------
+- replace index.php
+- replace all files in folder /program/
+- replace all files in folder /skins/default/
+- add $rcmail_config['smtp_auth_type'] if you need to specify an auth method for SMTP

@@ -107,7 +107,7 @@
   overflow: auto;
   /* css hack for IE */
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 
@@ -185,7 +185,7 @@
   background-color: #F9F9F9;
   overflow: auto;
   /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-180)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-145)+'px');
 }
 
 #mailboxlist
