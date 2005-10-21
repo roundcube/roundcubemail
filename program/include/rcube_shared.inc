@@ -1032,7 +1032,7 @@ function rcube_browser()
 function rcube_label($attrib)
   {
   global $sess_user_lang, $INSTALL_PATH;
-  static $sa_text_data, $s_language;
+  static $sa_text_data, $s_language, $utf8_decode;
 
   // extract attributes
   if (is_string($attrib))
@@ -1069,6 +1069,12 @@ function rcube_label($attrib)
         $sa_text_data = array_merge($sa_text_data, $labels);
       if (is_array($messages))
         $sa_text_data = array_merge($sa_text_data, $messages);
+      }
+      
+    if (isset($utf8_decoding) && $utf8_decoding==TRUE)
+      {
+      @include_once('lib/utf8.inc');
+      $utf8_decode = TRUE;
       }
       
     $s_language = $sess_user_lang;
@@ -1109,10 +1115,6 @@ function rcube_label($attrib)
   if ($text=='')
     $text = $a_text_item['single'];
 
-  // perform utf-8 decoding
-  //if (function_exists('utf8_decode'))
-  //  $text = utf8_decode($text);
-
   // replace vars in text
   if (is_array($attrib['vars']))
     {
@@ -1128,6 +1130,11 @@ function rcube_label($attrib)
 $text
 EOF;
 ");
+
+
+  // perform utf-8 decoding
+  if ($utf8_decode && function_exists('utf8ToUnicodeEntities'))
+    $text = utf8ToUnicodeEntities($text);
 
 
   // format output
@@ -1189,12 +1196,11 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     if (!$html_encode_arr)
       {
       $html_encode_arr = get_html_translation_table(HTML_ENTITIES);
-      $html_encode_arr["?"] = '&#150;';
       $html_encode_arr[chr(128)] = '&euro;';
       unset($html_encode_arr['?']);
       unset($html_encode_arr['&']);
       }
-    
+
     $ltpos = strpos($str, '<');
     $encode_arr = $html_encode_arr;
 
@@ -1254,8 +1260,11 @@ function decode_specialchars($input, $charset='')
   {
   $charset = strtolower($charset);
   
-  if (strcasecmp($charset, 'utf-8')==0)
-    return utf8_decode($input);
+  if ($charset=='utf-8')
+    {
+    require_once('lib/utf8.inc');
+    return utf8ToUnicodeEntities($input);
+    }
   else if ($charset=="koi8-r")
     return convert_cyr_string($input, 'k', 'w');
   else if ($charset=="iso8859-5")

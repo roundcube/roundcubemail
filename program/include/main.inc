@@ -697,7 +697,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         else if (isset($GLOBALS['PAGE_TITLE']))
           return rep_specialchars_output("RoundCube|Mail :: ".$GLOBALS['PAGE_TITLE']);
         else if ($task=='mail' && ($mbox_name = $IMAP->get_mailbox_name()))
-          return "RoundCube|Mail :: $mbox_name";
+          return "RoundCube|Mail :: ".rep_specialchars_output(UTF7DecodeString($mbox_name), 'html', 'all');
         else
           return "RoundCube|Mail :: $task";
         }

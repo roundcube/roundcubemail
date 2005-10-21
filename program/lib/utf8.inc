@@ -88,7 +88,9 @@ function utf8ToUnicodeEntities ($source) {
 			$thisPos++;
 		}
 
-		if ($thisLen == 1)
+		if ($decimalCode<128)
+			$encodedLetter = chr($decimalCode);
+		else if ($thisLen == 1)
 			$encodedLetter = "&#". str_pad($decimalCode, 3, "0", STR_PAD_LEFT) . ';';
 		else
 			$encodedLetter = "&#". str_pad($decimalCode, 5, "0", STR_PAD_LEFT) . ';';

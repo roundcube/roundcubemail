@@ -170,6 +170,7 @@ a.button-logout
   left: 200px;
   right: 200px;
   z-index: 5000;
+  opacity: 0.85;
 }
 
 #message div

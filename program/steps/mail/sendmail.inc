@@ -147,9 +147,16 @@ if (is_array($_FILES['_attachments']['tmp_name']))
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], TRUE);
 
+// encoding settings for mail composing
+$message_param = array('text_encoding' => '7bit',
+                       'html_encoding' => 'quoted-printable',
+                       'head_encoding' => 'quoted-printable',
+                       'head_charset'  => 'ISO-8859-1',
+                       'html_charset'  => 'UTF-8',
+                       'text_charset'  => 'UTF-8');
 
 // compose message body and get headers
-$msg_body = $MAIL_MIME->get();
+$msg_body = $MAIL_MIME->get($message_param);
 $msg_subject = $headers['Subject'];
 
 

@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/10/13 (tbr)                                            |
+ | Modified: 2005/10/21 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -31,6 +31,7 @@ function rcube_webmail()
   // webmail client settings
   this.dblclick_time = 600;
   this.message_time = 5000;
+  this.request_timeout = 120000;
   this.mbox_expression = new RegExp('[^0-9a-z\-_]', 'gi');
   this.env.blank_img = 'skins/default/images/blank.gif';
   
@@ -76,8 +77,7 @@ function rcube_webmail()
     this.task = this.env.task;
     
     // check browser
-    if (!(bw.dom && ((bw.ie && bw.vendver>=5.5 && !bw.opera) || (bw.mz && bw.vendver>=1) || (bw.safari && bw.vendver>=125) ||
-                     (bw.opera && bw.vendver>=8) || (bw.konq && bw.vendver>=3.4))))
+    if (!bw.dom || !bw.xmlhttp_test())
       {
       location.href = this.env.comm_path+'&_action=error&_code=0x199';
       return;
@@ -732,6 +732,7 @@ function rcube_webmail()
     };
 
 
+  // lock/unlock interface
   this.set_busy = function(a, message)
     {
     if (a && message)
@@ -744,6 +745,14 @@ function rcube_webmail()
     
     if (this.gui_objects.editform)
       this.lock_form(this.gui_objects.editform, a);
+      
+    // clear pending timer
+    if (this.request_timer)
+      clearTimeout(this.request_timer);
+
+    // set timer for requests
+    if (a && this.request_timeout)
+      this.request_timer = setTimeout(this.ref+'.request_timed_out()', this.request_timeout);
     };
 
 
@@ -763,6 +772,14 @@ function rcube_webmail()
       url = this.env.comm_path;
 
     return url.replace(/_task=[a-z]+/, '_task='+task);
+    };
+    
+  
+  // called when a request timed out
+  this.request_timed_out = function()
+    {
+    this.set_busy(false);
+    this.display_message('Request timed out!', 'error');
     };
 
 
@@ -1968,9 +1985,13 @@ function rcube_webmail()
     var cont = msg;
     if (type)
       cont = '<div class="'+type+'">'+cont+'</div>';
-      
+
+    this.gui_objects.message._rcube = this;
     this.gui_objects.message.innerHTML = cont;
     this.gui_objects.message.style.display = 'block';
+    
+    if (type!='loading')
+      this.gui_objects.message.onmousedown = function(){ this._rcube.hide_message(); return true; };
     
     if (!hold)
       this.message_timer = setTimeout(this.ref+'.hide_message()', this.message_time);
@@ -1981,7 +2002,10 @@ function rcube_webmail()
   this.hide_message = function()
     {
     if (this.gui_objects.message)
+      {
       this.gui_objects.message.style.display = 'none';
+      this.gui_objects.message.onmousedown = null;
+      }
     };
 
 

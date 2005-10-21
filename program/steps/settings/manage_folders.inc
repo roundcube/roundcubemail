@@ -19,6 +19,8 @@
 
 */
 
+require_once('lib/utf7.inc');
+
 // init IAMP connection
 rcmail_imap_init(TRUE);
 
@@ -47,7 +49,7 @@ else if ($_action=='unsubscribe')
 else if ($_action=='create-folder')
   {
   if (strlen($_GET['_name']))
-    $create = $IMAP->create_mailbox(trim($_GET['_name']), TRUE);
+    $create = $IMAP->create_mailbox(strip_tags(trim($_GET['_name'])), TRUE);
 
   if ($create && $_GET['_remote'])
     {
@@ -122,7 +124,7 @@ function rcube_subscription_form($attrib)
     $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td><td>%s</td><td><a href="#delete" onclick="%s.command(\'delete-folder\',\'%s\')" title="%s">%s</a></td>',
                     $i+1,
                     $zebra_class,
-                    rep_specialchars_output($folder, 'html'),
+                    rep_specialchars_output(UTF7DecodeString($folder), 'html', 'all'),
                     $checkbox_subscribe->show(in_array($folder, $a_subscribed)?$folder:'', array('value' => $folder)),
                     $JS_OBJECT_NAME,
                     $folder_js,

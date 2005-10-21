@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 19.08.2005 (tbr)                                            |
+ | Modified:2005/10/21 (roundcube)                                       |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -81,6 +81,14 @@ function roundcube_browser()
                    (this.ie && this.win && this.vendver>=5.5) || this.safari);
   this.opacity = (this.mz || (this.ie && this.vendver>=5.5 && !this.opera) || (this.safari && this.vendver>=100));
   this.cookies = navigator.cookieEnabled;
+  
+  // test for XMLHTTP support
+  this.xmlhttp_test = function()
+    {
+    var activeX_test = new Function("try{var o=new ActiveXObject('Microsoft.XMLHTTP');return true;}catch(err){return false;}");
+    this.xmlhttp = (window.XMLHttpRequest || (window.ActiveXObject && activeX_test())) ? true : false;
+    return this.xmlhttp;
+    }
   }
 
 

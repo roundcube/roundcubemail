@@ -44,9 +44,16 @@ CHANGELOG RoundCube Webmail
 - Enable IMAPS by host
 
 
-2005/15/16
+2005/10/20
 ----------
-- Added Portuguese and Catalan translation
+- Added Swedish, Portuguese and Catalan translation
 - Make SMTP auth method configurable
 - Make mailboxlist scrollable (Bug #1326372)
-
+- Fixed SSL support
+- Improved support for Courier IMAP (root folder and delimiter issues)
+- Moved taskbar from bottom to top
+- Added 'session_lifetime' parameter
+- Fixed wrong unread count when deleting message (Bug #1332434)
+- Srip tags when creating a new folder (Bug #1332084)
+- Translate HTML tags in message headers (Bug #1330134)
+- Correction in German translation (Bug #1329434)

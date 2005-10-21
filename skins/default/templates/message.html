@@ -16,7 +16,7 @@
 <roundcube:button command="delete" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
 <roundcube:button command="print" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
 <roundcube:button command="viewsource" imageAct="/images/buttons/source_act.png" imagePas="/images/buttons/source_pas.png" width="32" height="32" title="viewsource" />
-<roundcube:object name="mailboxlist" type="select" noSelection="moveto" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
+<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
 </div>
 
 <div id="messagecountbar">
@@ -26,7 +26,7 @@
 </div>
 
 <div id="mailboxlist-header"><roundcube:label name="mailboxlist" /></div>
-<div id="mailboxlist-container"><roundcube:object name="mailboxlist" id="mailboxlist" /></div>
+<div id="mailboxlist-container"><roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" /></div>
 
 <div id="messageframe">
 <roundcube:object name="messageHeaders" class="headers-table" cellspacing="0" cellpadding="2" addicon="/images/icons/plus.gif" summary="Message headers" />
@@ -34,8 +34,6 @@
 <roundcube:object name="blockedObjects" id="remote-objects-message" />
 <roundcube:object name="messageBody" id="messagebody" showImages="true" />
 </div>
-
-<roundcube:include file="/includes/taskbar.html" />
 
 </body>
 </html>

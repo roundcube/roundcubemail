@@ -247,7 +247,7 @@ class Mail_mimeDecode extends PEAR
                         $return->ctype_primary   = $regs[1];
                         $return->ctype_secondary = $regs[2];
                     }
-
+                    
                     if (isset($content_type['other'])) {
                         while (list($p_name, $p_value) = each($content_type['other'])) {
                             $return->ctype_parameters[$p_name] = $p_value;

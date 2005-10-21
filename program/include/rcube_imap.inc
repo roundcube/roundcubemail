@@ -23,6 +23,7 @@
 
 require_once('lib/imap.inc');
 require_once('lib/mime.inc');
+require_once('lib/utf7.inc');
 
 
 class rcube_imap
@@ -723,6 +724,19 @@ class rcube_imap
     }
 
 
+  // clear all messages in a specific mailbox
+  function clear_mailbox($mbox)
+    {
+    $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
+    $msg_count = $this->_messagecount($mailbox, 'ALL');
+    
+    if ($msg_count>0)
+      return iil_C_ClearFolder($this->conn, $mailbox);
+    else
+      return 0;
+    }
+
+
   // send IMAP expunge command and clear cache
   function expunge($mbox='', $clear_cache=TRUE)
     {
@@ -801,18 +815,19 @@ class rcube_imap
   function create_mailbox($name, $subscribe=FALSE)
     {
     $result = FALSE;
-    $abs_name = $this->_mod_mailbox($name);
+    $name_enc = UTF7EncodeString($name);
+    $abs_name = $this->_mod_mailbox($name_enc);
     $a_mailbox_cache = $this->get_cache('mailboxes');
     
     //if (strlen($this->root_ns))
     //  $abs_name = $this->root_ns.$abs_name;
 
     if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array($abs_name, $a_mailbox_cache)))
-      $result = iil_C_CreateFolder($this->conn, iil_utf7_encode($abs_name));
+      $result = iil_C_CreateFolder($this->conn, $abs_name);
 
     // update mailboxlist cache
     if ($result && $subscribe)
-      $this->subscribe($name);
+      $this->subscribe($name_enc);
 
     return $result ? $name : FALSE;
     }
@@ -1057,7 +1072,7 @@ class rcube_imap
   // convert body chars according to the ctype_parameters
   function charset_decode($body, $ctype_param)
     {
-    if (is_array($ctype_param) && strlen($ctype_param['charset']))
+    if (is_array($ctype_param) && !empty($ctype_param['charset']))
       return decode_specialchars($body, $ctype_param['charset']);
 
     return $body;

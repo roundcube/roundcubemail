@@ -21,6 +21,8 @@
 
 require_once('lib/html2text.inc');
 require_once('lib/enriched.inc');
+require_once('lib/utf8.inc');
+require_once('lib/utf7.inc');
 
 
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
@@ -157,12 +159,15 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
     if (in_array($folder_lc, $special))
       $foldername = rcube_label($folder_lc);
     else
-      $foldername = $folder['name'];
+      {
+      $foldername = UTF7DecodeString($folder['name']);
 
-    // shorten the folder name to a given length
-    if ($maxlength && $maxlength>1)
-      $foldername = abbrevate_string($foldername, $maxlength);
+      // shorten the folder name to a given length
+      if ($maxlength && $maxlength>1)
+        $foldername = abbrevate_string($foldername, $maxlength);
+      }
 
+    // add unread message count display
     if ($unread_count = $IMAP->messagecount($folder['id'], 'UNSEEN', ($folder['id']==$mbox)))
       $foldername .= sprintf(' (%d)', $unread_count);
 
@@ -176,7 +181,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
                     $folder['id'],
                     $JS_OBJECT_NAME,
                     $folder['id'],
-                    rep_specialchars_output($foldername));
+                    rep_specialchars_output($foldername, 'html', 'all'));
 
     if (!empty($folder['folders']))
       $out .= '<ul>' . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox, $maxlength, $nestLevel+1) . "</ul>\n";
@@ -202,16 +207,18 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $maxl
     if (in_array($folder_lc, $special))
       $foldername = rcube_label($folder_lc);
     else
-      $foldername = $folder['name'];
-
-    // shorten the folder name to a given length
-    if ($maxlength && $maxlength>1)
-      $foldername = abbrevate_string($foldername, $maxlength);
+      {
+      $foldername = UTF7DecodeString($folder['name']);
+      
+      // shorten the folder name to a given length
+      if ($maxlength && $maxlength>1)
+        $foldername = abbrevate_string($foldername, $maxlength);
+      }
 
     $out .= sprintf('<option value="%s">%s%s</option>'."\n",
                     $folder['id'],
                     str_repeat('&nbsp;', $nestLevel*4),
-                    rep_specialchars_output($foldername));
+                    rep_specialchars_output($foldername, 'html', 'all'));
 
     if (!empty($folder['folders']))
       $out .= rcmail_render_folder_tree_select($folder['folders'], $special, $mbox, $maxlength, $nestLevel+1);
@@ -600,6 +607,7 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
                               'body' => $structure->body,
                               'ctype_primary' => $message_ctype_primary,
                               'ctype_secondary' => $message_ctype_secondary,
+                              'parameters' => $structure->ctype_parameters,
                               'encoding' => $structure->headers['content-transfer-encoding']);
     }
 
@@ -693,6 +701,7 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
                                   'body' => $mail_part->body,
                                   'ctype_primary' => $primary_type,
                                   'ctype_secondary' => $secondary_type,
+                                  'parameters' => $mail_part->ctype_parameters,
                                   'encoding' => $mail_part->headers['content-transfer-encoding']);
         }
 
@@ -867,7 +876,9 @@ function rcmail_message_body($attrib)
         $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part['headers']);
       else if ($part['type']=='content')
         {
-//        var_dump($part['parameters']);
+        if (empty($part['parameters']) || empty($part['parameters']['charset']))
+          $part['parameters']['charset'] = $MESSAGE['headers']->charset;
+        
         // $body = rcmail_print_body($part['body'], $part['ctype_primary'], $part['ctype_secondary'], $part['encoding'], $safe_mode);
         $body = rcmail_print_body($part, $safe_mode);
         $out .= '<div class="message-part">';
@@ -1078,7 +1089,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     {
     $j++;
     if ($PRINT_MODE)
-      $out .= sprintf('%s &lt;%s&gt;', htmlentities($part['name']), $part['mailto']);
+      $out .= sprintf('%s &lt;%s&gt;', rep_specialchars_output($part['name']), $part['mailto']);
     else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto']))
       {
       $out .= sprintf('<a href="mailto:%s" onclick="return %s.command(\'compose\',\'%s\',this)" class="rcmContactAddress" title="%s">%s</a>',
@@ -1086,7 +1097,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
                       $JS_OBJECT_NAME,
                       $part['mailto'],
                       $part['mailto'],
-                      htmlentities($part['name']));
+                      rep_specialchars_output($part['name']));
                       
       if ($addicon)
         $out .= sprintf('&nbsp;<a href="#add" onclick="return %s.command(\'add-contact\',\'%s\',this)" title="%s"><img src="%s%s" alt="add" border="0" /></a>',
@@ -1099,7 +1110,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     else
       {
       if ($part['name'])
-        $out .= htmlentities($part['name']);
+        $out .= rep_specialchars_output($part['name']);
       if ($part['mailto'])
         $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', $part['mailto']);
       }

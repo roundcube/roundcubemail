@@ -1239,8 +1239,13 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 			$result[$id]->cc = str_replace("\n", " ", $headers["cc"]);
 			$result[$id]->encoding = str_replace("\n", " ", $headers["content-transfer-encoding"]);
 			$result[$id]->ctype = str_replace("\n", " ", $headers["content-type"]);
-			//$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);
-			list($result[$id]->ctype,$foo) = explode(";", $headers["content-type"]);
+			$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);
+			
+			list($result[$id]->ctype, $ctype_add) = explode(";", $headers["content-type"]);
+
+			if (preg_match('/charset="?([a-z0-9\-]+)"?/i', $ctype_add, $regs))
+				$result[$id]->charset = $regs[1];
+
 			$messageID = $headers["message-id"];
 			if ($messageID) $messageID = substr(substr($messageID, 1), 0, strlen($messageID)-2);
 			else $messageID = "mid:".$id;

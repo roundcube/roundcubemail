@@ -4,7 +4,7 @@
 #tabsbar
 {
   position: absolute;
-  top: 45px;
+  top: 50px;
   left: 220px;
   right: 60px;
   height: 22px;
@@ -47,7 +47,7 @@ span.tablink-selected a
 #userprefs-box
 {
   position: absolute;
-  top: 90px;
+  top: 95px;
   left: 20px;
   width: 550px;
   border: 1px solid #999999;  
@@ -63,7 +63,7 @@ span.tablink-selected a
 #folder-manager
 {
   position: absolute;
-  top: 90px;
+  top: 95px;
   left: 20px;
 }
 

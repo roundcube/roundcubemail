@@ -39,7 +39,7 @@
 	'it'    => 'Italiano',
 	'jp'    => 'Japanese', 
 	'kr'    => 'Korean',
-	'lt'    => 'Lithuanian',
+	'lv'    => 'Latvian',
 	'nl'    => 'Nederlands',
 	'no'    => 'Norsk (bokm&aring;l)',
 	'fa'    => 'Persian',

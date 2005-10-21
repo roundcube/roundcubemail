@@ -34,6 +34,7 @@ if ($ERROR_CODE==409)
 &raquo; &nbsp;Safari 1.2+<br />
 <br />
 &raquo; &nbsp;JavaScript enabled<br />
+&raquo; &nbsp;Support for XMLHTTPRequest<br />
 
 <p><i>Your configuration:</i><br />
 $user_agent</p>

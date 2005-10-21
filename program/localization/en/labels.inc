@@ -140,8 +140,8 @@ $labels['newcontact']     = 'Create new contact card';
 $labels['deletecontact']  = 'Delete selected contacts';
 $labels['composeto']      = 'Compose mail to';
 $labels['contactsfromto'] = 'Contacts $from to $to of $count';
-$labels['print']          = 'Imprimir';
-$labels['export']         = 'Exportar';
+$labels['print']          = 'Print';
+$labels['export']         = 'Export';
 
 
 // settings
