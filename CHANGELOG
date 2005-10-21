@@ -46,7 +46,7 @@ CHANGELOG RoundCube Webmail
 
 2005/10/20
 ----------
-- Added Swedish, Portuguese and Catalan translation
+- Added Swedish, Latvian, Portuguese and Catalan translation
 - Make SMTP auth method configurable
 - Make mailboxlist scrollable (Bug #1326372)
 - Fixed SSL support
@@ -57,3 +57,6 @@ CHANGELOG RoundCube Webmail
 - Srip tags when creating a new folder (Bug #1332084)
 - Translate HTML tags in message headers (Bug #1330134)
 - Correction in German translation (Bug #1329434)
+- Display folder names with special chars correctly (Bug #1330157)
+
+
