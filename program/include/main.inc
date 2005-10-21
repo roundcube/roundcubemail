@@ -565,7 +565,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
     // show a label
     case 'label':
       if ($attrib['name'] || $attrib['command'])
-        return rcube_label($attrib);
+        return rep_specialchars_output(rcube_label($attrib));
       break;
 
     // create a menu item
