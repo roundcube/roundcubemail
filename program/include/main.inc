@@ -253,6 +253,15 @@ function rcmail_login($user, $pass, $host=NULL)
   if (!$host)
     $host = $CONFIG['default_host'];
 
+  // parse $host URL
+  $a_host = parse_url($host);
+  if ($a_host['host'])
+    {
+    $host = $a_host['host'];
+    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
+    $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
+    }
+
   // query if user already registered
   $sql_result = $DB->query(sprintf("SELECT user_id, username, language, preferences
                                     FROM   %s
@@ -267,15 +276,6 @@ function rcmail_login($user, $pass, $host=NULL)
     {
     $user_id = $sql_arr['user_id'];
     $user = $sql_arr['username'];
-    }
-
-  // parse $host URL
-  $a_host = parse_url($host);
-  if ($a_host['host'])
-    {
-    $host = $a_host['host'];
-    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
-    $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
     }
 
   // exit if IMAP login failed

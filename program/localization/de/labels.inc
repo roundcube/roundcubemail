@@ -55,7 +55,7 @@ $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Ordner';
 $labels['messagesfromto'] = 'Nachrichten $from bis $to von $count';
-$labels['messagenrof'] = 'Nachrichten $nr von $count';
+$labels['messagenrof'] = 'Nachricht $nr von $count';
 
 $labels['moveto']   = 'Verschieben nach...';
 $labels['download'] = 'Download';

@@ -1086,10 +1086,10 @@ class rcube_imap
 
   function _mod_mailbox($mbox, $mode='in')
     {
-    if (!empty($this->root_ns) && $this->root_ns == $mbox)
+    if ((!empty($this->root_ns) && $this->root_ns == $mbox) || ($mbox == 'INBOX' && $mode == 'in'))
       return $mbox;
 
-    if (!empty($this->root_dir) &&  $mode=='in') 
+    if (!empty($this->root_dir) && $mode=='in') 
       $mbox = $this->root_dir.$this->delimiter.$mbox;
     else if (strlen($this->root_dir) && $mode=='out') 
       $mbox = substr($mbox, strlen($this->root_dir)+1);

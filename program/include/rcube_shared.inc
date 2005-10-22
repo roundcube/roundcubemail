@@ -1245,7 +1245,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
 
   // encode for javascript use
   if ($enctype=='js')
-    return preg_replace(array("/\r\n/", '/"/', "/'/"), array('\n', '\"', "\'"), strtr($str, $js_rep_table));
+    return preg_replace(array("/\r\n/", '/"/', "/([^\\\])'/"), array('\n', '\"', "$1\'"), strtr($str, $js_rep_table));
 
   // encode for RTF
   if ($enctype=='rtf')
