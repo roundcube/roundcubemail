@@ -60,3 +60,9 @@ CHANGELOG RoundCube Webmail
 - Display folder names with special chars correctly (Bug #1330157)
 
 
+2005/10/22
+----------
+- Get IMAP server capabilities in array
+- Check for NAMESPACE capability before sending command
+- Set default user language from config 'locale_string'
+- Added sorting patch (not finished yet)

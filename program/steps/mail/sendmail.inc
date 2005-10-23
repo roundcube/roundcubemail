@@ -152,8 +152,8 @@ $message_param = array('text_encoding' => '7bit',
                        'html_encoding' => 'quoted-printable',
                        'head_encoding' => 'quoted-printable',
                        'head_charset'  => 'ISO-8859-1',
-                       'html_charset'  => 'UTF-8',
-                       'text_charset'  => 'UTF-8');
+                       'html_charset'  => 'ISO-8859-1',
+                       'text_charset'  => 'ISO-8859-1');
 
 // compose message body and get headers
 $msg_body = $MAIL_MIME->get($message_param);

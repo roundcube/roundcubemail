@@ -76,7 +76,7 @@ function rcmail_startup($task='mail')
   if (!$_SESSION['client_id'])
     {
     $_SESSION['client_id'] = $sess_id;
-    $_SESSION['user_lang'] = 'en';
+    $_SESSION['user_lang'] = substr($CONFIG['locale_string'], 0, 2);
     $_SESSION['auth_time'] = mktime();
     $_SESSION['auth'] = rcmail_auth_hash($sess_id, $_SESSION['auth_time']);
     unset($GLOBALS['_auth']);
@@ -293,10 +293,11 @@ function rcmail_login($user, $pass, $host=NULL)
       array_merge($CONFIG, $user_prefs);
       }
 
+
     // set user specific language
     if (strlen($sql_arr['language']))
       $sess_user_lang = $_SESSION['user_lang'] = $sql_arr['language'];
-    
+      
     // update user's record
     $DB->query(sprintf("UPDATE %s
                         SET    last_login=NOW()
@@ -317,6 +318,7 @@ function rcmail_login($user, $pass, $host=NULL)
     $_SESSION['imap_port'] = $imap_port;
     $_SESSION['imap_ssl']  = $imap_ssl;
     $_SESSION['username']  = $user;
+    $_SESSION['user_lang'] = $sess_user_lang;
     $_SESSION['password']  = encrypt_passwd($pass);
 
     // force reloading complete list of subscribed mailboxes    
@@ -333,13 +335,14 @@ function rcmail_login($user, $pass, $host=NULL)
 function rcmail_create_user($user, $host)
   {
   global $DB, $CONFIG, $IMAP;
-
+  
   $DB->query(sprintf("INSERT INTO %s
-                      (created, last_login, username, mail_host)
-                      VALUES (NOW(), NOW(), '%s', '%s')",
+                      (created, last_login, username, mail_host, language)
+                      VALUES (NOW(), NOW(), '%s', '%s', '%s')",
                      get_table_name('users'),
                      addslashes($user),
-                     addslashes($host)));
+                     addslashes($host),
+		             $_SESSION['user_lang']));
 
   if ($user_id = $DB->insert_id())
     {

@@ -52,6 +52,7 @@ class iilConnection{
 	var $recent;
 	var $rootdir;
 	var $delimiter;
+	var $capability = array();
 }
 
 class iilBasicHeader{
@@ -246,6 +247,9 @@ function iil_ParseNamespace2($str, &$i, $len=0, $l){
 function iil_C_NameSpace(&$conn){
 	global $my_prefs;
 	
+	if (!in_array('NAMESPACE', $conn->capability))
+	  return false;
+	
 	if ($my_prefs["rootdir"]) return true;
 	
 	fputs($conn->fp, "ns1 NAMESPACE\r\n");
@@ -334,7 +338,7 @@ function iil_Connect($host, $user, $password){
 
 	$iil_error.="Socket connection established\r\n";
 	$line=iil_ReadLine($conn->fp, 300);
-						
+
 	if (strcasecmp($auth_method, "check")==0){
 		//check for supported auth methods
 		
@@ -349,6 +353,8 @@ function iil_Connect($host, $user, $password){
 			$a = explode(" ", $line);
 			if ($line[0]=="*"){
 				while ( list($k, $w) = each($a) ){
+				    if ($w!='*' && $w!='CAPABILITY')
+    					$conn->capability[] = $w;
 					if ((strcasecmp($w, "AUTH=CRAM_MD5")==0)||
 						(strcasecmp($w, "AUTH=CRAM-MD5")==0)){
 							$auth_method = "auth";

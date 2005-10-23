@@ -75,7 +75,7 @@ $rcmail_config['session_lifetime'] = 10;
 $rcmail_config['ip_check'] = TRUE;
 
 // not shure what this was good for :-) 
-$rcmail_config['locale_string'] = 'de_DE';
+$rcmail_config['locale_string'] = 'en';
 
 // use this format for short date display
 $rcmail_config['date_short'] = 'D H:i';

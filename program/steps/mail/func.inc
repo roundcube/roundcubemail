@@ -238,8 +238,12 @@ function rcmail_message_list($attrib)
   $skin_path = $CONFIG['skin_path'];
   $image_tag = '<img src="%s%s" alt="%s" border="0" />';
   
+  // check to see if we have some settings for sorting
+  $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : 'date';
+  $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : 'DESC';
+
   // get message headers
-  $a_headers = $IMAP->list_headers();
+  $a_headers = $IMAP->list_headers('', '', $sort_col, $sort_order);
 
   // add id to message list table if not specified
   if (!strlen($attrib['id']))
@@ -261,8 +265,35 @@ function rcmail_message_list($attrib)
   // add table title
   $out .= "<thead><tr>\n<td class=\"icon\">&nbsp;</td>\n";
  
+  $javascript = '';
   foreach ($a_show_cols as $col)
-    $out .= '<td class="'.$col.'">' . rep_specialchars_output(rcube_label($col)) . "</td>\n";
+    {
+    // get column name
+    $col_name = rep_specialchars_output(rcube_label($col));
+
+    // make sort links
+    $sort = '';
+    if ($col != 'size')
+      {
+      // asc link
+      $asc  = '_ASC';
+      $sort .= '<a href="#" id="sort_' . $col_name . $asc . '" onclick="return rcmail.command(\'sort\',\'' 
+             . $col_name . $asc . '\',this)" title="Sort by ' . $col_name . ' ascending">' 
+             . '<img src="skins/default/images/buttons/up_arrow.png" width="11" height="11" border="0" alt="" /></a>';
+      // desc link
+      $desc = '_DESC';
+      $sort .= '&nbsp;<a href="#" id="sort_' . $col_name . $desc . '" onclick="return rcmail.command(\'sort\',\'' 
+             . $col_name . $desc . '\',this)" title="Sort by ' . $col_name . ' descending">'
+             . '<img src="skins/default/images/buttons/down_arrow.png" width="11" height="11" border="0" alt="" /></a>';
+      }
+
+    // put it all together
+    $out .= '<td class="'.$col.'">' . "$col_name&nbsp;&nbsp;$sort</td>\n";
+    
+    // register sort buttons
+    $javascript .= "rcmail.register_button('sort', 'sort_{$col_name}_desc', 'link', 'active', '', '');\n"; 
+    $javascript .= "rcmail.register_button('sort', 'sort_{$col_name}_asc', 'link', 'active', '', '');\n"; 
+    }
 
   $out .= '<td class="icon">'.($attrib['attachmenticon'] ? sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '') : '')."</td>\n";
   $out .= "</tr></thead>\n<tbody>\n";
@@ -339,7 +370,7 @@ function rcmail_message_list($attrib)
   $message_count = $IMAP->messagecount();
   
   // set client env
-  $javascript = sprintf("%s.gui_object('messagelist', '%s');\n", $JS_OBJECT_NAME, $attrib['id']);
+  $javascript .= sprintf("%s.gui_object('messagelist', '%s');\n", $JS_OBJECT_NAME, $attrib['id']);
   $javascript .= sprintf("%s.set_env('messagecount', %d);\n", $JS_OBJECT_NAME, $message_count);
   $javascript .= sprintf("%s.set_env('current_page', %d);\n", $JS_OBJECT_NAME, $IMAP->list_page);
   $javascript .= sprintf("%s.set_env('pagecount', %d);\n", $JS_OBJECT_NAME, ceil($message_count/$IMAP->page_size));

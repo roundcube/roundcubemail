@@ -127,7 +127,7 @@ function rcube_webmail()
           this.enable_command('add-attachment', 'send-attachment', 'send', true);
           
         if (this.env.messagecount)
-          this.enable_command('select-all', 'select-none', true);
+          this.enable_command('select-all', 'select-none', 'sort', true);
 
         this.set_page_buttons();
 
@@ -441,6 +441,11 @@ function rcube_webmail()
           this.list_mailbox(props);
         else if (this.task=='addressbook')
           this.list_contacts();
+        break;
+
+      case 'sort':
+        // get the type of sorting
+        this.list_mailbox('', '', props);
         break;
 
       case 'nextpage':
@@ -1011,7 +1016,7 @@ function rcube_webmail()
 
 
   // list messages of a specific mailbox
-  this.list_mailbox = function(mbox, page)
+  this.list_mailbox = function(mbox, page, sort)
     {
     var add_url = '';
     var target = window;
@@ -1019,6 +1024,10 @@ function rcube_webmail()
     if (!mbox)
       mbox = this.env.mailbox;
 
+    // add sort to url if set
+    if (sort)
+      add_url += '&_sort=' + sort;
+      
     // set page=1 if changeing to another mailbox
     if (!page && mbox != this.env.mailbox)
       {
