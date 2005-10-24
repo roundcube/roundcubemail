@@ -1885,7 +1885,7 @@ function iil_C_DeleteFolder(&$conn, $folder){
 	}
 }
 
-function iil_C_Append(&$conn, $folder, $message){
+function iil_C_Append(&$conn, $folder, &$message){
 	if (!$folder) return false;
 	$fp = $conn->fp;
 

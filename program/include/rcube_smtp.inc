@@ -49,7 +49,7 @@ $SMTP_CONN = null;
  * @return bool  Returns TRUE on success, or FALSE on error
  * @access public
  */
-function smtp_mail($from, $recipients, $headers, $body)
+function smtp_mail($from, $recipients, $headers, &$body)
   {
   global $SMTP_CONN, $CONFIG, $SMTP_ERROR;
   $smtp_timeout = null;
