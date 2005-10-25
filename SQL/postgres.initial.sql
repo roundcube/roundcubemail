@@ -117,11 +117,11 @@ CREATE TABLE identities (
     del boolean DEFAULT false NOT NULL,
     "default" boolean DEFAULT false NOT NULL,
     name character varying(128) NOT NULL,
-    organization character varying(128) NOT NULL,
+    organization character varying(128),
     email character varying(128) NOT NULL,
-    "reply-to" character varying(128) NOT NULL,
-    bcc character varying(128) NOT NULL,
-    signature text NOT NULL
+    "reply-to" character varying(128),
+    bcc character varying(128),
+    signature text
 );
 
 

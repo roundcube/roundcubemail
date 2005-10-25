@@ -51,16 +51,18 @@ if ($CURRENT_PATH!='')
 	$CURRENT_PATH.='/';
 	
 // set environment first
-ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$INSTALL_PATH.PATH_SEPARATOR.$CURRENT_PATH.'program'.PATH_SEPARATOR.$CURRENT_PATH.'program/lib');
+// RC include folders MUST be included FIRST to avoid other
+// possible not compatible libraries (i.e PEAR) to be included
+// instead the ones provided by RC
+ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$CURRENT_PATH.'program'.PATH_SEPARATOR.$CURRENT_PATH.'program/lib'.PATH_SEPARATOR.ini_get('include_path'));
+
 ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
 ini_set('error_reporting', E_ALL&~E_NOTICE);
 
-
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
 @set_time_limit('120');
-
 
 // include base files
 require_once('include/rcube_shared.inc');

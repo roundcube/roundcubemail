@@ -21,10 +21,9 @@
 
 
 // get user record
-$sql_result = $DB->query(sprintf("SELECT username, mail_host FROM %s
-                                  WHERE  user_id=%d",
-                                 get_table_name('users'),
-                                 $_SESSION['user_id']));
+$sql_result = $DB->query("SELECT username, mail_host FROM ".get_table_name('users')."
+                          WHERE  user_id=?",
+                          $_SESSION['user_id']);
                                  
 if ($USER_DATA = $DB->fetch_assoc($sql_result))
   $PAGE_TITLE = sprintf('%s %s@%s', rcube_label('settingsfor'), $USER_DATA['username'], $USER_DATA['mail_host']);
@@ -143,12 +142,11 @@ function rcmail_identities_list($attrib)
 
 
   // get contacts from DB
-  $sql_result = $DB->query(sprintf("SELECT * FROM %s
-                                    WHERE  del!='1'
-                                    AND    user_id=%d
-                                    ORDER BY `default` DESC, name ASC",
-                                   get_table_name('identities'),
-                                   $_SESSION['user_id']));
+  $sql_result = $DB->query("SELECT * FROM ".get_table_name('identities')."
+                            WHERE  del<>'1'
+                            AND    user_id=?
+                            ORDER BY ".$DB->quoteIdentifier('default')." DESC, name ASC",
+                            $_SESSION['user_id']);
 
 
   // add id to message list table if not specified

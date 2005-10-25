@@ -42,14 +42,12 @@ function rcmail_get_identity($id)
   global $DB;
   
   // get identity record
-  $sql_result = $DB->query(sprintf("SELECT *, email AS mailto
-                                    FROM   %s
-                                    WHERE  identity_id=%d
-                                    AND    user_id=%d
-                                    AND    del!='1'",
-                                   get_table_name('identities'),
-                                   $id,
-                                   $_SESSION['user_id']));
+  $sql_result = $DB->query("SELECT *, email AS mailto
+                            FROM ".get_table_name('identities')."
+                            WHERE  identity_id=?
+                            AND    user_id=?
+                            AND    del<>'1'",
+                            $id,$_SESSION['user_id']);
                                    
   if ($DB->num_rows($sql_result))
     {

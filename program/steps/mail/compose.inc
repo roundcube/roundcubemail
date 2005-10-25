@@ -87,13 +87,11 @@ function rcmail_compose_headers($attrib)
           $field_attrib[$attr] = $value;
     
       // get this user's identities
-      $sql_result = $DB->query(sprintf("SELECT identity_id, name, email
-                                        FROM   %s
-                                        WHERE  user_id=%d
-                                        AND    del!='1'
-                                        ORDER BY `default` DESC, name ASC",
-                                       get_table_name('identities'),
-                                       $_SESSION['user_id']));
+      $sql_result = $DB->query("SELECT identity_id, name, email
+                                FROM   ".get_table_name('identities')." WHERE  user_id=?
+                                AND    del<>'1'
+                                ORDER BY ".$DB->quoteIdentifier('default')." DESC, name ASC",
+                                $_SESSION['user_id']);
                                    
       if ($DB->num_rows($sql_result))
         {        
@@ -123,14 +121,11 @@ function rcmail_compose_headers($attrib)
       if (!empty($_GET['_to']) && preg_match('/[0-9]+,?/', $_GET['_to']))
         {
         $a_recipients = array();
-        $sql_result = $DB->query(sprintf("SELECT name, email
-                                          FROM   %s
-                                          WHERE  user_id=%d
-                                          AND    del!='1'
-                                          AND    contact_id IN (%s)",
-                                         get_table_name('contacts'),
-                                         $_SESSION['user_id'],
-                                         $_GET['_to']));
+        $sql_result = $DB->query("SELECT name, email
+                                  FROM ".get_table_name('contacts')." WHERE user_id=?
+                                  AND    del<>'1'
+                                  AND    contact_id IN (".$_GET['_to'].")",
+                                  $_SESSION['user_id']);
                                          
         while ($sql_arr = $DB->fetch_assoc($sql_result))
           $a_recipients[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
@@ -559,12 +554,9 @@ function format_email_recipient($email, $name='')
 
 /****** get contacts for this user and add them to client scripts ********/
 
-$sql_result = $DB->query(sprintf("SELECT name, email
-                                  FROM   %s
-                                  WHERE  user_id=%d
-                                  AND    del!='1'",
-                                 get_table_name('contacts'),
-                                 $_SESSION['user_id']));
+$sql_result = $DB->query("SELECT name, email
+                          FROM ".get_table_name('contacts')." WHERE  user_id=?
+                          AND  del<>'1'",$_SESSION['user_id']);
                                    
 if ($DB->num_rows($sql_result))
   {        

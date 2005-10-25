@@ -35,14 +35,13 @@ if (isset($_POST['_language']))
   $sess_user_lang = $_SESSION['user_lang'] = $_POST['_language'];
 
 
-$DB->query(sprintf("UPDATE %s
-                    SET    preferences='%s',
-                           language='%s'
-                    WHERE  user_id=%d",
-                   get_table_name('users'),
-                   addslashes(serialize($a_user_prefs)),
-                   $sess_user_lang,
-                   $_SESSION['user_id']));
+$DB->query("UPDATE ".get_table_name('users')."
+            SET    preferences=?,
+                   language=?
+            WHERE  user_id=?",
+            serialize($a_user_prefs),
+            $sess_user_lang,
+            $_SESSION['user_id']);
 
 if ($DB->affected_rows())
   {

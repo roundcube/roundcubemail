@@ -38,11 +38,10 @@ function sess_read($key)
   {
   global $DB, $SESS_CHANGED;
   
-  $sql_result = $DB->query(sprintf("SELECT vars, ip, UNIX_TIMESTAMP(changed) AS changed
-                                    FROM   %s
-                                    WHERE  sess_id='%s'",
-                                   get_table_name('session'),
-                                   $key));
+  $sql_result = $DB->query("SELECT vars, ip, ".$DB->unixtimestamp('changed')." AS changed
+                            FROM ".get_table_name('session')."
+                            WHERE  sess_id=?",
+                            $key);
 
   if ($sql_arr = $DB->fetch_assoc($sql_result))
     {
@@ -61,32 +60,29 @@ function sess_write($key, $vars)
   {
   global $DB;
   
-  $sql_result = $DB->query(sprintf("SELECT 1
-                                    FROM   %s
-                                    WHERE  sess_id='%s'",
-                                   get_table_name('session'),
-                                   $key));
+  $sql_result = $DB->query("SELECT 1
+                            FROM ".get_table_name('session')."
+                            WHERE  sess_id=?",
+                            $key);
 
   if ($DB->num_rows($sql_result))
     {
     session_decode($vars);
-    $DB->query(sprintf("UPDATE %s
-                        SET    vars='%s',
-                               changed=NOW()
-                        WHERE  sess_id='%s'",
-                       get_table_name('session'),
-                       $vars,
-                       $key));
+    $DB->query("UPDATE ".get_table_name('session')."
+                SET    vars=?,
+                       changed=NOW()
+                WHERE  sess_id=?",
+                $vars,
+                $key);
     }
   else
     {
-    $DB->query(sprintf("INSERT INTO %s
-                        (sess_id, vars, ip, created, changed)
-                        VALUES ('%s', '%s', '%s', NOW(), NOW())",
-                       get_table_name('session'),
-                       $key,
-                       $vars,
-                       $_SERVER['REMOTE_ADDR']));
+    $DB->query("INSERT INTO ".get_table_name('session')."
+                (sess_id, vars, ip, created, changed)
+                VALUES (?, ?, ?, NOW(), NOW())",
+                $key,
+                $vars,
+                $_SERVER['REMOTE_ADDR']);
     }
 
   return TRUE;
@@ -98,16 +94,14 @@ function sess_destroy($key)
   {
   global $DB;
   
-  $DB->query(sprintf("DELETE FROM %s
-                      WHERE sess_id='%s'",
-                     get_table_name('session'),
-                     $key));
-
-  // also delete session entries in cache table
-  $DB->query(sprintf("DELETE FROM %s
-                      WHERE  session_id='%s'",
-                     get_table_name('cache'),
-                     $key));
+  // delete session entries in cache table
+  $DB->query("DELETE FROM ".get_table_name('cache')."
+              WHERE  session_id=?",
+              $key);
+              
+  $DB->query("DELETE FROM ".get_table_name('session')."
+              WHERE sess_id=?",
+              $key);
                      
   return TRUE;
   }
@@ -119,11 +113,10 @@ function sess_gc($maxlifetime)
   global $DB;
 
   // get all expired sessions  
-  $sql_result = $DB->query(sprintf("SELECT sess_id
-                                    FROM   %s
-                                    WHERE  UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(created) > %d",
-                                   get_table_name('session'),
-                                   $maxlifetime));
+  $sql_result = $DB->query("SELECT sess_id
+                            FROM ".get_table_name('session')."
+                            WHERE ".$DB->unixtimestamp('NOW()')."-".$DB->unixtimestamp('created')." > ?",
+                            $maxlifetime);
                                    
   $a_exp_sessions = array();
   while ($sql_arr = $DB->fetch_assoc($sql_result))
@@ -132,17 +125,13 @@ function sess_gc($maxlifetime)
   
   if (sizeof($a_exp_sessions))
     {
+    // delete session cache records
+    $DB->query("DELETE FROM ".get_table_name('cache')."
+                WHERE  session_id IN ('".join("','", $a_exp_sessions)."')");
+                
     // delete session records
-    $DB->query(sprintf("DELETE FROM %s
-                        WHERE sess_id IN ('%s')",
-                       get_table_name('session'),
-                       join("','", $a_exp_sessions)));
-
-    // also delete session cache records
-    $DB->query(sprintf("DELETE FROM %s
-                        WHERE  session_id IN ('%s')",
-                       get_table_name('cache'),
-                       join("','", $a_exp_sessions)));
+    $DB->query("DELETE FROM ".get_table_name('session')."
+                WHERE sess_id IN ('".join("','", $a_exp_sessions)."')");
     }
 
   return TRUE;

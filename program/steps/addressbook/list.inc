@@ -22,12 +22,11 @@
 $REMOTE_REQUEST = TRUE;
 
 // count contacts for this user
-$sql_result = $DB->query(sprintf("SELECT COUNT(contact_id) AS rows
-                                  FROM   %s
-                                  WHERE  del!='1'
-                                  AND    user_id=%d",
-                                 get_table_name('contacts'),
-                                 $_SESSION['user_id']));
+$sql_result = $DB->query("SELECT COUNT(contact_id) AS rows
+                          FROM ".get_table_name('contacts')."
+                          WHERE  del<>'1'
+                          AND    user_id=?",
+                          $_SESSION['user_id']);
                                    
 $sql_arr = $DB->fetch_assoc($sql_result);
 $rowcount = $sql_arr['rows'];    
@@ -40,14 +39,13 @@ $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 $start_row = ($CONTACTS_LIST['page']-1) * $CONFIG['pagesize'];
 
 // get contacts from DB
-$sql_result = $DB->query(sprintf("SELECT * FROM %s
-                                  WHERE  del!='1'
-                                  AND    user_id=%d
-                                  ORDER BY name",
-                                 get_table_name('contacts'),
-                                 $_SESSION['user_id']),
-                                 $start_row,
-                                 $CONFIG['pagesize']);
+$sql_result = $DB->limitquery("SELECT * FROM ".get_table_name('contacts')."
+                               WHERE  del<>'1'
+                               AND    user_id=?
+                               ORDER BY name",
+                               $start_row,
+                               $CONFIG['pagesize'],
+                               $_SESSION['user_id']);
                                  
 $commands .= rcmail_js_contacts_list($sql_result);
   

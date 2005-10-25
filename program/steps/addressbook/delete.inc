@@ -23,13 +23,11 @@ $REMOTE_REQUEST = TRUE;
 
 if ($_GET['_cid'])
   {
-  $DB->query(sprintf("UPDATE %s
-                      SET    del='1'
-                      WHERE  user_id=%d
-                      AND    contact_id IN (%s)",
-                     get_table_name('contacts'),
-                     $_SESSION['user_id'],
-                     $_GET['_cid']));
+  $DB->query("UPDATE ".get_table_name('contacts')."
+              SET    del='1'
+              WHERE  user_id=?
+              AND    contact_id IN (".$_GET['_cid'].")",
+              $_SESSION['user_id']);
                      
   $count = $DB->affected_rows();
   if (!$count)
@@ -40,12 +38,11 @@ if ($_GET['_cid'])
 
 
   // count contacts for this user
-  $sql_result = $DB->query(sprintf("SELECT COUNT(contact_id) AS rows
-                                    FROM   %s
-                                    WHERE  del!='1'
-                                    AND    user_id=%d",
-                                 get_table_name('contacts'),
-                                 $_SESSION['user_id']));
+  $sql_result = $DB->query("SELECT COUNT(contact_id) AS rows
+                            FROM ".get_table_name('contacts')."
+                            WHERE  del<>'1'
+                            AND    user_id=?",
+                            $_SESSION['user_id']);
                                    
   $sql_arr = $DB->fetch_assoc($sql_result);
   $rowcount = $sql_arr['rows'];    
@@ -62,14 +59,13 @@ if ($_GET['_cid'])
     $start_row = ($_SESSION['page'] * $CONFIG['pagesize']) - $count;
 
     // get contacts from DB
-    $sql_result = $DB->query(sprintf("SELECT * FROM %s
-                                      WHERE  del!='1'
-                                      AND    user_id=%d
-                                      ORDER BY name",
-                                     get_table_name('contacts'),
-                                     $_SESSION['user_id']),
-                                     $start_row,
-                                     $count);
+    $sql_result = $DB->limitquery("SELECT * FROM ".get_table_name('contacts')."
+                                   WHERE  del<>'1'
+                                   AND    user_id=?
+                                   ORDER BY name",
+                                   $start_row,
+                                   $count,
+                                   $_SESSION['user_id']);
                                      
     $commands .= rcmail_js_contacts_list($sql_result);
 

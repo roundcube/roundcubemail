@@ -38,15 +38,13 @@ if ($_POST['_iid'])
 
   if (sizeof($a_write_sql))
     {
-    $DB->query(sprintf("UPDATE %s
-                        SET    %s
-                        WHERE  identity_id=%d
-                        AND    user_id=%d
-                        AND    del!='1'",
-                       get_table_name('identities'),
-                       join(', ', $a_write_sql),
-                       $_POST['_iid'],
-                       $_SESSION['user_id']));
+    $DB->query("UPDATE ".get_table_name('identities')."
+                SET ".join(', ', $a_write_sql)."
+                WHERE  identity_id=?
+                AND    user_id=?
+                AND    del<>'1'",
+                $_POST['_iid'],
+                $_SESSION['user_id']);
                        
     $updated = $DB->affected_rows();
     }
@@ -56,14 +54,13 @@ if ($_POST['_iid'])
     show_message('successfullysaved', 'confirmation');
 
     // mark all other identities as 'not-default'
-    $DB->query(sprintf("UPDATE %s
-                        SET    `default`='0'
-                        WHERE  identity_id!=%d
-                        AND    user_id=%d
-                        AND    del!='1'",
-                       get_table_name('identities'),
-                       $_POST['_iid'],
-                       $_SESSION['user_id']));
+    $DB->query("UPDATE ".get_table_name('identities')."
+                SET ".$DB->quoteIdentifier('default')."='0'
+                WHERE  identity_id!=?
+                AND    user_id=?
+                AND    del<>'1'",
+                $_POST['_iid'],
+                $_SESSION['user_id']);
     
     if ($_POST['_framed'])
       {
@@ -89,19 +86,16 @@ else
     if (!isset($_POST[$fname]))
       continue;
     
-    $a_insert_cols[] = "`$col`";
+    $a_insert_cols[] = $DB->quoteIdentifier($col);
     $a_insert_values[] = sprintf("'%s'", addslashes($_POST[$fname]));
     }
     
   if (sizeof($a_insert_cols))
     {
-    $DB->query(sprintf("INSERT INTO %s
-                        (user_id, %s)
-                        VALUES (%d, %s)",
-                       get_table_name('identities'),
-                       join(', ', $a_insert_cols),
-                       $_SESSION['user_id'],
-                       join(', ', $a_insert_values)));
+    $DB->query("INSERT INTO ".get_table_name('identities')."
+                (user_id, ".join(', ', $a_insert_cols).")
+                VALUES (?, ".join(', ', $a_insert_values).")",
+                $_SESSION['user_id']);
                        
     $insert_id = $DB->insert_id();
     }

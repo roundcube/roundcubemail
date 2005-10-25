@@ -101,9 +101,27 @@ class rcube_db
         $this->db_connected = true;
     }
 
-    // Query database (read operations)
+    // Query database
     
-    function query($query, $offset=0, $numrows=0)
+    function query()
+    {
+		$params = func_get_args();
+		$query = array_shift($params);
+		
+		return $this->_query($query, 0, 0, $params);
+    }
+   
+	function limitquery()
+    {
+		$params = func_get_args();
+		$query = array_shift($params);
+		$offset = array_shift($params);
+		$numrows = array_shift($params);
+		
+		return $this->_query($query, $offset, $numrows, $params);
+    }
+    
+    function _query($query, $offset, $numrows, $params)
     {
         // Read or write ?
         if (strtolower(trim(substr($query,0,6)))=='select')
@@ -118,18 +136,21 @@ class rcube_db
         
         if ($numrows || $offset)
 			{
-			$result = $this->db_handle->limitQuery($query,$offset,$numrows);
+			$result = $this->db_handle->limitQuery($query,$offset,$numrows,$params);
 			}
         else    
-			$result = $this->db_handle->query($query);
-        
+			$result = $this->db_handle->query($query,$params);
+
         if (DB::isError($result))
+			{
             raise_error(array('code' => 500,
                               'type' => 'db',
                               'line' => __LINE__, 
                               'file' => __FILE__, 
                               'message' => $result->getMessage()), TRUE, FALSE);
-        
+             return false;
+            }
+
         return $this->_add_result($result, $query);
     }
     
@@ -196,6 +217,26 @@ class rcube_db
         return $result->fetchRow(DB_FETCHMODE_ASSOC);
     }
 
+	function quoteIdentifier ( $str )
+	{
+		if (!$this->db_handle)
+			$this->db_connect('r');
+			
+		return $this->db_handle->quoteIdentifier($str);
+	}
+	
+	function unixtimestamp($field)
+	{
+		switch($this->db_provider)
+			{
+			case 'pgsql':
+				return "EXTRACT (EPOCH FROM $field)";
+				break;
+			default:
+				return "UNIX_TIMESTAMP($field)";
+			}
+	}
+	
     function _add_result($res, $query)
     {
         // sql error occured

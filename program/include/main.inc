@@ -263,13 +263,12 @@ function rcmail_login($user, $pass, $host=NULL)
     }
 
   // query if user already registered
-  $sql_result = $DB->query(sprintf("SELECT user_id, username, language, preferences
-                                    FROM   %s
-                                    WHERE  mail_host='%s' AND (username='%s' OR alias='%s')",
-                                   get_table_name('users'),
-                                   addslashes($host),
-                                   addslashes($user),
-                                   addslashes($user)));
+  $sql_result = $DB->query("SELECT user_id, username, language, preferences
+                            FROM ".get_table_name('users')."
+                            WHERE  mail_host=? AND (username=? OR alias=?)",
+                            $host,
+                            $user,
+                            $user);
 
   // user already registered -> overwrite username
   if ($sql_arr = $DB->fetch_assoc($sql_result))
@@ -299,11 +298,10 @@ function rcmail_login($user, $pass, $host=NULL)
       $sess_user_lang = $_SESSION['user_lang'] = $sql_arr['language'];
       
     // update user's record
-    $DB->query(sprintf("UPDATE %s
-                        SET    last_login=NOW()
-                        WHERE  user_id=%d",
-                       get_table_name('users'),
-                       $user_id));
+    $DB->query("UPDATE ".get_table_name('users')."
+                SET    last_login=NOW()
+                WHERE  user_id=?",
+                $user_id);
     }
   // create new system user
   else if ($CONFIG['auto_create_user'])
@@ -336,27 +334,25 @@ function rcmail_create_user($user, $host)
   {
   global $DB, $CONFIG, $IMAP;
   
-  $DB->query(sprintf("INSERT INTO %s
-                      (created, last_login, username, mail_host, language)
-                      VALUES (NOW(), NOW(), '%s', '%s', '%s')",
-                     get_table_name('users'),
-                     addslashes($user),
-                     addslashes($host),
-		             $_SESSION['user_lang']));
+  $DB->query("INSERT INTO ".get_table_name('users')."
+              (created, last_login, username, mail_host, language)
+              VALUES (NOW(), NOW(), ?, ?, ?)",
+              $user,
+              $host,
+		      $_SESSION['user_lang']);
 
-  if ($user_id = $DB->insert_id())
+  if ($user_id = $DB->insert_id('user_ids'))
     {
     $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $host);
     $user_name = $user!=$user_email ? $user : '';
     
     // also create a new identity record
-    $DB->query(sprintf("INSERT INTO %s
-                        (user_id, `default`, name, email)
-                        VALUES (%d, '1', '%s', '%s')",
-                       get_table_name('identities'),
-                       $user_id,
-                       addslashes($user_name),
-                       addslashes($user_email)));
+    $DB->query("INSERT INTO ".get_table_name('identities')."
+                (user_id, `default`, name, email)
+                VALUES (?, '1', ?, ?)",
+                $user_id,
+                $user_name,
+                $user_email);
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();

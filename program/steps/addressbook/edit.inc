@@ -23,13 +23,12 @@
 if (($_GET['_cid'] || $_POST['_cid']) && $_action=='edit')
   {
   $cid = $_POST['_cid'] ? $_POST['_cid'] : $_GET['_cid'];
-  $DB->query(sprintf("SELECT * FROM %s
-                      WHERE  contact_id=%d
-                      AND    user_id=%d
-                      AND    del!='1'",
-                     get_table_name('contacts'),
-                     $cid,
-                     $_SESSION['user_id']));
+  $DB->query("SELECT * FROM ".get_table_name('contacts')."
+             WHERE  contact_id=?
+             AND    user_id=?
+             AND    del<>'1'",
+             $cid,
+             $_SESSION['user_id']);
   
   $CONTACT_RECORD = $DB->fetch_assoc();
   

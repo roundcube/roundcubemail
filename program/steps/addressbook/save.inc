@@ -39,15 +39,13 @@ if ($_POST['_cid'])
 
   if (sizeof($a_write_sql))
     {
-    $DB->query(sprintf("UPDATE %s
-                        SET    %s
-                        WHERE  contact_id=%d
-                        AND    user_id=%d
-                        AND    del!='1'",
-                       get_table_name('contacts'),
-                       join(', ', $a_write_sql),
-                       $_POST['_cid'],
-                       $_SESSION['user_id']));
+    $DB->query("UPDATE ".get_table_name('contacts')."
+                SET    ".join(', ', $a_write_sql)."
+                WHERE  contact_id=?
+                AND    user_id=?
+                AND    del<>'1'",
+                $_POST['_cid'],
+                $_SESSION['user_id']);
                        
     $updated = $DB->affected_rows();
     }
@@ -63,13 +61,12 @@ if ($_POST['_cid'])
       $a_show_cols = array('name', 'email');
       $a_js_cols = array();
   
-      $sql_result = $DB->query(sprintf("SELECT * FROM %s
-                                        WHERE  contact_id=%d
-                                        AND    user_id=%d
-                                        AND    del!='1'",
-                               get_table_name('contacts'),
+      $sql_result = $DB->query("SELECT * FROM ".get_table_name('contacts')."
+                                WHERE  contact_id=?
+                                AND    user_id=?
+                                AND    del<>'1'",
                                $_POST['_cid'],
-                               $_SESSION['user_id']));
+                               $_SESSION['user_id']);
                          
       $sql_arr = $DB->fetch_assoc($sql_result);
       foreach ($a_show_cols as $col)
@@ -111,13 +108,10 @@ else
     
   if (sizeof($a_insert_cols))
     {
-    $DB->query(sprintf("INSERT INTO %s
-                        (user_id, %s)
-                        VALUES (%d, %s)",
-                       get_table_name('contacts'),
-                       join(', ', $a_insert_cols),
-                       $_SESSION['user_id'],
-                       join(', ', $a_insert_values)));
+    $DB->query("INSERT INTO ".get_table_name('contacts')."
+                (user_id, ".join(', ', $a_insert_cols).")
+                VALUES (?, ".join(', ', $a_insert_values).")",
+                $_SESSION['user_id']);
                        
     $insert_id = $DB->insert_id();
     }
@@ -131,12 +125,11 @@ else
       {
       // add contact row or jump to the page where it should appear
       $commands = sprintf("if(parent.%s)parent.", $JS_OBJECT_NAME);
-      $sql_result = $DB->query(sprintf("SELECT * FROM %s
-                                        WHERE  contact_id=%d
-                                        AND    user_id=%d",
-                                       get_table_name('contacts'),
-                                       $insert_id,
-                                       $_SESSION['user_id']));
+      $sql_result = $DB->query("SELECT * FROM ".get_table_name('contacts')."
+                                WHERE  contact_id=?
+                                AND    user_id=?",
+                                $insert_id,
+                                $_SESSION['user_id']);
       $commands .= rcmail_js_contacts_list($sql_result, $JS_OBJECT_NAME);
 
       $commands .= sprintf("if(parent.%s)parent.%s.select('%d');\n",

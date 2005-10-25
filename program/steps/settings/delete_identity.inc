@@ -23,13 +23,11 @@ $REMOTE_REQUEST = $_GET['_remote'] ? TRUE : FALSE;
 
 if ($_GET['_iid'])
   {
-  $DB->query(sprintf("UPDATE %s
-                      SET    del='1'
-                      WHERE  user_id=%d
-                      AND    identity_id IN (%s)",
-                     get_table_name('identities'),
-                     $_SESSION['user_id'],
-                     $_GET['_iid']));
+  $DB->query("UPDATE ".get_table_name('identities')."
+              SET    del='1'
+              WHERE  user_id=?
+              AND    identity_id IN (".$_GET['_iid'].")",
+              $_SESSION['user_id']);
 
   $count = $DB->affected_rows();
   if ($count)

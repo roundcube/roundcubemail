@@ -25,13 +25,12 @@ function rcube_read_cache($key)
   global $DB, $CACHE_KEYS;
   
   // query db
-  $sql_result = $DB->query(sprintf("SELECT cache_id, data
-                                    FROM   %s
-                                    WHERE  user_id=%d
-                                    AND    cache_key='%s'",
-                                   get_table_name('cache'),
-                                   $_SESSION['user_id'],
-                                   $key));
+  $sql_result = $DB->query("SELECT cache_id, data
+                            FROM ".get_table_name('cache')."
+                            WHERE  user_id=?
+                            AND    cache_key=?",
+                            $_SESSION['user_id'],
+                            $key);
 
   // get cached data
   if ($sql_arr = $DB->fetch_assoc($sql_result))
@@ -53,13 +52,12 @@ function rcube_write_cache($key, $data, $session_cache=FALSE)
   // check if we already have a cache entry for this key
   if (!isset($CACHE_KEYS[$key]))
     {
-    $sql_result = $DB->query(sprintf("SELECT cache_id
-                                      FROM   %s
-                                      WHERE  user_id=%d
-                                      AND    cache_key='%s'",
-                                     get_table_name('cache'),
-                                     $_SESSION['user_id'],
-                                     $key));
+    $sql_result = $DB->query("SELECT cache_id
+                              FROM ".get_table_name('cache')."
+                              WHERE  user_id=?
+                              AND    cache_key=?",
+                              $_SESSION['user_id'],
+                              $key);
                                      
     if ($sql_arr = $DB->fetch_assoc($sql_result))
       $CACHE_KEYS[$key] = $sql_arr['cache_id'];
@@ -70,27 +68,25 @@ function rcube_write_cache($key, $data, $session_cache=FALSE)
   // update existing cache record
   if ($CACHE_KEYS[$key])
     {
-    $DB->query(sprintf("UPDATE %s
-                        SET    created=NOW(),
-                               data='%s'
-                        WHERE  user_id=%d
-                        AND    cache_key='%s'",
-                       get_table_name('cache'),
-                       addslashes($data),
-                       $_SESSION['user_id'],
-                       $key));
+    $DB->query("UPDATE ".get_table_name('cache')."
+                SET    created=NOW(),
+                       data=?
+                WHERE  user_id=?
+                AND    cache_key=?",
+                $data,
+                $_SESSION['user_id'],
+                $key);
     }
   // add new cache record
   else
     {
-    $DB->query(sprintf("INSERT INTO %s
-                        (created, user_id, session_id, cache_key, data)
-                        VALUES (NOW(), %d, %s, '%s', '%s')",
-                       get_table_name('cache'),
-                       $_SESSION['user_id'],
-                       $session_cache ? "'$sess_id'" : 'NULL',
-                       $key,
-                       addslashes($data)));
+    $DB->query("INSERT INTO ".get_table_name('cache')."
+                (created, user_id, session_id, cache_key, data)
+                VALUES (NOW(), ?, ?, ?', ?)",
+                $_SESSION['user_id'],
+                $session_cache ? $sess_id : 'NULL',
+                $key,
+                $data);
     }
   }
 
@@ -100,12 +96,11 @@ function rcube_clear_cache($key)
   {
   global $DB;
 
-  $DB->query(sprintf("DELETE FROM %s
-                      WHERE  user_id=%d
-                      AND    cache_key='%s'",
-                     get_table_name('cache'),
-                     $_SESSION['user_id'],
-                     $key));
+  $DB->query("DELETE FROM ".get_table_name('cache')."
+              WHERE  user_id=?
+              AND    cache_key=?",
+              $_SESSION['user_id'],
+              $key);
   }
 
 
