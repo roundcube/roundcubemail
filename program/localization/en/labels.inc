@@ -172,5 +172,8 @@ $labels['createfolder']  = 'Create new folder';
 $labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
 
+$labels['sortby'] = 'Sort by';
+$labels['sortasc']  = 'Sort ascending';
+$labels['sortdesc'] = 'Sort descending';
 
 ?>

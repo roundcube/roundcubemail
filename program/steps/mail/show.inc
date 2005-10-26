@@ -65,7 +65,7 @@ if ($_GET['_uid'])
   $javascript .= sprintf("%s.set_env('safemode', '%b');", $JS_OBJECT_NAME, $_GET['_safe']);
 
   // get previous and next message UID
-  $a_msg_index = $IMAP->message_index();
+  $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
   $MESSAGE['index'] = array_search((string)$_GET['_uid'], $a_msg_index, TRUE);
   
   if (isset($a_msg_index[$MESSAGE['index']-1]))

@@ -55,7 +55,7 @@ class rcube_db
     function dsn_connect($dsn)
     {
         // Use persistent connections if available
-        $dbh = MDB2::factory($dsn, array('persistent' => $true));
+        $dbh = MDB2::factory($dsn, array('persistent' => TRUE));
         
         if (PEAR::isError($dbh))
             raise_error(array('code' => 500,
@@ -104,21 +104,37 @@ class rcube_db
     // Query database
     
     function query()
+
     {
+
 		$params = func_get_args();
+
 		$query = array_shift($params);
+
 		
+
 		return $this->_query($query, 0, 0, $params);
+
     }
+
    
+
 	function limitquery()
+
     {
+
 		$params = func_get_args();
+
 		$query = array_shift($params);
+
 		$offset = array_shift($params);
+
 		$numrows = array_shift($params);
+
 		
+
 		return $this->_query($query, $offset, $numrows, $params);
+
     }
     
     function _query($query, $offset, $numrows, $params)
@@ -194,23 +210,39 @@ class rcube_db
     }
 
 	function quoteIdentifier ( $str )
+
 	{
+
 		if (!$this->db_handle)
+
 			$this->db_connect('r');
+
 			
+
 		return $this->db_handle->quoteIdentifier($str);
+
 	}
 	
 	function unixtimestamp($field)
+
 	{
+
 		switch($this->db_provider)
+
 			{
+
 			case 'pgsql':
+
 				return "EXTRACT (EPOCH FROM $field)";
+
 				break;
+
 			default:
+
 				return "UNIX_TIMESTAMP($field)";
+
 			}
+
 	}
 	
     function _add_result($res, $query)

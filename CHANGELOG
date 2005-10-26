@@ -65,4 +65,6 @@ CHANGELOG RoundCube Webmail
 - Get IMAP server capabilities in array
 - Check for NAMESPACE capability before sending command
 - Set default user language from config 'locale_string'
-- Added sorting patch (not finished yet)
+- Added sorting patch for message list
+- Make default sort col/order configurable
+- 

@@ -31,28 +31,15 @@ if ($sort = isset($_GET['_sort']) ? $_GET['_sort'] : false)
   // yes, so set the sort vars
   list($sort_col, $sort_order) = explode('_', $sort);
 
-  // iloha mail sort func doesn't know about a 'Sender' col
-  $sort_col = $sort_col == 'Sender' ? 'From' : $sort_col;
- 
   // set session vars for sort (so next page and task switch know how to sort)
   $_SESSION['sort_col'] = $sort_col;
   $_SESSION['sort_order'] = $sort_order;
   }
 else
-  {
-  // if switching folder, use default sorting
-  if ($_GET['_refresh'] == '1')
-    {
-    $sort_col   = 'date';
-    $sort_order = 'desc';
-    unset($_SESSION['sort_col'], $_SESSION['sort_order']);
-    }
-  else
-    {        
-    // use session settings if set, defaults if not
-    $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : 'date';
-    $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : 'desc';
-    }
+  {        
+  // use session settings if set, defaults if not
+  $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
+  $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   }
   
 

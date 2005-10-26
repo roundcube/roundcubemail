@@ -433,7 +433,7 @@ class rcube_imap
     }
 
 
-  // old function; replaced 2005/10/18
+  // original function; replaced 2005/10/18
   // private method for listing message header
   function _list_headers($mailbox='', $page=NULL, $sort_field='date', $sort_order='DESC')
     {
@@ -478,7 +478,7 @@ class rcube_imap
     // return complete list of messages
     if (strtolower($page)=='all')
       return $a_headers;
-	
+
     $start_msg = ($this->list_page-1) * $this->page_size;
     return array_slice($a_headers, $start_msg, $this->page_size);
     }

@@ -1220,8 +1220,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 					$i++;
 					$lines[$i] = trim(chop($line));
 				}
-			}while($line[0]!=")");
+			}while($line[0]!=")" && strncmp($line, $key, strlen($key)));  // patch from "Maksim Rubis" <siburny@hotmail.com>
 			
+            if(strncmp($line, $key, strlen($key)))
+            { 
 			//process header, fill iilBasicHeader obj.
 			//	initialize
 			if (is_array($headers)){
@@ -1256,6 +1258,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 			if ($messageID) $messageID = substr(substr($messageID, 1), 0, strlen($messageID)-2);
 			else $messageID = "mid:".$id;
 			$result[$id]->messageID = $messageID;
+			}
+            else {
+            $a=explode(" ", $line);
+            } 
 			
 		}
 	}while(strcmp($a[0], $key)!=0);
@@ -1371,6 +1377,7 @@ function iil_SortHeaders($a, $field, $flag){
 	if ($field=="date"||$field=='internaldate') $field="timestamp";
 	if (empty($flag)) $flag="ASC";
 	$flag=strtoupper($flag);
+	$stripArr = ($field=='subject') ? array('Re: ','Fwd: ','Fw: ',"\"") : array("\"");
 	
 	$c=count($a);
 	if ($c>0){
@@ -1386,7 +1393,7 @@ function iil_SortHeaders($a, $field, $flag){
 		reset($a);
 		while (list($key, $val)=each($a)){
 			$data=$a[$key]->$field;
-			if (is_string($data)) $data=strtoupper(str_replace("\"", "", $data));
+			if (is_string($data)) $data=strtoupper(str_replace($stripArr, "", $data));
 			$index[$key]=$data;
 		}
 		

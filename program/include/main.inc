@@ -947,8 +947,10 @@ function format_date($date, $format=NULL)
   
   if (is_numeric($date))
     $ts = $date;
-  else
+  else if (!empty($date))
     $ts = strtotime($date);
+  else
+    return '';
 
   // convert time to user's timezone
   $timestamp = $ts - date('Z', $ts) + ($CONFIG['timezone'] * 3600);

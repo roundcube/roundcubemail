@@ -100,6 +100,13 @@ $rcmail_config['trash_mbox'] = 'Trash';
 // display these folders separately in the mailbox list
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
+// default sort col
+$rcmail_config['message_sort_col'] = 'date';
+
+// default sort order
+$rcmail_config['message_sort_order'] = 'DESC';
+
+
 
 /***** these settings can be overwritten by user's preferences *****/
 
@@ -114,7 +121,6 @@ $rcmail_config['prefer_html'] = TRUE;
 
 // show pretty dates as standard
 $rcmail_config['prettydate'] = TRUE;
-
 
 // end of config file
 ?>

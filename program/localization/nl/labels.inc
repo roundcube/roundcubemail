@@ -91,12 +91,13 @@ $labels['today'] = 'Vandaag';
 // toolbar buttons
 $labels['writenewmessage']  = 'Schrijf een nieuw bericht';
 $labels['replytomessage']   = 'Beantwoord het bericht';
-$labels['forwardmessage']   = 'Doorsturen van bericht';
+$labels['forwardmessage']   = 'Stuur bericht door';
 $labels['deletemessage']    = 'Verplaats bericht naar prullenbak';
 $labels['printmessage']     = 'Print dit bericht';
 $labels['previousmessages'] = 'Toon vorige lijst met berichten';
 $labels['nextmessages']     = 'Toon volgende lijst met berichten';
 $labels['backtolist']       = 'Terug naar berichtoverzicht';
+$labels['viewsource']       = 'Bron bekijken';
 
 $labels['select'] = 'Selecteer';
 $labels['all'] = 'Alle';
@@ -108,7 +109,7 @@ $labels['compose']  = 'Creeer een nieuw message';
 $labels['sendmessage']  = 'Verstuur het bericht nu';
 $labels['addattachment']  = 'Voeg een bijlage toe';
 
-$labels['attachments'] = 'Bijlage';
+$labels['attachments'] = 'Bijlages';
 $labels['upload'] = 'Toevoegen';
 $labels['close']  = 'Sluit';
 
@@ -140,6 +141,9 @@ $labels['deletecontact']  = 'Verwijder geselecteerde contactpersonen';
 $labels['composeto']      = 'Verstuur bericht aan';
 $labels['contactsfromto'] = 'Contactpersonen $from tot $to van $count';
 
+$labels['print'] = 'Print';
+$labels['export'] = 'Exporteer';
+
 
 // settings
 $labels['settingsfor']  = 'Instellingen voor';
@@ -169,5 +173,8 @@ $labels['createfolder']  = 'Maak nieuwe map';
 $labels['deletefolder']  = 'Verwijder map';
 $labels['managefolders']  = 'Beheer mappen';
 
+$labels['sortby']   = 'Sorteer op';
+$labels['sortdesc'] = 'Sorteer (z-a)';
+$labels['sortasc']  = 'Sorteer (a-z)';
 
 ?>

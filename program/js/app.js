@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/10/21 (roundcube)                                      |
+ | Modified: 2005/10/26 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -445,6 +445,25 @@ function rcube_webmail()
 
       case 'sort':
         // get the type of sorting
+        var a_sort = props.split('_');
+        var sort_col = a_sort[0];
+        var sort_order = a_sort[1].toUpperCase();
+        var header;
+        
+        if (this.env.sort_col==sort_col && this.env.sort_order==sort_order)
+          break;
+
+        // set table header class
+        if (header = document.getElementById('rcmHead'+this.env.sort_col))
+          this.set_classname(header, 'sorted'+(this.env.sort_order.toUpperCase()), false);
+        if (header = document.getElementById('rcmHead'+sort_col))
+          this.set_classname(header, 'sorted'+sort_order, true);
+
+        // save new sort properties
+        this.env.sort_col = sort_col;
+        this.env.sort_order = sort_order;
+
+        // reload message list
         this.list_mailbox('', '', props);
         break;
 

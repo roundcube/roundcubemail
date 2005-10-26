@@ -19,6 +19,9 @@ from versions 0.1-alpha and 0.1-20050811
   $rcmail_config['prettydate'] = TRUE;
   $rcmail_config['smtp_port'] = 25;
   $rcmail_config['default_port'] = 143;
+  $rcmail_config['session_lifetime'] = 20;
+  $rcmail_config['message_sort_col'] = 'date';
+  $rcmail_config['message_sort_order'] = 'DESC';
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
@@ -34,6 +37,9 @@ from version 0.1-20050820
   $rcmail_config['prettydate'] = TRUE;
   $rcmail_config['smtp_port'] = 25;
   $rcmail_config['default_port'] = 143;
+  $rcmail_config['session_lifetime'] = 20;
+  $rcmail_config['message_sort_col'] = 'date';
+  $rcmail_config['message_sort_order'] = 'DESC';  
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
@@ -44,5 +50,18 @@ from version 0.1-20051007
 - replace index.php
 - replace all files in folder /program/
 - replace all files in folder /skins/default/
-- add $rcmail_config['smtp_auth_type'] if you need to specify an auth method for SMTP
-- $rcmail_config['session_lifetime'] to specify the session lifetime in minutes
+- add these lines to /config/main.inc.php
+  $rcmail_config['smtp_auth_type'] = '';  // if you need to specify an auth method for SMTP
+  $rcmail_config['session_lifetime'] = 20;  // to specify the session lifetime in minutes
+  $rcmail_config['message_sort_col'] = 'date';
+  $rcmail_config['message_sort_order'] = 'DESC';
+
+
+from version 0.1-20051021
+----------------------------------------
+- replace index.php
+- replace all files in folder /program/
+- replace all files in folder /skins/default/
+- add these lines to /config/main.inc.php
+  $rcmail_config['message_sort_col'] = 'date';
+  $rcmail_config['message_sort_order'] = 'DESC';

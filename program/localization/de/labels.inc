@@ -172,5 +172,8 @@ $labels['createfolder']  = 'Neuen Ordner erstellen';
 $labels['deletefolder']  = 'Ordner löschen';
 $labels['managefolders']  = 'Ordner verwalten';
 
+$labels['sortby'] = 'Sortieren nach';
+$labels['sortasc']  = 'aufsteigend sortieren';
+$labels['sortdesc'] = 'absteigend sortieren';
 
 ?>
