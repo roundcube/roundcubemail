@@ -782,11 +782,15 @@ function rcube_webmail()
 
   this.switch_task = function(task)
     {
-    if (this.task===task)
+    if (this.task===task && task!='mail')
       return;
 
+    var url = this.get_task_url(task);
+    if (task=='mail')
+      url += '&_mbox=INBOX';
+
     this.set_busy(true);
-    location.href = this.get_task_url(task);      
+    location.href = url;
     };
 
 
