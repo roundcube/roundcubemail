@@ -192,8 +192,11 @@ class rcube_db
                 return $result;
                 
             case 'mysql': // This is unfortuneate
-                return mysql_insert_id();
+                return mysql_insert_id($this->db_handle->connection);
 
+			case 'mysqli':
+				return mysqli_insert_id($this->db_handle->connection);
+	
             case 'sqlite':
                 return sqlite_last_insert_rowid($this->db_handle->connection);
 
