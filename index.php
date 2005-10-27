@@ -42,17 +42,19 @@
 */
 
 // define global vars
-$INSTALL_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
+$INSTALL_PATH = './';
 $OUTPUT_TYPE = 'html';
 $JS_OBJECT_NAME = 'rcmail';
+$CURRENT_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
 
-if ($INSTALL_PATH!='')
-  $INSTALL_PATH .= '/';
+if ($CURRENT_PATH!='')
+	$CURRENT_PATH.='/';
 	
+// set environment first
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC
-ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$INSTALL_PATH.'program'.PATH_SEPARATOR.$INSTALL_PATH.'program/lib'.PATH_SEPARATOR.ini_get('include_path'));
+ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$CURRENT_PATH.'program'.PATH_SEPARATOR.$CURRENT_PATH.'program/lib'.PATH_SEPARATOR.ini_get('include_path'));
 
 ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
@@ -141,7 +143,7 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
   }
 
 // check session cookie and auth string
-else if ($_action!='login' && $sess_auth && $_SESSION['user_id'])
+else if ($_action!='login' && $_auth && $sess_auth)
   {
   if ($_auth !== $sess_auth || $_auth != rcmail_auth_hash($_SESSION['client_id'], $_SESSION['auth_time']) ||
       ($CONFIG['session_lifetime'] && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
