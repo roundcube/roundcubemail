@@ -299,7 +299,7 @@ function rcmail_login($user, $pass, $host=NULL)
       
     // update user's record
     $DB->query("UPDATE ".get_table_name('users')."
-                SET    last_login=NOW()
+                SET    last_login=now()
                 WHERE  user_id=?",
                 $user_id);
     }
@@ -336,7 +336,7 @@ function rcmail_create_user($user, $host)
   
   $DB->query("INSERT INTO ".get_table_name('users')."
               (created, last_login, username, mail_host, language)
-              VALUES (NOW(), NOW(), ?, ?, ?)",
+              VALUES (now(), now(), ?, ?, ?)",
               $user,
               $host,
 		      $_SESSION['user_lang']);

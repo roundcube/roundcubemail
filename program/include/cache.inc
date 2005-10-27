@@ -69,7 +69,7 @@ function rcube_write_cache($key, $data, $session_cache=FALSE)
   if ($CACHE_KEYS[$key])
     {
     $DB->query("UPDATE ".get_table_name('cache')."
-                SET    created=NOW(),
+                SET    created=now(),
                        data=?
                 WHERE  user_id=?
                 AND    cache_key=?",
@@ -82,7 +82,7 @@ function rcube_write_cache($key, $data, $session_cache=FALSE)
     {
     $DB->query("INSERT INTO ".get_table_name('cache')."
                 (created, user_id, session_id, cache_key, data)
-                VALUES (NOW(), ?, ?, ?, ?)",
+                VALUES (now(), ?, ?, ?, ?)",
                 $_SESSION['user_id'],
                 $session_cache ? $sess_id : 'NULL',
                 $key,
