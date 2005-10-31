@@ -528,10 +528,10 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE) // $body, $ctype_pr
                                '/url\s*\(["\']?([\.\/]+[^"\'\s]+)["\']?\)/i',
                                '/<script.+<\/script>/Umis');
 
-      $remote_replaces = array('\\1=\\2#\\4',
+      $remote_replaces = array('',  // '\\1=\\2#\\4',
                             // '\\1=\\2#\\4',
                                '',
-                               '\\1#\\3',
+                               '',  // '\\1#\\3',
                                'none',
                                'none',
                                '');

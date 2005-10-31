@@ -3,7 +3,7 @@ INSTALLATION
 ============
 
 1. Decompress and put this folder somewhere inside your document root
-2. Make shure that the following directories are writable by the webserver
+2. Make sure that the following directories are writable by the webserver
    - /temp
    - /logs
 3. Create a new database and a database user for RoundCube
@@ -35,5 +35,5 @@ REQUIREMENTS
 CONFIGURATION
 =============
 
-Change the files in config/* according your environment and you needs.
+Change the files in config/* according your to environment and your needs.
 Details about the config paramaters can be found in the config files.

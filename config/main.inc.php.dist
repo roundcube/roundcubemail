@@ -23,7 +23,7 @@ $rcmail_config['debug_level'] = 5;
 $rcmail_config['enable_caching'] = TRUE;
 
 // automatically create a new RoundCube user when log-in the first time.
-// a new user will be created once the IMAP login succeeded.
+// a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = TRUE;
 
@@ -74,7 +74,7 @@ $rcmail_config['session_lifetime'] = 10;
 // check client IP in session athorization
 $rcmail_config['ip_check'] = TRUE;
 
-// not shure what this was good for :-) 
+// not sure what this was good for :-) 
 $rcmail_config['locale_string'] = 'en';
 
 // use this format for short date display

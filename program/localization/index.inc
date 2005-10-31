@@ -55,4 +55,11 @@
 	'vn'    => 'Vietnamese'
 );
 
+
+$rcube_charsets = array(
+	'ru' => 'Windows-1251',
+	'lv' => 'ISO-8859-2',
+	'tw' => 'BIG5'
+);
+
 ?>

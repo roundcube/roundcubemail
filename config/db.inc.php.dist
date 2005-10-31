@@ -22,7 +22,7 @@ $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 // sqlite example: 'sqlite://./sqlite.db?mode=0646';
 
 // PEAR database DSN for read only operations (if empty write database will be used)
-// userful for database replication
+// useful for database replication
 $rcmail_config['db_dsnr'] = '';
 
 // database backend to use (only db or mdb2 are supported)

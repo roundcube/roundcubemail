@@ -226,7 +226,7 @@ function get_table_name($table)
 // init output object for GUI and add common scripts
 function load_gui()
   {
-  global $CONFIG, $OUTPUT, $COMM_PATH, $IMAP, $JS_OBJECT_NAME;
+  global $CONFIG, $OUTPUT, $COMM_PATH, $JS_OBJECT_NAME, $sess_user_lang;
 
   // init output page
   $OUTPUT = new rcube_html_page();
@@ -237,11 +237,33 @@ function load_gui()
 
   if (!empty($GLOBALS['_framed']))
     $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
-
+    
   $OUTPUT->add_script($javascript);
   $OUTPUT->include_script('program/js/common.js');
-  $OUTPUT->include_script('program/js/app.js');  
+  $OUTPUT->include_script('program/js/app.js');
+
+  // set user-selected charset
+  if ($CONFIG['charset'])
+    $OUTPUT->set_charset($CONFIG['charset']);
+  else
+    rcmail_set_locale($sess_user_lang);
   }  
+
+
+// set localization charset based on the given language
+function rcmail_set_locale($lang)
+  {
+  global $OUTPUT, $INSTLL_PATH;
+  static $rcube_charsets;
+
+  if (!$rcube_charsets)
+    @include($INSTLL_PATH.'program/localization/index.inc');
+
+  if (isset($rcube_charsets[$lang]))
+    $OUTPUT->set_charset($rcube_charsets[$lang]);
+  else
+    $OUTPUT->set_charset('ISO-8859-1');
+  }
 
 
 // perfom login to the IMAP server and to the webmail service
@@ -447,7 +469,7 @@ function rcube_list_languages()
 
   if (!sizeof($sa_languages))
     {
-    @include_once($INSTLL_PATH.'program/localization/index.inc');
+    @include($INSTLL_PATH.'program/localization/index.inc');
 
     if ($dh = @opendir($INSTLL_PATH.'program/localization'))
       {

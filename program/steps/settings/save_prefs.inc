@@ -32,7 +32,10 @@ $a_user_prefs['prefer_html'] = isset($_POST['_prefer_html']) ? TRUE : FALSE;
 $a_user_prefs['prettydate'] = isset($_POST['_pretty_date']) ? TRUE : FALSE;
 
 if (isset($_POST['_language']))
+  {
   $sess_user_lang = $_SESSION['user_lang'] = $_POST['_language'];
+  rcmail_set_locale($sess_user_lang);
+  }
 
 
 $DB->query("UPDATE ".get_table_name('users')."

@@ -29,6 +29,7 @@ class rcube_html_page
   var $scripts_path = '';
   var $script_files = array();
   var $scripts = array();
+  var $charset = 'ISO-8859-1';
   
   var $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
   var $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
@@ -82,6 +83,11 @@ class rcube_html_page
     
     }
 
+  function set_charset($charset)
+    {
+    $this->charset = $charset;
+    }
+
 
   function write($templ='', $base_path='')
     {
@@ -94,6 +100,11 @@ class rcube_html_page
     // replace specialchars in content
     $__page_title = rep_specialchars_output($this->title, 'html', 'show', FALSE);
     $__page_header = $__page_body = $__page_footer = '';
+    
+    
+    // include meta tag with charset
+    if (!empty($this->charset))
+      $__page_header = '<meta http-equiv="content-type" content="text/html; charset='.$this->charset.'" />'."\n";;
   
   
     // definition of the code to be placed in the document header and footer
@@ -1031,7 +1042,7 @@ function rcube_browser()
 // get text in the desired language from the language file
 function rcube_label($attrib)
   {
-  global $sess_user_lang, $INSTALL_PATH;
+  global $sess_user_lang, $INSTALL_PATH, $OUTPUT;
   static $sa_text_data, $s_language, $utf8_decode;
 
   // extract attributes
@@ -1195,7 +1206,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     {
     if (!$html_encode_arr)
       {
-      $html_encode_arr = get_html_translation_table(HTML_ENTITIES);
+      $html_encode_arr = get_html_translation_table(HTML_ENTITIES); // HTML_SPECIALCHARS
       $html_encode_arr[chr(128)] = '&euro;';
       unset($html_encode_arr['?']);
       unset($html_encode_arr['&']);
