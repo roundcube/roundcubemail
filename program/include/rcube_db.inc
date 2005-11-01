@@ -139,7 +139,7 @@ class rcube_db
 			$result = $this->db_handle->limitQuery($query,$offset,$numrows,$params);
 			}
         else    
-			$result = $this->db_handle->query($query,$params);
+			$result = $this->db_handle->query($query, $params);
 
         if (DB::isError($result))
 			{
@@ -147,7 +147,7 @@ class rcube_db
                               'type' => 'db',
                               'line' => __LINE__, 
                               'file' => __FILE__, 
-                              'message' => $result->getMessage()), TRUE, FALSE);
+                              'message' => $result->getMessage().'; QUERY: '.$query), TRUE, FALSE);
              return false;
             }
 
@@ -292,11 +292,9 @@ class rcube_db
     {
         if (!is_string($query))
             return ($query);
-
-        $search = array('/NOW\(\)/',
-                        '/`/');
-        $replace = array("datetime('now')",
-                         '"');
+            
+        $search = array('/NOW\(\)/i', '/`/');
+        $replace = array("datetime('now')", '"');
         $query = preg_replace($search, $replace, $query);
 
         return ($query);

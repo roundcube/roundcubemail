@@ -104,21 +104,37 @@ class rcube_db
     // Query database
     
     function query()
+
     {
+
 		$params = func_get_args();
+
 		$query = array_shift($params);
+
 		
+
 		return $this->_query($query, 0, 0, $params);
+
     }
+
    
+
 	function limitquery()
+
     {
+
 		$params = func_get_args();
+
 		$query = array_shift($params);
+
 		$offset = array_shift($params);
+
 		$numrows = array_shift($params);
+
 		
+
 		return $this->_query($query, $offset, $numrows, $params);
+
     }
     
     function _query($query, $offset, $numrows, $params)
@@ -133,12 +149,15 @@ class rcube_db
 
         if ($this->db_provider == 'sqlite')
             $query = $this->_sqlite_prepare_query($query);
-            
+
         $this->db_handle->row_offset = $offset;
 		$this->db_handle->row_limit = $numrows;
-		
+
         $result = $this->db_handle->query($query,$params);
-        
+        //$q = $this->db_handle->prepare($query);
+        //$q->bindParamArray($params);
+        //$result = $q->execute();
+
         if (PEAR::isError($result))
             raise_error(array('code' => 500,
                               'type' => 'db',
@@ -194,23 +213,39 @@ class rcube_db
     }
 
 	function quoteIdentifier ( $str )
+
 	{
+
 		if (!$this->db_handle)
+
 			$this->db_connect('r');
+
 			
+
 		return $this->db_handle->quoteIdentifier($str);
+
 	}
 	
 	function unixtimestamp($field)
+
 	{
+
 		switch($this->db_provider)
+
 			{
+
 			case 'pgsql':
+
 				return "EXTRACT (EPOCH FROM $field)";
+
 				break;
+
 			default:
+
 				return "UNIX_TIMESTAMP($field)";
+
 			}
+
 	}
 	
     function _add_result($res, $query)
@@ -266,10 +301,8 @@ class rcube_db
         if (!is_string($query))
             return ($query);
 
-        $search = array('/NOW\(\)/',
-                        '/`/');
-        $replace = array("datetime('now')",
-                         '"');
+        $search = array('/NOW\(\)/i', '/`/');
+        $replace = array("datetime('now')", '"');
         $query = preg_replace($search, $replace, $query);
 
         return ($query);

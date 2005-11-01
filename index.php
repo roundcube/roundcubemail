@@ -98,7 +98,7 @@ $SESS_HIDDEN_FIELD = sprintf('<input type="hidden" name="_auth" value="%s" />', 
 if ($_framed)
   {
   $COMM_PATH .= '&_framed=1';
-  $SESS_HIDDEN_FIELD = "\n".'<input type="hidden" name="_framed" value="1" />';
+  $SESS_HIDDEN_FIELD .= "\n".'<input type="hidden" name="_framed" value="1" />';
   }
 
 
@@ -146,7 +146,7 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
 else if ($_action!='login' && $sess_auth && $_SESSION['user_id'])
   {
   if ($_auth !== $sess_auth || $_auth != rcmail_auth_hash($_SESSION['client_id'], $_SESSION['auth_time']) ||
-      ($CONFIG['session_lifetime'] && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
+      ($CONFIG['session_lifetime'] && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
     {
     $message = show_message('sessionerror', 'error');
     rcmail_kill_session();
