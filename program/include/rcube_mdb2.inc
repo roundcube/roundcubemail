@@ -153,10 +153,10 @@ class rcube_db
         $this->db_handle->row_offset = $offset;
 		$this->db_handle->row_limit = $numrows;
 
-        $result = $this->db_handle->query($query,$params);
-        //$q = $this->db_handle->prepare($query);
-        //$q->bindParamArray($params);
-        //$result = $q->execute();
+        //$result = $this->db_handle->query($query,$params);
+        $q = $this->db_handle->prepare($query);
+        $q->bindParamArray($params);
+        $result = $q->execute();
 
         if (PEAR::isError($result))
             raise_error(array('code' => 500,

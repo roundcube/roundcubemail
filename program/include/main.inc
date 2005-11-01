@@ -64,7 +64,8 @@ function rcmail_startup($task='mail')
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
 
   // we can use the database for storing session data
-  if (is_object($DB) && $DB->db_provider!='sqlite')
+  // session queries do not work with MDB2
+  if ($CONFIG['db_backend']!='mdb2' && is_object($DB) && $DB->db_provider!='sqlite')
     include_once('include/session.inc');
 
 
