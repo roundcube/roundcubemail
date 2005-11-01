@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/10/26 (roundcube)                                      |
+ | Modified: 2005/11/01 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -1203,16 +1203,15 @@ function rcube_webmail()
         if (this.message_rows[uid].classname.indexOf('unread')<0 && this.message_rows[uid].unread)
           {
           this.message_rows[uid].classname += ' unread';
-          if (!this.in_selection(uid))
-            this.message_rows[uid].obj.className += ' unread';
+          this.set_classname(this.message_rows[uid].obj, 'unread', true);
+
           if (this.env.unreadicon)
             icn_src = this.env.unreadicon;
           }
         else if (!this.message_rows[uid].unread)
           {
           this.message_rows[uid].classname = this.message_rows[uid].classname.replace(/\s*unread/, '');
-          if (!this.in_selection(uid))
-            this.message_rows[uid].obj.className = this.message_rows[uid].obj.className.replace(/\s*unread/, '');
+          this.set_classname(this.message_rows[uid].obj, 'unread', false);
 
           if (this.message_rows[uid].replied && this.env.repliedicon)
             icn_src = this.env.repliedicon;

@@ -194,7 +194,11 @@ else
   unset($headers_php['To'], $headers_php['Subject']);
 
   $header_str = $MAIL_MIME->txtHeaders($headers_php);
-  $sent = mail($mailto, $msg_subject, $msg_body, $header_str, "-f$from");
+  
+  if(ini_get('safe_mode'))
+    $sent = mail($mailto, $msg_subject, $msg_body, $header_str);
+  else  
+    $sent = mail($mailto, $msg_subject, $msg_body, $header_str, "-f$from");
   }
 
 
