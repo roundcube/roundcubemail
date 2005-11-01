@@ -68,3 +68,5 @@ CHANGELOG RoundCube Webmail
 - Set default user language from config 'locale_string'
 - Added sorting patch for message list
 - Make default sort col/order configurable
+- Fixed XSS in address book and identities
+

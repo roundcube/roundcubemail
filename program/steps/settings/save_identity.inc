@@ -33,7 +33,7 @@ if ($_POST['_iid'])
     if (!isset($_POST[$fname]))
       continue;
 
-    $a_write_sql[] = sprintf("`%s`='%s'", $col, addslashes($_POST[$fname]));
+    $a_write_sql[] = sprintf("`%s`='%s'", $col, addslashes(strip_tags($_POST[$fname])));
     }
 
   if (sizeof($a_write_sql))
@@ -87,7 +87,7 @@ else
       continue;
     
     $a_insert_cols[] = $DB->quoteIdentifier($col);
-    $a_insert_values[] = sprintf("'%s'", addslashes($_POST[$fname]));
+    $a_insert_values[] = sprintf("'%s'", addslashes(strip_tags($_POST[$fname])));
     }
     
   if (sizeof($a_insert_cols))
