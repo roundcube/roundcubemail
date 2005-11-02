@@ -2046,18 +2046,17 @@ function rcube_webmail()
     if (this.gui_objects.mailboxlist)
       {
       var item, reg, text_obj;
+      var s_current = this.env.mailbox.toLowerCase().replace(this.mbox_expression, '');
       var s_mbox = String(mbox).toLowerCase().replace(this.mbox_expression, '');
       var s_current = this.env.mailbox.toLowerCase().replace(this.mbox_expression, '');
-      var nodes = this.gui_objects.mailboxlist.getElementsByTagName('LI');
       
-      for (var n=0; n<nodes.length; n++)
-        {
-        item = nodes[n];
-        if (item.className && item.className.indexOf('mailbox '+s_mbox+' ')>=0)
-          this.set_classname(item, 'selected', true);
-        else if (item.className && item.className.indexOf('mailbox '+s_current)>=0)
-          this.set_classname(item, 'selected', false);          
-        }
+      var current_li = document.getElementById('rcmbx'+s_current);
+      var mbox_li = document.getElementById('rcmbx'+s_mbox);
+      
+      if (current_li)
+        this.set_classname(current_li, 'selected', false);
+      if (mbox_li)
+        this.set_classname(mbox_li, 'selected', true);
       }
     
     this.env.mailbox = mbox;

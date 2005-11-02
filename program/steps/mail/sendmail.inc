@@ -65,10 +65,11 @@ function rcmail_get_identity($id)
 /****** check submission and compose message ********/
 
 
-$mailto_regexp = '/,\s*$/';
+$mailto_regexp = array('/,\s*[\r\n]+/', '/[\r\n]+/', '/,\s*$/m');
+$mailto_replace = array(' ', ', ', '');
 
-// trip ending ', ' from 
-$mailto = preg_replace($mailto_regexp, '', $_POST['_to']);
+// repalce new lines and strip ending ', '
+$mailto = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_to']));
 
 // decode address strings
 $to_address_arr = $IMAP->decode_address_list($mailto);
@@ -90,10 +91,10 @@ $headers = array('Date' => date('D, j M Y G:i:s O'),
 
 // additional recipients
 if ($_POST['_cc'])
-  $headers['Cc'] = preg_replace($mailto_regexp, '', $_POST['_cc']);
+  $headers['Cc'] = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_cc']));
 
 if ($_POST['_bcc'])
-  $headers['Bcc'] = preg_replace($mailto_regexp, '', $_POST['_bcc']);
+  $headers['Bcc'] = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_bcc']));
   
 if (strlen($identity_arr['bcc']))
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];

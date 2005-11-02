@@ -41,6 +41,13 @@ if (strlen($_GET['_page']))
   }
 
 
+// set default sort col/order to session
+if (!isset($_SESSION['sort_col']))
+  $_SESSION['sort_col'] = $CONFIG['message_sort_col'];
+if (!isset($_SESSION['sort_order']))
+  $_SESSION['sort_order'] = $CONFIG['message_sort_order'];
+  
+
 // define url for getting message parts
 if (strlen($_GET['_uid']))
   $GET_URL = sprintf('%s&_action=get&_mbox=%s&_uid=%d', $COMM_PATH, $IMAP->get_mailbox_name(), $_GET['_uid']);
@@ -147,7 +154,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 // return html for a structured list <ul> for the mailbox tree
 function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlength, $nestLevel=0)
   {
-  global $JS_OBJECT_NAME, $IMAP;
+  global $JS_OBJECT_NAME, $IMAP, $CONFIG;
 
   $idx = 0;
   $out = '';
@@ -170,9 +177,23 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
     // add unread message count display
     if ($unread_count = $IMAP->messagecount($folder['id'], 'UNSEEN', ($folder['id']==$mbox)))
       $foldername .= sprintf(' (%d)', $unread_count);
+      
+    // make folder name safe for ids and class names
+    $folder_css = $class_name = preg_replace('/[^a-z0-9\-_]/', '', $folder_lc);
 
-    $out .= sprintf('<li class="mailbox %s %s%s%s"><a href="#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a>'."\n",
-                    preg_replace('/[^a-z0-9\-_]/', '', $folder_lc),
+    // set special class for Sent, Drafts, Trash and Junk
+    if ($folder['id']==$CONFIG['sent_mbox'])
+      $class_name = 'sent';
+    else if ($folder['id']==$CONFIG['drafts_mbox'])
+      $class_name = 'drafts';
+    else if ($folder['id']==$CONFIG['trash_mbox'])
+      $class_name = 'trash';
+    else if ($folder['id']==$CONFIG['junk_mbox'])
+      $class_name = 'junk';
+
+    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="./#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a>',
+                    $folder_css,
+                    $class_name,
                     $zebra_class,
                     $unread_count ? ' unread' : '',
                     $folder['id']==$mbox ? ' selected' : '',
@@ -184,7 +205,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
                     rep_specialchars_output($foldername, 'html', 'all'));
 
     if (!empty($folder['folders']))
-      $out .= '<ul>' . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox, $maxlength, $nestLevel+1) . "</ul>\n";
+      $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox, $maxlength, $nestLevel+1) . "</ul>\n";
 
     $out .= "</li>\n";
     $idx++;
@@ -239,8 +260,8 @@ function rcmail_message_list($attrib)
   $image_tag = '<img src="%s%s" alt="%s" border="0" />';
 
   // check to see if we have some settings for sorting
-  $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
-  $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
+  $sort_col   = $_SESSION['sort_col'];
+  $sort_order = $_SESSION['sort_order'];
 
   // get message headers
   $a_headers = $IMAP->list_headers('', '', $sort_col, $sort_order);
@@ -982,13 +1003,18 @@ function rcmail_mod_html_body($body, $container_id)
 
 
   // remove SCRIPT tags
-  while (($pos = strpos($body_lc, '<script')) && ($pos2 = strpos($body_lc, '</script>', $pos)))
+  foreach (array('script', 'applet', 'object', 'embed', 'iframe') as $tag)
     {
-    $pos2 += 8;
-    $body = substr($body, 0, $pos) . substr($body, $pos2, strlen($body)-$pos2);
-    $body_lc = strtolower($body);
+    while (($pos = strpos($body_lc, '<'.$tag)) && ($pos2 = strpos($body_lc, '</'.$tag.'>', $pos)))
+      {
+      $pos2 += 8;
+      $body = substr($body, 0, $pos) . substr($body, $pos2, strlen($body)-$pos2);
+      $body_lc = strtolower($body);
+      }
     }
-  
+
+  // replace event handlers on any object
+  $body = preg_replace('/\s(on[a-z]+)=/im', ' __removed=', $body);  
 
   // resolve <base href>
   $base_reg = '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i';
@@ -999,7 +1025,6 @@ function rcmail_mod_html_body($body, $container_id)
     $body = preg_replace('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Uie', "'\\1\''.make_absolute_url('\\3', '$base_url').'\')'", $body);
     $body = preg_replace($base_reg, '', $body);
     }
-
 
   // add comments arround html and other tags
   $out = preg_replace(array('/(<\/?html[^>]*>)/i',

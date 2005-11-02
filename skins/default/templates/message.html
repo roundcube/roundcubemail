@@ -10,6 +10,12 @@
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 
+<div id="messagecountbar">
+<roundcube:button command="previousmessage" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
+&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
+<roundcube:button command="nextmessage" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
+</div>
+
 <div id="messagetoolbar">
 <roundcube:button command="list" image="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
 <roundcube:button command="reply" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
@@ -18,12 +24,6 @@
 <roundcube:button command="print" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
 <roundcube:button command="viewsource" imageAct="/images/buttons/source_act.png" imagePas="/images/buttons/source_pas.png" width="32" height="32" title="viewsource" />
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
-</div>
-
-<div id="messagecountbar">
-<roundcube:button command="previousmessage" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
-&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
-<roundcube:button command="nextmessage" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
 </div>
 
 <div id="mailboxlist-header"><roundcube:label name="mailboxlist" /></div>

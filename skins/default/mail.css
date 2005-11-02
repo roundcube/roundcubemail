@@ -75,7 +75,7 @@
   position: absolute;
   top: 60px;
   right: 40px;
-  width: 250px;
+  width: 200px;
   height: 20px;
   text-align: right;
 }
@@ -412,9 +412,14 @@ body.messagelist
   top: 85px;
   left: 200px;
   right: 40px;
+  bottom: 40px;
+  border: 1px solid #cccccc;
+  background-color: #FFFFFF;
+  overflow: auto;
   /* css hack for IE */
-  margin-bottom: 10px;
-  width: expression(document.body.clientWidth-240);
+  /* margin-bottom: 10px; */
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 table.headers-table
@@ -433,10 +438,11 @@ table.headers-table tr td
 
 table.headers-table td.header-title
 {
-  width: 70px;  
+  width: 80px;
   color: #666666;
   font-weight: bold;
   text-align: right;
+  white-space: nowrap;
   padding-right: 4px;
 }
 
@@ -481,18 +487,15 @@ table.headers-table tr td.subject
 #messagebody
 {
   min-height: 300px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: #FFFFFF;
-  border: 1px solid #cccccc;
-  border-top: none;
 }
 
 div.message-part
 {
   padding: 8px;
   padding-top: 10px;
-  border-top: 1px solid #cccccc;
   overflow: hidden;
 }
 
@@ -513,8 +516,8 @@ div.message-part pre
   display: none;
   height: 20px;
   min-height: 20px;
+  margin: 8px 8px 0px 8px;
   padding: 10px 10px 6px 46px;  
-  margin-top: 8px;
 }
 
 #remote-objects-message a
@@ -544,12 +547,12 @@ div.message-part pre
   top: 90px;
   left: 200px;
   right: 40px;
-  bottom: 20px;
+  bottom: 40px;
   padding: 0px;
   margin: 0px;
   /* css hack for IE */
   width: expression(document.documentElement.clientWidth-240);
-  /* height: expression((parseInt(document.documentElement.clientHeight)-130)+'px'); */
+  height: expression((parseInt(document.documentElement.clientHeight)-130)+'px');
 }
 
 /*
@@ -635,10 +638,10 @@ div.message-part pre
 #compose-body
 {
   margin-top: 10px;
-  width: 100% !important;
+  width: 99% !important;
   width: 95%;
   height: 95%;
-  min-height: 400px;
+  min-height: 300px;
   font-size: 9pt;
   font-family: "Courier New", Courier, monospace;
 }
