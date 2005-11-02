@@ -83,7 +83,7 @@ function rcmail_compose_headers($attrib)
       // pass the following attributes to the form class
       $field_attrib = array('name' => '_from');
       foreach ($attrib as $attr => $value)
-        if (in_array($attr, array('id', 'class', 'style', 'size')))
+        if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex')))
           $field_attrib[$attr] = $value;
     
       // get this user's identities
@@ -146,14 +146,14 @@ function rcmail_compose_headers($attrib)
       if (!$fname)
         $fname = '_bcc';
         
-      $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'wrap');
+      $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'wrap', 'tabindex');
       $field_type = 'textarea';            
       break;
 
     case 'replyto':
     case 'reply-to':
       $fname = '_replyto';
-      $allow_attrib = array('id', 'class', 'style', 'size');
+      $allow_attrib = array('id', 'class', 'style', 'size', 'tabindex');
       $field_type = 'textfield';
       break;
     
