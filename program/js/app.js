@@ -32,7 +32,7 @@ function rcube_webmail()
   // webmail client settings
   this.dblclick_time = 600;
   this.message_time = 5000;
-  this.request_timeout = 120000;
+  this.request_timeout = 180000;
   this.mbox_expression = new RegExp('[^0-9a-z\-_]', 'gi');
   this.env.blank_img = 'skins/default/images/blank.gif';
   
@@ -528,7 +528,7 @@ function rcube_webmail()
           var input_email = rcube_find_object('_email');
 
           // user prefs
-          if (input_pagesize && input_pagesize.value == '')
+          if (input_pagesize && isNaN(input_pagesize.value))
             {
             alert(this.get_label('nopagesizewarning'));
             input_pagesize.focus();

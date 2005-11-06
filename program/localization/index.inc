@@ -57,8 +57,10 @@
 
 
 $rcube_charsets = array(
+	'cz' => 'Windows-1250',
 	'ru' => 'Windows-1251',
 	'lv' => 'ISO-8859-2',
+	'pl' => 'ISO-8859-2',
 	'tw' => 'BIG5'
 );
 
