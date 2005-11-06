@@ -75,3 +75,4 @@ CHANGELOG RoundCube Webmail
 - Support for 160-bit session hashes
 - Added input check for contacts and identities (Patch #1346523)
 - Added messages/warning to compose step (Patch #1323895)
+- Added favicon to the default skin
