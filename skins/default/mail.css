@@ -304,6 +304,7 @@ body.messagelist
 #messagelist
 {
   width: 100%;
+  display: table;
   table-layout: fixed;
   /* css hack for IE */
   width: expression(document.getElementById('mailcontframe').clientWidth);
@@ -338,9 +339,16 @@ body.messagelist
   padding: 2px;
   padding-right: 4px;
   font-size: 11px;
+  overflow: hidden;  
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   cursor: pointer;
+}
+
+#messagelist col
+{
+  display: table-column;
+  text-align: left;
 }
 
 #messagelist tr td.icon
@@ -351,7 +359,6 @@ body.messagelist
 #messagelist tr td.subject
 {
   overflow: hidden;
-  text-align: left;
 }
 
 #messagelist tr td.size
@@ -364,7 +371,6 @@ body.messagelist
 #messagelist tr td.to
 {
   width: 180px;
-  overflow: hidden;  
 }
 
 #messagelist tr td.date

@@ -42,8 +42,8 @@ if ($_GET['_address'])
     else if ($contact['mailto'])
       {
       $DB->query("INSERT INTO ".get_table_name('contacts')."
-                  (user_id, name, email)
-                  VALUES (?, ?, ?)",
+                  (user_id, changed, name, email)
+                  VALUES (?, now(), ?, ?)",
                   $_SESSION['user_id'],
                   $contact['name'],
                   $contact['mailto']);

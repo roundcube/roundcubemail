@@ -60,7 +60,7 @@ CHANGELOG RoundCube Webmail
 - Display folder names with special chars correctly (Bug #1330157)
 
 
-2005/10/22
+2005/11/02
 ----------
 - Added Finnish, Romanian and Chinese translation
 - Get IMAP server capabilities in array
@@ -69,4 +69,6 @@ CHANGELOG RoundCube Webmail
 - Added sorting patch for message list
 - Make default sort col/order configurable
 - Fixed XSS in address book and identities
+- Added more XSS protection (Bug #1308236)
+- Added tab indexes for compose form
 

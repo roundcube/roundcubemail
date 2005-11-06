@@ -274,7 +274,8 @@ function rcmail_message_list($attrib)
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
 
   $out = '<table' . $attrib_str . ">\n";
-  
+
+
   // define list of cols to be displayed
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
   $a_sort_cols = array('subject', 'date', 'from', 'to');
@@ -283,6 +284,15 @@ function rcmail_message_list($attrib)
   if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols)))
     $a_show_cols[$f] = 'to';
 
+  // add col definition
+  $out .= '<colgroup>';
+  $out .= '<col class="icon">';
+
+  foreach ($a_show_cols as $col)
+    $out .= sprintf('<col class="%s">', $col);
+
+  $out .= '<col class="icon">';
+  $out .= "</colgroup>\n";
 
   // add table title
   $out .= "<thead><tr>\n<td class=\"icon\">&nbsp;</td>\n";
