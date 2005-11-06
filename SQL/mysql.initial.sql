@@ -30,6 +30,7 @@ CREATE TABLE `cache` (
 CREATE TABLE `contacts` (
   `contact_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
+  `changed` datetime NOT NULL default '0000-00-00 00:00:00',
   `del` enum('0','1') NOT NULL default '0',
   `name` varchar(128) NOT NULL default '',
   `email` varchar(128) NOT NULL default '',
