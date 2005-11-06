@@ -28,7 +28,7 @@ require_once('Mail/mime.php');
 
 if (!isset($_SESSION['compose']['id']))
   {
-  $_action = 'list';
+  rcmail_overwrite_action('list');
   return;
   }
 
@@ -63,6 +63,14 @@ function rcmail_get_identity($id)
 
 
 /****** check submission and compose message ********/
+
+
+if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
+  {
+  show_message("sendingfailed", 'error'); 
+  rcmail_overwrite_action('compose');
+  return;
+  }
 
 
 $mailto_regexp = array('/,\s*[\r\n]+/', '/[\r\n]+/', '/,\s*$/m');
@@ -206,9 +214,8 @@ else
 // return to compose page if sending failed
 if (!$sent)
   {
-  $_action = 'compose';
-  $OUTPUT->add_script(sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $_action));
   show_message("sendingfailed", 'error'); 
+  rcmail_overwrite_action('compose');
   return;
   }
 

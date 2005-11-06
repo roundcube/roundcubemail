@@ -119,6 +119,8 @@ $labels['normal']  = 'Normal';
 $labels['high']    = 'Hoch';
 $labels['highest'] = 'Höchste';
 
+$labels['nosubject']  = '(kein Betreff)';
+
 $labels['showimages'] = 'Bilder anzeigen';
 
 

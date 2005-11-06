@@ -48,6 +48,11 @@ function rcube_identity_form($attrib)
   if (!$IDENTITY_RECORD && $GLOBALS['_action']!='add-identity')
     return rcube_label('notfound');
 
+  // add some labels to client
+  rcube_add_label('noemailwarning');
+  rcube_add_label('nonamewarning');
+
+
   list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
   unset($attrib['form']);
 

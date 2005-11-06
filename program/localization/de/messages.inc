@@ -32,7 +32,9 @@ $messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wieder
 
 $messages['mailboxempty'] = 'Ordner ist leer';
 
-$messages['loadingdata'] = 'Daten werden geladen...';
+$messages['loading'] = $messages['loadingdata'] = 'Daten werden geladen...';
+
+$messages['sendingmessage'] = 'Nachricht wird gesendet...';
 
 $messages['messagesent'] = 'Nachricht erfolgreich gesendet';
 
@@ -52,5 +54,18 @@ $messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
 
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 
+$messages['formincomplete']    = 'Das Formular wurde nicht vollständig ausgefüllt';
+
+$messages['noemailwarning']    = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+
+$messages['nonamewarning']     = 'Bitte geben Sie einen Namen ein';
+
+$messages['nopagesizewarning'] = 'Bitte geben Sie eine Einträge pro Seite ein';
+
+$messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger an';
+
+$messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
+
+$messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 
 ?>

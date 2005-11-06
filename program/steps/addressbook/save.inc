@@ -23,6 +23,15 @@
 $a_save_cols = array('name', 'firstname', 'surname', 'email');
 
 
+// check input
+if (empty($_POST['_name']) || empty($_POST['_email']))
+  {
+  show_message('formincomplete', 'warning');
+  rcmail_overwrite_action($_POST['_cid'] ? 'show' : 'add');
+  return;
+  }
+
+
 // update an existing contact
 if ($_POST['_cid'])
   {
@@ -34,7 +43,7 @@ if ($_POST['_cid'])
     if (!isset($_POST[$fname]))
       continue;
     
-    $a_write_sql[] = sprintf("%s='%s'", $col, addslashes(strip_tags($_POST[$fname])));
+    $a_write_sql[] = sprintf("%s=%s", $DB->quoteIdentifier($col), $DB->quote(strip_tags($_POST[$fname])));
     }
 
   if (sizeof($a_write_sql))
@@ -87,7 +96,7 @@ if ($_POST['_cid'])
     {
     // show error message
     show_message('errorsaving', 'error');
-    $_action = 'show';
+    rcmail_overwrite_action('show');
     }
   }
 
@@ -95,6 +104,22 @@ if ($_POST['_cid'])
 else
   {
   $a_insert_cols = $a_insert_values = array();
+  
+  // check for existing contacts
+  $sql_result = $DB->query("SELECT 1 FROM ".get_table_name('contacts')."
+                            WHERE  user_id=?
+                            AND    email=?
+                            AND    del<>'1'",
+                           $_SESSION['user_id'],
+                           $_POST['_email']);
+
+  // show warning message
+  if ($DB->num_rows($sql_result))
+    {
+    show_message('contactexists', 'warning');
+    $_action = 'add';
+    return;
+    }
 
   foreach ($a_save_cols as $col)
     {
@@ -103,13 +128,13 @@ else
       continue;
     
     $a_insert_cols[] = $col;
-    $a_insert_values[] = sprintf("'%s'", addslashes(strip_tags($_POST[$fname])));
+    $a_insert_values[] = $DB->quote(strip_tags($_POST[$fname]));
     }
     
   if (sizeof($a_insert_cols))
     {
     $DB->query("INSERT INTO ".get_table_name('contacts')."
-                (user_id, changedm ".join(', ', $a_insert_cols).")
+                (user_id, changed, ".join(', ', $a_insert_cols).")
                 VALUES (?, now(), ".join(', ', $a_insert_values).")",
                 $_SESSION['user_id']);
                        
@@ -153,7 +178,7 @@ else
     {
     // show error message
     show_message('errorsaving', 'error');
-    $_action = 'add';
+    rcmail_overwrite_action('add');
     }
   }
 

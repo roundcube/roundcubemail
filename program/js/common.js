@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified:2005/10/21 (roundcube)                                       |
+ | Modified:2005/11/06 (roundcube)                                       |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -264,6 +264,19 @@ function rcube_layer(id, attributes)
   }
 
 
+// check if input is a valid email address
+function rcube_check_email(input, inline)
+  {
+  if (input && window.RegExp)
+    {
+    var reg_str = '([a-z0-9][-a-z0-9\.\+_]*)\@([a-z0-9]([-a-z0-9][\.]?)*[a-z0-9]\.[a-z]{2,9})';
+    var reg1 = inline ? new RegExp(reg_str, 'i') : new RegExp('^'+reg_str+'$', 'i');
+    var reg2 = /[\._\-\@]{2}/;
+    return reg1.test(input) && !reg2.test(input) ? true : false;
+    }
+  return false;
+  }
+  
 
 // find a value in a specific array and returns the index
 function find_in_array()

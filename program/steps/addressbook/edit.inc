@@ -31,7 +31,7 @@ if (($_GET['_cid'] || $_POST['_cid']) && $_action=='edit')
              $_SESSION['user_id']);
   
   $CONTACT_RECORD = $DB->fetch_assoc();
-  
+
   if (is_array($CONTACT_RECORD))
     $OUTPUT->add_script(sprintf("%s.set_env('cid', '%s');", $JS_OBJECT_NAME, $CONTACT_RECORD['contact_id']));
   }
@@ -44,6 +44,10 @@ function rcmail_contact_editform($attrib)
 
   if (!$CONTACT_RECORD && $GLOBALS['_action']!='add')
     return rcube_label('contactnotfound');
+
+  // add some labels to client
+  rcube_add_label('noemailwarning');
+  rcube_add_label('nonamewarning');
 
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);

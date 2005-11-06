@@ -22,6 +22,15 @@
 $a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'default');
 
 
+// check input
+if (empty($_POST['_name']) || empty($_POST['_email']))
+  {
+  show_message('formincomplete', 'warning');
+  rcmail_overwrite_action('edit-identitiy');
+  return;
+  }
+
+
 // update an existing contact
 if ($_POST['_iid'])
   {
@@ -33,7 +42,7 @@ if ($_POST['_iid'])
     if (!isset($_POST[$fname]))
       continue;
 
-    $a_write_sql[] = sprintf("`%s`='%s'", $col, addslashes(strip_tags($_POST[$fname])));
+    $a_write_sql[] = sprintf("%s=%s", $DB->quoteIdentifier($col), $DB->quote(strip_tags($_POST[$fname])));
     }
 
   if (sizeof($a_write_sql))
@@ -56,11 +65,11 @@ if ($_POST['_iid'])
     // mark all other identities as 'not-default'
     $DB->query("UPDATE ".get_table_name('identities')."
                 SET ".$DB->quoteIdentifier('default')."='0'
-                WHERE  identity_id!=?
-                AND    user_id=?
+                WHERE  user_id=?
+                AND    identity_id<>?
                 AND    del<>'1'",
-                $_POST['_iid'],
-                $_SESSION['user_id']);
+                $_SESSION['user_id'],
+                $_POST['_iid']);
     
     if ($_POST['_framed'])
       {
@@ -71,7 +80,8 @@ if ($_POST['_iid'])
   else
     {
     // show error message
-
+    show_message('errorsaving', 'error');
+    rcmail_overwrite_action('edit-identitiy');
     }
   }
 
@@ -87,7 +97,7 @@ else
       continue;
     
     $a_insert_cols[] = $DB->quoteIdentifier($col);
-    $a_insert_values[] = sprintf("'%s'", addslashes(strip_tags($_POST[$fname])));
+    $a_insert_values[] = $DB->quote(strip_tags($_POST[$fname]));
     }
     
   if (sizeof($a_insert_cols))
@@ -113,18 +123,13 @@ else
   else
     {
     // show error message
+    show_message('errorsaving', 'error');
+    rcmail_overwrite_action('edit-identitiy');
     }
   }
 
 
 // go to next step
-if ($_POST['_framed'])
-  $_action = 'edit-identitiy';
-else
-  $_action = 'identities';
-  
-
-// overwrite action variable  
-$OUTPUT->add_script(sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $_action));  
+rcmail_overwrite_action($_POST['_framed'] ? 'edit-identitiy' : 'identities');
 
 ?>

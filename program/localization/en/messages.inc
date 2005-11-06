@@ -32,7 +32,11 @@ $messages['loggedout'] = 'You have successfully terminated the session. Goody by
 
 $messages['mailboxempty'] = 'Mailbox is empty';
 
+$messages['loading'] = 'Loading...';
+
 $messages['loadingdata'] = 'Loading data...';
+
+$messages['sendingmessage'] = 'Sending message...';
 
 $messages['messagesent'] = 'Message sent successfully';
 
@@ -55,6 +59,22 @@ $messages['errorsaving'] = 'An error occured while saving';
 $messages['errormoving'] = 'Could not move the message';
 
 $messages['errordeleting'] = 'Could not delete the message';
+
+$messages['errordeleting'] = 'Could not delete the message';
+
+$messages['formincomplete']    = 'The form was not completely filled out';
+
+$messages['noemailwarning']    = 'Please enter a valid email address';
+
+$messages['nonamewarning']     = 'Please enter a name';
+
+$messages['nopagesizewarning'] = 'Please enter a page size';
+
+$messages['norecipientwarning'] = 'Please enter at least one recipient';
+
+$messages['nosubjectwarning']  = 'The "Subject" field is empty. Would you like to enter one now?';
+
+$messages['nobodywarning'] = 'Send this message without text?';
 
 
 ?>

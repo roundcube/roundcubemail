@@ -32,6 +32,10 @@ if (!is_array($_SESSION['compose']))
   $_SESSION['compose'] = array('id' => uniqid(rand()));
 
 
+// add some labels to client
+rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'sendingmessage');
+
+
 if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
   {
   $msg_uid = $_GET['_reply_uid'] ? $_GET['_reply_uid'] : $_GET['_forward_uid'];

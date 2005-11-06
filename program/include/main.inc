@@ -248,6 +248,9 @@ function load_gui()
     $OUTPUT->set_charset($CONFIG['charset']);
   else
     rcmail_set_locale($sess_user_lang);
+  
+  // add some basic label to client
+  rcube_add_label('loading');
   }  
 
 
@@ -401,6 +404,16 @@ function rcmail_create_user($user, $host)
   }
 
 
+// overwrite action variable  
+function rcmail_overwrite_action($action)
+  {
+  global $OUTPUT, $JS_OBJECT_NAME;
+  $GLOBALS['_action'] = $action;
+
+  $OUTPUT->add_script(sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $action));  
+  }
+
+
 function show_message($message, $type='notice')
   {
   global $OUTPUT, $JS_OBJECT_NAME, $REMOTE_REQUEST;
@@ -487,6 +500,20 @@ function rcube_list_languages()
     }
 
   return $sa_languages;
+  }
+
+
+// add a localized label to the client environment
+function rcube_add_label()
+  {
+  global $OUTPUT, $JS_OBJECT_NAME;
+  
+  $arg_list = func_get_args();
+  foreach ($arg_list as $i => $name)
+    $OUTPUT->add_script(sprintf("%s.add_label('%s', '%s');",
+                                $JS_OBJECT_NAME,
+                                $name,
+                                rep_specialchars_output(rcube_label($name), 'js')));  
   }
 
 

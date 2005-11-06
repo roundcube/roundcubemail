@@ -3,14 +3,45 @@ INSTALLATION
 ============
 
 1. Decompress and put this folder somewhere inside your document root
-2. Make sure that the following directories are writable by the webserver
+2. Make sure that the following directories (and the files within)
+   are writable by the webserver
    - /temp
    - /logs
-3. Create a new database and a database user for RoundCube
+3. Create a new database and a database user for RoundCube (see DATABASE SETUP)
 4. Create database tables using the queries in file 'SQL/*.initial.sql'
+   (* stands for your database type)
 5. Rename the files config/*.inc.php.dist to config/*.inc.php
 6. Modify the files in config/* to suit your local environment
 7. Done!
+
+
+DATABASE SETUP
+==============
+
+* MySQL
+-------
+Setting up the mysql database can be done by creating an empty database,
+importing the table layout and granting the proper permissions to the
+roundcube user. Here is an example of that procedure:
+
+# mysql
+> create database 'roundcubemail';
+> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
+        IDENTIFIED BY 'password';
+> quit
+# mysql roundcubemail < SQL/mysql.initial.sql
+
+* SQLite
+--------
+Sqlite requires specifically php5 (sqlite in php4 currently doesn't
+work with roundcube), and you need sqlite 2 (preferably 2.8) to setup
+the sqlite db (sqlite 3.x also doesn't work at the moment). Here is
+an example how you can setup the sqlite.db for roundcube:
+
+# sqlite -init SQL/sqlite.initial.sql sqlite.db
+
+Make sure your configuration points to the sqlite.db file and that the
+webserver can write to the file.
 
 
 UPGRADING

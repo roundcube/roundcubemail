@@ -34,6 +34,9 @@ function rcmail_user_prefs_form($attrib)
   {
   global $DB, $CONFIG, $sess_user_lang;
 
+  // add some labels to client
+  rcube_add_label('nopagesizewarning');
+  
   list($form_start, $form_end) = get_form_tags($attrib, 'save-prefs');
   unset($attrib['form']);
 

@@ -220,13 +220,29 @@ class rcube_db
         return $result->fetchRow(DB_FETCHMODE_ASSOC);
     }
 
-	function quoteIdentifier ( $str )
+
+    function quote($input, $type=null)
+    {
+		if (!$this->db_handle)
+			$this->db_connect('r');
+
+		return $this->db_handle->quote($input);
+    }
+    
+
+	function quoteIdentifier($str)
 	{
 		if (!$this->db_handle)
 			$this->db_connect('r');
 			
 		return $this->db_handle->quoteIdentifier($str);
 	}
+	
+	function quote_identifier($str)
+	{
+		return $this->quoteIdentifier($str);
+	}
+
 	
 	function unixtimestamp($field)
 	{

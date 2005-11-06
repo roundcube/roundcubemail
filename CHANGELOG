@@ -60,7 +60,7 @@ CHANGELOG RoundCube Webmail
 - Display folder names with special chars correctly (Bug #1330157)
 
 
-2005/11/02
+2005/11/06
 ----------
 - Added Finnish, Romanian and Chinese translation
 - Get IMAP server capabilities in array
@@ -71,4 +71,7 @@ CHANGELOG RoundCube Webmail
 - Fixed XSS in address book and identities
 - Added more XSS protection (Bug #1308236)
 - Added tab indexes for compose form
-
+- Added 'changed' col to contacts table
+- Support for 160-bit session hashes
+- Added input check for contacts and identities (Patch #1346523)
+- Added messages/warning to compose step (Patch #1323895)

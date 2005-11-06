@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/11/01 (roundcube)                                      |
+ | Modified: 2005/11/06 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -19,6 +19,7 @@ var rcube_webmail_client;
 function rcube_webmail()
   {
   this.env = new Object();
+  this.labels = new Object();
   this.buttons = new Object();
   this.gui_objects = new Object();
   this.commands = new Object();
@@ -48,6 +49,14 @@ function rcube_webmail()
     //if (!this.busy)
       this.env[name] = value;    
     };
+
+
+  // add a localized label to the client environment
+  this.add_label = function(key, value)
+    {
+    this.labels[key] = value;
+    };
+
 
   // add a button to the button list
   this.register_button = function(command, id, type, act, sel, over)
@@ -513,7 +522,37 @@ function rcube_webmail()
       case 'save-identity':
       case 'save':
         if (this.gui_objects.editform)
+          {
+          var input_pagesize = rcube_find_object('_pagesize');
+          var input_name  = rcube_find_object('_name');
+          var input_email = rcube_find_object('_email');
+
+          // user prefs
+          if (input_pagesize && input_pagesize.value == '')
+            {
+            alert(this.get_label('nopagesizewarning'));
+            input_pagesize.focus();
+            break;
+            }
+          // contacts/identities
+          else
+            {
+            if (input_name && input_name.value == '')
+              {
+              alert(this.get_label('nonamewarning'));
+              input_name.focus();
+              break;
+              }
+            else if (input_email && !rcube_check_email(input_email.value))
+              {
+              alert(this.get_label('noemailwarning'));
+              input_email.focus();
+              break;
+              }
+            }
+
           this.gui_objects.editform.submit();
+          }
         break;
 
       case 'delete':
@@ -639,14 +678,46 @@ function rcube_webmail()
         var input_to = rcube_find_object('_to');
         var input_subject = rcube_find_object('_subject');
         var input_message = rcube_find_object('_message');
-        
-        if (input_to.value!='' && input_message.value!='')
+
+        // check for empty recipient
+        if (input_to && !rcube_check_email(input_to.value, true))
           {
-          this.set_busy(true, 'sendingmessage');
-          var form = this.gui_objects.messageform;
-          form.submit();
+          alert(this.get_label('norecipientwarning'));
+          input_to.focus();
+          break;
           }
-          
+
+        // display localized warning for missing subject
+        if (input_subject && input_subject.value == '')
+          {
+          var subject = prompt(this.get_label('nosubjectwarning'), this.get_label('nosubject'));
+
+          // user hit cancel, so don't send
+          if (!subject && subject !== '')
+            {
+            input_subject.focus();
+            break;
+            }
+          else
+            {
+            input_subject.value = subject ? subject : this.get_label('nosubject');            
+            }
+          }
+
+        // check for empty body
+        if (input_message.value=='')
+          {
+          if (!confirm(this.get_label('nobodywarning')))
+            {
+            input_message.focus();
+            break;
+            }
+          }
+
+        // all checks passed, send message
+        this.set_busy(true, 'sendingmessage');
+        var form = this.gui_objects.messageform;
+        form.submit();
         break;
 
       case 'add-attachment':
@@ -760,7 +831,13 @@ function rcube_webmail()
   this.set_busy = function(a, message)
     {
     if (a && message)
-      this.display_message('Loading...', 'loading', true);
+      {
+      var msg = this.get_label(message);
+      if (msg==message)        
+        msg = 'Loading...';
+
+      this.display_message(msg, 'loading', true);
+      }
     else if (!a && this.busy)
       this.hide_message();
 
@@ -780,6 +857,17 @@ function rcube_webmail()
     };
 
 
+  // return a localized string
+  this.get_label = function(name)
+    {
+    if (this.labels[name])
+      return this.labels[name];
+    else
+      return name;
+    };
+
+
+  // switch to another application task
   this.switch_task = function(task)
     {
     if (this.task===task && task!='mail')
