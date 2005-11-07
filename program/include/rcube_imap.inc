@@ -464,6 +464,7 @@ class rcube_imap
 		
     // sort headers by a specific col
     $a_headers = iil_SortHeaders($a_msg_headers, $sort_field, $sort_order);
+    $headers_count = count($a_headers);
 
 	// free memory
 	unset($a_msg_headers);
@@ -471,6 +472,14 @@ class rcube_imap
     // write headers list to cache
     if (!$headers_cached)
       $this->update_cache($mailbox.'.msg', $a_headers);
+      
+    // update message count cache
+    $a_mailbox_cache = $this->get_cache('messagecount');
+    if (isset($a_mailbox_cache[$mailbox]['ALL']) && $a_mailbox_cache[$mailbox]['ALL'] != $headers_count)
+      {
+      $a_mailbox_cache[$mailbox]['ALL'] = (int)$headers_count;
+      $this->update_cache('messagecount', $a_mailbox_cache);
+      }
 
 	if (empty($a_headers))
 		return array();

@@ -573,6 +573,7 @@ function parse_template($name='main', $exit=TRUE)
 // replace all strings ($varname) with the content of the according global variable
 function parse_with_globals($input)
   {
+  $GLOBALS['__comm_path'] = $GLOBALS['COMM_PATH'];
   $output = preg_replace('/\$(__[a-z0-9_\-]+)/e', '$GLOBALS["\\1"]', $input);
   return $output;
   }

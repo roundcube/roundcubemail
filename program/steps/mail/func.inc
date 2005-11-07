@@ -793,7 +793,8 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
         }
 
       // part is file/attachment
-      else if ($mail_part->disposition=='attachment' || $mail_part->disposition=='inline' || $mail_part->headers['content-id'])
+      else if ($mail_part->disposition=='attachment' || $mail_part->disposition=='inline' || $mail_part->headers['content-id'] ||
+               (empty($mail_part->disposition) && ($mail_part->d_parameters['filename'] || $mail_part->d_parameters['name'])))
         {
         if ($message_ctype_secondary=='related' && $mail_part->headers['content-id'])
           $sa_inline_objects[] = array('filename' => $mail_part->d_parameters['filename'],
