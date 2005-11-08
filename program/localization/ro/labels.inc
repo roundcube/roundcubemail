@@ -90,6 +90,7 @@ $labels['today'] = 'Astazi';
 // toolbar buttons
 $labels['writenewmessage']  = 'Creaza mesaj nou';
 $labels['replytomessage']   = 'Raspunde la mesaj';
+$labels['replytoallmessage'] = 'Raspunde la toti';
 $labels['forwardmessage']   = 'Trimite mesaj mai departe';
 $labels['deletemessage']    = 'Muta mesaj la gunoi';
 $labels['printmessage']     = 'Printeaza mesaj';

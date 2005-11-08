@@ -92,6 +92,7 @@ $labels['today'] = 'Heute';
 // toolbar buttons // Symbolleisten-Tipps
 $labels['writenewmessage']  = 'Neue Nachricht schreiben';
 $labels['replytomessage']   = 'Antwort verfassen';
+$labels['replytoallmessage'] = 'Antwort an Absender und alle Empfänger';
 $labels['forwardmessage']   = 'Nachricht weiterleiten';
 $labels['deletemessage']    = 'In den Papierkorb verschieben';
 $labels['printmessage']     = 'Diese Nachricht drucken';

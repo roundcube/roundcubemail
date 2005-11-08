@@ -91,6 +91,7 @@ $labels['today'] = 'Vandaag';
 // toolbar buttons
 $labels['writenewmessage']  = 'Schrijf een nieuw bericht';
 $labels['replytomessage']   = 'Beantwoord het bericht';
+$labels['replytoallmessage'] = 'Beantwoord allen';
 $labels['forwardmessage']   = 'Stuur bericht door';
 $labels['deletemessage']    = 'Verplaats bericht naar prullenbak';
 $labels['printmessage']     = 'Print dit bericht';

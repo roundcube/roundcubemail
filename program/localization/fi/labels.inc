@@ -91,6 +91,7 @@ $labels['today'] = 'T‰n‰‰n';
 // toolbar buttons
 $labels['writenewmessage']  = 'Kirjoita uusi viesti';
 $labels['replytomessage']   = 'Vastaa viestiin';
+$labels['replytoallmessage'] = 'Vastaa kaikille';
 $labels['forwardmessage']   = 'V‰lit‰ viesti';
 $labels['deletemessage']    = 'Siirr‰ viesti roskakoriin';
 $labels['printmessage']     = 'Tulosta viesti';

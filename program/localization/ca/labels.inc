@@ -91,6 +91,7 @@ $labels['today'] = 'Avui';
 // toolbar buttons
 $labels['writenewmessage']  = 'Crear nou missatge';
 $labels['replytomessage']   = 'Respondre el missatge';
+$labels['replytoallmessage'] = 'Respondre a tots';
 $labels['forwardmessage']   = 'Reenviar el missatge';
 $labels['deletemessage']    = 'Moure el missatge a la paperera';
 $labels['printmessage']     = 'Imprimir aquest missatge';

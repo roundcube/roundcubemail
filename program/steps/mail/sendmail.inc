@@ -138,7 +138,7 @@ if ($CONFIG['useragent'])
 
 
 // create PEAR::Mail_mime instance
-$MAIL_MIME = new Mail_mime();
+$MAIL_MIME = new Mail_mime("\n");
 $MAIL_MIME->setTXTBody(stripslashes($_POST['_message']), FALSE, TRUE);
 //$MAIL_MIME->setTXTBody(wordwrap(stripslashes($_POST['_message'])), FALSE, TRUE);
 

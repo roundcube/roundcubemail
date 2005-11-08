@@ -50,15 +50,18 @@ if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
   $MESSAGE['structure'] = $mmd->decode(array('include_bodies' => TRUE,
                                              'decode_headers' => TRUE,
                                              'decode_bodies' => FALSE));
-                                             
+
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   $MESSAGE['parts'] = $mmd->getMimeNumbers($MESSAGE['structure']);
   
   if ($_GET['_reply_uid'])
     {
-    $REPLY_MESSAGE = $MESSAGE;
+    $REPLY_MESSAGE = &$MESSAGE;
     $_SESSION['compose']['reply_uid'] = $_GET['_reply_uid'];
     $_SESSION['compose']['reply_msgid'] = $REPLY_MESSAGE['headers']->messageID;
+
+    if ($_GET['_all'])
+      $REPLY_MESSAGE['reply_all'] = 1;
     }
   else
     {
@@ -75,6 +78,7 @@ if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
 function rcmail_compose_headers($attrib)
   {
   global $IMAP, $REPLY_MESSAGE, $DB;
+  static $sa_recipients = array();
 
   list($form_start, $form_end) = get_form_tags($attrib);
   
@@ -144,7 +148,7 @@ function rcmail_compose_headers($attrib)
       if (!$fname)
         {
         $fname = '_cc';
-        //$header = 'cc';
+        $header = 'cc';
         }
     case 'bcc':
       if (!$fname)
@@ -162,7 +166,7 @@ function rcmail_compose_headers($attrib)
       break;
     
     }
-    
+
     
   if ($fname && !empty($_POST[$fname]))
     $fvalue = $_POST[$fname];
@@ -173,14 +177,37 @@ function rcmail_compose_headers($attrib)
       $fvalue = $IMAP->decode_header($REPLY_MESSAGE['headers']->replyto);
     else if ($header=='to' && $REPLY_MESSAGE['headers']->from)
       $fvalue = $IMAP->decode_header($REPLY_MESSAGE['headers']->from);
-    
+    // add recipent of original message if reply to all
+    else if ($header=='cc' && $REPLY_MESSAGE['reply_all'])
+      {
+      if ($IMAP->decode_header($REPLY_MESSAGE['headers']->to))
+        $fvalue .= $IMAP->decode_header($REPLY_MESSAGE['headers']->to);
+
+      if ($IMAP->decode_header($REPLY_MESSAGE['headers']->cc))
+        {
+        if($fvalue)
+          $fvalue .= ', ';
+
+        $fvalue .= $IMAP->decode_header($REPLY_MESSAGE['headers']->cc);
+        }
+      }
+
     // split recipients and put them back together in a unique way
-    $to_addresses = $IMAP->decode_address_list($fvalue);
-    $fvalue = '';
-    foreach ($to_addresses as $addr_part)
-      $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
+    if (!empty($fvalue))
+      {
+      $to_addresses = $IMAP->decode_address_list($fvalue);
+      $fvalue = '';
+      foreach ($to_addresses as $addr_part)
+        {
+        if (!in_array($addr_part['mailto'], $sa_recipients))
+          {
+          $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
+          $sa_recipients[] = $addr_part['mailto'];
+          }
+        }
+      }
     }
-    
+
         
   if ($fname && $field_type)
     {

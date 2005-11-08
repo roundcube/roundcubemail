@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/11/06 (roundcube)                                      |
+ | Modified: 2005/11/08 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -118,7 +118,7 @@ function rcube_webmail()
         
         if (this.env.action=='show')
           {
-          this.enable_command('show', 'reply', 'forward', 'moveto', 'delete', 'viewsource', 'print', 'load-attachment', true);
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'viewsource', 'print', 'load-attachment', true);
           if (this.env.next_uid)
             this.enable_command('nextmessage', true);
           if (this.env.prev_uid)
@@ -727,12 +727,13 @@ function rcube_webmail()
         this.upload_file(props)      
         break;
 
+      case 'reply-all':
       case 'reply':
         var uid;
         if (uid = this.get_single_uid())
           {
           this.set_busy(true);
-          location.href = this.env.comm_path+'&_action=compose&_reply_uid='+uid+'&_mbox='+escape(this.env.mailbox);
+          location.href = this.env.comm_path+'&_action=compose&_reply_uid='+uid+'&_mbox='+escape(this.env.mailbox)+(command=='reply-all' ? '&_all=1' : '');
           }
         break;      
 
@@ -1036,7 +1037,7 @@ function rcube_webmail()
     // enable/disable commands for message
     if (this.task=='mail')
       {
-      this.enable_command('show', 'reply', 'forward', 'print', selected);
+      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
       this.enable_command('delete', 'moveto', this.selection.length>0 ? true : false);
       }
     else if (this.task=='addressbook')

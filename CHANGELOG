@@ -62,7 +62,7 @@ CHANGELOG RoundCube Webmail
 
 2005/11/06
 ----------
-- Added Finnish, Romanian, Polish, Czech, British and Chinese translation
+- Added Finnish, Romanian, Polish, Czech, British, Norwegian and Chinese translation
 - Get IMAP server capabilities in array
 - Check for NAMESPACE capability before sending command
 - Set default user language from config 'locale_string'
@@ -76,3 +76,6 @@ CHANGELOG RoundCube Webmail
 - Added input check for contacts and identities (Patch #1346523)
 - Added messages/warning to compose step (Patch #1323895)
 - Added favicon to the default skin
+- Fixed Bug #1334337 as far as possible
+- Added Reply-To-All functionality
+

@@ -91,6 +91,7 @@ $labels['today'] = 'Hoje';
 // toolbar buttons
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder a mensagem';
+$labels['replytoallmessage'] = 'Responder a todos';
 $labels['forwardmessage']   = 'Reencaminhar a mensagem';
 $labels['deletemessage']    = 'Mover a mensagem para a reciclagem';
 $labels['printmessage']     = 'Imprimir esta mensagem';

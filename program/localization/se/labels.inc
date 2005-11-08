@@ -91,6 +91,7 @@ $labels['today'] = 'Idag';
 // toolbar buttons
 $labels['writenewmessage']  = 'Skapa nytt meddelande';
 $labels['replytomessage']   = 'Svar på meddelande';
+$labels['replytoallmessage'] = 'Svara alla';
 $labels['forwardmessage']   = 'Skicka vidare meddelande';
 $labels['deletemessage']    = 'Flytta till papperskorgen';
 $labels['printmessage']     = 'Skriv ut';

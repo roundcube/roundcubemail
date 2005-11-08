@@ -32,6 +32,8 @@ $messages['loggedout'] = 'Du har avslutat sessionen. Hej då!';
 
 $messages['mailboxempty'] = 'Mappen är tom';
 
+$messages['loading'] = 'Laddar....';
+
 $messages['loadingdata'] = 'Laddar data...';
 
 $messages['messagesent'] = 'Meddelande skickades';

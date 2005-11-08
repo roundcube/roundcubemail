@@ -105,6 +105,16 @@ function rcmail_toggle_display(id)
 
 <roundcube:object name="composeAttachmentForm" id="attachment-form" />
 
+<script type="text/javascript">
+<!--
+
+var cc_field = document.form._cc;
+if (cc_field && cc_field.value!='')
+  rcmail_toggle_display('compose-cc');
+
+//-->
+</script>
+
 <!--
 <div id="attachment-form">
 <roundcube:object name="composeAttachment" size="20" /><br />
