@@ -289,6 +289,14 @@ if ($_task=='settings')
   }
 
 
+// handle keep-alive signal
+if ($_action=='keep-alive')
+  {
+  rcube_remote_response('');
+  exit;
+  }
+
+
 // only allow these templates to be included
 $valid_tasks = array('mail','settings','addressbook');
 

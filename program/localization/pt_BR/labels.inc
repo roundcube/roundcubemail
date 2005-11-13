@@ -22,7 +22,7 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Usu&aacute;rio';
+$labels['username']  = 'Nome de Usuário';
 $labels['password']  = 'Senha';
 $labels['server']    = 'Servidor';
 $labels['login']     = 'Login';
@@ -30,8 +30,8 @@ $labels['login']     = 'Login';
 // taskbar
 $labels['logout']   = 'Sair';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Configura&cedil;&otilde;es pessoais';
-$labels['addressbook'] = 'Cat&aacute;logo de endere&cedil;os';
+$labels['settings'] = 'Configuraçôes pessoais';
+$labels['addressbook'] = 'Catálogo de endereços';
 
 // mailbox names
 $labels['inbox']  = 'Caixa de entrada';
@@ -44,19 +44,19 @@ $labels['junk']   = 'Spam';
 $labels['subject'] = 'Assunto';
 $labels['from']    = 'De';
 $labels['to']      = 'Para';
-$labels['cc']      = 'C&oacute;pia';
+$labels['cc']      = 'Cópia';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Responder para';
 $labels['date']    = 'Data';
 $labels['size']    = 'Tamanho';
 $labels['priority'] = 'Prioridade';
-$labels['organization'] = 'Organiza&cedil;&atilde;o';
+$labels['organization'] = 'Organizaçâo';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Mensagens';
-$labels['messagesfromto'] = 'Mensagens $from at&eacute; $to de $count';
+$labels['messagesfromto'] = 'Mensagens $from até $to de $count';
 $labels['messagenrof'] = 'Mensagens $nr de $count';
 
 $labels['moveto']   = 'mover para ...';
@@ -69,7 +69,7 @@ $labels['preferhtml'] = 'Prefere HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
 $labels['prettydate'] = 'Formatar datas';
 
-$labels['addtoaddressbook'] = 'Incluir no cat&aacute;logo de endere&cedil;os';
+$labels['addtoaddressbook'] = 'Incluir no catálogo de endereços';
 
 // weekdays short
 $labels['sun'] = 'Dom';
@@ -78,16 +78,16 @@ $labels['tue'] = 'Ter';
 $labels['wed'] = 'Qua';
 $labels['thu'] = 'Qui';
 $labels['fri'] = 'Sex';
-$labels['sat'] = 'SÃ¡b';
+$labels['sat'] = 'Sáb';
 
 // weekdays long
 $labels['sunday']    = 'Domingo';
 $labels['monday']    = 'Segunda';
-$labels['tuesday']   = 'Ter&cedil;a';
+$labels['tuesday']   = 'Terça';
 $labels['wednesday'] = 'Quarta';
 $labels['thursday']  = 'Quinta';
 $labels['friday']    = 'Sexta';
-$labels['saturday']  = 'S&aacute;bado';
+$labels['saturday']  = 'Sábado';
 
 $labels['today'] = 'Hoje';
 
@@ -99,7 +99,7 @@ $labels['forwardmessage']   = 'Encaminhar';
 $labels['deletemessage']    = 'Mover para a lixeira';
 $labels['printmessage']     = 'Imprimir';
 $labels['previousmessages'] = 'Anterior';
-$labels['nextmessages']     = 'Pr&oacute;ximo';
+$labels['nextmessages']     = 'Próximo';
 $labels['backtolist']       = 'Voltar';
 
 $labels['select'] = 'Selecionar';

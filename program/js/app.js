@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/11/08 (roundcube)                                      |
+ | Modified: 2005/11/13 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -33,6 +33,7 @@ function rcube_webmail()
   this.dblclick_time = 600;
   this.message_time = 5000;
   this.request_timeout = 180000;
+  this.kepp_alive_interval = 60000;
   this.mbox_expression = new RegExp('[^0-9a-z\-_]', 'gi');
   this.env.blank_img = 'skins/default/images/blank.gif';
   
@@ -217,6 +218,10 @@ function rcube_webmail()
     // show message
     if (this.pending_message)
       this.display_message(this.pending_message[0], this.pending_message[1]);
+      
+    // start interval for keep-alive siganl
+    if (this.kepp_alive_interval)
+      this.kepp_alive_int = setInterval(this.ref+'.send_keep_alive()', this.kepp_alive_interval);
     };
 
 
@@ -1189,7 +1194,7 @@ function rcube_webmail()
     // send request to server
     var url = '_mbox='+escape(mbox)+(page ? '&_page='+page : '');
     this.set_busy(true, 'loading');
-    this.http_request('list', url+add_url);
+    this.http_request('list', url+add_url, true);
     };
 
 
@@ -1217,13 +1222,18 @@ function rcube_webmail()
           this.message_rows[id].obj.style.display = 'none';
         }
       }
+      
+    var lock = false;
 
     // show wait message
     if (this.env.action=='show')
+      {
+      lock = true;
       this.set_busy(true, 'movingmessage');
+      }
 
     // send request to server
-    this.http_request('moveto', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_target_mbox='+escape(mbox)+'&_from='+(this.env.action ? this.env.action : ''));
+    this.http_request('moveto', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_target_mbox='+escape(mbox)+'&_from='+(this.env.action ? this.env.action : ''), lock);
     };
 
 
@@ -1692,7 +1702,7 @@ function rcube_webmail()
     // send request to server
     var url = page ? '&_page='+page : '';
     this.set_busy(true, 'loading');
-    this.http_request('list', url);
+    this.http_request('list', url, true);
     };
 
 
@@ -1834,7 +1844,7 @@ function rcube_webmail()
       name = form.elements['_folder_name'].value;
 
     if (name)
-      this.http_request('create-folder', '_name='+escape(name));
+      this.http_request('create-folder', '_name='+escape(name), true);
     else if (form.elements['_folder_name'])
       form.elements['_folder_name'].focus();
     };
@@ -2346,18 +2356,29 @@ function rcube_webmail()
   /********************************************************/
 
 
-  // send a http request to the server
-  this.http_request = function(action, querystring)
+  this.http_sockets = new Array();
+  
+  // find a non-busy socket or create a new one
+  this.get_request_obj = function()
     {
-    if (window.XMLHttpRequest)
-      this.request_obj = new XMLHttpRequest();
-    else if (window.ActiveXObject)
-      this.request_obj = new ActiveXObject("Microsoft.XMLHTTP");
-    else
+    for (var n=0; n<this.http_sockets.length; n++)
       {
-      
+      if (!this.http_sockets[n].busy)
+        return this.http_sockets[n];
       }
+    
+    // create a new XMLHTTP object
+    var i = this.http_sockets.length;
+    this.http_sockets[i] = new rcube_http_request();
 
+    return this.http_sockets[i];
+    };
+  
+
+  // send a http request to the server
+  this.http_request = function(action, querystring, lock)
+    {
+    var request_obj = this.get_request_obj();
     querystring += '&_remote=1';
     
     // add timestamp to request url to avoid cacheing problems in Safari
@@ -2365,51 +2386,77 @@ function rcube_webmail()
       querystring += '&_ts='+(new Date().getTime());
 
     // send request
-    if (this.request_obj)
+    if (request_obj)
       {
       // prompt('request', this.env.comm_path+'&_action='+escape(action)+'&'+querystring);
       console('HTTP request: '+this.env.comm_path+'&_action='+escape(action)+'&'+querystring);
-      this.set_busy(true);
-      this.request_action = action;
-      this.request_obj.onreadystatechange = function(){ rcube_webmail_client.http_response(); };
-      this.request_obj.open('GET', this.env.comm_path+'&_action='+escape(action)+'&'+querystring);
-      this.request_obj.send(null);
+
+      if (lock)
+        this.set_busy(true);
+
+      request_obj.__lock = lock ? true : false;
+      request_obj.__action = action;
+      request_obj.onerror = function(o){ rcube_webmail_client.http_error(o); };
+      request_obj.oncomplete = function(o){ rcube_webmail_client.http_response(o); };
+      request_obj.GET(this.env.comm_path+'&_action='+escape(action)+'&'+querystring);
       }
     };
 
 
-  // handle http response
-  this.http_response = function()
+  // handle HTTP response
+  this.http_response = function(request_obj)
     {
-    if (this.request_obj.readyState == 4) // || this.request_obj.readyState == 2)
-      {
-      var ctype = this.request_obj.getResponseHeader('Content-Type');
-      if (ctype)
-        ctype = String(ctype).toLowerCase();
+    var ctype = request_obj.get_header('Content-Type');
+    if (ctype)
+      ctype = String(ctype).toLowerCase();
 
+    if (request_obj.__lock)
       this.set_busy(false);
 
-  console(this.request_obj.responseText);
+  console(request_obj.responseText);
 
-      // if we get javascript code from server -> execute it
-      if (this.request_obj.responseText && (ctype=='text/javascript' || ctype=='application/x-javascript'))
-        eval(this.request_obj.responseText);
+    // if we get javascript code from server -> execute it
+    if (request_obj.responseText && (ctype=='text/javascript' || ctype=='application/x-javascript'))
+      eval(request_obj.responseText);
 
-      // process the response data according to the sent action
-      switch (this.request_action)
-        {
-        case 'delete':
-        case 'moveto':
-          if (this.env.action=='show')
-            this.command('list');
-          break;
+    // process the response data according to the sent action
+    switch (request_obj.__action)
+      {
+      case 'delete':
+      case 'moveto':
+        if (this.env.action=='show')
+          this.command('list');
+        break;
           
-        case 'list':
-          this.enable_command('select-all', 'select-none', this.env.messagecount ? true : false);
-          break;
-        }
+      case 'list':
+        this.enable_command('select-all', 'select-none', this.env.messagecount ? true : false);
+        break;
       }
+
+    request_obj.reset();
     };
+
+
+  // handle HTTP request errors
+  this.http_error = function(request_obj)
+    {
+    alert('Error sending request: '+request_obj.url);
+
+    if (request_obj.__lock)
+      this.set_busy(false);
+
+    request_obj.reset();
+    request_obj.__lock = false;
+    };
+
+
+  // use an image to send a keep-alive siganl to the server
+  this.send_keep_alive = function()
+    {
+    var d = new Date();
+    this.http_request('keep-alive', '_t='+d.getTime());
+    };
+    
 
 
   /********************************************************/
@@ -2523,6 +2570,111 @@ function rcube_webmail()
     
   }  // end object rcube_webmail
 
+
+
+// class for HTTP requests
+function rcube_http_request()
+  {
+  this.url = '';
+  this.busy = false;
+  this.xmlhttp = null;
+
+
+  // reset object properties
+  this.reset = function()
+    {
+    // set unassigned event handlers
+    this.onloading = function(){ };
+    this.onloaded = function(){ };
+    this.oninteractive = function(){ };
+    this.oncomplete = function(){ };
+    this.onabort = function(){ };
+    this.onerror = function(){ };
+    
+    this.url = '';
+    this.busy = false;
+    this.xmlhttp = null;
+    }
+
+
+  // create HTMLHTTP object
+  this.build = function()
+    {
+    if (window.XMLHttpRequest)
+      this.xmlhttp = new XMLHttpRequest();
+    else if (window.ActiveXObject)
+      this.xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    else
+      {
+      
+      }
+    }
+
+  // sedn GET request
+  this.GET = function(url)
+    {
+    this.build();
+
+    if (!this.xmlhttp)
+      {
+      this.onerror(this);
+      return false;
+      }
+
+    var ref = this;
+    this.url = url;
+    this.busy = true;
+
+    this.xmlhttp.onreadystatechange = function(){ ref.xmlhttp_onreadystatechange(); };
+    this.xmlhttp.open('GET', url);
+    this.xmlhttp.send(null);
+    };
+
+
+  this.POST = function(url, a_param)
+    {
+    // not implemented yet
+    };
+
+
+  // handle onreadystatechange event
+  this.xmlhttp_onreadystatechange = function()
+    {
+    if(this.xmlhttp.readyState == 1)
+      this.onloading(this);
+
+    else if(this.xmlhttp.readyState == 2)
+      this.onloaded(this);
+
+    else if(this.xmlhttp.readyState == 3)
+      this.oninteractive(this);
+
+    else if(this.xmlhttp.readyState == 4)
+      {
+      this.responseText = this.xmlhttp.responseText;
+      this.responseXML = this.xmlhttp.responseXML;
+      
+      if(this.xmlhttp.status == 0)
+        this.onabort(this);
+      else if(this.xmlhttp.status == 200)
+        this.oncomplete(this);
+      else
+        this.onerror(this);
+        
+      this.busy = false;
+      }
+    }
+
+  // getter method for HTTP headers
+  this.get_header = function(name)
+    {
+    return this.xmlhttp.getResponseHeader(name);
+    };
+
+
+  this.reset();
+  
+  }  // end class rcube_http_request
 
 
 
