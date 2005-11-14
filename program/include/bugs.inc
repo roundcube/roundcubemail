@@ -63,8 +63,12 @@ function log_bug($arg_arr)
                  $arg_arr['message'],
                  $arg_arr['file'],
                  $arg_arr['line']);
-
-    if ($fp = fopen($INSTALL_PATH.'logs/errors', 'a'))
+                 
+    if (empty($CONFIG['log_dir']))
+      $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
+      
+    if ($fp = fopen($CONFIG['log_dir'].'/errors', 'a'))
+    
       {
       fwrite($fp, $log_entry);
       fclose($fp);

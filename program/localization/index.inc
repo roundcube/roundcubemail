@@ -37,7 +37,7 @@
 	'el'    => 'Greek',
 	'hu'    => 'Hungarian',
 	'it'    => 'Italiano',
-	'jp'    => 'Japanese', 
+	'jp'    => 'Japanese',
 	'kr'    => 'Korean',
 	'lv'    => 'Latvian',
 	'nl'    => 'Nederlands',

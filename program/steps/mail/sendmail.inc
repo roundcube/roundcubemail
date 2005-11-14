@@ -259,7 +259,7 @@ if ($CONFIG['smtp_log'])
                $mailto,
                $msg_subject);
 
-  if ($fp = fopen($INSTALL_PATH.'logs/sendmail', 'a'))
+  if ($fp = fopen($CONFIG['log_dir'].'/sendmail', 'a'))
     {
     fwrite($fp, $log_entry);
     fclose($fp);

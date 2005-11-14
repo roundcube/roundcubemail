@@ -21,26 +21,32 @@
 
 $labels = array();
 
-// login page
-$labels['username']  = 'Nome de Usuário';
+// Página de login
+$labels['username']  = 'Usuário';
 $labels['password']  = 'Senha';
 $labels['server']    = 'Servidor';
 $labels['login']     = 'Login';
 
-// taskbar
+// Barra de tarefas
 $labels['logout']   = 'Sair';
-$labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Configuraçôes pessoais';
+$labels['mail']     = 'E-mail';
+$labels['settings'] = 'Configurações pessoais';
 $labels['addressbook'] = 'Catálogo de endereços';
 
-// mailbox names
+// Nome das pastas de correio
 $labels['inbox']  = 'Caixa de entrada';
+# Added by Cadu
+# start
+$labels['inbox']['drafts']='Rascunhos';
+$labels['inbox']['sent']='Enviados';
+$labels['inbox']['trash']='Lixeira';
+# end
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
 $labels['drafts'] = 'Rascunhos';
 $labels['junk']   = 'Spam';
 
-// message listing
+// Listagem das mensagem
 $labels['subject'] = 'Assunto';
 $labels['from']    = 'De';
 $labels['to']      = 'Para';
@@ -50,14 +56,14 @@ $labels['replyto'] = 'Responder para';
 $labels['date']    = 'Data';
 $labels['size']    = 'Tamanho';
 $labels['priority'] = 'Prioridade';
-$labels['organization'] = 'Organizaçâo';
+$labels['organization'] = 'Empresa';
 
-// aliases
+// Rótulos
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Mensagens';
-$labels['messagesfromto'] = 'Mensagens $from até $to de $count';
-$labels['messagenrof'] = 'Mensagens $nr de $count';
+$labels['messagesfromto'] = 'Mensagens $from - $to de $count';
+$labels['messagenrof'] = 'Mensagem $nr de $count';
 
 $labels['moveto']   = 'mover para ...';
 $labels['download'] = 'download';
@@ -71,7 +77,7 @@ $labels['prettydate'] = 'Formatar datas';
 
 $labels['addtoaddressbook'] = 'Incluir no catálogo de endereços';
 
-// weekdays short
+// Dias da semana abreviados
 $labels['sun'] = 'Dom';
 $labels['mon'] = 'Seg';
 $labels['tue'] = 'Ter';
@@ -80,21 +86,20 @@ $labels['thu'] = 'Qui';
 $labels['fri'] = 'Sex';
 $labels['sat'] = 'Sáb';
 
-// weekdays long
+// Dias da semana completos
 $labels['sunday']    = 'Domingo';
-$labels['monday']    = 'Segunda';
-$labels['tuesday']   = 'Terça';
-$labels['wednesday'] = 'Quarta';
-$labels['thursday']  = 'Quinta';
-$labels['friday']    = 'Sexta';
+$labels['monday']    = 'Segunda-feira';
+$labels['tuesday']   = 'Terça-feira';
+$labels['wednesday'] = 'Quarta-feira';
+$labels['thursday']  = 'Quinta-feira';
+$labels['friday']    = 'Sexta-feira';
 $labels['saturday']  = 'Sábado';
 
 $labels['today'] = 'Hoje';
 
-// toolbar buttons
-$labels['writenewmessage']  = 'Criar nova mensagem';
+// Botões da barra de ferramentas
+$labels['writenewmessage']  = 'Escrever nova mensagem';
 $labels['replytomessage']   = 'Responder';
-$labels['replytoallmessage'] = 'Responder a todos';
 $labels['forwardmessage']   = 'Encaminhar';
 $labels['deletemessage']    = 'Mover para a lixeira';
 $labels['printmessage']     = 'Imprimir';
@@ -107,8 +112,8 @@ $labels['all'] = 'Todos';
 $labels['none'] = 'Nenhum';
 $labels['unread'] = 'Não lido';
 
-// message compose
-$labels['compose']  = 'Compor nova mensagem';
+// Escrever mensagem
+$labels['compose']  = 'Escrever nova mensagem';
 $labels['sendmessage']  = 'Enviar mensagem agora';
 $labels['addattachment']  = 'Anexar arquivo';
 
@@ -117,7 +122,7 @@ $labels['upload'] = 'Enviar';
 $labels['close']  = 'Fechar';
 
 $labels['low']     = 'Baixa';
-$labels['lowest']  = 'Mais baixa';
+$labels['lowest']  = 'Muito baixa';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Alta';
 $labels['highest'] = 'Urgente';
@@ -125,7 +130,7 @@ $labels['highest'] = 'Urgente';
 $labels['showimages'] = 'Exibir imagens';
 
 
-// address boook
+// Catálogo de endereços
 $labels['name']      = 'Nome';
 $labels['firstname'] = 'Primeiro nome';
 $labels['surname']   = 'Sobrenome';
@@ -142,13 +147,13 @@ $labels['delete'] = 'Excluir';
 $labels['newcontact']     = 'Criar novo contato';
 $labels['deletecontact']  = 'Excluir contatos selecionados';
 $labels['composeto']      = 'Compor email para ';
-$labels['contactsfromto'] = 'Contatos $from até $to de $count';
+$labels['contactsfromto'] = 'Contatos de $from até $to de $count';
 
 
-// settings
+// Configurações
 $labels['settingsfor']  = 'Configurações para';
 
-$labels['preferences']  = 'Preferência';
+$labels['preferences']  = 'Preferências';
 $labels['userpreferences']  = 'Preferências do usuário';
 $labels['editpreferences']  = 'Editar preferências do usuário';
 
@@ -172,6 +177,5 @@ $labels['create']  = 'Criar';
 $labels['createfolder']  = 'Criar nova pasta';
 $labels['deletefolder']  = 'Excluir pasta';
 $labels['managefolders']  = 'Gerenciar pastas';
-
 
 ?>

@@ -1146,6 +1146,8 @@ EOF;
   // perform utf-8 decoding
   if ($utf8_decode && function_exists('utf8ToUnicodeEntities'))
     $text = utf8ToUnicodeEntities($text);
+  else if ($utf8_decode)
+    $OUTPUT->set_charset('UTF-8');
 
 
   // format output
@@ -1206,7 +1208,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     {
     if (!$html_encode_arr)
       {
-      $html_encode_arr = get_html_translation_table(HTML_ENTITIES); // HTML_SPECIALCHARS
+      $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS); // HTML_ENTITIES
       $html_encode_arr[chr(128)] = '&euro;';
       unset($html_encode_arr['?']);
       unset($html_encode_arr['&']);
@@ -1238,10 +1240,12 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   // if the replace tables for RTF, XML and JS are not yet defined
   if (!$js_rep_table)
     {
+    $js_rep_table = $rtf_rep_table = $xml_rep_table = array();
+
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
       {
       $hex = dechex($c);
-      $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
+      //$js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
       $rtf_rep_table[Chr($c)] = "\\'$hex";
       $xml_rep_table[Chr($c)] = "&#$c;";
       }

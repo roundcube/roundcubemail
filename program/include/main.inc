@@ -40,12 +40,16 @@ function rcmail_startup($task='mail')
   include_once('config/db.inc.php');
   $CONFIG = array_merge($CONFIG, $rcmail_config);
 
+  if (empty($CONFIG['log_dir']))
+    $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
+  else
+    $CONFIG['log_dir'] = ereg_replace('\/$', '', $CONFIG['log_dir']);
 
   // set PHP error logging according to config
   if ($CONFIG['debug_level'] & 1)
     {
     ini_set('log_errors', 1);
-    ini_set('error_log', $INSTALL_PATH.'logs/errors');  
+    ini_set('error_log', $CONFIG['log_dir'].'/errors');
     }
   if ($CONFIG['debug_level'] & 4)
     ini_set('display_errors', 1);

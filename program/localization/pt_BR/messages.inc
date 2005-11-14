@@ -26,7 +26,7 @@ $messages['cookiesdisabled'] = 'Seu navegador não suporta cookies';
 
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
 
-$messages['imaperror'] = 'Conexão com o servidor IMAP falhou';
+$messages['imaperror'] = 'A conexão com o servidor IMAP falhou';
 
 $messages['nomessagesfound'] = 'Nenhuma mensagem foi encontrada na caixa postal';
 
@@ -40,7 +40,7 @@ $messages['messagesent'] = 'Mensagem enviada';
 
 $messages['successfullysaved'] = 'Salvo com sucesso';
 
-$messages['addedsuccessfully'] = 'Contato incluido com sucesso';
+$messages['addedsuccessfully'] = 'Contato incluído com sucesso';
 
 $messages['contactexists'] = 'Um contato com esse e-mail já existe';
 
@@ -50,9 +50,9 @@ $messages['encryptedmessage'] = 'Esta mensagem está criptografada e não pode ser
 
 $messages['nocontactsfound'] = 'Nenhum contato foi encontrado.';
 
-$messages['sendingfailed'] = 'Falha no envia da mensagem';
+$messages['sendingfailed'] = 'Falha no envio da mensagem';
 
-$messages['errorsaving'] = 'Um erro ocorreu enquanto durante o salvamento da mensagem';
+$messages['errorsaving'] = 'Um erro ocorreu ao salvar a mensagem';
 
 
 ?>

@@ -583,6 +583,15 @@ function format_email_recipient($email, $name='')
   }
 
 
+function rcmail_charset_pulldown($selected='ISO-8859-1')
+  {
+  $select = new select();
+  
+  
+  return $select->show($selected);
+  }
+
+
 /****** get contacts for this user and add them to client scripts ********/
 
 $sql_result = $DB->query("SELECT name, email

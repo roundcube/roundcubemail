@@ -53,12 +53,26 @@ function smtp_mail($from, $recipients, $headers, &$body)
   {
   global $SMTP_CONN, $CONFIG, $SMTP_ERROR;
   $smtp_timeout = null;
+  $smtp_host = $CONFIG['smtp_server'];
   $smtp_port = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;
+  $smtp_host_url = parse_url($CONFIG['smtp_server']);
   
+  // overwrite port
+  if ($smtp_host_url['host'] && $smtp_host_url['port'])
+    {
+    $smtp_host = $smtp_host_url['host'];
+    $smtp_port = $smtp_host_url['port'];
+    }
+
+  // re-write smtp host
+  if ($smtp_host_url['host'] && $smtp_host_url['scheme'])
+    $smtp_host = sprintf('%s://%s', $smtp_host_url['scheme'], $smtp_host_url['host']);
+
+
   // create Net_SMTP object and connect to server
   if (!is_object($smtp_conn))
     {
-    $SMTP_CONN = new Net_SMTP($CONFIG['smtp_server'], $smtp_port, 'localhost');
+    $SMTP_CONN = new Net_SMTP($smtp_host, $smtp_port, 'localhost');
 
     // set debugging
     if ($CONFIG['debug_level'] & 8)
