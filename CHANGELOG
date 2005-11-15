@@ -80,4 +80,5 @@ CHANGELOG RoundCube Webmail
 - Added Reply-To-All functionality (Request #1326395, Patch #1349777)
 - Redesign of client side AJAX code (enable multi threading)
 - Added keep-alive signal every minute
+- Make logs dir configurable
 - Added support for SMTPS

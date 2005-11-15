@@ -1188,7 +1188,7 @@ function send_future_expire_header()
 // replace specials characters to a specific encoding type
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
-  global $OUTPUT_TYPE;
+  global $OUTPUT_TYPE, $CHARSET;
   static $html_encode_arr, $js_rep_table, $rtf_rep_table, $xml_rep_table;
 
   if (!$enctype)
@@ -1208,7 +1208,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     {
     if (!$html_encode_arr)
       {
-      $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS); // HTML_ENTITIES
+      $html_encode_arr = $CHARSET=='ISO-8859-1' ? get_html_translation_table(HTML_ENTITIES) : get_html_translation_table(HTML_SPECIALCHARS);
       $html_encode_arr[chr(128)] = '&euro;';
       unset($html_encode_arr['?']);
       unset($html_encode_arr['&']);
@@ -1245,9 +1245,11 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
       {
       $hex = dechex($c);
-      //$js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
       $rtf_rep_table[Chr($c)] = "\\'$hex";
       $xml_rep_table[Chr($c)] = "&#$c;";
+      
+      if ($CHARSET=='ISO-8859-1')
+        $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
       }
 
     $js_rep_table['"'] = sprintf("\u%s%s", str_repeat('0', 4-strlen(dechex(34))), dechex(34));

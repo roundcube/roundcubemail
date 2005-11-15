@@ -261,16 +261,22 @@ function load_gui()
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT, $INSTLL_PATH;
+  global $OUTPUT, $INSTLL_PATH, $CHARSET;
   static $rcube_charsets;
 
   if (!$rcube_charsets)
     @include($INSTLL_PATH.'program/localization/index.inc');
 
   if (isset($rcube_charsets[$lang]))
+    {
     $OUTPUT->set_charset($rcube_charsets[$lang]);
+    $CHARSET = $rcube_charsets[$lang];
+    }
   else
+    {
     $OUTPUT->set_charset('ISO-8859-1');
+    $CHARSET = 'ISO-8859-1';
+    }
   }
 
 
