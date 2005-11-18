@@ -231,7 +231,7 @@ function get_table_name($table)
 // init output object for GUI and add common scripts
 function load_gui()
   {
-  global $CONFIG, $OUTPUT, $COMM_PATH, $JS_OBJECT_NAME, $sess_user_lang;
+  global $CONFIG, $OUTPUT, $COMM_PATH, $JS_OBJECT_NAME, $CHARSET, $sess_user_lang;
 
   // init output page
   $OUTPUT = new rcube_html_page();
@@ -248,8 +248,11 @@ function load_gui()
   $OUTPUT->include_script('program/js/app.js');
 
   // set user-selected charset
-  if ($CONFIG['charset'])
+  if (!empty($CONFIG['charset']))
+    {
     $OUTPUT->set_charset($CONFIG['charset']);
+    $CHARSET = $CONFIG['charset'];
+    }
   else
     rcmail_set_locale($sess_user_lang);
   

@@ -73,6 +73,11 @@ if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
   }
 
 
+// set default charset
+if (empty($CHARSET))
+  $CHARSET = 'ISO-8859-1';
+
+
 $mailto_regexp = array('/,\s*[\r\n]+/', '/[\r\n]+/', '/,\s*$/m');
 $mailto_replace = array(' ', ', ', '');
 
