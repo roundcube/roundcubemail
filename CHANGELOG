@@ -60,7 +60,7 @@ CHANGELOG RoundCube Webmail
 - Display folder names with special chars correctly (Bug #1330157)
 
 
-2005/11/13
+2005/11/18
 ----------
 - Added Finnish, Romanian, Polish, Czech, British, Norwegian, Greek, Russian and Chinese translation
 - Get IMAP server capabilities in array
@@ -82,3 +82,8 @@ CHANGELOG RoundCube Webmail
 - Added keep-alive signal every minute
 - Make logs dir configurable
 - Added support for SMTPS
+- Decode attachment file names
+- Make delimiter for message headers configurable
+- Add generic footer to sent messages
+
+

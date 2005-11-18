@@ -339,8 +339,9 @@ body.messagelist
   padding: 2px;
   padding-right: 4px;
   font-size: 11px;
-  overflow: hidden;  
+  overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
   border-bottom: 1px solid #EBEBEB;
   cursor: pointer;
 }

@@ -137,8 +137,24 @@ if ($CONFIG['useragent'])
   $headers['User-Agent'] = $CONFIG['useragent'];
 
 
+// append generic footer to all messages
+if (!empty($CONFIG['generic_message_footer']))
+  {
+  $file = realpath($CONFIG['generic_message_footer']);
+  if($fp = fopen($file, 'r'))
+    {
+    $content = fread($fp, filesize($file));
+    fclose($fp);
+    $_POST['_message'] .= "\r\n" . $content;
+    }
+  }
+
+
+// use the configured delimiter for headers
+$header_delm = $rcmail_config['mail_header_delimiter'] ? $rcmail_config['mail_header_delimiter'] : "\r\n";
+
 // create PEAR::Mail_mime instance
-$MAIL_MIME = new Mail_mime("\n");
+$MAIL_MIME = new Mail_mime($header_delm);
 $MAIL_MIME->setTXTBody(stripslashes($_POST['_message']), FALSE, TRUE);
 //$MAIL_MIME->setTXTBody(wordwrap(stripslashes($_POST['_message'])), FALSE, TRUE);
 
@@ -158,9 +174,9 @@ if (is_array($_FILES['_attachments']['tmp_name']))
 $message_param = array('text_encoding' => '7bit',
                        'html_encoding' => 'quoted-printable',
                        'head_encoding' => 'quoted-printable',
-                       'head_charset'  => 'ISO-8859-1',
-                       'html_charset'  => 'ISO-8859-1',
-                       'text_charset'  => 'ISO-8859-1');
+                       'head_charset'  => $CHARSET,
+                       'html_charset'  => $CHARSET,
+                       'text_charset'  => $CHARSET);
 
 // compose message body and get headers
 $msg_body = $MAIL_MIME->get($message_param);

@@ -77,7 +77,7 @@ if ($_action=='moveto')
 // add new rows from next page (if any)
 if ($_GET['_from']!='show' && $pages>1 && $IMAP->list_page < $pages)
   {
-  $a_headers = $IMAP->list_headers($mbox);
+  $a_headers = $IMAP->list_headers($mbox, null, $_SESSION['sort_col'], $_SESSION['sort_order']);
   $a_headers = array_slice($a_headers, -$count, $count);
   $commands .= rcmail_js_message_list($a_headers);
   }

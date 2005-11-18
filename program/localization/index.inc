@@ -37,7 +37,7 @@
 	'el'    => 'Greek',
 	'hu'    => 'Hungarian',
 	'it'    => 'Italiano',
-	'jp'    => 'Japanese',
+	'ja'    => 'Japanese',
 	'kr'    => 'Korean',
 	'lv'    => 'Latvian',
 	'nl'    => 'Nederlands',
@@ -63,7 +63,8 @@ $rcube_charsets = array(
 	'lv' => 'ISO-8859-2',
 	'pl' => 'ISO-8859-2',
 	'el' => 'ISO-8859-7',
-	'tw' => 'BIG5'
+	'tw' => 'BIG5',
+	'ja' => 'UTF-8'
 );
 
 ?>

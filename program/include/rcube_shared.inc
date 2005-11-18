@@ -1208,8 +1208,14 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     {
     if (!$html_encode_arr)
       {
-      $html_encode_arr = $CHARSET=='ISO-8859-1' ? get_html_translation_table(HTML_ENTITIES) : get_html_translation_table(HTML_SPECIALCHARS);
-      $html_encode_arr[chr(128)] = '&euro;';
+      if ($CHARSET=='ISO-8859-1')
+        {
+        $html_encode_arr = get_html_translation_table(HTML_ENTITIES);
+        $html_encode_arr[chr(128)] = '&euro;';
+        }
+      else
+        $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);
+        
       unset($html_encode_arr['?']);
       unset($html_encode_arr['&']);
       }

@@ -988,6 +988,12 @@ class rcube_imap
 
   function decode_header($input)
     {
+    return $this->decode_mime_string($input);
+    }
+    
+    
+  function decode_mime_string($input)
+    {
     $out = '';
 
     $pos = strpos($input, '=?');
@@ -1002,8 +1008,8 @@ class rcube_imap
       $encstr = substr($input, $pos+2, ($end_pos-$pos-2));
       $rest = substr($input, $end_pos+2);
 
-      $out .= $this->decode_mime_string($encstr);
-      $out .= $this->decode_header($rest);
+      $out .= rcube_imap::_decode_mime_string_part($encstr);
+      $out .= rcube_imap::decode_mime_string($rest);
 
       return $out;
       }
@@ -1012,7 +1018,7 @@ class rcube_imap
     }
 
 
-  function decode_mime_string($str)
+  function _decode_mime_string_part($str)
     {
     $a = explode('?', $str);
     $count = count($a);

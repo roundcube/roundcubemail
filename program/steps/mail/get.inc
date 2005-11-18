@@ -99,6 +99,13 @@ else if ($_GET['_part'])
 
     header(sprintf('Content-Length: %d', strlen($cont)));
 
+    // We need to set the following headers to make downloads work using IE in HTTPS mode.
+    if (isset($_SERVER['HTTPS']))
+      {
+      header('Pragma: ');
+      header('Cache-Control: ');
+      }
+
     // deliver part content
     echo $cont;
     exit;

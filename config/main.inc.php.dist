@@ -110,6 +110,12 @@ $rcmail_config['message_sort_col'] = 'date';
 // default sort order
 $rcmail_config['message_sort_order'] = 'DESC';
 
+// path to a text file which will be added to each sent message
+// paths are relative to the RoundCube root folder
+$rcmail_config['generic_message_footer'] = '';
+
+// this string is used as a delimiter for message headers when sending
+$rcmail_config['mail_header_delimiter'] = "\r\n";
 
 
 /***** these settings can be overwritten by user's preferences *****/

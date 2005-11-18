@@ -797,13 +797,13 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
                (empty($mail_part->disposition) && ($mail_part->d_parameters['filename'] || $mail_part->d_parameters['name'])))
         {
         if ($message_ctype_secondary=='related' && $mail_part->headers['content-id'])
-          $sa_inline_objects[] = array('filename' => $mail_part->d_parameters['filename'],
+          $sa_inline_objects[] = array('filename' => rcube_imap::decode_mime_string($mail_part->d_parameters['filename']),
                                        'mimetype' => strtolower("$primary_type/$secondary_type"),
                                        'part_id'  => $mail_part->mime_id,
                                        'content_id' => preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']));
 
         else if ($mail_part->d_parameters['filename'])
-          $a_attachments[] = array('filename' => $mail_part->d_parameters['filename'],
+          $a_attachments[] = array('filename' => rcube_imap::decode_mime_string($mail_part->d_parameters['filename']),
                                    'encoding' => strtolower($mail_part->headers['content-transfer-encoding']),
                                    'mimetype' => strtolower("$primary_type/$secondary_type"),
                                    'part_id'  => $mail_part->mime_id,
@@ -811,7 +811,7 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
                                    'content'  => $mail_part->body */);
                                    
         else if ($mail_part->ctype_parameters['name'])
-          $a_attachments[] = array('filename' => $mail_part->ctype_parameters['name'],
+          $a_attachments[] = array('filename' => rcube_imap::decode_mime_string($mail_part->ctype_parameters['name']),
                                    'encoding' => strtolower($mail_part->headers['content-transfer-encoding']),
                                    'mimetype' => strtolower("$primary_type/$secondary_type"),
                                    'part_id'  => $mail_part->mime_id,
