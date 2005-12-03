@@ -19,7 +19,7 @@
 
 */
 
-$a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'default');
+$a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature');
 
 
 // check input
@@ -51,7 +51,7 @@ if ($_POST['_iid'])
                 SET ".join(', ', $a_write_sql)."
                 WHERE  identity_id=?
                 AND    user_id=?
-                AND    del<>'1'",
+                AND    del<>1",
                 $_POST['_iid'],
                 $_SESSION['user_id']);
                        
@@ -64,10 +64,10 @@ if ($_POST['_iid'])
 
     // mark all other identities as 'not-default'
     $DB->query("UPDATE ".get_table_name('identities')."
-                SET ".$DB->quoteIdentifier('default')."='0'
+                SET ".$DB->quoteIdentifier('standard')."='0'
                 WHERE  user_id=?
                 AND    identity_id<>?
-                AND    del<>'1'",
+                AND    del<>1",
                 $_SESSION['user_id'],
                 $_POST['_iid']);
     
@@ -106,8 +106,8 @@ else
                 (user_id, ".join(', ', $a_insert_cols).")
                 VALUES (?, ".join(', ', $a_insert_values).")",
                 $_SESSION['user_id']);
-                       
-    $insert_id = $DB->insert_id();
+
+    $insert_id = $DB->insert_id(get_sequence_name('identities'));
     }
     
   if ($insert_id)

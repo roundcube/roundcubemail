@@ -32,6 +32,7 @@
 	'da'    => 'Dansk',
  	'de'    => 'Deutsch',
  	'es'    => 'Espa&ntilde;ol',
+ 	'ee'    => 'Estonian',
 	'fr'    => 'Fran&ccedil;ais', 
 	'ga'    => 'Galician',
 	'el'    => 'Greek',

@@ -62,7 +62,7 @@ ini_set('error_reporting', E_ALL&~E_NOTICE);
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
-@set_time_limit('120');
+@set_time_limit(120);
 
 // include base files
 require_once('include/rcube_shared.inc');
@@ -199,6 +199,13 @@ if (!$_SESSION['user_id'])
   }
 
 
+// handle keep-alive signal
+if ($_action=='keep-alive')
+  {
+  rcube_remote_response('');
+  exit;
+  }
+
 
 // include task specific files
 if ($_task=='mail')
@@ -286,14 +293,6 @@ if ($_task=='settings')
   if ($_action=='folders' || $_action=='subscribe' || $_action=='unsubscribe' || $_action=='create-folder' || $_action=='delete-folder')
     include('program/steps/settings/manage_folders.inc');
 
-  }
-
-
-// handle keep-alive signal
-if ($_action=='keep-alive')
-  {
-  rcube_remote_response('');
-  exit;
   }
 
 

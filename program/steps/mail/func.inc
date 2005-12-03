@@ -305,26 +305,41 @@ function rcmail_message_list($attrib)
 
     // make sort links
     $sort = '';
-    if (in_array($col, $a_sort_cols) && (!empty($attrib['sortdescbutton']) || !empty($attrib['sortascbutton'])))
+    if ($IMAP->get_capability('sort') && in_array($col, $a_sort_cols))
       {
-      $sort = '&nbsp;&nbsp;';
+      // have buttons configured
+      if (!empty($attrib['sortdescbutton']) || !empty($attrib['sortascbutton']))
+        {
+        $sort = '&nbsp;&nbsp;';
 
-      // asc link
-      if (!empty($attrib['sortascbutton']))
-        {
-        $sort .= rcube_button(array('command' => 'sort',
-                                    'prop' => $col.'_ASC',
-                                    'image' => $attrib['sortascbutton'],
-                                    'title' => 'sortasc'));
-        }        
+        // asc link
+        if (!empty($attrib['sortascbutton']))
+          {
+          $sort .= rcube_button(array('command' => 'sort',
+                                      'prop' => $col.'_ASC',
+                                      'image' => $attrib['sortascbutton'],
+                                      'align' => 'absmiddle',
+                                      'title' => 'sortasc'));
+          }       
         
-      // desc link
-      if (!empty($attrib['sortdescbutton']))
+        // desc link
+        if (!empty($attrib['sortdescbutton']))
+          {
+          $sort .= rcube_button(array('command' => 'sort',
+                                      'prop' => $col.'_DESC',
+                                      'image' => $attrib['sortdescbutton'],
+                                      'align' => 'absmiddle',
+                                      'title' => 'sortdesc'));        
+          }
+        }
+      // just add a link tag to the header
+      else
         {
-        $sort .= rcube_button(array('command' => 'sort',
-                                    'prop' => $col.'_DESC',
-                                    'image' => $attrib['sortdescbutton'],
-                                    'title' => 'sortdesc'));        
+        $col_name = sprintf('<a href="./#sort" onclick="return %s.command(\'sort\',\'%s\',this)" title="%s">%s</a>',
+                            $JS_OBJECT_NAME,
+                            $col,
+                            rcube_label('sortby'),
+                            $col_name);
         }
       }
       
@@ -1128,20 +1143,76 @@ function rcmail_first_text_part($message_parts)
 // get source code of a specific message and cache it
 function rcmail_message_source($uid)
   {
-  global $IMAP, $DB;
+  global $IMAP, $DB, $CONFIG;
 
-  // get message ID if uid is given  
-  $headers = $IMAP->get_headers($uid);
+  // get message ID if uid is given
+  $cache_key = $IMAP->mailbox.'.msg';
+  $cached = $IMAP->get_cached_message($cache_key, $uid, FALSE);
+  
+  // message is cached in database
+  if ($cached && !empty($cached->body))
+    return $cached->body;
+
+  if (!$cached)
+    $headers = $IMAP->get_headers($uid);
+  else
+    $headers = &$cached;
+
+
   $message_id = $headers->messageID;
   
-  // get cached message source
-  $msg_source = rcube_read_cache($message_id);
+  $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '');
+  $cache_dir = $temp_dir.$_SESSION['client_id'];
+  $cache_path = $cache_dir.'/'.$message_id;
 
-  // get message from server and cache it
-  if (!$msg_source)
+  // message is cached in temp dir
+  if (is_dir($cache_dir) && is_file($cache_path))
     {
-    $msg_source = $IMAP->get_raw_body($uid);
-    rcube_write_cache($message_id, $msg_source, TRUE);
+    if ($fp = fopen($cache_path, 'r'))
+      {
+      $msg_source = fread($fp, filesize($cache_path));
+      fclose($fp);
+      return $msg_source;
+      }
+    }
+
+
+  // get message from server
+  $msg_source = $IMAP->get_raw_body($uid);
+
+  // let's cache the message body within the database
+  if ($CONFIG['enable_caching'] && $cached && ($CONFIG['db_max_length'] -300) > $headers->size)
+    {
+    $DB->query("UPDATE ".get_table_name('messages')."
+                SET    body=?
+                WHERE  user_id=?
+                AND    cache_key=?
+                AND    uid=?",
+               $msg_source,
+               $_SESSION['user_id'],
+               $cache_key,
+               $uid);
+
+    return $msg_source;
+    }
+
+
+  // create dir for caching
+  if (!is_dir($cache_dir))
+    $dir = mkdir($cache_dir);
+  else
+    $dir = true;
+
+  // attempt to write a file with the message body    
+  if ($dir && ($fp = fopen($cache_path, 'w')))
+    {
+    fwrite($fp, $msg_source);
+    fclose($fp);
+    }
+  else
+    {
+    raise_error(array('code' => 403, 'type' => 'php', 'line' => __LINE__, 'file' => __FILE__, 
+                      'message' => "Failed to write to temp dir"), TRUE, FALSE);
     }
 
   return $msg_source;

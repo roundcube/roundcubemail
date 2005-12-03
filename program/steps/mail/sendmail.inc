@@ -46,7 +46,7 @@ function rcmail_get_identity($id)
                             FROM ".get_table_name('identities')."
                             WHERE  identity_id=?
                             AND    user_id=?
-                            AND    del<>'1'",
+                            AND    del<>1",
                             $id,$_SESSION['user_id']);
                                    
   if ($DB->num_rows($sql_result))
@@ -78,8 +78,8 @@ if (empty($CHARSET))
   $CHARSET = 'ISO-8859-1';
 
 
-$mailto_regexp = array('/,\s*[\r\n]+/', '/[\r\n]+/', '/,\s*$/m');
-$mailto_replace = array(' ', ', ', '');
+$mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
+$mailto_replace = array(', ', ', ', '');
 
 // repalce new lines and strip ending ', '
 $mailto = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_to']));
@@ -175,13 +175,16 @@ if (is_array($_FILES['_attachments']['tmp_name']))
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], TRUE);
 
+
+$message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $CHARSET;
+
 // encoding settings for mail composing
 $message_param = array('text_encoding' => '7bit',
                        'html_encoding' => 'quoted-printable',
                        'head_encoding' => 'quoted-printable',
-                       'head_charset'  => $CHARSET,
-                       'html_charset'  => $CHARSET,
-                       'text_charset'  => $CHARSET);
+                       'head_charset'  => $message_charset,
+                       'html_charset'  => $message_charset,
+                       'text_charset'  => $message_charset);
 
 // compose message body and get headers
 $msg_body = $MAIL_MIME->get($message_param);

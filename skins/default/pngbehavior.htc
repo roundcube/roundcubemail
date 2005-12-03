@@ -40,7 +40,7 @@ function fixImage() {
       element.src = blankSrc;
       // set filter
       element.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
-                                     src + "',sizingMethod='scale')";
+                                     src + "',sizingMethod='crop')";
    }
    else {
       // remove filter

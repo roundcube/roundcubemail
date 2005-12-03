@@ -210,7 +210,7 @@ function rcube_webmail()
     this.enable_command('logout', true);
 
     // disable browser's contextmenus
-    //document.oncontextmenu = function(){ return false; }
+    // document.oncontextmenu = function(){ return false; }
 
     // flag object as complete
     this.loaded = true;
@@ -286,6 +286,7 @@ function rcube_webmail()
       return false;
     
     //this.messageform = this.gui_objects.messageform;
+    var input_from = rcube_find_object('_from');
     var input_to = rcube_find_object('_to');
     var input_cc = rcube_find_object('_cc');
     var input_bcc = rcube_find_object('_bcc');
@@ -300,6 +301,10 @@ function rcube_webmail()
       this.init_address_input_events(input_cc);
     if (input_bcc)
       this.init_address_input_events(input_bcc);
+      
+    // add signature according to selected identity
+    if (input_from && input_from.type=='select-one')
+      this.change_identity(input_from);
 
     if (input_to && input_to.value=='')
       input_to.focus();
@@ -461,8 +466,17 @@ function rcube_webmail()
         // get the type of sorting
         var a_sort = props.split('_');
         var sort_col = a_sort[0];
-        var sort_order = a_sort[1].toUpperCase();
+        var sort_order = a_sort[1] ? a_sort[1].toUpperCase() : null;
         var header;
+        
+        // no sort order specified: toggle
+        if (sort_order==null)
+          {
+          if (this.env.sort_col==sort_col)
+            sort_order = this.env.sort_order=='ASC' ? 'DESC' : 'ASC';
+          else
+            sort_order = this.env.sort_order;
+          }
         
         if (this.env.sort_col==sort_col && this.env.sort_order==sort_order)
           break;
@@ -478,7 +492,7 @@ function rcube_webmail()
         this.env.sort_order = sort_order;
 
         // reload message list
-        this.list_mailbox('', '', props);
+        this.list_mailbox('', '', sort_col+'_'+sort_order);
         break;
 
       case 'nextpage':
@@ -805,7 +819,7 @@ function rcube_webmail()
         break;
 
       case 'delete-folder':
-        if (confirm('Do you really want to delete this folder?'))
+        if (confirm(this.get_label('deletefolderconfirm')))
           this.delete_folder(props);
         break;
 
@@ -933,8 +947,8 @@ function rcube_webmail()
 
     if (!this.in_selection_before)
       {
-      var shift = this.check_shiftkey(e);
-      this.select(id, shift);
+      var ctrl = this.check_ctrlkey(e);
+      this.select(id, ctrl);
       }
     
     if (this.selection.length)
@@ -951,7 +965,7 @@ function rcube_webmail()
   // onmouseup-handler of message list row
   this.click_row = function(e, id)
     {
-    var shift = this.check_shiftkey(e);
+    var ctrl = this.check_ctrlkey(e);
     
     // don't do anything (another action processed before)
     if (this.dont_select)
@@ -961,13 +975,13 @@ function rcube_webmail()
       }
     
     if (!this.drag_active && this.in_selection_before==id)
-      this.select(id, (shift && this.task!='settings'));
+      this.select(id, (ctrl && this.task!='settings'));
     
     this.drag_start = false;
     this.in_selection_before = false;
         
     // row was double clicked
-    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && !shift)
+    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && !ctrl)
       {
       this.show_message(id);
       return false;
@@ -1332,6 +1346,38 @@ function rcube_webmail()
   /*********************************************************/
   /*********        message compose methods        *********/
   /*********************************************************/
+  
+  
+  this.change_identity = function(obj)
+    {
+    if (!obj || !obj.options)
+      return false;
+
+    var id = obj.options[obj.selectedIndex].value;
+    var input_message = rcube_find_object('_message');
+    var message = input_message ? input_message.value : '';
+
+    // remove the 'old' signature
+    if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
+      {
+      var sig = this.env.signatures[this.env.identity];
+      
+      if (p = message.lastIndexOf(sig))
+        message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
+      }
+
+    // add the new signature string
+    if (this.env.signatures && this.env.signatures[id])
+      {
+      var sig = this.env.signatures[id];
+      message += '\n'+sig;
+      }
+
+    if (input_message && message)
+      input_message.value = message;
+      
+    this.env.identity = id;
+    };
 
 
   this.show_attachment_form = function(a)
@@ -1854,16 +1900,20 @@ function rcube_webmail()
     {
     if (folder)
       {
-      for (var id in this.env.subscriptionrows)
-        if (this.env.subscriptionrows[id]==folder)
-          break;
-          
-      var row;
-      if (id && (row = document.getElementById(id)))
-        row.style.display = 'none';
-
       this.http_request('delete-folder', '_mboxes='+escape(folder));
       }
+    };
+
+
+  this.remove_folder_row = function(folder)
+    {
+    for (var id in this.env.subscriptionrows)
+      if (this.env.subscriptionrows[id]==folder)
+        break;
+
+    var row;
+    if (id && (row = document.getElementById(id)))
+      row.style.display = 'none';    
     };
 
 
@@ -2491,6 +2541,21 @@ function rcube_webmail()
       return false;
     }
 
+  // check if Shift-key is pressed on event
+  this.check_ctrlkey = function(e)
+    {
+    if(!e && window.event)
+      e = window.event;
+
+    if(bw.linux && bw.ns4 && e.modifiers)
+      return true;
+   else if (bw.mac)
+       return this.check_shiftkey(e);
+    else if((bw.ns4 && e.modifiers & Event.CTRL_MASK) || (e && e.ctrlKey))
+      return true;
+    else
+      return false;
+    }
 
   this.get_mouse_pos = function(e)
     {

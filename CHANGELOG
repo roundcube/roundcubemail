@@ -1,68 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2005/08/11
+2005/12/03
 ----------
-- Write list header to client even if list is empty
-- Add functions "select all", "select none" to message list
-- Improved filter for HTML messages to remove potentially malicious tags (script, iframe, object) and event handlers.
-- Buttons for next/previous message in view mode
-- Add new created contact to list and show confirmation status
-- Added folder management (subscribe/create/delete)
-- Log message sending (SMTP log)
-- Grant access for Camino browser
-- Added German translation
-
-
-2005/08/20
-----------
-- Improved cacheing of mailbox messagecount
-- Fixed javascript bug when creating a new message folder
-- Fixed javascript bugs #1260990 and #1260992: folder selection
-- Make Trash folder configurable
-- Auto create folders Inbox, Sent and Trash (if configured)
-- Support for IMAP root folder
-- Added support fot text/enriched messages
-- Make list of special mailboxes configurable
-
-
-2005/10/07
-----------
-- Added French, Italian, Spanish, Danish, Dutch translation
-- Clarified license (Bug #1305966)
-- Fixed PHP warnings (Bug #1299403)
-- Fixed english translation (Bug #1295406)
-- Fixed bug #1290833: Last character of email not seen
-- Fixed bug #1292199 when creating new user
-- Allow more browsers (Bug #1285101)
-- Added setting for showing pretty dates
-- Added support for SQLite database
-- Make use of message caching configurable
-- Also add attachments when forwarding a message
-- Long folder names will not flow over message list (Bug #1267232)
-- Show nested mailboxes hieracically
-- Enable IMAPS by host
-
-
-2005/10/20
-----------
-- Added Swedish, Latvian, Portuguese and Catalan translation
-- Make SMTP auth method configurable
-- Make mailboxlist scrollable (Bug #1326372)
-- Fixed SSL support
-- Improved support for Courier IMAP (root folder and delimiter issues)
-- Moved taskbar from bottom to top
-- Added 'session_lifetime' parameter
-- Fixed wrong unread count when deleting message (Bug #1332434)
-- Srip tags when creating a new folder (Bug #1332084)
-- Translate HTML tags in message headers (Bug #1330134)
-- Correction in German translation (Bug #1329434)
-- Display folder names with special chars correctly (Bug #1330157)
-
-
-2005/11/18
-----------
-- Added Finnish, Romanian, Polish, Czech, British, Norwegian, Greek, Russian and Chinese translation
+- Added Finnish, Romanian, Polish, Czech, British, Norwegian, Greek, Russian, Estonian and Chinese translation
 - Get IMAP server capabilities in array
 - Check for NAMESPACE capability before sending command
 - Set default user language from config 'locale_string'
@@ -85,5 +26,68 @@ CHANGELOG RoundCube Webmail
 - Decode attachment file names
 - Make delimiter for message headers configurable
 - Add generic footer to sent messages
+- Choose the rigt identity when replying
+- Remove signature when replying (Request #1333167)
+- Signatures for each identity
+- Select charset when composing message
+- Complete re-design of the caching mechanism
 
+
+2005/08/11
+----------
+- Write list header to client even if list is empty
+- Add functions "select all", "select none" to message list
+- Improved filter for HTML messages to remove potentially malicious tags (script, iframe, object) and event handlers.
+- Buttons for next/previous message in view mode
+- Add new created contact to list and show confirmation status
+- Added folder management (subscribe/create/delete)
+- Log message sending (SMTP log)
+- Grant access for Camino browser
+- Added German translation
+
+
+2005/10/20
+----------
+- Added Swedish, Latvian, Portuguese and Catalan translation
+- Make SMTP auth method configurable
+- Make mailboxlist scrollable (Bug #1326372)
+- Fixed SSL support
+- Improved support for Courier IMAP (root folder and delimiter issues)
+- Moved taskbar from bottom to top
+- Added 'session_lifetime' parameter
+- Fixed wrong unread count when deleting message (Bug #1332434)
+- Srip tags when creating a new folder (Bug #1332084)
+- Translate HTML tags in message headers (Bug #1330134)
+- Correction in German translation (Bug #1329434)
+- Display folder names with special chars correctly (Bug #1330157)
+
+
+2005/10/07
+----------
+- Added French, Italian, Spanish, Danish, Dutch translation
+- Clarified license (Bug #1305966)
+- Fixed PHP warnings (Bug #1299403)
+- Fixed english translation (Bug #1295406)
+- Fixed bug #1290833: Last character of email not seen
+- Fixed bug #1292199 when creating new user
+- Allow more browsers (Bug #1285101)
+- Added setting for showing pretty dates
+- Added support for SQLite database
+- Make use of message caching configurable
+- Also add attachments when forwarding a message
+- Long folder names will not flow over message list (Bug #1267232)
+- Show nested mailboxes hieracically
+- Enable IMAPS by host
+
+
+2005/08/20
+----------
+- Improved cacheing of mailbox messagecount
+- Fixed javascript bug when creating a new message folder
+- Fixed javascript bugs #1260990 and #1260992: folder selection
+- Make Trash folder configurable
+- Auto create folders Inbox, Sent and Trash (if configured)
+- Support for IMAP root folder
+- Added support fot text/enriched messages
+- Make list of special mailboxes configurable
 

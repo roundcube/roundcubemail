@@ -88,50 +88,20 @@ function rcmail_compose_headers($attrib)
   switch ($part)
     {
     case 'from':
-      // pass the following attributes to the form class
-      $field_attrib = array('name' => '_from');
-      foreach ($attrib as $attr => $value)
-        if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex')))
-          $field_attrib[$attr] = $value;
-    
-      // get this user's identities
-      $sql_result = $DB->query("SELECT identity_id, name, email
-                                FROM   ".get_table_name('identities')." WHERE  user_id=?
-                                AND    del<>'1'
-                                ORDER BY ".$DB->quoteIdentifier('default')." DESC, name ASC",
-                                $_SESSION['user_id']);
-                                   
-      if ($DB->num_rows($sql_result))
-        {        
-        $select_from = new select($field_attrib);
-        while ($sql_arr = $DB->fetch_assoc($sql_result))
-          $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $sql_arr['identity_id']);
-        
-        $out = $select_from->show($_POST['_from']);
-        }
-      else
-        {
-        $input_from = new textfield($field_attrib);
-        $out = $input_from->show($_POST['_from']);
-        }
-        
-      if ($form_start)
-        $out = $form_start.$out;
-
-      return $out;
-    
+      return rcmail_compose_header_from($attrib);
 
     case 'to':
       $fname = '_to';
       $header = 'to';
-      
+
       // we have contact id's as get parameters
-      if (!empty($_GET['_to']) && preg_match('/[0-9]+,?/', $_GET['_to']))
+      if (!empty($_GET['_to']) && preg_match('/^([0-9]+,?)+$/', $_GET['_to']))
         {
         $a_recipients = array();
         $sql_result = $DB->query("SELECT name, email
-                                  FROM ".get_table_name('contacts')." WHERE user_id=?
-                                  AND    del<>'1'
+                                  FROM ".get_table_name('contacts')."
+                                  WHERE user_id=?
+                                  AND    del<>1
                                   AND    contact_id IN (".$_GET['_to'].")",
                                   $_SESSION['user_id']);
                                          
@@ -229,71 +199,91 @@ function rcmail_compose_headers($attrib)
   }
 
 
-/*function rcube_compose_headers($attrib)
+
+function rcmail_compose_header_from($attrib)
   {
-  global $CONFIG, $OUTPUT;
+  global $IMAP, $REPLY_MESSAGE, $DB, $OUTPUT, $JS_OBJECT_NAME;
+    
+  // pass the following attributes to the form class
+  $field_attrib = array('name' => '_from');
+  foreach ($attrib as $attr => $value)
+    if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex')))
+      $field_attrib[$attr] = $value;
 
-  list($form_start, $form_end) = get_form_tags($attrib);
+  // extract all recipients of the reply-message
+  $a_recipients = array();
+  if ($REPLY_MESSAGE && is_object($REPLY_MESSAGE['headers']))
+    {
+    $a_to = $IMAP->decode_address_list($REPLY_MESSAGE['headers']->to);        
+    foreach ($a_to as $addr)
+      {
+      if (!empty($addr['mailto']))
+        $a_recipients[] = $addr['mailto'];
+      }
 
-  // allow the following attributes to be added to the headers table
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border'));
-  
-  $labels = array();
-  $labels['from'] = rcube_label('from');
-  $labels['to'] = rcube_label('to');
-  $labels['cc'] = rcube_label('cc');
-  $labels['bcc'] = rcube_label('bcc');
-  $labels['replyto'] = rcube_label('replyto');
+    if (!empty($REPLY_MESSAGE['headers']->cc))
+      {
+      $a_cc = $IMAP->decode_address_list($REPLY_MESSAGE['headers']->cc);
+      foreach ($a_cc as $addr)
+        {
+        if (!empty($addr['mailto']))
+          $a_recipients[] = $addr['mailto'];
+        }
+      }
+    }
 
-  $input_from = new textfield(array('name' => '_from', 'size' => 30));
-  $input_to = new textfield(array('name' => '_to', 'size' => 30));
-  $input_cc = new textfield(array('name' => '_cc', 'size' => 30));
-  $input_bcc = new textfield(array('name' => '_bcc', 'size' => 30));
-  $input_replyto = new textfield(array('name' => '_replyto', 'size' => 30));
+  // get this user's identities
+  $sql_result = $DB->query("SELECT identity_id, name, email, signature
+                            FROM   ".get_table_name('identities')."
+                            WHERE user_id=?
+                            AND    del<>1
+                            ORDER BY ".$DB->quoteIdentifier('standard')." DESC, name ASC",
+                           $_SESSION['user_id']);
+                                   
+  if ($DB->num_rows($sql_result))
+    {
+    $from_id = 0;
+    $a_signatures = array();
+    
+    $field_attrib['onchange'] = "$JS_OBJECT_NAME.change_identity(this)";
+    $select_from = new select($field_attrib);
+    
+    while ($sql_arr = $DB->fetch_assoc($sql_result))
+      {
+      $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $sql_arr['identity_id']);
 
-  $fields = array();
-  $fields['from'] = $input_from->show($_POST['_from']);
-  $fields['to'] = $input_to->show($_POST['_to']);
-  $fields['cc'] = $input_cc->show($_POST['_cc']);
-  $fields['bcc'] = $input_bcc->show($_POST['_bcc']);
-  $fields['replyto'] = $input_replyto->show($_POST['_replyto']);
+      // add signature to array
+      if (!empty($sql_arr['signature']))
+        $a_signatures[$sql_arr['identity_id']] = $sql_arr['signature'];
+      
+      // set identity if it's one of the reply-message recipients
+      if (in_array($sql_arr['email'], $a_recipients))
+        $from_id = $sql_arr['identity_id'];
+      }
 
+    // overwrite identity selection with post parameter
+    if (isset($_POST['_from']))
+      $from_id = $_POST['_from'];
 
-  $out = <<<EOF
-$form_start
-<table$attrib_str><tr>
+    $out = $select_from->show($from_id);
+    
 
-<td class="title">$labels[from]</td>
-<td>$fields[from]</td>
+    // add signatures to client
+    $OUTPUT->add_script(sprintf("%s.set_env('signatures', %s);", $JS_OBJECT_NAME, array2js($a_signatures)));  
+    }
+  else
+    {
+    $input_from = new textfield($field_attrib);
+    $out = $input_from->show($_POST['_from']);
+    }
+    
+  if ($form_start)
+    $out = $form_start.$out;
 
-</tr><tr>
-
-<td class="title">$labels[to]</td>
-<td>$fields[to]</td>
-
-</tr><tr>
-
-<td class="title">$labels[cc]</td>
-<td>$fields[cc]</td>
-
-</tr><tr>
-
-<td class="title">$labels[bcc]</td>
-<td>$fields[bcc]</td>
-
-</tr><tr>
-
-<td class="title">$labels[replyto]</td>
-<td>$fields[replyto]</td>
-
-</tr></table>
-$form_end
-EOF;
-
-  return $out;  
+  return $out;
   }
-*/
 
+  
 
 function rcmail_compose_body($attrib)
   {
@@ -360,6 +350,14 @@ function rcmail_create_reply_body($body)
   $pefix = sprintf("\n\n\nOn %s, %s wrote:\n",
            $REPLY_MESSAGE['headers']->date,
            $IMAP->decode_header($REPLY_MESSAGE['headers']->from));
+           
+
+  // try to remove the signature
+  if ($sp = strrpos($body, '--'))
+    {
+    if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
+      $body = substr($body, 0, $sp-1);
+    }
 
   return $pefix.$body;
   }
@@ -596,7 +594,7 @@ function rcmail_charset_pulldown($selected='ISO-8859-1')
 
 $sql_result = $DB->query("SELECT name, email
                           FROM ".get_table_name('contacts')." WHERE  user_id=?
-                          AND  del<>'1'",$_SESSION['user_id']);
+                          AND  del<>1",$_SESSION['user_id']);
                                    
 if ($DB->num_rows($sql_result))
   {        

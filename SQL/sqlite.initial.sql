@@ -11,7 +11,7 @@
 CREATE TABLE cache (
   cache_id integer NOT NULL PRIMARY KEY,
   user_id integer NOT NULL default 0,
-  session_id varchar(32) default NULL,
+  session_id varchar(40) default NULL,
   cache_key varchar(128) NOT NULL default '',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   data longtext NOT NULL
@@ -20,6 +20,7 @@ CREATE TABLE cache (
 CREATE INDEX ix_cache_user_id ON cache(user_id);
 CREATE INDEX ix_cache_cache_key ON cache(cache_key);
 CREATE INDEX ix_cache_session_id ON cache(session_id);
+
 
 -- --------------------------------------------------------
 
@@ -30,7 +31,8 @@ CREATE INDEX ix_cache_session_id ON cache(session_id);
 CREATE TABLE contacts (
   contact_id integer NOT NULL PRIMARY KEY,
   user_id integer NOT NULL default '0',
-  del integer NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
   name varchar(128) NOT NULL default '',
   email varchar(128) NOT NULL default '',
   firstname varchar(128) NOT NULL default '',
@@ -49,10 +51,10 @@ CREATE INDEX ix_contacts_user_id ON contacts(user_id);
 CREATE TABLE identities (
   identity_id integer NOT NULL PRIMARY KEY,
   user_id integer NOT NULL default '0',
-  del integer NOT NULL default '0',
-  "default" integer NOT NULL default '0',
+  del tinyint NOT NULL default '0',
+  standard tinyint NOT NULL default '0',
   name varchar(128) NOT NULL default '',
-  organization varchar(128) NOT NULL default '',
+  organization varchar(128) default '',
   email varchar(128) NOT NULL default '',
   "reply-to" varchar(128) NOT NULL default '',
   bcc varchar(128) NOT NULL default '',
@@ -78,3 +80,45 @@ CREATE TABLE users (
   language varchar(5) NOT NULL default 'en',
   preferences text NOT NULL default ''
 );
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table session
+-- 
+
+CREATE TABLE session (
+  sess_id varchar(40) NOT NULL PRIMARY KEY,
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  ip varchar(15) NOT NULL default '',
+  vars text NOT NULL
+);
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table messages
+-- 
+
+CREATE TABLE messages (
+  message_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL default '0',
+  del tinyint NOT NULL default '0',
+  cache_key varchar(128) NOT NULL default '',
+  idx integer NOT NULL default '0',
+  uid integer NOT NULL default '0',
+  subject varchar(255) NOT NULL default '',
+  "from" varchar(255) NOT NULL default '',
+  "to" varchar(255) NOT NULL default '',
+  cc varchar(255) NOT NULL default '',
+  date datetime NOT NULL default '0000-00-00 00:00:00',
+  size integer NOT NULL default '0',
+  headers text NOT NULL,
+  body text
+);
+
+CREATE INDEX ix_messages_user_id ON messages(user_id);
+CREATE INDEX ix_messages_cache_key ON messages(cache_key);

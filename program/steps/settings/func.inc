@@ -146,9 +146,9 @@ function rcmail_identities_list($attrib)
 
   // get contacts from DB
   $sql_result = $DB->query("SELECT * FROM ".get_table_name('identities')."
-                            WHERE  del<>'1'
+                            WHERE  del<>1
                             AND    user_id=?
-                            ORDER BY ".$DB->quoteIdentifier('default')." DESC, name ASC",
+                            ORDER BY standard DESC, name ASC",
                             $_SESSION['user_id']);
 
 

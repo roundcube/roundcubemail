@@ -54,6 +54,8 @@ $messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
 
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 
+$messages['deletefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich löschen?';
+
 $messages['formincomplete']    = 'Das Formular wurde nicht vollständig ausgefüllt';
 
 $messages['noemailwarning']    = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';

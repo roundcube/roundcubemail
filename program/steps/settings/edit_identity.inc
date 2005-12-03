@@ -25,7 +25,7 @@ if (($_GET['_iid'] || $_POST['_iid']) && $_action=='edit-identity')
   $DB->query("SELECT * FROM ".get_table_name('identities')."
               WHERE  identity_id=?
               AND    user_id=?
-              AND    del<>'1'",
+              AND    del<>1",
               $id,
               $_SESSION['user_id']);
   
@@ -63,7 +63,8 @@ function rcube_identity_form($attrib)
                        'organization' => array('type' => 'text'),
                        'reply-to'     => array('type' => 'text', 'label' => 'replyto'),
                        'bcc'          => array('type' => 'text'),
-                       'default'      => array('type' => 'checkbox', 'label' => 'setdefault'));
+                       'signature'	  => array('type' => 'textarea'),
+                       'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
 
   // a specific part is requested

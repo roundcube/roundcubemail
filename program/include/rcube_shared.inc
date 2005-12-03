@@ -1185,99 +1185,6 @@ function send_future_expire_header()
   }
 
 
-// replace specials characters to a specific encoding type
-function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
-  {
-  global $OUTPUT_TYPE, $CHARSET;
-  static $html_encode_arr, $js_rep_table, $rtf_rep_table, $xml_rep_table;
-
-  if (!$enctype)
-    $enctype = $GLOBALS['OUTPUT_TYPE'];
-
-  // convert nbsps back to normal spaces if not html
-  if ($enctype!='html')
-    $str = str_replace(chr(160), ' ', $str);
-
-
-  // encode for plaintext
-  if ($enctype=='text')
-    return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
-
-  // encode for HTML output
-  if ($enctype=='html')
-    {
-    if (!$html_encode_arr)
-      {
-      if ($CHARSET=='ISO-8859-1')
-        {
-        $html_encode_arr = get_html_translation_table(HTML_ENTITIES);
-        $html_encode_arr[chr(128)] = '&euro;';
-        }
-      else
-        $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);
-        
-      unset($html_encode_arr['?']);
-      unset($html_encode_arr['&']);
-      }
-
-    $ltpos = strpos($str, '<');
-    $encode_arr = $html_encode_arr;
-
-    // don't replace quotes and html tags
-    if (($mode=='show' || $mode=='') && $ltpos!==false && strpos($str, '>', $ltpos)!==false)
-      {
-      unset($encode_arr['"']);
-      unset($encode_arr['<']);
-      unset($encode_arr['>']);
-      }
-    else if ($mode=='remove')
-      $str = strip_tags($str);
-      
-    $out = strtr($str, $encode_arr);
-
-    return $newlines ? nl2br($out) : $out;
-    }
-
-
-  if ($enctype=='url')
-    return rawurlencode($str);
-
-
-  // if the replace tables for RTF, XML and JS are not yet defined
-  if (!$js_rep_table)
-    {
-    $js_rep_table = $rtf_rep_table = $xml_rep_table = array();
-
-    for ($c=160; $c<256; $c++)  // can be increased to support more charsets
-      {
-      $hex = dechex($c);
-      $rtf_rep_table[Chr($c)] = "\\'$hex";
-      $xml_rep_table[Chr($c)] = "&#$c;";
-      
-      if ($CHARSET=='ISO-8859-1')
-        $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
-      }
-
-    $js_rep_table['"'] = sprintf("\u%s%s", str_repeat('0', 4-strlen(dechex(34))), dechex(34));
-    $xml_rep_table['"'] = '&quot;';
-    }
-
-  // encode for RTF
-  if ($enctype=='xml')
-    return strtr($str, $xml_rep_table);
-
-  // encode for javascript use
-  if ($enctype=='js')
-    return preg_replace(array("/\r\n/", '/"/', "/([^\\\])'/"), array('\n', '\"', "$1\'"), strtr($str, $js_rep_table));
-
-  // encode for RTF
-  if ($enctype=='rtf')
-    return preg_replace("/\r\n/", "\par ", strtr($str, $rtf_rep_table));
-
-  // no encoding given -> return original string
-  return $str;
-  }
-
 
 function decode_specialchars($input, $charset='')
   {
@@ -1462,7 +1369,21 @@ function abbrevate_string($str, $maxlength, $place_holder='...')
 
   return $str;
   }
-  
+
+
+// delete all files within a folder
+function clear_directory($dir_path)
+  {
+  $dir = @opendir($dir_path);
+  if(!$dir) return FALSE;
+
+  while ($file = readdir($dir))
+    if (strlen($file)>2)
+      unlink("$dir_path/$file");
+
+  closedir($dir);
+  return TRUE;
+  }
 
 
 ?>

@@ -26,7 +26,7 @@ if ($_GET['_cid'] || $_POST['_cid'])
   $DB->query("SELECT * FROM ".get_table_name('contacts')."
               WHERE  contact_id=?
               AND    user_id=?
-              AND    del<>'1'",
+              AND    del<>1",
               $cid,
               $_SESSION['user_id']);
   

@@ -69,7 +69,7 @@ function rcmail_startup($task='mail')
 
   // we can use the database for storing session data
   // session queries do not work with MDB2
-  if ($CONFIG['db_backend']!='mdb2' && is_object($DB) && $DB->db_provider!='sqlite')
+  if ($CONFIG['db_backend']!='mdb2' && is_object($DB) /* && $DB->db_provider!='sqlite' */)
     include_once('include/session.inc');
 
 
@@ -143,9 +143,9 @@ function rcmail_auth_hash($sess_id, $ts)
 // create IMAP object and connect to server
 function rcmail_imap_init($connect=FALSE)
   {
-  global $CONFIG, $IMAP;
+  global $CONFIG, $DB, $IMAP;
 
-  $IMAP = new rcube_imap();
+  $IMAP = new rcube_imap($DB);
 
   // connect with stored session data
   if ($connect)
@@ -227,6 +227,22 @@ function get_table_name($table)
   }
 
 
+// return correct name for a specific database sequence
+// (used for Postres only)
+function get_sequence_name($sequence)
+  {
+  global $CONFIG;
+  
+  // return table name if configured
+  $config_key = 'db_sequence_'.$sequence;
+
+  if (strlen($CONFIG[$config_key]))
+    return $CONFIG[$config_key];
+  
+  return $table;
+  }
+  
+  
 
 // init output object for GUI and add common scripts
 function load_gui()
@@ -380,15 +396,15 @@ function rcmail_create_user($user, $host)
               $host,
 		      $_SESSION['user_lang']);
 
-  if ($user_id = $DB->insert_id('user_ids'))
+  if ($user_id = $DB->insert_id(get_sequence_name('users')))
     {
     $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $host);
     $user_name = $user!=$user_email ? $user : '';
     
     // also create a new identity record
     $DB->query("INSERT INTO ".get_table_name('identities')."
-                (user_id, `default`, name, email)
-                VALUES (?, '1', ?, ?)",
+                (user_id, del, standard, name, email)
+                VALUES (?, 0, 1, ?, ?)",
                 $user_id,
                 $user_name,
                 $user_email);
@@ -479,7 +495,6 @@ function decrypt_passwd($cypher)
 function rcube_remote_response($js_code)
   {
   send_nocacheing_headers();
-  //header('Content-Type: text/javascript');
   header('Content-Type: application/x-javascript');
 
   print '/** remote response ['.date('d/M/Y h:i:s O')."] **/\n";
@@ -527,6 +542,117 @@ function rcube_add_label()
                                 $JS_OBJECT_NAME,
                                 $name,
                                 rep_specialchars_output(rcube_label($name), 'js')));  
+  }
+
+
+// remove temp files of a session
+function rcmail_clear_session_temp($sess_id)
+  {
+  global $CONFIG;
+
+  $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '');
+  $cache_dir = $temp_dir.$sess_id;
+
+  if (is_dir($cache_dir))
+    {
+    clear_directory($cache_dir);
+    rmdir($cache_dir);
+    }  
+  }
+
+
+
+// replace specials characters to a specific encoding type
+function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
+  {
+  global $OUTPUT_TYPE, $CHARSET;
+  static $html_encode_arr, $js_rep_table, $rtf_rep_table, $xml_rep_table;
+
+  if (!$enctype)
+    $enctype = $GLOBALS['OUTPUT_TYPE'];
+
+  // convert nbsps back to normal spaces if not html
+  if ($enctype!='html')
+    $str = str_replace(chr(160), ' ', $str);
+
+
+  // encode for plaintext
+  if ($enctype=='text')
+    return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
+
+  // encode for HTML output
+  if ($enctype=='html')
+    {
+    if (!$html_encode_arr)
+      {
+      if ($CHARSET=='ISO-8859-1')
+        {
+        $html_encode_arr = get_html_translation_table(HTML_ENTITIES);
+        $html_encode_arr[chr(128)] = '&euro;';
+        }
+      else
+        $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);
+        
+      unset($html_encode_arr['?']);
+      unset($html_encode_arr['&']);
+      }
+
+    $ltpos = strpos($str, '<');
+    $encode_arr = $html_encode_arr;
+
+    // don't replace quotes and html tags
+    if (($mode=='show' || $mode=='') && $ltpos!==false && strpos($str, '>', $ltpos)!==false)
+      {
+      unset($encode_arr['"']);
+      unset($encode_arr['<']);
+      unset($encode_arr['>']);
+      }
+    else if ($mode=='remove')
+      $str = strip_tags($str);
+      
+    $out = strtr($str, $encode_arr);
+
+    return $newlines ? nl2br($out) : $out;
+    }
+
+
+  if ($enctype=='url')
+    return rawurlencode($str);
+
+
+  // if the replace tables for RTF, XML and JS are not yet defined
+  if (!$js_rep_table)
+    {
+    $js_rep_table = $rtf_rep_table = $xml_rep_table = array();
+
+    for ($c=160; $c<256; $c++)  // can be increased to support more charsets
+      {
+      $hex = dechex($c);
+      $rtf_rep_table[Chr($c)] = "\\'$hex";
+      $xml_rep_table[Chr($c)] = "&#$c;";
+      
+      if ($CHARSET=='ISO-8859-1')
+        $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
+      }
+
+    $js_rep_table['"'] = sprintf("\u%s%s", str_repeat('0', 4-strlen(dechex(34))), dechex(34));
+    $xml_rep_table['"'] = '&quot;';
+    }
+
+  // encode for RTF
+  if ($enctype=='xml')
+    return strtr($str, $xml_rep_table);
+
+  // encode for javascript use
+  if ($enctype=='js')
+    return preg_replace(array("/\r\n/", '/"/', "/([^\\\])'/"), array('\n', '\"', "$1\'"), strtr($str, $js_rep_table));
+
+  // encode for RTF
+  if ($enctype=='rtf')
+    return preg_replace("/\r\n/", "\par ", strtr($str, $rtf_rep_table));
+
+  // no encoding given -> return original string
+  return $str;
   }
 
 
@@ -653,104 +779,53 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
     case 'object':
       $object = strtolower($attrib['name']);
 
+      $object_handlers = array(
+        // MAIL
+        'mailboxlist' => 'rcmail_mailbox_list',
+        'messages' => 'rcmail_message_list',
+        'messagecountdisplay' => 'rcmail_messagecount_display',
+        'messageheaders' => 'rcmail_message_headers',
+        'messagebody' => 'rcmail_message_body',
+        'messageattachments' => 'rcmail_message_attachments',
+        'blockedobjects' => 'rcmail_remote_objects_msg',
+        'messagecontentframe' => 'rcmail_messagecontent_frame',
+        'messagepartframe' => 'rcmail_message_part_frame',
+        'messagepartcontrols' => 'rcmail_message_part_controls',
+        'composeheaders' => 'rcmail_compose_headers',
+        'composesubject' => 'rcmail_compose_subject',
+        'composebody' => 'rcmail_compose_body',
+        'composeattachmentlist' => 'rcmail_compose_attachment_list',
+        'composeattachmentform' => 'rcmail_compose_attachment_form',
+        'composeattachment' => 'rcmail_compose_attachment_field',
+        'priorityselector' => 'rcmail_priority_selector',
+        'charsetselector' => 'rcmail_charset_selector',
+        
+        // ADDRESS BOOK
+        'addresslist' => 'rcmail_contacts_list',
+        'addressframe' => 'rcmail_contact_frame',
+        'recordscountdisplay' => 'rcmail_rowcount_display',
+        'contactdetails' => 'rcmail_contact_details',
+        'contacteditform' => 'rcmail_contact_editform',
+
+        // USER SETTINGS
+        'userprefs' => 'rcmail_user_prefs_form',
+        'itentitieslist' => 'rcmail_identities_list',
+        'identityframe' => 'rcmail_identity_frame',
+        'identityform' => 'rcube_identity_form',
+        'foldersubscription' => 'rcube_subscription_form',
+        'createfolder' => 'rcube_create_folder_form',
+        'composebody' => 'rcmail_compose_body'
+      );
+
       if ($object=='loginform')
         return rcmail_login_form($attrib);
 
       else if ($object=='message')
         return rcmail_message_container($attrib);
-
-      // MAIL
-      else if ($object=='mailboxlist' && function_exists('rcmail_mailbox_list'))
-        return rcmail_mailbox_list($attrib);
-        
-      else if ($object=='messages' && function_exists('rcmail_message_list'))
-        return rcmail_message_list($attrib);
-
-      else if ($object=='messagecountdisplay' && function_exists('rcmail_messagecount_display'))
-        return rcmail_messagecount_display($attrib);
-
-      else if ($object=='messageheaders' && function_exists('rcmail_message_headers'))
-        return rcmail_message_headers($attrib);
-
-      else if ($object=='messageattachments' && function_exists('rcmail_message_attachments'))
-        return rcmail_message_attachments($attrib);
-
-      else if ($object=='messagebody' && function_exists('rcmail_message_body'))
-        return rcmail_message_body($attrib);
-        
-      else if ($object=='blockedobjects' && function_exists('rcmail_remote_objects_msg'))
-        return rcmail_remote_objects_msg($attrib);
-
-      else if ($object=='messagecontentframe' && function_exists('rcmail_messagecontent_frame'))
-        return rcmail_messagecontent_frame($attrib);
-
-      else if ($object=='messagepartframe' && function_exists('rcmail_message_part_frame'))
-        return rcmail_message_part_frame($attrib);
-
-      else if ($object=='messagepartcontrols' && function_exists('rcmail_message_part_controls'))
-        return rcmail_message_part_controls($attrib);
-
-      else if ($object=='composeheaders' && function_exists('rcmail_compose_headers'))
-        return rcmail_compose_headers($attrib);
-
-      else if ($object=='composesubject' && function_exists('rcmail_compose_subject'))
-        return rcmail_compose_subject($attrib);
-
-      else if ($object=='composebody' && function_exists('rcmail_compose_body'))
-        return rcmail_compose_body($attrib);
-
-      else if ($object=='composeattachmentlist' && function_exists('rcmail_compose_attachment_list'))
-        return rcmail_compose_attachment_list($attrib);
-
-      else if ($object=='composeattachmentform' && function_exists('rcmail_compose_attachment_form'))
-        return rcmail_compose_attachment_form($attrib);
-
-      else if ($object=='composeattachment' && function_exists('rcmail_compose_attachment_field'))
-        return rcmail_compose_attachment_field($attrib);
-
-      else if ($object=='priorityselector' && function_exists('rcmail_priority_selector'))
-        return rcmail_priority_selector($attrib);
-        
-      else if ($object=='priorityselector' && function_exists('rcmail_priority_selector'))
-        return rcmail_priority_selector($attrib);
-
-
-      // ADDRESS BOOK
-      else if ($object=='addresslist' && function_exists('rcmail_contacts_list'))
-        return rcmail_contacts_list($attrib);
-
-      else if ($object=='addressframe' && function_exists('rcmail_contact_frame'))
-        return rcmail_contact_frame($attrib);
-
-      else if ($object=='recordscountdisplay' && function_exists('rcmail_rowcount_display'))
-        return rcmail_rowcount_display($attrib);
-        
-      else if ($object=='contactdetails' && function_exists('rcmail_contact_details'))
-        return rcmail_contact_details($attrib);
-
-      else if ($object=='contacteditform' && function_exists('rcmail_contact_editform'))
-        return rcmail_contact_editform($attrib);
-
-
-      // USER SETTINGS
-      else if ($object=='userprefs' && function_exists('rcmail_user_prefs_form'))
-        return rcmail_user_prefs_form($attrib);
-
-      else if ($object=='itentitieslist' && function_exists('rcmail_identities_list'))
-        return rcmail_identities_list($attrib);
-
-      else if ($object=='identityframe' && function_exists('rcmail_identity_frame'))
-        return rcmail_identity_frame($attrib);
-
-      else if ($object=='identityform' && function_exists('rcube_identity_form'))
-        return rcube_identity_form($attrib);
-
-      else if ($object=='foldersubscription' && function_exists('rcube_subscription_form'))
-        return rcube_subscription_form($attrib);
-
-      else if ($object=='createfolder' && function_exists('rcube_create_folder_form'))
-        return rcube_create_folder_form($attrib);
-
+      
+      // execute object handler function
+      else if ($object_handlers[$object] && function_exists($object_handlers[$object]))
+        return call_user_func($object_handlers[$object], $attrib);
 
       else if ($object=='pagetitle')
         {
@@ -878,7 +953,7 @@ function rcube_button($attrib)
   // generate image tag
   if ($attrib['type']=='image')
     {
-    $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'width', 'height', 'border', 'hspace', 'vspace', 'alt'));
+    $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'width', 'height', 'border', 'hspace', 'vspace', 'align', 'alt'));
     $img_tag = sprintf('<img src="%%s"%s />', $attrib_str);
     $btn_content = sprintf($img_tag, $skin_path.$attrib['image']);
     if ($attrib['label'])
@@ -1158,6 +1233,41 @@ $form_end
 EOF;
 
   return $out;
+  }
+
+
+
+function rcmail_charset_selector($attrib)
+  {
+  // pass the following attributes to the form class
+  $field_attrib = array('name' => '_charset');
+  foreach ($attrib as $attr => $value)
+    if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex')))
+      $field_attrib[$attr] = $value;
+      
+  $charsets = array(
+    'US-ASCII'     => 'ASCII (English)',
+    'X-EUC-JP'     => 'EUC-JP (Japanese)',
+    'EUC-KR'       => 'EUC-KR (Korean)',
+    'BIG5'         => 'BIG5 (Chinese)',
+    'GB2312'       => 'GB2312 (Chinese)',
+    'ISO-8859-1'   => 'ISO-8859-1 (Latin-1)',
+    'ISO-8859-2'   => 'ISO-8895-2 (Central European)',
+    'ISO-8859-7'   => 'ISO-8859-7 (Greek)',
+    'ISO-8859-9'   => 'ISO-8859-9 (Turkish)',
+    'Windows-1251' => 'Windows-1251 (Cyrillic)',
+    'Windows-1252' => 'Windows-1252 (Western)',
+    'Windows-1255' => 'Windows-1255 (Hebrew)',
+    'Windows-1256' => 'Windows-1256 (Arabic)',
+    'Windows-1257' => 'Windows-1257 (Baltic)',
+    'UTF-8'        => 'UTF-8'
+    );
+
+  $select = new select($field_attrib);
+  $select->add(array_values($charsets), array_keys($charsets));
+  
+  $set = $_POST['_charset'] ? $_POST['_charset'] : $GLOBALS['CHARSET'];
+  return $select->show($set);
   }
 
 

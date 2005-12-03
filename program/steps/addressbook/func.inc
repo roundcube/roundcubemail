@@ -43,7 +43,7 @@ function rcmail_contacts_list($attrib)
   // count contacts for this user
   $sql_result = $DB->query("SELECT COUNT(contact_id) AS rows
                             FROM ".get_table_name('contacts')."
-                            WHERE  del<>'1'
+                            WHERE  del<>1
                             AND    user_id=?",
                             $_SESSION['user_id']);
 
@@ -56,7 +56,7 @@ function rcmail_contacts_list($attrib)
 
     // get contacts from DB
     $sql_result = $DB->limitquery("SELECT * FROM ".get_table_name('contacts')."
-                                   WHERE  del<>'1'
+                                   WHERE  del<>1
                                    AND    user_id= ?
                                    ORDER BY name",
                                    $start_row,
@@ -173,7 +173,7 @@ function rcmail_get_rowcount_text($max=NULL)
   if ($max===NULL)
     {
     $sql_result = $DB->query("SELECT 1 FROM ".get_table_name('contacts')."
-                              WHERE  del<>'1'
+                              WHERE  del<>1
                               AND    user_id=?",
                               $_SESSION['user_id']);
 

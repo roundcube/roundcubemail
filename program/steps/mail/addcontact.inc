@@ -32,7 +32,7 @@ if ($_GET['_address'])
       $sql_result = $DB->query("SELECT 1 FROM ".get_table_name('contacts')."
                                 WHERE  user_id=?
                                 AND    email=?
-                                AND    del<>'1'",
+                                AND    del<>1",
                                 $_SESSION['user_id'],$contact['mailto']);
 
     // contact entry with this mail address exists
@@ -42,13 +42,13 @@ if ($_GET['_address'])
     else if ($contact['mailto'])
       {
       $DB->query("INSERT INTO ".get_table_name('contacts')."
-                  (user_id, changed, name, email)
-                  VALUES (?, now(), ?, ?)",
+                  (user_id, changed, del, name, email)
+                  VALUES (?, now(), 0, ?, ?)",
                   $_SESSION['user_id'],
                   $contact['name'],
                   $contact['mailto']);
 
-      $added = $DB->insert_id();
+      $added = $DB->insert_id(get_sequence_name('contacts'));
       }
     }
 

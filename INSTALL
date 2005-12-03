@@ -31,6 +31,7 @@ roundcube user. Here is an example of that procedure:
 > quit
 # mysql roundcubemail < SQL/mysql.initial.sql
 
+
 * SQLite
 --------
 Sqlite requires specifically php5 (sqlite in php4 currently doesn't
@@ -42,6 +43,25 @@ an example how you can setup the sqlite.db for roundcube:
 
 Make sure your configuration points to the sqlite.db file and that the
 webserver can write to the file.
+
+
+* PostgreSQL
+------------
+To use RoundCube with PostgreSQL support you have to follow the next
+simple steps, which have to be done with the postgres system user (or
+which ever is the database superuser):
+
+$ createuser roundcubemail
+$ createdb -O roundcubemail roundcubemail
+$ psql roundcubemail
+
+roundcubemail =# ALTER USER roundcube WITH PASSWORD 'the_new_password';
+roundcubemail =# \c - roundcubemail
+roundcubemail => \i SQL/postgres.initial.sql
+
+All this has been tested with PostgreSQL 8.0.x and 7.4.x. Older
+versions don't have a -O option for the createdb, so if you are
+using that version you'll have to change ownership of the DB later.
 
 
 UPGRADING

@@ -10,7 +10,7 @@ from versions 0.1-alpha and 0.1-20050811
 - replace index.php
 - replace all files in folder /program/
 - replace all files in folder /skins/default/
-- rund SQL queries in order to update the database
+- run all commands in SQL/*.update.sql or re-initalize database with *.initial.sql
 - add these line to /config/main.inc.php
   $rcmail_config['trash_mbox'] = 'Trash';
   $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
@@ -22,9 +22,12 @@ from versions 0.1-alpha and 0.1-20050811
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
+  $rcmail_config['temp_dir'] = 'temp/';
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
+- add these lines to /config/db.inc.php
+  $rcmail_config['db_max_length'] = 512000;
 
 
 from version 0.1-20050820
@@ -32,7 +35,7 @@ from version 0.1-20050820
 - replace index.php
 - replace all files in folder /program/
 - replace all files in folder /skins/default/
-- rund SQL queries in order to update the database
+- run all commands in SQL/*.update.sql or re-initalize database with *.initial.sql
 - add these line to /config/main.inc.php
   $rcmail_config['prettydate'] = TRUE;
   $rcmail_config['smtp_port'] = 25;
@@ -41,9 +44,12 @@ from version 0.1-20050820
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
+  $rcmail_config['temp_dir'] = 'temp/';
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
+- add these lines to /config/db.inc.php
+  $rcmail_config['db_max_length'] = 512000;
 
 
 from version 0.1-20051007
@@ -51,20 +57,38 @@ from version 0.1-20051007
 - replace index.php
 - replace all files in folder /program/
 - replace all files in folder /skins/default/
+- run all commands in SQL/*.update.sql or re-initalize database with *.initial.sql
 - add these lines to /config/main.inc.php
   $rcmail_config['smtp_auth_type'] = '';  // if you need to specify an auth method for SMTP
   $rcmail_config['session_lifetime'] = 20;  // to specify the session lifetime in minutes
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
-  
+  $rcmail_config['temp_dir'] = 'temp/';
+- add these lines to /config/db.inc.php
+  $rcmail_config['db_max_length'] = 512000;  
+  $rcmail_config['db_sequence_user_ids'] = 'user_ids';
+  $rcmail_config['db_sequence_identity_ids'] = 'identity_ids';
+  $rcmail_config['db_sequence_contact_ids'] = 'contact_ids';
+  $rcmail_config['db_sequence_cache_ids'] = 'cache_ids';
+  $rcmail_config['db_sequence_message_ids'] = 'message_ids';  
+
 
 from version 0.1-20051021
 ----------------------------------------
 - replace index.php
 - replace all files in folder /program/
 - replace all files in folder /skins/default/
+- run all commands in SQL/*.update.sql or re-initalize database with *.initial.sql
 - add these lines to /config/main.inc.php
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
+  $rcmail_config['temp_dir'] = 'temp/';
+- add these lines to /config/db.inc.php
+  $rcmail_config['db_max_length'] = 512000;
+  $rcmail_config['db_sequence_user_ids'] = 'user_ids';
+  $rcmail_config['db_sequence_identity_ids'] = 'identity_ids';
+  $rcmail_config['db_sequence_contact_ids'] = 'contact_ids';
+  $rcmail_config['db_sequence_cache_ids'] = 'cache_ids';
+  $rcmail_config['db_sequence_message_ids'] = 'message_ids';  

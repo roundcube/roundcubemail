@@ -24,7 +24,7 @@ $REMOTE_REQUEST = TRUE;
 if ($_GET['_cid'])
   {
   $DB->query("UPDATE ".get_table_name('contacts')."
-              SET    del='1'
+              SET    del=1
               WHERE  user_id=?
               AND    contact_id IN (".$_GET['_cid'].")",
               $_SESSION['user_id']);
@@ -40,7 +40,7 @@ if ($_GET['_cid'])
   // count contacts for this user
   $sql_result = $DB->query("SELECT COUNT(contact_id) AS rows
                             FROM ".get_table_name('contacts')."
-                            WHERE  del<>'1'
+                            WHERE  del<>1
                             AND    user_id=?",
                             $_SESSION['user_id']);
                                    
@@ -60,7 +60,7 @@ if ($_GET['_cid'])
 
     // get contacts from DB
     $sql_result = $DB->limitquery("SELECT * FROM ".get_table_name('contacts')."
-                                   WHERE  del<>'1'
+                                   WHERE  del<>1
                                    AND    user_id=?
                                    ORDER BY name",
                                    $start_row,

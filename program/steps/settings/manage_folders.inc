@@ -69,10 +69,15 @@ else if ($_action=='create-folder')
 else if ($_action=='delete-folder')
   {
   if (strlen($_GET['_mboxes']))
-    $IMAP->delete_mailbox(explode(',', $_GET['_mboxes']));
+    $deleted = $IMAP->delete_mailbox(explode(',', $_GET['_mboxes']));
 
-  if ($_GET['_remote'])
-    rcube_remote_response('// deleted');
+  if ($_GET['_remote'] && $deleted)
+    rcube_remote_response(sprintf("this.remove_folder_row('%s')", rep_specialchars_output($_GET['_mboxes'], 'js')));
+  else if ($_GET['_remote'])
+    {
+    $commands = show_message('errorsaving', 'error');
+    rcube_remote_response($commands);
+    }
   }
 
 
@@ -172,6 +177,10 @@ function rcube_create_folder_form($attrib)
 
   return $out;
   }
+
+
+// add some labels to client
+rcube_add_label('deletefolderconfirm');
 
 
 parse_template('managefolders');

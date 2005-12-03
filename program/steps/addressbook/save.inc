@@ -52,7 +52,7 @@ if ($_POST['_cid'])
                 SET    changed=now(), ".join(', ', $a_write_sql)."
                 WHERE  contact_id=?
                 AND    user_id=?
-                AND    del<>'1'",
+                AND    del<>1",
                 $_POST['_cid'],
                 $_SESSION['user_id']);
                        
@@ -73,7 +73,7 @@ if ($_POST['_cid'])
       $sql_result = $DB->query("SELECT * FROM ".get_table_name('contacts')."
                                 WHERE  contact_id=?
                                 AND    user_id=?
-                                AND    del<>'1'",
+                                AND    del<>1",
                                $_POST['_cid'],
                                $_SESSION['user_id']);
                          
@@ -109,7 +109,7 @@ else
   $sql_result = $DB->query("SELECT 1 FROM ".get_table_name('contacts')."
                             WHERE  user_id=?
                             AND    email=?
-                            AND    del<>'1'",
+                            AND    del<>1",
                            $_SESSION['user_id'],
                            $_POST['_email']);
 
@@ -134,11 +134,11 @@ else
   if (sizeof($a_insert_cols))
     {
     $DB->query("INSERT INTO ".get_table_name('contacts')."
-                (user_id, changed, ".join(', ', $a_insert_cols).")
-                VALUES (?, now(), ".join(', ', $a_insert_values).")",
+                (user_id, changed, del, ".join(', ', $a_insert_cols).")
+                VALUES (?, now(), 0, ".join(', ', $a_insert_values).")",
                 $_SESSION['user_id']);
                        
-    $insert_id = $DB->insert_id();
+    $insert_id = $DB->insert_id(get_sequence_name('contacts'));
     }
     
   if ($insert_id)

@@ -109,6 +109,7 @@ $labels['unread'] = 'Ungelesene';
 $labels['compose']  = 'Neue Nachricht verfassen';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
+$labels['charset']  = 'Zeichensatz';
 
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
@@ -121,7 +122,6 @@ $labels['high']    = 'Hoch';
 $labels['highest'] = 'Höchste';
 
 $labels['nosubject']  = '(kein Betreff)';
-
 $labels['showimages'] = 'Bilder anzeigen';
 
 
@@ -165,7 +165,7 @@ $labels['setdefault']  = 'Als Standard';
 $labels['language']  = 'Sprache';
 $labels['timezone']  = 'Zeitzone';
 $labels['pagesize']  = 'Einträge pro Seite';
-
+$labels['signature'] = 'Signatur';
 
 $labels['folders']  = 'Ordner';
 $labels['foldername']  = 'Ordnername';

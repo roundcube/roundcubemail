@@ -45,7 +45,7 @@ function sess_read($key)
 
   if ($sql_arr = $DB->fetch_assoc($sql_result))
     {
-    $SESS_CHANGED = $sql_arr['changed'];
+    $SESS_CHANGED = mktime(); //$sql_arr['changed'];
 
     if (strlen($sql_arr['vars']))
       return $sql_arr['vars'];
@@ -59,7 +59,7 @@ function sess_read($key)
 function sess_write($key, $vars)
   {
   global $DB;
-  
+
   $sql_result = $DB->query("SELECT 1
                             FROM ".get_table_name('session')."
                             WHERE  sess_id=?",
@@ -83,6 +83,8 @@ function sess_write($key, $vars)
                 $key,
                 $vars,
                 $_SERVER['REMOTE_ADDR']);
+                
+
     }
 
   return TRUE;
@@ -102,7 +104,9 @@ function sess_destroy($key)
   $DB->query("DELETE FROM ".get_table_name('session')."
               WHERE sess_id=?",
               $key);
-                     
+
+  rcmail_clear_session_temp($key);
+
   return TRUE;
   }
 
@@ -115,7 +119,7 @@ function sess_gc($maxlifetime)
   // get all expired sessions  
   $sql_result = $DB->query("SELECT sess_id
                             FROM ".get_table_name('session')."
-                            WHERE ".$DB->unixtimestamp('now()')."-".$DB->unixtimestamp('created')." > ?",
+                            WHERE ".$DB->unixtimestamp('now()')."-".$DB->unixtimestamp('changed')." > ?",
                             $maxlifetime);
                                    
   $a_exp_sessions = array();
@@ -133,6 +137,10 @@ function sess_gc($maxlifetime)
     $DB->query("DELETE FROM ".get_table_name('session')."
                 WHERE sess_id IN ('".join("','", $a_exp_sessions)."')");
     }
+
+  // remove session specific temp dirs
+  foreach ($a_exp_sessions as $key)
+    rcmail_clear_session_temp($key);
 
   return TRUE;
   }

@@ -24,7 +24,7 @@ $REMOTE_REQUEST = $_GET['_remote'] ? TRUE : FALSE;
 if ($_GET['_iid'])
   {
   $DB->query("UPDATE ".get_table_name('identities')."
-              SET    del='1'
+              SET    del=1
               WHERE  user_id=?
               AND    identity_id IN (".$_GET['_iid'].")",
               $_SESSION['user_id']);

@@ -60,13 +60,13 @@ $messages['errormoving'] = 'Could not move the message';
 
 $messages['errordeleting'] = 'Could not delete the message';
 
-$messages['errordeleting'] = 'Could not delete the message';
+$messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
 
-$messages['formincomplete']    = 'The form was not completely filled out';
+$messages['formincomplete'] = 'The form was not completely filled out';
 
-$messages['noemailwarning']    = 'Please enter a valid email address';
+$messages['noemailwarning'] = 'Please enter a valid email address';
 
-$messages['nonamewarning']     = 'Please enter a name';
+$messages['nonamewarning']  = 'Please enter a name';
 
 $messages['nopagesizewarning'] = 'Please enter a page size';
 

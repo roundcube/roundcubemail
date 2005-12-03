@@ -11,7 +11,7 @@
 CREATE TABLE `cache` (
   `cache_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
-  `session_id` varchar(32) default NULL,
+  `session_id` varchar(40) default NULL,
   `cache_key` varchar(128) NOT NULL default '',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `data` longtext NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `contacts` (
   `contact_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
   `changed` datetime NOT NULL default '0000-00-00 00:00:00',
-  `del` enum('0','1') NOT NULL default '0',
+  `del` tinyint(1) NOT NULL default '0',
   `name` varchar(128) NOT NULL default '',
   `email` varchar(128) NOT NULL default '',
   `firstname` varchar(128) NOT NULL default '',
@@ -50,8 +50,8 @@ CREATE TABLE `contacts` (
 CREATE TABLE `identities` (
   `identity_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
-  `del` enum('0','1') NOT NULL default '0',
-  `default` enum('0','1') NOT NULL default '0',
+  `del` tinyint(1) NOT NULL default '0',
+  `standard` tinyint(1) NOT NULL default '0',
   `name` varchar(128) NOT NULL default '',
   `organization` varchar(128) NOT NULL default '',
   `email` varchar(128) NOT NULL default '',
@@ -94,3 +94,33 @@ CREATE TABLE `users` (
   `preferences` text NOT NULL,
   PRIMARY KEY  (`user_id`)
 ) TYPE=MyISAM;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `messages`
+-- 
+
+CREATE TABLE `messages` (
+  `message_id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) unsigned NOT NULL default '0',
+  `del` tinyint(1) NOT NULL default '0',
+  `cache_key` varchar(128) NOT NULL default '',
+  `idx` int(11) unsigned NOT NULL default '0',
+  `uid` int(11) unsigned NOT NULL default '0',
+  `subject` varchar(255) NOT NULL default '',
+  `from` varchar(255) NOT NULL default '',
+  `to` varchar(255) NOT NULL default '',
+  `cc` varchar(255) NOT NULL default '',
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `size` int(11) unsigned NOT NULL default '0',
+  `headers` text NOT NULL,
+  `body` longtext,
+  PRIMARY KEY  (`message_id`),
+  KEY `user_id` (`user_id`),
+  KEY `cache_key` (`cache_key`),
+  KEY `idx` (`idx`),
+  KEY `uid` (`uid`)
+) TYPE=MyISAM;
+
+

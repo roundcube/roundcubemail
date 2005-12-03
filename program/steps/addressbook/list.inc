@@ -24,7 +24,7 @@ $REMOTE_REQUEST = TRUE;
 // count contacts for this user
 $sql_result = $DB->query("SELECT COUNT(contact_id) AS rows
                           FROM ".get_table_name('contacts')."
-                          WHERE  del<>'1'
+                          WHERE  del<>1
                           AND    user_id=?",
                           $_SESSION['user_id']);
                                    
@@ -40,7 +40,7 @@ $start_row = ($CONTACTS_LIST['page']-1) * $CONFIG['pagesize'];
 
 // get contacts from DB
 $sql_result = $DB->limitquery("SELECT * FROM ".get_table_name('contacts')."
-                               WHERE  del<>'1'
+                               WHERE  del<>1
                                AND    user_id=?
                                ORDER BY name",
                                $start_row,

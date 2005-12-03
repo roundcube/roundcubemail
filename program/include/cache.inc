@@ -43,8 +43,8 @@ function rcube_read_cache($key)
 
   return $data;
   }
-  
-  
+
+
 function rcube_write_cache($key, $data, $session_cache=FALSE)
   {
   global $DB, $CACHE_KEYS, $sess_id;
@@ -89,7 +89,6 @@ function rcube_write_cache($key, $data, $session_cache=FALSE)
                 $data);
     }
   }
-
 
 
 function rcube_clear_cache($key)

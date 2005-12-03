@@ -238,6 +238,22 @@ class rcube_db
 	}
 
 
+	function format_date($timestamp)
+	  {
+		switch($this->db_provider)
+			{
+			case 'mysqli':
+			case 'mysql':
+				return "FROM_UNIXTIME($timestamp)";
+				break;
+			case 'sqlite':
+				return "datetime('$timestamp')";
+				break;
+			default:
+				return date("Y-m-d H:i:s", $timestamp);
+			}
+	  }
+
     function _add_result($res, $query)
     {
         // sql error occured
