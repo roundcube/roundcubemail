@@ -618,7 +618,7 @@ function iil_C_Sort(&$conn, $mailbox, $field){
 	if (!$fields[$field]) return false;
 	
 	$fp = $conn->fp;
-	$command = 's SORT ('.$field.') US-ASCII ALL'."\r\n";
+	$command = 's SORT ('.$field.') US-ASCII ALL UNDELETED'."\r\n";
 	$line = $data = '';
 	
 	if (!fputs($fp, $command)) return false;

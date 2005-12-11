@@ -35,6 +35,8 @@ class rcube_imap
   var $mailbox = 'INBOX';
   var $list_page = 1;
   var $page_size = 10;
+  var $sort_field = 'date';
+  var $sort_order = 'DESC';
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
   var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
@@ -279,19 +281,30 @@ class rcube_imap
     
     // return cached value
     if (!$force && is_array($a_mailbox_cache[$mailbox]) && isset($a_mailbox_cache[$mailbox][$mode]))
-      return $a_mailbox_cache[$mailbox][$mode];      
+      return $a_mailbox_cache[$mailbox][$mode];
+      
+    $search_str = "ALL UNDELETED";
 
     // get message count and store in cache
     if ($mode == 'UNSEEN')
-      $count = iil_C_CountUnseen($this->conn, $mailbox);
-    else
-      $count = iil_C_CountMessages($this->conn, $mailbox);
+      $search_str .= " UNSEEN";
+
+    // get message count using SEARCH
+    // not very performant but more precise (using UNDELETED)
+    $count = 0;
+    $index = $this->_search_index($mailbox, $search_str);
+    if (is_array($index))
+      {
+      $str = implode(",", $index);
+      if (!empty($str))
+        $count = count($index);
+      }
 
     if (is_array($a_mailbox_cache[$mailbox]))
       $a_mailbox_cache[$mailbox] = array();
       
     $a_mailbox_cache[$mailbox][$mode] = (int)$count;
-    
+
     // write back to cache
     $this->update_cache('messagecount', $a_mailbox_cache);
 
@@ -301,7 +314,7 @@ class rcube_imap
 
   // public method for listing headers
   // convert mailbox name with root dir first
-  function list_headers($mbox='', $page=NULL, $sort_field='date', $sort_order='DESC')
+  function list_headers($mbox='', $page=NULL, $sort_field=NULL, $sort_order=NULL)
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
     return $this->_list_headers($mailbox, $page, $sort_field, $sort_order);
@@ -309,10 +322,15 @@ class rcube_imap
 
 
   // private method for listing message header
-  function _list_headers($mailbox='', $page=NULL, $sort_field='date', $sort_order='DESC')
+  function _list_headers($mailbox='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $recursive=FALSE)
     {
     if (!strlen($mailbox))
       return array();
+      
+    if ($sort_field!=NULL)
+      $this->sort_field = $sort_field;
+    if ($sort_order!=NULL)
+      $this->sort_order = strtoupper($sort_order);
 
     $max = $this->_messagecount($mailbox);
     $start_msg = ($this->list_page-1) * $this->page_size;
@@ -322,7 +340,7 @@ class rcube_imap
       $begin = 0;
       $end = $max;
       }
-    else if ($sort_order=='DESC')
+    else if ($this->sort_order=='DESC')
       {
       $begin = $max - $this->page_size - $start_msg;
       $end =   $max - $start_msg;
@@ -348,20 +366,20 @@ class rcube_imap
     // cache is OK, we can get all messages from local cache
     if ($cache_status>0)
       {
-      $a_msg_headers = $this->get_message_cache($cache_key, $start_msg, $start_msg+$this->page_size, $sort_field, $sort_order);
+      $a_msg_headers = $this->get_message_cache($cache_key, $start_msg, $start_msg+$this->page_size, $this->sort_field, $this->sort_order);
       $headers_sorted = TRUE;
       }
     else
       {
       // retrieve headers from IMAP
-      if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $sort_field)))
+      if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field)))
         {
 //console("$mailbox: ".count($msg_index));
         
         $msgs = $msg_index[$begin];
         for ($i=$begin; $i < $end; $i++)
           {
-          if ($sort_order == 'DESC')
+          if ($this->sort_order == 'DESC')
             $msgs = $msg_index[$i].','.$msgs;
           else
             $msgs = $msgs.','.$msg_index[$i];
@@ -377,10 +395,10 @@ class rcube_imap
 
 
       // cache is dirty, sync it
-      if ($this->caching_enabled && $cache_status==-1)
+      if ($this->caching_enabled && $cache_status==-1 && !$recursive)
         {
         $this->sync_header_index($mailbox);
-        return $this->_list_headers($mailbox, $page, $sort_field, $sort_order);
+        return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE);
         }      
 
 
@@ -390,7 +408,7 @@ class rcube_imap
       // fetch reuested headers from server
       $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs);
       $a_msg_headers = array();
-      
+      $deleted_count = 0;
       
       if (!empty($a_header_index))
         {
@@ -402,6 +420,7 @@ class rcube_imap
             if ($cache_index[$headers->id] && $cache_index[$headers->id] == $headers->uid)
               $this->remove_message_cache($cache_key, $headers->id);
 
+            $deleted_count++;
             continue;
             }
 
@@ -417,7 +436,11 @@ class rcube_imap
       $this->clear_message_cache($cache_key, $max);
 
 
+      // fetch more headers of there were any deleted messages
+      // ...
+
       // kick child process to sync cache
+      // ...
       
       }
 
@@ -429,26 +452,70 @@ class rcube_imap
 
     // if not already sorted
     if (!$headers_sorted)
-      $a_msg_headers = iil_SortHeaders($a_msg_headers, $sort_field, $sort_order);
+      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
 
     return array_values($a_msg_headers);
     }
 
 
   // return sorted array of message UIDs
-  function message_index($mbox='', $sort_field='date', $sort_order='DESC')
+  function message_index($mbox='', $sort_field=NULL, $sort_order=NULL)
     {
+    if ($sort_field!=NULL)
+      $this->sort_field = $sort_field;
+    if ($sort_order!=NULL)
+      $this->sort_order = strtoupper($sort_order);
+
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
-    $a_out = array();
+    $key = "$mbox:".$this->sort_field.":".$this->sort_order.".msgi";
 
-    // get array of message headers
-    $a_headers = $this->_list_headers($mailbox, 'all', $sort_field, $sort_order);
+    // have stored it in RAM
+    if (isset($this->cache[$key]))
+      return $this->cache[$key];
 
-    if (is_array($a_headers))
-      foreach ($a_headers as $header)
-        $a_out[] = $header->uid;
+    // check local cache
+    $cache_key = $mailbox.'.msg';
+    $cache_status = $this->check_cache_status($mailbox, $cache_key);
 
-    return $a_out;
+    // cache is OK
+    if ($cache_status>0)
+      {
+      $a_index = get_message_cache_index($cache_key, FALSE, $this->sort_field);
+      return array_values($a_index);
+      }
+
+
+    // fetch complete message index
+    $msg_count = $this->_messagecount($mailbox);
+    if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field)))
+      {
+      $a_uids = iil_C_FetchUIDs($this->conn, $mailbox);
+
+      if ($this->sort_order == 'DESC')
+        $a_index = array_reverse($a_index);
+
+      $i = 0;
+      $this->cache[$key] = array();
+      foreach ($a_index as $index => $value)
+        $this->cache[$key][$i++] = $a_uids[$value];
+      }
+    else
+      {
+      $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:$msg_count", $this->sort_field);
+      $a_uids = iil_C_FetchUIDs($this->conn, $mailbox);
+    
+      if ($this->sort_order=="ASC")
+        asort($a_index);
+      else if ($this->sort_order=="DESC")
+        arsort($a_index);
+        
+      $i = 0;
+      $this->cache[$key] = array();
+      foreach ($a_index as $index => $value)
+        $this->cache[$key][$i++] = $a_uids[$index];
+      }
+
+    return $this->cache[$key];
     }
 
 
@@ -506,6 +573,12 @@ class rcube_imap
   function search($mbox='', $criteria='ALL')
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
+    return $this->_search_index($mailbox, $criteria);
+    }
+    
+    
+  function _search_index($mailbox, $criteria='ALL')
+    {
     $a_messages = iil_C_Search($this->conn, $mailbox, $criteria);
     return $a_messages;
     }
@@ -570,20 +643,20 @@ class rcube_imap
       $uids = array($uids);
       
     foreach ($uids as $uid)
-      $msg_ids[] = $this->_uid2id($uid);
+      $msg_ids[$uid] = $this->_uid2id($uid);
       
     if ($flag=='UNSEEN')
-      $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', $msg_ids));
+      $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
     else
-      $result = iil_C_Flag($this->conn, $this->mailbox, join(',', $msg_ids), $flag);
+      $result = iil_C_Flag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), $flag);
 
     // reload message headers if cached
     $cache_key = $this->mailbox.'.msg';
     if ($this->caching_enabled)
       {
-      foreach ($msg_ids as $id)
+      foreach ($msg_ids as $uid => $id)
         {
-        if ($cached_headers = $this->get_cached_message($cache_key, $id))
+        if ($cached_headers = $this->get_cached_message($cache_key, $uid))
           {
           $this->remove_message_cache($cache_key, $id);
           //$this->get_headers($uid);
@@ -596,7 +669,7 @@ class rcube_imap
       }
 
     // set nr of messages that were flaged
-    $count = sizeof($msg_ids);
+    $count = count($msg_ids);
 
     // clear message count cache
     if ($result && $flag=='SEEN')
@@ -1160,7 +1233,7 @@ class rcube_imap
     }
 
    
-  function get_message_cache_index($key, $force=FALSE)
+  function get_message_cache_index($key, $force=FALSE, $sort_col='idx')
     {
     static $sa_message_index = array();
     
@@ -1173,7 +1246,7 @@ class rcube_imap
        FROM ".get_table_name('messages')."
        WHERE  user_id=?
        AND    cache_key=?
-       ORDER BY idx ASC",
+       ORDER BY ".$sort_col." ASC",
       $_SESSION['user_id'],
       $key);
 
@@ -1186,6 +1259,9 @@ class rcube_imap
 
   function add_message_cache($key, $index, $headers)
     {
+    if (!is_object($headers) || empty($headers->uid))
+      return;
+
     $this->db->query(
       "INSERT INTO ".get_table_name('messages')."
        (user_id, del, cache_key, idx, uid, subject, ".$this->db->quoteIdentifier('from').", ".$this->db->quoteIdentifier('to').", cc, date, size, headers)
@@ -1198,7 +1274,7 @@ class rcube_imap
       $this->decode_header($headers->from, TRUE),
       $this->decode_header($headers->to, TRUE),
       $this->decode_header($headers->cc, TRUE),
-      $headers->size,
+      (int)$headers->size,
       serialize($headers));
     }
     
@@ -1268,7 +1344,7 @@ class rcube_imap
 
   function decode_header($input, $remove_quotes=FALSE)
     {
-    $str = $this->decode_mime_string($input);
+    $str = $this->decode_mime_string((string)$input);
     if ($str{0}=='"' && $remove_quotes)
       {
       $str = str_replace('"', '', $str);
@@ -1518,6 +1594,10 @@ class rcube_imap
     
     // add incremental value to messagecount
     $a_mailbox_cache[$mailbox][$mode] += $increment;
+    
+    // there's something wrong, delete from cache
+    if ($a_mailbox_cache[$mailbox][$mode] < 0)
+      unset($a_mailbox_cache[$mailbox][$mode]);
 
     // write back to cache
     $this->update_cache('messagecount', $a_mailbox_cache);

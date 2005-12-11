@@ -528,12 +528,11 @@ function rcmail_get_messagecount_text()
   
   if (isset($MESSAGE['index']))
     {
-    $a_msg_index = $IMAP->message_index();
     return rcube_label(array('name' => 'messagenrof',
                              'vars' => array('nr'  => $MESSAGE['index']+1,
-                                             'count' => sizeof($a_msg_index))));
+                                             'count' => $IMAP->messagecount())));
     }
-  
+
   $start_msg = ($IMAP->list_page-1) * $IMAP->page_size + 1;
   $max = $IMAP->messagecount();
 

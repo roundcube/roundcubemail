@@ -97,7 +97,12 @@ function log_bug($arg_arr)
   // show error if debug_mode is on
   if ($CONFIG['debug_level'] & 4)
     {
-    print "<b>$program Error in $arg_arr[file] ($arg_arr[line]):</b>&nbsp;";
+    print "<b>$program Error";
+
+    if (!empty($arg_arr['file']) && !empty($arg_arr['line']))
+      print " in $arg_arr[file] ($arg_arr[line])";
+
+    print ":</b>&nbsp;";
     print nl2br($arg_arr['message']);
     print '<br />';
     flush();
