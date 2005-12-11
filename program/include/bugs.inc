@@ -67,11 +67,17 @@ function log_bug($arg_arr)
     if (empty($CONFIG['log_dir']))
       $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
       
-    if ($fp = fopen($CONFIG['log_dir'].'/errors', 'a'))
+    // try to open specific log file for writing
+    if ($fp = @fopen($CONFIG['log_dir'].'/errors', 'a'))
     
       {
       fwrite($fp, $log_entry);
       fclose($fp);
+      }
+    else
+      {
+      // send error to PHPs error handler
+      trigger_error($arg_arr['message']);
       }
     }
 
