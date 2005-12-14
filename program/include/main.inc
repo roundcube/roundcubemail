@@ -1098,15 +1098,18 @@ function format_date($date, $format=NULL)
   $now = time();  // local time
   $now -= (int)date('Z'); // make GMT time
   $now += ($CONFIG['timezone'] * 3600); // user's time
+  $now_date = getdate();
 
-  $day_secs = 60*((int)date('H', $now)*60 + (int)date('i', $now));
-  $week_secs = 60 * 60 * 24 * 7;
-  $diff = $now - $timestamp;
+  //$day_secs = 60*((int)date('H', $now)*60 + (int)date('i', $now));
+  //$week_secs = 60 * 60 * 24 * 7;
+  //$diff = $now - $timestamp;
+  $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
+  $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
 
   // define date format depending on current time  
-  if ($CONFIG['prettydate'] && !$format && $diff < $day_secs)
+  if ($CONFIG['prettydate'] && !$format && $timestamp > $today_limit)
     return sprintf('%s %s', rcube_label('today'), date('H:i', $timestamp));
-  else if ($CONFIG['prettydate'] && !$format && $diff < $week_secs)
+  else if ($CONFIG['prettydate'] && !$format && $timestamp > $week_limit)
     $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
   else if (!$format)
     $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';

@@ -277,9 +277,10 @@ if ($CONFIG['sent_mbox'])
 // log mail sending
 if ($CONFIG['smtp_log'])
   {
-  $log_entry = sprintf("[%s] User: %d; Message for %s; Subject: %s\n",
+  $log_entry = sprintf("[%s] User: %d on %s; Message for %s; Subject: %s\n",
                date("d-M-Y H:i:s O", mktime()),
                $_SESSION['user_id'],
+               $_SERVER['REMOTE_ADDR'],
                $mailto,
                $msg_subject);
 

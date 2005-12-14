@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/11/13 (roundcube)                                      |
+ | Modified: 2005/12/14 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -1356,24 +1356,30 @@ function rcube_webmail()
     var id = obj.options[obj.selectedIndex].value;
     var input_message = rcube_find_object('_message');
     var message = input_message ? input_message.value : '';
+    var sig, p;
 
     // remove the 'old' signature
     if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
       {
-      var sig = this.env.signatures[this.env.identity];
-      
-      if (p = message.lastIndexOf(sig))
+      sig = this.env.signatures[this.env.identity];
+      if (sig.indexOf('-- ')!=0)
+        sig = '-- \n'+sig;
+
+      p = message.lastIndexOf(sig);
+      if (p>=0)
         message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
       }
 
     // add the new signature string
     if (this.env.signatures && this.env.signatures[id])
       {
-      var sig = this.env.signatures[id];
+      sig = this.env.signatures[id];
+      if (sig.indexOf('-- ')!=0)
+        sig = '-- \n'+sig;
       message += '\n'+sig;
       }
 
-    if (input_message && message)
+    if (input_message)
       input_message.value = message;
       
     this.env.identity = id;

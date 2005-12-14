@@ -161,6 +161,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
   foreach ($arrFolders as $key => $folder)
     {
     $zebra_class = ($nestLevel*$idx)%2 ? 'even' : 'odd';
+    $title = '';
 
     $folder_lc = strtolower($folder['id']);
     if (in_array($folder_lc, $special))
@@ -171,7 +172,12 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
 
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)
-        $foldername = abbrevate_string($foldername, $maxlength);
+        {
+        $fname = abbrevate_string($foldername, $maxlength);
+        if ($fname != $foldername)
+          $title = ' title="'.rep_specialchars_output($foldername, 'html', 'all').'"';
+        $foldername = $fname;
+        }
       }
 
     // add unread message count display
@@ -191,7 +197,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $class_name = 'junk';
 
-    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="./#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')">%s</a>',
+    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="./#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a>',
                     $folder_css,
                     $class_name,
                     $zebra_class,
@@ -202,6 +208,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
                     $folder['id'],
                     $JS_OBJECT_NAME,
                     $folder['id'],
+                    $title,
                     rep_specialchars_output($foldername, 'html', 'all'));
 
     if (!empty($folder['folders']))
@@ -1008,6 +1015,9 @@ function rcmail_message_body($attrib)
 // modify a HTML message that it can be displayed inside a HTML page
 function rcmail_mod_html_body($body, $container_id)
   {
+  // remove any null-byte characters before parsing
+  $body = preg_replace('/\x00/', '', $body);
+  
   $last_style_pos = 0;
   $body_lc = strtolower($body);
   
@@ -1157,15 +1167,18 @@ function rcmail_message_source($uid)
   else
     $headers = &$cached;
 
-
-  $message_id = $headers->messageID;
+  // create unique identifier based on message_id
+  if (!empty($headers->messageID))
+    $message_id = md5($headers->messageID);
+  else
+    $message_id = md5($headers->uid.'@'.$_SESSION['imap_host']);
   
   $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '');
   $cache_dir = $temp_dir.$_SESSION['client_id'];
   $cache_path = $cache_dir.'/'.$message_id;
 
   // message is cached in temp dir
-  if (is_dir($cache_dir) && is_file($cache_path))
+  if ($CONFIG['enable_caching'] && is_dir($cache_dir) && is_file($cache_path))
     {
     if ($fp = fopen($cache_path, 'r'))
       {
@@ -1178,9 +1191,14 @@ function rcmail_message_source($uid)
 
   // get message from server
   $msg_source = $IMAP->get_raw_body($uid);
+  
+  // return message source without caching
+  if (!$CONFIG['enable_caching'])
+    return $msg_source;
+
 
   // let's cache the message body within the database
-  if ($CONFIG['enable_caching'] && $cached && ($CONFIG['db_max_length'] -300) > $headers->size)
+  if ($cached && ($CONFIG['db_max_length'] -300) > $headers->size)
     {
     $DB->query("UPDATE ".get_table_name('messages')."
                 SET    body=?

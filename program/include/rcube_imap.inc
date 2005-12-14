@@ -480,7 +480,7 @@ class rcube_imap
     // cache is OK
     if ($cache_status>0)
       {
-      $a_index = get_message_cache_index($cache_key, FALSE, $this->sort_field);
+      $a_index = $this->get_message_cache_index($cache_key, FALSE, $this->sort_field);
       return array_values($a_index);
       }
 

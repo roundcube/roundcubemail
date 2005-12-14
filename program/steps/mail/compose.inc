@@ -353,7 +353,7 @@ function rcmail_create_reply_body($body)
            
 
   // try to remove the signature
-  if ($sp = strrpos($body, '--'))
+  if ($sp = strrpos($body, '-- '))
     {
     if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
       $body = substr($body, 0, $sp-1);

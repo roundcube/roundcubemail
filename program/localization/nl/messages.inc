@@ -42,9 +42,9 @@ $messages['addedsuccessfully'] = 'Contactpersoon succesvol toegevoegd aan het ad
 
 $messages['contactexists'] = 'Een contactpersoon met dit e-mail adres bestaat al';
 
-$messages['blockedimages'] = 'Om je privacy te beschermen zijn externe afbeeldingen zijn geblokkeerd in dit bericht.';
+$messages['blockedimages'] = 'Om je privacy te beschermen zijn externe afbeeldingen geblokkeerd in dit bericht.';
 
-$messages['encryptedmessage'] = 'Dit is een versleuteld bericht en kan niet worden weergegeven. Sorry!';
+$messages['encryptedmessage'] = 'Dit bericht is versleuteld en kan niet worden weergegeven. Sorry!';
 
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden';
 
