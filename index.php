@@ -58,7 +58,9 @@ ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$INSTALL_PATH.'program'.PAT
 
 ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
-ini_set('error_reporting', E_ALL&~E_NOTICE);
+ini_set('session.gc_maxlifetime', 21600);
+ini_set('session.gc_divisor', 500);
+ini_set('error_reporting', E_ALL&~E_NOTICE); 
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)

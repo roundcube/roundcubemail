@@ -33,7 +33,7 @@ if (!is_array($_SESSION['compose']))
 
 
 // add some labels to client
-rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'sendingmessage');
+rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'sendingmessage', 'notsentwarning');
 
 
 if ($_GET['_reply_uid'] || $_GET['_forward_uid'])

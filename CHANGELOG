@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+
+2005/12/16
+----------
+- Added Turkish and Simplified Chinese translation
+- Use virtusertable to resolve e-mail addresses at login
+- Configurable mail_domain used to compose correct e-mail addresses on first login
+
+
 2005/12/03
 ----------
 - Added Finnish, Romanian, Polish, Czech, British, Norwegian, Greek, Russian, Estonian and Chinese translation

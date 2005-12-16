@@ -72,7 +72,8 @@ function smtp_mail($from, $recipients, $headers, &$body)
   // create Net_SMTP object and connect to server
   if (!is_object($smtp_conn))
     {
-    $SMTP_CONN = new Net_SMTP($smtp_host, $smtp_port, 'localhost');
+    $helo_host = !empty($_SERVER['server_name']) ? $_SERVER['server_name'] : 'localhost';
+    $SMTP_CONN = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
     // set debugging
     if ($CONFIG['debug_level'] & 8)

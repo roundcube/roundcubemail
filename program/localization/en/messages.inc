@@ -76,5 +76,7 @@ $messages['nosubjectwarning']  = 'The "Subject" field is empty. Would you like t
 
 $messages['nobodywarning'] = 'Send this message without text?';
 
+$messages['notsentwarning'] = 'Message has not been sent. Do you want to discard your message?';
+
 
 ?>

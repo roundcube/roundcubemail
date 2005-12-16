@@ -36,6 +36,13 @@ $rcmail_config['default_host'] = '';
 // TCP port used for IMAP connections
 $rcmail_config['default_port'] = 143;
 
+// This domain will be used to form e-mail addresses of new users
+// Specify an array with 'host' => 'domain' values to support multiple hosts
+$rcmail_config['mail_domain'] = 'roundcube.net';
+
+// Path to a virtuser table file to resolve user names and e-mail addresses
+$rcmail_config['virtuser_file'] = '';
+
 // use this host for sending mails.
 // to use SSL connection, set ssl://smtp.host.com
 // if left blank, the PHP mail() function is used

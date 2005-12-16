@@ -26,7 +26,7 @@
 	'ar'    => 'Arabic',
 	'bg'    => 'Bulgarian',
 	'tw'    => 'Chinese (BIG5)',
-	'cn'    => 'Chinese(GB2312)',
+	'cn'    => 'Chinese (GB2312)',
 	'cz'    => 'Czech',
  	'ca'    => 'Catal&agrave;',
 	'da'    => 'Dansk',
@@ -64,6 +64,7 @@ $rcube_charsets = array(
 	'lv' => 'ISO-8859-2',
 	'pl' => 'ISO-8859-2',
 	'el' => 'ISO-8859-7',
+	'tr' => 'ISO-8859-9',
 	'tw' => 'BIG5',
 	'ja' => 'UTF-8'
 );

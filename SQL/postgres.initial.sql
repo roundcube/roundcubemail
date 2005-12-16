@@ -1,3 +1,67 @@
+
+--
+-- Sequence "cache_ids"
+-- Name: cache_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE cache_ids
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Sequence "contact_ids"
+-- Name: contact_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE contact_ids
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Sequence "identity_ids"
+-- Name: identity_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE identity_ids
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Sequence "user_ids"
+-- Name: user_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE user_ids
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Sequence "message_ids"
+-- Name: message_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE message_ids
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
 --
 -- Table "users"
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
@@ -158,66 +222,4 @@ ALTER TABLE ONLY "identities"
 
 ALTER TABLE ONLY "messages"
     ADD CONSTRAINT "$1" FOREIGN KEY (user_id) REFERENCES users(user_id);
-
-
---
--- Sequence "cache_ids"
--- Name: cache_ids; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE cache_ids
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Sequence "contact_ids"
--- Name: contact_ids; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE contact_ids
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Sequence "identity_ids"
--- Name: identity_ids; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE identity_ids
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Sequence "user_ids"
--- Name: user_ids; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE user_ids
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Sequence "message_ids"
--- Name: message_ids; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE message_ids
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
 

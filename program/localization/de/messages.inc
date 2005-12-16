@@ -70,4 +70,6 @@ $messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt e
 
 $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 
+$messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?';
+
 ?>

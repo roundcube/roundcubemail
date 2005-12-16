@@ -332,6 +332,11 @@ function rcmail_login($user, $pass, $host=NULL)
     $user = $sql_arr['username'];
     }
 
+  // try to resolve email address from virtuser table    
+  if (!empty($CONFIG['virtuser_file']) && strstr($user, '@'))
+    $user = rcmail_email2user($user);
+
+
   // exit if IMAP login failed
   if (!($imap_login  = $IMAP->connect($host, $user, $pass, $imap_port, $imap_ssl)))
     return FALSE;
@@ -388,19 +393,35 @@ function rcmail_login($user, $pass, $host=NULL)
 function rcmail_create_user($user, $host)
   {
   global $DB, $CONFIG, $IMAP;
-  
+
+  $user_email = '';
+
+  // try to resolve user in virtusertable
+  if (!empty($CONFIG['virtuser_file']) && strstr($user, '@')==FALSE)
+    $user_email = rcmail_user2email($user);
+
   $DB->query("INSERT INTO ".get_table_name('users')."
-              (created, last_login, username, mail_host, language)
-              VALUES (now(), now(), ?, ?, ?)",
+              (created, last_login, username, mail_host, alias, language)
+              VALUES (now(), now(), ?, ?, ?, ?)",
               $user,
               $host,
+              $user_email,
 		      $_SESSION['user_lang']);
 
   if ($user_id = $DB->insert_id(get_sequence_name('users')))
     {
-    $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $host);
+    if (is_string($CONFIG['mail_domain']))
+      $mail_domain = $CONFIG['mail_domain'];
+    else if (is_array($CONFIG['mail_domain']) && isset($CONFIG['mail_domain'][$host]))
+      $mail_domain = $CONFIG['mail_domain'][$host];
+    else
+      $mail_domain = $host;
+   
+    if ($user_email=='')
+      $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
+
     $user_name = $user!=$user_email ? $user : '';
-    
+
     // also create a new identity record
     $DB->query("INSERT INTO ".get_table_name('identities')."
                 (user_id, del, standard, name, email)
@@ -431,6 +452,84 @@ function rcmail_create_user($user, $host)
     
   return $user_id;
   }
+
+
+// load virtuser table in array
+function rcmail_getvirtualfile()
+  {
+  global $CONFIG;
+  if (empty($CONFIG['virtuser_file']) || !is_file($CONFIG['virtuser_file']))
+    return FALSE;
+  
+  // read file 
+  $a_lines = file($CONFIG['virtuser_file']);
+  return $a_lines;
+  }
+
+
+// find matches of the given pattern in virtuser table
+function rcmail_findinvirtual($pattern)
+  {
+  $result = array();
+  $virtual = rcmail_getvirtualfile();
+  if ($virtual==FALSE)
+    return $result;
+
+  // check each line for matches
+  foreach ($virtual as $line)
+    {
+    $line = trim($line);
+    if (empty($line) || $line{0}=='#')
+      continue;
+      
+    if (eregi($pattern, $line))
+      $result[] = $line;
+    }
+
+  return $result;
+  }
+
+
+// resolve username with virtuser table
+function rcmail_email2user($email)
+  {
+  $user = $email;
+  $r = rcmail_findinvirtual("^$email");
+
+  for ($i=0; $i<count($r); $i++)
+    {
+    $data = $r[$i];
+    $arr = preg_split('/\s+/', $data);
+    if(count($arr)>0)
+      {
+      $user = trim($arr[count($arr)-1]);
+      break;
+      }
+    }
+
+  return $user;
+  }
+
+
+// resolve e-mail address with virtuser table
+function rcmail_user2email($user)
+  {
+  $email = "";
+  $r = rcmail_findinvirtual("$user$");
+
+  for ($i=0; $i<count($r); $i++)
+    {
+    $data=$r[$i];
+    $arr = preg_split('/\s+/', $data);
+    if (count($arr)>0)
+      {
+      $email = trim($arr[0]);
+      break;
+      }
+    }
+
+  return $email;
+  } 
 
 
 // overwrite action variable  

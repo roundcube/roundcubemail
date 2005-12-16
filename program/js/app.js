@@ -6,7 +6,7 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified: 2005/12/14 (roundcube)                                      |
+ | Modified: 2005/12/16 (roundcube)                                      |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -312,6 +312,9 @@ function rcube_webmail()
       input_subject.focus();
     else if (input_message)
       this.set_caret2start(input_message); // input_message.focus();
+    
+    // get summary of all field values
+    this.cmp_hash = this.compose_field_hash();
     };
 
 
@@ -457,7 +460,13 @@ function rcube_webmail()
       // misc list commands
       case 'list':
         if (this.task=='mail')
+          {
+          // check input before leaving compose step
+          if (this.env.action=='compose' && this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
+              break;
+
           this.list_mailbox(props);
+          }
         else if (this.task=='addressbook')
           this.list_contacts();
         break;
@@ -693,45 +702,8 @@ function rcube_webmail()
         if (!this.gui_objects.messageform)
           break;
           
-        // check input fields
-        var input_to = rcube_find_object('_to');
-        var input_subject = rcube_find_object('_subject');
-        var input_message = rcube_find_object('_message');
-
-        // check for empty recipient
-        if (input_to && !rcube_check_email(input_to.value, true))
-          {
-          alert(this.get_label('norecipientwarning'));
-          input_to.focus();
+        if (!this.check_compose_input())
           break;
-          }
-
-        // display localized warning for missing subject
-        if (input_subject && input_subject.value == '')
-          {
-          var subject = prompt(this.get_label('nosubjectwarning'), this.get_label('nosubject'));
-
-          // user hit cancel, so don't send
-          if (!subject && subject !== '')
-            {
-            input_subject.focus();
-            break;
-            }
-          else
-            {
-            input_subject.value = subject ? subject : this.get_label('nosubject');            
-            }
-          }
-
-        // check for empty body
-        if (input_message.value=='')
-          {
-          if (!confirm(this.get_label('nobodywarning')))
-            {
-            input_message.focus();
-            break;
-            }
-          }
 
         // all checks passed, send message
         this.set_busy(true, 'sendingmessage');
@@ -1347,6 +1319,78 @@ function rcube_webmail()
   /*********        message compose methods        *********/
   /*********************************************************/
   
+  
+  // checks the input fields before sending a message
+  this.check_compose_input = function()
+    {
+    // check input fields
+    var input_to = rcube_find_object('_to');
+    var input_subject = rcube_find_object('_subject');
+    var input_message = rcube_find_object('_message');
+
+    // check for empty recipient
+    if (input_to && !rcube_check_email(input_to.value, true))
+      {
+      alert(this.get_label('norecipientwarning'));
+      input_to.focus();
+      return false;
+      }
+
+    // display localized warning for missing subject
+    if (input_subject && input_subject.value == '')
+      {
+      var subject = prompt(this.get_label('nosubjectwarning'), this.get_label('nosubject'));
+
+      // user hit cancel, so don't send
+      if (!subject && subject !== '')
+        {
+        input_subject.focus();
+        return false;
+        }
+      else
+        {
+        input_subject.value = subject ? subject : this.get_label('nosubject');            
+        }
+      }
+
+    // check for empty body
+    if (input_message.value=='')
+      {
+      if (!confirm(this.get_label('nobodywarning')))
+        {
+        input_message.focus();
+        return false;
+        }
+      }
+
+    return true;
+    };
+    
+    
+  this.compose_field_hash = function()
+    {
+    // check input fields
+    var input_to = rcube_find_object('_to');
+    var input_cc = rcube_find_object('_to');
+    var input_bcc = rcube_find_object('_to');
+    var input_subject = rcube_find_object('_subject');
+    var input_message = rcube_find_object('_message');
+    
+    var str = '';
+    if (input_to && input_to.value)
+      str += input_to.value+':';
+    if (input_cc && input_cc.value)
+      str += input_cc.value+':';
+    if (input_bcc && input_bcc.value)
+      str += input_bcc.value+':';
+    if (input_subject && input_subject.value)
+      str += input_subject.value+':';
+    if (input_message && input_message.value)
+      str += input_message.value;
+
+    return str;
+    };
+    
   
   this.change_identity = function(obj)
     {

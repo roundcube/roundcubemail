@@ -1,5 +1,15 @@
 RoundCube Webmail (http://roundcube.net)
 
+
+ATTENTION
+---------
+This is just a snapshot of the current CVS repository and is NOT A STABLE
+version of RoundCube. There have been major changes since the latest release
+so please read the update instructions carefully. It's not recommended to
+replace an existing installation of RoundCube with this version. Also using
+a separate database or this installation is highly recommended.
+
+
 Introduction:
 -------------
 RoundCube Webmail is a browser-based multilingual IMAP client with an
@@ -43,7 +53,10 @@ LICENSE for more information about our license.
 
 Contact:
 --------
-For any bug reports or feature requests please refer to the tracking system at sourceforge.net (http://sourceforge.net/tracker/?group_id=139281) or subscribe to our mailing list. See http://www.roundcube.net/?p=mailinglists for details.
+For any bug reports or feature requests please refer to the tracking system
+at sourceforge.net (http://sourceforge.net/tracker/?group_id=139281) or 
+subscribe to our mailing list. See http://www.roundcube.net/?p=mailinglists
+for details.
 
-Your also welcome to send a message to the project admin:
+You're always welcome to send a message to the project admin:
 roundcube@gmail.com
