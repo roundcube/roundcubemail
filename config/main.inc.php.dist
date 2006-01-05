@@ -120,6 +120,10 @@ $rcmail_config['message_sort_col'] = 'date';
 // default sort order
 $rcmail_config['message_sort_order'] = 'DESC';
 
+// Set TRUE if deleted messages should not be displayed
+// This will make the application run slower
+$rcmail_config['skip_deleted'] = FALSE;
+
 // path to a text file which will be added to each sent message
 // paths are relative to the RoundCube root folder
 $rcmail_config['generic_message_footer'] = '';
