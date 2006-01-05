@@ -146,6 +146,9 @@ function rcmail_imap_init($connect=FALSE)
   global $CONFIG, $DB, $IMAP;
 
   $IMAP = new rcube_imap($DB);
+  $IMAP->debug_level = $CONFIG['debug_level'];
+  $IMAP->skip_deleted = $CONFIG['skip_deleted'];
+
 
   // connect with stored session data
   if ($connect)
@@ -591,14 +594,25 @@ function decrypt_passwd($cypher)
 
 
 // send correct response on a remote request
-function rcube_remote_response($js_code)
+function rcube_remote_response($js_code, $flush=FALSE)
   {
-  send_nocacheing_headers();
-  header('Content-Type: application/x-javascript');
+  static $s_header_sent = FALSE;
+  
+  if (!$s_header_sent)
+    {
+    $s_header_sent = TRUE;
+    send_nocacheing_headers();
+    header('Content-Type: application/x-javascript');
+    print '/** remote response ['.date('d/M/Y h:i:s O')."] **/\n";
+    }
 
-  print '/** remote response ['.date('d/M/Y h:i:s O')."] **/\n";
+  // send response code
   print $js_code;
-  exit;
+
+  if ($flush)  // flush the output buffer
+    flush();
+  else         // terminate script
+    exit;
   }
 
 
@@ -879,8 +893,13 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
       $object = strtolower($attrib['name']);
 
       $object_handlers = array(
+        // GENERAL
+        'loginform' => 'rcmail_login_form',
+        'username'  => 'rcmail_current_username',
+        
         // MAIL
         'mailboxlist' => 'rcmail_mailbox_list',
+        'message' => 'rcmail_message_container',
         'messages' => 'rcmail_message_list',
         'messagecountdisplay' => 'rcmail_messagecount_display',
         'messageheaders' => 'rcmail_message_headers',
@@ -916,31 +935,27 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'composebody' => 'rcmail_compose_body'
       );
 
-      if ($object=='loginform')
-        return rcmail_login_form($attrib);
-
-      else if ($object=='message')
-        return rcmail_message_container($attrib);
       
       // execute object handler function
-      else if ($object_handlers[$object] && function_exists($object_handlers[$object]))
+      if ($object_handlers[$object] && function_exists($object_handlers[$object]))
         return call_user_func($object_handlers[$object], $attrib);
 
       else if ($object=='pagetitle')
         {
         $task = $GLOBALS['_task'];
+        $title = !empty($CONFIG['product_name']) ? $CONFIG['product_name'].' :: ' : '';
+        
         if ($task=='mail' && isset($GLOBALS['MESSAGE']['subject']))
-          return rep_specialchars_output("RoundCube|Mail :: ".$GLOBALS['MESSAGE']['subject']);
+          $title .= $GLOBALS['MESSAGE']['subject'];
         else if (isset($GLOBALS['PAGE_TITLE']))
-          return rep_specialchars_output("RoundCube|Mail :: ".$GLOBALS['PAGE_TITLE']);
+          $title .= $GLOBALS['PAGE_TITLE'];
         else if ($task=='mail' && ($mbox_name = $IMAP->get_mailbox_name()))
-          return "RoundCube|Mail :: ".rep_specialchars_output(UTF7DecodeString($mbox_name), 'html', 'all');
+          $title .= UTF7DecodeString($mbox_name);
         else
-          return "RoundCube|Mail :: $task";
+          $title .= $task;
+          
+        return rep_specialchars_output($title, 'html', 'all');
         }
-
-      else if ($object=='about')
-        return '';
 
       break;
     }
@@ -1266,6 +1281,38 @@ function rcmail_message_container($attrib)
   }
 
 
+// return the IMAP username of the current session
+function rcmail_current_username($attrib)
+  {
+  global $DB;
+  static $s_username;
+
+  // alread fetched  
+  if (!empty($s_username))
+    return $s_username;
+
+  // get e-mail address form default identity
+  $sql_result = $DB->query("SELECT email AS mailto
+                            FROM ".get_table_name('identities')."
+                            WHERE  user_id=?
+                            AND    standard=1
+                            AND    del<>1",
+                            $_SESSION['user_id']);
+                                   
+  if ($DB->num_rows($sql_result))
+    {
+    $sql_arr = $DB->fetch_assoc($sql_result);
+    $s_username = $sql_arr['mailto'];
+    }
+  else if (strstr($_SESSION['username'], '@'))
+    $s_username = $_SESSION['username'];
+  else
+    $s_username = $_SESSION['username'].'@'.$_SESSION['imap_host'];
+
+  return $s_username;
+  }
+
+
 // return code for the webmail login form
 function rcmail_login_form($attrib)
   {
@@ -1370,6 +1417,29 @@ function rcmail_charset_selector($attrib)
   
   $set = $_POST['_charset'] ? $_POST['_charset'] : $GLOBALS['CHARSET'];
   return $select->show($set);
+  }
+
+
+
+function rcube_timer()
+  {
+  list($usec, $sec) = explode(" ", microtime());
+  return ((float)$usec + (float)$sec);
+  }
+  
+
+function rcube_print_time($timer, $label='Timer')
+  {
+  static $print_count = 0;
+  
+  $print_count++;
+  $now = rcube_timer();
+  $diff = $now-$timer;
+  
+  if (empty($label))
+    $label = 'Timer '.$print_count;
+  
+  console(sprintf("%s: %0.4f sec", $label, $diff));
   }
 
 

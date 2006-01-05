@@ -607,7 +607,7 @@ function iil_StrToTime($str){
 	return $time2;
 }
 
-function iil_C_Sort(&$conn, $mailbox, $field){
+function iil_C_Sort(&$conn, $mailbox, $field, $add=''){
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) return false;
 	
@@ -618,7 +618,8 @@ function iil_C_Sort(&$conn, $mailbox, $field){
 	if (!$fields[$field]) return false;
 	
 	$fp = $conn->fp;
-	$command = 's SORT ('.$field.') US-ASCII ALL UNDELETED'."\r\n";
+	$command = 's SORT ('.$field.') US-ASCII ALL '."$add\r\n";
+	//$command = 's SORT ('.$field.') US-ASCII ALL UNDELETED'."\r\n";
 	$line = $data = '';
 	
 	if (!fputs($fp, $command)) return false;

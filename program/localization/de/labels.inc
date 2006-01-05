@@ -105,6 +105,9 @@ $labels['all']    = 'Alle';
 $labels['none']   = 'Keine';
 $labels['unread'] = 'Ungelesene';
 
+$labels['compact'] = 'Packen';
+
+
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
@@ -167,6 +170,7 @@ $labels['timezone']  = 'Zeitzone';
 $labels['pagesize']  = 'Einträge pro Seite';
 $labels['signature'] = 'Signatur';
 
+$labels['folder']  = 'Ordner';
 $labels['folders']  = 'Ordner';
 $labels['foldername']  = 'Ordnername';
 $labels['subscribed']  = 'Abonniert';

@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20051214                                                  |
+ | Version 0.1-20060104                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,6 +40,9 @@
  $Id$
 
 */
+
+define('RCMAIL_VERSION', '0.1-20060104');
+
 
 // define global vars
 $INSTALL_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
@@ -240,6 +243,15 @@ if ($_task=='mail')
 
   if ($_action=='addcontact')
     include('program/steps/mail/addcontact.inc');
+
+  if ($_action=='expunge')
+    include('program/steps/mail/folders.inc');
+
+  if ($_action=='check-recent')
+    include('program/steps/mail/check_recent.inc');
+
+  if ($_action=='getunread')
+    include('program/steps/mail/getunread.inc');
     
   if ($_action=='list' && $_GET['_remote'])
     include('program/steps/mail/list.inc');

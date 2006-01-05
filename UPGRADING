@@ -19,6 +19,7 @@ from versions 0.1-alpha and 0.1-20050811
   $rcmail_config['smtp_port'] = 25;
   $rcmail_config['default_port'] = 143;
   $rcmail_config['session_lifetime'] = 20;
+  $rcmail_config['skip_deleted'] = FALSE;
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
@@ -41,6 +42,7 @@ from version 0.1-20050820
   $rcmail_config['smtp_port'] = 25;
   $rcmail_config['default_port'] = 143;
   $rcmail_config['session_lifetime'] = 20;
+  $rcmail_config['skip_deleted'] = FALSE;
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
@@ -61,6 +63,7 @@ from version 0.1-20051007
 - add these lines to /config/main.inc.php
   $rcmail_config['smtp_auth_type'] = '';  // if you need to specify an auth method for SMTP
   $rcmail_config['session_lifetime'] = 20;  // to specify the session lifetime in minutes
+  $rcmail_config['skip_deleted'] = FALSE;
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
@@ -81,6 +84,7 @@ from version 0.1-20051021
 - replace all files in folder /skins/default/
 - run all commands in SQL/*.update.sql or re-initalize database with *.initial.sql
 - add these lines to /config/main.inc.php
+  $rcmail_config['skip_deleted'] = FALSE;
   $rcmail_config['message_sort_col'] = 'date';
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
@@ -91,4 +95,5 @@ from version 0.1-20051021
   $rcmail_config['db_sequence_identity_ids'] = 'identity_ids';
   $rcmail_config['db_sequence_contact_ids'] = 'contact_ids';
   $rcmail_config['db_sequence_cache_ids'] = 'cache_ids';
-  $rcmail_config['db_sequence_message_ids'] = 'message_ids';  
+  $rcmail_config['db_sequence_message_ids'] = 'message_ids';
+  

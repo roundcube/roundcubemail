@@ -69,6 +69,8 @@ function rcmail_mailbox_list($attrib)
   static $s_added_script = FALSE;
   static $a_mailboxes;
   
+// $mboxlist_start = rcube_timer();
+  
   $type = $attrib['type'] ? $attrib['type'] : 'ul';
   $add_attrib = $type=='select' ? array('style', 'class', 'id', 'name', 'onchange') :
                                   array('style', 'class', 'id');
@@ -100,7 +102,9 @@ function rcmail_mailbox_list($attrib)
     $a_folders = $IMAP->list_mailboxes();
     $delimiter = $IMAP->get_hierarchy_delimiter();
     $a_mailboxes = array();
-    
+
+// rcube_print_time($mboxlist_start, 'list_mailboxes()');
+
     foreach ($a_folders as $folder)
       rcmail_build_folder_tree($a_mailboxes, $folder, $delimiter);
     }
@@ -111,6 +115,8 @@ function rcmail_mailbox_list($attrib)
     $out .= rcmail_render_folder_tree_select($a_mailboxes, $special_mailboxes, $mbox, $attrib['maxlength']);
    else
     $out .= rcmail_render_folder_tree_html($a_mailboxes, $special_mailboxes, $mbox, $attrib['maxlength']);
+
+// rcube_print_time($mboxlist_start, 'render_folder_tree()');
 
 
   if ($type=='ul')
@@ -181,7 +187,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
       }
 
     // add unread message count display
-    if ($unread_count = $IMAP->messagecount($folder['id'], 'UNSEEN', ($folder['id']==$mbox)))
+    if ($unread_count = $IMAP->messagecount($folder['id'], 'RECENT', ($folder['id']==$mbox)))
       $foldername .= sprintf(' (%d)', $unread_count);
       
     // make folder name safe for ids and class names
@@ -397,7 +403,12 @@ function rcmail_message_list($attrib)
     if ($attrib['attachmenticon'] && preg_match("/multipart\/m/i", $header->ctype))
       $attach_icon = $attrib['attachmenticon'];
         
-    $out .= sprintf('<tr id="rcmrow%d" class="message'.($header->seen ? '' : ' unread').' '.$zebra_class.'">'."\n", $header->uid);
+    $out .= sprintf('<tr id="rcmrow%d" class="message%s%s %s">'."\n",
+                    $header->uid,
+                    $header->seen ? '' : ' unread',
+                    $header->deleted ? ' deleted' : '',
+                    $zebra_class);    
+    
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
         
     // format each col
@@ -495,12 +506,16 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
 
     $a_msg_flags['unread'] = $header->seen ? 0 : 1;
     $a_msg_flags['replied'] = $header->answered ? 1 : 0;
+    
+    if ($header->deleted)
+      $a_msg_flags['deleted'] = 1;
   
-    $commands .= sprintf("this.add_message_row(%s, %s, %s, %b);\n",
+    $commands .= sprintf("this.add_message_row(%s, %s, %s, %b, %b);\n",
                          $header->uid,
                          array2js($a_msg_cols),
                          array2js($a_msg_flags),
-                         preg_match("/multipart\/m/i", $header->ctype));
+                         preg_match("/multipart\/m/i", $header->ctype),
+                         $insert_top);
     }
 
   return $commands;
@@ -1377,11 +1392,11 @@ function rcmail_compose_cleanup()
   // remove attachment files from temp dir
   if (is_array($_SESSION['compose']['attachments']))
     foreach ($_SESSION['compose']['attachments'] as $attachment)
-      unlink($attachment['path']);
+      @unlink($attachment['path']);
 
   // kill temp dir
   if ($_SESSION['compose']['temp_dir'])
-    rmdir($_SESSION['compose']['temp_dir']);
+    @rmdir($_SESSION['compose']['temp_dir']);
   
   unset($_SESSION['compose']);
   }

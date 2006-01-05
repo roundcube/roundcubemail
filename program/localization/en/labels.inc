@@ -105,6 +105,9 @@ $labels['all'] = 'All';
 $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
 
+$labels['compact'] = 'Compact';
+
+
 // message compose
 $labels['compose']  = 'Compose a message';
 $labels['sendmessage']  = 'Send the message now';
@@ -167,6 +170,7 @@ $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 
+$labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
 $labels['foldername']  = 'Folder name';
 $labels['subscribed']  = 'Subscribed';

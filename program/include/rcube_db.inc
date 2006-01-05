@@ -20,8 +20,24 @@
 
 */
 
+
+/**
+ * Obtain the PEAR::DB class that is used for abstraction
+ */
 require_once('DB.php');
 
+
+/**
+ * Database independent query interface
+ *
+ * This is a wrapper for the PEAR::DB class
+ *
+ * @package    RoundCube Webmail
+ * @author     David Saez Padros <david@ols.es>
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @version    1.14
+ * @link       http://pear.php.net/package/DB
+ */
 class rcube_db
   {
   var $db_dsnw;               // DSN for write operations
@@ -34,8 +50,13 @@ class rcube_db
   var $last_res_id = 0;
 
 
-  // PHP 5 constructor
-  function __construct($db_dsnw,$db_dsnr='')
+  /**
+   * Object constructor
+   *
+   * @param  string  DSN for read/write operations
+   * @param  string  Optional DSN for read only operations
+   */
+  function __construct($db_dsnw, $db_dsnr='')
     {
     if ($db_dsnr=='')
       $db_dsnr=$db_dsnw;
@@ -48,25 +69,44 @@ class rcube_db
     }
 
 
-  // PHP 4 compatibility
+  /**
+   * PHP 4 object constructor
+   *
+   * @see  rcube_db::__construct
+   */
   function rcube_db($db_dsnw,$db_dsnr='')
     {
     $this->__construct($db_dsnw,$db_dsnr);
     }
 
 
-  // Connect to specific database 
+  /**
+   * Object destructor
+   */
+  function __destruct()
+    {
+    // before closing the database connection, write session data
+    session_write_close();
+    } 
+
+
+  /**
+   * Connect to specific database
+   *
+   * @param  string  DSN for DB connections
+   * @return object  PEAR database handle
+   * @access private
+   */
   function dsn_connect($dsn)
     {
     // Use persistent connections if available
     $dbh = DB::connect($dsn, array('persistent' => TRUE));
         
     if (DB::isError($dbh))
-      raise_error(array('code' => 500,
-                        'type' => 'db',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
+      {
+      raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => $dbh->getMessage()), TRUE, FALSE);
+      }
 
     else if ($this->db_provider=='sqlite')
       {
@@ -79,8 +119,14 @@ class rcube_db
     }
 
 
-  // Connect to appropiate databse    
-  function db_connect ($mode)
+  /**
+   * Connect to appropiate databse
+   * depending on the operation
+   *
+   * @param  string  Connection mode (r|w)
+   * @access public
+   */
+  function db_connect($mode)
     {
     $this->db_mode = $mode;
 
@@ -99,7 +145,7 @@ class rcube_db
       if ($this->db_mode==$mode)
         return;
       }
-            
+     
     if ($mode=='r')
       $dsn = $this->db_dsnr;
     else
@@ -110,7 +156,14 @@ class rcube_db
     }
 
 
-  // Query database
+  /**
+   * Execute a SQL query
+   *
+   * @param  string  SQL query to execute
+   * @param  mixed   Values to be inserted in query
+   * @return number  Query handle identifier
+   * @access public
+   */
   function query()
     {
     $params = func_get_args();
@@ -120,7 +173,16 @@ class rcube_db
     }
 
 
-  // Query with limits
+  /**
+   * Execute a SQL query with limits
+   *
+   * @param  string  SQL query to execute
+   * @param  number  Offset for LIMIT statement
+   * @param  number  Number of rows for LIMIT statement
+   * @param  mixed   Values to be inserted in query
+   * @return number  Query handle identifier
+   * @access public
+   */
   function limitquery()
     {
     $params = func_get_args();
@@ -132,6 +194,16 @@ class rcube_db
     }
 
 
+  /**
+   * Execute a SQL query with limits
+   *
+   * @param  string  SQL query to execute
+   * @param  number  Offset for LIMIT statement
+   * @param  number  Number of rows for LIMIT statement
+   * @param  array   Values to be inserted in query
+   * @return number  Query handle identifier
+   * @access private
+   */
   function _query($query, $offset, $numrows, $params)
     {
     // Read or write ?
@@ -155,6 +227,14 @@ class rcube_db
     }
 
 
+  /**
+   * Get number of rows for a SQL query
+   * If no query handle is specified, the last query will be taken as reference
+   *
+   * @param  number  Optional query handle identifier
+   * @return mixed   Number of rows or FALSE on failure
+   * @access public
+   */
   function num_rows($res_id=NULL)
     {
     if (!$this->db_handle)
@@ -167,7 +247,13 @@ class rcube_db
     }
 
 
-  function affected_rows($res_id=NULL)
+  /**
+   * Get number of affected rows fort he last query
+   *
+   * @return mixed   Number of rows or FALSE on failure
+   * @access public
+   */
+  function affected_rows()
     {
     if (!$this->db_handle)
       return FALSE;
@@ -176,6 +262,14 @@ class rcube_db
     }
 
 
+  /**
+   * Get last inserted record ID
+   * For Postgres databases, a sequence name is required
+   *
+   * @param  string  Sequence name for increment
+   * @return mixed   ID or FALSE on failure
+   * @access public
+   */
   function insert_id($sequence = '')
     {
     if (!$this->db_handle || $this->db_mode=='r')
@@ -185,10 +279,12 @@ class rcube_db
       {
       case 'pgsql':
         // PostgreSQL uses sequences
-        $result =& $this->db_handle->getOne("SELECT CURRVAL('$sequence')");    
+        $result = &$this->db_handle->getOne("SELECT CURRVAL('$sequence')");
         if (DB::isError($result))
+          {
           raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 
                             'message' => $result->getMessage()), TRUE, FALSE);
+          }
 
         return $result;
                 
@@ -207,6 +303,14 @@ class rcube_db
     }
 
 
+  /**
+   * Get an associative array for one row
+   * If no query handle is specified, the last query will be taken as reference
+   *
+   * @param  number  Optional query handle identifier
+   * @return mixed   Array with col values or FALSE on failure
+   * @access public
+   */
   function fetch_assoc($res_id=NULL)
     {
     $result = $this->_get_result($res_id);
@@ -222,30 +326,66 @@ class rcube_db
     }
 
 
-  function quote($input, $type=null)
+  /**
+   * Formats input so it can be safely used in a query
+   *
+   * @param  mixed   Value to quote
+   * @return string  Quoted/converted string for use in query
+   * @access public
+   */
+  function quote($input)
     {
+    // create DB handle if not available
     if (!$this->db_handle)
       $this->db_connect('r');
-
-    return $this->db_handle->quote($input);
+      
+    // escape pear identifier chars
+    $rep_chars = array('?' => '\?',
+                       '!' => '\!',
+                       '&' => '\&');
+      
+    return $this->db_handle->quoteSmart(strtr($input, $rep_chars));
     }
     
 
+  /**
+   * Quotes a string so it can be safely used as a table or column name
+   *
+   * @param  string  Value to quote
+   * @return string  Quoted string for use in query
+   * @deprecated     Replaced by rcube_db::quote_identifier
+   * @see            rcube_db::quote_identifier
+   * @access public
+   */
   function quoteIdentifier($str)
 	{
+    return $this->quote_identifier($str);
+	}
+
+
+  /**
+   * Quotes a string so it can be safely used as a table or column name
+   *
+   * @param  string  Value to quote
+   * @return string  Quoted string for use in query
+   * @access public
+   */
+  function quote_identifier($str)
+    {
     if (!$this->db_handle)
       $this->db_connect('r');
 			
     return $this->db_handle->quoteIdentifier($str);
-	}
-
-
-  function quote_identifier($str)
-    {
-    return $this->quoteIdentifier($str);
     }
 
 
+  /**
+   * Return SQL statement to convert a field value into a unix timestamp
+   *
+   * @param  string  Field name
+   * @return string  SQL statement to use in query
+   * @access public
+   */
   function unixtimestamp($field)
     {
     switch($this->db_provider)
@@ -260,6 +400,13 @@ class rcube_db
     }
 
 
+  /**
+   * Return SQL statement to convert from a unix timestamp
+   *
+   * @param  string  Field name
+   * @return string  SQL statement to use in query
+   * @access public
+   */
   function fromunixtime($timestamp)
     {
     switch($this->db_provider)
@@ -275,13 +422,20 @@ class rcube_db
     }
 
 
+  /**
+   * Adds a query result and returns a handle ID
+   *
+   * @param  object  Query handle
+   * @return mixed   Handle ID or FALE on failure
+   * @access private
+   */
   function _add_result($res)
     {
     // sql error occured
     if (DB::isError($res))
       {
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $res->getMessage() . " Query: " . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 1024)), TRUE, FALSE);
+                        'message' => $res->getMessage() . " Query: " . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)), TRUE, FALSE);
       return FALSE;
       }
     else
@@ -294,7 +448,15 @@ class rcube_db
     }
 
 
-  function _get_result($res_id)
+  /**
+   * Resolves a given handle ID and returns the according query handle
+   * If no ID is specified, the last ressource handle will be returned
+   *
+   * @param  number  Handle ID
+   * @return mixed   Ressource handle or FALE on failure
+   * @access private
+   */
+  function _get_result($res_id=NULL)
     {
     if ($res_id==NULL)
       $res_id = $this->last_res_id;
@@ -306,16 +468,22 @@ class rcube_db
     }
 
 
-  // create a sqlite database from a file
-  function _sqlite_create_database($dbh, $fileName)
+  /**
+   * Create a sqlite database from a file
+   *
+   * @param  object  SQLite database handle
+   * @param  string  File path to use for DB creation
+   * @access private
+   */
+  function _sqlite_create_database($dbh, $file_name)
     {
-    if (empty($fileName) || !is_string($fileName))
-      return ;
+    if (empty($file_name) || !is_string($file_name))
+      return;
 
     $data = '';
-    if ($fd = fopen($fileName, 'r'))
+    if ($fd = fopen($file_name, 'r'))
       {
-      $data = fread($fd, filesize($fileName));
+      $data = fread($fd, filesize($file_name));
       fclose($fd);
       }
 
@@ -323,6 +491,13 @@ class rcube_db
       sqlite_exec($dbh->connection, $data);
     }
 
+
+  /**
+   * Add some proprietary database functions to the current SQLite handle
+   * in order to make it MySQL compatible
+   *
+   * @access private
+   */
   function _sqlite_prepare()
     {
     include_once('include/rcube_sqlite.inc');
@@ -334,21 +509,7 @@ class rcube_db
     sqlite_create_function($this->db_handle->connection, "md5", "rcube_sqlite_md5");    
     }
 
-/*
-  // transform a query so that it is sqlite2 compliant
-  function _sqlite_prepare_query($query)
-    {
-    if (!is_string($query))
-      return ($query);
 
-
-    $search = array('/NOW\(\)/i', '/`/');
-    $replace = array("datetime('now')", '"');
-    $query = preg_replace($search, $replace, $query);
-
-    return ($query);
-    }
-*/
   }  // end class rcube_db
 
 ?>

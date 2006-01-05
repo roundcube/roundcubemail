@@ -51,7 +51,10 @@
 
 #listcontrols a,
 #listcontrols a:active,
-#listcontrols a:visited
+#listcontrols a:visited,
+#mailboxcontrols a,
+#mailboxcontrols a:active,
+#mailboxcontrols a:visited
 {
   color: #999999;
   font-size: 11px;
@@ -60,12 +63,16 @@
 
 #listcontrols a.active,
 #listcontrols a.active:active,
-#listcontrols a.active:visited
+#listcontrols a.active:visited,
+#mailboxcontrols a.active,
+#mailboxcontrols a.active:active,
+#mailboxcontrols a.active:visited
 {
   color: #CC0000;
 }
 
-#listcontrols a.active:hover
+#listcontrols a.active:hover,
+#mailboxcontrols a.active:hover
 {
   text-decoration: underline;
 }
@@ -294,6 +301,17 @@
 }
 
 
+#mailboxcontrols
+{
+  position: absolute;
+  left: 20px;
+  width: 160px;
+  bottom: 20px;
+  height: 16px;
+  overflow: hidden;
+}
+
+
 /** message list styles */
 
 body.messagelist
@@ -428,6 +446,12 @@ body.messagelist
 #messagelist tr.selected td a.rcmContactAddress
 {
   color: #FFFFFF;
+}
+
+#messagelist tr.deleted td,
+#messagelist tr.deleted td a
+{
+  color: #CCCCCC;
 }
 
 

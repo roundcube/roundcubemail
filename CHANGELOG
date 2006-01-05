@@ -1,6 +1,20 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/01/04
+----------
+- Fixed bug when inserting signatures with !?&
+- Chopping message headers before inserting into the message cache table (to avoid bugs in Postgres)
+- Allow one-char domains in e-mail addresses
+- Make product name in page title configurable
+- Make username available as skin object
+- Added session_write_close() in rcube_db class destructor to avoid problems in PHP 5.0.5
+- Use move_uploaded_file() instead of copy() for a more secure handling of uploaded attachments
+- Additional config parameter to show/hide deleted messages
+- Added periodic request for checking new mails (Request #1307821)
+- Added EXPUNGE command
+- Optimized loading time for mail interface
+
 
 2005/12/16
 ----------

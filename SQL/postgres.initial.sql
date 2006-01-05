@@ -68,7 +68,7 @@ CREATE SEQUENCE message_ids
 --
 
 CREATE TABLE users (
-    user_id integer DEFAULT nextval('user_ids'::text) NOT NULL,
+    user_id integer DEFAULT nextval('user_ids'::text) PRIMARY KEY,
     username character varying(128) DEFAULT ''::character varying NOT NULL,
     mail_host character varying(128) DEFAULT ''::character varying NOT NULL,
     alias character varying(128) DEFAULT ''::character varying NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE users (
 --
 
 CREATE TABLE "session" (
-    sess_id character varying(40) DEFAULT ''::character varying NOT NULL,
+    sess_id character varying(40) DEFAULT ''::character varying PRIMARY KEY,
     created timestamp with time zone DEFAULT now() NOT NULL,
     changed timestamp with time zone DEFAULT now() NOT NULL,
     ip character varying(16) NOT NULL,
@@ -101,8 +101,8 @@ CREATE TABLE "session" (
 --
 
 CREATE TABLE identities (
-    identity_id integer DEFAULT nextval('identity_ids'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
+    identity_id integer DEFAULT nextval('identity_ids'::text) PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES users (user_id),
     del integer DEFAULT 0 NOT NULL,
     standard integer DEFAULT 0 NOT NULL,
     name character varying(128) NOT NULL,
@@ -120,8 +120,8 @@ CREATE TABLE identities (
 --
 
 CREATE TABLE contacts (
-    contact_id integer DEFAULT nextval('contact_ids'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
+    contact_id integer DEFAULT nextval('contact_ids'::text) PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES users (user_id),
     changed timestamp with time zone DEFAULT now() NOT NULL,
     del integer DEFAULT 0 NOT NULL,
     name character varying(128) DEFAULT ''::character varying NOT NULL,
@@ -139,9 +139,9 @@ CREATE TABLE contacts (
 --
 
 CREATE TABLE "cache" (
-    cache_id integer DEFAULT nextval('cache_ids'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    session_id character varying(40),
+    cache_id integer DEFAULT nextval('cache_ids'::text) PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES users (user_id),
+    session_id character varying(40) REFERENCES "session" (session_id),
     cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     data text NOT NULL
@@ -155,8 +155,8 @@ CREATE TABLE "cache" (
 --
 
 CREATE TABLE "messages" (
-    message_id integer DEFAULT nextval('message_ids'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
+    message_id integer DEFAULT nextval('message_ids'::text) PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES users (user_id),
     del integer DEFAULT 0 NOT NULL,
     cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
     idx integer DEFAULT 0 NOT NULL,
@@ -170,56 +170,4 @@ CREATE TABLE "messages" (
     headers text NOT NULL,
     body text
 );
-
-
-
---
--- Add primary keys
---
-
-ALTER TABLE ONLY "cache"
-    ADD CONSTRAINT cache_pkey PRIMARY KEY (cache_id);
-
-
-ALTER TABLE ONLY "contacts"
-    ADD CONSTRAINT contacts_pkey PRIMARY KEY (contact_id);
-
-
-ALTER TABLE ONLY identities
-    ADD CONSTRAINT identities_pkey PRIMARY KEY (identity_id);
-
-
-ALTER TABLE ONLY "session"
-    ADD CONSTRAINT session_pkey PRIMARY KEY (sess_id);
-
-
-ALTER TABLE ONLY "users"
-    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
-
-
-ALTER TABLE ONLY "messages"
-    ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
-
-
---
--- Reference keys
---
-
-ALTER TABLE ONLY "cache"
-    ADD CONSTRAINT "$1" FOREIGN KEY (user_id) REFERENCES users(user_id);
-
-ALTER TABLE ONLY "cache"
-    ADD CONSTRAINT "$2" FOREIGN KEY (session_id) REFERENCES "session"(sess_id);
-
-
-ALTER TABLE ONLY "contacts"
-    ADD CONSTRAINT "$1" FOREIGN KEY (user_id) REFERENCES users(user_id);
-
-
-ALTER TABLE ONLY "identities"
-    ADD CONSTRAINT "$1" FOREIGN KEY (user_id) REFERENCES users(user_id);
-
-
-ALTER TABLE ONLY "messages"
-    ADD CONSTRAINT "$1" FOREIGN KEY (user_id) REFERENCES users(user_id);
 

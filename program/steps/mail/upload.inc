@@ -39,7 +39,7 @@ $response = '';
 foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
   {
   $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
-  if (copy($filepath, $tmpfname))
+  if (move_uploaded_file($filepath, $tmpfname))
     {
     $_SESSION['compose']['attachments'][] = array('name' => $_FILES['_attachments']['name'][$i],
                                                   'mimetype' => $_FILES['_attachments']['type'][$i],

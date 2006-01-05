@@ -21,11 +21,24 @@
 */
 
 
+/**
+ * Obtain classes from the Iloha IMAP library
+ */
 require_once('lib/imap.inc');
 require_once('lib/mime.inc');
 require_once('lib/utf7.inc');
 
 
+/**
+ * Interface class for accessing an IMAP server
+ *
+ * This is a wrapper that implements the Iloha IMAP Library (IIL)
+ *
+ * @package    RoundCube Webmail
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @version    1.22
+ * @link       http://ilohamail.org
+ */
 class rcube_imap
   {
   var $db;
@@ -46,33 +59,53 @@ class rcube_imap
   var $uid_id_map = array();
   var $msg_headers = array();
   var $capabilities = array();
+  var $skip_deleted = FALSE;
+  var $debug_level = 1;
 
 
-  // PHP 5 constructor
+  /**
+   * Object constructor
+   *
+   * @param  object  Database connection
+   */
   function __construct($db_conn)
     {
     $this->db = $db_conn;    
     }
 
-  // PHP 4 compatibility
+
+  /**
+   * PHP 4 object constructor
+   *
+   * @see  rcube_imap::__construct
+   */
   function rcube_imap($db_conn)
     {
     $this->__construct($db_conn);
     }
 
 
+  /**
+   * Connect to an IMAP server
+   *
+   * @param  string   Host to connect
+   * @param  string   Username for IMAP account
+   * @param  string   Password for IMAP account
+   * @param  number   Port to connect to
+   * @param  boolean  Use SSL connection
+   * @return boolean  TRUE on success, FALSE on failure
+   * @access public
+   */
   function connect($host, $user, $pass, $port=143, $use_ssl=FALSE)
     {
-    global $ICL_SSL, $ICL_PORT, $CONFIG;
+    global $ICL_SSL, $ICL_PORT;
     
     // check for Open-SSL support in PHP build
     if ($use_ssl && in_array('openssl', get_loaded_extensions()))
       $ICL_SSL = TRUE;
     else if ($use_ssl)
       {
-      raise_error(array('code' => 403,
-                        'type' => 'imap',
-                        'file' => __FILE__,
+      raise_error(array('code' => 403, 'type' => 'imap', 'file' => __FILE__,
                         'message' => 'Open SSL not available;'), TRUE, FALSE);
       $port = 143;
       }
@@ -86,7 +119,7 @@ class rcube_imap
     $this->ssl = $use_ssl;
     
     // print trace mesages
-    if ($this->conn && ($CONFIG['debug_level'] & 8))
+    if ($this->conn && ($this->debug_level & 8))
       console($this->conn->message);
     
     // write error log
@@ -116,6 +149,12 @@ class rcube_imap
     }
 
 
+  /**
+   * Close IMAP connection
+   * Usually done on script shutdown
+   *
+   * @access public
+   */
   function close()
     {    
     if ($this->conn)
@@ -123,6 +162,12 @@ class rcube_imap
     }
 
 
+  /**
+   * Close IMAP connection and re-connect
+   * This is used to avoid some strange socket errors when talking to Courier IMAP
+   *
+   * @access public
+   */
   function reconnect()
     {
     $this->close();
@@ -130,6 +175,15 @@ class rcube_imap
     }
 
 
+  /**
+   * Set a root folder for the IMAP connection.
+   *
+   * Only folders within this root folder will be displayed
+   * and all folder paths will be translated using this folder name
+   *
+   * @param  string   Root folder
+   * @access public
+   */
   function set_rootdir($root)
     {
     if (ereg('[\.\/]$', $root)) //(substr($root, -1, 1)==='/')
@@ -142,6 +196,12 @@ class rcube_imap
     }
 
 
+  /**
+   * This list of folders will be listed above all other folders
+   *
+   * @param  array  Indexed list of folder names
+   * @access public
+   */
   function set_default_mailboxes($arr)
     {
     if (is_array($arr))
@@ -159,6 +219,14 @@ class rcube_imap
     }
 
 
+  /**
+   * Set internal mailbox reference.
+   *
+   * All operations will be perfomed on this mailbox/folder
+   *
+   * @param  string  Mailbox/Folder name
+   * @access public
+   */
   function set_mailbox($mbox)
     {
     $mailbox = $this->_mod_mailbox($mbox);
@@ -173,24 +241,49 @@ class rcube_imap
     }
 
 
+  /**
+   * Set internal list page
+   *
+   * @param  number  Page number to list
+   * @access public
+   */
   function set_page($page)
     {
     $this->list_page = (int)$page;
     }
 
 
+  /**
+   * Set internal page size
+   *
+   * @param  number  Number of messages to display on one page
+   * @access public
+   */
   function set_pagesize($size)
     {
     $this->page_size = (int)$size;
     }
 
 
+  /**
+   * Returns the currently used mailbox name
+   *
+   * @return  string Name of the mailbox/folder
+   * @access  public
+   */
   function get_mailbox_name()
     {
     return $this->conn ? $this->_mod_mailbox($this->mailbox, 'out') : '';
     }
 
 
+  /**
+   * Returns the IMAP server's capability
+   *
+   * @param   string  Capability name
+   * @return  mixed   Capability value or TRUE if supported, FALSE if not
+   * @access  public
+   */
   function get_capability($cap)
     {
     $cap = strtoupper($cap);
@@ -198,6 +291,12 @@ class rcube_imap
     }
 
 
+  /**
+   * Returns the delimiter that is used by the IMAP server for folder separation
+   *
+   * @return  string  Delimiter string
+   * @access  public
+   */
   function get_hierarchy_delimiter()
     {
     if ($this->conn && empty($this->delimiter))
@@ -209,8 +308,17 @@ class rcube_imap
     return $this->delimiter;
     }
 
-  // public method for mailbox listing
-  // convert mailbox name with root dir first
+
+  /**
+   * Public method for mailbox listing.
+   *
+   * Converts mailbox name with root dir first
+   *
+   * @param   string  Optional root folder
+   * @param   string  Optional filter for mailbox listing
+   * @return  array   List of mailboxes/folders
+   * @access  public
+   */
   function list_mailboxes($root='', $filter='*')
     {
     $a_out = array();
@@ -229,7 +337,14 @@ class rcube_imap
     return $a_out;
     }
 
-  // private method for mailbox listing
+
+  /**
+   * Private method for mailbox listing
+   *
+   * @return  array   List of mailboxes/folders
+   * @access  private
+   * @see     rcube_imap::list_mailboxes
+   */
   function _list_mailboxes($root='', $filter='*')
     {
     $a_defaults = $a_out = array();
@@ -261,7 +376,7 @@ class rcube_imap
     }
 
 
-  // get message count for a specific mailbox; acceptes modes are: ALL, UNSEEN
+  // get message count for a specific mailbox; acceptes modes are: ALL, UNSEEN, RECENT
   function messagecount($mbox='', $mode='ALL', $force=FALSE)
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
@@ -274,7 +389,7 @@ class rcube_imap
     $a_mailbox_cache = FALSE;
     $mode = strtoupper($mode);
 
-    if (!$mailbox)
+    if (empty($mailbox))
       $mailbox = $this->mailbox;
 
     $a_mailbox_cache = $this->get_cache('messagecount');
@@ -282,22 +397,37 @@ class rcube_imap
     // return cached value
     if (!$force && is_array($a_mailbox_cache[$mailbox]) && isset($a_mailbox_cache[$mailbox][$mode]))
       return $a_mailbox_cache[$mailbox][$mode];
-      
-    $search_str = "ALL UNDELETED";
 
-    // get message count and store in cache
-    if ($mode == 'UNSEEN')
-      $search_str .= " UNSEEN";
+    // RECENT count is fetched abit different      
+    if ($mode == 'RECENT')
+       $count = iil_C_CheckForRecent($this->conn, $mailbox);
 
-    // get message count using SEARCH
-    // not very performant but more precise (using UNDELETED)
-    $count = 0;
-    $index = $this->_search_index($mailbox, $search_str);
-    if (is_array($index))
+    // use SEARCH for message counting
+    else if ($this->skip_deleted)
       {
-      $str = implode(",", $index);
-      if (!empty($str))
-        $count = count($index);
+      $search_str = "ALL UNDELETED";
+
+      // get message count and store in cache
+      if ($mode == 'UNSEEN')
+        $search_str .= " UNSEEN";
+
+      // get message count using SEARCH
+      // not very performant but more precise (using UNDELETED)
+      $count = 0;
+      $index = $this->_search_index($mailbox, $search_str);
+      if (is_array($index))
+        {
+        $str = implode(",", $index);
+        if (!empty($str))
+          $count = count($index);
+        }
+      }
+    else
+      {
+      if ($mode == 'UNSEEN')
+        $count = iil_C_CountUnseen($this->conn, $mailbox);
+      else
+        $count = iil_C_CountMessages($this->conn, $mailbox);
       }
 
     if (is_array($a_mailbox_cache[$mailbox]))
@@ -348,7 +478,7 @@ class rcube_imap
     else
       {
       $begin = $start_msg;
-      $end =   $start_msg + $this->page_size;
+      $end   = $start_msg + $this->page_size;
       }
 
     if ($begin < 0) $begin = 0;
@@ -372,16 +502,16 @@ class rcube_imap
     else
       {
       // retrieve headers from IMAP
-      if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field)))
+      if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
         {
-//console("$mailbox: ".count($msg_index));
+//console("$mailbox: ".join(',', $msg_index));
         
         $msgs = $msg_index[$begin];
-        for ($i=$begin; $i < $end; $i++)
+        for ($i=$begin+1; $i < $end; $i++)
           {
-          if ($this->sort_order == 'DESC')
-            $msgs = $msg_index[$i].','.$msgs;
-          else
+          //if ($this->sort_order == 'DESC')
+          //  $msgs = $msg_index[$i].','.$msgs;
+          //else
             $msgs = $msgs.','.$msg_index[$i];
           }
 
@@ -401,44 +531,16 @@ class rcube_imap
         return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE);
         }      
 
-
-      // cache is incomplete
-      $cache_index = $this->get_message_cache_index($cache_key);
         
       // fetch reuested headers from server
       $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs);
       $a_msg_headers = array();
-      $deleted_count = 0;
-      
-      if (!empty($a_header_index))
-        {
-        foreach ($a_header_index as $i => $headers)
-          {
-          if ($headers->deleted)
-            {
-            // delete from cache
-            if ($cache_index[$headers->id] && $cache_index[$headers->id] == $headers->uid)
-              $this->remove_message_cache($cache_key, $headers->id);
-
-            $deleted_count++;
-            continue;
-            }
-
-          // add message to cache
-          if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid)
-            $this->add_message_cache($cache_key, $headers->id, $headers);
-
-          $a_msg_headers[$headers->uid] = $headers;
-          }
-        }
+      $deleted_count = $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, $cache_key);
 
       // delete cached messages with a higher index than $max
       $this->clear_message_cache($cache_key, $max);
 
-
-      // fetch more headers of there were any deleted messages
-      // ...
-
+        
       // kick child process to sync cache
       // ...
       
@@ -456,6 +558,53 @@ class rcube_imap
 
     return array_values($a_msg_headers);
     }
+
+
+  /**
+   * Fetches message headers
+   * Used for loop
+   *
+   * @param  string  Mailbox name
+   * @param  string  Message indey to fetch
+   * @param  array   Reference to message headers array
+   * @param  array   Array with cache index
+   * @return number  Number of deleted messages
+   * @access private
+   */
+  function _fetch_headers($mailbox, $msgs, &$a_msg_headers, $cache_key)
+    {
+    // cache is incomplete
+    $cache_index = $this->get_message_cache_index($cache_key);
+
+    // fetch reuested headers from server
+    $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs);
+    $deleted_count = 0;
+    
+    if (!empty($a_header_index))
+      {
+      foreach ($a_header_index as $i => $headers)
+        {
+        if ($headers->deleted && $this->skip_deleted)
+          {
+          // delete from cache
+          if ($cache_index[$headers->id] && $cache_index[$headers->id] == $headers->uid)
+            $this->remove_message_cache($cache_key, $headers->id);
+
+          $deleted_count++;
+          continue;
+          }
+
+        // add message to cache
+        if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid)
+          $this->add_message_cache($cache_key, $headers->id, $headers);
+
+        $a_msg_headers[$headers->uid] = $headers;
+        }
+      }
+        
+    return $deleted_count;
+    }
+    
 
 
   // return sorted array of message UIDs
@@ -584,7 +733,7 @@ class rcube_imap
     }
 
 
-  function get_headers($uid, $mbox=NULL)
+  function get_headers($id, $mbox=NULL, $is_uid=TRUE)
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
 
@@ -592,7 +741,7 @@ class rcube_imap
     if ($headers = $this->get_cached_message($mailbox.'.msg', $uid))
       return $headers;
 
-    $msg_id = $this->_uid2id($uid);
+    $msg_id = $is_uid ? $this->_uid2id($id) : $id;
     $headers = iil_C_FetchHeader($this->conn, $mailbox, $msg_id);
 
     // write headers cache
@@ -802,9 +951,9 @@ class rcube_imap
 
 
   // clear all messages in a specific mailbox
-  function clear_mailbox($mbox)
+  function clear_mailbox($mbox=NULL)
     {
-    $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
+    $mailbox = !empty($mbox) ? $this->_mod_mailbox($mbox) : $this->mailbox;
     $msg_count = $this->_messagecount($mailbox, 'ALL');
     
     if ($msg_count>0)
@@ -1270,10 +1419,10 @@ class rcube_imap
       $key,
       $index,
       $headers->uid,
-      $this->decode_header($headers->subject, TRUE),
-      $this->decode_header($headers->from, TRUE),
-      $this->decode_header($headers->to, TRUE),
-      $this->decode_header($headers->cc, TRUE),
+      substr($this->decode_header($headers->subject, TRUE), 0, 128),
+      substr($this->decode_header($headers->from, TRUE), 0, 128),
+      substr($this->decode_header($headers->to, TRUE), 0, 128),
+      substr($this->decode_header($headers->cc, TRUE), 0, 128),
       (int)$headers->size,
       serialize($headers));
     }

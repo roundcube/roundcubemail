@@ -224,14 +224,17 @@ else
   {
   // unset some headers because they will be added by the mail() function
   $headers_php = $headers;
+  $headers_enc = $MAIL_MIME->headers($headers);
   unset($headers_php['To'], $headers_php['Subject']);
 
+  // reset stored headers and overwrite
+  $MAIL_MIME->_headers = array();
   $header_str = $MAIL_MIME->txtHeaders($headers_php);
   
   if(ini_get('safe_mode'))
-    $sent = mail($mailto, $msg_subject, $msg_body, $header_str);
-  else  
-    $sent = mail($mailto, $msg_subject, $msg_body, $header_str, "-f$from");
+    $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
+  else
+    $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
   }
 
 
