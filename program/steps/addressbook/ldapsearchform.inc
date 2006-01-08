@@ -82,23 +82,36 @@ function rcmail_ldap_public_search_form($attrib)
       $out .= '<tr><td class="title"><label for="' . $field_id . '">' .
               rep_specialchars_output(rcube_label('ldappublicsearchfield')) . 
               "</label></td><td>" . $search_fields->show() . "</td></tr>\n";
+      
+      $attributes = array('name'  => '_ldap_public_search_type', 
+                          'id'    => 'rcmfd_ldap_public_search_type');
 
-      $search_type = new checkbox(array('name' => '_ldap_public_search_type',
-                                        'id' => 'rcmfd_ldap_public_search_type', 'value' => 0));
+      // if there's only one server, and it doesn't accept fuzzy searches,
+      // then check and disable the check box - thanks pieter
+      if ($server_count == 1 && !$server['fuzzy_search'])
+        {
+        $attributes['CHECKED'] = 'CHECKED'; 
+        $attributes['disabled'] = 'disabled'; 
+        }
+
+      $search_type = new checkbox($attributes);
 
       $out .= '<tr id="ldap_fuzzy_search"><td class="title"><label for="rcmfd_ldap_public_search_type">' .
               rep_specialchars_output(rcube_label('ldappublicsearchtype')) .
               "</label></td><td>" . $search_type->show() . "</td></tr>\n";
       }
+    
+    if ($server_count > 1)
+      {
+      // store the search fields in a js array for each server
+      $js = '';
+      foreach ($server['search_fields'] as $k => $search_field)
+        $js .= "'$search_field', ";
 
-    // store the search fields in a js array for each server
-    $js = '';
-    foreach ($server['search_fields'] as $k => $search_field)
-      $js .= "'$search_field', ";
-
-    // store whether this server accepts fuzzy search as last item in array
-    $js .= $server['fuzzy_search'] ? "'fuzzy'" : "'exact'";
-    $OUTPUT->add_script("rcmail.set_env('{$server_names[$i]}_search_fields', new Array($js));");
+      // store whether this server accepts fuzzy search as last item in array
+      $js .= $server['fuzzy_search'] ? "'fuzzy'" : "'exact'";
+      $OUTPUT->add_script("rcmail.set_env('{$server_names[$i]}_search_fields', new Array($js));");
+      }
     }
 
   // add contact button label text

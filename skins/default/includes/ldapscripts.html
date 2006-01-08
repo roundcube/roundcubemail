@@ -1,15 +1,16 @@
 <script type="text/javascript">
 var ldap_server_select = document.getElementById('rcfmd_ldap_public_servers');
+
 if (ldap_server_select) {
   // attach event to ldap server drop down
   ldap_server_select.onchange = function() {
     updateLdapSearchFields(this);
     return false;
   }
+  
+  // update the fields on page load
+  updateLdapSearchFields(ldap_server_select);
 }
-
-// update the fields on page load
-updateLdapSearchFields(ldap_server_select);
 
 /**
  * function to change the attributes of the ldap server search fields select box
