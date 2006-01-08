@@ -1,0 +1,54 @@
+/***** RoundCube|Mail address book task styles *****/
+
+
+body.iframe,
+{
+  background-color: #F9F9F9;
+}
+
+#ldapsearch-title
+{
+  height: 12px !important;
+/*  height: 20px; */
+  padding: 4px 20px 3px 20px;
+  border-bottom: 1px solid #999999;
+  color: #333333;
+  font-size: 11px;
+  font-weight: bold;
+  background-color: #EBEBEB;
+  background-image: url(images/listheader_aqua.gif); 
+}
+
+#ldapsearch-details
+{
+  padding: 15px 20px 10px 20px;
+}
+
+#ldapsearch-details table td.title
+{
+  color: #666666;
+  font-weight: bold;
+  text-align: right;
+  padding-right: 10px;
+}
+
+#ldapAddressList 
+{
+  width: 100%;
+  table-layout: fixed;
+  /* css hack for IE */
+  width: expression(document.getElementById('addresslist').clientWidth);
+}
+
+#ldapAddressList table 
+{
+  border-top: 1px solid #999999;
+}
+
+#ldap-search-results div
+{
+  width: 100%;
+  color: red;
+  background-color: green;
+}
+

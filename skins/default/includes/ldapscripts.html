@@ -1,0 +1,73 @@
+<script type="text/javascript">
+var ldap_server_select = document.getElementById('rcfmd_ldap_public_servers');
+if (ldap_server_select) {
+  // attach event to ldap server drop down
+  ldap_server_select.onchange = function() {
+    updateLdapSearchFields(this);
+    return false;
+  }
+}
+
+// update the fields on page load
+updateLdapSearchFields(ldap_server_select);
+
+/**
+ * function to change the attributes of the ldap server search fields select box
+ * this function is triggered by an onchange event in the server select box 
+ */
+function updateLdapSearchFields(element) {
+
+  // get the search fields select element
+  var search_fields = document.getElementById('rcfmd_ldap_public_search_field');
+
+  // get rid of the current options for the select
+  for (i = search_fields.length - 1; i>=0; i--)
+    search_fields.remove(i);
+
+  // get the array containing this servers search fields
+  var server_fields = rcmail.env[element.value + '_search_fields'];
+
+  // add a new option for each of the possible search fields for the selected server
+  for (i = 0; i < server_fields.length; i++) {
+
+    // the last array value is for fuzzy search, so skip that one
+    if (i < (server_fields.length - 1)) {
+      var new_option = document.createElement('option');
+      new_option.text  = server_fields[i];
+      new_option.value = server_fields[i];
+
+      // standards compliant browsers
+      try {
+        search_fields.add(new_option, null);
+      }
+      // for the standards challenged one...
+      catch(e) {
+        search_fields.add(new_option);      
+      }
+    } else {
+      // ok, last member of array, so check the value of fuzzy_search
+      var fuzzy_search = server_fields[i];
+      var search_check_box = document.getElementById('rcmfd_ldap_public_search_type');
+
+      if (fuzzy_search == 'fuzzy') {
+        // we should enable the check box
+        if (search_check_box.disabled)
+          search_check_box.disabled = false;
+
+        // make sure the checkbox is unchecked
+        if (search_check_box.checked)
+          search_check_box.checked = false;
+
+      } else {
+        // we should disable the check box
+        if (!search_check_box.disabled)
+          search_check_box.disabled = true;
+
+        // check the checkbox (just a visual clue for the user)
+        if (!search_check_box.checked)
+          search_check_box.checked = true;
+      }
+    }
+  }
+}
+</script>

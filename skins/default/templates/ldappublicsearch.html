@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<link rel="stylesheet" type="text/css" href="/common.css" />
+<link rel="stylesheet" type="text/css" href="/ldapsearchform.css" />
+</head>
+<body class="iframe">
+
+<div id="ldapsearch-title"><roundcube:label name="ldappublicsearchform" /></div>
+
+<div id="ldapsearch-details">
+<roundcube:object name="ldappublicsearch" size="40" />
+<p>
+<roundcube:button command="ldappublicsearch" type="input" class="button" label="ldappublicsearch" />
+<input type="button" value="<roundcube:label name="cancel" />" class="button" onclick="history.back()" />&nbsp;
+<br /></p>
+</div>
+
+
+<div id="ldapsearch-results">
+<roundcube:object name="ldappublicaddresslist"
+  id="ldappublicaddresslist"
+  cellspacing="0"
+  summary="Ldap email address list" />
+</div>
+
+<roundcube:include file="/includes/ldapscripts.html" />
+
+</body>
+</html>

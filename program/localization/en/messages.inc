@@ -78,5 +78,12 @@ $messages['nobodywarning'] = 'Send this message without text?';
 
 $messages['notsentwarning'] = 'Message has not been sent. Do you want to discard your message?';
 
+$messages['notsentwarning'] = 'Message has not been sent. Do you want to discard your message?';
+
+$messages['noldapserver'] = 'Please select an ldap server to search';
+
+$messages['nocontactsreturned'] = 'No contacts were found';
+
+$messages['nosearchname'] = 'Please enter a contact name or email address';
 
 ?>

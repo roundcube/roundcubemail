@@ -19,18 +19,17 @@
 
 */
 
-
-$a_save_cols = array('name', 'firstname', 'surname', 'email');
-
-
 // check input
-if (empty($_POST['_name']) || empty($_POST['_email']))
+if ((empty($_POST['_name']) || empty($_POST['_email'])) && empty($_GET['_framed']))
   {
   show_message('formincomplete', 'warning');
   rcmail_overwrite_action($_POST['_cid'] ? 'show' : 'add');
   return;
   }
 
+// setup some vars we need
+$a_save_cols = array('name', 'firstname', 'surname', 'email');
+$contacts_table = get_table_name('contacts');
 
 // update an existing contact
 if ($_POST['_cid'])
@@ -48,7 +47,7 @@ if ($_POST['_cid'])
 
   if (sizeof($a_write_sql))
     {
-    $DB->query("UPDATE ".get_table_name('contacts')."
+    $DB->query("UPDATE $contacts_table
                 SET    changed=now(), ".join(', ', $a_write_sql)."
                 WHERE  contact_id=?
                 AND    user_id=?
@@ -70,7 +69,7 @@ if ($_POST['_cid'])
       $a_show_cols = array('name', 'email');
       $a_js_cols = array();
   
-      $sql_result = $DB->query("SELECT * FROM ".get_table_name('contacts')."
+      $sql_result = $DB->query("SELECT * FROM $contacts_table
                                 WHERE  contact_id=?
                                 AND    user_id=?
                                 AND    del<>1",
@@ -104,64 +103,137 @@ if ($_POST['_cid'])
 else
   {
   $a_insert_cols = $a_insert_values = array();
-  
+
   // check for existing contacts
-  $sql_result = $DB->query("SELECT 1 FROM ".get_table_name('contacts')."
-                            WHERE  user_id=?
-                            AND    email=?
-                            AND    del<>1",
-                           $_SESSION['user_id'],
-                           $_POST['_email']);
+  $sql = "SELECT 1 FROM $contacts_table
+          WHERE  user_id = {$_SESSION['user_id']}
+          AND del <> '1' ";
+
+  // get email and name, build sql for existing user check
+  if (isset($_GET['_emails']) && isset($_GET['_names']))
+    {
+    $sql   .= "AND email IN (";
+    $emails = explode(',', $_GET['_emails']);
+    $names  = explode(',', $_GET['_names']);
+    $count  = count($emails);
+    $n = 0;
+    foreach ($emails as $email)
+      {
+      $end  = (++$n == $count) ? '' : ',';
+      $sql .= $DB->quote(strip_tags($email)) . $end;
+      }
+    $sql .= ")";
+    $ldap_form = true; 
+    }
+  else if (isset($_POST['_email'])) 
+    $sql  .= "AND email = " . $DB->quote(strip_tags($_POST['_email']));
+
+  $sql_result = $DB->query($sql);
 
   // show warning message
   if ($DB->num_rows($sql_result))
     {
     show_message('contactexists', 'warning');
-    $_action = 'add';
+
+    if ($ldap_form)
+      rcmail_overwrite_action('ldappublicsearch');
+    else
+      rcmail_overwrite_action('add');
+
     return;
     }
 
-  foreach ($a_save_cols as $col)
+  if ($ldap_form)
     {
-    $fname = '_'.$col;
-    if (!isset($_POST[$fname]))
-      continue;
-    
-    $a_insert_cols[] = $col;
-    $a_insert_values[] = $DB->quote(strip_tags($_POST[$fname]));
+    $n = 0; 
+    foreach ($emails as $email) 
+      {
+      $DB->query("INSERT INTO $contacts_table 
+                 (user_id, name, email)
+                 VALUES ({$_SESSION['user_id']}," . $DB->quote(strip_tags($names[$n++])) . "," . 
+                                      $DB->quote(strip_tags($email)) . ")");
+      $insert_id[] = $DB->insert_id();
+      }
     }
-    
-  if (sizeof($a_insert_cols))
+  else
     {
-    $DB->query("INSERT INTO ".get_table_name('contacts')."
+    foreach ($a_save_cols as $col)
+      {
+      $fname = '_'.$col;
+      if (!isset($_POST[$fname]))
+        continue;
+    
+      $a_insert_cols[] = $col;
+      $a_insert_values[] = $DB->quote(strip_tags($_POST[$fname]));
+      }
+    
+    if (sizeof($a_insert_cols))
+      {
+      $DB->query("INSERT INTO $contacts_table
                 (user_id, changed, del, ".join(', ', $a_insert_cols).")
                 VALUES (?, now(), 0, ".join(', ', $a_insert_values).")",
                 $_SESSION['user_id']);
                        
-    $insert_id = $DB->insert_id(get_sequence_name('contacts'));
+      $insert_id = $DB->insert_id(get_sequence_name('contacts'));
+      }
     }
     
   if ($insert_id)
     {
-    $_action = 'show';
-    $_GET['_cid'] = $insert_id;
+    if (!$ldap_form)
+      {
+      $_action = 'show';
+      $_GET['_cid'] = $insert_id;
 
-    if ($_POST['_framed'])
+      if ($_POST['_framed'])
+        {
+        // add contact row or jump to the page where it should appear
+        $commands = sprintf("if(parent.%s)parent.", $JS_OBJECT_NAME);
+        $sql_result = $DB->query("SELECT * FROM $contacts_table
+                                  WHERE  contact_id=?
+                                  AND    user_id=?",
+                                  $insert_id,
+                                  $_SESSION['user_id']);
+        $commands .= rcmail_js_contacts_list($sql_result, $JS_OBJECT_NAME);
+
+        $commands .= sprintf("if(parent.%s)parent.%s.select('%d');\n",
+                             $JS_OBJECT_NAME, 
+                             $JS_OBJECT_NAME,
+                             $insert_id);
+      
+        // update record count display
+        $commands .= sprintf("if(parent.%s)parent.%s.set_rowcount('%s');\n",
+                             $JS_OBJECT_NAME, 
+                             $JS_OBJECT_NAME,
+                             rcmail_get_rowcount_text());
+
+        $OUTPUT->add_script($commands);
+        }
+
+      // show confirmation
+      show_message('successfullysaved', 'confirmation');      
+      }
+    else 
       {
       // add contact row or jump to the page where it should appear
-      $commands = sprintf("if(parent.%s)parent.", $JS_OBJECT_NAME);
-      $sql_result = $DB->query("SELECT * FROM ".get_table_name('contacts')."
-                                WHERE  contact_id=?
-                                AND    user_id=?",
-                                $insert_id,
-                                $_SESSION['user_id']);
-      $commands .= rcmail_js_contacts_list($sql_result, $JS_OBJECT_NAME);
+      $commands = '';
+      foreach ($insert_id as $id) 
+        {
+        $sql_result = $DB->query("SELECT * FROM $contacts_table
+                                  WHERE  contact_id = $id
+                                  AND    user_id    = {$_SESSION['user_id']}");
+        
+        $commands .= sprintf("if(parent.%s)parent.", $JS_OBJECT_NAME);
+        $commands .= rcmail_js_contacts_list($sql_result, $JS_OBJECT_NAME);
+        $last_id = $id;
+        }
 
+      // display the last insert id
       $commands .= sprintf("if(parent.%s)parent.%s.select('%d');\n",
-                           $JS_OBJECT_NAME, 
-                           $JS_OBJECT_NAME,
-                           $insert_id);
-      
+                            $JS_OBJECT_NAME, 
+                            $JS_OBJECT_NAME,
+                            $last_id);
+
       // update record count display
       $commands .= sprintf("if(parent.%s)parent.%s.set_rowcount('%s');\n",
                            $JS_OBJECT_NAME, 
@@ -169,10 +241,11 @@ else
                            rcmail_get_rowcount_text());
 
       $OUTPUT->add_script($commands);
-      
-      // show confirmation
-      show_message('successfullysaved', 'confirmation');      
+      rcmail_overwrite_action('ldappublicsearch');
       }
+
+    // show confirmation
+    show_message('successfullysaved', 'confirmation');      
     }
   else
     {
@@ -181,6 +254,5 @@ else
     rcmail_overwrite_action('add');
     }
   }
-
 
 ?>

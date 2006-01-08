@@ -1,5 +1,4 @@
 <?php
-
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
@@ -281,6 +280,9 @@ if ($_task=='addressbook')
 
   if ($_action=='list' && $_GET['_remote'])
     include('program/steps/addressbook/list.inc');
+
+  if ($_action=='ldappublicsearch')
+    include('program/steps/addressbook/ldapsearchform.inc');
   }
 
 

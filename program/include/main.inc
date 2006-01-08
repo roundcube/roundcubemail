@@ -924,6 +924,8 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'recordscountdisplay' => 'rcmail_rowcount_display',
         'contactdetails' => 'rcmail_contact_details',
         'contacteditform' => 'rcmail_contact_editform',
+        'ldappublicsearch' => 'rcmail_ldap_public_search_form',
+        'ldappublicaddresslist' => 'rcmail_ldap_public_list',
 
         // USER SETTINGS
         'userprefs' => 'rcmail_user_prefs_form',
@@ -1110,7 +1112,7 @@ function rcube_menu($attrib)
 
 
 
-function rcube_table_output($attrib, $sql_result, $a_show_cols, $id_col)
+function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
   {
   global $DB;
   
@@ -1128,21 +1130,44 @@ function rcube_table_output($attrib, $sql_result, $a_show_cols, $id_col)
   $table .= "</tr></thead>\n<tbody>\n";
   
   $c = 0;
-  while ($sql_result && ($sql_arr = $DB->fetch_assoc($sql_result)))
+
+  if (!is_array($table_data)) 
     {
-    $zebra_class = $c%2 ? 'even' : 'odd';
-
-    $table .= sprintf('<tr id="rcmrow%d" class="contact '.$zebra_class.'">'."\n", $sql_arr[$id_col]);
-
-    // format each col
-    foreach ($a_show_cols as $col)
+    while ($table_data && ($sql_arr = $DB->fetch_assoc($table_data)))
       {
-      $cont = rep_specialchars_output($sql_arr[$col]);
-	  $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
-      }
+      $zebra_class = $c%2 ? 'even' : 'odd';
 
-    $table .= "</tr>\n";
-    $c++;
+      $table .= sprintf('<tr id="rcmrow%d" class="contact '.$zebra_class.'">'."\n", $sql_arr[$id_col]);
+
+      // format each col
+      foreach ($a_show_cols as $col)
+        {
+        $cont = rep_specialchars_output($sql_arr[$col]);
+	    $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
+        }
+
+      $table .= "</tr>\n";
+      $c++;
+      }
+    }
+  else 
+    {
+    foreach ($table_data as $row_data)
+      {
+      $zebra_class = $c%2 ? 'even' : 'odd';
+
+      $table .= sprintf('<tr id="rcmrow%d" class="contact '.$zebra_class.'">'."\n", $row_data[$id_col]);
+
+      // format each col
+      foreach ($a_show_cols as $col)
+        {
+        $cont = rep_specialchars_output($row_data[$col]);
+	    $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
+        }
+
+      $table .= "</tr>\n";
+      $c++;
+      }
     }
 
   // complete message table
@@ -1420,7 +1445,6 @@ function rcmail_charset_selector($attrib)
   }
 
 
-
 function rcube_timer()
   {
   list($usec, $sec) = explode(" ", microtime());
@@ -1441,6 +1465,5 @@ function rcube_print_time($timer, $label='Timer')
   
   console(sprintf("%s: %0.4f sec", $label, $diff));
   }
-
 
 ?>

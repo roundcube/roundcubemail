@@ -131,6 +131,20 @@ $rcmail_config['generic_message_footer'] = '';
 // this string is used as a delimiter for message headers when sending
 $rcmail_config['mail_header_delimiter'] = "\r\n";
 
+// public ldap servers to search for contacts
+$rcmail_config['ldap_public'] = false;
+
+/** example config for Verisign directory
+$rcmail_config['ldap_public']['Verisign'] = array('hosts'         => array('directory.verisign.com'),
+                                                  'port'          => 389,
+                                                  'base_dn'       => '',
+                                                  'search_fields' => array('mail', 'cn'),
+                                                  'name_field'    => 'cn',
+                                                  'mail_field'    => 'mail',
+                                                  'scope'         => 'sub',
+                                                  'fuzzy_search'  => 0);
+**/
+
 
 /***** these settings can be overwritten by user's preferences *****/
 

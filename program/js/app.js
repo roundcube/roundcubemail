@@ -160,10 +160,15 @@ function rcube_webmail()
 
 
       case 'addressbook':
-        var contacts_list = this.gui_objects.contactslist;
+        var contacts_list      = this.gui_objects.contactslist;
+        var ldap_contacts_list = this.gui_objects.ldapcontactslist;
+
         if (contacts_list)
           this.init_contactslist(contacts_list);
       
+        if (ldap_contacts_list)
+          this.init_ldapsearchlist(ldap_contacts_list);
+
         this.set_page_buttons();
           
         if (this.env.cid)
@@ -172,7 +177,7 @@ function rcube_webmail()
         if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform)
           this.enable_command('save', true);
       
-        this.enable_command('list', 'add', true);
+        this.enable_command('list', 'add', 'ldappublicsearch', true);
         break;
 
 
@@ -372,6 +377,26 @@ function rcube_webmail()
     };
 
 
+  // get all contact rows from HTML table and init each row
+  this.init_ldapsearchlist = function(ldap_contacts_list)
+    {
+    if (ldap_contacts_list && ldap_contacts_list.tBodies[0])
+      {
+      this.ldap_contact_rows = new Array();
+
+      var row;
+      for(var r=0; r<ldap_contacts_list.tBodies[0].childNodes.length; r++)
+        {
+        row = ldap_contacts_list.tBodies[0].childNodes[r];
+        this.init_table_row(row, 'ldap_contact_rows');
+        }
+      }
+
+    // alias to common rows array
+    this.list_rows = this.ldap_contact_rows;
+    };
+
+
   // make references in internal array and set event handlers
   this.init_table_row = function(row, array_name)
     {
@@ -548,7 +573,15 @@ function rcube_webmail()
 
       case 'add':
         if (this.task=='addressbook')
-          this.load_contact(0, 'add');
+          if (!window.frames[this.env.contentframe].rcmail)
+            this.load_contact(0, 'add');
+          else
+            {
+            if (window.frames[this.env.contentframe].rcmail.selection.length)
+              this.add_ldap_contacts();
+            else
+              this.load_contact(0, 'add');
+            }
         else if (this.task=='settings')
           {
           this.clear_selection();
@@ -682,7 +715,8 @@ function rcube_webmail()
           this.show_message(this.env.prev_uid);
           //location.href = this.env.comm_path+'&_action=show&_uid='+this.env.prev_uid+'&_mbox='+this.env.mailbox;
         break;
-
+      
+      
       case 'compose':
         var url = this.env.comm_path+'&_action=compose';
         
@@ -699,21 +733,36 @@ function rcube_webmail()
           // get selected contacts
           else
             {
-            for (var n=0; n<this.selection.length; n++)
-              a_cids[a_cids.length] = this.selection[n];
+            if (!window.frames[this.env.contentframe].rcmail.selection.length)
+              {
+              for (var n=0; n<this.selection.length; n++)
+                a_cids[a_cids.length] = this.selection[n];
+              }
+            else
+              {
+              var frameRcmail = window.frames[this.env.contentframe].rcmail;
+              // get the email address(es)
+              for (var n=0; n<frameRcmail.selection.length; n++)
+                a_cids[a_cids.length] = frameRcmail.ldap_contact_rows[frameRcmail.selection[n]].obj.cells[1].innerHTML;
+              }
             }
-
           if (a_cids.length)
             url += '&_to='+a_cids.join(',');
           else
             break;
+            
           }
         else if (props)
            url += '&_to='+props;
+        
+        // don't know if this is necessary...
+        url = url.replace(/&_framed=1/, "");
 
         this.set_busy(true);
-        location.href = url;
-        break;      
+
+        // need parent in case we are coming from the contact frame
+        parent.window.location.href = url;
+        break;    
 
       case 'send':
         if (!this.gui_objects.messageform)
@@ -777,6 +826,15 @@ function rcube_webmail()
       case 'add-contact':
         this.add_contact(props);
         break;
+      
+
+      // ldap search
+      case 'ldappublicsearch':
+        if (this.gui_objects.ldappublicsearchform) 
+          this.gui_objects.ldappublicsearchform.submit();
+        else 
+          this.ldappublicsearch(command);
+        break; 
 
 
       // user settings commands
@@ -954,7 +1012,7 @@ function rcube_webmail()
   // onmouseup-handler of message list row
   this.click_row = function(e, id)
     {
-    var ctrl = this.check_ctrlkey(e);
+    var shift = this.check_shiftkey(e);
     
     // don't do anything (another action processed before)
     if (this.dont_select)
@@ -964,26 +1022,58 @@ function rcube_webmail()
       }
     
     if (!this.drag_active && this.in_selection_before==id)
-      this.select(id, (ctrl && this.task!='settings'));
+      {
+      this.select(id, (shift && this.task!='settings'));
+      }
     
     this.drag_start = false;
     this.in_selection_before = false;
         
     // row was double clicked
-    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && !ctrl)
+    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && !shift)
       {
       this.show_message(id);
       return false;
       }
     else if (this.task=='addressbook')
       {
-      if (this.selection.length==1 && this.env.contentframe)
+      if (this.contact_rows && this.selection.length==1)
+        {
         this.load_contact(this.selection[0], 'show', true);
-      else if (this.task=='addressbook' && this.list_rows && this.list_rows[id].clicked)
+        // change the text for the add contact button
+        var links = parent.document.getElementById('abooktoolbar').getElementsByTagName('A');
+        for (i = 0; i < links.length; i++)
+          {
+          var onclickstring = new String(links[i].onclick);
+          if (onclickstring.search('\"add\"') != -1)
+            links[i].title = this.env.newcontact;
+          }
+        }
+      else if (this.contact_rows && this.contact_rows[id].clicked)
         {
         this.load_contact(id, 'show');
         return false;
         }
+      else if (this.ldap_contact_rows && !this.ldap_contact_rows[id].clicked)
+        {
+        // clear selection
+        parent.rcmail.clear_selection();
+
+        // disable delete
+        parent.rcmail.set_button('delete', 'pas');
+
+        // change the text for the add contact button
+        var links = parent.document.getElementById('abooktoolbar').getElementsByTagName('A');
+        for (i = 0; i < links.length; i++)
+          {
+          var onclickstring = new String(links[i].onclick);
+          if (onclickstring.search('\"add\"') != -1)
+            links[i].title = this.env.addcontact;
+          }
+        }
+      // handle double click event
+      else if (this.ldap_contact_rows && this.selection.length==1 && this.ldap_contact_rows[id].clicked)
+        this.command('compose', this.ldap_contact_rows[id].obj.cells[1].innerHTML);
       else if (this.env.contentframe)
         {
         var elm = document.getElementById(this.env.contentframe);
@@ -1001,7 +1091,6 @@ function rcube_webmail()
       
     return false;
     };
-
 
 
 
@@ -1918,6 +2007,50 @@ function rcube_webmail()
         row.cells[c].innerHTML = cols_arr[c];
 
     };
+  
+  
+  // load ldap search form
+  this.ldappublicsearch = function(action)
+    {
+    var add_url = '';
+    var target = window;
+    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe])
+      {
+      add_url = '&_framed=1';
+      target = window.frames[this.env.contentframe];
+      document.getElementById(this.env.contentframe).style.visibility = 'inherit';
+      }
+    else
+      return false; 
+
+
+    if (action == 'ldappublicsearch')
+      target.location.href = this.env.comm_path+'&_action='+action+add_url;
+    };
+ 
+  // add ldap contacts to address book
+  this.add_ldap_contacts = function()
+    {
+    if (window.frames[this.env.contentframe].rcmail)
+      {
+      var frame = window.frames[this.env.contentframe];
+
+      // build the url
+      var url    = '&_framed=1';
+      var emails = '&_emails=';
+      var names  = '&_names=';
+      var end    = '';
+      for (var n=0; n<frame.rcmail.selection.length; n++)
+        {
+        end = n < frame.rcmail.selection.length - 1 ? ',' : '';
+        emails += frame.rcmail.ldap_contact_rows[frame.rcmail.selection[n]].obj.cells[1].innerHTML + end;
+        names  += frame.rcmail.ldap_contact_rows[frame.rcmail.selection[n]].obj.cells[0].innerHTML + end;
+        }
+       
+      frame.location.href = this.env.comm_path + '&_action=save&_framed=1' + emails + names;
+      }
+    return false;
+    }
   
 
 

@@ -81,6 +81,7 @@ function rcmail_contacts_list($attrib)
   $javascript = sprintf("%s.gui_object('contactslist', '%s');\n", $JS_OBJECT_NAME, $attrib['id']);
   $javascript .= sprintf("%s.set_env('current_page', %d);\n", $JS_OBJECT_NAME, $CONTACTS_LIST['page']);
   $javascript .= sprintf("%s.set_env('pagecount', %d);\n", $JS_OBJECT_NAME, ceil($rowcount/$CONFIG['pagesize']));
+  $javascript .= "rcmail.set_env('newcontact', '" . rcube_label('newcontact') . "');";
   //$javascript .= sprintf("%s.set_env('contacts', %s);", $JS_OBJECT_NAME, array2js($a_js_message_arr));
   
   $OUTPUT->add_script($javascript);  
