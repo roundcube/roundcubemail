@@ -30,7 +30,12 @@ if (strlen($_GET['_page']))
 else
   $CONTACTS_LIST['page'] = $_SESSION['page'] ? $_SESSION['page'] : 1;
 
-
+// disable the ldap public search button if there's no servers configured
+$enable_ldap = 'true';
+if (!$CONFIG['ldap_public'])
+  $enable_ldap = 'false';
+  
+$OUTPUT->add_script("$JS_OBJECT_NAME.set_env('ldappublicsearch', $enable_ldap);");  
 
 // return the message list as HTML table
 function rcmail_contacts_list($attrib)

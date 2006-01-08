@@ -177,7 +177,10 @@ function rcube_webmail()
         if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform)
           this.enable_command('save', true);
       
-        this.enable_command('list', 'add', 'ldappublicsearch', true);
+        this.enable_command('list', 'add', true);
+
+        this.enable_command('ldappublicsearch', this.env.ldappublicsearch);
+
         break;
 
 
