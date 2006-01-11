@@ -78,7 +78,7 @@ function rcmail_ldap_public_search_form($attrib)
       $search_fields = new select(array('name' => $field_name, 
                                         'id'   => $field_id));
 
-      $search_fields->add($server['search_fields'], $server['search_fields']);
+      $search_fields->add(array_keys($server['search_fields']), array_values($server['search_fields']));
       $out .= '<tr><td class="title"><label for="' . $field_id . '">' .
               rep_specialchars_output(rcube_label('ldappublicsearchfield')) . 
               "</label></td><td>" . $search_fields->show() . "</td></tr>\n";

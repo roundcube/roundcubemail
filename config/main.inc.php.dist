@@ -138,7 +138,7 @@ $rcmail_config['ldap_public'] = false;
 $rcmail_config['ldap_public']['Verisign'] = array('hosts'         => array('directory.verisign.com'),
                                                   'port'          => 389,
                                                   'base_dn'       => '',
-                                                  'search_fields' => array('mail', 'cn'),
+                                                  'search_fields' => array('Email' => 'mail', 'Name' => 'cn'),
                                                   'name_field'    => 'cn',
                                                   'mail_field'    => 'mail',
                                                   'scope'         => 'sub',
