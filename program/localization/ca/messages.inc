@@ -18,19 +18,19 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Accés Erroni';
+$messages['loginfailed']  = 'AccÃ©s Erroni';
 
 $messages['cookiesdisabled'] = 'El teu navegador no accepta cookies';
 
-$messages['sessionerror'] = 'La teva sessió és invàlida o ha caducat';
+$messages['sessionerror'] = 'La teva sessiÃ³ Ã©s invÃ lida o ha caducat';
 
-$messages['imaperror'] = 'La conexió al servidor IMAP ha fallat';
+$messages['imaperror'] = 'La conexiÃ³ al servidor IMAP ha fallat';
 
-$messages['nomessagesfound'] = 'No hi ha missatges a aquesta bústia';
+$messages['nomessagesfound'] = 'No hi ha missatges a aquesta bÃºstia';
 
-$messages['loggedout'] = 'Has finalitzat la sessió correctament. Adèu!';
+$messages['loggedout'] = 'Has finalitzat la sessiÃ³ correctament. AdÃ¨u!';
 
-$messages['mailboxempty'] = 'La bústia és buida';
+$messages['mailboxempty'] = 'La bÃºstia Ã©s buida';
 
 $messages['loadingdata'] = 'Carregant dades...';
 
@@ -38,13 +38,13 @@ $messages['messagesent'] = 'Misstage enviat correctament';
 
 $messages['successfullysaved'] = 'Guardat correctament';
 
-$messages['addedsuccessfully'] = 'Contacte afegit correctament a la llibreta d´adreces';
+$messages['addedsuccessfully'] = 'Contacte afegit correctament a la llibreta dÂ´adreces';
 
 $messages['contactexists'] = 'Ja existeix un contacte amb aquest e-mail';
 
 $messages['blockedimages'] = 'Per protegir la teva privacitat les imatges remotes han estat bloquejades.';
 
-$messages['encryptedmessage'] = 'És un missatge encriptat i no es pot mostrar. Ho sento!';
+$messages['encryptedmessage'] = 'Ã‰s un missatge encriptat i no es pot mostrar. Ho sento!';
 
 $messages['nocontactsfound'] = 'No hi ha contactes';
 

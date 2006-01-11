@@ -21,19 +21,19 @@
  */
  
  $rcube_languages = array(
-	'en'    => 'English (US)',
+	'en_US' => 'English (US)',
 	'en_GB' => 'English (GB)',
 	'ar'    => 'Arabic',
 	'bg'    => 'Bulgarian',
 	'tw'    => 'Chinese (BIG5)',
 	'cn'    => 'Chinese (GB2312)',
 	'cz'    => 'Czech',
- 	'ca'    => 'Catal&agrave;',
+ 	'ca'    => 'Català',
 	'da'    => 'Dansk',
- 	'de'    => 'Deutsch',
- 	'es'    => 'Espa&ntilde;ol',
+ 	'de_DE' => 'Deutsch',
+ 	'es'    => 'Español',
  	'ee'    => 'Estonian',
-	'fr'    => 'Fran&ccedil;ais', 
+	'fr'    => 'Français', 
 	'ga'    => 'Galician',
 	'el'    => 'Greek',
 	'hu'    => 'Hungarian',
@@ -42,11 +42,11 @@
 	'kr'    => 'Korean',
 	'lv'    => 'Latvian',
 	'nl'    => 'Nederlands',
-	'nb_NO' => 'Norsk (bokm&aring;l)',
+	'nb_NO' => 'Norsk (bokmål)',
 	'nn_NO' => 'Norsk (nynorsk)',
 	'fa'    => 'Persian',
 	'pl'    => 'Polski',
-	'pt'    => 'Portuguese (Standard)',
+	'pt_PT' => 'Portuguese (Standard)',
 	'pt_BR' => 'Portuguese (Brazilian)',
 	'ro'    => 'Romanian',
 	'ru'    => 'Russian',
@@ -57,16 +57,13 @@
 	'vn'    => 'Vietnamese'
 );
 
-
-$rcube_charsets = array(
-	'cz' => 'Windows-1250',
-	'ru' => 'Windows-1251',
-	'lv' => 'ISO-8859-2',
-	'pl' => 'ISO-8859-2',
-	'el' => 'ISO-8859-7',
-	'tr' => 'ISO-8859-9',
-	'tw' => 'BIG5',
-	'ja' => 'UTF-8'
+$rcube_language_aliases = array(
+	'de' => 'de_DE',
+	'en' => 'en_US',
+	'no' => 'nn_NO',
+	'pt' => 'pt_PT'
 );
+
+$rcube_charsets = array();
 
 ?>

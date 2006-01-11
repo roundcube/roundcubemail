@@ -27,7 +27,7 @@ $labels['login']     = 'Entrar';
 // taskbar
 $labels['logout']   = 'Sortir';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'ConfiguraciÛ Personal';
+$labels['settings'] = 'Configuraci√≥ Personal';
 $labels['addressbook'] = 'Llibreta d\'adreces';
 
 // mailbox names
@@ -41,13 +41,13 @@ $labels['junk']   = 'Junk';
 $labels['subject'] = 'Assumpte';
 $labels['from']    = 'Remitent';
 $labels['to']      = 'Destinatari';
-$labels['cc']      = 'CÚpia';
-$labels['bcc']     = 'CÚpia Oculta';
+$labels['cc']      = 'C√≤pia';
+$labels['bcc']     = 'C√≤pia Oculta';
 $labels['replyto'] = 'Respondre a';
 $labels['date']    = 'Data';
 $labels['size']    = 'Mida';
 $labels['priority'] = 'Prioritat';
-$labels['organization'] = 'OrganitzaciÛ';
+$labels['organization'] = 'Organitzaci√≥';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
@@ -98,7 +98,7 @@ $labels['printmessage']     = 'Imprimir aquest missatge';
 $labels['previousmessages'] = 'Mostrar els missatges previs';
 $labels['nextmessages']     = 'Mostrar els missatges posteriors';
 $labels['backtolist']       = 'Tornar al llistat de missatges';
-$labels['viewsource']       = 'CapÁalera';
+$labels['viewsource']       = 'Cap√ßalera';
 
 $labels['select'] = 'Selecciona';
 $labels['all'] = 'Tots';
@@ -115,10 +115,10 @@ $labels['upload'] = 'Pujar-lo';
 $labels['close']  = 'Tancar';
 
 $labels['low']     = 'Baixa';
-$labels['lowest']  = 'La mÈs baxia';
+$labels['lowest']  = 'La m√©s baxia';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Alta';
-$labels['highest'] = 'La mÈs alta';
+$labels['highest'] = 'La m√©s alta';
 
 $labels['showimages'] = 'Mostrar imatges';
 
@@ -148,9 +148,9 @@ $labels['export']         = 'Exportar';
 // settings
 $labels['settingsfor']  = 'Opcions per';
 
-$labels['preferences']  = 'PreferËncies';
-$labels['userpreferences']  = 'PreferËncies d\'usuari';
-$labels['editpreferences']  = 'Editar preferËncies d\'usuari';
+$labels['preferences']  = 'Prefer√®ncies';
+$labels['userpreferences']  = 'Prefer√®ncies d\'usuari';
+$labels['editpreferences']  = 'Editar prefer√®ncies d\'usuari';
 
 $labels['identities']  = 'Identitats';
 $labels['manageidentities']  = 'Gestionar identitats del compte';
@@ -161,8 +161,8 @@ $labels['edititem']  = 'Editar item';
 
 $labels['setdefault']  = 'Triar per defecte';
 $labels['language']  = 'Llengua';
-$labels['timezone']  = 'Zona hor‡ria';
-$labels['pagesize']  = 'Fileres per p‡gina';
+$labels['timezone']  = 'Zona hor√†ria';
+$labels['pagesize']  = 'Fileres per p√†gina';
 
 
 $labels['folders']  = 'Carpetes';

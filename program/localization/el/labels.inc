@@ -21,161 +21,161 @@
 $labels = array();
 
 // login page
-$labels['username']  = '¼íïìá ÷ñÞóôç';
-$labels['password']  = 'Êùäéêüò ðñüóâáóçò';
-$labels['server']    = 'ÄéáêïìéóôÞò';
-$labels['login']     = 'Åßóïäïò';
+$labels['username']  = 'ÎŒÎ½Î¿Î¼Î± Ï‡ÏÎ®ÏƒÏ„Î·';
+$labels['password']  = 'ÎšÏ‰Î´Î¹ÎºÏŒÏ‚ Ï€ÏÏŒÏƒÎ²Î±ÏƒÎ·Ï‚';
+$labels['server']    = 'Î”Î¹Î±ÎºÎ¿Î¼Î¹ÏƒÏ„Î®Ï‚';
+$labels['login']     = 'Î•Î¯ÏƒÎ¿Î´Î¿Ï‚';
 
 // taskbar
-$labels['logout']   = 'Áðïóýíäåóç';
+$labels['logout']   = 'Î‘Ï€Î¿ÏƒÏÎ½Î´ÎµÏƒÎ·';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'ÐñïóùðéêÝò ñõèìßóåéò';
-$labels['addressbook'] = 'Âéâëßï äéåõèýíóåùí';
+$labels['settings'] = 'Î ÏÎ¿ÏƒÏ‰Ï€Î¹ÎºÎ­Ï‚ ÏÏ…Î¸Î¼Î¯ÏƒÎµÎ¹Ï‚';
+$labels['addressbook'] = 'Î’Î¹Î²Î»Î¯Î¿ Î´Î¹ÎµÏ…Î¸ÏÎ½ÏƒÎµÏ‰Î½';
 
 // mailbox names
-$labels['inbox']  = 'Åéóåñ÷üìåíá';
-$labels['sent']   = 'ÁðåóôáëìÝíá';
-$labels['trash']  = 'ÊÜäïò á÷ñÞóôùí';
-$labels['drafts'] = 'Ðñïó÷Ýäéá';
-$labels['junk']   = '¢÷ñçóôá';
+$labels['inbox']  = 'Î•Î¹ÏƒÎµÏÏ‡ÏŒÎ¼ÎµÎ½Î±';
+$labels['sent']   = 'Î‘Ï€ÎµÏƒÏ„Î±Î»Î¼Î­Î½Î±';
+$labels['trash']  = 'ÎšÎ¬Î´Î¿Ï‚ Î±Ï‡ÏÎ®ÏƒÏ„Ï‰Î½';
+$labels['drafts'] = 'Î ÏÎ¿ÏƒÏ‡Î­Î´Î¹Î±';
+$labels['junk']   = 'â€™Ï‡ÏÎ·ÏƒÏ„Î±';
 
 // message listing
-$labels['subject'] = 'ÈÝìá';
-$labels['nosubject']  = '(÷ùñßò èÝìá)';
-$labels['from']    = 'ÁðïóôïëÝáò';
-$labels['to']      = 'ÐáñáëÞðôçò';
-$labels['cc']      = 'Êïéíïðïßçóç';
-$labels['bcc']     = 'ÊñõöÞ êïéíïðïßçóç';
-$labels['replyto'] = 'ÁðÜíôçóç ðñïò';
-$labels['replytoallmessage'] = 'ÁðÜíôçóç ðñïò ôïí áðïóôïëÝá êáé ðñïò üëïõò ôïõò ðáñáëÞðôåò';
-$labels['date']    = 'Çìåñïìçíßá';
-$labels['size']    = 'ÌÝãåèïò';
-$labels['priority'] = 'Ðñïôåñáéüôçôá';
-$labels['organization'] = 'Ïñãáíéóìüò';
-$labels['sortby']   = 'Ôáîéíüìçóç êáôÜ';
-$labels['sortasc']  = 'Áýîïõóá ôáîéíüìçóç';
-$labels['sortdesc'] = 'Öèßíïõóá ôáîéíüìçóç';
+$labels['subject'] = 'Î˜Î­Î¼Î±';
+$labels['nosubject']  = '(Ï‡Ï‰ÏÎ¯Ï‚ Î¸Î­Î¼Î±)';
+$labels['from']    = 'Î‘Ï€Î¿ÏƒÏ„Î¿Î»Î­Î±Ï‚';
+$labels['to']      = 'Î Î±ÏÎ±Î»Î®Ï€Ï„Î·Ï‚';
+$labels['cc']      = 'ÎšÎ¿Î¹Î½Î¿Ï€Î¿Î¯Î·ÏƒÎ·';
+$labels['bcc']     = 'ÎšÏÏ…Ï†Î® ÎºÎ¿Î¹Î½Î¿Ï€Î¿Î¯Î·ÏƒÎ·';
+$labels['replyto'] = 'Î‘Ï€Î¬Î½Ï„Î·ÏƒÎ· Ï€ÏÎ¿Ï‚';
+$labels['replytoallmessage'] = 'Î‘Ï€Î¬Î½Ï„Î·ÏƒÎ· Ï€ÏÎ¿Ï‚ Ï„Î¿Î½ Î±Ï€Î¿ÏƒÏ„Î¿Î»Î­Î± ÎºÎ±Î¹ Ï€ÏÎ¿Ï‚ ÏŒÎ»Î¿Ï…Ï‚ Ï„Î¿Ï…Ï‚ Ï€Î±ÏÎ±Î»Î®Ï€Ï„ÎµÏ‚';
+$labels['date']    = 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î±';
+$labels['size']    = 'ÎœÎ­Î³ÎµÎ¸Î¿Ï‚';
+$labels['priority'] = 'Î ÏÎ¿Ï„ÎµÏÎ±Î¹ÏŒÏ„Î·Ï„Î±';
+$labels['organization'] = 'ÎŸÏÎ³Î±Î½Î¹ÏƒÎ¼ÏŒÏ‚';
+$labels['sortby']   = 'Î¤Î±Î¾Î¹Î½ÏŒÎ¼Î·ÏƒÎ· ÎºÎ±Ï„Î¬';
+$labels['sortasc']  = 'Î‘ÏÎ¾Î¿Ï…ÏƒÎ± Ï„Î±Î¾Î¹Î½ÏŒÎ¼Î·ÏƒÎ·';
+$labels['sortdesc'] = 'Î¦Î¸Î¯Î½Î¿Ï…ÏƒÎ± Ï„Î±Î¾Î¹Î½ÏŒÎ¼Î·ÏƒÎ·';
 
 // aliases
-$labels['reply-to'] = $labels['ÁðÜíôçóç ðñïò'];
+$labels['reply-to'] = $labels['Î‘Ï€Î¬Î½Ï„Î·ÏƒÎ· Ï€ÏÎ¿Ï‚'];
 
-$labels['mailboxlist'] = 'ÖÜêåëïé';
-$labels['messagesfromto'] = 'Ìçíýìáôá $from Ýùò $to áðü $count';
-$labels['messagenrof'] = 'ÌÞíõìá $nr áðü $count';
+$labels['mailboxlist'] = 'Î¦Î¬ÎºÎµÎ»Î¿Î¹';
+$labels['messagesfromto'] = 'ÎœÎ·Î½ÏÎ¼Î±Ï„Î± $from Î­Ï‰Ï‚ $to Î±Ï€ÏŒ $count';
+$labels['messagenrof'] = 'ÎœÎ®Î½Ï…Î¼Î± $nr Î±Ï€ÏŒ $count';
 
-$labels['moveto']   = 'Ìåôáêßíçóç óå...';
-$labels['download'] = 'ËÞøç';
+$labels['moveto']   = 'ÎœÎµÏ„Î±ÎºÎ¯Î½Î·ÏƒÎ· ÏƒÎµ...';
+$labels['download'] = 'Î›Î®ÏˆÎ·';
 
-$labels['filename'] = '¼íïìá áñ÷åßïõ';
-$labels['filesize'] = 'ÌÝãåèïò áñ÷åßïõ';
+$labels['filename'] = 'ÎŒÎ½Î¿Î¼Î± Î±ÏÏ‡ÎµÎ¯Î¿Ï…';
+$labels['filesize'] = 'ÎœÎ­Î³ÎµÎ¸Î¿Ï‚ Î±ÏÏ‡ÎµÎ¯Î¿Ï…';
 
-$labels['preferhtml'] = 'ÐñïôéìÜôáé HTML';
-$labels['htmlmessage'] = 'ÌÞíõìá HTML';
-$labels['prettydate'] = 'ÌïñöïðïéçìÝíåò çìåñïìçíßåò';
+$labels['preferhtml'] = 'Î ÏÎ¿Ï„Î¹Î¼Î¬Ï„Î±Î¹ HTML';
+$labels['htmlmessage'] = 'ÎœÎ®Î½Ï…Î¼Î± HTML';
+$labels['prettydate'] = 'ÎœÎ¿ÏÏ†Î¿Ï€Î¿Î¹Î·Î¼Î­Î½ÎµÏ‚ Î·Î¼ÎµÏÎ¿Î¼Î·Î½Î¯ÎµÏ‚';
 
-$labels['addtoaddressbook'] = 'ÐñïóèÞêç óôï âéâëßï äéåõèýíóåùí';
+$labels['addtoaddressbook'] = 'Î ÏÎ¿ÏƒÎ¸Î®ÎºÎ· ÏƒÏ„Î¿ Î²Î¹Î²Î»Î¯Î¿ Î´Î¹ÎµÏ…Î¸ÏÎ½ÏƒÎµÏ‰Î½';
 
 // weekdays short
-$labels['sun'] = 'Êõñ';
-$labels['mon'] = 'Äåõ';
-$labels['tue'] = 'Ôñé';
-$labels['wed'] = 'Ôåô';
-$labels['thu'] = 'Ðåì';
-$labels['fri'] = 'Ðáñ';
-$labels['sat'] = 'Óáâ';
+$labels['sun'] = 'ÎšÏ…Ï';
+$labels['mon'] = 'Î”ÎµÏ…';
+$labels['tue'] = 'Î¤ÏÎ¹';
+$labels['wed'] = 'Î¤ÎµÏ„';
+$labels['thu'] = 'Î ÎµÎ¼';
+$labels['fri'] = 'Î Î±Ï';
+$labels['sat'] = 'Î£Î±Î²';
 
 // weekdays long
-$labels['sunday']    = 'ÊõñéáêÞ';
-$labels['monday']    = 'ÄåõôÝñá';
-$labels['tuesday']   = 'Ôñßôç';
-$labels['wednesday'] = 'ÔåôÜñôç';
-$labels['thursday']  = 'ÐÝìðôç';
-$labels['friday']    = 'ÐáñáóêåõÞ';
-$labels['saturday']  = 'ÓÜââáôï';
+$labels['sunday']    = 'ÎšÏ…ÏÎ¹Î±ÎºÎ®';
+$labels['monday']    = 'Î”ÎµÏ…Ï„Î­ÏÎ±';
+$labels['tuesday']   = 'Î¤ÏÎ¯Ï„Î·';
+$labels['wednesday'] = 'Î¤ÎµÏ„Î¬ÏÏ„Î·';
+$labels['thursday']  = 'Î Î­Î¼Ï€Ï„Î·';
+$labels['friday']    = 'Î Î±ÏÎ±ÏƒÎºÎµÏ…Î®';
+$labels['saturday']  = 'Î£Î¬Î²Î²Î±Ï„Î¿';
 
-$labels['today'] = 'ÓÞìåñá';
+$labels['today'] = 'Î£Î®Î¼ÎµÏÎ±';
 
 // toolbar buttons
-$labels['writenewmessage']  = 'Äçìéïõñãßá íÝïõ ìçíýìáôïò';
-$labels['replytomessage']   = 'ÁðÜíôçóç ìçíýìáôïò';
-$labels['forwardmessage']   = 'Ðñïþèçóç ìçíýìáôïò';
-$labels['deletemessage']    = 'ÌåôáöïñÜ ôïõ ìçíýìáôïò óôïí êÜäï á÷ñÞóôùí';
-$labels['printmessage']     = 'Åêôýðùóç ìçíýìáôïò';
-$labels['previousmessages'] = 'ÅìöÜíéóç ðñïçãïõìÝíùí ìçíõìÜôùí';
-$labels['nextmessages']     = 'ÅìöÜíéóç åðïìÝíùí ìçíõìÜôùí';
-$labels['backtolist']       = 'ÅðéóôñïöÞ óôç ëßóôá ìçíõìÜôùí';
-$labels['viewsource']       = 'ÐñïâïëÞ ðñïÝëåõóçò';
+$labels['writenewmessage']  = 'Î”Î·Î¼Î¹Î¿Ï…ÏÎ³Î¯Î± Î½Î­Î¿Ï… Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚';
+$labels['replytomessage']   = 'Î‘Ï€Î¬Î½Ï„Î·ÏƒÎ· Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚';
+$labels['forwardmessage']   = 'Î ÏÎ¿ÏŽÎ¸Î·ÏƒÎ· Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚';
+$labels['deletemessage']    = 'ÎœÎµÏ„Î±Ï†Î¿ÏÎ¬ Ï„Î¿Ï… Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚ ÏƒÏ„Î¿Î½ ÎºÎ¬Î´Î¿ Î±Ï‡ÏÎ®ÏƒÏ„Ï‰Î½';
+$labels['printmessage']     = 'Î•ÎºÏ„ÏÏ€Ï‰ÏƒÎ· Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚';
+$labels['previousmessages'] = 'Î•Î¼Ï†Î¬Î½Î¹ÏƒÎ· Ï€ÏÎ¿Î·Î³Î¿Ï…Î¼Î­Î½Ï‰Î½ Î¼Î·Î½Ï…Î¼Î¬Ï„Ï‰Î½';
+$labels['nextmessages']     = 'Î•Î¼Ï†Î¬Î½Î¹ÏƒÎ· ÎµÏ€Î¿Î¼Î­Î½Ï‰Î½ Î¼Î·Î½Ï…Î¼Î¬Ï„Ï‰Î½';
+$labels['backtolist']       = 'Î•Ï€Î¹ÏƒÏ„ÏÎ¿Ï†Î® ÏƒÏ„Î· Î»Î¯ÏƒÏ„Î± Î¼Î·Î½Ï…Î¼Î¬Ï„Ï‰Î½';
+$labels['viewsource']       = 'Î ÏÎ¿Î²Î¿Î»Î® Ï€ÏÎ¿Î­Î»ÎµÏ…ÏƒÎ·Ï‚';
 
-$labels['select'] = 'ÅðéëïãÞ';
-$labels['all'] = '¼ëá';
-$labels['none'] = 'ÊáíÝíá';
-$labels['unread'] = 'ÁäéÜâáóôá';
+$labels['select'] = 'Î•Ï€Î¹Î»Î¿Î³Î®';
+$labels['all'] = 'ÎŒÎ»Î±';
+$labels['none'] = 'ÎšÎ±Î½Î­Î½Î±';
+$labels['unread'] = 'Î‘Î´Î¹Î¬Î²Î±ÏƒÏ„Î±';
 
 // message compose
-$labels['compose']  = 'Óýíèåóç ìçíýìáôïò';
-$labels['sendmessage']  = 'ÁðïóôïëÞ ôïõ ìçíýìáôïò ôþñá';
-$labels['addattachment']  = 'Åðéóýíáøç áñ÷åßïõ';
-$labels['attachments'] = 'ÓõíçììÝíá';
-$labels['upload'] = 'ÁðïóôïëÞ';
-$labels['close']  = 'Êëåßóéìï';
+$labels['compose']  = 'Î£ÏÎ½Î¸ÎµÏƒÎ· Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚';
+$labels['sendmessage']  = 'Î‘Ï€Î¿ÏƒÏ„Î¿Î»Î® Ï„Î¿Ï… Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚ Ï„ÏŽÏÎ±';
+$labels['addattachment']  = 'Î•Ï€Î¹ÏƒÏÎ½Î±ÏˆÎ· Î±ÏÏ‡ÎµÎ¯Î¿Ï…';
+$labels['attachments'] = 'Î£Ï…Î½Î·Î¼Î¼Î­Î½Î±';
+$labels['upload'] = 'Î‘Ï€Î¿ÏƒÏ„Î¿Î»Î®';
+$labels['close']  = 'ÎšÎ»ÎµÎ¯ÏƒÎ¹Î¼Î¿';
 
-$labels['low']     = '×áìçëÞ';
-$labels['lowest']  = '×áìçëüôáôç';
-$labels['normal']  = 'ÊáíïíéêÞ';
-$labels['high']    = 'ÕøçëÞ';
-$labels['highest'] = '¾øéóôç';
+$labels['low']     = 'Î§Î±Î¼Î·Î»Î®';
+$labels['lowest']  = 'Î§Î±Î¼Î·Î»ÏŒÏ„Î±Ï„Î·';
+$labels['normal']  = 'ÎšÎ±Î½Î¿Î½Î¹ÎºÎ®';
+$labels['high']    = 'Î¥ÏˆÎ·Î»Î®';
+$labels['highest'] = 'ÎŽÏˆÎ¹ÏƒÏ„Î·';
 
-$labels['showimages'] = 'ÅìöÜíéóç åéêüíùí';
+$labels['showimages'] = 'Î•Î¼Ï†Î¬Î½Î¹ÏƒÎ· ÎµÎ¹ÎºÏŒÎ½Ï‰Î½';
 
 
 // address boook
-$labels['name']      = 'ÅìöÜíéóç ïíüìáôïò';
-$labels['firstname'] = '¼íïìá';
-$labels['surname']   = 'Åðþíõìï';
-$labels['email']     = 'Äéåýèõíóç e-mail';
+$labels['name']      = 'Î•Î¼Ï†Î¬Î½Î¹ÏƒÎ· Î¿Î½ÏŒÎ¼Î±Ï„Î¿Ï‚';
+$labels['firstname'] = 'ÎŒÎ½Î¿Î¼Î±';
+$labels['surname']   = 'Î•Ï€ÏŽÎ½Ï…Î¼Î¿';
+$labels['email']     = 'Î”Î¹ÎµÏÎ¸Ï…Î½ÏƒÎ· e-mail';
 
-$labels['addcontact'] = 'ÐñïóèÞêç íÝáò åðáöÞò';
-$labels['editcontact'] = 'Åðåîåñãáóßá åðáöÞò';
+$labels['addcontact'] = 'Î ÏÎ¿ÏƒÎ¸Î®ÎºÎ· Î½Î­Î±Ï‚ ÎµÏ€Î±Ï†Î®Ï‚';
+$labels['editcontact'] = 'Î•Ï€ÎµÎ¾ÎµÏÎ³Î±ÏƒÎ¯Î± ÎµÏ€Î±Ï†Î®Ï‚';
 
-$labels['edit']   = 'Åðåîåñãáóßá';
-$labels['cancel'] = '¢êõñï';
-$labels['save']   = 'ÁðïèÞêåõóç';
-$labels['delete'] = 'ÄéáãñáöÞ';
+$labels['edit']   = 'Î•Ï€ÎµÎ¾ÎµÏÎ³Î±ÏƒÎ¯Î±';
+$labels['cancel'] = 'â€™ÎºÏ…ÏÎ¿';
+$labels['save']   = 'Î‘Ï€Î¿Î¸Î®ÎºÎµÏ…ÏƒÎ·';
+$labels['delete'] = 'Î”Î¹Î±Î³ÏÎ±Ï†Î®';
 
-$labels['newcontact']     = 'Äçìéïõñãßá íÝáò êÜñôáò åðáöÞò';
-$labels['deletecontact']  = 'ÄéáãñáöÞ åðéëåãìÝíùí åðáöþí';
-$labels['composeto']      = 'Óýíèåóç ìçíýìáôïò ðñïò';
-$labels['contactsfromto'] = 'ÅðáöÝò $from Ýùò $to áðü $count';
-$labels['print']          = 'Åêôýðùóç';
-$labels['export']         = 'ÅîáãùãÞ';
+$labels['newcontact']     = 'Î”Î·Î¼Î¹Î¿Ï…ÏÎ³Î¯Î± Î½Î­Î±Ï‚ ÎºÎ¬ÏÏ„Î±Ï‚ ÎµÏ€Î±Ï†Î®Ï‚';
+$labels['deletecontact']  = 'Î”Î¹Î±Î³ÏÎ±Ï†Î® ÎµÏ€Î¹Î»ÎµÎ³Î¼Î­Î½Ï‰Î½ ÎµÏ€Î±Ï†ÏŽÎ½';
+$labels['composeto']      = 'Î£ÏÎ½Î¸ÎµÏƒÎ· Î¼Î·Î½ÏÎ¼Î±Ï„Î¿Ï‚ Ï€ÏÎ¿Ï‚';
+$labels['contactsfromto'] = 'Î•Ï€Î±Ï†Î­Ï‚ $from Î­Ï‰Ï‚ $to Î±Ï€ÏŒ $count';
+$labels['print']          = 'Î•ÎºÏ„ÏÏ€Ï‰ÏƒÎ·';
+$labels['export']         = 'Î•Î¾Î±Î³Ï‰Î³Î®';
 
 
 // settings
-$labels['settingsfor']  = 'Ñõèìßóåéò ãéá';
+$labels['settingsfor']  = 'Î¡Ï…Î¸Î¼Î¯ÏƒÎµÎ¹Ï‚ Î³Î¹Î±';
 
-$labels['preferences']  = 'ÐñïôéìÞóåéò';
-$labels['userpreferences']  = 'ÐñïôéìÞóåéò ÷ñÞóôç';
-$labels['editpreferences']  = 'Åðåîåñãáóßá ðñïôéìÞóåùí ÷ñÞóôç';
+$labels['preferences']  = 'Î ÏÎ¿Ï„Î¹Î¼Î®ÏƒÎµÎ¹Ï‚';
+$labels['userpreferences']  = 'Î ÏÎ¿Ï„Î¹Î¼Î®ÏƒÎµÎ¹Ï‚ Ï‡ÏÎ®ÏƒÏ„Î·';
+$labels['editpreferences']  = 'Î•Ï€ÎµÎ¾ÎµÏÎ³Î±ÏƒÎ¯Î± Ï€ÏÎ¿Ï„Î¹Î¼Î®ÏƒÎµÏ‰Î½ Ï‡ÏÎ®ÏƒÏ„Î·';
 
-$labels['identities']  = 'Ôáõôüôçôåò';
-$labels['manageidentities']  = 'Äéá÷åßñéóç ôáõôïôÞôùí áõôïý ôïõ ëïãáñéáóìïý';
-$labels['newidentity']  = 'ÍÝá ôáõôüôçôá';
+$labels['identities']  = 'Î¤Î±Ï…Ï„ÏŒÏ„Î·Ï„ÎµÏ‚';
+$labels['manageidentities']  = 'Î”Î¹Î±Ï‡ÎµÎ¯ÏÎ¹ÏƒÎ· Ï„Î±Ï…Ï„Î¿Ï„Î®Ï„Ï‰Î½ Î±Ï…Ï„Î¿Ï Ï„Î¿Ï… Î»Î¿Î³Î±ÏÎ¹Î±ÏƒÎ¼Î¿Ï';
+$labels['newidentity']  = 'ÎÎ­Î± Ï„Î±Ï…Ï„ÏŒÏ„Î·Ï„Î±';
 
-$labels['newitem']  = 'ÍÝï áíôéêåßìåíï';
-$labels['edititem']  = 'Åðåîåñãáóßá áíôéêåéìÝíïõ';
+$labels['newitem']  = 'ÎÎ­Î¿ Î±Î½Ï„Î¹ÎºÎµÎ¯Î¼ÎµÎ½Î¿';
+$labels['edititem']  = 'Î•Ï€ÎµÎ¾ÎµÏÎ³Î±ÏƒÎ¯Î± Î±Î½Ï„Î¹ÎºÎµÎ¹Î¼Î­Î½Î¿Ï…';
 
-$labels['setdefault']  = 'Ïñéóìüò ðñïåðéëïãþí';
-$labels['language']  = 'Ãëþóóá';
-$labels['timezone']  = 'Æþíç þñáò';
-$labels['pagesize']  = 'ÃñáììÝò áíÜ óåëßäá';
+$labels['setdefault']  = 'ÎŸÏÎ¹ÏƒÎ¼ÏŒÏ‚ Ï€ÏÎ¿ÎµÏ€Î¹Î»Î¿Î³ÏŽÎ½';
+$labels['language']  = 'Î“Î»ÏŽÏƒÏƒÎ±';
+$labels['timezone']  = 'Î–ÏŽÎ½Î· ÏŽÏÎ±Ï‚';
+$labels['pagesize']  = 'Î“ÏÎ±Î¼Î¼Î­Ï‚ Î±Î½Î¬ ÏƒÎµÎ»Î¯Î´Î±';
 
-$labels['folders']  = 'ÖÜêåëïé';
-$labels['foldername']  = '¼íïìá öáêÝëïõ';
-$labels['subscribed']  = 'ÅããåãñáììÝíïé öÜêåëïé';
-$labels['create']  = 'Äçìéïõñãßá';
-$labels['createfolder']  = 'Äçìéïõñãßá íÝïõ öáêÝëïõ';
-$labels['deletefolder']  = 'ÄéáãñáöÞ öáêÝëïõ';
-$labels['managefolders']  = 'Äéá÷åßñéóç öáêÝëùí';
+$labels['folders']  = 'Î¦Î¬ÎºÎµÎ»Î¿Î¹';
+$labels['foldername']  = 'ÎŒÎ½Î¿Î¼Î± Ï†Î±ÎºÎ­Î»Î¿Ï…';
+$labels['subscribed']  = 'Î•Î³Î³ÎµÎ³ÏÎ±Î¼Î¼Î­Î½Î¿Î¹ Ï†Î¬ÎºÎµÎ»Î¿Î¹';
+$labels['create']  = 'Î”Î·Î¼Î¹Î¿Ï…ÏÎ³Î¯Î±';
+$labels['createfolder']  = 'Î”Î·Î¼Î¹Î¿Ï…ÏÎ³Î¯Î± Î½Î­Î¿Ï… Ï†Î±ÎºÎ­Î»Î¿Ï…';
+$labels['deletefolder']  = 'Î”Î¹Î±Î³ÏÎ±Ï†Î® Ï†Î±ÎºÎ­Î»Î¿Ï…';
+$labels['managefolders']  = 'Î”Î¹Î±Ï‡ÎµÎ¯ÏÎ¹ÏƒÎ· Ï†Î±ÎºÎ­Î»Ï‰Î½';
 
 
 ?>

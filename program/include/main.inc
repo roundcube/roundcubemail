@@ -20,6 +20,7 @@
 */
 
 require_once('lib/des.inc');
+require_once('lib/utf7.inc');
 
 
 // register session and connect to server
@@ -81,7 +82,7 @@ function rcmail_startup($task='mail')
   if (!$_SESSION['client_id'])
     {
     $_SESSION['client_id'] = $sess_id;
-    $_SESSION['user_lang'] = substr($CONFIG['locale_string'], 0, 2);
+    $_SESSION['user_lang'] = rcube_language_prop($CONFIG['locale_string']);
     $_SESSION['auth_time'] = mktime();
     $_SESSION['auth'] = rcmail_auth_hash($sess_id, $_SESSION['auth_time']);
     unset($GLOBALS['_auth']);
@@ -89,7 +90,7 @@ function rcmail_startup($task='mail')
 
   // set session vars global
   $sess_auth = $_SESSION['auth'];
-  $sess_user_lang = $_SESSION['user_lang'];
+  $sess_user_lang = rcube_language_prop($_SESSION['user_lang']);
 
 
   // overwrite config with user preferences
@@ -200,6 +201,9 @@ function rcmail_shutdown()
     $IMAP->close();
     $IMAP->write_cache();
     }
+    
+  // before closing the database connection, write session data
+  session_write_close();
   }
 
 
@@ -244,7 +248,42 @@ function get_sequence_name($sequence)
   
   return $table;
   }
-  
+
+
+// check the given string and returns language properties
+function rcube_language_prop($lang, $prop='lang')
+  {
+  global $INSTLL_PATH;
+  static $rcube_languages, $rcube_language_aliases, $rcube_charsets;
+
+  if (empty($rcube_languages))
+    @include($INSTLL_PATH.'program/localization/index.inc');
+    
+  // check if we have an alias for that language
+  if (!isset($rcube_languages[$lang]) && isset($rcube_language_aliases[$lang]))
+    $lang = $rcube_language_aliases[$lang];
+    
+  // try the first two chars
+  if (!isset($rcube_languages[$lang]) && strlen($lang>2))
+    {
+    $lang = substr($lang, 0, 2);
+    $lang = rcube_language_prop($lang);
+    }
+
+  if (!isset($rcube_languages[$lang]))
+    $lang = 'en_US';
+
+  // language has special charset configured
+  if (isset($rcube_charsets[$lang]))
+    $charset = $rcube_charsets[$lang];
+  else
+    $charset = 'UTF-8';    
+
+  if ($prop=='charset')
+    return $charset;
+  else
+    return $lang;
+  }
   
 
 // init output object for GUI and add common scripts
@@ -273,32 +312,22 @@ function load_gui()
     $CHARSET = $CONFIG['charset'];
     }
   else
+    {
     rcmail_set_locale($sess_user_lang);
-  
+    }
+
   // add some basic label to client
   rcube_add_label('loading');
-  }  
+  }
 
 
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT, $INSTLL_PATH, $CHARSET;
-  static $rcube_charsets;
+  global $OUTPUT, $CHARSET;
 
-  if (!$rcube_charsets)
-    @include($INSTLL_PATH.'program/localization/index.inc');
-
-  if (isset($rcube_charsets[$lang]))
-    {
-    $OUTPUT->set_charset($rcube_charsets[$lang]);
-    $CHARSET = $rcube_charsets[$lang];
-    }
-  else
-    {
-    $OUTPUT->set_charset('ISO-8859-1');
-    $CHARSET = 'ISO-8859-1';
-    }
+  $CHARSET = rcube_language_prop($lang, 'charset');
+  $OUTPUT->set_charset($CHARSET);
   }
 
 
@@ -675,6 +704,35 @@ function rcmail_clear_session_temp($sess_id)
 
 
 
+// decode characters from any charset to UTF-8
+function decode_specialchars($input, $charset='')
+  {
+  global $CHARSET;
+  $charset = strtolower($charset);
+  
+  if ($charset=='utf-7')
+    $output = UTF7DecodeString($input);
+  else if ($charset=='utf-8' && $CHARSET!='UTF-8' && function_exists('utf8_decode'))
+    $output = utf8_decode($input);
+  else if ($charset=="koi8-r")
+    $output = convert_cyr_string($input, 'k', 'w');
+  else if ($charset=="iso8859-5")
+    $output = convert_cyr_string($input, 'i', 'w');
+  else if ($charset=="x-cp866")
+    $output = convert_cyr_string($input, 'a', 'w');
+  else if ($charset=="x-mac-cyrillic")
+    $output = convert_cyr_string($input, 'm', 'w');
+  else
+    $output = $input;
+    
+  // encode string for output
+  if ($CHARSET=='UTF-8' && $charset!='utf-8' && function_exists('utf8_encode'))
+    $output = utf8_encode($output);
+
+  return $output;
+  }
+
+
 // replace specials characters to a specific encoding type
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
@@ -688,7 +746,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   if ($enctype!='html')
     $str = str_replace(chr(160), ' ', $str);
 
-
   // encode for plaintext
   if ($enctype=='text')
     return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
@@ -698,14 +755,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     {
     if (!$html_encode_arr)
       {
-      if ($CHARSET=='ISO-8859-1')
-        {
-        $html_encode_arr = get_html_translation_table(HTML_ENTITIES);
-        $html_encode_arr[chr(128)] = '&euro;';
-        }
-      else
-        $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);
-        
+      $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);        
       unset($html_encode_arr['?']);
       unset($html_encode_arr['&']);
       }
@@ -724,7 +774,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       $str = strip_tags($str);
       
     $out = strtr($str, $encode_arr);
-
+      
     return $newlines ? nl2br($out) : $out;
     }
 
@@ -768,6 +818,26 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   return $str;
   }
 
+
+// convert a string from one charset to another
+// this function is not complete and not tested well
+function rcube_charset_convert($str, $from, $to)
+  {
+  $charset = strtolower($to);
+  
+  if (strtolower($from)==$charset)
+    return $str;
+  
+  $str = decode_specialchars($str, $from);
+  
+  if ($charset=='utf-8' && function_exists('utf8_encode'))
+    return utf8_encode($str);
+  else if ($charset=='utf-7')
+    return UTF7EncodeString($str);
+
+  return $str;
+  }
+  
 
 
 // ************** template parsing and gui functions **************
@@ -841,7 +911,7 @@ function parse_rcube_xml($input)
 
 function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
   {
-  global $IMAP, $CONFIG;
+  global $IMAP, $CONFIG, $OUTPUT;
   
   $attrib = array();
   $command = strtolower($command);
@@ -952,7 +1022,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         else if (isset($GLOBALS['PAGE_TITLE']))
           $title .= $GLOBALS['PAGE_TITLE'];
         else if ($task=='mail' && ($mbox_name = $IMAP->get_mailbox_name()))
-          $title .= UTF7DecodeString($mbox_name);
+          $title .= $OUTPUT->encode_string(UTF7DecodeString($mbox_name));
         else
           $title .= $task;
           

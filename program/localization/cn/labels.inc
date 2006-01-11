@@ -17,8 +17,6 @@
 
 */
 
-$utf8_decoding = TRUE;
-
 $labels = array();
 
 // login page
@@ -56,7 +54,7 @@ $labels['organization'] = '机构';
 $labels['reply-to'] = $labels['回复到'];
 
 $labels['mailboxlist'] = '文件夹';
-$labels['messagesfromto'] = 'Messages $from to $to of $count';
+$labels['messagesfromto'] = '邮件 $from 到 $to 总共 $count';
 $labels['messagenrof'] = 'Message $nr of $count';
 
 $labels['moveto']   = '移动到...';
@@ -142,7 +140,7 @@ $labels['delete'] = '删除';
 $labels['newcontact']     = '建立新的联系信息';
 $labels['deletecontact']  = '删除所选择的联系信息';
 $labels['composeto']      = '给所选择的联系人发送邮件';
-$labels['contactsfromto'] = 'Contacts $from to $to of $count';
+$labels['contactsfromto'] = '联系人 $from 到 $to 总共 $count';
 $labels['print']          = '打印';
 $labels['export']         = '导出';
 
@@ -154,7 +152,7 @@ $labels['preferences']  = '参数选择';
 $labels['userpreferences']  = '用户参数';
 $labels['editpreferences']  = '编辑用户参数';
 
-$labels['identities']  = '法件人标识';
+$labels['identities']  = '发件人身份';
 $labels['manageidentities']  = '管理帐号资料';
 $labels['newidentity']  = '建立新标识';
 
@@ -164,7 +162,7 @@ $labels['edititem']  = 'Edit item';
 $labels['setdefault']  = '设置为默认';
 $labels['language']  = '语言';
 $labels['timezone']  = '时区';
-$labels['pagesize']  = '每页行数';
+$labels['pagesize']  = '每页邮件数';
 
 
 $labels['folders']  = '文件夹';

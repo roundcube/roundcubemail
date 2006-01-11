@@ -22,7 +22,7 @@ $messages['loginfailed']  = 'Login fehlgeschlagen';
 
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
 
-$messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';
+$messages['sessionerror'] = 'Ihre Session ist ungÃ¼ltig oder abgelaufen';
 
 $messages['imaperror'] = 'Keine Verbindung zum IMAP Server';
 
@@ -40,13 +40,13 @@ $messages['messagesent'] = 'Nachricht erfolgreich gesendet';
 
 $messages['successfullysaved'] = 'Erfolgreich gespeichert';
 
-$messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt';
+$messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefÃ¼gt';
 
 $messages['contactexists'] = 'Es existiert bereits ein Eintrag mit dieser E-Mail-Adresse';
 
-$messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
+$messages['blockedimages'] = 'Um Ihre PrivatsphÃ¤re zur schÃ¼tzen, wurden externe Bilder blockiert.';
 
-$messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
+$messages['encryptedmessage'] = 'Dies ist eine verschlÃ¼sselte Nachricht und kann leider nicht angezeigt werden.';
 
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
 
@@ -54,19 +54,19 @@ $messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
 
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 
-$messages['deletefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich löschen?';
+$messages['deletefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich lÃ¶schen?';
 
-$messages['formincomplete']    = 'Das Formular wurde nicht vollständig ausgefüllt';
+$messages['formincomplete']    = 'Das Formular wurde nicht vollstÃ¤ndig ausgefÃ¼llt';
 
-$messages['noemailwarning']    = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+$messages['noemailwarning']    = 'Bitte geben Sie eine gÃ¼ltige E-Mail-Adresse ein';
 
 $messages['nonamewarning']     = 'Bitte geben Sie einen Namen ein';
 
-$messages['nopagesizewarning'] = 'Bitte geben Sie eine Einträge pro Seite ein';
+$messages['nopagesizewarning'] = 'Bitte geben Sie eine EintrÃ¤ge pro Seite ein';
 
-$messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger an';
+$messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen EmpfÃ¤nger an';
 
-$messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
+$messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. MÃ¶chten Sie jetzt einen Betreff eingeben?';
 
 $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 

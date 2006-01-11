@@ -87,6 +87,15 @@ class rcube_html_page
     {
     $this->charset = $charset;
     }
+    
+    
+  function encode_string($str)
+    {
+    if ($this->charset=='UTF-8' && function_exists('utf8_encode'))
+      return utf8_encode($str);
+    else
+      return $str;
+    }
 
 
   function write($templ='', $base_path='')
@@ -1062,8 +1071,8 @@ function rcube_label($attrib)
     $sa_text_data = array();
     
     // get english labels (these should be complete)
-    @include($INSTALL_PATH.'program/localization/en/labels.inc');
-    @include($INSTALL_PATH.'program/localization/en/messages.inc');
+    @include($INSTALL_PATH.'program/localization/en_US/labels.inc');
+    @include($INSTALL_PATH.'program/localization/en_US/messages.inc');
 
     if (is_array($labels))
       $sa_text_data = $labels;
@@ -1075,17 +1084,11 @@ function rcube_label($attrib)
       {
       include_once($INSTALL_PATH.'program/localization/'.$sess_user_lang.'/labels.inc');
       include_once($INSTALL_PATH.'program/localization/'.$sess_user_lang.'/messages.inc');
-      
+
       if (is_array($labels))
         $sa_text_data = array_merge($sa_text_data, $labels);
       if (is_array($messages))
         $sa_text_data = array_merge($sa_text_data, $messages);
-      }
-      
-    if (isset($utf8_decoding) && $utf8_decoding==TRUE)
-      {
-      @include_once('lib/utf8.inc');
-      $utf8_decode = TRUE;
       }
       
     $s_language = $sess_user_lang;
@@ -1142,14 +1145,6 @@ $text
 EOF;
 ");
 
-
-  // perform utf-8 decoding
-  if ($utf8_decode && function_exists('utf8ToUnicodeEntities'))
-    $text = utf8ToUnicodeEntities($text);
-  else if ($utf8_decode)
-    $OUTPUT->set_charset('UTF-8');
-
-
   // format output
   if (($attrib['uppercase'] && strtolower($attrib['uppercase']=='first')) || $attrib['ucfirst'])
     return ucfirst($text);
@@ -1183,30 +1178,6 @@ function send_future_expire_header()
   if (!headers_sent())
     header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+2600000)." GMT");
   }
-
-
-
-function decode_specialchars($input, $charset='')
-  {
-  $charset = strtolower($charset);
-  
-  if ($charset=='utf-8')
-    {
-    require_once('lib/utf8.inc');
-    return utf8ToUnicodeEntities($input);
-    }
-  else if ($charset=="koi8-r")
-    return convert_cyr_string($input, 'k', 'w');
-  else if ($charset=="iso8859-5")
-    return convert_cyr_string($input, 'i', 'w');
-  else if ($charset=="x-cp866")
-    return convert_cyr_string($input, 'a', 'w');
-  else if ($charset=="x-mac-cyrillic")
-    return convert_cyr_string($input, 'm', 'w');
-
-  return $input;
-  }
-
 
 
 // function to convert an array to a javascript array

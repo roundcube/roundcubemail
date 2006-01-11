@@ -17,8 +17,6 @@
 
 */
 
-$utf8_decoding = TRUE;
-
 $messages = array();
 
 $messages['loginfailed']  = '登录失败';

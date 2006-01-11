@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
+ | Author: Ãœllar Pajus <yllar.pajus@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -18,19 +18,19 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Sisselogimine ebaõnnestus';
+$messages['loginfailed']  = 'Sisselogimine ebaÃµnnestus';
 
-$messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
+$messages['cookiesdisabled'] = 'Sinu veebilehitseja ei vÃµta prÃ¤Ã¤nikuid vastu';
 
-$messages['sessionerror'] = 'Sinu sessioon on aegunud või vigane';
+$messages['sessionerror'] = 'Sinu sessioon on aegunud vÃµi vigane';
 
-$messages['imaperror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
+$messages['imaperror'] = 'Ei Ãµnnestunud IMAP serveriga Ã¼hendust luua';
 
-$messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
+$messages['nomessagesfound'] = 'Postkast paistab tÃ¼hi olevat';
 
-$messages['loggedout'] = 'Sinu sessioon on edukalt lõpetatud. Nägemiseni!';
+$messages['loggedout'] = 'Sinu sessioon on edukalt lÃµpetatud. NÃ¤gemiseni!';
 
-$messages['mailboxempty'] = 'Postkast on tühi';
+$messages['mailboxempty'] = 'Postkast on tÃ¼hi';
 
 $messages['loading'] = 'Laen...';
 
@@ -46,13 +46,13 @@ $messages['addedsuccessfully'] = 'Kontakt lisati edukalt aadressiraamatusse';
 
 $messages['contactexists'] = 'Sama e-maili aadressiga kontakt on juba olemas';
 
-$messages['blockedimages'] = 'Sinu privaatsuse kaitsmiseks on selles kirjas välised pildid blokeeritud.';
+$messages['blockedimages'] = 'Sinu privaatsuse kaitsmiseks on selles kirjas vÃ¤lised pildid blokeeritud.';
 
-$messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda võimalik näidata. Andestust!';
+$messages['encryptedmessage'] = 'See on krÃ¼pteeritud kiri ja kahjuks pole seda vÃµimalik nÃ¤idata. Andestust!';
 
-$messages['nocontactsfound'] = 'Ei leidnud ühtegi kontakti';
+$messages['nocontactsfound'] = 'Ei leidnud Ã¼htegi kontakti';
 
-$messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
+$messages['sendingfailed'] = 'Kirja saatmine ebaÃµnnestus';
 
 $messages['errorsaving'] = 'Salvestamie ajal ilmnes viga';
 
@@ -62,17 +62,17 @@ $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
 
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
 
-$messages['formincomplete']    = 'Vormi kõik väljad ei ole täidetud';
+$messages['formincomplete']    = 'Vormi kÃµik vÃ¤ljad ei ole tÃ¤idetud';
 
 $messages['noemailwarning']    = 'Palun sisesta toimiv e-maili aadress';
 
 $messages['nonamewarning']     = 'Palun sisesta nimi';
 
-$messages['nopagesizewarning'] = 'Palun sisesta lehekülje suurus';
+$messages['nopagesizewarning'] = 'Palun sisesta lehekÃ¼lje suurus';
 
-$messages['norecipientwarning'] = 'Palun sisesta vähemalt üks kirjasaaja';
+$messages['norecipientwarning'] = 'Palun sisesta vÃ¤hemalt Ã¼ks kirjasaaja';
 
-$messages['nosubjectwarning']  = 'Väli "Pealkiri" on tühi. Soovid selle ära täita ?';
+$messages['nosubjectwarning']  = 'VÃ¤li "Pealkiri" on tÃ¼hi. Soovid selle Ã¤ra tÃ¤ita ?';
 
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita ?';
 

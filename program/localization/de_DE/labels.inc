@@ -34,20 +34,20 @@ $labels['addressbook'] = 'Adressbuch';
 // mailbox names // E-Mail-Ordnernamen
 $labels['inbox']  = 'Posteingang';
 $labels['sent']   = 'Gesendet';
-$labels['trash']  = 'Gelöscht';
+$labels['trash']  = 'GelÃ¶scht';
 $labels['drafts'] = 'Vorlagen';
 $labels['junk']   = 'Junk';
 
 // message listing // Nachrichtenliste
 $labels['subject'] = 'Betreff';
 $labels['from']    = 'Absender';
-$labels['to']      = 'Empfänger';
+$labels['to']      = 'EmpfÃ¤nger';
 $labels['cc']      = 'Kopie (CC)';
 $labels['bcc']     = 'Blind-Kopie';
 $labels['replyto'] = 'Antwort an';
 $labels['date']    = 'Datum';
-$labels['size']    = 'Größe';
-$labels['priority'] = 'Priorität';
+$labels['size']    = 'GrÃ¶ÃŸe';
+$labels['priority'] = 'PrioritÃ¤t';
 $labels['organization'] = 'Organisation';
 
 // aliases // [Platzhalter]
@@ -61,15 +61,15 @@ $labels['moveto']   = 'Verschieben nach...';
 $labels['download'] = 'Download';
 
 $labels['filename'] = 'Dateiname';
-$labels['filesize'] = 'Dateigrösse';
+$labels['filesize'] = 'DateigrÃ¶sse';
 
 $labels['preferhtml'] = 'HTML bevorzugen';
 $labels['htmlmessage'] = 'HTML Nachricht';
 $labels['prettydate'] = 'Kurze Datumsanzeige';
 
-$labels['addtoaddressbook'] = 'Ins Adressbuch übernehmen';
+$labels['addtoaddressbook'] = 'Ins Adressbuch Ã¼bernehmen';
 
-// weekdays short // Wochentage (Abkürzungen) 
+// weekdays short // Wochentage (AbkÃ¼rzungen) 
 $labels['sun'] = 'So';
 $labels['mon'] = 'Mo';
 $labels['tue'] = 'Di';
@@ -92,15 +92,15 @@ $labels['today'] = 'Heute';
 // toolbar buttons // Symbolleisten-Tipps
 $labels['writenewmessage']  = 'Neue Nachricht schreiben';
 $labels['replytomessage']   = 'Antwort verfassen';
-$labels['replytoallmessage'] = 'Antwort an Absender und alle Empfänger';
+$labels['replytoallmessage'] = 'Antwort an Absender und alle EmpfÃ¤nger';
 $labels['forwardmessage']   = 'Nachricht weiterleiten';
 $labels['deletemessage']    = 'In den Papierkorb verschieben';
 $labels['printmessage']     = 'Diese Nachricht drucken';
 $labels['previousmessages'] = 'Vorherige Nachrichten anzeigen';
 $labels['nextmessages']     = 'Weitere Nachrichten anzeigen';
-$labels['backtolist']       = 'Zurück zur Liste';
+$labels['backtolist']       = 'ZurÃ¼ck zur Liste';
 
-$labels['select'] = 'Auswählen';
+$labels['select'] = 'AuswÃ¤hlen';
 $labels['all']    = 'Alle';
 $labels['none']   = 'Keine';
 $labels['unread'] = 'Ungelesene';
@@ -111,18 +111,18 @@ $labels['compact'] = 'Packen';
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
-$labels['addattachment']  = 'Datei anfügen';
+$labels['addattachment']  = 'Datei anfÃ¼gen';
 $labels['charset']  = 'Zeichensatz';
 
-$labels['attachments'] = 'Anhänge';
+$labels['attachments'] = 'AnhÃ¤nge';
 $labels['upload'] = 'Hochladen';
-$labels['close']  = 'Schließen';
+$labels['close']  = 'SchlieÃŸen';
 
 $labels['low']     = 'Niedrig';
 $labels['lowest']  = 'Niedrigste';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Hoch';
-$labels['highest'] = 'Höchste';
+$labels['highest'] = 'HÃ¶chste';
 
 $labels['nosubject']  = '(kein Betreff)';
 $labels['showimages'] = 'Bilder anzeigen';
@@ -134,16 +134,16 @@ $labels['firstname'] = 'Vorname';
 $labels['surname']   = 'Nachname';
 $labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Kontakt hinzufügen';
+$labels['addcontact'] = 'Kontakt hinzufÃ¼gen';
 $labels['editcontact'] = 'Kontakt bearbeiten';
 
 $labels['edit']   = 'Bearbeiten';
 $labels['cancel'] = 'Abbrechen';
 $labels['save']   = 'Speichern';
-$labels['delete'] = 'Löschen';
+$labels['delete'] = 'LÃ¶schen';
 
 $labels['newcontact']     = 'Neuen Kontakt erfassen';
-$labels['deletecontact']  = 'Gewählte Kontakte löschen';
+$labels['deletecontact']  = 'GewÃ¤hlte Kontakte lÃ¶schen';
 $labels['composeto']      = 'Nachricht verfassen';
 $labels['contactsfromto'] = 'Kontakte $from bis $to von $count';
 $labels['print']          = 'Drucken';
@@ -151,14 +151,14 @@ $labels['export']         = 'Exportieren';
 
 
 // settings // Einstellungen
-$labels['settingsfor']  = 'Einstellungen für';
+$labels['settingsfor']  = 'Einstellungen fÃ¼r';
 
 $labels['preferences']  = 'Einstellungen';
 $labels['userpreferences']  = 'Benutzereinstellungen';
 $labels['editpreferences']  = 'Einstellungen bearbeiten';
 
 $labels['identities']  = 'Absender';
-$labels['manageidentities']  = 'Absender für dieses Konto verwalten';
+$labels['manageidentities']  = 'Absender fÃ¼r dieses Konto verwalten';
 $labels['newidentity']  = 'Neuer Absender';
 
 $labels['newitem']  = 'Neuer Eintrag';
@@ -167,7 +167,7 @@ $labels['edititem']  = 'Eintrag bearbeiten';
 $labels['setdefault']  = 'Als Standard';
 $labels['language']  = 'Sprache';
 $labels['timezone']  = 'Zeitzone';
-$labels['pagesize']  = 'Einträge pro Seite';
+$labels['pagesize']  = 'EintrÃ¤ge pro Seite';
 $labels['signature'] = 'Signatur';
 
 $labels['folder']  = 'Ordner';
@@ -176,7 +176,7 @@ $labels['foldername']  = 'Ordnername';
 $labels['subscribed']  = 'Abonniert';
 $labels['create']      = 'Erstellen';
 $labels['createfolder']  = 'Neuen Ordner erstellen';
-$labels['deletefolder']  = 'Ordner löschen';
+$labels['deletefolder']  = 'Ordner lÃ¶schen';
 $labels['managefolders']  = 'Ordner verwalten';
 
 $labels['sortby'] = 'Sortieren nach';

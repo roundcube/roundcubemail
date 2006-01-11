@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
+ | Author: Ãœllar Pajus <yllar.pajus@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -25,7 +25,7 @@ $labels['server']    = 'Server';
 $labels['login']     = 'Logi sisse';
 
 // taskbar
-$labels['logout']   = 'Logi välja';
+$labels['logout']   = 'Logi vÃ¤lja';
 $labels['mail']     = 'Postkast';
 $labels['settings'] = 'Seaded';
 $labels['addressbook'] = 'Aadressiraamat';
@@ -33,9 +33,9 @@ $labels['addressbook'] = 'Aadressiraamat';
 // mailbox names
 $labels['inbox']  = 'Sissetulevad';
 $labels['sent']   = 'Saadetud';
-$labels['trash']  = 'Prügikast';
+$labels['trash']  = 'PrÃ¼gikast';
 $labels['drafts'] = 'Ootel';
-$labels['junk']   = 'Rämps';
+$labels['junk']   = 'RÃ¤mps';
 
 // message listing
 $labels['subject'] = 'Pealkiri';
@@ -44,9 +44,9 @@ $labels['to']      = 'Saaja';
 $labels['cc']      = 'Koopia';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Vastus aadressile';
-$labels['date']    = 'Kuupäev';
+$labels['date']    = 'KuupÃ¤ev';
 $labels['size']    = 'Suurus';
-$labels['priority'] = 'Tähtsus';
+$labels['priority'] = 'TÃ¤htsus';
 $labels['organization'] = 'Organisatsioon';
 
 // aliases
@@ -64,7 +64,7 @@ $labels['filesize'] = 'Faili suurus';
 
 $labels['preferhtml'] = 'Eelista HTMLi';
 $labels['htmlmessage'] = 'HTML kirjad';
-$labels['prettydate'] = 'Kenad kuupäevad';
+$labels['prettydate'] = 'Kenad kuupÃ¤evad';
 
 $labels['addtoaddressbook'] = 'Lisa aadressiraamatusse';
 
@@ -78,30 +78,30 @@ $labels['fri'] = 'R';
 $labels['sat'] = 'L';
 
 // weekdays long
-$labels['sunday']    = 'Pühapäev';
-$labels['monday']    = 'Esmaspäev';
-$labels['tuesday']   = 'Teisipäev';
-$labels['wednesday'] = 'Kolmapäev';
-$labels['thursday']  = 'Neljapäev';
+$labels['sunday']    = 'PÃ¼hapÃ¤ev';
+$labels['monday']    = 'EsmaspÃ¤ev';
+$labels['tuesday']   = 'TeisipÃ¤ev';
+$labels['wednesday'] = 'KolmapÃ¤ev';
+$labels['thursday']  = 'NeljapÃ¤ev';
 $labels['friday']    = 'Reede';
-$labels['saturday']  = 'Laupäev';
+$labels['saturday']  = 'LaupÃ¤ev';
 
-$labels['today'] = 'Täna';
+$labels['today'] = 'TÃ¤na';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Kirjuta uus kiri';
 $labels['replytomessage']   = 'Vasta kirjale';
 $labels['replytoallmessage'] = 'Vasta saatjale ja teistele kirja saanutele';
 $labels['forwardmessage']   = 'Edasta see kiri';
-$labels['deletemessage']    = 'Liiguta kiri prügikasti';
-$labels['printmessage']     = 'Trüki kiri';
-$labels['previousmessages'] = 'Näita eelmisi kirju';
-$labels['nextmessages']     = 'Näita järgmisi kirju';
+$labels['deletemessage']    = 'Liiguta kiri prÃ¼gikasti';
+$labels['printmessage']     = 'TrÃ¼ki kiri';
+$labels['previousmessages'] = 'NÃ¤ita eelmisi kirju';
+$labels['nextmessages']     = 'NÃ¤ita jÃ¤rgmisi kirju';
 $labels['backtolist']       = 'Tagasi kirjade nimekirja';
-$labels['viewsource']       = 'Näita lähtekoodi';
+$labels['viewsource']       = 'NÃ¤ita lÃ¤htekoodi';
 
 $labels['select'] = 'Vali';
-$labels['all'] = 'kõik';
+$labels['all'] = 'kÃµik';
 $labels['none'] = 'mitte midagi';
 $labels['unread'] = 'mitte loetud';
 
@@ -117,16 +117,16 @@ $labels['close']  = 'Sulge';
 $labels['low']     = 'Madal';
 $labels['lowest']  = 'Madalaim';
 $labels['normal']  = 'Tavaline';
-$labels['high']    = 'Kõrge';
-$labels['highest'] = 'Kõrgeim';
+$labels['high']    = 'KÃµrge';
+$labels['highest'] = 'KÃµrgeim';
 
 $labels['nosubject']  = '(teema puudub)';
 
-$labels['showimages'] = 'Näita pilte';
+$labels['showimages'] = 'NÃ¤ita pilte';
 
 
 // address boook
-$labels['name']      = 'Näidatav nimi';
+$labels['name']      = 'NÃ¤idatav nimi';
 $labels['firstname'] = 'Eesnimi';
 $labels['surname']   = 'Perekonnanimi';
 $labels['email']     = 'E-Mail';
@@ -140,10 +140,10 @@ $labels['save']   = 'Salvesta';
 $labels['delete'] = 'Kustuta';
 
 $labels['newcontact']     = 'Loo uus sissekanne';
-$labels['deletecontact']  = 'Kustuta märgistatud kontaktid';
+$labels['deletecontact']  = 'Kustuta mÃ¤rgistatud kontaktid';
 $labels['composeto']      = 'Kirjuta kiri';
 $labels['contactsfromto'] = 'Kirjed $from kuni $to, kokku $count';
-$labels['print']          = 'Trüki';
+$labels['print']          = 'TrÃ¼ki';
 $labels['export']         = 'Ekspordi';
 
 
@@ -169,14 +169,14 @@ $labels['pagesize']  = 'Ridu lehe kohta';
 
 $labels['folders']  = 'Kaustad';
 $labels['foldername']  = 'Kausta nimi';
-$labels['subscribed']  = 'Näitan';
+$labels['subscribed']  = 'NÃ¤itan';
 $labels['create']  = 'Loo';
 $labels['createfolder']  = 'Loo uus kaust';
 $labels['deletefolder']  = 'Kustuta kaust';
 $labels['managefolders']  = 'Manage folders';
 
-$labels['sortby'] = 'Järjesta';
-$labels['sortasc']  = 'Järjesta kasvavalt';
-$labels['sortdesc'] = 'Järjesta kahanevalt';
+$labels['sortby'] = 'JÃ¤rjesta';
+$labels['sortasc']  = 'JÃ¤rjesta kasvavalt';
+$labels['sortdesc'] = 'JÃ¤rjesta kahanevalt';
 
 ?>

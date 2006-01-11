@@ -81,16 +81,6 @@ class rcube_db
 
 
   /**
-   * Object destructor
-   */
-  function __destruct()
-    {
-    // before closing the database connection, write session data
-    session_write_close();
-    } 
-
-
-  /**
    * Connect to specific database
    *
    * @param  string  DSN for DB connections
