@@ -84,12 +84,17 @@ function rcmail_user_prefs_form($attrib)
   $select_timezone->add('(GMT +1:00) Central European Time', '1');
   $select_timezone->add('(GMT +2:00) EET: Kaliningrad, South Africa', '2');
   $select_timezone->add('(GMT +3:00) Baghdad, Kuwait, Riyadh, Moscow, Nairobi', '3');
+  $select_timezone->add('(GMT +3:30) Tehran', '3.5');
   $select_timezone->add('(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi', '4');
+  $select_timezone->add('(GMT +4:30) Kabul', '4.5');
   $select_timezone->add('(GMT +5:00) Ekaterinburg, Islamabad, Karachi', '5');
+  $select_timezone->add('(GMT +5:30) Chennai, Kolkata, Mumbai, New Delhi', '5.5');
+  $select_timezone->add('(GMT +5:45) Kathmandu', '5.75');
   $select_timezone->add('(GMT +6:00) Almaty, Dhaka, Colombo', '6');
   $select_timezone->add('(GMT +7:00) Bangkok, Hanoi, Jakarta', '7');
   $select_timezone->add('(GMT +8:00) Beijing, Perth, Singapore, Taipei', '8');
   $select_timezone->add('(GMT +9:00) Tokyo, Seoul, Yakutsk', '9');
+  $select_timezone->add('(GMT +9:30) Adelaide, Darwin', '9.5');
   $select_timezone->add('(GMT +10:00) EAST/AEST: Guam, Vladivostok', '10');
   $select_timezone->add('(GMT +11:00) Magadan, Solomon Islands', '11');
   $select_timezone->add('(GMT +12:00) Auckland, Wellington, Kamchatka', '12');
