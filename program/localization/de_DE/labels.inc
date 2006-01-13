@@ -150,6 +150,8 @@ $labels['print']          = 'Drucken';
 $labels['export']         = 'Exportieren';
 
 // LDAP search
+$labels['ldapsearch'] = 'LDAP Verzeichnis-Suche';
+
 $labels['ldappublicsearchname']   = 'Kontakt-Name';
 $labels['ldappublicsearchtype']   = 'Genaue Übereinstimmung';
 $labels['ldappublicserverselect'] = 'Server-Auswahl';
