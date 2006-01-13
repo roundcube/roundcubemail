@@ -1,8 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2006/01/04
+2006/01/13
 ----------
+- Added Slovak translation
 - Fixed bug when inserting signatures with !?&
 - Chopping message headers before inserting into the message cache table (to avoid bugs in Postgres)
 - Allow one-char domains in e-mail addresses
@@ -14,6 +15,9 @@ CHANGELOG RoundCube Webmail
 - Added periodic request for checking new mails (Request #1307821)
 - Added EXPUNGE command
 - Optimized loading time for mail interface
+- Changed to full UTF-8 support
+- Additional timezones (Patch #1389912)
+- Added LDAP public search (experimental)
 
 
 2005/12/16
