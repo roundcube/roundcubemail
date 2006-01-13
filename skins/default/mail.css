@@ -8,6 +8,7 @@
   left: 200px;
   right: 250px;
   height: 35px;
+  white-space: nowrap;
 /*  border: 1px solid #cccccc; */
 }
 
@@ -82,7 +83,7 @@
   position: absolute;
   top: 60px;
   right: 40px;
-  width: 220px;
+  width: 300px;
   height: 20px;
   text-align: right;
   white-space: nowrap;
