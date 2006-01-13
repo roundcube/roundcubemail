@@ -149,6 +149,13 @@ $labels['contactsfromto'] = 'Kontakte $from bis $to von $count';
 $labels['print']          = 'Drucken';
 $labels['export']         = 'Exportieren';
 
+// LDAP search
+$labels['ldappublicsearchname']   = 'Kontakt-Name';
+$labels['ldappublicsearchtype']   = 'Genaue Übereinstimmung';
+$labels['ldappublicserverselect'] = 'Server-Auswahl';
+$labels['ldappublicsearchfield']  = 'Suche in';
+$labels['ldappublicsearchform']   = 'Adressen suchen';
+$labels['ldappublicsearch'] = 'Suchen';
 
 // settings // Einstellungen
 $labels['settingsfor']  = 'Einstellungen für';

@@ -72,4 +72,11 @@ $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 
 $messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?';
 
+$messages['noldapserver'] = 'Bitte wählen Sie einen LDAP-Server aus';
+
+$messages['nocontactsreturned'] = 'Es wurden keine Kontakte gefunden';
+
+$messages['nosearchname'] = 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse ein';
+
+
 ?>

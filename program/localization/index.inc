@@ -53,6 +53,7 @@
 	'fi'    => 'Suomi',
 	'se'    => 'Svenska',
 	'si'    => 'Slovenian',
+	'sk'    => 'Slovak',
 	'tr'    => 'Turkish',
 	'vn'    => 'Vietnamese'
 );
