@@ -47,6 +47,7 @@ define('RCMAIL_VERSION', '0.1-20060104');
 $INSTALL_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
 $OUTPUT_TYPE = 'html';
 $JS_OBJECT_NAME = 'rcmail';
+$CHARSET = 'UTF-8';
 
 if (empty($INSTALL_PATH))
   $INSTALL_PATH = './';
