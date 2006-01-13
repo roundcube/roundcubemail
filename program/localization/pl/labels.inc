@@ -16,8 +16,6 @@
 
 */
 
-$utf8_decoding = TRUE;
-
 $labels = array();
 
 // login page

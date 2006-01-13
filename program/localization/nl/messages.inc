@@ -28,7 +28,7 @@ $messages['imaperror'] = 'Verbinding met IMAP-server mislukt';
 
 $messages['nomessagesfound'] = 'Geen berichten gevonden in Postvak IN';
 
-$messages['loggedout'] = 'Je bent succesvol uitgelegd. Tot ziens!';
+$messages['loggedout'] = 'Je bent succesvol uitgelogd. Tot ziens!';
 
 $messages['mailboxempty'] = 'Postbak is leeg';
 

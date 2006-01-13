@@ -46,7 +46,7 @@ $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Rispondi a';
 $labels['date']    = 'Data';
 $labels['size']    = 'Dimensione';
-$labels['priority'] = 'Priorit‡';
+$labels['priority'] = 'Priorit√†';
 $labels['organization'] = 'Organizzazione';
 
 // aliases
@@ -78,11 +78,11 @@ $labels['sat'] = 'Sab';
 
 // weekdays long
 $labels['sunday']    = 'Domenica';
-$labels['monday']    = 'LunedÏ';
-$labels['tuesday']   = 'MartedÏ';
-$labels['wednesday'] = 'MercoledÏ';
-$labels['thursday']  = 'GiovedÏ';
-$labels['friday']    = 'VenerdÏ';
+$labels['monday']    = 'Luned√¨';
+$labels['tuesday']   = 'Marted√¨';
+$labels['wednesday'] = 'Mercoled√¨';
+$labels['thursday']  = 'Gioved√¨';
+$labels['friday']    = 'Venerd√¨';
 $labels['saturday']  = 'Sabato';
 
 $labels['today'] = 'Oggi';
@@ -148,9 +148,9 @@ $labels['preferences']  = 'Preferenze';
 $labels['userpreferences']  = 'Preferenze utente';
 $labels['editpreferences']  = 'Modifica preferenze utente';
 
-$labels['identities']  = 'Identit‡';
-$labels['manageidentities']  = 'Gestisci le identit‡ per questo account';
-$labels['newidentity']  = 'Nuova identit‡';
+$labels['identities']  = 'Identit√†';
+$labels['manageidentities']  = 'Gestisci le identit√† per questo account';
+$labels['newidentity']  = 'Nuova identit√†';
 
 $labels['newitem']  = 'Nuovo oggetto';
 $labels['edititem']  = 'Modifica oggetto';

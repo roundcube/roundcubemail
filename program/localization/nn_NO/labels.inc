@@ -35,7 +35,7 @@ $labels['inbox']  = 'Innboks';
 $labels['sent']   = 'Sende element';
 $labels['trash']  = 'Sletta element';
 $labels['drafts'] = 'Kladd';
-$labels['junk']   = 'Søppel';
+$labels['junk']   = 'SÃ¸ppel';
 
 // message listing
 $labels['subject'] = 'Emne';
@@ -62,7 +62,7 @@ $labels['download'] = 'last ned';
 $labels['filename'] = 'Filnamn';
 $labels['filesize'] = 'Filstorleik';
 
-$labels['preferhtml'] = 'Føretrekk HTML';
+$labels['preferhtml'] = 'FÃ¸retrekk HTML';
 $labels['htmlmessage'] = 'HTML-melding';
 $labels['prettydate'] = 'Pene datoar';
 
@@ -70,7 +70,7 @@ $labels['addtoaddressbook'] = 'Legg til i adressebok';
 
 // weekdays short
 $labels['sun'] = 'Sun';
-$labels['mon'] = 'Mån';
+$labels['mon'] = 'MÃ¥n';
 $labels['tue'] = 'Tys';
 $labels['wed'] = 'Ons';
 $labels['thu'] = 'Tor';
@@ -79,7 +79,7 @@ $labels['sat'] = 'Lau';
 
 // weekdays long
 $labels['sunday']    = 'Sundag';
-$labels['monday']    = 'Måndag';
+$labels['monday']    = 'MÃ¥ndag';
 $labels['tuesday']   = 'Tysdag';
 $labels['wednesday'] = 'Onsdag';
 $labels['thursday']  = 'Torsdag';
@@ -90,11 +90,11 @@ $labels['today'] = 'I dag';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Skriv ei ny melding';
-$labels['replytomessage']   = 'Svar på meldinga';
+$labels['replytomessage']   = 'Svar pÃ¥ meldinga';
 $labels['forwardmessage']   = 'Vidaresend meldinga';
 $labels['deletemessage']    = 'Flytt melding til Sletta element';
 $labels['printmessage']     = 'Skriv ut meldinga';
-$labels['previousmessages'] = 'Vis føregåande side med meldingar';
+$labels['previousmessages'] = 'Vis fÃ¸regÃ¥ande side med meldingar';
 $labels['nextmessages']     = 'Vis neste side med med meldingar';
 $labels['backtolist']       = 'Tilbake til meldingslista';
 $labels['viewsource']       = 'Vis kjelde';
@@ -113,18 +113,18 @@ $labels['attachments'] = 'Vedlegg';
 $labels['upload'] = 'Last opp';
 $labels['close']  = 'Steng';
 
-$labels['low']     = 'Låg';
-$labels['lowest']  = 'Lågast';
+$labels['low']     = 'LÃ¥g';
+$labels['lowest']  = 'LÃ¥gast';
 $labels['normal']  = 'Normal';
-$labels['high']    = 'Høg';
-$labels['highest'] = 'Høgast';
+$labels['high']    = 'HÃ¸g';
+$labels['highest'] = 'HÃ¸gast';
 
 $labels['showimages'] = 'Vis bilete';
 
 
 // address book
 $labels['name']      = 'Visingsnamn';
-$labels['firstname'] = 'Førenamn';
+$labels['firstname'] = 'FÃ¸renamn';
 $labels['surname']   = 'Etternamn';
 $labels['email']     = 'E-post';
 
@@ -159,7 +159,7 @@ $labels['newitem']  = 'Nytt element';
 $labels['edititem']  = 'Redigere element';
 
 $labels['setdefault']  = 'Set som standard';
-$labels['language']  = 'Språk';
+$labels['language']  = 'SprÃ¥k';
 $labels['timezone']  = 'Tidssone';
 $labels['pagesize']  = 'Rader pr side';
 

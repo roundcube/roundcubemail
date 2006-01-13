@@ -29,7 +29,7 @@ rcmail_imap_init(TRUE);
 if ($_action=='subscribe')
   {
   if (strlen($_GET['_mboxes']))
-    $IMAP->subscribe(explode(',', $_GET['_mboxes']));
+    $IMAP->subscribe(array($_GET['_mboxes']));
 
   if ($_GET['_remote'])
     rcube_remote_response('// subscribed');
@@ -39,7 +39,7 @@ if ($_action=='subscribe')
 else if ($_action=='unsubscribe')
   {
   if (strlen($_GET['_mboxes']))
-    $IMAP->unsubscribe(explode(',', $_GET['_mboxes']));
+    $IMAP->unsubscribe(array($_GET['_mboxes']));
 
   if ($_GET['_remote'])
     rcube_remote_response('// unsubscribed');
@@ -53,7 +53,7 @@ else if ($_action=='create-folder')
 
   if ($create && $_GET['_remote'])
     {
-    $commands = sprintf("this.add_folder_row('%s')", rep_specialchars_output($create, 'js'));
+    $commands = sprintf("this.add_folder_row('%s')", $OUTPUT->encode_string(rep_specialchars_output($create, 'js')));
     rcube_remote_response($commands);
     }
   else if (!$create && $_GET['_remote'])
@@ -69,7 +69,7 @@ else if ($_action=='create-folder')
 else if ($_action=='delete-folder')
   {
   if (strlen($_GET['_mboxes']))
-    $deleted = $IMAP->delete_mailbox(explode(',', $_GET['_mboxes']));
+    $deleted = $IMAP->delete_mailbox(array($_GET['_mboxes']));
 
   if ($_GET['_remote'] && $deleted)
     rcube_remote_response(sprintf("this.remove_folder_row('%s')", rep_specialchars_output($_GET['_mboxes'], 'js')));
@@ -129,7 +129,7 @@ function rcube_subscription_form($attrib)
     $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td><td>%s</td><td><a href="#delete" onclick="%s.command(\'delete-folder\',\'%s\')" title="%s">%s</a></td>',
                     $i+1,
                     $zebra_class,
-                    rep_specialchars_output(UTF7DecodeString($folder), 'html', 'all'),
+                    $OUTPUT->encode_string(rep_specialchars_output(UTF7DecodeString($folder), 'html', 'all')),
                     $checkbox_subscribe->show(in_array($folder, $a_subscribed)?$folder:'', array('value' => $folder)),
                     $JS_OBJECT_NAME,
                     $folder_js,

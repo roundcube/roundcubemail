@@ -22,33 +22,33 @@ $messages['loginfailed']  = 'Erreur de connexion';
 
 $messages['cookiesdisabled'] = 'Votre navigateur n\'accepte pas les cookies';
 
-$messages['sessionerror'] = 'Votre session n\'est pas valide ou a expiré';
+$messages['sessionerror'] = 'Votre session n\'est pas valide ou a expirÃ©';
 
 $messages['imaperror'] = 'Erreur de connexion au serveur IMAP';
 
-$messages['nomessagesfound'] = 'Auncun message trouvé dans cette boîte aux lettres';
+$messages['nomessagesfound'] = 'Auncun message trouvÃ© dans cette boÃ®te aux lettres';
 
-$messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
+$messages['loggedout'] = 'Vous venez de vous dÃ©connecter avec succÃ¨s. Au revoir !';
 
-$messages['mailboxempty'] = 'Boîte aux lettres vide';
+$messages['mailboxempty'] = 'BoÃ®te aux lettres vide';
 
-$messages['loadingdata'] = 'Chargement des données en cours...';
+$messages['loadingdata'] = 'Chargement des donnÃ©es en cours...';
 
-$messages['messagesent'] = 'Message envoyé';
+$messages['messagesent'] = 'Message envoyÃ©';
 
-$messages['successfullysaved'] = 'Sauvegarde effectuée';
+$messages['successfullysaved'] = 'Sauvegarde effectuÃ©e';
 
-$messages['addedsuccessfully'] = 'Contact ajouté dans le carnet d\'adresses';
+$messages['addedsuccessfully'] = 'Contact ajoutÃ© dans le carnet d\'adresses';
 
-$messages['contactexists'] = 'Un contact avec cette adresse e-Mail existe déjà';
+$messages['contactexists'] = 'Un contact avec cette adresse e-Mail existe dÃ©jÃ ';
 
-$messages['blockedimages'] = 'Afin de préserver votre intimité, les images distantes ont été bloquées dans ce message.';
+$messages['blockedimages'] = 'Afin de prÃ©server votre intimitÃ©, les images distantes ont Ã©tÃ© bloquÃ©es dans ce message.';
 
-$messages['encryptedmessage'] = 'Ceci est un message crypté et il ne peut pas être affiché. Désolé !';
+$messages['encryptedmessage'] = 'Ceci est un message cryptÃ© et il ne peut pas Ãªtre affichÃ©. DÃ©solÃ© !';
 
-$messages['nocontactsfound'] = 'Aucun contact trouvé';
+$messages['nocontactsfound'] = 'Aucun contact trouvÃ©';
 
-$messages['sendingfailed'] = 'Le message n\'a pas été envoyé';
+$messages['sendingfailed'] = 'Le message n\'a pas Ã©tÃ© envoyÃ©';
 
 $messages['errorsaving'] = 'Une erreur est apparue pendant la sauvegarde';
 

@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/messages.inc                                              |
+ | language/se/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
@@ -20,17 +20,17 @@ $messages = array();
 
 $messages['loginfailed']  = 'Inloggningen misslyckades';
 
-$messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
+$messages['cookiesdisabled'] = 'Din webblÃ¤sare accepterar inte cookies';
 
-$messages['sessionerror'] = 'Din session är felaktig eller har gått ut';
+$messages['sessionerror'] = 'Din session Ã¤r felaktig eller har gÃ¥tt ut';
 
 $messages['imaperror'] = 'Kommunikationen med IMAP-servern misslyckades';
 
-$messages['nomessagesfound'] = 'Inga meddelanden i den här mappen';
+$messages['nomessagesfound'] = 'Inga meddelanden i den hÃ¤r mappen';
 
-$messages['loggedout'] = 'Du har avslutat sessionen. Hej då!';
+$messages['loggedout'] = 'Du har avslutat sessionen. Hej dÃ¥!';
 
-$messages['mailboxempty'] = 'Mappen är tom';
+$messages['mailboxempty'] = 'Mappen Ã¤r tom';
 
 $messages['loading'] = 'Laddar....';
 
@@ -44,9 +44,9 @@ $messages['addedsuccessfully'] = 'Kontakt har lagts till i adressboken';
 
 $messages['contactexists'] = 'En kontakt med den angivna e-postadressen existerar redan';
 
-$messages['blockedimages'] = 'För att skydda dig har externa bilder blockerats från meddelandet';
+$messages['blockedimages'] = 'FÃ¶r att skydda dig har externa bilder blockerats frÃ¥n meddelandet';
 
-$messages['encryptedmessage'] = 'Det här är ett krypterat meddelande som inte kan visas. Tyvärr!';
+$messages['encryptedmessage'] = 'Det hÃ¤r Ã¤r ett krypterat meddelande som inte kan visas. TyvÃ¤rr!';
 
 $messages['nocontactsfound'] = 'Inga kontakter hittades';
 

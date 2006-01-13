@@ -18,43 +18,43 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Sisäänkirjautuminen epäonnistui';
+$messages['loginfailed']  = 'SisÃ¤Ã¤nkirjautuminen epÃ¤onnistui';
 
-$messages['cookiesdisabled'] = 'Selaimesi ei hyväksy evästeitä';
+$messages['cookiesdisabled'] = 'Selaimesi ei hyvÃ¤ksy evÃ¤steitÃ¤';
 
-$messages['sessionerror'] = 'Sessio ei kelpaa tai ei ole enää voimassa';
+$messages['sessionerror'] = 'Sessio ei kelpaa tai ei ole enÃ¤Ã¤ voimassa';
 
-$messages['imaperror'] = 'Yhteys IMAP-palvelimeen epäonnistui';
+$messages['imaperror'] = 'Yhteys IMAP-palvelimeen epÃ¤onnistui';
 
-$messages['nomessagesfound'] = 'Kansiossa ei ole sähköpostiviestejä';
+$messages['nomessagesfound'] = 'Kansiossa ei ole sÃ¤hkÃ¶postiviestejÃ¤';
 
-$messages['loggedout'] = 'Sinut on kirjattu ulos järjestelmästä.';
+$messages['loggedout'] = 'Sinut on kirjattu ulos jÃ¤rjestelmÃ¤stÃ¤.';
 
-$messages['mailboxempty'] = 'Kansio on tyhjä';
+$messages['mailboxempty'] = 'Kansio on tyhjÃ¤';
 
 $messages['loadingdata'] = 'Ladataan...';
 
-$messages['messagesent'] = 'Viesti lähetetty';
+$messages['messagesent'] = 'Viesti lÃ¤hetetty';
 
 $messages['successfullysaved'] = 'Tallennus onnistui';
 
-$messages['addedsuccessfully'] = 'Kontakti lisätty osoitekirjaan';
+$messages['addedsuccessfully'] = 'Kontakti lisÃ¤tty osoitekirjaan';
 
-$messages['contactexists'] = 'Samalla sähköpostiosoitteella on jo olemassa kontakti';
+$messages['contactexists'] = 'Samalla sÃ¤hkÃ¶postiosoitteella on jo olemassa kontakti';
 
-$messages['blockedimages'] = 'Turvallisuussyistä viestin kuvia ei näytetty.';
+$messages['blockedimages'] = 'TurvallisuussyistÃ¤ viestin kuvia ei nÃ¤ytetty.';
 
-$messages['encryptedmessage'] = 'Viesti on salattu, eikä sitä voida näyttää.';
+$messages['encryptedmessage'] = 'Viesti on salattu, eikÃ¤ sitÃ¤ voida nÃ¤yttÃ¤Ã¤.';
 
 $messages['nocontactsfound'] = 'Ei kontakteja';
 
-$messages['sendingfailed'] = 'Viestin lähetys epäonnistui';
+$messages['sendingfailed'] = 'Viestin lÃ¤hetys epÃ¤onnistui';
 
 $messages['errorsaving'] = 'Tallennuksessa tapahtui virhe';
 
-$messages['errormoving'] = 'Viestiä ei voitu siirtää';
+$messages['errormoving'] = 'ViestiÃ¤ ei voitu siirtÃ¤Ã¤';
 
-$messages['errordeleting'] = 'Viestiä ei voitu poistaa';
+$messages['errordeleting'] = 'ViestiÃ¤ ei voitu poistaa';
 
 
 ?>

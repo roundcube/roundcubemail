@@ -29,6 +29,7 @@ if (!empty($a_folders))
     {
     $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
     rcube_remote_response($commands, TRUE);
+    ob_flush();
     }
   }
 

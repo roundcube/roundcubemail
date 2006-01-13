@@ -22,7 +22,7 @@ $messages['loginfailed']  = 'Login non riuscito';
 
 $messages['cookiesdisabled'] = 'Il browser non accetta cookie';
 
-$messages['sessionerror'] = 'La sessione Ë invalida o scaduta.';
+$messages['sessionerror'] = 'La sessione √® invalida o scaduta.';
 
 $messages['imaperror'] = 'Connessione al server IMAP non riuscita';
 
@@ -30,7 +30,7 @@ $messages['nomessagesfound'] = 'Non ci sono messaggi in questa mailbox';
 
 $messages['loggedout'] = 'Sessione chiusa correttamente. Arrivederci!';
 
-$messages['mailboxempty'] = 'La mailbox Ë vuota';
+$messages['mailboxempty'] = 'La mailbox √® vuota';
 
 $messages['loadingdata'] = 'Sto caricando i dati...';
 
@@ -40,11 +40,11 @@ $messages['successfullysaved'] = 'Salvato con successo';
 
 $messages['addedsuccessfully'] = 'Contatto aggiunto con successo alla rubrica';
 
-$messages['contactexists'] = 'Esiste gi‡ un contatto con questa email';
+$messages['contactexists'] = 'Esiste gi√† un contatto con questa email';
 
 $messages['blockedimages'] = 'Per proteggere la privacy, le immagini remote in questo messaggio sono bloccate.';
 
-$messages['encryptedmessage'] = 'Questo Ë un messaggio criptato e non puÚ essere visualizzato. Mi dispiace!';
+$messages['encryptedmessage'] = 'Questo √® un messaggio criptato e non pu√≤ essere visualizzato. Mi dispiace!';
 
 $messages['nocontactsfound'] = 'Nessun contatto trovato';
 

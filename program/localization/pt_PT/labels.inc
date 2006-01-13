@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/pt/labels.inc                                                |
+ | language/pt_PT/labels.inc                                             |
  |                                                                       |
  | Portuguese for Portugal Language file of the RoundCube Webmail client |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Endereço de E-Mail';
+$labels['username']  = 'EndereÃ§o de E-Mail';
 $labels['password']  = 'Password';
 $labels['server']    = 'Servidor';
 $labels['login']     = 'Login';
@@ -27,8 +27,8 @@ $labels['login']     = 'Login';
 // taskbar
 $labels['logout']   = 'Sair';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Definições Pessoais';
-$labels['addressbook'] = 'Livro de Endereços';
+$labels['settings'] = 'DefiniÃ§Ãµes Pessoais';
+$labels['addressbook'] = 'Livro de EndereÃ§os';
 
 // mailbox names
 $labels['inbox']  = 'Recebidas';
@@ -41,13 +41,13 @@ $labels['junk']   = 'SPAM';
 $labels['subject'] = 'Assunto';
 $labels['from']    = 'De';
 $labels['to']      = 'Para';
-$labels['cc']      = 'Cópia';
+$labels['cc']      = 'CÃ³pia';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Responder-a';
 $labels['date']    = 'Data';
 $labels['size']    = 'Tamanho';
 $labels['priority'] = 'Prioridade';
-$labels['organization'] = 'Organização';
+$labels['organization'] = 'OrganizaÃ§Ã£o';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
@@ -66,7 +66,7 @@ $labels['preferhtml'] = 'Prefiro HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
 $labels['prettydate'] = ' Datas bonitas';
 
-$labels['addtoaddressbook'] = 'Adicionar ao livro de endereços';
+$labels['addtoaddressbook'] = 'Adicionar ao livro de endereÃ§os';
 
 // weekdays short
 $labels['sun'] = 'Dom';
@@ -80,11 +80,11 @@ $labels['sat'] = 'Sab';
 // weekdays long
 $labels['sunday']    = 'Domingo';
 $labels['monday']    = 'Segunda';
-$labels['tuesday']   = 'Terça';
+$labels['tuesday']   = 'TerÃ§a';
 $labels['wednesday'] = 'Quarta';
 $labels['thursday']  = 'Quinta';
 $labels['friday']    = 'Sexta';
-$labels['saturday']  = 'Sábado';
+$labels['saturday']  = 'SÃ¡bado';
 
 $labels['today'] = 'Hoje';
 
@@ -97,12 +97,12 @@ $labels['deletemessage']    = 'Mover a mensagem para a reciclagem';
 $labels['printmessage']     = 'Imprimir esta mensagem';
 $labels['previousmessages'] = 'Mostrar grupo de mensagens anterior';
 $labels['nextmessages']     = 'Mostrar grupo de mensagens seguinte';
-$labels['backtolist']       = 'Voltar à lista de mensagens';
+$labels['backtolist']       = 'Voltar Ã  lista de mensagens';
 
 $labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Nenhuma';
-$labels['unread'] = 'Não lidas';
+$labels['unread'] = 'NÃ£o lidas';
 
 // message compose
 $labels['compose']  = 'Escrever uma mensagem';
@@ -125,7 +125,7 @@ $labels['showimages'] = 'Mostrar imagens';
 // address boook
 $labels['name']      = 'Mostrar nome';
 $labels['firstname'] = 'Primeiro nome';
-$labels['surname']   = 'Último nome';
+$labels['surname']   = 'Ãšltimo nome';
 $labels['email']     = 'E-Mail';
 
 $labels['addcontact'] = 'Adicionar novo contacto';
@@ -136,18 +136,18 @@ $labels['cancel'] = 'Cancelar';
 $labels['save']   = 'Gravar';
 $labels['delete'] = 'Apagar';
 
-$labels['newcontact']     = 'Criar novo cartão de contacto';
+$labels['newcontact']     = 'Criar novo cartÃ£o de contacto';
 $labels['deletecontact']  = 'Apagar contactos seleccionados';
 $labels['composeto']      = 'Escrever email para';
-$labels['contactsfromto'] = 'Contactos $from até $to de $count';
+$labels['contactsfromto'] = 'Contactos $from atÃ© $to de $count';
 
 
 // settings
-$labels['settingsfor']  = 'Definições para';
+$labels['settingsfor']  = 'DefiniÃ§Ãµes para';
 
-$labels['preferences']  = 'Preferências';
-$labels['userpreferences']  = 'Preferências do utilizador';
-$labels['editpreferences']  = 'Editar preferências do utilizador';
+$labels['preferences']  = 'PreferÃªncias';
+$labels['userpreferences']  = 'PreferÃªncias do utilizador';
+$labels['editpreferences']  = 'Editar preferÃªncias do utilizador';
 
 $labels['identities']  = 'Identidades';
 $labels['manageidentities']  = 'Gerir identidades para esta conta';
@@ -157,9 +157,9 @@ $labels['newitem']  = 'Novo item';
 $labels['edititem']  = 'Editar item';
 
 $labels['setdefault']  = 'Definir como default';
-$labels['language']  = 'Língua';
-$labels['timezone']  = 'Zona horária';
-$labels['pagesize']  = 'Linhas por página';
+$labels['language']  = 'LÃ­ngua';
+$labels['timezone']  = 'Zona horÃ¡ria';
+$labels['pagesize']  = 'Linhas por pÃ¡gina';
 
 
 $labels['folders']  = 'Pastas';

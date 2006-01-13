@@ -19,15 +19,15 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Användarnamn';
-$labels['password']  = 'Lösenord';
+$labels['username']  = 'AnvÃ¤ndarnamn';
+$labels['password']  = 'LÃ¶senord';
 $labels['server']    = 'Server';
 $labels['login']     = 'Logga in';
 
 // taskbar
 $labels['logout']   = 'Logga ut';
 $labels['mail']     = 'E-post';
-$labels['settings'] = 'Personliga inställningar';
+$labels['settings'] = 'Personliga instÃ¤llningar';
 $labels['addressbook'] = 'Adressbok';
 
 // mailbox names
@@ -35,11 +35,11 @@ $labels['inbox']  = 'Inbox';
 $labels['sent']   = 'Skickat';
 $labels['trash']  = 'Papperskorg';
 $labels['drafts'] = 'Utskick';
-$labels['junk']   = 'Skräppost';
+$labels['junk']   = 'SkrÃ¤ppost';
 
 // message listing
-$labels['subject'] = 'Ämne';
-$labels['from']    = 'Avsändare';
+$labels['subject'] = 'Ã„mne';
+$labels['from']    = 'AvsÃ¤ndare';
 $labels['to']      = 'Mottagare';
 $labels['cc']      = 'Kopia';
 $labels['bcc']     = 'Bcc';
@@ -62,47 +62,47 @@ $labels['download'] = 'ladda ner';
 $labels['filename'] = 'Filnamn';
 $labels['filesize'] = 'Filstorlek';
 
-$labels['preferhtml'] = 'Föredra HTML';
+$labels['preferhtml'] = 'FÃ¶redra HTML';
 $labels['htmlmessage'] = 'HTML-meddelanden';
 $labels['prettydate'] = 'Fina datum';
 
-$labels['addtoaddressbook'] = 'Lägg till adressbok';
+$labels['addtoaddressbook'] = 'LÃ¤gg till adressbok';
 
 // weekdays short
-$labels['sun'] = 'Sön';
-$labels['mon'] = 'Mån';
+$labels['sun'] = 'SÃ¶n';
+$labels['mon'] = 'MÃ¥n';
 $labels['tue'] = 'Tis';
 $labels['wed'] = 'Ons';
 $labels['thu'] = 'Tor';
 $labels['fri'] = 'Fre';
-$labels['sat'] = 'Lös';
+$labels['sat'] = 'LÃ¶s';
 
 // weekdays long
-$labels['sunday']    = 'Söndag';
-$labels['monday']    = 'Måndag';
+$labels['sunday']    = 'SÃ¶ndag';
+$labels['monday']    = 'MÃ¥ndag';
 $labels['tuesday']   = 'Tisdag';
 $labels['wednesday'] = 'Onsdag';
 $labels['thursday']  = 'Torsdag';
 $labels['friday']    = 'Fredag';
-$labels['saturday']  = 'Lödag';
+$labels['saturday']  = 'LÃ¶dag';
 
 $labels['today'] = 'Idag';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Skapa nytt meddelande';
-$labels['replytomessage']   = 'Svar på meddelande';
+$labels['replytomessage']   = 'Svar pÃ¥ meddelande';
 $labels['replytoallmessage'] = 'Svara alla';
 $labels['forwardmessage']   = 'Skicka vidare meddelande';
 $labels['deletemessage']    = 'Flytta till papperskorgen';
 $labels['printmessage']     = 'Skriv ut';
 $labels['previousmessages'] = 'Visa tidigare';
-$labels['nextmessages']     = 'Visa nästa';
+$labels['nextmessages']     = 'Visa nÃ¤sta';
 $labels['backtolist']       = 'Tillbaka till meddelandelistan';
 
-$labels['select'] = 'Välj';
+$labels['select'] = 'VÃ¤lj';
 $labels['all'] = 'Alla';
 $labels['none'] = 'Ingen';
-$labels['unread'] = 'Oläst';
+$labels['unread'] = 'OlÃ¤st';
 
 // message compose
 $labels['compose']  = 'Skriv meddelande';
@@ -111,27 +111,27 @@ $labels['addattachment']  = 'Bifoga fil';
 
 $labels['attachments'] = 'Filer';
 $labels['upload'] = 'Ladda upp';
-$labels['close']  = 'Stäng';
+$labels['close']  = 'StÃ¤ng';
 
-$labels['low']     = 'Låg';
-$labels['lowest']  = 'Lägst';
+$labels['low']     = 'LÃ¥g';
+$labels['lowest']  = 'LÃ¤gst';
 $labels['normal']  = 'Normal';
-$labels['high']    = 'Hög';
-$labels['highest'] = 'Högst';
+$labels['high']    = 'HÃ¶g';
+$labels['highest'] = 'HÃ¶gst';
 
 $labels['showimages'] = 'Visa bilder';
 
 
 // address boook
 $labels['name']      = 'Visa namn';
-$labels['firstname'] = 'Förnamn';
+$labels['firstname'] = 'FÃ¶rnamn';
 $labels['surname']   = 'Efternamn';
 $labels['email']     = 'E-post';
 
-$labels['addcontact'] = 'Lägg till ny kontakt';
-$labels['editcontact'] = 'Ändra kontakt';
+$labels['addcontact'] = 'LÃ¤gg till ny kontakt';
+$labels['editcontact'] = 'Ã„ndra kontakt';
 
-$labels['edit']   = 'Ändra';
+$labels['edit']   = 'Ã„ndra';
 $labels['cancel'] = 'Avbryt';
 $labels['save']   = 'Spara';
 $labels['delete'] = 'Radera';
@@ -143,21 +143,21 @@ $labels['contactsfromto'] = 'Kontakter $from till $to av $count';
 
 
 // settings
-$labels['settingsfor']  = 'Inställningar för';
+$labels['settingsfor']  = 'InstÃ¤llningar fÃ¶r';
 
-$labels['preferences']  = 'Inställningar';
-$labels['userpreferences']  = 'Användarinställningar';
-$labels['editpreferences']  = 'Ändra användarinställningar';
+$labels['preferences']  = 'InstÃ¤llningar';
+$labels['userpreferences']  = 'AnvÃ¤ndarinstÃ¤llningar';
+$labels['editpreferences']  = 'Ã„ndra anvÃ¤ndarinstÃ¤llningar';
 
 $labels['identities']  = 'Identiteter';
-$labels['manageidentities']  = 'Hantera identiteter för kontot';
+$labels['manageidentities']  = 'Hantera identiteter fÃ¶r kontot';
 $labels['newidentity']  = 'Ny identitet';
 
 $labels['newitem']  = 'Ny post';
-$labels['edititem']  = 'Ändra post';
+$labels['edititem']  = 'Ã„ndra post';
 
-$labels['setdefault']  = 'Sätt som standard';
-$labels['language']  = 'Språk';
+$labels['setdefault']  = 'SÃ¤tt som standard';
+$labels['language']  = 'SprÃ¥k';
 $labels['timezone']  = 'Tidszon';
 $labels['pagesize']  = 'Rader per sida';
 

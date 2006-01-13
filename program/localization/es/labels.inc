@@ -19,14 +19,14 @@ $labels = array();
 
 // login page
 $labels['username']  = 'Nombre de usuario';
-$labels['password']  = 'Contraseña';
+$labels['password']  = 'ContraseÃ±a';
 $labels['server']    = 'Servidor';
 $labels['login']     = 'Entrar';
 
 // taskbar
-$labels['logout']   = 'Cerrar sesión';
+$labels['logout']   = 'Cerrar sesiÃ³n';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Configuración';
+$labels['settings'] = 'ConfiguraciÃ³n';
 $labels['addressbook'] = 'Contactos';
 
 // mailbox names
@@ -44,9 +44,9 @@ $labels['cc']      = 'CC';
 $labels['bcc']     = 'BCC';
 $labels['replyto'] = 'Responder';
 $labels['date']    = 'Fecha';
-$labels['size']    = 'Tamaño';
+$labels['size']    = 'TamaÃ±o';
 $labels['priority'] = 'Prioridad';
-$labels['organization'] = 'Organización';
+$labels['organization'] = 'OrganizaciÃ³n';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
@@ -59,13 +59,13 @@ $labels['moveto']   = 'mover a...';
 $labels['download'] = 'descargar';
 
 $labels['filename'] = 'Nombre del fichero';
-$labels['filesize'] = 'Tamaño del fichero';
+$labels['filesize'] = 'TamaÃ±o del fichero';
 
 $labels['preferhtml'] = 'Prefiero HTML';
 $labels['htmlmessage'] = 'Mensaje HTML';
 $labels['prettydate'] = 'Fechas cortas';
 
-$labels['addtoaddressbook'] = 'Añadir a contactos';
+$labels['addtoaddressbook'] = 'AÃ±adir a contactos';
 
 // weekdays short
 $labels['sun'] = 'D';
@@ -83,7 +83,7 @@ $labels['tuesday']   = 'Martes';
 $labels['wednesday'] = 'Miercoles';
 $labels['thursday']  = 'Jueves';
 $labels['friday']    = 'Viernes';
-$labels['saturday']  = 'Sábado';
+$labels['saturday']  = 'SÃ¡bado';
 
 $labels['today'] = 'Hoy';
 
@@ -106,19 +106,19 @@ $labels['unread'] = 'No leidos';
 // message compose
 $labels['compose']  = 'Escribir un mensaje';
 $labels['sendmessage']  = 'Enviar ahora el mensaje';
-$labels['addattachment']  = 'Añadir un fichero';
+$labels['addattachment']  = 'AÃ±adir un fichero';
 
 $labels['attachments'] = 'Adjuntos';
 $labels['upload'] = 'Subir';
 $labels['close']  = 'Cerrar';
 
 $labels['low']     = 'Bajo';
-$labels['lowest']  = 'Bajísimo';
+$labels['lowest']  = 'BajÃ­simo';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Alto';
-$labels['highest'] = 'Altísimo';
+$labels['highest'] = 'AltÃ­simo';
 
-$labels['showimages'] = 'Mostrar imágenes';
+$labels['showimages'] = 'Mostrar imÃ¡genes';
 
 
 // address boook
@@ -127,7 +127,7 @@ $labels['firstname'] = 'Nombre';
 $labels['surname']   = 'Apellido';
 $labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Añadir nuevo contacto';
+$labels['addcontact'] = 'AÃ±adir nuevo contacto';
 $labels['editcontact'] = 'Editar contacto';
 
 $labels['edit']   = 'Editar';
@@ -142,7 +142,7 @@ $labels['contactsfromto'] = 'Contactos $from a $to de $count';
 
 
 // settings
-$labels['settingsfor']  = 'Configuración para';
+$labels['settingsfor']  = 'ConfiguraciÃ³n para';
 
 $labels['preferences']  = 'Preferencias';
 $labels['userpreferences']  = 'Preferencias de usuario';
@@ -155,10 +155,10 @@ $labels['newidentity']  = 'Nueva identidad';
 $labels['newitem']  = 'Nuevo';
 $labels['edititem']  = 'Editar';
 
-$labels['setdefault']  = 'Seleccionar opción por defecto';
+$labels['setdefault']  = 'Seleccionar opciÃ³n por defecto';
 $labels['language']  = 'Idioma';
 $labels['timezone']  = 'Zona horaria';
-$labels['pagesize']  = 'Filas por página';
+$labels['pagesize']  = 'Filas por pÃ¡gina';
 
 
 $labels['folders']  = 'Carpetas';

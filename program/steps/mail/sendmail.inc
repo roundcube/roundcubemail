@@ -77,6 +77,11 @@ if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
 if (empty($CHARSET))
   $CHARSET = 'ISO-8859-1';
 
+$input_charset = $CHARSET;
+$message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
+
+// unset global var
+$CHARSET = '';
 
 $mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
 $mailto_replace = array(', ', ', ', '');
@@ -100,20 +105,20 @@ $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail')), $_SESSION['imap_host']);
 // compose headers array
 $headers = array('Date' => date('D, j M Y G:i:s O'),
                  'From' => $identity_arr['string'],
-                 'To'   => $mailto);
+                 'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
 
 // additional recipients
 if ($_POST['_cc'])
-  $headers['Cc'] = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_cc']));
+  $headers['Cc'] = rcube_charset_convert(preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_cc'])), $input_charset, $message_charset);
 
 if ($_POST['_bcc'])
-  $headers['Bcc'] = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_bcc']));
+  $headers['Bcc'] = rcube_charset_convert(preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_bcc'])), $input_charset, $message_charset);
   
 if (strlen($identity_arr['bcc']))
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
 
 // add subject
-$headers['Subject'] = trim(stripslashes($_POST['_subject']));
+$headers['Subject'] = rcube_charset_convert(trim(stripslashes($_POST['_subject'])), $input_charset, $message_charset);
 
 if (strlen($identity_arr['organization']))
   $headers['Organization'] = $identity_arr['organization'];
@@ -141,6 +146,8 @@ $headers['X-Sender'] = $from;
 if ($CONFIG['useragent'])
   $headers['User-Agent'] = $CONFIG['useragent'];
 
+// fetch message body
+$message_body = rcube_charset_convert(stripslashes($_POST['_message']), $input_charset, $message_charset);
 
 // append generic footer to all messages
 if (!empty($CONFIG['generic_message_footer']))
@@ -150,7 +157,7 @@ if (!empty($CONFIG['generic_message_footer']))
     {
     $content = fread($fp, filesize($file));
     fclose($fp);
-    $_POST['_message'] .= "\r\n" . $content;
+    $message_body .= "\r\n" . rcube_charset_convert($content, 'UTF-8', $message_charset);
     }
   }
 
@@ -160,8 +167,8 @@ $header_delm = $rcmail_config['mail_header_delimiter'] ? $rcmail_config['mail_he
 
 // create PEAR::Mail_mime instance
 $MAIL_MIME = new Mail_mime($header_delm);
-$MAIL_MIME->setTXTBody(stripslashes($_POST['_message']), FALSE, TRUE);
-//$MAIL_MIME->setTXTBody(wordwrap(stripslashes($_POST['_message'])), FALSE, TRUE);
+$MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
+//$MAIL_MIME->setTXTBody(wordwrap($message_body), FALSE, TRUE);
 
 
 // add stored attachments, if any
@@ -175,8 +182,6 @@ if (is_array($_FILES['_attachments']['tmp_name']))
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], TRUE);
 
-
-$message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $CHARSET;
 
 // encoding settings for mail composing
 $message_param = array('text_encoding' => '7bit',
@@ -230,13 +235,16 @@ else
   // reset stored headers and overwrite
   $MAIL_MIME->_headers = array();
   $header_str = $MAIL_MIME->txtHeaders($headers_php);
-  
+
   if(ini_get('safe_mode'))
     $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
   else
     $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
   }
 
+
+// resore page charset
+$CHARSET = $input_charset;
 
 // return to compose page if sending failed
 if (!$sent)

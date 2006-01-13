@@ -35,7 +35,7 @@ $labels['inbox']  = 'Innboks';
 $labels['sent']   = 'Sendte elementer';
 $labels['trash']  = 'Slettede elementer';
 $labels['drafts'] = 'Kladd';
-$labels['junk']   = 'Søppel';
+$labels['junk']   = 'SÃ¸ppel';
 
 // message listing
 $labels['subject'] = 'Emne';
@@ -45,7 +45,7 @@ $labels['cc']      = 'Kopi';
 $labels['bcc']     = 'Blindkopi';
 $labels['replyto'] = 'Svar-til';
 $labels['date']    = 'Dato';
-$labels['size']    = 'Størrelse';
+$labels['size']    = 'StÃ¸rrelse';
 $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organisasjon';
 
@@ -60,7 +60,7 @@ $labels['moveto']   = 'flytt til...';
 $labels['download'] = 'last ned';
 
 $labels['filename'] = 'Filnavn';
-$labels['filesize'] = 'Filestørrelse';
+$labels['filesize'] = 'FilestÃ¸rrelse';
 
 $labels['preferhtml'] = 'Foretrekk HTML';
 $labels['htmlmessage'] = 'HTML-melding';
@@ -69,32 +69,32 @@ $labels['prettydate'] = 'Pene datoer';
 $labels['addtoaddressbook'] = 'Legg til adressebok';
 
 // weekdays short
-$labels['sun'] = 'Søn';
+$labels['sun'] = 'SÃ¸n';
 $labels['mon'] = 'Man';
 $labels['tue'] = 'Tir';
 $labels['wed'] = 'Ons';
 $labels['thu'] = 'Tor';
 $labels['fri'] = 'Fre';
-$labels['sat'] = 'Lør';
+$labels['sat'] = 'LÃ¸r';
 
 // weekdays long
-$labels['sunday']    = 'Søndag';
+$labels['sunday']    = 'SÃ¸ndag';
 $labels['monday']    = 'Mandag';
 $labels['tuesday']   = 'Tirsdag';
 $labels['wednesday'] = 'Onsdag';
 $labels['thursday']  = 'Torsdag';
 $labels['friday']    = 'Fredag';
-$labels['saturday']  = 'Lørdag';
+$labels['saturday']  = 'LÃ¸rdag';
 
 $labels['today'] = 'I dag';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Skriv en ny melding';
-$labels['replytomessage']   = 'Svar på meldingen';
+$labels['replytomessage']   = 'Svar pÃ¥ meldingen';
 $labels['forwardmessage']   = 'Videresend meldingen';
 $labels['deletemessage']    = 'Flytt melding til Slettede elementer';
 $labels['printmessage']     = 'Skriv ut meldingen';
-$labels['previousmessages'] = 'Vis foregående side med meldinger';
+$labels['previousmessages'] = 'Vis foregÃ¥ende side med meldinger';
 $labels['nextmessages']     = 'Vis neste side med med meldinger';
 $labels['backtolist']       = 'Tilbake til meldingslisten';
 $labels['viewsource']       = 'Vis kilde';
@@ -106,7 +106,7 @@ $labels['unread'] = 'Uleste';
 
 // message compose
 $labels['compose']  = 'Skriv en melding';
-$labels['sendmessage']  = 'Send meldingen nå';
+$labels['sendmessage']  = 'Send meldingen nÃ¥';
 $labels['addattachment']  = 'Legg ved en fil';
 
 $labels['attachments'] = 'Vedlegg';
@@ -116,8 +116,8 @@ $labels['close']  = 'Lukk';
 $labels['low']     = 'Lav';
 $labels['lowest']  = 'Lavest';
 $labels['normal']  = 'Normal';
-$labels['high']    = 'Høy';
-$labels['highest'] = 'Høyest';
+$labels['high']    = 'HÃ¸y';
+$labels['highest'] = 'HÃ¸yest';
 
 $labels['showimages'] = 'Vis bilder';
 
@@ -159,7 +159,7 @@ $labels['newitem']  = 'Nytt element';
 $labels['edititem']  = 'Redigere element';
 
 $labels['setdefault']  = 'Sett som standard';
-$labels['language']  = 'Språk';
+$labels['language']  = 'SprÃ¥k';
 $labels['timezone']  = 'Tidssone';
 $labels['pagesize']  = 'Rader pr side';
 

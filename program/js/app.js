@@ -2708,8 +2708,8 @@ function rcube_webmail()
   console(request_obj.responseText);
 
     // if we get javascript code from server -> execute it
-    if (request_obj.responseText && (ctype=='text/javascript' || ctype=='application/x-javascript'))
-      eval(request_obj.responseText);
+    if (request_obj.get_text() && (ctype=='text/javascript' || ctype=='application/x-javascript'))
+      eval(request_obj.get_text());
 
     // process the response data according to the sent action
     switch (request_obj.__action)
@@ -2966,9 +2966,6 @@ function rcube_http_request()
 
     else if(this.xmlhttp.readyState == 4)
       {
-      this.responseText = this.xmlhttp.responseText;
-      this.responseXML = this.xmlhttp.responseXML;
-      
       if(this.xmlhttp.status == 0)
         this.onabort(this);
       else if(this.xmlhttp.status == 200)
@@ -2986,6 +2983,15 @@ function rcube_http_request()
     return this.xmlhttp.getResponseHeader(name);
     };
 
+  this.get_text = function()
+    {
+    return this.xmlhttp.responseText;
+    };
+
+  this.get_xml = function()
+    {
+    return this.xmlhttp.responseXML;
+    };
 
   this.reset();
   

@@ -27,12 +27,12 @@ $labels['login']     = 'Connexion';
 // taskbar
 $labels['logout']   = 'Quitter';
 $labels['mail']     = 'e-Mail';
-$labels['settings'] = 'Préférences';
+$labels['settings'] = 'PrÃ©fÃ©rences';
 $labels['addressbook'] = 'Carnet d\'adresses';
 
 // mailbox names
-$labels['inbox']  = 'Boîte de réception';
-$labels['sent']   = 'Messages envoyés';
+$labels['inbox']  = 'BoÃ®te de rÃ©ception';
+$labels['sent']   = 'Messages envoyÃ©s';
 $labels['trash']  = 'Corbeille';
 $labels['drafts'] = 'Brouillons';
 $labels['junk']   = 'A trier';
@@ -43,26 +43,26 @@ $labels['from']    = 'De';
 $labels['to']      = 'A';
 $labels['cc']      = 'Cc';
 $labels['bcc']     = 'Cci';
-$labels['replyto'] = 'Répondre à';
+$labels['replyto'] = 'RÃ©pondre Ã ';
 $labels['date']    = 'Date';
 $labels['size']    = 'Taille';
-$labels['priority'] = 'Priorité';
+$labels['priority'] = 'PrioritÃ©';
 $labels['organization'] = 'Organisation';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Dossiers';
-$labels['messagesfromto'] = 'Messages $from à $to sur $count';
+$labels['messagesfromto'] = 'Messages $from Ã  $to sur $count';
 $labels['messagenrof'] = 'Message $nr sur $count';
 
-$labels['moveto']   = 'Déplacer vers...';
-$labels['download'] = 'Télécharger';
+$labels['moveto']   = 'DÃ©placer vers...';
+$labels['download'] = 'TÃ©lÃ©charger';
 
 $labels['filename'] = 'Nom du fichier';
 $labels['filesize'] = 'Taille du fichier';
 
-$labels['preferhtml'] = 'Préférer HTML';
+$labels['preferhtml'] = 'PrÃ©fÃ©rer HTML';
 $labels['htmlmessage'] = 'Message HTML';
 
 $labels['addtoaddressbook'] = 'Ajouter au carnet d\'adresses';
@@ -88,17 +88,17 @@ $labels['saturday']  = 'Samedi';
 $labels['today'] = 'Aujourd\'hui';
 
 // toolbar buttons
-$labels['writenewmessage']  = 'Créer un nouveau message';
-$labels['replytomessage']   = 'Répondre au message';
-$labels['replytoallmessage'] = 'Répondre à tous';
+$labels['writenewmessage']  = 'CrÃ©er un nouveau message';
+$labels['replytomessage']   = 'RÃ©pondre au message';
+$labels['replytoallmessage'] = 'RÃ©pondre Ã  tous';
 $labels['forwardmessage']   = 'Transmettre le message';
-$labels['deletemessage']    = 'Déplacer le message dans la corbeille';
+$labels['deletemessage']    = 'DÃ©placer le message dans la corbeille';
 $labels['printmessage']     = 'Imprimer ce message';
-$labels['previousmessages'] = 'Voir les messages précédents';
+$labels['previousmessages'] = 'Voir les messages prÃ©cÃ©dents';
 $labels['nextmessages']     = 'Voir les messages suivants';
-$labels['backtolist']       = 'Retourner à la liste des messages';
+$labels['backtolist']       = 'Retourner Ã  la liste des messages';
 
-$labels['select'] = 'Sélectionner';
+$labels['select'] = 'SÃ©lectionner';
 $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
 $labels['unread'] = 'Non lus';
@@ -113,17 +113,17 @@ $labels['upload'] = 'Joindre';
 $labels['close']  = 'Fermer';
 
 $labels['low']     = 'Basse';
-$labels['lowest']  = 'Très basse';
+$labels['lowest']  = 'TrÃ¨s basse';
 $labels['normal']  = 'Normale';
-$labels['high']    = 'Elevée';
-$labels['highest'] = 'Très élevée';
+$labels['high']    = 'ElevÃ©e';
+$labels['highest'] = 'TrÃ¨s Ã©levÃ©e';
 
 $labels['showimages'] = 'Montrer les images';
 
 
 // address boook
-$labels['name']      = 'Nom à afficher';
-$labels['firstname'] = 'Prénom';
+$labels['name']      = 'Nom Ã  afficher';
+$labels['firstname'] = 'PrÃ©nom';
 $labels['surname']   = 'Nom';
 $labels['email']     = 'e-Mail';
 
@@ -135,27 +135,27 @@ $labels['cancel'] = 'Annuler';
 $labels['save']   = 'Sauvegarder';
 $labels['delete'] = 'Supprimer';
 
-$labels['newcontact']     = 'Créer un nouveau contact';
-$labels['deletecontact']  = 'Supprimer les contacts sélectionnés';
-$labels['composeto']      = 'Ecrire un message à';
-$labels['contactsfromto'] = 'Contacts $from à $to sur $count';
+$labels['newcontact']     = 'CrÃ©er un nouveau contact';
+$labels['deletecontact']  = 'Supprimer les contacts sÃ©lectionnÃ©s';
+$labels['composeto']      = 'Ecrire un message Ã ';
+$labels['contactsfromto'] = 'Contacts $from Ã  $to sur $count';
 
 
 // settings
-$labels['settingsfor']  = 'Paramètres pour';
+$labels['settingsfor']  = 'ParamÃ¨tres pour';
 
-$labels['preferences']  = 'Préférences';
-$labels['userpreferences']  = 'Préférences utilisateur';
-$labels['editpreferences']  = 'Editer les préférences utilisateur';
+$labels['preferences']  = 'PrÃ©fÃ©rences';
+$labels['userpreferences']  = 'PrÃ©fÃ©rences utilisateur';
+$labels['editpreferences']  = 'Editer les prÃ©fÃ©rences utilisateur';
 
-$labels['identities']  = 'Identités';
-$labels['manageidentities']  = 'Gérer les identités pour ce compte';
-$labels['newidentity']  = 'Nouvelle identité';
+$labels['identities']  = 'IdentitÃ©s';
+$labels['manageidentities']  = 'GÃ©rer les identitÃ©s pour ce compte';
+$labels['newidentity']  = 'Nouvelle identitÃ©';
 
-$labels['newitem']  = 'Nouvel élément';
-$labels['edititem']  = 'Editer l\'élément';
+$labels['newitem']  = 'Nouvel Ã©lÃ©ment';
+$labels['edititem']  = 'Editer l\'Ã©lÃ©ment';
 
-$labels['setdefault']  = 'Paramètres par défaut';
+$labels['setdefault']  = 'ParamÃ¨tres par dÃ©faut';
 $labels['language']  = 'Langue';
 $labels['timezone']  = 'Fuseau horaire';
 $labels['pagesize']  = 'nombre de lignes par page';
@@ -163,11 +163,11 @@ $labels['pagesize']  = 'nombre de lignes par page';
 
 $labels['folders']  = 'Dossiers';
 $labels['foldername']  = 'Nom du dossier';
-$labels['subscribed']  = 'Abonné';
-$labels['create']  = 'Créer';
-$labels['createfolder']  = 'Créer un nouveau dossier';
+$labels['subscribed']  = 'AbonnÃ©';
+$labels['create']  = 'CrÃ©er';
+$labels['createfolder']  = 'CrÃ©er un nouveau dossier';
 $labels['deletefolder']  = 'Supprimer le dossier';
-$labels['managefolders']  = 'Gérer les dossiers';
+$labels['managefolders']  = 'GÃ©rer les dossiers';
 
 
 ?>

@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Melih Taþdizen <melih@marmara.edu.tr>                         |
+ | Author: Melih TaÅŸdizen <melih@marmara.edu.tr>                         |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,47 +19,47 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Kullanýcý Adý';
-$labels['password']  = 'Þifre';
+$labels['username']  = 'KullanÄ±cÄ± AdÄ±';
+$labels['password']  = 'Åžifre';
 $labels['server']    = 'Sunucu';
-$labels['login']     = 'Giriþ';
+$labels['login']     = 'GiriÅŸ';
 
 // taskbar
-$labels['logout']   = 'Çýkýþ';
+$labels['logout']   = 'Ã‡Ä±kÄ±ÅŸ';
 $labels['mail']     = 'E-Posta';
-$labels['settings'] = 'Kiþisel Ayarlar';
+$labels['settings'] = 'KiÅŸisel Ayarlar';
 $labels['addressbook'] = 'Adres Defteri';
 
 // mailbox names
 $labels['inbox']  = 'Gelen Kutusu';
-$labels['sent']   = 'Gönderilenler';
-$labels['trash']  = 'Çöp';
+$labels['sent']   = 'GÃ¶nderilenler';
+$labels['trash']  = 'Ã‡Ã¶p';
 $labels['drafts'] = 'Taslaklar';
 $labels['junk']   = 'Gereksiz(spam)';
 
 // message listing
 $labels['subject'] = 'Konu';
-$labels['from']    = 'Gönderen';
-$labels['to']      = 'Alýcý';
+$labels['from']    = 'GÃ¶nderen';
+$labels['to']      = 'AlÄ±cÄ±';
 $labels['cc']      = 'Kopya';
 $labels['bcc']     = 'Gizli Kopya';
 $labels['replyto'] = 'Cevapla';
 $labels['date']    = 'Tarih';
 $labels['size']    = 'Boyut';
-$labels['priority'] = 'Öncelik';
+$labels['priority'] = 'Ã–ncelik';
 $labels['organization'] = 'Organizasyon';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
 
-$labels['mailboxlist'] = 'Klasörler';
-$labels['messagesfromto'] = '$from\' dan/den $to\' e/a $count tane mesaj var.';
+$labels['mailboxlist'] = 'KlasÃ¶rler';
+$labels['messagesfromto'] = '$from - $to arasÄ±, Toplam $count mesaj';
 $labels['messagenrof'] = '$nr / $count';
 
-$labels['moveto']   = 'Þuraya taþý...';
-$labels['download'] = 'Ýndir';
+$labels['moveto']   = 'Åžuraya taÅŸÄ±...';
+$labels['download'] = 'Ä°ndir';
 
-$labels['filename'] = 'Dosya Adý';
+$labels['filename'] = 'Dosya AdÄ±';
 $labels['filesize'] = 'Dosya Boyutu';
 
 $labels['preferhtml'] = 'HTML Tercih et';
@@ -72,7 +72,7 @@ $labels['addtoaddressbook'] = 'Add to address book';
 $labels['sun'] = 'Paz';
 $labels['mon'] = 'Pts';
 $labels['tue'] = 'Sal';
-$labels['wed'] = 'Çar';
+$labels['wed'] = 'Ã‡ar';
 $labels['thu'] = 'Per';
 $labels['fri'] = 'Cum';
 $labels['sat'] = 'Cts';
@@ -80,97 +80,97 @@ $labels['sat'] = 'Cts';
 // weekdays long
 $labels['sunday']    = 'Pazar';
 $labels['monday']    = 'Pazartesi';
-$labels['tuesday']   = 'Salý';
-$labels['wednesday'] = 'Çarþamba';
-$labels['thursday']  = 'Perþembe';
+$labels['tuesday']   = 'SalÄ±';
+$labels['wednesday'] = 'Ã‡arÅŸamba';
+$labels['thursday']  = 'PerÅŸembe';
 $labels['friday']    = 'Cuma';
 $labels['saturday']  = 'Cumartesi';
 
-$labels['today'] = 'Bugün';
+$labels['today'] = 'BugÃ¼n';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Yeni Mesaj';
 $labels['replytomessage']   = 'Cevapla';
-$labels['forwardmessage']   = 'Ýlet';
-$labels['deletemessage']    = 'Çöp Klasörüne taþý';
-$labels['printmessage']     = 'Mesajý Yazdýr';
-$labels['previousmessages'] = 'Sonraki mesajlarý göster';
-$labels['nextmessages']     = 'Önceki mesajlarý göster';
+$labels['forwardmessage']   = 'Ä°let';
+$labels['deletemessage']    = 'Ã‡Ã¶p KlasÃ¶rÃ¼ne taÅŸÄ±';
+$labels['printmessage']     = 'MesajÄ± YazdÄ±r';
+$labels['previousmessages'] = 'Sonraki mesajlarÄ± gÃ¶ster';
+$labels['nextmessages']     = 'Ã–nceki mesajlarÄ± gÃ¶ster';
 $labels['backtolist']       = 'Mesaj Listesi';
-$labels['viewsource']       = 'Kaynak Kodu Göster';
+$labels['viewsource']       = 'Kaynak Kodu GÃ¶ster';
 
-$labels['select'] = 'Seç';
-$labels['all'] = 'Tümü';
-$labels['none'] = 'Hiçbiri';
-$labels['unread'] = 'Okunmamýþ';
+$labels['select'] = 'SeÃ§';
+$labels['all'] = 'TÃ¼mÃ¼';
+$labels['none'] = 'HiÃ§biri';
+$labels['unread'] = 'OkunmamÄ±ÅŸ';
 
 // message compose
 $labels['compose']  = 'Yeni Mesaj';
-$labels['sendmessage']  = 'Mesajý gönder';
+$labels['sendmessage']  = 'MesajÄ± gÃ¶nder';
 $labels['addattachment']  = 'Dosya ekle';
 
-$labels['attachments'] = 'Eklenmiþ Dosyalar';
-$labels['upload'] = 'Yükle';
+$labels['attachments'] = 'EklenmiÅŸ Dosyalar';
+$labels['upload'] = 'YÃ¼kle';
 $labels['close']  = 'Kapat';
 
-$labels['low']     = 'AzÖnemsiz';
-$labels['lowest']  = 'Önemli';
+$labels['low']     = 'AzÃ–nemsiz';
+$labels['lowest']  = 'Ã–nemli';
 $labels['normal']  = 'Normal';
-$labels['high']    = 'Önemli';
-$labels['highest'] = 'Çok Önemli';
+$labels['high']    = 'Ã–nemli';
+$labels['highest'] = 'Ã‡ok Ã–nemli';
 
-$labels['showimages'] = 'Resimleri Göster';
+$labels['showimages'] = 'Resimleri GÃ¶ster';
 
 
 // address boook
-$labels['name']      = 'Görünen Ýsim';
+$labels['name']      = 'GÃ¶rÃ¼nen Ä°sim';
 $labels['firstname'] = 'Ad';
 $labels['surname']   = 'Soayad';
 $labels['email']     = 'E-Posta';
 
 $labels['addcontact'] = 'Yeni Kontak Ekle';
-$labels['editcontact'] = 'Kontak düzenle';
+$labels['editcontact'] = 'Kontak dÃ¼zenle';
 
-$labels['edit']   = 'Düzen';
-$labels['cancel'] = 'Ýptal';
+$labels['edit']   = 'DÃ¼zen';
+$labels['cancel'] = 'Ä°ptal';
 $labels['save']   = 'Kaydet';
 $labels['delete'] = 'Sil';
 
 $labels['newcontact']     = 'Yeni kontak ekle';
-$labels['deletecontact']  = 'Seçili kontaklarý sil';
-$labels['composeto']      = 'Þu kiþiye mesaj yaz:';
-$labels['contactsfromto'] = '$from \'den/dan $to \'e/a $count tane mesaj var';
-$labels['print']          = 'Yazdýr';
-$labels['export']         = 'Farklý kaydet';
+$labels['deletecontact']  = 'SeÃ§ili kontaklarÄ± sil';
+$labels['composeto']      = 'Åžu kiÅŸiye mesaj yaz:';
+$labels['contactsfromto'] = '$from - $to arasÄ±, Toplam $count kontak';
+$labels['print']          = 'YazdÄ±r';
+$labels['export']         = 'FarklÄ± kaydet';
 
 
 // settings
 $labels['settingsfor']  = 'Ayarlar:';
 
 $labels['preferences']  = 'Ayarlar';
-$labels['userpreferences']  = 'Kullanýcý Ayarlarý';
-$labels['editpreferences']  = 'Kullanýcý Ayarlarýný Düzenle';
+$labels['userpreferences']  = 'KullanÄ±cÄ± AyarlarÄ±';
+$labels['editpreferences']  = 'KullanÄ±cÄ± AyarlarÄ±nÄ± DÃ¼zenle';
 
 $labels['identities']  = 'Kimlikler';
-$labels['manageidentities']  = 'Bu hesap için kimlikleri düzenle';
+$labels['manageidentities']  = 'Bu hesap iÃ§in kimlikleri dÃ¼zenle';
 $labels['newidentity']  = 'Yeni Kimlik';
 
-$labels['newitem']  = 'Yeni Öðe';
-$labels['edititem']  = 'Öðeyi düzenle';
+$labels['newitem']  = 'Yeni Ã–ÄŸe';
+$labels['edititem']  = 'Ã–ÄŸeyi dÃ¼zenle';
 
-$labels['setdefault']  = 'Varsayýlan olarak ata';
+$labels['setdefault']  = 'VarsayÄ±lan olarak ata';
 $labels['language']  = 'Dil';
 $labels['timezone']  = 'Zaman Dilimi';
-$labels['pagesize']  = 'Sayfada Gösterilecek Satýr';
+$labels['pagesize']  = 'Sayfada GÃ¶sterilecek SatÄ±r';
 
 
-$labels['folders']  = 'Klasörler';
-$labels['foldername']  = 'Klasör adý';
-$labels['subscribed']  = 'Kayýtlý';
-$labels['create']  = 'Oluþtur';
-$labels['createfolder']  = 'Yeni klasör oluþtur';
-$labels['deletefolder']  = 'Klasör sl';
-$labels['managefolders']  = 'Klasörleri düzenle';
+$labels['folders']  = 'KlasÃ¶rler';
+$labels['foldername']  = 'KlasÃ¶r adÄ±';
+$labels['subscribed']  = 'KayÄ±tlÄ±';
+$labels['create']  = 'OluÅŸtur';
+$labels['createfolder']  = 'Yeni klasÃ¶r oluÅŸtur';
+$labels['deletefolder']  = 'KlasÃ¶r sl';
+$labels['managefolders']  = 'KlasÃ¶rleri dÃ¼zenle';
 
 
 ?>

@@ -22,7 +22,7 @@ $messages['loginfailed']  = 'Feil ved innlogging';
 
 $messages['cookiesdisabled'] = 'Nettleseren din tillater ikke informasjonskapsler (cookies)';
 
-$messages['sessionerror'] = 'Sesjonen din er ugyldig eller utløpt på tid';
+$messages['sessionerror'] = 'Sesjonen din er ugyldig eller utlÃ¸pt pÃ¥ tid';
 
 $messages['imaperror'] = 'Feil ved tilkobling til IMAP-tjener';
 
@@ -42,7 +42,7 @@ $messages['addedsuccessfully'] = 'Kontakten ble lagt til i adresseboken';
 
 $messages['contactexists'] = 'En kontakt med denne e-postadressen eksisterer allerede';
 
-$messages['blockedimages'] = 'For å beskytte privatlivet ditt er eksterne bilder blokkert i denne meldingen.';
+$messages['blockedimages'] = 'For Ã¥ beskytte privatlivet ditt er eksterne bilder blokkert i denne meldingen.';
 
 $messages['encryptedmessage'] = 'Dette er en kryptert melding og kan ikke vises. Beklager!';
 

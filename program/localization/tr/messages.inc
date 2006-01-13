@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Melih Taşdizen <melih@marmara.edu.tr>                         |
+ | Author: Melih TaÅŸdizen <melih@marmara.edu.tr>                         |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -18,41 +18,41 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Başarısız Giriş';
+$messages['loginfailed']  = 'BaÅŸarÄ±sÄ±z GiriÅŸ';
 
-$messages['cookiesdisabled'] = 'Tarayıcınızın Cerez(cookie) desteği açık değil';
+$messages['cookiesdisabled'] = 'TarayÄ±cÄ±nÄ±zÄ±n Cerez(cookie) desteÄŸi aÃ§Ä±k deÄŸil';
 
-$messages['sessionerror'] = 'Oturumunuz hatalı ve ya uzun süre işlem yapmadığınız için kapandı';
+$messages['sessionerror'] = 'Oturumunuz hatalÄ± ve ya uzun sÃ¼re iÅŸlem yapmadÄ±ÄŸÄ±nÄ±z iÃ§in kapandÄ±';
 
-$messages['imaperror'] = 'IMAP sunucusuna bağlanılamadı';
+$messages['imaperror'] = 'IMAP sunucusuna baÄŸlanÄ±lamadÄ±';
 
 $messages['nomessagesfound'] = 'Gelen kutusnda mesaj yok';
 
-$messages['loggedout'] = 'Oturumunuz başarıyla kapatıldı. Güle Güle!';
+$messages['loggedout'] = 'Oturumunuz baÅŸarÄ±yla kapatÄ±ldÄ±. GÃ¼le GÃ¼le!';
 
-$messages['mailboxempty'] = 'Gelen kutusu boş';
+$messages['mailboxempty'] = 'Gelen kutusu boÅŸ';
 
-$messages['loadingdata'] = 'Veri yükleniyor...';
+$messages['loadingdata'] = 'Veri yÃ¼kleniyor...';
 
-$messages['messagesent'] = 'Mesaj gönderildi';
+$messages['messagesent'] = 'Mesaj gÃ¶nderildi';
 
 $messages['successfullysaved'] = 'Kaydedildi';
 
 $messages['addedsuccessfully'] = 'Kontak eklendi';
 
-$messages['contactexists'] = 'Bu e-posta adresine sahip bir kontak zaten kayıtlı';
+$messages['contactexists'] = 'Bu e-posta adresine sahip bir kontak zaten kayÄ±tlÄ±';
 
-$messages['blockedimages'] = 'Güvenliğiniz için harici resimler engellendi.';
+$messages['blockedimages'] = 'GÃ¼venliÄŸiniz iÃ§in harici resimler engellendi.';
 
-$messages['encryptedmessage'] = 'Şifrelenmşi bir mesaj, okuyamazsınız!';
+$messages['encryptedmessage'] = 'ÅifrelenmÅŸi bir mesaj, okuyamazsÄ±nÄ±z!';
 
-$messages['nocontactsfound'] = 'Kontak bulunamadı';
+$messages['nocontactsfound'] = 'Kontak bulunamadÄ±';
 
-$messages['sendingfailed'] = 'Mesaj gönderilemedi';
+$messages['sendingfailed'] = 'Mesaj gÃ¶nderilemedi';
 
-$messages['errorsaving'] = 'Kaydederken hata oluştu';
+$messages['errorsaving'] = 'Kaydederken hata oluÅŸtu';
 
-$messages['errormoving'] = 'Mesaj taşınamadı';
+$messages['errormoving'] = 'Mesaj taÅŸÄ±namadÄ±';
 
 $messages['errordeleting'] = 'Mesaj silinemedi';
 

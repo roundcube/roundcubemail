@@ -16,8 +16,6 @@
 
 */
 
-$utf8_decoding = TRUE;
-
 $messages = array();
 
 $messages['loginfailed']  = 'Błąd logowania.';

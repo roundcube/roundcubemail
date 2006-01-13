@@ -148,7 +148,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   if (!isset($arrFolders[$currentFolder]))
     {
     $arrFolders[$currentFolder] = array('id' => $path,
-                                        'name' => $currentFolder,
+                                        'name' => UTF7DecodeString($currentFolder),
                                         'folders' => array());
     }
 
@@ -160,7 +160,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 // return html for a structured list <ul> for the mailbox tree
 function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlength, $nestLevel=0)
   {
-  global $JS_OBJECT_NAME, $IMAP, $CONFIG;
+  global $JS_OBJECT_NAME, $IMAP, $CONFIG, $OUTPUT;
 
   $idx = 0;
   $out = '';
@@ -174,7 +174,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
       $foldername = rcube_label($folder_lc);
     else
       {
-      $foldername = UTF7DecodeString($folder['name']);
+      $foldername = $OUTPUT->encode_string($folder['name']);
 
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)
@@ -231,7 +231,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
 // return html for a flat list <select> for the mailbox tree
 function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $maxlength, $nestLevel=0)
   {
-  global $IMAP;
+  global $IMAP, $OUTPUT;
 
   $idx = 0;
   $out = '';
@@ -242,7 +242,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $maxl
       $foldername = rcube_label($folder_lc);
     else
       {
-      $foldername = UTF7DecodeString($folder['name']);
+      $foldername = $OUTPUT->encode_string($folder['name']);
       
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)

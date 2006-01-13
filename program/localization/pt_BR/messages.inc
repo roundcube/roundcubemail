@@ -22,31 +22,31 @@ $messages = array();
 
 $messages['loginfailed']  = 'Falha no login';
 
-$messages['cookiesdisabled'] = 'Seu navegador n„o suporta cookies';
+$messages['cookiesdisabled'] = 'Seu navegador n√£o suporta cookies';
 
-$messages['sessionerror'] = 'A sess„o do seu navegador È inv·lida ou expirou';
+$messages['sessionerror'] = 'A sess√£o do seu navegador √© inv√°lida ou expirou';
 
-$messages['imaperror'] = 'A conex„o com o servidor IMAP falhou';
+$messages['imaperror'] = 'A conex√£o com o servidor IMAP falhou';
 
 $messages['nomessagesfound'] = 'Nenhuma mensagem foi encontrada na caixa postal';
 
-$messages['loggedout'] = 'Sua sess„o foi finalizada com sucesso. AtÈ breve!';
+$messages['loggedout'] = 'Sua sess√£o foi finalizada com sucesso. At√© breve!';
 
-$messages['mailboxempty'] = 'A caixa postal est· vazia';
+$messages['mailboxempty'] = 'A caixa postal est√° vazia';
 
-$messages['loadingdata'] = 'Carregando informaÁıes...';
+$messages['loadingdata'] = 'Carregando informa√ß√µes...';
 
 $messages['messagesent'] = 'Mensagem enviada';
 
 $messages['successfullysaved'] = 'Salvo com sucesso';
 
-$messages['addedsuccessfully'] = 'Contato incluÌdo com sucesso';
+$messages['addedsuccessfully'] = 'Contato inclu√≠do com sucesso';
 
-$messages['contactexists'] = 'Um contato com esse e-mail j· existe';
+$messages['contactexists'] = 'Um contato com esse e-mail j√° existe';
 
 $messages['blockedimages'] = 'Para proteger sua privacidade, as imagens desta mensagem foram bloqueadas.';
 
-$messages['encryptedmessage'] = 'Esta mensagem est· criptografada e n„o pode ser exibida. Desculpe.';
+$messages['encryptedmessage'] = 'Esta mensagem est√° criptografada e n√£o pode ser exibida. Desculpe.';
 
 $messages['nocontactsfound'] = 'Nenhum contato foi encontrado.';
 
