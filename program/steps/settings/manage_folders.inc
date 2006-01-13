@@ -19,8 +19,6 @@
 
 */
 
-require_once('lib/utf7.inc');
-
 // init IAMP connection
 rcmail_imap_init(TRUE);
 
@@ -53,7 +51,7 @@ else if ($_action=='create-folder')
 
   if ($create && $_GET['_remote'])
     {
-    $commands = sprintf("this.add_folder_row('%s')", $OUTPUT->encode_string(rep_specialchars_output($create, 'js')));
+    $commands = sprintf("this.add_folder_row('%s')", rep_specialchars_output($create, 'js'));
     rcube_remote_response($commands);
     }
   else if (!$create && $_GET['_remote'])
@@ -129,7 +127,7 @@ function rcube_subscription_form($attrib)
     $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td><td>%s</td><td><a href="#delete" onclick="%s.command(\'delete-folder\',\'%s\')" title="%s">%s</a></td>',
                     $i+1,
                     $zebra_class,
-                    $OUTPUT->encode_string(rep_specialchars_output(UTF7DecodeString($folder), 'html', 'all')),
+                    rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7', 'UTF-8'), 'html', 'all'),
                     $checkbox_subscribe->show(in_array($folder, $a_subscribed)?$folder:'', array('value' => $folder)),
                     $JS_OBJECT_NAME,
                     $folder_js,

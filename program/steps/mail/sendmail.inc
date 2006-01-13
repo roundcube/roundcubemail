@@ -80,9 +80,6 @@ if (empty($CHARSET))
 $input_charset = $CHARSET;
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
 
-// unset global var
-$CHARSET = '';
-
 $mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
 $mailto_replace = array(', ', ', ', '');
 
@@ -242,9 +239,6 @@ else
     $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
   }
 
-
-// resore page charset
-$CHARSET = $input_charset;
 
 // return to compose page if sending failed
 if (!$sent)

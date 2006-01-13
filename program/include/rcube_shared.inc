@@ -88,13 +88,9 @@ class rcube_html_page
     $this->charset = $charset;
     }
     
-    
-  function encode_string($str)
+  function get_charset()
     {
-    if ($this->charset=='UTF-8' && function_exists('utf8_encode'))
-      return utf8_encode($str);
-    else
-      return $str;
+    return $this->charset;
     }
 
 
@@ -187,7 +183,7 @@ class rcube_html_page
     // correct absolute pathes in images and other tags
     $output = preg_replace('/(src|href|background)=(["\']?)(\/[a-z0-9_\-]+)/Ui', "\\1=\\2$base_path\\3", $output);
   
-    print $output;
+    print rcube_charset_convert($output, 'UTF-8', $this->charset);
     }
     
     

@@ -289,7 +289,7 @@ function rcube_language_prop($lang, $prop='lang')
 // init output object for GUI and add common scripts
 function load_gui()
   {
-  global $CONFIG, $OUTPUT, $COMM_PATH, $JS_OBJECT_NAME, $CHARSET, $sess_user_lang;
+  global $CONFIG, $OUTPUT, $COMM_PATH, $JS_OBJECT_NAME, $sess_user_lang;
 
   // init output page
   $OUTPUT = new rcube_html_page();
@@ -307,14 +307,9 @@ function load_gui()
 
   // set user-selected charset
   if (!empty($CONFIG['charset']))
-    {
     $OUTPUT->set_charset($CONFIG['charset']);
-    $CHARSET = $CONFIG['charset'];
-    }
   else
-    {
     rcmail_set_locale($sess_user_lang);
-    }
 
   // add some basic label to client
   rcube_add_label('loading');
@@ -324,10 +319,8 @@ function load_gui()
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT, $CHARSET;
-
-  $CHARSET = rcube_language_prop($lang, 'charset');
-  $OUTPUT->set_charset($CHARSET);
+  global $OUTPUT;
+  $OUTPUT->set_charset(rcube_language_prop($lang, 'charset'));
   }
 
 
@@ -704,39 +697,46 @@ function rcmail_clear_session_temp($sess_id)
 
 
 
-// decode characters from any charset to UTF-8
-function decode_specialchars($input, $charset='')
+// convert a string from one charset to another
+// this function is not complete and not tested well
+function rcube_charset_convert($str, $from, $to=NULL)
   {
-  global $CHARSET;
-  $charset = strtolower($charset);
+  $from = strtolower($from);
+  $to = $to==NULL ? strtolower($GLOBALS['CHARSET']) : strtolower($to);
   
-  if ($charset=='utf-7')
-    $output = UTF7DecodeString($input);
-  else if ($charset=='utf-8' && $CHARSET!='UTF-8' && function_exists('utf8_decode'))
-    $output = utf8_decode($input);
-  else if ($charset=="koi8-r")
-    $output = convert_cyr_string($input, 'k', 'w');
-  else if ($charset=="iso8859-5")
-    $output = convert_cyr_string($input, 'i', 'w');
-  else if ($charset=="x-cp866")
-    $output = convert_cyr_string($input, 'a', 'w');
-  else if ($charset=="x-mac-cyrillic")
-    $output = convert_cyr_string($input, 'm', 'w');
-  else
-    $output = $input;
-    
-  // encode string for output
-  if ($CHARSET=='UTF-8' && $charset!='utf-8' && function_exists('utf8_encode'))
-    $output = utf8_encode($output);
+  if ($from==$to)
+    return $str;
+  
+  // decode characters
+  if ($from=='utf-7')
+    $str = UTF7DecodeString($str);
+  else if ($from=='utf-8' && function_exists('utf8_decode'))
+    $str = utf8_decode($str);
+  else if ($from=="koi8-r")
+    $str = convert_cyr_string($str, 'k', 'i');
+  else if ($from=="windows-1251" || $from=="win-1251")
+    $str = convert_cyr_string($str, 'w', 'i');
+  else if ($from=="x-cp866")
+    $str = convert_cyr_string($str, 'a', 'i');
+  else if ($from=="x-mac-cyrillic")
+    $str = convert_cyr_string($str, 'm', 'i');
 
-  return $output;
+  // encode string for output
+  if ($to=='utf-8' && function_exists('utf8_encode'))
+    return utf8_encode($str);
+  else if ($to=='utf-7')
+    return UTF7EncodeString($str);
+
+  // return raw string
+  return $str;
   }
+
 
 
 // replace specials characters to a specific encoding type
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
-  global $OUTPUT_TYPE, $CHARSET;
+  global $OUTPUT_TYPE, $OUTPUT;
   static $html_encode_arr, $js_rep_table, $rtf_rep_table, $xml_rep_table;
 
   if (!$enctype)
@@ -794,7 +794,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       $rtf_rep_table[Chr($c)] = "\\'$hex";
       $xml_rep_table[Chr($c)] = "&#$c;";
       
-      if ($CHARSET=='ISO-8859-1')
+      if ($OUTPUT->get_charset()=='ISO-8859-1')
         $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
       }
 
@@ -818,26 +818,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   return $str;
   }
 
-
-// convert a string from one charset to another
-// this function is not complete and not tested well
-function rcube_charset_convert($str, $from, $to)
-  {
-  $charset = strtolower($to);
-  
-  if (strtolower($from)==$charset)
-    return $str;
-  
-  $str = decode_specialchars($str, $from);
-  
-  if ($charset=='utf-8' && function_exists('utf8_encode'))
-    return utf8_encode($str);
-  else if ($charset=='utf-7')
-    return UTF7EncodeString($str);
-
-  return $str;
-  }
-  
 
 
 // ************** template parsing and gui functions **************
@@ -1022,7 +1002,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         else if (isset($GLOBALS['PAGE_TITLE']))
           $title .= $GLOBALS['PAGE_TITLE'];
         else if ($task=='mail' && ($mbox_name = $IMAP->get_mailbox_name()))
-          $title .= $OUTPUT->encode_string(UTF7DecodeString($mbox_name));
+          $title .= rcube_charset_convert($mbox_name, 'UTF-7', 'UTF-8');
         else
           $title .= $task;
           

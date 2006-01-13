@@ -232,8 +232,10 @@ function rcube_webmail()
       this.display_message(this.pending_message[0], this.pending_message[1]);
       
     // start interval for keep-alive/recent_check signal
-    if (this.kepp_alive_interval)
-      this.kepp_alive_int = setInterval(this.ref+'.'+(this.task=='mail'?'check_for_recent()':'send_keep_alive()'), this.kepp_alive_interval);
+    if (this.kepp_alive_interval && this.task=='mail' && this.gui_objects.messagelist)
+      this.kepp_alive_int = setInterval(this.ref+'.check_for_recent()', this.kepp_alive_interval);
+    else
+      this.kepp_alive_int = setInterval(this.ref+'.send_keep_alive()', this.kepp_alive_interval);
     };
 
 

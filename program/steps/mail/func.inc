@@ -21,8 +21,6 @@
 
 require_once('lib/html2text.inc');
 require_once('lib/enriched.inc');
-require_once('lib/utf8.inc');
-require_once('lib/utf7.inc');
 
 
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
@@ -148,7 +146,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   if (!isset($arrFolders[$currentFolder]))
     {
     $arrFolders[$currentFolder] = array('id' => $path,
-                                        'name' => UTF7DecodeString($currentFolder),
+                                        'name' => rcube_charset_convert($currentFolder, 'UTF-7'),
                                         'folders' => array());
     }
 
@@ -174,7 +172,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
       $foldername = rcube_label($folder_lc);
     else
       {
-      $foldername = $OUTPUT->encode_string($folder['name']);
+      $foldername = $folder['name'];
 
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)
@@ -242,7 +240,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox, $maxl
       $foldername = rcube_label($folder_lc);
     else
       {
-      $foldername = $OUTPUT->encode_string($folder['name']);
+      $foldername = $folder['name'];
       
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)

@@ -70,7 +70,7 @@ class rcube_imap
    */
   function __construct($db_conn)
     {
-    $this->db = $db_conn;    
+    $this->db = $db_conn;
     }
 
 
@@ -376,14 +376,28 @@ class rcube_imap
     }
 
 
-  // get message count for a specific mailbox; acceptes modes are: ALL, UNSEEN, RECENT
+  /**
+   * Get message count for a specific mailbox
+   *
+   * @param   string   Mailbox/folder name
+   * @param   string   Mode for count [ALL|UNSEEN|RECENT]
+   * @param   boolean  Force reading from server and update cache
+   * @return  number   Number of messages
+   * @access  public   
+   */
   function messagecount($mbox='', $mode='ALL', $force=FALSE)
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
     return $this->_messagecount($mailbox, $mode, $force);
     }
 
-  // private method for getting nr of mesages
+
+  /**
+   * Private method for getting nr of messages
+   *
+   * @access  private
+   * @see     rcube_imap::messagecount
+   */
   function _messagecount($mailbox='', $mode='ALL', $force=FALSE)
     {
     $a_mailbox_cache = FALSE;
@@ -442,8 +456,17 @@ class rcube_imap
     }
 
 
-  // public method for listing headers
-  // convert mailbox name with root dir first
+  /**
+   * Public method for listing headers
+   * convert mailbox name with root dir first
+   *
+   * @param   string   Mailbox/folder name
+   * @param   number   Current page to list
+   * @param   string   Header field to sort by
+   * @param   string   Sort order [ASC|DESC]
+   * @return  array    Indexed array with message header objects
+   * @access  public   
+   */
   function list_headers($mbox='', $page=NULL, $sort_field=NULL, $sort_order=NULL)
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
@@ -451,7 +474,12 @@ class rcube_imap
     }
 
 
-  // private method for listing message header
+  /**
+   * Private method for listing message header
+   *
+   * @access  private
+   * @see     rcube_imap::list_headers
+   */
   function _list_headers($mailbox='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $recursive=FALSE)
     {
     if (!strlen($mailbox))
@@ -1548,10 +1576,10 @@ class rcube_imap
         $rest = quoted_printable_decode($rest);
         }
 
-      return decode_specialchars($rest, $a[0]);
+      return rcube_charset_convert($rest, $a[0]);
       }
     else
-      return $str;    //we dont' know what to do with this  
+      return $str;    // we dont' know what to do with this  
     }
 
 
@@ -1599,7 +1627,7 @@ class rcube_imap
   function charset_decode($body, $ctype_param)
     {
     if (is_array($ctype_param) && !empty($ctype_param['charset']))
-      return decode_specialchars($body, $ctype_param['charset']);
+      return rcube_charset_convert($body, $ctype_param['charset']);
 
     return $body;
     }
