@@ -629,7 +629,7 @@ function rcube_remote_response($js_code, $flush=FALSE)
     }
 
   // send response code
-  print $js_code;
+  print rcube_charset_convert($js_code, 'UTF-8', $GLOBALS['CHARSET']);
 
   if ($flush)  // flush the output buffer
     flush();
