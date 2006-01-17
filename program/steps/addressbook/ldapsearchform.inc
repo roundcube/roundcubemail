@@ -105,8 +105,8 @@ function rcmail_ldap_public_search_form($attrib)
       {
       // store the search fields in a js array for each server
       $js = '';
-      foreach ($server['search_fields'] as $k => $search_field)
-        $js .= "'$search_field', ";
+      foreach ($server['search_fields'] as $search_name => $search_value)
+        $js .= "['$search_name', '$search_value'], ";
 
       // store whether this server accepts fuzzy search as last item in array
       $js .= $server['fuzzy_search'] ? "'fuzzy'" : "'exact'";

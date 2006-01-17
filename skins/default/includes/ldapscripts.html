@@ -34,8 +34,8 @@ function updateLdapSearchFields(element) {
     // the last array value is for fuzzy search, so skip that one
     if (i < (server_fields.length - 1)) {
       var new_option = document.createElement('option');
-      new_option.text  = server_fields[i];
-      new_option.value = server_fields[i];
+      new_option.text  = server_fields[i][0];
+      new_option.value = server_fields[i][1];
 
       // standards compliant browsers
       try {
