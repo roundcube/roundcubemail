@@ -26,7 +26,7 @@ require_once 'include/rcube_ldap.inc';
 function rcmail_ldap_public_search_form($attrib)
   {
   global $CONFIG, $JS_OBJECT_NAME, $OUTPUT; 
-  if (!$CONFIG['ldap_public'])
+  if (!isset($CONFIG['ldap_public']))
     {
     // no ldap servers to search
     show_message('noldapserver', 'warning');
