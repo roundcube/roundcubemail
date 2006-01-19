@@ -91,13 +91,13 @@ function smtp_mail($from, $recipients, $headers, &$body)
     // attempt to authenticate to the SMTP server
     if ($CONFIG['smtp_user'] && $CONFIG['smtp_pass'])
       {
-      if ($CONFIG['smtp_user'] == '%u')
-		$smtp_user = $_SESSION['username'];
+      if (strstr($CONFIG['smtp_user'], '%u'))
+		$smtp_user = str_replace('%u', $_SESSION['username'], $CONFIG['smtp_user']);
       else
 		$smtp_user = $CONFIG['smtp_user'];
-	
-	  if ($CONFIG['smtp_pass'] == '%p')
-		$smtp_pass = decrypt_passwd($_SESSION['password']);
+
+	  if (strstr($CONFIG['smtp_pass'], '%p'))
+		$smtp_pass = str_replace('%p', decrypt_passwd($_SESSION['password']), $CONFIG['smtp_pass']);
       else
 		$smtp_pass = $CONFIG['smtp_pass'];
 
