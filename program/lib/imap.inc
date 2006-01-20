@@ -23,8 +23,23 @@
 		Function containing "_C_" in name require connection handler to be
 		passed as one of the parameters.  To obtain connection handler, use
 		iil_Connect()
+	VERSION:
+		IlohaMail-0.9-20050415
+	CHANGES:
+		File altered by Thomas Bruederli <roundcube@gmail.com>
+		to fit enhanced equirements by the RoundCube Webmail:
+		- Added list of server capabilites and check these before invoking commands
+		- Added junk flag to iilBasicHeader
+		- Enhanced error reporting on fsockopen()
+		- Additional parameter for SORT command
+		- Removed Call-time pass-by-reference because deprecated
+		- Parse charset from content-type in iil_C_FetchHeaders()
+		- Enhanced heaer sorting
+		- Pass message as reference in iil_C_Append (to save memory)
+		- Removed some debuggers (echo ...)
 
 ********************************************************/
+
 
 // changed path to work within roundcube webmail
 include_once("lib/icl_commons.inc");
@@ -619,7 +634,6 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add=''){
 	
 	$fp = $conn->fp;
 	$command = 's SORT ('.$field.') US-ASCII ALL '."$add\r\n";
-	//$command = 's SORT ('.$field.') US-ASCII ALL UNDELETED'."\r\n";
 	$line = $data = '';
 	
 	if (!fputs($fp, $command)) return false;
@@ -1194,8 +1208,6 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 	/* FETCH date,from,subject headers */
 	$key="fh".($c++);
 	$request=$key." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID)])\r\n";
-
-    // echo "// $request\n\n";
 
 	if (!fputs($fp, $request)) return false;
 	do{
@@ -1904,16 +1916,12 @@ function iil_C_Append(&$conn, $folder, &$message){
 	if (!$len) return false;
 	
 	$request="A APPEND \"".$folder."\" (\\Seen) {".$len."}\r\n";
-	// echo $request.'<br>';
 	if (fputs($fp, $request)){
-		$line=iil_ReadLine($fp, 100);
-		// echo $line.'<br>';
-		
+		$line=iil_ReadLine($fp, 100);		
 		$sent = fwrite($fp, $message."\r\n");
 		flush();
 		do{
 			$line=iil_ReadLine($fp, 1000);
-			//echo $line.'<br>';
 		}while($line[0]!="A");
 	
 		$result = (iil_ParseResult($line)==0);
@@ -1961,7 +1969,6 @@ function iil_C_AppendFromFile(&$conn, $folder, $path){
 		//read response
 		do{
 			$line=iil_ReadLine($fp, 1000);
-			//echo $line.'<br>';
 		}while($line[0]!="A");
 			
 		$result = (iil_ParseResult($line)==0);
