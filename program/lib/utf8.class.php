@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 utf8 1.0
 Copyright: Left
