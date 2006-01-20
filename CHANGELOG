@@ -1,7 +1,7 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2006/01/13
+2006/01/19
 ----------
 - Added Slovak translation
 - Fixed bug when inserting signatures with !?&
@@ -18,6 +18,8 @@ CHANGELOG RoundCube Webmail
 - Changed to full UTF-8 support
 - Additional timezones (Patch #1389912)
 - Added LDAP public search (experimental)
+- Applied patch for correct ctrl/shift behavior for message selection (Bug #1326364)
+- Casting to strings when adding empty headers to message cache (Bug #1406026)
 
 
 2005/12/16
