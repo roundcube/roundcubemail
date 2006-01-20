@@ -28,7 +28,7 @@ $messages['imaperror'] = 'Connection to IMAP server failed';
 
 $messages['nomessagesfound'] = 'No messages found in this mailbox';
 
-$messages['loggedout'] = 'You have successfully terminated the session. Goody bye!';
+$messages['loggedout'] = 'You have successfully terminated the session. Good bye!';
 
 $messages['mailboxempty'] = 'Mailbox is empty';
 
