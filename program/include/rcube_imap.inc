@@ -1447,10 +1447,10 @@ class rcube_imap
       $key,
       $index,
       $headers->uid,
-      substr($this->decode_header($headers->subject, TRUE), 0, 128),
-      substr($this->decode_header($headers->from, TRUE), 0, 128),
-      substr($this->decode_header($headers->to, TRUE), 0, 128),
-      substr($this->decode_header($headers->cc, TRUE), 0, 128),
+      substr($this->decode_header((string)$headers->subject, TRUE), 0, 128),
+      substr($this->decode_header((string)$headers->from, TRUE), 0, 128),
+      substr($this->decode_header((string)$headers->to, TRUE), 0, 128),
+      substr($this->decode_header((string)$headers->cc, TRUE), 0, 128),
       (int)$headers->size,
       serialize($headers));
     }
