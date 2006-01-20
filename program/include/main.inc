@@ -21,6 +21,7 @@
 
 require_once('lib/des.inc');
 require_once('lib/utf7.inc');
+require_once('lib/utf8.class.php');
 
 
 // register session and connect to server
@@ -701,33 +702,40 @@ function rcmail_clear_session_temp($sess_id)
 // this function is not complete and not tested well
 function rcube_charset_convert($str, $from, $to=NULL)
   {
-  $from = strtolower($from);
-  $to = $to==NULL ? strtolower($GLOBALS['CHARSET']) : strtolower($to);
+  $from = strtoupper($from);
+  $to = $to==NULL ? strtoupper($GLOBALS['CHARSET']) : strtoupper($to);
   
   if ($from==$to)
     return $str;
-  
-  // decode characters
-  if ($from=='utf-7')
-    $str = UTF7DecodeString($str);
-  else if ($from=='utf-8' && function_exists('utf8_decode'))
-    $str = utf8_decode($str);
-  else if ($from=="koi8-r")
-    $str = convert_cyr_string($str, 'k', 'i');
-  else if ($from=="windows-1251" || $from=="win-1251")
-    $str = convert_cyr_string($str, 'w', 'i');
-  else if ($from=="x-cp866")
-    $str = convert_cyr_string($str, 'a', 'i');
-  else if ($from=="x-mac-cyrillic")
-    $str = convert_cyr_string($str, 'm', 'i');
+    
+  // convert charset using iconv module  
+  if (function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7') {
+    return iconv($from, $to, $str);
+    }
+    
+  // convert string to UTF-8
+  if ($from=='UTF-7')
+    $str = rcube_charset_convert(UTF7DecodeString($str), 'ISO-8859-1');
+  else if ($from=='ISO-8859-1' && function_exists('utf8_encode'))
+    $str = utf8_encode($str);
+  else if ($from!='UTF-8')
+    {
+    $conv = new utf8($from);
+    $str = $conv->strToUtf8($str);
+    }
 
   // encode string for output
-  if ($to=='utf-8' && function_exists('utf8_encode'))
-    return utf8_encode($str);
-  else if ($to=='utf-7')
+  if ($to=='UTF-7')
     return UTF7EncodeString($str);
+  else if ($to=='ISO-8859-1' && function_exists('utf8_decode'))
+    return utf8_decode($str);
+  else if ($to!='UTF-8')
+    {
+    $conv = new utf8($to);    
+    return $conv->utf8ToStr($str);
+    }
 
-  // return raw string
+  // return UTF-8 string
   return $str;
   }
 
