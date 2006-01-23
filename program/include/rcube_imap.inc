@@ -657,7 +657,7 @@ class rcube_imap
     // cache is OK
     if ($cache_status>0)
       {
-      $a_index = $this->get_message_cache_index($cache_key, FALSE, $this->sort_field);
+      $a_index = $this->get_message_cache_index($cache_key, TRUE, $this->sort_field, $this->sort_order);
       return array_values($a_index);
       }
 
@@ -1410,7 +1410,7 @@ class rcube_imap
     }
 
    
-  function get_message_cache_index($key, $force=FALSE, $sort_col='idx')
+  function get_message_cache_index($key, $force=FALSE, $sort_col='idx', $sort_order='ASC')
     {
     static $sa_message_index = array();
     
@@ -1423,7 +1423,7 @@ class rcube_imap
        FROM ".get_table_name('messages')."
        WHERE  user_id=?
        AND    cache_key=?
-       ORDER BY ".$sort_col." ASC",
+       ORDER BY ".$this->db->quote_identifier($sort_col)." ".$sort_order,
       $_SESSION['user_id'],
       $key);
 
@@ -1441,8 +1441,8 @@ class rcube_imap
 
     $this->db->query(
       "INSERT INTO ".get_table_name('messages')."
-       (user_id, del, cache_key, idx, uid, subject, ".$this->db->quoteIdentifier('from').", ".$this->db->quoteIdentifier('to').", cc, date, size, headers)
-       VALUES (?, 0, ?, ?, ?, ?, ?, ?, ?, ".$this->db->fromunixtime($headers->timestamp).", ?, ?)",
+       (user_id, del, cache_key, created, idx, uid, subject, ".$this->db->quoteIdentifier('from').", ".$this->db->quoteIdentifier('to').", cc, date, size, headers)
+       VALUES (?, 0, ?, now(), ?, ?, ?, ?, ?, ?, ".$this->db->fromunixtime($headers->timestamp).", ?, ?)",
       $_SESSION['user_id'],
       $key,
       $index,
