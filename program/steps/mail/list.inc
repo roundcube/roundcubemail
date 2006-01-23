@@ -24,9 +24,10 @@ $OUTPUT_TYPE = 'js';
 
 $unseen = $IMAP->messagecount($mbox, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
 $count = $IMAP->messagecount();
+$sort = isset($_GET['_sort']) ? $_GET['_sort'] : false;
 
 // is there a sort type for this request?
-if ($sort = isset($_GET['_sort']) ? $_GET['_sort'] : false)
+if ($sort)
   {
   // yes, so set the sort vars
   list($sort_col, $sort_order) = explode('_', $sort);
