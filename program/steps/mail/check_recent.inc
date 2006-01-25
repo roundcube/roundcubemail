@@ -22,10 +22,10 @@
 $REMOTE_REQUEST = TRUE;
 $mbox = $IMAP->get_mailbox_name();
 
-if ($recent_count = $IMAP->messagecount(NULL, 'RECENT'))
+if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
   {
   $count = $IMAP->messagecount();
-  $unread_count = $IMAP->messagecount(NULL, 'UNSEEN');
+  $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
     
   $commands = sprintf("this.set_unread_count('%s', %d, true);\n", addslashes($mbox), $unread_count);
   $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);

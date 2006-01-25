@@ -66,6 +66,9 @@ function rcmail_mailbox_list($attrib)
   global $IMAP, $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $COMM_PATH;
   static $s_added_script = FALSE;
   static $a_mailboxes;
+
+  // add some labels to client
+  rcube_add_label('purgefolderconfirm');
   
 // $mboxlist_start = rcube_timer();
   

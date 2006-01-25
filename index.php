@@ -244,7 +244,7 @@ if ($_task=='mail')
   if ($_action=='addcontact')
     include('program/steps/mail/addcontact.inc');
 
-  if ($_action=='expunge')
+  if ($_action=='expunge' || $_action=='purge')
     include('program/steps/mail/folders.inc');
 
   if ($_action=='check-recent')

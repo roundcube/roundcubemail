@@ -986,8 +986,18 @@ class rcube_imap
     
     if ($msg_count>0)
       {
-      $this->clear_message_cache($mailbox.'.msg');
-      return iil_C_ClearFolder($this->conn, $mailbox);
+      $cleared = iil_C_ClearFolder($this->conn, $mailbox);
+      
+      // make sure the message count cache is cleared as well
+      if ($cleared)
+        {
+        $this->clear_message_cache($mailbox.'.msg');      
+        $a_mailbox_cache = $this->get_cache('messagecount');
+        unset($a_mailbox_cache[$mailbox]);
+        $this->update_cache('messagecount', $a_mailbox_cache);
+        }
+        
+      return $cleared;
       }
     else
       return 0;

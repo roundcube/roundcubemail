@@ -478,7 +478,6 @@ class MDB2_Driver_Manager_fbsql extends MDB2_Driver_Manager_Common
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      */
-     */
     function listTableIndexes($table)
     {
         $db =& $this->getDBInstance();

@@ -16,7 +16,6 @@
  +-----------------------------------------------------------------------+
 
  $Id$
-
 */
 
 $REMOTE_REQUEST = TRUE;
@@ -26,7 +25,7 @@ $mbox = $IMAP->get_mailbox_name();
 // send EXPUNGE command
 if ($_action=='expunge')
   {
-  $success = $IMAP->expunge();
+  $success = $IMAP->expunge($_GET['_mbox']);
 
   // reload message list if current mailbox  
   if ($success && $_GET['_reload'])
@@ -42,11 +41,12 @@ if ($_action=='expunge')
 // clear mailbox
 else if ($_action=='purge')
   {
-  $success = $IMAP->clear_mailbox();
+  $success = $IMAP->clear_mailbox($_GET['_mbox']);
   
   if ($success && $_GET['_reload'])
     {
-    $commands = "this.set_env('messagecount', 0);\n";
+    $commands = "this.clear_message_list();\n";
+    $commands .= "this.set_env('messagecount', 0);\n";
     $commands .= "this.set_env('pagecount', 0);\n";
     $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
     $commands .= sprintf("this.set_unread_count('%s', 0);\n", addslashes($mbox));

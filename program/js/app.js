@@ -145,6 +145,9 @@ function rcube_webmail()
         if (this.env.messagecount)
           this.enable_command('select-all', 'select-none', 'sort', 'expunge', true);
 
+        if (this.env.messagecount && this.env.mailbox==this.env.trash_mailbox)
+          this.enable_command('purge', true);
+
         this.set_page_buttons();
 
         // focus this window
@@ -622,9 +625,10 @@ function rcube_webmail()
           this.expunge_mailbox(this.env.mailbox);
         break;
 
-      case 'clear-mailbox':
-        //if (this.env.messagecount)
-          //this.clear_mailbox(this.env.mailbox);
+      case 'purge':
+      case 'empty-mailbox':
+        if (this.env.messagecount)
+          this.purge_mailbox(this.env.mailbox);
         break;
 
 
@@ -1435,6 +1439,28 @@ function rcube_webmail()
     };
 
 
+  this.purge_mailbox = function(mbox)
+    {
+    var lock = false;
+    var add_url = '';
+    
+    if (!confirm(this.get_label('purgefolderconfirm')))
+      return false;
+    
+    // lock interface if it's the active mailbox
+    if (mbox == this.env.mailbox)
+       {
+       lock = true;
+       this.set_busy(true, 'loading');
+       add_url = '&_reload=1';
+       }
+
+    // send request to server
+    var url = '_mbox='+escape(mbox);
+    this.http_request('purge', url+add_url, lock);
+    };
+    
+
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
     {
@@ -2068,6 +2094,7 @@ function rcube_webmail()
       return false;
       
     //if (this.env.framed && add_url=='')
+    
     //  add_url = '&_framed=1';
     
     if (action && (cid || action=='add'))
@@ -2081,9 +2108,9 @@ function rcube_webmail()
   this.delete_contacts = function()
     {
     // exit if no mailbox specified or if selection is empty
-    if (!(this.selection.length || this.env.cid))
+    if (!(this.selection.length || this.env.cid) || !confirm(this.get_label('deletecontactconfirm')))
       return;
-    
+      
     var a_cids = new Array();
 
     if (this.env.cid)
@@ -2821,7 +2848,7 @@ function rcube_webmail()
     if (request_obj.__lock)
       this.set_busy(false);
 
-  console(request_obj.responseText);
+  console(request_obj.get_text());
 
     // if we get javascript code from server -> execute it
     if (request_obj.get_text() && (ctype=='text/javascript' || ctype=='application/x-javascript'))
@@ -2837,9 +2864,12 @@ function rcube_webmail()
         break;
 
       case 'list':
+        if (this.env.messagecount)
+          this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox));
+
       case 'expunge':
         this.enable_command('select-all', 'select-none', 'expunge', this.env.messagecount ? true : false);
-        break;
+        break;      
       }
 
     request_obj.reset();

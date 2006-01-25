@@ -6,11 +6,11 @@
  | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
- | Modified:2005/11/06 (roundcube)                                       |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
+ 
+ $Id$
 */
 
 
@@ -271,7 +271,7 @@ function rcube_check_email(input, inline)
     {
     var reg_str = '([a-z0-9][-a-z0-9\.\+_]*)\@(([-a-z0-9][\.]?)*[a-z0-9]\.[a-z]{2,9})';
     var reg1 = inline ? new RegExp(reg_str, 'i') : new RegExp('^'+reg_str+'$', 'i');
-    var reg2 = /[\._\-\@]{2}/;
+    var reg2 = /[\._\-]{2}/;
     return reg1.test(input) && !reg2.test(input) ? true : false;
     }
   return false;
