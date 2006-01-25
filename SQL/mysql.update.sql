@@ -48,3 +48,10 @@ CREATE TABLE `messages` (
   KEY `idx` (`idx`),
   KEY `uid` (`uid`)
 ) TYPE=MyISAM;
+
+
+
+-- RoundCube Webmail update script for MySQL databases
+-- Version 0.1-20051216
+
+ALTER TABLE `messages` ADD `created` DATETIME NOT NULL AFTER `cache_key` ;
