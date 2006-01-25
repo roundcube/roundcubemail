@@ -26,7 +26,7 @@ $messages['sessionerror'] = 'Votre session n\'est pas valide ou a expiré';
 
 $messages['imaperror'] = 'Erreur de connexion au serveur IMAP';
 
-$messages['nomessagesfound'] = 'Auncun message trouvé dans cette boîte aux lettres';
+$messages['nomessagesfound'] = 'Aucun message trouvé dans cette boîte aux lettres';
 
 $messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
 

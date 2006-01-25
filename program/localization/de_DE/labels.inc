@@ -106,7 +106,8 @@ $labels['none']   = 'Keine';
 $labels['unread'] = 'Ungelesene';
 
 $labels['compact'] = 'Packen';
-
+$labels['empty'] = 'Leeren';
+$labels['purge'] = 'Aufräumen';
 
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';

@@ -56,5 +56,30 @@ $messages['errormoving'] = 'Could not move the message';
 
 $messages['errordeleting'] = 'Could not delete the message';
 
+$messages['deletecontactconfirm']  = 'Do you really want to delete the selected contact(s)?';
+
+$messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
+
+$messages['formincomplete'] = 'The form was not completely filled out';
+
+$messages['noemailwarning'] = 'Please enter a valid email address';
+
+$messages['nonamewarning']  = 'Please enter a name';
+
+$messages['nopagesizewarning'] = 'Please enter a page size';
+
+$messages['norecipientwarning'] = 'Please enter at least one recipient';
+
+$messages['nosubjectwarning']  = 'The "Subject" field is empty. Would you like to enter one now?';
+
+$messages['nobodywarning'] = 'Send this message without text?';
+
+$messages['notsentwarning'] = 'Message has not been sent. Do you want to discard your message?';
+
+$messages['noldapserver'] = 'Please select an ldap server to search';
+
+$messages['nocontactsreturned'] = 'No contacts were found';
+
+$messages['nosearchname'] = 'Please enter a contact name or email address';
 
 ?>

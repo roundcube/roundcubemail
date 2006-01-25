@@ -33,6 +33,7 @@
  	'de_DE' => 'Deutsch',
  	'es'    => 'Español',
  	'ee'    => 'Estonian',
+	'eu'    => 'Euskara',
 	'fr'    => 'Français', 
 	'ga'    => 'Galician',
 	'el'    => 'Greek',

@@ -54,7 +54,15 @@ $messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
 
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 
+$messages['errormoving'] = 'Nachricht konnte nicht verschoben werden';
+
+$messages['errordeleting'] = 'Nachricht konnte nicht gelöscht werden';
+
+$messages['deletecontactconfirm']  = 'Wollen Sie die ausgewählten Kontakte wirklich löschen';
+
 $messages['deletefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich löschen?';
+
+$messages['purgefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich leeren?';
 
 $messages['formincomplete']    = 'Das Formular wurde nicht vollständig ausgefüllt';
 

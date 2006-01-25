@@ -60,7 +60,11 @@ $messages['errormoving'] = 'Could not move the message';
 
 $messages['errordeleting'] = 'Could not delete the message';
 
+$messages['deletecontactconfirm']  = 'Do you really want to delete the selected contact(s)?';
+
 $messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
+
+$messages['purgefolderconfirm']  = 'Do you really want to delete all messages in this folder?';
 
 $messages['formincomplete'] = 'The form was not completely filled out';
 

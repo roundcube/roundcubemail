@@ -106,6 +106,8 @@ $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
 
 $labels['compact'] = 'Compact';
+$labels['empty'] = 'Empty';
+$labels['purge'] = 'Purge';
 
 
 // message compose
