@@ -440,6 +440,7 @@ function rcmail_message_list($attrib)
   $message_count = $IMAP->messagecount();
   
   // set client env
+  $javascript .= sprintf("%s.gui_object('mailcontframe', '%s');\n", $JS_OBJECT_NAME, 'mailcontframe');
   $javascript .= sprintf("%s.gui_object('messagelist', '%s');\n", $JS_OBJECT_NAME, $attrib['id']);
   $javascript .= sprintf("%s.set_env('messagecount', %d);\n", $JS_OBJECT_NAME, $message_count);
   $javascript .= sprintf("%s.set_env('current_page', %d);\n", $JS_OBJECT_NAME, $IMAP->list_page);
