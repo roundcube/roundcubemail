@@ -11,10 +11,6 @@
  +-----------------------------------------------------------------------+
  
   $Id$
-  
-  Modifications:
-  2006/01/19: Applied patch for ctrl/shift behavior by Charles McNulty <charles@charlesmcnulty.com>
-  
 */
 
 // Constants
@@ -115,9 +111,11 @@ function rcube_webmail()
     switch (this.task)
       {
       case 'mail':
+        var msg_list_frame = this.gui_objects.mailcontframe;
         var msg_list = this.gui_objects.messagelist;
         if (msg_list)
           {
+          msg_list_frame.onmousedown = function(e){return rcube_webmail_client.click_on_list(e);};
           this.init_messagelist(msg_list);
           this.enable_command('markread', true);
           }
@@ -230,8 +228,13 @@ function rcube_webmail()
     this.enable_command('logout', true);
 
     // disable browser's contextmenus
-    document.oncontextmenu = function(){ return false; }
+    //document.oncontextmenu = function(){ return false; }
 
+    // load body click event
+    document.onmousedown = function(){ return rcube_webmail_client.reset_click(); };
+    document.onkeydown   = function(e){ return rcube_webmail_client.use_arrow_keys(e, msg_list_frame); };
+
+    
     // flag object as complete
     this.loaded = true;
           
@@ -246,12 +249,66 @@ function rcube_webmail()
       this.kepp_alive_int = setInterval(this.ref+'.send_keep_alive()', this.kepp_alive_interval);
     };
 
+  // reset last clicked if user clicks on anything other than the message table
+  this.reset_click = function()
+    {
+	this.in_message_list = false;
+	};
+	
+  this.click_on_list = function(e)
+    {
+    if (!e)
+      e = window.event;
+
+    this.in_message_list = true;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+    };
+
+  // reset last clicked if user clicks on anything other than the message table
+  this.use_arrow_keys = function(e, msg_list_frame) {
+    if (this.in_message_list != true) 
+      return true;
+
+    var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
+    var mod_key = this.get_modifier(e);
+    var scroll_to = 0;
+
+    var last_selected_row = this.list_rows[this.last_selected];
+
+    if (keyCode == 40) { // down arrow key pressed
+      var new_row = last_selected_row.obj.nextSibling;
+      while (new_row && new_row.nodeType != 1) {
+        new_row = new_row.nextSibling;
+      }
+      if (!new_row) return false;
+      scroll_to = (Number(new_row.offsetTop) + Number(new_row.offsetHeight)) - Number(msg_list_frame.offsetHeight);
+    } else if (keyCode == 38) { // up arrow key pressed
+      var new_row = last_selected_row.obj.previousSibling;
+      while (new_row && new_row.nodeType != 1) {
+        new_row = new_row.previousSibling;
+      }
+      if (!new_row) return false;
+      scroll_to = new_row.offsetTop;
+    } else {return false};
+	
+	if (mod_key != CONTROL_KEY)
+	  this.select_row(new_row.uid,mod_key);
+
+    if (((Number(new_row.offsetTop)) < (Number(msg_list_frame.scrollTop))) || 
+       ((Number(new_row.offsetTop) + Number(new_row.offsetHeight)) > (Number(msg_list_frame.scrollTop) + Number(msg_list_frame.offsetHeight)))) {
+      msg_list_frame.scrollTop = scroll_to;
+    }
+
+    return false;
+  };
 
   // get all message rows from HTML table and init each row
   this.init_messagelist = function(msg_list)
     {
     if (msg_list && msg_list.tBodies[0])
       {
+		  
       this.message_rows = new Array();
 
       var row;
@@ -286,7 +343,7 @@ function rcube_webmail()
       // set eventhandlers to table row
       row.onmousedown = function(e){ return rcube_webmail_client.drag_row(e, this.uid); };
       row.onmouseup = function(e){ return rcube_webmail_client.click_row(e, this.uid); };
-      
+
       if (document.all)
         row.onselectstart = function() { return false; };
 
@@ -1011,26 +1068,8 @@ function rcube_webmail()
     // selects currently unselected row
     if (!this.in_selection_before)
     {
-      var mod_key = this.get_modifier(e);
-      if (!mod_key) {
-        this.select(id, false);
-        this.last_selected = id;
-      } else {
-        switch (mod_key) {
-          case SHIFT_KEY: { this.shift_select(id,false); break; }
-          case CONTROL_KEY: { 
-            this.select(id, true); 
-            this.last_selected = id;
-            break; 
-            }
-          case CONTROL_SHIFT_KEY: { this.shift_select(id,true); break;}
-          default: {
-            this.select(id, false); 
-            this.last_selected = id;
-            break;
-            }
-        }
-      }
+	  var mod_key = this.get_modifier(e);
+	  this.select_row(id,mod_key);
     }
     
     if (this.selection.length)
@@ -1047,8 +1086,7 @@ function rcube_webmail()
   // onmouseup-handler of message list row
   this.click_row = function(e, id)
     {
-    var mod_key = this.get_modifier(e);
-    
+
     // don't do anything (another action processed before)
     if (this.dont_select)
       {
@@ -1058,25 +1096,8 @@ function rcube_webmail()
     
     // unselects currently selected row    
     if (!this.drag_active && this.in_selection_before==id) {
-      if (!mod_key) {
-        this.last_selected = id;
-        this.select(id, false);
-      } else {
-        switch (mod_key) {
-          case SHIFT_KEY: { this.shift_select(id,false); break; }
-          case CONTROL_KEY: { 
-            this.last_selected = id;
-            this.select(id, (this.task!='settings')); 
-            break; 
-            }
-          case CONTROL_SHIFT_KEY: {this.shift_select(id,true);break;}
-          default: {
-            this.select(id, false); 
-            this.last_selected = id;
-            break; 
-            }
-        }        
-      }
+      var mod_key = this.get_modifier(e);
+      this.select_row(id,mod_key);
     }
     this.drag_start = false;
     this.in_selection_before = false;
@@ -1150,9 +1171,8 @@ function rcube_webmail()
   /*********     (message) list functionality      *********/
   /*********************************************************/
 
-
-  // select/unselect a row
-  this.select = function(id, multiple)
+  // highlight/unhighlight a row
+  this.highlight_row = function(id, multiple)
     {
     var selected = false
     
@@ -1196,10 +1216,36 @@ function rcube_webmail()
     };
 
 
-// select all rows from the last selected row to the current one, while deselecting all other rows
-  this.shift_select = function(id,control)
-  { 
-    var from_rowIndex = this.list_rows[this.last_selected].obj.rowIndex;
+// selects or unselects the proper row depending on the modifier key pressed
+  this.select_row = function(id,mod_key)  { 
+  	if (!mod_key) {
+      this.shift_start = id;
+  	  this.highlight_row(id, false);
+    } else {
+      switch (mod_key) {
+        case SHIFT_KEY: { 
+          this.shift_select(id,false); 
+          break; }
+        case CONTROL_KEY: { 
+          this.shift_start = id;
+          this.highlight_row(id, true); 
+          break; 
+          }
+        case CONTROL_SHIFT_KEY: { 
+          this.shift_select(id,true);
+          break;
+          }
+        default: {
+          this.highlight_row(id, false); 
+          break;
+          }
+      }
+	}
+	this.last_selected = id;
+  };
+
+  this.shift_select = function(id, control) {
+    var from_rowIndex = this.list_rows[this.shift_start].obj.rowIndex;
     var to_rowIndex = this.list_rows[id].obj.rowIndex;
         
     var i = ((from_rowIndex < to_rowIndex)? from_rowIndex : to_rowIndex);
@@ -1209,10 +1255,10 @@ function rcube_webmail()
     for (var n in this.list_rows) {
       if ((this.list_rows[n].obj.rowIndex >= i) && (this.list_rows[n].obj.rowIndex <= j)) {
         if (!this.in_selection(n))
-          this.select(n, true);
+          this.highlight_row(n, true);
       } else {
         if  (this.in_selection(n) && !control)
-          this.select(n, true);
+          this.highlight_row(n, true);
       }
     }
   };
