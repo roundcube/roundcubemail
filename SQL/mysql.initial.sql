@@ -106,6 +106,7 @@ CREATE TABLE `messages` (
   `user_id` int(11) unsigned NOT NULL default '0',
   `del` tinyint(1) NOT NULL default '0',
   `cache_key` varchar(128) NOT NULL default '',
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `idx` int(11) unsigned NOT NULL default '0',
   `uid` int(11) unsigned NOT NULL default '0',
   `subject` varchar(255) NOT NULL default '',
