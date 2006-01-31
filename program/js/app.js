@@ -449,7 +449,7 @@ function rcube_webmail()
     this.list_rows = this.contact_rows;
     
     if (this.env.cid)
-      this.select(this.env.cid);
+      this.highlight_row(this.env.cid);
     };
 
 
@@ -513,7 +513,7 @@ function rcube_webmail()
     this.list_rows = this.identity_rows;
     
     if (this.env.iid)
-      this.select(this.env.iid);    
+      this.highlight_row(this.env.iid);    
     };
     
 
@@ -1300,7 +1300,7 @@ function rcube_webmail()
     
     for (var n in this.list_rows)
       if (!filter || this.list_rows[n][filter]==true)
-      this.select(n, true);
+      this.highlight_row(n, true);
     };
     
 
