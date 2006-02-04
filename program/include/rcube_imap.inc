@@ -1057,6 +1057,22 @@ class rcube_imap
     }
 
 
+  /**
+   * Get quota
+   * added by Nuny
+   */
+  function get_quota()
+    {
+    if ($this->get_capability('QUOTA'))
+      {
+      $result = iil_C_GetQuota($this->conn);
+      return sprintf("%.2fMB / %.2fMB (%.0f%%)", $result["used"] / 1000.0, $result["total"] / 1000.0, $result["percent"]);
+      }
+    else
+      return 'unknown';
+    }
+
+
   // subscribe to a specific mailbox(es)
   function subscribe($mbox, $mode='subscribe')
     {

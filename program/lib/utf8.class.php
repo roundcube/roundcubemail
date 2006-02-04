@@ -58,10 +58,10 @@ define("ERR_OPEN_MAP_FILE","ERR_OPEN_MAP_FILE");
 //Class definition
 Class utf8{
 
-  var $charset = CP1250;
+  var $charset = "ISO-8859-1";
   var $ascMap = array();
   var $utfMap = array();
-  
+
   // made PHP5 capable by RoundCube
   function __construct($charset="ISO-8859-1"){
     $this->loadCharset($charset);
@@ -75,7 +75,7 @@ Class utf8{
   //Load charset
   function loadCharset($charset){
     global $utf8_maps;
-    
+
     if (!is_file($utf8_maps[$charset]))
       {
       $this->onError(ERR_OPEN_MAP_FILE, "Failed to open map file for $charset");
@@ -170,4 +170,5 @@ Class utf8{
   }
 
 }
+
 ?>

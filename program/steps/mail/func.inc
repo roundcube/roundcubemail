@@ -545,6 +545,25 @@ function rcmail_messagecount_display($attrib)
   }
 
 
+function rcmail_quota_display($attrib)
+  {
+  global $IMAP, $OUTPUT, $JS_OBJECT_NAME;
+
+  if (!$attrib['id'])
+    $attrib['id'] = 'rcmquotadisplay';
+
+  $OUTPUT->add_script(sprintf("%s.gui_object('quotadisplay', '%s');", $JS_OBJECT_NAME, $attrib['id']));
+
+  // allow the following attributes to be added to the <span> tag
+  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
+
+
+  $out = '<span' . $attrib_str . '>';
+  $out .= $IMAP->get_quota();
+  $out .= '</span>';
+  return $out;
+  }
+
 
 function rcmail_get_messagecount_text()
   {
@@ -580,9 +599,8 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE) // $body, $ctype_pr
   extract($part);
   
   $block = $plain ? '%s' : '%s'; //'<div style="display:block;">%s</div>';
-  $body = $IMAP->mime_decode($body, $encoding);
+  $body = $IMAP->mime_decode($body, $encoding);  
   $body = $IMAP->charset_decode($body, $parameters);
-
 
   // text/html
   if ($ctype_secondary=='html')
@@ -804,7 +822,7 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
         }
 
       // part text/[plain|html] OR message/delivery-status
-      else if (($primary_type=='text' && ($secondary_type=='plain' || $secondary_type=='html')) ||
+      else if (($primary_type=='text' && ($secondary_type=='plain' || $secondary_type=='html') && $mail_part->disposition!='attachment') ||
                ($primary_type=='message' && $secondary_type=='delivery-status'))
         {
         $a_return_parts[] = array('type' => 'content',

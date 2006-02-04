@@ -31,7 +31,7 @@ CREATE INDEX ix_cache_session_id ON cache(session_id);
 CREATE TABLE contacts (
   contact_id integer NOT NULL PRIMARY KEY,
   user_id integer NOT NULL default '0',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
   del tinyint NOT NULL default '0',
   name varchar(128) NOT NULL default '',
   email varchar(128) NOT NULL default '',

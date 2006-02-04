@@ -1,9 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2006/01/19
+2006/02/04
 ----------
-- Added Slovak translation
+- Added Slovak, Hungarian, Bosnian and Croation translation
 - Fixed bug when inserting signatures with !?&
 - Chopping message headers before inserting into the message cache table (to avoid bugs in Postgres)
 - Allow one-char domains in e-mail addresses
@@ -20,6 +20,9 @@ CHANGELOG RoundCube Webmail
 - Added LDAP public search (experimental)
 - Applied patch for correct ctrl/shift behavior for message selection (Bug #1326364)
 - Casting to strings when adding empty headers to message cache (Bug #1406026)
+- Skip sender-address as recipient when Reply-to-all
+- Fixes in utf8-class
+- Added patch for Quota display by Aury Fink Filho <nuny@aury.com.br>
 
 
 2005/12/16

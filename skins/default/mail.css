@@ -749,3 +749,8 @@ div.message-part pre
   margin-top: 8px;
 }
 
+#rcmquotadisplay
+{
+  color: #999999;
+  font-size: 11px;
+}

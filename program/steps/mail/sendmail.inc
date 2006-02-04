@@ -115,7 +115,7 @@ if (strlen($identity_arr['bcc']))
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
 
 // add subject
-$headers['Subject'] = rcube_charset_convert(trim(stripslashes($_POST['_subject'])), $input_charset, $message_charset);
+$headers['Subject'] = rcube_charset_convert(trim($_POST['_subject']), $input_charset, $message_charset);
 
 if (strlen($identity_arr['organization']))
   $headers['Organization'] = $identity_arr['organization'];
@@ -144,7 +144,7 @@ if ($CONFIG['useragent'])
   $headers['User-Agent'] = $CONFIG['useragent'];
 
 // fetch message body
-$message_body = rcube_charset_convert(stripslashes($_POST['_message']), $input_charset, $message_charset);
+$message_body = rcube_charset_convert($_POST['_message'], $input_charset, $message_charset);
 
 // append generic footer to all messages
 if (!empty($CONFIG['generic_message_footer']))
@@ -225,7 +225,7 @@ if ($CONFIG['smtp_server'])
 else
   {
   // unset some headers because they will be added by the mail() function
-  $headers_php = $headers;
+  $headers_php = $MAIL_MIME->_headers;
   $headers_enc = $MAIL_MIME->headers($headers);
   unset($headers_php['To'], $headers_php['Subject']);
 

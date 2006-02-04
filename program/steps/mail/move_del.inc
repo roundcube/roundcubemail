@@ -73,6 +73,7 @@ $commands .= sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->message
 if ($_action=='moveto')
   $commands .= sprintf("this.set_unread_count('%s', %d);\n", $_GET['_target_mbox'], $IMAP->messagecount($_GET['_target_mbox'], 'UNSEEN'));
 
+$commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota()); 
 
 // add new rows from next page (if any)
 if ($_GET['_from']!='show' && $pages>1 && $IMAP->list_page < $pages)

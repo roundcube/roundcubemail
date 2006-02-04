@@ -71,7 +71,7 @@ function rcmail_startup($task='mail')
 
   // we can use the database for storing session data
   // session queries do not work with MDB2
-  if ($CONFIG['db_backend']!='mdb2' && is_object($DB) /* && $DB->db_provider!='sqlite' */)
+  if ($CONFIG['db_backend']!='mdb2' && is_object($DB))
     include_once('include/session.inc');
 
 
@@ -709,10 +709,12 @@ function rcube_charset_convert($str, $from, $to=NULL)
     return $str;
     
   // convert charset using iconv module  
-  if (function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7') {
+  if (0 && function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7') {
     return iconv($from, $to, $str);
     }
-    
+
+  $conv = new utf8();
+
   // convert string to UTF-8
   if ($from=='UTF-7')
     $str = rcube_charset_convert(UTF7DecodeString($str), 'ISO-8859-1');
@@ -720,7 +722,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     $str = utf8_encode($str);
   else if ($from!='UTF-8')
     {
-    $conv = new utf8($from);
+    $conv->loadCharset($from);
     $str = $conv->strToUtf8($str);
     }
 
@@ -731,7 +733,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     return utf8_decode($str);
   else if ($to!='UTF-8')
     {
-    $conv = new utf8($to);    
+    $conv->loadCharset($to);
     return $conv->utf8ToStr($str);
     }
 
@@ -960,6 +962,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'message' => 'rcmail_message_container',
         'messages' => 'rcmail_message_list',
         'messagecountdisplay' => 'rcmail_messagecount_display',
+        'quotadisplay' => 'rcmail_quota_display',
         'messageheaders' => 'rcmail_message_headers',
         'messagebody' => 'rcmail_message_body',
         'messageattachments' => 'rcmail_message_attachments',

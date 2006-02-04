@@ -231,7 +231,7 @@ function rcube_webmail()
     this.enable_command('logout', true);
 
     // disable browser's contextmenus
-    //document.oncontextmenu = function(){ return false; }
+    document.oncontextmenu = function(){ return false; }
 
     // load body click event
     document.onmousedown = function(){ return rcube_webmail_client.reset_click(); };
@@ -2645,6 +2645,13 @@ function rcube_webmail()
     this.set_page_buttons();
     };
 
+  // replace content of quota display
+   this.set_quota = function(text)
+     {
+     if (this.gui_objects.quotadisplay)
+       this.gui_objects.quotadisplay.innerHTML = text;
+     };
+			     
 
   // update the mailboxlist
   this.set_unread_count = function(mbox, count, set_title)

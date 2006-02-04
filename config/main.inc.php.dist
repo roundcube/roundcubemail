@@ -85,7 +85,7 @@ $rcmail_config['session_lifetime'] = 10;
 // check client IP in session athorization
 $rcmail_config['ip_check'] = TRUE;
 
-// not sure what this was good for :-) 
+// the default locale setting
 $rcmail_config['locale_string'] = 'en';
 
 // use this format for short date display

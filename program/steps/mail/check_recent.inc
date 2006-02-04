@@ -30,7 +30,8 @@ if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
   $commands = sprintf("this.set_unread_count('%s', %d, true);\n", addslashes($mbox), $unread_count);
   $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
   $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
-  
+  $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
+ 
   // add new message headers to list
   $a_headers = array();
   for ($i=$recent_count, $id=$count-$recent_count+1; $i>0; $i--, $id++)

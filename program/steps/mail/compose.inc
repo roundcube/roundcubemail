@@ -145,8 +145,10 @@ function rcmail_compose_headers($attrib)
     // get recipent address(es) out of the message headers
     if ($header=='to' && $REPLY_MESSAGE['headers']->replyto)
       $fvalue = $IMAP->decode_header($REPLY_MESSAGE['headers']->replyto);
+
     else if ($header=='to' && $REPLY_MESSAGE['headers']->from)
       $fvalue = $IMAP->decode_header($REPLY_MESSAGE['headers']->from);
+
     // add recipent of original message if reply to all
     else if ($header=='cc' && $REPLY_MESSAGE['reply_all'])
       {
@@ -169,7 +171,7 @@ function rcmail_compose_headers($attrib)
       $fvalue = '';
       foreach ($to_addresses as $addr_part)
         {
-        if (!in_array($addr_part['mailto'], $sa_recipients))
+        if (!in_array($addr_part['mailto'], $sa_recipients) && (!$REPLY_MESSAGE['FROM'] || !in_array($addr_part['mailto'], $REPLY_MESSAGE['FROM'])))
           {
           $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
           $sa_recipients[] = $addr_part['mailto'];
@@ -214,6 +216,8 @@ function rcmail_compose_header_from($attrib)
   $a_recipients = array();
   if ($REPLY_MESSAGE && is_object($REPLY_MESSAGE['headers']))
     {
+    $REPLY_MESSAGE['FROM'] = array();
+
     $a_to = $IMAP->decode_address_list($REPLY_MESSAGE['headers']->to);        
     foreach ($a_to as $addr)
       {
@@ -259,6 +263,9 @@ function rcmail_compose_header_from($attrib)
       // set identity if it's one of the reply-message recipients
       if (in_array($sql_arr['email'], $a_recipients))
         $from_id = $sql_arr['identity_id'];
+        
+      if ($REPLY_MESSAGE && is_array($REPLY_MESSAGE['FROM']))
+        $REPLY_MESSAGE['FROM'][] = $sql_arr['email'];
       }
 
     // overwrite identity selection with post parameter
