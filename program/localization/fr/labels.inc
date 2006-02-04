@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: aldweb <info@aldweb.com>                                      |
+ | Author: aldweb <info@aldweb.com>, Pierre HAEGELI <pierre@haegeli.net> |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -38,7 +38,7 @@ $labels['drafts'] = 'Brouillons';
 $labels['junk']   = 'A trier';
 
 // message listing
-$labels['subject'] = 'Sujet';
+$labels['subject'] = 'Objet';
 $labels['from']    = 'De';
 $labels['to']      = 'A';
 $labels['cc']      = 'Cc';
@@ -64,6 +64,7 @@ $labels['filesize'] = 'Taille du fichier';
 
 $labels['preferhtml'] = 'Préférer HTML';
 $labels['htmlmessage'] = 'Message HTML';
+$labels['prettydate'] = 'Belles dates';
 
 $labels['addtoaddressbook'] = 'Ajouter au carnet d\'adresses';
 
@@ -97,6 +98,7 @@ $labels['printmessage']     = 'Imprimer ce message';
 $labels['previousmessages'] = 'Voir les messages précédents';
 $labels['nextmessages']     = 'Voir les messages suivants';
 $labels['backtolist']       = 'Retourner à la liste des messages';
+$labels['viewsource']       = 'Voir le code source';
 
 $labels['select'] = 'Sélectionner';
 $labels['all'] = 'Tous';
@@ -107,17 +109,19 @@ $labels['unread'] = 'Non lus';
 $labels['compose']  = 'Composer un nouveau message';
 $labels['sendmessage']  = 'Envoyer le message maintenant';
 $labels['addattachment']  = 'Joindre un fichier';
+$labels['charset']  = 'Encodage';
 
-$labels['attachments'] = 'Attachments';
+$labels['attachments'] = 'Fichiers joints';
 $labels['upload'] = 'Joindre';
 $labels['close']  = 'Fermer';
 
 $labels['low']     = 'Basse';
-$labels['lowest']  = 'Très basse';
+$labels['lowest']  = 'La plus basse';
 $labels['normal']  = 'Normale';
 $labels['high']    = 'Elevée';
-$labels['highest'] = 'Très élevée';
+$labels['highest'] = 'La plus élevée';
 
+$labels['nosubject']  = '(pas de sujet)';
 $labels['showimages'] = 'Montrer les images';
 
 
@@ -139,7 +143,15 @@ $labels['newcontact']     = 'Créer un nouveau contact';
 $labels['deletecontact']  = 'Supprimer les contacts sélectionnés';
 $labels['composeto']      = 'Ecrire un message à';
 $labels['contactsfromto'] = 'Contacts $from à $to sur $count';
+$labels['print']          = 'Imprimer';
+$labels['export']         = 'Exporter';
 
+$labels['ldappublicsearchname']    = 'Nom du contact';
+$labels['ldappublicsearchtype'] = 'Correspondance exacte ?';
+$labels['ldappublicserverselect'] = 'Sélectionnez les serveurs';
+$labels['ldappublicsearchfield'] = 'Recherche sur';
+$labels['ldappublicsearchform'] = 'Chercher un contact';
+$labels['ldappublicsearch'] = 'Recherche';
 
 // settings
 $labels['settingsfor']  = 'Paramètres pour';
@@ -158,7 +170,8 @@ $labels['edititem']  = 'Editer l\'élément';
 $labels['setdefault']  = 'Paramètres par défaut';
 $labels['language']  = 'Langue';
 $labels['timezone']  = 'Fuseau horaire';
-$labels['pagesize']  = 'nombre de lignes par page';
+$labels['pagesize']  = 'Nombre de lignes par page';
+$labels['signature'] = 'Signature';
 
 
 $labels['folders']  = 'Dossiers';
@@ -168,6 +181,10 @@ $labels['create']  = 'Créer';
 $labels['createfolder']  = 'Créer un nouveau dossier';
 $labels['deletefolder']  = 'Supprimer le dossier';
 $labels['managefolders']  = 'Gérer les dossiers';
+
+$labels['sortby'] = 'Trier par';
+$labels['sortasc']  = 'Tri ascendant';
+$labels['sortdesc'] = 'Tri descendant';
 
 
 ?>

@@ -109,6 +109,8 @@ $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
 $labels['purge'] = 'Purge';
 
+$labels['quota'] = 'Disk usage';
+
 
 // message compose
 $labels['compose']  = 'Compose a message';

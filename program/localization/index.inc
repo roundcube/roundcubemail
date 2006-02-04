@@ -25,6 +25,7 @@
 	'en_GB' => 'English (GB)',
 	'ar'    => 'Arabic',
 	'bg'    => 'Bulgarian',
+	'bs_BA' => 'Bosnian (Bosanski)',
 	'tw'    => 'Chinese (BIG5)',
 	'cn'    => 'Chinese (GB2312)',
 	'cz'    => 'Czech',
@@ -37,12 +38,14 @@
 	'fr'    => 'Français', 
 	'ga'    => 'Galician',
 	'el'    => 'Greek',
+	'hr'	=> 'Hrvatski',
 	'hu'    => 'Hungarian',
 	'it'    => 'Italiano',
 	'ja'    => 'Japanese',
 	'kr'    => 'Korean',
 	'lv'    => 'Latvian',
-	'nl'    => 'Nederlands',
+	'nl_NL' => 'Nederlands',
+	'nl_BE' => 'Flemish',
 	'nb_NO' => 'Norsk (bokmål)',
 	'nn_NO' => 'Norsk (nynorsk)',
 	'fa'    => 'Persian',
@@ -60,8 +63,10 @@
 );
 
 $rcube_language_aliases = array(
+	'bs' => 'bs_BA',
 	'de' => 'de_DE',
 	'en' => 'en_US',
+	'nl' => 'nl_NL',
 	'no' => 'nn_NO',
 	'pt' => 'pt_PT'
 );
