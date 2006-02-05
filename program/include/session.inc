@@ -106,7 +106,6 @@ function sess_destroy($key)
               $key);
 
   rcmail_clear_session_temp($key);
-
   return TRUE;
   }
 
@@ -141,6 +140,9 @@ function sess_gc($maxlifetime)
   // remove session specific temp dirs
   foreach ($a_exp_sessions as $key)
     rcmail_clear_session_temp($key);
+
+  // also run message cache GC
+  rcmail_message_cache_gc();
 
   return TRUE;
   }

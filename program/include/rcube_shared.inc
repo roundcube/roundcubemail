@@ -1353,4 +1353,37 @@ function clear_directory($dir_path)
   }
 
 
+// create a unix timestamp with a specified offset from now
+function get_offset_time($offset_str, $factor=1)
+  {
+  if (preg_match('/^([0-9]+)\s*([smhdw])/i', $offset_str, $regs))
+    {
+    $amount = (int)$regs[1];
+    $unit = strtolower($regs[2]);
+    }
+  else
+    {
+    $amount = (int)$offset_str;
+    $unit = 's';
+    }
+    
+  $ts = mktime();
+  switch ($unit)
+    {
+    case 'w':
+      $amount *= 7;
+    case 'd':
+      $amount *= 24;
+    case 'h':
+      $amount *= 60;
+    case 'h':
+      $amount *= 60;
+    case 's':
+      $ts += $amount * $factor;
+    }
+
+  return $ts;
+  }
+
+
 ?>

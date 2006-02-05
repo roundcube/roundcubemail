@@ -697,6 +697,22 @@ function rcmail_clear_session_temp($sess_id)
   }
 
 
+// remove all expired message cache records
+function rcmail_message_cache_gc()
+  {
+  global $DB, $CONFIG;
+  
+  // no cache lifetime configured
+  if (empty($CONFIG['message_cache_lifetime']))
+    return;
+  
+  // get target timestamp
+  $ts = get_offset_time($CONFIG['message_cache_lifetime'], -1);
+  
+  $DB->query("DELETE FROM ".get_table_name('messages')."
+             WHERE  created < ".$DB->fromunixtime($ts));
+  }
+
 
 // convert a string from one charset to another
 // this function is not complete and not tested well
@@ -709,7 +725,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     return $str;
     
   // convert charset using iconv module  
-  if (0 && function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7') {
+  if (function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7') {
     return iconv($from, $to, $str);
     }
 
@@ -1505,6 +1521,8 @@ function rcmail_charset_selector($attrib)
   return $select->show($set);
   }
 
+
+/****** debugging function ********/
 
 function rcube_timer()
   {

@@ -22,6 +22,10 @@ $rcmail_config['debug_level'] = 5;
 // this is recommended if the IMAP server does not run on the same machine
 $rcmail_config['enable_caching'] = TRUE;
 
+// lifetime of message cache
+// possible units: s, m, h, d, w
+$rcmail_config['message_cache_lifetime'] = '10d';
+
 // automatically create a new RoundCube user when log-in the first time.
 // a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service
