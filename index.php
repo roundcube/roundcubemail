@@ -217,7 +217,7 @@ if ($_action=='keep-alive')
 if ($_task=='mail')
   {
   include_once('program/steps/mail/func.inc');
-
+  
   if ($_action=='show' || $_action=='print')
     include('program/steps/mail/show.inc');
 
@@ -256,6 +256,9 @@ if ($_task=='mail')
     
   if ($_action=='list' && $_GET['_remote'])
     include('program/steps/mail/list.inc');
+
+  if ($_action=='rss')
+    include('program/steps/mail/rss.inc');
 
   // kill compose entry from session
   if (isset($_SESSION['compose']))

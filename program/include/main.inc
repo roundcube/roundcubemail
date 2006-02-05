@@ -813,6 +813,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   if (!$js_rep_table)
     {
     $js_rep_table = $rtf_rep_table = $xml_rep_table = array();
+    $xml_rep_table['&'] = '&amp;';
 
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
       {
