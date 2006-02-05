@@ -766,7 +766,7 @@ class rcube_imap
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
 
     // get cached headers
-    if ($headers = $this->get_cached_message($mailbox.'.msg', $uid))
+    if ($is_uid && ($headers = $this->get_cached_message($mailbox.'.msg', $id)))
       return $headers;
 
     $msg_id = $is_uid ? $this->_uid2id($id) : $id;

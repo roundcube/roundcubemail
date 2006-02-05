@@ -36,6 +36,7 @@
 		- Parse charset from content-type in iil_C_FetchHeaders()
 		- Enhanced heaer sorting
 		- Pass message as reference in iil_C_Append (to save memory)
+		- Added BCC to the list of headers to fetch in iil_C_FetchHeaders()
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -1207,7 +1208,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 
 	/* FETCH date,from,subject headers */
 	$key="fh".($c++);
-	$request=$key." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID)])\r\n";
+	$request=$key." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID)])\r\n";
 
 	if (!fputs($fp, $request)) return false;
 	do{
@@ -1258,6 +1259,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 			$result[$id]->subject = str_replace("\n", "", $headers["subject"]);
 			$result[$id]->replyto = str_replace("\n", " ", $headers["reply-to"]);
 			$result[$id]->cc = str_replace("\n", " ", $headers["cc"]);
+			$result[$id]->bcc = str_replace("\n", " ", $headers["bcc"]);
 			$result[$id]->encoding = str_replace("\n", " ", $headers["content-transfer-encoding"]);
 			$result[$id]->ctype = str_replace("\n", " ", $headers["content-type"]);
 			$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);

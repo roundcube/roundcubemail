@@ -181,7 +181,7 @@ if (is_array($_FILES['_attachments']['tmp_name']))
 
 
 // encoding settings for mail composing
-$message_param = array('text_encoding' => '7bit',
+$message_param = array('text_encoding' => '8bit',
                        'html_encoding' => 'quoted-printable',
                        'head_encoding' => 'quoted-printable',
                        'head_charset'  => $message_charset,
@@ -204,8 +204,12 @@ if ($CONFIG['smtp_server'])
   if (strlen($headers['Bcc']))
     $a_recipients[] = $headers['Bcc'];
 
+  // clean Bcc from header for recipients
+  $send_headers = $headers;
+  unset($send_headers['Bcc']);
+
   // generate message headers
-  $header_str = $MAIL_MIME->txtHeaders($headers);
+  $header_str = $MAIL_MIME->txtHeaders($send_headers);
 
   // send message
   $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body);

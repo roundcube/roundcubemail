@@ -940,7 +940,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   $out = '<table' . $attrib_str . ">\n";
 
   // show these headers
-  $standard_headers = array('subject', 'from', 'organization', 'to', 'cc', 'reply-to', 'date');
+  $standard_headers = array('subject', 'from', 'organization', 'to', 'cc', 'bcc', 'reply-to', 'date');
   
   foreach ($standard_headers as $hkey)
     {
@@ -949,7 +949,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
     if ($hkey=='date' && !empty($headers[$hkey]))
       $header_value = format_date(strtotime($headers[$hkey]));
-    else if (in_array($hkey, array('from', 'to', 'cc', 'reply-to')))
+    else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
       $header_value = rep_specialchars_output(rcmail_address_string($IMAP->decode_header($headers[$hkey]), NULL, $attrib['addicon']));
     else
       $header_value = rep_specialchars_output($IMAP->decode_header($headers[$hkey]), '', 'all');
