@@ -123,3 +123,5 @@ CREATE TABLE messages (
 
 CREATE INDEX ix_messages_user_id ON messages(user_id);
 CREATE INDEX ix_messages_cache_key ON messages(cache_key);
+CREATE INDEX ix_messages_idx ON messages(idx);
+CREATE INDEX ix_messages_uid ON messages(uid);
