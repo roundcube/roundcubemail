@@ -265,7 +265,6 @@ function rcube_webmail()
 
     this.in_message_list = true;
     e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
     };
 
   // reset last clicked if user clicks on anything other than the message table
@@ -293,7 +292,7 @@ function rcube_webmail()
       }
       if (!new_row) return false;
       scroll_to = new_row.offsetTop;
-    } else {return false};
+    } else {return true;}
 	
 	if (mod_key != CONTROL_KEY)
 	  this.select_row(new_row.uid,mod_key);
@@ -2658,7 +2657,7 @@ function rcube_webmail()
     {
     if (!this.gui_objects.mailboxlist)
       return false;
-
+      
     var item, reg, text_obj;
     mbox = String(mbox).toLowerCase().replace(this.mbox_expression, '');
     item = document.getElementById('rcmbx'+mbox);
@@ -2681,7 +2680,7 @@ function rcube_webmail()
       }
 
     // set unread count to window title
-    if ((set_title || mbox==this.env.mailbox) && document.title)
+    if ((set_title || mbox==this.env.mailbox) && document.title)	
       {
       var doc_title = String(document.title);
       reg = /^\([0-9]+\)\s+/i;
