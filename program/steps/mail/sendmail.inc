@@ -123,9 +123,11 @@ if (strlen($identity_arr['organization']))
 if (strlen($identity_arr['reply-to']))
   $headers['Reply-To'] = $identity_arr['reply-to'];
 
-if ($_SESSION['compose']['reply_msgid'])
+if (!empty($_SESSION['compose']['reply_msgid']))
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
 
+if (!empty($_SESSION['compose']['references']))
+  $headers['References'] = $_SESSION['compose']['references'];
 
 if ($_POST['_priority'])
   {
@@ -180,8 +182,12 @@ if (is_array($_FILES['_attachments']['tmp_name']))
     $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], TRUE);
 
 
+// chose transfer encoding
+$charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-15');
+$transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
+
 // encoding settings for mail composing
-$message_param = array('text_encoding' => '8bit',
+$message_param = array('text_encoding' => $transfer_encoding,
                        'html_encoding' => 'quoted-printable',
                        'head_encoding' => 'quoted-printable',
                        'head_charset'  => $message_charset,
@@ -190,8 +196,11 @@ $message_param = array('text_encoding' => '8bit',
 
 // compose message body and get headers
 $msg_body = $MAIL_MIME->get($message_param);
-$msg_subject = $headers['Subject'];
 
+$msg_subject = $headers['Subject'];
+global $MBSTRING;
+if ($MBSTRING&&function_exists( "mb_encode_mimeheader"))
+  $headers['Subject'] = mb_encode_mimeheader( $headers['Subject'],$message_charset);
 
 // send thru SMTP server using cusotm SMTP library
 if ($CONFIG['smtp_server'])

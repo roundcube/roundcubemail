@@ -865,7 +865,7 @@ class rcube_imap
     {
     $mailbox = $this->_mod_mailbox($mbox);
 
-    // make shure mailbox exists
+    // make sure mailbox exists
     if (in_array($mailbox, $this->_list_mailboxes()))
       $saved = iil_C_Append($this->conn, $mailbox, $message);
 
@@ -885,10 +885,15 @@ class rcube_imap
     $to_mbox = $this->_mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->_mod_mailbox($from_mbox) : $this->mailbox;
 
-    // make shure mailbox exists
+    // make sure mailbox exists
     if (!in_array($to_mbox, $this->_list_mailboxes()))
-      return FALSE;
-    
+      {
+      if (in_array(strtolower($to_mbox), $this->default_folders))
+        $this->create_mailbox($to_mbox, TRUE);
+      else
+        return FALSE;
+      }
+
     // convert the list of uids to array
     $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
     
@@ -1473,10 +1478,10 @@ class rcube_imap
       $key,
       $index,
       $headers->uid,
-      substr($this->decode_header((string)$headers->subject, TRUE), 0, 128),
-      substr($this->decode_header((string)$headers->from, TRUE), 0, 128),
-      substr($this->decode_header((string)$headers->to, TRUE), 0, 128),
-      substr($this->decode_header((string)$headers->cc, TRUE), 0, 128),
+      substr((string)$this->decode_header($headers->subject, TRUE), 0, 128),
+      substr((string)$this->decode_header($headers->from, TRUE), 0, 128),
+      substr((string)$this->decode_header($headers->to, TRUE), 0, 128),
+      substr((string)$this->decode_header($headers->cc, TRUE), 0, 128),
       (int)$headers->size,
       serialize($headers));
     }

@@ -124,7 +124,7 @@ CREATE SEQUENCE cache_ids
 CREATE TABLE "cache" (
     cache_id integer DEFAULT nextval('cache_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL REFERENCES users (user_id),
-    session_id character varying(40) REFERENCES "session" (session_id),
+    session_id character varying(40) REFERENCES "session" (sess_id),
     cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     data text NOT NULL

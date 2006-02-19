@@ -36,7 +36,9 @@
 		- Parse charset from content-type in iil_C_FetchHeaders()
 		- Enhanced heaer sorting
 		- Pass message as reference in iil_C_Append (to save memory)
-		- Added BCC to the list of headers to fetch in iil_C_FetchHeaders()
+		- Added BCC and REFERENCE to the list of headers to fetch in iil_C_FetchHeaders()
+		- Leave messageID unchanged in iil_C_FetchHeaders()
+		- Avoid stripslahes in iil_Connect()
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -303,8 +305,8 @@ function iil_Connect($host, $user, $password){
 	$iil_errornum = 0;
 	
 	//strip slashes
-	$user = stripslashes($user);
-	$password = stripslashes($password);
+	// $user = stripslashes($user);
+	// $password = stripslashes($password);
 	
 	//set auth method
 	$auth_method = "plain";
@@ -1208,7 +1210,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 
 	/* FETCH date,from,subject headers */
 	$key="fh".($c++);
-	$request=$key." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID)])\r\n";
+	$request=$key." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCE)])\r\n";
 
 	if (!fputs($fp, $request)) return false;
 	do{
@@ -1263,6 +1265,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 			$result[$id]->encoding = str_replace("\n", " ", $headers["content-transfer-encoding"]);
 			$result[$id]->ctype = str_replace("\n", " ", $headers["content-type"]);
 			$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);
+			$result[$id]->reference = $headers["reference"];
 			
 			list($result[$id]->ctype, $ctype_add) = explode(";", $headers["content-type"]);
 
@@ -1270,8 +1273,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 				$result[$id]->charset = $regs[1];
 
 			$messageID = $headers["message-id"];
-			if ($messageID) $messageID = substr(substr($messageID, 1), 0, strlen($messageID)-2);
-			else $messageID = "mid:".$id;
+			if (!$messageID) "mid:".$id;
 			$result[$id]->messageID = $messageID;
 			}
             else {

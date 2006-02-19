@@ -1,16 +1,32 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2006/02/04
+2006/02/19
+----------
+- Updated localizations
+- Applied patch of Anders Karlsson
+- Applied patch of Jacob Brunson
+- Applied patch for virtuser_query by Robin Elfrink
+- Added support for References header (patch by Auke)
+- Added support for mbstring module by Tadashi Jokagi
+- Added function for automatic remove of slashes on GET and POST vars
+  if magic_quotes is enabled
+
+
+
+2006/02/05
 ----------
 - Added Slovak, Hungarian, Bosnian and Croation translation
 - Fixed bug when inserting signatures with !?&
-- Chopping message headers before inserting into the message cache table (to avoid bugs in Postgres)
+- Chopping message headers before inserting into the message cache table
+  (to avoid bugs in Postgres)
 - Allow one-char domains in e-mail addresses
 - Make product name in page title configurable
 - Make username available as skin object
-- Added session_write_close() in rcube_db class destructor to avoid problems in PHP 5.0.5
-- Use move_uploaded_file() instead of copy() for a more secure handling of uploaded attachments
+- Added session_write_close() in rcube_db class destructor to avoid problems
+  in PHP 5.0.5
+- Use move_uploaded_file() instead of copy() for a more secure handling of
+  uploaded attachments
 - Additional config parameter to show/hide deleted messages
 - Added periodic request for checking new mails (Request #1307821)
 - Added EXPUNGE command
@@ -23,18 +39,22 @@ CHANGELOG RoundCube Webmail
 - Skip sender-address as recipient when Reply-to-all
 - Fixes in utf8-class
 - Added patch for Quota display by Aury Fink Filho <nuny@aury.com.br>
+- Added garbage collector for message cache
+- Added patches for BCC headers
 
 
 2005/12/16
 ----------
 - Added Turkish and Simplified Chinese translation
 - Use virtusertable to resolve e-mail addresses at login
-- Configurable mail_domain used to compose correct e-mail addresses on first login
+- Configurable mail_domain used to compose correct e-mail addresses
+  on first login
 
 
 2005/12/03
 ----------
-- Added Finnish, Romanian, Polish, Czech, British, Norwegian, Greek, Russian, Estonian and Chinese translation
+- Added Finnish, Romanian, Polish, Czech, British, Norwegian, Greek, Russian,
+  Estonian and Chinese translation
 - Get IMAP server capabilities in array
 - Check for NAMESPACE capability before sending command
 - Set default user language from config 'locale_string'
@@ -68,7 +88,8 @@ CHANGELOG RoundCube Webmail
 ----------
 - Write list header to client even if list is empty
 - Add functions "select all", "select none" to message list
-- Improved filter for HTML messages to remove potentially malicious tags (script, iframe, object) and event handlers.
+- Improved filter for HTML messages to remove potentially malicious tags
+  (script, iframe, object) and event handlers.
 - Buttons for next/previous message in view mode
 - Add new created contact to list and show confirmation status
 - Added folder management (subscribe/create/delete)

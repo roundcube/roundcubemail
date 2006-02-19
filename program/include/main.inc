@@ -79,6 +79,7 @@ function rcmail_startup($task='mail')
   session_start();
   $sess_id = session_id();
   
+    $_SESSION['user_lang'] = rcube_language_prop($CONFIG['locale_string']);
   // create session and set session vars
   if (!$_SESSION['client_id'])
     {
@@ -265,7 +266,7 @@ function rcube_language_prop($lang, $prop='lang')
     $lang = $rcube_language_aliases[$lang];
     
   // try the first two chars
-  if (!isset($rcube_languages[$lang]) && strlen($lang>2))
+  if (!isset($rcube_languages[$lang]) && strlen($lang)>2)
     {
     $lang = substr($lang, 0, 2);
     $lang = rcube_language_prop($lang);
@@ -279,6 +280,7 @@ function rcube_language_prop($lang, $prop='lang')
     $charset = $rcube_charsets[$lang];
   else
     $charset = 'UTF-8';    
+
 
   if ($prop=='charset')
     return $charset;
@@ -320,7 +322,39 @@ function load_gui()
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT;
+  global $OUTPUT, $MBSTRING, $MBSTRING_ENCODING;
+  static $s_mbstring_loaded = NULL;
+  
+  // settings for mbstring module (by Tadashi Jokagi)
+  if ($s_mbstring_loaded===NULL)
+    {
+    if ($s_mbstring_loaded = extension_loaded("mbstring"))
+      {
+      $MBSTRING = TRUE;
+      if (function_exists("mb_mbstring_encodings"))
+        $MBSTRING_ENCODING = mb_mbstring_encodings();
+      else
+        $MBSTRING_ENCODING = array("ISO-8859-1", "UTF-7", "UTF7-IMAP", "UTF-8",
+                                   "ISO-2022-JP", "EUC-JP", "EUCJP-WIN",
+                                   "SJIS", "SJIS-WIN");
+
+       $MBSTRING_ENCODING = array_map("strtoupper", $MBSTRING_ENCODING);
+       if (in_array("SJIS", $MBSTRING_ENCODING))
+         $MBSTRING_ENCODING[] = "SHIFT_JIS";
+       }
+     else
+      {
+      $MBSTRING = FALSE;
+      $MBSTRING_ENCODING = array();
+      }
+    }
+
+  if ($MBSTRING && function_exists("mb_language"))
+    {
+    if (!mb_language(strtok($lang, "_")))
+      $MBSTRING = FALSE;   //  unsupport language
+    }
+
   $OUTPUT->set_charset(rcube_language_prop($lang, 'charset'));
   }
 
@@ -448,13 +482,22 @@ function rcmail_create_user($user, $host)
 
     $user_name = $user!=$user_email ? $user : '';
 
-    // also create a new identity record
+    // try to resolve the e-mail address from the virtuser table
+	if (!empty($CONFIG['virtuser_query']))
+	  {
+      $sql_result = $DB->query(preg_replace('/%u/', $user, $CONFIG['virtuser_query']));
+      if ($sql_arr = $DB->fetch_array($sql_result))
+        $user_email = $sql_arr[0];
+      }
+
+    // also create new identity records
     $DB->query("INSERT INTO ".get_table_name('identities')."
                 (user_id, del, standard, name, email)
                 VALUES (?, 0, 1, ?, ?)",
                 $user_id,
                 $user_name,
                 $user_email);
+
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();
@@ -662,7 +705,6 @@ function rcube_list_languages()
       closedir($dh);
       }
     }
-
   return $sa_languages;
   }
 
@@ -718,16 +760,27 @@ function rcmail_message_cache_gc()
 // this function is not complete and not tested well
 function rcube_charset_convert($str, $from, $to=NULL)
   {
+  global $MBSTRING, $MBSTRING_ENCODING;
+
   $from = strtoupper($from);
   $to = $to==NULL ? strtoupper($GLOBALS['CHARSET']) : strtoupper($to);
-  
+
   if ($from==$to)
     return $str;
     
-  // convert charset using iconv module  
-  if (function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7') {
-    return iconv($from, $to, $str);
+  // convert charset using mbstring module  
+  if ($MBSTRING)
+    {
+    $to = $to=="UTF-7" ? "UTF7-IMAP" : $to;
+    $from = $from=="UTF-7" ? "UTF7-IMAP": $from;
+    
+    if (in_array($to, $MBSTRING_ENCODING) && in_array($from, $MBSTRING_ENCODING))
+      return mb_convert_encoding($str, $to, $from);
     }
+
+  // convert charset using iconv module  
+  if (function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7')
+    return iconv($from, $to, $str);
 
   $conv = new utf8();
 
@@ -1488,7 +1541,6 @@ EOF;
   }
 
 
-
 function rcmail_charset_selector($attrib)
   {
   // pass the following attributes to the form class
@@ -1499,10 +1551,11 @@ function rcmail_charset_selector($attrib)
       
   $charsets = array(
     'US-ASCII'     => 'ASCII (English)',
-    'X-EUC-JP'     => 'EUC-JP (Japanese)',
+    'EUC-JP'       => 'EUC-JP (Japanese)',
     'EUC-KR'       => 'EUC-KR (Korean)',
     'BIG5'         => 'BIG5 (Chinese)',
     'GB2312'       => 'GB2312 (Chinese)',
+    'ISO-2022-JP'  => 'ISO-2022-JP (Japanese)',
     'ISO-8859-1'   => 'ISO-8859-1 (Latin-1)',
     'ISO-8859-2'   => 'ISO-8895-2 (Central European)',
     'ISO-8859-7'   => 'ISO-8859-7 (Greek)',

@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060104                                                  |
+ | Version 0.1b-20060219                                                 |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060104');
+define('RCMAIL_VERSION', '0.1b-20060219');
 
 
 // define global vars
@@ -81,6 +81,23 @@ require_once('PEAR.php');
 
 // set PEAR error handling
 // PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
+
+
+// strip magic quotes from Superglobals...
+if ((bool)get_magic_quotes_gpc())  // by "php Pest"
+  {
+  // Really EGPCSR - Environment $_ENV, GET $_GET , POST $_POST, Cookie $_COOKIE, Server $_SERVER
+  // and their HTTP_*_VARS cousins (separate arrays, not references) and $_REQUEST
+  $fnStripMagicQuotes = create_function(
+        '&$mData, $fnSelf',
+        'if (is_array($mData)) { foreach ($mData as $mKey=>$mValue) $fnSelf($mData[$mKey], $fnSelf); return; } '.
+        '$mData = stripslashes($mData);'
+  );
+  
+  // do each set of EGPCSR as you find necessary
+  $fnStripMagicQuotes($_POST, $fnStripMagicQuotes);
+  $fnStripMagicQuotes($_GET, $fnStripMagicQuotes);
+  }
 
 
 // catch some url/post parameters

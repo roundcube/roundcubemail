@@ -47,6 +47,11 @@ $rcmail_config['mail_domain'] = 'roundcube.net';
 // Path to a virtuser table file to resolve user names and e-mail addresses
 $rcmail_config['virtuser_file'] = '';
 
+// Query to resolve user names and e-mail addresses from the database
+// %u will be replaced with the current username for login.
+// The query should select the user's e-mail address as first col
+$rcmail_config['virtuser_query'] = '';
+
 // use this host for sending mails.
 // to use SSL connection, set ssl://smtp.host.com
 // if left blank, the PHP mail() function is used

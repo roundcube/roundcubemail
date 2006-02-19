@@ -85,7 +85,15 @@ class rcube_html_page
 
   function set_charset($charset)
     {
+    global $MBSTRING;
     $this->charset = $charset;
+    if ($MBSTRING&&function_exists( "mb_internal_encoding"))
+      {
+      if(!@mb_internal_encoding( $charset))
+        {
+        $MBSTRING = FALSE;
+        }
+      }
     }
     
   function get_charset()
