@@ -32,7 +32,11 @@ $messages['loggedout'] = 'Jūs esat veiksmīgi atslēdzies';
 
 $messages['mailboxempty'] = 'Pastkaste tukša';
 
+$messages['loading'] = 'Notiek ielāde...';
+
 $messages['loadingdata'] = 'Tiek ielādēti dati...';
+
+$messages['sendingmessage'] = 'Tiek sūtīta vēstule...';
 
 $messages['messagesent'] = 'Vēstule nosūtīta veiksmīgi';
 
@@ -50,7 +54,38 @@ $messages['nocontactsfound'] = 'Ieraksti netika atrasti';
 
 $messages['sendingfailed'] = 'Vēstule netika nosūtīta';
 
-$messages['errorsaving'] = 'Saglabājot notikusi kļūme';
+$messages['errorsaving'] = 'Saglabājot vēstuli notikusi kļūme, vēstule netika saglabāta';
 
+$messages['errormoving'] = 'Vēstule netika pārvietota';
+
+$messages['errordeleting'] = 'Vēstule netika dzēsta';
+
+$messages['deletecontactconfirm']  = 'Vai tiešām vēlaties dzēst iezīmēto(ās) kontaktpersonas?';
+
+$messages['deletefolderconfirm']  = 'Vai tiešām vēlaties dzēst šo mapi?';
+
+$messages['purgefolderconfirm']  = 'Vai tiešām vēlaties dzēst visas vēstules, kas atrodas šajā mapē?';
+
+$messages['formincomplete'] = 'Formulārs nav pilnībā aizpildīts';
+
+$messages['noemailwarning'] = 'Lūdzu ievadiet pareizu e-pasta adresi';
+
+$messages['nonamewarning']  = 'Lūdzu ievadiet vārdu';
+
+$messages['nopagesizewarning'] = 'Lūdzu ievadiet lapas izmēru';
+
+$messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
+
+$messages['nosubjectwarning']  = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
+
+$messages['nobodywarning'] = 'Sūtīt vēstuli bez satura teksta?';
+
+$messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai vēlaties atmest savu vēstuli?';
+
+$messages['noldapserver'] = 'Lūdzu izvēlaties LDAP serveri';
+
+$messages['nocontactsreturned'] = 'Neviena kontaktpersona netika atrasta';
+
+$messages['nosearchname'] = 'Lūdzu ievadiet kontaktpersonas vārdu vai e-pasta adresi';
 
 ?>

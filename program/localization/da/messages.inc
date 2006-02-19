@@ -6,7 +6,7 @@
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | Licensed under the GNU GPL                                            |
+ | All rights reserved.                                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -54,5 +54,22 @@ $messages['sendingfailed'] = 'Kunne ikke sende beskeden';
 
 $messages['errorsaving'] = 'Der opstod en fejl ved lagring af data';
 
+$messages['loading'] = 'Indlæser...';
+$messages['sendingmessage'] = 'Sender besked...';
+$messages['errormoving']    = 'Kunne ikke flytte beskeden';
+$messages['errordeleting']  = 'Kunne ikke slette beskeden';
+$messages['noemailwarning'] = 'Indtast venligst en gyldig email adresse';
+$messages['nonamewarning']  = 'Angiv venligst et navn';
+$messages['nopagesizewarning'] = 'Angiv sidestørrelsen';
+$messages['formincomplete']    = 'Formularen var ikke fuldstændig fyldt ud';
+$messages['norecipientwarning'] = 'Indtast mindst én modtager';
+$messages['nosubjectwarning']  = '"Emne" feltet er tomt. Kunne du tænke dig at skrive et nu?';
+$messages['nobodywarning'] = 'Send denne besked uden tekst?';
+$messages['deletefolderconfirm']  = 'Vil du virkelig slette denne folder?';
+$messages['notsentwarning'] = 'Beskeden er ikke blevet sendt. Vil du kassere din besked?';
+
+$messages['noldapserver'] = 'Vælg venligst hvilken LDAP server der skal søges i';
+$messages['nocontactsreturned'] = 'Ingen kontakter blev fundet';
+$messages['nosearchname'] = 'Indtast venligst en kontakts navn eller email adresse';
 
 ?>

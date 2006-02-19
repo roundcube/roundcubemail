@@ -2,14 +2,14 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ru/messages.inc                                              |
+ | language/ru_RU/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Maxim Zenin <maxx@webmechanics.ru>, www.webmechanics.ru       |
+ | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -18,43 +18,74 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Неудачная авторизация';
+$messages['loginfailed']  = 'Неудачная попытка входа';
 
-$messages['cookiesdisabled'] = 'Ваш броузер не поддерживает cookies';
+$messages['cookiesdisabled'] = 'Ваш броузер не принимает cookie';
 
-$messages['sessionerror'] = 'Ваш сеанс истек';
+$messages['sessionerror'] = 'Ваша сессия устарела';
 
-$messages['imaperror'] = 'неудачное соединение с IMAP сервером';
+$messages['imaperror'] = 'Неудачное соединение с IMAP сервером';
 
-$messages['nomessagesfound'] = 'Сообщения в этой папке не найдены';
+$messages['nomessagesfound'] = 'Сообщений не найдено';
 
-$messages['loggedout'] = 'Ваша сессия завершена. До свидания!';
+$messages['loggedout'] = 'Ваша сессия завершена. До свидания!!';
 
-$messages['mailboxempty'] = 'почтовый ящик пуст';
+$messages['mailboxempty'] = 'Почтовый ящик пуст';
+
+$messages['loading'] = 'Загрузка...';
 
 $messages['loadingdata'] = 'Загрузка данных...';
+
+$messages['sendingmessage'] = 'Отправка сообщения...';
 
 $messages['messagesent'] = 'Сообщение отправлено';
 
 $messages['successfullysaved'] = 'Сохранено';
 
-$messages['addedsuccessfully'] = 'Контакт добавлен в адресную книгу';
+$messages['addedsuccessfully'] = 'Контакт добавлен в список контактов';
 
-$messages['contactexists'] = 'Контакт с указанным адресом уже содержится в адресной книге';
+$messages['contactexists'] = 'Контакт с этим адресом e-mail уже существует';
 
-$messages['blockedimages'] = 'Для вашей безопасности изображения с удаленных сайтов заблокированы.';
+$messages['blockedimages'] = 'В целях безопасности загрузка изображений заблокирована.';
 
-$messages['encryptedmessage'] = 'Это сообщение зашифровано и не может быть отображено. Извините.';
+$messages['encryptedmessage'] = 'Сообщение зашифровано и не может быть показано. Извините!';
 
-$messages['nocontactsfound'] = 'Контактов не найдено';
+$messages['nocontactsfound'] = 'Контакты не найдены';
 
-$messages['sendingfailed'] = 'Невоможно отправить сообщение';
+$messages['sendingfailed'] = 'Не удалось отправить сообщение';
 
-$messages['errorsaving'] = 'Невозможно сохранить';
+$messages['errorsaving'] = 'В процессе сохранения произошла ошибка';
 
-$messages['errormoving'] = 'Невозможно перенести сообщение';
+$messages['errormoving'] = 'Не удалось переместить сообщение';
 
-$messages['errordeleting'] = 'Невозможно удалить сообщение';
+$messages['errordeleting'] = 'Не удалось удалить сообщение';
 
+$messages['deletecontactconfirm']  = 'Вы действительно хотите удалить выделенные контакты?';
+
+$messages['deletefolderconfirm']  = 'Вы действительно хотите удалить эту папку?';
+
+$messages['purgefolderconfirm']  = 'Вы действительно хотите удалить все сообщения в этой папке?';
+
+$messages['formincomplete'] = 'Заполнены не все поля';
+
+$messages['noemailwarning'] = 'Пожалуйста, введите корректный адрес электронной почты';
+
+$messages['nonamewarning']  = 'Пожалуйста, введите имя';
+
+$messages['nopagesizewarning'] = 'Пожалуйста, введите размер страницы';
+
+$messages['norecipientwarning'] = 'Пожалуйста, введите имя получателя';
+
+$messages['nosubjectwarning']  = 'Поле "Тема" не заполнено. Хотите заполнить его сейчас?';
+
+$messages['nobodywarning'] = 'Отправить сообщение без текста?';
+
+$messages['notsentwarning'] = 'Сообщение не было отправлено. Вы хотите отказаться от отправки?';
+
+$messages['noldapserver'] = 'Пожалуйста, выберите LDAP сервер для поиска';
+
+$messages['nocontactsreturned'] = 'Контакты не найдены';
+
+$messages['nosearchname'] = 'Пожалуйста, введите имя или адрес E-Mail';
 
 ?>

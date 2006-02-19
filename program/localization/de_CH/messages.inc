@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/de_DE/messages.inc                                           |
+ | language/de_CH/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
@@ -11,8 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
- | de_DE translation: Stephan Diehl <info@sd-edv.de>                     |
- +-----------------------------------------------------------------------+
 
  $Id$
 
@@ -20,7 +18,7 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Anmelden fehlgeschlagen';
+$messages['loginfailed']  = 'Login fehlgeschlagen';
 
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
 

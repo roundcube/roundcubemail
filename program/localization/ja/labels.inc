@@ -91,6 +91,7 @@ $labels['today'] = '今日';
 // toolbar buttons
 $labels['writenewmessage']  = '新規メッセージを作成する';
 $labels['replytomessage']   = 'メッセージを返信する';
+$labels['replytoallmessage'] = '送信者とすべての受信者に返信する';
 $labels['forwardmessage']   = 'メッセージを転送する';
 $labels['deletemessage']    = 'ごみ箱にメッセージを移動する';
 $labels['printmessage']     = 'このメッセージを印刷する';
@@ -104,10 +105,18 @@ $labels['all'] = 'すべて';
 $labels['none'] = 'なし';
 $labels['unread'] = '未読';
 
+$labels['compact'] = 'コンパクト';
+$labels['empty'] = '空';
+$labels['purge'] = '破棄';
+
+$labels['quota'] = 'ディスク使用量';
+
+
 // message compose
 $labels['compose']  = 'メッセージを作成する';
 $labels['sendmessage']  = 'メッセージを今すぐ送信する';
 $labels['addattachment']  = 'ファイルを添付する';
+$labels['charset']  = '文字エンコード';
 
 $labels['attachments'] = '添付ファイル';
 $labels['upload'] = 'アップロード';
@@ -119,6 +128,7 @@ $labels['normal']  = '通常';
 $labels['high']    = '高い';
 $labels['highest'] = '最高';
 
+$labels['nosubject']  = '(件名なし)';
 $labels['showimages'] = '画像を表示する';
 
 
@@ -128,8 +138,8 @@ $labels['firstname'] = '名前';
 $labels['surname']   = '苗字';
 $labels['email']     = '電子メールアドレス';
 
-$labels['addcontact'] = '新規連絡簿を追加する';
-$labels['editcontact'] = '連絡簿を編集する';
+$labels['addcontact'] = '新規連絡先を追加する';
+$labels['editcontact'] = '連絡先を編集する';
 
 $labels['edit']   = '編集する';
 $labels['cancel'] = '取り消し';
@@ -137,11 +147,22 @@ $labels['save']   = '保存する';
 $labels['delete'] = '削除する';
 
 $labels['newcontact']     = '新規連絡カードを作成する';
-$labels['deletecontact']  = '選択した連絡簿を削除する';
+$labels['addcontact']     = '選択した連絡先をアドレス帳に追加する';
+$labels['deletecontact']  = '選択した連絡先を削除する';
 $labels['composeto']      = '次にメールを作成する:';
-$labels['contactsfromto'] = '連絡簿 $from から $to (合計: $count)';
+$labels['contactsfromto'] = '連絡先 $from から $to (合計: $count)';
 $labels['print']          = '印刷する';
 $labels['export']         = 'エクスポートする';
+
+// LDAP search
+$labels['ldapsearch'] = 'LDAP ディレクトリ検索';
+
+$labels['ldappublicsearchname']    = '連絡先名';
+$labels['ldappublicsearchtype'] = '正確に一致?';
+$labels['ldappublicserverselect'] = 'サーバー選択';
+$labels['ldappublicsearchfield'] = 'Search on';
+$labels['ldappublicsearchform'] = 'Look for a contact';
+$labels['ldappublicsearch'] = '検索する';
 
 
 // settings
@@ -161,9 +182,10 @@ $labels['edititem']  = '項目を編集する';
 $labels['setdefault']  = 'デフォルトの設定';
 $labels['language']  = '言語';
 $labels['timezone']  = 'タイムゾーン';
-$labels['pagesize']  = 'ページ毎の行数';
+$labels['pagesize']  = 'ページ辺りの行数';
+$labels['signature'] = '署名';
 
-
+$labels['folder']  = 'フォルダー';
 $labels['folders']  = 'フォルダー一覧';
 $labels['foldername']  = 'フォルダー名';
 $labels['subscribed']  = '購読済';

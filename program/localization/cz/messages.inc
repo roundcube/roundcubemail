@@ -18,42 +18,39 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Pшihlбљenн selhalo';
+$messages['loginfailed']  = 'Přihlášení selhalo';
+$messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nutné';
+$messages['sessionerror'] = 'Vaše přihlášení je neplatné nebo vypršelo';
+$messages['imaperror'] = 'Připojení na IMAP server selhalo';
+$messages['nomessagesfound'] = 'Ve schránce nebyla nalezena žádná zpráva';
+$messages['loggedout'] = 'Byli jste úspěšně odhlášeni. Nashledanou!';
+$messages['mailboxempty'] = 'Schránka je prázdná';
+$messages['loadingdata'] = 'Načítám data...';
+$messages['messagesent'] = 'Zpráva byla odeslána';
+$messages['successfullysaved'] = 'Uloženo';
+$messages['addedsuccessfully'] = 'Kontakt byl úspěšně přidán do adresáře';
+$messages['contactexists'] = 'Kontakt se zadanou e-mailovou adresou již existuje';
+$messages['blockedimages'] = 'Z bezpečnostních důvodů byly zablokovány obrázky ve zprávě.';
+$messages['encryptedmessage'] = 'Tato zpráva je zašifrovaná a nelze ji zobrazit.';
+$messages['nocontactsfound'] = 'Nemáte žádné kontakty';
+$messages['sendingfailed'] = 'Odesílání zprávy selhalo';
+$messages['errorsaving'] = 'Vyskytla se chyba při ukládání';
+$messages['errormoving'] = 'Nemohu přesunout zprávu';
+$messages['errordeleting'] = 'Nemohu smazat zprávu';
 
-$messages['cookiesdisabled'] = 'Vбљ prohlнћeи nepodporuje cookies, kterй jsou pro pшihlбљenн nutnй';
-
-$messages['sessionerror'] = 'Vaљe pшihlбљenн je neplatnй nebo vyprљelo';
-
-$messages['imaperror'] = 'Pшipojenн na IMAP server selhalo';
-
-$messages['nomessagesfound'] = 'Ve schrбnce nebyla nalezena ћбdnб zprбva';
-
-$messages['loggedout'] = 'Byli jste ъspмљnм odhlбљeni. Nashledanou!';
-
-$messages['mailboxempty'] = 'Schrбnka je prбzdnб';
-
-$messages['loadingdata'] = 'Naинtбm data...';
-
-$messages['messagesent'] = 'Zprбva byla odeslбna';
-
-$messages['successfullysaved'] = 'Uloћeno';
-
-$messages['addedsuccessfully'] = 'Kontakt byl ъspмљnм pшidбn do adresбшe';
-
-$messages['contactexists'] = 'Kontakt se zadanou e-mailovou adresou jiћ existuje';
-
-$messages['blockedimages'] = 'Z bezpeиnostnнch dщvodщ byly zablokovбny obrбzky ve zprбvм.';
-
-$messages['encryptedmessage'] = 'Tato zprбva je zaљifrovanб a nelze ji zobrazit.';
-
-$messages['nocontactsfound'] = 'Nemбte ћбdnй kontakty';
-
-$messages['sendingfailed'] = 'Odesнlбnн zprбvy selhalo';
-
-$messages['errorsaving'] = 'Vyskytla se chyba pшi uklбdбnн';
-
-$messages['errormoving'] = 'Nemohu pшesunout zprбvu';
-
-$messages['errordeleting'] = 'Nemohu smazat zprбvu';
+$messages['loading'] = 'Načítám...';
+$messages['sendingmessage'] = 'Odesílám zprávu...';
+$messages['noemailwarning'] = 'Zadejte, prosím, platnou adresu';
+$messages['nonamewarning']  = 'Zadejte, prosím, jméno';
+$messages['nopagesizewarning'] = 'Zadejte, prosím, velikost stránky';
+$messages['formincomplete']    = 'Formulář nebyl korektně vyplněn';
+$messages['norecipientwarning'] = 'Zadejte, prosím, alespoň jednoho příjemce';
+$messages['nosubjectwarning']  = 'Předmět nebyl vyplňen. Přejete si jej zadat nyní?';
+$messages['nobodywarning'] = 'Opravdu chtete odeslat prázdnou zprávu?';
+$messages['deletefolderconfirm']  = 'Chcete opravdu smazat tento adresář?';
+$messages['notsentwarning'] = 'Zpráva nebyla odeslána. Přejete si zprávu zahodit?';
+$messages['noldapserver'] = 'Zvolte, prosím, ldap server k hledání';
+$messages['nocontactsreturned'] = 'Nebyly nalezeny žádné kontakty';
+$messages['nosearchname'] = 'Zadejte, prosím, jméno nebo e-mail kontaktu';
 
 ?>

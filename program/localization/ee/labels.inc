@@ -121,9 +121,9 @@ $labels['high']    = 'Kõrge';
 $labels['highest'] = 'Kõrgeim';
 
 $labels['nosubject']  = '(teema puudub)';
-
 $labels['showimages'] = 'Näita pilte';
-
+$labels['signature'] = 'Allkiri';
+$labels['charset']  = 'Märgistik';
 
 // address boook
 $labels['name']      = 'Näidatav nimi';
@@ -167,16 +167,29 @@ $labels['timezone']  = 'Ajatsoon';
 $labels['pagesize']  = 'Ridu lehe kohta';
 
 
+$labels['folder']  = 'Kaust';
 $labels['folders']  = 'Kaustad';
 $labels['foldername']  = 'Kausta nimi';
 $labels['subscribed']  = 'Näitan';
 $labels['create']  = 'Loo';
 $labels['createfolder']  = 'Loo uus kaust';
 $labels['deletefolder']  = 'Kustuta kaust';
-$labels['managefolders']  = 'Manage folders';
+$labels['managefolders']  = 'Halda kaustu';
+$labels['compact'] = 'Tihenda';
+$labels['empty'] = 'Tühjenda';
+$labels['purge'] = 'Puhasta';
+$labels['quota'] = 'Ketta kasutus';
 
 $labels['sortby'] = 'Järjesta';
 $labels['sortasc']  = 'Järjesta kasvavalt';
 $labels['sortdesc'] = 'Järjesta kahanevalt';
+
+$labels['ldapsearch'] = 'LDAP kataloogi otsing';
+$labels['ldappublicsearchname']    = 'Kontakti nimi';
+$labels['ldappublicsearchtype'] = 'Täpne vaste ?';
+$labels['ldappublicserverselect'] = 'Vali server';
+$labels['ldappublicsearchfield'] = 'Otsi kohast';
+$labels['ldappublicsearchform'] = 'Otsi kontakti';
+$labels['ldappublicsearch'] = 'Otsi';
 
 ?>

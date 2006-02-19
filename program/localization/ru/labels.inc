@@ -2,14 +2,14 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ru/labels.inc                                                |
+ | language/ru_RU/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Maxim Zenin <maxx@webmechanics.ru>, www.webmechanics.ru       |
+ | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,16 +19,16 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Имя пользователя';
+$labels['username']  = 'Логин';
 $labels['password']  = 'Пароль';
 $labels['server']    = 'Сервер';
-$labels['login']     = 'Логин';
+$labels['login']     = 'Войти';
 
 // taskbar
 $labels['logout']   = 'Выход';
-$labels['mail']     = 'E-Mail';
+$labels['mail']     = 'Почта';
 $labels['settings'] = 'Настройки';
-$labels['addressbook'] = 'Адресная книга';
+$labels['addressbook'] = 'Контакты';
 
 // mailbox names
 $labels['inbox']  = 'Входящие';
@@ -39,11 +39,11 @@ $labels['junk']   = 'СПАМ';
 
 // message listing
 $labels['subject'] = 'Тема';
-$labels['from']    = 'отправитель';
+$labels['from']    = 'Отправитель';
 $labels['to']      = 'Получатель';
 $labels['cc']      = 'Копия';
 $labels['bcc']     = 'Скрытая';
-$labels['replyto'] = 'Отвечать на';
+$labels['replyto'] = 'Обратный адрес';
 $labels['date']    = 'Дата';
 $labels['size']    = 'Размер';
 $labels['priority'] = 'Приоритет';
@@ -53,20 +53,20 @@ $labels['organization'] = 'Организация';
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Папки';
-$labels['messagesfromto'] = 'Сообщения  с $from по $to из $count';
+$labels['messagesfromto'] = 'Сообщения с $from по $to из $count';
 $labels['messagenrof'] = 'Сообщение $nr из $count';
 
-$labels['moveto']   = 'переместить в...';
-$labels['download'] = 'загрузить';
+$labels['moveto']   = 'Переместить в...';
+$labels['download'] = 'Загрузить';
 
 $labels['filename'] = 'Имя файла';
 $labels['filesize'] = 'Размер файла';
 
-$labels['preferhtml'] = 'предпочитать HTML';
+$labels['preferhtml'] = 'Предпочитать HTML';
 $labels['htmlmessage'] = 'Сообщение HTML';
 $labels['prettydate'] = 'Красивые даты';
 
-$labels['addtoaddressbook'] = 'Добавить в адресную книгу';
+$labels['addtoaddressbook'] = 'Добавить в контакты';
 
 // weekdays short
 $labels['sun'] = 'Вс';
@@ -91,23 +91,32 @@ $labels['today'] = 'Сегодня';
 // toolbar buttons
 $labels['writenewmessage']  = 'Новое сообщение';
 $labels['replytomessage']   = 'Ответить';
+$labels['replytoallmessage'] = 'Ответить всем';
 $labels['forwardmessage']   = 'Переслать';
 $labels['deletemessage']    = 'В корзину';
 $labels['printmessage']     = 'Печать';
-$labels['previousmessages'] = 'Показать предыдущее';
-$labels['nextmessages']     = 'Показать следующее';
+$labels['previousmessages'] = 'Предыдущее';
+$labels['nextmessages']     = 'Следующее';
 $labels['backtolist']       = 'К списку сообщений';
-$labels['viewsource']       = 'Показать источник';
+$labels['viewsource']       = 'Исходный текст';
 
 $labels['select'] = 'Выбрать';
 $labels['all'] = 'Все';
 $labels['none'] = 'Ничего';
 $labels['unread'] = 'Непрочитанные';
 
+$labels['compact'] = 'Сжать';
+$labels['empty'] = 'Опустошить';
+$labels['purge'] = 'Очистить';
+
+$labels['quota'] = 'Квота';
+
+
 // message compose
-$labels['compose']  = 'Написать';
+$labels['compose']  = 'Написать сообщение';
 $labels['sendmessage']  = 'Отправить сейчас';
-$labels['addattachment']  = 'Вложение';
+$labels['addattachment']  = 'Добавить вложение';
+$labels['charset']  = 'Кодировка';
 
 $labels['attachments'] = 'Вложения';
 $labels['upload'] = 'Загрузить';
@@ -119,29 +128,41 @@ $labels['normal']  = 'Нормальный';
 $labels['high']    = 'Высокий';
 $labels['highest'] = 'Самый высокий';
 
-$labels['showimages'] = 'Показать картинки';
+$labels['nosubject']  = '(без темы)';
+$labels['showimages'] = 'Показать изображения';
 
 
 // address boook
-$labels['name']      = 'Псевдоним';
+$labels['name']      = 'Отображаемое имя';
 $labels['firstname'] = 'Имя';
 $labels['surname']   = 'Фамилия';
 $labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Добавть контакт';
+$labels['addcontact'] = 'Добавить контакт';
 $labels['editcontact'] = 'Редактировать контакт';
 
 $labels['edit']   = 'Правка';
 $labels['cancel'] = 'Отмена';
 $labels['save']   = 'Сохранить';
-$labels['delete'] = 'Отмена';
+$labels['delete'] = 'Удалить';
 
-$labels['newcontact']     = 'Создать карточку контакта';
+$labels['newcontact']     = 'Создать новый контакт';
+$labels['addcontact']     = 'Добавить выбранные контакты в список контактов';
 $labels['deletecontact']  = 'Удалить выбранные контакты';
-$labels['composeto']      = 'Новое сообщение контакту';
+$labels['composeto']      = 'Создать сообщение для выбранных контактов';
 $labels['contactsfromto'] = 'Контакты с $from по $to из $count';
 $labels['print']          = 'Печать';
 $labels['export']         = 'Экспорт';
+
+// LDAP search
+$labels['ldapsearch'] = 'Поиск в каталоге LDAP';
+
+$labels['ldappublicsearchname']    = 'Имя';
+$labels['ldappublicsearchtype'] = 'Точное совпадение?';
+$labels['ldappublicserverselect'] = 'Выбрать сервер';
+$labels['ldappublicsearchfield'] = 'искать на';
+$labels['ldappublicsearchform'] = 'Искать контакт';
+$labels['ldappublicsearch'] = 'Искать';
 
 
 // settings
@@ -153,24 +174,28 @@ $labels['editpreferences']  = 'Редактировать настройки п�
 
 $labels['identities']  = 'Профили';
 $labels['manageidentities']  = 'Управление профилями';
-$labels['newidentity']  = 'новый профиль';
+$labels['newidentity']  = 'Новый профиль';
 
-$labels['newitem']  = 'Новый элемент';
-$labels['edititem']  = 'Редактировать элемент';
+$labels['newitem']  = 'Новый';
+$labels['edititem']  = 'Правка';
 
-$labels['setdefault']  = 'Сделать основным';
+$labels['setdefault']  = 'Использовать по умолчанию';
 $labels['language']  = 'Язык';
 $labels['timezone']  = 'Часовой пояс';
 $labels['pagesize']  = 'Строк на странице';
+$labels['signature'] = 'Подпись';
 
-
+$labels['folder']  = 'Папка';
 $labels['folders']  = 'Папки';
 $labels['foldername']  = 'Имя папки';
 $labels['subscribed']  = 'Подписан';
 $labels['create']  = 'Создать';
 $labels['createfolder']  = 'Создать новую папку';
 $labels['deletefolder']  = 'Удалить папку';
-$labels['managefolders']  = 'Настройка папок';
+$labels['managefolders']  = 'Управление папками';
 
+$labels['sortby'] = 'Сортировать по';
+$labels['sortasc']  = 'Возрастанию';
+$labels['sortdesc'] = 'Убыванию';
 
 ?>

@@ -76,5 +76,14 @@ $messages['nosubjectwarning']  = 'Väli "Pealkiri" on tühi. Soovid selle ära t
 
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita ?';
 
+$messages['deletefolderconfirm']  = 'Soovid selle kataloogi kindlasti kustutada ?';
+
+$messages['notsentwarning'] = 'Kirja ei suudetud saata. Soovid selle ära visata ?';
+
+$messages['noldapserver'] = 'Palun vali otsinguks LDAPi server';
+
+$messages['nocontactsreturned'] = 'Ühtegi kontakti ei leitud';
+
+$messages['nosearchname'] = 'Palun sisesta kontakti nimi või e-maili aadress';
 
 ?>

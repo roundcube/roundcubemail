@@ -60,7 +60,11 @@ $messages['errormoving'] = 'Nemôžem presunúť správu';
 
 $messages['errordeleting'] = 'Nemôžem zmazať správu';
 
+$messages['deletecontactconfirm']  = 'Ste si istý, že chcete zmazať zvolený(é) konakt(y)?';
+
 $messages['deletefolderconfirm']  = 'Ste si istý, že chcete zmazať túto zložku?';
+
+$messages['purgefolderconfirm']  = 'Ste si istý, že chcete zmazať všetky správy v tejto zložke?';
 
 $messages['formincomplete'] = 'Formulár nie je kompletne vyplnený';
 
@@ -70,7 +74,7 @@ $messages['nonamewarning']  = 'Prosím zadajte meno';
 
 $messages['nopagesizewarning'] = 'Prosím zadajte počet strán';
 
-$messages['norecipientwarning'] = 'Prosím vložte aspoň jedného príjemcu';
+$messages['norecipientwarning'] = 'Prosím vložte aspoň jedného adresáta';
 
 $messages['nosubjectwarning']  = 'Predmet správy je prázdny. Chcete ho teraz zadať?';
 
@@ -78,5 +82,10 @@ $messages['nobodywarning'] = 'Chcete odoslať správu bez textu?';
 
 $messages['notsentwarning'] = 'Správa nebola odoslaná, chcete ju zrušiť?';
 
+$messages['noldapserver'] = 'Prosím zvoľ LDAP server pre vyhľadávanie';
+
+$messages['nocontactsreturned'] = 'Neboli nájdené žiadne kontakty';
+
+$messages['nosearchname'] = 'Prosím vložte meno alebo emailovu adresu';
 
 ?>

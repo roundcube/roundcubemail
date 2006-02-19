@@ -2,16 +2,22 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/labels.inc                                                |
+ | language/es/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David Grajal Blanco <dgrabla@gmail.com>                        |
+ | Author: David Grajal Blanco <dgrabla@gmail.com>                       |
+ |         http://david.grajal.net                                       |
  +-----------------------------------------------------------------------+
-
- $Id: labels.inc,v 1.1.1.1 2005/09/17
+ | Changelog:                                                            |
+ |  - 6/2/2006 Translations of new features and improvements)            |
+ |  - 17/9/2005 First release                                            |
+ +-----------------------------------------------------------------------+
+ 
+ $Id$
 
 */
 
@@ -63,7 +69,6 @@ $labels['filesize'] = 'Tamaño del fichero';
 
 $labels['preferhtml'] = 'Prefiero HTML';
 $labels['htmlmessage'] = 'Mensaje HTML';
-$labels['prettydate'] = 'Fechas cortas';
 
 $labels['addtoaddressbook'] = 'Añadir a contactos';
 
@@ -90,7 +95,6 @@ $labels['today'] = 'Hoy';
 // toolbar buttons
 $labels['writenewmessage']  = 'Crear nuevo mensaje';
 $labels['replytomessage']   = 'Responder al mensaje';
-$labels['replytoallmessage'] = 'Responder a todos';
 $labels['forwardmessage']   = 'Reenviar mensaje';
 $labels['deletemessage']    = 'Move message to trash';
 $labels['printmessage']     = 'Imprimir este mensaje';
@@ -98,19 +102,30 @@ $labels['previousmessages'] = 'Mostrar mensajes anteriores';
 $labels['nextmessages']     = 'Mostrar mensajes siguientes';
 $labels['backtolist']       = 'Volver a la lista de mensajes';
 
+$labels['viewsource']       = 'Mostrar código';
+
 $labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todos';
 $labels['none'] = 'Ninguno';
 $labels['unread'] = 'No leidos';
 
+$labels['compact'] = 'Compactar';
+$labels['empty'] = 'Vaciar';
+$labels['purge'] = 'Eliminar';
+
+$labels['quota'] = 'Uso de disco';
+
+
 // message compose
 $labels['compose']  = 'Escribir un mensaje';
 $labels['sendmessage']  = 'Enviar ahora el mensaje';
 $labels['addattachment']  = 'Añadir un fichero';
+$labels['charset']  = 'Codigo';
 
 $labels['attachments'] = 'Adjuntos';
 $labels['upload'] = 'Subir';
 $labels['close']  = 'Cerrar';
+
 
 $labels['low']     = 'Bajo';
 $labels['lowest']  = 'Bajísimo';
@@ -120,9 +135,12 @@ $labels['highest'] = 'Altísimo';
 
 $labels['showimages'] = 'Mostrar imágenes';
 
+$labels['nosubject']  = '(sin asunto)';
+$labels['showimages'] = 'Mostrar imágenes';
+
 
 // address boook
-$labels['name']      = 'Mostrar nombre';
+$labels['name']      = 'Nombre completo';
 $labels['firstname'] = 'Nombre';
 $labels['surname']   = 'Apellido';
 $labels['email']     = 'E-Mail';
@@ -139,6 +157,18 @@ $labels['newcontact']     = 'Crear nuevo contacto';
 $labels['deletecontact']  = 'Eliminar contactos seleccionados';
 $labels['composeto']      = 'Redactar correo a';
 $labels['contactsfromto'] = 'Contactos $from a $to de $count';
+$labels['print']          = 'Imprimir';
+$labels['export']         = 'Exportar';
+
+// LDAP search
+$labels['ldapsearch'] = 'Búsqueda en el directorio LDAP';
+
+$labels['ldappublicsearchname']    = 'Nombre';
+$labels['ldappublicsearchtype'] = '¿Búsqueda exacta?';
+$labels['ldappublicserverselect'] = 'Elegir servidores';
+$labels['ldappublicsearchfield'] = 'Buscando';
+$labels['ldappublicsearchform'] = 'Buscar un contacto';
+$labels['ldappublicsearch'] = 'Buscar';
 
 
 // settings
@@ -160,6 +190,9 @@ $labels['language']  = 'Idioma';
 $labels['timezone']  = 'Zona horaria';
 $labels['pagesize']  = 'Filas por página';
 
+$labels['signature'] = 'Firma';
+
+$labels['folder']  = 'Carpeta';
 
 $labels['folders']  = 'Carpetas';
 $labels['foldername']  = 'Nombre de carpeta';
@@ -169,5 +202,11 @@ $labels['createfolder']  = 'Crear nueva carpeta';
 $labels['deletefolder']  = 'Eliminar carpeta';
 $labels['managefolders']  = 'Gestionar carpetas';
 
+$labels['sortby'] = 'Ordenar por';
+$labels['sortasc']  = 'Orden ascendente';
+$labels['sortdesc'] = 'Orden descendente';
+
+$labels['prettydate']  = 'Formato de fecha';
+$labels['replytoallmessage'] = 'Responder al emisor y a todos los destinatarios';
 
 ?>

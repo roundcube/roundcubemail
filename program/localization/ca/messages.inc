@@ -1,56 +1,88 @@
-<?php
+﻿<?php
 
 /*
  +-----------------------------------------------------------------------+
- | language/ca/messages.inc                                              |
+ | language/en/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
- | All rights reserved.                                                  |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id$ 
 
 */
 
 $messages = array();
 
-$messages['loginfailed']  = 'Accés Erroni';
+$messages['loginfailed']  = 'Contrasenya incorrecta';
 
-$messages['cookiesdisabled'] = 'El teu navegador no accepta cookies';
+$messages['cookiesdisabled'] = 'El seu navegador no accepta cookies';
 
-$messages['sessionerror'] = 'La teva sessió és invàlida o ha caducat';
+$messages['sessionerror'] = 'La seva sessió no existeix o ha expirat';
 
-$messages['imaperror'] = 'La conexió al servidor IMAP ha fallat';
+$messages['imaperror'] = 'Error de conexió amb el servidor IMAP';
 
-$messages['nomessagesfound'] = 'No hi ha missatges a aquesta bústia';
+$messages['nomessagesfound'] = 'No s\'han trobat missatges en aquesta bústia';
 
-$messages['loggedout'] = 'Has finalitzat la sessió correctament. Adèu!';
+$messages['loggedout'] = 'Ha tancat la sessió. Fins aviat!';
 
-$messages['mailboxempty'] = 'La bústia és buida';
+$messages['mailboxempty'] = 'La bústia està buida';
+
+$messages['loading'] = 'Carregant...';
 
 $messages['loadingdata'] = 'Carregant dades...';
 
-$messages['messagesent'] = 'Misstage enviat correctament';
+$messages['sendingmessage'] = 'Enviant missatge...';
 
-$messages['successfullysaved'] = 'Guardat correctament';
+$messages['messagesent'] = 'Missatge enviat correctament';
 
-$messages['addedsuccessfully'] = 'Contacte afegit correctament a la llibreta d´adreces';
+$messages['successfullysaved'] = 'Desat correctament';
 
-$messages['contactexists'] = 'Ja existeix un contacte amb aquest e-mail';
+$messages['addedsuccessfully'] = 'Contacte afegit correctament a la llibreta d\'adreces';
 
-$messages['blockedimages'] = 'Per protegir la teva privacitat les imatges remotes han estat bloquejades.';
+$messages['contactexists'] = 'Ja hi ha un contacte amb aquesta adreça de correu';
 
-$messages['encryptedmessage'] = 'És un missatge encriptat i no es pot mostrar. Ho sento!';
+$messages['blockedimages'] = 'Per a protegir la seva privacitat, les imatges remotes han sigut bloquejades en aquest missatge';
+
+$messages['encryptedmessage'] = 'Aquest és un missatge xifrat i no pot ser mostrat. Ho sento!';
 
 $messages['nocontactsfound'] = 'No hi ha contactes';
 
 $messages['sendingfailed'] = 'Error enviant missatge';
 
-$messages['errorsaving'] = 'Error mentre es guardava';
+$messages['errorsaving'] = 'Va ocórrer un error mentres es desava';
 
+$messages['errormoving'] = 'No s\'ha pogut moure el missatge';
+
+$messages['errordeleting'] = 'No s\'ha pogut eliminar el missatge';
+
+$messages['deletecontactconfirm']  = 'Realment vol suprimir el(s) contacte(s) selecionat(s)?';
+
+$messages['deletefolderconfirm']  = 'Realment vol suprimir aquesta carpeta?';
+
+$messages['formincomplete'] = 'El formulari no ha sigut emplenat totalment';
+
+$messages['noemailwarning'] = 'Introdueixi una direcció email vàlida';
+
+$messages['nonamewarning']  = 'Introdueixi un nom';
+
+$messages['nopagesizewarning'] = 'Introdueixi un tamany de pàgina';
+
+$messages['norecipientwarning'] = 'Introdueixi al menys un destinatari';
+
+$messages['nosubjectwarning']  = 'El camp "Assumpte" eatà buit. Vol introduir un ara?';
+
+$messages['nobodywarning'] = 'Vol enviar aquest missatge sense text?';
+
+$messages['notsentwarning'] = 'El missatge no s\'ha enviat. Vol descartar el seu missatge?';
+
+$messages['noldapserver'] = 'Seleccioni un servidor ldap per a cercar';
+
+$messages['nocontactsreturned'] = 'No s\'han trobat contactes';
+
+$messages['nosearchname'] = 'Introdueixi un nom de contacte o una direcció email';
 
 ?>

@@ -17,9 +17,8 @@
 */
 
 $labels = array();
-$utf8_decoding = TRUE;
 // login page
-$labels['username']  = 'Užívateľ';
+$labels['username']  = 'Prihlasovacie meno';
 $labels['password']  = 'Heslo';
 $labels['server']    = 'Server';
 $labels['login']     = 'Prihlásiť';
@@ -42,7 +41,7 @@ $labels['subject'] = 'Predmet';
 $labels['from']    = 'Odosielateľ';
 $labels['to']      = 'Adresát';
 $labels['cc']      = 'Kópia';
-$labels['bcc']     = 'Bcc';
+$labels['bcc']     = 'Tajná kópia';
 $labels['replyto'] = 'Odpovedať na';
 $labels['date']    = 'Dátum';
 $labels['size']    = 'Veľkosť';
@@ -64,7 +63,7 @@ $labels['filesize'] = 'Veľkosť súboru';
 
 $labels['preferhtml'] = 'Uprednostniť HTML zobrazenie';
 $labels['htmlmessage'] = 'HTML správa';
-$labels['prettydate'] = '';
+$labels['prettydate'] = 'Pretty dates';
 
 $labels['addtoaddressbook'] = 'Pridaj do adresára';
 
@@ -139,12 +138,23 @@ $labels['cancel'] = 'Zruš';
 $labels['save']   = 'Ulož';
 $labels['delete'] = 'Zmaž';
 
-$labels['newcontact']     = 'Vytvor novú kartu';
-$labels['deletecontact']  = 'Zmaž zvolené karty';
+$labels['newcontact']     = 'Vytvor nový kontakt';
+$labels['addcontact']     = 'Pridaj zvolený kontakt do vášho adresára';
+$labels['deletecontact']  = 'Zmaž zvolené kontakty';
 $labels['composeto']      = 'Vytvor správu';
 $labels['contactsfromto'] = 'Kontakty od $from do $to z $count';
 $labels['print']          = 'Tlač';
 $labels['export']         = 'Export';
+
+// LDAP search
+$labels['ldapsearch'] = 'LDAP adresárové vyhľadávanie';
+
+$labels['ldappublicsearchname']    = 'Hľadaný kontakt';
+$labels['ldappublicsearchtype'] = 'Presná zhoda?';
+$labels['ldappublicserverselect'] = 'Zvoľ server';
+$labels['ldappublicsearchfield'] = 'Hľadaj podľa';
+$labels['ldappublicsearchform'] = 'Vyhľadávanie kontaktov';
+$labels['ldappublicsearch'] = 'Hľadaj';
 
 
 // settings
@@ -167,6 +177,7 @@ $labels['timezone']  = 'Časová zóna';
 $labels['pagesize']  = 'Riadky na stránku';
 $labels['signature'] = 'Podpis';
 
+$labels['folder']  = 'Zložka';
 $labels['folders']  = 'Zložky';
 $labels['foldername']  = 'Meno zložky';
 $labels['subscribed']  = 'Podpísaný';

@@ -105,10 +105,18 @@ $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mitään';
 $labels['unread'] = 'Lukemattomat';
 
+$labels['compact'] = 'Compact';
+$labels['empty'] = 'Empty';
+$labels['purge'] = 'Purge';
+
+$labels['quota'] = 'Levytila';
+
+
 // message compose
 $labels['compose']  = 'Viestin kirjoitus';
 $labels['sendmessage']  = 'Lähetä viesti';
 $labels['addattachment']  = 'Liitetiedosto';
+$labels['charset']  = 'Merkistö';
 
 $labels['attachments'] = 'Liitetiedostot';
 $labels['upload'] = 'Lisää';
@@ -120,6 +128,7 @@ $labels['normal']  = 'Normaali';
 $labels['high']    = 'Korkea';
 $labels['highest'] = 'Korkein';
 
+$labels['nosubject']  = '(ei otsikkoa)';
 $labels['showimages'] = 'Näytä kuvat';
 
 
@@ -138,11 +147,22 @@ $labels['save']   = 'Tallenna';
 $labels['delete'] = 'Poista';
 
 $labels['newcontact']     = 'Luo uusi kontakti';
+$labels['addcontact']     = 'Lisää valittu kontakti osoitekirjaan';
 $labels['deletecontact']  = 'Poista valitut kontaktit';
 $labels['composeto']      = 'Kirjoita viesti kontaktille';
 $labels['contactsfromto'] = 'Kontaktit $from-$to/$count';
 $labels['print']          = 'Tulosta';
 $labels['export']         = 'Vie (export)';
+
+// LDAP search
+$labels['ldapsearch'] = 'LDAP hakemistohaku';
+
+$labels['ldappublicsearchname']    = 'Kontaktin nimi';
+$labels['ldappublicsearchtype'] = 'Tarkka osuma?';
+$labels['ldappublicserverselect'] = 'Valitse palvelimet';
+$labels['ldappublicsearchfield'] = 'Hakusana';
+$labels['ldappublicsearchform'] = 'Etsi kontaktia';
+$labels['ldappublicsearch'] = 'Hae';
 
 
 // settings
@@ -163,8 +183,9 @@ $labels['setdefault']  = 'Aseta vakioksi';
 $labels['language']  = 'Kieli';
 $labels['timezone']  = 'Aikavyöhyke';
 $labels['pagesize']  = 'Rivejä sivulla';
+$labels['signature'] = 'Allekirjoitus';
 
-
+$labels['folder']  = 'Kansio';
 $labels['folders']  = 'Kansiot';
 $labels['foldername']  = 'Kansion nimi';
 $labels['subscribed']  = 'Näytetään';
@@ -173,5 +194,8 @@ $labels['createfolder']  = 'Luo uusi kansio';
 $labels['deletefolder']  = 'Poista kansio';
 $labels['managefolders']  = 'Kansioiden ylläpito';
 
+$labels['sortby'] = 'Järjestä';
+$labels['sortasc']  = 'Järjestä nousevasti';
+$labels['sortdesc'] = 'Järjestä laskevasti';
 
 ?>

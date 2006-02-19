@@ -60,7 +60,11 @@ $messages['errormoving'] = 'Impossible de déplacer le message';
 
 $messages['errordeleting'] = 'Impossible d\'effacer le message';
 
+$messages['deletecontactconfirm']  = 'Voulez-vous vraiment effacer les contacts sélectionnés ?';
+
 $messages['deletefolderconfirm']  = 'Voulez-vous vraiment effacer ce dossier ?';
+
+$messages['purgefolderconfirm']  = 'Voulez-vous vraiment effacer tous les messages dans ce dossier ?';
 
 $messages['formincomplete'] = 'Le formulaire n\'a pas été entièrement rempli';
 

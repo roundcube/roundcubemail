@@ -6,7 +6,7 @@
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
- | Licensed under the GNU GPL                                            |
+ | All rights reserved.                                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -66,7 +66,6 @@ $labels['filesize'] = 'Filstørrelse';
 
 $labels['preferhtml'] = 'Foretræk HTML';
 $labels['htmlmessage'] = 'HTML besked';
-$labels['prettydate'] = 'Pæn datovisning';
 
 $labels['addtoaddressbook'] = 'Tilføj til adressebogen';
 
@@ -93,7 +92,6 @@ $labels['today'] = 'I dag';
 // toolbar buttons
 $labels['writenewmessage']  = 'Opret en ny besked';
 $labels['replytomessage']   = 'Svar på denne besked';
-$labels['replytoallmessage'] = 'Svar alle';
 $labels['forwardmessage']   = 'Videresend denne besked';
 $labels['deletemessage']    = 'Flyt beskeden til skrald';
 $labels['printmessage']     = 'Udskriv denne besked';
@@ -111,7 +109,6 @@ $labels['compose']  = 'Forfat en besked';
 $labels['sendmessage']  = 'Send beskeden nu';
 $labels['addattachment']  = 'Vedhæft en fil';
 
-$labels['attachments'] = 'Vedhæftninger';
 $labels['upload'] = 'Upload';
 $labels['close']  = 'Luk';
 
@@ -172,5 +169,33 @@ $labels['createfolder']  = 'Opret ny folder';
 $labels['deletefolder']  = 'Slet folder';
 $labels['managefolders']  = 'Styr foldere';
 
+$labels['attachments'] = 'Vedhæftninger';
+$labels['prettydate']  = 'Pæn datovisning';
+$labels['print']       = 'Print';
+$labels['export']      = 'Eksport';
+$labels['viewsource']  = 'Vis rå besked';
+$labels['replytoallmessage'] = 'Svar til alle modtagere';
+
+$labels['folder']  = 'Folder';
+$labels['compact'] = 'Ryd op';
+$labels['empty'] = 'Tom';
+$labels['purge'] = 'Tøm';
+$labels['quota'] = 'Disk forbrug';
+
+$labels['sortby']   = 'Sortér efter';
+$labels['sortdesc'] = 'Nyeste først';
+$labels['sortasc']  = 'Ældste først';
+
+$labels['nosubject']  = '(intet emne)';
+$labels['signature'] = 'Signatur';
+$labels['charset']  = 'Tegnsæt';
+
+$labels['ldapsearch'] = 'LDAP kartotekssøgning';
+$labels['ldappublicsearchname']    = 'Kontaktens navn';
+$labels['ldappublicsearchtype'] = 'Præcis søgning?';
+$labels['ldappublicserverselect'] = 'Vælg servere';
+$labels['ldappublicsearchfield'] = 'Søg på';
+$labels['ldappublicsearchform'] = 'Søg efter en kontakt';
+$labels['ldappublicsearch'] = 'Søg';
 
 ?>

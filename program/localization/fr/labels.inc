@@ -105,6 +105,13 @@ $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
 $labels['unread'] = 'Non lus';
 
+$labels['compact'] = 'Compresser';
+$labels['empty'] = 'Vider';
+$labels['purge'] = 'Purger';
+
+$labels['quota'] = 'Utilisation Disque';
+
+
 // message compose
 $labels['compose']  = 'Composer un nouveau message';
 $labels['sendmessage']  = 'Envoyer le message maintenant';
@@ -140,11 +147,15 @@ $labels['save']   = 'Sauvegarder';
 $labels['delete'] = 'Supprimer';
 
 $labels['newcontact']     = 'Créer un nouveau contact';
+$labels['addcontact']     = 'Ajouter le contact sélectionné à votre Carnet d\'adresses';
 $labels['deletecontact']  = 'Supprimer les contacts sélectionnés';
 $labels['composeto']      = 'Ecrire un message à';
 $labels['contactsfromto'] = 'Contacts $from à $to sur $count';
 $labels['print']          = 'Imprimer';
 $labels['export']         = 'Exporter';
+
+// LDAP search
+$labels['ldapsearch'] = 'Recherche dans répertoires LDAP';
 
 $labels['ldappublicsearchname']    = 'Nom du contact';
 $labels['ldappublicsearchtype'] = 'Correspondance exacte ?';
@@ -152,6 +163,7 @@ $labels['ldappublicserverselect'] = 'Sélectionnez les serveurs';
 $labels['ldappublicsearchfield'] = 'Recherche sur';
 $labels['ldappublicsearchform'] = 'Chercher un contact';
 $labels['ldappublicsearch'] = 'Recherche';
+
 
 // settings
 $labels['settingsfor']  = 'Paramètres pour';
@@ -173,7 +185,7 @@ $labels['timezone']  = 'Fuseau horaire';
 $labels['pagesize']  = 'Nombre de lignes par page';
 $labels['signature'] = 'Signature';
 
-
+$labels['folder']  = 'Dossier';
 $labels['folders']  = 'Dossiers';
 $labels['foldername']  = 'Nom du dossier';
 $labels['subscribed']  = 'Abonné';

@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/de_DE/labels.inc                                             |
+ | language/de_CH/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
@@ -10,8 +10,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author:      Thomas Bruederli <roundcube@gmail.com>                   |
- +-----------------------------------------------------------------------+
- | de_DE translation: Stephan Diehl <info@sd-edv.de>                     |
+ | Corrections: Alexander Stiebing <ja.stiebing[NOSPAM]@web.de>          |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -24,10 +23,10 @@ $labels = array();
 $labels['username']  = 'Benutzername';
 $labels['password']  = 'Passwort';
 $labels['server']    = 'Server';
-$labels['login']     = 'Anmelden';
+$labels['login']     = 'Login';
 
 // taskbar // Aktionsleiste
-$labels['logout']   = 'Abmelden';
+$labels['logout']   = 'Logout';
 $labels['mail']     = 'E-Mail';
 $labels['settings'] = 'Einstellungen';
 $labels['addressbook'] = 'Adressbuch';
@@ -36,8 +35,8 @@ $labels['addressbook'] = 'Adressbuch';
 $labels['inbox']  = 'Posteingang';
 $labels['sent']   = 'Gesendet';
 $labels['trash']  = 'Gelöscht';
-$labels['drafts'] = 'Entwürfe';
-$labels['junk']   = 'Spam';
+$labels['drafts'] = 'Vorlagen';
+$labels['junk']   = 'Junk';
 
 // message listing // Nachrichtenliste
 $labels['subject'] = 'Betreff';
@@ -47,7 +46,7 @@ $labels['cc']      = 'Kopie (CC)';
 $labels['bcc']     = 'Blind-Kopie';
 $labels['replyto'] = 'Antwort an';
 $labels['date']    = 'Datum';
-$labels['size']    = 'Größe';
+$labels['size']    = 'Grösse';
 $labels['priority'] = 'Priorität';
 $labels['organization'] = 'Organisation';
 
@@ -62,7 +61,7 @@ $labels['moveto']   = 'Verschieben nach...';
 $labels['download'] = 'Download';
 
 $labels['filename'] = 'Dateiname';
-$labels['filesize'] = 'Dateigröße';
+$labels['filesize'] = 'Dateigrösse';
 
 $labels['preferhtml'] = 'HTML bevorzugen';
 $labels['htmlmessage'] = 'HTML Nachricht';
@@ -108,7 +107,7 @@ $labels['unread'] = 'Ungelesene';
 
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
-$labels['purge'] = 'Bereinigen';
+$labels['purge'] = 'Aufräumen';
 
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
@@ -118,7 +117,7 @@ $labels['charset']  = 'Zeichensatz';
 
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
-$labels['close']  = 'Schließen';
+$labels['close']  = 'Schliessen';
 
 $labels['low']     = 'Niedrig';
 $labels['lowest']  = 'Niedrigste';

@@ -9,9 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- +-----------------------------------------------------------------------+
- | Portuguese translation: Anderson Ferreira <anderson@cnpm.embrapa.br>  |
+ | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -44,15 +42,46 @@ $messages['addedsuccessfully'] = 'Contato incluído com sucesso';
 
 $messages['contactexists'] = 'Um contato com esse e-mail já existe';
 
-$messages['blockedimages'] = 'Para proteger sua privacidade, as imagens desta mensagem foram bloqueadas.';
+$messages['blockedimages'] = 'Para proteger sua privacidade, as imagens desta mensagem foram bloqueadas';
 
 $messages['encryptedmessage'] = 'Esta mensagem está criptografada e não pode ser exibida. Desculpe.';
 
-$messages['nocontactsfound'] = 'Nenhum contato foi encontrado.';
+$messages['nocontactsfound'] = 'Nenhum contato encontrado';
 
 $messages['sendingfailed'] = 'Falha no envio da mensagem';
 
-$messages['errorsaving'] = 'Um erro ocorreu ao salvar a mensagem';
+$messages['errorsaving'] = 'Um erro ocorreu durante o salvamento';
 
+$messages['errormoving'] = 'Não foi possível mover a mensagem';
+
+$messages['errordeleting'] = 'Não foi possível apagar a mensagem';
+
+$messages['deletecontactconfirm']  = 'Deseja realmente excluir os contatos selecionados?';
+
+$messages['deletefolderconfirm']  = 'Deseja realmente excluir esta pasta?';
+
+$messages['purgefolderconfirm']  = 'Deseja realmente excluir todas mensagens desta pasta';
+
+$messages['formincomplete'] = 'Os campos não foram completamente preenchidos';
+
+$messages['noemailwarning'] = 'Por favor, informe um endereço de e-mail válido';
+
+$messages['nonamewarning']  = 'Por favor, informe o nome';
+
+$messages['nopagesizewarning'] = 'Por favor, informe o tamanho da página';
+
+$messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário';
+
+$messages['nosubjectwarning']  = 'O campo assunto não foi informado. Deseja incluí-lo agora?';
+
+$messages['nobodywarning'] = 'Enviar a mensagem se texto?';
+
+$messages['notsentwarning'] = 'A mensegem não foi enviada, deseja excluí-la?';
+
+$messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesquisa';
+
+$messages['nocontactsreturned'] = 'Nenhum contato foi encontrado';
+
+$messages['nosearchname'] = 'Por favor, informe o nome do contado ou seu endereço de e-mail';
 
 ?>

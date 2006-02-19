@@ -2,14 +2,14 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/labels.inc                                                |
+ | language/tw/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: kourge <kourge@gmail.com>                                     |
  +-----------------------------------------------------------------------+
 
  $Id$
