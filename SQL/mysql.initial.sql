@@ -1,5 +1,5 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1a
+-- Version 0.1b
 -- 
 
 -- --------------------------------------------------------
@@ -19,7 +19,7 @@ CREATE TABLE `cache` (
   KEY `user_id` (`user_id`),
   KEY `cache_key` (`cache_key`),
   KEY `session_id` (`session_id`)
-) TYPE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -39,7 +39,7 @@ CREATE TABLE `contacts` (
   `vcard` text NOT NULL,
   PRIMARY KEY  (`contact_id`),
   KEY `user_id` (`user_id`)
-) TYPE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `identities` (
   `signature` text NOT NULL,
   PRIMARY KEY  (`identity_id`),
   KEY `user_id` (`user_id`)
-) TYPE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -75,7 +75,7 @@ CREATE TABLE `session` (
   `ip` VARCHAR(15) NOT NULL default '',
   `vars` text NOT NULL,
   PRIMARY KEY  (`sess_id`)
-) TYPE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE `users` (
   `language` varchar(5) NOT NULL default 'en',
   `preferences` text NOT NULL default '',
   PRIMARY KEY  (`user_id`)
-) TYPE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -122,6 +122,6 @@ CREATE TABLE `messages` (
   KEY `cache_key` (`cache_key`),
   KEY `idx` (`idx`),
   KEY `uid` (`uid`)
-) TYPE=MyISAM;
+);
 
 

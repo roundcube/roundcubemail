@@ -1,4 +1,18 @@
 
+REQUIREMENTS
+============
+
+* The Apache Webserver
+* .htaccess support allowing overrides for DirectoryIndex
+* PHP Version 4.3.1 or greater
+* PCRE (perl compatible regular expression) installed with PHP
+* php.ini options:
+   - error_reporting E_ALL & ~E_NOTICE (or lower)
+   - file_uploads on (for attachment upload features)
+* A MySQL or PostgreSQL database engine or the SQLite extension for PHP
+* A database with permission to create tables
+
+
 INSTALLATION
 ============
 
@@ -30,6 +44,10 @@ roundcube user. Here is an example of that procedure:
         IDENTIFIED BY 'password';
 > quit
 # mysql roundcubemail < SQL/mysql.initial.sql
+
+For MySQL version 4.1 and up, it's recommended to create the database for
+RoundCube with the following command:
+> CREATE DATABASE `roundcube` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 * SQLite
@@ -64,28 +82,16 @@ versions don't have a -O option for the createdb, so if you are
 using that version you'll have to change ownership of the DB later.
 
 
+CONFIGURATION
+=============
+
+Change the files in config/* according your to environment and your needs.
+Details about the config paramaters can be found in the config files.
+
+
 UPGRADING
 =========
 If you already have a previous version of RoundCube installed,
 please refer to the instructions in UPGRADING guide.
 
 
-REQUIREMENTS
-============
-
-* The Apache Webserver
-* .htaccess support allowing overrides for DirectoryIndex
-* PHP Version 4.3.1 or greater
-* PCRE (perl compatible regular expression) installed with PHP
-* php.ini options:
-   - error_reporting E_ALL & ~E_NOTICE (or lower)
-   - file_uploads on (for attachment upload features)
-* A MySQL or PostgreSQL database engine or the SQLite extension for PHP
-* A database with permission to create tables
-
-
-CONFIGURATION
-=============
-
-Change the files in config/* according your to environment and your needs.
-Details about the config paramaters can be found in the config files.

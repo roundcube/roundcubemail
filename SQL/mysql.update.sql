@@ -1,5 +1,5 @@
 -- RoundCube Webmail update script for MySQL databases
--- Version 0.1-20051007
+-- Updates from version 0.1-20051007
 
 
 ALTER TABLE `session` ADD `ip` VARCHAR(15) NOT NULL AFTER changed;
@@ -8,7 +8,7 @@ ALTER TABLE `users` ADD `alias` VARCHAR(128) NOT NULL AFTER mail_host;
 
 
 -- RoundCube Webmail update script for MySQL databases
--- Version 0.1-20051021
+-- Updates from version 0.1-20051021
 
 ALTER TABLE `session` CHANGE `sess_id` `sess_id` VARCHAR(40) NOT NULL;
 
@@ -52,6 +52,6 @@ CREATE TABLE `messages` (
 
 
 -- RoundCube Webmail update script for MySQL databases
--- Version 0.1-20051216
+-- Updates from version 0.1-20051216
 
 ALTER TABLE `messages` ADD `created` DATETIME NOT NULL AFTER `cache_key` ;
