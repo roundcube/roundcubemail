@@ -35,7 +35,7 @@ require_once('DB.php');
  * @package    RoundCube Webmail
  * @author     David Saez Padros <david@ols.es>
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.14
+ * @version    1.16
  * @link       http://pear.php.net/package/DB
  */
 class rcube_db
@@ -304,7 +304,35 @@ class rcube_db
   function fetch_assoc($res_id=NULL)
     {
     $result = $this->_get_result($res_id);
+    return $this->_fetch_row($result, DB_FETCHMODE_ASSOC);
+    }
 
+
+  /**
+   * Get an index array for one row
+   * If no query handle is specified, the last query will be taken as reference
+   *
+   * @param  number  Optional query handle identifier
+   * @return mixed   Array with col values or FALSE on failure
+   * @access public
+   */
+  function fetch_array($res_id=NULL)
+    {
+    $result = $this->_get_result($res_id);
+    return $this->_fetch_row($result, DB_FETCHMODE_ORDERED);
+    }
+
+
+  /**
+   * Get co values for a result row
+   *
+   * @param  object  Query result handle
+   * @param  number  Fetch mode identifier
+   * @return mixed   Array with col values or FALSE on failure
+   * @access private
+   */
+  function _fetch_row($result, $mode)
+    {
     if (DB::isError($result))
       {
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
@@ -312,9 +340,9 @@ class rcube_db
       return FALSE;
       }
                          
-    return $result->fetchRow(DB_FETCHMODE_ASSOC);
+    return $result->fetchRow($mode);
     }
-
+    
 
   /**
    * Formats input so it can be safely used in a query
