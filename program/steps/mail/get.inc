@@ -73,7 +73,7 @@ else if ($_GET['_part'])
     
     if ($ctype_primary=='text')
       {
-      list($MESSAGE['parts']) = rcmail_parse_message($MESSAGE['structure'],
+      list($MESSAGE['parts']) = rcmail_parse_message($part,
                                                      array('safe' => (bool)$_GET['_safe'],
                                                            'prefer_html' => TRUE,
                                                            'get_url' => $GET_URL.'&_part=%s'));
