@@ -48,6 +48,7 @@
   bottom: 20px;
   height: 16px;
   width: 400px;
+  font-size: 11px;
 }
 
 #listcontrols a,
@@ -310,6 +311,7 @@
   bottom: 20px;
   height: 16px;
   overflow: hidden;
+  font-size: 11px;
 }
 
 
