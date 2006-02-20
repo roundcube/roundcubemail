@@ -24,6 +24,7 @@ from versions 0.1-alpha and 0.1-20050811
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
   $rcmail_config['temp_dir'] = 'temp/';
+  $rcmail_config['message_cache_lifetime'] = '10d';
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
@@ -47,6 +48,7 @@ from version 0.1-20050820
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
   $rcmail_config['temp_dir'] = 'temp/';
+  $rcmail_config['message_cache_lifetime'] = '10d';
 - replace database properties (db_type, db_host, db_user, db_pass, $d_name)
   in /config/db.inc.php with the following line:
   $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
@@ -68,6 +70,7 @@ from version 0.1-20051007
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
   $rcmail_config['temp_dir'] = 'temp/';
+  $rcmail_config['message_cache_lifetime'] = '10d';
 - add these lines to /config/db.inc.php
   $rcmail_config['db_max_length'] = 512000;  
   $rcmail_config['db_sequence_user_ids'] = 'user_ids';
@@ -89,6 +92,7 @@ from version 0.1-20051021
   $rcmail_config['message_sort_order'] = 'DESC';
   $rcmail_config['log_dir'] = 'logs/';
   $rcmail_config['temp_dir'] = 'temp/';
+  $rcmail_config['message_cache_lifetime'] = '10d';
 - add these lines to /config/db.inc.php
   $rcmail_config['db_max_length'] = 512000;
   $rcmail_config['db_sequence_user_ids'] = 'user_ids';
