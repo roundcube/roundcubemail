@@ -444,7 +444,7 @@ class rcube_imap
         $count = iil_C_CountMessages($this->conn, $mailbox);
       }
 
-    if (is_array($a_mailbox_cache[$mailbox]))
+    if (!is_array($a_mailbox_cache[$mailbox]))
       $a_mailbox_cache[$mailbox] = array();
       
     $a_mailbox_cache[$mailbox][$mode] = (int)$count;

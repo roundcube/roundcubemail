@@ -308,11 +308,12 @@ function load_gui()
   $OUTPUT->include_script('program/js/common.js');
   $OUTPUT->include_script('program/js/app.js');
 
+  // set locale setting
+  rcmail_set_locale($sess_user_lang);
+
   // set user-selected charset
   if (!empty($CONFIG['charset']))
     $OUTPUT->set_charset($CONFIG['charset']);
-  else
-    rcmail_set_locale($sess_user_lang);
 
   // add some basic label to client
   rcube_add_label('loading');
@@ -351,7 +352,7 @@ function rcmail_set_locale($lang)
 
   if ($MBSTRING && function_exists("mb_language"))
     {
-    if (!mb_language(strtok($lang, "_")))
+    if (!@mb_language(strtok($lang, "_")))
       $MBSTRING = FALSE;   //  unsupport language
     }
 
@@ -662,6 +663,7 @@ function decrypt_passwd($cypher)
 // send correct response on a remote request
 function rcube_remote_response($js_code, $flush=FALSE)
   {
+  global $OUTPUT, $CHARSET;
   static $s_header_sent = FALSE;
   
   if (!$s_header_sent)
@@ -673,7 +675,7 @@ function rcube_remote_response($js_code, $flush=FALSE)
     }
 
   // send response code
-  print rcube_charset_convert($js_code, 'UTF-8', $GLOBALS['CHARSET']);
+  print rcube_charset_convert($js_code, $CHARSET, $OUTPUT->get_charset());
 
   if ($flush)  // flush the output buffer
     flush();
@@ -888,7 +890,12 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
 
   // encode for javascript use
   if ($enctype=='js')
+    {
+    if ($OUTPUT->get_charset()!='UTF-8')
+      $str = rcube_charset_convert($str, $GLOBALS['CHARSET'], $OUTPUT->get_charset());
+      
     return preg_replace(array("/\r\n/", '/"/', "/([^\\\])'/"), array('\n', '\"', "$1\'"), strtr($str, $js_rep_table));
+    }
 
   // encode for RTF
   if ($enctype=='rtf')
@@ -1543,6 +1550,8 @@ EOF;
 
 function rcmail_charset_selector($attrib)
   {
+  global $OUTPUT;
+  
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_charset');
   foreach ($attrib as $attr => $value)
@@ -1571,7 +1580,7 @@ function rcmail_charset_selector($attrib)
   $select = new select($field_attrib);
   $select->add(array_values($charsets), array_keys($charsets));
   
-  $set = $_POST['_charset'] ? $_POST['_charset'] : $GLOBALS['CHARSET'];
+  $set = $_POST['_charset'] ? $_POST['_charset'] : $OUTPUT->get_charset();
   return $select->show($set);
   }
 

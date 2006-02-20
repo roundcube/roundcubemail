@@ -16,7 +16,7 @@ $rcmail_config = array();
 
 
 // system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
-$rcmail_config['debug_level'] = 5;
+$rcmail_config['debug_level'] = 1;
 
 // enable caching of messages and mailbox data in the local database.
 // this is recommended if the IMAP server does not run on the same machine
@@ -42,7 +42,7 @@ $rcmail_config['default_port'] = 143;
 
 // This domain will be used to form e-mail addresses of new users
 // Specify an array with 'host' => 'domain' values to support multiple hosts
-$rcmail_config['mail_domain'] = 'roundcube.net';
+$rcmail_config['mail_domain'] = '';
 
 // Path to a virtuser table file to resolve user names and e-mail addresses
 $rcmail_config['virtuser_file'] = '';

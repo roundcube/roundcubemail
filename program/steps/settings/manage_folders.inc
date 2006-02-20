@@ -47,7 +47,7 @@ else if ($_action=='unsubscribe')
 else if ($_action=='create-folder')
   {
   if (strlen($_GET['_name']))
-    $create = $IMAP->create_mailbox(strip_tags(trim($_GET['_name'])), TRUE);
+    $create = $IMAP->create_mailbox(rcube_charset_convert(strip_tags(trim($_GET['_name'])), $OUTPUT->get_charset()), TRUE);
 
   if ($create && $_GET['_remote'])
     {

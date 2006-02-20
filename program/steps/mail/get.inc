@@ -70,8 +70,8 @@ else if ($_GET['_part'])
 
     $mimetype = sprintf('%s/%s', $ctype_primary, $ctype_secondary);
     $filename = $part->d_parameters['filename'] ? $part->d_parameters['filename'] : $part->ctype_parameters['name'];
-    
-    if ($ctype_primary=='text')
+
+    if ($ctype_primary=='text' && $ctype_secondary=='html')
       {
       list($MESSAGE['parts']) = rcmail_parse_message($part,
                                                      array('safe' => (bool)$_GET['_safe'],

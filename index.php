@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1b-20060219                                                 |
+ | Version 0.1-20060220                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1b-20060219');
+define('RCMAIL_VERSION', '0.1-20060220');
 
 
 // define global vars
@@ -63,7 +63,6 @@ ini_set('session.name', 'sessid');
 ini_set('session.use_cookies', 1);
 ini_set('session.gc_maxlifetime', 21600);
 ini_set('session.gc_divisor', 500);
-ini_set('magic_quotes_gpc', 0);
 ini_set('error_reporting', E_ALL&~E_NOTICE); 
 
 // increase maximum execution time for php scripts

@@ -42,7 +42,9 @@ if ($_POST['_cid'])
     if (!isset($_POST[$fname]))
       continue;
     
-    $a_write_sql[] = sprintf("%s=%s", $DB->quoteIdentifier($col), $DB->quote(strip_tags($_POST[$fname])));
+    $a_write_sql[] = sprintf("%s=%s",
+                             $DB->quoteIdentifier($col),
+                             $DB->quote(rcube_charset_convert(strip_tags($_POST[$fname]), $OUTPUT->get_charset())));
     }
 
   if (sizeof($a_write_sql))
@@ -164,7 +166,7 @@ else
         continue;
     
       $a_insert_cols[] = $col;
-      $a_insert_values[] = $DB->quote(strip_tags($_POST[$fname]));
+      $a_insert_values[] = $DB->quote(rcube_charset_convert(strip_tags($_POST[$fname]), $OUTPUT->get_charset()));
       }
     
     if (sizeof($a_insert_cols))

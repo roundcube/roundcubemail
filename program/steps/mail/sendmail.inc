@@ -39,7 +39,7 @@ if (!isset($_SESSION['compose']['id']))
 
 function rcmail_get_identity($id)
   {
-  global $DB;
+  global $DB, $CHARSET, $OUTPUT;
   
   // get identity record
   $sql_result = $DB->query("SELECT *, email AS mailto
@@ -53,7 +53,9 @@ function rcmail_get_identity($id)
     {
     $sql_arr = $DB->fetch_assoc($sql_result);
     $out = $sql_arr;
-    $out['string'] = sprintf('%s <%s>', $sql_arr['name'], $sql_arr['mailto']);
+    $out['string'] = sprintf('%s <%s>',
+                             rcube_charset_convert($sql_arr['name'], $CHARSET, $OUTPUT->get_charset()),
+                             $sql_arr['mailto']);
     return $out;
     }
 
@@ -74,10 +76,7 @@ if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
 
 
 // set default charset
-if (empty($CHARSET))
-  $CHARSET = 'ISO-8859-1';
-
-$input_charset = $CHARSET;
+$input_charset = $OUTPUT->get_charset();
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
 
 $mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
@@ -162,7 +161,7 @@ if (!empty($CONFIG['generic_message_footer']))
 
 
 // use the configured delimiter for headers
-$header_delm = $rcmail_config['mail_header_delimiter'] ? $rcmail_config['mail_header_delimiter'] : "\r\n";
+$header_delm = $CONFIG['mail_header_delimiter'] ? $CONFIG['mail_header_delimiter'] : "\r\n";
 
 // create PEAR::Mail_mime instance
 $MAIL_MIME = new Mail_mime($header_delm);
@@ -198,9 +197,9 @@ $message_param = array('text_encoding' => $transfer_encoding,
 $msg_body = $MAIL_MIME->get($message_param);
 
 $msg_subject = $headers['Subject'];
-global $MBSTRING;
-if ($MBSTRING&&function_exists( "mb_encode_mimeheader"))
-  $headers['Subject'] = mb_encode_mimeheader( $headers['Subject'],$message_charset);
+
+if ($MBSTRING && function_exists("mb_encode_mimeheader"))
+  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset);
 
 // send thru SMTP server using cusotm SMTP library
 if ($CONFIG['smtp_server'])
@@ -238,15 +237,15 @@ if ($CONFIG['smtp_server'])
 else
   {
   // unset some headers because they will be added by the mail() function
-  $headers_php = $MAIL_MIME->_headers;
   $headers_enc = $MAIL_MIME->headers($headers);
+  $headers_php = $MAIL_MIME->_headers;
   unset($headers_php['To'], $headers_php['Subject']);
-
+  
   // reset stored headers and overwrite
   $MAIL_MIME->_headers = array();
   $header_str = $MAIL_MIME->txtHeaders($headers_php);
 
-  if(ini_get('safe_mode'))
+  if (ini_get('safe_mode'))
     $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
   else
     $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
