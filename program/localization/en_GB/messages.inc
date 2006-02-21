@@ -32,6 +32,8 @@ $messages['loggedout'] = 'You have successfully terminated the session. Good bye
 
 $messages['mailboxempty'] = 'Mailbox is empty';
 
+$messages['loading'] = 'Loading...';
+
 $messages['loadingdata'] = 'Loading data...';
 
 $messages['messagesent'] = 'Message sent successfully';
