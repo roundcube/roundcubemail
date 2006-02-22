@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: danieLs <daniels@safereaction.ro>                             |
+ | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -20,36 +20,72 @@ $messages = array();
 
 $messages['loginfailed']  = 'Autentificare esuata';
 
-$messages['cookiesdisabled'] = 'Browser-ul dumneavoastra nu accepta cookies';
+$messages['cookiesdisabled'] = 'Browserul dumneavoastra nu accepta cookies';
 
 $messages['sessionerror'] = 'Sesiunea dumneavoastra este invalida sau a expirat';
 
-$messages['imaperror'] = 'Conexiunea catre serverul IMAP a esuat';
+$messages['imaperror'] = 'Conectarea la serverul IMAP a esuat';
 
-$messages['nomessagesfound'] = 'Nu s-a gasit nici un mesaj in aceasta casuta de mail';
+$messages['nomessagesfound'] = 'Nu a fost gasit niciun mesaj in aceasta casuta postala';
 
-$messages['loggedout'] = 'Va-ti terminat sesiunea cu succes. La revedere!';
+$messages['loggedout'] = 'V-ati incheiat sesiunea cu succes. La revedere!';
 
-$messages['mailboxempty'] = 'Casuta de email este goala';
+$messages['mailboxempty'] = 'Casuta postala este goala';
+
+$messages['loading'] = 'Se incarca...';
 
 $messages['loadingdata'] = 'Se incarca informatiile...';
 
-$messages['messagesent'] = 'Mesaj trimis cu succes';
+$messages['sendingmessage'] = 'Trimitere mesaj...';
 
-$messages['successfullysaved'] = 'Salvat cu succes';
+$messages['messagesent'] = 'Mesajul a fost trimis cu succes!';
+
+$messages['successfullysaved'] = 'Salvarea s-a efectuat cu succes';
 
 $messages['addedsuccessfully'] = 'Contactul a fost adaugat cu succes in agenda';
 
-$messages['contactexists'] = 'Mai exista un contact cu aceeasi adresa de email';
+$messages['contactexists'] = 'Mai exista un contact cu aceasta adresa de e-mail';
 
-$messages['blockedimages'] = 'Pentru a va proteja intimitatea imaginile din exterior au fost blocate in acest mesaj.';
+$messages['blockedimages'] = 'Pentru a va proteja intimitatea imaginile externe au fost blocate.';
 
-$messages['encryptedmessage'] = 'Acesta este un mesaj criptat si nu poate fi afisat. Ne pare rau!';
+$messages['encryptedmessage'] = 'Acesta este un mesaj criptat si nu poate fi afisat. Ne pare rau.';
 
-$messages['nocontactsfound'] = 'Nu a fost gasit nici un contact';
+$messages['nocontactsfound'] = 'Nu s-a gasit niciun contact';
 
-$messages['sendingfailed'] = 'Mesajul nu a fost trimis';
+$messages['sendingfailed'] = 'Nu s-a reusit trimiterea mesajului';
 
-$messages['errorsaving'] = 'A intervenit o eroare in timp ce s-a efectuat salvarea';
+$messages['errorsaving'] = 'A intervenit o eroare in timp ce se efectua salvarea';
+
+$messages['errormoving'] = 'Nu s-a putut muta mesajul';
+
+$messages['errordeleting'] = 'Nu s-a putut sterge mesajul';
+
+$messages['deletecontactconfirm']  = 'Sunteti sigur ca doriti sa stergeti contactul(ele) selectate?';
+
+$messages['deletefolderconfirm']  = 'Sunteti sigur ca doriti sa stergeti acest dosar?';
+
+$messages['purgefolderconfirm']  = 'Sunteti sigur ca doriti sa stergeti toate mesajele din acest dosar?';
+
+$messages['formincomplete'] = 'Formularul nu a fost completat corect';
+
+$messages['noemailwarning'] = 'Va rugam introduceti o adresa de e-mail valida';
+
+$messages['nonamewarning']  = 'Va rugam introduceti un nume';
+
+$messages['nopagesizewarning'] = 'Va rugam introduceti marimea paginii';
+
+$messages['norecipientwarning'] = 'Va rugam introduceti cel putin un destinatar';
+
+$messages['nosubjectwarning']  = 'Mesajul nu are subiect. Vreti sa introduceti unul acum?';
+
+$messages['nobodywarning'] = 'Trimiteti acest mesaj fara text?';
+
+$messages['notsentwarning'] = 'Mesajul nu a fost trimis. Vreti sa renuntatati la el?';
+
+$messages['noldapserver'] = 'Va rugam alegeti un server ldap pentru cautare';
+
+$messages['nocontactsreturned'] = 'Nu s-a gasit niciun contact';
+
+$messages['nosearchname'] = 'Va rugam introduceti un nume de contact sau adresa de e-mail';
 
 ?>
