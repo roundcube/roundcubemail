@@ -59,7 +59,7 @@ if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
     $REPLY_MESSAGE = &$MESSAGE;
     $_SESSION['compose']['reply_uid'] = $_GET['_reply_uid'];
     $_SESSION['compose']['reply_msgid'] = $REPLY_MESSAGE['headers']->messageID;
-    $_SESSION['compose']['reference']   = $REPLY_MESSAGE['headers']->reference;
+    $_SESSION['compose']['references']  = $REPLY_MESSAGE['headers']->reference;
     $_SESSION['compose']['references'] .= !empty($REPLY_MESSAGE['headers']->reference) ? ' ' : '';
     $_SESSION['compose']['references'] .= $REPLY_MESSAGE['headers']->messageID;
 
