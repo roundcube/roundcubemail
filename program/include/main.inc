@@ -79,7 +79,6 @@ function rcmail_startup($task='mail')
   session_start();
   $sess_id = session_id();
   
-    $_SESSION['user_lang'] = rcube_language_prop($CONFIG['locale_string']);
   // create session and set session vars
   if (!$_SESSION['client_id'])
     {
