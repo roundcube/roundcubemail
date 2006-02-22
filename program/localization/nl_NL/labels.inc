@@ -9,8 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jasper Slits <jaspersl@xs4all.nl>                             |
- | Updates: Dennis Heeren <dennis.heeren@gmail.com>                      |
+ | Author: Mark Moses <mark@katmoda.com>                                 |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -23,28 +22,28 @@ $labels = array();
 $labels['username']  = 'Gebruikersnaam';
 $labels['password']  = 'Wachtwoord';
 $labels['server']    = 'Server';
-$labels['login']     = 'Aanmelden';
+$labels['login']     = 'Login';
 
 // taskbar
-$labels['logout']   = 'Afmelden';
-$labels['mail']     = 'Berichten';
-$labels['settings'] = 'Instellingen';
-$labels['addressbook'] = 'Contactpersonen';
+$labels['logout']   = 'Logout';
+$labels['mail']     = 'E-Mail';
+$labels['settings'] = 'Gebruikers Instellingen';
+$labels['addressbook'] = 'Adresboek';
 
 // mailbox names
 $labels['inbox']  = 'Postvak IN';
-$labels['sent']   = 'Verzonden berichten';
+$labels['sent']   = 'Verzonden';
 $labels['trash']  = 'Prullenbak';
 $labels['drafts'] = 'Concepten';
-$labels['junk']   = 'Spam';
+$labels['junk']   = 'SPAM';
 
 // message listing
 $labels['subject'] = 'Onderwerp';
-$labels['from']    = 'Van';
-$labels['to']      = 'Aan';
-$labels['cc']      = 'Cc';
+$labels['from']    = 'Afzender';
+$labels['to']      = 'Ontvanger';
+$labels['cc']      = 'kopie';
 $labels['bcc']     = 'Bcc';
-$labels['replyto'] = 'Antwoorden aan';
+$labels['replyto'] = 'Antwoord-aan';
 $labels['date']    = 'Datum';
 $labels['size']    = 'Grootte';
 $labels['priority'] = 'Prioriteit';
@@ -54,20 +53,20 @@ $labels['organization'] = 'Organisatie';
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Mappen';
-$labels['messagesfromto'] = 'Berichten $from - $to van $count';
+$labels['messagesfromto'] = 'Bericht $from t/m $to van $count';
 $labels['messagenrof'] = 'Bericht $nr van $count';
 
 $labels['moveto']   = 'verplaats naar...';
-$labels['download'] = 'downloaden';
+$labels['download'] = 'download';
 
 $labels['filename'] = 'Bestandsnaam';
 $labels['filesize'] = 'Bestandsgrootte';
 
-$labels['preferhtml'] = 'Gebruik HTML-opmaak';
-$labels['htmlmessage'] = 'HTML-bericht';
-$labels['prettydate'] = 'Uitgebreide datumweergave';
+$labels['preferhtml'] = 'Prefereer HTML';
+$labels['htmlmessage'] = 'HTML Bericht';
+$labels['prettydate'] = 'Opgemaakte data';
 
-$labels['addtoaddressbook'] = 'Voeg toe aan lijst met contactpersonen';
+$labels['addtoaddressbook'] = 'Toevoegen aan adresboek';
 
 // weekdays short
 $labels['sun'] = 'Zo';
@@ -91,27 +90,36 @@ $labels['today'] = 'Vandaag';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Nieuw bericht';
-$labels['replytomessage']   = 'Beantwoorden';
-$labels['forwardmessage']   = 'Doorsturen';
-$labels['deletemessage']    = 'Dit bericht verwijderen';
-$labels['printmessage']     = 'Afdrukken';
-$labels['previousmessages'] = 'Vorige berichten';
-$labels['nextmessages']     = 'Volgende berichten';
-$labels['backtolist']       = 'Terug naar berichtenlijst';
-$labels['viewsource']       = 'Broncode bericht weergeven';
+$labels['replytomessage']   = 'Beantwoord het bericht';
+$labels['replytoallmessage'] = 'Beantwoord alle ontvangerss';
+$labels['forwardmessage']   = 'Bericht doorsturen';
+$labels['deletemessage']    = 'Verplaats het bericht naar de prullenbak';
+$labels['printmessage']     = 'Dit bericht afdrukken';
+$labels['previousmessages'] = 'Vorige voorgaande berichtenset laten zien';
+$labels['nextmessages']     = 'Volgende berichtenset laten zien';
+$labels['backtolist']       = 'Terug naar berichtenoverzicht';
+$labels['viewsource']       = 'Toon bron';
 
-$labels['select'] = 'Selecteren';
-$labels['all'] = 'Alles';
+$labels['select'] = 'Selecteer';
+$labels['all'] = 'Allemaal';
 $labels['none'] = 'Geen';
 $labels['unread'] = 'Ongelezen';
 
-// message compose
-$labels['compose']  = 'Nieuw bericht opstellen';
-$labels['sendmessage']  = 'Verzenden';
-$labels['addattachment']  = 'Bestand toevoegen als bijlage';
+$labels['compact'] = 'Compact';
+$labels['empty'] = 'Legen';
+$labels['purge'] = 'Purge';
 
-$labels['attachments'] = 'Bijlagen';
-$labels['upload'] = 'Toevoegen';
+$labels['quota'] = 'Schijfruimte gebruik';
+
+
+// message compose
+$labels['compose']  = 'Maak een bericht';
+$labels['sendmessage']  = 'Verstuur het bericht nu';
+$labels['addattachment']  = 'Voeg een bestand toe';
+$labels['charset']  = 'karakterset';
+
+$labels['attachments'] = 'bijgesloten bestanden';
+$labels['upload'] = 'Upload';
 $labels['close']  = 'Sluiten';
 
 $labels['low']     = 'Laag';
@@ -120,80 +128,74 @@ $labels['normal']  = 'Normaal';
 $labels['high']    = 'Hoog';
 $labels['highest'] = 'Hoogste';
 
+$labels['nosubject']  = '(geen onderwerp)';
 $labels['showimages'] = 'Toon afbeeldingen';
 
 
 // address boook
-$labels['name']      = 'Naam';
+$labels['name']      = 'Tonen als';
 $labels['firstname'] = 'Voornaam';
 $labels['surname']   = 'Achternaam';
-$labels['email']     = 'E-mailadres';
+$labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Contactpersoon toevoegen';
-$labels['editcontact'] = 'Contactpersoon bewerken';
+$labels['addcontact'] = 'Nieuw contactpersoon toevoegen';
+$labels['editcontact'] = 'Contactpersoon wijzigen';
 
-$labels['edit']   = 'Bewerken';
-$labels['cancel'] = 'Annuleren';
+$labels['edit']   = 'Wijzig';
+$labels['cancel'] = 'Annuleer';
 $labels['save']   = 'Opslaan';
-$labels['delete'] = 'Verwijderen';
+$labels['delete'] = 'Verwijder';
 
-$labels['newcontact']     = 'Contactpersoon toevoegen';
-$labels['deletecontact']  = 'Verwijder geselecteerde contactpersonen';
-$labels['composeto']      = 'Mail sturen aan';
-$labels['contactsfromto'] = 'Contactpersonen $from - $to van $count';
+$labels['newcontact']     = 'Voeg een nieuwe contactpersoon toe';
+$labels['addcontact']     = 'Voeg geselecteerde contacten toe aan het adresboek';
+$labels['deletecontact']  = 'Verwijder geselecteerde contacten';
+$labels['composeto']      = 'Stuur een bericht naar';
+$labels['contactsfromto'] = 'Contacten $from t/m $to van $count';
 $labels['print']          = 'Afdrukken';
 $labels['export']         = 'Exporteren';
+
+// LDAP search
+$labels['ldapsearch'] = 'LDAP adresboek zoeken';
+
+$labels['ldappublicsearchname']    = 'Naam van contactpersoon';
+$labels['ldappublicsearchtype'] = 'precies matchen?';
+$labels['ldappublicserverselect'] = 'Selecteer servers';
+$labels['ldappublicsearchfield'] = 'Zoek op';
+$labels['ldappublicsearchform'] = 'Zoek een contactpersoon';
+$labels['ldappublicsearch'] = 'Zoek';
 
 
 // settings
 $labels['settingsfor']  = 'Instellingen voor';
 
-$labels['preferences']  = 'Voorkeuren';
-$labels['userpreferences']  = 'Gebruikersvoorkeuren';
-$labels['editpreferences']  = 'Gebruikersvoorkeuren bewerken';
+$labels['preferences']  = 'Instellingen';
+$labels['userpreferences']  = 'Gebruikers instellingen';
+$labels['editpreferences']  = 'Wijzig gebruikers instellingen';
 
-$labels['identities']  = 'Identiteiten';
-$labels['manageidentities']  = 'Beheer de identiteiten voor deze gebruiker';
-$labels['newidentity']  = 'Nieuwe identiteit';
+$labels['identities']  = 'Identititeiten';
+$labels['manageidentities']  = 'Beheer identiteiten voor dit account';
+$labels['newidentity']  = 'Identiteit toevoegen';
 
-$labels['newitem']  = 'Nieuw';
-$labels['edititem']  = 'Bewerken';
+$labels['newitem']  = 'Nieuw item';
+$labels['edititem']  = 'Wijzig item';
 
-$labels['setdefault']  = 'Als standaard instellen';
+$labels['setdefault']  = 'Stel als standaard in';
 $labels['language']  = 'Taal';
-$labels['timezone']  = 'Tijdzone';
-$labels['pagesize']  = 'Berichten per pagina';
+$labels['timezone']  = 'Tijdszone';
+$labels['pagesize']  = 'Rijen per pagina';
+$labels['signature'] = 'Onderschrift';
 
 $labels['folder']  = 'Map';
 $labels['folders']  = 'Mappen';
-$labels['foldername']  = 'Naam';
-$labels['subscribed']  = 'Gebruiken';
-$labels['create']  = 'Aanmaken';
-$labels['createfolder']  = 'Nieuwe map aanmaken';
-$labels['deletefolder']  = 'Map verwijderen';
-$labels['managefolders']  = 'Mappen beheren';
+$labels['foldername']  = 'Mapnaam';
+$labels['subscribed']  = 'Geabonneerd';
+$labels['create']  = 'Nieuw';
+$labels['createfolder']  = 'Maak nieuwe map';
+$labels['deletefolder']  = 'Verwijder map';
+$labels['managefolders']  = 'Beheer mappen';
 
-// new in 0.1b
-$labels['replytoallmessage'] = 'Allen beantwoorden';
-
-$labels['compact'] = 'Comprimeren';
-$labels['empty'] = 'Legen';
-$labels['purge'] = 'Opruimen';
-
-$labels['sortby']   = 'Sorteren op';
-$labels['sortdesc'] = 'Aflopend sorteren';
-$labels['sortasc']  = 'Oplopend sorteren';
-
-$labels['nosubject']  = '(geen onderwerp)';
-$labels['signature'] = 'Handtekening';
-$labels['charset']  = 'Karakterset';
-
-$labels['ldapsearch'] = 'LDAP opzoeking';
-$labels['ldappublicsearchname'] = 'Naam contactpersoon';
-$labels['ldappublicsearchtype'] = 'Exact zoeken?';
-$labels['ldappublicserverselect'] = 'Kies een server';
-$labels['ldappublicsearchfield'] = 'Zoeken op';
-$labels['ldappublicsearchform'] = 'Zoek een contactpersoon';
-$labels['ldappublicsearch'] = 'Zoeken';
+$labels['sortby'] = 'Sorteer op';
+$labels['sortasc']  = 'Sorteer oplopend';
+$labels['sortdesc'] = 'Sorteer aflopend';
 
 ?>

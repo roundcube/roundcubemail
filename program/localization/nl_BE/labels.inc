@@ -91,6 +91,7 @@ $labels['today'] = 'Vandaag';
 // toolbar buttons
 $labels['writenewmessage']  = 'Nieuw bericht';
 $labels['replytomessage']   = 'Beantwoorden';
+$labels['replytoallmessage'] = 'Allen beantwoorden';
 $labels['forwardmessage']   = 'Doorsturen';
 $labels['deletemessage']    = 'Dit bericht verwijderen';
 $labels['printmessage']     = 'Afdrukken';
@@ -104,10 +105,17 @@ $labels['all'] = 'Alles';
 $labels['none'] = 'Geen';
 $labels['unread'] = 'Ongelezen';
 
+$labels['compact'] = 'Comprimeren';
+$labels['empty'] = 'Legen';
+$labels['purge'] = 'Opruimen';
+
+$labels['quota'] = 'Gebruikte schijfruimte';
+
 // message compose
 $labels['compose']  = 'Nieuw bericht opstellen';
 $labels['sendmessage']  = 'Verzenden';
 $labels['addattachment']  = 'Bestand toevoegen als bijlage';
+$labels['charset']  = 'Karakterset';
 
 $labels['attachments'] = 'Bijlagen';
 $labels['upload'] = 'Toevoegen';
@@ -119,6 +127,7 @@ $labels['normal']  = 'Normaal';
 $labels['high']    = 'Hoog';
 $labels['highest'] = 'Hoogste';
 
+$labels['nosubject']  = '(geen onderwerp)';
 $labels['showimages'] = 'Toon afbeeldingen';
 
 
@@ -137,12 +146,22 @@ $labels['save']   = 'Opslaan';
 $labels['delete'] = 'Verwijderen';
 
 $labels['newcontact']     = 'Contactpersoon toevoegen';
+$labels['addcontact']     = 'Geselecteerde contactpersoon toevoegen';
 $labels['deletecontact']  = 'Verwijder geselecteerde contactpersonen';
 $labels['composeto']      = 'Mail sturen aan';
 $labels['contactsfromto'] = 'Contactpersonen $from - $to van $count';
 $labels['print']          = 'Afdrukken';
 $labels['export']         = 'Exporteren';
 
+// LDAP search
+$labels['ldapsearch'] = 'LDAP opzoeking';
+
+$labels['ldappublicsearchname'] = 'Naam contactpersoon';
+$labels['ldappublicsearchtype'] = 'Exact zoeken?';
+$labels['ldappublicserverselect'] = 'Kies een server';
+$labels['ldappublicsearchfield'] = 'Zoeken op';
+$labels['ldappublicsearchform'] = 'Zoek een contactpersoon';
+$labels['ldappublicsearch'] = 'Zoeken';
 
 // settings
 $labels['settingsfor']  = 'Instellingen voor';
@@ -162,6 +181,7 @@ $labels['setdefault']  = 'Als standaard instellen';
 $labels['language']  = 'Taal';
 $labels['timezone']  = 'Tijdzone';
 $labels['pagesize']  = 'Berichten per pagina';
+$labels['signature'] = 'Handtekening';
 
 $labels['folder']  = 'Map';
 $labels['folders']  = 'Mappen';
@@ -172,28 +192,9 @@ $labels['createfolder']  = 'Nieuwe map aanmaken';
 $labels['deletefolder']  = 'Map verwijderen';
 $labels['managefolders']  = 'Mappen beheren';
 
-// new in 0.1b
-$labels['replytoallmessage'] = 'Allen beantwoorden';
-
-$labels['compact'] = 'Comprimeren';
-$labels['empty'] = 'Legen';
-$labels['purge'] = 'Opruimen';
-
 $labels['sortby']   = 'Sorteren op';
 $labels['sortdesc'] = 'Aflopend sorteren';
 $labels['sortasc']  = 'Oplopend sorteren';
-
-$labels['nosubject']  = '(geen onderwerp)';
-$labels['signature'] = 'Handtekening';
-$labels['charset']  = 'Karakterset';
-
-$labels['ldapsearch'] = 'LDAP opzoeking';
-$labels['ldappublicsearchname'] = 'Naam contactpersoon';
-$labels['ldappublicsearchtype'] = 'Exact zoeken?';
-$labels['ldappublicserverselect'] = 'Kies een server';
-$labels['ldappublicsearchfield'] = 'Zoeken op';
-$labels['ldappublicsearchform'] = 'Zoek een contactpersoon';
-$labels['ldappublicsearch'] = 'Zoeken';
 
 ?>
 

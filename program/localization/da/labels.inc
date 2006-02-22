@@ -178,7 +178,7 @@ $labels['replytoallmessage'] = 'Svar til alle modtagere';
 
 $labels['folder']  = 'Folder';
 $labels['compact'] = 'Ryd op';
-$labels['empty'] = 'Tom';
+$labels['empty'] = 'Tøm';
 $labels['purge'] = 'Tøm';
 $labels['quota'] = 'Disk forbrug';
 

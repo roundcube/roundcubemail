@@ -109,6 +109,8 @@ $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['purge'] = 'Aufräumen';
 
+$labels['quota'] = 'Verwendeter Speicherplatz';
+
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
 $labels['sendmessage']  = 'Nachricht jetzt senden';

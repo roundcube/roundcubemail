@@ -26,57 +26,57 @@ $labels['server']    = 'Kiszolgáló';
 $labels['login']     = 'Belépés';
 
 // taskbar
-$labels['logout']   = 'Kilépés';
+$labels['logout']   = 'Kijelentkezés';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Személyes beállítások';
+$labels['settings'] = 'Egyéni beállítások';
 $labels['addressbook'] = 'Címjegyzék';
 
 // mailbox names
-$labels['inbox']  = 'Beérkezett üzenetek';
-$labels['sent']   = 'Küldött üzenetek';
-$labels['trash']  = 'Törölt elemek';
-$labels['drafts'] = 'Sémák';
+$labels['inbox']  = 'Inbox';
+$labels['sent']   = 'Küldött';
+$labels['trash']  = 'Törölt';
+$labels['drafts'] = 'Piszkozatok';
 $labels['junk']   = 'Szemét';
 
 // message listing
 $labels['subject'] = 'Tárgy';
-$labels['from']    = 'Feladó';
+$labels['from']    = 'Küldő';
 $labels['to']      = 'Címzett';
 $labels['cc']      = 'Másolat';
-$labels['bcc']     = 'Titkos másolat';
-$labels['replyto'] = 'Válasz cím';
+$labels['bcc']     = 'Bcc';
+$labels['replyto'] = 'Válaszcím';
 $labels['date']    = 'Dátum';
 $labels['size']    = 'Méret';
-$labels['priority'] = 'Elsőbbségi';
+$labels['priority'] = 'Sűrgősség';
 $labels['organization'] = 'Szervezet';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Mappák';
-$labels['messagesfromto'] = 'üzenetek: $from - $to, össz.: $count';
-$labels['messagenrof'] = '$nr. üzenet, összes: $count';
+$labels['messagesfromto'] = 'Üzenetek: $from - $to, össz.: $count';
+$labels['messagenrof'] = '$nr. üzenet, összesen $count';
 
-$labels['moveto']   = 'mozgatás ide...';
+$labels['moveto']   = 'mozgatás...';
 $labels['download'] = 'letöltés';
 
 $labels['filename'] = 'Fájl neve';
 $labels['filesize'] = 'Fájl mérete';
 
-$labels['preferhtml'] = 'HTML mail';
+$labels['preferhtml'] = 'HTML megj.';
 $labels['htmlmessage'] = 'HTML üzenet';
 $labels['prettydate'] = 'Rövid dátumok';
 
 $labels['addtoaddressbook'] = 'Hozzáadás a címjegyzékhez';
 
 // weekdays short
-$labels['sun'] = 'Va';
-$labels['mon'] = 'Hé';
-$labels['tue'] = 'Ke';
-$labels['wed'] = 'Sze';
-$labels['thu'] = 'Csü';
-$labels['fri'] = 'Pé';
-$labels['sat'] = 'Szo';
+$labels['sun'] = 'Vas';
+$labels['mon'] = 'Hét';
+$labels['tue'] = 'Kedd';
+$labels['wed'] = 'Szer';
+$labels['thu'] = 'Csüt';
+$labels['fri'] = 'Pén';
+$labels['sat'] = 'Szom';
 
 // weekdays long
 $labels['sunday']    = 'Vasárnap';
@@ -90,94 +90,113 @@ $labels['saturday']  = 'Szombat';
 $labels['today'] = 'Ma';
 
 // toolbar buttons
-$labels['writenewmessage']  = 'Új levél létrehozása';
-$labels['replytomessage']   = 'Válasz a levélre';
-$labels['replytoallmessage'] = 'Válasz mindenkinek';
-$labels['forwardmessage']   = 'Levél továbbítása';
-$labels['deletemessage']    = 'Levél törlése';
-$labels['printmessage']     = 'Levél nyomtatása';
-$labels['previousmessages'] = 'Levél előző részének mutatása';
-$labels['nextmessages']     = 'Levél következő részének mutatása';
-$labels['backtolist']       = 'Vissza az üzenetek listájához';
+$labels['writenewmessage']  = 'Új üzenet létrehozása';
+$labels['replytomessage']   = 'Válasz az üzenetre';
+$labels['replytoallmessage'] = 'Válasz a feladónak és az összes címzettnek';
+$labels['forwardmessage']   = 'Üzenet továbbítása';
+$labels['deletemessage']    = 'Mozgatás a lomtárba';
+$labels['printmessage']     = 'Üzenet nyomtatása';
+$labels['previousmessages'] = 'Előző rész mutatása';
+$labels['nextmessages']     = 'Következő rész mutatása';
+$labels['backtolist']       = 'Vissza az üzenetekhez';
 $labels['viewsource']       = 'Forrás megtekintése';
 
-$labels['select'] = 'Kijelölés';
+$labels['select'] = 'Kiválasztás';
 $labels['all'] = 'Mind';
 $labels['none'] = 'Nincs';
 $labels['unread'] = 'Olvasatlan';
 
-// message compose
-$labels['compose']  = 'üzenet létrehozása';
-$labels['sendmessage']  = 'Levél küldése';
-$labels['addattachment']  = 'Fájl melléklet csatolása';
-$labels['charset']  = 'Karakter kódolás';
+$labels['compact'] = 'Tömörített';
+$labels['empty'] = 'Üres';
+$labels['purge'] = 'Tisztítás';
 
-$labels['attachments'] = 'Csatolmányok';
+$labels['quota'] = 'Diszk használat';
+
+
+// message compose
+$labels['compose']  = 'Üzenet létrehozása';
+$labels['sendmessage']  = 'Üzenet azonnali küldése';
+$labels['addattachment']  = 'Fájlmelléklet hozzáadása';
+$labels['charset']  = 'Karakterkészlet';
+
+$labels['attachments'] = 'Mellékletek';
 $labels['upload'] = 'Feltöltés';
 $labels['close']  = 'Bezárás';
 
 $labels['low']     = 'Alacsony';
-$labels['lowest']  = 'Legalacsonyabb';
+$labels['lowest']  = 'Legkissebb';
 $labels['normal']  = 'Normál';
 $labels['high']    = 'Magas';
 $labels['highest'] = 'Legmagasabb';
 
-$labels['nosubject'] = '(nincs tárgy)';
+$labels['nosubject']  = '(nincs tárgy)';
 $labels['showimages'] = 'Képek megjelenítése';
 
 
 // address boook
-$labels['name']      = 'Megjelenítendő név';
+$labels['name']      = 'Megjelenített név';
 $labels['firstname'] = 'Keresztnév';
 $labels['surname']   = 'Vezetéknév';
 $labels['email']     = 'E-Mail cím';
 
-$labels['addcontact'] = 'Új cím hozzáadása';
-$labels['editcontact'] = 'Cím szerkesztése';
+$labels['addcontact'] = 'Új kapcsolat hozzáadása';
+$labels['editcontact'] = 'Kapcsolat szerkesztése';
 
 $labels['edit']   = 'Szerkesztés';
 $labels['cancel'] = 'Mégsem';
 $labels['save']   = 'Mentés';
 $labels['delete'] = 'Törlés';
 
-$labels['newcontact']     = 'Új névjegykártya hozzáadása';
-$labels['deletecontact']  = 'A kijelölt névjegyek törlése';
-$labels['composeto']      = 'Leél küldése a kijelölt címre';
-$labels['contactsfromto'] = 'Névjegyek: $from - $to, össz.: $count';
+$labels['newcontact']     = 'Új névjegykártya létrehozása';
+$labels['addcontact']     = 'Kiválasztott névjegy hozzáadása a címjegyzékhez';
+$labels['deletecontact']  = 'Kijelölt kapcsolatok törlése';
+$labels['composeto']      = 'Mail létrehozása erre a címre';
+$labels['contactsfromto'] = 'Kapcsolatok: $from - $to, össz.: $count';
 $labels['print']          = 'Nyomtatás';
 $labels['export']         = 'Export';
 
+// LDAP search
+$labels['ldapsearch'] = 'Keresés LDAP címtárban';
+
+$labels['ldappublicsearchname']    = 'Név';
+$labels['ldappublicsearchtype'] = 'Teljes egyezés?';
+$labels['ldappublicserverselect'] = 'Kiszolgáló választás';
+$labels['ldappublicsearchfield'] = 'Keresés';
+$labels['ldappublicsearchform'] = 'Kapcsolat keresése';
+$labels['ldappublicsearch'] = 'Keresés';
+
 
 // settings
-$labels['settingsfor']  = 'Settings for';
+$labels['settingsfor']  = 'Beállítás';
 
 $labels['preferences']  = 'Tulajdonságok';
 $labels['userpreferences']  = 'Felhasználó tulajdonságai';
 $labels['editpreferences']  = 'Felhasználói tulajdonságok szerkesztése';
 
 $labels['identities']  = 'Azonosítók';
-$labels['manageidentities']  = 'A fiókhoz tartozó azonosítók szerkesztése';
+$labels['manageidentities']  = 'Azonosítók kezelése';
 $labels['newidentity']  = 'Új azonosító';
 
 $labels['newitem']  = 'Új elem';
 $labels['edititem']  = 'Elem szerkesztése';
 
-$labels['setdefault']  = 'Alapértelmezés beállítása';
+$labels['setdefault']  = 'Beállítás alapértelmezettnek';
 $labels['language']  = 'Nyelv';
 $labels['timezone']  = 'Időzóna';
 $labels['pagesize']  = 'Sorok száma egy oldalon';
-$labels['signature']  = 'Aláírás';
+$labels['signature'] = 'Aláírás';
 
+$labels['folder']  = 'Mappa';
 $labels['folders']  = 'Mappák';
 $labels['foldername']  = 'Mappa neve';
-$labels['subscribed']  = 'Megjelenítendő';
+$labels['subscribed']  = 'Feliratkozás';
 $labels['create']  = 'Létrehozás';
 $labels['createfolder']  = 'Új mappa létrehozása';
 $labels['deletefolder']  = 'Mappa törlése';
 $labels['managefolders']  = 'Mappák kezelése';
 
-$labels['sortby']  = 'Rendezés';
-$labels['sortasc']  = 'Növekvő';
-$labels['sortdesc']  = 'Csökkenő';
+$labels['sortby'] = 'Rendezés';
+$labels['sortasc']  = 'növekvő';
+$labels['sortdesc'] = 'csökkenő';
 
 ?>

@@ -26,13 +26,17 @@ $messages['sessionerror'] = 'Błąd sesji,bądź sesja wygasła.';
 
 $messages['imaperror'] = 'Błąd połączenia z serwerem.';
 
-$messages['nomessagesfound'] = 'Brak wiadmomości w skrzynce.';
+$messages['nomessagesfound'] = 'Brak wiadomości w skrzynce.';
 
 $messages['loggedout'] = 'Do widzenia.';
 
 $messages['mailboxempty'] = 'Skrzynka jest pusta.';
 
 $messages['loadingdata'] = 'Ładowanie...';
+
+$messages['loading'] = 'Ładowanie...';
+
+$messages['sendingmessage'] = 'Wysyłanie wiadomości...';
 
 $messages['messagesent'] = 'Wiadomość wysłana pomyślnie.';
 
@@ -52,9 +56,36 @@ $messages['sendingfailed'] = 'Nie udało się wysłać wiadomości.';
 
 $messages['errorsaving'] = 'Błąd podczas zapisu.';
 
-$messages['errormoving'] = 'Nie można przeniść wybranej wiadmości';
+$messages['errorsavingcontact'] = 'Błąd podczas zapisywania kontaktu.';
+
+$messages['errormoving'] = 'Nie można przeniść wybranej wiadomości';
 
 $messages['errordeleting'] = 'Nie można usunąć wiadomości';
 
+$messages['deletecontactconfirm']  = 'Czy rzeczywiscie chcesz usunąć wybrane kontakty ?';
+
+$messages['deletefolderconfirm']  = 'Czy rzeczywiście chcesz usunąć wybrany folder ?';
+
+$messages['formincomplete'] = 'Proszę uzupełnić formularz';
+
+$messages['noemailwarning'] = 'Wpisz poprawny adres e-mail';
+
+$messages['nonamewarning']  = 'Podaj imię';
+
+$messages['nopagesizewarning'] = 'Podaj poprawną wartość';
+
+$messages['norecipientwarning'] = 'Podaj conajmniej jednego odbiorece';
+
+$messages['nosubjectwarning']  = 'Nie podałeś tematu wiadomości. Czy chcesz go teraz uzupełnić?';
+
+$messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chesz ją wysłać?';
+
+$messages['notsentwarning'] = 'Wiadomość nie została wysłana. czy chesz usunąć tą wiadomość?';
+
+$messages['noldapserver'] = 'Proszę wybrać serwer LDAP';
+
+$messages['nocontactsreturned'] = 'Nie znaleziono kontaktów';
+
+$messages['nosearchname'] = 'Proszę podać nazwę kontaktu lub jego adres email.';
 
 ?>

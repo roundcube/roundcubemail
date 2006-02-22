@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
  +-----------------------------------------------------------------------+
@@ -106,7 +106,7 @@ $labels['none'] = 'Ingen';
 $labels['unread'] = 'Oläst';
 
 $labels['compact'] = 'Packa';
-$labels['empty'] = 'Tom';
+$labels['empty'] = 'Töm';
 $labels['purge'] = 'Rensa';
 
 $labels['quota'] = 'Diskutrymme';

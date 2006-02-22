@@ -19,64 +19,74 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Sikertelen bejelentkezés';
+$messages['loginfailed']  = 'Sikertelen belépés';
 
-$messages['cookiesdisabled'] = 'A böngészője nem támogatja a sütik fogadását';
+$messages['cookiesdisabled'] = 'A böngészője nem támogatja a sütik használatát';
 
-$messages['sessionerror'] = 'Hibás vagy lejárt munkamenet azonosító';
+$messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 
-$messages['imaperror'] = 'A kapcsolódás a szerverhez sikertelen volt';
+$messages['imaperror'] = 'Nem sikerült a kapcsolódás az IMAP szerverhez';
 
-$messages['nomessagesfound'] = 'A mappában nincs üzenet';
+$messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 
 $messages['loggedout'] = 'Sikeresen befejezte a munkamenetet. Viszontlátásra!';
 
-$messages['mailboxempty'] = 'A mappa nem tartalmaz elemeket';
+$messages['mailboxempty'] = 'A fiók üres';
 
-$messages['loading'] = 'Adatok betöltése...';
+$messages['loading'] = 'Betöltés...';
 
 $messages['loadingdata'] = 'Adatok betöltése...';
 
-$messages['sendingmessage'] = 'üzenet küldése...';
+$messages['sendingmessage'] = 'Üzenet küldése...';
 
-$messages['messagesent'] = 'Az üzenetet küldése sikeresen megtörtént';
+$messages['messagesent'] = 'Az üzenet küldése megtörtént';
 
-$messages['successfullysaved'] = 'Elmentve';
+$messages['successfullysaved'] = 'A mentés sikerült';
 
-$messages['addedsuccessfully'] = 'A cím hozzáadása megtörtént';
+$messages['addedsuccessfully'] = 'A cím hozzáadása a címjegyzékhez megtörtént';
 
-$messages['contactexists'] = 'Ezzel a címmel már szerepel a személy a címjegyzékben';
+$messages['contactexists'] = 'A cím már létezik';
 
-$messages['blockedimages'] = 'Az adatai védelmében a távoli képek megjelenítése tiltott.';
+$messages['blockedimages'] = 'A biztonsága érdekében a távoli képek letöltése tiltott.';
 
-$messages['encryptedmessage'] = 'Ez az üzenet titkosított, sajnos nem tudom megjeleníteni!';
+$messages['encryptedmessage'] = 'Az üzenet titkosított, emiatt nem tudom megjeleníteni.';
 
-$messages['nocontactsfound'] = 'Nincs bejegyzett cím';
+$messages['nocontactsfound'] = 'Nincs kapcsolat';
 
-$messages['sendingfailed'] = 'Az üzenetet nem lehetett kézbesíteni';
+$messages['sendingfailed'] = 'Az üzenet elküldése nem sikerült';
 
 $messages['errorsaving'] = 'A mentés során hiba lépett fel';
 
-$messages['errormoving'] = 'Az üzenetet nem lehet áthelyezni';
+$messages['errormoving'] = 'Az üzenetet nem sikerült menteni';
 
-$messages['errordeleting'] = 'Az üzenetet nem lehet törölni';
+$messages['errordeleting'] = 'Az üzenetet nem sikerült törölni';
 
-$messages['deletefolderconfirm']  = 'Biztos, hogy törli a mappát?';
+$messages['deletecontactconfirm']  = 'Biztos, hogy törölni szeretné a kijelölt címeket?';
 
-$messages['formincomplete'] = 'Az ûrlap hiányosan lett kitöltve';
+$messages['deletefolderconfirm']  = 'Biztos, hogy törölni szeretné ezt a mappát?';
 
-$messages['noemailwarning'] = 'Kérem adjon meg egy helyes email címet';
+$messages['purgefolderconfirm']  = 'Biztos, hogy törölni szeretné a mappa összes üzenetét?';
 
-$messages['nonamewarning']  = 'Kérem adja meg a nevét';
+$messages['formincomplete'] = 'Az űrlap hiányosan lett kitöltve';
 
-$messages['nopagesizewarning'] = 'Kérem adja meg az oldal méretét';
+$messages['noemailwarning'] = 'Kérem adjon meg egy valós email címet';
 
-$messages['norecipientwarning'] = 'Kérem adjon meg legalább egy címzettet';
+$messages['nonamewarning']  = 'Kérem adjon meg egy nevet';
 
-$messages['nosubjectwarning']  = 'A "Tárgy" mezõ üres. Szeretné kitölteni?';
+$messages['nopagesizewarning'] = 'Kérem adja meg a papír méretét';
 
-$messages['nobodywarning'] = 'Elküldjük a levelet üzenet nélkül?';
+$messages['norecipientwarning'] = 'Kérem legalább egy címzettet adjon meg';
 
-$messages['notsentwarning'] = 'Az üzenet nem lett elküldve. Szeretné törölni?';
+$messages['nosubjectwarning']  = 'A "Tárgy" mező üres. Szeretné most kitölteni?';
+
+$messages['nobodywarning'] = 'Elküldi az üzenetet tartalom nélkül?';
+
+$messages['notsentwarning'] = 'Az üzenet nem lett elküldve. Elmenti piszkozatként?';
+
+$messages['noldapserver'] = 'Kérem a kereséshez adjon meg egy LDAP szervert';
+
+$messages['nocontactsreturned'] = 'Nem találtam ilyen kapcsolatot';
+
+$messages['nosearchname'] = 'Kérem adjon meg egy nevet vagy email címet';
 
 ?>

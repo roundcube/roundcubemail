@@ -9,8 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jasper Slits <jaspersl@xs4all.nl>                             |
- | Updates: Dennis Heeren <dennis.heeren@gmail.com>                      |
+ | Author: Mark Moses <mark@katmoda.com>                                 |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,74 +18,74 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Aanmelden mislukt...';
+$messages['loginfailed']  = 'Inloggen mislukt';
 
-$messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies...';
+$messages['cookiesdisabled'] = 'De browser accepteerd geen cookies';
 
-$messages['sessionerror'] = 'Sessie is reeds beëindigd of is ongeldig...';
+$messages['sessionerror'] = 'De sessie is verlopen of ongeldig';
 
-$messages['imaperror'] = 'Kon geen verbinding maken met de IMAP server...';
+$messages['imaperror'] = 'Connectie met IMAP server mislukt';
 
-$messages['nomessagesfound'] = 'Er zijn geen berichten in deze map...';
+$messages['nomessagesfound'] = 'Geen berichten gevonden in deze e-mailbox';
 
-$messages['loggedout'] = 'U bent nu afgemeld. Tot ziens!';
+$messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
 
-$messages['mailboxempty'] = 'Mailbox is leeg...';
+$messages['mailboxempty'] = 'Mailbox is leeg';
 
-$messages['loadingdata'] = 'Bezig met gegevens ophalen...';
+$messages['loading'] = 'Laden...';
 
-$messages['messagesent'] = 'Het bericht is verzonden...';
+$messages['loadingdata'] = 'Bezig met laden van data...';
 
-$messages['successfullysaved'] = 'Succesvol opgeslagen...';
+$messages['sendingmessage'] = 'Bezig met bericht versturen...';
 
-$messages['addedsuccessfully'] = 'Contactpersoon is toegevoegd...';
+$messages['messagesent'] = 'Bericht succesvol verstuurd';
 
-$messages['contactexists'] = 'Er bestaat reeds een contactpersoon met dit e-mailadres...';
+$messages['successfullysaved'] = 'Succesvol opgeslagen';
 
-$messages['blockedimages'] = 'Om uw privacy te beschermen worden de afbeeldingen in dit bericht niet getoond...';
+$messages['addedsuccessfully'] = 'Contact is succesvol toegevoegd aan het adresboek';
 
-$messages['encryptedmessage'] = 'Dit bericht is geëncrypteerd en kan niet worden weergegeven, sorry...';
+$messages['contactexists'] = 'Er bestaat al een contactpersoon met dit e-mailadres';
 
-$messages['nocontactsfound'] = 'Geen contactpersonen gevonden...';
+$messages['blockedimages'] = 'Uit privacyoverwegingen zijn niet bijgevoegde afbeeldingen geblokkeerd in dit bericht.';
 
-$messages['sendingfailed'] = 'Kon het bericht niet versturen...';
+$messages['encryptedmessage'] = 'Dit is een gecodeerd bericht en kan niet weergegeven worden. Excuses!';
 
-$messages['errorsaving'] = 'Er is een fout opgetreden bij het opslaan van het bericht...';
+$messages['nocontactsfound'] = 'Geen contactpersonen gevonden';
 
-$messages['errormoving'] = 'Kon het bericht niet verplaatsen...';
+$messages['sendingfailed'] = 'Verzenden van bericht is mislukt';
 
-$messages['errordeleting'] = 'Kon het bericht niet verwijderen...';
+$messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan';
 
-$messages['loading'] = 'Bezig met ophalen gegevens...';
+$messages['errormoving'] = 'Kan het bericht niet verplaatsen';
 
-$messages['sendingmessage'] = 'Bericht wordt verstuurd...';
+$messages['errordeleting'] = 'Kan het bericht niet verwijderen';
 
-$messages['errormoving']    = 'Kon het bericht niet verplaatsen...';
-
-$messages['errordeleting']  = 'Kon het bericht niet verwijderen...';
-
-$messages['noemailwarning'] = 'Geef een geldig e-mailadres op...';
-
-$messages['nonamewarning']  = 'Geef een naam op...';
-
-$messages['nopagesizewarning'] = 'Geef een paginaformaat op...';
-
-$messages['formincomplete']    = 'Het formulier is niet volledig ingevuld...';
-
-$messages['norecipientwarning'] = 'Geef minstens één bestemmeling op...';
-
-$messages['nosubjectwarning']  = 'Geen onderwerp opgegeven. Wenst u alsnog een onderwerp te geven?';
-
-$messages['nobodywarning'] = 'Wilt u dit lege bericht versturen?';
+$messages['deletecontactconfirm']  = 'Weet u zeker dat u de geselecteerde contactperso(o)n/en wilt verwijderen?';
 
 $messages['deletefolderconfirm']  = 'Weet u zeker dat u deze map wilt verwijderen?';
 
-$messages['notsentwarning'] = 'Het bericht is niet verzonden. Wilt u het bericht verwijderen?';
+$messages['purgefolderconfirm']  = 'Weet u zeker dat u alle berichten in deze map wilt verwijderen?';
 
-$messages['noldapserver'] = 'Kies een LDAP server waarop gezocht moet worden...';
+$messages['formincomplete'] = 'Het formulier was niet volledig ingevuld';
 
-$messages['nocontactsreturned'] = 'Geen contactpersonen gevonden';
+$messages['noemailwarning'] = 'Geef een geldig e-mailadres op';
 
-$messages['nosearchname'] = 'Geen een contacpersoon of e-mailadres op...';
+$messages['nonamewarning']  = 'Vul een naam in';
+
+$messages['nopagesizewarning'] = 'Geef een paginagrootte op';
+
+$messages['norecipientwarning'] = 'Geef teminste een ontvanger op';
+
+$messages['nosubjectwarning']  = 'Het veld: \'onderwerp\' is leeg. Wilt u nu alsnog een onderwerp opgeven?';
+
+$messages['nobodywarning'] = 'Dit bericht zonder inhoud versturen?';
+
+$messages['notsentwarning'] = 'Bericht is niet verstuurd. Weet u zeker dat u het niet wilt bewaren?';
+
+$messages['noldapserver'] = 'Geef een LDAP adresboek server op om te doorzoeken';
+
+$messages['nocontactsreturned'] = 'Er zijn geen contactpersonen gevonden';
+
+$messages['nosearchname'] = 'Geef de naam of e-mail op van de contactpersoon';
 
 ?>
