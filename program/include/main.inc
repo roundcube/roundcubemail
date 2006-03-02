@@ -470,10 +470,10 @@ function rcmail_create_user($user, $host)
 
   if ($user_id = $DB->insert_id(get_sequence_name('users')))
     {
-    if (is_string($CONFIG['mail_domain']))
-      $mail_domain = $CONFIG['mail_domain'];
-    else if (is_array($CONFIG['mail_domain']) && isset($CONFIG['mail_domain'][$host]))
+    if (is_array($CONFIG['mail_domain']) && isset($CONFIG['mail_domain'][$host]))
       $mail_domain = $CONFIG['mail_domain'][$host];
+    else if (!empty($CONFIG['mail_domain']))
+      $mail_domain = $CONFIG['mail_domain'];
     else
       $mail_domain = $host;
    
@@ -501,14 +501,6 @@ function rcmail_create_user($user, $host)
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();
-    
-    // check if the configured mailbox for sent messages exists
-    if ($CONFIG['sent_mbox'] && !in_array_nocase($CONFIG['sent_mbox'], $a_mailboxes))
-      $IMAP->create_mailbox($CONFIG['sent_mbox'], TRUE);
-
-    // check if the configured mailbox for sent messages exists
-    if ($CONFIG['trash_mbox'] && !in_array_nocase($CONFIG['trash_mbox'], $a_mailboxes))
-      $IMAP->create_mailbox($CONFIG['trash_mbox'], TRUE);
     }
   else
     {
