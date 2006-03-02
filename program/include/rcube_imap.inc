@@ -561,7 +561,6 @@ class rcube_imap
 
         
       // fetch reuested headers from server
-      $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs);
       $a_msg_headers = array();
       $deleted_count = $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, $cache_key);
 
