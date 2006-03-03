@@ -81,10 +81,11 @@ function smtp_mail($from, $recipients, $headers, &$body)
 
 
     // try to connect to server and exit on failure
-    if (PEAR::isError($SMTP_CONN->connect($smtp_timeout)))
+    $result = $SMTP_CONN->connect($smtp_timeout);
+    if (PEAR::isError($result))
       {
       $SMTP_CONN = null;
-      $SMTP_ERROR .= "Connection failed\n";
+      $SMTP_ERROR .= "Connection failed: ".$result->getMessage()."\n";
       return FALSE;
       }
       
@@ -102,11 +103,12 @@ function smtp_mail($from, $recipients, $headers, &$body)
 		$smtp_pass = $CONFIG['smtp_pass'];
 
 	  $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
-	  	
-      if (PEAR::isError($SMTP_CONN->auth($smtp_user, $smtp_pass, $smtp_auth_type)))
+	  $result = $SMTP_CONN->auth($smtp_user, $smtp_pass, $smtp_auth_type);
+	  
+      if (PEAR::isError($result))
         {
         smtp_reset();
-        $SMTP_ERROR .= "authentication failure\n";
+        $SMTP_ERROR .= "Authentication failure: ".$result->getMessage()."\n";
         return FALSE;
         }
       }
