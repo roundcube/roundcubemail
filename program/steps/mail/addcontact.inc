@@ -21,9 +21,9 @@
 
 $REMOTE_REQUEST = TRUE;
 
-if ($_GET['_address'])
+if (!empty($_GET['_address']))
   {
-  $contact_arr = $IMAP->decode_address_list($_GET['_address']);
+  $contact_arr = $IMAP->decode_address_list(get_input_value('_address', RCUBE_INPUT_GET));
   if (sizeof($contact_arr))
     {
     $contact = $contact_arr[1];

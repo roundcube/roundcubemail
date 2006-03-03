@@ -24,6 +24,12 @@ require_once('lib/utf7.inc');
 require_once('lib/utf8.class.php');
 
 
+// define constannts for input reading
+define('RCUBE_INPUT_GET', 0x0101);
+define('RCUBE_INPUT_POST', 0x0102);
+define('RCUBE_INPUT_GPC', 0x0103);
+
+
 // register session and connect to server
 function rcmail_startup($task='mail')
   {
@@ -376,6 +382,8 @@ function rcmail_login($user, $pass, $host=NULL)
     $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
     $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
     }
+  else
+    $imap_port = $CONFIG['default_port'];
 
   // query if user already registered
   $sql_result = $DB->query("SELECT user_id, username, language, preferences
@@ -895,6 +903,49 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   // no encoding given -> return original string
   return $str;
   }
+
+
+/**
+ * Read input value and convert it for internal use
+ * Performs stripslashes() and charset conversion if necessary
+ * 
+ * @param  string   Field name to read
+ * @param  int      Source to get value from (GPC)
+ * @param  boolean  Allow HTML tags in field value
+ * @param  string   Charset to convert into
+ * @return string   Field value or NULL if not available
+ */
+function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
+  {
+  global $OUTPUT;
+  $value = NULL;
+  
+  if ($source==RCUBE_INPUT_GET && isset($_GET[$fname]))
+    $value = $_GET[$fname];
+  else if ($source==RCUBE_INPUT_POST && isset($_POST[$fname]))
+    $value = $_POST[$fname];
+  else if ($source==RCUBE_INPUT_GPC)
+    {
+    if (isset($_GET[$fname]))
+      $value = $_GET[$fname];
+    else if (isset($_POST[$fname]))
+      $value = $_POST[$fname];
+    else if (isset($_COOKIE[$fname]))
+      $value = $_COOKIE[$fname];
+    }
+  
+  // strip slashes if magic_quotes enabled
+  if ((bool)get_magic_quotes_gpc())
+    $value = stripslashes($value);
+
+  // remove HTML tags if not allowed    
+  if (!$allow_html)
+    $value = strip_tags($value);
+  
+  // convert to internal charset
+  return rcube_charset_convert($value, $OUTPUT->get_charset(), $charset);
+  }
+
 
 
 
@@ -1482,7 +1533,7 @@ function rcmail_login_form($attrib)
   $input_action = new hiddenfield(array('name' => '_action', 'value' => 'login'));
     
   $fields = array();
-  $fields['user'] = $input_user->show($_POST['_user']);
+  $fields['user'] = $input_user->show(get_input_value('_user', RCUBE_INPUT_POST));
   $fields['pass'] = $input_pass->show();
   $fields['action'] = $input_action->show();
   

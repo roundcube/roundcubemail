@@ -23,7 +23,7 @@
 if ((empty($_POST['_name']) || empty($_POST['_email'])) && empty($_GET['_framed']))
   {
   show_message('formincomplete', 'warning');
-  rcmail_overwrite_action($_POST['_cid'] ? 'show' : 'add');
+  rcmail_overwrite_action(empty($_POST['_cid']) ? 'add' : 'show');
   return;
   }
 
@@ -32,7 +32,7 @@ $a_save_cols = array('name', 'firstname', 'surname', 'email');
 $contacts_table = get_table_name('contacts');
 
 // update an existing contact
-if ($_POST['_cid'])
+if (!empty($_POST['_cid']))
   {
   $a_write_sql = array();
 
@@ -44,7 +44,7 @@ if ($_POST['_cid'])
     
     $a_write_sql[] = sprintf("%s=%s",
                              $DB->quoteIdentifier($col),
-                             $DB->quote(rcube_charset_convert(strip_tags($_POST[$fname]), $OUTPUT->get_charset())));
+                             $DB->quote(get_input_value($fname, RCUBE_INPUT_POST)));
     }
 
   if (sizeof($a_write_sql))
@@ -65,7 +65,7 @@ if ($_POST['_cid'])
     $_action = 'show';
     show_message('successfullysaved', 'confirmation');    
     
-    if ($_POST['_framed'])
+    if ($_framed)
       {
       // define list of cols to be displayed
       $a_show_cols = array('name', 'email');
@@ -115,20 +115,20 @@ else
   if (isset($_GET['_emails']) && isset($_GET['_names']))
     {
     $sql   .= "AND email IN (";
-    $emails = explode(',', $_GET['_emails']);
-    $names  = explode(',', $_GET['_names']);
+    $emails = explode(',', get_input_value('_emails', RCUBE_INPUT_GET));
+    $names  = explode(',', get_input_value('_names', RCUBE_INPUT_GET));
     $count  = count($emails);
     $n = 0;
     foreach ($emails as $email)
       {
       $end  = (++$n == $count) ? '' : ',';
-      $sql .= $DB->quote(strip_tags($email)) . $end;
+      $sql .= $DB->quote($email) . $end;
       }
     $sql .= ")";
     $ldap_form = true; 
     }
   else if (isset($_POST['_email'])) 
-    $sql  .= "AND email = " . $DB->quote(strip_tags($_POST['_email']));
+    $sql  .= "AND email = " . $DB->quote(get_input_value('_email', RCUBE_INPUT_POST));
 
   $sql_result = $DB->query($sql);
 
@@ -151,9 +151,9 @@ else
     foreach ($emails as $email) 
       {
       $DB->query("INSERT INTO $contacts_table 
-                 (user_id, name, email)
-                 VALUES ({$_SESSION['user_id']}," . $DB->quote(strip_tags($names[$n++])) . "," . 
-                                      $DB->quote(strip_tags($email)) . ")");
+                 (user_id, name, email
+                 VALUES ({$_SESSION['user_id']}," . $DB->quote($names[$n++]) . "," . 
+                                      $DB->quote($email) . ")");
       $insert_id[] = $DB->insert_id();
       }
     }
@@ -166,7 +166,7 @@ else
         continue;
     
       $a_insert_cols[] = $col;
-      $a_insert_values[] = $DB->quote(rcube_charset_convert(strip_tags($_POST[$fname]), $OUTPUT->get_charset()));
+      $a_insert_values[] = $DB->quote(get_input_value($fname, RCUBE_INPUT_POST));
       }
     
     if (sizeof($a_insert_cols))
@@ -187,7 +187,7 @@ else
       $_action = 'show';
       $_GET['_cid'] = $insert_id;
 
-      if ($_POST['_framed'])
+      if ($_framed)
         {
         // add contact row or jump to the page where it should appear
         $commands = sprintf("if(parent.%s)parent.", $JS_OBJECT_NAME);

@@ -82,23 +82,6 @@ require_once('PEAR.php');
 // PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
 
 
-// strip magic quotes from Superglobals...
-if ((bool)get_magic_quotes_gpc())  // by "php Pest"
-  {
-  // Really EGPCSR - Environment $_ENV, GET $_GET , POST $_POST, Cookie $_COOKIE, Server $_SERVER
-  // and their HTTP_*_VARS cousins (separate arrays, not references) and $_REQUEST
-  $fnStripMagicQuotes = create_function(
-        '&$mData, $fnSelf',
-        'if (is_array($mData)) { foreach ($mData as $mKey=>$mValue) $fnSelf($mData[$mKey], $fnSelf); return; } '.
-        '$mData = stripslashes($mData);'
-  );
-  
-  // do each set of EGPCSR as you find necessary
-  $fnStripMagicQuotes($_POST, $fnStripMagicQuotes);
-  $fnStripMagicQuotes($_GET, $fnStripMagicQuotes);
-  }
-
-
 // catch some url/post parameters
 $_auth = !empty($_POST['_auth']) ? $_POST['_auth'] : $_GET['_auth'];
 $_task = !empty($_POST['_task']) ? $_POST['_task'] : (!empty($_GET['_task']) ? $_GET['_task'] : 'mail');
@@ -144,7 +127,10 @@ if ($_action=='login' && $_task=='mail')
     {
     show_message("cookiesdisabled", 'warning');
     }
-  else if (isset($_POST['_user']) && isset($_POST['_pass']) && rcmail_login($_POST['_user'], $_POST['_pass'], $host))
+  else if (isset($_POST['_user']) && isset($_POST['_pass']) &&
+           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
+                        get_input_value('_pass', RCUBE_INPUT_POST),
+                        $host))
     {
     // send redirect
     header("Location: $COMM_PATH");

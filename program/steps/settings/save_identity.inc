@@ -20,6 +20,7 @@
 */
 
 $a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature');
+$a_html_cols = array('signature');
 
 
 // check input
@@ -44,7 +45,7 @@ if ($_POST['_iid'])
 
     $a_write_sql[] = sprintf("%s=%s",
                              $DB->quoteIdentifier($col),
-                             $DB->quote(rcube_charset_convert(strip_tags($_POST[$fname]), $OUTPUT->get_charset())));
+                             $DB->quote(get_input_value($fname, RCUBE_INPUT_POST, in_array($col, $a_html_cols))));
     }
 
   if (sizeof($a_write_sql))
@@ -99,7 +100,7 @@ else
       continue;
     
     $a_insert_cols[] = $DB->quoteIdentifier($col);
-    $a_insert_values[] = $DB->quote(rcube_charset_convert(strip_tags($_POST[$fname]), $OUTPUT->get_charset()));
+    $a_insert_values[] = $DB->quote(get_input_value($fname, RCUBE_INPUT_POST, in_array($col, $a_html_cols)));
     }
     
   if (sizeof($a_insert_cols))

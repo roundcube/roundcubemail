@@ -29,7 +29,7 @@ if ($_action=='subscribe')
   if (strlen($_GET['_mboxes']))
     $IMAP->subscribe(array($_GET['_mboxes']));
 
-  if ($_GET['_remote'])
+  if ($REMOTE_REQUEST)
     rcube_remote_response('// subscribed');
   }
 
@@ -39,22 +39,22 @@ else if ($_action=='unsubscribe')
   if (strlen($_GET['_mboxes']))
     $IMAP->unsubscribe(array($_GET['_mboxes']));
 
-  if ($_GET['_remote'])
+  if ($REMOTE_REQUEST)
     rcube_remote_response('// unsubscribed');
   }
 
 // create a new mailbox
 else if ($_action=='create-folder')
   {
-  if (strlen($_GET['_name']))
-    $create = $IMAP->create_mailbox(rcube_charset_convert(strip_tags(trim($_GET['_name'])), $OUTPUT->get_charset()), TRUE);
+  if (!empty($_GET['_name']))
+    $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_GET)), TRUE);
 
-  if ($create && $_GET['_remote'])
+  if ($create && $REMOTE_REQUEST)
     {
     $commands = sprintf("this.add_folder_row('%s')", rep_specialchars_output($create, 'js'));
     rcube_remote_response($commands);
     }
-  else if (!$create && $_GET['_remote'])
+  else if (!$create && $REMOTE_REQUEST)
     {
     $commands = show_message('errorsaving', 'error');
     rcube_remote_response($commands);
@@ -69,9 +69,9 @@ else if ($_action=='delete-folder')
   if (strlen($_GET['_mboxes']))
     $deleted = $IMAP->delete_mailbox(array($_GET['_mboxes']));
 
-  if ($_GET['_remote'] && $deleted)
+  if ($REMOTE_REQUEST && $deleted)
     rcube_remote_response(sprintf("this.remove_folder_row('%s')", rep_specialchars_output($_GET['_mboxes'], 'js')));
-  else if ($_GET['_remote'])
+  else if ($REMOTE_REQUEST)
     {
     $commands = show_message('errorsaving', 'error');
     rcube_remote_response($commands);

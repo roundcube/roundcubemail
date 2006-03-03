@@ -83,7 +83,7 @@ $mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
 $mailto_replace = array(', ', ', ', '');
 
 // repalce new lines and strip ending ', '
-$mailto = preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_to']));
+$mailto = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
 
 // decode address strings
 $to_address_arr = $IMAP->decode_address_list($mailto);
@@ -104,22 +104,22 @@ $headers = array('Date' => date('D, j M Y G:i:s O'),
                  'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
 
 // additional recipients
-if ($_POST['_cc'])
-  $headers['Cc'] = rcube_charset_convert(preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_cc'])), $input_charset, $message_charset);
+if (!empty($_POST['_cc']))
+  $headers['Cc'] = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
 
-if ($_POST['_bcc'])
-  $headers['Bcc'] = rcube_charset_convert(preg_replace($mailto_regexp, $mailto_replace, stripslashes($_POST['_bcc'])), $input_charset, $message_charset);
+if (!empty($_POST['_bcc']))
+  $headers['Bcc'] = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
   
-if (strlen($identity_arr['bcc']))
+if (!empty($identity_arr['bcc']))
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
 
 // add subject
-$headers['Subject'] = rcube_charset_convert(trim($_POST['_subject']), $input_charset, $message_charset);
+$headers['Subject'] = trim(get_input_value('_subject', RCUBE_INPUT_POST, FALSE, $message_charset));
 
-if (strlen($identity_arr['organization']))
+if (!empty($identity_arr['organization']))
   $headers['Organization'] = $identity_arr['organization'];
 
-if (strlen($identity_arr['reply-to']))
+if (!empty($identity_arr['reply-to']))
   $headers['Reply-To'] = $identity_arr['reply-to'];
 
 if (!empty($_SESSION['compose']['reply_msgid']))
@@ -128,7 +128,7 @@ if (!empty($_SESSION['compose']['reply_msgid']))
 if (!empty($_SESSION['compose']['references']))
   $headers['References'] = $_SESSION['compose']['references'];
 
-if ($_POST['_priority'])
+if (!empty($_POST['_priority']))
   {
   $priority = (int)$_POST['_priority'];
   $a_priorities = array(1=>'lowest', 2=>'low', 4=>'high', 5=>'highest');
@@ -141,11 +141,11 @@ if ($_POST['_priority'])
 $headers['Message-ID'] = $message_id;
 $headers['X-Sender'] = $from;
 
-if ($CONFIG['useragent'])
+if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];
 
 // fetch message body
-$message_body = rcube_charset_convert($_POST['_message'], $input_charset, $message_charset);
+$message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 // append generic footer to all messages
 if (!empty($CONFIG['generic_message_footer']))

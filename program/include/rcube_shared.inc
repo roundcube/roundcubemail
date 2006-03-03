@@ -108,7 +108,7 @@ class rcube_html_page
   
     // set default page title
     if (!strlen($this->title))
-      $this->title = 'RoundCube|Mail';
+      $this->title = 'RoundCube Mail';
   
     // replace specialchars in content
     $__page_title = rep_specialchars_output($this->title, 'html', 'show', FALSE);
@@ -117,7 +117,10 @@ class rcube_html_page
     
     // include meta tag with charset
     if (!empty($this->charset))
-      $__page_header = '<meta http-equiv="content-type" content="text/html; charset='.$this->charset.'" />'."\n";;
+      {
+      header('Content-Type: text/html; charset='.$this->charset);
+      $__page_header = '<meta http-equiv="content-type" content="text/html; charset='.$this->charset.'" />'."\n";
+      }
   
   
     // definition of the code to be placed in the document header and footer

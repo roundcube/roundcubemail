@@ -255,7 +255,7 @@ function get_form_tags($attrib)
     $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
     $hiddenfields->add(array('name' => '_action', 'value' => 'ldappublicsearch'));
     
-    if ($_GET['_framed'] || $_POST['_framed'])
+    if ($_framed)
       $hiddenfields->add(array('name' => '_framed', 'value' => 1));
     
     $form_start .= !strlen($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
