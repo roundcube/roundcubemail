@@ -2680,10 +2680,10 @@ function rcube_webmail()
       }
 
     // set unread count to window title
-    if ((set_title || mbox==this.env.mailbox) && document.title)	
+    reg = /^\([0-9]+\)\s+/i;
+    if (set_title && count && document.title)	
       {
       var doc_title = String(document.title);
-      reg = /^\([0-9]+\)\s+/i;
 
       if (count && doc_title.match(reg))
         document.title = doc_title.replace(reg, '('+count+') ');
@@ -2691,6 +2691,11 @@ function rcube_webmail()
         document.title = '('+count+') '+doc_title;
       else
         document.title = doc_title.replace(reg, '');
+      }
+    // remove unread count from window title
+    else if (document.title)
+      {
+      document.title = document.title.replace(reg, '');
       }
     };
 

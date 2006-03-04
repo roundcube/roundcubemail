@@ -300,12 +300,12 @@ function rcmail_message_list($attrib)
 
   // add col definition
   $out .= '<colgroup>';
-  $out .= '<col class="icon">';
+  $out .= '<col class="icon" />';
 
   foreach ($a_show_cols as $col)
-    $out .= sprintf('<col class="%s">', $col);
+    $out .= sprintf('<col class="%s" />', $col);
 
-  $out .= '<col class="icon">';
+  $out .= '<col class="icon" />';
   $out .= "</colgroup>\n";
 
   // add table title
@@ -365,7 +365,6 @@ function rcmail_message_list($attrib)
 
   $out .= '<td class="icon">'.($attrib['attachmenticon'] ? sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '') : '')."</td>\n";
   $out .= "</tr></thead>\n<tbody>\n";
-
 
   // no messages in this mailbox
   if (!sizeof($a_headers))

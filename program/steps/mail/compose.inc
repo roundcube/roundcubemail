@@ -142,7 +142,7 @@ function rcmail_compose_headers($attrib)
 
     
   if ($fname && !empty($_POST[$fname]))
-    $fvalue = get_input_value($fname, RCUBE_INPUT_POST);
+    $fvalue = get_input_value($fname, RCUBE_INPUT_POST, TRUE);
   else if ($header && is_object($REPLY_MESSAGE['headers']))
     {
     // get recipent address(es) out of the message headers
@@ -433,7 +433,7 @@ function rcmail_compose_subject($attrib)
 
   // use subject from post
   if (isset($_POST['_subject']))
-    $subject = get_input_value('_subject', RCUBE_INPUT_POST);
+    $subject = get_input_value('_subject', RCUBE_INPUT_POST, TRUE);
     
   // create a reply-subject
   else if (isset($REPLY_MESSAGE['subject']))
