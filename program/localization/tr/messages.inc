@@ -9,7 +9,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Melih Taşdizen <melih@marmara.edu.tr>                         |
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Translation / Tercüme: Hasan Cansız <hasancansiz@yahoo.com>           |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -18,43 +19,74 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Başarısız Giriş';
+$messages['loginfailed']  = 'Giriş Başarısız';
 
-$messages['cookiesdisabled'] = 'Tarayıcınızın Cerez(cookie) desteği açık değil';
+$messages['cookiesdisabled'] = 'Tarayıcınız cookileri kabul etmiyor';
 
-$messages['sessionerror'] = 'Oturumunuz hatalı ve ya uzun süre işlem yapmadığınız için kapandı';
+$messages['sessionerror'] = 'Oturumunuz sona ermiş veya hatalı';
 
-$messages['imaperror'] = 'IMAP sunucusuna bağlanılamadı';
+$messages['imaperror'] = 'IMAP Servera bağlanılamadı';
 
-$messages['nomessagesfound'] = 'Gelen kutusnda mesaj yok';
+$messages['nomessagesfound'] = 'Posta kutusunda mesaj bulunamadı';
 
-$messages['loggedout'] = 'Oturumunuz başarıyla kapatıldı. Güle Güle!';
+$messages['loggedout'] = 'Oturumu başarılı bir şekilde kapattınız. Güle güle!';
 
-$messages['mailboxempty'] = 'Gelen kutusu boş';
+$messages['mailboxempty'] = 'Posta kutusu boş';
 
-$messages['loadingdata'] = 'Veri yükleniyor...';
+$messages['loading'] = 'Yükleniyor...';
 
-$messages['messagesent'] = 'Mesaj gönderildi';
+$messages['loadingdata'] = 'Veriler yükleniyor...';
+
+$messages['sendingmessage'] = 'Posta gönderiliyor...';
+
+$messages['messagesent'] = 'Posta gönderildi';
 
 $messages['successfullysaved'] = 'Kaydedildi';
 
-$messages['addedsuccessfully'] = 'Kontak eklendi';
+$messages['addedsuccessfully'] = 'Kişi rehbere eklendi';
 
-$messages['contactexists'] = 'Bu e-posta adresine sahip bir kontak zaten kayıtlı';
+$messages['contactexists'] = 'Rehberde bu posta adresine sahip biri zaten var';
 
-$messages['blockedimages'] = 'Güvenliğiniz için harici resimler engellendi.';
+$messages['blockedimages'] = 'Gizliliğinizi korumak amacıyla postadaki grafikler bloke edildi.';
 
-$messages['encryptedmessage'] = 'Şifrelenmşi bir mesaj, okuyamazsınız!';
+$messages['encryptedmessage'] = 'Bu şifrelenmiş bir posta ve bu nedenle gösterilemiyor. Özür dilerim!';
 
-$messages['nocontactsfound'] = 'Kontak bulunamadı';
+$messages['nocontactsfound'] = 'Kişi bulunamadı';
 
-$messages['sendingfailed'] = 'Mesaj gönderilemedi';
+$messages['sendingfailed'] = 'Posta gönderilemedi';
 
-$messages['errorsaving'] = 'Kaydederken hata oluştu';
+$messages['errorsaving'] = 'Kaydederken bir problem oluştu';
 
-$messages['errormoving'] = 'Mesaj taşınamadı';
+$messages['errormoving'] = 'Posta taşınamadı';
 
-$messages['errordeleting'] = 'Mesaj silinemedi';
+$messages['errordeleting'] = 'Posta silinemedi';
 
+$messages['deletecontactconfirm']  = 'Seçili posta(lar)ı silmeyi gerçekten istiyor musunuz?';
+
+$messages['deletefolderconfirm']  = 'Bu klasörü silmeyi gerçekten istiyor musunuz?';
+
+$messages['purgefolderconfirm']  = 'Bu klasördeki tüm postaları silmeyi gerçekten istiyor musnuz?';
+
+$messages['formincomplete'] = 'Form tam olarak doldurulmadı';
+
+$messages['noemailwarning'] = 'Lütfen geçerli bir posta adresi girin';
+
+$messages['nonamewarning']  = 'Lütfen bir isim girin';
+
+$messages['nopagesizewarning'] = 'Lütfen bir sayfa boyutu girin';
+
+$messages['norecipientwarning'] = 'Lütfen en az bir alıcı belirtin';
+
+$messages['nosubjectwarning']  = '"Konu" kutusu boş bırakılmış. Şimdi bir konu belirtmek ister misiniz?';
+
+$messages['nobodywarning'] = 'Postayı boş olarak gönder?';
+
+$messages['notsentwarning'] = 'Posta gönderilmedi. Postanızı iptal etmek istiyor musunuz?';
+
+$messages['noldapserver'] = 'Lütfen arama için bir Ldap sunucu seçin';
+
+$messages['nocontactsreturned'] = 'Kişi bulunamadı';
+
+$messages['nosearchname'] = 'Lütfen bir kişi ismi veya posta adresi girin';
 
 ?>

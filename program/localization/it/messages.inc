@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: APaella <apaella@yahoo.it>                                    |
+ | Author: Paolo Asperti <paolo@asperti.com>                              |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -18,39 +18,75 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Login non riuscito';
+$messages['loginfailed']  = 'Impossibile accedere. Utente o password non corretti';
 
-$messages['cookiesdisabled'] = 'Il browser non accetta cookie';
+$messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies';
 
-$messages['sessionerror'] = 'La sessione è invalida o scaduta.';
+$messages['sessionerror'] = 'Sessione non valida o scaduta';
 
-$messages['imaperror'] = 'Connessione al server IMAP non riuscita';
+$messages['imaperror'] = 'Impossibile connettersi al server IMAP';
 
-$messages['nomessagesfound'] = 'Non ci sono messaggi in questa mailbox';
+$messages['nomessagesfound'] = 'Nessun messaggio trovato in questa cartella';
 
 $messages['loggedout'] = 'Sessione chiusa correttamente. Arrivederci!';
 
-$messages['mailboxempty'] = 'La mailbox è vuota';
+$messages['mailboxempty'] = 'Cartella vuota';
 
-$messages['loadingdata'] = 'Sto caricando i dati...';
+$messages['loading'] = 'Caricamento...';
 
-$messages['messagesent'] = 'Messaggio spedito con successo';
+$messages['loadingdata'] = 'Caricamento dati...';
 
-$messages['successfullysaved'] = 'Salvato con successo';
+$messages['sendingmessage'] = 'Invio messaggio in corso...';
 
-$messages['addedsuccessfully'] = 'Contatto aggiunto con successo alla rubrica';
+$messages['messagesent'] = 'Messaggio inviato correttamente';
 
-$messages['contactexists'] = 'Esiste già un contatto con questa email';
+$messages['successfullysaved'] = 'Salvato correttamente';
 
-$messages['blockedimages'] = 'Per proteggere la privacy, le immagini remote in questo messaggio sono bloccate.';
+$messages['addedsuccessfully'] = 'Contatto aggiunto alla rubrica';
 
-$messages['encryptedmessage'] = 'Questo è un messaggio criptato e non può essere visualizzato. Mi dispiace!';
+$messages['contactexists'] = 'Esiste già un contatto con questo indirizzo e-mail';
 
-$messages['nocontactsfound'] = 'Nessun contatto trovato';
+$messages['blockedimages'] = 'Per proteggere la tua privacy, le immagini remote di questo messaggio sono state bloccate.';
 
-$messages['sendingfailed'] = 'spedizione del messaggio non riuscita';
+$messages['encryptedmessage'] = 'Questo messaggio é cifrato e non può essere visualizzato';
 
-$messages['errorsaving'] = 'Errore durante il salvataggio';
+$messages['nocontactsfound'] = 'Nessun contatto inviato';
+
+$messages['sendingfailed'] = 'Impossibile inviare il messaggio';
+
+$messages['errorsaving'] = 'Impossibile salvare';
+
+$messages['errormoving'] = 'Impossibile spostare il messaggio';
+
+$messages['errordeleting'] = 'Impossibile cancellare il messaggio';
+
+$messages['deletecontactconfirm']  = 'Vuoi veramente cancellare i contatti selezionati?';
+
+$messages['deletefolderconfirm']  = 'Vuoi veramente cancellare questa cartella?';
+
+$messages['purgefolderconfirm']  = 'Vuoi veramente cancellare tutti i messaggi in questa cartella?';
+
+$messages['formincomplete'] = 'Per favore, compila tutti i campi';
+
+$messages['noemailwarning'] = 'Per favore, immetti un indirizzo e-mail valido';
+
+$messages['nonamewarning']  = 'Per favore, immetti un nome';
+
+$messages['nopagesizewarning'] = 'Per favore, immetti il numero di righe per pagina';
+
+$messages['norecipientwarning'] = 'Per favore, immetti almeno un contatto';
+
+$messages['nosubjectwarning']  = 'L\'oggetto é vuoto. Vuoi inserirne uno adesso?';
+
+$messages['nobodywarning'] = 'Inviare il messaggio senza testo?';
+
+$messages['notsentwarning'] = 'Il messaggio non é stato inviato. Vuoi veramente annullare questo messaggio?';
+
+$messages['noldapserver'] = 'Per favore, scegli un server LDAP in cui ricercare';
+
+$messages['nocontactsreturned'] = 'Nessun contatto trovato';
+
+$messages['nosearchname'] = 'Per favore, immetti un nome o un indirizzo e-mail';
 
 
 ?>
