@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/03/14
+----------
+- Don't remove internal HTML tags in plaintext messages
+- Improved error handling in DB connection failure
+
 
 2006/02/22
 ----------
@@ -18,7 +23,6 @@ CHANGELOG RoundCube Webmail
 - Added support for mbstring module by Tadashi Jokagi
 - Added function for automatic remove of slashes on GET and POST vars
   if magic_quotes is enabled
-
 
 
 2006/02/05
