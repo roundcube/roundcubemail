@@ -1010,7 +1010,12 @@ function rcmail_message_body($attrib)
         // $body = rcmail_print_body($part['body'], $part['ctype_primary'], $part['ctype_secondary'], $part['encoding'], $safe_mode);
         $body = rcmail_print_body($part, $safe_mode);
         $out .= '<div class="message-part">';
-        $out .= rcmail_mod_html_body($body, $attrib['id']);
+        
+        if ($part['ctype_secondary']!='plain')
+          $out .= rcmail_mod_html_body($body, $attrib['id']);
+        else
+          $out .= $body;
+
         $out .= "</div>\n";
         }
       }
