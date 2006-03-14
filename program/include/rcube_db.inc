@@ -35,7 +35,7 @@ require_once('DB.php');
  * @package    RoundCube Webmail
  * @author     David Saez Padros <david@ols.es>
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.16
+ * @version    1.17
  * @link       http://pear.php.net/package/DB
  */
 class rcube_db
@@ -45,6 +45,9 @@ class rcube_db
   var $db_connected = false;  // Already connected ?
   var $db_mode = '';          // Connection mode
   var $db_handle = 0;         // Connection handle
+  var $db_pconn = false;      // Use persistent connections
+  var $db_error = false;
+  var $db_error_msg = '';
 
   var $a_query_results = array('dummy');
   var $last_res_id = 0;
@@ -56,13 +59,14 @@ class rcube_db
    * @param  string  DSN for read/write operations
    * @param  string  Optional DSN for read only operations
    */
-  function __construct($db_dsnw, $db_dsnr='')
+  function __construct($db_dsnw, $db_dsnr='', $pconn=false)
     {
     if ($db_dsnr=='')
       $db_dsnr=$db_dsnw;
         
     $this->db_dsnw = $db_dsnw;
     $this->db_dsnr = $db_dsnr;
+    $this->db_pconn = $pconn;
         
     $dsn_array = DB::parseDSN($db_dsnw);
     $this->db_provider = $dsn_array['phptype'];        
@@ -74,9 +78,9 @@ class rcube_db
    *
    * @see  rcube_db::__construct
    */
-  function rcube_db($db_dsnw,$db_dsnr='')
+  function rcube_db($db_dsnw, $db_dsnr='', $pconn=false)
     {
-    $this->__construct($db_dsnw,$db_dsnr);
+    $this->__construct($db_dsnw, $db_dsnr);
     }
 
 
@@ -90,12 +94,17 @@ class rcube_db
   function dsn_connect($dsn)
     {
     // Use persistent connections if available
-    $dbh = DB::connect($dsn, array('persistent' => TRUE));
+    $dbh = DB::connect($dsn, array('persistent' => $this->db_pconn));
         
     if (DB::isError($dbh))
       {
+      $this->db_error = TRUE;
+      $this->db_error_msg = $dbh->getMessage();
+
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $dbh->getMessage()), TRUE, FALSE);
+                        'message' => $this->db_error_msg), TRUE, FALSE);
+                        
+      return FALSE;
       }
 
     else if ($this->db_provider=='sqlite')
@@ -142,7 +151,18 @@ class rcube_db
       $dsn = $this->db_dsnw;
 
     $this->db_handle = $this->dsn_connect($dsn);
-    $this->db_connected = true;
+    $this->db_connected = $this->db_handle ? TRUE : FALSE;
+    }
+    
+    
+  /**
+   * Getter for error state
+   *
+   * @param  boolean  True on error
+   */
+  function is_error()
+    {
+    return $this->db_error ? $this->db_error_msg : FALSE;
     }
 
 
@@ -203,6 +223,9 @@ class rcube_db
       $mode='w';
         
     $this->db_connect($mode);
+    
+    if (!$this->db_connected)
+      return FALSE;
 
     if ($this->db_provider == 'sqlite')
       $this->_sqlite_prepare();

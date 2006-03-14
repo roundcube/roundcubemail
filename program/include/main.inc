@@ -74,10 +74,12 @@ function rcmail_startup($task='mail')
   
   $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr']);
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
+  $DB->db_connect('w');
+    
 
   // we can use the database for storing session data
   // session queries do not work with MDB2
-  if ($CONFIG['db_backend']!='mdb2' && is_object($DB))
+  if ($CONFIG['db_backend']!='mdb2' && !$DB->is_error())
     include_once('include/session.inc');
 
 

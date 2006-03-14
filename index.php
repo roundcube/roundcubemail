@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060220                                                  |
+ | Version 0.1-20060314                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -109,6 +109,15 @@ if ($_framed)
 
 // init necessary objects for GUI
 load_gui();
+
+
+// check DB connections and exit on failure
+if ($err_str = $DB->is_error())
+  {
+  raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
+                    'message' => $err_str), FALSE, TRUE);
+  }
+
 
 // error steps
 if ($_action=='error' && !empty($_GET['_code']))
