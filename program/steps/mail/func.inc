@@ -161,7 +161,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 // return html for a structured list <ul> for the mailbox tree
 function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlength, $nestLevel=0)
   {
-  global $JS_OBJECT_NAME, $IMAP, $CONFIG, $OUTPUT;
+  global $JS_OBJECT_NAME, $COMM_PATH, $IMAP, $CONFIG, $OUTPUT;
 
   $idx = 0;
   $out = '';
@@ -190,7 +190,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
     // add unread message count display
     if ($unread_count = $IMAP->messagecount($folder['id'], 'RECENT', ($folder['id']==$mbox)))
       $foldername .= sprintf(' (%d)', $unread_count);
-      
+
     // make folder name safe for ids and class names
     $folder_css = $class_name = preg_replace('/[^a-z0-9\-_]/', '', $folder_lc);
 
@@ -204,13 +204,16 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox, $maxlen
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $class_name = 'junk';
 
-    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="./#%s" onclick="return %s.command(\'list\',\'%s\')" onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a>',
+    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&_mbox=%s"'.
+                    ' onclick="return %s.command(\'list\',\'%s\')"'.
+                    ' onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a>',
                     $folder_css,
                     $class_name,
                     $zebra_class,
                     $unread_count ? ' unread' : '',
                     $folder['id']==$mbox ? ' selected' : '',
-                    $folder['id'],
+                    $COMM_PATH,
+                    urlencode($folder['id']),
                     $JS_OBJECT_NAME,
                     $folder['id'],
                     $JS_OBJECT_NAME,
@@ -295,9 +298,10 @@ function rcmail_message_list($attrib)
   $a_sort_cols = array('subject', 'date', 'from', 'to');
   
   // show 'to' instead of from in sent messages
-  if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols)))
+  if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols))
+      && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
-
+  
   // add col definition
   $out .= '<colgroup>';
   $out .= '<col class="icon" />';
@@ -478,7 +482,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
 
   // show 'to' instead of from in sent messages
-  if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols)))
+  if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols))
+      && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
 
   // loop through message headers

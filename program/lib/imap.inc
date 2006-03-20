@@ -39,6 +39,7 @@
 		- Added BCC and REFERENCE to the list of headers to fetch in iil_C_FetchHeaders()
 		- Leave messageID unchanged in iil_C_FetchHeaders()
 		- Avoid stripslahes in iil_Connect()
+		- Removed <br> from error messages (better for logging)
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -209,7 +210,7 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge){
         $conn->errorNum = 0;
         return $conn->fp;
     }else{
-        $conn->error .= 'Authentication failed (AUTH): <br>"'.htmlspecialchars($line)."\"";
+        $conn->error .= 'Authentication for '.$user.' failed (AUTH): "'.htmlspecialchars($line)."\"";
         $conn->errorNum = -2;
         return false;
     }
@@ -230,7 +231,7 @@ function iil_C_Login(&$conn, $user, $password){
     }else{
         $result=false;
         fclose($conn->fp);
-        $conn->error .= 'Authentication failed (LOGIN):<br>"'.htmlspecialchars($line)."\"";
+        $conn->error .= 'Authentication for '.$user.' failed (LOGIN): "'.htmlspecialchars($line)."\"";
         $conn->errorNum = -2;
     }
     return $result;
@@ -335,9 +336,9 @@ function iil_Connect($host, $user, $password){
 	//echo '<!-- conn sort_field: '.$my_prefs['sort_field'].' //-->';
 	
 	//check input
-	if (empty($host)) $iil_error .= "Invalid host<br>\n";
-	if (empty($user)) $iil_error .= "Invalid user<br>\n";
-	if (empty($password)) $iil_error .= "Invalid password<br>\n";
+	if (empty($host)) $iil_error .= "Invalid host\n";
+	if (empty($user)) $iil_error .= "Invalid user\n";
+	if (empty($password)) $iil_error .= "Invalid password\n";
 	if (!empty($iil_error)) return false;
 	if (!$ICL_PORT) $ICL_PORT = 143;
 	
@@ -1576,12 +1577,12 @@ function iil_C_Search(&$conn, $folder, $criteria){
 		$result_code=iil_ParseResult($line);
 		if ($result_code==0) return $messages;
 		else{
-			$conn->error = "iil_C_Search: ".$line."<br>\n";
+			$conn->error = "iil_C_Search: ".$line."\n";
 			return false;
 		}
 		
 	}else{
-		$conn->error = "iil_C_Search: Couldn't select \"$folder\" <br>\n";
+		$conn->error = "iil_C_Search: Couldn't select \"$folder\"\n";
 		return false;
 	}
 }
@@ -1929,11 +1930,11 @@ function iil_C_Append(&$conn, $folder, &$message){
 		}while($line[0]!="A");
 	
 		$result = (iil_ParseResult($line)==0);
-		if (!$result) $conn->error .= $line."<br>\n";
+		if (!$result) $conn->error .= $line."\n";
 		return $result;
 	
 	}else{
-		$conn->error .= "Couldn't send command \"$request\"<br>\n";
+		$conn->error .= "Couldn't send command \"$request\"\n";
 		return false;
 	}
 }
@@ -1946,7 +1947,7 @@ function iil_C_AppendFromFile(&$conn, $folder, $path){
 	$in_fp = false;				
 	if (file_exists(realpath($path))) $in_fp = fopen($path, "r");
 	if (!$in_fp){ 
-		$conn->error .= "Couldn't open $path for reading<br>\n";
+		$conn->error .= "Couldn't open $path for reading\n";
 		return false;
 	}
 	
@@ -1976,11 +1977,11 @@ function iil_C_AppendFromFile(&$conn, $folder, $path){
 		}while($line[0]!="A");
 			
 		$result = (iil_ParseResult($line)==0);
-		if (!$result) $conn->error .= $line."<br>\n";
+		if (!$result) $conn->error .= $line."\n";
 		return $result;
 	
 	}else{
-		$conn->error .= "Couldn't send command \"$request\"<br>\n";
+		$conn->error .= "Couldn't send command \"$request\"\n";
 		return false;
 	}
 }

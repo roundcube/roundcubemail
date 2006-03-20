@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060314                                                  |
+ | Version 0.1-20060320                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,14 +40,15 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060220');
+define('RCMAIL_VERSION', '0.1-20060320');
 
 
 // define global vars
-$INSTALL_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
+$CHARSET = 'UTF-8';
 $OUTPUT_TYPE = 'html';
 $JS_OBJECT_NAME = 'rcmail';
-$CHARSET = 'UTF-8';
+$INSTALL_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
+$MAIN_TASKS = array('mail','settings','addressbook','logout');
 
 if (empty($INSTALL_PATH))
   $INSTALL_PATH = './';
@@ -331,11 +332,9 @@ if ($_task=='settings')
   }
 
 
-// only allow these templates to be included
-$valid_tasks = array('mail','settings','addressbook');
-
 // parse main template
-if (in_array($_task, $valid_tasks))
+// only allow these templates to be included
+if (in_array($_task, $MAIN_TASKS))
   parse_template($_task);
 
 

@@ -72,7 +72,7 @@ function rcmail_startup($task='mail')
   // prepare DB connection
   require_once('include/rcube_'.(empty($CONFIG['db_backend']) ? 'db' : $CONFIG['db_backend']).'.inc');
   
-  $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr']);
+  $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr'], $CONFIG['db_persistent']);
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
   $DB->db_connect('w');
     
@@ -1123,7 +1123,12 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
       // execute object handler function
       if ($object_handlers[$object] && function_exists($object_handlers[$object]))
         return call_user_func($object_handlers[$object], $attrib);
-
+        
+      else if ($object=='productname')
+        {
+        $name = !empty($CONFIG['product_name']) ? $CONFIG['product_name'] : 'RoundCube Webmail';
+        return rep_specialchars_output($name, 'html', 'all');
+        }
       else if ($object=='pagetitle')
         {
         $task = $GLOBALS['_task'];
@@ -1151,7 +1156,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
 // create and register a button
 function rcube_button($attrib)
   {
-  global $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $BROWSER;
+  global $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $BROWSER, $COMM_PATH, $MAIN_TASKS;
   static $sa_buttons = array();
   static $s_button_count = 100;
   
@@ -1223,6 +1228,7 @@ function rcube_button($attrib)
 
   // register button in the system
   if ($attrib['command'])
+    {
     $OUTPUT->add_script(sprintf("%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
                                 $JS_OBJECT_NAME,
                                 $command,
@@ -1231,6 +1237,11 @@ function rcube_button($attrib)
                                 $attrib['imageact'] ? $skin_path.$attrib['imageact'] : $attrib['classact'],
                                 $attirb['imagesel'] ? $skin_path.$attirb['imagesel'] : $attrib['classsel'],
                                 $attrib['imageover'] ? $skin_path.$attrib['imageover'] : ''));
+
+    // make valid href to task buttons
+    if (in_array($attrib['command'], $MAIN_TASKS))
+      $attrib['href'] = ereg_replace('_task=[a-z]+', '_task='.$attrib['command'], $COMM_PATH);
+    }
 
   // overwrite attributes
   if (!$attrib['href'])

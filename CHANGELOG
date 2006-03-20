@@ -1,6 +1,18 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/03/20
+----------
+- Fixed hard-coded cols selection for sent folder (Bug #1354586)
+- Enable some HTML links for use with "open in new window" or "save target"
+- Check meta-key instead of ctrl on Macs
+- Ignore double clicks when holding down a modifier key
+- Fixed reloading of the login page
+- Fixed typo in compose template (Bug #1446852)
+- Added compose button to message read step (Request #1433288)
+- New config parameter for persistent database connections (Bug #1431817)
+
+
 2006/03/14
 ----------
 - Don't remove internal HTML tags in plaintext messages

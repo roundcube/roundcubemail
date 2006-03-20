@@ -7,7 +7,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Authors: Thomas Bruederli <roundcube@gmail.com>                       |
+ |          Charles McNulty <charles@charlesmcnulty.com>                 |
  +-----------------------------------------------------------------------+
  
   $Id$
@@ -231,7 +232,7 @@ function rcube_webmail()
     this.enable_command('logout', true);
 
     // disable browser's contextmenus
-    document.oncontextmenu = function(){ return false; }
+    // document.oncontextmenu = function(){ return false; }
 
     // load body click event
     document.onmousedown = function(){ return rcube_webmail_client.reset_click(); };
@@ -248,7 +249,7 @@ function rcube_webmail()
     // start interval for keep-alive/recent_check signal
     if (this.kepp_alive_interval && this.task=='mail' && this.gui_objects.messagelist)
       this.kepp_alive_int = setInterval(this.ref+'.check_for_recent()', this.kepp_alive_interval);
-    else
+    else if (this.task!='login')
       this.kepp_alive_int = setInterval(this.ref+'.send_keep_alive()', this.kepp_alive_interval);
     };
 
@@ -275,7 +276,7 @@ function rcube_webmail()
     var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
     var mod_key = this.get_modifier(e);
     var scroll_to = 0;
-
+    
     var last_selected_row = this.list_rows[this.last_selected];
 
     if (keyCode == 40) { // down arrow key pressed
@@ -1089,6 +1090,7 @@ function rcube_webmail()
   // onmouseup-handler of message list row
   this.click_row = function(e, id)
     {
+    var mod_key = this.get_modifier(e);
 
     // don't do anything (another action processed before)
     if (this.dont_select)
@@ -1098,15 +1100,14 @@ function rcube_webmail()
       }
     
     // unselects currently selected row    
-    if (!this.drag_active && this.in_selection_before==id) {
-      var mod_key = this.get_modifier(e);
+    if (!this.drag_active && this.in_selection_before==id)
       this.select_row(id,mod_key);
-    }
+
     this.drag_start = false;
     this.in_selection_before = false;
         
     // row was double clicked
-    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked)
+    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && !mod_key)
       {
       this.show_message(id);
       return false;
@@ -2934,6 +2935,8 @@ function rcube_webmail()
     };
 
 
+/* deprecated methods
+
   // check if Shift-key is pressed on event
   this.check_shiftkey = function(e)
     {
@@ -2963,22 +2966,29 @@ function rcube_webmail()
     else
       return false;
     }
+*/
 
-
-// returns modifier key (constants defined at top of file)
+  // returns modifier key (constants defined at top of file)
   this.get_modifier = function(e)
     {
     var opcode = 0;
-    if (e = e || window.event)
-    {
+    e = e || window.event;
+
+    if (bw.mac && e)
+      {
+      opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
+      return opcode;    
+      }
+    if (e)
+      {
       opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
-	  return opcode;
-    }
+      return opcode;
+      }
     if (e.cancelBubble)
-    {
+      {
       e.cancelBubble = true;
       e.returnValue = false;
-    }
+      }
     else if (e.preventDefault)
       e.preventDefault();
   }

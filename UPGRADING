@@ -101,3 +101,13 @@ from version 0.1-20051021
   $rcmail_config['db_sequence_cache_ids'] = 'cache_ids';
   $rcmail_config['db_sequence_message_ids'] = 'message_ids';
   
+  
+form version 0.1-beta
+----------------------------------------
+- replace index.php
+- replace all files in folder /program/
+- replace all files in folder /skins/default/
+- add these lines to /config/db.inc.php
+  $rcmail_config['db_persistent'] = TRUE;
+
+  
