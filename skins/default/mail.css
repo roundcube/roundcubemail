@@ -27,7 +27,7 @@
 #messagetoolbar select.mboxlist
 {
   position: absolute;
-  left: 335px;
+  left: 375px;
   top: 10px;
 }
 
@@ -47,7 +47,7 @@
   left: 200px;
   bottom: 20px;
   height: 16px;
-  width: 400px;
+  width: 500px;
   font-size: 11px;
 }
 
