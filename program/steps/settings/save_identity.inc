@@ -80,7 +80,7 @@ if ($_POST['_iid'])
       // ...      
       }
     }
-  else
+  else if ($DB->is_error())
     {
     // show error message
     show_message('errorsaving', 'error');

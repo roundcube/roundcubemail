@@ -3,6 +3,7 @@ CHANGELOG RoundCube Webmail
 
 2006/03/20
 ----------
+- Avoid error message when saving an unchanged identity (Bug #1429510)
 - Fixed hard-coded cols selection for sent folder (Bug #1354586)
 - Enable some HTML links for use with "open in new window" or "save target"
 - Check meta-key instead of ctrl on Macs
