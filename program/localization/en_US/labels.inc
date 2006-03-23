@@ -111,6 +111,11 @@ $labels['empty'] = 'Empty';
 $labels['purge'] = 'Purge';
 
 $labels['quota'] = 'Disk usage';
+$labels['unknown']  = 'unknown';
+$labels['unlimited']  = 'unlimited';
+
+$labels['quicksearch']  = 'Quick search';
+$labels['resetsearch']  = 'Reset search';
 
 
 // message compose
@@ -185,6 +190,7 @@ $labels['language']  = 'Language';
 $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
+$labels['dstactive']  = 'Daylight savings';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

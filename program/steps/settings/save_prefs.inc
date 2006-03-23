@@ -25,6 +25,7 @@ if (!is_array($a_user_prefs))
 
 
 $a_user_prefs['timezone'] = isset($_POST['_timezone']) ? floatval($_POST['_timezone']) : $CONFIG['timezone'];
+$a_user_prefs['dst_active'] = isset($_POST['_dst_active']) ? TRUE : FALSE;
 $a_user_prefs['pagesize'] = is_numeric($_POST['_pagesize']) ? (int)$_POST['_pagesize'] : $CONFIG['pagesize'];
 $a_user_prefs['prefer_html'] = isset($_POST['_prefer_html']) ? TRUE : FALSE;
 

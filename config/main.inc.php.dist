@@ -138,7 +138,8 @@ $rcmail_config['skip_deleted'] = FALSE;
 $rcmail_config['generic_message_footer'] = '';
 
 // this string is used as a delimiter for message headers when sending
-$rcmail_config['mail_header_delimiter'] = "\r\n";
+// leave empty for auto-detection
+$rcmail_config['mail_header_delimiter'] = NULL;
 
 // in order to enable public ldap search, create a config array
 // like the Verisign example below. if you would like to test, 
@@ -164,6 +165,9 @@ $rcmail_config['pagesize'] = 40;
 
 // use this timezone to display date/time
 $rcmail_config['timezone'] = 1;
+
+// daylight savings are On
+$rcmail_config['dst_active'] = TRUE;
 
 // prefer displaying HTML messages
 $rcmail_config['prefer_html'] = TRUE;

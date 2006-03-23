@@ -266,8 +266,11 @@ if ($_task=='mail')
   if ($_action=='getunread')
     include('program/steps/mail/getunread.inc');
     
-  if ($_action=='list' && $_GET['_remote'])
+  if ($_action=='list' && isset($_GET['_remote']))
     include('program/steps/mail/list.inc');
+
+   if ($_action=='search')
+     include('program/steps/mail/search.inc'); 
 
   if ($_action=='rss')
     include('program/steps/mail/rss.inc');

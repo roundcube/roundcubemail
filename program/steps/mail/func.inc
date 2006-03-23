@@ -528,6 +528,36 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   }
 
 
+// return code for search function
+function rcmail_search_form($attrib)
+  {
+  global $OUTPUT, $JS_OBJECT_NAME;
+
+  // add some labels to client
+  rcube_add_label('searching');
+
+  $attrib['name'] = '_q';
+  
+  if (empty($attrib['id']))
+    $attrib['id'] = 'rcmqsearchbox';
+  
+  $input_q = new textfield($attrib);
+  $out = $input_q->show();
+
+  $OUTPUT->add_script(sprintf("%s.gui_object('qsearchbox', '%s');",
+                              $JS_OBJECT_NAME,
+                              $attrib['id']));
+
+  // add form tag around text field
+  if (empty($attrib['form']))
+    $out = sprintf('<form name="rcmqsearchform" action="./" '.
+                   'onsubmit="%s.command(\'search\');return false" style="display:inline;">%s</form>',
+                   $JS_OBJECT_NAME,
+                   $out);
+
+  return $out;
+  } 
+
 
 function rcmail_messagecount_display($attrib)
   {
@@ -536,7 +566,9 @@ function rcmail_messagecount_display($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmcountdisplay';
 
-  $OUTPUT->add_script(sprintf("%s.gui_object('countdisplay', '%s');", $JS_OBJECT_NAME, $attrib['id']));
+  $OUTPUT->add_script(sprintf("%s.gui_object('countdisplay', '%s');",
+                              $JS_OBJECT_NAME,
+                              $attrib['id']));
 
   // allow the following attributes to be added to the <span> tag
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
@@ -560,16 +592,20 @@ function rcmail_quota_display($attrib)
 
   // allow the following attributes to be added to the <span> tag
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-
+  
+  if (!$IMAP->get_capability('QUOTA'))
+    $quota_text = rcube_label('unknown');
+  else if (!($quota_text = $IMAP->get_quota()))
+    $quota_text = rcube_label('unlimited');
 
   $out = '<span' . $attrib_str . '>';
-  $out .= $IMAP->get_quota();
+  $out .= $quota_text;
   $out .= '</span>';
   return $out;
   }
 
 
-function rcmail_get_messagecount_text()
+function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   {
   global $IMAP, $MESSAGE;
   
@@ -577,11 +613,14 @@ function rcmail_get_messagecount_text()
     {
     return rcube_label(array('name' => 'messagenrof',
                              'vars' => array('nr'  => $MESSAGE['index']+1,
-                                             'count' => $IMAP->messagecount())));
+                                             'count' => $count!==NULL ? $count : $IMAP->messagecount())));
     }
 
-  $start_msg = ($IMAP->list_page-1) * $IMAP->page_size + 1;
-  $max = $IMAP->messagecount();
+  if ($page===NULL)
+    $page = $IMAP->list_page;
+    
+  $start_msg = ($page-1) * $IMAP->page_size + 1;
+  $max = $count!==NULL ? $count : $IMAP->messagecount();
 
   if ($max==0)
     $out = rcube_label('mailboxempty');

@@ -82,7 +82,7 @@
 #messagecountbar
 {
   position: absolute;
-  top: 60px;
+  bottom: 16px;
   right: 40px;
   width: 300px;
   height: 20px;
@@ -455,6 +455,33 @@ body.messagelist
 #messagelist tr.deleted td a
 {
   color: #CCCCCC;
+}
+
+#quicksearchbar
+{
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  width: 200px;
+  height: 20px;
+  text-align: right;
+}
+
+#quicksearchbar a
+{
+  text-decoration: none;
+  padding-left: 5px;
+}
+
+#quicksearchbar img
+{
+  vertical-align: middle;
+}
+
+#quicksearchbox
+{
+  width: 150px;
+  border: 1px solid #999999;
 }
 
 

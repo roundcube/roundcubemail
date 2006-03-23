@@ -122,7 +122,7 @@ function rcube_webmail()
           }
 
         // enable mail commands
-        this.enable_command('list', 'compose', 'add-contact', true);
+        this.enable_command('list', 'compose', 'add-contact', 'search', 'reset-search', true);
         
         if (this.env.action=='show')
           {
@@ -574,7 +574,11 @@ function rcube_webmail()
       // misc list commands
       case 'list':
         if (this.task=='mail')
+          {
+          if (this.env.search_request && props != this.env.mailbox)
+            this.reset_qsearch();
           this.list_mailbox(props);
+          }
         else if (this.task=='addressbook')
           this.list_contacts();
         break;
@@ -904,6 +908,22 @@ function rcube_webmail()
         this.add_contact(props);
         break;
       
+      // mail quicksearch
+      case 'search':
+        if (!props && this.gui_objects.qsearchbox)
+          props = this.gui_objects.qsearchbox.value;
+        if (props)
+          this.qsearch(escape(props), this.env.mailbox);
+        break;
+
+      // reset quicksearch        
+      case 'reset-search':
+        var s = this.env.search_request;
+        this.reset_qsearch();
+        
+        if (s)
+          this.list_mailbox(this.env.mailbox);
+        break;
 
       // ldap search
       case 'ldappublicsearch':
@@ -1368,6 +1388,10 @@ function rcube_webmail()
       this.env.current_page = page;
       this.clear_selection();
       }
+    
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      add_url += '&_search='+this.env.search_request;
       
     if (this.env.mailbox!=mbox)
       this.select_mailbox(mbox);
@@ -1803,6 +1827,26 @@ function rcube_webmail()
       this.http_request('addcontact', '_address='+value);
     };
 
+  // send remote request to search mail
+  this.qsearch = function(value, mbox)
+    {
+    if (value && mbox)
+      {
+      this.clear_message_list();
+      this.set_busy(true, 'searching');
+      this.http_request('search', '_search='+value+'&_mbox='+mbox, true);
+      }
+    };
+
+  // reset quick-search form
+  this.reset_qsearch = function()
+    {
+    if (this.gui_objects.qsearchbox)
+      this.gui_objects.qsearchbox.value = '';
+      
+    this.env.search_request = null;
+    };
+    
 
   /*********************************************************/
   /*********     keyboard live-search methods      *********/

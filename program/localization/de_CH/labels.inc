@@ -111,6 +111,12 @@ $labels['empty'] = 'Leeren';
 $labels['purge'] = 'Aufräumen';
 
 $labels['quota'] = 'Verwendeter Speicherplatz';
+$labels['unknown']  = 'unbekannt';
+$labels['unlimited']  = 'unlimitiert';
+
+$labels['quicksearch']  = 'Schnellsuche';
+$labels['resetsearch']  = 'Löschen';
+
 
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
@@ -182,6 +188,7 @@ $labels['language']  = 'Sprache';
 $labels['timezone']  = 'Zeitzone';
 $labels['pagesize']  = 'Einträge pro Seite';
 $labels['signature'] = 'Signatur';
+$labels['dstactive']  = 'Sommerzeit';
 
 $labels['folder']  = 'Ordner';
 $labels['folders']  = 'Ordner';

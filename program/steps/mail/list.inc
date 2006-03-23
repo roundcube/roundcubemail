@@ -22,8 +22,6 @@
 $REMOTE_REQUEST = TRUE;
 $OUTPUT_TYPE = 'js';
 
-$unseen = $IMAP->messagecount($mbox, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
-$count = $IMAP->messagecount();
 $sort = isset($_GET['_sort']) ? $_GET['_sort'] : false;
 
 // is there a sort type for this request?
@@ -37,12 +35,27 @@ if ($sort)
   $_SESSION['sort_order'] = $sort_order;
   }
 else
-  {        
+  {
   // use session settings if set, defaults if not
   $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   }
   
+
+// we have a saved search request
+if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
+  {
+  $a_msgs = split(',', $_SESSION['search'][$_GET['_search']]);
+  $a_headers = $IMAP->list_header_set($mbox, $a_msgs, NULL, $sort_col, $sort_order);
+  $count = count($a_msgs);
+  }
+else
+  {
+  if ($count = $IMAP->messagecount())
+    $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order);
+  }
+
+$unseen = $IMAP->messagecount($mbox, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);
@@ -56,11 +69,8 @@ $commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox), $u
 
 
 // add message rows
-if ($count)
-  {
-  $a_headers = $IMAP->list_headers($mbox, null, $sort_col, $sort_order);
+if (isset($a_headers) && count($a_headers))
   $commands .= rcmail_js_message_list($a_headers);
-  }
 
   
 // send response

@@ -88,4 +88,10 @@ $messages['nocontactsreturned'] = 'No contacts were found';
 
 $messages['nosearchname'] = 'Please enter a contact name or email address';
 
+$messages['searchsuccessful'] = '$nr messages found';
+
+$messages['searchnomatch'] = 'Search returned no matches';
+
+$messages['searching'] = 'Searching...';
+
 ?>

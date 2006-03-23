@@ -78,6 +78,7 @@ function rcmail_user_prefs_form($attrib)
   $select_timezone->add('(GMT -5:00) Eastern Time (US/Canada), Bogota, Lima', '-5');
   $select_timezone->add('(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz', '-4');
   $select_timezone->add('(GMT -3:00) Brazil, Buenos Aires, Georgetown', '-3');
+  $select_timezone->add('(GMT -3:30) Nfld Time (Canada), Nfld, S. Labador', '-3.5');
   $select_timezone->add('(GMT -2:00) Mid-Atlantic', '-2');
   $select_timezone->add('(GMT -1:00) Azores, Cape Verde Islands', '-1');
   $select_timezone->add('(GMT) Western Europe, London, Lisbon, Casablanca', '0');
@@ -106,6 +107,14 @@ function rcmail_user_prefs_form($attrib)
                   $field_id,
                   rep_specialchars_output(rcube_label('timezone')),
                   $select_timezone->show($CONFIG['timezone']));
+
+
+  $field_id = 'rcmfd_dst';
+  $input_dst = new checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
+  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                  $field_id,
+                  rep_specialchars_output(rcube_label('dstactive')),
+                  $input_dst->show($CONFIG['dst_active']));
 
 
   // show page size selection

@@ -98,7 +98,7 @@ class rcube_imap
    */
   function connect($host, $user, $pass, $port=143, $use_ssl=FALSE)
     {
-    global $ICL_SSL, $ICL_PORT;
+    global $ICL_SSL, $ICL_PORT, $IMAP_USE_INTERNAL_DATE;
     
     // check for Open-SSL support in PHP build
     if ($use_ssl && in_array('openssl', get_loaded_extensions()))
@@ -111,6 +111,8 @@ class rcube_imap
       }
 
     $ICL_PORT = $port;
+    $IMAP_USE_INTERNAL_DATE = false;
+    
     $this->conn = iil_Connect($host, $user, $pass, array('imap' => 'check'));
     $this->host = $host;
     $this->user = $user;
@@ -475,7 +477,7 @@ class rcube_imap
 
 
   /**
-   * Private method for listing message header
+   * Private method for listing message headers
    *
    * @access  private
    * @see     rcube_imap::list_headers
@@ -493,6 +495,9 @@ class rcube_imap
     $max = $this->_messagecount($mailbox);
     $start_msg = ($this->list_page-1) * $this->page_size;
     
+    list($begin, $end) = $this->_get_message_range($max, $page);
+    
+    /*    
     if ($page=='all')
       {
       $begin = 0;
@@ -512,7 +517,8 @@ class rcube_imap
     if ($begin < 0) $begin = 0;
     if ($end < 0) $end = $max;
     if ($end > $max) $end = $max;
-
+	*/
+	
 //console("fetch headers $start_msg to ".($start_msg+$this->page_size)." (msg $begin to $end)");
 
     $headers_sorted = FALSE;
@@ -536,12 +542,7 @@ class rcube_imap
         
         $msgs = $msg_index[$begin];
         for ($i=$begin+1; $i < $end; $i++)
-          {
-          //if ($this->sort_order == 'DESC')
-          //  $msgs = $msg_index[$i].','.$msgs;
-          //else
-            $msgs = $msgs.','.$msg_index[$i];
-          }
+          $msgs = $msgs.','.$msg_index[$i];
 
         $sorted = TRUE;
         }
@@ -585,14 +586,111 @@ class rcube_imap
 
     return array_values($a_msg_headers);
     }
+    
 
+  /**
+   * Public method for listing a specific set of headers
+   * convert mailbox name with root dir first
+   *
+   * @param   string   Mailbox/folder name
+   * @param   array    List of message ids to list
+   * @param   number   Current page to list
+   * @param   string   Header field to sort by
+   * @param   string   Sort order [ASC|DESC]
+   * @return  array    Indexed array with message header objects
+   * @access  public   
+   */
+  function list_header_set($mbox='', $msgs, $page=NULL, $sort_field=NULL, $sort_order=NULL)
+    {
+    $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
+    return $this->_list_header_set($mailbox, $msgs, $page, $sort_field, $sort_order);    
+    }
+    
+
+  /**
+   * Private method for listing a set of message headers
+   *
+   * @access  private
+   * @see     rcube_imap::list_header_set
+   */
+  function _list_header_set($mailbox, $msgs, $page=NULL, $sort_field=NULL, $sort_order=NULL)
+    {
+    // also accept a comma-separated list of message ids
+    if (is_string($msgs))
+      $msgs = split(',', $msgs);
+      
+    if (!strlen($mailbox) || empty($msgs))
+      return array();
+
+    if ($sort_field!=NULL)
+      $this->sort_field = $sort_field;
+    if ($sort_order!=NULL)
+      $this->sort_order = strtoupper($sort_order);
+
+    $max = count($msgs);
+    $start_msg = ($this->list_page-1) * $this->page_size;
+    
+    list($begin, $end) = $this->_get_message_range($max, $page);
+
+    // fetch reuested headers from server
+    $a_msg_headers = array();
+    $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
+
+    // return empty array if no messages found
+	if (!is_array($a_msg_headers) || empty($a_msg_headers))
+		return array();
+
+    // if not already sorted
+    $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+
+	// only return the requested part of the set
+	return array_slice(array_values($a_msg_headers), $begin, min($max, $this->page_size));
+    }
+
+
+  /**
+   * Helper function to get first and last index of the requested set
+   *
+   * @param  number  message count
+   * @param  mixed   page number to show, or string 'all'
+   * @return array   array with two values: first index, last index
+   * @access private
+   */
+  function _get_message_range($max, $page)
+    {
+    $start_msg = ($this->list_page-1) * $this->page_size;
+    
+    if ($page=='all')
+      {
+      $begin = 0;
+      $end = $max;
+      }
+    else if ($this->sort_order=='DESC')
+      {
+      $begin = $max - $this->page_size - $start_msg;
+      $end =   $max - $start_msg;
+      }
+    else
+      {
+      $begin = $start_msg;
+      $end   = $start_msg + $this->page_size;
+      }
+
+    if ($begin < 0) $begin = 0;
+    if ($end < 0) $end = $max;
+    if ($end > $max) $end = $max;
+    
+    return array($begin, $end);
+    }
+    
+    
 
   /**
    * Fetches message headers
    * Used for loop
    *
    * @param  string  Mailbox name
-   * @param  string  Message indey to fetch
+   * @param  string  Message index to fetch
    * @param  array   Reference to message headers array
    * @param  array   Array with cache index
    * @return number  Number of deleted messages
@@ -602,7 +700,7 @@ class rcube_imap
     {
     // cache is incomplete
     $cache_index = $this->get_message_cache_index($cache_key);
-
+    
     // fetch reuested headers from server
     $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs);
     $deleted_count = 0;
@@ -746,16 +844,44 @@ class rcube_imap
     }
 
 
-  function search($mbox='', $criteria='ALL')
+  /**
+   * Invoke search request to IMAP server
+   *
+   * @param  string  mailbox name to search in
+   * @param  string  search criteria (ALL, TO, FROM, SUBJECT, etc)
+   * @param  string  search string
+   * @return array   search results as list of message ids
+   * @access public
+   */
+  function search($mbox='', $criteria='ALL', $str=NULL)
     {
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
-    return $this->_search_index($mailbox, $criteria);
-    }
-    
-    
+    if ($str && $criteria)
+      {
+      $criteria .= " \"$str\"";
+      return $this->_search_index($mailbox, $criteria);
+      }
+    else
+      return $this->_search_index($mailbox, $criteria);
+    }    
+
+
+  /**
+   * Private search method
+   *
+   * @return array   search results as list of message ids
+   * @access private
+   * @see rcube_imap::search()
+   */
   function _search_index($mailbox, $criteria='ALL')
     {
     $a_messages = iil_C_Search($this->conn, $mailbox, $criteria);
+    
+    // clean message list (there might be some empty entries)
+    foreach ($a_messages as $i => $val)
+      if (empty($val))
+        unset($a_messages[$i]);
+        
     return $a_messages;
     }
 
@@ -1070,10 +1196,11 @@ class rcube_imap
     if ($this->get_capability('QUOTA'))
       {
       $result = iil_C_GetQuota($this->conn);
-      return sprintf("%.2fMB / %.2fMB (%.0f%%)", $result["used"] / 1000.0, $result["total"] / 1000.0, $result["percent"]);
+      if ($result["total"])
+        return sprintf("%.2fMB / %.2fMB (%.0f%%)", $result["used"] / 1000.0, $result["total"] / 1000.0, $result["percent"]);       
       }
-    else
-      return 'unknown';
+
+    return FALSE;
     }
 
 
@@ -1444,6 +1571,10 @@ class rcube_imap
     {
     static $sa_message_index = array();
     
+    // empty key -> empty array
+    if (empty($key))
+      return array();
+    
     if (!empty($sa_message_index[$key]) && !$force)
       return $sa_message_index[$key];
     
@@ -1466,7 +1597,7 @@ class rcube_imap
 
   function add_message_cache($key, $index, $headers)
     {
-    if (!is_object($headers) || empty($headers->uid))
+    if (!$key || !is_object($headers) || empty($headers->uid))
       return;
 
     $this->db->query(

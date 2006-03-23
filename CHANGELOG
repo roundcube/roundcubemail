@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/03/23
+----------
+- Auto-detect mail header delimiters
+- Regard daylight savings
+- Localized quota display
+- Started implementing search function
+
+
 2006/03/20
 ----------
 - Avoid error message when saving an unchanged identity (Bug #1429510)

@@ -613,13 +613,13 @@ function rcmail_overwrite_action($action)
   }
 
 
-function show_message($message, $type='notice')
+function show_message($message, $type='notice', $vars=NULL)
   {
   global $OUTPUT, $JS_OBJECT_NAME, $REMOTE_REQUEST;
-
+  
   $framed = $GLOBALS['_framed'];
   $command = sprintf("display_message('%s', '%s');",
-                     addslashes(rep_specialchars_output(rcube_label($message))),
+                     addslashes(rep_specialchars_output(rcube_label(array('name' => $message, 'vars' => $vars)))),
                      $type);
                      
   if ($REMOTE_REQUEST)
@@ -1099,6 +1099,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'composeattachment' => 'rcmail_compose_attachment_field',
         'priorityselector' => 'rcmail_priority_selector',
         'charsetselector' => 'rcmail_charset_selector',
+        'searchform' => 'rcmail_search_form',
         
         // ADDRESS BOOK
         'addresslist' => 'rcmail_contacts_list',
@@ -1416,25 +1417,30 @@ function format_date($date, $format=NULL)
   {
   global $CONFIG, $sess_user_lang;
   
+  $ts = NULL;
+  
   if (is_numeric($date))
     $ts = $date;
   else if (!empty($date))
-    $ts = strtotime($date);
-  else
+    $ts = @strtotime($date);
+    
+  if (empty($ts))
     return '';
+   
+  // get user's timezone
+  $tz = $CONFIG['timezone'];
+  if ($CONFIG['dst_active'])
+    $tz++;
 
   // convert time to user's timezone
-  $timestamp = $ts - date('Z', $ts) + ($CONFIG['timezone'] * 3600);
+  $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
   
   // get current timestamp in user's timezone
   $now = time();  // local time
   $now -= (int)date('Z'); // make GMT time
-  $now += ($CONFIG['timezone'] * 3600); // user's time
+  $now += ($tz * 3600); // user's time
   $now_date = getdate();
 
-  //$day_secs = 60*((int)date('H', $now)*60 + (int)date('i', $now));
-  //$week_secs = 60 * 60 * 24 * 7;
-  //$diff = $now - $timestamp;
   $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
   $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
 

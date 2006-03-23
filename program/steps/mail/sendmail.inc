@@ -159,9 +159,16 @@ if (!empty($CONFIG['generic_message_footer']))
     }
   }
 
-
+// try to autodetect operating system and use the correct line endings
 // use the configured delimiter for headers
-$header_delm = $CONFIG['mail_header_delimiter'] ? $CONFIG['mail_header_delimiter'] : "\r\n";
+if (!empty($CONFIG['mail_header_delimiter']))
+  $header_delm = $CONFIG['mail_header_delimiter'];
+else if (strtolower(substr(PHP_OS, 0, 3)=='win')) 
+  $header_delm = "\r\n";
+else if (strtolower(substr(PHP_OS, 0, 3)=='mac'))
+  $header_delm = "\r\n";
+else    
+  $header_delm = "\n";
 
 // create PEAR::Mail_mime instance
 $MAIL_MIME = new Mail_mime($header_delm);
