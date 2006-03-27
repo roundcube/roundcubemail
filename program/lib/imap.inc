@@ -39,6 +39,7 @@
 		- Added BCC and REFERENCE to the list of headers to fetch in iil_C_FetchHeaders()
 		- Leave messageID unchanged in iil_C_FetchHeaders()
 		- Avoid stripslahes in iil_Connect()
+		- Added patch to iil_SortHeaders() by Richard Green
 		- Removed <br> from error messages (better for logging)
 		- Removed some debuggers (echo ...)
 
@@ -1411,9 +1412,16 @@ function iil_SortHeaders($a, $field, $flag){
 		reset($a);
 		while (list($key, $val)=each($a)){
 
-			$data=$a[$key]->$field;
-			if (is_string($data))
-				$data=strtoupper(str_replace($stripArr, "", $data));
+			if ($field=="timestamp"){
+				$data = @strtotime($val->date);
+				if ($data == false)
+					$data = $val->timestamp;
+				}
+			else {
+				$data = $val->$field;
+				if (is_string($data))
+					$data=strtoupper(str_replace($stripArr, "", $data));
+				}
 
 			$index[$key]=$data;
 		}
