@@ -39,7 +39,6 @@
 		- Added BCC and REFERENCE to the list of headers to fetch in iil_C_FetchHeaders()
 		- Leave messageID unchanged in iil_C_FetchHeaders()
 		- Avoid stripslahes in iil_Connect()
-		- Added patch to iil_SortHeaders() by Richard Green
 		- Removed <br> from error messages (better for logging)
 		- Removed some debuggers (echo ...)
 
@@ -1407,21 +1406,14 @@ function iil_SortHeaders($a, $field, $flag){
 			and use that to sort the main array.
 		*/
                 
-                // create "index" array
+		// create "index" array
 		$index=array();
 		reset($a);
 		while (list($key, $val)=each($a)){
 
-			if ($field=="timestamp"){
-				$data = @strtotime($value->date);
-				if ($data != false)
-					$data = $timestamp;
-				}
-			else {
-				$data=$a[$key]->$field;
-				if (is_string($data))
-					$data=strtoupper(str_replace($stripArr, "", $data));
-				}
+			$data=$a[$key]->$field;
+			if (is_string($data))
+				$data=strtoupper(str_replace($stripArr, "", $data));
 
 			$index[$key]=$data;
 		}
