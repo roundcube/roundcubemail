@@ -21,6 +21,7 @@ $_SESSION['page'] = 1;
 // get search string
 $str = get_input_value('_search', RCUBE_INPUT_GET);
 $mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
+$search_request = md5($str);
 
 
 // Check the search string for type of search
@@ -60,7 +61,7 @@ else {
 // Complete the search display results or report error
 function finish_search($mbox, $search)
   {
-  global $IMAP, $JS_OBJECT_NAME, $OUTPUT;
+  global $IMAP, $JS_OBJECT_NAME, $OUTPUT, $search_request;
   $commands = '';
   $count = 0;
     
@@ -70,28 +71,28 @@ function finish_search($mbox, $search)
     // Get the headers
     $result_h = $IMAP->list_header_set($mbox, $search, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
     $count = count($search);
-    
+
     // save search results in session
     if (!is_array($_SESSION['search']))
       $_SESSION['search'] = array();
-      
-    $search_request = md5(uniqid(rand()));
-    $_SESSION['search'][$search_request] = join(',', $search);
 
     // Make sure we got the headers
     if ($result_h != NULL)
       {
-      $count = count($result_h);
+      $_SESSION['search'][$search_request] = join(',', $search);
       $commands = rcmail_js_message_list($result_h);
       $commands .= show_message('searchsuccessful', 'confirmation', array('nr' => $count));
-      $commands .= sprintf("\nthis.set_env('search_request', '%s')\n", $search_request);
       }
     }
   else
+    {
     $commands = show_message('searchnomatch', 'warning');
+    $search_request = -1;
+    }
   
   // update message count display
   $pages = ceil($count/$IMAP->page_size);
+  $commands .= sprintf("\nthis.set_env('search_request', '%s')\n", $search_request);
   $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
   $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
   $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count, 1));

@@ -61,7 +61,7 @@ $unseen = $IMAP->messagecount($mbox, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE 
 $pages = ceil($count/$IMAP->page_size);
 $commands = sprintf("this.set_env('messagecount', %d);\n", $count);
 $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
-$commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
+$commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count));
 
 // update mailboxlist
 $mbox = $IMAP->get_mailbox_name();

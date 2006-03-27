@@ -575,7 +575,7 @@ function rcube_webmail()
       case 'list':
         if (this.task=='mail')
           {
-          if (this.env.search_request && props != this.env.mailbox)
+          if (this.env.search_request<0 || (this.env.search_request && props != this.env.mailbox))
             this.reset_qsearch();
           this.list_mailbox(props);
           }

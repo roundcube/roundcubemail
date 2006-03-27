@@ -629,8 +629,6 @@ class rcube_imap
 
     $max = count($msgs);
     $start_msg = ($this->list_page-1) * $this->page_size;
-    
-    list($begin, $end) = $this->_get_message_range($max, $page);
 
     // fetch reuested headers from server
     $a_msg_headers = array();
@@ -644,7 +642,7 @@ class rcube_imap
     $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
 
 	// only return the requested part of the set
-	return array_slice(array_values($a_msg_headers), $begin, min($max, $this->page_size));
+	return array_slice(array_values($a_msg_headers), $start_msg, min($max-$start_msg, $this->page_size));
     }
 
 
