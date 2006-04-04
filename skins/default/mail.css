@@ -485,6 +485,23 @@ body.messagelist
 }
 
 
+#rcversion
+{
+  position: absolute;
+  top: 67px;
+  left: 20px;
+  width: 160px;
+  text-align: center;
+
+  font-weight: normal;
+  font-size: x-small;
+  font-variant: small-caps;
+  
+  color: #999999;
+  /*border: 1px solid #308014;
+  background-color: #b4eeb4;*/
+}
+
 /** message view styles */
 
 
