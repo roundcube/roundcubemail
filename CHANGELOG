@@ -1,6 +1,17 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/04/02
+----------
+- Added Lithuanian localization
+- Improved search function
+- Added version string as template object
+- Load host-specific configuration file (see config/main.inc.php)
+- New config parameter adding domain to user names for login
+- Strip tags on _auth, _action, _task parameters
+- Corrected labels for next/previous page buttons in address book 
+
+
 2006/03/23
 ----------
 - Auto-detect mail header delimiters
