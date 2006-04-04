@@ -98,7 +98,7 @@ function rcmail_compose_headers($attrib)
       $header = 'to';
 
       // we have contact id's as get parameters
-      if (!empty($_GET['_to']) && preg_match('/^([0-9]+,?)+$/', $_GET['_to']))
+      if (!empty($_GET['_to']) && preg_match('/^[0-9]+(,[0-9]+)*$/', $_GET['_to']))
         {
         $a_recipients = array();
         $sql_result = $DB->query("SELECT name, email
