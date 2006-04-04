@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060320                                                  |
+ | Version 0.1-20060402                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060320');
+define('RCMAIL_VERSION', '0.1-20060402');
 
 
 // define global vars
@@ -84,10 +84,13 @@ require_once('PEAR.php');
 
 
 // catch some url/post parameters
-$_auth = !empty($_POST['_auth']) ? $_POST['_auth'] : $_GET['_auth'];
-$_task = !empty($_POST['_task']) ? $_POST['_task'] : (!empty($_GET['_task']) ? $_GET['_task'] : 'mail');
-$_action = !empty($_POST['_action']) ? $_POST['_action'] : (!empty($_GET['_action']) ? $_GET['_action'] : '');
+$_auth = get_input_value('_auth', RCUBE_INPUT_GPC);
+$_task = get_input_value('_task', RCUBE_INPUT_GPC);
+$_action = get_input_value('_action', RCUBE_INPUT_GPC);
 $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
+
+if (empty($_task))
+  $_task = 'mail';
 
 if (!empty($_GET['_remote']))
   $REMOTE_REQUEST = TRUE;
