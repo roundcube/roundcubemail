@@ -387,6 +387,20 @@ function rcmail_login($user, $pass, $host=NULL)
   else
     $imap_port = $CONFIG['default_port'];
 
+
+  /* Modify username with domain if required  
+     Inspired by Marco <P0L0_notspam_binware.org>
+  */
+  // Check if we need to add domain
+  if ($CONFIG['username_domain'] && !strstr($user, '@'))
+    {
+    if (is_array($CONFIG['username_domain']) && isset($CONFIG['username_domain'][$host]))
+      $user .= '@'.$CONFIG['username_domain'][$host];
+    else if (!empty($CONFIG['username_domain']))
+      $user .= '@'.$CONFIG['username_domain'];    
+    }
+
+
   // query if user already registered
   $sql_result = $DB->query("SELECT user_id, username, language, preferences
                             FROM ".get_table_name('users')."
@@ -928,10 +942,10 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     $value = $_POST[$fname];
   else if ($source==RCUBE_INPUT_GPC)
     {
-    if (isset($_GET[$fname]))
-      $value = $_GET[$fname];
-    else if (isset($_POST[$fname]))
+    if (isset($_POST[$fname]))
       $value = $_POST[$fname];
+    else if (isset($_GET[$fname]))
+      $value = $_GET[$fname];
     else if (isset($_COOKIE[$fname]))
       $value = $_COOKIE[$fname];
     }
@@ -945,7 +959,10 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     $value = strip_tags($value);
   
   // convert to internal charset
-  return rcube_charset_convert($value, $OUTPUT->get_charset(), $charset);
+  if (is_object($OUTPUT))
+    return rcube_charset_convert($value, $OUTPUT->get_charset(), $charset);
+  else
+    return $value;
   }
 
 
@@ -1129,6 +1146,10 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         {
         $name = !empty($CONFIG['product_name']) ? $CONFIG['product_name'] : 'RoundCube Webmail';
         return rep_specialchars_output($name, 'html', 'all');
+        }
+      else if ($object=='version')
+        {
+        return (string)RCMAIL_VERSION;
         }
       else if ($object=='pagetitle')
         {
