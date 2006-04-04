@@ -45,6 +45,7 @@
 	'ja'    => 'Japanese (日本語)',
 	'kr'    => 'Korean',
 	'lv'    => 'Latvian',
+	'lt'    => 'Lithuanian',
 	'nl_NL' => 'Nederlands',
 	'nl_BE' => 'Flemish',
 	'nb_NO' => 'Norsk (bokmål)',
