@@ -159,6 +159,9 @@ $labels['contactsfromto'] = 'Kontakte $from bis $to von $count';
 $labels['print']          = 'Drucken';
 $labels['export']         = 'Exportieren';
 
+$labels['previouspage']   = 'Eine Seite zurück';
+$labels['nextpage']       = 'Nächste Seite';
+
 // LDAP search
 $labels['ldapsearch'] = 'LDAP Verzeichnis-Suche';
 

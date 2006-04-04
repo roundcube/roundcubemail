@@ -160,6 +160,10 @@ $labels['contactsfromto'] = 'Contacts $from to $to of $count';
 $labels['print']          = 'Print';
 $labels['export']         = 'Export';
 
+$labels['previouspage']   = 'Show previous set';
+$labels['nextpage']       = 'Show next set';
+
+
 // LDAP search
 $labels['ldapsearch'] = 'LDAP directory search';
 
