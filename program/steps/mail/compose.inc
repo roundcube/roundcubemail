@@ -396,19 +396,26 @@ function rcmail_create_forward_body($body)
   
     foreach ($FORWARD_MESSAGE['parts'] as $part)
       {
-      if ($part->disposition != 'attachment')
-        continue;
+      if ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
+               (empty($part->disposition) && ($part->d_parameters['filename'] || $part->ctype_parameters['name'])))
+	{
+        $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
+        if ($fp = fopen($tmp_path, 'w'))
+          {
+          fwrite($fp, $IMAP->mime_decode($part->body, $part->headers['content-transfer-encoding']));
+          fclose($fp);
 
-      $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
-      if ($fp = fopen($tmp_path, 'w'))
-        {
-        fwrite($fp, $IMAP->mime_decode($part->body, $part->headers['content-transfer-encoding']));
-        fclose($fp);
-
-        $_SESSION['compose']['attachments'][] = array('name' => $part->d_parameters['filename'],
-                                                      'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
-                                                      'path' => $tmp_path);
-        }
+          if ($part->d_parameters['filename'])
+            $_SESSION['compose']['attachments'][] = array('name' => $part->d_parameters['filename'],
+                                                          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                          'path' => $tmp_path);
+                                   
+          else if ($part->ctype_parameters['name'])
+	    $_SESSION['compose']['attachments'][] = array('name' => $part->ctype_parameters['name'],
+                                                          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                          'path' => $tmp_path);
+          }
+	}
       }
 
     $_SESSION['compose']['forward_attachments'] = TRUE;
