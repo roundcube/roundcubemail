@@ -4,53 +4,87 @@
  +-----------------------------------------------------------------------+
  | language/pt_PT/messages.inc                                           |
  |                                                                       |
- | Portuguese for Portugal Language file of the RoundCube Webmail client |
+ | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
- |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Alexandro Pestana (DJ_Alex), Portugal <wpcd@hotmail.com>      |
+ | Author: Pedro M. Gouveia <pbodymind@gmail.com>	                     |
  +-----------------------------------------------------------------------+
 
  $Id$
-
+ 
 */
 
 $messages = array();
 
-$messages['loginfailed']  = 'Autenticação falhou';
+$messages['loginfailed']  = 'Falha no login';
 
-$messages['cookiesdisabled'] = 'O seu browser não aceita cookies';
+$messages['cookiesdisabled'] = 'O seu navegador não suporta cookies';
 
 $messages['sessionerror'] = 'A sua sessão é inválida ou expirou';
 
-$messages['imaperror'] = 'Ligação ao servidor IMAP falhou';
+$messages['imaperror'] = 'O servidor IMAP falhou';
 
-$messages['nomessagesfound'] = 'Não foram encontradas mensagens nesta caixa de correio';
+$messages['nomessagesfound'] = 'Nenhuma mensagem foi encontrada na caixa postal';
 
-$messages['loggedout'] = 'Você terminou a sessão com sucesso. Adeus!';
+$messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até breve!';
 
-$messages['mailboxempty'] = 'A caixa de correio está vazia';
+$messages['mailboxempty'] = 'A caixa postal está vazia';
 
-$messages['loadingdata'] = 'Carregando dados...';
+$messages['loading'] = 'Carregando...';
 
-$messages['messagesent'] = 'Mensagem enviada com sucesso';
+$messages['loadingdata'] = 'Carregando Informações...';
 
-$messages['successfullysaved'] = 'Gravado com sucesso';
+$messages['sendingmessage'] = 'A enviar mensagem...';
 
-$messages['addedsuccessfully'] = 'Contacto adicionado ao livro de endereços com sucesso';
+$messages['messagesent'] = 'Mensagem enviada';
 
-$messages['contactexists'] = 'Já existe um contacto com este endereço de e-mail';
+$messages['successfullysaved'] = 'Ficheiro gravado';
 
-$messages['blockedimages'] = 'Para proteger a sua privacidade, as imagens remotas estão bloqueadas nesta mensagem.';
+$messages['addedsuccessfully'] = 'Contacto adicionado ao catálogo de endereços';
 
-$messages['encryptedmessage'] = 'Esta é uma mensagem encriptada e não pode ser mostrada. Desculpe!';
+$messages['contactexists'] = 'Um contacto com esse e-mail já existe';
 
-$messages['nocontactsfound'] = 'Não foram encontrados contactos';
+$messages['blockedimages'] = 'Para proteger sua privacidade, as imagens desta mensagem foram bloqueadas';
 
-$messages['sendingfailed'] = 'A mensagem não foi enviada';
+$messages['encryptedmessage'] = 'Esta mensagem está criptografada e não pode ser exibida. Desculpe.';
 
-$messages['errorsaving'] = 'Ocorreu um erro no decorrer da gravação';
+$messages['nocontactsfound'] = 'Nenhum contacto encontrado';
 
+$messages['sendingfailed'] = 'Falha no envio da mensagem';
+
+$messages['errorsaving'] = 'Ocorreu um erro a gravar o ficheiro';
+
+$messages['errormoving'] = 'Não foi possível mover a mensagem';
+
+$messages['errordeleting'] = 'Não foi possível apagar a mensagem';
+
+$messages['deletecontactconfirm']  = 'Deseja realmente excluir os contatos seleccionados?';
+
+$messages['deletefolderconfirm']  = 'Deseja realmente excluir esta pasta?';
+
+$messages['purgefolderconfirm']  = 'Deseja realmente excluir todas mensagens desta pasta';
+
+$messages['formincomplete'] = 'Alguns campos não foram preenchidos';
+
+$messages['noemailwarning'] = 'Por favor, insira um endereço de e-mail válido';
+
+$messages['nonamewarning']  = 'Por favor, insira o nome';
+
+$messages['nopagesizewarning'] = 'Por favor, insira o tamanho da página';
+
+$messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário';
+
+$messages['nosubjectwarning']  = 'O campo assunto não foi preenchido. Deseja preenche-lo agora?';
+
+$messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
+
+$messages['notsentwarning'] = 'A mensagem não foi enviada, deseja excluí-la?';
+
+$messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesquisa';
+
+$messages['nocontactsreturned'] = 'Nenhum contacto foi encontrado';
+
+$messages['nosearchname'] = 'Por favor, informe o nome do contacto ou o seu endereço de e-mail';
 
 ?>
