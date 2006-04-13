@@ -38,22 +38,8 @@ if (isset($_POST['_language']))
   rcmail_set_locale($sess_user_lang);
   }
 
-
-$DB->query("UPDATE ".get_table_name('users')."
-            SET    preferences=?,
-                   language=?
-            WHERE  user_id=?",
-            serialize($a_user_prefs),
-            $sess_user_lang,
-            $_SESSION['user_id']);
-
-if ($DB->affected_rows())
-  {
+if (rcmail_save_user_prefs($a_user_prefs))
   show_message('successfullysaved', 'confirmation');
-  
-  $_SESSION['user_prefs'] = $a_user_prefs;  
-  $CONFIG = array_merge($CONFIG, $a_user_prefs);
-  }
 
 
 // go to next step

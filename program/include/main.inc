@@ -219,10 +219,19 @@ function rcmail_shutdown()
 // destroy session data and remove cookie
 function rcmail_kill_session()
   {
-/* $sess_name = session_name();
-  if (isset($_COOKIE[$sess_name]))
-   setcookie($sess_name, '', time()-42000, '/');
-*/
+  // save user preferences
+  $a_user_prefs = $_SESSION['user_prefs'];
+  if (!is_array($a_user_prefs))
+    $a_user_prefs = array();
+    
+  if ((isset($_SESSION['sort_col']) && $_SESSION['sort_col']!=$a_user_prefs['message_sort_col']) ||
+      (isset($_SESSION['sort_order']) && $_SESSION['sort_order']!=$a_user_prefs['message_sort_order']))
+    {
+    $a_user_prefs['message_sort_col'] = $_SESSION['sort_col'];
+    $a_user_prefs['message_sort_order'] = $_SESSION['sort_order'];
+    rcmail_save_user_prefs($a_user_prefs);
+    }
+
   $_SESSION = array();
   session_destroy();
   }
@@ -615,6 +624,29 @@ function rcmail_user2email($user)
 
   return $email;
   } 
+
+
+function rcmail_save_user_prefs($a_user_prefs)
+  {
+  global $DB, $CONFIG, $sess_user_lang;
+  
+  $DB->query("UPDATE ".get_table_name('users')."
+              SET    preferences=?,
+                     language=?
+              WHERE  user_id=?",
+              serialize($a_user_prefs),
+              $sess_user_lang,
+              $_SESSION['user_id']);
+
+  if ($DB->affected_rows())
+    {
+    $_SESSION['user_prefs'] = $a_user_prefs;  
+    $CONFIG = array_merge($CONFIG, $a_user_prefs);
+    return TRUE;
+    }
+    
+  return FALSE;
+  }
 
 
 // overwrite action variable  
