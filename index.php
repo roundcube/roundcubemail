@@ -42,7 +42,6 @@
 
 define('RCMAIL_VERSION', '0.1-20060402');
 
-
 // define global vars
 $CHARSET = 'UTF-8';
 $OUTPUT_TYPE = 'html';
@@ -81,6 +80,10 @@ require_once('PEAR.php');
 
 // set PEAR error handling
 // PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
+
+// use gzip compression if supported
+if (function_exists('ob_gzhandler'))
+  ob_start('ob_gzhandler');
 
 
 // catch some url/post parameters
