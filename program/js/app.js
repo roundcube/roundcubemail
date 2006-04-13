@@ -835,14 +835,17 @@ function rcube_webmail()
           }
         else if (props)
            url += '&_to='+props;
-        
+
         // don't know if this is necessary...
         url = url.replace(/&_framed=1/, "");
 
         this.set_busy(true);
 
         // need parent in case we are coming from the contact frame
-        parent.window.location.href = url;
+        if (this.env.framed)
+          parent.location.href = url;
+        else
+          location.href = url;
         break;    
 
       case 'send':
