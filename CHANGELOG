@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/04/13
+----------
+- Added Slovenian localization
+- Updated Portuguese localization
+- Fixed parent.location problem for compose-links
+- Added sort order saving patch by Jacob Brunson
+- Added gzip compression support
+
+
 2006/04/02
 ----------
 - Added Lithuanian localization
