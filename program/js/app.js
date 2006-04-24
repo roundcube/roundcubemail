@@ -236,7 +236,7 @@ function rcube_webmail()
 
     // load body click event
     document.onmousedown = function(){ return rcube_webmail_client.reset_click(); };
-    document.onkeydown   = function(e){ return rcube_webmail_client.use_arrow_keys(e, msg_list_frame); };
+    document.onkeydown   = function(e){ return rcube_webmail_client.key_pressed(e, msg_list_frame); };
 
     
     // flag object as complete
@@ -268,15 +268,26 @@ function rcube_webmail()
     e.cancelBubble = true;
     };
 
-  // reset last clicked if user clicks on anything other than the message table
-  this.use_arrow_keys = function(e, msg_list_frame) {
+  this.key_pressed = function(e, msg_list_frame) {
     if (this.in_message_list != true) 
       return true;
-
     var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
     var mod_key = this.get_modifier(e);
+    switch (keyCode) {
+      case 40:
+      case 38: 
+        return this.use_arrow_key(keyCode, mod_key, msg_list_frame);
+        break;
+      case 46:
+        return this.use_delete_key(keyCode, mod_key, msg_list_frame);
+        break;
+      default:
+        return true;
+    }
+  }
+
+  this.use_arrow_key = function(keyCode, mod_key, msg_list_frame) {
     var scroll_to = 0;
-    
     var last_selected_row = this.list_rows[this.last_selected];
 
     if (keyCode == 40) { // down arrow key pressed
@@ -302,9 +313,13 @@ function rcube_webmail()
        ((Number(new_row.offsetTop) + Number(new_row.offsetHeight)) > (Number(msg_list_frame.scrollTop) + Number(msg_list_frame.offsetHeight)))) {
       msg_list_frame.scrollTop = scroll_to;
     }
-
     return false;
   };
+  
+  this.use_delete_key = function(keyCode, mod_key, msg_list_frame){
+    this.command('delete','',this);
+    return false;
+  }
 
   // get all message rows from HTML table and init each row
   this.init_messagelist = function(msg_list)
