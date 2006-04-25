@@ -13,7 +13,6 @@
  
   $Id$
 */
-
 // Constants
 var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
@@ -29,6 +28,7 @@ function rcube_webmail()
   this.gui_objects = new Object();
   this.commands = new Object();
   this.selection = new Array();
+  this.last_selected = 0;
 
   // create public reference to myself
   rcube_webmail_client = this;
@@ -288,26 +288,17 @@ function rcube_webmail()
 
   this.use_arrow_key = function(keyCode, mod_key, msg_list_frame) {
     var scroll_to = 0;
-    var last_selected_row = this.list_rows[this.last_selected];
-
     if (keyCode == 40) { // down arrow key pressed
-      var new_row = last_selected_row.obj.nextSibling;
-      while (new_row && new_row.nodeType != 1) {
-        new_row = new_row.nextSibling;
-      }
+      new_row = this.get_next_row();
       if (!new_row) return false;
       scroll_to = (Number(new_row.offsetTop) + Number(new_row.offsetHeight)) - Number(msg_list_frame.offsetHeight);
     } else if (keyCode == 38) { // up arrow key pressed
-      var new_row = last_selected_row.obj.previousSibling;
-      while (new_row && new_row.nodeType != 1) {
-        new_row = new_row.previousSibling;
-      }
+      new_row = this.get_prev_row();
       if (!new_row) return false;
       scroll_to = new_row.offsetTop;
     } else {return true;}
 	
-	if (mod_key != CONTROL_KEY)
-	  this.select_row(new_row.uid,mod_key);
+    this.select_row(new_row.uid,mod_key,true);
 
     if (((Number(new_row.offsetTop)) < (Number(msg_list_frame.scrollTop))) || 
        ((Number(new_row.offsetTop) + Number(new_row.offsetHeight)) > (Number(msg_list_frame.scrollTop) + Number(msg_list_frame.offsetHeight)))) {
@@ -1111,7 +1102,7 @@ function rcube_webmail()
     if (!this.in_selection_before)
     {
 	  var mod_key = this.get_modifier(e);
-	  this.select_row(id,mod_key);
+	  this.select_row(id,mod_key,false);
     }
     
     if (this.selection.length)
@@ -1139,7 +1130,7 @@ function rcube_webmail()
     
     // unselects currently selected row    
     if (!this.drag_active && this.in_selection_before==id)
-      this.select_row(id,mod_key);
+      this.select_row(id,mod_key,false);
 
     this.drag_start = false;
     this.in_selection_before = false;
@@ -1213,6 +1204,25 @@ function rcube_webmail()
   /*********     (message) list functionality      *********/
   /*********************************************************/
 
+  // get next and previous rows that are not hidden
+  this.get_next_row = function(){
+    var last_selected_row = this.list_rows[this.last_selected];
+    var new_row = last_selected_row.obj.nextSibling;
+    while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) {
+      new_row = new_row.nextSibling;
+    }
+    return new_row;
+  }
+  
+  this.get_prev_row = function(){
+    var last_selected_row = this.list_rows[this.last_selected];
+    var new_row = last_selected_row.obj.previousSibling;
+    while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) {
+      new_row = new_row.previousSibling;
+    }
+    return new_row;
+  }
+  
   // highlight/unhighlight a row
   this.highlight_row = function(id, multiple)
     {
@@ -1231,7 +1241,7 @@ function rcube_webmail()
       if (!this.in_selection(id))  // select row
         {
         this.selection[this.selection.length] = id;
-        this.set_classname(this.list_rows[id].obj, 'selected', true);        
+        this.set_classname(this.list_rows[id].obj, 'selected', true);    
         }
       else  // unselect row
         {
@@ -1259,7 +1269,7 @@ function rcube_webmail()
 
 
 // selects or unselects the proper row depending on the modifier key pressed
-  this.select_row = function(id,mod_key)  { 
+  this.select_row = function(id,mod_key,with_arrow)  { 
   	if (!mod_key) {
       this.shift_start = id;
   	  this.highlight_row(id, false);
@@ -1270,7 +1280,8 @@ function rcube_webmail()
           break; }
         case CONTROL_KEY: { 
           this.shift_start = id;
-          this.highlight_row(id, true); 
+		  if (!with_arrow)
+            this.highlight_row(id, true); 
           break; 
           }
         case CONTROL_SHIFT_KEY: { 
@@ -1283,7 +1294,9 @@ function rcube_webmail()
           }
       }
 	}
-	this.last_selected = id;
+    if (this.last_selected > 0) this.set_classname(this.list_rows[this.last_selected].obj, 'focused', false);
+	this.set_classname(this.list_rows[id].obj, 'focused', true);        
+    this.last_selected = id;
   };
 
   this.shift_select = function(id, control) {
@@ -1525,6 +1538,8 @@ function rcube_webmail()
         // 'remove' message row from list (just hide it)
         if (this.message_rows[id].obj)
           this.message_rows[id].obj.style.display = 'none';
+          new_row = this.get_next_row();
+          this.select_row(new_row.uid,false,false);
         }
       }
       
