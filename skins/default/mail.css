@@ -446,6 +446,12 @@ body.messagelist
   background-color: #CC3333;
 }
 
+#messagelist tr.focused td
+{
+  border-bottom: thin dotted;
+  border-top: thin dotted;
+}
+
 #messagelist tr.selected td a.rcmContactAddress
 {
   color: #FFFFFF;
