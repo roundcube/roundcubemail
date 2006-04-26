@@ -414,6 +414,11 @@ function rcmail_create_forward_body($body)
 	    $_SESSION['compose']['attachments'][] = array('name' => $part->ctype_parameters['name'],
                                                           'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
                                                           'path' => $tmp_path);
+							  
+          else if ($part->headers['content-description'])
+	    $_SESSION['compose']['attachments'][] = array('name' => $part->headers['content-description'],
+                                                          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                          'path' => $tmp_path);
           }
 	}
       }
