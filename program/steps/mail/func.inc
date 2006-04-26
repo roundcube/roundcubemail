@@ -917,7 +917,13 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
                                    'size'     => strlen($IMAP->mime_decode($mail_part->body, $mail_part->headers['content-transfer-encoding'])) /*,
                                    'content'  => $mail_part->body */);
                                    
-                                   
+        else if ($mail_part->headers['content-description'])
+	  $a_attachments[] = array('filename' => rcube_imap::decode_mime_string($mail_part->headers['content-description']),
+	  			   'encoding' => strtolower($mail_part->headers['content-transfer-encoding']),
+                                   'mimetype' => strtolower("$primary_type/$secondary_type"),
+                                   'part_id'  => $mail_part->mime_id,
+                                   'size'     => strlen($IMAP->mime_decode($mail_part->body, $mail_part->headers['content-transfer-encoding'])) /*,
+                                   'content'  => $mail_part->body */);
         }
       }
 
