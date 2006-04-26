@@ -62,7 +62,6 @@ require_once 'PEAR.php';
 * print_r($structure);
 *
 * TODO:
-*  o Implement multipart/appledouble
 *  o UTF8: ???
 
 		> 4. We have also found a solution for decoding the UTF-8 
@@ -247,7 +246,7 @@ class Mail_mimeDecode extends PEAR
                         $return->ctype_primary   = $regs[1];
                         $return->ctype_secondary = $regs[2];
                     }
-                    
+
                     if (isset($content_type['other'])) {
                         while (list($p_name, $p_value) = each($content_type['other'])) {
                             $return->ctype_parameters[$p_name] = $p_value;
@@ -284,6 +283,7 @@ class Mail_mimeDecode extends PEAR
                     break;
 
                 case 'multipart/parallel':
+                case 'multipart/appledouble': // Appledouble mail
                 case 'multipart/report': // RFC1892
                 case 'multipart/signed': // PGP
                 case 'multipart/digest':
