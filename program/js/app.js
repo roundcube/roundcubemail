@@ -1294,9 +1294,9 @@ function rcube_webmail()
           }
       }
 	}
-    if (this.last_selected > 0) this.set_classname(this.list_rows[this.last_selected].obj, 'focused', false);
-	this.set_classname(this.list_rows[id].obj, 'focused', true);        
+	if (this.last_selected != 0) { this.set_classname(this.list_rows[this.last_selected].obj, 'focused', false);}
     this.last_selected = id;
+    this.set_classname(this.list_rows[id].obj, 'focused', true);        
   };
 
   this.shift_select = function(id, control) {
@@ -1401,6 +1401,7 @@ function rcube_webmail()
   // list messages of a specific mailbox
   this.list_mailbox = function(mbox, page, sort)
     {
+    this.last_selected = 0;
     var add_url = '';
     var target = window;
 
@@ -1538,9 +1539,11 @@ function rcube_webmail()
         // 'remove' message row from list (just hide it)
         if (this.message_rows[id].obj)
           this.message_rows[id].obj.style.display = 'none';
-          new_row = this.get_next_row();
-          this.select_row(new_row.uid,false,false);
         }
+      next_row = this.get_next_row();
+      prev_row = this.get_prev_row();
+      new_row = (next_row) ? next_row : prev_row;
+      this.select_row(new_row.uid,false,false);
       }
       
     var lock = false;
@@ -1581,6 +1584,10 @@ function rcube_webmail()
           this.message_rows[id].obj.style.display = 'none';
         }
       }
+      next_row = this.get_next_row();
+      prev_row = this.get_prev_row();
+      new_row = (next_row) ? next_row : prev_row;
+      this.select_row(new_row.uid,false,false);
 
     // send request to server
     this.http_request('delete', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_from='+(this.env.action ? this.env.action : ''));
