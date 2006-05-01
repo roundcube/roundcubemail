@@ -390,13 +390,16 @@ function rcmail_message_list($attrib)
     $zebra_class = $i%2 ? 'even' : 'odd';
 
     // set messag attributes to javascript array
+    if ($header->deleted)
+      $js_row_arr['deleted'] = true;
     if (!$header->seen)
       $js_row_arr['unread'] = true;
     if ($header->answered)
       $js_row_arr['replied'] = true;
-
-	// set message icon    
-    if ($attrib['unreadicon'] && !$header->seen)
+    // set message icon  
+    if ($attrib['deletedicon'] && $header->deleted)
+      $message_icon = $attrib['deletedicon'];
+    else if ($attrib['unreadicon'] && !$header->seen)
       $message_icon = $attrib['unreadicon'];
     else if ($attrib['repliedicon'] && $header->answered)
       $message_icon = $attrib['repliedicon'];
@@ -456,6 +459,8 @@ function rcmail_message_list($attrib)
   
   if ($attrib['messageicon'])
     $javascript .= sprintf("%s.set_env('messageicon', '%s%s');\n", $JS_OBJECT_NAME, $skin_path, $attrib['messageicon']);
+  if ($attrib['deletedicon'])
+    $javascript .= sprintf("%s.set_env('deletedicon', '%s%s');\n", $JS_OBJECT_NAME, $skin_path, $attrib['deletedicon']);
   if ($attrib['unreadicon'])
     $javascript .= sprintf("%s.set_env('unreadicon', '%s%s');\n", $JS_OBJECT_NAME, $skin_path, $attrib['unreadicon']);
   if ($attrib['repliedicon'])
@@ -510,12 +515,9 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       $a_msg_cols[$col] = $cont;
       }
 
+    $a_msg_flags['deleted'] = $header->deleted ? 1 : 0;
     $a_msg_flags['unread'] = $header->seen ? 0 : 1;
     $a_msg_flags['replied'] = $header->answered ? 1 : 0;
-    
-    if ($header->deleted)
-      $a_msg_flags['deleted'] = 1;
-  
     $commands .= sprintf("this.add_message_row(%s, %s, %s, %b, %b);\n",
                          $header->uid,
                          array2js($a_msg_cols),
