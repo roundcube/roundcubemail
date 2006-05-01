@@ -21,15 +21,16 @@
 
 $REMOTE_REQUEST = TRUE;
 
-$a_flags_map = array('read' => 'SEEN',
+$a_flags_map = array('undelete' => 'UNDELETED',
+                     'delete' => 'DELETED',
+                     'read' => 'SEEN',
                      'unread' => 'UNSEEN');
 
 if ($_GET['_uid'] && $_GET['_flag'])
   {
   $flag = $a_flags_map[$_GET['_flag']] ? $a_flags_map[$_GET['_flag']] : strtoupper($_GET['_flag']);
   $marked = $IMAP->set_flag($_GET['_uid'], $flag);
-  
-  if ($marked)
+  if ($marked != -1)
     {
     $mbox = $IMAP->get_mailbox_name();
     $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
