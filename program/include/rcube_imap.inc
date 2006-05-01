@@ -934,18 +934,21 @@ class rcube_imap
 
 
   // set message flag to one or several messages
-  // possible flgs are: SEEN, DELETED, RECENT, ANSWERED, DRAFT
+  // possible flags are: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT
   function set_flag($uids, $flag)
     {
     $flag = strtoupper($flag);
     $msg_ids = array();
     if (!is_array($uids))
-      $uids = array($uids);
+      $uids = explode(',',$uids);
       
-    foreach ($uids as $uid)
+    foreach ($uids as $uid) {
       $msg_ids[$uid] = $this->_uid2id($uid);
+    }
       
-    if ($flag=='UNSEEN')
+    if ($flag=='UNDELETED')
+      $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
+    else if ($flag=='UNSEEN')
       $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
     else
       $result = iil_C_Flag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), $flag);
