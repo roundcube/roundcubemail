@@ -132,6 +132,15 @@ $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk'
 // This will make the application run slower
 $rcmail_config['skip_deleted'] = FALSE;
 
+// Set true to Mark deleted messages as read as well as deleted
+// False means that a message's read status is not affected by marking it as deleted
+$rcmail_config['read_when_deleted'] = TRUE;
+
+// When a Trash folder is not present and a message is deleted, flag 
+// the message for deletion rather than deleting it immediately.  Setting this to 
+// false causes deleted messages to be permanantly removed if there is no Trash folder
+$rcmail_config['flag_for_deletion'] = TRUE;
+
 // path to a text file which will be added to each sent message
 // paths are relative to the RoundCube root folder
 $rcmail_config['generic_message_footer'] = '';
@@ -180,6 +189,8 @@ $rcmail_config['message_sort_col'] = 'date';
 // default sort order
 $rcmail_config['message_sort_order'] = 'DESC';
 
+// list of configuration option names that need to be available in Javascript.
+$rcmail_config['javascript_config'] = array('read_when_deleted', 'flag_for_deletion');
 
 /***** try to load host-specific configuration *****/
 
