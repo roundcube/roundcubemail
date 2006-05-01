@@ -39,6 +39,24 @@ already have a corresponding entry in the user's table (username and hostname)
 will be allowed.
 
 
+Code Layout:
+------------
+
+Basic sequence (index.php):
+  - index.php -> load_gui -> parse_template
+  - authentication details in this sequence
+
+Tasks
+  - index.php limits tasks to set list
+  - can see task in roundcube link when you mouse over it
+  - task templates stored in skins/default/templates
+  - templates "roundcube:" tokens that get replaced in parse_template
+
+program/include/rcube_shared.inc
+  - defines rcube_html_page, class that lays out a roundcube web page
+  - defines form control classes
+
+
 Installation:
 -------------
 For detailed instructions on how to install RoundCube webmail on your server,

@@ -613,7 +613,7 @@ function iil_StrToTime($str){
 	//$month_a=array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
 	$month_str=$a[1];
 	$month=$IMAP_MONTHS[$month_str];
-	$day=$a[0];
+	$day=(int)$a[0];
 	$year=$a[2];
 	$time=$a[3];
 	$tz_str = $a[4];
