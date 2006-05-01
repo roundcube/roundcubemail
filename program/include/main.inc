@@ -321,8 +321,9 @@ function load_gui()
     $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
     
   $OUTPUT->add_script($javascript);
-  $OUTPUT->include_script('program/js/common.js');
-  $OUTPUT->include_script('program/js/app.js');
+  $OUTPUT->include_script('common.js');
+  $OUTPUT->include_script('app.js');
+  $OUTPUT->scripts_path = 'program/js/';
 
   // set locale setting
   rcmail_set_locale($sess_user_lang);

@@ -1,0 +1,94 @@
+/***** modified styles for GoogieSpell *****/
+
+.googie_window {
+  font-size: 11px;
+  width: 185px;
+  text-align: left;
+  border: 1px solid #666666;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.googie_list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.googie_list td {
+  font-size: 11px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  cursor: pointer;
+  list-style-type: none;
+}
+
+.googie_list_onhover {
+  color: #FFFFFF;
+  background-color: #CC3333;
+}
+
+.googie_list_onout {
+  background-color: #F6F6F6;
+}
+
+.googie_list_selected {
+  background-color: #cccccc;
+  font-weight: bold;
+}
+
+.googie_list_close {
+  color: #b91414;
+}
+
+.googie_list_revert {
+  color: #b91479;
+}
+
+.googie_link {
+  color: #b91414;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.googie_check_spelling_link {  
+  color: #CC0000;
+  font-size: 11px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.googie_check_spelling_link:hover {
+  text-decoration: underline;
+}
+
+.googie_no_style {
+  text-decoration: none;
+}
+
+.googie_check_spelling_ok {
+  color: green;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.googie_lang_3d_click img {
+  vertical-align: middle;
+  border-top: 1px solid #555;
+  border-left: 1px solid #555;
+  border-right: 1px solid #b1b1b1;
+  border-bottom: 1px solid #b1b1b1;
+}
+
+.googie_lang_3d_on img {
+  vertical-align: middle;
+  border-top: 1px solid #b1b1b1;
+  border-left: 1px solid #b1b1b1;
+  border-right: 1px solid #555;
+  border-bottom: 1px solid #555;
+}

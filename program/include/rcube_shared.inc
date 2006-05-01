@@ -193,6 +193,7 @@ class rcube_html_page
   
     // correct absolute pathes in images and other tags
     $output = preg_replace('/(src|href|background)=(["\']?)(\/[a-z0-9_\-]+)/Ui', "\\1=\\2$base_path\\3", $output);
+    $output = str_replace('$__skin_path', $base_path, $output);
   
     print rcube_charset_convert($output, 'UTF-8', $this->charset);
     }

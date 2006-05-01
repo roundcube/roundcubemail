@@ -297,10 +297,13 @@ function rcmail_compose_header_from($attrib)
 
 function rcmail_compose_body($attrib)
   {
-  global $CONFIG, $REPLY_MESSAGE, $FORWARD_MESSAGE;
+  global $CONFIG, $OUTPUT, $REPLY_MESSAGE, $FORWARD_MESSAGE;
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
+  
+  if (empty($attrib['id']))
+    $attrib['id'] = 'rcmComposeMessage';
   
   $attrib['name'] = '_message';
   $textarea = new textarea($attrib);
@@ -330,7 +333,15 @@ function rcmail_compose_body($attrib)
   $out = $form_start ? "$form_start\n" : '';
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
-         
+  
+  // include GoogieSpell
+  $OUTPUT->include_script('googiespell.js');
+  
+  $OUTPUT->add_script(sprintf("var googie1 = new GoogieSpell('\$__skin_path/images/googiespell/','%s&_action=spell&lang=');\n".
+                              "googie1.decorateTextarea('%s');",
+                              $GLOBALS['COMM_PATH'],
+                              $attrib['id']), 'foot');
+  
   return $out;
   }
 

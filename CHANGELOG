@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+- Applied prev/next patch by Leonard Bouchet
+- Applied patches by Mark Bucciarelli
+- Applied patch for requesting receipts by Salvatore Ansani
+- Integrated GoogieSpell as suggested by phil (styling is not perfect yet, localization is missing)
+
+
 2006/04/13
 ----------
 - Added Slovenian localization
