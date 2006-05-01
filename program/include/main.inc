@@ -76,17 +76,15 @@ function rcmail_startup($task='mail')
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
   $DB->db_connect('w');
     
-
   // we can use the database for storing session data
   // session queries do not work with MDB2
   if ($CONFIG['db_backend']!='mdb2' && !$DB->is_error())
     include_once('include/session.inc');
 
-
   // init session
   session_start();
   $sess_id = session_id();
-  
+
   // create session and set session vars
   if (!$_SESSION['client_id'])
     {
@@ -113,7 +111,6 @@ function rcmail_startup($task='mail')
 
   // set current task to session
   $_SESSION['task'] = $task;
-
 
   // create IMAP object
   if ($task=='mail')
@@ -194,7 +191,6 @@ function rcmail_set_imap_prop()
 
   if (!empty($_SESSION['mbox']))
     $IMAP->set_mailbox($_SESSION['mbox']);
-
   if (isset($_SESSION['page']))
     $IMAP->set_page($_SESSION['page']);
   }
@@ -317,6 +313,10 @@ function load_gui()
   $javascript = "var $JS_OBJECT_NAME = new rcube_webmail();\n";
   $javascript .= "$JS_OBJECT_NAME.set_env('comm_path', '$COMM_PATH');\n";
 
+  foreach ($CONFIG['javascript_config'] as $js_config_var){
+    $javascript .= "$JS_OBJECT_NAME.set_env('$js_config_var', '" . $CONFIG[$js_config_var] . "');\n";
+  }
+  
   if (!empty($GLOBALS['_framed']))
     $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
     
