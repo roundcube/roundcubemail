@@ -313,8 +313,10 @@ function load_gui()
   $javascript = "var $JS_OBJECT_NAME = new rcube_webmail();\n";
   $javascript .= "$JS_OBJECT_NAME.set_env('comm_path', '$COMM_PATH');\n";
 
-  foreach ($CONFIG['javascript_config'] as $js_config_var){
-    $javascript .= "$JS_OBJECT_NAME.set_env('$js_config_var', '" . $CONFIG[$js_config_var] . "');\n";
+  if (isset($CONFIG['javascript_config'] )){
+    foreach ($CONFIG['javascript_config'] as $js_config_var){
+      $javascript .= "$JS_OBJECT_NAME.set_env('$js_config_var', '" . $CONFIG[$js_config_var] . "');\n";
+    }
   }
   
   if (!empty($GLOBALS['_framed']))
