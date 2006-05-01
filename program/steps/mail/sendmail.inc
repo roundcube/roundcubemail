@@ -136,6 +136,11 @@ if (!empty($_POST['_priority']))
     $headers['X-Priority'] = sprintf("%d (%s)", $priority, ucfirst($str_priority));
   }
 
+if (!empty($_POST['_receipt']))
+  {
+  $headers['Return-Receipt-To'] = $identity_arr['string'];
+  $headers['Disposition-Notification-To'] = $identity_arr['string'];
+  }
 
 // additional headers
 $headers['Message-ID'] = $message_id;

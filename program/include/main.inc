@@ -189,12 +189,12 @@ function rcmail_set_imap_prop()
   global $CONFIG, $IMAP;
 
   // set root dir from config
-  if (strlen($CONFIG['imap_root']))
+  if (!empty($CONFIG['imap_root']))
     $IMAP->set_rootdir($CONFIG['imap_root']);
 
-  if (strlen($_SESSION['mbox']))
+  if (!empty($_SESSION['mbox']))
     $IMAP->set_mailbox($_SESSION['mbox']);
-    
+
   if (isset($_SESSION['page']))
     $IMAP->set_page($_SESSION['page']);
   }
@@ -1149,6 +1149,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'priorityselector' => 'rcmail_priority_selector',
         'charsetselector' => 'rcmail_charset_selector',
         'searchform' => 'rcmail_search_form',
+        'receiptcheckbox' => 'rcmail_receipt_checkbox',
         
         // ADDRESS BOOK
         'addresslist' => 'rcmail_contacts_list',

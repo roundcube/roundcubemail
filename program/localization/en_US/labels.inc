@@ -123,6 +123,7 @@ $labels['compose']  = 'Compose a message';
 $labels['sendmessage']  = 'Send the message now';
 $labels['addattachment']  = 'Attach a file';
 $labels['charset']  = 'Charset';
+$labels['returnreceipt'] = 'Return receipt';
 
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';

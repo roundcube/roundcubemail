@@ -123,6 +123,7 @@ $labels['compose']  = 'Neue Nachricht verfassen';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
 $labels['charset']  = 'Zeichensatz';
+$labels['returnreceipt'] = 'Empfangsbestätigung';
 
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
