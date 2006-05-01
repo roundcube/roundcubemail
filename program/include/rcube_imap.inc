@@ -55,7 +55,7 @@ class rcube_imap
   var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
   var $cache = array();
   var $cache_keys = array();  
-  var $cache_changes = array();  
+  var $cache_changes = array();
   var $uid_id_map = array();
   var $msg_headers = array();
   var $capabilities = array();
@@ -856,7 +856,7 @@ class rcube_imap
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
     if ($str && $criteria)
       {
-      $criteria .= " \"$str\"";
+      $criteria .= ' CHARSET UTF-8 "'.UTF7EncodeString($str).'"';
       return $this->_search_index($mailbox, $criteria);
       }
     else

@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/05/01
+----------
+- Pimped search function
 - Applied prev/next patch by Leonard Bouchet
 - Applied patches by Mark Bucciarelli
 - Applied patch for requesting receipts by Salvatore Ansani

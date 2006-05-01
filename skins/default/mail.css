@@ -468,15 +468,18 @@ body.messagelist
   position: absolute;
   top: 60px;
   right: 40px;
-  width: 200px;
+  width: 182px;
   height: 20px;
   text-align: right;
+  background: url('images/searchfield.gif') top left no-repeat;
 }
 
 #quicksearchbar a
 {
+  position: absolute;
+  top: 3px;
+  right: 4px;
   text-decoration: none;
-  padding-left: 5px;
 }
 
 #quicksearchbar img
@@ -486,9 +489,21 @@ body.messagelist
 
 #quicksearchbox
 {
-  width: 150px;
-  border: 1px solid #999999;
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  width: 140px;
+  font-size: 11px;
+  padding: 0px;
+  border: none;
 }
+
+
+/*\*/
+html>body*#quicksearchbar { background-image: none; }
+html>body*#quicksearchbar a { top: 5px; }
+html>body*#quicksearchbar #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
+/**/
 
 
 #rcversion
