@@ -38,6 +38,9 @@ if (strlen($_GET['_page']))
   $_SESSION['page'] = $_GET['_page'];
   }
 
+// set mailbox to INBOX if not set
+if (empty($_SESSION['mbox']))
+  $_SESSION['mbox'] = $IMAP->get_mailbox_name();
 
 // set default sort col/order to session
 if (!isset($_SESSION['sort_col']))
