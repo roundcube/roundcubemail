@@ -118,7 +118,7 @@ function rcube_webmail()
           {
           msg_list_frame.onmousedown = function(e){return rcube_webmail_client.click_on_list(e);};
           this.init_messagelist(msg_list);
-          this.enable_command('markread', true);
+          this.enable_command('toggle_status', true);
           }
 
         // enable mail commands
@@ -346,6 +346,7 @@ function rcube_webmail()
               
       this.message_rows[uid] = {id:row.id, obj:row,
                                 classname:row.className,
+                                deleted:this.env.messages[uid] ? this.env.messages[uid].deleted : null,
                                 unread:this.env.messages[uid] ? this.env.messages[uid].unread : null,
                                 replied:this.env.messages[uid] ? this.env.messages[uid].replied : null};
               
@@ -361,7 +362,7 @@ function rcube_webmail()
         {                
         msg_icon.id = 'msgicn_'+uid;
         msg_icon._row = row;
-        msg_icon.onmousedown = function(e) { rcube_webmail_client.command('markread', this); };
+        msg_icon.onmousedown = function(e) { rcube_webmail_client.command('toggle_status', this); };
                 
         // get message icon and save original icon src
         this.message_rows[uid].icon = msg_icon;
@@ -722,9 +723,7 @@ function rcube_webmail()
 
       case 'delete':
         // mail task
-        if (this.task=='mail' && this.env.trash_mailbox && String(this.env.mailbox).toLowerCase()!=String(this.env.trash_mailbox).toLowerCase())
-          this.move_messages(this.env.trash_mailbox);
-        else if (this.task=='mail')
+        if (this.task=='mail')
           this.delete_messages();
         // addressbook task
         else if (this.task=='addressbook')
@@ -741,7 +740,7 @@ function rcube_webmail()
         this.move_messages(props);
         break;
         
-      case 'markread':
+      case 'toggle_status':
         if (props && !props._row)
           break;
         
@@ -752,9 +751,10 @@ function rcube_webmail()
           {
           uid = props._row.uid;
           this.dont_select = true;
-          
           // toggle read/unread
-          if (!this.message_rows[uid].unread)
+          if (this.message_rows[uid].deleted) {
+          	flag = 'undelete';
+          } else if (!this.message_rows[uid].unread)
             flag = 'unread';
           }
           
@@ -1269,7 +1269,7 @@ function rcube_webmail()
 
 
 // selects or unselects the proper row depending on the modifier key pressed
-  this.select_row = function(id,mod_key,with_arrow)  { 
+  this.select_row = function(id,mod_key,with_mouse)  { 
   	if (!mod_key) {
       this.shift_start = id;
   	  this.highlight_row(id, false);
@@ -1280,7 +1280,7 @@ function rcube_webmail()
           break; }
         case CONTROL_KEY: { 
           this.shift_start = id;
-		  if (!with_arrow)
+          if (!with_mouse)
             this.highlight_row(id, true); 
           break; 
           }
@@ -1559,10 +1559,7 @@ function rcube_webmail()
     this.http_request('moveto', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_target_mbox='+escape(mbox)+'&_from='+(this.env.action ? this.env.action : ''), lock);
     };
 
-
-  // delete selected messages from the current mailbox
-  this.delete_messages = function()
-    {
+  this.permanently_remove_messages = function() {
     // exit if no mailbox specified or if selection is empty
     if (!(this.selection.length || this.env.uid))
       return;
@@ -1591,7 +1588,34 @@ function rcube_webmail()
 
     // send request to server
     this.http_request('delete', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_from='+(this.env.action ? this.env.action : ''));
-    };
+  }
+    
+    
+  // delete selected messages from the current mailbox
+  this.delete_messages = function()
+    {
+    // exit if no mailbox specified or if selection is empty
+    if (!(this.selection.length || this.env.uid))
+      return;
+    // if there is a trash mailbox defined and we're not currently in it:
+    if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase()!=String(this.env.trash_mailbox).toLowerCase())
+      this.move_messages(this.env.trash_mailbox);
+    // if there is a trash mailbox defined but we *are* in it:
+    else if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase() == String(this.env.trash_mailbox).toLowerCase())
+      this.permanently_remove_messages();
+    // if there isn't a defined trash mailbox and the config is set to flag for deletion
+    else if (!this.env.trash_mailbox && this.env.flag_for_deletion) {
+      this.mark_message('delete');
+      next_row = this.get_next_row();
+      prev_row = this.get_prev_row();
+      new_row = (next_row) ? next_row : prev_row;
+      this.select_row(new_row.uid,false,false);
+    // if there isn't a defined trash mailbox and the config is set NOT to flag for deletion
+    }else if (!this.env.trash_mailbox && !this.env.flag_for_deletion) {
+      this.permanently_remove_messages();
+    }
+    return;
+  };
 
 
   // set a specific flag to one or more messages
@@ -1610,13 +1634,24 @@ function rcube_webmail()
         {
         id = this.selection[n];
         a_uids[a_uids.length] = id;
-      
-        // 'remove' message row from list (just hide it)
-        if (this.message_rows[id].obj)
-          this.message_rows[id].obj.style.display = 'none';
         }
       }
+      switch (flag) {
+        case 'read':
+        case 'unread':
+          this.toggle_read_status(flag,a_uids);
+          break;
+        case 'delete':
+        case 'undelete':
+          this.toggle_delete_status(flag,a_uids);
+          break;
+      }
+    // send request to server
+    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
+    };
 
+  // set class to read/unread
+  this.toggle_read_status = function(flag, a_uids) {
     // mark all message rows as read/unread
     var icn_src;
     for (var i=0; i<a_uids.length; i++)
@@ -1649,11 +1684,48 @@ function rcube_webmail()
           this.message_rows[uid].icon.src = icn_src;
         }
       }
+  }
+  
+  // mark all message rows as deleted/undeleted
+  this.toggle_delete_status = function(flag, a_uids) {
+    if (this.env.read_when_deleted) {
+      this.toggle_read_status('read',a_uids);
+    }
 
-    // send request to server
-    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
-    };
+    var icn_src;
+    for (var i=0; i<a_uids.length; i++)
+      {
+      uid = a_uids[i];
+      if (this.message_rows[uid])
+        {
+        this.message_rows[uid].deleted = (flag=='undelete' ? false : true);
+        
+        if (this.message_rows[uid].classname.indexOf('deleted')<0 && this.message_rows[uid].deleted)
+          {
+          this.message_rows[uid].classname += ' deleted';
+          this.set_classname(this.message_rows[uid].obj, 'deleted', true);
 
+          if (this.env.deletedicon)
+            icn_src = this.env.deletedicon;
+          }
+        else if (!this.message_rows[uid].deleted)
+          {
+          this.message_rows[uid].classname = this.message_rows[uid].classname.replace(/\s*deleted/, '');
+          this.set_classname(this.message_rows[uid].obj, 'deleted', false);
+
+          if (this.message_rows[uid].unread && this.env.unreadicon)
+            icn_src = this.env.unreadicon;
+          else if (this.message_rows[uid].replied && this.env.repliedicon)
+            icn_src = this.env.repliedicon;
+          else if (this.env.messageicon)
+            icn_src = this.env.messageicon;
+          }
+
+        if (this.message_rows[uid].icon && icn_src)
+          this.message_rows[uid].icon.src = icn_src;
+        }
+      }
+  }
 
 
   /*********************************************************/
@@ -2678,7 +2750,8 @@ function rcube_webmail()
     var rowcount = tbody.rows.length;
     var even = rowcount%2;
     
-    this.env.messages[uid] = {replied:flags.replied?1:0,
+    this.env.messages[uid] = {deleted:flags.deleted?1:0,
+                              replied:flags.replied?1:0,
                               unread:flags.unread?1:0};
     
     var row = document.createElement('TR');
@@ -2688,8 +2761,9 @@ function rcube_webmail()
     if (this.in_selection(uid))
       row.className += ' selected';
 
-    var icon = flags.unread && this.env.unreadicon ? this.env.unreadicon :
-               (flags.replied && this.env.repliedicon ? this.env.repliedicon : this.env.messageicon);
+    var icon = flags.deleted && this.env.deletedicon ? this.env.deletedicon:
+               (flags.unread && this.env.unreadicon ? this.env.unreadicon :
+               (flags.replied && this.env.repliedicon ? this.env.repliedicon : this.env.messageicon));
 
     var col = document.createElement('TD');
     col.className = 'icon';
