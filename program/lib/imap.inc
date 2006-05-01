@@ -41,6 +41,8 @@
 		- Avoid stripslahes in iil_Connect()
 		- Added patch to iil_SortHeaders() by Richard Green
 		- Removed <br> from error messages (better for logging)
+		- Added patch to iil_C_Sort() enabling UID SORT commands
+		- Added function iil_C_ID2UID()
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -627,7 +629,7 @@ function iil_StrToTime($str){
 	return $time2;
 }
 
-function iil_C_Sort(&$conn, $mailbox, $field, $add=''){
+function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE, $encoding='US-ASCII'){
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) return false;
 	
@@ -635,10 +637,16 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add=''){
 	if ($field=='INTERNALDATE') $field='ARRIVAL';
 	$fields = array('ARRIVAL'=>1,'CC'=>1,'DATE'=>1,'FROM'=>1,'SIZE'=>1,'SUBJECT'=>1,'TO'=>1);
 	
-	if (!$fields[$field]) return false;
+	if (!$fields[$field])
+	  return false;
 	
+	$is_uid = $is_uid ? 'UID ' : '';
+	
+	if (!empty($add))
+	  $add = " $add";
+
 	$fp = $conn->fp;
-	$command = 's SORT ('.$field.') US-ASCII ALL '."$add\r\n";
+	$command = 's '. $is_uid .'SORT ('.$field.') '.$encoding.' ALL'."$add\r\n";
 	$line = $data = '';
 	
 	if (!fputs($fp, $command)) return false;
@@ -656,7 +664,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add=''){
 	return $out;
 }
 
-function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,$normalize=true){
+function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field, $normalize=true){
 	global $IMAP_USE_INTERNAL_DATE;
 	
 	$c=0;
@@ -1568,6 +1576,25 @@ function iil_C_UID2ID(&$conn, $folder, $uid){
 		}
 	}
 	return false;
+}
+
+function iil_C_ID2UID(&$conn, $folder, $id){
+	$fp = $conn->fp;
+	$result=-1;
+	if ($id > 0) {
+		if (iil_C_Select($conn, $folder)){
+			$key = "FUID";
+			if (fputs($fp, "$key FETCH $id (UID)\r\n")){
+				do{
+					$line=chop(iil_ReadLine($fp, 1024));
+					if (eregi("^\* $id FETCH \(UID (.*)\)", $line, $r)){
+						$result = $r[1];
+					}
+				} while (!preg_match("/^$key/", $line));
+			}
+		}
+	}
+	return $result;
 }
 
 function iil_C_Search(&$conn, $folder, $criteria){

@@ -64,14 +64,28 @@ if ($_GET['_uid'])
   $javascript = sprintf("%s.set_env('uid', '%s');\n", $JS_OBJECT_NAME, $_GET['_uid']);
   $javascript .= sprintf("%s.set_env('safemode', '%b');", $JS_OBJECT_NAME, $_GET['_safe']);
 
+  $next = $prev = -1;
   // get previous and next message UID
-  $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
-  $MESSAGE['index'] = array_search((string)$_GET['_uid'], $a_msg_index, TRUE);
+  if (!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') && 
+      $IMAP->get_capability('sort')) {
+      // Only if we use custom sorting
+      $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
+ 
+      $MESSAGE['index'] = array_search((string)$_GET['_uid'], $a_msg_index, TRUE);
+      $prev = isset($a_msg_index[$MESSAGE['index']-1]) ? $a_msg_index[$MESSAGE['index']-1] : -1 ;
+      $next = isset($a_msg_index[$MESSAGE['index']+1]) ? $a_msg_index[$MESSAGE['index']+1] : -1 ;
+  } else {
+      // this assumes that we are sorted by date_DESC
+      $seq = $IMAP->get_id($_GET['_uid']);
+      $prev = $IMAP->get_uid($seq + 1);
+      $next = $IMAP->get_uid($seq - 1);
+      $MESSAGE['index'] = $IMAP->messagecount() - $seq;
+  }
   
-  if (isset($a_msg_index[$MESSAGE['index']-1]))
-    $javascript .= sprintf("\n%s.set_env('prev_uid', '%s');", $JS_OBJECT_NAME, $a_msg_index[$MESSAGE['index']-1]);
-  if (isset($a_msg_index[$MESSAGE['index']+1]))
-    $javascript .= sprintf("\n%s.set_env('next_uid', '%s');", $JS_OBJECT_NAME, $a_msg_index[$MESSAGE['index']+1]);
+  if ($prev > 0)
+    $javascript .= sprintf("\n%s.set_env('prev_uid', '%s');", $JS_OBJECT_NAME, $prev);
+  if ($next > 0)
+    $javascript .= sprintf("\n%s.set_env('next_uid', '%s');", $JS_OBJECT_NAME, $next);
 
   $OUTPUT->add_script($javascript);
   }

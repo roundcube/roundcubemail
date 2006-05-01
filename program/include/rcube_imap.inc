@@ -503,7 +503,7 @@ class rcube_imap
       $begin = 0;
       $end = $max;
       }
-    else if ($this->sort_order=='DESC')
+    else if (!$this->get_capability('sort') && $this->sort_order=='DESC')
       {
       $begin = $max - $this->page_size - $start_msg;
       $end =   $max - $start_msg;
@@ -581,8 +581,13 @@ class rcube_imap
 
 
     // if not already sorted
-    if (!$headers_sorted)
-      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+//    if (!$headers_sorted)
+//      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+
+
+      if (!$headers_sorted && $this->sort_order == 'DESC')
+        $a_msg_headers = array_reverse($a_msg_headers);
+      
 
     return array_values($a_msg_headers);
     }
@@ -728,8 +733,7 @@ class rcube_imap
     return $deleted_count;
     }
     
-
-
+  
   // return sorted array of message UIDs
   function message_index($mbox='', $sort_field=NULL, $sort_order=NULL)
     {
@@ -759,17 +763,13 @@ class rcube_imap
 
     // fetch complete message index
     $msg_count = $this->_messagecount($mailbox);
-    if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field)))
+    if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, '', TRUE)))
       {
-      $a_uids = iil_C_FetchUIDs($this->conn, $mailbox);
-
       if ($this->sort_order == 'DESC')
         $a_index = array_reverse($a_index);
 
-      $i = 0;
-      $this->cache[$key] = array();
-      foreach ($a_index as $index => $value)
-        $this->cache[$key][$i++] = $a_uids[$value];
+      $this->cache[$key] = $a_index;
+
       }
     else
       {
@@ -1479,14 +1479,14 @@ class rcube_imap
       $header = iil_C_FetchHeader($this->conn, $mailbox, "$msg_count");
       $cache_uid = array_pop($cache_index);
       
-      // uids of highes message matches -> cache seems OK
+      // uids of highest message matches -> cache seems OK
       if ($cache_uid == $header->uid)
         return 1;
 
       // cache is dirty
       return -1;
       }
-    // if cache count differs less that 10% report as dirty
+    // if cache count differs less than 10% report as dirty
     else if (abs($msg_count - $cache_count) < $msg_count/10)
       return -1;
     else
@@ -1835,6 +1835,15 @@ class rcube_imap
     return array_merge($a_defaults, $a_out);
     }
 
+  function get_id($uid) 
+    {
+      return $this->_uid2id($uid);
+    }
+  
+  function get_uid($id)
+    {
+      return $this->_id2uid($id);
+    }
 
   function _uid2id($uid, $mbox=NULL)
     {
@@ -1845,6 +1854,14 @@ class rcube_imap
       $this->uid_id_map[$mbox][$uid] = iil_C_UID2ID($this->conn, $mbox, $uid);
 
     return $this->uid_id_map[$mbox][$uid];
+    }
+
+  function _id2uid($id, $mbox=NULL)
+    {
+    if (!$mbox)
+      $mbox = $this->mailbox;
+      
+    return iil_C_ID2UID($this->conn, $mbox, $id);
     }
 
 
