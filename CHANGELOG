@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Added charset to javascript HTTP headers
 - Fixed Opera bug with CC and BCC fields
 - Pimped search function
+- Applied attachment viewing/forwarding patches by Andrew Fladmark
 - Applied prev/next patch by Leonard Bouchet
 - Applied patches by Mark Bucciarelli
 - Applied patch for requesting receipts by Salvatore Ansani
