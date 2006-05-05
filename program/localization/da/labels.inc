@@ -21,7 +21,6 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
 $labels['username']  = 'Brugernavn';
 $labels['password']  = 'Adgangskode';
 $labels['server']    = 'Server';

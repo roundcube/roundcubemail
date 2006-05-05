@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Paolo Asperti <paolo@asperti.com>                              |
+ | Author: Paolo Asperti <paolo@asperti.com>                             |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
+$labels['welcome']   = 'Benvenuto a $product';
 $labels['username']  = 'Utente';
 $labels['password']  = 'Password';
 $labels['server']    = 'Server';

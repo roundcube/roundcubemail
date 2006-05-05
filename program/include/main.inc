@@ -720,7 +720,7 @@ function rcube_remote_response($js_code, $flush=FALSE)
     {
     $s_header_sent = TRUE;
     send_nocacheing_headers();
-    header('Content-Type: application/x-javascript');
+    header('Content-Type: application/x-javascript; charset='.$CHARSET);
     print '/** remote response ['.date('d/M/Y h:i:s O')."] **/\n";
     }
 
@@ -1192,14 +1192,16 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         $task = $GLOBALS['_task'];
         $title = !empty($CONFIG['product_name']) ? $CONFIG['product_name'].' :: ' : '';
         
-        if ($task=='mail' && isset($GLOBALS['MESSAGE']['subject']))
+        if ($task=='login')
+          $title = rcube_label(array('name' => 'welcome', 'vars' => array('product' => $CONFIG['product_name'])));
+        else if ($task=='mail' && isset($GLOBALS['MESSAGE']['subject']))
           $title .= $GLOBALS['MESSAGE']['subject'];
         else if (isset($GLOBALS['PAGE_TITLE']))
           $title .= $GLOBALS['PAGE_TITLE'];
         else if ($task=='mail' && ($mbox_name = $IMAP->get_mailbox_name()))
           $title .= rcube_charset_convert($mbox_name, 'UTF-7', 'UTF-8');
         else
-          $title .= $task;
+          $title .= ucfirst($task);
           
         return rep_specialchars_output($title, 'html', 'all');
         }

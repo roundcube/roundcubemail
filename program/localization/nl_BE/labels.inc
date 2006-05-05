@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
+$labels['welcome']   = 'Onthaal aan $product';
 $labels['username']  = 'Gebruikersnaam';
 $labels['password']  = 'Wachtwoord';
 $labels['server']    = 'Server';

@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/labels.inc                                                |
+ | language/en_US/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
+$labels['welcome']   = 'Welcome to $product';
 $labels['username']  = 'Username';
 $labels['password']  = 'Password';
 $labels['server']    = 'Server';

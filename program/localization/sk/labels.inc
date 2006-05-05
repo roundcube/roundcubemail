@@ -17,8 +17,8 @@
 */
 
 $labels = array();
+
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
 $labels['username']  = 'Prihlasovacie meno';
 $labels['password']  = 'Heslo';
 $labels['server']    = 'Server';
