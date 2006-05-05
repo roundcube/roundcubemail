@@ -1229,7 +1229,7 @@ function rcube_button($attrib)
   if ($attrib['type'])
     $attrib['type'] = strtolower($attrib['type']);
   else
-    $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $arg['imagect']) ? 'image' : 'link';
+    $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $arg['imageact']) ? 'image' : 'link';
   
   
   $command = $attrib['command'];
@@ -1239,7 +1239,7 @@ function rcube_button($attrib)
     $attrib = $sa_buttons[$attrib['name']];
 
   // add button to button stack
-  else if($attrib['image'] || $arg['imagect'] || $attrib['imagepas'] || $attrib['class'])
+  else if($attrib['image'] || $arg['imageact'] || $attrib['imagepas'] || $attrib['class'])
     {
     if(!$attrib['name'])
       $attrib['name'] = $command;
