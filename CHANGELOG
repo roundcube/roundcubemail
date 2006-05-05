@@ -1,10 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2006/05/01
+2006/05/05
 ----------
+- Fixed typos in function rcube_button() (Bugs #1473198 and #1473201)
+- Check for zlib.output_compression before using ob_gzhandler (Bug #1471069)
+- Casting date parts in iil_StrToTime() to avoid warnings (Bug #1482140)
+- Corrected INSTALL description (Bug #1476106)
 - Added charset to javascript HTTP headers
-- Fixed Opera bug with CC and BCC fields
+- Fixed Opera bug with CC and BCC fields (Bug #1474576)
+- Changed login page title regarding product name (Bug #1476413)
 - Pimped search function
 - Applied attachment viewing/forwarding patches by Andrew Fladmark
 - Applied prev/next patch by Leonard Bouchet
