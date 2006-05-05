@@ -43,6 +43,7 @@
 		- Removed <br> from error messages (better for logging)
 		- Added patch to iil_C_Sort() enabling UID SORT commands
 		- Added function iil_C_ID2UID()
+		- Casting date parts in iil_StrToTime() to avoid mktime() warnings
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -614,14 +615,14 @@ function iil_StrToTime($str){
 	$month_str=$a[1];
 	$month=$IMAP_MONTHS[$month_str];
 	$day=(int)$a[0];
-	$year=$a[2];
+	$year=(int)$a[2];
 	$time=$a[3];
 	$tz_str = $a[4];
 	$tz = substr($tz_str, 0, 3);
-	$ta=explode(":",$time);
+	$ta = explode(":",$time);
 	$hour=(int)$ta[0]-(int)$tz;
-	$minute=$ta[1];
-	$second=$ta[2];
+	$minute=(int)$ta[1];
+	$second=(int)$ta[2];
 	
 	//make UNIX timestamp
 	$time2 = mktime($hour, $minute, $second, $month, $day, $year);
