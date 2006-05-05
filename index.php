@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060501                                                  |
+ | Version 0.1-20060505                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060501');
+define('RCMAIL_VERSION', '0.1-20060505');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -82,7 +82,7 @@ require_once('PEAR.php');
 // PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
 
 // use gzip compression if supported
-if (function_exists('ob_gzhandler'))
+if (function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
   ob_start('ob_gzhandler');
 
 
