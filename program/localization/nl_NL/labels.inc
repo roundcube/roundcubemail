@@ -19,16 +19,16 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Onthaal aan $product';
+$labels['welcome']   = 'Welkom bij $product';
 $labels['username']  = 'Gebruikersnaam';
 $labels['password']  = 'Wachtwoord';
 $labels['server']    = 'Server';
 $labels['login']     = 'Login';
 
 // taskbar
-$labels['logout']   = 'Logout';
+$labels['logout']   = 'Uitloggen';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Gebruikers Instellingen';
+$labels['settings'] = 'Persoonlijke Instellingen';
 $labels['addressbook'] = 'Adresboek';
 
 // mailbox names
@@ -92,12 +92,12 @@ $labels['today'] = 'Vandaag';
 // toolbar buttons
 $labels['writenewmessage']  = 'Nieuw bericht';
 $labels['replytomessage']   = 'Beantwoord het bericht';
-$labels['replytoallmessage'] = 'Beantwoord alle ontvangerss';
+$labels['replytoallmessage'] = 'Beantwoord alle ontvangers';
 $labels['forwardmessage']   = 'Bericht doorsturen';
 $labels['deletemessage']    = 'Verplaats het bericht naar de prullenbak';
 $labels['printmessage']     = 'Dit bericht afdrukken';
-$labels['previousmessages'] = 'Vorige voorgaande berichtenset laten zien';
-$labels['nextmessages']     = 'Volgende berichtenset laten zien';
+$labels['previousmessages'] = 'Toon vorige lijst met berichten';
+$labels['nextmessages']     = 'Toon volgende lijst met berichten';
 $labels['backtolist']       = 'Terug naar berichtenoverzicht';
 $labels['viewsource']       = 'Toon bron';
 
@@ -111,17 +111,23 @@ $labels['empty'] = 'Legen';
 $labels['purge'] = 'Purge';
 
 $labels['quota'] = 'Schijfruimte gebruik';
+$labels['unknown']  = 'onbekend';
+$labels['unlimited']  = 'onbeperkt';
+
+$labels['quicksearch']  = 'Snel zoeken';
+$labels['resetsearch']  = 'Reset zoekopdracht';
 
 
 // message compose
 $labels['compose']  = 'Maak een bericht';
 $labels['sendmessage']  = 'Verstuur het bericht nu';
-$labels['addattachment']  = 'Voeg een bestand toe';
+$labels['addattachment']  = 'Voeg een bijlage toe';
 $labels['charset']  = 'karakterset';
+$labels['returnreceipt'] = 'Ontvangstbevestiging';
 
-$labels['attachments'] = 'bijgesloten bestanden';
-$labels['upload'] = 'Upload';
-$labels['close']  = 'Sluiten';
+$labels['attachments'] = 'Bijlages';
+$labels['upload'] = 'Toevoegen';
+$labels['close']  = 'Sluit';
 
 $labels['low']     = 'Laag';
 $labels['lowest']  = 'Laagste';
@@ -155,11 +161,15 @@ $labels['contactsfromto'] = 'Contacten $from t/m $to van $count';
 $labels['print']          = 'Afdrukken';
 $labels['export']         = 'Exporteren';
 
+$labels['previouspage']   = 'Vorige pagina';
+$labels['nextpage']       = 'Volgende pagina';
+
+
 // LDAP search
 $labels['ldapsearch'] = 'LDAP adresboek zoeken';
 
 $labels['ldappublicsearchname']    = 'Naam van contactpersoon';
-$labels['ldappublicsearchtype'] = 'precies matchen?';
+$labels['ldappublicsearchtype'] = 'Precies matchen?';
 $labels['ldappublicserverselect'] = 'Selecteer servers';
 $labels['ldappublicsearchfield'] = 'Zoek op';
 $labels['ldappublicsearchform'] = 'Zoek een contactpersoon';
@@ -185,6 +195,7 @@ $labels['language']  = 'Taal';
 $labels['timezone']  = 'Tijdszone';
 $labels['pagesize']  = 'Rijen per pagina';
 $labels['signature'] = 'Onderschrift';
+$labels['dstactive']  = 'Zomertijd';
 
 $labels['folder']  = 'Map';
 $labels['folders']  = 'Mappen';
