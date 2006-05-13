@@ -20,7 +20,7 @@ $messages = array();
 
 $messages['loginfailed']  = 'Inloggen mislukt';
 
-$messages['cookiesdisabled'] = 'De browser accepteerd geen cookies';
+$messages['cookiesdisabled'] = 'De browser accepteert geen cookies';
 
 $messages['sessionerror'] = 'De sessie is verlopen of ongeldig';
 
@@ -87,5 +87,11 @@ $messages['noldapserver'] = 'Geef een LDAP adresboek server op om te doorzoeken'
 $messages['nocontactsreturned'] = 'Er zijn geen contactpersonen gevonden';
 
 $messages['nosearchname'] = 'Geef de naam of e-mail op van de contactpersoon';
+
+$messages['searchsuccessful'] = '$nr berichten gevonden';
+
+$messages['searchnomatch'] = 'Zoekopdracht heeft geen resultaten opgeleverd';
+
+$messages['searching'] = 'Bezig met zoeken...';
 
 ?>
