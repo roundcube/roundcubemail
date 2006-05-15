@@ -3012,8 +3012,11 @@ function rcube_webmail()
   this.http_response = function(request_obj)
     {
     var ctype = request_obj.get_header('Content-Type');
-    if (ctype)
+    if (ctype){
       ctype = String(ctype).toLowerCase();
+      var ctype_array=ctype.split(";");
+      ctype = ctype_array[0];
+    }
 
     if (request_obj.__lock)
       this.set_busy(false);
