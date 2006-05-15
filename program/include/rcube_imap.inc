@@ -856,7 +856,7 @@ class rcube_imap
     $mailbox = $mbox ? $this->_mod_mailbox($mbox) : $this->mailbox;
     if ($str && $criteria)
       {
-      $criteria .= ' CHARSET UTF-8 "'.UTF7EncodeString($str).'"';
+      $criteria = 'CHARSET UTF-8 '.$criteria.' "'.UTF7EncodeString($str).'"';
       return $this->_search_index($mailbox, $criteria);
       }
     else
@@ -876,9 +876,12 @@ class rcube_imap
     $a_messages = iil_C_Search($this->conn, $mailbox, $criteria);
     
     // clean message list (there might be some empty entries)
-    foreach ($a_messages as $i => $val)
-      if (empty($val))
-        unset($a_messages[$i]);
+    if (is_array($a_messages))
+      {
+      foreach ($a_messages as $i => $val)
+        if (empty($val))
+          unset($a_messages[$i]);
+      }
         
     return $a_messages;
     }
