@@ -1206,6 +1206,7 @@ function rcube_webmail()
 
   // get next and previous rows that are not hidden
   this.get_next_row = function(){
+  	if (!this.list_rows) return false;
     var last_selected_row = this.list_rows[this.last_selected];
     var new_row = last_selected_row.obj.nextSibling;
     while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) {
@@ -1215,6 +1216,7 @@ function rcube_webmail()
   }
   
   this.get_prev_row = function(){
+    if (!this.list_rows) return false;
     var last_selected_row = this.list_rows[this.last_selected];
     var new_row = last_selected_row.obj.previousSibling;
     while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) {
@@ -1543,7 +1545,7 @@ function rcube_webmail()
       next_row = this.get_next_row();
       prev_row = this.get_prev_row();
       new_row = (next_row) ? next_row : prev_row;
-      this.select_row(new_row.uid,false,false);
+      if (new_row) this.select_row(new_row.uid,false,false);
       }
       
     var lock = false;
@@ -1584,7 +1586,7 @@ function rcube_webmail()
       next_row = this.get_next_row();
       prev_row = this.get_prev_row();
       new_row = (next_row) ? next_row : prev_row;
-      this.select_row(new_row.uid,false,false);
+      if (new_row) this.select_row(new_row.uid,false,false);
 
     // send request to server
     this.http_request('delete', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_from='+(this.env.action ? this.env.action : ''));
@@ -1605,11 +1607,15 @@ function rcube_webmail()
       this.permanently_remove_messages();
     // if there isn't a defined trash mailbox and the config is set to flag for deletion
     else if (!this.env.trash_mailbox && this.env.flag_for_deletion) {
-      this.mark_message('delete');
-      next_row = this.get_next_row();
-      prev_row = this.get_prev_row();
-      new_row = (next_row) ? next_row : prev_row;
-      this.select_row(new_row.uid,false,false);
+      this.mark_message('delete',this.env.uid);
+      if(this.env.action=="show"){
+        this.command('nextmessage','',this);
+      } else {
+        next_row = this.get_next_row();
+        prev_row = this.get_prev_row();
+        new_row = (next_row) ? next_row : prev_row;
+        if (new_row) this.select_row(new_row.uid,false,false);
+      }
     // if there isn't a defined trash mailbox and the config is set NOT to flag for deletion
     }else if (!this.env.trash_mailbox && !this.env.flag_for_deletion) {
       this.permanently_remove_messages();
@@ -1691,6 +1697,9 @@ function rcube_webmail()
     if (this.env.read_when_deleted) {
       this.toggle_read_status('read',a_uids);
     }
+    // if deleting message from "view message" don't bother with delete icon
+    if (this.env.action == "show")
+      return false;
 
     var icn_src;
     for (var i=0; i<a_uids.length; i++)
