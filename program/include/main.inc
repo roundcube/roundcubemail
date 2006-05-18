@@ -78,7 +78,7 @@ function rcmail_startup($task='mail')
     
   // we can use the database for storing session data
   // session queries do not work with MDB2
-  if ($CONFIG['db_backend']!='mdb2' && !$DB->is_error())
+  if (!$DB->is_error())
     include_once('include/session.inc');
 
   // init session
