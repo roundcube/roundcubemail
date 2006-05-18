@@ -19,7 +19,8 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Логин';
+$labels['welcome']   = 'Добро пожаловать в $product';
+$labels['username']  = 'Имя пользователя';
 $labels['password']  = 'Пароль';
 $labels['server']    = 'Сервер';
 $labels['login']     = 'Войти';
@@ -39,8 +40,8 @@ $labels['junk']   = 'СПАМ';
 
 // message listing
 $labels['subject'] = 'Тема';
-$labels['from']    = 'Отправитель';
-$labels['to']      = 'Получатель';
+$labels['from']    = 'От';
+$labels['to']      = 'Кому';
 $labels['cc']      = 'Копия';
 $labels['bcc']     = 'Скрытая';
 $labels['replyto'] = 'Обратный адрес';
@@ -110,6 +111,11 @@ $labels['empty'] = 'Опустошить';
 $labels['purge'] = 'Очистить';
 
 $labels['quota'] = 'Квота';
+$labels['unknown']  = 'неизвестно';
+$labels['unlimited']  = 'без ограничений';
+
+$labels['quicksearch']  = 'Быстрый поиск';
+$labels['resetsearch']  = 'Сброс';
 
 
 // message compose
@@ -117,6 +123,7 @@ $labels['compose']  = 'Написать сообщение';
 $labels['sendmessage']  = 'Отправить сейчас';
 $labels['addattachment']  = 'Добавить вложение';
 $labels['charset']  = 'Кодировка';
+$labels['returnreceipt'] = 'Запрос ответа';
 
 $labels['attachments'] = 'Вложения';
 $labels['upload'] = 'Загрузить';
@@ -154,6 +161,9 @@ $labels['contactsfromto'] = 'Контакты с $from по $to из $count';
 $labels['print']          = 'Печать';
 $labels['export']         = 'Экспорт';
 
+$labels['previouspage']   = 'Показать предыдущий';
+$labels['nextpage']       = 'Показать следующий';
+
 // LDAP search
 $labels['ldapsearch'] = 'Поиск в каталоге LDAP';
 
@@ -184,6 +194,7 @@ $labels['language']  = 'Язык';
 $labels['timezone']  = 'Часовой пояс';
 $labels['pagesize']  = 'Строк на странице';
 $labels['signature'] = 'Подпись';
+$labels['dstactive']  = 'Перевод часов';
 
 $labels['folder']  = 'Папка';
 $labels['folders']  = 'Папки';
