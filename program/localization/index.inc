@@ -24,6 +24,7 @@
 	'en_US' => 'English (US)',
 	'en_GB' => 'English (GB)',
 	'ar'    => 'Arabic',
+	'am'    => 'Armenian',
 	'bg'    => 'Bulgarian',
 	'bs_BA' => 'Bosnian (Bosanski)',
 	'tw'    => 'Chinese (BIG5)',
