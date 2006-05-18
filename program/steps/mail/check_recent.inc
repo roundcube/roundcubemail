@@ -20,14 +20,14 @@
 */
 
 $REMOTE_REQUEST = TRUE;
-$mbox = $IMAP->get_mailbox_name();
+$mbox_name = $IMAP->get_mailbox_name();
 
 if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
   {
   $count = $IMAP->messagecount();
   $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
     
-  $commands = sprintf("this.set_unread_count('%s', %d, true);\n", addslashes($mbox), $unread_count);
+  $commands = sprintf("this.set_unread_count('%s', %d, true);\n", addslashes($mbox_name), $unread_count);
   $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
   $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
   $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
@@ -40,7 +40,7 @@ if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
   $commands .= rcmail_js_message_list($a_headers, TRUE);
   }
 
-if (strtoupper($mbox)!='INBOX' && $IMAP->messagecount('INBOX', 'RECENT'))
+if (strtoupper($mbox_name)!='INBOX' && $IMAP->messagecount('INBOX', 'RECENT'))
   $commands = sprintf("this.set_unread_count('INBOX', %d);\n", $IMAP->messagecount('INBOX', 'UNSEEN'));
 
 

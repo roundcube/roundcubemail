@@ -46,16 +46,16 @@ else
 if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
   {
   $a_msgs = split(',', $_SESSION['search'][$_GET['_search']]);
-  $a_headers = $IMAP->list_header_set($mbox, $a_msgs, NULL, $sort_col, $sort_order);
+  $a_headers = $IMAP->list_header_set($mbox_name, $a_msgs, NULL, $sort_col, $sort_order);
   $count = count($a_msgs);
   }
 else
   {
   if ($count = $IMAP->messagecount())
-    $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order);
+    $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
   }
 
-$unseen = $IMAP->messagecount($mbox, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
+$unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);
@@ -64,8 +64,8 @@ $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count));
 
 // update mailboxlist
-$mbox = $IMAP->get_mailbox_name();
-$commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox), $unseen);
+$mbox_name = $IMAP->get_mailbox_name();
+$commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_name), $unseen);
 
 
 // add message rows

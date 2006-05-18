@@ -25,9 +25,9 @@ $a_folders = $IMAP->list_mailboxes();
 
 if (!empty($a_folders))
   {
-  foreach ($a_folders as $mbox)
+  foreach ($a_folders as $mbox_row)
     {
-    $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
+    $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox_row, $IMAP->messagecount($mbox_row, 'UNSEEN'));
     rcube_remote_response($commands, TRUE);
     }
   }

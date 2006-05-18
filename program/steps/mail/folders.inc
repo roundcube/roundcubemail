@@ -19,7 +19,7 @@
 */
 
 $REMOTE_REQUEST = TRUE;
-$mbox = $IMAP->get_mailbox_name();
+$mbox_name = $IMAP->get_mailbox_name();
 
 
 // send EXPUNGE command
@@ -49,7 +49,7 @@ else if ($_action=='purge')
     $commands .= "this.set_env('messagecount', 0);\n";
     $commands .= "this.set_env('pagecount', 0);\n";
     $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
-    $commands .= sprintf("this.set_unread_count('%s', 0);\n", addslashes($mbox));
+    $commands .= sprintf("this.set_unread_count('%s', 0);\n", addslashes($mbox_name));
     }
   else
     $commands = "// purged: $success";

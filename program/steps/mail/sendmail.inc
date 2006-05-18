@@ -286,12 +286,12 @@ if ($CONFIG['sent_mbox'])
 
   // check if mailbox exists
   if (!in_array_nocase($CONFIG['sent_mbox'], $IMAP->list_mailboxes()))
-    $mbox = $IMAP->create_mailbox($CONFIG['sent_mbox'], TRUE);
+    $sent_folder = $IMAP->create_mailbox($CONFIG['sent_mbox'], TRUE);
   else
-    $mbox = TRUE;
+    $sent_folder = TRUE;
 
   // append message to sent box
-  if ($mbox)
+  if ($sent_folder)
     $saved = $IMAP->save_message($CONFIG['sent_mbox'], $header_str."\r\n".$msg_body);
 
   // raise error if saving failed

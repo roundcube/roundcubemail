@@ -1,5 +1,4 @@
 <?php
-
 /*
  +-----------------------------------------------------------------------+
  | program/steps/mail/mark.inc                                           |
@@ -32,8 +31,8 @@ if ($_GET['_uid'] && $_GET['_flag'])
   $marked = $IMAP->set_flag($_GET['_uid'], $flag);
   if ($marked != -1)
     {
-    $mbox = $IMAP->get_mailbox_name();
-    $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
+    $mbox_name = $IMAP->get_mailbox_name();
+    $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'));
     rcube_remote_response($commands);
     }
   }
