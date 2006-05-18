@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/05/18
+----------
+- Added Arabic and Armenian localizations
+- Updated Russian localization
+- Removed MDB2 classes from repository. Install them seperately if used.
+- Updated MDB2 wrapper class contributed by Lukas Kahwe Smith
+- Allow & in e-mail addresses
+
+
 2006/05/05
 ----------
 - Fixed typos in function rcube_button() (Bugs #1473198 and #1473201)
