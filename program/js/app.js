@@ -274,6 +274,9 @@ function rcube_webmail()
     var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
     var mod_key = this.get_modifier(e);
     switch (keyCode) {
+      case 13:
+        this.command('show','',this);
+        break;
       case 40:
       case 38: 
         return this.use_arrow_key(keyCode, mod_key, msg_list_frame);
@@ -284,6 +287,7 @@ function rcube_webmail()
       default:
         return true;
     }
+    return true;
   }
 
   this.use_arrow_key = function(keyCode, mod_key, msg_list_frame) {
@@ -1099,7 +1103,7 @@ function rcube_webmail()
       return false;
 
     // selects currently unselected row
-    if (!this.in_selection_before)
+    if (!this.in_selection_before && !this.list_rows[id].clicked)
     {
 	  var mod_key = this.get_modifier(e);
 	  this.select_row(id,mod_key,false);
@@ -1129,14 +1133,14 @@ function rcube_webmail()
       }
     
     // unselects currently selected row    
-    if (!this.drag_active && this.in_selection_before==id)
+    if (!this.drag_active && this.in_selection_before==id && !this.list_rows[id].clicked)
       this.select_row(id,mod_key,false);
 
     this.drag_start = false;
     this.in_selection_before = false;
         
     // row was double clicked
-    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && !mod_key)
+    if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && this.in_selection(id))
       {
       this.show_message(id);
       return false;
