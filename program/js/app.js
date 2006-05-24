@@ -1715,7 +1715,7 @@ function rcube_webmail()
       return false;
 
     if (a_uids.length==1){
-      if(this.message_rows[uid].classname.indexOf('deleted') < 0 ){
+      if(this.message_rows[a_uids[0]].classname.indexOf('deleted') < 0 ){
       	this.flag_as_deleted(a_uids)
       } else {
       	this.flag_as_undeleted(a_uids)
