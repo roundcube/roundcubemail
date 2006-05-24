@@ -29,6 +29,7 @@ function rcube_webmail()
   this.commands = new Object();
   this.selection = new Array();
   this.last_selected = 0;
+  this.in_message_list = false;
 
   // create public reference to myself
   rcube_webmail_client = this;
@@ -256,8 +257,8 @@ function rcube_webmail()
   // reset last clicked if user clicks on anything other than the message table
   this.reset_click = function()
     {
-	this.in_message_list = false;
-	};
+    this.in_message_list = false;
+    };
 	
   this.click_on_list = function(e)
     {
@@ -328,8 +329,12 @@ function rcube_webmail()
       for(var r=0; r<msg_list.tBodies[0].childNodes.length; r++)
         {
         row = msg_list.tBodies[0].childNodes[r];
+        while (row && (row.nodeType != 1 || row.style.display == 'none')) {
+          row = row.nextSibling;
+          r++;
+        }
         //row = msg_list.tBodies[0].rows[r];
-        this.init_message_row(row);
+        if (row) this.init_message_row(row);
         }
       }
       
@@ -989,7 +994,7 @@ function rcube_webmail()
   // set command enabled or disabled
   this.enable_command = function()
     {
-    var args = this.enable_command.arguments;
+    var args = arguments;
     if(!args.length) return -1;
 
     var command;
@@ -1001,6 +1006,7 @@ function rcube_webmail()
       this.commands[command] = enable;
       this.set_button(command, (enable ? 'act' : 'pas'));
       }
+      return true;
     };
 
 
@@ -1355,9 +1361,11 @@ function rcube_webmail()
     // reset selection first
     this.clear_selection();
     
-    for (var n in this.list_rows)
+    for (var n in this.list_rows) {
       if (!filter || this.list_rows[n][filter]==true)
-      this.highlight_row(n, true);
+        this.highlight_row(n, true);
+    }
+    return true;  
     };
     
 
@@ -1520,6 +1528,7 @@ function rcube_webmail()
     // send request to server
     var url = '_mbox='+escape(mbox);
     this.http_request('purge', url+add_url, lock);
+    return true;
     };
     
 
@@ -1611,10 +1620,11 @@ function rcube_webmail()
       this.permanently_remove_messages();
     // if there isn't a defined trash mailbox and the config is set to flag for deletion
     else if (!this.env.trash_mailbox && this.env.flag_for_deletion) {
-      this.mark_message('delete',this.env.uid);
+      flag = 'delete';
+      this.mark_message(flag);
       if(this.env.action=="show"){
         this.command('nextmessage','',this);
-      } else {
+      } else if (this.selection.length == 1) {
         next_row = this.get_next_row();
         prev_row = this.get_prev_row();
         new_row = (next_row) ? next_row : prev_row;
@@ -1653,11 +1663,9 @@ function rcube_webmail()
           break;
         case 'delete':
         case 'undelete':
-          this.toggle_delete_status(flag,a_uids);
+          this.toggle_delete_status(a_uids);
           break;
       }
-    // send request to server
-    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
     };
 
   // set class to read/unread
@@ -1694,10 +1702,11 @@ function rcube_webmail()
           this.message_rows[uid].icon.src = icn_src;
         }
       }
+      this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   }
   
   // mark all message rows as deleted/undeleted
-  this.toggle_delete_status = function(flag, a_uids) {
+  this.toggle_delete_status = function(a_uids) {
     if (this.env.read_when_deleted) {
       this.toggle_read_status('read',a_uids);
     }
@@ -1705,41 +1714,86 @@ function rcube_webmail()
     if (this.env.action == "show")
       return false;
 
-    var icn_src;
-    for (var i=0; i<a_uids.length; i++)
-      {
+    if (a_uids.length==1){
+      if(this.message_rows[uid].classname.indexOf('deleted') < 0 ){
+      	this.flag_as_deleted(a_uids)
+      } else {
+      	this.flag_as_undeleted(a_uids)
+      }
+      return true;
+    }
+    
+    var all_deleted = true;
+    
+    for (var i=0; i<a_uids.length; i++) {
       uid = a_uids[i];
-      if (this.message_rows[uid])
-        {
-        this.message_rows[uid].deleted = (flag=='undelete' ? false : true);
-        
-        if (this.message_rows[uid].classname.indexOf('deleted')<0 && this.message_rows[uid].deleted)
-          {
-          this.message_rows[uid].classname += ' deleted';
-          this.set_classname(this.message_rows[uid].obj, 'deleted', true);
-
-          if (this.env.deletedicon)
-            icn_src = this.env.deletedicon;
-          }
-        else if (!this.message_rows[uid].deleted)
-          {
-          this.message_rows[uid].classname = this.message_rows[uid].classname.replace(/\s*deleted/, '');
-          this.set_classname(this.message_rows[uid].obj, 'deleted', false);
-
-          if (this.message_rows[uid].unread && this.env.unreadicon)
-            icn_src = this.env.unreadicon;
-          else if (this.message_rows[uid].replied && this.env.repliedicon)
-            icn_src = this.env.repliedicon;
-          else if (this.env.messageicon)
-            icn_src = this.env.messageicon;
-          }
-
-        if (this.message_rows[uid].icon && icn_src)
-          this.message_rows[uid].icon.src = icn_src;
+      if (this.message_rows[uid]) {
+        if (this.message_rows[uid].classname.indexOf('deleted')<0) {
+          all_deleted = false;
+          break;
         }
       }
+    }
+    
+    if (all_deleted)
+      this.flag_as_undeleted(a_uids);
+    else
+      this.flag_as_deleted(a_uids);
+    
+    return true;
   }
 
+  this.flag_as_undeleted = function(a_uids){
+    // if deleting message from "view message" don't bother with delete icon
+    if (this.env.action == "show")
+      return false;
+
+    var icn_src;
+      
+    for (var i=0; i<a_uids.length; i++) {
+      uid = a_uids[i];
+      if (this.message_rows[uid]) {
+        this.message_rows[uid].deleted = false;
+        
+        if (this.message_rows[uid].classname.indexOf('deleted') > 0) {
+          this.message_rows[uid].classname = this.message_rows[uid].classname.replace(/\s*deleted/, '');
+          this.set_classname(this.message_rows[uid].obj, 'deleted', false);
+        }
+        if (this.message_rows[uid].unread && this.env.unreadicon)
+          icn_src = this.env.unreadicon;
+        else if (this.message_rows[uid].replied && this.env.repliedicon)
+          icn_src = this.env.repliedicon;
+        else if (this.env.messageicon)
+          icn_src = this.env.messageicon;
+        if (this.message_rows[uid].icon && icn_src)
+          this.message_rows[uid].icon.src = icn_src;
+      }
+    }
+    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag=undelete');
+    return true;
+  }
+  
+  this.flag_as_deleted = function(a_uids) {
+    // if deleting message from "view message" don't bother with delete icon
+    if (this.env.action == "show")
+      return false;
+
+    for (var i=0; i<a_uids.length; i++) {
+      uid = a_uids[i];
+      if (this.message_rows[uid]) {
+        this.message_rows[uid].deleted = true;
+        
+        if (this.message_rows[uid].classname.indexOf('deleted')<0) {
+          this.message_rows[uid].classname += ' deleted';
+          this.set_classname(this.message_rows[uid].obj, 'deleted', true);
+        }
+        if (this.message_rows[uid].icon && this.env.deletedicon)
+          this.message_rows[uid].icon.src = this.env.deletedicon;
+      }
+    }
+    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag=delete');
+    return true;  
+  }
 
   /*********************************************************/
   /*********        message compose methods        *********/
@@ -1853,6 +1907,7 @@ function rcube_webmail()
       input_message.value = message;
       
     this.env.identity = id;
+    return true;
     };
 
 
@@ -1880,6 +1935,8 @@ function rcube_webmail()
     // clear upload form
     if (!a && this.gui_objects.attachmentform && this.gui_objects.attachmentform!=this.gui_objects.messageform)
       this.gui_objects.attachmentform.reset();
+    
+    return true;  
     };
 
 
@@ -1929,6 +1986,7 @@ function rcube_webmail()
     
     // set reference to the form object
     this.gui_objects.attachmentform = form;
+    return true;
     };
 
 
@@ -1942,6 +2000,7 @@ function rcube_webmail()
     var li = document.createElement('LI');
     li.innerHTML = name;
     this.gui_objects.attachmentlist.appendChild(li);
+    return true;
     };
 
 
@@ -1950,6 +2009,8 @@ function rcube_webmail()
     {
     if (value)
       this.http_request('addcontact', '_address='+value);
+    
+    return true;
     };
 
   // send remote request to search mail
@@ -1961,6 +2022,7 @@ function rcube_webmail()
       this.set_busy(true, 'searching');
       this.http_request('search', '_search='+value+'&_mbox='+mbox, true);
       }
+    return true;
     };
 
   // reset quick-search form
@@ -1970,6 +2032,7 @@ function rcube_webmail()
       this.gui_objects.qsearchbox.value = '';
       
     this.env.search_request = null;
+    return true;
     };
     
 
@@ -2271,6 +2334,7 @@ function rcube_webmail()
       this.set_busy(true);
       target.location.href = this.env.comm_path+'&_action='+action+'&_cid='+cid+add_url;
       }
+    return true;
     };
 
 
@@ -2307,6 +2371,7 @@ function rcube_webmail()
 
     // send request to server
     this.http_request('delete', '_cid='+a_cids.join(',')+'&_from='+(this.env.action ? this.env.action : ''));
+    return true;
     };
 
 
@@ -2317,10 +2382,11 @@ function rcube_webmail()
       return false;
       
     var row = this.contact_rows[cid].obj;
-    for (var c=0; c<cols_arr.length; c++)
+    for (var c=0; c<cols_arr.length; c++){
       if (row.cells[c])
         row.cells[c].innerHTML = cols_arr[c];
-
+    }
+    return true;
     };
   
   
@@ -2341,6 +2407,8 @@ function rcube_webmail()
 
     if (action == 'ldappublicsearch')
       target.location.href = this.env.comm_path+'&_action='+action+add_url;
+      
+    return true;
     };
  
   // add ldap contacts to address book
@@ -2378,7 +2446,7 @@ function rcube_webmail()
   this.load_identity = function(id, action)
     {
     if (action=='edit-identity' && (!id || id==this.env.iid))
-      return;
+      return false;
 
     var add_url = '';
     var target = window;
@@ -2394,6 +2462,7 @@ function rcube_webmail()
       this.set_busy(true);
       target.location.href = this.env.comm_path+'&_action='+action+'&_iid='+id+add_url;
       }
+    return true;
     };
 
 
@@ -2418,9 +2487,10 @@ function rcube_webmail()
 
     // if (this.env.framed && id)
       this.set_busy(true);
-      location.href = this.env.comm_path+'&_action=delete-identity&_iid='+id;
+      location.href = this.env.comm_path+'&_action=delete-identity&_iid='+id;     
     // else if (id)
     //  this.http_request('delete-identity', '_iid='+id);
+    return true;
     };
 
 
