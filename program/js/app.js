@@ -142,7 +142,11 @@ function rcube_webmail()
           }  
 
         if (this.env.action=='compose')
+          {
           this.enable_command('add-attachment', 'send-attachment', 'send', true);
+          if (this.env.spellcheck)
+            this.enable_command('spellcheck', true);
+          }
           
         if (this.env.messagecount)
           this.enable_command('select-all', 'select-none', 'sort', 'expunge', true);
@@ -875,7 +879,12 @@ function rcube_webmail()
           parent.location.href = url;
         else
           location.href = url;
-        break;    
+        break;
+        
+      case 'spellcheck':
+        if (this.env.spellcheck && this.env.spellcheck.spellCheck)
+          this.env.spellcheck.spellCheck(this.env.spellcheck.check_link);
+        break;
 
       case 'send':
         if (!this.gui_objects.messageform)

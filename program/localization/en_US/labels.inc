@@ -125,6 +125,10 @@ $labels['addattachment']  = 'Attach a file';
 $labels['charset']  = 'Charset';
 $labels['returnreceipt'] = 'Return receipt';
 
+$labels['checkspelling'] = 'Check spelling';
+$labels['resumeediting'] = 'Resume editing';
+$labels['revertto'] = 'Revert to';
+
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
 $labels['close']  = 'Close';

@@ -674,14 +674,14 @@ div.message-part pre
 #priority-selector
 {
   position: absolute;
-  left: 180px;
+  left: 220px;
   top: 10px;
 }
 
 #receipt-selector
 {
   position: absolute;
-  left: 350px;
+  left: 390px;
   top: 10px;
 }
 

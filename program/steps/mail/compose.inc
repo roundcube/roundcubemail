@@ -297,7 +297,7 @@ function rcmail_compose_header_from($attrib)
 
 function rcmail_compose_body($attrib)
   {
-  global $CONFIG, $OUTPUT, $REPLY_MESSAGE, $FORWARD_MESSAGE;
+  global $CONFIG, $OUTPUT, $REPLY_MESSAGE, $FORWARD_MESSAGE, $JS_OBJECT_NAME;
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -335,12 +335,28 @@ function rcmail_compose_body($attrib)
   $out .= $form_end ? "\n$form_end" : '';
   
   // include GoogieSpell
-  $OUTPUT->include_script('googiespell.js');
-  
-  $OUTPUT->add_script(sprintf("var googie1 = new GoogieSpell('\$__skin_path/images/googiespell/','%s&_action=spell&lang=');\n".
-                              "googie1.decorateTextarea('%s');",
-                              $GLOBALS['COMM_PATH'],
-                              $attrib['id']), 'foot');
+  if (!empty($CONFIG['enable_spellcheck']))
+    {
+    $OUTPUT->include_script('googiespell.js');
+    $OUTPUT->add_script(sprintf("var googie = new GoogieSpell('\$__skin_path/images/googiespell/','%s&_action=spell&lang=');\n".
+                                "googie.lang_chck_spell = \"%s\";\n".
+                                "googie.lang_rsm_edt = \"%s\";\n".
+                                "googie.lang_close = \"%s\";\n".
+                                "googie.lang_revert = \"%s\";\n".
+                                "googie.lang_no_error_found = \"%s\";\n".
+                                "googie.decorateTextarea('%s');\n".
+                                "%s.set_env('spellcheck', googie);",
+                                $GLOBALS['COMM_PATH'],
+                                rep_specialchars_output(rcube_label('checkspelling')),
+                                rep_specialchars_output(rcube_label('resumeediting')),
+                                rep_specialchars_output(rcube_label('close')),
+                                rep_specialchars_output(rcube_label('revertto')),
+                                rep_specialchars_output(rcube_label('nospellerrors')),
+                                $attrib['id'],
+                                $JS_OBJECT_NAME), 'foot');
+
+    rcube_add_label('checking');
+    }
   
   return $out;
   }

@@ -125,6 +125,10 @@ $labels['addattachment']  = 'Datei anfügen';
 $labels['charset']  = 'Zeichensatz';
 $labels['returnreceipt'] = 'Empfangsbestätigung';
 
+$labels['checkspelling'] = 'Rechtschreibung prüfen';
+$labels['resumeediting'] = 'Bearbeitung fortzetzen';
+$labels['revertto'] = 'Zurück zu';
+
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
 $labels['close']  = 'Schliessen';

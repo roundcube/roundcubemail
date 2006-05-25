@@ -1035,16 +1035,24 @@ GoogieSpell.getEventElm = function(e) {
 }
 
 GoogieSpell.prototype.removeIndicator = function(elm) {
-  AJS.removeElement(this.indicator);
+  // modified by roundcube
+  if (window.rcube_webmail_client)
+    rcube_webmail_client.set_busy(false);
+  //AJS.removeElement(this.indicator);
 }
 
 GoogieSpell.prototype.appendIndicator = function(elm) {
+  // modified by roundcube
+  if (window.rcube_webmail_client)
+    rcube_webmail_client.set_busy(true, 'checking');
+/*
   var img = AJS.IMG({'src': this.img_dir + 'indicator.gif', 'style': 'margin-right: 5px;'});
   img.style.width = "16px";
   img.style.height = "16px";
   this.indicator = img;
   img.style.textDecoration = "none";
   AJS.insertBefore(img, elm);
+  */
 }
 
 /****
@@ -1239,6 +1247,8 @@ GoogieSpell.prototype.checkSpellingState = function() {
     me.spellCheck(span_chck);
   }
   AJS.appendChildNodes(this.spell_container, span_chck, " ", this.switch_lan_pic);
+  // modified by roundcube
+  this.check_link = span_chck;
 }
 
 GoogieSpell.prototype.setLanguages = function(lang_dict) {

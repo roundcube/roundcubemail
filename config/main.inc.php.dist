@@ -141,6 +141,10 @@ $rcmail_config['read_when_deleted'] = TRUE;
 // false causes deleted messages to be permanantly removed if there is no Trash folder
 $rcmail_config['flag_for_deletion'] = TRUE;
 
+// Make use of the built-in spell checker. It is based on GoogieSpell
+// which means that the message content will be sent to Google in order to check spelling
+$rcmail_config['enable_spellcheck'] = TRUE;
+
 // path to a text file which will be added to each sent message
 // paths are relative to the RoundCube root folder
 $rcmail_config['generic_message_footer'] = '';

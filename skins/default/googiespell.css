@@ -43,10 +43,16 @@
 }
 
 .googie_list_close {
+  font-size: 11px;
   color: #b91414;
 }
 
+.googie_list_onhover .googie_list_close {
+  color: #FFFFFF;
+}
+
 .googie_list_revert {
+  font-size: 11px;
   color: #b91479;
 }
 
@@ -73,6 +79,7 @@
 
 .googie_check_spelling_ok {
   color: green;
+  font-size: 11px;
   text-decoration: underline;
   cursor: pointer;
 }

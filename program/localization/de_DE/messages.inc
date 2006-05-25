@@ -88,5 +88,14 @@ $messages['nocontactsreturned'] = 'Es wurden keine Kontakte gefunden';
 
 $messages['nosearchname'] = 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse ein';
 
+$messages['searchsuccessful'] = '$nr Nachrichten gefunden';
+
+$messages['searchnomatch'] = 'Keine Treffer';
+
+$messages['searching'] = 'Suche...';
+
+$messages['checking'] = 'Prüfe...';
+
+$messages['nospellerrors'] = 'Keine Rechtschreibfehler gefunden';
 
 ?>

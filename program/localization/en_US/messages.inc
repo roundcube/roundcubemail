@@ -94,4 +94,9 @@ $messages['searchnomatch'] = 'Search returned no matches';
 
 $messages['searching'] = 'Searching...';
 
+$messages['checking'] = 'Checking...';
+
+$messages['nospellerrors'] = 'No spelling errors found';
+
+
 ?>
