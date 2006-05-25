@@ -255,15 +255,29 @@ function rcube_webmail()
     };
 
   // reset last clicked if user clicks on anything other than the message table
-  this.reset_click = function()
-    {
+  this.reset_click = function() {
     this.in_message_list = false;
-    };
+	for (var n=0; n<this.selection.length; n++) {
+      id = this.selection[n];
+      if (this.list_rows[id].obj) {
+        this.set_classname(this.list_rows[id].obj, 'selected', false);
+		this.set_classname(this.list_rows[id].obj, 'unfocused', true);
+	  }
+    }
+  };
 	
   this.click_on_list = function(e)
     {
     if (!e)
       e = window.event;
+
+    for (var n=0; n<this.selection.length; n++) {
+      id = this.selection[n];
+      if (this.list_rows[id].obj) {
+        this.set_classname(this.list_rows[id].obj, 'selected', true);
+		this.set_classname(this.list_rows[id].obj, 'unfocused', false);
+	  }
+    }
 
     this.in_message_list = true;
     e.cancelBubble = true;
@@ -1253,7 +1267,7 @@ function rcube_webmail()
       if (!this.in_selection(id))  // select row
         {
         this.selection[this.selection.length] = id;
-        this.set_classname(this.list_rows[id].obj, 'selected', true);    
+        this.set_classname(this.list_rows[id].obj, 'selected', true);
         }
       else  // unselect row
         {
@@ -1262,6 +1276,7 @@ function rcube_webmail()
         var a_post = this.selection.slice(p+1, this.selection.length);
         this.selection = a_pre.concat(a_post);
         this.set_classname(this.list_rows[id].obj, 'selected', false);
+        this.set_classname(this.list_rows[id].obj, 'unfocused', false);
         }
       selected = (this.selection.length==1);
       }
@@ -1334,9 +1349,10 @@ function rcube_webmail()
   this.clear_selection = function()
     {
     for(var n=0; n<this.selection.length; n++)
-      if (this.list_rows[this.selection[n]])
+      if (this.list_rows[this.selection[n]]) {
         this.set_classname(this.list_rows[this.selection[n]].obj, 'selected', false);
-
+        this.set_classname(this.list_rows[this.selection[n]].obj, 'unfocused', false);
+	  }
     this.selection = new Array();    
     };
 
@@ -2075,6 +2091,7 @@ function rcube_webmail()
           highlight.removeAttribute('id');
           //highlight.removeAttribute('class');
           this.set_classname(highlight, 'selected', false);
+          this.set_classname(highlight, 'unfocused', false);
           }
 
         if (next)
@@ -2813,8 +2830,10 @@ function rcube_webmail()
       var current_li = document.getElementById('rcmbx'+s_current);
       var mbox_li = document.getElementById('rcmbx'+s_mbox);
       
-      if (current_li)
+      if (current_li) {
         this.set_classname(current_li, 'selected', false);
+        this.set_classname(current_li, 'unfocused', false);
+        }
       if (mbox_li)
         this.set_classname(mbox_li, 'selected', true);
       }
