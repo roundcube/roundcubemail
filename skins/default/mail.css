@@ -469,6 +469,11 @@ body.messagelist
   color: #FFFFFF;
 }
 
+#messagelist tr.deleted td a.rcmContactAddress
+{
+  color: #CCCCCC;
+}
+
 #messagelist tr.deleted td,
 #messagelist tr.deleted td a
 {
