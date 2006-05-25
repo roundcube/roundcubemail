@@ -1,6 +1,6 @@
 # AddDefaultCharset	UTF-8
-php_flag	display_errors	On
-php_value	upload_max_filesize	2m
+php_flag	display_errors	Off
+php_value	upload_max_filesize	2M
 
 <FilesMatch "(\.inc|\~)$|^_">
   Order allow,deny
