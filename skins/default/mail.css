@@ -452,7 +452,19 @@ body.messagelist
   border-top: thin dotted;
 }
 
+#messagelist tr.unfocused td
+{
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #929292;
+}
+
 #messagelist tr.selected td a.rcmContactAddress
+{
+  color: #FFFFFF;
+}
+
+#messagelist tr.unfocused td a.rcmContactAddress
 {
   color: #FFFFFF;
 }
