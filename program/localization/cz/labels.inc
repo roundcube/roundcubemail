@@ -26,7 +26,7 @@ $labels['login']     = 'Přihlásit';
 
 // taskbar
 $labels['logout']   = 'Odhlásit';
-$labels['mail']     = 'E-Mail';
+$labels['mail']     = 'E-mail';
 $labels['settings'] = 'Osobní nastavení';
 $labels['addressbook'] = 'Adresář';
 
@@ -39,7 +39,7 @@ $labels['junk']   = 'Nevyžádaná pošta';
 
 // message listing
 $labels['subject'] = 'Předmět';
-$labels['from']    = 'Odesilatel';
+$labels['from']    = 'Odesílatel';
 $labels['to']      = 'Adresát';
 $labels['cc']      = 'Kopie';
 $labels['bcc']     = 'Slepá';
@@ -53,7 +53,7 @@ $labels['organization'] = 'Organizace';
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Složky';
-$labels['messagesfromto'] = 'Zprávy od $from do $to z celkem $count';
+$labels['messagesfromto'] = 'Zprávy $from až $to z celkem $count';
 $labels['messagenrof'] = 'Zpráva $nr z $count';
 
 $labels['moveto']   = 'přesunout do...';
@@ -64,7 +64,7 @@ $labels['filesize'] = 'Velikost přílohy';
 
 $labels['preferhtml'] = 'Upřednostňovat HTML zobrazení';
 $labels['htmlmessage'] = 'HTML zpráva';
-$labels['prettydate'] = 'Hezčí data';
+$labels['prettydate'] = 'Hezčí datum';
 
 $labels['addtoaddressbook'] = 'Přidat do adresáře';
 
@@ -90,7 +90,7 @@ $labels['today'] = 'Dnes';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Vytvořit novou zprávu';
-$labels['replytomessage']   = 'Odpovědět odesilateli';
+$labels['replytomessage']   = 'Odpovědět odesílateli';
 $labels['replytoallmessage'] = 'Odpovědět všem';
 $labels['forwardmessage']   = 'Předat zprávu';
 $labels['deletemessage']    = 'Přesunout do koše';
@@ -116,7 +116,7 @@ $labels['close']  = 'Zavřít';
 
 $labels['low']     = 'Nízká';
 $labels['lowest']  = 'Nejnižší';
-$labels['normal']  = 'Normalní';
+$labels['normal']  = 'Normální';
 $labels['high']    = 'Vysoká';
 $labels['highest'] = 'Nejvyšší';
 
@@ -127,7 +127,7 @@ $labels['showimages'] = 'Zobrazit obrázky';
 $labels['name']      = 'Zobrazit jméno';
 $labels['firstname'] = 'Jméno';
 $labels['surname']   = 'Příjmení';
-$labels['email']     = 'E-Mail';
+$labels['email']     = 'E-mail';
 
 $labels['addcontact'] = 'Přidat kontakt';
 $labels['editcontact'] = 'Upravit kontakt';
@@ -139,8 +139,8 @@ $labels['delete'] = 'Smazat';
 
 $labels['newcontact']     = 'Vytvořit nový kontakt';
 $labels['deletecontact']  = 'Smazat vybrané kontakty';
-$labels['composeto']      = 'Poslat mail';
-$labels['contactsfromto'] = 'Kontakty od $from do $to z celkem $count';
+$labels['composeto']      = 'Poslat e-mail';
+$labels['contactsfromto'] = 'Kontakty $from až $to z celkem $count';
 $labels['print']          = 'Tisk';
 $labels['export']         = 'Export';
 
@@ -154,7 +154,7 @@ $labels['editpreferences']  = 'Upravit vlastnosti uživatele';
 
 $labels['identities']  = 'Profily';
 $labels['manageidentities']  = 'Spravovat profily u tohoto účtu';
-$labels['newidentity']  = 'Nová profil';
+$labels['newidentity']  = 'Nový profil';
 
 $labels['newitem']  = 'Nová položka';
 $labels['edititem']  = 'Upravit položku';
@@ -168,7 +168,7 @@ $labels['pagesize']  = 'Řádků na stránku';
 $labels['folders']  = 'Složky';
 $labels['folder']  = 'Složka';
 $labels['foldername']  = 'Jméno složky';
-$labels['subscribed']  = 'Podepsané';
+$labels['subscribed']  = 'Vybráno';
 $labels['create']  = 'Vytvořit';
 $labels['createfolder']  = 'Vytvořit novou složku';
 $labels['deletefolder']  = 'Smazat složku';

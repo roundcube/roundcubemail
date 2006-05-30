@@ -19,7 +19,7 @@
 $messages = array();
 
 $messages['loginfailed']  = 'Přihlášení selhalo';
-$messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nutné';
+$messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné';
 $messages['sessionerror'] = 'Vaše přihlášení je neplatné nebo vypršelo';
 $messages['imaperror'] = 'Připojení na IMAP server selhalo';
 $messages['nomessagesfound'] = 'Ve schránce nebyla nalezena žádná zpráva';
@@ -49,7 +49,7 @@ $messages['nosubjectwarning']  = 'Předmět nebyl vyplňen. Přejete si jej zada
 $messages['nobodywarning'] = 'Opravdu chtete odeslat prázdnou zprávu?';
 $messages['deletefolderconfirm']  = 'Chcete opravdu smazat tento adresář?';
 $messages['notsentwarning'] = 'Zpráva nebyla odeslána. Přejete si zprávu zahodit?';
-$messages['noldapserver'] = 'Zvolte, prosím, ldap server k hledání';
+$messages['noldapserver'] = 'Zvolte, prosím, LDAP server k hledání';
 $messages['nocontactsreturned'] = 'Nebyly nalezeny žádné kontakty';
 $messages['nosearchname'] = 'Zadejte, prosím, jméno nebo e-mail kontaktu';
 

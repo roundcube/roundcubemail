@@ -18,17 +18,17 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Մուտքը ձախոխվեց';
+$messages['loginfailed']  = 'Մուտքը ձախողվեց';
 
-$messages['cookiesdisabled'] = 'Ձեր դիտորդը չի սիրում կարկանդակներ ;) Your browser does not accept cookies';
+$messages['cookiesdisabled'] = 'Сookies–ների ապահովվումը բացակայում է';
 
 $messages['sessionerror'] = 'Անվավեր կամ ժամկետանց սեսիա';
 
 $messages['imaperror'] = 'IMAP սերվերի հետ կապը ձախողվեց';
 
-$messages['nomessagesfound'] = 'Այս փոստարկղում նամակ չկա';
+$messages['nomessagesfound'] = 'Այս փոստարկղում նամակներ չկան';
 
-$messages['loggedout'] = 'Դուք բարեհաջող ավարտեցիք աշխատանքը։ Ցտեսություն';
+$messages['loggedout'] = 'Դուք բարեհաջող ավարտեցիք աշխատանքը։ Ցտեսություն…';
 
 $messages['mailboxempty'] = 'Փոստարկղը դատարկ է';
 
@@ -46,7 +46,7 @@ $messages['addedsuccessfully'] = 'Հասցեն ավելացված է';
 
 $messages['contactexists'] = 'Այս հասցեով անձը արդեն գրանցված է';
 
-$messages['blockedimages'] = 'Ձեզ պաշտպանելու համար, այս նամակի արտաքին նկարներն բեռնված չեն';
+$messages['blockedimages'] = 'Ձեր անվտանգության համար, այս նամակի արտաքին նկարներն բեռնված չեն';
 
 $messages['encryptedmessage'] = 'Ներողություն, այս նամակը կոդավորված է';
 
@@ -68,7 +68,7 @@ $messages['purgefolderconfirm']  = 'Ուզու՞մ էք ջնջել այս դար
 
 $messages['formincomplete'] = 'Ձևը թերի է լրացված';
 
-$messages['noemailwarning'] = 'Մուտքագրեք վավեր էլ. հասցե';
+$messages['noemailwarning'] = 'Մուտքագրեք ճիշտ էլ. հասցե';
 
 $messages['nonamewarning']  = 'Մուտքագրեք անուն';
 
@@ -76,7 +76,7 @@ $messages['nopagesizewarning'] = 'Մուտքագրեք էջի չափս';
 
 $messages['norecipientwarning'] = 'Մուտքագրեք նվազագույնը մեկ հասցեատեր';
 
-$messages['nosubjectwarning']  = 'Վերնագիր չկա, մուտքագրե՞լ այժմ';
+$messages['nosubjectwarning']  = 'Վերնագիր բացակայում է, ցանկանո՞ւմ եք լրացնել';
 
 $messages['nobodywarning'] = 'Ուղարկե՞լ այս նամակը դատարկ';
 

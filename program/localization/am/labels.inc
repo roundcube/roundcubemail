@@ -20,7 +20,7 @@ $labels = array();
 
 // login page
 $labels['username']  = 'Օգտվող';
-$labels['password']  = 'Գախտնաբառ';
+$labels['password']  = 'Գաղտնաբառ';
 $labels['server']    = 'Սերվեր';
 $labels['login']     = 'Մուտք';
 
@@ -56,7 +56,7 @@ $labels['mailboxlist'] = 'Դարակներ';
 $labels['messagesfromto'] = 'Նամակներ $from–ից $to–ը եղած $count–ից';
 $labels['messagenrof'] = 'Նամակ $nr եղած $count–ից';
 
-$labels['moveto']   = 'Տանել...';
+$labels['moveto']   = 'Տեղափոխել...';
 $labels['download'] = 'Քաշել';
 
 $labels['filename'] = 'Ֆայլի անուն';
@@ -90,15 +90,15 @@ $labels['today'] = 'Այսօր';
 
 // toolbar buttons
 $labels['writenewmessage']  = 'Նոր նամակ';
-$labels['replytomessage']   = 'Պատասղանել նամակին';
+$labels['replytomessage']   = 'Պատասխանել նամակին';
 $labels['replytoallmessage'] = 'Պատասխանել բոլորին';
 $labels['forwardmessage']   = 'Փոխանցել նամակը';
-$labels['deletemessage']    = 'Քցել աղբարկղ';
+$labels['deletemessage']    = 'Ջնջել նամակը';
 $labels['printmessage']     = 'Տպել';
-$labels['previousmessages'] = 'Ցույց տալ նախորդ նամակները';
-$labels['nextmessages']     = 'Ցույց տալ հաջորդ նամակները';
+$labels['previousmessages'] = 'Ցուցադրել նախորդ նամակները';
+$labels['nextmessages']     = 'Ցուցադրել հաջորդ նամակները';
 $labels['backtolist']       = 'Վերադառնալ նամակների ցուցակ';
-$labels['viewsource']       = 'Ցույց տալ փորփսորը';
+$labels['viewsource']       = 'Ցուցադրել նամակի կոդը';
 
 $labels['select'] = 'Նշել';
 $labels['all'] = 'Բոլորը';
@@ -130,11 +130,11 @@ $labels['close']  = 'Փակել';
 $labels['low']     = 'Ցածր';
 $labels['lowest']  = 'Նվազագույն';
 $labels['normal']  = 'Նորմալ';
-$labels['high']    = 'Բարձր';
-$labels['highest'] = 'Բարձրագույն';
+$labels['high']    = 'Կարևոր';
+$labels['highest'] = 'Կարևորագույն';
 
 $labels['nosubject']  = '(առանց վերնագրի)';
-$labels['showimages'] = 'Ցույց տալ նկարները';
+$labels['showimages'] = 'Ցուցադրել նկարները';
 
 
 // address boook
@@ -144,7 +144,7 @@ $labels['surname']   = 'Ազգանուն';
 $labels['email']     = 'Էկ–փոստ';
 
 $labels['addcontact'] = 'Ավելացնել հասցե';
-$labels['editcontact'] = 'Խմբագրել հասցե';
+$labels['editcontact'] = 'Խմբագրել հասցեն';
 
 $labels['edit']   = 'Խմբագրել';
 $labels['cancel'] = 'Թարգել';
@@ -167,7 +167,7 @@ $labels['nextpage']       = 'Ցուցադրել հաջորդ էջը';
 $labels['ldapsearch'] = 'LDAP քարտարանի որոնում';
 
 $labels['ldappublicsearchname']    = 'Հասցեատեր';
-$labels['ldappublicsearchtype'] = 'Լրիվ համընկում՞';
+$labels['ldappublicsearchtype'] = 'Լրիվ համընկնում՞';
 $labels['ldappublicserverselect'] = 'Ընտրել սերվեր';
 $labels['ldappublicsearchfield'] = 'Փնտրել';
 $labels['ldappublicsearchform'] = 'Գտնել հասցե';
@@ -182,7 +182,7 @@ $labels['userpreferences']  = 'Օգտվողի նախասիրություններ
 $labels['editpreferences']  = 'Խմբագրել օգտվողի նախասիրությունները';
 
 $labels['identities']  = 'Անձիք';
-$labels['manageidentities']  = 'Կարգավորել անձիք';
+$labels['manageidentities']  = 'Կարգավորել անձանց';
 $labels['newidentity']  = 'Նոր անձ';
 
 $labels['newitem']  = 'Նոր իր';
@@ -204,8 +204,8 @@ $labels['createfolder']  = 'Բացել նոր դարակ';
 $labels['deletefolder']  = 'Ջնջել դարակը';
 $labels['managefolders']  = 'Կարգավորել դարակները';
 
-$labels['sortby'] = 'Դասավորել ըստ';
-$labels['sortasc']  = 'Ըստ աճման';
-$labels['sortdesc'] = 'Ըստ նվազման';
+$labels['sortby'] = 'Դասավորել';
+$labels['sortasc']  = 'ըստ աճման';
+$labels['sortdesc'] = 'ըստ նվազման';
 
 ?>
