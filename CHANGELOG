@@ -1,6 +1,17 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/06/02
+----------
+- Updated Estonian localization and moved from ee to et
+- Added Bulgarian localization
+
+
+2006/05/25
+----------
+- Finalized GoogieSpell integration
+
+
 2006/05/18
 ----------
 - Added Arabic and Armenian localizations
