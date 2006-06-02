@@ -35,7 +35,7 @@
  	'de_DE' => 'Deutsch (Deutsch)',
  	'de_CH' => 'Deutsch (Schweiz)',
  	'es'    => 'Español',
- 	'ee'    => 'Estonian',
+ 	'et'    => 'Estonian',
 	'eu'    => 'Euskara',
 	'fr'    => 'Français', 
 	'ga'    => 'Galician',
@@ -66,7 +66,8 @@
 );
 
 $rcube_language_aliases = array(
-	'et_EE' => 'ee',
+	'et_EE' => 'et',
+	'ee' => 'et',
 	'bs' => 'bs_BA',
 	'de' => 'de_DE',
 	'en' => 'en_US',
