@@ -114,6 +114,7 @@ class Mail_mime
     {
         $this->_setEOL($crlf);
         $this->_build_params = array(
+                                     'head_encoding' => 'quoted-printable',
                                      'text_encoding' => '7bit',
                                      'html_encoding' => 'quoted-printable',
                                      '7bit_wrap'     => 998,
@@ -247,13 +248,15 @@ class Mail_mime
      * @param  string  $disposition The content-disposition of this file
      *                              Defaults to attachment.
      *                              Possible values: attachment, inline.
+     * @param  string  $charset     The character set used in the filename
+     *                              of this attachment.
      * @return mixed true on success or PEAR_Error object
      * @access public
      */
     function addAttachment($file, $c_type = 'application/octet-stream',
                            $name = '', $isfilename = true,
                            $encoding = 'base64',
-                           $disposition = 'attachment')
+                           $disposition = 'attachment', $charset = '')
     {
         $filedata = ($isfilename === true) ? $this->_file2str($file)
                                            : $file;
@@ -279,6 +282,7 @@ class Mail_mime
                                 'name'        => $filename,
                                 'c_type'      => $c_type,
                                 'encoding'    => $encoding,
+                                'charset'     => $charset,
                                 'disposition' => $disposition
                                );
         return true;
@@ -433,7 +437,7 @@ class Mail_mime
     function &_addHtmlImagePart(&$obj, $value)
     {
         $params['content_type'] = $value['c_type'] . '; ' .
-                                  'name="' . $params['dfilename'] . '"';
+                                  'name="' . $value['name'] . '"';
         $params['encoding']     = 'base64';
         $params['disposition']  = 'inline';
         $params['dfilename']    = $value['name'];
@@ -454,12 +458,20 @@ class Mail_mime
      */
     function &_addAttachmentPart(&$obj, $value)
     {
+        $params['dfilename']    = $value['name'];
+        $params['encoding']     = $value['encoding'];
+        if ($value['disposition'] != "inline") {
+            $fname = array("fname" => $value['name']);
+            $fname_enc = $this->_encodeHeaders($fname);
+            $params['dfilename'] = $fname_enc['fname'];
+        }
+        if ($value['charset']) {
+            $params['charset'] = $value['charset'];
+        }
         $params['content_type'] = $value['c_type'] . '; ' .
                                   'name="' . $params['dfilename'] . '"';
-        $params['encoding']     = $value['encoding'];
         $params['disposition']  = isset($value['disposition']) ? 
                                   $value['disposition'] : 'attachment';
-        $params['dfilename']    = $value['name'];
         $ret = $obj->addSubpart($value['body'], $params);
         return $ret;
     }
@@ -500,9 +512,14 @@ class Mail_mime
      *
      * @param  array  Build parameters that change the way the email
      *                is built. Should be associative. Can contain:
+     *                head_encoding  -  What encoding to use for the headers. 
+     *                                  Options: quoted-printable or base64
+     *                                  Default is quoted-printable
      *                text_encoding  -  What encoding to use for plain text
+     *                                  Options: 7bit, 8bit, base64, or quoted-printable
      *                                  Default is 7bit
      *                html_encoding  -  What encoding to use for html
+     *                                  Options: 7bit, 8bit, base64, or quoted-printable
      *                                  Default is quoted-printable
      *                7bit_wrap      -  Number of characters before text is
      *                                  wrapped in 7bit encoding
@@ -743,25 +760,130 @@ class Mail_mime
     }
 
     /**
+     * Since the PHP send function requires you to specifiy 
+     * recipients (To: header) separately from the other
+     * headers, the To: header is not properly encoded.
+     * To fix this, you can use this public method to 
+     * encode your recipients before sending to the send
+     * function
+     *
+     * @param  string $recipients A comma-delimited list of recipients
+     * @return string Encoded data
+     * @access public
+     */
+    function encodeRecipients($recipients)
+    {
+        $input = array("To" => $recipients);
+        $retval = $this->_encodeHeaders($input);
+        return $retval["To"] ;
+    }
+
+    /**
      * Encodes a header as per RFC2047
      *
-     * @param  string  $input The header data to encode
-     * @return string  Encoded data
+     * @param  array $input The header data to encode
+     * @return array Encoded data
      * @access private
      */
     function _encodeHeaders($input)
     {
         foreach ($input as $hdr_name => $hdr_value) {
-            preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
-            foreach ($matches[1] as $value) {
-                $replacement = preg_replace('/([\x80-\xFF])/e',
-                                            '"=" .
-                                            strtoupper(dechex(ord("\1")))',
-                                            $value);
-                $hdr_value = str_replace($value, '=?' .
-                                         $this->_build_params['head_charset'] .
-                                         '?Q?' . $replacement . '?=',
-                                         $hdr_value);
+            if (function_exists('iconv_mime_encode') && preg_match('#[\x80-\xFF]{1}#', $hdr_value)){
+                $imePref = array();
+                if ($this->_build_params['head_encoding'] == 'base64'){
+                    $imePrefs['scheme'] = 'B';
+                }else{
+                    $imePrefs['scheme'] = 'Q';
+                }
+                $imePrefs['input-charset']  = $this->_build_params['head_charset'];
+                $imePrefs['output-charset'] = $this->_build_params['head_charset'];
+                $hdr_value = iconv_mime_encode($hdr_name, $hdr_value, $imePrefs);
+                $hdr_value = preg_replace("#^{$hdr_name}\:\ #", "", $hdr_value);
+            }elseif (preg_match('#[\x80-\xFF]{1}#', $hdr_value)){
+                //This header contains non ASCII chars and should be encoded.
+                switch ($this->_build_params['head_encoding']) {
+                case 'base64':
+                    //Base64 encoding has been selected.
+                    
+                    //Generate the header using the specified params and dynamicly 
+                    //determine the maximum length of such strings.
+                    //75 is the value specified in the RFC. The -2 is there so 
+                    //the later regexp doesn't break any of the translated chars.
+                    $prefix = '=?' . $this->_build_params['head_charset'] . '?B?';
+                    $suffix = '?=';
+                    $maxLength = 75 - strlen($prefix . $suffix) - 2;
+                    $maxLength1stLine = $maxLength - strlen($hdr_name);
+                    
+                    //Base64 encode the entire string
+                    $hdr_value = base64_encode($hdr_value);
+
+                    //This regexp will break base64-encoded text at every 
+                    //$maxLength but will not break any encoded letters.
+                    $reg1st = "|.{0,$maxLength1stLine}[^\=][^\=]|";
+                    $reg2nd = "|.{0,$maxLength}[^\=][^\=]|";
+                    break;
+                case 'quoted-printable':
+                default:
+                    //quoted-printable encoding has been selected
+                    
+                    //Generate the header using the specified params and dynamicly 
+                    //determine the maximum length of such strings.
+                    //75 is the value specified in the RFC. The -2 is there so 
+                    //the later regexp doesn't break any of the translated chars.
+                    $prefix = '=?' . $this->_build_params['head_charset'] . '?Q?';
+                    $suffix = '?=';
+                    $maxLength = 75 - strlen($prefix . $suffix) - 2;
+                    $maxLength1stLine = $maxLength - strlen($hdr_name);
+                    
+                    //Replace all special characters used by the encoder.
+                    $search  = array("=",   "_",   "?",   " ");
+                    $replace = array("=3D", "=5F", "=3F", "_");
+                    $hdr_value = str_replace($search, $replace, $hdr_value);
+                    
+                    //Replace all extended characters (\x80-xFF) with their
+                    //ASCII values.
+                    $hdr_value = preg_replace(
+                        '#([\x80-\xFF])#e',
+                        '"=" . strtoupper(dechex(ord("\1")))',
+                        $hdr_value
+                    );
+                    //This regexp will break QP-encoded text at every $maxLength
+                    //but will not break any encoded letters.
+                    $reg1st = "|(.{0,$maxLength})[^\=]|";
+                    $reg2nd = "|(.{0,$maxLength})[^\=]|";
+                    break;
+                }
+                //Begin with the regexp for the first line.
+                $reg = $reg1st;
+                $output = "";
+                while ($hdr_value) {
+                    //Split translated string at every $maxLength
+                    //But make sure not to break any translated chars.
+                    $found = preg_match($reg, $hdr_value, $matches);
+                    
+                    //After this first line, we need to use a different
+                    //regexp for the first line.
+                    $reg = $reg2nd;
+
+                    //Save the found part and encapsulate it in the
+                    //prefix & suffix. Then remove the part from the
+                    //$hdr_value variable.
+                    if ($found){
+                        $part = $matches[0];
+                        $hdr_value = substr($hdr_value, strlen($matches[0]));
+                    }else{
+                        $part = $hdr_value;
+                        $hdr_value = "";
+                    }
+                    
+                    //RFC 2047 specifies that any split header should be seperated
+                    //by a CRLF SPACE. 
+                    if ($output){
+                        $output .=  "\r\n ";
+                    }
+                    $output .= $prefix . $part . $suffix;
+                }
+                $hdr_value = $output;
             }
             $input[$hdr_name] = $hdr_value;
         }
@@ -787,3 +909,4 @@ class Mail_mime
 
 } // End of class
 ?>
+
