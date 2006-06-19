@@ -33,6 +33,7 @@ $labels['addressbook'] = 'アドレス帳';
 
 // mailbox names
 $labels['inbox']  = '受信箱';
+$labels['drafts'] = '草案';
 $labels['sent']   = '送信箱';
 $labels['trash']  = 'ごみ箱';
 $labels['drafts'] = '草稿';
@@ -115,6 +116,7 @@ $labels['quota'] = 'ディスク使用量';
 
 // message compose
 $labels['compose']  = 'メッセージを作成する';
+$labels['savemessage']  = 'この草案を救いなさい';
 $labels['sendmessage']  = 'メッセージを今すぐ送信する';
 $labels['addattachment']  = 'ファイルを添付する';
 $labels['charset']  = '文字エンコード';

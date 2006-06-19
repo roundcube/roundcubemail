@@ -33,6 +33,7 @@ $labels['addressbook'] = 'Address Book';
 
 // mailbox names
 $labels['inbox']  = 'Inbox';
+$labels['drafts'] = 'Drafts';
 $labels['sent']   = 'Sent';
 $labels['trash']  = 'Deleted Items';
 $labels['drafts'] = 'Drafts';
@@ -115,6 +116,7 @@ $labels['quota'] = 'Disk usage';
 
 // message compose
 $labels['compose']  = 'Compose a message';
+$labels['savemessage']  = 'Save this draft';
 $labels['sendmessage']  = 'Send the message now';
 $labels['addattachment']  = 'Attach a file';
 $labels['charset']  = 'Charset';

@@ -40,6 +40,10 @@ $messages['sendingmessage'] = 'メッセージの送信中です...';
 
 $messages['messagesent'] = 'メッセージの送信に成功しました。';
 
+$messages['savingmessage'] = 'セービングメッセージ...';
+
+$messages['messagesaved'] = 'メッセージは草案に救った';
+
 $messages['successfullysaved'] = '保存に成功しました。';
 
 $messages['addedsuccessfully'] = '連絡先をアドレス帳への追加に成功しました。';

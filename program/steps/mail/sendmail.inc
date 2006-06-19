@@ -62,8 +62,16 @@ function rcmail_get_identity($id)
   return FALSE;  
   }
 
-
-
+if (strlen($_POST['_draft_saveid']) > 3) {
+  $olddraftmessageid = $_POST['_draft_saveid'];
+}
+if (strlen($_POST['_draft_newsaveid']) > 3) {
+  $newdraftmessageid = $_POST['_draft_newsaveid'];
+}
+if ($_POST['_draft']) {
+  $savedraft = 1;
+}
+ 
 /****** check submission and compose message ********/
 
 
@@ -94,8 +102,12 @@ $from = $identity_arr['mailto'];
 $first_to = is_array($to_address_arr[0]) ? $to_address_arr[0]['mailto'] : $mailto;
 
 
-// create unique message-id
-$message_id = sprintf('<%s@%s>', md5(uniqid('rcmail')), $_SESSION['imap_host']);
+// try the message-id submitted by the compose form
+if ($newdraftmessageid) {
+  $message_id = sprintf('<%s>',$newdraftmessageid);
+} else {
+  $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']);
+}
 
 
 // compose headers array
@@ -213,119 +225,142 @@ $msg_subject = $headers['Subject'];
 if ($MBSTRING && function_exists("mb_encode_mimeheader"))
   $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset);
 
-// send thru SMTP server using cusotm SMTP library
-if ($CONFIG['smtp_server'])
-  {
-  // generate list of recipients
-  $a_recipients = array($mailto);
+// Begin SMTP Delivery Block 
+if (!$savedraft) {
 
-  if (strlen($headers['Cc']))
-    $a_recipients[] = $headers['Cc'];
-  if (strlen($headers['Bcc']))
-    $a_recipients[] = $headers['Bcc'];
-
-  // clean Bcc from header for recipients
-  $send_headers = $headers;
-  unset($send_headers['Bcc']);
-
-  // generate message headers
-  $header_str = $MAIL_MIME->txtHeaders($send_headers);
-
-  // send message
-  $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body);
-
-  // log error
+  // send thru SMTP server using custom SMTP library
+  if ($CONFIG['smtp_server'])
+    {
+    // generate list of recipients
+    $a_recipients = array($mailto);
+  
+    if (strlen($headers['Cc']))
+      $a_recipients[] = $headers['Cc'];
+    if (strlen($headers['Bcc']))
+      $a_recipients[] = $headers['Bcc'];
+  
+    // clean Bcc from header for recipients
+    $send_headers = $headers;
+    unset($send_headers['Bcc']);
+  
+    // generate message headers
+    $header_str = $MAIL_MIME->txtHeaders($send_headers);
+  
+    // send message
+    $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body);
+  
+    // log error
+    if (!$sent)
+      {
+      raise_error(array('code' => 800,
+                        'type' => 'smtp',
+                        'line' => __LINE__,
+                        'file' => __FILE__,
+                        'message' => "SMTP error: $SMTP_ERROR"), TRUE, FALSE);
+      }
+    }
+  
+  // send mail using PHP's mail() function
+  else
+    {
+    // unset some headers because they will be added by the mail() function
+    $headers_enc = $MAIL_MIME->headers($headers);
+    $headers_php = $MAIL_MIME->_headers;
+    unset($headers_php['To'], $headers_php['Subject']);
+    
+    // reset stored headers and overwrite
+    $MAIL_MIME->_headers = array();
+    $header_str = $MAIL_MIME->txtHeaders($headers_php);
+  
+    if (ini_get('safe_mode'))
+      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
+    else
+      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
+    }
+  
+  
+  // return to compose page if sending failed
   if (!$sent)
     {
-    raise_error(array('code' => 800,
-                      'type' => 'smtp',
-                      'line' => __LINE__,
-                      'file' => __FILE__,
-                      'message' => "SMTP error: $SMTP_ERROR"), TRUE, FALSE);
+    show_message("sendingfailed", 'error'); 
+    rcmail_overwrite_action('compose');
+    return;
     }
-  }
-
-// send mail using PHP's mail() function
-else
-  {
-  // unset some headers because they will be added by the mail() function
-  $headers_enc = $MAIL_MIME->headers($headers);
-  $headers_php = $MAIL_MIME->_headers;
-  unset($headers_php['To'], $headers_php['Subject']);
   
-  // reset stored headers and overwrite
-  $MAIL_MIME->_headers = array();
-  $header_str = $MAIL_MIME->txtHeaders($headers_php);
+  
+  // set repliead flag
+  if ($_SESSION['compose']['reply_uid'])
+    $IMAP->set_flag($_SESSION['compose']['reply_uid'], 'ANSWERED');
 
-  if (ini_get('safe_mode'))
-    $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
-  else
-    $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
-  }
+  } // End of SMTP Delivery Block
 
+// Determine which folder to save message
+if ($savedraft) {
+	$store_target = 'drafts_mbox';
+} else {
+	$store_target = 'sent_mbox';
+}
 
-// return to compose page if sending failed
-if (!$sent)
-  {
-  show_message("sendingfailed", 'error'); 
-  rcmail_overwrite_action('compose');
-  return;
-  }
-
-
-// set repliead flag
-if ($_SESSION['compose']['reply_uid'])
-  $IMAP->set_flag($_SESSION['compose']['reply_uid'], 'ANSWERED');
-
-
-// copy message to sent folder
-if ($CONFIG['sent_mbox'])
+if ($CONFIG[$store_target])
   {
   // create string of complete message headers
   $header_str = $MAIL_MIME->txtHeaders($headers);
 
   // check if mailbox exists
-  if (!in_array_nocase($CONFIG['sent_mbox'], $IMAP->list_mailboxes()))
-    $sent_folder = $IMAP->create_mailbox($CONFIG['sent_mbox'], TRUE);
+  if (!in_array_nocase($CONFIG[$store_target], $IMAP->list_mailboxes()))
+    $store_folder = $IMAP->create_mailbox($CONFIG[$store_target], TRUE);
   else
-    $sent_folder = TRUE;
+    $store_folder = TRUE;
 
   // append message to sent box
-  if ($sent_folder)
-    $saved = $IMAP->save_message($CONFIG['sent_mbox'], $header_str."\r\n".$msg_body);
+  if ($store_folder)
+    $saved = $IMAP->save_message($CONFIG[$store_target], $header_str."\r\n".$msg_body);
 
   // raise error if saving failed
   if (!$saved)
     raise_error(array('code' => 800,
                       'type' => 'imap',
                       'file' => __FILE__,
-                      'message' => "Could not save message in $CONFIG[sent_mbox]"), TRUE, FALSE);
-  }
+                      'message' => "Could not save message in $CONFIG[$store_target]"), TRUE, FALSE);
 
+  if ($olddraftmessageid) {
+    // delete previous saved draft
+    $a_deleteid = $IMAP->search($CONFIG['drafts_mbox'],'HEADER Message-ID',$olddraftmessageid);
+    $deleted = $IMAP->delete_message($IMAP->get_uid($a_deleteid[0],$CONFIG['drafts_mbox']),$CONFIG['drafts_mbox']);
 
-// log mail sending
-if ($CONFIG['smtp_log'])
-  {
-  $log_entry = sprintf("[%s] User: %d on %s; Message for %s; Subject: %s\n",
-               date("d-M-Y H:i:s O", mktime()),
-               $_SESSION['user_id'],
-               $_SERVER['REMOTE_ADDR'],
-               $mailto,
-               $msg_subject);
-
-  if ($fp = @fopen($CONFIG['log_dir'].'/sendmail', 'a'))
-    {
-    fwrite($fp, $log_entry);
-    fclose($fp);
+    if (!$deleted)
+      raise_error(array('code' => 800,
+                        'type' => 'imap',
+                        'file' => __FILE__,
+                        'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
     }
   }
 
+if ($savedraft)
+  {
+  show_message('messagesaved', 'confirmation');
+  rcmail_overwrite_action('compose');
+  }
+else
+  {
+  if ($CONFIG['smtp_log'])
+    {
+    $log_entry = sprintf("[%s] User: %d on %s; Message for %s; Subject: %s\n",
+                 date("d-M-Y H:i:s O", mktime()),
+                 $_SESSION['user_id'],
+                 $_SERVER['REMOTE_ADDR'],
+                 $mailto,
+                 $msg_subject);
 
-// show confirmation
-show_message('messagesent', 'confirmation');
+    if ($fp = @fopen($CONFIG['log_dir'].'/sendmail', 'a'))
+      {
+      fwrite($fp, $log_entry);
+      fclose($fp);
+      }
+    }
+  show_message('messagesent', 'confirmation');
+  rcmail_compose_cleanup();
+  }
 
-
-// kill compose entry from session
-rcmail_compose_cleanup();
 
 ?>

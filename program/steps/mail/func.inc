@@ -64,6 +64,9 @@ $OUTPUT->add_script(sprintf("%s.set_env('mailbox', '%s');", $JS_OBJECT_NAME, $IM
 if ($CONFIG['trash_mbox'])
   $OUTPUT->add_script(sprintf("%s.set_env('trash_mailbox', '%s');", $JS_OBJECT_NAME, $CONFIG['trash_mbox']));
 
+if ($CONFIG['drafts_mbox'])
+  $OUTPUT->add_script(sprintf("%s.set_env('drafts_mailbox', '%s');", $JS_OBJECT_NAME, $CONFIG['drafts_mbox']));
+
 
 
 // return the mailboxlist in HTML

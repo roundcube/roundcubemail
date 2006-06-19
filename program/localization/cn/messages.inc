@@ -41,6 +41,10 @@ $messages['sendingmessage'] = '正在发送邮件...';
 
 $messages['messagesent'] = '邮件发送成功';
 
+$messages['savingmessage'] = '挽救消息...';
+
+$messages['messagesaved'] = '消息被保存对草稿';
+
 $messages['successfullysaved'] = '保存成功';
 
 $messages['addedsuccessfully'] = '联系信息成功增加到地址薄';

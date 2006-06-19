@@ -40,6 +40,10 @@ $messages['sendingmessage'] = 'Invio messaggio in corso...';
 
 $messages['messagesent'] = 'Messaggio inviato correttamente';
 
+$messages['savingmessage'] = 'Messaggio di Saving...';
+
+$messages['messagesaved'] = 'Messaggio conservato alle brutte copie';
+
 $messages['successfullysaved'] = 'Salvato correttamente';
 
 $messages['addedsuccessfully'] = 'Contatto aggiunto alla rubrica';

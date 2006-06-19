@@ -146,6 +146,8 @@ function rcube_webmail()
           this.enable_command('add-attachment', 'send-attachment', 'send', true);
           if (this.env.spellcheck)
             this.enable_command('spellcheck', true);
+	  if (this.env.drafts_mailbox)
+	    this.enable_command('savedraft', true);
           }
           
         if (this.env.messagecount)
@@ -676,7 +678,17 @@ function rcube_webmail()
           {
           var uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid))
-            this.show_message(uid);
+	    {
+            if (this.env.mailbox==this.env.drafts_mailbox)
+              {
+              this.set_busy(true);
+              location.href = this.env.comm_path+'&_action=compose&_draft_uid='+uid+'&_mbox='+escape(this.env.mailbox);
+              }
+            else
+              {
+              this.show_message(uid);
+	      }
+	    }
           }
         else if (this.task=='addressbook')
           {
@@ -833,9 +845,14 @@ function rcube_webmail()
       
       case 'compose':
         var url = this.env.comm_path+'&_action=compose';
-        
+       
+        if (this.task=='mail' && this.env.mailbox==this.env.drafts_mailbox)
+          {
+          var uid = this.get_single_uid();
+          url += '&_draft_uid='+uid+'&_mbox='+escape(this.env.mailbox);
+          } 
         // modify url if we're in addressbook
-        if (this.task=='addressbook')
+        else if (this.task=='addressbook')
           {
           url = this.get_task_url('mail', url);            
           var a_cids = new Array();
@@ -886,6 +903,19 @@ function rcube_webmail()
           this.env.spellcheck.spellCheck(this.env.spellcheck.check_link);
         break;
 
+      case 'savedraft':
+        if (!this.gui_objects.messageform)
+          break;
+        
+	// if saving Drafts is disabled in main.inc.php
+	if (!this.env.drafts_mailbox)
+	  break;
+ 
+        this.set_busy(true, 'savingmessage');
+        var form = this.gui_objects.messageform;
+        form.submit();
+        break;
+
       case 'send':
         if (!this.gui_objects.messageform)
           break;
@@ -896,6 +926,7 @@ function rcube_webmail()
         // all checks passed, send message
         this.set_busy(true, 'sendingmessage');
         var form = this.gui_objects.messageform;
+	form._draft.value='';
         form.submit();
         break;
 
@@ -1171,7 +1202,15 @@ function rcube_webmail()
     // row was double clicked
     if (this.task=='mail' && this.list_rows && this.list_rows[id].clicked && this.in_selection(id))
       {
-      this.show_message(id);
+      if (this.env.mailbox==this.env.drafts_mailbox)
+        {
+        this.set_busy(true);
+        location.href = this.env.comm_path+'&_action=compose&_draft_uid='+id+'&_mbox='+escape(this.env.mailbox);
+        }
+      else
+        {
+        this.show_message(id);
+        }
       return false;
       }
     else if (this.task=='addressbook')
@@ -1293,8 +1332,18 @@ function rcube_webmail()
     // enable/disable commands for message
     if (this.task=='mail')
       {
-      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
-      this.enable_command('delete', 'moveto', this.selection.length>0 ? true : false);
+      if (this.env.mailbox==this.env.drafts_mailbox)
+	{
+	//alert(this.env.mailbox);
+	//this.disable_command('reply', 'reply-all', 'forward', 'print', 'moveto');
+	this.enable_command('show', selected);
+	this.enable_command('delete', this.selection.length>0 ? true : false);
+        }
+      else
+        {
+        this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
+        this.enable_command('delete', 'moveto', this.selection.length>0 ? true : false);
+        }
       }
     else if (this.task=='addressbook')
       {
@@ -1907,12 +1956,15 @@ function rcube_webmail()
     var message = input_message ? input_message.value : '';
     var sig, p;
 
+    if (!this.env.identity)
+      this.env.identity = id
+
     // remove the 'old' signature
     if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
       {
       sig = this.env.signatures[this.env.identity];
-      if (sig.indexOf('-- ')!=0)
-        sig = '-- \n'+sig;
+      if (sig.indexOf('--')!=0)
+        sig = '--\n'+sig;
 
       p = message.lastIndexOf(sig);
       if (p>=0)
@@ -1923,8 +1975,8 @@ function rcube_webmail()
     if (this.env.signatures && this.env.signatures[id])
       {
       sig = this.env.signatures[id];
-      if (sig.indexOf('-- ')!=0)
-        sig = '-- \n'+sig;
+      if (sig.indexOf('--')!=0)
+        sig = '--\n'+sig;
       message += '\n'+sig;
       }
 

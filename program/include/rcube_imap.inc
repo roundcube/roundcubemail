@@ -1840,14 +1840,14 @@ class rcube_imap
     return array_merge($a_defaults, $a_out);
     }
 
-  function get_id($uid) 
+  function get_id($uid, $mbox_name=NULL) 
     {
-      return $this->_uid2id($uid);
+      return $this->_uid2id($uid, $mbox_name);
     }
   
-  function get_uid($id)
+  function get_uid($id,$mbox_name=NULL)
     {
-      return $this->_id2uid($id);
+      return $this->_id2uid($id, $mbox_name);
     }
 
   function _uid2id($uid, $mbox_name=NULL)

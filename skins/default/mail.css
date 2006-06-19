@@ -225,6 +225,11 @@
   background-image: url(images/icons/folder-inbox.png);
 }
 
+#mailboxlist li.drafts
+{
+  background-image: url(images/icons/folder-drafts.png);
+}
+
 #mailboxlist li.sent
 {
   background-image: url(images/icons/folder-sent.png);
@@ -674,14 +679,14 @@ div.message-part pre
 #priority-selector
 {
   position: absolute;
-  left: 220px;
+  left: 280px;
   top: 10px;
 }
 
 #receipt-selector
 {
   position: absolute;
-  left: 390px;
+  left: 450px;
   top: 10px;
 }
 

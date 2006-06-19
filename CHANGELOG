@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/06/19
+----------
+- Added Drafts support (Feature #1326839) (richs)
+
 2006/06/02
 ----------
 - Updated Estonian localization and moved from ee to et

@@ -34,6 +34,7 @@ $labels['addressbook'] = 'Βιβλίο διευθύνσεων';
 
 // mailbox names
 $labels['inbox']  = 'Εισερχόμενα';
+$labels['drafts'] = 'Σχέδια';
 $labels['sent']   = 'Απεσταλμένα';
 $labels['trash']  = 'Κάδος αχρήστων';
 $labels['drafts'] = 'Προσχέδια';
@@ -113,6 +114,7 @@ $labels['unread'] = 'Αδιάβαστα';
 
 // message compose
 $labels['compose']  = 'Σύνθεση μηνύματος';
+$labels['savemessage']  = 'Εκτός από αυτό το σχέδιο';
 $labels['sendmessage']  = 'Αποστολή του μηνύματος τώρα';
 $labels['addattachment']  = 'Επισύναψη αρχείου';
 $labels['attachments'] = 'Συνημμένα';

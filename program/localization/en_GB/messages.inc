@@ -38,6 +38,10 @@ $messages['loadingdata'] = 'Loading data...';
 
 $messages['messagesent'] = 'Message sent successfully';
 
+$messages['savingmessage'] = 'Saving message...';
+
+$messages['messagesaved'] = 'Message saved to Drafts';
+
 $messages['successfullysaved'] = 'Successfully saved';
 
 $messages['addedsuccessfully'] = 'Contact added successfully to address book';

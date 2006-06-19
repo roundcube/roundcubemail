@@ -47,6 +47,10 @@ $messages['sendingmessage'] = 'Enviando mensaje...';
 
 $messages['messagesent'] = 'Mensaje enviado correctamente';
 
+$messages['savingmessage'] = 'Mensaje del ahorro...';
+
+$messages['messagesaved'] = 'Mensaje ahorrado a los bosquejos';
+
 $messages['successfullysaved'] = 'guardado correctamente';
 
 $messages['addedsuccessfully'] = 'Contacto añadido correctamente a la libreta de direcciones';

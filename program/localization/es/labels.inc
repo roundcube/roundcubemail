@@ -37,6 +37,7 @@ $labels['addressbook'] = 'Contactos';
 
 // mailbox names
 $labels['inbox']  = 'Entrada';
+$labels['drafts'] = 'Bosquejos';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Papelera';
 $labels['drafts'] = 'Borradores';
@@ -118,6 +119,7 @@ $labels['quota'] = 'Uso de disco';
 
 // message compose
 $labels['compose']  = 'Escribir un mensaje';
+$labels['savemessage']  = 'Excepto este bosquejo';
 $labels['sendmessage']  = 'Enviar ahora el mensaje';
 $labels['addattachment']  = 'Añadir un fichero';
 $labels['charset']  = 'Codigo';

@@ -40,6 +40,10 @@ $messages['sendingmessage'] = 'Nachricht wird gesendet...';
 
 $messages['messagesent'] = 'Nachricht erfolgreich gesendet';
 
+$messages['savingmessage'] = 'Einsparunganzeige...';
+
+$messages['messagesaved'] = 'Anzeige gespeichert zu den Entwürfen';
+
 $messages['successfullysaved'] = 'Erfolgreich gespeichert';
 
 $messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt';

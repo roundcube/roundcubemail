@@ -36,6 +36,10 @@ $messages['loadingdata'] = 'Carregando informações...';
 
 $messages['messagesent'] = 'Mensagem enviada';
 
+$messages['savingmessage'] = 'Mensagem do Saving...';
+
+$messages['messagesaved'] = 'Mensagem conservada aos esboços';
+
 $messages['successfullysaved'] = 'Salvo com sucesso';
 
 $messages['addedsuccessfully'] = 'Contato incluído com sucesso';

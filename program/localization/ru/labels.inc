@@ -33,6 +33,7 @@ $labels['addressbook'] = 'Контакты';
 
 // mailbox names
 $labels['inbox']  = 'Входящие';
+$labels['drafts'] = 'Проекты';
 $labels['sent']   = 'Отправленные';
 $labels['trash']  = 'Корзина';
 $labels['drafts'] = 'Черновики';
@@ -120,6 +121,7 @@ $labels['resetsearch']  = 'Сброс';
 
 // message compose
 $labels['compose']  = 'Написать сообщение';
+$labels['savemessage']  = 'За исключением этого проекта';
 $labels['sendmessage']  = 'Отправить сейчас';
 $labels['addattachment']  = 'Добавить вложение';
 $labels['charset']  = 'Кодировка';

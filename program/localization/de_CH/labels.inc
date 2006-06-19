@@ -34,6 +34,7 @@ $labels['addressbook'] = 'Adressbuch';
 
 // mailbox names // E-Mail-Ordnernamen
 $labels['inbox']  = 'Posteingang';
+$labels['drafts'] = 'Entwürfe';
 $labels['sent']   = 'Gesendet';
 $labels['trash']  = 'Gelöscht';
 $labels['drafts'] = 'Vorlagen';
@@ -120,6 +121,7 @@ $labels['resetsearch']  = 'Löschen';
 
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
+$labels['savemessage']  = 'Außer diesem Entwurf';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
 $labels['charset']  = 'Zeichensatz';

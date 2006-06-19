@@ -39,6 +39,10 @@ $messages['sendingmessage'] = 'A enviar mensagem...';
 
 $messages['messagesent'] = 'Mensagem enviada';
 
+$messages['savingmessage'] = 'Mensagem do Saving...';
+
+$messages['messagesaved'] = 'Mensagem conservada aos esboços';
+
 $messages['successfullysaved'] = 'Ficheiro gravado';
 
 $messages['addedsuccessfully'] = 'Contacto adicionado ao catálogo de endereços';

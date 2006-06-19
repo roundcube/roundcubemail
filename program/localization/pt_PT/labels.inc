@@ -31,6 +31,7 @@ $labels['addressbook'] = 'Catálogo de endereços';
 
 // Nome das pastas de correio
 $labels['inbox']  = 'Caixa de entrada';
+$labels['drafts'] = 'Esboços';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
 $labels['drafts'] = 'Rascunhos';
@@ -113,6 +114,7 @@ $labels['quota'] = 'Quota de espaço';
 
 // message compose
 $labels['compose']  = 'Escrever mensagem';
+$labels['savemessage']  = 'Excepto este esboço';
 $labels['sendmessage']  = 'Enviar';
 $labels['addattachment']  = 'Anexar';
 $labels['charset']  = 'Charset';

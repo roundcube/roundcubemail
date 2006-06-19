@@ -26,6 +26,7 @@ require_once('Mail/mimeDecode.php');
 $MESSAGE_FORM = NULL;
 $REPLY_MESSAGE = NULL;
 $FORWARD_MESSAGE = NULL;
+$DRAFT_MESSAGE = NULL;
 
 
 if (!is_array($_SESSION['compose']))
@@ -33,12 +34,12 @@ if (!is_array($_SESSION['compose']))
 
 
 // add some labels to client
-rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'sendingmessage', 'notsentwarning');
+rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'savingmessage', 'messagesaved');
 
 
-if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
+if ($_GET['_reply_uid'] || $_GET['_forward_uid'] || $_GET['_draft_uid'])
   {
-  $msg_uid = $_GET['_reply_uid'] ? $_GET['_reply_uid'] : $_GET['_forward_uid'];
+  $msg_uid = ($_GET['_reply_uid'] ? $_GET['_reply_uid'] : ($_GET['_forward_uid'] ? $_GET['_forward_uid'] : $_GET['_draft_uid']));
 
   // similar as in program/steps/mail/show.inc
   $MESSAGE = array();
@@ -53,7 +54,7 @@ if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
 
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   $MESSAGE['parts'] = $mmd->getMimeNumbers($MESSAGE['structure']);
-  
+
   if ($_GET['_reply_uid'])
     {
     $REPLY_MESSAGE = &$MESSAGE;
@@ -65,22 +66,27 @@ if ($_GET['_reply_uid'] || $_GET['_forward_uid'])
 
     if ($_GET['_all'])
       $REPLY_MESSAGE['reply_all'] = 1;
+
     }
-  else
+  else if ($_GET['_forward_uid'])
     {
     $FORWARD_MESSAGE = $MESSAGE;
     $_SESSION['compose']['forward_uid'] = $_GET['_forward_uid'];
     }
+  else
+    {
+    $DRAFT_MESSAGE = $MESSAGE;
+    $_SESSION['compose']['draft_uid'] = $_GET['_draft_uid'];
+    }
+
   }
-
-
 
 /****** compose mode functions ********/
 
 
 function rcmail_compose_headers($attrib)
   {
-  global $IMAP, $REPLY_MESSAGE, $DB;
+  global $IMAP, $REPLY_MESSAGE, $DRAFT_MESSAGE, $DB;
   static $sa_recipients = array();
 
   list($form_start, $form_end) = get_form_tags($attrib);
@@ -139,8 +145,7 @@ function rcmail_compose_headers($attrib)
       break;
     
     }
-
-    
+ 
   if ($fname && !empty($_POST[$fname]))
     $fvalue = get_input_value($fname, RCUBE_INPUT_POST, TRUE);
   else if ($header && is_object($REPLY_MESSAGE['headers']))
@@ -182,6 +187,19 @@ function rcmail_compose_headers($attrib)
         }
       }
     }
+  else if ($header && is_object($DRAFT_MESSAGE['headers']))
+    {
+    // get drafted headers
+    if ($header=='to' && $DRAFT_MESSAGE['headers']->to)
+      $fvalue = $IMAP->decode_header($DRAFT_MESSAGE['headers']->to);
+
+    if ($header=='cc' && $DRAFT_MESSAGE['headers']->cc)
+      $fvalue = $IMAP->decode_header($DRAFT_MESSAGE['headers']->cc);
+
+    if ($header=='bcc' && $DRAFT_MESSAGE['headers']->bcc)
+      $fvalue = $IMAP->decode_header($DRAFT_MESSAGE['headers']->bcc);
+
+    }
 
         
   if ($fname && $field_type)
@@ -199,7 +217,7 @@ function rcmail_compose_headers($attrib)
   
   if ($form_start)
     $out = $form_start.$out;
-  
+
   return $out;  
   }
 
@@ -207,7 +225,7 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
   {
-  global $IMAP, $REPLY_MESSAGE, $DB, $OUTPUT, $JS_OBJECT_NAME;
+  global $IMAP, $REPLY_MESSAGE, $DRAFT_MESSAGE, $DB, $OUTPUT, $JS_OBJECT_NAME;
     
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
@@ -269,6 +287,10 @@ function rcmail_compose_header_from($attrib)
         
       if ($REPLY_MESSAGE && is_array($REPLY_MESSAGE['FROM']))
         $REPLY_MESSAGE['FROM'][] = $sql_arr['email'];
+
+      if (strstr($DRAFT_MESSAGE['headers']->from,$sql_arr['email']))
+        $from_id = $sql_arr['identity_id'];
+
       }
 
     // overwrite identity selection with post parameter
@@ -286,7 +308,7 @@ function rcmail_compose_header_from($attrib)
     $input_from = new textfield($field_attrib);
     $out = $input_from->show($_POST['_from']);
     }
-    
+  
   if ($form_start)
     $out = $form_start.$out;
 
@@ -297,7 +319,7 @@ function rcmail_compose_header_from($attrib)
 
 function rcmail_compose_body($attrib)
   {
-  global $CONFIG, $OUTPUT, $REPLY_MESSAGE, $FORWARD_MESSAGE, $JS_OBJECT_NAME;
+  global $CONFIG, $OUTPUT, $REPLY_MESSAGE, $FORWARD_MESSAGE, $DRAFT_MESSAGE, $JS_OBJECT_NAME;
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -329,8 +351,32 @@ function rcmail_compose_body($attrib)
     if (strlen($body))
       $body = rcmail_create_forward_body($body);
     }
+
+  // forward message body inline
+  else if (is_array($DRAFT_MESSAGE['parts']))
+    {
+    $body = rcmail_first_text_part($DRAFT_MESSAGE['parts']);
+    if (strlen($body))
+      $body = rcmail_create_draft_body($body);
+    }
   
   $out = $form_start ? "$form_start\n" : '';
+
+  // Check if a previous save was done so we can delete it upon the next save
+  if (!empty($_POST['_draft_newsaveid']))
+    $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => $_POST['_draft_newsaveid']));
+  else if (strlen($DRAFT_MESSAGE['headers']->messageID) > 6)
+    $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => str_replace(array('<','>'),"",$DRAFT_MESSAGE['headers']->messageID) ));
+
+  if ($saveid) 
+    $out .= $saveid->show();
+
+  $newsaveid = new hiddenfield(array('name' => '_draft_newsaveid', 'value' => sprintf('%s@%s', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']) ));
+  $out .= $newsaveid->show();
+ 
+  $drafttoggle = new hiddenfield(array('name' => '_draft', 'value' => 'yes'));
+  $out .= $drafttoggle->show();
+
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
   
@@ -456,11 +502,57 @@ function rcmail_create_forward_body($body)
   return $prefix.$body;
   }
 
+function rcmail_create_draft_body($body)
+  {
+  global $IMAP, $DRAFT_MESSAGE;
+    
+  // add attachments
+  if (!isset($_SESSION['compose']['forward_attachments']) && is_array($DRAFT_MESSAGE['parts']) && sizeof($DRAFT_MESSAGE['parts'])>1)
+    { 
+    $temp_dir = rcmail_create_compose_tempdir();
+
+    if (!is_array($_SESSION['compose']['attachments']))
+      $_SESSION['compose']['attachments'] = array();
+  
+    foreach ($DRAFT_MESSAGE['parts'] as $part)
+      {
+      if ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
+               (empty($part->disposition) && ($part->d_parameters['filename'] || $part->ctype_parameters['name'])))
+        {
+        $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
+        if ($fp = fopen($tmp_path, 'w'))
+          {                     
+          fwrite($fp, $IMAP->mime_decode($part->body, $part->headers['content-transfer-encoding']));
+          fclose($fp);          
+                                
+          if ($part->d_parameters['filename'])
+            $_SESSION['compose']['attachments'][] = array('name' => $part->d_parameters['filename'],
+                                                          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                          'path' => $tmp_path);
+
+          else if ($part->ctype_parameters['name'])
+            $_SESSION['compose']['attachments'][] = array('name' => $part->ctype_parameters['name'],
+                                                          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                          'path' => $tmp_path);
+
+          else if ($part->headers['content-description'])
+            $_SESSION['compose']['attachments'][] = array('name' => $part->headers['content-description'],
+                                                          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+                                                          'path' => $tmp_path);
+          }
+        }
+      }
+
+    $_SESSION['compose']['forward_attachments'] = TRUE;
+    }
+
+  return $body;
+  }
 
 
 function rcmail_compose_subject($attrib)
   {
-  global $CONFIG, $REPLY_MESSAGE, $FORWARD_MESSAGE;
+  global $CONFIG, $REPLY_MESSAGE, $FORWARD_MESSAGE, $DRAFT_MESSAGE;
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -492,6 +584,9 @@ function rcmail_compose_subject($attrib)
       $subject = 'Fwd: '.$FORWARD_MESSAGE['subject'];
     }
 
+  // creeate a draft-subject
+  else if (isset($DRAFT_MESSAGE['subject']))
+    $subject = $DRAFT_MESSAGE['subject'];
   
   $out = $form_start ? "$form_start\n" : '';
   $out .= $textfield->show($subject);
@@ -619,7 +714,7 @@ function get_form_tags($attrib)
     {
     $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
-    
+
     $form_start = empty($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
     $form_start .= "\n$SESS_HIDDEN_FIELD\n";
     $form_start .= $hiddenfields->show();

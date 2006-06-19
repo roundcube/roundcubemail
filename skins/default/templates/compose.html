@@ -20,6 +20,13 @@ function rcmail_toggle_display(id)
   return false;
   }
 
+function rcmail_auto_save()
+  {
+  rcmail.command('savedraft','',this);
+  self.setTimeout('rcmail_auto_save()',300000);
+  }
+self.setTimeout('rcmail_auto_save()',300000);
+ 
 //-->
 </script>
 </head>
@@ -36,6 +43,7 @@ function rcmail_toggle_display(id)
 <!--<roundcube:button command="contacts" imageAct="/images/buttons/contacts_act.png" imagePas="/images/buttons/contacts_pas.png" width="32" height="32" title="addressbook" />-->
 <roundcube:button command="spellcheck" imageAct="/images/buttons/spellcheck_act.png" imagePas="/images/buttons/spellcheck_pas.png" width="32" height="32" title="checkspelling" />
 <roundcube:button command="add-attachment" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
+<roundcube:button command="savedraft" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
 
 <div id="priority-selector">
 <roundcube:label name="priority" />:&nbsp;<roundcube:object name="prioritySelector" form="form" />

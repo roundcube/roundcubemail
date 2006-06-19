@@ -33,6 +33,7 @@ $labels['addressbook'] = 'Carnet d\'adresses';
 
 // mailbox names
 $labels['inbox']  = 'Boîte de réception';
+$labels['drafts'] = 'Ébauches';
 $labels['sent']   = 'Messages envoyés';
 $labels['trash']  = 'Corbeille';
 $labels['drafts'] = 'Brouillons';
@@ -115,6 +116,7 @@ $labels['quota'] = 'Utilisation Disque';
 
 // message compose
 $labels['compose']  = 'Composer un nouveau message';
+$labels['savemessage']  = 'Économiser cette ébauche';
 $labels['sendmessage']  = 'Envoyer le message maintenant';
 $labels['addattachment']  = 'Joindre un fichier';
 $labels['charset']  = 'Encodage';

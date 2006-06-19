@@ -40,6 +40,10 @@ $messages['sendingmessage'] = 'Отправка сообщения...';
 
 $messages['messagesent'] = 'Сообщение отправлено';
 
+$messages['savingmessage'] = 'Сообщение сбережения...';
+
+$messages['messagesaved'] = 'Сообщение сохраненное к проектам';
+
 $messages['successfullysaved'] = 'Сохранено';
 
 $messages['addedsuccessfully'] = 'Контакт добавлен в список контактов';

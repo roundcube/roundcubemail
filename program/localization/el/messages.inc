@@ -42,6 +42,10 @@ $messages['sendingmessage'] = 'Αποστολή μηνύματος...';
 
 $messages['messagesent'] = 'Το μήνυμα στάλθηκε επιτυχώς';
 
+$messages['savingmessage'] = 'Μήνυμα αποταμίευσης...';
+
+$messages['messagesaved'] = 'Μήνυμα που σώζεται στα σχέδια';
+
 $messages['successfullysaved'] = 'Αποθηκεύτηκε επιτυχώς';
 
 $messages['addedsuccessfully'] = 'Η επαφή προστέθηκε επιτυχώς στο βιβλίο διευθύνσεων';

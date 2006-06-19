@@ -117,6 +117,10 @@ $rcmail_config['product_name'] = 'RoundCube Webmail';
 // only list folders within this path
 $rcmail_config['imap_root'] = '';
 
+// store draft message is this mailbox
+// leave blank if draft messages should not be stored
+$rcmail_config['drafts_mbox'] = 'Drafts';
+
 // store sent message is this mailbox
 // leave blank if sent messages should not be stored
 $rcmail_config['sent_mbox'] = 'Sent';

@@ -33,6 +33,7 @@ $labels['addressbook'] = '地址薄';
 
 // mailbox names
 $labels['inbox']  = '收件箱';
+$labels['drafts'] = '草稿';
 $labels['sent']   = '发件箱';
 $labels['trash']  = '垃圾桶';
 $labels['drafts'] = '草稿';
@@ -113,6 +114,7 @@ $labels['quota'] = '空间使用';
 
 // message compose
 $labels['compose']  = '写新邮件';
+$labels['savemessage']  = '保存这份草稿';
 $labels['sendmessage']  = '立刻发送邮件';
 $labels['addattachment']  = '添加附件';
 
