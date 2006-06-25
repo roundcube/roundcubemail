@@ -50,6 +50,7 @@ class rcube_imap
   var $page_size = 10;
   var $sort_field = 'date';
   var $sort_order = 'DESC';
+  var $default_charset = 'ISO-8859-1';
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
   var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
@@ -1716,8 +1717,9 @@ class rcube_imap
 
       return $out;
       }
-    else
-      return $input;
+    
+    // no encoding information, defaults to what is specified in the class header
+    return rcube_charset_convert($input, $this->default_charset);
     }
 
 
@@ -1793,7 +1795,8 @@ class rcube_imap
     if (is_array($ctype_param) && !empty($ctype_param['charset']))
       return rcube_charset_convert($body, $ctype_param['charset']);
 
-    return $body;
+    // defaults to what is specified in the class header
+    return rcube_charset_convert($body, $this->default_charset);
     }
 
 
