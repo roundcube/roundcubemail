@@ -14,6 +14,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: David Saez Padros <david@ols.es>                              |
+ |         Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -80,7 +81,7 @@ class rcube_db
    */
   function rcube_db($db_dsnw, $db_dsnr='', $pconn=false)
     {
-    $this->__construct($db_dsnw, $db_dsnr);
+    $this->__construct($db_dsnw, $db_dsnr, $pconn);
     }
 
 
