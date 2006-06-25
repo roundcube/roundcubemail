@@ -173,6 +173,9 @@ $rcmail_config['mail_header_delimiter'] = NULL;
  *                                                    'fuzzy_search'  => 0);
  */
 
+// try to load host-specific configuration
+$rcmail_config['include_host_config'] = FALSE;
+
 
 /***** these settings can be overwritten by user's preferences *****/
 
@@ -199,10 +202,6 @@ $rcmail_config['message_sort_order'] = 'DESC';
 
 // list of configuration option names that need to be available in Javascript.
 $rcmail_config['javascript_config'] = array('read_when_deleted', 'flag_for_deletion');
-
-/***** try to load host-specific configuration *****/
-
-@include($_SERVER['HTTP_HOST'].'.inc.php');
 
 
 // end of config file

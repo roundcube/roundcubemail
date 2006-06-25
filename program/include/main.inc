@@ -42,6 +42,10 @@ function rcmail_startup($task='mail')
   // load config file
   include_once('config/main.inc.php');
   $CONFIG = is_array($rcmail_config) ? $rcmail_config : array();
+  
+  // load host-specific configuration
+  rcmail_load_host_config(&$CONFIG);
+  
   $CONFIG['skin_path'] = $CONFIG['skin_path'] ? preg_replace('/\/$/', '', $CONFIG['skin_path']) : 'skins/default';
 
   // load db conf
@@ -125,6 +129,24 @@ function rcmail_startup($task='mail')
 
 
   register_shutdown_function('rcmail_shutdown');
+  }
+
+
+// load a host-specific config file if configured
+function rcmail_load_host_config(&$config)
+  {
+  $fname = NULL;
+  
+  if (is_array($config['include_host_config']))
+    $fname = $config['include_host_config'][$_SERVER['HTTP_HOST']];
+  else if (!empty($config['include_host_config']))
+    $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $_SERVER['HTTP_HOST']) . '.inc.php';
+
+   if ($fname && is_file('config/'.$fname))
+     {
+     include('config/'.$fname);
+     $config = array_merge($config, $rcmail_config);
+     }
   }
   
 
