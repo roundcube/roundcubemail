@@ -24,13 +24,14 @@
 
 $REMOTE_REQUEST = TRUE;
 
-$google = "www.google.com";
+$google = "ssl://www.google.com";
+$port = 443;
 $lang = $_GET['lang'];
 $path = "/tbproxy/spell?lang=$lang";
 $data = file_get_contents('php://input');
 $store = "";
 
-if ($fp = fsockopen($google, 80, $errno, $errstr, 30))
+if ($fp = fsockopen($google, $port, $errno, $errstr, 30))
   {
   $out = "POST $path HTTP/1.0\r\n";
   $out .= "Host: $google\r\n";
@@ -39,6 +40,7 @@ if ($fp = fsockopen($google, 80, $errno, $errstr, 30))
   $out .= "Connection: Close\r\n\r\n";
   $out .= $data;
   fwrite($fp, $out);
+  
   while (!feof($fp))
     $store .= fgets($fp, 128);
   fclose($fp);
