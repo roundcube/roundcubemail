@@ -71,6 +71,10 @@ from version 0.1-20051007
   $rcmail_config['log_dir'] = 'logs/';
   $rcmail_config['temp_dir'] = 'temp/';
   $rcmail_config['message_cache_lifetime'] = '10d';
+  $rcmail_config['drafts_mbox'] = 'Drafts';
+  $rcmail_config['product_name'] = 'RoundCube Webmail';
+  $rcmail_config['read_when_deleted'] = TRUE;
+  $rcmail_config['enable_spellcheck'] = TRUE;
 - add these lines to /config/db.inc.php
   $rcmail_config['db_max_length'] = 512000;  
   $rcmail_config['db_sequence_user_ids'] = 'user_ids';
@@ -78,7 +82,7 @@ from version 0.1-20051007
   $rcmail_config['db_sequence_contact_ids'] = 'contact_ids';
   $rcmail_config['db_sequence_cache_ids'] = 'cache_ids';
   $rcmail_config['db_sequence_message_ids'] = 'message_ids';  
-
+  $rcmail_config['db_persistent'] = TRUE;
 
 from version 0.1-20051021
 ----------------------------------------
@@ -93,6 +97,10 @@ from version 0.1-20051021
   $rcmail_config['log_dir'] = 'logs/';
   $rcmail_config['temp_dir'] = 'temp/';
   $rcmail_config['message_cache_lifetime'] = '10d';
+  $rcmail_config['drafts_mbox'] = 'Drafts';
+  $rcmail_config['product_name'] = 'RoundCube Webmail';
+  $rcmail_config['read_when_deleted'] = TRUE;
+  $rcmail_config['enable_spellcheck'] = TRUE;
 - add these lines to /config/db.inc.php
   $rcmail_config['db_max_length'] = 512000;
   $rcmail_config['db_sequence_user_ids'] = 'user_ids';
@@ -100,6 +108,7 @@ from version 0.1-20051021
   $rcmail_config['db_sequence_contact_ids'] = 'contact_ids';
   $rcmail_config['db_sequence_cache_ids'] = 'cache_ids';
   $rcmail_config['db_sequence_message_ids'] = 'message_ids';
+  $rcmail_config['db_persistent'] = TRUE;
   
   
 form version 0.1-beta
@@ -109,5 +118,14 @@ form version 0.1-beta
 - replace all files in folder /skins/default/
 - add these lines to /config/db.inc.php
   $rcmail_config['db_persistent'] = TRUE;
-
+- add these lines to /config/main.inc.php
+  $rcmail_config['drafts_mbox'] = 'Drafts';
+  $rcmail_config['product_name'] = 'RoundCube Webmail';
+  $rcmail_config['read_when_deleted'] = TRUE;
+  $rcmail_config['enable_spellcheck'] = TRUE;
+- replace the following line from /config/main.inc.php
+   @include($_SERVER['HTTP_HOST'].'.inc.php');
+  with 
+   $rcmail_config['include_host_config'] = TRUE;
+  
   

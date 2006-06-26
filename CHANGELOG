@@ -1,9 +1,19 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/06/25
+----------
+- Changed behavior to include host-specific configuration (Bug #1483849)
+- Assume ISO-8859-1 encoding of mail messages by default (Patch #1483839)
+- Fixed spell checker to work with the new URL at google.com
+- Some memory and security optimizations sendmail.inc
+- Updated UGRADING description
+
+
 2006/06/19
 ----------
 - Added Drafts support (Feature #1326839) (richs)
+
 
 2006/06/02
 ----------

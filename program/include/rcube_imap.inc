@@ -990,7 +990,7 @@ class rcube_imap
 
 
   // append a mail message (source) to a specific mailbox
-  function save_message($mbox_name, $message)
+  function save_message($mbox_name, &$message)
     {
     $mailbox = $this->_mod_mailbox($mbox_name);
 

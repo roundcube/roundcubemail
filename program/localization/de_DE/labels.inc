@@ -38,7 +38,6 @@ $labels['inbox']  = 'Posteingang';
 $labels['drafts'] = 'Entwürfe';
 $labels['sent']   = 'Gesendet';
 $labels['trash']  = 'Gelöscht';
-$labels['drafts'] = 'Entwürfe';
 $labels['junk']   = 'Spam';
 
 // message listing // Nachrichtenliste
@@ -122,7 +121,7 @@ $labels['resetsearch']  = 'Löschen';
 
 // message compose // Nachrichten erstellen
 $labels['compose']  = 'Neue Nachricht verfassen';
-$labels['savemessage']  = 'Außer diesem Entwurf';
+$labels['savemessage']  = 'Nachricht speichern';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
 $labels['charset']  = 'Zeichensatz';

@@ -62,15 +62,14 @@ function rcmail_get_identity($id)
   return FALSE;  
   }
 
-if (strlen($_POST['_draft_saveid']) > 3) {
-  $olddraftmessageid = $_POST['_draft_saveid'];
-}
-if (strlen($_POST['_draft_newsaveid']) > 3) {
-  $newdraftmessageid = $_POST['_draft_newsaveid'];
-}
-if ($_POST['_draft']) {
-  $savedraft = 1;
-}
+if (strlen($_POST['_draft_saveid']) > 3)
+  $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
+
+if (strlen($_POST['_draft_newsaveid']) > 3)
+  $newdraftmessageid = get_input_value('_draft_newsaveid', RCUBE_INPUT_POST);
+
+$savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
+
  
 /****** check submission and compose message ********/
 
@@ -95,7 +94,7 @@ $mailto = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_to', R
 
 // decode address strings
 $to_address_arr = $IMAP->decode_address_list($mailto);
-$identity_arr = rcmail_get_identity($_POST['_from']);
+$identity_arr = rcmail_get_identity(get_input_value('_from', RCUBE_INPUT_POST));
 
 
 $from = $identity_arr['mailto'];
@@ -103,17 +102,19 @@ $first_to = is_array($to_address_arr[0]) ? $to_address_arr[0]['mailto'] : $mailt
 
 
 // try the message-id submitted by the compose form
-if ($newdraftmessageid) {
+if ($newdraftmessageid)
   $message_id = sprintf('<%s>',$newdraftmessageid);
-} else {
+else
   $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']);
-}
+  
+if (empty($identity_arr['string']))
+  $identity_arr['string'] = $from;
 
 
 // compose headers array
 $headers = array('Date' => date('D, j M Y G:i:s O'),
                  'From' => $identity_arr['string'],
-                 'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
+                 'To'   => $mailto);
 
 // additional recipients
 if (!empty($_POST['_cc']))
@@ -218,7 +219,7 @@ $message_param = array('text_encoding' => $transfer_encoding,
                        'text_charset'  => $message_charset);
 
 // compose message body and get headers
-$msg_body = $MAIL_MIME->get($message_param);
+$msg_body = &$MAIL_MIME->get($message_param);
 
 $msg_subject = $headers['Subject'];
 
@@ -295,11 +296,10 @@ if (!$savedraft) {
   } // End of SMTP Delivery Block
 
 // Determine which folder to save message
-if ($savedraft) {
-	$store_target = 'drafts_mbox';
-} else {
-	$store_target = 'sent_mbox';
-}
+if ($savedraft)
+  $store_target = 'drafts_mbox';
+else
+  $store_target = 'sent_mbox';
 
 if ($CONFIG[$store_target])
   {
@@ -311,10 +311,13 @@ if ($CONFIG[$store_target])
     $store_folder = $IMAP->create_mailbox($CONFIG[$store_target], TRUE);
   else
     $store_folder = TRUE;
+  
+  // add headers to message body
+  $msg_body = $header_str."\r\n".$msg_body;
 
   // append message to sent box
   if ($store_folder)
-    $saved = $IMAP->save_message($CONFIG[$store_target], $header_str."\r\n".$msg_body);
+    $saved = $IMAP->save_message($CONFIG[$store_target], $msg_body);
 
   // raise error if saving failed
   if (!$saved)
@@ -323,7 +326,8 @@ if ($CONFIG[$store_target])
                       'file' => __FILE__,
                       'message' => "Could not save message in $CONFIG[$store_target]"), TRUE, FALSE);
 
-  if ($olddraftmessageid) {
+  if ($olddraftmessageid)
+    {
     // delete previous saved draft
     $a_deleteid = $IMAP->search($CONFIG['drafts_mbox'],'HEADER Message-ID',$olddraftmessageid);
     $deleted = $IMAP->delete_message($IMAP->get_uid($a_deleteid[0],$CONFIG['drafts_mbox']),$CONFIG['drafts_mbox']);

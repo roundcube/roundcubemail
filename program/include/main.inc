@@ -44,7 +44,7 @@ function rcmail_startup($task='mail')
   $CONFIG = is_array($rcmail_config) ? $rcmail_config : array();
   
   // load host-specific configuration
-  rcmail_load_host_config(&$CONFIG);
+  rcmail_load_host_config($CONFIG);
   
   $CONFIG['skin_path'] = $CONFIG['skin_path'] ? preg_replace('/\/$/', '', $CONFIG['skin_path']) : 'skins/default';
 

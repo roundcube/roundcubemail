@@ -40,9 +40,9 @@ $messages['sendingmessage'] = 'Nachricht wird gesendet...';
 
 $messages['messagesent'] = 'Nachricht erfolgreich gesendet';
 
-$messages['savingmessage'] = 'Einsparunganzeige...';
+$messages['savingmessage'] = 'Nachricht wird gespeichert...';
 
-$messages['messagesaved'] = 'Anzeige gespeichert zu den Entwürfen';
+$messages['messagesaved'] = 'Nachricht als Entwurf gespeichert';
 
 $messages['successfullysaved'] = 'Erfolgreich gespeichert';
 
