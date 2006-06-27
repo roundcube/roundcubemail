@@ -36,7 +36,7 @@ require_once('lib/utf7.inc');
  *
  * @package    RoundCube Webmail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.22
+ * @version    1.26
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -50,7 +50,6 @@ class rcube_imap
   var $page_size = 10;
   var $sort_field = 'date';
   var $sort_order = 'DESC';
-  var $default_charset = 'ISO-8859-1';
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
   var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
@@ -1715,8 +1714,13 @@ class rcube_imap
     
     return $str;
     }
-    
-    
+
+
+  /**
+   * Decode a mime-encoded string to internal charset
+   *
+   * @access static
+   */
   function decode_mime_string($input)
     {
     $out = '';
@@ -1740,10 +1744,15 @@ class rcube_imap
       }
     
     // no encoding information, defaults to what is specified in the class header
-    return rcube_charset_convert($input, $this->default_charset);
+    return rcube_charset_convert($input, 'ISO-8859-1');
     }
 
 
+  /**
+   * Decode a part of a mime-encoded string
+   *
+   * @access static
+   */
   function _decode_mime_string_part($str)
     {
     $a = explode('?', $str);
@@ -1817,8 +1826,9 @@ class rcube_imap
       return rcube_charset_convert($body, $ctype_param['charset']);
 
     // defaults to what is specified in the class header
-    return rcube_charset_convert($body, $this->default_charset);
+    return rcube_charset_convert($body,  'ISO-8859-1');
     }
+
 
 
 
