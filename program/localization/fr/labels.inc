@@ -91,6 +91,7 @@ $labels['saturday']  = 'Samedi';
 $labels['today'] = 'Aujourd\'hui';
 
 // toolbar buttons
+$labels['checkmail']        = 'Vérification les nouveaux messages';
 $labels['writenewmessage']  = 'Créer un nouveau message';
 $labels['replytomessage']   = 'Répondre au message';
 $labels['replytoallmessage'] = 'Répondre à tous';

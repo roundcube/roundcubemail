@@ -36,6 +36,8 @@ $messages['loading'] = 'Loading...';
 
 $messages['loadingdata'] = 'Loading data...';
 
+$messages['checkingmail'] = 'Checking for new messages...';
+
 $messages['messagesent'] = 'Message sent successfully';
 
 $messages['savingmessage'] = 'Saving message...';

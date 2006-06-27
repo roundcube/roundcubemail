@@ -91,6 +91,7 @@ $labels['saturday']  = 'Samstag';
 $labels['today'] = 'Heute';
 
 // toolbar buttons // Symbolleisten-Tipps
+$labels['checkmail']        = 'Überprüfung auf neue Anzeigen';
 $labels['writenewmessage']  = 'Neue Nachricht schreiben';
 $labels['replytomessage']   = 'Antwort verfassen';
 $labels['replytoallmessage'] = 'Antwort an Absender und alle Empfänger';

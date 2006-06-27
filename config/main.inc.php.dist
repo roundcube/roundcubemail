@@ -132,6 +132,9 @@ $rcmail_config['trash_mbox'] = 'Trash';
 // display these folders separately in the mailbox list
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
+// protect the default folders from renames, deletes, and subscription changes
+$rcmail_config['protect_default_folders'] = TRUE;
+
 // Set TRUE if deleted messages should not be displayed
 // This will make the application run slower
 $rcmail_config['skip_deleted'] = FALSE;

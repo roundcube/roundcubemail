@@ -37,6 +37,8 @@ $messages['loading'] = '读取...';
 
 $messages['loadingdata'] = '读取数据...';
 
+$messages['checkingmail'] = '检查新消息...';
+
 $messages['sendingmessage'] = '正在发送邮件...';
 
 $messages['messagesent'] = '邮件发送成功';

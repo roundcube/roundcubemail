@@ -89,6 +89,7 @@ $labels['saturday']  = 'Sábado';
 $labels['today'] = 'Hoje';
 
 // toolbar buttons
+$labels['checkmail']        = 'Verificar para ver se há mensagens novas';
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder';
 $labels['replytoallmessage'] = 'Responder para todos';

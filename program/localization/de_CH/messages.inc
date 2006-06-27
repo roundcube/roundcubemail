@@ -34,6 +34,8 @@ $messages['mailboxempty'] = 'Ordner ist leer';
 
 $messages['loading'] = $messages['loadingdata'] = 'Daten werden geladen...';
 
+$messages['checkingmail'] = 'Überprüfung auf neue Anzeigen...';
+
 $messages['sendingmessage'] = 'Nachricht wird gesendet...';
 
 $messages['messagesent'] = 'Nachricht erfolgreich gesendet';

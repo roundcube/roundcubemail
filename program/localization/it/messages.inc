@@ -36,6 +36,8 @@ $messages['loading'] = 'Caricamento...';
 
 $messages['loadingdata'] = 'Caricamento dati...';
 
+$messages['checkingmail'] = 'Controllando per vedere se c'è nuovi messaggi...';
+
 $messages['sendingmessage'] = 'Invio messaggio in corso...';
 
 $messages['messagesent'] = 'Messaggio inviato correttamente';

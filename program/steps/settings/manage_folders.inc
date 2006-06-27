@@ -19,7 +19,7 @@
 
 */
 
-// init IAMP connection
+// init IMAP connection
 rcmail_imap_init(TRUE);
 
 
@@ -60,6 +60,27 @@ else if ($_action=='create-folder')
     rcube_remote_response($commands);
     }
   else if (!$create)
+    show_message('errorsaving', 'error');
+  }
+
+// rename a mailbox
+else if ($_action=='rename-folder')
+  {
+  if (!empty($_GET['_folder_oldname']) && !empty($_GET['_folder_newname']))
+    $rename = $IMAP->rename_mailbox(get_input_value('_folder_oldname', RCUBE_INPUT_GET), trim(get_input_value('_folder_newname', RCUBE_INPUT_GET)), TRUE);
+
+  if ($rename && $REMOTE_REQUEST)
+    {
+    $commands = sprintf("this.add_folder_row('%s');", rep_specialchars_output($rename, 'js')); 
+    $commands .= sprintf("this.remove_folder_row('%s')", rep_specialchars_output($_GET['_folder_oldname'], 'js'));
+    rcube_remote_response($commands);
+    }
+  else if (!$rename && $REMOTE_REQUEST)
+    {
+    $commands = show_message('errorsaving', 'error');
+    rcube_remote_response($commands);
+    }
+  else if (!$rename)
     show_message('errorsaving', 'error');
   }
 
@@ -120,6 +141,9 @@ function rcube_subscription_form($attrib)
   // create list of available folders
   foreach ($a_unsubscribed as $i => $folder)
     {
+    if ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']))
+      continue;
+
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = rep_specialchars_output($folder, 'js');
     $a_js_folders['rcmrow'.($i+1)] = $folder_js;
@@ -168,6 +192,46 @@ function rcube_create_folder_form($attrib)
     $button = new input_field(array('type' => 'button',
                                     'value' => rcube_label('create'),
                                     'onclick' => "$JS_OBJECT_NAME.command('create-folder',this.form)"));
+    $out .= $button->show();
+    }
+
+  $out .= "\n$form_end";
+
+  return $out;
+  }
+
+function rcube_rename_folder_form($attrib)
+  {
+  global $CONFIG, $IMAP, $JS_OBJECT_NAME;
+
+  list($form_start, $form_end) = get_form_tags($attrib, 'rename-folder');
+  unset($attrib['form']);
+
+  // return the complete edit form as table
+  $out = "$form_start\n";
+
+  $a_unsubscribed = $IMAP->list_unsubscribed();
+  $select_folder = new select(array('name' => '_folder_oldname', 'id' => 'rcmfd_oldfolder'));
+
+  foreach ($a_unsubscribed as $i => $folder)
+    {
+    if ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders'])) 
+      continue;
+
+    $select_folder->add($folder);
+    }
+
+  $out .= $select_folder->show();
+
+  $out .= " to ";
+  $inputtwo = new textfield(array('name' => '_folder_newname'));
+  $out .= $inputtwo->show();
+
+  if (get_boolean($attrib['button']))
+    {
+    $button = new input_field(array('type' => 'button',
+                                    'value' => rcube_label('rename'),
+                                    'onclick' => "$JS_OBJECT_NAME.command('rename-folder',this.form)"));
     $out .= $button->show();
     }
 

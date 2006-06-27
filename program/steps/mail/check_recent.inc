@@ -9,40 +9,48 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Check for recent messages                                           |
+ |   Check for recent messages, in all mailboxes                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id: check_recent.inc 233 2006-06-26 17:31:20Z richs $
 
 */
 
 $REMOTE_REQUEST = TRUE;
-$mbox_name = $IMAP->get_mailbox_name();
 
-if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
+$a_mailboxes = $IMAP->list_mailboxes();
+
+foreach ($a_mailboxes as $mbox_name)
   {
-  $count = $IMAP->messagecount();
-  $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
-    
-  $commands = sprintf("this.set_unread_count('%s', %d, true);\n", addslashes($mbox_name), $unread_count);
-  $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
-  $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
-  $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
- 
-  // add new message headers to list
-  $a_headers = array();
-  for ($i=$recent_count, $id=$count-$recent_count+1; $i>0; $i--, $id++)
-    $a_headers[] = $IMAP->get_headers($id, NULL, FALSE);
-    
-  $commands .= rcmail_js_message_list($a_headers, TRUE);
+  if ($mbox_name == $IMAP->get_mailbox_name())
+    {
+    if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
+      {
+      $count = $IMAP->messagecount();
+      $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
+
+      $commands .= sprintf("this.set_unread_count('%s', %d, true);\n", addslashes($mbox_name), $unread_count);
+      $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
+      $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
+      $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
+
+      // add new message headers to list
+      $a_headers = array();
+      for ($i=$recent_count, $id=$count-$recent_count+1; $i>0; $i--, $id++)
+        $a_headers[] = $IMAP->get_headers($id, NULL, FALSE);
+
+      $commands .= rcmail_js_message_list($a_headers, TRUE);
+      }
+    }
+  else
+    {
+    if ($IMAP->messagecount($mbox_name, 'RECENT'))
+      $commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_name), $IMAP->messagecount($mbox_name, 'UNSEEN'));
+    }
   }
-
-if (strtoupper($mbox_name)!='INBOX' && $IMAP->messagecount('INBOX', 'RECENT'))
-  $commands = sprintf("this.set_unread_count('INBOX', %d);\n", $IMAP->messagecount('INBOX', 'UNSEEN'));
-
 
 rcube_remote_response($commands);
 ?>

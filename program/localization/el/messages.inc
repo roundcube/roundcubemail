@@ -38,6 +38,8 @@ $messages['loading'] = 'Φόρτωση...';
 
 $messages['loadingdata'] = 'Φόρτωση δεδομένων...';
 
+$messages['checkingmail'] = 'Έλεγχος για τα νέα μηνύματα...';
+
 $messages['sendingmessage'] = 'Αποστολή μηνύματος...';
 
 $messages['messagesent'] = 'Το μήνυμα στάλθηκε επιτυχώς';

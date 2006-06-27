@@ -1262,9 +1262,30 @@ class rcube_imap
 
 
   // set a new name to an existing mailbox
-  function rename_mailbox($mbox_name, $new_name)
+  function rename_mailbox($mbox_name, $new_name, $subscribe=TRUE)
     {
-    // not implemented yet
+    $result = FALSE;
+
+    // replace backslashes
+    $name = preg_replace('/[\\\]+/', '-', $new_name);
+
+    $name_enc = UTF7EncodeString($new_name);
+
+    // reduce mailbox name to 100 chars
+    $name_enc = substr($name_enc, 0, 100);
+
+    $abs_name = $this->_mod_mailbox($name_enc);
+    $a_mailbox_cache = $this->get_cache('mailboxes');
+
+    if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array($abs_name, $a_mailbox_cache)))
+      $result = iil_C_RenameFolder($this->conn, $mbox_name, $abs_name);
+
+    // update mailboxlist cache
+    if ($result && $subscribe)
+      $this->unsubscribe($mbox_name);
+      $this->subscribe($name_enc);
+
+    return $result ? $name : FALSE;
     }
 
 

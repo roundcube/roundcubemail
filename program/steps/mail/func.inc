@@ -304,10 +304,10 @@ function rcmail_message_list($attrib)
 
   // define list of cols to be displayed
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
-  $a_sort_cols = array('subject', 'date', 'from', 'to');
+  $a_sort_cols = array('subject', 'date', 'from', 'to', 'size');
   
   // show 'to' instead of from in sent messages
-  if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols))
+  if (($IMAP->get_mailbox_name()==$CONFIG['sent_mbox'] || $IMAP->get_mailbox_name()==$CONFIG['drafts_mbox']) && ($f = array_search('from', $a_show_cols))
       && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
   

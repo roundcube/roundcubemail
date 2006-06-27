@@ -36,6 +36,8 @@ $messages['loading'] = 'Загрузка...';
 
 $messages['loadingdata'] = 'Загрузка данных...';
 
+$messages['checkingmail'] = 'Проверять для новых сообщений...';
+
 $messages['sendingmessage'] = 'Отправка сообщения...';
 
 $messages['messagesent'] = 'Сообщение отправлено';

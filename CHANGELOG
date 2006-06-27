@@ -1,6 +1,19 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/06/26 (richs)
+----------
+- Added button to immediately check for new messages 
+- New message checking now displays status "Checking for new messages..."
+- New message checking now looks for unread messages in all mailboxes (Feature #1326401)
+- Task buttons now respond to clicks by darkening (as in other applications)
+- Fixed "Sender" column changing to "Recipient" for "Sent" and "Drafts" message lists
+- Added ability to sort messages by "Size"
+- Added ability to rename folders (Feature #1326396)
+- Added 'protect_default_folders' option to main.inc.php to prevent renames/deletes/unsubscribes of default folders
+- Corrected 5 typos of "INSTLL" to "INSTALL" in program/include/main.inc
+
+
 2006/06/25
 ----------
 - Changed behavior to include host-specific configuration (Bug #1483849)

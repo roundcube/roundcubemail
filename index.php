@@ -340,7 +340,7 @@ if ($_task=='settings')
   if ($_action=='save-prefs')
     include('program/steps/settings/save_prefs.inc');  
 
-  if ($_action=='folders' || $_action=='subscribe' || $_action=='unsubscribe' || $_action=='create-folder' || $_action=='delete-folder')
+  if ($_action=='folders' || $_action=='subscribe' || $_action=='unsubscribe' || $_action=='create-folder' || $_action=='rename-folder' || $_action=='delete-folder')
     include('program/steps/settings/manage_folders.inc');
 
   }

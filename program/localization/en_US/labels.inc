@@ -90,6 +90,7 @@ $labels['saturday']  = 'Saturday';
 $labels['today'] = 'Today';
 
 // toolbar buttons
+$labels['checkmail']        = 'Check for new messages';
 $labels['writenewmessage']  = 'Create a new message';
 $labels['replytomessage']   = 'Reply to the message';
 $labels['replytoallmessage'] = 'Reply to sender and all recipients';
@@ -208,6 +209,8 @@ $labels['foldername']  = 'Folder name';
 $labels['subscribed']  = 'Subscribed';
 $labels['create']  = 'Create';
 $labels['createfolder']  = 'Create new folder';
+$labels['rename'] = 'Rename';
+$labels['renamefolder'] = 'Rename existing folder';
 $labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
 

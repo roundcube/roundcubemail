@@ -97,6 +97,7 @@ $labels['saturday']  = 'Σάββατο';
 $labels['today'] = 'Σήμερα';
 
 // toolbar buttons
+$labels['checkmail']        = 'Έλεγχος για τα νέα μηνύματα';
 $labels['writenewmessage']  = 'Δημιουργία νέου μηνύματος';
 $labels['replytomessage']   = 'Απάντηση μηνύματος';
 $labels['forwardmessage']   = 'Προώθηση μηνύματος';

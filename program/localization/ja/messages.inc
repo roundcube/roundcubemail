@@ -36,6 +36,8 @@ $messages['loading'] = '読み込み中...';
 
 $messages['loadingdata'] = 'データを読み込み中です...';
 
+$messages['checkingmail'] = '新しいメッセージがあるように確認...';
+
 $messages['sendingmessage'] = 'メッセージの送信中です...';
 
 $messages['messagesent'] = 'メッセージの送信に成功しました。';

@@ -34,6 +34,8 @@ $messages['mailboxempty'] = 'A caixa postal está vazia';
 
 $messages['loadingdata'] = 'Carregando informações...';
 
+$messages['checkingmail'] = 'Verificar para ver se há mensagens novas...';
+
 $messages['messagesent'] = 'Mensagem enviada';
 
 $messages['savingmessage'] = 'Mensagem do Saving...';

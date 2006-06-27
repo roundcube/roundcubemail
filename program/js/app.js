@@ -123,7 +123,7 @@ function rcube_webmail()
           }
 
         // enable mail commands
-        this.enable_command('list', 'compose', 'add-contact', 'search', 'reset-search', true);
+        this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', true);
         
         if (this.env.action=='show')
           {
@@ -211,7 +211,7 @@ function rcube_webmail()
           this.enable_command('save', true);
           
         if (this.env.action=='folders')
-          this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'delete-folder', true);
+          this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', 'delete-folder', true);
           
         var identities_list = this.gui_objects.identitieslist;
         if (identities_list)
@@ -613,11 +613,17 @@ function rcube_webmail()
           {
           if (this.env.search_request<0 || (this.env.search_request && props != this.env.mailbox))
             this.reset_qsearch();
+
+	  // Reset message list header, unless returning from compose/read/etc
+	  if (this.env.mailbox != props && this.message_rows)
+	    this.clear_message_list_header();
+
           this.list_mailbox(props);
           }
         else if (this.task=='addressbook')
           this.list_contacts();
         break;
+
 
       case 'sort':
         // get the type of sorting
@@ -842,6 +848,9 @@ function rcube_webmail()
           //location.href = this.env.comm_path+'&_action=show&_uid='+this.env.prev_uid+'&_mbox='+this.env.mailbox;
         break;
       
+      case 'checkmail':
+        this.check_for_recent();
+        break;
       
       case 'compose':
         var url = this.env.comm_path+'&_action=compose';
@@ -1032,6 +1041,10 @@ function rcube_webmail()
         
       case 'create-folder':
         this.create_folder(props);
+        break;
+
+      case 'rename-folder':
+        this.rename_folder(props);
         break;
 
       case 'delete-folder':
@@ -1554,6 +1567,7 @@ function rcube_webmail()
   this.clear_message_list = function()
     {
     var table = this.gui_objects.messagelist;
+   
     var tbody = document.createElement('TBODY');
     table.insertBefore(tbody, table.tBodies[0]);
     table.removeChild(table.tBodies[1]);
@@ -1563,6 +1577,18 @@ function rcube_webmail()
     
     };
 
+  this.clear_message_list_header = function()
+    {
+    var table = this.gui_objects.messagelist;
+
+    var colgroup = document.createElement('COLGROUP');
+    table.removeChild(table.colgroup);
+    table.insertBefore(colgroup, table.thead);
+
+    var thead = document.createElement('THEAD');
+    table.removeChild(table.thead);
+    table.insertBefore(thead, table.tBodies[0]);
+    };
 
   this.expunge_mailbox = function(mbox)
     {
@@ -2584,6 +2610,21 @@ function rcube_webmail()
       form.elements['_folder_name'].focus();
     };
 
+  this.rename_folder = function(props)
+    {
+    var form;
+    if ((form = this.gui_objects.editform) && form.elements['_folder_oldname'] && form.elements['_folder_newname'])
+      {	
+      oldname = form.elements['_folder_oldname'].value;
+      newname = form.elements['_folder_newname'].value;
+      }
+
+    if (oldname && newname)
+      this.http_request('rename-folder', '_folder_oldname='+escape(oldname)+'&_folder_newname='+escape(newname));
+    else if (form.elements['_folder_newname'])
+      form.elements['_folder_newname'].focus();
+    };
+
 
   this.delete_folder = function(folder)
     {
@@ -2603,6 +2644,20 @@ function rcube_webmail()
     var row;
     if (id && (row = document.getElementById(id)))
       row.style.display = 'none';    
+
+    // remove folder from rename-folder list
+    var form;
+    if ((form = this.gui_objects.editform) && form.elements['_folder_oldname'])
+      {
+      for (var i=0;i<form.elements['_folder_oldname'].options.length;i++)
+        {
+        if (form.elements['_folder_oldname'].options[i].value == folder) 
+	  {
+          form.elements['_folder_oldname'].options[i] = null;
+	  break;
+          }
+        }
+      }
     };
 
 
@@ -2671,7 +2726,7 @@ function rcube_webmail()
 
      var tbody = this.gui_objects.subscriptionlist.tBodies[0];
      var id = tbody.childNodes.length+1;
-     
+    
      // clone a table row
      var row = this.clone_table_row(tbody.rows[0]);
      row.id = 'rcmrow'+id;
@@ -2690,9 +2745,14 @@ function rcube_webmail()
      if (row.cells[2].firstChild.tagName=='A')
        row.cells[2].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name+"')");
 
-    var form;
-    if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
-      form.elements['_folder_name'].value = '';
+     var form;
+     if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
+       form.elements['_folder_name'].value = '';
+ 
+     // add new folder to rename-folder list
+     if (form.elements['_folder_oldname'])
+       form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
+
      };
 
 
@@ -2795,6 +2855,26 @@ function rcube_webmail()
       }
     };
 
+  // mouse down on button
+  this.button_sel = function(command, id)
+    {
+    var a_buttons = this.buttons[command];
+    var button, img;
+
+    if(!a_buttons || !a_buttons.length)
+      return;
+
+    for(var n=0; n<a_buttons.length; n++)
+      {
+      button = a_buttons[n];
+      if(button.id==id && button.status=='act')
+        {
+        img = document.getElementById(button.id);
+        if (img && button.sel)
+          img.src = button.sel;
+        }
+      }
+    };
 
   // mouse out of button
   this.button_out = function(command, id)
@@ -3181,8 +3261,7 @@ function rcube_webmail()
       ctype = ctype_array[0];
     }
 
-    if (request_obj.__lock)
-      this.set_busy(false);
+    this.set_busy(false);
 
   console(request_obj.get_text());
 
@@ -3236,6 +3315,7 @@ function rcube_webmail()
   // send periodic request to check for recent messages
   this.check_for_recent = function()
     {
+    this.set_busy(true, 'checkingmail');
     var d = new Date();
     this.http_request('check-recent', '_t='+d.getTime());
     };

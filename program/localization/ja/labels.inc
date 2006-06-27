@@ -91,6 +91,7 @@ $labels['saturday']  = '土曜日';
 $labels['today'] = '今日';
 
 // toolbar buttons
+$labels['checkmail']        = '新しいメッセージがあるように確認';
 $labels['writenewmessage']  = '新規メッセージを作成する';
 $labels['replytomessage']   = 'メッセージを返信する';
 $labels['replytoallmessage'] = '送信者とすべての受信者に返信する';

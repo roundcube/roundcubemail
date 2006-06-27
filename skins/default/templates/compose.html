@@ -38,12 +38,12 @@ self.setTimeout('rcmail_auto_save()',300000);
 <form name="form" action="./" method="post">
 
 <div id="messagetoolbar">
-<roundcube:button command="list" image="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
-<roundcube:button command="send" imageAct="/images/buttons/send_act.png" imagePas="/images/buttons/send_pas.png" width="32" height="32" title="sendmessage" />
-<!--<roundcube:button command="contacts" imageAct="/images/buttons/contacts_act.png" imagePas="/images/buttons/contacts_pas.png" width="32" height="32" title="addressbook" />-->
-<roundcube:button command="spellcheck" imageAct="/images/buttons/spellcheck_act.png" imagePas="/images/buttons/spellcheck_pas.png" width="32" height="32" title="checkspelling" />
-<roundcube:button command="add-attachment" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
-<roundcube:button command="savedraft" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
+<roundcube:button command="list" image="/images/buttons/back_act.png" imageSel="/images/buttons/back_sel.png" imageAct="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
+<roundcube:button command="send" imageSel="/images/buttons/send_sel.png" imageAct="/images/buttons/send_act.png" imagePas="/images/buttons/send_pas.png" width="32" height="32" title="sendmessage" />
+<!--<roundcube:button command="contacts" imageSel="/images/buttons/contacts_sel.png" imageAct="/images/buttons/contacts_act.png" imagePas="/images/buttons/contacts_pas.png" width="32" height="32" title="addressbook" />-->
+<roundcube:button command="spellcheck" imageSel="/images/buttons/spellcheck_sel.png" imageAct="/images/buttons/spellcheck_act.png" imagePas="/images/buttons/spellcheck_pas.png" width="32" height="32" title="checkspelling" />
+<roundcube:button command="add-attachment" imageSel="/images/buttons/attach_sel.png" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
+<roundcube:button command="savedraft" imageSel="/images/buttons/drafts_sel.png" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
 
 <div id="priority-selector">
 <roundcube:label name="priority" />:&nbsp;<roundcube:object name="prioritySelector" form="form" />
@@ -113,7 +113,7 @@ self.setTimeout('rcmail_auto_save()',300000);
 <div id="compose-attachments">
 <div><roundcube:label name="attachments" /></div>
 <roundcube:object name="composeAttachmentList" />
-<p><roundcube:button command="add-attachment" imagePas="/images/buttons/add_pas.png" imageAct="/images/buttons/add_act.png" width="23" height="18" title="addattachment" />
+<p><roundcube:button command="add-attachment" imagePas="/images/buttons/add_pas.png" imageSel="/images/buttons/add_sel.png" imageAct="/images/buttons/add_act.png" width="23" height="18" title="addattachment" />
 </div>
 
 </form>

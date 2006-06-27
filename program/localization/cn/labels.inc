@@ -91,6 +91,7 @@ $labels['saturday']  = '星期六';
 $labels['today'] = '今天';
 
 // toolbar buttons
+$labels['checkmail']        = '检查新消息';
 $labels['writenewmessage']  = '写新邮件';
 $labels['replytomessage']   = '回复邮件';
 $labels['forwardmessage']   = '转发邮件';

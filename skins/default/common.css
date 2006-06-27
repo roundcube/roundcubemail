@@ -39,6 +39,7 @@ h3
 a, a:active, a:visited
 {
   color: #000000;
+  outline: none;
 }
 
 a.button, a.button:visited, a.tab, a.tab:visited, a.axislist

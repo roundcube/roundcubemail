@@ -289,11 +289,11 @@ function get_sequence_name($sequence)
 // check the given string and returns language properties
 function rcube_language_prop($lang, $prop='lang')
   {
-  global $INSTLL_PATH;
+  global $INSTALL_PATH;
   static $rcube_languages, $rcube_language_aliases, $rcube_charsets;
 
   if (empty($rcube_languages))
-    @include($INSTLL_PATH.'program/localization/index.inc');
+    @include($INSTALL_PATH.'program/localization/index.inc');
     
   // check if we have an alias for that language
   if (!isset($rcube_languages[$lang]) && isset($rcube_language_aliases[$lang]))
@@ -357,7 +357,7 @@ function load_gui()
     $OUTPUT->set_charset($CONFIG['charset']);
 
   // add some basic label to client
-  rcube_add_label('loading');
+  rcube_add_label('loading','checkingmail');
   }
 
 
@@ -764,13 +764,13 @@ function rcube_list_languages()
 
   if (!sizeof($sa_languages))
     {
-    @include($INSTLL_PATH.'program/localization/index.inc');
+    @include($INSTALL_PATH.'program/localization/index.inc');
 
-    if ($dh = @opendir($INSTLL_PATH.'program/localization'))
+    if ($dh = @opendir($INSTALL_PATH.'program/localization'))
       {
       while (($name = readdir($dh)) !== false)
         {
-        if ($name{0}=='.' || !is_dir($INSTLL_PATH.'program/localization/'.$name))
+        if ($name{0}=='.' || !is_dir($INSTALL_PATH.'program/localization/'.$name))
           continue;
 
         if ($label = $rcube_languages[$name])
@@ -1192,6 +1192,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'identityform' => 'rcube_identity_form',
         'foldersubscription' => 'rcube_subscription_form',
         'createfolder' => 'rcube_create_folder_form',
+	'renamefolder' => 'rcube_rename_folder_form',
         'composebody' => 'rcmail_compose_body'
       );
 
@@ -1317,7 +1318,7 @@ function rcube_button($attrib)
                                 $attrib['id'],
                                 $attrib['type'],
                                 $attrib['imageact'] ? $skin_path.$attrib['imageact'] : $attrib['classact'],
-                                $attirb['imagesel'] ? $skin_path.$attirb['imagesel'] : $attrib['classsel'],
+                                $attrib['imagesel'] ? $skin_path.$attrib['imagesel'] : $attrib['classsel'],
                                 $attrib['imageover'] ? $skin_path.$attrib['imageover'] : ''));
 
     // make valid href to task buttons
@@ -1338,6 +1339,11 @@ function rcube_button($attrib)
     $attrib['onmouseout'] = sprintf("return %s.button_out('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
     }
 
+  if ($command && $attrib['imagesel'])
+    {
+    $attrib['onmousedown'] = sprintf("return %s.button_sel('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
+    $attrib['onmouseup'] = sprintf("return %s.button_out('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
+    }
 
   $out = '';
 
@@ -1350,7 +1356,7 @@ function rcube_button($attrib)
     if ($attrib['label'])
       $btn_content .= ' '.$attrib['label'];
     
-    $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'title');
+    $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'title');
     }
   else if ($attrib['type']=='link')
     {
