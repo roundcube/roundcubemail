@@ -362,13 +362,18 @@ class rcube_imap
     if (!is_array($a_folders) || !sizeof($a_folders))
       $a_folders = array();
 
-    // create INBOX if it does not exist
-    if (!in_array_nocase('INBOX', $a_folders))
+    // create Default folders if they do not exist
+    global $CONFIG;
+    foreach ($CONFIG['default_imap_folders'] as $folder)
       {
-      $this->create_mailbox('INBOX', TRUE);
-      array_unshift($a_folders, 'INBOX');
+      if (!in_array_nocase($folder, $a_folders))
+        {
+        $this->create_mailbox($folder, TRUE);
+        $this->subscribe($folder);
+        }
       }
 
+    $a_folders = iil_C_ListSubscribed($this->conn, $this->_mod_mailbox($root), $filter);
     $a_mailbox_cache = array();
 
     // write mailboxlist to cache
@@ -991,6 +996,7 @@ class rcube_imap
   // append a mail message (source) to a specific mailbox
   function save_message($mbox_name, &$message)
     {
+    $mbox_name = stripslashes($mbox_name);
     $mailbox = $this->_mod_mailbox($mbox_name);
 
     // make sure mailbox exists
@@ -1010,6 +1016,8 @@ class rcube_imap
   // move a message from one mailbox to another
   function move_message($uids, $to_mbox, $from_mbox='')
     {
+    $to_mbox = stripslashes($to_mbox);
+    $from_mbox = stripslashes($from_mbox);
     $to_mbox = $this->_mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->_mod_mailbox($from_mbox) : $this->mailbox;
 
@@ -1067,6 +1075,7 @@ class rcube_imap
   // mark messages as deleted and expunge mailbox
   function delete_message($uids, $mbox_name='')
     {
+    $mbox_name = stripslashes($mbox_name);
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
 
     // convert the list of uids to array
@@ -1114,6 +1123,7 @@ class rcube_imap
   // clear all messages in a specific mailbox
   function clear_mailbox($mbox_name=NULL)
     {
+    $mbox_name = stripslashes($mbox_name);
     $mailbox = !empty($mbox_name) ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     $msg_count = $this->_messagecount($mailbox, 'ALL');
     
@@ -1140,6 +1150,7 @@ class rcube_imap
   // send IMAP expunge command and clear cache
   function expunge($mbox_name='', $clear_cache=TRUE)
     {
+    $mbox_name = stripslashes($mbox_name);
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     return $this->_expunge($mailbox, $clear_cache);
     }

@@ -71,8 +71,8 @@ else if ($_action=='rename-folder')
 
   if ($rename && $REMOTE_REQUEST)
     {
-    $commands = sprintf("this.add_folder_row('%s');", rep_specialchars_output($rename, 'js')); 
-    $commands .= sprintf("this.remove_folder_row('%s')", rep_specialchars_output($_GET['_folder_oldname'], 'js'));
+    $commands = sprintf("this.add_folder_row('%s');\n", addslashes(rep_specialchars_output($rename, 'js'))); 
+    $commands .= sprintf("this.remove_folder_row('%s');", rep_specialchars_output($_GET['_folder_oldname'], 'js'));
     rcube_remote_response($commands);
     }
   else if (!$rename && $REMOTE_REQUEST)

@@ -27,7 +27,7 @@ if (!empty($a_folders))
   {
   foreach ($a_folders as $mbox_row)
     {
-    $commands = sprintf("this.set_unread_count('%s', %d);\n", $mbox_row, $IMAP->messagecount($mbox_row, 'UNSEEN'));
+    $commands = sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_row), $IMAP->messagecount($mbox_row, 'UNSEEN'));
     rcube_remote_response($commands, TRUE);
     }
   }

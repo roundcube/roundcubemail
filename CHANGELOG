@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/06/29 (richs)
+----------
+- Added ability to remove attachments (Feature #1436721)
+- Default folders are now auto-created on first login (Feature #1471594)
+- Fixed compatibility with folder apostrophes (e.g.: Joe's Folder) (Bug #1429458)
+- Corrected Italian localizations
+- Tweaked rename-folder form to clear after a rename
+
+
 2006/06/26 (richs)
 ----------
 - Added button to immediately check for new messages 

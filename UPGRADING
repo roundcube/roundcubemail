@@ -123,6 +123,7 @@ form version 0.1-beta
   $rcmail_config['product_name'] = 'RoundCube Webmail';
   $rcmail_config['read_when_deleted'] = TRUE;
   $rcmail_config['enable_spellcheck'] = TRUE;
+  $rcmail_config['protect_default_folders'] = TRUE;
 - replace the following line from /config/main.inc.php
    @include($_SERVER['HTTP_HOST'].'.inc.php');
   with 

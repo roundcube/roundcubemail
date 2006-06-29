@@ -597,12 +597,11 @@ table.headers-table tr td.subject
 #attachment-list
 {
   margin: 0px;
-  padding: 0px 0px 0px 68px;
+  padding: 0px 0px 0px 0px;
   height: 18px;
   list-style-image: none;
   list-style-type: none;
   background-color: #DFDFDF;
-  background: url(images/icons/attachment.png) no-repeat #DFDFDF;
   background-position: 52px 1px;
   border-bottom: 1px solid #FFFFFF;
 }
@@ -818,11 +817,9 @@ div.message-part pre
 {
   height: 18px;
   font-size: 11px;
-  padding-left: 26px;
+  padding-left: 2px;
   padding-top: 2px;
   padding-right: 4px;
-  background: url(images/icons/attachment.png) no-repeat;
-  background-position: 4px 1px;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
   overflow: hidden;

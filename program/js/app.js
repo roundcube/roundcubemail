@@ -143,7 +143,7 @@ function rcube_webmail()
 
         if (this.env.action=='compose')
           {
-          this.enable_command('add-attachment', 'send-attachment', 'send', true);
+          this.enable_command('add-attachment', 'send-attachment', 'remove-attachment', 'send', true);
           if (this.env.spellcheck)
             this.enable_command('spellcheck', true);
 	  if (this.env.drafts_mailbox)
@@ -945,6 +945,10 @@ function rcube_webmail()
       case 'send-attachment':
         this.upload_file(props)      
         break;
+      
+      case 'remove-attachment':
+        this.remove_attachment(props);
+        break;
 
       case 'reply-all':
       case 'reply':
@@ -1347,8 +1351,6 @@ function rcube_webmail()
       {
       if (this.env.mailbox==this.env.drafts_mailbox)
 	{
-	//alert(this.env.mailbox);
-	//this.disable_command('reply', 'reply-all', 'forward', 'print', 'moveto');
 	this.enable_command('show', selected);
 	this.enable_command('delete', this.selection.length>0 ? true : false);
         }
@@ -1669,7 +1671,6 @@ function rcube_webmail()
       lock = true;
       this.set_busy(true, 'movingmessage');
       }
-
     // send request to server
     this.http_request('moveto', '_uid='+a_uids.join(',')+'&_mbox='+escape(this.env.mailbox)+'&_target_mbox='+escape(mbox)+'&_from='+(this.env.action ? this.env.action : ''), lock);
     };
@@ -2095,17 +2096,36 @@ function rcube_webmail()
 
   // add file name to attachment list
   // called from upload page
-  this.add2attachment_list = function(name)
+  this.add2attachment_list = function(name,content)
     {
     if (!this.gui_objects.attachmentlist)
       return false;
       
     var li = document.createElement('LI');
-    li.innerHTML = name;
+    li.id = name;
+    li.innerHTML = content;
     this.gui_objects.attachmentlist.appendChild(li);
     return true;
     };
 
+  this.remove_from_attachment_list = function(name)
+    {
+    if (!this.gui_objects.attachmentlist)
+      return false;
+
+    var list = this.gui_objects.attachmentlist.getElementsByTagName("li");
+    for (i=0;i<list.length;i++)
+      if (list[i].id == name)
+	this.gui_objects.attachmentlist.removeChild(list[i]);
+    }
+
+  this.remove_attachment = function(name)
+    {
+    if (name)
+      this.http_request('remove-attachment', '_filename='+escape(name));
+
+    return true;
+    }
 
   // send remote request to add a new contact
   this.add_contact = function(value)
@@ -2621,8 +2641,7 @@ function rcube_webmail()
 
     if (oldname && newname)
       this.http_request('rename-folder', '_folder_oldname='+escape(oldname)+'&_folder_newname='+escape(newname));
-    else if (form.elements['_folder_newname'])
-      form.elements['_folder_newname'].focus();
+
     };
 
 
@@ -2658,6 +2677,7 @@ function rcube_webmail()
           }
         }
       }
+      form.elements['_folder_newname'].value='';
     };
 
 
@@ -2721,16 +2741,25 @@ function rcube_webmail()
    // add a new folder to the subscription list by cloning a folder row
    this.add_folder_row = function(name)
      {
+     name = name.replace('\\',"");
      if (!this.gui_objects.subscriptionlist)
        return false;
 
      var tbody = this.gui_objects.subscriptionlist.tBodies[0];
      var id = tbody.childNodes.length+1;
-    
-     // clone a table row
-     var row = this.clone_table_row(tbody.rows[0]);
-     row.id = 'rcmrow'+id;
-     tbody.appendChild(row);
+   
+     if (!tbody.rows[0]) 
+       {
+       // Refresh to create the first table row
+       location.href = this.env.comm_path+'&_action=folders';
+       }
+     else
+       {
+       // clone a table row if there are existing rows
+       var row = this.clone_table_row(tbody.rows[0]);
+       row.id = 'rcmrow'+id;
+       tbody.appendChild(row);
+       }
 
      // add to folder/row-ID map
      this.env.subscriptionrows[row.id] = name;
@@ -2743,15 +2772,14 @@ function rcube_webmail()
        row.cells[1].firstChild.checked = true;
        }
      if (row.cells[2].firstChild.tagName=='A')
-       row.cells[2].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name+"')");
+       row.cells[2].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name.replace('\'','\\\'')+"')");
 
      var form;
      if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
        form.elements['_folder_name'].value = '';
  
      // add new folder to rename-folder list
-     if (form.elements['_folder_oldname'])
-       form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
+     form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
 
      };
 

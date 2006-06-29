@@ -259,7 +259,7 @@ if ($_task=='mail')
   if ($_action=='upload')
     include('program/steps/mail/upload.inc');
 
-  if ($_action=='compose')
+  if ($_action=='compose' || $_action=='remove-attachment')
     include('program/steps/mail/compose.inc');
 
   if ($_action=='addcontact')

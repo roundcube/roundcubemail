@@ -32,6 +32,20 @@ $DRAFT_MESSAGE = NULL;
 if (!is_array($_SESSION['compose']))
   $_SESSION['compose'] = array('id' => uniqid(rand()));
 
+// remove an attachment
+if ($_action=='remove-attachment' && !empty($_GET['_filename']))
+  {
+  if (is_array($_SESSION['compose']['attachments']))
+    foreach ($_SESSION['compose']['attachments'] as $i => $attachment)
+      if ($attachment['name'] == $_GET['_filename'])
+        {
+        @unlink($attachment['path']);
+        unset($_SESSION['compose']['attachments'][$i]);
+        $commands = sprintf("parent.%s.remove_from_attachment_list('%s');\n", $JS_OBJECT_NAME, $_GET['_filename']);
+        rcube_remote_response($commands);  
+        exit;
+        }
+  }
 
 // add some labels to client
 rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'savingmessage', 'messagesaved');
@@ -611,8 +625,13 @@ function rcmail_compose_attachment_list($attrib)
   
   if (is_array($_SESSION['compose']['attachments']))
     {
+    if ($attrib['deleteicon'])
+      $button = sprintf('<img src="%s%s" alt="%s" border="0" / style="padding-right:2px;vertical-align:middle">', $CONFIG['skin_path'], $attrib['deleteicon'], rcube_label('delete'));
+    else
+      $button = rcube_label('delete');
+
     foreach ($_SESSION['compose']['attachments'] as $i => $a_prop)
-      $out .= sprintf("<li>%s</li>\n", $a_prop['name']);
+      $out .= sprintf('<li id="%s"><a href="#" onclick="%s.command(\'remove-attachment\',\'%s\')" title="%s">%s</a>%s</li>', $a_prop['name'], $JS_OBJECT_NAME, $a_prop['name'], rcube_label('deletefolder'),  $button, $a_prop['name']); 
     }
 
   $OUTPUT->add_script(sprintf("%s.gui_object('attachmentlist', '%s');", $JS_OBJECT_NAME, $attrib['id']));  
@@ -662,7 +681,6 @@ function rcmail_compose_attachment_field($attrib)
   $out = '<input type="file" name="_attachments[]"'. $attrib_str . " />";
   return $out;
   }
-
 
 function rcmail_priority_selector($attrib)
   {

@@ -220,13 +220,13 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     $class_name,
                     $zebra_class,
                     $unread_count ? ' unread' : '',
-                    $folder['id']==$mbox_name ? ' selected' : '',
+                    addslashes($folder['id'])==addslashes($mbox_name) ? ' selected' : '',
                     $COMM_PATH,
                     urlencode($folder['id']),
                     $JS_OBJECT_NAME,
-                    $folder['id'],
+                    addslashes($folder['id']),
                     $JS_OBJECT_NAME,
-                    $folder['id'],
+                    addslashes($folder['id']),
                     $title,
                     rep_specialchars_output($foldername, 'html', 'all'));
 
