@@ -500,6 +500,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
 
+  $commands .= sprintf("this.set_message_coltypes(%s);\n", array2js($a_show_cols)); 
+
   // loop through message headers
   for ($n=0; $a_headers[$n]; $n++)
     {

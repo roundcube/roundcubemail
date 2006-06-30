@@ -1452,6 +1452,7 @@ function rcube_webmail()
     
     for (var n in this.list_rows) {
       if (!filter || this.list_rows[n][filter]==true)
+        this.last_selected = n;
         this.highlight_row(n, true);
     }
     return true;  
@@ -3010,6 +3011,11 @@ function rcube_webmail()
     this.env.mailbox = mbox;
     };
 
+  // for reordering column array, Konqueror workaround
+  this.set_message_coltypes = function(coltypes) 
+  { 
+  this.coltypes = coltypes; 
+  }
 
   // create a table row in the message list
   this.add_message_row = function(uid, cols, flags, attachment, attop)
@@ -3042,8 +3048,9 @@ function rcube_webmail()
     row.appendChild(col);
 
     // add each submitted col
-    for (var c in cols)
-      {
+    for (var n = 0; n < this.coltypes.length; n++) 
+      { 
+      var c = this.coltypes[n];
       col = document.createElement('TD');
       col.className = String(c).toLowerCase();
       col.innerHTML = cols[c];
@@ -3087,7 +3094,10 @@ function rcube_webmail()
     {
     if (!this.gui_objects.mailboxlist)
       return false;
-      
+
+    if (mbox==this.env.mailbox)
+      set_title = true;
+
     var item, reg, text_obj;
     mbox = String(mbox).toLowerCase().replace(this.mbox_expression, '');
     item = document.getElementById('rcmbx'+mbox);
@@ -3104,14 +3114,14 @@ function rcube_webmail()
         text_obj.innerHTML += ' ('+count+')';
       else
         text_obj.innerHTML = text_obj.innerHTML.replace(reg, '');
-          
+
       // set the right classes
       this.set_classname(item, 'unread', count>0 ? true : false);
       }
 
     // set unread count to window title
     reg = /^\([0-9]+\)\s+/i;
-    if (set_title && count && document.title)	
+    if (set_title && document.title)
       {
       var doc_title = String(document.title);
 
@@ -3121,11 +3131,6 @@ function rcube_webmail()
         document.title = '('+count+') '+doc_title;
       else
         document.title = doc_title.replace(reg, '');
-      }
-    // remove unread count from window title
-    else if (document.title)
-      {
-      document.title = document.title.replace(reg, '');
       }
     };
 

@@ -108,7 +108,7 @@ $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
 $labels['unread'] = 'Non lus';
 
-$labels['compact'] = 'Compresser';
+//$labels['compact'] = 'Compresser';
 $labels['empty'] = 'Vider';
 $labels['purge'] = 'Purger';
 

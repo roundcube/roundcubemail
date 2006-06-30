@@ -1060,8 +1060,8 @@ class rcube_imap
       $start_index = 100000;
       foreach ($a_uids as $uid)
         {
-        $index = array_search($uid, $a_cache_index);
-        $start_index = min($index, $start_index);
+        if(($index = array_search($uid, $a_cache_index)) !== FALSE)
+	  $start_index = min($index, $start_index);
         }
 
       // clear cache from the lowest index on

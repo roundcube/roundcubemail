@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/06/30 (richs)
+----------
+- Fixed empty INBOX compatibility bug (Patch #1443200)
+- Temporarily fixed French "compact" localization (Patch #1483862)
+- Fixed "Select All" not working with Delete interface button (Bug #1332434)
+- Fixed messsage list column compatibility with Konqueror (Bug #1395711)
+- Fixed "unread count" in window title when count changed (Bug #1483812)
+- Fixed DB error when deleting from message table (Patch #1483835)
+
 2006/06/29 (richs)
 ----------
 - Added ability to remove attachments (Feature #1436721)

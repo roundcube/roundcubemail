@@ -675,7 +675,7 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field, $n
 	if (empty($index_field)) $index_field="DATE";
 	$index_field = strtoupper($index_field);
 	
-	if (empty($message_set)) return array();
+	if ((empty($message_set)) || ($message_set == "1:0")) return array();
 	
 	//$fields_a["DATE"] = ($IMAP_USE_INTERNAL_DATE?6:1);
 	$fields_a['DATE'] = 1;
