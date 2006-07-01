@@ -593,16 +593,15 @@ table.headers-table tr td.subject
   width: 95%;
   font-weight: bold;
 }
-  
+
 #attachment-list
 {
   margin: 0px;
-  padding: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 68px;
   height: 18px;
   list-style-image: none;
   list-style-type: none;
-  background-color: #DFDFDF;
-  background-position: 52px 1px;
+  background: url(images/icons/attachment.png) 52px 1px no-repeat #DFDFDF; 
   border-bottom: 1px solid #FFFFFF;
 }
 
@@ -823,6 +822,12 @@ div.message-part pre
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
   overflow: hidden;
+}
+
+#attachment-title
+{
+  background: url(images/icons/attachment.png) top left no-repeat;
+  padding: 0px 0px 3px 22px;
 }
 
 #attachment-form

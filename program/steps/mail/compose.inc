@@ -626,12 +626,20 @@ function rcmail_compose_attachment_list($attrib)
   if (is_array($_SESSION['compose']['attachments']))
     {
     if ($attrib['deleteicon'])
-      $button = sprintf('<img src="%s%s" alt="%s" border="0" / style="padding-right:2px;vertical-align:middle">', $CONFIG['skin_path'], $attrib['deleteicon'], rcube_label('delete'));
+      $button = sprintf('<img src="%s%s" alt="%s" border="0" / style="padding-right:2px;vertical-align:middle">',
+                        $CONFIG['skin_path'],
+                        $attrib['deleteicon'],
+                        rcube_label('delete'));
     else
       $button = rcube_label('delete');
 
     foreach ($_SESSION['compose']['attachments'] as $i => $a_prop)
-      $out .= sprintf('<li id="%s"><a href="#" onclick="%s.command(\'remove-attachment\',\'%s\')" title="%s">%s</a>%s</li>', $a_prop['name'], $JS_OBJECT_NAME, $a_prop['name'], rcube_label('deletefolder'),  $button, $a_prop['name']); 
+      $out .= sprintf('<li id="%s"><a href="#" onclick="%s.command(\'remove-attachment\',\'%s\')" title="%s">%s</a>%s</li>',
+                      $a_prop['name'],
+                      $JS_OBJECT_NAME,
+                      $a_prop['name'],
+                      rcube_label('delete'), 
+                      $button, $a_prop['name']); 
     }
 
   $OUTPUT->add_script(sprintf("%s.gui_object('attachmentlist', '%s');", $JS_OBJECT_NAME, $attrib['id']));  

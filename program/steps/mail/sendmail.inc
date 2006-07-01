@@ -114,7 +114,7 @@ if (empty($identity_arr['string']))
 // compose headers array
 $headers = array('Date' => date('D, j M Y G:i:s O'),
                  'From' => $identity_arr['string'],
-                 'To'   => $mailto);
+                 'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
 
 // additional recipients
 if (!empty($_POST['_cc']))
