@@ -436,8 +436,8 @@ function rcmail_message_list($attrib)
       else if ($col=='subject')
         {
         $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
-	// firefox/mozilla workaround to pad subject with content so that whitespace in rows responds to drag+drop
-        $cont .= '<img src="http://www.whidbey.com/roundcube/roundcubemail/skins/default/images/cleardot.png" height="1" width="1000">';
+        // firefox/mozilla temporary workaround to pad subject with content so that whitespace in rows responds to drag+drop
+        $cont .= sprintf('<img src="%s%s" height="11" width="1000">', $skin_path, "/images/cleardot.png");
         }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
