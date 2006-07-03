@@ -42,9 +42,9 @@ $messages['sendingmessage'] = 'Invio messaggio in corso...';
 
 $messages['messagesent'] = 'Messaggio inviato correttamente';
 
-$messages['savingmessage'] = 'Messaggio di Saving...';
+$messages['savingmessage'] = 'Salvataggio bozza...';
 
-$messages['messagesaved'] = 'Messaggio conservato alle brutte copie';
+$messages['messagesaved'] = 'Messaggio salvato come bozza';
 
 $messages['successfullysaved'] = 'Salvato correttamente';
 

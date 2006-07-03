@@ -153,7 +153,7 @@ function rcube_webmail()
         if (this.env.messagecount)
           this.enable_command('select-all', 'select-none', 'sort', 'expunge', true);
 
-        if (this.env.messagecount && this.env.mailbox==this.env.trash_mailbox)
+        if (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox))
           this.enable_command('purge', true);
 
         this.set_page_buttons();
@@ -893,7 +893,7 @@ function rcube_webmail()
             
           }
         else if (props)
-           url += '&_to='+props;
+           url += '&_to='+encodeURIComponent(props);
 
         // don't know if this is necessary...
         url = url.replace(/&_framed=1/, "");
@@ -1352,7 +1352,7 @@ function rcube_webmail()
       if (this.env.mailbox==this.env.drafts_mailbox)
 	{
 	this.enable_command('show', selected);
-	this.enable_command('delete', this.selection.length>0 ? true : false);
+	this.enable_command('delete', 'moveto', this.selection.length>0 ? true : false);
         }
       else
         {

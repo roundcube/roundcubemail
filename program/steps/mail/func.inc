@@ -67,7 +67,8 @@ if ($CONFIG['trash_mbox'])
 if ($CONFIG['drafts_mbox'])
   $OUTPUT->add_script(sprintf("%s.set_env('drafts_mailbox', '%s');", $JS_OBJECT_NAME, $CONFIG['drafts_mbox']));
 
-
+if ($CONFIG['junk_mbox'])
+  $OUTPUT->add_script(sprintf("%s.set_env('junk_mailbox', '%s');", $JS_OBJECT_NAME, $CONFIG['junk_mbox']));
 
 // return the mailboxlist in HTML
 function rcmail_mailbox_list($attrib)
@@ -433,7 +434,11 @@ function rcmail_message_list($attrib)
       if ($col=='from' || $col=='to')
         $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3, $attrib['addicon']));
       else if ($col=='subject')
+        {
         $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
+	// firefox/mozilla workaround to pad subject with content so that whitespace in rows responds to drag+drop
+        $cont .= '<img src="http://www.whidbey.com/roundcube/roundcubemail/skins/default/images/cleardot.png" height="1" width="1000">';
+        }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')

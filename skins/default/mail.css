@@ -397,33 +397,39 @@ body.messagelist
 {
   display: table-column;
   text-align: left;
+  vertical-align: middle;
 }
 
 #messagelist tr td.icon
 {
   width: 16px;
+  vertical-align: middle;
 }
 
 #messagelist tr td.subject
 {
   overflow: hidden;
+  vertical-align: middle;
 }
 
 #messagelist tr td.size
 {
   width: 60px;
   text-align: right;
+  vertical-align: middle;
 }
 
 #messagelist tr td.from,
 #messagelist tr td.to
 {
   width: 180px;
+  vertical-align: middle;
 }
 
 #messagelist tr td.date
 {
   width: 110px;
+  vertical-align: middle;
 }
 
 #messagelist tr.message

@@ -12,7 +12,7 @@
  | Author: aldweb <info@aldweb.com>, Pierre HAEGELI <pierre@haegeli.net> |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id: messages.inc 139 2006-06-12 17:32:27Z roundcube $
 
 */
 
@@ -36,15 +36,9 @@ $messages['loading'] = 'Chargement en cours...';
 
 $messages['loadingdata'] = 'Chargement des données en cours...';
 
-$messages['checkingmail'] = 'Vérification les nouveaux messages...';
-
 $messages['sendingmessage'] = 'Message en cours d\'envoi...';
 
 $messages['messagesent'] = 'Message envoyé';
-
-$messages['savingmessage'] = 'Message d\'économie...';
-
-$messages['messagesaved'] = 'Message sauvé aux ébauches';
 
 $messages['successfullysaved'] = 'Sauvegarde effectuée';
 
@@ -93,5 +87,17 @@ $messages['noldapserver'] = 'Choisissez un serveur ldap pour la recherche';
 $messages['nocontactsreturned'] = 'Aucun contact trouvé';
 
 $messages['nosearchname'] = 'Entrez un nom ou une adresse e-Mail de contact';
+
+$messages['searchsuccessful'] = '$nr messages trouvés';
+
+$messages['searchnomatch'] = 'Aucun résultat trouvé';
+
+$messages['searching'] = 'En cours de recherche...';
+
+$messages['checking'] = 'Vérification...';
+
+$messages['nospellerrors'] = 'Aucune faute trouvée';
+
+$messages['checkingmail'] = 'Vérification des nouveaux messages ...';
 
 ?>

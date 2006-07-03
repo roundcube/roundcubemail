@@ -12,7 +12,7 @@
  | Author: aldweb <info@aldweb.com>, Pierre HAEGELI <pierre@haegeli.net> |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id: labels.inc 220 2006-06-12 17:33:21Z roundcube $
 
 */
 
@@ -33,7 +33,6 @@ $labels['addressbook'] = 'Carnet d\'adresses';
 
 // mailbox names
 $labels['inbox']  = 'Boîte de réception';
-$labels['drafts'] = 'Ébauches';
 $labels['sent']   = 'Messages envoyés';
 $labels['trash']  = 'Corbeille';
 $labels['drafts'] = 'Brouillons';
@@ -66,7 +65,7 @@ $labels['filesize'] = 'Taille du fichier';
 
 $labels['preferhtml'] = 'Préférer HTML';
 $labels['htmlmessage'] = 'Message HTML';
-$labels['prettydate'] = 'Belles dates';
+$labels['prettydate'] = 'Affichage réduit des dates';
 
 $labels['addtoaddressbook'] = 'Ajouter au carnet d\'adresses';
 
@@ -91,7 +90,6 @@ $labels['saturday']  = 'Samedi';
 $labels['today'] = 'Aujourd\'hui';
 
 // toolbar buttons
-$labels['checkmail']        = 'Vérification les nouveaux messages';
 $labels['writenewmessage']  = 'Créer un nouveau message';
 $labels['replytomessage']   = 'Répondre au message';
 $labels['replytoallmessage'] = 'Répondre à tous';
@@ -113,14 +111,23 @@ $labels['empty'] = 'Vider';
 $labels['purge'] = 'Purger';
 
 $labels['quota'] = 'Utilisation Disque';
+$labels['unknown'] = 'inconnue';
+$labels['unlimited'] = 'illimitée';
 
+$labels['quicksearch']  = 'Recherche rapide';
+$labels['resetsearch']  = 'Réinitialiser la recherche';
 
 // message compose
 $labels['compose']  = 'Composer un nouveau message';
-$labels['savemessage']  = 'Économiser cette ébauche';
 $labels['sendmessage']  = 'Envoyer le message maintenant';
 $labels['addattachment']  = 'Joindre un fichier';
 $labels['charset']  = 'Encodage';
+$labels['returnreceipt'] = 'Accusé de réception';
+
+$labels['checkmail'] = 'Vérification des nouveaux messages';
+$labels['checkspelling'] = 'Vérifier l\'orthographe';
+$labels['resumeediting'] = 'Retourner à l\'édition';
+$labels['revertto'] = 'Revenir à';
 
 $labels['attachments'] = 'Fichiers joints';
 $labels['upload'] = 'Joindre';
@@ -158,6 +165,9 @@ $labels['contactsfromto'] = 'Contacts $from à $to sur $count';
 $labels['print']          = 'Imprimer';
 $labels['export']         = 'Exporter';
 
+$labels['previouspage'] = 'Montrer page précédente';
+$labels['nextpage']     = 'Montrer page suivante';
+
 // LDAP search
 $labels['ldapsearch'] = 'Recherche dans répertoires LDAP';
 
@@ -188,6 +198,7 @@ $labels['language']  = 'Langue';
 $labels['timezone']  = 'Fuseau horaire';
 $labels['pagesize']  = 'Nombre de lignes par page';
 $labels['signature'] = 'Signature';
+$labels['dstactive'] = 'Heure d\'été';
 
 $labels['folder']  = 'Dossier';
 $labels['folders']  = 'Dossiers';

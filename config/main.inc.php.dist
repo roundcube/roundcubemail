@@ -121,6 +121,9 @@ $rcmail_config['imap_root'] = '';
 // leave blank if draft messages should not be stored
 $rcmail_config['drafts_mbox'] = 'Drafts';
 
+// store spam messages in this mailbox
+$rcmail_config['junk_mbox'] = 'Junk';
+
 // store sent message is this mailbox
 // leave blank if sent messages should not be stored
 $rcmail_config['sent_mbox'] = 'Sent';

@@ -120,6 +120,7 @@ form version 0.1-beta
   $rcmail_config['db_persistent'] = TRUE;
 - add these lines to /config/main.inc.php
   $rcmail_config['drafts_mbox'] = 'Drafts';
+  $rcmail_config['junk_mbox'] = 'Junk';
   $rcmail_config['product_name'] = 'RoundCube Webmail';
   $rcmail_config['read_when_deleted'] = TRUE;
   $rcmail_config['enable_spellcheck'] = TRUE;

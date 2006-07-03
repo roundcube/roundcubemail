@@ -117,7 +117,7 @@ $labels['quota'] = 'Utilizzo spazio';
 
 // message compose
 $labels['compose']  = 'Componi un messaggio';
-$labels['savemessage']  = 'Risparmi questa brutta copia';
+$labels['savemessage']  = 'Salva messaggio come bozza';
 $labels['sendmessage']  = 'Invia il messaggio adesso';
 $labels['addattachment']  = 'Allega un file';
 $labels['charset']  = 'Set di caratteri';

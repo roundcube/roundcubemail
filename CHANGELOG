@@ -1,6 +1,16 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/03 (richs)
+----------
+- Fixed compatibility with in-body email addresses containing "+" (Bug #1483836)
+- Updated French localizations (Ticket #1483862)
+- Incoming messages can now be moved to Drafts, edited, saved, then moved back (Feature #1436191)
+- Added Firefox workaround when clicking whitespace to drag messages (Bug #1483857)
+- Corrected Dutch and Italian localizations (Ticket #1483851 and #1483848)
+- Enabled 'Empty' (purge) command for Junk mailbox (defined in main.inc.php) 
+
+
 2006/06/30 (richs)
 ----------
 - Fixed empty INBOX compatibility bug (Patch #1443200)
@@ -9,6 +19,7 @@ CHANGELOG RoundCube Webmail
 - Fixed messsage list column compatibility with Konqueror (Bug #1395711)
 - Fixed "unread count" in window title when count changed (Bug #1483812)
 - Fixed DB error when deleting from message table (Patch #1483835)
+
 
 2006/06/29 (richs)
 ----------

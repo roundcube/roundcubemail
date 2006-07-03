@@ -140,7 +140,7 @@ $labels['showimages'] = 'Toon afbeeldingen';
 
 
 // address boook
-$labels['name']      = 'Tonen als';
+$labels['name']      = 'Naam';
 $labels['firstname'] = 'Voornaam';
 $labels['surname']   = 'Achternaam';
 $labels['email']     = 'E-Mail';
