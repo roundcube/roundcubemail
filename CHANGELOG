@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/07
+----------
+- Fixed INSTALL_PATH bug #1425663
+
+
 2006/07/03 (richs)
 ----------
 - Fixed compatibility with in-body email addresses containing "+" (Bug #1483836)

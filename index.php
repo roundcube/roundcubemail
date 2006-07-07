@@ -40,13 +40,13 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060505');
+define('RCMAIL_VERSION', '0.1-20060707');
 
 // define global vars
 $CHARSET = 'UTF-8';
 $OUTPUT_TYPE = 'html';
 $JS_OBJECT_NAME = 'rcmail';
-$INSTALL_PATH = dirname($_SERVER['SCRIPT_FILENAME']);
+$INSTALL_PATH = dirname(__FILE__);
 $MAIN_TASKS = array('mail','settings','addressbook','logout');
 
 if (empty($INSTALL_PATH))
