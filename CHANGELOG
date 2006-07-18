@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/18
+----------
+- Fixed password with spaces issue (Bug #1364122)
+- Replaced _auth hash with second cookie (Ticket #1483811)
+- Don't use get_input_value() for passwords (Bug #1468895)
+- Made password encryption key configurable
+- Minor bugfixes with charset encoding
+
+
 2006/07/07
 ----------
 - Fixed INSTALL_PATH bug #1425663

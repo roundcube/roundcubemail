@@ -214,7 +214,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $class_name = 'junk';
 
-    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&_mbox=%s"'.
+    $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&amp;_mbox=%s"'.
                     ' onclick="return %s.command(\'list\',\'%s\')"'.
                     ' onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a>',
                     $folder_css,
@@ -437,7 +437,7 @@ function rcmail_message_list($attrib)
         {
         $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
         // firefox/mozilla temporary workaround to pad subject with content so that whitespace in rows responds to drag+drop
-        $cont .= sprintf('<img src="%s%s" height="11" width="1000">', $skin_path, "/images/cleardot.png");
+        $cont .= '<img src="./program/blank.gif" height="5" width="1000" alt="" />';
         }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
@@ -1017,7 +1017,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
     if ($hkey=='date' && !empty($headers[$hkey]))
       $header_value = format_date(strtotime($headers[$hkey]));
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
-      $header_value = rep_specialchars_output(rcmail_address_string($IMAP->decode_header($headers[$hkey]), NULL, $attrib['addicon']));
+      $header_value = rep_specialchars_output(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']));
     else
       $header_value = rep_specialchars_output($IMAP->decode_header($headers[$hkey]), '', 'all');
 

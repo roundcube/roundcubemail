@@ -1732,7 +1732,7 @@ class rcube_imap
    *
    * @access static
    */
-  function decode_mime_string($input)
+  function decode_mime_string($input, $recursive=false)
     {
     $out = '';
 
@@ -1753,7 +1753,7 @@ class rcube_imap
 
       return $out;
       }
-    
+      
     // no encoding information, defaults to what is specified in the class header
     return rcube_charset_convert($input, 'ISO-8859-1');
     }

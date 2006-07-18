@@ -1334,7 +1334,8 @@ function make_absolute_url($path, $base_url)
     }
 
 
-
+// replace the middle part of a string with ...
+// if it is longer than the allowed length
 function abbrevate_string($str, $maxlength, $place_holder='...')
   {
   $length = strlen($str);
@@ -1349,6 +1350,20 @@ function abbrevate_string($str, $maxlength, $place_holder='...')
   return $str;
   }
 
+
+// make sure the string ends with a slash
+function slashify($str)
+  {
+  return unslashify($str).'/';
+  }
+
+
+// remove slash at the end of the string
+function unslashify($str)
+  {
+  return preg_replace('/\/$/', '', $str);
+  }
+  
 
 // delete all files within a folder
 function clear_directory($dir_path)

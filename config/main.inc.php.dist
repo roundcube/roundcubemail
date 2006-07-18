@@ -99,6 +99,11 @@ $rcmail_config['session_lifetime'] = 10;
 // check client IP in session athorization
 $rcmail_config['ip_check'] = TRUE;
 
+// this key is used to encrypt the users imap password which is stored
+// in the session record (and the client cookie if remember password is enabled).
+// please provide a string of exactly 24 chars.
+$rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
+
 // the default locale setting
 $rcmail_config['locale_string'] = 'en';
 

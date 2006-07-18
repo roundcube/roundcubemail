@@ -46,7 +46,7 @@ function rcmail_startup($task='mail')
   // load host-specific configuration
   rcmail_load_host_config($CONFIG);
   
-  $CONFIG['skin_path'] = $CONFIG['skin_path'] ? preg_replace('/\/$/', '', $CONFIG['skin_path']) : 'skins/default';
+  $CONFIG['skin_path'] = $CONFIG['skin_path'] ? unslashify($CONFIG['skin_path']) : 'skins/default';
 
   // load db conf
   include_once('config/db.inc.php');
@@ -55,7 +55,7 @@ function rcmail_startup($task='mail')
   if (empty($CONFIG['log_dir']))
     $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
   else
-    $CONFIG['log_dir'] = ereg_replace('\/$', '', $CONFIG['log_dir']);
+    $CONFIG['log_dir'] = unslashify($CONFIG['log_dir']);
 
   // set PHP error logging according to config
   if ($CONFIG['debug_level'] & 1)
@@ -67,7 +67,8 @@ function rcmail_startup($task='mail')
     ini_set('display_errors', 1);
   else
     ini_set('display_errors', 0);
-  
+
+
   // set session garbage collecting time according to session_lifetime
   if (!empty($CONFIG['session_lifetime']))
     ini_set('session.gc_maxlifetime', ($CONFIG['session_lifetime']+2)*60);
@@ -81,7 +82,6 @@ function rcmail_startup($task='mail')
   $DB->db_connect('w');
     
   // we can use the database for storing session data
-  // session queries do not work with MDB2
   if (!$DB->is_error())
     include_once('include/session.inc');
 
@@ -90,17 +90,14 @@ function rcmail_startup($task='mail')
   $sess_id = session_id();
 
   // create session and set session vars
-  if (!$_SESSION['client_id'])
+  if (!isset($_SESSION['auth_time']))
     {
-    $_SESSION['client_id'] = $sess_id;
     $_SESSION['user_lang'] = rcube_language_prop($CONFIG['locale_string']);
     $_SESSION['auth_time'] = mktime();
-    $_SESSION['auth'] = rcmail_auth_hash($sess_id, $_SESSION['auth_time']);
-    unset($GLOBALS['_auth']);
+    setcookie('sessauth', rcmail_auth_hash($sess_id, $_SESSION['auth_time']));
     }
 
   // set session vars global
-  $sess_auth = $_SESSION['auth'];
   $sess_user_lang = rcube_language_prop($_SESSION['user_lang']);
 
 
@@ -148,7 +145,7 @@ function rcmail_load_host_config(&$config)
      $config = array_merge($config, $rcmail_config);
      }
   }
-  
+
 
 // create authorization hash
 function rcmail_auth_hash($sess_id, $ts)
@@ -167,6 +164,22 @@ function rcmail_auth_hash($sess_id, $ts)
     return md5($auth_string);
   }
 
+
+// compare the auth hash sent by the client with the local session credentials
+function rcmail_authenticate_session()
+  {
+  $now = mktime();
+  $valid = ($_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['auth_time']));
+  
+  // renew auth cookie every 5 minutes
+  if (!$valid || ($now-$_SESSION['auth_time'] > 300))
+    {
+    $_SESSION['auth_time'] = $now;
+    setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
+    }
+    
+  return $valid;
+  }
 
 
 // create IMAP object and connect to server
@@ -718,17 +731,35 @@ function console($msg, $type=1)
   }
 
 
+// encrypt IMAP password using DES encryption
 function encrypt_passwd($pass)
   {
-  $cypher = des('rcmail?24BitPwDkeyF**ECB', $pass, 1, 0, NULL);
+  $cypher = des(get_des_key(), $pass, 1, 0, NULL);
   return base64_encode($cypher);
   }
 
 
+// decrypt IMAP password using DES encryption
 function decrypt_passwd($cypher)
   {
-  $pass = des('rcmail?24BitPwDkeyF**ECB', base64_decode($cypher), 0, 0, NULL);
-  return trim($pass);
+  $pass = des(get_des_key(), base64_decode($cypher), 0, 0, NULL);
+  return preg_replace('/\x00/', '', $pass);
+  }
+
+
+// return a 24 byte key for the DES encryption
+function get_des_key()
+  {
+  $key = !empty($GLOBALS['CONFIG']['des_key']) ? $GLOBALS['CONFIG']['des_key'] : 'rcmail?24BitPwDkeyF**ECB';
+  $len = strlen($key);
+  
+  // make sure the key is exactly 24 chars long
+  if ($len<24)
+    $key .= str_repeat('_', 24-$len);
+  else if ($len>24)
+    substr($key, 0, 24);
+  
+  return $key;
   }
 
 
@@ -802,7 +833,7 @@ function rcmail_clear_session_temp($sess_id)
   {
   global $CONFIG;
 
-  $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '');
+  $temp_dir = slashify($CONFIG['temp_dir']);
   $cache_dir = $temp_dir.$sess_id;
 
   if (is_dir($cache_dir))

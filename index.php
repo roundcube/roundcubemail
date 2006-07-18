@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060505                                                  |
+ | Version 0.1-20060718                                                  |
  |                                                                       |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060707');
+define('RCMAIL_VERSION', '0.1-20060718');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -53,7 +53,13 @@ if (empty($INSTALL_PATH))
   $INSTALL_PATH = './';
 else
   $INSTALL_PATH .= '/';
-	
+
+
+// make sure path_separator is defined
+if (!defined('PATH_SEPARATOR'))
+  define('PATH_SEPARATOR', (eregi('win', PHP_OS) ? ';' : ':'));
+
+
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC
@@ -89,7 +95,7 @@ else
 
 
 // catch some url/post parameters
-$_auth = get_input_value('_auth', RCUBE_INPUT_GPC);
+//$_auth = get_input_value('_auth', RCUBE_INPUT_GPC);
 $_task = get_input_value('_task', RCUBE_INPUT_GPC);
 $_action = get_input_value('_action', RCUBE_INPUT_GPC);
 $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
@@ -104,8 +110,8 @@ if (!empty($_GET['_remote']))
 rcmail_startup($_task);
 
 // set session related variables
-$COMM_PATH = sprintf('./?_auth=%s&_task=%s', $sess_auth, $_task);
-$SESS_HIDDEN_FIELD = sprintf('<input type="hidden" name="_auth" value="%s" />', $sess_auth);
+$COMM_PATH = sprintf('./?_task=%s', $_task);
+$SESS_HIDDEN_FIELD = '';
 
 
 // add framed parameter
@@ -146,9 +152,7 @@ if ($_action=='login' && $_task=='mail')
     show_message("cookiesdisabled", 'warning');
     }
   else if (isset($_POST['_user']) && isset($_POST['_pass']) &&
-           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
-                        get_input_value('_pass', RCUBE_INPUT_POST),
-                        $host))
+           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST), $_POST['_pass'], $host))
     {
     // send redirect
     header("Location: $COMM_PATH");
@@ -168,10 +172,10 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
   rcmail_kill_session();
   }
 
-// check session cookie and auth string
-else if ($_action!='login' && $sess_auth && $_SESSION['user_id'])
+// check session and auth cookie
+else if ($_action!='login' && $_SESSION['user_id'])
   {
-  if ($_auth !== $sess_auth || $_auth != rcmail_auth_hash($_SESSION['client_id'], $_SESSION['auth_time']) ||
+  if (!rcmail_authenticate_session() ||
       ($CONFIG['session_lifetime'] && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
     {
     $message = show_message('sessionerror', 'error');
