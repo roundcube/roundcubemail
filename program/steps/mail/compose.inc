@@ -690,6 +690,7 @@ function rcmail_compose_attachment_field($attrib)
   return $out;
   }
 
+
 function rcmail_priority_selector($attrib)
   {
   list($form_start, $form_end) = get_form_tags($attrib);
@@ -719,9 +720,13 @@ function rcmail_receipt_checkbox($attrib)
   {
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
+  
+  if (!isset($attrib['id']))
+    $attrib['id'] = 'receipt';  
 
   $attrib['name'] = '_receipt';
-  $checkbox = new checkbox(array('name' => '_receipt', 'id' => 'receipt', 'value' => 1));
+  $attrib['value'] = '1';
+  $checkbox = new checkbox($attrib);
 
   $out = $form_start ? "$form_start\n" : '';
   $out .= $checkbox->show(0);

@@ -1665,8 +1665,8 @@ function rcmail_login_form($attrib)
   $labels['pass'] = rcube_label('password');
   $labels['host'] = rcube_label('server');
   
-  $input_user = new textfield(array('name' => '_user', 'size' => 30));
-  $input_pass = new passwordfield(array('name' => '_pass', 'size' => 30));
+  $input_user = new textfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30));
+  $input_pass = new passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30));
   $input_action = new hiddenfield(array('name' => '_action', 'value' => 'login'));
     
   $fields = array();
@@ -1676,7 +1676,7 @@ function rcmail_login_form($attrib)
   
   if (is_array($CONFIG['default_host']))
     {
-    $select_host = new select(array('name' => '_host'));
+    $select_host = new select(array('name' => '_host', 'id' => 'rcmloginhost'));
     
     foreach ($CONFIG['default_host'] as $key => $value)
       $select_host->add($value, (is_numeric($key) ? $value : $key));
@@ -1685,7 +1685,7 @@ function rcmail_login_form($attrib)
     }
   else if (!strlen($CONFIG['default_host']))
     {
-	$input_host = new textfield(array('name' => '_host', 'size' => 30));
+	$input_host = new textfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
 	$fields['host'] = $input_host->show($_POST['_host']);
     }
 
@@ -1698,7 +1698,7 @@ function rcmail_login_form($attrib)
     
 </tr><tr>
 
-<td class="title">$labels[host]</td>
+<td class="title"><label for="rcmloginhost">$labels[host]</label></td>
 <td>$fields[host]</td>
 
 EOF;
@@ -1711,12 +1711,12 @@ $SESS_HIDDEN_FIELD
 $fields[action]
 <table><tr>
 
-<td class="title">$labels[user]</td>
+<td class="title"><label for="rcmloginuser">$labels[user]</label></td>
 <td>$fields[user]</td>
 
 </tr><tr>
 
-<td class="title">$labels[pass]</td>
+<td class="title"><label for="rcmloginpwd">$labels[pass]</label></td>
 <td>$fields[pass]</td>
 $form_host
 </tr></table>

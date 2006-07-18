@@ -46,11 +46,11 @@ self.setTimeout('rcmail_auto_save()',300000);
 <roundcube:button command="savedraft" imageSel="/images/buttons/drafts_sel.png" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
 
 <div id="priority-selector">
-<roundcube:label name="priority" />:&nbsp;<roundcube:object name="prioritySelector" form="form" />
+<label for="rcmcomposepriority"><roundcube:label name="priority" />:</label>&nbsp;<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" />
 </div>
 
 <div id="receipt-selector">
-<roundcube:object name="receiptCheckBox" form="form" />&nbsp;<roundcube:label name="returnreceipt" />
+<roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" />&nbsp;<label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" /></label>
 </div>
 
 </div>
@@ -61,30 +61,30 @@ self.setTimeout('rcmail_auto_save()',300000);
 
 <table border="0" cellspacing="0" cellpadding="1" id="compose-headers" summary=""><tr>
 
-<td class="title"><roundcube:label name="from" /></td>
-<td><roundcube:object name="composeHeaders" part="from" form="form" tabindex="1" /></td>
+<td class="title"><label for="rcmcomposefrom"><roundcube:label name="from" /></label></td>
+<td><roundcube:object name="composeHeaders" part="from" form="form" id="rcmcomposefrom" tabindex="1" /></td>
 
 </tr><tr>
 
-<td class="title top"><roundcube:label name="to" /></td>
-<td><roundcube:object name="composeHeaders" part="to" form="form" cols="80" rows="2" tabindex="2" /></td>
+<td class="title top"><label for="rcmcomposeto"><roundcube:label name="to" /></label></td>
+<td><roundcube:object name="composeHeaders" part="to" form="form" id="rcmcomposeto" cols="80" rows="2" tabindex="2" /></td>
 <td class="add-button"><a href="#" onclick="return rcmail_toggle_display('compose-cc')">[Cc]</a><br />
 <a href="#" onclick="return rcmail_toggle_display('compose-bcc')">[Bcc]</a><br /></td>
 
 </tr><tr id="compose-cc">
 
-<td class="title top"><roundcube:label name="cc" /></td>
-<td><roundcube:object name="composeHeaders" part="cc" form="form" cols="80" rows="2" tabindex="3" /></td>
+<td class="title top"><label for="rcmcomposecc"><roundcube:label name="cc" /></label></td>
+<td><roundcube:object name="composeHeaders" part="cc" form="form" id="rcmcomposecc" cols="80" rows="2" tabindex="3" /></td>
 
 </tr><tr id="compose-bcc">
 
-<td class="title top"><roundcube:label name="bcc" /></td>
-<td><roundcube:object name="composeHeaders" part="bcc" form="form" cols="80" rows="2" tabindex="4" /></td>
+<td class="title top"><label for="rcmcomposebcc"><roundcube:label name="bcc" /></label></td>
+<td><roundcube:object name="composeHeaders" part="bcc" form="form" id="rcmcomposebcc" cols="80" rows="2" tabindex="4" /></td>
 
 </tr><tr id="compose-replyto">
 
-<td class="title top"><roundcube:label name="replyto" /></td>
-<td><roundcube:object name="composeHeaders" part="replyto" form="form" size="80" tabindex="5" /></td>
+<td class="title top"><label for="rcmcomposereplyto"><roundcube:label name="replyto" /></label></td>
+<td><roundcube:object name="composeHeaders" part="replyto" form="form" id="rcmcomposereplyto" size="80" tabindex="5" /></td>
 
 <!-- </tr><tr>
 
@@ -92,7 +92,7 @@ self.setTimeout('rcmail_auto_save()',300000);
 
 </tr><tr>
 
-<td class="title"><roundcube:label name="subject" /></td>
+<td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>
 <td><roundcube:object name="composeSubject" id="compose-subject" form="form" tabindex="6" /></td>
 
 </tr></table>
