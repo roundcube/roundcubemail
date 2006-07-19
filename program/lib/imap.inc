@@ -44,6 +44,7 @@
 		- Added patch to iil_C_Sort() enabling UID SORT commands
 		- Added function iil_C_ID2UID()
 		- Casting date parts in iil_StrToTime() to avoid mktime() warnings
+		- Also acceppt LIST responses in iil_C_ListSubscribed()
 		- Removed some debuggers (echo ...)
 
 ********************************************************/

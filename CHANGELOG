@@ -4,8 +4,10 @@ CHANGELOG RoundCube Webmail
 2006/07/19 (thomasb)
 ----------
 - Correct entity encoding of link urls (HTML validity)
-- Moved back button in compose step (Ticket #)
+- Improved usability in compose step (Ticket #1483807)
 - Added absolute URLs to several buttons (for "open in new window")
+- Applied patch #1328032
+- Fixed Bug/Patch #1443200
 
 
 2006/07/18 (thomasb)
