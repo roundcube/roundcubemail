@@ -38,9 +38,8 @@ self.setTimeout('rcmail_auto_save()',300000);
 <form name="form" action="./" method="post">
 
 <div id="messagetoolbar">
-<roundcube:button command="list" image="/images/buttons/back_act.png" imageSel="/images/buttons/back_sel.png" imageAct="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
+<!--<roundcube:button command="list" image="/images/buttons/back_act.png" imageSel="/images/buttons/back_sel.png" imageAct="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />-->
 <roundcube:button command="send" imageSel="/images/buttons/send_sel.png" imageAct="/images/buttons/send_act.png" imagePas="/images/buttons/send_pas.png" width="32" height="32" title="sendmessage" />
-<!--<roundcube:button command="contacts" imageSel="/images/buttons/contacts_sel.png" imageAct="/images/buttons/contacts_act.png" imagePas="/images/buttons/contacts_pas.png" width="32" height="32" title="addressbook" />-->
 <roundcube:button command="spellcheck" imageSel="/images/buttons/spellcheck_sel.png" imageAct="/images/buttons/spellcheck_act.png" imagePas="/images/buttons/spellcheck_pas.png" width="32" height="32" title="checkspelling" />
 <roundcube:button command="add-attachment" imageSel="/images/buttons/attach_sel.png" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
 <roundcube:button command="savedraft" imageSel="/images/buttons/drafts_sel.png" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
@@ -56,10 +55,13 @@ self.setTimeout('rcmail_auto_save()',300000);
 </div>
 
 <div id="compose-container">
-<table border="0" cellspacing="0" cellpadding="1" style="width:100%; height:100%;" summary=""><tr>
+<table border="0" cellspacing="0" cellpadding="1" style="width:100%; height:99%;" summary="">
+<tbody>
+<tr>
 <td>
 
-<table border="0" cellspacing="0" cellpadding="1" id="compose-headers" summary=""><tr>
+<table border="0" cellspacing="0" cellpadding="1" id="compose-headers" summary="">
+<tbody><tr>
 
 <td class="title"><label for="rcmcomposefrom"><roundcube:label name="from" /></label></td>
 <td><roundcube:object name="composeHeaders" part="from" form="form" id="rcmcomposefrom" tabindex="1" /></td>
@@ -86,27 +88,43 @@ self.setTimeout('rcmail_auto_save()',300000);
 <td class="title top"><label for="rcmcomposereplyto"><roundcube:label name="replyto" /></label></td>
 <td><roundcube:object name="composeHeaders" part="replyto" form="form" id="rcmcomposereplyto" size="80" tabindex="5" /></td>
 
-<!-- </tr><tr>
-
-<td><roundcube:object name="composeAttachment" size="20" /></td> -->
-
 </tr><tr>
 
 <td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>
 <td><roundcube:object name="composeSubject" id="compose-subject" form="form" tabindex="6" /></td>
 
-</tr></table>
+</tr>
+</tbody>
+</table>
 
 </td>
 
 </tr><tr>
 
 <td style="width:100%; height:95%; vertical-align:top;">
-<roundcube:object name="composeBody" id="compose-body" form="form" cols="80" rows="20" wrap="virtual" tabindex="7" /><br />
+<roundcube:object name="composeBody" id="compose-body" form="form" cols="80" rows="20" wrap="virtual" tabindex="7" />
+</td>
+
+</tr><tr>
+
+<td>
+
+<table border="0" cellspacing="0" width="100%" summary=""><tbody><tr>
+
+<td>
+<roundcube:button type="input" command="send" class="button" label="sendmessage" />
+<roundcube:button type="input" command="list" class="button" label="cancel" />
+</td>
+<td align="right">
 <roundcube:label name="charset" />:&nbsp;<roundcube:object name="charsetSelector" tabindex="8" />
 </td>
 
-</tr></table>
+</tr></tbody></table>
+
+</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -130,13 +148,6 @@ if (cc_field && cc_field.value!='')
 //-->
 </script>
 
-<!--
-<div id="attachment-form">
-<roundcube:object name="composeAttachment" size="20" /><br />
-<input type="button" value="<roundcube:label name='close' />" onclick="rcmail_show_attachment_form(0)" />
-<input type="button" value="<roundcube:label name='send' />" onclick="rcmail.command('send-attachment', this)" />
-</div>
--->
 
 </body>
 </html>

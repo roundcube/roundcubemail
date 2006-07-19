@@ -1274,6 +1274,9 @@ function rcube_button($attrib)
   static $sa_buttons = array();
   static $s_button_count = 100;
   
+  // these commands can be called directly via url
+  $a_static_commands = array('compose', 'list');
+  
   $skin_path = $CONFIG['skin_path'];
   
   if (!($attrib['command'] || $attrib['name']))
@@ -1352,9 +1355,11 @@ function rcube_button($attrib)
                                 $attrib['imagesel'] ? $skin_path.$attrib['imagesel'] : $attrib['classsel'],
                                 $attrib['imageover'] ? $skin_path.$attrib['imageover'] : ''));
 
-    // make valid href to task buttons
+    // make valid href to specific buttons
     if (in_array($attrib['command'], $MAIN_TASKS))
-      $attrib['href'] = ereg_replace('_task=[a-z]+', '_task='.$attrib['command'], $COMM_PATH);
+      $attrib['href'] = htmlentities(ereg_replace('_task=[a-z]+', '_task='.$attrib['command'], $COMM_PATH));
+    else if (in_array($attrib['command'], $a_static_commands))
+      $attrib['href'] = htmlentities($COMM_PATH.'&_action='.$attrib['command']);
     }
 
   // overwrite attributes

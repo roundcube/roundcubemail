@@ -501,29 +501,11 @@ class rcube_imap
     $start_msg = ($this->list_page-1) * $this->page_size;
     
     list($begin, $end) = $this->_get_message_range($max, $page);
-    
-    /*    
-    if ($page=='all')
-      {
-      $begin = 0;
-      $end = $max;
-      }
-    else if (!$this->get_capability('sort') && $this->sort_order=='DESC')
-      {
-      $begin = $max - $this->page_size - $start_msg;
-      $end =   $max - $start_msg;
-      }
-    else
-      {
-      $begin = $start_msg;
-      $end   = $start_msg + $this->page_size;
-      }
-
-    if ($begin < 0) $begin = 0;
-    if ($end < 0) $end = $max;
-    if ($end > $max) $end = $max;
-	*/
-	
+  
+  	// mailbox is empty
+    if ($begin >= $end)
+      return array();
+    	
 //console("fetch headers $start_msg to ".($start_msg+$this->page_size)." (msg $begin to $end)");
 
     $headers_sorted = FALSE;
@@ -553,7 +535,7 @@ class rcube_imap
         }
       else
         {
-        $msgs = sprintf("%d:%d", $begin+1, $end);
+        $msgs = sprintf("%d:%d", $begin+1, $end);        
         $sorted = FALSE;
         }
 

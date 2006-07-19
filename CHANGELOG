@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/19 (thomasb)
+----------
+- Correct entity encoding of link urls (HTML validity)
+- Moved back button in compose step (Ticket #)
+- Added absolute URLs to several buttons (for "open in new window")
+
+
 2006/07/18 (thomasb)
 ----------
 - Fixed password with spaces issue (Bug #1364122)

@@ -109,8 +109,8 @@ function rcmail_message_attachments($attrib)
                         $attach_prop['filename'],
                         show_bytes($attach_prop['size']));
       else
-        $out .= sprintf('<li><a href="%s&_part=%s" onclick="return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)">%s</a></li>'."\n",
-                        $GET_URL,
+        $out .= sprintf('<li><a href="%s&amp;_part=%s" onclick="return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)">%s</a></li>'."\n",
+                        htmlentities($GET_URL),
                         $attach_prop['part_id'],
                         $JS_OBJECT_NAME,
                         $attach_prop['part_id'],

@@ -1755,7 +1755,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox){
 		$line=iil_ReadLine($fp, 500);
 		$line=iil_MultLine($fp, $line);
 		$a = explode(" ", $line);
-		if (($line[0]=="*") && ($a[1]=="LSUB")){
+		if (($line[0]=="*") && ($a[1]=="LSUB" || $a[1]=="LIST")){
 			$line = rtrim($line);
             // split one line
 			$a=iil_ExplodeQuotedString(" ", $line);
