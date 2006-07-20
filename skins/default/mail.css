@@ -791,11 +791,10 @@ div.message-part pre
 #compose-body
 {
   margin-top: 5px;
-  margin-bottom: 5px;
-  width: 99% !important;
-  width: 95%;
+  margin-bottom: 10px;
+  width: 99%;
   height: 90%;
-  min-height: 300px;
+  min-height: 280px;
   font-size: 9pt;
   font-family: "Courier New", Courier, monospace;
 }
