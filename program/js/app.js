@@ -1450,11 +1450,15 @@ function rcube_webmail()
     // reset selection first
     this.clear_selection();
     
-    for (var n in this.list_rows) {
+    for (var n in this.list_rows)
+      {
       if (!filter || this.list_rows[n][filter]==true)
+        {
         this.last_selected = n;
         this.highlight_row(n, true);
-    }
+        }
+      }
+
     return true;  
     };
     
