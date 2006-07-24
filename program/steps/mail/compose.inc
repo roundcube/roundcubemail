@@ -22,16 +22,6 @@
 
 require_once('Mail/mimeDecode.php');
 
-
-$MESSAGE_FORM = NULL;
-$REPLY_MESSAGE = NULL;
-$FORWARD_MESSAGE = NULL;
-$DRAFT_MESSAGE = NULL;
-
-
-if (!is_array($_SESSION['compose']))
-  $_SESSION['compose'] = array('id' => uniqid(rand()));
-
 // remove an attachment
 if ($_action=='remove-attachment' && !empty($_GET['_filename']))
   {
@@ -46,6 +36,18 @@ if ($_action=='remove-attachment' && !empty($_GET['_filename']))
         exit;
         }
   }
+
+$MESSAGE_FORM = NULL;
+$REPLY_MESSAGE = NULL;
+$FORWARD_MESSAGE = NULL;
+$DRAFT_MESSAGE = NULL;
+
+// nothing below is called during message composition, only at "new/forward/reply/draft" initialization
+// since there are many ways to leave the compose page improperly, it seems necessary to clean-up an old
+// compose when a "new/forward/reply/draft" is called - otherwise the old session attachments will appear
+
+rcmail_compose_cleanup();
+$_SESSION['compose'] = array('id' => uniqid(rand()));
 
 // add some labels to client
 rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'savingmessage', 'messagesaved');
@@ -376,18 +378,9 @@ function rcmail_compose_body($attrib)
   
   $out = $form_start ? "$form_start\n" : '';
 
-  // Check if a previous save was done so we can delete it upon the next save
-  if (!empty($_POST['_draft_newsaveid']))
-    $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => $_POST['_draft_newsaveid']));
-  else if (strlen($DRAFT_MESSAGE['headers']->messageID) > 6)
-    $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => str_replace(array('<','>'),"",$DRAFT_MESSAGE['headers']->messageID) ));
+  $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => str_replace(array('<','>'),"",$DRAFT_MESSAGE['headers']->messageID) ));
+  $out .= $saveid->show();
 
-  if ($saveid) 
-    $out .= $saveid->show();
-
-  $newsaveid = new hiddenfield(array('name' => '_draft_newsaveid', 'value' => sprintf('%s@%s', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']) ));
-  $out .= $newsaveid->show();
- 
   $drafttoggle = new hiddenfield(array('name' => '_draft', 'value' => 'yes'));
   $out .= $drafttoggle->show();
 
@@ -417,7 +410,9 @@ function rcmail_compose_body($attrib)
 
     rcube_add_label('checking');
     }
-  
+ 
+  $out .= '<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
+ 
   return $out;
   }
 

@@ -65,12 +65,10 @@ function rcmail_get_identity($id)
 if (strlen($_POST['_draft_saveid']) > 3)
   $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
 
-if (strlen($_POST['_draft_newsaveid']) > 3)
-  $newdraftmessageid = get_input_value('_draft_newsaveid', RCUBE_INPUT_POST);
+$message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']);
 
 $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 
- 
 /****** check submission and compose message ********/
 
 
@@ -96,20 +94,11 @@ $mailto = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_to', R
 $to_address_arr = $IMAP->decode_address_list($mailto);
 $identity_arr = rcmail_get_identity(get_input_value('_from', RCUBE_INPUT_POST));
 
-
 $from = $identity_arr['mailto'];
 $first_to = is_array($to_address_arr[0]) ? $to_address_arr[0]['mailto'] : $mailto;
 
-
-// try the message-id submitted by the compose form
-if ($newdraftmessageid)
-  $message_id = sprintf('<%s>',$newdraftmessageid);
-else
-  $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']);
-  
 if (empty($identity_arr['string']))
   $identity_arr['string'] = $from;
-
 
 // compose headers array
 $headers = array('Date' => date('D, j M Y G:i:s O'),
@@ -321,10 +310,19 @@ if ($CONFIG[$store_target])
 
   // raise error if saving failed
   if (!$saved)
+    {
+    // clear the "saving message" busy status, and display failure
+    $errorout = sprintf("parent.%s.display_message('%s', '%s');",
+                       $JS_OBJECT_NAME,
+                       addslashes(rep_specialchars_output(rcube_label(array('name' => 'errorsaving', 'vars' => NULL)))),
+                       'error');
+    print "<html><script type=\"text/javascript\">$errorout</script></html>";
     raise_error(array('code' => 800,
                       'type' => 'imap',
                       'file' => __FILE__,
                       'message' => "Could not save message in $CONFIG[$store_target]"), TRUE, FALSE);
+    exit;
+    }
 
   if ($olddraftmessageid)
     {
@@ -332,6 +330,7 @@ if ($CONFIG[$store_target])
     $a_deleteid = $IMAP->search($CONFIG['drafts_mbox'],'HEADER Message-ID',$olddraftmessageid);
     $deleted = $IMAP->delete_message($IMAP->get_uid($a_deleteid[0],$CONFIG['drafts_mbox']),$CONFIG['drafts_mbox']);
 
+    // raise error if deletion of old draft failed
     if (!$deleted)
       raise_error(array('code' => 800,
                         'type' => 'imap',
@@ -342,8 +341,25 @@ if ($CONFIG[$store_target])
 
 if ($savedraft)
   {
-  show_message('messagesaved', 'confirmation');
-  rcmail_overwrite_action('compose');
+  // clear the "saving message" busy status, and display success
+  $frameout = sprintf("parent.%s.display_message('%s', '%s');",
+                     $JS_OBJECT_NAME,
+                     addslashes(rep_specialchars_output(rcube_label(array('name' => 'messagesaved', 'vars' => NULL)))),
+                     'confirmation');
+
+  // update "_draft_saveid" on the page, which is used to delete a previous draft
+  $frameout .= 'var foundid = parent.rcube_find_object("_draft_saveid",parent.document);';
+  $frameout .= sprintf('foundid.value = "%s";',str_replace(array('<','>'),"",$message_id));
+
+  // update the "cmp_hash" to prevent "Unsaved changes" warning
+  $frameout .= sprintf("parent.%s.cmp_hash = parent.%s.compose_field_hash();",$JS_OBJECT_NAME,$JS_OBJECT_NAME);
+  
+  // start the auto-save timer again
+  $frameout .= sprintf("parent.%s.auto_save_start();",$JS_OBJECT_NAME);
+
+  // send html page with JS calls as response
+  print "<html><script type=\"text/javascript\">$frameout</script></html>";
+  exit;
   }
 else
   {

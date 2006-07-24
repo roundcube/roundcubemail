@@ -291,8 +291,8 @@ if ($_task=='mail')
     include('program/steps/mail/rss.inc');
 
   // kill compose entry from session
-  if (isset($_SESSION['compose']))
-    rcmail_compose_cleanup();
+//  if (isset($_SESSION['compose']))
+//    rcmail_compose_cleanup();
     
   // make sure the message count is refreshed
   $IMAP->messagecount($_SESSION['mbox'], 'ALL', TRUE);

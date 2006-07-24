@@ -17,8 +17,10 @@
 var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
 var CONTROL_SHIFT_KEY = 3;
+var DRAFT_AUTOSAVE = 10; // Minutes
 
 var rcube_webmail_client;
+var rcube_save_timer;
 
 function rcube_webmail()
   {
@@ -39,7 +41,7 @@ function rcube_webmail()
   this.dblclick_time = 600;
   this.message_time = 5000;
   this.request_timeout = 180000;
-  this.kepp_alive_interval = 60000;
+  this._interval = 60000;
   this.mbox_expression = new RegExp('[^0-9a-z\-_]', 'gi');
   this.env.blank_img = 'skins/default/images/blank.gif';
   
@@ -254,10 +256,10 @@ function rcube_webmail()
       this.display_message(this.pending_message[0], this.pending_message[1]);
       
     // start interval for keep-alive/recent_check signal
-    if (this.kepp_alive_interval && this.task=='mail' && this.gui_objects.messagelist)
-      this.kepp_alive_int = setInterval(this.ref+'.check_for_recent()', this.kepp_alive_interval);
+    if (this._interval && this.task=='mail' && this.gui_objects.messagelist)
+      this._int = setInterval(this.ref+'.check_for_recent()', this.keep_alive_interval);
     else if (this.task!='login')
-      this.kepp_alive_int = setInterval(this.ref+'.send_keep_alive()', this.kepp_alive_interval);
+      this._int = setInterval(this.ref+'.send_keep_alive()', this.keep_alive_interval);
     };
 
   // reset last clicked if user clicks on anything other than the message table
@@ -436,8 +438,11 @@ function rcube_webmail()
     
     // get summary of all field values
     this.cmp_hash = this.compose_field_hash();
+ 
+    // start the auto-save timer
+    this.auto_save_start();
+    
     };
-
 
   this.init_address_input_events = function(obj)
     {
@@ -913,15 +918,19 @@ function rcube_webmail()
         break;
 
       case 'savedraft':
+	// Reset the auto-save timer
+        self.clearTimeout(rcube_save_timer);
+
         if (!this.gui_objects.messageform)
           break;
-        
+
 	// if saving Drafts is disabled in main.inc.php
 	if (!this.env.drafts_mailbox)
 	  break;
- 
+
         this.set_busy(true, 'savingmessage');
         var form = this.gui_objects.messageform;
+	form.target = "savetarget";
         form.submit();
         break;
 
@@ -943,6 +952,9 @@ function rcube_webmail()
         this.show_attachment_form(true);
         
       case 'send-attachment':
+        // Reset the auto-save timer
+        self.clearTimeout(rcube_save_timer);
+
         this.upload_file(props)      
         break;
       
@@ -1952,7 +1964,11 @@ function rcube_webmail()
     return true;
     };
     
-    
+  this.auto_save_start = function()
+    {
+    rcube_save_timer = self.setTimeout('rcmail.command("savedraft","",this)',DRAFT_AUTOSAVE * 60000);
+    }
+ 
   this.compose_field_hash = function()
     {
     // check input fields
@@ -2052,6 +2068,7 @@ function rcube_webmail()
   // upload attachment file
   this.upload_file = function(form)
     {
+    
     if (!form)
       return false;
       
@@ -2952,15 +2969,16 @@ function rcube_webmail()
   // display a system message
   this.display_message = function(msg, type, hold)
     {
+    this.set_busy(false);
     if (!this.loaded)  // save message in order to display after page loaded
       {
       this.pending_message = new Array(msg, type);
       return true;
       }
-    
+  
     if (!this.gui_objects.message)
       return false;
-      
+     
     if (this.message_timer)
       clearTimeout(this.message_timer);
     
@@ -2971,7 +2989,7 @@ function rcube_webmail()
     this.gui_objects.message._rcube = this;
     this.gui_objects.message.innerHTML = cont;
     this.gui_objects.message.style.display = 'block';
-    
+ 
     if (type!='loading')
       this.gui_objects.message.onmousedown = function(){ this._rcube.hide_message(); return true; };
     

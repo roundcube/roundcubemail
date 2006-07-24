@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/24 (richs)
+----------
+- Draft window no longer reloads. It saves to an iframe in the background instead (fixes bug #1483869)
+- Draft timer now part of program/js/app.js instead of skins/default/templates/compose.inc
+- Draft saving now properly returns an error when saving fails
+- Draft timer stops and resets properly when attachments are uploaded, or when saving manually
+- Old compose session/attachments are now cleaned up when a new/forward/reply/draft is made/opened
+
+
 2006/07/19 (thomasb)
 ----------
 - Correct entity encoding of link urls (HTML validity)

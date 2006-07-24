@@ -60,6 +60,7 @@ if (parent.$JS_OBJECT_NAME)
 {
 $response
 parent.$JS_OBJECT_NAME.show_attachment_form(false);
+parent.$JS_OBJECT_NAME.auto_save_start();
 }
 </script>
 </html>
