@@ -210,7 +210,7 @@ $labels['subscribed']  = 'Subscribed';
 $labels['create']  = 'Create';
 $labels['createfolder']  = 'Create new folder';
 $labels['rename'] = 'Rename';
-$labels['renamefolder'] = 'Rename existing folder';
+$labels['renamefolder'] = 'Rename folder';
 $labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
 

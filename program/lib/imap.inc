@@ -45,6 +45,7 @@
 		- Added function iil_C_ID2UID()
 		- Casting date parts in iil_StrToTime() to avoid mktime() warnings
 		- Also acceppt LIST responses in iil_C_ListSubscribed()
+		- Sanity check of $message_set in iil_C_FetchHeaders(), iil_C_FetchHeaderIndex(), iil_C_FetchThreadHeaders()
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -676,7 +677,9 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field, $n
 	if (empty($index_field)) $index_field="DATE";
 	$index_field = strtoupper($index_field);
 	
-	if ((empty($message_set)) || ($message_set == "1:0")) return array();
+	list($from_idx, $to_idx) = explode(':', $message_set);
+	if (empty($message_set) || (isset($to_idx) && (int)$from_idx > (int)$to_idx))
+		return false;
 	
 	//$fields_a["DATE"] = ($IMAP_USE_INTERNAL_DATE?6:1);
 	$fields_a['DATE'] = 1;
@@ -932,7 +935,9 @@ function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set){
 	global $clock;
 	global $index_a;
 	
-	if (empty($message_set)) return false;
+	list($from_idx, $to_idx) = explode(':', $message_set);
+	if (empty($message_set) || (isset($to_idx) && (int)$from_idx > (int)$to_idx))
+		return false;
 
 	$result = array();
 	$uids = iil_C_FetchUIDs($conn, $mailbox);
@@ -1013,7 +1018,9 @@ function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set){
 function iil_C_BuildThreads2(&$conn, $mailbox, $message_set, &$clock){
 	global $index_a;
 
-	if (empty($message_set)) return false;
+	list($from_idx, $to_idx) = explode(':', $message_set);
+	if (empty($message_set) || (isset($to_idx) && (int)$from_idx > (int)$to_idx))
+		return false;
 	
 	$result=array();
 	$roots=array();
@@ -1195,8 +1202,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 	$result=array();
 	$fp = $conn->fp;
 	
-	if (empty($message_set)) return array();
-	
+	list($from_idx, $to_idx) = explode(':', $message_set);
+	if (empty($message_set) || (isset($to_idx) && (int)$from_idx > (int)$to_idx))
+		return false;
+		
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)){
 		$conn->error = "Couldn't select $mailbox";

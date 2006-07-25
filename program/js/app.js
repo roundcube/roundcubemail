@@ -13,6 +13,7 @@
  
   $Id$
 */
+
 // Constants
 var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
@@ -247,6 +248,9 @@ function rcube_webmail()
     document.onmousedown = function(){ return rcube_webmail_client.reset_click(); };
     document.onkeydown   = function(e){ return rcube_webmail_client.key_pressed(e, msg_list_frame); };
 
+    // set default keep alive interval
+    if (!this.keep_alive_interval)
+      this.keep_alive_interval = this._interval;
     
     // flag object as complete
     this.loaded = true;
@@ -256,23 +260,27 @@ function rcube_webmail()
       this.display_message(this.pending_message[0], this.pending_message[1]);
       
     // start interval for keep-alive/recent_check signal
-    if (this._interval && this.task=='mail' && this.gui_objects.messagelist)
+    if (this.keep_alive_interval && this.task=='mail' && this.gui_objects.messagelist)
       this._int = setInterval(this.ref+'.check_for_recent()', this.keep_alive_interval);
     else if (this.task!='login')
       this._int = setInterval(this.ref+'.send_keep_alive()', this.keep_alive_interval);
     };
 
   // reset last clicked if user clicks on anything other than the message table
-  this.reset_click = function() {
+  this.reset_click = function()
+    {
+    var id;
     this.in_message_list = false;
-	for (var n=0; n<this.selection.length; n++) {
+	for (var n=0; n<this.selection.length; n++)
+	  {
       id = this.selection[n];
-      if (this.list_rows[id].obj) {
+      if (this.list_rows[id] && this.list_rows[id].obj)
+        {
         this.set_classname(this.list_rows[id].obj, 'selected', false);
 		this.set_classname(this.list_rows[id].obj, 'unfocused', true);
-	  }
-    }
-  };
+        }
+      }
+    };
 	
   this.click_on_list = function(e)
     {
@@ -619,9 +627,10 @@ function rcube_webmail()
           if (this.env.search_request<0 || (this.env.search_request && props != this.env.mailbox))
             this.reset_qsearch();
 
-	  // Reset message list header, unless returning from compose/read/etc
-	  if (this.env.mailbox != props && this.message_rows)
-	    this.clear_message_list_header();
+          // Reset message list header, unless returning from compose/read/etc
+          // don't know what this is good for (thomasb, 2006/07/25)
+          //if (this.env.mailbox != props && this.message_rows)
+          //  this.clear_message_list_header();
 
           this.list_mailbox(props);
           }
@@ -645,7 +654,7 @@ function rcube_webmail()
           else
             sort_order = this.env.sort_order;
           }
-        
+
         if (this.env.sort_col==sort_col && this.env.sort_order==sort_order)
           break;
 
@@ -1406,7 +1415,9 @@ function rcube_webmail()
           }
       }
 	}
-	if (this.last_selected != 0) { this.set_classname(this.list_rows[this.last_selected].obj, 'focused', false);}
+	if (this.last_selected != 0 && this.list_rows[this.last_selected])
+	  this.set_classname(this.list_rows[this.last_selected].obj, 'focused', false);
+
     this.last_selected = id;
     this.set_classname(this.list_rows[id].obj, 'focused', true);        
   };
@@ -1596,18 +1607,24 @@ function rcube_webmail()
     
     };
 
+
   this.clear_message_list_header = function()
     {
-    var table = this.gui_objects.messagelist;
+    var table;
+    if (table = this.gui_objects.messagelist)
+      {
+      if (table.colgroup)
+        table.removeChild(table.colgroup);
+      if (table.tHead)
+        table.removeChild(table.tHead);
 
-    var colgroup = document.createElement('COLGROUP');
-    table.removeChild(table.colgroup);
-    table.insertBefore(colgroup, table.thead);
-
-    var thead = document.createElement('THEAD');
-    table.removeChild(table.thead);
-    table.insertBefore(thead, table.tBodies[0]);
+      var colgroup = document.createElement('COLGROUP');
+      var thead = document.createElement('THEAD');
+      table.insertBefore(colgroup, table.tBodies[0]);
+      table.insertBefore(thead, table.tBodies[0]);
+      }
     };
+
 
   this.expunge_mailbox = function(mbox)
     {
@@ -2640,8 +2657,12 @@ function rcube_webmail()
     };
 
 
+  // tell server to create and subscribe a new mailbox
   this.create_folder = function(name)
     {
+	if (this.edit_folder)
+	  this.reset_folder_rename();
+
     var form;
     if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
       name = form.elements['_folder_name'].value;
@@ -2652,37 +2673,192 @@ function rcube_webmail()
       form.elements['_folder_name'].focus();
     };
 
+
+  // entry point for folder renaming
   this.rename_folder = function(props)
     {
-    var form;
-    if ((form = this.gui_objects.editform) && form.elements['_folder_oldname'] && form.elements['_folder_newname'])
-      {	
+    var form, oldname, newname;
+    
+    // rename a specific mailbox
+    if (props)
+      this.edit_foldername(props);
+
+    // use a dropdown and input field (old behavior)
+    else if ((form = this.gui_objects.editform) && form.elements['_folder_oldname'] && form.elements['_folder_newname'])
+      {
       oldname = form.elements['_folder_oldname'].value;
       newname = form.elements['_folder_newname'].value;
       }
 
     if (oldname && newname)
       this.http_request('rename-folder', '_folder_oldname='+escape(oldname)+'&_folder_newname='+escape(newname));
-
     };
 
 
-  this.delete_folder = function(folder)
+  // start editing the mailbox name.
+  // this will replace the name string with an input field
+  this.edit_foldername = function(folder)
     {
-    if (folder)
+    var temp, row, form;
+    var id = this.get_folder_row_id(folder);
+
+    // reset current renaming
+	if (temp = this.edit_folder)
+	  {
+	  this.reset_folder_rename();
+	  if (temp == id)
+	    return;
+	  }
+
+    if (id && (row = document.getElementById(id)))
       {
-      this.http_request('delete-folder', '_mboxes='+escape(folder));
+      this.name_input = document.createElement('INPUT');
+      this.name_input.value = this.env.subscriptionrows[id];
+      this.name_input.style.width = '100%';
+      this.name_input.onkeypress = function(e){ rcmail.name_input_keypress(e); };
+      
+      row.cells[0].replaceChild(this.name_input, row.cells[0].firstChild);
+      this.edit_folder = id;
+      this.name_input.select();
+      
+      if (form = this.gui_objects.editform)
+        form.onsubmit = function(){ return false; };
       }
     };
 
 
-  this.remove_folder_row = function(folder)
+  // remove the input field and write the current mailbox name to the table cell
+  this.reset_folder_rename = function()
     {
-    for (var id in this.env.subscriptionrows)
-      if (this.env.subscriptionrows[id]==folder)
+    var cell = this.name_input ? this.name_input.parentNode : null;
+    if (cell && this.edit_folder)
+      cell.innerHTML = this.env.subscriptionrows[this.edit_folder];
+      
+    this.edit_folder = null;
+    };
+
+
+  // handler for keyboard events on the input field
+  this.name_input_keypress = function(e)
+    {
+    var key = document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
+
+    // enter
+    if (key==13)
+      {
+      var newname = this.name_input ? this.name_input.value : null;
+      if (this.edit_folder && newname)
+        this.http_request('rename-folder', '_folder_oldname='+escape(this.env.subscriptionrows[this.edit_folder])+'&_folder_newname='+escape(newname));        
+      }
+    // escape
+    else if (key==27)
+      this.reset_folder_rename();
+    };
+
+
+  // delete a specific mailbox with all its messages
+  this.delete_folder = function(folder)
+    {
+	if (this.edit_folder)
+	  this.reset_folder_rename();
+    
+    if (folder)
+      this.http_request('delete-folder', '_mboxes='+escape(folder));
+    };
+
+
+  // add a new folder to the subscription list by cloning a folder row
+  this.add_folder_row = function(name, replace)
+    {
+    name = name.replace('\\',"");
+    if (!this.gui_objects.subscriptionlist)
+      return false;
+
+    for (var refid in this.env.subscriptionrows)
+      if (this.env.subscriptionrows[refid]!=null)
         break;
 
+    var refrow, form;
+    var tbody = this.gui_objects.subscriptionlist.tBodies[0];
+    var id = replace && replace.id ? replace.id : tbody.childNodes.length+1;
+
+    if (!id || !(refrow = document.getElementById(refid)))
+      {
+      // Refresh page if we don't have a table row to clone
+      location.href = this.env.comm_path+'&_action=folders';
+      }
+    else
+      {
+      // clone a table row if there are existing rows
+      var row = this.clone_table_row(refrow);
+      row.id = 'rcmrow'+id;
+      if (replace)
+        tbody.replaceChild(row, replace);
+      else
+        tbody.appendChild(row);
+      }
+
+    // add to folder/row-ID map
+    this.env.subscriptionrows[row.id] = name;
+
+    // set folder name
+    row.cells[0].innerHTML = name;
+    if (row.cells[1] && row.cells[1].firstChild.tagName=='INPUT')
+      {
+      row.cells[1].firstChild.value = name;
+      row.cells[1].firstChild.checked = true;
+      }
+       
+    if (row.cells[2] && row.cells[2].firstChild.tagName=='A')
+      row.cells[2].firstChild.onclick = new Function(this.ref+".command('rename-folder','"+name.replace('\'','\\\'')+"')");
+    if (row.cells[3] && row.cells[3].firstChild.tagName=='A')
+      row.cells[3].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name.replace('\'','\\\'')+"')");
+
+    // add new folder to rename-folder list and clear input field
+    if (!replace && (form = this.gui_objects.editform) && form.elements['_folder_name'])
+      {
+      form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
+      form.elements['_folder_name'].value = ''; 
+      }
+
+    };
+
+
+  // replace an existing table row with a new folder line
+  this.replace_folder_row = function(newfolder, oldfolder)
+    {
+    var id = this.get_folder_row_id(oldfolder);
+    var row = document.getElementById(id);
+    
+    // replace an existing table row (if found)
+    this.add_folder_row(newfolder, row);
+    this.env.subscriptionrows[id] = null;
+    
+    // rename folder in rename-folder dropdown
+    var form, elm;
+    if ((form = this.gui_objects.editform) && (elm = form.elements['_folder_oldname']))
+      {
+      for (var i=0;i<elm.options.length;i++)
+        {
+        if (elm.options[i].value == oldfolder)
+          {
+          elm.options[i].text = newfolder;
+          elm.options[i].value = newfolder;
+          break;
+          }
+        }
+
+      form.elements['_folder_newname'].value = '';
+      }
+    };
+    
+
+  // remove the table row of a specific mailbox from the table
+  // (the row will not be removed, just hidden)
+  this.remove_folder_row = function(folder)
+    {
     var row;
+    var id = this.get_folder_row_id(folder);
     if (id && (row = document.getElementById(id)))
       row.style.display = 'none';    
 
@@ -2693,13 +2869,14 @@ function rcube_webmail()
       for (var i=0;i<form.elements['_folder_oldname'].options.length;i++)
         {
         if (form.elements['_folder_oldname'].options[i].value == folder) 
-	  {
+          {
           form.elements['_folder_oldname'].options[i] = null;
-	  break;
+          break;
           }
         }
       }
-      form.elements['_folder_newname'].value='';
+    
+    form.elements['_folder_newname'].value = '';
     };
 
 
@@ -2759,52 +2936,15 @@ function rcube_webmail()
       
     };
 
-
-   // add a new folder to the subscription list by cloning a folder row
-   this.add_folder_row = function(name)
-     {
-     name = name.replace('\\',"");
-     if (!this.gui_objects.subscriptionlist)
-       return false;
-
-     var tbody = this.gui_objects.subscriptionlist.tBodies[0];
-     var id = tbody.childNodes.length+1;
-   
-     if (!tbody.rows[0]) 
-       {
-       // Refresh to create the first table row
-       location.href = this.env.comm_path+'&_action=folders';
-       }
-     else
-       {
-       // clone a table row if there are existing rows
-       var row = this.clone_table_row(tbody.rows[0]);
-       row.id = 'rcmrow'+id;
-       tbody.appendChild(row);
-       }
-
-     // add to folder/row-ID map
-     this.env.subscriptionrows[row.id] = name;
-
-     // set folder name
-     row.cells[0].innerHTML = name;
-     if (row.cells[1].firstChild.tagName=='INPUT')
-       {
-       row.cells[1].firstChild.value = name;
-       row.cells[1].firstChild.checked = true;
-       }
-     if (row.cells[2].firstChild.tagName=='A')
-       row.cells[2].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name.replace('\'','\\\'')+"')");
-
-     var form;
-     if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
-       form.elements['_folder_name'].value = '';
- 
-     // add new folder to rename-folder list
-     form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
-
-     };
-
+  // helper method to find a specific mailbox row ID
+  this.get_folder_row_id = function(folder)
+    {
+    for (var id in this.env.subscriptionrows)
+      if (this.env.subscriptionrows[id]==folder)
+        break;
+        
+    return id;
+    };
 
   // duplicate a specific table row
   this.clone_table_row = function(row)
@@ -3033,11 +3173,35 @@ function rcube_webmail()
     this.env.mailbox = mbox;
     };
 
+
   // for reordering column array, Konqueror workaround
   this.set_message_coltypes = function(coltypes) 
   { 
-  this.coltypes = coltypes; 
-  }
+    this.coltypes = coltypes;
+    
+    // set correct list titles
+    var cell, col;
+    var thead = this.gui_objects.messagelist ? this.gui_objects.messagelist.tHead : null;
+    for (var n=0; thead && n<this.coltypes.length; n++) 
+      {
+      col = this.coltypes[n];
+      if ((cell = thead.rows[0].cells[n+1]) && (col=='from' || col=='to'))
+        {
+        // if we have links for sorting, it's a bit more complicated...
+        if (cell.firstChild && cell.firstChild.tagName=='A')
+          {
+          cell.firstChild.innerHTML = this.get_label(this.coltypes[n]);
+          cell.firstChild.onclick = function(){ return rcmail.command('sort', this.__col, this); };
+          cell.firstChild.__col = col;
+          }
+        else
+          cell.innerHTML = this.get_label(this.coltypes[n]);
+
+        cell.id = 'rcmHead'+col;
+        }
+      }
+
+  };
 
   // create a table row in the message list
   this.add_message_row = function(uid, cols, flags, attachment, attop)

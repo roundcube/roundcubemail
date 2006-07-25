@@ -67,6 +67,15 @@ span.tablink-selected a
   left: 20px;
 }
 
+#folder-manager
+{
+  width: 500px;
+  bottom: 120px;
+  overflow: auto;
+  border: 1px solid #999999;
+  height: expression((parseInt(document.documentElement.clientHeight)-215)+'px');
+}
+
 #identities-table
 {
   width: 500px;
@@ -101,6 +110,15 @@ span.tablink-selected a
   padding-right: 10px;
 }
 
+#bottomboxes
+{
+  position: absolute;
+  width: 500px;
+  height: 100px;
+  left: 20px;
+  bottom: 20px;
+}
+
 #userprefs-title,
 #identity-title,
 div.boxtitle,
@@ -132,8 +150,8 @@ div.settingspart
 
 #subscription-table
 {
-  width: 500px;
-  border: 1px solid #999999;
+  width: 100%;
+  table-layout: fixed;
 }
 
 #subscription-table tbody td
@@ -145,10 +163,12 @@ div.settingspart
   background-color: #F9F9F9;
 }
 
-/*
-#subscription-table tbody td select
+#subscription-table td.name
 {
-  width: 150px;
+  width: 280px;
 }
-*/
 
+#subscription-table td.subscribed
+{
+  width: 80px;
+}

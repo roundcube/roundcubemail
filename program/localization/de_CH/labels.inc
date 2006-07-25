@@ -206,6 +206,8 @@ $labels['foldername']  = 'Ordnername';
 $labels['subscribed']  = 'Abonniert';
 $labels['create']      = 'Erstellen';
 $labels['createfolder']  = 'Neuen Ordner erstellen';
+$labels['rename'] = 'Umbenennen';
+$labels['renamefolder'] = 'Ordner umbenennen';
 $labels['deletefolder']  = 'Ordner löschen';
 $labels['managefolders']  = 'Ordner verwalten';
 

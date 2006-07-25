@@ -17,7 +17,7 @@
  |  - 17/9/2005 First release                                            |
  +-----------------------------------------------------------------------+
 
- 
+
  $Id$
 
 */
@@ -43,17 +43,17 @@ $messages['loading'] = 'Cargando...';
 
 $messages['loadingdata'] = 'Cargando datos...';
 
-$messages['checkingmail'] = 'Comprobación para saber si hay nuevos mensajes...';
+$messages['checkingmail'] = 'Verificar si hay nuevos mensajes...';
 
 $messages['sendingmessage'] = 'Enviando mensaje...';
 
 $messages['messagesent'] = 'Mensaje enviado correctamente';
 
-$messages['savingmessage'] = 'Mensaje del ahorro...';
+$messages['savingmessage'] = 'Guardar mensaje...';
 
-$messages['messagesaved'] = 'Mensaje ahorrado a los bosquejos';
+$messages['messagesaved'] = 'Mensaje guardado en los bosquejos';
 
-$messages['successfullysaved'] = 'guardado correctamente';
+$messages['successfullysaved'] = 'Guardado correctamente';
 
 $messages['addedsuccessfully'] = 'Contacto añadido correctamente a la libreta de direcciones';
 
@@ -89,7 +89,7 @@ $messages['nopagesizewarning'] = 'Por favor, introduzca un tamaño de página';
 
 $messages['norecipientwarning'] = 'Por favor, introduzca al menos un destinatario';
 
-$messages['nosubjectwarning']  = 'El campo "asunto" esta vacio. ¿Desea introducir el campo "asunto" al mensaje?';
+$messages['nosubjectwarning']  = 'El campo "Asunto" esta vacio. ¿Desea redactarlo en este momento?';
 
 $messages['nobodywarning'] = '¿Quiere enviar este mensaje sin texto?';
 
@@ -100,5 +100,15 @@ $messages['noldapserver'] = 'Por favor, seleccione un servidor LDAP para buscar'
 $messages['nocontactsreturned'] = 'No se han encontrado contactos';
 
 $messages['nosearchname'] = 'Por favor, introduzca un nombre o la dirección email';
+
+$messages['searchsuccessful'] = 'Se encontró $nr mensajes';
+
+$messages['searchnomatch'] = 'La busqueda no obtuvo resultados';
+
+$messages['searching'] = 'Buscando...';
+
+$messages['checking'] = 'Revisando...';
+
+$messages['nospellerrors'] = 'No se encontró errores ortográficos';
 
 ?>

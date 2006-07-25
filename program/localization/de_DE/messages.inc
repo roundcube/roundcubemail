@@ -36,7 +36,7 @@ $messages['mailboxempty'] = 'Ordner ist leer';
 
 $messages['loading'] = $messages['loadingdata'] = 'Daten werden geladen...';
 
-$messages['checkingmail'] = 'Überprüfung auf neue Anzeigen...';
+$messages['checkingmail'] = 'Überprüfung auf neue Nachrichten...';
 
 $messages['sendingmessage'] = 'Nachricht wird gesendet...';
 

@@ -289,6 +289,9 @@ function rcmail_message_list($attrib)
   // check to see if we have some settings for sorting
   $sort_col   = $_SESSION['sort_col'];
   $sort_order = $_SESSION['sort_order'];
+  
+  // add some labels to client
+  rcube_add_label('from', 'to');
 
   // get message headers
   $a_headers = $IMAP->list_headers('', '', $sort_col, $sort_order);

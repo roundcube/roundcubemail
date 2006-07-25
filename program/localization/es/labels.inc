@@ -16,7 +16,7 @@
  |  - 6/2/2006 Translations of new features and improvements)            |
  |  - 17/9/2005 First release                                            |
  +-----------------------------------------------------------------------+
- 
+
  $Id$
 
 */
@@ -24,6 +24,7 @@
 $labels = array();
 
 // login page
+$labels['welcome']   = 'Bienvenido a $product';
 $labels['username']  = 'Nombre de usuario';
 $labels['password']  = 'Contraseña';
 $labels['server']    = 'Servidor';
@@ -37,18 +38,17 @@ $labels['addressbook'] = 'Contactos';
 
 // mailbox names
 $labels['inbox']  = 'Entrada';
-$labels['drafts'] = 'Bosquejos';
+$labels['drafts'] = 'Borradores';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Papelera';
-$labels['drafts'] = 'Borradores';
 $labels['junk']   = 'Basura';
 
 // message listing
 $labels['subject'] = 'Asunto';
 $labels['from']    = 'Remitente';
 $labels['to']      = 'Destinatario';
-$labels['cc']      = 'CC';
-$labels['bcc']     = 'BCC';
+$labels['cc']      = 'Copia';
+$labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Responder';
 $labels['date']    = 'Fecha';
 $labels['size']    = 'Tamaño';
@@ -70,17 +70,18 @@ $labels['filesize'] = 'Tamaño del fichero';
 
 $labels['preferhtml'] = 'Prefiero HTML';
 $labels['htmlmessage'] = 'Mensaje HTML';
+$labels['prettydate'] = 'Fecha detallada';
 
 $labels['addtoaddressbook'] = 'Añadir a contactos';
 
 // weekdays short
-$labels['sun'] = 'D';
-$labels['mon'] = 'L';
-$labels['tue'] = 'M';
-$labels['wed'] = 'X';
-$labels['thu'] = 'J';
-$labels['fri'] = 'V';
-$labels['sat'] = 'S';
+$labels['sun'] = 'Dom';
+$labels['mon'] = 'Lun';
+$labels['tue'] = 'Mar';
+$labels['wed'] = 'Mie';
+$labels['thu'] = 'Jue';
+$labels['fri'] = 'Vie';
+$labels['sat'] = 'Sáb';
 
 // weekdays long
 $labels['sunday']    = 'Domingo';
@@ -94,11 +95,12 @@ $labels['saturday']  = 'Sábado';
 $labels['today'] = 'Hoy';
 
 // toolbar buttons
-$labels['checkmail']        = 'Comprobación para saber si hay nuevos mensajes';
+$labels['checkmail']        = 'Revisar si hay nuevos mensajes';
 $labels['writenewmessage']  = 'Crear nuevo mensaje';
 $labels['replytomessage']   = 'Responder al mensaje';
+$labels['replytoallmessage'] = 'Responder al emisor y a todos los destinatarios';
 $labels['forwardmessage']   = 'Reenviar mensaje';
-$labels['deletemessage']    = 'Move message to trash';
+$labels['deletemessage']    = 'Mover mensaje a la papelera';
 $labels['printmessage']     = 'Imprimir este mensaje';
 $labels['previousmessages'] = 'Mostrar mensajes anteriores';
 $labels['nextmessages']     = 'Mostrar mensajes siguientes';
@@ -116,19 +118,28 @@ $labels['empty'] = 'Vaciar';
 $labels['purge'] = 'Eliminar';
 
 $labels['quota'] = 'Uso de disco';
+$labels['unknown']  = 'desconocido';
+$labels['unlimited']  = 'sin límite';
+
+$labels['quicksearch']  = 'Búsqueda rápida';
+$labels['resetsearch']  = 'Reajustar la búsqueda';
 
 
 // message compose
 $labels['compose']  = 'Escribir un mensaje';
-$labels['savemessage']  = 'Excepto este bosquejo';
+$labels['savemessage']  = 'Almacenar como borrador';
 $labels['sendmessage']  = 'Enviar ahora el mensaje';
 $labels['addattachment']  = 'Añadir un fichero';
 $labels['charset']  = 'Codigo';
+$labels['returnreceipt'] = 'Recibo de entrega';
+
+$labels['checkspelling'] = 'Revisar la ortografía';
+$labels['resumeediting'] = 'Continuar el editaje';
+$labels['revertto'] = 'Revertir a';
 
 $labels['attachments'] = 'Adjuntos';
 $labels['upload'] = 'Subir';
 $labels['close']  = 'Cerrar';
-
 
 $labels['low']     = 'Bajo';
 $labels['lowest']  = 'Bajísimo';
@@ -136,7 +147,6 @@ $labels['normal']  = 'Normal';
 $labels['high']    = 'Alto';
 $labels['highest'] = 'Altísimo';
 
-$labels['showimages'] = 'Mostrar imágenes';
 
 $labels['nosubject']  = '(sin asunto)';
 $labels['showimages'] = 'Mostrar imágenes';
@@ -148,25 +158,27 @@ $labels['firstname'] = 'Nombre';
 $labels['surname']   = 'Apellido';
 $labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Añadir nuevo contacto';
-$labels['editcontact'] = 'Editar contacto';
-
 $labels['edit']   = 'Editar';
 $labels['cancel'] = 'Cancelar';
-$labels['save']   = 'Salvar';
+$labels['save']   = 'Almacenar';
 $labels['delete'] = 'Eliminar';
 
 $labels['newcontact']     = 'Crear nuevo contacto';
+$labels['addcontact']     = 'Añadir nuevo contacto';
+$labels['editcontact']    = 'Editar contacto';
 $labels['deletecontact']  = 'Eliminar contactos seleccionados';
 $labels['composeto']      = 'Redactar correo a';
 $labels['contactsfromto'] = 'Contactos $from a $to de $count';
 $labels['print']          = 'Imprimir';
 $labels['export']         = 'Exportar';
 
+$labels['previouspage']   = 'Mostrar grupo anterior';
+$labels['nextpage']       = 'Mostrar grupo siguiente';
+
 // LDAP search
 $labels['ldapsearch'] = 'Búsqueda en el directorio LDAP';
 
-$labels['ldappublicsearchname']    = 'Nombre';
+$labels['ldappublicsearchname'] = 'Nombre';
 $labels['ldappublicsearchtype'] = '¿Búsqueda exacta?';
 $labels['ldappublicserverselect'] = 'Elegir servidores';
 $labels['ldappublicsearchfield'] = 'Buscando';
@@ -192,24 +204,22 @@ $labels['setdefault']  = 'Seleccionar opción por defecto';
 $labels['language']  = 'Idioma';
 $labels['timezone']  = 'Zona horaria';
 $labels['pagesize']  = 'Filas por página';
-
 $labels['signature'] = 'Firma';
+$labels['dstactive']  = 'Cambio de horario';
 
 $labels['folder']  = 'Carpeta';
-
 $labels['folders']  = 'Carpetas';
 $labels['foldername']  = 'Nombre de carpeta';
 $labels['subscribed']  = 'Suscribirse';
 $labels['create']  = 'Crear';
 $labels['createfolder']  = 'Crear nueva carpeta';
+$labels['rename'] = 'Renombrar';
+$labels['renamefolder'] = 'Renombrar carpeta';
 $labels['deletefolder']  = 'Eliminar carpeta';
 $labels['managefolders']  = 'Gestionar carpetas';
 
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc']  = 'Orden ascendente';
 $labels['sortdesc'] = 'Orden descendente';
-
-$labels['prettydate']  = 'Formato de fecha';
-$labels['replytoallmessage'] = 'Responder al emisor y a todos los destinatarios';
 
 ?>

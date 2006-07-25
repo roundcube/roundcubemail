@@ -1,6 +1,19 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/25 (thomasb)
+----------
+- Made folder renaming a bit more ajax-style
+- Changed rename-labels and German translation
+- Fixed addressbox countbar width (Bug #1483845)
+- Fixed refresh interval problems in Safari (Bug #1483902) 
+- Fixed clear_message_list_header() errors (Bug #1483898)
+- Sanity check of $message_set in imap.inc (Bug #1443200)
+- Added correct changing of message list headers for Sent folder
+- Updated Spanish localization (Ticket #1483887)
+- Applied patch #1483846
+
+
 2006/07/24 (richs)
 ----------
 - Draft window no longer reloads. It saves to an iframe in the background instead (fixes bug #1483869)

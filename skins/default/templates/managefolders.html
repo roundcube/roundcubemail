@@ -16,9 +16,11 @@
 <div id="folder-manager">
 <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"
   cellpadding="1" cellspacing="0" summary="Folder subscription table"
-  deleteIcon="/images/icons/folder-trash.png" />
+  deleteIcon="/images/icons/folder-trash.png"
+  renameIcon="/images/icons/edit.png" />
+</div>
 
-
+<div id="bottomboxes">
 <div class="settingsbox">
 <div class="boxtitle"><roundcube:label name="createfolder" /></div>
 
@@ -26,16 +28,6 @@
 <roundcube:label name="foldername" />:&nbsp;
 <roundcube:object name="createfolder" form="subscriptionform" />
 <roundcube:button command="create-folder" type="input" class="button" label="create" />
-</div>
-</div>
-
-<div class="settingsbox">
-<div class="boxtitle"><roundcube:label name="renamefolder" /></div>
-
-<div class="settingspart">
-<roundcube:label name="foldername" />:&nbsp;
-<roundcube:object name="renamefolder" form="subscriptionform" />
-<roundcube:button command="rename-folder" type="input" class="button" label="rename" />
 </div>
 </div>
 

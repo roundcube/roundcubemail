@@ -71,13 +71,15 @@ else if ($_action=='rename-folder')
 
   if ($rename && $REMOTE_REQUEST)
     {
-    $commands = sprintf("this.add_folder_row('%s');\n", addslashes(rep_specialchars_output($rename, 'js'))); 
-    $commands .= sprintf("this.remove_folder_row('%s');", rep_specialchars_output($_GET['_folder_oldname'], 'js'));
+    $commands = sprintf("this.replace_folder_row('%s','%s');",
+                        addslashes(rep_specialchars_output($rename, 'js')),
+                        rep_specialchars_output($_GET['_folder_oldname'], 'js'));
     rcube_remote_response($commands);
     }
   else if (!$rename && $REMOTE_REQUEST)
     {
-    $commands = show_message('errorsaving', 'error');
+    $commands = "this.reset_folder_rename();\n";
+    $commands .= show_message('errorsaving', 'error');
     rcube_remote_response($commands);
     }
   else if (!$rename)
@@ -121,7 +123,10 @@ function rcube_subscription_form($attrib)
 
   // add table header
   $out .= "<thead><tr>\n";
-  $out .= sprintf('<td>%s</td><td>%s</td><td></td>', rcube_label('foldername'), rcube_label('subscribed'));
+  $out .= sprintf('<td class="name">%s</td><td class="subscribed">%s</td>'.
+                  '<td class="rename">&nbsp;</td><td class="delete">&nbsp;</td>',
+                  rcube_label('foldername'), rcube_label('subscribed'));
+                  
   $out .= "\n</tr></thead>\n<tbody>\n";
 
 
@@ -132,31 +137,46 @@ function rcube_subscription_form($attrib)
  
   $checkbox_subscribe = new checkbox(array('name' => '_subscribed[]', 'onclick' => "$JS_OBJECT_NAME.command(this.checked?'subscribe':'unsubscribe',this.value)"));
   
-  if ($attrib['deleteicon'])
-    $button = sprintf('<img src="%s%s" alt="%s" border="0" />', $CONFIG['skin_path'], $attrib['deleteicon'], rcube_label('delete'));
+  if (!empty($attrib['deleteicon']))
+    $del_button = sprintf('<img src="%s%s" alt="%s" border="0" />', $CONFIG['skin_path'], $attrib['deleteicon'], rcube_label('delete'));
   else
-    $button = rcube_label('delete');
+    $del_button = rcube_label('delete');
 
+  if (!empty($attrib['renameicon']))
+    $edit_button = sprintf('<img src="%s%s" alt="%s" border="0" />', $CONFIG['skin_path'], $attrib['renameicon'], rcube_label('rename'));
+  else
+    $del_button = rcube_label('rename');
 
   // create list of available folders
   foreach ($a_unsubscribed as $i => $folder)
     {
-    if ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']))
-      continue;
-
+    $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = rep_specialchars_output($folder, 'js');
-    $a_js_folders['rcmrow'.($i+1)] = $folder_js;
+    
+    if (!$protected)
+      $a_js_folders['rcmrow'.($i+1)] = $folder_js;
 
-    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td><td>%s</td><td><a href="#delete" onclick="%s.command(\'delete-folder\',\'%s\')" title="%s">%s</a></td>',
+    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td><td>%s</td>',
                     $i+1,
                     $zebra_class,
                     rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7', 'UTF-8'), 'html', 'all'),
-                    $checkbox_subscribe->show(in_array($folder, $a_subscribed)?$folder:'', array('value' => $folder)),
-                    $JS_OBJECT_NAME,
-                    $folder_js,
-                    rcube_label('deletefolder'),
-                    $button);
+                    $checkbox_subscribe->show(in_array($folder, $a_subscribed)?$folder:'', array('value' => $folder, 'disabled' => $protected)));
+
+    // add rename and delete buttons
+    if (!$protected)
+      $out .= sprintf('<td><a href="#rename" onclick="%s.command(\'rename-folder\',\'%s\')" title="%s">%s</a>'.
+                      '<td><a href="#delete" onclick="%s.command(\'delete-folder\',\'%s\')" title="%s">%s</a></td>',
+                      $JS_OBJECT_NAME,
+                      $folder_js,
+                      rcube_label('renamefolder'),
+                      $edit_button,
+                      $JS_OBJECT_NAME,
+                      $folder_js,
+                      rcube_label('deletefolder'),
+                      $del_button);
+    else
+      $out .= '<td></td><td></td>';
     
     $out .= "</tr>\n";
     }
