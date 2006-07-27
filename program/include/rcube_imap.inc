@@ -499,21 +499,17 @@ class rcube_imap
 
     $max = $this->_messagecount($mailbox);
     $start_msg = ($this->list_page-1) * $this->page_size;
-    
+
     list($begin, $end) = $this->_get_message_range($max, $page);
-  
+
   	// mailbox is empty
     if ($begin >= $end)
       return array();
-    	
-//console("fetch headers $start_msg to ".($start_msg+$this->page_size)." (msg $begin to $end)");
 
     $headers_sorted = FALSE;
     $cache_key = $mailbox.'.msg';
     $cache_status = $this->check_cache_status($mailbox, $cache_key);
 
-//console("Cache status = $cache_status");
-    
     // cache is OK, we can get all messages from local cache
     if ($cache_status>0)
       {
@@ -525,18 +521,13 @@ class rcube_imap
       // retrieve headers from IMAP
       if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
         {
-//console("$mailbox: ".join(',', $msg_index));
-        
         $msgs = $msg_index[$begin];
         for ($i=$begin+1; $i < $end; $i++)
           $msgs = $msgs.','.$msg_index[$i];
-
-        $sorted = TRUE;
         }
       else
         {
         $msgs = sprintf("%d:%d", $begin+1, $end);        
-        $sorted = FALSE;
         }
 
 
@@ -547,7 +538,7 @@ class rcube_imap
         return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE);
         }      
 
-        
+
       // fetch reuested headers from server
       $a_msg_headers = array();
       $deleted_count = $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, $cache_key);
@@ -555,10 +546,10 @@ class rcube_imap
       // delete cached messages with a higher index than $max
       $this->clear_message_cache($cache_key, $max);
 
-        
+
       // kick child process to sync cache
       // ...
-      
+
       }
 
 
@@ -568,13 +559,13 @@ class rcube_imap
 
 
     // if not already sorted
-//    if (!$headers_sorted)
-//      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+    if (!$headers_sorted)
+      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
 
 
-      if (!$headers_sorted && $this->sort_order == 'DESC')
-        $a_msg_headers = array_reverse($a_msg_headers);
-      
+    if (!$headers_sorted && $this->sort_order == 'DESC')
+      $a_msg_headers = array_reverse($a_msg_headers);
+
 
     return array_values($a_msg_headers);
     }
