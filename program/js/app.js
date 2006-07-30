@@ -287,14 +287,20 @@ function rcube_webmail()
     if (!e)
       e = window.event;
 
-    for (var n=0; n<this.selection.length; n++) {
+    for (var n=0; n<this.selection.length; n++)
+      {
       id = this.selection[n];
-      if (this.list_rows[id].obj) {
+      if (this.list_rows[id].obj)
+        {
         this.set_classname(this.list_rows[id].obj, 'selected', true);
 		this.set_classname(this.list_rows[id].obj, 'unfocused', false);
-	  }
-    }
+        }
+      }
 
+    var mbox_li;
+    if (mbox_li = this.get_mailbox_li()) 
+      this.set_classname(mbox_li, 'unfocused', true);
+    
     this.in_message_list = true;
     e.cancelBubble = true;
     };
@@ -1183,10 +1189,13 @@ function rcube_webmail()
   this.mbox_mouse_up = function(mbox)
     {
     if (this.drag_active)
+      {
+      this.unfocus_mailbox(mbox);
       this.command('moveto', mbox);
+      }
     else
       this.command('list', mbox);
-      
+  
     return false;
     };
 
@@ -1556,8 +1565,7 @@ function rcube_webmail()
     if (this.env.search_request)
       add_url += '&_search='+this.env.search_request;
       
-    if (this.env.mailbox!=mbox)
-      this.select_mailbox(mbox);
+    this.select_mailbox(mbox);
 
     // load message list remotely
     if (this.gui_objects.messagelist)
@@ -1667,7 +1675,20 @@ function rcube_webmail()
     return true;
     };
     
-
+  this.focus_mailbox = function(mbox)
+    {
+    var mbox_li;
+  	if (this.drag_active && mbox != this.env.mailbox && (mbox_li = this.get_mailbox_li(mbox)))
+      this.set_classname(mbox_li, 'droptarget', true);
+    }
+    
+  this.unfocus_mailbox = function(mbox)
+    {
+    var mbox_li;
+  	if (this.drag_active && (mbox_li = this.get_mailbox_li(mbox)))
+      this.set_classname(mbox_li, 'droptarget', false);
+    }
+  
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
     {
@@ -1929,6 +1950,19 @@ function rcube_webmail()
     this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag=delete');
     return true;  
   }
+
+
+  this.get_mailbox_li = function(mbox)
+    {
+    if (this.gui_objects.mailboxlist)
+      {
+      mbox = String((mbox ? mbox : this.env.mailbox)).toLowerCase().replace(this.mbox_expression, '');
+      return document.getElementById('rcmbx'+mbox);
+      }
+    
+    return null;
+    };
+    
 
   /*********************************************************/
   /*********        message compose methods        *********/
@@ -2237,7 +2271,6 @@ function rcube_webmail()
           highlight.removeAttribute('id');
           //highlight.removeAttribute('class');
           this.set_classname(highlight, 'selected', false);
-          this.set_classname(highlight, 'unfocused', false);
           }
 
         if (next)
@@ -3152,22 +3185,23 @@ function rcube_webmail()
   // mark a mailbox as selected and set environment variable
   this.select_mailbox = function(mbox)
     {
-    if (this.gui_objects.mailboxlist)
+    if (this.gui_objects.mailboxlist )
       {
-      var item, reg, text_obj;
-      var s_current = this.env.mailbox.toLowerCase().replace(this.mbox_expression, '');
-      var s_mbox = String(mbox).toLowerCase().replace(this.mbox_expression, '');
-      var s_current = this.env.mailbox.toLowerCase().replace(this.mbox_expression, '');
+      var item, reg, text_obj;      
+      var current_li = this.get_mailbox_li();
+      var mbox_li = this.get_mailbox_li(mbox);
       
-      var current_li = document.getElementById('rcmbx'+s_current);
-      var mbox_li = document.getElementById('rcmbx'+s_mbox);
-      
-      if (current_li) {
+      if (current_li)
+        {
         this.set_classname(current_li, 'selected', false);
         this.set_classname(current_li, 'unfocused', false);
         }
-      if (mbox_li)
+
+      if (mbox_li || this.env.mailbox == mbox)
+        {
+        this.set_classname(mbox_li, 'unfocused', false);
         this.set_classname(mbox_li, 'selected', true);
+        }
       }
     
     this.env.mailbox = mbox;
@@ -3284,9 +3318,9 @@ function rcube_webmail()
     if (mbox==this.env.mailbox)
       set_title = true;
 
-    var item, reg, text_obj;
+    var reg, text_obj;
+    var item = this.get_mailbox_li(mbox);
     mbox = String(mbox).toLowerCase().replace(this.mbox_expression, '');
-    item = document.getElementById('rcmbx'+mbox);
 
     if (item && item.className && item.className.indexOf('mailbox '+mbox)>=0)
       {

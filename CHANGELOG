@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/07/30 (thomasb)
+----------
+- Alter links in HTML messages (Bug #1326402)
+- Added fallback if host not found in 'mail_domain' array
+- Applied patch of Charles to highlight droptargets (Ticket #1473034)
+
+
 2006/07/25 (thomasb)
 ----------
 - Made folder renaming a bit more ajax-style

@@ -216,6 +216,8 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
 
     $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&amp;_mbox=%s"'.
                     ' onclick="return %s.command(\'list\',\'%s\')"'.
+                    ' onmouseover="return %s.focus_mailbox(\'%s\')"' .            
+                    ' onmouseout="return %s.unfocus_mailbox(\'%s\')"' .
                     ' onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a>',
                     $folder_css,
                     $class_name,
@@ -224,6 +226,10 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     addslashes($folder['id'])==addslashes($mbox_name) ? ' selected' : '',
                     $COMM_PATH,
                     urlencode($folder['id']),
+                    $JS_OBJECT_NAME,
+                    addslashes($folder['id']),
+                    $JS_OBJECT_NAME,
+                    addslashes($folder['id']),
                     $JS_OBJECT_NAME,
                     addslashes($folder['id']),
                     $JS_OBJECT_NAME,
@@ -1170,11 +1176,14 @@ function rcmail_mod_html_body($body, $container_id)
     $body = preg_replace('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Uie', "'\\1\''.make_absolute_url('\\3', '$base_url').'\')'", $body);
     $body = preg_replace($base_reg, '', $body);
     }
+    
+  // modify HTML links to open a new window if clicked
+  $body = preg_replace('/<a\s+([^>]+)>/Uie', "rcmail_alter_html_link('\\1');", $body);
 
   // add comments arround html and other tags
   $out = preg_replace(array('/(<\/?html[^>]*>)/i',
                             '/(<\/?head[^>]*>)/i',
-                            '/(<title[^>]*>.+<\/title>)/ui',
+                            '/(<title[^>]*>.*<\/title>)/Ui',
                             '/(<\/?meta[^>]*>)/i'),
                       '<!--\\1-->',
                       $body);
@@ -1184,11 +1193,25 @@ function rcmail_mod_html_body($body, $container_id)
                       array('<div class="rcmBody">',
                             '</div>'),
                       $out);
-
   
   return $out;
   }
 
+
+// parse link attributes and set correct target
+function rcmail_alter_html_link($in)
+  {
+  $attrib = parse_attrib_string($in);
+
+  if (stristr((string)$attrib['href'], 'mailto:'))
+    $attrib['onclick'] = sprintf("return %s.command('compose','%s',this)",
+                                 $GLOBALS['JS_OBJECT_NAME'],
+                                 substr($attrib['href'], 7));
+  else if (!empty($attrib['href']) && $attrib['href']{0}!='#')
+    $attrib['target'] = '_blank';
+  
+  return '<a' . create_attrib_string($attrib, array('href', 'name', 'target', 'onclick', 'id', 'class', 'style', 'title')) . '>';
+  }
 
 
 // replace all css definitions with #container [def]

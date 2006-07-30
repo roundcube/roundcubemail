@@ -541,12 +541,14 @@ function rcmail_create_user($user, $host)
 
   if ($user_id = $DB->insert_id(get_sequence_name('users')))
     {
-    if (is_array($CONFIG['mail_domain']) && isset($CONFIG['mail_domain'][$host]))
-      $mail_domain = $CONFIG['mail_domain'][$host];
+    $mail_domain = $host;
+    if (is_array($CONFIG['mail_domain']))
+      {
+      if (isset($CONFIG['mail_domain'][$host]))
+        $mail_domain = $CONFIG['mail_domain'][$host];
+      }
     else if (!empty($CONFIG['mail_domain']))
       $mail_domain = $CONFIG['mail_domain'];
-    else
-      $mail_domain = $host;
    
     if ($user_email=='')
       $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
@@ -1125,21 +1127,12 @@ function parse_rcube_xml($input)
   }
 
 
-function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
+function rcube_xml_command($command, $str_attrib, $add_attrib=array())
   {
   global $IMAP, $CONFIG, $OUTPUT;
   
-  $attrib = array();
   $command = strtolower($command);
-
-  preg_match_all('/\s*([-_a-z]+)=["]([^"]+)["]?/i', stripslashes($str_attrib), $regs, PREG_SET_ORDER);
-
-  // convert attributes to an associative array (name => value)
-  if ($regs)
-    foreach ($regs as $attr)
-      $attrib[strtolower($attr[1])] = $attr[2];
-  else if ($a_attrib)
-    $attrib = $a_attrib;
+  $attrib = parse_attrib_string($str_attrib) + $add_attrib;
 
   // execute command
   switch ($command)
@@ -1223,7 +1216,7 @@ function rcube_xml_command($command, $str_attrib, $a_attrib=NULL)
         'identityform' => 'rcube_identity_form',
         'foldersubscription' => 'rcube_subscription_form',
         'createfolder' => 'rcube_create_folder_form',
-	'renamefolder' => 'rcube_rename_folder_form',
+        'renamefolder' => 'rcube_rename_folder_form',
         'composebody' => 'rcmail_compose_body'
       );
 
@@ -1523,17 +1516,32 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
   }
 
 
+// compose a valid attribute string for HTML tags
 function create_attrib_string($attrib, $allowed_attribs=array('id', 'class', 'style'))
   {
   // allow the following attributes to be added to the <iframe> tag
   $attrib_str = '';
   foreach ($allowed_attribs as $a)
     if (isset($attrib[$a]))
-      $attrib_str .= sprintf(' %s="%s"', $a, $attrib[$a]);
+      $attrib_str .= sprintf(' %s="%s"', $a, str_replace('"', '&quot;', $attrib[$a]));
 
   return $attrib_str;
   }
 
+
+// convert a HTML attribute string attributes to an associative array (name => value)
+function parse_attrib_string($str)
+  {
+  $attrib = array();
+  preg_match_all('/\s*([-_a-z]+)=["]([^"]+)["]?/i', stripslashes($str), $regs, PREG_SET_ORDER);
+
+  // convert attributes to an associative array (name => value)
+  if ($regs)
+    foreach ($regs as $attr)
+      $attrib[strtolower($attr[1])] = $attr[2];
+
+  return $attrib;
+  }
 
 
 function format_date($date, $format=NULL)

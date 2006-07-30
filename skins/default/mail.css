@@ -276,6 +276,10 @@
   font-weight: bold;
 }
 
+#mailboxlist li.droptarget
+{
+  background-color: #FFFFA6;
+}
 
 /* styles for nested folders */
 #mailboxlist ul {
