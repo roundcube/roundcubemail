@@ -2848,10 +2848,12 @@ function rcube_webmail()
       row.cells[3].firstChild.onclick = new Function(this.ref+".command('delete-folder','"+name.replace('\'','\\\'')+"')");
 
     // add new folder to rename-folder list and clear input field
-    if (!replace && (form = this.gui_objects.editform) && form.elements['_folder_name'])
+    if (!replace && (form = this.gui_objects.editform))
       {
-      form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
-      form.elements['_folder_name'].value = ''; 
+      if (form.elements['_folder_oldname'])
+        form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
+      if (form.elements['_folder_name'])
+        form.elements['_folder_name'].value = ''; 
       }
 
     };
@@ -2909,7 +2911,8 @@ function rcube_webmail()
         }
       }
     
-    form.elements['_folder_newname'].value = '';
+    if (form && form.elements['_folder_newname'])
+      form.elements['_folder_newname'].value = '';
     };
 
 
@@ -3151,7 +3154,7 @@ function rcube_webmail()
   
     if (!this.gui_objects.message)
       return false;
-     
+
     if (this.message_timer)
       clearTimeout(this.message_timer);
     

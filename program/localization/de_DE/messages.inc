@@ -104,4 +104,6 @@ $messages['checking'] = 'Prüfe...';
 
 $messages['nospellerrors'] = 'Keine Rechtschreibfehler gefunden';
 
+$messages['folderdeleted'] = 'Ordner erfolgreich gelöscht';
+
 ?>

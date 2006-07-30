@@ -67,7 +67,7 @@ else if ($_action=='create-folder')
 else if ($_action=='rename-folder')
   {
   if (!empty($_GET['_folder_oldname']) && !empty($_GET['_folder_newname']))
-    $rename = $IMAP->rename_mailbox(get_input_value('_folder_oldname', RCUBE_INPUT_GET), trim(get_input_value('_folder_newname', RCUBE_INPUT_GET)), TRUE);
+    $rename = $IMAP->rename_mailbox(get_input_value('_folder_oldname', RCUBE_INPUT_GET), trim(get_input_value('_folder_newname', RCUBE_INPUT_GET)));
 
   if ($rename && $REMOTE_REQUEST)
     {
@@ -89,11 +89,15 @@ else if ($_action=='rename-folder')
 // delete an existing IMAP mailbox
 else if ($_action=='delete-folder')
   {
-  if (strlen($_GET['_mboxes']))
-    $deleted = $IMAP->delete_mailbox(array($_GET['_mboxes']));
+  if (!empty($_GET['_mboxes']))
+    $deleted = $IMAP->delete_mailbox(array(get_input_value('_mboxes', RCUBE_INPUT_GET)));
 
   if ($REMOTE_REQUEST && $deleted)
-    rcube_remote_response(sprintf("this.remove_folder_row('%s')", rep_specialchars_output($_GET['_mboxes'], 'js')));
+    {
+    $commands = sprintf("this.remove_folder_row('%s');\n", rep_specialchars_output(get_input_value('_mboxes', RCUBE_INPUT_GET), 'js'));
+    $commands .= show_message('folderdeleted', 'confirmation');
+    rcube_remote_response($commands);
+    }
   else if ($REMOTE_REQUEST)
     {
     $commands = show_message('errorsaving', 'error');
