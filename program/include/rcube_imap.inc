@@ -36,7 +36,7 @@ require_once('lib/utf7.inc');
  *
  * @package    RoundCube Webmail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.26
+ * @version    1.30
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -518,9 +518,13 @@ class rcube_imap
       }
     else
       {
+      $sorter = new rcube_header_sorter();
+
       // retrieve headers from IMAP
       if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
         {
+        $sorter->set_sequence_numbers($msg_index);
+        
         $msgs = $msg_index[$begin];
         for ($i=$begin+1; $i < $end; $i++)
           $msgs = $msgs.','.$msg_index[$i];
@@ -560,16 +564,27 @@ class rcube_imap
 
     // if not already sorted
     if (!$headers_sorted)
-      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+      {
+      $sorter->sort_headers($a_msg_headers);
 
-
-    if (!$headers_sorted && $this->sort_order == 'DESC')
-      $a_msg_headers = array_reverse($a_msg_headers);
-
+      if ($this->sort_order == 'DESC')
+        $a_msg_headers = array_reverse($a_msg_headers);
+      }
 
     return array_values($a_msg_headers);
     }
-    
+
+
+
+
+
+function gethdrids($hdr)
+{
+   return $hdr->uid . ',' . $hdr->id;
+}
+
+
+
 
   /**
    * Public method for listing a specific set of headers
@@ -2046,9 +2061,89 @@ class rcube_imap
 
 
 
+/**
+ * rcube_header_sorter
+ * 
+ * Class for sorting an array of iilBasicHeader objects in a predetermined order.
+ *
+ * @author Eric Stadtherr
+ */
+class rcube_header_sorter
+{
+   var $sequence_numbers = array();
+   
+   /**
+    * set the predetermined sort order.
+    *
+    * @param array $seqnums numerically indexed array of IMAP message sequence numbers
+    */
+   function set_sequence_numbers($seqnums)
+   {
+      $this->sequence_numbers = $seqnums;
+   }
+ 
+   /**
+    * sort the array of header objects
+    *
+    * @param array $headers array of iilBasicHeader objects indexed by UID
+    */
+   function sort_headers(&$headers)
+   {
+      /*
+       * uksort would work if the keys were the sequence number, but unfortunately
+       * the keys are the UIDs.  We'll use uasort instead and dereference the value
+       * to get the sequence number (in the "id" field).
+       * 
+       * uksort($headers, array($this, "compare_seqnums")); 
+       */
+       uasort($headers, array($this, "compare_seqnums"));
+   }
+ 
+   /**
+    * get the position of a message sequence number in my sequence_numbers array
+    *
+    * @param integer $seqnum message sequence number contained in sequence_numbers  
+    */
+   function position_of($seqnum)
+   {
+      $c = count($this->sequence_numbers);
+      for ($pos = 0; $pos <= $c; $pos++)
+      {
+         if ($this->sequence_numbers[$pos] == $seqnum)
+            return $pos;
+      }
+      return -1;
+   }
+ 
+   /**
+    * Sort method called by uasort()
+    */
+   function compare_seqnums($a, $b)
+   {
+      // First get the sequence number from the header object (the 'id' field).
+      $seqa = $a->id;
+      $seqb = $b->id;
+      
+      // then find each sequence number in my ordered list
+      $posa = $this->position_of($seqa);
+      $posb = $this->position_of($seqb);
+      
+      // return the relative position as the comparison value
+      $ret = $posa - $posb;
+      return $ret;
+   }
+}
 
 
-function quoted_printable_encode($input="", $line_max=76, $space_conv=false)
+/**
+ * Add quoted-printable encoding to a given string
+ * 
+ * @param string  $input      string to encode
+ * @param int     $line_max   add new line after this number of characters
+ * @param boolena $space_conf true if spaces should be converted into =20
+ * @return encoded string
+ */
+function quoted_printable_encode($input, $line_max=76, $space_conv=false)
   {
   $hex = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
   $lines = preg_split("/(?:\r\n|\r|\n)/", $input);
