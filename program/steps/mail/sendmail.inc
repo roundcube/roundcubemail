@@ -36,7 +36,6 @@ if (!isset($_SESSION['compose']['id']))
 /****** message sending functions ********/
 
 
-
 function rcmail_get_identity($id)
   {
   global $DB, $CHARSET, $OUTPUT;
@@ -63,12 +62,17 @@ function rcmail_get_identity($id)
   return FALSE;  
   }
 
+
 if (strlen($_POST['_draft_saveid']) > 3)
   $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
 
 $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']);
-
 $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
+
+// remove all scripts and act as called in frame
+$OUTPUT->reset();
+$_framed = TRUE;
+
 
 /****** check submission and compose message ********/
 
@@ -76,7 +80,8 @@ $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
   {
   show_message("sendingfailed", 'error'); 
-  rcmail_overwrite_action('compose');
+  //rcmail_overwrite_action('compose');
+  rcube_iframe_response();
   return;
   }
 
@@ -274,7 +279,7 @@ if (!$savedraft) {
   if (!$sent)
     {
     show_message("sendingfailed", 'error'); 
-    rcmail_overwrite_action('compose');
+    rcube_iframe_response();
     return;
     }
   
@@ -284,6 +289,8 @@ if (!$savedraft) {
     $IMAP->set_flag($_SESSION['compose']['reply_uid'], 'ANSWERED');
 
   } // End of SMTP Delivery Block
+
+
 
 // Determine which folder to save message
 if ($savedraft)
@@ -312,17 +319,13 @@ if ($CONFIG[$store_target])
   // raise error if saving failed
   if (!$saved)
     {
-    // clear the "saving message" busy status, and display failure
-    $errorout = sprintf("parent.%s.display_message('%s', '%s');",
-                       $JS_OBJECT_NAME,
-                       addslashes(rep_specialchars_output(rcube_label(array('name' => 'errorsaving', 'vars' => NULL)))),
-                       'error');
-    print "<html><script type=\"text/javascript\">$errorout</script></html>";
     raise_error(array('code' => 800,
                       'type' => 'imap',
                       'file' => __FILE__,
                       'message' => "Could not save message in $CONFIG[$store_target]"), TRUE, FALSE);
-    exit;
+    
+    show_message('errorsaving', 'error');
+    rcube_iframe_response($errorout);
     }
 
   if ($olddraftmessageid)
@@ -343,24 +346,20 @@ if ($CONFIG[$store_target])
 if ($savedraft)
   {
   // clear the "saving message" busy status, and display success
-  $frameout = sprintf("parent.%s.display_message('%s', '%s');",
-                     $JS_OBJECT_NAME,
-                     addslashes(rep_specialchars_output(rcube_label(array('name' => 'messagesaved', 'vars' => NULL)))),
-                     'confirmation');
+  show_message('messagesaved', 'confirmation');
 
   // update "_draft_saveid" on the page, which is used to delete a previous draft
-  $frameout .= 'var foundid = parent.rcube_find_object("_draft_saveid",parent.document);';
-  $frameout .= sprintf('foundid.value = "%s";',str_replace(array('<','>'),"",$message_id));
+  $frameout = "var foundid = parent.rcube_find_object('_draft_saveid', parent.document);\n";
+  $frameout .= sprintf("foundid.value = '%s';\n", str_replace(array('<','>'), "", $message_id));
 
   // update the "cmp_hash" to prevent "Unsaved changes" warning
-  $frameout .= sprintf("parent.%s.cmp_hash = parent.%s.compose_field_hash();",$JS_OBJECT_NAME,$JS_OBJECT_NAME);
-  
+  $frameout .= sprintf("parent.%s.cmp_hash = parent.%s.compose_field_hash();\n", $JS_OBJECT_NAME, $JS_OBJECT_NAME);
+
   // start the auto-save timer again
-  $frameout .= sprintf("parent.%s.auto_save_start();",$JS_OBJECT_NAME);
+  $frameout .= sprintf("parent.%s.auto_save_start();", $JS_OBJECT_NAME);
 
   // send html page with JS calls as response
-  print "<html><script type=\"text/javascript\">$frameout</script></html>";
-  exit;
+  rcube_iframe_response($frameout);
   }
 else
   {
@@ -379,8 +378,10 @@ else
       fclose($fp);
       }
     }
-  show_message('messagesent', 'confirmation');
+
   rcmail_compose_cleanup();
+  rcube_iframe_response(sprintf("parent.$JS_OBJECT_NAME.sent_successfully('%s');",
+                                rep_specialchars_output(rcube_label('messagesent'), 'js')));
   }
 
 

@@ -1678,7 +1678,7 @@ function gethdrids($hdr)
     {
     $a = $this->_parse_address_list($input);
     $out = array();
-
+    
     if (!is_array($a))
       return $out;
 
@@ -2018,12 +2018,13 @@ function gethdrids($hdr)
     {
     $a = $this->_explode_quoted_string(',', $str);
     $result = array();
-
+    
     foreach ($a as $key => $val)
       {
       $val = str_replace("\"<", "\" <", $val);
-      $sub_a = $this->_explode_quoted_string(' ', $val);
-      
+      $sub_a = $this->_explode_quoted_string(' ', $this->decode_header($val));
+      $result[$key]['name'] = '';
+
       foreach ($sub_a as $k => $v)
         {
         if ((strpos($v, '@') > 0) && (strpos($v, '.') > 0)) 
@@ -2033,9 +2034,7 @@ function gethdrids($hdr)
         }
         
       if (empty($result[$key]['name']))
-        $result[$key]['name'] = $result[$key]['address'];
-        
-      $result[$key]['name'] = $this->decode_header($result[$key]['name']);
+        $result[$key]['name'] = $result[$key]['address'];        
       }
     
     return $result;

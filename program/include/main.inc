@@ -712,7 +712,7 @@ function show_message($message, $type='notice', $vars=NULL)
     return 'this.'.$command;
   
   else
-    $OUTPUT->add_script(sprintf("%s%s.%s",
+    $OUTPUT->add_script(sprintf("%s%s.%s\n",
                                 $framed ? sprintf('if(parent.%s)parent.', $JS_OBJECT_NAME) : '',
                                 $JS_OBJECT_NAME,
                                 $command));
@@ -786,6 +786,19 @@ function rcube_remote_response($js_code, $flush=FALSE)
     flush();
   else         // terminate script
     exit;
+  }
+
+
+// send correctly formatted response for a request posted to an iframe
+function rcube_iframe_response($js_code='')
+  {
+  global $OUTPUT, $JS_OBJECT_NAME;
+
+  if (!empty($js_code))
+    $OUTPUT->add_script("if(parent.$JS_OBJECT_NAME){\n" . $js_code . "\n}");
+
+  $OUTPUT->write();
+  exit;
   }
 
 

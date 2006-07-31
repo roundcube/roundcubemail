@@ -53,18 +53,12 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
 
 
 // send html page with JS calls as response
-print <<<EOF
-<html>
-<script type="text/javascript">
-if (parent.$JS_OBJECT_NAME)
-{
+$frameout = <<<EOF
 $response
 parent.$JS_OBJECT_NAME.show_attachment_form(false);
 parent.$JS_OBJECT_NAME.auto_save_start();
-}
-</script>
-</html>
 EOF;
-exit;
+
+rcube_iframe_response($frameout);
 
 ?>

@@ -50,7 +50,7 @@ rcmail_compose_cleanup();
 $_SESSION['compose'] = array('id' => uniqid(rand()));
 
 // add some labels to client
-rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'savingmessage', 'messagesaved');
+rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved');
 
 
 if ($_GET['_reply_uid'] || $_GET['_forward_uid'] || $_GET['_draft_uid'])
@@ -411,8 +411,8 @@ function rcmail_compose_body($attrib)
     rcube_add_label('checking');
     }
  
-  $out .= '<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
- 
+  $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
+
   return $out;
   }
 
@@ -791,8 +791,6 @@ if ($DB->num_rows($sql_result))
   
   $OUTPUT->add_script(sprintf("$JS_OBJECT_NAME.set_env('contacts', %s);", array2js($a_contacts)));
   }
-
-
 
 
 parse_template('compose');

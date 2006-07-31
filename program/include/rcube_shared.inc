@@ -33,6 +33,7 @@ class rcube_html_page
   
   var $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
   var $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
+  var $default_template = "<html>\n<body></body>\n</html>";
   
   var $title = '';
   var $header = '';
@@ -78,10 +79,11 @@ class rcube_html_page
     }
 
 
-  function set_title()
+  function set_title($t)
     {
-    
+    $this->title = $t;
     }
+
 
   function set_charset($charset)
     {
@@ -95,16 +97,25 @@ class rcube_html_page
         $MBSTRING = FALSE;
       }
     }
-    
+
   function get_charset()
     {
     return $this->charset;
     }
 
 
+  function reset()
+    {
+    $this->css = new rcube_css();
+    $this->script_files = array();
+    $this->scripts = array();
+    $this->title = '';
+    }
+
+
   function write($templ='', $base_path='')
     {
-    $output = trim($templ);
+    $output = empty($templ) ? $this->default_template : trim($templ);
   
     // set default page title
     if (!strlen($this->title))

@@ -18,10 +18,9 @@
 var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
 var CONTROL_SHIFT_KEY = 3;
-var DRAFT_AUTOSAVE = 10; // Minutes
+var DRAFT_AUTOSAVE = 5; // Minutes
 
 var rcube_webmail_client;
-var rcube_save_timer;
 
 function rcube_webmail()
   {
@@ -149,8 +148,8 @@ function rcube_webmail()
           this.enable_command('add-attachment', 'send-attachment', 'remove-attachment', 'send', true);
           if (this.env.spellcheck)
             this.enable_command('spellcheck', true);
-	  if (this.env.drafts_mailbox)
-	    this.enable_command('savedraft', true);
+          if (this.env.drafts_mailbox)
+            this.enable_command('savedraft', true);
           }
           
         if (this.env.messagecount)
@@ -455,7 +454,6 @@ function rcube_webmail()
  
     // start the auto-save timer
     this.auto_save_start();
-    
     };
 
   this.init_address_input_events = function(obj)
@@ -704,17 +702,15 @@ function rcube_webmail()
           {
           var uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid))
-	    {
+            {
             if (this.env.mailbox==this.env.drafts_mailbox)
               {
               this.set_busy(true);
               location.href = this.env.comm_path+'&_action=compose&_draft_uid='+uid+'&_mbox='+escape(this.env.mailbox);
               }
             else
-              {
               this.show_message(uid);
-	      }
-	    }
+            }
           }
         else if (this.task=='addressbook')
           {
@@ -933,33 +929,34 @@ function rcube_webmail()
         break;
 
       case 'savedraft':
-	// Reset the auto-save timer
-        self.clearTimeout(rcube_save_timer);
+        // Reset the auto-save timer
+        self.clearTimeout(this.save_timer);
 
         if (!this.gui_objects.messageform)
           break;
 
-	// if saving Drafts is disabled in main.inc.php
-	if (!this.env.drafts_mailbox)
-	  break;
+        // if saving Drafts is disabled in main.inc.php
+        if (!this.env.drafts_mailbox)
+          break;
 
         this.set_busy(true, 'savingmessage');
         var form = this.gui_objects.messageform;
-	form.target = "savetarget";
+        form.target = "savetarget";
         form.submit();
         break;
 
       case 'send':
         if (!this.gui_objects.messageform)
           break;
-          
+
         if (!this.check_compose_input())
           break;
 
         // all checks passed, send message
         this.set_busy(true, 'sendingmessage');
         var form = this.gui_objects.messageform;
-	form._draft.value='';
+        form.target = "savetarget";     
+        form._draft.value = '';
         form.submit();
         break;
 
@@ -968,7 +965,7 @@ function rcube_webmail()
         
       case 'send-attachment':
         // Reset the auto-save timer
-        self.clearTimeout(rcube_save_timer);
+        self.clearTimeout(this.save_timer);
 
         this.upload_file(props)      
         break;
@@ -2014,12 +2011,14 @@ function rcube_webmail()
 
     return true;
     };
-    
+
+
   this.auto_save_start = function()
     {
-    rcube_save_timer = self.setTimeout('rcmail.command("savedraft","",this)',DRAFT_AUTOSAVE * 60000);
-    }
- 
+    this.save_timer = self.setTimeout('rcmail.command("savedraft","",this)', DRAFT_AUTOSAVE * 60000);
+    };
+
+
   this.compose_field_hash = function()
     {
     // check input fields
@@ -2190,7 +2189,7 @@ function rcube_webmail()
     for (i=0;i<list.length;i++)
       if (list[i].id == name)
 	this.gui_objects.attachmentlist.removeChild(list[i]);
-    }
+    };
 
   this.remove_attachment = function(name)
     {
@@ -2198,7 +2197,7 @@ function rcube_webmail()
       this.http_request('remove-attachment', '_filename='+escape(name));
 
     return true;
-    }
+    };
 
   // send remote request to add a new contact
   this.add_contact = function(value)
@@ -2230,7 +2229,14 @@ function rcube_webmail()
     this.env.search_request = null;
     return true;
     };
-    
+
+
+  this.sent_successfully = function(msg)
+    {
+    this.list_mailbox();
+    this.display_message(msg, 'confirmation', true);
+    }
+
 
   /*********************************************************/
   /*********     keyboard live-search methods      *********/
