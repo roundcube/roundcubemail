@@ -53,8 +53,9 @@ function rcmail_get_identity($id)
     {
     $sql_arr = $DB->fetch_assoc($sql_result);
     $out = $sql_arr;
+    $name = strpos($sql_arr['name'], ",") ? '"'.$sql_arr['name'].'"' : $sql_arr['name'];
     $out['string'] = sprintf('%s <%s>',
-                             rcube_charset_convert($sql_arr['name'], $CHARSET, $OUTPUT->get_charset()),
+                             rcube_charset_convert($name, $CHARSET, $OUTPUT->get_charset()),
                              $sql_arr['mailto']);
     return $out;
     }
@@ -87,7 +88,7 @@ $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_chars
 $mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
 $mailto_replace = array(', ', ', ', '');
 
-// repalce new lines and strip ending ', '
+// replace new lines and strip ending ', '
 $mailto = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
 
 // decode address strings
