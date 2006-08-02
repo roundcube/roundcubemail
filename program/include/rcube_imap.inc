@@ -516,32 +516,33 @@ class rcube_imap
       $a_msg_headers = $this->get_message_cache($cache_key, $start_msg, $start_msg+$this->page_size, $this->sort_field, $this->sort_order);
       $headers_sorted = TRUE;
       }
+    // cache is dirty, sync it
+    else if ($this->caching_enabled && $cache_status==-1 && !$recursive)
+      {
+      $this->sync_header_index($mailbox);
+      return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE);
+      }
     else
       {
-      $sorter = new rcube_header_sorter();
-
       // retrieve headers from IMAP
       if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
-        {
-        $sorter->set_sequence_numbers($msg_index);
-        
+        {        
         $msgs = $msg_index[$begin];
         for ($i=$begin+1; $i < $end; $i++)
           $msgs = $msgs.','.$msg_index[$i];
         }
       else
         {
-        $msgs = sprintf("%d:%d", $begin+1, $end);        
+        $msgs = sprintf("%d:%d", $begin+1, $end);
+
+        $i = 0;
+        for ($msg_seqnum = $begin; $msg_seqnum <= $end; $msg_seqnum++)
+          $msg_index[$i++] = $msg_seqnum;
         }
 
-
-      // cache is dirty, sync it
-      if ($this->caching_enabled && $cache_status==-1 && !$recursive)
-        {
-        $this->sync_header_index($mailbox);
-        return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE);
-        }      
-
+      // use this class for message sorting
+      $sorter = new rcube_header_sorter();
+      $sorter->set_sequence_numbers($msg_index);
 
       // fetch reuested headers from server
       $a_msg_headers = array();
@@ -573,16 +574,6 @@ class rcube_imap
 
     return array_values($a_msg_headers);
     }
-
-
-
-
-
-function gethdrids($hdr)
-{
-   return $hdr->uid . ',' . $hdr->id;
-}
-
 
 
 

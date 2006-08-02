@@ -40,7 +40,11 @@ foreach ($a_mailboxes as $mbox_name)
       // add new message headers to list
       $a_headers = array();
       for ($i=$recent_count, $id=$count-$recent_count+1; $i>0; $i--, $id++)
-        $a_headers[] = $IMAP->get_headers($id, NULL, FALSE);
+        {
+        $header = $IMAP->get_headers($id, NULL, FALSE);
+        if ($header->recent)
+          $a_headers[] = $header;
+        }
 
       $commands .= rcmail_js_message_list($a_headers, TRUE);
       }
