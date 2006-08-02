@@ -218,7 +218,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     ' onclick="return %s.command(\'list\',\'%s\')"'.
                     ' onmouseover="return %s.focus_mailbox(\'%s\')"' .            
                     ' onmouseout="return %s.unfocus_mailbox(\'%s\')"' .
-                    ' onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a>',
+                    ' onmouseup="return %s.mbox_mouse_up(\'%s\')"%s>%s</a></li>',
                     $folder_css,
                     $class_name,
                     $zebra_class,
@@ -240,7 +240,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
     if (!empty($folder['folders']))
       $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox_name, $maxlength, $nestLevel+1) . "</ul>\n";
 
-    $out .= "</li>\n";
+    $out .= "\n";
     $idx++;
     }
 
