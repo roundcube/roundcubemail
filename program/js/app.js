@@ -3212,6 +3212,15 @@ function rcube_webmail()
         this.set_classname(mbox_li, 'selected', true);
         }
       }
+      
+    // also update mailbox name in window title
+    if (document.title)
+      {
+      var doc_title = String(document.title);
+      var reg = new RegExp(this.env.mailbox.toLowerCase(), 'i');
+      if (this.env.mailbox && doc_title.match(reg))
+        document.title = doc_title.replace(reg, mbox).replace(/^\([0-9]+\)\s+/i, '');
+      }
     
     this.env.mailbox = mbox;
     };

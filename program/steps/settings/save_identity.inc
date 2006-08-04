@@ -61,7 +61,7 @@ if ($_POST['_iid'])
     $updated = $DB->affected_rows();
     }
        
-  if ($updated)
+  if ($updated && !empty($_POST['_standard']))
     {
     show_message('successfullysaved', 'confirmation');
 

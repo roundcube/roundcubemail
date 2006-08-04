@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/04 (thomasb)
+----------
+- Fixed Bug in saving identities (Ticket #1483915)
+- Set folder name in window title (Bug #1483919)
+- Don't add imap_root to INBOX path (Bug #1483816)
+- Attempt to create default folders only after login
+- Avoid usage of $CONFIG in rcube_imap class
+
+
 2006/07/30 (thomasb)
 ----------
 - Alter links in HTML messages (Bug #1326402)

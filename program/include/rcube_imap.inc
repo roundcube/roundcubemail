@@ -36,7 +36,7 @@ require_once('lib/utf7.inc');
  *
  * @package    RoundCube Webmail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.30
+ * @version    1.31
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -52,7 +52,8 @@ class rcube_imap
   var $sort_order = 'DESC';
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
-  var $default_folders = array('inbox', 'drafts', 'sent', 'junk', 'trash');
+  var $default_folders = array('INBOX');
+  var $default_folders_lc = array('inbox');
   var $cache = array();
   var $cache_keys = array();  
   var $cache_changes = array();
@@ -208,15 +209,16 @@ class rcube_imap
     {
     if (is_array($arr))
       {
-      $this->default_folders = array();
-      
-      // add mailbox names lower case
-      foreach ($arr as $mbox_row)
-        $this->default_folders[] = strtolower($mbox_row);
-      
+      $this->default_folders = $arr;
+      $this->default_folders_lc = array();
+
       // add inbox if not included
-      if (!in_array('inbox', $this->default_folders))
-        array_unshift($arr, 'inbox');
+      if (!in_array_nocase('INBOX', $this->default_folders))
+        array_unshift($this->default_folders, 'INBOX');
+
+      // create a second list with lower cased names
+      foreach ($this->default_folders as $mbox)
+        $this->default_folders_lc[] = strtolower($mbox);
       }
     }
 
@@ -333,6 +335,10 @@ class rcube_imap
         $a_out[] = $name;
       }
 
+    // INBOX should always be available
+    if (!in_array_nocase('INBOX', $a_out))
+      array_unshift($a_out, 'INBOX');
+
     // sort mailboxes
     $a_out = $this->_sort_mailbox_list($a_out);
 
@@ -361,20 +367,6 @@ class rcube_imap
     
     if (!is_array($a_folders) || !sizeof($a_folders))
       $a_folders = array();
-
-    // create Default folders if they do not exist
-    global $CONFIG;
-    foreach ($CONFIG['default_imap_folders'] as $folder)
-      {
-      if (!in_array_nocase($folder, $a_folders))
-        {
-        $this->create_mailbox($folder, TRUE);
-        $this->subscribe($folder);
-        }
-      }
-
-    $a_folders = iil_C_ListSubscribed($this->conn, $this->_mod_mailbox($root), $filter);
-    $a_mailbox_cache = array();
 
     // write mailboxlist to cache
     $this->update_cache('mailboxes', $a_folders);
@@ -1155,7 +1147,12 @@ class rcube_imap
    * --------------------------------*/
 
 
-  // return an array with all folders available in IMAP server
+  /**
+   * Get a list of all folders available on the IMAP server
+   * 
+   * @param string IMAP root dir
+   * @return array Inbdexed array with folder names 
+   */
   function list_unsubscribed($root='')
     {
     static $sa_unsubscribed;
@@ -1197,7 +1194,9 @@ class rcube_imap
     }
 
 
-  // subscribe to a specific mailbox(es)
+  /**
+   * subscribe to a specific mailbox(es)
+   */ 
   function subscribe($mbox_name, $mode='subscribe')
     {
     if (is_array($mbox_name))
@@ -1210,7 +1209,9 @@ class rcube_imap
     }
 
 
-  // unsubscribe mailboxes
+  /**
+   * unsubscribe mailboxes
+   */
   function unsubscribe($mbox_name)
     {
     if (is_array($mbox_name))
@@ -1223,7 +1224,9 @@ class rcube_imap
     }
 
 
-  // create a new mailbox on the server and register it in local cache
+  /**
+   * create a new mailbox on the server and register it in local cache
+   */
   function create_mailbox($name, $subscribe=FALSE)
     {
     $result = FALSE;
@@ -1238,19 +1241,21 @@ class rcube_imap
 
     $abs_name = $this->_mod_mailbox($name_enc);
     $a_mailbox_cache = $this->get_cache('mailboxes');
-        
-    if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array($abs_name, $a_mailbox_cache)))
+
+    if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array_nocase($abs_name, $a_mailbox_cache)))
       $result = iil_C_CreateFolder($this->conn, $abs_name);
 
-    // update mailboxlist cache
-    if ($result && $subscribe)
+    // try to subscribe it
+    if ($subscribe)
       $this->subscribe($name_enc);
 
     return $result ? $name : FALSE;
     }
 
 
-  // set a new name to an existing mailbox
+  /**
+   * set a new name to an existing mailbox
+   */
   function rename_mailbox($mbox_name, $new_name)
     {
     $result = FALSE;
@@ -1279,7 +1284,9 @@ class rcube_imap
     }
 
 
-  // remove mailboxes from server
+  /**
+   * remove mailboxes from server
+   */
   function delete_mailbox($mbox_name)
     {
     $deleted = FALSE;
@@ -1296,7 +1303,7 @@ class rcube_imap
 
         // unsubscribe mailbox before deleting
         iil_C_UnSubscribe($this->conn, $mailbox);
-        
+
         // send delete command to server
         $result = iil_C_DeleteFolder($this->conn, $mailbox);
         if ($result>=0)
@@ -1313,6 +1320,28 @@ class rcube_imap
     return $deleted;
     }
 
+
+  /**
+   * Create all folders specified as default
+   */
+  function create_default_folders()
+    {
+    $a_folders = iil_C_ListMailboxes($this->conn, $this->_mod_mailbox(''), '*');
+    $a_subscribed = iil_C_ListSubscribed($this->conn, $this->_mod_mailbox(''), '*');
+    
+    // create default folders if they do not exist
+    foreach ($this->default_folders as $folder)
+      {
+      $abs_name = $this->_mod_mailbox($folder);
+      if (!in_array_nocase($abs_name, $a_subscribed))
+        {
+        if (!in_array_nocase($abs_name, $a_folders))
+          $this->create_mailbox($folder, TRUE);
+        else
+          $this->subscribe($folder);
+        }
+      }
+    }
 
 
 
@@ -1830,7 +1859,7 @@ class rcube_imap
 
   function _mod_mailbox($mbox_name, $mode='in')
     {
-    if ((!empty($this->root_ns) && $this->root_ns == $mbox_name) || ($mbox_name == 'INBOX' && $mode == 'in'))
+    if ((!empty($this->root_ns) && $this->root_ns == $mbox_name) || $mbox_name == 'INBOX')
       return $mbox_name;
 
     if (!empty($this->root_dir) && $mode=='in') 
@@ -1852,8 +1881,8 @@ class rcube_imap
       {
       if ($folder{0}=='.')
       	continue;
-      	
-      if (($p = array_search(strtolower($folder), $this->default_folders))!==FALSE)
+
+      if (($p = array_search(strtolower($folder), $this->default_folders_lc))!==FALSE)
       	$a_defaults[$p] = $folder;
       else
         $a_out[] = $folder;

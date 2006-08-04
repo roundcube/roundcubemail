@@ -137,7 +137,8 @@ $rcmail_config['sent_mbox'] = 'Sent';
 // leave blank if they should be deleted directly
 $rcmail_config['trash_mbox'] = 'Trash';
 
-// display these folders separately in the mailbox list
+// display these folders separately in the mailbox list.
+// these folders will automatically be created if they do not exist
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
 // protect the default folders from renames, deletes, and subscription changes

@@ -205,9 +205,6 @@ function rcmail_imap_init($connect=FALSE)
   if ($CONFIG['enable_caching']===TRUE)
     $IMAP->set_caching(TRUE);
 
-  if (is_array($CONFIG['default_imap_folders']))
-    $IMAP->set_default_mailboxes($CONFIG['default_imap_folders']);
-
   // set pagesize from config
   if (isset($CONFIG['pagesize']))
     $IMAP->set_pagesize($CONFIG['pagesize']);
@@ -223,6 +220,9 @@ function rcmail_set_imap_prop()
   // set root dir from config
   if (!empty($CONFIG['imap_root']))
     $IMAP->set_rootdir($CONFIG['imap_root']);
+
+  if (is_array($CONFIG['default_imap_folders']))
+    $IMAP->set_default_mailboxes($CONFIG['default_imap_folders']);
 
   if (!empty($_SESSION['mbox']))
     $IMAP->set_mailbox($_SESSION['mbox']);
@@ -510,8 +510,10 @@ function rcmail_login($user, $pass, $host=NULL)
     $_SESSION['user_lang'] = $sess_user_lang;
     $_SESSION['password']  = encrypt_passwd($pass);
 
-    // force reloading complete list of subscribed mailboxes    
+    // force reloading complete list of subscribed mailboxes
+    rcmail_set_imap_prop();
     $IMAP->clear_cache('mailboxes');
+    $IMAP->create_default_folders();
 
     return TRUE;
     }
