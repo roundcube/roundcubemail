@@ -827,13 +827,19 @@ class rcube_imap
    * @return array   search results as list of message ids
    * @access public
    */
-  function search($mbox_name='', $criteria='ALL', $str=NULL)
+  function search($mbox_name='', $criteria='ALL', $str=NULL, $charset=NULL)
     {
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     if ($str && $criteria)
       {
-      $criteria = 'CHARSET UTF-8 '.$criteria.' "'.UTF7EncodeString($str).'"';
-      return $this->_search_index($mailbox, $criteria);
+      $search = (!empty($charset) ? "CHARSET $charset " : '') . sprintf("%s {%d}\r\n%s", $criteria, strlen($str), $str);
+      $results = $this->_search_index($mailbox, $search);
+
+      // try search without charset (probably not supported by server)
+      if (empty($results))
+        $results = $this->_search_index($mailbox, "$criteria $str");
+      
+      return $results;
       }
     else
       return $this->_search_index($mailbox, $criteria);

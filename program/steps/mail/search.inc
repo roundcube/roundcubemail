@@ -8,6 +8,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Benjamin Smith <defitro@gmail.com>                            |
+ |         Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
 */
@@ -18,6 +19,10 @@ $REMOTE_REQUEST = TRUE;
 $IMAP->set_page(1);
 $_SESSION['page'] = 1;
 
+// search query comes in with ISO encoding because javascript escape()
+// uses ISO-8859-1. Better handling for that will follow.
+$imap_charset = 'ISO-8859-1';
+
 // get search string
 $str = get_input_value('_search', RCUBE_INPUT_GET);
 $mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
@@ -27,33 +32,33 @@ $search_request = md5($str);
 // Check the search string for type of search
 if (preg_match("/^from:/i", $str)) {
   list(,$srch) = explode(":", $str);
-  $search = $IMAP->search($mbox, "FROM" ,trim($srch));
+  $search = $IMAP->search($mbox, "HEADER FROM" ,trim($srch), $imap_charset);
   finish_search($mbox, $search);
 }
 else if (preg_match("/^to:/i", $str)) {
   list(,$srch) = explode(":", $str);
-  $search = $IMAP->search($mbox, "TO", trim($srch));
+  $search = $IMAP->search($mbox, "HEADER TO", trim($srch), $imap_charset);
   finish_search($mbox, $search);
 }
 else if (preg_match("/^cc:/i", $str)) {
   list(,$srch) = explode(":", $str);
-  $search = $IMAP->search($mbox, "CC", trim($srch));
+  $search = $IMAP->search($mbox, "HEADER CC", trim($srch), $imap_charset);
   finish_search($mbox, $search);
 }
 else if (preg_match("/^subject:/i", $str)) {
   list(,$srch) = explode(":", $str);
-  $search = $IMAP->search($mbox, "SUBJECT", trim($srch));
+  $search = $IMAP->search($mbox, "HEADER SUBJECT", trim($srch), $imap_charset);
   finish_search($mbox, $search);
 }
 else if (preg_match("/^body:/i", $str)) {
   list(,$srch) = explode(":", $str);
-  $search = $IMAP->search($mbox, "TEXT", trim($srch));
+  $search = $IMAP->search($mbox, "TEXT", trim($srch), $imap_charset);
   finish_search($mbox, $search);
 }
 // search in subject and sender by default
 else {
-  $search = $IMAP->search($mbox, "SUBJECT", trim($str));
-  $search2 = $IMAP->search($mbox, "FROM", trim($str));
+  $search = $IMAP->search($mbox, "HEADER SUBJECT", trim($str), $imap_charset);
+  $search2 = $IMAP->search($mbox, "HEADER FROM", trim($str), $imap_charset);
   finish_search($mbox, array_unique(array_merge($search, $search2)));
 }
 
