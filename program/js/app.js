@@ -878,8 +878,9 @@ function rcube_webmail()
        
         if (this.task=='mail' && this.env.mailbox==this.env.drafts_mailbox)
           {
-          var uid = this.get_single_uid();
-          url += '&_draft_uid='+uid+'&_mbox='+escape(this.env.mailbox);
+          var uid;
+          if (uid = this.get_single_uid())
+            url += '&_draft_uid='+uid+'&_mbox='+escape(this.env.mailbox);
           } 
         // modify url if we're in addressbook
         else if (this.task=='addressbook')
@@ -2184,6 +2185,8 @@ function rcube_webmail()
     {
     if (!this.gui_objects.attachmentlist)
       return false;
+      
+      alert(content);
       
     var li = document.createElement('LI');
     li.id = name;
@@ -3598,6 +3601,12 @@ function rcube_webmail()
   // send periodic request to check for recent messages
   this.check_for_recent = function()
     {
+    if (this.busy)
+      {
+      this.send_keep_alive();
+      return;
+      }
+
     this.set_busy(true, 'checkingmail');
     var d = new Date();
     this.http_request('check-recent', '_t='+d.getTime());

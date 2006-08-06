@@ -41,13 +41,29 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
   $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
   if (move_uploaded_file($filepath, $tmpfname))
     {
+    $id = count($_SESSION['compose']['attachments']);
     $_SESSION['compose']['attachments'][] = array('name' => $_FILES['_attachments']['name'][$i],
                                                   'mimetype' => $_FILES['_attachments']['type'][$i],
                                                   'path' => $tmpfname);
 
-    $button = sprintf('<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle">', $CONFIG['skin_path'], rcube_label('delete'));
-    $content = sprintf('<a href="#" onclick="%s.command(\\\'remove-attachment\\\',\\\'%s\\\')" title="%s">%s</a>%s',$JS_OBJECT_NAME, $_FILES['_attachments']['name'][$i], rcube_label('delete'), $button, $_FILES['_attachments']['name'][$i]);
-    $response .= sprintf('parent.%s.add2attachment_list(\'%s\',\'%s\');',$JS_OBJECT_NAME, $_FILES['_attachments']['name'][$i], $content);
+    if (is_file($CONFIG['skin_path'] . '/images/icons/remove-attachment.png'))
+      $button = sprintf('<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
+                        $CONFIG['skin_path'],
+                        rcube_label('delete'));
+    else
+      $button = rcube_label('delete');
+
+    $content = sprintf('<a href="#delete" onclick="return %s.command(\\\'remove-attachment\\\', \\\'rcmfile%d\\\', this)" title="%s">%s</a>%s',
+                       $JS_OBJECT_NAME,
+                       $id,
+                       rcube_label('delete'),
+                       $button,
+                       rep_specialchars_output($_FILES['_attachments']['name'][$i], 'js'));
+
+    $response .= sprintf('parent.%s.add2attachment_list(\'rcmfile%d\',\'%s\');',
+                         $JS_OBJECT_NAME,
+                         $id,
+                         $content);
     }
   }
 

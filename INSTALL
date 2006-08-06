@@ -33,8 +33,8 @@ INSTALLATION
 DATABASE SETUP
 ==============
 
-* MySQL
--------
+* MySQL 4.0.x
+-------------
 Setting up the mysql database can be done by creating an empty database,
 importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
@@ -46,9 +46,19 @@ roundcube user. Here is an example of that procedure:
 > quit
 # mysql roundcubemail < SQL/mysql.initial.sql
 
+
+* MySQL 4.1.x/5.x
+-----------------
 For MySQL version 4.1 and up, it's recommended to create the database for
-RoundCube with the following command:
+RoundCube with utf-8 charset. Here's an example of the init procedure:
+
+# mysql
 > CREATE DATABASE 'roundcubemail' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
+        IDENTIFIED BY 'password';
+> quit
+
+# mysql roundcubemail < SQL/mysql5.initial.sql
 
 
 * SQLite

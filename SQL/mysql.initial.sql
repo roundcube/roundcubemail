@@ -1,5 +1,5 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1b
+-- Version 0.1beta2
 -- 
 
 -- --------------------------------------------------------

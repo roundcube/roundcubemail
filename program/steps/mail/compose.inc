@@ -23,19 +23,19 @@
 require_once('Mail/mimeDecode.php');
 
 // remove an attachment
-if ($_action=='remove-attachment' && !empty($_GET['_filename']))
+if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
   {
-  if (is_array($_SESSION['compose']['attachments']))
-    foreach ($_SESSION['compose']['attachments'] as $i => $attachment)
-      if ($attachment['name'] == $_GET['_filename'])
-        {
-        @unlink($attachment['path']);
-        unset($_SESSION['compose']['attachments'][$i]);
-        $commands = sprintf("parent.%s.remove_from_attachment_list('%s');\n", $JS_OBJECT_NAME, $_GET['_filename']);
-        rcube_remote_response($commands);  
-        exit;
-        }
+  $id = $regs[1];
+  if (is_array($_SESSION['compose']['attachments'][$id]))
+    {
+    @unlink($_SESSION['compose']['attachments'][$id]['path']);
+    $_SESSION['compose']['attachments'][$id] = NULL;
+    $commands = sprintf("parent.%s.remove_from_attachment_list('rcmfile%d');\n", $JS_OBJECT_NAME, $id);
+    rcube_remote_response($commands);  
+    exit;
+    }
   }
+
 
 $MESSAGE_FORM = NULL;
 $REPLY_MESSAGE = NULL;
@@ -480,7 +480,7 @@ function rcmail_create_forward_body($body)
       {
       if ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
                (empty($part->disposition) && ($part->d_parameters['filename'] || $part->ctype_parameters['name'])))
-	{
+        {
         $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
         if ($fp = fopen($tmp_path, 'w'))
           {
@@ -621,20 +621,21 @@ function rcmail_compose_attachment_list($attrib)
   if (is_array($_SESSION['compose']['attachments']))
     {
     if ($attrib['deleteicon'])
-      $button = sprintf('<img src="%s%s" alt="%s" border="0" / style="padding-right:2px;vertical-align:middle">',
+      $button = sprintf('<img src="%s%s" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
                         $CONFIG['skin_path'],
                         $attrib['deleteicon'],
                         rcube_label('delete'));
     else
       $button = rcube_label('delete');
 
-    foreach ($_SESSION['compose']['attachments'] as $i => $a_prop)
-      $out .= sprintf('<li id="%s"><a href="#" onclick="%s.command(\'remove-attachment\',\'%s\')" title="%s">%s</a>%s</li>',
-                      $a_prop['name'],
+    foreach ($_SESSION['compose']['attachments'] as $id => $a_prop)
+      $out .= sprintf('<li id="rcmfile%d"><a href="#delete" onclick="return %s.command(\'remove-attachment\',\'rcmfile%d\', this)" title="%s">%s</a>%s</li>',
+                      $id,
                       $JS_OBJECT_NAME,
-                      $a_prop['name'],
+                      $id,
                       rcube_label('delete'), 
-                      $button, $a_prop['name']); 
+                      $button,
+                      rep_specialchars_output($a_prop['name']));
     }
 
   $OUTPUT->add_script(sprintf("%s.gui_object('attachmentlist', '%s');", $JS_OBJECT_NAME, $attrib['id']));  

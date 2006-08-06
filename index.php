@@ -2,9 +2,9 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060718                                                  |
+ | Version 0.1-beta2                                                     |
  |                                                                       |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | Redistribution and use in source and binary forms, with or without    |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060718');
+define('RCMAIL_VERSION', '0.1-beta2');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -95,7 +95,6 @@ else
 
 
 // catch some url/post parameters
-//$_auth = get_input_value('_auth', RCUBE_INPUT_GPC);
 $_task = get_input_value('_task', RCUBE_INPUT_GPC);
 $_action = get_input_value('_action', RCUBE_INPUT_GPC);
 $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
@@ -290,10 +289,7 @@ if ($_task=='mail')
   if ($_action=='rss')
     include('program/steps/mail/rss.inc');
 
-  // kill compose entry from session
-//  if (isset($_SESSION['compose']))
-//    rcmail_compose_cleanup();
-    
+
   // make sure the message count is refreshed
   $IMAP->messagecount($_SESSION['mbox'], 'ALL', TRUE);
   }
@@ -344,7 +340,8 @@ if ($_task=='settings')
   if ($_action=='save-prefs')
     include('program/steps/settings/save_prefs.inc');  
 
-  if ($_action=='folders' || $_action=='subscribe' || $_action=='unsubscribe' || $_action=='create-folder' || $_action=='rename-folder' || $_action=='delete-folder')
+  if ($_action=='folders' || $_action=='subscribe' || $_action=='unsubscribe' ||
+      $_action=='create-folder' || $_action=='rename-folder' || $_action=='delete-folder')
     include('program/steps/settings/manage_folders.inc');
 
   }

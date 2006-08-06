@@ -116,7 +116,7 @@ form version 0.1-beta
 - replace index.php
 - replace all files in folder /program/
 - replace all files in folder /skins/default/
-- add these lines to /config/db.inc.php
+- add these line to /config/db.inc.php
   $rcmail_config['db_persistent'] = TRUE;
 - add these lines to /config/main.inc.php
   $rcmail_config['drafts_mbox'] = 'Drafts';
