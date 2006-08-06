@@ -33,9 +33,9 @@ $labels['addressbook'] = 'Adresboek';
 
 // mailbox names
 $labels['inbox']  = 'Postvak IN';
+$labels['drafts'] = 'Concepten';
 $labels['sent']   = 'Verzonden';
 $labels['trash']  = 'Prullenbak';
-$labels['drafts'] = 'Concepten';
 $labels['junk']   = 'SPAM';
 
 // message listing
@@ -90,6 +90,7 @@ $labels['saturday']  = 'Zaterdag';
 $labels['today'] = 'Vandaag';
 
 // toolbar buttons
+$labels['checkmail']        = 'Controleer op nieuwe berichten';
 $labels['writenewmessage']  = 'Nieuw bericht';
 $labels['replytomessage']   = 'Beantwoord het bericht';
 $labels['replytoallmessage'] = 'Beantwoord alle ontvangers';
@@ -120,10 +121,15 @@ $labels['resetsearch']  = 'Reset zoekopdracht';
 
 // message compose
 $labels['compose']  = 'Maak een bericht';
+$labels['savemessage']  = 'Bewaar als concept';
 $labels['sendmessage']  = 'Verstuur het bericht nu';
 $labels['addattachment']  = 'Voeg een bijlage toe';
 $labels['charset']  = 'karakterset';
 $labels['returnreceipt'] = 'Ontvangstbevestiging';
+
+$labels['checkspelling'] = 'Check spelling';
+$labels['resumeediting'] = 'Doorgaan met opstellen';
+$labels['revertto'] = 'Wijzig terug in';
 
 $labels['attachments'] = 'Bijlages';
 $labels['upload'] = 'Toevoegen';
@@ -203,6 +209,8 @@ $labels['foldername']  = 'Mapnaam';
 $labels['subscribed']  = 'Geabonneerd';
 $labels['create']  = 'Nieuw';
 $labels['createfolder']  = 'Maak nieuwe map';
+$labels['rename'] = 'Wijzig naam';
+$labels['renamefolder'] = 'Wijzig mapnaam';
 $labels['deletefolder']  = 'Verwijder map';
 $labels['managefolders']  = 'Beheer mappen';
 

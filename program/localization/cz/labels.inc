@@ -12,7 +12,7 @@
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id $
 
 */
 
@@ -184,7 +184,7 @@ $labels['sortby']   = 'Seřadit podle';
 $labels['sortdesc'] = 'Seřadit sestupně';
 $labels['sortasc']  = 'Seřadit vzestupně';
 
-$labels['nosubject']  = '(bez předmětu)';
+$labels['nosubject']  = '(bez predmetu)';
 $labels['signature'] = 'Podpis';
 $labels['charset']  = 'Znaková sada';
 
@@ -195,5 +195,27 @@ $labels['ldappublicserverselect'] = 'Zvolit servery';
 $labels['ldappublicsearchfield'] = 'Hledat na';
 $labels['ldappublicsearchform'] = 'Hledat kontakt';
 $labels['ldappublicsearch'] = 'Hledat';
+
+$labels['welcome'] = 'Vítejte v $product';
+
+$labels['unknown'] = 'neznámý';
+$labels['unlimited'] = 'neomezený';
+$labels['dstactive'] = 'Letní čas';
+
+$labels['previouspage'] = 'Předchozí';
+$labels['nextpage']     = 'Další';
+
+$labels['returnreceipt'] = 'Doručenka';
+
+$labels['checkmail'] = 'Zkontrolovat nové zprávy';
+$labels['checkspelling'] = 'Zkontrolovat pravopis';
+$labels['resumeediting'] = 'Pokračovat v úpravách';
+$labels['revertto'] = 'Přejít na';
+
+$labels['savemessage']  = 'Uložit do rozepsaných';
+$labels['rename'] = 'Přejmenovat';
+$labels['renamefolder'] = 'Přejmenovat složku';
+
+$labels['description'] = 'Popis';
 
 ?>

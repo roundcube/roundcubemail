@@ -36,7 +36,7 @@ $labels['addressbook'] = 'Adressebog';
 $labels['inbox']  = 'Indbakke';
 $labels['sent']   = 'Sendt post';
 $labels['trash']  = 'Skrald';
-$labels['drafts'] = 'Klader';
+$labels['drafts'] = 'Kladder';
 $labels['junk']   = 'Ragelse';
 
 // message listing
@@ -198,4 +198,28 @@ $labels['ldappublicsearchfield'] = 'Søg på';
 $labels['ldappublicsearchform'] = 'Søg efter en kontakt';
 $labels['ldappublicsearch'] = 'Søg';
 
+$labels['welcome'] = 'Velkommen til $product';
+
+$labels['unknown'] = 'ukendt';
+$labels['unlimited'] = 'ubegræset';
+$labels['dstactive'] = 'Sommertid';
+
+$labels['previouspage'] = 'Vis forrige sæt';
+$labels['nextpage']     = 'Vis næste sæt';
+
+$labels['returnreceipt'] = 'Retur-kvittering';
+
+$labels['checkmail'] = 'Se efter nye beskeder';
+$labels['checkspelling'] = 'Tjek stavning';
+$labels['resumeediting'] = 'Genoptag redigering';
+$labels['revertto'] = 'Vend tilbage til';
+
+$labels['savemessage']  = 'Gem denne klade';
+$labels['rename'] = 'Omdøb';
+$labels['renamefolder'] = 'Omdøb folder';
+
+# i use an additional description field - this might be used somewhere else
+$labels['description'] = 'Beskrivelse';
+
 ?>
+

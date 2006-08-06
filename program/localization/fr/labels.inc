@@ -90,6 +90,7 @@ $labels['saturday']  = 'Samedi';
 $labels['today'] = 'Aujourd\'hui';
 
 // toolbar buttons
+$labels['checkmail'] = 'Vérification des nouveaux messages';
 $labels['writenewmessage']  = 'Créer un nouveau message';
 $labels['replytomessage']   = 'Répondre au message';
 $labels['replytoallmessage'] = 'Répondre à tous';
@@ -117,14 +118,15 @@ $labels['unlimited'] = 'illimitée';
 $labels['quicksearch']  = 'Recherche rapide';
 $labels['resetsearch']  = 'Réinitialiser la recherche';
 
+
 // message compose
 $labels['compose']  = 'Composer un nouveau message';
+$labels['savemessage']  = 'Sauvegarder ce brouillon';
 $labels['sendmessage']  = 'Envoyer le message maintenant';
 $labels['addattachment']  = 'Joindre un fichier';
 $labels['charset']  = 'Encodage';
 $labels['returnreceipt'] = 'Accusé de réception';
 
-$labels['checkmail'] = 'Vérification des nouveaux messages';
 $labels['checkspelling'] = 'Vérifier l\'orthographe';
 $labels['resumeediting'] = 'Retourner à l\'édition';
 $labels['revertto'] = 'Revenir à';
@@ -168,6 +170,7 @@ $labels['export']         = 'Exporter';
 $labels['previouspage'] = 'Montrer page précédente';
 $labels['nextpage']     = 'Montrer page suivante';
 
+
 // LDAP search
 $labels['ldapsearch'] = 'Recherche dans répertoires LDAP';
 
@@ -206,12 +209,13 @@ $labels['foldername']  = 'Nom du dossier';
 $labels['subscribed']  = 'Abonné';
 $labels['create']  = 'Créer';
 $labels['createfolder']  = 'Créer un nouveau dossier';
+$labels['rename'] = 'Renommer';
+$labels['renamefolder'] = 'Renommer le dossier';
 $labels['deletefolder']  = 'Supprimer le dossier';
 $labels['managefolders']  = 'Gérer les dossiers';
 
 $labels['sortby'] = 'Trier par';
 $labels['sortasc']  = 'Tri ascendant';
 $labels['sortdesc'] = 'Tri descendant';
-
 
 ?>

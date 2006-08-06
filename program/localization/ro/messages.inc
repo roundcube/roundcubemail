@@ -36,9 +36,15 @@ $messages['loading'] = 'Se incarca...';
 
 $messages['loadingdata'] = 'Se incarca informatiile...';
 
+$messages['checkingmail'] = 'Verifica pentru mesaje noi...';
+
 $messages['sendingmessage'] = 'Trimitere mesaj...';
 
 $messages['messagesent'] = 'Mesajul a fost trimis cu succes!';
+
+$messages['savingmessage'] = 'Salvare mesaj...';
+
+$messages['messagesaved'] = 'Mesajul a fost salvat in Ciorne';
 
 $messages['successfullysaved'] = 'Salvarea s-a efectuat cu succes';
 
@@ -87,5 +93,17 @@ $messages['noldapserver'] = 'Va rugam alegeti un server ldap pentru cautare';
 $messages['nocontactsreturned'] = 'Nu s-a gasit niciun contact';
 
 $messages['nosearchname'] = 'Va rugam introduceti un nume de contact sau adresa de e-mail';
+
+$messages['searchsuccessful'] = '$nr mesaje gasite';
+
+$messages['searchnomatch'] = 'Cautarea nu a returnat niciun rezultat';
+
+$messages['searching'] = 'Se cauta...';
+
+$messages['checking'] = 'Se verifica...';
+
+$messages['nospellerrors'] = 'Nu s-a gasit nicio greseala de ortografie';
+
+$messages['folderdeleted'] = 'Dosarul a fost sters cu succes';
 
 ?>

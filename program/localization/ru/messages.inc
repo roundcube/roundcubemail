@@ -28,7 +28,7 @@ $messages['imaperror'] = 'Неудачное соединение с IMAP сер
 
 $messages['nomessagesfound'] = 'Сообщений не найдено';
 
-$messages['loggedout'] = 'Ваша сессия завершена. Всего доброго';
+$messages['loggedout'] = 'Ваша сессия завершена. Всего доброго!';
 
 $messages['mailboxempty'] = 'Почтовый ящик пуст';
 
@@ -36,15 +36,15 @@ $messages['loading'] = 'Загрузка...';
 
 $messages['loadingdata'] = 'Загрузка данных...';
 
-$messages['checkingmail'] = 'Проверять для новых сообщений...';
+$messages['checkingmail'] = 'Проверка новых сообщений...';
 
 $messages['sendingmessage'] = 'Отправка сообщения...';
 
 $messages['messagesent'] = 'Сообщение отправлено';
 
-$messages['savingmessage'] = 'Сообщение сбережения...';
+$messages['savingmessage'] = 'Сохранение сообщения...';
 
-$messages['messagesaved'] = 'Сообщение сохраненное к проектам';
+$messages['messagesaved'] = 'Сохранено в Черновиках';
 
 $messages['successfullysaved'] = 'Сохранено';
 
@@ -99,5 +99,11 @@ $messages['searchsuccessful'] = 'Найденных сообщений - $nr';
 $messages['searchnomatch'] = 'Сообщений не найдено';
 
 $messages['searching'] = 'Поиск...';
+
+$messages['checking'] = 'Проверка...';
+
+$messages['nospellerrors'] = 'Орфографических ошибок не найдено';
+
+$messages['folderdeleted'] = 'Папка удалена';
 
 ?>

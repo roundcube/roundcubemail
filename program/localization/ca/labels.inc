@@ -5,6 +5,7 @@
  | language/ca/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -18,6 +19,7 @@
 $labels = array();
 
 // login page
+$labels['welcome'] = 'Benvingut a $product';
 $labels['username']  = 'Nom d\'usuari';
 $labels['password']  = 'Contrasenya';
 $labels['server']    = 'Servidor';
@@ -31,9 +33,9 @@ $labels['addressbook'] = 'Contactes';
 
 // mailbox names
 $labels['inbox']  = 'Entrada';
+$labels['drafts'] = 'Esborranys';
 $labels['sent']   = 'Enviats';
 $labels['trash']  = 'Paperera';
-$labels['drafts'] = 'Esborranys';
 $labels['junk']   = 'Correu brossa';
 
 // message listing
@@ -88,6 +90,7 @@ $labels['saturday']  = 'Dissabte';
 $labels['today'] = 'Avui';
 
 // toolbar buttons
+$labels['checkmail']        = 'Recupera missatges nous';
 $labels['writenewmessage']  = 'Crear nou missatge';
 $labels['replytomessage']   = 'Respondre al missatge';
 $labels['replytoallmessage'] = 'Respondre al remitent i a tots els destinataris';
@@ -109,13 +112,23 @@ $labels['empty'] = 'Buida';
 $labels['purge'] = 'Purga';
 
 $labels['quota'] = 'Utilització de disc';
+$labels['unknown']  = 'desconegut';
+$labels['unlimited']  = 'il·limitat';
 
+$labels['quicksearch']  = 'Cerca ràpida';
+$labels['resetsearch']  = 'Neteja cerca';
 
 // message compose
 $labels['compose']  = 'Escriure un missatge';
+$labels['savemessage']  = 'Desa aquest esborrany';
 $labels['sendmessage']  = 'Enviar ara el missatge';
 $labels['addattachment']  = 'Afegir un fitxer';
 $labels['charset']  = 'Codificació de caràcters';
+$labels['returnreceipt'] = 'Confirmació de recepció';
+
+$labels['checkspelling'] = 'Comprova l\'ortografia';
+$labels['resumeediting'] = 'Continua l\'edició';
+$labels['revertto'] = 'Tornar a';
 
 $labels['attachments'] = 'Adjunts';
 $labels['upload'] = 'Afegir';
@@ -152,6 +165,9 @@ $labels['contactsfromto'] = 'Contactes $from a $to de $count';
 $labels['print']          = 'Imprimeix';
 $labels['export']         = 'Exportar';
 
+$labels['previouspage']   = 'Show previous set';
+$labels['nextpage']       = 'Show next set';
+
 // LDAP search
 $labels['ldapsearch'] = 'Cerca el directori LDAP';
 
@@ -182,7 +198,7 @@ $labels['language']  = 'Idioma';
 $labels['timezone']  = 'Zona horària';
 $labels['pagesize']  = 'Files per pàgina';
 $labels['signature'] = 'Signatura';
-
+$labels['dstactive']  = 'Horari d\'estiu';
 
 $labels['folder']  = 'Carpeta';
 $labels['folders']  = 'Carpetes';
@@ -190,6 +206,8 @@ $labels['foldername']  = 'Nom de carpeta';
 $labels['subscribed']  = 'Subscriure\'s';
 $labels['create']  = 'Crear';
 $labels['createfolder']  = 'Crear nova carpeta';
+$labels['rename'] = 'Canvia el nom';
+$labels['renamefolder'] = 'Canvia el nom de la carpeta';
 $labels['deletefolder']  = 'Suprimir carpeta';
 $labels['managefolders']  = 'Gestionar carpetes';
 

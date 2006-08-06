@@ -151,7 +151,6 @@ $labels['save']   = 'Save';
 $labels['delete'] = 'Delete';
 
 $labels['newcontact']     = 'Create new contact card';
-$labels['addcontact']     = 'Add selected contact to your addressbook';
 $labels['deletecontact']  = 'Delete selected contacts';
 $labels['composeto']      = 'Compose mail to';
 $labels['contactsfromto'] = 'Contacts $from to $to of $count';

@@ -5,13 +5,13 @@
  | language/am/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Vahan Yerkanian <vahan@arminco.com>                           |
  +-----------------------------------------------------------------------+
- 
+
  $Id$
 
 */
@@ -32,13 +32,19 @@ $messages['loggedout'] = 'Դուք բարեհաջող ավարտեցիք աշխ�
 
 $messages['mailboxempty'] = 'Փոստարկղը դատարկ է';
 
-$messages['loading'] = 'Բեռնավորում...';
+$messages['loading'] = 'Բեռնավորում…';
 
-$messages['loadingdata'] = 'Տվյալների բեռնավորում...';
+$messages['loadingdata'] = 'Տվյալների բեռնավորում…';
 
-$messages['sendingmessage'] = 'Նամակի ուղարկում...';
+$messages['checkingmail'] = 'Նոր նամակների ստուգում…';
+
+$messages['sendingmessage'] = 'Նամակի ուղարկում…';
 
 $messages['messagesent'] = 'Նամակն ուղարկված է';
+
+$messages['savingmessage'] = 'Նամակի գրանցում…';
+
+$messages['messagesaved'] = 'Նամակը գրանցվեց որպես սևագիր';
 
 $messages['successfullysaved'] = 'Գրանցված է';
 
@@ -93,5 +99,12 @@ $messages['searchsuccessful'] = 'Գտնվեց $nr նամակ';
 $messages['searchnomatch'] = 'Համապատասխան նամակներ չգտնվեցին';
 
 $messages['searching'] = 'Որոնում...';
+
+$messages['checking'] = 'Ստուգում…';
+
+$messages['nospellerrors'] = 'Ուղագրական սխալներ չկան';
+
+$messages['folderdeleted'] = 'Դարակը ջնջվեց';
+
 
 ?>

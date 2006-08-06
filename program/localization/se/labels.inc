@@ -2,14 +2,14 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/labels.inc                                                |
+ | language/se/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Fredrik Nygren <f.nygren@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,6 +19,7 @@
 $labels = array();
 
 // login page
+$labels['welcome'] = 'Välkommen till $product';
 $labels['username']  = 'Användarnamn';
 $labels['password']  = 'Lösenord';
 $labels['server']    = 'Server';
@@ -89,6 +90,7 @@ $labels['saturday']  = 'Lördag';
 $labels['today'] = 'Idag';
 
 // toolbar buttons
+$labels['checkmail'] = 'Hämta ny e-post';
 $labels['writenewmessage']  = 'Skapa nytt meddelande';
 $labels['replytomessage']   = 'Svar på meddelande';
 $labels['replytoallmessage'] = 'Svar till avsändare och alla mottagare';
@@ -106,17 +108,24 @@ $labels['none'] = 'Ingen';
 $labels['unread'] = 'Oläst';
 
 $labels['compact'] = 'Packa';
-$labels['empty'] = 'Töm';
+$labels['empty'] = 'Tom';
 $labels['purge'] = 'Rensa';
 
 $labels['quota'] = 'Diskutrymme';
-
+$labels['unknown']  = 'okänd';
+$labels['unlimited']  = 'obegränsad';
 
 // message compose
 $labels['compose']  = 'Skapa nytt meddelande';
+$labels['savemessage']  = 'Spara utkast';
 $labels['sendmessage']  = 'Skicka meddelande nu';
 $labels['addattachment']  = 'Bifoga en fil';
 $labels['charset']  = 'Teckenkodning';
+$labels['returnreceipt'] = 'Mottagarkvitto';
+
+$labels['checkspelling'] = 'Kontrollera stavning';
+$labels['resumeediting'] = 'Återuppta redigering';
+$labels['revertto'] = 'Återgå till';
 
 $labels['attachments'] = 'Bilagor';
 $labels['upload'] = 'Uppladdning';
@@ -153,6 +162,8 @@ $labels['composeto']      = 'Skriv e-post till';
 $labels['contactsfromto'] = 'Kontakter $from till $to av $count';
 $labels['print']          = 'Skriv ut';
 $labels['export']         = 'Exportera';
+$labels['previouspage'] = 'Visa föregående';
+$labels['nextpage']     = 'Visa nästa';
 
 // LDAP search
 $labels['ldapsearch'] = 'LDAP katalogsök';
@@ -184,6 +195,7 @@ $labels['language']  = 'Språk';
 $labels['timezone']  = 'Tidszon';
 $labels['pagesize']  = 'Rader per sida';
 $labels['signature'] = 'Signatur';
+$labels['dstactive']  = 'Sommartid';
 
 $labels['folder']  = 'Mapp';
 $labels['folders']  = 'Mappar';
@@ -191,6 +203,8 @@ $labels['foldername']  = 'Mappnamn';
 $labels['subscribed']  = 'Ansluten';
 $labels['create']  = 'Skapa';
 $labels['createfolder']  = 'Skapa ny mapp';
+$labels['rename'] = 'Byt namn';
+$labels['renamefolder'] = 'Byt mappnamn';
 $labels['deletefolder']  = 'Radera mapp';
 $labels['managefolders']  = 'Hantera mappar';
 
@@ -198,4 +212,5 @@ $labels['sortby'] = 'Sortera på';
 $labels['sortasc']  = 'Sortera stigande';
 $labels['sortdesc'] = 'Sortera fallande';
 
+$labels['description'] = 'Beskrivning';
 ?>

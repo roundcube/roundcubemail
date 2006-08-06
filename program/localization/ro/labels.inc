@@ -19,22 +19,23 @@
 $labels = array();
 
 // login page
+$labels['welcome']	 = 'Bine ati venit la $product';
 $labels['username']  = 'Utilizator';
 $labels['password']  = 'Parola';
 $labels['server']    = 'Server';
 $labels['login']     = 'Autentificare';
 
 // taskbar
-$labels['logout']   = 'Deconectare';
-$labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Setari Personale';
-$labels['addressbook'] = 'Agenda';
+$labels['logout']		 = 'Deconectare';
+$labels['mail']			 = 'E-Mail';
+$labels['settings']		 = 'Setari Personale';
+$labels['addressbook']	 = 'Agenda';
 
 // mailbox names
 $labels['inbox']  = 'Primite';
+$labels['drafts'] = 'Ciorne';
 $labels['sent']   = 'Trimise';
 $labels['trash']  = 'Gunoi';
-$labels['drafts'] = 'Ciorne';
 $labels['junk']   = 'Junk';
 
 // message listing
@@ -89,6 +90,7 @@ $labels['saturday']  = 'Sambata';
 $labels['today'] = 'Astazi';
 
 // toolbar buttons
+$labels['checkmail']        = 'Verifica pentru mesaje noi';
 $labels['writenewmessage']  = 'Creaza mesaj nou';
 $labels['replytomessage']   = 'Raspunde la mesaj';
 $labels['replytoallmessage'] = 'Raspunde la toti';
@@ -110,13 +112,24 @@ $labels['empty'] = 'Goleste';
 $labels['purge'] = 'Curata';
 
 $labels['quota'] = 'Spatiu folosit';
+$labels['unknown']  = 'necunoscut';
+$labels['unlimited']  = 'nelimitat';
+
+$labels['quicksearch']  = 'Cautare rapida';
+$labels['resetsearch']  = 'Resetare cautare';
 
 
 // message compose
 $labels['compose']  = 'Compune mesaj';
+$labels['savemessage']  = 'Salveaza aceasta ciorna';
 $labels['sendmessage']  = 'Trimite mesaj';
 $labels['addattachment']  = 'Ataseaza fisier';
 $labels['charset']  = 'Set de caractere';
+$labels['returnreceipt'] = 'Returneaza confirmare';
+
+$labels['checkspelling'] = 'Verifica ortografie';
+$labels['resumeediting'] = 'Reia editarea';
+$labels['revertto'] = 'Revina la';
 
 $labels['attachments'] = 'Atasamente';
 $labels['upload'] = 'Incarca';
@@ -138,8 +151,8 @@ $labels['firstname'] = 'Nume';
 $labels['surname']   = 'Prenume';
 $labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Adauga contact nou';
-$labels['editcontact'] = 'Modifica contact';
+$labels['addcontact'] 	= 'Adauga contact nou';
+$labels['editcontact'] 	= 'Modifica contact';
 
 $labels['edit']   = 'Editeaza';
 $labels['cancel'] = 'Renunta';
@@ -153,6 +166,10 @@ $labels['composeto']      = 'Compune e-mail pentru';
 $labels['contactsfromto'] = 'Contacte de la $from pana la $to din $count';
 $labels['print']          = 'Listeaza';
 $labels['export']         = 'Exporta';
+
+$labels['previouspage']   = 'Pagina anterioara';
+$labels['nextpage']       = 'Pagina urmatoare';
+
 
 // LDAP search
 $labels['ldapsearch'] = 'Cautare director LDAP';
@@ -184,6 +201,7 @@ $labels['language']  = 'Limba';
 $labels['timezone']  = 'Fus orar';
 $labels['pagesize']  = 'Randuri pe pagina';
 $labels['signature'] = 'Semnatura';
+$labels['dstactive']  = 'Daylight savings';
 
 $labels['folder']  = 'Dosar';
 $labels['folders']  = 'Dosare';
@@ -191,6 +209,8 @@ $labels['foldername']  = 'Nume dosar';
 $labels['subscribed']  = 'Inscris';
 $labels['create']  = 'Creaza';
 $labels['createfolder']  = 'Creaza dosar nou';
+$labels['rename'] = 'Redenumeste';
+$labels['renamefolder'] = 'Redenumeste dosar';
 $labels['deletefolder']  = 'Sterge dosar';
 $labels['managefolders']  = 'Administreaza dosare';
 

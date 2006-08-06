@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ee/messages.inc                                              |
+ | language/et_EE/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
@@ -24,10 +24,13 @@ $messages['imaperror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu sessioon on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Postkast on tühi';
-$messages['loading'] = 'Laen...';
-$messages['loadingdata'] = 'Laen andmeid...';
+$messages['loading'] = 'Laadimine...';
+$messages['loadingdata'] = 'Andmete laadimine...';
+$messages['checkingmail'] = 'Uute kirjade kontrollimine...';
 $messages['sendingmessage'] = 'Saadan kirja...';
 $messages['messagesent'] = 'Kiri edukalt saadetud';
+$messages['savingmessage'] = 'Kirja salvestamine...';
+$messages['messagesaved'] = 'Kiri salvestatud Mustanditesse';
 $messages['successfullysaved'] = 'Edukalt salvestatud';
 $messages['addedsuccessfully'] = 'Kontakt lisati edukalt aadressiraamatusse';
 $messages['contactexists'] = 'Sama e-maili aadressiga kontakt on juba olemas';
@@ -55,4 +58,7 @@ $messages['nosearchname'] = 'Palun sisesta kontakti nimi või e-maili aadress';
 $messages['searchsuccessful'] = 'Leiti $nr kirja';
 $messages['searchnomatch'] = 'Otsingule vastavaid kirju ei leitud';
 $messages['searching'] = 'Otsimine...';
+$messages['checking'] = 'Kontrollimine...';
+$messages['nospellerrors'] = 'Õigekirja vigu ei leitud';
+$messages['folderdeleted'] = 'Kausta kustutamine õnnestus';
 ?>

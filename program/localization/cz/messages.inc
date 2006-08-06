@@ -12,7 +12,7 @@
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id $
 
 */
 
@@ -52,5 +52,12 @@ $messages['notsentwarning'] = 'Zpráva nebyla odeslána. Přejete si zprávu zah
 $messages['noldapserver'] = 'Zvolte, prosím, LDAP server k hledání';
 $messages['nocontactsreturned'] = 'Nebyly nalezeny žádné kontakty';
 $messages['nosearchname'] = 'Zadejte, prosím, jméno nebo e-mail kontaktu';
+
+$messages['checking'] = 'Kontroluji...';
+$messages['nospellerrors'] = 'Nebyly nalezeny žádné chyby';
+$messages['checkingmail'] = 'Kontroluji nové zprávy...';
+$messages['savingmessage'] = 'Ukládám zprávu...';
+$messages['messagesaved'] = 'Zpráva uložena do Rozepsané';
+$messages['folderdeleted'] = 'Složka byla úspěšně vymazána';
 
 ?>

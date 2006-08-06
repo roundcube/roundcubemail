@@ -18,7 +18,7 @@
 
 $labels = array();
 
-// Página de loginOnthaal aan $product
+// Página de login
 $labels['username']  = 'Usuário';
 $labels['password']  = 'Senha';
 $labels['server']    = 'Servidor';
@@ -32,7 +32,6 @@ $labels['addressbook'] = 'Catálogo de endereços';
 
 // Nome das pastas de correio
 $labels['inbox']  = 'Caixa de entrada';
-$labels['drafts'] = 'Esboços';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
 $labels['drafts'] = 'Rascunhos';
@@ -90,7 +89,6 @@ $labels['saturday']  = 'Sábado';
 $labels['today'] = 'Hoje';
 
 // toolbar buttons
-$labels['checkmail']        = 'Verificar para ver se há mensagens novas';
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder';
 $labels['replytoallmessage'] = 'Responder para todos';
@@ -116,7 +114,6 @@ $labels['quota'] = 'Utilização';
 
 // message compose
 $labels['compose']  = 'Escrever mensagem';
-$labels['savemessage']  = 'Excepto este esboço';
 $labels['sendmessage']  = 'Enviar';
 $labels['addattachment']  = 'Anexar';
 $labels['charset']  = 'Charset';
@@ -150,7 +147,6 @@ $labels['save']   = 'Salvar';
 $labels['delete'] = 'Apagar';
 
 $labels['newcontact']     = 'Criar novo contato';
-$labels['addcontact']     = 'Incluir contato selecionado ao catálogo de endereços';
 $labels['deletecontact']  = 'Apagar contatos selecionados';
 $labels['composeto']      = 'Escrever mensagem para';
 $labels['contactsfromto'] = 'Contatos $from - $to of $count';
@@ -200,5 +196,30 @@ $labels['managefolders']  = 'Gerenciar pastas';
 $labels['sortby'] = 'Ordenado por';
 $labels['sortasc']  = 'Ascendente';
 $labels['sortdesc'] = 'Descendente';
+
+// New labels since 0.1beta
+
+$labels['welcome'] = 'Bem-vindo ao $product';
+
+$labels['unknown'] = 'Desconhecido';
+$labels['unlimited'] = 'Ilimitado';
+$labels['dstactive'] = 'Horário de verão';
+
+$labels['previouspage'] = 'Exibir página anterior';
+$labels['nextpage']     = 'Exibir próxima página';
+
+$labels['returnreceipt'] = 'Confirmação de leitura';
+
+$labels['checkmail'] = 'Verificando novas mensagens';
+$labels['checkspelling'] = 'Verificando ortografia';
+$labels['resumeediting'] = 'Continuar a edição';
+$labels['revertto'] = 'Reverter para';
+
+$labels['savemessage']  = 'Salvar rascunho';
+$labels['rename'] = 'Renomear';
+$labels['renamefolder'] = 'Renomear pasta';
+
+// I use an additional description field - this might be used somewhere else
+$labels['description'] = 'Descrição';
 
 ?>

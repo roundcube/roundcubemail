@@ -36,9 +36,15 @@ $messages['loading'] = 'Chargement en cours...';
 
 $messages['loadingdata'] = 'Chargement des données en cours...';
 
+$messages['checkingmail'] = 'Vérification des nouveaux messages ...';
+
 $messages['sendingmessage'] = 'Message en cours d\'envoi...';
 
 $messages['messagesent'] = 'Message envoyé';
+
+$messages['savingmessage'] = 'Sauvegarde du message...';
+
+$messages['messagesaved'] = 'Message sauvegardé dans Brouillons';
 
 $messages['successfullysaved'] = 'Sauvegarde effectuée';
 
@@ -98,6 +104,7 @@ $messages['checking'] = 'Vérification...';
 
 $messages['nospellerrors'] = 'Aucune faute trouvée';
 
-$messages['checkingmail'] = 'Vérification des nouveaux messages ...';
+$messages['folderdeleted'] = 'Dossier effacé';
+
 
 ?>

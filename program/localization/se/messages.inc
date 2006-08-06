@@ -2,14 +2,14 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/messages.inc                                              |
+ | language/se/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Fredrik Nygren <f.nygren@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -88,4 +88,15 @@ $messages['nocontactsreturned'] = 'Inga kontakter hittades';
 
 $messages['nosearchname'] = 'Vänligen ange ett kontaktnamn eller e-postadress';
 
+$messages['checking'] = 'Kontrollerar...';
+
+$messages['nospellerrors'] = 'Inget stavfel hittades';
+
+$messages['checkingmail'] = 'Letar efter ny e-post...';
+
+$messages['savingmessage'] = 'Sparar meddelande...';
+
+$messages['messagesaved'] = 'Meddelande sparades till utkast';
+
+$messages['folderdeleted'] = 'Mappen raderades';
 ?>

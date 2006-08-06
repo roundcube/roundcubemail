@@ -34,13 +34,7 @@ $messages['mailboxempty'] = 'A caixa postal está vazia';
 
 $messages['loadingdata'] = 'Carregando informações...';
 
-$messages['checkingmail'] = 'Verificar para ver se há mensagens novas...';
-
 $messages['messagesent'] = 'Mensagem enviada';
-
-$messages['savingmessage'] = 'Mensagem do Saving...';
-
-$messages['messagesaved'] = 'Mensagem conservada aos esboços';
 
 $messages['successfullysaved'] = 'Salvo com sucesso';
 
@@ -89,5 +83,18 @@ $messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesqui
 $messages['nocontactsreturned'] = 'Nenhum contato foi encontrado';
 
 $messages['nosearchname'] = 'Por favor, informe o nome do contado ou seu endereço de e-mail';
+
+// New messages since 0.1beta
+$messages['checking'] = 'Verificando...';
+
+$messages['nospellerrors'] = 'Nenhum erro ortográfico foi encontrado';
+
+$messages['checkingmail'] = 'Verificando novas mensagens...';
+
+$messages['savingmessage'] = 'Salvando a mensagem...';
+
+$messages['messagesaved'] = 'Mensagem salva como rascunho';
+
+$messages['folderdeleted'] = 'Pasta excluida com sucesso';
 
 ?>

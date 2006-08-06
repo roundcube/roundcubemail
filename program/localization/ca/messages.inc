@@ -1,10 +1,11 @@
-﻿<?php
+<?php
 
 /*
  +-----------------------------------------------------------------------+
- | language/en/messages.inc                                              |
+ | language/ca/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -35,9 +36,15 @@ $messages['loading'] = 'Carregant...';
 
 $messages['loadingdata'] = 'Carregant dades...';
 
+$messages['checkingmail'] = 'Cercant nous missatges...';
+
 $messages['sendingmessage'] = 'Enviant missatge...';
 
 $messages['messagesent'] = 'Missatge enviat correctament';
+
+$messages['savingmessage'] = 'Desant missatge...';
+
+$messages['messagesaved'] = 'Missatge desat a Esborranys';
 
 $messages['successfullysaved'] = 'Desat correctament';
 
@@ -63,6 +70,8 @@ $messages['deletecontactconfirm']  = 'Realment vol suprimir el(s) contacte(s) se
 
 $messages['deletefolderconfirm']  = 'Realment vol suprimir aquesta carpeta?';
 
+$messages['purgefolderconfirm']  = 'Realment vol suprimir tots els missatges d\'aquesta carpeta?';
+
 $messages['formincomplete'] = 'El formulari no ha sigut emplenat totalment';
 
 $messages['noemailwarning'] = 'Introdueixi una direcció email vàlida';
@@ -84,5 +93,17 @@ $messages['noldapserver'] = 'Seleccioni un servidor ldap per a cercar';
 $messages['nocontactsreturned'] = 'No s\'han trobat contactes';
 
 $messages['nosearchname'] = 'Introdueixi un nom de contacte o una direcció email';
+
+$messages['searchsuccessful'] = '$nr missatges trobats';
+
+$messages['searchnomatch'] = 'No s\'ha trobat cap coincidència';
+
+$messages['searching'] = 'Cercant...';
+
+$messages['checking'] = 'Comprovant...';
+
+$messages['nospellerrors'] = 'No s\'han trobat errors d\'ortografia';
+
+$messages['folderdeleted'] = 'Carpeta eliminada correctament';
 
 ?>

@@ -36,9 +36,15 @@ $messages['loading'] = 'Laden...';
 
 $messages['loadingdata'] = 'Bezig met laden van data...';
 
+$messages['checkingmail'] = 'Controleren op nieuwe berichten...';
+
 $messages['sendingmessage'] = 'Bezig met bericht versturen...';
 
 $messages['messagesent'] = 'Bericht succesvol verstuurd';
+
+$messages['savingmessage'] = 'Bezig met bericht opslaan...';
+
+$messages['messagesaved'] = 'Bericht bewaard als concept';
 
 $messages['successfullysaved'] = 'Succesvol opgeslagen';
 
@@ -93,5 +99,12 @@ $messages['searchsuccessful'] = '$nr berichten gevonden';
 $messages['searchnomatch'] = 'Zoekopdracht heeft geen resultaten opgeleverd';
 
 $messages['searching'] = 'Bezig met zoeken...';
+
+$messages['checking'] = 'Controleren...';
+
+$messages['nospellerrors'] = 'Geen spelfouten gevonden';
+
+$messages['folderdeleted'] = 'Map successvol verwijderd';
+
 
 ?>

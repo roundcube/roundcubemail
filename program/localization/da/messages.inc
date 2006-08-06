@@ -72,4 +72,12 @@ $messages['noldapserver'] = 'Vælg venligst hvilken LDAP server der skal søges 
 $messages['nocontactsreturned'] = 'Ingen kontakter blev fundet';
 $messages['nosearchname'] = 'Indtast venligst en kontakts navn eller email adresse';
 
+$messages['checking'] = 'Tjekker...';
+$messages['nospellerrors'] = 'Ingen stavefejl fundet';
+$messages['checkingmail'] = 'Tjekker for nye beskeder...';
+$messages['savingmessage'] = 'Gemmer besked...';
+$messages['messagesaved'] = 'Besked gemt til Kladder';
+$messages['folderdeleted'] = 'Folderen blev slettet korrekt';
+
 ?>
+

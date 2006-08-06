@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ee/labels.inc                                                |
+ | language/et_EE/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
@@ -27,9 +27,9 @@ $labels['mail'] = 'Postkast';
 $labels['settings'] = 'Seaded';
 $labels['addressbook'] = 'Aadressiraamat';
 $labels['inbox'] = 'Sissetulevad';
+$labels['drafts'] = 'Mustandid';
 $labels['sent'] = 'Saadetud';
 $labels['trash'] = 'Prügikast';
-$labels['drafts'] = 'Ootel';
 $labels['junk'] = 'Rämps';
 $labels['subject'] = 'Pealkiri';
 $labels['from'] = 'Saatja';
@@ -68,6 +68,7 @@ $labels['thursday'] = 'Neljapäev';
 $labels['friday'] = 'Reede';
 $labels['saturday'] = 'Laupäev';
 $labels['today'] = 'Täna';
+$labels['checkmail'] = 'Kontrolli uusi kirju';
 $labels['writenewmessage'] = 'Kirjuta uus kiri';
 $labels['replytomessage'] = 'Vasta kirjale';
 $labels['replytoallmessage'] = 'Vasta saatjale ja teistele kirja saanutele';
@@ -91,10 +92,14 @@ $labels['unlimited'] = 'piiramatu';
 $labels['quicksearch'] = 'Kiirotsing';
 $labels['resetsearch'] = 'Lähtesta otsing';
 $labels['compose'] = 'Koosta kiri';
+$labels['savemessage'] = 'Salvesta see mustand';
 $labels['sendmessage'] = 'Saada kiri kohe';
 $labels['addattachment'] = 'Lisa fail';
 $labels['charset'] = 'Märgistik';
 $labels['returnreceipt'] = 'Kättesaamiskinnitus';
+$labels['checkspelling'] = 'Kontrolli õigekirja';
+$labels['resumeediting'] = 'Jätka muutmist';
+$labels['revertto'] = 'Muuda tagasi';
 $labels['attachments'] = 'Manused';
 $labels['upload'] = 'Kinnita manus';
 $labels['close'] = 'Sulge';
@@ -151,9 +156,12 @@ $labels['foldername'] = 'Kausta nimi';
 $labels['subscribed'] = 'Näitan';
 $labels['create'] = 'Loo';
 $labels['createfolder'] = 'Loo uus kaust';
+$labels['rename'] = 'Nimeta ümber';
+$labels['renamefolder'] = 'Nimeta olemasolev kaust ümber';
 $labels['deletefolder'] = 'Kustuta kaust';
 $labels['managefolders'] = 'Halda kaustu';
 $labels['sortby'] = 'Järjesta';
 $labels['sortasc'] = 'Järjesta kasvavalt';
 $labels['sortdesc'] = 'Järjesta kahanevalt';
 ?>
+

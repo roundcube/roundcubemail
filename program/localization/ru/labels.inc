@@ -33,7 +33,6 @@ $labels['addressbook'] = 'Контакты';
 
 // mailbox names
 $labels['inbox']  = 'Входящие';
-$labels['drafts'] = 'Проекты';
 $labels['sent']   = 'Отправленные';
 $labels['trash']  = 'Корзина';
 $labels['drafts'] = 'Черновики';
@@ -91,7 +90,7 @@ $labels['saturday']  = 'Суббота';
 $labels['today'] = 'Сегодня';
 
 // toolbar buttons
-$labels['checkmail']        = 'Проверять для новых сообщений';
+$labels['checkmail']        = 'Доставить почту';
 $labels['writenewmessage']  = 'Новое сообщение';
 $labels['replytomessage']   = 'Ответить';
 $labels['replytoallmessage'] = 'Ответить всем';
@@ -122,21 +121,28 @@ $labels['resetsearch']  = 'Сброс';
 
 // message compose
 $labels['compose']  = 'Написать сообщение';
-$labels['savemessage']  = 'За исключением этого проекта';
+$labels['savemessage']  = 'Сохранить черновик';
 $labels['sendmessage']  = 'Отправить сейчас';
 $labels['addattachment']  = 'Добавить вложение';
 $labels['charset']  = 'Кодировка';
 $labels['returnreceipt'] = 'Запрос ответа';
+
+$labels['rename'] = 'Переименовать';
+$labels['renamefolder'] = 'Переименовать папку';
+
+$labels['checkspelling'] = 'Проверить орфографию';
+$labels['resumeediting'] = 'продолжить редактирование';
+$labels['revertto'] = 'Отменить правки';
 
 $labels['attachments'] = 'Вложения';
 $labels['upload'] = 'Загрузить';
 $labels['close']  = 'Закрыть';
 
 $labels['low']     = 'Низкий';
-$labels['lowest']  = 'Самый низкий';
-$labels['normal']  = 'Нормальный';
+$labels['lowest']  = 'Нижайш.';
+$labels['normal']  = 'Норм.';
 $labels['high']    = 'Высокий';
-$labels['highest'] = 'Самый высокий';
+$labels['highest'] = 'Высоч.';
 
 $labels['nosubject']  = '(без темы)';
 $labels['showimages'] = 'Показать изображения';
@@ -212,4 +218,5 @@ $labels['sortby'] = 'Сортировать по';
 $labels['sortasc']  = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
 
+$labels['description'] = 'Описание';
 ?>
