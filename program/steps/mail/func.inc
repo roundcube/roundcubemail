@@ -1473,7 +1473,7 @@ function rcmail_message_part_frame($attrib)
   $attrib['src'] = './?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']);
 
   $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'src', 'width', 'height'));
-  $out = '<iframe '. $attrib_str . "></ifame>";
+  $out = '<iframe '. $attrib_str . "></iframe>";
     
   return $out;
   }
