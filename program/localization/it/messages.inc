@@ -36,15 +36,15 @@ $messages['loading'] = 'Caricamento...';
 
 $messages['loadingdata'] = 'Caricamento dati...';
 
-$messages['checkingmail'] = 'Controllo per vedere se ci sono nuovi messaggi...';
+$messages['checkingmail'] = 'Controllo nuovi messaggi...';
 
 $messages['sendingmessage'] = 'Invio messaggio in corso...';
 
 $messages['messagesent'] = 'Messaggio inviato correttamente';
 
-$messages['savingmessage'] = 'Salvataggio bozza...';
+$messages['savingmessage'] = 'Salvataggio messaggio...';
 
-$messages['messagesaved'] = 'Messaggio salvato come bozza';
+$messages['messagesaved'] = 'Messaggio salvato nelle bozze';
 
 $messages['successfullysaved'] = 'Salvato correttamente';
 
@@ -93,6 +93,18 @@ $messages['noldapserver'] = 'Per favore, scegli un server LDAP in cui ricercare'
 $messages['nocontactsreturned'] = 'Nessun contatto trovato';
 
 $messages['nosearchname'] = 'Per favore, immetti un nome o un indirizzo e-mail';
+
+$messages['searchsuccessful'] = '$nr messaggi trovati';
+
+$messages['searchnomatch'] = 'La ricerca non ha dato nessun risultato';
+
+$messages['searching'] = 'Ricerca...';
+
+$messages['checking'] = 'Controllo...';
+
+$messages['nospellerrors'] = 'Nessun errore ortografico trovato';
+
+$messages['folderdeleted'] = 'Cartella eliminata';
 
 
 ?>

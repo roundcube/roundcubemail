@@ -88,4 +88,18 @@ $messages['nocontactsreturned'] = 'لم يعثر على أي مراسلين';
 
 $messages['nosearchname'] = 'الرجاء إدخال اسم مراسل أو عنوان بريد إلكتروني';
 
+// RC 0.1beta2
+
+$messages['checking'] = 'التحقق...';
+
+$messages['nospellerrors'] = 'لم يعثر على أية أخطاء إملائية';
+
+$messages['checkingmail'] = 'التحقق من وجود رسائل جديدة...';
+
+$messages['savingmessage'] = 'حفظ الرسالة...';
+
+$messages['messagesaved'] = 'تم حفظ الرسالة في المسودات';
+
+$messages['folderdeleted'] = 'تم حذف المجلد بنجاح';
+
 ?>

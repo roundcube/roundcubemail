@@ -12,7 +12,7 @@
  | Author: Sławomir Cichoń  <slawek.cichon@gmail.com>                    |
  +-----------------------------------------------------------------------+
 
- $Id$
+$Id$
 
 */
 
@@ -88,4 +88,17 @@ $messages['nocontactsreturned'] = 'Nie znaleziono kontaktów';
 
 $messages['nosearchname'] = 'Proszę podać nazwę kontaktu lub jego adres email.';
 
+//RC 0.1B2
+
+$messages['checking'] = 'Sprawdzanie...';
+
+$messages['nospellerrors'] = 'Nie znaleziono błędów w pisowni.';
+
+$messages['checkingmail'] = 'Sprawdzanie czy są nowe wiadomości...';
+
+$messages['savingmessage'] = 'Zapisywanie wiadomości...';
+
+$messages['messagesaved'] = 'Wiadomośc została zapisana w kopiach roboczych.';
+
+$messages['folderdeleted'] = 'Folder został pomyślnie usunięty';
 ?>

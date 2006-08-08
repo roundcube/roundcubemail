@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Paolo Asperti <paolo@asperti.com>                             |
+ | Author: Paolo Asperti <paolo@asperti.com>                              |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Benvenuto a $product';
+$labels['welcome']   = 'Benvenuto in $product';
 $labels['username']  = 'Utente';
 $labels['password']  = 'Password';
 $labels['server']    = 'Server';
@@ -33,7 +33,6 @@ $labels['addressbook'] = 'Rubrica';
 
 // mailbox names
 $labels['inbox']  = 'Posta in arrivo';
-$labels['drafts'] = 'Brutte copie';
 $labels['sent']   = 'Inviata';
 $labels['trash']  = 'Cestino';
 $labels['drafts'] = 'Bozze';
@@ -91,7 +90,7 @@ $labels['saturday']  = 'Sabato';
 $labels['today'] = 'Oggi';
 
 // toolbar buttons
-$labels['checkmail']        = 'Controllo per vedere se ci sono nuovi messaggi';
+$labels['checkmail']        = 'Controlla nuovi messaggi';
 $labels['writenewmessage']  = 'Scrivi un nuovo messaggio';
 $labels['replytomessage']   = 'Rispondi al messaggio';
 $labels['replytoallmessage'] = 'Rispondi a tutti';
@@ -113,14 +112,24 @@ $labels['empty'] = 'Svuota';
 $labels['purge'] = 'Pulisci';
 
 $labels['quota'] = 'Utilizzo spazio';
+$labels['unknown']  = 'sconosciuto';
+$labels['unlimited']  = 'illimitato';
+
+$labels['quicksearch']  = 'Ricerca veloce';
+$labels['resetsearch']  = 'Annulla ricerca';
 
 
 // message compose
 $labels['compose']  = 'Componi un messaggio';
-$labels['savemessage']  = 'Salva messaggio come bozza';
+$labels['savemessage']  = 'Salva come bozza';
 $labels['sendmessage']  = 'Invia il messaggio adesso';
 $labels['addattachment']  = 'Allega un file';
 $labels['charset']  = 'Set di caratteri';
+$labels['returnreceipt'] = 'Ricevuta di ritorno';
+
+$labels['checkspelling'] = 'Controlla ortografia';
+$labels['resumeediting'] = 'Torna al messaggio';
+$labels['revertto'] = 'Ripristina';
 
 $labels['attachments'] = 'Allegati';
 $labels['upload'] = 'Aggiungi';
@@ -158,6 +167,10 @@ $labels['contactsfromto'] = 'Contatti da $from a $to di $count';
 $labels['print']          = 'Stampa';
 $labels['export']         = 'Esporta';
 
+$labels['previouspage']   = 'Pagina precedente';
+$labels['nextpage']       = 'Pagina successiva';
+
+
 // LDAP search
 $labels['ldapsearch'] = 'Cerca su directory LDAP';
 
@@ -188,6 +201,7 @@ $labels['language']  = 'Lingua';
 $labels['timezone']  = 'Fuso orario';
 $labels['pagesize']  = 'Righe per pagina';
 $labels['signature'] = 'Firma';
+$labels['dstactive']  = 'Gestione ora legale / ora solare';
 
 $labels['folder']  = 'Cartella';
 $labels['folders']  = 'Cartelle';
@@ -195,12 +209,13 @@ $labels['foldername']  = 'Nome cartella';
 $labels['subscribed']  = 'Sottoscritta';
 $labels['create']  = 'Crea';
 $labels['createfolder']  = 'Crea una nuova cartella';
+$labels['rename'] = 'Rinomina';
+$labels['renamefolder'] = 'Rinomina cartella';
 $labels['deletefolder']  = 'Cancella la cartella';
 $labels['managefolders']  = 'Gestione cartelle';
 
 $labels['sortby'] = 'Ordina per';
 $labels['sortasc']  = 'Ordinamento ascendente';
 $labels['sortdesc'] = 'Ordinamento discendente';
-
 
 ?>

@@ -198,4 +198,28 @@ $labels['sortby'] = 'ترتيب بحسب';
 $labels['sortasc']  = 'ترتيب تصاعدي';
 $labels['sortdesc'] = 'ترتيب تنازلي';
 
+// RC 0.1beta2
+
+$labels['welcome'] = 'مرحباً بكم في $product';
+
+$labels['unknown'] = 'مجهول';
+$labels['unlimited'] = 'غير محدود';
+$labels['dstactive'] = 'التوقيت الصيفي';
+
+$labels['previouspage'] = 'عرض المجموعة السابقة';
+$labels['nextpage']     = 'عرض المجموعة التالية';
+
+$labels['returnreceipt'] = 'ايصال استلام';
+
+$labels['checkmail'] = 'التحقق من وجود رسائل جديدة';
+$labels['checkspelling'] = 'التدقيق الإملائي';
+$labels['resumeediting'] = 'متابعة التحرير';
+$labels['revertto'] = 'استعادة إلى';
+
+$labels['savemessage']  = 'حفظ هذه المسودة';
+$labels['rename'] = 'إعادة التسمية';
+$labels['renamefolder'] = 'إعادة تسمية المجلد';
+
+$labels['description'] = 'وصف';
+
 ?>

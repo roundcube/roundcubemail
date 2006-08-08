@@ -12,7 +12,7 @@
  | Author: Sławomir Cichoń  <slawek.cichon@gmail.com>                    |
  +-----------------------------------------------------------------------+
 
- $Id$
+$Id$
 
 */
 
@@ -194,4 +194,26 @@ $labels['sortby'] = 'Sortuj wg.';
 $labels['sortasc']  = 'Rosnąco';
 $labels['sortdesc'] = 'Malejąco';
 
+//RC 0.1B2
+$labels['welcome'] = 'Witaj $product';
+
+$labels['unknown'] = 'nieznane';
+$labels['unlimited'] = 'bez limitu';
+$labels['dstactive'] = 'czas letni';
+
+$labels['previouspage'] = 'poprzednia strona';
+$labels['nextpage']     = 'następna strona';
+
+$labels['returnreceipt'] = 'Potwierdzenie odbioru';
+
+$labels['checkmail'] = 'Sprawdź skrzynkę';
+$labels['checkspelling'] = 'Sprawdź pisownie';
+$labels['resumeediting'] = 'Przywróć edytowanie';
+$labels['revertto'] = 'Powróć do';
+
+$labels['savemessage']  = 'Zapisz kopie roboczą';
+$labels['rename'] = 'Zmień nazwę';
+$labels['renamefolder'] = 'Zmień nazwę folderu';
+
+$labels['description'] = 'Opis';
 ?>

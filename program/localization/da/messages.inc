@@ -76,8 +76,6 @@ $messages['checking'] = 'Tjekker...';
 $messages['nospellerrors'] = 'Ingen stavefejl fundet';
 $messages['checkingmail'] = 'Tjekker for nye beskeder...';
 $messages['savingmessage'] = 'Gemmer besked...';
-$messages['messagesaved'] = 'Besked gemt til Kladder';
+$messages['messagesaved'] = 'Beskeden er gemt i kladdemappen';
 $messages['folderdeleted'] = 'Folderen blev slettet korrekt';
-
 ?>
-

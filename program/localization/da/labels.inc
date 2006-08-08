@@ -179,7 +179,7 @@ $labels['replytoallmessage'] = 'Svar til alle modtagere';
 $labels['folder']  = 'Folder';
 $labels['compact'] = 'Ryd op';
 $labels['empty'] = 'Tøm';
-$labels['purge'] = 'Tøm';
+$labels['purge'] = 'Udrens';
 $labels['quota'] = 'Disk forbrug';
 
 $labels['sortby']   = 'Sortér efter';
@@ -201,25 +201,23 @@ $labels['ldappublicsearch'] = 'Søg';
 $labels['welcome'] = 'Velkommen til $product';
 
 $labels['unknown'] = 'ukendt';
-$labels['unlimited'] = 'ubegræset';
+$labels['unlimited'] = 'ubegrænset';
 $labels['dstactive'] = 'Sommertid';
 
 $labels['previouspage'] = 'Vis forrige sæt';
 $labels['nextpage']     = 'Vis næste sæt';
 
-$labels['returnreceipt'] = 'Retur-kvittering';
+$labels['returnreceipt'] = 'Anmod om kvittering';
 
 $labels['checkmail'] = 'Se efter nye beskeder';
-$labels['checkspelling'] = 'Tjek stavning';
+$labels['checkspelling'] = 'Ret stavning';
 $labels['resumeediting'] = 'Genoptag redigering';
 $labels['revertto'] = 'Vend tilbage til';
 
-$labels['savemessage']  = 'Gem denne klade';
+$labels['savemessage']  = 'Gem denne kladde';
 $labels['rename'] = 'Omdøb';
 $labels['renamefolder'] = 'Omdøb folder';
 
 # i use an additional description field - this might be used somewhere else
 $labels['description'] = 'Beskrivelse';
-
 ?>
-
