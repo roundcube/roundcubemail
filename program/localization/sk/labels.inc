@@ -18,7 +18,9 @@
 
 $labels = array();
 
+
 // login page
+$labels['welcome'] = 'Vitajte v $product';
 $labels['username']  = 'Prihlasovacie meno';
 $labels['password']  = 'Heslo';
 $labels['server']    = 'Server';
@@ -64,7 +66,7 @@ $labels['filesize'] = 'Veľkosť súboru';
 
 $labels['preferhtml'] = 'Uprednostniť HTML zobrazenie';
 $labels['htmlmessage'] = 'HTML správa';
-$labels['prettydate'] = 'Pretty dates';
+$labels['prettydate'] = 'Krajší dátum';
 
 $labels['addtoaddressbook'] = 'Pridaj do adresára';
 
@@ -89,6 +91,7 @@ $labels['saturday']  = 'Sobota';
 $labels['today'] = 'Dnes';
 
 // toolbar buttons
+$labels['checkmail'] = 'Skontrolovať nové správy';
 $labels['writenewmessage']  = 'Vytvor novú správu';
 $labels['replytomessage']   = 'Odpovedať';
 $labels['replytoallmessage'] = 'Odpovedať všetkým';
@@ -96,7 +99,7 @@ $labels['forwardmessage']   = 'Poslať ďalej';
 $labels['deletemessage']    = 'Presuň správu do koša';
 $labels['printmessage']     = 'Vytlač správu';
 $labels['previousmessages'] = 'Zobraziť predchádzajúcu správu';
-$labels['nextmessages']     = 'Zobraziť daľšiu správu';
+$labels['nextmessages']     = 'Zobraziť ďalšiu správu';
 $labels['backtolist']       = 'Späť na zoznam správ';
 $labels['viewsource']       = 'Ukáž zdroj správy';
 
@@ -104,12 +107,28 @@ $labels['select'] = 'Výber';
 $labels['all'] = 'Všetky';
 $labels['none'] = 'Žiadnu';
 $labels['unread'] = 'Neprečítané';
+$labels['compact'] = 'Kompaktné';
+$labels['empty'] = 'Prázdne';
+$labels['purge'] = 'Vyprázdniť';
+
+$labels['quota'] = 'Využitie schránky';
+$labels['unknown']  = 'neznáme';
+$labels['unlimited']  = 'neobmedzené';
+
+$labels['quicksearch']  = 'Rýchle vyhľadávanie';
+$labels['resetsearch']  = 'Vyčisti vyhľadávanie';
 
 // message compose
 $labels['compose']  = 'Vytvoriť správu';
+$labels['savemessage']  = 'Uložiť do rozpísaných';
 $labels['sendmessage']  = 'Odoslať správu';
 $labels['addattachment']  = 'Pridať prílohu';
 $labels['charset']  = 'Znaková sada';
+$labels['returnreceipt'] = 'Doručenka';
+
+$labels['checkspelling'] = 'Skontroluj pravopis';
+$labels['resumeediting'] = 'Pokračovať v úpravách';
+$labels['revertto'] = 'Odpovedať na';
 
 $labels['attachments'] = 'Prílohy';
 $labels['upload'] = 'Nahrať';
@@ -140,23 +159,24 @@ $labels['save']   = 'Ulož';
 $labels['delete'] = 'Zmaž';
 
 $labels['newcontact']     = 'Vytvor nový kontakt';
-$labels['addcontact']     = 'Pridaj zvolený kontakt do vášho adresára';
 $labels['deletecontact']  = 'Zmaž zvolené kontakty';
 $labels['composeto']      = 'Vytvor správu';
 $labels['contactsfromto'] = 'Kontakty od $from do $to z $count';
 $labels['print']          = 'Tlač';
 $labels['export']         = 'Export';
 
+$labels['previouspage']   = 'Predchádzajúca stránka';
+$labels['nextpage']       = 'Nasledujúca stránka';
+
 // LDAP search
 $labels['ldapsearch'] = 'LDAP adresárové vyhľadávanie';
 
-$labels['ldappublicsearchname']    = 'Hľadaný kontakt';
+$labels['ldappublicsearchname'] = 'Hľadaný kontakt';
 $labels['ldappublicsearchtype'] = 'Presná zhoda?';
 $labels['ldappublicserverselect'] = 'Zvoľ server';
 $labels['ldappublicsearchfield'] = 'Hľadaj podľa';
 $labels['ldappublicsearchform'] = 'Vyhľadávanie kontaktov';
 $labels['ldappublicsearch'] = 'Hľadaj';
-
 
 // settings
 $labels['settingsfor']  = 'Nastavenia pre';
@@ -177,13 +197,16 @@ $labels['language']  = 'Jazyk';
 $labels['timezone']  = 'Časová zóna';
 $labels['pagesize']  = 'Riadky na stránku';
 $labels['signature'] = 'Podpis';
+$labels['dstactive']  = 'Letný čas';
 
 $labels['folder']  = 'Zložka';
 $labels['folders']  = 'Zložky';
 $labels['foldername']  = 'Meno zložky';
 $labels['subscribed']  = 'Podpísaný';
-$labels['create']  = 'Vytvorit';
+$labels['create']  = 'Vytvoriť';
 $labels['createfolder']  = 'Vytvor novú zložku';
+$labels['rename'] = 'Premenovať';
+$labels['renamefolder'] = 'Premenovať zložku';
 $labels['deletefolder']  = 'Zmaž zložku';
 $labels['managefolders']  = 'Spravovať zložky';
 

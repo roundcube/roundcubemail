@@ -17,7 +17,7 @@
 */
 
 $messages = array();
-$utf8_decoding = TRUE;
+
 $messages['loginfailed']  = 'Chybné prihlásenie';
 
 $messages['cookiesdisabled'] = 'Váš internetový prehliadač nepodporuje cookies, ktoré sú potrebné pre prihlásenie';
@@ -36,9 +36,16 @@ $messages['loading'] = 'Nahrávam...';
 
 $messages['loadingdata'] = 'Nahrávam údaje...';
 
+$messages['checkingmail'] = 'Kontrolujem nové správy...';
+
 $messages['sendingmessage'] = 'Posielam správu...';
 
 $messages['messagesent'] = 'Správa bola odoslaná';
+
+$messages['savingmessage'] = 'Ukladám správu...';
+
+$messages['messagesaved'] = 'Správa bola uložená do Nedokončené';
+
 
 $messages['successfullysaved'] = 'Uložené';
 
@@ -86,6 +93,19 @@ $messages['noldapserver'] = 'Prosím zvoľ LDAP server pre vyhľadávanie';
 
 $messages['nocontactsreturned'] = 'Neboli nájdené žiadne kontakty';
 
-$messages['nosearchname'] = 'Prosím vložte meno alebo emailovu adresu';
+$messages['nosearchname'] = 'Prosím vložte meno alebo emailovú adresu';
+
+$messages['searchsuccessful'] = '$nr správa(y) nájdené';
+
+$messages['searchnomatch'] = 'Hľadaný výraz nebol nájdený';
+
+$messages['searching'] = 'Hľadám...';
+
+$messages['checking'] = 'Kontrolujem...';
+
+$messages['nospellerrors'] = 'Pri kontrole pravopisu neboli nájdene chyby';
+
+$messages['folderdeleted'] = 'Adresár bol zmazaný';
+
 
 ?>
