@@ -26,7 +26,6 @@
  */
 require_once('lib/imap.inc');
 require_once('lib/mime.inc');
-require_once('lib/utf7.inc');
 
 
 /**
@@ -835,9 +834,9 @@ class rcube_imap
       $search = (!empty($charset) ? "CHARSET $charset " : '') . sprintf("%s {%d}\r\n%s", $criteria, strlen($str), $str);
       $results = $this->_search_index($mailbox, $search);
 
-      // try search without charset (probably not supported by server)
-      if (empty($results))
-        $results = $this->_search_index($mailbox, "$criteria $str");
+      // try search with ISO charset (should be supported by server)
+      if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
+        $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1');
       
       return $results;
       }
@@ -1231,7 +1230,11 @@ class rcube_imap
 
 
   /**
-   * create a new mailbox on the server and register it in local cache
+   * Create a new mailbox on the server and register it in local cache
+   *
+   * @param string  New mailbox name (as utf-7 string)
+   * @param boolean True if the new mailbox should be subscribed
+   * @param string  Name of the created mailbox, false on error
    */
   function create_mailbox($name, $subscribe=FALSE)
     {
@@ -1240,12 +1243,10 @@ class rcube_imap
     // replace backslashes
     $name = preg_replace('/[\\\]+/', '-', $name);
 
-    $name_enc = UTF7EncodeString($name);
-
     // reduce mailbox name to 100 chars
-    $name_enc = substr($name_enc, 0, 100);
+    $name = substr($name, 0, 100);
 
-    $abs_name = $this->_mod_mailbox($name_enc);
+    $abs_name = $this->_mod_mailbox($name);
     $a_mailbox_cache = $this->get_cache('mailboxes');
 
     if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array_nocase($abs_name, $a_mailbox_cache)))
@@ -1253,14 +1254,18 @@ class rcube_imap
 
     // try to subscribe it
     if ($subscribe)
-      $this->subscribe($name_enc);
+      $this->subscribe($name);
 
     return $result ? $name : FALSE;
     }
 
 
   /**
-   * set a new name to an existing mailbox
+   * Set a new name to an existing mailbox
+   *
+   * @param string Mailbox to rename (as utf-7 string)
+   * @param string New mailbox name (as utf-7 string)
+   * @param string Name of the renames mailbox, false on error
    */
   function rename_mailbox($mbox_name, $new_name)
     {
@@ -1270,21 +1275,24 @@ class rcube_imap
     $name = preg_replace('/[\\\]+/', '-', $new_name);
         
     // encode mailbox name and reduce it to 100 chars
-    $name_enc = substr(UTF7EncodeString($new_name), 0, 100);
+    $name = substr($new_name, 0, 100);
 
     // make absolute path
     $mailbox = $this->_mod_mailbox($mbox_name);
-    $abs_name = $this->_mod_mailbox($name_enc);
-    
+    $abs_name = $this->_mod_mailbox($name);
+
     if (strlen($abs_name))
       $result = iil_C_RenameFolder($this->conn, $mailbox, $abs_name);
-    
+
     // clear cache
     if ($result)
       {
       $this->clear_message_cache($mailbox.'.msg');
       $this->clear_cache('mailboxes');
       }
+      
+    // try to subscribe it
+    $this->subscribe($name);
 
     return $result ? $name : FALSE;
     }

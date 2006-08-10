@@ -47,11 +47,13 @@ else if ($_action=='unsubscribe')
 else if ($_action=='create-folder')
   {
   if (!empty($_GET['_name']))
-    $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_GET)), TRUE);
+    $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_GET, FALSE, 'UTF-7')), TRUE);
 
   if ($create && $REMOTE_REQUEST)
     {
-    $commands = sprintf("this.add_folder_row('%s')", rep_specialchars_output($create, 'js'));
+    $commands = sprintf("this.add_folder_row('%s','%s')",
+                        rep_specialchars_output($create, 'js'),
+                        rep_specialchars_output(rcube_charset_convert($create, 'UTF-7'), 'js'));
     rcube_remote_response($commands);
     }
   else if (!$create && $REMOTE_REQUEST)
@@ -67,13 +69,15 @@ else if ($_action=='create-folder')
 else if ($_action=='rename-folder')
   {
   if (!empty($_GET['_folder_oldname']) && !empty($_GET['_folder_newname']))
-    $rename = $IMAP->rename_mailbox(get_input_value('_folder_oldname', RCUBE_INPUT_GET), trim(get_input_value('_folder_newname', RCUBE_INPUT_GET)));
-
+    $rename = $IMAP->rename_mailbox(get_input_value('_folder_oldname', RCUBE_INPUT_GET), trim(get_input_value('_folder_newname', RCUBE_INPUT_GET, FALSE, 'UTF-7')));
+    
   if ($rename && $REMOTE_REQUEST)
     {
-    $commands = sprintf("this.replace_folder_row('%s','%s');",
-                        addslashes(rep_specialchars_output($rename, 'js')),
-                        rep_specialchars_output($_GET['_folder_oldname'], 'js'));
+    $commands = sprintf("this.replace_folder_row('%s','%s','%s');",
+                        rep_specialchars_output($_GET['_folder_oldname'], 'js'),
+                        rep_specialchars_output($rename, 'js'),
+                        rep_specialchars_output(rcube_charset_convert($rename, 'UTF-7'), 'js'));
+                        
     rcube_remote_response($commands);
     }
   else if (!$rename && $REMOTE_REQUEST)
@@ -135,6 +139,8 @@ function rcube_subscription_form($attrib)
 
 
   // get folders from server
+  $IMAP->clear_cache('mailboxes');
+
   $a_unsubscribed = $IMAP->list_unsubscribed();
   $a_subscribed = $IMAP->list_mailboxes();
   $a_js_folders = array();
@@ -154,18 +160,24 @@ function rcube_subscription_form($attrib)
   // create list of available folders
   foreach ($a_unsubscribed as $i => $folder)
     {
+    $subscribed = in_array($folder, $a_subscribed);
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = rep_specialchars_output($folder, 'js');
+    $folder_js_enc = rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7'), 'js');
     
     if (!$protected)
-      $a_js_folders['rcmrow'.($i+1)] = $folder_js;
+      $a_js_folders['rcmrow'.($i+1)] = array($folder_js, $folder_js_enc);
 
-    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td><td>%s</td>',
+    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td>',
                     $i+1,
                     $zebra_class,
-                    rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7', 'UTF-8'), 'html', 'all'),
-                    $checkbox_subscribe->show(in_array($folder, $a_subscribed)?$folder:'', array('value' => $folder, 'disabled' => $protected)));
+                    rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7'), 'html', 'all'));
+                    
+    if ($protected)
+      $out .= '<td>&nbsp;'.($subscribed ? '&#x2022;' : '-').'</td>';
+    else
+      $out .= '<td>'.$checkbox_subscribe->show($subscribed?$folder:'', array('value' => $folder)).'</td>';
 
     // add rename and delete buttons
     if (!$protected)

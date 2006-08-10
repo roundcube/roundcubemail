@@ -343,6 +343,13 @@ function find_in_array()
   }
 
 
+// make a string URL safe
+function urlencode(str)
+{
+  return window.encodeURI ? encodeURI(str).replace(/&/g, '%26') : escape(str);
+}
+
+
 // get any type of html objects by id/name
 function rcube_find_object(id, d)
   {

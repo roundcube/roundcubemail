@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/10 (thomasb)
+----------
+- Fixed charset problems with folder renaming
+
+
 2006/08/04 (thomasb)
 ----------
 - Fixed Bug in saving identities (Ticket #1483915)

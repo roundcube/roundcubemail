@@ -19,9 +19,9 @@ $REMOTE_REQUEST = TRUE;
 $IMAP->set_page(1);
 $_SESSION['page'] = 1;
 
-// search query comes in with ISO encoding because javascript escape()
-// uses ISO-8859-1. Better handling for that will follow.
-$imap_charset = 'ISO-8859-1';
+// using encodeURI with javascript "should" give us
+// a correctly UTF-8 encoded query string
+$imap_charset = 'UTF-8';
 
 // get search string
 $str = get_input_value('_search', RCUBE_INPUT_GET);
