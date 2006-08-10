@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/10 (tri)
+----------
+- Added a few fields to the contact table and made this fields avaiable (Ticket #1332930) 
+
 2006/08/10 (thomasb)
 ----------
 - Fixed charset problems with folder renaming
