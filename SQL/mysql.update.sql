@@ -1,11 +1,9 @@
 -- RoundCube Webmail update script for MySQL databases
 -- Updates from version 0.1-20051007
 
- ALTER TABLE `contacts` ADD `name` varchar(128) NOT NULL default '';
- ALTER TABLE `contacts` ADD `email` varchar(128) NOT NULL default '';
- ALTER TABLE `contacts` ADD `first_name` varchar(128) NOT NULL default '';
+ ALTER TABLE `contacts` CHANGE `firstname` `first_name` VARCHAR( 128 ) NOT NULL; ALTER TABLE `contacts` CHANGE `surname` `last_name` VARCHAR( 128 ) NOT NULL; 
+
  ALTER TABLE `contacts` ADD `middle_name` varchar(128) NOT NULL default '';
- ALTER TABLE `contacts` ADD `last_name` varchar(128) NOT NULL default '';
  ALTER TABLE `contacts` ADD `edu_title` varchar(128) NOT NULL default '';
  ALTER TABLE `contacts` ADD `addon` varchar(128) NOT NULL default '';
  ALTER TABLE `contacts` ADD `nickname` varchar(128) NOT NULL default '';
