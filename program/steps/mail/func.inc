@@ -214,6 +214,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $class_name = 'junk';
 
+    $js_name = rep_specialchars_output($folder['id'], 'js');
     $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&amp;_mbox=%s"'.
                     ' onclick="return %s.command(\'list\',\'%s\')"'.
                     ' onmouseover="return %s.focus_mailbox(\'%s\')"' .            
@@ -223,17 +224,17 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     $class_name,
                     $zebra_class,
                     $unread_count ? ' unread' : '',
-                    addslashes($folder['id'])==addslashes($mbox_name) ? ' selected' : '',
+                    $folder['id']==$mbox_name ? ' selected' : '',
                     $COMM_PATH,
                     urlencode($folder['id']),
                     $JS_OBJECT_NAME,
-                    addslashes($folder['id']),
+                    $js_name,
                     $JS_OBJECT_NAME,
-                    addslashes($folder['id']),
+                    $js_name,
                     $JS_OBJECT_NAME,
-                    addslashes($folder['id']),
+                    $js_name,
                     $JS_OBJECT_NAME,
-                    addslashes($folder['id']),
+                    $js_name,
                     $title,
                     rep_specialchars_output($foldername, 'html', 'all'));
 

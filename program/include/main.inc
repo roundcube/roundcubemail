@@ -707,7 +707,7 @@ function show_message($message, $type='notice', $vars=NULL)
   
   $framed = $GLOBALS['_framed'];
   $command = sprintf("display_message('%s', '%s');",
-                     addslashes(rep_specialchars_output(rcube_label(array('name' => $message, 'vars' => $vars)))),
+                     rep_specialchars_output(rcube_label(array('name' => $message, 'vars' => $vars)), 'js'),
                      $type);
                      
   if ($REMOTE_REQUEST)
@@ -718,20 +718,6 @@ function show_message($message, $type='notice', $vars=NULL)
                                 $framed ? sprintf('if(parent.%s)parent.', $JS_OBJECT_NAME) : '',
                                 $JS_OBJECT_NAME,
                                 $command));
-  
-  // console(rcube_label($message));
-  }
-
-
-function console($msg, $type=1)
-  {
-  if ($GLOBALS['REMOTE_REQUEST'])
-    print "// $msg\n";
-  else
-    {
-    print $msg;
-    print "\n<hr>\n";
-    }
   }
 
 
@@ -1014,7 +1000,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     if ($OUTPUT->get_charset()!='UTF-8')
       $str = rcube_charset_convert($str, $GLOBALS['CHARSET'], $OUTPUT->get_charset());
       
-    return preg_replace(array("/\r\n/", '/"/', "/([^\\\])'/"), array('\n', '\"', "$1\'"), strtr($str, $js_rep_table));
+    return addslashes(preg_replace(array("/\r\n/", "/\r/"), array('\n', '\n'), strtr($str, $js_rep_table)));
     }
 
   // encode for RTF
@@ -1792,7 +1778,58 @@ function rcmail_charset_selector($attrib)
   }
 
 
-/****** debugging function ********/
+/****** debugging functions ********/
+
+
+/**
+ * Print or write debug messages
+ *
+ * @param mixed Debug message or data
+ */
+function console($msg)
+  {
+  if (is_string($msg))
+    $msg = var_export($msg, true);
+
+  if (!($GLOBALS['CONFIG']['debug_level'] & 4))
+    write_log('console', $msg);
+  else if ($GLOBALS['REMOTE_REQUEST'])
+    print "/*\n $msg \n*/\n";
+  else
+    {
+    print '<div style="background:#eee; border:1px solid #ccc; margin-bottom:3px; padding:6px"><pre>';
+    print $msg;
+    print "</pre></div>\n";
+    }
+  }
+
+
+/**
+ * Append a line to a logfile in the logs directory.
+ * Date will be added automatically to the line.
+ *
+ * @param $name Name of logfile
+ * @param $line Line to append
+ */
+function write_log($name, $line)
+  {
+  global $CONFIG;
+  
+  $log_entry = sprintf("[%s]: %s\n",
+                 date("d-M-Y H:i:s O", mktime()),
+                 $line);
+                 
+  if (empty($CONFIG['log_dir']))
+    $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
+      
+  // try to open specific log file for writing
+  if ($fp = @fopen($CONFIG['log_dir'].'/'.$name, 'a'))    
+    {
+    fwrite($fp, $log_entry);
+    fclose($fp);
+    }
+  }
+
 
 function rcube_timer()
   {
