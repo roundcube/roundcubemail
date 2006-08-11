@@ -10,7 +10,6 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Author: Tobias 'tri' Richter <tobias@datenwerkstatt-richter.de>       |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -147,52 +146,10 @@ $labels['showimages'] = 'Display images';
 
 
 // address boook
-$labels['name']			= 'Display name';
-$labels['first_name']		= 'First name';
-$labels['last_name']		= 'Last name';
-$labels['email']		= 'E-Mail';
-$labels['middle_name']		= 'Middle Name';
-$labels['edu_title']		= 'Education Title';
-$labels['addon']		= 'Addon';
-$labels['nickname']		= 'Nickname';
-$labels['company']		= 'Company';
-$labels['organisation']		= 'Organisation';
-$labels['department']		= 'Department';
-$labels['job_title']		= 'Job Title';
-$labels['note']			= 'Note';
-$labels['tel_work1_voice']	= 'Tel Work1 Voice';
-$labels['tel_work2_voice']	= 'Tel Work2 Voice';
-$labels['tel_home1_voice']	= 'Tel Home1 Voice';
-$labels['tel_home2_voice']	= 'Tel Home2 Voice';
-$labels['tel_cell_voice']	= 'Tel Cell Voice';
-$labels['tel_car_voice']	= 'Tel Car Voice';
-$labels['tel_pager_voice']	= 'Tel Pager Voice';
-$labels['tel_additional']	= 'Tel Additional';
-$labels['tel_work_fax']		= 'Tel Work Fax';
-$labels['tel_home_fax']		= 'Tel Home Fax';
-$labels['tel_isdn']		= 'Tel ISDN';
-$labels['tel_preferred']	= 'Tel Preferred';
-$labels['tel_telex']		= 'Tel Telex';
-$labels['work_street']		= 'Work Street';
-$labels['work_zip']		= 'Work Zip';
-$labels['work_city']		= 'Work City';
-$labels['work_region']		= 'Work Region';
-$labels['work_country']		= 'Work Country';
-$labels['home_street']		= 'Home Street';
-$labels['home_zip']		= 'Home Zip';
-$labels['home_city']		= 'Home City';
-$labels['home_region']		= 'Home Region';
-$labels['home_country']		= 'Home Country';
-$labels['postal_street']	= 'Postal Street';
-$labels['postal_zip']		= 'Postal Zip';
-$labels['postal_city']		= 'Postal City';
-$labels['postal_region']	= 'Postal Region';
-$labels['postal_country']	= 'Postal Country';
-$labels['url_work']		= 'URL Work';
-$labels['role']			= 'Role';
-$labels['birthday']		= 'Birthday';
-$labels['rev']			= 'Revision';
-$labels['lang']			= 'Language';
+$labels['name']      = 'Display name';
+$labels['firstname'] = 'First name';
+$labels['surname']   = 'Last name';
+$labels['email']     = 'E-Mail';
 
 $labels['addcontact'] = 'Add new contact';
 $labels['editcontact'] = 'Edit contact';

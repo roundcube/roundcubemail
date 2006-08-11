@@ -13,7 +13,6 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Author: Tobias 'tri' Richter  <tobias@datenwerkstatt-richter.de       |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -54,7 +53,7 @@ function rcmail_contact_details($attrib)
   // return the complete address record as table
   $out = "<table>\n\n";
 
-  $a_show_cols = array('name', 'email', 'first_name', 'middle_name', 'last_name', 'edu_title', 'addon', 'nickname', 'company', 'organisation', 'department', 'job_title', 'note', 'tel_work1_voice', 'tel_work2_voice', 'tel_home1_voice', 'tel_home2_voice', 'tel_cell_voice', 'tel_car_voice', 'tel_pager_voice', 'tel_additional', 'tel_work_fax', 'tel_home_fax', 'tel_isdn', 'tel_preferred', 'tel_telex', 'work_street', 'work_zip', 'work_city', 'work_region', 'work_country', 'home_street', 'home_zip', 'home_city', 'home_region', 'home_country', 'postal_street', 'postal_zip', 'postal_city', 'postal_region', 'postal_country', 'url_work', 'role', 'birthday', 'rev', 'lang');
+  $a_show_cols = array('name', 'firstname', 'surname', 'email');
   foreach ($a_show_cols as $col)
     {
     if ($col=='email' && $CONTACT_RECORD[$col])
