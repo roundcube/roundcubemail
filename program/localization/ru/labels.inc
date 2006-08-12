@@ -131,7 +131,7 @@ $labels['rename'] = 'Переименовать';
 $labels['renamefolder'] = 'Переименовать папку';
 
 $labels['checkspelling'] = 'Проверить орфографию';
-$labels['resumeediting'] = 'продолжить редактирование';
+$labels['resumeediting'] = 'Продолжить редактирование';
 $labels['revertto'] = 'Отменить правки';
 
 $labels['attachments'] = 'Вложения';
