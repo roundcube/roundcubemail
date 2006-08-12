@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Добро пожаловать в $product';
+$labels['welcome']   = 'Добро пожаловать в $product!';
 $labels['username']  = 'Имя пользователя';
 $labels['password']  = 'Пароль';
 $labels['server']    = 'Сервер';
