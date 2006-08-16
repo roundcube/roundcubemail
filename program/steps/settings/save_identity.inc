@@ -55,7 +55,7 @@ if ($_POST['_iid'])
                 WHERE  identity_id=?
                 AND    user_id=?
                 AND    del<>1",
-                $_POST['_iid'],
+                get_input_value('_iid', RCUBE_INPUT_POST),
                 $_SESSION['user_id']);
                        
     $updated = $DB->affected_rows();
@@ -72,7 +72,7 @@ if ($_POST['_iid'])
                 AND    identity_id<>?
                 AND    del<>1",
                 $_SESSION['user_id'],
-                $_POST['_iid']);
+                get_input_value('_iid', RCUBE_INPUT_POST));
     
     if ($_POST['_framed'])
       {

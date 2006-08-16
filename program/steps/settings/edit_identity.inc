@@ -21,12 +21,11 @@
 
 if (($_GET['_iid'] || $_POST['_iid']) && $_action=='edit-identity')
   {
-  $id = $_POST['_iid'] ? $_POST['_iid'] : $_GET['_iid'];
   $DB->query("SELECT * FROM ".get_table_name('identities')."
               WHERE  identity_id=?
               AND    user_id=?
               AND    del<>1",
-              $id,
+              get_input_value('_iid', RCUBE_INPUT_GPC),
               $_SESSION['user_id']);
   
   $IDENTITY_RECORD = $DB->fetch_assoc();
