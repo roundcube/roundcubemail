@@ -33,7 +33,7 @@ class rcube_html_page
   
   var $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
   var $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
-  var $default_template = "<html>\n<body></body>\n</html>";
+  var $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
   
   var $title = '';
   var $header = '';
@@ -116,7 +116,7 @@ class rcube_html_page
   function write($templ='', $base_path='')
     {
     $output = empty($templ) ? $this->default_template : trim($templ);
-  
+    
     // set default page title
     if (!strlen($this->title))
       $this->title = 'RoundCube Mail';

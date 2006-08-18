@@ -37,21 +37,13 @@ if ($_GET['_preload'])
   }
 
 
-
 // similar code as in program/steps/mail/show.inc
 if ($_GET['_uid'])
   {
-  $MESSAGE = array();
-  $MESSAGE['source'] = rcmail_message_source($_GET['_uid']);
-
-  $mmd = new Mail_mimeDecode($MESSAGE['source']);
-  $MESSAGE['structure'] = $mmd->decode(array('include_bodies' => TRUE,
-                                             'decode_headers' => FALSE,
-                                             'decode_bodies' => FALSE));
-
-  $MESSAGE['parts'] = $mmd->getMimeNumbers($MESSAGE['structure']);
+  $MESSAGE = array('UID' => get_input_value('_uid', RCUBE_INPUT_GET));
+  $MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']);
+  $MESSAGE['parts'] = $IMAP->get_mime_numbers($MESSAGE['structure']);
   }
-
 
 
 // show part page
@@ -61,27 +53,15 @@ if ($_GET['_frame'])
   exit;
   }
 
-else if ($_GET['_part'])
+else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
   {
-  if ($part = $MESSAGE['parts'][$_GET['_part']]);
+  if ($part = $MESSAGE['parts'][$pid]);
     {
     $ctype_primary = strtolower($part->ctype_primary);
     $ctype_secondary = strtolower($part->ctype_secondary);
 
     $mimetype = sprintf('%s/%s', $ctype_primary, $ctype_secondary);
     $filename = $part->d_parameters['filename'] ? $part->d_parameters['filename'] : $part->ctype_parameters['name'];
-
-    if ($ctype_primary=='text' && $ctype_secondary=='html')
-      {
-      list($MESSAGE['parts']) = rcmail_parse_message($part,
-                                                     array('safe' => (bool)$_GET['_safe'],
-                                                           'prefer_html' => TRUE,
-                                                           'get_url' => $GET_URL.'&_part=%s'));
-
-      $cont = rcmail_print_body($MESSAGE['parts'][0], (bool)$_GET['_safe']);
-      }
-    else
-      $cont = $IMAP->mime_decode($part->body, $part->headers['content-transfer-encoding']);
 
     // send correct headers for content type and length
     if ($_GET['_download'])
@@ -97,8 +77,6 @@ else if ($_GET['_part'])
       header(sprintf('Content-Disposition: inline; filename="%s"', $filename));
       }
 
-    header(sprintf('Content-Length: %d', strlen($cont)));
-
     // We need to set the following headers to make downloads work using IE in HTTPS mode.
     if (isset($_SERVER['HTTPS']))
       {
@@ -107,7 +85,26 @@ else if ($_GET['_part'])
       }
 
     // deliver part content
-    echo $cont;
+    if ($ctype_primary=='text' && $ctype_secondary=='html')
+      {
+      // get part body if not available
+      if (!$part->body)
+        $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);        
+
+      list($MESSAGE['parts']) = rcmail_parse_message($part,
+                                                     array('safe' => (bool)$_GET['_safe'],
+                                                           'prefer_html' => TRUE,
+                                                           'get_url' => $GET_URL.'&_part=%s'));
+
+      print rcmail_print_body($MESSAGE['parts'][0], (bool)$_GET['_safe']);
+      }
+    else
+      {
+      // turn off output buffering and print part content
+      //@ob_end_clean();
+      $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part->encoding, true);
+      }
+
     exit;
     }
   }
@@ -127,34 +124,13 @@ else
                                                  array('safe' => (bool)$_GET['_safe'],
                                                  'get_url' => $GET_URL.'&_part=%s'));
 
-  if ($MESSAGE['parts'] && $ctype_primary=='multipart')
-    {
-    // reset output page
-    $OUTPUT = new rcube_html_page();
-    parse_template('messagepart');
-    exit;
-    }
-  else if ($MESSAGE['parts'][0])
-    {
-    $part = $MESSAGE['parts'][0];
-    $cont = rcmail_print_body($part, (bool)$_GET['_safe']);
-    }
-  else
-    $cont = $IMAP->get_body($_GET['_uid']);
+  $cont = "<html>\n<head><title></title>\n</head>\n<body>";
+  $cont .= rcmail_message_body(array());
+  $cont .= "\n</body>\n</html>";
 
   $OUTPUT = new rcube_html_page();
   $OUTPUT->write($cont);
 
-/*
-    if ($mimetype=='text/html')
-      print $cont;
-    else
-      {
-      print "<html>\n<body>\n";
-      print $cont;
-      print "\n</body>\n</html>";
-      }
-*/
   exit;
   }
 

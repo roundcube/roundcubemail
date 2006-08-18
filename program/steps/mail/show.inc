@@ -27,33 +27,28 @@ $PRINT_MODE = $_action=='print' ? TRUE : FALSE;
 // similar code as in program/steps/mail/get.inc
 if ($_GET['_uid'])
   {
-  $MESSAGE = array();
-  $MESSAGE['headers'] = $IMAP->get_headers($_GET['_uid']);
-  $MESSAGE['source'] = rcmail_message_source($_GET['_uid']);
-  
+  $MESSAGE = array('UID' => get_input_value('_uid', RCUBE_INPUT_GET));
+  $MESSAGE['headers'] = $IMAP->get_headers($MESSAGE['UID']);
+  $MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']);
+    
   // go back to list if message not found (wrong UID)
-  if (!$MESSAGE['headers'] || !$MESSAGE['source'])
+  if (!$MESSAGE['headers'] || !$MESSAGE['structure'])
     {
     $_action = 'list';
     return;
     }
 
-  $mmd = new Mail_mimeDecode($MESSAGE['source']);
-  $MESSAGE['structure'] = $mmd->decode(array('include_bodies' => TRUE,
-                                             'decode_headers' => FALSE,
-                                             'decode_bodies' => FALSE));
-                                             
-  $mmd->getMimeNumbers($MESSAGE['structure']);
-
-  $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['structure']->headers['subject']);
-
+  $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
+  
   if ($MESSAGE['structure'])
-    list($MESSAGE['parts'], $MESSAGE['attachments']) = rcmail_parse_message($MESSAGE['structure'],
-                                                                           array('safe' => (bool)$_GET['_safe'],
-                                                                                 'prefer_html' => $CONFIG['prefer_html'],
-                                                                                 'get_url' => $GET_URL.'&_part=%s'));
+    list($MESSAGE['parts'], $MESSAGE['attachments']) = rcmail_parse_message(
+      $MESSAGE['structure'],
+      array('safe' => (bool)$_GET['_safe'],
+            'prefer_html' => $CONFIG['prefer_html'],
+            'get_url' => $GET_URL.'&_part=%s')
+      );
   else
-    $MESSAGE['body'] = $IMAP->get_body($_GET['_uid']);
+    $MESSAGE['body'] = $IMAP->get_body($MESSAGE['UID']);
 
 
   // mark message as read
@@ -61,26 +56,29 @@ if ($_GET['_uid'])
     $IMAP->set_flag($_GET['_uid'], 'SEEN');
 
   // give message uid to the client
-  $javascript = sprintf("%s.set_env('uid', '%s');\n", $JS_OBJECT_NAME, $_GET['_uid']);
+  $javascript = sprintf("%s.set_env('uid', '%s');\n", $JS_OBJECT_NAME, $MESSAGE['UID']);
   $javascript .= sprintf("%s.set_env('safemode', '%b');", $JS_OBJECT_NAME, $_GET['_safe']);
 
   $next = $prev = -1;
   // get previous and next message UID
   if (!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') && 
-      $IMAP->get_capability('sort')) {
-      // Only if we use custom sorting
-      $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
+      $IMAP->get_capability('sort')) 
+    {
+    // Only if we use custom sorting
+    $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
  
-      $MESSAGE['index'] = array_search((string)$_GET['_uid'], $a_msg_index, TRUE);
-      $prev = isset($a_msg_index[$MESSAGE['index']-1]) ? $a_msg_index[$MESSAGE['index']-1] : -1 ;
-      $next = isset($a_msg_index[$MESSAGE['index']+1]) ? $a_msg_index[$MESSAGE['index']+1] : -1 ;
-  } else {
-      // this assumes that we are sorted by date_DESC
-      $seq = $IMAP->get_id($_GET['_uid']);
-      $prev = $IMAP->get_uid($seq + 1);
-      $next = $IMAP->get_uid($seq - 1);
-      $MESSAGE['index'] = $IMAP->messagecount() - $seq;
-  }
+    $MESSAGE['index'] = array_search((string)$MESSAGE['UID'], $a_msg_index, TRUE);
+    $prev = isset($a_msg_index[$MESSAGE['index']-1]) ? $a_msg_index[$MESSAGE['index']-1] : -1 ;
+    $next = isset($a_msg_index[$MESSAGE['index']+1]) ? $a_msg_index[$MESSAGE['index']+1] : -1 ;
+    }
+  else
+    {
+    // this assumes that we are sorted by date_DESC
+    $seq = $IMAP->get_id($MESSAGE['UID']);
+    $prev = $IMAP->get_uid($seq + 1);
+    $next = $IMAP->get_uid($seq - 1);
+    $MESSAGE['index'] = $IMAP->messagecount() - $seq;
+    }
   
   if ($prev > 0)
     $javascript .= sprintf("\n%s.set_env('prev_uid', '%s');", $JS_OBJECT_NAME, $prev);
@@ -106,16 +104,16 @@ function rcmail_message_attachments($attrib)
       {
       if ($PRINT_MODE)
         $out .= sprintf('<li>%s (%s)</li>'."\n",
-                        $attach_prop['filename'],
-                        show_bytes($attach_prop['size']));
+                        $attach_prop->filename,
+                        show_bytes($attach_prop->size));
       else
         $out .= sprintf('<li><a href="%s&amp;_part=%s" onclick="return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)">%s</a></li>'."\n",
                         htmlentities($GET_URL),
-                        $attach_prop['part_id'],
+                        $attach_prop->mime_id,
                         $JS_OBJECT_NAME,
-                        $attach_prop['part_id'],
-                        $attach_prop['mimetype'],
-                        $attach_prop['filename']);
+                        $attach_prop->mime_id,
+                        $attach_prop->mimetype,
+                        $attach_prop->filename);
       }
 
     $out .= "</ul>";

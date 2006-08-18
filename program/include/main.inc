@@ -1788,7 +1788,7 @@ function rcmail_charset_selector($attrib)
  */
 function console($msg)
   {
-  if (is_string($msg))
+  if (!is_string($msg))
     $msg = var_export($msg, true);
 
   if (!($GLOBALS['CONFIG']['debug_level'] & 4))

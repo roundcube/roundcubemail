@@ -427,7 +427,7 @@ function rcmail_message_list($attrib)
       $message_icon = $attrib['messageicon'];
     
 	// set attachment icon
-    if ($attrib['attachmenticon'] && preg_match("/multipart\/m/i", $header->ctype))
+    if ($attrib['attachmenticon'] && preg_match("/multipart\/[mr]/i", $header->ctype))
       $attach_icon = $attrib['attachmenticon'];
         
     $out .= sprintf('<tr id="rcmrow%d" class="message%s%s %s">'."\n",
@@ -528,7 +528,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3));
+        $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3), 'html');
       else if ($col=='subject')
         $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
       else if ($col=='size')
@@ -662,19 +662,14 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   }
 
 
-function rcmail_print_body($part, $safe=FALSE, $plain=FALSE) // $body, $ctype_primary='text', $ctype_secondary='plain', $encoding='7bit', $safe=FALSE, $plain=FALSE)
+function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
   {
   global $IMAP, $REMOTE_OBJECTS, $JS_OBJECT_NAME;
-
-  // extract part properties: body, ctype_primary, ctype_secondary, encoding, parameters
-  extract($part);
   
-  $block = $plain ? '%s' : '%s'; //'<div style="display:block;">%s</div>';
-  $body = $IMAP->mime_decode($body, $encoding);  
-  $body = $IMAP->charset_decode($body, $parameters);
-
+  $body = is_array($part->replaces) ? strtr($part->body, $part->replaces) : $part->body;
+  
   // text/html
-  if ($ctype_secondary=='html')
+  if ($part->ctype_secondary=='html')
     {
     if (!$safe)  // remove remote images and scripts
       {
@@ -707,14 +702,13 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE) // $body, $ctype_pr
       $body = preg_replace($remote_patterns, $remote_replaces, $body);
       }
 
-    return sprintf($block, rep_specialchars_output($body, 'html', '', FALSE));
+    return rep_specialchars_output($body, 'html', '', FALSE);
     }
 
   // text/enriched
-  if ($ctype_secondary=='enriched')
+  if ($part->ctype_secondary=='enriched')
     {
-    $body = enriched_to_html($body);
-    return sprintf($block, rep_specialchars_output($body, 'html'));
+    return rep_specialchars_output(enriched_to_html($body), 'html');
     }
   else
     {
@@ -764,7 +758,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE) // $body, $ctype_pr
     // insert the links for urls and mailtos
     $body = preg_replace("/##string_replacement\{([0-9]+)\}##/e", "\$replace_strings[\\1]", join("\n", $a_lines));
     
-    return sprintf($block, "<pre>\n".$body."\n</pre>");
+    return "<pre>\n".$body."\n</pre>";
     }
   }
 
@@ -779,7 +773,7 @@ function rcmail_str_replacement($str, &$rep)
   }
 
 
-function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
+function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
   {
   global $IMAP;
   static $sa_inline_objects = array();
@@ -796,18 +790,18 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
 
   // show message headers
   if ($recursive && is_array($structure->headers) && isset($structure->headers['subject']))
-    $a_return_parts[] = array('type' => 'headers',
-                              'headers' => $structure->headers);
+    {
+    $c = new stdClass;
+    $c->type = 'headers';
+    $c->headers = &$structure->headers;
+    $a_return_parts[] = $c;
+    }
 
   // print body if message doesn't have multiple parts
   if ($message_ctype_primary=='text')
     {
-    $a_return_parts[] = array('type' => 'content',
-                              'body' => $structure->body,
-                              'ctype_primary' => $message_ctype_primary,
-                              'ctype_secondary' => $message_ctype_secondary,
-                              'parameters' => $structure->ctype_parameters,
-                              'encoding' => $structure->headers['content-transfer-encoding']);
+    $structure->type = 'content';
+    $a_return_parts[] = &$structure;
     }
 
   // message contains alternative parts
@@ -842,49 +836,52 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
 
     // print html/plain part
     else if ($html_part!==NULL && $prefer_html)
-      $print_part = $structure->parts[$html_part];
+      $print_part = &$structure->parts[$html_part];
     else if ($enriched_part!==NULL)
-      $print_part = $structure->parts[$enriched_part];
+      $print_part = &$structure->parts[$enriched_part];
     else if ($plain_part!==NULL)
-      $print_part = $structure->parts[$plain_part];
+      $print_part = &$structure->parts[$plain_part];
 
     // show message body
     if (is_object($print_part))
-      $a_return_parts[] = array('type' => 'content',
-                                'body' => $print_part->body,
-                                'ctype_primary' => strtolower($print_part->ctype_primary),
-                                'ctype_secondary' => strtolower($print_part->ctype_secondary),
-                                'parameters' => $print_part->ctype_parameters,
-                                'encoding' => $print_part->headers['content-transfer-encoding']);
+      {
+      $print_part->type = 'content';
+      $a_return_parts[] = $print_part;
+      }
     // show plaintext warning
     else if ($html_part!==NULL)
-      $a_return_parts[] = array('type' => 'content',
-                                'body' => rcube_label('htmlmessage'),
-                                'ctype_primary' => 'text',
-                                'ctype_secondary' => 'plain');
+      {
+      $c = new stdClass;
+      $c->type = 'content';
+      $c->body = rcube_label('htmlmessage');
+      $c->ctype_primary = 'text';
+      $c->ctype_secondary = 'plain';
+      
+      $a_return_parts[] = $c;
+      }
                                 
     // add html part as attachment
     if ($html_part!==NULL && $structure->parts[$html_part]!==$print_part)
       {
-      $html_part = $structure->parts[$html_part];
-      $a_attachments[] = array('filename' => rcube_label('htmlmessage'),
-                               'encoding' => $html_part->headers['content-transfer-encoding'],
-                               'mimetype' => 'text/html',
-                               'part_id'  => $html_part->mime_id,
-                               'size'     => strlen($IMAP->mime_decode($html_part->body, $html_part->headers['content-transfer-encoding'])));
+      $html_part = &$structure->parts[$html_part];
+      $html_part->filename = rcube_label('htmlmessage');
+      $html_part->mimetype = 'text/html';
+      
+      $a_attachments[] = $html_part;
       }
     }
 
   // message contains multiple parts
-  else if ($message_ctype_primary=='multipart' && is_array($structure->parts))
+  else if (is_array($structure->parts) && !empty($structure->parts))
     {
-    foreach ($structure->parts as $mail_part)
+    for ($i=0; $i<count($structure->parts); $i++)
       {
+      $mail_part = &$structure->parts[$i];
       $primary_type = strtolower($mail_part->ctype_primary);
       $secondary_type = strtolower($mail_part->ctype_secondary);
 
       // multipart/alternative
-      if ($primary_type=='multipart') // && ($secondary_type=='alternative' || $secondary_type=='mixed' || $secondary_type=='related'))
+      if ($primary_type=='multipart')
         {
         list($parts, $attachmnts) = rcmail_parse_message($mail_part, $arg, TRUE);
 
@@ -896,25 +893,15 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
       else if (($primary_type=='text' && ($secondary_type=='plain' || $secondary_type=='html') && $mail_part->disposition!='attachment') ||
                ($primary_type=='message' && $secondary_type=='delivery-status'))
         {
-        $a_return_parts[] = array('type' => 'content',
-                                  'body' => $mail_part->body,
-                                  'ctype_primary' => $primary_type,
-                                  'ctype_secondary' => $secondary_type,
-                                  'parameters' => $mail_part->ctype_parameters,
-                                  'encoding' => $mail_part->headers['content-transfer-encoding']);
+        $mail_part->type = 'content';
+        $a_return_parts[] = $mail_part;
         }
 
       // part message/*
       else if ($primary_type=='message')
         {
-        /* don't parse headers here; they're parsed within the recursive call to rcmail_parse_message()
-        if ($mail_part->parts[0]->headers)
-          $a_return_parts[] = array('type' => 'headers',
-                                    'headers' => $mail_part->parts[0]->headers);
-        */
-                                      
-        list($parts, $attachmnts) = rcmail_parse_message($mail_part->parts[0], $arg, TRUE);
-
+        list($parts, $attachmnts) = rcmail_parse_message($mail_part, $arg, TRUE);
+          
         $a_return_parts = array_merge($a_return_parts, $parts);
         $a_attachments = array_merge($a_attachments, $attachmnts);
         }
@@ -923,35 +910,25 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
       else if ($mail_part->disposition=='attachment' || $mail_part->disposition=='inline' || $mail_part->headers['content-id'] ||
                (empty($mail_part->disposition) && ($mail_part->d_parameters['filename'] || $mail_part->ctype_parameters['name'])))
         {
-        if ($message_ctype_secondary=='related' && $mail_part->headers['content-id'])
-          $sa_inline_objects[] = array('filename' => rcube_imap::decode_mime_string($mail_part->d_parameters['filename']),
-                                       'mimetype' => strtolower("$primary_type/$secondary_type"),
-                                       'part_id'  => $mail_part->mime_id,
-                                       'content_id' => preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']));
+        // skip apple ressource files
+        if ($message_ctype_secondary=='appledouble' && $secondary_type=='applefile')
+          continue;
 
-        else if ($mail_part->d_parameters['filename'])
-          $a_attachments[] = array('filename' => rcube_imap::decode_mime_string($mail_part->d_parameters['filename']),
-                                   'encoding' => strtolower($mail_part->headers['content-transfer-encoding']),
-                                   'mimetype' => strtolower("$primary_type/$secondary_type"),
-                                   'part_id'  => $mail_part->mime_id,
-                                   'size'     => strlen($IMAP->mime_decode($mail_part->body, $mail_part->headers['content-transfer-encoding'])) /*,
-                                   'content'  => $mail_part->body */);
-                                   
-        else if ($mail_part->ctype_parameters['name'])
-          $a_attachments[] = array('filename' => rcube_imap::decode_mime_string($mail_part->ctype_parameters['name']),
-                                   'encoding' => strtolower($mail_part->headers['content-transfer-encoding']),
-                                   'mimetype' => strtolower("$primary_type/$secondary_type"),
-                                   'part_id'  => $mail_part->mime_id,
-                                   'size'     => strlen($IMAP->mime_decode($mail_part->body, $mail_part->headers['content-transfer-encoding'])) /*,
-                                   'content'  => $mail_part->body */);
-                                   
-        else if ($mail_part->headers['content-description'])
-	  $a_attachments[] = array('filename' => rcube_imap::decode_mime_string($mail_part->headers['content-description']),
-	  			   'encoding' => strtolower($mail_part->headers['content-transfer-encoding']),
-                                   'mimetype' => strtolower("$primary_type/$secondary_type"),
-                                   'part_id'  => $mail_part->mime_id,
-                                   'size'     => strlen($IMAP->mime_decode($mail_part->body, $mail_part->headers['content-transfer-encoding'])) /*,
-                                   'content'  => $mail_part->body */);
+        // part belongs to a related message
+        if ($message_ctype_secondary=='related' && $mail_part->headers['content-id'])
+          {
+          $mail_part->filename = rcube_imap::decode_mime_string($mail_part->d_parameters['filename']);
+          $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
+          $sa_inline_objects[] = $mail_part;
+          }
+        // is regular attachment
+        else if (($fname = $mail_part->d_parameters['filename']) ||
+                 ($fname = $mail_part->ctype_parameters['name']) ||
+                 ($fname = $mail_part->headers['content-description']))
+          {
+          $mail_part->filename = rcube_imap::decode_mime_string($fname);
+          $a_attachments[] = $mail_part;
+          }
         }
       }
 
@@ -959,30 +936,20 @@ function rcmail_parse_message($structure, $arg=array(), $recursive=FALSE)
     // if this was a related part try to resolve references
     if ($message_ctype_secondary=='related' && sizeof($sa_inline_objects))
       {
-      $a_replace_patters = array();
-      $a_replace_strings = array();
+      $a_replaces = array();
         
       foreach ($sa_inline_objects as $inline_object)
-        {
-        $a_replace_patters[] = 'cid:'.$inline_object['content_id'];
-        $a_replace_strings[] = sprintf($get_url, $inline_object['part_id']);
-        }
+        $a_replaces['cid:'.$inline_object->content_id] = sprintf($get_url, $inline_object->mime_id);
       
-      foreach ($a_return_parts as $i => $return_part)
+      // add replace array to each content part
+      // (will be applied later when part body is available)
+      for ($i=0; $i<count($a_return_parts); $i++)
         {
-        if ($return_part['type']!='content')
-          continue;
-
-        // decode body and replace cid:...
-        $a_return_parts[$i]['body'] = str_replace($a_replace_patters, $a_replace_strings, $IMAP->mime_decode($return_part['body'], $return_part['encoding']));
-        $a_return_parts[$i]['encoding'] = '7bit';
+        if ($a_return_parts[$i]->type=='content')
+          $a_return_parts[$i]->replaces = $a_replaces;
         }
       }
     }
-    
-
-  // join all parts together
-  //$out .= join($part_delimiter, $a_return_parts);
 
   return array($a_return_parts, $a_attachments);
   }
@@ -1046,7 +1013,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
 function rcmail_message_body($attrib)
   {
-  global $CONFIG, $OUTPUT, $MESSAGE, $GET_URL, $REMOTE_OBJECTS, $JS_OBJECT_NAME;
+  global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $GET_URL, $REMOTE_OBJECTS, $JS_OBJECT_NAME;
   
   if (!is_array($MESSAGE['parts']) && !$MESSAGE['body'])
     return '';
@@ -1068,28 +1035,33 @@ function rcmail_message_body($attrib)
   // -> create a plaintext body with the according message
   if (!sizeof($MESSAGE['parts']) && $MESSAGE['headers']->ctype=='multipart/encrypted')
     {
-    $MESSAGE['parts'][0] = array('type' => 'content',
-                                 'ctype_primary' => 'text',
-                                 'ctype_secondary' => 'plain',
-                                 'body' => rcube_label('encryptedmessage'));
+    $p = new stdClass;
+    $p->type = 'content';
+    $p->ctype_primary = 'text';
+    $p->ctype_secondary = 'plain';
+    $p->body = rcube_label('encryptedmessage');
+    $MESSAGE['parts'][0] = $p;
     }
   
   if ($MESSAGE['parts'])
     {
     foreach ($MESSAGE['parts'] as $i => $part)
       {
-      if ($part['type']=='headers')
-        $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part['headers']);
-      else if ($part['type']=='content')
+      if ($part->type=='headers')
+        $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
+      else if ($part->type=='content')
         {
-        if (empty($part['parameters']) || empty($part['parameters']['charset']))
-          $part['parameters']['charset'] = $MESSAGE['headers']->charset;
+        if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset']))
+          $$part->ctype_parameters['charset'] = $MESSAGE['headers']->charset;
+         
+        // fetch part if not available
+        if (!isset($part->body))
+          $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);
         
-        // $body = rcmail_print_body($part['body'], $part['ctype_primary'], $part['ctype_secondary'], $part['encoding'], $safe_mode);
         $body = rcmail_print_body($part, $safe_mode);
         $out .= '<div class="message-part">';
         
-        if ($part['ctype_secondary']!='plain')
+        if ($part->ctype_secondary != 'plain')
           $out .= rcmail_mod_html_body($body, $attrib['id']);
         else
           $out .= $body;
@@ -1111,11 +1083,11 @@ function rcmail_message_body($attrib)
     {
     foreach ($MESSAGE['attachments'] as $attach_prop)
       {
-      if (strpos($attach_prop['mimetype'], 'image/')===0)
+      if (strpos($attach_prop->mimetype, 'image/')===0)
         $out .= sprintf("\n<hr />\n<p align=\"center\"><img src=\"%s&_part=%s\" alt=\"%s\" title=\"%s\" /></p>\n",
-                        $GET_URL, $attach_prop['part_id'],
-                        $attach_prop['filename'],
-                        $attach_prop['filename']);
+                        $GET_URL, $attach_prop->mime_id,
+                        $attach_prop->filename,
+                        $attach_prop->filename);
       }
     }
   
@@ -1242,41 +1214,33 @@ function rcmail_mod_css_styles($source, $container_id)
 
 
 // return first text part of a message
-function rcmail_first_text_part($message_parts)
+function rcmail_first_text_part($message_struct)
   {
-  if (!is_array($message_parts))
+  global $IMAP;
+
+  if (!is_array($message_struct['parts']))
     return FALSE;
     
-  $html_part = NULL;
-      
   // check all message parts
-  foreach ($message_parts as $pid => $part)
+  foreach ($message_struct['parts'] as $pid => $part)
     {
     $mimetype = strtolower($part->ctype_primary.'/'.$part->ctype_secondary);
+
     if ($mimetype=='text/plain')
-      {
-      $body = rcube_imap::mime_decode($part->body, $part->headers['content-transfer-encoding']);
-      $body = rcube_imap::charset_decode($body, $part->ctype_parameters);
-      return $body;
-      }
+      return $IMAP->get_message_part($message_struct['UID'], $pid, $part);
+
     else if ($mimetype=='text/html')
       {
-      $html_part = rcube_imap::mime_decode($part->body, $part->headers['content-transfer-encoding']);
-      $html_part = rcube_imap::charset_decode($html_part, $part->ctype_parameters);
+      $html_part = $IMAP->get_message_part($message_struct['UID'], $pid, $part);
+      
+      // remove special chars encoding
+      $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
+      $html_part = strtr($html_part, $trans);
+
+      // create instance of html2text class
+      $txt = new html2text($html_part);
+      return $txt->get_text();
       }
-    }
-    
-
-  // convert HTML to plain text
-  if ($html_part)
-    {    
-    // remove special chars encoding
-    $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
-    $html_part = strtr($html_part, $trans);
-
-    // create instance of html2text class
-    $txt = new html2text($html_part);
-    return $txt->get_text();
     }
 
   return FALSE;
@@ -1284,6 +1248,7 @@ function rcmail_first_text_part($message_parts)
 
 
 // get source code of a specific message and cache it
+// deprecated
 function rcmail_message_source($uid)
   {
   global $IMAP, $DB, $CONFIG;
@@ -1435,13 +1400,13 @@ function rcmail_message_part_controls()
   if (!is_array($MESSAGE) || !is_array($MESSAGE['parts']) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE['parts'][$_GET['_part']])
     return '';
     
-  $part = $MESSAGE['parts'][$_GET['_part']];
+  $part = &$MESSAGE['parts'][$_GET['_part']];
   
   $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'cellspacing', 'cellpadding', 'border', 'summary'));
   $out = '<table '. $attrib_str . ">\n";
   
   $filename = $part->d_parameters['filename'] ? $part->d_parameters['filename'] : $part->ctype_parameters['name'];
-  $filesize = strlen($IMAP->mime_decode($part->body, $part->headers['content-transfer-encoding']));
+  $filesize = $part->size;
   
   if ($filename)
     {

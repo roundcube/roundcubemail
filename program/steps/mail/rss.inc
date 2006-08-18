@@ -42,7 +42,7 @@ $webmail_url .= '/';
 if (dirname($_SERVER['SCRIPT_NAME']) != '/')
 	$webmail_url .= dirname($_SERVER['SCRIPT_NAME']).'/';
 
-$auth_webmail_url = $webmail_url.'?_auth='.$GLOBALS['sess_auth'];
+$webmail_url .= '?_task=mail';
 
 $messagecount_unread = $IMAP->messagecount('INBOX', 'UNSEEN', TRUE);
 $messagecount = $IMAP->messagecount();
@@ -68,7 +68,7 @@ echo '
 		<ttl>5</ttl>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<description>INBOX contains '.$messagecount.' messages, of which '.$messagecount_unread.' unread</description>
-		<link>'.rss_encode($auth_webmail_url, 'xml') .'</link>
+		<link>'.rss_encode($webmail_url, 'xml') .'</link>
 		<title>webmail for '.rss_encode($_SESSION['username'].' @ '.$_SESSION['imap_host']).'</title>
 		<generator>'.rss_encode($CONFIG['useragent'], 'xml').' (RSS extension by Sjon Hortensius)</generator>
 		<image>
@@ -92,7 +92,7 @@ if ($messagecount > 0)
     if (strstr($item->from, '<'))
       $item->from = preg_replace('~"?([^"]*)"? <([^>]*)>~', '\2 (\1)', $item->from);
 
-    $item->link = $auth_webmail_url.'&_task=mail&_action=show&_uid='.$item->uid.'&_mbox=INBOX';
+    $item->link = $webmail_url.'&_task=mail&_action=show&_uid='.$item->uid.'&_mbox=INBOX';
 
     $item->body = $IMAP->get_body($item->uid);
 

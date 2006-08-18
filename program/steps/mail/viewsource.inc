@@ -21,16 +21,17 @@
 
 
 // similar code as in program/steps/mail/get.inc
-if ($_GET['_uid'])
+if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
   {
   header('Content-Type: text/plain');
-  print rcmail_message_source($_GET['_uid']);
+  //@ob_end_clean();
+  $IMAP->print_raw_body($uid);
   }
 else
   {
   raise_error(array('code' => 500,
                     'type' => 'php',
-                    'message' => 'Message UID '.$_GET['_uid'].' not found'),
+                    'message' => 'Message UID '.$uid.' not found'),
               TRUE,
               TRUE);
   }
