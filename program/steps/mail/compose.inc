@@ -395,7 +395,8 @@ function rcmail_compose_body($attrib)
                                 "googie.lang_rsm_edt = \"%s\";\n".
                                 "googie.lang_close = \"%s\";\n".
                                 "googie.lang_revert = \"%s\";\n".
-                                "googie.lang_no_error_found = \"%s\";\n%s".                                
+                                "googie.lang_no_error_found = \"%s\";\n%s".
+                                "googie.setCurrentLanguage('%s');\n".
                                 "googie.decorateTextarea('%s');\n".
                                 "%s.set_env('spellcheck', googie);",
                                 $GLOBALS['COMM_PATH'],
@@ -405,6 +406,7 @@ function rcmail_compose_body($attrib)
                                 rep_specialchars_output(rcube_label('revertto')),
                                 rep_specialchars_output(rcube_label('nospellerrors')),
                                 $lang_set,
+                                substr($_SESSION['user_lang'], 0, 2),
                                 $attrib['id'],
                                 $JS_OBJECT_NAME), 'foot');
 

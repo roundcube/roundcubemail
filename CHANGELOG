@@ -1,6 +1,18 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/20 (thomasb)
+----------
+- Set default spelling language (Ticket #1483938)
+- Added support for Nox Spell Server
+
+
+2006/08/18 (thomasb)
+----------
+- Re-built message parsing (Bug #1327068)
+- Fixed some XSS and SQL injection issues
+
+
 2006/08/10 (thomasb)
 ----------
 - Fixed charset problems with folder renaming
