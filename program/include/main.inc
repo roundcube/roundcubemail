@@ -439,12 +439,12 @@ function rcmail_login($user, $pass, $host=NULL)
      Inspired by Marco <P0L0_notspam_binware.org>
   */
   // Check if we need to add domain
-  if ($CONFIG['username_domain'] && !strstr($user, '@'))
+  if (!empty($CONFIG['username_domain']) && !strstr($user, '@'))
     {
     if (is_array($CONFIG['username_domain']) && isset($CONFIG['username_domain'][$host]))
       $user .= '@'.$CONFIG['username_domain'][$host];
-    else if (!empty($CONFIG['username_domain']))
-      $user .= '@'.$CONFIG['username_domain'];    
+    else if (is_string($CONFIG['username_domain']))
+      $user .= '@'.$CONFIG['username_domain'];
     }
 
 

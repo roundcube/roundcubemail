@@ -385,13 +385,17 @@ function rcmail_compose_body($attrib)
   // include GoogieSpell
   if (!empty($CONFIG['enable_spellcheck']))
     {
+    $lang_set = '';
+    if (!empty($CONFIG['spellcheck_languages']) && is_array($CONFIG['spellcheck_languages']))
+      $lang_set = "googie.setLanguages(".array2js($CONFIG['spellcheck_languages']).");\n";
+    
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf("var googie = new GoogieSpell('\$__skin_path/images/googiespell/','%s&_action=spell&lang=');\n".
                                 "googie.lang_chck_spell = \"%s\";\n".
                                 "googie.lang_rsm_edt = \"%s\";\n".
                                 "googie.lang_close = \"%s\";\n".
                                 "googie.lang_revert = \"%s\";\n".
-                                "googie.lang_no_error_found = \"%s\";\n".
+                                "googie.lang_no_error_found = \"%s\";\n%s".                                
                                 "googie.decorateTextarea('%s');\n".
                                 "%s.set_env('spellcheck', googie);",
                                 $GLOBALS['COMM_PATH'],
@@ -400,6 +404,7 @@ function rcmail_compose_body($attrib)
                                 rep_specialchars_output(rcube_label('close')),
                                 rep_specialchars_output(rcube_label('revertto')),
                                 rep_specialchars_output(rcube_label('nospellerrors')),
+                                $lang_set,
                                 $attrib['id'],
                                 $JS_OBJECT_NAME), 'foot');
 

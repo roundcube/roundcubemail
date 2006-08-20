@@ -157,9 +157,19 @@ $rcmail_config['read_when_deleted'] = TRUE;
 // false causes deleted messages to be permanantly removed if there is no Trash folder
 $rcmail_config['flag_for_deletion'] = TRUE;
 
-// Make use of the built-in spell checker. It is based on GoogieSpell
-// which means that the message content will be sent to Google in order to check spelling
+// Make use of the built-in spell checker. It is based on GoogieSpell.
 $rcmail_config['enable_spellcheck'] = TRUE;
+
+// For a locally installed Nox Spell Server, please specify the URI to call it.
+// Get Nox Spell Server from http://orangoo.com/labs/?page_id=72
+// Leave empty to use the Google spell checking service, what means
+// that the message content will be sent to Google in order to check spelling
+$rcmail_config['spellcheck_uri'] = '';
+
+// These languages can be selected for spell checking.
+// Configure as a PHP style hash array: array('en'=>'English', 'de'=>'Deutsch');
+// Leave empty for default set of Google spell check languages
+$rcmail_config['spellcheck_languages'] = NULL;
 
 // path to a text file which will be added to each sent message
 // paths are relative to the RoundCube root folder

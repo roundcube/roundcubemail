@@ -1063,7 +1063,7 @@ class rcube_imap
       
     if (is_array($part->parts))
       for ($i=0; $i<count($part->parts); $i++)
-        $this->_get_part_numbers($part->parts[$i], &$a_parts);
+        $this->_get_part_numbers($part->parts[$i], $a_parts);
     }
   
 
