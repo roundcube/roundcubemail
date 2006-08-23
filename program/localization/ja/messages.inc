@@ -20,7 +20,7 @@ $messages = array();
 
 $messages['loginfailed']  = 'ログインに失敗しました。';
 
-$messages['cookiesdisabled'] = 'ブラウザーが Cookie を認めていません。';
+$messages['cookiesdisabled'] = 'ブラウザーが Cookie を受理しません。';
 
 $messages['sessionerror'] = 'セッションが正しくないか期限切れです。';
 
@@ -36,15 +36,15 @@ $messages['loading'] = '読み込み中...';
 
 $messages['loadingdata'] = 'データを読み込み中です...';
 
-$messages['checkingmail'] = '新しいメッセージがあるように確認...';
+$messages['checkingmail'] = '新しいメッセージの確認中です...';
 
 $messages['sendingmessage'] = 'メッセージの送信中です...';
 
 $messages['messagesent'] = 'メッセージの送信に成功しました。';
 
-$messages['savingmessage'] = 'セービングメッセージ...';
+$messages['savingmessage'] = 'メッセージを保存しています...';
 
-$messages['messagesaved'] = 'メッセージは草案に救った';
+$messages['messagesaved'] = 'メッセージを草稿に保存しました。';
 
 $messages['successfullysaved'] = '保存に成功しました。';
 
@@ -72,26 +72,38 @@ $messages['deletefolderconfirm']  = '本当にこのフォルダーを削除し�
 
 $messages['purgefolderconfirm']  = '本当にこのフォルダーのすべてのメッセージを削除しますか?';
 
-$messages['formincomplete'] = 'フォームは完全に埋められていません。';
+$messages['formincomplete'] = 'フォームが完全に入力されていません。';
 
-$messages['noemailwarning'] = '有効な電子メールアドレスを入力してください';
+$messages['noemailwarning'] = '有効な電子メールアドレスを入力してください。';
 
-$messages['nonamewarning']  = '名前を入力してください';
+$messages['nonamewarning']  = '名前を入力してください。';
 
-$messages['nopagesizewarning'] = 'ページサイズを入力してください';
+$messages['nopagesizewarning'] = 'ページサイズを入力してください。';
 
-$messages['norecipientwarning'] = '少なくとも 1 つ受信者を入力してください';
+$messages['norecipientwarning'] = '少なくとも 1 つの受信者を入力してください。';
 
-$messages['nosubjectwarning']  = '項目「件名」が空です。今入力しますか?';
+$messages['nosubjectwarning']  = '項目「件名」が空です。今すぐ入力しますか?';
 
-$messages['nobodywarning'] = 'テキストの無いメッセージを送信しますか?';
+$messages['nobodywarning'] = '本文の無いメッセージを送信しますか?';
 
 $messages['notsentwarning'] = 'メッセージは送信されませんでした。メッセージを破棄したいですか?';
 
-$messages['noldapserver'] = '検索する LDAP サーバーを選択してください';
+$messages['noldapserver'] = '検索する LDAP サーバーを選択してください。';
 
-$messages['nocontactsreturned'] = '連絡先が見つかりません';
+$messages['nocontactsreturned'] = '連絡先が見つかりません。';
 
-$messages['nosearchname'] = '連絡先名か電子メールアドレスを入力してください';
+$messages['nosearchname'] = '連絡先名か電子メールアドレスを入力してください。';
+
+$messages['searchsuccessful'] = '$nr 個のメッセージが見つかりました。';
+
+$messages['searchnomatch'] = '一致するものがありません。';
+
+$messages['searching'] = '検索中です...';
+
+$messages['checking'] = '確認中です...';
+
+$messages['nospellerrors'] = 'スペルエラーはみつかりませんでした。';
+
+$messages['folderdeleted'] = 'フォルダーの削除に成功しました。';
 
 ?>

@@ -19,7 +19,6 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
 $labels['username']  = 'Lietotājvārds';
 $labels['password']  = 'Parole';
 $labels['server']    = 'Serveris';
@@ -92,6 +91,7 @@ $labels['today'] = 'Šodien';
 // toolbar buttons
 $labels['writenewmessage']  = 'Rakstīt jaunu vēstuli';
 $labels['replytomessage']   = 'Atbildēt uz vēstuli';
+
 $labels['replytoallmessage'] = 'Atbildēt sūtītājam un visiem saņēmējiem';
 $labels['forwardmessage']   = 'Pārsūtīt vēstuli';
 $labels['deletemessage']    = 'Pārvietot vēstuli uz miskasti';
@@ -99,12 +99,15 @@ $labels['printmessage']     = 'Izdrukāt šo vēstuli';
 $labels['previousmessages'] = 'Parādīt iepriekšējo vēstuļu kopu';
 $labels['nextmessages']     = 'Parādīt nākamo vēstuļu kopu';
 $labels['backtolist']       = 'Atpakaļ uz vēstuļu sarakstu';
+
 $labels['viewsource']       = 'Rādīt pirmtekstu';
 
 $labels['select'] = 'Iezīmēt';
 $labels['all'] = 'Visas';
 $labels['none'] = 'Nevienu';
 $labels['unread'] = 'Nelasītās';
+
+
 
 $labels['compact'] = 'Saspiest';
 $labels['empty'] = 'Iztukšot';
@@ -117,6 +120,7 @@ $labels['quota'] = 'Kvota';
 $labels['compose']  = 'Rakstīt vēstuli';
 $labels['sendmessage']  = 'Sūtīt vēstuli';
 $labels['addattachment']  = 'Pievienot failu';
+
 $labels['charset']  = 'Rakstzīmju kopa';
 
 $labels['attachments'] = 'Pielikumi';
@@ -128,6 +132,7 @@ $labels['lowest']  = 'Zemākā';
 $labels['normal']  = 'Normāla';
 $labels['high']    = 'Augsta';
 $labels['highest'] = 'Augstākā';
+
 
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Rādīt attēlus';
@@ -148,12 +153,15 @@ $labels['save']   = 'Saglabāt';
 $labels['delete'] = 'Dzēst';
 
 $labels['newcontact']     = 'Izveidot jaunu ierakstu adrešu grāmatā';
+
 $labels['addcontact']     = 'Pievienot iezīmēto ierakstu adrešu grāmatai';
 $labels['deletecontact']  = 'Dzēst iezīmētos ierakstus';
 $labels['composeto']      = 'Rakstīt vēstuli';
 $labels['contactsfromto'] = 'Ieraksti $from līdz $to no $count';
 $labels['print']          = 'Drukāt';
 $labels['export']         = 'Eksportēt';
+
+
 
 // LDAP search
 $labels['ldapsearch'] = 'Meklēšana LDAP direktorijā';
@@ -164,6 +172,7 @@ $labels['ldappublicserverselect'] = 'Izvēlieties serveri';
 $labels['ldappublicsearchfield'] = 'Meklēt pēc';
 $labels['ldappublicsearchform'] = 'Meklēt kontaktpersonu';
 $labels['ldappublicsearch'] = 'Meklēt';
+
 
 
 // settings
@@ -186,6 +195,7 @@ $labels['timezone']  = 'Laika zona';
 $labels['pagesize']  = 'Rindas lapā';
 $labels['signature'] = 'Paraksts';
 
+
 $labels['folder']  = 'Mape';
 $labels['folders']  = 'Mapes';
 $labels['foldername']  = 'Mapes nosaukums';
@@ -195,8 +205,32 @@ $labels['createfolder']  = 'Izveidot jaunu mapi';
 $labels['deletefolder']  = 'Dzēst mapi';
 $labels['managefolders']  = 'Rediģēt mapes';
 
+
 $labels['sortby'] = 'Kārtot pēc';
 $labels['sortasc']  = 'Kārtot augošā secībā';
 $labels['sortdesc'] = 'Kārtot dilstošā secībā';
+
+$labels['welcome'] = 'Esiet laipni lūgti $product';
+
+$labels['unknown'] = 'nezināms';
+$labels['unlimited'] = 'neierobežots';
+$labels['dstactive'] = 'Vasaras/ziemas laiks';
+
+$labels['previouspage'] = 'Parādīt iepriekšējo kopu';
+$labels['nextpage']     = 'Parādīt nākamo kopu';
+
+$labels['returnreceipt'] = 'Saņemšanas apstiprinājums';
+
+$labels['checkmail'] = 'Pārbaudīt pastu';
+$labels['checkspelling'] = 'Pārbaudīt pareizrakstību';
+$labels['resumeediting'] = 'Turpināt rediģēšanu';
+$labels['revertto'] = 'Atgriezt uz';
+
+$labels['savemessage']  = 'Saglabāt uzmetumu';
+$labels['rename'] = 'Pārsaukt';
+$labels['renamefolder'] = 'Pārsaukt mapi';
+
+# i use an additional description field - this might be used somewhere else
+$labels['description'] = 'Apraksts';
 
 ?>

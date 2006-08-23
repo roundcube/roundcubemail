@@ -19,7 +19,7 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
+$labels['welcome']   = 'ようこそ $product へ';
 $labels['username']  = 'ユーザー名';
 $labels['password']  = 'パスワード';
 $labels['server']    = 'サーバー';
@@ -36,7 +36,6 @@ $labels['inbox']  = '受信箱';
 $labels['drafts'] = '草案';
 $labels['sent']   = '送信箱';
 $labels['trash']  = 'ごみ箱';
-$labels['drafts'] = '草稿';
 $labels['junk']   = 'ジャンク';
 
 // message listing
@@ -54,7 +53,7 @@ $labels['organization'] = '所属';
 // aliases
 $labels['reply-to'] = $labels['replyto'];
 
-$labels['mailboxlist'] = 'Folders';
+$labels['mailboxlist'] = 'フォルダー一覧';
 $labels['messagesfromto'] = '表示中のメッセージ: $from から $to(全メッセージ: $count)';
 $labels['messagenrof'] = '全メッセージ: $count 現在のメッセージ:$nr';
 
@@ -64,9 +63,9 @@ $labels['download'] = 'ダウンロード';
 $labels['filename'] = 'ファイル名';
 $labels['filesize'] = 'ファイルサイズ';
 
-$labels['preferhtml'] = 'Prefer HTML';
+$labels['preferhtml'] = 'HTML を表示';
 $labels['htmlmessage'] = 'HTML メッセージ';
-$labels['prettydate'] = '簡潔な日付';
+$labels['prettydate'] = '簡単な日付表示';
 
 $labels['addtoaddressbook'] = 'アドレス帳に追加する';
 
@@ -91,7 +90,7 @@ $labels['saturday']  = '土曜日';
 $labels['today'] = '今日';
 
 // toolbar buttons
-$labels['checkmail']        = '新しいメッセージがあるように確認';
+$labels['checkmail']        = '新しいメッセージを確認';
 $labels['writenewmessage']  = '新規メッセージを作成する';
 $labels['replytomessage']   = 'メッセージを返信する';
 $labels['replytoallmessage'] = '送信者とすべての受信者に返信する';
@@ -113,6 +112,11 @@ $labels['empty'] = '空';
 $labels['purge'] = '破棄';
 
 $labels['quota'] = 'ディスク使用量';
+$labels['unknown']  = '不明';
+$labels['unlimited']  = '無制限';
+
+$labels['quicksearch']  = 'Quick search';
+$labels['resetsearch']  = 'Reset search';
 
 
 // message compose
@@ -121,6 +125,11 @@ $labels['savemessage']  = 'この草案を救いなさい';
 $labels['sendmessage']  = 'メッセージを今すぐ送信する';
 $labels['addattachment']  = 'ファイルを添付する';
 $labels['charset']  = '文字エンコード';
+$labels['returnreceipt'] = 'Return receipt';
+
+$labels['checkspelling'] = 'スペルの確認をする';
+$labels['resumeediting'] = '編集の中断をする';
+$labels['revertto'] = 'Revert to';
 
 $labels['attachments'] = '添付ファイル';
 $labels['upload'] = 'アップロード';
@@ -158,6 +167,10 @@ $labels['contactsfromto'] = '連絡先 $from から $to (合計: $count)';
 $labels['print']          = '印刷する';
 $labels['export']         = 'エクスポートする';
 
+$labels['previouspage']   = '前のセットを表示する';
+$labels['nextpage']       = '次のセットを表示する';
+
+
 // LDAP search
 $labels['ldapsearch'] = 'LDAP ディレクトリ検索';
 
@@ -188,6 +201,7 @@ $labels['language']  = '言語';
 $labels['timezone']  = 'タイムゾーン';
 $labels['pagesize']  = 'ページ辺りの行数';
 $labels['signature'] = '署名';
+$labels['dstactive']  = '夏時間';
 
 $labels['folder']  = 'フォルダー';
 $labels['folders']  = 'フォルダー一覧';
@@ -195,6 +209,8 @@ $labels['foldername']  = 'フォルダー名';
 $labels['subscribed']  = '購読済';
 $labels['create']  = '作成';
 $labels['createfolder']  = '新規フォルダーを作成する';
+$labels['rename'] = '名称変更';
+$labels['renamefolder'] = 'フォルダー名を変更する';
 $labels['deletefolder']  = 'フォルダーを削除する';
 $labels['managefolders']  = 'フォルダー管理';
 

@@ -88,4 +88,16 @@ $messages['nocontactsreturned'] = 'Neviena kontaktpersona netika atrasta';
 
 $messages['nosearchname'] = 'Lūdzu ievadiet kontaktpersonas vārdu vai e-pasta adresi';
 
+$messages['checking'] = 'Notiek pārbaude...';
+
+$messages['nospellerrors'] = 'Netika atrastas pareizrakstības kļudas';
+
+$messages['checkingmail'] = 'Notiek pasta pārbaude...';
+
+$messages['savingmessage'] = 'Vēstule tiek saglabāta...';
+
+$messages['messagesaved'] = 'Vēstule saglabāta pie uzmetumiem';
+
+$messages['folderdeleted'] = 'Mape veiksmīgi izdzēsta';
+
 ?>

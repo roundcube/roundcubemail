@@ -195,7 +195,7 @@ $labels['sortasc']  = 'Rosnąco';
 $labels['sortdesc'] = 'Malejąco';
 
 //RC 0.1B2
-$labels['welcome'] = 'Witaj $product';
+$labels['welcome'] = 'Witamy w $product';
 
 $labels['unknown'] = 'nieznane';
 $labels['unlimited'] = 'bez limitu';

@@ -1,8 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/23 (thomasb)
+----------
+- Updated Polish, Portuguese, Latvian, Chinese and Japanese localization
+
+
 2006/08/20 (thomasb)
 ----------
+- Fixed wrong usage of mbstring (Bug #1462439)
 - Set default spelling language (Ticket #1483938)
 - Added support for Nox Spell Server
 

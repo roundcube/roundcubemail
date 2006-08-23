@@ -5,12 +5,13 @@
  | language/pt_PT/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
+ |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Pedro M. Gouveia <pbodymind@gmail.com>	                     |
+ | Author: Sergio Rocha <sergio.rocha@makeitsimple.pt>	                 |
  +-----------------------------------------------------------------------+
- 
+
  $Id$
 
 */
@@ -27,21 +28,20 @@ $labels['login']     = 'Entrar';
 $labels['logout']   = 'Sair';
 $labels['mail']     = 'E-mail';
 $labels['settings'] = 'Configurações pessoais';
-$labels['addressbook'] = 'Catálogo de endereços';
+$labels['addressbook'] = 'Lista de Contactos';
 
 // Nome das pastas de correio
 $labels['inbox']  = 'Caixa de entrada';
-$labels['drafts'] = 'Esboços';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
 $labels['drafts'] = 'Rascunhos';
-$labels['junk']   = 'Spam';
+$labels['junk']   = 'Junk';
 
 // message listing
 $labels['subject'] = 'Assunto';
 $labels['from']    = 'Remetente';
 $labels['to']      = 'Para';
-$labels['cc']      = 'Cc';
+$labels['cc']      = 'Cópia';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Responder para';
 $labels['date']    = 'Data';
@@ -53,7 +53,7 @@ $labels['organization'] = 'Organização';
 $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Pastas';
-$labels['messagesfromto'] = 'Mensagens de $from para $to $count';
+$labels['messagesfromto'] = 'Mensagens $from - $to de $count';
 $labels['messagenrof'] = 'Mensagem $nr de $count';
 
 $labels['moveto']   = 'mover para...';
@@ -66,7 +66,7 @@ $labels['preferhtml'] = 'Prefere HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
 $labels['prettydate'] = 'Formatar datas';
 
-$labels['addtoaddressbook'] = 'Incluir no catálogo de endereços';
+$labels['addtoaddressbook'] = 'Adicionar ao catálogo de endereços';
 
 // Dias da semana abreviados
 $labels['sun'] = 'Dom';
@@ -89,19 +89,18 @@ $labels['saturday']  = 'Sábado';
 $labels['today'] = 'Hoje';
 
 // toolbar buttons
-$labels['checkmail']        = 'Verificar para ver se há mensagens novas';
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder';
-$labels['replytoallmessage'] = 'Responder para todos';
+$labels['replytoallmessage'] = 'Responder a todos';
 $labels['forwardmessage']   = 'Encaminhar';
 $labels['deletemessage']    = 'Mover para lixeira';
 $labels['printmessage']     = 'Imprimir';
 $labels['previousmessages'] = 'Anterior';
 $labels['nextmessages']     = 'Próximo';
 $labels['backtolist']       = 'Voltar';
-$labels['viewsource']       = 'Exibir código fonte';
+$labels['viewsource']       = 'Mostrar código fonte';
 
-$labels['select'] = 'Selecionar';
+$labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Nenhuma';
 $labels['unread'] = 'Não lidas';
@@ -110,12 +109,11 @@ $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Vazio';
 $labels['purge'] = 'Apagar';
 
-$labels['quota'] = 'Quota de espaço';
+$labels['quota'] = 'Utilização';
 
 
 // message compose
 $labels['compose']  = 'Escrever mensagem';
-$labels['savemessage']  = 'Excepto este esboço';
 $labels['sendmessage']  = 'Enviar';
 $labels['addattachment']  = 'Anexar';
 $labels['charset']  = 'Charset';
@@ -124,13 +122,13 @@ $labels['attachments'] = 'Anexos';
 $labels['upload'] = 'Upload';
 $labels['close']  = 'Fechar';
 
-$labels['low']     = 'Baixo';
-$labels['lowest']  = 'Muito Baixo';
+$labels['low']     = 'Mais baixo';
+$labels['lowest']  = 'Baixo';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Alta';
-$labels['highest'] = 'Muito alta';
+$labels['highest'] = 'Mais alta';
 
-$labels['nosubject']  = '(sem assunto)';
+$labels['nosubject']  = '(no assunto)';
 $labels['showimages'] = 'Exibir imagens';
 
 
@@ -145,14 +143,13 @@ $labels['editcontact'] = 'Editar contacto';
 
 $labels['edit']   = 'Editar';
 $labels['cancel'] = 'Cancelar';
-$labels['save']   = 'Salvar';
+$labels['save']   = 'Gravar';
 $labels['delete'] = 'Apagar';
 
 $labels['newcontact']     = 'Criar novo contacto';
-$labels['addcontact']     = 'Adicionar contacto seleccionado ao catálogo de endereços';
-$labels['deletecontact']  = 'Apagar contactos seleccionados';
+$labels['deletecontact']  = 'Apagar contactos selecionados';
 $labels['composeto']      = 'Escrever mensagem para';
-$labels['contactsfromto'] = 'Contactos $from - $to de $count';
+$labels['contactsfromto'] = 'Contactos $from - $to of $count';
 $labels['print']          = 'Imprimir';
 $labels['export']         = 'Exportar';
 
@@ -160,10 +157,10 @@ $labels['export']         = 'Exportar';
 $labels['ldapsearch'] = 'Pesquisa no diretório LDAP';
 
 $labels['ldappublicsearchname']    = 'Nome do contacto';
-$labels['ldappublicsearchtype'] = 'Pesquisa certa?';
-$labels['ldappublicserverselect'] = 'Seleccionar servidores';
+$labels['ldappublicsearchtype'] = 'Pesquisa exacta?';
+$labels['ldappublicserverselect'] = 'Selecionar servidores';
 $labels['ldappublicsearchfield'] = 'Pesquisar em';
-$labels['ldappublicsearchform'] = 'Procurar por contacto';
+$labels['ldappublicsearchform'] = 'Procurar por um contacto';
 $labels['ldappublicsearch'] = 'Pesquisar';
 
 
@@ -171,33 +168,58 @@ $labels['ldappublicsearch'] = 'Pesquisar';
 $labels['settingsfor']  = 'Configurações para';
 
 $labels['preferences']  = 'Preferências';
-$labels['userpreferences']  = 'Preferências do tilizador';
+$labels['userpreferences']  = 'Preferências do utilizador';
 $labels['editpreferences']  = 'Editar preferências do utilizador';
 
 $labels['identities']  = 'Identidades';
-$labels['manageidentities']  = 'Gerenciar identidades para a sua conta';
+$labels['manageidentities']  = 'Gerir identidades para esta conta';
 $labels['newidentity']  = 'Nova identidade';
 
 $labels['newitem']  = 'Novo item';
 $labels['edititem']  = 'Editar item';
 
-$labels['setdefault']  = 'Padrão';
+$labels['setdefault']  = 'Principal';
 $labels['language']  = 'Idioma';
-$labels['timezone']  = 'Hora Local';
+$labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Linhas por página';
 $labels['signature'] = 'Assinatura';
 
 $labels['folder']  = 'Pasta';
 $labels['folders']  = 'Pastas';
 $labels['foldername']  = 'Nome da pasta';
-$labels['subscribed']  = 'Assinado';
+$labels['subscribed']  = 'Subscrito';
 $labels['create']  = 'Criar';
 $labels['createfolder']  = 'Criar nova pasta';
 $labels['deletefolder']  = 'Apagar pasta';
-$labels['managefolders']  = 'Gerenciar pastas';
+$labels['managefolders']  = 'Gerir pastas';
 
 $labels['sortby'] = 'Ordenado por';
 $labels['sortasc']  = 'Ascendente';
 $labels['sortdesc'] = 'Descendente';
+
+// New labels since 0.1beta
+
+$labels['welcome'] = 'Bem-vindo ao $product';
+
+$labels['unknown'] = 'Desconhecido';
+$labels['unlimited'] = 'Ilimitado';
+$labels['dstactive'] = 'Horário de verão';
+
+$labels['previouspage'] = 'Exibir página anterior';
+$labels['nextpage']     = 'Exibir próxima página';
+
+$labels['returnreceipt'] = 'Confirmação de leitura';
+
+$labels['checkmail'] = 'Verificar novas mensagens';
+$labels['checkspelling'] = 'Verificar ortografia';
+$labels['resumeediting'] = 'Continuar a edição';
+$labels['revertto'] = 'Reverter para';
+
+$labels['savemessage']  = 'Salvar rascunho';
+$labels['rename'] = 'Renomear';
+$labels['renamefolder'] = 'Renomear pasta';
+
+// I use an additional description field - this might be used somewhere else
+$labels['description'] = 'Descrição';
 
 ?>

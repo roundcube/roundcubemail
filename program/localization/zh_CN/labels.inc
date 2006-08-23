@@ -2,14 +2,13 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/cn/labels.inc                                                |
+ | language/zh_CN/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- |  Simplified-chinese utf-8 by winman 2006/02/19                        |
  |  Author: winman rong  <winman.rong@gmail.com>                         |
  +-----------------------------------------------------------------------+
 
@@ -33,10 +32,9 @@ $labels['addressbook'] = '地址薄';
 
 // mailbox names
 $labels['inbox']  = '收件箱';
-$labels['drafts'] = '草稿';
 $labels['sent']   = '发件箱';
 $labels['trash']  = '垃圾桶';
-$labels['drafts'] = '草稿';
+$labels['drafts'] = '早稿';
 $labels['junk']   = '垃圾邮件';
 
 // message listing
@@ -48,14 +46,14 @@ $labels['bcc']     = '密送';
 $labels['replyto'] = '回复地址';
 $labels['date']    = '日期';
 $labels['size']    = '文件大小';
-$labels['priority'] = '优先级';
-$labels['organization'] = '团体';
+$labels['priority'] = '优先权';
+$labels['organization'] = '机构';
 
 // aliases
 $labels['reply-to'] = $labels['回复到'];
 
 $labels['mailboxlist'] = '文件夹';
-$labels['messagesfromto'] = 'Messages $from to $to of $count';
+$labels['messagesfromto'] = '邮件 $from 到 $to 总共 $count';
 $labels['messagenrof'] = 'Message $nr of $count';
 
 $labels['moveto']   = '移动到...';
@@ -64,7 +62,7 @@ $labels['download'] = '下载';
 $labels['filename'] = '文件名称';
 $labels['filesize'] = '文件大小';
 
-$labels['preferhtml'] = '以HTML格式显示';
+$labels['preferhtml'] = '允许以HTML格式显示邮件内容';
 $labels['htmlmessage'] = 'HTML格式邮件';
 $labels['prettydate'] = 'Pretty dates';
 
@@ -91,33 +89,25 @@ $labels['saturday']  = '星期六';
 $labels['today'] = '今天';
 
 // toolbar buttons
-$labels['checkmail']        = '检查新消息';
 $labels['writenewmessage']  = '写新邮件';
 $labels['replytomessage']   = '回复邮件';
 $labels['forwardmessage']   = '转发邮件';
 $labels['deletemessage']    = '把邮件移动到垃圾桶';
-$labels['printmessage']     = '打印邮件';
-$labels['previousmessages'] = '上一封邮件';
-$labels['nextmessages']     = '下一封邮件';
-$labels['backtolist']       = '返回收件箱';
+$labels['printmessage']     = '打印这封邮件';
+$labels['previousmessages'] = '查看上一封邮件';
+$labels['nextmessages']     = '查看下一封邮件';
+$labels['backtolist']       = '返回邮件列表';
 $labels['viewsource']       = '显示源代码';
 
 $labels['select'] = '选择';
 $labels['all'] = '全部';
-$labels['none'] = '不选';
-$labels['unread'] = '没读过的';
-
-$labels['compact'] = 'Compact';
-$labels['empty'] = '空的';
-$labels['purge'] = '清除';
-
-$labels['quota'] = '空间使用';
+$labels['none'] = '没有';
+$labels['unread'] = '还没读过的';
 
 // message compose
 $labels['compose']  = '写新邮件';
-$labels['savemessage']  = '保存这份草稿';
 $labels['sendmessage']  = '立刻发送邮件';
-$labels['addattachment']  = '添加附件';
+$labels['addattachment']  = '附加一个文件';
 
 $labels['attachments'] = '附件';
 $labels['upload'] = '上传';
@@ -129,7 +119,6 @@ $labels['normal']  = '正常';
 $labels['high']    = '高';
 $labels['highest'] = '最高';
 
-$labels['nosubject']  = '(没有主题)';
 $labels['showimages'] = '显示图片';
 
 
@@ -148,35 +137,23 @@ $labels['save']   = '保存';
 $labels['delete'] = '删除';
 
 $labels['newcontact']     = '建立新的联系信息';
-$labels['addcontact']     = '将联系人添加到地址薄';
-$labels['deletecontact']  = '删除选择的联系信息';
+$labels['deletecontact']  = '删除所选择的联系信息';
 $labels['composeto']      = '给所选择的联系人发送邮件';
-$labels['contactsfromto'] = 'Contacts $from to $to of $count';
+$labels['contactsfromto'] = '联系人 $from 到 $to 总共 $count';
 $labels['print']          = '打印';
 $labels['export']         = '导出';
 
 
-// LDAP search
-$labels['ldapsearch'] = 'LDAP 目录搜索';
-
-$labels['ldappublicsearchname']    = '联系人名字';
-$labels['ldappublicsearchtype'] = '精确匹配?';
-$labels['ldappublicserverselect'] = '选择服务器';
-$labels['ldappublicsearchfield'] = 'Search on';
-$labels['ldappublicsearchform'] = 'Look for a contact';
-$labels['ldappublicsearch'] = '搜索';
-
-
 // settings
-$labels['settingsfor']  = '设置';
+$labels['settingsfor']  = 'Settings for';
 
-$labels['preferences']  = '参数选择';
-$labels['userpreferences']  = '用户参数';
-$labels['editpreferences']  = '编辑用户参数';
+$labels['preferences']  = '个人设定';
+$labels['userpreferences']  = '用户喜好设定';
+$labels['editpreferences']  = '编辑用户设定';
 
 $labels['identities']  = '发件人身份';
-$labels['manageidentities']  = '管理发件人资料';
-$labels['newidentity']  = '建立新身份';
+$labels['manageidentities']  = '管理帐号资料';
+$labels['newidentity']  = '建立新标识';
 
 $labels['newitem']  = 'New item';
 $labels['edititem']  = 'Edit item';
@@ -184,11 +161,9 @@ $labels['edititem']  = 'Edit item';
 $labels['setdefault']  = '设置为默认';
 $labels['language']  = '语言';
 $labels['timezone']  = '时区';
-$labels['pagesize']  = '每页行数';
-$labels['signature'] = '签名';
+$labels['pagesize']  = '每页邮件数';
 
 
-$labels['folder']  = '文件夹';
 $labels['folders']  = '文件夹';
 $labels['foldername']  = '文件夹名称';
 $labels['subscribed']  = '显示与否';
@@ -197,8 +172,28 @@ $labels['createfolder']  = '建立新文件夹';
 $labels['deletefolder']  = '删除文件夹';
 $labels['managefolders']  = '管理文件夹';
 
-$labels['sortby'] = 'Sort by';
-$labels['sortasc']  = '由小到大排列';
-$labels['sortdesc'] = '由大到小排列';
+// New Words since 0.1 beta
+$labels['welcome'] = '欢迎使用 $product';
+
+$labels['unknown'] = '未知';
+$labels['unlimited'] = '无限制';
+$labels['dstactive'] = 'Daylight savings';
+
+$labels['previouspage'] = '上一页';
+$labels['nextpage']     = '下一页';
+
+$labels['returnreceipt'] = '返回邮件阅读回执';
+
+$labels['checkmail'] = '检查邮件';
+$labels['checkspelling'] = '拼写检查';
+$labels['resumeediting'] = '继续编辑';
+$labels['revertto'] = '恢复';
+
+$labels['savemessage']  = '存储为草稿';
+$labels['rename'] = '重命名';
+$labels['renamefolder'] = '重命名文件夹';
+
+$labels['description'] = '描述';
+
 
 ?>
