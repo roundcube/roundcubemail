@@ -377,38 +377,14 @@ function load_gui()
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT, $MBSTRING, $MBSTRING_ENCODING;
+  global $OUTPUT, $MBSTRING;
   static $s_mbstring_loaded = NULL;
   
   // settings for mbstring module (by Tadashi Jokagi)
-  if ($s_mbstring_loaded===NULL)
-    {
-    if ($s_mbstring_loaded = extension_loaded("mbstring"))
-      {
-      $MBSTRING = TRUE;
-      if (function_exists("mb_mbstring_encodings"))
-        $MBSTRING_ENCODING = mb_mbstring_encodings();
-      else
-        $MBSTRING_ENCODING = array("ISO-8859-1", "UTF-7", "UTF7-IMAP", "UTF-8",
-                                   "ISO-2022-JP", "EUC-JP", "EUCJP-WIN",
-                                   "SJIS", "SJIS-WIN");
-
-       $MBSTRING_ENCODING = array_map("strtoupper", $MBSTRING_ENCODING);
-       if (in_array("SJIS", $MBSTRING_ENCODING))
-         $MBSTRING_ENCODING[] = "SHIFT_JIS";
-       }
-     else
-      {
-      $MBSTRING = FALSE;
-      $MBSTRING_ENCODING = array();
-      }
-    }
-
-  if ($MBSTRING && function_exists("mb_language"))
-    {
-    if (!@mb_language(strtok($lang, "_")))
-      $MBSTRING = FALSE;   //  unsupport language
-    }
+  if (is_null($s_mbstring_loaded))
+    $MBSTRING = $s_mbstring_loaded = extension_loaded("mbstring");
+  else
+    $MBSTRING = $s_mbstring_loaded = FALSE;
 
   $OUTPUT->set_charset(rcube_language_prop($lang, 'charset'));
   }
@@ -868,22 +844,23 @@ function rcmail_message_cache_gc()
 // this function is not complete and not tested well
 function rcube_charset_convert($str, $from, $to=NULL)
   {
-  global $MBSTRING, $MBSTRING_ENCODING;
+  global $MBSTRING;
 
   $from = strtoupper($from);
   $to = $to==NULL ? strtoupper($GLOBALS['CHARSET']) : strtoupper($to);
 
-  if ($from==$to)
+  if ($from==$to || $str=='')
     return $str;
-    
+
   // convert charset using mbstring module  
   if ($MBSTRING)
     {
     $to = $to=="UTF-7" ? "UTF7-IMAP" : $to;
     $from = $from=="UTF-7" ? "UTF7-IMAP": $from;
-    
-    if (in_array($to, $MBSTRING_ENCODING) && in_array($from, $MBSTRING_ENCODING))
-      return mb_convert_encoding($str, $to, $from);
+
+    // return if convert succeeded
+    if (($out = mb_convert_encoding($str, $to, $from)) != '')
+      return $out;
     }
 
   // convert charset using iconv module  

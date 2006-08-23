@@ -50,7 +50,13 @@ $utf8_maps = array(
   "ISO-8859-1" => UTF8_MAP_DIR . "/ISO-8859-1.map",
   "ISO-8859-2" => UTF8_MAP_DIR . "/ISO-8859-2.map",
   "ISO-8859-3" => UTF8_MAP_DIR . "/ISO-8859-3.map",
-  "ISO-8859-4" => UTF8_MAP_DIR . "/ISO-8859-4.map");
+  "ISO-8859-4" => UTF8_MAP_DIR . "/ISO-8859-4.map",
+  "ISO-8859-5" => UTF8_MAP_DIR . "/ISO-8859-5.map",
+  "ISO-8859-6" => UTF8_MAP_DIR . "/ISO-8859-6.map",
+  "ISO-8859-7" => UTF8_MAP_DIR . "/ISO-8859-7.map",
+  "ISO-8859-8" => UTF8_MAP_DIR . "/ISO-8859-8.map",
+  "ISO-8859-9" => UTF8_MAP_DIR . "/ISO-8859-9.map"
+  );
 
 //Error constants
 define("ERR_OPEN_MAP_FILE","ERR_OPEN_MAP_FILE");
