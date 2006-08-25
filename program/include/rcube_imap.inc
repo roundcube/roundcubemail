@@ -35,7 +35,7 @@ require_once('lib/mime.inc');
  *
  * @package    RoundCube Webmail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.31
+ * @version    1.34
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -132,11 +132,10 @@ class rcube_imap
                        'message' => $GLOBALS['iil_error']), TRUE, FALSE);
       }
 
-    // get account namespace
+    // get server properties
     if ($this->conn)
       {
       $this->_parse_capability($this->conn->capability);
-      iil_C_NameSpace($this->conn);
       
       if (!empty($this->conn->delimiter))
         $this->delimiter = $this->conn->delimiter;
@@ -883,15 +882,19 @@ class rcube_imap
     $uid = $is_uid ? $id : $this->_id2uid($id);
 
     // get cached headers
-    if ($uid && ($headers = $this->get_cached_message($mailbox.'.msg', $uid)))
+    if ($uid && ($headers = &$this->get_cached_message($mailbox.'.msg', $uid)))
       return $headers;
 
-    $msg_id = $is_uid ? $this->_uid2id($id) : $id;
-    $headers = iil_C_FetchHeader($this->conn, $mailbox, $msg_id);
+    $headers = iil_C_FetchHeader($this->conn, $mailbox, $id, $is_uid);
 
     // write headers cache
     if ($headers)
-      $this->add_message_cache($mailbox.'.msg', $msg_id, $headers);
+      {
+      if ($is_uid)
+        $this->uid_id_map[$mbox_name][$uid] = $headers->id;
+
+      $this->add_message_cache($mailbox.'.msg', $headers->id, $headers);
+      }
 
     return $headers;
     }
@@ -906,6 +909,14 @@ class rcube_imap
    */
   function &get_structure($uid)
     {
+    $cache_key = $this->mailbox.'.msg';
+    $headers = &$this->get_cached_message($cache_key, $uid, true);
+
+    // return cached message structure
+    if (is_object($headers) && is_object($headers->structure))
+      return $headers->structure;
+    
+    // resolve message sequence number
     if (!($msg_id = $this->_uid2id($uid)))
       return FALSE;
 
@@ -929,6 +940,10 @@ class rcube_imap
         $struct->mimetype = strtolower($struct->headers['ctype']);
         list($struct->ctype_primary, $struct->ctype_secondary) = explode('/', $struct->mimetype);
         }
+
+      // write structure to cache
+      if ($this->caching_enabled)
+        $this->add_message_cache($cache_key, $msg_id, $headers, $struct);
       }
 	
 	return $struct;
@@ -1109,8 +1124,14 @@ class rcube_imap
         $body = $this->mime_decode($body, $o_part->encoding);
 
       // convert charset (if text or message part)
-      if (!empty($o_part->charset) && ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message') && !stristr($body, 'charset='))
+      if ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message')
+        {
+        // assume ISO-8859-1 if no charset specified
+        if (empty($o_part->charset))
+          $o_part->charset = 'ISO-8859-1';
+
         $body = rcube_charset_convert($body, $o_part->charset);
+        }
       }
 
     return $body;
@@ -1533,6 +1554,14 @@ class rcube_imap
     // make absolute path
     $mailbox = $this->_mod_mailbox($mbox_name);
     $abs_name = $this->_mod_mailbox($name);
+    
+    // check if mailbox is subscribed
+    $a_subscribed = $this->_list_mailboxes();
+    $subscribed = in_array($mailbox, $a_subscribed);
+    
+    // unsubscribe folder
+    if ($subscribed)
+      iil_C_UnSubscribe($this->conn, $mailbox);
 
     if (strlen($abs_name))
       $result = iil_C_RenameFolder($this->conn, $mailbox, $abs_name);
@@ -1541,11 +1570,12 @@ class rcube_imap
     if ($result)
       {
       $this->clear_message_cache($mailbox.'.msg');
-      $this->clear_cache('mailboxes');
+      $this->clear_cache('mailboxes');      
       }
-      
+
     // try to subscribe it
-    $this->subscribe($name);
+    if ($result && $subscribed)
+      iil_C_Subscribe($this->conn, $abs_name);
 
     return $result ? $name : FALSE;
     }
@@ -1842,18 +1872,16 @@ class rcube_imap
     }
 
 
-  function &get_cached_message($key, $uid, $body=FALSE)
+  function &get_cached_message($key, $uid, $struct=false)
     {
     if (!$this->caching_enabled)
       return FALSE;
 
     $internal_key = '__single_msg';
-    if ($this->caching_enabled && (!isset($this->cache[$internal_key][$uid]) || $body))
+    if ($this->caching_enabled && (!isset($this->cache[$internal_key][$uid]) ||
+        ($struct && empty($this->cache[$internal_key][$uid]->structure))))
       {
-      $sql_select = "idx, uid, headers";
-      if ($body)
-        $sql_select .= ", body";
-      
+      $sql_select = "idx, uid, headers" . ($struct ? ", structure" : '');
       $sql_result = $this->db->query(
         "SELECT $sql_select
          FROM ".get_table_name('messages')."
@@ -1863,14 +1891,12 @@ class rcube_imap
         $_SESSION['user_id'],
         $key,
         $uid);
-      
+
       if ($sql_arr = $this->db->fetch_assoc($sql_result))
         {
-        $headers = unserialize($sql_arr['headers']);
-        if (is_object($headers) && !empty($sql_arr['body']))
-          $headers->body = $sql_arr['body'];
-
-        $this->cache[$internal_key][$uid] = $headers;
+        $this->cache[$internal_key][$uid] = unserialize($sql_arr['headers']);
+        if (is_object($this->cache[$internal_key][$uid]) && !empty($sql_arr['structure']))
+          $this->cache[$internal_key][$uid]->structure = unserialize($sql_arr['structure']);
         }
       }
 
@@ -1906,25 +1932,55 @@ class rcube_imap
     }
 
 
-  function add_message_cache($key, $index, $headers)
+  function add_message_cache($key, $index, $headers, $struct=null)
     {
-    if (!$key || !is_object($headers) || empty($headers->uid))
+    if (empty($key) || !is_object($headers) || empty($headers->uid))
       return;
+      
+    // check for an existing record (probly headers are cached but structure not)
+    $sql_result = $this->db->query(
+        "SELECT message_id
+         FROM ".get_table_name('messages')."
+         WHERE  user_id=?
+         AND    cache_key=?
+         AND    uid=?
+         AND    del<>1",
+        $_SESSION['user_id'],
+        $key,
+        $headers->uid);
 
-    $this->db->query(
-      "INSERT INTO ".get_table_name('messages')."
-       (user_id, del, cache_key, created, idx, uid, subject, ".$this->db->quoteIdentifier('from').", ".$this->db->quoteIdentifier('to').", cc, date, size, headers)
-       VALUES (?, 0, ?, now(), ?, ?, ?, ?, ?, ?, ".$this->db->fromunixtime($headers->timestamp).", ?, ?)",
-      $_SESSION['user_id'],
-      $key,
-      $index,
-      $headers->uid,
-      (string)substr($this->decode_header($headers->subject, TRUE), 0, 128),
-      (string)substr($this->decode_header($headers->from, TRUE), 0, 128),
-      (string)substr($this->decode_header($headers->to, TRUE), 0, 128),
-      (string)substr($this->decode_header($headers->cc, TRUE), 0, 128),
-      (int)$headers->size,
-      serialize($headers));
+    // update cache record
+    if ($sql_arr = $this->db->fetch_assoc($sql_result))
+      {
+      $this->db->query(
+        "UPDATE ".get_table_name('messages')."
+         SET   idx=?, headers=?, structure=?
+         WHERE message_id=?",
+        $index,
+        serialize($headers),
+        is_object($struct) ? serialize($struct) : NULL,
+        $sql_arr['message_id']
+        );
+      }
+    else  // insert new record
+      {
+      $this->db->query(
+        "INSERT INTO ".get_table_name('messages')."
+         (user_id, del, cache_key, created, idx, uid, subject, ".$this->db->quoteIdentifier('from').", ".$this->db->quoteIdentifier('to').", cc, date, size, headers, structure)
+         VALUES (?, 0, ?, now(), ?, ?, ?, ?, ?, ?, ".$this->db->fromunixtime($headers->timestamp).", ?, ?, ?)",
+        $_SESSION['user_id'],
+        $key,
+        $index,
+        $headers->uid,
+        (string)substr($this->decode_header($headers->subject, TRUE), 0, 128),
+        (string)substr($this->decode_header($headers->from, TRUE), 0, 128),
+        (string)substr($this->decode_header($headers->to, TRUE), 0, 128),
+        (string)substr($this->decode_header($headers->cc, TRUE), 0, 128),
+        (int)$headers->size,
+        serialize($headers),
+        is_object($struct) ? serialize($struct) : NULL
+        );
+      }
     }
     
     

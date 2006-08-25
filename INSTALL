@@ -40,7 +40,7 @@ importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
 
 # mysql
-> CREATE DATABASE 'roundcubemail';
+> CREATE DATABASE roundcubemail;
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
         IDENTIFIED BY 'password';
 > quit
@@ -53,7 +53,7 @@ For MySQL version 4.1 and up, it's recommended to create the database for
 RoundCube with utf-8 charset. Here's an example of the init procedure:
 
 # mysql
-> CREATE DATABASE 'roundcubemail' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+> CREATE DATABASE roundcubemail DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
         IDENTIFIED BY 'password';
 > quit

@@ -46,6 +46,7 @@
 		- Casting date parts in iil_StrToTime() to avoid mktime() warnings
 		- Also acceppt LIST responses in iil_C_ListSubscribed()
 		- Sanity check of $message_set in iil_C_FetchHeaders(), iil_C_FetchHeaderIndex(), iil_C_FetchThreadHeaders()
+		- Implemented UID FETCH in iil_C_FetchHeaders()
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -1195,7 +1196,7 @@ function iil_IndexThreads(&$tree){
 	return $t_index;
 }
 
-function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
+function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 	global $IMAP_USE_INTERNAL_DATE;
 	
 	$c=0;
@@ -1231,7 +1232,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 
 	/* FETCH date,from,subject headers */
 	$key="fh".($c++);
-	$request=$key." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCE)])\r\n";
+	$prefix=$uidfetch?" UID":"";
+	$request=$key.$prefix." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCE)])\r\n";
 
 	if (!fputs($fp, $request)) return false;
 	do{
@@ -1309,7 +1311,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 		Sample reply line: "* 3 FETCH (UID 2417 RFC822.SIZE 2730 FLAGS (\Seen \Deleted))"
 	*/
 	$command_key="fh".($c++);
-	$request= $command_key." FETCH $message_set (UID RFC822.SIZE FLAGS INTERNALDATE)\r\n";
+	$request= $command_key.$prefix." FETCH $message_set (UID RFC822.SIZE FLAGS INTERNALDATE)\r\n";
 	if (!fputs($fp, $request)) return false;
 	do{
 		$line=chop(iil_ReadLine($fp, 200));
@@ -1401,10 +1403,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set){
 }
 
 
-function iil_C_FetchHeader(&$conn, $mailbox, $id){
+function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false){
 	$fp = $conn->fp;
-	$a=iil_C_FetchHeaders($conn, $mailbox, $id);
-	if (is_array($a)) return $a[$id];
+	$a=iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch);
+	if (is_array($a)) return array_shift($a);
 	else return false;
 }
 

@@ -671,6 +671,9 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
   // text/html
   if ($part->ctype_secondary=='html')
     {
+    // remove charset specification in HTML message
+    $body = preg_replace('/charset=[a-z0-9\-]+/i', '', $body);
+
     if (!$safe)  // remove remote images and scripts
       {
       $remote_patterns = array('/(src|background)=(["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)(\2|\s|>)/Ui',
@@ -1247,94 +1250,6 @@ function rcmail_first_text_part($message_struct)
   }
 
 
-// get source code of a specific message and cache it
-// deprecated
-function rcmail_message_source($uid)
-  {
-  global $IMAP, $DB, $CONFIG;
-
-  // get message ID if uid is given
-  $cache_key = $IMAP->mailbox.'.msg';
-  $cached = $IMAP->get_cached_message($cache_key, $uid, FALSE);
-  
-  // message is cached in database
-  if ($cached && !empty($cached->body))
-    return $cached->body;
-
-  if (!$cached)
-    $headers = $IMAP->get_headers($uid);
-  else
-    $headers = &$cached;
-
-  // create unique identifier based on message_id
-  if (!empty($headers->messageID))
-    $message_id = md5($headers->messageID);
-  else
-    $message_id = md5($headers->uid.'@'.$_SESSION['imap_host']);
-  
-  $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '');
-  $cache_dir = $temp_dir.$_SESSION['client_id'];
-  $cache_path = $cache_dir.'/'.$message_id;
-
-  // message is cached in temp dir
-  if ($CONFIG['enable_caching'] && is_dir($cache_dir) && is_file($cache_path))
-    {
-    if ($fp = fopen($cache_path, 'r'))
-      {
-      $msg_source = fread($fp, filesize($cache_path));
-      fclose($fp);
-      return $msg_source;
-      }
-    }
-
-
-  // get message from server
-  $msg_source = $IMAP->get_raw_body($uid);
-  
-  // return message source without caching
-  if (!$CONFIG['enable_caching'])
-    return $msg_source;
-
-
-  // let's cache the message body within the database
-  if ($cached && ($CONFIG['db_max_length'] -300) > $headers->size)
-    {
-    $DB->query("UPDATE ".get_table_name('messages')."
-                SET    body=?
-                WHERE  user_id=?
-                AND    cache_key=?
-                AND    uid=?",
-               $msg_source,
-               $_SESSION['user_id'],
-               $cache_key,
-               $uid);
-
-    return $msg_source;
-    }
-
-
-  // create dir for caching
-  if (!is_dir($cache_dir))
-    $dir = mkdir($cache_dir);
-  else
-    $dir = true;
-
-  // attempt to write a file with the message body    
-  if ($dir && ($fp = fopen($cache_path, 'w')))
-    {
-    fwrite($fp, $msg_source);
-    fclose($fp);
-    }
-  else
-    {
-    raise_error(array('code' => 403, 'type' => 'php', 'line' => __LINE__, 'file' => __FILE__, 
-                      'message' => "Failed to write to temp dir"), TRUE, FALSE);
-    }
-
-  return $msg_source;
-  }
-
-
 // decode address string and re-format it as HTML links
 function rcmail_address_string($input, $max=NULL, $addicon=NULL)
   {
@@ -1412,7 +1327,7 @@ function rcmail_message_part_controls()
     {
     $out .= sprintf('<tr><td class="title">%s</td><td>%s</td><td>[<a href="./?%s">%s</a>]</tr>'."\n",
                     rcube_label('filename'),
-                    rep_specialchars_output($filename),
+                    rep_specialchars_output(rcube_imap::decode_mime_string($filename)),
                     str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING']),
                     rcube_label('download'));
     }

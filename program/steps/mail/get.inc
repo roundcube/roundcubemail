@@ -69,12 +69,12 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
       // send download headers
       header("Content-Type: application/octet-stream");
       header(sprintf('Content-Disposition: attachment; filename="%s"',
-                     $filename ? $filename : "roundcube.$ctype_secondary"));
+                     $filename ? rcube_imap::decode_mime_string($filename) : "roundcube.$ctype_secondary"));
       }
     else
       {
       header("Content-Type: $mimetype");
-      header(sprintf('Content-Disposition: inline; filename="%s"', $filename));
+      header(sprintf('Content-Disposition: inline; filename="%s"', rcube_imap::decode_mime_string($filename)));
       }
 
     // We need to set the following headers to make downloads work using IE in HTTPS mode.
@@ -89,14 +89,15 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
       {
       // get part body if not available
       if (!$part->body)
-        $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);        
+        $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);      
 
       list($MESSAGE['parts']) = rcmail_parse_message($part,
                                                      array('safe' => (bool)$_GET['_safe'],
                                                            'prefer_html' => TRUE,
                                                            'get_url' => $GET_URL.'&_part=%s'));
 
-      print rcmail_print_body($MESSAGE['parts'][0], (bool)$_GET['_safe']);
+      $OUTPUT = new rcube_html_page();
+      $OUTPUT->write(rcmail_print_body($MESSAGE['parts'][0], (bool)$_GET['_safe']));
       }
     else
       {

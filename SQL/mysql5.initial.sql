@@ -1,5 +1,5 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1beta2
+-- Version 0.1-beta2
 -- 
 
 -- --------------------------------------------------------
@@ -16,7 +16,7 @@ CREATE TABLE `session` (
  `ip` varchar(15) NOT NULL,
  `vars` text NOT NULL,
  PRIMARY KEY(`sess_id`)
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=MYISAM CHARACTER SET ascii COLLATE ascii_general_ci;
 
 
 -- Table structure for table `users`
@@ -31,15 +31,16 @@ CREATE TABLE `users` (
  `language` varchar(5) NOT NULL DEFAULT 'en',
  `preferences` text NOT NULL,
  PRIMARY KEY(`user_id`)
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=MYISAM CHARACTER SET ascii COLLATE ascii_general_ci;
 
 
 -- Table structure for table `messages`
 
 CREATE TABLE `messages` (
  `message_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  `del` tinyint(1) NOT NULL DEFAULT '0',
- `cache_key` varchar(128) NOT NULL,
+ `cache_key` varchar(128) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `idx` int(11) UNSIGNED NOT NULL DEFAULT '0',
  `uid` int(11) UNSIGNED NOT NULL DEFAULT '0',
@@ -50,12 +51,11 @@ CREATE TABLE `messages` (
  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `size` int(11) UNSIGNED NOT NULL DEFAULT '0',
  `headers` text NOT NULL,
- `body` longtext,
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `structure` text,
  PRIMARY KEY(`message_id`),
- INDEX `cache_key`(`cache_key`),
  INDEX `idx`(`idx`),
  INDEX `uid`(`uid`),
+ UNIQUE `uniqueness` (`cache_key`, `uid`),
  CONSTRAINT `User_ID_FK_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
@@ -67,8 +67,8 @@ CREATE TABLE `messages` (
 
 CREATE TABLE `cache` (
  `cache_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- `session_id` varchar(40),
- `cache_key` varchar(128) NOT NULL,
+ `session_id` varchar(40) CHARACTER SET ascii COLLATE ascii_general_ci,
+ `cache_key` varchar(128) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `data` longtext NOT NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',

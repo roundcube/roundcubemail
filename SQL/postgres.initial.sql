@@ -163,6 +163,7 @@ CREATE TABLE "messages" (
     date timestamp with time zone NOT NULL,
     size integer DEFAULT 0 NOT NULL,
     headers text NOT NULL,
-    body text
+    structure text
 );
 
+ALTER TABLE "messages" ADD UNIQUE (cache_key, uid);
