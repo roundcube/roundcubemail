@@ -932,9 +932,9 @@ class rcube_imap
       
       $struct = &$this->_structure_part($structure);
       $struct->headers = get_object_vars($headers);
-      
+
       // don't trust given content-type
-      if (empty($struct->parts))
+      if (empty($struct->parts) && !empty($struct->headers['ctype']))
         {
         $struct->mime_id = '1';
         $struct->mimetype = strtolower($struct->headers['ctype']);
