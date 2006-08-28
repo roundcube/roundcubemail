@@ -718,7 +718,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
     // make links and email-addresses clickable
     $convert_patterns = $convert_replaces = $replace_strings = array();
     
-    $url_chars = 'a-z0-9_\-\+\*\$\/&%=@#:';
+    $url_chars = 'a-z0-9_\-\+\*\$\/&%=@#:;';
     $url_chars_within = '\?\.~,!';
 
     $convert_patterns[] = "/([\w]+):\/\/([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/ie";

@@ -151,7 +151,7 @@ else
     foreach ($emails as $email) 
       {
       $DB->query("INSERT INTO $contacts_table 
-                 (user_id, name, email
+                 (user_id, name, email)
                  VALUES ({$_SESSION['user_id']}," . $DB->quote($names[$n++]) . "," . 
                                       $DB->quote($email) . ")");
       $insert_id[] = $DB->insert_id();

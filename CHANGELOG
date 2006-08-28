@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/28 (estadtherr)
+----------
+- Fixed URL character set (Ticket #1445501)
+- Fixed saving of contact into MySQL from LDAP query results (Ticket #1483820)
+
+
 2006/08/25 (thomasb)
 ----------
 - Fixed folder renaming: unsubscribe before rename (Bug #1483920)
