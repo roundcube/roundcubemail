@@ -50,7 +50,7 @@ if (!empty($_POST['_cid']))
   if (sizeof($a_write_sql))
     {
     $DB->query("UPDATE $contacts_table
-                SET    changed=now(), ".join(', ', $a_write_sql)."
+                SET    changed=".$DB->now().", ".join(', ', $a_write_sql)."
                 WHERE  contact_id=?
                 AND    user_id=?
                 AND    del<>1",
@@ -172,8 +172,8 @@ else
     if (sizeof($a_insert_cols))
       {
       $DB->query("INSERT INTO $contacts_table
-                (user_id, changed, del, ".join(', ', $a_insert_cols).")
-                VALUES (?, now(), 0, ".join(', ', $a_insert_values).")",
+                  (user_id, changed, del, ".join(', ', $a_insert_cols).")
+                  VALUES (?, ".$DB->now().", 0, ".join(', ', $a_insert_values).")",
                 $_SESSION['user_id']);
                        
       $insert_id = $DB->insert_id(get_sequence_name('contacts'));

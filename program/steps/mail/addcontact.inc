@@ -43,7 +43,7 @@ if (!empty($_GET['_address']))
       {
       $DB->query("INSERT INTO ".get_table_name('contacts')."
                   (user_id, changed, del, name, email)
-                  VALUES (?, now(), 0, ?, ?)",
+                  VALUES (?, ".$DB->now().", 0, ?, ?)",
                   $_SESSION['user_id'],
                   $contact['name'],
                   $contact['mailto']);

@@ -70,7 +70,7 @@ function sess_write($key, $vars)
     session_decode($vars);
     $DB->query("UPDATE ".get_table_name('session')."
                 SET    vars=?,
-                       changed=now()
+                       changed=".$DB->now()."
                 WHERE  sess_id=?",
                 $vars,
                 $key);
@@ -79,7 +79,7 @@ function sess_write($key, $vars)
     {
     $DB->query("INSERT INTO ".get_table_name('session')."
                 (sess_id, vars, ip, created, changed)
-                VALUES (?, ?, ?, now(), now())",
+                VALUES (?, ?, ?, ".$DB->now().", ".$DB->now().")",
                 $key,
                 $vars,
                 $_SERVER['REMOTE_ADDR']);
@@ -118,7 +118,7 @@ function sess_gc($maxlifetime)
   // get all expired sessions  
   $sql_result = $DB->query("SELECT sess_id
                             FROM ".get_table_name('session')."
-                            WHERE ".$DB->unixtimestamp('now()')."-".$DB->unixtimestamp('changed')." > ?",
+                            WHERE ".$DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed')." > ?",
                             $maxlifetime);
                                    
   $a_exp_sessions = array();

@@ -292,13 +292,14 @@ class rcube_db
     switch($this->db_provider)
       {
       case 'pgsql':
-        // PostgreSQL uses sequences
         $result = &$this->db_handle->getOne("SELECT CURRVAL('$sequence')");
+        
+      case 'mssql':
+       	$result = &$this->db_handle->getOne("SELECT @@IDENTITY");
+
         if (DB::isError($result))
-          {
           raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 
                             'message' => $result->getMessage()), TRUE, FALSE);
-          }
 
         return $result;
                 
@@ -421,6 +422,25 @@ class rcube_db
     }
 
 
+  /*
+   * Return SQL function for current time and date
+   *
+   * @return string SQL function to use in query
+   * @access public
+   */
+  function now()
+    {
+    switch($this->db_provider)
+      {
+      case 'mssql':
+        return "getdate()";
+
+      default:
+        return "now()";
+      }
+    }
+
+
   /**
    * Return SQL statement to convert a field value into a unix timestamp
    *
@@ -434,7 +454,9 @@ class rcube_db
       {
       case 'pgsql':
         return "EXTRACT (EPOCH FROM $field)";
-        break;
+
+      case 'mssql':
+        return "datediff(s, '1970-01-01 00:00:00', $field)";
 
       default:
         return "UNIX_TIMESTAMP($field)";
@@ -456,7 +478,7 @@ class rcube_db
       case 'mysqli':
       case 'mysql':
       case 'sqlite':
-        return "FROM_UNIXTIME($timestamp)";
+        return sprintf("FROM_UNIXTIME(%d)", $timestamp);
 
       default:
         return date("'Y-m-d H:i:s'", $timestamp);
