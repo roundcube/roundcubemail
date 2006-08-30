@@ -921,7 +921,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       {
       $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);        
       unset($html_encode_arr['?']);
-      unset($html_encode_arr['&']);
       }
 
     $ltpos = strpos($str, '<');
@@ -933,6 +932,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       unset($encode_arr['"']);
       unset($encode_arr['<']);
       unset($encode_arr['>']);
+      unset($encode_arr['&']);
       }
     else if ($mode=='remove')
       $str = strip_tags($str);

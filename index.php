@@ -116,7 +116,7 @@ $SESS_HIDDEN_FIELD = '';
 // add framed parameter
 if ($_framed)
   {
-  $COMM_PATH .= '&_framed=1';
+  $COMM_PATH .= '&amp;_framed=1';
   $SESS_HIDDEN_FIELD .= "\n".'<input type="hidden" name="_framed" value="1" />';
   }
 

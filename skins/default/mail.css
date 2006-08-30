@@ -654,12 +654,37 @@ div.message-part a
   color: #0000CC;
 }
 
-div.message-part pre
+div.message-part div.pre
 {
   margin: 0px;
   padding: 0px;
+  white-space: pre;
+  font-family: monospace;
 }
 
+div.message-part blockquote
+{
+  color: blue;
+  border-left: 2px solid blue;
+  border-right: 2px solid blue;
+  background-color: #F6F6F6;
+  margin: 2px 0px 2px 0px;
+  padding: 1px 8px 1px 10px;
+}
+
+div.message-part blockquote blockquote
+{
+  color: green;
+  border-left: 2px solid green;
+  border-right: 2px solid green;
+}
+
+div.message-part blockquote blockquote blockquote
+{
+  color: #990000;
+  border-left: 2px solid #bb0000;
+  border-right: 2px solid #bb0000;
+}
 
 #remote-objects-message
 {

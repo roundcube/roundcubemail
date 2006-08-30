@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/08/30 (thomasb)
+----------
+- New indentation for quoted message text
+- Improved HTML validity
+
+
 2006/08/28 (estadtherr)
 ----------
 - Fixed URL character set (Ticket #1445501)

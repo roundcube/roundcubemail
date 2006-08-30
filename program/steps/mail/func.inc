@@ -214,7 +214,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $class_name = 'junk';
 
-    $js_name = rep_specialchars_output($folder['id'], 'js');
+    $js_name = htmlspecialchars(rep_specialchars_output($folder['id'], 'js'));
     $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&amp;_mbox=%s"'.
                     ' onclick="return %s.command(\'list\',\'%s\')"'.
                     ' onmouseover="return %s.focus_mailbox(\'%s\')"' .            
@@ -271,7 +271,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox_name, 
       }
 
     $out .= sprintf('<option value="%s">%s%s</option>'."\n",
-                    $folder['id'],
+                    htmlspecialchars($folder['id']),
                     str_repeat('&nbsp;', $nestLevel*4),
                     rep_specialchars_output($foldername, 'html', 'all'));
 
@@ -729,39 +729,44 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
     
     $convert_patterns[] = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/ie';
     $convert_replaces[] = "rcmail_str_replacement('<a href=\"mailto:\\1\" onclick=\"return $JS_OBJECT_NAME.command(\'compose\',\'\\1\',this)\">\\1</a>', \$replace_strings)";
+    
+    if ($part->ctype_parameters['format'] != 'flowed')
+      $body = wordwrap(trim($body), 80);
 
-    $body = wordwrap(trim($body), 80);
     $body = preg_replace($convert_patterns, $convert_replaces, $body);
 
     // split body into single lines
     $a_lines = preg_split('/\r?\n/', $body);
+    $quote_level = 0;
 
     // colorize quoted parts
     for($n=0; $n<sizeof($a_lines); $n++)
       {
       $line = $a_lines[$n];
+      $quotation = '';
+      $q = 0;
+      
+      if (preg_match('/^(>+\s*)/', $line, $regs))
+        {
+        $q = strlen(preg_replace('/\s/', '', $regs[1]));
+        $line = substr($line, strlen($regs[1]));
 
-      if ($line{2}=='>')
-        $color = 'red';
-      else if ($line{1}=='>')
-        $color = 'green';
-      else if ($line{0}=='>')
-        $color = 'blue';
-      else
-        $color = FALSE;
+        if ($q > $quote_level)
+          $quotation = str_repeat('<blockquote>', $q - $quote_level);
+        else if ($q < $quote_level)
+          $quotation = str_repeat("</blockquote>", $quote_level - $q);
+        }
+      else if ($quote_level > 0)
+        $quotation = str_repeat("</blockquote>", $quote_level);
 
-      $line = rep_specialchars_output($line, 'html', 'replace', FALSE);
-        
-      if ($color)
-        $a_lines[$n] = sprintf('<font color="%s">%s</font>', $color, $line);
-      else
-        $a_lines[$n] = $line;
+      $quote_level = $q;
+      $a_lines[$n] = $quotation . rep_specialchars_output($line, 'html', 'replace', FALSE);
       }
 
     // insert the links for urls and mailtos
     $body = preg_replace("/##string_replacement\{([0-9]+)\}##/e", "\$replace_strings[\\1]", join("\n", $a_lines));
     
-    return "<pre>\n".$body."\n</pre>";
+    return "<div class=\"pre\">\n".$body."\n</div>";
     }
   }
 
