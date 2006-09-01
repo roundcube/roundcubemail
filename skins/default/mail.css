@@ -564,7 +564,8 @@ html>body*#quicksearchbar #quicksearchbox { width: 180px; top:0px; right: 1px; l
 #quotadisplay img
 {
   vertical-align: middle;
-  padding-left: 4px;
+  margin-left: 4px;
+  border: 1px solid #666666;
 }
 
 

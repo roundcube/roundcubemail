@@ -1463,7 +1463,7 @@ class rcube_imap
   function get_quota()
     {
     if ($this->get_capability('QUOTA'))
-      return array('total' => 2048 * 1024, 'used' => 500 * 1024, 'percent' => 32); //iil_C_GetQuota($this->conn);
+      return iil_C_GetQuota($this->conn);
 	
     return FALSE;
     }
