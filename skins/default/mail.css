@@ -555,6 +555,19 @@ html>body*#quicksearchbar #quicksearchbox { width: 180px; top:0px; right: 1px; l
   background-color: #b4eeb4;*/
 }
 
+#quotadisplay
+{
+  color: #666666;
+  font-size: 11px;
+}
+
+#quotadisplay img
+{
+  vertical-align: middle;
+  padding-left: 4px;
+}
+
+
 /** message view styles */
 
 
@@ -881,8 +894,3 @@ div.message-part blockquote blockquote blockquote
   margin-top: 8px;
 }
 
-#rcmquotadisplay
-{
-  color: #999999;
-  font-size: 11px;
-}

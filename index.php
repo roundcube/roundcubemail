@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-beta2                                                     |
+ | Version 0.1-20060901                                                  |
  |                                                                       |
  | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-beta2');
+define('RCMAIL_VERSION', '0.1-20060901');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -288,6 +288,9 @@ if ($_task=='mail')
 
   if ($_action=='rss')
     include('program/steps/mail/rss.inc');
+    
+  if ($_action=='quotaimg')
+    include('program/steps/mail/quotaimg.inc');
 
 
   // make sure the message count is refreshed

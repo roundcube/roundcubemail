@@ -611,7 +611,7 @@ function rcmail_messagecount_display($attrib)
 
 function rcmail_quota_display($attrib)
   {
-  global $IMAP, $OUTPUT, $JS_OBJECT_NAME;
+  global $IMAP, $OUTPUT, $JS_OBJECT_NAME, $COMM_PATH;
 
   if (!$attrib['id'])
     $attrib['id'] = 'rcmquotadisplay';
@@ -620,11 +620,28 @@ function rcmail_quota_display($attrib)
 
   // allow the following attributes to be added to the <span> tag
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-  
+
   if (!$IMAP->get_capability('QUOTA'))
     $quota_text = rcube_label('unknown');
-  else if (!($quota_text = $IMAP->get_quota()))
+  else if ($quota = $IMAP->get_quota())
+    {
+    $quota_text = sprintf("%s / %s (%.0f%%)",
+                          show_bytes($quota["used"] * 1024),
+                          show_bytes($quota["total"] * 1024),
+                          $quota["percent"]);
+
+    // show quota as image (by Brett Patterson)
+    if ($attrib['display'] == 'image' && function_exists('imagegif'))
+      {
+      $quota_text = sprintf('<img src="%s&amp;_action=quotaimg&amp;u=%s&amp;q=%d" alt="%s" width="102" height="15" />',
+                            $COMM_PATH,
+                            $quota['used'], $quota['total'],
+                            $quota_text);
+      }
+    }
+  else
     $quota_text = rcube_label('unlimited');
+    
 
   $out = '<span' . $attrib_str . '>';
   $out .= $quota_text;

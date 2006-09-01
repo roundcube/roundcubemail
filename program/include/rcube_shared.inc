@@ -1299,12 +1299,25 @@ function get_boolean($str)
   }
 
 
-function show_bytes($numbytes)
+// create a human readable string for a number of bytes
+function show_bytes($bytes)
   {
-  if ($numbytes > 1024)
-    return sprintf('%d KB', round($numbytes/1024));
+  if ($bytes > 1073741824)
+    {
+    $gb = $bytes/1073741824;
+    $str = sprintf($gb>=10 ? "%d GB" : "%.1f GB", $gb);
+    }
+  else if ($bytes > 1048576)
+    {
+    $mb = $bytes/1048576;
+    $str = sprintf($mb>=10 ? "%d MB" : "%.1f MB", $mb);
+    }
+  else if ($bytes > 1024)
+    $str = sprintf("%d KB",  round($bytes/1024));
   else
-    return sprintf('%d B', $numbytes);
+    $str = sprintf('%d B', $bytes);
+
+  return $str;
   }
 
 
