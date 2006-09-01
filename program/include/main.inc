@@ -519,14 +519,7 @@ function rcmail_create_user($user, $host)
 
   if ($user_id = $DB->insert_id(get_sequence_name('users')))
     {
-    $mail_domain = $host;
-    if (is_array($CONFIG['mail_domain']))
-      {
-      if (isset($CONFIG['mail_domain'][$host]))
-        $mail_domain = $CONFIG['mail_domain'][$host];
-      }
-    else if (!empty($CONFIG['mail_domain']))
-      $mail_domain = $CONFIG['mail_domain'];
+    $mail_domain = rcmail_mail_domain($host);
    
     if ($user_email=='')
       $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
@@ -1643,6 +1636,24 @@ function rcmail_current_username($attrib)
     $s_username = $_SESSION['username'].'@'.$_SESSION['imap_host'];
 
   return $s_username;
+  }
+
+
+// return the mail domain configured for the given host
+function rcmail_mail_domain($host)
+  {
+  global $CONFIG;
+
+  $domain = $host;
+  if (is_array($CONFIG['mail_domain']))
+    {
+    if (isset($CONFIG['mail_domain'][$host]))
+      $domain = $CONFIG['mail_domain'][$host];
+    }
+  else if (!empty($CONFIG['mail_domain']))
+    $domain = $CONFIG['mail_domain'];
+
+  return $domain;
   }
 
 

@@ -66,7 +66,7 @@ function rcmail_get_identity($id)
 if (strlen($_POST['_draft_saveid']) > 3)
   $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
 
-$message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $_SESSION['imap_host']);
+$message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), rcmail_mail_domain($_SESSION['imap_host']));
 $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 
 // remove all scripts and act as called in frame
