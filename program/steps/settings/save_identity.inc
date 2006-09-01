@@ -61,18 +61,19 @@ if ($_POST['_iid'])
     $updated = $DB->affected_rows();
     }
        
-  if ($updated && !empty($_POST['_standard']))
+  if ($updated)
     {
     show_message('successfullysaved', 'confirmation');
 
     // mark all other identities as 'not-default'
-    $DB->query("UPDATE ".get_table_name('identities')."
-                SET ".$DB->quoteIdentifier('standard')."='0'
-                WHERE  user_id=?
-                AND    identity_id<>?
-                AND    del<>1",
-                $_SESSION['user_id'],
-                get_input_value('_iid', RCUBE_INPUT_POST));
+    if (!empty($_POST['_standard']))
+      $DB->query("UPDATE ".get_table_name('identities')."
+                  SET ".$DB->quoteIdentifier('standard')."='0'
+                  WHERE  user_id=?
+                  AND    identity_id<>?
+                  AND    del<>1",
+                  $_SESSION['user_id'],
+                  get_input_value('_iid', RCUBE_INPUT_POST));
     
     if ($_POST['_framed'])
       {

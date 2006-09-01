@@ -676,18 +676,18 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
 
     if (!$safe)  // remove remote images and scripts
       {
-      $remote_patterns = array('/(src|background)=(["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)(\2|\s|>)/Ui',
-                           //  '/(src|background)=(["\']?)([\.\/]+[^"\'\s]+)(\2|\s|>)/Ui',
+      $remote_patterns = array('/<img\s+(.*)src=(["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)(\2|\s|>)/Ui',
+                               '/(src|background)=(["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)(\2|\s|>)/Ui',
                                '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i',
                                '/(<link.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i',
                                '/url\s*\(["\']?([hftps]{3,5}:\/{2}[^"\'\s]+)["\']?\)/i',
                                '/url\s*\(["\']?([\.\/]+[^"\'\s]+)["\']?\)/i',
                                '/<script.+<\/script>/Umis');
 
-      $remote_replaces = array('',  // '\\1=\\2#\\4',
-                            // '\\1=\\2#\\4',
+      $remote_replaces = array('<img \\1src=\\2./program/blank.gif\\4',
                                '',
-                               '',  // '\\1#\\3',
+                               '',
+                               '',
                                'none',
                                'none',
                                '');
@@ -766,7 +766,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
     // insert the links for urls and mailtos
     $body = preg_replace("/##string_replacement\{([0-9]+)\}##/e", "\$replace_strings[\\1]", join("\n", $a_lines));
     
-    return "<div class=\"pre\">\n".$body."\n</div>";
+    return "<div class=\"pre\">".$body."\n</div>";
     }
   }
 
@@ -947,7 +947,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
       $a_replaces = array();
         
       foreach ($sa_inline_objects as $inline_object)
-        $a_replaces['cid:'.$inline_object->content_id] = sprintf($get_url, $inline_object->mime_id);
+        $a_replaces['cid:'.$inline_object->content_id] = htmlspecialchars(sprintf($get_url, $inline_object->mime_id));
       
       // add replace array to each content part
       // (will be applied later when part body is available)
@@ -1092,8 +1092,8 @@ function rcmail_message_body($attrib)
     foreach ($MESSAGE['attachments'] as $attach_prop)
       {
       if (strpos($attach_prop->mimetype, 'image/')===0)
-        $out .= sprintf("\n<hr />\n<p align=\"center\"><img src=\"%s&_part=%s\" alt=\"%s\" title=\"%s\" /></p>\n",
-                        $GET_URL, $attach_prop->mime_id,
+        $out .= sprintf("\n<hr />\n<p align=\"center\"><img src=\"%s&amp;_part=%s\" alt=\"%s\" title=\"%s\" /></p>\n",
+                        htmlspecialchars($GET_URL), $attach_prop->mime_id,
                         $attach_prop->filename,
                         $attach_prop->filename);
       }
@@ -1121,15 +1121,12 @@ function rcmail_mod_html_body($body, $container_id)
   // find STYLE tags
   while (($pos = strpos($body_lc, '<style', $last_style_pos)) && ($pos2 = strpos($body_lc, '</style>', $pos)))
     {
-    $pos2 += 8;
-    $body_pre = substr($body, 0, $pos);
-    $styles = substr($body, $pos, $pos2-$pos);
-    $body_post = substr($body, $pos2, strlen($body)-$pos2);
-    
+    $pos = strpos($body_lc, '>', $pos)+1;
+
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles($styles, $container_id);
-    
-    $body = $body_pre . $styles . $body_post;
+    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id);
+
+    $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);    
     $last_style_pos = $pos2;
     }
 
