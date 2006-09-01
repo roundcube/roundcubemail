@@ -9,12 +9,11 @@
  | All rights reserved.                                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- +-----------------------------------------------------------------------+
- | Norwegian translation: Olav Elstad <olav@elstad.org>                   |
+ | Author: Olav Elstad <olav@elstad.org>                                 |
  +-----------------------------------------------------------------------+
  
-
+ $Id$
+ 
 */
 
 $labels = array();
@@ -196,5 +195,28 @@ $labels['ldappublicserverselect'] = 'Velg servere';
 $labels['ldappublicsearchfield'] = 'Søk på';
 $labels['ldappublicsearchform'] = 'Søk etter en kontakt';
 $labels['ldappublicsearch'] = 'Søk';
+
+$labels['welcome'] = 'Velkommen til $product';
+
+$labels['unknown'] = 'ukjent';
+$labels['unlimited'] = 'ubegrenset';
+$labels['dstactive'] = 'Sommertid';
+
+$labels['previouspage'] = 'Vis forrige sett';
+$labels['nextpage']     = 'Vis neste sett';
+
+$labels['returnreceipt'] = 'Be om kvittering';
+
+$labels['checkmail'] = 'Sjekk for nye beskjeder';
+$labels['checkspelling'] = 'Stavekontroll';
+$labels['resumeediting'] = 'Fortsett redigering';
+$labels['revertto'] = 'Tilbake til';
+
+$labels['savemessage']  = 'Lagre kladd';
+$labels['rename'] = 'Døkp om';
+$labels['renamefolder'] = 'Døkp om mappe';
+
+# i use an additional description field - this might be used somewhere else
+$labels['description'] = 'Beskrivelse';
 
 ?>

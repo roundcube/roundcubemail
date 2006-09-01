@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/01 (thomasb)
+----------
+- Imporoved message parsing and HTML validation
+- Added quota display as image (by Brett Patterson)
+- Corrected creation of a message-id
+- Updated Norwegian (bokmal) localization
+
+
 2006/08/30 (thomasb)
 ----------
 - New indentation for quoted message text
