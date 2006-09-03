@@ -29,7 +29,7 @@ if ($_GET['_preload'])
   $message = rcube_label('loadingdata');
 
   print "<html>\n<head>\n" .
-        '<meta http-equiv="refresh" content="0; url='.$url.'">' .
+        '<meta http-equiv="refresh" content="0; url='.htmlspecialchars($url).'">' .
         "\n</head>\n<body>" .
         $message .
         "\n</body>\n</html>";
