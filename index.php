@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060901                                                  |
+ | Version 0.1-20060904                                                  |
  |                                                                       |
  | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060901');
+define('RCMAIL_VERSION', '0.1-20060904');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -87,12 +87,6 @@ require_once('PEAR.php');
 // set PEAR error handling
 // PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
 
-// use gzip compression if supported
-if (function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
-  ob_start('ob_gzhandler');
-else
-  ob_start();
-
 
 // catch some url/post parameters
 $_task = get_input_value('_task', RCUBE_INPUT_GPC);
@@ -104,6 +98,18 @@ if (empty($_task))
 
 if (!empty($_GET['_remote']))
   $REMOTE_REQUEST = TRUE;
+  
+
+// set output buffering
+if ($_action != 'get' && $_action != 'viewsource')
+  {
+  // use gzip compression if supported
+  if (function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
+    ob_start('ob_gzhandler');
+  else
+    ob_start();
+  }
+
 
 // start session with requested task
 rcmail_startup($_task);

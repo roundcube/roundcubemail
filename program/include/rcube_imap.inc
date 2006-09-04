@@ -1010,10 +1010,11 @@ class rcube_imap
 	// get part size
 	if (!empty($part[6]) && $part[6]!='NIL')
 	  $struct->size = intval($part[6]);
-	  
+
 	// read part disposition
     $di = count($part) - 2;
-    if (is_array($part[$di]))
+    if ((is_array($part[$di]) && count($part[$di]) == 2 && is_array($part[$di][1])) ||
+        (is_array($part[--$di]) && count($part[$di]) == 2))
       {
       $struct->disposition = strtolower($part[$di][0]);
 

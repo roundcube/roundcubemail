@@ -842,7 +842,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
   $from = strtoupper($from);
   $to = $to==NULL ? strtoupper($GLOBALS['CHARSET']) : strtoupper($to);
 
-  if ($from==$to || $str=='')
+  if ($from==$to || $str=='' || empty($from))
     return $str;
 
   // convert charset using mbstring module  
