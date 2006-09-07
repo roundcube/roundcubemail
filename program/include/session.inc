@@ -45,7 +45,7 @@ function sess_read($key)
 
   if ($sql_arr = $DB->fetch_assoc($sql_result))
     {
-    $SESS_CHANGED = mktime(); //$sql_arr['changed'];
+    $SESS_CHANGED = $sql_arr['changed'];
 
     if (strlen($sql_arr['vars']))
       return $sql_arr['vars'];

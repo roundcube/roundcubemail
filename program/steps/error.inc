@@ -69,11 +69,11 @@ else
   {
   $__error_title = "SERVICE CURRENTLY NOT AVAILABLE!";
   $__error_text  = "Please contact your server-administrator.";
-  
+
   if (($CONFIG['debug_level'] & 4) && $ERROR_MESSAGE)
     $__error_text = $ERROR_MESSAGE;
   else
-    $__error_text = 'Error No. '.dechex($ERROR_CODE).')';
+    $__error_text = 'Error No. ['.dechex($ERROR_CODE).']';
   }
 
 

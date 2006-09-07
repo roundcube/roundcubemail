@@ -73,10 +73,12 @@ else if ($_action=='rename-folder')
     
   if ($rename && $REMOTE_REQUEST)
     {
-    $commands = sprintf("this.replace_folder_row('%s','%s','%s');",
+    $commands = sprintf("this.replace_folder_row('%s','%s','%s');\n",
                         rep_specialchars_output(get_input_value('_folder_oldname', RCUBE_INPUT_GET), 'js'),
                         rep_specialchars_output($rename, 'js'),
                         rep_specialchars_output(rcube_charset_convert($rename, 'UTF-7'), 'js'));
+
+    $commands .= "this.reset_folder_rename();\n";
                         
     rcube_remote_response($commands);
     }

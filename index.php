@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060904                                                  |
+ | Version 0.1-20060907                                                  |
  |                                                                       |
  | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060904');
+define('RCMAIL_VERSION', '0.1-20060907');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -181,7 +181,7 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
 else if ($_action!='login' && $_SESSION['user_id'])
   {
   if (!rcmail_authenticate_session() ||
-      ($CONFIG['session_lifetime'] && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
+      (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
     {
     $message = show_message('sessionerror', 'error');
     rcmail_kill_session();

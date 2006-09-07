@@ -39,40 +39,12 @@ function rcmail_startup($task='mail')
   // check client
   $BROWSER = rcube_browser();
 
-  // load config file
-  include_once('config/main.inc.php');
-  $CONFIG = is_array($rcmail_config) ? $rcmail_config : array();
-  
-  // load host-specific configuration
-  rcmail_load_host_config($CONFIG);
-  
-  $CONFIG['skin_path'] = $CONFIG['skin_path'] ? unslashify($CONFIG['skin_path']) : 'skins/default';
-
-  // load db conf
-  include_once('config/db.inc.php');
-  $CONFIG = array_merge($CONFIG, $rcmail_config);
-
-  if (empty($CONFIG['log_dir']))
-    $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
-  else
-    $CONFIG['log_dir'] = unslashify($CONFIG['log_dir']);
-
-  // set PHP error logging according to config
-  if ($CONFIG['debug_level'] & 1)
-    {
-    ini_set('log_errors', 1);
-    ini_set('error_log', $CONFIG['log_dir'].'/errors');
-    }
-  if ($CONFIG['debug_level'] & 4)
-    ini_set('display_errors', 1);
-  else
-    ini_set('display_errors', 0);
-
+  // load configuration
+  $CONFIG = rcmail_load_config();
 
   // set session garbage collecting time according to session_lifetime
   if (!empty($CONFIG['session_lifetime']))
-    ini_set('session.gc_maxlifetime', ($CONFIG['session_lifetime']+2)*60);
-
+    ini_set('session.gc_maxlifetime', ($CONFIG['session_lifetime']) * 120);
 
   // prepare DB connection
   require_once('include/rcube_'.(empty($CONFIG['db_backend']) ? 'db' : $CONFIG['db_backend']).'.inc');
@@ -80,7 +52,7 @@ function rcmail_startup($task='mail')
   $DB = new rcube_db($CONFIG['db_dsnw'], $CONFIG['db_dsnr'], $CONFIG['db_persistent']);
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
   $DB->db_connect('w');
-    
+
   // we can use the database for storing session data
   if (!$DB->is_error())
     include_once('include/session.inc');
@@ -129,6 +101,44 @@ function rcmail_startup($task='mail')
   }
 
 
+// load roundcube configuration into global var
+function rcmail_load_config()
+  {
+	global $INSTALL_PATH;
+
+  // load config file
+	include_once('config/main.inc.php');
+	$conf = is_array($rcmail_config) ? $rcmail_config : array();
+
+  // load host-specific configuration
+  rcmail_load_host_config($conf);
+
+  $conf['skin_path'] = $conf['skin_path'] ? unslashify($conf['skin_path']) : 'skins/default';
+
+  // load db conf
+  include_once('config/db.inc.php');
+  $conf = array_merge($conf, $rcmail_config);
+
+  if (empty($conf['log_dir']))
+    $conf['log_dir'] = $INSTALL_PATH.'logs';
+  else
+    $conf['log_dir'] = unslashify($conf['log_dir']);
+
+  // set PHP error logging according to config
+  if ($conf['debug_level'] & 1)
+    {
+    ini_set('log_errors', 1);
+    ini_set('error_log', $conf['log_dir'].'/errors');
+    }
+  if ($conf['debug_level'] & 4)
+    ini_set('display_errors', 1);
+  else
+    ini_set('display_errors', 0);
+
+  return $conf;
+  }
+
+
 // load a host-specific config file if configured
 function rcmail_load_host_config(&$config)
   {
@@ -169,15 +179,24 @@ function rcmail_auth_hash($sess_id, $ts)
 function rcmail_authenticate_session()
   {
   $now = mktime();
-  $valid = ($_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['auth_time']));
+  $valid = ($_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['auth_time']) ||
+						$_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['last_auth']));
 
   // renew auth cookie every 5 minutes (only for GET requests)
   if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now-$_SESSION['auth_time'] > 300))
     {
+	  $_SESSION['last_auth'] = $_SESSION['auth_time'];
     $_SESSION['auth_time'] = $now;
     setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
     }
-    
+
+  if (!$valid)
+    write_log('timeouts',
+      "REQUEST: " . var_export($_REQUEST, true) .
+      "\nEXPECTED: " . rcmail_auth_hash(session_id(), $_SESSION['auth_time']) .
+      "\nOR LAST: " . rcmail_auth_hash(session_id(), $_SESSION['last_auth']) .
+      "\nSESSION: " . var_export($_SESSION, true));
+
   return $valid;
   }
 
@@ -353,11 +372,15 @@ function load_gui()
       $javascript .= "$JS_OBJECT_NAME.set_env('$js_config_var', '" . $CONFIG[$js_config_var] . "');\n";
     }
   }
+
+  // don't wait for page onload. Call init at the bottom of the page (delayed)
+  $javascript_foot = "if (window.call_init)\n call_init('$JS_OBJECT_NAME');";
   
   if (!empty($GLOBALS['_framed']))
     $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
     
-  $OUTPUT->add_script($javascript);
+  $OUTPUT->add_script($javascript, 'head');
+  $OUTPUT->add_script($javascript_foot, 'foot');
   $OUTPUT->include_script('common.js');
   $OUTPUT->include_script('app.js');
   $OUTPUT->scripts_path = 'program/js/';
@@ -1802,6 +1825,9 @@ function console($msg)
 function write_log($name, $line)
   {
   global $CONFIG;
+
+  if (!is_string($line))
+    $line = var_export($line, true);
   
   $log_entry = sprintf("[%s]: %s\n",
                  date("d-M-Y H:i:s O", mktime()),

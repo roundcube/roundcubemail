@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/07 (thomasb)
+----------
+- Made automatic draft saving configurable
+- Fixed JS bug when renaming folders (Bug #1483989)
+- Don't wait for complete page load when calling JavaScript init()
+- Some improvements to prevent session expiration
+- Prevent from double submit of spell check requests
+
+
 2006/09/01 (thomasb)
 ----------
 - Imporoved message parsing and HTML validation

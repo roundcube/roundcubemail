@@ -49,9 +49,9 @@ function rcube_webmail()
                              'application/x-shockwave-flash');
 
   // default environment vars
-  this.env.keep_alive = 60;        // seconds
+  this.env.keep_alive = 50;        // seconds
   this.env.request_timeout = 180;  // seconds
-  this.env.draft_autosave = 300;   // seconds
+  this.env.draft_autosave = 0;     // seconds
 
 
   // set environment variable
@@ -148,7 +148,10 @@ function rcube_webmail()
           {
           this.enable_command('add-attachment', 'send-attachment', 'remove-attachment', 'send', true);
           if (this.env.spellcheck)
-            this.enable_command('spellcheck', true);
+            {
+            this.env.spellcheck.spelling_state_observer = function(s){ rcube_webmail_client.set_spellcheck_state(s); };
+            this.set_spellcheck_state('ready');
+            }
           if (this.env.drafts_mailbox)
             this.enable_command('savedraft', true);
           }
@@ -930,8 +933,11 @@ function rcube_webmail()
         break;
         
       case 'spellcheck':
-        if (this.env.spellcheck && this.env.spellcheck.spellCheck)
+        if (this.env.spellcheck && this.env.spellcheck.spellCheck && this.spellcheck_ready)
+          {
           this.env.spellcheck.spellCheck(this.env.spellcheck.check_link);
+          this.set_spellcheck_state('checking');
+          }
         break;
 
       case 'savedraft':
@@ -942,7 +948,8 @@ function rcube_webmail()
           break;
 
         // if saving Drafts is disabled in main.inc.php
-        if (!this.env.drafts_mailbox)
+        // or if compose form did not change
+        if (!this.env.drafts_mailbox || this.cmp_hash == this.compose_field_hash())
           break;
 
         this.set_busy(true, 'savingmessage');
@@ -2025,6 +2032,13 @@ function rcube_webmail()
     };
 
 
+  this.set_spellcheck_state = function(s)
+    {
+	this.spellcheck_ready = (s=='check_spelling' || s=='ready');
+    this.enable_command('spellcheck', this.spellcheck_ready);
+	};
+
+
   this.auto_save_start = function()
     {
     if (this.env.draft_autosave)
@@ -2783,7 +2797,7 @@ function rcube_webmail()
   this.reset_folder_rename = function()
     {
     var cell = this.name_input ? this.name_input.parentNode : null;
-    if (cell && this.edit_folder)
+    if (cell && this.edit_folder && this.env.subscriptionrows[this.edit_folder])
       cell.innerHTML = this.env.subscriptionrows[this.edit_folder][1];
       
     this.edit_folder = null;
@@ -3568,7 +3582,7 @@ function rcube_webmail()
 
       case 'expunge':
         this.enable_command('select-all', 'select-none', 'expunge', this.env.messagecount ? true : false);
-        break;      
+        break;
       }
 
     request_obj.reset();
@@ -3886,6 +3900,12 @@ function rcube_http_request()
   }  // end class rcube_http_request
 
 
+// helper function to call the init method with a delay
+function call_init(o)
+  {
+  if (window[o] && window[o].init)
+    setTimeout(o+'.init()', 200);
+  }
 
 function console(str)
   {
@@ -3893,10 +3913,3 @@ function console(str)
     document.debugform.console.value += str+'\n--------------------------------------\n';
   }
 
-
-// set onload handler
-window.onload = function(e)
-  {
-  if (window.rcube_webmail_client)
-    rcube_webmail_client.init();
-  };

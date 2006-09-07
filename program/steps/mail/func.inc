@@ -1245,9 +1245,9 @@ function rcmail_first_text_part($message_struct)
   {
   global $IMAP;
 
-  if (!is_array($message_struct['parts']))
-    return FALSE;
-    
+  if (empty($message_struct['parts']))
+    return $message_struct['UID'] ? $IMAP->get_body($message_struct['UID']) : false;
+
   // check all message parts
   foreach ($message_struct['parts'] as $pid => $part)
     {
