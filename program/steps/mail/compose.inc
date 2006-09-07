@@ -55,6 +55,9 @@ $_SESSION['compose'] = array('id' => uniqid(rand()));
 // add some labels to client
 rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved');
 
+// add config parameter to client script
+$OUTPUT->add_script(sprintf("%s.set_env('draft_autosave', %d);", $JS_OBJECT_NAME, !empty($CONFIG['drafts_mbox']) ? $CONFIG['draft_autosave'] : 0));
+
 
 // get reference message and set compose mode
 if ($msg_uid = get_input_value('_reply_uid', RCUBE_INPUT_GET))

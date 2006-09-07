@@ -200,6 +200,10 @@ $labels['pagesize']  = 'Einträge pro Seite';
 $labels['signature'] = 'Signatur';
 $labels['dstactive']  = 'Sommerzeit';
 
+$labels['autosavedraft']  = 'Entwurf autom. speichern';
+$labels['everynminutes']  = 'alle $n Minuten';
+$labels['never']  = 'nie';
+
 $labels['folder']  = 'Ordner';
 $labels['folders']  = 'Ordner';
 $labels['foldername']  = 'Ordnername';

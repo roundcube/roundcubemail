@@ -202,6 +202,10 @@ $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight savings';
 
+$labels['autosavedraft']  = 'Automatically save draft';
+$labels['everynminutes']  = 'every $n minutes';
+$labels['never']  = 'never';
+
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
 $labels['foldername']  = 'Folder name';

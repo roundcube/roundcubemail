@@ -46,10 +46,13 @@ function rcmail_user_prefs_form($attrib)
   // return the complete edit form as table
   $out = "$form_start<table" . $attrib_str . ">\n\n";
 
-  $a_show_cols = array('language'   => array('type' => 'text'),
-                       'pagesize'   => array('type' => 'text'),
-                       'timezone'   => array('type' => 'text'),
-                       'prettydate' => array('type' => 'text'));
+  $a_show_cols = array(
+	  'language'   => array('type' => 'text'),
+    'pagesize'   => array('type' => 'text'),
+    'timezone'   => array('type' => 'text'),
+    'prettydate' => array('type' => 'text'),
+    'draft_autosave' => array('type' => 'text')
+  );
                        
   // show language selection
   $a_lang = rcube_list_languages();
@@ -144,6 +147,19 @@ function rcmail_user_prefs_form($attrib)
                   rep_specialchars_output(rcube_label('prettydate')),
                   $input_prettydate->show($CONFIG['prettydate']?1:0));
 
+  if (!empty($CONFIG['drafts_mbox']))
+    {
+    $field_id = 'rcmfd_autosave';
+    $select_autosave = new select(array('name' => '_draft_autosave', 'id' => $field_id));
+    $select_autosave->add(rcube_label('never'), 0);
+    foreach (array(3, 5, 10) as $i => $min)
+      $select_autosave->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min*60);
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('autosavedraft')),
+                    $select_autosave->show($CONFIG['draft_autosave']));
+    }
 
   $out .= "\n</table>$form_end";
 
