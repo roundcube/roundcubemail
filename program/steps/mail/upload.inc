@@ -26,8 +26,8 @@ if (!$_SESSION['compose'])
   }
 
 
-// create temp dir for file uploads
-$temp_dir = rcmail_create_compose_tempdir();
+// use common temp dir for file uploads
+$temp_dir = unslashify($CONFIG['temp_dir']);
 
 
 if (!is_array($_SESSION['compose']['attachments']))

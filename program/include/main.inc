@@ -823,19 +823,25 @@ function rcube_add_label()
   }
 
 
-// remove temp files of a session
-function rcmail_clear_session_temp($sess_id)
+// remove temp files older than two day
+function rcmail_temp_gc()
   {
-  global $CONFIG;
+  $tmp = unslashify($CONFIG['temp_dir']);
+  $expire = mktime() - 172800;  // expire in 48 hours
 
-  $temp_dir = slashify($CONFIG['temp_dir']);
-  $cache_dir = $temp_dir.$sess_id;
-
-  if (is_dir($cache_dir))
+  if ($dir = opendir($tmp))
     {
-    clear_directory($cache_dir);
-    rmdir($cache_dir);
-    }  
+    while (($fname = readdir($dir)) !== false)
+      {
+      if ($fname{0} == '.')
+        continue;
+
+      if (filemtime($tmp.'/'.$fname) < $expire)
+        @unlink($tmp.'/'.$fname);
+      }
+
+    closedir($dir);
+    }
   }
 
 

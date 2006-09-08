@@ -1384,42 +1384,16 @@ function rcmail_message_part_frame($attrib)
   }
 
 
-// create temp dir for attachments
-function rcmail_create_compose_tempdir()
-  {
-  global $CONFIG;
-  
-  if ($_SESSION['compose']['temp_dir'])
-    return $_SESSION['compose']['temp_dir'];
-  
-  if (!empty($CONFIG['temp_dir']))
-    $temp_dir = $CONFIG['temp_dir'].(!eregi('\/$', $CONFIG['temp_dir']) ? '/' : '').$_SESSION['compose']['id'];
-
-  // create temp-dir for uploaded attachments
-  if (!empty($CONFIG['temp_dir']) && is_writeable($CONFIG['temp_dir']))
-    {
-    mkdir($temp_dir);
-    $_SESSION['compose']['temp_dir'] = $temp_dir;
-    }
-
-  return $_SESSION['compose']['temp_dir'];
-  }
-
-
 // clear message composing settings
 function rcmail_compose_cleanup()
   {
   if (!isset($_SESSION['compose']))
     return;
-  
+
   // remove attachment files from temp dir
   if (is_array($_SESSION['compose']['attachments']))
     foreach ($_SESSION['compose']['attachments'] as $attachment)
       @unlink($attachment['path']);
-
-  // kill temp dir
-  if ($_SESSION['compose']['temp_dir'])
-    @rmdir($_SESSION['compose']['temp_dir']);
   
   unset($_SESSION['compose']);
   }

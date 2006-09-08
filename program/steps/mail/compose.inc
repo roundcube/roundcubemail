@@ -497,9 +497,9 @@ function rcmail_create_draft_body($body)
   
 function rcmail_write_compose_attachments(&$message)
   {
-  global $IMAP;
-    
-  $temp_dir = rcmail_create_compose_tempdir();
+  global $IMAP, $CONFIG;
+
+  $temp_dir = unslashify($CONFIG['temp_dir']);
 
   if (!is_array($_SESSION['compose']['attachments']))
     $_SESSION['compose']['attachments'] = array();
