@@ -826,65 +826,14 @@ class Mail_mime
                 default:
                     //quoted-printable encoding has been selected
                     
-                    //Generate the header using the specified params and dynamicly 
-                    //determine the maximum length of such strings.
-                    //75 is the value specified in the RFC. The -2 is there so 
-                    //the later regexp doesn't break any of the translated chars.
-                    $prefix = '=?' . $this->_build_params['head_charset'] . '?Q?';
-                    $suffix = '?=';
-                    $maxLength = 75 - strlen($prefix . $suffix) - 2;
-                    $maxLength1stLine = $maxLength - strlen($hdr_name);
-                    
-                    //Replace all special characters used by the encoder.
-                    $search  = array("=",   "_",   "?",   " ");
-                    $replace = array("=3D", "=5F", "=3F", "_");
-                    $hdr_value = str_replace($search, $replace, $hdr_value);
-                    
-                    //Replace all extended characters (\x80-xFF) with their
-                    //ASCII values.
-                    $hdr_value = preg_replace(
-                        '#([\x80-\xFF])#e',
-                        '"=" . strtoupper(dechex(ord("\1")))',
-                        $hdr_value
-                    );
-                    //This regexp will break QP-encoded text at every $maxLength
-                    //but will not break any encoded letters.
-                    $reg1st = "|(.{0,$maxLength})[^\=]|";
-                    $reg2nd = "|(.{0,$maxLength})[^\=]|";
-                    break;
-                }
-                //Begin with the regexp for the first line.
-                $reg = $reg1st;
-                $output = "";
-                while ($hdr_value) {
-                    //Split translated string at every $maxLength
-                    //But make sure not to break any translated chars.
-                    $found = preg_match($reg, $hdr_value, $matches);
-                    
-                    //After this first line, we need to use a different
-                    //regexp for the first line.
-                    $reg = $reg2nd;
-
-                    //Save the found part and encapsulate it in the
-                    //prefix & suffix. Then remove the part from the
-                    //$hdr_value variable.
-                    if ($found){
-                        $part = $matches[0];
-                        $hdr_value = substr($hdr_value, strlen($matches[0]));
-                    }else{
-                        $part = $hdr_value;
-                        $hdr_value = "";
+                    preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches); 
+                    foreach ($matches[1] as $value) { 
+                        $replacement = preg_replace('/([\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value); 
+                        $hdr_value = str_replace($value, '=?' . $this->_build_params['head_charset'] . '?Q?' . $replacement . '?=', $hdr_value);
                     }
-                    
-                    //RFC 2047 specifies that any split header should be seperated
-                    //by a CRLF SPACE. 
-                    if ($output){
-                        $output .=  "\r\n ";
-                    }
-                    $output .= $prefix . $part . $suffix;
                 }
-                $hdr_value = $output;
             }
+
             $input[$hdr_name] = $hdr_value;
         }
 
