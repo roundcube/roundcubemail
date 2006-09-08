@@ -49,7 +49,7 @@ function rcube_webmail()
                              'application/x-shockwave-flash');
 
   // default environment vars
-  this.env.keep_alive = 50;        // seconds
+  this.env.keep_alive = 60;        // seconds
   this.env.request_timeout = 180;  // seconds
   this.env.draft_autosave = 0;     // seconds
 

@@ -185,7 +185,7 @@ function rcmail_authenticate_session()
   // renew auth cookie every 5 minutes (only for GET requests)
   if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now-$_SESSION['auth_time'] > 300))
     {
-	  $_SESSION['last_auth'] = $_SESSION['auth_time'];
+    $_SESSION['last_auth'] = $_SESSION['auth_time'];
     $_SESSION['auth_time'] = $now;
     setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
     }
