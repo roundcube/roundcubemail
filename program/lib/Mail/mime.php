@@ -787,50 +787,57 @@ class Mail_mime
      */
     function _encodeHeaders($input)
     {
+        $maxlen = 73;
         foreach ($input as $hdr_name => $hdr_value) {
-            if (function_exists('iconv_mime_encode') && preg_match('#[\x80-\xFF]{1}#', $hdr_value)){
-                $imePref = array();
-                if ($this->_build_params['head_encoding'] == 'base64'){
-                    $imePrefs['scheme'] = 'B';
-                }else{
-                    $imePrefs['scheme'] = 'Q';
-                }
-                $imePrefs['input-charset']  = $this->_build_params['head_charset'];
-                $imePrefs['output-charset'] = $this->_build_params['head_charset'];
-                $hdr_value = iconv_mime_encode($hdr_name, $hdr_value, $imePrefs);
-                $hdr_value = preg_replace("#^{$hdr_name}\:\ #", "", $hdr_value);
-            }elseif (preg_match('#[\x80-\xFF]{1}#', $hdr_value)){
-                //This header contains non ASCII chars and should be encoded.
-                switch ($this->_build_params['head_encoding']) {
-                case 'base64':
-                    //Base64 encoding has been selected.
-                    
-                    //Generate the header using the specified params and dynamicly 
-                    //determine the maximum length of such strings.
-                    //75 is the value specified in the RFC. The -2 is there so 
-                    //the later regexp doesn't break any of the translated chars.
-                    $prefix = '=?' . $this->_build_params['head_charset'] . '?B?';
-                    $suffix = '?=';
-                    $maxLength = 75 - strlen($prefix . $suffix) - 2;
-                    $maxLength1stLine = $maxLength - strlen($hdr_name);
-                    
-                    //Base64 encode the entire string
-                    $hdr_value = base64_encode($hdr_value);
+            // if header contains e-mail addresses
+            if (preg_match('/\s<.+@[a-z0-9\-\.]+\.[a-z]+>/U', $hdr_value))
+                $chunks = $this->_explode_quoted_string(',', $hdr_value);
+            else
+               $chunks = array($hdr_value);
 
-                    //This regexp will break base64-encoded text at every 
-                    //$maxLength but will not break any encoded letters.
-                    $reg1st = "|.{0,$maxLength1stLine}[^\=][^\=]|";
-                    $reg2nd = "|.{0,$maxLength}[^\=][^\=]|";
-                    break;
-                case 'quoted-printable':
-                default:
-                    //quoted-printable encoding has been selected
-                    
-                    preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches); 
-                    foreach ($matches[1] as $value) { 
-                        $replacement = preg_replace('/([\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value); 
-                        $hdr_value = str_replace($value, '=?' . $this->_build_params['head_charset'] . '?Q?' . $replacement . '?=', $hdr_value);
+            $hdr_value = '';
+            $line_len = 0;
+
+            foreach ($chunks as $i => $value) {
+                $value = trim($value);
+
+                //This header contains non ASCII chars and should be encoded.
+                if (preg_match('#[\x80-\xFF]{1}#', $value)) {
+                    $suffix = '';
+                    // Don't encode e-mail address
+                    if (preg_match('/(.+)\s(<.+@[a-z0-9\-\.]+\.[a-z]{2,5}>)$/Ui', $value, $matches)) {
+                        $value = $matches[1];
+                        $suffix = ' '.$matches[2];
                     }
+
+                    switch ($this->_build_params['head_encoding']) {
+                    case 'base64':
+                        // Base64 encoding has been selected.
+                        $mode = 'B';
+                        $encoded = base64_encode($value);
+                        break;
+
+                    case 'quoted-printable':
+                    default:
+                        // quoted-printable encoding has been selected
+                        $mode = 'Q';
+                        $encoded = preg_replace('/([\x20-\x25\x2C\x80-\xFF])/e', "'='.sprintf('%02X', ord('\\1'))", $value);
+                        // replace spaces with _
+                        $encoded = str_replace('=20', '_', $encoded);
+                    }
+
+                $value = '=?' . $this->_build_params['head_charset'] . '?' . $mode . '?' . $encoded . '?=' . $suffix;
+                }
+
+                // add chunk to output string by regarding the header maxlen
+                $len = strlen($value);
+                if ($line_len + $len < $maxlen) {
+                    $hdr_value .= ($i>0?', ':'') . $value;
+                    $line_len += $len + ($i>0?2:0);
+                }
+                else {
+                    $hdr_value .= ($i>0?', ':'') . "\n " . $value;
+                    $line_len = $len;
                 }
             }
 
@@ -839,6 +846,24 @@ class Mail_mime
 
         return $input;
     }
+
+
+  function _explode_quoted_string($delimiter, $string)
+    {
+    $quotes = explode("\"", $string);
+    foreach ($quotes as $key => $val)
+      if (($key % 2) == 1)
+        $quotes[$key] = str_replace($delimiter, "_!@!_", $quotes[$key]);
+
+    $string = implode("\"", $quotes);
+
+    $result = explode($delimiter, $string);
+    foreach ($result as $key => $val) 
+      $result[$key] = str_replace("_!@!_", $delimiter, $result[$key]);
+
+    return $result;
+    }
+
 
     /**
      * Set the object's end-of-line and define the constant if applicable
