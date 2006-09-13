@@ -1887,7 +1887,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode){
                 $remaining = $bytes - $received;
                 $line = iil_ReadLine($fp, 1024);
                 $len = strlen($line);
-                if ($len > $remaining) substr($line, 0, $remaining);
+                if ($len > $remaining) $line = substr($line, 0, $remaining);
                 $received += strlen($line);
                 if ($mode==1) $result .= chop($line)."\n";
                 else if ($mode==2){ echo chop($line)."\n"; flush(); }

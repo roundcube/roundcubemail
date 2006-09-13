@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/12 (estadtherr)
+----------
+- Fixed html2text treatment of table headers (Bug #1484020)
+- Fixed IMAP fetch of message body (Bug #1484019)
+
+
 2006/09/08 (thomasb)
 ----------
 - Fixed safe_mode problems (Bug #1418381)
