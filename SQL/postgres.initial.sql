@@ -69,7 +69,8 @@ CREATE TABLE identities (
     email character varying(128) NOT NULL,
     "reply-to" character varying(128),
     bcc character varying(128),
-    signature text
+    signature text,
+    html_signature integer DEFAULT 0 NOT NULL
 );
 
 

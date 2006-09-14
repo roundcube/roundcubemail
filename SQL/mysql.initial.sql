@@ -58,6 +58,7 @@ CREATE TABLE `identities` (
   `reply-to` varchar(128) NOT NULL default '',
   `bcc` varchar(128) NOT NULL default '',
   `signature` text NOT NULL,
+  `html_signature` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`identity_id`),
   KEY `user_id` (`user_id`)
 );

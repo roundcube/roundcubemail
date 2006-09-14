@@ -114,6 +114,7 @@ CREATE TABLE `identities` (
  `reply-to` varchar(128) NOT NULL,
  `bcc` varchar(128) NOT NULL,
  `signature` text NOT NULL,
+ `html_signature` tinyint(1) NOT NULL DEFAULT '0',
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`identity_id`),
  CONSTRAINT `User_ID_FK_identities` FOREIGN KEY (`user_id`)

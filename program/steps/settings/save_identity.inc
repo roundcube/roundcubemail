@@ -19,9 +19,9 @@
 
 */
 
-$a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature');
+$a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature');
 $a_html_cols = array('signature');
-
+$a_boolean_cols = array('standard', 'html_signature');
 
 // check input
 if (empty($_POST['_name']) || empty($_POST['_email']))
@@ -46,6 +46,17 @@ if ($_POST['_iid'])
     $a_write_sql[] = sprintf("%s=%s",
                              $DB->quoteIdentifier($col),
                              $DB->quote(get_input_value($fname, RCUBE_INPUT_POST, in_array($col, $a_html_cols))));
+    }
+
+  // set "off" values for checkboxes that were not checked, and therefore
+  // not included in the POST body.
+  foreach ($a_boolean_cols as $col)
+    {
+    $fname = '_' . $col;
+    if (!isset($_POST[$fname]))
+      {
+      $a_write_sql[] = sprintf("%s=0", $DB->quoteIdentifier($col));
+      }
     }
 
   if (sizeof($a_write_sql))

@@ -147,6 +147,14 @@ function rcmail_user_prefs_form($attrib)
                   rep_specialchars_output(rcube_label('prettydate')),
                   $input_prettydate->show($CONFIG['prettydate']?1:0));
 
+  // Show checkbox for HTML Editor
+  $field_id = 'rcmfd_htmleditor';
+  $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
+  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                  $field_id,
+                  rep_specialchars_output(rcube_label('htmleditor')),
+                  $input_htmleditor->show($CONFIG['htmleditor']?1:0));
+
   if (!empty($CONFIG['drafts_mbox']))
     {
     $field_id = 'rcmfd_autosave';
@@ -165,7 +173,6 @@ function rcmail_user_prefs_form($attrib)
 
   return $out;  
   }
-
 
 
 

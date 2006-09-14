@@ -375,7 +375,7 @@ function load_gui()
 
   // don't wait for page onload. Call init at the bottom of the page (delayed)
   $javascript_foot = "if (window.call_init)\n call_init('$JS_OBJECT_NAME');";
-  
+
   if (!empty($GLOBALS['_framed']))
     $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
     
@@ -1197,6 +1197,7 @@ function rcube_xml_command($command, $str_attrib, $add_attrib=array())
         'composeattachment' => 'rcmail_compose_attachment_field',
         'priorityselector' => 'rcmail_priority_selector',
         'charsetselector' => 'rcmail_charset_selector',
+        'editorselector' => 'rcmail_editor_selector',
         'searchform' => 'rcmail_search_form',
         'receiptcheckbox' => 'rcmail_receipt_checkbox',
         
@@ -1279,8 +1280,7 @@ function rcube_button($attrib)
   if ($attrib['type'])
     $attrib['type'] = strtolower($attrib['type']);
   else
-    $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $arg['imageact']) ? 'image' : 'link';
-  
+    $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
   
   $command = $attrib['command'];
   
@@ -1289,7 +1289,7 @@ function rcube_button($attrib)
     $attrib = $sa_buttons[$attrib['name']];
 
   // add button to button stack
-  else if($attrib['image'] || $arg['imageact'] || $attrib['imagepas'] || $attrib['class'])
+  else if($attrib['image'] || $attrib['imageact'] || $attrib['imagepas'] || $attrib['class'])
     {
     if(!$attrib['name'])
       $attrib['name'] = $command;
@@ -1487,7 +1487,15 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
   }
 
 
-
+/**
+ * Create an edit field for inclusion on a form
+ * 
+ * @param string col field name
+ * @param string value field value
+ * @param array attrib HTML element attributes for field
+ * @param string type HTML element type (default 'text')
+ * @return string HTML field definition
+ */
 function rcmail_get_edit_field($col, $value, $attrib, $type='text')
   {
   $fname = '_'.$col;

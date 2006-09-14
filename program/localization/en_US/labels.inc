@@ -63,7 +63,7 @@ $labels['download'] = 'download';
 $labels['filename'] = 'File name';
 $labels['filesize'] = 'File size';
 
-$labels['preferhtml'] = 'Prefer HTML';
+$labels['preferhtml'] = 'Display HTML';
 $labels['htmlmessage'] = 'HTML Message';
 $labels['prettydate'] = 'Pretty dates';
 
@@ -120,16 +120,17 @@ $labels['resetsearch']  = 'Reset search';
 
 
 // message compose
-$labels['compose']  = 'Compose a message';
+$labels['compose']        = 'Compose a message';
+$labels['sendmessage']    = 'Send the message now';
 $labels['savemessage']  = 'Save this draft';
-$labels['sendmessage']  = 'Send the message now';
 $labels['addattachment']  = 'Attach a file';
-$labels['charset']  = 'Charset';
-$labels['returnreceipt'] = 'Return receipt';
+$labels['charset']        = 'Charset';
+$labels['editortype']     = 'Editor type';
+$labels['returnreceipt']  = 'Return receipt';
 
 $labels['checkspelling'] = 'Check spelling';
 $labels['resumeediting'] = 'Resume editing';
-$labels['revertto'] = 'Revert to';
+$labels['revertto']      = 'Revert to';
 
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
@@ -201,6 +202,8 @@ $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight savings';
+$labels['htmleditor'] = 'Use HTML editor';
+$labels['htmlsignature'] = 'HTML signature';
 
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';

@@ -23,6 +23,7 @@
 
 //require_once('lib/smtp.inc');
 require_once('include/rcube_smtp.inc');
+require_once('lib/html2text.inc');
 require_once('Mail/mime.php');
 
 
@@ -62,6 +63,54 @@ function rcmail_get_identity($id)
   return FALSE;  
   }
 
+/**
+ * go from this:
+ * <img src=".../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ *
+ * to this:
+ *
+ * <IMG src="cid:smiley-cool.gif"/>
+ * ...
+ * ------part...
+ * Content-Type: image/gif
+ * Content-Transfer-Encoding: base64
+ * Content-ID: <smiley-cool.gif>
+ */
+function rcmail_attach_emoticons(&$mime_message)
+{
+  global $CONFIG, $INSTALL_PATH;
+
+  $htmlContents = $mime_message->getHtmlBody();
+
+  // remove any null-byte characters before parsing
+  $body = preg_replace('/\x00/', '', $htmlContents);
+  
+  $last_img_pos = 0;
+
+  $searchstr = 'program/js/tiny_mce/plugins/emotions/images/';
+
+  // find emoticon image tags
+  while ($pos = strpos($body, $searchstr, $last_img_pos))
+    {
+    $pos2 = strpos($body, '"', $pos);
+    $body_pre = substr($body, 0, $pos);
+    $image_name = substr($body, $pos + strlen($searchstr), $pos2 - ($pos + strlen($searchstr)));
+    $body_post = substr($body, $pos2);
+
+    // add the image to the MIME message
+    $img_file = $INSTALL_PATH . '/' . $searchstr . $image_name;
+    if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
+      {
+      show_message("emoticonerror", 'error');
+      }
+
+    $body = $body_pre . 'cid:_' . $image_name . $body_post;
+
+    $last_img_pos = $pos2;
+    }
+   
+  $mime_message->setHTMLBody($body);
+}
 
 if (strlen($_POST['_draft_saveid']) > 3)
   $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
@@ -184,9 +233,31 @@ else
   $header_delm = "\n";
 
 // create PEAR::Mail_mime instance
+
+$isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
+$isHtml = ($isHtmlVal == "1");
+
 $MAIL_MIME = new Mail_mime($header_delm);
-$MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
-//$MAIL_MIME->setTXTBody(wordwrap($message_body), FALSE, TRUE);
+
+// For HTML-formatted messages, construct the MIME message with both
+// the HTML part and the plain-text part
+
+if ($isHtml)
+  {
+  $MAIL_MIME->setHTMLBody($message_body);
+
+  // add a plain text version of the e-mail as an alternative part.
+  $h2t = new html2text($message_body);
+  $plainTextPart = $h2t->get_text();
+  $MAIL_MIME->setTXTBody($plainTextPart);
+
+  // look for "emoticon" images from TinyMCE and copy into message as attachments
+  rcmail_attach_emoticons($MAIL_MIME);
+  }
+else
+  {
+  $MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
+  }
 
 
 // add stored attachments, if any

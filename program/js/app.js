@@ -142,7 +142,7 @@ function rcube_webmail()
           if (this.gui_objects.remoteobjectsmsg)
             this.gui_objects.remoteobjectsmsg.style.display = 'block';
           this.enable_command('load-images', true);
-          }  
+          }
 
         if (this.env.action=='compose')
           {
@@ -155,7 +155,7 @@ function rcube_webmail()
           if (this.env.drafts_mailbox)
             this.enable_command('savedraft', true);
           }
-          
+
         if (this.env.messagecount)
           this.enable_command('select-all', 'select-none', 'sort', 'expunge', true);
 
@@ -174,7 +174,7 @@ function rcube_webmail()
         // show printing dialog
         if (this.env.action=='print')
           window.print();
-          
+
         // get unread count for each mailbox
         if (this.gui_objects.mailboxlist)
           this.http_request('getunread', '');
@@ -437,7 +437,7 @@ function rcube_webmail()
     var input_replyto = rcube_find_object('_replyto');
     var input_subject = rcube_find_object('_subject');
     var input_message = rcube_find_object('_message');
-    
+
     // init live search events
     if (input_to)
       this.init_address_input_events(input_to);
@@ -456,7 +456,7 @@ function rcube_webmail()
       input_subject.focus();
     else if (input_message)
       this.set_caret2start(input_message); // input_message.focus();
-    
+
     // get summary of all field values
     this.cmp_hash = this.compose_field_hash();
  
@@ -2019,7 +2019,7 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if (input_message.value=='')
+    if ((input_message.value=='')&&(tinyMCE.getContent()==''))
       {
       if (!confirm(this.get_label('nobodywarning')))
         {
@@ -2079,35 +2079,67 @@ function rcube_webmail()
     var id = obj.options[obj.selectedIndex].value;
     var input_message = rcube_find_object('_message');
     var message = input_message ? input_message.value : '';
+    var is_html = (rcube_find_object('_is_html').value == '1');
     var sig, p;
 
     if (!this.env.identity)
       this.env.identity = id
-
-    // remove the 'old' signature
-    if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
+  
+    if (!is_html)
       {
-      sig = this.env.signatures[this.env.identity];
-      if (sig.indexOf('--')!=0)
-        sig = '--\n'+sig;
-
-      p = message.lastIndexOf(sig);
-      if (p>=0)
-        message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
+      // remove the 'old' signature
+      if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
+        {
+        sig = this.env.signatures[this.env.identity]['text'];
+        if (sig.indexOf('--')!=0)
+          sig = '--\n'+sig;
+  
+        p = message.lastIndexOf(sig);
+        if (p>=0)
+          message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
+        }
+  
+      // add the new signature string
+      if (this.env.signatures && this.env.signatures[id])
+        {
+        sig = this.env.signatures[id]['text'];
+        if (sig.indexOf('--')!=0)
+          sig = '--\n'+sig;
+        message += '\n'+sig;
+        }
       }
-
-    // add the new signature string
-    if (this.env.signatures && this.env.signatures[id])
+    else
       {
-      sig = this.env.signatures[id];
-      if (sig.indexOf('--')!=0)
-        sig = '--\n'+sig;
-      message += '\n'+sig;
+        var eid = tinyMCE.getEditorId('_message');
+        // editor is a TinyMCE_Control object
+        var editor = tinyMCE.getInstanceById(eid);
+        var msgDoc = editor.getDoc();
+        var msgBody = msgDoc.body;
+
+        if (this.env.signatures && this.env.signatures[id])
+          {
+          // Append the signature as a span within the body
+          var sigElem = msgDoc.getElementById("_rc_sig");
+          if (!sigElem)
+            {
+            sigElem = msgDoc.createElement("span");
+            sigElem.setAttribute("id", "_rc_sig");
+            msgBody.appendChild(sigElem);
+            }
+          if (this.env.signatures[id]['is_html'])
+            {
+            sigElem.innerHTML = this.env.signatures[id]['text'];
+            }
+          else
+            {
+            sigElem.innerHTML = '<pre>' + this.env.signatures[id]['text'] + '</pre>';
+            }
+          }
       }
 
     if (input_message)
       input_message.value = message;
-      
+
     this.env.identity = id;
     return true;
     };
@@ -3431,6 +3463,18 @@ function rcube_webmail()
     };
 
 
+  this.toggle_editor = function(checkbox, textElementName)
+    {
+    var ischecked = checkbox.checked;
+    if (ischecked)
+      {
+        tinyMCE.execCommand('mceAddControl', true, textElementName);
+      }
+    else
+      {
+        tinyMCE.execCommand('mceRemoveControl', true, textElementName);
+      }
+    }
 
   /********************************************************/
   /*********          drag & drop methods         *********/
@@ -3820,7 +3864,7 @@ function rcube_http_request()
       }
     }
 
-  // sedn GET request
+  // send GET request
   this.GET = function(url)
     {
     this.build();
@@ -3841,9 +3885,28 @@ function rcube_http_request()
     };
 
 
-  this.POST = function(url, a_param)
+  this.POST = function(url, body, contentType)
     {
-    // not implemented yet
+    // default value for contentType if not provided
+    contentType = typeof(contentType) != 'undefined' ?
+    	contentType : 'application/x-www-form-urlencoded';
+
+    this.build();
+    
+    if (!this.xmlhttp)
+    {
+       this.onerror(this);
+       return false;
+    }
+
+    var ref=this;
+    this.url = url;
+    this.busy = true;
+    
+    this.xmlhttp.onreadystatechange = function() { ref.xmlhttp_onreadystatechange(); };
+    this.xmlhttp.open('POST', url, true);
+    this.xmlhttp.setRequestHeader('Content-Type', contentType);
+    this.xmlhttp.send(body);
     };
 
 

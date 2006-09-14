@@ -198,6 +198,16 @@ class Mail_mime
     }
 
     /**
+    * returns the HTML body portion of the message
+    * @return string HTML body of the message
+    * @access public
+    */
+    function getHTMLBody()
+    {
+       return $this->_htmlbody;
+    }
+    
+    /**
      * Adds an image to the list of embedded images.
      *
      * @param  string  $file       The image file name OR image data itself
@@ -206,11 +216,13 @@ class Mail_mime
      *                             Only use if $file is the image data
      * @param  bool    $isfilename Whether $file is a filename or not
      *                             Defaults to true
+     * @param  string  $contentid  Desired Content-ID of MIME part
+     *                             Defaults to generated unique ID
      * @return mixed   true on success or PEAR_Error object
      * @access public
      */
     function addHTMLImage($file, $c_type='application/octet-stream',
-                          $name = '', $isfilename = true)
+                          $name = '', $isfilename = true, $contentid = '')
     {
         $filedata = ($isfilename === true) ? $this->_file2str($file)
                                            : $file;
@@ -222,11 +234,14 @@ class Mail_mime
         if (PEAR::isError($filedata)) {
             return $filedata;
         }
+        if ($contentid == '') {
+           $contentid = md5(uniqid(time()));
+        }
         $this->_html_images[] = array(
                                       'body'   => $filedata,
                                       'name'   => $filename,
                                       'c_type' => $c_type,
-                                      'cid'    => md5(uniqid(time()))
+                                      'cid'    => $contentid
                                      );
         return true;
     }

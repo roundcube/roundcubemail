@@ -53,7 +53,7 @@ rcmail_compose_cleanup();
 $_SESSION['compose'] = array('id' => uniqid(rand()));
 
 // add some labels to client
-rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved');
+rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved', 'converting');
 
 // add config parameter to client script
 $OUTPUT->add_script(sprintf("%s.set_env('draft_autosave', %d);", $JS_OBJECT_NAME, !empty($CONFIG['drafts_mbox']) ? $CONFIG['draft_autosave'] : 0));
@@ -272,39 +272,42 @@ function rcmail_compose_header_from($attrib)
     }
 
   // get this user's identities
-  $sql_result = $DB->query("SELECT identity_id, name, email, signature
+  $sql_result = $DB->query("SELECT identity_id, name, email, signature, html_signature
                             FROM   ".get_table_name('identities')."
                             WHERE user_id=?
                             AND    del<>1
                             ORDER BY ".$DB->quoteIdentifier('standard')." DESC, name ASC",
                            $_SESSION['user_id']);
-                                   
+
   if ($DB->num_rows($sql_result))
     {
     $from_id = 0;
     $a_signatures = array();
-    
+
     $field_attrib['onchange'] = "$JS_OBJECT_NAME.change_identity(this)";
     $select_from = new select($field_attrib);
-    
+
     while ($sql_arr = $DB->fetch_assoc($sql_result))
       {
-      $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $sql_arr['identity_id']);
+      $identity_id = $sql_arr['identity_id'];
+      $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);
 
       // add signature to array
       if (!empty($sql_arr['signature']))
-        $a_signatures[$sql_arr['identity_id']] = $sql_arr['signature'];
-      
+        {
+        $a_signatures[$identity_id]['text'] = $sql_arr['signature'];
+        $a_signatures[$identity_id]['is_html'] = ($sql_arr['html_signature'] == 1) ? true : false;
+        }
+
       // set identity if it's one of the reply-message recipients
       if (in_array($sql_arr['email'], $a_recipients))
         $from_id = $sql_arr['identity_id'];
-        
+
       if ($compose_mode == RCUBE_COMPOSE_REPLY && is_array($MESSAGE['FROM']))
         $MESSAGE['FROM'][] = $sql_arr['email'];
 
       if ($compose_mode == RCUBE_COMPOSE_DRAFT && strstr($MESSAGE['headers']->from, $sql_arr['email']))
         $from_id = $sql_arr['identity_id'];
-
       }
 
     // overwrite identity selection with post parameter
@@ -312,7 +315,6 @@ function rcmail_compose_header_from($attrib)
       $from_id = get_input_value('_from', RCUBE_INPUT_POST);
 
     $out = $select_from->show($from_id);
-    
 
     // add signatures to client
     $OUTPUT->add_script(sprintf("%s.set_env('signatures', %s);", $JS_OBJECT_NAME, array2js($a_signatures)));  
@@ -340,40 +342,76 @@ function rcmail_compose_body($attrib)
   
   if (empty($attrib['id']))
     $attrib['id'] = 'rcmComposeMessage';
-  
+
   $attrib['name'] = '_message';
-  $textarea = new textarea($attrib);
+
+  if ($CONFIG['htmleditor'])
+    $isHtml = true;
+  else
+    $isHtml = false;
 
   $body = '';
-  
+
   // use posted message body
   if (!empty($_POST['_message']))
+    {
     $body = get_input_value('_message', RCUBE_INPUT_POST, TRUE);
-    
+    }
   // compose reply-body
   else if ($compose_mode == RCUBE_COMPOSE_REPLY)
     {
-    $body = rcmail_first_text_part($MESSAGE);
+    $hasHtml = rcmail_has_html_part($MESSAGE['parts']); 
+    if ($hasHtml && $CONFIG['htmleditor'])
+      {
+      $body = rcmail_first_html_part($MESSAGE);
+      $isHtml = true;
+      }
+    else
+      {
+      $body = rcmail_first_text_part($MESSAGE);
+      $isHtml = false;
+      }
     if (strlen($body))
-      $body = rcmail_create_reply_body($body);
+      $body = rcmail_create_reply_body($body, $isHtml);
     }
-
   // forward message body inline
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
     {
-    $body = rcmail_first_text_part($MESSAGE);
+    $hasHtml = rcmail_has_html_part($MESSAGE['parts']);
+    if ($hasHtml && $CONFIG['htmleditor'])
+      {
+      $body = rcmail_first_html_part($MESSAGE);
+      $isHtml = true;
+      }
+    else
+      {
+      $body = rcmail_first_text_part($MESSAGE);
+      $isHtml = false;
+      }
     if (strlen($body))
-      $body = rcmail_create_forward_body($body);
+      $body = rcmail_create_forward_body($body, $isHtml);
     }
-
-  // forward message body inline
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
     {
-    $body = rcmail_first_text_part($MESSAGE);
+    $hasHtml = rcmail_has_html_part($MESSAGE['parts']);
+    if ($hasHtml && $CONFIG['htmleditor'])
+      {
+      $body = rcmail_first_html_part($MESSAGE);
+      $isHtml = true;
+      }
+    else
+      {
+      $body = rcmail_first_text_part($MESSAGE);
+      $isHtml = false;
+      }
     if (strlen($body))
-      $body = rcmail_create_draft_body($body);
+      $body = rcmail_create_draft_body($body, $isHtml);
     }
-  
+
+  $OUTPUT->include_script('tiny_mce/tiny_mce.js');
+  $OUTPUT->include_script("editor.js");
+  $OUTPUT->add_script('rcmail_editor_init($__skin_path);');
+
   $out = $form_start ? "$form_start\n" : '';
 
   $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => str_replace(array('<','>'),"",$MESSAGE['headers']->messageID) ));
@@ -382,11 +420,18 @@ function rcmail_compose_body($attrib)
   $drafttoggle = new hiddenfield(array('name' => '_draft', 'value' => 'yes'));
   $out .= $drafttoggle->show();
 
+  $msgtype = new hiddenfield(array('name' => '_is_html', 'value' => ($isHtml?"1":"0")));
+  $out .= $msgtype->show();
+
+  // If desired, set this text area to be editable by TinyMCE
+  if ($isHtml)
+    $attrib['mce_editable'] = "true";
+  $textarea = new textarea($attrib);
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
-  
+
   // include GoogieSpell
-  if (!empty($CONFIG['enable_spellcheck']))
+  if (!empty($CONFIG['enable_spellcheck']) && !$isHtml)
     {
     $lang_set = '';
     if (!empty($CONFIG['spellcheck_languages']) && is_array($CONFIG['spellcheck_languages']))
@@ -422,57 +467,88 @@ function rcmail_compose_body($attrib)
   }
 
 
-function rcmail_create_reply_body($body)
+function rcmail_create_reply_body($body, $bodyIsHtml)
   {
   global $IMAP, $MESSAGE;
 
-  // soft-wrap message first
-  $body = wordwrap($body, 75);
+  if (! $bodyIsHtml)
+  {
+    // soft-wrap message first
+    $body = wordwrap($body, 75);
   
-  // split body into single lines
-  $a_lines = preg_split('/\r?\n/', $body);
+    // split body into single lines
+    $a_lines = preg_split('/\r?\n/', $body);
   
-  // add > to each line
-  for($n=0; $n<sizeof($a_lines); $n++)
-    {
-    if (strpos($a_lines[$n], '>')===0)
-      $a_lines[$n] = '>'.$a_lines[$n];
-    else
-      $a_lines[$n] = '> '.$a_lines[$n];
-    }
+    // add > to each line
+    for($n=0; $n<sizeof($a_lines); $n++)
+      {
+      if (strpos($a_lines[$n], '>')===0)
+        $a_lines[$n] = '>'.$a_lines[$n];
+      else
+        $a_lines[$n] = '> '.$a_lines[$n];
+      }
  
-  $body = join("\n", $a_lines);
+    $body = join("\n", $a_lines);
 
-  // add title line
-  $pefix = sprintf("\n\n\nOn %s, %s wrote:\n",
-           $MESSAGE['headers']->date,
-           $IMAP->decode_header($MESSAGE['headers']->from));
-           
+    // add title line
+    $prefix = sprintf("\n\n\nOn %s, %s wrote:\n",
+             $MESSAGE['headers']->date,
+             $IMAP->decode_header($MESSAGE['headers']->from));
 
-  // try to remove the signature
-  if ($sp = strrpos($body, '-- '))
-    {
-    if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
-      $body = substr($body, 0, $sp-1);
-    }
+    // try to remove the signature
+    if ($sp = strrstr($body, '-- '))
+      {
+      if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
+        $body = substr($body, 0, $sp-1);
+      }
+    $suffix = '';
+  }
+  else
+  {
+     $prefix = sprintf("<br><br>On %s, %s wrote:<br><blockquote type=\"cite\" " .
+                       "style=\"padding-left: 5px; border-left: #1010ff 2px solid; " .
+                       "margin-left: 5px; width: 100%%\">",
+                       $MESSAGE['headers']->date,
+                       $IMAP->decode_header($MESSAGE['headers']->from));
 
-  return $pefix.$body;
+     $suffix = "</blockquote>";
+  }
+
+  return $prefix.$body.$suffix;
   }
 
 
-function rcmail_create_forward_body($body)
+function rcmail_create_forward_body($body, $bodyIsHtml)
   {
   global $IMAP, $MESSAGE;
 
-  // soft-wrap message first
-  $body = wordwrap($body, 80);
+  if (! $bodyIsHtml)
+  {
+    // soft-wrap message first
+    $body = wordwrap($body, 80);
   
-  $prefix = sprintf("\n\n\n-------- Original Message --------\nSubject: %s\nDate: %s\nFrom: %s\nTo: %s\n\n",
-                   $MESSAGE['subject'],
-                   $MESSAGE['headers']->date,
-                   $IMAP->decode_header($MESSAGE['headers']->from),
-                   $IMAP->decode_header($MESSAGE['headers']->to));
-                   
+    $prefix = sprintf("\n\n\n-------- Original Message --------\nSubject: %s\nDate: %s\nFrom: %s\nTo: %s\n\n",
+                     $MESSAGE['subject'],
+                     $MESSAGE['headers']->date,
+                     $IMAP->decode_header($MESSAGE['headers']->from),
+                     $IMAP->decode_header($MESSAGE['headers']->to));
+  }
+  else
+  {
+      $prefix = sprintf(
+        "<br><br>-------- Original Message --------" .
+        "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Subject: </th><td>%s</td></tr>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Date: </th><td>%s</td></tr>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">From: </th><td>%s</td></tr>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">To: </th><td>%s</td></tr>" .
+        "</tbody></table><br>",
+                     $MESSAGE['subject'],
+                     $MESSAGE['headers']->date,
+                     $IMAP->decode_header($MESSAGE['headers']->from),
+                     $IMAP->decode_header($MESSAGE['headers']->to));
+  }
+
   // add attachments
   if (!isset($_SESSION['compose']['forward_attachments']) &&
       is_array($MESSAGE['parts']) && sizeof($MESSAGE['parts'])>1)
@@ -482,7 +558,7 @@ function rcmail_create_forward_body($body)
   }
 
 
-function rcmail_create_draft_body($body)
+function rcmail_create_draft_body($body, $bodyIsHtml)
   {
   global $IMAP, $MESSAGE;
     
@@ -581,7 +657,7 @@ function rcmail_compose_subject($attrib)
 
 function rcmail_compose_attachment_list($attrib)
   {
-  global $OUTPUT, $JS_OBJECT_NAME;
+  global $OUTPUT, $JS_OBJECT_NAME, $CONFIG;
   
   // add ID if not given
   if (!$attrib['id'])
@@ -704,6 +780,45 @@ function rcmail_receipt_checkbox($attrib)
 
   return $out;
   }
+
+
+function rcmail_editor_selector($attrib)
+{
+  global $CONFIG, $MESSAGE, $compose_mode;
+
+  $choices = array(
+    'html'  => 'HTML',
+    'plain' => 'Plain text'
+  );
+
+  // determine whether HTML or plain text should be checked 
+  if ($CONFIG['htmleditor'])
+    $useHtml = true;
+  else
+    $useHtml = false;
+
+  if ($compose_mode == RCUBE_COMPOSE_REPLY ||
+      $compose_mode == RCUBE_COMPOSE_FORWARD ||
+      $compose_mode == RCUBE_COMPOSE_DRAFT)
+    {
+    $hasHtml = rcmail_has_html_part($MESSAGE['parts']);
+    $useHtml = ($hasHtml && $CONFIG['htmleditor']);
+    }
+
+  $selector = '';
+  foreach ($choices as $value => $text)
+    {
+    $checked = '';
+    if ((($text == 'HTML') && $useHtml) ||
+        (($text != 'HTML') && !$useHtml))
+      $checked = 'checked';
+
+    $selector .= sprintf("<input type='radio' name='_editorSelect' value='%s' %s onclick='return rcmail_toggle_editor(this)'>%s</input>\n",
+                          $value, $checked, $text);
+    }
+
+  return $selector;
+}
 
 
 function get_form_tags($attrib)

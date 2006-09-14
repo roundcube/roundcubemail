@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/13 (estadtherr)
+----------
+- Introduction of TinyMCE HTML editor support for message composition and signatures
+  Note : a new column is added to the "identities" database table
+
+
 2006/09/12 (estadtherr)
 ----------
 - Fixed html2text treatment of table headers (Bug #1484020)

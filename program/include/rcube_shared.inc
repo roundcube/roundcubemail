@@ -28,13 +28,15 @@ class rcube_html_page
   
   var $scripts_path = '';
   var $script_files = array();
+  var $external_scripts = array();
   var $scripts = array();
   var $charset = 'ISO-8859-1';
   
   var $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
   var $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
   var $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
-  
+  var $tag_format_external_script = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
+
   var $title = '';
   var $header = '';
   var $footer = '';
@@ -69,13 +71,22 @@ class rcube_html_page
     $this->script_files[$position][] = $file;
     }
     
-  
+  function include_external_script($script_location, $position='head')
+  {
+     if (!is_array($this->external_scripts[$position]))
+     {
+        $this->external_scripts[$position] = array();
+     }
+     
+     $this->external_scripts[$position][] = $script_location;
+  }
+
   function add_script($script, $position='head')
     {
     if (!isset($this->scripts[$position]))
-      $this->scripts[$position] = '';
-
-    $this->scripts[$position] .= "\n$script";
+      $this->scripts[$position] = "\n$script";
+    else
+      $this->scripts[$position] .= "\n$script";
     }
 
 
@@ -139,19 +150,27 @@ class rcube_html_page
       foreach ($this->script_files['head'] as $file)
         $__page_header .= sprintf($this->script_tag_file, $this->scripts_path, $file);
 
+   if (is_array($this->external_scripts['head']))
+   {
+      foreach ($this->external_scripts['head'] as $xscript)
+      {
+         $__page_header .= sprintf($this->tag_format_external_script, $xscript);
+      }
+   }
+
     if (strlen($this->scripts['head']))
       $__page_header .= sprintf($this->script_tag, $this->scripts['head']);
           
     if (is_array($this->script_files['foot']))
+      {
       foreach ($this->script_files['foot'] as $file)
         $__page_footer .= sprintf($this->script_tag_file, $this->scripts_path, $file);
+      }
 
     if (strlen($this->scripts['foot']))
       $__page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
 
-
     $__page_header .= $this->css->show();
-
   
     // find page header
     if($hpos = strpos(strtolower($output), '</head>'))
@@ -192,8 +211,12 @@ class rcube_html_page
   
   
     // find and add page footer
-    if(($fpos = strpos(strtolower($output), '</body>')) || ($fpos = strpos(strtolower($output), '</html>')))
+    $output_lc = strtolower($output);
+    if(($fpos = strrpos($output_lc, '</body>')) ||
+       ($fpos = strrpos($output_lc, '</html>')))
+      {
       $output = substr($output,0,$fpos) . "$__page_footer\n" . substr($output,$fpos,strlen($output));
+      }
     else
       $output .= "\n$__page_footer";
   
@@ -202,7 +225,7 @@ class rcube_html_page
     $__page_header = $__page_footer = '';
   
   
-    // correct absolute pathes in images and other tags
+    // correct absolute paths in images and other tags
     $output = preg_replace('/(src|href|background)=(["\']?)(\/[a-z0-9_\-]+)/Ui', "\\1=\\2$base_path\\3", $output);
     $output = str_replace('$__skin_path', $base_path, $output);
   
@@ -854,9 +877,9 @@ class textarea extends base_form_element
     if (isset($this->attrib['value']))
       unset($this->attrib['value']);
 
-    if (strlen($value))
+    if (strlen($value) && !isset($this->attrib['mce_editable']))
       $value = rep_specialchars_output($value, 'html', 'replace', FALSE);
-    
+
     // return final tag
     return sprintf('<%s%s>%s</%s>%s',
                    $this->_conv_case('textarea', 'tag'),
@@ -1233,7 +1256,7 @@ function array2js($arr, $type='')
         if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) /* || is_js_reserved_word($key) */)
           $key = "'$key'";
 
-        if (!is_array($value))
+        if (!is_array($value) && is_string($value))
           {
           $value = str_replace("\r\n", '\n', $value);
           $value = str_replace("\n", '\n', $value);
@@ -1244,6 +1267,11 @@ function array2js($arr, $type='')
           {
           if ($type=='string')
             $is_string = true;
+          else if (($type == 'mixed' && is_bool($value)) || $type == 'bool')
+            {
+            $is_string = false;
+            $value = $value ? "true" : "false";
+            }
           else if ((($type=='mixed' && is_numeric($value)) || $type=='int') && strlen($value)<16)   // js interprets numbers with digits >15 as ...e+... 
             $is_string = FALSE;
           else
@@ -1270,7 +1298,9 @@ function array2js($arr, $type='')
       }
     }
   else
+    {
     return $arr;
+    }
   }
 
 
@@ -1434,6 +1464,33 @@ function get_offset_time($offset_str, $factor=1)
     }
 
   return $ts;
+  }
+
+
+/**
+ * strrstr
+ *
+ * return the last occurence of a string in another string
+ * @param haystack string string in which to search
+ * @param needle string string for which to search
+ * @return index of needle within haystack, or false if not found
+ */
+function strrstr($haystack, $needle)
+  {
+    $pver = phpversion();
+    if ($pver[0] >= 5)
+      {
+        return strrpos($haystack, $needle);
+      }
+    else
+      {
+        $index = strpos(strrev($haystack), strrev($needle));
+        if($index === false) {
+            return false;
+        }
+        $index = strlen($haystack) - strlen($needle) - $index;
+        return $index;
+      }
   }
 
 

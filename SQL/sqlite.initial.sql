@@ -58,7 +58,8 @@ CREATE TABLE identities (
   email varchar(128) NOT NULL default '',
   "reply-to" varchar(128) NOT NULL default '',
   bcc varchar(128) NOT NULL default '',
-  signature text NOT NULL default ''
+  signature text NOT NULL default '',
+  html_signature tinyint NOT NULL default '0'
 );
 
 CREATE INDEX ix_identities_user_id ON identities(user_id);

@@ -42,7 +42,17 @@ else
 
 function rcube_identity_form($attrib)
   {
-  global $IDENTITY_RECORD, $JS_OBJECT_NAME;
+  global $IDENTITY_RECORD, $JS_OBJECT_NAME, $OUTPUT;
+
+  $OUTPUT->include_script('tiny_mce/tiny_mce_src.js');
+  $OUTPUT->add_script("tinyMCE.init({ mode : 'specific_textareas'," .
+                                    "apply_source_formatting : true," .
+                                    "theme : 'advanced'," .
+                                    "theme_advanced_toolbar_location : 'top'," .
+                                    "theme_advanced_toolbar_align : 'left'," .
+                                    "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr'," .
+                                    "theme_advanced_buttons2 : 'link,unlink,forecolor,fontselect,fontsizeselect'," .
+                                    "theme_advanced_buttons3 : '' });");
 
   if (!$IDENTITY_RECORD && $GLOBALS['_action']!='add-identity')
     return rcube_label('notfound');
@@ -62,7 +72,8 @@ function rcube_identity_form($attrib)
                        'organization' => array('type' => 'text'),
                        'reply-to'     => array('type' => 'text', 'label' => 'replyto'),
                        'bcc'          => array('type' => 'text'),
-                       'signature'	  => array('type' => 'textarea'),
+                       'signature'	  => array('type' => 'textarea', 'size' => "40", 'rows' => "6"),
+                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
 
@@ -87,6 +98,25 @@ function rcube_identity_form($attrib)
   foreach ($a_show_cols as $col => $colprop)
     {
     $attrib['id'] = 'rcmfd_'.$col;
+
+    if (strlen($colprop['onclick']))
+      $attrib['onclick'] = $colprop['onclick'];
+    else
+      unset($attrib['onclick']);
+
+    if ($col == 'signature')
+      {
+      $attrib['size'] = $colprop['size'];
+      $attrib['rows'] = $colprop['rows'];
+      $attrib['mce_editable'] = $IDENTITY_RECORD['html_signature'] ? "true" : "false";
+      }
+    else
+      {
+      unset($attrib['size']);
+      unset($attrib['rows']);
+      unset($attrib['mce_editable']);
+      }
+
     $label = strlen($colprop['label']) ? $colprop['label'] : $col;
     $value = rcmail_get_edit_field($col, $IDENTITY_RECORD[$col], $attrib, $colprop['type']);
 

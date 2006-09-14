@@ -28,6 +28,7 @@ $a_user_prefs['timezone'] = isset($_POST['_timezone']) ? floatval($_POST['_timez
 $a_user_prefs['dst_active'] = isset($_POST['_dst_active']) ? TRUE : FALSE;
 $a_user_prefs['pagesize'] = is_numeric($_POST['_pagesize']) ? (int)$_POST['_pagesize'] : $CONFIG['pagesize'];
 $a_user_prefs['prefer_html'] = isset($_POST['_prefer_html']) ? TRUE : FALSE;
+$a_user_prefs['htmleditor'] = isset($_POST['_htmleditor']) ? TRUE : FALSE;
 $a_user_prefs['draft_autosave'] = isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0;
 
 // MM: Date format toggle (Pretty / Standard)

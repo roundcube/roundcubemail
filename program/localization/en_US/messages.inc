@@ -106,5 +106,6 @@ $messages['nospellerrors'] = 'No spelling errors found';
 
 $messages['folderdeleted'] = 'Folder successfully deleted';
 
+$messages['converting'] = 'Removing formatting from message...';
 
 ?>

@@ -689,7 +689,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
   global $IMAP, $REMOTE_OBJECTS, $JS_OBJECT_NAME;
   
   $body = is_array($part->replaces) ? strtr($part->body, $part->replaces) : $part->body;
-  
+
   // text/html
   if ($part->ctype_secondary=='html')
     {
@@ -1083,11 +1083,11 @@ function rcmail_message_body($attrib)
         {
         if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset']))
           $$part->ctype_parameters['charset'] = $MESSAGE['headers']->charset;
-         
+
         // fetch part if not available
         if (!isset($part->body))
           $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);
-        
+
         $body = rcmail_print_body($part, $safe_mode);
         $out .= '<div class="message-part">';
         
@@ -1187,13 +1187,13 @@ function rcmail_mod_html_body($body, $container_id)
                             '/(<\/?meta[^>]*>)/i'),
                       '<!--\\1-->',
                       $body);
-                      
+
   $out = preg_replace(array('/(<body[^>]*>)/i',
                             '/(<\/body>)/i'),
                       array('<div class="rcmBody">',
                             '</div>'),
                       $out);
-  
+
   return $out;
   }
 
@@ -1238,6 +1238,56 @@ function rcmail_mod_css_styles($source, $container_id)
   return $styles;
   }
 
+
+function rcmail_has_html_part($message_parts)
+{
+   if (!is_array($message_parts))
+      return FALSE;
+
+   // check all message parts
+   foreach ($message_parts as $pid => $part)
+   {
+      $mimetype = strtolower($part->ctype_primary.'/'.$part->ctype_secondary);
+      if ($mimetype=='text/html')
+      {
+         return TRUE;
+      }
+   }
+    
+   return FALSE;
+}
+
+// return first HTML part of a message
+function rcmail_first_html_part($message_struct)
+  {
+  global $IMAP;
+
+  if (!is_array($message_struct['parts']))
+    return FALSE;
+    
+  $html_part = NULL;
+
+  // check all message parts
+  foreach ($message_struct['parts'] as $pid => $part)
+    {
+    $mimetype = strtolower($part->ctype_primary.'/'.$part->ctype_secondary);
+    if ($mimetype=='text/html')
+      {
+      $html_part = $IMAP->get_message_part($message_struct['UID'], $pid, $part);
+      }
+    }
+
+  if ($html_part)
+    {
+    // remove special chars encoding
+    //$trans = array_flip(get_html_translation_table(HTML_ENTITIES));
+    //$html_part = strtr($html_part, $trans);
+
+    return $html_part;
+    }
+
+  return FALSE;
+}
 
 
 // return first text part of a message

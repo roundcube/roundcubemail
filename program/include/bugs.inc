@@ -115,5 +115,19 @@ function log_bug($arg_arr)
     }
   }
 
+function log_debug($filename, $text)
+{
+   global $CONFIG, $INSTALL_PATH;
+
+   if (empty($CONFIG['log_dir']))
+      $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
+
+   // try to open specific log file for writing
+   if ($fp = @fopen($CONFIG['log_dir'].'/'.$filename, 'a'))
+   {
+      fwrite($fp, date("d-M-Y H:i:s", mktime()) . ' ' . $text . "\n");
+      fclose($fp);
+   }
+}
 
 ?>
