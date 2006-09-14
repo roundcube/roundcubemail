@@ -410,7 +410,7 @@ function rcmail_compose_body($attrib)
 
   $OUTPUT->include_script('tiny_mce/tiny_mce.js');
   $OUTPUT->include_script("editor.js");
-  $OUTPUT->add_script('rcmail_editor_init($__skin_path);');
+  $OUTPUT->add_script('rcmail_editor_init("$__skin_path");');
 
   $out = $form_start ? "$form_start\n" : '';
 
