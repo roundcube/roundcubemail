@@ -7,5 +7,5 @@ ALTER TABLE `messages`
   ADD `structure` TEXT,
   ADD UNIQUE `uniqueness` (`cache_key`, `uid`);
 
-ALTER TABLE 'identities'
-  ADD 'html_signature' tinyint(1) default 0 NOT NULL;
+ALTER TABLE `identities`
+  ADD `html_signature` tinyint(1) default 0 NOT NULL;
