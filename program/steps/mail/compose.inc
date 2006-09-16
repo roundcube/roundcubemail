@@ -543,10 +543,10 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">From: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">To: </th><td>%s</td></tr>" .
         "</tbody></table><br>",
-                     $MESSAGE['subject'],
-                     $MESSAGE['headers']->date,
-                     $IMAP->decode_header($MESSAGE['headers']->from),
-                     $IMAP->decode_header($MESSAGE['headers']->to));
+                     rep_specialchars_output($MESSAGE['subject']),
+                     rep_specialchars_output($MESSAGE['headers']->date),
+                     rep_specialchars_output($IMAP->decode_header($MESSAGE['headers']->from)),
+                     rep_specialchars_output($IMAP->decode_header($MESSAGE['headers']->to)));
   }
 
   // add attachments

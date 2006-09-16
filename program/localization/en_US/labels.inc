@@ -202,7 +202,7 @@ $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight savings';
-$labels['htmleditor'] = 'Use HTML editor';
+$labels['htmleditor'] = 'Compose HTML messages';
 $labels['htmlsignature'] = 'HTML signature';
 
 $labels['autosavedraft']  = 'Automatically save draft';
