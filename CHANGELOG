@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/19 (thomasb)
+----------
+- Correct UTF-7 to UTF-8 conversion if mbstring is not available
+
+
 2006/09/13 (estadtherr)
 ----------
 - Introduction of TinyMCE HTML editor support for message composition and signatures

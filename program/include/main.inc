@@ -893,7 +893,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   // convert string to UTF-8
   if ($from=='UTF-7')
-    $str = rcube_charset_convert(UTF7DecodeString($str), 'ISO-8859-1');
+    $str = utf7_to_utf8($str);
   else if (($from=='ISO-8859-1') && function_exists('utf8_encode'))
     $str = utf8_encode($str);
   else if ($from!='UTF-8')
@@ -904,7 +904,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   // encode string for output
   if ($to=='UTF-7')
-    return UTF7EncodeString(rcube_charset_convert($str, 'UTF-8', 'ISO-8859-1'));
+    return utf8_to_utf7($str);
   else if ($to=='ISO-8859-1' && function_exists('utf8_decode'))
     return utf8_decode($str);
   else if ($to!='UTF-8')
