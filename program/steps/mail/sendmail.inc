@@ -101,8 +101,6 @@ function rcmail_attach_emoticons(&$mime_message)
                          $pos + strlen($searchstr),
                          $pos2 - ($pos + strlen($searchstr)));
 
-write_log('emoticon', "looking for $image_name in array:" . print_r($included_images, true));
-
     if (! in_array($image_name, $included_images))
       {
       $body_post = substr($body, $pos2);
