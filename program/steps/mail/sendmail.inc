@@ -89,22 +89,34 @@ function rcmail_attach_emoticons(&$mime_message)
 
   $searchstr = 'program/js/tiny_mce/plugins/emotions/images/';
 
+  // keep track of added images, so they're only added once
+  $included_images = array();
+
   // find emoticon image tags
   while ($pos = strpos($body, $searchstr, $last_img_pos))
     {
     $pos2 = strpos($body, '"', $pos);
     $body_pre = substr($body, 0, $pos);
-    $image_name = substr($body, $pos + strlen($searchstr), $pos2 - ($pos + strlen($searchstr)));
-    $body_post = substr($body, $pos2);
+    $image_name = substr($body,
+                         $pos + strlen($searchstr),
+                         $pos2 - ($pos + strlen($searchstr)));
 
-    // add the image to the MIME message
-    $img_file = $INSTALL_PATH . '/' . $searchstr . $image_name;
-    if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
+write_log('emoticon', "looking for $image_name in array:" . print_r($included_images, true));
+
+    if (! in_array($image_name, $included_images))
       {
-      show_message("emoticonerror", 'error');
-      }
+      $body_post = substr($body, $pos2);
 
-    $body = $body_pre . 'cid:_' . $image_name . $body_post;
+      // add the image to the MIME message
+      $img_file = $INSTALL_PATH . '/' . $searchstr . $image_name;
+      if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
+        {
+        show_message("emoticonerror", 'error');
+        }
+
+      $body = $body_pre . 'cid:_' . $image_name . $body_post;
+      array_push($included_images, $image_name);
+      }
 
     $last_img_pos = $pos2;
     }
