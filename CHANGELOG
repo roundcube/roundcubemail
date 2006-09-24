@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/24 (thomasb)
+----------
+- Partial client re-write with a common list class
+- Re-enabled multi select of contacts (Bug #1484017)
+- Enable contact editing right after creation (Bug #1459641)
+- Updated Hungarian, Estonian and Traditional Chinese localization
+
+
 2006/09/19 (thomasb)
 ----------
 - Correct UTF-7 to UTF-8 conversion if mbstring is not available

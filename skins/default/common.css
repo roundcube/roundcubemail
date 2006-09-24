@@ -252,6 +252,18 @@ table.records-table tr.selected td
   background-color: #CC3333;
 }
 
+table.records-table tr.focused td
+{
+  border-bottom: thin dotted;
+  border-top: thin dotted;
+}
+
+table.records-table tr.unfocused td
+{
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #929292;
+}
 
 
 /***** roundcube webmail pre-defined classes *****/

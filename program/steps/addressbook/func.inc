@@ -90,6 +90,7 @@ function rcmail_contacts_list($attrib)
   //$javascript .= sprintf("%s.set_env('contacts', %s);", $JS_OBJECT_NAME, array2js($a_js_message_arr));
   
   $OUTPUT->add_script($javascript);  
+  $OUTPUT->include_script('list.js');
 
   // add some labels to client
   rcube_add_label('deletecontactconfirm');

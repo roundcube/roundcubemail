@@ -62,9 +62,6 @@ if (!empty($_POST['_cid']))
        
   if ($updated)
     {
-    $_action = 'show';
-    show_message('successfullysaved', 'confirmation');    
-    
     if ($_framed)
       {
       // define list of cols to be displayed
@@ -89,9 +86,11 @@ if (!empty($_POST['_cid']))
                           $_POST['_cid'],
                           array2js($a_js_cols)));
 
-      // show confirmation
-      show_message('successfullysaved', 'confirmation');
       }
+      
+    // show confirmation
+    show_message('successfullysaved', 'confirmation');    
+    rcmail_overwrite_action('show');
     }
   else
     {
@@ -184,9 +183,6 @@ else
     {
     if (!$ldap_form)
       {
-      $_action = 'show';
-      $_GET['_cid'] = $insert_id;
-
       if ($_framed)
         {
         // add contact row or jump to the page where it should appear
@@ -198,11 +194,11 @@ else
                                   $_SESSION['user_id']);
         $commands .= rcmail_js_contacts_list($sql_result, $JS_OBJECT_NAME);
 
-        $commands .= sprintf("if(parent.%s)parent.%s.select('%d');\n",
+        $commands .= sprintf("if(parent.%s)parent.%s.contact_list.select('%d');\n",
                              $JS_OBJECT_NAME, 
                              $JS_OBJECT_NAME,
                              $insert_id);
-      
+
         // update record count display
         $commands .= sprintf("if(parent.%s)parent.%s.set_rowcount('%s');\n",
                              $JS_OBJECT_NAME, 
@@ -213,7 +209,8 @@ else
         }
 
       // show confirmation
-      show_message('successfullysaved', 'confirmation');      
+      show_message('successfullysaved', 'confirmation');
+      $_GET['_cid'] = $insert_id;
       }
     else 
       {
@@ -231,7 +228,7 @@ else
         }
 
       // display the last insert id
-      $commands .= sprintf("if(parent.%s)parent.%s.select('%d');\n",
+      $commands .= sprintf("if(parent.%s)parent.%s.contact_list.select('%d');\n",
                             $JS_OBJECT_NAME, 
                             $JS_OBJECT_NAME,
                             $last_id);
@@ -248,6 +245,7 @@ else
 
     // show confirmation
     show_message('successfullysaved', 'confirmation');      
+    rcmail_overwrite_action('show');
     }
   else
     {

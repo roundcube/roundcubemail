@@ -495,6 +495,7 @@ function rcmail_message_list($attrib)
   $javascript .= sprintf("%s.set_env('messages', %s);", $JS_OBJECT_NAME, array2js($a_js_message_arr));
   
   $OUTPUT->add_script($javascript);  
+  $OUTPUT->include_script('list.js');
   
   return $out;
   }

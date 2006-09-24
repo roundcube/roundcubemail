@@ -365,7 +365,7 @@ function load_gui()
   
   // add common javascripts
   $javascript = "var $JS_OBJECT_NAME = new rcube_webmail();\n";
-  $javascript .= "$JS_OBJECT_NAME.set_env('comm_path', '$COMM_PATH');\n";
+  $javascript .= sprintf("%s.set_env('comm_path', '%s');\n", $JS_OBJECT_NAME, str_replace('&amp;', '&', $COMM_PATH));
 
   if (isset($CONFIG['javascript_config'] )){
     foreach ($CONFIG['javascript_config'] as $js_config_var){
