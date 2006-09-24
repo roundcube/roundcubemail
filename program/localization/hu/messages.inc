@@ -12,6 +12,8 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Translator: Ervin Hegedüs <airween@damson.hu>                         |
  +-----------------------------------------------------------------------+
+ + Translation updated by rezso <rezso@rezso.net> on 2006-09-19          +
+ +-----------------------------------------------------------------------+
 
  $Id$
 
@@ -21,7 +23,7 @@ $messages = array();
 
 $messages['loginfailed']  = 'Sikertelen belépés';
 
-$messages['cookiesdisabled'] = 'A böngészője nem támogatja a sütik használatát';
+$messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 
@@ -29,7 +31,7 @@ $messages['imaperror'] = 'Nem sikerült a kapcsolódás az IMAP szerverhez';
 
 $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 
-$messages['loggedout'] = 'Sikeresen befejezte a munkamenetet. Viszontlátásra!';
+$messages['loggedout'] = 'Sikeres kijelentkezés. Viszontlátásra!';
 
 $messages['mailboxempty'] = 'A fiók üres';
 
@@ -37,17 +39,21 @@ $messages['loading'] = 'Betöltés...';
 
 $messages['loadingdata'] = 'Adatok betöltése...';
 
-$messages['sendingmessage'] = 'Üzenet küldése...';
+$messages['checkingmail'] = 'Új üzenetek ellenőrzése...';
 
-$messages['messagesent'] = 'Az üzenet küldése megtörtént';
+$messages['messagesent'] = 'Az üzenet elküldve';
+
+$messages['savingmessage'] = 'Üzenet mentése...';
+
+$messages['messagesaved'] = 'Az üzenet elmentve a Vázlatokhoz';
 
 $messages['successfullysaved'] = 'A mentés sikerült';
 
 $messages['addedsuccessfully'] = 'A cím hozzáadása a címjegyzékhez megtörtént';
 
-$messages['contactexists'] = 'A cím már létezik';
+$messages['contactexists'] = 'A kapcsolat már létezik ezzel az e-mail címmel';
 
-$messages['blockedimages'] = 'A biztonsága érdekében a távoli képek letöltése tiltott.';
+$messages['blockedimages'] = 'Biztonsági okokból a távoli képek letöltése tiltott.';
 
 $messages['encryptedmessage'] = 'Az üzenet titkosított, emiatt nem tudom megjeleníteni.';
 
@@ -57,19 +63,17 @@ $messages['sendingfailed'] = 'Az üzenet elküldése nem sikerült';
 
 $messages['errorsaving'] = 'A mentés során hiba lépett fel';
 
-$messages['errormoving'] = 'Az üzenetet nem sikerült menteni';
+$messages['errormoving'] = 'Az üzenetet nem sikerült áthelyezni';
 
 $messages['errordeleting'] = 'Az üzenetet nem sikerült törölni';
 
-$messages['deletecontactconfirm']  = 'Biztos, hogy törölni szeretné a kijelölt címeket?';
+$messages['deletecontactconfirm']  = 'Biztos, hogy törölni szeretné a kijelölt címe(ke)t?';
 
 $messages['deletefolderconfirm']  = 'Biztos, hogy törölni szeretné ezt a mappát?';
 
-$messages['purgefolderconfirm']  = 'Biztos, hogy törölni szeretné a mappa összes üzenetét?';
-
 $messages['formincomplete'] = 'Az űrlap hiányosan lett kitöltve';
 
-$messages['noemailwarning'] = 'Kérem adjon meg egy valós email címet';
+$messages['noemailwarning'] = 'Kérem adjon meg egy valós e-mail címet';
 
 $messages['nonamewarning']  = 'Kérem adjon meg egy nevet';
 
@@ -81,12 +85,24 @@ $messages['nosubjectwarning']  = 'A "Tárgy" mező üres. Szeretné most kitölt
 
 $messages['nobodywarning'] = 'Elküldi az üzenetet tartalom nélkül?';
 
-$messages['notsentwarning'] = 'Az üzenet nem lett elküldve. Elmenti piszkozatként?';
+$messages['notsentwarning'] = 'Az üzenet nem lett elküldve. Eldobja az üzenetet?';
 
-$messages['noldapserver'] = 'Kérem a kereséshez adjon meg egy LDAP szervert';
+$messages['noldapserver'] = 'Kérem adjon meg egy LDAP szervert a kereséshez';
 
-$messages['nocontactsreturned'] = 'Nem találtam ilyen kapcsolatot';
+$messages['nocontactsreturned'] = 'Nem találtam kapcsolatot';
 
-$messages['nosearchname'] = 'Kérem adjon meg egy nevet vagy email címet';
+$messages['nosearchname'] = 'Adja meg a kapcsolat nevét vagy e-mail címét';
+
+$messages['searchsuccessful'] = '$nr üzenetet találtam';
+
+$messages['searchnomatch'] = 'Nincs találat';
+
+$messages['searching'] = 'Keresés...';
+
+$messages['checking'] = 'Ellenőrzés...';
+
+$messages['nospellerrors'] = 'Nem találtam helyesírási hibát';
+
+$messages['folderdeleted'] = 'A mappa sikeresen törölve';
 
 ?>
