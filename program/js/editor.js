@@ -21,7 +21,7 @@ function rcmail_editor_init(skin_path)
                   accessibility_focus : false,
                   apply_source_formatting : true,
                   theme : 'advanced',
-                  plugins : 'emotions,table,searchreplace',
+                  plugins : 'emotions,table,searchreplace,spellchecker',
                   theme_advanced_buttons1 : 'bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,forecolor,backcolor,formatselect,fontselect,fontsizeselect',
                   theme_advanced_buttons2 : 'undo,redo,image,hr,link,unlink,emotions,charmap,code,separator,search,replace,spellchecker,separator,tablecontrols',
                   theme_advanced_buttons3 : '',

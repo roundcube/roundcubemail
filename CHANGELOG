@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/09/26 (estadtherr)
+----------
+- Added spellchecker plugin to TinyMCE configuration
+- Fixed HTML/Plain toggle labels
+
+
 2006/09/24 (thomasb)
 ----------
 - Partial client re-write with a common list class

@@ -787,8 +787,8 @@ function rcmail_editor_selector($attrib)
   global $CONFIG, $MESSAGE, $compose_mode;
 
   $choices = array(
-    'html'  => 'HTML',
-    'plain' => 'Plain text'
+    'html'  => 'htmltoggle',
+    'plain' => 'plaintoggle'
   );
 
   // determine whether HTML or plain text should be checked 
@@ -806,15 +806,24 @@ function rcmail_editor_selector($attrib)
     }
 
   $selector = '';
+  
+  $attrib['name'] = '_editorSelect';
+  $attrib['onclick'] = 'return rcmail_toggle_editor(this)';
   foreach ($choices as $value => $text)
     {
     $checked = '';
-    if ((($text == 'HTML') && $useHtml) ||
-        (($text != 'HTML') && !$useHtml))
-      $checked = 'checked';
+    if ((($value == 'html') && $useHtml) ||
+        (($value != 'html') && !$useHtml))
+      $attrib['checked'] = 'true';
+    else
+      unset($attrib['checked']);
 
-    $selector .= sprintf("<input type='radio' name='_editorSelect' value='%s' %s onclick='return rcmail_toggle_editor(this)'>%s</input>\n",
-                          $value, $checked, $text);
+    $attrib['id'] = '_' . $value;
+    $rb = new radiobutton($attrib);
+    $selector .= sprintf("<td>%s</td><td class=\"title\"><label for=\"%s\">%s</label></td>",
+                         $rb->show($value),
+                         $attrib['id'],
+                         rcube_label($text));
     }
 
   return $selector;
