@@ -145,6 +145,9 @@ $labels['highest'] = 'Highest';
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Display images';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Plain text';
+
 
 // address boook
 $labels['name']      = 'Display name';
