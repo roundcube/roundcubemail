@@ -101,20 +101,20 @@ function rcmail_attach_emoticons(&$mime_message)
                          $pos + strlen($searchstr),
                          $pos2 - ($pos + strlen($searchstr)));
 
+    $body_post = substr($body, $pos2);
+
     if (! in_array($image_name, $included_images))
       {
-      $body_post = substr($body, $pos2);
-
       // add the image to the MIME message
       $img_file = $INSTALL_PATH . '/' . $searchstr . $image_name;
       if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
         {
         show_message("emoticonerror", 'error');
         }
-
-      $body = $body_pre . 'cid:_' . $image_name . $body_post;
       array_push($included_images, $image_name);
       }
+
+    $body = $body_pre . 'cid:_' . $image_name . $body_post;
 
     $last_img_pos = $pos2;
     }
