@@ -709,7 +709,6 @@ function rcube_webmail()
             url += '&_to='+a_cids.join(',');
           else
             break;
-            
           }
         else if (props)
            url += '&_to='+urlencode(props);
@@ -717,8 +716,6 @@ function rcube_webmail()
         // don't know if this is necessary...
         url = url.replace(/&_framed=1/, "");
         this.set_busy(true);
-        
-        alert(url)
 
         // need parent in case we are coming from the contact frame
         if (this.env.framed)
