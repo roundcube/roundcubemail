@@ -7,7 +7,7 @@
 	// require_once("classes/TinyPspell.class.php"); // Internal PHP version
 
 	// General settings
-	$spellCheckerConfig['enabled'] = false;
+	$spellCheckerConfig['enabled'] = true;
 
 	// Default settings
 	$spellCheckerConfig['default.language'] = 'en';
