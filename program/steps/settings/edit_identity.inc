@@ -47,6 +47,9 @@ function rcube_identity_form($attrib)
   $OUTPUT->include_script('tiny_mce/tiny_mce_src.js');
   $OUTPUT->add_script("tinyMCE.init({ mode : 'specific_textareas'," .
                                     "apply_source_formatting : true," .
+                                    "content_css : '\$__skin_path' + '/editor_content.css'," .
+                                    "popups_css : '\$__skin_path' + '/editor_popups.css'," .
+                                    "editor_css : '\$__skin_path' + '/editor_ui.css'," .
                                     "theme : 'advanced'," .
                                     "theme_advanced_toolbar_location : 'top'," .
                                     "theme_advanced_toolbar_align : 'left'," .
