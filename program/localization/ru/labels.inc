@@ -147,6 +147,8 @@ $labels['highest'] = 'Высоч.';
 $labels['nosubject']  = '(без темы)';
 $labels['showimages'] = 'Показать изображения';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Обычный текст';
 
 // address boook
 $labels['name']      = 'Отображаемое имя';
