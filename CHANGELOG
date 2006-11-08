@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/11/07 (estadtherr)
+----------
+- Upgraded to TinyMCE v2.0.8
+- Fixed CSS path for editor popups
+
+
 2006/09/26 (estadtherr)
 ----------
 - Added spellchecker plugin to TinyMCE configuration

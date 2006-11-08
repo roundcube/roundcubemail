@@ -8,6 +8,11 @@ function insertTable() {
 	var elm = tinyMCE.tableElm;
 	var cellLimit, rowLimit, colLimit;
 
+	if (!AutoValidator.validate(formObj)) {
+		alert(tinyMCE.getLang('lang_invalid_data'));
+		return false;
+	}
+
 	tinyMCEPopup.restoreSelection();
 
 	// Get form data
@@ -180,7 +185,7 @@ function init() {
 	document.getElementById('bordercolor_pickcontainer').innerHTML = getColorPickerHTML('bordercolor_pick','bordercolor');
 	document.getElementById('bgcolor_pickcontainer').innerHTML = getColorPickerHTML('bgcolor_pick','bgcolor');
 
-	var cols = 2, rows = 2, border = 0, cellpadding = "", cellspacing = "";
+	var cols = 2, rows = 2, border = tinyMCE.getParam('table_default_border', '0'), cellpadding = tinyMCE.getParam('table_default_cellpadding', ''), cellspacing = tinyMCE.getParam('table_default_cellspacing', '');
 	var align = "", width = "", height = "", bordercolor = "", bgcolor = "", className = "";
 	var id = "", summary = "", style = "", dir = "", lang = "", background = "", bgcolor = "", bordercolor = "";
 	var inst = tinyMCE.selectedInstance;

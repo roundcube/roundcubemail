@@ -21,15 +21,15 @@ function rcmail_editor_init(skin_path)
                   accessibility_focus : false,
                   apply_source_formatting : true,
                   theme : 'advanced',
-                  plugins : 'emotions,table,searchreplace,spellchecker',
+                  plugins : 'emotions,media,nonbreaking,table,searchreplace,spellchecker,visualchars',
                   theme_advanced_buttons1 : 'bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,forecolor,backcolor,formatselect,fontselect,fontsizeselect',
-                  theme_advanced_buttons2 : 'undo,redo,image,hr,link,unlink,emotions,charmap,code,separator,search,replace,spellchecker,separator,tablecontrols',
+                  theme_advanced_buttons2 : 'undo,redo,image,media,hr,link,unlink,emotions,charmap,code,nonbreaking,visualchars,separator,search,replace,spellchecker,separator,tablecontrols',
                   theme_advanced_buttons3 : '',
                   theme_advanced_toolbar_location : 'top',
                   theme_advanced_toolbar_align : 'left',
                   extended_valid_elements : 'font[face|size|color|style],span[id|class|align|style]',
                   content_css : skin_path + '/editor_content.css',
-                  popups_css : skin_path + '/editor_popups.css',
+                  popups_css : skin_path + '/editor_popup.css',
                   editor_css : skin_path + '/editor_ui.css'
                 });
 }

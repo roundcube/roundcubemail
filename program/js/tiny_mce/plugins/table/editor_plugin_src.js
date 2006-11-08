@@ -1,20 +1,18 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.38 $
- * $Date: 2006/02/11 18:53:51 $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('table', 'en,tr,ar,cs,da,de,el,es,fi,fr_ca,hu,it,ja,ko,nl,nb,pl,pt,pt_br,sv,tw,zh_cn,fr,de,he,nb,ru,ru_KOI8-R,ru_UTF-8,nn,cy,is,zh_tw,zh_tw_utf8,sk');
+tinyMCE.importPluginLanguagePack('table');
 
 var TinyMCE_TablePlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Tables',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_table.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
@@ -36,6 +34,7 @@ var TinyMCE_TablePlugin = {
 	getControlHTML : function(control_name) {
 		var controls = new Array(
 			['table', 'table.gif', 'lang_table_desc', 'mceInsertTable', true],
+			['delete_table', 'table_delete.gif', 'lang_table_del', 'mceTableDelete'],
 			['delete_col', 'table_delete_col.gif', 'lang_table_delete_col_desc', 'mceTableDeleteCol'],
 			['delete_row', 'table_delete_row.gif', 'lang_table_delete_row_desc', 'mceTableDeleteRow'],
 			['col_after', 'table_insert_col_after.gif', 'lang_table_col_after_desc', 'mceTableInsertColAfter'],
@@ -118,12 +117,13 @@ var TinyMCE_TablePlugin = {
 	},
 
 	handleNodeChange : function(editor_id, node, undo_index, undo_levels, visual_aid, any_selection) {
-		var colspan = "1", rowspan = "1";
+		var colspan = "1", rowspan = "1", tdElm;
 
 		var inst = tinyMCE.getInstanceById(editor_id);
 
 		// Reset table controls
 		tinyMCE.switchClass(editor_id + '_table', 'mceButtonNormal');
+		tinyMCE.switchClass(editor_id + '_delete_table', 'mceButtonDisabled');
 		tinyMCE.switchClass(editor_id + '_row_props', 'mceButtonDisabled');
 		tinyMCE.switchClass(editor_id + '_cell_props', 'mceButtonDisabled');
 		tinyMCE.switchClass(editor_id + '_row_before', 'mceButtonDisabled');
@@ -138,6 +138,7 @@ var TinyMCE_TablePlugin = {
 		// Within a td element
 		if (tdElm = tinyMCE.getParentElement(node, "td,th")) {
 			tinyMCE.switchClass(editor_id + '_cell_props', 'mceButtonSelected');
+			tinyMCE.switchClass(editor_id + '_delete_table', 'mceButtonNormal');
 			tinyMCE.switchClass(editor_id + '_row_before', 'mceButtonNormal');
 			tinyMCE.switchClass(editor_id + '_row_after', 'mceButtonNormal');
 			tinyMCE.switchClass(editor_id + '_delete_row', 'mceButtonNormal');
@@ -228,8 +229,10 @@ var TinyMCE_TablePlugin = {
 		}
 
 		function getCellPos(grid, td) {
-			for (var y=0; y<grid.length; y++) {
-				for (var x=0; x<grid[y].length; x++) {
+			var x, y;
+
+			for (y=0; y<grid.length; y++) {
+				for (x=0; x<grid[y].length; x++) {
 					if (grid[y][x] == td)
 						return {cellindex : x, rowindex : y};
 				}
@@ -246,25 +249,23 @@ var TinyMCE_TablePlugin = {
 		}
 
 		function getTableGrid(table) {
-			var grid = new Array();
-			var rows = table.rows;
+			var grid = new Array(), rows = table.rows, x, y, td, sd, xstart, x2, y2;
 
-			for (var y=0; y<rows.length; y++) {
-				for (var x=0; x<rows[y].cells.length; x++) {
-					var td = rows[y].cells[x];
-					var sd = getColRowSpan(td);
+			for (y=0; y<rows.length; y++) {
+				for (x=0; x<rows[y].cells.length; x++) {
+					td = rows[y].cells[x];
+					sd = getColRowSpan(td);
 
 					// All ready filled
 					for (xstart = x; grid[y] && grid[y][xstart]; xstart++) ;
 
 					// Fill box
-					for (var y2=y; y2<y+sd['rowspan']; y2++) {
+					for (y2=y; y2<y+sd['rowspan']; y2++) {
 						if (!grid[y2])
 							grid[y2] = new Array();
 
-						for (var x2=xstart; x2<xstart+sd['colspan']; x2++) {
+						for (x2=xstart; x2<xstart+sd['colspan']; x2++)
 							grid[y2][x2] = td;
-						}
 					}
 				}
 			}
@@ -273,13 +274,13 @@ var TinyMCE_TablePlugin = {
 		}
 
 		function trimRow(table, tr, td, new_tr) {
-			var grid = getTableGrid(table);
-			var cpos = getCellPos(grid, td);
+			var grid = getTableGrid(table), cpos = getCellPos(grid, td);
+			var cells, lastElm;
 
 			// Time to crop away some
 			if (new_tr.cells.length != tr.childNodes.length) {
-				var cells = tr.childNodes;
-				var lastElm = null;
+				cells = tr.childNodes;
+				lastElm = null;
 
 				for (var x=0; td = getCell(grid, cpos.rowindex, x); x++) {
 					var remove = true;
@@ -500,46 +501,11 @@ var TinyMCE_TablePlugin = {
 				// Table has a tbody use that reference
 				// Changed logic by ApTest 2005.07.12 (www.aptest.com)
 				// Now lookk at the focused element and take its parentNode.  That will be a tbody or a table.
-				if (tableElm != trElm.parentNode)
+				if (trElm && tableElm != trElm.parentNode)
 					tableElm = trElm.parentNode;
 
 				if (tableElm && trElm) {
 					switch (command) {
-						case "mceTableInsertRowBefore":
-							if (!trElm || !tdElm)
-								return true;
-
-							var grid = getTableGrid(tableElm);
-							var cpos = getCellPos(grid, tdElm);
-							var newTR = doc.createElement("tr");
-							var lastTDElm = null;
-
-							cpos.rowindex--;
-							if (cpos.rowindex < 0)
-								cpos.rowindex = 0;
-
-							// Create cells
-							for (var x=0; tdElm = getCell(grid, cpos.rowindex, x); x++) {
-								if (tdElm != lastTDElm) {
-									var sd = getColRowSpan(tdElm);
-
-									if (sd['rowspan'] == 1) {
-										var newTD = doc.createElement("td");
-
-										newTD.innerHTML = "&nbsp;";
-										newTD.colSpan = tdElm.colSpan;
-
-										newTR.appendChild(newTD);
-									} else
-										tdElm.rowSpan = sd['rowspan'] + 1;
-
-									lastTDElm = tdElm;
-								}
-							}
-
-							trElm.parentNode.insertBefore(newTR, trElm);
-						break;
-
 						case "mceTableCutRow":
 							if (!trElm || !tdElm)
 								return true;
@@ -584,6 +550,44 @@ var TinyMCE_TablePlugin = {
 
 							break;
 
+						case "mceTableInsertRowBefore":
+							if (!trElm || !tdElm)
+								return true;
+
+							var grid = getTableGrid(tableElm);
+							var cpos = getCellPos(grid, tdElm);
+							var newTR = doc.createElement("tr");
+							var lastTDElm = null;
+
+							cpos.rowindex--;
+							if (cpos.rowindex < 0)
+								cpos.rowindex = 0;
+
+							// Create cells
+							for (var x=0; tdElm = getCell(grid, cpos.rowindex, x); x++) {
+								if (tdElm != lastTDElm) {
+									var sd = getColRowSpan(tdElm);
+
+									if (sd['rowspan'] == 1) {
+										var newTD = doc.createElement("td");
+
+										newTD.innerHTML = "&nbsp;";
+										newTD.colSpan = tdElm.colSpan;
+
+										newTR.appendChild(newTD);
+									} else
+										tdElm.rowSpan = sd['rowspan'] + 1;
+
+									lastTDElm = tdElm;
+								}
+							}
+
+							trElm.parentNode.insertBefore(newTR, trElm);
+
+							grid = getTableGrid(tableElm);
+							inst.selection.selectNode(getCell(grid, cpos.rowindex + 1, cpos.cellindex), tinyMCE.isGecko, true); // Only collape on gecko
+						break;
+
 						case "mceTableInsertRowAfter":
 							if (!trElm || !tdElm)
 								return true;
@@ -619,17 +623,21 @@ var TinyMCE_TablePlugin = {
 								else
 									tableElm.appendChild(newTR);
 							}
+
+							grid = getTableGrid(tableElm);
+							inst.selection.selectNode(getCell(grid, cpos.rowindex, cpos.cellindex), tinyMCE.isGecko, true); // Only collape on gecko
 						break;
 
 						case "mceTableDeleteRow":
 							if (!trElm || !tdElm)
 								return true;
-		
+
 							var grid = getTableGrid(tableElm);
 							var cpos = getCellPos(grid, tdElm);
 
 							// Only one row, remove whole table
 							if (grid.length == 1) {
+								tableElm = tinyMCE.getParentElement(tableElm, "table"); // Look for table instead of tbody
 								tableElm.parentNode.removeChild(tableElm);
 								return true;
 							}
@@ -678,7 +686,9 @@ var TinyMCE_TablePlugin = {
 							if (cpos.rowindex < 0)
 								cpos.rowindex = 0;
 
-							inst.selection.selectNode(getCell(grid, cpos.rowindex, 0), true, true);
+							// Recalculate grid and select
+							grid = getTableGrid(tableElm);
+							inst.selection.selectNode(getCell(grid, cpos.rowindex, 0), tinyMCE.isGecko, true); // Only collape on gecko
 						break;
 
 						case "mceTableInsertColBefore":
@@ -706,6 +716,9 @@ var TinyMCE_TablePlugin = {
 									lastTDElm = tdElm;
 								}
 							}
+
+							grid = getTableGrid(tableElm);
+							inst.selection.selectNode(getCell(grid, cpos.rowindex, cpos.cellindex + 1), tinyMCE.isGecko, true); // Only collape on gecko
 						break;
 
 						case "mceTableInsertColAfter":
@@ -737,6 +750,9 @@ var TinyMCE_TablePlugin = {
 									lastTDElm = tdElm;
 								}
 							}
+
+							grid = getTableGrid(tableElm);
+							inst.selection.selectNode(getCell(grid, cpos.rowindex, cpos.cellindex), tinyMCE.isGecko, true); // Only collape on gecko
 						break;
 
 						case "mceTableDeleteCol":
@@ -749,6 +765,7 @@ var TinyMCE_TablePlugin = {
 
 							// Only one col, remove whole table
 							if (grid.length > 1 && grid[0].length <= 1) {
+								tableElm = tinyMCE.getParentElement(tableElm, "table"); // Look for table instead of tbody
 								tableElm.parentNode.removeChild(tableElm);
 								return true;
 							}
@@ -773,7 +790,9 @@ var TinyMCE_TablePlugin = {
 							if (cpos.cellindex < 0)
 								cpos.cellindex = 0;
 
-							inst.selection.selectNode(getCell(grid, 0, cpos.cellindex), true, true);
+							// Recalculate grid and select
+							grid = getTableGrid(tableElm);
+							inst.selection.selectNode(getCell(grid, cpos.rowindex, 0), tinyMCE.isGecko, true); // Only collape on gecko
 						break;
 
 					case "mceTableSplitCells":

@@ -1,21 +1,19 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.23 $
- * $Date: 2006/02/10 16:29:38 $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('emotions', 'en,tr,sv,zh_cn,cs,fa,fr_ca,fr,de,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,es,cy,is,zh_tw,zh_tw_utf8,sk');
+tinyMCE.importPluginLanguagePack('emotions');
 
 // Plucin static class
 var TinyMCE_EmotionsPlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Emotions',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_emotions.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
