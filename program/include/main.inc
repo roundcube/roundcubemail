@@ -958,8 +958,9 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       }
     else if ($mode=='remove')
       $str = strip_tags($str);
-      
-    $out = strtr($str, $encode_arr);
+    
+    // avoid douple quotation of &
+    $out = preg_replace('/&amp;([a-z]{2,5});/', '&\\1;', strtr($str, $encode_arr));
       
     return $newlines ? nl2br($out) : $out;
     }

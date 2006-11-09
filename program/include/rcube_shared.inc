@@ -215,7 +215,8 @@ class rcube_html_page
     if(($fpos = strrpos($output_lc, '</body>')) ||
        ($fpos = strrpos($output_lc, '</html>')))
       {
-      $output = substr($output,0,$fpos) . "$__page_footer\n" . substr($output,$fpos,strlen($output));
+      $fpos -= 8;
+      $output = substr($output,0,$fpos) . "$__page_footer\n" . substr($output,$fpos);
       }
     else
       $output .= "\n$__page_footer";
