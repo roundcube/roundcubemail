@@ -76,7 +76,7 @@ if (!empty($msg_uid))
   $MESSAGE['structure'] = &$IMAP->get_structure($msg_uid);  
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   $MESSAGE['parts'] = $IMAP->get_mime_numbers($MESSAGE['structure']);
-
+  
   if ($compose_mode == RCUBE_COMPOSE_REPLY)
     {
     $_SESSION['compose']['reply_uid'] = $msg_uid;
@@ -171,18 +171,18 @@ function rcmail_compose_headers($attrib)
     {
     // get recipent address(es) out of the message headers
     if ($header=='to' && !empty($MESSAGE['headers']->replyto))
-      $fvalue = $IMAP->decode_header($MESSAGE['headers']->replyto);
+      $fvalue = $MESSAGE['headers']->replyto;
 
     else if ($header=='to' && !empty($MESSAGE['headers']->from))
-      $fvalue = $IMAP->decode_header($MESSAGE['headers']->from);
+      $fvalue = $MESSAGE['headers']->from;
 
     // add recipent of original message if reply to all
     else if ($header=='cc' && !empty($MESSAGE['reply_all']))
       {
-      if ($v = $IMAP->decode_header($MESSAGE['headers']->to))
+      if ($v = $MESSAGE['headers']->to)
         $fvalue .= $v;
 
-      if ($v = $IMAP->decode_header($MESSAGE['headers']->cc))
+      if ($v = $MESSAGE['headers']->cc)
         $fvalue .= (!empty($fvalue) ? ', ' : '') . $v;
       }
 
@@ -212,7 +212,6 @@ function rcmail_compose_headers($attrib)
 
     if ($header=='bcc' && !empty($MESSAGE['headers']->bcc))
       $fvalue = $IMAP->decode_header($MESSAGE['headers']->bcc);
-
     }
 
         
@@ -253,7 +252,7 @@ function rcmail_compose_header_from($attrib)
     {
     $MESSAGE['FROM'] = array();
 
-    $a_to = $IMAP->decode_address_list($MESSAGE['headers']->to);        
+    $a_to = $IMAP->decode_address_list($MESSAGE['headers']->to);
     foreach ($a_to as $addr)
       {
       if (!empty($addr['mailto']))
@@ -414,7 +413,7 @@ function rcmail_compose_body($attrib)
 
   $out = $form_start ? "$form_start\n" : '';
 
-  $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => str_replace(array('<','>'),"",$MESSAGE['headers']->messageID) ));
+  $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE['headers']->messageID) : ''));
   $out .= $saveid->show();
 
   $drafttoggle = new hiddenfield(array('name' => '_draft', 'value' => 'yes'));
