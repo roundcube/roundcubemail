@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/11/11 (estadtherr)
+----------
+- fixed deletion/moving of messages from within "show" page
+
+
 2006/11/07 (estadtherr)
 ----------
 - Upgraded to TinyMCE v2.0.8

@@ -1272,10 +1272,12 @@ function rcube_webmail()
   this.permanently_remove_messages = function()
     {
     // exit if no mailbox specified or if selection is empty
-    var selection = this.message_list.get_selection();
-    if (!(selection.length || this.env.uid))
-      return;
-    
+    if (!this.env.uid)
+      {
+      if (!this.message_list || !this.message_list.get_selection().length)
+        return;
+      }
+
     var a_uids = new Array();
 
     if (this.env.uid)
