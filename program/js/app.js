@@ -1232,11 +1232,13 @@ function rcube_webmail()
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
     {
-    // exit if no mailbox specified or if selection is empty
-    var selection = this.message_list.get_selection();
-    if (!mbox || !(selection.length || this.env.uid) || mbox==this.env.mailbox)
-      return;
-    
+    // exit if current or no mailbox specified or if selection is empty
+    if (!mbox || !this.env.uid || mbox==this.env.mailbox)
+      {
+      if (!this.message_list || !this.message_list.get_selection().length)
+        return;
+      }
+
     var a_uids = new Array();
 
     if (this.env.uid)
@@ -1300,9 +1302,11 @@ function rcube_webmail()
   this.delete_messages = function()
     {
     // exit if no mailbox specified or if selection is empty
-    var selection = this.message_list.get_selection();
-    if (!(selection.length || this.env.uid))
-      return;
+    if (!this.env.uid)
+      {
+      if (!this.message_list || !this.message_list.get_selection().length)
+        return;
+      }
 
     // if there is a trash mailbox defined and we're not currently in it:
     if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase()!=String(this.env.trash_mailbox).toLowerCase())
