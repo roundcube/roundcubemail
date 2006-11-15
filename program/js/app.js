@@ -1245,6 +1245,7 @@ function rcube_webmail()
       a_uids[a_uids.length] = this.env.uid;
     else
       {
+      var selection = this.message_list.get_selection();
       var id;
       for (var n=0; n<selection.length; n++)
         {
@@ -1284,6 +1285,7 @@ function rcube_webmail()
       a_uids[a_uids.length] = this.env.uid;
     else
       {
+      var selection = this.message_list.get_selection();
       var id;
       for (var n=0; n<selection.length; n++)
         {
