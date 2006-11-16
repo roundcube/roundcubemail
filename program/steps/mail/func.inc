@@ -1083,7 +1083,7 @@ function rcmail_message_body($attrib)
       else if ($part->type=='content')
         {
         if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset']))
-          $$part->ctype_parameters['charset'] = $MESSAGE['headers']->charset;
+          $part->ctype_parameters['charset'] = $MESSAGE['headers']->charset;
 
         // fetch part if not available
         if (!isset($part->body))
