@@ -30,7 +30,7 @@ if ($_action=='expunge')
   // reload message list if current mailbox  
   if ($success && $_GET['_reload'])
     {
-    rcube_remote_response('this.clear_message_list();', TRUE);
+    rcube_remote_response('this.message_list.clear();', TRUE);
     $_action = 'list';
     return;
     }
@@ -45,7 +45,7 @@ else if ($_action=='purge')
   
   if ($success && $_GET['_reload'])
     {
-    $commands = "this.clear_message_list();\n";
+    $commands = "this.message_list.clear();\n";
     $commands .= "this.set_env('messagecount', 0);\n";
     $commands .= "this.set_env('pagecount', 0);\n";
     $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
