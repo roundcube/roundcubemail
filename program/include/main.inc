@@ -550,21 +550,28 @@ function rcmail_create_user($user, $host)
     $user_name = $user!=$user_email ? $user : '';
 
     // try to resolve the e-mail address from the virtuser table
-	if (!empty($CONFIG['virtuser_query']))
-	  {
-      $sql_result = $DB->query(preg_replace('/%u/', $user, $CONFIG['virtuser_query']));
-      if ($sql_arr = $DB->fetch_array($sql_result))
-        $user_email = $sql_arr[0];
+	if (!empty($CONFIG['virtuser_query']) &&
+        ($sql_result = $DB->query(preg_replace('/%u/', $user, $CONFIG['virtuser_query']))) &&
+        ($DB->num_rows()>0))
+      while ($sql_arr = $DB->fetch_array($sql_result))
+        {
+        $DB->query("INSERT INTO ".get_table_name('identities')."
+                   (user_id, del, standard, name, email)
+                   VALUES (?, 0, 1, ?, ?)",
+                   $user_id,
+                   $user_name,
+                   preg_replace('/^@/', $user . '@', $sql_arr[0]));
+        }
+    else
+      {
+      // also create new identity records
+      $DB->query("INSERT INTO ".get_table_name('identities')."
+                  (user_id, del, standard, name, email)
+                  VALUES (?, 0, 1, ?, ?)",
+                  $user_id,
+                  $user_name,
+                  $user_email);
       }
-
-    // also create new identity records
-    $DB->query("INSERT INTO ".get_table_name('identities')."
-                (user_id, del, standard, name, email)
-                VALUES (?, 0, 1, ?, ?)",
-                $user_id,
-                $user_name,
-                $user_email);
-
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();
