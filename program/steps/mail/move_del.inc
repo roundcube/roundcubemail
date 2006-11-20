@@ -62,7 +62,7 @@ else
 
 // update message count display
 $pages = ceil($IMAP->messagecount()/$IMAP->page_size);
-$commands = "this.message_list.init();\n";
+$commands = "if (this.message_list) this.message_list.init();\n";
 $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
 $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 
