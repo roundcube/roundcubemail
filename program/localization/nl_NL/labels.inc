@@ -98,7 +98,9 @@ $labels['forwardmessage']   = 'Bericht doorsturen';
 $labels['deletemessage']    = 'Verplaats het bericht naar de prullenbak';
 $labels['printmessage']     = 'Dit bericht afdrukken';
 $labels['previousmessages'] = 'Toon vorige lijst met berichten';
+$labels['firstmessages']    = 'Toon eerste lijst met berichten';
 $labels['nextmessages']     = 'Toon volgende lijst met berichten';
+$labels['lastmessages']     = 'Toon laatste lijst met berichten';
 $labels['backtolist']       = 'Terug naar berichtenoverzicht';
 $labels['viewsource']       = 'Toon bron';
 
@@ -125,6 +127,7 @@ $labels['savemessage']  = 'Bewaar als concept';
 $labels['sendmessage']  = 'Verstuur het bericht nu';
 $labels['addattachment']  = 'Voeg een bijlage toe';
 $labels['charset']  = 'karakterset';
+$labels['editortype']     = 'Opmaak';
 $labels['returnreceipt'] = 'Ontvangstbevestiging';
 
 $labels['checkspelling'] = 'Check spelling';
@@ -143,6 +146,9 @@ $labels['highest'] = 'Hoogste';
 
 $labels['nosubject']  = '(geen onderwerp)';
 $labels['showimages'] = 'Toon afbeeldingen';
+
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Gewone tekst';
 
 
 // address boook
@@ -168,7 +174,9 @@ $labels['print']          = 'Afdrukken';
 $labels['export']         = 'Exporteren';
 
 $labels['previouspage']   = 'Vorige pagina';
+$labels['firstpage']      = 'Eerste pagina';
 $labels['nextpage']       = 'Volgende pagina';
+$labels['lastpage']       = 'Laatste pagina';
 
 
 // LDAP search
@@ -202,6 +210,12 @@ $labels['timezone']  = 'Tijdszone';
 $labels['pagesize']  = 'Rijen per pagina';
 $labels['signature'] = 'Onderschrift';
 $labels['dstactive']  = 'Zomertijd';
+$labels['htmleditor'] = 'Maak HTML berichten aan';
+$labels['htmlsignature'] = 'HTML onderschrift';
+
+$labels['autosavedraft']  = 'Concept automatisch opslaan';
+$labels['everynminutes']  = 'iedere $n minuten';
+$labels['never']  = 'nooit';
 
 $labels['folder']  = 'Map';
 $labels['folders']  = 'Mappen';

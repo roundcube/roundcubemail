@@ -3,6 +3,11 @@ CHANGELOG RoundCube Webmail
 
 
 2006/11/21 (robin)
+- Add missing nl_NL translations
+- Translate foldernames in folder form (closes #1484113)
+
+
+2006/11/21 (robin)
 - Added first and last buttons to message list, address book
   and message detail
 - Pressing Shift-Del bypasses Trash folder

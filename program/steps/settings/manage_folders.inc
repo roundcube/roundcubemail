@@ -165,6 +165,8 @@ function rcube_subscription_form($attrib)
     $subscribed = in_array($folder, $a_subscribed);
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
+    if (in_array($folder, $CONFIG['default_imap_folders']))
+      $folder = rcube_label(strtolower($folder));
     $folder_js = rep_specialchars_output($folder, 'js');
     $folder_js_enc = rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7'), 'js');
     

@@ -68,6 +68,8 @@ $messages['errordeleting'] = 'Kan het bericht niet verwijderen';
 
 $messages['deletecontactconfirm']  = 'Weet u zeker dat u de geselecteerde contactperso(o)n/en wilt verwijderen?';
 
+$messages['deletemessagesconfirm'] = 'Weet u zeker dat u de geselecteerde bericht(en) wilt verwijderen?';
+
 $messages['deletefolderconfirm']  = 'Weet u zeker dat u deze map wilt verwijderen?';
 
 $messages['purgefolderconfirm']  = 'Weet u zeker dat u alle berichten in deze map wilt verwijderen?';
@@ -105,6 +107,8 @@ $messages['checking'] = 'Controleren...';
 $messages['nospellerrors'] = 'Geen spelfouten gevonden';
 
 $messages['folderdeleted'] = 'Map successvol verwijderd';
+
+$messages['converting'] = 'Opmaak van bericht verwijderen...';
 
 
 ?>
