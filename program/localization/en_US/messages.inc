@@ -68,6 +68,8 @@ $messages['errordeleting'] = 'Could not delete the message';
 
 $messages['deletecontactconfirm']  = 'Do you really want to delete the selected contact(s)?';
 
+$messages['deletemessagesconfirm'] = 'Do you really want to delete the selected message(s)?';
+
 $messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
 
 $messages['purgefolderconfirm']  = 'Do you really want to delete all messages in this folder?';

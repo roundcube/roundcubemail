@@ -32,6 +32,8 @@ function rcube_list_widget(list, p)
   this.rows = [];
   this.selection = [];
   
+  this.shiftkey = false;
+
   this.multiselect = false;
   this.draggable = false;
   this.keyboard = false;
@@ -503,6 +505,8 @@ key_press: function(e)
 {
   if (this.focused != true) 
     return true;
+
+  this.shiftkey = e.shiftKey;
 
   var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
   var mod_key = rcube_event.get_modifier(e);

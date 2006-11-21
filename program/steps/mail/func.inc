@@ -79,6 +79,7 @@ function rcmail_mailbox_list($attrib)
 
   // add some labels to client
   rcube_add_label('purgefolderconfirm');
+  rcube_add_label('deletemessagesconfirm');
   
 // $mboxlist_start = rcube_timer();
   

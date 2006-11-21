@@ -1342,7 +1342,14 @@ function rcube_webmail()
 
     // if there is a trash mailbox defined and we're not currently in it:
     if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase()!=String(this.env.trash_mailbox).toLowerCase())
-      this.move_messages(this.env.trash_mailbox);
+      // if shift was pressed delete it immediately
+      if (this.message_list.shiftkey)
+        {
+        if (confirm(this.get_label('deletemessagesconfirm')))
+          this.permanently_remove_messages();
+        }
+      else
+        this.move_messages(this.env.trash_mailbox);
     // if there is a trash mailbox defined but we *are* in it:
     else if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase() == String(this.env.trash_mailbox).toLowerCase())
       this.permanently_remove_messages();
