@@ -3155,7 +3155,7 @@ function rcube_webmail()
 
       case 'list':
         if (this.env.messagecount)
-          this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox));
+          this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox));
 
       case 'expunge':
         this.enable_command('select-all', 'select-none', 'expunge', this.env.messagecount ? true : false);
