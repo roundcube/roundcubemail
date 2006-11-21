@@ -141,9 +141,15 @@ function rcube_webmail()
           {
           this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'viewsource', 'print', 'load-attachment', true);
           if (this.env.next_uid)
+            {
             this.enable_command('nextmessage', true);
+            this.enable_command('lastmessage', true);
+            }
           if (this.env.prev_uid)
+            {
             this.enable_command('previousmessage', true);
+            this.enable_command('firstmessage', true);
+            }
           }
 
         if (this.env.action=='show' && this.env.blockedobjects)
@@ -478,8 +484,16 @@ function rcube_webmail()
         this.list_page('next');
         break;
 
+      case 'lastpage':
+        this.list_page('last');
+        break;
+
       case 'previouspage':
         this.list_page('prev');
+        break;
+
+      case 'firstpage':
+        this.list_page('first');
         break;
 
       case 'expunge':
@@ -656,9 +670,19 @@ function rcube_webmail()
           this.show_message(this.env.next_uid);
         break;
 
+	  case 'lastmessage':
+        if (this.env.last_uid)
+          this.show_message(this.env.last_uid);
+        break;
+
       case 'previousmessage':
         if (this.env.prev_uid)
           this.show_message(this.env.prev_uid);
+        break;
+
+      case 'firstmessage':
+        if (this.env.first_uid)
+          this.show_message(this.env.first_uid);
         break;
       
       case 'checkmail':
@@ -1095,8 +1119,12 @@ function rcube_webmail()
     {
     if (page=='next')
       page = this.env.current_page+1;
+    if (page=='last')
+      page = this.env.pagecount;
     if (page=='prev' && this.env.current_page>1)
       page = this.env.current_page-1;
+    if (page=='first' && this.env.current_page>1)
+      page = 1;
       
     if (page > 0 && page <= this.env.pagecount)
       {
@@ -2634,7 +2662,9 @@ function rcube_webmail()
   this.set_page_buttons = function()
     {
     this.enable_command('nextpage', (this.env.pagecount > this.env.current_page));
+    this.enable_command('lastpage', (this.env.pagecount > this.env.current_page));
     this.enable_command('previouspage', (this.env.current_page > 1));
+    this.enable_command('firstpage', (this.env.current_page > 1));
     }
 
 

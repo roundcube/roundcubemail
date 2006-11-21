@@ -98,7 +98,9 @@ $labels['forwardmessage']   = 'Forward the message';
 $labels['deletemessage']    = 'Move message to trash';
 $labels['printmessage']     = 'Print this message';
 $labels['previousmessages'] = 'Show previous set of messages';
+$labels['firstmessages']    = 'Show first set of messages';
 $labels['nextmessages']     = 'Show next set of messages';
+$labels['lastmessages']     = 'Show last set of messages';
 $labels['backtolist']       = 'Back to message list';
 $labels['viewsource']       = 'Show source';
 
@@ -171,7 +173,9 @@ $labels['print']          = 'Print';
 $labels['export']         = 'Export';
 
 $labels['previouspage']   = 'Show previous set';
+$labels['firstpage']      = 'Show first set';
 $labels['nextpage']       = 'Show next set';
+$labels['lastpage']       = 'Show last set';
 
 
 // LDAP search
