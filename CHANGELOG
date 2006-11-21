@@ -1,6 +1,26 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+
+2006/11/21 (robin)
+- Added first and last buttons to message list, address book
+  and message detail
+- Pressing Shift-Del bypasses Trash folder
+- Enable purge command for Junk folder
+
+
+2006/11/17 (robin)
+----------
+- Re-initialize message list after shift-select and delete
+
+
+2006/11/16 (robin)
+----------
+- Fixed updating message list after expunge and purge
+- Fetch all aliases if virtuser_query is used instead
+  of only the first one
+
+
 2006/11/11 (estadtherr)
 ----------
 - fixed deletion/moving of messages from within "show" page
