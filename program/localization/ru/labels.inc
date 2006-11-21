@@ -127,6 +127,7 @@ $labels['savemessage']  = 'Сохранить черновик';
 $labels['sendmessage']  = 'Отправить сейчас';
 $labels['addattachment']  = 'Добавить вложение';
 $labels['charset']  = 'Кодировка';
+$labels['editortype']     = 'Редактор';
 $labels['returnreceipt'] = 'Запрос ответа';
 
 $labels['rename'] = 'Переименовать';
