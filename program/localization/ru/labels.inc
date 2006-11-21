@@ -98,7 +98,9 @@ $labels['forwardmessage']   = 'Переслать';
 $labels['deletemessage']    = 'В корзину';
 $labels['printmessage']     = 'Печать';
 $labels['previousmessages'] = 'Предыдущее';
+$labels['firstmessages']    = 'Первое сообщение';
 $labels['nextmessages']     = 'Следующее';
+$labels['lastmessages']     = 'Последнее сообщение';
 $labels['backtolist']       = 'К списку сообщений';
 $labels['viewsource']       = 'Исходный текст';
 
@@ -173,7 +175,9 @@ $labels['print']          = 'Печать';
 $labels['export']         = 'Экспорт';
 
 $labels['previouspage']   = 'Показать предыдущий';
+$labels['firstpage']   		= 'Показать первый';
 $labels['nextpage']       = 'Показать следующий';
+$labels['lastpage']   		= 'Показать последний';
 
 // LDAP search
 $labels['ldapsearch'] = 'Поиск в каталоге LDAP';
