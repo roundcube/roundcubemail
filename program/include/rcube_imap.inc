@@ -2377,7 +2377,8 @@ class rcube_imap
 
   function _parse_address_list($str)
     {
-    $a = $this->_explode_quoted_string(',', $str);
+    // remove any newlines and carriage returns before
+    $a = $this->_explode_quoted_string(',', preg_replace( "/[\r\n]/", " ", $str));
     $result = array();
     
     foreach ($a as $key => $val)
