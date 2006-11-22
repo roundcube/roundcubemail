@@ -1063,7 +1063,13 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     return $value;
   }
 
-
+/**
+ * Remove single and double quotes from given string
+ */
+function strip_quotes($str)
+{
+  return preg_replace('/[\'"]/', '', $str);
+}
 
 
 // ************** template parsing and gui functions **************

@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20060907                                                  |
+ | Version 0.1-20061122                                                  |
  |                                                                       |
  | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20060907');
+define('RCMAIL_VERSION', '0.1-20061122');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -90,11 +90,12 @@ require_once('PEAR.php');
 
 
 // catch some url/post parameters
-$_task = get_input_value('_task', RCUBE_INPUT_GPC);
-$_action = get_input_value('_action', RCUBE_INPUT_GPC);
+$_task = strip_quotes(get_input_value('_task', RCUBE_INPUT_GPC));
+$_action = strip_quotes(get_input_value('_action', RCUBE_INPUT_GPC));
 $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
 
-if (empty($_task))
+// use main task if empty or invalid value
+if (empty($_task) || !in_array($_task, $MAIN_TASKS))
   $_task = 'mail';
 
 if (!empty($_GET['_remote']))
@@ -372,9 +373,7 @@ if ($_task=='settings')
 
 
 // parse main template
-// only allow these templates to be included
-if (in_array($_task, $MAIN_TASKS))
-  parse_template($_task);
+parse_template($_task);
 
 
 // if we arrive here, something went wrong
