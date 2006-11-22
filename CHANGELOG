@@ -2,6 +2,10 @@ CHANGELOG RoundCube Webmail
 ---------------------------
 
 
+2006/11/22 (robin)
+- Fix a bug introduced with Shift-Del yesterday
+
+
 2006/11/21 (robin)
 - Add missing nl_NL translations
 - Translate foldernames in folder form (closes #1484113)
