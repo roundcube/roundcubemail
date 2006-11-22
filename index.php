@@ -166,7 +166,7 @@ if ($_action=='html2text')
 // try to log in
 if ($_action=='login' && $_task=='mail')
   {
-  $host = $_POST['_host'] ? $_POST['_host'] : $CONFIG['default_host'];
+  $host = rcmail_autoselect_host();
   
   // check if client supports cookies
   if (empty($_COOKIE))
@@ -174,7 +174,8 @@ if ($_action=='login' && $_task=='mail')
     show_message("cookiesdisabled", 'warning');
     }
   else if (isset($_POST['_user']) && isset($_POST['_pass']) &&
-           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST), $_POST['_pass'], $host))
+           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
+              get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
     {
     // send redirect
     header("Location: $COMM_PATH");

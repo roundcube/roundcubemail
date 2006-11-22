@@ -413,6 +413,34 @@ function rcmail_set_locale($lang)
   }
 
 
+// auto-select IMAP host based on the posted login information
+function rcmail_autoselect_host()
+  {
+  global $CONFIG;
+  
+  $host = isset($_POST['_host']) ? get_input_value('_host', RCUBE_INPUT_POST) : $CONFIG['default_host'];
+  if (is_array($host))
+    {
+    list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
+    if (!empty($domain))
+      {
+      foreach ($host as $imap_host => $mail_domains)
+        if (is_array($mail_domains) && in_array($domain, $mail_domains))
+          {
+          $host = $imap_host;
+          break;
+          }
+      }
+
+    // take the first entry if $host is still an array
+    if (is_array($host))
+      $host = array_shift($host);
+    }
+  
+  return $host;
+  }
+
+
 // perfom login to the IMAP server and to the webmail service
 function rcmail_login($user, $pass, $host=NULL)
   {
@@ -1732,14 +1760,22 @@ function rcmail_login_form($attrib)
     $select_host = new select(array('name' => '_host', 'id' => 'rcmloginhost'));
     
     foreach ($CONFIG['default_host'] as $key => $value)
-      $select_host->add($value, (is_numeric($key) ? $value : $key));
+    {
+      if (!is_array($value))
+        $select_host->add($value, (is_numeric($key) ? $value : $key));
+      else
+        {
+        unset($select_host);
+        break;
+        }
+    }
       
-    $fields['host'] = $select_host->show($_POST['_host']);
+    $fields['host'] = isset($select_host) ? $select_host->show($_POST['_host']) : null;
     }
   else if (!strlen($CONFIG['default_host']))
     {
-	$input_host = new textfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
-	$fields['host'] = $input_host->show($_POST['_host']);
+    $input_host = new textfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
+    $fields['host'] = $input_host->show($_POST['_host']);
     }
 
   $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';

@@ -39,6 +39,7 @@
 		- Added BCC and REFERENCE to the list of headers to fetch in iil_C_FetchHeaders()
 		- Leave messageID unchanged in iil_C_FetchHeaders()
 		- Avoid stripslahes in iil_Connect()
+		- Escape quotes and backslashes in iil_C_Login()
 		- Added patch to iil_SortHeaders() by Richard Green
 		- Removed <br> from error messages (better for logging)
 		- Added patch to iil_C_Sort() enabling UID SORT commands
@@ -225,8 +226,9 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge){
 
 function iil_C_Login(&$conn, $user, $password){
 
+    $password = strtr($password, array('"'=>'\\"', '\\' => '\\\\'));  
     fputs($conn->fp, "a001 LOGIN $user \"$password\"\r\n");
-		
+
 	do{
 	    $line = iil_ReadReply($conn->fp);
 	}while(!iil_StartsWith($line, "a001 "));
