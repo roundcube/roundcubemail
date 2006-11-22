@@ -130,9 +130,6 @@ $labels['charset']  = 'Кодировка';
 $labels['editortype']     = 'Редактор';
 $labels['returnreceipt'] = 'Запрос ответа';
 
-$labels['rename'] = 'Переименовать';
-$labels['renamefolder'] = 'Переименовать папку';
-
 $labels['checkspelling'] = 'Проверить орфографию';
 $labels['resumeediting'] = 'Продолжить редактирование';
 $labels['revertto'] = 'Отменить правки';
@@ -152,6 +149,7 @@ $labels['showimages'] = 'Показать изображения';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Обычный текст';
+
 
 // address boook
 $labels['name']      = 'Отображаемое имя';
@@ -211,6 +209,12 @@ $labels['timezone']  = 'Часовой пояс';
 $labels['pagesize']  = 'Строк на странице';
 $labels['signature'] = 'Подпись';
 $labels['dstactive']  = 'Перевод часов';
+$labels['htmleditor'] = 'Создавать сообщения в HTML';
+$labels['htmlsignature'] = 'Подпись в HTML';
+
+$labels['autosavedraft']  = 'Автосохранение черновика';
+$labels['everynminutes']  = 'каждые $n минут';
+$labels['never']  = 'никогда';
 
 $labels['folder']  = 'Папка';
 $labels['folders']  = 'Папки';
@@ -218,6 +222,8 @@ $labels['foldername']  = 'Имя папки';
 $labels['subscribed']  = 'Подписан';
 $labels['create']  = 'Создать';
 $labels['createfolder']  = 'Создать новую папку';
+$labels['rename'] = 'Переименовать';
+$labels['renamefolder'] = 'Переименовать папку';
 $labels['deletefolder']  = 'Удалить папку';
 $labels['managefolders']  = 'Управление папками';
 
@@ -226,4 +232,5 @@ $labels['sortasc']  = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
 
 $labels['description'] = 'Описание';
+
 ?>
