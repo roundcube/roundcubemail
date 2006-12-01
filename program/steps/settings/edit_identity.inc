@@ -39,6 +39,8 @@ else
   $PAGE_TITLE = rcube_label('newitem');
 
 
+$OUTPUT->include_script('list.js');
+
 
 function rcube_identity_form($attrib)
   {
