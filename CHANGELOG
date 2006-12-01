@@ -12,6 +12,8 @@ CHANGELOG RoundCube Webmail
 - Fixed folder name encoding in subscription list (Bug #1484113)
 - Fixed JS errors in identity list (Bug #1484120)
 - Show client debug console on debug_level 8
+- Added Serbian translation
+- Updated Spanish and Bulgarian localization
 
 
 2006/11/22 (robin)

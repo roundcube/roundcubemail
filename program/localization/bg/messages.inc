@@ -88,4 +88,18 @@ $messages['nocontactsreturned'] = 'Не бяха намерени контакт
 
 $messages['nosearchname'] = 'Моля въведете Име на контакта или email адрес';
 
+$messages['searchsuccessful'] = '$nr намерени съобщения';
+
+$messages['searchnomatch'] = 'Търсенето не откри съвпадения';
+
+$messages['searching'] = 'Търсене...';
+
+$messages['checking'] = 'Проверка...';
+
+$messages['nospellerrors'] = 'Не са открити правописни грешки';
+
+$messages['folderdeleted'] = 'Папката е изтрита';
+
+$messages['converting'] = 'Премахва форматирането на писмото...';
+
 ?>

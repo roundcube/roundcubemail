@@ -9,15 +9,16 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David Grajal Blanco <dgrabla@gmail.com>                       |
+ | Author: Javier Smaldone <javier@smaldone.com.ar                       |
+ |         http://www.smaldone.com.ar                                    |
+ | Based on previous work by David Grajal Blanco <dgrabla@gmail.com>     |
  |         http://david.grajal.net                                       |
  +-----------------------------------------------------------------------+
  | Changelog:                                                            |
- |  - 6/2/2006 Translations of new features and improvements)            |
+ |  - 29/9/2006 Syntax check and style modifications                     |
+ |  - 6/2/2006 Translations of new features and improvements             |
  |  - 17/9/2005 First release                                            |
  +-----------------------------------------------------------------------+
-
- $Id$
 
 */
 
@@ -58,15 +59,15 @@ $labels['organization'] = 'Organización';
 // aliases
 $labels['reply-to'] = $labels['replyto'];
 
-$labels['mailboxlist'] = 'Carpetas';
+$labels['mailboxlist'] = 'Bandejas';
 $labels['messagesfromto'] = 'Mensajes desde $from a $to de $count';
 $labels['messagenrof'] = 'Mensaje $nr de $count';
 
 $labels['moveto']   = 'mover a...';
 $labels['download'] = 'descargar';
 
-$labels['filename'] = 'Nombre del fichero';
-$labels['filesize'] = 'Tamaño del fichero';
+$labels['filename'] = 'Nombre del archivo';
+$labels['filesize'] = 'Tamaño del archivo';
 
 $labels['preferhtml'] = 'Prefiero HTML';
 $labels['htmlmessage'] = 'Mensaje HTML';
@@ -87,7 +88,7 @@ $labels['sat'] = 'Sáb';
 $labels['sunday']    = 'Domingo';
 $labels['monday']    = 'Lunes';
 $labels['tuesday']   = 'Martes';
-$labels['wednesday'] = 'Miercoles';
+$labels['wednesday'] = 'Miércoles';
 $labels['thursday']  = 'Jueves';
 $labels['friday']    = 'Viernes';
 $labels['saturday']  = 'Sábado';
@@ -97,7 +98,7 @@ $labels['today'] = 'Hoy';
 // toolbar buttons
 $labels['checkmail']        = 'Revisar si hay nuevos mensajes';
 $labels['writenewmessage']  = 'Crear nuevo mensaje';
-$labels['replytomessage']   = 'Responder al mensaje';
+$labels['replytomessage']   = 'Responder mensaje';
 $labels['replytoallmessage'] = 'Responder al emisor y a todos los destinatarios';
 $labels['forwardmessage']   = 'Reenviar mensaje';
 $labels['deletemessage']    = 'Mover mensaje a la papelera';
@@ -111,7 +112,7 @@ $labels['viewsource']       = 'Mostrar código';
 $labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todos';
 $labels['none'] = 'Ninguno';
-$labels['unread'] = 'No leidos';
+$labels['unread'] = 'No leídos';
 
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Vaciar';
@@ -127,14 +128,14 @@ $labels['resetsearch']  = 'Reajustar la búsqueda';
 
 // message compose
 $labels['compose']  = 'Escribir un mensaje';
-$labels['savemessage']  = 'Almacenar como borrador';
+$labels['savemessage']  = 'Guardar como borrador';
 $labels['sendmessage']  = 'Enviar ahora el mensaje';
-$labels['addattachment']  = 'Añadir un fichero';
-$labels['charset']  = 'Codigo';
-$labels['returnreceipt'] = 'Recibo de entrega';
+$labels['addattachment']  = 'Añadir un archivo';
+$labels['charset']  = 'Codificación';
+$labels['returnreceipt'] = 'Acuse de recibo';
 
-$labels['checkspelling'] = 'Revisar la ortografía';
-$labels['resumeediting'] = 'Continuar el editaje';
+$labels['checkspelling'] = 'Revisar ortografía';
+$labels['resumeediting'] = 'Continuar edición';
 $labels['revertto'] = 'Revertir a';
 
 $labels['attachments'] = 'Adjuntos';
@@ -160,14 +161,14 @@ $labels['email']     = 'E-Mail';
 
 $labels['edit']   = 'Editar';
 $labels['cancel'] = 'Cancelar';
-$labels['save']   = 'Almacenar';
+$labels['save']   = 'Guardar';
 $labels['delete'] = 'Eliminar';
 
 $labels['newcontact']     = 'Crear nuevo contacto';
 $labels['addcontact']     = 'Añadir nuevo contacto';
 $labels['editcontact']    = 'Editar contacto';
 $labels['deletecontact']  = 'Eliminar contactos seleccionados';
-$labels['composeto']      = 'Redactar correo a';
+$labels['composeto']      = 'Enviar mensaje a';
 $labels['contactsfromto'] = 'Contactos $from a $to de $count';
 $labels['print']          = 'Imprimir';
 $labels['export']         = 'Exportar';
@@ -207,16 +208,16 @@ $labels['pagesize']  = 'Filas por página';
 $labels['signature'] = 'Firma';
 $labels['dstactive']  = 'Cambio de horario';
 
-$labels['folder']  = 'Carpeta';
-$labels['folders']  = 'Carpetas';
-$labels['foldername']  = 'Nombre de carpeta';
-$labels['subscribed']  = 'Suscribirse';
+$labels['folder']  = 'Bandeja';
+$labels['folders']  = 'Bandejas';
+$labels['foldername']  = 'Nombre de bandeja';
+$labels['subscribed']  = 'Suscribipta';
 $labels['create']  = 'Crear';
-$labels['createfolder']  = 'Crear nueva carpeta';
+$labels['createfolder']  = 'Crear nueva bandeja';
 $labels['rename'] = 'Renombrar';
-$labels['renamefolder'] = 'Renombrar carpeta';
-$labels['deletefolder']  = 'Eliminar carpeta';
-$labels['managefolders']  = 'Gestionar carpetas';
+$labels['renamefolder'] = 'Renombrar bandeja';
+$labels['deletefolder']  = 'Eliminar bandeja';
+$labels['managefolders']  = 'Administrar bandejas';
 
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc']  = 'Orden ascendente';

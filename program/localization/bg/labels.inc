@@ -138,6 +138,9 @@ $labels['highest'] = 'Най-висока';
 $labels['nosubject']  = '(няма заглавие)';
 $labels['showimages'] = 'виж изображенията';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'тесктов';
+
 
 // address boook
 $labels['name']      = 'Прякор';
@@ -196,6 +199,12 @@ $labels['timezone']  = 'Часова зона';
 $labels['pagesize']  = 'Редове на страница';
 $labels['signature'] = 'Подпис';
 $labels['dstactive']  = 'Daylight savings';
+$labels['htmleditor'] = 'Писане на HTML съобщения';
+$labels['htmlsignature'] = 'HTML подпис';
+
+$labels['autosavedraft'] = 'Автоматично записвай чернова';
+$labels['everynminutes'] = 'всеки $n минути';
+$labels['never'] = 'никога';
 
 $labels['folder']  = 'Папка';
 $labels['folders']  = 'Папки';
