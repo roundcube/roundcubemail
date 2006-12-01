@@ -199,6 +199,9 @@ $labels['timezone']  = 'Zeitzone';
 $labels['pagesize']  = 'Einträge pro Seite';
 $labels['signature'] = 'Signatur';
 $labels['dstactive']  = 'Sommerzeit';
+$labels['htmleditor'] = 'HTML-Nachrichten verfassen';
+$labels['htmlsignature'] = 'HTML-Signatur';
+$labels['previewpane'] = 'Nachrichtenvorschau anzeigen';
 
 $labels['autosavedraft']  = 'Entwurf autom. speichern';
 $labels['everynminutes']  = 'alle $n Minuten';

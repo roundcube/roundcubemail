@@ -195,6 +195,9 @@ $rcmail_config['mail_header_delimiter'] = NULL;
  *                                                    'fuzzy_search'  => 0);
  */
 
+// don't allow these settings to be overriden by the user
+$rcmail_config['dont_override'] = array();
+
 // list of configuration option names that need to be available in Javascript.
 $rcmail_config['javascript_config'] = array('read_when_deleted', 'flag_for_deletion');
 
@@ -216,6 +219,9 @@ $rcmail_config['dst_active'] = TRUE;
 // prefer displaying HTML messages
 $rcmail_config['prefer_html'] = TRUE;
 
+// compose html formatted messages by default
+$rcmail_config['htmleditor'] = TRUE;
+
 // show pretty dates as standard
 $rcmail_config['prettydate'] = TRUE;
 
@@ -227,6 +233,9 @@ $rcmail_config['message_sort_order'] = 'DESC';
 
 // save compose message every 300 seconds (5min)
 $rcmail_config['draft_autosave'] = 300;
+
+// default setting if preview pane is enabled
+$rcmail_config['preview_pane'] = FALSE;
 
 // end of config file
 ?>

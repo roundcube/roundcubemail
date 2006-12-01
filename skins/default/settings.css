@@ -49,7 +49,7 @@ span.tablink-selected a
   position: absolute;
   top: 95px;
   left: 20px;
-  width: 550px;
+  width: 600px;
   border: 1px solid #999999;  
 }
 
@@ -78,7 +78,7 @@ span.tablink-selected a
 
 #identities-table
 {
-  width: 500px;
+  width: 600px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
 }

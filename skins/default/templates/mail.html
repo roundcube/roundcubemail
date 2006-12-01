@@ -54,6 +54,19 @@
   attachmentIcon="/images/icons/attachment.png" />
 </div>
 
+<roundcube:if condition="config:preview_pane == true" />
+<div id="mailpreviewframe">
+<roundcube:object name="messagecontentframe" id="messagecontframe" width="100%" height="100%" frameborder="0" src="/watermark.html" />
+</div>
+
+<style type="text/css">
+#mailcontframe {
+  bottom: auto;
+  height: 210px;
+}
+</style>
+<roundcube:endif />
+
 <div id="listcontrols">
 <roundcube:label name="select" />:&nbsp;
 <roundcube:button command="select-all" label="all" classAct="active" />&nbsp;

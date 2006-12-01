@@ -30,12 +30,18 @@ if ($_GET['_uid'])
   $MESSAGE = array('UID' => get_input_value('_uid', RCUBE_INPUT_GET));
   $MESSAGE['headers'] = $IMAP->get_headers($MESSAGE['UID']);
   $MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']);
-    
+  
   // go back to list if message not found (wrong UID)
   if (!$MESSAGE['headers'] || !$MESSAGE['structure'])
     {
-    $_action = 'list';
-    return;
+    show_message('messageopenerror', 'error');
+    if ($_action=='preview' && template_exists('messagepreview'))
+        parse_template('messagepreview');
+    else
+      {
+      $_action = 'list';
+      return;
+      }
     }
 
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
@@ -131,28 +137,6 @@ function rcmail_message_attachments($attrib)
 
 
 
-// return an HTML iframe for loading mail content
-function rcmail_messagecontent_frame($attrib)
-  {
-  global $COMM_PATH, $OUTPUT, $GET_URL, $JS_OBJECT_NAME;
-  
-  // allow the following attributes to be added to the <iframe> tag
-  $attrib_str = create_attrib_string($attrib);
-  $framename = 'rcmailcontentwindow';
-  
-  $out = sprintf('<iframe src="%s" name="%s"%s>%s</iframe>'."\n",
-         $GET_URL,
-         $framename,
-         $attrib_str,
-         rcube_label('loading'));
-
-
-  $OUTPUT->add_script("$JS_OBJECT_NAME.set_env('contentframe', '$framename');");
-
-  return $out;
-  }
-
-
 function rcmail_remote_objects_msg($attrib)
   {
   global $CONFIG, $OUTPUT, $JS_OBJECT_NAME;
@@ -177,8 +161,10 @@ function rcmail_remote_objects_msg($attrib)
   }
 
 
-if ($_action=='print')
+if ($_action=='print' && template_exists('printmessage'))
   parse_template('printmessage');
+else if ($_action=='preview' && template_exists('messagepreview'))
+    parse_template('messagepreview');
 else
   parse_template('message');
 ?>

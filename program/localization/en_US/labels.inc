@@ -211,6 +211,7 @@ $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight savings';
 $labels['htmleditor'] = 'Compose HTML messages';
 $labels['htmlsignature'] = 'HTML signature';
+$labels['previewpane'] = 'Show preview pane';
 
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';

@@ -1142,8 +1142,12 @@ function parse_template($name='main', $exit=TRUE)
 
 
   // parse for specialtags
-  $output = parse_rcube_xml($templ);
+  $output = parse_rcube_xml(parse_rcube_conditions($templ));
   
+  // add debug console
+  if ($CONFIG['debug_level'] & 8)
+    $OUTPUT->footer = '<div style="position:absolute;top:5px;left:5px;width:400px;opacity:0.8;z-index:9000;"><form name="debugform"><textarea name="console" rows="15" cols="40" style="width:400px;border:none;font-size:x-small"></textarea></form>';
+
   $OUTPUT->write(trim(parse_with_globals($output)), $skin_path);
 
   if ($exit)
@@ -1161,6 +1165,55 @@ function parse_with_globals($input)
   }
 
 
+// parse conditional code
+function parse_rcube_conditions($input)
+  {
+  if (($matches = preg_split('/<roundcube:(if|elseif|else|endif)\s+([^>]+)>/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE)) && count($matches)==4)
+    {
+    if (preg_match('/^(else|endif)$/i', $matches[1]))
+      return $matches[0] . parse_rcube_conditions($matches[3]);
+    else
+      {
+      $attrib = parse_attrib_string($matches[2]);
+      if (isset($attrib['condition']))
+        {
+        $condmet = rcube_xml_condition($attrib['condition']);
+        $submatches = preg_split('/<roundcube:(elseif|else|endif)\s+([^>]+)>/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
+
+		    if ($condmet)
+			    $result = $submatches[0] . preg_replace('/.*<roundcube:endif\s+[^>]+>/is', '', $submatches[3]);
+        else
+          $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
+          
+        return $matches[0] . parse_rcube_conditions($result);
+        }
+      else
+        {
+        raise_error(array('code' => 500, 'type' => 'php', 'line' => __LINE__, 'file' => __FILE__,
+                          'message' => "Unable to parse conditional tag " . $matches[2]), TRUE, FALSE);
+        }
+      }
+    }
+
+  return $input;
+  }
+
+ 
+/**
+ * Determines if a given condition is met
+ *
+ * @return True if condition is valid, False is not
+ */
+function rcube_xml_condition($condition)
+  {
+  $condition = preg_replace(
+      array('/session:([a-z0-9_]+)/i', '/config:([a-z0-9_]+)/i', '/request:([a-z0-9_]+)/ie'),
+      array("\$_SESSION['\\1']", "\$GLOBALS['CONFIG']['\\1']", "get_input_value('\\1', RCUBE_INPUT_GPC)"),
+      $condition);
+
+  return @eval("return (".$condition.");");
+  }
+
 
 function parse_rcube_xml($input)
   {
@@ -1169,12 +1222,19 @@ function parse_rcube_xml($input)
   }
 
 
+/**
+ * Convert a xml command tag into real content
+ */
 function rcube_xml_command($command, $str_attrib, $add_attrib=array())
   {
   global $IMAP, $CONFIG, $OUTPUT;
   
   $command = strtolower($command);
   $attrib = parse_attrib_string($str_attrib) + $add_attrib;
+  
+  // empty output if required condition is not met
+  if (!empty($attrib['condition']) && !rcube_xml_condition($attrib['condition']))
+    return '';
 
   // execute command
   switch ($command)

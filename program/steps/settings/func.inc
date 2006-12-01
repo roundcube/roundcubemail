@@ -34,6 +34,8 @@ function rcmail_user_prefs_form($attrib)
   {
   global $DB, $CONFIG, $sess_user_lang;
 
+  $no_override = is_array($CONFIG['dont_override']) ? array_flip($CONFIG['dont_override']) : array();
+
   // add some labels to client
   rcube_add_label('nopagesizewarning');
   
@@ -46,116 +48,138 @@ function rcmail_user_prefs_form($attrib)
   // return the complete edit form as table
   $out = "$form_start<table" . $attrib_str . ">\n\n";
 
-  $a_show_cols = array(
-	  'language'   => array('type' => 'text'),
-    'pagesize'   => array('type' => 'text'),
-    'timezone'   => array('type' => 'text'),
-    'prettydate' => array('type' => 'text'),
-    'draft_autosave' => array('type' => 'text')
-  );
-                       
   // show language selection
-  $a_lang = rcube_list_languages();
-  asort($a_lang);
+  if (!isset($no_override['language']))
+    {
+    $a_lang = rcube_list_languages();
+    asort($a_lang);
   
-  $field_id = 'rcmfd_lang';
-  $select_lang = new select(array('name' => '_language', 'id' => $field_id));
-  $select_lang->add(array_values($a_lang), array_keys($a_lang));
+    $field_id = 'rcmfd_lang';
+    $select_lang = new select(array('name' => '_language', 'id' => $field_id));
+    $select_lang->add(array_values($a_lang), array_keys($a_lang));
   
-
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('language')),
-                  $select_lang->show($sess_user_lang));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('language')),
+                    $select_lang->show($sess_user_lang));
+    }
 
 
   // show page size selection
-  $field_id = 'rcmfd_timezone';
-  $select_timezone = new select(array('name' => '_timezone', 'id' => $field_id));
-  $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
-  $select_timezone->add('(GMT -10:00) Hawaii', '-10');
-  $select_timezone->add('(GMT -9:00) Alaska', '-9');
-  $select_timezone->add('(GMT -8:00) Pacific Time (US/Canada)', '-8');
-  $select_timezone->add('(GMT -7:00) Mountain Time (US/Canada)', '-7');
-  $select_timezone->add('(GMT -6:00) Central Time (US/Canada), Mexico City', '-6');
-  $select_timezone->add('(GMT -5:00) Eastern Time (US/Canada), Bogota, Lima', '-5');
-  $select_timezone->add('(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz', '-4');
-  $select_timezone->add('(GMT -3:00) Brazil, Buenos Aires, Georgetown', '-3');
-  $select_timezone->add('(GMT -3:30) Nfld Time (Canada), Nfld, S. Labador', '-3.5');
-  $select_timezone->add('(GMT -2:00) Mid-Atlantic', '-2');
-  $select_timezone->add('(GMT -1:00) Azores, Cape Verde Islands', '-1');
-  $select_timezone->add('(GMT) Western Europe, London, Lisbon, Casablanca', '0');
-  $select_timezone->add('(GMT +1:00) Central European Time', '1');
-  $select_timezone->add('(GMT +2:00) EET: Kaliningrad, South Africa', '2');
-  $select_timezone->add('(GMT +3:00) Baghdad, Kuwait, Riyadh, Moscow, Nairobi', '3');
-  $select_timezone->add('(GMT +3:30) Tehran', '3.5');
-  $select_timezone->add('(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi', '4');
-  $select_timezone->add('(GMT +4:30) Kabul', '4.5');
-  $select_timezone->add('(GMT +5:00) Ekaterinburg, Islamabad, Karachi', '5');
-  $select_timezone->add('(GMT +5:30) Chennai, Kolkata, Mumbai, New Delhi', '5.5');
-  $select_timezone->add('(GMT +5:45) Kathmandu', '5.75');
-  $select_timezone->add('(GMT +6:00) Almaty, Dhaka, Colombo', '6');
-  $select_timezone->add('(GMT +7:00) Bangkok, Hanoi, Jakarta', '7');
-  $select_timezone->add('(GMT +8:00) Beijing, Perth, Singapore, Taipei', '8');
-  $select_timezone->add('(GMT +9:00) Tokyo, Seoul, Yakutsk', '9');
-  $select_timezone->add('(GMT +9:30) Adelaide, Darwin', '9.5');
-  $select_timezone->add('(GMT +10:00) EAST/AEST: Guam, Vladivostok', '10');
-  $select_timezone->add('(GMT +11:00) Magadan, Solomon Islands', '11');
-  $select_timezone->add('(GMT +12:00) Auckland, Wellington, Kamchatka', '12');
-  $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
-  $select_timezone->add('(GMT +14:00) Kiribati', '14');
+  if (!isset($no_override['timezone']))
+    {
+    $field_id = 'rcmfd_timezone';
+    $select_timezone = new select(array('name' => '_timezone', 'id' => $field_id));
+    $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
+    $select_timezone->add('(GMT -10:00) Hawaii', '-10');
+    $select_timezone->add('(GMT -9:00) Alaska', '-9');
+    $select_timezone->add('(GMT -8:00) Pacific Time (US/Canada)', '-8');
+    $select_timezone->add('(GMT -7:00) Mountain Time (US/Canada)', '-7');
+    $select_timezone->add('(GMT -6:00) Central Time (US/Canada), Mexico City', '-6');
+    $select_timezone->add('(GMT -5:00) Eastern Time (US/Canada), Bogota, Lima', '-5');
+    $select_timezone->add('(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz', '-4');
+    $select_timezone->add('(GMT -3:00) Brazil, Buenos Aires, Georgetown', '-3');
+    $select_timezone->add('(GMT -3:30) Nfld Time (Canada), Nfld, S. Labador', '-3.5');
+    $select_timezone->add('(GMT -2:00) Mid-Atlantic', '-2');
+    $select_timezone->add('(GMT -1:00) Azores, Cape Verde Islands', '-1');
+    $select_timezone->add('(GMT) Western Europe, London, Lisbon, Casablanca', '0');
+    $select_timezone->add('(GMT +1:00) Central European Time', '1');
+    $select_timezone->add('(GMT +2:00) EET: Kaliningrad, South Africa', '2');
+    $select_timezone->add('(GMT +3:00) Baghdad, Kuwait, Riyadh, Moscow, Nairobi', '3');
+    $select_timezone->add('(GMT +3:30) Tehran', '3.5');
+    $select_timezone->add('(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi', '4');
+    $select_timezone->add('(GMT +4:30) Kabul', '4.5');
+    $select_timezone->add('(GMT +5:00) Ekaterinburg, Islamabad, Karachi', '5');
+    $select_timezone->add('(GMT +5:30) Chennai, Kolkata, Mumbai, New Delhi', '5.5');
+    $select_timezone->add('(GMT +5:45) Kathmandu', '5.75');
+    $select_timezone->add('(GMT +6:00) Almaty, Dhaka, Colombo', '6');
+    $select_timezone->add('(GMT +7:00) Bangkok, Hanoi, Jakarta', '7');
+    $select_timezone->add('(GMT +8:00) Beijing, Perth, Singapore, Taipei', '8');
+    $select_timezone->add('(GMT +9:00) Tokyo, Seoul, Yakutsk', '9');
+    $select_timezone->add('(GMT +9:30) Adelaide, Darwin', '9.5');
+    $select_timezone->add('(GMT +10:00) EAST/AEST: Guam, Vladivostok', '10');
+    $select_timezone->add('(GMT +11:00) Magadan, Solomon Islands', '11');
+    $select_timezone->add('(GMT +12:00) Auckland, Wellington, Kamchatka', '12');
+    $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
+    $select_timezone->add('(GMT +14:00) Kiribati', '14');
   
   
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('timezone')),
-                  $select_timezone->show($CONFIG['timezone']));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('timezone')),
+                    $select_timezone->show($CONFIG['timezone']));
+    }
 
-
-  $field_id = 'rcmfd_dst';
-  $input_dst = new checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('dstactive')),
-                  $input_dst->show($CONFIG['dst_active']));
-
+  // daylight savings
+  if (!isset($no_override['dst_active']))
+    {
+    $field_id = 'rcmfd_dst';
+    $input_dst = new checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('dstactive')),
+                    $input_dst->show($CONFIG['dst_active']));
+    }
 
   // show page size selection
-  $field_id = 'rcmfd_pgsize';
-  $input_pagesize = new textfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
+  if (!isset($no_override['pagesize']))
+    {
+    $field_id = 'rcmfd_pgsize';
+    $input_pagesize = new textfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
 
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('pagesize')),
-                  $input_pagesize->show($CONFIG['pagesize']));
-
-  // show checkbox for HTML/plaintext messages
-  $field_id = 'rcmfd_htmlmsg';
-  $input_pagesize = new checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1));
-
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('preferhtml')),
-                  $input_pagesize->show($CONFIG['prefer_html']?1:0));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('pagesize')),
+                    $input_pagesize->show($CONFIG['pagesize']));
+    }
 
   // MM: Show checkbox for toggling 'pretty dates' 
-  $field_id = 'rcmfd_prettydate';
-  $input_prettydate = new checkbox(array('name' => '_pretty_date', 'id' => $field_id, 'value' => 1));
+  if (!isset($no_override['prettydate']))
+    {
+    $field_id = 'rcmfd_prettydate';
+    $input_prettydate = new checkbox(array('name' => '_pretty_date', 'id' => $field_id, 'value' => 1));
 
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('prettydate')),
-                  $input_prettydate->show($CONFIG['prettydate']?1:0));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('prettydate')),
+                    $input_prettydate->show($CONFIG['prettydate']?1:0));
+    }
+
+  // show checkbox for HTML/plaintext messages
+  if (!isset($no_override['prefer_html']))
+    {
+    $field_id = 'rcmfd_htmlmsg';
+    $input_pagesize = new checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1));
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('preferhtml')),
+                    $input_pagesize->show($CONFIG['prefer_html']?1:0));
+    }
 
   // Show checkbox for HTML Editor
-  $field_id = 'rcmfd_htmleditor';
-  $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
-  $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output(rcube_label('htmleditor')),
-                  $input_htmleditor->show($CONFIG['htmleditor']?1:0));
+  if (!isset($no_override['htmleditor']))
+    {
+    $field_id = 'rcmfd_htmleditor';
+    $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('htmleditor')),
+                    $input_htmleditor->show($CONFIG['htmleditor']?1:0));
+    }
 
-  if (!empty($CONFIG['drafts_mbox']))
+  // show config parameter for preview pane
+  if (!isset($no_override['preview_pane']))
+    {
+    $field_id = 'rcmfd_preview';
+    $input_preview = new checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    rep_specialchars_output(rcube_label('previewpane')),
+                    $input_preview->show($CONFIG['preview_pane']?1:0));
+    }
+                  
+  if (!empty($CONFIG['drafts_mbox']) && !isset($no_override['preview_pane']))
     {
     $field_id = 'rcmfd_autosave';
     $select_autosave = new select(array('name' => '_draft_autosave', 'id' => $field_id));

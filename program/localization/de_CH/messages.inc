@@ -104,5 +104,10 @@ $messages['nospellerrors'] = 'Keine Rechtschreibfehler gefunden';
 
 $messages['folderdeleted'] = 'Ordner erfolgreich gelöscht';
 
+$messages['deletedsuccessfully'] = "Erfolgreich gelöscht";
+
+$messages['converting'] = 'Entferne Formatierungen...';
+
+$messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen werden';
 
 ?>

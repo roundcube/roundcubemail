@@ -169,6 +169,9 @@ class rcube_html_page
 
     if (strlen($this->scripts['foot']))
       $__page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
+      
+    if ($this->footer)
+      $__page_footer .= "\n" . $this->footer;
 
     $__page_header .= $this->css->show();
   

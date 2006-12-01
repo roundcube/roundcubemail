@@ -32,7 +32,7 @@ function rcube_webmail()
   this.ref = 'rcube_webmail_client';
  
   // webmail client settings
-  this.dblclick_time = 600;
+  this.dblclick_time = 500;
   this.message_time = 5000;
   
   this.mbox_expression = new RegExp('[^0-9a-z\-_]', 'gi');
@@ -137,7 +137,7 @@ function rcube_webmail()
         // enable mail commands
         this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', true);
         
-        if (this.env.action=='show')
+        if (this.env.action=='show' || this.env.action=='preview')
           {
           this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'viewsource', 'print', 'load-attachment', true);
           if (this.env.next_uid)
@@ -151,8 +151,15 @@ function rcube_webmail()
             this.enable_command('firstmessage', true);
             }
           }
+        
+        // make preview/message frame visible
+        if (this.env.action == 'preview' && this.env.framed && parent.rcmail)
+          {
+          this.enable_command('compose', 'add-contact', false);
+          parent.rcmail.show_messageframe(true);
+          }
 
-        if (this.env.action=='show' && this.env.blockedobjects)
+        if ((this.env.action=='show' || this.env.action=='preview') && this.env.blockedobjects)
           {
           if (this.gui_objects.remoteobjectsmsg)
             this.gui_objects.remoteobjectsmsg.style.display = 'block';
@@ -637,7 +644,7 @@ function rcube_webmail()
         
       case 'load-images':
         if (this.env.uid)
-          this.show_message(this.env.uid, true);
+          this.show_message(this.env.uid, true, this.env.action=='preview');
         break;
 
       case 'load-attachment':
@@ -646,7 +653,7 @@ function rcube_webmail()
         // open attachment in frame if it's of a supported mimetype
         if (this.env.uid && props.mimetype && find_in_array(props.mimetype, this.mimetypes)>=0)
           {
-          this.attachment_win = window.open(this.env.comm_path+'&_action=get'+url+'&_frame=1', 'rcubemailattachment');
+          this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
           if (this.attachment_win)
             {
             setTimeout(this.ref+'.attachment_win.focus()', 10);
@@ -667,7 +674,7 @@ function rcube_webmail()
 
       case 'nextmessage':
         if (this.env.next_uid)
-          this.show_message(this.env.next_uid);
+          this.show_message(this.env.next_uid, false, this.env.action=='preview');
         break;
 
 	  case 'lastmessage':
@@ -677,7 +684,7 @@ function rcube_webmail()
 
       case 'previousmessage':
         if (this.env.prev_uid)
-          this.show_message(this.env.prev_uid);
+          this.show_message(this.env.prev_uid, false, this.env.action=='preview');
         break;
 
       case 'firstmessage':
@@ -1052,6 +1059,9 @@ function rcube_webmail()
 
   this.msglist_select = function(list)
     {
+    if (this.preview_timer)
+      clearTimeout(this.preview_timer);
+
     var selected = list.selection.length==1;
     if (this.env.mailbox == this.env.drafts_mailbox)
       {
@@ -1062,17 +1072,26 @@ function rcube_webmail()
       {
       this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
       this.enable_command('delete', 'moveto', list.selection.length>0 ? true : false);
+
+      // start timer for message preview (wait for double click)
+      if (selected && this.env.contentframe)
+        this.preview_timer = setTimeout(this.ref+'.msglist_get_preview()', this.dblclick_time + 10);
+      else if (this.env.contentframe)
+        this.show_messageframe(false);
       }
-   };
+    };
 
 
   this.msglist_dbl_click = function(list)
     {
+      if (this.preview_timer)
+        clearTimeout(this.preview_timer);
+
     var uid = list.get_single_selection();
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
       this.goto_url('compose', '_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
     else if (uid)
-      this.show_message(uid);
+      this.show_message(uid, false, false);
     };
 
 
@@ -1085,6 +1104,15 @@ function rcube_webmail()
     };
 
 
+  this.msglist_get_preview = function()
+  {
+    var uid = this.get_single_uid();
+    if (uid && this.env.contentframe)
+      this.show_message(uid, false, true);
+    else if (this.env.contentframe)
+      this.show_messageframe(false);
+  };
+
 
   /*********************************************************/
   /*********     (message) list functionality      *********/
@@ -1092,11 +1120,12 @@ function rcube_webmail()
 
 
   // when user doble-clicks on a row
-  this.show_message = function(id, safe)
+  this.show_message = function(id, safe, preview)
     {
     var add_url = '';
+    var action = preview ? 'preview': 'show';
     var target = window;
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe])
+    if (preview && this.env.contentframe && window.frames && window.frames[this.env.contentframe])
       {
       target = window.frames[this.env.contentframe];
       add_url = '&_framed=1';
@@ -1107,11 +1136,31 @@ function rcube_webmail()
 
     if (id)
       {
-      this.set_busy(true, 'loading');
-      target.location.href = this.env.comm_path+'&_action=show&_uid='+id+'&_mbox='+urlencode(this.env.mailbox)+add_url;
+      var url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.env.mailbox)+add_url;
+      if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
+        this.show_messageframe(true);
+      else
+        {
+        this.set_busy(true, 'loading');
+        target.location.href = this.env.comm_path+url;
+        }
       }
     };
 
+
+  this.show_messageframe = function(show)
+    {
+    var frm;
+    if (this.env.contentframe && (frm = rcube_find_object(this.env.contentframe)))
+      {
+      if (window.frames[this.env.contentframe] && !show)
+        window.frames[this.env.contentframe].location.href = 'program/blank.gif';
+      frm.style.display = show ? 'block' : 'none';
+      }
+      
+    if (!show && this.busy)
+      this.set_busy(false);
+    };
 
 
   // list a specific page
@@ -1373,7 +1422,7 @@ function rcube_webmail()
   this.mark_message = function(flag, uid)
     {
     var a_uids = new Array();
-    var selection = this.message_list.get_selection();
+    var selection = this.message_list ? this.message_list.get_selection() : new Array();
     
     if (uid)
       a_uids[0] = uid;
@@ -3102,7 +3151,7 @@ function rcube_webmail()
   this.http_request = function(action, querystring, lock)
     {
     var request_obj = this.get_request_obj();
-    querystring += '&_remote=1';
+    querystring += (querystring ? '&' : '') + '_remote=1';
     
     // add timestamp to request url to avoid cacheing problems in Safari
     if (bw.safari)
@@ -3151,6 +3200,8 @@ function rcube_webmail()
       case 'moveto':
         if (this.env.action=='show')
           this.command('list');
+        else if (this.message_list)
+          this.message_list.init();
         break;
 
       case 'list':

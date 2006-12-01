@@ -24,7 +24,7 @@ $REMOTE_REQUEST = TRUE;
 // move messages
 if ($_action=='moveto' && $_GET['_uid'] && $_GET['_target_mbox'])
   {
-  $count = sizeof(explode(',', $_GET['_uid']));  
+  $count = sizeof(explode(',', $_GET['_uid']));
   $moved = $IMAP->move_message($_GET['_uid'], $_GET['_target_mbox'], $_GET['_mbox']);
   
   if (!$moved)
@@ -62,8 +62,7 @@ else
 
 // update message count display
 $pages = ceil($IMAP->messagecount()/$IMAP->page_size);
-$commands = "if (this.message_list) this.message_list.init();\n";
-$commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
+$commands = sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
 $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 
 

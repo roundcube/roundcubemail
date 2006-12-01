@@ -558,6 +558,27 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   }
 
 
+// return an HTML iframe for loading mail content
+function rcmail_messagecontent_frame($attrib)
+  {
+  global $OUTPUT, $JS_OBJECT_NAME;
+  
+  if (empty($attrib['id']))
+    $attrib['id'] = 'rcmailcontentwindow';
+
+  // allow the following attributes to be added to the <iframe> tag
+  $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'src', 'width', 'height', 'frameborder'));
+  $framename = $attrib['id'];
+
+  $out = sprintf('<iframe name="%s"%s></iframe>'."\n",
+         $framename,
+         $attrib_str);
+
+  $OUTPUT->add_script("$JS_OBJECT_NAME.set_env('contentframe', '$framename');");
+
+  return $out;
+  }
+
 // return code for search function
 function rcmail_search_form($attrib)
   {

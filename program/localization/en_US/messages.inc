@@ -108,6 +108,10 @@ $messages['nospellerrors'] = 'No spelling errors found';
 
 $messages['folderdeleted'] = 'Folder successfully deleted';
 
+$messages['deletedsuccessfully'] = "Successfully deleted";
+
 $messages['converting'] = 'Removing formatting from message...';
+
+$messages['messageopenerror'] = 'Could not load message from server';
 
 ?>
