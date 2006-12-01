@@ -165,10 +165,9 @@ function rcube_subscription_form($attrib)
     $subscribed = in_array($folder, $a_subscribed);
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
-    if (in_array($folder, $CONFIG['default_imap_folders']))
-      $folder = rcube_label(strtolower($folder));
     $folder_js = rep_specialchars_output($folder, 'js');
     $folder_js_enc = rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7'), 'js');
+    $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : rcube_charset_convert($folder, 'UTF-7');
     
     if (!$protected)
       $a_js_folders['rcmrow'.($i+1)] = array($folder_js, $folder_js_enc);
@@ -176,7 +175,7 @@ function rcube_subscription_form($attrib)
     $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td>',
                     $i+1,
                     $zebra_class,
-                    rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7'), 'html', 'all'));
+                    rep_specialchars_output($folder_html, 'html', 'all'));
                     
     if ($protected)
       $out .= '<td>&nbsp;'.($subscribed ? '&#x2022;' : '-').'</td>';
