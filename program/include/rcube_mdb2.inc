@@ -59,14 +59,15 @@ class rcube_db
    * @param  string  DSN for read/write operations
    * @param  string  Optional DSN for read only operations
    */
-  function __construct($db_dsnw, $db_dsnr='')
+  function __construct($db_dsnw, $db_dsnr='', $pconn=false)
     {
     if ($db_dsnr=='')
       $db_dsnr=$db_dsnw;
 
     $this->db_dsnw = $db_dsnw;
     $this->db_dsnr = $db_dsnr;
-
+    $this->db_pconn = $pconn;
+    
     $dsn_array = MDB2::parseDSN($db_dsnw);
     $this->db_provider = $dsn_array['phptype'];
     }
@@ -93,7 +94,7 @@ class rcube_db
   function dsn_connect($dsn)
     {
     // Use persistent connections if available
-    $dbh = MDB2::connect($dsn, array('persistent' => TRUE, 'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL));
+    $dbh = MDB2::connect($dsn, array('persistent' => $this->db_pconn, 'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL));
 
     if (PEAR::isError($dbh))
       {
@@ -285,7 +286,7 @@ class rcube_db
     if (!$this->db_handle)
       return FALSE;
 
-    return $result;
+    return $this->_get_result($result);
     }
 
 
