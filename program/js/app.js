@@ -1714,50 +1714,54 @@ function rcube_webmail()
       if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
         {
         sig = this.env.signatures[this.env.identity]['text'];
-        if (sig.indexOf('--')!=0)
-          sig = '--\n'+sig;
-  
+        if (sig.indexOf('-- ')!=0)
+          sig = '-- \n'+sig;
+
         p = message.lastIndexOf(sig);
         if (p>=0)
           message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
         }
-  
+
       // add the new signature string
       if (this.env.signatures && this.env.signatures[id])
         {
         sig = this.env.signatures[id]['text'];
-        if (sig.indexOf('--')!=0)
-          sig = '--\n'+sig;
+        if (this.env.signatures[id]['is_html'])
+          {
+          sig = this.env.signatures[id]['plain_text'];
+          }
+        if (sig.indexOf('-- ')!=0)
+          sig = '-- \n'+sig;
         message += '\n'+sig;
         }
       }
     else
       {
-        var eid = tinyMCE.getEditorId('_message');
-        // editor is a TinyMCE_Control object
-        var editor = tinyMCE.getInstanceById(eid);
-        var msgDoc = editor.getDoc();
-        var msgBody = msgDoc.body;
+      var eid = tinyMCE.getEditorId('_message');
+      // editor is a TinyMCE_Control object
+      var editor = tinyMCE.getInstanceById(eid);
+      var msgDoc = editor.getDoc();
+      var msgBody = msgDoc.body;
 
-        if (this.env.signatures && this.env.signatures[id])
+      if (this.env.signatures && this.env.signatures[id])
+        {
+        // Append the signature as a span within the body
+        var sigElem = msgDoc.getElementById("_rc_sig");
+        if (!sigElem)
           {
-          // Append the signature as a span within the body
-          var sigElem = msgDoc.getElementById("_rc_sig");
-          if (!sigElem)
-            {
-            sigElem = msgDoc.createElement("span");
-            sigElem.setAttribute("id", "_rc_sig");
-            msgBody.appendChild(sigElem);
-            }
-          if (this.env.signatures[id]['is_html'])
-            {
-            sigElem.innerHTML = this.env.signatures[id]['text'];
-            }
-          else
-            {
-            sigElem.innerHTML = '<pre>' + this.env.signatures[id]['text'] + '</pre>';
-            }
+          sigElem = msgDoc.createElement("span");
+          sigElem.setAttribute("id", "_rc_sig");
+          msgBody.appendChild(sigElem);
           }
+        if (this.env.signatures[id]['is_html'])
+          {
+          sigElem.innerHTML = this.env.signatures[id]['text'];
+          }
+        else
+          {
+          sigElem.innerHTML = '<pre>' + this.env.signatures[id]['text'] + '</pre>';
+          }
+        }
       }
 
     if (input_message)

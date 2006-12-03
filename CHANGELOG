@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/12/03 (estadtherr)
+----------
+- Added fix to convert HTML signatures for plain text messages
+- Fixed signature delimeter character to be standard (Bug #1484035)
+
+
 2006/12/01 (thomasb)
 ----------
 - Implemented preview pane

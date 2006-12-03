@@ -56,7 +56,7 @@ function rcube_identity_form($attrib)
                                     "theme_advanced_toolbar_location : 'top'," .
                                     "theme_advanced_toolbar_align : 'left'," .
                                     "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr'," .
-                                    "theme_advanced_buttons2 : 'link,unlink,forecolor,fontselect,fontsizeselect'," .
+                                    "theme_advanced_buttons2 : 'link,unlink,code,forecolor,fontselect,fontsizeselect'," .
                                     "theme_advanced_buttons3 : '' });");
 
   if (!$IDENTITY_RECORD && $GLOBALS['_action']!='add-identity')

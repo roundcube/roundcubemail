@@ -20,6 +20,7 @@
 */
 
 require_once('Mail/mimeDecode.php');
+require_once('lib/html2text.inc');
 
 // define constants for message compose mode
 define('RCUBE_COMPOSE_REPLY', 0x0106);
@@ -296,6 +297,12 @@ function rcmail_compose_header_from($attrib)
         {
         $a_signatures[$identity_id]['text'] = $sql_arr['signature'];
         $a_signatures[$identity_id]['is_html'] = ($sql_arr['html_signature'] == 1) ? true : false;
+        if ($a_signatures[$identity_id]['is_html'])
+          {
+            $h2t = new html2text($a_signatures[$identity_id]['text'], false, false);
+            $plainTextPart = $h2t->get_text();
+            $a_signatures[$identity_id]['plain_text'] = trim($plainTextPart);
+          }
         }
 
       // set identity if it's one of the reply-message recipients
