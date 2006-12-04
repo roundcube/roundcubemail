@@ -166,7 +166,7 @@ if (empty($identity_arr['string']))
   $identity_arr['string'] = $from;
 
 // compose headers array
-$headers = array('Date' => date('D, j M Y G:i:s O'),
+$headers = array('Date' => date('D, j M Y H:i:s O'),
                  'From' => $identity_arr['string'],
                  'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
 

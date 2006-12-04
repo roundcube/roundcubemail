@@ -99,9 +99,17 @@ $labels['replytoallmessage'] = 'Antwort an Absender und alle Empfänger';
 $labels['forwardmessage']   = 'Nachricht weiterleiten';
 $labels['deletemessage']    = 'In den Papierkorb verschieben';
 $labels['printmessage']     = 'Diese Nachricht drucken';
+$labels['previousmessage']  = 'Vorherige Nachricht anzeigen';
 $labels['previousmessages'] = 'Vorherige Nachrichten anzeigen';
+$labels['firstmessage']     = 'Die erste Nachricht anzeigen';
+$labels['firstmessages']    = 'Die ersten Nachrichten anzeigen';
+$labels['nextmessage']      = 'Nächste Nachricht anzeigen';
 $labels['nextmessages']     = 'Weitere Nachrichten anzeigen';
+$labels['lastmessage']      = 'Die letzte Nachricht anzeigen';
+$labels['lastmessages']     = 'Die letzten Nachrichten anzeigen';
 $labels['backtolist']       = 'Zurück zur Liste';
+$labels['viewsource']       = 'Quelltext anzeigen';
+
 
 $labels['select'] = 'Auswählen';
 $labels['all']    = 'Alle';

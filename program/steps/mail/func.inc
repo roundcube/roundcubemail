@@ -513,8 +513,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
 
   // show 'to' instead of from in sent messages
-  if (strtolower($IMAP->get_mailbox_name())=='sent' && ($f = array_search('from', $a_show_cols))
-      && !array_search('to', $a_show_cols))
+  if (($IMAP->get_mailbox_name()==$CONFIG['sent_mbox'] || $IMAP->get_mailbox_name()==$CONFIG['drafts_mbox'])
+      && ($f = array_search('from', $a_show_cols)) && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
 
   $commands .= sprintf("this.set_message_coltypes(%s);\n", array2js($a_show_cols)); 

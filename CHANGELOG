@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/12/04 (thomasb)
+----------
+- Corrected date string in sent message header (closes #1484125)
+- Correclty choose "To" column in sent and draft mailboxes (closes #1483943)
+- Changed srong tooltips for message browse buttons (closes #1483930)
+
+
 2006/12/03 (estadtherr)
 ----------
 - Added fix to convert HTML signatures for plain text messages
