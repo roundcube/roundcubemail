@@ -103,9 +103,10 @@ div.message-part a
   color: #0000CC;
 }
 
-div.message-part pre
+div.message-part div.pre
 {
   margin: 0;
   padding: 0;
+  white-space: pre;
   font-size: 9pt;
 }
