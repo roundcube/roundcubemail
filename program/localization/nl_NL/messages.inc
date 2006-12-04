@@ -108,7 +108,11 @@ $messages['nospellerrors'] = 'Geen spelfouten gevonden';
 
 $messages['folderdeleted'] = 'Map successvol verwijderd';
 
+$messages['deletedsuccessfully'] = 'Successvol verwijderd';
+
 $messages['converting'] = 'Opmaak van bericht verwijderen...';
+
+$messages['messageopenerror'] = 'Kan het bericht niet van de server laden';
 
 
 ?>

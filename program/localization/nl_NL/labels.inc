@@ -212,6 +212,7 @@ $labels['signature'] = 'Onderschrift';
 $labels['dstactive']  = 'Zomertijd';
 $labels['htmleditor'] = 'Maak HTML berichten aan';
 $labels['htmlsignature'] = 'HTML onderschrift';
+$labels['previewpane'] = 'Toon voorbeeldvenster';
 
 $labels['autosavedraft']  = 'Concept automatisch opslaan';
 $labels['everynminutes']  = 'iedere $n minuten';
