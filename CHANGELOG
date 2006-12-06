@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/12/06 (thomasb)
+----------
+- Improve memory usage when sending mail (closes #1484098)
+- Mark messages as read once the preview is loaded (closes #1484132)
+- Include smtp final response in log (closes #1484081)
+
+
 2006/12/04 (thomasb)
 ----------
 - Corrected date string in sent message header (closes #1484125)

@@ -1218,8 +1218,12 @@ function send_nocacheing_headers()
 // send header with expire date 30 days in future
 function send_future_expire_header()
   {
-  if (!headers_sent())
-    header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+2600000)." GMT");
+  if (headers_sent())
+    return;
+
+  header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+2600000)." GMT");
+  header("Cache-Control: ");
+  header("Pragma: ");
   }
 
 

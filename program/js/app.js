@@ -157,6 +157,7 @@ function rcube_webmail()
           {
           this.enable_command('compose', 'add-contact', false);
           parent.rcmail.show_messageframe(true);
+          parent.rcmail.mark_message('read', this.uid);
           }
 
         if ((this.env.action=='show' || this.env.action=='preview') && this.env.blockedobjects)
@@ -298,9 +299,9 @@ function rcube_webmail()
   // start interval for keep-alive/recent_check signal
   this.start_keepalive = function()
     {
-    if (this.env.keep_alive && this.task=='mail' && this.gui_objects.messagelist)
+    if (this.env.keep_alive && !this.env.framed && this.task=='mail' && this.gui_objects.messagelist)
       this._int = setInterval(this.ref+'.check_for_recent()', this.env.keep_alive * 1000);
-    else if (this.env.keep_alive && this.task!='login')
+    else if (this.env.keep_alive && !this.env.framed && this.task!='login')
       this._int = setInterval(this.ref+'.send_keep_alive()', this.env.keep_alive * 1000);    
     }
 
@@ -1434,9 +1435,14 @@ function rcube_webmail()
       for (var n=0; n<selection.length; n++)
         {
         id = selection[n];
-        a_uids[a_uids.length] = id;
+        if ((flag=='read' && this.message_list.rows[id].unread) || (flag=='unread' && !this.message_list.rows[id].unread))
+          a_uids[a_uids.length] = id;
         }
       }
+    
+    // nothing to do
+    if (!a_uids.length)
+      return;
       
     switch (flag)
       {

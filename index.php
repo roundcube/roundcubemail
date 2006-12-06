@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20061201                                                  |
+ | Version 0.1-20061206                                                  |
  |                                                                       |
  | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20061201');
+define('RCMAIL_VERSION', '0.1-20061206');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -154,7 +154,6 @@ if ($_action=='html2text')
   $converter = new html2text($htmlText);
 
   // TODO possibly replace with rcube_remote_response()
-  send_nocacheing_headers();
   header('Content-Type: text/plain');
   $plaintext = $converter->get_text();
   print $plaintext;

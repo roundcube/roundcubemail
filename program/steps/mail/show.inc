@@ -23,6 +23,8 @@ require_once('Mail/mimeDecode.php');
 
 $PRINT_MODE = $_action=='print' ? TRUE : FALSE;
 
+// allow this request to be cached
+send_future_expire_header();
 
 // similar code as in program/steps/mail/get.inc
 if ($_GET['_uid'])
@@ -58,7 +60,7 @@ if ($_GET['_uid'])
 
 
   // mark message as read
-  if (!$MESSAGE['headers']->seen)
+  if (!$MESSAGE['headers']->seen && $_action != 'preview')
     $IMAP->set_flag($_GET['_uid'], 'SEEN');
 
   // give message uid to the client
