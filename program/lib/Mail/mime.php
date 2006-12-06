@@ -820,7 +820,7 @@ class Mail_mime
                 if (preg_match('#[\x80-\xFF]{1}#', $value)) {
                     $suffix = '';
                     // Don't encode e-mail address
-                    if (preg_match('/(.+)\s(<.+@[a-z0-9\-\.]+\.[a-z]{2,5}>)$/Ui', $value, $matches)) {
+                    if (preg_match('/(.+)\s(<.+@[a-z0-9\-\.]+>)$/Ui', $value, $matches)) {
                         $value = $matches[1];
                         $suffix = ' '.$matches[2];
                     }

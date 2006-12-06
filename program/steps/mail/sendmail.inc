@@ -167,7 +167,7 @@ if (empty($identity_arr['string']))
 
 // compose headers array
 $headers = array('Date' => date('D, j M Y H:i:s O'),
-                 'From' => $identity_arr['string'],
+                 'From' => rcube_charset_convert($identity_arr['string'], $CHARSET, $message_charset),
                  'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
 
 // additional recipients
@@ -295,12 +295,17 @@ $message_param = array('text_encoding' => $transfer_encoding,
                        'text_charset'  => $message_charset);
 
 // compose message body and get headers
-$msg_body = &$MAIL_MIME->get($message_param);
+$msg_body = $MAIL_MIME->get($message_param);
+// unset to save memory.
+unset($MAIL_MIME->_parts);
 
 $msg_subject = $headers['Subject'];
 
 if ($MBSTRING && function_exists("mb_encode_mimeheader"))
-  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset);
+{
+  mb_internal_encoding($CHARSET);
+  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
+}
 
 // Begin SMTP Delivery Block 
 if (!$savedraft) {
@@ -324,7 +329,8 @@ if (!$savedraft) {
     $header_str = $MAIL_MIME->txtHeaders($send_headers);
   
     // send message
-    $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body);
+    $smtp_response = array();
+    $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body, $smtp_response);
   
     // log error
     if (!$sent)
@@ -333,7 +339,7 @@ if (!$savedraft) {
                         'type' => 'smtp',
                         'line' => __LINE__,
                         'file' => __FILE__,
-                        'message' => "SMTP error: $SMTP_ERROR"), TRUE, FALSE);
+                        'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
       }
     }
   
@@ -446,12 +452,12 @@ else
   {
   if ($CONFIG['smtp_log'])
     {
-    $log_entry = sprintf("[%s] User: %d on %s; Message for %s; Subject: %s\n",
+    $log_entry = sprintf("[%s] User: %d on %s; Message for %s; %s\n",
                  date("d-M-Y H:i:s O", mktime()),
                  $_SESSION['user_id'],
                  $_SERVER['REMOTE_ADDR'],
                  $mailto,
-                 $msg_subject);
+                 !empty($smtp_response) ? join('; ', $smtp_response) : '');
 
     if ($fp = @fopen($CONFIG['log_dir'].'/sendmail', 'a'))
       {
