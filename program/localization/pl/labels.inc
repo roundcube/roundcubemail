@@ -19,14 +19,14 @@ $Id$
 $labels = array();
 
 // login page
-$labels['username']  = 'E-mail';
+$labels['username']  = 'Login';
 $labels['password']  = 'Hasło';
 $labels['server']    = 'Serwer';
 $labels['login']     = 'Zaloguj';
 
 // taskbar
 $labels['logout']   = 'Wyloguj';
-$labels['mail']     = 'E-Mail';
+$labels['mail']     = 'Skrzynka odbiorcza';
 $labels['settings'] = 'Ustawienia';
 $labels['addressbook'] = 'Książka Adresowa';
 
@@ -181,6 +181,12 @@ $labels['language']  = 'Język';
 $labels['timezone']  = 'Strefy czasu';
 $labels['pagesize']  = 'wierszy na stronie';
 $labels['signature'] = 'Podpis';
+$labels['htmleditor'] = 'Twórz wiadomości HTML';
+$labels['htmlsignature'] = 'Podpis w HTML';
+
+$labels['autosavedraft']  = 'Automatyczny zapis tworzonej wiadomości';
+$labels['everynminutes']  = 'co $n minut';
+$labels['never']  = 'nigdy';
 
 $labels['folders']  = 'Foldery';
 $labels['foldername']  = 'Nazwa folderu';
@@ -203,6 +209,8 @@ $labels['dstactive'] = 'czas letni';
 
 $labels['previouspage'] = 'poprzednia strona';
 $labels['nextpage']     = 'następna strona';
+$labels['quicksearch']  = 'Szybkie szukanie';
+$labels['resetsearch']  = 'Wyczyść filtr';
 
 $labels['returnreceipt'] = 'Potwierdzenie odbioru';
 

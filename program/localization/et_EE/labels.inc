@@ -1,17 +1,19 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/et_EE/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Üllar Pajus <yllar.pajus@gmail.com>                           
- +-----------------------------------------------------------------------+
-  $Id: labels.inc,v 1.5 2006/05/05 16:53:21 roundcube Exp $
+  +-----------------------------------------------------------------------+
+  | language/et_EE/labels.inc                                             |
+  |                                                                       |
+  | Language file of the RoundCube Webmail client                         |
+  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+  | Licensed under the GNU GPL                                            |
+  |                                                                       |
+  +-----------------------------------------------------------------------+
+  | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
+  +-----------------------------------------------------------------------+
+
+ $Id: messages.inc 394 2006-12-04 10:31:40Z yllar $ 
+
 */
 
 $labels = array();

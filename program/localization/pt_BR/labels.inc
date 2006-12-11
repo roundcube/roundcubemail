@@ -10,6 +10,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+ | Updated by: Robson F. Ramaldes <rframaldes@gmail.com>                 |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -18,7 +19,8 @@
 
 $labels = array();
 
-// Página de login
+// Página de loginOnthaal aan $product
+$labels['welcome']   = 'Bem Vindo ao $product';
 $labels['username']  = 'Usuário';
 $labels['password']  = 'Senha';
 $labels['server']    = 'Servidor';
@@ -32,6 +34,7 @@ $labels['addressbook'] = 'Catálogo de endereços';
 
 // Nome das pastas de correio
 $labels['inbox']  = 'Caixa de entrada';
+$labels['drafts'] = 'Rascunhos';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
 $labels['drafts'] = 'Rascunhos';
@@ -89,6 +92,7 @@ $labels['saturday']  = 'Sábado';
 $labels['today'] = 'Hoje';
 
 // toolbar buttons
+$labels['checkmail']        = 'Verificar se há novas mensagens';
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder';
 $labels['replytoallmessage'] = 'Responder para todos';
@@ -110,13 +114,26 @@ $labels['empty'] = 'Vazio';
 $labels['purge'] = 'Apagar';
 
 $labels['quota'] = 'Utilização';
+$labels['unknown']  = 'desconhecido';
+$labels['unlimited']  = 'sem limitação';
+
+$labels['quicksearch']  = 'Pesquisa Rápida';
+$labels['resetsearch']  = 'Limpar';
+
 
 
 // message compose
 $labels['compose']  = 'Escrever mensagem';
+$labels['savemessage']  = 'Salvar Rascunho';
 $labels['sendmessage']  = 'Enviar';
 $labels['addattachment']  = 'Anexar';
-$labels['charset']  = 'Charset';
+$labels['charset']  = 'Codificação';
+
+$labels['returnreceipt'] = 'Receber Confirmação';
+$labels['checkspelling'] = 'Verificar Ortografia';
+$labels['resumeediting'] = 'Continuar';
+$labels['revertto'] = 'Revert to';
+
 
 $labels['attachments'] = 'Anexos';
 $labels['upload'] = 'Upload';
@@ -128,7 +145,7 @@ $labels['normal']  = 'Normal';
 $labels['high']    = 'Alta';
 $labels['highest'] = 'Mais alta';
 
-$labels['nosubject']  = '(no assunto)';
+$labels['nosubject']  = '(sem assunto)';
 $labels['showimages'] = 'Exibir imagens';
 
 
@@ -147,11 +164,16 @@ $labels['save']   = 'Salvar';
 $labels['delete'] = 'Apagar';
 
 $labels['newcontact']     = 'Criar novo contato';
+$labels['addcontact']     = 'Incluir contato selecionado ao catálogo de endereços';
 $labels['deletecontact']  = 'Apagar contatos selecionados';
 $labels['composeto']      = 'Escrever mensagem para';
 $labels['contactsfromto'] = 'Contatos $from - $to of $count';
 $labels['print']          = 'Imprimir';
 $labels['export']         = 'Exportar';
+
+$labels['previouspage']   = 'Página Anterior';
+$labels['nextpage']       = 'Próxima P�gina';
+
 
 // LDAP search
 $labels['ldapsearch'] = 'Pesquisa no diretório LDAP';
@@ -183,6 +205,7 @@ $labels['language']  = 'Idioma';
 $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Linhas por página';
 $labels['signature'] = 'Assinatura';
+$labels['dstactive']  = 'Horário de Verão';
 
 $labels['folder']  = 'Pasta';
 $labels['folders']  = 'Pastas';
@@ -190,36 +213,13 @@ $labels['foldername']  = 'Nome da pasta';
 $labels['subscribed']  = 'Assinado';
 $labels['create']  = 'Criar';
 $labels['createfolder']  = 'Criar nova pasta';
+$labels['rename'] = 'Renomear';
+$labels['renamefolder'] = 'Renomear Pasta';
 $labels['deletefolder']  = 'Apagar pasta';
 $labels['managefolders']  = 'Gerenciar pastas';
 
 $labels['sortby'] = 'Ordenado por';
 $labels['sortasc']  = 'Ascendente';
 $labels['sortdesc'] = 'Descendente';
-
-// New labels since 0.1beta
-
-$labels['welcome'] = 'Bem-vindo ao $product';
-
-$labels['unknown'] = 'Desconhecido';
-$labels['unlimited'] = 'Ilimitado';
-$labels['dstactive'] = 'Horário de verão';
-
-$labels['previouspage'] = 'Exibir página anterior';
-$labels['nextpage']     = 'Exibir próxima página';
-
-$labels['returnreceipt'] = 'Confirmação de leitura';
-
-$labels['checkmail'] = 'Verificando novas mensagens';
-$labels['checkspelling'] = 'Verificando ortografia';
-$labels['resumeediting'] = 'Continuar a edição';
-$labels['revertto'] = 'Reverter para';
-
-$labels['savemessage']  = 'Salvar rascunho';
-$labels['rename'] = 'Renomear';
-$labels['renamefolder'] = 'Renomear pasta';
-
-// I use an additional description field - this might be used somewhere else
-$labels['description'] = 'Descrição';
 
 ?>

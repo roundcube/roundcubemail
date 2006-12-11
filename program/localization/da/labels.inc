@@ -12,6 +12,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
  | Danish translation: Martin Moeller <martin@liga.dk>                   |
+ |                     Jesper R. Meyer <jrm@upthere.dk>                  |
  +-----------------------------------------------------------------------+
  
  $Id$
@@ -21,51 +22,53 @@
 $labels = array();
 
 // login page
-$labels['username']  = 'Brugernavn';
-$labels['password']  = 'Adgangskode';
-$labels['server']    = 'Server';
-$labels['login']     = 'Log på';
+$labels['welcome'] = 'Velkommen til $product';
+$labels['username'] = 'Brugernavn';
+$labels['password'] = 'Adgangskode';
+$labels['server'] = 'Server';
+$labels['login'] = 'Log på';
 
 // taskbar
-$labels['logout']   = 'Log af';
-$labels['mail']     = 'Email';
+$labels['logout'] = 'Log af';
+$labels['mail'] = 'Email';
 $labels['settings'] = 'Personlige indstillinger';
 $labels['addressbook'] = 'Adressebog';
 
 // mailbox names
-$labels['inbox']  = 'Indbakke';
-$labels['sent']   = 'Sendt post';
-$labels['trash']  = 'Skrald';
+$labels['inbox'] = 'Indbakke';
 $labels['drafts'] = 'Kladder';
-$labels['junk']   = 'Ragelse';
+$labels['sent'] = 'Sendt post';
+$labels['trash'] = 'Skrald';
+$labels['junk'] = 'Ragelse';
 
 // message listing
 $labels['subject'] = 'Emne';
-$labels['from']    = 'Afsender';
-$labels['to']      = 'Modtager';
-$labels['cc']      = 'Kopi til';
-$labels['bcc']     = 'BCC';
+$labels['from'] = 'Afsender';
+$labels['to'] = 'Modtager';
+$labels['cc'] = 'Kopi til';
+$labels['bcc'] = 'BCC';
 $labels['replyto'] = 'Svar til';
-$labels['date']    = 'Dato';
-$labels['size']    = 'Størrelse';
+$labels['date'] = 'Dato';
+$labels['size'] = 'Størrelse';
 $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organisation';
 
 // aliases
-$labels['reply-to'] = $labels['replyto'];
+$labels['reply-to'] = 'Svar til';
 
-$labels['mailboxlist'] = 'Foldere';
+$labels['mailboxlist'] = 'Mapper';
 $labels['messagesfromto'] = 'Beskeder $from til $to af $count';
 $labels['messagenrof'] = 'Besked $nr af $count';
 
-$labels['moveto']   = 'flyt til...';
+$labels['moveto'] = 'flyt til...';
 $labels['download'] = 'download';
 
 $labels['filename'] = 'Filnavn';
 $labels['filesize'] = 'Filstørrelse';
 
 $labels['preferhtml'] = 'Foretræk HTML';
-$labels['htmlmessage'] = 'HTML besked';
+$labels['htmlmessage'] = 'HTML-besked';
+$labels['prettydate'] = 'Pæn datovisning';
 
 $labels['addtoaddressbook'] = 'Tilføj til adressebogen';
 
@@ -79,145 +82,156 @@ $labels['fri'] = 'Fre';
 $labels['sat'] = 'Lør';
 
 // weekdays long
-$labels['sunday']    = 'Søndag';
-$labels['monday']    = 'Mandag';
-$labels['tuesday']   = 'Tirsdag';
+$labels['sunday'] = 'Søndag';
+$labels['monday'] = 'Mandag';
+$labels['tuesday'] = 'Tirsdag';
 $labels['wednesday'] = 'Onsdag';
-$labels['thursday']  = 'Torsdag';
-$labels['friday']    = 'Fredag';
-$labels['saturday']  = 'Lørdag';
+$labels['thursday'] = 'Torsdag';
+$labels['friday'] = 'Fredag';
+$labels['saturday'] = 'Lørdag';
 
 $labels['today'] = 'I dag';
 
 // toolbar buttons
-$labels['writenewmessage']  = 'Opret en ny besked';
-$labels['replytomessage']   = 'Svar på denne besked';
-$labels['forwardmessage']   = 'Videresend denne besked';
-$labels['deletemessage']    = 'Flyt beskeden til skrald';
-$labels['printmessage']     = 'Udskriv denne besked';
+$labels['checkmail'] = 'Se efter nye beskeder';
+$labels['writenewmessage'] = 'Skriv en ny besked';
+$labels['replytomessage'] = 'Svar på denne besked';
+$labels['replytoallmessage'] = 'Svar til alle modtagere';
+$labels['forwardmessage'] = 'Videresend denne besked';
+$labels['deletemessage'] = 'Flyt beskeden til skrald';
+$labels['printmessage'] = 'Udskriv denne besked';
+$labels['previousmessage'] = 'Vis forrige besked';
 $labels['previousmessages'] = 'Vis forrige sæt beskeder';
-$labels['nextmessages']     = 'Vis næste sæt beskeder';
-$labels['backtolist']       = 'Tilbage til beskedlisten';
+$labels['firstmessage'] = 'Vis første besked';
+$labels['firstmessages'] = 'Vis første sæt beskeder';
+$labels['nextmessage'] = 'Vis næste besked';
+$labels['nextmessages'] = 'Vis næste sæt beskeder';
+$labels['lastmessage'] = 'Vis sidste besked';
+$labels['lastmessages'] = 'Vis sidste sæt beskeder';
+$labels['backtolist'] = 'Tilbage til beskedlisten';
+$labels['viewsource'] = 'Vis rå besked';
 
 $labels['select'] = 'Vælg';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Ingen';
 $labels['unread'] = 'Ulæste';
 
+$labels['compact'] = 'Ryd op';
+$labels['empty'] = 'Tøm';
+$labels['purge'] = 'Udrens';
+
+$labels['quota'] = 'Disk forbrug';
+$labels['unknown'] = 'ukendt';
+$labels['unlimited'] = 'ubegrænset';
+
+$labels['quicksearch'] = 'Hurtigsøgning';
+$labels['resetsearch'] = 'Nulstil søgning';
+
 // message compose
-$labels['compose']  = 'Forfat en besked';
-$labels['sendmessage']  = 'Send beskeden nu';
-$labels['addattachment']  = 'Vedhæft en fil';
+$labels['compose'] = 'Forfat en besked';
+$labels['sendmessage'] = 'Send beskeden nu';
+$labels['savemessage'] = 'Gem denne kladde';
+$labels['addattachment'] = 'Vedhæft en fil';
+$labels['charset'] = 'Tegnsæt';
+$labels['editortype'] = 'Tekstbehandler';
+$labels['returnreceipt'] = 'Anmod om kvittering';
 
+$labels['checkspelling'] = 'Stavekontrol';
+$labels['resumeediting'] = 'Genoptag redigering';
+$labels['revertto'] = 'Vend tilbage til';
+
+$labels['attachments'] = 'Vedhæftninger';
 $labels['upload'] = 'Upload';
-$labels['close']  = 'Luk';
+$labels['close'] = 'Luk';
 
-$labels['low']     = 'Lav';
-$labels['lowest']  = 'Lavest';
-$labels['normal']  = 'Normal';
-$labels['high']    = 'Høj';
+$labels['low'] = 'Lav';
+$labels['lowest'] = 'Lavest';
+$labels['normal'] = 'Normal';
+$labels['high'] = 'Høj';
 $labels['highest'] = 'Højest';
 
+$labels['nosubject'] = '(intet emne)';
 $labels['showimages'] = 'Vis billeder';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Almindelig tekst';
 
-// address boook
-$labels['name']      = 'Vist navn';
+// address book
+$labels['name'] = 'Vist navn';
 $labels['firstname'] = 'Fornavn';
-$labels['surname']   = 'Efternavn';
-$labels['email']     = 'Email';
+$labels['surname'] = 'Efternavn';
+$labels['email'] = 'Email';
 
 $labels['addcontact'] = 'Tilføj en ny kontakt';
 $labels['editcontact'] = 'Redigér kontakt';
 
-$labels['edit']   = 'Redigér';
+$labels['edit'] = 'Redigér';
 $labels['cancel'] = 'Afbryd';
-$labels['save']   = 'Gem';
+$labels['save'] = 'Gem';
 $labels['delete'] = 'Slet';
 
-$labels['newcontact']     = 'Opret nyt kontaktkort';
-$labels['deletecontact']  = 'Slet valgte kontakter';
-$labels['composeto']      = 'Skriv brev til';
+$labels['newcontact'] = 'Opret nyt kontaktkort';
+$labels['deletecontact'] = 'Slet valgte kontakter';
+$labels['composeto'] = 'Skriv brev til';
 $labels['contactsfromto'] = 'Kontakter $from til $to af $count';
+$labels['print'] = 'Print';
+$labels['export'] = 'Eksport';
 
+$labels['previouspage'] = 'Vis forrige sæt';
+$labels['firstpage'] = 'Vis første sæt';
+$labels['nextpage'] = 'Vis næste sæt';
+$labels['lastpage'] = 'Vis sidste sæt';
 
-// settings
-$labels['settingsfor']  = 'Indstillinger for';
+// LDAP search
+$labels['ldapsearch'] = 'LDAP-kartotekssøgning';
 
-$labels['preferences']  = 'Præferencer';
-$labels['userpreferences']  = 'Brugerpræferencer';
-$labels['editpreferences']  = 'Redigér brugerpræferencer';
-
-$labels['identities']  = 'Identiteter';
-$labels['manageidentities']  = 'Styr identiteterne for denne konto';
-$labels['newidentity']  = 'Ny identitet';
-
-$labels['newitem']  = 'Nyt punkt';
-$labels['edititem']  = 'Redigér punkt';
-
-$labels['setdefault']  = 'Sæt standard';
-$labels['language']  = 'Sprog';
-$labels['timezone']  = 'Tidszone';
-$labels['pagesize']  = 'Rækker per side';
-
-
-$labels['folders']  = 'Foldere';
-$labels['foldername']  = 'Foldernavn';
-$labels['subscribed']  = 'Abonneret';
-$labels['create']  = 'Opret';
-$labels['createfolder']  = 'Opret ny folder';
-$labels['deletefolder']  = 'Slet folder';
-$labels['managefolders']  = 'Styr foldere';
-
-$labels['attachments'] = 'Vedhæftninger';
-$labels['prettydate']  = 'Pæn datovisning';
-$labels['print']       = 'Print';
-$labels['export']      = 'Eksport';
-$labels['viewsource']  = 'Vis rå besked';
-$labels['replytoallmessage'] = 'Svar til alle modtagere';
-
-$labels['folder']  = 'Folder';
-$labels['compact'] = 'Ryd op';
-$labels['empty'] = 'Tøm';
-$labels['purge'] = 'Udrens';
-$labels['quota'] = 'Disk forbrug';
-
-$labels['sortby']   = 'Sortér efter';
-$labels['sortdesc'] = 'Nyeste først';
-$labels['sortasc']  = 'Ældste først';
-
-$labels['nosubject']  = '(intet emne)';
-$labels['signature'] = 'Signatur';
-$labels['charset']  = 'Tegnsæt';
-
-$labels['ldapsearch'] = 'LDAP kartotekssøgning';
-$labels['ldappublicsearchname']    = 'Kontaktens navn';
+$labels['ldappublicsearchname'] = 'Kontaktens navn';
 $labels['ldappublicsearchtype'] = 'Præcis søgning?';
 $labels['ldappublicserverselect'] = 'Vælg servere';
 $labels['ldappublicsearchfield'] = 'Søg på';
 $labels['ldappublicsearchform'] = 'Søg efter en kontakt';
 $labels['ldappublicsearch'] = 'Søg';
 
-$labels['welcome'] = 'Velkommen til $product';
+// settings
+$labels['settingsfor'] = 'Indstillinger for';
 
-$labels['unknown'] = 'ukendt';
-$labels['unlimited'] = 'ubegrænset';
+$labels['preferences'] = 'Præferencer';
+$labels['userpreferences'] = 'Brugerpræferencer';
+$labels['editpreferences'] = 'Redigér brugerpræferencer';
+
+$labels['identities'] = 'Identiteter';
+$labels['manageidentities'] = 'Styr identiteterne for denne konto';
+$labels['newidentity'] = 'Ny identitet';
+
+$labels['newitem'] = 'Nyt punkt';
+$labels['edititem'] = 'Redigér punkt';
+
+$labels['setdefault'] = 'Sæt standard';
+$labels['language'] = 'Sprog';
+$labels['timezone'] = 'Tidszone';
+$labels['pagesize'] = 'Rækker per side';
+$labels['signature'] = 'Signatur';
 $labels['dstactive'] = 'Sommertid';
+$labels['htmleditor'] = 'Skriv HTML-besked';
+$labels['htmlsignature'] = 'HTML-signatur';
+$labels['previewpane'] = 'Forhåndsvisning';
 
-$labels['previouspage'] = 'Vis forrige sæt';
-$labels['nextpage']     = 'Vis næste sæt';
+$labels['autosavedraft'] = 'Gem kladde automatisk';
+$labels['everynminutes'] = 'hver $n. minut';
+$labels['never'] = 'aldrig';
 
-$labels['returnreceipt'] = 'Anmod om kvittering';
-
-$labels['checkmail'] = 'Se efter nye beskeder';
-$labels['checkspelling'] = 'Ret stavning';
-$labels['resumeediting'] = 'Genoptag redigering';
-$labels['revertto'] = 'Vend tilbage til';
-
-$labels['savemessage']  = 'Gem denne kladde';
+$labels['folder'] = 'Mapper';
+$labels['folders'] = 'Mapper';
+$labels['foldername'] = 'Mappenavn';
+$labels['subscribed'] = 'Abonneret';
+$labels['create'] = 'Opret';
+$labels['createfolder'] = 'Opret ny mappe';
 $labels['rename'] = 'Omdøb';
-$labels['renamefolder'] = 'Omdøb folder';
+$labels['renamefolder'] = 'Omdøb mappe';
+$labels['deletefolder'] = 'Slet mappe';
+$labels['managefolders'] = 'Administrér mapper';
 
-# i use an additional description field - this might be used somewhere else
-$labels['description'] = 'Beskrivelse';
+$labels['sortby'] = 'Sortér efter';
+$labels['sortasc'] = 'Ældste først';
+$labels['sortdesc'] = 'Nyeste først';
 ?>

@@ -5,12 +5,11 @@
  | language/bs_BA/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005, 2006, RoundQube Dev. - Switzerland                |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author:        Begzudin Omerovic  <boNOSPAM@oglasi.com>               |
- | Corrections:   Salčin Adis        <adminNOSPAM@chat.ba>               |
+ | Author: Begzudin Omerovic <Begzudin.Omerovic@gmail.com>               |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,178 +18,216 @@
 
 $labels = array();
 
-// login page // Login-Seite
-$labels['welcome']   = 'Welcome to Roundcube|Mail';
-$labels['username']  = 'Korisnički email';
-$labels['password']  = 'Šifra';
+// login page
+$labels['welcome']   = 'Dobrodošli na $product';
+$labels['username']  = 'Korisničko ime';
+$labels['password']  = 'Lozinka';
 $labels['server']    = 'Server';
 $labels['login']     = 'Prijava';
 
-// taskbar // Aktionsleiste
+// taskbar
 $labels['logout']   = 'Odjava';
-$labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Lične Postavke';
-$labels['addressbook'] = 'Adresar';
+$labels['mail']     = 'Sanduče';
+$labels['settings'] = 'Podešavanja';
+$labels['addressbook'] = 'Imenik';
 
-// mailbox names // E-Mail-Ordnernamen
-$labels['inbox']  = 'Primljene';
-$labels['sent']   = 'Poslate';
-$labels['trash']  = 'Obrisane';
-$labels['drafts'] = 'Draft';
-$labels['junk']   = 'Smeće(Junk)';
+// mailbox names
+$labels['inbox']  = 'Inbox';
+$labels['drafts'] = 'Drafts';
+$labels['sent']   = 'Poslano';
+$labels['trash']  = 'Trash';
+$labels['junk']   = 'Junk';
 
-// message listing // Nachrichtenliste
+// message listing
 $labels['subject'] = 'Naslov';
-$labels['from']    = 'Pošiljalac';
-$labels['to']      = 'Primalac';
-$labels['cc']      = 'Kopija (CC)';
-$labels['bcc']     = 'Slijepa kopija (BCC)';
-$labels['replyto'] = 'Odgovori na';
+$labels['from']    = 'Od';
+$labels['to']      = 'Za';
+$labels['cc']      = 'Cc';
+$labels['bcc']     = 'Bcc';
+$labels['replyto'] = 'Reply-To';
 $labels['date']    = 'Datum';
 $labels['size']    = 'Veličina';
 $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organizacija';
 
-// aliases // [Platzhalter]
+// aliases
 $labels['reply-to'] = $labels['replyto'];
 
-$labels['mailboxlist'] = 'Mape';
-$labels['messagesfromto'] = 'Poruke $from do $to od $count';
-$labels['messagenrof'] = 'Poruke $nr od $count';
+$labels['mailboxlist'] = 'Fascikle';
+$labels['messagesfromto'] = 'Poruke od $from do $to od ukupno $count';
+$labels['messagenrof'] = 'Poruka broj $nr od $count';
 
-$labels['moveto']   = 'Pomjeri u...';
-$labels['download'] = 'Snimi(Download)';
+$labels['moveto']   = 'prebaci u...';
+$labels['download'] = 'preuzmi (download)';
 
-$labels['filename'] = 'Ime fajla';
-$labels['filesize'] = 'Veličina fajla';
+$labels['filename'] = 'Ime datoteke';
+$labels['filesize'] = 'Veličina datoteke';
 
-$labels['preferhtml'] = 'Sa HTML';
-$labels['htmlmessage'] = 'HTML Poruka';
-$labels['prettydate'] = 'Kratak prikaz datuma';
+$labels['preferhtml'] = 'HTML format u prednosti';
+$labels['htmlmessage'] = 'HTML format poruke';
+$labels['prettydate'] = 'Formatiran datum';
 
-$labels['addtoaddressbook'] = 'Dodajte u adresar';
+$labels['addtoaddressbook'] = 'Dodaj u imenik';
 
-// weekdays short // Wochentage (Abkürzungen) 
-$labels['sun'] = 'Ne';
-$labels['mon'] = 'Po';
-$labels['tue'] = 'Ut';
-$labels['wed'] = 'Sr';
-$labels['thu'] = 'Če';
-$labels['fri'] = 'Pe';
-$labels['sat'] = 'Su';
+// weekdays short
+$labels['sun'] = 'Ned';
+$labels['mon'] = 'Pon';
+$labels['tue'] = 'Uto';
+$labels['wed'] = 'Sri';
+$labels['thu'] = 'Čet';
+$labels['fri'] = 'Pet';
+$labels['sat'] = 'Sub';
 
-// weekdays long // Wochentage (normal)
+// weekdays long
 $labels['sunday']    = 'Nedjelja';
 $labels['monday']    = 'Ponedjeljak';
 $labels['tuesday']   = 'Utorak';
 $labels['wednesday'] = 'Srijeda';
 $labels['thursday']  = 'Četvrtak';
-$labels['friday']    = 'petak';
+$labels['friday']    = 'Petak';
 $labels['saturday']  = 'Subota';
 
-$labels['today'] = 'Danas';
+$labels['today'] = 'danas';
 
-// toolbar buttons // Symbolleisten-Tipps
-$labels['writenewmessage']  = 'Napisati novu poruku';
-$labels['replytomessage']   = 'Odogovoriti na poruku';
-$labels['replytoallmessage'] = 'Odgovoriti počiljaocu i svim primateljima';
-$labels['forwardmessage']   = 'Proslijediti poruku';
-$labels['deletemessage']    = 'Prebaciti poruku u "Obrisane Poruke"';
-$labels['printmessage']     = 'Odštampati poruku';
-$labels['previousmessages'] = 'Pokazat prethodni set poruka';
-$labels['nextmessages']     = 'Pokazat naredni set poruka';
+// toolbar buttons
+$labels['checkmail']        = 'Provjera novih poruka';
+$labels['writenewmessage']  = 'Nova poruka';
+$labels['replytomessage']   = 'Odgovori na poruku';
+$labels['replytoallmessage'] = 'Odgovori pošiljaocu i svim primaocima';
+$labels['forwardmessage']   = 'Proslijedi poruku';
+$labels['deletemessage']    = 'Prebaci poruku u korpu (Trash)';
+$labels['printmessage']     = 'Odštampaj poruku';
+$labels['previousmessage'] = 'Prikaži prethodnu poruku';
+$labels['previousmessages'] = 'Prikaži prethodni skup poruka';
+$labels['nextmessages']     = 'Prikaži sljedeći skup poruka';
+$labels['lastmessage']     = 'Prikaži zadnju poruku';
+$labels['lastmessages']     = 'Prikaži zadnji skup poruka';
 $labels['backtolist']       = 'Povratak na listu poruka';
+$labels['viewsource']       = 'Prikaži poruku u izvornom obliku';
 
-$labels['select'] = 'Odabrati';
-$labels['all']    = 'Sve';
-$labels['none']   = 'Nijednu';
+$labels['select'] = 'Obilježi';
+$labels['all'] = 'Sve';
+$labels['none'] = 'Nijednu';
 $labels['unread'] = 'Nepročitane';
 
-$labels['compact'] = 'Zbiti';
+$labels['compact'] = 'Skraćeno';
+$labels['empty'] = 'Izprazni';
+$labels['purge'] = 'Očisti';
+
+$labels['quota'] = 'Kvota';
+$labels['unknown']  = 'nepoznato';
+$labels['unlimited']  = 'beskonačna';
+
+$labels['quicksearch']  = 'Brza pretraga';
+$labels['resetsearch']  = 'Prikaži sve poruke';
 
 
-// message compose // Nachrichten erstellen
-$labels['compose']  = 'Napisati poruku';
-$labels['sendmessage']  = 'Poslati poruku sada';
-$labels['addattachment']  = 'Dodati fajl';
-$labels['charset']  = 'Standard';
+// message compose
+$labels['compose']  = 'Nova poruka';
+$labels['savemessage']  = 'Sačuvaj u \'Drafts\'';
+$labels['sendmessage']  = 'Pošalji poruku';
+$labels['addattachment']  = 'Priloži datoteku';
+$labels['charset']  = 'Skup znakova';
+$labels['editortype']  = 'Vrsta editora';
+$labels['returnreceipt'] = 'Potvrda o prispijeću poruke';
 
-$labels['attachments'] = 'Dodatci';
-$labels['upload'] = 'Ubaciti';
-$labels['close']  = 'Zatvoriti';
+$labels['checkspelling'] = 'Provjera pravopisa';
+$labels['resumeediting'] = 'Povratak u režim pisanja';
+$labels['revertto'] = 'Vrati na';
 
-$labels['low']     = 'Nisko';
-$labels['lowest']  = 'Najniže';
-$labels['normal']  = 'Normalno';
-$labels['high']    = 'Visoko';
-$labels['highest'] = 'Najviše';
+$labels['attachments'] = 'Dodatci (Attachments)';
+$labels['upload'] = 'Dodaj';
+$labels['close']  = 'Zatvori';
 
-$labels['nosubject']  = '(nema naslova)';
-$labels['showimages'] = 'Prikazati slike';
+$labels['low']     = 'Nizak';
+$labels['lowest']  = 'Najniži';
+$labels['normal']  = 'Srednji';
+$labels['high']    = 'Visok';
+$labels['highest'] = 'Najviši';
 
+$labels['nosubject']  = '(bez naslova)';
+$labels['showimages'] = 'Prikaži slike';
+$labels['htmltoggle']  = 'HTML';
+$labels['plaintoggle']  = 'Običan tekst';
 
-// address book // Adressbuch
-$labels['name']      = 'Prikazano ime';
+// address boook
+$labels['name']      = 'Puno ime';
 $labels['firstname'] = 'Ime';
 $labels['surname']   = 'Prezime';
 $labels['email']     = 'E-Mail';
 
-$labels['addcontact'] = 'Dodati novi kontakt';
-$labels['editcontact'] = 'Izmjeniti kontakt';
+$labels['addcontact'] = 'Dodaj novi kontakt';
+$labels['editcontact'] = 'Izmijeni kontakt';
 
-$labels['edit']   = 'Izmjeniti';
-$labels['cancel'] = 'Otkazati';
-$labels['save']   = 'Snimiti';
-$labels['delete'] = 'Obrisati';
+$labels['edit']   = 'Izmijeni';
+$labels['cancel'] = 'Otkaži';
+$labels['save']   = 'Sačuvaj';
+$labels['delete'] = 'Obriši';
 
-$labels['newcontact']     = 'Napraviti novu kontakt karticu';
-$labels['deletecontact']  = 'Obrisati odabrane kontakte';
-$labels['composeto']      = 'Napisati mail na';
-$labels['contactsfromto'] = 'Kontakti $from do $to od $count';
-$labels['print']          = 'Odštampati';
-$labels['export']         = 'Izvesti(Export)';
+$labels['newcontact']     = 'Dodaj novi kontakt';
+$labels['deletecontact']  = 'Obriši odabrane kontakte';
+$labels['composeto']      = 'Napiši mail...';
+$labels['contactsfromto'] = 'Kontakti od $from do $to od ukupno $count';
+$labels['print']          = 'Štampaj';
+$labels['export']         = 'Izvezi';
+
+$labels['previouspage']   = 'Prikaži predhodnu stranicu';
+$labels['firstpage']      = 'Prikaži prvi skup';
+$labels['nextpage']       = 'Prikaži sljedeću stranicu';
+$labels['lastpage']       = 'Prikaži zadnji skup';
 
 // LDAP search
-$labels['ldapsearch'] = 'LDAP mapu pretraži';
+$labels['ldapsearch'] = 'Pretraga LDAP imenika';
 
-$labels['ldappublicsearchname']   = 'Ime kontakta';
-$labels['ldappublicsearchtype']   = 'Tačan tip pretrage';
-$labels['ldappublicserverselect'] = 'Odaberi server';
-$labels['ldappublicsearchfield']  = 'Traži u';
-$labels['ldappublicsearchform']   = 'Adresu pretraži';
-$labels['ldappublicsearch'] = 'Pretraži';
+$labels['ldappublicsearchname']    = 'Ime kontakta';
+$labels['ldappublicsearchtype'] = 'Potpuna fraza?';
+$labels['ldappublicserverselect'] = 'Odaberi servere';
+$labels['ldappublicsearchfield'] = 'Pretraži na';
+$labels['ldappublicsearchform'] = 'Pretraži kontakte';
+$labels['ldappublicsearch'] = 'Pretraga';
 
-// settings // Einstellungen
-$labels['settingsfor']  = 'Podešavanje za';
 
-$labels['preferences']  = 'Postavke';
-$labels['userpreferences']  = 'Korisničke postavke';
-$labels['editpreferences']  = 'Izmjeniti korisničke postavke';
+// settings
+$labels['settingsfor']  = 'Podešavanja za';
 
-$labels['identities']  = 'Identitet';
-$labels['manageidentities']  = 'Uredi identitete za ovog korisnika';
-$labels['newidentity']  = 'Novi Identitet';
+$labels['preferences']  = 'Podešavanja';
+$labels['userpreferences']  = 'Opšta podešavanja';
+$labels['editpreferences']  = 'Izmjena opštih podešavanja';
 
-$labels['newitem']  = 'Novi unos';
-$labels['edititem']  = 'Izmjeni unos';
+$labels['identities']  = 'Identiteti';
+$labels['manageidentities']  = 'Podesi identitete za ovaj nalog';
+$labels['newidentity']  = 'Dodaj identitet';
 
-$labels['setdefault']  = 'Postavi standardno';
+$labels['newitem']  = 'New item';
+$labels['edititem']  = 'Edit item';
+
+$labels['setdefault']  = 'Postavi glavnim';
 $labels['language']  = 'Jezik';
 $labels['timezone']  = 'Vremenska zona';
-$labels['pagesize']  = 'Poruka po stranici';
+$labels['pagesize']  = 'Redova po stranici';
 $labels['signature'] = 'Potpis';
+$labels['dstactive']  = 'Ljetno pomjeranje vremena';
 
-$labels['folder']  = 'Mapa';
-$labels['folders']  = 'Mape';
-$labels['foldername']  = 'Ime mape';
-$labels['subscribed']  = 'Pretplatiti';
-$labels['create']      = 'Napraviti';
-$labels['createfolder']  = 'Napraviti novi mapu';
-$labels['deletefolder']  = 'Obrisati mapu';
-$labels['managefolders']  = 'Uredi mape';
+$labels['htmleditor']= 'Pisi HTML poruke';
+$labels['htmlsignature'] ='HTML potpis';
+$labels['previewpane'] ='Pokaži prethodu poruku';
+$labels['autosavedraft'] ='Automatski spasi predlozak';
+$labels['everynminutes'] ='svakih $n minuta';
+$labels['never'] ='nikada';
+
+$labels['folder']  = 'Fascikla';
+$labels['folders']  = 'Fascikle';
+$labels['foldername']  = 'Ime fascikle';
+$labels['subscribed']  = 'Pretplaćen';
+$labels['create']  = 'Napravi';
+$labels['createfolder']  = 'Napravi novu fasciklu';
+$labels['rename'] = 'Preimenuj';
+$labels['renamefolder'] = 'Preimenuj fasciklu';
+$labels['deletefolder']  = 'Obriši fasciklu';
+$labels['managefolders']  = 'Podesi fasciklu';
 
 $labels['sortby'] = 'Sortiraj po';
-$labels['sortasc']  = 'Sortiraj opadajuće';
-$labels['sortdesc'] = 'Sortiraj rastuće';
+$labels['sortasc']  = 'Sortiraj rastućim nizom';
+$labels['sortdesc'] = 'Sortiraj opadajućim nizom';
 
 ?>

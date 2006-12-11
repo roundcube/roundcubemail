@@ -10,6 +10,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+ | Updated by: Robson F. Ramaldes <rframaldes@gmail.com>                 |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -32,9 +33,19 @@ $messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até breve!';
 
 $messages['mailboxempty'] = 'A caixa postal está vazia';
 
+$messages['loading'] = 'Carregando...';
+
 $messages['loadingdata'] = 'Carregando informações...';
 
+$messages['checkingmail'] = 'Verificando se há novas mensagens...';
+
+$messages['sendingmessage'] = 'Enviando...';
+
 $messages['messagesent'] = 'Mensagem enviada';
+
+$messages['savingmessage'] = 'Salvando Mensagem...';
+
+$messages['messagesaved'] = 'Rascunho Salvo';
 
 $messages['successfullysaved'] = 'Salvo com sucesso';
 
@@ -74,7 +85,7 @@ $messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatári
 
 $messages['nosubjectwarning']  = 'O campo assunto não foi informado. Deseja incluí-lo agora?';
 
-$messages['nobodywarning'] = 'Enviar a mensagem se texto?';
+$messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
 
 $messages['notsentwarning'] = 'A mensegem não foi enviada, deseja excluí-la?';
 
@@ -84,17 +95,18 @@ $messages['nocontactsreturned'] = 'Nenhum contato foi encontrado';
 
 $messages['nosearchname'] = 'Por favor, informe o nome do contado ou seu endereço de e-mail';
 
-// New messages since 0.1beta
+$messages['searchsuccessful'] = '$nr mensagens encontradas';
+
+$messages['searchnomatch'] = 'A pesquisa não encontrou resultados';
+
+$messages['searching'] = 'Pesquisando...';
+
 $messages['checking'] = 'Verificando...';
 
-$messages['nospellerrors'] = 'Nenhum erro ortográfico foi encontrado';
+$messages['nospellerrors'] = 'Nenhum erro ortográfico encontrado';
 
-$messages['checkingmail'] = 'Verificando novas mensagens...';
+$messages['folderdeleted'] = 'Pasta exclu�da com sucesso';
 
-$messages['savingmessage'] = 'Salvando a mensagem...';
 
-$messages['messagesaved'] = 'Mensagem salva como rascunho';
-
-$messages['folderdeleted'] = 'Pasta excluida com sucesso';
 
 ?>

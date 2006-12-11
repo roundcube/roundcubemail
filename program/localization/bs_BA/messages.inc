@@ -5,12 +5,11 @@
  | language/bs_BA/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, 2006, RoundCube Dev. - Switzerland                |
+ | Copyright (C) 2005, 2006, RoundQube Dev. - Switzerland                |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author:      Begzudin Omerovic <boNOSPAM@oglasi.com>                  |
- | Korigirao:   Salčin Adis <adminNOSPAM@chat.ba>                        |
+ | Author: Begzudin Omerovic <Begzudin.Omerovic@gmail.com>               |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -19,69 +18,100 @@
 
 $messages = array();
 
-$messages['loginfailed']  = 'Prijava nije uspjela!';
+$messages['loginfailed']  = 'Prijava neuspješna';
 
-$messages['cookiesdisabled'] = 'Vaš browser ne dozvoljava cookie!';
+$messages['cookiesdisabled'] = 'Vaš pretraživač ne podržava kolačiće (cookies)';
 
-$messages['sessionerror'] = 'Vaša sesija je nevažeća ili istekla!';
+$messages['sessionerror'] = 'Sesija nije validna ili je istekla';
 
-$messages['imaperror'] = 'Veza sa IMAP serverom nije uspostavljena!';
+$messages['imaperror'] = 'Neuspješna konekcija na IMAP server';
 
-$messages['nomessagesfound'] = 'Nemate poruka u vašem sandučiću';
+$messages['nomessagesfound'] = 'Nema poruka u sandučetu';
 
-$messages['loggedout'] = 'Vaša sesija je uspješno okončana. Doviđenja!';
+$messages['loggedout'] = 'Uspješno ste se odjavili.';
 
-$messages['mailboxempty'] = 'Sandučić je prazan';
+$messages['mailboxempty'] = 'Sanduče je prazno';
 
-$messages['loading'] = $messages['loadingdata'] = 'Podatci se učitavaju...';
+$messages['loading'] = 'Učitavanje...';
 
-$messages['sendingmessage'] = 'Šaljem poruku...';
+$messages['loadingdata'] = 'Učitavanje podataka...';
 
-$messages['messagesent'] = 'Poruka uspješno poslana...';
+$messages['checkingmail'] = 'Provjera novih poruka u toku...';
 
-$messages['successfullysaved'] = 'Uspješno snimljeno';
+$messages['sendingmessage'] = 'Poruka se šalje...';
 
-$messages['addedsuccessfully'] = 'Kontakt dodan u adresar';
+$messages['messagesent'] = 'Poruka je uspješno poslana';
 
-$messages['contactexists'] = 'Postoji već jedan kontakt sa istom takvom e-mail adresom';
+$messages['savingmessage'] = 'Poruka se snima...';
 
-$messages['blockedimages'] = 'Da bismo zaštitili Vašu privatnost, eksterne slike se ne prikazuju.';
+$messages['messagesaved'] = 'Poruka uspješno sačuvana u \'Drafts\'';
 
-$messages['encryptedmessage'] = 'Ova poruka je šifrirana i nemožemo je prikazati. Izvinite!';
+$messages['successfullysaved'] = 'Snimanje uspješno obavljeno';
 
-$messages['nocontactsfound'] = 'Nismo našli kontakte';
+$messages['addedsuccessfully'] = 'Kontakt uspješno dodat u imenik';
 
-$messages['sendingfailed'] = 'Slanje poruke nije uspjelo';
+$messages['contactexists'] = 'Kontakt sa ovom e-mail adresom već postoji u imeniku';
 
-$messages['errorsaving'] = 'Kod snimanja se desila greška';
+$messages['blockedimages'] = 'Zbog zaštite privatnosti, slike sa drugih servera su blokirane.';
 
-$messages['errormoving'] = 'Nemoguće premjestiti ovu poruku';
+$messages['encryptedmessage'] = 'Ova poruka je šifrovana pa se ne može prikazati';
 
-$messages['errordeleting'] = 'Nemoguće izbrisati ovu poruku';
+$messages['nocontactsfound'] = 'Imenik je prazan';
 
-$messages['deletefolderconfirm']  = 'Sigurno želite ovu mapu obrisati?';
+$messages['sendingfailed'] = 'Greška pri slanju poruke';
 
-$messages['formincomplete']    = 'Formular nije u potpunosti popunjen';
+$messages['errorsaving'] = 'Greška pri snimanju';
 
-$messages['noemailwarning']    = 'Unesite ispravnu e-mail adresu';
+$messages['errormoving'] = 'Greška pri premještanju poruke';
 
-$messages['nonamewarning']     = 'Molimo, unesite ime';
+$messages['errordeleting'] = 'Greška pri brisanju poruke';
 
-$messages['nopagesizewarning'] = 'Molimo unesite prikaz poruka po stranici';
+$messages['deletecontactconfirm']  = 'Da li želite da obrišete izabrane kontakte?';
 
-$messages['norecipientwarning'] = 'Molimo unesite najmanje jednog primaoca';
+$messages['deletemessagesconfirm'] = 'Da li stvarno želite izbrisati poruku(e)?';
 
-$messages['nosubjectwarning']  = 'Naslov polje je prazno. Želite li to sada ispuniti?';
+$messages['deletefolderconfirm']  = 'Da li zaista želite da obrišete ovu fasciklu?';
 
-$messages['nobodywarning'] = 'Želite li poslati poruku bez sadržaja?';
+$messages['purgefolderconfirm']  = 'Da li zaista želite da obrišete sve poruke u fascikli?';
 
-$messages['notsentwarning'] = 'Poruka nije poslana. Želite li da se izbriše ova vaša poruka?';
+$messages['formincomplete'] = 'Forma nije u cijelosti popunjena';
 
-$messages['noldapserver'] = 'Unesite ldp server za pretragu';
+$messages['noemailwarning'] = 'Unesite ispravnu e-mail adresu';
 
-$messages['nocontactsreturned'] = 'Nisu pronađene kontakt adrese';
+$messages['nonamewarning']  = 'Unesite ime';
 
-$messages['nosearchname'] = 'Molimo unesite ime kontakta ili e-mail adresu';
+$messages['nopagesizewarning'] = 'Unesite veličinu stranice';
 
+$messages['norecipientwarning'] = 'Unesite primaoca / primaoce (ZA)';
+
+$messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li da unesete naslov poruke?';
+
+$messages['nobodywarning'] = 'Da li želite da pošaljete poruku bez teksta?';
+
+$messages['notsentwarning'] = 'Poruka nije poslana. Da li želite da odbacite ovu poruku?';
+
+$messages['noldapserver'] = 'Unesite LDAP server za pretragu';
+
+$messages['nocontactsreturned'] = 'Nije pronađen ni jedan kontakt';
+
+$messages['nosearchname'] = 'Unesite ime ili e-mail adresu';
+
+$messages['searchsuccessful'] = 'Broj pronađenih poruka: $nr';
+
+$messages['searchnomatch'] = 'Tražena fraza nije pronađena ni u jednoj poruci';
+
+$messages['searching'] = 'Pretraga u toku...';
+
+$messages['checking'] = 'Provjera u toku...';
+
+$messages['nospellerrors'] = 'Nije pronađena ni jedna pravopisna greška';
+
+$messages['folderdeleted'] = 'Fascikla uspješno obrisana';
+
+$messages['deletedsuccessfully'] = 'Uspješno izbrisano';
+
+$messages['converting'] = 'Vračeno formatiranje iz poruke ...';
+
+$messages['messageopenerror'] = 'Nije učitana poruka sa servera';
 
 ?>

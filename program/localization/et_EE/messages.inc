@@ -12,8 +12,9 @@
  | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
- $Id: messages.inc,v 1.3 2006/02/19 18:31:40 roundcube Exp $
- */
+ $Id: messages.inc 394 2006-12-04 10:31:40Z yllar $
+
+*/
 
 $messages = array();
 $messages['loginfailed'] = 'Sisselogimine ebaõnnestus';
