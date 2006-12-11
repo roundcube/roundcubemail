@@ -1680,7 +1680,7 @@ function format_date($date, $format=NULL)
   $now = time();  // local time
   $now -= (int)date('Z'); // make GMT time
   $now += ($tz * 3600); // user's time
-  $now_date = getdate();
+  $now_date = getdate($now);
 
   $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
   $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
