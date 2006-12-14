@@ -179,7 +179,7 @@ function rcmail_user_prefs_form($attrib)
                     $input_preview->show($CONFIG['preview_pane']?1:0));
     }
                   
-  if (!empty($CONFIG['drafts_mbox']) && !isset($no_override['preview_pane']))
+  if (!empty($CONFIG['drafts_mbox']) && !isset($no_override['draft_autosave']))
     {
     $field_id = 'rcmfd_autosave';
     $select_autosave = new select(array('name' => '_draft_autosave', 'id' => $field_id));
