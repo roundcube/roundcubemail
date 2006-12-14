@@ -25,15 +25,15 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = 'Bienvenido a $product';
-$labels['username']  = 'Nombre de usuario';
+$labels['welcome']   = '$product';
+$labels['username']  = 'Dirección de Correo';
 $labels['password']  = 'Contraseña';
 $labels['server']    = 'Servidor';
 $labels['login']     = 'Entrar';
 
 // taskbar
 $labels['logout']   = 'Cerrar sesión';
-$labels['mail']     = 'E-Mail';
+$labels['mail']     = 'Correo';
 $labels['settings'] = 'Configuración';
 $labels['addressbook'] = 'Contactos';
 
@@ -103,19 +103,24 @@ $labels['replytoallmessage'] = 'Responder al emisor y a todos los destinatarios'
 $labels['forwardmessage']   = 'Reenviar mensaje';
 $labels['deletemessage']    = 'Mover mensaje a la papelera';
 $labels['printmessage']     = 'Imprimir este mensaje';
-$labels['previousmessages'] = 'Mostrar mensajes anteriores';
-$labels['nextmessages']     = 'Mostrar mensajes siguientes';
+$labels['previousmessage'] = 'Mostrar mensaje anterior';
+$labels['previousmessages'] = 'Mostrar grupo anterior de mensajes';
+$labels['firstmessage']     = 'Mostrar primer mensaje';
+$labels['firstmessages']    = 'Mostrar primer grupo de mensajes';
+$labels['nextmessage']     = 'Mostrar siguente mensaje';
+$labels['nextmessages']     = 'Mostrar siguente grupo de mensajes';
+$labels['lastmessage']      = 'Mostrar último mensaje';
+$labels['lastmessages']     = 'Mostrar último grupo de mensajes';
 $labels['backtolist']       = 'Volver a la lista de mensajes';
-
 $labels['viewsource']       = 'Mostrar código';
 
-$labels['select'] = 'Seleccionar';
+$labels['select'] = 'Elija';
 $labels['all'] = 'Todos';
 $labels['none'] = 'Ninguno';
-$labels['unread'] = 'No leídos';
+$labels['unread'] = 'Sin leer';
 
-$labels['compact'] = 'Compactar';
-$labels['empty'] = 'Vaciar';
+$labels['compact'] = 'Compacta';
+$labels['empty'] = 'Vacia';
 $labels['purge'] = 'Eliminar';
 
 $labels['quota'] = 'Uso de disco';
@@ -132,6 +137,7 @@ $labels['savemessage']  = 'Guardar como borrador';
 $labels['sendmessage']  = 'Enviar ahora el mensaje';
 $labels['addattachment']  = 'Añadir un archivo';
 $labels['charset']  = 'Codificación';
+$labels['editortype'] = 'Tipo de editor';
 $labels['returnreceipt'] = 'Acuse de recibo';
 
 $labels['checkspelling'] = 'Revisar ortografía';
@@ -152,12 +158,24 @@ $labels['highest'] = 'Altísimo';
 $labels['nosubject']  = '(sin asunto)';
 $labels['showimages'] = 'Mostrar imágenes';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Texto';
+
 
 // address boook
 $labels['name']      = 'Nombre completo';
 $labels['firstname'] = 'Nombre';
 $labels['surname']   = 'Apellido';
-$labels['email']     = 'E-Mail';
+$labels['email']     = 'Correo';
+$labels['homephone']     = 'Telefo Casa';
+$labels['workphone']     = 'Telefono Trabajo';
+$labels['cellphone']     = 'Telefono Celular';
+$labels['faxphone']     = 'Número Fax';
+$labels['address1']     = 'Dirección 1';
+$labels['address2']     = 'Dirección 2';
+$labels['city']     = 'Ciudad';
+$labels['state']     = 'Estado';
+$labels['zip']     = 'Código Postal';
 
 $labels['edit']   = 'Editar';
 $labels['cancel'] = 'Cancelar';
@@ -174,7 +192,10 @@ $labels['print']          = 'Imprimir';
 $labels['export']         = 'Exportar';
 
 $labels['previouspage']   = 'Mostrar grupo anterior';
+$labels['firstpage']   = 'Mostrar primer grupo';
 $labels['nextpage']       = 'Mostrar grupo siguiente';
+$labels['lastpage']       = 'Mostrar último grupo';
+
 
 // LDAP search
 $labels['ldapsearch'] = 'Búsqueda en el directorio LDAP';
@@ -207,6 +228,13 @@ $labels['timezone']  = 'Zona horaria';
 $labels['pagesize']  = 'Filas por página';
 $labels['signature'] = 'Firma';
 $labels['dstactive']  = 'Cambio de horario';
+$labels['htmleditor'] = 'Componer mensaje en HTML';
+$labels['htmlsignature'] = 'Firma HTML';
+$labels['previewpane'] = 'Mostrar vista preliminar';
+
+$labels['autosavedraft']  = 'Guardar borrador automáticamente';
+$labels['everynminutes']  = 'cada $n minutos';
+$labels['never']  = 'nunca';
 
 $labels['folder']  = 'Bandeja';
 $labels['folders']  = 'Bandejas';
@@ -222,5 +250,9 @@ $labels['managefolders']  = 'Administrar bandejas';
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc']  = 'Orden ascendente';
 $labels['sortdesc'] = 'Orden descendente';
+
+$labels['changepasswd']  = 'Cambiar Contraseña';
+$labels['newpasswd']  = 'Nueva Contraseña';
+$labels['confpasswd']  = 'Confirmar Nueva Contraseña';
 
 ?>

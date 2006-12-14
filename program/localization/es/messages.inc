@@ -112,4 +112,17 @@ $messages['checking'] = 'Revisando...';
 
 $messages['nospellerrors'] = 'No se encontraron errores ortográficos';
 
+$messages['folderdeleted'] = 'Carpeta eliminada exitosamente';
+
+$messages['deletedsuccessfully'] = "Eliminado exitosamente";
+
+$messages['converting'] = 'Removiendo el formato del mensaje...';
+
+$messages['messageopenerror'] = 'No puedo descargar el mensaje del servidor';
+
+$messages['nopassword'] = "Favor de entrar su nueva contraseña.";
+
+$messages['passwordinconsistency'] = "Inconsistencia en la contraseña, favor de entrarla nuevamente.";
+
 ?>
+
