@@ -814,7 +814,7 @@ function rcmail_editor_selector($attrib)
   $selector = '';
   
   $attrib['name'] = '_editorSelect';
-  $attrib['onclick'] = 'return rcmail_toggle_editor(this)';
+  $attrib['onchange'] = 'return rcmail_toggle_editor(this)';
   foreach ($choices as $value => $text)
     {
     $checked = '';
