@@ -120,7 +120,7 @@ $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['purge'] = 'Bereinigen';
 
-$labels['quota'] = 'Verwendeter Speicherplatz';
+$labels['quota'] = 'Speicherplatz';
 $labels['unknown']  = 'unbekannt';
 $labels['unlimited']  = 'unlimitiert';
 
@@ -134,6 +134,7 @@ $labels['savemessage']  = 'Nachricht speichern';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
 $labels['charset']  = 'Zeichensatz';
+$labels['editortype']     = 'Editor Typ';
 $labels['returnreceipt'] = 'Empfangsbestätigung';
 
 $labels['checkspelling'] = 'Rechtschreibung prüfen';
@@ -153,6 +154,8 @@ $labels['highest'] = 'Höchste';
 $labels['nosubject']  = '(kein Betreff)';
 $labels['showimages'] = 'Bilder anzeigen';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Nur Text';
 
 // address book // Adressbuch
 $labels['name']      = 'Anzeigename';
@@ -175,7 +178,7 @@ $labels['contactsfromto'] = 'Kontakte $from bis $to von $count';
 $labels['print']          = 'Drucken';
 $labels['export']         = 'Exportieren';
 
-$labels['previouspage']   = 'Eine Seite zurück';
+$labels['previouspage']   = 'Seite zurück';
 $labels['nextpage']       = 'Nächste Seite';
 
 // LDAP search
@@ -208,6 +211,8 @@ $labels['timezone']  = 'Zeitzone';
 $labels['pagesize']  = 'Einträge pro Seite';
 $labels['signature'] = 'Signatur';
 $labels['dstactive']  = 'Sommerzeit';
+$labels['htmleditor'] = 'Erstelle HTML Nachricht';
+$labels['htmlsignature'] = 'HTML Signatur';
 
 $labels['autosavedraft']  = 'Entwurf autom. speichern';
 $labels['everynminutes']  = 'alle $n Minuten';
