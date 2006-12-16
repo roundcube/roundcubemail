@@ -13,7 +13,7 @@
  +-----------------------------------------------------------------------+
 
  $Id$
-
+ EN-Revision: 388
 */
 
 $messages = array();
@@ -68,6 +68,8 @@ $messages['errordeleting'] = 'メッセージの削除ができません。';
 
 $messages['deletecontactconfirm']  = '本当に選択した連絡先を削除しますか?';
 
+$messages['deletemessagesconfirm'] = '本当に選択したメッセージを削除しますか?';
+
 $messages['deletefolderconfirm']  = '本当にこのフォルダーを削除しますか?';
 
 $messages['purgefolderconfirm']  = '本当にこのフォルダーのすべてのメッセージを削除しますか?';
@@ -105,5 +107,11 @@ $messages['checking'] = '確認中です...';
 $messages['nospellerrors'] = 'スペルエラーはみつかりませんでした。';
 
 $messages['folderdeleted'] = 'フォルダーの削除に成功しました。';
+
+$messages['deletedsuccessfully'] = "削除に成功しました";
+
+$messages['converting'] = 'メッセージから書式を削除中です...';
+
+$messages['messageopenerror'] = 'サーバーからメッセージを読み込めません';
 
 ?>

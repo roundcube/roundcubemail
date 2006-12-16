@@ -13,7 +13,7 @@
  +-----------------------------------------------------------------------+
 
  $Id$
-
+ EN-Revision: 396
 */
 
 $labels = array();
@@ -97,8 +97,14 @@ $labels['replytoallmessage'] = '送信者とすべての受信者に返信する
 $labels['forwardmessage']   = 'メッセージを転送する';
 $labels['deletemessage']    = 'ごみ箱にメッセージを移動する';
 $labels['printmessage']     = 'このメッセージを印刷する';
+$labels['previousmessage']  = '前のメッセージを表示する';
 $labels['previousmessages'] = '前のメッセージセットを表示する';
+$labels['firstmessage']     = 'はじめのメッセージを表示する';
+$labels['firstmessages']    = 'はじめのメッセージセットを表示する';
+$labels['nextmessage']      = '次のメッセージを表示する';
 $labels['nextmessages']     = '次のメッセージセットを表示する';
+$labels['lastmessage']      = '最後のメッセージを表示する';
+$labels['lastmessages']     = '最後のメッセージセットを表示する';
 $labels['backtolist']       = 'メッセージ一覧に戻る';
 $labels['viewsource']       = 'ソースを表示する';
 
@@ -120,12 +126,13 @@ $labels['resetsearch']  = 'Reset search';
 
 
 // message compose
-$labels['compose']  = 'メッセージを作成する';
-$labels['savemessage']  = 'この草案を救いなさい';
-$labels['sendmessage']  = 'メッセージを今すぐ送信する';
+$labels['compose']        = 'メッセージを作成する';
+$labels['sendmessage']    = 'メッセージを今すぐ送信する';
+$labels['savemessage']  = 'この草案を保存する';
 $labels['addattachment']  = 'ファイルを添付する';
-$labels['charset']  = '文字エンコード';
-$labels['returnreceipt'] = 'Return receipt';
+$labels['charset']        = '文字エンコード';
+$labels['editortype']     = 'エディタの種類';
+$labels['returnreceipt']  = 'Return receipt';
 
 $labels['checkspelling'] = 'スペルの確認をする';
 $labels['resumeediting'] = '編集の中断をする';
@@ -144,6 +151,9 @@ $labels['highest'] = '最高';
 $labels['nosubject']  = '(件名なし)';
 $labels['showimages'] = '画像を表示する';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = '通常のテキスト';
+
 
 // address boook
 $labels['name']      = '表示名';
@@ -160,7 +170,6 @@ $labels['save']   = '保存する';
 $labels['delete'] = '削除する';
 
 $labels['newcontact']     = '新規連絡カードを作成する';
-$labels['addcontact']     = '選択した連絡先をアドレス帳に追加する';
 $labels['deletecontact']  = '選択した連絡先を削除する';
 $labels['composeto']      = '次にメールを作成する:';
 $labels['contactsfromto'] = '連絡先 $from から $to (合計: $count)';
@@ -168,7 +177,9 @@ $labels['print']          = '印刷する';
 $labels['export']         = 'エクスポートする';
 
 $labels['previouspage']   = '前のセットを表示する';
+$labels['firstpage']      = 'はじめのセットを表示する';
 $labels['nextpage']       = '次のセットを表示する';
+$labels['lastpage']       = '最後のセットを表示する';
 
 
 // LDAP search
@@ -202,6 +213,13 @@ $labels['timezone']  = 'タイムゾーン';
 $labels['pagesize']  = 'ページ辺りの行数';
 $labels['signature'] = '署名';
 $labels['dstactive']  = '夏時間';
+$labels['htmleditor'] = 'HTML メッセージを作成する';
+$labels['htmlsignature'] = 'HTML の署名';
+$labels['previewpane'] = 'プレビューペインを表示する';
+
+$labels['autosavedraft']  = '自動的に草稿を保存する';
+$labels['everynminutes']  = ' $n 分毎';
+$labels['never']  = 'never';
 
 $labels['folder']  = 'フォルダー';
 $labels['folders']  = 'フォルダー一覧';
