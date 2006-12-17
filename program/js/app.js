@@ -26,6 +26,7 @@ function rcube_webmail()
   this.buttons = new Object();
   this.gui_objects = new Object();
   this.commands = new Object();
+  this.onloads = new Array();
 
   // create public reference to myself
   rcube_webmail_client = this;
@@ -77,13 +78,17 @@ function rcube_webmail()
     this.buttons[command][this.buttons[command].length] = button_prop;    
     };
 
-
   // register a specific gui object
   this.gui_object = function(name, id)
     {
     this.gui_objects[name] = id;
     };
-
+  
+  // execute the given script on load
+  this.add_onload = function(f)
+    {
+      this.onloads[this.onloads.length] = f;
+    };
 
   // initialize webmail client
   this.init = function()
@@ -101,7 +106,7 @@ function rcube_webmail()
     // find all registered gui objects
     for (var n in this.gui_objects)
       this.gui_objects[n] = rcube_find_object(this.gui_objects[n]);
-      
+
     // tell parent window that this frame is loaded
     if (this.env.framed && parent.rcmail && parent.rcmail.set_busy)
       parent.rcmail.set_busy(false);
@@ -293,6 +298,16 @@ function rcube_webmail()
 
     // start keep-alive interval
     this.start_keepalive();
+    
+    
+    // execute all foreign onload scripts
+    for (var i=0; i<this.onloads.length; i++)
+      {
+      if (typeof(this.onloads[i]) == 'string')
+        eval(this.onloads[i]);
+      else if (typeof(this.onloads[i]) == 'function')
+        this.onloads[i]();
+      }
     };
 
 
@@ -678,7 +693,7 @@ function rcube_webmail()
           this.show_message(this.env.next_uid, false, this.env.action=='preview');
         break;
 
-	  case 'lastmessage':
+      case 'lastmessage':
         if (this.env.last_uid)
           this.show_message(this.env.last_uid);
         break;
@@ -1209,6 +1224,7 @@ function rcube_webmail()
       add_url += '&_refresh=1';
       this.env.current_page = page;
       this.message_list.clear_selection();
+      this.show_messageframe(false);
       }
     
     // also send search request to get the right messages
@@ -1324,17 +1340,16 @@ function rcube_webmail()
     else
       {
       var selection = this.message_list.get_selection();
-      var id;
-      for (var n=0; n<selection.length; n++)
+      for (var n=0, id; n<selection.length; n++)
         {
         id = selection[n];
         a_uids[a_uids.length] = id;
         this.message_list.remove_row(id);
         }
 
-      this.message_list.select_next();
+        this.show_messageframe(false);
       }
-      
+
     var lock = false;
 
     // show wait message

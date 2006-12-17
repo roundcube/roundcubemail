@@ -272,7 +272,7 @@ get_next_row: function()
     return false;
 
   var last_selected_row = this.rows[this.last_selected];
-  var new_row = last_selected_row && last_selected_row.obj.nextSibling;
+  var new_row = last_selected_row ? last_selected_row.obj.nextSibling : null;
   while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none'))
     new_row = new_row.nextSibling;
 
@@ -285,7 +285,7 @@ get_prev_row: function()
     return false;
 
   var last_selected_row = this.rows[this.last_selected];
-  var new_row = last_selected_row && last_selected_row.obj.previousSibling;
+  var new_row = last_selected_row ? last_selected_row.obj.previousSibling : null;
   while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none'))
     new_row = new_row.previousSibling;
 

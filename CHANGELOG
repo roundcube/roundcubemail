@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/12/17 (thomasb)
+----------
+- Added patch by Ryan Rittenhouse & David Glick for a resizeable preview pane
+
+
 2006/12/06 (thomasb)
 ----------
 - Improve memory usage when sending mail (closes #1484098)

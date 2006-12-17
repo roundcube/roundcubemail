@@ -530,6 +530,33 @@ function rcube_get_object_pos(obj)
 
   return {x:iX, y:iY};
   }
+
+
+/**
+ * Return the currently applied value of a css property
+ *
+ * @param {Object} html_element  Node reference
+ * @param {String} css_property  Property name to read in Javascript notation (eg. 'textAlign')
+ * @param {String} mozilla_equivalent  Equivalent property name in CSS notation (eg. 'text-align')
+ * @return CSS property value
+ * @type String
+ */
+function get_elements_computed_style(html_element, css_property, mozilla_equivalent)
+  {
+  if (arguments.length==2)
+    mozilla_equivalent = css_property;
+
+  var el = html_element;
+  if (typeof(html_element)=='string')
+    el = nex_get_object(html_element);
+
+  if (el && el.currentStyle)
+    return el.currentStyle[css_property];
+  else if (el && document.defaultView && document.defaultView.getComputedStyle)
+    return document.defaultView.getComputedStyle(el, null).getPropertyValue(mozilla_equivalent);
+  else
+    return false;
+  }
   
 
 // cookie functions by GoogieSpell
@@ -542,6 +569,8 @@ function setCookie(name, value, expires, path, domain, secure)
       (secure ? "; secure" : "");
   document.cookie = curCookie;
   }
+
+roundcube_browser.prototype.set_cookie = setCookie;
 
 function getCookie(name)
   {
@@ -560,6 +589,8 @@ function getCookie(name)
     end = dc.length;
   return unescape(dc.substring(begin + prefix.length, end));
   }
+
+roundcube_browser.prototype.get_cookie = getCookie;
 
 
 var bw = new roundcube_browser();

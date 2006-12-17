@@ -213,6 +213,25 @@ a.button-logout
   border: 1px solid #CCCCCC;
 }
 
+.splitter
+{
+  position: absolute;
+  padding: 2px;
+  background: url(images/dimple.png) center no-repeat;
+}
+
+.splitter-h
+{
+  cursor: n-resize;
+  background-position: center 2px;
+}
+
+.splitter-v
+{
+  cursor: e-resize;
+  background-position: 1px center;
+}
+
 
 /***** common table settings ******/
 

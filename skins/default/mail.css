@@ -123,7 +123,7 @@
 #mailpreviewframe
 {
   position: absolute;
-  top: 300px;
+  top: 305px;
   left: 200px;
   right: 40px;
   bottom: 40px;
@@ -131,7 +131,7 @@
   background-color: #F9F9F9;
   /* css hack for IE */
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-340)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-135-document.getElementById('mailcontframe').offsetHeight)+'px');
 }
 
 #messagecontframe

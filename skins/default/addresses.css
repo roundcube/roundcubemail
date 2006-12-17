@@ -70,9 +70,22 @@
   border: 1px solid #999999;
   overflow: hidden;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-530)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-80-document.getElementById('addresslist').offsetWidth)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
 }
+
+
+#addressviewsplitter
+{
+  background-position: 6px center;
+}
+
+#addressviewsplitter .splitterLine
+{
+  margin-left: 3px;
+  width: 9px;
+}
+
 
 body.iframe,
 #contact-frame
