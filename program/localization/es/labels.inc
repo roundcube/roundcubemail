@@ -167,15 +167,6 @@ $labels['name']      = 'Nombre completo';
 $labels['firstname'] = 'Nombre';
 $labels['surname']   = 'Apellido';
 $labels['email']     = 'Correo';
-$labels['homephone']     = 'Telefo Casa';
-$labels['workphone']     = 'Telefono Trabajo';
-$labels['cellphone']     = 'Telefono Celular';
-$labels['faxphone']     = 'Número Fax';
-$labels['address1']     = 'Dirección 1';
-$labels['address2']     = 'Dirección 2';
-$labels['city']     = 'Ciudad';
-$labels['state']     = 'Estado';
-$labels['zip']     = 'Código Postal';
 
 $labels['edit']   = 'Editar';
 $labels['cancel'] = 'Cancelar';
