@@ -108,7 +108,7 @@ function iml_GetPartArray($a, $part){
 		}
 		//echo "s - part: $part rest: $rest array: ".implode(" ", $a)."<br>\n";
 		if (is_array($a[$part-1])) return $a[$part-1];
-		else return false;
+		else return $a;
 	}else if (($part==0) || (empty($part))){
 		return $a;
 	}

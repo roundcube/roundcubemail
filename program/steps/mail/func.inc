@@ -1004,6 +1004,18 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
       }
     }
 
+  // message is single part non-text
+  else
+    {
+    if (($fname = $structure->d_parameters['filename']) ||
+        ($fname = $structure->ctype_parameters['name']) ||
+        ($fname = $structure->headers['content-description']))
+      {
+      $structure->filename = rcube_imap::decode_mime_string($fname);
+      $a_attachments[] = $structure;
+      }
+    }
+
   return array($a_return_parts, $a_attachments);
   }
 
