@@ -634,7 +634,7 @@ function rcmail_messagecount_display($attrib)
 
 function rcmail_quota_display($attrib)
   {
-  global $IMAP, $OUTPUT, $JS_OBJECT_NAME, $COMM_PATH;
+  global $OUTPUT, $JS_OBJECT_NAME, $COMM_PATH;
 
   if (!$attrib['id'])
     $attrib['id'] = 'rcmquotadisplay';
@@ -642,7 +642,18 @@ function rcmail_quota_display($attrib)
   $OUTPUT->add_script(sprintf("%s.gui_object('quotadisplay', '%s');", $JS_OBJECT_NAME, $attrib['id']));
 
   // allow the following attributes to be added to the <span> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
+  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'display'));
+
+  $out = '<span' . $attrib_str . '>';
+  $out .= rcmail_quota_content($attrib['display']);
+  $out .= '</span>';
+  return $out;
+  }
+
+
+function rcmail_quota_content($display)
+  {
+  global $IMAP, $COMM_PATH;
 
   if (!$IMAP->get_capability('QUOTA'))
     $quota_text = rcube_label('unknown');
@@ -654,9 +665,9 @@ function rcmail_quota_display($attrib)
                           $quota["percent"]);
 
     // show quota as image (by Brett Patterson)
-    if ($attrib['display'] == 'image' && function_exists('imagegif'))
+    if ($display == 'image' && function_exists('imagegif'))
       {
-      $attrib += array('width' => 100, 'height' => 14);
+      $attrib = array('width' => 100, 'height' => 14);
       $quota_text = sprintf('<img src="%s&amp;_action=quotaimg&amp;u=%s&amp;q=%d&amp;w=%d&amp;h=%d" width="%d" height="%d" alt="%s" title="%s / %s" />',
                             $COMM_PATH,
                             $quota['used'], $quota['total'],
@@ -669,12 +680,8 @@ function rcmail_quota_display($attrib)
     }
   else
     $quota_text = rcube_label('unlimited');
-    
 
-  $out = '<span' . $attrib_str . '>';
-  $out .= $quota_text;
-  $out .= '</span>';
-  return $out;
+  return $quota_text;
   }
 
 

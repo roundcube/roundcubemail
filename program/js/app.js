@@ -3040,10 +3040,14 @@ function rcube_webmail()
     };
 
   // replace content of quota display
-   this.set_quota = function(text)
+   this.set_quota = function()
      {
-     if (this.gui_objects.quotadisplay)
-       this.gui_objects.quotadisplay.innerHTML = text;
+     if (this.gui_objects.quotadisplay &&
+         this.gui_objects.quotadisplay.attributes.getNamedItem('display') &&
+         this.gui_objects.quotadisplay.attributes.getNamedItem('id'))
+       this.http_request('quotadisplay', '_display='+
+         this.gui_objects.quotadisplay.attributes.getNamedItem('display').nodeValue+
+         '&_id='+this.gui_objects.quotadisplay.attributes.getNamedItem('id').nodeValue, false);
      };
 
 
