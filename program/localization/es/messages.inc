@@ -120,9 +120,5 @@ $messages['converting'] = 'Removiendo el formato del mensaje...';
 
 $messages['messageopenerror'] = 'No puedo descargar el mensaje del servidor';
 
-$messages['nopassword'] = "Favor de entrar su nueva contraseña.";
-
-$messages['passwordinconsistency'] = "Inconsistencia en la contraseña, favor de entrarla nuevamente.";
-
 ?>
 

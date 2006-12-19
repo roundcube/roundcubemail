@@ -25,8 +25,8 @@
 $labels = array();
 
 // login page
-$labels['welcome']   = '$product';
-$labels['username']  = 'Dirección de Correo';
+$labels['welcome']   = 'Bienvenido a $product';
+$labels['username']  = 'Nombre de usuario';
 $labels['password']  = 'Contraseña';
 $labels['server']    = 'Servidor';
 $labels['login']     = 'Entrar';
@@ -241,9 +241,5 @@ $labels['managefolders']  = 'Administrar bandejas';
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc']  = 'Orden ascendente';
 $labels['sortdesc'] = 'Orden descendente';
-
-$labels['changepasswd']  = 'Cambiar Contraseña';
-$labels['newpasswd']  = 'Nueva Contraseña';
-$labels['confpasswd']  = 'Confirmar Nueva Contraseña';
 
 ?>
