@@ -447,25 +447,26 @@ function rcmail_compose_body($attrib)
       $lang_set = "googie.setLanguages(".array2js($CONFIG['spellcheck_languages']).");\n";
     
     $OUTPUT->include_script('googiespell.js');
-    $OUTPUT->add_script(sprintf("var googie = new GoogieSpell('\$__skin_path/images/googiespell/','%s&_action=spell&lang=');\n".
-                                "googie.lang_chck_spell = \"%s\";\n".
-                                "googie.lang_rsm_edt = \"%s\";\n".
-                                "googie.lang_close = \"%s\";\n".
-                                "googie.lang_revert = \"%s\";\n".
-                                "googie.lang_no_error_found = \"%s\";\n%s".
-                                "googie.setCurrentLanguage('%s');\n".
-                                "googie.decorateTextarea('%s');\n".
-                                "%s.set_env('spellcheck', googie);",
-                                $GLOBALS['COMM_PATH'],
-                                rep_specialchars_output(rcube_label('checkspelling')),
-                                rep_specialchars_output(rcube_label('resumeediting')),
-                                rep_specialchars_output(rcube_label('close')),
-                                rep_specialchars_output(rcube_label('revertto')),
-                                rep_specialchars_output(rcube_label('nospellerrors')),
-                                $lang_set,
-                                substr($_SESSION['user_lang'], 0, 2),
-                                $attrib['id'],
-                                $JS_OBJECT_NAME), 'foot');
+    $OUTPUT->add_script(sprintf(
+      "var googie = new GoogieSpell('\$__skin_path/images/googiespell/','%s&_action=spell&lang=');\n".
+      "googie.lang_chck_spell = \"%s\";\n".
+      "googie.lang_rsm_edt = \"%s\";\n".
+      "googie.lang_close = \"%s\";\n".
+      "googie.lang_revert = \"%s\";\n".
+      "googie.lang_no_error_found = \"%s\";\n%s".
+      "googie.setCurrentLanguage('%s');\n".
+      "googie.decorateTextarea('%s');\n".
+      "%s.set_env('spellcheck', googie);",
+      $GLOBALS['COMM_PATH'],
+      JQ(Q(rcube_label('checkspelling'))),
+      JQ(Q(rcube_label('resumeediting'))),
+      JQ(Q(rcube_label('close'))),
+      JQ(Q(rcube_label('revertto'))),
+      JQ(Q(rcube_label('nospellerrors'))),
+      $lang_set,
+      substr($_SESSION['user_lang'], 0, 2),
+      $attrib['id'],
+      $JS_OBJECT_NAME), 'foot');
 
     rcube_add_label('checking');
     }
@@ -552,10 +553,10 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">From: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">To: </th><td>%s</td></tr>" .
         "</tbody></table><br>",
-                     rep_specialchars_output($MESSAGE['subject']),
-                     rep_specialchars_output($MESSAGE['headers']->date),
-                     rep_specialchars_output($IMAP->decode_header($MESSAGE['headers']->from)),
-                     rep_specialchars_output($IMAP->decode_header($MESSAGE['headers']->to)));
+                     Q($MESSAGE['subject']),
+                     Q($MESSAGE['headers']->date),
+                     Q($IMAP->decode_header($MESSAGE['headers']->from)),
+                     Q($IMAP->decode_header($MESSAGE['headers']->to)));
   }
 
   // add attachments
@@ -692,9 +693,9 @@ function rcmail_compose_attachment_list($attrib)
                       $id,
                       $JS_OBJECT_NAME,
                       $id,
-                      rcube_label('delete'), 
+                      Q(rcube_label('delete')),
                       $button,
-                      rep_specialchars_output($a_prop['name']));
+                      Q($a_prop['name']));
     }
 
   $OUTPUT->add_script(sprintf("%s.gui_object('attachmentlist', '%s');", $JS_OBJECT_NAME, $attrib['id']));  
@@ -895,7 +896,7 @@ if ($DB->num_rows($sql_result))
   $a_contacts = array();
   while ($sql_arr = $DB->fetch_assoc($sql_result))
     if ($sql_arr['email'])
-      $a_contacts[] = format_email_recipient($sql_arr['email'], rep_specialchars_output($sql_arr['name'], 'js'));
+      $a_contacts[] = format_email_recipient($sql_arr['email'], JQ($sql_arr['name']));
   
   $OUTPUT->add_script(sprintf("$JS_OBJECT_NAME.set_env('contacts', %s);", array2js($a_contacts)));
   }

@@ -127,7 +127,7 @@ function rcube_identity_form($attrib)
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $attrib['id'],
-                    rep_specialchars_output(rcube_label($label)),
+                    Q(rcube_label($label)),
                     $value);
     }
 

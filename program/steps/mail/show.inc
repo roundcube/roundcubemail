@@ -150,11 +150,10 @@ function rcmail_remote_objects_msg($attrib)
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
   $out = '<div' . $attrib_str . ">";
   
-  $out .= rep_specialchars_output(sprintf('%s&nbsp;<a href="#loadimages" onclick="%s.command(\'load-images\')" title="%s">%s</a>',
-                                  rcube_label('blockedimages'),
-                                  $JS_OBJECT_NAME,
-                                  rcube_label('showimages'),
-                                  rcube_label('showimages')));
+  $out .= sprintf('%s&nbsp;<a href="#loadimages" onclick="%s.command(\'load-images\')">%s</a>',
+                  Q(rcube_label('blockedimages')),
+                  $JS_OBJECT_NAME,
+                  Q(rcube_label('showimages')));
   
   $out .= '</div>';
   

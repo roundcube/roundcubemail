@@ -119,7 +119,7 @@ function rcmail_js_contacts_list($sql_result, $obj_name='this')
     // format each col
     foreach ($a_show_cols as $col)
       {
-      $cont = rep_specialchars_output($sql_arr[$col]);
+      $cont = Q($sql_arr[$col]);
       $a_row_cols[$col] = $cont;
       }
   

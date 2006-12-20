@@ -60,7 +60,7 @@ function rcmail_user_prefs_form($attrib)
   
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('language')),
+                    Q(rcube_label('language')),
                     $select_lang->show($sess_user_lang));
     }
 
@@ -106,7 +106,7 @@ function rcmail_user_prefs_form($attrib)
   
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('timezone')),
+                    Q(rcube_label('timezone')),
                     $select_timezone->show($CONFIG['timezone']));
     }
 
@@ -117,7 +117,7 @@ function rcmail_user_prefs_form($attrib)
     $input_dst = new checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('dstactive')),
+                    Q(rcube_label('dstactive')),
                     $input_dst->show($CONFIG['dst_active']));
     }
 
@@ -129,7 +129,7 @@ function rcmail_user_prefs_form($attrib)
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('pagesize')),
+                    Q(rcube_label('pagesize')),
                     $input_pagesize->show($CONFIG['pagesize']));
     }
 
@@ -141,7 +141,7 @@ function rcmail_user_prefs_form($attrib)
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('prettydate')),
+                    Q(rcube_label('prettydate')),
                     $input_prettydate->show($CONFIG['prettydate']?1:0));
     }
 
@@ -153,7 +153,7 @@ function rcmail_user_prefs_form($attrib)
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('preferhtml')),
+                    Q(rcube_label('preferhtml')),
                     $input_pagesize->show($CONFIG['prefer_html']?1:0));
     }
 
@@ -164,7 +164,7 @@ function rcmail_user_prefs_form($attrib)
     $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('htmleditor')),
+                    Q(rcube_label('htmleditor')),
                     $input_htmleditor->show($CONFIG['htmleditor']?1:0));
     }
 
@@ -175,7 +175,7 @@ function rcmail_user_prefs_form($attrib)
     $input_preview = new checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('previewpane')),
+                    Q(rcube_label('previewpane')),
                     $input_preview->show($CONFIG['preview_pane']?1:0));
     }
                   
@@ -189,7 +189,7 @@ function rcmail_user_prefs_form($attrib)
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    rep_specialchars_output(rcube_label('autosavedraft')),
+                    Q(rcube_label('autosavedraft')),
                     $select_autosave->show($CONFIG['draft_autosave']));
     }
 

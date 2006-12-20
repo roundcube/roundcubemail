@@ -734,7 +734,7 @@ function show_message($message, $type='notice', $vars=NULL)
   
   $framed = $GLOBALS['_framed'];
   $command = sprintf("display_message('%s', '%s');",
-                     rep_specialchars_output(rcube_label(array('name' => $message, 'vars' => $vars)), 'js'),
+                     JQ(rcube_label(array('name' => $message, 'vars' => $vars))),
                      $type);
                      
   if ($REMOTE_REQUEST)
@@ -854,7 +854,7 @@ function rcube_add_label()
     $OUTPUT->add_script(sprintf("%s.add_label('%s', '%s');",
                                 $JS_OBJECT_NAME,
                                 $name,
-                                rep_specialchars_output(rcube_label($name), 'js')));  
+                                JQ(rcube_label($name))));
   }
 
 
@@ -897,8 +897,15 @@ function rcmail_message_cache_gc()
   }
 
 
-// convert a string from one charset to another
-// this function is not complete and not tested well
+/**
+ * Convert a string from one charset to another.
+ * Uses mbstring and iconv functions if possible
+ *
+ * @param  string Input string
+ * @param  string Suspected charset of the input string
+ * @param  string Target charset to convert to; defaults to $GLOBALS['CHARSET']
+ * @return Converted string
+ */
 function rcube_charset_convert($str, $from, $to=NULL)
   {
   global $MBSTRING;
@@ -953,12 +960,19 @@ function rcube_charset_convert($str, $from, $to=NULL)
   }
 
 
-
-// replace specials characters to a specific encoding type
+/**
+ * Replacing specials characters to a specific encoding type
+ *
+ * @param  string  Input string
+ * @param  string  Encoding type: text|html|xml|js|url
+ * @param  string  Replace mode for tags: show|replace|remove
+ * @param  boolean Convert newlines
+ * @return The quoted string
+ */
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
   global $OUTPUT_TYPE, $OUTPUT;
-  static $html_encode_arr, $js_rep_table, $rtf_rep_table, $xml_rep_table;
+  static $html_encode_arr, $js_rep_table, $xml_rep_table;
 
   if (!$enctype)
     $enctype = $GLOBALS['OUTPUT_TYPE'];
@@ -1000,21 +1014,18 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     return $newlines ? nl2br($out) : $out;
     }
 
-
   if ($enctype=='url')
     return rawurlencode($str);
 
-
-  // if the replace tables for RTF, XML and JS are not yet defined
+  // if the replace tables for XML and JS are not yet defined
   if (!$js_rep_table)
     {
-    $js_rep_table = $rtf_rep_table = $xml_rep_table = array();
+    $js_rep_tabl = $xml_rep_table = array();
     $xml_rep_table['&'] = '&amp;';
 
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
       {
       $hex = dechex($c);
-      $rtf_rep_table[Chr($c)] = "\\'$hex";
       $xml_rep_table[Chr($c)] = "&#$c;";
       
       if ($OUTPUT->get_charset()=='ISO-8859-1')
@@ -1025,7 +1036,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $xml_rep_table['"'] = '&quot;';
     }
 
-  // encode for RTF
+  // encode for XML
   if ($enctype=='xml')
     return strtr($str, $xml_rep_table);
 
@@ -1038,12 +1049,26 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     return addslashes(preg_replace(array("/\r\n/", "/\r/"), array('\n', '\n'), strtr($str, $js_rep_table)));
     }
 
-  // encode for RTF
-  if ($enctype=='rtf')
-    return preg_replace("/\r\n/", "\par ", strtr($str, $rtf_rep_table));
-
   // no encoding given -> return original string
   return $str;
+  }
+
+/**
+ * Quote a given string. Alias function for rep_specialchars_output
+ * @see rep_specialchars_output
+ */
+function Q($str, $mode='strict', $newlines=TRUE)
+  {
+  return rep_specialchars_output($str, 'html', $mode, $newlines);
+  }
+
+/**
+ * Quote a given string. Alias function for rep_specialchars_output
+ * @see rep_specialchars_output
+ */
+function JQ($str, $mode='strict', $newlines=TRUE)
+  {
+  return rep_specialchars_output($str, 'js', $mode, $newlines);
   }
 
 
@@ -1248,7 +1273,7 @@ function rcube_xml_command($command, $str_attrib, $add_attrib=array())
     // show a label
     case 'label':
       if ($attrib['name'] || $attrib['command'])
-        return rep_specialchars_output(rcube_label($attrib));
+        return Q(rcube_label($attrib));
       break;
 
     // create a menu item
@@ -1331,7 +1356,7 @@ function rcube_xml_command($command, $str_attrib, $add_attrib=array())
       else if ($object=='productname')
         {
         $name = !empty($CONFIG['product_name']) ? $CONFIG['product_name'] : 'RoundCube Webmail';
-        return rep_specialchars_output($name, 'html', 'all');
+        return Q($name);
         }
       else if ($object=='version')
         {
@@ -1353,7 +1378,7 @@ function rcube_xml_command($command, $str_attrib, $add_attrib=array())
         else
           $title .= ucfirst($task);
           
-        return rep_specialchars_output($title, 'html', 'all');
+        return Q($title);
         }
 
       break;
@@ -1419,12 +1444,12 @@ function rcube_button($attrib)
 
   // get localized text for labels and titles
   if ($attrib['title'])
-    $attrib['title'] = rep_specialchars_output(rcube_label($attrib['title']));
+    $attrib['title'] = Q(rcube_label($attrib['title']));
   if ($attrib['label'])
-    $attrib['label'] = rep_specialchars_output(rcube_label($attrib['label']));
+    $attrib['label'] = Q(rcube_label($attrib['label']));
 
   if ($attrib['alt'])
-    $attrib['alt'] = rep_specialchars_output(rcube_label($attrib['alt']));
+    $attrib['alt'] = Q(rcube_label($attrib['alt']));
 
   // set title to alt attribute for IE browsers
   if ($BROWSER['ie'] && $attrib['title'] && !$attrib['alt'])
@@ -1537,12 +1562,11 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
   $table .= "<thead><tr>\n";
 
   foreach ($a_show_cols as $col)
-    $table .= '<td class="'.$col.'">' . rep_specialchars_output(rcube_label($col)) . "</td>\n";
+    $table .= '<td class="'.$col.'">' . Q(rcube_label($col)) . "</td>\n";
 
   $table .= "</tr></thead>\n<tbody>\n";
   
   $c = 0;
-
   if (!is_array($table_data)) 
     {
     while ($table_data && ($sql_arr = $DB->fetch_assoc($table_data)))
@@ -1554,8 +1578,8 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
       // format each col
       foreach ($a_show_cols as $col)
         {
-        $cont = rep_specialchars_output($sql_arr[$col]);
-	    $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
+        $cont = Q($sql_arr[$col]);
+        $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
         }
 
       $table .= "</tr>\n";
@@ -1573,8 +1597,8 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
       // format each col
       foreach ($a_show_cols as $col)
         {
-        $cont = rep_specialchars_output($row_data[$col]);
-	    $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
+        $cont = Q($row_data[$col]);
+        $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
         }
 
       $table .= "</tr>\n";

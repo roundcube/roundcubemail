@@ -49,16 +49,16 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     if (is_file($CONFIG['skin_path'] . '/images/icons/remove-attachment.png'))
       $button = sprintf('<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
                         $CONFIG['skin_path'],
-                        rcube_label('delete'));
+                        Q(rcube_label('delete')));
     else
-      $button = rcube_label('delete');
+      $button = Q(rcube_label('delete'));
 
     $content = sprintf('<a href="#delete" onclick="return %s.command(\\\'remove-attachment\\\', \\\'rcmfile%d\\\', this)" title="%s">%s</a>%s',
                        $JS_OBJECT_NAME,
                        $id,
-                       rcube_label('delete'),
-                       $button,
-                       rep_specialchars_output($_FILES['_attachments']['name'][$i], 'js'));
+                       JQ(Q(rcube_label('delete'))),
+                       JQ($button),
+                       JQ(Q($_FILES['_attachments']['name'][$i])));
 
     $response .= sprintf('parent.%s.add2attachment_list(\'rcmfile%d\',\'%s\');',
                          $JS_OBJECT_NAME,

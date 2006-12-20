@@ -51,7 +51,11 @@ if (!isset($_SESSION['sort_col']))
   $_SESSION['sort_col'] = $CONFIG['message_sort_col'];
 if (!isset($_SESSION['sort_order']))
   $_SESSION['sort_order'] = $CONFIG['message_sort_order'];
-  
+
+// set message set for search result
+if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
+  $IMAP->set_search_set($_SESSION['search'][$_GET['_search']]);
+
 
 // define url for getting message parts
 if (strlen($_GET['_uid']))
@@ -193,7 +197,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
         {
         $fname = abbrevate_string($foldername, $maxlength);
         if ($fname != $foldername)
-          $title = ' title="'.rep_specialchars_output($foldername, 'html', 'all').'"';
+          $title = ' title="'.Q($foldername).'"';
         $foldername = $fname;
         }
       }
@@ -215,7 +219,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $class_name = 'junk';
 
-    $js_name = htmlspecialchars(rep_specialchars_output($folder['id'], 'js'));
+    $js_name = htmlspecialchars(JQ($folder['id']));
     $out .= sprintf('<li id="rcmbx%s" class="mailbox %s %s%s%s"><a href="%s&amp;_mbox=%s"'.
                     ' onclick="return %s.command(\'list\',\'%s\')"'.
                     ' onmouseover="return %s.focus_mailbox(\'%s\')"' .            
@@ -237,7 +241,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     $JS_OBJECT_NAME,
                     $js_name,
                     $title,
-                    rep_specialchars_output($foldername, 'html', 'all'));
+                    Q($foldername));
 
     if (!empty($folder['folders']))
       $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox_name, $maxlength, $nestLevel+1) . "</ul>\n";
@@ -274,7 +278,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox_name, 
     $out .= sprintf('<option value="%s">%s%s</option>'."\n",
                     htmlspecialchars($folder['id']),
                     str_repeat('&nbsp;', $nestLevel*4),
-                    rep_specialchars_output($foldername, 'html', 'all'));
+                    Q($foldername));
 
     if (!empty($folder['folders']))
       $out .= rcmail_render_folder_tree_select($folder['folders'], $special, $mbox_name, $maxlength, $nestLevel+1);
@@ -340,7 +344,7 @@ function rcmail_message_list($attrib)
   foreach ($a_show_cols as $col)
     {
     // get column name
-    $col_name = rep_specialchars_output(rcube_label($col));
+    $col_name = Q(rcube_label($col));
 
     // make sort links
     $sort = '';
@@ -394,10 +398,9 @@ function rcmail_message_list($attrib)
   // no messages in this mailbox
   if (!sizeof($a_headers))
     {
-    $out .= rep_specialchars_output(
-				sprintf('<tr><td colspan="%d">%s</td></tr>',
-                   sizeof($a_show_cols)+2,
-                   rcube_label('nomessagesfound')));
+    $out .= sprintf('<tr><td colspan="%d">%s</td></tr>',
+                    sizeof($a_show_cols)+2,
+                    Q(rcube_label('nomessagesfound')));
     }
 
 
@@ -443,10 +446,10 @@ function rcmail_message_list($attrib)
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3, $attrib['addicon']));
+        $cont = Q(rcmail_address_string($header->$col, 3, $attrib['addicon']), 'show');
       else if ($col=='subject')
         {
-        $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
+        $cont = Q($IMAP->decode_header($header->$col));
         // firefox/mozilla temporary workaround to pad subject with content so that whitespace in rows responds to drag+drop
         $cont .= '<img src="./program/blank.gif" height="5" width="1000" alt="" />';
         }
@@ -455,9 +458,9 @@ function rcmail_message_list($attrib)
       else if ($col=='date')
         $cont = format_date($header->date); //date('m.d.Y G:i:s', strtotime($header->date));
       else
-        $cont = rep_specialchars_output($header->$col, 'html', 'all');
+        $cont = Q($header->$col);
         
-	  $out .= '<td class="'.$col.'">' . $cont . "</td>\n";
+      $out .= '<td class="'.$col.'">' . $cont . "</td>\n";
       }
 
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $attach_icon ? sprintf($image_tag, $skin_path, $attach_icon, '') : '');
@@ -530,15 +533,15 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = rep_specialchars_output(rcmail_address_string($header->$col, 3), 'html');
+        $cont = Q(rcmail_address_string($header->$col, 3), 'show');
       else if ($col=='subject')
-        $cont = rep_specialchars_output($IMAP->decode_header($header->$col), 'html', 'all');
+        $cont = Q($IMAP->decode_header($header->$col));
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')
         $cont = format_date($header->date); //date('m.d.Y G:i:s', strtotime($header->date));
       else
-        $cont = rep_specialchars_output($header->$col, 'html', 'all');
+        $cont = Q($header->$col);
           
       $a_msg_cols[$col] = $cont;
       }
@@ -642,7 +645,7 @@ function rcmail_quota_display($attrib)
   $OUTPUT->add_script(sprintf("%s.gui_object('quotadisplay', '%s');", $JS_OBJECT_NAME, $attrib['id']));
 
   // allow the following attributes to be added to the <span> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'display'));
+  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
 
   $out = '<span' . $attrib_str . '>';
   $out .= rcmail_quota_content($attrib['display']);
@@ -710,7 +713,7 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
                                               'to'    => min($max, $start_msg + $IMAP->page_size - 1),
                                               'count' => $max)));
 
-  return rep_specialchars_output($out);
+  return Q($out);
   }
 
 
@@ -757,13 +760,13 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
       $body = preg_replace($remote_patterns, $remote_replaces, $body);
       }
 
-    return rep_specialchars_output($body, 'html', '', FALSE);
+    return Q($body, 'show', FALSE);
     }
 
   // text/enriched
   if ($part->ctype_secondary=='enriched')
     {
-    return rep_specialchars_output(enriched_to_html($body), 'html');
+    return Q(enriched_to_html($body), 'show');
     }
   else
     {
@@ -812,7 +815,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
         $quotation = str_repeat("</blockquote>", $quote_level);
 
       $quote_level = $q;
-      $a_lines[$n] = $quotation . rep_specialchars_output($line, 'html', 'replace', FALSE);
+      $a_lines[$n] = $quotation . Q($line, 'replace', FALSE);
       }
 
     // insert the links for urls and mailtos
@@ -1066,12 +1069,12 @@ function rcmail_message_headers($attrib, $headers=NULL)
     if ($hkey=='date' && !empty($headers[$hkey]))
       $header_value = format_date(strtotime($headers[$hkey]));
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
-      $header_value = rep_specialchars_output(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']));
+      $header_value = Q(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']), 'show');
     else
-      $header_value = rep_specialchars_output($IMAP->decode_header($headers[$hkey]), '', 'all');
+      $header_value = Q($IMAP->decode_header($headers[$hkey]));
 
     $out .= "\n<tr>\n";
-    $out .= '<td class="header-title">'.rep_specialchars_output(rcube_label($hkey)).":&nbsp;</td>\n";
+    $out .= '<td class="header-title">'.Q(rcube_label($hkey)).":&nbsp;</td>\n";
     $out .= '<td class="'.$hkey.'" width="90%">'.$header_value."</td>\n</tr>";
     $header_count++;
     }
@@ -1384,7 +1387,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     {
     $j++;
     if ($PRINT_MODE)
-      $out .= sprintf('%s &lt;%s&gt;', rep_specialchars_output($part['name']), $part['mailto']);
+      $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
     else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto']))
       {
       $out .= sprintf('<a href="mailto:%s" onclick="return %s.command(\'compose\',\'%s\',this)" class="rcmContactAddress" title="%s">%s</a>',
@@ -1392,7 +1395,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
                       $JS_OBJECT_NAME,
                       $part['mailto'],
                       $part['mailto'],
-                      rep_specialchars_output($part['name']));
+                      Q($part['name']));
                       
       if ($addicon)
         $out .= sprintf('&nbsp;<a href="#add" onclick="return %s.command(\'add-contact\',\'%s\',this)" title="%s"><img src="%s%s" alt="add" border="0" /></a>',
@@ -1405,7 +1408,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     else
       {
       if ($part['name'])
-        $out .= rep_specialchars_output($part['name']);
+        $out .= Q($part['name']);
       if ($part['mailto'])
         $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', $part['mailto']);
       }
@@ -1442,15 +1445,15 @@ function rcmail_message_part_controls()
   if ($filename)
     {
     $out .= sprintf('<tr><td class="title">%s</td><td>%s</td><td>[<a href="./?%s">%s</a>]</tr>'."\n",
-                    rcube_label('filename'),
-                    rep_specialchars_output(rcube_imap::decode_mime_string($filename)),
+                    Q(rcube_label('filename')),
+                    Q(rcube_imap::decode_mime_string($filename)),
                     str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING']),
-                    rcube_label('download'));
+                    Q(rcube_label('download')));
     }
     
   if ($filesize)
     $out .= sprintf('<tr><td class="title">%s</td><td>%s</td></tr>'."\n",
-                    rcube_label('filesize'),
+                    Q(rcube_label('filesize')),
                     show_bytes($filesize));
   
   $out .= "\n</table>";

@@ -468,7 +468,7 @@ else
 
   rcmail_compose_cleanup();
   rcube_iframe_response(sprintf("parent.$JS_OBJECT_NAME.sent_successfully('%s');",
-                                rep_specialchars_output(rcube_label('messagesent'), 'js')));
+                                JQ(rcube_label('messagesent'))));
   }
 
 

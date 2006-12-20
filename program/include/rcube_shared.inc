@@ -133,7 +133,7 @@ class rcube_html_page
       $this->title = 'RoundCube Mail';
   
     // replace specialchars in content
-    $__page_title = rep_specialchars_output($this->title, 'html', 'show', FALSE);
+    $__page_title = Q($this->title, 'show', FALSE);
     $__page_header = $__page_body = $__page_footer = '';
     
     
@@ -725,7 +725,7 @@ class base_form_element
 
       // encode textarea content
       if ($key=='value')
-        $value = rep_specialchars_output($value, 'html', 'replace', FALSE);
+        $value = Q($value, 'strict', FALSE);
 
       // attributes with no value
       if (in_array($key, array('checked', 'multiple', 'disabled', 'selected')))
@@ -879,7 +879,7 @@ class textarea extends base_form_element
       unset($this->attrib['value']);
 
     if (strlen($value) && !isset($this->attrib['mce_editable']))
-      $value = rep_specialchars_output($value, 'html', 'replace', FALSE);
+      $value = Q($value, 'strict', FALSE);
 
     // return final tag
     return sprintf('<%s%s>%s</%s>%s',
@@ -1019,7 +1019,7 @@ class select extends base_form_element
                              $this->_conv_case('option', 'tag'),
                              strlen($option['value']) ? sprintf($value_str, $option['value']) : '',
                              $selected, 
-                             rep_specialchars_output($option['text'], 'html', 'replace', FALSE),
+                             Q($option['text'], 'strict', FALSE),
                              $this->_conv_case('option', 'tag'));
       }
                              

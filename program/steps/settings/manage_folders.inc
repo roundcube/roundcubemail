@@ -52,8 +52,8 @@ else if ($_action=='create-folder')
   if ($create && $REMOTE_REQUEST)
     {
     $commands = sprintf("this.add_folder_row('%s','%s')",
-                        rep_specialchars_output($create, 'js'),
-                        rep_specialchars_output(rcube_charset_convert($create, 'UTF-7'), 'js'));
+                        JQ($create),
+                        JQ(rcube_charset_convert($create, 'UTF-7')));
     rcube_remote_response($commands);
     }
   else if (!$create && $REMOTE_REQUEST)
@@ -74,9 +74,9 @@ else if ($_action=='rename-folder')
   if ($rename && $REMOTE_REQUEST)
     {
     $commands = sprintf("this.replace_folder_row('%s','%s','%s');\n",
-                        rep_specialchars_output(get_input_value('_folder_oldname', RCUBE_INPUT_GET), 'js'),
-                        rep_specialchars_output($rename, 'js'),
-                        rep_specialchars_output(rcube_charset_convert($rename, 'UTF-7'), 'js'));
+                        JQ(get_input_value('_folder_oldname', RCUBE_INPUT_GET)),
+                        JQ($rename),
+                        JQ(rcube_charset_convert($rename, 'UTF-7')));
 
     $commands .= "this.reset_folder_rename();\n";
                         
@@ -100,7 +100,7 @@ else if ($_action=='delete-folder')
 
   if ($REMOTE_REQUEST && $deleted)
     {
-    $commands = sprintf("this.remove_folder_row('%s');\n", rep_specialchars_output(get_input_value('_mboxes', RCUBE_INPUT_GET), 'js'));
+    $commands = sprintf("this.remove_folder_row('%s');\n", JQ(get_input_value('_mboxes', RCUBE_INPUT_GET)));
     $commands .= show_message('folderdeleted', 'confirmation');
     rcube_remote_response($commands);
     }
@@ -165,8 +165,8 @@ function rcube_subscription_form($attrib)
     $subscribed = in_array($folder, $a_subscribed);
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
-    $folder_js = rep_specialchars_output($folder, 'js');
-    $folder_js_enc = rep_specialchars_output(rcube_charset_convert($folder, 'UTF-7'), 'js');
+    $folder_js = JQ($folder);
+    $folder_js_enc = JQ(rcube_charset_convert($folder, 'UTF-7'));
     $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : rcube_charset_convert($folder, 'UTF-7');
     
     if (!$protected)
@@ -175,7 +175,7 @@ function rcube_subscription_form($attrib)
     $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td>',
                     $i+1,
                     $zebra_class,
-                    rep_specialchars_output($folder_html, 'html', 'all'));
+                    Q($folder_html));
                     
     if ($protected)
       $out .= '<td>&nbsp;'.($subscribed ? '&#x2022;' : '-').'</td>';
