@@ -150,7 +150,10 @@ function rcmail_compose_headers($attrib)
         }
     case 'bcc':
       if (!$fname)
+        {
         $fname = '_bcc';
+        $header = 'bcc';
+        }
         
       $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'wrap', 'tabindex');
       $field_type = 'textarea';            
