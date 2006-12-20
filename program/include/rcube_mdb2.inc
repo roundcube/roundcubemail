@@ -104,13 +104,14 @@ class rcube_db
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => $dbh->getMessage()), TRUE, FALSE);
       }
-
     else if ($this->db_provider=='sqlite')
       {
       $dsn_array = MDB2::parseDSN($dsn);
       if (!filesize($dsn_array['database']) && !empty($this->sqlite_initials))
         $this->_sqlite_create_database($dbh, $this->sqlite_initials);
       }
+    else
+      $dbh->setCharset('utf8');
 
     return $dbh;
     }
