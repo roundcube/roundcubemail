@@ -1710,7 +1710,7 @@ function format_date($date, $format=NULL)
 
   // define date format depending on current time  
   if ($CONFIG['prettydate'] && !$format && $timestamp > $today_limit)
-    return sprintf('%s %s', rcube_label('today'), date('H:i', $timestamp));
+    return sprintf('%s %s', rcube_label('today'), date($CONFIG['date_today'] ? $CONFIG['date_today'] : 'H:i', $timestamp));
   else if ($CONFIG['prettydate'] && !$format && $timestamp > $week_limit)
     $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
   else if (!$format)

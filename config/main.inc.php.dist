@@ -113,6 +113,9 @@ $rcmail_config['date_short'] = 'D H:i';
 // use this format for detailed date/time formatting
 $rcmail_config['date_long'] = 'd.m.Y H:i';
 
+// use this format for today's date display
+$rcmail_config['date_today'] = 'H:i';
+
 // add this user-agent to message headers when sending
 $rcmail_config['useragent'] = 'RoundCube Webmail/0.1b';
 
