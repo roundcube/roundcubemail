@@ -1020,7 +1020,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   // if the replace tables for XML and JS are not yet defined
   if (!$js_rep_table)
     {
-    $js_rep_tabl = $xml_rep_table = array();
+    $js_rep_table = $xml_rep_table = array();
     $xml_rep_table['&'] = '&amp;';
 
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
@@ -1032,7 +1032,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
         $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
       }
 
-    $js_rep_table['"'] = sprintf("\u%s%s", str_repeat('0', 4-strlen(dechex(34))), dechex(34));
     $xml_rep_table['"'] = '&quot;';
     }
 

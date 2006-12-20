@@ -56,9 +56,9 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     $content = sprintf('<a href="#delete" onclick="return %s.command(\\\'remove-attachment\\\', \\\'rcmfile%d\\\', this)" title="%s">%s</a>%s',
                        $JS_OBJECT_NAME,
                        $id,
-                       JQ(Q(rcube_label('delete'))),
-                       JQ($button),
-                       JQ(Q($_FILES['_attachments']['name'][$i])));
+                       Q(rcube_label('delete')),
+                       $button,
+                       Q($_FILES['_attachments']['name'][$i]));
 
     $response .= sprintf('parent.%s.add2attachment_list(\'rcmfile%d\',\'%s\');',
                          $JS_OBJECT_NAME,
