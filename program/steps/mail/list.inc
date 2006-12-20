@@ -40,20 +40,11 @@ else
   $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   }
-  
 
-// we have a saved search request
-if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
-  {
-  $a_msgs = split(',', $_SESSION['search'][$_GET['_search']]);
-  $a_headers = $IMAP->list_header_set($mbox_name, $a_msgs, NULL, $sort_col, $sort_order);
-  $count = count($a_msgs);
-  }
-else
-  {
-  if ($count = $IMAP->messagecount())
-    $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
-  }
+
+// fetch message headers
+if ($count = $IMAP->messagecount())
+  $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
 
 $unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
 

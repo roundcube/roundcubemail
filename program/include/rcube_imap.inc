@@ -5,7 +5,7 @@
  | program/include/rcube_imap.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -35,7 +35,7 @@ require_once('lib/mime.inc');
  *
  * @package    RoundCube Webmail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.34
+ * @version    1.36
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -60,6 +60,10 @@ class rcube_imap
   var $msg_headers = array();
   var $capabilities = array();
   var $skip_deleted = FALSE;
+  var $search_set = NULL;
+  var $search_subject = '';
+  var $search_string = '';
+  var $search_charset = '';
   var $debug_level = 1;
 
 
@@ -265,6 +269,36 @@ class rcube_imap
     {
     $this->page_size = (int)$size;
     }
+    
+
+  /**
+   * Save a set of message ids for future message listing methods
+   *
+   * @param  array  List of IMAP fields to search in
+   * @param  string Search string
+   * @param  array  List of message ids or NULL if empty
+   */
+  function set_search_set($subject, $str=null, $msgs=null, $charset=null)
+    {
+    if (is_array($subject) && $str == null && $msgs == null)
+      list($subject, $str, $msgs, $charset) = $subject;
+    if ($msgs != null && !is_array($msgs))
+      $msgs = split(',', $msgs);
+      
+    $this->search_subject = $subject;
+    $this->search_string = $str;
+    $this->search_set = is_array($msgs) ? $msgs : NULL;
+    $this->search_charset = $charset;
+    }
+
+
+  /**
+   * Return the saved search set as hash array
+   */
+  function get_search_set()
+    {
+    return array($this->search_subject, $this->search_string, $this->search_set, $this->search_charset);
+    }
 
 
   /**
@@ -402,6 +436,10 @@ class rcube_imap
 
     if (empty($mailbox))
       $mailbox = $this->mailbox;
+      
+    // count search set
+    if ($this->search_set && $mailbox == $this->mailbox && $mode == 'ALL')
+      return count($this->search_set);
 
     $a_mailbox_cache = $this->get_cache('messagecount');
     
@@ -481,7 +519,11 @@ class rcube_imap
     {
     if (!strlen($mailbox))
       return array();
-      
+
+    // use saved message set
+    if ($this->search_set && $mailbox == $this->mailbox)
+      return $this->_list_header_set($mailbox, $this->search_set, $page, $sort_field, $sort_order);
+
     if ($sort_field!=NULL)
       $this->sort_field = $sort_field;
     if ($sort_order!=NULL)
@@ -492,10 +534,10 @@ class rcube_imap
 
     list($begin, $end) = $this->_get_message_range($max, $page);
 
-  	// mailbox is empty
+    // mailbox is empty
     if ($begin >= $end)
       return array();
-
+      
     $headers_sorted = FALSE;
     $cache_key = $mailbox.'.msg';
     $cache_status = $this->check_cache_status($mailbox, $cache_key);
@@ -614,14 +656,14 @@ class rcube_imap
     $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
 
     // return empty array if no messages found
-	if (!is_array($a_msg_headers) || empty($a_msg_headers))
-		return array();
+    if (!is_array($a_msg_headers) || empty($a_msg_headers))
+      return array();
 
     // if not already sorted
     $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
 
-	// only return the requested part of the set
-	return array_slice(array_values($a_msg_headers), $start_msg, min($max-$start_msg, $this->page_size));
+    // only return the requested part of the set
+    return array_slice(array_values($a_msg_headers), $start_msg, min($max-$start_msg, $this->page_size));
     }
 
 
@@ -830,7 +872,19 @@ class rcube_imap
   function search($mbox_name='', $criteria='ALL', $str=NULL, $charset=NULL)
     {
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
-    if ($str && $criteria)
+
+    // have an array of criterias => execute multiple searches
+    if (is_array($criteria) && $str)
+      {
+      $results = array();
+      foreach ($criteria as $crit)
+        $results = array_merge($results, $this->search($mbox_name, $crit, $str, $charset));
+      
+      $results = array_unique($results);
+      $this->set_search_set($criteria, $str, $results, $charset);
+      return $results;
+      }
+    else if ($str && $criteria)
       {
       $search = (!empty($charset) ? "CHARSET $charset " : '') . sprintf("%s {%d}\r\n%s", $criteria, strlen($str), $str);
       $results = $this->_search_index($mailbox, $search);
@@ -839,6 +893,7 @@ class rcube_imap
       if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
         $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1');
       
+      $this->set_search_set($criteria, $str, $results, $charset);
       return $results;
       }
     else
@@ -865,6 +920,18 @@ class rcube_imap
       }
         
     return $a_messages;
+    }
+    
+  
+  /**
+   * Refresh saved search set
+   */
+  function refresh_search()
+    {
+    if (!empty($this->search_subject) && !empty($this->search_string))
+      $this->search_set = $this->search('', $this->search_subject, $this->search_string, $this->search_charset);
+      
+    return $this->get_search_set();
     }
 
 
@@ -1303,6 +1370,10 @@ class rcube_imap
       $this->_clear_messagecount($from_mbox);
       $this->_clear_messagecount($to_mbox);
       }
+      
+    // remove message ids from search set
+    if ($moved && $this->search_set && $from_mbox == $this->mailbox)
+      $this->search_set = array_diff($this->search_set, $a_mids);
 
     // update cached message headers
     $cache_key = $from_mbox.'.msg';
@@ -1311,8 +1382,8 @@ class rcube_imap
       $start_index = 100000;
       foreach ($a_uids as $uid)
         {
-        if(($index = array_search($uid, $a_cache_index)) !== FALSE)
-	  $start_index = min($index, $start_index);
+        if (($index = array_search($uid, $a_cache_index)) !== FALSE)
+          $start_index = min($index, $start_index);
         }
 
       // clear cache from the lowest index on
@@ -1351,6 +1422,10 @@ class rcube_imap
       $this->_expunge($mailbox, FALSE);
       $this->_clear_messagecount($mailbox);
       }
+
+    // remove message ids from search set
+    if ($moved && $this->search_set && $mailbox == $this->mailbox)
+      $this->search_set = array_diff($this->search_set, $a_mids);
 
     // remove deleted messages from cache
     $cache_key = $mailbox.'.msg';

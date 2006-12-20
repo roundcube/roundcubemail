@@ -59,10 +59,15 @@ else
   exit;
   }
 
+// refresh saved seach set after moving some messages
+if (($search_request = $_GET['_search']) && $IMAP->search_set)
+  $_SESSION['search'][$search_request] = $IMAP->refresh_search();
+
 
 // update message count display
-$pages = ceil($IMAP->messagecount()/$IMAP->page_size);
-$commands = sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
+$msg_count = $IMAP->messagecount();
+$pages = ceil($msg_count / $IMAP->page_size);
+$commands = sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($msg_count));
 $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 
 
@@ -78,12 +83,16 @@ $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
 // add new rows from next page (if any)
 if ($_GET['_from']!='show' && $pages>1 && $IMAP->list_page < $pages)
   {
-  $a_headers = $IMAP->list_headers($mbox, null, $_SESSION['sort_col'], $_SESSION['sort_order']);
+  $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
+  $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
+  
+  $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order);
   $a_headers = array_slice($a_headers, -$count, $count);
+
   $commands .= rcmail_js_message_list($a_headers);
   }
 
-  
+
 // send response
 rcube_remote_response($commands);
 
