@@ -12,7 +12,8 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Translator: Ervin Hegedüs <airween@damson.hu>                         |
  +-----------------------------------------------------------------------+
- + Translation updated by rezso <rezso@rezso.net> on 2006-09-19          +
+ + Translation updated by rezso <rezso@rezso.net> on 2006-12-18          +
+ + Thanks to dblaci <dblaci@dblaci.hu> for help.                         +
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -40,7 +41,6 @@ $labels['sent']   = 'Küldött';
 $labels['trash']  = 'Törölt';
 $labels['drafts'] = 'Piszkozatok';
 $labels['junk']   = 'Szemét';
-$labels['trash']  = 'Törölt';
 
 // message listing
 $labels['subject'] = 'Tárgy';
@@ -101,8 +101,14 @@ $labels['replytoallmessage'] = 'Válasz a feladónak és az összes címzettnek'
 $labels['forwardmessage']   = 'Továbbítás';
 $labels['deletemessage']    = 'Törlés';
 $labels['printmessage']     = 'Nyomtatás';
-$labels['previousmessages'] = 'Előző rész mutatása';
-$labels['nextmessages']     = 'Következő rész mutatása';
+$labels['previousmessage']  = 'Előző üzenet';
+$labels['previousmessages'] = 'Előző oldal';
+$labels['firstmessage']     = 'Első üzenet';
+$labels['firstmessages']    = 'Első oldal';
+$labels['nextmessage']      = 'Következő üzenet';
+$labels['nextmessages']     = 'Következő oldal';
+$labels['lastmessage']      = 'Utolsó üzenet';
+$labels['lastmessages']     = 'Utolsó oldal';
 $labels['backtolist']       = 'Vissza az üzenetekhez';
 $labels['viewsource']       = 'Forrás megtekintése';
 
@@ -116,7 +122,11 @@ $labels['empty'] = 'Ürítés';
 $labels['purge'] = 'Tisztítás';
 
 $labels['quota'] = 'Diszk használat';
+$labels['unknown'] = 'ismeretlen';
+$labels['unlimited'] = 'korlátlan';
 
+$labels['quicksearch'] = 'Gyorskeresés';
+$labels['resetsearch'] = 'Keresés törlése';
 
 // message compose
 $labels['compose']  = 'Üzenet létrehozása';
@@ -124,6 +134,12 @@ $labels['savemessage']  = 'Vázlat mentése';
 $labels['sendmessage']  = 'Üzenet azonnali küldése';
 $labels['addattachment']  = 'File csatolása';
 $labels['charset']  = 'Karakterkészlet';
+$labels['editortype']     = 'Szerkesztő típusa';
+$labels['returnreceipt']  = 'Értesítés a kézbesítésről';
+
+$labels['checkspelling'] = 'Helyesírásellenõrzés';
+$labels['resumeediting'] = 'Szerkesztés folytatása';
+$labels['revertto']      = 'Vissza';
 
 $labels['attachments'] = 'Csatolások';
 $labels['upload'] = 'Feltöltés';
@@ -138,6 +154,8 @@ $labels['highest'] = 'Legmagasabb';
 $labels['nosubject']  = '(nincs tárgy)';
 $labels['showimages'] = 'Képek megjelenítése';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Egyszerű szöveg';
 
 // address book
 $labels['name']      = 'Megjelenített név';
@@ -159,6 +177,11 @@ $labels['composeto']      = 'E-mail küldése erre a címre';
 $labels['contactsfromto'] = 'Kapcsolatok: $from - $to / $count';
 $labels['print']          = 'Nyomtatás';
 $labels['export']         = 'Exportálás';
+
+$labels['previouspage']   = 'Előző oldal';
+$labels['firstpage']      = 'Első oldal';
+$labels['nextpage']       = 'Következő oldal';
+$labels['lastpage']       = 'Utolsó oldal';
 
 // LDAP search
 $labels['ldapsearch'] = 'Keresés LDAP címtárban';
@@ -189,6 +212,14 @@ $labels['language']  = 'Nyelv';
 $labels['timezone']  = 'Időzóna';
 $labels['pagesize']  = 'Sorok száma egy oldalon';
 $labels['signature'] = 'Aláírás';
+$labels['dstactive'] = 'Nyári idõszámítás';
+$labels['htmleditor'] = 'HTML üzenet szerkesztése';
+$labels['htmlsignature'] = 'HTML aláírás';
+$labels['previewpane'] = 'Előnézet panel megjelenítése';
+
+$labels['autosavedraft'] = 'Piszkozat automatikus mentése';
+$labels['everynminutes'] = 'minden $n percben';
+$labels['never'] = 'soha';
 
 $labels['folder']  = 'Mappa';
 $labels['folders']  = 'Mappák';
@@ -196,6 +227,8 @@ $labels['foldername']  = 'Mappa neve';
 $labels['subscribed']  = 'Feliratkozás';
 $labels['create']  = 'Létrehozás';
 $labels['createfolder']  = 'Új mappa létrehozása';
+$labels['rename'] = 'Átnevezés';
+$labels['renamefolder'] = 'Mappa átnevezése';
 $labels['deletefolder']  = 'Mappa törlése';
 $labels['managefolders']  = 'Mappák kezelése';
 
