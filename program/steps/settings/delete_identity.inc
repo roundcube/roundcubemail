@@ -21,7 +21,7 @@
 
 $REMOTE_REQUEST = $_GET['_remote'] ? TRUE : FALSE;
 
-if ($_GET['_iid'])
+if ($_GET['_iid'] && preg_match('/^[0-9]+(,[0-9]+)*$/',$_GET['_iid']))
   {
   $DB->query("UPDATE ".get_table_name('identities')."
               SET    del=1

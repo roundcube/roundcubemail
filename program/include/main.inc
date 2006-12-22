@@ -450,6 +450,26 @@ function rcmail_login($user, $pass, $host=NULL)
   if (!$host)
     $host = $CONFIG['default_host'];
 
+  // Validate that selected host is in the list of configured hosts
+  if (is_array($CONFIG['default_host']))
+    {
+    $allowed = FALSE;
+    foreach ($CONFIG['default_host'] as $key => $host_allowed)
+      {
+      if (!is_numeric($key))
+        $host_allowed = $key;
+      if ($host == $host_allowed)
+        {
+        $allowed = TRUE;
+        break;
+        }
+      }
+    if (!$allowed)
+      return FALSE;
+    }
+  else if (!empty($CONFIG['default_host']) && $host != $CONFIG['default_host'])
+    return FALSE;
+
   // parse $host URL
   $a_host = parse_url($host);
   if ($a_host['host'])

@@ -152,8 +152,15 @@ html>body*#messagecontframe
 
 #messagepartframe
 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: auto;
+  height: auto;
   border: 1px solid #999999;
-  background-color: #F9F9F9;  
+  background-color: #F9F9F9;
 }
 
 

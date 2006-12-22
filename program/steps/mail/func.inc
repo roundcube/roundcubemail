@@ -739,7 +739,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
                                '/url\s*\(["\']?([\.\/]+[^"\'\s]+)["\']?\)/i',
                                '/<script.+<\/script>/Umis');
 
-      $remote_replaces = array('<img \\1src=\\2./program/blank.gif\\4',
+      $remote_replaces = array('<img \\1src=\\2./program/blocked.gif\\4',
                                '',
                                '',
                                '',
@@ -1210,7 +1210,8 @@ function rcmail_mod_html_body($body, $container_id)
     }
 
   // replace event handlers on any object
-  $body = preg_replace('/\s(on[a-z]+)=/im', ' __removed=', $body);  
+  $body = preg_replace('/\s(on[^=]+)=/im', ' __removed=', $body);  
+  $body = preg_replace('/\shref=["\']?(javascript:)/im', 'null:', $body);
 
   // resolve <base href>
   $base_reg = '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i';
@@ -1251,7 +1252,7 @@ function rcmail_alter_html_link($in)
   if (stristr((string)$attrib['href'], 'mailto:'))
     $attrib['onclick'] = sprintf("return %s.command('compose','%s',this)",
                                  $GLOBALS['JS_OBJECT_NAME'],
-                                 substr($attrib['href'], 7));
+                                 JQ(substr($attrib['href'], 7)));
   else if (!empty($attrib['href']) && $attrib['href']{0}!='#')
     $attrib['target'] = '_blank';
   

@@ -21,7 +21,7 @@
 
 $REMOTE_REQUEST = TRUE;
 
-if ($_GET['_cid'])
+if ($_GET['_cid'] && preg_match('/^[0-9]+(,[0-9]+)*$/',$_GET['_cid']))
   {
   $DB->query("UPDATE ".get_table_name('contacts')."
               SET    del=1

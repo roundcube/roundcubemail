@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/12/22 (thomasb)
+----------
+- Applied security patch to validate the submitted host value (by Kees Cook)
+- Applied security patch to validate input values when deleting contacts (by Kees Cook)
+- Applied security patch that sanitizes emoticon paths when attaching them (by Kees Cook)
+- Applied a patch to more aggressively sanitize a HTML message
+- Visualize blocked images in HTML messages
+
+
 2006/12/20 (thomasb)
 ----------
 - Fixed wrong message listing when showing search results (closes #1484131)

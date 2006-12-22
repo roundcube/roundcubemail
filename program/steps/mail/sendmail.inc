@@ -100,6 +100,8 @@ function rcmail_attach_emoticons(&$mime_message)
     $image_name = substr($body,
                          $pos + strlen($searchstr),
                          $pos2 - ($pos + strlen($searchstr)));
+    // sanitize image name so resulting attachment doesn't leave images dir
+    $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i','',$image_name);
 
     $body_post = substr($body, $pos2);
 
