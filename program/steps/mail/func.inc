@@ -1274,13 +1274,13 @@ function rcmail_mod_css_styles($source, $container_id)
     $source = substr($source, 0, $pos+1) . "<<str_replacement[$key]>>" . substr($source, $pos2, strlen($source)-$pos2);
     $last_pos = $pos+2;
     }
-  
-  $styles = preg_replace('/(^\s*|,\s*)([a-z0-9\._][a-z0-9\.\-_]*)/im', "\\1#$container_id \\2", $source);
-  $styles = preg_replace('/<<str_replacement\[([0-9]+)\]>>/e', "\$a_css_values[\\1]", $styles);
-  
-  // replace body definition because we also stripped off the <body> tag
-  $styles = preg_replace("/$container_id\s+body/i", "$container_id div.rcmBody", $styles);
-  
+
+  // remove html commends and add #container to each tag selector.
+  // also replace body definition because we also stripped off the <body> tag
+  $styles = preg_replace(array('/(^\s*<!--)|(-->\s*$)/', '/(^\s*|,\s*|\}\s*)([a-z0-9\._][a-z0-9\.\-_]*)/im', '/<<str_replacement\[([0-9]+)\]>>/e', "/$container_id\s+body/i"),
+                         array('', "\\1#$container_id \\2", "\$a_css_values[\\1]", "$container_id div.rcmBody"),
+                         $source);
+
   return $styles;
   }
 

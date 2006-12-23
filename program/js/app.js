@@ -671,7 +671,7 @@ function rcube_webmail()
         if (this.env.uid && props.mimetype && find_in_array(props.mimetype, this.mimetypes)>=0)
           {
           if (props.mimetype == 'text/html')
-            qstring += '&safe=1';
+            qstring += '&_safe=1';
           this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
           if (this.attachment_win)
             {

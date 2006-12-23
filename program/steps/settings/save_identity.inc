@@ -139,12 +139,12 @@ else
     {
     // show error message
     show_message('errorsaving', 'error');
-    rcmail_overwrite_action('edit-identitiy');
+    rcmail_overwrite_action('edit-identity');
     }
   }
 
 
 // go to next step
-rcmail_overwrite_action($_POST['_framed'] ? 'edit-identitiy' : 'identities');
+rcmail_overwrite_action($_POST['_framed'] ? 'edit-identity' : 'identities');
 
 ?>
