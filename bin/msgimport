@@ -1,0 +1,99 @@
+#!/usr/bin/php -qC 
+<?php
+
+$CWD = $INSTALL_PATH = preg_replace('/bin\/$/', '', getcwd() . '/');
+ini_set('include_path',  ini_get('include_path') . PATH_SEPARATOR . $CWD.'program/');
+
+require_once('include/rcube_shared.inc');
+require_once('include/rcube_imap.inc');
+require_once('include/main.inc');
+require_once('include/bugs.inc');
+
+/**
+ * Parse commandline arguments into a hash array
+ */
+function get_args($aliases=array())
+{
+	$args = array();
+	for ($i=1; $i<count($_SERVER['argv']); $i++)
+	{
+		$arg = $_SERVER['argv'][$i];
+		if (substr($arg, 0, 2) == '--')
+		{
+			$sp = strpos($arg, '=');
+			$key = substr($arg, 2, $sp - 2);
+			$value = substr($arg, $sp+1);
+		}
+		else if ($arg{0} == '-')
+		{
+			$key = substr($arg, 1);
+			$value = $_SERVER['argv'][++$i];
+		}
+		else
+			continue;
+
+		$args[$key] = preg_replace(array('/^["\']/', '/["\']$/'), '', $value);
+		
+		if ($alias = $aliases[$key])
+			$args[$alias] = $args[$key];
+	}
+
+	return $args;
+}
+
+
+// get arguments
+$args = get_args(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'f' => 'file'));
+
+if (!($args['host'] && $args['user'] && $args['pass'] && $args['file']))
+{
+	print "Missing required parameters.\n";
+	print "Usage:  msgimport -h imap-host -u user-name -p password -f message-file\n";
+	print "-host   IMAP host\n";
+	print "-user   IMAP user name\n";
+	print "-pass   IMAP password\n";
+	print "-file   Message file to upload\n";
+	exit;
+}
+else if (!is_file($args['file']))
+{
+	print "Cannot read message file\n";
+	exit;	
+}
+
+
+// parse $host URL
+$a_host = parse_url($args['host']);
+if ($a_host['host'])
+{
+	$host = $a_host['host'];
+	$imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
+	$imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
+}
+else
+{
+	$host = $args['host'];
+	$imap_port = 143;
+}
+
+// instantiate IMAP class
+$IMAP = new rcube_imap(null);
+
+// try to connect to IMAP server
+if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
+{
+	print "IMAP login successful.\n";
+	print "Uploading message...\n";
+	
+	// upload message from file
+	if  ($IMAP->save_message('INBOX', file_get_contents($args['file'])))
+		print "Message successfully added to INBOX.\n";
+	else
+		print "Adding message failed!\n";
+}
+else
+{
+	print "IMAP login failed.\n";
+}
+
+?>
