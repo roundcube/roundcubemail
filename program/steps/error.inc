@@ -63,6 +63,15 @@ http://$request_url</p>
 EOF;
   }
 
+// database connection error
+else if ($ERROR_CODE==0x01f4)
+  {
+  $__error_title = "DATABASE ERROR: CONNECTION FAILED!";
+  $__error_text  =  <<<EOF
+Unable to connect to the database!<br /> 
+Please contact your server-administrator. 
+EOF;
+  }
 
 // system error
 else
