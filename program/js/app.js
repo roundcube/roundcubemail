@@ -1091,13 +1091,13 @@ function rcube_webmail()
       {
       this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
       this.enable_command('delete', 'moveto', list.selection.length>0 ? true : false);
-
-      // start timer for message preview (wait for double click)
-      if (selected && this.env.contentframe)
-        this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
-      else if (this.env.contentframe)
-        this.show_messageframe(false);
       }
+
+    // start timer for message preview (wait for double click)
+    if (selected && this.env.contentframe)
+      this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
+    else if (this.env.contentframe)
+      this.show_messageframe(false);
     };
 
 
