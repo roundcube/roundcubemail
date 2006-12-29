@@ -46,12 +46,16 @@ if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_f
 $MESSAGE_FORM = NULL;
 $MESSAGE = NULL;
 
-// nothing below is called during message composition, only at "new/forward/reply/draft" initialization
-// since there are many ways to leave the compose page improperly, it seems necessary to clean-up an old
+// Nothing below is called during message composition, only at "new/forward/reply/draft" initialization or
+// if a compose-ID is given (i.e. when the compose step is opened in a new window/tab).
+// Since there are many ways to leave the compose page improperly, it seems necessary to clean-up an old
 // compose when a "new/forward/reply/draft" is called - otherwise the old session attachments will appear
 
-rcmail_compose_cleanup();
-$_SESSION['compose'] = array('id' => uniqid(rand()));
+if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_value('_id', RCUBE_INPUT_GET))
+  {
+  rcmail_compose_cleanup();
+  $_SESSION['compose'] = array('id' => uniqid(rand()));
+  }
 
 // add some labels to client
 rcube_add_label('nosubject', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved', 'converting');

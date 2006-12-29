@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2006/12/29 (thomasb)
+----------
+- Added error handling for attachment uploads
+- Use multibyte safe string functions where necessary (closes #1483988)
+- Updated Swiss German localization (de_CH)
+
+
 2006/12/22 (thomasb)
 ----------
 - Applied security patch to validate the submitted host value (by Kees Cook)

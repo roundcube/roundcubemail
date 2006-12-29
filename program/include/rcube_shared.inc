@@ -5,7 +5,7 @@
  | rcube_shared.inc                                                      |
  |                                                                       |
  | This file is part of the RoundCube PHP suite                          |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |
@@ -129,7 +129,7 @@ class rcube_html_page
     $output = empty($templ) ? $this->default_template : trim($templ);
     
     // set default page title
-    if (!strlen($this->title))
+    if (empty($this->title))
       $this->title = 'RoundCube Mail';
   
     // replace specialchars in content
@@ -158,7 +158,7 @@ class rcube_html_page
       }
    }
 
-    if (strlen($this->scripts['head']))
+    if (!empty($this->scripts['head']))
       $__page_header .= sprintf($this->script_tag, $this->scripts['head']);
           
     if (is_array($this->script_files['foot']))
@@ -167,7 +167,7 @@ class rcube_html_page
         $__page_footer .= sprintf($this->script_tag_file, $this->scripts_path, $file);
       }
 
-    if (strlen($this->scripts['foot']))
+    if (!empty($this->scripts['foot']))
       $__page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
       
     if ($this->footer)
@@ -176,13 +176,13 @@ class rcube_html_page
     $__page_header .= $this->css->show();
   
     // find page header
-    if($hpos = strpos(strtolower($output), '</head>'))
+    if($hpos = rc_strpos(rc_strtolower($output), '</head>'))
       $__page_header .= "\n";
     else 
       {
       if (!is_numeric($hpos))
-        $hpos = strpos(strtolower($output), '<body');
-      if (!is_numeric($hpos) && ($hpos = strpos(strtolower($output), '<html')))
+        $hpos = rc_strpos(rc_strtolower($output), '<body');
+      if (!is_numeric($hpos) && ($hpos = rc_strpos(rc_strtolower($output), '<html')))
         {
         while($output[$hpos]!='>')
         $hpos++;
@@ -194,30 +194,30 @@ class rcube_html_page
   
     // add page hader
     if($hpos)
-      $output = substr($output,0,$hpos) . $__page_header . substr($output,$hpos,strlen($output));
+      $output = rc_substr($output,0,$hpos) . $__page_header . rc_substr($output,$hpos,rc_strlen($output));
     else
       $output = $__page_header . $output;
   
   
     // find page body
-    if($bpos = strpos(strtolower($output), '<body'))
+    if($bpos = rc_strpos(rc_strtolower($output), '<body'))
       {
       while($output[$bpos]!='>') $bpos++;
       $bpos++;
       }
     else
-      $bpos = strpos(strtolower($output), '</head>')+7;
+      $bpos = rc_strpos(rc_strtolower($output), '</head>')+7;
   
     // add page body
     if($bpos && $__page_body)
-      $output = substr($output,0,$bpos) . "\n$__page_body\n" . substr($output,$bpos,strlen($output));
+      $output = rc_substr($output,0,$bpos) . "\n$__page_body\n" . rc_substr($output,$bpos,rc_strlen($output));
   
   
     // find and add page footer
-    $output_lc = strtolower($output);
+    $output_lc = rc_strtolower($output);
     if(($fpos = strrstr($output_lc, '</body>')) ||
        ($fpos = strrstr($output_lc, '</html>')))
-      $output = substr($output,0,$fpos) . "$__page_footer\n" . substr($output,$fpos);
+      $output = rc_substr($output,0,$fpos) . "$__page_footer\n" . rc_substr($output,$fpos);
     else
       $output .= "\n$__page_footer";
   
@@ -878,7 +878,7 @@ class textarea extends base_form_element
     if (isset($this->attrib['value']))
       unset($this->attrib['value']);
 
-    if (strlen($value) && !isset($this->attrib['mce_editable']))
+    if (!empty($value) && !isset($this->attrib['mce_editable']))
       $value = Q($value, 'strict', FALSE);
 
     // return final tag
@@ -1012,12 +1012,12 @@ class select extends base_form_element
     
     foreach ($this->options as $option)
       {
-      $selected = ((strlen($option['value']) && in_array($option['value'], $select, TRUE)) ||
+      $selected = ((!empty($option['value']) && in_array($option['value'], $select, TRUE)) ||
                    (in_array($option['text'], $select, TRUE))) ? $this->_conv_case(' selected', 'attrib') : '';
                   
       $options_str .= sprintf("<%s%s%s>%s</%s>\n",
                              $this->_conv_case('option', 'tag'),
-                             strlen($option['value']) ? sprintf($value_str, $option['value']) : '',
+                             !empty($option['value']) ? sprintf($value_str, $option['value']) : '',
                              $selected, 
                              Q($option['text'], 'strict', FALSE),
                              $this->_conv_case('option', 'tag'));
@@ -1104,7 +1104,7 @@ function rcube_label($attrib)
   $nr = is_numeric($attrib['nr']) ? $attrib['nr'] : 1;
   $vars = isset($attrib['vars']) ? $attrib['vars'] : '';
 
-  $command_name = strlen($attrib['command']) ? $attrib['command'] : NULL;
+  $command_name = !empty($attrib['command']) ? $attrib['command'] : NULL;
   $alias = $attrib['name'] ? $attrib['name'] : ($command_name && $command_label_map[$command_name] ? $command_label_map[$command_name] : '');
 
 
@@ -1277,7 +1277,7 @@ function array2js($arr, $type='')
             $is_string = false;
             $value = $value ? "true" : "false";
             }
-          else if ((($type=='mixed' && is_numeric($value)) || $type=='int') && strlen($value)<16)   // js interprets numbers with digits >15 as ...e+... 
+          else if ((($type=='mixed' && is_numeric($value)) || $type=='int') && rc_strlen($value)<16)   // js interprets numbers with digits >15 as ...e+... 
             $is_string = FALSE;
           else
             $is_string = TRUE;
@@ -1334,6 +1334,32 @@ function get_boolean($str)
   }
 
 
+// parse a human readable string for a number of bytes
+function parse_bytes($str)
+  {
+  if (is_numeric($str))
+    return intval($str);
+    
+  if (preg_match('/([0-9]+)([a-z])/i', $str, $regs))
+    {
+      $bytes = floatval($regs[1]);
+      switch (strtolower($regs[2]))
+      {
+        case 'g':
+          $bytes *= 1073741824;
+          break;
+        case 'm':
+          $bytes *= 1048576;
+          break;
+        case 'k':
+          $bytes *= 1024;
+          break;
+      }
+    }
+
+  return intval($bytes);
+  }
+    
 // create a human readable string for a number of bytes
 function show_bytes($bytes)
   {
@@ -1393,17 +1419,63 @@ function make_absolute_url($path, $base_url)
     }
 
 
+// wrapper function for strlen
+function rc_strlen($str)
+  {
+    if (function_exists('mb_strlen'))
+      return mb_strlen($str);
+    else
+      return strlen($str);
+  }
+  
+// wrapper function for strtolower
+function rc_strtolower($str)
+  {
+    if (function_exists('mb_strtolower'))
+      return mb_strtolower($str);
+    else
+      return strtolower($str);
+  }
+
+// wrapper function for substr
+function rc_substr($str, $start, $len)
+  {
+  if (function_exists('mb_substr'))
+    return mb_substr($str, $start, $len);
+  else
+    return substr($str, $start, $len);
+  }
+
+// wrapper function for strpos
+function rc_strpos($haystack, $needle, $offset=0)
+  {
+  if (function_exists('mb_strpos'))
+    return mb_strpos($haystack, $needle, $offset);
+  else
+    return strpos($haystack, $needle, $offset);
+  }
+
+// wrapper function for strrpos
+function rc_strrpos($haystack, $needle, $offset=0)
+  {
+  if (function_exists('mb_strrpos'))
+    return mb_strrpos($haystack, $needle, $offset);
+  else
+    return strrpos($haystack, $needle, $offset);
+  }
+
+
 // replace the middle part of a string with ...
 // if it is longer than the allowed length
 function abbrevate_string($str, $maxlength, $place_holder='...')
   {
-  $length = strlen($str);
-  $first_part_length = floor($maxlength/2) - strlen($place_holder);
+  $length = rc_strlen($str);
+  $first_part_length = floor($maxlength/2) - rc_strlen($place_holder);
   
   if ($length > $maxlength)
     {
     $second_starting_location = $length - $maxlength + $first_part_length + 1;
-    $str = substr($str, 0, $first_part_length) . $place_holder . substr($str, $second_starting_location, $length);
+    $str = rc_substr($str, 0, $first_part_length) . $place_holder . rc_substr($str, $second_starting_location, $length);
     }
 
   return $str;

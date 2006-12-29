@@ -114,4 +114,8 @@ $messages['converting'] = 'Removing formatting from message...';
 
 $messages['messageopenerror'] = 'Could not load message from server';
 
+$messages['fileuploaderror'] = 'File upload failed';
+
+$messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size';
+
 ?>

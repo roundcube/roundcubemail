@@ -132,6 +132,7 @@ $labels['savemessage']  = 'Nachricht speichern';
 $labels['sendmessage']  = 'Nachricht jetzt senden';
 $labels['addattachment']  = 'Datei anfügen';
 $labels['charset']  = 'Zeichensatz';
+$labels['editortype'] = 'Editor-Typ';
 $labels['returnreceipt'] = 'Empfangsbestätigung';
 
 $labels['checkspelling'] = 'Rechtschreibung prüfen';
@@ -150,6 +151,9 @@ $labels['highest'] = 'Höchste';
 
 $labels['nosubject']  = '(kein Betreff)';
 $labels['showimages'] = 'Bilder anzeigen';
+
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Klartext';
 
 
 // address book // Adressbuch
@@ -174,7 +178,9 @@ $labels['print']          = 'Drucken';
 $labels['export']         = 'Exportieren';
 
 $labels['previouspage']   = 'Eine Seite zurück';
+$labels['firstpage']      = 'Erste Seite';
 $labels['nextpage']       = 'Nächste Seite';
+$labels['lastpage']      = 'Letzte Seite';
 
 // LDAP search
 $labels['ldapsearch'] = 'LDAP Verzeichnis-Suche';

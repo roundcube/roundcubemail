@@ -400,7 +400,7 @@ function load_gui()
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT, $MBSTRING;
+  global $OUTPUT, $CHARSET, $MBSTRING;
   static $s_mbstring_loaded = NULL;
   
   // settings for mbstring module (by Tadashi Jokagi)
@@ -408,6 +408,9 @@ function rcmail_set_locale($lang)
     $MBSTRING = $s_mbstring_loaded = extension_loaded("mbstring");
   else
     $MBSTRING = $s_mbstring_loaded = FALSE;
+    
+  if ($MBSTRING)
+    mb_internal_encoding($CHARSET);
 
   $OUTPUT->set_charset(rcube_language_prop($lang, 'charset'));
   }

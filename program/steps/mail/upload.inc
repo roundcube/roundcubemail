@@ -65,6 +65,16 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
                          $id,
                          $content);
     }
+  else // upload failed
+    {
+    $err = $_FILES['_attachments']['error'][$i];
+    if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE)
+      $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
+    else
+      $msg = rcube_label('fileuploaderror');
+    
+    $response = sprintf("parent.%s.display_message('%s', 'error');", $JS_OBJECT_NAME, JQ($msg));
+    }
   }
 
 
