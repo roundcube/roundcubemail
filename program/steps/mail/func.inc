@@ -1210,8 +1210,12 @@ function rcmail_mod_html_body($body, $container_id)
     }
 
   // replace event handlers on any object
-  $body = preg_replace('/\s(on[^=]+)=/im', ' __removed=', $body);  
-  $body = preg_replace('/\shref=["\']?(javascript:)/im', 'null:', $body);
+  while ($body != $prev_body)
+    {
+    $prev_body = $body;
+    $body = preg_replace('/(<[^!][^>]*?\s)(on\w+?)(=[^>]*?>)/im', '$1__removed=$3', $body);
+    $body = preg_replace('/(<[^!][^>]*?\shref=["\']?)(javascript:)([^>]*?>)/im', '$1null:$3', $body);
+    }
 
   // resolve <base href>
   $base_reg = '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i';
