@@ -1193,7 +1193,8 @@ function rcmail_mod_html_body($body, $container_id)
     // replace all css definitions with #container [def]
     $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id);
 
-    $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);    
+    $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
+    $body_lc = strtolower($body);
     $last_style_pos = $pos2;
     }
 
@@ -1203,7 +1204,7 @@ function rcmail_mod_html_body($body, $container_id)
     {
     while (($pos = strpos($body_lc, '<'.$tag)) && ($pos2 = strpos($body_lc, '</'.$tag.'>', $pos)))
       {
-      $pos2 += 8;
+      $pos2 += strlen('</'.$tag.'>');
       $body = substr($body, 0, $pos) . substr($body, $pos2, strlen($body)-$pos2);
       $body_lc = strtolower($body);
       }
