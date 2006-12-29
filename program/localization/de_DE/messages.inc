@@ -67,5 +67,7 @@ $messages['folderdeleted'] = 'Ordner erfolgreich gelöscht';
 $messages['deletedsuccessfully'] = 'Erfolgreich gelöscht.';
 $messages['converting'] = 'Entferne Formatierung von Nachricht...';
 $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen werden';
+$messages['fileuploaderror'] = 'Datei hochladen fehlgeschlagen';
+$messages['filesizeerror'] = 'Die hochgeladene Datei ist zu groß für die Maximalgröße von $size';
 
 ?>
