@@ -65,4 +65,7 @@ $messages['folderdeleted'] = 'Kausta kustutamine õnnestus';
 $messages['deletedsuccessfully'] = 'Edukalt kustutatud';
 $messages['converting'] = 'Kirjast vorminduse eemaldamine...';
 $messages['messageopenerror'] = 'Kirjade serverist laadimine ebaõnnestus';
+$messages['fileuploaderror'] = 'Faili üleslaadimine ebaõnnestus';
+$messages['filesizeerror'] = 'Üleslaetava faili suurus ületab maksimaalse suuruse $size';
+
 ?>
