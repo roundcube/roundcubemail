@@ -1088,9 +1088,9 @@ function Q($str, $mode='strict', $newlines=TRUE)
  * Quote a given string. Alias function for rep_specialchars_output
  * @see rep_specialchars_output
  */
-function JQ($str, $mode='strict', $newlines=TRUE)
+function JQ($str)
   {
-  return rep_specialchars_output($str, 'js', $mode, $newlines);
+  return rep_specialchars_output($str, 'js');
   }
 
 
