@@ -4,7 +4,7 @@ CHANGELOG RoundCube Webmail
 2007/01/07 (thomasb)
 ----------
 - Applied patch for preview caching (closes #1484186)
-- Added Thai localization files
+- Added Thai and Vietnamese localization files
 
 2006/12/29 (thomasb)
 ----------
