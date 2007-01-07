@@ -63,6 +63,7 @@
 	'sk'    => 'Slovak',
 	'sr'    => 'Serbian',
 	'tr'    => 'Turkish',
+	'th'    => 'Thai',
 	'vn'    => 'Vietnamese'
 );
 
