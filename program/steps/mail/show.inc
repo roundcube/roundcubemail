@@ -23,8 +23,11 @@ require_once('Mail/mimeDecode.php');
 
 $PRINT_MODE = $_action=='print' ? TRUE : FALSE;
 
-// allow this request to be cached
-send_future_expire_header();
+// allow caching, unless remote images are present
+if ((bool)get_input_value('_safe', RCUBE_INPUT_GET))
+  send_nocacheing_headers();
+else
+  send_future_expire_header();
 
 // similar code as in program/steps/mail/get.inc
 if ($_GET['_uid'])
