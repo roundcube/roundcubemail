@@ -973,7 +973,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
       else if ($mail_part->disposition=='attachment' || $mail_part->disposition=='inline' || $mail_part->headers['content-id'] ||
                (empty($mail_part->disposition) && ($mail_part->d_parameters['filename'] || $mail_part->ctype_parameters['name'])))
         {
-        // skip apple ressource files
+        // skip apple resource forks
         if ($message_ctype_secondary=='appledouble' && $secondary_type=='applefile')
           continue;
 
@@ -994,7 +994,6 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
           }
         }
       }
-
 
     // if this was a related part try to resolve references
     if ($message_ctype_secondary=='related' && sizeof($sa_inline_objects))

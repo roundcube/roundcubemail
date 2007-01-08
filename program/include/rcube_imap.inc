@@ -1121,7 +1121,7 @@ class rcube_imap
     
   
   /**
-   * Return a flat array with references to all parts, indexed by part numbmers
+   * Return a flat array with references to all parts, indexed by part numbers
    *
    * @param object Message body structure
    * @return Array with part number -> object pairs

@@ -1,10 +1,16 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/01/07 (estadtherr)
+----------
+- Fixed display of HTML message attachments (closes #1484178)
+
+
 2007/01/07 (thomasb)
 ----------
 - Applied patch for preview caching (closes #1484186)
 - Added Thai and Vietnamese localization files
+
 
 2006/12/29 (thomasb)
 ----------

@@ -88,15 +88,20 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
     if ($ctype_primary=='text' && $ctype_secondary=='html')
       {
       // we have to analyze the whole structure again to find inline objects
-      list($MESSAGE['parts']) = rcmail_parse_message($MESSAGE['structure'],
-                                                     array('safe' => (bool)$_GET['_safe'],
-                                                           'prefer_html' => TRUE,
-                                                           'get_url' => $GET_URL.'&_part=%s'));
-      $part = &$MESSAGE['parts'][0];
+      list($new_parts, $new_attachments) =
+        rcmail_parse_message($MESSAGE['structure'],
+                             array('safe' => (bool)$_GET['_safe'],
+                                   'prefer_html' => TRUE,
+                                   'get_url' => $GET_URL.'&_part=%s'));
+
+      $all_parts = array_merge($new_parts, $new_attachments);
+      for ($partix = 0; $partix < sizeof($all_parts); $partix++)
+        if ($all_parts[$partix]->mime_id == $pid)
+          $part = &$all_parts[$partix];
 
       // get part body if not available
       if (!$part->body)
-        $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);      
+        $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);
 
       $OUTPUT = new rcube_html_page();
       $OUTPUT->write(rcmail_print_body($part, (bool)$_GET['_safe']));
@@ -104,7 +109,6 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
     else
       {
       // turn off output buffering and print part content
-      //@ob_end_clean();
       $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part->encoding, true);
       }
 
