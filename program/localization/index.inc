@@ -42,6 +42,7 @@
 	'el'    => 'Greek',
 	'hr'	=> 'Hrvatski',
 	'hu'    => 'Hungarian',
+	'id_ID'	=> 'Indonesian',
 	'it'    => 'Italiano',
 	'ja'    => 'Japanese (日本語)',
 	'kr'    => 'Korean',
