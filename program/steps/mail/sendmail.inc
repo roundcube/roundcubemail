@@ -301,12 +301,11 @@ $msg_body = $MAIL_MIME->get($message_param);
 // unset to save memory.
 unset($MAIL_MIME->_parts);
 
-$msg_subject = $headers['Subject'];
-
 if ($MBSTRING && function_exists("mb_encode_mimeheader"))
 {
-  mb_internal_encoding($CHARSET);
+  mb_internal_encoding($message_charset);
   $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
+  mb_internal_encoding($CHARSET);
 }
 
 // Begin SMTP Delivery Block 
@@ -358,9 +357,9 @@ if (!$savedraft) {
     $header_str = $MAIL_MIME->txtHeaders($headers_php);
   
     if (ini_get('safe_mode'))
-      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
+      $sent = mail($headers_enc['To'], $headers['Subject'], $msg_body, $header_str);
     else
-      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
+      $sent = mail($headers_enc['To'], $headers['Subject'], $msg_body, $header_str, "-f$from");
     }
   
   
