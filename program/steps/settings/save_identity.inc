@@ -5,7 +5,7 @@
  | program/steps/settings/save_identity.inc                              |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -22,6 +22,7 @@
 $a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature');
 $a_html_cols = array('signature');
 $a_boolean_cols = array('standard', 'html_signature');
+$updated = $default_id = false;
 
 // check input
 if (empty($_POST['_name']) || empty($_POST['_email']))
@@ -40,12 +41,10 @@ if ($_POST['_iid'])
   foreach ($a_save_cols as $col)
     {
     $fname = '_'.$col;
-    if (!isset($_POST[$fname]))
-      continue;
-
-    $a_write_sql[] = sprintf("%s=%s",
-                             $DB->quoteIdentifier($col),
-                             $DB->quote(get_input_value($fname, RCUBE_INPUT_POST, in_array($col, $a_html_cols))));
+    if (isset($_POST[$fname]))
+      $a_write_sql[] = sprintf("%s=%s",
+        $DB->quoteIdentifier($col),
+        $DB->quote(get_input_value($fname, RCUBE_INPUT_POST, in_array($col, $a_html_cols))));
     }
 
   // set "off" values for checkboxes that were not checked, and therefore
@@ -54,20 +53,19 @@ if ($_POST['_iid'])
     {
     $fname = '_' . $col;
     if (!isset($_POST[$fname]))
-      {
       $a_write_sql[] = sprintf("%s=0", $DB->quoteIdentifier($col));
-      }
     }
 
   if (sizeof($a_write_sql))
     {
-    $DB->query("UPDATE ".get_table_name('identities')."
-                SET ".join(', ', $a_write_sql)."
-                WHERE  identity_id=?
-                AND    user_id=?
-                AND    del<>1",
-                get_input_value('_iid', RCUBE_INPUT_POST),
-                $_SESSION['user_id']);
+    $DB->query(
+      "UPDATE ".get_table_name('identities')."
+       SET ".join(', ', $a_write_sql)."
+       WHERE  identity_id=?
+       AND    user_id=?
+       AND    del<>1",
+      get_input_value('_iid', RCUBE_INPUT_POST),
+      $_SESSION['user_id']);
                        
     $updated = $DB->affected_rows();
     }
@@ -75,16 +73,9 @@ if ($_POST['_iid'])
   if ($updated)
     {
     show_message('successfullysaved', 'confirmation');
-
-    // mark all other identities as 'not-default'
+    
     if (!empty($_POST['_standard']))
-      $DB->query("UPDATE ".get_table_name('identities')."
-                  SET ".$DB->quoteIdentifier('standard')."='0'
-                  WHERE  user_id=?
-                  AND    identity_id<>?
-                  AND    del<>1",
-                  $_SESSION['user_id'],
-                  get_input_value('_iid', RCUBE_INPUT_POST));
+      $default_id = get_input_value('_iid', RCUBE_INPUT_POST);
     
     if ($_POST['_framed'])
       {
@@ -97,6 +88,7 @@ if ($_POST['_iid'])
     // show error message
     show_message('errorsaving', 'error');
     rcmail_overwrite_action('edit-identitiy');
+    return;
     }
   }
 
@@ -129,6 +121,9 @@ else
     {
     $_GET['_iid'] = $insert_id;
 
+    if (!empty($_POST['_standard']))
+      $default_id = $insert_id;
+
     if ($_POST['_framed'])
       {
       // add contact row or jump to the page where it should appear
@@ -140,9 +135,21 @@ else
     // show error message
     show_message('errorsaving', 'error');
     rcmail_overwrite_action('edit-identity');
+    return;
     }
   }
 
+
+// mark all other identities as 'not-default'
+if ($default_id)
+  $DB->query(
+    "UPDATE ".get_table_name('identities')."
+     SET ".$DB->quoteIdentifier('standard')."='0'
+     WHERE  user_id=?
+     AND    identity_id<>?
+     AND    del<>1",
+    $_SESSION['user_id'],
+    $default_id);
 
 // go to next step
 rcmail_overwrite_action($_POST['_framed'] ? 'edit-identity' : 'identities');
