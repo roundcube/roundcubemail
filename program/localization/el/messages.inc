@@ -1,86 +1,108 @@
 <?php
 
 /*
- +------------------------------------------------------------------------------+
- | language/el/messages.inc                                                     |
- |                                                                              |
- | Language file of the RoundCube Webmail client                                |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                             |
- | Licensed under the GNU GPL                                                   |
- |                                                                              |
- +------------------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                               |
- +------------------------------------------------------------------------------+
- | Greek Translation: Panormitis Petrou <panormitis@gmx.net>                    |
- +------------------------------------------------------------------------------+
- 
+ +-----------------------------------------------------------------------+
+ | language/el/messages.inc                                              |
+ |                                                                       |
+ | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005-2207, RoundCube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Jim Deves<jim@cobaltblue.gr>                                  |
+ +-----------------------------------------------------------------------+
+
  $Id$
 
 */
 
 $messages = array();
 
-$messages['loginfailed']  = 'Η είσοδος απέτυχε';
+$messages['loginfailed']  = 'Είσοδος Απέτυχε';
 
-$messages['cookiesdisabled'] = 'Ο φυλλομετρητής σας δεν υποστηρίζει cookies';
+$messages['cookiesdisabled'] = 'Ο φυλλομετρητής σας (browser) δεν αποδέχεται cookies';
 
-$messages['sessionerror'] = 'Η σύνοδος σας δεν είναι έγκυρη ή έχει λήξει';
+$messages['sessionerror'] = 'Η συνεδρία σας είναι άκυρη ή έχει λήξη';
 
-$messages['imaperror'] = 'Η σύνδεση με τον διακομιστή IMAP απέτυχε';
+$messages['imaperror'] = 'Η σύνδεση με το διακομιστή IMAP απέτυχε';
 
-$messages['nomessagesfound'] = 'Δεν βρέθηκαν μηνύματα σε αυτό το γραμματοκιβώτιο';
+$messages['nomessagesfound'] = 'Δε βρέθηκαν μηνύματα σε αυτή τη θυρίδα';
 
-$messages['loggedout'] = 'Έχετε αποσυνδεθεί επιτυχώς. Αντίο!';
+$messages['loggedout'] = 'Έχετε τερματίσει επιτυχώς τη συνεδρία. Αντίο!';
 
-$messages['mailboxempty'] = 'Το γραμματοκιβώτιο είναι άδειο';
+$messages['mailboxempty'] = 'Η θυρίδα είναι άδεια';
 
 $messages['loading'] = 'Φόρτωση...';
 
 $messages['loadingdata'] = 'Φόρτωση δεδομένων...';
 
-$messages['checkingmail'] = 'Έλεγχος για τα νέα μηνύματα...';
+$messages['checkingmail'] = 'Έλεγχος για νέα μηνύματα...';
 
 $messages['sendingmessage'] = 'Αποστολή μηνύματος...';
 
-$messages['messagesent'] = 'Το μήνυμα στάλθηκε επιτυχώς';
+$messages['messagesent'] = 'Μήνυμα εστάλη επιτυχώς';
 
-$messages['savingmessage'] = 'Μήνυμα αποταμίευσης...';
+$messages['savingmessage'] = 'Αποθήκευση μηνύματος...';
 
-$messages['messagesaved'] = 'Μήνυμα που σώζεται στα σχέδια';
+$messages['messagesaved'] = 'Μήνυμα αποθηκεύτηκε στα Πρόχειρα';
 
 $messages['successfullysaved'] = 'Αποθηκεύτηκε επιτυχώς';
 
-$messages['addedsuccessfully'] = 'Η επαφή προστέθηκε επιτυχώς στο βιβλίο διευθύνσεων';
+$messages['addedsuccessfully'] = 'Η επαφή προστέθηκε επιτυχώς στο Βιβλίο Διευθύνσεων';
 
 $messages['contactexists'] = 'Υπάρχει ήδη επαφή με αυτή τη διεύθυνση e-mail';
 
-$messages['blockedimages'] = 'Για τη δική σας προστασία, έχουν μπλοκαριστεί οι απομακρυσμένες εικόνες που έχει αυτό το μήνυμα.';
+$messages['blockedimages'] = 'Για να προστατευτεί το απόρρητό σας, οι απομακρυσμένες εικόνες έχουν απενεργοποιηθεί σε αυτό το μήνυμα.';
 
-$messages['encryptedmessage'] = 'Αυτό είναι ένα κρυπτογραφημένο μήνυμα και δεν μπορεί να εμφανιστεί. Συγνώμη!';
+$messages['encryptedmessage'] = 'Αυτό το μήνυμα είναι κρυπτογραφημένο και δε μπορεί να προβληθεί. Συγνώμη!';
 
-$messages['noemailwarning']    = 'Παρακαλώ εισάγετε μια έγκυρη διεύθυνση e-mail';
+$messages['nocontactsfound'] = 'Δε βρέθηκαν επαφές';
 
-$messages['nonamewarning']     = 'Παρακαλώ εισάγετε ένα όνομα';
+$messages['sendingfailed'] = 'Αποστολή μηνύματος απέτυχε';
 
-$messages['nopagesizewarning'] = 'Παρακαλώ εισάγετε ένα μέγεθος σελίδας';
+$messages['errorsaving'] = 'Παρουσιάστηκε σφάλμα κατά την αποθήκευση';
 
-$messages['formincomplete']    = 'Η φόρμα δεν συμπληρώθηκε τελείως';
+$messages['errormoving'] = 'Το μήνυμα δε μπορούσε να μετακινηθεί';
 
-$messages['norecipientwarning'] = 'Παρακαλώ εισάγετε τουλάχιστον έναν παραλήπτη';
+$messages['errordeleting'] = 'Το μήνυμα δε μπορούσε να διαγραφεί';
 
-$messages['nosubjectwarning']  = 'Το πεδίο "Θέμα" είναι άδειο. Θέλετε να το πληκτρολογήσετε τώρα;';
+$messages['deletecontactconfirm']  = 'Θέλετε να διαγράψετε τη συγκεκριμένη επαφή/επαφές;';
 
-$messages['nobodywarning'] = 'Θέλετε να στείλετε αυτό το μήνυμα χωρίς κείμενο';
+$messages['deletefolderconfirm']  = 'Θέλετε να διαγράψετε το συγκεκριμένο φάκελο;';
 
-$messages['nocontactsfound'] = 'Δεν βρέθηκαν επαφές';
+$messages['purgefolderconfirm']  = 'Θέλετε να διαγράψετε όλα τα μηνύματα στο συγκεκριμένο φάκελο;';
 
-$messages['sendingfailed'] = 'Η αποστολή του μηνύματος απέτυχε';
+$messages['formincomplete'] = 'Η φόρμα δεν έχει συμπληρωθεί πλήρως';
 
-$messages['errorsaving'] = 'Εμφανίστηκε ένα σφάλμα κατά την αποθήκευση';
+$messages['noemailwarning'] = 'Παρακαλώ εισάγεται έγκυρη διεύθυνση email';
 
-$messages['errormoving']   = 'Το μήνυμα δεν μπόρεσε να μετακινηθεί';
+$messages['nonamewarning']  = 'Παρακαλώ εισάγεται όνομα';
 
-$messages['errordeleting'] = 'Το μήνυμα δεν μπόρεσε να διαγραφτεί';
+$messages['nopagesizewarning'] = 'Παρακαλώ εισάγεται μέγεθος σελίδας';
 
+$messages['norecipientwarning'] = 'Παρακαλώ εισάγεται τουλάχιστον έναν παραλήπτη';
 
+$messages['nosubjectwarning']  = 'Το πεδίο "Θέμα" είναι άδειο. Θέλετε να εισάγεται ένα τώρα;';
+
+$messages['nobodywarning'] = 'Αποστολή μηνύματος χωρίς κείμενο;';
+
+$messages['notsentwarning'] = 'Το μήνυμα δεν έχει σταλεί. Θέλετε να το απορρίψετε;';
+
+$messages['noldapserver'] = 'Please select an ldap server to search';
+
+$messages['nocontactsreturned'] = 'Δε βρέθηκαν επαφές';
+
+$messages['nosearchname'] = 'Παρακαλώ εισάγεται όνομα επαφής ή διεύθυνση email';
+
+$messages['searchsuccessful'] = '$nr μηνύματα βρέθηκαν';
+
+$messages['searchnomatch'] = 'Η Εύρεση δεν επέστρεψε αποτελέσματα';
+
+$messages['searching'] = 'Εύρεση...';
+
+$messages['checking'] = 'Έλεγχος...';
+
+$messages['nospellerrors'] = 'Δε βρέθηκαν ορθογραφικά λάθη';
+
+$messages['folderdeleted'] = 'Ο φάκελος διαγράφηκε επιτυχώς';
 ?>

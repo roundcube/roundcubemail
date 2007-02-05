@@ -5,7 +5,7 @@
  | language/bg/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -20,7 +20,7 @@ $messages = array();
 
 $messages['loginfailed']  = 'Вход неуспешен';
 
-$messages['cookiesdisabled'] = 'Вашия браузър не приема кукита';
+$messages['cookiesdisabled'] = 'Вашия браузър не приема cookies';
 
 $messages['sessionerror'] = 'Невалидна или изтекла сесия';
 
@@ -48,7 +48,7 @@ $messages['contactexists'] = 'Контакт с този e-mail адрес ве�
 
 $messages['blockedimages'] = 'За да се предпазите, изображенията са блокирани в това съобщение.';
 
-$messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
+$messages['encryptedmessage'] = 'Това е кодирано съобщение и не може да бъде показано. Съжаляваме!';
 
 $messages['nocontactsfound'] = 'Няма контакти';
 
@@ -66,7 +66,7 @@ $messages['deletefolderconfirm']  = 'Искате ли да изтриете т�
 
 $messages['purgefolderconfirm']  = 'Искате ли да изтриете всички съобщения в тази папка?';
 
-$messages['formincomplete'] = 'The form was not completely filled out';
+$messages['formincomplete'] = 'Не сте попълнили всички полета';
 
 $messages['noemailwarning'] = 'Моля въведете валиден email адрес';
 
@@ -74,7 +74,7 @@ $messages['nonamewarning']  = 'Моля въведете име';
 
 $messages['nopagesizewarning'] = 'Please enter a page size';
 
-$messages['norecipientwarning'] = 'Please enter at least one recipient';
+$messages['norecipientwarning'] = 'Въведете поне един получател';
 
 $messages['nosubjectwarning']  = 'Полето "Заглавие" е празно. Искате ли да въведете?';
 
@@ -82,7 +82,7 @@ $messages['nobodywarning'] = 'Изпрати това съобщение без 
 
 $messages['notsentwarning'] = 'Съобщението не е изпратено. Искате ли да бъде унищожено?';
 
-$messages['noldapserver'] = 'Please select an ldap server to search';
+$messages['noldapserver'] = 'Изберете LDAP сървър за търсене';
 
 $messages['nocontactsreturned'] = 'Не бяха намерени контакти';
 

@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/02/05 (thomasb)
+----------
+- Updated Italian, Slovenian, Greek, Bulgarian, Hungarian and Croatian translation
+
+
 2007/01/07 (estadtherr)
 ----------
 - Fixed display of HTML message attachments (closes #1484178)
