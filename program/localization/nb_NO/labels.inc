@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/nb_NO/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | All rights reserved.                                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Olav Elstad <olav@elstad.org>                                 |
  +-----------------------------------------------------------------------+
  
- $Id$
+ @version $Id$
  
 */
 
@@ -118,7 +119,6 @@ $labels['highest'] = 'Høyest';
 
 $labels['showimages'] = 'Vis bilder';
 
-
 // address boook
 $labels['name']      = 'Vist navn';
 $labels['firstname'] = 'Fornavn';
@@ -138,7 +138,6 @@ $labels['deletecontact']  = 'Slett valgte kontakter';
 $labels['composeto']      = 'Skriv e-post til';
 $labels['contactsfromto'] = 'Kontakter $from til $to av $count';
 
-
 // settings
 $labels['settingsfor']  = 'Innstillinger for';
 
@@ -157,7 +156,6 @@ $labels['setdefault']  = 'Sett standard';
 $labels['language']  = 'Språk';
 $labels['timezone']  = 'Tidssone';
 $labels['pagesize']  = 'Linjer per side';
-
 
 $labels['folders']  = 'Mapper';
 $labels['foldername']  = 'Mappenavn';

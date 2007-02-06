@@ -1,20 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/de_DE/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- +-----------------------------------------------------------------------+
- | de_DE translation: Stephan Diehl <info@sd-edv.de>                     |
+ | Author: Stephan Diehl <info@sd-edv.de>                                |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -71,4 +70,3 @@ $messages['fileuploaderror'] = 'Hochladen der Datei fehlgeschlagen';
 $messages['filesizeerror'] = 'Die hochzuladende Datei überschreitet die Maximalgröße von $size';
 
 ?>
-

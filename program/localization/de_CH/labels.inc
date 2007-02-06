@@ -1,11 +1,12 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/de_CH/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -13,7 +14,7 @@
  | Corrections: Alexander Stiebing <ja.stiebing[NOSPAM]@web.de>          |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 

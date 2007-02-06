@@ -1,19 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/tr/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Translation / Tercüme: Hasan Cansız <hasancansiz@yahoo.com>           |
+ | Author: Hasan Cansız <hasancansiz@yahoo.com>                          |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -62,4 +62,5 @@ $messages['searching'] = 'Aranıyor...';
 $messages['checking'] = 'Kontrol ediliyor...';
 $messages['nospellerrors'] = 'Yazım hatası bulunmadı';
 $messages['folderdeleted'] = 'Klasör başarılı bir şekilde silindi';
+
 ?>

@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/el/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007, RoundQube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jim Deves<jim@cobaltblue.gr>                                  |
+ | Author: Jim Deves <jim@cobaltblue.gr>                                 |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -216,4 +217,5 @@ $labels['managefolders']  = 'Διαχείρηση φακέλων';
 $labels['sortby'] = 'Ταξινόμιση κατά';
 $labels['sortasc']  = 'Αύξουσα ταξινόμιση';
 $labels['sortdesc'] = 'Φθίνουσα ταξινόμιση';
+
 ?>

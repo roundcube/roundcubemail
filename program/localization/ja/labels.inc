@@ -1,19 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/ja/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
  +-----------------------------------------------------------------------+
 
- $Id$
- EN-Revision: 396
+ @version $Id$
+
 */
 
 $labels = array();
@@ -124,7 +125,6 @@ $labels['unlimited']  = '無制限';
 $labels['quicksearch']  = 'Quick search';
 $labels['resetsearch']  = 'Reset search';
 
-
 // message compose
 $labels['compose']        = 'メッセージを作成する';
 $labels['sendmessage']    = 'メッセージを今すぐ送信する';
@@ -154,7 +154,6 @@ $labels['showimages'] = '画像を表示する';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = '通常のテキスト';
 
-
 // address boook
 $labels['name']      = '表示名';
 $labels['firstname'] = '名前';
@@ -181,7 +180,6 @@ $labels['firstpage']      = 'はじめのセットを表示する';
 $labels['nextpage']       = '次のセットを表示する';
 $labels['lastpage']       = '最後のセットを表示する';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'LDAP ディレクトリ検索';
 
@@ -191,7 +189,6 @@ $labels['ldappublicserverselect'] = 'サーバー選択';
 $labels['ldappublicsearchfield'] = 'Search on';
 $labels['ldappublicsearchform'] = 'Look for a contact';
 $labels['ldappublicsearch'] = '検索する';
-
 
 // settings
 $labels['settingsfor']  = '次の設定:';

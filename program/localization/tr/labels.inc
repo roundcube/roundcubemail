@@ -1,19 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/tr/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Translation / Tercüme: Hasan Cansız <hasancansiz@yahoo.com>           | 
+ | Author: Hasan Cansız <hasancansiz@yahoo.com>                          |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -164,4 +164,5 @@ $labels['managefolders'] = 'Klasörleri düzenle';
 $labels['sortby'] = 'Sırala';
 $labels['sortasc'] = 'Azdan çoğa';
 $labels['sortdesc'] = 'Çoktan aza';
+
 ?>

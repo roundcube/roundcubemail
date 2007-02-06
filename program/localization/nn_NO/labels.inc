@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/nn/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Per-Stian Vatne <psv@orsta.org>                               |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -122,7 +123,6 @@ $labels['highest'] = 'Høgast';
 
 $labels['showimages'] = 'Vis bilete';
 
-
 // address book
 $labels['name']      = 'Visingsnamn';
 $labels['firstname'] = 'Førenamn';
@@ -144,7 +144,6 @@ $labels['contactsfromto'] = 'Kontaktar $from til $to av $count';
 $labels['print']          = 'Skriv ut';
 $labels['export']         = 'Eksport';
 
-
 // settings
 $labels['settingsfor']  = 'Innstillingar for';
 
@@ -164,7 +163,6 @@ $labels['language']  = 'Språk';
 $labels['timezone']  = 'Tidssone';
 $labels['pagesize']  = 'Rader pr side';
 
-
 $labels['folders']  = 'Mapper';
 $labels['foldername']  = 'Mappenamn';
 $labels['subscribed']  = 'Abonnert';
@@ -172,6 +170,5 @@ $labels['create']  = 'Opprette';
 $labels['createfolder']  = 'Opprett ny mappe';
 $labels['deletefolder']  = 'Slett mappe';
 $labels['managefolders']  = 'Administrere mapper';
-
 
 ?>

@@ -1,24 +1,22 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/es/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Javier Smaldone <javier@smaldone.com.ar                       |
+ | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
  |         http://www.smaldone.com.ar                                    |
- | Based on previous work by David Grajal Blanco <dgrabla@gmail.com>     |
+ |         David Grajal Blanco <dgrabla@gmail.com>                       |
  |         http://david.grajal.net                                       |
  +-----------------------------------------------------------------------+
- | Changelog:                                                            |
- |  - 29/9/2006 Syntax check and style modifications                     |
- |  - 6/2/2006 Translations of new features and improvements             |
- |  - 17/9/2005 First release                                            |
- +-----------------------------------------------------------------------+
+
+ @version $Id$
 
 */
 

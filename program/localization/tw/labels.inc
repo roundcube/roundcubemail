@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | localization/tw/labels.inc                                            |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Ting-Hung Chiu <earrl@mmlab.cse.yzu.edu.tw>                   |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -118,7 +119,6 @@ $labels['unlimited']  = '沒有限制';
 $labels['quicksearch']  = '快速搜尋';
 $labels['resetsearch']  = '重置搜尋';
 
-
 // message compose
 $labels['compose']  = '撰寫新郵件';
 $labels['savemessage']  = '存至草稿匣';
@@ -144,7 +144,6 @@ $labels['highest'] = '最高';
 $labels['nosubject']  = '（沒有標題）';
 $labels['showimages'] = '顯示圖片';
 
-
 // address boook
 $labels['name']      = '顯示名稱';
 $labels['firstname'] = '名稱';
@@ -169,7 +168,6 @@ $labels['export']         = '匯出';
 $labels['previouspage']   = '上一頁';
 $labels['nextpage']       = '下一頁';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'LDAP 目錄搜尋';
 
@@ -179,7 +177,6 @@ $labels['ldappublicserverselect'] = '選擇伺服器';
 $labels['ldappublicsearchfield'] = '搜尋於此';
 $labels['ldappublicsearchform'] = '尋找聯絡人';
 $labels['ldappublicsearch'] = '搜尋';
-
 
 // settings
 $labels['settingsfor']  = '設定';

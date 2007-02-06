@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/th_TH/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Translate by: Nantharat Puwarang <sansez@gmail.com>                   |
+ | Author: Nantharat Puwarang <sansez@gmail.com>                         |
  +-----------------------------------------------------------------------+
 
- $Id: labels.inc 296 2006-12-15 $
+ @version $Id$
 
 */
 
@@ -118,7 +119,6 @@ $labels['unlimited']  = 'ไม่จำกัด';
 $labels['quicksearch']  = 'Quick search';
 $labels['resetsearch']  = 'Reset search';
 
-
 // message compose
 $labels['compose']  = 'เขียนจดหมายใหม่';
 $labels['savemessage']  = 'บันทึกฉบับร่าง';
@@ -144,7 +144,6 @@ $labels['highest'] = 'สูงสุด';
 $labels['nosubject']  = '(ไม่มีหัวข้อ)';
 $labels['showimages'] = 'แสดงรูป';
 
-
 // address boook
 $labels['name']      = 'ชื่อแสดง';
 $labels['firstname'] = 'ชื่อ';
@@ -169,7 +168,6 @@ $labels['export']         = 'ส่งออก';
 $labels['previouspage']   = 'หน้าที่แล้ว';
 $labels['nextpage']       = 'หน้าถัดไป';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'LDAP directory search';
 
@@ -179,7 +177,6 @@ $labels['ldappublicserverselect'] = 'Select servers';
 $labels['ldappublicsearchfield'] = 'Search on';
 $labels['ldappublicsearchform'] = 'Look for a contact';
 $labels['ldappublicsearch'] = 'ค้นหา';
-
 
 // settings
 $labels['settingsfor']  = 'Settings for';

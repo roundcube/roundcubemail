@@ -1,23 +1,23 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/sk/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Lukas Kraic <lukas.kraic@truni.sk>                            |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
 $labels = array();
-
 
 // login page
 $labels['welcome'] = 'Vitajte v $product';
@@ -142,7 +142,6 @@ $labels['highest'] = 'Najvyššia';
 
 $labels['nosubject']  = '(bez predmetu)';
 $labels['showimages'] = 'Ukáž obrázky';
-
 
 // address boook
 $labels['name']      = 'Celé meno';

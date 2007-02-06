@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/02/06 (tomekp)
+----------
+- Updated (pl) translation
+- Updated (pt_BR) translation (Robson F. Ramaldes)
+- Big cleanup in program/localization
+
 2007/02/05 (thomasb)
 ----------
 - Updated Italian, Slovenian, Greek, Bulgarian, Hungarian and Croatian translation

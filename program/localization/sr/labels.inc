@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/sr/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Viktor Varga <vile@neobee.net>                                |
  +-----------------------------------------------------------------------+
 
- $Id: labels.inc 296 2006-08-06 15:53:41Z thomasb $
+ @version $Id$
 
 */
 
@@ -118,7 +119,6 @@ $labels['unlimited']  = 'beskonačna';
 $labels['quicksearch']  = 'Brza pretraga';
 $labels['resetsearch']  = 'Prikaži sve poruke';
 
-
 // message compose
 $labels['compose']  = 'Nova poruka';
 $labels['savemessage']  = 'Sačuvaj u \'Drafts\'';
@@ -144,7 +144,6 @@ $labels['highest'] = 'Najviši';
 $labels['nosubject']  = '(bez naslova)';
 $labels['showimages'] = 'Prikaži slike';
 
-
 // address boook
 $labels['name']      = 'Puno ime';
 $labels['firstname'] = 'Ime';
@@ -169,7 +168,6 @@ $labels['export']         = 'Izvezi';
 $labels['previouspage']   = 'Prikaži predhodni skup';
 $labels['nextpage']       = 'Prikaži sledeći skup';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'Pretraga LDAP imenika';
 
@@ -179,7 +177,6 @@ $labels['ldappublicserverselect'] = 'Odaberi servere';
 $labels['ldappublicsearchfield'] = 'Pretraži na';
 $labels['ldappublicsearchform'] = 'Pretraži kontakte';
 $labels['ldappublicsearch'] = 'Pretraga';
-
 
 // settings
 $labels['settingsfor']  = 'Podešavanja za';

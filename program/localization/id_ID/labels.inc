@@ -1,21 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/id_ID/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya (klunxer@gmail.com)                            |
+ | Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
  +-----------------------------------------------------------------------+
  
- //04:46 PM 1/9/2007 labels.inc	
+ @version $Id$
 
- 
-  
 */
 
 $labels = array();
@@ -182,4 +181,5 @@ $labels['managefolders'] = 'Atur map';
 $labels['sortby'] = 'Urut berdasarkan';
 $labels['sortasc'] = 'Urut menaik';
 $labels['sortdesc'] = 'Urut menurun';
+
 ?>

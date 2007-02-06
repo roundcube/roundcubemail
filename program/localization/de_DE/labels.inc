@@ -1,20 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/de_DE/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author:      Thomas Bruederli <roundcube@gmail.com>                   |
- +-----------------------------------------------------------------------+
- | de_DE translation: Stephan Diehl <info@sd-edv.de>                     |
+ | Author: Stephan Diehl <info@sd-edv.de>                                |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -184,4 +183,3 @@ $labels['sortasc'] = 'Aufsteigend sortieren';
 $labels['sortdesc'] = 'Absteigend sortieren';
 
 ?>
-

@@ -1,18 +1,19 @@
 <?php
 
 /*
-  +-----------------------------------------------------------------------+
-  | language/et_EE/labels.inc                                             |
-  |                                                                       |
-  | Language file of the RoundCube Webmail client                         |
-  | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
-  | Licensed under the GNU GPL                                            |
-  |                                                                       |
-  +-----------------------------------------------------------------------+
-  | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
-  +-----------------------------------------------------------------------+
 
- $Id: messages.inc 394 2006-12-04 10:31:40Z yllar $ 
+ +-----------------------------------------------------------------------+
+ | language/et_EE/labels.inc                                             |
+ |                                                                       |
+ | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
+ +-----------------------------------------------------------------------+
+
+ @version $Id$ 
 
 */
 
@@ -180,4 +181,5 @@ $labels['managefolders'] = 'Halda kaustu';
 $labels['sortby'] = 'Järjesta';
 $labels['sortasc'] = 'Järjesta kasvavalt';
 $labels['sortdesc'] = 'Järjesta kahanevalt';
+
 ?>

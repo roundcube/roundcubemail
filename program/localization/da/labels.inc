@@ -1,21 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/da/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | All rights reserved.                                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- +-----------------------------------------------------------------------+
- | Danish translation: Martin Moeller <martin@liga.dk>                   |
- |                     Jesper R. Meyer <jrm@upthere.dk>                  |
+ | Author: Martin Moeller <martin@liga.dk>                               |
+ |         Jesper R. Meyer <jrm@upthere.dk>                              |
  +-----------------------------------------------------------------------+
  
- $Id$
+ @version $Id$
 
 */
 
@@ -234,4 +233,5 @@ $labels['managefolders'] = 'Administrér mapper';
 $labels['sortby'] = 'Sortér efter';
 $labels['sortasc'] = 'Ældste først';
 $labels['sortdesc'] = 'Nyeste først';
+
 ?>

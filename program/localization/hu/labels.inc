@@ -1,6 +1,7 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/hu/messages.inc                                              |
  |                                                                       |
@@ -9,13 +10,12 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Translator: Ervin Hegedüs <airween@damson.hu>                         |
- +-----------------------------------------------------------------------+
- | Translation updated by rezso <rezso@rezso.net> on 2006-09-19          |
- | Translation updated by PtY <peti@tuxwiki.hu> on 2007-01-05            |
+ | Author: PtY <peti@tuxwiki.hu> on 2007-01-05                           |
+ |         rezso <rezso@rezso.net> on 2006-09-19                         |
+ |         Ervin Hegedüs <airween@damson.hu>                             |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -122,7 +122,6 @@ $labels['unlimited']  = 'korlátlan';
 $labels['quicksearch']  = 'Gyorskeresés';
 $labels['resetsearch']  = 'Alapállapot';
 
-
 // message compose
 $labels['compose']  = 'Üzenet létrehozása';
 $labels['savemessage']  = 'Vázlat mentése';
@@ -173,7 +172,6 @@ $labels['export']         = 'Exportálás';
 $labels['previouspage']   = 'Előző lap';
 $labels['nextpage']       = 'Következő lap';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'Keresés LDAP címtárban';
 
@@ -183,7 +181,6 @@ $labels['ldappublicserverselect'] = 'Szerverek kiválasztása';
 $labels['ldappublicsearchfield'] = 'Keresés:';
 $labels['ldappublicsearchform'] = 'Kapcsolat keresése';
 $labels['ldappublicsearch'] = 'Keresés';
-
 
 // settings
 $labels['settingsfor']  = 'Beállítás';

@@ -1,18 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
- | language/fr/labels.inc                                                |
+ | language/fr/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: aldweb <info@aldweb.com>, Pierre HAEGELI <pierre@haegeli.net> |
+ | Author: aldweb <info@aldweb.com>                                      |
+ |         Pierre HAEGELI <pierre@haegeli.net>                           |
  +-----------------------------------------------------------------------+
 
- $Id: labels.inc 220 2006-06-12 17:33:21Z roundcube $
+ @version $Id$
 
 */
 
@@ -180,4 +182,5 @@ $labels['managefolders'] = 'Gérer les dossiers';
 $labels['sortby'] = 'Trier par';
 $labels['sortasc'] = 'Tri ascendant';
 $labels['sortdesc'] = 'Tri descendant';
+
 ?>

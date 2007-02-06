@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/fi/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Ville Alatalo <ville@alatalo.org>                             |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -51,21 +52,16 @@ $labels['organization'] = 'Organisaatio';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
-
 $labels['mailboxlist'] = 'Kansiot';
 $labels['messagesfromto'] = 'Viestit $from-$to/$count';
 $labels['messagenrof'] = 'Viesti $nr/$count';
-
 $labels['moveto']   = 'siirrä...';
 $labels['download'] = 'lataa';
-
 $labels['filename'] = 'Tiedoston nimi';
 $labels['filesize'] = 'Tiedoston koko';
-
 $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['htmlmessage'] = 'HTML-viesti';
 $labels['prettydate'] = 'Nätit päiväykset';
-
 $labels['addtoaddressbook'] = 'Lisää osoitekirjaan';
 
 // weekdays short
@@ -85,7 +81,6 @@ $labels['wednesday'] = 'Keskiviikko';
 $labels['thursday']  = 'Torstai';
 $labels['friday']    = 'Perjantai';
 $labels['saturday']  = 'Lauantai';
-
 $labels['today'] = 'Tänään';
 
 // toolbar buttons
@@ -111,7 +106,6 @@ $labels['purge'] = 'Purge';
 
 $labels['quota'] = 'Levytila';
 
-
 // message compose
 $labels['compose']  = 'Viestin kirjoitus';
 $labels['sendmessage']  = 'Lähetä viesti';
@@ -130,7 +124,6 @@ $labels['highest'] = 'Korkein';
 
 $labels['nosubject']  = '(ei otsikkoa)';
 $labels['showimages'] = 'Näytä kuvat';
-
 
 // address boook
 $labels['name']      = 'Näkyvä nimi';
@@ -163,7 +156,6 @@ $labels['ldappublicserverselect'] = 'Valitse palvelimet';
 $labels['ldappublicsearchfield'] = 'Hakusana';
 $labels['ldappublicsearchform'] = 'Etsi kontaktia';
 $labels['ldappublicsearch'] = 'Hae';
-
 
 // settings
 $labels['settingsfor']  = 'Asetukset';

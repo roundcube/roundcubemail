@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/eu/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: pi <pi@beobide.net>                                           |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -122,7 +123,6 @@ $labels['highest'] = 'Altuena';
 
 $labels['showimages'] = 'Irudiak bistarazi';
 
-
 // address boook
 $labels['name']      = 'Izena bistarazi';
 $labels['firstname'] = 'Izena';
@@ -144,7 +144,6 @@ $labels['contactsfromto'] = '$from -tik $to -ra $count txarteletatik';
 $labels['print']          = 'Inprimatu';
 $labels['export']         = 'Esportatu';
 
-
 // settings
 $labels['settingsfor']  = 'Honen ezarpenak:';
 
@@ -164,7 +163,6 @@ $labels['language']  = 'Hizkuntza';
 $labels['timezone']  = 'Ordu zonaldea';
 $labels['pagesize']  = 'Lerro orrialdeko';
 
-
 $labels['folders']  = 'Karpetak';
 $labels['foldername']  = 'Karpeta izena';
 $labels['subscribed']  = 'Harpideturik';
@@ -172,6 +170,5 @@ $labels['create']  = 'Sortu';
 $labels['createfolder']  = 'Karpeta berria sortu';
 $labels['deletefolder']  = 'Karpeta ezabatu';
 $labels['managefolders']  = 'Karpeta kudeaketa';
-
 
 ?>

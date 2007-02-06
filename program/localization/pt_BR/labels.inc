@@ -1,6 +1,7 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/pt_BR/labels.inc                                             |
  |                                                                       |
@@ -9,11 +10,11 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
- | Updated by: Robson F. Ramaldes <rframaldes@gmail.com>                 |
+ | Author: Robson F. Ramaldes <rframaldes@gmail.com>                     |
+ |         Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -37,7 +38,6 @@ $labels['inbox']  = 'Caixa de entrada';
 $labels['drafts'] = 'Rascunhos';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
-$labels['drafts'] = 'Rascunhos';
 $labels['junk']   = 'Junk';
 
 // message listing
@@ -65,7 +65,7 @@ $labels['download'] = 'download';
 $labels['filename'] = 'Arquivo';
 $labels['filesize'] = 'Tamanho';
 
-$labels['preferhtml'] = 'Prefere HTML';
+$labels['preferhtml'] = 'Preferir HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
 $labels['prettydate'] = 'Formatar datas';
 
@@ -96,11 +96,17 @@ $labels['checkmail']        = 'Verificar se há novas mensagens';
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder';
 $labels['replytoallmessage'] = 'Responder para todos';
-$labels['forwardmessage']   = 'Encaminhar';
+$labels['forwardmessage']   = 'Encaminhar   ';
 $labels['deletemessage']    = 'Mover para lixeira';
 $labels['printmessage']     = 'Imprimir';
-$labels['previousmessages'] = 'Anterior';
-$labels['nextmessages']     = 'Próximo';
+$labels['previousmessages'] = 'Página Anterior';
+$labels['nextmessages']     = 'Próxima Página';
+$labels['previousmessage']  = 'Mensagem Anterior';
+$labels['firstmessage']     = 'Primeira Mensagem';
+$labels['firstmessages']    = 'Primeira Página';
+$labels['nextmessage']      = 'Próxima Mensagem';
+$labels['lastmessage']      = 'Ultima Mensagem';
+$labels['lastmessages']     = 'Ultima Página';
 $labels['backtolist']       = 'Voltar';
 $labels['viewsource']       = 'Exibir código fonte';
 
@@ -120,23 +126,22 @@ $labels['unlimited']  = 'sem limitação';
 $labels['quicksearch']  = 'Pesquisa Rápida';
 $labels['resetsearch']  = 'Limpar';
 
-
-
 // message compose
 $labels['compose']  = 'Escrever mensagem';
 $labels['savemessage']  = 'Salvar Rascunho';
 $labels['sendmessage']  = 'Enviar';
 $labels['addattachment']  = 'Anexar';
 $labels['charset']  = 'Codificação';
-
 $labels['returnreceipt'] = 'Receber Confirmação';
+$labels['editortype']     = 'Tipo';
+
 $labels['checkspelling'] = 'Verificar Ortografia';
 $labels['resumeediting'] = 'Continuar';
 $labels['revertto'] = 'Revert to';
 
 
 $labels['attachments'] = 'Anexos';
-$labels['upload'] = 'Upload';
+$labels['upload'] = 'Enviar';
 $labels['close']  = 'Fechar';
 
 $labels['low']     = 'Mais baixo';
@@ -148,6 +153,8 @@ $labels['highest'] = 'Mais alta';
 $labels['nosubject']  = '(sem assunto)';
 $labels['showimages'] = 'Exibir imagens';
 
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Texto Puro';
 
 // address boook
 $labels['name']      = 'Nome completo';
@@ -164,7 +171,6 @@ $labels['save']   = 'Salvar';
 $labels['delete'] = 'Apagar';
 
 $labels['newcontact']     = 'Criar novo contato';
-$labels['addcontact']     = 'Incluir contato selecionado ao catálogo de endereços';
 $labels['deletecontact']  = 'Apagar contatos selecionados';
 $labels['composeto']      = 'Escrever mensagem para';
 $labels['contactsfromto'] = 'Contatos $from - $to of $count';
@@ -172,8 +178,9 @@ $labels['print']          = 'Imprimir';
 $labels['export']         = 'Exportar';
 
 $labels['previouspage']   = 'Página Anterior';
-$labels['nextpage']       = 'Próxima P�gina';
-
+$labels['nextpage']       = 'Próxima Página';
+$labels['firstpage']      = 'Primeira Página ';
+$labels['lastpage']       = 'Ultima Página';
 
 // LDAP search
 $labels['ldapsearch'] = 'Pesquisa no diretório LDAP';
@@ -184,7 +191,6 @@ $labels['ldappublicserverselect'] = 'Selecionar servidores';
 $labels['ldappublicsearchfield'] = 'Pesquisar em';
 $labels['ldappublicsearchform'] = 'Procurar por um contato';
 $labels['ldappublicsearch'] = 'Pesquisar';
-
 
 // settings
 $labels['settingsfor']  = 'Configurações para';
@@ -206,6 +212,13 @@ $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Linhas por página';
 $labels['signature'] = 'Assinatura';
 $labels['dstactive']  = 'Horário de Verão';
+$labels['htmleditor'] = 'Criar mensagens em HTML';
+$labels['htmlsignature'] = 'Assinatura em HTML';
+$labels['previewpane'] = 'Exibir Pre-Vizualização';
+
+$labels['autosavedraft']  = 'Salvar Rascunho automaticamente';
+$labels['everynminutes']  = 'a cada $n minutos';
+$labels['never']  = 'nunca';
 
 $labels['folder']  = 'Pasta';
 $labels['folders']  = 'Pastas';

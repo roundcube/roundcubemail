@@ -1,18 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/fr/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: aldweb <info@aldweb.com>, Pierre HAEGELI <pierre@haegeli.net> |
+ | Author: aldweb <info@aldweb.com>                                      |
+ |         Pierre HAEGELI <pierre@haegeli.net>                           |
  +-----------------------------------------------------------------------+
 
- $Id: messages.inc 139 2006-06-12 17:32:27Z roundcube $
+ @version $Id$
 
 */
 
@@ -65,4 +67,5 @@ $messages['folderdeleted'] = 'Dossier effacé';
 $messages['deletedsuccessfully'] = 'Supprimé(s) avec succès';
 $messages['converting'] = 'Suppression du formattage ...';
 $messages['messageopenerror'] = 'Impossible de charger le message du serveur';
+
 ?>

@@ -1,18 +1,19 @@
 ﻿<?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/vn/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2006, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Vinh Bui <bqvinh@buivinh.info>                                |
  +-----------------------------------------------------------------------+
 
- $Id: labels.inc 296 2006-08-06 15:53:41Z thomasb $
+ @version $Id$
 
 */
 
@@ -118,7 +119,6 @@ $labels['unlimited']  = 'không hạn chế';
 $labels['quicksearch']  = 'Tìm nhanh';
 $labels['resetsearch']  = 'Xóa bỏ tìm kiếm';
 
-
 // message compose
 $labels['compose']  = 'Soạn thư';
 $labels['savemessage']  = 'Lưu thư đang soạn';
@@ -144,7 +144,6 @@ $labels['highest'] = 'Thượng khẩn';
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Hiển thị ảnh';
 
-
 // address boook
 $labels['name']      = 'Tên hiển thị';
 $labels['firstname'] = 'Tên';
@@ -169,7 +168,6 @@ $labels['export']         = 'Export';
 $labels['previouspage']   = 'Trang trước';
 $labels['nextpage']       = 'Trang tiếp';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'LDAP directory search';
 
@@ -179,7 +177,6 @@ $labels['ldappublicserverselect'] = 'Chọn máy chủ';
 $labels['ldappublicsearchfield'] = 'Tìm trên';
 $labels['ldappublicsearchform'] = 'Tìm địa chỉ liên hệ';
 $labels['ldappublicsearch'] = 'Tìm kiếm';
-
 
 // settings
 $labels['settingsfor']  = 'Thiết lập cho';

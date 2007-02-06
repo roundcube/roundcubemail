@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/et_EE/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
- $Id: messages.inc 394 2006-12-04 10:31:40Z yllar $
+ @version $Id$
 
 */
 

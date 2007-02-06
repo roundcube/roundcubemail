@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/nl_NL/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Mark Moses <mark@katmoda.com>                                 |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -124,7 +125,6 @@ $labels['unlimited']  = 'onbeperkt';
 $labels['quicksearch']  = 'Snel zoeken';
 $labels['resetsearch']  = 'Reset zoekopdracht';
 
-
 // message compose
 $labels['compose']  = 'Maak een bericht';
 $labels['savemessage']  = 'Bewaar als concept';
@@ -154,7 +154,6 @@ $labels['showimages'] = 'Toon afbeeldingen';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Gewone tekst';
 
-
 // address boook
 $labels['name']      = 'Naam';
 $labels['firstname'] = 'Voornaam';
@@ -182,7 +181,6 @@ $labels['firstpage']      = 'Eerste pagina';
 $labels['nextpage']       = 'Volgende pagina';
 $labels['lastpage']       = 'Laatste pagina';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'LDAP adresboek zoeken';
 
@@ -192,7 +190,6 @@ $labels['ldappublicserverselect'] = 'Selecteer servers';
 $labels['ldappublicsearchfield'] = 'Zoek op';
 $labels['ldappublicsearchform'] = 'Zoek een contactpersoon';
 $labels['ldappublicsearch'] = 'Zoek';
-
 
 // settings
 $labels['settingsfor']  = 'Instellingen voor';

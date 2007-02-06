@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/se/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Fredrik Nygren <f.nygren@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -140,7 +141,6 @@ $labels['highest'] = 'Högst';
 $labels['nosubject']  = '(inget ämne)';
 $labels['showimages'] = 'Visa bilder';
 
-
 // address boook
 $labels['name']      = 'Visa namn';
 $labels['firstname'] = 'Förnamn';
@@ -174,7 +174,6 @@ $labels['ldappublicserverselect'] = 'Valda servrar';
 $labels['ldappublicsearchfield'] = 'Sök på';
 $labels['ldappublicsearchform'] = 'Sök kontakt';
 $labels['ldappublicsearch'] = 'Sök';
-
 
 // settings
 $labels['settingsfor']  = 'Inställningar för';
@@ -213,4 +212,5 @@ $labels['sortasc']  = 'Sortera stigande';
 $labels['sortdesc'] = 'Sortera fallande';
 
 $labels['description'] = 'Beskrivning';
+
 ?>

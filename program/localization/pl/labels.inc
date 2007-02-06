@@ -1,19 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/pl/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007 RoundQube Dev. - Switzerland                  |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Tomasz Pajor     <t.pajor@kei.pl>                             |
- | Author: Sławomir Cichoń  <slawek.cichon@gmail.com>                    |
+ |         Sławomir Cichoń  <slawek.cichon@gmail.com>                    |
  +-----------------------------------------------------------------------+
 
-$Id$
+ @version $Id$
 
 */
 

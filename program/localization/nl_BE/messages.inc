@@ -1,23 +1,23 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/nl_BE/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Dennis Heeren <dennis.heeren@gmail.com>                       |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
 $messages = array();
-
 $messages['loginfailed']  = 'Aanmelden mislukt...';
 $messages['cookiesdisabled'] = 'Je browser accepteert geen cookies...';
 $messages['sessionerror'] = 'Sessie is reeds beëindigd of is ongeldig...';

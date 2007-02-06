@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/lv/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Rudolfs Osins <dev.random@gmail.com>                          |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -107,14 +108,11 @@ $labels['all'] = 'Visas';
 $labels['none'] = 'Nevienu';
 $labels['unread'] = 'Nelasītās';
 
-
-
 $labels['compact'] = 'Saspiest';
 $labels['empty'] = 'Iztukšot';
 $labels['purge'] = 'Iztīrīt';
 
 $labels['quota'] = 'Kvota';
-
 
 // message compose
 $labels['compose']  = 'Rakstīt vēstuli';
@@ -133,10 +131,8 @@ $labels['normal']  = 'Normāla';
 $labels['high']    = 'Augsta';
 $labels['highest'] = 'Augstākā';
 
-
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Rādīt attēlus';
-
 
 // address boook
 $labels['name']      = 'Uzrādītais vārds';
@@ -161,8 +157,6 @@ $labels['contactsfromto'] = 'Ieraksti $from līdz $to no $count';
 $labels['print']          = 'Drukāt';
 $labels['export']         = 'Eksportēt';
 
-
-
 // LDAP search
 $labels['ldapsearch'] = 'Meklēšana LDAP direktorijā';
 
@@ -172,8 +166,6 @@ $labels['ldappublicserverselect'] = 'Izvēlieties serveri';
 $labels['ldappublicsearchfield'] = 'Meklēt pēc';
 $labels['ldappublicsearchform'] = 'Meklēt kontaktpersonu';
 $labels['ldappublicsearch'] = 'Meklēt';
-
-
 
 // settings
 $labels['settingsfor']  = 'Iestatījumi';
@@ -195,7 +187,6 @@ $labels['timezone']  = 'Laika zona';
 $labels['pagesize']  = 'Rindas lapā';
 $labels['signature'] = 'Paraksts';
 
-
 $labels['folder']  = 'Mape';
 $labels['folders']  = 'Mapes';
 $labels['foldername']  = 'Mapes nosaukums';
@@ -204,7 +195,6 @@ $labels['create']  = 'Izveidot';
 $labels['createfolder']  = 'Izveidot jaunu mapi';
 $labels['deletefolder']  = 'Dzēst mapi';
 $labels['managefolders']  = 'Rediģēt mapes';
-
 
 $labels['sortby'] = 'Kārtot pēc';
 $labels['sortasc']  = 'Kārtot augošā secībā';

@@ -1,16 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/lt/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Oleg Andrejev <ins@ins.lt>                                    |
  +-----------------------------------------------------------------------+
+
+ @version $Id$
+
 */
 
 $labels = array();
@@ -108,7 +112,6 @@ $labels['purge'] = 'Išvalyti';
 
 $labels['quota'] = 'Disko naudojimas';
 
-
 // message compose
 $labels['compose']  = 'Rašyti nauja laiška';
 $labels['sendmessage']  = 'Išsiųsti laiską';
@@ -127,7 +130,6 @@ $labels['highest'] = 'Aukščiausias';
 
 $labels['nosubject']  = '(nėra temos)';
 $labels['showimages'] = 'Rodyti paveikslėlius';
-
 
 // address boook
 $labels['name']      = 'Rodomas vardas';
@@ -160,7 +162,6 @@ $labels['ldappublicserverselect'] = 'Pasirinkti serverius';
 $labels['ldappublicsearchfield'] = 'Ieškoti iš';
 $labels['ldappublicsearchform'] = 'Ieškoti kontakto';
 $labels['ldappublicsearch'] = 'Ieškoti';
-
 
 // settings
 $labels['settingsfor']  = 'Nustatymai prie';

@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/zh_CN/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  |  Author: winman rong  <winman.rong@gmail.com>                         |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -121,7 +122,6 @@ $labels['highest'] = '最高';
 
 $labels['showimages'] = '显示图片';
 
-
 // address boook
 $labels['name']      = '显示名字';
 $labels['firstname'] = '名';
@@ -143,7 +143,6 @@ $labels['contactsfromto'] = '联系人 $from 到 $to 总共 $count';
 $labels['print']          = '打印';
 $labels['export']         = '导出';
 
-
 // settings
 $labels['settingsfor']  = 'Settings for';
 
@@ -162,7 +161,6 @@ $labels['setdefault']  = '设置为默认';
 $labels['language']  = '语言';
 $labels['timezone']  = '时区';
 $labels['pagesize']  = '每页邮件数';
-
 
 $labels['folders']  = '文件夹';
 $labels['foldername']  = '文件夹名称';
@@ -194,6 +192,5 @@ $labels['rename'] = '重命名';
 $labels['renamefolder'] = '重命名文件夹';
 
 $labels['description'] = '描述';
-
 
 ?>

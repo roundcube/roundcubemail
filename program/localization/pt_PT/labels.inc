@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/pt_PT/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Sergio Rocha <sergio.rocha@makeitsimple.pt>	                 |
+ | Author: Sergio Rocha <sergio.rocha@makeitsimple.pt>                   |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
@@ -111,7 +112,6 @@ $labels['purge'] = 'Apagar';
 
 $labels['quota'] = 'Utilização';
 
-
 // message compose
 $labels['compose']  = 'Escrever mensagem';
 $labels['sendmessage']  = 'Enviar';
@@ -130,7 +130,6 @@ $labels['highest'] = 'Mais alta';
 
 $labels['nosubject']  = '(no assunto)';
 $labels['showimages'] = 'Exibir imagens';
-
 
 // address boook
 $labels['name']      = 'Nome completo';
@@ -162,7 +161,6 @@ $labels['ldappublicserverselect'] = 'Selecionar servidores';
 $labels['ldappublicsearchfield'] = 'Pesquisar em';
 $labels['ldappublicsearchform'] = 'Procurar por um contacto';
 $labels['ldappublicsearch'] = 'Pesquisar';
-
 
 // settings
 $labels['settingsfor']  = 'Configurações para';

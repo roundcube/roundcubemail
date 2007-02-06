@@ -1,19 +1,20 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
- | language/id_ID/messages.inc                                           |
+ | language/id_ID/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda WIjaya (klunxer@gmail.com)                            |
+ | Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
  +-----------------------------------------------------------------------+
-
- //04:04 PM 1/9/2007 messages.inc
  
+ @version $Id$
+
 */
 
 $messages = array();
@@ -67,4 +68,5 @@ $messages['converting'] = 'Mengembalikan pesan ke format awal...';
 $messages['messageopenerror'] = 'Tidak dapat mengambil pesan dari server';
 $messages['fileuploaderror'] = 'Gagal mengunggah berkas';
 $messages['filesizeerror'] = 'Berkas terunggah mencapai ukuran maksimal dari $size';
+
 ?>
