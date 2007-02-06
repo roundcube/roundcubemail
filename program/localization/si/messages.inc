@@ -3,7 +3,7 @@
 /*
 
  +--------------------------------------------------------------------------------------+
- | language/si/labels.inc                                                               |
+ | language/si/messages.inc                                                             |
  |                                                                                      |
  | Language file of the RoundCube Webmail client                                        |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                                |

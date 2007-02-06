@@ -1,18 +1,19 @@
 <?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/cz/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | All rights reserved.                                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
  +-----------------------------------------------------------------------+
 
- $Id $
+ @version $Id$
 
 */
 
@@ -37,7 +38,6 @@ $messages['sendingfailed'] = 'Odesílání zprávy selhalo';
 $messages['errorsaving'] = 'Vyskytla se chyba při ukládání';
 $messages['errormoving'] = 'Nemohu přesunout zprávu';
 $messages['errordeleting'] = 'Nemohu smazat zprávu';
-
 $messages['loading'] = 'Načítám...';
 $messages['sendingmessage'] = 'Odesílám zprávu...';
 $messages['noemailwarning'] = 'Zadejte, prosím, platnou adresu';
@@ -52,7 +52,6 @@ $messages['notsentwarning'] = 'Zpráva nebyla odeslána. Přejete si zprávu zah
 $messages['noldapserver'] = 'Zvolte, prosím, LDAP server k hledání';
 $messages['nocontactsreturned'] = 'Nebyly nalezeny žádné kontakty';
 $messages['nosearchname'] = 'Zadejte, prosím, jméno nebo e-mail kontaktu';
-
 $messages['checking'] = 'Kontroluji...';
 $messages['nospellerrors'] = 'Nebyly nalezeny žádné chyby';
 $messages['checkingmail'] = 'Kontroluji nové zprávy...';

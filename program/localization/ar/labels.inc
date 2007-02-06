@@ -1,18 +1,19 @@
 ﻿<?php
 
 /*
+
  +-----------------------------------------------------------------------+
  | language/ar/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Ossama Khayat <okhayat@yahoo.com>                             |
  +-----------------------------------------------------------------------+
 
- $Id$
+ @version $Id$
 
 */
 
