@@ -6,7 +6,7 @@
  | language/bg/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2007 RoundCube Dev. - Switzerland                  |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -24,41 +24,49 @@ $messages['sessionerror'] = 'Невалидна или изтекла сесия
 $messages['imaperror'] = 'Свързване към IMAP сървъра е неуспешно';
 $messages['nomessagesfound'] = 'Няма съобщения';
 $messages['loggedout'] = 'Довиждане!';
-$messages['mailboxempty'] = 'Кутията е празна';
+$messages['mailboxempty'] = 'Папката е празна';
 $messages['loading'] = 'Зареждане...';
-$messages['loadingdata'] = 'Зареждане на информация...';
-$messages['sendingmessage'] = 'Изпращане на съобщение...';
-$messages['messagesent'] = 'Съобщението е изпратено успешно';
+$messages['loadingdata'] = 'Зареждане на данни...';
+$messages['checkingmail'] = 'Проверка за нови писма...';
+$messages['sendingmessage'] = 'Изпращане на писмото...';
+$messages['messagesent'] = 'Писмото е изпратено успешно';
+$messages['savingmessage'] = 'Записване на писмото...';
+$messages['messagesaved'] = 'Писмото е записано в Чернови';
 $messages['successfullysaved'] = 'Записано';
 $messages['addedsuccessfully'] = 'Контакта е добавен в адресната книга';
 $messages['contactexists'] = 'Контакт с този e-mail адрес вече същестува';
-$messages['blockedimages'] = 'За да се предпазите, изображенията са блокирани в това съобщение.';
-$messages['encryptedmessage'] = 'Това е кодирано съобщение и не може да бъде показано. Съжаляваме!';
+$messages['blockedimages'] = 'С оглед на Вашата сигурност, изображенията в това писмо са блокирани .';
+$messages['encryptedmessage'] = 'Това е кодирано писмо и не може да бъде показано. Съжаляваме!';
 $messages['nocontactsfound'] = 'Няма контакти';
-$messages['sendingfailed'] = 'Изпращане неуспешно';
+$messages['sendingfailed'] = 'Изпращането неуспешно';
 $messages['errorsaving'] = 'Възникна грешка при записването';
-$messages['errormoving'] = 'Съобщението не може да се премести';
-$messages['errordeleting'] = 'Съобщението не може да бъде изтрито';
+$messages['errormoving'] = 'Писмото не може да бъде преместено';
+$messages['errordeleting'] = 'Писмото не може да бъде изтрито';
 $messages['deletecontactconfirm']  = 'Искате ли да изтриете маркираните контакти?';
+$messages['deletemessagesconfirm'] = 'Искате ли да изтриете маркираните съобщения?';
 $messages['deletefolderconfirm']  = 'Искате ли да изтриете тази папка?';
-$messages['purgefolderconfirm']  = 'Искате ли да изтриете всички съобщения в тази папка?';
+$messages['purgefolderconfirm']  = 'Искате ли да изтриете всички писма в тази папка?';
 $messages['formincomplete'] = 'Не сте попълнили всички полета';
-$messages['noemailwarning'] = 'Моля въведете валиден email адрес';
+$messages['noemailwarning'] = 'Моля въведете валиден e-mail адрес';
 $messages['nonamewarning']  = 'Моля въведете име';
-$messages['nopagesizewarning'] = 'Please enter a page size';
+$messages['nopagesizewarning'] = 'Въведете брой редове на страница';
 $messages['norecipientwarning'] = 'Въведете поне един получател';
-$messages['nosubjectwarning']  = 'Полето "Заглавие" е празно. Искате ли да въведете?';
-$messages['nobodywarning'] = 'Изпрати това съобщение без текст?';
-$messages['notsentwarning'] = 'Съобщението не е изпратено. Искате ли да бъде унищожено?';
+$messages['nosubjectwarning']  = 'Полето "Заглавие" е празно. Искате ли да въведете ново заглавие?';
+$messages['nobodywarning'] = 'Изпрати това писмо без текст?';
+$messages['notsentwarning'] = 'Писмото не е изпратено. Искате ли да бъде унищожено?';
 $messages['noldapserver'] = 'Изберете LDAP сървър за търсене';
-$messages['nocontactsreturned'] = 'Не бяха намерени контакти';
-$messages['nosearchname'] = 'Моля въведете Име на контакта или email адрес';
-$messages['searchsuccessful'] = '$nr намерени съобщения';
+$messages['nocontactsreturned'] = 'Не са намерени контакти';
+$messages['nosearchname'] = 'Моля въведете Име на контакта или e-mail адрес';
+$messages['searchsuccessful'] = '$nr намерени писма';
 $messages['searchnomatch'] = 'Търсенето не откри съвпадения';
 $messages['searching'] = 'Търсене...';
 $messages['checking'] = 'Проверка...';
 $messages['nospellerrors'] = 'Не са открити правописни грешки';
 $messages['folderdeleted'] = 'Папката е изтрита';
-$messages['converting'] = 'Премахва форматирането на писмото...';
+$messages['deletedsuccessfully'] = 'Изтриването е успешно';
+$messages['converting'] = 'Премахване форматирането на писмото...';
+$messages['messageopenerror'] = 'Писмото не може да бъде заредено от сървъра';
+$messages['fileuploaderror'] = 'Грешка при прикачването на файла';
+$messages['filesizeerror'] = 'Прикаченият файл надвишава лимита от $size';
 
 ?>

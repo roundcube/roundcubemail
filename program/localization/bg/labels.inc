@@ -6,7 +6,7 @@
  | language/bg/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2007 RoundCube Dev. - Switzerland                  |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -125,7 +125,6 @@ $labels['unlimited']  = 'няма ограничение';
 $labels['quicksearch']  = 'Бързо търсене';
 $labels['resetsearch']  = 'Изчисти търсенето и покажи всички писма';
 
-
 // message compose
 $labels['compose']  = 'Ново писмо';
 $labels['sendmessage']  = 'Изпрати писмото';
@@ -139,7 +138,7 @@ $labels['checkspelling'] = 'Проверка на правописа';
 $labels['resumeediting'] = 'Продължи черновата';
 $labels['revertto']      = 'Върни се към';
 
-$labels['attachments'] = 'Прикачени';
+$labels['attachments'] = 'Прикачени файлове';
 $labels['upload'] = 'Качи';
 $labels['close']  = 'Затвори';
 
@@ -154,7 +153,6 @@ $labels['showimages'] = 'Виж изображенията';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'тесктов';
-
 
 // address boook
 $labels['name']      = 'Прякор';
@@ -182,7 +180,6 @@ $labels['firstpage']      = 'Първа страница';
 $labels['nextpage']       = 'Следваща страница';
 $labels['lastpage']       = 'Последна страница';
 
-
 // LDAP search
 $labels['ldapsearch'] = 'Търсене в LDAP директория';
 
@@ -192,7 +189,6 @@ $labels['ldappublicserverselect'] = 'Избери сървъри';
 $labels['ldappublicsearchfield'] = 'Търси по';
 $labels['ldappublicsearchform'] = 'Търсене за контакт';
 $labels['ldappublicsearch'] = 'Търси';
-
 
 // settings
 $labels['settingsfor']  = 'Настройки за';
@@ -217,7 +213,6 @@ $labels['dstactive']  = 'Маркирай при лятно време';
 $labels['htmleditor'] = 'Писане на HTML съобщения';
 $labels['htmlsignature'] = 'HTML подпис';
 $labels['previewpane'] = 'Панел за преглед';
-
 $labels['autosavedraft'] = 'Автоматично записвай чернова';
 $labels['everynminutes'] = 'всеки $n минути';
 $labels['never'] = 'никога';
