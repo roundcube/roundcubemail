@@ -22,10 +22,11 @@
 $REMOTE_REQUEST = TRUE;
 
 // move messages
-if ($_action=='moveto' && $_GET['_uid'] && $_GET['_target_mbox'])
+if ($_action=='moveto' && !empty($_GET['_uid']) && !empty($_GET['_target_mbox']))
   {
-  $count = sizeof(explode(',', $_GET['_uid']));
-  $moved = $IMAP->move_message($_GET['_uid'], $_GET['_target_mbox'], $_GET['_mbox']);
+  $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_GET))));
+  $target = get_input_value('_target_mbox', RCUBE_INPUT_GET);
+  $moved = $IMAP->move_message($uids, $target, get_input_value('_mbox', RCUBE_INPUT_GET));
   
   if (!$moved)
     {
@@ -38,10 +39,10 @@ if ($_action=='moveto' && $_GET['_uid'] && $_GET['_target_mbox'])
   }
 
 // delete messages 
-else if ($_action=='delete' && $_GET['_uid'])
+else if ($_action=='delete' && !empty($_GET['_uid']))
   {
-  $count = sizeof(explode(',', $_GET['_uid']));
-  $del = $IMAP->delete_message($_GET['_uid'], $_GET['_mbox']);
+  $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_GET))));
+  $del = $IMAP->delete_message($uids, get_input_value('_mbox', RCUBE_INPUT_GET));
   
   if (!$del)
     {
@@ -60,7 +61,7 @@ else
   }
 
 // refresh saved seach set after moving some messages
-if (($search_request = $_GET['_search']) && $IMAP->search_set)
+if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set)
   $_SESSION['search'][$search_request] = $IMAP->refresh_search();
 
 
@@ -75,8 +76,8 @@ $commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
 $mbox = $IMAP->get_mailbox_name();
 $commands .= sprintf("this.set_unread_count('%s', %d);\n", $mbox, $IMAP->messagecount($mbox, 'UNSEEN'));
 
-if ($_action=='moveto')
-  $commands .= sprintf("this.set_unread_count('%s', %d);\n", $_GET['_target_mbox'], $IMAP->messagecount($_GET['_target_mbox'], 'UNSEEN'));
+if ($_action=='moveto' && $target)
+  $commands .= sprintf("this.set_unread_count('%s', %d);\n", $target, $IMAP->messagecount($target, 'UNSEEN'));
 
 $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota()); 
 

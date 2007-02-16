@@ -26,8 +26,8 @@ rcmail_imap_init(TRUE);
 // subscribe to one or more mailboxes
 if ($_action=='subscribe')
   {
-  if (strlen($_GET['_mboxes']))
-    $IMAP->subscribe(array($_GET['_mboxes']));
+  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_GET))
+    $IMAP->subscribe(array($mboxes));
 
   if ($REMOTE_REQUEST)
     rcube_remote_response('// subscribed');
@@ -36,8 +36,8 @@ if ($_action=='subscribe')
 // unsubscribe one or more mailboxes
 else if ($_action=='unsubscribe')
   {
-  if (strlen($_GET['_mboxes']))
-    $IMAP->unsubscribe(array($_GET['_mboxes']));
+  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_GET))
+    $IMAP->unsubscribe(array($mboxes));
 
   if ($REMOTE_REQUEST)
     rcube_remote_response('// unsubscribed');
@@ -95,8 +95,8 @@ else if ($_action=='rename-folder')
 // delete an existing IMAP mailbox
 else if ($_action=='delete-folder')
   {
-  if (!empty($_GET['_mboxes']))
-    $deleted = $IMAP->delete_mailbox(array(get_input_value('_mboxes', RCUBE_INPUT_GET)));
+  if (get_input_value('_mboxes', RCUBE_INPUT_GET))
+    $deleted = $IMAP->delete_mailbox(array($mboxes));
 
   if ($REMOTE_REQUEST && $deleted)
     {

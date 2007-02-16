@@ -64,7 +64,7 @@ if ($_GET['_uid'])
 
   // mark message as read
   if (!$MESSAGE['headers']->seen && $_action != 'preview')
-    $IMAP->set_flag($_GET['_uid'], 'SEEN');
+    $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
 
   // give message uid to the client
   $javascript = sprintf("%s.set_env('uid', '%s');\n", $JS_OBJECT_NAME, $MESSAGE['UID']);

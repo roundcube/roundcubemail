@@ -30,16 +30,16 @@ if (empty($_SESSION['mbox'])){
 }
 
 // set imap properties and session vars
-if (strlen($mbox = get_input_value('_mbox', RCUBE_INPUT_GET)))
+if ($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC))
   {
   $IMAP->set_mailbox($mbox);
   $_SESSION['mbox'] = $mbox;
   }
 
-if (strlen($_GET['_page']))
+if (!empty($_GET['_page']))
   {
-  $IMAP->set_page($_GET['_page']);
-  $_SESSION['page'] = $_GET['_page'];
+  $IMAP->set_page((int)$_GET['_page']);
+  $_SESSION['page'] = (int)$_GET['_page'];
   }
 
 // set mailbox to INBOX if not set
@@ -59,7 +59,7 @@ if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
 
 // define url for getting message parts
 if (strlen($_GET['_uid']))
-  $GET_URL = sprintf('%s&_action=get&_mbox=%s&_uid=%d', $COMM_PATH, $IMAP->get_mailbox_name(), $_GET['_uid']);
+  $GET_URL = sprintf('%s&_action=get&_mbox=%s&_uid=%d', $COMM_PATH, $IMAP->get_mailbox_name(), get_input_value('_uid', RCUBE_INPUT_GET));
 
 
 // set current mailbox in client environment

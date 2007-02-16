@@ -19,14 +19,12 @@
 
 */
 
-$REMOTE_REQUEST = $_GET['_remote'] ? TRUE : FALSE;
-
-if ($_GET['_iid'] && preg_match('/^[0-9]+(,[0-9]+)*$/',$_GET['_iid']))
+if (($ids = get_input_value('_iid', RCUBE_INPUT_GET)) && preg_match('/^[0-9]+(,[0-9]+)*$/', $ids))
   {
   $DB->query("UPDATE ".get_table_name('identities')."
               SET    del=1
               WHERE  user_id=?
-              AND    identity_id IN (".$_GET['_iid'].")",
+              AND    identity_id IN (".$ids.")",
               $_SESSION['user_id']);
 
   $count = $DB->affected_rows();

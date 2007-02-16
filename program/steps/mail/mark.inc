@@ -25,10 +25,10 @@ $a_flags_map = array('undelete' => 'UNDELETED',
                      'read' => 'SEEN',
                      'unread' => 'UNSEEN');
 
-if ($_GET['_uid'] && $_GET['_flag'])
+if (($uids = get_input_value('_uid', RCUBE_INPUT_GET)) && ($flag = get_input_value('_flag', RCUBE_INPUT_GET)))
   {
-  $flag = $a_flags_map[$_GET['_flag']] ? $a_flags_map[$_GET['_flag']] : strtoupper($_GET['_flag']);
-  $marked = $IMAP->set_flag($_GET['_uid'], $flag);
+  $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
+  $marked = $IMAP->set_flag($uids, $flag);
   if ($marked != -1)
     {
     $mbox_name = $IMAP->get_mailbox_name();

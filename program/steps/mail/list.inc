@@ -22,10 +22,8 @@
 $REMOTE_REQUEST = TRUE;
 $OUTPUT_TYPE = 'js';
 
-$sort = isset($_GET['_sort']) ? $_GET['_sort'] : false;
-
 // is there a sort type for this request?
-if ($sort)
+if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
   {
   // yes, so set the sort vars
   list($sort_col, $sort_order) = explode('_', $sort);
