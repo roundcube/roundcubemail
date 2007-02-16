@@ -1226,7 +1226,6 @@ function rcube_webmail()
       page = 1;
       add_url += '&_refresh=1';
       this.env.current_page = page;
-      this.message_list.clear_selection();
       this.show_messageframe(false);
       }
     
@@ -1239,6 +1238,8 @@ function rcube_webmail()
     // load message list remotely
     if (this.gui_objects.messagelist)
       {
+      if (mbox != this.env.mailbox)
+        this.message_list.clear_selection();
       this.list_mailbox_remote(mbox, page, add_url);
       return;
       }
