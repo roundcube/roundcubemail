@@ -30,10 +30,10 @@ if (empty($_SESSION['mbox'])){
 }
 
 // set imap properties and session vars
-if (strlen($_GET['_mbox']))
+if (strlen($mbox = get_input_value('_mbox', RCUBE_INPUT_GET)))
   {
-  $IMAP->set_mailbox($_GET['_mbox']);
-  $_SESSION['mbox'] = $_GET['_mbox'];
+  $IMAP->set_mailbox($mbox);
+  $_SESSION['mbox'] = $mbox;
   }
 
 if (strlen($_GET['_page']))
