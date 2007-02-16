@@ -62,7 +62,8 @@
 	'se'    => 'Svenska',
 	'si'    => 'Slovenian',
 	'sk'    => 'Slovak',
-	'sr'    => 'Serbian',
+	'sr_latin'    => 'Serbian Latin',
+    'sr_cyrillic'    => 'Serbian Cyrillic',
 	'tr'    => 'Turkish',
 	'th'    => 'Thai',
 	'vn'    => 'Vietnamese'
