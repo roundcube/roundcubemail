@@ -95,7 +95,7 @@ else if ($_action=='rename-folder')
 // delete an existing IMAP mailbox
 else if ($_action=='delete-folder')
   {
-  if (get_input_value('_mboxes', RCUBE_INPUT_GET))
+  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_GET))
     $deleted = $IMAP->delete_mailbox(array($mboxes));
 
   if ($REMOTE_REQUEST && $deleted)
