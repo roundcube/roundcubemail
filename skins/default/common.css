@@ -120,7 +120,7 @@ img
   width: 600px;
   height: 37px;
   background: url(images/taskbar.gif) top right no-repeat;
-  padding: 10px 24px 0px 0px;
+  padding: 10px 24px 10px 0px;
   text-align: right;
   white-space: nowrap;
   z-index: 2;

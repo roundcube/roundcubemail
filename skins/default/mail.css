@@ -564,6 +564,9 @@ body.messagelist
 html>body*#quicksearchbar { background-image: none; }
 html>body*#quicksearchbar a { top: 5px; }
 html>body*#quicksearchbar #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
+html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) { background-image: none; }
+html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) a { top: 5px; }
+html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
 /**/
 
 
@@ -685,6 +688,7 @@ table.headers-table tr td.subject
 
 #messagebody
 {
+  position:relative;
   min-height: 300px;
   padding-top: 10px;
   padding-bottom: 10px;

@@ -1032,7 +1032,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       $str = strip_tags($str);
     
     // avoid douple quotation of &
-    $out = preg_replace('/&amp;([a-z]{2,5});/', '&\\1;', strtr($str, $encode_arr));
+    $out = preg_replace('/&amp;([a-z]{2,5}|#[0-9]{2,4});/', '&\\1;', strtr($str, $encode_arr));
       
     return $newlines ? nl2br($out) : $out;
     }

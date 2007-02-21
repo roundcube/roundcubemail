@@ -1,15 +1,23 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/02/21 (thomasb)
+----------
+- Fixed some CSS issues in default skin (closes #1484210 and #1484161)
+- Prevent from double quoting of numeric HTML character references (closes #1484253)
+
+
 2007/02/07 (tomekp)
 ----------
 - Updated (bg) translation (Doichin Dokov)
+
 
 2007/02/06 (tomekp)
 ----------
 - Updated (pl) translation
 - Updated (pt_BR) translation (Robson F. Ramaldes)
 - Big cleanup in program/localization
+
 
 2007/02/05 (thomasb)
 ----------
