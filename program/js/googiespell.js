@@ -301,7 +301,7 @@ var AJS = {
     var onreadystatechange = function () {
       if (req.readyState == 4) {
         try {
-          status = req.status;
+          var status = req.status;
         }
         catch(e) {};
         if(status == 200 || status == 304 || req.responseText == null) {
