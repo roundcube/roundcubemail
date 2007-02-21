@@ -2585,6 +2585,7 @@ function rcube_webmail()
         form.elements['_folder_name'].value = ''; 
       }
 
+    this.sort_subscription_list();
     };
 
 
@@ -2731,6 +2732,33 @@ function rcube_webmail()
       }
     
     return new_row;
+    };
+
+  // sort subscription folder list
+  this.sort_subscription_list = function()
+    {
+    var tbody = this.gui_objects.subscriptionlist.tBodies[0];
+    for (var i = 0; i<(tbody.childNodes.length-1); i++)
+      {
+      if (this.env.subscriptionrows[tbody.childNodes[i].id]!=null)
+        {
+        var swapped = false;
+        for (var j = i+1; j<(tbody.childNodes.length); j++)
+          {
+          if ((this.env.subscriptionrows[tbody.childNodes[j].id]!=null) &&
+              (this.env.subscriptionrows[tbody.childNodes[i].id][0]>
+               this.env.subscriptionrows[tbody.childNodes[j].id][0]))
+            {
+            var swap = tbody.replaceChild(tbody.childNodes[i], tbody.childNodes[j]);
+            if (typeof(tbody.childNodes[i]) != 'undefined')
+              tbody.insertBefore(swap, tbody.childNodes[i])
+            else
+              tbody.appendChild(swap);
+            swapped = true;
+            }
+          }
+        }
+      }
     };
 
 
