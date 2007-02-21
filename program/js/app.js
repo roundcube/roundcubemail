@@ -2737,28 +2737,27 @@ function rcube_webmail()
   // sort subscription folder list
   this.sort_subscription_list = function()
     {
+    var index = new Array();
     var tbody = this.gui_objects.subscriptionlist.tBodies[0];
+    var swapped = false;
     for (var i = 0; i<(tbody.childNodes.length-1); i++)
-      {
       if (this.env.subscriptionrows[tbody.childNodes[i].id]!=null)
+        index.push(i);
+    for (i = 0; i<(index.length-1); i++)
+      {
+      if (this.env.subscriptionrows[tbody.childNodes[index[i]].id][0]>
+          this.env.subscriptionrows[tbody.childNodes[index[i+1]].id][0])
         {
-        var swapped = false;
-        for (var j = i+1; j<(tbody.childNodes.length); j++)
-          {
-          if ((this.env.subscriptionrows[tbody.childNodes[j].id]!=null) &&
-              (this.env.subscriptionrows[tbody.childNodes[i].id][0]>
-               this.env.subscriptionrows[tbody.childNodes[j].id][0]))
-            {
-            var swap = tbody.replaceChild(tbody.childNodes[i], tbody.childNodes[j]);
-            if (typeof(tbody.childNodes[i]) != 'undefined')
-              tbody.insertBefore(swap, tbody.childNodes[i])
-            else
-              tbody.appendChild(swap);
-            swapped = true;
-            }
-          }
+        var swap = tbody.replaceChild(tbody.childNodes[index[i]], tbody.childNodes[index[i+1]]);
+        if (typeof(tbody.childNodes[index[i]]) != 'undefined')
+          tbody.insertBefore(swap, tbody.childNodes[index[i]])
+        else
+          tbody.appendChild(swap);
+        swapped = true;
         }
       }
+    if (swapped)
+      this.sort_subscription_list();
     };
 
 
