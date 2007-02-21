@@ -73,6 +73,12 @@ input, textarea
   border: 1px solid #666666;
 }
 
+input[type="checkbox"]
+{
+  border: 0;
+  padding: 0;
+}
+
 input.button
 {
   height: 20px;

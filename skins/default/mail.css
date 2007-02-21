@@ -467,7 +467,7 @@ body.messagelist
 
 #messagelist tr td.date
 {
-  width: 110px;
+  width: 118px;
   vertical-align: middle;
 }
 
@@ -561,9 +561,6 @@ body.messagelist
 
 
 /*\*/
-html>body*#quicksearchbar { background-image: none; }
-html>body*#quicksearchbar a { top: 5px; }
-html>body*#quicksearchbar #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
 html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) { background-image: none; }
 html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) a { top: 5px; }
 html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
