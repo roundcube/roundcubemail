@@ -3,7 +3,7 @@
 <script>
 
 var supported = /MSIE (5\.5)|[6789]/.test(navigator.userAgent) && navigator.platform == "Win32";
-var realSrc;
+var realSrc = null;
 var blankSrc = "skins/default/images/blank.gif";
 
 if (supported) fixImage();
@@ -35,7 +35,7 @@ function fixImage() {
    }
 
    // test for png
-   if ( /\.png$/.test( realSrc.toLowerCase() ) ) {
+   if ( realSrc &&  /\.png$/.test( realSrc.toLowerCase() ) ) {
       // set blank image
       element.src = blankSrc;
       // set filter
