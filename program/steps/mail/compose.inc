@@ -766,7 +766,7 @@ function rcmail_priority_selector($attrib)
                        rcube_label('highest')),
                  array(5, 4, 0, 2, 1));
                  
-  $sel = isset($_POST['_priority']) ? $_POST['_priority'] : 0;
+  $sel = isset($_POST['_priority']) ? $_POST['_priority'] : rcube_label('normal');
 
   $out = $form_start ? "$form_start\n" : '';
   $out .= $selector->show($sel);

@@ -1195,8 +1195,6 @@ EOF;
     return strtoupper($text);
   else if ($attrib['lowercase'])
     return strtolower($text);
-  else
-    return $text;
 
   return $text;
   }
