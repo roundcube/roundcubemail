@@ -10,8 +10,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Oleg Andrejev <ins@ins.lt>                                    |
- +-----------------------------------------------------------------------+
+ | Author: Martynas Bendorius <martynas@e-vaizdas.net>                   |
+ +-----------------------------------------------------------------------+'
 
  @version $Id$
 
@@ -20,6 +20,7 @@
 $labels = array();
 
 // login page
+$labels['welcome']   = 'Sveiki atvykę į $product';
 $labels['username']  = 'Vartotojas';
 $labels['password']  = 'Slaptažodis';
 $labels['server']    = 'Serveris';
@@ -29,21 +30,21 @@ $labels['login']     = 'Prisijungti';
 $labels['logout']   = 'Atsijungti';
 $labels['mail']     = 'El. paštas';
 $labels['settings'] = 'Nustatymai';
-$labels['addressbook'] = 'Adresų knygutė';
+$labels['addressbook'] = 'Adresų knyga';
 
 // mailbox names
-$labels['inbox']  = 'Gauti laiškai';
-$labels['sent']   = 'Išsiųsti laiškai';
-$labels['trash']  = 'Šiūkšliadėžė';
+$labels['inbox']  = 'Gauti';
 $labels['drafts'] = 'Juodraščiai';
-$labels['junk']   = 'Šlamštas';
+$labels['sent']   = 'Išsiųsti';
+$labels['trash']  = 'Šiūkšliadėžė';
+$labels['junk']   = 'Nereikalingi';
 
 // message listing
 $labels['subject'] = 'Tema';
-$labels['from']    = 'Siuntejas';
+$labels['from']    = 'Siuntėjas';
 $labels['to']      = 'Gavėjas';
 $labels['cc']      = 'Kopija';
-$labels['bcc']     = 'Nematoma kopija';
+$labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Atsakyti į';
 $labels['date']    = 'Data';
 $labels['size']    = 'Dydis';
@@ -63,9 +64,9 @@ $labels['download'] = 'persisiųsti';
 $labels['filename'] = 'Bylos vardas';
 $labels['filesize'] = 'Bylos dydis';
 
-$labels['preferhtml'] = 'Teikti pirmenybę HTML';
+$labels['preferhtml'] = 'Rodyti HTML';
 $labels['htmlmessage'] = 'HTML Laiškas';
-$labels['prettydate'] = 'Gražios datos';
+$labels['prettydate'] = 'Puikios datos';
 
 $labels['addtoaddressbook'] = 'Įtraukti į adresų knygą';
 
@@ -90,19 +91,26 @@ $labels['saturday']  = 'Šeštadienis';
 $labels['today'] = 'Šiandien';
 
 // toolbar buttons
+$labels['checkmail']        = 'Tikrinti ar nėra naujų laiškų';
 $labels['writenewmessage']  = 'Rašyti naują laišką';
 $labels['replytomessage']   = 'Atsakyti į lašką';
 $labels['replytoallmessage'] = 'Aksakyti visiems';
-$labels['forwardmessage']   = 'Persiųsti laiška kitiems';
+$labels['forwardmessage']   = 'Persiųsti laišką';
 $labels['deletemessage']    = 'Ištrinti laišką';
 $labels['printmessage']     = 'Atspausdinti laišką';
-$labels['previousmessages'] = 'Rodyti ankstesius';
-$labels['nextmessages']     = 'Rodyti vėlesnius';
-$labels['backtolist']       = 'Grižti į laiškų saraša';
+$labels['previousmessage']  = 'Rodyti ankstesnį laišką';
+$labels['previousmessages'] = 'Rodyti ankstesius laiškus';
+$labels['firstmessage']     = 'Rodyti pirmąjį laišką';
+$labels['firstmessages']    = 'Rodyti pirmuosius laiškus';
+$labels['nextmessage']     = 'Rodyti sekantį laišką';
+$labels['nextmessages']     = 'Rodyti sekančius laiškus';
+$labels['lastmessage']      = 'Show the last message';
+$labels['lastmessages']     = 'Show last set of messages';
+$labels['backtolist']       = 'Grižti į laiškų sarašą';
 $labels['viewsource']       = 'Rodyti šaltinį';
 
 $labels['select'] = 'Pažymėti';
-$labels['all'] = 'Viską';
+$labels['all'] = 'Visus';
 $labels['none'] = 'Nieko';
 $labels['unread'] = 'Neskaitytas';
 
@@ -111,12 +119,24 @@ $labels['empty'] = 'Ištuštinti';
 $labels['purge'] = 'Išvalyti';
 
 $labels['quota'] = 'Disko naudojimas';
+$labels['unknown']  = 'nežinomas';
+$labels['unlimited']  = 'neribotas';
+
+$labels['quicksearch']  = 'Greita paieška';
+$labels['resetsearch']  = 'Atšaukti paiešką';
 
 // message compose
 $labels['compose']  = 'Rašyti nauja laiška';
 $labels['sendmessage']  = 'Išsiųsti laiską';
-$labels['addattachment']  = 'Prisegti failą';
+$labels['savemessage']  = 'Išsaugoti šį juodraštį';
+$labels['addattachment']  = 'Prisegti bylą';
 $labels['charset']  = 'Koduotė';
+$labels['editortype']     = 'Redagavimo tipas';
+$labels['returnreceipt']  = 'Atgalinis gavėjas';
+
+$labels['checkspelling'] = 'Tikrinti rašybą';
+$labels['resumeediting'] = 'Atnaujinti tikrinimą';
+$labels['revertto']      = 'Pakeisti į';
 
 $labels['attachments'] = 'Prisegtos bylos';
 $labels['upload'] = 'Įkelti';
@@ -130,6 +150,9 @@ $labels['highest'] = 'Aukščiausias';
 
 $labels['nosubject']  = '(nėra temos)';
 $labels['showimages'] = 'Rodyti paveikslėlius';
+
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Paprastas tekstas';
 
 // address boook
 $labels['name']      = 'Rodomas vardas';
@@ -153,8 +176,13 @@ $labels['contactsfromto'] = 'Kontaktai nuo $from iki $to iš $count';
 $labels['print']          = 'Atspausdinti';
 $labels['export']         = 'Eksportuoti';
 
+$labels['previouspage']   = 'Rodyti ankstesnį puslapį';
+$labels['firstpage']      = 'Rodyti pirmąjį puslapį';
+$labels['nextpage']       = 'Rodyti sekantį puslapį';
+$labels['lastpage']       = 'Rodyti paskutinį puslapį';
+
 // LDAP search
-$labels['ldapsearch'] = 'Paieška LDAP direktorijoi';
+$labels['ldapsearch'] = 'Paieška LDAP aplankui';
 
 $labels['ldappublicsearchname']    = 'Kontakto vardas';
 $labels['ldappublicsearchtype'] = 'Tikslus atitikimas?';
@@ -163,25 +191,34 @@ $labels['ldappublicsearchfield'] = 'Ieškoti iš';
 $labels['ldappublicsearchform'] = 'Ieškoti kontakto';
 $labels['ldappublicsearch'] = 'Ieškoti';
 
+
 // settings
-$labels['settingsfor']  = 'Nustatymai prie';
+$labels['settingsfor']  = 'Nustatymai';
 
 $labels['preferences']  = 'Nustatymai';
 $labels['userpreferences']  = 'Vartotojo nustatymai';
 $labels['editpreferences']  = 'Redaguoti vartotojo nustatymus';
 
 $labels['identities']  = 'Tapatybės';
-$labels['manageidentities']  = 'Tvarkyti tapatybės šitam abonentui';
+$labels['manageidentities']  = 'Tvarkyti tapatybes šiai sąskaitai';
 $labels['newidentity']  = 'Nauja tapatybė';
 
 $labels['newitem']  = 'Naujas įrašas';
 $labels['edititem']  = 'Redaguoti įrašą';
 
-$labels['setdefault']  = 'Pagrindinis pagal nutylėjimą';
+$labels['setdefault']  = 'Nustatyti pagrindiniu';
 $labels['language']  = 'Kalba';
 $labels['timezone']  = 'Laiko juosta';
-$labels['pagesize']  = 'Eilučiu kiekis per puslapį';
+$labels['pagesize']  = 'Eilučių skaičius puslapyje';
 $labels['signature'] = 'Parašas';
+$labels['dstactive']  = 'Automatinis laiko keitimas (+/-1h)';
+$labels['htmleditor'] = 'Kurti HTML laiškus';
+$labels['htmlsignature'] = 'HTML parašas';
+$labels['previewpane'] = 'Show preview pane';
+
+$labels['autosavedraft']  = 'Automatiškai išsaugoti juodraščius';
+$labels['everynminutes']  = 'kas $n minutes(-ių)';
+$labels['never']  = 'niekada';
 
 $labels['folder']  = 'Aplankas';
 $labels['folders']  = 'Aplankai';
@@ -189,6 +226,8 @@ $labels['foldername']  = 'Aplanko vardas';
 $labels['subscribed']  = 'Užsakytas';
 $labels['create']  = 'Sukurti';
 $labels['createfolder']  = 'Sukurti naują aplanką';
+$labels['rename'] = 'Pervadinti';
+$labels['renamefolder'] = 'Pervadinti aplanką';
 $labels['deletefolder']  = 'Ištrinti aplanką';
 $labels['managefolders']  = 'Tvarkyti aplankus';
 
