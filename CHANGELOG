@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2007/02/25 (estadtherr)
 ----------
 - Fixed priority selector issue (#1484150)
+- Upgraded to TinyMCE v2.1.0
 
 
 2007/02/21 (thomasb)

@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 42 2006-08-08 14:32:24Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -14,7 +14,7 @@ var TinyMCE_NonBreakingPlugin = {
 			longname : 'Nonbreaking space',
 			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
-			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_nonbreaking.html',
+			infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/nonbreaking',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
 		};
 	},

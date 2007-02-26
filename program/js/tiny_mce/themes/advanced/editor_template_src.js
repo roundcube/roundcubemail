@@ -1,8 +1,8 @@
 /**
- * $Id: editor_template_src.js 129 2006-10-23 09:45:17Z spocke $
+ * $Id: editor_template_src.js 218 2007-02-13 11:08:01Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import theme specific language pack */
@@ -43,7 +43,9 @@ var TinyMCE_AdvancedTheme = {
 		['sub', 'sub.gif', 'lang_theme_sub_desc', 'subscript'],
 		['sup', 'sup.gif', 'lang_theme_sup_desc', 'superscript'],
 		['forecolor', 'forecolor.gif', 'lang_theme_forecolor_desc', 'forecolor', true],
+		['forecolorpicker', 'forecolor.gif', 'lang_theme_forecolor_desc', 'forecolorpicker', true],
 		['backcolor', 'backcolor.gif', 'lang_theme_backcolor_desc', 'HiliteColor', true],
+		['backcolorpicker', 'backcolor.gif', 'lang_theme_backcolor_desc', 'backcolorpicker', true],
 		['charmap', 'charmap.gif', 'lang_theme_charmap_desc', 'mceCharMap'],
 		['visualaid', 'visualaid.gif', 'lang_theme_visualaid_desc', 'mceToggleVisualAid'],
 		['anchor', 'anchor.gif', 'lang_theme_anchor_desc', 'mceInsertAnchor'],
@@ -356,6 +358,10 @@ var TinyMCE_AdvancedTheme = {
 
 				return false;
 
+			case "forecolorpicker":
+				this._pickColor(editor_id, 'forecolor');
+				return true;
+
 			case "forecolorMenu":
 				TinyMCE_AdvancedTheme._hideMenus(editor_id);
 
@@ -420,15 +426,21 @@ var TinyMCE_AdvancedTheme = {
 
 				ml.show();
 			return true;
+	
+			case "backcolorpicker":
+				this._pickColor(editor_id, 'HiliteColor');
+				return true;
 
 			case "mceColorPicker":
 				if (user_interface) {
-					var template = new Array();
-					var inputColor = value['document'].getElementById(value['element_id']).value;
+					var template = [];
+	
+					if (!value['callback'] && !value['color'])
+						value['color'] = value['document'].getElementById(value['element_id']).value;
 
 					template['file'] = 'color_picker.htm';
-					template['width'] = 220;
-					template['height'] = 190;
+					template['width'] = 380;
+					template['height'] = 250;
 					template['close_previous'] = "no";
 
 					template['width'] += tinyMCE.getLang('lang_theme_advanced_colorpicker_delta_width', 0);
@@ -438,10 +450,16 @@ var TinyMCE_AdvancedTheme = {
 						value['store_selection'] = true;
 
 					tinyMCE.lastColorPickerValue = value;
-					tinyMCE.openWindow(template, {editor_id : editor_id, mce_store_selection : value['store_selection'], inline : "yes", command : "mceColorPicker", input_color : inputColor});
+					tinyMCE.openWindow(template, {editor_id : editor_id, mce_store_selection : value['store_selection'], inline : "yes", command : "mceColorPicker", input_color : value['color']});
 				} else {
-					var savedVal = tinyMCE.lastColorPickerValue;
-					var elm = savedVal['document'].getElementById(savedVal['element_id']);
+					var savedVal = tinyMCE.lastColorPickerValue, elm;
+
+					if (savedVal['callback']) {
+						savedVal['callback'](value);
+						return true;
+					}
+
+					elm = savedVal['document'].getElementById(savedVal['element_id']);
 					elm.value = value;
 
 					if (elm.onchange != null && elm.onchange != '')
@@ -599,9 +617,8 @@ var TinyMCE_AdvancedTheme = {
 				// Setup template html
 				template['html'] = '<table class="mceEditor" border="0" cellpadding="0" cellspacing="0" width="{$width}" height="{$height}" style="width:{$width_style};height:{$height_style}"><tbody>';
 
-				if (toolbarLocation == "top") {
-					template['html'] += '<tr><td class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
-				}
+				if (toolbarLocation == "top")
+					template['html'] += '<tr><td dir="ltr" class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
 
 				if (statusbarLocation == "top") {
 					template['html'] += '<tr><td class="mceStatusbarTop" height="1">' + statusbarHTML + '</td></tr>';
@@ -610,9 +627,8 @@ var TinyMCE_AdvancedTheme = {
 
 				template['html'] += '<tr><td align="center"><span id="{$editor_id}"></span></td></tr>';
 
-				if (toolbarLocation == "bottom") {
-					template['html'] += '<tr><td class="mceToolbarBottom" align="' + toolbarAlign + '" height="1"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
-				}
+				if (toolbarLocation == "bottom")
+					template['html'] += '<tr><td dir="ltr" class="mceToolbarBottom" align="' + toolbarAlign + '" height="1"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
 
 				// External toolbar changes
 				if (toolbarLocation == "external") {
@@ -713,8 +729,13 @@ var TinyMCE_AdvancedTheme = {
 			template['html'] += '<span id="{$editor_id}_resize_box" class="mceResizeBox"></span>';
 
 		template['html'] = tinyMCE.replaceVar(template['html'], 'style_select_options', styleSelectHTML);
-		template['delta_width'] = 0;
-		template['delta_height'] = deltaHeight;
+
+		// Set to default values
+		if (!template['delta_width'])
+			template['delta_width'] = 0;
+
+		if (!template['delta_height'])
+			template['delta_height'] = deltaHeight;
 
 		return template;
 	},
@@ -730,6 +751,15 @@ var TinyMCE_AdvancedTheme = {
 		}
 
 		inst.addShortcut('ctrl', 'k', 'lang_link_desc', 'mceLink');
+	},
+
+	removeInstance : function(inst) {
+		new TinyMCE_Layer(inst.editorId + '_fcMenu').remove();
+		new TinyMCE_Layer(inst.editorId + '_bcMenu').remove();
+	},
+
+	hideInstance : function(inst) {
+		TinyMCE_AdvancedTheme._hideMenus(inst.editorId);
 	},
 
 	_handleMenuEvent : function(e) {
@@ -780,10 +810,6 @@ var TinyMCE_AdvancedTheme = {
 			}
 
 			return false;
-		};
-
-		function getAttrib(elm, name) {
-			return elm.getAttribute(name) ? elm.getAttribute(name) : "";
 		};
 
 		// No node provided
@@ -839,7 +865,7 @@ var TinyMCE_AdvancedTheme = {
 					var st = tinyMCE.getAttrib(path[i], "style");
 					if (st != "") {
 						st = tinyMCE.serializeStyle(tinyMCE.parseStyle(st));
-						nodeData += "style: " + st + " ";
+						nodeData += "style: " + tinyMCE.xmlEncode(st) + " ";
 					}
 				}
 
@@ -849,18 +875,18 @@ var TinyMCE_AdvancedTheme = {
 
 					var face = tinyMCE.getAttrib(path[i], "face");
 					if (face != "")
-						nodeData += "font: " + face + " ";
+						nodeData += "font: " + tinyMCE.xmlEncode(face) + " ";
 
 					var size = tinyMCE.getAttrib(path[i], "size");
 					if (size != "")
-						nodeData += "size: " + size + " ";
+						nodeData += "size: " + tinyMCE.xmlEncode(size) + " ";
 
 					var color = tinyMCE.getAttrib(path[i], "color");
 					if (color != "")
-						nodeData += "color: " + color + " ";
+						nodeData += "color: " + tinyMCE.xmlEncode(color) + " ";
 				}
 
-				if (getAttrib(path[i], 'id') != "") {
+				if (tinyMCE.getAttrib(path[i], 'id') != "") {
 					nodeData += "id: " + path[i].getAttribute('id') + " ";
 				}
 
@@ -868,22 +894,22 @@ var TinyMCE_AdvancedTheme = {
 				if (className != "" && className.indexOf('mceItem') == -1)
 					nodeData += "class: " + className + " ";
 
-				if (getAttrib(path[i], 'src') != "") {
+				if (tinyMCE.getAttrib(path[i], 'src') != "") {
 					var src = tinyMCE.getAttrib(path[i], "mce_src");
 
 					if (src == "")
 						 src = tinyMCE.getAttrib(path[i], "src");
 
-					nodeData += "src: " + src + " ";
+					nodeData += "src: " + tinyMCE.xmlEncode(src) + " ";
 				}
 
-				if (path[i].nodeName == 'A' && getAttrib(path[i], 'href') != "") {
+				if (path[i].nodeName == 'A' && tinyMCE.getAttrib(path[i], 'href') != "") {
 					var href = tinyMCE.getAttrib(path[i], "mce_href");
 
 					if (href == "")
 						 href = tinyMCE.getAttrib(path[i], "href");
 
-					nodeData += "href: " + href + " ";
+					nodeData += "href: " + tinyMCE.xmlEncode(href) + " ";
 				}
 
 				className = tinyMCE.getAttrib(path[i], "class");
@@ -894,11 +920,11 @@ var TinyMCE_AdvancedTheme = {
 
 				if (nodeName == "a" && (anchor = tinyMCE.getAttrib(path[i], "name")) != "") {
 					nodeName = "a";
-					nodeName += "#" + anchor;
+					nodeName += "#" + tinyMCE.xmlEncode(anchor);
 					nodeData = "";
 				}
 
-				if (getAttrib(path[i], 'name').indexOf("mce_") != 0) {
+				if (tinyMCE.getAttrib(path[i], 'name').indexOf("mce_") != 0) {
 					var className = tinyMCE.getVisualAidClass(tinyMCE.getAttrib(path[i], "class"), false);
 					if (className != "" && className.indexOf('mceItem') == -1) {
 						nodeName += "." + className;
@@ -1124,7 +1150,7 @@ var TinyMCE_AdvancedTheme = {
 				break;
 
 				case "IMG":
-				if (getAttrib(node, 'name').indexOf('mce_') != 0 && tinyMCE.getAttrib(node, 'class').indexOf('mceItem') == -1) {
+				if (tinyMCE.getAttrib(node, 'name').indexOf('mce_') != 0 && tinyMCE.getAttrib(node, 'class').indexOf('mceItem') == -1) {
 					tinyMCE.switchClass(editor_id + '_image', 'mceButtonSelected');
 				}
 				break;
@@ -1371,11 +1397,25 @@ var TinyMCE_AdvancedTheme = {
 		}
 
 		h += '</tr></table>';
-		/*
-		h += '<a href="" class="mceMoreColors">More colors</a>';
-		*/
+
+		if (tinyMCE.getParam("theme_advanced_more_colors", true))
+			h += '<a href="#" onclick="TinyMCE_AdvancedTheme._pickColor(\'' + id + '\',\'' + cm + '\');" class="mceMoreColors">' + tinyMCE.getLang('lang_more_colors') + '</a>';
 
 		return h;
+	},
+
+	_pickColor : function(id, cm) {
+		var inputColor, inst = tinyMCE.selectedInstance;
+
+		if (cm == 'forecolor' && inst)
+			inputColor = inst.foreColor;
+
+		if ((cm == 'backcolor' || cm == 'HiliteColor') && inst)
+			inputColor = inst.backColor;
+
+		tinyMCE.execCommand('mceColorPicker', true, {color : inputColor, callback : function(c) {
+			tinyMCE.execInstanceCommand(id, cm, false, c);
+		}});
 	},
 
 	_insertImage : function(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout) {

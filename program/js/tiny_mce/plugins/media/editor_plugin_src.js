@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
+ * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -14,12 +14,18 @@ var TinyMCE_MediaPlugin = {
 			longname : 'Media',
 			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
-			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_media.html',
+			infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
 		};
 	},
 
 	initInstance : function(inst) {
+		// Warn if user has flash plugin and media plugin at the same time
+		if (inst.hasPlugin('flash') && !tinyMCE.flashWarn) {
+			alert('Flash plugin is deprecated and should not be used together with the media plugin.');
+			tinyMCE.flashWarn = true;
+		}
+
 		if (!tinyMCE.settings['media_skip_plugin_css'])
 			tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/plugins/media/css/content.css");
 	},
@@ -150,7 +156,7 @@ var TinyMCE_MediaPlugin = {
 					// Parse attributes
 					at = attribs['title'];
 					if (at) {
-						at = at.replace(/&#39;/g, "'");
+						at = at.replace(/&(#39|apos);/g, "'");
 						at = at.replace(/&#quot;/g, '"');
 
 						try {
@@ -380,7 +386,7 @@ var TinyMCE_MediaPlugin = {
 	},
 
 	_parseAttributes : function(attribute_string) {
-		var attributeName = "";
+		var attributeName = "", endChr = '"';
 		var attributeValue = "";
 		var withInName;
 		var withInValue;
@@ -395,9 +401,10 @@ var TinyMCE_MediaPlugin = {
 		for (var i=0; i<attribute_string.length; i++) {
 			var chr = attribute_string.charAt(i);
 
-			if ((chr == '"' || chr == "'") && !withInValue)
+			if ((chr == '"' || chr == "'") && !withInValue) {
 				withInValue = true;
-			else if ((chr == '"' || chr == "'") && withInValue) {
+				endChr = chr;
+			} else if (chr == endChr && withInValue) {
 				withInValue = false;
 
 				var pos = attributeName.lastIndexOf(' ');
