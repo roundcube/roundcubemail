@@ -1009,20 +1009,22 @@ class select extends base_form_element
     
     if (!is_array($select))
       $select = array((string)$select);
-    
+
     foreach ($this->options as $option)
       {
-      $selected = ((!empty($option['value']) && in_array($option['value'], $select, TRUE)) ||
-                   (in_array($option['text'], $select, TRUE))) ? $this->_conv_case(' selected', 'attrib') : '';
+      $selected = ((isset($option['value']) &&
+                    in_array($option['value'], $select, TRUE)) ||
+                   (in_array($option['text'], $select, TRUE))) ?
+        $this->_conv_case(' selected', 'attrib') : '';
                   
       $options_str .= sprintf("<%s%s%s>%s</%s>\n",
                              $this->_conv_case('option', 'tag'),
-                             !empty($option['value']) ? sprintf($value_str, $option['value']) : '',
+                             isset($option['value']) ? sprintf($value_str, $option['value']) : '',
                              $selected, 
                              Q($option['text'], 'strict', FALSE),
                              $this->_conv_case('option', 'tag'));
       }
-                             
+
     // return final tag
     return sprintf('<%s%s>%s</%s>%s',
                    $this->_conv_case('select', 'tag'),
