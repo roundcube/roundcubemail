@@ -190,13 +190,6 @@ function rcmail_authenticate_session()
     setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
     }
 
-  if (!$valid)
-    write_log('timeouts',
-      "REQUEST: " . var_export($_REQUEST, true) .
-      "\nEXPECTED: " . rcmail_auth_hash(session_id(), $_SESSION['auth_time']) .
-      "\nOR LAST: " . rcmail_auth_hash(session_id(), $_SESSION['last_auth']) .
-      "\nSESSION: " . var_export($_SESSION, true));
-
   return $valid;
   }
 
@@ -559,6 +552,7 @@ function rcmail_login($user, $pass, $host=NULL)
     $_SESSION['username']  = $user;
     $_SESSION['user_lang'] = $sess_user_lang;
     $_SESSION['password']  = encrypt_passwd($pass);
+    $_SESSION['login_time'] = mktime();
 
     // force reloading complete list of subscribed mailboxes
     rcmail_set_imap_prop();

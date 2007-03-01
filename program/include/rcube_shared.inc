@@ -1216,15 +1216,46 @@ function send_nocacheing_headers()
 
 
 // send header with expire date 30 days in future
-function send_future_expire_header()
+function send_future_expire_header($offset=2600000)
   {
   if (headers_sent())
     return;
 
-  header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+2600000)." GMT");
-  header("Cache-Control: ");
+  header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+$offset)." GMT");
+  header("Cache-Control: max-age=$offset");
   header("Pragma: ");
   }
+
+
+// check request for If-Modified-Since and send an according response
+function send_modified_header($mdate, $etag=null)
+{
+  if (headers_sent())
+    return;
+    
+  $iscached = false;
+  if ($_SERVER['HTTP_IF_MODIFIED_SINCE'] && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $mdate)
+    $iscached = true;
+  
+  $etag = $etag ? "\"$etag\"" : null;
+  if ($etag && $_SERVER['HTTP_IF_NONE_MATCH'] == $etag)
+    $iscached = true;
+  
+  if ($iscached)
+    header("HTTP/1.x 304 Not Modified");
+  else
+    header("Last-Modified: ".gmdate("D, d M Y H:i:s", $mdate)." GMT");
+  
+  header("Cache-Control: max-age=0");
+  header("Expires: ");
+  header("Pragma: ");
+  
+  if ($etag)
+    header("Etag: $etag");
+  
+  if ($iscached)
+    exit;
+}
 
 
 // function to convert an array to a javascript array

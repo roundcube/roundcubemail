@@ -23,21 +23,14 @@ require_once('Mail/mimeDecode.php');
 
 $PRINT_MODE = $_action=='print' ? TRUE : FALSE;
 
-// allow caching, unless remote images are present
-if ((bool)get_input_value('_safe', RCUBE_INPUT_GET))
-  send_nocacheing_headers();
-else
-  send_future_expire_header();
-
 // similar code as in program/steps/mail/get.inc
 if ($_GET['_uid'])
   {
   $MESSAGE = array('UID' => get_input_value('_uid', RCUBE_INPUT_GET));
   $MESSAGE['headers'] = $IMAP->get_headers($MESSAGE['UID']);
-  $MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']);
   
   // go back to list if message not found (wrong UID)
-  if (!$MESSAGE['headers'] || !$MESSAGE['structure'])
+  if (!$MESSAGE['headers'])
     {
     show_message('messageopenerror', 'error');
     if ($_action=='preview' && template_exists('messagepreview'))
@@ -49,9 +42,19 @@ if ($_GET['_uid'])
       }
     }
 
+  // calculate Etag for this request
+  $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().($PRINT_MODE?1:0));
+
+  // allow caching, unless remote images are present
+  if ((bool)get_input_value('_safe', RCUBE_INPUT_GET))
+    send_nocacheing_headers();
+  else
+    send_modified_header($_SESSION['login_time'], $etag);
+
+
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   
-  if ($MESSAGE['structure'])
+  if ($MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']))
     list($MESSAGE['parts'], $MESSAGE['attachments']) = rcmail_parse_message(
       $MESSAGE['structure'],
       array('safe' => (bool)$_GET['_safe'],

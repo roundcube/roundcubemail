@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/01 (thomasb)
+----------
+- Solved page caching of message preview (closes #1484153)
+- Only use gzip compression if configured (closes #1484236)
+
+
 2007/02/25 (estadtherr)
 ----------
 - Fixed priority selector issue (#1484150)
