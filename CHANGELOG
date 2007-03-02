@@ -1,8 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2007/03/01 (thomasb)
+2007/03/02 (thomasb)
 ----------
+- Show "no subject" in message list if subject is missing (closes #1484243)
 - Solved page caching of message preview (closes #1484153)
 - Only use gzip compression if configured (closes #1484236)
 

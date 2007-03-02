@@ -450,6 +450,7 @@ function rcmail_message_list($attrib)
       else if ($col=='subject')
         {
         $cont = Q($IMAP->decode_header($header->$col));
+        if (!$cont) $cont = Q(rcube_label('nosubject'));
         // firefox/mozilla temporary workaround to pad subject with content so that whitespace in rows responds to drag+drop
         $cont .= '<img src="./program/blank.gif" height="5" width="1000" alt="" />';
         }
@@ -535,7 +536,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       if ($col=='from' || $col=='to')
         $cont = Q(rcmail_address_string($header->$col, 3), 'show');
       else if ($col=='subject')
+        {
         $cont = Q($IMAP->decode_header($header->$col));
+        if (!$cont) $cont = Q(rcube_label('nosubject'));
+        }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')
