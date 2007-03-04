@@ -73,7 +73,7 @@ ini_set('error_reporting', E_ALL&~E_NOTICE);
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
-@set_time_limit(120);
+if (!ini_get('safe_mode')) @set_time_limit(120);
 
 // include base files
 require_once('include/rcube_shared.inc');

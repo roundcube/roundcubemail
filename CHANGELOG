@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/04 (tomekp)
+- check if safe mode is on or not (closes #1484269)
+
 2007/03/02 (thomasb)
 ----------
 - Show "no subject" in message list if subject is missing (closes #1484243)
