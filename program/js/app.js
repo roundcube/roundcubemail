@@ -1355,15 +1355,14 @@ function rcube_webmail()
   // delete selected messages from the current mailbox
   this.delete_messages = function()
     {
+    var selection = this.message_list ? this.message_list.get_selection() : new Array();
+    
     // exit if no mailbox specified or if selection is empty
-    if (!this.env.uid)
-      {
-      if (!this.message_list || !this.message_list.get_selection().length)
+    if (!this.env.uid && !selection.length)
         return;
-      }
 
     // if there is a trash mailbox defined and we're not currently in it:
-    if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase()!=String(this.env.trash_mailbox).toLowerCase())
+    if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase() != String(this.env.trash_mailbox).toLowerCase())
       {
       // if shift was pressed delete it immediately
       if (this.message_list && this.message_list.shiftkey)
@@ -1380,8 +1379,7 @@ function rcube_webmail()
     // if there isn't a defined trash mailbox and the config is set to flag for deletion
     else if (!this.env.trash_mailbox && this.env.flag_for_deletion)
       {
-      flag = 'delete';
-      this.mark_message(flag);
+      this.mark_message('delete');
       if(this.env.action=="show")
         this.command('nextmessage','',this);
       else if (selection.length == 1)
@@ -1399,7 +1397,7 @@ function rcube_webmail()
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length))
       return;
-
+      
     this.show_messageframe(false);
     this._with_selected_messages('delete', false, '&_from='+(this.env.action ? this.env.action : ''));
     };
@@ -1444,13 +1442,13 @@ function rcube_webmail()
       a_uids[0] = uid;
     else if (this.env.uid)
       a_uids[0] = this.env.uid;
-    else
+    else if (this.message_list)
       {
-      var id;
-      for (var n=0; n<selection.length; n++)
+      for (var id, n=0; n<selection.length; n++)
         {
         id = selection[n];
-        if ((flag=='read' && this.message_list.rows[id].unread) || (flag=='unread' && !this.message_list.rows[id].unread))
+        if ((flag=='read' && this.message_list.rows[id].unread) || (flag=='unread' && !this.message_list.rows[id].unread)
+            || (flag=='delete' && !this.message_list.rows[id].deleted) || (flag=='undelete' && this.message_list.rows[id].deleted))
           a_uids[a_uids.length] = id;
         }
       }
@@ -1523,7 +1521,8 @@ function rcube_webmail()
       return false;
 
     var rows = this.message_list.rows;
-    if (a_uids.length==1) {
+    if (a_uids.length==1)
+    {
       if (rows[a_uids[0]] && rows[a_uids[0]].classname.indexOf('deleted') < 0)
         this.flag_as_deleted(a_uids);
       else
@@ -1533,10 +1532,12 @@ function rcube_webmail()
     }
     
     var all_deleted = true;
-    for (var i=0; i<a_uids.length; i++) {
+    for (var i=0; i<a_uids.length; i++)
+    {
       uid = a_uids[i];
       if (rows[uid]) {
-        if (rows[uid].classname.indexOf('deleted')<0) {
+        if (rows[uid].classname.indexOf('deleted')<0)
+        {
           all_deleted = false;
           break;
         }
@@ -1561,12 +1562,14 @@ function rcube_webmail()
     var icn_src;
     var rows = this.message_list.rows;
       
-    for (var i=0; i<a_uids.length; i++) {
+    for (var i=0; i<a_uids.length; i++)
+    {
       uid = a_uids[i];
       if (rows[uid]) {
         rows[uid].deleted = false;
         
-        if (rows[uid].classname.indexOf('deleted') > 0) {
+        if (rows[uid].classname.indexOf('deleted') > 0)
+        {
           rows[uid].classname = rows[uid].classname.replace(/\s*deleted/, '');
           this.set_classname(rows[uid].obj, 'deleted', false);
         }
@@ -1593,7 +1596,8 @@ function rcube_webmail()
       return false;
 
     var rows = this.message_list.rows;
-    for (var i=0; i<a_uids.length; i++) {
+    for (var i=0; i<a_uids.length; i++)
+    {
       uid = a_uids[i];
       if (rows[uid]) {
         rows[uid].deleted = true;
