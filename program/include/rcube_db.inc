@@ -293,14 +293,16 @@ class rcube_db
       {
       case 'pgsql':
         $result = &$this->db_handle->getOne("SELECT CURRVAL('$sequence')");
-        
-      case 'mssql':
-       	$result = &$this->db_handle->getOne("SELECT @@IDENTITY");
-
         if (DB::isError($result))
           raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 
                             'message' => $result->getMessage()), TRUE, FALSE);
+        return $result;
 
+      case 'mssql':
+        $result = &$this->db_handle->getOne("SELECT @@IDENTITY");
+        if (DB::isError($result))
+          raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__, 
+                            'message' => $result->getMessage()), TRUE, FALSE);
         return $result;
                 
       case 'mysql': // This is unfortuneate
@@ -308,7 +310,7 @@ class rcube_db
 
       case 'mysqli':
         return mysqli_insert_id($this->db_handle->connection);
-	
+
       case 'sqlite':
         return sqlite_last_insert_rowid($this->db_handle->connection);
 
@@ -358,7 +360,7 @@ class rcube_db
    */
   function _fetch_row($result, $mode)
     {
-    if (DB::isError($result))
+    if (!$result || DB::isError($result))
       {
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => $this->db_link->getMessage()), TRUE, FALSE);

@@ -878,7 +878,8 @@ class rcube_imap
       {
       $results = array();
       foreach ($criteria as $crit)
-        $results = array_merge($results, $this->search($mbox_name, $crit, $str, $charset));
+        if ($search_result = $this->search($mbox_name, $crit, $str, $charset))
+          $results = array_merge($results, $search_result);
       
       $results = array_unique($results);
       $this->set_search_set($criteria, $str, $results, $charset);
