@@ -1,8 +1,21 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/13 (thomasb)
+----------
+- Applied patch for attachment download by crichardson (closes #1484198)
+- Fixed bug in Postgres DB handling (closes #1484068)
+- Fixed bug of invalid calls to fetchRow() in rcube_db.inc (closes #1484280)
+- Fixed array_merge bug (closes #1484281)
+- Fixed flag for deletion in list view (closes #1484264)
+- Finally support semicolons as recipient separator (closes ##1484251)
+- Fixed message headers (subject) encoding
+
+
 2007/03/04 (tomekp)
+----------
 - check if safe mode is on or not (closes #1484269)
+
 
 2007/03/02 (thomasb)
 ----------

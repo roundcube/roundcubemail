@@ -151,8 +151,8 @@ if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
 $input_charset = $OUTPUT->get_charset();
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
 
-$mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m');
-$mailto_replace = array(', ', ', ', '');
+$mailto_regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/');
+$mailto_replace = array(', ', ', ', '', ',');
 
 // replace new lines and strip ending ', '
 $mailto = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
@@ -170,7 +170,7 @@ if (empty($identity_arr['string']))
 // compose headers array
 $headers = array('Date' => date('D, j M Y H:i:s O'),
                  'From' => rcube_charset_convert($identity_arr['string'], $CHARSET, $message_charset),
-                 'To'   => rcube_charset_convert($mailto, $input_charset, $message_charset));
+                 'To'   => $mailto);
 
 // additional recipients
 if (!empty($_POST['_cc']))
@@ -301,10 +301,11 @@ $msg_body = $MAIL_MIME->get($message_param);
 // unset to save memory.
 unset($MAIL_MIME->_parts);
 
+// encoding subject header with mb_encode provides better results with asian characters
 if ($MBSTRING && function_exists("mb_encode_mimeheader"))
 {
   mb_internal_encoding($message_charset);
-  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
+  $mb_subject = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
   mb_internal_encoding($CHARSET);
 }
 
@@ -326,12 +327,12 @@ if (!$savedraft) {
     $send_headers = $headers;
     unset($send_headers['Bcc']);
   
-    // generate message headers
-    $header_str = $MAIL_MIME->txtHeaders($send_headers);
+    if (!empty($mb_subject))
+      $send_headers['Subject'] = $mb_subject;
   
     // send message
     $smtp_response = array();
-    $sent = smtp_mail($from, $a_recipients, $header_str, $msg_body, $smtp_response);
+    $sent = smtp_mail($from, $a_recipients, $MAIL_MIME->txtHeaders($send_headers), $msg_body, $smtp_response);
   
     // log error
     if (!$sent)
@@ -352,14 +353,17 @@ if (!$savedraft) {
     $headers_php = $MAIL_MIME->_headers;
     unset($headers_php['To'], $headers_php['Subject']);
     
+    if (!empty($mb_subject))
+      $headers_enc['Subject'] = $mb_subject;
+    
     // reset stored headers and overwrite
     $MAIL_MIME->_headers = array();
     $header_str = $MAIL_MIME->txtHeaders($headers_php);
   
     if (ini_get('safe_mode'))
-      $sent = mail($headers_enc['To'], $headers['Subject'], $msg_body, $header_str);
+      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
     else
-      $sent = mail($headers_enc['To'], $headers['Subject'], $msg_body, $header_str, "-f$from");
+      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
     }
   
   

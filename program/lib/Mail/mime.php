@@ -836,9 +836,9 @@ class Mail_mime
                     default:
                         // quoted-printable encoding has been selected
                         $mode = 'Q';
-                        $encoded = preg_replace('/([\x20-\x25\x2C\x80-\xFF])/e', "'='.sprintf('%02X', ord('\\1'))", $value);
+                        $encoded = preg_replace('/([\x2C\x3F\x80-\xFF])/e', "'='.sprintf('%02X', ord('\\1'))", $value);
                         // replace spaces with _
-                        $encoded = str_replace('=20', '_', $encoded);
+                        $encoded = str_replace(' ', '_', $encoded);
                     }
 
                 $value = '=?' . $this->_build_params['head_charset'] . '?' . $mode . '?' . $encoded . '?=' . $suffix;
