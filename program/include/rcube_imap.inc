@@ -2459,7 +2459,7 @@ class rcube_imap
     
     foreach ($a as $key => $val)
       {
-      $val = str_replace("\"<", "\" <", $val);
+      $val = preg_replace("/([\"\w])</", "$1 <", $val);
       $sub_a = $this->_explode_quoted_string(' ', $this->decode_header($val));
       $result[$key]['name'] = '';
 
