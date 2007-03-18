@@ -1846,7 +1846,7 @@ function rcmail_login_form($attrib)
   $labels['pass'] = rcube_label('password');
   $labels['host'] = rcube_label('server');
   
-  $input_user = new textfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30));
+  $input_user = new textfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30, 'autocomplete' => 'off'));
   $input_pass = new passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30));
   $input_action = new hiddenfield(array('name' => '_action', 'value' => 'login'));
     

@@ -195,7 +195,7 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
   }
 
 // check session and auth cookie
-else if ($_action!='login' && $_SESSION['user_id'])
+else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send')
   {
   if (!rcmail_authenticate_session() ||
       (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))

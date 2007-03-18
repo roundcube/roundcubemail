@@ -1,6 +1,17 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/18 (thomasb)
+----------
+- Also use user_id for unique key in messages table (closes #1484074)
+- Hide contacts drop down on blur (closes #1484203)
+- Make entries in contacts drop down clickable
+- Turn off browser autocompletion on login page
+- Quote <? in text/html message parts
+- Hide border around radio buttons
+- Replaced old JS function calls.
+
+
 2007/03/13 (thomasb)
 ----------
 - Applied patch for attachment download by crichardson (closes #1484198)

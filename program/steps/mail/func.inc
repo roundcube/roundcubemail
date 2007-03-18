@@ -1248,6 +1248,9 @@ function rcmail_mod_html_body($body, $container_id)
                             '</div>'),
                       $out);
 
+  // quote <? of php and xml files that are specified as text/html
+  $out = preg_replace(array('/<\?/', '/\?>/'), array('&lt;?', '?&gt;'), $out);
+
   return $out;
   }
 

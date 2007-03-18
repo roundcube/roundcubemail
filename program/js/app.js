@@ -3,7 +3,7 @@
  | RoundCube Webmail Client Script                                       |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2006, RoundCube Dev, - Switzerland                 |
+ | Copyright (C) 2005-2007, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -178,7 +178,7 @@ function rcube_webmail()
           this.enable_command('add-attachment', 'send-attachment', 'remove-attachment', 'send', true);
           if (this.env.spellcheck)
             {
-            this.env.spellcheck.spelling_state_observer = function(s){ rcube_webmail_client.set_spellcheck_state(s); };
+            this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
             this.set_spellcheck_state('ready');
             }
           if (this.env.drafts_mailbox)
@@ -386,18 +386,19 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj)
     {
-    var handler = function(e){ return rcube_webmail_client.ksearch_keypress(e,this); };
-    var handler2 = function(e){ return rcube_webmail_client.ksearch_blur(e,this); };
-
-    if (bw.safari)
-      obj.addEventListener('keydown', handler, false);
-    else if (bw.mz)
-      {
-      obj.addEventListener('keypress', handler, false);
+    var handler = function(e){ return ref.ksearch_keypress(e,this); };
+    var handler2 = function(e){ return ref.ksearch_blur(e,this); };
+    
+    if (obj.addEventListener)
+    {
+      obj.addEventListener(bw.safari ? 'keydown' : 'keypress', handler, false);
       obj.addEventListener('blur', handler2, false);
-      }
-    else if (bw.ie)
+    }
+    else
+    {
       obj.onkeydown = handler;
+      obj.onblur = handler2;
+    }
 
     obj.setAttribute('autocomplete', 'off');       
     };
@@ -1682,9 +1683,9 @@ function rcube_webmail()
 
   this.set_spellcheck_state = function(s)
     {
-  this.spellcheck_ready = (s=='check_spelling' || s=='ready');
+    this.spellcheck_ready = (s=='check_spelling' || s=='ready');
     this.enable_command('spellcheck', this.spellcheck_ready);
-  };
+    };
 
 
   this.auto_save_start = function()
@@ -1986,7 +1987,6 @@ function rcube_webmail()
         if (highlight && (next = dir ? highlight.previousSibling : highlight.nextSibling))
           {
           highlight.removeAttribute('id');
-          //highlight.removeAttribute('class');
           this.set_classname(highlight, 'selected', false);
           }
 
@@ -1997,9 +1997,7 @@ function rcube_webmail()
           this.ksearch_selected = next._rcm_id;
           }
 
-        if (e.preventDefault)
-          e.preventDefault();
-        return false;
+        return rcube_event.cancel(e);
 
       case 9:  // tab
         if(e.shiftKey)
@@ -2009,30 +2007,11 @@ function rcube_webmail()
         if (this.ksearch_selected===null || !this.ksearch_input || !this.ksearch_value)
           break;
 
-        // get cursor pos
-        var inp_value = this.ksearch_input.value.toLowerCase();
-        var cpos = this.get_caret_pos(this.ksearch_input);
-        var p = inp_value.lastIndexOf(this.ksearch_value, cpos);
-        
-        // replace search string with full address
-        var pre = this.ksearch_input.value.substring(0, p);
-        var end = this.ksearch_input.value.substring(p+this.ksearch_value.length, this.ksearch_input.value.length);
-        var insert = this.env.contacts[this.ksearch_selected]+', ';
-        this.ksearch_input.value = pre + insert + end;
-        
-        //this.ksearch_input.value = this.ksearch_input.value.substring(0, p)+insert;
-        
-        // set caret to insert pos
-        cpos = p+insert.length;
-        if (this.ksearch_input.setSelectionRange)
-          this.ksearch_input.setSelectionRange(cpos, cpos);
-        
-        // hide ksearch pane
+        // insert selected address and hide ksearch pane
+        this.insert_recipient(this.ksearch_selected);
         this.ksearch_hide();
-      
-        if (e.preventDefault)
-          e.preventDefault();
-        return false;
+
+        return rcube_event.cancel(e);
 
       case 27:  // escape
         this.ksearch_hide();
@@ -2046,6 +2025,30 @@ function rcube_webmail()
     
     return true;
     };
+
+
+  this.insert_recipient = function(id)
+  {
+    if (!this.env.contacts[id] || !this.ksearch_input)
+      return;
+    
+    // get cursor pos
+    var inp_value = this.ksearch_input.value.toLowerCase();
+    var cpos = this.get_caret_pos(this.ksearch_input);
+    var p = inp_value.lastIndexOf(this.ksearch_value, cpos);
+    
+    // replace search string with full address
+    var pre = this.ksearch_input.value.substring(0, p);
+    var end = this.ksearch_input.value.substring(p+this.ksearch_value.length, this.ksearch_input.value.length);
+    var insert  = this.env.contacts[id]+', ';
+    this.ksearch_input.value = pre + insert + end;
+    
+    // set caret to insert pos
+    cpos = p+insert.length;
+    if (this.ksearch_input.setSelectionRange)
+      this.ksearch_input.setSelectionRange(cpos, cpos);
+    
+  };
 
 
   // address search processor
@@ -2113,6 +2116,8 @@ function rcube_webmail()
         {
         li = document.createElement('LI');
         li.innerHTML = a_results[i].replace(/</, '&lt;').replace(/>/, '&gt;');
+        li.onmousedown = function(e){ ref.insert_recipient(this._rcm_id); ref.ksearch_pane.show(0); return rcube_event.cancel(e); };
+        li.style.cursor = 'pointer';
         li._rcm_id = a_result_ids[i];
         ul.appendChild(li);
         }
@@ -2138,9 +2143,6 @@ function rcube_webmail()
         this.ksearch_selected = a_result_ids[0];
         }
 
-      // resize the containing layer to fit the list
-      //this.ksearch_pane.resize(ul.offsetWidth, ul.offsetHeight);
-    
       // move the results pane right under the input box and make it visible
       var pos = rcube_get_object_pos(this.ksearch_input);
       this.ksearch_pane.move(pos.x, pos.y+this.ksearch_input.offsetHeight);
@@ -3228,8 +3230,8 @@ function rcube_webmail()
 
       request_obj.__lock = lock ? true : false;
       request_obj.__action = action;
-      request_obj.onerror = function(o){ rcube_webmail_client.http_error(o); };
-      request_obj.oncomplete = function(o){ rcube_webmail_client.http_response(o); };
+      request_obj.onerror = function(o){ ref.http_error(o); };
+      request_obj.oncomplete = function(o){ ref.http_response(o); };
       request_obj.GET(this.env.comm_path+'&_action='+action+'&'+querystring);
       }
     };

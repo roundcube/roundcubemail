@@ -496,7 +496,7 @@ function rcube_find_object(id, d)
     {
     if(d.layers[id]) obj = d.layers[id];
     for(n=0; !obj && n<d.layers.length; n++)
-      obj = nex_get_object(id, d.layers[n].document);
+      obj = rcube_find_object(id, d.layers[n].document);
     }
 
   return obj;
@@ -507,7 +507,7 @@ function rcube_find_object(id, d)
 function rcube_get_object_pos(obj)
   {
   if(typeof(obj)=='string')
-    obj = nex_get_object(obj);
+    obj = rcube_find_object(obj);
 
   if(!obj) return {x:0, y:0};
 
@@ -525,8 +525,8 @@ function rcube_get_object_pos(obj)
       }
     }
 
-  if(bw.mac && bw.ie5) iX += document.body.leftMargin;
-  if(bw.mac && bw.ie5) iY += document.body.topMargin;
+  //if(bw.mac && bw.ie5) iX += document.body.leftMargin;
+  //if(bw.mac && bw.ie5) iY += document.body.topMargin;
 
   return {x:iX, y:iY};
   }
@@ -548,7 +548,7 @@ function get_elements_computed_style(html_element, css_property, mozilla_equival
 
   var el = html_element;
   if (typeof(html_element)=='string')
-    el = nex_get_object(html_element);
+    el = rcube_find_object(html_element);
 
   if (el && el.currentStyle)
     return el.currentStyle[css_property];

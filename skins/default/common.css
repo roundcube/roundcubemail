@@ -73,7 +73,8 @@ input, textarea
   border: 1px solid #666666;
 }
 
-input[type="checkbox"]
+input[type="checkbox"],
+input[type="radio"]
 {
   border: 0;
   padding: 0;
