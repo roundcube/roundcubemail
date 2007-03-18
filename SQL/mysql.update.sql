@@ -5,7 +5,7 @@ ALTER TABLE `messages`
   DROP `body`,
   DROP INDEX `cache_key`,
   ADD `structure` TEXT,
-  ADD UNIQUE `uniqueness` (`cache_key`, `uid`);
+  ADD UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`);
 
 ALTER TABLE `identities`
   ADD `html_signature` tinyint(1) default 0 NOT NULL;

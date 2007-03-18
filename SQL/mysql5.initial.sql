@@ -55,7 +55,7 @@ CREATE TABLE `messages` (
  PRIMARY KEY(`message_id`),
  INDEX `idx`(`idx`),
  INDEX `uid`(`uid`),
- UNIQUE `uniqueness` (`cache_key`, `uid`),
+ UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`),
  CONSTRAINT `User_ID_FK_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE

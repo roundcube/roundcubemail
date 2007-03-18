@@ -122,7 +122,7 @@ CREATE TABLE `messages` (
   KEY `user_id` (`user_id`),
   KEY `idx` (`idx`),
   KEY `uid` (`uid`),
-  UNIQUE `uniqueness` (`cache_key`, `uid`)
+  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`)
 );
 
 
