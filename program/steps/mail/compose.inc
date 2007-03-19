@@ -401,8 +401,8 @@ function rcmail_compose_body($attrib)
       $body = rcmail_first_text_part($MESSAGE);
       $isHtml = false;
       }
-    if (strlen($body))
-      $body = rcmail_create_forward_body($body, $isHtml);
+
+    $body = rcmail_create_forward_body($body, $isHtml);
     }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
     {
@@ -564,10 +564,9 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
   }
 
   // add attachments
-  if (!isset($_SESSION['compose']['forward_attachments']) &&
-      is_array($MESSAGE['parts']) && sizeof($MESSAGE['parts'])>1)
+  if (!isset($_SESSION['compose']['forward_attachments']) && is_array($MESSAGE['parts']))
     rcmail_write_compose_attachments($MESSAGE);
-
+    
   return $prefix.$body;
   }
 
@@ -598,7 +597,7 @@ function rcmail_write_compose_attachments(&$message)
     {
     if ($part->ctype_primary != 'message' && $part->ctype_primary != 'text' &&
         ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
-         (empty($part->disposition) && ($part->d_parameters['filename'] || $part->ctype_parameters['name']))))
+         (empty($part->disposition) && $part->filename)))
       {
       $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
       if ($fp = fopen($tmp_path, 'w'))
@@ -606,13 +605,9 @@ function rcmail_write_compose_attachments(&$message)
         fwrite($fp, $IMAP->get_message_part($message['UID'], $pid, $part->encoding));
         fclose($fp);
         
-        $filename = !empty($part->d_parameters['filename']) ? $part->d_parameters['filename'] :
-                     (!empty($part->ctype_parameters['name']) ? $part->ctype_parameters['name'] :
-                      (!empty($part->headers['content-description']) ? $part->headers['content-description'] : 'file'));
-
         $_SESSION['compose']['attachments'][] = array(
-          'name' => rcube_imap::decode_mime_string($filename),
           'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+          'name' => $part->filename,
           'path' => $tmp_path
           );
         }

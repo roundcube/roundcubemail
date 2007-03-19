@@ -727,6 +727,14 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
   
   $body = is_array($part->replaces) ? strtr($part->body, $part->replaces) : $part->body;
 
+  // convert html to text/plain
+  if ($part->ctype_secondary=='html' && $plain)
+    {
+    $txt = new html2text($body, false, true);
+    $body = $txt->get_text();
+    $part->ctype_secondary = 'plain';
+    }
+    
   // text/html
   if ($part->ctype_secondary=='html')
     {
@@ -975,7 +983,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
 
       // part is file/attachment
       else if ($mail_part->disposition=='attachment' || $mail_part->disposition=='inline' || $mail_part->headers['content-id'] ||
-               (empty($mail_part->disposition) && ($mail_part->d_parameters['filename'] || $mail_part->ctype_parameters['name'])))
+               (empty($mail_part->disposition) && $mail_part->filename))
         {
         // skip apple resource forks
         if ($message_ctype_secondary=='appledouble' && $secondary_type=='applefile')
@@ -984,18 +992,12 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
         // part belongs to a related message
         if ($message_ctype_secondary=='related' && $mail_part->headers['content-id'])
           {
-          $mail_part->filename = rcube_imap::decode_mime_string($mail_part->d_parameters['filename']);
           $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
           $sa_inline_objects[] = $mail_part;
           }
         // is regular attachment
-        else if (($fname = $mail_part->d_parameters['filename']) ||
-                 ($fname = $mail_part->ctype_parameters['name']) ||
-                 ($fname = $mail_part->headers['content-description']))
-          {
-          $mail_part->filename = rcube_imap::decode_mime_string($fname);
+        else if ($mail_part->filename)
           $a_attachments[] = $mail_part;
-          }
         }
       }
 
@@ -1018,16 +1020,8 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
     }
 
   // message is single part non-text
-  else
-    {
-    if (($fname = $structure->d_parameters['filename']) ||
-        ($fname = $structure->ctype_parameters['name']) ||
-        ($fname = $structure->headers['content-description']))
-      {
-      $structure->filename = rcube_imap::decode_mime_string($fname);
-      $a_attachments[] = $structure;
-      }
-    }
+  else if ($structure->filename)
+    $a_attachments[] = $structure;
 
   return array($a_return_parts, $a_attachments);
   }
@@ -1136,11 +1130,11 @@ function rcmail_message_body($attrib)
         if (!isset($part->body))
           $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);
 
-        $body = rcmail_print_body($part, $safe_mode);
+        $body = rcmail_print_body($part, $safe_mode, !$CONFIG['prefer_html']);
         $out .= '<div class="message-part">';
         
         if ($part->ctype_secondary != 'plain')
-          $out .= rcmail_mod_html_body($body, $attrib['id']);
+          $out .= rcmail_sanitize_html($body, $attrib['id']);
         else
           $out .= $body;
 
@@ -1180,7 +1174,7 @@ function rcmail_message_body($attrib)
 
 
 // modify a HTML message that it can be displayed inside a HTML page
-function rcmail_mod_html_body($body, $container_id)
+function rcmail_sanitize_html($body, $container_id)
   {
   // remove any null-byte characters before parsing
   $body = preg_replace('/\x00/', '', $body);
@@ -1452,22 +1446,19 @@ function rcmail_message_part_controls()
   $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'cellspacing', 'cellpadding', 'border', 'summary'));
   $out = '<table '. $attrib_str . ">\n";
   
-  $filename = $part->d_parameters['filename'] ? $part->d_parameters['filename'] : $part->ctype_parameters['name'];
-  $filesize = $part->size;
-  
   if ($filename)
     {
     $out .= sprintf('<tr><td class="title">%s</td><td>%s</td><td>[<a href="./?%s">%s</a>]</tr>'."\n",
                     Q(rcube_label('filename')),
-                    Q(rcube_imap::decode_mime_string($filename)),
+                    Q($part->filename),
                     str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING']),
                     Q(rcube_label('download')));
     }
     
-  if ($filesize)
+  if ($part->size)
     $out .= sprintf('<tr><td class="title">%s</td><td>%s</td></tr>'."\n",
                     Q(rcube_label('filesize')),
-                    show_bytes($filesize));
+                    show_bytes($part->size));
   
   $out .= "\n</table>";
   

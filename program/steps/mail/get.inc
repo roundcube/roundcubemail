@@ -59,16 +59,12 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
     {
     $ctype_primary = strtolower($part->ctype_primary);
     $ctype_secondary = strtolower($part->ctype_secondary);
-
     $mimetype = sprintf('%s/%s', $ctype_primary, $ctype_secondary);
-    $filename = $part->d_parameters['filename'] ? $part->d_parameters['filename'] : $part->ctype_parameters['name'];
 
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Cache-Control: private", false);
     header("Content-Transfer-Encoding: binary");
-    header(sprintf('Content-Disposition: attachment; filename="%s";',
-                   $filename ? rcube_imap::decode_mime_string($filename) : "roundcube.$ctype_secondary"));
 
     // send download headers
     if ($_GET['_download'])
@@ -110,6 +106,10 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
       }
     else
       {
+      header(sprintf('Content-Disposition: %s; filename="%s";',
+                     $part->disposition ? $part->disposition : 'attachment',
+                     $part->filename ? $part->filename : "roundcube.$ctype_secondary"));
+
       // turn off output buffering and print part content
       $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part->encoding, true);
       }

@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/19 (thomasb)
+----------
+- Don't download HTML message parts
+- Convert HTML parts to plaintext if 'prefer_html' is off
+- Correctly parse message/rfc822 parts (closes #1484045)
+- Code cleanup
+
+
 2007/03/18 (thomasb)
 ----------
 - Also use user_id for unique key in messages table (closes #1484074)

@@ -628,7 +628,14 @@ table.headers-table
   width: 100%;
   background-color: #EBEBEB;
   table-layout: fixed;
+}
 
+#messagebody table.headers-table
+{
+  width: auto;
+  margin: 6px 8px;
+  background-color: #F4F4F4;
+  border: 1px solid #ccc;
 }
 
 table.headers-table tr td

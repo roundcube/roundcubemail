@@ -988,10 +988,10 @@ class rcube_imap
     if (!($msg_id = $this->_uid2id($uid)))
       return FALSE;
 
-	$structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id); 
-	$structure = iml_GetRawStructureArray($structure_str);
-	$struct = false;
-	
+    $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id); 
+    $structure = iml_GetRawStructureArray($structure_str);
+    $struct = false;
+
     // parse structure and add headers
     if (!empty($structure))
       {
@@ -1013,9 +1013,9 @@ class rcube_imap
       if ($this->caching_enabled)
         $this->add_message_cache($cache_key, $msg_id, $headers, $struct);
       }
-	
-	return $struct;
-	}
+      
+    return $struct;
+    }
 
   
   /**
@@ -1047,8 +1047,8 @@ class rcube_imap
       for ($i=0, $count=0; $i<count($part); $i++)
         if (is_array($part[$i]) && count($part[$i]) > 5)
           $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id);
-
-      return $struct;      
+          
+      return $struct;
       }
     
     
@@ -1056,30 +1056,30 @@ class rcube_imap
     $struct->ctype_primary = strtolower($part[0]);
     $struct->ctype_secondary = strtolower($part[1]);
     $struct->mimetype = $struct->ctype_primary.'/'.$struct->ctype_secondary;
-	
+
     // read content type parameters
-	if (is_array($part[2]))
-	  {
-	  $struct->ctype_parameters = array();
+    if (is_array($part[2]))
+      {
+      $struct->ctype_parameters = array();
       for ($i=0; $i<count($part[2]); $i+=2)
         $struct->ctype_parameters[strtolower($part[2][$i])] = $part[2][$i+1];
         
       if (isset($struct->ctype_parameters['charset']))
         $struct->charset = $struct->ctype_parameters['charset'];
-	  }
-	  
-	// read content encoding
-	if (!empty($part[5]) && $part[5]!='NIL')
-	  {
-	  $struct->encoding = strtolower($part[5]);
-	  $struct->headers['content-transfer-encoding'] = $struct->encoding;
-	  }
-	  
-	// get part size
-	if (!empty($part[6]) && $part[6]!='NIL')
-	  $struct->size = intval($part[6]);
+      }
+    
+    // read content encoding
+    if (!empty($part[5]) && $part[5]!='NIL')
+      {
+      $struct->encoding = strtolower($part[5]);
+      $struct->headers['content-transfer-encoding'] = $struct->encoding;
+      }
+    
+    // get part size
+    if (!empty($part[6]) && $part[6]!='NIL')
+      $struct->size = intval($part[6]);
 
-	// read part disposition
+    // read part disposition
     $di = count($part) - 2;
     if ((is_array($part[$di]) && count($part[$di]) == 2 && is_array($part[$di][1])) ||
         (is_array($part[--$di]) && count($part[$di]) == 2))
@@ -1099,25 +1099,36 @@ class rcube_imap
         if (is_array($part[8][$i]) && count($part[8][$i]) > 5)
           $struct->parts[] = $this->_structure_part($part[8][$i], ++$count, $struct->mime_id);
       }
-      
-	// get part ID
-	if (!empty($part[3]) && $part[3]!='NIL')
-	  {
-	  $struct->content_id = $part[3];
-	  $struct->headers['content-id'] = $part[3];
-	  
-	  if (empty($struct->disposition))
-	    $struct->disposition = 'inline';
-	  }
+
+    // get part ID
+    if (!empty($part[3]) && $part[3]!='NIL')
+      {
+      $struct->content_id = $part[3];
+      $struct->headers['content-id'] = $part[3];
+    
+      if (empty($struct->disposition))
+        $struct->disposition = 'inline';
+      }
 
     // fetch message headers if message/rfc822
     if ($struct->ctype_primary=='message')
       {
       $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
       $struct->headers = $this->_parse_headers($headers);
+      
+      if (is_array($part[8]) && empty($struct->parts))
+        $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
       }
-  
-  	return $struct;
+      
+    // normalize filename property
+    if (!empty($struct->d_parameters['filename']))
+      $struct->filename = $this->decode_mime_string($struct->d_parameters['filename']);
+    else if (!empty($struct->ctype_parameters['name']))
+      $struct->filename = $this->decode_mime_string($struct->ctype_parameters['name']);
+    else if (!empty($struct->headers['content-description']))
+      $struct->filename = $this->decode_mime_string($struct->headers['content-description']);
+      
+    return $struct;
     }
     
   
@@ -2510,6 +2521,7 @@ class rcube_message_part
   var $ctype_secondary = 'plain';
   var $mimetype = 'text/plain';
   var $disposition = '';
+  var $filename = '';
   var $encoding = '8bit';
   var $charset = '';
   var $size = 0;

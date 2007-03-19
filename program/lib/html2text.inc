@@ -112,7 +112,7 @@ class html2text
         "/[\n\t]+/",                             // Newlines and tabs
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
-        '/<a href="([^"]+)"[^>]*>(.+?)<\/a>/ie', // <a href="">
+        '/<a [^>]*href="([^"]+)"[^>]*>(.+?)<\/a>/ie', // <a href="">
         '/<h[123][^>]*>(.+?)<\/h[123]>/ie',      // H1 - H3
         '/<h[456][^>]*>(.+?)<\/h[456]>/ie',      // H4 - H6
         '/<p[^>]*>/i',                           // <P>
@@ -160,11 +160,11 @@ class html2text
         '',                                     // Non-legal carriage return
         ' ',                                    // Newlines and tabs
         '',                                     // <script>s -- which strip_tags supposedly has problems with
-        //'',                                     // Comments -- which strip_tags might have problem a with
+        //'',                                  // Comments -- which strip_tags might have problem a with
         '$this->_build_link_list("\\1", "\\2")', // <a href="">
         "strtoupper(\"\n\n\\1\n\n\")",          // H1 - H3
-        "ucwords(\"\n\n\\1\n\n\")",             // H4 - H6
-        "\n",                                   // <P>
+        "ucwords(\"\n\n\\1\n\")",               // H4 - H6
+        "\n\n",                                 // <P>
         "\n",                                   // <br>
         'strtoupper("\\1")',                    // <b>
         '_\\1_',                                // <i>
@@ -255,7 +255,7 @@ class html2text
      *  @access public
      *  @return void
      */
-    function html2text( $source = '', $from_file = false, $do_link_table = true )
+    function html2text( $source = '', $from_file = false, $produce_link_table = true )
     {
         if ( !empty($source) ) {
             $this->set_html($source, $from_file);
