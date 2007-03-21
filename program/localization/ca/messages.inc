@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
 
@@ -13,12 +13,12 @@
  | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
  +-----------------------------------------------------------------------+
 
- @version $Id$ 
+ @version $Id$
 
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Contrasenya incorrecta';
+$messages['loginfailed'] = 'Contrasenya incorrecta';
 $messages['cookiesdisabled'] = 'El seu navegador no accepta cookies';
 $messages['sessionerror'] = 'La seva sessió no existeix o ha expirat';
 $messages['imaperror'] = 'Error de conexió amb el servidor IMAP';
@@ -42,15 +42,16 @@ $messages['sendingfailed'] = 'Error enviant missatge';
 $messages['errorsaving'] = 'Va ocórrer un error mentres es desava';
 $messages['errormoving'] = 'No s\'ha pogut moure el missatge';
 $messages['errordeleting'] = 'No s\'ha pogut eliminar el missatge';
-$messages['deletecontactconfirm']  = 'Realment vol suprimir el(s) contacte(s) selecionat(s)?';
-$messages['deletefolderconfirm']  = 'Realment vol suprimir aquesta carpeta?';
-$messages['purgefolderconfirm']  = 'Realment vol suprimir tots els missatges d\'aquesta carpeta?';
+$messages['deletecontactconfirm'] = 'Realment vol suprimir el(s) contacte(s) selecionat(s)?';
+$messages['deletemessagesconfirm'] = 'Realment vol suprimir el(s) missatge(s) selecionat(s)?';
+$messages['deletefolderconfirm'] = 'Realment vol suprimir aquesta carpeta?';
+$messages['purgefolderconfirm'] = 'Realment vol suprimir tots els missatges d\'aquesta carpeta?';
 $messages['formincomplete'] = 'El formulari no ha sigut emplenat totalment';
 $messages['noemailwarning'] = 'Introdueixi una direcció email vàlida';
-$messages['nonamewarning']  = 'Introdueixi un nom';
+$messages['nonamewarning'] = 'Introdueixi un nom';
 $messages['nopagesizewarning'] = 'Introdueixi un tamany de pàgina';
 $messages['norecipientwarning'] = 'Introdueixi al menys un destinatari';
-$messages['nosubjectwarning']  = 'El camp "Assumpte" eatà buit. Vol introduir un ara?';
+$messages['nosubjectwarning'] = 'El camp "Assumpte" eatà buit. Vol introduir un ara?';
 $messages['nobodywarning'] = 'Vol enviar aquest missatge sense text?';
 $messages['notsentwarning'] = 'El missatge no s\'ha enviat. Vol descartar el seu missatge?';
 $messages['noldapserver'] = 'Seleccioni un servidor ldap per a cercar';
@@ -62,5 +63,10 @@ $messages['searching'] = 'Cercant...';
 $messages['checking'] = 'Comprovant...';
 $messages['nospellerrors'] = 'No s\'han trobat errors d\'ortografia';
 $messages['folderdeleted'] = 'Carpeta eliminada correctament';
+$messages['deletedsuccessfully'] = 'Eliminat correctament';
+$messages['converting'] = 'Treient format del missatge...';
+$messages['messageopenerror'] = 'No s\'ha pogut carregar el missatge del servidor';
+$messages['fileuploaderror'] = 'Pujada de fitxer fallida';
+$messages['filesizeerror'] = 'El fitxer pujat excedeix la grandària màxima de $size';
 
 ?>

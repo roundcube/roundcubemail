@@ -1,20 +1,19 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
  | language/pt_BR/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundQube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Robson F. Ramaldes <rframaldes@gmail.com>                     |
- |         Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+ | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+ | Updated by: Robson F. Ramaldes <rframaldes@gmail.com>                 |
  +-----------------------------------------------------------------------+
 
- @version $Id$
+ $Id$
 
 */
 
@@ -96,7 +95,7 @@ $labels['checkmail']        = 'Verificar se há novas mensagens';
 $labels['writenewmessage']  = 'Criar nova mensagem';
 $labels['replytomessage']   = 'Responder';
 $labels['replytoallmessage'] = 'Responder para todos';
-$labels['forwardmessage']   = 'Encaminhar   ';
+$labels['forwardmessage']   = 'Encaminhar	';
 $labels['deletemessage']    = 'Mover para lixeira';
 $labels['printmessage']     = 'Imprimir';
 $labels['previousmessages'] = 'Página Anterior';
@@ -125,6 +124,7 @@ $labels['unlimited']  = 'sem limitação';
 
 $labels['quicksearch']  = 'Pesquisa Rápida';
 $labels['resetsearch']  = 'Limpar';
+
 
 // message compose
 $labels['compose']  = 'Escrever mensagem';
@@ -156,6 +156,7 @@ $labels['showimages'] = 'Exibir imagens';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Texto Puro';
 
+
 // address boook
 $labels['name']      = 'Nome completo';
 $labels['firstname'] = 'Primeiro nome';
@@ -182,6 +183,7 @@ $labels['nextpage']       = 'Próxima Página';
 $labels['firstpage']      = 'Primeira Página ';
 $labels['lastpage']       = 'Ultima Página';
 
+
 // LDAP search
 $labels['ldapsearch'] = 'Pesquisa no diretório LDAP';
 
@@ -191,6 +193,7 @@ $labels['ldappublicserverselect'] = 'Selecionar servidores';
 $labels['ldappublicsearchfield'] = 'Pesquisar em';
 $labels['ldappublicsearchform'] = 'Procurar por um contato';
 $labels['ldappublicsearch'] = 'Pesquisar';
+
 
 // settings
 $labels['settingsfor']  = 'Configurações para';
