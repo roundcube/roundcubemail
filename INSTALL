@@ -60,6 +60,10 @@ RoundCube with utf-8 charset. Here's an example of the init procedure:
 
 # mysql roundcubemail < SQL/mysql5.initial.sql
 
+Note: 'password' is the master password for the roundcube user. It is strongly
+recommended you replace this with a more secure password. Please keep in
+mind: You need to specify this password later in 'config/db.inc.php'.
+
 
 * SQLite
 --------

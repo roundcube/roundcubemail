@@ -580,10 +580,10 @@ function rcmail_create_user($user, $host)
   $DB->query("INSERT INTO ".get_table_name('users')."
               (created, last_login, username, mail_host, alias, language)
               VALUES (".$DB->now().", ".$DB->now().", ?, ?, ?, ?)",
-              $user,
-              $host,
-              $user_email,
-		      $_SESSION['user_lang']);
+              strip_newlines($user),
+              strip_newlines($host),
+              strip_newlines($user_email),
+              $_SESSION['user_lang']);
 
   if ($user_id = $DB->insert_id(get_sequence_name('users')))
     {
@@ -595,7 +595,7 @@ function rcmail_create_user($user, $host)
     $user_name = $user!=$user_email ? $user : '';
 
     // try to resolve the e-mail address from the virtuser table
-	if (!empty($CONFIG['virtuser_query']) &&
+    if (!empty($CONFIG['virtuser_query']) &&
         ($sql_result = $DB->query(preg_replace('/%u/', $user, $CONFIG['virtuser_query']))) &&
         ($DB->num_rows()>0))
       while ($sql_arr = $DB->fetch_array($sql_result))
@@ -604,7 +604,7 @@ function rcmail_create_user($user, $host)
                    (user_id, del, standard, name, email)
                    VALUES (?, 0, 1, ?, ?)",
                    $user_id,
-                   $user_name,
+                   strip_newlines($user_name),
                    preg_replace('/^@/', $user . '@', $sql_arr[0]));
         }
     else
@@ -614,8 +614,8 @@ function rcmail_create_user($user, $host)
                   (user_id, del, standard, name, email)
                   VALUES (?, 0, 1, ?, ?)",
                   $user_id,
-                  $user_name,
-                  $user_email);
+                  strip_newlines($user_name),
+                  strip_newlines($user_email));
       }
                        
     // get existing mailboxes
@@ -1138,6 +1138,14 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
 function strip_quotes($str)
 {
   return preg_replace('/[\'"]/', '', $str);
+}
+
+/**
+ * Remove new lines characters from given string
+ */
+function strip_newlines($str)
+{
+  return preg_replace('/[\r\n]/', '', $str);
 }
 
 

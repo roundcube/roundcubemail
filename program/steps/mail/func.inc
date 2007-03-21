@@ -1252,7 +1252,7 @@ function rcmail_sanitize_html($body, $container_id)
 // parse link attributes and set correct target
 function rcmail_alter_html_link($in)
   {
-  $in = preg_replace('/=([^("|\s)]+)(\s|$)/', '="\1"', $in);
+  $in = preg_replace('/=([^("|\'|\s)]+)(\s|$)/', '="\1"', $in);
   $attrib = parse_attrib_string($in);
 
   if (stristr((string)$attrib['href'], 'mailto:'))

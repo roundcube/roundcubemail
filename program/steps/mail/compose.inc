@@ -201,7 +201,7 @@ function rcmail_compose_headers($attrib)
       $fvalue = '';
       foreach ($to_addresses as $addr_part)
         {
-        if (!in_array($addr_part['mailto'], $sa_recipients) && (!$MESSAGE['FROM'] || !in_array($addr_part['mailto'], $MESSAGE['FROM'])))
+        if (!empty($addr_part['mailto']) && !in_array($addr_part['mailto'], $sa_recipients) && (!$MESSAGE['FROM'] || !in_array($addr_part['mailto'], $MESSAGE['FROM'])))
           {
           $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
           $sa_recipients[] = $addr_part['mailto'];
@@ -384,8 +384,8 @@ function rcmail_compose_body($attrib)
       $body = rcmail_first_text_part($MESSAGE);
       $isHtml = false;
       }
-    if (strlen($body))
-      $body = rcmail_create_reply_body($body, $isHtml);
+
+    $body = rcmail_create_reply_body($body, $isHtml);
     }
   // forward message body inline
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
@@ -417,8 +417,8 @@ function rcmail_compose_body($attrib)
       $body = rcmail_first_text_part($MESSAGE);
       $isHtml = false;
       }
-    if (strlen($body))
-      $body = rcmail_create_draft_body($body, $isHtml);
+
+    $body = rcmail_create_draft_body($body, $isHtml);
     }
 
   $OUTPUT->include_script('tiny_mce/tiny_mce.js');

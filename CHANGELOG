@@ -1,6 +1,16 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/21 (thomasb)
+----------
+- Updated PEAR::Mail_mime package
+- Added Persian localization
+- Updated Catalan and Brazilian Portuguese translations
+- Updated INSTALL manual with a note about database passwords
+- Accept single quotes for HTML attributes when modifying message body (thanks Jason)
+- Sanitize input for new users/identities (thanks Colin Alston)
+
+
 2007/03/19 (thomasb)
 ----------
 - Don't download HTML message parts
