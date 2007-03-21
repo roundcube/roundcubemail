@@ -1,125 +1,115 @@
 <?php
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003  Richard Heyes                                     |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// +-----------------------------------------------------------------------+
+/**
+ * The Mail_mimePart class is used to create MIME E-mail messages
+ *
+ * This class enables you to manipulate and build a mime email
+ * from the ground up. The Mail_Mime class is a userfriendly api
+ * to this class for people who aren't interested in the internals
+ * of mime mail.
+ * This class however allows full control over the email.
+ *
+ * Compatible with PHP versions 4 and 5
+ *
+ * LICENSE: This LICENSE is in the BSD license style.
+ * Copyright (c) 2002-2003, Richard Heyes <richard@phpguru.org>
+ * Copyright (c) 2003-2006, PEAR <pear-group@php.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name of the authors, nor the names of its contributors 
+ *   may be used to endorse or promote products derived from this 
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Mail_mime
+ */
+
 
 /**
-*
-*  Raw mime encoding class
-*
-* What is it?
-*   This class enables you to manipulate and build
-*   a mime email from the ground up.
-*
-* Why use this instead of mime.php?
-*   mime.php is a userfriendly api to this class for
-*   people who aren't interested in the internals of
-*   mime mail. This class however allows full control
-*   over the email.
-*
-* Eg.
-*
-* // Since multipart/mixed has no real body, (the body is
-* // the subpart), we set the body argument to blank.
-*
-* $params['content_type'] = 'multipart/mixed';
-* $email = new Mail_mimePart('', $params);
-*
-* // Here we add a text part to the multipart we have
-* // already. Assume $body contains plain text.
-*
-* $params['content_type'] = 'text/plain';
-* $params['encoding']     = '7bit';
-* $text = $email->addSubPart($body, $params);
-*
-* // Now add an attachment. Assume $attach is
-* the contents of the attachment
-*
-* $params['content_type'] = 'application/zip';
-* $params['encoding']     = 'base64';
-* $params['disposition']  = 'attachment';
-* $params['dfilename']    = 'example.zip';
-* $attach =& $email->addSubPart($body, $params);
-*
-* // Now build the email. Note that the encode
-* // function returns an associative array containing two
-* // elements, body and headers. You will need to add extra
-* // headers, (eg. Mime-Version) before sending.
-*
-* $email = $message->encode();
-* $email['headers'][] = 'Mime-Version: 1.0';
-*
-*
-* Further examples are available at http://www.phpguru.org
-*
-* TODO:
-*  - Set encode() to return the $obj->encoded if encode()
-*    has already been run. Unless a flag is passed to specifically
-*    re-build the message.
-*
-* @author  Richard Heyes <richard@phpguru.org>
-* @version $Revision$
-* @package Mail
-*/
-
+ * The Mail_mimePart class is used to create MIME E-mail messages
+ *
+ * This class enables you to manipulate and build a mime email
+ * from the ground up. The Mail_Mime class is a userfriendly api
+ * to this class for people who aren't interested in the internals
+ * of mime mail.
+ * This class however allows full control over the email.
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Mail_mime
+ */
 class Mail_mimePart {
 
    /**
     * The encoding type of this part
+    *
     * @var string
+    * @access private
     */
     var $_encoding;
 
    /**
     * An array of subparts
+    *
     * @var array
+    * @access private
     */
     var $_subparts;
 
    /**
     * The output of this part after being built
+    *
     * @var string
+    * @access private
     */
     var $_encoded;
 
    /**
     * Headers for this part
+    *
     * @var array
+    * @access private
     */
     var $_headers;
 
    /**
     * The body of this part (not encoded)
+    *
     * @var string
+    * @access private
     */
     var $_body;
 
@@ -234,7 +224,7 @@ class Mail_mimePart {
 
             $encoded['body'] = '--' . $boundary . MAIL_MIMEPART_CRLF .
                                implode('--' . $boundary . MAIL_MIMEPART_CRLF, $subparts) .
-                               '--' . $boundary.'--' . MAIL_MIMEPART_CRLF;
+                               '--' . $boundary.'--' . MAIL_MIMEPART_CRLF . MAIL_MIMEPART_CRLF;
 
         } else {
             $encoded['body'] = $this->_getEncodedData($this->_body, $this->_encoding) . MAIL_MIMEPART_CRLF;
@@ -299,7 +289,7 @@ class Mail_mimePart {
     }
 
     /**
-     * quoteadPrintableEncode()
+     * quotedPrintableEncode()
      *
      * Encodes data to quoted-printable standard.
      *
@@ -318,11 +308,12 @@ class Mail_mimePart {
 
         while(list(, $line) = each($lines)){
 
-            $linlen     = strlen($line);
+            $line    = preg_split('||', $line, -1, PREG_SPLIT_NO_EMPTY);
+            $linlen     = count($line);
             $newline = '';
 
             for ($i = 0; $i < $linlen; $i++) {
-                $char = substr($line, $i, 1);
+                $char = $line[$i];
                 $dec  = ord($char);
 
                 if (($dec == 32) AND ($i == ($linlen - 1))){    // convert space at eol only
@@ -348,4 +339,3 @@ class Mail_mimePart {
         return $output;
     }
 } // End of class
-?>

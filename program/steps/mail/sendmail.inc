@@ -24,7 +24,7 @@
 //require_once('lib/smtp.inc');
 require_once('include/rcube_smtp.inc');
 require_once('lib/html2text.inc');
-require_once('Mail/mime.php');
+require_once('lib/rc_mail_mime.inc');
 
 
 if (!isset($_SESSION['compose']['id']))
@@ -244,12 +244,12 @@ else if (strtolower(substr(PHP_OS, 0, 3)=='mac'))
 else    
   $header_delm = "\n";
 
-// create PEAR::Mail_mime instance
 
 $isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
 $isHtml = ($isHtmlVal == "1");
 
-$MAIL_MIME = new Mail_mime($header_delm);
+// create extended PEAR::Mail_mime instance
+$MAIL_MIME = new rc_mail_mime($header_delm);
 
 // For HTML-formatted messages, construct the MIME message with both
 // the HTML part and the plain-text part
@@ -275,13 +275,12 @@ else
 // add stored attachments, if any
 if (is_array($_SESSION['compose']['attachments']))
   foreach ($_SESSION['compose']['attachments'] as $attachment)
-    $MAIL_MIME->addAttachment($attachment['path'], $attachment['mimetype'], $attachment['name'], TRUE);
+    $MAIL_MIME->addAttachment($attachment['path'], $attachment['mimetype'], $attachment['name'], true, 'base64', 'attachment', $message_charset);
 
-  
 // add submitted attachments
 if (is_array($_FILES['_attachments']['tmp_name']))
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
-    $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], TRUE);
+    $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], true, 'base64', 'attachment', $message_charset);
 
 
 // chose transfer encoding

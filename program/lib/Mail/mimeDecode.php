@@ -1,136 +1,149 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003  Richard Heyes                                |
-// | Copyright (c) 2003-2005  The PHP Group                                |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// +-----------------------------------------------------------------------+
+/**
+ * The Mail_mimeDecode class is used to decode mail/mime messages
+ *
+ * This class will parse a raw mime email and return
+ * the structure. Returned structure is similar to
+ * that returned by imap_fetchstructure().
+ *
+ *  +----------------------------- IMPORTANT ------------------------------+
+ *  | Usage of this class compared to native php extensions such as        |
+ *  | mailparse or imap, is slow and may be feature deficient. If available|
+ *  | you are STRONGLY recommended to use the php extensions.              |
+ *  +----------------------------------------------------------------------+
+ *
+ * Compatible with PHP versions 4 and 5
+ *
+ * LICENSE: This LICENSE is in the BSD license style.
+ * Copyright (c) 2002-2003, Richard Heyes <richard@phpguru.org>
+ * Copyright (c) 2003-2006, PEAR <pear-group@php.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name of the authors, nor the names of its contributors 
+ *   may be used to endorse or promote products derived from this 
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     George Schlossnagle <george@omniti.com>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Mail_mime
+ */
 
-require_once 'PEAR.php';
 
 /**
-*  +----------------------------- IMPORTANT ------------------------------+
-*  | Usage of this class compared to native php extensions such as        |
-*  | mailparse or imap, is slow and may be feature deficient. If available|
-*  | you are STRONGLY recommended to use the php extensions.              |
-*  +----------------------------------------------------------------------+
-*
-* Mime Decoding class
-*
-* This class will parse a raw mime email and return
-* the structure. Returned structure is similar to
-* that returned by imap_fetchstructure().
-*
-* USAGE: (assume $input is your raw email)
-*
-* $decode = new Mail_mimeDecode($input, "\r\n");
-* $structure = $decode->decode();
-* print_r($structure);
-*
-* Or statically:
-*
-* $params['input'] = $input;
-* $structure = Mail_mimeDecode::decode($params);
-* print_r($structure);
-*
-* TODO:
-*  o UTF8: ???
+ * require PEAR
+ *
+ * This package depends on PEAR to raise errors.
+ */
+require_once 'PEAR.php';
 
-		> 4. We have also found a solution for decoding the UTF-8 
-		> headers. Therefore I made the following function:
-		> 
-		> function decode_utf8($txt) {
-		> $trans=array("Å&#8216;"=>"Ãµ","Å±"=>"Ã»","Å"=>"Ã&#8226;","Å°"
-		=>"Ã&#8250;");
-		> $txt=strtr($txt,$trans);
-		> return(utf8_decode($txt));
-		> }
-		> 
-		> And I have inserted the following line to the class:
-		> 
-		> if (strtolower($charset)=="utf-8") $text=decode_utf8($text);
-		> 
-		> ... before the following one in the "_decodeHeader" function:
-		> 
-		> $input = str_replace($encoded, $text, $input);
-		> 
-		> This way from now on it can easily decode the UTF-8 headers too.
 
-*
-* @author  Richard Heyes <richard@phpguru.org>
-* @version $Revision$
-* @package Mail
-*/
+/**
+ * The Mail_mimeDecode class is used to decode mail/mime messages
+ *
+ * This class will parse a raw mime email and return the structure.
+ * Returned structure is similar to that returned by imap_fetchstructure().
+ *
+ *  +----------------------------- IMPORTANT ------------------------------+
+ *  | Usage of this class compared to native php extensions such as        |
+ *  | mailparse or imap, is slow and may be feature deficient. If available|
+ *  | you are STRONGLY recommended to use the php extensions.              |
+ *  +----------------------------------------------------------------------+
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     George Schlossnagle <george@omniti.com>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Mail_mime
+ */
 class Mail_mimeDecode extends PEAR
 {
     /**
      * The raw email to decode
+     *
      * @var    string
+     * @access private
      */
     var $_input;
 
     /**
      * The header part of the input
+     *
      * @var    string
+     * @access private
      */
     var $_header;
 
     /**
      * The body part of the input
+     *
      * @var    string
+     * @access private
      */
     var $_body;
 
     /**
      * If an error occurs, this is used to store the message
+     *
      * @var    string
+     * @access private
      */
     var $_error;
 
     /**
      * Flag to determine whether to include bodies in the
      * returned object.
+     *
      * @var    boolean
+     * @access private
      */
     var $_include_bodies;
 
     /**
      * Flag to determine whether to decode bodies
+     *
      * @var    boolean
+     * @access private
      */
     var $_decode_bodies;
 
     /**
      * Flag to determine whether to decode headers
+     *
      * @var    boolean
+     * @access private
      */
     var $_decode_headers;
 
@@ -834,4 +847,3 @@ class Mail_mimeDecode extends PEAR
     }
 
 } // End of class
-?>

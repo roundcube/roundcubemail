@@ -112,7 +112,7 @@ class html2text
         "/[\n\t]+/",                             // Newlines and tabs
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
-        '/<a [^>]*href="([^"]+)"[^>]*>(.+?)<\/a>/ie', // <a href="">
+        '/<a [^>]*href=("|\')([^"\']+)\1[^>]*>(.+?)<\/a>/ie', // <a href="">
         '/<h[123][^>]*>(.+?)<\/h[123]>/ie',      // H1 - H3
         '/<h[456][^>]*>(.+?)<\/h[456]>/ie',      // H4 - H6
         '/<p[^>]*>/i',                           // <P>
@@ -161,7 +161,7 @@ class html2text
         ' ',                                    // Newlines and tabs
         '',                                     // <script>s -- which strip_tags supposedly has problems with
         //'',                                  // Comments -- which strip_tags might have problem a with
-        '$this->_build_link_list("\\1", "\\2")', // <a href="">
+        '$this->_build_link_list("\\2", "\\3")', // <a href="">
         "strtoupper(\"\n\n\\1\n\n\")",          // H1 - H3
         "ucwords(\"\n\n\\1\n\")",               // H4 - H6
         "\n\n",                                 // <P>
