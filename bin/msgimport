@@ -42,25 +42,46 @@ function get_args($aliases=array())
 }
 
 
-// get arguments
-$args = get_args(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'f' => 'file'));
-
-if (!($args['host'] && $args['user'] && $args['pass'] && $args['file']))
+function print_usage()
 {
-	print "Missing required parameters.\n";
-	print "Usage:  msgimport -h imap-host -u user-name -p password -f message-file\n";
+	print "Usage:  msgimport -h imap-host -u user-name -f message-file\n";
 	print "-host   IMAP host\n";
 	print "-user   IMAP user name\n";
-	print "-pass   IMAP password\n";
 	print "-file   Message file to upload\n";
+}
+
+
+// get arguments
+$args = get_args(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'f' => 'file')) + array('host' => 'localhost');
+
+if ($_SERVER['argv'][1] == 'help')
+{
+	print_usage();
+	exit;
+}
+else if (!($args['host'] && $args['file']))
+{
+	print "Missing required parameters.\n";
+	print_usage();
 	exit;
 }
 else if (!is_file($args['file']))
 {
 	print "Cannot read message file\n";
-	exit;	
+	exit;
 }
 
+// prompt for username if not set
+if (empty($args['user']))
+{
+	//fwrite(STDOUT, "Please enter your name\n");
+	echo "IMAP user: ";
+	$args['user'] = trim(fgets(STDIN));
+}
+
+// prompt for password
+echo "Password: ";
+$args['pass'] = trim(fgets(STDIN));
 
 // parse $host URL
 $a_host = parse_url($args['host']);
