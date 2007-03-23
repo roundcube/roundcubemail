@@ -360,12 +360,14 @@ class rcube_db
    */
   function _fetch_row($result, $mode)
     {
-    if (!$result || !is_object($result) || DB::isError($result))
+    if (!$result || DB::isError($result))
       {
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => $this->db_link->getMessage()), TRUE, FALSE);
       return FALSE;
       }
+      elseif (!is_object($result))
+      return FALSE;
                          
     return $result->fetchRow($mode);
     }
