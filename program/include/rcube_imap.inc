@@ -580,8 +580,9 @@ class rcube_imap
       $a_msg_headers = array();
       $deleted_count = $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, $cache_key);
 
-      // delete cached messages with a higher index than $max
-      $this->clear_message_cache($cache_key, $max);
+      // delete cached messages with a higher index than $max+1
+      // Changed $max to $max+1 to fix this bug : #1484295
+      $this->clear_message_cache($cache_key, $max + 1);
 
 
       // kick child process to sync cache
