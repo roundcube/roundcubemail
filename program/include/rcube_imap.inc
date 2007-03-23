@@ -2272,7 +2272,7 @@ class rcube_imap
 
   function _mod_mailbox($mbox_name, $mode='in')
     {
-    if ((!empty($this->root_ns) && $this->root_ns == $mbox_name) || $mbox_name == 'INBOX')
+    if (empty($mbox_name) || (!empty($this->root_ns) && $this->root_ns == $mbox_name) || $mbox_name == 'INBOX')
       return $mbox_name;
 
     if (!empty($this->root_dir) && $mode=='in') 
@@ -2309,12 +2309,12 @@ class rcube_imap
 
   function get_id($uid, $mbox_name=NULL) 
     {
-      return $this->_uid2id($uid, $mbox_name);
+      return $this->_uid2id($uid, $this->_mod_mailbox($mbox_name));
     }
   
   function get_uid($id,$mbox_name=NULL)
     {
-      return $this->_id2uid($id, $mbox_name);
+      return $this->_id2uid($id, $this->_mod_mailbox($mbox_name));
     }
 
   function _uid2id($uid, $mbox_name=NULL)

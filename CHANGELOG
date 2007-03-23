@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/23 (thomasb)
+----------
+- Correctly translate mailbox names (closes #1484276)
+- Quote e-mail address links (closes #1484300)
+
+
 2007/03/21 (thomasb)
 ----------
 - Updated PEAR::Mail_mime package

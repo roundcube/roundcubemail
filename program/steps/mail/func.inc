@@ -1398,10 +1398,10 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto']))
       {
       $out .= sprintf('<a href="mailto:%s" onclick="return %s.command(\'compose\',\'%s\',this)" class="rcmContactAddress" title="%s">%s</a>',
-                      $part['mailto'],
+                      Q($part['mailto']),
                       $JS_OBJECT_NAME,
-                      $part['mailto'],
-                      $part['mailto'],
+                      JQ($part['mailto']),
+                      Q($part['mailto']),
                       Q($part['name']));
                       
       if ($addicon)
@@ -1417,7 +1417,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
       if ($part['name'])
         $out .= Q($part['name']);
       if ($part['mailto'])
-        $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', $part['mailto']);
+        $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', Q($part['mailto']));
       }
       
     if ($c>$j)
