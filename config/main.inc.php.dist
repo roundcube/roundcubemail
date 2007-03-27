@@ -97,7 +97,11 @@ $rcmail_config['log_dir'] = 'logs/';
 $rcmail_config['session_lifetime'] = 10;
 
 // check client IP in session athorization
-$rcmail_config['ip_check'] = TRUE;
+$rcmail_config['ip_check'] = false;
+
+// Use an additional frequently changing cookie to athenticate user sessions.
+// There have been problems reported with this feature.
+$rcmail_config['double_auth'] = false;
 
 // this key is used to encrypt the users imap password which is stored
 // in the session record (and the client cookie if remember password is enabled).

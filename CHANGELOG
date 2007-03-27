@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/03/27 (thomasb)
+----------
+- New session authentication: Change sessid cookie when login, authentication with sessauth cookie is now configurable.
+  Should close bugs #1483951 and #1484299
+
+
 2007/03/23 (thomasb)
 ----------
 - Correctly translate mailbox names (closes #1484276)

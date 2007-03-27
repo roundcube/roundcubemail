@@ -33,7 +33,7 @@ define('RCUBE_INPUT_GPC', 0x0103);
 // register session and connect to server
 function rcmail_startup($task='mail')
   {
-  global $sess_id, $sess_auth, $sess_user_lang;
+  global $sess_id, $sess_user_lang;
   global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB, $JS_OBJECT_NAME;
 
   // check client
@@ -53,9 +53,8 @@ function rcmail_startup($task='mail')
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
   $DB->db_connect('w');
 
-  // we can use the database for storing session data
-  if (!$DB->is_error())
-    include_once('include/session.inc');
+  // use database for storing session data
+  include_once('include/session.inc');
 
   // init session
   session_start();
@@ -65,8 +64,8 @@ function rcmail_startup($task='mail')
   if (!isset($_SESSION['auth_time']))
     {
     $_SESSION['user_lang'] = rcube_language_prop($CONFIG['locale_string']);
-    $_SESSION['auth_time'] = mktime();
-    setcookie('sessauth', rcmail_auth_hash($sess_id, $_SESSION['auth_time']));
+    $_SESSION['auth_time'] = time();
+    $_SESSION['temp'] = true;
     }
 
   // set session vars global
@@ -178,17 +177,29 @@ function rcmail_auth_hash($sess_id, $ts)
 // compare the auth hash sent by the client with the local session credentials
 function rcmail_authenticate_session()
   {
-  $now = mktime();
-  $valid = ($_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['auth_time']) ||
-						$_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['last_auth']));
+  global $CONFIG, $SESS_CLIENT_IP, $SESS_CHANGED;
+  
+  // advanced session authentication
+  if ($CONFIG['double_auth'])
+  {
+    $now = time();
+    $valid = ($_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['auth_time']) ||
+              $_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['last_auth']));
 
-  // renew auth cookie every 5 minutes (only for GET requests)
-  if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now-$_SESSION['auth_time'] > 300))
+    // renew auth cookie every 5 minutes (only for GET requests)
+    if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now-$_SESSION['auth_time'] > 300))
     {
-    $_SESSION['last_auth'] = $_SESSION['auth_time'];
-    $_SESSION['auth_time'] = $now;
-    setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
+      $_SESSION['last_auth'] = $_SESSION['auth_time'];
+      $_SESSION['auth_time'] = $now;
+      setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
     }
+  }
+  else
+    $valid = $CONFIG['ip_check'] ? $_SERVER['REMOTE_ADDR'] == $SESS_CLIENT_IP : true;
+  
+  // check session filetime
+  if (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < time())
+    $valid = false;
 
   return $valid;
   }
@@ -275,8 +286,8 @@ function rcmail_kill_session()
     rcmail_save_user_prefs($a_user_prefs);
     }
 
-  $_SESSION = array();
-  session_destroy();
+  $_SESSION = array('user_lang' => $GLOBALS['sess_user_lang'], 'auth_time' => time(), 'temp' => true);
+  setcookie('sessauth', '-del-', time()-60);
   }
 
 

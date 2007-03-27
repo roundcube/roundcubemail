@@ -16,6 +16,7 @@ from version 1.0-beta2
   $rcmail_config['htmleditor'] = TRUE;
   $rcmail_config['preview_pane'] = TRUE;
   $rcmail_config['date_today'] = 'H:i';
+  $rcmail_config['double_auth'] = TRUE;
 
 
 form version 0.1-beta

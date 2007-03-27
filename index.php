@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20070301                                                  |
+ | Version 0.1-20070327                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20070301');
+define('RCMAIL_VERSION', '0.1-20070327');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -172,10 +172,17 @@ if ($_action=='login' && $_task=='mail')
     {
     show_message("cookiesdisabled", 'warning');
     }
-  else if (isset($_POST['_user']) && isset($_POST['_pass']) &&
+  else if ($_SESSION['temp'] && isset($_POST['_user']) && isset($_POST['_pass']) &&
            rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
     {
+    // create new session ID
+    unset($_SESSION['temp']);
+    sess_regenerate_id();
+
+    // send auth cookie if necessary
+    rcmail_authenticate_session();
+
     // send redirect
     header("Location: $COMM_PATH");
     exit;
@@ -197,8 +204,7 @@ else if ($_action=='logout' && isset($_SESSION['user_id']))
 // check session and auth cookie
 else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send')
   {
-  if (!rcmail_authenticate_session() ||
-      (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < mktime()))
+  if (!rcmail_authenticate_session())
     {
     $message = show_message('sessionerror', 'error');
     rcmail_kill_session();

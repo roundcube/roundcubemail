@@ -36,7 +36,10 @@ function sess_close()
 // read session data
 function sess_read($key)
   {
-  global $DB, $SESS_CHANGED;
+  global $DB, $SESS_CHANGED, $SESS_CLIENT_IP;
+  
+  if ($DB->is_error())
+    return FALSE;
   
   $sql_result = $DB->query("SELECT vars, ip, ".$DB->unixtimestamp('changed')." AS changed
                             FROM ".get_table_name('session')."
@@ -46,6 +49,7 @@ function sess_read($key)
   if ($sql_arr = $DB->fetch_assoc($sql_result))
     {
     $SESS_CHANGED = $sql_arr['changed'];
+    $SESS_CLIENT_IP = $sql_arr['ip'];
 
     if (strlen($sql_arr['vars']))
       return $sql_arr['vars'];
@@ -59,6 +63,9 @@ function sess_read($key)
 function sess_write($key, $vars)
   {
   global $DB;
+  
+  if ($DB->is_error())
+    return FALSE;
 
   $sql_result = $DB->query("SELECT 1
                             FROM ".get_table_name('session')."
@@ -96,6 +103,9 @@ function sess_destroy($key)
   {
   global $DB;
   
+  if ($DB->is_error())
+    return FALSE;
+  
   // delete session entries in cache table
   $DB->query("DELETE FROM ".get_table_name('cache')."
               WHERE  session_id=?",
@@ -113,6 +123,9 @@ function sess_destroy($key)
 function sess_gc($maxlifetime)
   {
   global $DB;
+
+  if ($DB->is_error())
+    return FALSE;
 
   // get all expired sessions  
   $sql_result = $DB->query("SELECT sess_id
@@ -141,6 +154,28 @@ function sess_gc($maxlifetime)
   rcmail_temp_gc();
 
   return TRUE;
+  }
+
+
+function sess_regenerate_id()
+  {
+  $randlen = 32;
+  $randval = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  $random = "";
+  for ($i=1; $i <= $randlen; $i++)
+    $random .= substr($randval, rand(0,(strlen($randval) - 1)), 1);
+
+  // use md5 value for id or remove capitals from string $randval
+  $random = md5($random);
+
+  // delete old session record
+  sess_destroy(session_id());
+
+  session_id($random);
+  $cookie = session_get_cookie_params();
+  setcookie(session_name(), $random, $cookie['lifetime'], $cookie['path']);
+
+  return true;
   }
 
 
