@@ -138,10 +138,9 @@ $_framed = TRUE;
 /****** check submission and compose message ********/
 
 
-if (empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
+if (!$savedraft && empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
   {
   show_message("sendingfailed", 'error'); 
-  //rcmail_overwrite_action('compose');
   rcube_iframe_response();
   return;
   }
