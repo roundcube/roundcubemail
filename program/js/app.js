@@ -1638,14 +1638,13 @@ function rcube_webmail()
   // handler for keyboard events on the _user field
   this.login_user_keypress = function(e)
   {
-    if (!e)
-      e = window.event;
-    var key = e.keyCode ? e.keyCode : e.which;
+    var key = rcube_event.get_keycode(e);
+    var elm;
 
     // enter
-    if ((key==13) && (document.form._pass))
+    if ((key==13) && (elm = rcube_find_object('_pass')))
     {
-      rcube_find_object('_pass').focus();
+      elm.focus();
       return false;
     }
   };
@@ -1986,11 +1985,9 @@ function rcube_webmail()
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    if (!e)
-      e = window.event;
-      
     var highlight;
-    var key = e.keyCode ? e.keyCode : e.which;
+    var key = rcube_event.get_keycode(e);
+    var mod = rcube_event.get_modifier(e);
 
     switch (key)
       {
@@ -2022,7 +2019,7 @@ function rcube_webmail()
         return rcube_event.cancel(e);
 
       case 9:  // tab
-        if(e.shiftKey)
+        if(mod == SHIFT_KEY)
           break;
 
       case 13:  // enter     
@@ -2531,7 +2528,7 @@ function rcube_webmail()
   // handler for keyboard events on the input field
   this.name_input_keypress = function(e)
     {
-    var key = document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
+    var key = rcube_event.get_keycode(e);
 
     // enter
     if (key==13)
