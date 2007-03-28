@@ -274,6 +274,8 @@ function rcube_webmail()
       case 'login':
         var input_user = rcube_find_object('_user');
         var input_pass = rcube_find_object('_pass');
+        if (input_user)
+          input_user.onkeypress = function(e){ return rcmail.login_user_keypress(e); };
         if (input_user && input_user.value=='')
           input_user.focus();
         else if (input_pass)
@@ -1627,6 +1629,26 @@ function rcube_webmail()
     
     return null;
     };
+
+
+  /*********************************************************/
+  /*********           login form methods          *********/
+  /*********************************************************/
+
+  // handler for keyboard events on the _user field
+  this.login_user_keypress = function(e)
+  {
+    if (!e)
+      e = window.event;
+    var key = e.keyCode ? e.keyCode : e.which;
+
+    // enter
+    if ((key==13) && (document.form._pass))
+    {
+      rcube_find_object('_pass').focus();
+      return false;
+    }
+  };
     
 
   /*********************************************************/
