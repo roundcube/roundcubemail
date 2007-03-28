@@ -9,7 +9,19 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
-  width: 350px;
+  width: 380px;
+  border: 1px solid #999;
+}
+
+#login-form table td.title
+{
+  color: #666;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.boxcontent {
+  padding: 20px 20px 10px 20px;
 }
 
 </style>
@@ -21,12 +33,16 @@
 <roundcube:object name="message" id="message" />
 
 <div id="login-form">
+<div class="boxtitle"><roundcube:label name="welcome" /></div>
+<div class="boxcontent">
+
 <form name="form" action="./" method="post">
 <roundcube:object name="loginform" form="form" />
 
-<p style="text-align: center;"><input type="submit" class="button" value="<roundcube:label name='login' />" /></p>
+<p style="text-align:center;"><input type="submit" class="button" value="<roundcube:label name='login' />" /></p>
 
 </form>
+</div>
 </div>
 
 </body>

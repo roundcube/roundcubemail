@@ -1308,7 +1308,7 @@ function rcube_xml_command($command, $str_attrib, $add_attrib=array())
     // show a label
     case 'label':
       if ($attrib['name'] || $attrib['command'])
-        return Q(rcube_label($attrib));
+        return Q(rcube_label($attrib + array('vars' => array('product' => $CONFIG['product_name']))));
       break;
 
     // create a menu item
