@@ -1722,6 +1722,10 @@ class rcube_imap
         else
           $this->subscribe($folder);
         }
+      else if (!in_array_nocase($abs_name, $a_folders))
+        {
+        $this->create_mailbox($folder, FALSE);
+        }
       }
     }
 
