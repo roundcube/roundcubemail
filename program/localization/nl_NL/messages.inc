@@ -66,5 +66,7 @@ $messages['folderdeleted'] = 'Map successvol verwijderd';
 $messages['deletedsuccessfully'] = 'Successvol verwijderd';
 $messages['converting'] = 'Opmaak van bericht verwijderen...';
 $messages['messageopenerror'] = 'Kan het bericht niet van de server laden';
+$messages['fileuploaderror'] = 'Bestand versturen mislukt';
+$messages['filesizeerror'] = 'Het bestand overschrijdt de maximum grootte van $size';
 
 ?>
