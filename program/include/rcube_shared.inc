@@ -1565,7 +1565,7 @@ function get_offset_time($offset_str, $factor=1)
       $amount *= 24;
     case 'h':
       $amount *= 60;
-    case 'h':
+    case 'm':
       $amount *= 60;
     case 's':
       $ts += $amount * $factor;
