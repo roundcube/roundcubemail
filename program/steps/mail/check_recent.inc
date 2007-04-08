@@ -29,12 +29,12 @@ foreach ($a_mailboxes as $mbox_name)
     {
     if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
       {
-      $count = $IMAP->messagecount();
+      $count = $IMAP->messagecount(NULL, 'ALL', TRUE);
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
 
       $commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_name), $unread_count);
       $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
-      $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text());
+      $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count));
       $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
 
       // add new message headers to list
