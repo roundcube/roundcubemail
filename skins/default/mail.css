@@ -664,16 +664,24 @@ table.headers-table tr td.subject
 {
   margin: 0px;
   padding: 0px 0px 0px 68px;
-  height: 18px;
+  min-height: 18px;
   list-style-image: none;
   list-style-type: none;
   background: url(images/icons/attachment.png) 52px 1px no-repeat #DFDFDF; 
-  border-bottom: 1px solid #FFFFFF;
+}
+
+#attachment-list:after
+{
+  content: ".";
+  display: block;
+  height: 0;
+  font-size: 0;
+  clear: both;
+  visibility: hidden;
 }
 
 #attachment-list li
 {
-/*  display: block; */
   float: left;
   height: 18px;
   font-size: 11px;
