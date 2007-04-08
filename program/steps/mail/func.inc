@@ -996,8 +996,12 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
           $sa_inline_objects[] = $mail_part;
           }
         // is regular attachment
-        else if ($mail_part->filename)
+        else
+          {
+          if (!$mail_part->filename)
+            $mail_part->filename = 'file_'.$mail_part->mime_id;
           $a_attachments[] = $mail_part;
+          }
         }
       }
 

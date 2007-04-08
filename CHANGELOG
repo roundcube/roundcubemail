@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/04/08 (thomasb)
+----------
+- Fixed message moving procedure (closes #1484308)
+- Fixed display of multiple attachments (closes #1466563)
+- Fixed check for new messages (closes #1484310)
+- List attachments without filename
+
+
 2007/03/27 (thomasb)
 ----------
 - New session authentication: Change sessid cookie when login, authentication with sessauth cookie is now configurable.
