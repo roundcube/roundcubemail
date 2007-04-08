@@ -1373,7 +1373,8 @@ class rcube_imap
     foreach ($a_uids as $uid)
       $a_mids[] = $this->_uid2id($uid, $from_mbox);
 
-    $moved = iil_C_Move($this->conn, join(',', $a_mids), $from_mbox, $to_mbox);
+    $iil_move = iil_C_Move($this->conn, join(',', $a_mids), $from_mbox, $to_mbox);
+    $moved = !($iil_move === false || $iil_move < 0);
     
     // send expunge command in order to have the moved message
     // really deleted from the source mailbox
