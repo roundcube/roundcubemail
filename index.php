@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20070327                                                  |
+ | Version 0.1-20070411                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,7 +40,7 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20070327');
+define('RCMAIL_VERSION', '0.1-20070411');
 
 // define global vars
 $CHARSET = 'UTF-8';
@@ -172,7 +172,7 @@ if ($_action=='login' && $_task=='mail')
     {
     show_message("cookiesdisabled", 'warning');
     }
-  else if ($_SESSION['temp'] && isset($_POST['_user']) && isset($_POST['_pass']) &&
+  else if ($_SESSION['temp'] && !empty($_POST['_user']) && isset($_POST['_pass']) &&
            rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
     {
