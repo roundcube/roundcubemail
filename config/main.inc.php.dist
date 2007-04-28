@@ -190,16 +190,18 @@ $rcmail_config['mail_header_delimiter'] = NULL;
 // like the Verisign example below. if you would like to test, 
 // simply uncomment the Verisign example.
 /** 
- *  example config for Verisign directory
+ * example config for Verisign directory
  *
- *  $rcmail_config['ldap_public']['Verisign'] = array('hosts'         => array('directory.verisign.com'),
- *                                                    'port'          => 389,
- *                                                    'base_dn'       => '',
- *                                                    'search_fields' => array('Email' => 'mail', 'Name' => 'cn'),
- *                                                    'name_field'    => 'cn',
- *                                                    'mail_field'    => 'mail',
- *                                                    'scope'         => 'sub',
- *                                                    'fuzzy_search'  => 0);
+ * $rcmail_config['ldap_public']['Verisign'] = array(
+ *  'name'          => 'Verisign.com',
+ *  'hosts'         => array('directory.verisign.com'),
+ *  'port'          => 389,
+ *  'base_dn'       => '',
+ *  'search_fields' => array('mail', 'cn'),  // fields to search in
+ *  'name_field'    => 'cn',    // this field represents the contact's name
+ *  'email_field'   => 'mail',  // this field represents the contact's e-mail
+ *  'scope'         => 'sub',   // search mode: sub|base|list
+ *  'fuzzy_search'  => true);   // server allows wildcard search
  */
 
 // don't allow these settings to be overriden by the user

@@ -5,7 +5,7 @@
  | program/steps/mail/check_recent.inc                                   |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -19,8 +19,6 @@
 
 */
 
-$REMOTE_REQUEST = TRUE;
-
 $a_mailboxes = $IMAP->list_mailboxes();
 
 foreach ($a_mailboxes as $mbox_name)
@@ -32,10 +30,10 @@ foreach ($a_mailboxes as $mbox_name)
       $count = $IMAP->messagecount(NULL, 'ALL', TRUE);
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
 
-      $commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_name), $unread_count);
-      $commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
-      $commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count));
-      $commands .= sprintf("this.set_quota('%s');\n", $IMAP->get_quota());
+      $OUTPUT->set_env('messagecount', $count);
+      $OUTPUT->command('set_unread_count', $mbox_name, $unread_count);
+      $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
+      $OUTPUT->command('set_quota', $IMAP->get_quota());
 
       // add new message headers to list
       $a_headers = array();
@@ -46,15 +44,16 @@ foreach ($a_mailboxes as $mbox_name)
           $a_headers[] = $header;
         }
 
-      $commands .= rcmail_js_message_list($a_headers, TRUE);
+      rcmail_js_message_list($a_headers, TRUE);
       }
     }
   else
     {
     if ($IMAP->messagecount($mbox_name, 'RECENT'))
-      $commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_name), $IMAP->messagecount($mbox_name, 'UNSEEN'));
+      $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'));
     }
   }
 
-rcube_remote_response($commands);
+$OUTPUT->send();
+
 ?>

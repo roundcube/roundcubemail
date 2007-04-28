@@ -38,6 +38,8 @@ $messages['contactexists'] = 'A contact with this e-mail address already exists'
 $messages['blockedimages'] = 'To protect your privacy, remote images are blocked in this message.';
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
 $messages['nocontactsfound'] = 'No contacts found';
+$messages['contactnotfound'] = 'The requested contact was not found';
+
 $messages['sendingfailed'] = 'Failed to send message';
 $messages['errorsaving'] = 'An error occured while saving';
 $messages['errormoving'] = 'Could not move the message';
@@ -68,5 +70,10 @@ $messages['converting'] = 'Removing formatting from message...';
 $messages['messageopenerror'] = 'Could not load message from server';
 $messages['fileuploaderror'] = 'File upload failed';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size';
+
+$messages['copysuccess'] = 'Successfully copied $nr addresses';
+$messages['copyerror'] = 'Could not copy any addresses';
+$messages['sourceisreadonly'] = 'This address source is read only';
+$messages['errorsavingcontact'] = 'Could not save the contact address';
 
 ?>

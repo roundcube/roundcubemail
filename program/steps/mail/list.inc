@@ -19,25 +19,23 @@
 
 */
 
-$REMOTE_REQUEST = TRUE;
 $OUTPUT_TYPE = 'js';
-
 // is there a sort type for this request?
 if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
-  {
+{
   // yes, so set the sort vars
   list($sort_col, $sort_order) = explode('_', $sort);
 
   // set session vars for sort (so next page and task switch know how to sort)
   $_SESSION['sort_col'] = $sort_col;
   $_SESSION['sort_order'] = $sort_order;
-  }
+}
 else
-  {
+{
   // use session settings if set, defaults if not
   $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
-  }
+}
 
 
 // fetch message headers
@@ -48,22 +46,20 @@ $unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_GET['_refresh']) ? 
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);
-$commands = sprintf("this.set_env('messagecount', %d);\n", $count);
-$commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
-$commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count));
+$OUTPUT->set_env('messagecount', $count);
+$OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 
 // update mailboxlist
-$mbox_name = $IMAP->get_mailbox_name();
-$commands .= sprintf("this.set_unread_count('%s', %d);\n", addslashes($mbox_name), $unseen);
+$OUTPUT->command('set_unread_count', $IMAP->get_mailbox_name(), $unseen);
 
 
 // add message rows
 if (isset($a_headers) && count($a_headers))
-  $commands .= rcmail_js_message_list($a_headers);
+  rcmail_js_message_list($a_headers);
 
   
 // send response
-rcube_remote_response($commands);
+$OUTPUT->send();
 
-exit;
 ?>

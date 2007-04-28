@@ -5,7 +5,7 @@
  | program/steps/settings/delete_identity.inc                            |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,32 +20,29 @@
 */
 
 if (($ids = get_input_value('_iid', RCUBE_INPUT_GET)) && preg_match('/^[0-9]+(,[0-9]+)*$/', $ids))
-  {
-  $DB->query("UPDATE ".get_table_name('identities')."
-              SET    del=1
-              WHERE  user_id=?
-              AND    identity_id IN (".$ids.")",
-              $_SESSION['user_id']);
+{
+  $DB->query(
+    "UPDATE ".get_table_name('identities')."
+     SET    del=1
+     WHERE  user_id=?
+     AND    identity_id IN (".$ids.")",
+    $_SESSION['user_id']);
 
   $count = $DB->affected_rows();
   if ($count)
-    {
-    $commands = show_message('deletedsuccessfully', 'confirmation');
-    }
+    $OUTPUT->show_message('deletedsuccessfully', 'confirmation');
 
   // send response
-  if ($REMOTE_REQUEST)
-    rcube_remote_response($commands);
-  }
+  if ($OUTPUT->ajax_call)
+    $OUTPUT->send();
+}
 
 
-if ($REMOTE_REQUEST)
+if ($OUTPUT->ajax_call)
   exit;
 
 
 // go to identities page
-$_action = 'identities';
+rcmail_overwrite_action('identities');
 
-// overwrite action variable  
-$OUTPUT->add_script(sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $_action));
 ?>

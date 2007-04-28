@@ -182,16 +182,8 @@ $labels['firstpage']      = 'Show first set';
 $labels['nextpage']       = 'Show next set';
 $labels['lastpage']       = 'Show last set';
 
-
-// LDAP search
-$labels['ldapsearch'] = 'LDAP directory search';
-
-$labels['ldappublicsearchname']    = 'Contact name';
-$labels['ldappublicsearchtype'] = 'Exact match?';
-$labels['ldappublicserverselect'] = 'Select servers';
-$labels['ldappublicsearchfield'] = 'Search on';
-$labels['ldappublicsearchform'] = 'Look for a contact';
-$labels['ldappublicsearch'] = 'Search';
+$labels['groups'] = 'Groups';
+$labels['personaladrbook'] = 'Personal Addresses';
 
 
 // settings

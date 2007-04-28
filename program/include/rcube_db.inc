@@ -5,7 +5,7 @@
  | program/include/rcube_db.inc                                          |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -102,7 +102,7 @@ class rcube_db
       $this->db_error = TRUE;
       $this->db_error_msg = $dbh->getMessage();
 
-      raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
+      raise_error(array('code' => 603, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => $this->db_error_msg), TRUE, FALSE);
                         
       return FALSE;

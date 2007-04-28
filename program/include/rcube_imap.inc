@@ -2107,9 +2107,9 @@ class rcube_imap
    * --------------------------------*/
 
   
-  function decode_address_list($input, $max=NULL)
+  function decode_address_list($input, $max=null, $decode=true)
     {
-    $a = $this->_parse_address_list($input);
+    $a = $this->_parse_address_list($input, $decode);
     $out = array();
     
     if (!is_array($a))
@@ -2146,9 +2146,7 @@ class rcube_imap
     {
     $str = $this->decode_mime_string((string)$input);
     if ($str{0}=='"' && $remove_quotes)
-      {
       $str = str_replace('"', '', $str);
-      }
     
     return $str;
     }
@@ -2159,7 +2157,7 @@ class rcube_imap
    *
    * @access static
    */
-  function decode_mime_string($input, $recursive=false)
+  function decode_mime_string($input, $fallback=null)
     {
     $out = '';
 
@@ -2176,13 +2174,13 @@ class rcube_imap
       $rest = substr($input, $end_pos+2);
 
       $out .= rcube_imap::_decode_mime_string_part($encstr);
-      $out .= rcube_imap::decode_mime_string($rest);
+      $out .= rcube_imap::decode_mime_string($rest, $fallback);
 
       return $out;
       }
       
-    // no encoding information, defaults to what is specified in the class header
-    return rcube_charset_convert($input, 'ISO-8859-1');
+    // no encoding information, use fallback
+    return rcube_charset_convert($input, !empty($fallback) ? $fallback : 'ISO-8859-1');
     }
 
 
@@ -2473,7 +2471,7 @@ class rcube_imap
     }
 
 
-  function _parse_address_list($str)
+  function _parse_address_list($str, $decode=true)
     {
     // remove any newlines and carriage returns before
     $a = $this->_explode_quoted_string('[,;]', preg_replace( "/[\r\n]/", " ", $str));
@@ -2482,7 +2480,7 @@ class rcube_imap
     foreach ($a as $key => $val)
       {
       $val = preg_replace("/([\"\w])</", "$1 <", $val);
-      $sub_a = $this->_explode_quoted_string(' ', $this->decode_header($val));
+      $sub_a = $this->_explode_quoted_string(' ', $decode ? $this->decode_header($val) : $val);
       $result[$key]['name'] = '';
 
       foreach ($sub_a as $k => $v)

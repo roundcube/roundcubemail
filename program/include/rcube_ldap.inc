@@ -5,255 +5,432 @@
  | program/include/rcube_ldap.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2006-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Manage an LDAP connection                                           |
+ |   Interface to an LDAP address directory                              |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jeremy Jongsma <jeremy@jongsma.org>                           |
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
  $Id$
 
 */
 
-require_once("bugs.inc");
-
 class rcube_ldap
-  {
+{
   var $conn;
-  var $host;
-  var $port;
-  var $protocol;
-  var $base_dn;
-  var $bind_dn;
-  var $bind_pass;
-
-  // PHP 5 constructor
-  function __construct()
-    {
-    }
-
-  // PHP 4 constructor
-  function rcube_ldap()
-    {
-    $this->__construct();
-    }
-
-  function connect($hosts, $port=389, $protocol=3)
-    {
-    if (!function_exists('ldap_connect'))
-      raise_error(array("type" => "ldap",
-                        "message" => "No ldap support in this installation of php."),
-                         TRUE);
-
-    if (is_resource($this->conn))
-      return TRUE;
+  var $prop = array();
+  var $fieldmap = array();
+  
+  var $filter = '';
+  var $result = null;
+  var $ldap_result = null;
+  var $sort_col = '';
+  
+  /** public properties */
+  var $primary_key = 'ID';
+  var $readonly = true;
+  var $list_page = 1;
+  var $page_size = 10;
+  var $ready = false;
+  
+  
+  /**
+   * Object constructor
+   *
+   * @param array LDAP connection properties
+   * @param integer User-ID
+   */
+  function __construct($p)
+  {
+    $this->prop = $p;
     
-    if (!is_array($hosts))
-      $hosts = array($hosts);
-
-    foreach ($hosts as $host)
-      {
-      if ($lc = @ldap_connect($host, $port))
-        {
-        @ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $protocol);
-        $this->host = $host;
-        $this->port = $port;
-        $this->protocol = $protocol;
-        $this->conn = $lc;
-        return TRUE;
-        }
-      }
+    foreach ($p as $prop => $value)
+      if (preg_match('/^(.+)_field$/', $prop, $matches))
+        $this->fieldmap[$matches[1]] = $value;
     
-    if (!is_resource($this->conn))
-      raise_error(array("type" => "ldap",
-                        "message" => "Could not connect to any LDAP server, tried $host:$port last"),
-                         TRUE);
-    }
-
-  function close()
-    {
-    if ($this->conn)
-      {
-      if (@ldap_unbind($this->conn))
-        return TRUE;
-      else
-        raise_error(array("code" => ldap_errno($this->conn),
-                          "type" => "ldap",
-                          "message" => "Could not close connection to LDAP server: ".ldap_error($this->conn)),
-                    TRUE);
-      }
-    return FALSE;
-    }
-
-  // Merge with connect()?
-  function bind($dn=null, $pass=null)
-    {
-    if ($this->conn)
-      {
-      if ($dn)
-        if (@ldap_bind($this->conn, $dn, $pass))
-          return TRUE;
-        else
-          raise_error(array("code" => ldap_errno($this->conn),
-                            "type" => "ldap",
-                            "message" => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
-                      TRUE);
-      else
-        if (@ldap_bind($this->conn))
-          return TRUE;
-        else
-          raise_error(array("code" => ldap_errno($this->conn),
-                            "type" => "ldap",
-                            "message" => "Anonymous bind failed: ".ldap_error($this->conn)),
-                      TRUE);
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Attempted bind on nonexistent connection"), TRUE);
-    return FALSE;
-    }
-
-  function count($base, $filter=null, $attributes=null, $scope="sub")
-    {
-    if ($this->conn)
-      {
-      if ($scope === 'sub')
-        $sr = @ldap_search($this->conn, $base, $filter, $attributes, 0, $limit);
-      else if ($scope === 'one')
-        $sr = @ldap_list($this->conn, $base, $filter, $attributes, 0, $limit);
-      else if ($scope === 'base')
-        $sr = @ldap_read($this->conn, $base, $filter, $attributes, 0, $limit);
-      if ($sr)
-        return @ldap_count_entries($this->conn, $sr);
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Attempted count search on nonexistent connection"), TRUE);
-    return FALSE;
-    }
-
-  function search($base, $filter=null, $attributes=null, $scope='sub', $sort=null, $limit=0)
-    {
-    if ($this->conn)
-      {
-      if ($scope === 'sub')
-        $sr = @ldap_search($this->conn, $base, $filter, $attributes, 0, $limit);
-      else if ($scope === 'one')
-        $sr = @ldap_list($this->conn, $base, $filter, $attributes, 0, $limit);
-      else if ($scope === 'base')
-        $sr = @ldap_read($this->conn, $base, $filter, $attributes, 0, $limit);
-      if ($sr)
-        {
-        if ($sort && $scope !== "base")
-          {
-          if (is_array($sort))
-            {
-            // Start from the end so first sort field has highest priority
-            $sortfields = array_reverse($sort);
-            foreach ($sortfields as $sortfield)
-              @ldap_sort($this->conn, $sr, $sortfield);
-            }
-          else
-            @ldap_sort($this->conn, $sr, $sort);
-          }
-        return @ldap_get_entries($this->conn, $sr);
-        }
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Attempted search on nonexistent connection"), TRUE);
-    return FALSE;
-    }
-
-  function add($dn, $object)
-    {
-    if ($this->conn)
-      {
-      if (@ldap_add($this->conn, $dn, $object))
-        return TRUE;
-      else
-        raise_error(array("code" => ldap_errno($this->conn),
-                          "type" => "ldap",
-                          "message" => "Add object failed: ".ldap_error($this->conn)),
-                    TRUE);
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Add object faile: no connection"),
-                  TRUE);
-    return FALSE;
-    }
-
-  function modify($dn, $object)
-    {
-    if ($this->conn)
-      {
-      if (@ldap_modify($this->conn, $dn, $object))
-        return TRUE;
-      else
-        raise_error(array("code" => ldap_errno($this->conn),
-                          "type" => "ldap",
-                          "message" => "Modify object failed: ".ldap_error($this->conn)),
-                    TRUE);
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Modify object failed: no connection"),
-                  TRUE);
-    return FALSE;
-    }
-
-  function rename($dn, $newrdn, $parentdn)
-    {
-    if ($this->protocol < 3)
-      {
-      raise_error(array("type" => "ldap",
-                        "message" => "rename() support requires LDAPv3 or above "),
-                  TRUE);
-      return FALSE;
-      }
-
-    if ($this->conn)
-      {
-      if (@ldap_rename($this->conn, $dn, $newrdn, $parentdn, TRUE))
-        return TRUE;
-      else
-        raise_error(array("code" => ldap_errno($this->conn),
-                          "type" => "ldap",
-                          "message" => "Rename object failed: ".ldap_error($this->conn)),
-                    TRUE);
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Rename object failed: no connection"),
-                  TRUE);
-    return FALSE;
-    }
-
-  function delete($dn)
-    {
-    if ($this->conn)
-      {
-      if (@ldap_delete($this->conn, $dn))
-        return TRUE;
-      else
-        raise_error(array("code" => ldap_errno($this->conn),
-                          "type" => "ldap",
-                          "message" => "Delete object failed: ".ldap_error($this->conn)),
-                    TRUE);
-      }
-    else
-      raise_error(array("type" => "ldap",
-                        "message" => "Delete object failed: no connection"),
-                  TRUE);
-    return FALSE;
-    }
-
+    // $this->filter = "(dn=*)";
+    $this->connect();
   }
 
-// vi: et ts=2 sw=2
+  /**
+   * PHP 4 object constructor
+   *
+   * @see  rcube_ldap::__construct
+   */
+  function rcube_ldap($p)
+  {
+    $this->__construct($p);
+  }
+  
+
+  /**
+   * Establish a connection to the LDAP server
+   */
+  function connect()
+  {
+    if (!function_exists('ldap_connect'))
+      raise_error(array('type' => 'ldap', 'message' => "No ldap support in this installation of PHP"), true);
+
+    if (is_resource($this->conn))
+      return true;
+    
+    if (!is_array($this->prop['hosts']))
+      $this->prop['hosts'] = array($this->prop['hosts']);
+
+    foreach ($this->prop['hosts'] as $host)
+    {
+      if ($lc = @ldap_connect($host, $this->prop['port']))
+      {
+        ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $this->prop['port']);
+        $this->prop['host'] = $host;
+        $this->conn = $lc;
+        break;
+      }
+    }
+    
+    if (is_resource($this->conn))
+      $this->ready = true;
+    else
+      raise_error(array('type' => 'ldap', 'message' => "Could not connect to any LDAP server, tried $host:{$this->prop[port]} last"), true);
+  }
+
+
+  /**
+   * Merge with connect()?
+   */
+  function bind($dn=null, $pass=null)
+  {
+    if ($this->conn)
+    {
+      if ($dn)
+      {
+        if (@ldap_bind($this->conn, $dn, $pass))
+          return true;
+        else
+          raise_error(array('code' => ldap_errno($this->conn),
+                            'type' => 'ldap',
+                            'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
+                      true);
+      }
+      else
+      {
+        if (@ldap_bind($this->conn))
+          return true;
+        else
+          raise_error(array('code' => ldap_errno($this->conn),
+                            'type' => 'ldap',
+                            'message' => "Anonymous bind failed: ".ldap_error($this->conn)),
+                      true);
+        }
+    }
+    else
+      raise_error(array('type' => 'ldap', 'message' => "Attempted bind on nonexistent connection"), true);
+      
+    return false;
+    }
+
+
+  /**
+   * Close connection to LDAP server
+   */
+  function close()
+  {
+    if ($this->conn)
+      @ldap_unbind($this->conn);
+  }
+
+
+  /**
+   * Set internal list page
+   *
+   * @param  number  Page number to list
+   * @access public
+   */
+  function set_page($page)
+  {
+    $this->list_page = (int)$page;
+  }
+
+
+  /**
+   * Set internal page size
+   *
+   * @param  number  Number of messages to display on one page
+   * @access public
+   */
+  function set_pagesize($size)
+  {
+    $this->page_size = (int)$size;
+  }
+
+
+  /**
+   * Save a search string for future listings
+   *
+   * @param string ??
+   */
+  function set_search_set($filter)
+  {
+    $this->filter = $filter;
+  }
+  
+  
+  /**
+   * Getter for saved search properties
+   *
+   * @return mixed Search properties used by this class
+   */
+  function get_search_set()
+  {
+    return $this->filter;
+  }
+
+
+  /**
+   * Reset all saved results and search parameters
+   */
+  function reset()
+  {
+    $this->result = null;
+    $this->ldap_result = null;
+    $this->filter = '';
+  }
+  
+  
+  /**
+   * List the current set of contact records
+   *
+   * @param  array  List of cols to show
+   * @return array  Indexed list of contact records, each a hash array
+   */
+  function list_records($cols=null, $subset=0)
+  {
+    // exec LDAP search if no result resource is stored
+    if ($this->conn && !$this->ldap_result)
+      $this->_exec_search();
+    
+    // count contacts for this user
+    $this->result = $this->count();
+    
+    // we have a search result resource
+    if ($this->ldap_result && $this->result->count > 0)
+    {
+      if ($this->sort_col && $this->prop['scope'] !== "base")
+        @ldap_sort($this->conn, $this->ldap_result, $this->sort_col);
+        
+      $entries = ldap_get_entries($this->conn, $this->ldap_result);
+      for ($i = $this->result->first; $i < min($entries['count'], $this->result->first + $this->page_size); $i++)
+        $this->result->add($this->_ldap2result($entries[$i]));
+    }
+
+    return $this->result;
+  }
+
+
+  /**
+   * Search contacts
+   *
+   * @param array   List of fields to search in
+   * @param string  Search value
+   * @param boolean True if results are requested, False if count only
+   * @return Indexed list of contact records and 'count' value
+   */
+  function search($fields, $value, $select=true)
+  {
+    // special treatment for ID-based search
+    if ($fields == 'ID' || $fields == $this->primary_key)
+    {
+      $ids = explode(',', $value);
+      $result = new rcube_result_set();
+      foreach ($ids as $id)
+        if ($rec = $this->get_record($id, true))
+        {
+          $result->add($rec);
+          $result->count++;
+        }
+      
+      return $result;
+    }
+    
+    $filter = '(|';
+    $wc = $this->prop['fuzzy_search'] ? '*' : '';
+    if (is_array($this->prop['search_fields']))
+    {
+      foreach ($this->prop['search_fields'] as $k => $field)
+        $filter .= "($field=$wc" . rcube_ldap::quote_string($value) . "$wc)";
+    }
+    else
+    {
+      foreach ((array)$fields as $field)
+        if ($f = $this->_map_field($field))
+          $filter .= "($f=$wc" . rcube_ldap::quote_string($value) . "$wc)";
+    }
+    $filter .= ')';
+
+    // set filter string and execute search
+    $this->set_search_set($filter);
+    $this->_exec_search();
+    
+    if ($select)
+      $this->list_records();
+    else
+      $this->result = $this->count();
+   
+    return $this->result; 
+  }
+
+
+  /**
+   * Count number of available contacts in database
+   *
+   * @return Result array with values for 'count' and 'first'
+   */
+  function count()
+  {
+    $count = 0;
+    if ($this->conn && $this->ldap_result)
+      $count = ldap_count_entries($this->conn, $this->ldap_result);
+
+    return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
+  }
+
+
+  /**
+   * Return the last result set
+   *
+   * @return Result array or NULL if nothing selected yet
+   */
+  function get_result()
+  {
+    return $this->result;
+  }
+  
+  
+  /**
+   * Get a specific contact record
+   *
+   * @param mixed record identifier
+   * @return Hash array with all record fields or False if not found
+   */
+  function get_record($dn, $assoc=false)
+  {
+    $res = null;
+    if ($this->conn && $dn)
+    {
+      $this->ldap_result = @ldap_read($this->conn, base64_decode($dn), "(objectclass=*)", array_values($this->fieldmap));
+      $entry = @ldap_first_entry($this->conn, $this->ldap_result);
+      
+      if ($entry && ($rec = ldap_get_attributes($this->conn, $entry)))
+      {
+        $res = $this->_ldap2result($rec);
+        $this->result = new rcube_result_set(1);
+        $this->result->add($res);
+      }
+    }
+
+    return $assoc ? $res : $this->result;
+  }
+  
+  
+  /**
+   * Create a new contact record
+   *
+   * @param array Assoziative array with save data
+   * @return The create record ID on success, False on error
+   */
+  function insert($save_cols)
+  {
+    // TODO
+    return false;
+  }
+  
+  
+  /**
+   * Update a specific contact record
+   *
+   * @param mixed Record identifier
+   * @param array Assoziative array with save data
+   * @return True on success, False on error
+   */
+  function update($id, $save_cols)
+  {
+    // TODO    
+    return false;
+  }
+  
+  
+  /**
+   * Mark one or more contact records as deleted
+   *
+   * @param array  Record identifiers
+   */
+  function delete($ids)
+  {
+    // TODO
+    return false;
+  }
+
+
+  /**
+   * Execute the LDAP search based on the stored credentials
+   *
+   * @private
+   */
+  function _exec_search()
+  {
+    if ($this->conn && $this->filter)
+    {
+      $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
+      $this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $this->filter, array_values($this->fieldmap), 0, 0);
+      return true;
+    }
+    else
+      return false;
+  }
+  
+  
+  /**
+   * @private
+   */
+  function _ldap2result($rec)
+  {
+    $out = array();
+    
+    if ($rec['dn'])
+      $out[$this->primary_key] = base64_encode($rec['dn']);
+    
+    foreach ($this->fieldmap as $rf => $lf)
+    {
+      if ($rec[$lf]['count'])
+        $out[$rf] = $rec[$lf][0];
+    }
+    
+    return $out;
+  }
+  
+  
+  /**
+   * @private
+   */
+  function _map_field($field)
+  {
+    return $this->fieldmap[$field];
+  }
+  
+  
+  /**
+   * @static
+   */
+  function quote_string($str)
+  {
+    return strtr($str, array('*'=>'\2a', '('=>'\28', ')'=>'\29', '\\'=>'\5c'));
+  }
+
+
+}
+
 ?>

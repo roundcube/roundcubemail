@@ -5,7 +5,7 @@
  | program/steps/settings/edit_identity.inc                              |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -31,12 +31,12 @@ if (($_GET['_iid'] || $_POST['_iid']) && $_action=='edit-identity')
   $IDENTITY_RECORD = $DB->fetch_assoc();
   
   if (is_array($IDENTITY_RECORD))
-    $OUTPUT->add_script(sprintf("%s.set_env('iid', '%s');", $JS_OBJECT_NAME, $IDENTITY_RECORD['identity_id']));
-    
-  $PAGE_TITLE = rcube_label('edititem');
+    $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);
+
+  $OUTPUT->set_pagetitle(rcube_label('edititem'));
   }
 else
-  $PAGE_TITLE = rcube_label('newitem');
+  $OUTPUT->set_pagetitle(rcube_label('newitem'));
 
 
 $OUTPUT->include_script('list.js');
@@ -44,7 +44,7 @@ $OUTPUT->include_script('list.js');
 
 function rcube_identity_form($attrib)
   {
-  global $IDENTITY_RECORD, $JS_OBJECT_NAME, $OUTPUT;
+  global $IDENTITY_RECORD, $OUTPUT;
 
   $OUTPUT->include_script('tiny_mce/tiny_mce_src.js');
   $OUTPUT->add_script("tinyMCE.init({ mode : 'specific_textareas'," .
@@ -63,8 +63,7 @@ function rcube_identity_form($attrib)
     return rcube_label('notfound');
 
   // add some labels to client
-  rcube_add_label('noemailwarning');
-  rcube_add_label('nonamewarning');
+  rcube_add_label('noemailwarning', 'nonamewarning');
 
 
   list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
@@ -136,7 +135,7 @@ function rcube_identity_form($attrib)
   return $out;  
   }
 
-
+$OUTPUT->add_handler('identityform', 'rcube_identity_form');
 
 if ($_action=='add-identity' && template_exists('addidentity'))
   parse_template('addidentity');

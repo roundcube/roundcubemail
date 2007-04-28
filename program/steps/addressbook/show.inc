@@ -5,7 +5,7 @@
  | program/steps/addressbook/show.inc                                    |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,35 +20,25 @@
 */
 
 
-if ($_GET['_cid'] || $_POST['_cid'])
-  {
-  $cid = $_POST['_cid'] ? $_POST['_cid'] : $_GET['_cid'];
-  $DB->query("SELECT * FROM ".get_table_name('contacts')."
-              WHERE  contact_id=?
-              AND    user_id=?
-              AND    del<>1",
-              $cid,
-              $_SESSION['user_id']);
-  
-  $CONTACT_RECORD = $DB->fetch_assoc();
-  
-  if (is_array($CONTACT_RECORD))
-    $OUTPUT->add_script(sprintf("%s.set_env('cid', '%s');", $JS_OBJECT_NAME, $CONTACT_RECORD['contact_id']));
-  }
-
+// read contact record
+if (($cid = get_input_value('_cid', RCUBE_INPUT_GPC)) && ($record = $CONTACTS->get_record($cid, true)))
+  $OUTPUT->set_env('cid', $record['ID']);
 
 
 function rcmail_contact_details($attrib)
   {
-  global $CONTACT_RECORD, $JS_OBJECT_NAME;
+  global $CONTACTS, $OUTPUT;
 
-  if (!$CONTACT_RECORD)
-    return show_message('contactnotfound');
+  // check if we have a valid result
+  if (!(($result = $CONTACTS->get_result()) && ($record = $result->first())))
+  {
+    $OUTPUT->show_message('contactnotfound');
+    return false;
+  }
   
   // a specific part is requested
   if ($attrib['part'])
-    return rep_specialchars_output($CONTACT_RECORD[$attrib['part']]);
-
+    return Q($record[$attrib['part']]);
 
   // return the complete address record as table
   $out = "<table>\n\n";
@@ -56,25 +46,28 @@ function rcmail_contact_details($attrib)
   $a_show_cols = array('name', 'firstname', 'surname', 'email');
   foreach ($a_show_cols as $col)
     {
-    if ($col=='email' && $CONTACT_RECORD[$col])
-      $value = sprintf('<a href="#compose" onclick="%s.command(\'compose\', %d)" title="%s">%s</a>',
-                       $JS_OBJECT_NAME,
-                       $CONTACT_RECORD['contact_id'],
-                       rcube_label('composeto'),
-                       $CONTACT_RECORD[$col]);
+    if ($col=='email' && !empty($record[$col]))
+      $value = sprintf(
+        '<a href="#compose" onclick="%s.command(\'compose\', \'%s\')" title="%s">%s</a>',
+        JS_OBJECT_NAME,
+        JQ($record[$col]),
+        rcube_label('composeto'),
+        Q($record[$col]));
     else
-      $value = rep_specialchars_output($CONTACT_RECORD[$col]);
+      $value = Q($record[$col]);
     
-    $title = rcube_label($col);
-    $out .= sprintf("<tr><td class=\"title\">%s</td><td>%s</td></tr>\n", $title, $value);
+    $out .= sprintf("<tr><td class=\"title\">%s</td><td>%s</td></tr>\n",
+                    Q(rcube_label($col)),
+                    $value);
     }
-
-
+  
   $out .= "\n</table>";
   
   return $out;  
   }
 
 
-parse_template('showcontact');
+//$OUTPUT->framed = $_framed;
+$OUTPUT->add_handler('contactdetails', 'rcmail_contact_details');
+$OUTPUT->send('showcontact');
 ?>

@@ -5,7 +5,7 @@
  | program/include/main.inc                                              |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev, - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -22,6 +22,7 @@
 require_once('lib/des.inc');
 require_once('lib/utf7.inc');
 require_once('lib/utf8.class.php');
+require_once('include/rcmail_template.inc');
 
 
 // define constannts for input reading
@@ -34,7 +35,7 @@ define('RCUBE_INPUT_GPC', 0x0103);
 function rcmail_startup($task='mail')
   {
   global $sess_id, $sess_user_lang;
-  global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB, $JS_OBJECT_NAME;
+  global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB;
 
   // check client
   $BROWSER = rcube_browser();
@@ -103,11 +104,11 @@ function rcmail_startup($task='mail')
 // load roundcube configuration into global var
 function rcmail_load_config()
   {
-	global $INSTALL_PATH;
+  global $INSTALL_PATH;
 
   // load config file
-	include_once('config/main.inc.php');
-	$conf = is_array($rcmail_config) ? $rcmail_config : array();
+  include_once('config/main.inc.php');
+  $conf = is_array($rcmail_config) ? $rcmail_config : array();
 
   // load host-specific configuration
   rcmail_load_host_config($conf);
@@ -208,7 +209,7 @@ function rcmail_authenticate_session()
 // create IMAP object and connect to server
 function rcmail_imap_init($connect=FALSE)
   {
-  global $CONFIG, $DB, $IMAP;
+  global $CONFIG, $DB, $IMAP, $OUTPUT;
 
   $IMAP = new rcube_imap($DB);
   $IMAP->debug_level = $CONFIG['debug_level'];
@@ -219,7 +220,7 @@ function rcmail_imap_init($connect=FALSE)
   if ($connect)
     {
     if (!($conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'])))
-      show_message('imaperror', 'error');
+      $OUTPUT->show_message('imaperror', 'error');
       
     rcmail_set_imap_prop();
     }
@@ -360,34 +361,22 @@ function rcube_language_prop($lang, $prop='lang')
   
 
 // init output object for GUI and add common scripts
-function load_gui()
+function rcmail_load_gui()
   {
-  global $CONFIG, $OUTPUT, $COMM_PATH, $JS_OBJECT_NAME, $sess_user_lang;
+  global $CONFIG, $OUTPUT, $sess_user_lang;
 
   // init output page
-  $OUTPUT = new rcube_html_page();
-  
-  // add common javascripts
-  $javascript = "var $JS_OBJECT_NAME = new rcube_webmail();\n";
-  $javascript .= sprintf("%s.set_env('comm_path', '%s');\n", $JS_OBJECT_NAME, str_replace('&amp;', '&', $COMM_PATH));
+  $OUTPUT = new rcmail_template($CONFIG, $GLOBALS['_task']);
+  $OUTPUT->set_env('comm_path', $GLOBALS['COMM_PATH']);
 
-  if (isset($CONFIG['javascript_config'] )){
-    foreach ($CONFIG['javascript_config'] as $js_config_var){
-      $javascript .= "$JS_OBJECT_NAME.set_env('$js_config_var', '" . $CONFIG[$js_config_var] . "');\n";
-    }
+  if (is_array($CONFIG['javascript_config']))
+  {
+    foreach ($CONFIG['javascript_config'] as $js_config_var)
+      $OUTPUT->set_env($js_config_var, $CONFIG[$js_config_var]);
   }
 
-  // don't wait for page onload. Call init at the bottom of the page (delayed)
-  $javascript_foot = "if (window.call_init)\n call_init('$JS_OBJECT_NAME');";
-
   if (!empty($GLOBALS['_framed']))
-    $javascript .= "$JS_OBJECT_NAME.set_env('framed', true);\n";
-    
-  $OUTPUT->add_script($javascript, 'head');
-  $OUTPUT->add_script($javascript_foot, 'foot');
-  $OUTPUT->include_script('common.js');
-  $OUTPUT->include_script('app.js');
-  $OUTPUT->scripts_path = 'program/js/';
+    $OUTPUT->set_env('framed', true);
 
   // set locale setting
   rcmail_set_locale($sess_user_lang);
@@ -395,16 +384,25 @@ function load_gui()
   // set user-selected charset
   if (!empty($CONFIG['charset']))
     $OUTPUT->set_charset($CONFIG['charset']);
+    
+  // register common UI objects
+  $OUTPUT->add_handlers(array(
+    'loginform' => 'rcmail_login_form',
+    'username'  => 'rcmail_current_username',
+    'message' => 'rcmail_message_container',
+    'charsetselector' => 'rcmail_charset_selector',
+  ));
 
   // add some basic label to client
-  rcube_add_label('loading','checkingmail');
+  if (!$OUTPUT->ajax_call)
+    rcube_add_label('loading');
   }
 
 
 // set localization charset based on the given language
 function rcmail_set_locale($lang)
   {
-  global $OUTPUT, $CHARSET, $MBSTRING;
+  global $OUTPUT, $MBSTRING;
   static $s_mbstring_loaded = NULL;
   
   // settings for mbstring module (by Tadashi Jokagi)
@@ -414,7 +412,7 @@ function rcmail_set_locale($lang)
     $MBSTRING = $s_mbstring_loaded = FALSE;
     
   if ($MBSTRING)
-    mb_internal_encoding($CHARSET);
+    mb_internal_encoding(RCMAIL_CHARSET);
 
   $OUTPUT->set_charset(rcube_language_prop($lang, 'charset'));
   }
@@ -749,30 +747,35 @@ function rcmail_save_user_prefs($a_user_prefs)
 // overwrite action variable  
 function rcmail_overwrite_action($action)
   {
-  global $OUTPUT, $JS_OBJECT_NAME;
+  global $OUTPUT;
   $GLOBALS['_action'] = $action;
-
-  $OUTPUT->add_script(sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $action));  
+  $OUTPUT->set_env('action', $action);
   }
 
 
+// compose a URL to the given action
+function rcmail_self_url($action, $p=array(), $task=null)
+{
+  global $MAIN_TASKS, $COMM_PATH;
+  $qstring = '';
+  $base = $COMM_PATH;
+  
+  if ($task && in_array($task, $MAIN_TASKS))
+    $base = ereg_replace('_task=[a-z]+', '_task='.$task, $COMM_PATH);
+  
+  if (is_array($p))
+    foreach ($p as $key => $val)
+      $qstring .= '&'.urlencode($key).'='.urlencode($val);
+  
+  return $base . ($action ? '&_action='.$action : '') . $qstring;
+}
+
+
+// @deprecated
 function show_message($message, $type='notice', $vars=NULL)
   {
-  global $OUTPUT, $JS_OBJECT_NAME, $REMOTE_REQUEST;
-  
-  $framed = $GLOBALS['_framed'];
-  $command = sprintf("display_message('%s', '%s');",
-                     JQ(rcube_label(array('name' => $message, 'vars' => $vars))),
-                     $type);
-                     
-  if ($REMOTE_REQUEST)
-    return 'this.'.$command;
-  
-  else
-    $OUTPUT->add_script(sprintf("%s%s.%s\n",
-                                $framed ? sprintf('if(parent.%s)parent.', $JS_OBJECT_NAME) : '',
-                                $JS_OBJECT_NAME,
-                                $command));
+  global $OUTPUT;
+  $OUTPUT->show_message($message, $type, $vars);
   }
 
 
@@ -808,43 +811,6 @@ function get_des_key()
   }
 
 
-// send correct response on a remote request
-function rcube_remote_response($js_code, $flush=FALSE)
-  {
-  global $OUTPUT, $CHARSET;
-  static $s_header_sent = FALSE;
-  
-  if (!$s_header_sent)
-    {
-    $s_header_sent = TRUE;
-    send_nocacheing_headers();
-    header('Content-Type: application/x-javascript; charset='.$CHARSET);
-    print '/** remote response ['.date('d/M/Y h:i:s O')."] **/\n";
-    }
-
-  // send response code
-  print rcube_charset_convert($js_code, $CHARSET, $OUTPUT->get_charset());
-
-  if ($flush)  // flush the output buffer
-    flush();
-  else         // terminate script
-    exit;
-  }
-
-
-// send correctly formatted response for a request posted to an iframe
-function rcube_iframe_response($js_code='')
-  {
-  global $OUTPUT, $JS_OBJECT_NAME;
-
-  if (!empty($js_code))
-    $OUTPUT->add_script("if(parent.$JS_OBJECT_NAME){\n" . $js_code . "\n}");
-
-  $OUTPUT->write();
-  exit;
-  }
-
-
 // read directory program/localization/ and return a list of available languages
 function rcube_list_languages()
   {
@@ -875,14 +841,11 @@ function rcube_list_languages()
 // add a localized label to the client environment
 function rcube_add_label()
   {
-  global $OUTPUT, $JS_OBJECT_NAME;
+  global $OUTPUT;
   
   $arg_list = func_get_args();
   foreach ($arg_list as $i => $name)
-    $OUTPUT->add_script(sprintf("%s.add_label('%s', '%s');",
-                                $JS_OBJECT_NAME,
-                                $name,
-                                JQ(rcube_label($name))));
+    $OUTPUT->command('add_label', $name, rcube_label($name));
   }
 
 
@@ -931,7 +894,7 @@ function rcmail_message_cache_gc()
  *
  * @param  string Input string
  * @param  string Suspected charset of the input string
- * @param  string Target charset to convert to; defaults to $GLOBALS['CHARSET']
+ * @param  string Target charset to convert to; defaults to RCMAIL_CHARSET
  * @return Converted string
  */
 function rcube_charset_convert($str, $from, $to=NULL)
@@ -939,7 +902,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
   global $MBSTRING;
 
   $from = strtoupper($from);
-  $to = $to==NULL ? strtoupper($GLOBALS['CHARSET']) : strtoupper($to);
+  $to = $to==NULL ? strtoupper(RCMAIL_CHARSET) : strtoupper($to);
 
   if ($from==$to || $str=='' || empty($from))
     return $str;
@@ -1071,15 +1034,15 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   if ($enctype=='js')
     {
     if ($OUTPUT->get_charset()!='UTF-8')
-      $str = rcube_charset_convert($str, $GLOBALS['CHARSET'], $OUTPUT->get_charset());
+      $str = rcube_charset_convert($str, RCMAIL_CHARSET, $OUTPUT->get_charset());
       
-    return addslashes(preg_replace(array("/\r\n/", "/\r/"), array('\n', '\n'), strtr($str, $js_rep_table)));
+    return preg_replace(array("/\r?\n/", "/\r/"), array('\n', '\n'), addslashes(strtr($str, $js_rep_table)));
     }
 
   // no encoding given -> return original string
   return $str;
   }
-
+  
 /**
  * Quote a given string. Alias function for rep_specialchars_output
  * @see rep_specialchars_output
@@ -1160,13 +1123,29 @@ function strip_newlines($str)
 }
 
 
-// ************** template parsing and gui functions **************
+/**
+ * Compose an URL for a specific action
+ *
+ * @param string Request action
+ * @param array  More URL parameters
+ * @return The application URL
+ */
+function rcmail_url($action, $param=NULL)
+{
+  $url = $GLOBALS['COMM_PATH'] . '&'.$action;
+
+  if (is_array($param))
+    foreach ($param as $p => $val)
+      $url .= sprintf('&%s=%s', urlencode($p), urlencode($val));
+
+  return $url;
+}
 
 
 // return boolean if a specific template exists
 function template_exists($name)
   {
-  global $CONFIG, $OUTPUT;
+  global $CONFIG;
   $skin_path = $CONFIG['skin_path'];
 
   // check template file
@@ -1174,412 +1153,11 @@ function template_exists($name)
   }
 
 
-// get page template an replace variable
-// similar function as used in nexImage
-function parse_template($name='main', $exit=TRUE)
+// Wrapper for rcmail_template::parse()
+// @deprecated
+function parse_template($name='main', $exit=true)
   {
-  global $CONFIG, $OUTPUT;
-  $skin_path = $CONFIG['skin_path'];
-
-  // read template file
-  $templ = '';
-  $path = "$skin_path/templates/$name.html";
-
-  if($fp = @fopen($path, 'r'))
-    {
-    $templ = fread($fp, filesize($path));
-    fclose($fp);
-    }
-  else
-    {
-    raise_error(array('code' => 500,
-                      'type' => 'php',
-                      'line' => __LINE__,
-                      'file' => __FILE__,
-                      'message' => "Error loading template for '$name'"), TRUE, TRUE);
-    return FALSE;
-    }
-
-
-  // parse for specialtags
-  $output = parse_rcube_xml(parse_rcube_conditions($templ));
-  
-  // add debug console
-  if ($CONFIG['debug_level'] & 8)
-    $OUTPUT->footer = '<div style="position:absolute;top:5px;left:5px;width:400px;opacity:0.8;z-index:9000;"><form name="debugform"><textarea name="console" rows="15" cols="40" style="width:400px;border:none;font-size:x-small"></textarea></form>';
-
-  $OUTPUT->write(trim(parse_with_globals($output)), $skin_path);
-
-  if ($exit)
-    exit;
-  }
-
-
-
-// replace all strings ($varname) with the content of the according global variable
-function parse_with_globals($input)
-  {
-  $GLOBALS['__comm_path'] = $GLOBALS['COMM_PATH'];
-  $output = preg_replace('/\$(__[a-z0-9_\-]+)/e', '$GLOBALS["\\1"]', $input);
-  return $output;
-  }
-
-
-// parse conditional code
-function parse_rcube_conditions($input)
-  {
-  if (($matches = preg_split('/<roundcube:(if|elseif|else|endif)\s+([^>]+)>/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE)) && count($matches)==4)
-    {
-    if (preg_match('/^(else|endif)$/i', $matches[1]))
-      return $matches[0] . parse_rcube_conditions($matches[3]);
-    else
-      {
-      $attrib = parse_attrib_string($matches[2]);
-      if (isset($attrib['condition']))
-        {
-        $condmet = rcube_xml_condition($attrib['condition']);
-        $submatches = preg_split('/<roundcube:(elseif|else|endif)\s+([^>]+)>/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
-
-		    if ($condmet)
-			    $result = $submatches[0] . preg_replace('/.*<roundcube:endif\s+[^>]+>/is', '', $submatches[3]);
-        else
-          $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
-          
-        return $matches[0] . parse_rcube_conditions($result);
-        }
-      else
-        {
-        raise_error(array('code' => 500, 'type' => 'php', 'line' => __LINE__, 'file' => __FILE__,
-                          'message' => "Unable to parse conditional tag " . $matches[2]), TRUE, FALSE);
-        }
-      }
-    }
-
-  return $input;
-  }
-
- 
-/**
- * Determines if a given condition is met
- *
- * @return True if condition is valid, False is not
- */
-function rcube_xml_condition($condition)
-  {
-  $condition = preg_replace(
-      array('/session:([a-z0-9_]+)/i', '/config:([a-z0-9_]+)/i', '/request:([a-z0-9_]+)/ie'),
-      array("\$_SESSION['\\1']", "\$GLOBALS['CONFIG']['\\1']", "get_input_value('\\1', RCUBE_INPUT_GPC)"),
-      $condition);
-
-  return @eval("return (".$condition.");");
-  }
-
-
-function parse_rcube_xml($input)
-  {
-  $output = preg_replace('/<roundcube:([-_a-z]+)\s+([^>]+)>/Uie', "rcube_xml_command('\\1', '\\2')", $input);
-  return $output;
-  }
-
-
-/**
- * Convert a xml command tag into real content
- */
-function rcube_xml_command($command, $str_attrib, $add_attrib=array())
-  {
-  global $IMAP, $CONFIG, $OUTPUT;
-  
-  $command = strtolower($command);
-  $attrib = parse_attrib_string($str_attrib) + $add_attrib;
-  
-  // empty output if required condition is not met
-  if (!empty($attrib['condition']) && !rcube_xml_condition($attrib['condition']))
-    return '';
-
-  // execute command
-  switch ($command)
-    {
-    // return a button
-    case 'button':
-      if ($attrib['command'])
-        return rcube_button($attrib);
-      break;
-
-    // show a label
-    case 'label':
-      if ($attrib['name'] || $attrib['command'])
-        return Q(rcube_label($attrib + array('vars' => array('product' => $CONFIG['product_name']))));
-      break;
-
-    // create a menu item
-    case 'menu':
-      if ($attrib['command'] && $attrib['group'])
-        rcube_menu($attrib);
-      break;
-
-    // include a file 
-    case 'include':
-      $path = realpath($CONFIG['skin_path'].$attrib['file']);
-      
-      if($fp = @fopen($path, 'r'))
-        {
-        $incl = fread($fp, filesize($path));
-        fclose($fp);        
-        return parse_rcube_xml($incl);
-        }
-      break;
-
-    // return code for a specific application object
-    case 'object':
-      $object = strtolower($attrib['name']);
-
-      $object_handlers = array(
-        // GENERAL
-        'loginform' => 'rcmail_login_form',
-        'username'  => 'rcmail_current_username',
-        
-        // MAIL
-        'mailboxlist' => 'rcmail_mailbox_list',
-        'message' => 'rcmail_message_container',
-        'messages' => 'rcmail_message_list',
-        'messagecountdisplay' => 'rcmail_messagecount_display',
-        'quotadisplay' => 'rcmail_quota_display',
-        'messageheaders' => 'rcmail_message_headers',
-        'messagebody' => 'rcmail_message_body',
-        'messageattachments' => 'rcmail_message_attachments',
-        'blockedobjects' => 'rcmail_remote_objects_msg',
-        'messagecontentframe' => 'rcmail_messagecontent_frame',
-        'messagepartframe' => 'rcmail_message_part_frame',
-        'messagepartcontrols' => 'rcmail_message_part_controls',
-        'composeheaders' => 'rcmail_compose_headers',
-        'composesubject' => 'rcmail_compose_subject',
-        'composebody' => 'rcmail_compose_body',
-        'composeattachmentlist' => 'rcmail_compose_attachment_list',
-        'composeattachmentform' => 'rcmail_compose_attachment_form',
-        'composeattachment' => 'rcmail_compose_attachment_field',
-        'priorityselector' => 'rcmail_priority_selector',
-        'charsetselector' => 'rcmail_charset_selector',
-        'editorselector' => 'rcmail_editor_selector',
-        'searchform' => 'rcmail_search_form',
-        'receiptcheckbox' => 'rcmail_receipt_checkbox',
-        
-        // ADDRESS BOOK
-        'addresslist' => 'rcmail_contacts_list',
-        'addressframe' => 'rcmail_contact_frame',
-        'recordscountdisplay' => 'rcmail_rowcount_display',
-        'contactdetails' => 'rcmail_contact_details',
-        'contacteditform' => 'rcmail_contact_editform',
-        'ldappublicsearch' => 'rcmail_ldap_public_search_form',
-        'ldappublicaddresslist' => 'rcmail_ldap_public_list',
-
-        // USER SETTINGS
-        'userprefs' => 'rcmail_user_prefs_form',
-        'itentitieslist' => 'rcmail_identities_list',
-        'identityframe' => 'rcmail_identity_frame',
-        'identityform' => 'rcube_identity_form',
-        'foldersubscription' => 'rcube_subscription_form',
-        'createfolder' => 'rcube_create_folder_form',
-        'renamefolder' => 'rcube_rename_folder_form',
-        'composebody' => 'rcmail_compose_body'
-      );
-
-      
-      // execute object handler function
-      if ($object_handlers[$object] && function_exists($object_handlers[$object]))
-        return call_user_func($object_handlers[$object], $attrib);
-        
-      else if ($object=='productname')
-        {
-        $name = !empty($CONFIG['product_name']) ? $CONFIG['product_name'] : 'RoundCube Webmail';
-        return Q($name);
-        }
-      else if ($object=='version')
-        {
-        return (string)RCMAIL_VERSION;
-        }
-      else if ($object=='pagetitle')
-        {
-        $task = $GLOBALS['_task'];
-        $title = !empty($CONFIG['product_name']) ? $CONFIG['product_name'].' :: ' : '';
-        
-        if ($task=='login')
-          $title = rcube_label(array('name' => 'welcome', 'vars' => array('product' => $CONFIG['product_name'])));
-        else if ($task=='mail' && isset($GLOBALS['MESSAGE']['subject']))
-          $title .= $GLOBALS['MESSAGE']['subject'];
-        else if (isset($GLOBALS['PAGE_TITLE']))
-          $title .= $GLOBALS['PAGE_TITLE'];
-        else if ($task=='mail' && ($mbox_name = $IMAP->get_mailbox_name()))
-          $title .= rcube_charset_convert($mbox_name, 'UTF-7', 'UTF-8');
-        else
-          $title .= ucfirst($task);
-          
-        return Q($title);
-        }
-
-      break;
-    }
-
-  return '';
-  }
-
-
-// create and register a button
-function rcube_button($attrib)
-  {
-  global $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $BROWSER, $COMM_PATH, $MAIN_TASKS;
-  static $sa_buttons = array();
-  static $s_button_count = 100;
-  
-  // these commands can be called directly via url
-  $a_static_commands = array('compose', 'list');
-  
-  $skin_path = $CONFIG['skin_path'];
-  
-  if (!($attrib['command'] || $attrib['name']))
-    return '';
-
-  // try to find out the button type
-  if ($attrib['type'])
-    $attrib['type'] = strtolower($attrib['type']);
-  else
-    $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
-  
-  $command = $attrib['command'];
-  
-  // take the button from the stack
-  if($attrib['name'] && $sa_buttons[$attrib['name']])
-    $attrib = $sa_buttons[$attrib['name']];
-
-  // add button to button stack
-  else if($attrib['image'] || $attrib['imageact'] || $attrib['imagepas'] || $attrib['class'])
-    {
-    if(!$attrib['name'])
-      $attrib['name'] = $command;
-
-    if (!$attrib['image'])
-      $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
-
-    $sa_buttons[$attrib['name']] = $attrib;
-    }
-
-  // get saved button for this command/name
-  else if ($command && $sa_buttons[$command])
-    $attrib = $sa_buttons[$command];
-
-  //else
-  //  return '';
-
-
-  // set border to 0 because of the link arround the button
-  if ($attrib['type']=='image' && !isset($attrib['border']))
-    $attrib['border'] = 0;
-    
-  if (!$attrib['id'])
-    $attrib['id'] =  sprintf('rcmbtn%d', $s_button_count++);
-
-  // get localized text for labels and titles
-  if ($attrib['title'])
-    $attrib['title'] = Q(rcube_label($attrib['title']));
-  if ($attrib['label'])
-    $attrib['label'] = Q(rcube_label($attrib['label']));
-
-  if ($attrib['alt'])
-    $attrib['alt'] = Q(rcube_label($attrib['alt']));
-
-  // set title to alt attribute for IE browsers
-  if ($BROWSER['ie'] && $attrib['title'] && !$attrib['alt'])
-    {
-    $attrib['alt'] = $attrib['title'];
-    unset($attrib['title']);
-    }
-
-  // add empty alt attribute for XHTML compatibility
-  if (!isset($attrib['alt']))
-    $attrib['alt'] = '';
-
-
-  // register button in the system
-  if ($attrib['command'])
-    {
-    $OUTPUT->add_script(sprintf("%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
-                                $JS_OBJECT_NAME,
-                                $command,
-                                $attrib['id'],
-                                $attrib['type'],
-                                $attrib['imageact'] ? $skin_path.$attrib['imageact'] : $attrib['classact'],
-                                $attrib['imagesel'] ? $skin_path.$attrib['imagesel'] : $attrib['classsel'],
-                                $attrib['imageover'] ? $skin_path.$attrib['imageover'] : ''));
-
-    // make valid href to specific buttons
-    if (in_array($attrib['command'], $MAIN_TASKS))
-      $attrib['href'] = htmlentities(ereg_replace('_task=[a-z]+', '_task='.$attrib['command'], $COMM_PATH));
-    else if (in_array($attrib['command'], $a_static_commands))
-      $attrib['href'] = htmlentities($COMM_PATH.'&_action='.$attrib['command']);
-    }
-
-  // overwrite attributes
-  if (!$attrib['href'])
-    $attrib['href'] = '#';
-
-  if ($command)
-    $attrib['onclick'] = sprintf("return %s.command('%s','%s',this)", $JS_OBJECT_NAME, $command, $attrib['prop']);
-    
-  if ($command && $attrib['imageover'])
-    {
-    $attrib['onmouseover'] = sprintf("return %s.button_over('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
-    $attrib['onmouseout'] = sprintf("return %s.button_out('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
-    }
-
-  if ($command && $attrib['imagesel'])
-    {
-    $attrib['onmousedown'] = sprintf("return %s.button_sel('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
-    $attrib['onmouseup'] = sprintf("return %s.button_out('%s','%s')", $JS_OBJECT_NAME, $command, $attrib['id']);
-    }
-
-  $out = '';
-
-  // generate image tag
-  if ($attrib['type']=='image')
-    {
-    $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'width', 'height', 'border', 'hspace', 'vspace', 'align', 'alt'));
-    $img_tag = sprintf('<img src="%%s"%s />', $attrib_str);
-    $btn_content = sprintf($img_tag, $skin_path.$attrib['image']);
-    if ($attrib['label'])
-      $btn_content .= ' '.$attrib['label'];
-    
-    $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'title');
-    }
-  else if ($attrib['type']=='link')
-    {
-    $btn_content = $attrib['label'] ? $attrib['label'] : $attrib['command'];
-    $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style');
-    }
-  else if ($attrib['type']=='input')
-    {
-    $attrib['type'] = 'button';
-    
-    if ($attrib['label'])
-      $attrib['value'] = $attrib['label'];
-      
-    $attrib_str = create_attrib_string($attrib, array('type', 'value', 'onclick', 'id', 'class', 'style'));
-    $out = sprintf('<input%s disabled />', $attrib_str);
-    }
-
-  // generate html code for button
-  if ($btn_content)
-    {
-    $attrib_str = create_attrib_string($attrib, $link_attrib);
-    $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
-    }
-
-  return $out;
-  }
-
-
-function rcube_menu($attrib)
-  {
-  
-  return '';
+  $GLOBALS['OUTPUT']->parse($name, $exit);
   }
 
 
@@ -1685,6 +1263,24 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
   }
 
 
+// return the mail domain configured for the given host
+function rcmail_mail_domain($host)
+  {
+  global $CONFIG;
+
+  $domain = $host;
+  if (is_array($CONFIG['mail_domain']))
+    {
+    if (isset($CONFIG['mail_domain'][$host]))
+      $domain = $CONFIG['mail_domain'][$host];
+    }
+  else if (!empty($CONFIG['mail_domain']))
+    $domain = $CONFIG['mail_domain'];
+
+  return $domain;
+  }
+
+
 // compose a valid attribute string for HTML tags
 function create_attrib_string($attrib, $allowed_attribs=array('id', 'class', 'style'))
   {
@@ -1784,13 +1380,23 @@ function format_date($date, $format=NULL)
   }
 
 
+function format_email_recipient($email, $name='')
+  {
+  if ($name && $name != $email)
+    return sprintf('%s <%s>', strpos($name, ",") ? '"'.$name.'"' : $name, $email);
+  else
+    return $email;
+  }
+
+
+
 // ************** functions delivering gui objects **************
 
 
 
 function rcmail_message_container($attrib)
   {
-  global $OUTPUT, $JS_OBJECT_NAME;
+  global $OUTPUT;
 
   if (!$attrib['id'])
     $attrib['id'] = 'rcmMessageContainer';
@@ -1799,7 +1405,7 @@ function rcmail_message_container($attrib)
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
   $out = '<div' . $attrib_str . "></div>";
   
-  $OUTPUT->add_script("$JS_OBJECT_NAME.gui_object('message', '$attrib[id]');");
+  $OUTPUT->add_gui_object('message', $attrib['id']);
   
   return $out;
   }
@@ -1837,28 +1443,10 @@ function rcmail_current_username($attrib)
   }
 
 
-// return the mail domain configured for the given host
-function rcmail_mail_domain($host)
-  {
-  global $CONFIG;
-
-  $domain = $host;
-  if (is_array($CONFIG['mail_domain']))
-    {
-    if (isset($CONFIG['mail_domain'][$host]))
-      $domain = $CONFIG['mail_domain'][$host];
-    }
-  else if (!empty($CONFIG['mail_domain']))
-    $domain = $CONFIG['mail_domain'];
-
-  return $domain;
-  }
-
-
 // return code for the webmail login form
 function rcmail_login_form($attrib)
   {
-  global $CONFIG, $OUTPUT, $JS_OBJECT_NAME, $SESS_HIDDEN_FIELD;
+  global $CONFIG, $OUTPUT, $SESS_HIDDEN_FIELD;
   
   $labels = array();
   $labels['user'] = rcube_label('username');
@@ -1911,7 +1499,7 @@ function rcmail_login_form($attrib)
 
 EOF;
 
-  $OUTPUT->add_script("$JS_OBJECT_NAME.gui_object('loginform', '$form_name');");
+  $OUTPUT->add_gui_object('loginform', $form_name);
   
   $out = <<<EOF
 $form_start
@@ -1970,6 +1558,36 @@ function rcmail_charset_selector($attrib)
   $set = $_POST['_charset'] ? $_POST['_charset'] : $OUTPUT->get_charset();
   return $select->show($set);
   }
+
+
+// return code for search function
+function rcmail_search_form($attrib)
+  {
+  global $OUTPUT;
+
+  // add some labels to client
+  rcube_add_label('searching');
+
+  $attrib['name'] = '_q';
+
+  if (empty($attrib['id']))
+    $attrib['id'] = 'rcmqsearchbox';
+
+  $input_q = new textfield($attrib);
+  $out = $input_q->show();
+
+  $OUTPUT->add_gui_object('qsearchbox', $attrib['id']);
+
+  // add form tag around text field
+  if (empty($attrib['form']))
+    $out = sprintf(
+      '<form name="rcmqsearchform" action="./" '.
+      'onsubmit="%s.command(\'search\');return false" style="display:inline;">%s</form>',
+      JS_OBJECT_NAME,
+      $out);
+
+  return $out;
+  } 
 
 
 /****** debugging functions ********/

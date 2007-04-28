@@ -25,7 +25,7 @@ $_SESSION['page'] = 1;
 $imap_charset = 'UTF-8';
 
 // get search string
-$str = get_input_value('_search', RCUBE_INPUT_GET);
+$str = get_input_value('_q', RCUBE_INPUT_GET);
 $mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
 $search_request = md5($mbox.$str);
 
@@ -71,16 +71,14 @@ else
 
 // execute IMAP search
 $result = $IMAP->search($mbox, $subject, $search, $imap_charset);
-
-$commands = '';
 $count = 0;
   
 // Make sure our $result is legit..
 if (is_array($result) && $result[0] != '')
-  {
+{
   // Get the headers
   $result_h = $IMAP->list_header_set($mbox, $result, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
-  $count = count($result);
+  $count = count($result_h);
 
   // save search results in session
   if (!is_array($_SESSION['search']))
@@ -88,24 +86,24 @@ if (is_array($result) && $result[0] != '')
 
   // Make sure we got the headers
   if ($result_h != NULL)
-    {
-    $_SESSION['search'][$search_request] = $IMAP->get_search_set();
-    $commands = rcmail_js_message_list($result_h);
-    $commands .= show_message('searchsuccessful', 'confirmation', array('nr' => $count));
-    }
-  }
-else
   {
-  $commands = show_message('searchnomatch', 'warning');
-  $search_request = -1;
+    $_SESSION['search'][$search_request] = $IMAP->get_search_set();
+    rcmail_js_message_list($result_h);
+    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
   }
+}
+else
+{
+  $OUTPUT->show_message('searchnomatch', 'warning');
+  $search_request = -1;
+}
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);
-$commands .= sprintf("\nthis.set_env('search_request', '%s')\n", $search_request);
-$commands .= sprintf("this.set_env('messagecount', %d);\n", $count);
-$commands .= sprintf("this.set_env('pagecount', %d);\n", $pages);
-$commands .= sprintf("this.set_rowcount('%s');\n", rcmail_get_messagecount_text($count, 1));
-rcube_remote_response($commands);
+$OUTPUT->set_env('search_request', $search_request);
+$OUTPUT->set_env('messagecount', $count);
+$OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1));
+$OUTPUT->send();
 
 ?>

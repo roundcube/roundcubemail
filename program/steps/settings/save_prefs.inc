@@ -5,7 +5,7 @@
  | program/steps/settings/save_prefs.inc                                 |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -43,13 +43,10 @@ if (isset($_POST['_language']))
   }
 
 if (rcmail_save_user_prefs($a_user_prefs))
-  show_message('successfullysaved', 'confirmation');
+  $OUTPUT->show_message('successfullysaved', 'confirmation');
 
 
 // go to next step
-$_action = 'preferences';
-
-// overwrite action variable  
-$OUTPUT->add_script(sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $_action));  
+rcmail_overwrite_action('preferences');
 
 ?>

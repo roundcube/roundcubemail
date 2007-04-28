@@ -83,7 +83,7 @@
 {
   position: absolute;
   bottom: 16px;
-  right: 40px;
+  right: 30px;
   width: 300px;
   height: 20px;
   text-align: right;
@@ -110,13 +110,13 @@
   position: absolute;
   top: 85px;
   left: 200px;
-  right: 40px;
+  right: 30px;
   bottom: 40px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
@@ -125,12 +125,12 @@
   position: absolute;
   top: 305px;
   left: 200px;
-  right: 40px;
+  right: 30px;
   bottom: 40px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-135-document.getElementById('mailcontframe').offsetHeight)+'px');
 }
 
@@ -184,20 +184,6 @@ html>body*#messagecontframe
 {
   color: #666666;
   font-weight: bold;
-}
-
-#rcmdraglayer
-{
-  width: 300px;
-  border: 1px solid #999999;
-  background-color: #F9F9F9;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  font-size: 11px;
-  opacity: 0.6;
-  -moz-opacity: 0.6;
 }
 
 
@@ -524,65 +510,6 @@ body.messagelist
   color: #CCCCCC;
 }
 
-#quicksearchbar
-{
-  position: absolute;
-  top: 60px;
-  right: 40px;
-  width: 182px;
-  height: 20px;
-  text-align: right;
-  background: url('images/searchfield.gif') top left no-repeat;
-}
-
-#quicksearchbar a
-{
-  position: absolute;
-  top: 3px;
-  right: 4px;
-  text-decoration: none;
-}
-
-#quicksearchbar img
-{
-  vertical-align: middle;
-}
-
-#quicksearchbox
-{
-  position: absolute;
-  top: 2px;
-  left: 20px;
-  width: 140px;
-  font-size: 11px;
-  padding: 0px;
-  border: none;
-}
-
-
-/*\*/
-html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) { background-image: none; }
-html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) a { top: 5px; }
-html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
-/**/
-
-
-#rcversion
-{
-  position: absolute;
-  top: 67px;
-  left: 20px;
-  width: 160px;
-  text-align: center;
-
-  font-weight: normal;
-  font-size: x-small;
-  font-variant: small-caps;
-  
-  color: #999999;
-  /*border: 1px solid #308014;
-  background-color: #b4eeb4;*/
-}
 
 #quotadisplay
 {
@@ -604,9 +531,9 @@ html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) #quicksearch
 #messageframe
 {
   position: absolute;
-  top: 95px;
+  top: 85px;
   left: 200px;
-  right: 40px;
+  right: 30px;
   bottom: 40px;
   border: 1px solid #cccccc;
   background-color: #FFFFFF;

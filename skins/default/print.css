@@ -108,7 +108,7 @@ div.message-part div.pre
   margin: 0;
   padding: 0;
   white-space: pre;
-  font-size: 9pt;
+  font-family: monospace;
 }
 
 div.message-part blockquote

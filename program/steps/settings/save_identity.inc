@@ -27,7 +27,7 @@ $updated = $default_id = false;
 // check input
 if (empty($_POST['_name']) || empty($_POST['_email']))
   {
-  show_message('formincomplete', 'warning');
+  $OUTPUT->show_message('formincomplete', 'warning');
   rcmail_overwrite_action('edit-identitiy');
   return;
   }
@@ -72,7 +72,7 @@ if ($_POST['_iid'])
        
   if ($updated)
     {
-    show_message('successfullysaved', 'confirmation');
+    $OUTPUT->show_message('successfullysaved', 'confirmation');
     
     if (!empty($_POST['_standard']))
       $default_id = get_input_value('_iid', RCUBE_INPUT_POST);
@@ -86,7 +86,7 @@ if ($_POST['_iid'])
   else if ($DB->is_error())
     {
     // show error message
-    show_message('errorsaving', 'error');
+    $OUTPUT->show_message('errorsaving', 'error');
     rcmail_overwrite_action('edit-identitiy');
     return;
     }
@@ -133,7 +133,7 @@ else
   else
     {
     // show error message
-    show_message('errorsaving', 'error');
+    $OUTPUT->show_message('errorsaving', 'error');
     rcmail_overwrite_action('edit-identity');
     return;
     }
@@ -152,6 +152,6 @@ if ($default_id)
     $default_id);
 
 // go to next step
-rcmail_overwrite_action($_POST['_framed'] ? 'edit-identity' : 'identities');
+rcmail_overwrite_action($_framed ? 'edit-identity' : 'identities');
 
 ?>

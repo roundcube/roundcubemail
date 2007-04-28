@@ -5,7 +5,7 @@
  | rcube_shared.inc                                                      |
  |                                                                       |
  | This file is part of the RoundCube PHP suite                          |
- | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |
@@ -84,11 +84,20 @@ class rcube_html_page
   function add_script($script, $position='head')
     {
     if (!isset($this->scripts[$position]))
-      $this->scripts[$position] = "\n$script";
+      $this->scripts[$position] = "\n".rtrim($script);
     else
-      $this->scripts[$position] .= "\n$script";
+      $this->scripts[$position] .= "\n".rtrim($script);
     }
 
+  function add_header($str)
+    {
+    $this->header .= "\n".$str;
+    }
+
+  function add_footer($str)
+    {
+    $this->footer .= "\n".$str;
+    }
 
   function set_title($t)
     {
@@ -121,6 +130,8 @@ class rcube_html_page
     $this->script_files = array();
     $this->scripts = array();
     $this->title = '';
+    $this->header = '';
+    $this->footer = '';
     }
 
 
@@ -150,39 +161,37 @@ class rcube_html_page
       foreach ($this->script_files['head'] as $file)
         $__page_header .= sprintf($this->script_tag_file, $this->scripts_path, $file);
 
-   if (is_array($this->external_scripts['head']))
-   {
+    if (is_array($this->external_scripts['head']))
       foreach ($this->external_scripts['head'] as $xscript)
-      {
-         $__page_header .= sprintf($this->tag_format_external_script, $xscript);
-      }
-   }
+        $__page_header .= sprintf($this->tag_format_external_script, $xscript);
 
-    if (!empty($this->scripts['head']))
-      $__page_header .= sprintf($this->script_tag, $this->scripts['head']);
-          
+    $head_script = $this->scripts['head_top'] . $this->scripts['head'];
+    if (!empty($head_script))
+      $__page_header .= sprintf($this->script_tag, $head_script);
+
+    if (!empty($this->header))
+      $__page_header .= $this->header;
+
     if (is_array($this->script_files['foot']))
-      {
       foreach ($this->script_files['foot'] as $file)
         $__page_footer .= sprintf($this->script_tag_file, $this->scripts_path, $file);
-      }
 
     if (!empty($this->scripts['foot']))
       $__page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
       
-    if ($this->footer)
-      $__page_footer .= "\n" . $this->footer;
+    if (!empty($this->footer))
+      $__page_footer .= $this->footer;
 
     $__page_header .= $this->css->show();
   
     // find page header
-    if($hpos = rc_strpos(rc_strtolower($output), '</head>'))
+    if($hpos = strpos(strtolower($output), '</head>'))
       $__page_header .= "\n";
     else 
       {
       if (!is_numeric($hpos))
-        $hpos = rc_strpos(rc_strtolower($output), '<body');
-      if (!is_numeric($hpos) && ($hpos = rc_strpos(rc_strtolower($output), '<html')))
+        $hpos = strpos(strtolower($output), '<body');
+      if (!is_numeric($hpos) && ($hpos = strpos(strtolower($output), '<html')))
         {
         while($output[$hpos]!='>')
         $hpos++;
@@ -194,27 +203,27 @@ class rcube_html_page
   
     // add page hader
     if($hpos)
-      $output = rc_substr($output,0,$hpos) . $__page_header . rc_substr($output,$hpos,rc_strlen($output));
+      $output = substr($output,0,$hpos) . $__page_header . substr($output,$hpos,strlen($output));
     else
       $output = $__page_header . $output;
   
   
     // find page body
-    if($bpos = rc_strpos(rc_strtolower($output), '<body'))
+    if($bpos = strpos(strtolower($output), '<body'))
       {
       while($output[$bpos]!='>') $bpos++;
       $bpos++;
       }
     else
-      $bpos = rc_strpos(rc_strtolower($output), '</head>')+7;
+      $bpos = strpos(strtolower($output), '</head>')+7;
   
     // add page body
     if($bpos && $__page_body)
-      $output = rc_substr($output,0,$bpos) . "\n$__page_body\n" . rc_substr($output,$bpos,rc_strlen($output));
+      $output = substr($output,0,$bpos) . "\n$__page_body\n" . substr($output,$bpos,strlen($output));
   
   
     // find and add page footer
-    $output_lc = rc_strtolower($output);
+    $output_lc = strtolower($output);
     if(($fpos = strrstr($output_lc, '</body>')) ||
        ($fpos = strrstr($output_lc, '</html>')))
       $output = substr($output, 0, $fpos) . "$__page_footer\n" . substr($output, $fpos);
@@ -1016,10 +1025,10 @@ class select extends base_form_element
                     in_array($option['value'], $select, TRUE)) ||
                    (in_array($option['text'], $select, TRUE))) ?
         $this->_conv_case(' selected', 'attrib') : '';
-                  
+                   
       $options_str .= sprintf("<%s%s%s>%s</%s>\n",
                              $this->_conv_case('option', 'tag'),
-                             isset($option['value']) ? sprintf($value_str, $option['value']) : '',
+                             !empty($option['value']) ? sprintf($value_str, Q($option['value'])) : '',
                              $selected, 
                              Q($option['text'], 'strict', FALSE),
                              $this->_conv_case('option', 'tag'));
@@ -1258,89 +1267,71 @@ function send_modified_header($mdate, $etag=null)
 }
 
 
-// function to convert an array to a javascript array
-function array2js($arr, $type='')
+/**
+ * Convert a variable into a javascript notation string
+ */
+function json_serialize($var)
   {
-  if (!$type)
-    $type = 'mixed';
+    if (is_object($var))
+      $var = get_object_vars($var);
 
-  if (is_array($arr))
+    if (is_array($var))
     {
-    // no items in array
-    if (!sizeof($arr))
-      return 'new Array()';
-    else
+      // empty array
+      if (!sizeof($var))
+        return '[]';
+      else
       {
-      $a_pairs = array();
-      $keys_arr = array_keys($arr);
-      $is_assoc = $have_numeric = 0;
+        $keys_arr = array_keys($var);
+        $is_assoc = $have_numeric = 0;
 
-      for ($i=0; $i<sizeof($keys_arr); ++$i)
+        for ($i=0; $i<sizeof($keys_arr); ++$i)
         {
-        if(is_numeric($keys_arr[$i]))
-          $have_numeric = 1;
-        if (!is_numeric($keys_arr[$i]) || $keys_arr[$i]!=$i)
-          $is_assoc = 1;
-        if($is_assoc && $have_numeric)
-          break;
+          if (is_numeric($keys_arr[$i]))
+            $have_numeric = 1;
+          if (!is_numeric($keys_arr[$i]) || $keys_arr[$i] != $i)
+            $is_assoc = 1;
+          if ($is_assoc && $have_numeric)
+            break;
+        }
+        
+        $brackets = $is_assoc ? '{}' : '[]';
+        $pairs = array();
+
+        foreach ($var as $key => $value)
+        {
+          // enclose key with quotes if it is not variable-name conform
+          if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) /* || is_js_reserved_word($key) */)
+            $key = "'$key'";
+
+          $pairs[] = sprintf("%s%s", $is_assoc ? "$key:" : '', json_serialize($value));
         }
 
-      $previous_was_array = false;
-      while (list($key, $value) = each($arr))
-        {
-        // enclose key with quotes if it is not variable-name conform
-        if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) /* || is_js_reserved_word($key) */)
-          $key = "'$key'";
-
-        if (!is_array($value) && is_string($value))
-          {
-          $value = str_replace("\r\n", '\n', $value);
-          $value = str_replace("\n", '\n', $value);
-          }
-
-        $is_string = false;
-        if (!is_array($value))
-          {
-          if ($type=='string')
-            $is_string = true;
-          else if (($type == 'mixed' && is_bool($value)) || $type == 'bool')
-            {
-            $is_string = false;
-            $value = $value ? "true" : "false";
-            }
-          else if ((($type=='mixed' && is_numeric($value)) || $type=='int') && rc_strlen($value)<16)   // js interprets numbers with digits >15 as ...e+... 
-            $is_string = FALSE;
-          else
-            $is_string = TRUE;
-          }
-
-        if ($is_string)
-          $value = "'".preg_replace("/(?<!\\\)'/", "\'", $value)."'";
-
-        $a_pairs[] = sprintf("%s%s",
-                             $is_assoc ? "$key:" : '',
-                             is_array($value) ? array2js($value, $type) : $value);
-        }
-
-      if ($a_pairs)
-        {
-        if ($is_assoc)
-          $return = '{'.implode(',', $a_pairs).'}';
-        else
-          $return = '['.implode(',', $a_pairs).']';
-        }
-
-      return $return;
+        return $brackets{0} . implode(',', $pairs) . $brackets{1};
       }
     }
-  else
-    {
-    return $arr;
-    }
+    else if (is_numeric($var) && strval(intval($var)) === strval($var))
+      return $var;
+    else if (is_bool($var))
+      return $var ? '1' : '0';
+    else
+      return "'".JQ($var)."'";
+  
+  }
+
+/**
+ * function to convert an array to a javascript array
+ * @deprecated
+ */
+function array2js($arr, $type='')
+  {
+  return json_serialize($arr);
   }
 
 
-// similar function as in_array() ut case-insensitive
+/**
+ * Similar function as in_array() but case-insensitive
+ */
 function in_array_nocase($needle, $haystack)
   {
   foreach ($haystack as $value)
@@ -1353,8 +1344,9 @@ function in_array_nocase($needle, $haystack)
   }
 
 
-
-// find out if the string content means TRUE or FALSE
+/**
+ * Find out if the string content means TRUE or FALSE
+ */
 function get_boolean($str)
   {
   $str = strtolower($str);
@@ -1469,7 +1461,7 @@ function rc_strtolower($str)
   }
 
 // wrapper function for substr
-function rc_substr($str, $start, $len)
+function rc_substr($str, $start, $len=null)
   {
   if (function_exists('mb_substr'))
     return mb_substr($str, $start, $len);

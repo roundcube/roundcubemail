@@ -5,7 +5,7 @@
  | program/steps/addressbook/edit.inc                                    |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,30 +20,27 @@
 */
 
 
-if (($_GET['_cid'] || $_POST['_cid']) && $_action=='edit')
-  {
-  $cid = $_POST['_cid'] ? $_POST['_cid'] : $_GET['_cid'];
-  $DB->query("SELECT * FROM ".get_table_name('contacts')."
-             WHERE  contact_id=?
-             AND    user_id=?
-             AND    del<>1",
-             $cid,
-             $_SESSION['user_id']);
-  
-  $CONTACT_RECORD = $DB->fetch_assoc();
+if (($cid = get_input_value('_cid', RCUBE_INPUT_GPC)) && ($record = $CONTACTS->get_record($cid, true)))
+  $OUTPUT->set_env('cid', $record['ID']);
 
-  if (is_array($CONTACT_RECORD))
-    $OUTPUT->add_script(sprintf("%s.set_env('cid', '%s');", $JS_OBJECT_NAME, $CONTACT_RECORD['contact_id']));
-  }
-
-
+// adding not allowed here
+if ($CONTACTS->readonly)
+{
+  $OUTPUT->show_message('sourceisreadonly');
+  rcmail_overwrite_action('show');
+  return;
+}
 
 function rcmail_contact_editform($attrib)
-  {
-  global $CONTACT_RECORD, $JS_OBJECT_NAME;
+{
+  global $CONTACTS, $OUTPUT;
 
-  if (!$CONTACT_RECORD && $GLOBALS['_action']!='add')
-    return rcube_label('contactnotfound');
+  // check if we have a valid result
+  if ($GLOBALS['_action'] != 'add' && !(($result = $CONTACTS->get_result()) && ($record = $result->first())))
+  {
+    $OUTPUT->show_message('contactnotfound');
+    return false;
+  }
 
   // add some labels to client
   rcube_add_label('noemailwarning');
@@ -51,15 +48,14 @@ function rcmail_contact_editform($attrib)
 
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
-  
 
   // a specific part is requested
   if ($attrib['part'])
-    {
+  {
     $out = $form_start;
-    $out .= rcmail_get_edit_field($attrib['part'], $CONTACT_RECORD[$attrib['part']], $attrib); 
+    $out .= rcmail_get_edit_field($attrib['part'], $record[$attrib['part']], $attrib); 
     return $out;
-    }
+  }
 
 
   // return the complete address edit form as table
@@ -67,38 +63,37 @@ function rcmail_contact_editform($attrib)
 
   $a_show_cols = array('name', 'firstname', 'surname', 'email');
   foreach ($a_show_cols as $col)
-    {
+  {
     $attrib['id'] = 'rcmfd_'.$col;
-    $title = rcube_label($col);
-    $value = rcmail_get_edit_field($col, $CONTACT_RECORD[$col], $attrib);
+    $value = rcmail_get_edit_field($col, $record[$col], $attrib);
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $attrib['id'],
-                    $title,
+                    Q(rcube_label($col)),
                     $value);
-    }
+  }
 
   $out .= "\n</table>$form_end";
 
   return $out;  
-  }
+}
+
+$OUTPUT->add_handler('contacteditform', 'rcmail_contact_editform');
 
 
 // similar function as in /steps/settings/edit_identity.inc
 function get_form_tags($attrib)
   {
-  global $CONTACT_RECORD, $OUTPUT, $JS_OBJECT_NAME, $EDIT_FORM, $SESS_HIDDEN_FIELD;  
+  global $CONTACTS, $OUTPUT, $EDIT_FORM, $SESS_HIDDEN_FIELD;  
 
+  $result = $CONTACTS->get_result();
   $form_start = '';
   if (!strlen($EDIT_FORM))
     {
     $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
-    $hiddenfields->add(array('name' => '_action', 'value' => 'save'));
+    $hiddenfields->add(array('name' => '_action', 'value' => 'save', 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
     
-    if ($GLOBALS['_framed'])
-      $hiddenfields->add(array('name' => '_framed', 'value' => 1));
-    
-    if ($CONTACT_RECORD['contact_id'])
-      $hiddenfields->add(array('name' => '_cid', 'value' => $CONTACT_RECORD['contact_id']));
+    if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
+      $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
     
     $form_start = !strlen($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
     $form_start .= "\n$SESS_HIDDEN_FIELD\n";
@@ -109,7 +104,7 @@ function get_form_tags($attrib)
   $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';
   
   if (!strlen($EDIT_FORM))
-    $OUTPUT->add_script("$JS_OBJECT_NAME.gui_object('editform', '$form_name');");
+    $OUTPUT->add_gui_object('editform', $form_name);
   
   $EDIT_FORM = $form_name;
 
@@ -118,7 +113,7 @@ function get_form_tags($attrib)
 
 
 
-if (!$CONTACT_RECORD && template_exists('addcontact'))
+if (!$CONTACTS->get_result() && template_exists('addcontact'))
   parse_template('addcontact');
 
 // this will be executed if no template for addcontact exists

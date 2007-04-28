@@ -64,7 +64,7 @@ EOF;
   }
 
 // database connection error
-else if ($ERROR_CODE==0x01f4)
+else if ($ERROR_CODE==603)
   {
   $__error_title = "DATABASE ERROR: CONNECTION FAILED!";
   $__error_text  =  <<<EOF

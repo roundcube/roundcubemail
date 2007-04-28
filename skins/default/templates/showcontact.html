@@ -12,7 +12,7 @@
 <div id="contact-details">
 <roundcube:object name="contactdetails" />
 
-<p><br /><roundcube:button command="edit" type="input" class="button" label="editcontact" /></p>
+<p><br /><roundcube:button command="edit" type="input" class="button" label="editcontact" condition="!ENV:readonly" /></p>
 </div>
 
 </body>

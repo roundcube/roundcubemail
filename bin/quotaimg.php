@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/mail/quotaimg.inc                                       |
+ | program/bin/quotaimg.php                                              |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
@@ -81,32 +81,29 @@ function genQuota($used, $total, $width, $height)
 	 *****	DO NOT EDIT BELOW HERE	*****
 	 ****************************/
 
-	if(ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total))
-		{ 
+	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total))
 		return false; 
-		}
-	if(strpos($used, '?')!==false || strpos($total, '?')!==false && $used != 0)
-		{ 
+
+	if (strpos($used, '?')!==false || strpos($total, '?')!==false && $used != 0)
 		$unknown = true; 
-		}
 
 	$im = imagecreate($width, $height);
 
-	if($border)
-		{
+	if ($border)
+	{
 		list($r, $g, $b) = explode(',', $color['border']);
 		$borderc = imagecolorallocate($im, $r, $g, $b);
 		imageline($im, 0, 0, $width, 0, $borderc);
 		imageline($im, 0, $height-$border, 0, 0, $borderc);
 		imageline($im, $width-1, 0, $width-$border, $height, $borderc);
 		imageline($im, $width, $height-$border, 0, $height-$border, $borderc);
-		}
+	}
 		
 	list($r, $g, $b) = explode(',', $color['text']);
 	$text = imagecolorallocate($im, $r, $g, $b);
 
-	if($unknown)
-		{
+	if ($unknown)
+	{
 		list($r, $g, $b) = explode(',', $color['bg']['Unknown']);
 		$background = imagecolorallocate($im, $r, $g, $b);
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
@@ -114,9 +111,9 @@ function genQuota($used, $total, $width, $height)
 		$string = 'Unknown';
 		$mid = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
 		imagestring($im, $font, $mid, $padding, $string, $text);
-		}
-	else if($used > $total)
-		{
+	}
+	else if ($used > $total)
+	{
 		list($r, $g, $b) = explode(',', $color['bg']['OL']);
 		$background = imagecolorallocate($im, $r, $g, $b);
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
@@ -124,30 +121,30 @@ function genQuota($used, $total, $width, $height)
 		$string = 'Over Limit';
 		$mid = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
 		imagestring($im, $font, $mid, $padding, $string, $text);
-		}
+	}
 	else
-		{
+	{
 		list($r, $g, $b) = explode(',', $color['bg']['quota']);
 		$background = imagecolorallocate($im, $r, $b, $g);
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
 		
 		$quota = ($used==0)?0:(round($used/$total, 2)*100);
 
-		if($quota >= $limit['high'])
-			{
+		if ($quota >= $limit['high'])
+		{
 			list($r, $g, $b) = explode(',', $color['fill']['high']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
-			}
+		}
 		elseif($quota >= $limit['mid'])
-			{
+		{
 			list($r, $g, $b) = explode(',', $color['fill']['mid']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
-			}
+		}
 		else // if($quota >= $limit['low'])
-			{
+		{
 			list($r, $g, $b) = explode(',', $color['fill']['low']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
-			}
+		}
 
 		$quota_width = $quota / 100 * $width;
 		imagefilledrectangle($im, $border, 0, $quota, $height-2*$border, $fill);
@@ -155,10 +152,10 @@ function genQuota($used, $total, $width, $height)
 		$string = $quota.'%';
 		$mid = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
 		imagestring($im, $font, $mid, $padding, $string, $text); // Print percent in black
-		}
+	}
 
 	header('Content-Type: image/gif');
-    header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+86400)." GMT");
+	header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+86400)." GMT");
 	header("Cache-Control: ");
 	header("Pragma: ");
 	

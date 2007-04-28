@@ -602,4 +602,25 @@ function getCookie(name)
 roundcube_browser.prototype.get_cookie = getCookie;
 
 
+// tiny replacement for Firebox functionality
+function rcube_console()
+{
+  this.box = rcube_find_object('console');
+  
+  this.log = function(msg)
+  {
+    if (this.box)
+      this.box.value += str+'\n--------------------------------------\n';
+  };
+  
+  this.reset = function()
+  {
+    if (this.box)
+      this.box.value = '';
+  };
+}
+
 var bw = new roundcube_browser();
+
+if (!window.console)
+  console = new rcube_console();

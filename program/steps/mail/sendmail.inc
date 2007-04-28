@@ -5,7 +5,7 @@
  | program/steps/mail/sendmail.inc                                       |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -39,7 +39,7 @@ if (!isset($_SESSION['compose']['id']))
 
 function rcmail_get_identity($id)
   {
-  global $DB, $CHARSET, $OUTPUT;
+  global $DB, $OUTPUT;
   
   // get identity record
   $sql_result = $DB->query("SELECT *, email AS mailto
@@ -55,7 +55,7 @@ function rcmail_get_identity($id)
     $out = $sql_arr;
     $name = strpos($sql_arr['name'], ",") ? '"'.$sql_arr['name'].'"' : $sql_arr['name'];
     $out['string'] = sprintf('%s <%s>',
-                             rcube_charset_convert($name, $CHARSET, $OUTPUT->get_charset()),
+                             rcube_charset_convert($name, RCMAIL_CHARSET, $OUTPUT->get_charset()),
                              $sql_arr['mailto']);
     return $out;
     }
@@ -110,9 +110,8 @@ function rcmail_attach_emoticons(&$mime_message)
       // add the image to the MIME message
       $img_file = $INSTALL_PATH . '/' . $searchstr . $image_name;
       if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
-        {
-        show_message("emoticonerror", 'error');
-        }
+        $OUTPUT->show_message("emoticonerror", 'error');
+
       array_push($included_images, $image_name);
       }
 
@@ -132,7 +131,7 @@ $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 
 // remove all scripts and act as called in frame
 $OUTPUT->reset();
-$_framed = TRUE;
+$OUTPUT->framed = TRUE;
 
 
 /****** check submission and compose message ********/
@@ -140,8 +139,8 @@ $_framed = TRUE;
 
 if (!$savedraft && empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
   {
-  show_message("sendingfailed", 'error'); 
-  rcube_iframe_response();
+  $OUTPUT->show_message("sendingfailed", 'error');
+  $OUTPUT->send('iframe');
   return;
   }
 
@@ -168,7 +167,7 @@ if (empty($identity_arr['string']))
 
 // compose headers array
 $headers = array('Date' => date('D, j M Y H:i:s O'),
-                 'From' => rcube_charset_convert($identity_arr['string'], $CHARSET, $message_charset),
+                 'From' => rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset),
                  'To'   => $mailto);
 
 // additional recipients
@@ -304,7 +303,7 @@ if ($MBSTRING && function_exists("mb_encode_mimeheader"))
 {
   mb_internal_encoding($message_charset);
   $mb_subject = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
-  mb_internal_encoding($CHARSET);
+  mb_internal_encoding(RCMAIL_CHARSET);
 }
 
 // Begin SMTP Delivery Block 
@@ -334,13 +333,8 @@ if (!$savedraft) {
   
     // log error
     if (!$sent)
-      {
-      raise_error(array('code' => 800,
-                        'type' => 'smtp',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
+      raise_error(array('code' => 800, 'type' => 'smtp', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
-      }
     }
   
   // send mail using PHP's mail() function
@@ -368,8 +362,8 @@ if (!$savedraft) {
   // return to compose page if sending failed
   if (!$sent)
     {
-    show_message("sendingfailed", 'error'); 
-    rcube_iframe_response();
+    $OUTPUT->show_message("sendingfailed", 'error'); 
+    $OUTPUT->send('iframe');
     return;
     }
   
@@ -409,13 +403,11 @@ if ($CONFIG[$store_target])
   // raise error if saving failed
   if (!$saved)
     {
-    raise_error(array('code' => 800,
-                      'type' => 'imap',
-                      'file' => __FILE__,
+    raise_error(array('code' => 800, 'type' => 'imap', 'file' => __FILE__,
                       'message' => "Could not save message in $CONFIG[$store_target]"), TRUE, FALSE);
     
-    show_message('errorsaving', 'error');
-    rcube_iframe_response($errorout);
+    $OUTPUT->show_message('errorsaving', 'error');
+    $OUTPUT->send('iframe');
     }
 
   if ($olddraftmessageid)
@@ -426,41 +418,36 @@ if ($CONFIG[$store_target])
 
     // raise error if deletion of old draft failed
     if (!$deleted)
-      raise_error(array('code' => 800,
-                        'type' => 'imap',
-                        'file' => __FILE__,
+      raise_error(array('code' => 800, 'type' => 'imap', 'file' => __FILE__,
                         'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
     }
   }
 
 if ($savedraft)
   {
-  // clear the "saving message" busy status, and display success
-  show_message('messagesaved', 'confirmation');
+  // display success
+  $OUTPUT->show_message('messagesaved', 'confirmation');
 
-  // update "_draft_saveid" on the page, which is used to delete a previous draft
-  $frameout = "var foundid = parent.rcube_find_object('_draft_saveid', parent.document);\n";
-  $frameout .= sprintf("foundid.value = '%s';\n", str_replace(array('<','>'), "", $message_id));
-
-  // update the "cmp_hash" to prevent "Unsaved changes" warning
-  $frameout .= sprintf("parent.%s.cmp_hash = parent.%s.compose_field_hash();\n", $JS_OBJECT_NAME, $JS_OBJECT_NAME);
+  // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
+  $OUTPUT->command('set_draft_id', str_replace(array('<','>'), "", $message_id));
+  $OUTPUT->command('compose_field_hash', true);
 
   // start the auto-save timer again
-  $frameout .= sprintf("parent.%s.auto_save_start();", $JS_OBJECT_NAME);
+  $OUTPUT->command('auto_save_start');
 
-  // send html page with JS calls as response
-  rcube_iframe_response($frameout);
+  $OUTPUT->send('iframe');
   }
 else
   {
   if ($CONFIG['smtp_log'])
     {
-    $log_entry = sprintf("[%s] User: %d on %s; Message for %s; %s\n",
-                 date("d-M-Y H:i:s O", mktime()),
-                 $_SESSION['user_id'],
-                 $_SERVER['REMOTE_ADDR'],
-                 $mailto,
-                 !empty($smtp_response) ? join('; ', $smtp_response) : '');
+    $log_entry = sprintf(
+      "[%s] User: %d on %s; Message for %s; %s\n",
+      date("d-M-Y H:i:s O", mktime()),
+      $_SESSION['user_id'],
+      $_SERVER['REMOTE_ADDR'],
+      $mailto,
+      !empty($smtp_response) ? join('; ', $smtp_response) : '');
 
     if ($fp = @fopen($CONFIG['log_dir'].'/sendmail', 'a'))
       {
@@ -470,8 +457,8 @@ else
     }
 
   rcmail_compose_cleanup();
-  rcube_iframe_response(sprintf("parent.$JS_OBJECT_NAME.sent_successfully('%s');",
-                                JQ(rcube_label('messagesent'))));
+  $OUTPUT->command('sent_successfully', rcube_label('messagesent'));
+  $OUTPUT->send('iframe');
   }
 
 

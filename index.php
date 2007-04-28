@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20070411                                                  |
+ | Version 0.1-20070428                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -40,12 +40,13 @@
 
 */
 
-define('RCMAIL_VERSION', '0.1-20070411');
+// application constants
+define('RCMAIL_VERSION', '0.1-20070428');
+define('RCMAIL_CHARSET', 'UTF-8');
+define('JS_OBJECT_NAME', 'rcmail');
 
 // define global vars
-$CHARSET = 'UTF-8';
 $OUTPUT_TYPE = 'html';
-$JS_OBJECT_NAME = 'rcmail';
 $INSTALL_PATH = dirname(__FILE__);
 $MAIN_TASKS = array('mail','settings','addressbook','logout');
 
@@ -81,7 +82,6 @@ require_once('include/rcube_imap.inc');
 require_once('include/bugs.inc');
 require_once('include/main.inc');
 require_once('include/cache.inc');
-require_once('lib/html2text.inc');
 require_once('PEAR.php');
 
 
@@ -98,19 +98,16 @@ $_framed = (!empty($_GET['_framed']) || !empty($_POST['_framed']));
 if (empty($_task) || !in_array($_task, $MAIN_TASKS))
   $_task = 'mail';
 
-if (!empty($_GET['_remote']))
-  $REMOTE_REQUEST = TRUE;
-  
 
 // set output buffering
 if ($_action != 'get' && $_action != 'viewsource')
-  {
+{
   // use gzip compression if supported
   if (function_exists('ob_gzhandler') && ini_get('zlib.output_compression'))
     ob_start('ob_gzhandler');
   else
     ob_start();
-  }
+}
 
 
 // start session with requested task
@@ -123,59 +120,45 @@ $SESS_HIDDEN_FIELD = '';
 
 // add framed parameter
 if ($_framed)
-  {
-  $COMM_PATH .= '&amp;_framed=1';
+{
+  $COMM_PATH .= '&_framed=1';
   $SESS_HIDDEN_FIELD .= "\n".'<input type="hidden" name="_framed" value="1" />';
-  }
+}
 
 
 // init necessary objects for GUI
-load_gui();
+rcmail_load_gui();
 
 
 // check DB connections and exit on failure
 if ($err_str = $DB->is_error())
-  {
-  raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => $err_str), FALSE, TRUE);
-  }
+{
+  raise_error(array(
+    'code' => 603,
+    'type' => 'db',
+    'message' => $err_str), FALSE, TRUE);
+}
 
 
 // error steps
 if ($_action=='error' && !empty($_GET['_code']))
-  {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
-  }
-
-// handle HTML->text conversion
-if ($_action=='html2text')
-  {
-  $htmlText = $HTTP_RAW_POST_DATA;
-  $converter = new html2text($htmlText);
-
-  // TODO possibly replace with rcube_remote_response()
-  header('Content-Type: text/plain');
-  $plaintext = $converter->get_text();
-  print $plaintext;
-
-  exit;
-  }
 
 
 // try to log in
 if ($_action=='login' && $_task=='mail')
-  {
+{
   $host = rcmail_autoselect_host();
   
   // check if client supports cookies
   if (empty($_COOKIE))
-    {
-    show_message("cookiesdisabled", 'warning');
-    }
+  {
+    $OUTPUT->show_message("cookiesdisabled", 'warning');
+  }
   else if ($_SESSION['temp'] && !empty($_POST['_user']) && isset($_POST['_pass']) &&
            rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
-    {
+  {
     // create new session ID
     unset($_SESSION['temp']);
     sess_regenerate_id();
@@ -186,87 +169,84 @@ if ($_action=='login' && $_task=='mail')
     // send redirect
     header("Location: $COMM_PATH");
     exit;
-    }
-  else
-    {
-    show_message("loginfailed", 'warning');
-    $_SESSION['user_id'] = '';
-    }
   }
+  else
+  {
+    $OUTPUT->show_message("loginfailed", 'warning');
+    $_SESSION['user_id'] = '';
+  }
+}
 
 // end session
-else if ($_action=='logout' && isset($_SESSION['user_id']))
-  {
-  show_message('loggedout');
+else if (($_task=='logout' || $_action=='logout') && isset($_SESSION['user_id']))
+{
+  $OUTPUT->show_message('loggedout');
   rcmail_kill_session();
-  }
+}
 
 // check session and auth cookie
 else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send')
-  {
+{
   if (!rcmail_authenticate_session())
-    {
-    $message = show_message('sessionerror', 'error');
+  {
+    $OUTPUT->show_message('sessionerror', 'error');
     rcmail_kill_session();
-    }
   }
+}
 
 
 // log in to imap server
 if (!empty($_SESSION['user_id']) && $_task=='mail')
-  {
+{
   $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']);
   if (!$conn)
-    {
-    show_message('imaperror', 'error');
+  {
+    $OUTPUT->show_message('imaperror', 'error');
     $_SESSION['user_id'] = '';
-    }
+  }
   else
     rcmail_set_imap_prop();
-  }
+}
 
 
 // not logged in -> set task to 'login
 if (empty($_SESSION['user_id']))
-  {
-  if ($REMOTE_REQUEST)
-    {
-    $message .= "setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);";
-    rcube_remote_response($message);
-    }
+{
+  if ($OUTPUT->ajax_call)
+    $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
   
   $_task = 'login';
-  }
+}
 
 
 
 // set task and action to client
-$script = sprintf("%s.set_env('task', '%s');", $JS_OBJECT_NAME, $_task);
+$OUTPUT->set_env('task', $_task);
 if (!empty($_action))
-  $script .= sprintf("\n%s.set_env('action', '%s');", $JS_OBJECT_NAME, $_action);
-
-$OUTPUT->add_script($script);
+  $OUTPUT->set_env('action', $_action);
 
 
 
 // not logged in -> show login page
 if (!$_SESSION['user_id'])
-  {
-  parse_template('login');
+{
+  $OUTPUT->task = 'login';
+  $OUTPUT->send('login');
   exit;
-  }
+}
 
 
 // handle keep-alive signal
 if ($_action=='keep-alive')
-  {
-  rcube_remote_response('');
+{
+  $OUTPUT->reset();
+  $OUTPUT->send('');
   exit;
-  }
+}
 
 // include task specific files
 if ($_task=='mail')
-  {
+{
   include_once('program/steps/mail/func.inc');
   
   if ($_action=='show' || $_action=='preview' || $_action=='print')
@@ -317,21 +297,18 @@ if ($_task=='mail')
   if ($_action=='rss')
     include('program/steps/mail/rss.inc');
     
-  if ($_action=='quotaimg')
-    include('program/steps/mail/quotaimg.inc');
-
   if ($_action=='quotadisplay')
     include('program/steps/mail/quotadisplay.inc');
 
 
   // make sure the message count is refreshed
   $IMAP->messagecount($_SESSION['mbox'], 'ALL', TRUE);
-  }
+}
 
 
 // include task specific files
 if ($_task=='addressbook')
-  {
+{
   include_once('program/steps/addressbook/func.inc');
 
   if ($_action=='save')
@@ -349,14 +326,20 @@ if ($_task=='addressbook')
   if ($_action=='list' && $_GET['_remote'])
     include('program/steps/addressbook/list.inc');
 
-  if ($_action=='ldappublicsearch')
-    include('program/steps/addressbook/ldapsearchform.inc');
-  }
+  if ($_action=='search')
+    include('program/steps/addressbook/search.inc');
+
+  if ($_action=='copy')
+    include('program/steps/addressbook/copy.inc');
+
+  if ($_action=='mailto')
+    include('program/steps/addressbook/mailto.inc');
+}
 
 
 // include task specific files
 if ($_task=='settings')
-  {
+{
   include_once('program/steps/settings/func.inc');
 
   if ($_action=='save-identity')
@@ -378,18 +361,19 @@ if ($_task=='settings')
       $_action=='create-folder' || $_action=='rename-folder' || $_action=='delete-folder')
     include('program/steps/settings/manage_folders.inc');
 
-  }
+}
 
 
 // parse main template
-parse_template($_task);
+$OUTPUT->send($_task);
 
 
 // if we arrive here, something went wrong
-raise_error(array('code' => 404,
-                  'type' => 'php',
-                  'line' => __LINE__,
-                  'file' => __FILE__,
-                  'message' => "Invalid request"), TRUE, TRUE);
+raise_error(array(
+  'code' => 404,
+  'type' => 'php',
+  'line' => __LINE__,
+  'file' => __FILE__,
+  'message' => "Invalid request"), TRUE, TRUE);
                       
 ?>

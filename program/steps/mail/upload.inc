@@ -47,23 +47,22 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
                                                   'path' => $tmpfname);
 
     if (is_file($CONFIG['skin_path'] . '/images/icons/remove-attachment.png'))
-      $button = sprintf('<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
-                        $CONFIG['skin_path'],
-                        Q(rcube_label('delete')));
+      $button = sprintf(
+        '<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
+        $CONFIG['skin_path'],
+        Q(rcube_label('delete')));
     else
       $button = Q(rcube_label('delete'));
 
-    $content = sprintf('<a href="#delete" onclick="return %s.command(\\\'remove-attachment\\\', \\\'rcmfile%d\\\', this)" title="%s">%s</a>%s',
-                       $JS_OBJECT_NAME,
-                       $id,
-                       Q(rcube_label('delete')),
-                       $button,
-                       Q($_FILES['_attachments']['name'][$i]));
+    $content = sprintf(
+      '<a href="#delete" onclick="return %s.command(\'remove-attachment\', \'rcmfile%d\', this)" title="%s">%s</a>%s',
+      JS_OBJECT_NAME,
+      $id,
+      Q(rcube_label('delete')),
+      $button,
+      Q($_FILES['_attachments']['name'][$i]));
 
-    $response .= sprintf('parent.%s.add2attachment_list(\'rcmfile%d\',\'%s\');',
-                         $JS_OBJECT_NAME,
-                         $id,
-                         $content);
+    $OUTPUT->command('add2attachment_list', "rcmfile$id", $content);
     }
   else // upload failed
     {
@@ -73,18 +72,14 @@ foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     else
       $msg = rcube_label('fileuploaderror');
     
-    $response = sprintf("parent.%s.display_message('%s', 'error');", $JS_OBJECT_NAME, JQ($msg));
+    $OUTPUT->command('display_message', $msg, 'error');
     }
   }
 
 
 // send html page with JS calls as response
-$frameout = <<<EOF
-$response
-parent.$JS_OBJECT_NAME.show_attachment_form(false);
-parent.$JS_OBJECT_NAME.auto_save_start();
-EOF;
-
-rcube_iframe_response($frameout);
+$OUTPUT->command('show_attachment_form', false);
+$OUTPUT->command('auto_save_start', false);
+$OUTPUT->send('iframe');
 
 ?>

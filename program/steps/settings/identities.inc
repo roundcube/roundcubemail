@@ -5,7 +5,7 @@
  | program/steps/settings/identities.inc                                 |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,7 +20,7 @@
 */
 
 if ($USER_DATA = $DB->fetch_assoc($sql_result))
-  $PAGE_TITLE = sprintf('%s (%s@%s)', rcube_label('identities'), $USER_DATA['username'], $USER_DATA['mail_host']);
+  $OUTPUT->set_pagetitle(sprintf('%s (%s@%s)', rcube_label('identities'), $USER_DATA['username'], $USER_DATA['mail_host']));
 
 $OUTPUT->include_script('list.js');
 
@@ -28,14 +28,14 @@ $OUTPUT->include_script('list.js');
 // similar function as /steps/addressbook/func.inc::rcmail_contact_frame()
 function rcmail_identity_frame($attrib)
   {
-  global $OUTPUT, $JS_OBJECT_NAME;
+  global $OUTPUT;
 
   if (!$attrib['id'])
     $attrib['id'] = 'rcmIdentityFrame';
 
   $attrib['name'] = $attrib['id'];
 
-  $OUTPUT->add_script(sprintf("%s.set_env('contentframe', '%s');", $JS_OBJECT_NAME, $attrib['name']));
+  $OUTPUT->set_env('contentframe', $attrib['name']);
 
   $attrib_str = create_attrib_string($attrib, array('name', 'id', 'class', 'style', 'src', 'width', 'height', 'frameborder'));
   $out = '<iframe'. $attrib_str . '></iframe>';
@@ -43,7 +43,7 @@ function rcmail_identity_frame($attrib)
   return $out;
   }
 
-
+$OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');
 
 parse_template('identities');
 ?>

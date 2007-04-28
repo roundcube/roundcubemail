@@ -22,8 +22,7 @@
 $display = isset($_GET['_display']) ? $_GET['_display'] : 'text';
 $id = isset($_GET['_id']) ? $_GET['_id'] : 'rcmquotadisplay';
 $quota = rcmail_quota_content($display);
-$command = sprintf("this.gui_objects.%s.innerHTML = '%s';\n", $id, $quota);
-rcube_remote_response($command);
+$OUTPUT->remote_response(sprintf("this.gui_objects.%s.innerHTML = '%s';\n", $id, $quota));
 
 exit;
 ?>
