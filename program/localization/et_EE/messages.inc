@@ -38,6 +38,7 @@ $messages['contactexists'] = 'Sama e-maili aadressiga kontakt on juba olemas';
 $messages['blockedimages'] = 'Sinu privaatsuse kaitsmiseks on selles kirjas välised pildid blokeeritud.';
 $messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda võimalik näidata. Andestust!';
 $messages['nocontactsfound'] = 'Ei leitud ühtegi kontakti';
+$messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
 $messages['errorsaving'] = 'Salvestamise ajal ilmnes viga';
 $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
@@ -68,5 +69,9 @@ $messages['converting'] = 'Kirjast vorminduse eemaldamine...';
 $messages['messageopenerror'] = 'Kirjade serverist laadimine ebaõnnestus';
 $messages['fileuploaderror'] = 'Faili üleslaadimine ebaõnnestus';
 $messages['filesizeerror'] = 'Üleslaetava faili suurus ületab maksimaalse suuruse $size';
+$messages['copysuccess'] = '$nr aadressi edukalt kopeeritud';
+$messages['copyerror'] = 'Ühegi aadressi kopeerimine ei õnnestunud ';
+$messages['sourceisreadonly'] = 'Aadressi asukohas puuduvad kirjutusõigused';
+$messages['errorsavingcontact'] = 'Kontakti aadressi salvestamine ebaõnnestus';
 
 ?>

@@ -13,7 +13,7 @@
  | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
  +-----------------------------------------------------------------------+
 
- @version $Id$ 
+ @version $Id$
 
 */
 
@@ -140,13 +140,8 @@ $labels['previouspage'] = 'Näita eelmist lehte';
 $labels['firstpage'] = 'Näita esimest komplekti';
 $labels['nextpage'] = 'Näita järgmist lehte';
 $labels['lastpage'] = 'Näita viimast komplekti';
-$labels['ldapsearch'] = 'LDAP kataloogi otsing';
-$labels['ldappublicsearchname'] = 'Kontakti nimi';
-$labels['ldappublicsearchtype'] = 'Täpne vaste ?';
-$labels['ldappublicserverselect'] = 'Vali server';
-$labels['ldappublicsearchfield'] = 'Otsi kohast';
-$labels['ldappublicsearchform'] = 'Otsi kontakti';
-$labels['ldappublicsearch'] = 'Otsi';
+$labels['groups'] = 'Grupid';
+$labels['personaladrbook'] = 'Isiklikud aadressid';
 $labels['settingsfor'] = 'Kasutajaeelistused kontole';
 $labels['preferences'] = 'Eelistused';
 $labels['userpreferences'] = 'Kasutaja eelistused';
