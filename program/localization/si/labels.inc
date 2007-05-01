@@ -19,7 +19,7 @@
 */
 
 $labels = array();
-$labels['welcome'] = 'Bobrodošel v $product';
+$labels['welcome'] = 'Dobrodošel v $product';
 $labels['username'] = 'Uporabniško ime';
 $labels['password'] = 'Geslo';
 $labels['server'] = 'Strežnik';
@@ -104,7 +104,7 @@ $labels['sendmessage'] = 'Pošlji sporočilo zdaj';
 $labels['savemessage'] = 'Shrani kot osnutek';
 $labels['addattachment'] = 'Pripni datoteko';
 $labels['charset'] = 'Nabor znakov';
-$labels['editortype'] = 'Tip editorja';
+$labels['editortype'] = 'Vrsta urejevalnika';
 $labels['returnreceipt'] = 'Potrdilo prejemnika';
 $labels['checkspelling'] = 'Preglej pravopis';
 $labels['resumeediting'] = 'Nadaljuj z urejanjem';

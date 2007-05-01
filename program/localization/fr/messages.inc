@@ -67,5 +67,7 @@ $messages['folderdeleted'] = 'Dossier effacé';
 $messages['deletedsuccessfully'] = 'Supprimé(s) avec succès';
 $messages['converting'] = 'Suppression du formattage ...';
 $messages['messageopenerror'] = 'Impossible de charger le message du serveur';
+$messages['fileuploaderror'] = 'Transfert du fichier echoué';
+$messages['filesizeerror'] = 'Transfert du fichier a atteint la taille maximale de $size';
 
 ?>
