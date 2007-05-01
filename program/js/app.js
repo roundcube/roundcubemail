@@ -245,14 +245,13 @@ function rcube_webmail()
 
         this.set_page_buttons();
         
-        var writeable;
-        if ((writeable = this.env.address_sources && !this.env.address_sources[this.env.source].readonly))
+        if (this.env.address_sources && !this.env.address_sources[this.env.source].readonly)
           this.enable_command('add', true);
         
         if (this.env.cid)
           this.enable_command('show', 'edit', true);
 
-        if ((this.env.action=='add' || this.env.action=='edit') && writeable && this.gui_objects.editform)
+        if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform)
           this.enable_command('save', true);
         else
           this.enable_command('search', 'reset-search', 'moveto', true);
