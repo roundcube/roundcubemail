@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
+ |         Ispas Dorin <dorinxp2004@yahoo.com>                           |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -23,7 +24,7 @@ $messages['cookiesdisabled'] = 'Browserul dumneavoastra nu accepta cookies';
 $messages['sessionerror'] = 'Sesiunea dumneavoastra este invalida sau a expirat';
 $messages['imaperror'] = 'Conectarea la serverul IMAP a esuat';
 $messages['nomessagesfound'] = 'Nu a fost gasit niciun mesaj in aceasta casuta postala';
-$messages['loggedout'] = 'V-ati incheiat sesiunea cu succes. La revedere!';
+$messages['loggedout'] = 'Sesiune incheiata cu succes. La revedere!';
 $messages['mailboxempty'] = 'Casuta postala este goala';
 $messages['loading'] = 'Se incarca...';
 $messages['loadingdata'] = 'Se incarca informatiile...';
@@ -38,6 +39,7 @@ $messages['contactexists'] = 'Mai exista un contact cu aceasta adresa de e-mail'
 $messages['blockedimages'] = 'Pentru a va proteja intimitatea imaginile externe au fost blocate.';
 $messages['encryptedmessage'] = 'Acesta este un mesaj criptat si nu poate fi afisat. Ne pare rau.';
 $messages['nocontactsfound'] = 'Nu s-a gasit niciun contact';
+$messages['contactnotfound'] = 'Contactul solicitat nu a fost gasit.';
 $messages['sendingfailed'] = 'Nu s-a reusit trimiterea mesajului';
 $messages['errorsaving'] = 'A intervenit o eroare in timp ce se efectua salvarea';
 $messages['errormoving'] = 'Nu s-a putut muta mesajul';
@@ -66,5 +68,11 @@ $messages['folderdeleted'] = 'Dosarul a fost sters cu succes';
 $messages['deletedsuccessfully'] = 'Mesaj sters cu succes !';
 $messages['converting'] = 'Resetez mesajul la parametrii initiali';
 $messages['messageopenerror'] = 'Nu am putut incarca mesajul din server';
+$messages['fileuploaderror'] = 'Incarcarea pe server a esuat';
+$messages['filesizeerror'] = 'Fisierul incarcat depaseste marimea de $size';
+$messages['copysuccess'] = 'Am copiat cu succes $nr de adrese';
+$messages['copyerror'] = 'Nu am putut copia nici o adresa';
+$messages['sourceisreadonly'] = 'Sursa adrese este "read-only"(se poate doar citi)';
+$messages['errorsavingcontact'] = 'Nu am putut salva adresa de contact';
 
 ?>

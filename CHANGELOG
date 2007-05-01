@@ -3,15 +3,16 @@ CHANGELOG RoundCube Webmail
 
 2007/05/01 (thomasb)
 ----------
-- Updated German, Euskara, Hungarian and Spanish translation
+- Updated German, Euskara, Hungarian, Romanian and Spanish translation
 - Added Hindi and Kurdish localization
 
 
-2007/04/30 (thomasb)
+2007/04/28 (thomasb)
 ----------
-- LDAP access is back in address book
+- LDAP access is back in address book (closes #1484087)
 - Added search function for contacts
 - New Template parsing and output encoding
+- Fixed bugs #1484119 and #1483978
 
 
 2007/04/08 (thomasb)

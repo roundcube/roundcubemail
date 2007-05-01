@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Daniel Anechitoaie - danieLs  <daniels@safereaction.ro>       |
+ |         Ispas Dorin <dorinxp2004@yahoo.com>                           |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -140,13 +141,8 @@ $labels['previouspage'] = 'Pagina anterioara';
 $labels['firstpage'] = 'Arata primul set';
 $labels['nextpage'] = 'Pagina urmatoare';
 $labels['lastpage'] = 'Arata ultimul set';
-$labels['ldapsearch'] = 'Cautare director LDAP';
-$labels['ldappublicsearchname'] = 'Nume contact';
-$labels['ldappublicsearchtype'] = 'Potrivire exacta?';
-$labels['ldappublicserverselect'] = 'Selecteaza server';
-$labels['ldappublicsearchfield'] = 'Cauta dupa';
-$labels['ldappublicsearchform'] = 'Cauta contact';
-$labels['ldappublicsearch'] = 'Cauta';
+$labels['groups'] = 'Grupuri';
+$labels['personaladrbook'] = 'Adrese personale';
 $labels['settingsfor'] = 'Setari pentru';
 $labels['preferences'] = 'Preferinte';
 $labels['userpreferences'] = 'Preferinte utilizator';
