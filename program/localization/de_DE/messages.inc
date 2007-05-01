@@ -68,5 +68,10 @@ $messages['converting'] = 'Entferne Formatierung der Nachricht...';
 $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen werden';
 $messages['fileuploaderror'] = 'Hochladen der Datei fehlgeschlagen';
 $messages['filesizeerror'] = 'Die hochzuladende Datei überschreitet die Maximalgröße von $size';
+$messages['copysuccess'] = '$nr Adressen erfolgreich kopiert';
+$messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
+$messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
+$messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
+
 
 ?>

@@ -11,9 +11,8 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
- |         http://www.smaldone.com.ar                                    |
  |         David Grajal Blanco <dgrabla@gmail.com>                       |
- |         http://david.grajal.net                                       |
+ |         Lito Jornero <jornero@gmail.com>                              |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -21,7 +20,7 @@
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Contraseña incorrecta';
+$messages['loginfailed'] = 'Contraseña incorrecta';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies';
 $messages['sessionerror'] = 'Su sesión no existe o ha expirado';
 $messages['imaperror'] = 'Error de conexión con el servidor IMAP';
@@ -45,15 +44,16 @@ $messages['sendingfailed'] = 'Error al enviar mensaje';
 $messages['errorsaving'] = 'Ocurrió un error mientras se guardaba';
 $messages['errormoving'] = 'No se ha podido mover el mensaje';
 $messages['errordeleting'] = 'No se ha podido eliminar el mensaje';
-$messages['deletecontactconfirm']  = '¿Realmente quiere eliminar los contactos seleccionados?';
-$messages['deletefolderconfirm']  = '¿Está seguro de que quiere eliminar esta carpeta?';
-$messages['purgefolderconfirm']  = '¿Está seguro de que quiere eliminar todos los mensajes de esta carpeta?';
+$messages['deletecontactconfirm'] = '¿Realmente quiere eliminar los contactos seleccionados?';
+$messages['deletemessagesconfirm'] = '¿Realmente quiere eliminar los mensajes seleccionados?';
+$messages['deletefolderconfirm'] = '¿Está seguro de que quiere eliminar esta carpeta?';
+$messages['purgefolderconfirm'] = '¿Está seguro de que quiere eliminar todos los mensajes de esta carpeta?';
 $messages['formincomplete'] = 'No se han llenado todos los campos del formulario';
 $messages['noemailwarning'] = 'Por favor, introduzca un e-mail válido';
-$messages['nonamewarning']  = 'Por favor, introduzca su nombre';
+$messages['nonamewarning'] = 'Por favor, introduzca su nombre';
 $messages['nopagesizewarning'] = 'Por favor, introduzca un tamaño de página';
 $messages['norecipientwarning'] = 'Por favor, introduzca al menos un destinatario';
-$messages['nosubjectwarning']  = 'El campo "Asunto" esta vacío. ¿Desea completarlo en este momento?';
+$messages['nosubjectwarning'] = 'El campo "Asunto" esta vacío. ¿Desea completarlo en este momento?';
 $messages['nobodywarning'] = '¿Quiere enviar este mensaje sin texto?';
 $messages['notsentwarning'] = 'El mensaje no ha sido enviado. ¿Desea descartar su mensaje?';
 $messages['noldapserver'] = 'Por favor, seleccione un servidor LDAP para buscar';
@@ -65,8 +65,10 @@ $messages['searching'] = 'Buscando...';
 $messages['checking'] = 'Revisando...';
 $messages['nospellerrors'] = 'No se encontraron errores ortográficos';
 $messages['folderdeleted'] = 'Carpeta eliminada exitosamente';
-$messages['deletedsuccessfully'] = "Eliminado exitosamente";
+$messages['deletedsuccessfully'] = 'Eliminado exitosamente';
 $messages['converting'] = 'Removiendo el formato del mensaje...';
 $messages['messageopenerror'] = 'No puedo descargar el mensaje del servidor';
+$messages['fileuploaderror'] = 'Fallo en la subida de ficheros';
+$messages['filesizeerror'] = 'El fichero excede el tamaño maximo ($size)';
 
 ?>

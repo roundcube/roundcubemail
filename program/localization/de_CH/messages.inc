@@ -70,4 +70,9 @@ $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen w
 $messages['fileuploaderror'] = 'Der Dateiupload ist fehlgeschlagen';
 $messages['filesizeerror'] = 'Die Datei überschreitet die maximale Grösse von $size';
 
+$messages['copysuccess'] = '$nr Adressen erfolgreich kopiert';
+$messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
+$messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
+$messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
+
 ?>

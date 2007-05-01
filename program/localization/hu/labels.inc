@@ -13,6 +13,7 @@
  | Author: PtY <peti@tuxwiki.hu> on 2007-01-05                           |
  |         rezso <rezso@rezso.net> on 2006-09-19                         |
  |         Ervin Hegedüs <airween@damson.hu>                             |
+ |         Csaba Mártha <csy@vipmail.hu>                                 |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -101,8 +102,14 @@ $labels['replytoallmessage'] = 'Válasz a feladónak és az összes címzettnek'
 $labels['forwardmessage']   = 'Továbbítás';
 $labels['deletemessage']    = 'Törlés';
 $labels['printmessage']     = 'Nyomtatás';
+$labels['previousmessage'] = 'Előző levél mutatása';
 $labels['previousmessages'] = 'Előző rész mutatása';
-$labels['nextmessages']     = 'Következő rész mutatása';
+$labels['firstmessage'] = 'Első levél mutatása';
+$labels['firstmessages'] = 'Első rész mutatása';
+$labels['nextmessage'] = 'Következő levél mutatása';
+$labels['nextmessages'] = 'Következő rész mutatása';
+$labels['lastmessage'] = 'Utolsó levél mutatása';
+$labels['lastmessages'] = 'Utolsó rész mutatása';
 $labels['backtolist']       = 'Vissza az üzenetekhez';
 $labels['viewsource']       = 'Forrás megtekintése';
 
@@ -128,6 +135,7 @@ $labels['savemessage']  = 'Vázlat mentése';
 $labels['sendmessage']  = 'Üzenet azonnali küldése';
 $labels['addattachment']  = 'File csatolása';
 $labels['charset']  = 'Karakterkészlet';
+$labels['editortype'] = 'Szerkesztő típusa';
 
 $labels['attachments'] = 'Csatolások';
 $labels['upload'] = 'Feltöltés';
@@ -141,6 +149,8 @@ $labels['highest'] = 'Legmagasabb';
 
 $labels['nosubject']  = '(nincs tárgy)';
 $labels['showimages'] = 'Képek megjelenítése';
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Egyszerű szöveg';
 
 $labels['returnreceipt'] = 'Értesítés';
 
@@ -169,8 +179,10 @@ $labels['contactsfromto'] = 'Kapcsolatok: $from - $to / $count';
 $labels['print']          = 'Nyomtatás';
 $labels['export']         = 'Exportálás';
 
-$labels['previouspage']   = 'Előző lap';
-$labels['nextpage']       = 'Következő lap';
+$labels['firstpage']    = 'Első lap';
+$labels['previouspage'] = 'Előző lap';
+$labels['nextpage']     = 'Következő lap';
+$labels['lastpage']     = 'Utolsó lap';
 
 // LDAP search
 $labels['ldapsearch'] = 'Keresés LDAP címtárban';
@@ -202,6 +214,12 @@ $labels['timezone']  = 'Időzóna';
 $labels['pagesize']  = 'Sorok száma egy oldalon';
 $labels['signature'] = 'Aláírás';
 $labels['dstactive']  = 'Nyári időszámítás';
+$labels['htmleditor'] = 'HTML üzenet írása';
+$labels['htmlsignature'] = 'HTML aláírás';
+$labels['previewpane'] = 'Előnézeti kép';
+$labels['autosavedraft'] = 'Automatikus piszkozat mentés';
+$labels['everynminutes'] = 'minden $n percben';
+$labels['never'] = 'soha';
 
 $labels['folder']  = 'Mappa';
 $labels['folders']  = 'Mappák';
