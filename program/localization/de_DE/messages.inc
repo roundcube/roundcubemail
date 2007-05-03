@@ -38,6 +38,7 @@ $messages['contactexists'] = 'Es existiert bereits ein Eintrag mit dieser E-Mail
 $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden. Sorry!';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
+$messages['contactnotfound'] = 'Der angeforderte Kontakt wurde nicht gefunden';
 $messages['sendingfailed'] = 'Versenden der Nachricht fehlgeschlagen';
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 $messages['errormoving'] = 'Nachricht konnte nicht verschoben werden';
@@ -72,6 +73,5 @@ $messages['copysuccess'] = '$nr Adressen erfolgreich kopiert';
 $messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
 $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
 $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
-
 
 ?>
