@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
+ |         Yusef Maali <contact@yusefmaali.net>                          |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -37,7 +38,8 @@ $messages['addedsuccessfully'] = 'Contatto aggiunto alla rubrica';
 $messages['contactexists'] = 'Esiste già un contatto con questo indirizzo e-mail';
 $messages['blockedimages'] = 'Per proteggere la tua privacy, le immagini remote di questo messaggio sono state bloccate.';
 $messages['encryptedmessage'] = 'Questo messaggio é cifrato e non può essere visualizzato';
-$messages['nocontactsfound'] = 'Nessun contatto inviato';
+$messages['nocontactsfound'] = 'Nessun contatto trovato';
+$messages['contactnotfound'] = 'Il contatto richiesto non è stato trovato';
 $messages['sendingfailed'] = 'Impossibile inviare il messaggio';
 $messages['errorsaving'] = 'Impossibile salvare';
 $messages['errormoving'] = 'Impossibile spostare il messaggio';
@@ -68,5 +70,9 @@ $messages['converting'] = 'Rimozione della formattazione dal messaggio...';
 $messages['messageopenerror'] = 'Impossibile caricare il messaggio dal server';
 $messages['fileuploaderror'] = 'Errore durante il caricamento del file';
 $messages['filesizeerror'] = 'Il file da caricare supera il limite massimo di $size';
+$messages['copysuccess'] = 'Copiati $nr indirizzi';
+$messages['copyerror'] = 'Impossibile copiare gli indirizzi';
+$messages['sourceisreadonly'] = 'La rubrica è in sola lettura';
+$messages['errorsavingcontact'] = 'Impossibile salvare il contatto';
 
 ?>

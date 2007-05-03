@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
 
@@ -40,6 +40,7 @@ $messages['contactexists'] = 'Ya existe un contacto con esta dirección de corre
 $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas han sido bloqueadas en este mensaje';
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo siento!';
 $messages['nocontactsfound'] = 'No hay contactos';
+$messages['contactnotfound'] = 'El contacto solicitado no existe';
 $messages['sendingfailed'] = 'Error al enviar mensaje';
 $messages['errorsaving'] = 'Ocurrió un error mientras se guardaba';
 $messages['errormoving'] = 'No se ha podido mover el mensaje';
@@ -70,5 +71,9 @@ $messages['converting'] = 'Removiendo el formato del mensaje...';
 $messages['messageopenerror'] = 'No puedo descargar el mensaje del servidor';
 $messages['fileuploaderror'] = 'Fallo en la subida de ficheros';
 $messages['filesizeerror'] = 'El fichero excede el tamaño maximo ($size)';
+$messages['copysuccess'] = '$nr direcciones copiadas con éxito';
+$messages['copyerror'] = 'No se pudo copiar ninguna dirección';
+$messages['sourceisreadonly'] = 'Esta dirección es de sólo-lectura';
+$messages['errorsavingcontact'] = 'No se pudo guardar la dirección de contacto';
 
 ?>

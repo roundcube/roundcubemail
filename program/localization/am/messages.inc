@@ -18,7 +18,7 @@
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Մուտքը ձախողվեց';
+$messages['loginfailed'] = 'Մուտքը ձախողվեց';
 $messages['cookiesdisabled'] = 'Сookies–ների ապահովվումը բացակայում է';
 $messages['sessionerror'] = 'Անվավեր կամ ժամկետանց սեսիա';
 $messages['imaperror'] = 'IMAP սերվերի հետ կապը ձախողվեց';
@@ -38,19 +38,21 @@ $messages['contactexists'] = 'Այս հասցեով անձը արդեն գրան
 $messages['blockedimages'] = 'Ձեր անվտանգության համար, այս նամակի արտաքին նկարներն բեռնված չեն';
 $messages['encryptedmessage'] = 'Ներողություն, այս նամակը կոդավորված է';
 $messages['nocontactsfound'] = 'Հասցեներ չկան';
+$messages['contactnotfound'] = 'Որոնվող հասցեն չգտնվեց';
 $messages['sendingfailed'] = 'Նամակի ուղարկումը ձախողվեց';
 $messages['errorsaving'] = 'Գրանցման սխալ';
 $messages['errormoving'] = 'Նամակի տեղափոխման ձախողում';
 $messages['errordeleting'] = 'Նամակի ջնջման ձախողում';
-$messages['deletecontactconfirm']  = 'Ուզու՞մ էք ջնջել նշվածը';
-$messages['deletefolderconfirm']  = 'Ուզու՞մ էք ջնջել այս դարակը';
-$messages['purgefolderconfirm']  = 'Ուզու՞մ էք ջնջել այս դարակի բոլոր նամակները';
+$messages['deletecontactconfirm'] = 'Ուզու՞մ էք ջնջել նշված անձերին';
+$messages['deletemessagesconfirm'] = 'Ուզու՞մ էք ջնջել նշված նամակները';
+$messages['deletefolderconfirm'] = 'Ուզու՞մ էք ջնջել այս դարակը';
+$messages['purgefolderconfirm'] = 'Ուզու՞մ էք ջնջել այս դարակի բոլոր նամակները';
 $messages['formincomplete'] = 'Ձևը թերի է լրացված';
 $messages['noemailwarning'] = 'Մուտքագրեք ճիշտ էլ. հասցե';
-$messages['nonamewarning']  = 'Մուտքագրեք անուն';
+$messages['nonamewarning'] = 'Մուտքագրեք անուն';
 $messages['nopagesizewarning'] = 'Մուտքագրեք էջի չափս';
 $messages['norecipientwarning'] = 'Մուտքագրեք նվազագույնը մեկ հասցեատեր';
-$messages['nosubjectwarning']  = 'Վերնագիր բացակայում է, ցանկանո՞ւմ եք լրացնել';
+$messages['nosubjectwarning'] = 'Վերնագիր բացակայում է, ցանկանո՞ւմ եք լրացնել';
 $messages['nobodywarning'] = 'Ուղարկե՞լ այս նամակը դատարկ';
 $messages['notsentwarning'] = 'Նամակն ուղարկված չէ։ Ջնջե՞լ Ձեր նամակը';
 $messages['noldapserver'] = 'Ընտրեք ldap սերվեր որոնման համար';
@@ -62,5 +64,14 @@ $messages['searching'] = 'Որոնում...';
 $messages['checking'] = 'Ստուգում…';
 $messages['nospellerrors'] = 'Ուղագրական սխալներ չկան';
 $messages['folderdeleted'] = 'Դարակը ջնջվեց';
+$messages['deletedsuccessfully'] = 'Ջնջված է';
+$messages['converting'] = 'Նամակի ձևավորման հեռացում…';
+$messages['messageopenerror'] = 'Նամակի բեռնվումը սերվերից ձախողվեց';
+$messages['fileuploaderror'] = 'Ֆայլի կցումն ձախողվեց';
+$messages['filesizeerror'] = 'Ֆայլի չափը գերազանցում է մաքսիմալը՝ $size';
+$messages['copysuccess'] = '$nr հասցեների կրկնօրինակումը ավարտված է';
+$messages['copyerror'] = 'Հասցեների կրկնօրինակումը ձախողվեց';
+$messages['sourceisreadonly'] = 'Այս հասցեն պաշտպանված է';
+$messages['errorsavingcontact'] = 'Հասցեի գրանցումն ձախողվեց';
 
 ?>

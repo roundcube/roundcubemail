@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
+ |         Yusef Maali <contact@yusefmaali.net>                          |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -140,13 +141,8 @@ $labels['previouspage'] = 'Pagina precedente';
 $labels['firstpage'] = 'Prima pagina';
 $labels['nextpage'] = 'Pagina successiva';
 $labels['lastpage'] = 'Ultima pagina';
-$labels['ldapsearch'] = 'Cerca su directory LDAP';
-$labels['ldappublicsearchname'] = 'Nome contatto';
-$labels['ldappublicsearchtype'] = 'Nome esatto';
-$labels['ldappublicserverselect'] = 'Scegli server';
-$labels['ldappublicsearchfield'] = 'Cerca per';
-$labels['ldappublicsearchform'] = 'Cerca un contatto';
-$labels['ldappublicsearch'] = 'Cerca';
+$labels['groups'] = 'Gruppi';
+$labels['personaladrbook'] = 'Indirizzi Personali';
 $labels['settingsfor'] = 'Impostazioni per ';
 $labels['preferences'] = 'Preferenze';
 $labels['userpreferences'] = 'Preferenze utente';
