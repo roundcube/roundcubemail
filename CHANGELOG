@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Updated Norwegian (bokmal), Czech, Danish and Portuguese (standard) translation
 - Fixed marking as read in preview pane (closes #1484364)
 - CSS hack to display attachments correctly in IE6
+- Wrap message body text (closes #1484148)
 
 
 2007/05/03 (yllar)

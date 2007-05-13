@@ -258,7 +258,7 @@ if ($isHtml)
 
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($message_body);
-  $plainTextPart = $h2t->get_text();
+  $plainTextPart = wordwrap($h2t->get_text(), 998, "\r\n", true);
   $MAIL_MIME->setTXTBody($plainTextPart);
 
   // look for "emoticon" images from TinyMCE and copy into message as attachments
@@ -266,6 +266,8 @@ if ($isHtml)
   }
 else
   {
+  $message_body = wordwrap($message_body, 75, "\r\n");
+  $message_body = wordwrap($message_body, 998, "\r\n", true);
   $MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
   }
 
@@ -286,12 +288,14 @@ $charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8
 $transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 // encoding settings for mail composing
-$message_param = array('text_encoding' => $transfer_encoding,
-                       'html_encoding' => 'quoted-printable',
-                       'head_encoding' => 'quoted-printable',
-                       'head_charset'  => $message_charset,
-                       'html_charset'  => $message_charset,
-                       'text_charset'  => $message_charset);
+$message_param = array(
+  'text_encoding' => $transfer_encoding,
+  'html_encoding' => 'quoted-printable',
+  'head_encoding' => 'quoted-printable',
+  'head_charset'  => $message_charset,
+  'html_charset'  => $message_charset,
+  'text_charset'  => $message_charset,
+);
 
 // compose message body and get headers
 $msg_body = $MAIL_MIME->get($message_param);
