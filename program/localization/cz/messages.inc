@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
+ |        joe <joe@humlak.cz>                                            |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -58,5 +59,22 @@ $messages['checkingmail'] = 'Kontroluji nové zprávy...';
 $messages['savingmessage'] = 'Ukládám zprávu...';
 $messages['messagesaved'] = 'Zpráva uložena do Rozepsané';
 $messages['folderdeleted'] = 'Složka byla úspěšně vymazána';
+
+$messages['contactnotfound'] = 'Požadovaný kontakt nebyl nalezen.';
+$messages['deletecontactconfirm']  = 'Opravdu chcete smazat označené kontakty?';
+$messages['deletemessagesconfirm'] = 'Opravdu chcete smazat označené zprávy?';
+$messages['purgefolderconfirm']  = 'Opravdu chcete smazat všechny zprávy v této složce?';
+$messages['searchsuccessful'] = '$nr zpráv nalezeno';
+$messages['searchnomatch'] = 'Nenalezena žádná zpráva';
+$messages['searching'] = 'Vyhledávám...';
+$messages['deletedsuccessfully'] = "Úspěšně smazáno";
+$messages['converting'] = 'Odstranuji formátování ze zprávy...';
+$messages['messageopenerror'] = 'Nemohu načíst zprávu ze serveru';
+$messages['fileuploaderror'] = 'Nahrávání souboru selhalo';
+$messages['filesizeerror'] = 'Soubor přesáhl maximální velikost $size';
+$messages['copysuccess'] = 'Úspěšně zkopírováno $nr adres';
+$messages['copyerror'] = 'Nemohu zkopírovat žádnou adresu';
+$messages['sourceisreadonly'] = 'Tento zdroj adres je pouze pro čtení';
+$messages['errorsavingcontact'] = 'Nemohu uložit adresu kontaktu';
 
 ?>

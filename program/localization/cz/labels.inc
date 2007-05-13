@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
+ |        joe <joe@humlak.cz>                                            |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -165,7 +166,6 @@ $labels['language']  = 'Jazyk';
 $labels['timezone']  = 'Časová zóna';
 $labels['pagesize']  = 'Řádků na stránku';
 
-
 $labels['folders']  = 'Složky';
 $labels['folder']  = 'Složka';
 $labels['foldername']  = 'Jméno složky';
@@ -174,7 +174,6 @@ $labels['create']  = 'Vytvořit';
 $labels['createfolder']  = 'Vytvořit novou složku';
 $labels['deletefolder']  = 'Smazat složku';
 $labels['managefolders']  = 'Spravovat složky';
-
 
 $labels['compact'] = 'Kompaktní';
 $labels['empty'] = 'Prázdný';
@@ -218,5 +217,28 @@ $labels['rename'] = 'Přejmenovat';
 $labels['renamefolder'] = 'Přejmenovat složku';
 
 $labels['description'] = 'Popis';
+
+$labels['previousmessage']  = 'Zobrazit předchozí zprávu';
+$labels['firstmessage']     = 'Zobrazit první zprávu';
+$labels['firstmessages']    = 'Zobrazit první zprávy';
+$labels['nextmessage']      = 'Zobrazit další zprávu';
+$labels['lastmessage']      = 'Zobrazit poslední zprávu';
+$labels['lastmessages']     = 'Zobrazit poslední zprávy';
+$labels['quicksearch']  = 'Rychlé vyhledávání';
+$labels['resetsearch']  = 'Zrušit vyhledávání';
+$labels['editortype'] = 'Typ editoru zpráv';
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Prostý text';
+$labels['firstpage']  = 'Zobrazit první zprávy';
+$labels['lastpage']   = 'Zobrazit poslední zprávy';
+$labels['groups'] = 'Skupiny';
+$labels['personaladrbook'] = 'Osobní kontakty';
+$labels['htmleditor'] = 'Vytvářet HTML zprávy';
+$labels['htmlsignature'] = 'HTML podpis';
+$labels['previewpane'] = 'Zobrazit panel náhledu';
+$labels['autosavedraft']  = 'Automaticky uložit rozepsané zprávy';
+$labels['everynminutes']  = 'každých $n minut';
+$labels['never']  = 'nikdy';
+
 
 ?>

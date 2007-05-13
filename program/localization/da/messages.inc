@@ -11,7 +11,8 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author : Martin Moeller <martin@liga.dk>                              |
- |          Jesper R. Meyer <jesper@upthere.dk>                          |
+ |         Jesper R. Meyer <jesper@upthere.dk>                           |
+ |         Søren Aggeboe <soren@aggeboe.dk>                              |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -39,13 +40,14 @@ $messages['contactexists'] = 'Der er allerede en kontakt med denne email adresse
 $messages['blockedimages'] = 'For at beskytte dit privatliv er billeder fra internetservere blokeret i denne besked.';
 $messages['encryptedmessage'] = 'Beskeden er krypteret og kan ikke vises. Beklager!';
 $messages['nocontactsfound'] = 'Ingen kontakter blev fundet';
+$messages['contactnotfound'] = 'Den søgte kontakt blev ikke fundet';
 $messages['sendingfailed'] = 'Kunne ikke sende beskeden';
 $messages['errorsaving'] = 'Der opstod en fejl ved lagring af data';
 $messages['errormoving'] = 'Kunne ikke flytte beskeden';
 $messages['errordeleting'] = 'Kunne ikke slette beskeden';
 $messages['deletecontactconfirm'] = 'Vil du virkelig slette den/de valgte kontakt(er)?';
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette den/de valgte besked(er)?';
-$messages['deleteconfirm'] = 'Vil du virkelig slette denne mappe?';
+$messages['deletefolderconfirm'] = 'Vil du virkelig slette den vagte mappe';
 $messages['purgefolderconfirm'] = 'Vil du virkelig slette alle beskeder i denne mappe?';
 $messages['formincomplete'] = 'Formularen var ikke fuldstændig fyldt ud';
 $messages['noemailwarning'] = 'Indtast venligst en gyldig email adresse';
@@ -67,5 +69,11 @@ $messages['folderdeleted'] = 'Mappen blev slettet korrekt';
 $messages['deletedsuccessfully'] = 'Slettet korrekt';
 $messages['converting'] = 'Fjerner formatering fra besked...';
 $messages['messageopenerror'] = 'Beskeden kunne ikke hentes fra serveren';
+$messages['fileuploaderror'] = 'Den indsatte fil fejlede';
+$messages['filesizeerror'] = 'Den indsatte fil fylder mere end det maksimale på $size';
+$messages['copysuccess'] = 'Det lykkedes at kopiere $nr adresser';
+$messages['copyerror'] = 'Kunne ikke kopiere adresserne';
+$messages['sourceisreadonly'] = 'Denne adressekilde er kun til læsning';
+$messages['errorsavingcontact'] = 'Kunne ikke gemme kontakt adressen';
 
 ?>
