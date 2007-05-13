@@ -170,7 +170,7 @@ function rcube_webmail()
           {
           this.enable_command('compose', 'add-contact', false);
           parent.rcmail.show_contentframe(true);
-          parent.rcmail.mark_message('read', this.uid);
+          parent.rcmail.mark_message('read', this.env.uid);
           }
 
         if ((this.env.action=='show' || this.env.action=='preview') && this.env.blockedobjects)

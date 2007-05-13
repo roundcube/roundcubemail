@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2007/05/13 (thomasb)
 ----------
 - Updated Norwegian (bokmal), Czech, Danish and Portuguese (standard) translation
+- Fixed marking as read in preview pane (closes #1484364)
 
 
 2007/05/03 (yllar)
