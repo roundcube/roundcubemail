@@ -594,7 +594,9 @@ table.headers-table tr td.subject
   min-height: 18px;
   list-style-image: none;
   list-style-type: none;
-  background: url(images/icons/attachment.png) 52px 1px no-repeat #DFDFDF; 
+  background: url(images/icons/attachment.png) 52px 1px no-repeat #DFDFDF;
+  /* css hack for IE */
+  height: expression(Math.min(18, parseInt(this.clientHeight))+'px');
 }
 
 #attachment-list:after
