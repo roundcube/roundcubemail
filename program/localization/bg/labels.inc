@@ -18,59 +18,42 @@
 */
 
 $labels = array();
-
-// login page
-$labels['welcome']   = 'Добре дошли в $product';
-$labels['username']  = 'Потребител';
-$labels['password']  = 'Парола';
-$labels['server']    = 'Сървър';
-$labels['login']     = 'Вход';
-
-// taskbar
-$labels['logout']   = 'Изход';
-$labels['mail']     = 'Кутия';
+$labels['welcome'] = 'Добре дошли в $product';
+$labels['username'] = 'Потребител';
+$labels['password'] = 'Парола';
+$labels['server'] = 'Сървър';
+$labels['login'] = 'Вход';
+$labels['logout'] = 'Изход';
+$labels['mail'] = 'Кутия';
 $labels['settings'] = 'Настройки';
 $labels['addressbook'] = 'Адреси';
-
-// mailbox names
-$labels['inbox']  = 'Входящи';
+$labels['inbox'] = 'Входящи';
 $labels['drafts'] = 'Чернови';
-$labels['sent']   = 'Изпратени';
-$labels['trash']  = 'Кошче';
-$labels['junk']   = 'Спам';
-
-// message listing
+$labels['sent'] = 'Изпратени';
+$labels['trash'] = 'Кошче';
+$labels['junk'] = 'Спам';
 $labels['subject'] = 'Заглавие';
-$labels['from']    = 'От';
-$labels['to']      = 'Получател';
-$labels['cc']      = 'Копие до';
-$labels['bcc']     = 'Скрито копие до';
+$labels['from'] = 'От';
+$labels['to'] = 'Получател';
+$labels['cc'] = 'Копие до';
+$labels['bcc'] = 'Скрито копие до';
 $labels['replyto'] = 'Отговор на';
-$labels['date']    = 'Дата';
-$labels['size']    = 'Размер';
+$labels['date'] = 'Дата';
+$labels['size'] = 'Размер';
 $labels['priority'] = 'Приоритет';
 $labels['organization'] = 'Организация';
-
-// aliases
-$labels['reply-to'] = $labels['replyto'];
-
+$labels['reply-to'] = 'Отговор на';
 $labels['mailboxlist'] = 'Папки';
 $labels['messagesfromto'] = 'Съобщения $from до $to от $count';
 $labels['messagenrof'] = 'Съобщение $nr от $count';
-
-$labels['moveto']   = 'премести в...';
+$labels['moveto'] = 'премести в...';
 $labels['download'] = 'изтегли';
-
 $labels['filename'] = 'Име на файла';
 $labels['filesize'] = 'Размер на файла';
-
 $labels['preferhtml'] = 'Показвай първо HTML версия';
 $labels['htmlmessage'] = 'HTML съобщение';
 $labels['prettydate'] = 'Кратки дати';
-
 $labels['addtoaddressbook'] = 'Добави в адресната книга';
-
-// weekdays short
 $labels['sun'] = 'Нед';
 $labels['mon'] = 'Пон';
 $labels['tue'] = 'Вто';
@@ -78,158 +61,120 @@ $labels['wed'] = 'Сря';
 $labels['thu'] = 'Чет';
 $labels['fri'] = 'Пет';
 $labels['sat'] = 'Съб';
-
-// weekdays long
-$labels['sunday']    = 'Неделя';
-$labels['monday']    = 'Понеделник';
-$labels['tuesday']   = 'Вторник';
+$labels['sunday'] = 'Неделя';
+$labels['monday'] = 'Понеделник';
+$labels['tuesday'] = 'Вторник';
 $labels['wednesday'] = 'Сряда';
-$labels['thursday']  = 'Четвъртък';
-$labels['friday']    = 'Петък';
-$labels['saturday']  = 'Събота';
-
+$labels['thursday'] = 'Четвъртък';
+$labels['friday'] = 'Петък';
+$labels['saturday'] = 'Събота';
 $labels['today'] = 'Днес';
-
-// toolbar buttons
-$labels['checkmail']        = 'Провери за нови писма';
-$labels['writenewmessage']  = 'Създай ново писмо';
-$labels['replytomessage']   = 'Отговори на писмото';
+$labels['checkmail'] = 'Провери за нови писма';
+$labels['writenewmessage'] = 'Създай ново писмо';
+$labels['replytomessage'] = 'Отговори на писмото';
 $labels['replytoallmessage'] = 'Отговори до всички получатели';
-$labels['forwardmessage']   = 'Препрати писмото';
-$labels['deletemessage']    = 'Премести писмото в кошчето';
-$labels['printmessage']     = 'Разпечатай писмото';
-$labels['previousmessage']  = 'Предно писмо';
+$labels['forwardmessage'] = 'Препрати писмото';
+$labels['deletemessage'] = 'Премести писмото в кошчето';
+$labels['printmessage'] = 'Разпечатай писмото';
+$labels['previousmessage'] = 'Предно писмо';
 $labels['previousmessages'] = 'Предна страница';
-$labels['firstmessage']     = 'Първо писмо';
-$labels['firstmessages']    = 'Първа страница';
-$labels['nextmessage']      = 'Следващо писмо';
-$labels['nextmessages']     = 'Следваща страница';
-$labels['lastmessage']      = 'Последно писмо';
-$labels['lastmessages']     = 'Последна страница';
-$labels['backtolist']       = 'Обратно към списъка';
-$labels['viewsource']       = 'Виж кода';
-
+$labels['firstmessage'] = 'Първо писмо';
+$labels['firstmessages'] = 'Първа страница';
+$labels['nextmessage'] = 'Следващо писмо';
+$labels['nextmessages'] = 'Следваща страница';
+$labels['lastmessage'] = 'Последно писмо';
+$labels['lastmessages'] = 'Последна страница';
+$labels['backtolist'] = 'Обратно към списъка';
+$labels['viewsource'] = 'Виж кода';
 $labels['select'] = 'Избери';
 $labels['all'] = 'Всички';
 $labels['none'] = 'Нищо';
 $labels['unread'] = 'Нови';
-
 $labels['compact'] = 'Свий';
 $labels['empty'] = 'Изпразни';
 $labels['purge'] = 'Изчисти';
-
 $labels['quota'] = 'Използвано място';
-$labels['unknown']  = 'няма информация';
-$labels['unlimited']  = 'няма ограничение';
-
-$labels['quicksearch']  = 'Бързо търсене';
-$labels['resetsearch']  = 'Изчисти търсенето и покажи всички писма';
-
-// message compose
-$labels['compose']  = 'Ново писмо';
-$labels['sendmessage']  = 'Изпрати писмото';
-$labels['savemessage']  = 'Запиши в Чернови';
-$labels['addattachment']  = 'Прикачи файл';
-$labels['charset']  = 'Charset';
-$labels['editortype']     = 'Вид редактор';
+$labels['unknown'] = 'няма информация';
+$labels['unlimited'] = 'няма ограничение';
+$labels['quicksearch'] = 'Бързо търсене';
+$labels['resetsearch'] = 'Изчисти търсенето и покажи всички писма';
+$labels['compose'] = 'Ново писмо';
+$labels['sendmessage'] = 'Изпрати писмото';
+$labels['savemessage'] = 'Запиши в Чернови';
+$labels['addattachment'] = 'Прикачи файл';
+$labels['charset'] = 'Charset';
+$labels['editortype'] = 'Вид редактор';
 $labels['returnreceipt'] = 'Обратна разписка';
-
 $labels['checkspelling'] = 'Проверка на правописа';
 $labels['resumeediting'] = 'Продължи черновата';
-$labels['revertto']      = 'Върни се към';
-
+$labels['revertto'] = 'Върни се към';
 $labels['attachments'] = 'Прикачени файлове';
 $labels['upload'] = 'Качи';
-$labels['close']  = 'Затвори';
-
-$labels['low']     = '**';
-$labels['lowest']  = '*';
-$labels['normal']  = '***';
-$labels['high']    = '****';
+$labels['close'] = 'Затвори';
+$labels['low'] = '**';
+$labels['lowest'] = '*';
+$labels['normal'] = '***';
+$labels['high'] = '****';
 $labels['highest'] = '*****';
-
-$labels['nosubject']  = '(няма заглавие)';
+$labels['nosubject'] = '(няма заглавие)';
 $labels['showimages'] = 'Виж изображенията';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'тесктов';
-
-// address boook
-$labels['name']      = 'Прякор';
+$labels['name'] = 'Прякор';
 $labels['firstname'] = 'Име';
-$labels['surname']   = 'Фамилия';
-$labels['email']     = 'E-Mail';
-
+$labels['surname'] = 'Фамилия';
+$labels['email'] = 'E-Mail';
 $labels['addcontact'] = 'Добави';
 $labels['editcontact'] = 'Редактирай';
-
-$labels['edit']   = 'Редактирай';
+$labels['edit'] = 'Редактирай';
 $labels['cancel'] = 'Отказ';
-$labels['save']   = 'Запиши';
+$labels['save'] = 'Запиши';
 $labels['delete'] = 'Изтрии';
-
-$labels['newcontact']     = 'Нов контакт';
-$labels['deletecontact']  = 'Изтрии маркираните контакти';
-$labels['composeto']      = 'Напиши писмо до';
+$labels['newcontact'] = 'Нов контакт';
+$labels['deletecontact'] = 'Изтрии маркираните контакти';
+$labels['composeto'] = 'Напиши писмо до';
 $labels['contactsfromto'] = 'Контакти $from до $to от $count';
-$labels['print']          = 'Разпечатай';
-$labels['export']         = 'Експорт';
-
-$labels['previouspage']   = 'Предна страница';
-$labels['firstpage']      = 'Първа страница';
-$labels['nextpage']       = 'Следваща страница';
-$labels['lastpage']       = 'Последна страница';
-
-// LDAP search
-$labels['ldapsearch'] = 'Търсене в LDAP директория';
-
-$labels['ldappublicsearchname']    = 'Име на контакта';
-$labels['ldappublicsearchtype'] = 'Точно съвпадение?';
-$labels['ldappublicserverselect'] = 'Избери сървъри';
-$labels['ldappublicsearchfield'] = 'Търси по';
-$labels['ldappublicsearchform'] = 'Търсене за контакт';
-$labels['ldappublicsearch'] = 'Търси';
-
-// settings
-$labels['settingsfor']  = 'Настройки за';
-
-$labels['preferences']  = 'Настройки';
-$labels['userpreferences']  = 'Потребителски настройки';
-$labels['editpreferences']  = 'Редактирай потребителските настройки';
-
-$labels['identities']  = 'Самоличност';
-$labels['manageidentities']  = 'Промяна на самоличностите за този акаунт';
-$labels['newidentity']  = 'Нова самоличност';
-
-$labels['newitem']  = 'Нова самоличност';
-$labels['edititem']  = 'Редактиране на самоличност';
-
-$labels['setdefault']  = 'По подразбиране';
-$labels['language']  = 'Език';
-$labels['timezone']  = 'Часова зона';
-$labels['pagesize']  = 'Редове на страница';
+$labels['print'] = 'Разпечатай';
+$labels['export'] = 'Експорт';
+$labels['previouspage'] = 'Предна страница';
+$labels['firstpage'] = 'Първа страница';
+$labels['nextpage'] = 'Следваща страница';
+$labels['lastpage'] = 'Последна страница';
+$labels['groups'] = 'Групи';
+$labels['personaladrbook'] = 'Лични адреси';
+$labels['settingsfor'] = 'Настройки за';
+$labels['preferences'] = 'Настройки';
+$labels['userpreferences'] = 'Потребителски настройки';
+$labels['editpreferences'] = 'Редактирай потребителските настройки';
+$labels['identities'] = 'Самоличност';
+$labels['manageidentities'] = 'Промяна на самоличностите за този акаунт';
+$labels['newidentity'] = 'Нова самоличност';
+$labels['newitem'] = 'Нова самоличност';
+$labels['edititem'] = 'Редактиране на самоличност';
+$labels['setdefault'] = 'По подразбиране';
+$labels['language'] = 'Език';
+$labels['timezone'] = 'Часова зона';
+$labels['pagesize'] = 'Редове на страница';
 $labels['signature'] = 'Подпис';
-$labels['dstactive']  = 'Маркирай при лятно време';
+$labels['dstactive'] = 'Маркирай при лятно време';
 $labels['htmleditor'] = 'Писане на HTML съобщения';
 $labels['htmlsignature'] = 'HTML подпис';
 $labels['previewpane'] = 'Панел за преглед';
 $labels['autosavedraft'] = 'Автоматично записвай чернова';
 $labels['everynminutes'] = 'всеки $n минути';
 $labels['never'] = 'никога';
-
-$labels['folder']  = 'Папка';
-$labels['folders']  = 'Папки';
-$labels['foldername']  = 'Име на папката';
-$labels['subscribed']  = 'Използвай';
-$labels['create']  = 'Създай';
-$labels['createfolder']  = 'Направи нова папка';
+$labels['folder'] = 'Папка';
+$labels['folders'] = 'Папки';
+$labels['foldername'] = 'Име на папката';
+$labels['subscribed'] = 'Използвай';
+$labels['create'] = 'Създай';
+$labels['createfolder'] = 'Направи нова папка';
 $labels['rename'] = 'Преименувай';
 $labels['renamefolder'] = 'Преименувай папката';
-$labels['deletefolder']  = 'Изтрий';
-$labels['managefolders']  = 'Настройки на папките';
-
+$labels['deletefolder'] = 'Изтрий';
+$labels['managefolders'] = 'Настройки на папките';
 $labels['sortby'] = 'Сортирай по';
-$labels['sortasc']  = 'Сортирай възходящо';
+$labels['sortasc'] = 'Сортирай възходящо';
 $labels['sortdesc'] = 'Сортирай низходящо';
 
 ?>

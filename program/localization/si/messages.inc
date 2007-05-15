@@ -39,6 +39,7 @@ $messages['contactexists'] = 'Vizitka s tem e-naslovom že obstaja!';
 $messages['blockedimages'] = 'Zaradi vaše varnosti slike v tem sporočilu niso prikazane.';
 $messages['encryptedmessage'] = 'To je zaščiteno sporočilo, na žalost ne more biti prikazano. Oprostite!';
 $messages['nocontactsfound'] = 'Ne najdem nobene vizitke';
+$messages['contactnotfound'] = 'Ne najdem iskane vizitke';
 $messages['sendingfailed'] = 'Pošiljanje sporočila neuspešno';
 $messages['errorsaving'] = 'Pri shranjevanju je prišlo do napake';
 $messages['errormoving'] = 'Ne morem premakniti sporočila';
@@ -69,5 +70,8 @@ $messages['converting'] = 'Brišem obogatitev besedila...';
 $messages['messageopenerror'] = 'Neuspešno nalaganje sporočila s stežnika';
 $messages['fileuploaderror'] = 'Neuspešno nalaganje datoteke';
 $messages['filesizeerror'] = 'Naložena datoteka presega maksimalno velikost $size';
-
+$messages['copysuccess'] = 'Število prepisanih naslovov: $nr';
+$messages['copyerror'] = 'Ne morem prepisati nobenega naslova';
+$messages['sourceisreadonly'] = 'Izvirnik naslova je samo berljiv';
+$messages['errorsavingcontact'] = 'Ne morem shraniti vizitke';
 ?>

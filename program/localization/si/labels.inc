@@ -141,13 +141,8 @@ $labels['previouspage'] = 'Prejšnja stran';
 $labels['firstpage'] = 'Prva stran';
 $labels['nextpage'] = 'Naslednja stran';
 $labels['lastpage'] = 'Zadnja stran';
-$labels['ldapsearch'] = 'LDAP iskanje';
-$labels['ldappublicsearchname'] = 'Ime kontakta';
-$labels['ldappublicsearchtype'] = 'Natančni zadetki?';
-$labels['ldappublicserverselect'] = 'Izberi strežnike';
-$labels['ldappublicsearchfield'] = 'Išči po';
-$labels['ldappublicsearchform'] = 'Išči kontakt';
-$labels['ldappublicsearch'] = 'Išči';
+$labels['groups'] = 'Skupine';
+$labels['personaladrbook'] = 'Osebni Stiki';
 $labels['settingsfor'] = 'Nastavitve za';
 $labels['preferences'] = 'Nastavitve';
 $labels['userpreferences'] = 'Uporabniške nastavitve';
@@ -182,5 +177,4 @@ $labels['managefolders'] = 'Urejaj mape';
 $labels['sortby'] = 'Uredi po';
 $labels['sortasc'] = 'Uredi naraščajoče';
 $labels['sortdesc'] = 'Uredi padajoče';
-
 ?>
