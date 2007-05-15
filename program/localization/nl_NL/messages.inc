@@ -38,6 +38,7 @@ $messages['contactexists'] = 'Er bestaat al een contactpersoon met dit e-mailadr
 $messages['blockedimages'] = 'Uit privacyoverwegingen zijn niet bijgevoegde afbeeldingen geblokkeerd in dit bericht.';
 $messages['encryptedmessage'] = 'Dit is een gecodeerd bericht en kan niet weergegeven worden. Excuses!';
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden';
+$messages['contactnotfound'] = 'Contactpersoon niet gevonden';
 $messages['sendingfailed'] = 'Verzenden van bericht is mislukt';
 $messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan';
 $messages['errormoving'] = 'Kan het bericht niet verplaatsen';
@@ -68,5 +69,9 @@ $messages['converting'] = 'Opmaak van bericht verwijderen...';
 $messages['messageopenerror'] = 'Kan het bericht niet van de server laden';
 $messages['fileuploaderror'] = 'Bestand versturen mislukt';
 $messages['filesizeerror'] = 'Het bestand overschrijdt de maximum grootte van $size';
+$messages['copysuccess'] = '$nr adressen succesvol gekopieerd';
+$messages['copyerror'] = 'Kan geen adressen kopieren';
+$messages['sourceisreadonly'] = 'Het adres kan niet worden opgeslagen';
+$messages['errorsavingcontact'] = 'Kan het ontvanger-adres niet opslaan';
 
 ?>

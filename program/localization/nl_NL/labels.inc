@@ -181,6 +181,9 @@ $labels['firstpage']      = 'Eerste pagina';
 $labels['nextpage']       = 'Volgende pagina';
 $labels['lastpage']       = 'Laatste pagina';
 
+$labels['groups']          = 'Groepen';
+$labels['personaladrbook'] = 'Persoonlijk Adresboek';
+
 // LDAP search
 $labels['ldapsearch'] = 'LDAP adresboek zoeken';
 
