@@ -42,7 +42,7 @@ roundcube user. Here is an example of that procedure:
 # mysql
 > CREATE DATABASE roundcubemail;
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
-        IDENTIFIED BY 'password';
+    IDENTIFIED BY 'password';
 > quit
 # mysql roundcubemail < SQL/mysql.initial.sql
 
@@ -55,7 +55,7 @@ RoundCube with utf-8 charset. Here's an example of the init procedure:
 # mysql
 > CREATE DATABASE roundcubemail DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
-        IDENTIFIED BY 'password';
+    IDENTIFIED BY 'password';
 > quit
 
 # mysql roundcubemail < SQL/mysql5.initial.sql
@@ -106,6 +106,7 @@ Details about the config paramaters can be found in the config files.
 
 UPGRADING
 =========
+
 If you already have a previous version of RoundCube installed,
 please refer to the instructions in UPGRADING guide.
 

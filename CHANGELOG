@@ -3,11 +3,15 @@ CHANGELOG RoundCube Webmail
 
 2007/05/17 (thomasb)
 ----------
-- Updated Catalan, Russian, Portuguese and Chinese translations
+- Updated Catalan, Russian, Portuguese, Slovak and Chinese translations
 - Renamed localization folder for Chinese (Big5)
 - Chanegd Slovenian language code from 'si' to 'sl'
 - Added Sinhala (Sri-Lanka) localization
 - Use global filters and bind username/ for Ldap searches (#1484159)
+- Hide quota display if imap server does not support it
+- Hide address groups if no LDAP servers configured
+- Add link to message subjects (closes #1484257)
+- Better SQL query for contact listing/search (closes #1484369)
 
 
 2007/05/13 (thomasb)
