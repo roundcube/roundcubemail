@@ -1,6 +1,5 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1-beta2
--- 
+-- Version 0.1-rc1
 
 -- --------------------------------------------------------
 
@@ -31,7 +30,7 @@ CREATE TABLE `users` (
  `language` varchar(5) NOT NULL DEFAULT 'en',
  `preferences` text NOT NULL DEFAULT '',
  PRIMARY KEY(`user_id`)
-) TYPE=MYISAM CHARACTER SET ascii COLLATE ascii_general_ci;
+) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `messages`
@@ -56,7 +55,7 @@ CREATE TABLE `messages` (
  INDEX `idx`(`idx`),
  INDEX `uid`(`uid`),
  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`),
- CONSTRAINT `User_ID_FK_messages` FOREIGN KEY (`user_id`)
+ CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
@@ -75,7 +74,7 @@ CREATE TABLE `cache` (
  PRIMARY KEY(`cache_id`),
  INDEX `cache_key`(`cache_key`),
  INDEX `session_id`(`session_id`),
- CONSTRAINT `User_ID_FK_cache` FOREIGN KEY (`user_id`)
+ CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
@@ -95,7 +94,7 @@ CREATE TABLE `contacts` (
  `vcard` text NOT NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`contact_id`),
- CONSTRAINT `User_ID_FK_contacts` FOREIGN KEY (`user_id`)
+ CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
@@ -117,7 +116,7 @@ CREATE TABLE `identities` (
  `html_signature` tinyint(1) NOT NULL DEFAULT '0',
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`identity_id`),
- CONSTRAINT `User_ID_FK_identities` FOREIGN KEY (`user_id`)
+ CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
