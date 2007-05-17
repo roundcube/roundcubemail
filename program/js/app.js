@@ -968,7 +968,7 @@ function rcube_webmail()
 
       this.display_message(msg, 'loading', true);
       }
-    else if (!a && this.busy)
+    else if (!a)
       this.hide_message();
 
     this.busy = a;
