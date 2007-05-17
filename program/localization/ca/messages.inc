@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
+ |         Simo <sim6@graciasensefils.net>                               |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -38,6 +39,7 @@ $messages['contactexists'] = 'Ja hi ha un contacte amb aquesta adreça de correu
 $messages['blockedimages'] = 'Per a protegir la seva privacitat, les imatges remotes han sigut bloquejades en aquest missatge';
 $messages['encryptedmessage'] = 'Aquest és un missatge xifrat i no pot ser mostrat. Ho sento!';
 $messages['nocontactsfound'] = 'No hi ha contactes';
+$messages['contactnotfound'] = 'No s\'ha trobat el contacte solicitat';
 $messages['sendingfailed'] = 'Error enviant missatge';
 $messages['errorsaving'] = 'Va ocórrer un error mentres es desava';
 $messages['errormoving'] = 'No s\'ha pogut moure el missatge';
@@ -68,5 +70,9 @@ $messages['converting'] = 'Treient format del missatge...';
 $messages['messageopenerror'] = 'No s\'ha pogut carregar el missatge del servidor';
 $messages['fileuploaderror'] = 'Pujada de fitxer fallida';
 $messages['filesizeerror'] = 'El fitxer pujat excedeix la grandària màxima de $size';
+$messages['copysuccess'] = 'S\'ha copiat $nr adreces correctament';
+$messages['copyerror'] = 'No s\'ha pogut copiar cap adreça';
+$messages['sourceisreadonly'] = 'Aquesta adreça és només de lectura.';
+$messages['errorsavingcontact'] = 'No s\'ha pogut guardar l\'adreça de contacte';
 
 ?>

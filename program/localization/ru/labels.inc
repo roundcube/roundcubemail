@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
+ |         Vladimir Kulev <me@lightoze.net>                              |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -140,13 +141,8 @@ $labels['previouspage'] = 'Показать предыдущий';
 $labels['firstpage'] = 'Показать первый';
 $labels['nextpage'] = 'Показать следующий';
 $labels['lastpage'] = 'Показать последний';
-$labels['ldapsearch'] = 'Поиск в каталоге LDAP';
-$labels['ldappublicsearchname'] = 'Имя';
-$labels['ldappublicsearchtype'] = 'Точное совпадение?';
-$labels['ldappublicserverselect'] = 'Выбрать сервер';
-$labels['ldappublicsearchfield'] = 'искать на';
-$labels['ldappublicsearchform'] = 'Искать контакт';
-$labels['ldappublicsearch'] = 'Искать';
+$labels['groups'] = 'Группы';
+$labels['personaladrbook'] = 'Персональные адреса';
 $labels['settingsfor'] = 'Настройки для';
 $labels['preferences'] = 'Настройки';
 $labels['userpreferences'] = 'Настройки пользователя';

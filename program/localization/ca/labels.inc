@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
+ |         Simo <sim6@graciasensefils.net>                               |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -140,13 +141,8 @@ $labels['previouspage'] = 'Mostrar anteriors';
 $labels['firstpage'] = 'Mostrar primers';
 $labels['nextpage'] = 'Mostrar següents';
 $labels['lastpage'] = 'Mostrar últims';
-$labels['ldapsearch'] = 'Cerca el directori LDAP';
-$labels['ldappublicsearchname'] = 'Nom de contacte';
-$labels['ldappublicsearchtype'] = 'Cerca exacta?';
-$labels['ldappublicserverselect'] = 'Selecciona els servidors';
-$labels['ldappublicsearchfield'] = 'Cerca activa';
-$labels['ldappublicsearchform'] = 'Cerca un contacte';
-$labels['ldappublicsearch'] = 'Cerca';
+$labels['groups'] = 'Grups';
+$labels['personaladrbook'] = 'Llibreta d\'adreces';
 $labels['settingsfor'] = 'Configuració per a';
 $labels['preferences'] = 'Preferències';
 $labels['userpreferences'] = 'Preferències d\'usuari';

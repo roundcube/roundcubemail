@@ -27,7 +27,7 @@
 	'am'    => 'Armenian',
 	'bg'    => 'Bulgarian',
 	'bs_BA' => 'Bosnian (Bosanski)',
-	'tw'    => 'Chinese (BIG5)',
+	'zh_TW' => 'Chinese (BIG5)',
 	'zh_CN' => 'Chinese (GB2312)',
  	'ca'    => 'Català',
 	'cz'    => 'Czech',
@@ -62,10 +62,11 @@
 	'ru'    => 'Russian',
 	'fi'    => 'Suomi',
 	'se'    => 'Svenska',
-	'si'    => 'Slovenian',
+	'si'    => 'Sinhala',
+	'sl'    => 'Slovenian',
 	'sk'    => 'Slovak',
-	'sr_latin'    => 'Serbian Latin',
-	'sr_cyrillic'    => 'Serbian Cyrillic',
+	'sr_latin' => 'Serbian Latin',
+	'sr_cyrillic' => 'Serbian Cyrillic',
 	'tr'    => 'Turkish',
 	'th'    => 'Thai',
 	'vn'    => 'Vietnamese'
@@ -79,7 +80,8 @@ $rcube_language_aliases = array(
 	'en' => 'en_US',
 	'nl' => 'nl_NL',
 	'no' => 'nn_NO',
-	'pt' => 'pt_PT'
+	'pt' => 'pt_PT',
+  'tw' => 'zh_TW'
 );
 
 $rcube_charsets = array();

@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/05/17 (thomasb)
+----------
+- Updated Catalan, Russian, and Chinese translations
+- Renamed localization folder for Chinese (Big5)
+- Chanegd Slovenian language code from 'si' to 'sl'
+
+
 2007/05/13 (thomasb)
 ----------
 - Updated Norwegian (bokmal), Czech, Danish and Portuguese (standard) translation
