@@ -77,7 +77,9 @@
 <roundcube:button command="select-all" label="all" classAct="active" />&nbsp;
 <roundcube:button command="select-all" prop="unread" label="unread" classAct="active" />&nbsp;
 <roundcube:button command="select-none" label="none" classAct="active" /> &nbsp;&nbsp;&nbsp;
+<roundcube:if condition="env:quota" />
 <roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="120" id="quotadisplay" />
+<roundcube:endif />
 </div>
 
 </body>

@@ -339,7 +339,7 @@ class rcmail_template extends rcube_html_page
           $submatches = preg_split('/<roundcube:(elseif|else|endif)\s+([^>]+)>/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
 
           if ($condmet)
-            $result = $submatches[0] . preg_replace('/.*<roundcube:endif\s+[^>]+>/is', '', $submatches[3]);
+            $result = $submatches[0] . ($submatches[1] != 'endif' ? preg_replace('/.*<roundcube:endif\s+[^>]+>/Uis', '', $submatches[3], 1) : $submatches[3]);
           else
             $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
 

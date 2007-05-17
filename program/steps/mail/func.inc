@@ -63,7 +63,7 @@ if (strlen($_GET['_uid']))
 
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
-//$OUTPUT->set_pagetitle(rcube_charset_convert($IMAP->get_mailbox_name(), 'UTF-7', 'UTF-8'));
+$OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
 
 if ($CONFIG['trash_mbox'])
   $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
