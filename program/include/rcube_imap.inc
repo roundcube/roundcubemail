@@ -1999,7 +1999,7 @@ class rcube_imap
     static $sa_message_index = array();
     
     // empty key -> empty array
-    if (empty($key))
+    if (!$this->caching_enabled || empty($key))
       return array();
     
     if (!empty($sa_message_index[$key]) && !$force)
@@ -2024,7 +2024,7 @@ class rcube_imap
 
   function add_message_cache($key, $index, $headers, $struct=null)
     {
-    if (empty($key) || !is_object($headers) || empty($headers->uid))
+    if (!$this->caching_enabled || empty($key) || !is_object($headers) || empty($headers->uid))
       return;
       
     // check for an existing record (probly headers are cached but structure not)
