@@ -12,6 +12,7 @@
  +-----------------------------------------------------------------------+
  | Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
  |          João Vale <jpvale@gmail.com>                                 |
+ |          Fernando Silva <fernando.silva@openquest.pt>                 |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -48,13 +49,13 @@ $labels['mailboxlist'] = 'Pastas';
 $labels['messagesfromto'] = 'Mensagens $from - $to de $count';
 $labels['messagenrof'] = 'Mensagem $nr de $count';
 $labels['moveto'] = 'mover para...';
-$labels['download'] = 'download';
-$labels['filename'] = 'Arquivo';
+$labels['download'] = 'descarregar';
+$labels['filename'] = 'Ficheiro';
 $labels['filesize'] = 'Tamanho';
 $labels['preferhtml'] = 'Prefere HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
 $labels['prettydate'] = 'Formatar datas';
-$labels['addtoaddressbook'] = 'Adicionar ao catálogo de endereços';
+$labels['addtoaddressbook'] = 'Adicionar à lista de contactos';
 $labels['sun'] = 'Dom';
 $labels['mon'] = 'Seg';
 $labels['tue'] = 'Ter';
@@ -95,10 +96,10 @@ $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Vazio';
 $labels['purge'] = 'Apagar';
 $labels['quota'] = 'Utilização';
-$labels['unknown'] = 'Desconhecido';
-$labels['unlimited'] = 'Ilimitado';
+$labels['unknown'] = 'desconhecido';
+$labels['unlimited'] = 'ilimitado';
 $labels['quicksearch'] = 'Pesquisa rápida';
-$labels['resetsearch'] = 'Reiniciar pesquisa';
+$labels['resetsearch'] = 'Limpar pesquisa';
 $labels['compose'] = 'Escrever mensagem';
 $labels['sendmessage'] = 'Enviar';
 $labels['savemessage'] = 'Salvar rascunho';
@@ -110,7 +111,7 @@ $labels['checkspelling'] = 'Verificar ortografia';
 $labels['resumeediting'] = 'Continuar a edição';
 $labels['revertto'] = 'Reverter para';
 $labels['attachments'] = 'Anexos';
-$labels['upload'] = 'Upload';
+$labels['upload'] = 'Puxar';
 $labels['close'] = 'Fechar';
 $labels['low'] = 'Baixa';
 $labels['lowest'] = 'Mais baixa';
@@ -152,9 +153,9 @@ $labels['manageidentities'] = 'Gerir identidades para esta conta';
 $labels['newidentity'] = 'Nova identidade';
 $labels['newitem'] = 'Novo item';
 $labels['edititem'] = 'Editar item';
-$labels['setdefault'] = 'Principal';
+$labels['setdefault'] = 'Marcar por omissão';
 $labels['language'] = 'Idioma';
-$labels['timezone'] = 'Time zone';
+$labels['timezone'] = 'Fuso horário';
 $labels['pagesize'] = 'Linhas por página';
 $labels['signature'] = 'Assinatura';
 $labels['dstactive'] = 'Horário de verão';
