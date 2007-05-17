@@ -23,10 +23,20 @@
 <roundcube:object name="searchform" type="search" results="5" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
 
+<roundcube:if condition="config:ldap_public" />
 <div id="directorylist">
 <div id="groups-title"><roundcube:label name="groups" /></div>
 <roundcube:object name="directorylist" id="directories-list" />
 </div>
+
+<roundcube:else />
+<style type="text/css">
+#addresslist { left:20px; width:440px }
+#contacts-box { left:475px }
+#abookcountbar { left:20px }
+</style>
+
+<roundcube:endif />
 
 <div id="addresslist">
 <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" summary="Contacts list" />

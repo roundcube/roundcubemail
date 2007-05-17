@@ -61,7 +61,7 @@
   padding: 0;
 }
 
-#directorylist ul
+#directorylist ul li
 {
   font-size: 11px;
   border-bottom: 1px solid #EBEBEB;
@@ -119,7 +119,7 @@
   border: 1px solid #999999;
   overflow: hidden;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-70-document.getElementById('addresslist').offsetWidth)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-45-document.getElementById('addresslist').offsetLeft-document.getElementById('addresslist').offsetWidth)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
 }
 
