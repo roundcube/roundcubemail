@@ -197,10 +197,13 @@ $rcmail_config['mail_header_delimiter'] = NULL;
  *  'hosts'         => array('directory.verisign.com'),
  *  'port'          => 389,
  *  'base_dn'       => '',
+ *  'bind_dn'       => '',
+ *  'bind_pass'     => '',
  *  'search_fields' => array('mail', 'cn'),  // fields to search in
  *  'name_field'    => 'cn',    // this field represents the contact's name
  *  'email_field'   => 'mail',  // this field represents the contact's e-mail
  *  'scope'         => 'sub',   // search mode: sub|base|list
+ *  'filter'        => '',      // will be &'d with search field ex: (status=act)
  *  'fuzzy_search'  => true);   // server allows wildcard search
  */
 

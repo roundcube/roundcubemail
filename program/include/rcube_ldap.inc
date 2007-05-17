@@ -93,45 +93,37 @@ class rcube_ldap
     }
     
     if (is_resource($this->conn))
+    {
       $this->ready = true;
+      if (!empty($this->prop['bind_dn']) && !empty($this->prop['bind_pass']))
+        $this->ready = $this->bind($this->prop['bind_dn'], $this->prop['bind_pass']);
+    }
     else
       raise_error(array('type' => 'ldap', 'message' => "Could not connect to any LDAP server, tried $host:{$this->prop[port]} last"), true);
   }
 
 
   /**
-   * Merge with connect()?
+   * Bind connection with DN and password
    */
-  function bind($dn=null, $pass=null)
+  function bind($dn, $pass)
   {
-    if ($this->conn)
-    {
-      if ($dn)
-      {
-        if (@ldap_bind($this->conn, $dn, $pass))
-          return true;
-        else
-          raise_error(array('code' => ldap_errno($this->conn),
-                            'type' => 'ldap',
-                            'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
-                      true);
-      }
-      else
-      {
-        if (@ldap_bind($this->conn))
-          return true;
-        else
-          raise_error(array('code' => ldap_errno($this->conn),
-                            'type' => 'ldap',
-                            'message' => "Anonymous bind failed: ".ldap_error($this->conn)),
-                      true);
-        }
-    }
+    if (!$this->conn)
+      return false;
+    
+    if (@ldap_bind($this->conn, $dn, $pass))
+      return true;
     else
-      raise_error(array('type' => 'ldap', 'message' => "Attempted bind on nonexistent connection"), true);
-      
-    return false;
+    {
+      raise_error(array(
+        'code' => ldap_errno($this->conn),
+        'type' => 'ldap',
+        'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
+      true);
     }
+    
+    return false;
+  }
 
 
   /**
@@ -270,6 +262,10 @@ class rcube_ldap
           $filter .= "($f=$wc" . rcube_ldap::quote_string($value) . "$wc)";
     }
     $filter .= ')';
+    
+    // add general filter to query
+    if (!empty($this->prop['filter']))
+      $filter = '(&'.$this->prop['filter'] . $filter . ')';
 
     // set filter string and execute search
     $this->set_search_set($filter);
@@ -385,7 +381,7 @@ class rcube_ldap
     if ($this->conn && $this->filter)
     {
       $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
-      $this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $this->filter, array_values($this->fieldmap), 0, 0);
+      $this->ldap_result = $function($this->conn, $this->prop['base_dn'], $this->filter, array_values($this->fieldmap), 0, 0);
       return true;
     }
     else

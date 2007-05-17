@@ -3,9 +3,11 @@ CHANGELOG RoundCube Webmail
 
 2007/05/17 (thomasb)
 ----------
-- Updated Catalan, Russian, and Chinese translations
+- Updated Catalan, Russian, Portuguese and Chinese translations
 - Renamed localization folder for Chinese (Big5)
 - Chanegd Slovenian language code from 'si' to 'sl'
+- Added Sinhala (Sri-Lanka) localization
+- Use global filters and bind username/ for Ldap searches (#1484159)
 
 
 2007/05/13 (thomasb)
