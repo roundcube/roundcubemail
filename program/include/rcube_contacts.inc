@@ -24,7 +24,7 @@ class rcube_contacts
   var $db = null;
   var $db_name = '';
   var $user_id = 0;
-  var $filter = '1';
+  var $filter = null;
   var $result = null;
   var $search_fields;
   var $search_string;
@@ -115,7 +115,7 @@ class rcube_contacts
   function reset()
   {
     $this->result = null;
-    $this->filter = '1';
+    $this->filter = null;
     $this->search_fields = null;
     $this->search_string = null;
   }
@@ -142,9 +142,9 @@ class rcube_contacts
       $sql_result = $this->db->limitquery(
         "SELECT * FROM ".$this->db_name."
          WHERE  del<>1
-         AND    user_id=?
-         AND    (".$this->filter.")
-         ORDER BY name",
+         AND    user_id=?" .
+        ($this->filter ? " AND (".$this->filter.")" : "") .
+        " ORDER BY name",
         $start_row,
         $length,
         $this->user_id);
@@ -213,8 +213,8 @@ class rcube_contacts
       "SELECT COUNT(contact_id) AS rows
        FROM ".$this->db_name."
        WHERE  del<>1
-       AND    user_id=?
-       AND    (".$this->filter.")",
+       AND    user_id=?".
+       ($this->filter ? " AND (".$this->filter.")" : ""),
       $this->user_id);
 
     $sql_arr = $this->db->fetch_assoc($sql_result);
