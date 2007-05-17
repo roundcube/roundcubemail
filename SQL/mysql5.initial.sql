@@ -91,7 +91,7 @@ CREATE TABLE `contacts` (
  `email` varchar(128) NOT NULL,
  `firstname` varchar(128) NOT NULL,
  `surname` varchar(128) NOT NULL,
- `vcard` text NOT NULL,
+ `vcard` text NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`contact_id`),
  CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
