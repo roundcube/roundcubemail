@@ -58,7 +58,7 @@ if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
 
 // define url for getting message parts
 if (strlen($_GET['_uid']))
-  $GET_URL = sprintf('%s&_action=get&_mbox=%s&_uid=%d', $COMM_PATH, $IMAP->get_mailbox_name(), get_input_value('_uid', RCUBE_INPUT_GET));
+  $GET_URL = rcmail_url('get', array('_mbox'=>$IMAP->get_mailbox_name(), '_uid'=>get_input_value('_uid', RCUBE_INPUT_GET)));
 
 
 // set current mailbox in client environment
@@ -233,7 +233,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     $zebra_class,
                     $unread_count ? ' unread' : '',
                     $folder['id']==$mbox_name ? ' selected' : '',
-                    Q(rcmail_self_url('', array('_mbox' => $folder['id']))),
+                    Q(rcmail_url('', array('_mbox' => $folder['id']))),
                     JS_OBJECT_NAME,
                     $js_name,
                     JS_OBJECT_NAME,
@@ -323,9 +323,11 @@ function rcmail_message_list($attrib)
   // define list of cols to be displayed
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
   $a_sort_cols = array('subject', 'date', 'from', 'to', 'size');
+
+  $mbox = $IMAP->get_mailbox_name();
   
   // show 'to' instead of from in sent messages
-  if (($IMAP->get_mailbox_name()==$CONFIG['sent_mbox'] || $IMAP->get_mailbox_name()==$CONFIG['drafts_mbox']) && ($f = array_search('from', $a_show_cols))
+  if (($mbox==$CONFIG['sent_mbox'] || $mbox==$CONFIG['drafts_mbox']) && ($f = array_search('from', $a_show_cols))
       && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
   
@@ -382,11 +384,12 @@ function rcmail_message_list($attrib)
       // just add a link tag to the header
       else
         {
-        $col_name = sprintf('<a href="./#sort" onclick="return %s.command(\'sort\',\'%s\',this)" title="%s">%s</a>',
-                            JS_OBJECT_NAME,
-                            $col,
-                            rcube_label('sortby'),
-                            $col_name);
+        $col_name = sprintf(
+          '<a href="./#sort" onclick="return %s.command(\'sort\',\'%s\',this)" title="%s">%s</a>',
+          JS_OBJECT_NAME,
+          $col,
+          rcube_label('sortby'),
+          $col_name);
         }
       }
       
@@ -453,8 +456,11 @@ function rcmail_message_list($attrib)
         $cont = Q(rcmail_address_string($header->$col, 3, $attrib['addicon']), 'show');
       else if ($col=='subject')
         {
+        $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
+        $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draf_uid' : '_uid';
         $cont = Q(rcube_imap::decode_mime_string($header->$col, $header->charset));
         if (empty($cont)) $cont = Q(rcube_label('nosubject'));
+        $cont = sprintf('<a href="%s" onclick="return false">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
         }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
@@ -513,9 +519,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   global $CONFIG, $IMAP, $OUTPUT;
 
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  $mbox = $IMAP->get_mailbox_name();
 
   // show 'to' instead of from in sent messages
-  if (($IMAP->get_mailbox_name() == $CONFIG['sent_mbox'] || $IMAP->get_mailbox_name() == $CONFIG['drafts_mbox'])
+  if (($mbox == $CONFIG['sent_mbox'] || $mbox == $CONFIG['drafts_mbox'])
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
@@ -535,8 +542,11 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
         $cont = Q(rcmail_address_string($header->$col, 3), 'show');
       else if ($col=='subject')
         {
+        $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
+        $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draf_uid' : '_uid';
         $cont = Q(rcube_imap::decode_mime_string($header->$col, $header->charset));
         if (!$cont) $cont = Q(rcube_label('nosubject'));
+        $cont = sprintf('<a href="%s" onclick="return false">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
         }
       else if ($col=='size')
         $cont = show_bytes($header->$col);

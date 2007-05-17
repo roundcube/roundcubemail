@@ -753,8 +753,15 @@ function rcmail_overwrite_action($action)
   }
 
 
-// compose a URL to the given action
-function rcmail_self_url($action, $p=array(), $task=null)
+/**
+ * Compose an URL for a specific action
+ *
+ * @param string  Request action
+ * @param array   More URL parameters
+ * @param string  Request task (omit if the same)
+ * @return The application URL
+ */
+function rcmail_url($action, $p=array(), $task=null)
 {
   global $MAIN_TASKS, $COMM_PATH;
   $qstring = '';
@@ -1120,25 +1127,6 @@ function strip_quotes($str)
 function strip_newlines($str)
 {
   return preg_replace('/[\r\n]/', '', $str);
-}
-
-
-/**
- * Compose an URL for a specific action
- *
- * @param string Request action
- * @param array  More URL parameters
- * @return The application URL
- */
-function rcmail_url($action, $param=NULL)
-{
-  $url = $GLOBALS['COMM_PATH'] . '&'.$action;
-
-  if (is_array($param))
-    foreach ($param as $p => $val)
-      $url .= sprintf('&%s=%s', urlencode($p), urlencode($val));
-
-  return $url;
 }
 
 

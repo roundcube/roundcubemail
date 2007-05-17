@@ -36,7 +36,7 @@ if (!empty($mailto))
   $mailto_str = join(', ', $mailto);
   $mailto_id = substr(md5($mailto_str), 0, 16);
   $_SESSION['mailto'][$mailto_id] = $mailto_str;
-  $OUTPUT->command('redirect', rcmail_self_url('compose', array('_mailto' => $mailto_id), 'mail'));
+  $OUTPUT->command('redirect', rcmail_url('compose', array('_mailto' => $mailto_id), 'mail'));
 }
 else
   $OUTPUT->show_message('nocontactsfound', 'warning');

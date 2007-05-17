@@ -584,7 +584,7 @@ drag_mouse_move: function(e)
   
     // get subjects of selectedd messages
     var names = '';
-    var c, subject, obj;
+    var c, node, subject, obj;
     for(var n=0; n<this.selection.length; n++)
     {
       if (n>12)  // only show 12 lines
@@ -599,10 +599,11 @@ drag_mouse_move: function(e)
         subject = '';
 
         for(c=0; c<obj.childNodes.length; c++)
-          if (!subject && obj.childNodes[c].nodeName=='TD' && obj.childNodes[c].firstChild && obj.childNodes[c].firstChild.nodeType==3)
+          if (obj.childNodes[c].nodeName=='TD' && (node = obj.childNodes[c].firstChild) && (node.nodeType==3 || node.nodeName=='A'))
           {
-            subject = obj.childNodes[c].firstChild.data;
+            subject = node.nodeType==3 ? node.data : node.innerHTML;
             names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
+            break;
           }
       }
     }

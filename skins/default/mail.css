@@ -396,7 +396,7 @@ body.messagelist
 }
 
 #messagelist thead tr td a,
-#messagelist thead tr td a:hover
+#messagelist tbody tr td a
 {
   display: block;
   width: auto !important;
@@ -416,6 +416,11 @@ body.messagelist
   text-overflow: ellipsis;
   border-bottom: 1px solid #EBEBEB;
   cursor: pointer;
+}
+
+#messagelist tbody tr td a
+{
+  color: #000;
 }
 
 #messagelist col
@@ -477,29 +482,27 @@ body.messagelist
 
 #messagelist tr.selected td
 {
-  font-weight: bold;
   color: #FFFFFF;
   background-color: #CC3333;
 }
 
 #messagelist tr.unfocused td
 {
-  font-weight: bold;
   color: #FFFFFF;
   background-color: #929292;
 }
 
-#messagelist tr.selected td a.rcmContactAddress
+#messagelist tr.selected td a
 {
   color: #FFFFFF;
 }
 
-#messagelist tr.unfocused td a.rcmContactAddress
+#messagelist tr.unfocused td a
 {
   color: #FFFFFF;
 }
 
-#messagelist tr.deleted td a.rcmContactAddress
+#messagelist tr.deleted td a
 {
   color: #CCCCCC;
 }

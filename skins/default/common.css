@@ -289,7 +289,6 @@ table.records-table tr
 
 table.records-table tr.selected td
 {
-  font-weight: bold;
   color: #FFFFFF;
   background-color: #CC3333;
 }
@@ -300,7 +299,6 @@ table.records-table tr.focused td
 
 table.records-table tr.unfocused td
 {
-  font-weight: bold;
   color: #FFFFFF;
   background-color: #929292;
 }

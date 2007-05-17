@@ -563,9 +563,9 @@ class rcmail_template extends rcube_html_page
 
       // make valid href to specific buttons
       if (in_array($attrib['command'], $MAIN_TASKS))
-        $attrib['href'] = Q(rcmail_self_url(null, null, $attrib['command']));
+        $attrib['href'] = Q(rcmail_url(null, null, $attrib['command']));
       else if (in_array($attrib['command'], $a_static_commands))
-        $attrib['href'] = Q(rcmail_self_url($attrib['command']));
+        $attrib['href'] = Q(rcmail_url($attrib['command']));
     }
 
     // overwrite attributes
