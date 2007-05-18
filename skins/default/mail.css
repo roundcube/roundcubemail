@@ -194,7 +194,7 @@ html>body*#messagecontframe
   position: absolute;
   top: 85px;
   left: 20px;
-  width: 140px !important;
+  width: 145px !important;
 /*  width: 162px; */
   height: 13px;
   padding: 3px 10px 2px 10px;
@@ -211,7 +211,7 @@ html>body*#messagecontframe
   position: absolute;
   top: 105px;
   left: 20px;
-  width: 160px;
+  width: 165px;
   bottom: 40px;
   border: 1px solid #CCCCCC;
   background-color: #F9F9F9;
