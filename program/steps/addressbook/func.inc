@@ -47,6 +47,12 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 $OUTPUT->set_env('source', $source ? $source : '0');
 $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
 
+// add list of address sources to client env
+$js_list = array("0" => array('id' => 0, 'readonly' => false));
+foreach ((array)$CONFIG['ldap_public'] as $id => $prop)
+  $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writeable']);
+$OUTPUT->set_env('address_sources', $js_list);
+
 
 function rcmail_directory_list($attrib)
 {
@@ -64,8 +70,6 @@ function rcmail_directory_list($attrib)
     ' onmouseup="return %s.folder_mouse_up(\'%s\')">%s'.
     "</a></li>\n";
     
-  $js_list = array("$local_id" => array('id' => $local_id, 'readonly' => false));
-
   // allow the following attributes to be added to the <ul> tag
   $out = '<ul' . create_attrib_string($attrib, array('style', 'class', 'id')) . ">\n";
   $out .= sprintf($line_templ,
@@ -99,14 +103,11 @@ function rcmail_directory_list($attrib)
       JS_OBJECT_NAME,
       $js_id,
       !empty($prop['name']) ? Q($prop['name']) : Q($id));
-      
-    $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writeable']);
   }
   
   $out .= '</ul>';
 
   $OUTPUT->add_gui_object('folderlist', $attrib['id']);
-  $OUTPUT->set_env('address_sources', $js_list);
   
   return $out;
 }
