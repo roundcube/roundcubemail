@@ -46,6 +46,7 @@ function rcube_identity_form($attrib)
   {
   global $IDENTITY_RECORD, $OUTPUT;
 
+/*
   $OUTPUT->include_script('tiny_mce/tiny_mce_src.js');
   $OUTPUT->add_script("tinyMCE.init({ mode : 'specific_textareas'," .
                                     "apply_source_formatting : true," .
@@ -58,7 +59,7 @@ function rcube_identity_form($attrib)
                                     "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr'," .
                                     "theme_advanced_buttons2 : 'link,unlink,code,forecolor,fontselect,fontsizeselect'," .
                                     "theme_advanced_buttons3 : '' });");
-
+*/
   if (!$IDENTITY_RECORD && $GLOBALS['_action']!='add-identity')
     return rcube_label('notfound');
 
@@ -76,8 +77,8 @@ function rcube_identity_form($attrib)
                        'organization' => array('type' => 'text'),
                        'reply-to'     => array('type' => 'text', 'label' => 'replyto'),
                        'bcc'          => array('type' => 'text'),
-                       'signature'	  => array('type' => 'textarea', 'size' => "40", 'rows' => "6"),
-                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'_signature\');'),
+                       'signature'	  => array('type' => 'textarea', 'size' => "40", 'rows' => "4"),
+                   //  'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
 

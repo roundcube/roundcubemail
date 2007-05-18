@@ -4,7 +4,6 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/addresses.css" />
-<script type="text/javascript" src="/splitter.js"></script>
 </head>
 <body>
 
@@ -15,8 +14,6 @@
 <roundcube:button command="add" imageSel="/images/buttons/add_contact_sel.png" imageAct="/images/buttons/add_contact_act.png" imagePas="/images/buttons/add_contact_pas.png" width="32" height="32" title="newcontact" />
 <roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletecontact" />
 <roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="composeto" />
-<roundcube:button command="print" imageSel="/images/buttons/print_sel.png" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="print" />
-<roundcube:button command="export" imageSel="/images/buttons/download_sel.png" imageAct="/images/buttons/download_act.png" imagePas="/images/buttons/download_pas.png" width="32" height="32" title="export" />
 </div>
 
 <div id="quicksearchbar">
@@ -41,11 +38,6 @@
 <div id="addresslist">
 <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" summary="Contacts list" />
 </div>
-
-<script type="text/javascript">
-  var addrviewsplit = new rcube_splitter({id:'addressviewsplitter', p1: 'addresslist', p2: 'contacts-box', orientation: 'v'});
-  rcmail.add_onload('addrviewsplit.init()');
-</script>
 
 <div id="contacts-box">
 <roundcube:object name="addressframe" id="contact-frame" width="100%" height="100%" frameborder="0" src="/watermark.html" />

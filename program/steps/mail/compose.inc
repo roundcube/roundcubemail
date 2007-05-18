@@ -42,6 +42,8 @@ if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_POST['_
     }
   }
 
+// this version does not support HTML mails
+$CONFIG['htmleditor'] = false;
 
 $MESSAGE_FORM = NULL;
 $MESSAGE = NULL;
@@ -406,10 +408,6 @@ function rcmail_compose_body($attrib)
 
     $body = rcmail_create_draft_body($body, $isHtml);
     }
-
-  $OUTPUT->include_script('tiny_mce/tiny_mce.js');
-  $OUTPUT->include_script("editor.js");
-  $OUTPUT->add_script('rcmail_editor_init("$__skin_path");');
 
   $out = $form_start ? "$form_start\n" : '';
 
@@ -862,7 +860,6 @@ $OUTPUT->add_handlers(array(
   'composeattachmentform' => 'rcmail_compose_attachment_form',
   'composeattachment' => 'rcmail_compose_attachment_field',
   'priorityselector' => 'rcmail_priority_selector',
-  'editorselector' => 'rcmail_editor_selector',
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
 ));
 

@@ -101,7 +101,8 @@ CONFIGURATION
 =============
 
 Change the files in config/* according your to environment and your needs.
-Details about the config paramaters can be found in the config files.
+Details about the config parameters can be found in the config files
+or in the wiki: http://trac.roundcube.net/trac.cgi/wiki/Howto_Config
 
 
 UPGRADING

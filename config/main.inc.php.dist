@@ -5,7 +5,7 @@
  | Main configuration file                                               |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -121,7 +121,7 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 $rcmail_config['date_today'] = 'H:i';
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/0.1b';
+$rcmail_config['useragent'] = 'RoundCube Webmail/0.1-rc1';
 
 // use this name to compose page titles
 $rcmail_config['product_name'] = 'RoundCube Webmail';
@@ -231,9 +231,6 @@ $rcmail_config['dst_active'] = TRUE;
 // prefer displaying HTML messages
 $rcmail_config['prefer_html'] = TRUE;
 
-// compose html formatted messages by default
-$rcmail_config['htmleditor'] = TRUE;
-
 // show pretty dates as standard
 $rcmail_config['prettydate'] = TRUE;
 
@@ -245,9 +242,6 @@ $rcmail_config['message_sort_order'] = 'DESC';
 
 // save compose message every 300 seconds (5min)
 $rcmail_config['draft_autosave'] = 300;
-
-// default setting if preview pane is enabled
-$rcmail_config['preview_pane'] = FALSE;
 
 // end of config file
 ?>

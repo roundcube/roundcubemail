@@ -158,7 +158,7 @@ function rcmail_user_prefs_form($attrib)
     }
 
   // Show checkbox for HTML Editor
-  if (!isset($no_override['htmleditor']))
+  if (false && !isset($no_override['htmleditor']))
     {
     $field_id = 'rcmfd_htmleditor';
     $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
@@ -169,7 +169,7 @@ function rcmail_user_prefs_form($attrib)
     }
 
   // show config parameter for preview pane
-  if (!isset($no_override['preview_pane']))
+  if (false && !isset($no_override['preview_pane']))
     {
     $field_id = 'rcmfd_preview';
     $input_preview = new checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
