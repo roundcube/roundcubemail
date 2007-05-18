@@ -13,10 +13,7 @@ from version 1.0-beta2
 * run all commands in SQL/*.update.sql or re-initalize database with *.initial.sql
 * add these lines to /config/main.inc.php
   $rcmail_config['draft_autosave'] = 300;
-  $rcmail_config['htmleditor'] = TRUE;
-  $rcmail_config['preview_pane'] = TRUE;
   $rcmail_config['date_today'] = 'H:i';
-  $rcmail_config['double_auth'] = TRUE;
 * If you have LDAP servers configured, change prop key 'mail_field'
   to 'email_field' for each server confgured in /config/main.inc.php
 
@@ -36,6 +33,8 @@ form version 0.1-beta
   $rcmail_config['read_when_deleted'] = TRUE;
   $rcmail_config['enable_spellcheck'] = TRUE;
   $rcmail_config['protect_default_folders'] = TRUE;
+  $rcmail_config['draft_autosave'] = 300;
+  $rcmail_config['date_today'] = 'H:i';
 * replace the following line from /config/main.inc.php
    @include($_SERVER['HTTP_HOST'].'.inc.php');
   with 
