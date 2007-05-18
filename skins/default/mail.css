@@ -395,8 +395,7 @@ body.messagelist
   background: url(images/sort_desc.gif) top right no-repeat;
 }
 
-#messagelist thead tr td a,
-#messagelist tbody tr td a
+#messagelist thead tr td a
 {
   display: block;
   width: auto !important;
@@ -421,6 +420,7 @@ body.messagelist
 #messagelist tbody tr td a
 {
   color: #000;
+  text-decoration: none;
 }
 
 #messagelist col
