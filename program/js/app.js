@@ -343,9 +343,9 @@ function rcube_webmail()
     var uid = row.uid;
     if (uid && this.env.messages[uid])
       {
-      row.deleted = this.env.messages[uid].deleted;
-      row.unread = this.env.messages[uid].unread;
-      row.replied = this.env.messages[uid].replied;
+      row.deleted = this.env.messages[uid].deleted ? true : false;
+      row.unread = this.env.messages[uid].unread ? true : false;
+      row.replied = this.env.messages[uid].replied ? true : false;
       }
 
     // set eventhandler to message icon
