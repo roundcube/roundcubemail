@@ -1207,16 +1207,18 @@ function rcmail_sanitize_html($body, $container_id)
   $body = preg_replace('/<a\s+([^>]+)>/Uie', "rcmail_alter_html_link('\\1');", $body);
 
   // add comments arround html and other tags
-  $out = preg_replace(array('/(<\/?html[^>]*>)/i',
-                            '/(<\/?head[^>]*>)/i',
-                            '/(<title[^>]*>.*<\/title>)/Ui',
-                            '/(<\/?meta[^>]*>)/i'),
-                      '<!--\\1-->',
-                      $body);
+  $out = preg_replace(array(
+      '/(<!DOCTYPE.+)/i',
+      '/(<\/?html[^>]*>)/i',
+      '/(<\/?head[^>]*>)/i',
+      '/(<title[^>]*>.*<\/title>)/Ui',
+      '/(<\/?meta[^>]*>)/i'),
+    '<!--\\1-->',
+    $body);
 
-  $out = preg_replace(array('/(<body[^>]*>)/i',
-                            '/(<\/body>)/i'),
-                      array('<div class="rcmBody">',
+  $out = preg_replace(array('/<body([^>]*)>/i',
+                            '/<\/body>/i'),
+                      array('<div class="rcmBody"\\1>',
                             '</div>'),
                       $out);
 

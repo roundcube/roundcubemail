@@ -1244,12 +1244,14 @@ function rcube_webmail()
     if (!page && mbox != this.env.mailbox)
       {
       page = 1;
-      add_url += '&_refresh=1';
       this.env.current_page = page;
       if (this.message_list)
         this.message_list.clear_selection();
       this.show_contentframe(false);
       }
+    
+    if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
+      add_url += '&_refresh=1';
     
     this.select_folder(mbox, this.env.mailbox);
     this.env.mailbox = mbox;

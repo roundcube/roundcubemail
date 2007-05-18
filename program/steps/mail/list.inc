@@ -37,12 +37,13 @@ else
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
 }
 
+$mbox_name = $IMAP->get_mailbox_name();
 
 // fetch message headers
-if ($count = $IMAP->messagecount())
+if ($count = $IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))
   $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
 
-$unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_REQUEST['_refresh']) ? TRUE : FALSE);
+$unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_REQUEST['_refresh']));
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);
@@ -51,7 +52,7 @@ $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 
 // update mailboxlist
-$OUTPUT->command('set_unread_count', $IMAP->get_mailbox_name(), $unseen);
+$OUTPUT->command('set_unread_count', $mbox_name, $unseen);
 
 
 // add message rows
