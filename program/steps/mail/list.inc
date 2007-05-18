@@ -42,7 +42,7 @@ else
 if ($count = $IMAP->messagecount())
   $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
 
-$unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_GET['_refresh']) ? TRUE : FALSE);
+$unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_REQUEST['_refresh']) ? TRUE : FALSE);
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);

@@ -19,7 +19,7 @@
 
 */
 
-if (($cid = get_input_value('_cid', RCUBE_INPUT_GPC)) && preg_match('/^[0-9]+(,[0-9]+)*$/', $cid))
+if (($cid = get_input_value('_cid', RCUBE_INPUT_POST)) && preg_match('/^[0-9]+(,[0-9]+)*$/', $cid))
   {
   $deleted = $CONTACTS->delete($cid);
   if (!$deleted)

@@ -52,8 +52,8 @@ if (!isset($_SESSION['sort_order']))
   $_SESSION['sort_order'] = $CONFIG['message_sort_order'];
 
 // set message set for search result
-if (!empty($_GET['_search']) && isset($_SESSION['search'][$_GET['_search']]))
-  $IMAP->set_search_set($_SESSION['search'][$_GET['_search']]);
+if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
+  $IMAP->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
 
 
 // define url for getting message parts

@@ -26,7 +26,7 @@ rcmail_imap_init(TRUE);
 // subscribe to one or more mailboxes
 if ($_action=='subscribe')
   {
-  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_GET))
+  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_POST))
     $IMAP->subscribe(array($mboxes));
 
   if ($OUTPUT->ajax_call)
@@ -36,7 +36,7 @@ if ($_action=='subscribe')
 // unsubscribe one or more mailboxes
 else if ($_action=='unsubscribe')
   {
-  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_GET))
+  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_POST))
     $IMAP->unsubscribe(array($mboxes));
 
   if ($OUTPUT->ajax_call)
@@ -46,8 +46,8 @@ else if ($_action=='unsubscribe')
 // create a new mailbox
 else if ($_action=='create-folder')
   {
-  if (!empty($_GET['_name']))
-    $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_GET, FALSE, 'UTF-7')), TRUE);
+  if (!empty($_POST['_name']))
+    $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF-7')), TRUE);
 
   if ($create && $OUTPUT->ajax_call)
     {
@@ -66,8 +66,8 @@ else if ($_action=='create-folder')
 // rename a mailbox
 else if ($_action=='rename-folder')
   {
-  if (!empty($_GET['_folder_oldname']) && !empty($_GET['_folder_newname']))
-    $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_GET)), trim(get_input_value('_folder_newname', RCUBE_INPUT_GET, FALSE, 'UTF-7')));
+  if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
+    $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_POST)), trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, FALSE, 'UTF-7')));
     
   if ($rename && $OUTPUT->ajax_call)
     {
@@ -88,12 +88,12 @@ else if ($_action=='rename-folder')
 // delete an existing IMAP mailbox
 else if ($_action=='delete-folder')
   {
-  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_GET))
+  if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_POST))
     $deleted = $IMAP->delete_mailbox(array($mboxes));
 
   if ($OUTPUT->ajax_call && $deleted)
     {
-    $OUTPUT->command('remove_folder_row', get_input_value('_mboxes', RCUBE_INPUT_GET));
+    $OUTPUT->command('remove_folder_row', get_input_value('_mboxes', RCUBE_INPUT_POST));
     $OUTPUT->show_message('folderdeleted', 'confirmation');
     $OUTPUT->send();
     }

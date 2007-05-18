@@ -21,12 +21,12 @@
 $mbox_name = $IMAP->get_mailbox_name();
 
 // send EXPUNGE command
-if ($_action=='expunge')
+if ($_action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 {
-  $success = $IMAP->expunge(get_input_value('_mbox', RCUBE_INPUT_GET));
+  $success = $IMAP->expunge($mbox);
 
   // reload message list if current mailbox  
-  if ($success && !empty($_GET['_reload']))
+  if ($success && !empty($_REQUEST['_reload']))
   {
     $OUTPUT->command('message_list.clear');
     $_action = 'list';
@@ -37,11 +37,11 @@ if ($_action=='expunge')
 }
 
 // clear mailbox
-else if ($_action=='purge')
+else if ($_action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 {
-  $success = $IMAP->clear_mailbox(get_input_value('_mbox', RCUBE_INPUT_GET));
+  $success = $IMAP->clear_mailbox($mbox);
   
-  if ($success && !empty($_GET['_reload']))
+  if ($success && !empty($_REQUEST['_reload']))
   {
     $OUTPUT->set_env('messagecount', 0);
     $OUTPUT->set_env('pagecount', 0);

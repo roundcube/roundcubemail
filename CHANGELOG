@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/05/18 (thomasb)
+----------
+- Use HTTP-POST requests for actions that change state
+
+
 2007/05/17 (thomasb)
 ----------
 - Updated Catalan, Russian, Portuguese, Slovak and Chinese translations

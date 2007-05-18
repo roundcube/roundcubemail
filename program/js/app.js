@@ -1304,7 +1304,7 @@ function rcube_webmail()
 
     // send request to server
     var url = '_mbox='+urlencode(mbox);
-    this.http_request('expunge', url+add_url, lock);
+    this.http_post('expunge', url+add_url, lock);
     };
 
 
@@ -1326,7 +1326,7 @@ function rcube_webmail()
 
     // send request to server
     var url = '_mbox='+urlencode(mbox);
-    this.http_request('purge', url+add_url, lock);
+    this.http_post('purge', url+add_url, lock);
     return true;
     };
 
@@ -1432,7 +1432,7 @@ function rcube_webmail()
       add_url += '&_search='+this.env.search_request;
 
     // send request to server
-    this.http_request(action, '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
+    this.http_post(action, '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
     };
 
 
@@ -1511,7 +1511,7 @@ function rcube_webmail()
         }
       }
       
-    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
+    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   };
   
   // mark all message rows as deleted/undeleted
@@ -1588,7 +1588,7 @@ function rcube_webmail()
       }
     }
 
-    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag=undelete');
+    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag=undelete');
     return true;
   };
 
@@ -1615,7 +1615,7 @@ function rcube_webmail()
       }
     }
 
-    this.http_request('mark', '_uid='+a_uids.join(',')+'&_flag=delete');
+    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag=delete');
     return true;  
   };
 
@@ -1926,7 +1926,7 @@ function rcube_webmail()
   this.remove_attachment = function(name)
     {
     if (name)
-      this.http_request('remove-attachment', '_file='+urlencode(name));
+      this.http_post('remove-attachment', '_file='+urlencode(name));
 
     return true;
     };
@@ -2356,7 +2356,7 @@ function rcube_webmail()
       }
 
     // send request to server
-    this.http_request('delete', '_cid='+urlencode(a_cids.join(','))+'&_from='+(this.env.action ? this.env.action : ''));
+    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_from='+(this.env.action ? this.env.action : ''));
     return true;
     };
 
@@ -2440,7 +2440,7 @@ function rcube_webmail()
       name = form.elements['_folder_name'].value;
 
     if (name)
-      this.http_request('create-folder', '_name='+urlencode(name), true);
+      this.http_post('create-folder', '_name='+urlencode(name), true);
     else if (form.elements['_folder_name'])
       form.elements['_folder_name'].focus();
     };
@@ -2463,7 +2463,7 @@ function rcube_webmail()
       }
 
     if (oldname && newname)
-      this.http_request('rename-folder', '_folder_oldname='+urlencode(oldname)+'&_folder_newname='+urlencode(newname));
+      this.http_post('rename-folder', '_folder_oldname='+urlencode(oldname)+'&_folder_newname='+urlencode(newname));
     };
 
 
@@ -2520,7 +2520,7 @@ function rcube_webmail()
       {
       var newname = this.name_input ? this.name_input.value : null;
       if (this.edit_folder && newname)
-        this.http_request('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));        
+        this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));
       }
     // escape
     else if (key==27)
@@ -2535,7 +2535,7 @@ function rcube_webmail()
     this.reset_folder_rename();
     
     if (folder)
-      this.http_request('delete-folder', '_mboxes='+urlencode(folder));
+      this.http_post('delete-folder', '_mboxes='+urlencode(folder));
     };
 
 
@@ -2662,7 +2662,7 @@ function rcube_webmail()
     if ((form = this.gui_objects.editform) && form.elements['_unsubscribed'])
       this.change_subscription('_unsubscribed', '_subscribed', 'subscribe');
     else if (folder)
-      this.http_request('subscribe', '_mboxes='+urlencode(folder));
+      this.http_post('subscribe', '_mboxes='+urlencode(folder));
     };
 
 
@@ -2672,7 +2672,7 @@ function rcube_webmail()
     if ((form = this.gui_objects.editform) && form.elements['_subscribed'])
       this.change_subscription('_subscribed', '_unsubscribed', 'unsubscribe');
     else if (folder)
-      this.http_request('unsubscribe', '_mboxes='+urlencode(folder));
+      this.http_post('unsubscribe', '_mboxes='+urlencode(folder));
     };
     
 
@@ -2706,7 +2706,7 @@ function rcube_webmail()
           list_to[index] = new Option(a_folders[n]);
           }
           
-        this.http_request(action, '_mboxes='+urlencode(a_folders.join(',')));
+        this.http_post(action, '_mboxes='+urlencode(a_folders.join(',')));
         }
       }
       

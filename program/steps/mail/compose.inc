@@ -29,7 +29,7 @@ define('RCUBE_COMPOSE_DRAFT', 0x0108);
 
 
 // remove an attachment
-if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
+if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_POST['_file'], $regs))
   {
   $id = $regs[1];
   if (is_array($_SESSION['compose']['attachments'][$id]))

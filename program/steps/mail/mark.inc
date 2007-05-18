@@ -24,7 +24,7 @@ $a_flags_map = array(
   'read' => 'SEEN',
   'unread' => 'UNSEEN');
 
-if (($uids = get_input_value('_uid', RCUBE_INPUT_GET)) && ($flag = get_input_value('_flag', RCUBE_INPUT_GET)))
+if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_value('_flag', RCUBE_INPUT_POST)))
 {
   $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
   $marked = $IMAP->set_flag($uids, $flag);

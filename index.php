@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20070517                                                  |
+ | Version 0.1-20070518                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -285,7 +285,7 @@ if ($_task=='mail')
   if ($_action=='getunread')
     include('program/steps/mail/getunread.inc');
     
-  if ($_action=='list' && isset($_GET['_remote']))
+  if ($_action=='list' && isset($_REQUEST['_remote']))
     include('program/steps/mail/list.inc');
 
    if ($_action=='search')
@@ -323,7 +323,7 @@ if ($_task=='addressbook')
   if ($_action=='show')
     include('program/steps/addressbook/show.inc');  
 
-  if ($_action=='list' && $_GET['_remote'])
+  if ($_action=='list' && $_REQUEST['_remote'])
     include('program/steps/addressbook/list.inc');
 
   if ($_action=='search')
