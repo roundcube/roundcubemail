@@ -1258,7 +1258,7 @@ GoogieSpell.prototype.setLanguages = function(lang_dict) {
 
 GoogieSpell.prototype.decorateTextarea = function(id, /*optional*/spell_container_id, force_width) {
   var me = this;
-  
+
   if(typeof(id) == "string")
     this.text_area = AJS.getElement(id);
   else

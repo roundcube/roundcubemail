@@ -1613,7 +1613,7 @@ function console($msg)
  */
 function write_log($name, $line)
   {
-  global $CONFIG;
+  global $CONFIG, $INSTALL_PATH;
 
   if (!is_string($line))
     $line = var_export($line, true);

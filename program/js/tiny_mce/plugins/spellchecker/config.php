@@ -21,4 +21,6 @@
 	// Pspell shell specific settings
 	$spellCheckerConfig['tinypspellshell.aspell'] = '/usr/bin/aspell';
 	$spellCheckerConfig['tinypspellshell.tmp'] = '/tmp';
+	
+	$spellCheckerConfig['googlespell.url'] = 'https://www.google.com/tbproxy/spell?hl=en'
 ?>

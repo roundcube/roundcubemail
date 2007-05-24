@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
+ * $Id: editor_plugin_src.js 275 2007-05-01 15:35:08Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
@@ -98,6 +98,8 @@ var TinyMCE_MediaPlugin = {
 							break;
 
 						case 'clsid:6bf52a52-394a-11d3-b153-00c04f79faa6':
+						case 'clsid:22d6f312-b0f6-11d0-94ab-0080c74c7e95':
+						case 'clsid:05589fa1-c356-11ce-bf01-00aa0055595a':
 							nl[i].parentNode.replaceChild(TinyMCE_MediaPlugin._createImg('mceItemWindowsMedia', d, nl[i]), nl[i]);
 							break;
 
@@ -106,8 +108,6 @@ var TinyMCE_MediaPlugin = {
 							break;
 
 						case 'clsid:cfcdaa03-8be4-11cf-b84b-0020afbbccfa':
-						case 'clsid:22d6f312-b0f6-11d0-94ab-0080c74c7e95':
-						case 'clsid:05589fa1-c356-11ce-bf01-00aa0055595a':
 							nl[i].parentNode.replaceChild(TinyMCE_MediaPlugin._createImg('mceItemRealMedia', d, nl[i]), nl[i]);
 							break;
 					}
@@ -360,7 +360,7 @@ var TinyMCE_MediaPlugin = {
 		h += '>';
 
 		for (n in p) {
-			if (p[n] && typeof(p[n]) != "function") {
+			if (typeof(p[n]) != "undefined" && typeof(p[n]) != "function") {
 				h += '<param name="' + n + '" value="' + p[n] + '" />';
 
 				// Add extra url parameter if it's an absolute URL on WMP
