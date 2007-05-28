@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/05/28 (thomasb)
+---------
+- Fixed buggy imap_root settings (closes #1484379)
+- Prevent default events on subject links (#1484399)
+- Typo in rcube_smtp.inc
+
+
 2007/05/23 (estadtherr)
 ----------
 - Upgrade to TinyMCE v2.1.1.1
