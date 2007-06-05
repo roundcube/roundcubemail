@@ -82,6 +82,7 @@ require_once('include/rcube_imap.inc');
 require_once('include/bugs.inc');
 require_once('include/main.inc');
 require_once('include/cache.inc');
+require_once('lib/html2text.inc');
 require_once('PEAR.php');
 
 
@@ -143,6 +144,21 @@ if ($err_str = $DB->is_error())
 // error steps
 if ($_action=='error' && !empty($_GET['_code']))
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
+
+
+// handle HTML->text conversion
+if ($_action=='html2text')
+{
+    $htmlText = $HTTP_RAW_POST_DATA;
+    $converter = new html2text($htmlText);
+
+  	// TODO possibly replace with rcube_remote_response()
+  	header('Content-Type: text/plain');
+  	$plaintext = $converter->get_text();
+  	print $plaintext;
+
+  	exit;
+}
 
 
 // try to log in

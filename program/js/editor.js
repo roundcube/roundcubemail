@@ -100,7 +100,6 @@ function rcmail_html2plain(htmlText)
   http_request.onerror = function(o) { rcmail_handle_toggle_error(o); };
   http_request.oncomplete = function(o) { rcmail_set_text_value(o); };
   var url=rcmail.env.comm_path+'&_action=html2text';
-  console('HTTP request: ' + url);
   http_request.POST(url, htmlText, 'application/octet-stream');
   }
 

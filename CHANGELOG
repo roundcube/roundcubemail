@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/06/04 (estadtherr)
+----------
+- Fixed bug in HTML->Plain editor toggling
+
+
 2007/05/28 (thomasb)
 ---------
 - Fixed buggy imap_root settings (closes #1484379)
