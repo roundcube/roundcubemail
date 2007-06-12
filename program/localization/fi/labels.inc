@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Ville Alatalo <ville@alatalo.org>                             |
+ |         Veljo Velling <veve@utu.fi>                                   |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -18,44 +19,35 @@
 */
 
 $labels = array();
-
-// login page
-$labels['username']  = 'Käyttäjätunnus';
-$labels['password']  = 'Salasana';
-$labels['server']    = 'Palvelin';
-$labels['login']     = 'Kirjaudu';
-
-// taskbar
-$labels['logout']   = 'Kirjaudu ulos';
-$labels['mail']     = 'Sähköposti';
+$labels['welcome'] = 'Tervetuloa $product -käyttäjäksi';
+$labels['username'] = 'Käyttäjätunnus';
+$labels['password'] = 'Salasana';
+$labels['server'] = 'Palvelin';
+$labels['login'] = 'Kirjaudu';
+$labels['logout'] = 'Kirjaudu ulos';
+$labels['mail'] = 'Sähköposti';
 $labels['settings'] = 'Omat asetukset';
 $labels['addressbook'] = 'Osoitekirja';
-
-// mailbox names
-$labels['inbox']  = 'Saapuneet';
-$labels['sent']   = 'Lähetetyt';
-$labels['trash']  = 'Roskakori';
-$labels['drafts'] = 'Drafts';
-$labels['junk']   = 'Roskaposti';
-
-// message listing
+$labels['inbox'] = 'Saapuneet';
+$labels['drafts'] = 'Luonnokset';
+$labels['sent'] = 'Lähetetyt';
+$labels['trash'] = 'Roskakori';
+$labels['junk'] = 'Roskaposti';
 $labels['subject'] = 'Aihe';
-$labels['from']    = 'Lähettäjä';
-$labels['to']      = 'Vastaanottaja';
-$labels['cc']      = 'Kopio';
-$labels['bcc']     = 'Piilokopio';
-$labels['replyto'] = 'Reply-To';
-$labels['date']    = 'Päiväys';
-$labels['size']    = 'Koko';
+$labels['from'] = 'Lähettäjä';
+$labels['to'] = 'Vastaanottaja';
+$labels['cc'] = 'Kopio';
+$labels['bcc'] = 'Piilokopio';
+$labels['replyto'] = 'Vastaus osoitteeseen';
+$labels['date'] = 'Päiväys';
+$labels['size'] = 'Koko';
 $labels['priority'] = 'Tärkeys';
 $labels['organization'] = 'Organisaatio';
-
-// aliases
-$labels['reply-to'] = $labels['replyto'];
+$labels['reply-to'] = 'Vastaus osoitteeseen';
 $labels['mailboxlist'] = 'Kansiot';
 $labels['messagesfromto'] = 'Viestit $from-$to/$count';
 $labels['messagenrof'] = 'Viesti $nr/$count';
-$labels['moveto']   = 'siirrä...';
+$labels['moveto'] = 'siirrä...';
 $labels['download'] = 'lataa';
 $labels['filename'] = 'Tiedoston nimi';
 $labels['filesize'] = 'Tiedoston koko';
@@ -63,8 +55,6 @@ $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['htmlmessage'] = 'HTML-viesti';
 $labels['prettydate'] = 'Nätit päiväykset';
 $labels['addtoaddressbook'] = 'Lisää osoitekirjaan';
-
-// weekdays short
 $labels['sun'] = 'Su';
 $labels['mon'] = 'Ma';
 $labels['tue'] = 'Ti';
@@ -72,122 +62,120 @@ $labels['wed'] = 'Ke';
 $labels['thu'] = 'To';
 $labels['fri'] = 'Pe';
 $labels['sat'] = 'La';
-
-// weekdays long
-$labels['sunday']    = 'Sunnuntai';
-$labels['monday']    = 'Maanantai';
-$labels['tuesday']   = 'Tiistai';
+$labels['sunday'] = 'Sunnuntai';
+$labels['monday'] = 'Maanantai';
+$labels['tuesday'] = 'Tiistai';
 $labels['wednesday'] = 'Keskiviikko';
-$labels['thursday']  = 'Torstai';
-$labels['friday']    = 'Perjantai';
-$labels['saturday']  = 'Lauantai';
+$labels['thursday'] = 'Torstai';
+$labels['friday'] = 'Perjantai';
+$labels['saturday'] = 'Lauantai';
 $labels['today'] = 'Tänään';
-
-// toolbar buttons
-$labels['writenewmessage']  = 'Kirjoita uusi viesti';
-$labels['replytomessage']   = 'Vastaa viestiin';
+$labels['checkmail'] = 'Tarkista saapuneet viestit';
+$labels['writenewmessage'] = 'Kirjoita uusi viesti';
+$labels['replytomessage'] = 'Vastaa viestiin';
 $labels['replytoallmessage'] = 'Vastaa kaikille';
-$labels['forwardmessage']   = 'Välitä viesti';
-$labels['deletemessage']    = 'Siirrä viesti roskakoriin';
-$labels['printmessage']     = 'Tulosta viesti';
+$labels['forwardmessage'] = 'Välitä viesti';
+$labels['deletemessage'] = 'Siirrä viesti roskakoriin';
+$labels['printmessage'] = 'Tulosta viesti';
+$labels['previousmessage'] = 'Näytä edellinen viesti';
 $labels['previousmessages'] = 'Näytä edelliset viestit';
-$labels['nextmessages']     = 'Näytä seuraavat viestit';
-$labels['backtolist']       = 'Takaisin viesteihin';
-$labels['viewsource']       = 'Näytä lähdekoodi';
-
+$labels['firstmessage'] = 'Näytä ensimmäinen viesti';
+$labels['firstmessages'] = 'Näytä ensimmäinen viestiluettelo';
+$labels['nextmessage'] = 'Näytä edellinen viesti';
+$labels['nextmessages'] = 'Näytä seuraavat viestit';
+$labels['lastmessage'] = 'Näytä viimeinen viesti';
+$labels['lastmessages'] = 'Näytä viimeinen viestiluettelo';
+$labels['backtolist'] = 'Takaisin viesteihin';
+$labels['viewsource'] = 'Näytä lähdekoodi';
 $labels['select'] = 'Valitse';
 $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mitään';
 $labels['unread'] = 'Lukemattomat';
-
-$labels['compact'] = 'Compact';
+$labels['compact'] = 'Tiivistä';
 $labels['empty'] = 'Empty';
-$labels['purge'] = 'Purge';
-
+$labels['purge'] = 'Puhdista';
 $labels['quota'] = 'Levytila';
-
-// message compose
-$labels['compose']  = 'Viestin kirjoitus';
-$labels['sendmessage']  = 'Lähetä viesti';
-$labels['addattachment']  = 'Liitetiedosto';
-$labels['charset']  = 'Merkistö';
-
+$labels['unknown'] = 'tuntematon';
+$labels['unlimited'] = 'rajoittamaton';
+$labels['quicksearch'] = 'Pikahaku';
+$labels['resetsearch'] = 'Nollaa haku';
+$labels['compose'] = 'Viestin kirjoitus';
+$labels['sendmessage'] = 'Lähetä viesti';
+$labels['savemessage'] = 'Tallenna tämä luonnos';
+$labels['addattachment'] = 'Liitetiedosto';
+$labels['charset'] = 'Merkistö';
+$labels['editortype'] = 'Editorin tyyppi';
+$labels['returnreceipt'] = 'Perillesaapumisilmoitus';
+$labels['checkspelling'] = 'Tarkista oikeinkirjoitus';
+$labels['resumeediting'] = 'Jatka muokkausta';
+$labels['revertto'] = 'Muuta takaisin';
 $labels['attachments'] = 'Liitetiedostot';
 $labels['upload'] = 'Lisää';
-$labels['close']  = 'Sulje';
-
-$labels['low']     = 'Matala';
-$labels['lowest']  = 'Matalin';
-$labels['normal']  = 'Normaali';
-$labels['high']    = 'Korkea';
+$labels['close'] = 'Sulje';
+$labels['low'] = 'Matala';
+$labels['lowest'] = 'Matalin';
+$labels['normal'] = 'Normaali';
+$labels['high'] = 'Korkea';
 $labels['highest'] = 'Korkein';
-
-$labels['nosubject']  = '(ei otsikkoa)';
+$labels['nosubject'] = '(ei otsikkoa)';
 $labels['showimages'] = 'Näytä kuvat';
-
-// address boook
-$labels['name']      = 'Näkyvä nimi';
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Tavallinen teksti';
+$labels['name'] = 'Näkyvä nimi';
 $labels['firstname'] = 'Etunimi';
-$labels['surname']   = 'Sukunimi';
-$labels['email']     = 'E-Mail';
-
-$labels['addcontact'] = 'Lisää kontakti';
+$labels['surname'] = 'Sukunimi';
+$labels['email'] = 'E-Mail';
+$labels['addcontact'] = 'Lisää valittu kontakti osoitekirjaan';
 $labels['editcontact'] = 'Muokkaa kontaktia';
-
-$labels['edit']   = 'Muokkaa';
+$labels['edit'] = 'Muokkaa';
 $labels['cancel'] = 'Peruuta';
-$labels['save']   = 'Tallenna';
+$labels['save'] = 'Tallenna';
 $labels['delete'] = 'Poista';
-
-$labels['newcontact']     = 'Luo uusi kontakti';
-$labels['addcontact']     = 'Lisää valittu kontakti osoitekirjaan';
-$labels['deletecontact']  = 'Poista valitut kontaktit';
-$labels['composeto']      = 'Kirjoita viesti kontaktille';
+$labels['newcontact'] = 'Luo uusi kontakti';
+$labels['deletecontact'] = 'Poista valitut kontaktit';
+$labels['composeto'] = 'Kirjoita viesti kontaktille';
 $labels['contactsfromto'] = 'Kontaktit $from-$to/$count';
-$labels['print']          = 'Tulosta';
-$labels['export']         = 'Vie (export)';
-
-// LDAP search
-$labels['ldapsearch'] = 'LDAP hakemistohaku';
-
-$labels['ldappublicsearchname']    = 'Kontaktin nimi';
-$labels['ldappublicsearchtype'] = 'Tarkka osuma?';
-$labels['ldappublicserverselect'] = 'Valitse palvelimet';
-$labels['ldappublicsearchfield'] = 'Hakusana';
-$labels['ldappublicsearchform'] = 'Etsi kontaktia';
-$labels['ldappublicsearch'] = 'Hae';
-
-// settings
-$labels['settingsfor']  = 'Asetukset';
-
-$labels['preferences']  = 'Asetukset';
-$labels['userpreferences']  = 'Käyttäjän asetukset';
-$labels['editpreferences']  = 'Muokkaa käyttäjän asetuksia';
-
-$labels['identities']  = 'Identiteetit';
-$labels['manageidentities']  = 'Muokkaa tunnuksen identiteettejä';
-$labels['newidentity']  = 'Uusi identiteetti';
-
-$labels['newitem']  = 'Uusi';
-$labels['edititem']  = 'Muokkaa';
-
-$labels['setdefault']  = 'Aseta vakioksi';
-$labels['language']  = 'Kieli';
-$labels['timezone']  = 'Aikavyöhyke';
-$labels['pagesize']  = 'Rivejä sivulla';
+$labels['print'] = 'Tulosta';
+$labels['export'] = 'Vie (export)';
+$labels['previouspage'] = 'Näytä edellinen luettelo';
+$labels['firstpage'] = 'Näytä ensimmäinen luettelo';
+$labels['nextpage'] = 'Näytä seuraava luettelo';
+$labels['lastpage'] = 'Näytä viimeinen luettelo';
+$labels['groups'] = 'Ryhmät';
+$labels['personaladrbook'] = 'Hensilökohtaiset osoitteet';
+$labels['settingsfor'] = 'Asetukset';
+$labels['preferences'] = 'Asetukset';
+$labels['userpreferences'] = 'Käyttäjän asetukset';
+$labels['editpreferences'] = 'Muokkaa käyttäjän asetuksia';
+$labels['identities'] = 'Identiteetit';
+$labels['manageidentities'] = 'Muokkaa tunnuksen identiteettejä';
+$labels['newidentity'] = 'Uusi identiteetti';
+$labels['newitem'] = 'Uusi';
+$labels['edititem'] = 'Muokkaa';
+$labels['setdefault'] = 'Aseta vakioksi';
+$labels['language'] = 'Kieli';
+$labels['timezone'] = 'Aikavyöhyke';
+$labels['pagesize'] = 'Rivejä sivulla';
 $labels['signature'] = 'Allekirjoitus';
-
-$labels['folder']  = 'Kansio';
-$labels['folders']  = 'Kansiot';
-$labels['foldername']  = 'Kansion nimi';
-$labels['subscribed']  = 'Näytetään';
-$labels['create']  = 'Luo uusi';
-$labels['createfolder']  = 'Luo uusi kansio';
-$labels['deletefolder']  = 'Poista kansio';
-$labels['managefolders']  = 'Kansioiden ylläpito';
-
+$labels['dstactive'] = 'Kesäaika';
+$labels['htmleditor'] = 'Kirjoita HTML-muodossa';
+$labels['htmlsignature'] = 'HTML-allekirjoitus';
+$labels['previewpane'] = 'Näytä esikatselulehti';
+$labels['autosavedraft'] = 'Tallenna luonnos automaattisesti';
+$labels['everynminutes'] = '$n minuutin välein';
+$labels['never'] = 'ei koskaan';
+$labels['folder'] = 'Kansio';
+$labels['folders'] = 'Kansiot';
+$labels['foldername'] = 'Kansion nimi';
+$labels['subscribed'] = 'Näytetään';
+$labels['create'] = 'Luo uusi';
+$labels['createfolder'] = 'Luo uusi kansio';
+$labels['rename'] = 'Nimeä uudelleen';
+$labels['renamefolder'] = 'Nimeä kansio uudelleen';
+$labels['deletefolder'] = 'Poista kansio';
+$labels['managefolders'] = 'Kansioiden ylläpito';
 $labels['sortby'] = 'Järjestä';
-$labels['sortasc']  = 'Järjestä nousevasti';
+$labels['sortasc'] = 'Järjestä nousevasti';
 $labels['sortdesc'] = 'Järjestä laskevasti';
 
 ?>

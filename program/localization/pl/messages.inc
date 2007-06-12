@@ -39,6 +39,7 @@ $messages['contactexists'] = 'Kontakt o podanym adresie e-mail istnieje!';
 $messages['blockedimages'] = 'Ze względów bezpieczeństwa zewnętrzne obrazki zostały zablokowane.';
 $messages['encryptedmessage'] = 'Przepraszamy, nie można wyświeltlić zaszyfrowanej wiadomości!';
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
+$messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony';
 $messages['sendingfailed'] = 'Nie udało się wysłać wiadomości!';
 $messages['errorsaving'] = 'Błąd podczas zapisu!';
 $messages['errormoving'] = 'Nie można przenieść wybranej wiadomości!';
@@ -69,5 +70,9 @@ $messages['converting'] = 'Konwertuję wiadomość';
 $messages['messageopenerror'] = 'Nie można załadować wiadomości z serwera';
 $messages['fileuploaderror'] = 'Załączanie pliku nie powiodło się';
 $messages['filesizeerror'] = 'Plik przekracza maksymalną wielkość $size';
+$messages['copysuccess'] = 'Pomyślnie skopiowano $nr adres(ów)';
+$messages['copyerror'] = 'Nie można skopiować żadnego adresu';
+$messages['sourceisreadonly'] = 'Żródło adresu jest tylko do odczytu';
+$messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu';
 
 ?>

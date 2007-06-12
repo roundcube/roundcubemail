@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Ville Alatalo <ville@alatalo.org>                             |
+ |         Veljo Velling <veve@utu.fi>                                   |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -18,7 +19,7 @@
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Sisäänkirjautuminen epäonnistui';
+$messages['loginfailed'] = 'Sisäänkirjautuminen epäonnistui';
 $messages['cookiesdisabled'] = 'Selaimesi ei hyväksy evästeitä';
 $messages['sessionerror'] = 'Sessio ei kelpaa tai ei ole enää voimassa';
 $messages['imaperror'] = 'Yhteys IMAP-palvelimeen epäonnistui';
@@ -27,31 +28,51 @@ $messages['loggedout'] = 'Sinut on kirjattu ulos järjestelmästä.';
 $messages['mailboxempty'] = 'Kansio on tyhjä';
 $messages['loading'] = 'Ladataan...';
 $messages['loadingdata'] = 'Ladataan tietoja...';
+$messages['checkingmail'] = 'Tarkistetaan saapuneita viestejä...';
 $messages['sendingmessage'] = 'Lähetetään viestiä...';
 $messages['messagesent'] = 'Viesti lähetetty';
+$messages['savingmessage'] = 'Tallennetaan viestiä...';
+$messages['messagesaved'] = 'Viesti tallennettu "Luonnokset" -kansioon';
 $messages['successfullysaved'] = 'Tallennus onnistui';
 $messages['addedsuccessfully'] = 'Kontakti lisätty osoitekirjaan';
 $messages['contactexists'] = 'Samalla sähköpostiosoitteella on jo olemassa kontakti';
 $messages['blockedimages'] = 'Turvallisuussyistä viestin kuvia ei näytetty.';
 $messages['encryptedmessage'] = 'Viesti on salattu, eikä sitä voida näyttää.';
 $messages['nocontactsfound'] = 'Ei kontakteja';
+$messages['contactnotfound'] = 'Pyydettyä yhteystietoa ei löytynyt';
 $messages['sendingfailed'] = 'Viestin lähetys epäonnistui';
 $messages['errorsaving'] = 'Tallennuksessa tapahtui virhe';
 $messages['errormoving'] = 'Viestiä ei voitu siirtää';
 $messages['errordeleting'] = 'Viestiä ei voitu poistaa';
-$messages['deletecontactconfirm']  = 'Haluatko varmasti poistaa valitut kontaktit?';
-$messages['deletefolderconfirm']  = 'Haluatko varmasti poistaa kansion?';
-$messages['purgefolderconfirm']  = 'Haluatko varmasti poistaa kaikki viestit kansiosta?';
+$messages['deletecontactconfirm'] = 'Haluatko varmasti poistaa valitut kontaktit?';
+$messages['deletemessagesconfirm'] = 'Haluatko varmasti poistaa valitut viestit?';
+$messages['deletefolderconfirm'] = 'Haluatko varmasti poistaa kansion?';
+$messages['purgefolderconfirm'] = 'Haluatko varmasti poistaa kaikki viestit kansiosta?';
 $messages['formincomplete'] = 'Lomakkeen tiedot olivat puutteelliset';
 $messages['noemailwarning'] = 'Anna sähköpostiosoite';
-$messages['nonamewarning']  = 'Anna nimi';
+$messages['nonamewarning'] = 'Anna nimi';
 $messages['nopagesizewarning'] = 'Anna sivukoko';
 $messages['norecipientwarning'] = 'Anna ainakin yksi vastaanottaja';
-$messages['nosubjectwarning']  = '"Otsikko" -kenttä on tyhjä. Haluaisitko kirjoittaa viestillesi otsikon?';
+$messages['nosubjectwarning'] = '"Otsikko" -kenttä on tyhjä. Haluaisitko kirjoittaa viestillesi otsikon?';
 $messages['nobodywarning'] = 'Lähetetäänkö viesti ilman tekstiä?';
 $messages['notsentwarning'] = 'Viestiä ei lähetetty. Haluatko poistaa viestin?';
-$messages['noldapserver'] = 'Valitse ldap -palvelin';
+$messages['noldapserver'] = 'Valitse LDAP -palvelin';
 $messages['nocontactsreturned'] = 'Yhtään kontaktia ei löytynyt';
 $messages['nosearchname'] = 'Anna kontaktin nimi tai sähköpostiosoite';
+$messages['searchsuccessful'] = 'Löydetty $nr viestiä';
+$messages['searchnomatch'] = 'Haku ei tuottanut tuloksia';
+$messages['searching'] = 'Etsitään...';
+$messages['checking'] = 'Tarkistetaan...';
+$messages['nospellerrors'] = 'Kirjoitusvirheitä ei löytynyt';
+$messages['folderdeleted'] = 'Kansio poistettu onnistuneesti';
+$messages['deletedsuccessfully'] = 'Poistettu onnistuneesti';
+$messages['converting'] = 'Poistetaan asettelu viestistä...';
+$messages['messageopenerror'] = 'Virhe kopioitaessa viestiä palvelimelta';
+$messages['fileuploaderror'] = 'Tiedoston lähettäminen epäonnistui';
+$messages['filesizeerror'] = 'Lähetettävä tiedosto ylittää sallitun enimmäiskoon $size';
+$messages['copysuccess'] = 'Kopioitu $nr osoitetta onnistuneesti';
+$messages['copyerror'] = 'Yhtään osoitetta ei voitu kopioida';
+$messages['sourceisreadonly'] = 'Tämän osoitteen lähde on kirjoitussuojattu';
+$messages['errorsavingcontact'] = 'Yhteystietoa ei voitu tallentaa';
 
 ?>

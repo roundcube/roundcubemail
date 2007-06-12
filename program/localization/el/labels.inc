@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Jim Deves <jim@cobaltblue.gr>                                 |
+ |         John Economou <hsoc@irc.gr>                                   | 
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -18,59 +19,42 @@
 */
 
 $labels = array();
-
-// login page
-$labels['welcome']   = 'Καλώς ήρθατε στο $product';
-$labels['username']  = 'Όνομα Χρήστη';
-$labels['password']  = 'Κωδικός Πρόσβασης';
-$labels['server']    = 'Διακομιστής';
-$labels['login']     = 'Είσοδος';
-
-// taskbar
-$labels['logout']   = 'Έξοδος';
-$labels['mail']     = 'E-Mail';
+$labels['welcome'] = 'Καλώς ήρθατε στο $product';
+$labels['username'] = 'Όνομα Χρήστη';
+$labels['password'] = 'Κωδικός Πρόσβασης';
+$labels['server'] = 'Διακομιστής';
+$labels['login'] = 'Είσοδος';
+$labels['logout'] = 'Έξοδος';
+$labels['mail'] = 'E-Mail';
 $labels['settings'] = 'Προσωπικές Ρυθμίσεις';
 $labels['addressbook'] = 'Βιβλίο Διευθύνσεων';
-
-// mailbox names
-$labels['inbox']  = 'Εισερχόμενα';
-$labels['sent']   = 'Απεσταλμένα';
-$labels['trash']  = 'Κάδος';
+$labels['inbox'] = 'Εισερχόμενα';
 $labels['drafts'] = 'Πρόχειρα';
-$labels['junk']   = 'Junk';
-
-// message listing
+$labels['sent'] = 'Απεσταλμένα';
+$labels['trash'] = 'Κάδος';
+$labels['junk'] = 'Junk';
 $labels['subject'] = 'Θέμα';
-$labels['from']    = 'Αποστολέας';
-$labels['to']      = 'Παραλήπτης';
-$labels['cc']      = 'Αντίγραφο';
-$labels['bcc']     = 'Bcc';
+$labels['from'] = 'Αποστολέας';
+$labels['to'] = 'Παραλήπτης';
+$labels['cc'] = 'Αντίγραφο';
+$labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'Απάντηση σε';
-$labels['date']    = 'Ημ/νία';
-$labels['size']    = 'Μέγεθος';
-$labels['priority'] = 'Πρωτεραιότητα';
+$labels['date'] = 'Ημ/νία';
+$labels['size'] = 'Μέγεθος';
+$labels['priority'] = 'Πρoτεραιότητα';
 $labels['organization'] = 'Οργανισμός';
-
-// aliases
-$labels['reply-to'] = $labels['replyto'];
-
+$labels['reply-to'] = 'Απάντηση σε';
 $labels['mailboxlist'] = 'Φάκελοι';
 $labels['messagesfromto'] = 'Μηνύματα $from από $to έως $count';
 $labels['messagenrof'] = 'Μήνυμα $nr από $count';
-
-$labels['moveto']   = 'μετακίνηση σε...';
+$labels['moveto'] = 'μετακίνηση σε...';
 $labels['download'] = 'κατέβασμα';
-
 $labels['filename'] = 'Όνομα αρχείου';
-$labels['filesize'] = 'Μέγεθος Αρχείου';
-
+$labels['filesize'] = 'Μέγεθος αρχείου';
 $labels['preferhtml'] = 'Προτίμηση HTML';
 $labels['htmlmessage'] = 'Μήνυμα HTML';
 $labels['prettydate'] = 'Όμορφη ημ/νία';
-
 $labels['addtoaddressbook'] = 'Προσθήκη στο Βιβλίο Διευθύνσεων';
-
-// weekdays short
 $labels['sun'] = 'Κυρ';
 $labels['mon'] = 'Δευτ';
 $labels['tue'] = 'Τρι';
@@ -78,144 +62,120 @@ $labels['wed'] = 'Τετ';
 $labels['thu'] = 'Πεμ';
 $labels['fri'] = 'Παρ';
 $labels['sat'] = 'Σαβ';
-
-// weekdays long
-$labels['sunday']    = 'Κυριακή';
-$labels['monday']    = 'Δευτέρα';
-$labels['tuesday']   = 'Τρίτη';
+$labels['sunday'] = 'Κυριακή';
+$labels['monday'] = 'Δευτέρα';
+$labels['tuesday'] = 'Τρίτη';
 $labels['wednesday'] = 'Τετάρτη';
-$labels['thursday']  = 'Πέμπτη';
-$labels['friday']    = 'Παρασκευή';
-$labels['saturday']  = 'Σάββατο';
-
+$labels['thursday'] = 'Πέμπτη';
+$labels['friday'] = 'Παρασκευή';
+$labels['saturday'] = 'Σάββατο';
 $labels['today'] = 'Σήμερα';
-
-// toolbar buttons
-$labels['checkmail']        = 'Έλεγχος για νέα μηνύματα';
-$labels['writenewmessage']  = 'Δημιουργία νέου μηνύματος';
-$labels['replytomessage']   = 'Απάντηση';
+$labels['checkmail'] = 'Έλεγχος για νέα μηνύματα';
+$labels['writenewmessage'] = 'Δημιουργία νέου μηνύματος';
+$labels['replytomessage'] = 'Απάντηση';
 $labels['replytoallmessage'] = 'Απάντηση στον αποστολέα και όλους τους παραλήπτες';
-$labels['forwardmessage']   = 'Προώθηση μηνύματος';
-$labels['deletemessage']    = 'Μετακίνηση στον Κάδο';
-$labels['printmessage']     = 'Εκτύπωση';
+$labels['forwardmessage'] = 'Προώθηση μηνύματος';
+$labels['deletemessage'] = 'Μετακίνηση στον Κάδο';
+$labels['printmessage'] = 'Εκτύπωση';
+$labels['previousmessage'] = 'Εμφάνιση προηγούμενου μηνύματος';
 $labels['previousmessages'] = 'Εμφάνιση προηγούμενης ομάδας μηνυμάτων';
-$labels['nextmessages']     = 'Εμφάνιση επόμενης ομάδας μηνυμάτων';
-$labels['backtolist']       = 'Επιστροφή στη λίστα μηνυμάτων';
-$labels['viewsource']       = 'Προβολή πηγαίου κώδικα';
-
+$labels['firstmessage'] = 'Εμφάνιση πρώτου μυνήματος';
+$labels['firstmessages'] = 'Εμφάνιση πρώτης ομάδας μηνυμάτων';
+$labels['nextmessage'] = 'Εμφάνιση επόμενου μηνύματος';
+$labels['nextmessages'] = 'Εμφάνιση επόμενης ομάδας μηνυμάτων';
+$labels['lastmessage'] = 'Εμφάνιση τελευταίου μηνύματος';
+$labels['lastmessages'] = 'Εμφάνιση τελευταίας ομάδας μηνυμάτων';
+$labels['backtolist'] = 'Επιστροφή στη λίστα μηνυμάτων';
+$labels['viewsource'] = 'Προβολή πηγαίου κώδικα';
 $labels['select'] = 'Επιλογή';
 $labels['all'] = 'Όλα';
 $labels['none'] = 'Κανένα';
 $labels['unread'] = 'Μη αναγνωσμένα';
-
 $labels['compact'] = 'Συμπίεση';
-$labels['empty'] = 'Άδειασμα';
+$labels['empty'] = '’δειασμα';
 $labels['purge'] = 'Καθάρισμα';
-
 $labels['quota'] = 'Χρήση δίσκου';
-$labels['unknown']  = 'άγνωστο';
-$labels['unlimited']  = 'απεριόριστο';
-
-$labels['quicksearch']  = 'Γρήγορη Εύρεση';
-$labels['resetsearch']  = 'Επαναφορά Εύρεσης';
-
-
-// message compose
-$labels['compose']  = 'Συγγραφή μηνύματος';
-$labels['savemessage']  = 'Αποθήκευση ως πρόχειρου';
-$labels['sendmessage']  = 'Αποστολή μηνύματος τώρα';
-$labels['addattachment']  = 'Επισύναψη αρχείου';
-$labels['charset']  = 'Charset';
+$labels['unknown'] = 'άγνωστο';
+$labels['unlimited'] = 'απεριόριστο';
+$labels['quicksearch'] = 'Γρήγορη Εύρεση';
+$labels['resetsearch'] = 'Επαναφορά Εύρεσης';
+$labels['compose'] = 'Συγγραφή μηνύματος';
+$labels['sendmessage'] = 'Αποστολή μηνύματος τώρα';
+$labels['savemessage'] = 'Αποθήκευση ως πρόχειρου';
+$labels['addattachment'] = 'Επισύναψη αρχείου';
+$labels['charset'] = 'Charset';
+$labels['editortype'] = 'Είδος επεξεργαστή κειμένου';
 $labels['returnreceipt'] = 'Αναφορά Παράδοσης';
-
 $labels['checkspelling'] = 'Έλεγχος ορθογραφίας';
 $labels['resumeediting'] = 'Συνέχιση επεξεργασίας';
 $labels['revertto'] = 'Επαναφορά σε';
-
 $labels['attachments'] = 'Επισυνημένα';
 $labels['upload'] = 'Ανέβασμα';
-$labels['close']  = 'Κλείσιμο';
-
-$labels['low']     = 'Χαμηλή';
-$labels['lowest']  = 'Χαμηλότερη';
-$labels['normal']  = 'Κανονική';
-$labels['high']    = 'Υψηλή';
+$labels['close'] = 'Κλείσιμο';
+$labels['low'] = 'Χαμηλή';
+$labels['lowest'] = 'Χαμηλότερη';
+$labels['normal'] = 'Κανονική';
+$labels['high'] = 'Υψηλή';
 $labels['highest'] = 'Υψηλότερη';
-
-$labels['nosubject']  = '(κανένα θέμα)';
+$labels['nosubject'] = '(κανένα θέμα)';
 $labels['showimages'] = 'Εμφάνιση εικόνων';
-
-
-// address boook
-$labels['name']      = 'Εμφανιζόμενο όνομα';
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Απλό κείμενο';
+$labels['name'] = 'Εμφανιζόμενο όνομα';
 $labels['firstname'] = 'Όνομα';
-$labels['surname']   = 'Επίθετο';
-$labels['email']     = 'E-Mail';
-
-$labels['addcontact'] = 'Προσθήκη επαφής';
+$labels['surname'] = 'Επώνυμο';
+$labels['email'] = 'E-Mail';
+$labels['addcontact'] = 'Προσθήκη επιλεγμένης επαφής στο Βιβλίο Διευθύνσεων';
 $labels['editcontact'] = 'Επεξεργασία επαφής';
-
-$labels['edit']   = 'Επεξεργασία';
+$labels['edit'] = 'Επεξεργασία';
 $labels['cancel'] = 'Ακύρωση';
-$labels['save']   = 'Αποθήκευση';
+$labels['save'] = 'Αποθήκευση';
 $labels['delete'] = 'Διαγραφή';
-
-$labels['newcontact']     = 'Δημιουργία νέας καρτέλας επαφής';
-$labels['addcontact']     = 'Προσθήκη επιλεγμένης επαφής στο Βιβλίο Διευθύνσεων';
-$labels['deletecontact']  = 'Διαγραφή επιλεγμένων επαφών';
-$labels['composeto']      = 'Σύνθεση μηνύματος προς';
+$labels['newcontact'] = 'Δημιουργία νέας καρτέλας επαφής';
+$labels['deletecontact'] = 'Διαγραφή επιλεγμένων επαφών';
+$labels['composeto'] = 'Σύνθεση μηνύματος προς';
 $labels['contactsfromto'] = 'Επαφή $from από $to έως $count';
-$labels['print']          = 'Εκτύπωση';
-$labels['export']         = 'Εξαγωγή';
-
-$labels['previouspage']   = 'Εμφάνιση προηγούμενης σελίδας';
-$labels['nextpage']       = 'Εμφάνιση επόμενης σελίδας';
-
-// LDAP search
-$labels['ldapsearch'] = 'LDAP directory search';
-
-$labels['ldappublicsearchname']    = 'Contact name';
-$labels['ldappublicsearchtype'] = 'Exact match?';
-$labels['ldappublicserverselect'] = 'Select servers';
-$labels['ldappublicsearchfield'] = 'Search on';
-$labels['ldappublicsearchform'] = 'Look for a contact';
-$labels['ldappublicsearch'] = 'Search';
-
-
-// settings
-$labels['settingsfor']  = 'Ρυθμίσεις για';
-
-$labels['preferences']  = 'Προτιμήσεις';
-$labels['userpreferences']  = 'Προτιμήσεις χρήστη';
-$labels['editpreferences']  = 'Επεξεργασία προτιμήσεων χρήστη';
-
-$labels['identities']  = 'Ταυτότητες';
-$labels['manageidentities']  = 'Διαχείρηση ταυτοτήτων για το λογαριασμό αυτό';
-$labels['newidentity']  = 'Νέα ταυτότητα';
-
-$labels['newitem']  = 'Νέο αντικείμενο';
-$labels['edititem']  = 'Επεξεργασία αντικειμένου';
-
-$labels['setdefault']  = 'Ορισμός ως προεπιλογή';
-$labels['language']  = 'Γλώσσα';
-$labels['timezone']  = 'Περιοχή ώρας';
-$labels['pagesize']  = 'Γραμμές ανά σελίδα';
+$labels['print'] = 'Εκτύπωση';
+$labels['export'] = 'Εξαγωγή';
+$labels['previouspage'] = 'Εμφάνιση προηγούμενης σελίδας';
+$labels['firstpage'] = 'Εμφάνιση πρώτης σελίδας';
+$labels['nextpage'] = 'Εμφάνιση επόμενης σελίδας';
+$labels['lastpage'] = 'Εμφάνιση τελευταίας σελίδας';
+$labels['groups'] = 'Ομάδες';
+$labels['personaladrbook'] = 'Προσωπικό Βιβλίο Διευθύνσεων';
+$labels['settingsfor'] = 'Ρυθμίσεις για';
+$labels['preferences'] = 'Προτιμήσεις';
+$labels['userpreferences'] = 'Προτιμήσεις χρήστη';
+$labels['editpreferences'] = 'Επεξεργασία προτιμήσεων χρήστη';
+$labels['identities'] = 'Ταυτότητες';
+$labels['manageidentities'] = 'Διαχείριση ταυτοτήτων για το λογαριασμό αυτό';
+$labels['newidentity'] = 'Νέα ταυτότητα';
+$labels['newitem'] = 'Νέο αντικείμενο';
+$labels['edititem'] = 'Επεξεργασία αντικειμένου';
+$labels['setdefault'] = 'Ορισμός ως προεπιλογή';
+$labels['language'] = 'Γλώσσα';
+$labels['timezone'] = 'Περιοχή ώρας';
+$labels['pagesize'] = 'Γραμμές ανά σελίδα';
 $labels['signature'] = 'Υπογραφή';
-$labels['dstactive']  = 'Daylight savings';
-
-$labels['folder']  = 'Φάκελος';
-$labels['folders']  = 'Φάκελοι';
-$labels['foldername']  = 'Όνομα φακέλου';
-$labels['subscribed']  = 'Εγγραφή';
-$labels['create']  = 'Δημιουργία';
-$labels['createfolder']  = 'Δημιουργία νέου φακέλου';
+$labels['dstactive'] = 'Daylight savings';
+$labels['htmleditor'] = 'Σύνθεση HTML μηνύματος';
+$labels['htmlsignature'] = 'Υπογραφή HTML';
+$labels['previewpane'] = 'Εμφάνιση προηγούμενου παραθύρου';
+$labels['autosavedraft'] = 'Αυτόματη προχείρου';
+$labels['everynminutes'] = 'κάθε $n λεπτά';
+$labels['never'] = 'ποτέ';
+$labels['folder'] = 'Φάκελος';
+$labels['folders'] = 'Φάκελοι';
+$labels['foldername'] = 'Όνομα φακέλου';
+$labels['subscribed'] = 'Εγγραφή';
+$labels['create'] = 'Δημιουργία';
+$labels['createfolder'] = 'Δημιουργία νέου φακέλου';
 $labels['rename'] = 'Μετονομασία';
 $labels['renamefolder'] = 'Μετονομασία φακέλου';
-$labels['deletefolder']  = 'Διαγραφή φακέλου';
-$labels['managefolders']  = 'Διαχείρηση φακέλων';
-
-$labels['sortby'] = 'Ταξινόμιση κατά';
-$labels['sortasc']  = 'Αύξουσα ταξινόμιση';
-$labels['sortdesc'] = 'Φθίνουσα ταξινόμιση';
+$labels['deletefolder'] = 'Διαγραφή φακέλου';
+$labels['managefolders'] = 'Διαχείριση φακέλων';
+$labels['sortby'] = 'Ταξινόμηση κατά';
+$labels['sortasc'] = 'Αύξουσα ταξινόμηση';
+$labels['sortdesc'] = 'Φθίνουσα ταξινόμηση';
 
 ?>
