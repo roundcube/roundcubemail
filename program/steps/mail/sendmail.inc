@@ -333,7 +333,7 @@ if (!$savedraft) {
   
     // send message
     $smtp_response = array();
-    $sent = smtp_mail($from, $a_recipients, $MAIL_MIME->txtHeaders($send_headers), $msg_body, $smtp_response);
+    $sent = smtp_mail($from, $a_recipients, ($foo = $MAIL_MIME->txtHeaders($send_headers)), $msg_body, $smtp_response);
   
     // log error
     if (!$sent)

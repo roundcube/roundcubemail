@@ -577,7 +577,7 @@ function rcmail_login($user, $pass, $host=NULL)
 
 // create new entry in users and identities table
 function rcmail_create_user($user, $host)
-  {
+{
   global $DB, $CONFIG, $IMAP;
 
   $user_email = '';
@@ -595,7 +595,7 @@ function rcmail_create_user($user, $host)
               $_SESSION['user_lang']);
 
   if ($user_id = $DB->insert_id(get_sequence_name('users')))
-    {
+  {
     $mail_domain = rcmail_mail_domain($host);
    
     if ($user_email=='')
@@ -605,19 +605,21 @@ function rcmail_create_user($user, $host)
 
     // try to resolve the e-mail address from the virtuser table
     if (!empty($CONFIG['virtuser_query']) &&
-        ($sql_result = $DB->query(preg_replace('/%u/', $user, $CONFIG['virtuser_query']))) &&
+        ($sql_result = $DB->query(preg_replace('/%u/', $DB->quote($user), $CONFIG['virtuser_query']))) &&
         ($DB->num_rows()>0))
+    {
       while ($sql_arr = $DB->fetch_array($sql_result))
-        {
+      {
         $DB->query("INSERT INTO ".get_table_name('identities')."
                    (user_id, del, standard, name, email)
                    VALUES (?, 0, 1, ?, ?)",
                    $user_id,
                    strip_newlines($user_name),
                    preg_replace('/^@/', $user . '@', $sql_arr[0]));
-        }
+      }
+    }
     else
-      {
+    {
       // also create new identity records
       $DB->query("INSERT INTO ".get_table_name('identities')."
                   (user_id, del, standard, name, email)
@@ -625,22 +627,23 @@ function rcmail_create_user($user, $host)
                   $user_id,
                   strip_newlines($user_name),
                   strip_newlines($user_email));
-      }
+    }
                        
     // get existing mailboxes
     $a_mailboxes = $IMAP->list_mailboxes();
-    }
+  }
   else
-    {
-    raise_error(array('code' => 500,
-                      'type' => 'php',
-                      'line' => __LINE__,
-                      'file' => __FILE__,
-                      'message' => "Failed to create new user"), TRUE, FALSE);
-    }
+  {
+    raise_error(array(
+      'code' => 500,
+      'type' => 'php',
+      'line' => __LINE__,
+      'file' => __FILE__,
+      'message' => "Failed to create new user"), TRUE, FALSE);
+  }
     
   return $user_id;
-  }
+}
 
 
 // load virtuser table in array

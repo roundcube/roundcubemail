@@ -1,6 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/06/12 (thomasb)
+----------
+- Updated Turkish, Polish, Finnish/Suomi, Japanese, Hungarian, Greek, Euskara localization
+- Added Irish/Gaelic translation
+- Little correction in Swedish translation
+- Quote username for virtuser_query
+- Pass-by-reference workarround for PHP5 in sendmail.inc
+
+
 2007/06/04 (estadtherr)
 ----------
 - Fixed bug in HTML->Plain editor toggling
