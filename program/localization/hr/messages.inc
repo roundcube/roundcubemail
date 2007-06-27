@@ -18,7 +18,7 @@
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Prijava neuspješna';
+$messages['loginfailed'] = 'Prijava neuspješna';
 $messages['cookiesdisabled'] = 'Vaš pretraživač ne podržava kolačiće (cookies)';
 $messages['sessionerror'] = 'Morate se ponovno ulogirati';
 $messages['imaperror'] = 'Neuspješna konekcija na IMAP server';
@@ -38,19 +38,21 @@ $messages['contactexists'] = 'Kontakt sa ovom e-mail adresom već postoji u imen
 $messages['blockedimages'] = 'Zbog zaštite privatnosti, slike sa udaljenih servera su blokirane.';
 $messages['encryptedmessage'] = 'Ova poruka je zaštićena pa se ne može prikazati';
 $messages['nocontactsfound'] = 'Imenik je prazan';
+$messages['contactnotfound'] = 'Traženi kontak nije pronađen';
 $messages['sendingfailed'] = 'Greška pri slanju poruke';
 $messages['errorsaving'] = 'Greška pri spremanju';
 $messages['errormoving'] = 'Greška pri premještanju poruke';
 $messages['errordeleting'] = 'Greška pri brisanju poruke';
-$messages['deletecontactconfirm']  = 'Želite li obrisati izabrane kontakte?';
-$messages['deletefolderconfirm']  = 'Želite li obrisati ovaj folder?';
-$messages['purgefolderconfirm']  = 'Želite li obrisati sve poruke u folderu?';
+$messages['deletecontactconfirm'] = 'Želite li obrisati izabrane kontakte?';
+$messages['deletemessagesconfirm'] = 'Sigurno želite obrisati odabrane poruke?';
+$messages['deletefolderconfirm'] = 'Želite li obrisati ovaj folder?';
+$messages['purgefolderconfirm'] = 'Želite li obrisati sve poruke u folderu?';
 $messages['formincomplete'] = 'Forma nije u cjelosti popunjena';
 $messages['noemailwarning'] = 'Unesite valjanu e-mail adresu';
-$messages['nonamewarning']  = 'Unesite ime';
+$messages['nonamewarning'] = 'Unesite ime';
 $messages['nopagesizewarning'] = 'Unesite veličinu stranice';
 $messages['norecipientwarning'] = 'Unesite primatelja (ZA)';
-$messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
+$messages['nosubjectwarning'] = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
 $messages['notsentwarning'] = 'Poruka nije poslana. Želite li odbaciti ovu poruku?';
 $messages['noldapserver'] = 'Unesite LDAP server za pretragu';
@@ -62,5 +64,14 @@ $messages['searching'] = 'Pretraga u tijeku...';
 $messages['checking'] = 'Provjera u tijeku...';
 $messages['nospellerrors'] = 'Nije pronađena niti jedna pravopisna greška';
 $messages['folderdeleted'] = 'Folder uspješno obrisan';
+$messages['deletedsuccessfully'] = 'Uspješno obrisano';
+$messages['converting'] = 'Mičem formatiranje poruke';
+$messages['messageopenerror'] = 'Nije moguće ';
+$messages['fileuploaderror'] = 'Prijenos datoteke nije uspio';
+$messages['filesizeerror'] = 'Datoteka je prevelika. Dopuštena maksimalna je $size';
+$messages['copysuccess'] = 'Uspješno kopirano $n adresa';
+$messages['copyerror'] = 'Nije uspjelo kopiranje adresa';
+$messages['sourceisreadonly'] = 'Ovaj resurs adresa je samo za čitanje';
+$messages['errorsavingcontact'] = 'Nije uspjelo spremanje adrese kontakta';
 
 ?>
