@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/06/28 (tomekp)
+----------
+- fix typos in Polish localization (Janusz Zamecki)
+
+
 2007/06/27 (tomekp)
 ----------
 - Update Polish (Janusz Zamecki), Croatian (Svebor Prstacic) localization
