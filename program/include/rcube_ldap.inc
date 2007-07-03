@@ -231,7 +231,7 @@ class rcube_ldap
    * @param boolean True if results are requested, False if count only
    * @return Indexed list of contact records and 'count' value
    */
-  function search($fields, $value, $select=true)
+  function search($fields, $value, $strict=false, $select=true)
   {
     // special treatment for ID-based search
     if ($fields == 'ID' || $fields == $this->primary_key)
@@ -249,7 +249,7 @@ class rcube_ldap
     }
     
     $filter = '(|';
-    $wc = $this->prop['fuzzy_search'] ? '*' : '';
+    $wc = !$strict && $this->prop['fuzzy_search'] ? '*' : '';
     if (is_array($this->prop['search_fields']))
     {
       foreach ($this->prop['search_fields'] as $k => $field)

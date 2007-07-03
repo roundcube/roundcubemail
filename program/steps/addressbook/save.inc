@@ -83,7 +83,7 @@ if (!empty($cid))
 else
 {
   // check for existing contacts
-  $existing = $CONTACTS->search('email', $a_record['email'], false);
+  $existing = $CONTACTS->search('email', $a_record['email'], true, false);
   
   // show warning message
   if ($existing->count)

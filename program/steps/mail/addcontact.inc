@@ -40,7 +40,7 @@ if (!empty($_POST['_address']))
       $contact['name'] = ucfirst(preg_replace('/[\.\-]/', ' ', substr($contact['email'], 0, strpos($contact['email'], '@'))));
 
     // check for existing contacts
-    $existing = $CONTACTS->search('email', $contact['email'], false);
+    $existing = $CONTACTS->search('email', $contact['email'], true, false);
     if ($done = $existing->count)
       $OUTPUT->show_message('contactexists', 'warning');
     else if ($done = $CONTACTS->insert($contact))

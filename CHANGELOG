@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/07/03 (thomasb)
+----------
+- Added Macedonian (Slavic FYROM) localization
+- Fix status message bug #1484464 with regard to #1484353
+- Fix address adding bug reported by David Koblas
+
+
 2007/06/28 (tomekp)
 ----------
 - fix typos in Polish localization (Janusz Zamecki)

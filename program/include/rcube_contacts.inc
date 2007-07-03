@@ -171,7 +171,7 @@ class rcube_contacts
    * @param boolean True if results are requested, False if count only
    * @return Indexed list of contact records and 'count' value
    */
-  function search($fields, $value, $select=true)
+  function search($fields, $value, $strict=false, $select=true)
   {
     if (!is_array($fields))
       $fields = array($fields);
@@ -184,6 +184,8 @@ class rcube_contacts
         $ids = !is_array($value) ? split(',', $value) : $value;
         $add_where[] = $this->primary_key." IN (".join(',', $ids).")";
       }
+      else if ($strict)
+        $add_where[] = $this->db->quoteIdentifier($col)."=".$this->db->quote($value);
       else
         $add_where[] = $this->db->quoteIdentifier($col)." LIKE ".$this->db->quote(strlen($value)>2 ? "%$value%" : "$value%");
     }
@@ -278,7 +280,7 @@ class rcube_contacts
     $insert_id = $existing = false;
 
     if ($check)
-      $existing = $this->search('email', $save_data['email'], false);
+      $existing = $this->search('email', $save_data['email'], true, false);
 
     $a_insert_cols = $a_insert_values = array();
     foreach ($this->table_cols as $col)
