@@ -2915,17 +2915,16 @@ function rcube_webmail()
   // display a system message
   this.display_message = function(msg, type, hold)
     {
-    // pass command to parent window
-    if (this.env.framed && parent.rcmail )
-      return parent.rcmail.display_message(msg, type, hold);
-
-    this.set_busy(false);
     if (!this.loaded)  // save message in order to display after page loaded
       {
       this.pending_message = new Array(msg, type);
       return true;
       }
-  
+
+    // pass command to parent window
+    if (this.env.framed && parent.rcmail)
+      return parent.rcmail.display_message(msg, type, hold);
+
     if (!this.gui_objects.message)
       return false;
 
@@ -2936,12 +2935,12 @@ function rcube_webmail()
     if (type)
       cont = '<div class="'+type+'">'+cont+'</div>';
 
-    this.gui_objects.message._rcube = this;
+    var _rcube = this;
     this.gui_objects.message.innerHTML = cont;
     this.gui_objects.message.style.display = 'block';
- 
+    
     if (type!='loading')
-      this.gui_objects.message.onmousedown = function(){ this._rcube.hide_message(); return true; };
+      this.gui_objects.message.onmousedown = function(){ _rcube.hide_message(); return true; };
     
     if (!hold)
       this.message_timer = setTimeout(function(){ ref.hide_message(); }, this.message_time);
