@@ -51,6 +51,7 @@
 	'kur_KU' => 'Kurdish (Kurmancî)',
 	'lv'    => 'Latvian',
 	'lt'    => 'Lithuanian',
+	'mk'    => 'Macedonian (Slavic FYROM)',
 	'nl_NL' => 'Nederlands',
 	'nl_BE' => 'Flemish',
 	'nb_NO' => 'Norsk (bokmål)',
