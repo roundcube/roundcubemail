@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Added Macedonian (Slavic FYROM) localization
 - Fix status message bug #1484464 with regard to #1484353
 - Fix address adding bug reported by David Koblas
+- Applied socket error patch by Thomas Mangin
 
 
 2007/06/28 (tomekp)

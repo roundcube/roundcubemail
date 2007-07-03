@@ -48,6 +48,7 @@
 		- Also acceppt LIST responses in iil_C_ListSubscribed()
 		- Sanity check of $message_set in iil_C_FetchHeaders(), iil_C_FetchHeaderIndex(), iil_C_FetchThreadHeaders()
 		- Implemented UID FETCH in iil_C_FetchHeaders()
+		- Abort do-loop on socket errors (fgets returns false)
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -130,6 +131,8 @@ function iil_ReadLine($fp, $size){
 	if ($fp){
 		do{
 			$buffer = fgets($fp, 2048);
+			if ($buffer === false)
+				break;
 			$line.=$buffer;
 		}while($buffer[strlen($buffer)-1]!="\n");
 	}
@@ -229,9 +232,11 @@ function iil_C_Login(&$conn, $user, $password){
     $password = strtr($password, array('"'=>'\\"', '\\' => '\\\\'));  
     fputs($conn->fp, "a001 LOGIN $user \"$password\"\r\n");
 
-	do{
-	    $line = iil_ReadReply($conn->fp);
-	}while(!iil_StartsWith($line, "a001 "));
+  do{
+    $line = iil_ReadReply($conn->fp);
+    if ($line === false)
+      break;
+  }while(!iil_StartsWith($line, "a001 "));
     $a=explode(" ", $line);
     if (strcmp($a[1],"OK")==0){
         $result=$conn->fp;
