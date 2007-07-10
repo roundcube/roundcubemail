@@ -35,6 +35,7 @@ $messages['contactexists'] = 'یک تماس با این آدرس ایمیل از
 $messages['blockedimages'] = 'برای حفاظت ازاطلاعات شما ، عکس های روی اینترنت فیلتر شد';
 $messages['encryptedmessage'] = '!این یک پیغام کد شده است و قابل نمایش نمی باشد ، ببخشید';
 $messages['nocontactsfound'] = 'هیج تماسی پیدا نشد';
+$messages['contactnotfound'] = 'تماس مورد نظر پیدا نشد';
 $messages['sendingfailed'] = 'نا موفق در فرستادن پیغام';
 $messages['errorsaving'] = 'یک اشکال در زمان ذخیره پیش آمد';
 $messages['errormoving'] = 'پیغام منتقل نشد';
@@ -65,5 +66,9 @@ $messages['converting'] = '... در حال پاک کردن تنظیمات متن
 $messages['messageopenerror'] = 'پیغام از روی سرور بارگذاری نشد';
 $messages['fileuploaderror'] = 'آپلود فایل ناموفقیت آمیز بود';
 $messages['filesizeerror'] = 'بیشتر است $size فایل آپلود شده از حد اکثر حجم مجاز  ';
+$messages['copysuccess'] = 'آدرس با موفقیت کپی شد $nr';
+$messages['copyerror'] = 'کپی آدرس ها ناموفق بود';
+$messages['sourceisreadonly'] = 'این منبع آدرس فقط قابل خواندن است';
+$messages['errorsavingcontact'] = 'ذخیره آدرس تماس ناموفق بود';
 
 ?>
