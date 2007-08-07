@@ -19,6 +19,12 @@
 
 */
 
+
+/**
+ * Model class to access an LDAP address directory
+ *
+ * @package Addressbook
+ */
 class rcube_ldap
 {
   var $conn;
@@ -59,7 +65,7 @@ class rcube_ldap
   /**
    * PHP 4 object constructor
    *
-   * @see  rcube_ldap::__construct
+   * @see  rcube_ldap::__construct()
    */
   function rcube_ldap($p)
   {
@@ -105,6 +111,10 @@ class rcube_ldap
 
   /**
    * Bind connection with DN and password
+   *
+   * @param string Bind DN
+   * @param string Bind password
+   * @return boolean True on success, False on error
    */
   function bind($dn, $pass)
   {
@@ -163,7 +173,7 @@ class rcube_ldap
   /**
    * Save a search string for future listings
    *
-   * @param string ??
+   * @param string Filter string
    */
   function set_search_set($filter)
   {
@@ -197,6 +207,7 @@ class rcube_ldap
    * List the current set of contact records
    *
    * @param  array  List of cols to show
+   * @param  int    Only return this number of records (not implemented)
    * @return array  Indexed list of contact records, each a hash array
    */
   function list_records($cols=null, $subset=0)
@@ -229,7 +240,7 @@ class rcube_ldap
    * @param array   List of fields to search in
    * @param string  Search value
    * @param boolean True if results are requested, False if count only
-   * @return Indexed list of contact records and 'count' value
+   * @return array  Indexed list of contact records and 'count' value
    */
   function search($fields, $value, $strict=false, $select=true)
   {
@@ -283,7 +294,7 @@ class rcube_ldap
   /**
    * Count number of available contacts in database
    *
-   * @return Result array with values for 'count' and 'first'
+   * @return object rcube_result_set Resultset with values for 'count' and 'first'
    */
   function count()
   {
@@ -298,7 +309,7 @@ class rcube_ldap
   /**
    * Return the last result set
    *
-   * @return Result array or NULL if nothing selected yet
+   * @return object rcube_result_set Current resultset or NULL if nothing selected yet
    */
   function get_result()
   {
@@ -309,8 +320,9 @@ class rcube_ldap
   /**
    * Get a specific contact record
    *
-   * @param mixed record identifier
-   * @return Hash array with all record fields or False if not found
+   * @param mixed   Record identifier
+   * @param boolean Return as associative array
+   * @return mixed  Hash array or rcube_result_set with all record fields
    */
   function get_record($dn, $assoc=false)
   {
@@ -335,8 +347,8 @@ class rcube_ldap
   /**
    * Create a new contact record
    *
-   * @param array Assoziative array with save data
-   * @return The create record ID on success, False on error
+   * @param array    Hash array with save data
+   * @return boolean The create record ID on success, False on error
    */
   function insert($save_cols)
   {
@@ -349,8 +361,8 @@ class rcube_ldap
    * Update a specific contact record
    *
    * @param mixed Record identifier
-   * @param array Assoziative array with save data
-   * @return True on success, False on error
+   * @param array Hash array with save data
+   * @return boolean True on success, False on error
    */
   function update($id, $save_cols)
   {
@@ -363,6 +375,7 @@ class rcube_ldap
    * Mark one or more contact records as deleted
    *
    * @param array  Record identifiers
+   * @return boolean True on success, False on error
    */
   function delete($ids)
   {
@@ -374,7 +387,7 @@ class rcube_ldap
   /**
    * Execute the LDAP search based on the stored credentials
    *
-   * @private
+   * @access private
    */
   function _exec_search()
   {
@@ -390,7 +403,7 @@ class rcube_ldap
   
   
   /**
-   * @private
+   * @access private
    */
   function _ldap2result($rec)
   {
@@ -410,7 +423,7 @@ class rcube_ldap
   
   
   /**
-   * @private
+   * @access private
    */
   function _map_field($field)
   {

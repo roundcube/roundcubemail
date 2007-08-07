@@ -20,1039 +20,20 @@
 */
 
 
-// ********* round cube schared classes *********
-
-class rcube_html_page
-  {
-  var $css;
-  
-  var $scripts_path = '';
-  var $script_files = array();
-  var $external_scripts = array();
-  var $scripts = array();
-  var $charset = 'ISO-8859-1';
-  
-  var $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
-  var $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
-  var $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
-  var $tag_format_external_script = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-
-  var $title = '';
-  var $header = '';
-  var $footer = '';
-  var $body = '';
-  var $body_attrib = array();
-  var $meta_tags = array();
-
-
-  // PHP 5 constructor
-  function __construct()
-    {
-    $this->css = new rcube_css();
-    }
-
-  // PHP 4 compatibility
-  function rcube_html_page()
-    {
-    $this->__construct();
-    }
-
-
-  function include_script($file, $position='head')
-    {
-    static $sa_files = array();
-    
-    if (in_array($file, $sa_files))
-      return;
-      
-    if (!is_array($this->script_files[$position]))
-      $this->script_files[$position] = array();
-      
-    $this->script_files[$position][] = $file;
-    }
-    
-  function include_external_script($script_location, $position='head')
-  {
-     if (!is_array($this->external_scripts[$position]))
-     {
-        $this->external_scripts[$position] = array();
-     }
-     
-     $this->external_scripts[$position][] = $script_location;
-  }
-
-  function add_script($script, $position='head')
-    {
-    if (!isset($this->scripts[$position]))
-      $this->scripts[$position] = "\n".rtrim($script);
-    else
-      $this->scripts[$position] .= "\n".rtrim($script);
-    }
-
-  function add_header($str)
-    {
-    $this->header .= "\n".$str;
-    }
-
-  function add_footer($str)
-    {
-    $this->footer .= "\n".$str;
-    }
-
-  function set_title($t)
-    {
-    $this->title = $t;
-    }
-
-
-  function set_charset($charset)
-    {
-    global $MBSTRING;
-    
-    $this->charset = $charset;
-    
-    if ($MBSTRING && function_exists("mb_internal_encoding"))
-      {
-      if(!@mb_internal_encoding($charset))
-        $MBSTRING = FALSE;
-      }
-    }
-
-  function get_charset()
-    {
-    return $this->charset;
-    }
-
-
-  function reset()
-    {
-    $this->css = new rcube_css();
-    $this->script_files = array();
-    $this->scripts = array();
-    $this->title = '';
-    $this->header = '';
-    $this->footer = '';
-    }
-
-
-  function write($templ='', $base_path='')
-    {
-    $output = empty($templ) ? $this->default_template : trim($templ);
-    
-    // set default page title
-    if (empty($this->title))
-      $this->title = 'RoundCube Mail';
-  
-    // replace specialchars in content
-    $__page_title = Q($this->title, 'show', FALSE);
-    $__page_header = $__page_body = $__page_footer = '';
-    
-    
-    // include meta tag with charset
-    if (!empty($this->charset))
-      {
-      header('Content-Type: text/html; charset='.$this->charset);
-      $__page_header = '<meta http-equiv="content-type" content="text/html; charset='.$this->charset.'" />'."\n";
-      }
-  
-  
-    // definition of the code to be placed in the document header and footer
-    if (is_array($this->script_files['head']))
-      foreach ($this->script_files['head'] as $file)
-        $__page_header .= sprintf($this->script_tag_file, $this->scripts_path, $file);
-
-    if (is_array($this->external_scripts['head']))
-      foreach ($this->external_scripts['head'] as $xscript)
-        $__page_header .= sprintf($this->tag_format_external_script, $xscript);
-
-    $head_script = $this->scripts['head_top'] . $this->scripts['head'];
-    if (!empty($head_script))
-      $__page_header .= sprintf($this->script_tag, $head_script);
-
-    if (!empty($this->header))
-      $__page_header .= $this->header;
-
-    if (is_array($this->script_files['foot']))
-      foreach ($this->script_files['foot'] as $file)
-        $__page_footer .= sprintf($this->script_tag_file, $this->scripts_path, $file);
-
-    if (!empty($this->scripts['foot']))
-      $__page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
-      
-    if (!empty($this->footer))
-      $__page_footer .= $this->footer;
-
-    $__page_header .= $this->css->show();
-  
-    // find page header
-    if($hpos = strpos(strtolower($output), '</head>'))
-      $__page_header .= "\n";
-    else 
-      {
-      if (!is_numeric($hpos))
-        $hpos = strpos(strtolower($output), '<body');
-      if (!is_numeric($hpos) && ($hpos = strpos(strtolower($output), '<html')))
-        {
-        while($output[$hpos]!='>')
-        $hpos++;
-        $hpos++;
-        }
-  
-      $__page_header = "<head>\n<title>$__page_title</title>\n$__page_header\n</head>\n";
-      }
-  
-    // add page hader
-    if($hpos)
-      $output = substr($output,0,$hpos) . $__page_header . substr($output,$hpos,strlen($output));
-    else
-      $output = $__page_header . $output;
-  
-  
-    // find page body
-    if($bpos = strpos(strtolower($output), '<body'))
-      {
-      while($output[$bpos]!='>') $bpos++;
-      $bpos++;
-      }
-    else
-      $bpos = strpos(strtolower($output), '</head>')+7;
-  
-    // add page body
-    if($bpos && $__page_body)
-      $output = substr($output,0,$bpos) . "\n$__page_body\n" . substr($output,$bpos,strlen($output));
-  
-  
-    // find and add page footer
-    $output_lc = strtolower($output);
-    if(($fpos = strrstr($output_lc, '</body>')) ||
-       ($fpos = strrstr($output_lc, '</html>')))
-      $output = substr($output, 0, $fpos) . "$__page_footer\n" . substr($output, $fpos);
-    else
-      $output .= "\n$__page_footer";
-  
-  
-    // reset those global vars
-    $__page_header = $__page_footer = '';
-  
-  
-    // correct absolute paths in images and other tags
-    $output = preg_replace('/(src|href|background)=(["\']?)(\/[a-z0-9_\-]+)/Ui', "\\1=\\2$base_path\\3", $output);
-    $output = str_replace('$__skin_path', $base_path, $output);
-  
-    print rcube_charset_convert($output, 'UTF-8', $this->charset);
-    }
-    
-    
-  function _parse($templ)
-    {
-    
-    }
-  }
-
-
-
-
-class rcube_css
-  {
-  var $css_data = array();
-
-  var $css_groups = array();
-
-  var $include_files = array();
-
-  var $grouped_output = TRUE;
-
-  var $content_type = 'text/css';
-
-  var $base_path = '';
-
-  var $indent_chars = "\t";
-
-
-  // add or overwrite a css definition
-  // either pass porperty and value as separate arguments
-  // or provide an associative array as second argument
-  function set_style($selector, $property, $value='')
-    {
-    $a_elements = $this->_parse_selectors($selector);
-    foreach ($a_elements as $element)
-      {
-      if (!is_array($property))
-        $property = array($property => $value);
-
-      foreach ($property as $name => $value)
-        $this->css_data[$element][strtolower($name)] = $value;
-      }
-
-    // clear goups array
-    $this->css_groups = array();
-    }
-
-
-  // unset a style property
-  function remove_style($selector, $property)
-    {
-    if (!is_array($property))
-      $property = array($property);
-
-    foreach ($property as $key)
-      unset($this->css_data[$selector][strtolower($key)]);
-
-    // clear goups array
-    $this->css_groups = array();
-    }
-
-
-  // define base path for external css files
-  function set_basepath($path)
-    {
-    $this->base_path = preg_replace('/\/$/', '', $path);
-    }
-
-
-  // enable/disable grouped output
-  function set_grouped_output($grouped)
-    {
-    $this->grouped_output = $grouped;
-    }
-
-
-  // add a css file as external source
-  function include_file($filename, $media='')
-    {
-    // include multiple files
-    if (is_array($filename))
-      {
-      foreach ($filename as $file)
-        $this->include_file($file, $media);
-      }
-    // add single file
-    else if (!in_array($filename, $this->include_files))
-      $this->include_files[] = array('file' => $filename,
-                                     'media' => $media);
-    }
-
-
-  // parse css code
-  function import_string($str)
-    {
-    $ret = FALSE;
-    if (strlen($str))
-      $ret = $this->_parse($str);
-
-    return $ret;
-    }
-
-
-  // open and parse a css file
-  function import_file($file)
-    {
-    $ret = FALSE;
-
-    if (!is_file($file))
-      return $ret;
-
-    // for php version >= 4.3.0
-    if (function_exists('file_get_contents'))
-      $ret = $this->_parse(file_get_contents($file));
-
-    // for order php versions
-    else if ($fp = fopen($file, 'r'))
-      {
-      $ret = $this->_parse(fread($fp, filesize($file)));
-      fclose($fp);
-      }
-
-    return $ret;
-    }
-
-
-  // copy all properties inherited from superior styles to a specific selector
-  function copy_inherited_styles($selector)
-    {
-    // get inherited props from body and tag/class selectors
-    $css_props = $this->_get_inherited_styles($selector);
-
-    // write modified props back and clear goups array
-    if (sizeof($css_props))
-      {
-      $this->css_data[$selector] = $css_props;
-      $this->css_groups = array();
-      }
-    }
-
-
-  // return css definition for embedding in HTML
-  function show()
-    {
-    $out = '';
-
-    // include external css files
-    if (sizeof($this->include_files))
-      foreach ($this->include_files as $file_arr)
-      $out .= sprintf('<link rel="stylesheet" type="%s" href="%s"%s>'."\n",
-                        $this->content_type,
-                        $this->_get_file_path($file_arr['file']),
-                        $file_arr['media'] ? ' media="'.$file_arr['media'].'"' : '');
-
-
-    // compose css string
-    if (sizeof($this->css_data))
-      $out .= sprintf("<style type=\"%s\">\n<!--\n\n%s-->\n</style>",
-                      $this->content_type,
-                      $this->to_string());
-
-
-    return $out;
-    }
-
-
-  // return valid css code of the current styles grid
-  function to_string($selector=NULL)
-    {
-    // return code for a single selector
-    if ($selector)
-      {
-      $indent_str = $this->indent_chars;
-      $this->indent_chars = '';
-
-      $prop_arr = $this->to_array($selector);
-      $out = $this->_style2string($prop_arr, TRUE);
-
-      $this->indent_chars = $indent_str;
-      }
-
-    // compose css code for complete data grid
-    else
-      {
-      $out = '';
-      $css_data = $this->to_array();
-
-      foreach ($css_data as $key => $prop_arr)
-        $out .= sprintf("%s {\n%s}\n\n",
-                        $key,
-                        $this->_style2string($prop_arr, TRUE));
-      }
-
-    return $out;
-    }
-
-
-  // return a single-line string of a css definition
-  function to_inline($selector)
-    {
-    if ($this->css_data[$selector])
-      return str_replace('"', '\\"', $this->_style2string($this->css_data[$selector], FALSE));
-    }
-
-
-  // return an associative array with selector(s) as key and styles array as value
-  function to_array($selector=NULL)
-    {
-    if (!$selector && $this->grouped_output)
-      {
-      // build groups if desired
-      if (!sizeof($this->css_groups))
-        $this->_build_groups();
-
-      // modify group array to get an array(selector => properties)
-      $out_arr = array();
-      foreach ($this->css_groups as $group_arr)
-        {
-        $key = join(', ', $group_arr['selectors']);
-        $out_arr[$key] = $group_arr['properties'];
-        }
-      }
-    else
-      $out_arr = $this->css_data;
-
-    return $selector ? $out_arr[$selector] : $out_arr;
-    }
-
-
-  // create a css file
-  function to_file($filepath)
-    {
-    if ($fp = fopen($filepath, 'w'))
-      {
-      fwrite($fp, $this->to_string());
-      fclose($fp);
-      return TRUE;
-      }
-
-    return FALSE;
-    }
-
-
-  // alias method for import_string() [DEPRECATED]
-  function add($str)
-    {
-    $this->import_string($str);
-    }
-
-  // alias method for to_string() [DEPRECATED]
-  function get()
-    {
-    return $this->to_string();
-    }
-
-
-
-  // ******** private methods ********
-
-
-  // parse a string and add styles to internal data grid
-  function _parse($str)
-    {
-    // remove comments
-    $str = preg_replace("/\/\*(.*)?\*\//Usi", '', $str);
-
-    // parse style definitions
-    if (!preg_match_all ('/([a-z0-9\.#*:_][a-z0-9\.\-_#:*,\[\]\(\)\s\"\'\+\|>~=]+)\s*\{([^\}]*)\}/ims', $str, $matches, PREG_SET_ORDER))
-      return FALSE;
-
-
-    foreach ($matches as $match_arr)
-      {
-      // split selectors into array
-      $a_keys = $this->_parse_selectors(trim($match_arr[1]));
-
-      // parse each property of an element
-      $codes = explode(";", trim($match_arr[2]));
-      foreach ($codes as $code)
-        {
-        if (strlen(trim($code))>0)
-          {
-          // find the property and the value
-          if (!($sep = strpos($code, ':')))
-            continue;
-
-          $property = strtolower(trim(substr($code, 0, $sep)));
-          $value    = trim(substr($code, $sep+1));
-
-          // add the property to the object array
-          foreach ($a_keys as $key)
-            $this->css_data[$key][$property] = $value;
-          }
-        }
-      }
-
-    // clear goups array
-    if (sizeof($matches))
-      {
-      $this->css_groups = array();
-      return TRUE;
-      }
-
-    return FALSE;
-    }
-
-
-  // split selector group
-  function _parse_selectors($selector)
-    {
-    // trim selector and remove multiple spaces
-    $selector = preg_replace('/\s+/', ' ', trim($selector));
-
-    if (strpos($selector, ','))
-      return preg_split('/[\t\s\n\r]*,[\t\s\n\r]*/mi', $selector);
-    else
-      return array($selector);
-    }
-
-
-  // compare identical styles and make groups
-  function _build_groups()
-    {
-    // clear group array
-    $this->css_groups = array();
-    $string_group_map = array();
-
-    // bulild css string for each selector and check if the same is already defines
-    foreach ($this->css_data as $selector => $prop_arr)
-      {
-      // make shure to compare props in the same order
-      ksort($prop_arr);
-      $compare_str = preg_replace('/[\s\t]+/', '', $this->_style2string($prop_arr, FALSE));
-
-      // add selector to extisting group
-      if (isset($string_group_map[$compare_str]))
-        {
-        $group_index = $string_group_map[$compare_str];
-        $this->css_groups[$group_index]['selectors'][] = $selector;
-        }
-
-      // create new group
-      else
-        {
-        $i = sizeof($this->css_groups);
-        $string_group_map[$compare_str] = $i;
-        $this->css_groups[$i] = array('selectors' => array($selector),
-                                      'properties' => $this->css_data[$selector]);
-        }
-      }
-    }
-
-
-  // convert the prop array into a valid css definition
-  function _style2string($prop_arr, $multiline=TRUE)
-    {
-    $out = '';
-    $delm   = $multiline ? "\n" : '';
-    $spacer = $multiline ? ' ' : '';
-    $indent = $multiline ? $this->indent_chars : '';
-
-    if (is_array($prop_arr))
-      foreach ($prop_arr as $prop => $value)
-        if (strlen($value))
-          $out .= sprintf('%s%s:%s%s;%s',
-                          $indent,
-                          $prop,
-                          $spacer,
-                          $value,
-                          $delm);
-
-    return $out;
-    }
-
-
-  // copy all properties inherited from superior styles to a specific selector
-  function _get_inherited_styles($selector, $loop=FALSE)
-    {
-    $css_props = $this->css_data[$selector] ? $this->css_data[$selector] : array();
-
-    // get styles from tag selector
-    if (preg_match('/(([a-z0-9]*)(\.[^\s]+)?)$/i', $selector, $regs))
-      {
-      $sel = $regs[1];
-      $tagname = $regs[2];
-      $class = $regs[3];
-
-      if ($sel && is_array($this->css_data[$sel]))
-        $css_props = $this->_merge_styles($this->css_data[$sel], $css_props);
-
-      if ($class && is_array($this->css_data[$class]))
-        $css_props = $this->_merge_styles($this->css_data[$class], $css_props);
-
-      if ($tagname && is_array($this->css_data[$tagname]))
-        $css_props = $this->_merge_styles($this->css_data[$tagname], $css_props);
-      }
-
-    // analyse inheritance
-    if (strpos($selector, ' '))
-      {
-      $a_hier = split(' ', $selector);
-      if (sizeof($a_hier)>1)
-        {
-        array_pop($a_hier);
-        $base_selector = join(' ', $a_hier);
-
-        // call this method recursively
-        $new_props = $this->_get_inherited_styles($base_selector, TRUE);
-        $css_props = $this->_merge_styles($new_props, $css_props);
-        }
-      }
-
-    // get body style
-    if (!$loop && is_array($this->css_data['body']))
-      $css_props = $this->_merge_styles($this->css_data['body'], $css_props);
-
-    return $css_props;
-    }
-
-
-  // merge two arrays with style properties together like a browser would do
-  function _merge_styles($one, $two)
-    {
-    // these properties are additive
-    foreach (array('text-decoration') as $prop)
-      if ($one[$prop] && $two[$prop])
-        {
-        // if value contains 'none' it's ignored
-        if (strstr($one[$prop], 'none'))
-          continue;
-        else if (strstr($two[$prop], 'none'))
-          unset($two[$prop]);
-
-        $a_values_one = split(' ', $one[$prop]);
-        $a_values_two = split(' ', $two[$prop]);
-        $two[$prop] = join(' ', array_unique(array_merge($a_values_one, $a_values_two)));
-        }
-
-    return array_merge($one, $two);
-    }
-
-
-  // resolve file path
-  function _get_file_path($file)
-    {
-    if (!$this->base_path && $GLOBALS['CSS_PATH'])
-      $this->set_basepath($GLOBALS['CSS_PATH']);
-
-    $base = ($file{0}=='/' || $file{0}=='.' || substr($file, 0, 7)=='http://') ? '' :
-            ($this->base_path ? $this->base_path.'/' : '');
-    return $base.$file;
-    }
-
-  }
-
-
-
-class base_form_element
-  {
-  var $uppertags = FALSE;
-  var $upperattribs = FALSE;
-  var $upperprops = FALSE;
-  var $newline = FALSE;
-  
-  var $attrib = array();
-
-
-  // create string with attributes
-  function create_attrib_string($tagname='')
-    {
-    if (!sizeof($this->attrib))
-      return '';
-
-    if ($this->name!='')
-      $this->attrib['name'] = $this->name;
-
-    $attrib_arr = array();
-    foreach ($this->attrib as $key => $value)
-      {
-      // don't output some internally used attributes
-      if (in_array($key, array('form', 'quicksearch')))
-        continue;
-
-      // skip if size if not numeric
-      if (($key=='size' && !is_numeric($value)))
-        continue;
-        
-      // skip empty eventhandlers
-      if ((strpos($key,'on')===0 && $value==''))
-        continue;
-
-      // encode textarea content
-      if ($key=='value')
-        $value = Q($value, 'strict', FALSE);
-
-      // attributes with no value
-      if (in_array($key, array('checked', 'multiple', 'disabled', 'selected')))
-        {
-        if ($value)
-          $attrib_arr[] = $key;
-        }
-      // don't convert size of value attribute
-      else if ($key=='value')
-        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $value, 'value');
-        
-      // regular tag attributes
-      else
-        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $this->_conv_case($value, 'value'));
-      }
-
-    return sizeof($attrib_arr) ? ' '.implode(' ', $attrib_arr) : '';
-    }
-    
-    
-  // convert tags and attributes to upper-/lowercase
-  // $type can either be "tag" or "attrib"
-  function _conv_case($str, $type='attrib')
-    {
-    if ($type == 'tag')
-      return $this->uppertags ? strtoupper($str) : strtolower($str);
-    else if ($type == 'attrib')
-      return $this->upperattribs ? strtoupper($str) : strtolower($str);
-    else if ($type == 'value')
-      return $this->upperprops ? strtoupper($str) : strtolower($str);
-    }    
-  }
-
-
-class input_field extends base_form_element
-  {
-  var $type = 'text';
-  
-  // PHP 5 constructor
-  function __construct($attrib=NULL)
-    {
-    if (is_array($attrib))
-      $this->attrib = $attrib;
-
-    if ($attrib['type'])
-      $this->type = $attrib['type'];    
-
-    if ($attrib['newline'])
-      $this->newline = TRUE;    
-    }
-
-  // PHP 4 compatibility
-  function input_field($attrib=array())
-    {
-    $this->__construct($attrib);
-    }  
-
-  // compose input tag
-  function show($value=NULL, $attrib=NULL)
-    {
-    // overwrite object attributes
-    if (is_array($attrib))
-      $this->attrib = array_merge($this->attrib, $attrib);
-
-    // set value attribute
-    if ($value!==NULL)
-      $this->attrib['value'] = $value;
-
-    $this->attrib['type'] = $this->type;
-
-    // return final tag
-    return sprintf('<%s%s />%s',
-                   $this->_conv_case('input', 'tag'),
-                   $this->create_attrib_string(),
-                   ($this->newline ? "\n" : ""));    
-    }  
-  }
-
-
-class textfield extends input_field
-  {
-  var $type = 'text';
-  }
-
-class passwordfield extends input_field
-  {
-  var $type = 'password';
-  }
-
-class radiobutton extends input_field
-  {
-  var $type = 'radio';
-  }
-
-class checkbox extends input_field
-  {
-  var $type = 'checkbox';
-
-
-  function show($value='', $attrib=NULL)
-    {
-    // overwrite object attributes
-    if (is_array($attrib))
-      $this->attrib = array_merge($this->attrib, $attrib);    
-
-    $this->attrib['type'] = $this->type;
-
-    if ($value && (string)$value==(string)$this->attrib['value'])
-      $this->attrib['checked'] = TRUE;
-    else
-      $this->attrib['checked'] = FALSE;
-
-    // return final tag
-    return sprintf('<%s%s />%s',
-                   $this->_conv_case('input', 'tag'),
-                   $this->create_attrib_string(),
-                   ($this->newline ? "\n" : ""));    
-    }
-  }
-
-
-class textarea extends base_form_element
-  {
-  // PHP 5 constructor
-  function __construct($attrib=array())
-    {
-    $this->attrib = $attrib;
-
-    if ($attrib['newline'])
-      $this->newline = TRUE;    
-    }
-
-  // PHP 4 compatibility
-  function textarea($attrib=array())
-    {
-    $this->__construct($attrib);
-    }
-    
-  function show($value='', $attrib=NULL)
-    {
-    // overwrite object attributes
-    if (is_array($attrib))
-      $this->attrib = array_merge($this->attrib, $attrib);
-    
-    // take value attribute as content
-    if ($value=='')
-      $value = $this->attrib['value'];
-    
-    // make shure we don't print the value attribute
-    if (isset($this->attrib['value']))
-      unset($this->attrib['value']);
-
-    if (!empty($value) && !isset($this->attrib['mce_editable']))
-      $value = Q($value, 'strict', FALSE);
-
-    // return final tag
-    return sprintf('<%s%s>%s</%s>%s',
-                   $this->_conv_case('textarea', 'tag'),
-                   $this->create_attrib_string(),
-                   $value,
-                   $this->_conv_case('textarea', 'tag'),
-                   ($this->newline ? "\n" : ""));       
-    }
-  }
-
-
-class hiddenfield extends base_form_element
-  {
-  var $fields_arr = array();
-  var $newline = TRUE;
-
-  // PHP 5 constructor
-  function __construct($attrib=NULL)
-    {
-    if (is_array($attrib))
-      $this->add($attrib);
-    }
-
-  // PHP 4 compatibility
-  function hiddenfield($attrib=NULL)
-    {
-    $this->__construct($attrib);
-    }
-
-  // add a hidden field to this instance
-  function add($attrib)
-    {
-    $this->fields_arr[] = $attrib;
-    }
-
-
-  function show()
-    {
-    $out = '';
-    foreach ($this->fields_arr as $attrib)
-      {
-      $this->attrib = $attrib;
-      $this->attrib['type'] = 'hidden';
-      
-      $out .= sprintf('<%s%s />%s',
-                   $this->_conv_case('input', 'tag'),
-                   $this->create_attrib_string(),
-                   ($this->newline ? "\n" : ""));   
-      }
-
-    return $out;
-    }
-  }
-
-
-class select extends base_form_element
-  {
-  var $options = array();
-
-  /*
-  syntax:
-  -------
-  // create instance. arguments are used to set attributes of select-tag
-  $select = new select(array('name' => 'fieldname'));
-
-  // add one option
-  $select->add('Switzerland', 'CH');
-
-  // add multiple options
-  $select->add(array('Switzerland', 'Germany'),
-               array('CH', 'DE'));
-
-  // add 10 blank options with 50 chars
-  // used to fill with javascript (necessary for 4.x browsers)
-  $select->add_blank(10, 50);
-
-  // generate pulldown with selection 'Switzerland'  and return html-code
-  // as second argument the same attributes available to instanciate can be used
-  print $select->show('CH');
-  */
-
-  // PHP 5 constructor
-  function __construct($attrib=NULL)
-    {
-    if (is_array($attrib))
-      $this->attrib = $attrib;
-
-    if ($attrib['newline'])
-      $this->newline = TRUE;
-    }
-
-  // PHP 4 compatibility
-  function select($attrib=NULL)
-    {
-    $this->__construct($attrib);
-    }
-
-
-  function add($names, $values=NULL)
-    {
-    if (is_array($names))
-      {
-      foreach ($names as $i => $text)
-        $this->options[] = array('text' => $text, 'value' => (string)$values[$i]);
-      }
-    else
-      {
-      $this->options[] = array('text' => $names, 'value' => (string)$values);
-      }
-    }
-
-    
-  function add_blank($nr, $width=0)
-    {
-    $text = $width ? str_repeat('&nbsp;', $width) : '';
-    
-    for ($i=0; $i < $nr; $i++)
-      $this->options[] = array('text' => $text);
-    }
-
-  
-  function show($select=array(), $attrib=NULL)
-    {
-    $options_str = "\n";
-    $value_str = $this->_conv_case(' value="%s"', 'attrib');
-    
-    if (!is_array($select))
-      $select = array((string)$select);
-
-    foreach ($this->options as $option)
-      {
-      $selected = ((isset($option['value']) &&
-                    in_array($option['value'], $select, TRUE)) ||
-                   (in_array($option['text'], $select, TRUE))) ?
-        $this->_conv_case(' selected', 'attrib') : '';
-                   
-      $options_str .= sprintf("<%s%s%s>%s</%s>\n",
-                             $this->_conv_case('option', 'tag'),
-                             !empty($option['value']) ? sprintf($value_str, Q($option['value'])) : '',
-                             $selected, 
-                             Q($option['text'], 'strict', FALSE),
-                             $this->_conv_case('option', 'tag'));
-      }
-
-    // return final tag
-    return sprintf('<%s%s>%s</%s>%s',
-                   $this->_conv_case('select', 'tag'),
-                   $this->create_attrib_string(),
-                   $options_str,
-                   $this->_conv_case('select', 'tag'),
-                   ($this->newline ? "\n" : ""));    
-    }
-  }
-
-
-
-
-// ********* rcube schared functions *********
-
-
-// provide details about the client's browser
+/**
+ * RoundCube shared functions
+ * 
+ * @package Core
+ */
+
+
+/**
+ * Provide details about the client's browser
+ *
+ * @return array Key-value pairs of browser properties
+ */
 function rcube_browser()
-  {
+{
   $HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
 
   $bw['ver'] = 0;
@@ -1069,25 +50,25 @@ function rcube_browser()
   $bw['safari'] = stristr($HTTP_USER_AGENT, 'safari');
 
   if($bw['ns'])
-    {
+  {
     $test = eregi("mozilla\/([0-9\.]+)", $HTTP_USER_AGENT, $regs);
     $bw['ver'] = $test ? (float)$regs[1] : 0;
-    }
+  }
   if($bw['mz'])
-    {
+  {
     $test = ereg("rv:([0-9\.]+)", $HTTP_USER_AGENT, $regs);
     $bw['ver'] = $test ? (float)$regs[1] : 0;
-    }
+  }
   if($bw['ie'])
-    {
+  {
     $test = eregi("msie ([0-9\.]+)", $HTTP_USER_AGENT, $regs);
     $bw['ver'] = $test ? (float)$regs[1] : 0;
-    }
+  }
   if($bw['opera'])
-    {
+  {
     $test = eregi("opera ([0-9\.]+)", $HTTP_USER_AGENT, $regs);
     $bw['ver'] = $test ? (float)$regs[1] : 0;
-    }
+  }
 
   if(eregi(" ([a-z]{2})-([a-z]{2})", $HTTP_USER_AGENT, $regs))
     $bw['lang'] =  $regs[1];
@@ -1099,12 +80,17 @@ function rcube_browser()
                     ($bw['ie'] && $bw['ver']>=5 && $bw['mac']) || ($bw['opera'] && $bw['ver']>=7) ? TRUE : FALSE;
 
   return $bw;
-  }
+}
 
 
-// get text in the desired language from the language file
+/**
+ * Get localized text in the desired language
+ *
+ * @param mixed Named parameters array or label name
+ * @return string Localized text
+ */
 function rcube_label($attrib)
-  {
+{
   global $sess_user_lang, $INSTALL_PATH, $OUTPUT;
   static $sa_text_data, $s_language, $utf8_decode;
 
@@ -1135,7 +121,7 @@ function rcube_label($attrib)
     
     // include user language files
     if ($sess_user_lang!='en' && is_dir($INSTALL_PATH.'program/localization/'.$sess_user_lang))
-      {
+    {
       include_once($INSTALL_PATH.'program/localization/'.$sess_user_lang.'/labels.inc');
       include_once($INSTALL_PATH.'program/localization/'.$sess_user_lang.'/messages.inc');
 
@@ -1143,23 +129,24 @@ function rcube_label($attrib)
         $sa_text_data = array_merge($sa_text_data, $labels);
       if (is_array($messages))
         $sa_text_data = array_merge($sa_text_data, $messages);
-      }
+    }
       
     $s_language = $sess_user_lang;
-    }
+  }
 
   // text does not exist
   if (!($text_item = $sa_text_data[$alias]))
-    {
+  {
     /*
-    raise_error(array('code' => 500,
-                      'type' => 'php',
-                      'line' => __LINE__,
-                      'file' => __FILE__,
-                      'message' => "Missing localized text for '$alias' in '$sess_user_lang'"), TRUE, FALSE);
+    raise_error(array(
+      'code' => 500,
+      'type' => 'php',
+      'line' => __LINE__,
+      'file' => __FILE__,
+      'message' => "Missing localized text for '$alias' in '$sess_user_lang'"), TRUE, FALSE);
     */
     return "[$alias]";
-    }
+  }
 
   // make text item array 
   $a_text_item = is_array($text_item) ? $text_item : array('single' => $text_item);
@@ -1170,14 +157,14 @@ function rcube_label($attrib)
   else if ($nr>0)
     $text = $a_text_item['multiple'];
   else if ($nr==0)
-    {
+  {
     if ($a_text_item['none'])
       $text = $a_text_item['none'];
     else if ($a_text_item['single'])
       $text = $a_text_item['single'];
     else if ($a_text_item['multiple'])
       $text = $a_text_item['multiple'];
-    }
+  }
 
   // default text is single
   if ($text=='')
@@ -1185,10 +172,10 @@ function rcube_label($attrib)
 
   // replace vars in text
   if (is_array($attrib['vars']))
-    {
+  {
     foreach ($attrib['vars'] as $var_key=>$var_value)
       $a_replace_vars[substr($var_key, 0, 1)=='$' ? substr($var_key, 1) : $var_key] = $var_value;
-    }
+  }
 
   if ($a_replace_vars)
     $text = preg_replace('/\${?([_a-z]{1}[_a-z0-9]*)}?/ei', '$a_replace_vars["\1"]', $text);
@@ -1208,12 +195,14 @@ EOF;
     return strtolower($text);
 
   return $text;
-  }
+}
 
 
-// send HTTP header for no-cacheing steps
+/**
+ * Send HTTP headers to prevent caching this page
+ */
 function send_nocacheing_headers()
-  {
+{
   if (headers_sent())
     return;
 
@@ -1221,22 +210,32 @@ function send_nocacheing_headers()
   header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
   header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
   header("Pragma: no-cache");
-  }
+}
 
 
-// send header with expire date 30 days in future
+/**
+ * Send header with expire date 30 days in future
+ *
+ * @param int Expiration time in seconds
+ */
 function send_future_expire_header($offset=2600000)
-  {
+{
   if (headers_sent())
     return;
 
   header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+$offset)." GMT");
   header("Cache-Control: max-age=$offset");
   header("Pragma: ");
-  }
+}
 
 
-// check request for If-Modified-Since and send an according response
+/**
+ * Check request for If-Modified-Since and send an according response.
+ * This will terminate the current script if headers match the given values
+ *
+ * @param int Modified date as unix timestamp
+ * @param string Etag value for caching
+ */
 function send_modified_header($mdate, $etag=null)
 {
   if (headers_sent())
@@ -1268,260 +267,311 @@ function send_modified_header($mdate, $etag=null)
 
 
 /**
- * Convert a variable into a javascript notation string
+ * Convert a variable into a javascript object notation
+ *
+ * @param mixed Input value
+ * @return string Serialized JSON string
  */
 function json_serialize($var)
+{
+  if (is_object($var))
+    $var = get_object_vars($var);
+
+  if (is_array($var))
   {
-    if (is_object($var))
-      $var = get_object_vars($var);
-
-    if (is_array($var))
-    {
-      // empty array
-      if (!sizeof($var))
-        return '[]';
-      else
-      {
-        $keys_arr = array_keys($var);
-        $is_assoc = $have_numeric = 0;
-
-        for ($i=0; $i<sizeof($keys_arr); ++$i)
-        {
-          if (is_numeric($keys_arr[$i]))
-            $have_numeric = 1;
-          if (!is_numeric($keys_arr[$i]) || $keys_arr[$i] != $i)
-            $is_assoc = 1;
-          if ($is_assoc && $have_numeric)
-            break;
-        }
-        
-        $brackets = $is_assoc ? '{}' : '[]';
-        $pairs = array();
-
-        foreach ($var as $key => $value)
-        {
-          // enclose key with quotes if it is not variable-name conform
-          if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) /* || is_js_reserved_word($key) */)
-            $key = "'$key'";
-
-          $pairs[] = sprintf("%s%s", $is_assoc ? "$key:" : '', json_serialize($value));
-        }
-
-        return $brackets{0} . implode(',', $pairs) . $brackets{1};
-      }
-    }
-    else if (is_numeric($var) && strval(intval($var)) === strval($var))
-      return $var;
-    else if (is_bool($var))
-      return $var ? '1' : '0';
+    // empty array
+    if (!sizeof($var))
+      return '[]';
     else
-      return "'".JQ($var)."'";
-  
+    {
+      $keys_arr = array_keys($var);
+      $is_assoc = $have_numeric = 0;
+
+      for ($i=0; $i<sizeof($keys_arr); ++$i)
+      {
+        if (is_numeric($keys_arr[$i]))
+          $have_numeric = 1;
+        if (!is_numeric($keys_arr[$i]) || $keys_arr[$i] != $i)
+          $is_assoc = 1;
+        if ($is_assoc && $have_numeric)
+          break;
+      }
+      
+      $brackets = $is_assoc ? '{}' : '[]';
+      $pairs = array();
+
+      foreach ($var as $key => $value)
+      {
+        // enclose key with quotes if it is not variable-name conform
+        if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) /* || is_js_reserved_word($key) */)
+          $key = "'$key'";
+
+        $pairs[] = sprintf("%s%s", $is_assoc ? "$key:" : '', json_serialize($value));
+      }
+
+      return $brackets{0} . implode(',', $pairs) . $brackets{1};
+    }
   }
+  else if (is_numeric($var) && strval(intval($var)) === strval($var))
+    return $var;
+  else if (is_bool($var))
+    return $var ? '1' : '0';
+  else
+    return "'".JQ($var)."'";
+
+}
 
 /**
- * function to convert an array to a javascript array
+ * Function to convert an array to a javascript array
+ * Actually an alias function for json_serialize()
  * @deprecated
  */
 function array2js($arr, $type='')
-  {
+{
   return json_serialize($arr);
-  }
+}
 
 
 /**
  * Similar function as in_array() but case-insensitive
+ *
+ * @param mixed Needle value
+ * @param array Array to search in
+ * @return boolean True if found, False if not
  */
 function in_array_nocase($needle, $haystack)
-  {
+{
   foreach ($haystack as $value)
-    {
     if (strtolower($needle)===strtolower($value))
-      return TRUE;
-    }
-    
-  return FALSE;
-  }
+      return true;
+  
+  return false;
+}
 
 
 /**
  * Find out if the string content means TRUE or FALSE
+ *
+ * @param string Input value
+ * @return boolean Imagine what!
  */
 function get_boolean($str)
-  {
+{
   $str = strtolower($str);
   if(in_array($str, array('false', '0', 'no', 'nein', ''), TRUE))
     return FALSE;
   else
     return TRUE;
-  }
+}
 
 
-// parse a human readable string for a number of bytes
+/**
+ * Parse a human readable string for a number of bytes
+ *
+ * @param string Input string
+ * @return int Number of bytes
+ */
 function parse_bytes($str)
-  {
+{
   if (is_numeric($str))
     return intval($str);
     
   if (preg_match('/([0-9]+)([a-z])/i', $str, $regs))
+  {
+    $bytes = floatval($regs[1]);
+    switch (strtolower($regs[2]))
     {
-      $bytes = floatval($regs[1]);
-      switch (strtolower($regs[2]))
-      {
-        case 'g':
-          $bytes *= 1073741824;
-          break;
-        case 'm':
-          $bytes *= 1048576;
-          break;
-        case 'k':
-          $bytes *= 1024;
-          break;
-      }
+      case 'g':
+        $bytes *= 1073741824;
+        break;
+      case 'm':
+        $bytes *= 1048576;
+        break;
+      case 'k':
+        $bytes *= 1024;
+        break;
     }
+  }
 
   return intval($bytes);
-  }
+}
     
-// create a human readable string for a number of bytes
+/**
+ * Create a human readable string for a number of bytes
+ *
+ * @param int Number of bytes
+ * @return string Byte string
+ */
 function show_bytes($bytes)
-  {
+{
   if ($bytes > 1073741824)
-    {
+  {
     $gb = $bytes/1073741824;
     $str = sprintf($gb>=10 ? "%d GB" : "%.1f GB", $gb);
-    }
+  }
   else if ($bytes > 1048576)
-    {
+  {
     $mb = $bytes/1048576;
     $str = sprintf($mb>=10 ? "%d MB" : "%.1f MB", $mb);
-    }
+  }
   else if ($bytes > 1024)
     $str = sprintf("%d KB",  round($bytes/1024));
   else
     $str = sprintf('%d B', $bytes);
 
   return $str;
-  }
+}
 
 
-// convert paths like ../xxx to an absolute path using a base url
+/**
+ * Convert paths like ../xxx to an absolute path using a base url
+ *
+ * @param string Relative path
+ * @param string Base URL
+ * @return string Absolute URL
+ */
 function make_absolute_url($path, $base_url)
-    {
-    $host_url = $base_url;
-    $abs_path = $path;
+{
+  $host_url = $base_url;
+  $abs_path = $path;
 
-    // cut base_url to the last directory
-    if (strpos($base_url, '/')>7)
+  // cut base_url to the last directory
+  if (strpos($base_url, '/')>7)
+  {
+    $host_url = substr($base_url, 0, strpos($base_url, '/'));
+    $base_url = substr($base_url, 0, strrpos($base_url, '/'));
+  }
+
+  // $path is absolute
+  if ($path{0}=='/')
+    $abs_path = $host_url.$path;
+  else
+  {
+    // strip './' because its the same as ''
+    $path = preg_replace('/^\.\//', '', $path);
+
+    if (preg_match_all('/\.\.\//', $path, $matches, PREG_SET_ORDER))
+      foreach ($matches as $a_match)
       {
-      $host_url = substr($base_url, 0, strpos($base_url, '/'));
-      $base_url = substr($base_url, 0, strrpos($base_url, '/'));
+        if (strrpos($base_url, '/'))
+          $base_url = substr($base_url, 0, strrpos($base_url, '/'));
+        
+        $path = substr($path, 3);
       }
 
-    // $path is absolute
-    if ($path{0}=='/')
-      $abs_path = $host_url.$path;
-    else
-      {
-      // strip './' because its the same as ''
-      $path = preg_replace('/^\.\//', '', $path);
-
-      if(preg_match_all('/\.\.\//', $path, $matches, PREG_SET_ORDER))
-        foreach($matches as $a_match)
-          {
-          if (strrpos($base_url, '/'))
-            $base_url = substr($base_url, 0, strrpos($base_url, '/'));
-          
-          $path = substr($path, 3);
-          }
-
-      $abs_path = $base_url.'/'.$path;
-      }
-      
-    return $abs_path;
-    }
+    $abs_path = $base_url.'/'.$path;
+  }
+    
+  return $abs_path;
+}
 
 
-// wrapper function for strlen
+/**
+ * Wrapper function for strlen
+ */
 function rc_strlen($str)
-  {
-    if (function_exists('mb_strlen'))
-      return mb_strlen($str);
-    else
-      return strlen($str);
-  }
+{
+  if (function_exists('mb_strlen'))
+    return mb_strlen($str);
+  else
+    return strlen($str);
+}
   
-// wrapper function for strtolower
+/**
+ * Wrapper function for strtolower
+ */
 function rc_strtolower($str)
-  {
-    if (function_exists('mb_strtolower'))
-      return mb_strtolower($str);
-    else
-      return strtolower($str);
-  }
+{
+  if (function_exists('mb_strtolower'))
+    return mb_strtolower($str);
+  else
+    return strtolower($str);
+}
 
-// wrapper function for substr
+/**
+ * Wrapper function for substr
+ */
 function rc_substr($str, $start, $len=null)
-  {
+{
   if (function_exists('mb_substr'))
     return mb_substr($str, $start, $len);
   else
     return substr($str, $start, $len);
-  }
+}
 
-// wrapper function for strpos
+/**
+ * Wrapper function for strpos
+ */
 function rc_strpos($haystack, $needle, $offset=0)
-  {
+{
   if (function_exists('mb_strpos'))
     return mb_strpos($haystack, $needle, $offset);
   else
     return strpos($haystack, $needle, $offset);
-  }
+}
 
-// wrapper function for strrpos
+/**
+ * Wrapper function for strrpos
+ */
 function rc_strrpos($haystack, $needle, $offset=0)
-  {
+{
   if (function_exists('mb_strrpos'))
     return mb_strrpos($haystack, $needle, $offset);
   else
     return strrpos($haystack, $needle, $offset);
-  }
+}
 
 
-// replace the middle part of a string with ...
-// if it is longer than the allowed length
+/**
+ * Replace the middle part of a string with ...
+ * if it is longer than the allowed length
+ *
+ * @param string Input string
+ * @param int    Max. length
+ * @param string Replace removed chars with this
+ * @return string Abbrevated string
+ */
 function abbrevate_string($str, $maxlength, $place_holder='...')
-  {
+{
   $length = rc_strlen($str);
   $first_part_length = floor($maxlength/2) - rc_strlen($place_holder);
   
   if ($length > $maxlength)
-    {
+  {
     $second_starting_location = $length - $maxlength + $first_part_length + 1;
     $str = rc_substr($str, 0, $first_part_length) . $place_holder . rc_substr($str, $second_starting_location, $length);
-    }
+  }
 
   return $str;
-  }
+}
 
 
-// make sure the string ends with a slash
+/**
+ * Make sure the string ends with a slash
+ */
 function slashify($str)
-  {
+{
   return unslashify($str).'/';
-  }
+}
 
 
-// remove slash at the end of the string
+/**
+ * Remove slash at the end of the string
+ */
 function unslashify($str)
-  {
+{
   return preg_replace('/\/$/', '', $str);
-  }
+}
   
 
-// delete all files within a folder
+/**
+ * Delete all files within a folder
+ *
+ * @param string Path to directory
+ * @return boolean True on success, False if directory was not found
+ */
 function clear_directory($dir_path)
-  {
+{
   $dir = @opendir($dir_path);
   if(!$dir) return FALSE;
 
@@ -1531,26 +581,32 @@ function clear_directory($dir_path)
 
   closedir($dir);
   return TRUE;
-  }
+}
 
 
-// create a unix timestamp with a specified offset from now
+/**
+ * Create a unix timestamp with a specified offset from now
+ *
+ * @param string String representation of the offset (e.g. 20min, 5h, 2days)
+ * @param int Factor to multiply with the offset
+ * @return int Unix timestamp
+ */
 function get_offset_time($offset_str, $factor=1)
   {
   if (preg_match('/^([0-9]+)\s*([smhdw])/i', $offset_str, $regs))
-    {
+  {
     $amount = (int)$regs[1];
     $unit = strtolower($regs[2]);
-    }
+  }
   else
-    {
+  {
     $amount = (int)$offset_str;
     $unit = 's';
-    }
+  }
     
   $ts = mktime();
   switch ($unit)
-    {
+  {
     case 'w':
       $amount *= 7;
     case 'd':
@@ -1561,37 +617,34 @@ function get_offset_time($offset_str, $factor=1)
       $amount *= 60;
     case 's':
       $ts += $amount * $factor;
-    }
+  }
 
   return $ts;
-  }
+}
 
 
 /**
- * strrstr
+ * Return the last occurence of a string in another string
  *
- * return the last occurence of a string in another string
  * @param haystack string string in which to search
  * @param needle string string for which to search
  * @return index of needle within haystack, or false if not found
  */
 function strrstr($haystack, $needle)
+{
+  $pver = phpversion();
+  if ($pver[0] >= 5)
+      return strrpos($haystack, $needle);
+  else
   {
-    $pver = phpversion();
-    if ($pver[0] >= 5)
-      {
-        return strrpos($haystack, $needle);
-      }
-    else
-      {
-        $index = strpos(strrev($haystack), strrev($needle));
-        if($index === false) {
-            return false;
-        }
-        $index = strlen($haystack) - strlen($needle) - $index;
-        return $index;
-      }
+    $index = strpos(strrev($haystack), strrev($needle));
+    if($index === false)
+        return false;
+    
+    $index = strlen($haystack) - strlen($needle) - $index;
+    return $index;
   }
+}
 
 
 ?>

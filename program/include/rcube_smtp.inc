@@ -5,7 +5,7 @@
  | program/include/rcube_smtp.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -19,6 +19,11 @@
 
 */
 
+/**
+ * SMTP delivery functions
+ *
+ * @package Mail
+ */
 
 // include required PEAR classes
 require_once('Net/SMTP.php');
@@ -47,7 +52,6 @@ $SMTP_CONN = null;
  * @param string The full text of the message body, including any Mime parts, etc.
  *
  * @return bool  Returns TRUE on success, or FALSE on error
- * @access public
  */
 function smtp_mail($from, $recipients, &$headers, &$body, &$response)
   {
@@ -342,6 +346,9 @@ function smtp_parse_rfc822($recipients)
   }
 
 
+/**
+ * @access private
+ */
 function smtp_explode_quoted_str($delimiter, $string)
   {
   $quotes=explode("\"", $string);

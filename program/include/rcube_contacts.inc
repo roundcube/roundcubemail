@@ -19,6 +19,12 @@
 
 */
 
+
+/**
+ * Model class for the local address book database
+ *
+ * @package Addressbook
+ */
 class rcube_contacts
 {
   var $db = null;
@@ -55,7 +61,7 @@ class rcube_contacts
   /**
    * PHP 4 object constructor
    *
-   * @see  rcube_contacts::__construct
+   * @see rcube_contacts::__construct()
    */
   function rcube_contacts($dbconn, $user)
   {
@@ -125,6 +131,7 @@ class rcube_contacts
    * List the current set of contact records
    *
    * @param  array  List of cols to show
+   * @param  int    Only return this number of records, use negative values for tail
    * @return array  Indexed list of contact records, each a hash array
    */
   function list_records($cols=null, $subset=0)

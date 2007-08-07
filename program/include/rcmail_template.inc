@@ -10,7 +10,7 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Class to handle HTML page output using a skin template.             |
- |   Extends rcube_html_page class from rcube_shared.inc                 |
+ |   Extends rcube_html_page class from rcube_html.inc                   |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -20,9 +20,19 @@
 
 */
 
-require_once('include/rcube_shared.inc');
+
+/**
+ * Classes and functions for HTML output
+ *
+ * @package View
+ */
+
+require_once('include/rcube_html.inc');
 
 
+/**
+ * Class to create HTML page output using a skin template
+ */
 class rcmail_template extends rcube_html_page
 {
   var $config;
@@ -36,11 +46,14 @@ class rcmail_template extends rcube_html_page
   var $object_handlers = array();
 
 
-  // PHP 5 constructor
+  /**
+   * Constructor
+   *
+   * @param array Configuration array
+   * @param string Current task
+   */
   function __construct(&$config, $task)
   {
-    parent::__construct();
-    
     $this->task = $task;
     $this->config = $config;
     $this->ajax_call = !empty($_GET['_remote']) || !empty($_POST['_remote']);
@@ -61,7 +74,10 @@ class rcmail_template extends rcube_html_page
     }
   }
 
-  // PHP 4 compatibility
+  /**
+   * PHP 4 compatibility
+   * @see rcmail_template::__construct()
+   */
   function rcmail_template(&$config, $task)
   {
     $this->__construct($config, $task);
@@ -70,6 +86,10 @@ class rcmail_template extends rcube_html_page
   
   /**
    * Set environment variable
+   *
+   * @param string Property name
+   * @param mixed Property value
+   * @param boolean True if this property should be added to client environment
    */
   function set_env($name, $value, $addtojs=true)
   {
@@ -135,6 +155,10 @@ class rcmail_template extends rcube_html_page
 
   /**
    * Invoke display_message command
+   *
+   * @param string Message to display
+   * @param string Message type [notice|confirm|error]
+   * @param array Key-value pairs to be replaced in localized text
    */
   function show_message($message, $type='notice', $vars=NULL)
   {
@@ -211,7 +235,10 @@ class rcmail_template extends rcube_html_page
   
   
   /**
-   * @override
+   * Process template and write to stdOut
+   *
+   * @param string HTML template
+   * @see rcube_html_page::write()
    */
   function write($template='')
   {
@@ -273,7 +300,7 @@ class rcmail_template extends rcube_html_page
 
   /**
    * Return executable javascript code for all registered commands
-   * @private
+   * @access private
    */
   function get_js_commands()
   {
@@ -300,6 +327,7 @@ class rcmail_template extends rcube_html_page
   
   /**
    * Make URLs starting with a slash point to skin directory
+   * @access private
    */
   function abs_url($str)
   {
@@ -311,8 +339,9 @@ class rcmail_template extends rcube_html_page
   /*****  Template parsing methods  *****/
   
   /**
-   * Replace all strings ($varname) with the content
-   * of the according global variable.
+   * Replace all strings ($varname)
+   * with the content of the according global variable.
+   * @access private
    */
   function parse_with_globals($input)
   {
@@ -323,6 +352,7 @@ class rcmail_template extends rcube_html_page
   
   /**
    * Parse for conditional tags
+   * @access private
    */
   function parse_conditions($input)
   {
@@ -361,6 +391,7 @@ class rcmail_template extends rcube_html_page
    * Determines if a given condition is met
    *
    * @return True if condition is valid, False is not
+   * @access private
    */
   function check_condition($condition)
   {
@@ -379,6 +410,7 @@ class rcmail_template extends rcube_html_page
    *
    * @param string Input string to parse
    * @return Altered input string
+   * @access private
    */
   function parse_xml($input)
   {
@@ -392,9 +424,10 @@ class rcmail_template extends rcube_html_page
    * @param string Tag command: object,button,label, etc.
    * @param string Attribute string
    * @return Tag/Object content string
+   * @access private
    */
   function xml_command($command, $str_attrib, $add_attrib=array())
-    {
+  {
     $command = strtolower($command);
     $attrib = parse_attrib_string($str_attrib) + $add_attrib;
 
@@ -437,16 +470,16 @@ class rcmail_template extends rcube_html_page
           return call_user_func($this->object_handlers[$object], $attrib);
 
         else if ($object=='productname')
-          {
+        {
           $name = !empty($this->config['product_name']) ? $this->config['product_name'] : 'RoundCube Webmail';
           return Q($name);
-          }
+        }
         else if ($object=='version')
-          {
+        {
           return (string)RCMAIL_VERSION;
-          }
+        }
         else if ($object=='pagetitle')
-          {
+        {
           $task = $this->task;
           $title = !empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '';
 
@@ -458,13 +491,13 @@ class rcmail_template extends rcube_html_page
             $title .= ucfirst($task);
 
           return Q($title);
-          }
+        }
 
         break;
       }
 
     return '';
-    }
+  }
 
 
   /**
@@ -472,9 +505,10 @@ class rcmail_template extends rcube_html_page
    *
    * @param array Button attributes
    * @return HTML button
+   * @access private
    */
   function button($attrib)
-    {
+  {
     global $CONFIG, $OUTPUT, $BROWSER, $MAIN_TASKS;
     static $sa_buttons = array();
     static $s_button_count = 100;
@@ -626,6 +660,238 @@ class rcmail_template extends rcube_html_page
     return $out;
   }
 
-}
+}  // end class rcmail_template
+
+
+
+// ************** common functions delivering gui objects **************
+
+
+/**
+ * Builder for GUI object 'message'
+ *
+ * @param array Named tag parameters
+ * @return string HTML code for the gui object
+ */
+function rcmail_message_container($attrib)
+  {
+  global $OUTPUT;
+
+  if (!$attrib['id'])
+    $attrib['id'] = 'rcmMessageContainer';
+
+  // allow the following attributes to be added to the <table> tag
+  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
+  $out = '<div' . $attrib_str . "></div>";
+  
+  $OUTPUT->add_gui_object('message', $attrib['id']);
+  
+  return $out;
+  }
+
+
+/**
+ * GUI object 'username'
+ * Showing IMAP username of the current session
+ *
+ * @param array Named tag parameters (currently not used)
+ * @return string HTML code for the gui object
+ */
+function rcmail_current_username($attrib)
+  {
+  global $DB;
+  static $s_username;
+
+  // alread fetched  
+  if (!empty($s_username))
+    return $s_username;
+
+  // get e-mail address form default identity
+  $sql_result = $DB->query(
+    "SELECT email AS mailto
+     FROM ".get_table_name('identities')."
+     WHERE  user_id=?
+     AND    standard=1
+     AND    del<>1",
+    $_SESSION['user_id']);
+                                   
+  if ($DB->num_rows($sql_result))
+    {
+    $sql_arr = $DB->fetch_assoc($sql_result);
+    $s_username = $sql_arr['mailto'];
+    }
+  else if (strstr($_SESSION['username'], '@'))
+    $s_username = $_SESSION['username'];
+  else
+    $s_username = $_SESSION['username'].'@'.$_SESSION['imap_host'];
+
+  return $s_username;
+  }
+
+
+/**
+ * GUI object 'loginform'
+ * Returns code for the webmail login form
+ *
+ * @param array Named parameters
+ * @return string HTML code for the gui object
+ */
+function rcmail_login_form($attrib)
+  {
+  global $CONFIG, $OUTPUT, $SESS_HIDDEN_FIELD;
+  
+  $labels = array();
+  $labels['user'] = rcube_label('username');
+  $labels['pass'] = rcube_label('password');
+  $labels['host'] = rcube_label('server');
+  
+  $input_user = new textfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30, 'autocomplete' => 'off'));
+  $input_pass = new passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30));
+  $input_action = new hiddenfield(array('name' => '_action', 'value' => 'login'));
+    
+  $fields = array();
+  $fields['user'] = $input_user->show(get_input_value('_user', RCUBE_INPUT_POST));
+  $fields['pass'] = $input_pass->show();
+  $fields['action'] = $input_action->show();
+  
+  if (is_array($CONFIG['default_host']))
+    {
+    $select_host = new select(array('name' => '_host', 'id' => 'rcmloginhost'));
+    
+    foreach ($CONFIG['default_host'] as $key => $value)
+    {
+      if (!is_array($value))
+        $select_host->add($value, (is_numeric($key) ? $value : $key));
+      else
+        {
+        unset($select_host);
+        break;
+        }
+    }
+      
+    $fields['host'] = isset($select_host) ? $select_host->show($_POST['_host']) : null;
+    }
+  else if (!strlen($CONFIG['default_host']))
+    {
+    $input_host = new textfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
+    $fields['host'] = $input_host->show($_POST['_host']);
+    }
+
+  $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';
+  $form_start = !strlen($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
+  $form_end = !strlen($attrib['form']) ? '</form>' : '';
+  
+  if ($fields['host'])
+    $form_host = <<<EOF
+    
+</tr><tr>
+
+<td class="title"><label for="rcmloginhost">$labels[host]</label></td>
+<td>$fields[host]</td>
+
+EOF;
+
+  $OUTPUT->add_gui_object('loginform', $form_name);
+  
+  $out = <<<EOF
+$form_start
+$SESS_HIDDEN_FIELD
+$fields[action]
+<table><tr>
+
+<td class="title"><label for="rcmloginuser">$labels[user]</label></td>
+<td>$fields[user]</td>
+
+</tr><tr>
+
+<td class="title"><label for="rcmloginpwd">$labels[pass]</label></td>
+<td>$fields[pass]</td>
+$form_host
+</tr></table>
+$form_end
+EOF;
+
+  return $out;
+  }
+
+
+/**
+ * GUI object 'charsetselector'
+ *
+ * @param array Named parameters for the select tag
+ * @return string HTML code for the gui object
+ */
+function rcmail_charset_selector($attrib)
+  {
+  global $OUTPUT;
+  
+  // pass the following attributes to the form class
+  $field_attrib = array('name' => '_charset');
+  foreach ($attrib as $attr => $value)
+    if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex')))
+      $field_attrib[$attr] = $value;
+      
+  $charsets = array(
+    'US-ASCII'     => 'ASCII (English)',
+    'EUC-JP'       => 'EUC-JP (Japanese)',
+    'EUC-KR'       => 'EUC-KR (Korean)',
+    'BIG5'         => 'BIG5 (Chinese)',
+    'GB2312'       => 'GB2312 (Chinese)',
+    'ISO-2022-JP'  => 'ISO-2022-JP (Japanese)',
+    'ISO-8859-1'   => 'ISO-8859-1 (Latin-1)',
+    'ISO-8859-2'   => 'ISO-8895-2 (Central European)',
+    'ISO-8859-7'   => 'ISO-8859-7 (Greek)',
+    'ISO-8859-9'   => 'ISO-8859-9 (Turkish)',
+    'Windows-1251' => 'Windows-1251 (Cyrillic)',
+    'Windows-1252' => 'Windows-1252 (Western)',
+    'Windows-1255' => 'Windows-1255 (Hebrew)',
+    'Windows-1256' => 'Windows-1256 (Arabic)',
+    'Windows-1257' => 'Windows-1257 (Baltic)',
+    'UTF-8'        => 'UTF-8'
+    );
+
+  $select = new select($field_attrib);
+  $select->add(array_values($charsets), array_keys($charsets));
+  
+  $set = $_POST['_charset'] ? $_POST['_charset'] : $OUTPUT->get_charset();
+  return $select->show($set);
+  }
+
+
+/**
+ * GUI object 'searchform'
+ * Returns code for search function
+ *
+ * @param array Named parameters
+ * @return string HTML code for the gui object
+ */
+function rcmail_search_form($attrib)
+  {
+  global $OUTPUT;
+
+  // add some labels to client
+  rcube_add_label('searching');
+
+  $attrib['name'] = '_q';
+
+  if (empty($attrib['id']))
+    $attrib['id'] = 'rcmqsearchbox';
+
+  $input_q = new textfield($attrib);
+  $out = $input_q->show();
+
+  $OUTPUT->add_gui_object('qsearchbox', $attrib['id']);
+
+  // add form tag around text field
+  if (empty($attrib['form']))
+    $out = sprintf(
+      '<form name="rcmqsearchform" action="./" '.
+      'onsubmit="%s.command(\'search\');return false" style="display:inline;">%s</form>',
+      JS_OBJECT_NAME,
+      $out);
+
+  return $out;
+  } 
+
 
 ?>

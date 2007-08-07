@@ -4,7 +4,7 @@ php_flag	log_errors	On
 php_value	error_log	logs/errors
 php_value	upload_max_filesize	2M
 
-<FilesMatch "(\.inc|\~)$|^_">
+<FilesMatch "(\.inc|\~)$">
   Order allow,deny
   Deny from all
 </FilesMatch>

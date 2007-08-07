@@ -32,14 +32,14 @@ require_once('MDB2.php');
  *
  * This is a wrapper for the PEAR::MDB2 class
  *
- * @package    RoundCube Webmail
+ * @package    Database
  * @author     David Saez Padros <david@ols.es>
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Lukas Kahwe Smith <smith@pooteeweet.org>
  * @version    1.16
  * @link       http://pear.php.net/package/MDB2
  */
-class rcube_db
+class rcube_mdb2
   {
   var $db_dsnw;               // DSN for write operations
   var $db_dsnr;               // DSN for read operations
@@ -76,7 +76,7 @@ class rcube_db
   /**
    * PHP 4 object constructor
    *
-   * @see  rcube_MDB2::__construct
+   * @see  rcube_mdb2::__construct
    */
   function rcube_db($db_dsnw,$db_dsnr='')
     {

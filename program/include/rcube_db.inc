@@ -33,7 +33,7 @@ require_once('DB.php');
  *
  * This is a wrapper for the PEAR::DB class
  *
- * @package    RoundCube Webmail
+ * @package    Database
  * @author     David Saez Padros <david@ols.es>
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @version    1.17
