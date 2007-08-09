@@ -103,6 +103,9 @@ CONFIGURATION
 Change the files in config/* according your to environment and your needs.
 Details about the config paramaters can be found in the config files.
 
+You can also modify the default .htaccess file. This is necessary to
+increase the allowed size of file attachments, for example:
+	php_value       upload_max_filesize     2M
 
 UPGRADING
 =========

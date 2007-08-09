@@ -35,7 +35,7 @@ function rcube_webmail()
  
   // webmail client settings
   this.dblclick_time = 500;
-  this.message_time = 5000;
+  this.message_time = 3000;
   
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
   
@@ -694,7 +694,7 @@ function rcube_webmail()
             }
           }
 
-        this.goto_url('get', qstring+'&_download=1');
+        this.goto_url('get', qstring+'&_download=1', false);
         break;
         
       case 'select-all':
@@ -1063,7 +1063,9 @@ function rcube_webmail()
       this.unfocus_folder(id);
       this.command('moveto', id);
       }
-  
+
+    // Hide message command buttons until a message is selected 
+    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'print', false); 
     return false;
     };
 
@@ -1088,15 +1090,16 @@ function rcube_webmail()
       clearTimeout(this.preview_timer);
 
     var selected = list.selection.length==1;
+
+    // Hide certain command buttons when Drafts folder is selected
     if (this.env.mailbox == this.env.drafts_mailbox)
       {
-      this.enable_command('show', selected);
-      this.enable_command('delete', 'moveto', list.selection.length>0 ? true : false);
+      this.enable_command('reply', 'reply-all', 'forward', false);
+      this.enable_command('show', 'delete', 'moveto', selected);
       }
     else
       {
-      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
-      this.enable_command('delete', 'moveto', list.selection.length>0 ? true : false);
+      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'delete', 'moveto', selected);
       }
 
     // start timer for message preview (wait for double click)
@@ -1680,7 +1683,7 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((input_message.value=='')&&(tinyMCE.getContent()==''))
+    if ((input_message.value=='')&&(tinyMCE == null ? true : (tinyMCE.getContent()=='' || tinyMCE.getContent() == null)))
       {
       if (!confirm(this.get_label('nobodywarning')))
         {
@@ -1711,6 +1714,9 @@ function rcube_webmail()
     {
     if (this.env.draft_autosave)
       this.save_timer = self.setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
+
+    // Unlock interface now that saving is complete
+    this.busy = false;
     };
 
 
@@ -3187,9 +3193,11 @@ function rcube_webmail()
   /*********        remote request methods        *********/
   /********************************************************/
 
-  this.redirect = function(url)
+  this.redirect = function(url, lock)
     {
-    this.set_busy(true);
+    if (lock || lock == NULL)
+      this.set_busy(true);
+
     if (this.env.framed && window.parent)
       parent.location.href = url;
     else  
@@ -3198,11 +3206,8 @@ function rcube_webmail()
 
   this.goto_url = function(action, query, lock)
     {
-    if (lock)
-    this.set_busy(true);
-
     var querystring = query ? '&'+query : '';
-    this.redirect(this.env.comm_path+'&_action='+action+querystring);
+    this.redirect(this.env.comm_path+'&_action='+action+querystring, lock);
     };
 
 

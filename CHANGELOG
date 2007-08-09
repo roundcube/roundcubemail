@@ -1,6 +1,18 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/07/09 (richs)
+----------
+- Fixed bug with buttons not dimming/enabling properly after switching folders
+- Fixed compose window becoming unresponsive after saving a draft (#1484487)
+- Re-enabled "Back" button in compose window now that bug #1484487 is fixed
+- Fixed unresponsive interface issue when downloading attachments (#1484496)
+- Lowered status message time from 5 to 3 seconds to improve responsiveness
+- Added note to INSTALL about .htaccess limiting upload_max_filesize
+- Raised .htaccess upload_max_filesize from 2M to 5M to differ from default php.ini
+- Increased "mailboxcontrols" mail.css width from 160 to 170px to fix non-english languages 
+- Fixed empty-message sending with TinyMCE plain-text mode, or if it's not installed
+
 2007/07/03 (thomasb)
 ----------
 - Added Macedonian (Slavic FYROM) localization
