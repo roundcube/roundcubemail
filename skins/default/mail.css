@@ -655,6 +655,7 @@ div.message-part div.pre
 {
   margin: 0px;
   padding: 0px;
+  white-space: -moz-pre-wrap !important;
   white-space: pre;
   font-family: monospace;
 }

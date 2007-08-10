@@ -8,6 +8,7 @@ CHANGELOG RoundCube Webmail
 - Fix display of multipart messages from Apple Mail (closes #1484027)
 - Protect AJAX request from being fetched by a foreign site (XSS)
 - Make autocomplete for loginform configurable by the skin template
+- Fix compose function from address book (closes #1484426)
 
 
 2007/08/09 (richs)
@@ -19,7 +20,7 @@ CHANGELOG RoundCube Webmail
 - Lowered status message time from 5 to 3 seconds to improve responsiveness
 - Added note to INSTALL about .htaccess limiting upload_max_filesize
 - Raised .htaccess upload_max_filesize from 2M to 5M to differ from default php.ini
-- Increased "mailboxcontrols" mail.css width from 160 to 170px to fix non-english languages 
+- Increased "mailboxcontrols" mail.css width from 160 to 170px to fix non-english languages (#1484499)
 - Fixed empty-message sending with TinyMCE plain-text mode, or if it's not installed
 
 

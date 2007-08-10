@@ -2289,7 +2289,7 @@ function rcube_webmail()
     this.enable_command('delete', 'compose', false);
 
     // send request to server
-    var url = (src ? '&_source='+urlencode(src) : '') + (page ? '&_page='+page : '');
+    var url = (src ? '_source='+urlencode(src) : '') + (page ? (src?'&':'') + '_page='+page : '');
     this.env.source = src;
     
     // also send search request to get the right messages 

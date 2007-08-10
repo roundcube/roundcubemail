@@ -25,6 +25,8 @@ $mailto = array();
 
 if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && $CONTACTS->ready)
 {
+  $CONTACTS->set_page(1);
+  $CONTACTS->set_pagesize(100);
   $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid);
 
   while (is_object($recipients) && ($rec = $recipients->iterate()))
