@@ -463,7 +463,7 @@ function rcube_webmail()
         break;
 
       case 'logout':
-        this.goto_url('logout');
+        this.goto_url('logout', true);
         break;      
 
       // commands to switch task
@@ -3195,7 +3195,7 @@ function rcube_webmail()
 
   this.redirect = function(url, lock)
     {
-    if (lock || lock == NULL)
+    if (lock || lock === null)
       this.set_busy(true);
 
     if (this.env.framed && window.parent)
@@ -3498,12 +3498,13 @@ function rcube_http_request()
       return false;
       }
 
-    var ref = this;
+    var _ref = this;
     this.url = url;
     this.busy = true;
 
-    this.xmlhttp.onreadystatechange = function(){ ref.xmlhttp_onreadystatechange(); };
+    this.xmlhttp.onreadystatechange = function(){ _ref.xmlhttp_onreadystatechange(); };
     this.xmlhttp.open('GET', url);
+    this.xmlhttp.setRequestHeader('X-RoundCube-Referer', bw.get_cookie('sessid'));
     this.xmlhttp.send(null);
     };
 
@@ -3537,6 +3538,7 @@ function rcube_http_request()
     this.xmlhttp.onreadystatechange = function() { ref.xmlhttp_onreadystatechange(); };
     this.xmlhttp.open('POST', url, true);
     this.xmlhttp.setRequestHeader('Content-Type', contentType);
+    this.xmlhttp.setRequestHeader('X-RoundCube-Referer', bw.get_cookie('sessid'));
     this.xmlhttp.send(req_body);
     };
 

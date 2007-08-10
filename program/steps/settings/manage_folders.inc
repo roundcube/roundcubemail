@@ -27,7 +27,7 @@ rcmail_imap_init(TRUE);
 if ($_action=='subscribe')
   {
   if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_POST))
-    $IMAP->subscribe(array($mboxes));
+    $IMAP->subscribe($mboxes);
 
   if ($OUTPUT->ajax_call)
     $OUTPUT->remote_response('// subscribed');
@@ -37,7 +37,7 @@ if ($_action=='subscribe')
 else if ($_action=='unsubscribe')
   {
   if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_POST))
-    $IMAP->unsubscribe(array($mboxes));
+    $IMAP->unsubscribe($mboxes);
 
   if ($OUTPUT->ajax_call)
     $OUTPUT->remote_response('// unsubscribed');

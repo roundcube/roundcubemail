@@ -48,7 +48,7 @@ if ($_GET['_uid'])
   // allow caching, unless remote images are present
   if ((bool)get_input_value('_safe', RCUBE_INPUT_GET))
     send_nocacheing_headers();
-  else
+  else if (empty($CONFIG['devel_mode']))
     send_modified_header($_SESSION['login_time'], $etag);
 
   $MESSAGE['subject'] = rcube_imap::decode_mime_string($MESSAGE['headers']->subject, $MESSAGE['headers']->charset);

@@ -646,6 +646,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
     
     foreach ($structure->parts as $p => $sub_part)
       {
+      $rel_parts = $attachmnts = null;
       $sub_ctype_primary = strtolower($sub_part->ctype_primary);
       $sub_ctype_secondary = strtolower($sub_part->ctype_secondary);
 
@@ -656,19 +657,22 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
         $html_part = $p;
       else if ($sub_ctype_primary=='text' && $sub_ctype_secondary=='enriched')
         $enriched_part = $p;
-      else if ($sub_ctype_primary=='multipart' && $sub_ctype_secondary=='related')
+      else if ($sub_ctype_primary=='multipart' && ($sub_ctype_secondary=='related' || $sub_ctype_secondary=='mixed'))
         $related_part = $p;
       }
-
+      
     // parse related part (alternative part could be in here)
-    if ($related_part!==NULL && $prefer_html)
-      {
-      list($parts, $attachmnts) = rcmail_parse_message($structure->parts[$related_part], $arg, TRUE);
-      $a_return_parts = array_merge($a_return_parts, $parts);
+    if ($related_part!==NULL)
+    {
+      list($rel_parts, $attachmnts) = rcmail_parse_message($structure->parts[$related_part], $arg, TRUE);
       $a_attachments = array_merge($a_attachments, $attachmnts);
-      }
+    }
+    
+    // merge related parts if any
+    if ($rel_parts && $prefer_html && !$html_part)
+      $a_return_parts = array_merge($a_return_parts, $rel_parts);
 
-    // print html/plain part
+    // choose html/plain part to print
     else if ($html_part!==NULL && $prefer_html)
       $print_part = &$structure->parts[$html_part];
     else if ($enriched_part!==NULL)
@@ -683,7 +687,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
       $a_return_parts[] = $print_part;
       }
     // show plaintext warning
-    else if ($html_part!==NULL)
+    else if ($html_part!==NULL && empty($a_return_parts))
       {
       $c = new stdClass;
       $c->type = 'content';
@@ -913,8 +917,8 @@ function rcmail_message_body($attrib)
   $ctype_secondary = strtolower($MESSAGE['structure']->ctype_secondary);
   
   // list images after mail body
-  if (get_boolean($attrib['showimages']) && $ctype_primary=='multipart' && $ctype_secondary=='mixed' &&
-      sizeof($MESSAGE['attachments']) && !strstr($message_body, '<html') && strlen($GET_URL))
+  if (get_boolean($attrib['showimages']) && $ctype_primary=='multipart' &&
+      !empty($MESSAGE['attachments']) && !strstr($message_body, '<html') && strlen($GET_URL))
     {
     foreach ($MESSAGE['attachments'] as $attach_prop)
       {
@@ -1239,7 +1243,7 @@ function rcmail_message_part_frame($attrib)
   $part = $MESSAGE['parts'][$_GET['_part']];
   $ctype_primary = strtolower($part->ctype_primary);
 
-  $attrib['src'] = './?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']);
+  $attrib['src'] = Q('./?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']));
 
   $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'src', 'width', 'height'));
   $out = '<iframe '. $attrib_str . "></iframe>";

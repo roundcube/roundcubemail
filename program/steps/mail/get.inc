@@ -29,7 +29,7 @@ if ($_GET['_preload'])
   $message = rcube_label('loadingdata');
 
   print "<html>\n<head>\n" .
-        '<meta http-equiv="refresh" content="0; url='.htmlspecialchars($url).'">' .
+        '<meta http-equiv="refresh" content="0; url='.Q($url).'">' .
         "\n</head>\n<body>" .
         $message .
         "\n</body>\n</html>";
@@ -107,7 +107,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
     else
       {
       header(sprintf('Content-Disposition: %s; filename="%s";',
-                     $part->disposition ? $part->disposition : 'attachment',
+                     $_GET['_download'] ? 'attachment' : 'inline',
                      $part->filename ? $part->filename : "roundcube.$ctype_secondary"));
 
       // turn off output buffering and print part content

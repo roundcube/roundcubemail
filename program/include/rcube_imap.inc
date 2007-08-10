@@ -1374,7 +1374,7 @@ class rcube_imap
     // make sure mailbox exists
     if (!in_array($to_mbox, $this->_list_mailboxes()))
       {
-      if (in_array(strtolower($to_mbox), $this->default_folders))
+      if (in_array($to_mbox, $this->default_folders))
         $this->create_mailbox($to_mbox, TRUE);
       else
         return FALSE;
@@ -1658,11 +1658,11 @@ class rcube_imap
     $abs_name = $this->_mod_mailbox($name);
     $a_mailbox_cache = $this->get_cache('mailboxes');
 
-    if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array_nocase($abs_name, $a_mailbox_cache)))
+    if (strlen($abs_name) && (!is_array($a_mailbox_cache) || !in_array($abs_name, $a_mailbox_cache)))
       $result = iil_C_CreateFolder($this->conn, $abs_name);
 
     // try to subscribe it
-    if ($subscribe)
+    if ($result && $subscribe)
       $this->subscribe($name);
 
     return $result ? $name : FALSE;
@@ -1768,17 +1768,10 @@ class rcube_imap
     foreach ($this->default_folders as $folder)
       {
       $abs_name = $this->_mod_mailbox($folder);
-      if (!in_array_nocase($abs_name, $a_subscribed))
-        {
-        if (!in_array_nocase($abs_name, $a_folders))
-          $this->create_mailbox($folder, TRUE);
-        else
-          $this->subscribe($folder);
-        }
-      else if (!in_array_nocase($abs_name, $a_folders))
-        {
-        $this->create_mailbox($folder, FALSE);
-        }
+      if (!in_array_nocase($abs_name, $a_folders))
+        $this->create_mailbox($folder, TRUE);
+      else if (!in_array_nocase($abs_name, $a_subscribed))
+        $this->subscribe($folder);
       }
     }
 
@@ -2433,7 +2426,7 @@ class rcube_imap
         $a_out[] = $folder;
       }
 
-    sort($a_out);
+    natcasesort($a_out);
     ksort($a_defaults);
     
     return array_merge($a_defaults, $a_out);

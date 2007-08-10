@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20070518                                                  |
+ | Version 0.1-20070809                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -41,7 +41,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.1-20070517');
+define('RCMAIL_VERSION', '0.1-20070809');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
@@ -217,6 +217,17 @@ if (empty($_SESSION['user_id']))
   $_task = 'login';
 }
 
+
+// check client X-header to verify request origin
+if ($OUTPUT->ajax_call)
+{
+  $hdrs = getallheaders();
+  if (empty($hdrs['X-RoundCube-Referer']) && empty($CONFIG['devel_mode']))
+  {
+    header('HTTP/1.1 404 Not Found');
+    die("Invalid Request");
+  }
+}
 
 
 // set task and action to client
