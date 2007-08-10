@@ -45,9 +45,9 @@ function get_args($aliases=array())
 function print_usage()
 {
 	print "Usage:  msgimport -h imap-host -u user-name -f message-file\n";
-	print "-host   IMAP host\n";
-	print "-user   IMAP user name\n";
-	print "-file   Message file to upload\n";
+	print "--host   IMAP host\n";
+	print "--user   IMAP user name\n";
+	print "--file   Message file to upload\n";
 }
 
 
@@ -82,6 +82,9 @@ if (empty($args['user']))
 // prompt for password
 echo "Password: ";
 $args['pass'] = trim(fgets(STDIN));
+
+// clear password input
+echo chr(8)."\rPassword: ".str_repeat("*", strlen($args['pass']))."\n";
 
 // parse $host URL
 $a_host = parse_url($args['host']);
