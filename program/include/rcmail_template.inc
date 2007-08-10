@@ -453,7 +453,7 @@ class rcmail_template extends rcube_html_page
       // include a file 
       case 'include':
         $path = realpath($this->config['skin_path'].$attrib['file']);
-        if ($fp = @fopen($path, 'r'))
+        if (filesize($path) && ($fp = @fopen($path, 'r')))
         {
           $incl = fread($fp, filesize($path));
           fclose($fp);        
