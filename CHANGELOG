@@ -9,6 +9,9 @@ CHANGELOG RoundCube Webmail
 - Protect AJAX request from being fetched by a foreign site (XSS)
 - Make autocomplete for loginform configurable by the skin template
 - Fix compose function from address book (closes #1484426)
+- Added //IGNORE to iconv call (patch #1484420, closes #1484023)
+- Check if mbstring supports charset (#1484290 and #1484292)
+- Prefer iconv over mbstring (as suggested in #1484292)
 - Updated Simplified Chinese localization
 - Added Ukrainian translation
 

@@ -472,9 +472,17 @@ function rcmail_set_locale($lang)
   static $s_mbstring_loaded = NULL;
   
   // settings for mbstring module (by Tadashi Jokagi)
-  if (is_null($s_mbstring_loaded))
-    $MBSTRING = $s_mbstring_loaded = extension_loaded("mbstring");
-  else
+  if (is_null($s_mbstring_loaded) && ($s_mbstring_loaded = extension_loaded("mbstring")))
+  {
+    $MBSTRING = array();
+    foreach (mb_list_encodings() as $charset)
+      $MBSTRING[strtoupper($charset)] = strtoupper($charset);
+    
+    // add some alias charsets
+    $MBSTRING['UTF-7'] = "UTF7-IMAP";
+    $MBSTRING['WINDOWS-1257'] = "ISO-8859-13";
+  }
+  else if (is_null($s_mbstring_loaded))
     $MBSTRING = $s_mbstring_loaded = FALSE;
     
   if ($MBSTRING)
@@ -1049,6 +1057,7 @@ function rcmail_message_cache_gc()
 function rcube_charset_convert($str, $from, $to=NULL)
   {
   global $MBSTRING;
+  static $mb_encodings;
 
   $from = strtoupper($from);
   $to = $to==NULL ? strtoupper(RCMAIL_CHARSET) : strtoupper($to);
@@ -1056,20 +1065,17 @@ function rcube_charset_convert($str, $from, $to=NULL)
   if ($from==$to || $str=='' || empty($from))
     return $str;
 
-  // convert charset using mbstring module  
-  if ($MBSTRING)
-    {
-    $to = $to=="UTF-7" ? "UTF7-IMAP" : $to;
-    $from = $from=="UTF-7" ? "UTF7-IMAP": $from;
+  // convert charset using iconv module  
+  if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
+    return iconv($from, $to . "//IGNORE", $str);
 
+  // convert charset using mbstring module  
+  if ($MBSTRING && ($mbfrom = $MBSTRING[$from]) && ($mbto = $MBSTRING[$to]))
+    {
     // return if convert succeeded
-    if (($out = mb_convert_encoding($str, $to, $from)) != '')
+    if (($out = mb_convert_encoding($str, $mbto, $mbfrom)) != '')
       return $out;
     }
-
-  // convert charset using iconv module  
-  if (function_exists('iconv') && $from!='UTF-7' && $to!='UTF-7')
-    return iconv($from, $to, $str);
 
   $conv = new utf8();
 
