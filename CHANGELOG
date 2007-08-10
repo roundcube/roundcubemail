@@ -9,6 +9,8 @@ CHANGELOG RoundCube Webmail
 - Protect AJAX request from being fetched by a foreign site (XSS)
 - Make autocomplete for loginform configurable by the skin template
 - Fix compose function from address book (closes #1484426)
+- Updated Simplified Chinese localization
+- Added Ukrainian translation
 
 
 2007/08/09 (richs)

@@ -27,8 +27,8 @@
 	'am'    => 'Armenian',
 	'bg'    => 'Bulgarian',
 	'bs_BA' => 'Bosnian (Bosanski)',
-	'zh_TW' => 'Chinese (BIG5)',
-	'zh_CN' => 'Chinese (GB2312)',
+	'zh_TW' => 'Chinese (Traditional)',
+	'zh_CN' => 'Chinese (Simplified)',
  	'ca'    => 'Català',
 	'cz'    => 'Czech',
 	'da'    => 'Dansk',
@@ -71,6 +71,7 @@
 	'sr_cyrillic' => 'Serbian Cyrillic',
 	'tr'    => 'Turkish',
 	'th'    => 'Thai',
+	'uk'    => 'Ukrainian',
 	'vn'    => 'Vietnamese'
 );
 
