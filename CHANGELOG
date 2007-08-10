@@ -1,7 +1,7 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2007/08/09 (thomasb)
+2007/08/10 (thomasb)
 ----------
 - Identify mailboxes case-sensitive
 - Sort mailbox list case-insensitive (closes #1484338)
@@ -10,7 +10,7 @@ CHANGELOG RoundCube Webmail
 - Make autocomplete for loginform configurable by the skin template
 
 
-2007/07/09 (richs)
+2007/08/09 (richs)
 ----------
 - Fixed bug with buttons not dimming/enabling properly after switching folders
 - Fixed compose window becoming unresponsive after saving a draft (#1484487)

@@ -234,10 +234,7 @@ function rcmail_authenticate_session()
   // check session filetime
   if (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < time())
     $valid = false;
-    
-  if (!$valid)
-    write_log('timeouts', $_SESSION + array('SESS_CLIENT_IP' => $SESS_CLIENT_IP, 'SESS_CHANGED' => $SESS_CHANGED, 'COOKIE' => $_COOKIE));
-
+  
   return $valid;
   }
 

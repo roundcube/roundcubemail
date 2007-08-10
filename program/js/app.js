@@ -1683,13 +1683,10 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((input_message.value=='')&&(tinyMCE == null ? true : (tinyMCE.getContent()=='' || tinyMCE.getContent() == null)))
+    if ((input_message.value == '' || (window.tinyMCE && tinyMCE.getContent() == '')) && !confirm(this.get_label('nobodywarning')))
       {
-      if (!confirm(this.get_label('nobodywarning')))
-        {
-        input_message.focus();
-        return false;
-        }
+      input_message.focus();
+      return false;
       }
 
     return true;
