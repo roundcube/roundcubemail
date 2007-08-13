@@ -221,8 +221,7 @@ if (empty($_SESSION['user_id']))
 // check client X-header to verify request origin
 if ($OUTPUT->ajax_call)
 {
-  $hdrs = getallheaders();
-  if (empty($hdrs['X-RoundCube-Referer']) && empty($CONFIG['devel_mode']))
+  if (empty($CONFIG['devel_mode']) && !rc_request_header('X-RoundCube-Referer'))
   {
     header('HTTP/1.1 404 Not Found');
     die("Invalid Request");

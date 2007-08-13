@@ -523,6 +523,27 @@ function rc_strrpos($haystack, $needle, $offset=0)
 
 
 /**
+ * Read a specific HTTP request header
+ *
+ * @param string Header name
+ * @return string Header value or null if not available
+ */
+function rc_request_header($name)
+{
+  if (function_exists('getallheaders'))
+  {
+    $hdrs = getallheaders();
+    return $hdrs[$name];
+  }
+  else
+  {
+    $key = "HTTP_" . strtoupper(strtr($name, "-", "_"));
+    return $_SERVER[$key];
+  }
+}
+
+
+/**
  * Replace the middle part of a string with ...
  * if it is longer than the allowed length
  *

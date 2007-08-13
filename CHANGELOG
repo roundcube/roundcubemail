@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/08/13 (thomasb)
+----------
+- Add alternative for getallheaders() (fix #1484508)
+- Revert changes for mbstring usage (fix #1484509)
+
+
 2007/08/10 (thomasb)
 ----------
 - Identify mailboxes case-sensitive
