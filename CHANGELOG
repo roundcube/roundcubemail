@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/08/15 (thomasb)
+----------
+- Applied patch for LDAP contacts listing by Glen Ogilvie
+- Applied patch for more address fields in LDAP contacts (#1484402)
+- Close LDAP connections on script shutdown
+
+
 2007/08/13 (thomasb)
 ----------
 - Add alternative for getallheaders() (fix #1484508)

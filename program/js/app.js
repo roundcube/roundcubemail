@@ -2253,6 +2253,7 @@ function rcube_webmail()
       {
       page = 1;
       this.env.current_page = page;
+      this.reset_qsearch();
       }
 
     this.select_folder(src, this.env.source);

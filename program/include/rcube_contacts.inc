@@ -128,6 +128,13 @@ class rcube_contacts
   
   
   /**
+   * Close connection to source
+   * Called on script shutdown
+   */
+  function close(){}
+  
+  
+  /**
    * List the current set of contact records
    *
    * @param  array  List of cols to show

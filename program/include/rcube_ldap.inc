@@ -58,7 +58,6 @@ class rcube_ldap
       if (preg_match('/^(.+)_field$/', $prop, $matches))
         $this->fieldmap[$matches[1]] = $value;
     
-    // $this->filter = "(dn=*)";
     $this->connect();
   }
 
@@ -142,7 +141,10 @@ class rcube_ldap
   function close()
   {
     if ($this->conn)
+    {
       @ldap_unbind($this->conn);
+      $this->conn = null;
+    }
   }
 
 
@@ -212,6 +214,13 @@ class rcube_ldap
    */
   function list_records($cols=null, $subset=0)
   {
+    // add general filter to query
+    if (!empty($this->prop['filter']))
+    {
+      $filter = $this->prop['filter'];
+      $this->set_search_set($filter);
+    }
+    
     // exec LDAP search if no result resource is stored
     if ($this->conn && !$this->ldap_result)
       $this->_exec_search();

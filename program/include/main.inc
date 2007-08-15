@@ -299,13 +299,16 @@ function rcmail_set_imap_prop()
  */
 function rcmail_shutdown()
   {
-  global $IMAP;
+  global $IMAP, $CONTACTS;
   
   if (is_object($IMAP))
     {
     $IMAP->close();
     $IMAP->write_cache();
     }
+    
+  if (is_object($CONTACTS))
+    $CONTACTS->close();
     
   // before closing the database connection, write session data
   session_write_close();

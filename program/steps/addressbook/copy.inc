@@ -36,8 +36,11 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
     $OUTPUT->show_message('copyerror', 'error');
   else
     $OUTPUT->show_message('copysuccess', 'notice', array('nr' => count($success)));
+    
+  // close connection to second address directory
+  $TARGET->close();
 }
-  
+
 // send response
 $OUTPUT->send();
 
