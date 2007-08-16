@@ -1544,7 +1544,7 @@ class rcube_imap
 
     if ($result>=0 && $clear_cache)
       {
-      //$this->clear_message_cache($mailbox.'.msg');
+      $this->clear_message_cache($mailbox.'.msg');
       $this->_clear_messagecount($mailbox);
       }
       
