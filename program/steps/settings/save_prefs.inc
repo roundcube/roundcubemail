@@ -42,6 +42,12 @@ if (isset($_POST['_language']))
   rcmail_set_locale($sess_user_lang);
   }
 
+// force min size
+if ($a_user_prefs['pagesize'] == 0)
+  {
+  $a_user_prefs['pagesize'] = 10;
+  }
+
 if (rcmail_save_user_prefs($a_user_prefs))
   $OUTPUT->show_message('successfullysaved', 'confirmation');
 
