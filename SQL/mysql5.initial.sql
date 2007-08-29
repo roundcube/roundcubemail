@@ -15,7 +15,7 @@ CREATE TABLE `session` (
  `ip` varchar(15) NOT NULL,
  `vars` text NOT NULL,
  PRIMARY KEY(`sess_id`)
-) TYPE=MYISAM CHARACTER SET ascii COLLATE ascii_general_ci;
+) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `users`
