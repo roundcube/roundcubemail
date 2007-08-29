@@ -647,7 +647,7 @@ class rcmail_template extends rcube_html_page
         $attrib['value'] = $attrib['label'];
 
       $attrib_str = create_attrib_string($attrib, array('type', 'value', 'onclick', 'id', 'class', 'style'));
-      $out = sprintf('<input%s disabled />', $attrib_str);
+      $out = sprintf('<input%s disabled="disabled" />', $attrib_str);
     }
 
     // generate html code for button
