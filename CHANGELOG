@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/08/29 (richs)
+----------
+- Fixed moving/deleting messages when more than 1 is selected
+
 2007/08/15 (thomasb)
 ----------
 - Applied patch for LDAP contacts listing by Glen Ogilvie
