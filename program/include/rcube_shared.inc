@@ -540,7 +540,7 @@ function rc_request_header($name)
   else
     {
     $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
-    $hdrs = array_change_key_case($_SERVER[$key], CASE_UPPER);
+    $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
     }
   if (isset($hdrs[$key]))
     {
