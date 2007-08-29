@@ -66,7 +66,7 @@ if (!defined('PATH_SEPARATOR'))
 // instead the ones provided by RC
 ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$INSTALL_PATH.'program'.PATH_SEPARATOR.$INSTALL_PATH.'program/lib'.PATH_SEPARATOR.ini_get('include_path'));
 
-ini_set('session.name', 'sessid');
+ini_set('session.name', 'roundcube_sessid');
 ini_set('session.use_cookies', 1);
 ini_set('session.gc_maxlifetime', 21600);
 ini_set('session.gc_divisor', 500);
