@@ -525,22 +525,29 @@ function rc_strrpos($haystack, $needle, $offset=0)
 /**
  * Read a specific HTTP request header
  *
- * @param string Header name
- * @return string Header value or null if not available
+ * @access static
+ * @param  string $name Header name
+ * @return mixed  Header value or null if not available
  */
 function rc_request_header($name)
-{
+  {
   if (function_exists('getallheaders'))
-  {
+    {
     $hdrs = getallheaders();
-    return $hdrs[$name];
-  }
+    $hdrs = array_change_key_case($hdrs, CASE_UPPER);
+    $key  = strtoupper($name);
+    }
   else
-  {
-    $key = "HTTP_" . strtoupper(strtr($name, "-", "_"));
-    return $_SERVER[$key];
+    {
+    $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
+    $hdrs = array_change_key_case($_SERVER[$key], CASE_UPPER);
+    }
+  if (isset($hdrs[$key]))
+    {
+    return $hdrs[$key];
+    }
+  return null;
   }
-}
 
 
 /**
