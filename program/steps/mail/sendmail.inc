@@ -220,16 +220,8 @@ if (!empty($CONFIG['useragent']))
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 // append generic footer to all messages
-if (!empty($CONFIG['generic_message_footer']))
-  {
-  $file = realpath($CONFIG['generic_message_footer']);
-  if($fp = fopen($file, 'r'))
-    {
-    $content = fread($fp, filesize($file));
-    fclose($fp);
-    $message_body .= "\r\n" . rcube_charset_convert($content, 'UTF-8', $message_charset);
-    }
-  }
+if (!$savedraft && !empty($CONFIG['generic_message_footer']) && ($footer = file_get_contents(realpath($CONFIG['generic_message_footer']))))
+  $message_body .= "\r\n" . rcube_charset_convert($footer, 'UTF-8', $message_charset);
 
 // try to autodetect operating system and use the correct line endings
 // use the configured delimiter for headers
