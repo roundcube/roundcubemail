@@ -532,6 +532,7 @@ function rcmail_login($user, $pass, $host=NULL)
   {
   global $CONFIG, $IMAP, $DB, $sess_user_lang;
   $user_id = NULL;
+  $user    = strtolower($user); // fix case: #1484473
   
   if (!$host)
     $host = $CONFIG['default_host'];
