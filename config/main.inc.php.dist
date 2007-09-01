@@ -251,5 +251,8 @@ $rcmail_config['draft_autosave'] = 300;
 // default setting if preview pane is enabled
 $rcmail_config['preview_pane'] = FALSE;
 
+// don't let users set pagesize to more than this value if set
+$rcmail_config['max_pagesize'] = 200;
+
 // end of config file
 ?>
