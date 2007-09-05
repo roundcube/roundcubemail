@@ -1,52 +1,74 @@
 <public:component>
 <public:attach event="onpropertychange" onevent="propertyChanged()" />
+<public:attach event="onbeforeprint" for="window" onevent="beforePrint()" />
+<public:attach event="onafterprint" for="window" onevent="afterPrint()" />
 <script>
 
-var supported = /MSIE (5\.5)|[6789]/.test(navigator.userAgent) && navigator.platform == "Win32";
-var realSrc = null;
-var blankSrc = "skins/default/images/blank.gif";
-
+/*
+ * PNG Behavior
+ *
+ * This script was created by Erik Arvidsson (erik(at)eae.net)
+ * for WebFX (http://webfx.eae.net)
+ * Copyright 2002
+ * 
+ * For usage see license at http://webfx.eae.net/license.html	
+ *
+ * Version: 1.01a
+ *
+ */
+ 
+var IS_PNG = /\.png$/i;
+var supported = /MSIE ((5\.5)|6)/.test(navigator.userAgent) && navigator.platform == 'Win32';
+var realSrc, realHeight, realWidth;
+var blankSrc = 'skins/default/images/blank.gif';
 if (supported) fixImage();
-
 function propertyChanged() {
-   if (!supported) return;
-
-   var pName = event.propertyName;
-   if (pName != "src") return;
-   // if not set to blank
-   if ( ! new RegExp(blankSrc).test(src))
+  if (supported && event.propertyName == 'src') {
+    var i = element.src.lastIndexOf(blankSrc);
+    if (i == -1 || i != element.src.length - blankSrc.length) {
       fixImage();
-};
-
-function fixImage() {
-   // get src
-   var src = element.src;
-
-   // check for real change
-   if (src == realSrc) {
-      element.src = blankSrc;
-      return;
-   }
-
-   if ( ! new RegExp(blankSrc).test(src)) {
-      // backup old src
-      realSrc = src;
-      element._original_src = realSrc;
-   }
-
-   // test for png
-   if ( realSrc &&  /\.png$/.test( realSrc.toLowerCase() ) ) {
-      // set blank image
-      element.src = blankSrc;
-      // set filter
-      element.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
-                                     src + "',sizingMethod='crop')";
-   }
-   else {
-      // remove filter
-      element.runtimeStyle.filter = "";
-   }
+    }
+  }
 }
-
+function fixImage() {
+  if (realSrc && element.src == realSrc) {
+    // this is an attempt to set the image to itself!
+    // pointless - leave the filter as-is, restore the blank image
+    element.src = blankSrc;
+  } else {
+    // set the image to something different
+    if (IS_PNG.test(element.src)) {
+      // fixable PNG
+      realSrc = element.src;
+      realWidth = element.width;
+      realHeight = element.height;
+      element.src = blankSrc;
+      element.style.width = realWidth + 'px';
+      element.style.height = realHeight + 'px';
+      element.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + encodeURI(realSrc) + "',sizingMethod='scale')";
+    } else {
+      // ordinary image - make sure the fix is removed
+      if (realSrc) {
+        realSrc = null;
+        element.runtimeStyle.filter = '';
+      }
+    }
+  }
+}
+function beforePrint() {
+  if (realSrc) {
+    supported = false;
+    element.src = realSrc;
+    element.runtimeStyle.filter = '';
+    supported = true;
+  }
+}
+function afterPrint() {
+  if (realSrc) {
+    var rs = realSrc;
+    realSrc = null;
+    element.src = rs;
+  }
+}
 </script>
 </public:component>

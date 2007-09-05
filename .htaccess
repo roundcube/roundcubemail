@@ -1,4 +1,5 @@
 # AddDefaultCharset	UTF-8
+AddType text/x-component .htc
 
 <IfModule mod_php4.c>
   php_flag	display_errors	Off

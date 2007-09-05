@@ -532,7 +532,6 @@ function rcmail_login($user, $pass, $host=NULL)
   {
   global $CONFIG, $IMAP, $DB, $sess_user_lang;
   $user_id = NULL;
-  $user    = strtolower($user); // fix case: #1484473
   
   if (!$host)
     $host = $CONFIG['default_host'];
@@ -573,7 +572,7 @@ function rcmail_login($user, $pass, $host=NULL)
      Inspired by Marco <P0L0_notspam_binware.org>
   */
   // Check if we need to add domain
-  if (!empty($CONFIG['username_domain']) && !strstr($user, '@'))
+  if (!empty($CONFIG['username_domain']) && !strpos($user, '@'))
     {
     if (is_array($CONFIG['username_domain']) && isset($CONFIG['username_domain'][$host]))
       $user .= '@'.$CONFIG['username_domain'][$host];
@@ -581,6 +580,9 @@ function rcmail_login($user, $pass, $host=NULL)
       $user .= '@'.$CONFIG['username_domain'];
     }
 
+  // lowercase username if it's an e-mail address (#1484473)
+  if (strpos($user, '@'))
+    $user = strtolower($user);
 
   // query if user already registered
   $sql_result = $DB->query("SELECT user_id, username, language, preferences
@@ -598,7 +600,7 @@ function rcmail_login($user, $pass, $host=NULL)
     }
 
   // try to resolve email address from virtuser table    
-  if (!empty($CONFIG['virtuser_file']) && strstr($user, '@'))
+  if (!empty($CONFIG['virtuser_file']) && strpos($user, '@'))
     $user = rcmail_email2user($user);
 
 
@@ -671,7 +673,7 @@ function rcmail_create_user($user, $host)
   $user_email = '';
 
   // try to resolve user in virtusertable
-  if (!empty($CONFIG['virtuser_file']) && strstr($user, '@')==FALSE)
+  if (!empty($CONFIG['virtuser_file']) && !strpos($user, '@'))
     $user_email = rcmail_user2email($user);
 
   $DB->query("INSERT INTO ".get_table_name('users')."
@@ -687,7 +689,7 @@ function rcmail_create_user($user, $host)
     $mail_domain = rcmail_mail_domain($host);
    
     if ($user_email=='')
-      $user_email = strstr($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
+      $user_email = strpos($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
 
     $user_name = $user!=$user_email ? $user : '';
 

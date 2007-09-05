@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/05 (thomasb)
+----------
+- Fix message list selection (#1484550)
+- Better fix lowercased usernames (#1484473)
+- Update pngbehavior Script as suggested in #1484490
+
+
 2007/08/29 (richs)
 ----------
 - Fixed moving/deleting messages when more than 1 is selected
