@@ -422,7 +422,8 @@ select_all: function(filter)
   if (!this.rows || !this.rows.length)
     return false;
 
-  // reset selection first
+  // reset but remember selection first
+  var select_before = this.selection.join(',');
   this.clear_selection();
 
   for (var n in this.rows)
@@ -434,7 +435,11 @@ select_all: function(filter)
     }
   }
 
-  return true;  
+  // trigger event if selection changed
+  if (this.selection.join(',') != select_before)
+    this.trigger_event('select');
+
+  return true;
 },
 
 
@@ -443,14 +448,18 @@ select_all: function(filter)
  */
 clear_selection: function()
 {
-  for(var n=0; n<this.selection.length; n++)
+  var num_select = this.selection.length;
+  for (var n=0; n<this.selection.length; n++)
     if (this.rows[this.selection[n]])
     {
       this.set_classname(this.rows[this.selection[n]].obj, 'selected', false);
       this.set_classname(this.rows[this.selection[n]].obj, 'unfocused', false);
     }
 
-  this.selection = new Array();    
+  this.selection = new Array();
+  
+  if (num_select)
+    this.trigger_event('select');
 },
 
 
