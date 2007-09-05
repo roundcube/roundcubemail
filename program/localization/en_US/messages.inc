@@ -75,5 +75,5 @@ $messages['copysuccess'] = 'Successfully copied $nr addresses';
 $messages['copyerror'] = 'Could not copy any addresses';
 $messages['sourceisreadonly'] = 'This address source is read only';
 $messages['errorsavingcontact'] = 'Could not save the contact address';
-
+$messages['movingmessage'] = 'Moving message...';
 ?>

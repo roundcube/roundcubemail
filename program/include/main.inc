@@ -461,7 +461,7 @@ function rcmail_load_gui()
 
   // add some basic label to client
   if (!$OUTPUT->ajax_call)
-    rcube_add_label('loading');
+    rcube_add_label('loading', 'movingmessage');
   }
 
 

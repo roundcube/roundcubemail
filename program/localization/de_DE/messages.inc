@@ -73,5 +73,5 @@ $messages['copysuccess'] = '$nr Adressen erfolgreich kopiert';
 $messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
 $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
 $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
-
+$messages['movingmessage'] = 'Die E-Mail wird verschoben...';
 ?>

@@ -60,5 +60,6 @@ $messages['searching'] = 'Searching...';
 $messages['checking'] = 'Checking...';
 $messages['nospellerrors'] = 'No spelling errors found';
 $messages['folderdeleted'] = 'Folder successfully deleted';
+$messages['movingmessage'] = 'Moving message...';
 
 ?>
