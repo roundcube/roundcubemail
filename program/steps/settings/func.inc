@@ -97,7 +97,7 @@ function rcmail_user_prefs_form($attrib)
     $select_timezone->add('(GMT +8:00) Beijing, Perth, Singapore, Taipei', '8');
     $select_timezone->add('(GMT +9:00) Tokyo, Seoul, Yakutsk', '9');
     $select_timezone->add('(GMT +9:30) Adelaide, Darwin', '9.5');
-    $select_timezone->add('(GMT +10:00) EAST/AEST: Guam, Vladivostok', '10');
+    $select_timezone->add('(GMT +10:00) EAST/AEST: Sydney, Guam, Vladivostok', '10');
     $select_timezone->add('(GMT +11:00) Magadan, Solomon Islands', '11');
     $select_timezone->add('(GMT +12:00) Auckland, Wellington, Kamchatka', '12');
     $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
