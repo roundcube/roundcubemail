@@ -33,6 +33,8 @@ $rcmail_config['db_backend'] = 'db';
 $rcmail_config['db_max_length'] = 512000;  // 500K
 
 // use persistent db-connections
+// beware this will not "always" work as expected
+// see: http://www.php.net/manual/en/features.persistent-connections.php
 $rcmail_config['db_persistent'] = FALSE;
 
 
