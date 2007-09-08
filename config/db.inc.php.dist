@@ -33,7 +33,7 @@ $rcmail_config['db_backend'] = 'db';
 $rcmail_config['db_max_length'] = 512000;  // 500K
 
 // use persistent db-connections
-$rcmail_config['db_persistent'] = TRUE;
+$rcmail_config['db_persistent'] = FALSE;
 
 
 // you can define specific table names used to store webmail data
