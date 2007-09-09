@@ -1123,10 +1123,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   if (!$enctype)
     $enctype = $GLOBALS['OUTPUT_TYPE'];
 
-  // convert nbsps back to normal spaces if not html
-  if ($enctype!='html')
-    $str = str_replace(chr(160), ' ', $str);
-
   // encode for plaintext
   if ($enctype=='text')
     return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
@@ -1171,11 +1167,10 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
 
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
       {
-      $hex = dechex($c);
       $xml_rep_table[Chr($c)] = "&#$c;";
       
       if ($OUTPUT->get_charset()=='ISO-8859-1')
-        $js_rep_table[Chr($c)] = sprintf("\u%s%s", str_repeat('0', 4-strlen($hex)), $hex);
+        $js_rep_table[Chr($c)] = sprintf("\\u%04x", $c);
       }
 
     $xml_rep_table['"'] = '&quot;';
