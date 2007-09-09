@@ -345,7 +345,7 @@ class rcmail_template extends rcube_html_page
    */
   function parse_with_globals($input)
   {
-    $GLOBALS['__comm_path'] = $GLOBALS['COMM_PATH'];
+    $GLOBALS['__comm_path'] = urlencode($GLOBALS['COMM_PATH']);
     return preg_replace('/\$(__[a-z0-9_\-]+)/e', '$GLOBALS["\\1"]', $input);
   }
   

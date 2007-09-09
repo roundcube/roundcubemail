@@ -145,7 +145,7 @@ function rcmail_compose_headers($attrib)
         $header = 'bcc';
         }
         
-      $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'wrap', 'tabindex');
+      $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'tabindex');
       $field_type = 'textarea';            
       break;
 

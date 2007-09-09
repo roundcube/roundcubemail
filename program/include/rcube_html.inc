@@ -297,14 +297,14 @@ class rcube_form_element
         $value = Q($value, 'strict', FALSE);
 
       // attributes with no value
-      if (in_array($key, array('checked', 'multiple', 'disabled', 'selected')))
+      if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'nowrap')))
       {
         if ($value)
-          $attrib_arr[] = $key;
+          $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $key);
       }
       // don't convert size of value attribute
       else if ($key=='value')
-        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $value, 'value');
+        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $value);
         
       // regular tag attributes
       else
@@ -647,7 +647,7 @@ class select extends rcube_form_element
       $selected = ((isset($option['value']) &&
                     in_array($option['value'], $select, TRUE)) ||
                    (in_array($option['text'], $select, TRUE))) ?
-        $this->_conv_case(' selected', 'attrib') : '';
+        $this->_conv_case(' selected="selected"', 'attrib') : '';
                    
       $options_str .= sprintf("<%s%s%s>%s</%s>\n",
                              $this->_conv_case('option', 'tag'),
