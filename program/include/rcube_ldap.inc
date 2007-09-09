@@ -86,11 +86,14 @@ class rcube_ldap
     if (!is_array($this->prop['hosts']))
       $this->prop['hosts'] = array($this->prop['hosts']);
 
+    if (empty($this->prop['ldap_version']))
+      $this->prop['ldap_version'] = 3;
+
     foreach ($this->prop['hosts'] as $host)
     {
       if ($lc = @ldap_connect($host, $this->prop['port']))
       {
-        ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $this->prop['port']);
+        ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $this->prop['ldap_version']);
         $this->prop['host'] = $host;
         $this->conn = $lc;
         break;

@@ -199,6 +199,7 @@ $rcmail_config['mail_header_delimiter'] = NULL;
  *  'base_dn'       => '',
  *  'bind_dn'       => '',
  *  'bind_pass'     => '',
+ *  'ldap_version'  => 3,       // using LDAPv3
  *  'search_fields' => array('mail', 'cn'),  // fields to search in
  *  'name_field'    => 'cn',    // this field represents the contact's name
  *  'email_field'   => 'mail',  // this field represents the contact's e-mail

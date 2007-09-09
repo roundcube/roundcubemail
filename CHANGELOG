@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/09 (thomasb)
+----------
+- Applied patch for LDAP version (#1484552)
+- Improved XHTML validation
+
+
 2007/09/05 (thomasb)
 ----------
 - Fix message list selection (#1484550)
