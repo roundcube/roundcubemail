@@ -164,6 +164,9 @@ function rcube_webmail()
             this.enable_command('firstmessage', true);
             }
           }
+
+        if (this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox)
+          this.set_alttext('delete', 'movemessagetotrash');
         
         // make preview/message frame visible
         if (this.env.action == 'preview' && this.env.framed && parent.rcmail)
@@ -482,6 +485,9 @@ function rcube_webmail()
             this.reset_qsearch();
 
           this.list_mailbox(props);
+
+          if (this.env.trash_mailbox)
+            this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
           }
         else if (this.task=='addressbook')
           {
@@ -2835,6 +2841,28 @@ function rcube_webmail()
       }
     };
 
+  // display a specific alttext
+  this.set_alttext = function(command, label)
+    {
+      if (!this.buttons[command] || !this.buttons[command].length)
+        return;
+      
+      var button, obj, link;
+      for (var n=0; n<this.buttons[command].length; n++)
+      {
+        button = this.buttons[command][n];
+        obj = document.getElementById(button.id);
+        
+        if (button.type=='image' && obj)
+        {
+          obj.setAttribute('alt', this.get_label(label));
+          if ((link = obj.parentNode) && link.tagName == 'A')
+            link.setAttribute('title', this.get_label(label));
+        }
+        else if (obj)
+          obj.setAttribute('title', this.get_label(label));
+      }
+    };
 
   // mouse over button
   this.button_over = function(command, id)
@@ -2908,13 +2936,6 @@ function rcube_webmail()
       obj.className = obj.className.replace(reg, '');
     else if (set && !obj.className.match(reg))
       obj.className += ' '+classname;
-    };
-
-
-  // display a specific alttext
-  this.alttext = function(text)
-    {
-    
     };
 
 

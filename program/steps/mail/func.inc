@@ -73,7 +73,7 @@ if ($CONFIG['junk_mbox'])
   $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
 
 if (!$OUTPUT->ajax_call)
-  rcube_add_label('checkingmail');
+  rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash');
 
 
 

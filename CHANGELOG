@@ -3,6 +3,7 @@ CHANGELOG RoundCube Webmail
 
 2007/09/09 (thomasb)
 ----------
+- Fixed wrong delete button tooltip (#1483965)
 - Fixed charset encoding bug (#1484429)
 - Applied patch for LDAP version (#1484552)
 - Improved XHTML validation
