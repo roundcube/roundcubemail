@@ -580,17 +580,22 @@ function rcmail_login($user, $pass, $host=NULL)
       $user .= '@'.$CONFIG['username_domain'];
     }
 
+  // try to resolve email address from virtuser table    
+  if (!empty($CONFIG['virtuser_file']) && strpos($user, '@'))
+    $user = rcmail_email2user($user);
+
   // lowercase username if it's an e-mail address (#1484473)
   if (strpos($user, '@'))
     $user = strtolower($user);
 
   // query if user already registered
-  $sql_result = $DB->query("SELECT user_id, username, language, preferences
-                            FROM ".get_table_name('users')."
-                            WHERE  mail_host=? AND (username=? OR alias=?)",
-                            $host,
-                            $user,
-                            $user);
+  $sql_result = $DB->query(
+    "SELECT user_id, username, language, preferences
+     FROM ".get_table_name('users')."
+     WHERE  mail_host=? AND (username=? OR alias=?)",
+    $host,
+    $user,
+    $user);
 
   // user already registered -> overwrite username
   if ($sql_arr = $DB->fetch_assoc($sql_result))
@@ -598,11 +603,6 @@ function rcmail_login($user, $pass, $host=NULL)
     $user_id = $sql_arr['user_id'];
     $user = $sql_arr['username'];
     }
-
-  // try to resolve email address from virtuser table    
-  if (!empty($CONFIG['virtuser_file']) && strpos($user, '@'))
-    $user = rcmail_email2user($user);
-
 
   // exit if IMAP login failed
   if (!($imap_login  = $IMAP->connect($host, $user, $pass, $imap_port, $imap_ssl)))
