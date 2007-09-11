@@ -287,7 +287,7 @@ class rcube_imap
       
     $this->search_subject = $subject;
     $this->search_string = $str;
-    $this->search_set = is_array($msgs) ? $msgs : NULL;
+    $this->search_set = (array)$msgs;
     $this->search_charset = $charset;
     }
 
@@ -439,8 +439,8 @@ class rcube_imap
       $mailbox = $this->mailbox;
       
     // count search set
-    if ($this->search_set && $mailbox == $this->mailbox && $mode == 'ALL')
-      return count($this->search_set);
+    if ($this->search_string && $mailbox == $this->mailbox && $mode == 'ALL')
+      return count((array)$this->search_set);
 
     $a_mailbox_cache = $this->get_cache('messagecount');
     
@@ -522,7 +522,7 @@ class rcube_imap
       return array();
 
     // use saved message set
-    if ($this->search_set && $mailbox == $this->mailbox)
+    if ($this->search_string && $mailbox == $this->mailbox)
       return $this->_list_header_set($mailbox, $this->search_set, $page, $sort_field, $sort_order);
 
     if ($sort_field!=NULL)

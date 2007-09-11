@@ -78,7 +78,7 @@ if (is_array($result) && $result[0] != '')
 {
   // Get the headers
   $result_h = $IMAP->list_header_set($mbox, $result, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
-  $count = count($result_h);
+  $count = $IMAP->messagecount();
 
   // save search results in session
   if (!is_array($_SESSION['search']))
