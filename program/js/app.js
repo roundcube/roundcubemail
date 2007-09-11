@@ -1691,7 +1691,7 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((input_message.value == '' || (window.tinyMCE && tinyMCE.getContent() == '')) && !confirm(this.get_label('nobodywarning')))
+    if ((input_message.value == '' && (!window.tinyMCE || tinyMCE.getContent() == '')) && !confirm(this.get_label('nobodywarning')))
       {
       input_message.focus();
       return false;
