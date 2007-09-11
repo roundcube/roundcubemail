@@ -56,8 +56,10 @@ function iml_ParseBSString($str){
     for ($i=0; $i<$len; $i++){
         if ($str[$i] == "\"") $in_quote = ($in_quote + 1) % 2;
         else if (!$in_quote){
-            if ($str[$i] == " ") $id++; //space means new element
-            else if ($str[$i]=="("){ //new part
+            if ($str[$i] == " "){ //space means new element
+                $id++;
+                while ($str[$i+1] == " ") $i++;  // skip additional spaces
+            } else if ($str[$i]=="("){ //new part
                 $i++;
                 $endPos = iml_ClosingParenPos($str, $i);
                 $partLen = $endPos - $i;
