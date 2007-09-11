@@ -37,7 +37,6 @@ $labels['inbox']  = 'Inbox';
 $labels['drafts'] = 'Drafts';
 $labels['sent']   = 'Sent';
 $labels['trash']  = 'Deleted Items';
-$labels['drafts'] = 'Drafts';
 $labels['junk']   = 'Junk';
 
 // message listing
@@ -65,7 +64,7 @@ $labels['download'] = 'download';
 $labels['filename'] = 'File name';
 $labels['filesize'] = 'File size';
 
-$labels['preferhtml'] = 'Prefer HTML';
+$labels['preferhtml'] = 'Display HTML';
 $labels['htmlmessage'] = 'HTML Message';
 $labels['prettydate'] = 'Pretty dates';
 
@@ -97,10 +96,17 @@ $labels['writenewmessage']  = 'Create a new message';
 $labels['replytomessage']   = 'Reply to the message';
 $labels['replytoallmessage'] = 'Reply to sender and all recipients';
 $labels['forwardmessage']   = 'Forward the message';
-$labels['deletemessage']    = 'Move message to trash';
+$labels['deletemessage']    = 'Delete message';
+$labels['movemessagetotrash'] = 'Move message to "Deleted Items"';
 $labels['printmessage']     = 'Print this message';
+$labels['previousmessage']  = 'Show the previous message';
 $labels['previousmessages'] = 'Show previous set of messages';
+$labels['firstmessage']     = 'Show the first message';
+$labels['firstmessages']    = 'Show first set of messages';
+$labels['nextmessage']      = 'Show the next message';
 $labels['nextmessages']     = 'Show next set of messages';
+$labels['lastmessage']      = 'Show the last message';
+$labels['lastmessages']     = 'Show last set of messages';
 $labels['backtolist']       = 'Back to message list';
 $labels['viewsource']       = 'Show source';
 
@@ -114,14 +120,25 @@ $labels['empty'] = 'Empty';
 $labels['purge'] = 'Purge';
 
 $labels['quota'] = 'Disk usage';
+$labels['unknown']  = 'unknown';
+$labels['unlimited']  = 'unlimited';
+
+$labels['quicksearch']  = 'Quick search';
+$labels['resetsearch']  = 'Reset search';
 
 
 // message compose
-$labels['compose']  = 'Compose a message';
-$labels['savemessage']  = 'Save this draft';
-$labels['sendmessage']  = 'Send the message now';
+$labels['compose']        = 'Compose a message';
+$labels['savemessage']    = 'Save this draft';
+$labels['sendmessage']    = 'Send the message now';
 $labels['addattachment']  = 'Attach a file';
-$labels['charset']  = 'Charset';
+$labels['charset']        = 'Charset';
+$labels['editortype']     = 'Editor type';
+$labels['returnreceipt']  = 'Return receipt';
+
+$labels['checkspelling'] = 'Check spelling';
+$labels['resumeediting'] = 'Resume editing';
+$labels['revertto']      = 'Revert to';
 
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
@@ -135,6 +152,9 @@ $labels['highest'] = 'Highest';
 
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Display images';
+
+$labels['htmltoggle'] = 'HTML';
+$labels['plaintoggle'] = 'Plain text';
 
 
 // address boook
@@ -158,6 +178,14 @@ $labels['contactsfromto'] = 'Contacts $from to $to of $count';
 $labels['print']          = 'Print';
 $labels['export']         = 'Export';
 
+$labels['previouspage']   = 'Show previous set';
+$labels['firstpage']      = 'Show first set';
+$labels['nextpage']       = 'Show next set';
+$labels['lastpage']       = 'Show last set';
+
+$labels['groups'] = 'Groups';
+$labels['personaladrbook'] = 'Personal Addresses';
+
 
 // settings
 $labels['settingsfor']  = 'Settings for';
@@ -178,6 +206,14 @@ $labels['language']  = 'Language';
 $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
+$labels['dstactive']  = 'Daylight savings';
+$labels['htmleditor'] = 'Compose HTML messages';
+$labels['htmlsignature'] = 'HTML signature';
+$labels['previewpane'] = 'Show preview pane';
+
+$labels['autosavedraft']  = 'Automatically save draft';
+$labels['everynminutes']  = 'every $n minutes';
+$labels['never']  = 'never';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
@@ -185,6 +221,8 @@ $labels['foldername']  = 'Folder name';
 $labels['subscribed']  = 'Subscribed';
 $labels['create']  = 'Create';
 $labels['createfolder']  = 'Create new folder';
+$labels['rename'] = 'Rename';
+$labels['renamefolder'] = 'Rename folder';
 $labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
 
