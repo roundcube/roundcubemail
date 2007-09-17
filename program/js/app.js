@@ -2815,8 +2815,12 @@ function rcube_webmail()
       obj = document.getElementById(button.id);
 
       // get default/passive setting of the button
-      if (obj && button.type=='image' && !button.status)
+      if (obj && button.type=='image' && !button.status) {
         button.pas = obj._original_src ? obj._original_src : obj.src;
+        // respect PNG fix on IE browsers
+        if (obj.runtimeStyle && obj.runtimeStyle.filter && obj.runtimeStyle.filter.match(/src=['"]([^'"]+)['"]/))
+          button.pas = RegExp.$1;
+      }
       else if (obj && !button.status)
         button.pas = String(obj.className);
 
