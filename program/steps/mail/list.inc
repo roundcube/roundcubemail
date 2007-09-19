@@ -58,7 +58,8 @@ $OUTPUT->command('set_unread_count', $mbox_name, $unseen);
 // add message rows
 if (isset($a_headers) && count($a_headers))
   rcmail_js_message_list($a_headers);
-
+else
+  $OUTPUT->show_message('nomessagesfound', 'notice');
   
 // send response
 $OUTPUT->send();

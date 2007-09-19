@@ -2943,6 +2943,14 @@ function rcube_webmail()
     };
 
 
+  // write to the document/window title
+  this.set_pagetitle = function(title)
+  {
+    if (title && document.title)
+      document.title = title;
+  }
+
+
   // display a system message
   this.display_message = function(msg, type, hold)
     {
@@ -3129,9 +3137,6 @@ function rcube_webmail()
     if (!this.gui_objects.mailboxlist)
       return false;
 
-    if (mbox==this.env.mailbox)
-      set_title = true;
-
     var reg, text_obj;
     var item = this.get_folder_li(mbox);
     mbox = String(mbox).toLowerCase().replace(this.identifier_expr, '');
@@ -3158,13 +3163,16 @@ function rcube_webmail()
     if (set_title && document.title)
       {
       var doc_title = String(document.title);
+      var new_title = "";
 
       if (count && doc_title.match(reg))
-        document.title = doc_title.replace(reg, '('+count+') ');
+        new_title = doc_title.replace(reg, '('+count+') ');
       else if (count)
-        document.title = '('+count+') '+doc_title;
+        new_title = '('+count+') '+doc_title;
       else
-        document.title = doc_title.replace(reg, '');
+        new_title = doc_title.replace(reg, '');
+        
+      this.set_pagetitle(new_title);
       }
     };
 
@@ -3318,7 +3326,8 @@ function rcube_webmail()
       ctype = ctype_array[0];
     }
 
-    this.set_busy(false);
+    if (request_obj.__lock)
+        this.set_busy(false);
 
     console.log(request_obj.get_text());
 
@@ -3381,8 +3390,7 @@ function rcube_webmail()
       }
 
     this.set_busy(true, 'checkingmail');
-    var d = new Date();
-    this.http_request('check-recent', '_t='+d.getTime());
+    this.http_request('check-recent', '_t='+(new Date().getTime()), true);
     };
 
 

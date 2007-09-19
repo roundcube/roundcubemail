@@ -322,6 +322,13 @@ class rcmail_template extends rcube_html_page
         join(',', $args));
     }
     
+    // add command to set page title
+    if ($this->ajax_call && !empty($this->pagetitle))
+      $out .= sprintf(
+        "this.set_pagetitle('%s');\n",
+        JQ((!empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '') . $this->pagetitle)
+      );
+    
     return $out;
   }
   
@@ -453,10 +460,15 @@ class rcmail_template extends rcube_html_page
       // include a file 
       case 'include':
         $path = realpath($this->config['skin_path'].$attrib['file']);
-        if (filesize($path) && ($fp = @fopen($path, 'r')))
+        if (filesize($path))
         {
-          $incl = fread($fp, filesize($path));
-          fclose($fp);        
+          if ($this->config['skin_include_php'])
+            $incl = $this->include_php($path);
+          else if ($fp = @fopen($path, 'r'))
+          {
+            $incl = fread($fp, filesize($path));
+            fclose($fp);
+          }
           return $this->parse_xml($incl);
         }
         break;
@@ -494,9 +506,55 @@ class rcmail_template extends rcube_html_page
         }
 
         break;
-      }
+      
+      // return variable
+      case 'var':
+        $var = explode(':', $attrib['name']);
+        $name = $var[1];
+        $value = '';
+        
+        switch ($var[0])
+        {
+          case 'env':
+            $value = $this->env[$name];
+            break;
+          case 'config':
+            $value = $this->config[$name];
+            if (is_array($value) && $value[$_SESSION['imap_host']])
+              $value = $value[$_SESSION['imap_host']];
+            break;
+          case 'request':
+            $value = get_input_value($name, RCUBE_INPUT_GPC);
+            break;
+          case 'session':
+            $value = $_SESSION[$name];
+            break;
+        }
+        
+        if (is_array($value))
+          $value = join(", ", $value);
+        
+        return Q($value);
+    }
 
     return '';
+  }
+
+
+  /**
+   * Include a specific file and return it's contents
+   *
+   * @param string File path
+   * @return string Contents of the processed file
+   */
+  function include_php($file)
+  {
+    ob_start();
+    @include($file);
+    $out = ob_get_contents();
+    ob_end_clean();
+    
+    return $out;
   }
 
 

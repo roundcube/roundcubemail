@@ -75,6 +75,10 @@ if ($CONFIG['junk_mbox'])
 if (!$OUTPUT->ajax_call)
   rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash');
 
+// set page title
+if (empty($_action) || $_action == 'list')
+  $OUTPUT->set_pagetitle(rcube_charset_convert($IMAP->get_mailbox_name(), 'UTF-7'));
+
 
 
 // return the message list as HTML table
@@ -189,11 +193,7 @@ function rcmail_message_list($attrib)
 
   // no messages in this mailbox
   if (!sizeof($a_headers))
-    {
-    $out .= sprintf('<tr><td colspan="%d">%s</td></tr>',
-                    sizeof($a_show_cols)+2,
-                    Q(rcube_label('nomessagesfound')));
-    }
+    $OUTPUT->show_message('nomessagesfound', 'notice');
 
 
   $a_js_message_arr = array();

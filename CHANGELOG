@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/18 (thomasb)
+----------
+- Eval PHP code in template includes (if configured)
+- Show message when folder is empty. Mo more static text in table (#1484395)
+- Only display unread count in page title when new messages arrived
+- Show mailbox name in page title
+
+
 2007/09/09 (thomasb)
 ----------
 - Fixed wrong delete button tooltip (#1483965)
