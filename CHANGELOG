@@ -1,8 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2007/09/18 (thomasb)
+2007/09/19 (thomasb)
 ----------
+- Unlock interface when message sending fails (#1484570)
 - Eval PHP code in template includes (if configured)
 - Show message when folder is empty. Mo more static text in table (#1484395)
 - Only display unread count in page title when new messages arrived

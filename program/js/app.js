@@ -804,6 +804,7 @@ function rcube_webmail()
         this.set_busy(true, 'savingmessage');
         var form = this.gui_objects.messageform;
         form.target = "savetarget";
+        form._draft.value = '1';
         form.submit();
         break;
 

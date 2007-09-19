@@ -242,6 +242,10 @@ class rcmail_template extends rcube_html_page
    */
   function write($template='')
   {
+    // unlock interface after iframe load
+    if ($this->framed)
+      array_unshift($this->js_commands, array('set_busy', false));
+    
     // write all env variables to client
     $js = $this->framed ? "if(window.parent) {\n" : '';
     $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');
@@ -305,7 +309,7 @@ class rcmail_template extends rcube_html_page
   function get_js_commands()
   {
     $out = '';
-    if (!$this->framed)
+    if (!$this->framed && !empty($this->js_env))
       $out .= ($this->ajax_call ? 'this' : JS_OBJECT_NAME) . '.set_env('.json_serialize($this->js_env).");\n";
     
     foreach ($this->js_commands as $i => $args)
