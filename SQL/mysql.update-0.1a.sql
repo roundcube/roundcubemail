@@ -2,7 +2,7 @@
 -- Updates from version 0.1-20051007
 
 
-ALTER TABLE `session` ADD `ip` VARCHAR(15) NOT NULL AFTER changed;
+ALTER TABLE `session` ADD `ip` VARCHAR(40) NOT NULL AFTER changed;
 ALTER TABLE `users` ADD `alias` VARCHAR(128) NOT NULL AFTER mail_host;
 
 

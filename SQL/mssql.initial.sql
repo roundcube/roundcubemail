@@ -58,7 +58,7 @@ CREATE TABLE [dbo].[session] (
 	[sess_id] [varchar] (32) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
 	[changed] [datetime] NULL ,
-	[ip] [varchar] (15) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[ip] [varchar] (40) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[vars] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO

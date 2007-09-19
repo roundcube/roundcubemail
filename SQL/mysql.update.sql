@@ -12,6 +12,8 @@ ALTER TABLE `messages`
 ALTER TABLE `identities`
   ADD `html_signature` tinyint(1) default 0 NOT NULL;
 
+ALTER TABLE `session` CHANGE `ip` `ip` VARCHAR(40) 
+  
 -- Uncomment these lines if you're using MySQL 4.1 or higher
 -- ALTER TABLE `users`
 --  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci,

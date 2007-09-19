@@ -36,7 +36,7 @@ CREATE TABLE "session" (
     sess_id character varying(40) DEFAULT ''::character varying PRIMARY KEY,
     created timestamp with time zone DEFAULT now() NOT NULL,
     changed timestamp with time zone DEFAULT now() NOT NULL,
-    ip character varying(16) NOT NULL,
+    ip character varying(41) NOT NULL,
     vars text NOT NULL
 );
 

@@ -12,7 +12,7 @@ CREATE TABLE `session` (
  `sess_id` varchar(40) NOT NULL,
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `changed` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
- `ip` varchar(15) NOT NULL,
+ `ip` varchar(40) NOT NULL,
  `vars` text NOT NULL,
  PRIMARY KEY(`sess_id`)
 ) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
