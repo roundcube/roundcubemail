@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/20 (robin)
+----------
+- Make smtp HELO/EHLO hostname configurable (#1484067)
+
+
 2007/09/19 (thomasb)
 ----------
 - Unlock interface when message sending fails (#1484570)
