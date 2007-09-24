@@ -352,7 +352,7 @@ body.messagelist
   display: table;
   table-layout: fixed;
   /* css hack for IE */
-  width: expression(document.getElementById('mailcontframe').clientWidth);
+  width: expression(parseInt(document.getElementById('mailcontframe').clientWidth)+'px');
 }
 
 #messagelist thead tr td
@@ -724,7 +724,7 @@ div.message-part blockquote blockquote blockquote
   padding: 0px;
   margin: 0px;
   /* css hack for IE */
-  width: expression(document.documentElement.clientWidth-240);
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-130)+'px');
 }
 
