@@ -187,16 +187,18 @@
 
 #mailboxlist-header
 {
+/*
   position: absolute;
   top: 85px;
   left: 20px;
   width: 140px !important;
-/*  width: 162px; */
-  height: 13px;
-  padding: 3px 10px 2px 10px;
+*/
+  display: block;
+  height: 12px;
+  padding: 3px 10px 4px 10px;
   background-color: #EBEBEB;
   background-image: url(images/listheader_aqua.gif); 
-  border: 1px solid #CCCCCC;
+  border-bottom: 1px solid #999;
   color: #333333;
   font-size: 11px;
   font-weight: bold;  
@@ -205,15 +207,15 @@
 #mailboxlist-container
 {
   position: absolute;
-  top: 105px;
+  top: 85px;
   left: 20px;
   width: 160px;
   bottom: 40px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #999;
   background-color: #F9F9F9;
   overflow: auto;
   /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-145)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 #mailboxlist
@@ -285,7 +287,6 @@
 #mailboxlist li.selected
 {
   background-color: #929292;
-  border-bottom: 1px solid #898989;
 }
 
 #mailboxlist li.selected a
@@ -312,7 +313,8 @@
   background-position: 25px 1px;
 }
 
-#mailboxlist li.selected li {
+#mailboxlist li.selected li,
+#mailboxlist li.droptarget li {
   background-color: #F9F9F9;
 }
 
@@ -417,6 +419,7 @@ body.messagelist
 {
   color: #000;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 #messagelist col
@@ -440,7 +443,7 @@ body.messagelist
 
 #messagelist tr td.size
 {
-  width: 60px;
+  width: 70px;
   text-align: right;
   vertical-align: middle;
 }
@@ -534,12 +537,12 @@ body.messagelist
   left: 200px;
   right: 30px;
   bottom: 40px;
-  border: 1px solid #cccccc;
-  background-color: #FFFFFF;
+  border: 1px solid #999;
+  background-color: #FFF;
   overflow: auto;
   /* css hack for IE */
   /* margin-bottom: 10px; */
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 

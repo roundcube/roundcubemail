@@ -30,8 +30,10 @@
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
 </div>
 
+<div id="mailboxlist-container">
 <div id="mailboxlist-header"><roundcube:label name="mailboxlist" /></div>
-<div id="mailboxlist-container"><roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" /></div>
+<roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" />
+</div>
 
 <div id="messageframe">
 <roundcube:object name="messageHeaders" class="headers-table" cellspacing="0" cellpadding="2" addicon="/images/icons/plus.gif" summary="Message headers" />
