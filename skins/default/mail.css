@@ -187,12 +187,6 @@
 
 #mailboxlist-header
 {
-/*
-  position: absolute;
-  top: 85px;
-  left: 20px;
-  width: 140px !important;
-*/
   display: block;
   height: 12px;
   padding: 3px 10px 4px 10px;

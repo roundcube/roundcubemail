@@ -530,23 +530,19 @@ function rc_strrpos($haystack, $needle, $offset=0)
  * @return mixed  Header value or null if not available
  */
 function rc_request_header($name)
-  {
+{
   if (function_exists('getallheaders'))
-    {
-    $hdrs = getallheaders();
-    $hdrs = array_change_key_case($hdrs, CASE_UPPER);
+  {
+    $hdrs = array_change_key_case(getallheaders(), CASE_UPPER);
     $key  = strtoupper($name);
-    }
+  }
   else
-    {
+  {
     $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
     $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
-    }
-  if (isset($hdrs[$key]))
-    {
-    return $hdrs[$key];
-    }
-  return null;
+  }
+
+  return $hdrs[$key];
   }
 
 
