@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/24 (robin)
+----------
+- Fix preview pane size for Safari & Konqueror (#1484187)
+
+
 2007/09/20 (robin)
 ----------
 - Make smtp HELO/EHLO hostname configurable (#1484067)
