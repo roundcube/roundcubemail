@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/25 (robin)
+----------
+- Enable drag-/dropping of folders to a new parent folder (#1457344)
+
+
 2007/09/24 (robin)
 ----------
 - Fix preview pane size for Safari & Konqueror (#1484187)

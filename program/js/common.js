@@ -624,3 +624,11 @@ var bw = new roundcube_browser();
 
 if (!window.console)
   console = new rcube_console();
+
+
+// Add escape() method to RegExp object
+// http://dev.rubyonrails.org/changeset/7271
+RegExp.escape = function(str)
+  {
+  return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+  }

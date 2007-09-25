@@ -22,6 +22,8 @@
 // init IMAP connection
 rcmail_imap_init(TRUE);
 
+$OUTPUT->include_script('list.js');
+
 
 // subscribe to one or more mailboxes
 if ($_action=='subscribe')
@@ -71,7 +73,8 @@ else if ($_action=='rename-folder')
     
   if ($rename && $OUTPUT->ajax_call)
     {
-    $OUTPUT->command('replace_folder_row', $oldname, $rename, rcube_charset_convert($rename, 'UTF-7'));
+    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($rename, $IMAP->delimiter)) . preg_replace('/.*' . preg_quote($IMAP->delimiter) . '/', '', rcube_charset_convert($rename, 'UTF-7'));
+    $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
     $OUTPUT->command('reset_folder_rename');
     $OUTPUT->send();
     }
@@ -159,14 +162,21 @@ function rcube_subscription_form($attrib)
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = JQ($folder);
-    $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : rcube_charset_convert($folder, 'UTF-7');
+    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($folder, $IMAP->delimiter)) . preg_replace('/.*' . preg_quote($IMAP->delimiter) . '/', '', rcube_charset_convert($folder, 'UTF-7'));
+    $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : $display_folder;
     
     if (!$protected)
       $a_js_folders['rcmrow'.($i+1)] = array($folder, rcube_charset_convert($folder, 'UTF-7'));
 
-    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td>',
+    $out .= sprintf('<tr id="rcmrow%d" class="%s"' .
+                    ' onmouseover="return %s.focus_subscription(\'%s\')"' .
+                    ' onmouseout="return %s.unfocus_subscription(\'%s\')"><td>%s</td>',
                     $i+1,
                     $zebra_class,
+                    JS_OBJECT_NAME,
+                    $folder_js,
+                    JS_OBJECT_NAME,
+                    $folder_js,
                     Q($folder_html));
                     
     if ($protected)
@@ -197,6 +207,8 @@ function rcube_subscription_form($attrib)
 
   $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
   $OUTPUT->set_env('subscriptionrows', $a_js_folders);
+  $OUTPUT->set_env('defaultfolders', $CONFIG['default_imap_folders']);
+  $OUTPUT->set_env('delimiter', $IMAP->delimiter);
 
   return $out;  
   }

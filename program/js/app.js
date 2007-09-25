@@ -286,6 +286,9 @@ function rcube_webmail()
             this.identity_list.highlight_row(this.env.iid);
           }
 
+        if (this.gui_objects.subscriptionlist)
+          this.init_subscription_list();
+
         break;
 
       case 'login':
@@ -1157,6 +1160,8 @@ function rcube_webmail()
       return (id != this.env.mailbox);
     else if (this.task == 'addressbook')
       return (id != this.env.source && this.env.address_sources[id] && !this.env.address_sources[id].readonly);
+    else if (this.task == 'settings')
+      return (id != this.env.folder);
   };
 
 
@@ -2397,6 +2402,18 @@ function rcube_webmail()
   /*********        user settings methods          *********/
   /*********************************************************/
 
+  this.init_subscription_list = function()
+    {
+    var p = this;
+    this.subscription_list = new rcube_list_widget(this.gui_objects.subscriptionlist, {multiselect:false, draggable:true, keyboard:false});
+    this.subscription_list.addEventListener('select', function(o){ p.subscription_select(o); });
+    this.subscription_list.addEventListener('mouseover', function(o){ p.subscription_select_parent(o); });
+    this.subscription_list.addEventListener('mouseout', function(o){ p.subscription_unselect_parent(o); });
+    this.subscription_list.addEventListener('dragstart', function(o){ p.drag_active = true; });
+    this.subscription_list.addEventListener('dragend', function(o){ p.subscription_move_folder(o); });
+    this.subscription_list.init();
+    }
+
   this.identity_select = function(list)
     {
     var id;
@@ -2441,6 +2458,76 @@ function rcube_webmail()
     // if (this.env.framed && id)
     this.goto_url('delete-identity', '_iid='+id, true);
     return true;
+    };
+
+
+  this.focus_subscription = function(id)
+    {
+    var row;
+    var reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
+    if (this.drag_active && this.check_droptarget(id) &&
+        (id != this.env.folder.replace(reg, '')) &&
+        (row = document.getElementById(this.get_folder_row_id(id))))
+      if (find_in_array(this.env.defaultfolders, id)>=0)
+        {
+        if (this.env.folder.replace(reg, '')!='')
+          {
+          this.set_env('dstfolder', this.env.delimiter);
+          this.set_classname(this.subscription_list.frame, 'droptarget', true);
+          }
+        }
+      else
+        {
+        this.set_env('dstfolder', id);
+        this.set_classname(row, 'droptarget', true);
+        }
+    }
+
+
+  this.unfocus_subscription = function(id)
+    {
+    var row;
+    if (row = document.getElementById(this.get_folder_row_id(id)))
+      {
+      this.set_env('dstfolder', null);
+      if (find_in_array(this.env.defaultfolders, id)>=0)
+        this.set_classname(this.subscription_list.frame, 'droptarget', false);
+      else
+        this.set_classname(row, 'droptarget', false);
+      }
+    }
+
+
+  this.subscription_select = function(list)
+    {
+    var id;
+    if (id = list.get_single_selection())
+      {
+      var folder = this.env.subscriptionrows['rcmrow'+id][0];
+      if (this.env.folder && (this.env.folder==folder))
+        {
+        list.clear_selection();
+        this.set_env('folder', null);
+        }
+      else
+        this.set_env('folder', folder);
+      }
+    };
+
+
+  this.subscription_move_folder = function(list)
+    {
+    var reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
+    if (this.env.folder && this.env.dstfolder && (this.env.dstfolder != this.env.folder) &&
+        (this.env.dstfolder != this.env.folder.replace(reg, '')))
+      {
+      var reg = new RegExp('[^'+RegExp.escape(this.env.delimiter)+']*['+RegExp.escape(this.env.delimiter)+']', 'g');
+      var basename = this.env.folder.replace(reg, '');
+      var newname = this.env.dstfolder==this.env.delimiter ? basename : this.env.dstfolder+this.env.delimiter+basename;
+      this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.folder)+'&_folder_newname='+urlencode(newname));
+      }
+    this.drag_active = false;
+    this.unfocus_subscription(this.env.dstfolder);
     };
 
 
@@ -2499,9 +2586,12 @@ function rcube_webmail()
 
     if (id && (row = document.getElementById(id)))
       {
+      var reg = new RegExp('.*['+RegExp.escape(this.env.delimiter)+']');
       this.name_input = document.createElement('INPUT');
-      this.name_input.value = this.env.subscriptionrows[id][1];
+      this.name_input.value = folder.replace(reg, '');
       this.name_input.style.width = '100%';
+      reg = new RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
+      this.name_input.setAttribute('parent', folder.replace(reg, ''));
       this.name_input.onkeypress = function(e){ rcmail.name_input_keypress(e); };
       
       row.cells[0].replaceChild(this.name_input, row.cells[0].firstChild);
@@ -2519,7 +2609,10 @@ function rcube_webmail()
     {
     var cell = this.name_input ? this.name_input.parentNode : null;
     if (cell && this.edit_folder && this.env.subscriptionrows[this.edit_folder])
-      cell.innerHTML = this.env.subscriptionrows[this.edit_folder][1];
+      {
+      var reg = new RegExp('[^'+RegExp.escape(this.env.delimiter)+']*['+RegExp.escape(this.env.delimiter)+']', 'g');
+      cell.innerHTML = this.env.subscriptionrows[this.edit_folder][1].replace(reg, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      }
       
     this.edit_folder = null;
     };
@@ -2535,7 +2628,11 @@ function rcube_webmail()
       {
       var newname = this.name_input ? this.name_input.value : null;
       if (this.edit_folder && newname)
-        this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));
+        {
+        if (this.name_input.getAttribute('parent') && this.name_input.getAttribute('parent')!='')
+          newname = this.name_input.getAttribute('parent')+this.env.delimiter+newname;
+          this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));
+        }
       }
     // escape
     else if (key==27)
@@ -2611,6 +2708,10 @@ function rcube_webmail()
       }
 
     this.sort_subscription_list();
+    this.init_subscription_list();
+
+    if (document.getElementById('rcmrow'+id).scrollIntoView)
+      document.getElementById('rcmrow'+id).scrollIntoView();
     };
 
 
@@ -2765,19 +2866,19 @@ function rcube_webmail()
     var index = new Array();
     var tbody = this.gui_objects.subscriptionlist.tBodies[0];
     var swapped = false;
-    for (var i = 0; i<(tbody.childNodes.length-1); i++)
+    for (var i = 0; i<tbody.childNodes.length; i++)
       if (this.env.subscriptionrows[tbody.childNodes[i].id]!=null)
         index.push(i);
     for (i = 0; i<(index.length-1); i++)
       {
-      if (this.env.subscriptionrows[tbody.childNodes[index[i]].id][0]>
-          this.env.subscriptionrows[tbody.childNodes[index[i+1]].id][0])
+      var one = tbody.childNodes[index[i]];
+      var two = tbody.childNodes[index[i+1]];
+      if (this.env.subscriptionrows[one.id][0].toLowerCase()>
+          this.env.subscriptionrows[two.id][0].toLowerCase())
         {
-        var swap = tbody.replaceChild(tbody.childNodes[index[i]], tbody.childNodes[index[i+1]]);
-        if (typeof(tbody.childNodes[index[i]]) != 'undefined')
-          tbody.insertBefore(swap, tbody.childNodes[index[i]])
-        else
-          tbody.appendChild(swap);
+        var swap = one.cloneNode(true);
+        tbody.replaceChild(swap, two);
+        tbody.replaceChild(two, one);
         swapped = true;
         }
       }

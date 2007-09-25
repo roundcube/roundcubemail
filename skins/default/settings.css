@@ -76,6 +76,12 @@ span.tablink-selected a
   height: expression((parseInt(document.documentElement.clientHeight)-215)+'px');
 }
 
+#folder-manager.droptarget
+{
+  border: 1px solid #CC3333;
+  background-color: #FFFFA6;
+}
+
 #identities-table
 {
   width: 600px;
@@ -161,6 +167,20 @@ div.settingspart
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   background-color: #F9F9F9;
+  cursor: pointer;
+}
+
+#subscription-table tr.selected td,
+#subscription-table tr.selected td a
+{
+  color: #FFFFFF;
+  background-color: #CC3333;
+}
+
+#subscription-table tr.droptarget td,
+#subscription-table tr.droptarget td a
+{
+  background-color: #FFFFA6;
 }
 
 #subscription-table td.name
