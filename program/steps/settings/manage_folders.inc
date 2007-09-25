@@ -53,7 +53,8 @@ else if ($_action=='create-folder')
 
   if ($create && $OUTPUT->ajax_call)
     {
-    $OUTPUT->command('add_folder_row', $create, rcube_charset_convert($create, 'UTF-7'));
+    $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $IMAP->delimiter)) . preg_replace('/.*' . preg_quote($IMAP->delimiter) . '/', '', rcube_charset_convert($create, 'UTF-7'));
+    $OUTPUT->command('add_folder_row', $create, $display_create);
     $OUTPUT->send();
     }
   else if (!$create && $OUTPUT->ajax_call)

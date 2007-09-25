@@ -2535,6 +2535,8 @@ function rcube_webmail()
     var form;
     if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
       name = form.elements['_folder_name'].value;
+    if (this.env.folder)
+      name = this.env.folder+this.env.delimiter+name;
 
     if (name)
       this.http_post('create-folder', '_name='+urlencode(name), true);
