@@ -2407,8 +2407,6 @@ function rcube_webmail()
     var p = this;
     this.subscription_list = new rcube_list_widget(this.gui_objects.subscriptionlist, {multiselect:false, draggable:true, keyboard:false});
     this.subscription_list.addEventListener('select', function(o){ p.subscription_select(o); });
-    this.subscription_list.addEventListener('mouseover', function(o){ p.subscription_select_parent(o); });
-    this.subscription_list.addEventListener('mouseout', function(o){ p.subscription_unselect_parent(o); });
     this.subscription_list.addEventListener('dragstart', function(o){ p.drag_active = true; });
     this.subscription_list.addEventListener('dragend', function(o){ p.subscription_move_folder(o); });
     this.subscription_list.init();
