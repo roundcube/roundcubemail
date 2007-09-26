@@ -843,6 +843,9 @@ function rcmail_save_user_prefs($a_user_prefs)
   {
   global $DB, $CONFIG, $sess_user_lang;
   
+  // merge (partial) prefs array with existing settings
+  $a_user_prefs += (array)$_SESSION['user_prefs'];
+  
   $DB->query("UPDATE ".get_table_name('users')."
               SET    preferences=?,
                      language=?
