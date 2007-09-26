@@ -75,8 +75,9 @@ else if ($_action=='rename-folder')
     
   if ($rename && $OUTPUT->ajax_call)
     {
-    $foldersplit = explode($IMAP->delimiter, $rename);
-    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($rename, $IMAP->delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
+    $foldersplit = $IMAP->delimiter ? explode($IMAP->delimiter, $rename) : array($rename);
+    $level = count($foldersplit) - 1;
+    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
     $OUTPUT->command('reset_folder_rename');
     $OUTPUT->send();
@@ -165,8 +166,9 @@ function rcube_subscription_form($attrib)
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = JQ($folder);
-    $foldersplit = explode($IMAP->delimiter, $folder);
-    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($folder, $IMAP->delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
+    $foldersplit = $IMAP->delimiter ? explode($IMAP->delimiter, $folder) : array($folder);
+    $level = count($foldersplit) - 1;
+    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : $display_folder;
     
     if (!$protected)

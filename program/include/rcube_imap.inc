@@ -49,7 +49,7 @@ class rcube_imap
   var $page_size = 10;
   var $sort_field = 'date';
   var $sort_order = 'DESC';
-  var $delimiter = NULL;
+  var $delimiter = '/';
   var $caching_enabled = FALSE;
   var $default_folders = array('INBOX');
   var $default_folders_lc = array('inbox');
