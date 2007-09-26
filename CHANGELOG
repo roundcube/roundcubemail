@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/26 (tomekp)
+- Update polish localization (#1484579)
+
 2007/09/25 (robin)
 ----------
 - Enable drag-/dropping of folders to a new parent folder (#1457344)

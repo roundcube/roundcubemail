@@ -75,5 +75,6 @@ $messages['copysuccess'] = 'Pomyślnie skopiowano następującą liczbę adresó
 $messages['copyerror'] = 'Nie można skopiować żadnego adresu';
 $messages['sourceisreadonly'] = 'Źródło adresu jest tylko do odczytu';
 $messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu';
+$messages['movingmessage'] = 'Przenoszenie wiadomości...';
 
 ?>
