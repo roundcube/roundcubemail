@@ -56,7 +56,9 @@
 #listcontrols a:visited,
 #mailboxcontrols a,
 #mailboxcontrols a:active,
-#mailboxcontrols a:visited
+#mailboxcontrols a:visited,
+td.formlinks a,
+td.formlinks a:visited
 {
   color: #999999;
   font-size: 11px;
@@ -68,7 +70,9 @@
 #listcontrols a.active:visited,
 #mailboxcontrols a.active,
 #mailboxcontrols a.active:active,
-#mailboxcontrols a.active:visited
+#mailboxcontrols a.active:visited,
+td.formlinks a,
+td.formlinks a:visited
 {
   color: #CC0000;
 }
@@ -700,18 +704,10 @@ div.message-part blockquote blockquote blockquote
 
 /** message compose styles */
 
-#priority-selector
-{
-  position: absolute;
-  left: 280px;
-  top: 10px;
-}
-
+#priority-selector,
 #receipt-selector
 {
-  position: absolute;
-  left: 450px;
-  top: 10px;
+  padding-left: 30px;
 }
 
 #compose-container
@@ -776,24 +772,10 @@ div.message-part blockquote blockquote blockquote
   white-space: nowrap;
 }
 
-#compose-headers td.add-button
-{
-  width: 40px !important;
-  text-align: right;
-  vertical-align: bottom;
-}
-
-#compose-headers td.add-button a
-{
-  color: #666666;
-  font-size: 11px;
-  text-decoration: none;
-}
-
 #compose-headers td textarea
 {
   width: 100%;
-  height: 40px;
+  height: 38px;
 }
 
 #compose-headers td input
@@ -812,7 +794,7 @@ div.message-part blockquote blockquote blockquote
 {
   margin-top: 5px;
   margin-bottom: 10px;
-  width: 99%;
+  width: 100%;
   height: 90%;
   min-height: 280px;
   font-size: 9pt;

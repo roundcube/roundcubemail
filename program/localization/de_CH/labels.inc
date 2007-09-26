@@ -157,6 +157,10 @@ $labels['showimages'] = 'Bilder anzeigen';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Klartext';
 
+$labels['addcc'] = 'Cc hinzufügen';
+$labels['addbcc'] = 'Bcc hinzufügen';
+$labels['addreplyto'] = 'Antwortadresse hinzufügen';
+
 
 // address book // Adressbuch
 $labels['name']      = 'Anzeigename';

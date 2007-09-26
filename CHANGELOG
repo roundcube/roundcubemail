@@ -1,8 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/26 (thomasb)
+----------
+- Improve message compose screen (closes #1484383)
+
+
 2007/09/26 (tomekp)
+----------
 - Update polish localization (#1484579)
+
 
 2007/09/25 (robin)
 ----------
@@ -21,6 +28,7 @@ CHANGELOG RoundCube Webmail
 
 2007/09/19 (thomasb)
 ----------
+- IPv6 Compatability (#1484322), Patch #1484373
 - Unlock interface when message sending fails (#1484570)
 - Eval PHP code in template includes (if configured)
 - Show message when folder is empty. Mo more static text in table (#1484395)

@@ -156,6 +156,10 @@ $labels['showimages'] = 'Display images';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
 
+$labels['addcc'] = 'Add Cc';
+$labels['addbcc'] = 'Add Bcc';
+$labels['addreplyto'] = 'Add Reply-To';
+
 
 // address boook
 $labels['name']      = 'Display name';

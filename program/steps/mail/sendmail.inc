@@ -186,7 +186,9 @@ $headers['Subject'] = trim(get_input_value('_subject', RCUBE_INPUT_POST, FALSE, 
 if (!empty($identity_arr['organization']))
   $headers['Organization'] = $identity_arr['organization'];
 
-if (!empty($identity_arr['reply-to']))
+if (!empty($_POST['_replyto']))
+  $headers['Reply-To'] = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+else if (!empty($identity_arr['reply-to']))
   $headers['Reply-To'] = $identity_arr['reply-to'];
 
 if (!empty($_SESSION['compose']['reply_msgid']))

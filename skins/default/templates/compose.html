@@ -8,17 +8,40 @@
 <script type="text/javascript">
 <!--
 
-function rcmail_toggle_display(id)
-  {
-  var row, disp;
+function rcmail_show_header_form(id, link)
+{
+  var row, ns, ps;
   if (row = document.getElementById(id))
-    {
-    disp = (!row.style.display || row.style.display=='none') ? ((document.all && !window.opera) ? 'block' : 'table-row') : 'none';
-    row.style.display = disp;
-    }
+    row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
+  
+  if (link)
+  {
+    if ((ns = rcmail_next_sibling(link)))
+      link.parentNode.removeChild(ns);
+    else if ((ps = rcmail_prev_sibling(link)))
+      link.parentNode.removeChild(ps);
     
-  return false;
+    link.parentNode.removeChild(link);
   }
+  
+  return false;
+}
+
+function rcmail_next_sibling(elm)
+{
+  var ns = elm.nextSibling;
+  while (ns && ns.nodeType == 3)
+    ns = ns.nextSibling;
+  return ns;
+}
+
+function rcmail_prev_sibling(elm)
+{
+  var ps = elm.previousSibling;
+  while (ps && ps.nodeType == 3)
+    ps = ps.previousSibling;
+  return ps;
+}
 
 //-->
 </script>
@@ -31,20 +54,21 @@ function rcmail_toggle_display(id)
 <form name="form" action="./" method="post">
 
 <div id="messagetoolbar">
-<roundcube:button command="list" image="/images/buttons/back_act.png" imageSel="/images/buttons/back_sel.png" imageAct="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
-<roundcube:button command="send" imageSel="/images/buttons/send_sel.png" imageAct="/images/buttons/send_act.png" imagePas="/images/buttons/send_pas.png" width="32" height="32" title="sendmessage" />
-<roundcube:button command="spellcheck" imageSel="/images/buttons/spellcheck_sel.png" imageAct="/images/buttons/spellcheck_act.png" imagePas="/images/buttons/spellcheck_pas.png" width="32" height="32" title="checkspelling" />
-<roundcube:button command="add-attachment" imageSel="/images/buttons/attach_sel.png" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
-<roundcube:button command="savedraft" imageSel="/images/buttons/drafts_sel.png" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
-
-<div id="priority-selector">
-<label for="rcmcomposepriority"><roundcube:label name="priority" />:</label>&nbsp;<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" />
-</div>
-
-<div id="receipt-selector">
-<roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" />&nbsp;<label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" /></label>
-</div>
-
+<table border="0" cellspacing="0" cellpadding="0"><tr>
+<td>
+  <roundcube:button command="list" image="/images/buttons/back_act.png" imageSel="/images/buttons/back_sel.png" imageAct="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
+  <roundcube:button command="send" imageSel="/images/buttons/send_sel.png" imageAct="/images/buttons/send_act.png" imagePas="/images/buttons/send_pas.png" width="32" height="32" title="sendmessage" />
+  <roundcube:button command="spellcheck" imageSel="/images/buttons/spellcheck_sel.png" imageAct="/images/buttons/spellcheck_act.png" imagePas="/images/buttons/spellcheck_pas.png" width="32" height="32" title="checkspelling" />
+  <roundcube:button command="add-attachment" imageSel="/images/buttons/attach_sel.png" imageAct="/images/buttons/attach_act.png" imagePas="/images/buttons/attach_pas.png" width="32" height="32" title="addattachment" />
+  <roundcube:button command="savedraft" imageSel="/images/buttons/drafts_sel.png" imageAct="/images/buttons/drafts_act.png" imagePas="/images/buttons/drafts_pas.png" width="32" height="32" title="savemessage" />
+</td>
+<td id="priority-selector">
+  <label for="rcmcomposepriority"><roundcube:label name="priority" />:</label>&nbsp;<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" />
+</td>
+<td id="receipt-selector">
+  <roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" />&nbsp;<label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" /></label>
+</td>
+</tr></table>
 </div>
 
 <div id="compose-container">
@@ -63,8 +87,6 @@ function rcmail_toggle_display(id)
 
 <td class="title top"><label for="rcmcomposeto"><roundcube:label name="to" /></label></td>
 <td><roundcube:object name="composeHeaders" part="to" form="form" id="rcmcomposeto" cols="80" rows="2" tabindex="2" /></td>
-<td class="add-button"><a href="#" onclick="return rcmail_toggle_display('compose-cc')">[Cc]</a><br />
-<a href="#" onclick="return rcmail_toggle_display('compose-bcc')">[Bcc]</a><br /></td>
 
 </tr><tr id="compose-cc">
 
@@ -80,6 +102,17 @@ function rcmail_toggle_display(id)
 
 <td class="title top"><label for="rcmcomposereplyto"><roundcube:label name="replyto" /></label></td>
 <td><roundcube:object name="composeHeaders" part="replyto" form="form" id="rcmcomposereplyto" size="80" tabindex="5" /></td>
+
+</tr><tr>
+  
+<td></td>
+<td class="formlinks">
+  <a href="#cc" onclick="return rcmail_show_header_form('compose-cc', this);" id="addcclink"><roundcube:label name="addcc" /></a>
+  <span class="separator">|</span>
+  <a href="#bcc" onclick="return rcmail_show_header_form('compose-bcc', this);" id="addbcclink"><roundcube:label name="addbcc" /></a>
+  <span class="separator">|</span>
+  <a href="#reply-to" onclick="return rcmail_show_header_form('compose-replyto', this);" id="addreplytolink"><roundcube:label name="addreplyto" /></a>
+</td>
 
 </tr><tr>
 
@@ -133,10 +166,10 @@ function rcmail_toggle_display(id)
 
 var cc_field = document.form._cc;
 if (cc_field && cc_field.value!='')
-  rcmail_toggle_display('compose-cc');
+  rcmail_show_header_form('compose-cc', document.getElementById('addcclink'));
 var bcc_field = document.form._bcc;
 if (bcc_field && bcc_field.value!='')
-  rcmail_toggle_display('compose-bcc');
+  rcmail_show_header_form('compose-bcc', document.getElementById('addbcclink'));
 
 //-->
 </script>
