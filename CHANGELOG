@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2007/09/26 (thomasb)
 ----------
 - Improve message compose screen (closes #1484383)
+- Select next row after removing one from list (#1484387)
 
 
 2007/09/26 (tomekp)

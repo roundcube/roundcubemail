@@ -2365,7 +2365,7 @@ function rcube_webmail()
         {
         id = selection[n];
         a_cids[a_cids.length] = id;
-        this.contact_list.remove_row(id);
+        this.contact_list.remove_row(id, (n == selection.length-1));
         }
 
       // hide content frame if we delete the currently displayed contact
