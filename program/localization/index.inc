@@ -85,7 +85,7 @@ $rcube_language_aliases = array(
 	'nl' => 'nl_NL',
 	'no' => 'nn_NO',
 	'pt' => 'pt_PT',
-	'th' => 'th_TH'
+	'th' => 'th_TH',
 	'tw' => 'zh_TW'
 );
 
