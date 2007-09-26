@@ -53,7 +53,8 @@ else if ($_action=='create-folder')
 
   if ($create && $OUTPUT->ajax_call)
     {
-    $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $IMAP->delimiter)) . preg_replace('/.*' . preg_quote($IMAP->delimiter) . '/', '', rcube_charset_convert($create, 'UTF-7'));
+    $foldersplit = explode($IMAP->delimiter, $create);
+    $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $IMAP->delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
     $OUTPUT->command('add_folder_row', $create, $display_create);
     $OUTPUT->send();
     }
@@ -74,7 +75,8 @@ else if ($_action=='rename-folder')
     
   if ($rename && $OUTPUT->ajax_call)
     {
-    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($rename, $IMAP->delimiter)) . preg_replace('/.*' . preg_quote($IMAP->delimiter) . '/', '', rcube_charset_convert($rename, 'UTF-7'));
+    $foldersplit = explode($IMAP->delimiter, $rename);
+    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($rename, $IMAP->delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
     $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
     $OUTPUT->command('reset_folder_rename');
     $OUTPUT->send();
@@ -163,7 +165,8 @@ function rcube_subscription_form($attrib)
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = JQ($folder);
-    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($folder, $IMAP->delimiter)) . preg_replace('/.*' . preg_quote($IMAP->delimiter) . '/', '', rcube_charset_convert($folder, 'UTF-7'));
+    $foldersplit = explode($IMAP->delimiter, $folder);
+    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($folder, $IMAP->delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
     $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : $display_folder;
     
     if (!$protected)
