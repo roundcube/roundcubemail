@@ -154,6 +154,10 @@ $labels['showimages'] = 'Toon afbeeldingen';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Gewone tekst';
 
+$labels['addcc'] = 'Kopie toevoegen'; 
+$labels['addbcc'] = 'Bcc toevoegen'; 
+$labels['addreplyto'] = 'Antwoord-aan toevoegen';
+
 // address boook
 $labels['name']      = 'Naam';
 $labels['firstname'] = 'Voornaam';
