@@ -132,10 +132,13 @@ clear: function(sel)
 /**
  * 'remove' message row from list (just hide it)
  */
-remove_row: function(uid)
+remove_row: function(uid, sel_next)
 {
   if (this.rows[uid].obj)
     this.rows[uid].obj.style.display = 'none';
+
+  if (sel_next)
+    this.select_next();
 
   this.rows[uid] = null;
 },

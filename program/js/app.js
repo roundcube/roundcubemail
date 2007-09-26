@@ -1440,10 +1440,8 @@ function rcube_webmail()
         {
         id = selection[n];
         a_uids[a_uids.length] = id;
-        this.message_list.remove_row(id);
+        this.message_list.remove_row(id, (n == selection.length-1));
         }
-
-      this.message_list.select_next();
       }
       
     // also send search request to get the right messages 
