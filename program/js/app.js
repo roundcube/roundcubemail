@@ -2643,7 +2643,6 @@ function rcube_webmail()
     if (folder)
       {
       this.http_post('delete-folder', '_mboxes='+urlencode(folder));
-      var folders = new Array(folder);
       for (var row in this.env.subscriptionrows)
         if (this.env.subscriptionrows[row][0].match(new RegExp('^'+RegExp.escape(folder+this.env.delimiter))))
           this.http_post('delete-folder', '_mboxes='+urlencode(this.env.subscriptionrows[row][0]));
