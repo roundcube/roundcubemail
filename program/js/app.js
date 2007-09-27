@@ -2559,7 +2559,16 @@ function rcube_webmail()
       }
 
     if (oldname && newname)
+      {
       this.http_post('rename-folder', '_folder_oldname='+urlencode(oldname)+'&_folder_newname='+urlencode(newname));
+      for (var row in this.env.subscriptionrows)
+        if (this.env.subscriptionrows[row][0].match(new RegExp('^'+RegExp.escape(oldname+this.env.delimiter))))
+          {
+          var subnewname = this.env.subscriptionrows[row][0].replace(new RegExp('^'+RegExp.escape(oldname+this.env.delimiter)), newname+this.env.delimiter);
+          this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[row][0])+
+                         '&_folder_newname='+urlencode(subnewname));
+          }
+      }
     };
 
 
