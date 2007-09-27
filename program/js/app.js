@@ -2550,25 +2550,6 @@ function rcube_webmail()
     // rename a specific mailbox
     if (props)
       this.edit_foldername(props);
-
-    // use a dropdown and input field (old behavior)
-    else if ((form = this.gui_objects.editform) && form.elements['_folder_oldname'] && form.elements['_folder_newname'])
-      {
-      oldname = form.elements['_folder_oldname'].value;
-      newname = form.elements['_folder_newname'].value;
-      }
-
-    if (oldname && newname)
-      {
-      this.http_post('rename-folder', '_folder_oldname='+urlencode(oldname)+'&_folder_newname='+urlencode(newname));
-      for (var row in this.env.subscriptionrows)
-        if (this.env.subscriptionrows[row][0].match(new RegExp('^'+RegExp.escape(oldname+this.env.delimiter))))
-          {
-          var subnewname = this.env.subscriptionrows[row][0].replace(new RegExp('^'+RegExp.escape(oldname+this.env.delimiter)), newname+this.env.delimiter);
-          this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[row][0])+
-                         '&_folder_newname='+urlencode(subnewname));
-          }
-      }
     };
 
 
@@ -2650,12 +2631,7 @@ function rcube_webmail()
       this.reset_folder_rename();
     
     if (folder)
-      {
       this.http_post('delete-folder', '_mboxes='+urlencode(folder));
-      for (var row in this.env.subscriptionrows)
-        if (this.env.subscriptionrows[row][0].match(new RegExp('^'+RegExp.escape(folder+this.env.delimiter))))
-          this.http_post('delete-folder', '_mboxes='+urlencode(this.env.subscriptionrows[row][0]));
-      }
     };
 
 
