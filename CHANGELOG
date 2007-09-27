@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/27 (tomekp)
+----------
+- Update brazilian portuguese localization (#1484580)
+
 2007/09/26 (thomasb)
 ----------
 - Improve message compose screen (closes #1484383)
