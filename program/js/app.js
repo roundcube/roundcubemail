@@ -2463,7 +2463,7 @@ function rcube_webmail()
     var reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
     if (this.drag_active && this.check_droptarget(id) &&
         (id != this.env.folder.replace(reg, '')) &&
-        (!id.match(new RegExp('^'+this.env.folder+RegExp.escape(this.env.delimiter)))) &&
+        (!id.match(new RegExp('^'+RegExp.escape(this.env.folder+this.env.delimiter)))) &&
         (row = document.getElementById(this.get_folder_row_id(id))))
       if (find_in_array(this.env.defaultfolders, id)>=0)
         {
