@@ -946,8 +946,13 @@ function rcmail_sanitize_html($body, $container_id)
   // remove any null-byte characters before parsing
   $body = preg_replace('/\x00/', '', $body);
   
+  $base_url = "";
   $last_style_pos = 0;
   $body_lc = strtolower($body);
+  
+  // check for <base href>
+  if (preg_match(($base_reg = '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i'), $body, $base_regs))
+    $base_url = $base_regs[2];
   
   // find STYLE tags
   while (($pos = strpos($body_lc, '<style', $last_style_pos)) && ($pos2 = strpos($body_lc, '</style>', $pos)))
@@ -955,7 +960,7 @@ function rcmail_sanitize_html($body, $container_id)
     $pos = strpos($body_lc, '>', $pos)+1;
 
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id);
+    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id, $base_url);
 
     $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
     $body_lc = strtolower($body);
@@ -983,17 +988,15 @@ function rcmail_sanitize_html($body, $container_id)
     }
 
   // resolve <base href>
-  $base_reg = '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i';
-  if (preg_match($base_reg, $body, $regs))
+  if ($base_url)
     {
-    $base_url = $regs[2];
     $body = preg_replace('/(src|background|href)=(["\']?)([\.\/]+[^"\'\s]+)(\2|\s|>)/Uie', "'\\1=\"'.make_absolute_url('\\3', '$base_url').'\"'", $body);
     $body = preg_replace('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Uie', "'\\1\''.make_absolute_url('\\3', '$base_url').'\')'", $body);
     $body = preg_replace($base_reg, '', $body);
     }
     
   // modify HTML links to open a new window if clicked
-  $body = preg_replace('/<a\s+([^>]+)>/Uie', "rcmail_alter_html_link('\\1');", $body);
+  $body = preg_replace('/<(a|link)\s+([^>]+)>/Uie', "rcmail_alter_html_link('\\1','\\2', '$container_id');", $body);
 
   // add comments arround html and other tags
   $out = preg_replace(array(
@@ -1005,11 +1008,16 @@ function rcmail_sanitize_html($body, $container_id)
     '<!--\\1-->',
     $body);
 
-  $out = preg_replace(array('/<body([^>]*)>/i',
-                            '/<\/body>/i'),
-                      array('<div class="rcmBody"\\1>',
-                            '</div>'),
-                      $out);
+  $out = preg_replace(
+    array(
+      '/<body([^>]*)>/i',
+      '/<\/body>/i',
+    ),
+    array(
+      '<div class="rcmBody"\\1>',
+      '</div>',
+    ),
+    $out);
 
   // quote <? of php and xml files that are specified as text/html
   $out = preg_replace(array('/<\?/', '/\?>/'), array('&lt;?', '?&gt;'), $out);
@@ -1019,44 +1027,24 @@ function rcmail_sanitize_html($body, $container_id)
 
 
 // parse link attributes and set correct target
-function rcmail_alter_html_link($in)
+function rcmail_alter_html_link($tag, $attrs, $container_id)
   {
   $in = preg_replace('/=([^("|\'|\s)]+)(\s|$)/', '="\1"', $in);
-  $attrib = parse_attrib_string($in);
+  $attrib = parse_attrib_string($attrs);
+  
+  if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href']))
+    $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($container_id);
 
-  if (stristr((string)$attrib['href'], 'mailto:'))
-    $attrib['onclick'] = sprintf("return %s.command('compose','%s',this)",
-                                 JS_OBJECT_NAME,
-                                 JQ(substr($attrib['href'], 7)));
+  else if (stristr((string)$attrib['href'], 'mailto:'))
+    $attrib['onclick'] = sprintf(
+      "return %s.command('compose','%s',this)",
+      JS_OBJECT_NAME,
+      JQ(substr($attrib['href'], 7)));
+  
   else if (!empty($attrib['href']) && $attrib['href']{0}!='#')
     $attrib['target'] = '_blank';
-  
-  return '<a' . create_attrib_string($attrib, array('href', 'name', 'target', 'onclick', 'id', 'class', 'style', 'title')) . '>';
-  }
 
-
-// replace all css definitions with #container [def]
-function rcmail_mod_css_styles($source, $container_id)
-  {
-  $a_css_values = array();
-  $last_pos = 0;
-  
-  // cut out all contents between { and }
-  while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
-    {
-    $key = sizeof($a_css_values);
-    $a_css_values[$key] = substr($source, $pos+1, $pos2-($pos+1));
-    $source = substr($source, 0, $pos+1) . "<<str_replacement[$key]>>" . substr($source, $pos2, strlen($source)-$pos2);
-    $last_pos = $pos+2;
-    }
-
-  // remove html commends and add #container to each tag selector.
-  // also replace body definition because we also stripped off the <body> tag
-  $styles = preg_replace(array('/(^\s*<!--)|(-->\s*$)/', '/(^\s*|,\s*|\}\s*)([a-z0-9\._][a-z0-9\.\-_]*)/im', '/<<str_replacement\[([0-9]+)\]>>/e', "/$container_id\s+body/i"),
-                         array('', "\\1#$container_id \\2", "\$a_css_values[\\1]", "$container_id div.rcmBody"),
-                         $source);
-
-  return $styles;
+  return "<$tag" . create_attrib_string($attrib, array('href','name','target','onclick','id','class','style','title','rel','type','media')) . ' />';
   }
 
 

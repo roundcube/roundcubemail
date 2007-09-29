@@ -29,6 +29,7 @@
 require_once('lib/des.inc');
 require_once('lib/utf7.inc');
 require_once('lib/utf8.class.php');
+require_once('include/rcube_shared.inc');
 require_once('include/rcmail_template.inc');
 
 
@@ -1446,6 +1447,50 @@ function rcmail_mail_domain($host)
     $domain = $CONFIG['mail_domain'];
 
   return $domain;
+  }
+
+
+/**
+ * Replace all css definitions with #container [def]
+ *
+ * @param string CSS source code
+ * @param string Container ID to use as prefix
+ * @return string Modified CSS source
+ */
+function rcmail_mod_css_styles($source, $container_id, $base_url = '')
+  {
+  $a_css_values = array();
+  $last_pos = 0;
+
+  // cut out all contents between { and }
+  while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
+  {
+    $key = sizeof($a_css_values);
+    $a_css_values[$key] = substr($source, $pos+1, $pos2-($pos+1));
+    $source = substr($source, 0, $pos+1) . "<<str_replacement[$key]>>" . substr($source, $pos2, strlen($source)-$pos2);
+    $last_pos = $pos+2;
+  }
+
+  // remove html commends and add #container to each tag selector.
+  // also replace body definition because we also stripped off the <body> tag
+  $styles = preg_replace(
+    array(
+      '/(^\s*<!--)|(-->\s*$)/',
+      '/(^\s*|,\s*|\}\s*)([a-z0-9\._#][a-z0-9\.\-_]*)/im',
+      '/@import\s+(url\()?[\'"]?([^\)\'"]+)[\'"]?(\))?/ime',
+      '/<<str_replacement\[([0-9]+)\]>>/e',
+      "/$container_id\s+body/i"
+    ),
+    array(
+      '',
+      "\\1#$container_id \\2",
+      "sprintf(\"@import url('./bin/modcss.php?u=%s&c=%s')\", urlencode(make_absolute_url('\\2','$base_url')), urlencode($container_id))",
+      "\$a_css_values[\\1]",
+      "$container_id div.rcmBody"
+    ),
+    $source);
+
+  return $styles;
   }
 
 

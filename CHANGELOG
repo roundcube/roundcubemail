@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/09/29 (thomasb)
+----------
+- Filter linked/imported CSS files (closes #1484056)
+
+
 2007/09/27 (tomekp)
 ----------
 - Update brazilian portuguese localization (#1484580)

@@ -434,6 +434,10 @@ function make_absolute_url($path, $base_url)
 {
   $host_url = $base_url;
   $abs_path = $path;
+  
+  // check if path is an absolute URL
+  if (preg_match('/^[fhtps]+:\/\//', $path))
+    return $path;
 
   // cut base_url to the last directory
   if (strpos($base_url, '/')>7)
