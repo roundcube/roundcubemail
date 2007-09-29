@@ -772,15 +772,17 @@ div.message-part blockquote blockquote blockquote
   white-space: nowrap;
 }
 
-#compose-headers td textarea
-{
-  width: 100%;
-  height: 38px;
-}
-
+#compose-body,
+#compose-headers td textarea,
 #compose-headers td input
 {
   width: 100%;
+  width: expression('99%');
+}
+
+#compose-headers td textarea
+{
+  height: 38px;
 }
 
 #compose-cc,
@@ -794,7 +796,6 @@ div.message-part blockquote blockquote blockquote
 {
   margin-top: 5px;
   margin-bottom: 10px;
-  width: 100%;
   height: 90%;
   min-height: 280px;
   font-size: 9pt;
