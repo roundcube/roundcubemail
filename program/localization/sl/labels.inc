@@ -177,4 +177,5 @@ $labels['managefolders'] = 'Urejaj mape';
 $labels['sortby'] = 'Uredi po';
 $labels['sortasc'] = 'Uredi naraščajoče';
 $labels['sortdesc'] = 'Uredi padajoče';
+
 ?>

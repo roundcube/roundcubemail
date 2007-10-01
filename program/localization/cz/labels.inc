@@ -124,7 +124,6 @@ $labels['highest'] = 'Nejvyšší';
 
 $labels['showimages'] = 'Zobrazit obrázky';
 
-
 // address boook
 $labels['name']      = 'Zobrazit jméno';
 $labels['firstname'] = 'Jméno';
@@ -145,7 +144,6 @@ $labels['composeto']      = 'Poslat e-mail';
 $labels['contactsfromto'] = 'Kontakty $from až $to z celkem $count';
 $labels['print']          = 'Tisk';
 $labels['export']         = 'Export';
-
 
 // settings
 $labels['settingsfor']  = 'Nastavení pro';
@@ -239,6 +237,5 @@ $labels['previewpane'] = 'Zobrazit panel náhledu';
 $labels['autosavedraft']  = 'Automaticky uložit rozepsané zprávy';
 $labels['everynminutes']  = 'každých $n minut';
 $labels['never']  = 'nikdy';
-
 
 ?>

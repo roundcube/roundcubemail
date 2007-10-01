@@ -74,4 +74,5 @@ $messages['copysuccess'] = 'Število prepisanih naslovov: $nr';
 $messages['copyerror'] = 'Ne morem prepisati nobenega naslova';
 $messages['sourceisreadonly'] = 'Izvirnik naslova je samo berljiv';
 $messages['errorsavingcontact'] = 'Ne morem shraniti vizitke';
+
 ?>

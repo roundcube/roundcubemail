@@ -75,4 +75,5 @@ $messages['copyerror'] = 'アドレスをコピーできません。';
 $messages['sourceisreadonly'] = 'このアドレス情報は読み取り専用です。';
 $messages['errorsavingcontact'] = '連絡先のアドレスを保存できません。';
 $messages['movingmessage'] = '移動中です...';
+
 ?>
