@@ -19,6 +19,10 @@
 
 */
 
+// count pages before changing anything
+$old_count = $IMAP->messagecount();
+$old_pages = ceil($old_count / $IMAP->page_size);
+
 // move messages
 if ($_action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_target_mbox']))
 {
@@ -78,7 +82,7 @@ if ($_action=='moveto' && $target)
 $OUTPUT->command('set_quota', $IMAP->get_quota());
 
 // add new rows from next page (if any)
-if ($_POST['_from']!='show' && $pages>1 && $IMAP->list_page < $pages)
+if ($_POST['_from']!='show' && $old_pages>1 && $IMAP->list_page < $old_pages)
 {
   $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
