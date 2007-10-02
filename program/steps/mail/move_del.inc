@@ -19,9 +19,8 @@
 
 */
 
-// count pages before changing anything
+// count messages before changing anything
 $old_count = $IMAP->messagecount();
-$old_pages = ceil($old_count / $IMAP->page_size);
 
 // move messages
 if ($_action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_target_mbox']))
@@ -65,10 +64,21 @@ if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->se
   $_SESSION['search'][$search_request] = $IMAP->refresh_search();
 
 
+$remaining = $old_count - $IMAP->page_size * $IMAP->list_page;
+
+// jump back one page (user removed the whole last page)
+if ($IMAP->list_page > 1 && $remaining <= 0)
+{
+  $IMAP->set_page($IMAP->list_page-1);
+  $_SESSION['page'] = $IMAP->list_page;
+  $jump_back = true;
+}
+
 // update message count display
 $msg_count = $IMAP->messagecount();
 $pages = ceil($msg_count / $IMAP->page_size);
 $OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->set_env('current_page', $IMAP->list_page);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
 
@@ -82,13 +92,14 @@ if ($_action=='moveto' && $target)
 $OUTPUT->command('set_quota', $IMAP->get_quota());
 
 // add new rows from next page (if any)
-if ($_POST['_from']!='show' && $old_pages>1 && $IMAP->list_page < $old_pages)
+if ($_POST['_from']!='show' && ($jump_back || $remaining > 0))
 {
   $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   
   $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order);
-  $a_headers = array_slice($a_headers, -$count, $count);
+  if (!$jump_back)
+    $a_headers = array_slice($a_headers, -$count, $count);
 
   rcmail_js_message_list($a_headers);
 }
