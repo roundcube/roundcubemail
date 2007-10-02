@@ -9,66 +9,69 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anoosh <anoosher2003@yahoo.com>                               |
+ | Translators:                                                          |
+ |     Anoosh <anoosher2003@yahoo.com>                                   |
+ |     Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>             |
  +-----------------------------------------------------------------------+
 
 */
 
 $messages = array();
 $messages['loginfailed'] = 'ورود ناموفق بود';
-$messages['cookiesdisabled'] = 'مرورگر شما کوکی قبول نمی کند';
-$messages['sessionerror'] = 'زمان ورود شما اشتباه و یا منقضی';
-$messages['imaperror'] = 'نا موفق بود IMAPاتصال به سرور';
-$messages['nomessagesfound'] = 'هیچ پیغامی در صندوق پستی پیدا نشد';
-$messages['loggedout'] = 'شما با موفقیت برنامه را بستید ، به امید دیدار';
-$messages['mailboxempty'] = 'صندوق پستی خالی است';
-$messages['loading'] = '... در حال بارگداری';
-$messages['loadingdata'] = '... در حال بارگداری اطلاعات';
-$messages['checkingmail'] = '... بررسی برای پیغام های جدید';
-$messages['sendingmessage'] = '... در حال ارسال پیغام';
+$messages['cookiesdisabled'] = 'مرورگر شما کلوچه قبول نمی کند';
+$messages['sessionerror'] = 'نشست شما یا معتبر نیست، یا منقضی شده است';
+$messages['imaperror'] = 'اتصال به خادم IMAP ناموفق بود';
+$messages['nomessagesfound'] = 'هیچ پیغامی در صندوق نامه پیدا نشد';
+$messages['loggedout'] = 'شما با موفقیت نشست را پایان دادید. خدا نکه‌دار!';
+$messages['mailboxempty'] = 'صندوق نامه خالی است';
+$messages['loading'] = 'در حال بارگذاری ...';
+$messages['loadingdata'] = 'در حال بارگذاری داده‌ها ...';
+$messages['checkingmail'] = 'بررسی برای پیغام جدید ...';
+$messages['sendingmessage'] = 'در حال ارسال پیغام ...';
 $messages['messagesent'] = 'پیغام با موفقیت فرستاده شد';
-$messages['savingmessage'] = '... درحال ذخیره پیغام ها';
-$messages['messagesaved'] = 'پیغام در قسمت طرح ها ذخیره شد';
+$messages['savingmessage'] = 'درحال ذخیره‌ی پیغام ...';
+$messages['messagesaved'] = 'پیغام در پیش‌نویس‌ها ذخیره شد';
 $messages['successfullysaved'] = 'با موفقیت ذخیره شد';
-$messages['addedsuccessfully'] = 'تماس با موفقیت به دفتر آدرس ها اضافه شد';
-$messages['contactexists'] = 'یک تماس با این آدرس ایمیل از قبل وجود دارد';
-$messages['blockedimages'] = 'برای حفاظت ازاطلاعات شما ، عکس های روی اینترنت فیلتر شد';
-$messages['encryptedmessage'] = '!این یک پیغام کد شده است و قابل نمایش نمی باشد ، ببخشید';
+$messages['addedsuccessfully'] = 'تماس با موفقیت به دفتر نشانی‌ها اضافه شد';
+$messages['contactexists'] = 'یک تماس با این نشانی رایانامه از قبل وجود دارد';
+$messages['blockedimages'] = 'برای حفاظت از حریم شخصی شما ، عکس‌های دوردست از پیغام حذف شد';
+$messages['encryptedmessage'] = 'این یک پیغام رمزنگاری شده است و قابل نمایش نیست. ببخشید!';
 $messages['nocontactsfound'] = 'هیج تماسی پیدا نشد';
-$messages['contactnotfound'] = 'تماس مورد نظر پیدا نشد';
-$messages['sendingfailed'] = 'نا موفق در فرستادن پیغام';
-$messages['errorsaving'] = 'یک اشکال در زمان ذخیره پیش آمد';
-$messages['errormoving'] = 'پیغام منتقل نشد';
-$messages['errordeleting'] = 'پیغام پاک نشد';
-$messages['deletecontactconfirm'] = 'آیا واقعا می خواهید تماس (های) انتخاب شده را پاک کنید ؟';
-$messages['deletemessagesconfirm'] = 'آیا واقعا می خواهید پیغام (های) انتخاب شده را پاک کنید ؟';
-$messages['deletefolderconfirm'] = 'آیا واقعا می خواهید این پوشه را پاک کنید ؟';
-$messages['purgefolderconfirm'] = 'آیا واقعا می خواهید همه پیغام ها در این پوشه را پاک کنید ؟';
-$messages['formincomplete'] = 'فرم کاملا پر نشده بود';
-$messages['noemailwarning'] = 'لطفا بک آدرس ایمیل درست وارد کنید';
-$messages['nonamewarning'] = 'لطفا یک نام وارد کنید';
-$messages['nopagesizewarning'] = 'لطفا اندازه صفحه وارد کنید';
-$messages['norecipientwarning'] = 'لطفا حداقل یک گیرنده وارد کنید';
-$messages['nosubjectwarning'] = 'قسمت "عنوان" خالی است ، آیا می خواهید یک عنوان وارد کنید ؟';
-$messages['nobodywarning'] = 'ارسال این پیغام بدون متن ؟';
-$messages['notsentwarning'] = 'پیغام ارسال نشد ، آیا می خواهید پیغام را از بین ببرید ؟';
-$messages['noldapserver'] = 'برای جستجو انتخاب کنید Ldapلطفا یک سرور ';
+$messages['contactnotfound'] = 'تماس درخواست شده پیدا نشد';
+$messages['sendingfailed'] = 'ناموفق در فرستادن پیغام';
+$messages['errorsaving'] = 'هنگام ذخیره‌سازی، اشکالی پیش آمد';
+$messages['errormoving'] = 'ناتوان از انتقال پیغام';
+$messages['errordeleting'] = 'ناتوان از حذف پیغام';
+$messages['deletecontactconfirm'] = 'آیا واقعاً می‌خواهید تماس (های) انتخاب شده را حذف کنید؟';
+$messages['deletemessagesconfirm'] = 'آیا واقعاً می‌خواهید پیغام (های) انتخاب شده را حذف کنید؟';
+$messages['deletefolderconfirm'] = 'آیا واقعاً می‌خواهید این پوشه را حذف کنید؟';
+$messages['purgefolderconfirm'] = 'آیا واقعاً می‌خواهید همه‌ی پیغام‌های داخل این پوشه را حذف کنید؟';
+$messages['formincomplete'] = 'فرم کاملاً پر نشده بود';
+$messages['noemailwarning'] = 'لطفاً یک نشانی رایانامه‌ی معتبر وارد کنید';
+$messages['nonamewarning'] = 'لطفاً یک نام وارد کنید';
+$messages['nopagesizewarning'] = 'لطفاً یک اندازه برای صفحه وارد کنید';
+$messages['norecipientwarning'] = 'لطفاً حداقل یک گیرنده وارد کنید';
+$messages['nosubjectwarning'] = 'قسمت "موضوع" خالی است. آیا می‌خواهید اکنون وارد کنید؟';
+$messages['nobodywarning'] = 'این پیغام بدون متن ارسال شود؟';
+$messages['notsentwarning'] = 'پیغام ارسال نشده است. آیا می‌خواهید پیغام را از بین ببرید؟';
+$messages['noldapserver'] = 'لطفاً یک خادم LDAP برای جست و جو انتخاب کنید';
 $messages['nocontactsreturned'] = 'هیچ تماسی پیدا نشد';
-$messages['nosearchname'] = 'لطفا نام یک تماس و یا یک آدرس ایمیل وارد کنید';
-$messages['searchsuccessful'] = ' پیغام پیدا شد $nr';
-$messages['searchnomatch'] = 'جستجو هیچ نتیجه ای نداشت';
-$messages['searching'] = '...در حال جستجو';
-$messages['checking'] = '...در حال بررسی';
+$messages['nosearchname'] = 'لطفا نام یک تماس و یا یک نشانی رایانامه وارد کنید';
+$messages['searchsuccessful'] = '$nr پیغام پیدا شد';
+$messages['searchnomatch'] = 'جست و جو هیچ نتیجه‌ای نداشت';
+$messages['searching'] = 'در حال جست و جو ...';
+$messages['checking'] = 'در حال بررسی ...';
 $messages['nospellerrors'] = 'هیچ اشکال املایی پیدا نشد';
-$messages['folderdeleted'] = 'پوشه با موفقیت پاک شد';
+$messages['folderdeleted'] = 'پوشه با موفقیت حذف شد';
 $messages['deletedsuccessfully'] = 'حذف انجام شد';
-$messages['converting'] = '... در حال پاک کردن تنظیمات متنی از پیغام';
-$messages['messageopenerror'] = 'پیغام از روی سرور بارگذاری نشد';
-$messages['fileuploaderror'] = 'آپلود فایل ناموفقیت آمیز بود';
-$messages['filesizeerror'] = 'بیشتر است $size فایل آپلود شده از حد اکثر حجم مجاز  ';
-$messages['copysuccess'] = 'آدرس با موفقیت کپی شد $nr';
-$messages['copyerror'] = 'کپی آدرس ها ناموفق بود';
-$messages['sourceisreadonly'] = 'این منبع آدرس فقط قابل خواندن است';
-$messages['errorsavingcontact'] = 'ذخیره آدرس تماس ناموفق بود';
+$messages['converting'] = 'در حال حذف قالب‌بندی‌ها از پیغام ...';
+$messages['messageopenerror'] = 'ناتوان از بارگذاری پیغام از روی خادم';
+$messages['fileuploaderror'] = 'بالاگذاری پرونده ناموفق بود';
+$messages['filesizeerror'] = 'اندازه‌ی پرونده‌ی بالاگذاری شده از بیشینه اندازه‌ی $size تجاوز می‌کند';
+$messages['copysuccess'] = '$nr نشانی با موفقیت رونوشت‌برداری شدند';
+$messages['copyerror'] = 'رونوشت‌برداری از نشانی‌ها ناموفق بود';
+$messages['sourceisreadonly'] = 'این منبع نشانی فقط‌خواندنی است';
+$messages['errorsavingcontact'] = 'ذخیره‌ی نشانی تماس ناموفق بود';
+$messages['movingmessage'] = 'در حال انتقال پیغام ...';
 
 ?>
