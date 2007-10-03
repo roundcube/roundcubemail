@@ -5,7 +5,7 @@
  | Configuration file for database access                                |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -16,7 +16,7 @@ $rcmail_config = array();
 
 // PEAR database DSN for read/write operations
 // format is db_provider://user:password@host/databse
-// currentyl suported db_providers: mysql, sqlite
+// currently supported db_providers: mysql, sqlite
 
 $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 // postgres example: 'pgsql://roundcube:pass@localhost/roundcubemail';

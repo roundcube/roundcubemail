@@ -5,7 +5,7 @@
  | Main configuration file                                               |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -93,8 +93,8 @@ $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size');
 // relative path to the skin folder
 $rcmail_config['skin_path'] = 'skins/default/';
 
-// inludes shloud be interpreted as PHP files
-$rcmail_config['skin_include_php'] = true;
+// includes should be interpreted as PHP files
+$rcmail_config['skin_include_php'] = TRUE;
 
 // use this folder to store temp files (must be writebale for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
@@ -237,7 +237,7 @@ $rcmail_config['pagesize'] = 40;
 // use this timezone to display date/time
 $rcmail_config['timezone'] = intval(date('O'))/100 - date('I');
 
-// if daylight savings are On
+// is daylight saving On?
 $rcmail_config['dst_active'] = (bool)date('I');
 
 // prefer displaying HTML messages
