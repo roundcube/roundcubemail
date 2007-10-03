@@ -52,6 +52,7 @@
 	'lv'    => 'Latvian',
 	'lt'    => 'Lithuanian',
 	'mk'    => 'Macedonian (Slavic FYROM)',
+	'ms_MY'	=> 'Malay',
 	'nl_NL' => 'Nederlands',
 	'nl_BE' => 'Flemish',
 	'nb_NO' => 'Norsk (bokmål)',
