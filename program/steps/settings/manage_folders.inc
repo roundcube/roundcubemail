@@ -53,8 +53,9 @@ else if ($_action=='create-folder')
 
   if ($create && $OUTPUT->ajax_call)
     {
-    $foldersplit = explode($IMAP->delimiter, $create);
-    $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $IMAP->delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
+    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $foldersplit = explode($delimiter, $create);
+    $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
     $OUTPUT->command('add_folder_row', $create, $display_create);
     $OUTPUT->send();
     }
@@ -75,7 +76,8 @@ else if ($_action=='rename-folder')
     
   if ($rename && $OUTPUT->ajax_call)
     {
-    $foldersplit = $IMAP->delimiter ? explode($IMAP->delimiter, $rename) : array($rename);
+    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $foldersplit = explode($delimiter, $rename);
     $level = count($foldersplit) - 1;
     $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
@@ -145,6 +147,7 @@ function rcube_subscription_form($attrib)
 
   $a_unsubscribed = $IMAP->list_unsubscribed();
   $a_subscribed = $IMAP->list_mailboxes();
+  $delimiter = $IMAP->get_hierarchy_delimiter();
   $a_js_folders = array();
  
   $checkbox_subscribe = new checkbox(array('name' => '_subscribed[]', 'onclick' => JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)"));
@@ -166,7 +169,7 @@ function rcube_subscription_form($attrib)
     $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
     $zebra_class = $i%2 ? 'even' : 'odd';
     $folder_js = JQ($folder);
-    $foldersplit = $IMAP->delimiter ? explode($IMAP->delimiter, $folder) : array($folder);
+    $foldersplit = explode($delimiter, $folder);
     $level = count($foldersplit) - 1;
     $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : $display_folder;
@@ -214,7 +217,7 @@ function rcube_subscription_form($attrib)
   $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
   $OUTPUT->set_env('subscriptionrows', $a_js_folders);
   $OUTPUT->set_env('defaultfolders', $CONFIG['default_imap_folders']);
-  $OUTPUT->set_env('delimiter', $IMAP->delimiter);
+  $OUTPUT->set_env('delimiter', $delimiter);
 
   return $out;  
   }
