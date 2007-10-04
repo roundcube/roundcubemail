@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/10/04 (yllar)
+----------
+- Added Malay localization
+- Updated Lithuanian localization
+
 2007/09/27 (tomekp)
 ----------
 - Update dutch localization (closes #1484588)
