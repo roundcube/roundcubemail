@@ -34,6 +34,7 @@
 	'da'    => 'Dansk',
  	'de_DE' => 'Deutsch (Deutsch)',
  	'de_CH' => 'Deutsch (Schweiz)',
+    'eo'	=> 'Esperanto',
  	'es'    => 'Español',
  	'et_EE' => 'Estonian',
 	'eu'    => 'Euskara',
