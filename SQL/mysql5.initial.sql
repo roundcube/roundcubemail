@@ -28,7 +28,7 @@ CREATE TABLE `users` (
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `language` varchar(5) NOT NULL DEFAULT 'en',
- `preferences` text NOT NULL DEFAULT '',
+ `preferences` text,
  PRIMARY KEY(`user_id`)
 ) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 

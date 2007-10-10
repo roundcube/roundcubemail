@@ -92,7 +92,7 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
   `language` varchar(5) NOT NULL default 'en',
-  `preferences` text NOT NULL default '',
+  `preferences` text,
   PRIMARY KEY  (`user_id`)
 );
 
