@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/10/10 (thomasb)
+----------
+- Set preferences field in user table to NULL (#1484386)
+- Log error when login fails due to auto_create_user turned off
+- Update UPGRADING instructions
+
 2007/10/05 (tomekp)
 ----------
 - Add Esperanto localization
