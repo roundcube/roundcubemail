@@ -636,6 +636,15 @@ function rcmail_login($user, $pass, $host=NULL)
     {
     $user_id = rcmail_create_user($user, $host);
     }
+  else
+    {
+    raise_error(array(
+      'code' => 600,
+      'type' => 'php',
+      'file' => "config/main.inc.php",
+      'message' => "Acces denied for new user $user. 'auto_create_user' is disabled"
+      ), true, false);
+    }
 
   if ($user_id)
     {
