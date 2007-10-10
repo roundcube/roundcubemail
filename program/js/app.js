@@ -1857,8 +1857,11 @@ function rcube_webmail()
       }
       
     // clear upload form
-    if (!a && this.gui_objects.attachmentform && this.gui_objects.attachmentform!=this.gui_objects.messageform)
-      this.gui_objects.attachmentform.reset();
+	try {
+      if (!a && this.gui_objects.attachmentform != this.gui_objects.messageform)
+      	this.gui_objects.attachmentform.reset();
+	}
+	catch(e){}  // ignore errors
     
     return true;  
     };
