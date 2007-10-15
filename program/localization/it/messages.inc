@@ -52,7 +52,7 @@ $messages['formincomplete'] = 'Per favore, compila tutti i campi';
 $messages['noemailwarning'] = 'Per favore, immetti un indirizzo e-mail valido';
 $messages['nonamewarning'] = 'Per favore, immetti un nome';
 $messages['nopagesizewarning'] = 'Per favore, immetti il numero di righe per pagina';
-$messages['norecipientwarning'] = 'Per favore, immetti almeno un contatto';
+$messages['norecipientwarning'] = 'Per favore, immetti almeno un destinatario';
 $messages['nosubjectwarning'] = 'L\'oggetto é vuoto. Vuoi inserirlo adesso?';
 $messages['nobodywarning'] = 'Inviare il messaggio senza testo?';
 $messages['notsentwarning'] = 'Il messaggio non é stato inviato. Vuoi veramente annullare questo messaggio?';
@@ -74,5 +74,6 @@ $messages['copysuccess'] = 'Copiati $nr indirizzi';
 $messages['copyerror'] = 'Impossibile copiare gli indirizzi';
 $messages['sourceisreadonly'] = 'La rubrica è in sola lettura';
 $messages['errorsavingcontact'] = 'Impossibile salvare il contatto';
+$messages['movingmessage'] = 'Sposto il messaggio...';
 
 ?>
