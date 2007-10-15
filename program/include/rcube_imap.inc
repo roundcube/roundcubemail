@@ -1739,6 +1739,8 @@ class rcube_imap
     else if (is_string($mbox_name) && strlen($mbox_name))
       $a_mboxes = explode(',', $mbox_name);
 
+    $all_mboxes = iil_C_ListMailboxes($this->conn, $this->_mod_mailbox($root), '*');
+
     if (is_array($a_mboxes))
       foreach ($a_mboxes as $mbox_name)
         {
@@ -1751,6 +1753,15 @@ class rcube_imap
         $result = iil_C_DeleteFolder($this->conn, $mailbox);
         if ($result>=0)
           $deleted = TRUE;
+
+        foreach ($all_mboxes as $c_mbox)
+          if (preg_match('/^'.preg_quote($mailbox.$this->delimiter).'/', $c_mbox))
+            {
+            iil_C_UnSubscribe($this->conn, $c_mbox);
+            $result = iil_C_DeleteFolder($this->conn, $c_mbox);
+            if ($result>=0)
+              $deleted = TRUE;
+            }
         }
 
     // clear mailboxlist cache

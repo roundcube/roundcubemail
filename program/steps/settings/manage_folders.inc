@@ -97,12 +97,18 @@ else if ($_action=='rename-folder')
 // delete an existing IMAP mailbox
 else if ($_action=='delete-folder')
   {
+  $a_mboxes = array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed());
+  $delimiter = $IMAP->get_hierarchy_delimiter();
+
   if ($mboxes = get_input_value('_mboxes', RCUBE_INPUT_POST))
     $deleted = $IMAP->delete_mailbox(array($mboxes));
 
   if ($OUTPUT->ajax_call && $deleted)
     {
     $OUTPUT->command('remove_folder_row', get_input_value('_mboxes', RCUBE_INPUT_POST));
+    foreach ($a_mboxes as $mbox)
+      if (preg_match('/^'.preg_quote(get_input_value('_mboxes', RCUBE_INPUT_POST).$delimiter).'/', $mbox))
+        $OUTPUT->command('remove_folder_row', $mbox);
     $OUTPUT->show_message('folderdeleted', 'confirmation');
     $OUTPUT->send();
     }
