@@ -2635,6 +2635,8 @@ function rcube_webmail()
     
     if (folder)
       this.http_post('delete-folder', '_mboxes='+urlencode(folder));
+
+    this.set_env('folder', null);
     };
 
 
