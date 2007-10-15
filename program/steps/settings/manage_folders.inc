@@ -71,6 +71,9 @@ else if ($_action=='create-folder')
 // rename a mailbox
 else if ($_action=='rename-folder')
   {
+  $a_mboxes = array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed());
+  $delimiter = $IMAP->get_hierarchy_delimiter();
+
   if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
     $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_POST)), trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, FALSE, 'UTF-7')));
     
@@ -81,6 +84,15 @@ else if ($_action=='rename-folder')
     $level = count($foldersplit) - 1;
     $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
+    foreach ($a_mboxes as $mbox)
+      if (preg_match('/^'.preg_quote($oldname.$delimiter).'/', $mbox))
+        {
+        $c_rename = preg_replace('/^'.preg_quote($oldname).'/', $rename, $mbox);
+        $foldersplit = explode($delimiter, $c_rename);
+        $level = count($foldersplit) - 1;
+        $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
+        $OUTPUT->command('replace_folder_row', $mbox, $c_rename, $display_rename);
+        }
     $OUTPUT->command('reset_folder_rename');
     $OUTPUT->send();
     }
