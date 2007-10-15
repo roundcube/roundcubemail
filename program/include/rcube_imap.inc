@@ -1701,6 +1701,14 @@ class rcube_imap
     if (strlen($abs_name))
       $result = iil_C_RenameFolder($this->conn, $mailbox, $abs_name);
 
+    // check if mailbox children are subscribed
+    foreach ($a_subscribed as $c_subscribed)
+      if (preg_match('/^'.preg_quote($mailbox.$this->delimiter).'/', $c_subscribed))
+        {
+        iil_C_UnSubscribe($this->conn, $c_subscribed);
+        iil_C_Subscribe($this->conn, preg_replace('/^'.preg_quote($mailbox).'/', $abs_name, $c_subscribed));
+        }
+
     // clear cache
     if ($result)
       {
