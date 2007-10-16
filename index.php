@@ -173,7 +173,7 @@ if ($_action=='login' && $_task=='mail')
   else
   {
     $OUTPUT->show_message("loginfailed", 'warning');
-    $_SESSION['user_id'] = '';
+    rcmail_kill_session();
   }
 }
 
@@ -202,7 +202,7 @@ if (!empty($_SESSION['user_id']) && $_task=='mail')
   if (!$conn)
   {
     $OUTPUT->show_message('imaperror', 'error');
-    $_SESSION['user_id'] = '';
+    rcmail_kill_session();
   }
   else
     rcmail_set_imap_prop();
