@@ -75,5 +75,6 @@ $messages['copysuccess'] = '$nr direcciones copiadas con éxito';
 $messages['copyerror'] = 'No se pudo copiar ninguna dirección';
 $messages['sourceisreadonly'] = 'Esta dirección es de sólo-lectura';
 $messages['errorsavingcontact'] = 'No se pudo guardar la dirección de contacto';
+$messages['movingmessage'] = 'Moviendo mensaje...';
 
 ?>
