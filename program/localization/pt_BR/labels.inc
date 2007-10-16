@@ -215,7 +215,7 @@ $labels['signature'] = 'Assinatura';
 $labels['dstactive']  = 'Horário de Verão';
 $labels['htmleditor'] = 'Criar mensagens em HTML';
 $labels['htmlsignature'] = 'Assinatura em HTML';
-$labels['previewpane'] = 'Exibir Pré-Vizualização';
+$labels['previewpane'] = 'Exibir Pré-Visualização';
 
 $labels['autosavedraft']  = 'Salvar Rascunho automaticamente';
 $labels['everynminutes']  = 'a cada $n minutos';
