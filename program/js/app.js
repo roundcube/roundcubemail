@@ -2556,20 +2556,9 @@ function rcube_webmail()
     };
 
 
-  // entry point for folder renaming
-  this.rename_folder = function(props)
-    {
-    var form, oldname, newname;
-    
-    // rename a specific mailbox
-    if (props)
-      this.edit_foldername(props);
-    };
-
-
-  // start editing the mailbox name.
+  // start renaming the mailbox name.
   // this will replace the name string with an input field
-  this.edit_foldername = function(folder)
+  this.rename_folder = function(folder)
     {
     var temp, row, form;
     var id = this.get_folder_row_id(folder);
