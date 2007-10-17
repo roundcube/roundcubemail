@@ -2510,7 +2510,10 @@ function rcube_webmail()
           this.set_env('folder', folder);
         }
       else
+        {
         list.clear_selection();
+        this.set_env('folder', null);
+        }
       }
     };
 
