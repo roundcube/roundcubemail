@@ -2699,7 +2699,7 @@ function rcube_webmail()
 
     this.sort_subscription_list();
     this.init_subscription_list();
-    if (selection)
+    if (selection && document.getElementById('rcmrow'+selection))
       this.subscription_list.select_row(selection);
 
     if (document.getElementById('rcmrow'+id).scrollIntoView)
