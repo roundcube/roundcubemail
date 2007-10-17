@@ -2654,6 +2654,7 @@ function rcube_webmail()
     var refrow, form;
     var tbody = this.gui_objects.subscriptionlist.tBodies[0];
     var id = replace && replace.id ? replace.id : tbody.childNodes.length+1;
+    var selection = this.subscription_list.get_single_selection();
 
     if (!id || !(refrow = document.getElementById(refid)))
       {
@@ -2698,6 +2699,8 @@ function rcube_webmail()
 
     this.sort_subscription_list();
     this.init_subscription_list();
+    if (selection)
+      this.subscription_list.select_row(selection);
 
     if (document.getElementById('rcmrow'+id).scrollIntoView)
       document.getElementById('rcmrow'+id).scrollIntoView();
