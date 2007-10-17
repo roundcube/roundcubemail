@@ -203,8 +203,11 @@ function rcube_webmail()
 
         this.set_page_buttons();
 
-        // focus this window
-        window.focus();
+        // focus main window
+        if (this.env.framed && window.parent)
+          window.parent.focus();
+        else
+          window.focus();
 
         // init message compose form
         if (this.env.action=='compose')
