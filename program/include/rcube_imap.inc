@@ -2040,6 +2040,10 @@ class rcube_imap
         {
         $uid = $sql_arr['uid'];
         $this->cache[$cache_key][$uid] = unserialize($sql_arr['headers']);
+        
+        // featch headers if unserialize failed
+        if (empty($this->cache[$cache_key][$uid]))
+          $this->cache[$cache_key][$uid] = iil_C_FetchHeader($this->conn, preg_replace('/.msg$/', '', $key), $uid, true);
         }
       }
       

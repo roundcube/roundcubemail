@@ -314,11 +314,13 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   $OUTPUT->command('set_message_coltypes', $a_show_cols);
 
   // loop through message headers
-  for ($n=0; $a_headers[$n]; $n++)
+  foreach ($a_headers as $n => $header)
     {
-    $header = $a_headers[$n];
     $a_msg_cols = array();
     $a_msg_flags = array();
+    
+    if (empty($header))
+      continue;
 
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col)

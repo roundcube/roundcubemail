@@ -1,8 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/10/17 (thomasb)
+----------
+- Make message listing less error prone
+
 2007/10/10 (thomasb)
 ----------
+- Suppress IE errors when clearing attachments form (#1484356)
 - Set preferences field in user table to NULL (#1484386)
 - Log error when login fails due to auto_create_user turned off
 - Update UPGRADING instructions
