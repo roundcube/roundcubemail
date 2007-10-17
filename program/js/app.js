@@ -2503,9 +2503,14 @@ function rcube_webmail()
     var id;
     if (id = list.get_single_selection())
       {
-      var folder = this.env.subscriptionrows['rcmrow'+id][0];
-      if (find_in_array(this.env.defaultfolders, folder)!=0)
-        this.set_env('folder', folder);
+      if (this.env.subscriptionrows['rcmrow'+id])
+        {
+        var folder = this.env.subscriptionrows['rcmrow'+id][0];
+        if (find_in_array(this.env.defaultfolders, folder)!=0)
+          this.set_env('folder', folder);
+        }
+      else
+        list.clear_selection();
       }
     };
 
