@@ -65,6 +65,7 @@ class rcube_imap
   var $search_string = '';
   var $search_charset = '';
   var $debug_level = 1;
+  var $error_code = 0;
 
 
   /**
@@ -131,6 +132,7 @@ class rcube_imap
     // write error log
     else if (!$this->conn && $GLOBALS['iil_error'])
       {
+      $this->error_code = $GLOBALS['iil_errornum'];
       raise_error(array('code' => 403,
                        'type' => 'imap',
                        'message' => $GLOBALS['iil_error']), TRUE, FALSE);

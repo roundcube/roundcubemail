@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20070809                                                  |
+ | Version 0.1-20071017                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -41,7 +41,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.1-20070809');
+define('RCMAIL_VERSION', '0.1-20071017');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
@@ -172,7 +172,7 @@ if ($_action=='login' && $_task=='mail')
   }
   else
   {
-    $OUTPUT->show_message("loginfailed", 'warning');
+    $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'loginfailed', 'warning');
     rcmail_kill_session();
   }
 }
@@ -201,7 +201,7 @@ if (!empty($_SESSION['user_id']) && $_task=='mail')
   $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']);
   if (!$conn)
   {
-    $OUTPUT->show_message('imaperror', 'error');
+    $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
     rcmail_kill_session();
   }
   else
