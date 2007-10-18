@@ -1077,16 +1077,18 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
-    return iconv($from, $to . "//IGNORE", $str);
+    {
+    $iconv_map = array('KS_C_5601-1987' => 'EUC-KR');
+    return iconv(($iconv_map[$from] ? $iconv_map[$from] : $from), ($iconv_map[$to] ? $iconv_map[$to] : $to) . "//IGNORE", $str);
+    }
 
   // convert charset using mbstring module  
   if ($MBSTRING)
     {
-    $to = $to=="UTF-7" ? "UTF7-IMAP" : $to; 
-    $from = $from=="UTF-7" ? "UTF7-IMAP": $from;
+    $mb_map = array('UTF-7' => 'UTF7-IMAP', 'KS_C_5601-1987' => 'EUC-KR');
     
     // return if convert succeeded
-    if (($out = mb_convert_encoding($str, $to, $from)) != '')
+    if (($out = mb_convert_encoding($str, ($mb_map[$to] ? $mb_map[$to] : $to), ($mb_map[$from] ? $mb_map[$from] : $from))) != '')
       return $out;
     }
 
