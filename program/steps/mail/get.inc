@@ -55,7 +55,7 @@ if ($_GET['_frame'])
 
 else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
   {
-  if ($part = $MESSAGE['parts'][$pid]);
+  if ($part = $MESSAGE['parts'][$pid])
     {
     $ctype_primary = strtolower($part->ctype_primary);
     $ctype_secondary = strtolower($part->ctype_secondary);
