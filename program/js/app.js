@@ -2476,41 +2476,36 @@ function rcube_webmail()
     {
     var row, folder;
     var reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
-    if (this.env.subscriptionrows[id] &&
-        (folder = this.env.subscriptionrows[id][0]) &&
-        this.drag_active && this.check_droptarget(folder) &&
-        (folder != this.env.folder.replace(reg, '')) &&
-        (!folder.match(new RegExp('^'+RegExp.escape(this.env.folder+this.env.delimiter)))) &&
-        (row = document.getElementById(id)))
-      if (find_in_array(this.env.defaultfolders, folder)>=0)
+
+    if (this.drag_active && (row = document.getElementById(id)))
+      if (this.env.subscriptionrows[id] &&
+          (folder = this.env.subscriptionrows[id][0]))
         {
-        if (this.env.folder.replace(reg, '')!='')
+        if (this.check_droptarget(folder) &&
+            (folder != this.env.folder.replace(reg, '')) &&
+            (!folder.match(new RegExp('^'+RegExp.escape(this.env.folder+this.env.delimiter)))))
           {
-          this.set_env('dstfolder', this.env.delimiter);
-          this.set_classname(this.subscription_list.frame, 'droptarget', true);
+          this.set_env('dstfolder', folder);
+          this.set_classname(row, 'droptarget', true);
           }
         }
-      else
+      else if (this.env.folder.match(new RegExp(RegExp.escape(this.env.delimiter))))
         {
-        this.set_env('dstfolder', folder);
-        this.set_classname(row, 'droptarget', true);
+        this.set_env('dstfolder', this.env.delimiter);
+        this.set_classname(this.subscription_list.frame, 'droptarget', true);
         }
     }
 
 
   this.unfocus_subscription = function(id)
     {
-    var row, folder;
-    if (this.env.subscriptionrows[id] &&
-        (folder = this.env.subscriptionrows[id][0]) &&
-        (row = document.getElementById(id)))
-      {
+      var row;
       this.set_env('dstfolder', null);
-      if (find_in_array(this.env.defaultfolders, folder)>=0)
-        this.set_classname(this.subscription_list.frame, 'droptarget', false);
-      else
+      if (this.env.subscriptionrows[id] &&
+          (row = document.getElementById(id)))
         this.set_classname(row, 'droptarget', false);
-      }
+      else
+        this.set_classname(this.subscription_list.frame, 'droptarget', false);
     }
 
 
