@@ -75,5 +75,6 @@ $messages['copysuccess'] = 'Det lykkedes at kopiere $nr adresser';
 $messages['copyerror'] = 'Kunne ikke kopiere adresserne';
 $messages['sourceisreadonly'] = 'Denne adressekilde er kun til læsning';
 $messages['errorsavingcontact'] = 'Kunne ikke gemme kontakt adressen';
+$messages['movingmessage'] = 'Flytter besked...';
 
 ?>
