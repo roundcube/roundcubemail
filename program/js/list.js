@@ -37,6 +37,7 @@ function rcube_list_widget(list, p)
   this.multiselect = false;
   this.draggable = false;
   this.keyboard = false;
+  this.toggleselect = false;
   
   this.dont_select = false;
   this.drag_active = false;
@@ -347,8 +348,11 @@ select_row: function(id, mod_key, with_mouse)
   if (!this.selection.length)
     this.shift_start = null;
 
+  if (this.toggleselect && this.last_selected==id)
+    this.highlight_row(id, true);
+
   this.last_selected = id;
-  this.set_classname(this.rows[id].obj, 'focused', true);        
+  this.set_classname(this.rows[id].obj, 'focused', true);
 },
 
 

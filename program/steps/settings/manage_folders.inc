@@ -71,7 +71,7 @@ else if ($_action=='create-folder')
 // rename a mailbox
 else if ($_action=='rename-folder')
   {
-  $a_mboxes = array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed());
+  $a_mboxes = array_unique(array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed()));
   $delimiter = $IMAP->get_hierarchy_delimiter();
 
   if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
@@ -195,15 +195,9 @@ function rcube_subscription_form($attrib)
     if (!$protected)
       $a_js_folders['rcmrow'.($i+1)] = array($folder, rcube_charset_convert($folder, 'UTF-7'));
 
-    $out .= sprintf('<tr id="rcmrow%d" class="%s"' .
-                    ' onmouseover="return %s.focus_subscription(\'%s\')"' .
-                    ' onmouseout="return %s.unfocus_subscription(\'%s\')"><td>%s</td>',
+    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td>',
                     $i+1,
                     $zebra_class,
-                    JS_OBJECT_NAME,
-                    $folder_js,
-                    JS_OBJECT_NAME,
-                    $folder_js,
                     Q($folder_html));
                     
     if ($protected)
@@ -213,14 +207,10 @@ function rcube_subscription_form($attrib)
 
     // add rename and delete buttons
     if (!$protected)
-      $out .= sprintf('<td><a href="#rename" onclick="%s.command(\'rename-folder\',\'%s\')" title="%s">%s</a>'.
-                      '<td><a href="#delete" onclick="%s.command(\'delete-folder\',\'%s\')" title="%s">%s</a></td>',
-                      JS_OBJECT_NAME,
-                      $folder_js,
+      $out .= sprintf('<td><a href="#rename" title="%s">%s</a>'.
+                      '<td><a href="#delete" title="%s">%s</a></td>',
                       rcube_label('renamefolder'),
                       $edit_button,
-                      JS_OBJECT_NAME,
-                      $folder_js,
                       rcube_label('deletefolder'),
                       $del_button);
     else
