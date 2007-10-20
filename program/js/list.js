@@ -344,15 +344,20 @@ select_row: function(id, mod_key, with_mouse)
 
   if (this.last_selected != 0 && this.rows[this.last_selected])
     this.set_classname(this.rows[this.last_selected].obj, 'focused', false);
-    
+
+  // unselect if toggleselect is active and the same row was clicked again
+  if (this.toggleselect && this.last_selected == id)
+  {
+    this.clear_selection();
+    id = null;
+  }
+  else
+    this.set_classname(this.rows[id].obj, 'focused', true);
+
   if (!this.selection.length)
     this.shift_start = null;
 
-  if (this.toggleselect && this.last_selected==id)
-    this.highlight_row(id, true);
-
   this.last_selected = id;
-  this.set_classname(this.rows[id].obj, 'focused', true);
 },
 
 
