@@ -130,7 +130,7 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 $rcmail_config['date_today'] = 'H:i';
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/0.1b';
+$rcmail_config['useragent'] = 'RoundCube Webmail/0.1-rc2';
 
 // use this name to compose page titles
 $rcmail_config['product_name'] = 'RoundCube Webmail';
@@ -174,6 +174,8 @@ $rcmail_config['read_when_deleted'] = TRUE;
 $rcmail_config['flag_for_deletion'] = TRUE;
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
+// Since Google only accepts connections over https your PHP installatation
+// requires to be compiled with Open SSL support
 $rcmail_config['enable_spellcheck'] = TRUE;
 
 // For a locally installed Nox Spell Server, please specify the URI to call it.
@@ -219,6 +221,9 @@ $rcmail_config['mail_header_delimiter'] = NULL;
  *  'fuzzy_search'  => true);   // server allows wildcard search
  */
 
+// enable composing html formatted messages (experimental)
+$rcmail_config['enable_htmleditor'] = FALSE;
+
 // don't allow these settings to be overriden by the user
 $rcmail_config['dont_override'] = array();
 
@@ -243,9 +248,6 @@ $rcmail_config['dst_active'] = (bool)date('I');
 // prefer displaying HTML messages
 $rcmail_config['prefer_html'] = TRUE;
 
-// compose html formatted messages by default
-$rcmail_config['htmleditor'] = TRUE;
-
 // show pretty dates as standard
 $rcmail_config['prettydate'] = TRUE;
 
@@ -257,9 +259,6 @@ $rcmail_config['message_sort_order'] = 'DESC';
 
 // save compose message every 300 seconds (5min)
 $rcmail_config['draft_autosave'] = 300;
-
-// default setting if preview pane is enabled
-$rcmail_config['preview_pane'] = FALSE;
 
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;

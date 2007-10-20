@@ -37,7 +37,7 @@ function rcmail_user_prefs_form($attrib)
   {
   global $DB, $CONFIG, $sess_user_lang;
 
-  $no_override = is_array($CONFIG['dont_override']) ? array_flip($CONFIG['dont_override']) : array();
+  $no_override = !empty($CONFIG['dont_override']) ? array_flip((array)$CONFIG['dont_override']) : array('preview_pane'=>true);
 
   // add some labels to client
   rcube_add_label('nopagesizewarning');
@@ -161,7 +161,7 @@ function rcmail_user_prefs_form($attrib)
     }
 
   // Show checkbox for HTML Editor
-  if (!isset($no_override['htmleditor']))
+  if (!isset($no_override['htmleditor']) && $CONFIG['enable_htmleditor'])
     {
     $field_id = 'rcmfd_htmleditor';
     $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));

@@ -137,8 +137,10 @@ function rcmail_prev_sibling(elm)
 <roundcube:button type="input" command="list" class="button" label="cancel" />
 </td>
 <td align="right">
- <roundcube:label name="editortype" />:&nbsp;
- <span class="radios-left"><roundcube:object name="editorSelector" tabindex="9" /></span>
+  <roundcube:if condition="config:enable_htmleditor" />
+    <roundcube:label name="editortype" />:&nbsp;
+    <span class="radios-left"><roundcube:object name="editorSelector" tabindex="9" /></span>
+  <roundcube:endif />
 </td>
 </tr>
 </tbody></table>
