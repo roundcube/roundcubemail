@@ -94,7 +94,7 @@ $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size');
 $rcmail_config['skin_path'] = 'skins/default/';
 
 // includes should be interpreted as PHP files
-$rcmail_config['skin_include_php'] = TRUE;
+$rcmail_config['skin_include_php'] = FALSE;
 
 // use this folder to store temp files (must be writebale for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
