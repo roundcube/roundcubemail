@@ -1,15 +1,5 @@
 RoundCube Webmail (http://roundcube.net)
 
-
-ATTENTION
----------
-This is just a snapshot of the current SVN repository and is NOT A STABLE
-version of RoundCube. There have been major changes since the latest release
-so please read the update instructions carefully. It's not recommended to
-replace an existing installation of RoundCube with this version. Also using
-a separate database or this installation is highly recommended.
-
-
 Introduction:
 -------------
 RoundCube Webmail is a browser-based multilingual IMAP client with an
@@ -78,6 +68,6 @@ subscribe to our mailing list. See http://www.roundcube.net/?p=mailinglists
 for details.
 
 You're always welcome to send a message to the project admin:
-roundcube@gmail.com
+hello@roundcube.net
 
 

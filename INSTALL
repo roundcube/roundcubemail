@@ -10,6 +10,7 @@ REQUIREMENTS
    - error_reporting E_ALL & ~E_NOTICE (or lower)
    - file_uploads on (for attachment upload features)
    - memory_limit (increase as suitable to support large attachments)
+* PHP compiled with Open SSL to connect to IMAPS and to use the spell checker
 * A MySQL or PostgreSQL database engine or the SQLite extension for PHP
 * A database with permission to create tables
 
@@ -105,7 +106,11 @@ Details about the config paramaters can be found in the config files.
 
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:
-	php_value       upload_max_filesize     2M
+  php_value       upload_max_filesize     2M
+
+To enable the experimental HTML editor you need to set the config
+parameter 'enable_htmleditor' to true.
+
 
 UPGRADING
 =========
