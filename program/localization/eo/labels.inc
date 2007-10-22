@@ -13,16 +13,13 @@
  | Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
  +-----------------------------------------------------------------------+
 
- @version $Id: labels.inc 858 2007-10-04 10:14:19Z Stiwi $
-
 */
-
 
 $labels = array();
 
 // login page
 $labels['welcome']   = 'Bonvenon al $product';
-$labels['username']  = 'Uzanta-nomo';
+$labels['username']  = 'Uzantnomo';
 $labels['password']  = 'Pasvorto';
 $labels['server']    = 'Servilo';
 $labels['login']     = 'Ensalutu';
@@ -38,10 +35,10 @@ $labels['inbox']  = 'Ricevitujo';
 $labels['drafts'] = 'Malnetujo';
 $labels['sent']   = 'Senditujo';
 $labels['trash']  = 'Rubujo';
-$labels['junk']   = 'Spamujo'; #FIXME. eble fatrasujo.
+$labels['junk']   = 'Spamujo';
 
 // message listing
-$labels['subject'] = 'Subjekto'; #temo?
+$labels['subject'] = 'Temo'; 
 $labels['from']    = 'Sendanto';
 $labels['to']      = 'Ricevanto';
 $labels['cc']      = 'Kopio';
@@ -92,12 +89,13 @@ $labels['saturday']  = 'Sabato';
 $labels['today'] = 'Hodiaŭ';
 
 // toolbar buttons
-$labels['checkmail']        = 'Kontrolu por novaj mesaĝoj';
+$labels['checkmail']        = 'Kontrolu, ĉu novaj mesaĝoj';
 $labels['writenewmessage']  = 'Verku novan mesaĝon';
 $labels['replytomessage']   = 'Respondu al mesaĝo';
-$labels['replytoallmessage'] = 'Respondu al sendanto kaj ĉiu ricevanto';
+$labels['replytoallmessage'] = 'Respondu al sendinto kaj ĉiu ricevinto';
 $labels['forwardmessage']   = 'Plusendu mesaĝon';
-$labels['deletemessage']    = 'Transloku mesaĝon al rubujo';
+$labels['deletemessage']    = 'Forigu mesaĝon';
+$labels['movemessagetotrash'] = 'Transloku mesaĝon al rubujo';
 $labels['printmessage']     = 'Printu ĉi tiun mesaĝon';
 $labels['previousmessage']  = 'Montru antaŭan mesaĝon';
 $labels['previousmessages'] = 'Montru antaŭan aron de mesaĝoj';
@@ -111,9 +109,9 @@ $labels['backtolist']       = 'Reen al mesaĝo-listo';
 $labels['viewsource']       = 'Montru fonton';
 
 $labels['select'] = 'Elektu';
-$labels['all'] = 'Ĉion';
-$labels['none'] = 'Nenion';
-$labels['unread'] = 'Nelegatan';
+$labels['all'] = 'Ĉion'; #ĉiujn?
+$labels['none'] = 'Nenion'; #neniun?
+$labels['unread'] = 'Nelegitan';
 
 $labels['compact'] = 'Kompakta';
 $labels['empty'] = 'Malplena';
@@ -121,7 +119,7 @@ $labels['purge'] = 'Senrubigu';
 
 $labels['quota'] = 'Diskuzo';
 $labels['unknown']  = 'nekonata';
-$labels['unlimited']  = 'senlimo';
+$labels['unlimited']  = 'senlima';
 
 $labels['quicksearch']  = 'Rapida serĉo';
 $labels['resetsearch']  = 'Vakigu serĉon';
@@ -129,18 +127,18 @@ $labels['resetsearch']  = 'Vakigu serĉon';
 
 // message compose
 $labels['compose']        = 'Verku mesaĝon';
-$labels['sendmessage']    = 'Sendu mesaĝon nun';
+$labels['sendmessage']    = 'Sendu mesaĝon'; #nun?
 $labels['savemessage']  = 'Savu ĉi tiun malneton';
 $labels['addattachment']  = 'Alfiksu dosieron';
-$labels['charset']        = 'Karakteraro';
+$labels['charset']        = 'Karaktraro';
 $labels['editortype']     = 'Speco de redaktilo'; #???
-$labels['returnreceipt']  = 'Return receipt';
+$labels['returnreceipt']  = 'Return receipt'; #FIXME
 
-$labels['checkspelling'] = 'Kontrolu grafismon';
-$labels['resumeediting'] = 'Rekomencu redakti';
+$labels['checkspelling'] = 'Kontrolu literumadon'; #aŭ: ortografion
+$labels['resumeediting'] = 'Rekomencu redaktadon';
 $labels['revertto']      = 'Reiru al';
 
-$labels['attachments'] = 'Alfiksaĵoj';
+$labels['attachments'] = 'Alfiksaĵoj'; #aŭ: aldonoj
 $labels['upload'] = 'Alŝutu';
 $labels['close']  = 'Fermu';
 
@@ -150,16 +148,18 @@ $labels['normal']  = 'Normala';
 $labels['high']    = 'Alta';
 $labels['highest'] = 'Plej alta';
 
-$labels['nosubject']  = '(sensubjekto)';
+$labels['nosubject']  = '(sen temo)';
 $labels['showimages'] = 'Montru bildojn';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plata teksto';
-
+$labels['addcc'] = 'Aldonu kopi-ricevanton';
+$labels['addbcc'] = 'Aldonu blindan kopi-ricevanton';
+$labels['addreplyto'] = 'Aldonu Respondu-Al';
 
 // address boook
 $labels['name']      = 'Nomo';
-$labels['firstname'] = 'Antaŭa nomo';
+$labels['firstname'] = 'Antaŭnomo';
 $labels['surname']   = 'Familia nomo';
 $labels['email']     = 'Retpoŝto';
 
@@ -171,17 +171,17 @@ $labels['cancel'] = 'Rezignu';
 $labels['save']   = 'Savu';
 $labels['delete'] = 'Forigu';
 
-$labels['newcontact']     = 'Kreu novan kontaktaĵon';
+$labels['newcontact']     = 'Kreu novan kontakton';
 $labels['deletecontact']  = 'Forigu elektatajn kontaktojn';
 $labels['composeto']      = 'Verku mesaĝon al';
 $labels['contactsfromto'] = 'Kontaktoj ekde $from ĝis $to de $count';
 $labels['print']          = 'Printu';
 $labels['export']         = 'Eksportu';
 
-$labels['previouspage']   = 'Montru auntaŭan aron';
-$labels['firstpage']      = 'Montru unuan aron';
-$labels['nextpage']       = 'Montru sekvan aron';
-$labels['lastpage']       = 'Montru lastan aron';
+$labels['previouspage']   = 'Montru auntaŭan';
+$labels['firstpage']      = 'Montru unuan';
+$labels['nextpage']       = 'Montru sekvan';
+$labels['lastpage']       = 'Montru lastan';
 
 $labels['groups'] = 'Grupoj';
 $labels['personaladrbook'] = 'Persona Adresoj';
@@ -192,27 +192,27 @@ $labels['settingsfor']  = 'Preferoj de';
 
 $labels['preferences']  = 'Preferoj';
 $labels['userpreferences']  = 'Uzant-preferoj';
-$labels['editpreferences']  = 'Redajtu uzant-preferojn';
+$labels['editpreferences']  = 'Redaktu uzant-preferojn';
 
 $labels['identities']  = 'Identoj';
-$labels['manageidentities']  = 'Administru identoj de ĉi tiu konto';
+$labels['manageidentities']  = 'Administru identojn de ĉi tiu konto';
 $labels['newidentity']  = 'Nova idento';
 
 $labels['newitem']  = 'Nova ero';
 $labels['edititem']  = 'Redaktu eron';
 
-$labels['setdefault']  = 'Agordu kiel defaŭlta';
+$labels['setdefault']  = 'Agordu kiel norma'; #neologismo: defaŭlta
 $labels['language']  = 'Lingvo';
 $labels['timezone']  = 'Tempzono';
 $labels['pagesize']  = 'Mesaĝoj po paĝo';
 $labels['signature'] = 'Subskribo';
 $labels['dstactive']  = 'Taglumsavado';
-$labels['htmleditor'] = 'Verku HTML mesaĝojn';
+$labels['htmleditor'] = 'Uzado de HTML-redaktilo';
 $labels['htmlsignature'] = 'HTML subskribo';
 $labels['previewpane'] = 'Montru antaŭrigardejon';
 
 $labels['autosavedraft']  = 'Aŭtomate savu malneton';
-$labels['everynminutes']  = 'ĉiu $n minutoj';
+$labels['everynminutes']  = 'ĉiujn $n minutojn';
 $labels['never']  = 'neniam';
 
 $labels['folder']  = 'Dosierujo';

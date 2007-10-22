@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/ru_RU/labels.inc                                             |
+ | language/ru/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
@@ -150,6 +150,9 @@ $labels['editpreferences'] = 'Редактировать настройки по
 $labels['identities'] = 'Профили';
 $labels['manageidentities'] = 'Управление профилями';
 $labels['newidentity'] = 'Новый профиль';
+$labels['addcc'] = 'Копия';
+$labels['addbcc'] = 'Скрытая копия';
+$labels['addreplyto'] = 'Обратный адрес';
 $labels['newitem'] = 'Новый';
 $labels['edititem'] = 'Правка';
 $labels['setdefault'] = 'Использовать по умолчанию';

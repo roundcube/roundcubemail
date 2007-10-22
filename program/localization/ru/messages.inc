@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/ru_RU/messages.inc                                           |
+ | language/ru/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
@@ -20,6 +20,7 @@
 
 $messages = array();
 $messages['loginfailed'] = 'Неудачная попытка входа';
+$messages['movingmessage'] = 'Перемещение сообщения…';
 $messages['cookiesdisabled'] = 'Ваш броузер не принимает cookie';
 $messages['sessionerror'] = 'Ваша сессия устарела';
 $messages['imaperror'] = 'Неудачное соединение с IMAP сервером';

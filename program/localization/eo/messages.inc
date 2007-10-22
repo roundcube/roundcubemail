@@ -13,68 +13,66 @@
  | Author: Andreas van Cranenburgh <andreas@unstable.nl                  |
  +-----------------------------------------------------------------------+
 
- @version $Id: messages.inc 842 2007-10-01 13:55:02Z tomekp $
-
 */
 
 $messages = array();
 $messages['loginfailed']  = 'Malsukcesis ensaluti';
 $messages['cookiesdisabled'] = 'Via foliumilo ne akceptas kuketojn';
-$messages['sessionerror'] = 'Via seanco estas nevalida aŭ finiĝita';
+$messages['sessionerror'] = 'Via seanco estas nevalida aŭ finita';
 $messages['imaperror'] = 'Konekto kun IMAP-servilo malsukcesis';
 $messages['nomessagesfound'] = 'Neniu mesaĝo en ĉi tiu dosierujo';
-$messages['loggedout'] = 'Vi sukcese finiĝis la seanco. Ĝis!';
+$messages['loggedout'] = 'Vi sukcese finis la seancon. Ĝis!';
 $messages['mailboxempty'] = 'Dosierujo estas malplena';
-$messages['loading'] = 'Ŝarĝante...';
-$messages['loadingdata'] = 'Ŝarĝante datumo...';
-$messages['checkingmail'] = 'Kontrolu por novaj mesaĝoj...';
-$messages['sendingmessage'] = 'Sedante mesaĝo...';
+$messages['loading'] = 'Ŝarganta...';
+$messages['loadingdata'] = 'Ŝarganta datumojn...';
+$messages['checkingmail'] = 'Kontrolanta, ĉu  novaj mesaĝoj...';
+$messages['sendingmessage'] = 'Sedanta mesaĝon...';
 $messages['messagesent'] = 'Mesaĝo estas sendita sukcese';
-$messages['savingmessage'] = 'Savante mesaĝo...';
+$messages['savingmessage'] = 'Savanta mesaĝon...';
 $messages['messagesaved'] = 'Mesaĝo savita en Malnetujo';
 $messages['successfullysaved'] = 'Sukcese savis';
 $messages['addedsuccessfully'] = 'Sukcese aldonis kontakton al adresaro';
 $messages['contactexists'] = 'Kontakto kun ĉi tiu adreso jam ekzistas';
-$messages['blockedimages'] = 'Por protekti vian privatecon, foraj bildoj ne estas montrata en ĉi tiu mesaĝo.';
-$messages['encryptedmessage'] = 'Ĉi tiu mesaĝo estas ĉifrata kaj ne eblas montri. Pardonu!'; #sorry -> pardonu?
+$messages['blockedimages'] = 'Por protekti vian privatecon, foraj bildoj estas blokitaj en ĉi tiu mesaĝo.';
+$messages['encryptedmessage'] = 'Ĉi tiu mesaĝo estas ĉifrata kaj ne estas montrebla. Pardonu!'; #sorry -> pardonu?
 $messages['nocontactsfound'] = 'Trovis neniun kontakton';
-$messages['contactnotfound'] = 'La petitan kontakton ne trovis';
+$messages['contactnotfound'] = 'La petita kontakto ne trovis';
 
-$messages['sendingfailed'] = 'Nesukcesis sendi mesaĝon';
-$messages['errorsaving'] = 'Eraro dum savo de mesaĝo';
+$messages['sendingfailed'] = 'Ne sukcesis sendi mesaĝon';
+$messages['errorsaving'] = 'Okazis eraro dum savo de mesaĝo';
 $messages['errormoving'] = 'Ne povis transloki mesaĝon';
 $messages['errordeleting'] = 'Ne povis forigi mesaĝon';
 $messages['deletecontactconfirm']  = 'Ĉu vi vere volas forigi la elektata(j)n kontakto(j)n?';
 $messages['deletemessagesconfirm'] = 'Ĉu vi vere volas forigi la elektata(j)n mesaĝo(j)n?';
 $messages['deletefolderconfirm']  = 'Ĉu vi vere volas forigi la elektatan dosierujon?';
-$messages['purgefolderconfirm']  = 'Ĉu vi vere volas forigi ĉiun mesaĝon en ĉi tiu dosierujo?';
-$messages['formincomplete'] = 'La formularo ne estis kompletiĝita';
-$messages['noemailwarning'] = 'Bonvolu skribu validan retpoŝt-adreson';
-$messages['nonamewarning']  = 'Bonvulu skribu nomon';
-$messages['nopagesizewarning'] = 'Bonvolu skribu paĝ-grando';
-$messages['norecipientwarning'] = 'Bonvolu skribu minumume unu ricevonto';
-$messages['nosubjectwarning']  = 'La "Subjekto" kampo estas malplena. Ĉu vi volas skribi subjekton nun?';
-$messages['nobodywarning'] = 'Ĉu sendu ĉi tiun mesaĝon sen teksto?';
+$messages['purgefolderconfirm']  = 'Ĉu vi vere volas forigi ĉiun mesaĝon el ĉi tiu dosierujo?';
+$messages['formincomplete'] = 'La formularo ne estis kompletigita';
+$messages['noemailwarning'] = 'Bonvolu enmeti validan retpoŝt-adreson';
+$messages['nonamewarning']  = 'Bonvulu enmeti nomon';
+$messages['nopagesizewarning'] = 'Bonvolu enmeti paĝ-grando';
+$messages['norecipientwarning'] = 'Bonvolu enmeti minumume unu ricevonto';
+$messages['nosubjectwarning']  = 'La temkampo estas malplena. Ĉu vi volas skribi temon nun?';
+$messages['nobodywarning'] = 'Ĉu sendi ĉi tiun mesaĝon sen teksto?';
 $messages['notsentwarning'] = 'Mesaĝo ne estas sendita. Ĉu vi volas forigi vian mesaĝon?';
-$messages['noldapserver'] = 'Bonvolu elekti ldap-servilo por serĉi';
-$messages['nocontactsreturned'] = 'Trovis nenion kontakton';
-$messages['nosearchname'] = 'Bonvolu skribi kontakt-nomo aŭ retpoŝt-adreson.';
+$messages['noldapserver'] = 'Bonvolu elekti ldap-servilon por serĉado';
+$messages['nocontactsreturned'] = 'Trovis neniun kontakton';
+$messages['nosearchname'] = 'Bonvolu enmeti kontakt-nomon aŭ retpoŝt-adreson.';
 $messages['searchsuccessful'] = 'trovis $nr mesaĝojn';
 $messages['searchnomatch'] = 'Serĉo donis nenion';
-$messages['searching'] = 'Serĉante...';
-$messages['checking'] = 'Kontrolante...';
-$messages['nospellerrors'] = 'Neniujn grafismaj erarojn trovis';
+$messages['searching'] = 'Serĉanta...';
+$messages['checking'] = 'Kontrolanta...';
+$messages['nospellerrors'] = 'Neniujn literumada eraro trovita';
 $messages['folderdeleted'] = 'Forigis dosierujon sukcese';
 $messages['deletedsuccessfully'] = "Sukcese forigis";
-$messages['converting'] = 'Forigante formata de mesaĝo...';
-$messages['messageopenerror'] = 'Ne povis ŝarĝi mesaĝon de servilo';
+$messages['converting'] = 'Foriganta formatan de mesaĝo...';
+$messages['messageopenerror'] = 'Ne povis ŝargi mesaĝon de servilo';
 $messages['fileuploaderror'] = 'Malsukcesis alŝuti dosieron';
-$messages['filesizeerror'] = 'La dosiero superas la maksimuma grando de $size';
+$messages['filesizeerror'] = 'La alŝutita dosiero superas la maksimuman grandon de $size';
 
 $messages['copysuccess'] = 'Sukcese kopiis $nr adresojn';
-$messages['copyerror'] = 'Ne povis kopii ajn adresojn';
+$messages['copyerror'] = 'Ne povis kopii ajn adreson';
 $messages['sourceisreadonly'] = 'Ĉi tiu adres-fonto estas nurlegebla';
 $messages['errorsavingcontact'] = 'Ne povis savi la kontakt-adreson';
-
+$messages['movingmessage'] = 'Translokanta mesaĝon...';
 
 ?>
