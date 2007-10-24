@@ -73,5 +73,6 @@ $messages['copysuccess'] = 'تم نسخ $nr رسائل بنجاح';
 $messages['copyerror'] = 'لم يمكن نسخ أية عناوين';
 $messages['sourceisreadonly'] = 'لا يمكن تعديل مصدر العنوان هذا';
 $messages['errorsavingcontact'] = 'تعذر حفظ عنوان المراسل';
+$messages['movingmessage'] = 'جاري نقل الرسالة...';
 
 ?>
