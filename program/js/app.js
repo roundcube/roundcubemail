@@ -2416,9 +2416,9 @@ function rcube_webmail()
       {
       var anchors = row.obj.getElementsByTagName('A');
       if (anchors[0])
-        anchors[0].onclick = function() { p.rename_folder(row.id); };
+        anchors[0].onclick = function() { p.rename_folder(row.id); return false; };
       if (anchors[1])
-        anchors[1].onclick = function() { p.delete_folder(row.id); };
+        anchors[1].onclick = function() { p.delete_folder(row.id); return false; };
       row.obj.onmouseover = function() { p.focus_subscription(row.id); };
       row.obj.onmouseout = function() { p.unfocus_subscription(row.id); };
       }
@@ -2562,7 +2562,6 @@ function rcube_webmail()
   this.rename_folder = function(id)
     {
     var temp, row, form;
-    var folder = this.env.subscriptionrows[id][0];
 
     // reset current renaming
   if (temp = this.edit_folder)
@@ -2572,14 +2571,15 @@ function rcube_webmail()
       return;
     }
 
-    if (id && (row = document.getElementById(id)))
+    if (id && this.env.subscriptionrows[id] && (row = document.getElementById(id)))
       {
       var reg = new RegExp('.*['+RegExp.escape(this.env.delimiter)+']');
       this.name_input = document.createElement('INPUT');
-      this.name_input.value = folder.replace(reg, '');
+      this.name_input.value = this.env.subscriptionrows[id][1].replace(reg, '');
       this.name_input.style.width = '100%';
+      
       reg = new RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
-      this.name_input.setAttribute('parent', folder.replace(reg, ''));
+      this.name_input.__parent = this.env.subscriptionrows[id][0].replace(reg, '');
       this.name_input.onkeypress = function(e){ rcmail.name_input_keypress(e); };
       
       row.cells[0].replaceChild(this.name_input, row.cells[0].firstChild);
@@ -2617,9 +2617,9 @@ function rcube_webmail()
       var newname = this.name_input ? this.name_input.value : null;
       if (this.edit_folder && newname)
         {
-        if (this.name_input.getAttribute('parent') && this.name_input.getAttribute('parent')!='')
-          newname = this.name_input.getAttribute('parent')+this.env.delimiter+newname;
-          this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));
+        if (this.name_input.__parent)
+          newname = this.name_input.__parent + this.env.delimiter + newname;
+        this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));
         }
       }
     // escape
