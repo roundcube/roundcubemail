@@ -973,10 +973,10 @@ function rcmail_sanitize_html($body, $container_id)
   // remove SCRIPT tags
   foreach (array('script', 'applet', 'object', 'embed', 'iframe') as $tag)
     {
-    while (($pos = strpos($body_lc, '<'.$tag)) && ($pos2 = strpos($body_lc, '</'.$tag.'>', $pos)))
+    while (($pos = strpos($body_lc, '<'.$tag)) && (($pos2 = strpos($body_lc, '</'.$tag.'>', $pos)) || ($pos3 = strpos($body_lc, '>', $pos))))
       {
-      $pos2 += strlen('</'.$tag.'>');
-      $body = substr($body, 0, $pos) . substr($body, $pos2, strlen($body)-$pos2);
+      $end = $pos2 ? $pos2 + strlen('</'.$tag.'>') : $pos3 + 1;
+      $body = substr($body, 0, $pos) . substr($body, $end, strlen($body)-$end);
       $body_lc = strtolower($body);
       }
     }
