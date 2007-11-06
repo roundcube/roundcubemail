@@ -86,9 +86,7 @@ if (!empty($msg_uid))
     {
     $_SESSION['compose']['reply_uid'] = $msg_uid;
     $_SESSION['compose']['reply_msgid'] = $MESSAGE['headers']->messageID;
-    $_SESSION['compose']['references']  = $MESSAGE['headers']->reference;
-    $_SESSION['compose']['references'] .= !empty($MESSAGE['headers']->reference) ? ' ' : '';
-    $_SESSION['compose']['references'] .= $MESSAGE['headers']->messageID;
+    $_SESSION['compose']['references']  = trim($MESSAGE['headers']->references . " " . $MESSAGE['headers']->messageID);
 
     if (!empty($_GET['_all']))
       $MESSAGE['reply_all'] = 1;

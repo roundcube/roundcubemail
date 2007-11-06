@@ -64,7 +64,8 @@ else if (preg_match("/^body:/i", $str))
 // search in subject and sender by default
 else
 {
-  $subject = array("HEADER SUBJECT", "HEADER FROM");
+  $from = ($mbox == $CONFIG['sent_mbox'] || $mbox == $CONFIG['drafts_mbox']) ? "TO" : "FROM";
+  $subject = array("HEADER SUBJECT", "HEADER $from");
   $search = trim($str);
 }
 

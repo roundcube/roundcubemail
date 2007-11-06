@@ -173,6 +173,7 @@ function sess_regenerate_id()
 
   session_id($random);
   $cookie = session_get_cookie_params();
+  setcookie(session_name(), "", time() -3600);
   setcookie(session_name(), $random, $cookie['lifetime'], $cookie['path']);
 
   return true;

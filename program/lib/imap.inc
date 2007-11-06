@@ -1240,7 +1240,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 	/* FETCH date,from,subject headers */
 	$key="fh".($c++);
 	$prefix=$uidfetch?" UID":"";
-	$request=$key.$prefix." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCE)])\r\n";
+	$request=$key.$prefix." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCES)])\r\n";
 
 	if (!fputs($fp, $request)) return false;
 	do{
@@ -1295,7 +1295,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 			$result[$id]->encoding = str_replace("\n", " ", $headers["content-transfer-encoding"]);
 			$result[$id]->ctype = str_replace("\n", " ", $headers["content-type"]);
 			$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);
-			$result[$id]->reference = $headers["reference"];
+			$result[$id]->references = $headers["references"];
 			
 			list($result[$id]->ctype, $ctype_add) = explode(";", $headers["content-type"]);
 
