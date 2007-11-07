@@ -111,7 +111,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
                      $part->filename ? $part->filename : "roundcube.$ctype_secondary"));
 
       // turn off output buffering and print part content
-      $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part->encoding, true);
+      $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part, true);
       }
 
     exit;

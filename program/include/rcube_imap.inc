@@ -1201,15 +1201,22 @@ class rcube_imap
 
     if ($print)
       {
-      iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, ($o_part->encoding=='base64'?3:2));
-      $body = TRUE;
+      $mode = $o_part->encoding == 'base64' ? 3 : ($o_part->encoding == 'quoted-printable' ? 1 : 2);
+      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, $mode);
+      
+      // we have to decode the part manually before printing
+      if ($mode == 1)
+        {
+        echo $this->mime_decode($body, $o_part->encoding);
+        $body = true;
+        }
       }
     else
       {
       $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, 1);
 
       // decode part body
-      if ($o_part->encoding=='base64' || $o_part->encoding=='quoted-printable')
+      if ($o_part->encoding)
         $body = $this->mime_decode($body, $o_part->encoding);
 
       // convert charset (if text or message part)

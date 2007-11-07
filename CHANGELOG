@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Switch to/from when searcing in Sent folder (#1484555)
 - Correctly read the References header (#1484646)
 - Unset old cookie in before sending a new value (#1484639)
+- Correctly decode attachments when downloading them (#1484645 and #1484642)
 
 2007/10/22 (tomekp)
 ----------
