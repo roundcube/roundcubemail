@@ -967,8 +967,8 @@ class rcube_imap
     // write headers cache
     if ($headers)
       {
-      if ($is_uid)
-        $this->uid_id_map[$mbox_name][$uid] = $headers->id;
+      if ($headers->uid && $headers->id)
+        $this->uid_id_map[$mailbox][$headers->uid] = $headers->id;
 
       $this->add_message_cache($mailbox.'.msg', $headers->id, $headers);
       }
@@ -1005,7 +1005,7 @@ class rcube_imap
     if (!empty($structure))
       {
       $this->_msg_id = $msg_id;
-      $headers = $this->get_headers($msg_id, NULL, FALSE);
+      $headers = $this->get_headers($uid);
       
       $struct = &$this->_structure_part($structure);
       $struct->headers = get_object_vars($headers);
@@ -2066,10 +2066,8 @@ class rcube_imap
    */
   function &get_cached_message($key, $uid, $struct=false)
     {
-    if (!$this->caching_enabled)
-      return FALSE;
-
     $internal_key = '__single_msg';
+    
     if ($this->caching_enabled && (!isset($this->cache[$internal_key][$uid]) ||
         ($struct && empty($this->cache[$internal_key][$uid]->structure))))
       {
@@ -2130,9 +2128,17 @@ class rcube_imap
    */
   function add_message_cache($key, $index, $headers, $struct=null)
     {
-    if (!$this->caching_enabled || empty($key) || !is_object($headers) || empty($headers->uid))
+    if (empty($key) || !is_object($headers) || empty($headers->uid))
+        return;
+    
+    // add to internal (fast) cache
+    $this->cache['__single_msg'][$headers->uid] = $headers;
+    $this->cache['__single_msg'][$headers->uid]->structure = $struct;
+    
+    // no further caching
+    if (!$this->caching_enabled)
       return;
-      
+    
     // check for an existing record (probly headers are cached but structure not)
     $sql_result = $this->db->query(
         "SELECT message_id
@@ -2488,7 +2494,16 @@ class rcube_imap
     if (!$mbox_name)
       $mbox_name = $this->mailbox;
       
-    return iil_C_ID2UID($this->conn, $mbox_name, $id);
+    $index = array_flip($this->uid_id_map[$mbox_name]);
+    if (isset($index[$id]))
+      $uid = $index[$id];
+    else
+      {
+      $uid = iil_C_ID2UID($this->conn, $mbox_name, $id);
+      $this->uid_id_map[$mbox_name][$uid] = $id;
+      }
+    
+    return $uid;
     }
 
 
