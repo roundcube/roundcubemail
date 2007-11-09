@@ -426,6 +426,22 @@ class rcube_db
     }
 
 
+  /**
+   * Escapes a string
+   *
+   * @param  string  The string to be escaped
+   * @return string  The escaped string
+   * @access public
+   */
+  function escapeSimple($str)
+    {
+    if (!$this->db_handle)
+      $this->db_connect('r');
+
+    return $this->db_handle->escapeSimple($str);
+    }
+
+
   /*
    * Return SQL function for current time and date
    *

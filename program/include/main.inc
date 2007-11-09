@@ -705,7 +705,7 @@ function rcmail_create_user($user, $host)
 
     // try to resolve the e-mail address from the virtuser table
     if (!empty($CONFIG['virtuser_query']) &&
-        ($sql_result = $DB->query(preg_replace('/%u/', $DB->quote($user), $CONFIG['virtuser_query']))) &&
+        ($sql_result = $DB->query(preg_replace('/%u/', $DB->escapeSimple($user), $CONFIG['virtuser_query']))) &&
         ($DB->num_rows()>0))
     {
       while ($sql_arr = $DB->fetch_array($sql_result))
