@@ -75,4 +75,4 @@ $messages['sourceisreadonly'] = 'Šis adreso šaltinis yra tik skaitymui';
 $messages['errorsavingcontact'] = 'Kontakto adreso išsaugoti negalima';
 $messages['movingmessage'] = 'Perkeliamas laiškas...';
 
-?> 
+?>
