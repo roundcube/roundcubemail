@@ -12,7 +12,7 @@
  +-----------------------------------------------------------------------+
  | Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
  +-----------------------------------------------------------------------+
- 
+
  @version $Id$
 
 */
@@ -38,6 +38,7 @@ $messages['contactexists'] = 'Konatk dengan alamat e-mail ini sudah ada';
 $messages['blockedimages'] = 'Untuk melindungi privasi Anda, gambar-gambar diluar server diblok pada pesan ini.';
 $messages['encryptedmessage'] = 'Pesan ini terenkripsi dan tidak bisa ditampilkan. Maaf!';
 $messages['nocontactsfound'] = 'Kontak tidak ditemukan';
+$messages['contactnotfound'] = 'Kontak yang diminta tidak ditemukan';
 $messages['sendingfailed'] = 'Pengiriman pesan gagal';
 $messages['errorsaving'] = 'Error ketika menyimpan';
 $messages['errormoving'] = 'Pesan tidak bisa dipindahkan';
@@ -51,7 +52,7 @@ $messages['noemailwarning'] = 'Tolong masukkan alamat email yang valid';
 $messages['nonamewarning'] = 'Tolong masukkan nama';
 $messages['nopagesizewarning'] = 'Tolong masukkan ukuran halaman';
 $messages['norecipientwarning'] = 'Tolong masukkan sedikitnya satu penerima';
-$messages['nosubjectwarning'] = '\"Judul\" kosong. Isi judul sekarang?';
+$messages['nosubjectwarning'] = '\\"Judul\\" kosong. Isi judul sekarang?';
 $messages['nobodywarning'] = 'Kirim pesan ini tanpa teks?';
 $messages['notsentwarning'] = 'Pesan belum terkirim. Buang pesan Anda?';
 $messages['noldapserver'] = 'Tolong pilih server LDAP untuk pencarian';
@@ -68,5 +69,10 @@ $messages['converting'] = 'Mengembalikan pesan ke format awal...';
 $messages['messageopenerror'] = 'Tidak dapat mengambil pesan dari server';
 $messages['fileuploaderror'] = 'Gagal mengunggah berkas';
 $messages['filesizeerror'] = 'Berkas terunggah mencapai ukuran maksimal dari $size';
+$messages['copysuccess'] = 'Berhasil menyalin $nr alamat';
+$messages['copyerror'] = 'Tidak bisa menyalin alamat manapun';
+$messages['sourceisreadonly'] = 'Sumber dari alamat ini hanya dapat dibaca';
+$messages['errorsavingcontact'] = 'Tidak bisa menyimpan alamat kontak';
+$messages['movingmessage'] = 'Memindahkan pesan...';
 
 ?>

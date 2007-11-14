@@ -12,7 +12,7 @@
  +-----------------------------------------------------------------------+
  | Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
  +-----------------------------------------------------------------------+
- 
+
  @version $Id$
 
 */
@@ -75,6 +75,7 @@ $labels['replytomessage'] = 'Balas pesan';
 $labels['replytoallmessage'] = 'balas ke pengirim dan semua penerima';
 $labels['forwardmessage'] = 'Teruskan pesan';
 $labels['deletemessage'] = 'Pindahkan pesan ke tong sampah';
+$labels['movemessagetotrash'] = 'Pindahkan pesan ke tong sampah';
 $labels['printmessage'] = 'cetak pesan ini';
 $labels['previousmessage'] = 'Perlihatkan pesan sebelumnya';
 $labels['previousmessages'] = 'Perlihatkan kumpulan pesan-pesan sebelumnya';
@@ -99,8 +100,8 @@ $labels['unlimited'] = 'Tidak terbatas';
 $labels['quicksearch'] = 'Pencarian cepat';
 $labels['resetsearch'] = 'Atur ulang pencarian';
 $labels['compose'] = 'Tulis sebuah pesan';
-$labels['sendmessage'] = 'Kirim pesan sekarang';
 $labels['savemessage'] = 'Simpan daftar tunggu ini';
+$labels['sendmessage'] = 'Kirim pesan sekarang';
 $labels['addattachment'] = 'Sisipkan sebuah berkas';
 $labels['charset'] = 'set karakter';
 $labels['editortype'] = 'Tipe editor';
@@ -120,6 +121,9 @@ $labels['nosubject'] = '(tanpa judul)';
 $labels['showimages'] = 'Tampilkan gambar';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Text murni';
+$labels['addcc'] = 'Tambah Cc';
+$labels['addbcc'] = 'Tambah Bcc';
+$labels['addreplyto'] = 'Tambah Balas Ke';
 $labels['name'] = 'Tampilkan nama';
 $labels['firstname'] = 'Nama depan';
 $labels['surname'] = 'Nama belakang';
@@ -140,13 +144,8 @@ $labels['previouspage'] = 'Perlihatkan kumpulan sebelumnya';
 $labels['firstpage'] = 'Perlihatkan kumpulan pertama';
 $labels['nextpage'] = 'Perlihatkan kumpulan selanjutnya';
 $labels['lastpage'] = 'Perlihatkan kumpulan terakhir';
-$labels['ldapsearch'] = 'Pencarian direktori LDAP';
-$labels['ldappublicsearchname'] = 'Nama kontak';
-$labels['ldappublicsearchtype'] = 'Tepat betul?';
-$labels['ldappublicserverselect'] = 'Pilih servers';
-$labels['ldappublicsearchfield'] = 'Cari di';
-$labels['ldappublicsearchform'] = 'Mencari kontak';
-$labels['ldappublicsearch'] = 'Pencarian';
+$labels['groups'] = 'Kelompok';
+$labels['personaladrbook'] = 'Alamat personal';
 $labels['settingsfor'] = 'Pengaturan untuk';
 $labels['preferences'] = 'Pilihan';
 $labels['userpreferences'] = 'Pilihan pengguna';
@@ -161,7 +160,7 @@ $labels['language'] = 'Bahasa';
 $labels['timezone'] = 'Daerah Waktu';
 $labels['pagesize'] = 'Baris per halaman';
 $labels['signature'] = 'Tanda tangan';
-$labels['dstactive'] = 'Waktu Musim Panas'; // thanks to Mr. Priyadi (priyadi.net) for helping me on this words 
+$labels['dstactive'] = 'Waktu Musim Panas';
 $labels['htmleditor'] = 'Tulis pesan HTML';
 $labels['htmlsignature'] = 'Tandatangan HTML';
 $labels['previewpane'] = 'Perlihatkan tempat melihat';

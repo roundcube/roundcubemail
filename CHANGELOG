@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/11/14 (tomekp)
+----------
+- update id_ID localization
+
 2007/11/06 (thomasb)
 ----------
 - Switch to/from when searcing in Sent folder (#1484555)
