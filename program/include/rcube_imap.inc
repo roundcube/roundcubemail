@@ -2494,7 +2494,7 @@ class rcube_imap
     if (!$mbox_name)
       $mbox_name = $this->mailbox;
       
-    $index = array_flip($this->uid_id_map[$mbox_name]);
+    $index = array_flip((array)$this->uid_id_map[$mbox_name]);
     if (isset($index[$id]))
       $uid = $index[$id];
     else
