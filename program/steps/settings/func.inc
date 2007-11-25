@@ -27,8 +27,7 @@ $sql_result = $DB->query("SELECT username, mail_host FROM ".get_table_name('user
                                  
 if ($USER_DATA = $DB->fetch_assoc($sql_result))
 {
-  $username = $USER_DATA['username'] . (!strpos($USER_DATA['username'], '@') ? '@'.$USER_DATA['mail_host'] : '');
-  $OUTPUT->set_pagetitle(sprintf('%s %s', rcube_label('settingsfor'), $username));
+  $OUTPUT->set_pagetitle(rcube_label('settingsfor') . " ". $USER_DATA['username'] . (!strpos($USER_DATA['username'], '@') ? '@'.$USER_DATA['mail_host'] : ''));
 }
 
 
