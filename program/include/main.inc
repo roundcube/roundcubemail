@@ -1432,7 +1432,7 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
 
   // use value from post
   if (!empty($_POST[$fname]))
-    $value = $_POST[$fname];
+    $value = get_input_value($fname, RCUBE_INPUT_POST);
 
   $out = $input->show($value);
          

@@ -1,6 +1,19 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/11/25 (thomasb)
+----------
+- Applied UID fetch patch by Glen Ogilvie
+- Applied patch for correct Postgres instructions from ticket #1484674
+- Fix overriding of session vars when register_globals is on (#1484670)
+- Fix wrong Postgres setup instructions in INSTALL (#1484674)
+- Fix bug with case-sensitive folder names (#1484245)
+- Don't create default folders by default
+- Added Georgian localization by Zaza Zviadadze
+- Updated Russian localization
+- Fixed some potential security risks (audited by Andris)
+
+
 2007/11/20 (tomekp)
 ----------
 - add Korean (kr) localization

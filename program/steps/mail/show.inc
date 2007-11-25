@@ -57,7 +57,7 @@ if ($_GET['_uid'])
   if ($MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']))
     list($MESSAGE['parts'], $MESSAGE['attachments']) = rcmail_parse_message(
       $MESSAGE['structure'],
-      array('safe' => (bool)$_GET['_safe'],
+      array('safe' => intval($_GET['_safe']),
             'prefer_html' => $CONFIG['prefer_html'],
             'get_url' => $GET_URL.'&_part=%s')
       );
@@ -71,7 +71,7 @@ if ($_GET['_uid'])
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE['UID']);
-  $OUTPUT->set_env('safemode', (bool)$_GET['_safe']);
+  $OUTPUT->set_env('safemode', intval($_GET['_safe']));
 
   $next = $prev = -1;
   // get previous, first, next and last message UID

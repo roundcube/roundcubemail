@@ -292,10 +292,6 @@ class rcube_form_element
       if ((strpos($key,'on')===0 && $value==''))
         continue;
 
-      // encode textarea content
-      if ($key=='value')
-        $value = Q($value, 'strict', FALSE);
-
       // attributes with no value
       if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'nowrap')))
       {
@@ -304,11 +300,11 @@ class rcube_form_element
       }
       // don't convert size of value attribute
       else if ($key=='value')
-        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $value);
+        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), Q($value, 'strict', false));
         
       // regular tag attributes
       else
-        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $this->_conv_case($value, 'value'));
+        $attrib_arr[] = sprintf('%s="%s"', $this->_conv_case($key, 'attrib'), $this->_conv_case(Q($value), 'value'));
     }
 
     return sizeof($attrib_arr) ? ' '.implode(' ', $attrib_arr) : '';

@@ -199,7 +199,7 @@ if (!empty($_SESSION['compose']['references']))
 
 if (!empty($_POST['_priority']))
   {
-  $priority = (int)$_POST['_priority'];
+  $priority = intval($_POST['_priority']);
   $a_priorities = array(1=>'highest', 2=>'high', 4=>'low', 5=>'lowest');
   if ($str_priority = $a_priorities[$priority])
     $headers['X-Priority'] = sprintf("%d (%s)", $priority, ucfirst($str_priority));

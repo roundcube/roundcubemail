@@ -831,12 +831,12 @@ function rcmail_login_form($attrib)
         }
     }
       
-    $fields['host'] = isset($select_host) ? $select_host->show($_POST['_host']) : null;
+    $fields['host'] = isset($select_host) ? $select_host->show(get_input_value('_host', RCUBE_INPUT_POST)) : null;
     }
   else if (!strlen($CONFIG['default_host']))
     {
     $input_host = new textfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
-    $fields['host'] = $input_host->show($_POST['_host']);
+    $fields['host'] = $input_host->show(get_input_value('_host', RCUBE_INPUT_POST));
     }
 
   $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';

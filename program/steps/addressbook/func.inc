@@ -32,10 +32,7 @@ $CONTACTS->set_pagesize($CONFIG['pagesize']);
 
 // set list properties and session vars
 if (!empty($_GET['_page']))
-  {
-  $CONTACTS->set_page(intval($_GET['_page']));
-  $_SESSION['page'] = $_GET['_page'];
-  }
+  $CONTACTS->set_page(($_SESSION['page'] = intval($_GET['_page'])));
 else
   $CONTACTS->set_page(isset($_SESSION['page']) ?$_SESSION['page'] : 1);
 

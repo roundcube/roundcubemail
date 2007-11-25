@@ -30,16 +30,10 @@ if (empty($_SESSION['mbox']))
 
 // set imap properties and session vars
 if ($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC))
-  {
-  $IMAP->set_mailbox($mbox);
-  $_SESSION['mbox'] = $mbox;
-  }
+  $IMAP->set_mailbox(($_SESSION['mbox'] = $mbox));
 
 if (!empty($_GET['_page']))
-  {
-  $IMAP->set_page((int)$_GET['_page']);
-  $_SESSION['page'] = (int)$_GET['_page'];
-  }
+  $IMAP->set_page(($_SESSION['page'] = intval($_GET['_page'])));
 
 // set mailbox to INBOX if not set
 if (empty($_SESSION['mbox']))
@@ -862,7 +856,7 @@ function rcmail_message_body($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmailMsgBody';
 
-  $safe_mode = (bool)$_GET['_safe'];
+  $safe_mode = intval($_GET['_safe']);
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
   $out = '<div '. $attrib_str . ">\n";
   
@@ -1197,10 +1191,11 @@ function rcmail_message_part_controls()
   {
   global $CONFIG, $IMAP, $MESSAGE;
   
-  if (!is_array($MESSAGE) || !is_array($MESSAGE['parts']) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE['parts'][$_GET['_part']])
+  $part = get_input_value('_part', RCUBE_INPUT_GPC);
+  if (!is_array($MESSAGE) || !is_array($MESSAGE['parts']) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE['parts'][$part])
     return '';
     
-  $part = &$MESSAGE['parts'][$_GET['_part']];
+  $part = &$MESSAGE['parts'][$part];
   
   $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'cellspacing', 'cellpadding', 'border', 'summary'));
   $out = '<table '. $attrib_str . ">\n";
@@ -1230,7 +1225,7 @@ function rcmail_message_part_frame($attrib)
   {
   global $MESSAGE;
   
-  $part = $MESSAGE['parts'][$_GET['_part']];
+  $part = $MESSAGE['parts'][get_input_value('_part', RCUBE_INPUT_GPC)];
   $ctype_primary = strtolower($part->ctype_primary);
 
   $attrib['src'] = Q('./?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']));
