@@ -130,7 +130,7 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 $rcmail_config['date_today'] = 'H:i';
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/0.1b';
+$rcmail_config['useragent'] = 'RoundCube Webmail/0.1';
 
 // use this name to compose page titles
 $rcmail_config['product_name'] = 'RoundCube Webmail';
@@ -156,6 +156,9 @@ $rcmail_config['trash_mbox'] = 'Trash';
 // display these folders separately in the mailbox list.
 // these folders will automatically be created if they do not exist
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
+
+// automatically create the above listed default folders on login
+$rcmail_config['create_default_folders'] = FALSE;
 
 // protect the default folders from renames, deletes, and subscription changes
 $rcmail_config['protect_default_folders'] = TRUE;

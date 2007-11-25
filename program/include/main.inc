@@ -660,7 +660,9 @@ function rcmail_login($user, $pass, $host=NULL)
     // force reloading complete list of subscribed mailboxes
     rcmail_set_imap_prop();
     $IMAP->clear_cache('mailboxes');
-    $IMAP->create_default_folders();
+
+    if ($CONFIG['create_default_folders'])
+        $IMAP->create_default_folders();
 
     return TRUE;
     }
