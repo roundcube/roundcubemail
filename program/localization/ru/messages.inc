@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/ru/messages.inc                                              |
+ | language/ru_RU/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
@@ -12,6 +12,7 @@
  +-----------------------------------------------------------------------+
  | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
  |         Vladimir Kulev <me@lightoze.net>                              |
+ |         Artur Smolkin <admin@roundcube.ru>                            |
  +-----------------------------------------------------------------------+
 
  @version $Id$

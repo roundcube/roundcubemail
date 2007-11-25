@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/ru/labels.inc                                                |
+ | language/ru_RU/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
@@ -12,6 +12,7 @@
  +-----------------------------------------------------------------------+
  | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
  |         Vladimir Kulev <me@lightoze.net>                              |
+ |         Artur Smolkin <admin@roundcube.ru>                            |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -76,7 +77,6 @@ $labels['replytomessage'] = 'Ответить';
 $labels['replytoallmessage'] = 'Ответить всем';
 $labels['forwardmessage'] = 'Переслать';
 $labels['deletemessage'] = 'В корзину';
-$labels['movemessagetotrash'] = 'Переместить сообщение в корзину';
 $labels['printmessage'] = 'Печать';
 $labels['previousmessage'] = 'Показать предыдущее сообщение';
 $labels['previousmessages'] = 'Предыдущее';
@@ -101,8 +101,8 @@ $labels['unlimited'] = 'без ограничений';
 $labels['quicksearch'] = 'Быстрый поиск';
 $labels['resetsearch'] = 'Сброс';
 $labels['compose'] = 'Написать сообщение';
-$labels['savemessage'] = 'Сохранить черновик';
 $labels['sendmessage'] = 'Отправить сейчас';
+$labels['savemessage'] = 'Сохранить черновик';
 $labels['addattachment'] = 'Добавить вложение';
 $labels['charset'] = 'Кодировка';
 $labels['editortype'] = 'Редактор';
@@ -122,9 +122,6 @@ $labels['nosubject'] = '(без темы)';
 $labels['showimages'] = 'Показать изображения';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Обычный текст';
-$labels['addcc'] = 'Копия';
-$labels['addbcc'] = 'Скрытая копия';
-$labels['addreplyto'] = 'Обратный адрес';
 $labels['name'] = 'Отображаемое имя';
 $labels['firstname'] = 'Имя';
 $labels['surname'] = 'Фамилия';
@@ -154,6 +151,9 @@ $labels['editpreferences'] = 'Редактировать настройки по
 $labels['identities'] = 'Профили';
 $labels['manageidentities'] = 'Управление профилями';
 $labels['newidentity'] = 'Новый профиль';
+$labels['addcc'] = 'Копия';
+$labels['addbcc'] = 'Скрытая копия';
+$labels['addreplyto'] = 'Обратный адрес';
 $labels['newitem'] = 'Новый';
 $labels['edititem'] = 'Правка';
 $labels['setdefault'] = 'Использовать по умолчанию';
@@ -181,5 +181,6 @@ $labels['managefolders'] = 'Управление папками';
 $labels['sortby'] = 'Сортировать по';
 $labels['sortasc'] = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
+$labels['movemessagetotrash'] = 'Переместить сообщение в корзину';
 
 ?>
