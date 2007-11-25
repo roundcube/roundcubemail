@@ -5,7 +5,7 @@
  | program/include/rcube_imap.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2006, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -35,7 +35,7 @@ require_once('lib/mime.inc');
  *
  * @package    Mail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.39
+ * @version    1.40
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -527,10 +527,7 @@ class rcube_imap
     if ($this->search_string && $mailbox == $this->mailbox)
       return $this->_list_header_set($mailbox, $this->search_set, $page, $sort_field, $sort_order);
 
-    if ($sort_field!=NULL)
-      $this->sort_field = $sort_field;
-    if ($sort_order!=NULL)
-      $this->sort_order = strtoupper($sort_order);
+    $this->_set_sort_order($sort_field, $sort_order);
 
     $max = $this->_messagecount($mailbox);
     $start_msg = ($this->list_page-1) * $this->page_size;
@@ -647,10 +644,7 @@ class rcube_imap
     if (!strlen($mailbox) || empty($msgs))
       return array();
 
-    if ($sort_field!=NULL)
-      $this->sort_field = $sort_field;
-    if ($sort_order!=NULL)
-      $this->sort_order = strtoupper($sort_order);
+    $this->_set_sort_order($sort_field, $sort_order);
 
     $max = count($msgs);
     $start_msg = ($this->list_page-1) * $this->page_size;
@@ -764,10 +758,7 @@ class rcube_imap
    */
   function message_index($mbox_name='', $sort_field=NULL, $sort_order=NULL)
     {
-    if ($sort_field!=NULL)
-      $this->sort_field = $sort_field;
-    if ($sort_order!=NULL)
-      $this->sort_order = strtoupper($sort_order);
+    $this->_set_sort_order($sort_field, $sort_order);
 
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     $key = "$mbox:".$this->sort_field.":".$this->sort_order.".msgi";
@@ -2445,6 +2436,17 @@ class rcube_imap
     return $mbox_name;
     }
 
+  /**
+   * Validate the given input and save to local properties
+   * @access private
+   */
+  function _set_sort_order($sort_field, $sort_order)
+  {
+    if ($sort_field != null)
+      $this->sort_field = asciiwords($sort_field);
+    if ($sort_order != null)
+      $this->sort_order = strtoupper($sort_order) == 'DESC' ? 'DESC' : 'ASC';
+  }
 
   /**
    * Sort mailboxes first by default folders and then in alphabethical order

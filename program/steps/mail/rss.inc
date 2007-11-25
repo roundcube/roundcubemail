@@ -79,7 +79,7 @@ echo '
 
 // Check if the user wants to override the default sortingmethode
 if (isset($_GET['_sort']))
-  list($sort_col, $sort_order) = explode('_', $_GET['_sort']);
+  list($sort_col, $sort_order) = explode('_', get_input_value('_sort', RCUBE_INPUT_GET));
 
 // Add message to output
 if ($messagecount > 0)

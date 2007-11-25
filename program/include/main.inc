@@ -1279,6 +1279,14 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     return $value;
   }
 
+/**
+ * Remove all non-ascii and non-word chars
+ * except . and -
+ */
+function asciiwords($str)
+{
+  return preg_replace('/[^a-z0-9.-_]/i', '', $str);
+}
 
 /**
  * Remove single and double quotes from given string

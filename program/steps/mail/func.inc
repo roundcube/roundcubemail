@@ -1191,7 +1191,7 @@ function rcmail_message_part_controls()
   {
   global $CONFIG, $IMAP, $MESSAGE;
   
-  $part = get_input_value('_part', RCUBE_INPUT_GPC);
+  $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
   if (!is_array($MESSAGE) || !is_array($MESSAGE['parts']) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE['parts'][$part])
     return '';
     
@@ -1225,7 +1225,7 @@ function rcmail_message_part_frame($attrib)
   {
   global $MESSAGE;
   
-  $part = $MESSAGE['parts'][get_input_value('_part', RCUBE_INPUT_GPC)];
+  $part = $MESSAGE['parts'][asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
   $ctype_primary = strtolower($part->ctype_primary);
 
   $attrib['src'] = Q('./?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']));
