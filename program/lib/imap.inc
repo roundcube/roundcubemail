@@ -1266,7 +1266,18 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 					$i++;
 					$lines[$i] = trim(chop($line));
 				}
-			}while($line[0]!=")" && strncmp($line, $key, strlen($key)));  // patch from "Maksim Rubis" <siburny@hotmail.com>
+				/* 
+					The preg_match below works around communigate imap, which outputs " UID <number>)".
+					Without this, the while statement continues on and gets the "fh0 OK completed" message.
+					If this loop gets the ending message, then the outer loop does not receive it from radline on line 1249.  
+					This in causes the if statement on line 1278 to never be true, which causes the headers to end up missing
+					If the if statement was changed to pick up the fh0 from this loop, then it causes the outer loop to spin
+					An alternative might be:
+					if (!preg_match("/:/",$line) && preg_match("/\)$/",$line)) break;
+					however, unsure how well this would work with all imap clients.
+				*/
+				if (preg_match("/^\s*UID [0-9]+\)$/",$line)) break;
+			}while(trim($line[0])!=")" && strncmp($line, $key, strlen($key)));  // patch from "Maksim Rubis" <siburny@hotmail.com>
 			
             if(strncmp($line, $key, strlen($key)))
             { 
