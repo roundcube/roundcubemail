@@ -60,7 +60,7 @@ else if ($_action=='delete' && !empty($_POST['_uid']))
 else
   exit;
 
-// refresh saved seach set after moving some messages
+// refresh saved search set after moving some messages
 if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set)
   $_SESSION['search'][$search_request] = $IMAP->refresh_search();
 

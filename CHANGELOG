@@ -12,7 +12,7 @@ CHANGELOG RoundCube Webmail
 - Added Georgian localization by Zaza Zviadadze
 - Updated Russian localization
 - Fixed some potential security risks (audited by Andris)
-
+- Only show new messages if they match the current search (#1484176)
 
 2007/11/20 (tomekp)
 ----------

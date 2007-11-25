@@ -535,8 +535,6 @@ key_press: function(e)
   if (this.focused != true) 
     return true;
 
-  this.shiftkey = e.shiftKey;
-
   var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
   var mod_key = rcube_event.get_modifier(e);
   switch (keyCode)
@@ -547,6 +545,7 @@ key_press: function(e)
       break;
 
     default:
+      this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
       this.trigger_event('keypress');
   }

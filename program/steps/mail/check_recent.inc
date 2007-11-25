@@ -27,18 +27,26 @@ foreach ($a_mailboxes as $mbox_name)
     {
     if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
       {
-      $count = $IMAP->messagecount(NULL, 'ALL', TRUE);
+      // refresh saved search set
+      if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set)
+        $_SESSION['search'][$search_request] = $IMAP->refresh_search();
+        
+      $count_all = $IMAP->messagecount(NULL, 'ALL', TRUE);
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
 
-      $OUTPUT->set_env('messagecount', $count);
+      $OUTPUT->set_env('messagecount', $IMAP->messagecount());
       $OUTPUT->command('set_unread_count', $mbox_name, $unread_count, true);
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
       $OUTPUT->command('set_quota', $IMAP->get_quota());
 
       // add new message headers to list
       $a_headers = array();
-      for ($i=$recent_count, $id=$count-$recent_count+1; $i>0; $i--, $id++)
+      for ($i=$recent_count, $id=$count_all-$recent_count+1; $i>0; $i--, $id++)
         {
+        // skip message if it does not match the current search
+        if (!$IMAP->in_searchset($id))
+          continue;
+        
         $header = $IMAP->get_headers($id, NULL, FALSE);
         if ($header->recent)
           $a_headers[] = $header;

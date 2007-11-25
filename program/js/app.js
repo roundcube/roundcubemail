@@ -1143,6 +1143,8 @@ function rcube_webmail()
       this.command('show');
     else if (list.key_pressed == list.DELETE_KEY)
       this.command('delete');
+    else
+      list.shiftkey = false;
     };
 
 
@@ -3483,7 +3485,7 @@ function rcube_webmail()
       }
 
     this.set_busy(true, 'checkingmail');
-    this.http_request('check-recent', '_t='+(new Date().getTime()), true);
+    this.http_request('check-recent', (this.env.search_request ? '_search='+this.env.search_request+'&' : '') + '_t='+(new Date().getTime()), true);
     };
 
 

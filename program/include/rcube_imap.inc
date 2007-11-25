@@ -441,7 +441,7 @@ class rcube_imap
       $mailbox = $this->mailbox;
       
     // count search set
-    if ($this->search_string && $mailbox == $this->mailbox && $mode == 'ALL')
+    if ($this->search_string && $mailbox == $this->mailbox && $mode == 'ALL' && !$force)
       return count((array)$this->search_set);
 
     $a_mailbox_cache = $this->get_cache('messagecount');
@@ -934,6 +934,20 @@ class rcube_imap
       
     return $this->get_search_set();
     }
+  
+  
+  /**
+   * Check if the given message ID is part of the current search set
+   *
+   * @return True on match or if no search request is stored
+   */
+  function in_searchset($msgid)
+  {
+    if (!empty($this->search_string))
+      return in_array("$msgid", (array)$this->search_set, true);
+    else
+      return true;
+  }
 
 
   /**
