@@ -41,6 +41,7 @@
 	'fr'    => 'Français', 
 	'gl'    => 'Galego',
 	'ga_IE' => 'Irish',
+	'ge'    => 'Georgian',
 	'el'    => 'Greek',
 	'hi'    => 'Hindi',
 	'hr'    => 'Hrvatski',
