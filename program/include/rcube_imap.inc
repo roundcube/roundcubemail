@@ -2460,7 +2460,7 @@ class rcube_imap
       if ($folder{0}=='.')
         continue;
 
-      if (($p = array_search(strtolower($folder), $this->default_folders_lc))!==FALSE)
+      if (($p = array_search(strtolower($folder), $this->default_folders_lc)) !== false && !$a_defaults[$p])
         $a_defaults[$p] = $folder;
       else
         $a_out[] = $folder;
