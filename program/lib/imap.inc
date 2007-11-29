@@ -96,17 +96,21 @@ class iilBasicHeader{
 	var $messageID;
 	var $size;
 	var $encoding;
+	var $charset;
 	var $ctype;
 	var $flags;
 	var $timestamp;
 	var $f;
-	var $seen;
-	var $deleted;
-	var $recent;
-	var $answered;
-	var $junk;
 	var $internaldate;
-	var $is_reply;
+	var $references;
+	var $mdn_to;
+	var $mdn_sent = false;
+	var $is_reply = false;
+	var $seen = false;
+	var $deleted = false;
+	var $recent = false;
+	var $answered = false;
+	var $junk = false;
 }
 
 
@@ -1240,7 +1244,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 	/* FETCH date,from,subject headers */
 	$key="fh".($c++);
 	$prefix=$uidfetch?" UID":"";
-	$request=$key.$prefix." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCES)])\r\n";
+	$request=$key.$prefix." FETCH $message_set (BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID REFERENCES DISPOSITION-NOTIFICATION-TO)])\r\n";
 
 	if (!fputs($fp, $request)) return false;
 	do{
@@ -1307,6 +1311,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 			$result[$id]->ctype = str_replace("\n", " ", $headers["content-type"]);
 			$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);
 			$result[$id]->references = $headers["references"];
+			$result[$id]->mdn_to = $headers["disposition-notification-to"];
 			
 			list($result[$id]->ctype, $ctype_add) = explode(";", $headers["content-type"]);
 
@@ -1369,10 +1374,6 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 					$flags_a = explode(" ", $flags_str);
 					//echo "<!-- ID: $id FLAGS: ".implode(",", $flags_a)." //-->\n";
 					
-					$result[$id]->seen = false;
-					$result[$id]->recent = false;
-					$result[$id]->deleted = false;
-					$result[$id]->answered = false;
 					if (is_array($flags_a)){
 						reset($flags_a);
 						while (list($key,$val)=each($flags_a)){
@@ -1380,8 +1381,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 							else if (strcasecmp($val, "Deleted")==0) $result[$id]->deleted=true;
 							else if (strcasecmp($val, "Recent")==0) $result[$id]->recent = true;
 							else if (strcasecmp($val, "Answered")==0) $result[$id]->answered = true;
+							else if (strcasecmp($val, "\$MDNSent")==0) $result[$id]->mdn_sent = true;
 						}
-						$result[$id]->flags=$flags_str;
+						$result[$id]->flags = $flags_a;
 					}
 			
 					// if time is gmt...	
@@ -1510,13 +1512,14 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod){
 	
 	$fp = $conn->fp;
 	$flags=array(
-                    "SEEN"=>"\\Seen",
-                    "DELETED"=>"\\Deleted",
-                    "RECENT"=>"\\Recent",
-                    "ANSWERED"=>"\\Answered",
-                    "DRAFT"=>"\\Draft",
-					"FLAGGED"=>"\\Flagged"
-                   );
+    "SEEN"=>"\\Seen",
+    "DELETED"=>"\\Deleted",
+    "RECENT"=>"\\Recent",
+    "ANSWERED"=>"\\Answered",
+    "DRAFT"=>"\\Draft",
+    "FLAGGED"=>"\\Flagged",
+    "MDNSENT"=>"\$MDNSent"
+  );
 	$flag=strtoupper($flag);
 	$flag=$flags[$flag];
 	if (iil_C_Select($conn, $mailbox)){

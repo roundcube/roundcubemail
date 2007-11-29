@@ -939,7 +939,7 @@ class rcube_imap
   /**
    * Check if the given message ID is part of the current search set
    *
-   * @return True on match or if no search request is stored
+   * @return boolean True on match or if no search request is stored
    */
   function in_searchset($msgid)
   {
@@ -1290,7 +1290,7 @@ class rcube_imap
    * Set message flag to one or several messages
    *
    * @param mixed  Message UIDs as array or as comma-separated string
-   * @param string Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT
+   * @param string Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
    * @return boolean True on success, False on failure
    */
   function set_flag($uids, $flag)
