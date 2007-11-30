@@ -1674,7 +1674,7 @@ function rcube_webmail()
     var input_message = rcube_find_object('_message');
 
     // check for empty recipient
-    if (input_to && !rcube_check_email(input_to.value, true))
+    if (input_to && !rcube_check_email(input_to.value.replace(/^\s+/, '').replace(/[\s,;]+$/, ''), true))
       {
       alert(this.get_label('norecipientwarning'));
       input_to.focus();

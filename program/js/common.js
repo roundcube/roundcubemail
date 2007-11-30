@@ -396,51 +396,18 @@ function rcube_check_email(input, inline)
   {
   if (input && window.RegExp)
     {
-    var no_ws_ctl    = "[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]";
-    var alpha        = "[\\x41-\\x5a\\x61-\\x7a]";
-    var digit        = "[\\x30-\\x39]";
-    var cr        = "\\x0d";
-    var lf        = "\\x0a";
-    var crlf        = "(" + cr + lf + ")";
-
-    var obs_char    = "[\\x00-\\x09\\x0b\\x0c\\x0e-\\x7f]";
-    var obs_text    = "("+lf+"*"+cr+"*("+obs_char+lf+"*"+cr+"*)*)";
-    var text        = "([\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f]|"+obs_text+")";
-    var obs_qp        = "(\\x5c[\\x00-\\x7f])";
-    var quoted_pair    = "(\\x5c"+text+"|"+obs_qp+")";
-
-    var wsp        = "[\\x20\\x09]";
-    var obs_fws    = "("+wsp+"+("+crlf+wsp+"+)*)";
-    var fws        = "((("+wsp+"*"+crlf+")?"+wsp+"+)|"+obs_fws+")";
-    var ctext        = "("+no_ws_ctl+"|[\\x21-\\x27\\x2A-\\x5b\\x5d-\\x7e])";
-    var ccontent    = "("+ctext+"|"+quoted_pair+")";
-    var comment    = "(\\x28("+fws+"?"+ccontent+")*"+fws+"?\\x29)";
-    var cfws        = "(("+fws+"?"+comment+")*("+fws+"?"+comment+"|"+fws+"))";
-    var cfws        = fws+"*";
-
-    var atext        = "("+alpha+"|"+digit+"|[\\x21\\x23-\\x27\\x2a\\x2b\\x2d\\x2e\\x3d\\x3f\\x5e\\x5f\\x60\\x7b-\\x7e])";
-    var atom        = "("+cfws+"?"+atext+"+"+cfws+"?)";
-
-    var qtext        = "("+no_ws_ctl+"|[\\x21\\x23-\\x5b\\x5d-\\x7e])";
-    var qcontent    = "("+qtext+"|"+quoted_pair+")";
-    var quoted_string    = "("+cfws+"?\\x22("+fws+"?"+qcontent+")*"+fws+"?\\x22"+cfws+"?)";
-    var word        = "("+atom+"|"+quoted_string+")";
-
-    var obs_local_part    = "("+word+"(\\x2e"+word+")*)";
-    var obs_domain    = "("+atom+"(\\x2e"+atom+")*)";
-
-    var dot_atom_text    = "("+atext+"+(\\x2e"+atext+"+)*)";
-    var dot_atom    = "("+cfws+"?"+dot_atom_text+cfws+"?)";
-
-    var dtext        = "("+no_ws_ctl+"|[\\x21-\\x5a\\x5e-\\x7e])";
-    var dcontent    = "("+dtext+"|"+quoted_pair+")";
-    var domain_literal    = "("+cfws+"?\\x5b("+fws+"?"+dcontent+")*"+fws+"?\\x5d"+cfws+"?)";
-
-    var local_part    = "("+dot_atom+"|"+quoted_string+"|"+obs_local_part+")";
-    var domain        = "("+dot_atom+"|"+domain_literal+"|"+obs_domain+")";
-    var addr_spec    = "("+local_part+"\\x40"+domain+")";
-
-    var reg1 = inline ? new RegExp(addr_spec, 'i') : new RegExp('^'+addr_spec+'$', 'i');
+    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
+    var dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
+    var atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
+    var quoted_pair = '\\x5c[\\x00-\\x7f]';
+    var domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d';
+    var quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22';
+    var sub_domain = '('+atom+'|'+domain_literal+')';
+    var word = '('+atom+'|'+quoted_string+')';
+    var domain = sub_domain+'(\\x2e'+sub_domain+')*';
+    var local_part = word+'(\\x2e'+word+')*';
+    var addr_spec = local_part+'\\x40'+domain;
+    var reg1 = inline ? new RegExp('(^|<)'+addr_spec+'(>|$)', 'i') : new RegExp('^'+addr_spec+'$', 'i');
     return reg1.test(input) ? true : false;
     }
   return false;
