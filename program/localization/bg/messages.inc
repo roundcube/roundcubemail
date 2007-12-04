@@ -73,5 +73,6 @@ $messages['copysuccess'] = 'Успешно копирани $nr адреса';
 $messages['copyerror'] = 'Грешка при копирането на адресите';
 $messages['sourceisreadonly'] = 'Този източник на адреси е само за четене';
 $messages['errorsavingcontact'] = 'Грешка при записването на адреса';
+$messages['movingmessage'] = 'Преместване на писмото...';
 
 ?>

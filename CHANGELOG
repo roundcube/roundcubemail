@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/12/04 (tomekp)
+----------
+- update bg localization
+
 2007/11/25 (thomasb)
 ----------
 - Applied UID fetch patch by Glen Ogilvie
