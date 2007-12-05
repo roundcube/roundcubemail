@@ -16,28 +16,20 @@
 */
 
 $labels = array();
-
-// login page
 $labels['welcome'] = 'Ласкаво просимо в $product!';
 $labels['username'] = 'Ім`я користувача';
 $labels['password'] = 'Пароль';
 $labels['server'] = 'Сервер';
 $labels['login'] = 'Увійти';
-
-// taskbar
 $labels['logout'] = 'Вийти';
 $labels['mail'] = 'Пошта';
 $labels['settings'] = 'Налаштування';
 $labels['addressbook'] = 'Контакти';
-
-// mailbox names
 $labels['inbox'] = 'Вхідні';
 $labels['drafts'] = 'Чернетки';
 $labels['sent'] = 'Відправлені';
 $labels['trash'] = 'Смітник';
-$labels['spam'] = 'Спам';
-
-// message listing
+$labels['junk'] = 'Спам';
 $labels['subject'] = 'Тема';
 $labels['from'] = 'Від';
 $labels['to'] = 'Кому';
@@ -48,8 +40,6 @@ $labels['date'] = 'Дата';
 $labels['size'] = 'Розмір';
 $labels['priority'] = 'Пріоритет';
 $labels['organization'] = 'Організація';
-
-// aliases
 $labels['reply-to'] = 'Зворотня адреса';
 $labels['mailboxlist'] = 'Теки';
 $labels['messagesfromto'] = 'Повідомлення з $from по $to із $count';
@@ -62,8 +52,6 @@ $labels['preferhtml'] = 'Переважно HTML';
 $labels['htmlmessage'] = 'Повідомлення HTML';
 $labels['prettydate'] = 'Красиві дати';
 $labels['addtoaddressbook'] = 'Додати до контактів';
-
-// weekdays short
 $labels['sun'] = 'Нд';
 $labels['mon'] = 'Пн';
 $labels['tue'] = 'Вт';
@@ -71,8 +59,6 @@ $labels['wed'] = 'Ср';
 $labels['thu'] = 'Чт';
 $labels['fri'] = 'Пт';
 $labels['sat'] = 'Сб';
-
-// weekdays long
 $labels['sunday'] = 'Неділя';
 $labels['monday'] = 'Понеділок';
 $labels['tuesday'] = 'Вівторок';
@@ -80,16 +66,14 @@ $labels['wednesday'] = 'Середа';
 $labels['thursday'] = 'Четвер';
 $labels['friday'] = 'П`ятниця';
 $labels['saturday'] = 'Субота';
-
 $labels['today'] = 'Сьогодні';
-
-// toolbar buttons
 $labels['checkmail'] = 'Перевірити пошту';
 $labels['writenewmessage'] = 'Нове повідомлення';
 $labels['replytomessage'] = 'Відповісти';
 $labels['replytoallmessage'] = 'Відповісти усім';
 $labels['forwardmessage'] = 'Переслати';
 $labels['deletemessage'] = 'У смітник';
+$labels['movemessagetotrash'] = 'Перемістити повідомлення у смітник';
 $labels['printmessage'] = 'Друкувати';
 $labels['previousmessage'] = 'Показати попереднє повідомлення';
 $labels['previousmessages'] = 'Попередня сторінка повідомлень';
@@ -113,11 +97,9 @@ $labels['unknown'] = 'невідомо';
 $labels['unlimited'] = 'без обмеження';
 $labels['quicksearch'] = 'Швидкий пошук';
 $labels['resetsearch'] = 'Очистити пошук';
-
-// message compose
 $labels['compose'] = 'Написати повідомлення';
-$labels['sendmessage'] = 'Відіслати зараз';
 $labels['savemessage'] = 'Зберегти чернетку';
+$labels['sendmessage'] = 'Відіслати зараз';
 $labels['addattachment'] = 'Додати вкладення';
 $labels['charset'] = 'Набір символів';
 $labels['editortype'] = 'Редактор';
@@ -137,8 +119,9 @@ $labels['nosubject'] = '(без теми)';
 $labels['showimages'] = 'Показати зображення';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Звичайний текст';
-
-// address boook
+$labels['addcc'] = 'Додати Cc';
+$labels['addbcc'] = 'Додати Bcc';
+$labels['addreplyto'] = 'Додати Reply-To';
 $labels['name'] = 'Відображуване ім`я';
 $labels['firstname'] = 'Ім`я';
 $labels['surname'] = 'Прізвище';
@@ -161,8 +144,6 @@ $labels['nextpage'] = 'Показати наступний';
 $labels['lastpage'] = 'Показати останній';
 $labels['groups'] = 'Групи';
 $labels['personaladrbook'] = 'Персональні адреси';
-
-// settings
 $labels['settingsfor'] = 'Налаштування для';
 $labels['preferences'] = 'Уподобання';
 $labels['userpreferences'] = 'Уподобання користувача';

@@ -71,5 +71,6 @@ $messages['copysuccess'] = 'Скопійовано $nr адрес';
 $messages['copyerror'] = 'Неможливо скопіювати адресу';
 $messages['sourceisreadonly'] = 'Дане джерело адрес лише для читання';
 $messages['errorsavingcontact'] = 'Неможливо зберегти адресу контакта';
+$messages['movingmessage'] = 'Переміщую повідомлення...';
 
 ?>
