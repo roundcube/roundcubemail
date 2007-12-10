@@ -3,7 +3,7 @@
  | RoundCube common js library                                           |
  |                                                                       |
  | This file is part of the RoundCube web development suite              |
- | Copyright (C) 2005-2006, RoundCube Dev, - Switzerland                 |
+ | Copyright (C) 2005-2007, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -52,16 +52,12 @@ function roundcube_browser()
 
   this.mz = (this.dom && this.ver>=5);  // (this.dom && this.product=='Gecko')
   this.ns = ((this.ver<5 && this.name=='Netscape') || (this.ver>=5 && this.vendor.indexOf('Netscape')>=0));
-  this.ns4 = (this.ns && parseInt(this.ver)==4);
   this.ns6 = (this.ns && parseInt(this.vendver)==6);  // (this.mz && this.ns) ? true : false;
   this.ns7 = (this.ns && parseInt(this.vendver)==7);  // this.agent.indexOf('Netscape/7')>0);
   this.safari = (this.agent.toLowerCase().indexOf('safari')>0 || this.agent.toLowerCase().indexOf('applewebkit')>0);
   this.konq   = (this.agent.toLowerCase().indexOf('konqueror')>0);
 
   this.opera = (window.opera) ? true : false;
-  this.opera5 = (this.opera5 && this.agent.indexOf('Opera 5')>0) ? true : false;
-  this.opera6 = (this.opera && this.agent.indexOf('Opera 6')>0) ? true : false;
-  this.opera7 = (this.opera && this.agent.indexOf('Opera 7')>0) ? true : false;
 
   if(this.opera && window.RegExp)
     this.vendver = (/opera(\s|\/)([0-9\.]+)/i.test(navigator.userAgent)) ? parseFloat(RegExp.$2) : -1;
@@ -80,11 +76,7 @@ function roundcube_browser()
     this.lang = RegExp.$1;
 
   this.dhtml = ((this.ie4 && this.win) || this.ie5 || this.ie6 || this.ns4 || this.mz);
-  this.layers = this.ns4;  // (document.layers);
-  this.div = (this.ie4 || this.dom);
   this.vml = (this.win && this.ie && this.dom && !this.opera);
-  this.linkborder = (this.ie || this.mz);
-  this.rollover = (this.ver>=4 || (this.ns && this.ver>=3));  // (document.images) ? true : false;
   this.pngalpha = (this.mz || (this.opera && this.vendver>=6) || (this.ie && this.mac && this.vendver>=5) ||
                    (this.ie && this.win && this.vendver>=5.5) || this.safari);
   this.opacity = (this.mz || (this.ie && this.vendver>=5.5 && !this.opera) || (this.safari && this.vendver>=100));
