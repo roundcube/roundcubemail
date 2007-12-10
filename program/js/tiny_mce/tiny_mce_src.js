@@ -5,8 +5,8 @@ function TinyMCE_Engine() {
 	var ua;
 
 	this.majorVersion = "2";
-	this.minorVersion = "1.1.1";
-	this.releaseDate = "2007-05-14";
+	this.minorVersion = "1.3";
+	this.releaseDate = "2007-11-27";
 
 	this.instances = [];
 	this.switchClassCache = [];
@@ -205,6 +205,7 @@ TinyMCE_Engine.prototype = {
 		this._def("hide_selects_on_submit", true);
 		this._def("forced_root_block", false);
 		this._def("remove_trailing_nbsp", false);
+		this._def("save_on_tinymce_forms", false);
 
 		// Force strict loading mode to false on non Gecko browsers
 		if (this.isMSIE && !this.isOpera)
@@ -586,7 +587,7 @@ TinyMCE_Engine.prototype = {
 	},
 
 	removeMCEControl : function(editor_id) {
-		var inst = tinyMCE.getInstanceById(editor_id), h, re, ot, tn;
+		var inst = tinyMCE.getInstanceById(editor_id), h, re, ot, tn, n;
 
 		if (inst) {
 			inst.switchSettings();
@@ -598,6 +599,18 @@ TinyMCE_Engine.prototype = {
 
 			tinyMCE.selectedElement = null;
 			tinyMCE.selectedInstance = null;
+
+			tinyMCE.selectedElement = null;
+			tinyMCE.selectedInstance = null;
+
+			// Try finding an instance
+			for (n in tinyMCE.instances) {
+				if (!tinyMCE.isInstance(tinyMCE.instances[n]))
+					continue;
+
+				tinyMCE.selectedInstance = tinyMCE.instances[n];
+				break;
+			}
 
 			// Remove element
 			re = document.getElementById(editor_id + "_parent");
@@ -1069,8 +1082,8 @@ TinyMCE_Engine.prototype = {
 		// s = s.replace(new RegExp('mce_href\\s*=\\s*\"[^ >\"]*\"', 'gi'), '');
 
 		if (!s.match(/(mce_src|mce_href)/gi, s)) {
-			s = s.replace(new RegExp('src\\s*=\\s*\"([^ >\"]*)\"', 'gi'), 'src="$1" mce_src="$1"');
-			s = s.replace(new RegExp('href\\s*=\\s*\"([^ >\"]*)\"', 'gi'), 'href="$1" mce_href="$1"');
+			s = s.replace(new RegExp('src\\s*=\\s*[\"\']([^ >\"]*)[\"\']', 'gi'), 'src="$1" mce_src="$1"');
+			s = s.replace(new RegExp('href\\s*=\\s*[\"\']([^ >\"]*)[\"\']', 'gi'), 'href="$1" mce_href="$1"');
 		}
 
 		return s;
@@ -1145,18 +1158,14 @@ TinyMCE_Engine.prototype = {
 			// Workaround for drag drop/copy paste base href bug
 			case "drop":
 			case "beforepaste":
-				if (tinyMCE.selectedInstance)
+/*				if (tinyMCE.selectedInstance)
 					tinyMCE.selectedInstance.setBaseHREF(null);
 
 				// Fixes odd MSIE bug where drag/droping elements in a iframe with height 100% breaks
 				// This logic forces the width/height to be in pixels while the user is drag/dropping
+				// NOTE: This has been disabled for now since it messes up copy/paste that is far more important than image drag
 				if (tinyMCE.isRealIE) {
 					var ife = tinyMCE.selectedInstance.iframeElement;
-
-					/*if (ife.style.width.indexOf('%') != -1) {
-						ife._oldWidth = ife.width.height;
-						ife.style.width = ife.clientWidth;
-					}*/
 
 					if (ife.style.height.indexOf('%') != -1) {
 						ife._oldHeight = ife.style.height;
@@ -1165,6 +1174,7 @@ TinyMCE_Engine.prototype = {
 				}
 
 				window.setTimeout("tinyMCE.selectedInstance.setBaseHREF(tinyMCE.settings.base_href);tinyMCE._resetIframeHeight();", 1);
+				*/
 				return;
 
 			case "submit":
@@ -1523,19 +1533,22 @@ TinyMCE_Engine.prototype = {
 			f = f.form;
 
 		// Is it a form that has a TinyMCE instance
-		for (n in tinyMCE.instances) {
-			inst = tinyMCE.instances[n];
+		if (tinyMCE.getParam('save_on_tinymce_forms')) {
+			for (n in tinyMCE.instances) {
+				inst = tinyMCE.instances[n];
 
-			if (!tinyMCE.isInstance(inst))
-				continue;
+				if (!tinyMCE.isInstance(inst))
+					continue;
 
-			if (inst.formElement) {
-				if (f == inst.formElement.form) {
-					found = true;
-					inst.isNotDirty = true;
+				if (inst.formElement) {
+					if (f == inst.formElement.form) {
+						found = true;
+						inst.isNotDirty = true;
+					}
 				}
 			}
-		}
+		} else
+			found  = true;
 
 		// Is valid
 		if (found) {
@@ -1761,7 +1774,7 @@ TinyMCE_Engine.prototype = {
 	},
 
 	triggerNodeChange : function(focus, setup_content) {
-		var elm, inst, editorId, undoIndex = -1, undoLevels = -1, doc, anySelection = false, st;
+		var elm, inst, editorId, undoIndex = -1, undoLevels = -1, doc, anySelection, st;
 
 		if (tinyMCE.selectedInstance) {
 			inst = tinyMCE.selectedInstance;
@@ -1782,9 +1795,7 @@ TinyMCE_Engine.prototype = {
 				elm = inst.getBody();
 
 			inst.switchSettings();
-
-			if (tinyMCE.selectedElement)
-				anySelection = (tinyMCE.selectedElement.nodeName.toLowerCase() == "img") || (st && st.length > 0);
+			anySelection = !inst.selection.isCollapsed();
 
 			if (tinyMCE.settings.custom_undo_redo) {
 				undoIndex = inst.undoRedo.undoIndex;
@@ -1956,7 +1967,7 @@ TinyMCE_Engine.prototype = {
 				}
 
 				// Make it bigger if statusbar is forced
-				if (tinyMCE.isGecko) {
+				if (tinyMCE.isGecko && win.document) {
 					if (win.document.defaultView.statusbar.visible)
 						win.resizeBy(0, tinyMCE.isMac ? 10 : 24);
 				}
@@ -2420,8 +2431,10 @@ TinyMCE_Engine.prototype = {
 	add : function(c, m) {
 		var n;
 
-		for (n in m)
-			c.prototype[n] = m[n];
+		for (n in m) {
+			if (m.hasOwnProperty(n))
+				c.prototype[n] = m[n];
+		}
 	},
 
 	extend : function(p, np) {
@@ -2429,11 +2442,15 @@ TinyMCE_Engine.prototype = {
 
 		o.parent = p;
 
-		for (n in p)
-			o[n] = p[n];
+		for (n in p) {
+			if (p.hasOwnProperty(n))
+				o[n] = p[n];
+		}
 
-		for (n in np)
-			o[n] = np[n];
+		for (n in np) {
+			if (np.hasOwnProperty(n))
+				o[n] = np[n];
+		}
 
 		return o;
 	},
@@ -2786,7 +2803,7 @@ TinyMCE_Control.prototype = {
 			nx = ne.nextSibling;
 
 			// If text node or inline element wrap it in a block element
-			if (ne.nodeType == 3 || !tinyMCE.blockRegExp.test(ne.nodeName)) {
+			if ((ne.nodeType == 3 && ne.nodeValue.replace(/\s+/g, '') != '') || (ne.nodeType == 1 && !tinyMCE.blockRegExp.test(ne.nodeName))) {
 				if (!bm)
 					bm = this.selection.getBookmark();
 
@@ -2863,9 +2880,10 @@ TinyMCE_Control.prototype = {
 
 			switch (command) {
 				case "JustifyLeft":
-					if (align == 'left')
+					if (align == 'left') {
+						img.setAttribute('align', ''); // Needed for IE
 						img.removeAttribute('align');
-					else
+					} else
 						img.setAttribute('align', 'left');
 
 					// Remove the div
@@ -2879,6 +2897,7 @@ TinyMCE_Control.prototype = {
 					return;
 
 				case "JustifyCenter":
+					img.setAttribute('align', ''); // Needed for IE
 					img.removeAttribute('align');
 
 					// Is centered
@@ -2901,9 +2920,10 @@ TinyMCE_Control.prototype = {
 					return;
 
 				case "JustifyRight":
-					if (align == 'right')
+					if (align == 'right') {
+						img.setAttribute('align', ''); // Needed for IE
 						img.removeAttribute('align');
-					else
+					} else
 						img.setAttribute('align', 'right');
 
 					// Remove the div
@@ -2957,6 +2977,22 @@ TinyMCE_Control.prototype = {
 		switch (command) {
 			case "mceRepaint":
 				this.repaint();
+				return true;
+
+			case "JustifyLeft":
+			case "JustifyCenter":
+			case "JustifyFull":
+			case "JustifyRight":
+				var el = tinyMCE.getParentNode(focusElm, function(n) {return tinyMCE.getAttrib(n, 'align');});
+
+				if (el) {
+					el.setAttribute('align', ''); // Needed for IE
+					el.removeAttribute('align');
+				} else
+					this.getDoc().execCommand(command, user_interface, value);
+
+				tinyMCE.triggerNodeChange();
+
 				return true;
 
 			case "unlink":
@@ -3282,7 +3318,7 @@ TinyMCE_Control.prototype = {
 				value = value.charAt(0) != '#' ? (isNaN('0x' + value) ? value : '#' + value) : value;
 				this.backColor = value;
 
-				if (tinyMCE.isGecko) {
+				if (tinyMCE.isGecko || tinyMCE.isOpera) {
 					this._setUseCSS(true);
 					this.getDoc().execCommand('hilitecolor', false, value);
 					this._setUseCSS(false);
@@ -4107,10 +4143,8 @@ tinyMCE.add(TinyMCE_Engine, {
 			if (box[i] == null)
 				return;
 
-			for (a=0; a<box.length; a++) {
-				if (box[a] != box[i])
-					return;
-			}
+			if (i && box[i] != box[i-1])
+				return;
 		}
 
 		// They are all the same
@@ -4387,7 +4421,7 @@ tinyMCE.add(TinyMCE_Engine, {
 		c.settings.on_save = on_save;
 
 		c.idCount = 0;
-		c.serializationId = new Date().getTime().toString(32); // Unique ID needed for the content duplication bug
+		c.serializationId++; // Unique ID needed for the content duplication bug
 		c.serializedNodes = [];
 		c.sourceIndex = -1;
 
@@ -4519,6 +4553,7 @@ TinyMCE_Cleanup.prototype = {
 		this.nlAfterRe = this._arrayToRe(s.newline_after_elements.split(','), 'gi', '<(',  ')([^>]*)>');
 		this.nlBeforeAfterRe = this._arrayToRe(s.newline_before_after_elements.split(','), 'gi', '<(\\/?)(', ')([^>]*)>');
 		this.serializedNodes = [];
+		this.serializationId = 0;
 
 		if (s.invalid_elements !== '')
 			this.iveRe = this._arrayToRe(s.invalid_elements.toUpperCase().split(','), 'g', '^(', ')$');
@@ -6298,7 +6333,7 @@ TinyMCE_Selection.prototype = {
 		e = document.createElement("body");
 
 		if (r.cloneContents)
-			e.appendChild(r.cloneContents());
+			e.appendChild(document.importNode(r.cloneContents(), true));
 		else if (typeof(r.item) != 'undefined' || typeof(r.htmlText) != 'undefined')
 			e.innerHTML = r.item ? r.item(0).outerHTML : r.htmlText;
 		else
@@ -6971,6 +7006,7 @@ var TinyMCE_ForceParagraphs = {
 		endNode = direct ? sel.focusNode : sel.anchorNode;
 		endOffset = direct ? sel.focusOffset : sel.anchorOffset;
 
+		startNode = startNode.nodeName == "HTML" ? doc.body : startNode; // Fix for Opera bug: https://bugs.opera.com/show_bug.cgi?id=273224&comments=yes
 		startNode = startNode.nodeName == "BODY" ? startNode.firstChild : startNode;
 		endNode = endNode.nodeName == "BODY" ? endNode.firstChild : endNode;
 
