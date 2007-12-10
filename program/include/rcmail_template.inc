@@ -761,27 +761,15 @@ function rcmail_message_container($attrib)
  */
 function rcmail_current_username($attrib)
   {
-  global $DB;
+  global $USER;
   static $s_username;
 
   // alread fetched  
   if (!empty($s_username))
     return $s_username;
 
-  // get e-mail address form default identity
-  $sql_result = $DB->query(
-    "SELECT email AS mailto
-     FROM ".get_table_name('identities')."
-     WHERE  user_id=?
-     AND    standard=1
-     AND    del<>1",
-    $_SESSION['user_id']);
-                                   
-  if ($DB->num_rows($sql_result))
-    {
-    $sql_arr = $DB->fetch_assoc($sql_result);
-    $s_username = $sql_arr['mailto'];
-    }
+  if ($sql_arr = $USER->get_identity())
+    $s_username = $sql_arr['email'];
   else if (strstr($_SESSION['username'], '@'))
     $s_username = $_SESSION['username'];
   else

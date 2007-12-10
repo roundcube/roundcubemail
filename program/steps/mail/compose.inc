@@ -230,7 +230,7 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
   {
-  global $IMAP, $MESSAGE, $DB, $OUTPUT, $compose_mode;
+  global $IMAP, $MESSAGE, $DB, $USER, $OUTPUT, $compose_mode;
     
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
@@ -263,12 +263,7 @@ function rcmail_compose_header_from($attrib)
     }
 
   // get this user's identities
-  $sql_result = $DB->query("SELECT identity_id, name, email, signature, html_signature
-                            FROM   ".get_table_name('identities')."
-                            WHERE user_id=?
-                            AND    del<>1
-                            ORDER BY ".$DB->quoteIdentifier('standard')." DESC, name ASC",
-                           $_SESSION['user_id']);
+  $sql_result = $USER->list_identities();
 
   if ($DB->num_rows($sql_result))
     {
@@ -869,7 +864,7 @@ $OUTPUT->add_handlers(array(
 
 require_once('include/rcube_contacts.inc');
 
-$CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+$CONTACTS = new rcube_contacts($DB, $USER->ID);
 $CONTACTS->set_pagesize(1000);
                                    
 if ($result = $CONTACTS->list_records())

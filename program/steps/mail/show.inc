@@ -75,7 +75,10 @@ if ($_GET['_uid'])
   
   // check for unset disposition notification
   if ($MESSAGE['headers']->mdn_to && !$MESSAGE['headers']->mdn_sent)
+  {
+    rcube_add_label('mdnrequest');
     $OUTPUT->set_env('mdn_request', true);
+  }
 
   $next = $prev = -1;
   // get previous, first, next and last message UID

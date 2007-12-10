@@ -223,6 +223,16 @@ function rcube_webmail()
           this.gui_objects.folderlist = this.gui_objects.mailboxlist;
           this.http_request('getunread', '');
         }
+        
+        // ask user to send MDN
+        if (this.env.mdn_request && this.env.uid)
+        {
+          var mdnurl = '_uid='+this.env.uid+'&_mbox='+urlencode(this.env.mailbox);
+          if (confirm(this.get_label('mdnrequest')))
+            this.http_post('sendmdn', mdnurl);
+          else
+            this.http_post('mark', mdnurl+'&_flag=mdnsent');
+        }
 
         break;
 

@@ -29,6 +29,7 @@
 require_once('lib/des.inc');
 require_once('lib/utf7.inc');
 require_once('lib/utf8.class.php');
+require_once('include/rcube_user.inc');
 require_once('include/rcube_shared.inc');
 require_once('include/rcmail_template.inc');
 
@@ -48,7 +49,7 @@ define('RCUBE_INPUT_GPC', 0x0103);
 function rcmail_startup($task='mail')
   {
   global $sess_id, $sess_user_lang;
-  global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB;
+  global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB, $USER;
 
   // check client
   $BROWSER = rcube_browser();
@@ -87,6 +88,8 @@ function rcmail_startup($task='mail')
   // set session vars global
   $sess_user_lang = rcube_language_prop($_SESSION['user_lang']);
 
+  // create user object
+  $USER = new rcube_user($_SESSION['user_id']);
 
   // overwrite config with user preferences
   if (is_array($_SESSION['user_prefs']))
@@ -321,21 +324,18 @@ function rcmail_shutdown()
  */
 function rcmail_kill_session()
   {
-  // save user preferences
-  $a_user_prefs = $_SESSION['user_prefs'];
-  if (!is_array($a_user_prefs))
-    $a_user_prefs = array();
-    
+  global $USER;
+  
   if ((isset($_SESSION['sort_col']) && $_SESSION['sort_col']!=$a_user_prefs['message_sort_col']) ||
       (isset($_SESSION['sort_order']) && $_SESSION['sort_order']!=$a_user_prefs['message_sort_order']))
     {
-    $a_user_prefs['message_sort_col'] = $_SESSION['sort_col'];
-    $a_user_prefs['message_sort_order'] = $_SESSION['sort_order'];
-    rcmail_save_user_prefs($a_user_prefs);
+    $a_user_prefs = array('message_sort_col' => $_SESSION['sort_col'], 'message_sort_order' => $_SESSION['sort_order']);
+    $USER->save_prefs($a_user_prefs);
     }
 
   $_SESSION = array('user_lang' => $GLOBALS['sess_user_lang'], 'auth_time' => time(), 'temp' => true);
   setcookie('sessauth', '-del-', time()-60);
+  $USER->reset();
   }
 
 
@@ -531,7 +531,7 @@ function rcmail_autoselect_host()
  */
 function rcmail_login($user, $pass, $host=NULL)
   {
-  global $CONFIG, $IMAP, $DB, $sess_user_lang;
+  global $CONFIG, $IMAP, $DB, $USER, $sess_user_lang;
   $user_id = NULL;
   
   if (!$host)
@@ -583,58 +583,51 @@ function rcmail_login($user, $pass, $host=NULL)
 
   // try to resolve email address from virtuser table    
   if (!empty($CONFIG['virtuser_file']) && strpos($user, '@'))
-    $user = rcmail_email2user($user);
+    $user = rcube_user::email2user($user);
 
   // lowercase username if it's an e-mail address (#1484473)
   if (strpos($user, '@'))
     $user = strtolower($user);
 
   // query if user already registered
-  $sql_result = $DB->query(
-    "SELECT user_id, username, language, preferences
-     FROM ".get_table_name('users')."
-     WHERE  mail_host=? AND (username=? OR alias=?)",
-    $host,
-    $user,
-    $user);
+  if ($existing = rcube_user::query($user, $host))
+  $USER = $existing;
 
   // user already registered -> overwrite username
-  if ($sql_arr = $DB->fetch_assoc($sql_result))
+  if ($USER->ID)
     {
-    $user_id = $sql_arr['user_id'];
-    $user = $sql_arr['username'];
+    $user_id = $USER->ID;
+    $user = $USER->data['username'];
     }
 
   // exit if IMAP login failed
   if (!($imap_login  = $IMAP->connect($host, $user, $pass, $imap_port, $imap_ssl)))
-    return FALSE;
+    return false;
 
   // user already registered
-  if ($user_id && !empty($sql_arr))
+  if ($USER->ID)
     {
     // get user prefs
-    if (strlen($sql_arr['preferences']))
-      {
-      $user_prefs = unserialize($sql_arr['preferences']);
-      $_SESSION['user_prefs'] = $user_prefs;
-      array_merge($CONFIG, $user_prefs);
-      }
-
+    $_SESSION['user_prefs'] = $USER->get_prefs();
+    array_merge($CONFIG, $_SESSION['user_prefs']);
 
     // set user specific language
-    if (strlen($sql_arr['language']))
-      $sess_user_lang = $_SESSION['user_lang'] = $sql_arr['language'];
+    if (!empty($USER->data['language']))
+      $sess_user_lang = $_SESSION['user_lang'] = $USER->data['language'];
       
     // update user's record
-    $DB->query("UPDATE ".get_table_name('users')."
-                SET    last_login=".$DB->now()."
-                WHERE  user_id=?",
-                $user_id);
+    $USER->touch();
     }
   // create new system user
   else if ($CONFIG['auto_create_user'])
     {
-    $user_id = rcmail_create_user($user, $host);
+    if ($created = rcube_user::create($user, $host))
+    {
+      $USER = $created;
+      
+      // get existing mailboxes
+      $a_mailboxes = $IMAP->list_mailboxes();
+    }
     }
   else
     {
@@ -646,13 +639,13 @@ function rcmail_login($user, $pass, $host=NULL)
       ), true, false);
     }
 
-  if ($user_id)
+  if ($USER->ID)
     {
-    $_SESSION['user_id']   = $user_id;
+    $_SESSION['user_id']   = $USER->ID;
+    $_SESSION['username']  = $USER->data['username'];
     $_SESSION['imap_host'] = $host;
     $_SESSION['imap_port'] = $imap_port;
     $_SESSION['imap_ssl']  = $imap_ssl;
-    $_SESSION['username']  = $user;
     $_SESSION['user_lang'] = $sess_user_lang;
     $_SESSION['password']  = encrypt_passwd($pass);
     $_SESSION['login_time'] = mktime();
@@ -669,83 +662,6 @@ function rcmail_login($user, $pass, $host=NULL)
 
   return FALSE;
   }
-
-
-/**
- * Create new entry in users and identities table
- *
- * @param string User name
- * @param string IMAP host
- * @return mixed New user ID or False on failure
- */
-function rcmail_create_user($user, $host)
-{
-  global $DB, $CONFIG, $IMAP;
-
-  $user_email = '';
-
-  // try to resolve user in virtusertable
-  if (!empty($CONFIG['virtuser_file']) && !strpos($user, '@'))
-    $user_email = rcmail_user2email($user);
-
-  $DB->query("INSERT INTO ".get_table_name('users')."
-              (created, last_login, username, mail_host, alias, language)
-              VALUES (".$DB->now().", ".$DB->now().", ?, ?, ?, ?)",
-              strip_newlines($user),
-              strip_newlines($host),
-              strip_newlines($user_email),
-              $_SESSION['user_lang']);
-
-  if ($user_id = $DB->insert_id(get_sequence_name('users')))
-  {
-    $mail_domain = rcmail_mail_domain($host);
-   
-    if ($user_email=='')
-      $user_email = strpos($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
-
-    $user_name = $user!=$user_email ? $user : '';
-
-    // try to resolve the e-mail address from the virtuser table
-    if (!empty($CONFIG['virtuser_query']) &&
-        ($sql_result = $DB->query(preg_replace('/%u/', $DB->escapeSimple($user), $CONFIG['virtuser_query']))) &&
-        ($DB->num_rows()>0))
-    {
-      while ($sql_arr = $DB->fetch_array($sql_result))
-      {
-        $DB->query("INSERT INTO ".get_table_name('identities')."
-                   (user_id, del, standard, name, email)
-                   VALUES (?, 0, 1, ?, ?)",
-                   $user_id,
-                   strip_newlines($user_name),
-                   preg_replace('/^@/', $user . '@', $sql_arr[0]));
-      }
-    }
-    else
-    {
-      // also create new identity records
-      $DB->query("INSERT INTO ".get_table_name('identities')."
-                  (user_id, del, standard, name, email)
-                  VALUES (?, 0, 1, ?, ?)",
-                  $user_id,
-                  strip_newlines($user_name),
-                  strip_newlines($user_email));
-    }
-                       
-    // get existing mailboxes
-    $a_mailboxes = $IMAP->list_mailboxes();
-  }
-  else
-  {
-    raise_error(array(
-      'code' => 500,
-      'type' => 'php',
-      'line' => __LINE__,
-      'file' => __FILE__,
-      'message' => "Failed to create new user"), TRUE, FALSE);
-  }
-    
-  return $user_id;
-}
 
 
 /**
@@ -790,90 +706,6 @@ function rcmail_findinvirtual($pattern)
     }
 
   return $result;
-  }
-
-
-/**
- * Resolve username using a virtuser table
- *
- * @param string E-mail address to resolve
- * @return string Resolved IMAP username
- */
-function rcmail_email2user($email)
-  {
-  $user = $email;
-  $r = rcmail_findinvirtual("^$email");
-
-  for ($i=0; $i<count($r); $i++)
-    {
-    $data = $r[$i];
-    $arr = preg_split('/\s+/', $data);
-    if(count($arr)>0)
-      {
-      $user = trim($arr[count($arr)-1]);
-      break;
-      }
-    }
-
-  return $user;
-  }
-
-
-/**
- * Resolve e-mail address from virtuser table
- *
- * @param string User name
- * @return string Resolved e-mail address
- */
-function rcmail_user2email($user)
-  {
-  $email = "";
-  $r = rcmail_findinvirtual("$user$");
-
-  for ($i=0; $i<count($r); $i++)
-    {
-    $data=$r[$i];
-    $arr = preg_split('/\s+/', $data);
-    if (count($arr)>0)
-      {
-      $email = trim($arr[0]);
-      break;
-      }
-    }
-
-  return $email;
-  } 
-
-
-/**
- * Write the given user prefs to the user's record
- *
- * @param mixed User prefs to save
- * @return boolean True on success, False on failure
- */
-function rcmail_save_user_prefs($a_user_prefs)
-  {
-  global $DB, $CONFIG, $sess_user_lang;
-  
-  // merge (partial) prefs array with existing settings
-  $a_user_prefs += (array)$_SESSION['user_prefs'];
-  
-  $DB->query("UPDATE ".get_table_name('users')."
-              SET    preferences=?,
-                     language=?
-              WHERE  user_id=?",
-              serialize($a_user_prefs),
-              $sess_user_lang,
-              $_SESSION['user_id']);
-
-  if ($DB->affected_rows())
-    {
-    $_SESSION['user_prefs'] = $a_user_prefs;  
-    $CONFIG = array_merge($CONFIG, $a_user_prefs);
-    return TRUE;
-    }
-    
-  return FALSE;
   }
 
 
@@ -1513,6 +1345,26 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
 
   return $styles;
   }
+
+/**
+ * Try to autodetect operating system and find the correct line endings
+ *
+ * @return string The appropriate mail header delimiter
+ */
+function rcmail_header_delm()
+{
+  global $CONFIG;
+  
+  // use the configured delimiter for headers
+  if (!empty($CONFIG['mail_header_delimiter']))
+    return $CONFIG['mail_header_delimiter'];
+  else if (strtolower(substr(PHP_OS, 0, 3)=='win')) 
+    return "\r\n";
+  else if (strtolower(substr(PHP_OS, 0, 3)=='mac'))
+    return "\r\n";
+  else    
+    return "\n";
+}
 
 
 /**

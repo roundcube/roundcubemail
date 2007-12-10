@@ -74,5 +74,7 @@ $messages['copyerror'] = 'Could not copy any addresses';
 $messages['sourceisreadonly'] = 'This address source is read only';
 $messages['errorsavingcontact'] = 'Could not save the contact address';
 $messages['movingmessage'] = 'Moving message...';
+$messages['receiptsent'] = 'Successfully send the receipt message';
+$messages['errorsendingreceipt'] = 'Could not send the receipt';
 
 ?>

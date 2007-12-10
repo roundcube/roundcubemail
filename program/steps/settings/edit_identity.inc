@@ -21,14 +21,7 @@
 
 if (($_GET['_iid'] || $_POST['_iid']) && $_action=='edit-identity')
   {
-  $DB->query("SELECT * FROM ".get_table_name('identities')."
-              WHERE  identity_id=?
-              AND    user_id=?
-              AND    del<>1",
-              get_input_value('_iid', RCUBE_INPUT_GPC),
-              $_SESSION['user_id']);
-  
-  $IDENTITY_RECORD = $DB->fetch_assoc();
+  $IDENTITY_RECORD = $USER->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
   
   if (is_array($IDENTITY_RECORD))
     $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);

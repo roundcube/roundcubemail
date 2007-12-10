@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20071017                                                  |
+ | Version 0.1-20071210                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -41,7 +41,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.1-20071017');
+define('RCMAIL_VERSION', '0.1-20071210');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
@@ -196,7 +196,7 @@ else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send')
 
 
 // log in to imap server
-if (!empty($_SESSION['user_id']) && $_task=='mail')
+if (!empty($USER->ID) && $_task=='mail')
 {
   $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']);
   if (!$conn)
@@ -210,7 +210,7 @@ if (!empty($_SESSION['user_id']) && $_task=='mail')
 
 
 // not logged in -> set task to 'login
-if (empty($_SESSION['user_id']))
+if (empty($USER->ID))
 {
   if ($OUTPUT->ajax_call)
     $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
@@ -238,7 +238,7 @@ if (!empty($_action))
 
 
 // not logged in -> show login page
-if (!$_SESSION['user_id'])
+if (empty($USER->ID))
 {
   $OUTPUT->task = 'login';
   $OUTPUT->send('login');
@@ -273,6 +273,9 @@ if ($_task=='mail')
 
   if ($_action=='viewsource')
     include('program/steps/mail/viewsource.inc');
+
+  if ($_action=='sendmdn')
+    include('program/steps/mail/sendmdn.inc');
 
   if ($_action=='send')
     include('program/steps/mail/sendmail.inc');

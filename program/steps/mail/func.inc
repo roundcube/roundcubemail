@@ -21,6 +21,7 @@
 
 require_once('lib/html2text.inc');
 require_once('lib/enriched.inc');
+require_once('include/rcube_smtp.inc');
 
 
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
@@ -725,7 +726,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
 
       // part text/[plain|html] OR message/delivery-status
       else if (($primary_type=='text' && ($secondary_type=='plain' || $secondary_type=='html') && $mail_part->disposition!='attachment') ||
-               ($primary_type=='message' && $secondary_type=='delivery-status'))
+               ($primary_type=='message' && ($secondary_type=='delivery-status' || $secondary_type=='disposition-notification')))
         {
         $mail_part->type = 'content';
         $a_return_parts[] = $mail_part;
@@ -758,7 +759,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
         else
           {
           if (!$mail_part->filename)
-            $mail_part->filename = 'file_'.$mail_part->mime_id;
+            $mail_part->filename = 'Part '.$mail_part->mime_id;
           $a_attachments[] = $mail_part;
           }
         }
@@ -1250,6 +1251,67 @@ function rcmail_compose_cleanup()
   
   unset($_SESSION['compose']);
   }
+  
+
+/**
+ * Send the given message compose object using the configured method
+ */
+function rcmail_deliver_message(&$message, $from, $mailto)
+{
+  global $CONFIG;
+
+  $headers = $message->headers();
+  $msg_body = $message->get();
+  
+  // send thru SMTP server using custom SMTP library
+  if ($CONFIG['smtp_server'])
+    {
+    // generate list of recipients
+    $a_recipients = array($mailto);
+  
+    if (strlen($headers['Cc']))
+      $a_recipients[] = $headers['Cc'];
+    if (strlen($headers['Bcc']))
+      $a_recipients[] = $headers['Bcc'];
+  
+    // clean Bcc from header for recipients
+    $send_headers = $headers;
+    unset($send_headers['Bcc']);
+
+    // send message
+    $smtp_response = array();
+    $sent = smtp_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers)), $msg_body, $smtp_response);
+
+    // log error
+    if (!$sent)
+      raise_error(array('code' => 800, 'type' => 'smtp', 'line' => __LINE__, 'file' => __FILE__,
+                        'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
+    }
+  
+  // send mail using PHP's mail() function
+  else
+    {
+    // unset some headers because they will be added by the mail() function
+    $headers_enc = $message->headers($headers);
+    $headers_php = $message->_headers;
+    unset($headers_php['To'], $headers_php['Subject']);
+    
+    // reset stored headers and overwrite
+    $message->_headers = array();
+    $header_str = $message->txtHeaders($headers_php);
+  
+    if (ini_get('safe_mode'))
+      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
+    else
+      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
+    }
+  
+  
+  $message->_headers = array();
+  $message->headers($headers);
+  
+  return $sent;
+}
 
 
 // register UI objects

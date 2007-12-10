@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/12/10 (thomasb)
+----------
+- Delegate user-stuff to new class rcube_user
+- Implement Message-Disposition-Notification (Receipts)
+
 2007/12/05 (tomekp)
 ----------
 - update bg, uk localization

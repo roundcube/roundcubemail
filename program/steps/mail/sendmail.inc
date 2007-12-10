@@ -22,7 +22,6 @@
 
 
 //require_once('lib/smtp.inc');
-require_once('include/rcube_smtp.inc');
 require_once('lib/html2text.inc');
 require_once('lib/rc_mail_mime.inc');
 
@@ -37,26 +36,19 @@ if (!isset($_SESSION['compose']['id']))
 /****** message sending functions ********/
 
 
+// get identity record
 function rcmail_get_identity($id)
   {
-  global $DB, $OUTPUT;
+  global $USER, $OUTPUT;
   
-  // get identity record
-  $sql_result = $DB->query("SELECT *, email AS mailto
-                            FROM ".get_table_name('identities')."
-                            WHERE  identity_id=?
-                            AND    user_id=?
-                            AND    del<>1",
-                            $id,$_SESSION['user_id']);
-                                   
-  if ($DB->num_rows($sql_result))
+  if ($sql_arr = $USER->get_identity($id))
     {
-    $sql_arr = $DB->fetch_assoc($sql_result);
     $out = $sql_arr;
+    $out['mailto'] = $sql_arr['email'];
     $name = strpos($sql_arr['name'], ",") ? '"'.$sql_arr['name'].'"' : $sql_arr['name'];
     $out['string'] = sprintf('%s <%s>',
                              rcube_charset_convert($name, RCMAIL_CHARSET, $OUTPUT->get_charset()),
-                             $sql_arr['mailto']);
+                             $sql_arr['email']);
     return $out;
     }
 
@@ -166,7 +158,7 @@ if (empty($identity_arr['string']))
   $identity_arr['string'] = $from;
 
 // compose headers array
-$headers = array('Date' => date('D, j M Y H:i:s O'),
+$headers = array('Date' => date('r'),
                  'From' => rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset),
                  'To'   => $mailto);
 
@@ -225,23 +217,11 @@ $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_cha
 if (!$savedraft && !empty($CONFIG['generic_message_footer']) && ($footer = file_get_contents(realpath($CONFIG['generic_message_footer']))))
   $message_body .= "\r\n" . rcube_charset_convert($footer, 'UTF-8', $message_charset);
 
-// try to autodetect operating system and use the correct line endings
-// use the configured delimiter for headers
-if (!empty($CONFIG['mail_header_delimiter']))
-  $header_delm = $CONFIG['mail_header_delimiter'];
-else if (strtolower(substr(PHP_OS, 0, 3)=='win')) 
-  $header_delm = "\r\n";
-else if (strtolower(substr(PHP_OS, 0, 3)=='mac'))
-  $header_delm = "\r\n";
-else    
-  $header_delm = "\n";
-
-
 $isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
 $isHtml = ($isHtmlVal == "1");
 
 // create extended PEAR::Mail_mime instance
-$MAIL_MIME = new rc_mail_mime($header_delm);
+$MAIL_MIME = new rc_mail_mime(rcmail_header_delm());
 
 // For HTML-formatted messages, construct the MIME message with both
 // the HTML part and the plain-text part
@@ -282,80 +262,30 @@ $charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8
 $transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 // encoding settings for mail composing
-$message_param = array(
+$MAIL_MIME->setParam(array(
   'text_encoding' => $transfer_encoding,
   'html_encoding' => 'quoted-printable',
   'head_encoding' => 'quoted-printable',
   'head_charset'  => $message_charset,
   'html_charset'  => $message_charset,
   'text_charset'  => $message_charset,
-);
-
-// compose message body and get headers
-$msg_body = $MAIL_MIME->get($message_param);
-// unset to save memory.
-unset($MAIL_MIME->_parts);
+));
 
 // encoding subject header with mb_encode provides better results with asian characters
 if ($MBSTRING && function_exists("mb_encode_mimeheader"))
 {
   mb_internal_encoding($message_charset);
-  $mb_subject = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
+  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
   mb_internal_encoding(RCMAIL_CHARSET);
 }
 
-// Begin SMTP Delivery Block 
-if (!$savedraft) {
+// pass headers to message object
+$MAIL_MIME->headers($headers);
 
-  // send thru SMTP server using custom SMTP library
-  if ($CONFIG['smtp_server'])
-    {
-    // generate list of recipients
-    $a_recipients = array($mailto);
-  
-    if (strlen($headers['Cc']))
-      $a_recipients[] = $headers['Cc'];
-    if (strlen($headers['Bcc']))
-      $a_recipients[] = $headers['Bcc'];
-  
-    // clean Bcc from header for recipients
-    $send_headers = $headers;
-    unset($send_headers['Bcc']);
-  
-    if (!empty($mb_subject))
-      $send_headers['Subject'] = $mb_subject;
-  
-    // send message
-    $smtp_response = array();
-    $sent = smtp_mail($from, $a_recipients, ($foo = $MAIL_MIME->txtHeaders($send_headers)), $msg_body, $smtp_response);
-  
-    // log error
-    if (!$sent)
-      raise_error(array('code' => 800, 'type' => 'smtp', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
-    }
-  
-  // send mail using PHP's mail() function
-  else
-    {
-    // unset some headers because they will be added by the mail() function
-    $headers_enc = $MAIL_MIME->headers($headers);
-    $headers_php = $MAIL_MIME->_headers;
-    unset($headers_php['To'], $headers_php['Subject']);
-    
-    if (!empty($mb_subject))
-      $headers_enc['Subject'] = $mb_subject;
-    
-    // reset stored headers and overwrite
-    $MAIL_MIME->_headers = array();
-    $header_str = $MAIL_MIME->txtHeaders($headers_php);
-  
-    if (ini_get('safe_mode'))
-      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
-    else
-      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
-    }
-  
+// Begin SMTP Delivery Block 
+if (!$savedraft)
+{
+  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto);
   
   // return to compose page if sending failed
   if (!$sent)
@@ -364,7 +294,6 @@ if (!$savedraft) {
     $OUTPUT->send('iframe');
     return;
     }
-  
   
   // set repliead flag
   if ($_SESSION['compose']['reply_uid'])
@@ -382,21 +311,15 @@ else
 
 if ($CONFIG[$store_target])
   {
-  // create string of complete message headers
-  $header_str = $MAIL_MIME->txtHeaders($headers);
-
   // check if mailbox exists
   if (!in_array_nocase($CONFIG[$store_target], $IMAP->list_mailboxes()))
     $store_folder = $IMAP->create_mailbox($CONFIG[$store_target], TRUE);
   else
     $store_folder = TRUE;
   
-  // add headers to message body
-  $msg_body = $header_str."\r\n".$msg_body;
-
   // append message to sent box
   if ($store_folder)
-    $saved = $IMAP->save_message($CONFIG[$store_target], $msg_body);
+    $saved = $IMAP->save_message($CONFIG[$store_target], $MAIL_MIME->getMessage());
 
   // raise error if saving failed
   if (!$saved)

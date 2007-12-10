@@ -632,16 +632,20 @@ table.headers-table tr td.subject
 {
   position:relative;
   min-height: 300px;
-  padding-top: 10px;
   padding-bottom: 10px;
   background-color: #FFFFFF;
 }
 
 div.message-part
 {
-  padding: 8px;
-  padding-top: 10px;
-  overflow: hidden;
+  padding: 10px 8px;
+  border-top: 1px solid #ccc;
+/*  overflow: hidden; */
+}
+
+#messagebody div:first-child
+{
+  border-top: 0;
 }
 
 div.message-part a

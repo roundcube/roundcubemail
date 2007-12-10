@@ -44,15 +44,12 @@ if (isset($_POST['_language']))
 
 // force min size
 if ($a_user_prefs['pagesize'] < 1)
-  {
   $a_user_prefs['pagesize'] = 10;
-  }
-if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['pagesize'] > $CONFIG['max_pagesize']))
-  {
-  $a_user_prefs['pagesize'] = (int) $CONFIG['max_pagesize'];
-  }
 
-if (rcmail_save_user_prefs($a_user_prefs))
+if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['pagesize'] > $CONFIG['max_pagesize']))
+  $a_user_prefs['pagesize'] = (int) $CONFIG['max_pagesize'];
+
+if ($USER->save_prefs($a_user_prefs))
   $OUTPUT->show_message('successfullysaved', 'confirmation');
 
 

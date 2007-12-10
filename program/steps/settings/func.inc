@@ -20,15 +20,8 @@
 */
 
 
-// get user record
-$sql_result = $DB->query("SELECT username, mail_host FROM ".get_table_name('users')."
-                          WHERE  user_id=?",
-                          $_SESSION['user_id']);
-                                 
-if ($USER_DATA = $DB->fetch_assoc($sql_result))
-{
-  $OUTPUT->set_pagetitle(rcube_label('settingsfor') . " ". $USER_DATA['username'] . (!strpos($USER_DATA['username'], '@') ? '@'.$USER_DATA['mail_host'] : ''));
-}
+if ($USER->ID)
+  $OUTPUT->set_pagetitle(rcube_label('settingsfor') . " ". $USER->get_username());
 
 
 
@@ -204,16 +197,7 @@ function rcmail_user_prefs_form($attrib)
 
 function rcmail_identities_list($attrib)
   {
-  global $DB, $CONFIG, $OUTPUT;
-
-
-  // get contacts from DB
-  $sql_result = $DB->query("SELECT * FROM ".get_table_name('identities')."
-                            WHERE  del<>1
-                            AND    user_id=?
-                            ORDER BY standard DESC, name ASC",
-                            $_SESSION['user_id']);
-
+  global $OUTPUT, $USER;
 
   // add id to message list table if not specified
   if (!strlen($attrib['id']))
@@ -223,7 +207,7 @@ function rcmail_identities_list($attrib)
   $a_show_cols = array('name', 'email', 'organization', 'reply-to');
 
   // create XHTML table  
-  $out = rcube_table_output($attrib, $sql_result, $a_show_cols, 'identity_id');
+  $out = rcube_table_output($attrib, $USER->list_identities(), $a_show_cols, 'identity_id');
   
   // set client env
   $OUTPUT->add_gui_object('identitieslist', $attrib['id']);

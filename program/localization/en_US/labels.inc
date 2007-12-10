@@ -160,6 +160,11 @@ $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
 
+// mdn
+$labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
+$labels['receiptread'] = 'Return Receipt (read)';
+$labels['yourmessage'] = 'This is a Return Receipt for your message';
+$labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
 
 // address boook
 $labels['name']      = 'Display name';

@@ -1255,6 +1255,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 			$result[$id]=new iilBasicHeader;
 			$result[$id]->id = $id;
 			$result[$id]->subject = "";
+			$result[$id]->messageID = "mid:".$id;
 			/*
 				Start parsing headers.  The problem is, some header "lines" take up multiple lines.
 				So, we'll read ahead, and if the one we're reading now is a valid header, we'll
@@ -1293,38 +1294,63 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false){
 			}
 
 			//	create array with header field:data
-			$headers = array();
 			while ( list($lines_key, $str) = each($lines) ){
 				list($field, $string) = iil_SplitHeaderLine($str);
 				$field = strtolower($field);
-				$headers[$field] = $string;
+				
+				switch ($field){
+					case 'date';
+						$result[$id]->date = $string;
+						$result[$id]->timestamp = iil_StrToTime($string);
+						break;
+					case 'from':
+						$result[$id]->from = $string;
+						break;
+					case 'to':
+						$result[$id]->to = str_replace("\n", " ", $string);
+						break;
+					case 'subject':
+						$result[$id]->subject = str_replace("\n", "", $string);
+						break;
+					case 'reply-to':
+						$result[$id]->replyto = str_replace("\n", " ", $string);
+						break;
+					case 'cc':
+						$result[$id]->cc = str_replace("\n", " ", $string);
+						break;
+					case 'bcc':
+						$result[$id]->bcc = str_replace("\n", " ", $string);
+						break;
+					case 'content-transfer-encoding':
+						$result[$id]->encoding = str_replace("\n", " ", $string);
+						break;
+					case 'content-type':
+					 	$ctype_parts = explode(";", $string);
+						$result[$id]->ctype = array_shift($ctype_parts);
+						foreach ($ctype_parts as $ctype_add)
+							if (preg_match('/charset="?([a-z0-9\-]+)"?/i', $ctype_add, $regs))
+								$result[$id]->charset = $regs[1];
+						break;
+					case 'in-reply-to':
+						$result[$id]->in_reply_to = ereg_replace("[\n<>]", '', $string);
+						break;
+					case 'references':
+						$result[$id]->references = $string;
+						break;
+						case 'return-receipt-to':
+						case 'disposition-notification-to':
+						case 'x-confirm-reading-to':
+							$result[$id]->mdn_to = str_replace("\n", " ", $string);
+							break;
+					case 'message-id':
+						$result[$id]->messageID = $string;
+						break;
+				}
 			}
-			$result[$id]->date = $headers["date"];
-			$result[$id]->timestamp = iil_StrToTime($headers["date"]);
-			$result[$id]->from = $headers["from"];
-			$result[$id]->to = str_replace("\n", " ", $headers["to"]);
-			$result[$id]->subject = str_replace("\n", "", $headers["subject"]);
-			$result[$id]->replyto = str_replace("\n", " ", $headers["reply-to"]);
-			$result[$id]->cc = str_replace("\n", " ", $headers["cc"]);
-			$result[$id]->bcc = str_replace("\n", " ", $headers["bcc"]);
-			$result[$id]->encoding = str_replace("\n", " ", $headers["content-transfer-encoding"]);
-			$result[$id]->ctype = str_replace("\n", " ", $headers["content-type"]);
-			$result[$id]->in_reply_to = ereg_replace("[\n<>]",'', $headers['in-reply-to']);
-			$result[$id]->references = $headers["references"];
-			$result[$id]->mdn_to = $headers["disposition-notification-to"];
-			
-			list($result[$id]->ctype, $ctype_add) = explode(";", $headers["content-type"]);
-
-			if (preg_match('/charset="?([a-z0-9\-]+)"?/i', $ctype_add, $regs))
-				$result[$id]->charset = $regs[1];
-
-			$messageID = $headers["message-id"];
-			if (!$messageID) "mid:".$id;
-			$result[$id]->messageID = $messageID;
-			}
-            else {
-            $a=explode(" ", $line);
-            } 
+		}
+		else {
+			$a=explode(" ", $line);
+		}
 			
 		}
 	}while(strcmp($a[0], $key)!=0);

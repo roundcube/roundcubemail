@@ -21,15 +21,8 @@
 
 if (($ids = get_input_value('_iid', RCUBE_INPUT_GET)) && preg_match('/^[0-9]+(,[0-9]+)*$/', $ids))
 {
-  $DB->query(
-    "UPDATE ".get_table_name('identities')."
-     SET    del=1
-     WHERE  user_id=?
-     AND    identity_id IN (".$ids.")",
-    $_SESSION['user_id']);
 
-  $count = $DB->affected_rows();
-  if ($count)
+  if ($USER->delete_identity($ids))
     $OUTPUT->show_message('deletedsuccessfully', 'confirmation');
 
   // send response

@@ -25,6 +25,14 @@ require_once('Mail/mime.php');
 
 class rc_mail_mime extends Mail_mime
 {
+  /**
+   * Set build parameters
+   */
+  function setParam($param)
+  {
+    if (is_array($param))
+      $this->_build_params = array_merge($this->_build_params, $param);
+  }
   
   /**
    * Adds an image to the list of embedded images.
@@ -63,7 +71,7 @@ class rc_mail_mime extends Mail_mime
 
     return true;
   }
-
+  
   
   /**
   * returns the HTML body portion of the message
@@ -73,6 +81,22 @@ class rc_mail_mime extends Mail_mime
   function getHTMLBody()
   {
      return $this->_htmlbody;
+  }
+  
+  
+  /**
+   * Creates a new mimePart object, using multipart/mixed as
+   * the initial content-type and returns it during the
+   * build process.
+   *
+   * @return object  The multipart/mixed mimePart object
+   * @access private
+   */
+  function &_addMixedPart()
+  {
+    $params['content_type'] = $this->_headers['Content-Type'] ? $this->_headers['Content-Type'] : 'multipart/mixed';
+    $ret = new Mail_mimePart('', $params);
+    return $ret;
   }
   
   
@@ -138,7 +162,7 @@ class rc_mail_mime extends Mail_mime
 
         // add chunk to output string by regarding the header maxlen
         $len = strlen($value);
-        if ($line_len + $len < $maxlen)
+        if ($i == 0 || $line_len + $len < $maxlen)
         {
           $hdr_value .= ($i>0?', ':'') . $value;
           $line_len += $len + ($i>0?2:0);
