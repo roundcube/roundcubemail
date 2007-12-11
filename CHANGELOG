@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2007/12/10 (estadtherr)
 ----------
 - Upgrade to TinyMCE 2.1.3
+- Allow inserting image attachments into HTML messages while composing 
 
 2007/12/10 (thomasb)
 ----------

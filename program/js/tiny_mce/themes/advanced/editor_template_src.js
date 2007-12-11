@@ -1420,7 +1420,7 @@ var TinyMCE_AdvancedTheme = {
 
 	_insertImage : function(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout) {
 		tinyMCE.execCommand("mceInsertContent", false, tinyMCE.createTagHTML('img', {
-			src : tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src), // Force absolute
+			src : tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings.base_href, src), // Force absolute
 			mce_src : src,
 			alt : alt,
 			border : border,

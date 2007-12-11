@@ -248,8 +248,21 @@ else
 
 // add stored attachments, if any
 if (is_array($_SESSION['compose']['attachments']))
-  foreach ($_SESSION['compose']['attachments'] as $attachment)
-    $MAIL_MIME->addAttachment($attachment['path'], $attachment['mimetype'], $attachment['name'], true, 'base64', 'attachment', $message_charset);
+  foreach ($_SESSION['compose']['attachments'] as $id => $attachment)
+  {
+    $dispurl = '/\ssrc\s*=\s*[\'"]?\S+display-attachment\S+file=rcmfile' . $id . '[\'"]?/';
+    $match = preg_match($dispurl, $message_body);
+    if ($isHtml && ($match > 0))
+    {
+      $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'"', $message_body);
+      $MAIL_MIME->setHTMLBody($message_body);
+      $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name']);
+    }
+    else
+    {
+      $MAIL_MIME->addAttachment($attachment['path'], $attachment['mimetype'], $attachment['name'], true, 'base64', 'attachment', $message_charset);
+    }
+  }
 
 // add submitted attachments
 if (is_array($_FILES['_attachments']['tmp_name']))
@@ -381,6 +394,5 @@ else
   $OUTPUT->command('sent_successfully', rcube_label('messagesent'));
   $OUTPUT->send('iframe');
   }
-
 
 ?>

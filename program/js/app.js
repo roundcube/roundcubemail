@@ -830,7 +830,7 @@ function rcube_webmail()
 
         if (!this.check_compose_input())
           break;
-          
+
         // Reset the auto-save timer
         self.clearTimeout(this.save_timer);
 
@@ -1884,7 +1884,6 @@ function rcube_webmail()
   // upload attachment file
   this.upload_file = function(form)
     {
-    
     if (!form)
       return false;
       
