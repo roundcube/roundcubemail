@@ -74,5 +74,6 @@ $messages['copyerror'] = 'Ühegi aadressi kopeerimine ei õnnestunud ';
 $messages['sourceisreadonly'] = 'Aadressi asukohas puuduvad kirjutusõigused';
 $messages['errorsavingcontact'] = 'Kontakti aadressi salvestamine ebaõnnestus';
 $messages['movingmessage'] = 'Kirja liigutamine...';
-
+$messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
+$messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
 ?>
