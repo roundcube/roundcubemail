@@ -43,7 +43,7 @@ if ($_GET['_uid'])
     }
 
   // calculate Etag for this request
-  $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().($PRINT_MODE?1:0));
+  $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().intval($MESSAGE['headers']->mdn_sent).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
   if ((bool)get_input_value('_safe', RCUBE_INPUT_GET))
