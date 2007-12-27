@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2007/12/27 (tomekp)
+----------
+- update se localization
+
 2007/12/13 (robin)
 ----------
 - Add Received header on outgoing mail

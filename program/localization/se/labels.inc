@@ -11,7 +11,8 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Fredrik Nygren <f.nygren@gmail.com>                           |
- |         Andreas Henriksson <andreas@fatal.se>                         |
+ |         Andreas Henriksson <andreas@fatal.se>						 |
+ |		   Jonas Näsholm <hostmaster@bitfuse.net>                        |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -25,7 +26,7 @@ $labels['password'] = 'Lösenord';
 $labels['server'] = 'Server';
 $labels['login'] = 'Logga in';
 $labels['logout'] = 'Logga ut';
-$labels['mail'] = 'E-post';
+$labels['mail'] = 'Meddelanden';
 $labels['settings'] = 'Personliga inställningar';
 $labels['addressbook'] = 'Adressbok';
 $labels['inbox'] = 'Inkorg';
@@ -45,7 +46,7 @@ $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organisation';
 $labels['reply-to'] = 'Svara till';
 $labels['mailboxlist'] = 'Mappar';
-$labels['messagesfromto'] = 'Meddelanden $from till $to av $count';
+$labels['messagesfromto'] = 'Meddelande $from till $to av $count';
 $labels['messagenrof'] = 'Meddelande $nr av $count';
 $labels['moveto'] = 'flytta till...';
 $labels['download'] = 'ladda ner';
@@ -70,12 +71,13 @@ $labels['thursday'] = 'Torsdag';
 $labels['friday'] = 'Fredag';
 $labels['saturday'] = 'Lördag';
 $labels['today'] = 'Idag';
-$labels['checkmail'] = 'Hämta ny e-post';
+$labels['checkmail'] = 'Hämta nya meddelanden';
 $labels['writenewmessage'] = 'Skapa nytt meddelande';
-$labels['replytomessage'] = 'Svar på meddelande';
-$labels['replytoallmessage'] = 'Svar till avsändare och alla mottagare';
+$labels['replytomessage'] = 'Svara avsändaren';
+$labels['replytoallmessage'] = 'Svara avsändaren och alla mottagare';
 $labels['forwardmessage'] = 'Vidarebefordra meddelande';
-$labels['deletemessage'] = 'Flytta meddelande till papperskorgen';
+$labels['deletemessage'] = 'Radera meddelande';
+$labels['movemessagetotrash'] = 'Flytta meddelande till papperskorgen';
 $labels['printmessage'] = 'Skriv ut';
 $labels['previousmessage'] = 'Visa föregående meddelande';
 $labels['previousmessages'] = 'Visa tidigare grupp av meddelanden';
@@ -90,9 +92,9 @@ $labels['viewsource'] = 'Visa källa';
 $labels['select'] = 'Välj';
 $labels['all'] = 'Alla';
 $labels['none'] = 'Ingen';
-$labels['unread'] = 'Oläst';
+$labels['unread'] = 'Olästa';
 $labels['compact'] = 'Packa';
-$labels['empty'] = 'Tom';
+$labels['empty'] = 'Töm';
 $labels['purge'] = 'Rensa';
 $labels['quota'] = 'Diskutrymme';
 $labels['unknown'] = 'okänd';
@@ -100,9 +102,9 @@ $labels['unlimited'] = 'obegränsad';
 $labels['quicksearch'] = 'Snabbsök';
 $labels['resetsearch'] = 'Återställ sökning';
 $labels['compose'] = 'Skapa nytt meddelande';
-$labels['sendmessage'] = 'Skicka meddelande nu';
+$labels['sendmessage'] = 'Skicka meddelande';
 $labels['savemessage'] = 'Spara utkast';
-$labels['addattachment'] = 'Bifoga en fil';
+$labels['addattachment'] = 'Bifoga fil';
 $labels['charset'] = 'Teckenkodning';
 $labels['editortype'] = 'Typ av redigerare';
 $labels['returnreceipt'] = 'Mottagarkvitto';
@@ -110,7 +112,7 @@ $labels['checkspelling'] = 'Kontrollera stavning';
 $labels['resumeediting'] = 'Återuppta redigering';
 $labels['revertto'] = 'Återgå till';
 $labels['attachments'] = 'Bilagor';
-$labels['upload'] = 'Uppladdning';
+$labels['upload'] = 'Bifoga';
 $labels['close'] = 'Stäng';
 $labels['low'] = 'Låg';
 $labels['lowest'] = 'Lägst';
@@ -121,10 +123,13 @@ $labels['nosubject'] = '(inget ämne)';
 $labels['showimages'] = 'Visa bilder';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Oformaterad text';
+$labels['addcc'] = 'Kopia';
+$labels['addbcc'] = 'Hemlig kopia';
+$labels['addreplyto'] = 'Svara till';
 $labels['name'] = 'Visa namn';
 $labels['firstname'] = 'Förnamn';
 $labels['surname'] = 'Efternamn';
-$labels['email'] = 'E-post';
+$labels['email'] = 'Meddelande';
 $labels['addcontact'] = 'Lägg till ny kontakt';
 $labels['editcontact'] = 'Redigera kontakt';
 $labels['edit'] = 'Redigera';
@@ -133,7 +138,7 @@ $labels['save'] = 'Spara';
 $labels['delete'] = 'Radera';
 $labels['newcontact'] = 'Skapa nytt kontaktkort';
 $labels['deletecontact'] = 'Radera valda kontakter';
-$labels['composeto'] = 'Skriv e-post till';
+$labels['composeto'] = 'Skriv meddelande till';
 $labels['contactsfromto'] = 'Kontakter $from till $to av $count';
 $labels['print'] = 'Skriv ut';
 $labels['export'] = 'Exportera';
