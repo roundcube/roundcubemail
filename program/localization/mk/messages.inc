@@ -70,5 +70,8 @@ $messages['copysuccess'] = 'Успешно се копирани $nr имиња'
 $messages['copyerror'] = 'Неможе да се копираат адресите';
 $messages['sourceisreadonly'] = 'Изворот на оваа адреса неможе да се промени';
 $messages['errorsavingcontact'] = 'Името неможе да се сними';
+$messages['movingmessage'] = 'Пораката се преместува...';
+$messages['receiptsent'] = 'Известувањето е успешно пратено';
+$messages['errorsendingreceipt'] = 'Известувањето не е пратено';
 
 ?>
