@@ -76,5 +76,7 @@ $messages['copyerror'] = 'No se pudo copiar ninguna dirección';
 $messages['sourceisreadonly'] = 'Esta dirección es de sólo-lectura';
 $messages['errorsavingcontact'] = 'No se pudo guardar la dirección de contacto';
 $messages['movingmessage'] = 'Moviendo mensaje...';
+$messages['receiptsent'] = 'La notificación de lectura se ha enviado con éxito.';
+$messages['errorsendingreceipt'] = 'No se ha podido enviar la notificación de lectura.';
 
 ?>
