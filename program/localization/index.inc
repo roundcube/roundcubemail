@@ -5,7 +5,7 @@
  | program/localization/index.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -17,8 +17,8 @@
  +-----------------------------------------------------------------------+
 
  $Id$
- 
- */
+
+*/
  
  $rcube_languages = array(
 	'en_US' => 'English (US)',
@@ -50,7 +50,6 @@
 	'it'    => 'Italiano',
 	'ja'    => 'Japanese (日本語)',
 	'kr'    => 'Korean',
-	'kur_KU' => 'Kurdish (Kurmancî)',
 	'lv'    => 'Latvian',
 	'lt'    => 'Lithuanian',
 	'mk'    => 'Macedonian (Slavic FYROM)',
@@ -93,6 +92,5 @@ $rcube_language_aliases = array(
 );
 
 $rcube_charsets = array();
-
 
 ?>
