@@ -21,7 +21,6 @@
 
 $messages = array();
 $messages['loginfailed'] = 'Неудачная попытка входа';
-$messages['movingmessage'] = 'Перемещение сообщения…';
 $messages['cookiesdisabled'] = 'Ваш броузер не принимает cookie';
 $messages['sessionerror'] = 'Ваша сессия устарела';
 $messages['imaperror'] = 'Неудачное соединение с IMAP сервером';
@@ -76,5 +75,8 @@ $messages['copysuccess'] = 'Скопировано $nr адресов';
 $messages['copyerror'] = 'Невозможно скопировать адреса';
 $messages['sourceisreadonly'] = 'Данный источник адресов только для чтения';
 $messages['errorsavingcontact'] = 'Невозможно сохранить адрес контакта';
+$messages['movingmessage'] = 'Перемещение сообщения…';
+$messages['receiptsent'] = 'Уведомление о прочтении отправлено';
+$messages['errorsendingreceipt'] = 'Уведомление о прочтении не отправлено';
 
 ?>
