@@ -6,7 +6,7 @@
  | language/hu/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -76,6 +76,7 @@ $labels['replytomessage'] = 'Válasz';
 $labels['replytoallmessage'] = 'Válasz a feladónak és az összes címzettnek';
 $labels['forwardmessage'] = 'Továbbítás';
 $labels['deletemessage'] = 'Törlés';
+$labels['movemessagetotrash'] = 'Üzenet törlése';
 $labels['printmessage'] = 'Nyomtatás';
 $labels['previousmessage'] = 'Előző levél mutatása';
 $labels['previousmessages'] = 'Előző rész mutatása';
@@ -100,8 +101,8 @@ $labels['unlimited'] = 'korlátlan';
 $labels['quicksearch'] = 'Gyorskeresés';
 $labels['resetsearch'] = 'Alapállapot';
 $labels['compose'] = 'Üzenet létrehozása';
-$labels['sendmessage'] = 'Üzenet azonnali küldése';
 $labels['savemessage'] = 'Vázlat mentése';
+$labels['sendmessage'] = 'Üzenet azonnali küldése';
 $labels['addattachment'] = 'File csatolása';
 $labels['charset'] = 'Karakterkészlet';
 $labels['editortype'] = 'Szerkesztő típusa';
@@ -121,6 +122,13 @@ $labels['nosubject'] = '(nincs tárgy)';
 $labels['showimages'] = 'Képek megjelenítése';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Egyszerű szöveg';
+$labels['addcc'] = 'Cc (Másolati cím) hozzáadása';
+$labels['addbcc'] = 'Bcc (Titkos másolati cím) hozzáadása';
+$labels['addreplyto'] = 'Válaszcím hozzáadása';
+$labels['mdnrequest'] = 'Az üzenet küldője értesítést kér arról hogy elolvastad a levelet. Elküdjük az Olvasási Értesítést?';
+$labels['receiptread'] = 'Olvasási Értesítés (olvasott)';
+$labels['yourmessage'] = 'Ez az üzeneted Olvasási Értesítése';
+$labels['receiptnote'] = 'Megjegyzés: Ez az Olvasási Értesítés csak azt igazolja, hogy az üzenet megjelenítésre került a címzett számítógépén. Nincs rá garancia, hogy a címzett elolvasta volna az üzenetet illetve megértette volna annak tartalmát.';
 $labels['name'] = 'Megjelenített név';
 $labels['firstname'] = 'Keresztnév';
 $labels['surname'] = 'Vezetéknév';

@@ -5,12 +5,14 @@
  | language/mk/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2007, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author:  Ivan Mishev - mishevivan@gmail.com                           |
  +-----------------------------------------------------------------------+
+
+ @version $Id$
 
 */
 

@@ -5,14 +5,15 @@
  | localization/hi/labels.inc                                            |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2007, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Hindi Translation by:                                                 |
- | Aniruddha "Karim" Shankar <hoipolloi@gmail.com>, <karim@sarai.net>    |
- | RoundCubeAuthor: Thomas Bruederli <roundcube@gmail.com>               |
+ | Author: Aniruddha "Karim" Shankar <karim@sarai.net>                   |
  +-----------------------------------------------------------------------+
+
+ @version $Id$
+
 */
 
 $labels = array();

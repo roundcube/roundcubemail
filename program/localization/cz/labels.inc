@@ -6,8 +6,8 @@
  | language/cz/labels.inc                                                |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
- | All rights reserved.                                                  |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Martin Mrajca <martin@moonlake.cz>                            |

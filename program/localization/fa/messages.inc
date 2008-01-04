@@ -5,14 +5,15 @@
  | language/fa/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2006, RoundQube Dev. - Switzerland                      |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Translators:                                                          |
- |     Anoosh <anoosher2003@yahoo.com>                                   |
- |     Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>             |
+ | Author: Anoosh <anoosher2003@yahoo.com>                               |
+ |         Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
  +-----------------------------------------------------------------------+
+
+ @version $Id$
 
 */
 

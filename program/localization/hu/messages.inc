@@ -6,11 +6,11 @@
  | language/hu/messages.inc                                              |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Levente Farkas <lfarkas at lfarkas dot org>                    |
+ | Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
  |         Ervin Hegedüs <airween@damson.hu>                             |
  +-----------------------------------------------------------------------+
 
@@ -74,5 +74,8 @@ $messages['copysuccess'] = 'Sikeresen másoltunk $nr címet';
 $messages['copyerror'] = 'Nem tudtunk másolni egyetlen címet sem';
 $messages['sourceisreadonly'] = 'Ez a címforrás csak olvasható';
 $messages['errorsavingcontact'] = 'Nem tudtuk menteni a kapcsolat címét';
+$messages['movingmessage'] = 'Üzenet mozgatása...';
+$messages['receiptsent'] = 'Az Olvasási Értesítést elküldtük';
+$messages['errorsendingreceipt'] = 'Az Olvasási Értesítést nem sikerült elküldeni';
 
 ?>
