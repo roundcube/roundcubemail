@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Stephan Diehl <info@sd-edv.de>                                |
+ | Author: Stephan Diehl <info@opensolutions.net>                        |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -124,6 +124,10 @@ $labels['plaintoggle'] = 'Nur-Text';
 $labels['addcc'] = 'Cc hinzufügen';
 $labels['addbcc'] = 'Bcc hinzufügen';
 $labels['addreplyto'] = 'Antwortadresse hinzufügen';
+$labels['mdnrequest'] = 'Der Sender dieser Nachricht möchte gerne eine Lesebestätigung. Wollen Sie dieses bestätigen?';
+$labels['receiptread'] = 'Empfangsbestätigung (gelesen)';
+$labels['yourmessage'] = 'Dieses ist eine Empfangsbestätigung für Ihre Nachricht';
+$labels['receiptnote'] = 'Hinweis: Der Empfänger hat den Empfang der Nachricht bestätigt. Dieses ist keine Garantie, dass die Nachricht gelesen und verstanden wurde.';
 $labels['name'] = 'Anzeigename';
 $labels['firstname'] = 'Vorname';
 $labels['surname'] = 'Nachname';

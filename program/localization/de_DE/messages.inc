@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Stephan Diehl <info@sd-edv.de>                                |
+ | Author: Stephan Diehl <info@opensolutions.net>                        |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -74,5 +74,7 @@ $messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
 $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
 $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
 $messages['movingmessage'] = 'Die E-Mail wird verschoben...';
+$messages['receiptsent'] = 'Bestätigung erfolgreich gesendet';
+$messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 
 ?>
