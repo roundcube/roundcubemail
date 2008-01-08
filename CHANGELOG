@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/01/08 (tomekp)
+----------
+- update fr localization
+
 2008/01/04 (tomekp)
 - purge kur_KU because it has no messages translation
 - bump copyright for all localization files
