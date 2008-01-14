@@ -43,6 +43,7 @@
 	'ga_IE' => 'Irish',
 	'ge'    => 'Georgian',
 	'el'    => 'Greek',
+	'he'	=> 'Hebrew',
 	'hi'    => 'Hindi',
 	'hr'    => 'Hrvatski',
 	'hu'    => 'Hungarian',
