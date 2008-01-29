@@ -112,7 +112,7 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
       if (PEAR::isError($result))
         {
         smtp_reset();
-        $response[] .= "Authentication failure: ".$result->getMessage();
+        $response[] .= 'Authentication failure: ' . $result->getMessage() . ' (Code: ' . $result->getCode() . ')';
         return FALSE;
         }
       }
