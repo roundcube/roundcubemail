@@ -72,6 +72,7 @@
 	'sk'    => 'Slovak',
 	'sr_latin' => 'Serbian Latin',
 	'sr_cyrillic' => 'Serbian Cyrillic',
+    'sq_AL' => 'Albanian',
 	'tr'    => 'Turkish',
 	'th_TH' => 'Thai',
 	'uk'    => 'Ukrainian',
