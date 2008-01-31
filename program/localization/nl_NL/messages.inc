@@ -74,5 +74,7 @@ $messages['copyerror'] = 'Kan geen adressen kopiëren';
 $messages['sourceisreadonly'] = 'Het adres kan niet worden opgeslagen';
 $messages['errorsavingcontact'] = 'Kan het ontvanger-adres niet opslaan';
 $messages['movingmessage'] = 'Bericht verplaatsen...';
+$messages['receiptsent'] = 'Ontvangstbevestiging is verstuurd';
+$messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen';
 
 ?>
