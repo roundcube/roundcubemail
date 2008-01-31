@@ -92,6 +92,7 @@ td.formlinks a:visited
   height: 20px;
   text-align: right;
   white-space: nowrap;
+  z-index: 200;
 }
 
 #messagecountbar span
