@@ -149,6 +149,9 @@ function rcube_webmail()
 
         // enable mail commands
         this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', true);
+
+        if (this.env.search_text != null && document.getElementById('quicksearchbox') != null)
+          document.getElementById('quicksearchbox').value = this.env.search_text;
         
         if (this.env.action=='show' || this.env.action=='preview')
           {
@@ -497,7 +500,7 @@ function rcube_webmail()
       case 'list':
         if (this.task=='mail')
           {
-          if (this.env.search_request<0 || (this.env.search_request && props != this.env.mailbox))
+          if (this.env.search_request<0 || (props != '' && (this.env.search_request && props != this.env.mailbox)))
             this.reset_qsearch();
 
           this.list_mailbox(props);
@@ -1198,6 +1201,10 @@ function rcube_webmail()
 
     if (safe)
       add_url = '&_safe=1';
+
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      add_url += '&_search='+this.env.search_request;
 
     if (id)
       {

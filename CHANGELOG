@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/01/31 (robin)
+- Remember search results (closes #1483883), patch by the_glu
+
 2008/01/08 (tomekp)
 ----------
 - add he (Hebrew) localization (#1484713)

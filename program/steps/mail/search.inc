@@ -89,6 +89,7 @@ if (is_array($result) && $result[0] != '')
   if ($result_h != NULL)
   {
     $_SESSION['search'][$search_request] = $IMAP->get_search_set();
+    $_SESSION['last_text_search'] = $str;
     rcmail_js_message_list($result_h);
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
   }

@@ -80,10 +80,18 @@ if ($_GET['_uid'])
     $OUTPUT->set_env('mdn_request', true);
   }
 
-  $next = $prev = -1;
+  // set message set for search result
+  if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
+    {
+    $IMAP->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
+    $OUTPUT->set_env('search_request', $_REQUEST['_search']);
+    }
+
+  $next = $prev = $first = $last = -1;
   // get previous, first, next and last message UID
-  if (!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') && 
-      $IMAP->get_capability('sort')) 
+  if ((!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') &&
+      $IMAP->get_capability('sort') ) && !(!empty($_REQUEST['_search']) &&
+      isset($_SESSION['search'][$_REQUEST['_search']])) )
     {
     // Only if we use custom sorting
     $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
@@ -93,6 +101,23 @@ if ($_GET['_uid'])
     $first = count($a_msg_index)>0 ? $a_msg_index[0] : -1;
     $next = isset($a_msg_index[$MESSAGE['index']+1]) ? $a_msg_index[$MESSAGE['index']+1] : -1 ;
     $last = count($a_msg_index)>0 ? $a_msg_index[count($a_msg_index)-1] : -1;
+    }
+  elseif (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
+    {
+      $search_data = $_SESSION['search'][$_REQUEST['_search']];
+      $result = $IMAP->search(NULL, $search_data[0], $search_data[1],$search_data[3]);
+      $result = array_reverse($result);
+      foreach ($result as $key=>$rid)
+        {
+        $result[$key] = $IMAP->get_uid($rid);
+        if ($MESSAGE['UID'] == $result[$key])
+          $seq = $key;
+        }
+      $prev = isset($result[$seq-1]) ? $result[$seq-1] : -1 ;
+      $first = count($result)>0 ? $result[0] : -1;
+      $next = isset($result[$seq+1]) ? $result[$seq+1] : -1 ;
+      $last = count($result)>0 ? $result[count($result)-1] : -1;
+      $MESSAGE['index'] = $seq;
     }
   else
     {

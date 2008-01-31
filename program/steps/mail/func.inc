@@ -48,7 +48,11 @@ if (!isset($_SESSION['sort_order']))
 
 // set message set for search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
+  {
   $IMAP->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
+  $OUTPUT->set_env('search_request', $_REQUEST['_search']);
+  $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
+  }
 
 
 // define url for getting message parts
