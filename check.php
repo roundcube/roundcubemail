@@ -66,7 +66,7 @@ foreach ($create_files AS $file) {
     } else {
         echo 'NOT OK';
     }
-    echo "<br />";
+    echo '<br />';
 }
 
 echo '<h3>Check supplied DB settings</h3>';
@@ -82,7 +82,29 @@ if (isset($rcmail_config)) {
     } else {
         echo 'NOT OK';
     }
+    echo '<br />';
 } else {
     echo 'Could not open db.inc.php config file, or file is empty.<br />';
 }
+
+echo '<h3>Checking .ini settings</h3>';
+
+$auto_start   = ini_get('session.auto_start');
+$file_uploads = ini_get('file_uploads');
+
+echo "session.auto_start: ";
+if ($auto_start == 1) {
+    echo 'NOT OK';
+} else {
+    echo 'OK';
+}
+echo '<br />';
+
+echo "file_uploads: ";
+if ($file_uploads == 1) {
+    echo 'OK';
+} else {
+    echo 'NOT OK';
+}
+echo '<br />';
 ?>
