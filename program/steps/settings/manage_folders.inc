@@ -119,8 +119,14 @@ else if ($_action=='delete-folder')
     {
     $OUTPUT->command('remove_folder_row', get_input_value('_mboxes', RCUBE_INPUT_POST));
     foreach ($a_mboxes as $mbox)
-      if (preg_match('/^'.preg_quote(get_input_value('_mboxes', RCUBE_INPUT_POST).$delimiter).'/', $mbox))
+      {
+      $regex = get_input_value('_mboxes', RCUBE_INPUT_POST) . $delimiter;
+      $regex = preg_quote($regex, '/');
+      if (preg_match('/^'. $regex .'/', $mbox))
+        {
         $OUTPUT->command('remove_folder_row', $mbox);
+        }
+      }
     $OUTPUT->show_message('folderdeleted', 'confirmation');
     $OUTPUT->send();
     }

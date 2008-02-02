@@ -1771,13 +1771,17 @@ class rcube_imap
           $deleted = TRUE;
 
         foreach ($all_mboxes as $c_mbox)
-          if (preg_match('/^'.preg_quote($mailbox.$this->delimiter).'/', $c_mbox))
+          {
+          $regex = preg_quote($mailbox . $this->delimiter, '/');
+          $regex = '/^' . $regex . '/';
+          if (preg_match($regex, $c_mbox))
             {
             iil_C_UnSubscribe($this->conn, $c_mbox);
             $result = iil_C_DeleteFolder($this->conn, $c_mbox);
             if ($result>=0)
               $deleted = TRUE;
             }
+          }
         }
 
     // clear mailboxlist cache
