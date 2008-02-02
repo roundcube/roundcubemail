@@ -870,19 +870,52 @@ $OUTPUT->add_handlers(array(
 /****** get contacts for this user and add them to client scripts ********/
 
 require_once('include/rcube_contacts.inc');
+require_once('include/rcube_ldap.inc'); 
 
 $CONTACTS = new rcube_contacts($DB, $USER->ID);
 $CONTACTS->set_pagesize(1000);
+
+$a_contacts = array(); 
                                    
 if ($result = $CONTACTS->list_records())
-{        
-  $a_contacts = array();
+{
   while ($sql_arr = $result->iterate())
     if ($sql_arr['email'])
       $a_contacts[] = format_email_recipient($sql_arr['email'], JQ($sql_arr['name']));
-  
-  $OUTPUT->set_env('contacts', $a_contacts);
 }
+
+/* LDAP autocompletion */ 
+foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
+  { 
+  if ($ldapserv_config['fuzzy_search'] != 1) 
+    { 
+    continue; 
+ 	} 
+	 
+  $LDAP = new rcube_ldap($ldapserv_config); 
+  $LDAP->connect(); 
+  $LDAP->set_pagesize(1000);
+  
+  $results = $LDAP->search($ldapserv_config['mail_field'], ""); 
+ 
+  for ($i = 0; $i < $results->count; $i++) 
+ 	{ 
+ 	if ($results->records[$i]['email'] != '') 
+ 	  { 
+ 	  $email = $results->records[$i]['email']; 
+ 	  $name = $results->records[$i]['name']; 
+ 		 
+ 	  $a_contacts[] = format_email_recipient($email, JQ($name)); 
+ 	  } 
+ 	} 
+ 		 
+  $LDAP->close(); 
+  } 
+	                                    
+  if ($a_contacts) 
+ 	{ 
+ 	$OUTPUT->set_env('contacts', $a_contacts); 
+ 	} 
 
 parse_template('compose');
 ?>
