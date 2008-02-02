@@ -878,12 +878,13 @@ $CONTACTS->set_pagesize(1000);
 $a_contacts = array(); 
                                    
 if ($result = $CONTACTS->list_records())
-{
+  {
   while ($sql_arr = $result->iterate())
     if ($sql_arr['email'])
       $a_contacts[] = format_email_recipient($sql_arr['email'], JQ($sql_arr['name']));
-}
-
+  }
+if (isset($CONFIG['ldap_public'])) {
+  {
 /* LDAP autocompletion */ 
 foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
   { 
@@ -910,12 +911,11 @@ foreach ($CONFIG['ldap_public'] as $ldapserv_config)
  	} 
  		 
   $LDAP->close(); 
-  } 
-	                                    
-  if ($a_contacts) 
- 	{ 
+  }
+  }
+if ($a_contacts) 
+  { 
  	$OUTPUT->set_env('contacts', $a_contacts); 
- 	} 
-
+  } 
 parse_template('compose');
 ?>
