@@ -761,7 +761,17 @@ class rcube_imap
     $this->_set_sort_order($sort_field, $sort_order);
 
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
-    $key = "$mbox:".$this->sort_field.":".$this->sort_order.".msgi";
+    $key = "{$mailbox}:{$this->sort_field}:{$this->sort_order}:{$this->search_string}.msgi";
+
+    // we have a saved search result. get index from there
+    if (!isset($this->cache[$key]) && $this->search_string && $mailbox == $this->mailbox)
+    {
+      $this->cache[$key] = $a_msg_headers = array();
+      $this->_fetch_headers($mailbox, join(',', $this->search_set), $a_msg_headers, NULL);
+
+      foreach (iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order) as $i => $msg)
+        $this->cache[$key][] = $msg->uid;
+    }
 
     // have stored it in RAM
     if (isset($this->cache[$key]))
