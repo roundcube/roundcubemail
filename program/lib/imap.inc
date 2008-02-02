@@ -57,6 +57,7 @@
  * @todo Possibly clean up more CS.
  * @todo Split this file into smaller files.
  * @todo Refactor code.
+ * @todo Replace echo-debugging (make it adhere to config setting and log)
  */
 
 // changed path to work within roundcube webmail
@@ -562,22 +563,30 @@ function iil_C_DisableCache(&$conn) {
 }
 
 function iil_C_LoadCache(&$conn, $folder) {
-	if (!$conn->do_cache) return false;
-	
-	$key = $folder.".imap";
+	if (!$conn->do_cache) {
+	    return false;
+	}
+    
+	$key = $folder.'.imap';
 	if (!is_array($conn->cache[$folder])) {
-		$conn->cache[$folder] = cache_read($conn->user, $conn->host, $key);
+		$conn->cache[$folder]       = cache_read($conn->user, $conn->host, $key);
 		$conn->cache_dirty[$folder] = false;
 	}
 }
 
 function iil_C_ExpireCachedItems(&$conn, $folder, $message_set) {
 	
-	if (!$conn->do_cache) return;	//caching disabled
-	if (!is_array($conn->cache[$folder])) return;	//cache not initialized|empty
-	if (count($conn->cache[$folder]) == 0) return;	//cache not initialized|empty
-		
-	$uids = iil_C_FetchHeaderIndex($conn, $folder, $message_set, "UID");
+	if (!$conn->do_cache) {
+	    return;	//caching disabled
+	}
+    if (!is_array($conn->cache[$folder])) {
+        return;	//cache not initialized|empty
+	}
+    if (count($conn->cache[$folder]) == 0) {
+        return;	//cache not initialized|empty
+    }
+    
+	$uids = iil_C_FetchHeaderIndex($conn, $folder, $message_set, 'UID');
 	$num_removed = 0;
 	if (is_array($uids)) {
 		//echo "<!-- unsetting: ".implode(",",$uids)." //-->\n";
@@ -608,16 +617,19 @@ function iil_C_ExpireCachedItems(&$conn, $folder, $message_set) {
 }
 
 function iil_ExplodeQuotedString($delimiter, $string) {
-	$quotes=explode("\"", $string);
-	while ( list($key, $val) = each($quotes))
-		if (($key % 2) == 1) 
+	$quotes=explode('"', $string);
+	while ( list($key, $val) = each($quotes)) {
+		if (($key % 2) == 1) {
 			$quotes[$key] = str_replace($delimiter, "_!@!_", $quotes[$key]);
-	$string=implode("\"", $quotes);
+        }
+    }
+	$string=implode('"', $quotes);
 	
 	$result=explode($delimiter, $string);
-	while ( list($key, $val) = each($result) )
-		$result[$key] = str_replace("_!@!_", $delimiter, $result[$key]);
-	
+	while ( list($key, $val) = each($result) ) {
+		$result[$key] = str_replace('_!@!_', $delimiter, $result[$key]);
+	}
+    
 	return $result;
 }
 
@@ -633,10 +645,10 @@ function iil_CheckForRecent($host, $user, $password, $mailbox) {
 		do {
 			$line=chop(iil_ReadLine($fp, 300));
 			$a=explode(' ', $line);
-			if (($a[0] == '*') && (strcasecmp($a[2], "RECENT") == 0)) {
+			if (($a[0] == '*') && (strcasecmp($a[2], 'RECENT') == 0)) {
 			    $result = (int) $a[1];
             }
-		} while (!iil_StartsWith($a[0],"a002"));
+		} while (!iil_StartsWith($a[0], 'a002'));
 
 		fputs($fp, "a003 LOGOUT\r\n");
 		fclose($fp);
@@ -664,14 +676,18 @@ function iil_C_Select(&$conn, $mailbox) {
 			$line=chop(iil_ReadLine($fp, 300));
 			$a=explode(' ', $line);
 			if (count($a) == 3) {
-				if (strcasecmp($a[2], "EXISTS") == 0) $conn->exists=(int)$a[1];
-				if (strcasecmp($a[2], "RECENT") == 0) $conn->recent=(int)$a[1];
+				if (strcasecmp($a[2], 'EXISTS') == 0) {
+				    $conn->exists = (int) $a[1];
+				}
+                if (strcasecmp($a[2], 'RECENT') == 0) {
+                    $conn->recent = (int) $a[1];
+                }
 			}
-		} while (!iil_StartsWith($line, "sel1"));
+		} while (!iil_StartsWith($line, 'sel1'));
 
 		$a=explode(' ', $line);
 
-		if (strcasecmp($a[1],"OK") == 0) {
+		if (strcasecmp($a[1], 'OK') == 0) {
 			$conn->selected = $mailbox;
 			return true;
 		}
@@ -726,10 +742,10 @@ function iil_StrToTime($str) {
 	
 	//replace double spaces with single space
 	$str = trim($str);
-	$str = str_replace("  ", " ", $str);
+	$str = str_replace('  ', ' ', $str);
 	
 	//strip off day of week
-	$pos=strpos($str, " ");
+	$pos=strpos($str, ' ');
 	if (!is_numeric(substr($str, 0, $pos))) {
 	    $str = substr($str, $pos+1);
     }
@@ -743,7 +759,7 @@ function iil_StrToTime($str) {
 	$time      = $a[3];
 	$tz_str    = $a[4];
 	$tz        = substr($tz_str, 0, 3);
-	$ta        = explode(":",$time);
+	$ta        = explode(':', $time);
 	$hour      = (int)$ta[0]-(int)$tz;
 	$minute    = (int)$ta[1];
 	$second    = (int)$ta[2];
@@ -755,7 +771,7 @@ function iil_StrToTime($str) {
 }
 
 function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
-    $encoding='US-ASCII') {
+    $encoding = 'US-ASCII') {
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) {
 	    return false;
@@ -786,7 +802,9 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
     }
 	do {
 		$line = chop(iil_ReadLine($fp, 1024));
-		if (iil_StartsWith($line, '* SORT')) $data.=($data?' ':'').substr($line,7);
+		if (iil_StartsWith($line, '* SORT')) {
+		    $data .= ($data?' ':'') . substr($line, 7);
+        }
 	} while ($line[0]!='s');
 	
 	if (empty($data)) {
@@ -914,18 +932,21 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,
         }
 		do {
 			$line=chop(iil_ReadLine($fp, 200));
-			if ($line[0]=="*") {
-				//original: "* 10 FETCH (INTERNALDATE "31-Jul-2002 09:18:02 -0500")"
-				$paren_pos = strpos($line, "(");
-				$foo = substr($line, 0, $paren_pos);
-				$a = explode(' ', $foo);
-				$id = $a[1];
+			if ($line[0] == '*') {
+				/*
+				 * original:
+				 * "* 10 FETCH (INTERNALDATE "31-Jul-2002 09:18:02 -0500")"
+				 */
+				$paren_pos = strpos($line, '(');
+				$foo       = substr($line, 0, $paren_pos);
+				$a         = explode(' ', $foo);
+				$id        = $a[1];
 				
-				$open_pos = strpos($line, "\"") + 1;
-				$close_pos = strrpos($line, "\"");
+				$open_pos  = strpos($line, '"') + 1;
+				$close_pos = strrpos($line, '"');
 				if ($open_pos && $close_pos) {
-					$len = $close_pos - $open_pos;
-					$time_str = substr($line, $open_pos, $len);
+					$len         = $close_pos - $open_pos;
+					$time_str    = substr($line, $open_pos, $len);
 					$result[$id] = strtotime($time_str);
 				}
 			} else {
@@ -1019,9 +1040,12 @@ function iil_CompressMessageSet($message_set) {
 	foreach ($ids as $id) {
 		$incr = $id - $prev;
 		if ($incr>1) {			//found a gap
-			if ($start==$prev) $result[] = $prev;	//push single id
-			else $result[] = $start.':'.$prev;		//push sequence as start_id:end_id
-			$start = $id;							//start of new sequence
+			if ($start==$prev) {
+			    $result[] = $prev;	//push single id
+			} else {
+			    $result[] = $start.':'.$prev;		//push sequence as start_id:end_id
+			}
+            $start = $id;							//start of new sequence
 		}
 		$prev = $id;
 	}
@@ -1058,7 +1082,7 @@ function iil_C_FetchUIDs(&$conn,$mailbox) {
 	if ($num == 0) {
 	    return array();
     }
-	$message_set = '1'.($num>1?':'.$num:'');
+	$message_set = '1' . ($num>1?':' . $num:'');
 	
 	//if cache not enabled, just call iil_C_FetchHeaderIndex on 'UID' field
 	if (!$conn->do_cache)
@@ -1074,7 +1098,7 @@ function iil_C_FetchUIDs(&$conn,$mailbox) {
 	}
     
 	//was anything cached at all?
-	if ($data===false) {
+	if ($data === false) {
 	    $cache_good = -1;
 	}
     
@@ -1098,7 +1122,7 @@ function iil_C_FetchUIDs(&$conn,$mailbox) {
 	}
 
 	//otherwise, we need to fetch it
-	$data      = array('n'=>$num,'d'=>array());
+	$data      = array('n' => $num, 'd' => array());
 	$data['d'] = iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID');
     
 	cache_write($conn->user, $conn->host, $key, $data);
@@ -2099,7 +2123,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
             // is it a container?
             $i++;
 		}
-	} while (!iil_StartsWith($line, "lmb"));
+	} while (!iil_StartsWith($line, 'lmb'));
 
 	if (is_array($folders)) {
         if (!empty($ref)) {
@@ -2167,7 +2191,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
             // is it a container?
             $i++;
 		}
-	} while (!iil_StartsWith($line, "lsb"));
+	} while (!iil_StartsWith($line, 'lsb'));
 
 	if (is_array($folders)) {
         if (!empty($ref)) {
@@ -2266,7 +2290,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
         do {
             $line = chop(iil_ReadLine($fp, 1000));
             $a    = explode(' ', $line);
-        } while ($a[2]!="FETCH");
+        } while ($a[2] != 'FETCH');
         $len = strlen($line);
         if ($line[$len-1] == ')') {
             //one line response, get everything between first and last quotes
@@ -2317,7 +2341,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
         }
         return false;
 	} else {
-		echo "Select failed.";
+		echo 'Select failed.';
 	}
     
     if ($mode==1) {
@@ -2340,10 +2364,10 @@ function iil_C_PrintBase64Body(&$conn, $mailbox, $id, $part) {
 
 function iil_C_CreateFolder(&$conn, $folder) {
 	$fp = $conn->fp;
-	if (fputs($fp, "c CREATE \"".$folder."\"\r\n")) {
+	if (fputs($fp, 'c CREATE "' . $folder . '"' . "\r\n")) {
 		do {
 			$line=iil_ReadLine($fp, 300);
-		} while ($line[0]!="c");
+		} while ($line[0] != 'c');
         $conn->error = $line;
 		return (iil_ParseResult($line) == 0);
 	}
@@ -2352,7 +2376,7 @@ function iil_C_CreateFolder(&$conn, $folder) {
 
 function iil_C_RenameFolder(&$conn, $from, $to) {
 	$fp = $conn->fp;
-	if (fputs($fp, "r RENAME \"".$from."\" \"".$to."\"\r\n")) {
+	if (fputs($fp, 'r RENAME "' . $from . '" "' . $to . '"' . "\r\n")) {
 		do {
 			$line=iil_ReadLine($fp, 300);
 		} while ($line[0]!="r");
@@ -2363,7 +2387,7 @@ function iil_C_RenameFolder(&$conn, $from, $to) {
 
 function iil_C_DeleteFolder(&$conn, $folder) {
 	$fp = $conn->fp;
-	if (fputs($fp, "d DELETE \"".$folder."\"\r\n")) {
+	if (fputs($fp, 'd DELETE "' . $folder. '"' . "\r\n")) {
 		do {
 			$line=iil_ReadLine($fp, 300);
 		} while ($line[0]!="d");
@@ -2395,7 +2419,7 @@ function iil_C_Append(&$conn, $folder, &$message) {
 	
 		$result = (iil_ParseResult($line) == 0);
 		if (!$result) {
-		    $conn->error .= $line."\n";
+		    $conn->error .= $line . "\n";
         }
 		return $result;
 	
@@ -2413,7 +2437,7 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	//open message file
 	$in_fp = false;				
 	if (file_exists(realpath($path))) {
-	    $in_fp = fopen($path, "r");
+	    $in_fp = fopen($path, 'r');
     }
 	if (!$in_fp) { 
 		$conn->error .= "Couldn't open $path for reading\n";
@@ -2449,7 +2473,7 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 			
 		$result = (iil_ParseResult($line) == 0);
 		if (!$result) {
-		    $conn->error .= $line."\n";
+		    $conn->error .= $line . "\n";
 		}
         return $result;
 	
@@ -2513,20 +2537,20 @@ function iil_C_GetQuota(&$conn) {
 	$quota_line = '';
 	
 	//get line containing quota info
-	if (fputs($fp, "QUOT1 GETQUOTAROOT \"INBOX\"\r\n")) {
+	if (fputs($fp, 'QUOT1 GETQUOTAROOT "INBOX"' . "\r\n")) {
 		do {
 			$line=chop(iil_ReadLine($fp, 5000));
-			if (iil_StartsWith($line, "* QUOTA ")) {
+			if (iil_StartsWith($line, '* QUOTA ')) {
 			    $quota_line = $line;
             }
-		} while (!iil_StartsWith($line, "QUOT1"));
+		} while (!iil_StartsWith($line, 'QUOT1'));
 	}
 	
 	//return false if not found, parse if found
 	if (!empty($quota_line)) {
-		$quota_line = eregi_replace("[()]", '', $quota_line);
+		$quota_line = eregi_replace('[()]', '', $quota_line);
 		$parts = explode(' ', $quota_line);
-		$storage_part = array_search("STORAGE", $parts);
+		$storage_part = array_search('STORAGE', $parts);
 		if ($storage_part>0) {
 			$result = array();
 			$used   = $parts[$storage_part+1];
