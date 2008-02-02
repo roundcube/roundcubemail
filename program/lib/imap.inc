@@ -1985,6 +1985,16 @@ function iil_C_Move(&$conn, $messages, $from, $to) {
     return $r;
 }
 
+/**
+ * Gets the delimiter, for example:
+ * INBOX.foo -> .
+ * INBOX/foo -> /
+ * INBOX\foo -> \
+ * 
+ * @return mixed A delimiter (string), or false. 
+ * @param object $conn The current connection.
+ * @see iil_Connect()
+ */
 function iil_C_GetHierarchyDelimiter(&$conn) {
 	if ($conn->delimiter) {
         return $conn->delimiter;
@@ -1994,16 +2004,16 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 	$delimiter = false;
 	
 	//try (LIST "" ""), should return delimiter (RFC2060 Sec 6.3.8)
-	if (!fputs($fp, "ghd LIST \"\" \"\"\r\n")) {
+	if (!fputs($fp, 'ghd LIST "" ""' . "\r\n")) {
 	    return false;
     }
     
 	do {
 		$line=iil_ReadLine($fp, 500);
-		if ($line[0]=="*") {
+		if ($line[0] == '*') {
 			$line = rtrim($line);
 			$a=iil_ExplodeQuotedString(' ', $line);
-			if ($a[0]=="*") {
+			if ($a[0] == '*') {
 			    $delimiter = str_replace('"', '', $a[count($a)-2]);
             }
 		}
@@ -2018,11 +2028,11 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 	fputs($conn->fp, "ns1 NAMESPACE\r\n");
 	do {
 		$line = iil_ReadLine($conn->fp, 1024);
-		if (iil_StartsWith($line, "* NAMESPACE")) {
+		if (iil_StartsWith($line, '* NAMESPACE')) {
 			$i = 0;
 			$data = iil_ParseNamespace2(substr($line,11), $i, 0, 0);
 		}
-	} while (!iil_StartsWith($line, "ns1"));
+	} while (!iil_StartsWith($line, 'ns1'));
 		
 	if (!is_array($data)) {
 	    return false;
