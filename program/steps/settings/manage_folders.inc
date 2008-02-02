@@ -85,9 +85,9 @@ else if ($_action=='rename-folder')
     $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
     foreach ($a_mboxes as $mbox)
-      if (preg_match('/^'.preg_quote($oldname.$delimiter).'/', $mbox))
+      if (preg_match('/^'.preg_quote($oldname . $delimiter, '/').'/', $mbox))
         {
-        $c_rename = preg_replace('/^'.preg_quote($oldname).'/', $rename, $mbox);
+        $c_rename = preg_replace('/^'.preg_quote($oldname, '/').'/', $rename, $mbox);
         $foldersplit = explode($delimiter, $c_rename);
         $level = count($foldersplit) - 1;
         $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
