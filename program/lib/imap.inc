@@ -53,6 +53,11 @@
 
 ********************************************************/
 
+/**
+ * @todo Possibly clean up more CS.
+ * @todo Split this file into smaller files.
+ * @todo Refactor code.
+ */
 
 // changed path to work within roundcube webmail
 include_once("lib/icl_commons.inc");
@@ -1570,23 +1575,24 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
 					case 'content-type':
 					 	$ctype_parts = explode(";", $string);
 						$result[$id]->ctype = array_shift($ctype_parts);
-						foreach ($ctype_parts as $ctype_add)
+						foreach ($ctype_parts as $ctype_add) {
                             if (preg_match('/charset="?([a-z0-9\-\.\_]+)"?/i',
                                 $ctype_add, $regs)) {
                                 $result[$id]->charset = $regs[1];
 							}
-                            break;
+                        }
+                        break;
 					case 'in-reply-to':
 						$result[$id]->in_reply_to = ereg_replace("[\n<>]", '', $string);
 						break;
 					case 'references':
 						$result[$id]->references = $string;
 						break;
-						case 'return-receipt-to':
-						case 'disposition-notification-to':
-						case 'x-confirm-reading-to':
-							$result[$id]->mdn_to = str_replace("\n", " ", $string);
-							break;
+					case 'return-receipt-to':
+					case 'disposition-notification-to':
+					case 'x-confirm-reading-to':
+						$result[$id]->mdn_to = str_replace("\n", " ", $string);
+						break;
 					case 'message-id':
 						$result[$id]->messageID = $string;
 						break;
