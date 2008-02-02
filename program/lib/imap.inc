@@ -1543,7 +1543,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
     				
     				switch ($field) {
 					case 'date';
-						$result[$id]->date = $string;
+						$result[$id]->date      = $string;
 						$result[$id]->timestamp = iil_StrToTime($string);
 						break;
 					case 'from':
@@ -1571,9 +1571,11 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
 					 	$ctype_parts = explode(";", $string);
 						$result[$id]->ctype = array_shift($ctype_parts);
 						foreach ($ctype_parts as $ctype_add)
-							if (preg_match('/charset="?([a-z0-9\-]+)"?/i', $ctype_add, $regs))
-								$result[$id]->charset = $regs[1];
-						break;
+                            if (preg_match('/charset="?([a-z0-9\-\.\_]+)"?/i',
+                                $ctype_add, $regs)) {
+                                $result[$id]->charset = $regs[1];
+							}
+                            break;
 					case 'in-reply-to':
 						$result[$id]->in_reply_to = ereg_replace("[\n<>]", '', $string);
 						break;
