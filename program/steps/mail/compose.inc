@@ -883,35 +883,34 @@ if ($result = $CONTACTS->list_records())
     if ($sql_arr['email'])
       $a_contacts[] = format_email_recipient($sql_arr['email'], JQ($sql_arr['name']));
   }
-if (isset($CONFIG['ldap_public'])) {
+if (isset($CONFIG['ldap_public']))
   {
-/* LDAP autocompletion */ 
-foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
-  { 
-  if ($ldapserv_config['fuzzy_search'] != 1) 
+  /* LDAP autocompletion */ 
+  foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
     { 
-    continue; 
- 	} 
-	 
-  $LDAP = new rcube_ldap($ldapserv_config); 
-  $LDAP->connect(); 
-  $LDAP->set_pagesize(1000);
-  
-  $results = $LDAP->search($ldapserv_config['mail_field'], ""); 
- 
-  for ($i = 0; $i < $results->count; $i++) 
- 	{ 
- 	if ($results->records[$i]['email'] != '') 
- 	  { 
- 	  $email = $results->records[$i]['email']; 
- 	  $name = $results->records[$i]['name']; 
- 		 
- 	  $a_contacts[] = format_email_recipient($email, JQ($name)); 
+    if ($ldapserv_config['fuzzy_search'] != 1) 
+      { 
+      continue; 
  	  } 
- 	} 
+	 
+    $LDAP = new rcube_ldap($ldapserv_config); 
+    $LDAP->connect(); 
+    $LDAP->set_pagesize(1000);
+  
+    $results = $LDAP->search($ldapserv_config['mail_field'], ""); 
+ 
+    for ($i = 0; $i < $results->count; $i++) 
+ 	  { 
+ 	  if ($results->records[$i]['email'] != '') 
+ 	    { 
+ 	    $email = $results->records[$i]['email']; 
+ 	    $name = $results->records[$i]['name']; 
  		 
-  $LDAP->close(); 
-  }
+ 	    $a_contacts[] = format_email_recipient($email, JQ($name)); 
+ 	    } 
+ 	  }
+    $LDAP->close(); 
+    }
   }
 if ($a_contacts) 
   { 
