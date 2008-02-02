@@ -736,6 +736,8 @@ function rcmail_compose_attachment_field($attrib)
 
 function rcmail_priority_selector($attrib)
 {
+  global $MESSAGE;
+  
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
   
@@ -749,7 +751,7 @@ function rcmail_priority_selector($attrib)
                        rcube_label('highest')),
                  array(5, 4, 0, 2, 1));
                  
-  $sel = isset($_POST['_priority']) ? $_POST['_priority'] : 0;
+  $sel = isset($_POST['_priority']) ? $_POST['_priority'] : intval($MESSAGE['headers']->priority);
 
   $out = $form_start ? "$form_start\n" : '';
   $out .= $selector->show($sel);
@@ -761,6 +763,8 @@ function rcmail_priority_selector($attrib)
 
 function rcmail_receipt_checkbox($attrib)
 {
+  global $MESSAGE;
+  
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
   
@@ -772,7 +776,7 @@ function rcmail_receipt_checkbox($attrib)
   $checkbox = new checkbox($attrib);
 
   $out = $form_start ? "$form_start\n" : '';
-  $out .= $checkbox->show(0);
+  $out .= $checkbox->show($MESSAGE['headers']->mdn_to ? 1 : 0);
   $out .= $form_end ? "\n$form_end" : '';
 
   return $out;

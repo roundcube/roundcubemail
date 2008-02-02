@@ -126,6 +126,7 @@ class iilBasicHeader
 	var $f;
 	var $internaldate;
 	var $references;
+	var $priority;
 	var $mdn_to;
 	var $mdn_sent = false;
 	var $is_reply = false;
@@ -1515,7 +1516,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
     $request .= " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ";
     $request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
     $request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
-    $request .= "REFERENCES DISPOSITION-NOTIFICATION-TO)])\r\n";
+    $request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])\r\n";
 
 	if (!fputs($fp, $request)) {
 	    return false;
@@ -1624,6 +1625,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
 						break;
 					case 'message-id':
 						$result[$id]->messageID = $string;
+						break;
+					case 'x-priority':
+						if (preg_match('/^(\d+)/', $string, $matches))
+							$result[$id]->priority = intval($matches[1]);
 						break;
     				} // end switch ()
     			} // end while ()
