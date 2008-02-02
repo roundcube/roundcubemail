@@ -258,13 +258,15 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
     }
     
     // generate hash
-    $hash = md5(iil_xor($pass,$opad) . pack("H*",md5(iil_xor($pass, $ipad) . base64_decode($encChallenge))));
+    $hash  = iil_xor($pass,$opad);
+    $hash .= pack("H*",md5(iil_xor($pass, $ipad) . base64_decode($encChallenge)));
+    $hash  = md5($hash);
     
     // generate reply
-    $reply = base64_encode($user . ' ' . $hash);
+    $reply = base64_encode('"' . $user . '" "' . $hash . '"');
     
     // send result, get reply
-    fputs($conn->fp, $reply."\r\n");
+    fputs($conn->fp, $reply . "\r\n");
     $line = iil_ReadLine($conn->fp, 1024);
     
     // process result
@@ -273,7 +275,7 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
         $conn->errorNum  = 0;
         return $conn->fp;
     }
-    $conn->error    .= 'Authentication for '.$user.' failed (AUTH): "';
+    $conn->error    .= 'Authentication for ' . $user . ' failed (AUTH): "';
     $conn->error    .= htmlspecialchars($line) . '"';
     $conn->errorNum  = -2;
     return false;
@@ -498,13 +500,16 @@ function iil_Connect($host, $user, $password) {
 		$conn->message.="$line\n";
         
 		if ($line[0] == "+") {
-			$conn->message.='Got challenge: '.htmlspecialchars($line)."\n";
+			$conn->message .= 'Got challenge: ' . htmlspecialchars($line)."\n";
+
 			//got a challenge string, try CRAM-5
 			$result = iil_C_Authenticate($conn, $user, $password, substr($line,2));
-			$conn->message.= "Tried CRAM-MD5: $result \n";
+            
+			$conn->message .= "Tried CRAM-MD5: $result \n";
 		} else {
-			$conn->message.='No challenge ('.htmlspecialchars($line)."), try plain\n";
-			$auth = "plain";
+			$conn->message .='No challenge ('.htmlspecialchars($line)."), try plain\n";
+			
+            $auth = 'plain';            
 		}
 	}
 		
