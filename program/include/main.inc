@@ -92,8 +92,7 @@ function rcmail_startup($task='mail')
   $USER = new rcube_user($_SESSION['user_id']);
 
   // overwrite config with user preferences
-  if (is_array($_SESSION['user_prefs']))
-    $CONFIG = array_merge($CONFIG, $_SESSION['user_prefs']);
+  $CONFIG = array_merge($CONFIG, (array)$USER->get_prefs());
 
 
   // reset some session parameters when changing task
@@ -591,7 +590,7 @@ function rcmail_login($user, $pass, $host=NULL)
 
   // query if user already registered
   if ($existing = rcube_user::query($user, $host))
-  $USER = $existing;
+    $USER = $existing;
 
   // user already registered -> overwrite username
   if ($USER->ID)
@@ -608,8 +607,7 @@ function rcmail_login($user, $pass, $host=NULL)
   if ($USER->ID)
     {
     // get user prefs
-    $_SESSION['user_prefs'] = $USER->get_prefs();
-    array_merge($CONFIG, $_SESSION['user_prefs']);
+    $CONFIG = array_merge($CONFIG, (array)$USER->get_prefs());
 
     // set user specific language
     if (!empty($USER->data['language']))
