@@ -72,6 +72,7 @@ foreach ($create_files AS $file) {
 echo '<h3>Check supplied DB settings</h3>';
 @include $path . 'config/db.inc.php';
 
+$db_working = false;
 if (isset($rcmail_config)) {
     echo 'DB settings: ';
     include_once 'MDB2.php';
@@ -79,6 +80,7 @@ if (isset($rcmail_config)) {
     if (!MDB2::IsError($db)) {
         echo 'OK';
         $db->disconnect();
+        $db_working = true;
     } else {
         echo 'NOT OK';
     }
@@ -87,12 +89,32 @@ if (isset($rcmail_config)) {
     echo 'Could not open db.inc.php config file, or file is empty.<br />';
 }
 
+echo '<h3>TimeZone</h3>';
+echo 'Status: ';
+if ($db_working === true) {
+    require_once 'include/rcube_mdb2.inc';
+    $DB = new $dbclass($rcmail_config['db_dsnw'], '', false);
+    $DB->db_connect('w');
+    
+    $tz_db    = $DB->unixtimestamp();
+    $tz_local = time();
+    if ($tz_db != $tz_local) {
+        echo 'NOT OK';
+    } else {
+        echo 'OK';
+    }
+} else {
+    echo 'Could not test (fix DB first).';
+}
+echo '<br />';
+
 echo '<h3>Checking .ini settings</h3>';
 
 $auto_start   = ini_get('session.auto_start');
 $file_uploads = ini_get('file_uploads');
 
-echo "session.auto_start: ";
+echo '<h4>session.auto_start</h4>';
+echo 'status: ';
 if ($auto_start == 1) {
     echo 'NOT OK';
 } else {
@@ -100,11 +122,31 @@ if ($auto_start == 1) {
 }
 echo '<br />';
 
-echo "file_uploads: ";
+echo '<h4>file_uploads</h4>';
+echo 'status: ';
 if ($file_uploads == 1) {
     echo 'OK';
 } else {
     echo 'NOT OK';
 }
+
+/*
+ * Probably not needed because we have a custom handler
+echo '<h4>session.save_path</h4>';
+echo 'status: ';
+$save_path = ini_get('session.save_path');
+if (empty($save_path)) {
+    echo 'NOT OK';
+} else {
+    echo "OK: $save_path";
+    if (!file_exists($save_path)) {
+        echo ', but it does not exist';
+    } else {
+        if (!is_readable($save_path) || !is_writable($save_path)) {
+            echo ', but permissions to read and/or write are missing';
+        }
+    }
+}
 echo '<br />';
+ */
 ?>
