@@ -38,6 +38,10 @@
  * @todo     HTML/CSS to make it pretty.
  */
 
+$include_path  = dirname(__FILE__) . '/program/lib/';
+$include_path .= PATH_SEPARATOR . get_include_path();
+set_include_path($include_path);
+
 $writable_dirs = array('logs/', 'temp/');
 $create_files  = array('config/db.inc.php', 'config/main.inc.php');
 
