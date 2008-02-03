@@ -102,7 +102,7 @@ echo '<h3>TimeZone</h3>';
 echo 'Status: ';
 if ($db_working === true) {
     require_once 'include/rcube_mdb2.inc';
-    $DB = new $dbclass($rcmail_config['db_dsnw'], '', false);
+    $DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
     $DB->db_connect('w');
     
     $tz_db    = $DB->unixtimestamp();
