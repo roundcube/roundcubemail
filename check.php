@@ -36,10 +36,15 @@
  * @todo     Check IMAP settings.
  * @todo     Check SMTP settings.
  * @todo     HTML/CSS to make it pretty.
+ * @todo     In devel-next, use bootstrap.
  */
 
 $include_path  = dirname(__FILE__) . '/program/lib/';
-$include_path .= PATH_SEPARATOR . get_include_path();
+$include_path .= PATH_SEPARATOR;
+$include_path .= dirname(__FILE__) . '/program/';
+$include_path .= PATH_SEPARATOR;
+$include_path .= get_include_path();
+
 set_include_path($include_path);
 
 $writable_dirs = array('logs/', 'temp/');
