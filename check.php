@@ -105,8 +105,13 @@ if ($db_working === true) {
     $DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
     $DB->db_connect('w');
     
-    $tz_db    = $DB->unixtimestamp($DB->now());
-    $tz_local = time();
+    $tz_db    = "SELECT " . $DB->unixtimestamp($DB->now()) . " AS tz_db";
+    $tz_db    = $DB->query($tz_db);
+    $tz_db    = $DB->fetch_assoc($tz_db);
+    $tz_db    = (int) $tz_db['tz_db'];
+    $tz_local = (int) time();
+    $tz_diff  = $tz_local - $tz_db;
+
     if ($tz_db != $tz_local) {
         echo 'NOT OK';
     } else {
