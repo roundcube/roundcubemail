@@ -235,7 +235,8 @@ function rcmail_authenticate_session()
     $valid = $CONFIG['ip_check'] ? $_SERVER['REMOTE_ADDR'] == $SESS_CLIENT_IP : true;
   
   // check session filetime
-  if (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED) && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < time())
+  if (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED)
+      && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < time())
     $valid = false;
   
   return $valid;
