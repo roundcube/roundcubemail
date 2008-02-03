@@ -105,7 +105,7 @@ if ($db_working === true) {
     $DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
     $DB->db_connect('w');
     
-    $tz_db    = $DB->unixtimestamp();
+    $tz_db    = $DB->unixtimestamp($DB->now());
     $tz_local = time();
     if ($tz_db != $tz_local) {
         echo 'NOT OK';
