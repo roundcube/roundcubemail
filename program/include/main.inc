@@ -1623,10 +1623,6 @@ function rcmail_mailbox_list($attrib)
   // get mailbox list
   $mbox_name = $IMAP->get_mailbox_name();
   
-  // for these mailboxes we have localized labels
-  $special_mailboxes = array('inbox', 'sent', 'drafts', 'trash', 'junk');
-
-
   // build the folders tree
   if (empty($a_mailboxes))
     {
@@ -1644,9 +1640,9 @@ function rcmail_mailbox_list($attrib)
 // var_dump($a_mailboxes);
 
   if ($type=='select')
-    $out .= rcmail_render_folder_tree_select($a_mailboxes, $special_mailboxes, $mbox_name, $attrib['maxlength']);
+    $out .= rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength']);
    else
-    $out .= rcmail_render_folder_tree_html($a_mailboxes, $special_mailboxes, $mbox_name, $attrib['maxlength']);
+    $out .= rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength']);
 
 // rcube_print_time($mboxlist_start, 'render_folder_tree()');
 
@@ -1696,7 +1692,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
  * Return html for a structured list &lt;ul&gt; for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $maxlength, $nestLevel=0)
+function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $nestLevel=0)
   {
   global $COMM_PATH, $IMAP, $CONFIG, $OUTPUT;
 
@@ -1707,9 +1703,8 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
     $zebra_class = ($nestLevel*$idx)%2 ? 'even' : 'odd';
     $title = '';
 
-    $folder_lc = strtolower($folder['id']);
-    if (in_array($folder_lc, $special))
-      $foldername = rcube_label($folder_lc);
+    if ($folder_class = rcmail_folder_classname($folder['id']))
+      $foldername = rcube_label($folder_class);
     else
       {
       $foldername = $folder['name'];
@@ -1730,7 +1725,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
 
     // make folder name safe for ids and class names
     $folder_id = preg_replace('/[^A-Za-z0-9\-_]/', '', $folder['id']);
-    $class_name = preg_replace('/[^a-z0-9\-_]/', '', $folder_lc);
+    $class_name = preg_replace('/[^a-z0-9\-_]/', '', $folder_class ? $folder_class : strtolower($folder['id']));
 
     // set special class for Sent, Drafts, Trash and Junk
     if ($folder['id']==$CONFIG['sent_mbox'])
@@ -1766,7 +1761,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
                     Q($foldername));
 
     if (!empty($folder['folders']))
-      $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $special, $mbox_name, $maxlength, $nestLevel+1) . "</ul>\n";
+      $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $maxlength, $nestLevel+1) . "</ul>\n";
 
     $out .= "</li>\n";
     $idx++;
@@ -1780,7 +1775,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$special, &$mbox_name, $m
  * Return html for a flat list <select> for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox_name, $maxlength, $nestLevel=0)
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, $nestLevel=0)
   {
   global $IMAP, $OUTPUT;
 
@@ -1788,9 +1783,8 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox_name, 
   $out = '';
   foreach ($arrFolders as $key=>$folder)
     {
-    $folder_lc = strtolower($folder['id']);
-    if (in_array($folder_lc, $special))
-      $foldername = rcube_label($folder_lc);
+    if ($folder_class = rcmail_folder_classname($folder['id']))
+      $foldername = rcube_label($folder_class);
     else
       {
       $foldername = $folder['name'];
@@ -1806,12 +1800,35 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$special, &$mbox_name, 
                     Q($foldername));
 
     if (!empty($folder['folders']))
-      $out .= rcmail_render_folder_tree_select($folder['folders'], $special, $mbox_name, $maxlength, $nestLevel+1);
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $nestLevel+1);
 
     $idx++;
     }
 
   return $out;
   }
+
+
+/**
+ * Return internal name for the given folder if it matches the configured special folders
+ * @access private
+ */
+function rcmail_folder_classname($folder_id)
+{
+  global $CONFIG;
+
+  $cname = null;
+  $folder_lc = strtolower($folder_id);
+  
+  // for these mailboxes we have localized labels and css classes
+  foreach (array('inbox', 'sent', 'drafts', 'trash', 'junk') as $smbx)
+  {
+    if ($folder_lc == $smbx || $folder_id == $CONFIG[$smbx.'_mbox'])
+      $cname = $smbx;
+  }
+  
+  return $cname;
+}
+
 
 ?>
