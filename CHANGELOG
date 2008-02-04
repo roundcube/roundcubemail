@@ -1,11 +1,15 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/02/04 (thomasb)
+----------
+- Fix regular expression for checking e-mail address (#1484710)
+- Make sending of read receipts configurable
+
 2008/02/02 (thomasb)
 ----------
 - Always update $CONFIG with user prefs (#1484729)
 - Don't ask for MDN confirmations on drafted messages (#1484691)
-- 
 
 2008/01/31 (robin)
 - Remember search results (closes #1483883), patch by the_glu

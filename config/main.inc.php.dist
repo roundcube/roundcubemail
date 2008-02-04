@@ -176,6 +176,10 @@ $rcmail_config['read_when_deleted'] = TRUE;
 // false causes deleted messages to be permanantly removed if there is no Trash folder
 $rcmail_config['flag_for_deletion'] = TRUE;
 
+// Behavior if a received message requests a message delivery notification (read receipt)
+// 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
+$rcmail_config['mdn_requests'] = 0;
+
 // Make use of the built-in spell checker. It is based on GoogieSpell.
 // Since Google only accepts connections over https your PHP installatation
 // requires to be compiled with Open SSL support

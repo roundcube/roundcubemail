@@ -1318,6 +1318,78 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 }
 
 
+function rcmail_send_mdn($uid)
+{
+  global $CONFIG, $USER, $IMAP;
+  
+  $message = array('UID' => $uid);
+  $message['headers'] = $IMAP->get_headers($message['UID']);
+  $message['subject'] = rcube_imap::decode_mime_string($message['headers']->subject, $message['headers']->charset);
+  
+  if ($message['headers']->mdn_to && !$message['headers']->mdn_sent)
+  {
+    $identity = $USER->get_identity();
+    $sender = format_email_recipient($identity['email'], $identity['name']);
+    $recipient = array_shift($IMAP->decode_address_list($message['headers']->mdn_to));
+    $mailto = $recipient['mailto'];
+
+    $compose = new rc_mail_mime(rcmail_header_delm());
+    $compose->setParam(array(
+      'text_encoding' => 'quoted-printable',
+      'html_encoding' => 'quoted-printable',
+      'head_encoding' => 'quoted-printable',
+      'head_charset'  => RCMAIL_CHARSET,
+      'html_charset'  => RCMAIL_CHARSET,
+      'text_charset'  => RCMAIL_CHARSET,
+    ));
+    
+    // compose headers array
+    $headers = array(
+      'Date' => date('r'),
+      'From' => $sender,
+      'To'   => $message['headers']->mdn_to,
+      'Subject' => rcube_label('receiptread') . ': ' . $message['subject'],
+      'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), rcmail_mail_domain($_SESSION['imap_host'])),
+      'X-Sender' => $identity['email'],
+      'Content-Type' => 'multipart/report; report-type=disposition-notification',
+    );
+    
+    if (!empty($CONFIG['useragent']))
+      $headers['User-Agent'] = $CONFIG['useragent'];
+
+    $body = rcube_label("yourmessage") . "\r\n\r\n" .
+      "\t" . rcube_label("to") . ': ' . rcube_imap::decode_mime_string($message['headers']->to, $message['headers']->charset) . "\r\n" .
+      "\t" . rcube_label("subject") . ': ' . $message['subject'] . "\r\n" .
+      "\t" . rcube_label("sent") . ': ' . format_date(strtotime($message['headers']->date), $CONFIG['date_long']) . "\r\n" .
+      "\r\n" . rcube_label("receiptnote") . "\r\n";
+    
+    $ua = !empty($CONFIG['useragent']) ? $CONFIG['useragent'] : "RoundCube Webmail (Version ".RCMAIL_VERSION.")";
+    $report = "Reporting-UA: $ua\r\n";
+    
+    if ($message['headers']->to)
+        $report .= "Original-Recipient: {$message['headers']->to}\r\n";
+    
+    $report .= "Final-Recipient: rfc822; {$identity['email']}\r\n" .
+               "Original-Message-ID: {$message['headers']->messageID}\r\n" .
+               "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
+    
+    $compose->headers($headers, true);
+    $compose->setTXTBody($body);
+    $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
+
+    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto);
+
+    if ($sent)
+    {
+      $IMAP->set_flag($message['UID'], 'MDNSENT');
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+
 // register UI objects
 $OUTPUT->add_handlers(array(
   'mailboxlist' => 'rcmail_mailbox_list',

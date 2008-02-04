@@ -5,7 +5,7 @@
  | program/steps/mail/show.inc                                           |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,6 +20,7 @@
 */
 
 require_once('Mail/mimeDecode.php');
+require_once('lib/rc_mail_mime.inc');
 
 $PRINT_MODE = $_action=='print' ? TRUE : FALSE;
 
@@ -76,8 +77,16 @@ if ($_GET['_uid'])
   // check for unset disposition notification
   if ($MESSAGE['headers']->mdn_to && !$MESSAGE['headers']->mdn_sent && $IMAP->get_mailbox_name() != $CONFIG['drafts_mbox'])
   {
-    rcube_add_label('mdnrequest');
-    $OUTPUT->set_env('mdn_request', true);
+    if (intval($CONFIG['mdn_requests']) === 1)
+    {
+      if (rcmail_send_mdn($MESSAGE['UID']))
+        $OUTPUT->show_message('receiptsent', 'confirmation');
+    }
+    else if (empty($CONFIG['mdn_requests']))
+    {
+      rcube_add_label('mdnrequest');
+      $OUTPUT->set_env('mdn_request', true);
+    }
   }
 
 
