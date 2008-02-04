@@ -51,7 +51,17 @@ $writable_dirs = array('logs/', 'temp/');
 $create_files  = array('config/db.inc.php', 'config/main.inc.php');
 
 $path = dirname(__FILE__) . '/';
+?>
+<html>
+<head>
+    <link rel="shortcut icon" href="skins/default/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="skins/default/common.css" />
+    <title>RoundCube :: check</title>
+</head>
+<body>
+<img src="skins/default/images/roundcube_logo.png" width="165" height="55" border="0" alt="RoundCube Webmail" hspace="12" vspace="2"/>
 
+<?php
 echo '<h3>Check if directories are writable</h3>';
 echo '<p>RoundCube may need to write/save files into these directories.</p>';
 
@@ -99,6 +109,7 @@ if (isset($rcmail_config)) {
 }
 
 echo '<h3>TimeZone</h3>';
+echo 'Checks if web- and databaseserver are in the same timezone.<br /><br />';
 echo 'Status: ';
 if ($db_working === true) {
     require_once 'include/rcube_mdb2.inc';
@@ -127,7 +138,7 @@ echo '<h3>Checking .ini settings</h3>';
 $auto_start   = ini_get('session.auto_start');
 $file_uploads = ini_get('file_uploads');
 
-echo '<h4>session.auto_start</h4>';
+echo '<h4>session.auto_start = 0</h4>';
 echo 'status: ';
 if ($auto_start == 1) {
     echo 'NOT OK';
@@ -136,7 +147,7 @@ if ($auto_start == 1) {
 }
 echo '<br />';
 
-echo '<h4>file_uploads</h4>';
+echo '<h4>file_uploads = On</h4>';
 echo 'status: ';
 if ($file_uploads == 1) {
     echo 'OK';
@@ -146,7 +157,7 @@ if ($file_uploads == 1) {
 
 /*
  * Probably not needed because we have a custom handler
-echo '<h4>session.save_path</h4>';
+echo '<h4>session.save_path <i>is set</i></h4>';
 echo 'status: ';
 $save_path = ini_get('session.save_path');
 if (empty($save_path)) {
@@ -164,3 +175,5 @@ if (empty($save_path)) {
 echo '<br />';
  */
 ?>
+</body>
+</html>
