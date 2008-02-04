@@ -399,7 +399,8 @@ function rcube_check_email(input, inline)
     var domain = sub_domain+'(\\x2e'+sub_domain+')*';
     var local_part = word+'(\\x2e'+word+')*';
     var addr_spec = local_part+'\\x40'+domain;
-    var reg1 = inline ? new RegExp('(^|<)'+addr_spec+'(>|$)', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+    var delim = '[,;\s\n]';
+    var reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
     return reg1.test(input) ? true : false;
     }
   return false;
