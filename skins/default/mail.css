@@ -92,7 +92,6 @@ td.formlinks a:visited
   height: 20px;
   text-align: right;
   white-space: nowrap;
-  z-index: 200;
 }
 
 #messagecountbar span
@@ -231,12 +230,10 @@ td.formlinks a:visited
 
 #mailboxlist li
 {
- /* height: 18px; */
   font-size: 11px;
   background: url(images/icons/folder-closed.png) no-repeat;
   background-position: 10px 1px;
   border-bottom: 1px solid #EBEBEB;
-/* IE 5.5  margin-left: -16px; */
 }
 
 #mailboxlist li.inbox
@@ -273,11 +270,6 @@ td.formlinks a:visited
   text-decoration: none;
 }
 
-#mailboxlist li, #mailboxlist li.unread
-{  
- /* background-image: url(images/mailbox_list.gif); */
-}
-
 #mailboxlist li.unread
 {
   font-weight: bold;
@@ -287,10 +279,6 @@ td.formlinks a:visited
 #mailboxlist li.droptarget li.selected
 {
   background-color: #929292;
-}
-
-#mailboxlist li.selected a
-{
   color: #FFF;
   font-weight: bold;
 }
@@ -306,28 +294,10 @@ td.formlinks a:visited
   padding: 0;
   margin:0;
   border-top: 1px solid #EBEBEB;  
-}
-
-#mailboxlist ul li {
   padding-left: 15px;
   background-position: 25px 1px;
-}
-
-#mailboxlist li.selected li,
-#mailboxlist li.droptarget li {
   background-color: #F9F9F9;
-}
-
-#mailboxlist li.unread li {
-  font-weight: normal;
-}
-
-#mailboxlist li.unread li.unread {
-  font-weight: bold;
-}
-
-#mailboxlist li.selected li a{
-  color: black;
+  color: blue;
   font-weight: normal;
 }
 
