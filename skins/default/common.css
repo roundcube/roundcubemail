@@ -10,6 +10,7 @@ body
 body.iframe
 {
   margin: 0px;
+  background-color: #FFF;
 }
 
 body.extwin

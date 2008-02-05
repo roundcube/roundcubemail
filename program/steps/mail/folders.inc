@@ -39,18 +39,22 @@ if ($_action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 // clear mailbox
 else if ($_action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 {
-  $success = $IMAP->clear_mailbox($mbox);
-  
-  if ($success && !empty($_REQUEST['_reload']))
+  // we should only be purging trash and junk
+  if($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']) 
   {
-    $OUTPUT->set_env('messagecount', 0);
-    $OUTPUT->set_env('pagecount', 0);
-    $OUTPUT->command('message_list.clear');
-    $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
-    $OUTPUT->command('set_unread_count', $mbox_name, 0);
+    $success = $IMAP->clear_mailbox($mbox);
+  
+    if ($success && !empty($_REQUEST['_reload']))
+    {
+      $OUTPUT->set_env('messagecount', 0);
+      $OUTPUT->set_env('pagecount', 0);
+      $OUTPUT->command('message_list.clear');
+      $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
+      $OUTPUT->command('set_unread_count', $mbox_name, 0);
+    }
+    else
+      $commands = "// purged: $success";
   }
-  else
-    $commands = "// purged: $success";
 }
 
 $OUTPUT->send($commands);

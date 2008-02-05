@@ -3495,10 +3495,7 @@ function rcube_webmail()
   this.check_for_recent = function()
     {
     if (this.busy)
-      {
-      this.send_keep_alive();
       return;
-      }
 
     this.set_busy(true, 'checkingmail');
     this.http_request('check-recent', (this.env.search_request ? '_search='+this.env.search_request+'&' : '') + '_t='+(new Date().getTime()), true);

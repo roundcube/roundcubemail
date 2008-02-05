@@ -331,6 +331,10 @@ body.messagelist
   width: expression(parseInt(document.getElementById('mailcontframe').clientWidth)+'px');
 }
 
+/* safari hack \*/
+html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: auto; }
+/**/
+
 #messagelist thead tr td
 {
   height: 20px;
