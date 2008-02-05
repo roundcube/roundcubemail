@@ -2378,6 +2378,7 @@ function rcube_webmail()
       return;
       
     var a_cids = new Array();
+    var qs = '';
 
     if (this.env.cid)
       a_cids[a_cids.length] = this.env.cid;
@@ -2396,8 +2397,12 @@ function rcube_webmail()
         this.show_contentframe(false);
       }
 
+    // also send search request to get the right records from the next page
+    if (this.env.search_request) 
+      qs += '&_search='+this.env.search_request;
+
     // send request to server
-    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_from='+(this.env.action ? this.env.action : ''));
+    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_from='+(this.env.action ? this.env.action : '')+qs);
     return true;
     };
 
