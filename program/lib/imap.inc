@@ -162,11 +162,12 @@ function iil_ReadLine($fp, $size) {
 	$line = '';
 	if ($fp) {
 		do {
+		    // FIXME: hardcode size?
 			$buffer = fgets($fp, 2048);
 			if ($buffer === false) {
 				break;
             }
-			$line.=$buffer;
+			$line .= $buffer;
 		} while ($buffer[strlen($buffer)-1]!="\n");
 	}
 	return $line;
@@ -176,12 +177,14 @@ function iil_MultLine($fp, $line) {
 	$line = chop($line);
 	if (ereg('\{[0-9]+\}$', $line)) {
 		$out = '';
+        
 		preg_match_all('/(.*)\{([0-9]+)\}$/', $line, $a);
 		$bytes = $a[2][0];
-		while (strlen($out)<$bytes) {
-			$out.=chop(iil_ReadLine($fp, 1024));
+		while (strlen($out) < $bytes) {
+		    $line = iil_ReadLine($fp, 1024); 
+			$out .= chop($line);
 		}
-		$line = $a[1][0]."\"$out\"";
+		$line = $a[1][0] . "\"$out\"";
 	}
 	return $line;
 }
