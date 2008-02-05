@@ -312,6 +312,13 @@ class rcmail_template extends rcube_html_page
     if (!$this->framed && !empty($this->js_env))
       $out .= ($this->ajax_call ? 'this' : JS_OBJECT_NAME) . '.set_env('.json_serialize($this->js_env).");\n";
     
+    // add command to set page title
+    if ($this->ajax_call && !empty($this->pagetitle))
+      $out .= sprintf(
+        "this.set_pagetitle('%s');\n",
+        JQ((!empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '') . $this->pagetitle)
+      );
+
     foreach ($this->js_commands as $i => $args)
     {
       $method = array_shift($args);
@@ -326,12 +333,7 @@ class rcmail_template extends rcube_html_page
         join(',', $args));
     }
     
-    // add command to set page title
-    if ($this->ajax_call && !empty($this->pagetitle))
-      $out .= sprintf(
-        "this.set_pagetitle('%s');\n",
-        JQ((!empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '') . $this->pagetitle)
-      );
+
     
     return $out;
   }

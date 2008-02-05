@@ -1,10 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/02/04 (thomasb)
+2008/02/05 (thomasb)
 ----------
 - Fix regular expression for checking e-mail address (#1484710)
 - Make sending of read receipts configurable
+- Respect config when localize folder names (#1484707)
+- Aplied patch for updating page title (#1484727, #1484650)
 
 2008/02/02 (thomasb)
 ----------

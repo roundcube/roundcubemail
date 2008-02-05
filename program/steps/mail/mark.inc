@@ -32,7 +32,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
   if ($marked != -1)
   {
     $mbox_name = $IMAP->get_mailbox_name();
-    $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'));
+    $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
     $OUTPUT->send();
   }
 }

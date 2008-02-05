@@ -52,9 +52,6 @@ $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 
-// update mailboxlist
-$OUTPUT->command('set_unread_count', $mbox_name, $unseen);
-
 
 // add message rows
 if (isset($a_headers) && count($a_headers))
@@ -62,6 +59,9 @@ if (isset($a_headers) && count($a_headers))
 else
   $OUTPUT->show_message('nomessagesfound', 'notice');
   
+// update mailboxlist
+$OUTPUT->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
+
 // send response
 $OUTPUT->send();
 

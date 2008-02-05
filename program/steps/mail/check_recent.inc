@@ -35,7 +35,7 @@ foreach ($a_mailboxes as $mbox_name)
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
 
       $OUTPUT->set_env('messagecount', $IMAP->messagecount());
-      $OUTPUT->command('set_unread_count', $mbox_name, $unread_count, true);
+      $OUTPUT->command('set_unread_count', $mbox_name, $unread_count, ($mbox_name == 'INBOX'));
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
       $OUTPUT->command('set_quota', $IMAP->get_quota());
 
