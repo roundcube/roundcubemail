@@ -1,5 +1,4 @@
 <?php
-
 /*
  +-----------------------------------------------------------------------+
  | program/include/rcube_ldap.inc                                        |
@@ -288,7 +287,7 @@ class rcube_ldap
     
     // add general filter to query
     if (!empty($this->prop['filter']))
-      $filter = '(&'.$this->prop['filter'] . $filter . ')';
+      $filter = '(&('.$this->prop['filter'] .')' . $filter . ')';
 
     // set filter string and execute search
     $this->set_search_set($filter);
