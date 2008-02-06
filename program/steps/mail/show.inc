@@ -42,6 +42,12 @@ if ($_GET['_uid'])
       return;
       }
     }
+    
+  // check if safe flag is set
+  if ($MESSAGE['is_safe'] = intval($_GET['_safe']))
+    $_SESSION['safe_messages'][$MESSAGE['UID']] = true;
+  else if ($_SESSION['safe_messages'][$MESSAGE['UID']])
+    $MESSAGE['is_safe'] = 1;
 
   // calculate Etag for this request
   $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().intval($MESSAGE['headers']->mdn_sent).intval($PRINT_MODE));
@@ -58,7 +64,7 @@ if ($_GET['_uid'])
   if ($MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']))
     list($MESSAGE['parts'], $MESSAGE['attachments']) = rcmail_parse_message(
       $MESSAGE['structure'],
-      array('safe' => intval($_GET['_safe']),
+      array('safe' => $MESSAGE['is_safe'],
             'prefer_html' => $CONFIG['prefer_html'],
             'get_url' => $GET_URL.'&_part=%s')
       );
@@ -72,7 +78,7 @@ if ($_GET['_uid'])
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE['UID']);
-  $OUTPUT->set_env('safemode', intval($_GET['_safe']));
+  $OUTPUT->set_env('safemode', $MESSAGE['is_safe']);
   
   // check for unset disposition notification
   if ($MESSAGE['headers']->mdn_to && !$MESSAGE['headers']->mdn_sent && $IMAP->get_mailbox_name() != $CONFIG['drafts_mbox'])

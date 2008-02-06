@@ -638,7 +638,7 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
     $structure->type = 'content';
     $a_return_parts[] = &$structure;
     }
-
+    
   // message contains alternative parts
   else if ($message_ctype_primary=='multipart' && $message_ctype_secondary=='alternative' && is_array($structure->parts))
     {
@@ -744,6 +744,10 @@ function rcmail_parse_message(&$structure, $arg=array(), $recursive=FALSE)
         $a_return_parts = array_merge($a_return_parts, $parts);
         $a_attachments = array_merge($a_attachments, $attachmnts);
         }
+        
+      // ignore "virtual" protocol parts
+      else if ($primary_type=='protocol')
+        continue;
 
       // part is file/attachment
       else if ($mail_part->disposition=='attachment' || $mail_part->disposition=='inline' || $mail_part->headers['content-id'] ||
@@ -861,7 +865,7 @@ function rcmail_message_body($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmailMsgBody';
 
-  $safe_mode = intval($_GET['_safe']);
+  $safe_mode = $MESSAGE['is_safe'] || intval($_GET['_safe']);
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
   $out = '<div '. $attrib_str . ">\n";
   

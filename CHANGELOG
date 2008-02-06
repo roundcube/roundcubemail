@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/02/06 (thomasb)
+----------
+- Remember decision to display images for a certain message during session (#1484754)
+
 2008/02/05 (thomasb)
 ----------
 - Fix regular expression for checking e-mail address (#1484710)
@@ -8,6 +12,7 @@ CHANGELOG RoundCube Webmail
 - Respect config when localize folder names (#1484707)
 - Applied patch for updating page title (#1484727, #1484650)
 - Applied patch to prevent from purging inbox by uberlinuxguy (#1484449)
+- Applied patch to prevent bad header delimiters (#1484751)
 - Also send search request when deleting a contact (#1484620)
 - Add CSS hack for Safari
 
