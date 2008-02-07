@@ -1,9 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/02/06 (thomasb)
+2008/02/07 (thomasb)
 ----------
 - Remember decision to display images for a certain message during session (#1484754)
+- Truncte attachment filenames to 55 characters due to an IE bug (#1484757)
+- Fix size of the attachment preview frame (#1484758)
 
 2008/02/05 (thomasb)
 ----------
