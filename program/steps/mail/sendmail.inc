@@ -239,7 +239,7 @@ if ($isHtml)
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($message_body);
   $plainTextPart = wordwrap($h2t->get_text(), 998, "\r\n", true);
-  $MAIL_MIME->setTXTBody($plainTextPart);
+  $MAIL_MIME->setTXTBody(html_entity_decode($plainTextPart, ENT_COMPAT, 'utf-8'));
 
   // look for "emoticon" images from TinyMCE and copy into message as attachments
   rcmail_attach_emoticons($MAIL_MIME);
