@@ -557,9 +557,9 @@ function rc_request_header($name)
  * @param string Input string
  * @param int    Max. length
  * @param string Replace removed chars with this
- * @return string Abbrevated string
+ * @return string Abbreviated string
  */
-function abbrevate_string($str, $maxlength, $place_holder='...')
+function abbreviate_string($str, $maxlength, $place_holder='...')
 {
   $length = rc_strlen($str);
   $first_part_length = floor($maxlength/2) - rc_strlen($place_holder);

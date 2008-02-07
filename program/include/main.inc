@@ -1712,7 +1712,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)
         {
-        $fname = abbrevate_string($foldername, $maxlength);
+        $fname = abbreviate_string($foldername, $maxlength);
         if ($fname != $foldername)
           $title = ' title="'.Q($foldername).'"';
         $foldername = $fname;
@@ -1791,7 +1791,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
       
       // shorten the folder name to a given length
       if ($maxlength && $maxlength>1)
-        $foldername = abbrevate_string($foldername, $maxlength);
+        $foldername = abbreviate_string($foldername, $maxlength);
       }
 
     $out .= sprintf('<option value="%s">%s%s</option>'."\n",

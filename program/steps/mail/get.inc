@@ -108,7 +108,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET))
       {
       header(sprintf('Content-Disposition: %s; filename="%s";',
                      $_GET['_download'] ? 'attachment' : 'inline',
-                     $part->filename ? $part->filename : "roundcube.$ctype_secondary"));
+                     $part->filename ? abbreviate_string($part->filename, 55) : "roundcube.$ctype_secondary"));
 
       // turn off output buffering and print part content
       $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part, true);
