@@ -254,7 +254,8 @@ function get_form_tags($attrib, $action, $add_hidden=array())
 // register UI objects
 $OUTPUT->add_handlers(array(
   'userprefs' => 'rcmail_user_prefs_form',
-  'itentitieslist' => 'rcmail_identities_list'
+  'identitieslist' => 'rcmail_identities_list',
+  'itentitieslist' => 'rcmail_identities_list'  // keep this for backward compatibility
 ));
 
 
