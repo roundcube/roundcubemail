@@ -97,17 +97,17 @@ class rcube_imap
    * @param  string   Username for IMAP account
    * @param  string   Password for IMAP account
    * @param  number   Port to connect to
-   * @param  boolean  Use SSL connection
+   * @param  string   SSL schema (either ssl or tls) or null if plain connection
    * @return boolean  TRUE on success, FALSE on failure
    * @access public
    */
-  function connect($host, $user, $pass, $port=143, $use_ssl=FALSE)
+  function connect($host, $user, $pass, $port=143, $use_ssl=null)
     {
     global $ICL_SSL, $ICL_PORT, $IMAP_USE_INTERNAL_DATE;
     
     // check for Open-SSL support in PHP build
     if ($use_ssl && in_array('openssl', get_loaded_extensions()))
-      $ICL_SSL = TRUE;
+      $ICL_SSL = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
     else if ($use_ssl)
       {
       raise_error(array('code' => 403, 'type' => 'imap', 'file' => __FILE__,

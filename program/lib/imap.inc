@@ -49,6 +49,7 @@
 		- Sanity check of $message_set in iil_C_FetchHeaders(), iil_C_FetchHeaderIndex(), iil_C_FetchThreadHeaders()
 		- Implemented UID FETCH in iil_C_FetchHeaders()
 		- Abort do-loop on socket errors (fgets returns false)
+		- $ICL_SSL is not boolean anymore but contains the connection schema (ssl or tls)
 		- Removed some debuggers (echo ...)
 
 ********************************************************/
@@ -455,7 +456,7 @@ function iil_Connect($host, $user, $password) {
     
 	//check for SSL
 	if ($ICL_SSL) {
-		$host = "ssl://".$host;
+		$host = $ICL_SSL."://".$host;
 	}
 	
 	//open socket connection
