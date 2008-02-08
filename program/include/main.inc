@@ -907,18 +907,26 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   if ($from==$to || $str=='' || empty($from))
     return $str;
+    
+  $aliases = array(
+    'UNKNOWN-8BIT'   => 'ISO-8859-15',
+    'X-UNKNOWN'      => 'ISO-8859-15',
+    'X-USER-DEFINED' => 'ISO-8859-15',
+    'ISO-8859-8-I'   => 'ISO-8859-8',
+    'KS_C_5601-1987' => 'EUC-KR',
+    'GB2312'         => 'GB18030'
+  );
 
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
     {
-    $iconv_map = array('KS_C_5601-1987' => 'EUC-KR');
-    return iconv(($iconv_map[$from] ? $iconv_map[$from] : $from), ($iconv_map[$to] ? $iconv_map[$to] : $to) . "//IGNORE", $str);
+    return iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
     }
 
   // convert charset using mbstring module  
   if ($MBSTRING)
     {
-    $mb_map = array('UTF-7' => 'UTF7-IMAP', 'KS_C_5601-1987' => 'EUC-KR');
+    $mb_map = $aliases + array('UTF-7' => 'UTF7-IMAP');
     
     // return if convert succeeded
     if (($out = mb_convert_encoding($str, ($mb_map[$to] ? $mb_map[$to] : $to), ($mb_map[$from] ? $mb_map[$from] : $from))) != '')
