@@ -76,5 +76,5 @@ $messages['errorsavingcontact'] = 'Could not save the contact address';
 $messages['movingmessage'] = 'Moving message...';
 $messages['receiptsent'] = 'Successfully sent a read receipt';
 $messages['errorsendingreceipt'] = 'Could not send the receipt';
-
+$messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';
 ?>

@@ -76,5 +76,5 @@ $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert wer
 $messages['movingmessage'] = 'Die E-Mail wird verschoben...';
 $messages['receiptsent'] = 'Bestätigung erfolgreich gesendet';
 $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
-
+$messages['nodeletelastidentity'] = 'Sie koennen diesen Absender nicht loeschen.';
 ?>

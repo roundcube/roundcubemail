@@ -241,6 +241,15 @@ class rcube_user
     
     if (!$this->ID)
       return false;
+
+    $sql_result = $DB->query("SELECT count(*) AS ident_count FROM " .
+      get_table_name('identities') .
+      " WHERE user_id = ? AND del != 1",
+      $this->ID);
+
+    $sql_arr = $DB->fetch_assoc($sql_result);
+    if ($sql_arr['ident_count'] <= 1)
+      return false;
     
     $DB->query(
       "UPDATE ".get_table_name('identities')."

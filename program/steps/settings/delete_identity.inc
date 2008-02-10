@@ -23,8 +23,13 @@ if (($ids = get_input_value('_iid', RCUBE_INPUT_GET)) && preg_match('/^[0-9]+(,[
 {
 
   if ($USER->delete_identity($ids))
+  {
     $OUTPUT->show_message('deletedsuccessfully', 'confirmation');
-
+  }
+  else 
+  {
+    $OUTPUT->show_message('nodeletelastidentity', 'error');
+  }
   // send response
   if ($OUTPUT->ajax_call)
     $OUTPUT->send();
