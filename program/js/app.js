@@ -1824,6 +1824,10 @@ function rcube_webmail()
       var eid = tinyMCE.getEditorId('_message');
       // editor is a TinyMCE_Control object
       var editor = tinyMCE.getInstanceById(eid);
+      // if this is null, we should exit
+      if (editor == null) {
+        return false;
+      }
       var msgDoc = editor.getDoc();
       var msgBody = msgDoc.body;
 
