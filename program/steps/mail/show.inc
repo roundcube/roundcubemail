@@ -50,10 +50,10 @@ if ($_GET['_uid'])
     $MESSAGE['is_safe'] = 1;
 
   // calculate Etag for this request
-  $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().intval($MESSAGE['headers']->mdn_sent).intval($PRINT_MODE));
+  $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
-  if ((bool)get_input_value('_safe', RCUBE_INPUT_GET))
+  if ((bool)$MESSAGE['is_safe'])
     send_nocacheing_headers();
   else if (empty($CONFIG['devel_mode']))
     send_modified_header($_SESSION['login_time'], $etag);
