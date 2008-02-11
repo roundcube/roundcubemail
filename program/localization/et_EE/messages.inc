@@ -76,4 +76,5 @@ $messages['errorsavingcontact'] = 'Kontakti aadressi salvestamine ebaõnnestus';
 $messages['movingmessage'] = 'Kirja liigutamine...';
 $messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
 $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
+$messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
 ?>
