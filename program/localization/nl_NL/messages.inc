@@ -76,5 +76,5 @@ $messages['errorsavingcontact'] = 'Kan het ontvanger-adres niet opslaan';
 $messages['movingmessage'] = 'Bericht verplaatsen...';
 $messages['receiptsent'] = 'Ontvangstbevestiging is verstuurd';
 $messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen';
-
+$messages['nodeletelastidentity'] = 'U kunt dit afzenderadres niet verwijderen';
 ?>
