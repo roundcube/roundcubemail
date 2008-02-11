@@ -41,7 +41,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.1-20071210');
+define('RCMAIL_VERSION', '0.1-trunk');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
