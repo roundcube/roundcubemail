@@ -246,8 +246,8 @@ function send_modified_header($mdate, $etag=null)
     $iscached = true;
   
   $etag = $etag ? "\"$etag\"" : null;
-  if ($etag && $_SERVER['HTTP_IF_NONE_MATCH'] == $etag)
-    $iscached = true;
+  if ($etag)
+    $iscached = ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag);
   
   if ($iscached)
     header("HTTP/1.x 304 Not Modified");
