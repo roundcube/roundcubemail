@@ -562,10 +562,14 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
   global $IMAP, $MESSAGE;
-    
-  // add attachments
-  if (!isset($_SESSION['compose']['forward_attachments']) &&
-      is_array($MESSAGE['parts']) && sizeof($MESSAGE['parts'])>1)
+  
+  /**
+   * add attachments
+   * sizeof($MESSAGE['parts'] can be 1 - e.g. attachment, but no text!
+   */
+  if (!isset($_SESSION['compose']['forward_attachments'])
+      && is_array($MESSAGE['parts'])
+      && count($MESSAGE['parts']) > 0)
     rcmail_write_compose_attachments($MESSAGE);
 
   return $body;
