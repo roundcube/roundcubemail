@@ -587,7 +587,7 @@ function rcmail_write_compose_attachments(&$message)
   
   foreach ($message['parts'] as $pid => $part)
   {
-    if ($part->ctype_primary != 'message' && $part->ctype_primary != 'text' &&
+    if ($part->ctype_primary != 'message' &&
         ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
          (empty($part->disposition) && $part->filename)))
     {
