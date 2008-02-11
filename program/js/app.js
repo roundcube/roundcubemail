@@ -3,7 +3,7 @@
  | RoundCube Webmail Client Script                                       |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev, - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -155,7 +155,7 @@ function rcube_webmail()
         
         if (this.env.action=='show' || this.env.action=='preview')
           {
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'viewsource', 'print', 'load-attachment', true);
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource', 'print', 'load-attachment', true);
           if (this.env.next_uid)
             {
             this.enable_command('nextmessage', true);
@@ -676,7 +676,12 @@ function rcube_webmail()
         else if (this.task == 'addressbook' && this.drag_active)
           this.copy_contact(null, props);
         break;
-        
+
+      case 'mark':
+        if (props)
+          this.mark_message(props);
+        break;
+      
       case 'toggle_status':
         if (props && !props._row)
           break;
@@ -1090,7 +1095,7 @@ function rcube_webmail()
       }
 
     // Hide message command buttons until a message is selected 
-    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'print', false); 
+    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false); 
     return false;
     };
 
@@ -1121,12 +1126,12 @@ function rcube_webmail()
       {
       this.enable_command('reply', 'reply-all', 'forward', false);
       this.enable_command('show', selected);
-      this.enable_command('delete', 'moveto', (list.selection.length > 0 ? true : false));
+      this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
     else
       {
       this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
-      this.enable_command('delete', 'moveto', (list.selection.length > 0 ? true : false));
+      this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
 
     // start timer for message preview (wait for double click)
