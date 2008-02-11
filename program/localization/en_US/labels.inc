@@ -109,6 +109,9 @@ $labels['lastmessage']      = 'Show the last message';
 $labels['lastmessages']     = 'Show last set of messages';
 $labels['backtolist']       = 'Back to message list';
 $labels['viewsource']       = 'Show source';
+$labels['markmessages']     = 'Mark messages';
+$labels['markread']         = 'As read';
+$labels['markunread']       = 'As unread';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';

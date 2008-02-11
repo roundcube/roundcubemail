@@ -5,36 +5,50 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/mail.css" />
 <script type="text/javascript" src="/splitter.js"></script>
+<script type="text/javascript">
+
+function rcube_mail_ui()
+{
+  this.markmenu = new rcube_layer('markmessagemenu');
+}
+
+rcube_mail_ui.prototype = {
+
+show_markmenu: function(show)
+{
+  if (typeof show == 'undefined')
+    show = this.markmenu.visible ? false : true;
+  
+  var ref = rcube_find_object('markreadbutton');
+  if (show && ref)
+    this.markmenu.move(ref.offsetLeft, ref.offsetTop + ref.offsetHeight);
+  
+  this.markmenu.show(show);
+},
+
+body_mouseup: function(evt, p)
+{
+  if (this.markmenu && this.markmenu.visible)
+    this.show_markmenu(false);
+},
+
+body_keypress: function(evt, p)
+{
+  if (rcube_event.get_keycode(evt) == 27 && this.markmenu && this.markmenu.visible)
+    this.show_markmenu(false);
+}
+
+};
+
+</script>
 </head>
 <body>
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 
-<div id="messagetoolbar">
-<roundcube:button command="checkmail" imageSel="/images/buttons/inbox_sel.png" imageAct="/images/buttons/inbox_act.png" imagePas="/images/buttons/inbox_pas.png" width="32" height="32" title="checkmail" />
-<roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="writenewmessage" />
-<roundcube:button command="reply" imageSel="/images/buttons/reply_sel.png" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
-<roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
-<roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
-<roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
-<roundcube:button command="print" imageSel="/images/buttons/print_sel.png" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
-</div>
-
-<div id="quicksearchbar">
-<roundcube:object name="searchform" type="search" results="5" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
-</div>
-
-<div id="messagecountbar">
-<roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
-<roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
-&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
-<roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
-<roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
-</div>
-
 <div id="mailboxlist-container">
-<div id="mailboxlist-header"><roundcube:label name="mailboxlist" /></div>
+<h3 id="mailboxlist-header"><roundcube:label name="mailboxlist" /></h3>
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" />
 </div>
 
@@ -84,5 +98,42 @@
 <roundcube:endif />
 </div>
 
+<div id="messagetoolbar">
+<roundcube:button command="checkmail" imageSel="/images/buttons/inbox_sel.png" imageAct="/images/buttons/inbox_act.png" imagePas="/images/buttons/inbox_pas.png" width="32" height="32" title="checkmail" />
+<roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="writenewmessage" />
+<roundcube:button id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmailUI.show_markmenu();return false" />
+<roundcube:button command="reply" imageSel="/images/buttons/reply_sel.png" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
+<roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
+<roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
+<roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
+<roundcube:button command="print" imageSel="/images/buttons/print_sel.png" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
+
+<div id="markmessagemenu">
+  <ul class="toolbarmenu">
+    <li><roundcube:button command="mark" prop="read" label="markread" classAct="active" /></li>
+    <li><roundcube:button command="mark" prop="unread" label="markunread" classAct="active" /></li>
+  </ul>
+</div>
+</div>
+
+<div id="quicksearchbar">
+<roundcube:object name="searchform" type="search" results="5" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
+</div>
+
+<div id="messagecountbar">
+<roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
+<roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
+&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
+<roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
+<roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
+</div>
+
+<script type="text/javascript">
+
+var rcmailUI = new rcube_mail_ui();
+rcube_event.add_listener({ object:rcmailUI, method:'body_mouseup', event:'mouseup' });
+rcube_event.add_listener({ object:rcmailUI, method:'body_keypress', event:'keypress' });
+  
+</script>
 </body>
 </html>

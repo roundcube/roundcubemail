@@ -453,8 +453,7 @@ class rcmail_template extends rcube_html_page
     {
       // return a button
       case 'button':
-        if ($attrib['command'])
-          return $this->button($attrib);
+        return $this->button($attrib);
         break;
 
       // show a label
@@ -582,7 +581,7 @@ class rcmail_template extends rcube_html_page
 
     $skin_path = $this->config['skin_path'];
 
-    if (!($attrib['command'] || $attrib['name']))
+    if (!($attrib['command'] || $attrib['name'] || $attrib['onclick']))
       return '';
 
     // try to find out the button type

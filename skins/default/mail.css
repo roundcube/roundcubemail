@@ -41,6 +41,49 @@
   padding-left: 2px;
 }
 
+#markmessagemenu
+{
+  position: absolute;
+  top: 32px;
+  left: 90px;
+  width: auto;
+  visibility: hidden;
+  background-color: #F9F9F9;
+  border: 1px solid #CCC;
+  padding: 1px;
+  opacity: 0.9;
+  z-index: 240;
+}
+
+ul.toolbarmenu
+{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.toolbarmenu li
+{
+  font-size: 11px;
+  white-space: nowrap;
+  min-width: 130px;
+  width: auto !important;
+  width: 130px;
+}
+
+ul.toolbarmenu li a
+{
+  display: block;
+  color: #a0a0a0;
+  padding: 2px 8px 3px 12px;
+  text-decoration: none;
+}
+
+ul.toolbarmenu li a.active:hover
+{
+  background-color: #ddd;
+}
+
 #listcontrols
 {
   position: absolute;
@@ -71,6 +114,9 @@ td.formlinks a:visited
 #mailboxcontrols a.active,
 #mailboxcontrols a.active:active,
 #mailboxcontrols a.active:visited,
+ul.toolbarmenu li a.active,
+ul.toolbarmenu li a.active:active,
+ul.toolbarmenu li a.active:visited,
 td.formlinks a,
 td.formlinks a:visited
 {
@@ -190,6 +236,7 @@ td.formlinks a:visited
 {
   display: block;
   height: 12px;
+  margin: 0;
   padding: 3px 10px 4px 10px;
   background-color: #EBEBEB;
   background-image: url(images/listheader_aqua.gif); 

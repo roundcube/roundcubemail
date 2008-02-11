@@ -110,6 +110,9 @@ $labels['lastmessage']      = 'Die letzte Nachricht anzeigen';
 $labels['lastmessages']     = 'Die letzten Nachrichten anzeigen';
 $labels['backtolist']       = 'Zurück zur Liste';
 $labels['viewsource']       = 'Quelltext anzeigen';
+$labels['markmessages']     = 'Nachrichten markieren';
+$labels['markread']         = 'Als gelesen';
+$labels['markunread']       = 'Als ungelesen';
 
 $labels['select'] = 'Auswählen';
 $labels['all']    = 'Alle';

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/02/11 (thomasb)
+----------
+- Add function to mark the selected messages as read/unread (#1457360)
+
 2008/02/07 (thomasb)
 ----------
 - Remember decision to display images for a certain message during session (#1484754)
