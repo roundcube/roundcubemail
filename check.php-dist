@@ -37,6 +37,20 @@
  * @todo     Check SMTP settings.
  * @todo     HTML/CSS to make it pretty.
  * @todo     In devel-next, use bootstrap.
+ * @todo     Refactor to use RoundCube classes.
+ */
+
+$rctest_config         = array();
+$rctest_config['from'] = '_yourfrom_';
+
+/*
+ ********************************************
+ ********************************************
+ ** Don't edit anything else in this file. **
+ ** Unless (of course) you know what you   **
+ ** are doing.                             **
+ ********************************************
+ ********************************************
  */
 
 $include_path  = dirname(__FILE__) . '/program/lib/';
@@ -52,15 +66,34 @@ $create_files  = array('config/db.inc.php', 'config/main.inc.php');
 
 $path = dirname(__FILE__) . '/';
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <link rel="shortcut icon" href="skins/default/images/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="skins/default/common.css" />
+    <style type="text/css">
+    /* <![CDATA[ */
+    label { display:block; }
+    .success { color:#006400;font-weight:bold !important; }
+    .fail { color:#ff0000 !important;font-weight:bold !important; }
+    /* ]]> */
+    </style>
     <title>RoundCube :: check</title>
 </head>
 <body>
 <img src="skins/default/images/roundcube_logo.png" width="165" height="55" border="0" alt="RoundCube Webmail" hspace="12" vspace="2"/>
 
+<h3>Check <?php echo basename(__FILE__); ?> Configuration</h3>
+From correctly set:
+<?php
+if ($rctest_config['from'] == '_yourfrom_') {
+    echo '<span class="fail">NOT OK</span></span>';
+} else {
+    echo $rctest_config['from'] . '<br /><br />';
+    echo '<i>We do not check if this is a <b>valid</b> email address. Since this serves as from &amp; to, make sure it is correct!</i>';
+}
+?>
+<br />
 <?php
 echo '<h3>Check if directories are writable</h3>';
 echo '<p>RoundCube may need to write/save files into these directories.</p>';
@@ -68,9 +101,9 @@ echo '<p>RoundCube may need to write/save files into these directories.</p>';
 foreach ($writable_dirs AS $dir) {
     echo "Directory $dir: ";
     if (!is_writable($path . $dir)) {
-        echo 'NOT OK';
+        echo '<span class="fail">NOT OK</span></span>';
     } else {
-        echo 'OK';
+        echo '<span class="success">OK</span>';
     }
     echo "<br />";
 }
@@ -81,9 +114,9 @@ echo '<p>Checks if the files exist and if they are readable.</p>';
 foreach ($create_files AS $file) {
     echo "File $file: ";
     if (file_exists($path . $file) && is_readable($path . $file)) {
-        echo 'OK';
+        echo '<span class="success">OK</span>';
     } else {
-        echo 'NOT OK';
+        echo '<span class="fail">NOT OK</span></span>';
     }
     echo '<br />';
 }
@@ -97,11 +130,11 @@ if (isset($rcmail_config)) {
     include_once 'MDB2.php';
     $db = MDB2::connect($rcmail_config['db_dsnw']);
     if (!MDB2::IsError($db)) {
-        echo 'OK';
+        echo '<span class="success">OK</span>';
         $db->disconnect();
         $db_working = true;
     } else {
-        echo 'NOT OK';
+        echo '<span class="fail">NOT OK</span></span>';
     }
     echo '<br />';
 } else {
@@ -124,9 +157,9 @@ if ($db_working === true) {
     $tz_diff  = $tz_local - $tz_db;
 
     if ($tz_db != $tz_local) {
-        echo 'NOT OK';
+        echo '<span class="fail">NOT OK</span></span>';
     } else {
-        echo 'OK';
+        echo '<span class="success">OK</span>';
     }
 } else {
     echo 'Could not test (fix DB first).';
@@ -141,18 +174,18 @@ $file_uploads = ini_get('file_uploads');
 echo '<h4>session.auto_start = 0</h4>';
 echo 'status: ';
 if ($auto_start == 1) {
-    echo 'NOT OK';
+    echo '<span class="fail">NOT OK</span></span>';
 } else {
-    echo 'OK';
+    echo '<span class="success">OK</span>';
 }
 echo '<br />';
 
 echo '<h4>file_uploads = On</h4>';
 echo 'status: ';
 if ($file_uploads == 1) {
-    echo 'OK';
+    echo '<span class="success">OK</span>';
 } else {
-    echo 'NOT OK';
+    echo '<span class="fail">NOT OK</span></span>';
 }
 
 /*
@@ -161,9 +194,9 @@ echo '<h4>session.save_path <i>is set</i></h4>';
 echo 'status: ';
 $save_path = ini_get('session.save_path');
 if (empty($save_path)) {
-    echo 'NOT OK';
+    echo '<span class="fail">NOT OK</span></span>';
 } else {
-    echo "OK: $save_path";
+    echo "<span class="success">OK</span>: $save_path";
     if (!file_exists($save_path)) {
         echo ', but it does not exist';
     } else {
@@ -174,6 +207,91 @@ if (empty($save_path)) {
 }
 echo '<br />';
  */
+
+@include_once $path . '/config/main.inc.php';
+?>
+<h3>Check email settings</h3>
+<h4>SMTP Settings</h4>
+<?php
+echo 'Fetch config from config/main.inc.php: ';
+if (is_array($rcmail_config) && count($rcmail_config)) {
+    echo '<span class="success">OK</span><br />';
+    echo 'server: ' . $rcmail_config['smtp_server'] . '<br />';
+    echo 'port: ' . $rcmail_config['smtp_port'] . '<br />';
+    echo 'user: ' . (($rcmail_config['smtp_user'] == '%u')?'<i>use current session</i>':$rcmail_config['smtp_user']) . '<br />';
+    echo 'pass: ' . (($rcmail_config['smtp_pass'] == '%p')?'<i>use current session</i>':$rcmail_config['smtp_pass']) . '<br />';
+    //var_dump($rcmail_config);
+?>
+<h3>Test SMTP settings - send an email</h3>
+<p>Don't abuse this!</p>
+<form action="check.php" method="post">
+<?php
+if ($rcmail_config['smtp_server'] != ''):
+    if ($rcmail_config['smtp_user'] == '%u'):
+?>
+<label>Username:</label><input type="text" name="smtp_test[user]" />
+<label>Passwort:</label><input type="text" name="smtp_test[pass]" /><br />
+<?php
+    endif;
+endif;
+?>
+Recipient:<br />
+<?php echo $rctest_config['from']; ?><br /><br />
+<input type="submit" value="send an email" />
+</form>
+<?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        echo 'Trying to send email: ';
+        if ($rctest_config['from'] == '_yourfrom_') {
+            echo '<span class="fail">NOT OK</span></span><br />';
+            echo '<i>Please edit $rctest_config in ' . basename(__FILE__) . '</i><br />';
+        } else {
+
+            $data = $_POST['smtp_test'];
+
+            require_once 'Mail.php';
+
+            $recipients = $rctest_config['from'];
+
+            $headers['From']    = $rctest_config['from'];
+            $headers['To']      = $recipients;
+            $headers['Subject'] = 'Test message from RoundCube';
+
+            $body = 'This is a test to confirm that RoundCube can send email.';
+
+            $params      = array();
+            $mail_driver = '';
+
+            if ($rcmail_config['smtp_server'] != '') {
+                $mail_driver = 'smtp';
+
+                if (isset($data['user'])) {
+                    $params['username'] = $data['user'];
+                    $params['password'] = $data['pass'];
+                    $params['auth']     = true;
+                }
+
+                $params['host'] = $rcmail_config['smtp_server'];
+                $params['port'] = $rcmail_config['smtp_port'];
+
+            } else {
+                $mail_driver = 'mail';
+            }
+
+            $mail_object =& Mail::factory($mail_driver, $params);
+            $status = $mail_object->send($recipients, $headers, $body);
+            if (!PEAR::isError($status)) {
+                echo '<span class="success">OK</span><br />';
+            } else {
+                echo '<span class="fail">NOT OK</span></span>';
+                echo '<br />' . $status->getMessage();
+            }
+        }
+    }
+} else {
+    echo '<span class="fail">NOT OK</span></span>';
+}
 ?>
 </body>
 </html>
