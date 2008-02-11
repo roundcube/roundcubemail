@@ -1204,12 +1204,11 @@ function rcmail_message_part_controls()
   if (!is_array($MESSAGE) || !is_array($MESSAGE['parts']) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE['parts'][$part])
     return '';
     
-  $part = &$MESSAGE['parts'][$part];
-  
+  $part = $MESSAGE['parts'][$part];
   $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'cellspacing', 'cellpadding', 'border', 'summary'));
   $out = '<table '. $attrib_str . ">\n";
   
-  if ($filename)
+  if ($part->filename)
     {
     $out .= sprintf('<tr><td class="title">%s</td><td>%s</td><td>[<a href="./?%s">%s</a>]</tr>'."\n",
                     Q(rcube_label('filename')),
