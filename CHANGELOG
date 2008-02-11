@@ -5,10 +5,15 @@ CHANGELOG RoundCube Webmail
 ----------
 - Add function to mark the selected messages as read/unread (#1457360)
 
+2008/02/08 (thomasb)
+----------
+- Distinguish ssl and tls for imap connections (#1484667)
+- Added some charset aliases to fix typical mis-labelling (#1484565)
+
 2008/02/07 (thomasb)
 ----------
 - Remember decision to display images for a certain message during session (#1484754)
-- Truncte attachment filenames to 55 characters due to an IE bug (#1484757)
+- Truncate attachment filenames to 55 characters due to an IE bug (#1484757)
 - Fix size of the attachment preview frame (#1484758)
 
 2008/02/05 (thomasb)
@@ -26,8 +31,10 @@ CHANGELOG RoundCube Webmail
 ----------
 - Always update $CONFIG with user prefs (#1484729)
 - Don't ask for MDN confirmations on drafted messages (#1484691)
+- Also respect receipt and priority settings when re-opening a draft message
 
 2008/01/31 (robin)
+----------
 - Remember search results (closes #1483883), patch by the_glu
 
 2008/01/08 (tomekp)
