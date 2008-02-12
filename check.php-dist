@@ -41,6 +41,11 @@
  */
 
 $rctest_config         = array();
+
+/**
+ * @var string Please edit this to an email address, such as yourname@example.org.
+ *             This email address serves as from and to for the test emails.
+ */
 $rctest_config['from'] = '_yourfrom_';
 
 /*
