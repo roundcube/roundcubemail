@@ -73,7 +73,7 @@ span.tablink-selected a
   bottom: 140px;
   overflow: auto;
   border: 1px solid #999999;
-  height: expression((parseInt(document.documentElement.clientHeight)-215)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
 }
 
 #folder-manager.droptarget
@@ -161,6 +161,7 @@ div.settingspart
 
 #subscription-table tbody td
 {
+  height: 16px;
   padding-left: 6px;
   padding-right: 10px;
   white-space: nowrap;
