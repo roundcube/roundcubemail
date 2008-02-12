@@ -3,7 +3,7 @@
  | RoundCube List Widget                                                 |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2006, RoundCube Dev, - Switzerland                      |
+ | Copyright (C) 2006-2008, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -210,7 +210,7 @@ drag_row: function(e, id)
   this.in_selection_before = this.in_selection(id) ? id : false;
 
   // don't do anything (another action processed before)
-  if (this.dont_select)
+  if (this.dont_select || (e.target && (e.target.tagName == 'INPUT' || e.target.tagName == 'IMG')))
     return false;
 
   // selects currently unselected row
@@ -239,7 +239,10 @@ click_row: function(e, id)
 {
   var now = new Date().getTime();
   var mod_key = rcube_event.get_modifier(e);
-
+  
+  if ((e.target && (e.target.tagName == 'INPUT' || e.target.tagName == 'IMG')))
+    return false;
+  
   // don't do anything (another action processed before)
   if (this.dont_select)
     {
