@@ -791,7 +791,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	    $field = 'ARRIVAL';
     }
 	$fields = array('ARRIVAL'=>1,'CC'=>1,'DATE'=>1,'FROM'=>1,'SIZE'=>1,
-        'SUBJECT'=>1,'TO'=>1);
+ 'SUBJECT'=>1,'TO'=>1);
 	
 	if (!$fields[$field]) {
 	    return false;
@@ -1488,9 +1488,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 	
 	list($from_idx, $to_idx) = explode(':', $message_set);
 	if (empty($message_set) || (isset($to_idx)
-        && (int)$from_idx > (int)$to_idx)) {
+		&& (int)$from_idx > (int)$to_idx)) {
 		return false;
-    }
+	}
 		
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) {
@@ -1509,29 +1509,29 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					$result[$id]->id = $id;
 				} else {
 				    $needed_set.=($needed_set ? ',': '') . $id;
-                }
+				}
 			}
 			//echo "<!-- iil_C_FetchHeader\nMessage Set: $message_set\nNeeded Set:$needed_set\n//-->\n";
 			if ($needed_set) {
-			    $message_set = iil_CompressMessageSet($needed_set);
-            } else {
-                return $result;
-            }
+				$message_set = iil_CompressMessageSet($needed_set);
+			} else {
+				return $result;
+			}
 		}
 	}
 
 	/* FETCH date,from,subject headers */
-	$key      = 'fh' . ($c++);
-	$prefix   = $uidfetch?' UID':'';
+	$key	  = 'fh' . ($c++);
+	$prefix	  = $uidfetch?' UID':'';
 	$request  = $key . $prefix;
-    $request .= " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ";
-    $request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
-    $request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
-    $request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])\r\n";
+	$request .= " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ";
+	$request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
+	$request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
+	$request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])\r\n";
 
 	if (!fputs($fp, $request)) {
-	    return false;
-    }
+		return false;
+	}
 	do {
 		$line = chop(iil_ReadLine($fp, 200));
 		$a    = explode(' ', $line);
@@ -1571,29 +1571,29 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 				*/
 				if (preg_match("/^\s*UID [0-9]+\)$/", $line)) {
 				    break;
-                }
-            // patch from "Maksim Rubis" <siburny@hotmail.com>
+				}
+			// patch from "Maksim Rubis" <siburny@hotmail.com>
 			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));
 			
-            if (strncmp($line, $key, strlen($key))) { 
-    			//process header, fill iilBasicHeader obj.
-    			//	initialize
-    			if (is_array($headers)) {
-    				reset($headers);
-    				while (list($k, $bar) = each($headers)) {
-                        $headers[$k] = '';
-                    }
-    			}
-    
-    			//	create array with header field:data
-    			while ( list($lines_key, $str) = each($lines) ) {
-    				list($field, $string) = iil_SplitHeaderLine($str);
-                    
-    				$field = strtolower($field);
-    				
-    				switch ($field) {
+			if (strncmp($line, $key, strlen($key))) { 
+				//process header, fill iilBasicHeader obj.
+				//	initialize
+				if (is_array($headers)) {
+					reset($headers);
+					while (list($k, $bar) = each($headers)) {
+						$headers[$k] = '';
+					}
+				}
+	
+				//	create array with header field:data
+				while ( list($lines_key, $str) = each($lines) ) {
+					list($field, $string) = iil_SplitHeaderLine($str);
+					
+					$field = strtolower($field);
+					
+					switch ($field) {
 					case 'date';
-						$result[$id]->date      = $string;
+						$result[$id]->date = $string;
 						$result[$id]->timestamp = iil_StrToTime($string);
 						break;
 					case 'from':
@@ -1618,15 +1618,15 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 						$result[$id]->encoding = str_replace("\n", " ", $string);
 						break;
 					case 'content-type':
-					 	$ctype_parts = explode(";", $string);
+						$ctype_parts = explode(";", $string);
 						$result[$id]->ctype = array_shift($ctype_parts);
 						foreach ($ctype_parts as $ctype_add) {
-                            if (preg_match('/charset="?([a-z0-9\-\.\_]+)"?/i',
-                                $ctype_add, $regs)) {
-                                $result[$id]->charset = $regs[1];
+							if (preg_match('/charset="?([a-z0-9\-\.\_]+)"?/i',
+								$ctype_add, $regs)) {
+								$result[$id]->charset = $regs[1];
 							}
-                        }
-                        break;
+						}
+						break;
 					case 'in-reply-to':
 						$result[$id]->in_reply_to = ereg_replace("[\n<>]", '', $string);
 						break;
@@ -1645,59 +1645,11 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 						if (preg_match('/^(\d+)/', $string, $matches))
 							$result[$id]->priority = intval($matches[1]);
 						break;
-    				} // end switch ()
-    			} // end while ()
-		    } else {
-			    $a = explode(' ', $line);
-		    }
-
-            if (!isset($result[$id]->date)) {
-                $result[$id]->date = '';
-            }
-            $result[$id]->date = trim($result[$id]->date);
-
-            $before = true;
-
-            if ($result[$id]->date == '') {
-
-                $before = false;
-
-                /* FETCH RECEIVED header */
-                $key      = 'fh' . ($c++);
-                $request  = $key;
-                $request .= " UID FETCH $id (BODY.PEEK[HEADER.FIELDS ";
-                $request .= "(RECEIVED)])\r\n";
-
-                if (fputs($fp, $request)) {
-                    $_received = '';
-                    while ($line = chop(iil_ReadLine($fp, 200))) {
-                        $line = trim($line);
-                        if (preg_match('/for <(.*)>;(.*)/', $line)) {
-                            $_received .= trim($line);
-                            break;
-                        }
-                    }
-                    if ($_received != '') {
-                        $_received = trim(str_replace(';', '',
-                            substr($_received, strpos($_received, ';')) ));
-
-                        if ($_received != '') {
-                            $result[$id]->date      = $_received;
-                            $result[$id]->timestamp = iil_StrToTime($_received);
-                            //trigger_error("Date: {$result[$id]->timestamp}", E_USER_WARNING);
-                        }
-                    }
-                    $result[$id]->date = trim($result[$id]->date);
-                }
-                /**
-                 * This is  hack to display something.
-                 */
-                if ($result[$id]->date == '') {
-                    $result[$id]->date      = date('r');
-                    $result[$id]->timestamp = time();
-                }
-            }
-            trigger_error("set before? {$before}, ID {$id}: {$result[$id]->date} / {$result[$id]->timestamp}", E_USER_WARNING);
+					} // end switch ()
+				} // end while ()
+			} else {
+				$a = explode(' ', $line);
+			}
 		}
 	} while (strcmp($a[0], $key) != 0);
 
@@ -1706,14 +1658,14 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 		Sample reply line: "* 3 FETCH (UID 2417 RFC822.SIZE 2730 FLAGS (\Seen \Deleted))"
 	*/
 	$command_key = 'fh' . ($c++);
-    
 	$request  = $command_key . $prefix;
-    $request .= " FETCH $message_set (UID RFC822.SIZE FLAGS INTERNALDATE)\r\n";
+	$request .= " FETCH $message_set (UID RFC822.SIZE FLAGS INTERNALDATE)\r\n";
+	
 	if (!fputs($fp, $request)) {
 	    return false;
 	}
     do {
-		$line=chop(iil_ReadLine($fp, 200));
+		$line = chop(iil_ReadLine($fp, 200));
 		//$a = explode(' ', $line);
 		//if (($line[0]=="*") && ($a[2]=="FETCH")) {
 		if ($line[0] == '*') {
@@ -1779,18 +1731,19 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					if ($time_zone_str[3] != '0') {
 					    $time_zone += 0.5;  //handle half hour offset
 					}
-                    if ($time_zone_str[0] == '-') {
-                        $time_zone = $time_zone * -1.0; //minus?
+					if ($time_zone_str[0] == '-') {
+						$time_zone = $time_zone * -1.0; //minus?
 					}
-                    $result[$id]->internaldate = $time_str;
+					$result[$id]->internaldate = $time_str;
 					
-					if ($IMAP_USE_INTERNAL_DATE) {
+					if ($IMAP_USE_INTERNAL_DATE || empty($result[$id]->date)) {
 						//calculate timestamp
 						$timestamp     = strtotime($time_str); //return's server's time
 						$na_timestamp  = $timestamp;
 						$timestamp    -= $time_zone * 3600; //compensate for tz, get GMT
 						
 						$result[$id]->timestamp = $timestamp;
+						$result[$id]->date = $time_str;
 					}
 						
 					if ($conn->do_cache) {
@@ -1813,8 +1766,8 @@ function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false) {
 	$fp = $conn->fp;
 	$a  = iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch);
 	if (is_array($a)) {
-	    return array_shift($a);
-    }
+		return array_shift($a);
+	}
 	return false;
 }
 
