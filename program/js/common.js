@@ -95,14 +95,23 @@ function roundcube_browser()
 // static functions for event handling
 var rcube_event = {
 
- /**
-  * returns the event key code
-  */
- get_keycode: function(e)
- {
-   e = e || window.event;
-   return e && e.keyCode ? e.keyCode : (e && e.which ? e.which : 0);
- },
+/**
+ * returns the event target element
+ */
+get_target: function(e)
+{
+  e = e || window.event;
+  return e && e.target ? e.target : e.srcElement;
+},
+
+/**
+ * returns the event key code
+ */
+get_keycode: function(e)
+{
+  e = e || window.event;
+  return e && e.keyCode ? e.keyCode : (e && e.which ? e.which : 0);
+},
 
 /**
  * returns modifier key (constants defined at top of file)

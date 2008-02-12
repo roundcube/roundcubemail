@@ -210,7 +210,8 @@ drag_row: function(e, id)
   this.in_selection_before = this.in_selection(id) ? id : false;
 
   // don't do anything (another action processed before)
-  if (this.dont_select || (e.target && (e.target.tagName == 'INPUT' || e.target.tagName == 'IMG')))
+  var evtarget = rcube_event.get_target(e);
+  if (this.dont_select || (evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
     return false;
 
   // selects currently unselected row
@@ -239,8 +240,9 @@ click_row: function(e, id)
 {
   var now = new Date().getTime();
   var mod_key = rcube_event.get_modifier(e);
+  var evtarget = rcube_event.get_target(e);
   
-  if ((e.target && (e.target.tagName == 'INPUT' || e.target.tagName == 'IMG')))
+  if ((evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
     return false;
   
   // don't do anything (another action processed before)
