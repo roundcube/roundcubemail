@@ -178,6 +178,7 @@ $labels['folder'] = 'Ordner';
 $labels['folders'] = 'Ordner';
 $labels['foldername'] = 'Ordnername';
 $labels['subscribed'] = 'Abonniert';
+$labels['messagecount'] = 'Nachrichten';
 $labels['create'] = 'Erstellen';
 $labels['createfolder'] = 'Neuen Ordner erstellen';
 $labels['rename'] = 'Umbenennen';

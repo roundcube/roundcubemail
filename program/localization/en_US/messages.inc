@@ -77,4 +77,6 @@ $messages['movingmessage'] = 'Moving message...';
 $messages['receiptsent'] = 'Successfully sent a read receipt';
 $messages['errorsendingreceipt'] = 'Could not send the receipt';
 $messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';
+$messages['addsubfolderhint'] = 'This folder will be created as subfolder of the currently selected one';
+
 ?>

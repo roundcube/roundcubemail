@@ -231,6 +231,7 @@ $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
 $labels['foldername']  = 'Folder name';
 $labels['subscribed']  = 'Subscribed';
+$labels['messagecount'] = 'Messages';
 $labels['create']  = 'Create';
 $labels['createfolder']  = 'Create new folder';
 $labels['rename'] = 'Rename';

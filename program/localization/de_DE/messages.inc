@@ -77,4 +77,6 @@ $messages['movingmessage'] = 'Die E-Mail wird verschoben...';
 $messages['receiptsent'] = 'Bestätigung erfolgreich gesendet';
 $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 $messages['nodeletelastidentity'] = 'Sie koennen diesen Absender nicht loeschen.';
+$messages['addsubfolderhint'] = 'Wird als Unterdornder des aktuell selektieren Ordners erstellt';
+
 ?>

@@ -5,7 +5,7 @@
  | program/steps/settings/manage_folders.inc                             |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -159,9 +159,9 @@ function rcube_subscription_form($attrib)
 
   // add table header
   $out .= "<thead><tr>\n";
-  $out .= sprintf('<td class="name">%s</td><td class="subscribed">%s</td>'.
+  $out .= sprintf('<td class="name">%s</td><td class="msgcount">%s</td><td class="subscribed">%s</td>'.
                   '<td class="rename">&nbsp;</td><td class="delete">&nbsp;</td>',
-                  rcube_label('foldername'), rcube_label('subscribed'));
+                  rcube_label('foldername'), rcube_label('messagecount'), rcube_label('subscribed'));
                   
   $out .= "\n</tr></thead>\n<tbody>\n";
 
@@ -201,20 +201,21 @@ function rcube_subscription_form($attrib)
     if (!$protected)
       $a_js_folders['rcmrow'.($i+1)] = array($folder, rcube_charset_convert($folder, 'UTF-7'));
 
-    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td>%s</td>',
+    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td class="name">%s</td><td class="msgcount">%d</td>',
                     $i+1,
                     $zebra_class,
-                    Q($folder_html));
+                    Q($folder_html),
+                    $IMAP->messagecount($folder));
                     
     if ($protected)
-      $out .= '<td>&nbsp;'.($subscribed ? '&#x2022;' : '-').'</td>';
+      $out .= '<td class="subscribed">&nbsp;'.($subscribed ? '&#x2022;' : '-').'</td>';
     else
-      $out .= '<td>'.$checkbox_subscribe->show($subscribed?$folder:'', array('value' => $folder)).'</td>';
+      $out .= '<td class="subscribed">'.$checkbox_subscribe->show($subscribed?$folder:'', array('value' => $folder)).'</td>';
 
     // add rename and delete buttons
     if (!$protected)
-      $out .= sprintf('<td><a href="#rename" title="%s">%s</a>'.
-                      '<td><a href="#delete" title="%s">%s</a></td>',
+      $out .= sprintf('<td class="rename"><a href="#rename" title="%s">%s</a>'.
+                      '<td class="delete"><a href="#delete" title="%s">%s</a></td>',
                       rcube_label('renamefolder'),
                       $edit_button,
                       rcube_label('deletefolder'),
@@ -239,9 +240,13 @@ function rcube_subscription_form($attrib)
 
 function rcube_create_folder_form($attrib)
   {
+  global $OUTPUT;
+  
   list($form_start, $form_end) = get_form_tags($attrib, 'create-folder');
   unset($attrib['form']);
 
+  if ($attrib['hintbox'])
+    $OUTPUT->add_gui_object('createfolderhint', $attrib['hintbox']);
 
   // return the complete edit form as table
   $out = "$form_start\n";
@@ -298,7 +303,7 @@ function rcube_rename_folder_form($attrib)
     }
 
   $out .= "\n$form_end";
-
+  
   return $out;
   }
 
@@ -311,7 +316,7 @@ $OUTPUT->add_handlers(array(
 ));
 
 // add some labels to client
-rcube_add_label('deletefolderconfirm');
+rcube_add_label('deletefolderconfirm','addsubfolderhint');
 
 $OUTPUT->send('managefolders');
 ?>

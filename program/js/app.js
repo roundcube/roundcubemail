@@ -2551,6 +2551,9 @@ function rcube_webmail()
       this.set_env('folder', folder);
     else
       this.set_env('folder', null);
+      
+    if (this.gui_objects.createfolderhint)
+      this.gui_objects.createfolderhint.innerHTML = this.env.folder ? this.get_label('addsubfolderhint') : '';
     };
 
 
@@ -2573,13 +2576,13 @@ function rcube_webmail()
   // tell server to create and subscribe a new mailbox
   this.create_folder = function(name)
     {
-  if (this.edit_folder)
-    this.reset_folder_rename();
+    if (this.edit_folder)
+      this.reset_folder_rename();
 
     var form;
     if ((form = this.gui_objects.editform) && form.elements['_folder_name'])
       name = form.elements['_folder_name'].value;
-    if (this.env.folder)
+    if (this.env.folder && name != '')
       name = this.env.folder+this.env.delimiter+name;
 
     if (name)

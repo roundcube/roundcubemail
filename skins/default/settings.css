@@ -69,8 +69,8 @@ span.tablink-selected a
 
 #folder-manager
 {
-  width: 500px;
-  bottom: 120px;
+  width: 540px;
+  bottom: 140px;
   overflow: auto;
   border: 1px solid #999999;
   height: expression((parseInt(document.documentElement.clientHeight)-215)+'px');
@@ -119,8 +119,8 @@ span.tablink-selected a
 #bottomboxes
 {
   position: absolute;
-  width: 500px;
-  height: 100px;
+  width: 540px;
+  height: 120px;
   left: 20px;
   bottom: 20px;
 }
@@ -142,7 +142,7 @@ div.boxtitle,
 
 div.settingsbox
 {
-  width: 500px;
+  width: 540px;
   margin-top: 20px;
   margin-bottom: 20px;
   border: 1px solid #999999;
@@ -157,13 +157,12 @@ div.settingspart
 #subscription-table
 {
   width: 100%;
-  table-layout: fixed;
 }
 
 #subscription-table tbody td
 {
   padding-left: 6px;
-  padding-right: 20px;
+  padding-right: 10px;
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   background-color: #F9F9F9;
@@ -183,12 +182,30 @@ div.settingspart
   background-color: #FFFFA6;
 }
 
-#subscription-table td.name
+#subscription-table thead td.name
 {
-  width: 280px;
+  width: 240px;
 }
 
-#subscription-table td.subscribed
+#subscription-table thead td.msgcount
 {
-  width: 80px;
+  width: 70px;
+}
+
+#subscription-table thead td.subscribed
+{
+  width: 60px;
+}
+
+#subscription-table tbody td.msgcount,
+#subscription-table tbody td.subscribed
+{
+  padding-left: 18px;
+}
+
+#subscription-table thead td.rename,
+#subscription-table thead td.delete
+{
+  width: 20px;
+  text-align: center;
 }

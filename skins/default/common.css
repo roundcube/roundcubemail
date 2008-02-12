@@ -107,6 +107,11 @@ img
   font-size: 11px;
 }
 
+.hint
+{
+  color: #666;
+  font-size: 11px;
+}
 
 /** common user interface objects */
 
