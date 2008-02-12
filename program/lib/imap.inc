@@ -1520,7 +1520,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
     $request .= " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ";
     $request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
     $request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
-    $request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])\r\n";
+    $request .= "REFERENCES RECEIVED DISPOSITION-NOTIFICATION-TO X-PRIORITY)])\r\n";
 
 	if (!fputs($fp, $request)) {
 	    return false;
@@ -1547,7 +1547,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
 				$line = chop(iil_ReadLine($fp, 300), "\r\n");
 				if (ord($line[0])<=32) {
 				    $lines[$i] .= (empty($lines[$i])?'':"\n").trim(chop($line));
-				} else{
+				} else {
 					$i++;
 					$lines[$i] = trim(chop($line));
 				}
@@ -1564,14 +1564,17 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
 				if (preg_match("/^\s*UID [0-9]+\)$/",$line)) {
 				    break;
                 }
-			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));  // patch from "Maksim Rubis" <siburny@hotmail.com>
+            // patch from "Maksim Rubis" <siburny@hotmail.com>
+			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));
 			
             if (strncmp($line, $key, strlen($key))) { 
     			//process header, fill iilBasicHeader obj.
     			//	initialize
     			if (is_array($headers)) {
     				reset($headers);
-    				while ( list($k, $bar) = each($headers) ) $headers[$k] = '';
+    				while (list($k, $bar) = each($headers)) {
+                        $headers[$k] = '';
+                    }
     			}
     
     			//	create array with header field:data
@@ -1585,6 +1588,15 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false) {
 						$result[$id]->date      = $string;
 						$result[$id]->timestamp = iil_StrToTime($string);
 						break;
+                    case 'received':
+                        if (!isset($result[$id]->date)) {
+                            $_received = substr(strstr(str_replace("\n",
+                                '', $string), '; '), 2);
+    
+                            $result[$id]->date      = str_replace("\n", '', $_received);
+                            $result[$id]->timestamp = iil_StrToTime($_received);
+                        }
+                        break;
 					case 'from':
 						$result[$id]->from = $string;
 						break;
