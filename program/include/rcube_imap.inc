@@ -1145,10 +1145,14 @@ class rcube_imap
       }
       
     // normalize filename property
-    if (!empty($struct->d_parameters['filename']))
-      $struct->filename = $this->decode_mime_string($struct->d_parameters['filename']);
-    else if (!empty($struct->ctype_parameters['name']))
-      $struct->filename = $this->decode_mime_string($struct->ctype_parameters['name']);
+    if ($filename_mime = $struct->d_parameters['filename'] ? $struct->d_parameters['filename'] : $struct->ctype_parameters['name'])
+      $struct->filename = $this->decode_mime_string($filename_mime);
+    else if ($filename_encoded = $struct->d_parameters['filename*'] ? $struct->d_parameters['filename*'] : $struct->ctype_parameters['name*'])
+    {
+      // decode filename according to RFC 2231, Section 4
+      list($filename_charset,, $filename_urlencoded) = split('\'', $filename_encoded);
+      $struct->filename = rcube_charset_convert(urldecode($filename_urlencoded), $filename_charset);
+    }
     else if (!empty($struct->headers['content-description']))
       $struct->filename = $this->decode_mime_string($struct->headers['content-description']);
       
