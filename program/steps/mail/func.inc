@@ -988,7 +988,7 @@ function rcmail_sanitize_html($body, $container_id)
   while ($body != $prev_body)
     {
     $prev_body = $body;
-    $body = preg_replace('/(<[^!][^>]*\s)(on[^=>]+)=([^>]+>)/im', '$1__removed=$3', $body);
+    $body = preg_replace('/(<[^!][^>]*\s)on(?:load|unload|click|dblclick|mousedown|mouseup|mouseover|mousemove|mouseout|focus|blur|keypress|keydown|keyup|submit|reset|select|change)=([^>]+>)/im', '$1__removed=$2', $body);
     $body = preg_replace('/(<[^!][^>]*\shref=["\']?)(javascript:)([^>]*?>)/im', '$1null:$3', $body);
     }
 

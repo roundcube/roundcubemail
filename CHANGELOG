@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/02/12 (estadtherr)
+----------
+- condense TinyMCE toolbar down to one line, removing table buttons (#1484747)
+- fix image removal in message display when message HTML includes JS event handlers
+
 2008/02/11 (thomasb)
 ----------
 - Add function to mark the selected messages as read/unread (#1457360)

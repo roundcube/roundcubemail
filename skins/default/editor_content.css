@@ -3,11 +3,14 @@
 
 body, td, pre {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
+	font-size: 12px;
 }
 
 body {
 	background-color: #FFFFFF;
+	margin-left: 4px;
+	margin-right: 4px;
+	margin-top: 2px;
 }
 
 .mceVisualAid {
