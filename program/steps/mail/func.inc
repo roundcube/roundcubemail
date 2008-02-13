@@ -290,6 +290,7 @@ function rcmail_message_list($attrib)
     $OUTPUT->set_env('attachmenticon', $skin_path . $attrib['attachmenticon']);
   
   $OUTPUT->set_env('messages', $a_js_message_arr);
+  $OUTPUT->set_env('coltypes', $a_show_cols);
   
   $OUTPUT->include_script('list.js');
   

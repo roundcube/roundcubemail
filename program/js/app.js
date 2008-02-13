@@ -146,6 +146,9 @@ function rcube_webmail()
           else
             this.message_list.focus();
           }
+          
+        if (this.env.coltypes)
+          this.set_message_coltypes(this.env.coltypes);
 
         // enable mail commands
         this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', true);
@@ -3183,8 +3186,10 @@ function rcube_webmail()
 
         cell.id = 'rcmHead'+col;
         }
+        
+      if (col == 'subject' && this.message_list)
+        this.message_list.subject_col = n+1;
       }
-
   };
 
   // create a table row in the message list

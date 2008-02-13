@@ -32,8 +32,8 @@ function rcube_list_widget(list, p)
   this.rows = [];
   this.selection = [];
   
+  this.subject_col = -1;
   this.shiftkey = false;
-
   this.multiselect = false;
   this.draggable = false;
   this.keyboard = false;
@@ -618,7 +618,7 @@ drag_mouse_move: function(e)
   
     // get subjects of selectedd messages
     var names = '';
-    var c, node, subject, obj;
+    var c, i, node, subject, obj;
     for(var n=0; n<this.selection.length; n++)
     {
       if (n>12)  // only show 12 lines
@@ -632,13 +632,20 @@ drag_mouse_move: function(e)
         obj = this.rows[this.selection[n]].obj;
         subject = '';
 
-        for(c=0; c<obj.childNodes.length; c++)
-          if (obj.childNodes[c].nodeName=='TD' && (node = obj.childNodes[c].firstChild) && (node.nodeType==3 || node.nodeName=='A'))
+        for(c=0, i=0; i<obj.childNodes.length; i++)
+        {
+          if (obj.childNodes[i].nodeName == 'TD')
           {
-            subject = node.nodeType==3 ? node.data : node.innerHTML;
-            names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
-            break;
+            if (((node = obj.childNodes[i].firstChild) && (node.nodeType==3 || node.nodeName=='A')) &&
+              (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)))
+            {
+              subject = node.nodeType==3 ? node.data : node.innerHTML;
+              names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
+              break;
+            }
+            c++;
           }
+        }
       }
     }
 
