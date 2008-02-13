@@ -3,6 +3,7 @@ CHANGELOG RoundCube Webmail
 
 2008/02/12 (estadtherr)
 ----------
+- fix switching between HTML/plain composing (#1484752) 
 - condense TinyMCE toolbar down to one line, removing table buttons (#1484747)
 - fix image removal in message display when message HTML includes JS event handlers
 

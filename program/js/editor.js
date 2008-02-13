@@ -63,9 +63,10 @@ function rcmail_toggle_editor(toggler)
   // determine the currently displayed editor
 
   var htmlFlag = document.getElementsByName('_is_html')[0];
-  var currentEditor = htmlFlag.value;
+  var isHtml = htmlFlag.value;
 
-  if (selectedEditor == currentEditor)
+  if (((selectedEditor == 'plain') && (isHtml == "0")) ||
+      ((selectedEditor == 'html') && (isHtml == "1")))
     {
     return;
     }
