@@ -171,7 +171,12 @@ add_listener: function(p)
   if (p.element.addEventListener)
     p.element.addEventListener(p.event, p.object._rc_events[key], false);
   else if (p.element.attachEvent)
+    {
+    // IE allows multiple events with the same function to be applied to the same object
+    // forcibly detach the event, then attach
+    p.element.detachEvent('on'+p.event, p.object._rc_events[key]);
     p.element.attachEvent('on'+p.event, p.object._rc_events[key]);
+    }
   else
     p.element['on'+p.event] = p.object._rc_events[key];
 },
