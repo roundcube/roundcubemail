@@ -57,6 +57,11 @@ function rcmail_startup($task='mail')
   // load configuration
   $CONFIG = rcmail_load_config();
 
+  // set session domain
+  if (isset($CONFIG['session_domain']) && !empty($CONFIG['session_domain'])) {
+    ini_set('session.cookie_domain', $CONFIG['session_domain']);
+  }
+
   // set session garbage collecting time according to session_lifetime
   if (!empty($CONFIG['session_lifetime']))
     ini_set('session.gc_maxlifetime', ($CONFIG['session_lifetime']) * 120);

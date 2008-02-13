@@ -172,9 +172,13 @@ function sess_regenerate_id()
   sess_destroy(session_id());
 
   session_id($random);
-  $cookie = session_get_cookie_params();
-  setcookie(session_name(), "", time() - 3600);
-  setcookie(session_name(), $random, $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0, $cookie['path']);
+
+  $cookie    = session_get_cookie_params();
+  $_lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
+
+  setcookie(session_name(), '', time() - 3600);
+  setcookie(session_name(), $random, $_lifetime, $cookie['path'],
+    $cookie['domain']);
 
   return true;
   }
