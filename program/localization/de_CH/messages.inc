@@ -74,6 +74,12 @@ $messages['copysuccess'] = '$nr Adressen erfolgreich kopiert';
 $messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
 $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
 $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
+
+$messages['movingmessage'] = 'Die E-Mail wird verschoben...';
+$messages['receiptsent'] = 'Bestätigung erfolgreich gesendet';
+$messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
+
+$messages['nodeletelastidentity'] = 'Sie können diesen Absender nicht löschen';
 $messages['addsubfolderhint'] = 'Wird als Unterdornder des aktuell selektieren Ordners erstellt';
 
 ?>

@@ -164,6 +164,11 @@ $labels['addcc'] = 'Cc hinzufügen';
 $labels['addbcc'] = 'Bcc hinzufügen';
 $labels['addreplyto'] = 'Antwortadresse hinzufügen';
 
+// mdn
+$labels['mdnrequest'] = 'Der Sender dieser Nachricht hat eine Empfangsbestätigung angefordert. Möchten Sie diese jetzt senden?';
+$labels['receiptread'] = 'Empfangsbestätigung (gelesen)';
+$labels['yourmessage'] = 'Dieses ist eine Empfangsbestätigung für Ihre Nachricht';
+$labels['receiptnote'] = 'Hinweis: Der Empfänger hat den Empfang der Nachricht bestätigt. Dieses ist keine Garantie, dass die Nachricht gelesen und verstanden wurde.';
 
 // address book // Adressbuch
 $labels['name']      = 'Anzeigename';
