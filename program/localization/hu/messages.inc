@@ -11,7 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
- |         Ervin HegedÃ¼s <airween@damson.hu>                             |
+ |         Ervin Hegedüs <airween@damson.hu>                             |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -19,63 +19,65 @@
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Sikertelen belÃ©pÃ©s';
-$messages['cookiesdisabled'] = 'A bÃ¶ngÃ©szÅ‘ nem tÃ¡mogatja a sÃ¼tik hasznÃ¡latÃ¡t';
-$messages['sessionerror'] = 'Ã‰rvÃ©nytelen vagy lejÃ¡rt munkamenet';
-$messages['imaperror'] = 'Nem sikerÃ¼lt a kapcsolÃ³dÃ¡s az IMAP szerverhez';
-$messages['nomessagesfound'] = 'A fiÃ³k nem tartalmaz leveleket';
-$messages['loggedout'] = 'Sikeres kijelentkezÃ©s. Viszont lÃ¡tÃ¡sra!';
-$messages['mailboxempty'] = 'A fiÃ³k Ã¼res';
-$messages['loading'] = 'BetÃ¶ltÃ©s...';
-$messages['loadingdata'] = 'Az adatok betÃ¶ltÃ©se...';
-$messages['checkingmail'] = 'Ãšj Ã¼zenetek keresÃ©se...';
-$messages['sendingmessage'] = 'Az Ã¼zenet kÃ¼ldÃ©se...';
-$messages['messagesent'] = 'Az Ã¼zenet elkÃ¼ldve';
-$messages['savingmessage'] = 'Az Ã¼zenet mentÃ©se...';
-$messages['messagesaved'] = 'Az Ã¼zenet elmentve a Sablonokhoz';
-$messages['successfullysaved'] = 'A mentÃ©s sikerÃ¼lt';
-$messages['addedsuccessfully'] = 'A cÃ­m hozzÃ¡adÃ¡sa a cÃ­mjegyzÃ©khez megtÃ¶rtÃ©nt';
-$messages['contactexists'] = 'A kapcsolat mÃ¡r lÃ©tezik ezzel az e-mail cÃ­mmel';
-$messages['blockedimages'] = 'BiztonsÃ¡gi okokbÃ³l a tÃ¡voli kÃ©pek letÃ¶ltÃ©se tiltott.';
-$messages['encryptedmessage'] = 'Az Ã¼zenet titkosÃ­tott, emiatt nem tudom megjelenÃ­teni.';
+$messages['loginfailed'] = 'Sikertelen belépés';
+$messages['cookiesdisabled'] = 'A böngészõ nem támogatja a sütik használatát';
+$messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
+$messages['imaperror'] = 'Nem sikerült a kapcsolódás az IMAP szerverhez';
+$messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
+$messages['loggedout'] = 'Sikeres kijelentkezés. Viszont látásra!';
+$messages['mailboxempty'] = 'A fiók üres';
+$messages['loading'] = 'Betöltés...';
+$messages['loadingdata'] = 'Az adatok betöltése...';
+$messages['checkingmail'] = 'Új üzenetek keresése...';
+$messages['sendingmessage'] = 'Az üzenet küldése...';
+$messages['messagesent'] = 'Az üzenet elküldve';
+$messages['savingmessage'] = 'Az üzenet mentése...';
+$messages['messagesaved'] = 'Az üzenet elmentve a Sablonokhoz';
+$messages['successfullysaved'] = 'A mentés sikerült';
+$messages['addedsuccessfully'] = 'A cím hozzáadása a címjegyzékhez megtörtént';
+$messages['contactexists'] = 'A kapcsolat már létezik ezzel az e-mail címmel';
+$messages['blockedimages'] = 'Biztonsági okokból a távoli képek letöltése tiltott.';
+$messages['encryptedmessage'] = 'Az üzenet titkosított, emiatt nem tudom megjeleníteni.';
 $messages['nocontactsfound'] = 'Nincs kapcsolat';
-$messages['contactnotfound'] = 'A kivÃ¡lasztott kapcsolat nem talÃ¡lhatÃ³';
-$messages['sendingfailed'] = 'Az Ã¼zenet elkÃ¼ldÃ©se nem sikerÃ¼lt';
-$messages['errorsaving'] = 'A mentÃ©s sorÃ¡n hiba lÃ©pett fel';
-$messages['errormoving'] = 'Az Ã¼zenetet nem sikerÃ¼lt Ã¡thelyezni';
-$messages['errordeleting'] = 'Az Ã¼zenetet nem sikerÃ¼lt tÃ¶rÃ¶lni';
-$messages['deletecontactconfirm'] = 'Biztos, hogy tÃ¶rÃ¶lni szeretnÃ©d a kijelÃ¶lt cÃ­me(ke)t?';
-$messages['deletemessagesconfirm'] = 'Biztos, hogy tÃ¶rÃ¶lni szeretnÃ©d a kijelÃ¶lt Ã¼zenete(ke)t?';
-$messages['deletefolderconfirm'] = 'Biztos, hogy tÃ¶rÃ¶lni szeretnÃ©d ezt a mappÃ¡t?';
-$messages['purgefolderconfirm'] = 'Biztos vagy benne, hogy az Ã¶sszes Ã¼zenet tÃ¶rÃ¶lhetÅ‘?';
-$messages['formincomplete'] = 'Az Å±rlap hiÃ¡nyosan lett kitÃ¶ltve';
-$messages['noemailwarning'] = 'Adj meg egy valÃ³s e-mail cÃ­met';
+$messages['contactnotfound'] = 'A kiválasztott kapcsolat nem található';
+$messages['sendingfailed'] = 'Az üzenet elküldése nem sikerült';
+$messages['errorsaving'] = 'A mentés során hiba lépett fel';
+$messages['errormoving'] = 'Az üzenetet nem sikerült áthelyezni';
+$messages['errordeleting'] = 'Az üzenetet nem sikerült törölni';
+$messages['deletecontactconfirm'] = 'Biztos, hogy törölni szeretnéd a kijelölt címe(ke)t?';
+$messages['deletemessagesconfirm'] = 'Biztos, hogy törölni szeretnéd a kijelölt üzenete(ke)t?';
+$messages['deletefolderconfirm'] = 'Biztos, hogy törölni szeretnéd ezt a mappát?';
+$messages['purgefolderconfirm'] = 'Biztos vagy benne, hogy az összes üzenet törölhetõ?';
+$messages['formincomplete'] = 'Az ûrlap hiányosan lett kitöltve';
+$messages['noemailwarning'] = 'Adj meg egy valós e-mail címet';
 $messages['nonamewarning'] = 'Adj meg egy nevet';
-$messages['nopagesizewarning'] = 'Add meg a papÃ­r mÃ©retÃ©t';
-$messages['norecipientwarning'] = 'LegalÃ¡bb egy cÃ­mzettet adj meg';
-$messages['nosubjectwarning'] = 'A "TÃ¡rgy" mezÅ‘ Ã¼res. SzeretnÃ©d most kitÃ¶lteni?';
-$messages['nobodywarning'] = 'ElkÃ¼ldÃ¶d az Ã¼zenetet tÃ¡rgy nÃ©lkÃ¼l?';
-$messages['notsentwarning'] = 'Az Ã¼zenet mÃ©g nem kÃ¼ldtem el. Eldobod az Ã¼zenetet?';
-$messages['noldapserver'] = 'Adj meg egy LDAP szervert a keresÃ©shez';
-$messages['nocontactsreturned'] = 'Nem talÃ¡ltam kapcsolatot';
-$messages['nosearchname'] = 'Add meg a kapcsolat nevÃ©t vagy e-mail cÃ­mÃ©t';
-$messages['searchsuccessful'] = '$nr Ã¼zenetet talÃ¡ltam';
-$messages['searchnomatch'] = 'Nincs talÃ¡lat';
-$messages['searching'] = 'KeresÃ©s...';
-$messages['checking'] = 'EllenÅ‘rzÃ©s...';
-$messages['nospellerrors'] = 'Nem talÃ¡ltam helyesÃ­rÃ¡si hibÃ¡t';
-$messages['folderdeleted'] = 'A mappa sikeresen tÃ¶rÃ¶lve';
-$messages['deletedsuccessfully'] = 'TÃ¶rÃ¶lve';
-$messages['converting'] = 'FormÃ¡zÃ¡s eltÃ¡volÃ­tÃ¡sa az Ã¼zenetbÅ‘l...';
-$messages['messageopenerror'] = 'Nem tudom letÃ¶lteni a leveleket a szerverrÅ‘l';
-$messages['fileuploaderror'] = 'FeltÃ¶ltÃ©s sikertelen';
-$messages['filesizeerror'] = 'A feltÃ¶ltÃ¶tt file mÃ©rete meghaladja a maximÃ¡lis mÃ©retet $size';
-$messages['copysuccess'] = 'Sikeresen mÃ¡soltunk $nr cÃ­met';
-$messages['copyerror'] = 'Nem tudtunk mÃ¡solni egyetlen cÃ­met sem';
-$messages['sourceisreadonly'] = 'Ez a cÃ­mforrÃ¡s csak olvashatÃ³';
-$messages['errorsavingcontact'] = 'Nem tudtuk menteni a kapcsolat cÃ­mÃ©t';
-$messages['movingmessage'] = 'Ãœzenet mozgatÃ¡sa...';
-$messages['receiptsent'] = 'Az OlvasÃ¡si Ã‰rtesÃ­tÃ©st elkÃ¼ldtÃ¼k';
-$messages['errorsendingreceipt'] = 'Az OlvasÃ¡si Ã‰rtesÃ­tÃ©st nem sikerÃ¼lt elkÃ¼ldeni';
+$messages['nopagesizewarning'] = 'Add meg a papír méretét';
+$messages['norecipientwarning'] = 'Legalább egy címzettet adj meg';
+$messages['nosubjectwarning'] = 'A "Tárgy" mezõ üres. Szeretnéd most kitölteni?';
+$messages['nobodywarning'] = 'Elküldöd az üzenetet tárgy nélkül?';
+$messages['notsentwarning'] = 'Az üzenet még nem küldtem el. Eldobod az üzenetet?';
+$messages['noldapserver'] = 'Adj meg egy LDAP szervert a kereséshez';
+$messages['nocontactsreturned'] = 'Nem találtam kapcsolatot';
+$messages['nosearchname'] = 'Add meg a kapcsolat nevét vagy e-mail címét';
+$messages['searchsuccessful'] = '$nr üzenetet találtam';
+$messages['searchnomatch'] = 'Nincs találat';
+$messages['searching'] = 'Keresés...';
+$messages['checking'] = 'Ellenõrzés...';
+$messages['nospellerrors'] = 'Nem találtam helyesírási hibát';
+$messages['folderdeleted'] = 'A mappa sikeresen törölve';
+$messages['deletedsuccessfully'] = 'Törölve';
+$messages['converting'] = 'Formázás eltávolítása az üzenetbõl...';
+$messages['messageopenerror'] = 'Nem tudom letölteni a leveleket a szerverrõl';
+$messages['fileuploaderror'] = 'Feltöltés sikertelen';
+$messages['filesizeerror'] = 'A feltöltött file mérete meghaladja a maximális méretet $size';
+$messages['copysuccess'] = 'Sikeresen másoltunk $nr címet';
+$messages['copyerror'] = 'Nem tudtunk másolni egyetlen címet sem';
+$messages['sourceisreadonly'] = 'Ez a címforrás csak olvasható';
+$messages['errorsavingcontact'] = 'Nem tudtuk menteni a kapcsolat címét';
+$messages['movingmessage'] = 'Üzenet mozgatása...';
+$messages['receiptsent'] = 'Az Olvasási Értesítést elküldtük';
+$messages['errorsendingreceipt'] = 'Az Olvasási Értesítést nem sikerült elküldeni';
+$messages['nodeletelastidentity'] = 'Nem törölheti ezt a profilt, ez az egyetlen';
+$messages['addsubfolderhint'] = 'Az új könyvtárat az aktuálisan kiválasztott alkönyvtáraként fogjuk létrehozni';
 
 ?>
