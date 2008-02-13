@@ -69,7 +69,8 @@ set_include_path($include_path);
 $writable_dirs = array('logs/', 'temp/');
 $create_files  = array('config/db.inc.php', 'config/main.inc.php');
 
-$path = dirname(__FILE__) . '/';
+$path  = dirname(__FILE__) . '/';
+$check = basename(__FILE__);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -216,26 +217,41 @@ echo '<br />';
 @include_once $path . '/config/main.inc.php';
 ?>
 <h3>Check email settings</h3>
-<h4>SMTP Settings</h4>
 <?php
-echo 'Fetch config from config/main.inc.php: ';
+echo 'Fetching config-settings from config/main.inc.php.<br /><br />';
 if (is_array($rcmail_config) && count($rcmail_config)) {
-    echo '<span class="success">OK</span><br />';
+?>
+<table border="0">
+<tr>
+    <th><h4>SMTP Settings</h4></th>
+    <th><h4>IMAP Settings</h4></th>
+</tr>
+<tr><td valign="top">
+<?php
+    echo 'SMTP: <span class="success">OK</span><br />';
     echo 'server: ' . $rcmail_config['smtp_server'] . '<br />';
     echo 'port: ' . $rcmail_config['smtp_port'] . '<br />';
     echo 'user: ' . (($rcmail_config['smtp_user'] == '%u')?'<i>use current session</i>':$rcmail_config['smtp_user']) . '<br />';
     echo 'pass: ' . (($rcmail_config['smtp_pass'] == '%p')?'<i>use current session</i>':$rcmail_config['smtp_pass']) . '<br />';
     //var_dump($rcmail_config);
 ?>
+</td><td valign="top">
+<?php
+    echo 'IMAP: <span class="success">OK</span><br />';
+    echo 'server: ' . $rcmail_config['default_host'] . '<br />';
+    echo 'port: ' . $rcmail_config['default_port'] . '<br />';
+?>
+</td></tr>
+</table>
 <h3>Test SMTP settings - send an email</h3>
 <p>Don't abuse this!</p>
-<form action="check.php" method="post">
+<form action="<?php echo $check; ?>" method="post">
 <?php
 if ($rcmail_config['smtp_server'] != ''):
     if ($rcmail_config['smtp_user'] == '%u'):
 ?>
 <label>Username:</label><input type="text" name="smtp_test[user]" />
-<label>Password:</label><input type="text" name="smtp_test[pass]" /><br />
+<label>Password:</label><input type="password" name="smtp_test[pass]" /><br />
 <?php
     endif;
 endif;
@@ -290,9 +306,9 @@ if ($rcmail_config['default_host'] == '') {
     echo '<span class="fail">We cannot test, default_host is not set in config/main.inc.php.</span>';
 } else {
 ?>
-<form action="check.php" method="post">
+<form action="<?php echo $check; ?>" method="post">
 <label>Username:</label><input type="text" name="imap_test[user]" />
-<label>Password:</label><input type="text" name="imap_test[pass]" /><br /><br />
+<label>Password:</label><input type="password" name="imap_test[pass]" /><br /><br />
 <input type="hidden" name="action" value="imap" />
 <input type="submit" value="check email" />
 </form><br /><br />
@@ -312,7 +328,7 @@ if ($rcmail_config['default_host'] == '') {
 
         if ($result != true) {
             echo '<span class="fail">NOT OK</span>';
-            echo '<br />' . $iil_error;
+            echo '<br />Error return: ' . $iil_error;
         } else {
             echo '<span class="success">OK</span>';
         }
