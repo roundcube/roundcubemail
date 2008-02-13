@@ -235,7 +235,7 @@ if ($rcmail_config['smtp_server'] != ''):
     if ($rcmail_config['smtp_user'] == '%u'):
 ?>
 <label>Username:</label><input type="text" name="smtp_test[user]" />
-<label>Passwort:</label><input type="text" name="smtp_test[pass]" /><br />
+<label>Password:</label><input type="text" name="smtp_test[pass]" /><br />
 <?php
     endif;
 endif;
@@ -292,7 +292,7 @@ if ($rcmail_config['default_host'] == '') {
 ?>
 <form action="check.php" method="post">
 <label>Username:</label><input type="text" name="imap_test[user]" />
-<label>Passwort:</label><input type="text" name="imap_test[pass]" /><br /><br />
+<label>Password:</label><input type="text" name="imap_test[pass]" /><br /><br />
 <input type="hidden" name="action" value="imap" />
 <input type="submit" value="check email" />
 </form><br /><br />
