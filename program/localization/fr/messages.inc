@@ -78,5 +78,7 @@ $messages['errorsavingcontact'] = 'Ne peut pas enregistrer l\'adresse du contact
 $messages['movingmessage'] = 'Déplacement du message...';
 $messages['receiptsent'] = 'L\'accusé de réception a bien été envoyé';
 $messages['errorsendingreceipt'] = 'L\'accusé de réception n\'a pas pu être envoyé';
+$messages['nodeletelastidentity'] = 'Vous ne pouvez pas effacer votre seule identité.';
+$messages['addsubfolderhint'] = 'Ce dossier sera créé comme sous-dossier de celui sélectionné.';
 
 ?>

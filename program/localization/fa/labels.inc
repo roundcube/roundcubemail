@@ -9,8 +9,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anoosh <anoosher2003@yahoo.com>                               |
- |         Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
+ | Author: Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
+ |         Anoosh <anoosher2003@yahoo.com>                               |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -87,6 +87,9 @@ $labels['lastmessage'] = 'نمایش آخرین پیغام';
 $labels['lastmessages'] = 'نمایش آخرین دسته‌ی  پیغام‌ها';
 $labels['backtolist'] = 'بازگشت به فهرست پیغام‌ها';
 $labels['viewsource'] = 'نمایش منبع';
+$labels['markmessages'] = 'علامت‌گذاری پیغام‌ها';
+$labels['markread'] = 'به عنوان خوانده‌شده';
+$labels['markunread'] = 'به عنوان خوانده‌نشده';
 $labels['select'] = 'انتخاب';
 $labels['all'] = 'همه';
 $labels['none'] = 'هیچ';
@@ -105,7 +108,7 @@ $labels['sendmessage'] = 'ارسال پیغام';
 $labels['addattachment'] = 'پیوست کردن یک پرونده';
 $labels['charset'] = 'مجموعه‌نمایه';
 $labels['editortype'] = 'نوع ویرایش‌گر';
-$labels['returnreceipt'] = 'گیرنده‌ی پیغام بازگشت';
+$labels['returnreceipt'] = 'رسید دریافت';
 $labels['checkspelling'] = 'بررسی املایی';
 $labels['resumeediting'] = 'ادامه‌ی ویرایش';
 $labels['revertto'] = 'برگرداندن به';
@@ -124,6 +127,10 @@ $labels['plaintoggle'] = 'متن ساده';
 $labels['addcc'] = 'افزودن رونوشت';
 $labels['addbcc'] = 'افزودن رونوشت مخفی';
 $labels['addreplyto'] = 'افزودن پاسخ-به';
+$labels['mdnrequest'] = 'فرستندهٔ این پیغام خواسته است که وقتی شما این پیغام را می‌خوانید، آگاه شود. آیا مایلید فرستنده را آگاه کنید؟';
+$labels['receiptread'] = 'رسید دریافت (خواندن)';
+$labels['yourmessage'] = 'این یک رسید دریافت برای پیغام شماست';
+$labels['receiptnote'] = 'تذکر: این رسید فقط تصدیق می‌کند که پیغام، روی رایانهٔ گیرنده نمایش داده شده است. هیچ تضمینی نیست که گیرنده، محتوای پیغام را خوانده یا فهمیده باشد.';
 $labels['name'] = 'نمایش نام';
 $labels['firstname'] = 'نام';
 $labels['surname'] = 'نام خانوادگی';
@@ -171,6 +178,7 @@ $labels['folder'] = 'پوشه';
 $labels['folders'] = 'پوشه‌ها';
 $labels['foldername'] = 'نام پوشه';
 $labels['subscribed'] = 'مورد اشتراک';
+$labels['messagecount'] = 'پیغام‌ها';
 $labels['create'] = 'ایجاد';
 $labels['createfolder'] = 'ایجاد پوشه‌ی جدید';
 $labels['rename'] = 'تغییر نام';

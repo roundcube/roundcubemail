@@ -9,8 +9,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anoosh <anoosher2003@yahoo.com>                               |
- |         Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
+ | Author: Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
+ |         Anoosh <anoosher2003@yahoo.com>                               |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -74,5 +74,9 @@ $messages['copyerror'] = 'رونوشت‌برداری از نشانی‌ها ن�
 $messages['sourceisreadonly'] = 'این منبع نشانی فقط‌خواندنی است';
 $messages['errorsavingcontact'] = 'ذخیره‌ی نشانی تماس ناموفق بود';
 $messages['movingmessage'] = 'در حال انتقال پیغام ...';
+$messages['receiptsent'] = 'رسید خواندن با موفقیت ارسال شد';
+$messages['errorsendingreceipt'] = 'ناتوان از ارسال رسید';
+$messages['nodeletelastidentity'] = 'نمی‌توانید این هویت را حذف کنید، زیرا آخرین هویت شماست.';
+$messages['addsubfolderhint'] = 'پوشه به عنوان زیرپوشه ای ساخته خواهد شد که هم اکنون انتخاب شده است';
 
 ?>
