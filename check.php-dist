@@ -254,8 +254,10 @@ Recipient:<br />
         } else {
 
             $data = $_POST['smtp_test'];
+            $CONFIG = $rcmail_config;
 
-            require_once 'Mail.php';
+            require_once 'lib/rc_mail_mime.inc';
+            require_once 'include/rcube_smtp.inc';
 
             $recipients = $rctest_config['from'];
 
@@ -265,32 +267,15 @@ Recipient:<br />
 
             $body = 'This is a test to confirm that RoundCube can send email.';
 
-            $params      = array();
-            $mail_driver = '';
-
-            if ($rcmail_config['smtp_server'] != '') {
-                $mail_driver = 'smtp';
-
-                if (isset($data['user'])) {
-                    $params['username'] = $data['user'];
-                    $params['password'] = $data['pass'];
-                    $params['auth']     = true;
-                }
-
-                $params['host'] = $rcmail_config['smtp_server'];
-                $params['port'] = $rcmail_config['smtp_port'];
-
-            } else {
-                $mail_driver = 'mail';
-            }
-
-            $mail_object =& Mail::factory($mail_driver, $params);
-            $status = $mail_object->send($recipients, $headers, $body);
-            if (!PEAR::isError($status)) {
+            $mail_object = new rc_mail_mime();
+            $mail_object->headers($headers);
+            
+            $smtp_response = array();
+            if (smtp_mail($rctest_config['from'], $recipients, ($foo = $mail_object->txtHeaders($send_headers)), $body, $smtp_response)) {
                 echo '<span class="success">OK</span><br />';
             } else {
                 echo '<span class="fail">NOT OK</span></span>';
-                echo '<br />' . $status->getMessage();
+                echo '<br />' . join('<br />', $smtp_response);
             }
         }
     }
