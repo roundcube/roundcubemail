@@ -10,9 +10,10 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomasz Pajor     <t.pajor@kei.pl>                             |
- | Author: Sławomir Cichoń  <slawek.cichon@gmail.com>                    |
- |         Janusz Zamecki   <janusz@zamecki.eu>                          |
+ | Author: Tomasz Pajor       <t.pajor@kei.pl>                           |
+ | Author: Sławomir Cichoń    <slawek.cichon@gmail.com>                  |
+ |         Janusz Zamecki     <janusz@zamecki.eu>                        |
+ |         Mariusz Szulerecki <nob@force.eu.org>                         |
  +-----------------------------------------------------------------------+
 
  @version $Id$

@@ -10,9 +10,10 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomasz Pajor     <t.pajor@kei.pl>                             |
- |         Sławomir Cichoń  <slawek.cichon@gmail.com>                    |
- |         Janusz Zamecki   <janusz@zamecki.eu>                          |
+ | Author: Tomasz Pajor       <t.pajor@kei.pl>                           |
+ |         Sławomir Cichoń    <slawek.cichon@gmail.com>                  |
+ |         Janusz Zamecki     <janusz@zamecki.eu>                        |
+ |         Mariusz Szulerecki <nob@force.eu.org>                         |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -73,6 +74,9 @@ $labels['saturday'] = 'Sobota';
 $labels['today'] = 'Dzisiaj';
 $labels['checkmail'] = 'Sprawdź skrzynkę';
 $labels['writenewmessage'] = 'Utwórz nową wiadomość';
+$labels['markmessages'] = 'Oznacz wiadomość';
+$labels['markread'] = 'Jako przeczytaną';
+$labels['markunread'] = 'Jako nieprzeczytaną';
 $labels['replytomessage'] = 'Odpowiedz nadawcy';
 $labels['replytoallmessage'] = 'Odpowiedz wszystkim';
 $labels['forwardmessage'] = 'Prześlij dalej';
