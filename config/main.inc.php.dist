@@ -204,6 +204,9 @@ $rcmail_config['generic_message_footer'] = '';
 // leave empty for auto-detection
 $rcmail_config['mail_header_delimiter'] = NULL;
 
+// session domain: .example.org
+$rcmail_config['session_domain'] = '';
+
 // in order to enable public ldap search, create a config array
 // like the Verisign example below. if you would like to test, 
 // simply uncomment the Verisign example.
