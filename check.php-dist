@@ -33,8 +33,6 @@
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  CVS: $Id$
  * @link     https://svn.roundcube.net/trunk
- * @todo     Check IMAP settings.
- * @todo     Check SMTP settings.
  * @todo     HTML/CSS to make it pretty.
  * @todo     In devel-next, use bootstrap.
  * @todo     Refactor to use RoundCube classes.
@@ -57,6 +55,8 @@ $rctest_config['from'] = '_yourfrom_';
  ********************************************
  ********************************************
  */
+
+error_reporting(E_ALL ^E_NOTICE);
 
 $include_path  = dirname(__FILE__) . '/program/lib/';
 $include_path .= PATH_SEPARATOR;
@@ -92,7 +92,7 @@ $path = dirname(__FILE__) . '/';
 From correctly set:
 <?php
 if ($rctest_config['from'] == '_yourfrom_') {
-    echo '<span class="fail">NOT OK</span></span>';
+    echo '<span class="fail">NOT OK</span>';
 } else {
     echo $rctest_config['from'] . '<br /><br />';
     echo '<i>We do not check if this is a <b>valid</b> email address. Since this serves as from &amp; to, make sure it is correct!</i>';
@@ -106,7 +106,7 @@ echo '<p>RoundCube may need to write/save files into these directories.</p>';
 foreach ($writable_dirs AS $dir) {
     echo "Directory $dir: ";
     if (!is_writable($path . $dir)) {
-        echo '<span class="fail">NOT OK</span></span>';
+        echo '<span class="fail">NOT OK</span>';
     } else {
         echo '<span class="success">OK</span>';
     }
@@ -121,7 +121,7 @@ foreach ($create_files AS $file) {
     if (file_exists($path . $file) && is_readable($path . $file)) {
         echo '<span class="success">OK</span>';
     } else {
-        echo '<span class="fail">NOT OK</span></span>';
+        echo '<span class="fail">NOT OK</span>';
     }
     echo '<br />';
 }
@@ -139,7 +139,7 @@ if (isset($rcmail_config)) {
         $db->disconnect();
         $db_working = true;
     } else {
-        echo '<span class="fail">NOT OK</span></span>';
+        echo '<span class="fail">NOT OK</span>';
     }
     echo '<br />';
 } else {
@@ -162,7 +162,7 @@ if ($db_working === true) {
     $tz_diff  = $tz_local - $tz_db;
 
     if ($tz_db != $tz_local) {
-        echo '<span class="fail">NOT OK</span></span>';
+        echo '<span class="fail">NOT OK</span>';
     } else {
         echo '<span class="success">OK</span>';
     }
@@ -179,7 +179,7 @@ $file_uploads = ini_get('file_uploads');
 echo '<h4>session.auto_start = 0</h4>';
 echo 'status: ';
 if ($auto_start == 1) {
-    echo '<span class="fail">NOT OK</span></span>';
+    echo '<span class="fail">NOT OK</span>';
 } else {
     echo '<span class="success">OK</span>';
 }
@@ -190,7 +190,7 @@ echo 'status: ';
 if ($file_uploads == 1) {
     echo '<span class="success">OK</span>';
 } else {
-    echo '<span class="fail">NOT OK</span></span>';
+    echo '<span class="fail">NOT OK</span>';
 }
 
 /*
@@ -199,7 +199,7 @@ echo '<h4>session.save_path <i>is set</i></h4>';
 echo 'status: ';
 $save_path = ini_get('session.save_path');
 if (empty($save_path)) {
-    echo '<span class="fail">NOT OK</span></span>';
+    echo '<span class="fail">NOT OK</span>';
 } else {
     echo "<span class="success">OK</span>: $save_path";
     if (!file_exists($save_path)) {
@@ -242,18 +242,19 @@ endif;
 ?>
 Recipient:<br />
 <?php echo $rctest_config['from']; ?><br /><br />
+<input type="hidden" name="action" value="smtp" />
 <input type="submit" value="send an email" />
 </form>
 <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'smtp') {
 
         echo 'Trying to send email: ';
         if ($rctest_config['from'] == '_yourfrom_') {
-            echo '<span class="fail">NOT OK</span></span><br />';
+            echo '<span class="fail">NOT OK</span><br />';
             echo '<i>Please edit $rctest_config in ' . basename(__FILE__) . '</i><br />';
         } else {
 
-            $data = $_POST['smtp_test'];
+            $data   = $_POST['smtp_test'];
             $CONFIG = $rcmail_config;
 
             require_once 'lib/rc_mail_mime.inc';
@@ -274,13 +275,49 @@ Recipient:<br />
             if (smtp_mail($rctest_config['from'], $recipients, ($foo = $mail_object->txtHeaders($send_headers)), $body, $smtp_response)) {
                 echo '<span class="success">OK</span><br />';
             } else {
-                echo '<span class="fail">NOT OK</span></span>';
+                echo '<span class="fail">NOT OK</span>';
                 echo '<br />' . join('<br />', $smtp_response);
             }
         }
     }
 } else {
-    echo '<span class="fail">NOT OK</span></span>';
+    echo '<span class="fail">NOT OK</span>';
+}
+?>
+<h3>Test IMAP settings</h3>
+<?php
+if ($rcmail_config['default_host'] == '') {
+    echo '<span class="fail">We cannot test, default_host is not set in config/main.inc.php.</span>';
+} else {
+?>
+<form action="check.php" method="post">
+<label>Username:</label><input type="text" name="imap_test[user]" />
+<label>Passwort:</label><input type="text" name="imap_test[pass]" /><br /><br />
+<input type="hidden" name="action" value="imap" />
+<input type="submit" value="check email" />
+</form><br /><br />
+<?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'imap') {
+
+        echo 'Testing IMAP connect: ';
+
+        $data = $_POST['imap_test'];
+
+        require_once 'imap.inc';
+        global $iil_error, $ICL_PORT;
+
+        $ICL_PORT = $rcmail_config['default_port'];
+        $result   = iil_Connect($rcmail_config['default_host'],
+            $data['user'], $data['pass']);
+
+        if ($result != true) {
+            echo '<span class="fail">NOT OK</span>';
+            echo '<br />' . $iil_error;
+        } else {
+            echo '<span class="success">OK</span>';
+        }
+        echo '<br />';
+    }
 }
 ?>
 </body>
