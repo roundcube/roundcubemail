@@ -74,5 +74,9 @@ $messages['copyerror'] = 'لم يمكن نسخ أية عناوين';
 $messages['sourceisreadonly'] = 'لا يمكن تعديل مصدر العنوان هذا';
 $messages['errorsavingcontact'] = 'تعذر حفظ عنوان المراسل';
 $messages['movingmessage'] = 'جاري نقل الرسالة...';
+$messages['receiptsent'] = 'أرسل إيصال الاستلام بنجاح';
+$messages['errorsendingreceipt'] = 'تعذر إرسال إيصال الاستلام';
+$messages['nodeletelastidentity'] = 'لا يمكن حذف هذا السجل حيث أنه الوحيد المتبقي.';
+$messages['addsubfolderhint'] = 'سيتم إنشاء هذا المجلد كمجلد فرعي للمحدد.';
 
 ?>

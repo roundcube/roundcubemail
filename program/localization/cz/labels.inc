@@ -12,6 +12,7 @@
  +-----------------------------------------------------------------------+
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
  |        joe <joe@humlak.cz>                                            |
+ |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -88,6 +89,9 @@ $labels['lastmessage'] = 'Zobrazit poslední zprávu';
 $labels['lastmessages'] = 'Zobrazit poslední zprávy';
 $labels['backtolist'] = 'Zpět do seznamu zpráv';
 $labels['viewsource'] = 'Zobrazit zdroj';
+$labels['markmessages'] = 'Označ zprávy';
+$labels['markread'] = 'Jako přečtené';
+$labels['markunread'] = 'Jako nepřečtené';
 $labels['select'] = 'Vybrat';
 $labels['all'] = 'Vše';
 $labels['none'] = 'Nic';
@@ -125,6 +129,10 @@ $labels['plaintoggle'] = 'Prostý text';
 $labels['addcc'] = 'Přidat pole "Kopie"';
 $labels['addbcc'] = 'Přidat pole "Skrytá Kopie"';
 $labels['addreplyto'] = 'Přidat pole "Odpověď"';
+$labels['mdnrequest'] = 'Odesílatel této zprávy si přeje být upozorněn na to, že jste zprávu obdrželi. Chcete přijetí zprávy potvrdit?';
+$labels['receiptread'] = 'Potvrzení o přijetí zprávy';
+$labels['yourmessage'] = 'Toto je potvrzení o přijetí Vaší zprávy';
+$labels['receiptnote'] = 'Poznámka: Toto potvrzení negarantuje, že zpráva byla příjemce přečtena a že porozuměl jejímu obsahu.';
 $labels['name'] = 'Zobrazit jméno';
 $labels['firstname'] = 'Jméno';
 $labels['surname'] = 'Příjmení';
@@ -172,6 +180,7 @@ $labels['folder'] = 'Složka';
 $labels['folders'] = 'Složky';
 $labels['foldername'] = 'Jméno složky';
 $labels['subscribed'] = 'Vybráno';
+$labels['messagecount'] = 'Počet zpráv';
 $labels['create'] = 'Vytvořit';
 $labels['createfolder'] = 'Vytvořit novou složku';
 $labels['rename'] = 'Přejmenovat';

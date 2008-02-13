@@ -75,5 +75,9 @@ $messages['copyerror'] = 'Não foi possível copiar os endereços';
 $messages['sourceisreadonly'] = 'Esta fonte de endereços é só de leitura';
 $messages['errorsavingcontact'] = 'Não foi possível guardar o endereço de contacto';
 $messages['movingmessage'] = 'Movendo mensagem...';
+$messages['receiptsent'] = 'Recibo de leitura enviado';
+$messages['errorsendingreceipt'] = 'Não foi possível enviar o recibo';
+$messages['nodeletelastidentity'] = 'Esta é a última identidade, não é possível apagá-la.';
+$messages['addsubfolderhint'] = 'Esta pasta será criada como uma sub-pasta da que está seleccionada';
 
 ?>

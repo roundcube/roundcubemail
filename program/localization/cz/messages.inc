@@ -12,6 +12,7 @@
  +-----------------------------------------------------------------------+
  | Author: Martin Mrajca <martin@moonlake.cz>                            |
  |        joe <joe@humlak.cz>                                            |
+ |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -75,5 +76,9 @@ $messages['copyerror'] = 'Nemohu zkopírovat žádnou adresu';
 $messages['sourceisreadonly'] = 'Tento zdroj adres je pouze pro čtení';
 $messages['errorsavingcontact'] = 'Nemohu uložit adresu kontaktu';
 $messages['movingmessage'] = 'Přesouvám zprávu...';
+$messages['receiptsent'] = 'Potvrzení o přřijetí zprávy odesláno';
+$messages['errorsendingreceipt'] = 'Potvrzení o přijetí zprávy nebylo možné odeslat';
+$messages['nodeletelastidentity'] = 'Alespoň jedna identita musí být ponechána. Identitu nelze odstranit.';
+$messages['addsubfolderhint'] = 'Tato složka bude vytvořena jako podsložka aktuálně zvolené složky';
 
 ?>

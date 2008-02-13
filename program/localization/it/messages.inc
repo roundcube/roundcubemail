@@ -75,5 +75,9 @@ $messages['copyerror'] = 'Impossibile copiare gli indirizzi';
 $messages['sourceisreadonly'] = 'La rubrica è in sola lettura';
 $messages['errorsavingcontact'] = 'Impossibile salvare il contatto';
 $messages['movingmessage'] = 'Sposto il messaggio...';
+$messages['receiptsent'] = 'Ricevuta di ritorno inviata con successo';
+$messages['errorsendingreceipt'] = 'Impossibile spedire la ricevuta di ritorno';
+$messages['nodeletelastidentity'] = 'Impossibile eliminare l\'unica identità disponibile';
+$messages['addsubfolderhint'] = 'La cartella verrà creata come sotto cartella della cartella corrente';
 
 ?>
