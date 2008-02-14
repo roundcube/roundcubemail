@@ -276,5 +276,8 @@ $rcmail_config['preview_pane'] = FALSE;
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;
 
+// mime magic database
+$rcmail_config['mime_magic'] = '/usr/share/misc/magic';
+
 // end of config file
 ?>
