@@ -36,46 +36,48 @@ if (!is_array($_SESSION['compose']['attachments']))
 
 $response = '';
 
-foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
+if (is_array($_FILES['_attachments']['tmp_name']))
   {
-  $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
-  if (move_uploaded_file($filepath, $tmpfname))
+  foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
     {
-    $id = count($_SESSION['compose']['attachments']);
-    $_SESSION['compose']['attachments'][] = array('name' => $_FILES['_attachments']['name'][$i],
+    $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
+    if (move_uploaded_file($filepath, $tmpfname))
+      {
+      $id = count($_SESSION['compose']['attachments']);
+      $_SESSION['compose']['attachments'][] = array('name' => $_FILES['_attachments']['name'][$i],
                                                   'mimetype' => $_FILES['_attachments']['type'][$i],
                                                   'path' => $tmpfname);
 
-    if (is_file($CONFIG['skin_path'] . '/images/icons/remove-attachment.png'))
-      $button = sprintf(
-        '<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
-        $CONFIG['skin_path'],
-        Q(rcube_label('delete')));
-    else
-      $button = Q(rcube_label('delete'));
+      if (is_file($CONFIG['skin_path'] . '/images/icons/remove-attachment.png'))
+        $button = sprintf(
+          '<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
+          $CONFIG['skin_path'],
+          Q(rcube_label('delete')));
+      else
+        $button = Q(rcube_label('delete'));
 
-    $content = sprintf(
-      '<a href="#delete" onclick="return %s.command(\'remove-attachment\', \'rcmfile%d\', this)" title="%s">%s</a>%s',
-      JS_OBJECT_NAME,
-      $id,
-      Q(rcube_label('delete')),
-      $button,
-      Q($_FILES['_attachments']['name'][$i]));
+      $content = sprintf(
+        '<a href="#delete" onclick="return %s.command(\'remove-attachment\', \'rcmfile%d\', this)" title="%s">%s</a>%s',
+        JS_OBJECT_NAME,
+        $id,
+        Q(rcube_label('delete')),
+        $button,
+        Q($_FILES['_attachments']['name'][$i]));
 
-    $OUTPUT->command('add2attachment_list', "rcmfile$id", $content);
-    }
-  else // upload failed
-    {
-    $err = $_FILES['_attachments']['error'][$i];
-    if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE)
-      $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
-    else
-      $msg = rcube_label('fileuploaderror');
+      $OUTPUT->command('add2attachment_list', "rcmfile$id", $content);
+      }
+    else // upload failed
+      {
+      $err = $_FILES['_attachments']['error'][$i];
+      if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE)
+        $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
+      else
+        $msg = rcube_label('fileuploaderror');
     
-    $OUTPUT->command('display_message', $msg, 'error');
+      $OUTPUT->command('display_message', $msg, 'error');
+      }
     }
   }
-
 
 // send html page with JS calls as response
 $OUTPUT->command('show_attachment_form', false);
