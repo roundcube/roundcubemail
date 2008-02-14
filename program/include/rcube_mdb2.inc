@@ -102,7 +102,7 @@ class rcube_mdb2
       $this->db_error_msg = $dbh->getMessage();
       
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $dbh->getMessage()), TRUE, FALSE);
+                        'message' => $dbh->getUserInfo()), TRUE, FALSE);
       }
     else if ($this->db_provider=='sqlite')
       {
