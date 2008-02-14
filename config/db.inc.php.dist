@@ -27,7 +27,7 @@ $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 $rcmail_config['db_dsnr'] = '';
 
 // database backend to use (only db or mdb2 are supported)
-$rcmail_config['db_backend'] = 'mdb2';
+$rcmail_config['db_backend'] = 'db';
 
 // maximum length of a query in bytes
 $rcmail_config['db_max_length'] = 512000;  // 500K
