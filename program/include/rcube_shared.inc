@@ -674,5 +674,42 @@ function strrstr($haystack, $needle)
   }
 }
 
+/**
+ * A method to guess the mime_type of an attachment.
+ *
+ * @param string $path     Path to the file.
+ * @param string $failover Mime type supplied for failover.
+ *
+ * @return string
+ * @author Till Klampaeckel <till@php.net>
+ * @see    http://de2.php.net/manual/en/ref.fileinfo.php
+ * @see    http://de2.php.net/mime_content_type
+ */
+function rc_mime_content_type($path, $failover = 'unknown/unknown')
+{
+    global $CONFIG;
+
+    $mime_magic = $CONFIG['mime_magic'];
+
+    if (function_exists('mime_content_type')) {
+        return mime_content_type($path);
+    }
+    if (!extension_loaded('fileinfo')) { 
+        if (!dl('fileinfo.' . PHP_SHLIB_SUFFIX)) {
+            return $failover;
+        }
+    }
+    $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
+    if (!$finfo) {
+        return $failover;
+    }
+    $mime_type = finfo_file($finfo,$path);
+    if (!$mime_type) {
+        return $failover;
+    }
+    finfo_close($finfo);
+
+    return $mime_type;
+}
 
 ?>

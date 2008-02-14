@@ -270,7 +270,10 @@ if (is_array($_SESSION['compose']['attachments']))
         We need to replace mime_content_type in a later release because the function
         is deprecated in favour of File_Info
       */
-      $MAIL_MIME->addAttachment($attachment['path'], mime_content_type($attachment['path']), $attachment['name'], true, 'base64', 'attachment', $message_charset);
+      $MAIL_MIME->addAttachment($attachment['path'],
+        rc_mime_content_type($attachment['path'], $attachment['mimetype']),
+        $attachment['name'], true, 'base64',
+        'attachment', $message_charset);
     }
   }
 
