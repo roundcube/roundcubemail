@@ -482,6 +482,127 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   }
 
 
+/* Stolen from Squirrelmail */
+function sq_deent(&$attvalue, $regex, $hex=false)
+  {
+  $ret_match = false;
+  preg_match_all($regex, $attvalue, $matches);
+  if (is_array($matches) && sizeof($matches[0]) > 0)
+    {
+    $repl = Array();
+    for ($i = 0; $i < sizeof($matches[0]); $i++)
+      {
+      $numval = $matches[1][$i];
+      if ($hex)
+        $numval = hexdec($numval);
+      $repl{$matches[0][$i]} = chr($numval);
+      }
+    $attvalue = strtr($attvalue, $repl);
+    return true;
+    }
+  else
+    return false;
+  }
+
+
+/* Stolen verbatim from Squirrelmail */
+function sq_defang(&$attvalue)
+  {
+  /* Skip this if there aren't ampersands or backslashes. */
+  if ((strpos($attvalue, '&') === false) &&
+      (strpos($attvalue, '\\') === false))
+    return;
+  $m = false;
+  do
+    {
+    $m = false;
+    $m = $m || sq_deent($attvalue, '/\&#0*(\d+);*/s');
+    $m = $m || sq_deent($attvalue, '/\&#x0*((\d|[a-f])+);*/si', true);
+    $m = $m || sq_deent($attvalue, '/\\\\(\d+)/s', true);
+    } while ($m == true);
+  $attvalue = stripslashes($attvalue);
+  }
+
+
+function rcmail_html_filter($html)
+  {
+  preg_match_all('/<\/?\w+((\s+\w+(\s*=\s*(?:".*?"|\'.*?\'|[^\'">\s]+))?)+\s*|\s*)\/?>/', $html, $tags);
+
+  /* From Squirrelmail: Translate all dangerous Unicode or Shift_JIS characters which are accepted by
+   * IE as regular characters. */
+  $replace = array(array('&#x029F;', '&#0671;',  /* L UNICODE IPA Extension */
+                         '&#x0280;', '&#0640;',  /* R UNICODE IPA Extension */
+                         '&#x0274;', '&#0628;',  /* N UNICODE IPA Extension */
+                         '&#xFF25;', '&#65317;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER E */
+                         '&#xFF45;', '&#65349;', /* Unicode FULLWIDTH LATIN SMALL LETTER E */
+                         '&#xFF38;', '&#65336;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER X */
+                         '&#xFF58;', '&#65368;', /* Unicode FULLWIDTH LATIN SMALL LETTER X */
+                         '&#xFF30;', '&#65328;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER P */
+                         '&#xFF50;', '&#65360;', /* Unicode FULLWIDTH LATIN SMALL LETTER P */
+                         '&#xFF32;', '&#65330;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER R */
+                         '&#xFF52;', '&#65362;', /* Unicode FULLWIDTH LATIN SMALL LETTER R */
+                         '&#xFF33;', '&#65331;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER S */
+                         '&#xFF53;', '&#65363;', /* Unicode FULLWIDTH LATIN SMALL LETTER S */
+                         '&#xFF29;', '&#65321;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER I */
+                         '&#xFF49;', '&#65353;', /* Unicode FULLWIDTH LATIN SMALL LETTER I */
+                         '&#xFF2F;', '&#65327;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER O */
+                         '&#xFF4F;', '&#65359;', /* Unicode FULLWIDTH LATIN SMALL LETTER O */
+                         '&#xFF2E;', '&#65326;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER N */
+                         '&#xFF4E;', '&#65358;', /* Unicode FULLWIDTH LATIN SMALL LETTER N */
+                         '&#xFF2C;', '&#65324;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER L */
+                         '&#xFF4C;', '&#65356;', /* Unicode FULLWIDTH LATIN SMALL LETTER L */
+                         '&#xFF35;', '&#65333;', /* Unicode FULLWIDTH LATIN CAPITAL LETTER U */
+                         '&#xFF55;', '&#65365;', /* Unicode FULLWIDTH LATIN SMALL LETTER U */
+                         '&#x207F;', '&#8319;' , /* Unicode SUPERSCRIPT LATIN SMALL LETTER N */
+                         "\xEF\xBC\xA5", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER E */
+                                         /* in unicode this is some Chinese char range */
+                         "\xEF\xBD\x85", /* Shift JIS FULLWIDTH LATIN SMALL LETTER E */
+                         "\xEF\xBC\xB8", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER X */
+                         "\xEF\xBD\x98", /* Shift JIS FULLWIDTH LATIN SMALL LETTER X */
+                         "\xEF\xBC\xB0", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER P */
+                         "\xEF\xBD\x90", /* Shift JIS FULLWIDTH LATIN SMALL LETTER P */
+                         "\xEF\xBC\xB2", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER R */
+                         "\xEF\xBD\x92", /* Shift JIS FULLWIDTH LATIN SMALL LETTER R */
+                         "\xEF\xBC\xB3", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER S */
+                         "\xEF\xBD\x93", /* Shift JIS FULLWIDTH LATIN SMALL LETTER S */
+                         "\xEF\xBC\xA9", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER I */
+                         "\xEF\xBD\x89", /* Shift JIS FULLWIDTH LATIN SMALL LETTER I */
+                         "\xEF\xBC\xAF", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER O */
+                         "\xEF\xBD\x8F", /* Shift JIS FULLWIDTH LATIN SMALL LETTER O */
+                         "\xEF\xBC\xAE", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER N */
+                         "\xEF\xBD\x8E", /* Shift JIS FULLWIDTH LATIN SMALL LETTER N */
+                         "\xEF\xBC\xAC", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER L */
+                         "\xEF\xBD\x8C", /* Shift JIS FULLWIDTH LATIN SMALL LETTER L */
+                         "\xEF\xBC\xB5", /* Shift JIS FULLWIDTH LATIN CAPITAL LETTER U */
+                         "\xEF\xBD\x95", /* Shift JIS FULLWIDTH LATIN SMALL LETTER U */
+                         "\xE2\x81\xBF", /* Shift JIS FULLWIDTH SUPERSCRIPT N */
+                         "\xCA\x9F",   /* L UNICODE IPA Extension */
+                         "\xCA\x80",   /* R UNICODE IPA Extension */
+                         "\xC9\xB4"),  /* N UNICODE IPA Extension */
+                   array('l', 'l', 'r', 'r', 'n', 'n', 'E', 'E', 'e', 'e', 'X', 'X', 'x', 'x',
+                         'P', 'P', 'p', 'p', 'R', 'R', 'r', 'r', 'S', 'S', 's', 's', 'I', 'I',
+                         'i', 'i', 'O', 'O', 'o', 'o', 'N', 'N', 'n', 'n', 'L', 'L', 'l', 'l',
+                         'U', 'U', 'u', 'u', 'n', 'n', 'E', 'e', 'X', 'x', 'P', 'p', 'R', 'r',
+                         'S', 's', 'I', 'i', 'O', 'o', 'N', 'n', 'L', 'l', 'U', 'u', 'n', 'l', 'r', 'n'));
+  if ((count($tags)>3) && (count($tags[3])>0))
+    foreach ($tags[3] as $nr=>$value)
+      {
+      /* Remove comments */
+      $newvalue = preg_replace('/(\/\*.*\*\/)/','$2',$value);
+      /* Translate dangerous characters */
+      $newvalue = str_replace($replace[0], $replace[1], $newvalue);
+      sq_defang($newvalue);
+      /* Rename dangerous CSS */
+      $newvalue = preg_replace('/expression/i', 'idiocy', $newvalue);
+      $newvalue = preg_replace('/url/i', 'idiocy', $newvalue);
+      $newattrs = preg_replace('/'.preg_quote($value, '/').'$/', $newvalue, $tags[1][$nr]);
+      $newtag = preg_replace('/'.preg_quote($tags[1][$nr], '/').'/', $newattrs, $tags[0][$nr]);
+      $html = preg_replace('/'.preg_quote($tags[0][$nr], '/').'/', $newtag, $html);
+      }
+  return $html;
+  }
+
+
 function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
   {
   global $IMAP, $REMOTE_OBJECTS;
@@ -533,7 +654,7 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
       $body = preg_replace($remote_patterns, $remote_replaces, $body);
       }
 
-    return Q($body, 'show', FALSE);
+    return Q(rcmail_html_filter($body), 'show', FALSE);
     }
 
   // text/enriched
