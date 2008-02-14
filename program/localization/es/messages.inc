@@ -78,5 +78,7 @@ $messages['errorsavingcontact'] = 'No se pudo guardar la dirección de contacto'
 $messages['movingmessage'] = 'Moviendo mensaje...';
 $messages['receiptsent'] = 'La notificación de lectura se ha enviado con éxito.';
 $messages['errorsendingreceipt'] = 'No se ha podido enviar la notificación de lectura.';
+$messages['nodeletelastidentity'] = 'No se puede borrar esta identidad puesto que es la última.';
+$messages['addsubfolderhint'] = 'Esta carpeta se creará como una subcarpeta dentro de la carpeta seleccionada';
 
 ?>

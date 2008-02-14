@@ -18,6 +18,7 @@
 */
 
 $messages['loginfailed'] = '로그인 실패';
+$messages['loginfailed'] = '로그인 실패';
 $messages['cookiesdisabled'] = '브라우저가 쿠키를 지원하지 않습니다';
 $messages['sessionerror'] = '세션이 유효하지 않거나 종료되었습니다';
 $messages['imaperror'] = 'IMAP 서버 연결 실패';
@@ -72,5 +73,10 @@ $messages['copysuccess'] = '$nr개의 주소를 성공적으로 복사했습니�
 $messages['copyerror'] = '주소를 복사할 수 없습니다';
 $messages['sourceisreadonly'] = '이 주소 소스는 읽기 전용입니다';
 $messages['errorsavingcontact'] = '연락처 주소를 저장할 수 없습니다';
+$messages['movingmessage'] = '메시지 이동 중...';
+$messages['receiptsent'] = '메일 읽음 확인을 보냈습니다';
+$messages['errorsendingreceipt'] = '읽음 확인을 보낼 수 없습니다';
+$messages['nodeletelastidentity'] = '이 정보는 마지막 남은 것이므로 지울 수 없습니다';
+$messages['addsubfolderhint'] = '이 폴더는 현재 선택된 폴더의 서브 폴더로 만들어질 것입니다';
 
 ?>
