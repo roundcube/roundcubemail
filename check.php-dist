@@ -189,31 +189,42 @@ echo '<h3>Check supplied DB settings</h3>';
 @include $path . 'config/db.inc.php';
 
 $db_working = false;
-if (isset($rcmail_config)) {
-    require_once 'include/rcube_mdb2.inc';
-    echo 'DB (standard): ';
-    $DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
-    $DB->db_connect('w');
-    if (!$DB->is_error()) {
-        echo CHECK_OK;
-        $db_working = true;
-    } else {
-        echo CHECK_NOK;
-    }
-    echo '<br />';
-    echo 'DB (read-only, optional): ';
-    if ($rcmail_config['db_dsnr'] != '') {
-        $DB_READ = new rcube_mdb2($rcmail_config['db_dsnr'], '', false);
-        $DB_READ->db_connect('w');
-        if (!$DB_READ->is_error()) {
+if (isset($rcmail_config) && is_array($rcmail_config)) {
+    echo 'Selected backend: ';
+    if ($rcmail_config['db_backend'] != '') {
+
+        echo 'PEAR::' . strtoupper($rcmail_config['db_backend']) . '<br />';
+
+        $_class = 'rcube_' . strtolower($rcmail_config['db_backend']);
+
+        require_once 'include/' . $_class . '.inc';
+
+        echo 'DSN (standard): ';
+        $DB = new $_class($rcmail_config['db_dsnw'], '', false);
+        $DB->db_connect('w');
+        if (!($db_error_msg = $DB->is_error())) {
             echo CHECK_OK;
+            $db_working = true;
         } else {
-            echo CHECK_NOK . ' (It\'s configured, but not working!)';
-        } 
+            echo CHECK_NOK . " (Error: $db_error_msg)";
+        }
+        echo '<br />';
+        echo 'DSN (read-only, optional): ';
+        if ($rcmail_config['db_dsnr'] != '') {
+            $DB_READ = new $_class($rcmail_config['db_dsnr'], '', false);
+            $DB_READ->db_connect('w');
+            if (!($db_error_msg = $DB_READ->is_error())) {
+                echo CHECK_OK;
+            } else {
+                echo CHECK_NOK . " (Error: $db_error_msg)";
+            }
+        } else {
+            echo CHECK_NA;
+        }
+        echo '<br />';
     } else {
-        echo CHECK_NA;
+        echo CHECK_NOK . ' (not set)';
     }
-    echo '<br />';
 } else {
     echo 'Could not open db.inc.php config file, or file is empty.<br />';
 }
@@ -222,9 +233,6 @@ echo '<h3>TimeZone</h3>';
 echo 'Checks if web- and databaseserver are in the same timezone.<br /><br />';
 echo 'Status: ';
 if ($db_working === true) {
-    //$DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
-    //$DB->db_connect('w');
-    
     $tz_db    = "SELECT " . $DB->unixtimestamp($DB->now()) . " AS tz_db";
     $tz_db    = $DB->query($tz_db);
     $tz_db    = $DB->fetch_assoc($tz_db);
