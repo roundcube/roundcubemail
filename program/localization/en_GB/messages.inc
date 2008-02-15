@@ -18,7 +18,7 @@
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Login failed';
+$messages['loginfailed'] = 'Login failed';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies';
 $messages['sessionerror'] = 'Your session is invalid or has expired';
 $messages['imaperror'] = 'Connection to IMAP server failed';
@@ -43,16 +43,16 @@ $messages['sendingfailed'] = 'Failed to send message';
 $messages['errorsaving'] = 'An error occured while saving';
 $messages['errormoving'] = 'Could not move the message';
 $messages['errordeleting'] = 'Could not delete the message';
-$messages['deletecontactconfirm']  = 'Do you really want to delete the selected contact(s)?';
+$messages['deletecontactconfirm'] = 'Do you really want to delete the selected contact(s)?';
 $messages['deletemessagesconfirm'] = 'Do you really want to delete the selected message(s)?';
-$messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
-$messages['purgefolderconfirm']  = 'Do you really want to delete all messages in this folder?';
+$messages['deletefolderconfirm'] = 'Do you really want to delete this folder?';
+$messages['purgefolderconfirm'] = 'Do you really want to delete all messages in this folder?';
 $messages['formincomplete'] = 'The form was not completely filled out';
 $messages['noemailwarning'] = 'Please enter a valid email address';
-$messages['nonamewarning']  = 'Please enter a name';
+$messages['nonamewarning'] = 'Please enter a name';
 $messages['nopagesizewarning'] = 'Please enter a page size';
 $messages['norecipientwarning'] = 'Please enter at least one recipient';
-$messages['nosubjectwarning']  = 'The "Subject" field is empty. Would you like to enter one now?';
+$messages['nosubjectwarning'] = 'The "Subject" field is empty. Would you like to enter one now?';
 $messages['nobodywarning'] = 'Send this message without any text?';
 $messages['notsentwarning'] = 'Your message has not been sent. Do you want to discard it?';
 $messages['noldapserver'] = 'Please select an LDAP server to search';
@@ -64,7 +64,7 @@ $messages['searching'] = 'Searching...';
 $messages['checking'] = 'Checking...';
 $messages['nospellerrors'] = 'No spelling errors found';
 $messages['folderdeleted'] = 'Folder successfully deleted';
-$messages['deletedsuccessfully'] = "Successfully deleted";
+$messages['deletedsuccessfully'] = 'Successfully deleted';
 $messages['converting'] = 'Removing formatting from message...';
 $messages['messageopenerror'] = 'Could not load message from server';
 $messages['fileuploaderror'] = 'File upload failed';
@@ -74,5 +74,9 @@ $messages['copyerror'] = 'Could not copy any addresses';
 $messages['sourceisreadonly'] = 'This address source is read-only';
 $messages['errorsavingcontact'] = 'Could not save the contact address';
 $messages['movingmessage'] = 'Moving message...';
+$messages['receiptsent'] = 'Successfully sent a read receipt';
+$messages['errorsendingreceipt'] = 'Could not send the receipt';
 $messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';
+$messages['addsubfolderhint'] = 'This folder will be created as subfolder of the currently selected one';
+
 ?>
