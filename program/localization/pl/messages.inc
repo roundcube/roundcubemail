@@ -10,10 +10,11 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomasz Pajor       <t.pajor@kei.pl>                           |
- | Author: Sławomir Cichoń    <slawek.cichon@gmail.com>                  |
- |         Janusz Zamecki     <janusz@zamecki.eu>                        |
- |         Mariusz Szulerecki <nob@force.eu.org>                         |
+ | Author: Tomasz Pajor        <t.pajor@kei.pl>                          |
+ | Author: Sławomir Cichoń     <slawek.cichon@gmail.com>                 |
+ |         Janusz Zamecki      <janusz@zamecki.eu>                       |
+ |         Mariusz Szulerecki  <nob@force.eu.org>                        |
+ |         Wojciech Szczepucha <donkoyote@gmail.com>                     |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -77,5 +78,9 @@ $messages['copyerror'] = 'Nie można skopiować żadnego adresu';
 $messages['sourceisreadonly'] = 'Źródło adresu jest tylko do odczytu';
 $messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu';
 $messages['movingmessage'] = 'Przenoszenie wiadomości...';
+$messages['receiptsent'] = 'Pomyślnie wysłano potwierdzenie dostarczenia';
+$messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia';
+$messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';
+$messages['addsubfolderhint'] = 'Ten folder zostanie utworzony jako podfolder aktualnie wybranego.';
 
 ?>

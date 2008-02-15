@@ -41,7 +41,7 @@ $messages['encryptedmessage'] = '此郵件經過加密，因此無法顯示。�
 $messages['nocontactsfound'] = '沒有找到任何聯絡人';
 $messages['contactnotfound'] = '找不到要求的聯絡人';
 $messages['sendingfailed'] = '郵件寄出失敗';
-$messages['errorsaving'] = '儲存過程當中發生錯誤';
+$messages['errorsaving'] = '儲存時發生錯誤';
 $messages['errormoving'] = '無法移動此郵件';
 $messages['errordeleting'] = '無法刪除此郵件';
 $messages['deletecontactconfirm'] = '你確定要刪除已選擇的聯絡人？';
@@ -74,5 +74,10 @@ $messages['copysuccess'] = '複製 $nr 個位址成功';
 $messages['copyerror'] = '無法複製任何位址';
 $messages['sourceisreadonly'] = '此來源位址是唯讀的';
 $messages['errorsavingcontact'] = '無法儲存連絡人的位址';
+$messages['movingmessage'] = '移動郵件中...';
+$messages['receiptsent'] = '閱讀回條傳送成功';
+$messages['errorsendingreceipt'] = '無法傳送回條';
+$messages['nodeletelastidentity'] = '你不能刪除此身份，因為只剩一個身份。';
+$messages['addsubfolderhint'] = '此資料夾會成為目前所選資料夾的子資料夾';
 
 ?>

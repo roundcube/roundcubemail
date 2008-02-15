@@ -10,10 +10,11 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomasz Pajor       <t.pajor@kei.pl>                           |
- |         Sławomir Cichoń    <slawek.cichon@gmail.com>                  |
- |         Janusz Zamecki     <janusz@zamecki.eu>                        |
- |         Mariusz Szulerecki <nob@force.eu.org>                         |
+ | Author: Tomasz Pajor        <t.pajor@kei.pl>                          |
+ |         Sławomir Cichoń     <slawek.cichon@gmail.com>                 |
+ |         Janusz Zamecki      <janusz@zamecki.eu>                       |
+ |         Mariusz Szulerecki  <nob@force.eu.org>                        |
+ |         Wojciech Szczepucha <donkoyote@gmail.com>                     |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -74,9 +75,6 @@ $labels['saturday'] = 'Sobota';
 $labels['today'] = 'Dzisiaj';
 $labels['checkmail'] = 'Sprawdź skrzynkę';
 $labels['writenewmessage'] = 'Utwórz nową wiadomość';
-$labels['markmessages'] = 'Oznacz wiadomość';
-$labels['markread'] = 'Jako przeczytaną';
-$labels['markunread'] = 'Jako nieprzeczytaną';
 $labels['replytomessage'] = 'Odpowiedz nadawcy';
 $labels['replytoallmessage'] = 'Odpowiedz wszystkim';
 $labels['forwardmessage'] = 'Prześlij dalej';
@@ -93,6 +91,9 @@ $labels['lastmessage'] = 'Pokaż ostatnią';
 $labels['lastmessages'] = 'Pokaż ostatnie';
 $labels['backtolist'] = 'Pokaż listę wiadomości';
 $labels['viewsource'] = 'Pokaż źródło';
+$labels['markmessages'] = 'Oznacz wiadomość';
+$labels['markread'] = 'Jako przeczytaną';
+$labels['markunread'] = 'Jako nieprzeczytaną';
 $labels['select'] = 'Wybierz';
 $labels['all'] = 'Zaznacz wszystkie';
 $labels['none'] = 'Anuluj zaznaczenie';
@@ -127,9 +128,13 @@ $labels['nosubject'] = '(brak tematu)';
 $labels['showimages'] = 'Wyświetl obrazki';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Zwykły tekst';
-$labels['addcc'] = 'Dodaj Cc'; 
-$labels['addbcc'] = 'Dodaj Bcc'; 
+$labels['addcc'] = 'Dodaj Cc';
+$labels['addbcc'] = 'Dodaj Bcc';
 $labels['addreplyto'] = 'Dodaj Reply-To';
+$labels['mdnrequest'] = 'Nadawca poprosił o potwierdzenie przeczytania tej wiadomości. Czy chcesz go powiadomić?';
+$labels['receiptread'] = 'Potwierdzenie odbioru';
+$labels['yourmessage'] = 'To jest potwierdzenie dostarczenia Twojej wiadomości';
+$labels['receiptnote'] = 'Uwaga: To potwierdzenie dostarczenia wiadomości oznacza tylko, że wiadomość została wyświetlona na komputerze adresata. Nie ma żadnej gwarancji, że odbiorca przeczytał czy też zrozumiał treść wiadomości.';
 $labels['name'] = 'Nazwa';
 $labels['firstname'] = 'Imię';
 $labels['surname'] = 'Nazwisko';
@@ -177,6 +182,7 @@ $labels['folder'] = 'Folder';
 $labels['folders'] = 'Foldery';
 $labels['foldername'] = 'Nazwa folderu';
 $labels['subscribed'] = 'Zasubskrybowany';
+$labels['messagecount'] = 'Wiadomości';
 $labels['create'] = 'Utwórz';
 $labels['createfolder'] = 'Utwórz nowy folder';
 $labels['rename'] = 'Zmień nazwę';
