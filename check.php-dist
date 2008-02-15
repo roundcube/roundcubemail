@@ -58,6 +58,7 @@ $rctest_config['from'] = '_yourfrom_';
 
 define('CHECK_OK', '<span class="success">OK</span>');
 define('CHECK_NOK', '<span class="fail">NOT OK</span>');
+define('CHECK_NA', '<span class="na">NOT AVAILABLE</span>');
 
 error_reporting(E_ALL ^E_NOTICE);
 
@@ -84,6 +85,8 @@ $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
 
 $path  = dirname(__FILE__) . '/';
 $check = basename(__FILE__);
+
+include_once 'include/bugs.inc';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -97,6 +100,7 @@ $check = basename(__FILE__);
     h4 { margin-bottom: 0.2em; }
     .success { color:#006400;font-weight:bold !important; }
     .fail { color:#ff0000 !important;font-weight:bold !important; }
+    .na { color:#f60; font-weight:bold; }
     /* ]]> */
     </style>
     <title>RoundCube :: check</title>
@@ -111,7 +115,8 @@ if ($rctest_config['from'] == '_yourfrom_') {
     echo CHECK_NOK;
 } else {
     echo $rctest_config['from'] . '<br /><br />';
-    echo '<i>We do not check if this is a <b>valid</b> email address. Since this serves as from &amp; to, make sure it is correct!</i>';
+    echo '<i><b>Note:</b> We do not check if this is a <b>valid</b> email address.';
+    echo ' Because this settings serves as from &amp; to, make sure it is correctly set!</i>';
 }
 
 echo '<h3>Checking available databases</h3>';
@@ -124,7 +129,7 @@ foreach ($supported_dbs AS $database => $ext) {
         echo CHECK_OK;
     } else {
         $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
-        echo CHECK_NOK;
+        echo CHECK_NA;
         if (@dl($_ext)) {
             echo ' (<i>Could</i> be loaded. Please add in php.ini, if you plan on using it.)';
         } else {
@@ -185,15 +190,28 @@ echo '<h3>Check supplied DB settings</h3>';
 
 $db_working = false;
 if (isset($rcmail_config)) {
-    echo 'DB settings: ';
-    include_once 'MDB2.php';
-    $db = MDB2::connect($rcmail_config['db_dsnw']);
-    if (!MDB2::IsError($db)) {
+    require_once 'include/rcube_mdb2.inc';
+    echo 'DB (standard): ';
+    $DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
+    $DB->db_connect('w');
+    if (!$DB->is_error()) {
         echo CHECK_OK;
-        $db->disconnect();
         $db_working = true;
     } else {
         echo CHECK_NOK;
+    }
+    echo '<br />';
+    echo 'DB (read-only, optional): ';
+    if ($rcmail_config['db_dsnr'] != '') {
+        $DB_READ = new rcube_mdb2($rcmail_config['db_dsnr'], '', false);
+        $DB_READ->db_connect('w');
+        if (!$DB_READ->is_error()) {
+            echo CHECK_OK;
+        } else {
+            echo CHECK_NOK . ' (It\'s configured, but not working!)';
+        } 
+    } else {
+        echo CHECK_NA;
     }
     echo '<br />';
 } else {
@@ -204,9 +222,8 @@ echo '<h3>TimeZone</h3>';
 echo 'Checks if web- and databaseserver are in the same timezone.<br /><br />';
 echo 'Status: ';
 if ($db_working === true) {
-    require_once 'include/rcube_mdb2.inc';
-    $DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
-    $DB->db_connect('w');
+    //$DB = new rcube_mdb2($rcmail_config['db_dsnw'], '', false);
+    //$DB->db_connect('w');
     
     $tz_db    = "SELECT " . $DB->unixtimestamp($DB->now()) . " AS tz_db";
     $tz_db    = $DB->query($tz_db);
