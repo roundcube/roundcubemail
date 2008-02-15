@@ -25,8 +25,7 @@
 /**
  * Obtain the PEAR::DB class that is used for abstraction
  */
-require_once('DB.php');
-
+require_once 'DB.php';
 
 /**
  * Database independent query interface
