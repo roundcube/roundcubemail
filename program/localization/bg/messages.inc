@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
 
@@ -74,5 +74,9 @@ $messages['copyerror'] = 'Грешка при копирането на адре
 $messages['sourceisreadonly'] = 'Този източник на адреси е само за четене';
 $messages['errorsavingcontact'] = 'Грешка при записването на адреса';
 $messages['movingmessage'] = 'Преместване на писмото...';
+$messages['receiptsent'] = 'Обратната разписка е изпратена.';
+$messages['errorsendingreceipt'] = 'Грешка при изпращането на обратна разписка.';
+$messages['nodeletelastidentity'] = 'Не можете да изтриете тази самоличност, трябва да имате поне една.';
+$messages['addsubfolderhint'] = 'Тази папка ще бъде създадена като подпапка на текущо избраната';
 
 ?>

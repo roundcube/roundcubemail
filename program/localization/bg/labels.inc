@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
 
@@ -87,6 +87,9 @@ $labels['lastmessage'] = 'Последно писмо';
 $labels['lastmessages'] = 'Последна страница';
 $labels['backtolist'] = 'Обратно към списъка';
 $labels['viewsource'] = 'Виж кода';
+$labels['markmessages'] = 'Маркирай писмата';
+$labels['markread'] = 'Като прочетени';
+$labels['markunread'] = 'Като нови';
 $labels['select'] = 'Избери';
 $labels['all'] = 'Всички';
 $labels['none'] = 'Нищо';
@@ -124,6 +127,10 @@ $labels['plaintoggle'] = 'текстов';
 $labels['addcc'] = 'Копие до';
 $labels['addbcc'] = 'Скрито копие до';
 $labels['addreplyto'] = 'Отговор на';
+$labels['mdnrequest'] = 'Подателят на писмото е пожелал да бъде уведомен, че сте го прочели. Желаете ли да изпратите обратна разписка?';
+$labels['receiptread'] = 'Обратна разписка (прочетено)';
+$labels['yourmessage'] = 'Това е обратна разписка за писмото Ви';
+$labels['receiptnote'] = 'Забележка: Тази разписка потвърждава само, че писмото е било показано на компютъра на получателят. Няма никаква гаранция, че получателят е прочел и/или разбрал съдържанието на писмото.';
 $labels['name'] = 'Кратко име';
 $labels['firstname'] = 'Име';
 $labels['surname'] = 'Фамилия';
@@ -171,6 +178,7 @@ $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Име на папката';
 $labels['subscribed'] = 'Използвай';
+$labels['messagecount'] = 'Писма';
 $labels['create'] = 'Създай';
 $labels['createfolder'] = 'Направи нова папка';
 $labels['rename'] = 'Преименувай';
