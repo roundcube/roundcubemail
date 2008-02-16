@@ -1091,15 +1091,15 @@ function rcube_webmail()
   // onmouseup handler for folder list item
   this.folder_mouse_up = function(id)
     {
+    // Hide message command buttons until a message is selected
+    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false);
+
     if (this.drag_active)
       {
       this.unfocus_folder(id);
       this.command('moveto', id);
       }
 
-    // Hide message command buttons until a message is selected 
-    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false); 
-    return false;
     };
 
   this.click_on_list = function(e)
