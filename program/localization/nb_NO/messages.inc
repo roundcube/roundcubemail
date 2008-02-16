@@ -11,6 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Kjetil Waage - Nextline AS <kjetil@nextline.no>               |
+ | Author: Tor Erik Linnerud - JKLM <tel@jklm.no>                        |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -18,11 +19,11 @@
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Mislykket pålogging';
+$messages['loginfailed'] = 'Pålogging mislyktes';
 $messages['cookiesdisabled'] = 'Din nettleser aksepterer ikke cookies';
 $messages['sessionerror'] = 'Din session er ugyldig eller utløpt';
 $messages['imaperror'] = 'Forbindelsen til IMAP serveren sviktet';
-$messages['nomessagesfound'] = 'Det ble ikke funnet noen beskjeder i denne postkassen';
+$messages['nomessagesfound'] = 'Det ble ikke funnet noen beskjeder i denne innboksen';
 $messages['loggedout'] = 'Du er logget av webmail. Ha det bra!';
 $messages['mailboxempty'] = 'Postkassen er tom!';
 $messages['loading'] = 'Laster...';
@@ -34,7 +35,7 @@ $messages['savingmessage'] = 'Lagrer beskjed...';
 $messages['messagesaved'] = 'Beskjed er lagret i "kladder" mappen';
 $messages['successfullysaved'] = 'Lagret';
 $messages['addedsuccessfully'] = 'Kontakten ble tilføyd i adresseboken';
-$messages['contactexists'] = 'Der er allerede en kontakt med denne e-post adressen';
+$messages['contactexists'] = 'Der er allerede en kontakt med denne e-postadressen';
 $messages['blockedimages'] = 'Bilder fra eksterne servere er blokkert i denne e-posten.';
 $messages['encryptedmessage'] = 'Dette er en krypteret beskjed og kan ikke vises. Beklager!';
 $messages['nocontactsfound'] = 'Ingen kontakter ble funnet';
@@ -44,7 +45,7 @@ $messages['errorsaving'] = 'Det oppstod en feil ved lagring av data';
 $messages['errormoving'] = 'Kunne ikke flytte beskjeden';
 $messages['errordeleting'] = 'Kunne ikke slette beskjeden';
 $messages['deletecontactconfirm'] = 'Vil du virkelig slette valgte kontakt(er)?';
-$messages['deletemessagesconfirm'] = 'Vil du virkelig slette valgte meldingen(e)?';
+$messages['deletemessagesconfirm'] = 'Vil du virkelig slette de valgte meldingen(e)?';
 $messages['deletefolderconfirm'] = 'Vil du virkelig slette denne mappen?';
 $messages['purgefolderconfirm'] = 'Vil du virkelig slette alle meldingene i denne mappen?';
 $messages['formincomplete'] = 'Skjemaet var ikke fullstendig fylt ut';
@@ -57,7 +58,7 @@ $messages['nobodywarning'] = 'Send denne e-post uten tekst?';
 $messages['notsentwarning'] = 'E-posten ble ikke sendt. Vil du slette meldingen?';
 $messages['noldapserver'] = 'Venligst velg hvilken LDAP server det skal søkes i';
 $messages['nocontactsreturned'] = 'Ingen kontakter ble funnet';
-$messages['nosearchname'] = 'Venligst skriv inn kontaktens navn eller e-post adresse';
+$messages['nosearchname'] = 'Venligst skriv inn kontaktens navn eller e-postadresse';
 $messages['searchsuccessful'] = '$nr meldinger funnet';
 $messages['searchnomatch'] = 'Søket ga ingen resultater';
 $messages['searching'] = 'Søker...';
@@ -73,5 +74,10 @@ $messages['copysuccess'] = '$nr adresser ble kopiert';
 $messages['copyerror'] = 'Kunne ikke kopiere';
 $messages['sourceisreadonly'] = 'Denne adressekilden er skrivebeskyttet';
 $messages['errorsavingcontact'] = 'Kunne ikke lagre adressen';
+$messages['movingmessage'] = 'Flytter e-post...';
+$messages['receiptsent'] = 'Kvittering har blitt sent';
+$messages['errorsendingreceipt'] = 'Kunne ikke sende kvittering';
+$messages['nodeletelastidentity'] = 'Du kan ikke slette denne identiteten, det er din siste.';
+$messages['addsubfolderhint'] = 'Mappen vil bli opprettet som en undermappe av den nåværende valgte mappe';
 
 ?>

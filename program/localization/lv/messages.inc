@@ -74,5 +74,10 @@ $messages['copysuccess'] = 'Veiksmīgi nokopētas $nr vēstules';
 $messages['copyerror'] = 'Nevarēja nokopēt nevienu adresi';
 $messages['sourceisreadonly'] = 'Adreses avots ir lasīšanas režīmā tikai';
 $messages['errorsavingcontact'] = 'Nevarēja saglabāt kontakta adreses';
+$messages['movingmessage'] = 'Pārvietoju vēstules...';
+$messages['receiptsent'] = 'Saņemšanas apstiprinājums nosūtīts';
+$messages['errorsendingreceipt'] = 'Neizdevās nosūtīt apstiprinājumu';
+$messages['nodeletelastidentity'] = 'Šo identitāti nevar izdzēst, tā ir pati pēdējā.';
+$messages['addsubfolderhint'] = 'Šis folderis tiks izveidots kā apakšfolderis tam, kurš patreiz ir izvēlēts';
 
 ?>
