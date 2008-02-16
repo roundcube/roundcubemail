@@ -253,7 +253,8 @@ echo '<br />';
 echo '<h3>Checking .ini settings</h3>';
 
 $ini_array = array('session.auto_start' => 0, 'file_uploads' => 1,
-    'magic_quotes_sybase' => 0, 'magic_quotes_gpc' => 0);
+    'magic_quotes_sybase' => 0, 'magic_quotes_gpc' => 0,
+    'zlib.output_compression' => 0);
 
 foreach ($ini_array AS $var => $val) {
     $status = ini_get($var);
