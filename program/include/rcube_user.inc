@@ -242,6 +242,9 @@ class rcube_user
     if (!$this->ID)
       return false;
 
+    if (!$this->ID || $this->ID == '')
+      return false;
+
     $sql_result = $DB->query("SELECT count(*) AS ident_count FROM " .
       get_table_name('identities') .
       " WHERE user_id = ? AND del != 1",
