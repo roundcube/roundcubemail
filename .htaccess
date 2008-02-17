@@ -7,9 +7,10 @@ AddType text/x-component .htc
   php_value	error_log	logs/errors
   php_value	upload_max_filesize	5M
   php_value	post_max_size	6M
-  php_value     memory_limit	64M
-  php_value     session.auto_start 0
-  php_value     zlib.output_compression
+  php_value memory_limit	64M
+  php_value session.auto_start 0
+  php_value zlib.output_compression 0
+  php_value	magic_quotes_gpc 0
 </IfModule>
 
 <IfModule mod_php5.c>
@@ -18,9 +19,10 @@ AddType text/x-component .htc
   php_value	error_log	logs/errors
   php_value	upload_max_filesize	5M
   php_value	post_max_size	6M
-  php_value     memory_limit	64M
-  php_value     session.auto_start 0
-  php_value     zlib.output_compression 0
+  php_value memory_limit	64M
+  php_value session.auto_start 0
+  php_value zlib.output_compression 0
+  php_value	magic_quotes_gpc 0
 </IfModule>
 
 <FilesMatch "(\.inc|\~)$">
