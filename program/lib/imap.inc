@@ -66,8 +66,8 @@
 include_once 'lib/icl_commons.inc';
 
 
-if (!$IMAP_USE_HEADER_DATE) {
-	$IMAP_USE_INTERNAL_DATE = true;
+if (!isset($IMAP_USE_HEADER_DATE) || !$IMAP_USE_HEADER_DATE) {
+    $IMAP_USE_INTERNAL_DATE = true;
 }
 
 /**
