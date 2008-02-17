@@ -1,5 +1,4 @@
-<?php
-
+<?
 /*
 
  +-----------------------------------------------------------------------+
@@ -10,8 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Andrej Sossi <asossi@dotcom.ts.it>                            |
- |         Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
+ | Author: Melanga Dissanayake <Melanga.Dissanayake@pabcbank.com>        |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -19,65 +17,60 @@
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Prijava neuspešna';
-$messages['cookiesdisabled'] = 'Vaš brskalnik nima omogočenih piškotov';
-$messages['sessionerror'] = 'Vaša seja je napačna oz. potekla';
-$messages['imaperror'] = 'Povezava na IMAP strežnik neuspešna';
-$messages['nomessagesfound'] = 'Ni sporočil';
-$messages['loggedout'] = 'Uspešno ste zaključili sejo. Nasvidenje!';
-$messages['mailboxempty'] = 'Nabiralnik je prazen';
-$messages['loading'] = 'Nalagam...';
-$messages['loadingdata'] = 'Nalagam podatke...';
-$messages['checkingmail'] = 'Iščem nova sporočila...';
-$messages['sendingmessage'] = 'Pošiljam sporočilo...';
-$messages['messagesent'] = 'Sporočilo uspešno poslano';
-$messages['savingmessage'] = 'Shranjujem sporočilo';
-$messages['messagesaved'] = 'Sporočilo shranjeno v osnutke';
-$messages['successfullysaved'] = 'Uspešno shranjeno';
-$messages['addedsuccessfully'] = 'Vizitka uspešno dodana';
-$messages['contactexists'] = 'Vizitka s tem e-naslovom že obstaja!';
-$messages['blockedimages'] = 'Zaradi vaše varnosti slike v tem sporočilu niso prikazane.';
-$messages['encryptedmessage'] = 'To je zaščiteno sporočilo, na žalost ne more biti prikazano. Oprostite!';
-$messages['nocontactsfound'] = 'Ne najdem nobene vizitke';
-$messages['contactnotfound'] = 'Ne najdem iskane vizitke';
-$messages['sendingfailed'] = 'Pošiljanje sporočila neuspešno';
-$messages['errorsaving'] = 'Pri shranjevanju je prišlo do napake';
-$messages['errormoving'] = 'Ne morem premakniti sporočila';
-$messages['errordeleting'] = 'Ne morem izbrisati sporočila';
-$messages['deletecontactconfirm'] = 'Želite zbrisati izbrane vizitke?';
-$messages['deletemessagesconfirm'] = 'Želite zbrisati izbrana sporočila?';
-$messages['deletefolderconfirm'] = 'Želite zbrisati to mapo?';
-$messages['purgefolderconfirm'] = 'Želite zbrisati vsa sporočila v tej mapi?';
-$messages['formincomplete'] = 'Obrazec ni bil izpolnjen v celoti';
-$messages['noemailwarning'] = 'Prosim vpišite veljaven e-naslov';
-$messages['nonamewarning'] = 'Prosim vpišite ime';
-$messages['nopagesizewarning'] = 'Prosim vpišite velikost strani';
-$messages['norecipientwarning'] = 'Prosim vpišite vsaj enega naslovnika';
-$messages['nosubjectwarning'] = 'Polje "Naslov" je prazno. Ali ga želite vpisati zdaj?';
-$messages['nobodywarning'] = 'Pošlji to sporočilo brez besedila?';
-$messages['notsentwarning'] = 'Sporočilo ni bilo poslano. Želite opustiti vaše sporočilo?';
-$messages['noldapserver'] = 'Prosim izberite ldap strežnik za iskanje';
-$messages['nocontactsreturned'] = 'Ne najdem vizitk';
-$messages['nosearchname'] = 'Prosim vpišite ime ali e-naslov stika';
-$messages['searchsuccessful'] = 'Število dobljenih sporočil: $nr';
-$messages['searchnomatch'] = 'Iskanje ni doprineslo nobenega rezultata';
-$messages['searching'] = 'Iščem...';
-$messages['checking'] = 'Previrjam...';
-$messages['nospellerrors'] = 'Ni pravopisnih napak';
-$messages['folderdeleted'] = 'Mapa uspešno zbrisana';
-$messages['deletedsuccessfully'] = 'Uspešno zbrisano';
-$messages['converting'] = 'Brišem obogatitev besedila...';
-$messages['messageopenerror'] = 'Neuspešno nalaganje sporočila s stežnika';
-$messages['fileuploaderror'] = 'Neuspešno nalaganje datoteke';
-$messages['filesizeerror'] = 'Naložena datoteka presega maksimalno velikost $size';
-$messages['copysuccess'] = 'Število prepisanih naslovov: $nr';
-$messages['copyerror'] = 'Ne morem prepisati nobenega naslova';
-$messages['sourceisreadonly'] = 'Izvirnik naslova je samo berljiv';
-$messages['errorsavingcontact'] = 'Ne morem shraniti vizitke';
-$messages['movingmessage'] = 'Premakni besedilo...';
-$messages['receiptsent'] = 'Potrdilo o prebranem sporočilu je bilo uspešno poslano';
-$messages['errorsendingreceipt'] = 'Nemogoče poslati potrdilo o prebranem sporočilu';
-$messages['nodeletelastidentity'] = 'Nemogoče zbrisati identitete. Ta je edina, ki imate.';
-$messages['addsubfolderhint'] = 'Mapa bo narejena kot podmapa trenutno izbrane mape';
+$messages['loginfailed'] = 'ඇතුල්වීම අසාර්ථකයි';
+$messages['cookiesdisabled'] = 'ඔබේ බෞසරය කුකී බාර ගන්නේ නැත';
+$messages['sessionerror'] = 'ඔබේ වාරය අවලංගු හෝ කාලය ඉකුත් වී ඇත';
+$messages['imaperror'] = 'IMAP සම්බන්ධතාවය අසාර්ථකයි';
+$messages['nomessagesfound'] = 'ලියුම් පෙට්ටියේ පනිවුඩ නැත';
+$messages['loggedout'] = 'ඔබගේ වාරය සාර්ථකව අවසන් විය. අයුබොවන්!';
+$messages['mailboxempty'] = 'ලියුම් පෙට්ටිය හිස්';
+$messages['loading'] = 'පූරනය...';
+$messages['loadingdata'] = 'දත්ත පූරනය...';
+$messages['checkingmail'] = 'අලුත් පනිවුඩ පරීක්ෂා කිරීම...';
+$messages['sendingmessage'] = 'පනිවුඩය යැවීම...';
+$messages['messagesent'] = 'පනිවුඩය සාර්ථකව යවන ලදී';
+$messages['savingmessage'] = 'පනිවුඩය තැන්පත් කීරීම...';
+$messages['messagesaved'] = 'පනිවුඩය කටු සටහනේ තැන්පත් විය';
+$messages['successfullysaved'] = 'සාර්ථකව තැන්පත විය';
+$messages['addedsuccessfully'] = 'ලිපිනය සාර්ථකව ලිපින පොතට එකතු කරන ලදී';
+$messages['contactexists'] = 'ඉහත ලිපිනය සහිත විද්යුත් තැපැල් ලිපිනයක් ලිපින පොතේ ඇත';
+$messages['blockedimages'] = 'ඔබගෙ පොද්ගලිකත්වය හේතුවෙන්, දුරස්ථ රූප අවහිර කර ඇත.';
+$messages['encryptedmessage'] = 'මෙම පනිවුඩය රහස් කේතනය කර ඇති බැවින් පෙන්විය නොහැක. සමාවන්න!';
+$messages['nocontactsfound'] = 'ලිපින සොයා ගත නොහැක';
+$messages['contactnotfound'] = 'ඉල්ලූ ලිපිනය සොයාගත නොහැක';
+$messages['sendingfailed'] = 'පනිවුඩය යැවීම අසාර්ථකයි';
+$messages['errorsaving'] = 'පනිවුඩය තැන්පත් කීරීමේදී දොෂයක් සිදු විය';
+$messages['errormoving'] = 'පනිවුඩය ගෙන යාමට නොහැක';
+$messages['errordeleting'] = 'පනිවුඩය මකා දැමීමට නොහැක';
+$messages['deletecontactconfirm'] = 'තෝරා ඇති ලිපින ඔබට මකා දැමීමට සැබවින්ම වුවමනාද?';
+$messages['deletemessagesconfirm'] = 'තෝරා ඇත පනිවුඩ ඔබට මකා දැමීමට සැබවින්ම වුවමනාද?';
+$messages['deletefolderconfirm'] = 'ෆෝල්ඩරය මකා දැමීමට සැබවින්ම වුවමනාද?';
+$messages['purgefolderconfirm'] = 'මෙම ෆෝල්ඩරයේ ඇති සියලුම පනිවුඩ ඔබට මකා දැමීමට සැබවින්ම වුවමනාද?';
+$messages['formincomplete'] = 'පෝරමය සම්පූර්ණයෙන් පුරවා නොමැත';
+$messages['noemailwarning'] = 'කරුණාකර වලංගු විද්යුත් තැපැල් ලිපිනයක් ඇතුලත් කරන්න';
+$messages['nonamewarning'] = 'කරුණාකර නම ඇතුලත් කරන්න';
+$messages['nopagesizewarning'] = 'කරුණාකර පිටුවේ ප්රමානය ඇතුලත් කරන්න';
+$messages['norecipientwarning'] = 'කරුණාකර යටත් පිරිසෙයින් එක් ලබන්නෙකු හෝ ඇතුලත් කරන්න';
+$messages['nosubjectwarning'] = '"මාතෘකාව" හිස්. මාතෘකාවක් අතුලත් කිරීමට ඔබ කැමතිද?';
+$messages['nobodywarning'] = 'මෙම හිස් පනිවුඩය යවන්නද?';
+$messages['notsentwarning'] = 'පනිවුඩය යැවීමට නොහැකි විය. ඔබට එය බැහැර කිරීමට වුවමනාද?';
+$messages['noldapserver'] = 'සෙවුම සඳහා කරුණාකර ldap සම්බන්ධතාවයක් තෝරා ගන්න';
+$messages['nocontactsreturned'] = 'ලිපින/ය සොයා ගත නොහැක';
+$messages['nosearchname'] = 'කරුණාකර ලිපිනයෙහි නම හෝ විද්යුත් තැපැල් ලිපිනය ඇතුලත් කරන්න';
+$messages['searchsuccessful'] = '$nr පනිවුඩය හමු විය';
+$messages['searchnomatch'] = 'සෙවුමට අදාල ගැලපීමක් නොමැත';
+$messages['searching'] = 'සොයමින් පවතී...';
+$messages['checking'] = 'පිරික්සමින් පවතී...';
+$messages['nospellerrors'] = 'වියාකරන දොෂ නොමැත';
+$messages['folderdeleted'] = 'ෆෝල්ඩරය සාර්ථකව මකා දමන ලදී';
+$messages['deletedsuccessfully'] = 'සාර්ථකව මකා දමන ලදී';
+$messages['converting'] = 'පනිවුඩයෙන් ආකෘතීකරණය ඉවත් කිරීම';
+$messages['messageopenerror'] = 'පනිවුඩය පූරනය කිරීමට නොහැක';
+$messages['fileuploaderror'] = 'ගොනුව ඇතුලත් කිරීමට නොහැක';
+$messages['filesizeerror'] = 'ඇතුලත් කල ගොනුවෙ ප්රමාණය උපරිම අගය $size ඉක්මවා ඇත';
+$messages['copysuccess'] = '$nr ලිපිනය සාර්ථකව පිටපත් කරන ලදී';
+$messages['copyerror'] = 'කවර ලිපිනයක්වත් හෝ පිටපත් කල නොහැක';
+$messages['sourceisreadonly'] = 'මෙම ලිපින මූලාශ්රය කියවීම සඳහා පමනි';
+$messages['errorsavingcontact'] = 'ලිපිනය තැන්පත් කීරීමට නොහැක';
 
 ?>
