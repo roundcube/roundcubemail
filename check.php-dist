@@ -83,6 +83,9 @@ $supported_drivers = array('MDB2#mysql' => 'MDB2/Driver/mysql.php',
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
 
+$php_ext = array('Session' => 'session', 'FileInfo' => 'fileinfo',
+    'Regex (perl)' => 'pcre', 'Sockets' => 'sockets', 'Multibyte' => 'mbstring');
+
 $path  = dirname(__FILE__) . '/';
 $check = basename(__FILE__);
 
@@ -151,7 +154,28 @@ foreach ($supported_dbs AS $database => $ext) {
     } else {
         $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
         echo CHECK_NA;
-        if (dl($_ext)) {
+        if (@dl($_ext)) {
+            echo ' (<i>Could</i> be loaded. Please add in php.ini, if you plan on using it.)';
+        } else {
+            echo ' (<b>Not</b> installed.)';
+        }
+    }
+    echo '<br />';
+}
+
+echo '<h3>Checking PHP extensions</h3>';
+echo '<p>Not all of those extensions are <b>needed</b>, but it does not <i>hurt</i> to have them.</p>';
+echo '<p>The best is to see only <span class="success">green</span> in this section! :-)</p>';
+    
+$prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
+foreach ($php_ext AS $name => $ext) {
+    echo "$name: ";
+    if (extension_loaded($ext)) {
+        echo CHECK_OK;
+    } else {
+        $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        echo CHECK_NA;
+        if (@dl($_ext)) {
             echo ' (<i>Could</i> be loaded. Please add in php.ini, if you plan on using it.)';
         } else {
             echo ' (<b>Not</b> installed.)';
