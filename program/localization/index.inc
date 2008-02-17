@@ -53,7 +53,7 @@
 	'kr'    => 'Korean',
 	'lv'    => 'Latvian',
 	'lt'    => 'Lithuanian',
-	'mk'    => 'Macedonian (Slavic FYROM)',
+	'mk'    => 'Macedonian',
 	'ms_MY'	=> 'Malay',
 	'nl_NL' => 'Nederlands',
 	'nl_BE' => 'Flemish',

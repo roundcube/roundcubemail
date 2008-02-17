@@ -67,7 +67,7 @@ $messages['deletedsuccessfully'] = 'Успешно избришано';
 $messages['converting'] = 'Форматирањето на пораката е отстрането...';
 $messages['messageopenerror'] = 'Пораката неможе да се вчита од серверот';
 $messages['fileuploaderror'] = 'Прикачувањето е неуспешно';
-$messages['filesizeerror'] = 'Фајлот што се прикачува го изминува лимитот од $size';
+$messages['filesizeerror'] = 'Датотеката што се прикачува го изминува лимитот од $size';
 $messages['copysuccess'] = 'Успешно се копирани $nr имиња';
 $messages['copyerror'] = 'Неможе да се копираат адресите';
 $messages['sourceisreadonly'] = 'Изворот на оваа адреса неможе да се промени';
@@ -75,5 +75,7 @@ $messages['errorsavingcontact'] = 'Името неможе да се сними'
 $messages['movingmessage'] = 'Пораката се преместува...';
 $messages['receiptsent'] = 'Известувањето е успешно пратено';
 $messages['errorsendingreceipt'] = 'Известувањето не е пратено';
+$messages['nodeletelastidentity'] = 'Овој идентитет неможе да се избрише, тој е последниот.';
+$messages['addsubfolderhint'] = 'Оваа папка ќе биде креирана како под-папка на селектираната.';
 
 ?>
