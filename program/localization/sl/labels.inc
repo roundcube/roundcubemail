@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/si/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Andrej Sossi <asossi@dotcom.ts.it>                            |
- |         Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/sl/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Andrej Sossi <asossi@dotcom.ts.it>                            |
+|         Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -36,7 +36,7 @@ $labels['junk'] = 'Nezaželena  sporočila';
 $labels['subject'] = 'Zadeva';
 $labels['from'] = 'Pošiljatelj';
 $labels['to'] = 'Prejemnik';
-$labels['cc'] = 'Kopija';
+$labels['cc'] = 'Kp';
 $labels['bcc'] = 'Skp';
 $labels['replyto'] = 'Odgovor na';
 $labels['date'] = 'Datum';
@@ -53,7 +53,7 @@ $labels['filename'] = 'Ime datoteke';
 $labels['filesize'] = 'Velikost datoteke';
 $labels['preferhtml'] = 'Prednostno HTML';
 $labels['htmlmessage'] = 'HTML sporočilo';
-$labels['prettydate'] = 'Čitljivejši datumi';
+$labels['prettydate'] = 'Bolj čitljivi datumi';
 $labels['addtoaddressbook'] = 'Dodaj v stike';
 $labels['sun'] = 'Ned';
 $labels['mon'] = 'Pon';
@@ -76,22 +76,26 @@ $labels['replytomessage'] = 'Odgovori na sporočilo';
 $labels['replytoallmessage'] = 'Odgovori pošiljatelju in vsem prejemnikom';
 $labels['forwardmessage'] = 'Posreduj sporočilo';
 $labels['deletemessage'] = 'Premakni sporočilo v smeti';
-$labels['printmessage'] = 'Tiskaj to sporočilo';
+$labels['movemessagetotrash'] = 'Premakni v smetnjak';
+$labels['printmessage'] = 'Natisni to sporočilo';
 $labels['previousmessage'] = 'Prikaži prejšnje sporočilo';
-$labels['previousmessages'] = 'Prikaži prejšni set sporočil';
+$labels['previousmessages'] = 'Prikaži prejšnja sporočila';
 $labels['firstmessage'] = 'Prikaži prvo sporočilo';
-$labels['firstmessages'] = 'Prikaži prvi set sporočil';
+$labels['firstmessages'] = 'Prikaži prva sporočila';
 $labels['nextmessage'] = 'Prikaži naslednjo sporočilo';
-$labels['nextmessages'] = 'Prikaži naslednji set sporočil';
+$labels['nextmessages'] = 'Prikaži naslednja sporočila';
 $labels['lastmessage'] = 'Prikaži zadnjo sporočilo';
-$labels['lastmessages'] = 'Prikaži zadnji set sporočil';
+$labels['lastmessages'] = 'Prikaži zadnja sporočila';
 $labels['backtolist'] = 'Nazaj na seznam sporočil';
 $labels['viewsource'] = 'Prikaži izvirno kodo';
+$labels['markmessages'] = 'Označi sporočilo';
+$labels['markread'] = 'Kot prebrano';
+$labels['markunread'] = 'Kot neprebrano';
 $labels['select'] = 'Izberi';
 $labels['all'] = 'Vse';
 $labels['none'] = 'Nobenih';
 $labels['unread'] = 'Neprebrano';
-$labels['compact'] = 'Stistni';
+$labels['compact'] = 'Stisni';
 $labels['empty'] = 'Izprazni';
 $labels['purge'] = 'Počisti';
 $labels['quota'] = 'Poraba diska';
@@ -100,8 +104,8 @@ $labels['unlimited'] = 'neomejena';
 $labels['quicksearch'] = 'Hitri iskalnik';
 $labels['resetsearch'] = 'Prekliči iskanje';
 $labels['compose'] = 'Sestavi sporočilo';
-$labels['sendmessage'] = 'Pošlji sporočilo zdaj';
 $labels['savemessage'] = 'Shrani kot osnutek';
+$labels['sendmessage'] = 'Pošlji sporočilo zdaj';
 $labels['addattachment'] = 'Pripni datoteko';
 $labels['charset'] = 'Nabor znakov';
 $labels['editortype'] = 'Vrsta urejevalnika';
@@ -121,6 +125,13 @@ $labels['nosubject'] = '(brez naslova)';
 $labels['showimages'] = 'Prikaži slike';
 $labels['htmltoggle'] = 'Obogateno besedilo (HTML)';
 $labels['plaintoggle'] = 'Samo besedilo';
+$labels['addcc'] = 'Dodaj Kp';
+$labels['addbcc'] = 'Dodaj Skp';
+$labels['addreplyto'] = 'Dodaj naslov za odgovor';
+$labels['mdnrequest'] = 'Pošiljatelj tega sporočila je zaprosil za portdilo, ko vi preberete to sporočilo. Hočete poslati obvestilo?';
+$labels['receiptread'] = 'Potrdilo o prebranem sporočilu';
+$labels['yourmessage'] = 'To je potrdilo, da je bilo vaše sporočilo prebrano';
+$labels['receiptnote'] = 'Pozor: to je samo potrdilo, da vaše sporočilo je bilo prikazano na prejemnikovem računalniku. To še ne pomeni, da je prejemnik prebral ali razumel vsebino vašega sporočila.';
 $labels['name'] = 'Ime za prikaz';
 $labels['firstname'] = 'Ime';
 $labels['surname'] = 'Priimek';
@@ -168,6 +179,7 @@ $labels['folder'] = 'Mapa';
 $labels['folders'] = 'Mape';
 $labels['foldername'] = 'Ime mape';
 $labels['subscribed'] = 'Vpisan';
+$labels['messagecount'] = 'Sporočila';
 $labels['create'] = 'Ustvari';
 $labels['createfolder'] = 'Ustvari novo mapo';
 $labels['rename'] = 'Preimenuj';

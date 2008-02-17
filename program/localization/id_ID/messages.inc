@@ -74,5 +74,9 @@ $messages['copyerror'] = 'Tidak bisa menyalin alamat manapun';
 $messages['sourceisreadonly'] = 'Sumber dari alamat ini hanya dapat dibaca';
 $messages['errorsavingcontact'] = 'Tidak bisa menyimpan alamat kontak';
 $messages['movingmessage'] = 'Memindahkan pesan...';
+$messages['receiptsent'] = 'Berhasil mengirim pemberitahuan tanda terima telah terbaca';
+$messages['errorsendingreceipt'] = 'Tidak dapat mengirim tanda terima';
+$messages['nodeletelastidentity'] = 'Anda tidak bida mengapus identitas ini, ini identitas yang terakhir';
+$messages['addsubfolderhint'] = 'Folder ini akan dibuat sebagai subfolder pada folder yang terpilih';
 
 ?>

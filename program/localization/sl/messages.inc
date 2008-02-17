@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/si/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Andrej Sossi <asossi@dotcom.ts.it>                            |
- |         Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/sl/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Andrej Sossi <asossi@dotcom.ts.it>                            |
+|         Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -31,7 +31,7 @@ $messages['loadingdata'] = 'Nalagam podatke...';
 $messages['checkingmail'] = 'Iščem nova sporočila...';
 $messages['sendingmessage'] = 'Pošiljam sporočilo...';
 $messages['messagesent'] = 'Sporočilo uspešno poslano';
-$messages['savingmessage'] = 'Shrenjujem sporočilo';
+$messages['savingmessage'] = 'Shranjujem sporočilo';
 $messages['messagesaved'] = 'Sporočilo shranjeno v osnutke';
 $messages['successfullysaved'] = 'Uspešno shranjeno';
 $messages['addedsuccessfully'] = 'Vizitka uspešno dodana';
@@ -74,5 +74,10 @@ $messages['copysuccess'] = 'Število prepisanih naslovov: $nr';
 $messages['copyerror'] = 'Ne morem prepisati nobenega naslova';
 $messages['sourceisreadonly'] = 'Izvirnik naslova je samo berljiv';
 $messages['errorsavingcontact'] = 'Ne morem shraniti vizitke';
+$messages['movingmessage'] = 'Premakni besedilo...';
+$messages['receiptsent'] = 'Potrdilo o prebranem sporočilu je bilo uspešno poslano';
+$messages['errorsendingreceipt'] = 'Nemogoče poslati potrdilo o prebranem sporočilu';
+$messages['nodeletelastidentity'] = 'Nemogoče zbrisati identitete. Ta je edina, ki imate.';
+$messages['addsubfolderhint'] = 'Mapa bo narejena kot podmapa trenutno izbrane mape';
 
 ?>
