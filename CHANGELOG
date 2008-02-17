@@ -10,6 +10,8 @@ CHANGELOG RoundCube Webmail
 2008/02/11 (thomasb)
 ----------
 - Add function to mark the selected messages as read/unread (#1457360)
+- Also do charset decoding as suggested in RFC 2231 (fix #1484321)
+- Show message count in folder list and hint when creating a subfolder
 
 2008/02/08 (thomasb)
 ----------
