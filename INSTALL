@@ -3,9 +3,8 @@ INTRODUCTION
 
 This file describes the basic steps to install RoundCube Webmail on your
 web server. For additional information, please also consult the project's
-wiki page at
-     
-     http://trac.roundcube.net/wiki
+wiki page at http://trac.roundcube.net/wiki
+
 
 REQUIREMENTS
 ============
@@ -88,7 +87,7 @@ an example how you can setup the sqlite.db for roundcube:
 # sqlite -init SQL/sqlite.initial.sql sqlite.db
 
 Make sure your configuration points to the sqlite.db file and that the
-webserver can write to the file.
+webserver can write to the file and the directory containing the file.
 
 
 * PostgreSQL
@@ -120,6 +119,7 @@ Details about the config parameters can be found in the config files.
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:
 	php_value       upload_max_filesize     2M
+
 
 UPGRADING
 =========

@@ -4,9 +4,18 @@ UPDATE instructions
 Follow these instructions if upgrading from a previous version
 of RoundCube Webmail.
 
+from version 0.1-rc2
+----------------------------------------
+* replace index.php
+* replace all files in folder /bin/
+* replace all files in folder /program/
+* replace all files in folder /skins/default/
+
+
 from version 0.1-rc1
 ----------------------------------------
 * replace index.php
+* replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
 * If you have LDAP servers configured you should re-configure
@@ -16,6 +25,7 @@ from version 0.1-rc1
 from version 0.1-beta2
 ----------------------------------------
 * replace index.php
+* replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
 * run all commands in SQL/[yourdbtype].update.sql or
@@ -30,6 +40,7 @@ from version 0.1-beta2
 form version 0.1-beta
 ----------------------------------------
 * replace index.php
+* replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
 * run all commands in SQL/[yourdbtype].update.sql or

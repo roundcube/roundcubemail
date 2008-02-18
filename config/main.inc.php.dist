@@ -5,7 +5,7 @@
  | Main configuration file                                               |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -154,7 +154,7 @@ $rcmail_config['sent_mbox'] = 'Sent';
 $rcmail_config['trash_mbox'] = 'Trash';
 
 // display these folders separately in the mailbox list.
-// these folders will automatically be created if they do not exist
+// these folders will also be displayed with localized names
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
 // automatically create the above listed default folders on login
