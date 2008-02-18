@@ -83,13 +83,35 @@ $supported_drivers = array('MDB2#mysql' => 'MDB2/Driver/mysql.php',
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
 
-$php_ext = array('Session' => 'session', 'FileInfo' => 'fileinfo',
-    'Regex (perl)' => 'pcre', 'Sockets' => 'sockets', 'Multibyte' => 'mbstring');
+$required_php_exts = array('Session' => 'session', 'PCRE' => 'pcre', 'Sockets' => 'sockets');
+
+$optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv', 'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl');
+
+$source_urls = array(
+    'Socket' => 'http://www.php.net/manual/en/ref.sockets.php',
+    'Session' => 'http://www.php.net/manual/en/ref.session.php',
+    'PCRE' => 'http://www.php.net/manual/en/ref.pcre.php',
+    'FileInfo' => 'http://www.php.net/manual/en/ref.fileinfo.php',
+    'Libiconv' => 'http://www.php.net/manual/en/ref.iconv.php',
+    'Multibyte' => 'http://www.php.net/manual/en/ref.mbstring.php',
+    'OpenSSL' => 'http://www.php.net/manual/en/ref.openssl.php',
+    'PEAR' => 'http://pear.php.net',
+    'MDB2' => 'http://pear.php.net/package/MDB2',
+    'Net_SMTP' => 'http://pear.php.net/package/Net_SMTP',
+    'Mail_mime' => 'http://pear.php.net/package/Mail_mime'
+);
 
 $path  = dirname(__FILE__) . '/';
 $check = basename(__FILE__);
 
 require_once 'include/bugs.inc';
+
+function show_hint($key) {
+    global $source_urls;
+    if ($source_urls[$key])
+        echo '<span class="indent">(See <a href="' . $source_urls[$key] . '">' . $source_urls[$key] . '</a>)</span>';
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -124,6 +146,10 @@ h4 {
 	color: #f60;
 	font-weight: bold;
 }
+
+.indent {
+	padding-left: 0.8em;
+}
 /* ]]> */
 </style>
 <title>RoundCube :: check</title>
@@ -144,7 +170,7 @@ if ($rctest_config['from'] == '_yourfrom_') {
 }
 
 echo '<h3>Checking available databases</h3>';
-echo '<p>Checks if the extension is loaded.</p>';
+echo '<p>Checks if the extension is loaded. At least one of them is required.</p>';
 
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
 foreach ($supported_dbs AS $database => $ext) {
@@ -164,11 +190,28 @@ foreach ($supported_dbs AS $database => $ext) {
 }
 
 echo '<h3>Checking PHP extensions</h3>';
-echo '<p>Not all of those extensions are <b>needed</b>, but it does not <i>hurt</i> to have them.</p>';
-echo '<p>The best is to see only <span class="success">green</span> in this section! :-)</p>';
+echo '<p>The following modules/extensions are <em>required</em> to run RoundCube</p>';
     
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
-foreach ($php_ext AS $name => $ext) {
+foreach ($required_php_exts AS $name => $ext) {
+    echo "$name: ";
+    if (extension_loaded($ext)) {
+        echo CHECK_OK;
+    } else {
+        $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        echo CHECK_NA;
+        if (@dl($_ext)) {
+            echo ' (<i>Could</i> be loaded. Please add in php.ini.)';
+        } else {
+            show_hint($name);
+        }
+    }
+    echo '<br />';
+}
+
+echo '<p>These extensions are <em>optional</em> but recommended to get the best performance.</p>';
+
+foreach ($optional_php_exts AS $name => $ext) {
     echo "$name: ";
     if (extension_loaded($ext)) {
         echo CHECK_OK;
@@ -178,7 +221,7 @@ foreach ($php_ext AS $name => $ext) {
         if (@dl($_ext)) {
             echo ' (<i>Could</i> be loaded. Please add in php.ini, if you plan on using it.)';
         } else {
-            echo ' (<b>Not</b> installed.)';
+            show_hint($name);
         }
     }
     echo '<br />';
@@ -193,7 +236,8 @@ foreach ($required_libs as $classname => $file) {
     if (class_exists($classname)) {
         echo CHECK_OK;
     } else {
-        echo CHECK_NOK . "; Failed to load $file";
+        echo CHECK_NOK . " (Failed to load $file.)";
+        show_hint($classname);
     }
     echo "<br />";
 }
