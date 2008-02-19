@@ -10,7 +10,7 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Compose a new mail message with all headers and attachments         |
- |   and send it using IlohaMail's SMTP methods or with PHP mail()       |
+ |   and send it using the PEAR::Net_SMTP class or with PHP mail()       |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -129,7 +129,7 @@ $OUTPUT->framed = TRUE;
 /****** check submission and compose message ********/
 
 
-if (!$savedraft && empty($_POST['_to']) && empty($_POST['_subject']) && $_POST['_message'])
+if (!$savedraft && empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && empty($_POST['_subject']) && $_POST['_message'])
   {
   $OUTPUT->show_message("sendingfailed", 'error');
   $OUTPUT->send('iframe');
@@ -146,13 +146,19 @@ $mailto_replace = array(', ', ', ', '', ',');
 
 // replace new lines and strip ending ', '
 $mailto = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
+$mailcc = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
+$mailbcc = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
 
-// decode address strings
-$to_address_arr = $IMAP->decode_address_list($mailto);
+if (empty($mailto) && !empty($mailcc)) {
+  $mailto = $mailcc;
+  $mailcc = null;
+}
+else if (empty($mailto))
+  $mailto = 'undisclosed-recipients:;';
+
+// get sender name and address
 $identity_arr = rcmail_get_identity(get_input_value('_from', RCUBE_INPUT_POST));
-
 $from = $identity_arr['mailto'];
-$first_to = is_array($to_address_arr[0]) ? $to_address_arr[0]['mailto'] : $mailto;
 
 if (empty($identity_arr['string']))
   $identity_arr['string'] = $from;
@@ -163,11 +169,11 @@ $headers = array('Date' => date('r'),
                  'To'   => $mailto);
 
 // additional recipients
-if (!empty($_POST['_cc']))
-  $headers['Cc'] = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
+if (!empty($mailcc))
+  $headers['Cc'] = $mailcc;
 
-if (!empty($_POST['_bcc']))
-  $headers['Bcc'] = preg_replace($mailto_regexp, $mailto_replace, get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
+if (!empty($mailbcc))
+  $headers['Bcc'] = $mailbcc;
   
 if (!empty($identity_arr['bcc']))
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];

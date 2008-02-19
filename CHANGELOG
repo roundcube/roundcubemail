@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/02/20 (thomasb)
 ----------
 - Localize folder name in page title (#1484785)
+- Allow to send mail with BCC recipients only
 
 2008/02/12 (estadtherr)
 ----------
