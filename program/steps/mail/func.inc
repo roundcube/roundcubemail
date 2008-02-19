@@ -76,7 +76,7 @@ if (!$OUTPUT->ajax_call)
 
 // set page title
 if (empty($_action) || $_action == 'list')
-  $OUTPUT->set_pagetitle(rcube_charset_convert($IMAP->get_mailbox_name(), 'UTF-7'));
+  $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
 
 
 

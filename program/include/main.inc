@@ -1844,4 +1844,20 @@ function rcmail_folder_classname($folder_id)
 }
 
 
+/**
+ * Try to localize the given IMAP folder name.
+ * UTF-7 decode it in case no localized text was found
+ *
+ * @param string Folder name
+ * @return string Localized folder name in UTF-8 encoding
+ */
+function rcmail_localize_foldername($name)
+{
+  if ($folder_class = rcmail_folder_classname($name))
+    return rcube_label($folder_class);
+  else
+    return rcube_charset_convert($name, 'UTF-7');
+}
+
+
 ?>

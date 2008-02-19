@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/02/20 (thomasb)
+----------
+- Localize folder name in page title (#1484785)
+
 2008/02/12 (estadtherr)
 ----------
 - fix switching between HTML/plain composing (#1484752) 
