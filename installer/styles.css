@@ -1,0 +1,186 @@
+
+body {
+  margin: 1em 2em 2em 2em;
+  background-color: #fff;
+}
+
+body, td, th, div, p {
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  font-size: small;
+  color: #000;
+}
+
+#banner {
+  position: relative;
+}
+
+#header {
+  position: relative;
+  height: 56px;
+  background: url('images/banner_bg.gif') top left repeat-x #fff;
+}
+
+#header div.banner-logo {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 200px;
+  height: 56px;
+}
+
+#header div.banner-right {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 10px;
+  height: 56px;
+}
+
+#topnav {
+  position: absolute;
+  right: 20px;
+  bottom: 8px;
+  text-align: right;
+  color: #ebebeb;
+  font-size: smaller;
+}
+
+#topnav a {
+  color: #ebebeb;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+#topnav a:hover {
+  text-decoration: underline;
+}
+
+#content {
+  margin: 8px 20px;
+}
+
+#footer {
+  margin: 2em 20px 1em 20px;
+  padding-top: 0.6em;
+  font-size: smaller;
+  text-align: center;
+  border-top: 1px dotted #999;
+}
+
+#progress {
+  margin-bottom: 2em;
+  border: 1px solid #aaa;
+  background-color: #f9f9f9;
+}
+
+#progress:after {
+  content: ".";
+  display: block;
+  height: 0;
+  font-size: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+#progress li {
+  float: left;
+  color: #999;
+  padding: 1em 5em 1em 0.2em;
+}
+
+#progress li.current {
+  color: #000;
+  font-weight: bold;
+}
+
+#progress li.passed,
+#progress li.passed a {
+  color: #333;
+  text-decoration: none;
+}
+
+#progress li.passed a:hover {
+  text-decoration: underline;
+}
+
+fieldset {
+  margin-bottom: 2em;
+  border: 1px solid #aaa;
+  background-color: #f9f9f9;
+}
+
+fieldset p.hint {
+  margin-top: 0.5em;
+}
+
+legend {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+textarea.configfile {
+  background-color: #f9f9f9;
+  font-family: monospace;
+  font-size: 9pt;
+  width: 100%;
+  height: 40em;
+}
+
+dt.propname {
+  font-family: monospace;
+  font-size: 9pt;
+  margin-top: 1em;
+  margin-bottom: 0.6em;
+}
+
+dd div {
+  margin-top: 0.3em;
+}
+
+label {
+  padding-left: 0.5em;
+}
+
+th {
+  text-align: left;
+}
+
+h4 {
+  margin-bottom: 0.2em;
+}
+
+.hint {
+  color: #666;
+  font-size: 0.95em;
+}
+
+.success {
+  color: #006400;
+  font-weight: bold !important;
+}
+
+.fail {
+  color: #ff0000 !important;
+  font-weight: bold !important;
+}
+
+.na {
+  color: #f60;
+  font-weight: bold;
+}
+
+.indent {
+  padding-left: 0.8em;
+}
+
+.notice {
+  padding: 1em;
+  background-color: #f7fdcb;
+  border: 2px solid #c2d071;
+}
+
+.warning {
+  padding: 1em;
+  background-color: #ef9398;
+  border: 2px solid #dc5757;
+}
