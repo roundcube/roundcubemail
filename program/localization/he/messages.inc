@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Moshe Leibovitch                                              |
+ | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
  +-----------------------------------------------------------------------+
 
 */
@@ -73,5 +73,7 @@ $messages['errorsavingcontact'] = 'לא ניתן לשמור את כתובת אי
 $messages['movingmessage'] = 'תיוק המכתב..';
 $messages['receiptsent'] = 'אישור הקבלה נשלח בהצלחה';
 $messages['errorsendingreceipt'] = 'לא ניתן לשלוח אישור קבלה';
+$messages['nodeletelastidentity'] = 'זו הזהות האחרונה ולכן לא ניתן לבטלה';
+$messages['addsubfolderhint'] = 'תיקיה זו תוקם תחת התיקיה שנבחרה';
 
 ?>
