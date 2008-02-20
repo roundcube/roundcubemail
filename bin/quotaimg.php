@@ -1,5 +1,4 @@
 <?php
-
 /*
  +-----------------------------------------------------------------------+
  | program/bin/quotaimg.php                                              |
@@ -15,7 +14,7 @@
  | Author: Brett Patterson <brett2@umbc.edu>                             |
  +-----------------------------------------------------------------------+
 
- $Id:  $
+ $Id: $
 
 */
 
@@ -24,34 +23,45 @@ $quota = ((isset($_GET['q']) && !empty($_GET['q'])) || $_GET['q']=='0')?(int)$_G
 $width = empty($_GET['w']) ? 100 : (int)$_GET['w'];
 $height = empty($_GET['h']) ? 14 : (int)$_GET['h'];
 
+/**
+ * Quota display
+ * 
+ *	Modify the following few elements to change the display of the image.
+ *	Modifiable attributes are:
+ *	bool	border	::	Defines whether you want to show a border around it?
+ *	bool	unknown	::	Leave default; Defines whether quota is "unknown"
+ *
+ *	int		height	::	Defines height of the image
+ *	int		width	::	Defines width of the image
+ *	int		font	::	Changes the font size & font used in the GD library.
+ *						Available values are from 1 to 5.
+ *	int		padding	::	Changes the offset (in pixels) from the top of the image
+ *                      to where the top of the text will be aligned. User
+ *                      greater than 0 to ensure text is off the border.
+ *	array	limit	::	Holds the integer values of in an associative array as
+ *                      to what defines the upper and lower levels for quota
+ *                      display.
+ *						High - Quota is nearing capacity.
+ *						Mid  - Quota is around the middle
+ *						Low  - Currently not used.
+ *	array	color	::	An associative array of strings of comma separated
+ *                      values (R,G,B) for use in color creation.  Define the
+ *                      RGB values you'd like to use. A list of colors (and
+ *                      their RGB values) can be found here:
+ *						http://www.december.com/html/spec/colorcodes.html
+ * 
+ * @return void
+ * 
+ * @param mixed $used   The amount used, or ?? if unknown.
+ * @param mixed $total  The total available, or ?? if unknown.
+ * @param int   $width  Width of the image.
+ * @param int   $height Height of the image.
+ * 
+ * @see rcube_imap::get_quota()
+ * @see iil_C_GetQuota()
+ */
 function genQuota($used, $total, $width, $height)
 {
-	/**
-	 *	Quota Display
-	 *
-	 *	Modify the following few elements to change the display of the image.
-	 *	Modifiable attributes are:
-	 *	bool	border	::	Defines whether you want to show a border around it or not.
-	 *	bool	unknown	::	Leave default; Defines whether quota is "unknown"
-	 *
-	 *	int		height	::	Defines height of the image
-	 *	int		width	::	Defines width of the image
-	 *	int		font	::	Changes the font size & font used in the GD library.
-	 *						Available values are from 1 to 5.
-	 *	int		padding	::	Changes the offset (in pixels) from the top of the image to
-	 *						where the top of the text will be aligned.  User greater than
-	 *						0 to ensure text is off the border.
-	 *	array	limit	::	Holds the integer values of in an associative array as to what
-	 *						defines the upper and lower levels for quota display.
-	 *						High - Quota is nearing capacity.
-	 *						Mid  - Quota is around the middle
-	 *						Low  - Currently not used.
-	 *	array	color	::	An associative array of strings of comma separated values (R,G,B)
-	 *						for use in color creation.  Define the RGB values you'd like to 
-	 *						use.  A list of colors (and their RGB values) can be found here:
-	 *						http://www.december.com/html/spec/colorcodes.html
-	 **/
-
 	$unknown = false;
 	$border = 0;
 
@@ -77,9 +87,9 @@ function genQuota($used, $total, $width, $height)
 	$color['text'] = '102, 102, 102';
 
 
-	/****************************
+	/************************************
 	 *****	DO NOT EDIT BELOW HERE	*****
-	 ****************************/
+	 ***********************************/
 
 	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total))
 		return false; 
