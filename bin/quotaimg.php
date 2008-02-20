@@ -18,9 +18,9 @@
 
 */
 
-$used  = ((isset($_GET['u']) && !empty($_GET['u'])) || $_GET['u']=='0')?(int)$_GET['u']:'??';
-$quota = ((isset($_GET['q']) && !empty($_GET['q'])) || $_GET['q']=='0')?(int)$_GET['q']:'??';
-$width = empty($_GET['w']) ? 100 : (int)$_GET['w'];
+$used   = ((isset($_GET['u']) && !empty($_GET['u'])) || $_GET['u']=='0')?(int)$_GET['u']:'??';
+$quota  = ((isset($_GET['q']) && !empty($_GET['q'])) || $_GET['q']=='0')?(int)$_GET['q']:'??';
+$width  = empty($_GET['w']) ? 100 : (int)$_GET['w'];
 $height = empty($_GET['h']) ? 14 : (int)$_GET['h'];
 
 /**
@@ -59,50 +59,57 @@ $height = empty($_GET['h']) ? 14 : (int)$_GET['h'];
  * 
  * @see rcube_imap::get_quota()
  * @see iil_C_GetQuota()
+ * 
+ * @todo Make colors a config option.
  */
 function genQuota($used, $total, $width, $height)
 {
 	$unknown = false;
-	$border = 0;
+	$border  = 0;
 
-	$font = 2;
+	$font    = 2;
 	$padding = 0;
 
 	$limit['high'] = 70;
-	$limit['mid'] = 45;
-	$limit['low'] = 0;
+	$limit['mid']  = 45;
+	$limit['low']  = 0;
 
 	// Fill Colors
-	$color['fill']['high'] = '215, 13, 13';	// Near quota fill color
-	$color['fill']['mid'] = '126, 192, 238';// Mid-area of quota fill color
-	$color['fill']['low'] = '147, 225, 100';	// Far from quota fill color
+	$color['fill']['high'] = '215, 13, 13';	  // Near quota fill color
+	$color['fill']['mid']  = '126, 192, 238'; // Mid-area of quota fill color
+	$color['fill']['low']  = '147, 225, 100'; // Far from quota fill color
 
 	// Background colors
-	$color['bg']['OL'] = '215, 13, 13';		// Over limit bbackground
-	$color['bg']['Unknown'] = '238, 99, 99';// Unknown background
-	$color['bg']['quota'] = '255, 255, 255';// Normal quota background
+	$color['bg']['OL']      = '215, 13, 13';   // Over limit bbackground
+	$color['bg']['Unknown'] = '238, 99, 99';   // Unknown background
+	$color['bg']['quota']   = '255, 255, 255'; // Normal quota background
 
 	// Misc. Colors
 	$color['border'] = '0, 0, 0';
-	$color['text'] = '102, 102, 102';
+	$color['text']   = '102, 102, 102';
 
 
 	/************************************
 	 *****	DO NOT EDIT BELOW HERE	*****
 	 ***********************************/
 
-	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total))
+    // @todo: Set to "??" instead?
+	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total)) {
 		return false; 
+    }
 
-	if (strpos($used, '?')!==false || strpos($total, '?')!==false && $used != 0)
+	if (strpos($used, '?') !== false || strpos($total, '?') !== false
+        && $used != 0) {
 		$unknown = true; 
+    }
 
 	$im = imagecreate($width, $height);
 
-	if ($border)
-	{
+	if ($border) {
 		list($r, $g, $b) = explode(',', $color['border']);
+        
 		$borderc = imagecolorallocate($im, $r, $g, $b);
+        
 		imageline($im, 0, 0, $width, 0, $borderc);
 		imageline($im, 0, $height-$border, 0, 0, $borderc);
 		imageline($im, $width-1, 0, $width-$border, $height, $borderc);
@@ -112,46 +119,41 @@ function genQuota($used, $total, $width, $height)
 	list($r, $g, $b) = explode(',', $color['text']);
 	$text = imagecolorallocate($im, $r, $g, $b);
 
-	if ($unknown)
-	{
+	if ($unknown) {
 		list($r, $g, $b) = explode(',', $color['bg']['Unknown']);
 		$background = imagecolorallocate($im, $r, $g, $b);
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
 
 		$string = 'Unknown';
-		$mid = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
+		$mid    = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
 		imagestring($im, $font, $mid, $padding, $string, $text);
-	}
-	else if ($used > $total)
-	{
+	} else if ($used > $total) {
 		list($r, $g, $b) = explode(',', $color['bg']['OL']);
+        
 		$background = imagecolorallocate($im, $r, $g, $b);
+        
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
 
 		$string = 'Over Limit';
-		$mid = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
+		$mid    = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
 		imagestring($im, $font, $mid, $padding, $string, $text);
-	}
-	else
-	{
+	} else {
 		list($r, $g, $b) = explode(',', $color['bg']['quota']);
+        
 		$background = imagecolorallocate($im, $r, $b, $g);
+        
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
 		
 		$quota = ($used==0)?0:(round($used/$total, 2)*100);
 
-		if ($quota >= $limit['high'])
-		{
+		if ($quota >= $limit['high']) {
 			list($r, $g, $b) = explode(',', $color['fill']['high']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
-		}
-		elseif($quota >= $limit['mid'])
-		{
+		} elseif($quota >= $limit['mid']) {
 			list($r, $g, $b) = explode(',', $color['fill']['mid']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
-		}
-		else // if($quota >= $limit['low'])
-		{
+		} else {
+		    // if($quota >= $limit['low'])
 			list($r, $g, $b) = explode(',', $color['fill']['low']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
 		}
@@ -159,20 +161,22 @@ function genQuota($used, $total, $width, $height)
 		$quota_width = $quota / 100 * $width;
 		imagefilledrectangle($im, $border, 0, $quota, $height-2*$border, $fill);
 
-		$string = $quota.'%';
-		$mid = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
-		imagestring($im, $font, $mid, $padding, $string, $text); // Print percent in black
+		$string = $quota . '%';
+		$mid    = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
+        // Print percent in black
+		imagestring($im, $font, $mid, $padding, $string, $text); 
 	}
 
 	header('Content-Type: image/gif');
-	header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+86400)." GMT");
-	header("Cache-Control: ");
-	header("Pragma: ");
+    
+    // @todo is harcoding GMT necessary?
+	header('Expires: ' . gmdate('D, d M Y H:i:s', mktime()+86400) . ' GMT');
+	header('Cache-Control: ');
+	header('Pragma: ');
 	
 	imagegif($im);
 	imagedestroy($im);
 }
-
 
 genQuota($used, $quota, $width, $height);
 exit;
