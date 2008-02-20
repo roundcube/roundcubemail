@@ -886,11 +886,15 @@ function rcube_webmail()
       case 'print':
         var uid;
         if (uid = this.get_single_uid())
-          {
+        {
           ref.printwin = window.open(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''));
           if (this.printwin)
+          {
             setTimeout(function(){ ref.printwin.focus(); }, 20);
+            if (this.env.action != 'show')
+              this.toggle_read_status('read', [uid]);
           }
+        }
         break;
 
       case 'viewsource':
