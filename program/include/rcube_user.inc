@@ -247,7 +247,7 @@ class rcube_user
 
     $sql_result = $DB->query("SELECT count(*) AS ident_count FROM " .
       get_table_name('identities') .
-      " WHERE user_id = ? AND del != 1",
+      " WHERE user_id = ? AND del <> 1",
       $this->ID);
 
     $sql_arr = $DB->fetch_assoc($sql_result);
