@@ -4,7 +4,9 @@ CHANGELOG RoundCube Webmail
 2008/02/20 (thomasb)
 ----------
 - Localize folder name in page title (#1484785)
+- Fix code using wrong variable name (#1484018)
 - Allow to send mail with BCC recipients only
+- Remove MDN headers before saving in sent folder
 
 2008/02/12 (estadtherr)
 ----------
