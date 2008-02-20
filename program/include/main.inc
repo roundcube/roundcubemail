@@ -381,7 +381,7 @@ function get_sequence_name($sequence)
   if (strlen($CONFIG[$config_key]))
     return $CONFIG[$config_key];
   
-  return $table;
+  return $sequence;
   }
 
 

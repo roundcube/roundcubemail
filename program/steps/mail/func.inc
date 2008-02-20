@@ -1435,6 +1435,8 @@ function rcmail_deliver_message(&$message, $from, $mailto)
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
     }
   
+  if ($sent)  // remove MDN headers after sending
+    unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
   
   $message->_headers = array();
   $message->headers($headers);
