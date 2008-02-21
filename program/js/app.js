@@ -311,8 +311,8 @@ function rcube_webmail()
         break;
 
       case 'login':
-        var input_user = rcube_find_object('_user');
-        var input_pass = rcube_find_object('_pass');
+        var input_user = rcube_find_object('rcmloginuser');
+        var input_pass = rcube_find_object('rcmloginpwd');
         if (input_user)
           input_user.onkeypress = function(e){ return rcmail.login_user_keypress(e); };
         if (input_user && input_user.value=='')
