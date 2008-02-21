@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Martynas Bendorius <martynas@e-vaizdas.net>                   |
+ | Author: Martynas Bendorius <martynas@evanet.lt>                       |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -74,5 +74,9 @@ $messages['copyerror'] = 'Adresų kopijuoti negalima';
 $messages['sourceisreadonly'] = 'Šis adreso šaltinis yra tik skaitymui';
 $messages['errorsavingcontact'] = 'Kontakto adreso išsaugoti negalima';
 $messages['movingmessage'] = 'Perkeliamas laiškas...';
+$messages['receiptsent'] = 'Sėkmingai išsiųstas laiško perskaitymo patvirtinimas';
+$messages['errorsendingreceipt'] = 'Nepavyko išsiųsti laiško perskaitymo patvirtinimo';
+$messages['nodeletelastidentity'] = 'Jūs negalite ištrinti šios tapatybės, kadangi ji yra vienintelė likusi.';
+$messages['addsubfolderhint'] = 'Šis aplankas bus sukurtas kaip poaplankis, kurį esate pažymėjęs';
 
 ?>

@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Martynas Bendorius <martynas@e-vaizdas.net>                   |
+ | Author: Martynas Bendorius <martynas@evanet.lt>                       |
  +-----------------------------------------------------------------------+'
 
  @version $Id$
@@ -87,6 +87,9 @@ $labels['lastmessage'] = 'Rodyti paskutinį laišką';
 $labels['lastmessages'] = 'Rodyti paskutinius laiškus';
 $labels['backtolist'] = 'Grižti į laiškų sarašą';
 $labels['viewsource'] = 'Rodyti šaltinį';
+$labels['markmessages'] = 'Pažymėti laiškus';
+$labels['markread'] = 'Kaip perskaitytus';
+$labels['markunread'] = 'Kaip neperskaitytus';
 $labels['select'] = 'Pažymėti';
 $labels['all'] = 'Visus';
 $labels['none'] = 'Nieko';
@@ -124,6 +127,10 @@ $labels['plaintoggle'] = 'Paprastas tekstas';
 $labels['addcc'] = 'Pridėti Cc';
 $labels['addbcc'] = 'Pridėti Bcc';
 $labels['addreplyto'] = 'Pridėti Reply-To';
+$labels['mdnrequest'] = 'Žinutės siuntėjas paprašė patvirtinti, kad jūs ją perskaitėte. Ar norite išsiųsti patvirtinimą?';
+$labels['receiptread'] = 'Patvirtinimas (skaitymo)';
+$labels['yourmessage'] = 'Jūsų laiško perskaitymo patvirtinimas';
+$labels['receiptnote'] = 'Pastaba: šis laiško perskaitymo patvirtinimas nurodo, jog laiškas buvo atidarytas gavėjo kompiuteryje, tačiau negarantuoja, jog gavėjas perskaitė ir suprato laiško turinį.';
 $labels['name'] = 'Rodomas vardas';
 $labels['firstname'] = 'Vardas';
 $labels['surname'] = 'Pavardė';
@@ -171,6 +178,7 @@ $labels['folder'] = 'Aplankas';
 $labels['folders'] = 'Aplankai';
 $labels['foldername'] = 'Aplanko vardas';
 $labels['subscribed'] = 'Užsakytas';
+$labels['messagecount'] = 'Laiškai';
 $labels['create'] = 'Sukurti';
 $labels['createfolder'] = 'Sukurti naują aplanką';
 $labels['rename'] = 'Pervadinti';
