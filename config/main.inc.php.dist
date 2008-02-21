@@ -227,7 +227,7 @@ $rcmail_config['session_domain'] = '';
  *  'surname_field' => 'sn',    // this field represents the contact's last name
  *  'firstname_field' => 'gn',  // this field represents the contact's first name
  *  'scope'         => 'sub',   // search mode: sub|base|list
- *  'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. ex: (status=act)
+ *  'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
  *  'fuzzy_search'  => true);   // server allows wildcard search
  */
 
