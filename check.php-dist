@@ -78,14 +78,17 @@ $required_libs = array('PEAR' => 'PEAR.php', 'DB' => 'DB.php',
     'MDB2' => 'MDB2.php', 'iilConnection' => 'lib/imap.inc');
 
 $supported_drivers = array('MDB2#mysql' => 'MDB2/Driver/mysql.php',
-    'MDB2#pgsql' => 'MDB2/Driver/pgsql.php', 'MDB2#sqlite' => 'MDB2/Driver/sqlite.php');
+    'MDB2#pgsql' => 'MDB2/Driver/pgsql.php',
+    'MDB2#sqlite' => 'MDB2/Driver/sqlite.php');
 
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
 
-$required_php_exts = array('Session' => 'session', 'PCRE' => 'pcre', 'Sockets' => 'sockets');
+$required_php_exts = array('Session' => 'session',
+    'PCRE' => 'pcre', 'Sockets' => 'sockets');
 
-$optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv', 'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl');
+$optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
+    'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'GD' => 'gd');
 
 $source_urls = array(
     'Socket' => 'http://www.php.net/manual/en/ref.sockets.php',
@@ -108,8 +111,10 @@ require_once 'include/bugs.inc';
 
 function show_hint($key) {
     global $source_urls;
-    if ($source_urls[$key])
-        echo '<span class="indent">(See <a href="' . $source_urls[$key] . '">' . $source_urls[$key] . '</a>)</span>';
+    if ($source_urls[$key]) {
+        echo '<span class="indent">(See <a href="' . $source_urls[$key] . '">';
+        echo  $source_urls[$key] . '</a>)</span>';
+    }
 }
 
 ?>
