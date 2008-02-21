@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author:    David Garabana Barro <david_garabana-com>                  |
+ | Author:    David Garabana Barro <david garabana com>                  |
  +-----------------------------------------------------------------------+
 
 */
@@ -84,6 +84,9 @@ $labels['lastmessage'] = 'Amosar a última mensaxe';
 $labels['lastmessages'] = 'Amosar o último grupo de mensaxes';
 $labels['backtolist'] = 'Voltar á lista de mensaxes';
 $labels['viewsource'] = 'Ver fonte';
+$labels['markmessages'] = 'Marcar mensaxes';
+$labels['markread'] = 'Coma lidos';
+$labels['markunread'] = 'Coma non lidos';
 $labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Ningunha';
@@ -121,6 +124,10 @@ $labels['plaintoggle'] = 'Texto claro';
 $labels['addcc'] = 'Engadir Copia (CC)';
 $labels['addbcc'] = 'Engadir Copia Oculta (BCC)';
 $labels['addreplyto'] = 'Engadir Respostar a (Reply-To)';
+$labels['mdnrequest'] = 'O remitente desta mensaxe pediu ser notificado cando vostede lea esta mensaxe. Quere notificar ao remitente?';
+$labels['receiptread'] = 'Notificación da disposición da mensaxe (lectura)';
+$labels['yourmessage'] = 'Esta é unha notificación de disposición para a súa mensaxe';
+$labels['receiptnote'] = 'Nota: Esta notificación só confirma que a mensaxe se abriu no computador do destinatario. Non asegura que o destinatario o lera ou entendera o seu contido.';
 $labels['name'] = 'Nome completo';
 $labels['firstname'] = 'Nome';
 $labels['surname'] = 'Apelidos';
@@ -168,6 +175,7 @@ $labels['folder'] = 'Cartafol';
 $labels['folders'] = 'Cartafoles';
 $labels['foldername'] = 'Nome do cartafol';
 $labels['subscribed'] = 'Subscrito';
+$labels['messagecount'] = 'Mensaxes';
 $labels['create'] = 'Crear';
 $labels['createfolder'] = 'Crear novo cartafol';
 $labels['rename'] = 'Renomear';
