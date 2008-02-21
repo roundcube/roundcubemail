@@ -124,8 +124,7 @@ class rcube_install
   function pass($name, $message = '')
   {
     echo Q($name) . ':&nbsp; <span class="success">OK</span>';
-    if ($message)
-      echo '<span class="indent">' . Q($name) . '</span>';
+    $this->_showhint($message);
   }
   
   
@@ -141,10 +140,7 @@ class rcube_install
     $this->failures++;
     
     echo Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
-    if ($message)
-      echo '<span class="indent">' . Q($name) . '</span>';
-    if ($url)
-      echo '<span class="indent">(See <a href="' . Q($url) . '" target="_blank">' . Q($url) . '</a>)</span>';
+    $this->_showhint($message, $url);
   }
   
   
@@ -155,13 +151,22 @@ class rcube_install
    * @param string Warning message
    * @param string URL for details
    */
-  function warning($name, $message = '', $url = '')
+  function na($name, $message = '', $url = '')
   {
-    echo Q($name) . ':&nbsp; <span class="warning">NOT AVAILABLE</span>';
-    if ($message)
-      echo '<span class="indent">' . Q($name) . '</span>';
+    echo Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
+    $this->_showhint($message, $url);
+  }
+  
+  
+  function _showhint($message, $url = '')
+  {
+    $hint = Q($message);
+    
     if ($url)
-      echo '<span class="indent">(See <a href="' . Q($url) . '" target="_blank">' . Q($url) . '</a>)</span>';
+      $hint .= ($hint ? '; ' : '') . 'See <a href="' . Q($url) . '" target="_blank">' . Q($url) . '</a>';
+      
+    if ($hint)
+      echo '<span class="indent">(' . $hint . ')</span>';
   }
   
   

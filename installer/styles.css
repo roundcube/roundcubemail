@@ -145,6 +145,20 @@ th {
   text-align: left;
 }
 
+ul li {
+  margin: 0.3em 0 0.4em -1em;
+}
+
+ul li ul li {
+  margin-bottom: 0.2em;
+}
+
+h3 {
+  font-size: 1.1em;
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+}
+
 h4 {
   margin-bottom: 0.2em;
 }

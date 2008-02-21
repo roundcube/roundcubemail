@@ -114,6 +114,13 @@ echo $check_caching->show(intval($RCI->getprop('enable_caching')), array('value'
 </fieldset>
 
 <fieldset>
+<legend>Database setup</legend>
+<dl>
+<dd>TBD.</dd>
+</dl>
+</fieldset>
+
+<fieldset>
 <legend>IMAP Settings</legend>
 <dl>
 <dt class="propname">auto_create_user</dt>
