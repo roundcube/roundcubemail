@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
 
@@ -89,6 +89,9 @@ $labels['lastmessage'] = 'Показать последнее сообщение
 $labels['lastmessages'] = 'Последнее сообщение';
 $labels['backtolist'] = 'К списку сообщений';
 $labels['viewsource'] = 'Исходный текст';
+$labels['markmessages'] = 'Отметить сообщение';
+$labels['markread'] = 'как прочитанное';
+$labels['markunread'] = 'как непрочитанное';
 $labels['select'] = 'Выбрать';
 $labels['all'] = 'Все';
 $labels['none'] = 'Ничего';
@@ -177,6 +180,7 @@ $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Имя папки';
 $labels['subscribed'] = 'Подписан';
+$labels['messagecount'] = 'сообщения';
 $labels['create'] = 'Создать';
 $labels['createfolder'] = 'Создать новую папку';
 $labels['rename'] = 'Переименовать';
