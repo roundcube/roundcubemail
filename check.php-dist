@@ -372,46 +372,43 @@ echo 'Fetching config-settings from config/main.inc.php.<br /><br />';
 if (is_array($rctest_config) && count($rctest_config)) {
     ?>
 <table border="0">
-	<tr>
-		<th>
-		<h4>SMTP Settings</h4>
-		</th>
-		<th>
-		<h4>IMAP Settings</h4>
-		</th>
-	</tr>
-	<tr>
-		<td valign="top"><?php
-		echo 'SMTP: ' . CHECK_OK . '<br />';
-		echo 'server: '.(isset($rctest_config['smtp_server']) && !empty($rctest_config['smtp_server']) ? $rctest_config['smtp_server'] : '<i>not set</i>').'<br />';
-		echo 'port: '.(isset($rctest_config['smtp_port']) && !empty($rctest_config['smtp_port']) ? $rctest_config['smtp_port'] : '<i>not set</i>').'<br />';
-		if (isset($rctest_config['smtp_user']) && !empty($rctest_config['smtp_user'])) {
-		    echo 'user: '.$rctest_config['smtp_user'].'<br/>';
-		} elseif ($rctest_config['smtp_user'] == '%u') {
-		    echo 'user: <i>use current session</i><br/>';
-		} else {
-		    echo 'user: <i>not set</i><br/>';
-		}
-        if (isset($rctest_config['smtp_pass']) && !empty($rctest_config['smtp_pass'])) {
-		    echo 'pass: '.$rctest_config['smtp_pass'].'<br/>';
-		} elseif (isset($rctest_config['smtp_pass']) && $rctest_config['smtp_pass'] == '%p') {
-		    echo 'pass: <i>use current session</i><br/>';
-		} else {
-		    echo 'pass: <i>not set</i><br/>';
-		}
-		?></td>
-		<td valign="top"><?php
-		echo 'IMAP: ' . CHECK_OK . '<br />';
-        if (isset($rctest_config['default_host']) && is_array($rctest_config['default_host'])) {
-		    echo 'server: '.var_export($rctest_config['default_host'], true).'<br/>';
-        } elseif (isset($rctest_config['default_host']) && !empty($rctest_config['default_host'])) {
-            echo 'server: '.$rctest_config['default_host'].'<br/>';
-		} else {
-		    echo 'server: <i>not set</i><br/>';
-		}
-		echo 'port: '.(isset($rctest_config['default_port']) && !empty($rctest_config['default_port']) ? $rctest_config['default_port'] : '<i>not set</i>').'<br />';
-		?></td>
-	</tr>
+<tr>
+<th><h4>SMTP Settings</h4></th>
+<th><h4>IMAP Settings</h4></th>
+</tr>
+<tr>
+<td valign="top"><?php
+echo 'SMTP: ' . CHECK_OK . '<br />';
+echo 'server: '.(isset($rctest_config['smtp_server']) && !empty($rctest_config['smtp_server']) ? $rctest_config['smtp_server'] : '<i>not set</i>').'<br />';
+echo 'port: '.(isset($rctest_config['smtp_port']) && !empty($rctest_config['smtp_port']) ? $rctest_config['smtp_port'] : '<i>not set</i>').'<br />';
+if (isset($rctest_config['smtp_user']) && !empty($rctest_config['smtp_user'])) {
+    echo 'user: '.$rctest_config['smtp_user'].'<br/>';
+} elseif ($rctest_config['smtp_user'] == '%u') {
+    echo 'user: <i>use current session</i><br/>';
+} else {
+    echo 'user: <i>not set</i><br/>';
+}
+if (isset($rctest_config['smtp_pass']) && !empty($rctest_config['smtp_pass'])) {
+    echo 'pass: '.$rctest_config['smtp_pass'].'<br/>';
+} elseif (isset($rctest_config['smtp_pass']) && $rctest_config['smtp_pass'] == '%p') {
+    echo 'pass: <i>use current session</i><br/>';
+} else {
+    echo 'pass: <i>not set</i><br/>';
+}
+?></td>
+<td valign="top">
+<?php
+echo 'IMAP: ' . CHECK_OK . '<br />';
+if (isset($rctest_config['default_host']) && is_array($rctest_config['default_host'])) {
+    echo 'server: '.var_export($rctest_config['default_host'], true).'<br/>';
+} elseif (isset($rctest_config['default_host']) && !empty($rctest_config['default_host'])) {
+    echo 'server: '.$rctest_config['default_host'].'<br/>';
+} else {
+    echo 'server: <i>not set</i><br/>';
+}
+echo 'port: '.(isset($rctest_config['default_port']) && !empty($rctest_config['default_port']) ? $rctest_config['default_port'] : '<i>not set</i>').'<br />';
+?></td>
+</tr>
 </table>
 <h3>Test SMTP settings - send an email</h3>
 <p>Don't abuse this!</p>
@@ -426,8 +423,9 @@ endif;
 ?> Recipient:<br />
 <?php echo $rctest_config['from']; ?><br />
 <br />
-<input type="hidden" name="action" value="smtp" /> <input type="submit"
-	value="send an email" /></form>
+<input type="hidden" name="action" value="smtp" />
+<input type="submit" value="send an email" />
+</form>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'smtp') {
 
@@ -436,9 +434,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'smtp') {
         echo CHECK_NOK . '<br />';
         echo '<i>Please edit $rctest_config in ' . basename(__FILE__) . '</i><br />';
     } else {
-
-        $data   = $_POST['smtp_test'];
+        $data   = null;
         $CONFIG = $rctest_config;
+        if (isset($_POST['smtp_test'])) {
+            $data = $_POST['smtp_test'];
+
+            // inject into config array
+            $CONFIG['smtp_user'] = $data['user'];
+            $CONFIG['smtp_pass'] = $data['pass'];
+        }
 
         require_once 'lib/rc_mail_mime.inc';
         require_once 'include/rcube_smtp.inc';
@@ -451,11 +455,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'smtp') {
 
         $body = 'This is a test to confirm that RoundCube can send email.';
 
-        $mail_object = new rc_mail_mime();
-        $mail_object->headers($headers);
+        $mail_object  = new rc_mail_mime();
+        $send_headers = $mail_object->headers($headers);
 
         $smtp_response = array();
-        if (smtp_mail($rctest_config['from'], $recipients, ($foo = $mail_object->txtHeaders($send_headers)), $body, $smtp_response)) {
+
+        $status = smtp_mail($rctest_config['from'], $recipients,
+            ($foo = $mail_object->txtHeaders($send_headers)),
+            $body, $smtp_response);
+
+        if ($status) {
             echo CHECK_OK . '<br />';
         } else {
             echo CHECK_NOK;
