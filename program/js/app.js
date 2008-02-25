@@ -2702,8 +2702,14 @@ function rcube_webmail()
 
     var refrow, form;
     var tbody = this.gui_objects.subscriptionlist.tBodies[0];
-    var id = replace && replace.id ? replace.id : 'rcmrow'+(tbody.childNodes.length+1);
+    var id = 'rcmrow'+(tbody.childNodes.length+1);
     var selection = this.subscription_list.get_single_selection();
+    
+    if (replace && replace.id)
+    {
+      id = replace.id;
+      refid = replace.id;
+    }
 
     if (!id || !(refrow = document.getElementById(refid)))
       {
@@ -2720,18 +2726,23 @@ function rcube_webmail()
       else
         tbody.appendChild(row);
       }
-
+    
     // add to folder/row-ID map
     this.env.subscriptionrows[row.id] = [name, display_name];
 
     // set folder name
     row.cells[0].innerHTML = display_name;
-    if (row.cells[1] && row.cells[1].firstChild.tagName=='INPUT')
+    
+    // set messages count to zero
+    if (!replace)
+      row.cells[1].innerHTML = '*';
+    
+    if (!replace && row.cells[2] && row.cells[2].firstChild.tagName=='INPUT')
       {
-      row.cells[1].firstChild.value = name;
-      row.cells[1].firstChild.checked = true;
+      row.cells[2].firstChild.value = name;
+      row.cells[2].firstChild.checked = true;
       }
-       
+    
     // add new folder to rename-folder list and clear input field
     if (!replace && (form = this.gui_objects.editform))
       {
