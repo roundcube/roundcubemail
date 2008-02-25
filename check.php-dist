@@ -423,8 +423,12 @@ endif;
 ?> Recipient:<br />
 <?php echo $rctest_config['from']; ?><br />
 <br />
+<?php if (!empty($rctest_config['smtp_server'])): ?>
 <input type="hidden" name="action" value="smtp" />
 <input type="submit" value="send an email" />
+<?php else: ?>
+<i>Because you did not configure SMTP, you cannot test it!</i>
+<?php endif; ?>
 </form>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'smtp') {
