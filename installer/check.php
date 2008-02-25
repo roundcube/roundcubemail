@@ -1,9 +1,5 @@
 <?php
 
-$docroot = realpath(dirname(__FILE__) . '/../');
-$include_path  = $docroot . '/program/lib' . PATH_SEPARATOR . $docroot . '/program' . PATH_SEPARATOR . ini_get('include_path');
-set_include_path($include_path);
-
 $required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session', 'Sockets' => 'sockets');
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv', 'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl');
@@ -13,6 +9,10 @@ $required_libs = array('PEAR' => 'PEAR.php', 'DB' => 'DB.php', 'MDB2' => 'MDB2.p
 
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
+
+$ini_checks = array('file_uploads' => 1, 'session.auto_start' => 0,
+    'magic_quotes_gpc' => 0, 'magic_quotes_sybase' => 0,
+    'zlib.output_compression' => 0);
 
 $source_urls = array(
     'Sockets' => 'http://www.php.net/manual/en/ref.sockets.php',
@@ -121,6 +121,27 @@ foreach ($required_libs as $classname => $file) {
     }
     echo "<br />";
 }
+
+
+?>
+
+<h3>Checking php.ini/.htaccess settings</h3>
+
+<?php
+
+foreach ($ini_checks as $var => $val) {
+    $status = ini_get($var);
+    if ($status == $val) {
+        $RCI->pass($var);
+    }
+    else {
+      $RCI->fail($var, "is '$status', should be '$val'");
+    }
+    echo '<br />';
+}
+?>
+
+<?php
 
 if ($RCI->failures)
   echo '<p class="warning">Sorry but your webserver does not meet the requirements for RoundCube!<br />

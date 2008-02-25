@@ -25,7 +25,8 @@ class rcube_install
 {
   var $step;
   var $failures = 0;
-  var $defaults = array();
+  var $config = array();
+  var $last_error = null;
   
   /**
    * Constructor
@@ -33,25 +34,52 @@ class rcube_install
   function rcube_install()
   {
     $this->step = intval($_REQUEST['_step']);
-    $this->get_defaults();
   }
   
+  /**
+   * Singleton getter
+   */
+  function get_instance()
+  {
+    static $inst;
+    
+    if (!$inst)
+      $inst = new rcube_install();
+    
+    return $inst;
+  }
   
   /**
-   * Read the default config file and store properties
+   * Read the default config files and store properties
    */
   function get_defaults()
   {
-    $suffix = is_readable('../config/main.inc.php.dist') ? '.dist' : '';
-    
-    include '../config/main.inc.php' . $suffix;
+    $this->_load_config('.php.dist');
+  }
+
+
+  /**
+   * Read the local config files and store properties
+   */
+  function load_config()
+  {
+    $this->_load_config('.php');
+  }
+
+  /**
+   * Read the default config file and store properties
+   * @access private
+   */
+  function _load_config($suffix)
+  {
+    include '../config/main.inc' . $suffix;
     if (is_array($rcmail_config)) {
-      $this->defaults = $rcmail_config;
+      $this->config = $rcmail_config;
     }
       
-    include '../config/db.inc.php'. $suffix;
+    @include '../config/db.inc'. $suffix;
     if (is_array($rcmail_config)) {
-      $this->defaults += $rcmail_config;
+      $this->config += $rcmail_config;
     }
   }
   
@@ -64,7 +92,7 @@ class rcube_install
    */
   function getprop($name)
   {
-    $value = isset($_REQUEST["_$name"]) ? $_REQUEST["_$name"] : $this->defaults[$name];
+    $value = isset($_REQUEST["_$name"]) ? $_REQUEST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
       $value = self::random_key(24);
@@ -87,12 +115,8 @@ class rcube_install
     if (!$out)
       return '[Warning: could not read the template file]';
     
-    foreach ($this->defaults as $prop => $default) {
+    foreach ($this->config as $prop => $default) {
       $value = $_POST["_$prop"] ? $_POST["_$prop"] : $default;
-      
-      // skip this property
-      if (!isset($_POST["_$prop"]) || $value == $default)
-        continue;
       
       // convert some form data
       if ($prop == 'debug_level' && is_array($value)) {
@@ -101,8 +125,30 @@ class rcube_install
           $val += intval($dbgval);
         $value = $val;
       }
-      else if (is_bool($default))
+      else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
+        $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], $_POST['_dbuser'], $_POST['_dbpass'], $_POST['_dbhost'], $_POST['_dbname']);
+      }
+      else if ($prop == 'smtp_auth_type' && $value == '0') {
+        $value = '';
+      }
+      else if ($prop == 'default_host' && is_array($value)) {
+        $value = self::_clean_array($value);
+        if (count($value) <= 1)
+          $value = $value[0];
+      }
+      else if ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {
+        $value = '%u';
+      }
+      else if ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
+        $value = '%p';
+      }
+      else if (is_bool($default)) {
         $value = is_numeric($value) ? (bool)$value : $value;
+      }
+      
+      // skip this property
+      if ($value == $default)
+        continue;
       
       // replace the matching line in config file
       $out = preg_replace(
@@ -112,6 +158,17 @@ class rcube_install
     }
     
     return $out;
+  }
+  
+  
+  /**
+   * Getter for the last error message
+   *
+   * @return string Error message or null if none exists
+   */
+  function get_error()
+  {
+      return $this->last_error['message'];
   }
   
   
@@ -170,6 +227,26 @@ class rcube_install
   }
   
   
+  function _clean_array($arr)
+  {
+    $out = array();
+    
+    foreach (array_unique($arr) as $i => $val)
+      if (!empty($val))
+        $out[] = $val;
+    
+    return $out;
+  }
+  
+  /**
+   * Handler for RoundCube errors
+   */
+  function raise_error($p)
+  {
+      $this->last_error = $p;
+  }
+  
+  
   /**
    * Generarte a ramdom string to be used as encryption key
    *
@@ -200,5 +277,15 @@ class rcube_install
 function Q($string)
 {
   return htmlentities($string);
+}
+
+
+/**
+ * Fake rinternal error handler to catch errors
+ */
+function raise_error($p)
+{
+  $rci = rcube_install::get_instance();
+  $rci->raise_error($p);
 }
 

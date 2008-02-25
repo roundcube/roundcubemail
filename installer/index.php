@@ -5,6 +5,7 @@
 <title>RoundCube Webmail Installer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link rel="stylesheet" type="text/css" href="styles.css" />
+<script type="text/javascript" src="client.js"></script>
 </head>
 
 <body>
@@ -27,8 +28,12 @@
 
   ini_set('display_errors', 1);
 
+  $docroot = realpath(dirname(__FILE__) . '/../');
+  $include_path  = $docroot . '/program/lib' . PATH_SEPARATOR . $docroot . '/program' . PATH_SEPARATOR . ini_get('include_path');
+  set_include_path($include_path);
+
   require_once 'rcube_install.php';
-  $RCI = new rcube_install();
+  $RCI = rcube_install::get_instance();
 
 ?>
 

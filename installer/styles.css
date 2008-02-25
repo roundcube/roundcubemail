@@ -104,7 +104,7 @@ body, td, th, div, p {
 }
 
 fieldset {
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
   border: 1px solid #aaa;
   background-color: #f9f9f9;
 }
@@ -161,6 +161,27 @@ h3 {
 
 h4 {
   margin-bottom: 0.2em;
+}
+
+a.blocktoggle {
+  color: #666;
+  text-decoration: none;
+}
+
+a.addlink {
+  color: #999;
+  font-size: 0.9em;
+  padding: 1px 0 1px 20px;
+  background: url('images/add.png') top left no-repeat;
+  text-decoration: none;
+}
+
+a.removelink {
+  color: #999;
+  font-size: 0.9em;
+  padding: 1px 0 1px 24px;
+  background: url('images/delete.png') 4px 0 no-repeat;
+  text-decoration: none;
 }
 
 .hint {
