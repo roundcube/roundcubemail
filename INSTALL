@@ -35,10 +35,9 @@ INSTALLATION
    - /temp
    - /logs
 3. Create a new database and a database user for RoundCube (see DATABASE SETUP)
-4. Create database tables using the queries in file 'SQL/*.initial.sql'
-   (* stands for your database type)
-5. Rename the files config/*.inc.php.dist to config/*.inc.php
-6. Modify the files in config/* to suit your local environment
+4. Point your browser to http:///url-to-roundcube/installer/
+5. Follow the instructions of the install script (or see MANUAL CONFINGURATION)
+6. After creating and testing the configuration, remove the installer directory
 7. Done!
 
 
@@ -109,12 +108,13 @@ versions don't have a -O option for the createdb, so if you are
 using that version you'll have to change ownership of the DB later.
 
 
-CONFIGURATION
-=============
+MANUAL CONFIGURATION
+====================
 
 First of all, rename the files config/*.inc.php.dist to config/*.inc.php.
 You can then change these files according to your environment and your needs.
 Details about the config parameters can be found in the config files.
+See http://trac.roundcube.net/wiki/Howto_Install for even more guidance.
 
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:

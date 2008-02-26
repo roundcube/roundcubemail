@@ -5,7 +5,7 @@
 ini_set('display_errors', 1);
 require_once 'include/rcube_html.inc';
 
-$RCI->get_defaults();
+$RCI->load_defaults();
 
 if (!empty($_POST['submit'])) {
   

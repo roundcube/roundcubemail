@@ -49,12 +49,14 @@ if (!empty($RCI->config)) {
         $DB->db_connect('w');
         if (!($db_error_msg = $DB->is_error())) {
             $RCI->pass('DSN (write)');
+            echo '<br />';
             $db_working = true;
         }
         else {
-            $RCI->fail('DSN (write)', "Error: $db_error_msg");
+            $RCI->fail('DSN (write)', $db_error_msg);
+            echo '<p class="hint">Make sure that the configured database extists and that the user as write privileges<br />';
+            echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
         }
-        echo '<br />';
     }
     else {
         $RCI->fail('DSN (write)', 'not set');
@@ -66,34 +68,43 @@ else {
 
 // initialize db with schema found in /SQL/*
 if ($db_working && $_POST['initdb']) {
-    $engine = preg_match('/^([a-z]+):/i', $RCI->config['db_dsnw'], $regs) ? $regs[1] : 'mysql';
-    $fname = '../SQL/' . ($engine == 'pgsql' ? 'postgres' : $engine) . '.initial.sql';
-    if ($sql = @file_get_contents($fname)) {
-        $DB->query($sql);
-    }
-    else {
-        $RCI->fail('DB Schema', "Cannot read the schema file: $fname");
-    }
-    
-    if ($err = $RCI->get_error()) {
-        $RCI->fail('DB Schema', "Error creating database schema: $err");
+    if (!($success = $RCI->init_db($DB))) {
         $db_working = false;
-        echo '<p class="warning">Please try to inizialize the database manually as described in the INSTALL guide.</p>';
-        echo '<br />';
+        echo '<p class="warning">Please try to inizialize the database manually as described in the INSTALL guide.
+          Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
 
+// test database
 if ($db_working) {
-    $success = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
-    if (!$success) {
+    $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
+    if (!$db_read) {
         $RCI->fail('DB Schema', "Database not initialized");
+        $db_working = false;
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
     }
     else {
         $RCI->pass('DB Schema');
     }
     echo '<br />';
+}
+
+// more database tests
+if ($db_working) {
+    // write test
+    $db_write = $DB->query("INSERT INTO {$RCI->config['db_table_cache']} (session_id, cache_key, data, user_id) VALUES (?, ?, ?, 0)", '1234567890abcdef', 'test', 'test');
+    $insert_id = $DB->insert_id($RCI->config['db_sequence_cache']);
     
+    if ($db_write && $insert_id) {
+      $RCI->pass('DB Write');
+      $DB->query("DELETE FROM {$RCI->config['db_table_cache']} WHERE cache_id=?", $insert_id);
+    }
+    else {
+      $RCI->fail('DB Write', $RCI->get_error());
+    }
+    echo '<br />';    
+    
+    // check timezone settings
     $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';
     $tz_db = $DB->query($tz_db);
     $tz_db = $DB->fetch_assoc($tz_db);
@@ -104,12 +115,11 @@ if ($db_working) {
     // sometimes db and web servers are on separate hosts, so allow a 30 minutes delta
     if (abs($tz_diff) > 1800) {
         $RCI->fail('DB Time', "Database time differs {$td_ziff}s from PHP time");
-    } else {
+    }
+    else {
         $RCI->pass('DB Time');
     }
-    
 }
-
 
 ?>
 

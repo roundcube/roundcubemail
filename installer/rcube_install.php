@@ -52,7 +52,7 @@ class rcube_install
   /**
    * Read the default config files and store properties
    */
-  function get_defaults()
+  function load_defaults()
   {
     $this->_load_config('.php.dist');
   }
@@ -74,7 +74,7 @@ class rcube_install
   {
     include '../config/main.inc' . $suffix;
     if (is_array($rcmail_config)) {
-      $this->config = $rcmail_config;
+      $this->config += $rcmail_config;
     }
       
     @include '../config/db.inc'. $suffix;
@@ -236,6 +236,56 @@ class rcube_install
         $out[] = $val;
     
     return $out;
+  }
+  
+  
+  /**
+   * Initialize the database with the according schema
+   *
+   * @param object rcube_db Database connection
+   * @return boolen True on success, False on error
+   */
+  function init_db($DB)
+  {
+    $db_map = array('pgsql' => 'postgres', 'mysqli' => 'mysql');
+    $engine = isset($db_map[$DB->db_provider]) ? $db_map[$DB->db_provider] : $DB->db_provider;
+    
+    // find out db version
+    if ($engine == 'mysql') {
+      $DB->query('SELECT VERSION() AS version');
+      $sql_arr = $DB->fetch_assoc();
+      $version = floatval($sql_arr['version']);
+      
+      if ($version >= 4.1)
+        $engine = 'mysql5';
+    }
+    
+    // read schema file from /SQL/*
+    $fname = "../SQL/$engine.initial.sql";
+    if ($lines = @file($fname, FILE_SKIP_EMPTY_LINES)) {
+      $buff = '';
+      foreach ($lines as $i => $line) {
+        if (eregi('^--', $line))
+          continue;
+          
+        $buff .= $line . "\n";
+        if (eregi(';$', trim($line))) {
+          $DB->query($buff);
+          $buff = '';
+        }
+      }
+    }
+    else {
+      $this->fail('DB Schema', "Cannot read the schema file: $fname");
+      return false;
+    }
+    
+    if ($err = $this->get_error()) {
+      $this->fail('DB Schema', "Error creating database schema: $err");
+      return false;
+    }
+
+    return true;
   }
   
   /**
