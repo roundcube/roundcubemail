@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Edi Budimilic <edifreak@gmail.com>                            |
+ | Author: Edi Budimilic <edi@gemstudio.hr>                              |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -37,13 +37,13 @@ $labels['from'] = 'Od';
 $labels['to'] = 'Za';
 $labels['cc'] = 'Cc';
 $labels['bcc'] = 'Bcc';
-$labels['replyto'] = 'Reply-To';
+$labels['replyto'] = 'Odgovor-na';
 $labels['date'] = 'Datum';
 $labels['size'] = 'Veličina';
 $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organizacija';
-$labels['reply-to'] = 'Reply-To';
-$labels['mailboxlist'] = 'Folderi';
+$labels['reply-to'] = 'Odgovor-na';
+$labels['mailboxlist'] = 'Mape';
 $labels['messagesfromto'] = 'Poruke od $from do $to od ukupno $count';
 $labels['messagenrof'] = 'Poruka broj $nr od $count';
 $labels['moveto'] = 'prebaci u...';
@@ -74,8 +74,9 @@ $labels['writenewmessage'] = 'Nova poruka';
 $labels['replytomessage'] = 'Odgovori na poruku';
 $labels['replytoallmessage'] = 'Odgovori pošiljaocu i svim primateljima';
 $labels['forwardmessage'] = 'Prosljedi poruku';
-$labels['deletemessage'] = 'Prebaci poruku u folder (Smeće)';
-$labels['printmessage'] = 'Isprintajte poruku';
+$labels['deletemessage'] = 'Prebaci poruku u mapu smeće';
+$labels['movemessagetotrash'] = 'Preseli poruke u smeće';
+$labels['printmessage'] = 'Print poruke';
 $labels['previousmessage'] = 'Prikaži prethodnu poruku';
 $labels['previousmessages'] = 'Prijašnje poruke';
 $labels['firstmessage'] = 'Prikaži prvu poruku';
@@ -86,6 +87,9 @@ $labels['lastmessage'] = 'Prikaži zadnju poruku';
 $labels['lastmessages'] = 'Prikaži zadnju skupinu poruka';
 $labels['backtolist'] = 'Povratak na listu poruka';
 $labels['viewsource'] = 'Prikaži poruku u izvornom obliku';
+$labels['markmessages'] = 'Označi poruke';
+$labels['markread'] = 'Kao pročitano';
+$labels['markunread'] = 'Kao nepročitano';
 $labels['select'] = 'Oznaći';
 $labels['all'] = 'Sve';
 $labels['none'] = 'Nijednu';
@@ -99,15 +103,15 @@ $labels['unlimited'] = 'beskonačna';
 $labels['quicksearch'] = 'Brza pretraga';
 $labels['resetsearch'] = 'Prikaži sve poruke';
 $labels['compose'] = 'Nova poruka';
-$labels['sendmessage'] = 'Pošalji poruku';
 $labels['savemessage'] = 'Spremi u \'Predlošci\'';
+$labels['sendmessage'] = 'Pošalji poruku';
 $labels['addattachment'] = 'Priloži datoteku';
 $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Tip editora';
 $labels['returnreceipt'] = 'Potvrda o primitku poruke';
 $labels['checkspelling'] = 'Provjera pravopisa';
 $labels['resumeediting'] = 'Povratak u pisanje';
-$labels['revertto'] = 'Revert to';
+$labels['revertto'] = 'Vrati na';
 $labels['attachments'] = 'Privitci (Attachments)';
 $labels['upload'] = 'Dodaj';
 $labels['close'] = 'Zatvori';
@@ -120,6 +124,13 @@ $labels['nosubject'] = '(bez naslova)';
 $labels['showimages'] = 'Prikaži slike';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Samo teks';
+$labels['addcc'] = 'Dodaj Cc';
+$labels['addbcc'] = 'Dodaj Bcc';
+$labels['addreplyto'] = 'Dodaj Odgovori-na';
+$labels['mdnrequest'] = 'Pošiljaoc ove poruke je tražio da bude obaviješten po primitku ove poruke. Želite li obavijestiti pošiljaoca?';
+$labels['receiptread'] = 'Vrati potvrdu (pročitano)';
+$labels['yourmessage'] = 'Ovo je vraćena potvrda vaše poruke';
+$labels['receiptnote'] = 'Info: Ova potvrda samo potvrđuje da se poruka prikazala na računalu primaoca. Nema garancije da je primaoc pročitao ili razumio sadržaj poruke.';
 $labels['name'] = 'Puno ime';
 $labels['firstname'] = 'Ime';
 $labels['surname'] = 'Prezime';
@@ -144,7 +155,7 @@ $labels['groups'] = 'Grupe';
 $labels['personaladrbook'] = 'Privatna adresa';
 $labels['settingsfor'] = 'Postavke za';
 $labels['preferences'] = 'Postavke';
-$labels['userpreferences'] = 'Korisnićke postavke';
+$labels['userpreferences'] = 'Korisničke postavke';
 $labels['editpreferences'] = 'Izmjena postavki';
 $labels['identities'] = 'Identiteti';
 $labels['manageidentities'] = 'Podesi identitete za ovaj nalog';
@@ -167,6 +178,7 @@ $labels['folder'] = 'Folder';
 $labels['folders'] = 'Folderi';
 $labels['foldername'] = 'Ime foldera';
 $labels['subscribed'] = 'Pretplata';
+$labels['messagecount'] = 'Poruke';
 $labels['create'] = 'Napravi';
 $labels['createfolder'] = 'Napravi novi folder';
 $labels['rename'] = 'Preimenuj';

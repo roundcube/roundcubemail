@@ -75,5 +75,9 @@ $messages['copyerror'] = 'No s\'ha pogut copiar cap adreça';
 $messages['sourceisreadonly'] = 'Aquesta adreça és només de lectura.';
 $messages['errorsavingcontact'] = 'No s\'ha pogut guardar l\'adreça de contacte';
 $messages['movingmessage'] = 'Movent el missatge...';
+$messages['receiptsent'] = 'Confirmació de lectura enviada satisfactòriament';
+$messages['errorsendingreceipt'] = 'No es pot enviar la confirmació';
+$messages['nodeletelastidentity'] = 'No pots eliminar aquesta identitat, és l\'última.';
+$messages['addsubfolderhint'] = 'Aquesta carpeta serà creada com a subcarpeta de la seleccionada actualment';
 
 ?>

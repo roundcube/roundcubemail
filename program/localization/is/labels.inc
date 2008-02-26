@@ -217,14 +217,4 @@ $labels['sortby'] = 'Raða eftir';
 $labels['sortasc']  = 'Raða vaxandi';
 $labels['sortdesc'] = 'Raða minnkandi';
 
-$labels['changepassword'] = 'Breyta lykilorði';
-$labels['changepasswordinfo'] = 'Sláðu inn núverandi lykilorð þitt og svo nýtt lykilorð. Nýja lykilorðið þarf að slá inn tvisvar í staðfestingarskyni';
-$labels['oldpass'] = 'Núverandi lykilorð';
-$labels['newpass'] = 'Nýtt lykilorð';
-$labels['newpassconfirm'] = 'Staðfesting nýs lykilorðs';
-$labels['oldpasserror'] = 'Lykilorðið sem slegið var inn er ekki rétt';
-$labels['passlengtherror'] = 'Lykilorðið þarf að vera 6 stafir eða lengra';
-$labels['confirmpasserror'] = 'Nýja lykilorðið og staðfestingin eru ekki eins';
-
-
 ?>

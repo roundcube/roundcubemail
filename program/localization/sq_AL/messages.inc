@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dashamir Hoxha <dasho@vllaznia.net>                           |
+ | Author: Dashamir Hoxha <dhoxha@albaniaonline.net>                     |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -18,7 +18,7 @@
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Hyrja dështoi';
+$messages['loginfailed'] = 'Hyrja dështoi';
 $messages['cookiesdisabled'] = 'Shfletuesi juaj nuk i pranon sheqerkat';
 $messages['sessionerror'] = 'Sesioni juaj është i pavlefshëm ose i ka kaluar afati';
 $messages['imaperror'] = 'Lidhja me serverin IMAP dështoi';
@@ -43,16 +43,16 @@ $messages['sendingfailed'] = 'Dërgimi i mesazhit dështoi';
 $messages['errorsaving'] = 'Pati nje problem gjatë ruajtjes';
 $messages['errormoving'] = 'Nuk e lëviza dot mesazhin';
 $messages['errordeleting'] = 'Nuk e fshiva dot mesazhin';
-$messages['deletecontactconfirm']  = 'Me të vërtetë doni ti fshini kontaktet e zgjedhura?';
+$messages['deletecontactconfirm'] = 'Me të vërtetë doni ti fshini kontaktet e zgjedhura?';
 $messages['deletemessagesconfirm'] = 'Me të vërtetë doni ti fshini mesazhet e zgjedhura?';
-$messages['deletefolderconfirm']  = 'Me të vërtetë doni ta fshini këtë kuti?';
-$messages['purgefolderconfirm']  = 'Me të vërtetë doni ti fshini të gjitha mesazhet në këtë kuti?';
+$messages['deletefolderconfirm'] = 'Me të vërtetë doni ta fshini këtë kuti?';
+$messages['purgefolderconfirm'] = 'Me të vërtetë doni ti fshini të gjitha mesazhet në këtë kuti?';
 $messages['formincomplete'] = 'Formulari nuk ishte i gjithi i plotësuar';
 $messages['noemailwarning'] = 'Ju lutem jepni një adresë email të rregullt';
-$messages['nonamewarning']  = 'Ju lutem jepni një emër';
+$messages['nonamewarning'] = 'Ju lutem jepni një emër';
 $messages['nopagesizewarning'] = 'Ju lutem jepni nje madhësi për faqen';
 $messages['norecipientwarning'] = 'Ju lutem shënoni të paktën një marrës';
-$messages['nosubjectwarning']  = 'Fusha e temës është bosh. Dëshironi të shënoni një temë tani?';
+$messages['nosubjectwarning'] = 'Fusha e temës është bosh. Dëshironi të shënoni një temë tani?';
 $messages['nobodywarning'] = 'Ta dërgoj mesazhin pa tekst?';
 $messages['notsentwarning'] = 'Mesazhi nuk u dërgua. Doni ta hidhni poshtë mesazhin?';
 $messages['noldapserver'] = 'Ju lutem jepni një server ldap për të kërkuar';
@@ -64,7 +64,7 @@ $messages['searching'] = 'Po kërkoj...';
 $messages['checking'] = 'Po kontrolloj...';
 $messages['nospellerrors'] = 'Nuk u gjetën gabime';
 $messages['folderdeleted'] = 'Kutia u fshi me sukses';
-$messages['deletedsuccessfully'] = "U fshi me sukses";
+$messages['deletedsuccessfully'] = 'U fshi me sukses';
 $messages['converting'] = 'Po i heq formatimin mesazhit...';
 $messages['messageopenerror'] = 'Nuk marr dot mesazhe nga serveri';
 $messages['fileuploaderror'] = 'Ngarkimi i skedarit dështoi';
@@ -74,9 +74,9 @@ $messages['copyerror'] = 'Nuk munda të kopjoj adresat';
 $messages['sourceisreadonly'] = 'Ky burim adrese është vetëm i lexueshëm';
 $messages['errorsavingcontact'] = 'Nuk e ruajta dot adresën e kontaktit';
 $messages['movingmessage'] = 'Po lëviz mesazhin...';
-$messages['nopassword'] = 'Ju lutem jepni një fjalëkalim te ri';
-$messages['passwordinconsistency'] = 'Fjalëkalimi i ri nuk përputhet me kopjen e rishkruar';
-$messages['badpassword'] = 'Fjalëkalimi i tanishëm duket i parregullt';
-$messages['passwordmodified'] = 'Fjalëkalimi u ndërrua me sukses';
+$messages['receiptsent'] = 'U dërgua me sukses një njoftim leximi';
+$messages['errorsendingreceipt'] = 'Nuk mund të dërgohet njoftimi';
+$messages['nodeletelastidentity'] = 'Ju nuk mund ta fshini këtë identitet sepse nuk ju ka mbetur tjetër.';
+$messages['addsubfolderhint'] = 'Kjo kuti do të krijohet si një nënkuti e asaj që është e zgjedhur';
 
 ?>

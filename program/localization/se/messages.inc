@@ -76,5 +76,9 @@ $messages['copyerror'] = 'Kunde inte kopiera några adresser';
 $messages['sourceisreadonly'] = 'Denna adresskälla är skrivskyddad';
 $messages['errorsavingcontact'] = 'Kunde inte spara kontakt-adressen';
 $messages['movingmessage'] = 'Flyttar meddelande...';
+$messages['receiptsent'] = 'Ett läskvitto har skickats';
+$messages['errorsendingreceipt'] = 'Kunde inte skicka läskvittot';
+$messages['nodeletelastidentity'] = 'Du kan inte radera den här identiteten, det är din sista.';
+$messages['addsubfolderhint'] = 'Den här mappen kommer att skapas som en underkatalog till den valda';
 
 ?>

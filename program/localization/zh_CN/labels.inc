@@ -10,8 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: kourge <kourge@gmail.com>                                     |
- |         Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
+ | Author: Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
  +-----------------------------------------------------------------------+
 
  @version $Id$

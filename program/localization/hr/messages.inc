@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Edi Budimilic <edifreak@gmail.com>                            |
+ | Author: Edi Budimilic <edi@gemstudio.hr>                              |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -23,14 +23,14 @@ $messages['cookiesdisabled'] = 'Vaš pretraživač ne podržava kolačiće (cook
 $messages['sessionerror'] = 'Morate se ponovno ulogirati';
 $messages['imaperror'] = 'Neuspješna konekcija na IMAP server';
 $messages['nomessagesfound'] = 'Nema poruka u sandučiću';
-$messages['loggedout'] = 'Uspješno ste se odjavili.';
+$messages['loggedout'] = 'Uspješna odjava.';
 $messages['mailboxempty'] = 'Sandučuć je prazan';
 $messages['loading'] = 'Učitavanje...';
 $messages['loadingdata'] = 'Učitavanje podataka...';
 $messages['checkingmail'] = 'Provjera novih poruka u tijeku...';
 $messages['sendingmessage'] = 'Poruka se šalje...';
 $messages['messagesent'] = 'Poruka je uspješno poslana';
-$messages['savingmessage'] = 'Poruka se snima...';
+$messages['savingmessage'] = 'Poruka se sprema...';
 $messages['messagesaved'] = 'Poruka uspješno spremljena u \'Predlošci\'';
 $messages['successfullysaved'] = 'Spremanje uspješno obavljeno';
 $messages['addedsuccessfully'] = 'Kontakt uspješno dodan u imenik';
@@ -38,15 +38,15 @@ $messages['contactexists'] = 'Kontakt sa ovom e-mail adresom već postoji u imen
 $messages['blockedimages'] = 'Zbog zaštite privatnosti, slike sa udaljenih servera su blokirane.';
 $messages['encryptedmessage'] = 'Ova poruka je zaštićena pa se ne može prikazati';
 $messages['nocontactsfound'] = 'Imenik je prazan';
-$messages['contactnotfound'] = 'Traženi kontak nije pronađen';
+$messages['contactnotfound'] = 'Traženi kontakt nije pronađen';
 $messages['sendingfailed'] = 'Greška pri slanju poruke';
 $messages['errorsaving'] = 'Greška pri spremanju';
 $messages['errormoving'] = 'Greška pri premještanju poruke';
 $messages['errordeleting'] = 'Greška pri brisanju poruke';
 $messages['deletecontactconfirm'] = 'Želite li obrisati izabrane kontakte?';
 $messages['deletemessagesconfirm'] = 'Sigurno želite obrisati odabrane poruke?';
-$messages['deletefolderconfirm'] = 'Želite li obrisati ovaj folder?';
-$messages['purgefolderconfirm'] = 'Želite li obrisati sve poruke u folderu?';
+$messages['deletefolderconfirm'] = 'Želite li obrisati ovu mapu?';
+$messages['purgefolderconfirm'] = 'Želite li obrisati sve poruke u mapi?';
 $messages['formincomplete'] = 'Forma nije u cjelosti popunjena';
 $messages['noemailwarning'] = 'Unesite valjanu e-mail adresu';
 $messages['nonamewarning'] = 'Unesite ime';
@@ -63,15 +63,20 @@ $messages['searchnomatch'] = 'Traženi termin nije pronađen ni u jednoj poruci'
 $messages['searching'] = 'Pretraga u tijeku...';
 $messages['checking'] = 'Provjera u tijeku...';
 $messages['nospellerrors'] = 'Nije pronađena niti jedna pravopisna greška';
-$messages['folderdeleted'] = 'Folder uspješno obrisan';
+$messages['folderdeleted'] = 'Mapa uspješno obrisana';
 $messages['deletedsuccessfully'] = 'Uspješno obrisano';
-$messages['converting'] = 'Mičem formatiranje poruke';
+$messages['converting'] = 'Formatiranje poruke';
 $messages['messageopenerror'] = 'Nije moguće ';
 $messages['fileuploaderror'] = 'Prijenos datoteke nije uspio';
-$messages['filesizeerror'] = 'Datoteka je prevelika. Dopuštena maksimalna je $size';
+$messages['filesizeerror'] = 'Datoteka je prevelika. Maksimalna veličina je $size';
 $messages['copysuccess'] = 'Uspješno kopirano $n adresa';
 $messages['copyerror'] = 'Nije uspjelo kopiranje adresa';
 $messages['sourceisreadonly'] = 'Ovaj resurs adresa je samo za čitanje';
 $messages['errorsavingcontact'] = 'Nije uspjelo spremanje adrese kontakta';
+$messages['movingmessage'] = 'Premještanje poruke...';
+$messages['receiptsent'] = 'Uspješno poslana potvrda (pročitano)';
+$messages['errorsendingreceipt'] = 'Ne može poslati potvrdu';
+$messages['nodeletelastidentity'] = 'Ne možete izbrisati zadnji identitet.';
+$messages['addsubfolderhint'] = 'Ova mapa će biti stvorena kao podmapa na trenutno označenoj';
 
 ?>
