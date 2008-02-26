@@ -27,6 +27,7 @@ class rcube_install
   var $failures = 0;
   var $config = array();
   var $last_error = null;
+  var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   
   /**
    * Constructor
@@ -88,16 +89,17 @@ class rcube_install
    * Getter for a certain config property
    *
    * @param string Property name
+   * @param string Default value
    * @return string The property value
    */
-  function getprop($name)
+  function getprop($name, $default = null)
   {
     $value = isset($_REQUEST["_$name"]) ? $_REQUEST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
       $value = self::random_key(24);
     
-    return $value;
+    return $value !== null ? $value : $default;
   }
   
   

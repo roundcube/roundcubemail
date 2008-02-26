@@ -64,7 +64,8 @@ else {
 </div>
 
 <div id="footer">
-  Installer by the RoundCube Dev Team. Copyright &copy; 2008 - Published under the GNU Public License
+  Installer by the RoundCube Dev Team. Copyright &copy; 2008 - Published under the GNU Public License;&nbsp;
+  Icons by <a href="http://famfamfam.com">famfamfam</a>
 </div>
 </body>
 </html>

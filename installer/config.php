@@ -5,6 +5,7 @@
 ini_set('display_errors', 1);
 require_once 'include/rcube_html.inc';
 
+$RCI->load_config();
 $RCI->load_defaults();
 
 if (!empty($_POST['submit'])) {
@@ -167,6 +168,8 @@ echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
 <p>Database settings for read/write operations:</p>
 <?php
 
+require_once 'DB.php';
+
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PgSQL' => 'pgsql', 'SQLite' => 'sqlite');
 
@@ -182,17 +185,17 @@ $input_dbname = new textfield(array('name' => '_dbname', 'size' => 20, 'id' => "
 $input_dbuser = new textfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
 $input_dbpass = new textfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
 
-$dsnw = parse_url($RCI->getprop('db_dsnw'));
+$dsnw = DB::parseDSN($RCI->getprop('db_dsnw'));
 
-echo $select_dbtype->show($_POST['_dbtype'] ? $_POST['_dbtype'] : $dsnw['scheme']);
+echo $select_dbtype->show($_POST['_dbtype'] ? $_POST['_dbtype'] : $dsnw['phptype']);
 echo '<label for="cfgdbtype">Database type</label><br />';
-echo $input_dbhost->show($_POST['_dbhost'] ? $_POST['_dbhost'] : $dsnw['host']);
+echo $input_dbhost->show($_POST['_dbhost'] ? $_POST['_dbhost'] : $dsnw['hostspec']);
 echo '<label for="cfgdbhost">Database server</label><br />';
-echo $input_dbname->show($_POST['_dbname'] ? $_POST['_dbname'] : preg_replace('/^\//', '', $dsnw['path']));
+echo $input_dbname->show($_POST['_dbname'] ? $_POST['_dbname'] : $dsnw['database']);
 echo '<label for="cfgdbname">Database name</label><br />';
-echo $input_dbuser->show($_POST['_dbuser'] ? $_POST['_dbuser'] : $dsnw['user']);
+echo $input_dbuser->show($_POST['_dbuser'] ? $_POST['_dbuser'] : $dsnw['username']);
 echo '<label for="cfgdbuser">Database user name (needs write permissions)</label><br />';
-echo $input_dbpass->show($_POST['_dbpass'] ? $_POST['_dbpass'] : $dsnw['pass']);
+echo $input_dbpass->show($_POST['_dbpass'] ? $_POST['_dbpass'] : $dsnw['password']);
 echo '<label for="cfgdbpass">Database password</label><br />';
 
 ?>

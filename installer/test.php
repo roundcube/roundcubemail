@@ -123,7 +123,72 @@ if ($db_working) {
 
 ?>
 
-<p>[@todo Add tests for IMAP and SMTP settings]</p>
+<h3>Test SMTP settings</h3>
+
+<p>
+Server: <?php echo $RCI->getprop('smtp_server', 'PHP mail()'); ?><br />
+Port: <?php echo $RCI->getprop('smtp_port'); ?><br />
+User: <?php echo $RCI->getprop('smtp_user', '(none)'); ?><br />
+Password: <?php echo $RCI->getprop('smtp_pass', '(none)'); ?><br />
+</p>
+
+<?php
+
+if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to'])) {
+  
+  require_once 'lib/rc_mail_mime.inc';
+  require_once 'include/rcube_smtp.inc';
+  
+  echo '<p>Trying to send email...<br />';
+  
+  if (preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_from'])) &&
+      preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
+  
+    $recipients = trim($_POST['_to']);
+
+    $headers = array(
+      'From' => trim($_POST['_from']),
+      'To'  => $recipients,
+      'Subject' => 'Test message from RoundCube',
+    );
+
+    $body = 'This is a test to confirm that RoundCube can send email.';
+
+    $mail_object  = new rc_mail_mime();
+    $send_headers = $mail_object->headers($headers);
+
+    $smtp_response = array();
+    $status = smtp_mail($headers['From'], $recipients,
+        ($foo = $mail_object->txtHeaders($send_headers)),
+        $body, $smtp_response);
+
+    if ($status) {
+        $RCI->pass('SMTP send');
+    }
+    else {
+        $RCI->fail('SMTP send', join('; ', $smtp_response));
+    }
+  }
+  else {
+    $RCI->fail('SMTP send', 'Invalid sender or recipient');
+  }
+}
+
+echo '</p>';
+
+?>
+
+<table>
+<tbody>
+  <tr><td><label for="sendmailfrom">Sender</label></td><td><input type="text" name="_from" value="" id="sendmailfrom" /></td></tr>
+  <tr><td><label for="sendmailto">Recipient</label></td><td><input type="text" name="_to" value="" id="sendmailto" /></td></tr>
+</tbody>
+</table>
+
+<p><input type="submit" name="sendmail" value="Send test mail" /></p>
+
+
+<p>[@todo Add tests for IMAP settings]</p>
 
 </form>
 
