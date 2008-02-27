@@ -3,9 +3,6 @@
 <h3>Check config files</h3>
 <?php
 
-// load local config files
-$RCI->load_config();
-
 $read_main = is_readable('../config/main.inc.php');
 $read_db = is_readable('../config/db.inc.php');
 

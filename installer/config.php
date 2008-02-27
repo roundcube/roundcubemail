@@ -5,7 +5,7 @@
 ini_set('display_errors', 1);
 require_once 'include/rcube_html.inc';
 
-$RCI->load_config();
+// also load the default config to fill in the fields
 $RCI->load_defaults();
 
 if (!empty($_POST['submit'])) {
@@ -235,12 +235,16 @@ echo $select_dbba->show($RCI->getprop('db_backend'));
 <div id="defaulthostlist">
 <?php
 
-$default_hosts = array_unique((array)$RCI->getprop('default_host'));
+$default_hosts = (array)$RCI->getprop('default_host');
 $text_imaphost = new textfield(array('name' => '_default_host[]', 'size' => 30));
 
-for ($i=0; $i < count($default_hosts); $i++) {
-  echo '<div id="defaulthostentry'.$i.'">' . $text_imaphost->show($default_hosts[$i]);
-  if ($i > 0)
+$i = 0;
+foreach ($default_hosts as $key => $name) {
+  if (empty($name))
+    continue;
+  $host = is_numeric($key) ? $name : $key;
+  echo '<div id="defaulthostentry'.$i.'">' . $text_imaphost->show($host);
+  if ($i++ > 0)
     echo '<a href="#" onclick="removehostfield(this.parentNode);return false" class="removelink" title="Remove this entry">remove</a>';
   echo '</div>';
 }
@@ -249,7 +253,7 @@ for ($i=0; $i < count($default_hosts); $i++) {
 </div>
 <div><a href="javascript:addhostfield()" class="addlink" title="Add another field">add</a></div>
 
-<p class="hint">Leave blank to show a textbox at login</p>
+<p class="hint">Leave blank to show a textbox at login. To use SSL/IMAPS connection, type ssl://hostname</p>
 </dd>
 
 <dt class="propname">default_port</dt>
@@ -431,7 +435,7 @@ echo $input_locale->show($RCI->getprop('locale_string'));
 
 <?php
 
-echo '<p><input type="submit" name="submit" value="UPDATE" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
+echo '<p><input type="submit" name="submit" value="' . ($RCI->configured ? 'UPDATE' : 'CREATE') . ' CONFIG" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
 
 ?>
 </form>

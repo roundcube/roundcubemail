@@ -26,6 +26,7 @@ class rcube_install
   var $step;
   var $failures = 0;
   var $config = array();
+  var $configured = false;
   var $last_error = null;
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   
@@ -64,7 +65,9 @@ class rcube_install
    */
   function load_config()
   {
+    $this->config = array();
     $this->_load_config('.php');
+    $this->configured = !empty($this->config);
   }
 
   /**

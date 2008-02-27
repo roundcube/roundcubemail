@@ -34,7 +34,8 @@
 
   require_once 'rcube_install.php';
   $RCI = rcube_install::get_instance();
-
+  $RCI->load_config();
+  
 ?>
 
 <ol id="progress">
@@ -42,7 +43,7 @@
   
   foreach (array('Check environment', 'Create config', 'Test config') as $i => $item) {
     $j = $i + 1;
-    $link = $RCI->step > $j ? '<a href="./index.php?_step='.$j.'">' . Q($item) . '</a>' : Q($item);
+    $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step='.$j.'">' . Q($item) . '</a>' : Q($item);
     printf('<li class="step%d%s">%s</li>', $j+1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
   }
 ?>

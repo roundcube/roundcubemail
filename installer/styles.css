@@ -88,19 +88,24 @@ body, td, th, div, p {
   padding: 1em 5em 1em 0.2em;
 }
 
+#progress li a {
+  color: #999;
+  text-decoration: none;
+}
+
+#progress li a:hover {
+  text-decoration: underline;
+}
+
 #progress li.current {
   color: #000;
   font-weight: bold;
 }
 
 #progress li.passed,
-#progress li.passed a {
+#progress li.passed a,
+#progress li.current a {
   color: #333;
-  text-decoration: none;
-}
-
-#progress li.passed a:hover {
-  text-decoration: underline;
 }
 
 fieldset {

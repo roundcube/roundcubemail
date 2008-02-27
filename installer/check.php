@@ -1,3 +1,4 @@
+<form action="index.php" method="get">
 <?php
 
 $required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session', 'Sockets' => 'sockets');
@@ -28,10 +29,8 @@ $source_urls = array(
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime'
 );
 
+echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 2 : 3) . '" />';
 ?>
-
-<form action="index.php" method="get">
-<input type="hidden" name="_step" value="2" />
 
 <h3>Checking PHP version</h3>
 <?php
