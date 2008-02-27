@@ -5,7 +5,7 @@
  | program/include/main.inc                                              |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev, - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -26,13 +26,14 @@
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 
-require_once('lib/des.inc');
 require_once('lib/utf7.inc');
-require_once('lib/utf8.class.php');
 require_once('include/rcube_user.inc');
 require_once('include/rcube_shared.inc');
 require_once('include/rcmail_template.inc');
 
+// fallback if not PHP modules are available
+@include_once('lib/des.inc');
+@include_once('lib/utf8.class.php');
 
 // define constannts for input reading
 define('RCUBE_INPUT_GET', 0x0101);
@@ -766,10 +767,30 @@ function show_message($message, $type='notice', $vars=NULL)
  * @return string Encryprted string
  */
 function encrypt_passwd($pass)
-  {
-  $cypher = des(get_des_key(), $pass, 1, 0, NULL);
-  return base64_encode($cypher);
+{
+  if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+    mcrypt_generic_init($td, get_des_key(), $iv);
+    $cypher = mcrypt_generic($td, $pass);
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
   }
+  else if (function_exists('des')) {
+    $cypher = des(get_des_key(), $pass, 1, 0, NULL);
+  }
+  else {
+    $cypher = $pass;
+    
+    raise_error(array(
+      'code' => 500,
+      'type' => 'php',
+      'file' => __FILE__,
+      'message' => "Could not convert encrypt password. Make sure Mcrypt is installed or lib/des.inc is available"
+      ), true, false);
+  }
+  
+  return base64_encode($cypher);
+}
 
 
 /**
@@ -779,8 +800,21 @@ function encrypt_passwd($pass)
  * @return string Plain password
  */
 function decrypt_passwd($cypher)
-  {
-  $pass = des(get_des_key(), base64_decode($cypher), 0, 0, NULL);
+{
+  if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+    mcrypt_generic_init($td, get_des_key(), $iv);
+    $pass = mdecrypt_generic($td, base64_decode($cypher));
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
+  }
+  else if (function_exists('des')) {
+    $pass = des(get_des_key(), base64_decode($cypher), 0, 0, NULL);
+  }
+  else {
+    $pass = base64_decode($cypher);
+  }
+  
   return preg_replace('/\x00/', '', $pass);
   }
 
@@ -906,9 +940,11 @@ function rcmail_message_cache_gc()
 function rcube_charset_convert($str, $from, $to=NULL)
   {
   global $MBSTRING;
+  static $convert_warning = false;
 
   $from = strtoupper($from);
   $to = $to==NULL ? strtoupper(RCMAIL_CHARSET) : strtoupper($to);
+  $error = false; $conv = null;
 
   if ($from==$to || $str=='' || empty($from))
     return $str;
@@ -937,31 +973,50 @@ function rcube_charset_convert($str, $from, $to=NULL)
     if (($out = mb_convert_encoding($str, ($mb_map[$to] ? $mb_map[$to] : $to), ($mb_map[$from] ? $mb_map[$from] : $from))) != '')
       return $out;
     }
-
-  $conv = new utf8();
+    
+  
+  if (class_exists('utf8'))
+    $conv = new utf8();
 
   // convert string to UTF-8
-  if ($from=='UTF-7')
+  if ($from == 'UTF-7')
     $str = utf7_to_utf8($str);
-  else if (($from=='ISO-8859-1') && function_exists('utf8_encode'))
+  else if (($from == 'ISO-8859-1') && function_exists('utf8_encode'))
     $str = utf8_encode($str);
-  else if ($from!='UTF-8')
+  else if ($from != 'UTF-8' && $conv)
     {
     $conv->loadCharset($from);
     $str = $conv->strToUtf8($str);
     }
+  else if ($from != 'UTF-8')
+    $error = true;
 
   // encode string for output
-  if ($to=='UTF-7')
+  if ($to == 'UTF-7')
     return utf8_to_utf7($str);
-  else if ($to=='ISO-8859-1' && function_exists('utf8_decode'))
+  else if ($to == 'ISO-8859-1' && function_exists('utf8_decode'))
     return utf8_decode($str);
-  else if ($to!='UTF-8')
+  else if ($to != 'UTF-8' && $conv)
     {
     $conv->loadCharset($to);
     return $conv->utf8ToStr($str);
     }
+  else if ($to != 'UTF-8')
+    $error = true;
 
+  // report error
+  if ($error && !$convert_warning)
+    {
+    raise_error(array(
+      'code' => 500,
+      'type' => 'php',
+      'file' => __FILE__,
+      'message' => "Could not convert string charset. Make sure iconv is installed or lib/utf8.class is available"
+      ), true, false);
+    
+    $convert_warning = true;
+    }
+  
   // return UTF-8 string
   return $str;
   }
