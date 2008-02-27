@@ -3,7 +3,8 @@
 
 $required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session', 'Sockets' => 'sockets');
 
-$optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv', 'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl');
+$optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
+    'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt', 'GD' => 'gd');
 
 $required_libs = array('PEAR' => 'PEAR.php', 'DB' => 'DB.php', 'MDB2' => 'MDB2.php',
     'Net_SMTP' => 'Net/SMTP.php', 'Mail_mime' => 'Mail/mime.php', 'iilConnection' => 'lib/imap.inc');
@@ -22,7 +23,9 @@ $source_urls = array(
     'FileInfo' => 'http://www.php.net/manual/en/ref.fileinfo.php',
     'Libiconv' => 'http://www.php.net/manual/en/ref.iconv.php',
     'Multibyte' => 'http://www.php.net/manual/en/ref.mbstring.php',
+    'Mcrypt' => 'http://www.php.net/manual/en/ref.mcrypt.php',
     'OpenSSL' => 'http://www.php.net/manual/en/ref.openssl.php',
+    'GD' => 'http://www.php.net/manual/en/ref.image.php',
     'PEAR' => 'http://pear.php.net',
     'MDB2' => 'http://pear.php.net/package/MDB2',
     'Net_SMTP' => 'http://pear.php.net/package/Net_SMTP',
