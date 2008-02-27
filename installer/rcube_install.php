@@ -95,14 +95,14 @@ class rcube_install
    * @param string Default value
    * @return string The property value
    */
-  function getprop($name, $default = null)
+  function getprop($name, $default = '')
   {
     $value = isset($_REQUEST["_$name"]) ? $_REQUEST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
       $value = self::random_key(24);
     
-    return $value !== null ? $value : $default;
+    return $value !== null && $value !== '' ? $value : $default;
   }
   
   

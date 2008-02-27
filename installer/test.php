@@ -3,6 +3,8 @@
 <h3>Check config files</h3>
 <?php
 
+require_once 'include/rcube_html.inc';
+
 $read_main = is_readable('../config/main.inc.php');
 $read_db = is_readable('../config/db.inc.php');
 
@@ -125,8 +127,27 @@ if ($db_working) {
 <p>
 Server: <?php echo $RCI->getprop('smtp_server', 'PHP mail()'); ?><br />
 Port: <?php echo $RCI->getprop('smtp_port'); ?><br />
-User: <?php echo $RCI->getprop('smtp_user', '(none)'); ?><br />
-Password: <?php echo $RCI->getprop('smtp_pass', '(none)'); ?><br />
+
+<?php
+
+if ($RCI->getprop('smtp_server')) {
+  $user = $RCI->getprop('smtp_user', '(none)');
+  $pass = $RCI->getprop('smtp_pass', '(none)');
+  
+  if ($user == '%u') {
+    $user_field = new textfield(array('name' => '_user'));
+    $user = $user_field->show();
+  }
+  if ($pass == '%p') {
+    $pass_field = new passwordfield(array('name' => '_pass'));
+    $pass = $pass_field->show();
+  }
+  
+  echo "User: $user<br />";
+  echo "Password: $pass<br />";
+}
+
+?>
 </p>
 
 <?php
@@ -141,23 +162,42 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
   if (preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_from'])) &&
       preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
   
-    $recipients = trim($_POST['_to']);
-
     $headers = array(
       'From' => trim($_POST['_from']),
-      'To'  => $recipients,
+      'To'  => trim($_POST['_to']),
       'Subject' => 'Test message from RoundCube',
     );
 
     $body = 'This is a test to confirm that RoundCube can send email.';
-
-    $mail_object  = new rc_mail_mime();
-    $send_headers = $mail_object->headers($headers);
-
     $smtp_response = array();
-    $status = smtp_mail($headers['From'], $recipients,
-        ($foo = $mail_object->txtHeaders($send_headers)),
-        $body, $smtp_response);
+    
+    // send mail using configured SMTP server
+    if ($RCI->getprop('smtp_server')) {
+      $CONFIG = $RCI->config;
+      
+      if (!empty($_POST['_user']))
+        $CONFIG['smtp_user'] = $_POST['_user'];
+      if (!empty($_POST['_pass']))
+        $CONFIG['smtp_pass'] = $_POST['_pass'];
+      
+      $mail_object  = new rc_mail_mime();
+      $send_headers = $mail_object->headers($headers);
+      
+      $status = smtp_mail($headers['From'], $headers['To'],
+          ($foo = $mail_object->txtHeaders($send_headers)),
+          $body, $smtp_response);
+    }
+    else {    // use mail()
+      $header_str = 'From: ' . $headers['From'];
+      
+      if (ini_get('safe_mode'))
+        $status = mail($headers['To'], $headers['Subject'], $body, $header_str);
+      else
+        $status = mail($headers['To'], $headers['Subject'], $body, $header_str, '-f'.$headers['From']);
+      
+      if (!$status)
+        $smtp_response[] = 'Mail delivery with mail() failed. Check your error logs for details';
+    }
 
     if ($status) {
         $RCI->pass('SMTP send');
