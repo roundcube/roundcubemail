@@ -55,7 +55,7 @@ $messages['nopagesizewarning'] = 'Anna sivukoko';
 $messages['norecipientwarning'] = 'Anna ainakin yksi vastaanottaja';
 $messages['nosubjectwarning'] = '"Otsikko" -kenttä on tyhjä. Haluaisitko kirjoittaa viestillesi otsikon?';
 $messages['nobodywarning'] = 'Lähetetäänkö viesti ilman tekstiä?';
-$messages['notsentwarning'] = 'Viestiä ei lähetetty. Haluatko poistaa viestin?';
+$messages['notsentwarning'] = 'Viestiä ei lähethttp://translator.roundcube.net/index.phpetty. Haluatko poistaa viestin?';
 $messages['noldapserver'] = 'Valitse LDAP -palvelin';
 $messages['nocontactsreturned'] = 'Yhtään kontaktia ei löytynyt';
 $messages['nosearchname'] = 'Anna kontaktin nimi tai sähköpostiosoite';
@@ -74,5 +74,10 @@ $messages['copysuccess'] = 'Kopioitu $nr osoitetta onnistuneesti';
 $messages['copyerror'] = 'Yhtään osoitetta ei voitu kopioida';
 $messages['sourceisreadonly'] = 'Tämän osoitteen lähde on kirjoitussuojattu';
 $messages['errorsavingcontact'] = 'Yhteystietoa ei voitu tallentaa';
+$messages['movingmessage'] = 'Siirretään viestiä...';
+$messages['receiptsent'] = 'Lukukuittaus lähetetty onnistuneesti';
+$messages['errorsendingreceipt'] = 'Lukukuittausta ei voitu lähettää';
+$messages['nodeletelastidentity'] = 'Et voi poistaa tätä identiteettiä, koska se on ainoa jäljelläoleva';
+$messages['addsubfolderhint'] = 'Uusi kansio luodaan valitun kansion alikansiona';
 
 ?>
