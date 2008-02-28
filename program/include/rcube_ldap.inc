@@ -285,9 +285,12 @@ class rcube_ldap
     }
     $filter .= ')';
     
+    // avoid double-wildcard if $value is empty
+    $filter = preg_replace('/\*+/', '*', $filter);
+    
     // add general filter to query
     if (!empty($this->prop['filter']))
-      $filter = '(&('.$this->prop['filter'] .')' . $filter . ')';
+      $filter = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['filter']) . ')' . $filter . ')';
 
     // set filter string and execute search
     $this->set_search_set($filter);
