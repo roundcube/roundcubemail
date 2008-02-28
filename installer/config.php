@@ -250,14 +250,10 @@ echo $select_dbba->show($RCI->getprop('db_backend'));
 <div id="defaulthostlist">
 <?php
 
-$default_hosts = (array)$RCI->getprop('default_host');
 $text_imaphost = new textfield(array('name' => '_default_host[]', 'size' => 30));
 
 $i = 0;
-foreach ($default_hosts as $key => $name) {
-  if (empty($name))
-    continue;
-  $host = is_numeric($key) ? $name : $key;
+foreach ($RCI->get_hostlist() as $host) {
   echo '<div id="defaulthostentry'.$i.'">' . $text_imaphost->show($host);
   if ($i++ > 0)
     echo '<a href="#" onclick="removehostfield(this.parentNode);return false" class="removelink" title="Remove this entry">remove</a>';

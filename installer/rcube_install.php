@@ -98,7 +98,8 @@ class rcube_install
    */
   function getprop($name, $default = '')
   {
-    $value = $_SERVER['REQUEST_METHOD'] == 'POST' ? $_POST["_$name"] : $this->config[$name];
+    $value = $_SERVER['REQUEST_METHOD'] == 'POST' &&
+              (isset($_POST["_$name"]) || $this->config_props[$name]) ? $_POST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
       $value = self::random_key(24);
@@ -178,6 +179,25 @@ class rcube_install
   function get_error()
   {
       return $this->last_error['message'];
+  }
+  
+  
+  /**
+   * Return a list with all imap hosts configured
+   *
+   * @return array Clean list with imap hosts
+   */
+  function get_hostlist()
+  {
+    $default_hosts = (array)$this->getprop('default_host');
+    $out = array();
+    
+    foreach ($default_hosts as $key => $name) {
+      if (!empty($name))
+        $out[] = is_numeric($key) ? $name : $key;
+    }
+    
+    return $out;
   }
   
   

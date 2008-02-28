@@ -238,9 +238,14 @@ echo '</p>';
 
 <?php
 
-$default_hosts = (array)$RCI->getprop('default_host');
-$select_imaphost = new select(array('name' => '_host', 'id' => 'imaphost'));
-$select_imaphost->add(array_values($default_hosts));
+$default_hosts = $RCI->get_hostlist();
+if (!empty($default_hosts)) {
+  $host_field = new select(array('name' => '_host', 'id' => 'imaphost'));
+  $host_field->add($default_hosts);
+}
+else {
+  $host_field = new textfield(array('name' => '_host', 'id' => 'imaphost'));
+}
 
 $user_field = new textfield(array('name' => '_user', 'id' => 'imapuser'));
 $pass_field = new passwordfield(array('name' => '_pass', 'id' => 'imappass'));
@@ -251,7 +256,7 @@ $pass_field = new passwordfield(array('name' => '_pass', 'id' => 'imappass'));
 <tbody>
   <tr>
     <td><label for="imaphost">Server</label></td>
-    <td><?php echo $select_imaphost->show($_POST['_host'] ? $_POST['_host'] : '0'); ?></td>
+    <td><?php echo $host_field->show($_POST['_host']); ?></td>
   </tr>
   <tr>
     <td>Port</td>
