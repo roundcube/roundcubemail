@@ -207,12 +207,12 @@ blur: function()
  */
 drag_row: function(e, id)
 {
-  this.in_selection_before = this.in_selection(id) ? id : false;
-
   // don't do anything (another action processed before)
   var evtarget = rcube_event.get_target(e);
   if (this.dont_select || (evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
     return false;
+
+  this.in_selection_before = this.in_selection(id) ? id : false;
 
   // selects currently unselected row
   if (!this.in_selection_before)

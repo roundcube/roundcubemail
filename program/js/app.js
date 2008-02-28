@@ -695,7 +695,7 @@ function rcube_webmail()
         if (props._row.uid)
           {
           uid = props._row.uid;
-          this.message_list.dont_select = true;
+          
           // toggle read/unread
           if (this.message_list.rows[uid].deleted) {
             flag = 'undelete';
