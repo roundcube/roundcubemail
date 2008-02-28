@@ -20,9 +20,9 @@
 
 $messages = array();
 $messages['loginfailed'] = 'ログインに失敗しました。';
-$messages['cookiesdisabled'] = 'ブラウザーで Cookie が無効に設定されています。';
+$messages['cookiesdisabled'] = 'ブラウザで Cookie が無効に設定されています。';
 $messages['sessionerror'] = 'セッションが正しくないか期限切れです。';
-$messages['imaperror'] = 'IMAP サーバーへの接続に失敗しました。';
+$messages['imaperror'] = 'IMAP サーバへの接続に失敗しました。';
 $messages['nomessagesfound'] = 'メールはありません。';
 $messages['loggedout'] = 'ログアウトしました。';
 $messages['mailboxempty'] = 'メールボックスは空です。';
@@ -46,7 +46,7 @@ $messages['errormoving'] = 'メールを移動できません。';
 $messages['errordeleting'] = 'メールを削除できません。';
 $messages['deletecontactconfirm'] = '選択した連絡先を本当に削除しますか？';
 $messages['deletemessagesconfirm'] = '選択したメールを本当に削除しますか？';
-$messages['deletefolderconfirm'] = 'このフォルダーを本当に削除しますか？';
+$messages['deletefolderconfirm'] = 'このフォルダを本当に削除しますか？';
 $messages['purgefolderconfirm'] = 'このフォルダの全てのメールを本当に削除しますか？';
 $messages['formincomplete'] = 'フォームの項目が完全に入力されていません。';
 $messages['noemailwarning'] = '有効なメールアドレスを入力して下さい。';
@@ -64,7 +64,7 @@ $messages['searchnomatch'] = '一致するメールはありません。';
 $messages['searching'] = '検索中です...';
 $messages['checking'] = '確認中です...';
 $messages['nospellerrors'] = 'スペルミスは見つかりませんでした。';
-$messages['folderdeleted'] = 'フォルダーを削除しました。';
+$messages['folderdeleted'] = 'フォルダを削除しました。';
 $messages['deletedsuccessfully'] = '削除しました。';
 $messages['converting'] = 'メールから書式を削除中です...';
 $messages['messageopenerror'] = 'サーバからメールを取得できません。';
@@ -75,5 +75,9 @@ $messages['copyerror'] = 'アドレスをコピーできません。';
 $messages['sourceisreadonly'] = 'このアドレス情報は読み取り専用です。';
 $messages['errorsavingcontact'] = '連絡先のアドレスを保存できません。';
 $messages['movingmessage'] = '移動中です...';
+$messages['receiptsent'] = '開封確認を送信しました。';
+$messages['errorsendingreceipt'] = '開封確認を送信できません。';
+$messages['nodeletelastidentity'] = '削除できません。少なくとも１つの個人情報が必要です。';
+$messages['addsubfolderhint'] = '現在選択しているフォルダのサブフォルダとして作成されます。';
 
 ?>
