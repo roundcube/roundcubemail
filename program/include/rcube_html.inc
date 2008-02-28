@@ -616,10 +616,10 @@ class select extends rcube_form_element
     if (is_array($names))
     {
       foreach ($names as $i => $text)
-        $this->options[] = array('text' => $text, 'value' => (string)$values[$i]);
+        $this->options[] = array('text' => $text, 'value' => $values[$i]);
     }
     else
-      $this->options[] = array('text' => $names, 'value' => (string)$values);
+      $this->options[] = array('text' => $names, 'value' => $values);
   }
 
 
