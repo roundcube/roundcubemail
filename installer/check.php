@@ -147,7 +147,8 @@ foreach ($ini_checks as $var => $val) {
 
 if ($RCI->failures)
   echo '<p class="warning">Sorry but your webserver does not meet the requirements for RoundCube!<br />
-            Please install the missing modules according to the above check results.</p>';
+            Please install the missing modules or fix the php.ini settings according to the above check results.<br />
+            Hint: only checks showing <span class="fail">NOT OK</span> need to be fixed.</p>';
 
 echo '<p><br /><input type="submit" value="NEXT" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
 
