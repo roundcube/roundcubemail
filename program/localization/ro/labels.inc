@@ -10,7 +10,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Daniel Anechitoaie - danieLs  <daniels@safereaction.ro>       |
+ | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
  |         Ispas Dorin <dorinxp2004@yahoo.com>                           |
  +-----------------------------------------------------------------------+
 
@@ -75,7 +75,8 @@ $labels['writenewmessage'] = 'Creaza mesaj nou';
 $labels['replytomessage'] = 'Raspunde la mesaj';
 $labels['replytoallmessage'] = 'Raspunde la toti';
 $labels['forwardmessage'] = 'Trimite mesajul mai departe';
-$labels['deletemessage'] = 'Trimmite mesajul la gunoi';
+$labels['deletemessage'] = 'Trimite mesajul la gunoi';
+$labels['movemessagetotrash'] = 'Muta mesajul la gunoi';
 $labels['printmessage'] = 'Listeaza mesajul';
 $labels['previousmessage'] = 'Afiseaza mesajul anterior';
 $labels['previousmessages'] = 'Afiseaza setul anterior de mesaje';
@@ -87,6 +88,9 @@ $labels['lastmessage'] = 'Afiseaza ultimul mesaj';
 $labels['lastmessages'] = 'Afiseaza ultimul set de mesaje';
 $labels['backtolist'] = 'Inapoi la lista cu mesaje';
 $labels['viewsource'] = 'Afiseaza sursa';
+$labels['markmessages'] = 'Marcheaza mesajele';
+$labels['markread'] = 'Ca citit';
+$labels['markunread'] = 'Ca necitit';
 $labels['select'] = 'Selecteaza';
 $labels['all'] = 'Toate';
 $labels['none'] = 'Nici unul';
@@ -100,8 +104,8 @@ $labels['unlimited'] = 'nelimitat';
 $labels['quicksearch'] = 'Cautare rapida';
 $labels['resetsearch'] = 'Resetare cautare';
 $labels['compose'] = 'Compune mesaj';
-$labels['sendmessage'] = 'Trimite mesaj';
 $labels['savemessage'] = 'Salveaza aceasta ciorna';
+$labels['sendmessage'] = 'Trimite mesaj';
 $labels['addattachment'] = 'Ataseaza fisier';
 $labels['charset'] = 'Set de caractere';
 $labels['editortype'] = 'Tip de editor';
@@ -121,6 +125,13 @@ $labels['nosubject'] = '(fara subiect)';
 $labels['showimages'] = 'Afiseaza imagini';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Text simplu';
+$labels['addcc'] = 'Adauga Cc';
+$labels['addbcc'] = 'Adauga Bcc';
+$labels['addreplyto'] = 'Adauga Raspunde-La';
+$labels['mdnrequest'] = 'Expeditorul acestui mesaj a solicitat sa fie notificat la cititrea mesajului. Doriti sa notificati expeditorul?';
+$labels['receiptread'] = 'Returneaza confirmare (citit)';
+$labels['yourmessage'] = 'Aceasta este o confirmare a mesajului dumneavoastra.';
+$labels['receiptnote'] = 'Nota: Aceasta confirmare doar va informeaza ca mesajul a fost afisat pe calculatorul destinatarului. Nu este nici o garantie ca destinatarul a citit sau a inteles continutul mesajului.';
 $labels['name'] = 'Nume de afisat';
 $labels['firstname'] = 'Nume';
 $labels['surname'] = 'Prenume';
@@ -168,6 +179,7 @@ $labels['folder'] = 'Dosar';
 $labels['folders'] = 'Dosare';
 $labels['foldername'] = 'Nume dosar';
 $labels['subscribed'] = 'Inscris';
+$labels['messagecount'] = 'Mesaje';
 $labels['create'] = 'Creaza';
 $labels['createfolder'] = 'Creaza dosar nou';
 $labels['rename'] = 'Redenumeste';
