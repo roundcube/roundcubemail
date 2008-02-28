@@ -8,6 +8,18 @@ require_once 'include/rcube_html.inc';
 // also load the default config to fill in the fields
 $RCI->load_defaults();
 
+// register these boolean fields
+$RCI->config_props = array(
+  'ip_check' => 1,
+  'enable_caching' => 1,
+  'enable_spellcheck' => 1,
+  'auto_create_user' => 1,
+  'smtp_log' => 1,
+  'prefer_html' => 1,
+  'preview_pane' => 1,
+  'htmleditor' => 1,
+);
+
 if (!empty($_POST['submit'])) {
   
   echo '<p class="notice">Copy the following configurations and save them in two files (names above the text box)';
@@ -20,6 +32,9 @@ if (!empty($_POST['submit'])) {
   
   echo '<div style="margin-top:1em"><em>db.inc.php</em></div>';
   echo $textbox->show($RCI->create_config('db'));
+
+  echo '<p class="hint">Of course there are more options to configure.
+    Have a look at the config files or visit <a href="http://trac.roundcube.net/wiki/Howto_Config">Howto_Config</a> to find out.</p>';
 
   echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
   
@@ -415,7 +430,7 @@ echo $check_smtplog->show(intval($RCI->getprop('smtp_log')), array('value' => 1)
 
 
 <fieldset>
-<legend>Display settings</legend>
+<legend>Display settings &amp; user prefs</legend>
 <dl class="configblock" id="cgfblockdisplay">
 
 <dt class="propname">locale_string</dt>
@@ -430,7 +445,68 @@ echo $input_locale->show($RCI->getprop('locale_string'));
 <p class="hint">Enter a <a href="http://www.faqs.org/rfcs/rfc1766">RFC1766</a> formatted locale name. Examples: en_US, de, de_CH, fr, pt_BR</p>
 </dd>
 
+<dt class="propname">pagesize <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$input_pagesize = new textfield(array('name' => '_pagesize', 'size' => 6, 'id' => "cfgpagesize"));
+echo $input_pagesize->show($RCI->getprop('pagesize'));
+
+?>
+<div>Show up to X items in list view.</div>
+</dd>
+
+<dt class="propname">prefer_html <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$check_htmlview = new checkbox(array('name' => '_prefer_html', 'id' => "cfghtmlview", 'value' => 1));
+echo $check_htmlview->show(intval($RCI->getprop('prefer_html')));
+
+?>
+<label for="cfghtmlview">Prefer displaying HTML messages</label><br />
+</dd>
+
+<dt class="propname">preview_pane <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$check_prevpane = new checkbox(array('name' => '_preview_pane', 'id' => "cfgprevpane", 'value' => 1));
+echo $check_prevpane->show(intval($RCI->getprop('preview_pane')));
+
+?>
+<label for="cfgprevpane">If preview pane is enabled</label><br />
+</dd>
+
+<dt class="propname">htmleditor <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$check_htmlcomp = new checkbox(array('name' => '_htmleditor', 'id' => "cfghtmlcompose", 'value' => 1));
+echo $check_htmlcomp->show(intval($RCI->getprop('htmleditor')));
+
+?>
+<label for="cfghtmlcompose">Compose HTML formatted messages</label><br />
+</dd>
+
+<dt class="propname">draft_autosave <span class="userconf">*</span></dt>
+<dd>
+<label for="cfgautosave">Save compose message every</label>
+<?php
+
+$select_autosave = new select(array('name' => '_draft_autosave', 'id' => 'cfgautosave'));
+$select_autosave->add('never', 0);
+foreach (array(3, 5, 10) as $i => $min)
+  $select_autosave->add("$min min", $min*60);
+
+echo $select_autosave->show(intval($RCI->getprop('draft_autosave')));
+
+?>
+</dd>
+
 </dl>
+
+<p class="hint"><span class="userconf">*</span>&nbsp; These settings are defaults for the user preferences</p>
 </fieldset>
 
 <?php

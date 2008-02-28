@@ -224,3 +224,8 @@ a.removelink {
   background-color: #ef9398;
   border: 2px solid #dc5757;
 }
+
+.userconf {
+  color: #00c;
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+}

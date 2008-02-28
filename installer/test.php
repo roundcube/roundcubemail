@@ -136,7 +136,7 @@ if ($RCI->getprop('smtp_server')) {
   
   if ($user == '%u') {
     $user_field = new textfield(array('name' => '_user'));
-    $user = $user_field->show();
+    $user = $user_field->show($_POST['_user']);
   }
   if ($pass == '%p') {
     $pass_field = new passwordfield(array('name' => '_pass'));
@@ -146,6 +146,9 @@ if ($RCI->getprop('smtp_server')) {
   echo "User: $user<br />";
   echo "Password: $pass<br />";
 }
+
+$from_field = new textfield(array('name' => '_from', 'id' => 'sendmailfrom'));
+$to_field = new textfield(array('name' => '_to', 'id' => 'sendmailto'));
 
 ?>
 </p>
@@ -217,17 +220,90 @@ echo '</p>';
 
 <table>
 <tbody>
-  <tr><td><label for="sendmailfrom">Sender</label></td><td><input type="text" name="_from" value="" id="sendmailfrom" /></td></tr>
-  <tr><td><label for="sendmailto">Recipient</label></td><td><input type="text" name="_to" value="" id="sendmailto" /></td></tr>
+  <tr>
+    <td><label for="sendmailfrom">Sender</label></td>
+    <td><?php echo $from_field->show($_POST['_from']); ?></td>
+  </tr>
+  <tr>
+    <td><label for="sendmailto">Recipient</label></td>
+    <td><?php echo $to_field->show($_POST['_to']); ?></td>
+  </tr>
 </tbody>
 </table>
 
 <p><input type="submit" name="sendmail" value="Send test mail" /></p>
 
 
-<p>[@todo Add tests for IMAP settings]</p>
+<h3>Test IMAP configuration</h3>
+
+<?php
+
+$default_hosts = (array)$RCI->getprop('default_host');
+$select_imaphost = new select(array('name' => '_host', 'id' => 'imaphost'));
+$select_imaphost->add(array_values($default_hosts));
+
+$user_field = new textfield(array('name' => '_user', 'id' => 'imapuser'));
+$pass_field = new passwordfield(array('name' => '_pass', 'id' => 'imappass'));
+
+?>
+
+<table>
+<tbody>
+  <tr>
+    <td><label for="imaphost">Server</label></td>
+    <td><?php echo $select_imaphost->show($_POST['_host'] ? $_POST['_host'] : '0'); ?></td>
+  </tr>
+  <tr>
+    <td>Port</td>
+    <td><?php echo $RCI->getprop('default_port'); ?></td>
+  </tr>
+    <tr>
+      <td><label for="imapuser">Username</label></td>
+      <td><?php echo $user_field->show($_POST['_user']); ?></td>
+    </tr>
+    <tr>
+      <td><label for="imappass">Password</label></td>
+      <td><?php echo $pass_field->show(); ?></td>
+    </tr>
+</tbody>
+</table>
+
+<?php
+
+if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
+  
+  require_once 'include/rcube_imap.inc';
+  
+  echo '<p>Connecting to ' . Q($_POST['_host']) . '...<br />';
+  
+  $a_host = parse_url($_POST['_host']);
+  if ($a_host['host']) {
+    $imap_host = $a_host['host'];
+    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
+    $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
+  }
+  else {
+    $imap_host = trim($_POST['_host']);
+    $imap_port = $RCI->getprop('default_port');
+  }
+  
+  $imap = new rcube_imap(null);
+  if ($imap->connect($imap_host, $_POST['_user'], $_POST['_pass'], $imap_port, $imap_ssl)) {
+    $RCI->pass('IMAP connect', 'SORT capability: ' . ($imap->get_capability('SORT') ? 'yes' : 'no'));
+    $imap->close();
+  }
+  else {
+    $RCI->fail('IMAP connect', $RCI->get_error());
+  }
+}
+
+?>
+
+<p><input type="submit" name="imaptest" value="Check login" /></p>
 
 </form>
+
+<hr />
 
 <p class="warning">
 

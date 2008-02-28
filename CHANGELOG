@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/02/28 (thomasb)
+----------
+- Fix folder adding/renaming inspired by #1484800
+- Applied patch by Emanuele Rocca to make LDAP filters work with or without brackets
+- Fix quirky message selection
+- Completed installer
+
 2008/02/20 (thomasb)
 ----------
 - Localize folder name in page title (#1484785)

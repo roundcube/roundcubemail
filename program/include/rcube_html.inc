@@ -647,7 +647,7 @@ class select extends rcube_form_element
                    
       $options_str .= sprintf("<%s%s%s>%s</%s>\n",
                              $this->_conv_case('option', 'tag'),
-                             !empty($option['value']) ? sprintf($value_str, Q($option['value'])) : '',
+                             isset($option['value']) ? sprintf($value_str, Q($option['value'])) : '',
                              $selected, 
                              Q($option['text'], 'strict', FALSE),
                              $this->_conv_case('option', 'tag'));

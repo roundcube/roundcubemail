@@ -29,6 +29,7 @@ class rcube_install
   var $configured = false;
   var $last_error = null;
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
+  var $config_props = array();
   
   /**
    * Constructor
@@ -97,7 +98,7 @@ class rcube_install
    */
   function getprop($name, $default = '')
   {
-    $value = isset($_REQUEST["_$name"]) ? $_REQUEST["_$name"] : $this->config[$name];
+    $value = $_SERVER['REQUEST_METHOD'] == 'POST' ? $_POST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
       $value = self::random_key(24);
@@ -121,7 +122,7 @@ class rcube_install
       return '[Warning: could not read the template file]';
     
     foreach ($this->config as $prop => $default) {
-      $value = $_POST["_$prop"] ? $_POST["_$prop"] : $default;
+      $value = (isset($_POST["_$prop"]) || $this->config_props[$prop]) ? $_POST["_$prop"] : $default;
       
       // convert some form data
       if ($prop == 'debug_level' && is_array($value)) {
@@ -148,7 +149,10 @@ class rcube_install
         $value = '%p';
       }
       else if (is_bool($default)) {
-        $value = is_numeric($value) ? (bool)$value : $value;
+        $value = (bool)$value;
+      }
+      else if (is_numeric($value)) {
+        $value = intval($value);
       }
       
       // skip this property
