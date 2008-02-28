@@ -76,5 +76,9 @@ $messages['copyerror'] = 'Kunne ikke kopiere adresserne';
 $messages['sourceisreadonly'] = 'Denne adressekilde er kun til læsning';
 $messages['errorsavingcontact'] = 'Kunne ikke gemme kontakt adressen';
 $messages['movingmessage'] = 'Flytter besked...';
+$messages['receiptsent'] = 'Det lykkedes at sende en læsekvittering';
+$messages['errorsendingreceipt'] = 'Kunne ikke sende kvitteringen';
+$messages['nodeletelastidentity'] = 'Du kan ikke slette denne identitet, da det er den eneste der er tilbage.';
+$messages['addsubfolderhint'] = 'Denne folder vil blive oprettet som en underfolder af den der er valgt i øjeblikket.';
 
 ?>
