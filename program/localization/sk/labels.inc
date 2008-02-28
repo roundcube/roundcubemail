@@ -10,8 +10,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Lukas Kraic <lukas.kraic@truni.sk>                            |
- |         Marek Kutnar marek19@zmail.sk>                                |
+ | Author: Marek Kutnar <marek19@zmail.sk>                               |
+ |         Lukas Kraic  <lukas.kraic@truni.sk>                           |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -75,7 +75,8 @@ $labels['writenewmessage'] = 'Vytvor novú správu';
 $labels['replytomessage'] = 'Odpovedať';
 $labels['replytoallmessage'] = 'Odpovedať všetkým';
 $labels['forwardmessage'] = 'Poslať ďalej';
-$labels['deletemessage'] = 'Presuň správu do koša';
+$labels['deletemessage'] = 'Zmazať správu';
+$labels['movemessagetotrash'] = 'Presunúť správu do koša';
 $labels['printmessage'] = 'Vytlač správu';
 $labels['previousmessage'] = 'Zobraziť predchádzajúcu správu';
 $labels['previousmessages'] = 'Zobraziť predchádzajúcu stránku správ';
@@ -87,6 +88,9 @@ $labels['lastmessage'] = 'Zobraziť poslednú správu';
 $labels['lastmessages'] = 'Zobraziť poslednú stránku správ';
 $labels['backtolist'] = 'Späť na zoznam správ';
 $labels['viewsource'] = 'Ukáž zdroj správy';
+$labels['markmessages'] = 'Označ správy';
+$labels['markread'] = 'Ako prečítané';
+$labels['markunread'] = 'Ako neprečítané';
 $labels['select'] = 'Výber';
 $labels['all'] = 'Všetky';
 $labels['none'] = 'Žiadnu';
@@ -100,8 +104,8 @@ $labels['unlimited'] = 'neobmedzené';
 $labels['quicksearch'] = 'Rýchle vyhľadávanie';
 $labels['resetsearch'] = 'Vyčisti vyhľadávanie';
 $labels['compose'] = 'Vytvoriť správu';
-$labels['sendmessage'] = 'Odoslať správu';
 $labels['savemessage'] = 'Uložiť do rozpísaných';
+$labels['sendmessage'] = 'Odoslať správu';
 $labels['addattachment'] = 'Pridať prílohu';
 $labels['charset'] = 'Znaková sada';
 $labels['editortype'] = 'Typ editora';
@@ -121,6 +125,13 @@ $labels['nosubject'] = '(bez predmetu)';
 $labels['showimages'] = 'Ukáž obrázky';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Čisty text';
+$labels['addcc'] = 'Pridať kópiu';
+$labels['addbcc'] = 'Pridať skrytú kopiu';
+$labels['addreplyto'] = 'Pridať odpoveď';
+$labels['mdnrequest'] = 'Odosielateľ tejto správy chce byť upozornený na to, že ste správu obdržali. Chcete potvrdiť prijatie správy?';
+$labels['receiptread'] = 'Potvrdenie o prijatí správy';
+$labels['yourmessage'] = 'Toto je potvrdenie o prijatí Vašej správy';
+$labels['receiptnote'] = 'Poznámka: Toto potvrdenie negarantuje, že správa bola príjemcom prečítaná a porozumel jej obsahu.';
 $labels['name'] = 'Celé meno';
 $labels['firstname'] = 'Meno';
 $labels['surname'] = 'Priezvisko';
@@ -168,6 +179,7 @@ $labels['folder'] = 'Zložka';
 $labels['folders'] = 'Zložky';
 $labels['foldername'] = 'Meno zložky';
 $labels['subscribed'] = 'Podpísaný';
+$labels['messagecount'] = 'Počet správ';
 $labels['create'] = 'Vytvoriť';
 $labels['createfolder'] = 'Vytvor novú zložku';
 $labels['rename'] = 'Premenovať';

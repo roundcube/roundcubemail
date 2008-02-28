@@ -10,8 +10,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Lukas Kraic <lukas.kraic@truni.sk>                            |
- |         Marek Kutnar marek19@zmail.sk>                                |
+ | Author: Marek Kutnar <marek19@zmail.sk>                               |
+ |         Lukas Kraic  <lukas.kraic@truni.sk>                           |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -74,5 +74,10 @@ $messages['copysuccess'] = 'Úspešne skopírovanie $nr adries';
 $messages['copyerror'] = 'Nemôžem skopírovať žiadnu adresu';
 $messages['sourceisreadonly'] = 'Tento zdroj adries je len na čítanie';
 $messages['errorsavingcontact'] = 'Nemôžem uložit adresu kontaktu';
+$messages['movingmessage'] = 'Presúvam správu...';
+$messages['receiptsent'] = 'Potvrdenie o prijatí správy odoslané';
+$messages['errorsendingreceipt'] = 'Potvrdenie o prijatí správy nebolo možné odoslať';
+$messages['nodeletelastidentity'] = 'Identita sa nedá odstrániť, je posledná a musí zostať.';
+$messages['addsubfolderhint'] = 'Táto zložka bude vytvorená ako podzložka aktualne zvolenej zložky';
 
 ?>
