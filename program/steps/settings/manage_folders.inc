@@ -196,7 +196,7 @@ function rcube_subscription_form($attrib)
     $foldersplit = explode($delimiter, $folder);
     $level = count($foldersplit) - 1;
     $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
-    $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcube_label(strtolower($folder)) : $display_folder;
+    $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcmail_localize_foldername($folder) : $display_folder;
     
     if (!$protected)
       $a_js_folders['rcmrow'.($i+1)] = array($folder, rcube_charset_convert($folder, 'UTF-7'));
