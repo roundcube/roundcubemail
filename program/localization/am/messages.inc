@@ -73,5 +73,10 @@ $messages['copysuccess'] = '$nr հասցեների կրկնօրինակումը 
 $messages['copyerror'] = 'Հասցեների կրկնօրինակումը ձախողվեց';
 $messages['sourceisreadonly'] = 'Այս հասցեն պաշտպանված է';
 $messages['errorsavingcontact'] = 'Հասցեի գրանցումն ձախողվեց';
+$messages['movingmessage'] = 'Նամակը տեղափոխվում է…';
+$messages['receiptsent'] = 'Նամակի ընթերցման ծանուցագիրն ուղարկված է';
+$messages['errorsendingreceipt'] = 'Ծանուցագրի ուղարկումը ձախողվեց';
+$messages['nodeletelastidentity'] = 'Անհնար է ջնջել վերջին տարբերակը';
+$messages['addsubfolderhint'] = 'Այս դարակը կստեղծվի որպես նշվածի ենթադարակ';
 
 ?>

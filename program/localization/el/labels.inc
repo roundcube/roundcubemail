@@ -11,7 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Jim Deves <jim@cobaltblue.gr>                                 |
- |         John Economou <hsoc@irc.gr>                                   | 
+ |         John Economou <hsoc@irc.gr>                                   |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -75,7 +75,8 @@ $labels['writenewmessage'] = 'Δημιουργία νέου μηνύματος';
 $labels['replytomessage'] = 'Απάντηση';
 $labels['replytoallmessage'] = 'Απάντηση στον αποστολέα και όλους τους παραλήπτες';
 $labels['forwardmessage'] = 'Προώθηση μηνύματος';
-$labels['deletemessage'] = 'Μετακίνηση στον Κάδο';
+$labels['deletemessage'] = 'Διαγραφή μηνύματος';
+$labels['movemessagetotrash'] = 'Μετακίνηση μηνύματος στον Κάδο';
 $labels['printmessage'] = 'Εκτύπωση';
 $labels['previousmessage'] = 'Εμφάνιση προηγούμενου μηνύματος';
 $labels['previousmessages'] = 'Εμφάνιση προηγούμενης ομάδας μηνυμάτων';
@@ -87,6 +88,9 @@ $labels['lastmessage'] = 'Εμφάνιση τελευταίου μηνύματο
 $labels['lastmessages'] = 'Εμφάνιση τελευταίας ομάδας μηνυμάτων';
 $labels['backtolist'] = 'Επιστροφή στη λίστα μηνυμάτων';
 $labels['viewsource'] = 'Προβολή πηγαίου κώδικα';
+$labels['markmessages'] = 'Σήμανση μηνυμάτων';
+$labels['markread'] = 'ως αναγνωσμένα';
+$labels['markunread'] = 'ως μη-αναγνωσμένα';
 $labels['select'] = 'Επιλογή';
 $labels['all'] = 'Όλα';
 $labels['none'] = 'Κανένα';
@@ -100,8 +104,8 @@ $labels['unlimited'] = 'απεριόριστο';
 $labels['quicksearch'] = 'Γρήγορη Εύρεση';
 $labels['resetsearch'] = 'Επαναφορά Εύρεσης';
 $labels['compose'] = 'Συγγραφή μηνύματος';
-$labels['sendmessage'] = 'Αποστολή μηνύματος τώρα';
 $labels['savemessage'] = 'Αποθήκευση ως πρόχειρου';
+$labels['sendmessage'] = 'Αποστολή μηνύματος τώρα';
 $labels['addattachment'] = 'Επισύναψη αρχείου';
 $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Είδος επεξεργαστή κειμένου';
@@ -121,6 +125,13 @@ $labels['nosubject'] = '(κανένα θέμα)';
 $labels['showimages'] = 'Εμφάνιση εικόνων';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Απλό κείμενο';
+$labels['addcc'] = 'Προσθήκη Cc';
+$labels['addbcc'] = 'Προσθήκη Bcc';
+$labels['addreplyto'] = 'Προσθήκη Απάντηση-Σε';
+$labels['mdnrequest'] = 'Ο αποστολέας του μηνύματος έχει ζητήσει να ενημερωθεί όταν διαβάσετε αυτό το μήνυμα. Επιθυμείτε να ενημερώστε τον αποστολέα;';
+$labels['receiptread'] = 'Αναφορά (ανάγνωσης)';
+$labels['yourmessage'] = 'Αυτό είναι μια Αναφορά για το μήνυμά σας';
+$labels['receiptnote'] = 'Σημείωση: Αυτή η αναφορά επιβεβαιώνει μόνο ότι το μήνυμα εμφανίστηκε μόνο στον υπολογιστή του παραλήπτη. Δεν επιβεβαιώνει ότι ο παραλήπτης έχει διαβάσει ή έχει κατανοήσει το περιεχόμενο του μηνύματος.';
 $labels['name'] = 'Εμφανιζόμενο όνομα';
 $labels['firstname'] = 'Όνομα';
 $labels['surname'] = 'Επώνυμο';
@@ -168,6 +179,7 @@ $labels['folder'] = 'Φάκελος';
 $labels['folders'] = 'Φάκελοι';
 $labels['foldername'] = 'Όνομα φακέλου';
 $labels['subscribed'] = 'Εγγραφή';
+$labels['messagecount'] = 'Μηνύματα';
 $labels['create'] = 'Δημιουργία';
 $labels['createfolder'] = 'Δημιουργία νέου φακέλου';
 $labels['rename'] = 'Μετονομασία';

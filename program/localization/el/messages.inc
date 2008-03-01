@@ -11,7 +11,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Jim Deves <jim@cobaltblue.gr>                                 |
- |         John Economou <hsoc@irc.gr>                                   | 
+ |         John Economou <hsoc@irc.gr>                                   |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -74,5 +74,10 @@ $messages['copysuccess'] = 'Επιτυχή αντιγραφή $nr διευθύν
 $messages['copyerror'] = 'Αποτυχία αντιγραφής διευθύνσεων';
 $messages['sourceisreadonly'] = 'Η διεύθυνση έχει μόνο δικαίωμα ανάγνωσης';
 $messages['errorsavingcontact'] = 'Σώσιμο επαφής απέτυχε';
+$messages['movingmessage'] = 'Μετακίνηση μηνύματος...';
+$messages['receiptsent'] = 'Επιτυχής αποστολή αναφοράς ανάγνωσης';
+$messages['errorsendingreceipt'] = 'Αποστολή αναφοράς απέτυχε';
+$messages['nodeletelastidentity'] = 'Δε μπορείτε να διαγράψετε αυτήν την ταυτότητα, είναι η τελευταία.';
+$messages['addsubfolderhint'] = 'Αυτός ο φάκελος θα δημιουργηθεί ως υποφάκελος του επιλεγμένου';
 
 ?>
