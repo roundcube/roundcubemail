@@ -3287,11 +3287,8 @@ function rcube_webmail()
     if (!this.gui_objects.mailboxlist)
       return false;
 
-    var reg, text_obj;
-    var item = this.get_folder_li(mbox);
-    mbox = String(mbox).toLowerCase().replace(this.identifier_expr, '');
-
-    if (item && item.className && item.className.indexOf('mailbox '+mbox)>=0)
+    var reg, text_obj, item;
+    if (item = this.get_folder_li(mbox))
       {
       // set new text
       text_obj = item.firstChild;
