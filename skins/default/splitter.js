@@ -11,8 +11,8 @@ function rcube_splitter(attrib)
   this.id = attrib.id ? attrib.id : this.p1id + '_' + this.p2id + '_splitter';
   this.orientation = attrib.orientation;
   this.horizontal = (this.orientation == 'horizontal' || this.orientation == 'h');
-  this.offset_1 = bw.ie ? 0 : (bw.safari ? 2 : -1);
-  this.offset_2 = bw.ie ? -2 : (bw.safari ? -2 : 1);
+  this.offset_1 = bw.ie ? 0 : -1;
+  this.offset_2 = bw.ie ? -2 : 1;
   this.pos = 0;
 
   this.init = function()
