@@ -13,8 +13,7 @@ $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
 
 $ini_checks = array('file_uploads' => 1, 'session.auto_start' => 0,
-    'magic_quotes_gpc' => 0, 'magic_quotes_sybase' => 0,
-    'zlib.output_compression' => 0);
+    'magic_quotes_gpc' => 0, 'magic_quotes_sybase' => 0);
 
 $source_urls = array(
     'Sockets' => 'http://www.php.net/manual/en/ref.sockets.php',
@@ -145,11 +144,11 @@ foreach ($ini_checks as $var => $val) {
 
 <?php
 
-if ($RCI->failures)
+if ($RCI->failures) {
   echo '<p class="warning">Sorry but your webserver does not meet the requirements for RoundCube!<br />
             Please install the missing modules or fix the php.ini settings according to the above check results.<br />
             Hint: only checks showing <span class="fail">NOT OK</span> need to be fixed.</p>';
-
+}
 echo '<p><br /><input type="submit" value="NEXT" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
 
 ?>
