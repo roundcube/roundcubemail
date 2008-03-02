@@ -10,8 +10,12 @@
     <ul>
       <li>PCRE (perl compatible regular expression)</li>
       <li>Session support</li>
-      <li>libiconv (recommended)</li>
-      <li>mbstring (optional)</li>
+      <li>Sockets enabled</li>
+      <li>Libiconv (recommended)</li>
+      <li>OpenSSL (recommended)</li>
+      <li>FileInfo (optional)</li>
+      <li>Multibyte/mbstring (optional)</li>
+      <li>Mcrypt (optional)</li>
       </ul>
     </li>
     <li>php.ini options:
@@ -19,12 +23,13 @@
         <li>error_reporting E_ALL &amp; ~E_NOTICE (or lower)</li>
         <li>file_uploads on (for attachment upload features)</li>
         <li>session.auto_start needs to be off</li>
+        <li>magic_quotes_gpc off</li>
       </ul>
     </li>
     <li>A MySQL or PostgreSQL database engine or the SQLite extension for PHP</li>
     <li>An SMTP server (recommended) or PHP configured for mail delivery</li>
 </ul>
 
-<input type="submit" value="START" />
+<input type="submit" value="START INSTALLATION" />
 
 </form>

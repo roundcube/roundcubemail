@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20071210                                                  |
+ | Version 0.1-20080302                                                  |
  |                                                                       |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -240,6 +240,17 @@ if (!empty($_action))
 // not logged in -> show login page
 if (empty($USER->ID))
 {
+  // check if installer is still active
+  if (is_file('./installer/index.php'))
+    $OUTPUT->add_footer('
+  <div style="background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em">
+  <h2 style="margin-top:0.2em">Installer script is still accessible</h2>
+  <p>The install script of your RoundCube installation is still stored in its default location!</p>
+  <p>Please <b>remove</b> the whole <tt>installer</tt> folder from the RoundCube directory because
+  these files may expose sensitive configuration data like server passwords and encryption keys
+  to the public. Make sure you cannot access the <a href="./installer/">installer script</a> from your browser.</p>
+  </div>');
+  
   $OUTPUT->task = 'login';
   $OUTPUT->send('login');
   exit;
