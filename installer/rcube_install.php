@@ -24,6 +24,7 @@
 class rcube_install
 {
   var $step;
+  var $is_post = false;
   var $failures = 0;
   var $config = array();
   var $configured = false;
@@ -37,6 +38,7 @@ class rcube_install
   function rcube_install()
   {
     $this->step = intval($_REQUEST['_step']);
+    $this->is_post = $_SERVER['REQUEST_METHOD'] == 'POST';
   }
   
   /**
@@ -98,8 +100,7 @@ class rcube_install
    */
   function getprop($name, $default = '')
   {
-    $value = $_SERVER['REQUEST_METHOD'] == 'POST' &&
-              (isset($_POST["_$name"]) || $this->config_props[$name]) ? $_POST["_$name"] : $this->config[$name];
+    $value = $this->is_post && (isset($_POST["_$name"]) || $this->config_props[$name]) ? $_POST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
       $value = self::random_key(24);
@@ -133,7 +134,10 @@ class rcube_install
         $value = $val;
       }
       else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
-        $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], $_POST['_dbuser'], $_POST['_dbpass'], $_POST['_dbhost'], $_POST['_dbname']);
+        if ($_POST['_dbtype'] == 'sqlite')
+          $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
+        else
+          $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], $_POST['_dbuser'], $_POST['_dbpass'], $_POST['_dbhost'], $_POST['_dbname']);
       }
       else if ($prop == 'smtp_auth_type' && $value == '0') {
         $value = '';

@@ -202,15 +202,15 @@ $input_dbpass = new textfield(array('name' => '_dbpass', 'size' => 20, 'id' => "
 
 $dsnw = DB::parseDSN($RCI->getprop('db_dsnw'));
 
-echo $select_dbtype->show($_POST['_dbtype'] ? $_POST['_dbtype'] : $dsnw['phptype']);
+echo $select_dbtype->show($RCI->is_post ? $_POST['_dbtype'] : $dsnw['phptype']);
 echo '<label for="cfgdbtype">Database type</label><br />';
-echo $input_dbhost->show($_POST['_dbhost'] ? $_POST['_dbhost'] : $dsnw['hostspec']);
+echo $input_dbhost->show($RCI->is_post ? $_POST['_dbhost'] : $dsnw['hostspec']);
 echo '<label for="cfgdbhost">Database server</label><br />';
-echo $input_dbname->show($_POST['_dbname'] ? $_POST['_dbname'] : $dsnw['database']);
+echo $input_dbname->show($RCI->is_post ? $_POST['_dbname'] : $dsnw['database']);
 echo '<label for="cfgdbname">Database name</label><br />';
-echo $input_dbuser->show($_POST['_dbuser'] ? $_POST['_dbuser'] : $dsnw['username']);
+echo $input_dbuser->show($RCI->is_post ? $_POST['_dbuser'] : $dsnw['username']);
 echo '<label for="cfgdbuser">Database user name (needs write permissions)</label><br />';
-echo $input_dbpass->show($_POST['_dbpass'] ? $_POST['_dbpass'] : $dsnw['password']);
+echo $input_dbpass->show($RCI->is_post ? $_POST['_dbpass'] : $dsnw['password']);
 echo '<label for="cfgdbpass">Database password</label><br />';
 
 ?>
