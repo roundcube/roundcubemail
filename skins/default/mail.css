@@ -323,6 +323,11 @@ td.formlinks a:visited
 #mailboxlist li.droptarget li.selected
 {
   background-color: #929292;
+}
+
+#mailboxlist li.selected a,
+#mailboxlist li.droptarget li.selected a
+{
   color: #FFF;
   font-weight: bold;
 }

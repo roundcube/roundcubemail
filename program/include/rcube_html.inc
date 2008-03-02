@@ -636,7 +636,7 @@ class select extends rcube_form_element
     $value_str = $this->_conv_case(' value="%s"', 'attrib');
     
     if (!is_array($select))
-      $select = array((string)$select);
+      $select = array($select);
 
     foreach ($this->options as $option)
     {

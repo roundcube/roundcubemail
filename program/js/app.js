@@ -1387,11 +1387,8 @@ function rcube_webmail()
   this.move_messages = function(mbox)
     {
     // exit if current or no mailbox specified or if selection is empty
-    if (!mbox || !this.env.uid || mbox==this.env.mailbox)
-      {
-      if (!this.message_list || !this.message_list.get_selection().length)
-        return;
-      }
+    if (!mbox || !this.env.uid || mbox == this.env.mailbox || !this.message_list || !this.message_list.get_selection().length)
+      return;
 
     var lock = false;
     var add_url = '&_target_mbox='+urlencode(mbox)+'&_from='+(this.env.action ? this.env.action : '');
