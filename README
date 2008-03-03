@@ -1,15 +1,6 @@
 RoundCube Webmail (http://roundcube.net)
 
 
-ATTENTION
----------
-This is just a snapshot of the current SVN repository and is NOT A STABLE
-version of RoundCube. There have been major changes since the latest release
-so please read the update instructions carefully. It's not recommended to
-replace an existing installation of RoundCube with this version. Also using
-a separate database or this installation is highly recommended.
-
-
 Introduction:
 -------------
 RoundCube Webmail is a browser-based multilingual IMAP client with an
@@ -52,32 +43,14 @@ already have a corresponding entry in the user's table (username and hostname)
 will be allowed.
 
 
-Code Layout:
-------------
-Basic sequence (index.php):
-  - index.php -> rcmail_load_gui -> new rcmail_template -> rcmail_template::send
-  - authentication details in this sequence
-
-Tasks
-  - index.php limits tasks to set list
-  - can see task in roundcube link when you mouse over it
-  - task templates stored in skins/default/templates
-  - templates "roundcube:" tokens that get replaced in rcmail_template class
-
-program/include/rcube_shared.inc
-  - defines rcube_html_page, class that lays out a roundcube web page
-  - defines form control classes
-  - provides common functions
-
-
 Contact:
 --------
 For any bug reports or feature requests please refer to the tracking system
-at trac.roundcube.net (http://trac.roundcube.net/trac.cgi/report) or 
-subscribe to our mailing list. See http://www.roundcube.net/?p=mailinglists
+at trac.roundcube.net (http://trac.roundcube.net/wiki/Howto_ReportIssues) or 
+subscribe to our mailing list. See http://roundcube.net/support
 for details.
 
 You're always welcome to send a message to the project admin:
-roundcube@gmail.com
+hello@roundcube.net
 
 
