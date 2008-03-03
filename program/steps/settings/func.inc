@@ -102,7 +102,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('timezone')),
-                    $select_timezone->show($CONFIG['timezone']));
+                    $select_timezone->show((string)$CONFIG['timezone']));
     }
 
   // daylight savings
