@@ -1095,15 +1095,11 @@ function rcube_webmail()
   // onmouseup handler for folder list item
   this.folder_mouse_up = function(id)
     {
-    // Hide message command buttons until a message is selected
-    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false);
-
     if (this.drag_active)
       {
       this.unfocus_folder(id);
       this.command('moveto', id);
       }
-
     };
 
   this.click_on_list = function(e)
@@ -1387,7 +1383,7 @@ function rcube_webmail()
   this.move_messages = function(mbox)
     {
     // exit if current or no mailbox specified or if selection is empty
-    if (!mbox || !this.env.uid || mbox == this.env.mailbox || !this.message_list || !this.message_list.get_selection().length)
+    if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
       return;
 
     var lock = false;
@@ -1401,6 +1397,9 @@ function rcube_webmail()
       }
     else
       this.show_contentframe(false);
+
+    // Hide message command buttons until a message is selected
+    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false);
 
     this._with_selected_messages('moveto', lock, add_url);
     };
