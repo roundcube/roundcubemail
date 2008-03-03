@@ -103,7 +103,7 @@ class rcube_install
     $value = $this->is_post && (isset($_POST["_$name"]) || $this->config_props[$name]) ? $_POST["_$name"] : $this->config[$name];
     
     if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
-      $value = self::random_key(24);
+      $value = rcube_install::random_key(24);
     
     return $value !== null && $value !== '' ? $value : $default;
   }
@@ -143,7 +143,7 @@ class rcube_install
         $value = '';
       }
       else if ($prop == 'default_host' && is_array($value)) {
-        $value = self::_clean_array($value);
+        $value = rcube_install::_clean_array($value);
         if (count($value) <= 1)
           $value = $value[0];
       }

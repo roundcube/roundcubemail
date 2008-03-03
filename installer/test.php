@@ -55,6 +55,8 @@ if (!empty($RCI->config)) {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database extists and that the user as write privileges<br />';
             echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
+            if ($RCI->config['db_backend'] == 'mdb2')
+              echo '<p class="hint">There are known problems with MDB2 running on PHP 4. Try setting <tt>db_backend</tt> to \'db\' instead</p>';
         }
     }
     else {
