@@ -1,7 +1,7 @@
 <form action="index.php" method="get">
 <?php
 
-$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session', 'Sockets' => 'sockets');
+$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session');
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt', 'GD' => 'gd');
@@ -65,7 +65,7 @@ foreach ($required_php_exts AS $name => $ext) {
 
 ?>
 
-<p class="hint">These extensions are <em>optional</em> but recommended to get the best performance:</p>
+<p class="hint">The next couple of extensions are <em>optional</em> but recommended to get the best performance:</p>
 <?php
 
 foreach ($optional_php_exts AS $name => $ext) {

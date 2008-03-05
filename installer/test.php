@@ -31,11 +31,38 @@ else if (!$read_db) {
 
 ?>
 
+<h3>Check if directories are writable</h3>
+<p>RoundCube may need to write/save files into these directories</p>
+<?php
+
+if ($RCI->configured) {
+    $pass = false;
+    foreach (array($RCI->config['temp_dir'],$RCI->config['log_dir']) as $dir) {
+        $dirpath = $dir{0} == '/' ? $dir : $docroot . '/' . $dir;
+        if (is_writable(realpath($dirpath))) {
+            $RCI->pass($dir);
+            $pass = true;
+        }
+        else {
+            $RCI->fail($dir, 'not writeable for the webserver');
+        }
+        echo '<br />';
+    }
+    
+    if (!$pass)
+        echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
+}
+else {
+    $RCI->fail('Config', 'Could not read config files');
+}
+
+?>
+
 <h3>Check configured database settings</h3>
 <?php
 
 $db_working = false;
-if (!empty($RCI->config)) {
+if ($RCI->configured) {
     if (!empty($RCI->config['db_backend']) && !empty($RCI->config['db_dsnw'])) {
 
         echo 'Backend: ';
