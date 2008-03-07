@@ -47,7 +47,7 @@ $labels['reply-to'] = 'Vastaus osoitteeseen';
 $labels['mailboxlist'] = 'Kansiot';
 $labels['messagesfromto'] = 'Viestit $from-$to/$count';
 $labels['messagenrof'] = 'Viesti $nr/$count';
-$labels['moveto'] = 'siirrä...';
+$labels['moveto'] = 'siirrä kansioon...';
 $labels['download'] = 'lataa';
 $labels['filename'] = 'Tiedoston nimi';
 $labels['filesize'] = 'Tiedoston koko';
@@ -96,7 +96,7 @@ $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mitään';
 $labels['unread'] = 'Lukemattomat';
 $labels['compact'] = 'Tiivistä';
-$labels['empty'] = 'Empty';
+$labels['empty'] = 'Tyhjennä';
 $labels['purge'] = 'Puhdista';
 $labels['quota'] = 'Levytila';
 $labels['unknown'] = 'tuntematon';
@@ -187,7 +187,7 @@ $labels['renamefolder'] = 'Nimeä kansio uudelleen';
 $labels['deletefolder'] = 'Poista kansio';
 $labels['managefolders'] = 'Kansioiden ylläpito';
 $labels['sortby'] = 'Järjestä';
-$labels['sortasc'] = 'Järjestä nousevasti';
-$labels['sortdesc'] = 'Järjestä laskevasti';
+$labels['sortasc'] = 'Järjestä nousevasti (a-ö)';
+$labels['sortdesc'] = 'Järjestä laskevasti (ö-a)';
 
 ?>
