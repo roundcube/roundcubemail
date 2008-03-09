@@ -712,7 +712,7 @@ function rcube_webmail()
         break;
 
       case 'load-attachment':
-        var qstring = '_mbox='+this.env.mailbox+'&_uid='+this.env.uid+'&_part='+props.part;
+        var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
         
         // open attachment in frame if it's of a supported mimetype
         if (this.env.uid && props.mimetype && find_in_array(props.mimetype, this.mimetypes)>=0)
@@ -2010,7 +2010,7 @@ function rcube_webmail()
       // reset vars
       this.env.current_page = 1;
       this.set_busy(true, 'searching');
-      this.http_request('search', '_q='+urlencode(value)+(this.env.mailbox ? '&_mbox='+this.env.mailbox : '')+(this.env.source ? '&_source='+urlencode(this.env.source) : ''), true);
+      this.http_request('search', '_q='+urlencode(value)+(this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')+(this.env.source ? '&_source='+urlencode(this.env.source) : ''), true);
       }
     return true;
     };
