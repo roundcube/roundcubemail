@@ -2448,7 +2448,6 @@ function iil_C_Append(&$conn, $folder, &$message) {
 	if (fputs($fp, $request)) {
 		$line=iil_ReadLine($fp, 100);		
 		$sent = fwrite($fp, $message."\r\n");
-		flush();
 		do {
 			$line=iil_ReadLine($fp, 1000);
 		} while ($line[0] != 'A');
