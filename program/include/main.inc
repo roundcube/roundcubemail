@@ -74,6 +74,7 @@ function rcmail_startup($task='mail')
   
   $DB = new $dbclass($CONFIG['db_dsnw'], $CONFIG['db_dsnr'], $CONFIG['db_persistent']);
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
+  $DB->set_debug((bool)$CONFIG['sql_debug']);
   $DB->db_connect('w');
 
   // use database for storing session data

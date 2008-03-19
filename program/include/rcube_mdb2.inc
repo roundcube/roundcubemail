@@ -48,6 +48,7 @@ class rcube_mdb2
   var $db_handle = 0;         // Connection handle
   var $db_error = false;
   var $db_error_msg = '';
+  var $debug_mode = false;
 
   var $a_query_results = array('dummy');
   var $last_res_id = 0;
@@ -94,8 +95,11 @@ class rcube_mdb2
   function dsn_connect($dsn)
     {
     // Use persistent connections if available
-    $dbh = MDB2::connect($dsn,
-      array('persistent' => $this->db_pconn,
+    $dbh = MDB2::connect($dsn, array(
+        'emulate_prepared' => true,
+        'persistent' => $this->db_pconn,
+        'debug' => $this->debug_mode,
+        'debug_handler' => 'mdb2_debug_handler',
         'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL));
 
     if (MDB2::isError($dbh))
@@ -155,6 +159,18 @@ class rcube_mdb2
     $this->db_connected = true;
     }
 
+
+  /**
+   * Activate/deactivate debug mode
+   *
+   * @param boolean True if SQL queries should be logged
+   */
+  function set_debug($dbg = true)
+  {
+    $this->debug_mode = $dbg;
+    if ($this->db_connected)
+      $this->db_handle->setOption('debug', $dbg);
+  }
 
     
   /**
@@ -568,5 +584,18 @@ class rcube_mdb2
 
 
   }  // end class rcube_db
+
+
+/* this is our own debug handler for the MDB2 connection */
+function mdb2_debug_handler(&$db, $scope, $message, $context = array())
+{
+  if ($scope != 'prepare')
+  {
+    $debug_output = $scope . '('.$db->db_index.'): ';
+    $debug_output .= $message . $db->getOption('log_line_break');
+    write_log('sqllog', $debug_output);
+  }
+}
+
 
 ?>
