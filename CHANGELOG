@@ -4,7 +4,12 @@ CHANGELOG RoundCube Webmail
 2008/03/21 (thomasb)
 ----------
 - Add configurable default charset for message decoding
-
+- Applied patch to fix mime decoding an folder subscription (#1484191)
+- Applied patch to correctly quote email recipient strings (#1484191)
+- Fix wrong charset aliases (#1484818 and #1484598)
+- Remove hard-coded size of logo image (#1484378)
+- Strip slashes from virtuser email values (#1484700)
+- Fixed message part window display in IE6 (#1484610)
 
 2008/02/28 (thomasb)
 ----------
