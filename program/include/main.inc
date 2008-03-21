@@ -1567,7 +1567,10 @@ function format_date($date, $format=NULL)
 function format_email_recipient($email, $name='')
   {
   if ($name && $name != $email)
-    return sprintf('%s <%s>', strpos($name, ",") ? '"'.$name.'"' : $name, $email);
+    {
+    // Special chars as defined by RFC 822 need to in quoted string (or escaped).
+    return sprintf('%s <%s>', preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name) ? '"'.addcslashes($name, '"').'"' : $name, $email);
+    }
   else
     return $email;
   }

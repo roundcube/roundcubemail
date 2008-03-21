@@ -893,7 +893,7 @@ if ($result = $CONTACTS->list_records())
   {
   while ($sql_arr = $result->iterate())
     if ($sql_arr['email'])
-      $a_contacts[] = format_email_recipient($sql_arr['email'], JQ($sql_arr['name']));
+      $a_contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
   }
 if (isset($CONFIG['ldap_public']))
   {
@@ -918,7 +918,7 @@ if (isset($CONFIG['ldap_public']))
  	    $email = $results->records[$i]['email']; 
  	    $name = $results->records[$i]['name']; 
  		 
- 	    $a_contacts[] = format_email_recipient($email, JQ($name)); 
+ 	    $a_contacts[] = format_email_recipient($email, $name);
  	    } 
  	  }
     $LDAP->close(); 
