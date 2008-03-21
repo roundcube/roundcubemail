@@ -51,6 +51,7 @@ class rcube_imap
   var $sort_order = 'DESC';
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
+  var $default_charset = 'ISO-8859-1';
   var $default_folders = array('INBOX');
   var $default_folders_lc = array('inbox');
   var $cache = array();
@@ -200,6 +201,20 @@ class rcube_imap
     
     if (empty($this->delimiter))
       $this->get_hierarchy_delimiter();
+    }
+
+
+  /**
+   * Set default message charset
+   *
+   * This will be used for message decoding if a charset specification is not available
+   *
+   * @param  string   Charset string
+   * @access public
+   */
+  function set_charset($cs)
+    {
+    $this->default_charset = $ch;
     }
 
 
@@ -1146,7 +1161,7 @@ class rcube_imap
       
     // normalize filename property
     if ($filename_mime = $struct->d_parameters['filename'] ? $struct->d_parameters['filename'] : $struct->ctype_parameters['name'])
-      $struct->filename = $this->decode_mime_string($filename_mime);
+      $struct->filename = rcube_imap::decode_mime_string($filename_mime, $this->default_charset);
     else if ($filename_encoded = $struct->d_parameters['filename*'] ? $struct->d_parameters['filename*'] : $struct->ctype_parameters['name*'])
     {
       // decode filename according to RFC 2231, Section 4
@@ -1154,7 +1169,7 @@ class rcube_imap
       $struct->filename = rcube_charset_convert(urldecode($filename_urlencoded), $filename_charset);
     }
     else if (!empty($struct->headers['content-description']))
-      $struct->filename = $this->decode_mime_string($struct->headers['content-description']);
+      $struct->filename = rcube_imap::decode_mime_string($struct->headers['content-description'], $this->default_charset);
       
     return $struct;
     }
@@ -1241,9 +1256,9 @@ class rcube_imap
       // convert charset (if text or message part)
       if ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message')
         {
-        // assume ISO-8859-1 if no charset specified
+        // assume default if no charset specified
         if (empty($o_part->charset))
-          $o_part->charset = 'ISO-8859-1';
+          $o_part->charset = $this->default_charset;
 
         $body = rcube_charset_convert($body, $o_part->charset);
         }
@@ -2297,7 +2312,7 @@ class rcube_imap
    */
   function decode_header($input, $remove_quotes=FALSE)
     {
-    $str = $this->decode_mime_string((string)$input);
+    $str = rcube_imap::decode_mime_string((string)$input, $this->default_charset);
     if ($str{0}=='"' && $remove_quotes)
       $str = str_replace('"', '', $str);
     
@@ -2414,7 +2429,7 @@ class rcube_imap
       return rcube_charset_convert($body, $ctype_param['charset']);
 
     // defaults to what is specified in the class header
-    return rcube_charset_convert($body,  'ISO-8859-1');
+    return rcube_charset_convert($body,  $this->default_charset);
     }
 
 

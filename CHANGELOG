@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/03/21 (thomasb)
+----------
+- Add configurable default charset for message decoding
+
+
 2008/02/28 (thomasb)
 ----------
 - Fix folder adding/renaming inspired by #1484800

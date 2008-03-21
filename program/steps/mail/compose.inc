@@ -90,7 +90,11 @@ if (!empty($msg_uid))
   // similar as in program/steps/mail/show.inc
   $MESSAGE = array('UID' => $msg_uid);
   $MESSAGE['headers'] = &$IMAP->get_headers($msg_uid);
-  $MESSAGE['structure'] = &$IMAP->get_structure($msg_uid);  
+  $MESSAGE['structure'] = &$IMAP->get_structure($msg_uid);
+  
+  if (!empty($MESSAGE['headers']->charset))
+    $IMAP->set_charset($MESSAGE['headers']->charset);
+    
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   $MESSAGE['parts'] = $IMAP->get_mime_numbers($MESSAGE['structure']);
   

@@ -290,6 +290,9 @@ function rcmail_imap_init($connect=FALSE)
 function rcmail_set_imap_prop()
   {
   global $CONFIG, $IMAP;
+  
+  if (!empty($CONFIG['default_charset']))
+    $IMAP->set_charset($CONFIG['default_charset']);
 
   // set root dir from config
   if (!empty($CONFIG['imap_root']))
