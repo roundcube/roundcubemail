@@ -2285,7 +2285,7 @@ class rcube_imap
       $address = $val['address'];
       $name = preg_replace(array('/^[\'"]/', '/[\'"]$/'), '', trim($val['name']));
       if ($name && $address && $name != $address)
-        $string = sprintf('%s <%s>', strpos($name, ',')!==FALSE ? '"'.$name.'"' : $name, $address);
+        $string = sprintf('%s <%s>', preg_match('/[,;<>]/', $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
       else if ($address)
         $string = $address;
       else if ($name)
