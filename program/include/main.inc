@@ -971,10 +971,11 @@ function rcube_charset_convert($str, $from, $to=NULL)
   // convert charset using mbstring module  
   if ($MBSTRING)
     {
-    $mb_map = $aliases + array('UTF-7' => 'UTF7-IMAP');
+    $aliases['UTF-7'] = 'UTF7-IMAP';
+    $aliases['WINDOWS-1257'] = 'ISO-8859-13';
     
     // return if convert succeeded
-    if (($out = mb_convert_encoding($str, ($mb_map[$to] ? $mb_map[$to] : $to), ($mb_map[$from] ? $mb_map[$from] : $from))) != '')
+    if (($out = mb_convert_encoding($str, ($aliases[$to] ? $aliases[$to] : $to), ($aliases[$from] ? $aliases[$from] : $from))) != '')
       return $out;
     }
     
