@@ -1674,7 +1674,7 @@ class rcube_imap
     if (is_array($mbox_name))
       $a_mboxes = $mbox_name;
     else if (is_string($mbox_name) && strlen($mbox_name))
-      $a_mboxes = explode(',', $mbox_name);
+      $a_mboxes = (array)$mbox_name;
 
     // let this common function do the main work
     return $this->_change_subscription($a_mboxes, 'unsubscribe');
@@ -2335,6 +2335,10 @@ class rcube_imap
     $pos = strpos($input, '=?');
     if ($pos !== false)
       {
+      // rfc: all line breaks or other characters not found in the Base64 Alphabet must be ignored by decoding software
+      // delete all blanks between MIME-lines, differently we can receive unnecessary blanks and broken utf-8 symbols
+      $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
+
       $out = substr($input, 0, $pos);
   
       $end_cs_pos = strpos($input, "?", $pos+2);
