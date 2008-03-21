@@ -959,12 +959,12 @@ function rcube_charset_convert($str, $from, $to=NULL)
     'X-USER-DEFINED' => 'ISO-8859-15',
     'ISO-8859-8-I'   => 'ISO-8859-8',
     'KS_C_5601-1987' => 'EUC-KR',
-    'GB2312'         => 'GB18030'
   );
 
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
     {
+    $aliases['GB2312'] = 'GB18030';
     return iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
     }
 
