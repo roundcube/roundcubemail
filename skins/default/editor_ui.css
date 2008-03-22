@@ -2,7 +2,7 @@
 
 .mceToolbarTop a, .mceToolbarTop a:visited, .mceToolbarTop a:hover, .mceToolbarBottom a, .mceToolbarBottom a:visited, .mceToolbarBottom a:hover {border: 0; margin: 0; padding: 0; background: transparent;}
 .mceSeparatorLine {border: 0; padding: 0; margin-left: 4px; margin-right: 2px;}
-.mceSelectList {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 7pt !important; font-weight: normal; margin-top: 3px; padding: 0; display: inline; vertical-align: top; background-color: #F0F0EE;}
+.mceSelectList {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 7pt !important; font-weight: normal; margin-top: 3px; padding: 0; display: inline; vertical-align: top; background-color: #F0F0EE;color: #333333;}
 .mceLabel, .mceLabelDisabled {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt;}
 .mceLabel {color: #000000;}
 .mceLabelDisabled {cursor: text; color: #999999;}
