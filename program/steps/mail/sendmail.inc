@@ -245,6 +245,11 @@ if ($isHtml)
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($message_body);
   $plainTextPart = wordwrap($h2t->get_text(), 998, "\r\n", true);
+  if (!strlen($plainTextPart)) 
+    { 
+    // empty message body breaks attachment handling in drafts 
+    $plainTextPart = "\r\n"; 
+    }
   $MAIL_MIME->setTXTBody(html_entity_decode($plainTextPart, ENT_COMPAT, 'utf-8'));
 
   // look for "emoticon" images from TinyMCE and copy into message as attachments
@@ -254,6 +259,11 @@ else
   {
   $message_body = wordwrap($message_body, 75, "\r\n");
   $message_body = wordwrap($message_body, 998, "\r\n", true);
+  if (!strlen($message_body))  
+    { 
+    // empty message body breaks attachment handling in drafts 
+    $message_body = "\r\n"; 
+    } 
   $MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
   }
 
