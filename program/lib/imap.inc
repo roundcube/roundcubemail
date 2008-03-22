@@ -1596,7 +1596,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 				while ( list($lines_key, $str) = each($lines) ) {
 					list($field, $string) = iil_SplitHeaderLine($str);
 					
-					$field = strtolower($field);
+					$field  = strtolower($field);
+                                        $string = ereg_replace("\n[[:space:]]*"," ",$string); 
 					
 					switch ($field) {
 					case 'date';
@@ -1607,22 +1608,22 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 						$result[$id]->from = $string;
 						break;
 					case 'to':
-						$result[$id]->to = str_replace("\n", " ", $string);
+						$result[$id]->to = $string;
 						break;
 					case 'subject':
-						$result[$id]->subject = str_replace("\n", '', $string);
+						$result[$id]->subject = $string;
 						break;
 					case 'reply-to':
-						$result[$id]->replyto = str_replace("\n", " ", $string);
+						$result[$id]->replyto = $string;
 						break;
 					case 'cc':
-						$result[$id]->cc = str_replace("\n", " ", $string);
+						$result[$id]->cc = $string;
 						break;
 					case 'bcc':
-						$result[$id]->bcc = str_replace("\n", " ", $string);
+						$result[$id]->bcc = $string;
 						break;
 					case 'content-transfer-encoding':
-						$result[$id]->encoding = str_replace("\n", " ", $string);
+						$result[$id]->encoding = $string;
 						break;
 					case 'content-type':
 						$ctype_parts = explode(";", $string);
@@ -1643,7 +1644,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					case 'return-receipt-to':
 					case 'disposition-notification-to':
 					case 'x-confirm-reading-to':
-						$result[$id]->mdn_to = str_replace("\n", " ", $string);
+						$result[$id]->mdn_to = $string;
 						break;
 					case 'message-id':
 						$result[$id]->messageID = $string;
