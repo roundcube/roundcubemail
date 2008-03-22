@@ -160,7 +160,7 @@ if ($_action=='login' && $_task=='mail')
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
   else if ($_SESSION['temp'] && !empty($_POST['_user']) && isset($_POST['_pass']) &&
-           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
+           rcmail_login(trim(get_input_value('_user', RCUBE_INPUT_POST), ' '),
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
   {
     // create new session ID
