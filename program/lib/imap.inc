@@ -161,18 +161,19 @@ function iil_xor($string, $string2) {
 }
 
 function iil_ReadLine($fp, $size) {
-	$line = '';
-	if ($fp) {
-		do {
-		    // FIXME: hardcode size?
-			$buffer = fgets($fp, 2048);
-			if ($buffer === false) {
-				break;
-            }
-			$line .= $buffer;
-		} while ($buffer[strlen($buffer)-1]!="\n");
-	}
-	return $line;
+    $line = '';
+    if (!$fp) {
+        return $line;
+    }
+    do {
+	// FIXME: hardcode size?
+        $buffer = fgets($fp, 2048);
+        if ($buffer === false) {
+            break;
+        }
+        $line .= $buffer;
+    } while ($buffer[strlen($buffer)-1] != "\n");
+    return $line;
 }
 
 function iil_MultLine($fp, $line) {
@@ -192,13 +193,16 @@ function iil_MultLine($fp, $line) {
 }
 
 function iil_ReadBytes($fp, $bytes) {
-	$data = '';
-	$len  = 0;
-	do {
-		$data.=fread($fp, $bytes-$len);
-		$len = strlen($data);
-	} while ($len<$bytes);
-	return $data;
+    $data = '';
+    $len  = 0;
+    do {
+        $data .= fread($fp, $bytes-$len);
+        if ($len == strlen($data)) {
+            break; //nothing was read -> exit to avoid apache lockups
+        }
+        $len = strlen($data);
+    } while ($len < $bytes);
+    return $data;
 }
 
 function iil_ReadReply($fp) {
