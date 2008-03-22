@@ -103,8 +103,12 @@ if (empty($_task) || !in_array($_task, $MAIN_TASKS))
 if ($_action != 'get' && $_action != 'viewsource')
 {
   // use gzip compression if supported
-  if (function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
+  if (function_exists('ob_gzhandler')
+    && !ini_get('zlib.output_compression')
+    && ini_get('output_handler') != 'ob_gzhandler')
+  {
     ob_start('ob_gzhandler');
+  }
   else
     ob_start();
 }
