@@ -25,7 +25,6 @@
 <h1>RoundCube Webmail Installer</h1>
 
 <?php
-
   ini_set('error_reporting', E_ALL&~E_NOTICE);
   ini_set('display_errors', 1);
 
@@ -51,7 +50,6 @@
 </ol>
 
 <?php
-
 $include_steps = array('welcome.html', 'check.php', 'config.php', 'test.php');
 
 if ($include_steps[$RCI->step]) {

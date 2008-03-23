@@ -164,11 +164,11 @@ if ($RCI->getprop('smtp_server')) {
   $pass = $RCI->getprop('smtp_pass', '(none)');
   
   if ($user == '%u') {
-    $user_field = new textfield(array('name' => '_user'));
-    $user = $user_field->show($_POST['_user']);
+    $user_field = new textfield(array('name' => '_smtp_user'));
+    $user = $user_field->show($_POST['_smtp_user']);
   }
   if ($pass == '%p') {
-    $pass_field = new passwordfield(array('name' => '_pass'));
+    $pass_field = new passwordfield(array('name' => '_smtp_pass'));
     $pass = $pass_field->show();
   }
   
@@ -195,8 +195,8 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
       preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
   
     $headers = array(
-      'From' => trim($_POST['_from']),
-      'To'  => trim($_POST['_to']),
+      'From'    => trim($_POST['_from']),
+      'To'      => trim($_POST['_to']),
       'Subject' => 'Test message from RoundCube',
     );
 
@@ -207,11 +207,13 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
     if ($RCI->getprop('smtp_server')) {
       $CONFIG = $RCI->config;
       
-      if (!empty($_POST['_user']))
-        $CONFIG['smtp_user'] = $_POST['_user'];
-      if (!empty($_POST['_pass']))
-        $CONFIG['smtp_pass'] = $_POST['_pass'];
-      
+      if (!empty($_POST['_smtp_user'])) {
+        $CONFIG['smtp_user'] = $_POST['_smtp_user'];
+      }
+      if (!empty($_POST['_smtp_pass'])) {
+        $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
+      }
+
       $mail_object  = new rc_mail_mime();
       $send_headers = $mail_object->headers($headers);
       

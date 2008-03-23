@@ -39,11 +39,9 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 
 if (phpversion() > 4.3) {
     $RCI->pass('Version', 'PHP ' . phpversion() . ' detected');
-}
-else {
+} else {
     $RCI->fail('Version', 'PHP Version 4.3.1 or greater is required');
 }
-
 ?>
 
 <h3>Checking PHP extensions</h3>
@@ -54,8 +52,7 @@ $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
 foreach ($required_php_exts AS $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
-    }
-    else {
+    } else {
         $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
         $msg = @dl($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
