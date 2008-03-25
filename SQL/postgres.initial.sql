@@ -131,7 +131,7 @@ CREATE TABLE "cache" (
     data text NOT NULL
 );
 
-
+ALTER TABLE "cache" ADD INDEX (user_id, cache_key);
 
 --
 -- Sequence "message_ids"

@@ -1,5 +1,5 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1-rc1
+-- Version 0.1
 
 -- --------------------------------------------------------
 
@@ -15,7 +15,7 @@ CREATE TABLE `session` (
  `ip` varchar(40) NOT NULL,
  `vars` text NOT NULL,
  PRIMARY KEY(`sess_id`)
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `users`
@@ -30,7 +30,7 @@ CREATE TABLE `users` (
  `language` varchar(5) NOT NULL DEFAULT 'en',
  `preferences` text,
  PRIMARY KEY(`user_id`)
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `messages`
@@ -52,14 +52,12 @@ CREATE TABLE `messages` (
  `headers` text NOT NULL,
  `structure` text,
  PRIMARY KEY(`message_id`),
- INDEX `idx`(`idx`),
- INDEX `uid`(`uid`),
  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`),
  CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `cache`
@@ -72,13 +70,12 @@ CREATE TABLE `cache` (
  `data` longtext NOT NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`cache_id`),
- INDEX `cache_key`(`cache_key`),
- INDEX `session_id`(`session_id`),
+ INDEX `user_cache_index` (`user_id`,`cache_key`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `contacts`
@@ -98,7 +95,7 @@ CREATE TABLE `contacts` (
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 -- Table structure for table `identities`
@@ -120,7 +117,7 @@ CREATE TABLE `identities` (
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
-) TYPE=MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 SET FOREIGN_KEY_CHECKS=1;
