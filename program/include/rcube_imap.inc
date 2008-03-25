@@ -2228,6 +2228,9 @@ class rcube_imap
    */
   function remove_message_cache($key, $index)
     {
+    if (!$this->caching_enabled)
+      return;
+    
     $this->db->query(
       "DELETE FROM ".get_table_name('messages')."
        WHERE  user_id=?
@@ -2243,6 +2246,9 @@ class rcube_imap
    */
   function clear_message_cache($key, $start_index=1)
     {
+    if (!$this->caching_enabled)
+      return;
+    
     $this->db->query(
       "DELETE FROM ".get_table_name('messages')."
        WHERE  user_id=?
