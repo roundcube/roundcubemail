@@ -429,6 +429,22 @@ class rcube_mdb2
     return $this->db_handle->quoteIdentifier($str);
     }
 
+  /**
+   * Escapes a string
+   *
+   * @param  string  The string to be escaped
+   * @return string  The escaped string
+   * @access public
+   * @since  0.1.1
+   */
+  function escapeSimple($str)
+    {
+    if (!$this->db_handle)
+      $this->db_connect('r');
+   
+    return $this->db_handle->escape($str);
+    }
+
 
   /**
    * Return SQL function for current time and date
