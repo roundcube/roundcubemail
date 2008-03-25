@@ -695,10 +695,10 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
       $quotation = '';
       $q = 0;
       
-      if (preg_match('/^(>+\s*)/', $line, $regs))
+      if (preg_match('/^(>+\s*)+/', $line, $regs))
         {
-        $q = strlen(preg_replace('/\s/', '', $regs[1]));
-        $line = substr($line, strlen($regs[1]));
+        $q    = strlen(preg_replace('/\s/', '', $regs[0]));
+        $line = substr($line, strlen($regs[0]));
 
         if ($q > $quote_level)
           $quotation = str_repeat('<blockquote>', $q - $quote_level);
