@@ -96,8 +96,8 @@ class rcube_mdb2
     {
     // Use persistent connections if available
     $dbh = MDB2::connect($dsn, array(
-        'emulate_prepared' => true,
         'persistent' => $this->db_pconn,
+        'emulate_prepared' => $this->debug_mode,
         'debug' => $this->debug_mode,
         'debug_handler' => 'mdb2_debug_handler',
         'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL));
@@ -169,7 +169,10 @@ class rcube_mdb2
   {
     $this->debug_mode = $dbg;
     if ($this->db_connected)
+    {
       $this->db_handle->setOption('debug', $dbg);
+      $this->db_handle->setOption('emulate_prepared', $dbg);
+    }
   }
 
     
