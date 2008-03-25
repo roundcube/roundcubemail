@@ -1525,12 +1525,16 @@ function rcube_webmail()
   {
     // mark all message rows as read/unread
     var icn_src;
+    var res_uids = new Array(); 
     var rows = this.message_list.rows;
     for (var i=0; i<a_uids.length; i++)
       {
       uid = a_uids[i];
-      if (rows[uid])
+      // check if flag isn't set yet 
+      if (rows[uid] && ((flag=='unread' && !rows[uid].unread) || (flag=='read' && rows[uid].unread)))
         {
+        res_uids[res_uids.length] = uid;
+
         rows[uid].unread = (flag=='unread' ? true : false);
         
         if (rows[uid].classname.indexOf('unread')<0 && rows[uid].unread)
@@ -1556,8 +1560,9 @@ function rcube_webmail()
           rows[uid].icon.src = icn_src;
         }
       }
-      
-    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
+
+    if (res_uids.length)
+      this.http_post('mark', '_uid='+res_uids.join(',')+'&_flag='+flag);
   };
   
   // mark all message rows as deleted/undeleted
