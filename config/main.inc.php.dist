@@ -180,7 +180,7 @@ $rcmail_config['flag_for_deletion'] = TRUE;
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
 $rcmail_config['mdn_requests'] = 0;
 
-// Use this as charset as fallback for message decoding
+// Use this charset as fallback for message decoding
 $rcmail_config['default_charset'] = 'ISO-8859-1';
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
@@ -202,6 +202,9 @@ $rcmail_config['spellcheck_languages'] = NULL;
 // path to a text file which will be added to each sent message
 // paths are relative to the RoundCube root folder
 $rcmail_config['generic_message_footer'] = '';
+
+// add a received header to outgoing mails containing the creators IP and hostname
+$rcmail_config['http_received_header'] = false;
 
 // this string is used as a delimiter for message headers when sending
 // leave empty for auto-detection
@@ -241,7 +244,11 @@ $rcmail_config['dont_override'] = array();
 $rcmail_config['javascript_config'] = array('read_when_deleted', 'flag_for_deletion');
 
 // try to load host-specific configuration
-$rcmail_config['include_host_config'] = FALSE;
+$rcmail_config['include_host_config'] = false;
+
+// THIS OPTION WILL ALLOW THE INSTALLER TO RUN AND CAN EXPOSE SENSITIVE CONFIG DATA.
+// ONLY ENABLE IT IF YOU'RE REALLY SURE WHAT YOU'RE DOING!
+$rcmail_config['enable_installer'] = false;
 
 
 /***** these settings can be overwritten by user's preferences *****/

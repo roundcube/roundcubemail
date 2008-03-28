@@ -22,11 +22,11 @@
 
 <div id="content">
 
-<h1>RoundCube Webmail Installer</h1>
-
 <?php
   ini_set('error_reporting', E_ALL&~E_NOTICE);
   ini_set('display_errors', 1);
+  
+  session_start();
 
   $docroot = realpath(dirname(__FILE__) . '/../');
   $include_path  = $docroot . '/program/lib' . PATH_SEPARATOR . $docroot . '/program' . PATH_SEPARATOR . ini_get('include_path');
@@ -35,8 +35,19 @@
   require_once 'rcube_install.php';
   $RCI = rcube_install::get_instance();
   $RCI->load_config();
+
+  // exit if installation is complete
+  if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
+    header("HTTP/1.0 404 Not Found");
+    echo '<h2 class="error">The installer is disabled!</h2>';
+    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in config/main.inc.php</p>';
+    echo '</div></body></html>';
+    exit;
+  }
   
 ?>
+
+<h1>RoundCube Webmail Installer</h1>
 
 <ol id="progress">
 <?php

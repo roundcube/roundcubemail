@@ -171,7 +171,7 @@ class rcube_install
         $out);
     }
     
-    return $out;
+    return trim($out);
   }
   
   

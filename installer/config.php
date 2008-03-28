@@ -20,6 +20,9 @@ $RCI->config_props = array(
   'htmleditor' => 1,
 );
 
+// allow the current user to get to the next step
+$_SESSION['allowinstaller'] = true;
+
 if (!empty($_POST['submit'])) {
   
   echo '<p class="notice">Copy the following configurations and save them in two files (names above the text box)';

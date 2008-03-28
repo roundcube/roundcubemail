@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20080314                                                  |
+ | Version 0.1-20080328                                                  |
  |                                                                       |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -245,7 +245,7 @@ if (!empty($_action))
 if (empty($USER->ID))
 {
   // check if installer is still active
-  if (!$CONFIG['installer_disable_warning'] && is_readable('./installer/index.php'))
+  if ($CONFIG['enable_installer'] && is_readable('./installer/index.php'))
     $OUTPUT->add_footer('
   <div style="background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em">
   <h2 style="margin-top:0.2em">Installer script is still accessible</h2>
