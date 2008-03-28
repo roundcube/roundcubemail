@@ -10,9 +10,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: aldweb <info@aldweb.com>                                      |
- |         Pierre HAEGELI <pierre@haegeli.net>                           |
- |         Mickaël Wolff <rcw@lupusmic.org>                              |
+ | Author: Joel S. <joel.s@spijoprod.net>                                |
+ |         Jerome Lipowicz <jerome@yayel.com>                            |
  +-----------------------------------------------------------------------+
 
  @version $Id$
