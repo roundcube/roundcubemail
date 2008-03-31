@@ -133,6 +133,7 @@ function rcube_webmail()
           this.message_list.addEventListener('keypress', function(o){ p.msglist_keypress(o); });
           this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
           this.message_list.addEventListener('dragstart', function(o){ p.drag_active = true; });
+          this.message_list.addEventListener('dragstart', function(o){ p.drag_active = true; if (p.preview_timer) clearTimeout(p.preview_timer); });
           this.message_list.addEventListener('dragend', function(o){ p.drag_active = false; });
 
           this.message_list.init();
@@ -1138,7 +1139,7 @@ function rcube_webmail()
       }
 
     // start timer for message preview (wait for double click)
-    if (selected && this.env.contentframe)
+    if (selected && this.env.contentframe && !list.multi_selecting)
       this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
     else if (this.env.contentframe)
       this.show_contentframe(false);
