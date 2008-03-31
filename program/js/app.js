@@ -315,7 +315,7 @@ function rcube_webmail()
         var input_user = rcube_find_object('rcmloginuser');
         var input_pass = rcube_find_object('rcmloginpwd');
         if (input_user)
-          input_user.onkeypress = function(e){ return rcmail.login_user_keypress(e); };
+          input_user.onkeyup = function(e){ return rcmail.login_user_keyup(e); };
         if (input_user && input_user.value=='')
           input_user.focus();
         else if (input_pass)
@@ -1677,7 +1677,7 @@ function rcube_webmail()
   /*********************************************************/
 
   // handler for keyboard events on the _user field
-  this.login_user_keypress = function(e)
+  this.login_user_keyup = function(e)
   {
     var key = rcube_event.get_keycode(e);
     var elm;
