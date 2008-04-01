@@ -123,7 +123,7 @@ class rcube_ldap
       return false;
     }
     
-    if (@ldap_bind($this->conn, $dn, $pass)) {
+    if (ldap_bind($this->conn, $dn, $pass)) {
       return true;
     }
 
