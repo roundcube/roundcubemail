@@ -2825,59 +2825,17 @@ function rcube_webmail()
 
   this.subscribe_folder = function(folder)
     {
-    var form;
-    if ((form = this.gui_objects.editform) && form.elements['_unsubscribed'])
-      this.change_subscription('_unsubscribed', '_subscribed', 'subscribe');
-    else if (folder)
-      this.http_post('subscribe', '_mboxes='+urlencode(folder));
+    if (folder)
+      this.http_post('subscribe', '_mbox='+urlencode(folder));
     };
 
 
   this.unsubscribe_folder = function(folder)
     {
-    var form;
-    if ((form = this.gui_objects.editform) && form.elements['_subscribed'])
-      this.change_subscription('_subscribed', '_unsubscribed', 'unsubscribe');
-    else if (folder)
-      this.http_post('unsubscribe', '_mboxes='+urlencode(folder));
+    if (folder)
+      this.http_post('unsubscribe', '_mbox='+urlencode(folder));
     };
     
-
-  this.change_subscription = function(from, to, action)
-    {
-    var form;
-    if (form = this.gui_objects.editform)
-      {
-      var a_folders = new Array();
-      var list_from = form.elements[from];
-
-      for (var i=0; list_from && i<list_from.options.length; i++)
-        {
-        if (list_from.options[i] && list_from.options[i].selected)
-          {
-          a_folders[a_folders.length] = list_from.options[i].value;
-          list_from[i] = null;
-          i--;
-          }
-        }
-
-      // yes, we have some folders selected
-      if (a_folders.length)
-        {
-        var list_to = form.elements[to];
-        var index;
-        
-        for (var n=0; n<a_folders.length; n++)
-          {
-          index = list_to.options.length;
-          list_to[index] = new Option(a_folders[n]);
-          }
-          
-        this.http_post(action, '_mboxes='+urlencode(a_folders.join(',')));
-        }
-      }
-      
-    };
 
   // helper method to find a specific mailbox row ID
   this.get_folder_row_id = function(folder)

@@ -1648,16 +1648,14 @@ class rcube_imap
   /**
    * Subscribe to a specific mailbox(es)
    *
-   * @param string Mailbox name(s)
+   * @param array Mailbox name(s)
    * @return boolean True on success
    */ 
-  function subscribe($mbox_name)
+  function subscribe($a_mboxes)
     {
-    if (is_array($mbox_name))
-      $a_mboxes = $mbox_name;
-    else if (is_string($mbox_name) && strlen($mbox_name))
-      $a_mboxes = explode(',', $mbox_name);
-    
+    if (!is_array($a_mboxes))
+      $a_mboxes = array($a_mboxes);
+
     // let this common function do the main work
     return $this->_change_subscription($a_mboxes, 'subscribe');
     }
@@ -1666,15 +1664,13 @@ class rcube_imap
   /**
    * Unsubscribe mailboxes
    *
-   * @param string Mailbox name(s)
+   * @param array Mailbox name(s)
    * @return boolean True on success
    */
-  function unsubscribe($mbox_name)
+  function unsubscribe($a_mboxes)
     {
-    if (is_array($mbox_name))
-      $a_mboxes = $mbox_name;
-    else if (is_string($mbox_name) && strlen($mbox_name))
-      $a_mboxes = (array)$mbox_name;
+    if (!is_array($a_mboxes))
+      $a_mboxes = array($a_mboxes);
 
     // let this common function do the main work
     return $this->_change_subscription($a_mboxes, 'unsubscribe');
