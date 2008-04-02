@@ -459,6 +459,8 @@ select_all: function(filter)
   if (this.selection.join(',') != select_before)
     this.trigger_event('select');
 
+  this.focus();
+
   return true;
 },
 
