@@ -212,12 +212,16 @@ if (!empty($_POST['_receipt']))
 // additional headers
 $headers['Message-ID'] = $message_id;
 $headers['X-Sender'] = $from;
-$headers['Received'] =  wordwrap('from ' .
-  (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
-    gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']).' ['.$_SERVER['HTTP_X_FORWARDED_FOR'].'] via ' : '') .
-  gethostbyaddr($_SERVER['REMOTE_ADDR']).' ['.$_SERVER['REMOTE_ADDR'].'] with ' .
-  $_SERVER['SERVER_PROTOCOL'].' ('.$_SERVER['REQUEST_METHOD'].'); ' . date('r'),
-  69, rcmail_header_delm() . "\t");
+
+if ($CONFIG['http_received_header'])
+{
+  $nldlm = rcmail_header_delm() . "\t";
+  $headers['Received'] =  wordwrap('from ' . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
+      gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']).' ['.$_SERVER['HTTP_X_FORWARDED_FOR'].']'.$nldlm.' via ' : '') .
+    gethostbyaddr($_SERVER['REMOTE_ADDR']).' ['.$_SERVER['REMOTE_ADDR'].']'.$nldlm.'with ' .
+    $_SERVER['SERVER_PROTOCOL'].' ('.$_SERVER['REQUEST_METHOD'].'); ' . date('r'),
+    69, $nldlm);
+}
 
 if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];
