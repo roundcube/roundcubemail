@@ -3460,12 +3460,15 @@ function rcube_webmail()
         if (this.env.messagecount)
 	  this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox));
 
-	this.enable_command('sort', (this.env.messagecount > 0));
 	this.msglist_select(this.message_list);
+
+      case 'getunread':
+	this.enable_command('sort', (this.env.messagecount > 0));
 
       case 'expunge':
         this.enable_command('select-all', 'select-none', 'expunge', this.env.messagecount ? true : false);
         break;
+
       }
 
     request_obj.reset();
