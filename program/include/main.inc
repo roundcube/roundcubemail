@@ -1377,6 +1377,7 @@ function rcmail_mail_domain($host)
 
 /**
  * Replace all css definitions with #container [def]
+ * and remove css-inlined scripting
  *
  * @param string CSS source code
  * @param string Container ID to use as prefix
@@ -1386,6 +1387,10 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
   {
   $a_css_values = array();
   $last_pos = 0;
+  
+  // ignore the whole block if evil styles are detected
+  if (stristr($source, 'expression') || stristr($source, 'behavior'))
+    return '';
 
   // cut out all contents between { and }
   while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
@@ -1396,7 +1401,7 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
     $last_pos = $pos+2;
   }
 
-  // remove html commends and add #container to each tag selector.
+  // remove html comments and add #container to each tag selector.
   // also replace body definition because we also stripped off the <body> tag
   $styles = preg_replace(
     array(
