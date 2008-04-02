@@ -920,7 +920,7 @@ TinyMCE_Engine.prototype = {
 		}
 
 		// Import theme specific content CSS the user specific
-		tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/themes/" + inst.settings.theme + "/css/editor_content.css");
+		//tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/themes/" + inst.settings.theme + "/css/editor_content.css");
 		tinyMCE.importCSS(inst.getDoc(), inst.settings.content_css);
 		tinyMCE.dispatchCallback(inst, 'init_instance_callback', 'initInstance', inst);
 
