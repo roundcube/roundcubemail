@@ -25,6 +25,8 @@ CREATE TABLE users (
     preferences text DEFAULT ''::text NOT NULL
 );
 
+CREATE INDEX users_username_id_idx ON users (username);
+CREATE INDEX users_alias_id_idx ON users (alias);
 
   
 --
@@ -61,7 +63,7 @@ CREATE SEQUENCE identity_ids
 
 CREATE TABLE identities (
     identity_id integer DEFAULT nextval('identity_ids'::text) PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES users (user_id),
+    user_id integer NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     del integer DEFAULT 0 NOT NULL,
     standard integer DEFAULT 0 NOT NULL,
     name character varying(128) NOT NULL,
@@ -73,6 +75,7 @@ CREATE TABLE identities (
     html_signature integer DEFAULT 0 NOT NULL
 );
 
+CREATE INDEX identities_user_id_idx ON identities (user_id);
 
 
 --
@@ -94,7 +97,7 @@ CREATE SEQUENCE contact_ids
 
 CREATE TABLE contacts (
     contact_id integer DEFAULT nextval('contact_ids'::text) PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES users (user_id),
+    user_id integer NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     changed timestamp with time zone DEFAULT now() NOT NULL,
     del integer DEFAULT 0 NOT NULL,
     name character varying(128) DEFAULT ''::character varying NOT NULL,
@@ -104,7 +107,7 @@ CREATE TABLE contacts (
     vcard text
 );
 
-
+CREATE INDEX contacts_user_id_idx ON contacts (user_id);
 
 --
 -- Sequence "cache_ids"
@@ -124,7 +127,7 @@ CREATE SEQUENCE cache_ids
 
 CREATE TABLE "cache" (
     cache_id integer DEFAULT nextval('cache_ids'::text) PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES users (user_id),
+    user_id integer NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     session_id character varying(40) REFERENCES "session" (sess_id),
     cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
@@ -151,7 +154,7 @@ CREATE SEQUENCE message_ids
 
 CREATE TABLE "messages" (
     message_id integer DEFAULT nextval('message_ids'::text) PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES users (user_id),
+    user_id integer NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     del integer DEFAULT 0 NOT NULL,
     cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,

@@ -29,7 +29,9 @@ CREATE TABLE `users` (
  `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `language` varchar(5) NOT NULL DEFAULT 'en',
  `preferences` text,
- PRIMARY KEY(`user_id`)
+ PRIMARY KEY(`user_id`),
+ INDEX `username_index` (`username`),
+ INDEX `alias_index` (`alias`)
 ) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 

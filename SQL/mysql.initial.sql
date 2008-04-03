@@ -91,7 +91,9 @@ CREATE TABLE `users` (
   `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
   `language` varchar(5) NOT NULL default 'en',
   `preferences` text,
-  PRIMARY KEY  (`user_id`)
+  PRIMARY KEY  (`user_id`),
+  INDEX `username_index` (`username`),
+  INDEX `alias_index` (`alias`)
 );
 
 -- --------------------------------------------------------

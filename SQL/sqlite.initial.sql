@@ -80,6 +80,8 @@ CREATE TABLE users (
   preferences text NOT NULL default ''
 );
 
+CREATE INDEX ix_users_username ON users(username);
+CREATE INDEX ix_users_alias ON users(alias);
 
 -- --------------------------------------------------------
 
