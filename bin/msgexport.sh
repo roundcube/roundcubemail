@@ -13,7 +13,7 @@ require_once('include/bugs.inc');
 /**
  * Parse commandline arguments into a hash array
  */
-function get_args($aliases=array())
+function get_opt($aliases=array())
 {
 	$args = array();
 	for ($i=1; $i<count($_SERVER['argv']); $i++)
@@ -42,50 +42,54 @@ function get_args($aliases=array())
 	return $args;
 }
 
-
 function print_usage()
 {
-	print "Usage:  msgimport -h imap-host -u user-name -f message-file\n";
+	print "Usage:  msgexport -h imap-host -u user-name -m mailbox name\n";
 	print "--host   IMAP host\n";
 	print "--user   IMAP user name\n";
-	print "--file   Message file to upload\n";
+	print "--mbox   Mailbox/folder name\n";
+	print "--file   Mailbox/folder name\n";
+}
+
+function vputs($str)
+{
+	$out = $GLOBALS['args']['file'] ? STDOUT : STDERR;
+	fwrite($out, $str);
+}
+
+function progress_update($pos, $max)
+{
+	$percent = round(100 * $pos / $max);
+	vputs(sprintf("%3d%% [%-51s] %d/%d\033[K\r", $percent, @str_repeat('=', $percent / 2) . '>', $pos, $max));
 }
 
 
 // get arguments
-$args = get_args(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'f' => 'file')) + array('host' => 'localhost');
+$args = get_opt(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file')) + array('host' => 'localhost', 'mbox' => 'INBOX');
 
 if ($_SERVER['argv'][1] == 'help')
 {
 	print_usage();
 	exit;
 }
-else if (!($args['host'] && $args['file']))
+else if (!$args['host'])
 {
-	print "Missing required parameters.\n";
+	vputs("Missing required parameters.\n");
 	print_usage();
-	exit;
-}
-else if (!is_file($args['file']))
-{
-	print "Cannot read message file\n";
 	exit;
 }
 
 // prompt for username if not set
 if (empty($args['user']))
 {
-	//fwrite(STDOUT, "Please enter your name\n");
-	echo "IMAP user: ";
+	vputs("IMAP user: ");
 	$args['user'] = trim(fgets(STDIN));
 }
 
 // prompt for password
-echo "Password: ";
+vputs("Password: ");
 $args['pass'] = trim(fgets(STDIN));
 
-// clear password input
-echo chr(8)."\rPassword: ".str_repeat("*", strlen($args['pass']))."\n";
 
 // parse $host URL
 $a_host = parse_url($args['host']);
@@ -107,18 +111,41 @@ $IMAP = new rcube_imap(null);
 // try to connect to IMAP server
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 {
-	print "IMAP login successful.\n";
-	print "Uploading message...\n";
+	vputs("IMAP login successful.\n");
 	
-	// upload message from file
-	if  ($IMAP->save_message('INBOX', file_get_contents($args['file'])))
-		print "Message successfully added to INBOX.\n";
+	$IMAP->set_mailbox($args['mbox']);
+	
+	vputs("Getting message list of {$args['mbox']}...");
+	vputs($IMAP->messagecount()." messages\n");
+	
+	if ($args['file'])
+	{
+		if (!($out = fopen($args['file'], 'w')))
+		{
+			vputs("Cannot write to output file\n");
+			exit;
+		}
+	}
 	else
-		print "Adding message failed!\n";
+		$out = STDOUT;
+	
+	for ($count = $IMAP->messagecount(), $i=1; $i <= $count; $i++)
+	{
+		$headers = $IMAP->get_headers($i, null, false);
+		$from = current($IMAP->decode_address_list($headers->from, 1, false));
+		
+		fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
+		fwrite($out, iil_C_FetchPartHeader($IMAP->conn, $IMAP->mailbox, $i, null));
+		fwrite($out, iil_C_HandlePartBody($IMAP->conn, $IMAP->mailbox, $i, null, 1));
+		fwrite($out, "\n\n\n");
+		
+		progress_update($i, $count);
+	}
+	vputs("\ncomplete.\n");
 }
 else
 {
-	print "IMAP login failed.\n";
+	vputs("IMAP login failed.\n");
 }
 
 ?>
