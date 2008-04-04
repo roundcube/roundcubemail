@@ -73,5 +73,10 @@ $messages['copysuccess'] = '成功复制 $nr 个地址';
 $messages['copyerror'] = '无法复制地址';
 $messages['sourceisreadonly'] = '源地址为只读';
 $messages['errorsavingcontact'] = '无法保存联系人的地址';
+$messages['movingmessage'] = '移动邮件到...';
+$messages['receiptsent'] = '成功发送了一个已读回执';
+$messages['errorsendingreceipt'] = '无法发送回执';
+$messages['nodeletelastidentity'] = '无法删除这个身份，这是最后一个。';
+$messages['addsubfolderhint'] = '文件夹将被作为所选中文件夹的子目录';
 
 ?>
