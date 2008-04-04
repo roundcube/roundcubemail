@@ -1800,10 +1800,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
         }
       }
 
-    // add unread message count display
-    if ($unread_count = $IMAP->messagecount($folder['id'], 'RECENT', ($folder['id']==$mbox_name)))
-      $foldername .= sprintf(' (%d)', $unread_count);
-
     // make folder name safe for ids and class names
     $folder_id = preg_replace('/[^A-Za-z0-9\-_]/', '', $folder['id']);
     $class_name = preg_replace('/[^a-z0-9\-_]/', '', $folder_class ? $folder_class : strtolower($folder['id']));
