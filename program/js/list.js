@@ -513,9 +513,12 @@ highlight_row: function(id, multiple)
 {
   if (this.rows[id] && !multiple)
   {
-    this.clear_selection();
-    this.selection[0] = id;
-    this.set_classname(this.rows[id].obj, 'selected', true);
+    if (this.selection.length > 1 || !this.in_selection(id))
+    {
+      this.clear_selection();
+      this.selection[0] = id;
+      this.set_classname(this.rows[id].obj, 'selected', true);
+    }
   }
   else if (this.rows[id])
   {
