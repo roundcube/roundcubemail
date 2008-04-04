@@ -892,7 +892,7 @@ function rcube_webmail()
           {
             setTimeout(function(){ ref.printwin.focus(); }, 20);
             if (this.env.action != 'show')
-              this.toggle_read_status('read', [uid]);
+              this.mark_message('read', uid);
           }
         }
         break;
@@ -1486,6 +1486,7 @@ function rcube_webmail()
   this.mark_message = function(flag, uid)
     {
     var a_uids = new Array();
+    var r_uids = new Array();
     var selection = this.message_list ? this.message_list.get_selection() : new Array();
     
     if (uid)
@@ -1496,26 +1497,35 @@ function rcube_webmail()
       {
       for (var id, n=0; n<selection.length; n++)
         {
-        id = selection[n];
-        if ((flag=='read' && this.message_list.rows[id].unread) || (flag=='unread' && !this.message_list.rows[id].unread)
-            || (flag=='delete' && !this.message_list.rows[id].deleted) || (flag=='undelete' && this.message_list.rows[id].deleted))
-          a_uids[a_uids.length] = id;
+    	  a_uids[a_uids.length] = selection[n];
         }
+      }
+
+    for (var id, n=0; n<a_uids.length; n++)
+      {
+        id = a_uids[n];
+        if ((flag=='read' && this.message_list.rows[id].unread) 
+	    || (flag=='unread' && !this.message_list.rows[id].unread)
+            || (flag=='delete' && !this.message_list.rows[id].deleted)
+	    || (flag=='undelete' && this.message_list.rows[id].deleted))
+	  {
+	    r_uids[r_uids.length] = id;
+	  }
       }
     
     // nothing to do
-    if (!a_uids.length)
+    if (!r_uids.length)
       return;
       
     switch (flag)
       {
         case 'read':
         case 'unread':
-          this.toggle_read_status(flag, a_uids);
+          this.toggle_read_status(flag, r_uids);
           break;
         case 'delete':
         case 'undelete':
-          this.toggle_delete_status(a_uids);
+          this.toggle_delete_status(r_uids);
           break;
       }
     };
@@ -1525,16 +1535,12 @@ function rcube_webmail()
   {
     // mark all message rows as read/unread
     var icn_src;
-    var res_uids = new Array(); 
     var rows = this.message_list.rows;
     for (var i=0; i<a_uids.length; i++)
       {
       uid = a_uids[i];
-      // check if flag isn't set yet 
-      if (rows[uid] && ((flag=='unread' && !rows[uid].unread) || (flag=='read' && rows[uid].unread)))
+      if (rows[uid])
         {
-        res_uids[res_uids.length] = uid;
-
         rows[uid].unread = (flag=='unread' ? true : false);
         
         if (rows[uid].classname.indexOf('unread')<0 && rows[uid].unread)
@@ -1561,15 +1567,14 @@ function rcube_webmail()
         }
       }
 
-    if (res_uids.length)
-      this.http_post('mark', '_uid='+res_uids.join(',')+'&_flag='+flag);
+    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   };
   
   // mark all message rows as deleted/undeleted
   this.toggle_delete_status = function(a_uids)
   {
     if (this.env.read_when_deleted)
-      this.toggle_read_status('read',a_uids);
+      this.mark_message('read',a_uids);
 
     // if deleting message from "view message" don't bother with delete icon
     if (this.env.action == "show")
