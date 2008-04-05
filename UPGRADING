@@ -4,12 +4,22 @@ UPDATE instructions
 Follow these instructions if upgrading from a previous version
 of RoundCube Webmail.
 
+from version 0.1-stable
+----------------------------------------
+* replace index.php
+* replace all files in folder /bin/
+* replace all files in folder /program/
+* replace all files in folder /skins/default/
+* run all commands in SQL/[yourdbtype].update.sql
+
+
 from version 0.1-rc2
 ----------------------------------------
 * replace index.php
 * replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
+* run all commands in SQL/[yourdbtype].update.sql
 
 
 from version 0.1-rc1
@@ -18,6 +28,7 @@ from version 0.1-rc1
 * replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
+* run all commands in SQL/[yourdbtype].update.sql
 * If you have LDAP servers configured you should re-configure
   the config entries using the template given in /config/main.inc.php.dist
 
@@ -28,8 +39,7 @@ from version 0.1-beta2
 * replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql or
-  re-initalize the database with [yourdbtype].initial.sql
+* re-initalize the database with [yourdbtype].initial.sql
 * add these lines to /config/main.inc.php
    $rcmail_config['draft_autosave'] = 300;
    $rcmail_config['date_today'] = 'H:i';
@@ -43,8 +53,7 @@ form version 0.1-beta
 * replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql or
-  re-initalize the database with [yourdbtype].initial.sql
+* re-initalize the database with [yourdbtype].initial.sql
 * add this line to /config/db.inc.php
    $rcmail_config['db_persistent'] = false;
 * add these lines to /config/main.inc.php
