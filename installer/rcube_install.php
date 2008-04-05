@@ -305,6 +305,8 @@ class rcube_install
         if (eregi(';$', trim($line))) {
           $DB->query($buff);
           $buff = '';
+          if ($this->get_error())
+            break;
         }
       }
     }

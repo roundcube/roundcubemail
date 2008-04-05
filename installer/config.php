@@ -26,7 +26,8 @@ $_SESSION['allowinstaller'] = true;
 if (!empty($_POST['submit'])) {
   
   echo '<p class="notice">Copy the following configurations and save them in two files (names above the text box)';
-  echo ' within the <tt>config/</tt> directory of your RoundCube installation.</p>';
+  echo ' within the <tt>config/</tt> directory of your RoundCube installation.<br/>';
+  echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the files.</p>';
   
   $textbox = new textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
   
