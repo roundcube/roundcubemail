@@ -1,6 +1,24 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+- Clear selection when selecting single item (#1484942)
+- Remove hard-coded image size in skin templates (#1484893)
+- Database schema improvements (dropped unnecessary indexes)
+- Fixed creating a new folder with a comma in its name (#1484681)
+- Fixed sorting of messages when default mailbox is empty (#1484317)
+- Improve message previewpane - less loading (#1484316)
+- Fixed login form autoompletion (#1484839)
+- Fixed virtuser_query option for mdb2 backend (#1484874)
+- Fixed attachment resoting from Drafts when message body was empty (#1484506)
+- Fixed usage of ob_gzhandler (#1484851)
+- Fixed message part window in IE6 (#1484610)
+- Fixed decoding of mime-encoded strings (#1484191)
+- Fixed some iconv/mb_string problems (#1484598)
+- Correctly quote mailbox name when using in URL (#1484313)
+- Fixed "headers already sent" errors (#1484860)
+
+RELEASE 0.1-STABLE
+
 - Added interactive installer script
 - Fix folder adding/renaming inspired by #1484800
 - Localize folder name in page title (#1484785)
