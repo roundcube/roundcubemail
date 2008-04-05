@@ -31,11 +31,38 @@ else if (!$read_db) {
 
 ?>
 
+<h3>Check if directories are writable</h3>
+<p>RoundCube may need to write/save files into these directories</p>
+<?php
+
+if ($RCI->configured) {
+    $pass = false;
+    foreach (array($RCI->config['temp_dir'],$RCI->config['log_dir']) as $dir) {
+        $dirpath = $dir{0} == '/' ? $dir : $docroot . '/' . $dir;
+        if (is_writable(realpath($dirpath))) {
+            $RCI->pass($dir);
+            $pass = true;
+        }
+        else {
+            $RCI->fail($dir, 'not writeable for the webserver');
+        }
+        echo '<br />';
+    }
+    
+    if (!$pass)
+        echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
+}
+else {
+    $RCI->fail('Config', 'Could not read config files');
+}
+
+?>
+
 <h3>Check configured database settings</h3>
 <?php
 
 $db_working = false;
-if (!empty($RCI->config)) {
+if ($RCI->configured) {
     if (!empty($RCI->config['db_backend']) && !empty($RCI->config['db_dsnw'])) {
 
         echo 'Backend: ';
@@ -53,7 +80,7 @@ if (!empty($RCI->config)) {
         }
         else {
             $RCI->fail('DSN (write)', $db_error_msg);
-            echo '<p class="hint">Make sure that the configured database extists and that the user as write privileges<br />';
+            echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
             echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
             if ($RCI->config['db_backend'] == 'mdb2')
               echo '<p class="hint">There are known problems with MDB2 running on PHP 4. Try setting <tt>db_backend</tt> to \'db\' instead</p>';
@@ -93,12 +120,12 @@ if ($db_working) {
 // more database tests
 if ($db_working) {
     // write test
-    $db_write = $DB->query("INSERT INTO {$RCI->config['db_table_cache']} (session_id, cache_key, data, user_id) VALUES (?, ?, ?, 0)", '1234567890abcdef', 'test', 'test');
-    $insert_id = $DB->insert_id($RCI->config['db_sequence_cache']);
-    
-    if ($db_write && $insert_id) {
+    $insert_id = md5(uniqid());
+    $db_write = $DB->query("INSERT INTO {$RCI->config['db_table_session']} (sess_id, created, ip, vars) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
+
+    if ($db_write) {
       $RCI->pass('DB Write');
-      $DB->query("DELETE FROM {$RCI->config['db_table_cache']} WHERE cache_id=?", $insert_id);
+      $DB->query("DELETE FROM {$RCI->config['db_table_session']} WHERE sess_id=?", $insert_id);
     }
     else {
       $RCI->fail('DB Write', $RCI->get_error());
@@ -137,11 +164,11 @@ if ($RCI->getprop('smtp_server')) {
   $pass = $RCI->getprop('smtp_pass', '(none)');
   
   if ($user == '%u') {
-    $user_field = new textfield(array('name' => '_user'));
-    $user = $user_field->show($_POST['_user']);
+    $user_field = new textfield(array('name' => '_smtp_user'));
+    $user = $user_field->show($_POST['_smtp_user']);
   }
   if ($pass == '%p') {
-    $pass_field = new passwordfield(array('name' => '_pass'));
+    $pass_field = new passwordfield(array('name' => '_smtp_pass'));
     $pass = $pass_field->show();
   }
   
@@ -168,8 +195,8 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
       preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
   
     $headers = array(
-      'From' => trim($_POST['_from']),
-      'To'  => trim($_POST['_to']),
+      'From'    => trim($_POST['_from']),
+      'To'      => trim($_POST['_to']),
       'Subject' => 'Test message from RoundCube',
     );
 
@@ -180,11 +207,13 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
     if ($RCI->getprop('smtp_server')) {
       $CONFIG = $RCI->config;
       
-      if (!empty($_POST['_user']))
-        $CONFIG['smtp_user'] = $_POST['_user'];
-      if (!empty($_POST['_pass']))
-        $CONFIG['smtp_pass'] = $_POST['_pass'];
-      
+      if (!empty($_POST['_smtp_user'])) {
+        $CONFIG['smtp_user'] = $_POST['_smtp_user'];
+      }
+      if (!empty($_POST['_smtp_pass'])) {
+        $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
+      }
+
       $mail_object  = new rc_mail_mime();
       $send_headers = $mail_object->headers($headers);
       

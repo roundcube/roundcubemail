@@ -54,6 +54,7 @@
      'it'    => 'Italiano',
      'ja'    => 'Japanese (日本語)',
      'kr'    => 'Korean',
+     'ku'    => 'Kurdish (Kurmancî)',
      'lv'    => 'Latvian',
      'lt'    => 'Lithuanian',
      'mk'    => 'Macedonian',

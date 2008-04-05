@@ -262,7 +262,10 @@ function send_modified_header($mdate, $etag=null)
     header("Etag: $etag");
   
   if ($iscached)
+    {
+    ob_end_clean();
     exit;
+    }
 }
 
 

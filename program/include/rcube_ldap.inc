@@ -119,20 +119,20 @@ class rcube_ldap
    */
   function bind($dn, $pass)
   {
-    if (!$this->conn)
+    if (!$this->conn) {
       return false;
+    }
     
-    if (@ldap_bind($this->conn, $dn, $pass))
+    if (ldap_bind($this->conn, $dn, $pass)) {
       return true;
-    else
-    {
-      raise_error(array(
+    }
+
+    raise_error(array(
         'code' => ldap_errno($this->conn),
         'type' => 'ldap',
         'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
-      true);
-    }
-    
+        true);
+
     return false;
   }
 

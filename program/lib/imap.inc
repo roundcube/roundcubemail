@@ -161,18 +161,19 @@ function iil_xor($string, $string2) {
 }
 
 function iil_ReadLine($fp, $size) {
-	$line = '';
-	if ($fp) {
-		do {
-		    // FIXME: hardcode size?
-			$buffer = fgets($fp, 2048);
-			if ($buffer === false) {
-				break;
-            }
-			$line .= $buffer;
-		} while ($buffer[strlen($buffer)-1]!="\n");
-	}
-	return $line;
+    $line = '';
+    if (!$fp) {
+        return $line;
+    }
+    do {
+	// FIXME: hardcode size?
+        $buffer = fgets($fp, 2048);
+        if ($buffer === false) {
+            break;
+        }
+        $line .= $buffer;
+    } while ($buffer[strlen($buffer)-1] != "\n");
+    return $line;
 }
 
 function iil_MultLine($fp, $line) {
@@ -192,13 +193,16 @@ function iil_MultLine($fp, $line) {
 }
 
 function iil_ReadBytes($fp, $bytes) {
-	$data = '';
-	$len  = 0;
-	do {
-		$data.=fread($fp, $bytes-$len);
-		$len = strlen($data);
-	} while ($len<$bytes);
-	return $data;
+    $data = '';
+    $len  = 0;
+    do {
+        $data .= fread($fp, $bytes-$len);
+        if ($len == strlen($data)) {
+            break; //nothing was read -> exit to avoid apache lockups
+        }
+        $len = strlen($data);
+    } while ($len < $bytes);
+    return $data;
 }
 
 function iil_ReadReply($fp) {
@@ -1596,7 +1600,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 				while ( list($lines_key, $str) = each($lines) ) {
 					list($field, $string) = iil_SplitHeaderLine($str);
 					
-					$field = strtolower($field);
+					$field  = strtolower($field);
+                                        $string = ereg_replace("\n[[:space:]]*"," ",$string); 
 					
 					switch ($field) {
 					case 'date';
@@ -1607,22 +1612,22 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 						$result[$id]->from = $string;
 						break;
 					case 'to':
-						$result[$id]->to = str_replace("\n", " ", $string);
+						$result[$id]->to = $string;
 						break;
 					case 'subject':
-						$result[$id]->subject = str_replace("\n", '', $string);
+						$result[$id]->subject = $string;
 						break;
 					case 'reply-to':
-						$result[$id]->replyto = str_replace("\n", " ", $string);
+						$result[$id]->replyto = $string;
 						break;
 					case 'cc':
-						$result[$id]->cc = str_replace("\n", " ", $string);
+						$result[$id]->cc = $string;
 						break;
 					case 'bcc':
-						$result[$id]->bcc = str_replace("\n", " ", $string);
+						$result[$id]->bcc = $string;
 						break;
 					case 'content-transfer-encoding':
-						$result[$id]->encoding = str_replace("\n", " ", $string);
+						$result[$id]->encoding = $string;
 						break;
 					case 'content-type':
 						$ctype_parts = explode(";", $string);
@@ -1643,7 +1648,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					case 'return-receipt-to':
 					case 'disposition-notification-to':
 					case 'x-confirm-reading-to':
-						$result[$id]->mdn_to = str_replace("\n", " ", $string);
+						$result[$id]->mdn_to = $string;
 						break;
 					case 'message-id':
 						$result[$id]->messageID = $string;
@@ -2448,7 +2453,6 @@ function iil_C_Append(&$conn, $folder, &$message) {
 	if (fputs($fp, $request)) {
 		$line=iil_ReadLine($fp, 100);		
 		$sent = fwrite($fp, $message."\r\n");
-		flush();
 		do {
 			$line=iil_ReadLine($fp, 1000);
 		} while ($line[0] != 'A');

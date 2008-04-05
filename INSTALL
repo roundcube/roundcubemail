@@ -35,7 +35,7 @@ INSTALLATION
    - /temp
    - /logs
 3. Create a new database and a database user for RoundCube (see DATABASE SETUP)
-4. Point your browser to http:///url-to-roundcube/installer/
+4. Point your browser to http://url-to-roundcube/installer/
 5. Follow the instructions of the install script (or see MANUAL CONFINGURATION)
 6. After creating and testing the configuration, remove the installer directory
 7. Done!

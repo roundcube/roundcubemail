@@ -30,6 +30,10 @@ if ($_GET['_uid'])
   $MESSAGE = array('UID' => get_input_value('_uid', RCUBE_INPUT_GET));
   $MESSAGE['headers'] = $IMAP->get_headers($MESSAGE['UID']);
   
+  // set message charset as default
+  if (!empty($MESSAGE['headers']->charset))
+    $IMAP->set_charset($MESSAGE['headers']->charset);
+  
   // go back to list if message not found (wrong UID)
   if (!$MESSAGE['headers'])
     {

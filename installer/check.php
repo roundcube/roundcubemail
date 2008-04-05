@@ -1,7 +1,7 @@
 <form action="index.php" method="get">
 <?php
 
-$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session', 'Sockets' => 'sockets');
+$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session');
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt', 'GD' => 'gd');
@@ -37,13 +37,13 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 <h3>Checking PHP version</h3>
 <?php
 
-if (phpversion() > 4.3) {
-    $RCI->pass('Version', 'PHP ' . phpversion() . ' detected');
+define('MIN_PHP_VERSION', '4.3.1');
+if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
+    $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
 }
 else {
-    $RCI->fail('Version', 'PHP Version 4.3.1 or greater is required');
+    $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . PHP_VERSION . ' detected');
 }
-
 ?>
 
 <h3>Checking PHP extensions</h3>
@@ -65,7 +65,7 @@ foreach ($required_php_exts AS $name => $ext) {
 
 ?>
 
-<p class="hint">These extensions are <em>optional</em> but recommended to get the best performance:</p>
+<p class="hint">The next couple of extensions are <em>optional</em> but recommended to get the best performance:</p>
 <?php
 
 foreach ($optional_php_exts AS $name => $ext) {

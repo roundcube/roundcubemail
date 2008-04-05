@@ -361,7 +361,7 @@ class rcube_user
 
     // try to resolve user in virtusertable
     if (!empty($CONFIG['virtuser_file']) && !strpos($user, '@'))
-      $user_email = self::user2email($user);
+      $user_email = rcube_user::user2email($user);
 
     $DB->query(
       "INSERT INTO ".get_table_name('users')."
@@ -468,7 +468,7 @@ class rcube_user
       $arr = preg_split('/\s+/', $data);
       if (count($arr) > 0)
       {
-        $email = trim($arr[0]);
+        $email = trim(str_replace('\\@', '@', $arr[0]));
         break;
       }
     }

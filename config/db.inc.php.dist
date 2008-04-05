@@ -15,7 +15,7 @@
 $rcmail_config = array();
 
 // PEAR database DSN for read/write operations
-// format is db_provider://user:password@host/databse
+// format is db_provider://user:password@host/database 
 // currently supported db_providers: mysql, mysqli, pgsql, sqlite, mssql
 
 $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';

@@ -1,5 +1,5 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1-rc1
+-- Version 0.1
 -- 
 
 -- --------------------------------------------------------
@@ -16,9 +16,7 @@ CREATE TABLE `cache` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `data` longtext NOT NULL,
   PRIMARY KEY  (`cache_id`),
-  KEY `user_id` (`user_id`),
-  KEY `cache_key` (`cache_key`),
-  KEY `session_id` (`session_id`)
+  INDEX `user_cache_index` (`user_id`,`cache_key`)
 );
 
 -- --------------------------------------------------------
@@ -118,10 +116,7 @@ CREATE TABLE `messages` (
   `size` int(11) unsigned NOT NULL default '0',
   `headers` text NOT NULL,
   `structure` text,
-  PRIMARY KEY  (`message_id`),
-  KEY `user_id` (`user_id`),
-  KEY `idx` (`idx`),
-  KEY `uid` (`uid`),
+  PRIMARY KEY (`message_id`),
   UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`)
 );
 

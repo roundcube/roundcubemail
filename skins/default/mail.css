@@ -153,6 +153,9 @@ td.formlinks a:visited
   left: 20px;
   right: 20px;
   bottom: 20px;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-100)+'px');
 }
 
 #mailcontframe
@@ -202,8 +205,6 @@ td.formlinks a:visited
   height: 100%;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  /* css hack for IE */
-  height: expression(parseInt(document.getElementById('messagepartcontainer').offsetHeight)+'px');
 }
 
 

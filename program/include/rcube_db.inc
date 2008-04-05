@@ -153,8 +153,18 @@ class rcube_db
     $this->db_handle = $this->dsn_connect($dsn);
     $this->db_connected = $this->db_handle ? TRUE : FALSE;
     }
+
+
+  /**
+   * Activate/deactivate debug mode
+   * (not implemented)
+   */
+  function set_debug($dbg = true)
+  {
     
-    
+  }
+
+
   /**
    * Getter for error state
    *

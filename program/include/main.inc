@@ -74,6 +74,7 @@ function rcmail_startup($task='mail')
   
   $DB = new $dbclass($CONFIG['db_dsnw'], $CONFIG['db_dsnr'], $CONFIG['db_persistent']);
   $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
+  $DB->set_debug((bool)$CONFIG['sql_debug']);
   $DB->db_connect('w');
 
   // use database for storing session data
@@ -289,6 +290,9 @@ function rcmail_imap_init($connect=FALSE)
 function rcmail_set_imap_prop()
   {
   global $CONFIG, $IMAP;
+  
+  if (!empty($CONFIG['default_charset']))
+    $IMAP->set_charset($CONFIG['default_charset']);
 
   // set root dir from config
   if (!empty($CONFIG['imap_root']))
@@ -955,22 +959,23 @@ function rcube_charset_convert($str, $from, $to=NULL)
     'X-USER-DEFINED' => 'ISO-8859-15',
     'ISO-8859-8-I'   => 'ISO-8859-8',
     'KS_C_5601-1987' => 'EUC-KR',
-    'GB2312'         => 'GB18030'
   );
 
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
     {
+    $aliases['GB2312'] = 'GB18030';
     return iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
     }
 
   // convert charset using mbstring module  
   if ($MBSTRING)
     {
-    $mb_map = $aliases + array('UTF-7' => 'UTF7-IMAP');
+    $aliases['UTF-7'] = 'UTF7-IMAP';
+    $aliases['WINDOWS-1257'] = 'ISO-8859-13';
     
     // return if convert succeeded
-    if (($out = mb_convert_encoding($str, ($mb_map[$to] ? $mb_map[$to] : $to), ($mb_map[$from] ? $mb_map[$from] : $from))) != '')
+    if (($out = mb_convert_encoding($str, ($aliases[$to] ? $aliases[$to] : $to), ($aliases[$from] ? $aliases[$from] : $from))) != '')
       return $out;
     }
     
@@ -1372,6 +1377,7 @@ function rcmail_mail_domain($host)
 
 /**
  * Replace all css definitions with #container [def]
+ * and remove css-inlined scripting
  *
  * @param string CSS source code
  * @param string Container ID to use as prefix
@@ -1381,6 +1387,10 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
   {
   $a_css_values = array();
   $last_pos = 0;
+  
+  // ignore the whole block if evil styles are detected
+  if (stristr($source, 'expression') || stristr($source, 'behavior'))
+    return '';
 
   // cut out all contents between { and }
   while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
@@ -1391,7 +1401,7 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
     $last_pos = $pos+2;
   }
 
-  // remove html commends and add #container to each tag selector.
+  // remove html comments and add #container to each tag selector.
   // also replace body definition because we also stripped off the <body> tag
   $styles = preg_replace(
     array(
@@ -1562,7 +1572,10 @@ function format_date($date, $format=NULL)
 function format_email_recipient($email, $name='')
   {
   if ($name && $name != $email)
-    return sprintf('%s <%s>', strpos($name, ",") ? '"'.$name.'"' : $name, $email);
+    {
+    // Special chars as defined by RFC 822 need to in quoted string (or escaped).
+    return sprintf('%s <%s>', preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name) ? '"'.addcslashes($name, '"').'"' : $name, $email);
+    }
   else
     return $email;
   }
@@ -1786,10 +1799,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
         $foldername = $fname;
         }
       }
-
-    // add unread message count display
-    if ($unread_count = $IMAP->messagecount($folder['id'], 'RECENT', ($folder['id']==$mbox_name)))
-      $foldername .= sprintf(' (%d)', $unread_count);
 
     // make folder name safe for ids and class names
     $folder_id = preg_replace('/[^A-Za-z0-9\-_]/', '', $folder['id']);

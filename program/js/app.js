@@ -132,7 +132,7 @@ function rcube_webmail()
           this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
           this.message_list.addEventListener('keypress', function(o){ p.msglist_keypress(o); });
           this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
-          this.message_list.addEventListener('dragstart', function(o){ p.drag_active = true; });
+          this.message_list.addEventListener('dragstart', function(o){ p.drag_active = true; if (p.preview_timer) clearTimeout(p.preview_timer); });
           this.message_list.addEventListener('dragend', function(o){ p.drag_active = false; });
 
           this.message_list.init();
@@ -202,7 +202,7 @@ function rcube_webmail()
           }
 
         if (this.env.messagecount)
-          this.enable_command('select-all', 'select-none', 'sort', 'expunge', true);
+          this.enable_command('select-all', 'select-none', 'expunge', true);
 
         if (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox))
           this.enable_command('purge', true);
@@ -314,7 +314,7 @@ function rcube_webmail()
         var input_user = rcube_find_object('rcmloginuser');
         var input_pass = rcube_find_object('rcmloginpwd');
         if (input_user)
-          input_user.onkeypress = function(e){ return rcmail.login_user_keypress(e); };
+          input_user.onkeyup = function(e){ return rcmail.login_user_keyup(e); };
         if (input_user && input_user.value=='')
           input_user.focus();
         else if (input_pass)
@@ -712,7 +712,7 @@ function rcube_webmail()
         break;
 
       case 'load-attachment':
-        var qstring = '_mbox='+this.env.mailbox+'&_uid='+this.env.uid+'&_part='+props.part;
+        var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
         
         // open attachment in frame if it's of a supported mimetype
         if (this.env.uid && props.mimetype && find_in_array(props.mimetype, this.mimetypes)>=0)
@@ -892,7 +892,7 @@ function rcube_webmail()
           {
             setTimeout(function(){ ref.printwin.focus(); }, 20);
             if (this.env.action != 'show')
-              this.toggle_read_status('read', [uid]);
+              this.mark_message('read', uid);
           }
         }
         break;
@@ -1138,7 +1138,7 @@ function rcube_webmail()
       }
 
     // start timer for message preview (wait for double click)
-    if (selected && this.env.contentframe)
+    if (selected && this.env.contentframe && !list.multi_selecting)
       this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
     else if (this.env.contentframe)
       this.show_contentframe(false);
@@ -1486,6 +1486,7 @@ function rcube_webmail()
   this.mark_message = function(flag, uid)
     {
     var a_uids = new Array();
+    var r_uids = new Array();
     var selection = this.message_list ? this.message_list.get_selection() : new Array();
     
     if (uid)
@@ -1496,26 +1497,35 @@ function rcube_webmail()
       {
       for (var id, n=0; n<selection.length; n++)
         {
-        id = selection[n];
-        if ((flag=='read' && this.message_list.rows[id].unread) || (flag=='unread' && !this.message_list.rows[id].unread)
-            || (flag=='delete' && !this.message_list.rows[id].deleted) || (flag=='undelete' && this.message_list.rows[id].deleted))
-          a_uids[a_uids.length] = id;
+    	  a_uids[a_uids.length] = selection[n];
         }
+      }
+
+    for (var id, n=0; n<a_uids.length; n++)
+      {
+        id = a_uids[n];
+        if ((flag=='read' && this.message_list.rows[id].unread) 
+	    || (flag=='unread' && !this.message_list.rows[id].unread)
+            || (flag=='delete' && !this.message_list.rows[id].deleted)
+	    || (flag=='undelete' && this.message_list.rows[id].deleted))
+	  {
+	    r_uids[r_uids.length] = id;
+	  }
       }
     
     // nothing to do
-    if (!a_uids.length)
+    if (!r_uids.length)
       return;
       
     switch (flag)
       {
         case 'read':
         case 'unread':
-          this.toggle_read_status(flag, a_uids);
+          this.toggle_read_status(flag, r_uids);
           break;
         case 'delete':
         case 'undelete':
-          this.toggle_delete_status(a_uids);
+          this.toggle_delete_status(r_uids);
           break;
       }
     };
@@ -1556,7 +1566,7 @@ function rcube_webmail()
           rows[uid].icon.src = icn_src;
         }
       }
-      
+
     this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   };
   
@@ -1564,7 +1574,7 @@ function rcube_webmail()
   this.toggle_delete_status = function(a_uids)
   {
     if (this.env.read_when_deleted)
-      this.toggle_read_status('read',a_uids);
+      this.mark_message('read',a_uids);
 
     // if deleting message from "view message" don't bother with delete icon
     if (this.env.action == "show")
@@ -1671,7 +1681,7 @@ function rcube_webmail()
   /*********************************************************/
 
   // handler for keyboard events on the _user field
-  this.login_user_keypress = function(e)
+  this.login_user_keyup = function(e)
   {
     var key = rcube_event.get_keycode(e);
     var elm;
@@ -2010,7 +2020,7 @@ function rcube_webmail()
       // reset vars
       this.env.current_page = 1;
       this.set_busy(true, 'searching');
-      this.http_request('search', '_q='+urlencode(value)+(this.env.mailbox ? '&_mbox='+this.env.mailbox : '')+(this.env.source ? '&_source='+urlencode(this.env.source) : ''), true);
+      this.http_request('search', '_q='+urlencode(value)+(this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')+(this.env.source ? '&_source='+urlencode(this.env.source) : ''), true);
       }
     return true;
     };
@@ -2681,6 +2691,10 @@ function rcube_webmail()
       {
       this.http_post('delete-folder', '_mboxes='+urlencode(folder));
       this.set_env('folder', null);
+
+      if (this.gui_objects.createfolderhint)
+        this.gui_objects.createfolderhint.innerHTML = '';
+
       }
     };
 
@@ -2816,59 +2830,17 @@ function rcube_webmail()
 
   this.subscribe_folder = function(folder)
     {
-    var form;
-    if ((form = this.gui_objects.editform) && form.elements['_unsubscribed'])
-      this.change_subscription('_unsubscribed', '_subscribed', 'subscribe');
-    else if (folder)
-      this.http_post('subscribe', '_mboxes='+urlencode(folder));
+    if (folder)
+      this.http_post('subscribe', '_mbox='+urlencode(folder));
     };
 
 
   this.unsubscribe_folder = function(folder)
     {
-    var form;
-    if ((form = this.gui_objects.editform) && form.elements['_subscribed'])
-      this.change_subscription('_subscribed', '_unsubscribed', 'unsubscribe');
-    else if (folder)
-      this.http_post('unsubscribe', '_mboxes='+urlencode(folder));
+    if (folder)
+      this.http_post('unsubscribe', '_mbox='+urlencode(folder));
     };
     
-
-  this.change_subscription = function(from, to, action)
-    {
-    var form;
-    if (form = this.gui_objects.editform)
-      {
-      var a_folders = new Array();
-      var list_from = form.elements[from];
-
-      for (var i=0; list_from && i<list_from.options.length; i++)
-        {
-        if (list_from.options[i] && list_from.options[i].selected)
-          {
-          a_folders[a_folders.length] = list_from.options[i].value;
-          list_from[i] = null;
-          i--;
-          }
-        }
-
-      // yes, we have some folders selected
-      if (a_folders.length)
-        {
-        var list_to = form.elements[to];
-        var index;
-        
-        for (var n=0; n<a_folders.length; n++)
-          {
-          index = list_to.options.length;
-          list_to[index] = new Option(a_folders[n]);
-          }
-          
-        this.http_post(action, '_mboxes='+urlencode(a_folders.join(',')));
-        }
-      }
-      
-    };
 
   // helper method to find a specific mailbox row ID
   this.get_folder_row_id = function(folder)
@@ -3491,12 +3463,17 @@ function rcube_webmail()
 
       case 'list':
         if (this.env.messagecount)
-          this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox));
-        this.msglist_select(this.message_list);
+	  this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox));
+
+	this.msglist_select(this.message_list);
+
+      case 'getunread':
+	this.enable_command('sort', (this.env.messagecount > 0));
 
       case 'expunge':
         this.enable_command('select-all', 'select-none', 'expunge', this.env.messagecount ? true : false);
         break;
+
       }
 
     request_obj.reset();

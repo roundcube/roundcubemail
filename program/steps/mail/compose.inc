@@ -90,7 +90,11 @@ if (!empty($msg_uid))
   // similar as in program/steps/mail/show.inc
   $MESSAGE = array('UID' => $msg_uid);
   $MESSAGE['headers'] = &$IMAP->get_headers($msg_uid);
-  $MESSAGE['structure'] = &$IMAP->get_structure($msg_uid);  
+  $MESSAGE['structure'] = &$IMAP->get_structure($msg_uid);
+  
+  if (!empty($MESSAGE['headers']->charset))
+    $IMAP->set_charset($MESSAGE['headers']->charset);
+    
   $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   $MESSAGE['parts'] = $IMAP->get_mime_numbers($MESSAGE['structure']);
   
@@ -889,7 +893,7 @@ if ($result = $CONTACTS->list_records())
   {
   while ($sql_arr = $result->iterate())
     if ($sql_arr['email'])
-      $a_contacts[] = format_email_recipient($sql_arr['email'], JQ($sql_arr['name']));
+      $a_contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
   }
 if (isset($CONFIG['ldap_public']))
   {
@@ -914,7 +918,7 @@ if (isset($CONFIG['ldap_public']))
  	    $email = $results->records[$i]['email']; 
  	    $name = $results->records[$i]['name']; 
  		 
- 	    $a_contacts[] = format_email_recipient($email, JQ($name)); 
+ 	    $a_contacts[] = format_email_recipient($email, $name);
  	    } 
  	  }
     $LDAP->close(); 

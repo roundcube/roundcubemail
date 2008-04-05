@@ -1,12 +1,16 @@
--- RoundCube Webmail update script for Postres databases
--- Updates from version 0.1-beta and older
+-- RoundCube Webmail update script for Postgres databases
+-- Updates from version 0.1-stable to 0.1.1
 
-ALTER TABLE "messages" DROP body;
-ALTER TABLE "messages" ADD structure TEXT;
-ALTER TABLE "messages" ADD UNIQUE (user_id, cache_key, uid);
+CREATE INDEX cache_user_id_idx ON cache (user_id, cache_key);
+CREATE INDEX contacts_user_id_idx ON contacts (user_id);
+CREATE INDEX identities_user_id_idx ON identities (user_id);
 
-ALTER TABLE "identities" ADD html_signature INTEGER;
-ALTER TABLE "identities" ALTER html_signature SET DEFAULT 0;
-UPDATE identities SET html_signature = 0;
-ALTER TABLE "identities" ALTER html_signature SET NOT NULL;
-
+-- added ON DELETE/UPDATE actions
+ALTER TABLE messages DROP CONSTRAINT messages_user_id_fkey;
+ALTER TABLE messages ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE identities DROP CONSTRAINT identities_user_id_fkey;
+ALTER TABLE identities ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE contacts DROP CONSTRAINT contacts_user_id_fkey;
+ALTER TABLE contacts ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE cache DROP CONSTRAINT cache_user_id_fkey;
+ALTER TABLE cache ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;

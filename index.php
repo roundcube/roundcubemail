@@ -2,9 +2,9 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-stable                                                    |
+ | Version 0.1.1                                                         |
  |                                                                       |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | Redistribution and use in source and binary forms, with or without    |
@@ -41,7 +41,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.1');
+define('RCMAIL_VERSION', '0.1.1');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
@@ -103,8 +103,12 @@ if (empty($_task) || !in_array($_task, $MAIN_TASKS))
 if ($_action != 'get' && $_action != 'viewsource')
 {
   // use gzip compression if supported
-  if (function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
+  if (function_exists('ob_gzhandler')
+    && !ini_get('zlib.output_compression')
+    && ini_get('output_handler') != 'ob_gzhandler')
+  {
     ob_start('ob_gzhandler');
+  }
   else
     ob_start();
 }
@@ -156,7 +160,7 @@ if ($_action=='login' && $_task=='mail')
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
   else if ($_SESSION['temp'] && !empty($_POST['_user']) && isset($_POST['_pass']) &&
-           rcmail_login(get_input_value('_user', RCUBE_INPUT_POST),
+           rcmail_login(trim(get_input_value('_user', RCUBE_INPUT_POST), ' '),
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
   {
     // create new session ID
@@ -241,7 +245,7 @@ if (!empty($_action))
 if (empty($USER->ID))
 {
   // check if installer is still active
-  if (is_file('./installer/index.php'))
+  if ($CONFIG['enable_installer'] && is_readable('./installer/index.php'))
     $OUTPUT->add_footer('
   <div style="background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em">
   <h2 style="margin-top:0.2em">Installer script is still accessible</h2>

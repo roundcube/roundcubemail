@@ -10,9 +10,8 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: aldweb <info@aldweb.com>                                      |
- |         Pierre HAEGELI <pierre@haegeli.net>                           |
- |         Mickaël Wolff <rcw@lupusmic.org>                              |
+ | Author: Joel S. <joel.s@spijoprod.net>                                |
+ |         Jerome Lipowicz <jerome@yayel.com>                            |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -90,8 +89,8 @@ $labels['lastmessages'] = 'Voir la dernière page de messages';
 $labels['backtolist'] = 'Retourner à la liste des messages';
 $labels['viewsource'] = 'Voir le source';
 $labels['markmessages'] = 'Marquer les messages';
-$labels['markread'] = 'comme lus';
-$labels['markunread'] = 'comme non lus';
+$labels['markread'] = 'Comme lus';
+$labels['markunread'] = 'Comme non lus';
 $labels['select'] = 'Sélectionner';
 $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';

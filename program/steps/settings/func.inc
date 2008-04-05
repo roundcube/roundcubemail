@@ -67,14 +67,16 @@ function rcmail_user_prefs_form($attrib)
     $select_timezone = new select(array('name' => '_timezone', 'id' => $field_id));
     $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
     $select_timezone->add('(GMT -10:00) Hawaii', '-10');
+    $select_timezone->add('(GMT -9:30) Marquesas Islands', '-9.5');
     $select_timezone->add('(GMT -9:00) Alaska', '-9');
     $select_timezone->add('(GMT -8:00) Pacific Time (US/Canada)', '-8');
     $select_timezone->add('(GMT -7:00) Mountain Time (US/Canada)', '-7');
     $select_timezone->add('(GMT -6:00) Central Time (US/Canada), Mexico City', '-6');
     $select_timezone->add('(GMT -5:00) Eastern Time (US/Canada), Bogota, Lima', '-5');
-    $select_timezone->add('(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz', '-4');
-    $select_timezone->add('(GMT -3:00) Brazil, Buenos Aires, Georgetown', '-3');
+    $select_timezone->add('(GMT -4:30) Caracas', '-4.5');
+    $select_timezone->add('(GMT -4:00) Atlantic Time (Canada), La Paz', '-4');
     $select_timezone->add('(GMT -3:30) Nfld Time (Canada), Nfld, S. Labador', '-3.5');
+    $select_timezone->add('(GMT -3:00) Brazil, Buenos Aires, Georgetown', '-3');
     $select_timezone->add('(GMT -2:00) Mid-Atlantic', '-2');
     $select_timezone->add('(GMT -1:00) Azores, Cape Verde Islands', '-1');
     $select_timezone->add('(GMT) Western Europe, London, Lisbon, Casablanca', '0');
@@ -88,13 +90,18 @@ function rcmail_user_prefs_form($attrib)
     $select_timezone->add('(GMT +5:30) Chennai, Kolkata, Mumbai, New Delhi', '5.5');
     $select_timezone->add('(GMT +5:45) Kathmandu', '5.75');
     $select_timezone->add('(GMT +6:00) Almaty, Dhaka, Colombo', '6');
+    $select_timezone->add('(GMT +6:30) Cocos Islands, Myanmar', '6.5');
     $select_timezone->add('(GMT +7:00) Bangkok, Hanoi, Jakarta', '7');
     $select_timezone->add('(GMT +8:00) Beijing, Perth, Singapore, Taipei', '8');
+    $select_timezone->add('(GMT +8:45) Caiguna, Eucla, Border Village', '8.75');
     $select_timezone->add('(GMT +9:00) Tokyo, Seoul, Yakutsk', '9');
     $select_timezone->add('(GMT +9:30) Adelaide, Darwin', '9.5');
     $select_timezone->add('(GMT +10:00) EAST/AEST: Sydney, Guam, Vladivostok', '10');
+    $select_timezone->add('(GMT +10:30) New South Wales', '10.5');
     $select_timezone->add('(GMT +11:00) Magadan, Solomon Islands', '11');
+    $select_timezone->add('(GMT +11:30) Norfolk Island', '11.5');
     $select_timezone->add('(GMT +12:00) Auckland, Wellington, Kamchatka', '12');
+    $select_timezone->add('(GMT +12:45) Chatham Islands', '12.75');
     $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
     $select_timezone->add('(GMT +14:00) Kiribati', '14');
   
