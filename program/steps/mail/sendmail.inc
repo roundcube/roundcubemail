@@ -210,9 +210,6 @@ if (!empty($_POST['_receipt']))
   }
 
 // additional headers
-$headers['Message-ID'] = $message_id;
-$headers['X-Sender'] = $from;
-
 if ($CONFIG['http_received_header'])
 {
   $nldlm = rcmail_header_delm() . "\t";
@@ -222,6 +219,9 @@ if ($CONFIG['http_received_header'])
     $_SERVER['SERVER_PROTOCOL'].' ('.$_SERVER['REQUEST_METHOD'].'); ' . date('r'),
     69, $nldlm);
 }
+
+$headers['Message-ID'] = $message_id;
+$headers['X-Sender'] = $from;
 
 if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];
