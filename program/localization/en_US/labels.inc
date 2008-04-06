@@ -88,6 +88,34 @@ $labels['thursday']  = 'Thursday';
 $labels['friday']    = 'Friday';
 $labels['saturday']  = 'Saturday';
 
+// months short
+$labels['jan']	= 'Jan';
+$labels['feb']	= 'Feb';
+$labels['mar']	= 'Mar';
+$labels['apr']	= 'Apr';
+$labels['may']	= 'May';
+$labels['jun']	= 'Jun';
+$labels['jul'] 	= 'Jul';
+$labels['aug']	= 'Aug';
+$labels['sep']	= 'Sep';
+$labels['oct']	= 'Oct';
+$labels['nov']	= 'Nov';
+$labels['dec']	= 'Dec';
+
+// months long
+$labels['january']	= 'January';
+$labels['february'] 	= 'February';
+$labels['march']	= 'March';
+$labels['april']	= 'April';
+$labels['may']		= 'May';
+$labels['june']		= 'June';
+$labels['july']		= 'July';
+$labels['august']	= 'August';
+$labels['september'] 	= 'September';
+$labels['october'] 	= 'October';
+$labels['november'] 	= 'November';
+$labels['december'] 	= 'December';
+
 $labels['today'] = 'Today';
 
 // toolbar buttons
