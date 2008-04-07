@@ -3461,10 +3461,9 @@ function rcube_webmail()
           this.message_list.init();
         break;
 
+      case 'purge':
       case 'list':
-        if (this.env.messagecount)
-	  this.enable_command('purge', (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox));
-
+	this.enable_command('purge', (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox)));
 	this.msglist_select(this.message_list);
 
       case 'getunread':
