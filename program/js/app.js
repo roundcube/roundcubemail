@@ -488,7 +488,7 @@ function rcube_webmail()
         break;
 
       case 'logout':
-        this.goto_url('logout', true);
+        this.goto_url('logout', '', true);
         break;      
 
       // commands to switch task
