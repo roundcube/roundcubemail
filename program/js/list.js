@@ -172,7 +172,7 @@ focus: function(e)
   for (var n=0; n<this.selection.length; n++)
   {
     id = this.selection[n];
-    if (this.rows[id].obj)
+    if (this.rows[id] && this.rows[id].obj)
     {
       this.set_classname(this.rows[id].obj, 'selected', true);
       this.set_classname(this.rows[id].obj, 'unfocused', false);
