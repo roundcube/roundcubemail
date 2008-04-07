@@ -411,7 +411,7 @@ function rcmail_quota_display($attrib)
   $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
 
   // allow the following attributes to be added to the <span> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
+  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'display'));
 
   $out = '<span' . $attrib_str . '>';
   $out .= rcmail_quota_content($attrib['display']);
