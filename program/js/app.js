@@ -3453,25 +3453,37 @@ function rcube_webmail()
     // process the response data according to the sent action
     switch (request_obj.__action)
       {
+
       case 'delete':
       case 'moveto':
         if (this.env.action=='show')
           this.command('list');
         else if (this.message_list)
           this.message_list.init();
-        break;
 
       case 'purge':
+      case 'expunge':      
+	if (!this.env.messagecount)
+    	  {
+	    // clear preview pane content
+	    if (this.env.contentframe)
+	      this.show_contentframe(false);
+	    // disable commands useless when mailbox is empty
+	    this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
+	      'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
+	  }
+
+	break;
+
       case 'list':
-	this.enable_command('purge', (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox)));
 	this.msglist_select(this.message_list);
 
+      case 'check-recent':
       case 'getunread':
-	this.enable_command('sort', (this.env.messagecount > 0));
+	this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
+	this.enable_command('purge', (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox)));
 
-      case 'expunge':
-        this.enable_command('select-all', 'select-none', 'expunge', this.env.messagecount ? true : false);
-        break;
+	break;
 
       }
 

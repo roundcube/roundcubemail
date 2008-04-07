@@ -80,6 +80,7 @@ if ($IMAP->list_page > 1 && $nextpage_count <= 0 && $remaining == 0)
 
 // update message count display
 $OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->set_env('messagecount', $msg_count);
 $OUTPUT->set_env('current_page', $IMAP->list_page);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
