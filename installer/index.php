@@ -42,7 +42,7 @@ session_start();
 
   // exit if installation is complete
   if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
-    header("HTTP/1.0 404 Not Found");
+    // header("HTTP/1.0 404 Not Found");
     echo '<h2 class="error">The installer is disabled!</h2>';
     echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in config/main.inc.php</p>';
     echo '</div></body></html>';
