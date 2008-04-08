@@ -1,3 +1,11 @@
+<?php
+
+ini_set('error_reporting', E_ALL&~E_NOTICE);
+ini_set('display_errors', 1);
+
+session_start();
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -23,10 +31,6 @@
 <div id="content">
 
 <?php
-  ini_set('error_reporting', E_ALL&~E_NOTICE);
-  ini_set('display_errors', 1);
-  
-  session_start();
 
   $docroot = realpath(dirname(__FILE__) . '/../');
   $include_path  = $docroot . '/program/lib' . PATH_SEPARATOR . $docroot . '/program' . PATH_SEPARATOR . ini_get('include_path');
