@@ -52,6 +52,10 @@ function rcmail_startup($task='mail')
   global $sess_id, $sess_user_lang;
   global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB, $USER;
 
+  // start output buffering, we don't need any output yet, 
+  // it'll be cleared after reading of config files, etc.
+  ob_start();
+
   // check client
   $BROWSER = rcube_browser();
 
@@ -80,6 +84,9 @@ function rcmail_startup($task='mail')
   // use database for storing session data
   include_once('include/session.inc');
 
+  // clear output buffer
+  ob_end_clean();
+
   // init session
   session_start();
   $sess_id = session_id();
@@ -101,7 +108,6 @@ function rcmail_startup($task='mail')
   // overwrite config with user preferences
   $CONFIG = array_merge($CONFIG, (array)$USER->get_prefs());
 
-
   // reset some session parameters when changing task
   if ($_SESSION['task'] != $task)
     unset($_SESSION['page']);
@@ -113,13 +119,11 @@ function rcmail_startup($task='mail')
   if ($task=='mail')
     rcmail_imap_init();
 
-
   // set localization
   if ($CONFIG['locale_string'])
     setlocale(LC_ALL, $CONFIG['locale_string']);
   else if ($sess_user_lang)
     setlocale(LC_ALL, $sess_user_lang);
-
 
   register_shutdown_function('rcmail_shutdown');
   }
