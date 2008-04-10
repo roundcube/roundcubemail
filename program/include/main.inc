@@ -1557,7 +1557,7 @@ function format_date($date, $format=NULL)
       $out .= rcube_label(strtolower(date('M', $timestamp)));
     // month name (long)
     else if ($format{$i}=='F')
-      $out .= rcube_label(strtolower(date('F', $timestamp)));
+      $out .= rcube_label('long'.strtolower(date('M', $timestamp)));
     else
       $out .= date($format{$i}, $timestamp);
     }

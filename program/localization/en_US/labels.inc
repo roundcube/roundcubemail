@@ -103,18 +103,18 @@ $labels['nov']	= 'Nov';
 $labels['dec']	= 'Dec';
 
 // months long
-$labels['january']	= 'January';
-$labels['february'] 	= 'February';
-$labels['march']	= 'March';
-$labels['april']	= 'April';
-$labels['may']		= 'May';
-$labels['june']		= 'June';
-$labels['july']		= 'July';
-$labels['august']	= 'August';
-$labels['september'] 	= 'September';
-$labels['october'] 	= 'October';
-$labels['november'] 	= 'November';
-$labels['december'] 	= 'December';
+$labels['longjan']	= 'January';
+$labels['longfeb']	= 'February';
+$labels['longmar']	= 'March';
+$labels['longapr']	= 'April';
+$labels['longmay']	= 'May';
+$labels['longjun']	= 'June';
+$labels['longjul']	= 'July';
+$labels['longaug']	= 'August';
+$labels['longsep']	= 'September';
+$labels['longoct']	= 'October';
+$labels['longnov']	= 'November';
+$labels['longdec']	= 'December';
 
 $labels['today'] = 'Today';
 
