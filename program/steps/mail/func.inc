@@ -679,8 +679,8 @@ function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
     $convert_patterns[] = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/ie';
     $convert_replaces[] = "rcmail_str_replacement('<a href=\"mailto:\\1\" onclick=\"return ".JS_OBJECT_NAME.".command(\'compose\',\'\\1\',this)\">\\1</a>', \$replace_strings)";
     
-    if ($part->ctype_parameters['format'] != 'flowed')
-      $body = wordwrap(trim($body), 80);
+//    if ($part->ctype_parameters['format'] != 'flowed')
+//      $body = wordwrap(trim($body), 80);
 
     $body = preg_replace($convert_patterns, $convert_replaces, $body);
 
