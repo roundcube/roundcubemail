@@ -92,7 +92,7 @@ $OUTPUT->command('set_unread_count', $mbox, $IMAP->messagecount($mbox, 'UNSEEN')
 if ($_action=='moveto' && $target)
   $OUTPUT->command('set_unread_count', $target, $IMAP->messagecount($target, 'UNSEEN'));
 
-$OUTPUT->command('set_quota', $IMAP->get_quota());
+$OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
 
 // add new rows from next page (if any)
 if ($_POST['_from']!='show' && ($jump_back || $nextpage_count > 0))

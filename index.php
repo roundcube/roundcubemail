@@ -326,10 +326,6 @@ if ($_task=='mail')
   if ($_action=='rss')
     include('program/steps/mail/rss.inc');
     
-  if ($_action=='quotadisplay')
-    include('program/steps/mail/quotadisplay.inc');
-
-
   // make sure the message count is refreshed
   $IMAP->messagecount($_SESSION['mbox'], 'ALL', TRUE);
 }

@@ -408,30 +408,43 @@ function rcmail_quota_display($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmquotadisplay';
 
+  if(isset($attrib['display']))
+    $_SESSION['quota_display'] = $attrib['display'];
+
   $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
 
   // allow the following attributes to be added to the <span> tag
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'display'));
 
   $out = '<span' . $attrib_str . '>';
-  $out .= rcmail_quota_content($attrib['display']);
+  $out .= rcmail_quota_content();
   $out .= '</span>';
   return $out;
   }
 
 
-function rcmail_quota_content($display)
+function rcmail_quota_content($quota=NULL)
   {
   global $IMAP, $COMM_PATH;
 
-  if (!$IMAP->get_capability('QUOTA'))
-    $quota_text = rcube_label('unknown');
-  else if ($quota = $IMAP->get_quota())
+  $display = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
+
+  if (is_array($quota) && !empty($quota['used']) && !empty($quota['total']))
     {
-    $quota_text = sprintf("%s / %s (%.0f%%)",
-                          show_bytes($quota["used"] * 1024),
-                          show_bytes($quota["total"] * 1024),
-                          $quota["percent"]);
+      if (!isset($quota['percent']))
+        $quota['percent'] = $quota['used'] / $quota['total'];
+    }
+  elseif (!$IMAP->get_capability('QUOTA'))
+    return rcube_label('unknown');
+  else
+    $quota = $IMAP->get_quota();
+
+  if ($quota)
+    {
+    $quota_text = sprintf('%s / %s (%.0f%%)',
+                          show_bytes($quota['used'] * 1024),
+                          show_bytes($quota['total'] * 1024),
+                          $quota['percent']);
 
     // show quota as image (by Brett Patterson)
     if ($display == 'image' && function_exists('imagegif'))

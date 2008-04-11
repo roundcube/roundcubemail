@@ -179,7 +179,6 @@ function rcube_webmail()
           {
           this.enable_command('compose', 'add-contact', false);
           parent.rcmail.show_contentframe(true);
-          parent.rcmail.mark_message('read', this.env.uid);
           }
 
         if ((this.env.action=='show' || this.env.action=='preview') && this.env.blockedobjects)
@@ -1569,6 +1568,28 @@ function rcube_webmail()
 
     this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   };
+
+  // set class to read/unread
+  this.mark_as_read_from_preview = function(uid)
+  {
+    var icn_src;
+    var rows = parent.rcmail.message_list.rows;
+    if(rows[uid].unread)
+      {
+        rows[uid].unread = false;
+        rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
+        parent.rcmail.set_classname(rows[uid].obj, 'unread', false);
+
+        if (rows[uid].replied && parent.rcmail.env.repliedicon)
+    	  icn_src = parent.rcmail.env.repliedicon;
+        else if (parent.rcmail.env.messageicon)
+          icn_src = parent.rcmail.env.messageicon;
+      
+	if (rows[uid].icon && icn_src)
+          rows[uid].icon.src = icn_src;
+      }
+  }
+  
   
   // mark all message rows as deleted/undeleted
   this.toggle_delete_status = function(a_uids)
@@ -3254,16 +3275,13 @@ function rcube_webmail()
     this.set_page_buttons();
     };
 
+
   // replace content of quota display
-  this.set_quota = function()
+  this.set_quota = function(content)
     {
-    if (this.gui_objects.quotadisplay &&
-        this.gui_objects.quotadisplay.attributes.getNamedItem('display') &&
-        this.gui_objects.quotadisplay.attributes.getNamedItem('id'))
-      this.http_request('quotadisplay', '_display='+
-      this.gui_objects.quotadisplay.attributes.getNamedItem('display').nodeValue+
-      '&_id='+this.gui_objects.quotadisplay.attributes.getNamedItem('id').nodeValue, false);
-     };
+    if (this.gui_objects.quotadisplay && content)
+      this.gui_objects.quotadisplay.innerHTML = content;
+    };
 
 
   // update the mailboxlist
@@ -3308,7 +3326,12 @@ function rcube_webmail()
       }
     };
 
-
+  // update parent's mailboxlist (from preview)
+  this.set_unread_count_from_preview = function(mbox, count, set_title)
+  {
+    parent.rcmail.set_unread_count(mbox, count, set_title);
+  }
+  
   // add row to contacts list
   this.add_contact_row = function(cid, cols, select)
     {

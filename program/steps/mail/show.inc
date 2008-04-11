@@ -53,8 +53,10 @@ if ($_GET['_uid'])
   else if ($_SESSION['safe_messages'][$MESSAGE['UID']])
     $MESSAGE['is_safe'] = 1;
 
+  $mbox_name = $IMAP->get_mailbox_name();
+  
   // calculate Etag for this request
-  $etag = md5($MESSAGE['UID'].$IMAP->get_mailbox_name().session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
+  $etag = md5($MESSAGE['UID'].$mbox_name.session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE['is_safe'])
@@ -75,17 +77,23 @@ if ($_GET['_uid'])
   else
     $MESSAGE['body'] = $IMAP->get_body($MESSAGE['UID']);
 
-
   // mark message as read
-  if (!$MESSAGE['headers']->seen && $_action != 'preview')
-    $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
+  if (!$MESSAGE['headers']->seen)
+    {
+      $marked = $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
+      if($_action == 'preview' && $marked != -1)
+	{
+	$OUTPUT->command('set_unread_count_from_preview', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
+	$OUTPUT->command('mark_as_read_from_preview', $MESSAGE['UID']);
+	}
+    }
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE['UID']);
   $OUTPUT->set_env('safemode', $MESSAGE['is_safe']);
   
   // check for unset disposition notification
-  if ($MESSAGE['headers']->mdn_to && !$MESSAGE['headers']->mdn_sent && $IMAP->get_mailbox_name() != $CONFIG['drafts_mbox'])
+  if ($MESSAGE['headers']->mdn_to && !$MESSAGE['headers']->mdn_sent && $mbox_name != $CONFIG['drafts_mbox'])
   {
     if (intval($CONFIG['mdn_requests']) === 1)
     {
