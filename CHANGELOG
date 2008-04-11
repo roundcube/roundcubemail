@@ -1,6 +1,55 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/11 (alec)
+
+- Mark as read in one action with message preview (#1484972)
+- Delete redundant quota reads (#1484972)
+- Add options for empty trash and expunge inbox on logout (#1483863)
+
+2008/04/10 (alec)
+
+- Add rows highlighting in onmousemove on ksearch list
+- Remove lines wrapping when displaying message
+- Fix month localization
+- Do ob_start/ob_end_clean when reading config files (#1484624)
+- Fix debug (ajax) console 
+
+2008/04/02 (alec)
+
+- Updated timezones list (#1484908)
+- Fix design in Settings (#1484799)
+- Fix deleting messages after clicking on "All" (#1484838)
+- Fix sorting o0f message list when default folder is empty (#1484317)
+- Fix creating a new folder w/a comma in its name (#1484681)
+
+2008/04/01 (thomasb)
+
+- Fix Enter problem on login (#1484839)
+- Make the http-received header in outgoing mails configurable
+
+2008/03/30 (till)
+
+- Fix Firefox problem with ob_gzhandler (#1484932)
+- Improve message previewpane - less loading (#1484316)
+
+2008/03/28 (thomasb)
+
+- Disable installer by default; add config option to enable it again 
+
+2008/03/24 (till)
+
+- Don't send mark requests for already marked messages (#1484906)
+- Fix "quote inside a quote" (#1484783)
+
+2008/03/23 (till)
+
+- Applied patch to strip newlines from headers (#1484811)
+- Applied patch to trim login (#1484231)
+- Added robots.txt
+- Fix attachment problem when restoring saved draft without body (#1484506)
+- Fix call to undefined function decrypt_passwd()  
+
 2008/03/21 (thomasb)
 ----------
 - Add configurable default charset for message decoding
