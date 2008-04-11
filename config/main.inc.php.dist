@@ -283,6 +283,12 @@ $rcmail_config['draft_autosave'] = 300;
 // default setting if preview pane is enabled
 $rcmail_config['preview_pane'] = FALSE;
 
+// Clear Trash on logout
+$rcmail_config['logout_purge'] = FALSE;
+
+// Compact INBOX on logout
+$rcmail_config['logout_expunge'] = FALSE;
+
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;
 

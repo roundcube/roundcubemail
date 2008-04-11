@@ -352,6 +352,30 @@ function rcmail_kill_session()
   $USER->reset();
   }
 
+/**
+ * Do server side actions on logout
+ */
+function rcmail_logout_actions()
+  {
+  global $CONFIG, $IMAP;
+
+  // on logout action we're not connected to imap server  
+  if (($CONFIG['logout_purge'] && !empty($CONFIG['trash_mbox'])) 
+      || $CONFIG['logout_expunge'])
+    {
+      if (!rcmail_authenticate_session())
+        return;
+
+      rcmail_imap_init(true);
+    }
+
+  if ($CONFIG['logout_purge'] && !empty($CONFIG['trash_mbox']))
+    $IMAP->clear_mailbox($CONFIG['trash_mbox']);
+
+  if ($CONFIG['logout_expunge'])
+    $IMAP->expunge('INBOX');
+  }
+
 
 /**
  * Return correct name for a specific database table

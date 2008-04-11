@@ -195,6 +195,28 @@ function rcmail_user_prefs_form($attrib)
                     $select_autosave->show($CONFIG['draft_autosave']));
     }
 
+  // Trash purging on logout
+  if (!isset($no_override['logout_purge']))
+    {
+    $field_id = 'rcmfd_logout_purge';
+    $input_purge = new checkbox(array('name' => '_logout_purge', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('logoutclear')),
+                    $input_purge->show($CONFIG['logout_purge']?1:0));
+    }
+
+  // INBOX compacting on logout
+  if (!isset($no_override['logout_expunge']))
+    {
+    $field_id = 'rcmfd_logout_expunge';
+    $input_expunge = new checkbox(array('name' => '_logout_expunge', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('logoutcompact')),
+                    $input_expunge->show($CONFIG['logout_expunge']?1:0));
+    }
+
   $out .= "\n</table>$form_end";
 
   return $out;  

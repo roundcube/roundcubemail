@@ -27,7 +27,9 @@ $a_user_prefs = array(
   'prefer_html'  => isset($_POST['_prefer_html']) ? TRUE : FALSE,
   'htmleditor'   => isset($_POST['_htmleditor']) ? TRUE : FALSE,
   'preview_pane' => isset($_POST['_preview_pane']) ? TRUE : FALSE,
-  'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0
+  'logout_purge' => isset($_POST['_logout_purge']) ? TRUE : FALSE,
+  'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
+  'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
   );
 
 // don't override these parameters
