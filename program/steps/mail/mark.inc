@@ -29,6 +29,15 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
   $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
   $marked = $IMAP->set_flag($uids, $flag);
 
+  if($flag == 'DELETED' && $CONFIG['read_when_deleted'] && !empty($_POST['_ruid']))
+    {
+    $uids = get_input_value('_ruid', RCUBE_INPUT_POST);
+    $read = $IMAP->set_flag($uids, 'SEEN');
+    
+    if ($read != -1)
+      $OUTPUT->command('flag_deleted_as_read', $uids);
+    }
+
   if ($marked != -1)
   {
     $mbox_name = $IMAP->get_mailbox_name();

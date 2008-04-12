@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/12 (alec)
+----------
+- Fixed and optimized 'read_when_deleted': mark as read on server side
+  in one action when marking as deleted, fixed js bugs when deleting
+  from message preview page 
+
 2008/04/12 (thomasb)
 ----------
 - Changed codebase to PHP5 with autoloader

@@ -465,7 +465,7 @@ function rcmail_load_gui()
   $OUTPUT = new rcube_template($CONFIG, $GLOBALS['_task']);
   $OUTPUT->set_env('comm_path', $GLOBALS['COMM_PATH']);
 
-  foreach (array('read_when_deleted', 'flag_for_deletion') as $js_config_var)
+  foreach (array('flag_for_deletion') as $js_config_var)
     $OUTPUT->set_env($js_config_var, $CONFIG[$js_config_var]);
 
   if (!empty($GLOBALS['_framed']))
