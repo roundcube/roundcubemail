@@ -398,7 +398,7 @@ select_next: function()
  */
 shift_select: function(id, control)
 {
-  if (!this.rows[this.shift_start])
+  if (!this.rows[this.shift_start] || !this.selection.length)
     this.shift_start = id;
 
   var from_rowIndex = this.rows[this.shift_start].obj.rowIndex;
