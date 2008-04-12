@@ -1,14 +1,19 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/04/11 (alec)
+2008/04/12 (thomasb)
+----------
+- Changed codebase to PHP5 with autoloader
+- Added some new classes from devel-vnext branch
 
+2008/04/11 (alec)
+----------
 - Mark as read in one action with message preview (#1484972)
 - Delete redundant quota reads (#1484972)
 - Add options for empty trash and expunge inbox on logout (#1483863)
 
 2008/04/10 (alec)
-
+----------
 - Add rows highlighting in onmousemove on ksearch list
 - Remove lines wrapping when displaying message
 - Fix month localization
@@ -16,7 +21,7 @@ CHANGELOG RoundCube Webmail
 - Fix debug (ajax) console 
 
 2008/04/02 (alec)
-
+----------
 - Updated timezones list (#1484908)
 - Fix design in Settings (#1484799)
 - Fix deleting messages after clicking on "All" (#1484838)
@@ -24,21 +29,21 @@ CHANGELOG RoundCube Webmail
 - Fix creating a new folder w/a comma in its name (#1484681)
 
 2008/04/01 (thomasb)
-
+----------
 - Fix Enter problem on login (#1484839)
 - Make the http-received header in outgoing mails configurable
 
 2008/03/30 (till)
-
+----------
 - Fix Firefox problem with ob_gzhandler (#1484932)
 - Improve message previewpane - less loading (#1484316)
 
 2008/03/28 (thomasb)
-
+----------
 - Disable installer by default; add config option to enable it again 
 
 2008/03/24 (till)
-
+----------
 - Don't send mark requests for already marked messages (#1484906)
 - Fix "quote inside a quote" (#1484783)
 

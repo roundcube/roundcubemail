@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_db.inc                                          |
+ | program/include/rcube_db.php                                          |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -21,11 +21,6 @@
 
 */
 
-
-/**
- * Obtain the PEAR::DB class that is used for abstraction
- */
-require_once 'DB.php';
 
 /**
  * Database independent query interface
@@ -605,4 +600,4 @@ class rcube_db
 
   }  // end class rcube_db
 
-?>
+

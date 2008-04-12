@@ -2,9 +2,6 @@
 <input type="hidden" name="_step" value="2" />
 <?php
 
-ini_set('display_errors', 1);
-require_once 'include/rcube_html.inc';
-
 // also load the default config to fill in the fields
 $RCI->load_defaults();
 
@@ -29,7 +26,7 @@ if (!empty($_POST['submit'])) {
   echo ' within the <tt>config/</tt> directory of your RoundCube installation.<br/>';
   echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the files.</p>';
   
-  $textbox = new textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
+  $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
   
   echo '<div><em>main.inc.php</em></div>';
   echo $textbox->show($RCI->create_config('main'));
@@ -56,7 +53,7 @@ if (!empty($_POST['submit'])) {
 <?php
 /*
 $value = $RCI->getprop('debug_level');
-$check_debug = new checkbox(array('name' => '_debug_level[]'));
+$check_debug = new html_checkbox(array('name' => '_debug_level[]'));
 echo $check_debug->show(($value & 1) ? 1 : 0 , array('value' => 1, 'id' => 'cfgdebug1'));
 echo '<label for="cfgdebug1">Log errors</label><br />';
 
@@ -74,7 +71,7 @@ echo '<label for="cfgdebug8">Verbose display</label><br />';
 <dd>
 <?php
 
-$input_prodname = new textfield(array('name' => '_product_name', 'size' => 30, 'id' => "cfgprodname"));
+$input_prodname = new html_inputfield(array('name' => '_product_name', 'size' => 30, 'id' => "cfgprodname"));
 echo $input_prodname->show($RCI->getprop('product_name'));
 
 ?>
@@ -85,7 +82,7 @@ echo $input_prodname->show($RCI->getprop('product_name'));
 <dd>
 <?php
 
-$input_skinpath = new textfield(array('name' => '_skin_path', 'size' => 30, 'id' => "cfgskinpath"));
+$input_skinpath = new html_inputfield(array('name' => '_skin_path', 'size' => 30, 'id' => "cfgskinpath"));
 echo $input_skinpath->show($RCI->getprop('skin_path'));
 
 ?>
@@ -96,7 +93,7 @@ echo $input_skinpath->show($RCI->getprop('skin_path'));
 <dd>
 <?php
 
-$input_tempdir = new textfield(array('name' => '_temp_dir', 'size' => 30, 'id' => "cfgtempdir"));
+$input_tempdir = new html_inputfield(array('name' => '_temp_dir', 'size' => 30, 'id' => "cfgtempdir"));
 echo $input_tempdir->show($RCI->getprop('temp_dir'));
 
 ?>
@@ -107,7 +104,7 @@ echo $input_tempdir->show($RCI->getprop('temp_dir'));
 <dd>
 <?php
 
-$input_logdir = new textfield(array('name' => '_log_dir', 'size' => 30, 'id' => "cfglogdir"));
+$input_logdir = new html_inputfield(array('name' => '_log_dir', 'size' => 30, 'id' => "cfglogdir"));
 echo $input_logdir->show($RCI->getprop('log_dir'));
 
 ?>
@@ -118,7 +115,7 @@ echo $input_logdir->show($RCI->getprop('log_dir'));
 <dd>
 <?php
 
-$check_ipcheck = new checkbox(array('name' => '_ip_check', 'id' => "cfgipcheck"));
+$check_ipcheck = new html_checkbox(array('name' => '_ip_check', 'id' => "cfgipcheck"));
 echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), array('value' => 1));
 
 ?>
@@ -131,7 +128,7 @@ echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), array('value' => 1)
 <dd>
 <?php
 
-$input_deskey = new textfield(array('name' => '_des_key', 'size' => 30, 'id' => "cfgdeskey"));
+$input_deskey = new html_inputfield(array('name' => '_des_key', 'size' => 30, 'id' => "cfgdeskey"));
 echo $input_deskey->show($RCI->getprop('des_key'));
 
 ?>
@@ -144,7 +141,7 @@ If you enter it manually please provide a string of exactly 24 chars.</p>
 <dd>
 <?php
 
-$check_caching = new checkbox(array('name' => '_enable_caching', 'id' => "cfgcache"));
+$check_caching = new html_checkbox(array('name' => '_enable_caching', 'id' => "cfgcache"));
 echo $check_caching->show(intval($RCI->getprop('enable_caching')), array('value' => 1));
 
 ?>
@@ -155,7 +152,7 @@ echo $check_caching->show(intval($RCI->getprop('enable_caching')), array('value'
 <dd>
 <?php
 
-$check_caching = new checkbox(array('name' => '_enable_spellcheck', 'id' => "cfgspellcheck"));
+$check_caching = new html_checkbox(array('name' => '_enable_spellcheck', 'id' => "cfgspellcheck"));
 echo $check_caching->show(intval($RCI->getprop('enable_spellcheck')), array('value' => 1));
 
 ?>
@@ -168,7 +165,7 @@ echo $check_caching->show(intval($RCI->getprop('enable_spellcheck')), array('val
 <dd>
 <?php
 
-$select_mdnreq = new select(array('name' => '_mdn_requests', 'id' => "cfgmdnreq"));
+$select_mdnreq = new html_select(array('name' => '_mdn_requests', 'id' => "cfgmdnreq"));
 $select_mdnreq->add(array('ask the user', 'send automatically', 'ignore'), array(0, 1, 2));
 echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
 
@@ -192,17 +189,17 @@ require_once 'DB.php';
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PgSQL' => 'pgsql', 'SQLite' => 'sqlite');
 
-$select_dbtype = new select(array('name' => '_dbtype', 'id' => "cfgdbtype"));
+$select_dbtype = new html_select(array('name' => '_dbtype', 'id' => "cfgdbtype"));
 foreach ($supported_dbs AS $database => $ext) {
     if (extension_loaded($ext)) {
         $select_dbtype->add($database, $ext);
     }
 }
 
-$input_dbhost = new textfield(array('name' => '_dbhost', 'size' => 20, 'id' => "cfgdbhost"));
-$input_dbname = new textfield(array('name' => '_dbname', 'size' => 20, 'id' => "cfgdbname"));
-$input_dbuser = new textfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
-$input_dbpass = new textfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
+$input_dbhost = new html_inputfield(array('name' => '_dbhost', 'size' => 20, 'id' => "cfgdbhost"));
+$input_dbname = new html_inputfield(array('name' => '_dbname', 'size' => 20, 'id' => "cfgdbname"));
+$input_dbuser = new html_inputfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
+$input_dbpass = new html_inputfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
 
 $dsnw = DB::parseDSN($RCI->getprop('db_dsnw'));
 
@@ -228,7 +225,7 @@ echo '<label for="cfgdbpass">Database password</label><br />';
 @include_once 'DB.php';
 @include_once 'MDB2.php';
 
-$select_dbba = new select(array('name' => '_db_backend', 'id' => "cfgdbba"));
+$select_dbba = new html_select(array('name' => '_db_backend', 'id' => "cfgdbba"));
 
 if (class_exists('DB'))
   $select_dbba->add('DB', 'db');
@@ -254,7 +251,7 @@ echo $select_dbba->show($RCI->getprop('db_backend'));
 <div id="defaulthostlist">
 <?php
 
-$text_imaphost = new textfield(array('name' => '_default_host[]', 'size' => 30));
+$text_imaphost = new html_inputfield(array('name' => '_default_host[]', 'size' => 30));
 $default_hosts = $RCI->get_hostlist();
 
 if (empty($default_hosts))
@@ -279,7 +276,7 @@ foreach ($default_hosts as $host) {
 <dd>
 <?php
 
-$text_imapport = new textfield(array('name' => '_default_port', 'size' => 6, 'id' => "cfgimapport"));
+$text_imapport = new html_inputfield(array('name' => '_default_port', 'size' => 6, 'id' => "cfgimapport"));
 echo $text_imapport->show($RCI->getprop('default_port'));
 
 ?>
@@ -290,7 +287,7 @@ echo $text_imapport->show($RCI->getprop('default_port'));
 <dd>
 <?php
 
-$text_userdomain = new textfield(array('name' => '_username_domain', 'size' => 30, 'id' => "cfguserdomain"));
+$text_userdomain = new html_inputfield(array('name' => '_username_domain', 'size' => 30, 'id' => "cfguserdomain"));
 echo $text_userdomain->show($RCI->getprop('username_domain'));
 
 ?>
@@ -303,7 +300,7 @@ echo $text_userdomain->show($RCI->getprop('username_domain'));
 <dd>
 <?php
 
-$check_autocreate = new checkbox(array('name' => '_auto_create_user', 'id' => "cfgautocreate"));
+$check_autocreate = new html_checkbox(array('name' => '_auto_create_user', 'id' => "cfgautocreate"));
 echo $check_autocreate->show(intval($RCI->getprop('auto_create_user')), array('value' => 1));
 
 ?>
@@ -320,7 +317,7 @@ what means that you have to create those records manually or disable this option
 <dd>
 <?php
 
-$text_sentmbox = new textfield(array('name' => '_sent_mbox', 'size' => 20, 'id' => "cfgsentmbox"));
+$text_sentmbox = new html_inputfield(array('name' => '_sent_mbox', 'size' => 20, 'id' => "cfgsentmbox"));
 echo $text_sentmbox->show($RCI->getprop('sent_mbox'));
 
 ?>
@@ -333,7 +330,7 @@ echo $text_sentmbox->show($RCI->getprop('sent_mbox'));
 <dd>
 <?php
 
-$text_trashmbox = new textfield(array('name' => '_trash_mbox', 'size' => 20, 'id' => "cfgtrashmbox"));
+$text_trashmbox = new html_inputfield(array('name' => '_trash_mbox', 'size' => 20, 'id' => "cfgtrashmbox"));
 echo $text_trashmbox->show($RCI->getprop('trash_mbox'));
 
 ?>
@@ -346,7 +343,7 @@ echo $text_trashmbox->show($RCI->getprop('trash_mbox'));
 <dd>
 <?php
 
-$text_draftsmbox = new textfield(array('name' => '_drafts_mbox', 'size' => 20, 'id' => "cfgdraftsmbox"));
+$text_draftsmbox = new html_inputfield(array('name' => '_drafts_mbox', 'size' => 20, 'id' => "cfgdraftsmbox"));
 echo $text_draftsmbox->show($RCI->getprop('drafts_mbox'));
 
 ?>
@@ -364,7 +361,7 @@ echo $text_draftsmbox->show($RCI->getprop('drafts_mbox'));
 <dd>
 <?php
 
-$text_smtphost = new textfield(array('name' => '_smtp_server', 'size' => 30, 'id' => "cfgsmtphost"));
+$text_smtphost = new html_inputfield(array('name' => '_smtp_server', 'size' => 30, 'id' => "cfgsmtphost"));
 echo $text_smtphost->show($RCI->getprop('smtp_server'));
 
 ?>
@@ -377,7 +374,7 @@ echo $text_smtphost->show($RCI->getprop('smtp_server'));
 <dd>
 <?php
 
-$text_smtpport = new textfield(array('name' => '_smtp_port', 'size' => 6, 'id' => "cfgsmtpport"));
+$text_smtpport = new html_inputfield(array('name' => '_smtp_port', 'size' => 6, 'id' => "cfgsmtpport"));
 echo $text_smtpport->show($RCI->getprop('smtp_port'));
 
 ?>
@@ -388,8 +385,8 @@ echo $text_smtpport->show($RCI->getprop('smtp_port'));
 <dd>
 <?php
 
-$text_smtpuser = new textfield(array('name' => '_smtp_user', 'size' => 20, 'id' => "cfgsmtpuser"));
-$text_smtppass = new textfield(array('name' => '_smtp_pass', 'size' => 20, 'id' => "cfgsmtppass"));
+$text_smtpuser = new html_inputfield(array('name' => '_smtp_user', 'size' => 20, 'id' => "cfgsmtpuser"));
+$text_smtppass = new html_inputfield(array('name' => '_smtp_pass', 'size' => 20, 'id' => "cfgsmtppass"));
 echo $text_smtpuser->show($RCI->getprop('smtp_user'));
 echo $text_smtppass->show($RCI->getprop('smtp_pass'));
 
@@ -398,7 +395,7 @@ echo $text_smtppass->show($RCI->getprop('smtp_pass'));
 <p>
 <?php
 
-$check_smtpuser = new checkbox(array('name' => '_smtp_user_u', 'id' => "cfgsmtpuseru"));
+$check_smtpuser = new html_checkbox(array('name' => '_smtp_user_u', 'id' => "cfgsmtpuseru"));
 echo $check_smtpuser->show($RCI->getprop('smtp_user') == '%u' || $_POST['_smtp_user_u'] ? 1 : 0, array('value' => 1));
 
 ?>
@@ -410,7 +407,7 @@ echo $check_smtpuser->show($RCI->getprop('smtp_user') == '%u' || $_POST['_smtp_u
 <dd>
 <?php
 /*
-$select_smtpauth = new select(array('name' => '_smtp_auth_type', 'id' => "cfgsmtpauth"));
+$select_smtpauth = new html_select(array('name' => '_smtp_auth_type', 'id' => "cfgsmtpauth"));
 $select_smtpauth->add(array('(auto)', 'PLAIN', 'DIGEST-MD5', 'CRAM-MD5', 'LOGIN'), array('0', 'PLAIN', 'DIGEST-MD5', 'CRAM-MD5', 'LOGIN'));
 echo $select_smtpauth->show(intval($RCI->getprop('smtp_auth_type')));
 */
@@ -422,7 +419,7 @@ echo $select_smtpauth->show(intval($RCI->getprop('smtp_auth_type')));
 <dd>
 <?php
 
-$check_smtplog = new checkbox(array('name' => '_smtp_log', 'id' => "cfgsmtplog"));
+$check_smtplog = new html_checkbox(array('name' => '_smtp_log', 'id' => "cfgsmtplog"));
 echo $check_smtplog->show(intval($RCI->getprop('smtp_log')), array('value' => 1));
 
 ?>
@@ -441,7 +438,7 @@ echo $check_smtplog->show(intval($RCI->getprop('smtp_log')), array('value' => 1)
 <dd>
 <?php
 
-$input_locale = new textfield(array('name' => '_locale_string', 'size' => 6, 'id' => "cfglocale"));
+$input_locale = new html_inputfield(array('name' => '_locale_string', 'size' => 6, 'id' => "cfglocale"));
 echo $input_locale->show($RCI->getprop('locale_string'));
 
 ?>
@@ -453,7 +450,7 @@ echo $input_locale->show($RCI->getprop('locale_string'));
 <dd>
 <?php
 
-$input_pagesize = new textfield(array('name' => '_pagesize', 'size' => 6, 'id' => "cfgpagesize"));
+$input_pagesize = new html_inputfield(array('name' => '_pagesize', 'size' => 6, 'id' => "cfgpagesize"));
 echo $input_pagesize->show($RCI->getprop('pagesize'));
 
 ?>
@@ -464,7 +461,7 @@ echo $input_pagesize->show($RCI->getprop('pagesize'));
 <dd>
 <?php
 
-$check_htmlview = new checkbox(array('name' => '_prefer_html', 'id' => "cfghtmlview", 'value' => 1));
+$check_htmlview = new html_checkbox(array('name' => '_prefer_html', 'id' => "cfghtmlview", 'value' => 1));
 echo $check_htmlview->show(intval($RCI->getprop('prefer_html')));
 
 ?>
@@ -475,7 +472,7 @@ echo $check_htmlview->show(intval($RCI->getprop('prefer_html')));
 <dd>
 <?php
 
-$check_prevpane = new checkbox(array('name' => '_preview_pane', 'id' => "cfgprevpane", 'value' => 1));
+$check_prevpane = new html_checkbox(array('name' => '_preview_pane', 'id' => "cfgprevpane", 'value' => 1));
 echo $check_prevpane->show(intval($RCI->getprop('preview_pane')));
 
 ?>
@@ -486,7 +483,7 @@ echo $check_prevpane->show(intval($RCI->getprop('preview_pane')));
 <dd>
 <?php
 
-$check_htmlcomp = new checkbox(array('name' => '_htmleditor', 'id' => "cfghtmlcompose", 'value' => 1));
+$check_htmlcomp = new html_checkbox(array('name' => '_htmleditor', 'id' => "cfghtmlcompose", 'value' => 1));
 echo $check_htmlcomp->show(intval($RCI->getprop('htmleditor')));
 
 ?>
@@ -498,7 +495,7 @@ echo $check_htmlcomp->show(intval($RCI->getprop('htmleditor')));
 <label for="cfgautosave">Save compose message every</label>
 <?php
 
-$select_autosave = new select(array('name' => '_draft_autosave', 'id' => 'cfgautosave'));
+$select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => 'cfgautosave'));
 $select_autosave->add('never', 0);
 foreach (array(3, 5, 10) as $i => $min)
   $select_autosave->add("$min min", $min*60);

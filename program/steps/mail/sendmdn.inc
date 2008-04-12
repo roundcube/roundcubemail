@@ -19,8 +19,6 @@
 
 */
 
-require_once('lib/rc_mail_mime.inc');
-
 
 if (!empty($_POST['_uid'])) {
   $sent = rcmail_send_mdn(get_input_value('_uid', RCUBE_INPUT_POST));

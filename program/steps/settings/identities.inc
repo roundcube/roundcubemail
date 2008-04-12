@@ -45,5 +45,5 @@ function rcmail_identity_frame($attrib)
 
 $OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');
 
-parse_template('identities');
+$OUTPUT->send('identities');
 ?>

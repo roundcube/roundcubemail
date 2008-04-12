@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/lib/rc_mime.inc                                               |
+ | program/include/rcube_mail_mime.php                                   |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2007, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2007-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -19,19 +19,22 @@
 
 */
 
-// require Mail_mime class 1.4.0
-require_once('Mail/mime.php');
 
-
-class rc_mail_mime extends Mail_mime
+/**
+ * Replacement PEAR:Mail_mime with some additional or overloaded methods
+ *
+ * @package Mail
+ */
+class rcube_mail_mime extends Mail_mime
 {
   /**
    * Set build parameters
    */
   function setParam($param)
   {
-    if (is_array($param))
+    if (is_array($param)) {
       $this->_build_params = array_merge($this->_build_params, $param);
+    }
   }
   
   /**
@@ -51,16 +54,20 @@ class rc_mail_mime extends Mail_mime
   function addHTMLImage($file, $c_type='application/octet-stream', $name = '', $isfilename = true, $contentid = '')
   {
     $filedata = ($isfilename === true) ? $this->_file2str($file) : $file;
-    if ($isfilename === true)
+    if ($isfilename === true) {
       $filename = ($name == '' ? $file : $name);
-    else
+    }
+    else {
       $filename = $name;
+    }
 
-    if (PEAR::isError($filedata))
+    if (PEAR::isError($filedata)) {
         return $filedata;
+    }
 
-    if ($contentid == '')
+    if ($contentid == '') {
        $contentid = md5(uniqid(time()));
+    }
 
     $this->_html_images[] = array(
       'body'   => $filedata,
@@ -117,31 +124,29 @@ class rc_mail_mime extends Mail_mime
     foreach ($input as $hdr_name => $hdr_value)
     {
       // if header contains e-mail addresses
-      if (preg_match('/\s<.+@[a-z0-9\-\.]+\.[a-z]+>/U', $hdr_value))
+      if (preg_match('/\s<.+@[a-z0-9\-\.]+\.[a-z]+>/U', $hdr_value)) {
         $chunks = $this->_explode_quoted_string(',', $hdr_value);
-      else
+      }
+      else {
         $chunks = array($hdr_value);
+      }
 
       $hdr_value = '';
       $line_len = 0;
 
-      foreach ($chunks as $i => $value)
-      {
+      foreach ($chunks as $i => $value) {
         $value = trim($value);
 
         //This header contains non ASCII chars and should be encoded.
-        if (preg_match('#[\x80-\xFF]{1}#', $value))
-        {
+        if (preg_match('#[\x80-\xFF]{1}#', $value)) {
           $suffix = '';
           // Don't encode e-mail address
-          if (preg_match('/(.+)\s(<.+@[a-z0-9\-\.]+>)$/Ui', $value, $matches))
-          {
+          if (preg_match('/(.+)\s(<.+@[a-z0-9\-\.]+>)$/Ui', $value, $matches)) {
             $value = $matches[1];
             $suffix = ' '.$matches[2];
           }
 
-          switch ($params['head_encoding'])
-          {
+          switch ($params['head_encoding']) {
             case 'base64':
             // Base64 encoding has been selected.
             $mode = 'B';
@@ -162,13 +167,11 @@ class rc_mail_mime extends Mail_mime
 
         // add chunk to output string by regarding the header maxlen
         $len = strlen($value);
-        if ($i == 0 || $line_len + $len < $maxlen)
-        {
+        if ($i == 0 || $line_len + $len < $maxlen) {
           $hdr_value .= ($i>0?', ':'') . $value;
           $line_len += $len + ($i>0?2:0);
         }
-        else
-        {
+        else {
           $hdr_value .= ($i>0?', ':'') . "\n " . $value;
           $line_len = $len;
         }
@@ -185,12 +188,11 @@ class rc_mail_mime extends Mail_mime
   {
     $result = array();
     $strlen = strlen($string);
-    for ($q=$p=$i=0; $i < $strlen; $i++)
-    {
-      if ($string{$i} == "\"" && $string{$i-1} != "\\")
+    for ($q=$p=$i=0; $i < $strlen; $i++) {
+      if ($string{$i} == "\"" && $string{$i-1} != "\\") {
         $q = $q ? false : true;
-      else if (!$q && $string{$i} == $delimiter)
-      {
+      }
+      else if (!$q && $string{$i} == $delimiter) {
         $result[] = substr($string, $p, $i - $p);
         $p = $i + 1;
       }
@@ -202,4 +204,3 @@ class rc_mail_mime extends Mail_mime
 
 }
 
-?>

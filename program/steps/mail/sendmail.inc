@@ -5,7 +5,7 @@
  | program/steps/mail/sendmail.inc                                       |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -19,11 +19,6 @@
  $Id$
 
 */
-
-
-//require_once('lib/smtp.inc');
-require_once('lib/html2text.inc');
-require_once('lib/rc_mail_mime.inc');
 
 
 if (!isset($_SESSION['compose']['id']))
@@ -70,7 +65,7 @@ function rcmail_get_identity($id)
  */
 function rcmail_attach_emoticons(&$mime_message)
 {
-  global $CONFIG, $INSTALL_PATH;
+  global $CONFIG;
 
   $htmlContents = $mime_message->getHtmlBody();
 
@@ -100,7 +95,7 @@ function rcmail_attach_emoticons(&$mime_message)
     if (! in_array($image_name, $included_images))
       {
       // add the image to the MIME message
-      $img_file = $INSTALL_PATH . '/' . $searchstr . $image_name;
+      $img_file = INSTALL_PATH . '/' . $searchstr . $image_name;
       if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
         $OUTPUT->show_message("emoticonerror", 'error');
 
@@ -237,7 +232,7 @@ $isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
 $isHtml = ($isHtmlVal == "1");
 
 // create extended PEAR::Mail_mime instance
-$MAIL_MIME = new rc_mail_mime(rcmail_header_delm());
+$MAIL_MIME = new rcube_mail_mime(rcmail_header_delm());
 
 // For HTML-formatted messages, construct the MIME message with both
 // the HTML part and the plain-text part

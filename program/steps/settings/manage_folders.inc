@@ -174,7 +174,7 @@ function rcube_subscription_form($attrib)
   $delimiter = $IMAP->get_hierarchy_delimiter();
   $a_js_folders = array();
  
-  $checkbox_subscribe = new checkbox(array('name' => '_subscribed[]', 'onclick' => JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)"));
+  $checkbox_subscribe = new html_checkbox(array('name' => '_subscribed[]', 'onclick' => JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)"));
   
   if (!empty($attrib['deleteicon']))
     $del_button = sprintf('<img src="%s%s" alt="%s" border="0" />', $CONFIG['skin_path'], $attrib['deleteicon'], rcube_label('delete'));
@@ -251,12 +251,12 @@ function rcube_create_folder_form($attrib)
   // return the complete edit form as table
   $out = "$form_start\n";
 
-  $input = new textfield(array('name' => '_folder_name'));
+  $input = new html_inputfield(array('name' => '_folder_name'));
   $out .= $input->show();
   
   if (get_boolean($attrib['button']))
     {
-    $button = new input_field(array('type' => 'button',
+    $button = new html_inputfield(array('type' => 'button',
                                     'value' => rcube_label('create'),
                                     'onclick' => JS_OBJECT_NAME.".command('create-folder',this.form)"));
     $out .= $button->show();
@@ -278,7 +278,7 @@ function rcube_rename_folder_form($attrib)
   $out = "$form_start\n";
 
   $a_unsubscribed = $IMAP->list_unsubscribed();
-  $select_folder = new select(array('name' => '_folder_oldname', 'id' => 'rcmfd_oldfolder'));
+  $select_folder = new html_select(array('name' => '_folder_oldname', 'id' => 'rcmfd_oldfolder'));
 
   foreach ($a_unsubscribed as $i => $folder)
     {
@@ -291,12 +291,12 @@ function rcube_rename_folder_form($attrib)
   $out .= $select_folder->show();
 
   $out .= " to ";
-  $inputtwo = new textfield(array('name' => '_folder_newname'));
+  $inputtwo = new html_inputfield(array('name' => '_folder_newname'));
   $out .= $inputtwo->show();
 
   if (get_boolean($attrib['button']))
     {
-    $button = new input_field(array('type' => 'button',
+    $button = new html_inputfield(array('type' => 'button',
                                     'value' => rcube_label('rename'),
                                     'onclick' => JS_OBJECT_NAME.".command('rename-folder',this.form)"));
     $out .= $button->show();

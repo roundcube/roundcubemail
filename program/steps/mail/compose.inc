@@ -19,9 +19,6 @@
 
 */
 
-require_once('Mail/mimeDecode.php');
-require_once('lib/html2text.inc');
-
 // define constants for message compose mode
 define('RCUBE_COMPOSE_REPLY', 0x0106);
 define('RCUBE_COMPOSE_FORWARD', 0x0107);
@@ -159,14 +156,14 @@ function rcmail_compose_headers($attrib)
       }
         
       $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'tabindex');
-      $field_type = 'textarea';            
+      $field_type = 'html_textarea';
       break;
 
     case 'replyto':
     case 'reply-to':
       $fname = '_replyto';
       $allow_attrib = array('id', 'class', 'style', 'size', 'tabindex');
-      $field_type = 'textfield';
+      $field_type = 'html_inputfield';
       break;    
   }
  
@@ -231,7 +228,7 @@ function rcmail_compose_headers($attrib)
 
     // create teaxtarea object
     $input = new $field_type($field_attrib);
-    $out = $input->show($fvalue);    
+    $out = $input->show($fvalue);
   }
   
   if ($form_start)
@@ -285,7 +282,7 @@ function rcmail_compose_header_from($attrib)
     $a_signatures = array();
 
     $field_attrib['onchange'] = JS_OBJECT_NAME.".change_identity(this)";
-    $select_from = new select($field_attrib);
+    $select_from = new html_select($field_attrib);
 
     while ($sql_arr = $DB->fetch_assoc($sql_result))
     {
@@ -327,7 +324,7 @@ function rcmail_compose_header_from($attrib)
   }
   else
   {
-    $input_from = new textfield($field_attrib);
+    $input_from = new html_inputfield($field_attrib);
     $out = $input_from->show($_POST['_from']);
   }
   
@@ -419,19 +416,19 @@ function rcmail_compose_body($attrib)
 
   $out = $form_start ? "$form_start\n" : '';
 
-  $saveid = new hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE['headers']->messageID) : ''));
+  $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE['headers']->messageID) : ''));
   $out .= $saveid->show();
 
-  $drafttoggle = new hiddenfield(array('name' => '_draft', 'value' => 'yes'));
+  $drafttoggle = new html_hiddenfield(array('name' => '_draft', 'value' => 'yes'));
   $out .= $drafttoggle->show();
 
-  $msgtype = new hiddenfield(array('name' => '_is_html', 'value' => ($isHtml?"1":"0")));
+  $msgtype = new html_hiddenfield(array('name' => '_is_html', 'value' => ($isHtml?"1":"0")));
   $out .= $msgtype->show();
 
   // If desired, set this text area to be editable by TinyMCE
   if ($isHtml)
     $attrib['mce_editable'] = "true";
-  $textarea = new textarea($attrib);
+  $textarea = new html_textarea($attrib);
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
 
@@ -622,7 +619,7 @@ function rcmail_compose_subject($attrib)
   unset($attrib['form']);
   
   $attrib['name'] = '_subject';
-  $textfield = new textfield($attrib);
+  $textfield = new html_inputfield($attrib);
 
   $subject = '';
 
@@ -750,7 +747,7 @@ function rcmail_priority_selector($attrib)
   unset($attrib['form']);
   
   $attrib['name'] = '_priority';
-  $selector = new select($attrib);
+  $selector = new html_select($attrib);
 
   $selector->add(array(rcube_label('lowest'),
                        rcube_label('low'),
@@ -781,7 +778,7 @@ function rcmail_receipt_checkbox($attrib)
 
   $attrib['name'] = '_receipt';
   $attrib['value'] = '1';
-  $checkbox = new checkbox($attrib);
+  $checkbox = new html_checkbox($attrib);
 
   $out = $form_start ? "$form_start\n" : '';
   $out .= $checkbox->show($MESSAGE['headers']->mdn_to ? 1 : 0);
@@ -828,7 +825,7 @@ function rcmail_editor_selector($attrib)
       unset($attrib['checked']);
 
     $attrib['id'] = '_' . $value;
-    $rb = new radiobutton($attrib);
+    $rb = new html_radiobutton($attrib);
     $selector .= sprintf("%s<label for=\"%s\">%s</label>",
                          $rb->show($value),
                          $attrib['id'],
@@ -846,7 +843,7 @@ function get_form_tags($attrib)
   $form_start = '';
   if (!strlen($MESSAGE_FORM))
   {
-    $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
 
     $form_start = empty($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
@@ -862,7 +859,7 @@ function get_form_tags($attrib)
   
   $MESSAGE_FORM = $form_name;
 
-  return array($form_start, $form_end);  
+  return array($form_start, $form_end);
 }
 
 
@@ -880,9 +877,6 @@ $OUTPUT->add_handlers(array(
 ));
 
 /****** get contacts for this user and add them to client scripts ********/
-
-require_once('include/rcube_contacts.inc');
-require_once('include/rcube_ldap.inc'); 
 
 $CONTACTS = new rcube_contacts($DB, $USER->ID);
 $CONTACTS->set_pagesize(1000);
@@ -928,5 +922,5 @@ if ($a_contacts)
   { 
  	$OUTPUT->set_env('contacts', $a_contacts); 
   } 
-parse_template('compose');
+$OUTPUT->send('compose');
 ?>

@@ -3,10 +3,8 @@
 <h3>Check config files</h3>
 <?php
 
-require_once 'include/rcube_html.inc';
-
-$read_main = is_readable('../config/main.inc.php');
-$read_db = is_readable('../config/db.inc.php');
+$read_main = is_readable(INSTALL_PATH.'config/main.inc.php');
+$read_db = is_readable(INSTALL_PATH.'config/db.inc.php');
 
 if ($read_main && !empty($RCI->config)) {
   $RCI->pass('main.inc.php');
@@ -38,7 +36,7 @@ else if (!$read_db) {
 if ($RCI->configured) {
     $pass = false;
     foreach (array($RCI->config['temp_dir'],$RCI->config['log_dir']) as $dir) {
-        $dirpath = $dir{0} == '/' ? $dir : $docroot . '/' . $dir;
+        $dirpath = $dir{0} == '/' ? $dir : INSTALL_PATH . $dir;
         if (is_writable(realpath($dirpath))) {
             $RCI->pass($dir);
             $pass = true;
@@ -68,10 +66,9 @@ if ($RCI->configured) {
         echo 'Backend: ';
         echo 'PEAR::' . strtoupper($RCI->config['db_backend']) . '<br />';
 
-        $_class = 'rcube_' . strtolower($RCI->config['db_backend']);
-        require_once 'include/' . $_class . '.inc';
+        $dbclass = 'rcube_' . strtolower($RCI->config['db_backend']);
 
-        $DB = new $_class($RCI->config['db_dsnw'], '', false);
+        $DB = new $dbclass($RCI->config['db_dsnw'], '', false);
         $DB->db_connect('w');
         if (!($db_error_msg = $DB->is_error())) {
             $RCI->pass('DSN (write)');
@@ -164,11 +161,11 @@ if ($RCI->getprop('smtp_server')) {
   $pass = $RCI->getprop('smtp_pass', '(none)');
   
   if ($user == '%u') {
-    $user_field = new textfield(array('name' => '_smtp_user'));
+    $user_field = new html_inputfield(array('name' => '_smtp_user'));
     $user = $user_field->show($_POST['_smtp_user']);
   }
   if ($pass == '%p') {
-    $pass_field = new passwordfield(array('name' => '_smtp_pass'));
+    $pass_field = new html_passwordfield(array('name' => '_smtp_pass'));
     $pass = $pass_field->show();
   }
   
@@ -176,8 +173,8 @@ if ($RCI->getprop('smtp_server')) {
   echo "Password: $pass<br />";
 }
 
-$from_field = new textfield(array('name' => '_from', 'id' => 'sendmailfrom'));
-$to_field = new textfield(array('name' => '_to', 'id' => 'sendmailto'));
+$from_field = new html_inputfield(array('name' => '_from', 'id' => 'sendmailfrom'));
+$to_field = new html_inputfield(array('name' => '_to', 'id' => 'sendmailto'));
 
 ?>
 </p>
@@ -186,8 +183,7 @@ $to_field = new textfield(array('name' => '_to', 'id' => 'sendmailto'));
 
 if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to'])) {
   
-  require_once 'lib/rc_mail_mime.inc';
-  require_once 'include/rcube_smtp.inc';
+  require_once 'rcube_smtp.inc';
   
   echo '<p>Trying to send email...<br />';
   
@@ -214,7 +210,7 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
         $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
       }
 
-      $mail_object  = new rc_mail_mime();
+      $mail_object  = new rcube_mail_mime();
       $send_headers = $mail_object->headers($headers);
       
       $status = smtp_mail($headers['From'], $headers['To'],
@@ -271,15 +267,15 @@ echo '</p>';
 
 $default_hosts = $RCI->get_hostlist();
 if (!empty($default_hosts)) {
-  $host_field = new select(array('name' => '_host', 'id' => 'imaphost'));
+  $host_field = new html_select(array('name' => '_host', 'id' => 'imaphost'));
   $host_field->add($default_hosts);
 }
 else {
-  $host_field = new textfield(array('name' => '_host', 'id' => 'imaphost'));
+  $host_field = new html_inputfield(array('name' => '_host', 'id' => 'imaphost'));
 }
 
-$user_field = new textfield(array('name' => '_user', 'id' => 'imapuser'));
-$pass_field = new passwordfield(array('name' => '_pass', 'id' => 'imappass'));
+$user_field = new html_inputfield(array('name' => '_user', 'id' => 'imapuser'));
+$pass_field = new html_passwordfield(array('name' => '_pass', 'id' => 'imappass'));
 
 ?>
 
@@ -307,8 +303,6 @@ $pass_field = new passwordfield(array('name' => '_pass', 'id' => 'imappass'));
 <?php
 
 if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
-  
-  require_once 'include/rcube_imap.inc';
   
   echo '<p>Connecting to ' . Q($_POST['_host']) . '...<br />';
   

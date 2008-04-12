@@ -19,10 +19,8 @@
 
 */
 
-$INSTALL_PATH = realpath("./../") . "/";
-ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$INSTALL_PATH.'program'.PATH_SEPARATOR.ini_get('include_path'));
-
-require 'include/main.inc';
+define('INSTALL_PATH', realpath('./../') . '/');
+require INSTALL_PATH.'program/include/iniset.php';
 
 $source = "";
 if ($url = preg_replace('/[^a-z0-9.-_\?\$&=%]/i', '', $_GET['u']))

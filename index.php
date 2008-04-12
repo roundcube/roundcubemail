@@ -40,54 +40,12 @@
 
 */
 
-// application constants
-define('RCMAIL_VERSION', '0.1-trunk');
-define('RCMAIL_CHARSET', 'UTF-8');
-define('JS_OBJECT_NAME', 'rcmail');
+// include environment
+require_once 'program/include/iniset.php';
 
 // define global vars
 $OUTPUT_TYPE = 'html';
-$INSTALL_PATH = dirname(__FILE__);
 $MAIN_TASKS = array('mail','settings','addressbook','logout');
-
-if (empty($INSTALL_PATH))
-  $INSTALL_PATH = './';
-else
-  $INSTALL_PATH .= '/';
-
-
-// make sure path_separator is defined
-if (!defined('PATH_SEPARATOR'))
-  define('PATH_SEPARATOR', (eregi('win', PHP_OS) ? ';' : ':'));
-
-
-// RC include folders MUST be included FIRST to avoid other
-// possible not compatible libraries (i.e PEAR) to be included
-// instead the ones provided by RC
-ini_set('include_path', $INSTALL_PATH.PATH_SEPARATOR.$INSTALL_PATH.'program'.PATH_SEPARATOR.$INSTALL_PATH.'program/lib'.PATH_SEPARATOR.ini_get('include_path'));
-
-ini_set('session.name', 'roundcube_sessid');
-ini_set('session.use_cookies', 1);
-ini_set('session.gc_maxlifetime', 21600);
-ini_set('session.gc_divisor', 500);
-ini_set('error_reporting', E_ALL&~E_NOTICE); 
-set_magic_quotes_runtime(0);
-
-// increase maximum execution time for php scripts
-// (does not work in safe mode)
-if (!ini_get('safe_mode')) @set_time_limit(120);
-
-// include base files
-require_once('include/rcube_shared.inc');
-require_once('include/rcube_imap.inc');
-require_once('include/bugs.inc');
-require_once('include/main.inc');
-require_once('PEAR.php');
-
-
-// set PEAR error handling
-// PEAR::setErrorHandling(PEAR_ERROR_TRIGGER, E_USER_NOTICE);
-
 
 // catch some url/post parameters
 $_task = strip_quotes(get_input_value('_task', RCUBE_INPUT_GPC));
@@ -100,17 +58,16 @@ if (empty($_task) || !in_array($_task, $MAIN_TASKS))
 
 
 // set output buffering
-if ($_action != 'get' && $_action != 'viewsource')
-{
+if ($_action != 'get' && $_action != 'viewsource') {
   // use gzip compression if supported
   if (function_exists('ob_gzhandler')
-    && !ini_get('zlib.output_compression')
-    && ini_get('output_handler') != 'ob_gzhandler')
-  {
+      && !ini_get('zlib.output_compression')
+      && ini_get('output_handler') != 'ob_gzhandler') {
     ob_start('ob_gzhandler');
   }
-  else
+  else {
     ob_start();
+  }
 }
 
 
@@ -123,20 +80,23 @@ $SESS_HIDDEN_FIELD = '';
 
 
 // add framed parameter
-if ($_framed)
-{
+if ($_framed) {
   $COMM_PATH .= '&_framed=1';
   $SESS_HIDDEN_FIELD .= "\n".'<input type="hidden" name="_framed" value="1" />';
 }
 
 
-// init necessary objects for GUI
-rcmail_load_gui();
+// init output class
+if (!empty($_GET['_remote']) || !empty($_POST['_remote'])) {
+  rcmail_init_json();
+}
+else {
+  rcmail_load_gui();
+}
 
 
 // check DB connections and exit on failure
-if ($err_str = $DB->is_error())
-{
+if ($err_str = $DB->is_error()) {
   raise_error(array(
     'code' => 603,
     'type' => 'db',
@@ -145,24 +105,21 @@ if ($err_str = $DB->is_error())
 
 
 // error steps
-if ($_action=='error' && !empty($_GET['_code']))
+if ($_action=='error' && !empty($_GET['_code'])) {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
-
+}
 
 // try to log in
-if ($_action=='login' && $_task=='mail')
-{
+if ($_action=='login' && $_task=='mail') {
   $host = rcmail_autoselect_host();
   
   // check if client supports cookies
-  if (empty($_COOKIE))
-  {
+  if (empty($_COOKIE)) {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
   else if ($_SESSION['temp'] && !empty($_POST['_user']) && isset($_POST['_pass']) &&
            rcmail_login(trim(get_input_value('_user', RCUBE_INPUT_POST), ' '),
-              get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host))
-  {
+              get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host)) {
     // create new session ID
     unset($_SESSION['temp']);
     sess_regenerate_id();
@@ -174,26 +131,22 @@ if ($_action=='login' && $_task=='mail')
     header("Location: $COMM_PATH");
     exit;
   }
-  else
-  {
+  else {
     $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'loginfailed', 'warning');
     rcmail_kill_session();
   }
 }
 
 // end session
-else if (($_task=='logout' || $_action=='logout') && isset($_SESSION['user_id']))
-{
+else if (($_task=='logout' || $_action=='logout') && isset($_SESSION['user_id'])) {
   $OUTPUT->show_message('loggedout');
   rcmail_logout_actions();
   rcmail_kill_session();
 }
 
 // check session and auth cookie
-else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send')
-{
-  if (!rcmail_authenticate_session())
-  {
+else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send') {
+  if (!rcmail_authenticate_session()) {
     $OUTPUT->show_message('sessionerror', 'error');
     rcmail_kill_session();
   }
@@ -201,22 +154,20 @@ else if ($_action != 'login' && $_SESSION['user_id'] && $_action != 'send')
 
 
 // log in to imap server
-if (!empty($USER->ID) && $_task=='mail')
-{
+if (!empty($USER->ID) && $_task=='mail') {
   $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']);
-  if (!$conn)
-  {
+  if (!$conn) {
     $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
     rcmail_kill_session();
   }
-  else
+  else {
     rcmail_set_imap_prop();
+  }
 }
 
 
 // not logged in -> set task to 'login
-if (empty($USER->ID))
-{
+if (empty($USER->ID)) {
   if ($OUTPUT->ajax_call)
     $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
   
@@ -225,10 +176,8 @@ if (empty($USER->ID))
 
 
 // check client X-header to verify request origin
-if ($OUTPUT->ajax_call)
-{
-  if (empty($CONFIG['devel_mode']) && !rc_request_header('X-RoundCube-Referer'))
-  {
+if ($OUTPUT->ajax_call) {
+  if (empty($CONFIG['devel_mode']) && !rc_request_header('X-RoundCube-Referer')) {
     header('HTTP/1.1 404 Not Found');
     die("Invalid Request");
   }
@@ -237,24 +186,25 @@ if ($OUTPUT->ajax_call)
 
 // set task and action to client
 $OUTPUT->set_env('task', $_task);
-if (!empty($_action))
+if (!empty($_action)) {
   $OUTPUT->set_env('action', $_action);
+}
 
 
 
 // not logged in -> show login page
-if (empty($USER->ID))
-{
+if (empty($USER->ID)) {
   // check if installer is still active
-  if ($CONFIG['enable_installer'] && is_readable('./installer/index.php'))
-    $OUTPUT->add_footer('
-  <div style="background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em">
-  <h2 style="margin-top:0.2em">Installer script is still accessible</h2>
-  <p>The install script of your RoundCube installation is still stored in its default location!</p>
-  <p>Please <b>remove</b> the whole <tt>installer</tt> folder from the RoundCube directory because
-  these files may expose sensitive configuration data like server passwords and encryption keys
-  to the public. Make sure you cannot access the <a href="./installer/">installer script</a> from your browser.</p>
-  </div>');
+  if ($CONFIG['enable_installer'] && is_readable('./installer/index.php')) {
+    $OUTPUT->add_footer(html::div(array('style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
+      html::tag('h2', array('style' => "margin-top:0.2em"), "Installer script is still accessible") .
+      html::p(null, "The install script of your RoundCube installation is still stored in its default location!") .
+      html::p(null, "Please <b>remove</b> the whole <tt>installer</tt> folder from the RoundCube directory because .
+        these files may expose sensitive configuration data like server passwords and encryption keys
+        to the public. Make sure you cannot access the <a href=\"./installer/\">installer script</a> from your browser.")
+      )
+    );
+  }
   
   $OUTPUT->task = 'login';
   $OUTPUT->send('login');
@@ -263,16 +213,14 @@ if (empty($USER->ID))
 
 
 // handle keep-alive signal
-if ($_action=='keep-alive')
-{
+if ($_action=='keep-alive') {
   $OUTPUT->reset();
   $OUTPUT->send('');
   exit;
 }
 
 // include task specific files
-if ($_task=='mail')
-{
+if ($_task=='mail') {
   include_once('program/steps/mail/func.inc');
   
   if ($_action=='show' || $_action=='preview' || $_action=='print')
@@ -327,13 +275,12 @@ if ($_task=='mail')
     include('program/steps/mail/rss.inc');
     
   // make sure the message count is refreshed
-  $IMAP->messagecount($_SESSION['mbox'], 'ALL', TRUE);
+  $IMAP->messagecount($_SESSION['mbox'], 'ALL', true);
 }
 
 
 // include task specific files
-if ($_task=='addressbook')
-{
+if ($_task=='addressbook') {
   include_once('program/steps/addressbook/func.inc');
 
   if ($_action=='save')
@@ -363,8 +310,7 @@ if ($_task=='addressbook')
 
 
 // include task specific files
-if ($_task=='settings')
-{
+if ($_task=='settings') {
   include_once('program/steps/settings/func.inc');
 
   if ($_action=='save-identity')
@@ -385,7 +331,6 @@ if ($_task=='settings')
   if ($_action=='folders' || $_action=='subscribe' || $_action=='unsubscribe' ||
       $_action=='create-folder' || $_action=='rename-folder' || $_action=='delete-folder')
     include('program/steps/settings/manage_folders.inc');
-
 }
 
 
@@ -399,6 +344,6 @@ raise_error(array(
   'type' => 'php',
   'line' => __LINE__,
   'file' => __FILE__,
-  'message' => "Invalid request"), TRUE, TRUE);
+  'message' => "Invalid request"), true, true);
                       
 ?>

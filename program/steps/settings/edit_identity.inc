@@ -130,7 +130,7 @@ function rcube_identity_form($attrib)
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 
 if ($_action=='add-identity' && template_exists('addidentity'))
-  parse_template('addidentity');
+  $OUTPUT->send('addidentity');
 
-parse_template('editidentity');
+$OUTPUT->send('editidentity');
 ?>

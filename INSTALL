@@ -11,7 +11,7 @@ REQUIREMENTS
 
 * The Apache or Lighttpd Webserver
 * .htaccess support allowing overrides for DirectoryIndex
-* PHP Version 4.3.1 or greater including
+* PHP Version 5.2 or greater including
    - PCRE (perl compatible regular expression)
    - libiconv (recommended)
    - mbstring (optional)

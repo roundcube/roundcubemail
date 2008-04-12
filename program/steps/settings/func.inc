@@ -50,7 +50,7 @@ function rcmail_user_prefs_form($attrib)
     asort($a_lang);
   
     $field_id = 'rcmfd_lang';
-    $select_lang = new select(array('name' => '_language', 'id' => $field_id));
+    $select_lang = new html_select(array('name' => '_language', 'id' => $field_id));
     $select_lang->add(array_values($a_lang), array_keys($a_lang));
   
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
@@ -64,7 +64,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['timezone']))
     {
     $field_id = 'rcmfd_timezone';
-    $select_timezone = new select(array('name' => '_timezone', 'id' => $field_id));
+    $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id));
     $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
     $select_timezone->add('(GMT -10:00) Hawaii', '-10');
     $select_timezone->add('(GMT -9:30) Marquesas Islands', '-9.5');
@@ -116,7 +116,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['dst_active']))
     {
     $field_id = 'rcmfd_dst';
-    $input_dst = new checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
+    $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('dstactive')),
@@ -127,7 +127,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['pagesize']))
     {
     $field_id = 'rcmfd_pgsize';
-    $input_pagesize = new textfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
+    $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
@@ -139,7 +139,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['prettydate']))
     {
     $field_id = 'rcmfd_prettydate';
-    $input_prettydate = new checkbox(array('name' => '_pretty_date', 'id' => $field_id, 'value' => 1));
+    $input_prettydate = new html_checkbox(array('name' => '_pretty_date', 'id' => $field_id, 'value' => 1));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
@@ -151,7 +151,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['prefer_html']))
     {
     $field_id = 'rcmfd_htmlmsg';
-    $input_pagesize = new checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1));
+    $input_pagesize = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
@@ -163,7 +163,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['htmleditor']))
     {
     $field_id = 'rcmfd_htmleditor';
-    $input_htmleditor = new checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
+    $input_htmleditor = new html_checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('htmleditor')),
@@ -174,7 +174,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['preview_pane']))
     {
     $field_id = 'rcmfd_preview';
-    $input_preview = new checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
+    $input_preview = new html_checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('previewpane')),
@@ -184,7 +184,7 @@ function rcmail_user_prefs_form($attrib)
   if (!empty($CONFIG['drafts_mbox']) && !isset($no_override['draft_autosave']))
     {
     $field_id = 'rcmfd_autosave';
-    $select_autosave = new select(array('name' => '_draft_autosave', 'id' => $field_id));
+    $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => $field_id));
     $select_autosave->add(rcube_label('never'), 0);
     foreach (array(3, 5, 10) as $i => $min)
       $select_autosave->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min*60);
@@ -199,7 +199,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['logout_purge']))
     {
     $field_id = 'rcmfd_logout_purge';
-    $input_purge = new checkbox(array('name' => '_logout_purge', 'id' => $field_id, 'value' => 1));
+    $input_purge = new html_checkbox(array('name' => '_logout_purge', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('logoutclear')),
@@ -210,7 +210,7 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['logout_expunge']))
     {
     $field_id = 'rcmfd_logout_expunge';
-    $input_expunge = new checkbox(array('name' => '_logout_expunge', 'id' => $field_id, 'value' => 1));
+    $input_expunge = new html_checkbox(array('name' => '_logout_expunge', 'id' => $field_id, 'value' => 1));
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('logoutcompact')),
@@ -254,7 +254,7 @@ function get_form_tags($attrib, $action, $add_hidden=array())
   $form_start = '';
   if (!strlen($EDIT_FORM))
     {
-    $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
     $hiddenfields->add(array('name' => '_action', 'value' => $action));
     
     if ($add_hidden)

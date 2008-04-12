@@ -1581,11 +1581,11 @@ function rcube_webmail()
         parent.rcmail.set_classname(rows[uid].obj, 'unread', false);
 
         if (rows[uid].replied && parent.rcmail.env.repliedicon)
-    	  icn_src = parent.rcmail.env.repliedicon;
+          icn_src = parent.rcmail.env.repliedicon;
         else if (parent.rcmail.env.messageicon)
           icn_src = parent.rcmail.env.messageicon;
       
-	if (rows[uid].icon && icn_src)
+        if (rows[uid].icon && icn_src)
           rows[uid].icon.src = icn_src;
       }
   }
@@ -3502,28 +3502,27 @@ function rcube_webmail()
           this.message_list.init();
 
       case 'purge':
-      case 'expunge':      
-	if (!this.env.messagecount)
-    	  {
-	    // clear preview pane content
-	    if (this.env.contentframe)
-	      this.show_contentframe(false);
-	    // disable commands useless when mailbox is empty
-	    this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
-	      'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
-	  }
+      case 'expunge':
+        if (!this.env.messagecount)
+        {
+          // clear preview pane content
+          if (this.env.contentframe)
+            this.show_contentframe(false);
+          // disable commands useless when mailbox is empty
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
+          'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
+        }
 
-	break;
+      break;
 
       case 'list':
-	this.msglist_select(this.message_list);
+        this.msglist_select(this.message_list);
 
       case 'check-recent':
       case 'getunread':
-	this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
-	this.enable_command('purge', (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox)));
-
-	break;
+        this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
+        this.enable_command('purge', (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox)));
+        break;
 
       }
 

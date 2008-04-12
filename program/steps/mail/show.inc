@@ -19,9 +19,6 @@
 
 */
 
-require_once('Mail/mimeDecode.php');
-require_once('lib/rc_mail_mime.inc');
-
 $PRINT_MODE = $_action=='print' ? TRUE : FALSE;
 
 // similar code as in program/steps/mail/get.inc
@@ -39,7 +36,7 @@ if ($_GET['_uid'])
     {
     $OUTPUT->show_message('messageopenerror', 'error');
     if ($_action=='preview' && template_exists('messagepreview'))
-        parse_template('messagepreview');
+        $OUTPUT->send('messagepreview');
     else
       {
       $_action = 'list';
@@ -79,14 +76,14 @@ if ($_GET['_uid'])
 
   // mark message as read
   if (!$MESSAGE['headers']->seen)
+  {
+    $marked = $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
+    if($_action == 'preview' && $marked != -1)
     {
-      $marked = $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
-      if($_action == 'preview' && $marked != -1)
-	{
-	$OUTPUT->command('set_unread_count_from_preview', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
-	$OUTPUT->command('mark_as_read_from_preview', $MESSAGE['UID']);
-	}
+      $OUTPUT->command('set_unread_count_from_preview', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
+      $OUTPUT->command('mark_as_read_from_preview', $MESSAGE['UID']);
     }
+  }
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE['UID']);
@@ -207,9 +204,9 @@ $OUTPUT->add_handlers(array(
 
 
 if ($_action=='print' && template_exists('printmessage'))
-  parse_template('printmessage');
+  $OUTPUT->send('printmessage');
 else if ($_action=='preview' && template_exists('messagepreview'))
-    parse_template('messagepreview');
+    $OUTPUT->send('messagepreview');
 else
-  parse_template('message');
+  $OUTPUT->send('message');
 ?>

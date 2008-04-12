@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_mdb2.inc                                        |
+ | program/include/rcube_mdb2.php                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -19,12 +19,6 @@
  $Id$
 
 */
-
-
-/**
- * Obtain the PEAR::DB class that is used for abstraction
- */
-require_once('MDB2.php');
 
 
 /**
@@ -617,4 +611,3 @@ function mdb2_debug_handler(&$db, $scope, $message, $context = array())
 }
 
 
-?>

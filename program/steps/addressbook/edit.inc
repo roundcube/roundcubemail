@@ -89,7 +89,7 @@ function get_form_tags($attrib)
   $form_start = '';
   if (!strlen($EDIT_FORM))
     {
-    $hiddenfields = new hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
     $hiddenfields->add(array('name' => '_action', 'value' => 'save', 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
     
     if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
@@ -114,8 +114,8 @@ function get_form_tags($attrib)
 
 
 if (!$CONTACTS->get_result() && template_exists('addcontact'))
-  parse_template('addcontact');
+  $OUTPUT->send('addcontact');
 
 // this will be executed if no template for addcontact exists
-parse_template('editcontact');
+$OUTPUT->send('editcontact');
 ?>

@@ -27,9 +27,7 @@
  */
 
 require_once('lib/utf7.inc');
-require_once('include/rcube_user.inc');
 require_once('include/rcube_shared.inc');
-require_once('include/rcmail_template.inc');
 
 // fallback if not PHP modules are available
 @include_once('lib/des.inc');
@@ -50,14 +48,11 @@ define('RCUBE_INPUT_GPC', 0x0103);
 function rcmail_startup($task='mail')
   {
   global $sess_id, $sess_user_lang;
-  global $CONFIG, $INSTALL_PATH, $BROWSER, $OUTPUT, $_SESSION, $IMAP, $DB, $USER;
+  global $CONFIG, $OUTPUT, $IMAP, $DB, $USER;
 
   // start output buffering, we don't need any output yet, 
   // it'll be cleared after reading of config files, etc.
   ob_start();
-
-  // check client
-  $BROWSER = rcube_browser();
 
   // load configuration
   $CONFIG = rcmail_load_config();
@@ -74,10 +69,9 @@ function rcmail_startup($task='mail')
   // prepare DB connection
   $dbwrapper = empty($CONFIG['db_backend']) ? 'db' : $CONFIG['db_backend'];
   $dbclass = "rcube_" . $dbwrapper;
-  require_once("include/$dbclass.inc");
   
   $DB = new $dbclass($CONFIG['db_dsnw'], $CONFIG['db_dsnr'], $CONFIG['db_persistent']);
-  $DB->sqlite_initials = $INSTALL_PATH.'SQL/sqlite.initial.sql';
+  $DB->sqlite_initials = INSTALL_PATH.'SQL/sqlite.initial.sql';
   $DB->set_debug((bool)$CONFIG['sql_debug']);
   $DB->db_connect('w');
 
@@ -136,8 +130,6 @@ function rcmail_startup($task='mail')
  */
 function rcmail_load_config()
   {
-  global $INSTALL_PATH;
-
   // load config file
   include_once('config/main.inc.php');
   $conf = is_array($rcmail_config) ? $rcmail_config : array();
@@ -152,7 +144,7 @@ function rcmail_load_config()
   $conf = array_merge($conf, $rcmail_config);
 
   if (empty($conf['log_dir']))
-    $conf['log_dir'] = $INSTALL_PATH.'logs';
+    $conf['log_dir'] = INSTALL_PATH.'logs';
   else
     $conf['log_dir'] = unslashify($conf['log_dir']);
 
@@ -427,11 +419,10 @@ function get_sequence_name($sequence)
  */
 function rcube_language_prop($lang, $prop='lang')
   {
-  global $INSTALL_PATH;
   static $rcube_languages, $rcube_language_aliases, $rcube_charsets;
 
   if (empty($rcube_languages))
-    @include($INSTALL_PATH.'program/localization/index.inc');
+    @include(INSTALL_PATH.'program/localization/index.inc');
     
   // check if we have an alias for that language
   if (!isset($rcube_languages[$lang]) && isset($rcube_language_aliases[$lang]))
@@ -451,7 +442,7 @@ function rcube_language_prop($lang, $prop='lang')
   if (isset($rcube_charsets[$lang]))
     $charset = $rcube_charsets[$lang];
   else
-    $charset = 'UTF-8';    
+    $charset = 'UTF-8';
 
 
   if ($prop=='charset')
@@ -467,18 +458,15 @@ function rcube_language_prop($lang, $prop='lang')
  * environment vars according to the current session and configuration
  */
 function rcmail_load_gui()
-  {
+{
   global $CONFIG, $OUTPUT, $sess_user_lang;
 
   // init output page
-  $OUTPUT = new rcmail_template($CONFIG, $GLOBALS['_task']);
+  $OUTPUT = new rcube_template($CONFIG, $GLOBALS['_task']);
   $OUTPUT->set_env('comm_path', $GLOBALS['COMM_PATH']);
 
-  if (is_array($CONFIG['javascript_config']))
-  {
-    foreach ($CONFIG['javascript_config'] as $js_config_var)
-      $OUTPUT->set_env($js_config_var, $CONFIG[$js_config_var]);
-  }
+  foreach (array('read_when_deleted', 'flag_for_deletion') as $js_config_var)
+    $OUTPUT->set_env($js_config_var, $CONFIG[$js_config_var]);
 
   if (!empty($GLOBALS['_framed']))
     $OUTPUT->set_env('framed', true);
@@ -490,19 +478,23 @@ function rcmail_load_gui()
   if (!empty($CONFIG['charset']))
     $OUTPUT->set_charset($CONFIG['charset']);
     
-  // register common UI objects
-  $OUTPUT->add_handlers(array(
-    'loginform' => 'rcmail_login_form',
-    'username'  => 'rcmail_current_username',
-    'message' => 'rcmail_message_container',
-    'charsetselector' => 'rcmail_charset_selector',
-  ));
-
   // add some basic label to client
-  if (!$OUTPUT->ajax_call)
-    rcube_add_label('loading', 'movingmessage');
-  }
+  $OUTPUT->add_label('loading', 'movingmessage');
+}
 
+/**
+ * Create an output object for JSON responses
+ */
+function rcmail_init_json()
+{
+  global $CONFIG, $OUTPUT;
+  
+  // init output object
+  $OUTPUT = new rcube_json_output($CONFIG, $GLOBALS['_task']);
+
+  // set locale setting
+  rcmail_set_locale($sess_user_lang);
+}
 
 /**
  * Set localization charset based on the given language.
@@ -878,18 +870,18 @@ function get_des_key()
  */
 function rcube_list_languages()
   {
-  global $CONFIG, $INSTALL_PATH;
+  global $CONFIG;
   static $sa_languages = array();
 
   if (!sizeof($sa_languages))
     {
-    @include($INSTALL_PATH.'program/localization/index.inc');
+    @include(INSTALL_PATH.'program/localization/index.inc');
 
-    if ($dh = @opendir($INSTALL_PATH.'program/localization'))
+    if ($dh = @opendir(INSTALL_PATH.'program/localization'))
       {
       while (($name = readdir($dh)) !== false)
         {
-        if ($name{0}=='.' || !is_dir($INSTALL_PATH.'program/localization/'.$name))
+        if ($name{0}=='.' || !is_dir(INSTALL_PATH.'program/localization/'.$name))
           continue;
 
         if ($label = $rcube_languages[$name])
@@ -904,6 +896,7 @@ function rcube_list_languages()
 
 /**
  * Add a localized label to the client environment
+ * @deprecated
  */
 function rcube_add_label()
   {
@@ -911,7 +904,7 @@ function rcube_add_label()
   
   $arg_list = func_get_args();
   foreach ($arg_list as $i => $name)
-    $OUTPUT->command('add_label', $name, rcube_label($name));
+    $OUTPUT->add_label($name);
   }
 
 
@@ -1135,7 +1128,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     if ($OUTPUT->get_charset()!='UTF-8')
       $str = rcube_charset_convert($str, RCMAIL_CHARSET, $OUTPUT->get_charset());
       
-    return preg_replace(array("/\r?\n/", "/\r/"), array('\n', '\n'), addslashes(strtr($str, $js_rep_table)));
+    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), addslashes(strtr($str, $js_rep_table)));
     }
 
   // no encoding given -> return original string
@@ -1261,16 +1254,6 @@ function template_exists($name)
 
 
 /**
- * Wrapper for rcmail_template::parse()
- * @deprecated
- */
-function parse_template($name='main', $exit=true)
-  {
-  $GLOBALS['OUTPUT']->parse($name, $exit);
-  }
-
-
-/**
  * Create a HTML table based on the given data
  *
  * @param  array  Named table attributes
@@ -1360,15 +1343,15 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
   if ($type=='checkbox')
     {
     $attrib['value'] = '1';
-    $input = new checkbox($attrib);
+    $input = new html_checkbox($attrib);
     }
   else if ($type=='textarea')
     {
     $attrib['cols'] = $attrib['size'];
-    $input = new textarea($attrib);
+    $input = new html_textarea($attrib);
     }
   else
-    $input = new textfield($attrib);
+    $input = new html_inputfield($attrib);
 
   // use value from post
   if (!empty($_POST[$fname]))
@@ -1645,7 +1628,7 @@ function console($msg)
  */
 function write_log($name, $line)
   {
-  global $CONFIG, $INSTALL_PATH;
+  global $CONFIG;
 
   if (!is_string($line))
     $line = var_export($line, true);
@@ -1655,7 +1638,7 @@ function write_log($name, $line)
                  $line);
                  
   if (empty($CONFIG['log_dir']))
-    $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
+    $CONFIG['log_dir'] = INSTALL_PATH.'logs';
       
   // try to open specific log file for writing
   if ($fp = @fopen($CONFIG['log_dir'].'/'.$name, 'a'))    

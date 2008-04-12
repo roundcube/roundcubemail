@@ -49,7 +49,7 @@ if ($_GET['_uid'])
 // show part page
 if ($_GET['_frame'])
   {
-  parse_template('messagepart');
+  $OUTPUT->send('messagepart');
   exit;
   }
 

@@ -91,7 +91,7 @@ function rcube_browser()
  */
 function rcube_label($attrib)
 {
-  global $sess_user_lang, $INSTALL_PATH, $OUTPUT;
+  global $sess_user_lang, $OUTPUT;
   static $sa_text_data, $s_language, $utf8_decode;
 
   // extract attributes
@@ -111,8 +111,8 @@ function rcube_label($attrib)
     $sa_text_data = array();
     
     // get english labels (these should be complete)
-    @include($INSTALL_PATH.'program/localization/en_US/labels.inc');
-    @include($INSTALL_PATH.'program/localization/en_US/messages.inc');
+    @include(INSTALL_PATH.'program/localization/en_US/labels.inc');
+    @include(INSTALL_PATH.'program/localization/en_US/messages.inc');
 
     if (is_array($labels))
       $sa_text_data = $labels;
@@ -120,10 +120,10 @@ function rcube_label($attrib)
       $sa_text_data = array_merge($sa_text_data, $messages);
     
     // include user language files
-    if ($sess_user_lang!='en' && is_dir($INSTALL_PATH.'program/localization/'.$sess_user_lang))
+    if ($sess_user_lang!='en' && is_dir(INSTALL_PATH.'program/localization/'.$sess_user_lang))
     {
-      include_once($INSTALL_PATH.'program/localization/'.$sess_user_lang.'/labels.inc');
-      include_once($INSTALL_PATH.'program/localization/'.$sess_user_lang.'/messages.inc');
+      include_once(INSTALL_PATH.'program/localization/'.$sess_user_lang.'/labels.inc');
+      include_once(INSTALL_PATH.'program/localization/'.$sess_user_lang.'/messages.inc');
 
       if (is_array($labels))
         $sa_text_data = array_merge($sa_text_data, $labels);

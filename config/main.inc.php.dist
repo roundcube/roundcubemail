@@ -240,9 +240,6 @@ $rcmail_config['session_domain'] = '';
 // don't allow these settings to be overriden by the user
 $rcmail_config['dont_override'] = array();
 
-// list of configuration option names that need to be available in Javascript.
-$rcmail_config['javascript_config'] = array('read_when_deleted', 'flag_for_deletion');
-
 // try to load host-specific configuration
 $rcmail_config['include_host_config'] = false;
 

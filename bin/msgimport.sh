@@ -1,14 +1,10 @@
 #!/usr/bin/php -qC 
 <?php
 
-$CWD = $INSTALL_PATH = preg_replace('/bin\/$/', '', getcwd() . '/');
-ini_set('include_path',  ini_get('include_path') . PATH_SEPARATOR . $CWD.'program/');
+define('INSTALL_PATH', preg_replace('/bin\/$/', '', getcwd()) . '/');
 ini_set('memory_limit', -1);
 
-require_once('include/rcube_shared.inc');
-require_once('include/rcube_imap.inc');
-require_once('include/main.inc');
-require_once('include/bugs.inc');
+require_once INSTALL_PATH.'program/include/iniset.php';
 
 /**
  * Parse commandline arguments into a hash array

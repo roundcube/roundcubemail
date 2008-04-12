@@ -19,8 +19,6 @@
 
 */
 
-require_once('include/rcube_contacts.inc');
-
 $done = false;
 
 if (!empty($_POST['_address']))

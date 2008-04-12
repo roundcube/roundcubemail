@@ -101,7 +101,7 @@ if (template_exists('error'))
   {
   $OUTPUT->scripts = array();
   $OUTPUT->script_files = array();
-  parse_template('error');
+  $OUTPUT->send('error');
   }
 
 

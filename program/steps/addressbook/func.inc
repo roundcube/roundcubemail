@@ -19,9 +19,6 @@
 
 */
 
-require_once('include/rcube_contacts.inc');
-require_once('include/rcube_ldap.inc');
-
 // instantiate a contacts object according to the given source
 if (($source = get_input_value('_source', RCUBE_INPUT_GPC)) && isset($CONFIG['ldap_public'][$source]))
   $CONTACTS = new rcube_ldap($CONFIG['ldap_public'][$source]);
@@ -157,7 +154,7 @@ function rcmail_js_contacts_list($result, $prefix='')
     
     // format each col
     foreach ($a_show_cols as $col)
-      $a_row_cols[$col] = $row[$col];
+      $a_row_cols[$col] = Q($row[$col]);
     
     $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols);
     }
@@ -231,7 +228,7 @@ $OUTPUT->add_handlers(array(
   'addresslist' => 'rcmail_contacts_list',
   'addressframe' => 'rcmail_contact_frame',
   'recordscountdisplay' => 'rcmail_rowcount_display',
-  'searchform' => 'rcmail_search_form'
+  'searchform' => array($OUTPUT, 'search_form')
 ));
 
 ?>

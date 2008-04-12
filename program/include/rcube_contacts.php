@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_contacts.inc                                    |
+ | program/include/rcube_contacts.php                                    |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2006-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2006-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -403,56 +403,3 @@ class rcube_contacts
 }
 
 
-/**
- * RoundCube result set class.
- * Representing an address directory result set.
- */
-class rcube_result_set
-{
-  var $count = 0;
-  var $first = 0;
-  var $current = 0;
-  var $records = array();
-  
-  function __construct($c=0, $f=0)
-  {
-    $this->count = (int)$c;
-    $this->first = (int)$f;
-  }
-  
-  function rcube_result_set($c=0, $f=0)
-  {
-    $this->__construct($c, $f);
-  }
-  
-  function add($rec)
-  {
-    $this->records[] = $rec;
-  }
-  
-  function iterate()
-  {
-    return $this->records[$this->current++];
-  }
-  
-  function first()
-  {
-    $this->current = 0;
-    return $this->records[$this->current++];
-  }
-  
-  // alias
-  function next()
-  {
-    return $this->iterate();
-  }
-  
-  function seek($i)
-  {
-    $this->current = $i;
-  }
-  
-}
-
-
-?>

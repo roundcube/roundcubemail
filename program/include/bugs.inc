@@ -66,7 +66,7 @@ function raise_error($arg=array(), $log=false, $terminate=false)
  */
 function log_bug($arg_arr)
 {
-  global $CONFIG, $INSTALL_PATH;
+  global $CONFIG;
   $program = $arg_arr['type']=='xpath' ? 'XPath' : strtoupper($arg_arr['type']);
 
   // write error to local log file
@@ -81,7 +81,7 @@ function log_bug($arg_arr)
       $arg_arr['line']);
                  
     if (empty($CONFIG['log_dir']))
-      $CONFIG['log_dir'] = $INSTALL_PATH.'logs';
+      $CONFIG['log_dir'] = INSTALL_PATH.'logs';
       
     // try to open specific log file for writing
     if ($fp = @fopen($CONFIG['log_dir'].'/errors', 'a'))
