@@ -467,7 +467,7 @@ class rcube_template extends rcube_html_page
         switch ($command) {
             // return a button
             case 'button':
-                if ($attrib['command']) {
+                if ($attrib['name'] || $attrib['command']) {
                     return $this->button($attrib);
                 }
                 break;
