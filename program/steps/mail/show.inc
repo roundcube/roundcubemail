@@ -53,7 +53,7 @@ if ($_GET['_uid'])
   $mbox_name = $IMAP->get_mailbox_name();
   
   // calculate Etag for this request
-  $etag = md5($MESSAGE['UID'].$mbox_name.session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
+  $etag = md5($MESSAGE['UID'].$mbox_name.session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['headers']->seen).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE['is_safe'])
