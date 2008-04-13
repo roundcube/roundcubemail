@@ -1560,13 +1560,13 @@ function rcube_webmail()
           rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
           this.set_classname(rows[uid].obj, 'unread', false);
 
-          if (rows[uid].replied && this.env.repliedicon)
-            icn_src = this.env.repliedicon;
-          else if (this.env.messageicon)
+          if (this.env.messageicon)
             icn_src = this.env.messageicon;
           }
 
-        if (rows[uid].icon && icn_src)
+        if (rows[uid].icon && icn_src 
+	    && !(rows[uid].replied && this.env.repliedicon)
+            && !(rows[uid].deleted && this.env.deletedicon))
           rows[uid].icon.src = icn_src;
         }
       }
@@ -1587,6 +1587,8 @@ function rcube_webmail()
 
         if (rows[uid].replied && parent.rcmail.env.repliedicon)
     	  icn_src = parent.rcmail.env.repliedicon;
+        else if (rows[uid].deleted && parent.rcmail.env.deletedicon)
+    	  icn_src = parent.rcmail.env.deletedicon;
         else if (parent.rcmail.env.messageicon)
           icn_src = parent.rcmail.env.messageicon;
       
