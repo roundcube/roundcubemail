@@ -236,18 +236,22 @@ function send_future_expire_header($offset=2600000)
  * @param int Modified date as unix timestamp
  * @param string Etag value for caching
  */
-function send_modified_header($mdate, $etag=null)
+function send_modified_header($mdate, $etag=null, $skip_check=false)
 {
   if (headers_sent())
     return;
     
   $iscached = false;
-  if ($_SERVER['HTTP_IF_MODIFIED_SINCE'] && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $mdate)
-    $iscached = true;
-  
   $etag = $etag ? "\"$etag\"" : null;
-  if ($etag)
-    $iscached = ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag);
+
+  if (!$skip_check)
+  {
+    if ($_SERVER['HTTP_IF_MODIFIED_SINCE'] && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $mdate)
+      $iscached = true;
+  
+    if ($etag)
+      $iscached = ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag);
+  }
   
   if ($iscached)
     header("HTTP/1.x 304 Not Modified");

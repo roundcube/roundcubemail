@@ -30,7 +30,7 @@ if ($_GET['_uid'])
   // set message charset as default
   if (!empty($MESSAGE['headers']->charset))
     $IMAP->set_charset($MESSAGE['headers']->charset);
-  
+
   // go back to list if message not found (wrong UID)
   if (!$MESSAGE['headers'])
     {
@@ -53,13 +53,13 @@ if ($_GET['_uid'])
   $mbox_name = $IMAP->get_mailbox_name();
   
   // calculate Etag for this request
-  $etag = md5($MESSAGE['UID'].$mbox_name.session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['headers']->seen).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
+  $etag = md5($MESSAGE['UID'].$mbox_name.session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE['is_safe'])
     send_nocacheing_headers();
   else if (empty($CONFIG['devel_mode']))
-    send_modified_header($_SESSION['login_time'], $etag);
+    send_modified_header($_SESSION['login_time'], $etag, !$MESSAGE['headers']->seen);
 
   $MESSAGE['subject'] = rcube_imap::decode_mime_string($MESSAGE['headers']->subject, $MESSAGE['headers']->charset);
   $OUTPUT->set_pagetitle($MESSAGE['subject']);
