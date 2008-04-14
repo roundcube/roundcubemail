@@ -432,7 +432,7 @@ class html_textarea extends html
         }
 
         // take value attribute as content
-        if ($value == '') {
+        if (empty($value) && !empty($this->attrib['value'])) {
             $value = $this->attrib['value'];
         }
 
@@ -442,9 +442,9 @@ class html_textarea extends html
         }
 
         if (!empty($value) && !isset($this->attrib['mce_editable'])) {
-            $value = Q($value, 'strict', FALSE);
+            $value = Q($value, 'strict', false);
         }
-        return self::tag($this->tagname, $this->attrib, Q($value), array_merge(self::$common_attrib, $this->allowed_attrib));
+        return self::tag($this->tagname, $this->attrib, $value, array_merge(self::$common_attrib, $this->allowed_attrib));
     }
 }
 
