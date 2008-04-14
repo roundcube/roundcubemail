@@ -659,29 +659,6 @@ function get_offset_time($offset_str, $factor=1)
 
 
 /**
- * Return the last occurence of a string in another string
- *
- * @param haystack string string in which to search
- * @param needle string string for which to search
- * @return index of needle within haystack, or false if not found
- */
-function strrstr($haystack, $needle)
-{
-  $pver = phpversion();
-  if ($pver[0] >= 5)
-      return strrpos($haystack, $needle);
-  else
-  {
-    $index = strpos(strrev($haystack), strrev($needle));
-    if($index === false)
-        return false;
-    
-    $index = strlen($haystack) - strlen($needle) - $index;
-    return $index;
-  }
-}
-
-/**
  * A method to guess the mime_type of an attachment.
  *
  * @param string $path     Path to the file.
