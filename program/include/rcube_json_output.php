@@ -130,7 +130,7 @@ class rcube_json_output
     {
         $arg_list = func_get_args();
         foreach ($arg_list as $i => $name) {
-            $this->texts[$name] = rcube::gettext($name);
+            $this->texts[$name] = rcube_label($name);
         }
     }
     
@@ -147,7 +147,7 @@ class rcube_json_output
     {
         $this->command(
             'display_message',
-            rcube::gettext(array('name' => $message, 'vars' => $vars)),
+            rcube_label(array('name' => $message, 'vars' => $vars)),
             $type
         );
     }
