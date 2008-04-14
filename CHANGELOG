@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/14 (alec)
+----------
+- Added sections (fieldset+label) in Settings interface
+
 2008/04/12 (alec)
 ----------
 - Fixed and optimized 'read_when_deleted': mark as read on server side

@@ -252,6 +252,8 @@ $labels['htmlsignature'] = 'HTML signature';
 $labels['previewpane'] = 'Show preview pane';
 $labels['logoutclear'] = 'Clear Trash on logout';
 $labels['logoutcompact'] = 'Compact Inbox on logout';
+$labels['uisettings'] = 'User Interface';
+$labels['serversettings'] = 'Server Settings';
 
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';

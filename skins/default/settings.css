@@ -197,3 +197,15 @@ div.settingspart
 {
   width: 90px;
 }
+
+fieldset 
+{
+  margin-bottom: 0.5em;
+  border: 1px solid #999999;
+}
+
+legend
+{
+  color: #999999;
+}
+  

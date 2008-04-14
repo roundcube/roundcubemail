@@ -40,8 +40,8 @@ function rcmail_user_prefs_form($attrib)
   // allow the following attributes to be added to the <table> tag
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
 
-  // return the complete edit form as table
-  $out = "$form_start<table" . $attrib_str . ">\n\n";
+  // return the complete edit form as tables
+  $out = "$form_start<fieldset><legend>" . Q(rcube_label('uisettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
 
   // show language selection
   if (!isset($no_override['language']))
@@ -180,6 +180,8 @@ function rcmail_user_prefs_form($attrib)
                     Q(rcube_label('previewpane')),
                     $input_preview->show($CONFIG['preview_pane']?1:0));
     }
+
+  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('serversettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
                   
   if (!empty($CONFIG['drafts_mbox']) && !isset($no_override['draft_autosave']))
     {
@@ -217,7 +219,7 @@ function rcmail_user_prefs_form($attrib)
                     $input_expunge->show($CONFIG['logout_expunge']?1:0));
     }
 
-  $out .= "\n</table>$form_end";
+  $out .= "\n</table></fieldset>$form_end";
 
   return $out;  
   }
