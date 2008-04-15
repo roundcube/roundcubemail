@@ -2360,9 +2360,9 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
                 }
                 $received += strlen($line);
                 if ($mode == 1) {
-                    $result .= chop($line) . "\n";
+                    $result .= rtrim($line, "\t\r\n\0\x0B") . "\n";
                 } else if ($mode == 2) {
-                    echo chop($line) . "\n"; flush();
+                    echo rtrim($line, "\t\r\n\0\x0B") . "\n"; flush();
                 } else if ($mode == 3) {
                     echo base64_decode($line); flush();
                 }
@@ -2374,7 +2374,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
 		} while (!iil_StartsWith($line, $key));
         
         if ($result) {
-			$result = chop($result);
+	    $result = rtrim($result, "\t\r\n\0\x0B");
             return $result; // substr($result, 0, strlen($result)-1);
         }
         return false;
