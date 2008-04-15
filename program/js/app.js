@@ -1897,25 +1897,22 @@ function rcube_webmail()
       }
     else
       {
-      var eid = tinyMCE.getEditorId('_message');
-      // editor is a TinyMCE_Control object
-      var editor = tinyMCE.getInstanceById(eid);
+      var editor = tinyMCE.get('compose-body');
       // if this is null, we should exit
-      if (editor == null) {
+      if (editor == null)
+        {
         return false;
-      }
-      var msgDoc = editor.getDoc();
-      var msgBody = msgDoc.body;
+        }
 
       if (this.env.signatures && this.env.signatures[id])
         {
         // Append the signature as a span within the body
-        var sigElem = msgDoc.getElementById("_rc_sig");
+        var sigElem = editor.dom.get("_rc_sig");
         if (!sigElem)
           {
-          sigElem = msgDoc.createElement("span");
+          sigElem = editor.getDoc().createElement("span");
           sigElem.setAttribute("id", "_rc_sig");
-          msgBody.appendChild(sigElem);
+          editor.getBody().appendChild(sigElem);
           }
         if (this.env.signatures[id]['is_html'])
           {
@@ -3396,16 +3393,16 @@ function rcube_webmail()
     };
 
 
-  this.toggle_editor = function(checkbox, textElementName)
+  this.toggle_editor = function(checkbox, textAreaId)
     {
     var ischecked = checkbox.checked;
     if (ischecked)
       {
-        tinyMCE.execCommand('mceAddControl', true, textElementName);
+        tinyMCE.execCommand('mceAddControl', true, textAreaId);
       }
     else
       {
-        tinyMCE.execCommand('mceRemoveControl', true, textElementName);
+        tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
       }
     };
 

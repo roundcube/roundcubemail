@@ -40,10 +40,10 @@ function rcube_identity_form($attrib)
   global $IDENTITY_RECORD, $OUTPUT;
 
   $OUTPUT->include_script('tiny_mce/tiny_mce_src.js');
-  $OUTPUT->add_script("tinyMCE.init({ mode : 'specific_textareas'," .
+  $OUTPUT->add_script("tinyMCE.init({ mode : 'textareas'," .
+                                    "editor_selector : 'mce_editor'," .
                                     "apply_source_formatting : true," .
                                     "content_css : '\$__skin_path' + '/editor_content.css'," .
-                                    "editor_css : '\$__skin_path' + '/editor_ui.css'," .
                                     "theme : 'advanced'," .
                                     "theme_advanced_toolbar_location : 'top'," .
                                     "theme_advanced_toolbar_align : 'left'," .
@@ -69,7 +69,7 @@ function rcube_identity_form($attrib)
                        'reply-to'     => array('type' => 'text', 'label' => 'replyto'),
                        'bcc'          => array('type' => 'text'),
                        'signature'	  => array('type' => 'textarea', 'size' => "40", 'rows' => "6"),
-                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'_signature\');'),
+                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'rcmfd_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
 
@@ -104,13 +104,15 @@ function rcube_identity_form($attrib)
       {
       $attrib['size'] = $colprop['size'];
       $attrib['rows'] = $colprop['rows'];
-      $attrib['mce_editable'] = $IDENTITY_RECORD['html_signature'] ? "true" : "false";
+      if ($IDENTITY_RECORD['html_signature'])
+        {
+        $attrib['class'] = "mce_editor";
+        }
       }
     else
       {
       unset($attrib['size']);
       unset($attrib['rows']);
-      unset($attrib['mce_editable']);
       }
 
     $label = strlen($colprop['label']) ? $colprop['label'] : $col;

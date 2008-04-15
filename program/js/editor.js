@@ -17,20 +17,20 @@
 
 function rcmail_editor_init(skin_path)
   {
-  tinyMCE.init({ mode : 'specific_textareas',
+  tinyMCE.init({ mode : "textareas",
+                 editor_selector : "mce_editor",
                  accessibility_focus : false,
                  apply_source_formatting : true,
-                 theme : 'advanced',
-                 plugins : 'emotions,media,nonbreaking,table,searchreplace,spellchecker,visualchars',
-                 theme_advanced_buttons1 : 'bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,emotions,charmap,code,forecolor,backcolor,fontselect,fontsizeselect, separator,undo,redo,image,media',
-                 theme_advanced_buttons2 : '',
-                 theme_advanced_buttons3 : '',
-                 theme_advanced_toolbar_location : 'top',
-                 theme_advanced_toolbar_align : 'left',
-                 extended_valid_elements : 'font[face|size|color|style],span[id|class|align|style]',
-                 content_css : skin_path + '/editor_content.css',
-                 editor_css : skin_path + '/editor_ui.css',
-                 external_image_list_url : 'program/js/editor_images.js'
+                 theme : "advanced",
+                 plugins : "emotions,media,nonbreaking,table,searchreplace,spellchecker,visualchars",
+                 theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,link,unlink,emotions,charmap,code,forecolor,backcolor,fontselect,fontsizeselect, separator,undo,redo,image,media,spellchecker",
+                 theme_advanced_buttons2 : "",
+                 theme_advanced_buttons3 : "",
+                 theme_advanced_toolbar_location : "top",
+                 theme_advanced_toolbar_align : "left",
+                 extended_valid_elements : "font[face|size|color|style],span[id|class|align|style]",
+                 content_css : skin_path + "/editor_content.css",
+                 external_image_list_url : "editor_images.js"
                });
   }
 
@@ -80,16 +80,16 @@ function rcmail_toggle_editor(toggler)
     var existingPlainText = composeElement.value;
     var htmlText = "<pre>" + existingPlainText + "</pre>";
     composeElement.value = htmlText;
-    tinyMCE.execCommand('mceAddControl', true, '_message');
+    tinyMCE.execCommand('mceAddControl', true, 'compose-body');
     htmlFlag.value = "1";
     }
   else
     {
     rcmail.set_busy(true, 'converting');
-    var thisMCE = tinyMCE.getInstanceById('_message');
-    var existingHtml = tinyMCE.getContent();
+    var thisMCE = tinyMCE.get('compose-body');
+    var existingHtml = thisMCE.getContent();
     rcmail_html2plain(existingHtml);
-    tinyMCE.execCommand('mceRemoveControl', true, '_message');
+    tinyMCE.execCommand('mceRemoveControl', true, 'compose-body');
     htmlFlag.value = "0";
     }
   }

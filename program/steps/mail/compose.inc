@@ -426,8 +426,7 @@ function rcmail_compose_body($attrib)
   $out .= $msgtype->show();
 
   // If desired, set this text area to be editable by TinyMCE
-  if ($isHtml)
-    $attrib['mce_editable'] = "true";
+  if ($isHtml) $attrib['class'] = "mce_editor";
   $textarea = new html_textarea($attrib);
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
@@ -799,9 +798,13 @@ function rcmail_editor_selector($attrib)
 
   // determine whether HTML or plain text should be checked 
   if ($CONFIG['htmleditor'])
+    {
     $useHtml = true;
+    }
   else
+    {
     $useHtml = false;
+    }
 
   if ($compose_mode == RCUBE_COMPOSE_REPLY ||
       $compose_mode == RCUBE_COMPOSE_FORWARD ||
@@ -811,23 +814,19 @@ function rcmail_editor_selector($attrib)
     $useHtml = ($hasHtml && $CONFIG['htmleditor']);
   }
 
+  $chosenvalue = $useHtml ? 'html' : 'plain';
+
   $selector = '';
   
   $attrib['name'] = '_editorSelect';
   $attrib['onchange'] = 'return rcmail_toggle_editor(this)';
   foreach ($choices as $value => $text)
   {
-    $checked = '';
-    if ((($value == 'html') && $useHtml) ||
-        (($value != 'html') && !$useHtml))
-      $attrib['checked'] = 'true';
-    else
-      unset($attrib['checked']);
-
     $attrib['id'] = '_' . $value;
+    $attrib['value'] = $value;
     $rb = new html_radiobutton($attrib);
     $selector .= sprintf("%s<label for=\"%s\">%s</label>",
-                         $rb->show($value),
+                         $rb->show($chosenvalue),
                          $attrib['id'],
                          rcube_label($text));
   }
