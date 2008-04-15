@@ -6,7 +6,9 @@ CHANGELOG RoundCube Webmail
 - Fix remove signature when replying (#1333167)
 - Fix problem with line with a space at the end (#1484916)
 - Don't send set_env() in ajax response when env array is empty
-
+- Fix <!DOCTYPE> tag filtering (#1484391)
+- Fix <?xml> tag filtering (#1484403)
+ 
 2008/04/14 (alec)
 ----------
 - Added sections (fieldset+label) in Settings interface

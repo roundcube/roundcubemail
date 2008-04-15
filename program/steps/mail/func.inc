@@ -1139,7 +1139,8 @@ function rcmail_sanitize_html($body, $container_id)
 
   // add comments arround html and other tags
   $out = preg_replace(array(
-      '/(<!DOCTYPE.+)/i',
+      '/(<!DOCTYPE[^>]*>)/i',
+      '/(<\?xml[^>]*>)/i',
       '/(<\/?html[^>]*>)/i',
       '/(<\/?head[^>]*>)/i',
       '/(<title[^>]*>.*<\/title>)/Ui',
