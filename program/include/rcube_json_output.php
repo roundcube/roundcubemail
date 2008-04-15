@@ -211,7 +211,10 @@ class rcube_json_output
      */
     private function get_js_commands()
     {
-        $out = 'this.set_env('.json_serialize($this->env).");\n";
+        $out = '';
+	
+	if (sizeof($this->env))
+	    $out .= 'this.set_env('.json_serialize($this->env).");\n";
         
         foreach($this->texts as $name => $text) {
             $out .= sprintf("this.add_label('%s', '%s');\n", $name, JQ($text));
