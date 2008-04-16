@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/04/16 (alec)
 ----------
 - Fix typo in set_charset() (#1484991)
+- Decode entities when inserting HTML signature to plain text message (#1484990)
 
 2008/04/15 (estadtherr)
 ----------

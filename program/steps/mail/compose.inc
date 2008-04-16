@@ -241,7 +241,7 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
 {
-  global $IMAP, $MESSAGE, $DB, $USER, $OUTPUT, $compose_mode;
+  global $IMAP, $MESSAGE, $DB, $USER, $OUTPUT, $CONFIG, $compose_mode;
     
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
@@ -298,7 +298,7 @@ function rcmail_compose_header_from($attrib)
         {
             $h2t = new html2text($a_signatures[$identity_id]['text'], false, false);
             $plainTextPart = $h2t->get_text();
-            $a_signatures[$identity_id]['plain_text'] = trim($plainTextPart);
+            $a_signatures[$identity_id]['plain_text'] = trim(html_entity_decode($plainTextPart, ENT_NOQUOTES, 'UTF-8'));
         }
       }
 
