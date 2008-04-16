@@ -29,7 +29,7 @@ if ($_action=='subscribe')
     $IMAP->subscribe(array($mbox));
 
   if ($OUTPUT->ajax_call)
-    $OUTPUT->send('// subscribed');
+    $OUTPUT->remote_response('// subscribed');
   }
 
 // unsubscribe one or more mailboxes
@@ -39,7 +39,7 @@ else if ($_action=='unsubscribe')
     $IMAP->unsubscribe(array($mbox));
 
   if ($OUTPUT->ajax_call)
-    $OUTPUT->send('// unsubscribed');
+    $OUTPUT->remote_response('// unsubscribed');
   }
 
 // create a new mailbox
@@ -55,32 +55,27 @@ else if ($_action=='create-folder')
     $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
     $OUTPUT->command('add_folder_row', $create, $display_create);
     }
-  else if (!$create && $OUTPUT->ajax_call)
+  else if (!$create)
     {
     $OUTPUT->show_message('errorsaving', 'error');
     }
-  else if (!$create)
-    $OUTPUT->show_message('errorsaving', 'error');
-
-  $OUTPUT->send();
   }
 
 // rename a mailbox
 else if ($_action=='rename-folder')
   {
-  $a_mboxes = array_unique(array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed()));
-  $delimiter = $IMAP->get_hierarchy_delimiter();
-
   if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
     $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_POST)), trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, FALSE, 'UTF-7')));
     
   if ($rename && $OUTPUT->ajax_call)
     {
+    $a_mboxes = array_unique(array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed()));
     $delimiter = $IMAP->get_hierarchy_delimiter();
     $foldersplit = explode($delimiter, $rename);
     $level = count($foldersplit) - 1;
     $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
     $OUTPUT->command('replace_folder_row', $oldname, $rename, $display_rename);
+
     foreach ($a_mboxes as $mbox)
       if (preg_match('/^'.preg_quote($oldname . $delimiter, '/').'/', $mbox))
         {
@@ -99,8 +94,6 @@ else if ($_action=='rename-folder')
     }
   else if (!$rename)
     $OUTPUT->show_message('errorsaving', 'error');
-
-  $OUTPUT->send();
   }
 
 // delete an existing IMAP mailbox
@@ -126,14 +119,14 @@ else if ($_action=='delete-folder')
       }
     $OUTPUT->show_message('folderdeleted', 'confirmation');
     }
-  else if ($OUTPUT->ajax_call)
+  else if (!$deleted)
     {
     $OUTPUT->show_message('errorsaving', 'error');
     }
-
-  $OUTPUT->send();
   }
 
+if ($OUTPUT->ajax_call)
+  $OUTPUT->send();
 
 
 // build table with all folders listed by server
