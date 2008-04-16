@@ -740,11 +740,6 @@ div.message-part blockquote blockquote blockquote
   padding-left: 30px;
 }
 
-#rcmcomposereceipt
-{
-  background-color: transparent;
-}
-
 #compose-container
 {
   position: absolute;
