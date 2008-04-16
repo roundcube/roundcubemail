@@ -405,7 +405,7 @@ function rcube_webmail()
       this.init_address_input_events(input_cc);
     if (input_bcc)
       this.init_address_input_events(input_bcc);
-      
+
     // add signature according to selected identity
     if (input_from && input_from.type=='select-one')
       this.change_identity(input_from);
@@ -721,7 +721,7 @@ function rcube_webmail()
           this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
           if (this.attachment_win)
             {
-            setTimeout(function(){ ref.attachment_win.focus(); }, 10);
+            window.setTimeout(function(){ ref.attachment_win.focus(); }, 10);
             break;
             }
           }
@@ -889,7 +889,7 @@ function rcube_webmail()
           ref.printwin = window.open(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''));
           if (this.printwin)
           {
-            setTimeout(function(){ ref.printwin.focus(); }, 20);
+            window.setTimeout(function(){ ref.printwin.focus(); }, 20);
             if (this.env.action != 'show')
               this.mark_message('read', uid);
           }
@@ -902,7 +902,7 @@ function rcube_webmail()
           {
           ref.sourcewin = window.open(this.env.comm_path+'&_action=viewsource&_uid='+this.env.uid+'&_mbox='+urlencode(this.env.mailbox));
           if (this.sourcewin)
-            setTimeout(function(){ ref.sourcewin.focus(); }, 20);
+            window.setTimeout(function(){ ref.sourcewin.focus(); }, 20);
           }
         break;
 
@@ -1019,7 +1019,7 @@ function rcube_webmail()
 
     // set timer for requests
     if (a && this.env.request_timeout)
-      this.request_timer = setTimeout(function(){ ref.request_timed_out(); }, this.env.request_timeout * 1000);
+      this.request_timer = window.setTimeout(function(){ ref.request_timed_out(); }, this.env.request_timeout * 1000);
     };
 
 
@@ -1138,7 +1138,7 @@ function rcube_webmail()
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting)
-      this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
+      this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
     else if (this.env.contentframe)
       this.show_contentframe(false);
     };
@@ -1898,11 +1898,6 @@ function rcube_webmail()
     else
       {
       var editor = tinyMCE.get('compose-body');
-      // if this is null, we should exit
-      if (editor == null)
-        {
-        return false;
-        }
 
       if (this.env.signatures && this.env.signatures[id])
         {
@@ -2163,7 +2158,7 @@ function rcube_webmail()
       }
 
     // start timer
-    this.ksearch_timer = setTimeout(function(){ ref.ksearch_get_results(); }, 200);
+    this.ksearch_timer = window.setTimeout(function(){ ref.ksearch_get_results(); }, 200);
     this.ksearch_input = obj;
     
     return true;
@@ -2355,7 +2350,7 @@ function rcube_webmail()
 
       var id, frame, ref = this;
       if (id = list.get_single_selection())
-        this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, this.dblclick_time + 10);
+        this.preview_timer = window.setTimeout(function(){ ref.load_contact(id, 'show'); }, this.dblclick_time + 10);
       else if (this.env.contentframe)
         this.show_contentframe(false);
 
@@ -3167,7 +3162,7 @@ function rcube_webmail()
       this.gui_objects.message.onmousedown = function(){ _rcube.hide_message(); return true; };
     
     if (!hold)
-      this.message_timer = setTimeout(function(){ ref.hide_message(); }, this.message_time);
+      this.message_timer = window.setTimeout(function(){ ref.hide_message(); }, this.message_time);
     };
 
 
@@ -3832,7 +3827,7 @@ function rcube_http_request()
 // helper function to call the init method with a delay
 function call_init(o)
   {
-  if (window[o] && window[o].init)
-    setTimeout(o+'.init()', 200);
+    window.setTimeout('if (window[\''+o+'\'] && window[\''+o+'\'].init) { '+o+'.init(); }',
+                      bw.win ? 500 : 200);
   }
 
