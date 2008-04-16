@@ -35,26 +35,6 @@ function rcmail_editor_init(skin_path, editor_lang)
                });
   }
 
-// Set the state of the HTML/Plain toggles based on the _is_html field value
-function rcmail_set_editor_toggle_states()
-  {
-  // set the editor toggle based on the state of the editor
-
-  var htmlFlag = document.getElementsByName('_is_html')[0];
-  var toggles = document.getElementsByName('_editorSelect');
-  for(var t=0; t<toggles.length; t++)
-    {
-	if (toggles[t].value == 'html')
-	  {
-	  toggles[t].checked = (htmlFlag.value == "1");
-	  }
-	else
-	  {
-	  toggles[t].checked = (htmlFlag.value == "0");
-	  }
-	}
-  }
-
 // Toggle between the HTML and Plain Text editors
 
 function rcmail_toggle_editor(toggler)
@@ -62,7 +42,6 @@ function rcmail_toggle_editor(toggler)
   var selectedEditor = toggler.value;
 
   // determine the currently displayed editor
-
   var htmlFlag = document.getElementsByName('_is_html')[0];
   var isHtml = htmlFlag.value;
 
