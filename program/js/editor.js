@@ -15,15 +15,16 @@
 
 // Initialize the message editor
 
-function rcmail_editor_init(skin_path)
+function rcmail_editor_init(skin_path, editor_lang)
   {
   tinyMCE.init({ mode : "textareas",
                  editor_selector : "mce_editor",
                  accessibility_focus : false,
                  apply_source_formatting : true,
                  theme : "advanced",
-                 plugins : "emotions,media,nonbreaking,table,searchreplace,spellchecker,visualchars",
-                 theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,link,unlink,emotions,charmap,code,forecolor,backcolor,fontselect,fontsizeselect, separator,undo,redo,image,media,spellchecker",
+                 language : editor_lang,
+                 plugins : "emotions,media,nonbreaking,table,searchreplace,visualchars,directionality",
+                 theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,link,unlink,emotions,charmap,code,forecolor,backcolor,fontselect,fontsizeselect, separator,undo,redo,image,media,ltr,rtl",
                  theme_advanced_buttons2 : "",
                  theme_advanced_buttons3 : "",
                  theme_advanced_toolbar_location : "top",

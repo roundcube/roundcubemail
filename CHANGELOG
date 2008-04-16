@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - HTML editing is now working with PHP5 updates and TinyMCE v3.0.6
 - fix signature loading on Windows (#1484545)
+- add language support to HTML editing (#1484862)
 
 2008/04/15 (alec)
 ----------
