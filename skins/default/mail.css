@@ -252,7 +252,7 @@ td.formlinks a:visited
   position: absolute;
   top: 85px;
   left: 20px;
-  width: 160px;
+  width: 170px;
   bottom: 40px;
   border: 1px solid #999;
   background-color: #F9F9F9;
@@ -738,6 +738,11 @@ div.message-part blockquote blockquote blockquote
 #receipt-selector
 {
   padding-left: 30px;
+}
+
+#rcmcomposereceipt
+{
+  background-color: transparent;
 }
 
 #compose-container
