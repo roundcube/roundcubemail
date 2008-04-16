@@ -22,7 +22,7 @@
 $a_user_prefs = array(
   'timezone'     => isset($_POST['_timezone']) ? floatval($_POST['_timezone']) : $CONFIG['timezone'],
   'dst_active'   => isset($_POST['_dst_active']) ? TRUE : FALSE,
-  'pagesize'     => is_numeric($_POST['_pagesize']) ? intval($_POST['_pagesize']) : $CONFIG['pagesize'],
+  'pagesize'     => is_numeric($_POST['_pagesize']) ? max(2, intval($_POST['_pagesize'])) : $CONFIG['pagesize'],
   'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
   'prefer_html'  => isset($_POST['_prefer_html']) ? TRUE : FALSE,
   'htmleditor'   => isset($_POST['_htmleditor']) ? TRUE : FALSE,

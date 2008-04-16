@@ -102,7 +102,7 @@ class rcube_install
   {
     $value = $this->is_post && (isset($_POST["_$name"]) || $this->config_props[$name]) ? $_POST["_$name"] : $this->config[$name];
     
-    if ($name == 'des_key' && !isset($_REQUEST["_$name"]))
+    if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"]))
       $value = rcube_install::random_key(24);
     
     return $value !== null && $value !== '' ? $value : $default;
@@ -146,6 +146,9 @@ class rcube_install
         $value = rcube_install::_clean_array($value);
         if (count($value) <= 1)
           $value = $value[0];
+      }
+      else if ($prop == 'pagesize') {
+        $value = max(2, intval($value));
       }
       else if ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {
         $value = '%u';
