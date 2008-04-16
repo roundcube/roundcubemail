@@ -22,9 +22,6 @@
 // init IMAP connection
 rcmail_imap_init(TRUE);
 
-$OUTPUT->include_script('list.js');
-
-
 // subscribe to one or more mailboxes
 if ($_action=='subscribe')
   {
@@ -32,7 +29,7 @@ if ($_action=='subscribe')
     $IMAP->subscribe(array($mbox));
 
   if ($OUTPUT->ajax_call)
-    $OUTPUT->remote_response('// subscribed');
+    $OUTPUT->send('// subscribed');
   }
 
 // unsubscribe one or more mailboxes
@@ -42,7 +39,7 @@ else if ($_action=='unsubscribe')
     $IMAP->unsubscribe(array($mbox));
 
   if ($OUTPUT->ajax_call)
-    $OUTPUT->remote_response('// unsubscribed');
+    $OUTPUT->send('// unsubscribed');
   }
 
 // create a new mailbox
@@ -57,15 +54,15 @@ else if ($_action=='create-folder')
     $foldersplit = explode($delimiter, $create);
     $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $delimiter)) . rcube_charset_convert($foldersplit[count($foldersplit)-1], 'UTF-7');
     $OUTPUT->command('add_folder_row', $create, $display_create);
-    $OUTPUT->send();
     }
   else if (!$create && $OUTPUT->ajax_call)
     {
     $OUTPUT->show_message('errorsaving', 'error');
-    $OUTPUT->remote_response();
     }
   else if (!$create)
     $OUTPUT->show_message('errorsaving', 'error');
+
+  $OUTPUT->send();
   }
 
 // rename a mailbox
@@ -94,16 +91,16 @@ else if ($_action=='rename-folder')
         $OUTPUT->command('replace_folder_row', $mbox, $c_rename, $display_rename);
         }
     $OUTPUT->command('reset_folder_rename');
-    $OUTPUT->send();
     }
   else if (!$rename && $OUTPUT->ajax_call)
     {
     $OUTPUT->command('reset_folder_rename');
     $OUTPUT->show_message('errorsaving', 'error');
-    $OUTPUT->send();
     }
   else if (!$rename)
     $OUTPUT->show_message('errorsaving', 'error');
+
+  $OUTPUT->send();
   }
 
 // delete an existing IMAP mailbox
@@ -128,13 +125,13 @@ else if ($_action=='delete-folder')
         }
       }
     $OUTPUT->show_message('folderdeleted', 'confirmation');
-    $OUTPUT->send();
     }
   else if ($OUTPUT->ajax_call)
     {
     $OUTPUT->show_message('errorsaving', 'error');
-    $OUTPUT->send();
     }
+
+  $OUTPUT->send();
   }
 
 
@@ -307,6 +304,7 @@ function rcube_rename_folder_form($attrib)
   return $out;
   }
 
+$OUTPUT->include_script('list.js');
 
 // register UI objects
 $OUTPUT->add_handlers(array(
