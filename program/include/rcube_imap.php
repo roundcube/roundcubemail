@@ -214,7 +214,7 @@ class rcube_imap
    */
   function set_charset($cs)
     {
-    $this->default_charset = $ch;
+    $this->default_charset = $cs;
     }
 
 

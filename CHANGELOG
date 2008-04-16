@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/16 (alec)
+----------
+- Fix typo in set_charset() (#1484991)
+
 2008/04/15 (estadtherr)
 ----------
 - HTML editing is now working with PHP5 updates and TinyMCE v3.0.6
