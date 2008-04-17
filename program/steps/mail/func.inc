@@ -970,7 +970,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
       continue;
 
     if ($hkey=='date' && !empty($headers[$hkey]))
-      $header_value = format_date(strtotime($headers[$hkey]));
+      $header_value = format_date($headers[$hkey]);
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
       $header_value = Q(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']), 'show');
     else
@@ -1500,7 +1500,7 @@ function rcmail_send_mdn($uid)
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
       "\t" . rcube_label("to") . ': ' . rcube_imap::decode_mime_string($message['headers']->to, $message['headers']->charset) . "\r\n" .
       "\t" . rcube_label("subject") . ': ' . $message['subject'] . "\r\n" .
-      "\t" . rcube_label("sent") . ': ' . format_date(strtotime($message['headers']->date), $CONFIG['date_long']) . "\r\n" .
+      "\t" . rcube_label("sent") . ': ' . format_date($message['headers']->date, $CONFIG['date_long']) . "\r\n" .
       "\r\n" . rcube_label("receiptnote") . "\r\n";
     
     $ua = !empty($CONFIG['useragent']) ? $CONFIG['useragent'] : "RoundCube Webmail (Version ".RCMAIL_VERSION.")";

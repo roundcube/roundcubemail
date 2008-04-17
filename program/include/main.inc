@@ -1507,12 +1507,22 @@ function format_date($date, $format=NULL)
   global $CONFIG, $sess_user_lang;
   
   $ts = NULL;
-  
+
   if (is_numeric($date))
     $ts = $date;
   else if (!empty($date))
-    $ts = @strtotime($date);
-    
+    {
+    while (($ts = @strtotime($date))===false)
+      {
+        // if we have a date in non-rfc format
+	// remove token from the end and try again
+        $d = explode(' ', $date);
+	array_pop($d);
+	if (!$d) break;
+	$date = implode(' ', $d);
+      }
+    }
+
   if (empty($ts))
     return '';
    
