@@ -2332,17 +2332,22 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
         $len = strlen($line);
         if ($line[$len-1] == ')') {
             //one line response, get everything between first and last quotes
-            $from = strpos($line, '"') + 1;
-            $to   = strrpos($line, '"');
-            $len  = $to - $from;
-            if ($mode == 1) {
-                $result = substr($line, $from, $len);
-            } else if ($mode == 2) {
-                echo substr($line, $from, $len);
+	    if (substr($line, -4, 3) == 'NIL') {
+		// NIL response
+		$result = '';
+	    } else {
+	        $from = strpos($line, '"') + 1;
+        	$to   = strrpos($line, '"');
+        	$len  = $to - $from;
+		$result = substr($line, $from, $len);
+	    }
+	    
+            if ($mode == 2) {
+                echo $result;
             } else if ($mode == 3) {
-                echo base64_decode(substr($line, $from, $len));
+                echo base64_decode($result);
             }
-        }else if ($line[$len-1] == '}') {
+        } else if ($line[$len-1] == '}') {
             //multi-line request, find sizes of content and receive that many bytes
             $from     = strpos($line, '{') + 1;
             $to       = strrpos($line, '}');

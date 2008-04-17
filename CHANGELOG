@@ -1,7 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/04/12 (estadtherr)
+2008/04/17 (alec)
+----------
+- Fix IMAP response in message body when message has no body (#1484964)
+
+2008/04/16 (estadtherr)
 ----------
 - Fix mail sending with new TinyMCE
 
