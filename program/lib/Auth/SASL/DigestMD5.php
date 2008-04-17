@@ -74,7 +74,12 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
             $digest_uri     = sprintf('%s/%s', $service, $hostname);
             $response_value = $this->_getResponseValue($authcid, $pass, $challenge['realm'], $challenge['nonce'], $cnonce, $digest_uri, $authzid);
 
-            return sprintf('username="%s",realm="%s"' . $authzid_string  . ',nonce="%s",cnonce="%s",nc="00000001",qop=auth,digest-uri="%s",response=%s,%d', $authcid, $challenge['realm'], $challenge['nonce'], $cnonce, $digest_uri, $response_value, $challenge['maxbuf']);
+            if ($challenge['realm']) {
+                return sprintf('username="%s",realm="%s"' . $authzid_string  .
+',nonce="%s",cnonce="%s",nc=00000001,qop=auth,digest-uri="%s",response=%s,maxbuf=%d', $authcid, $challenge['realm'], $challenge['nonce'], $cnonce, $digest_uri, $response_value, $challenge['maxbuf']);
+            } else {
+                return sprintf('username="%s"' . $authzid_string  . ',nonce="%s",cnonce="%s",nc=00000001,qop=auth,digest-uri="%s",response=%s,maxbuf=%d', $authcid, $challenge['nonce'], $cnonce, $digest_uri, $response_value, $challenge['maxbuf']);
+            }
         } else {
             return PEAR::raiseError('Invalid digest challenge');
         }
@@ -125,20 +130,19 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
         */
         // Realm
         if (empty($tokens['realm'])) {
-            $uname = posix_uname();
-            $tokens['realm'] = $uname['nodename'];
+            $tokens['realm'] = "";
         }
-        
+
         // Maxbuf
         if (empty($tokens['maxbuf'])) {
             $tokens['maxbuf'] = 65536;
         }
-        
+
         // Required: nonce, algorithm
         if (empty($tokens['nonce']) OR empty($tokens['algorithm'])) {
             return array();
         }
-        
+
         return $tokens;
     }
 
@@ -174,11 +178,11 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
     */
     function _getCnonce()
     {
-        if (file_exists('/dev/urandom')) {
-            return base64_encode(fread(fopen('/dev/urandom', 'r'), 32));
+        if (file_exists('/dev/urandom') && $fd = @fopen('/dev/urandom', 'r')) {
+            return base64_encode(fread($fd, 32));
 
-        } elseif (file_exists('/dev/random')) {
-            return base64_encode(fread(fopen('/dev/random', 'r'), 32));
+        } elseif (file_exists('/dev/random') && $fd = @fopen('/dev/random', 'r')) {
+            return base64_encode(fread($fd, 32));
 
         } else {
             $str = '';

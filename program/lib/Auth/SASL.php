@@ -91,7 +91,8 @@ class Auth_SASL
         }
 
         require_once($filename);
-        return new $classname();
+        $obj = new $classname();
+        return $obj;
     }
 }
 

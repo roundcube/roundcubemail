@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/04/17 (alec)
 ----------
 - Fix IMAP response in message body when message has no body (#1484964)
+- Updated PEAR::Auth_SASL to 1.0.2
 
 2008/04/16 (estadtherr)
 ----------
