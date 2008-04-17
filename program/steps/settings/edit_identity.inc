@@ -49,7 +49,7 @@ function rcube_identity_form($attrib)
   $OUTPUT->add_script("tinyMCE.init({ mode : 'textareas'," .
                                     "editor_selector : 'mce_editor'," .
                                     "apply_source_formatting : true," .
-				    "language : '$tinylang'," .
+                                    "language : '$tinylang'," .
                                     "content_css : '\$__skin_path' + '/editor_content.css'," .
                                     "theme : 'advanced'," .
                                     "theme_advanced_toolbar_location : 'top'," .
