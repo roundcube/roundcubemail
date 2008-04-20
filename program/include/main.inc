@@ -378,20 +378,20 @@ function rcmail_logout_actions()
 function get_table_name($table)
   {
   global $CONFIG;
-  
+
   // return table name if configured
   $config_key = 'db_table_'.$table;
 
   if (strlen($CONFIG[$config_key]))
     return $CONFIG[$config_key];
-  
+
   return $table;
   }
 
 
 /**
  * Return correct name for a specific database sequence
- * (used for Postres only)
+ * (used for Postgres only)
  *
  * @param string Secuence name
  * @return string Translated sequence name
@@ -399,13 +399,13 @@ function get_table_name($table)
 function get_sequence_name($sequence)
   {
   global $CONFIG;
-  
+
   // return table name if configured
   $config_key = 'db_sequence_'.$sequence;
 
   if (strlen($CONFIG[$config_key]))
     return $CONFIG[$config_key];
-  
+
   return $sequence;
   }
 
@@ -1483,12 +1483,14 @@ function create_attrib_string($attrib, $allowed_attribs=array('id', 'class', 'st
 function parse_attrib_string($str)
   {
   $attrib = array();
-  preg_match_all('/\s*([-_a-z]+)=(["\'])([^"]+)\2/Ui', stripslashes($str), $regs, PREG_SET_ORDER);
+  preg_match_all('/\s*([-_a-z]+)=(["\'])??(?(2)([^"\']+)\2|(\S+?))/Ui', stripslashes($str), $regs, PREG_SET_ORDER);
 
   // convert attributes to an associative array (name => value)
   if ($regs)
     foreach ($regs as $attr)
-      $attrib[strtolower($attr[1])] = $attr[3];
+      {
+      $attrib[strtolower($attr[1])] = $attr[3] . $attr[4];
+      }
 
   return $attrib;
   }
@@ -1633,8 +1635,8 @@ function console($msg)
  * Append a line to a logfile in the logs directory.
  * Date will be added automatically to the line.
  *
- * @param $name Name of logfile
- * @param $line Line to append
+ * @param $name name of log file
+ * @param line Line to append
  */
 function write_log($name, $line)
   {

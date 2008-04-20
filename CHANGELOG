@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/20 (estadtherr)
+----------
+- fix parse_attrib_string to handle unquoted values, which fixes
+  display issues with HTML messages that do not quote attributes
+
 2008/04/17 (alec)
 ----------
 - Fix IMAP response in message body when message has no body (#1484964)
