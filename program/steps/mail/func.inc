@@ -1473,7 +1473,7 @@ function rcmail_send_mdn($uid)
     $recipient = array_shift($IMAP->decode_address_list($message['headers']->mdn_to));
     $mailto = $recipient['mailto'];
 
-    $compose = new rc_mail_mime(rcmail_header_delm());
+    $compose = new rcube_mail_mime(rcmail_header_delm());
     $compose->setParam(array(
       'text_encoding' => 'quoted-printable',
       'html_encoding' => 'quoted-printable',
