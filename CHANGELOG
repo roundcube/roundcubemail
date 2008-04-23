@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/23 (alec)
+----------
+- Append skin_path to images location only when it starts 
+  with '/' sign (#1484859)
+
 2008/04/20 (estadtherr)
 ----------
 - fix parse_attrib_string to handle unquoted values, which fixes

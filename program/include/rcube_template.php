@@ -599,7 +599,6 @@ class rcube_template extends rcube_html_page
         return $out;
     }
 
-
     /**
      * Create and register a button
      *
@@ -617,12 +616,12 @@ class rcube_template extends rcube_html_page
         // these commands can be called directly via url
         $a_static_commands = array('compose', 'list');
 
-        $browser   = new rcube_browser();
-        $skin_path = $this->config['skin_path'];
-
         if (!($attrib['command'] || $attrib['name'])) {
             return '';
         }
+
+        $browser   = new rcube_browser();
+
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
@@ -687,9 +686,9 @@ class rcube_template extends rcube_html_page
                 $command,
                 $attrib['id'],
                 $attrib['type'],
-                $attrib['imageact'] ? $skin_path.$attrib['imageact'] : $attrib['classact'],
-                $attrib['imagesel'] ? $skin_path.$attrib['imagesel'] : $attrib['classsel'],
-                $attrib['imageover'] ? $skin_path.$attrib['imageover'] : ''
+                $attrib['imageact'] ? $this->abs_url($attrib['imageact']) : $attrib['classact'],
+                $attrib['imagesel'] ? $this->abs_url($attrib['imagesel']) : $attrib['classsel'],
+                $attrib['imageover'] ? $this->abs_url($attrib['imageover']) : ''
             ));
 
             // make valid href to specific buttons
@@ -755,8 +754,7 @@ class rcube_template extends rcube_html_page
                     'vspace', 'align', 'alt',
                 )
             );
-            $img_tag = sprintf('<img src="%%s"%s />', $attrib_str);
-            $btn_content = sprintf($img_tag, $skin_path.$attrib['image']);
+            $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
             if ($attrib['label']) {
                 $btn_content .= ' '.$attrib['label'];
             }
