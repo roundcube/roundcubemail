@@ -263,7 +263,7 @@ class rcube_template extends rcube_html_page
             fopen($path, 'r');
             $message.= ob_get_contents();
             ob_end_clean();
-            rcube_error::raise(array(
+            raise_error(array(
                 'code' => 501,
                 'type' => 'php',
                 'line' => __LINE__,
@@ -391,7 +391,7 @@ class rcube_template extends rcube_html_page
                 }
                 return $matches[0] . $this->parse_conditions($result);
             }
-            rcube_error::raise(array(
+            raise_error(array(
                 'code' => 500,
                 'type' => 'php',
                 'line' => __LINE__,
