@@ -1232,9 +1232,12 @@ function rcube_webmail()
     var frm;
     if (this.env.contentframe && (frm = rcube_find_object(this.env.contentframe)))
       {
-      if (!show && window.frames[this.env.contentframe] && frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
-        frames[this.env.contentframe].location.href = this.env.blankpage;
-      if (!bw.safari)
+      if (!show && window.frames[this.env.contentframe])
+        {
+        if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
+	  window.frames[this.env.contentframe].location.href = this.env.blankpage;
+	}
+      else if (!bw.safari)
         frm.style.display = show ? 'block' : 'none';
       }
       
