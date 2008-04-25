@@ -479,7 +479,7 @@ function rcmail_load_gui()
     $OUTPUT->set_charset($CONFIG['charset']);
     
   // add some basic label to client
-  $OUTPUT->add_label('loading', 'movingmessage');
+  $OUTPUT->add_label('loading');
 }
 
 /**

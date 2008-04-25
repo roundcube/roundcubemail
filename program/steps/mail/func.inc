@@ -71,7 +71,7 @@ if ($CONFIG['junk_mbox'])
   $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
 
 if (!$OUTPUT->ajax_call)
-  rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash');
+  rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
 
 // set page title
 if (empty($_action) || $_action == 'list')
