@@ -630,7 +630,7 @@ function rcube_webmail()
           var input_email = rcube_find_object('_email');
 
           // user prefs
-          if (input_pagesize && isNaN(input_pagesize.value))
+          if (input_pagesize && isNaN(parseInt(input_pagesize.value)))
             {
             alert(this.get_label('nopagesizewarning'));
             input_pagesize.focus();
