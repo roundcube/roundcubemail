@@ -2170,22 +2170,6 @@ function rcube_webmail()
     };
 
 
-  // handler for mouse events on address-fields
-  this.ksearch_onmousemove = function(li)
-    {
-    var last = document.getElementById('rcmksearchSelected');
-    if (last)
-      {
-        last.removeAttribute('id');
-        this.set_classname(last, 'selected', false);
-      }
-
-    li.setAttribute('id', 'rcmksearchSelected');
-    this.set_classname(li, 'selected', true);
-    this.ksearch_selected = li._rcm_id;
-    };
-
-
   this.insert_recipient = function(id)
   {
     if (!this.env.contacts[id] || !this.ksearch_input)
@@ -2206,7 +2190,6 @@ function rcube_webmail()
     cpos = p+insert.length;
     if (this.ksearch_input.setSelectionRange)
       this.ksearch_input.setSelectionRange(cpos, cpos);
-    
   };
 
 
@@ -2275,9 +2258,6 @@ function rcube_webmail()
         {
         li = document.createElement('LI');
         li.innerHTML = a_results[i].replace(/</, '&lt;').replace(/>/, '&gt;');
-        li.onmousedown = function(e){ ref.insert_recipient(this._rcm_id); ref.ksearch_pane.show(0); return rcube_event.cancel(e); };
-        li.onmouseover = function(e){ ref.ksearch_onmousemove(this); };
-    	li.style.cursor = 'pointer';
         li._rcm_id = a_result_ids[i];
         ul.appendChild(li);
         }
