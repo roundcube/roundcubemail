@@ -1875,7 +1875,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
  * Return html for a flat list <select> for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, $nestLevel=0)
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, $nestLevel=0, $selected='')
   {
   global $IMAP, $OUTPUT;
 
@@ -1894,13 +1894,14 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
         $foldername = abbreviate_string($foldername, $maxlength);
       }
 
-    $out .= sprintf('<option value="%s">%s%s</option>'."\n",
+    $out .= sprintf('<option value="%s"%s>%s%s</option>'."\n",
                     htmlspecialchars($folder['id']),
+		    ($selected == $foldername ? ' selected="selected"' : ''),
                     str_repeat('&nbsp;', $nestLevel*4),
                     Q($foldername));
 
     if (!empty($folder['folders']))
-      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $nestLevel+1);
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $nestLevel+1, $selected);
 
     $idx++;
     }
