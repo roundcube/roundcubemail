@@ -371,7 +371,7 @@ class html_radiobutton extends html_inputfield
         }
 
         // set value attribute
-        $this->attrib['checked'] = ($value && (string)$value == (string)$this->attrib['value']);
+        $this->attrib['checked'] = ((string)$value == (string)$this->attrib['value']);
 
         return parent::show();
     }
@@ -401,7 +401,7 @@ class html_checkbox extends html_inputfield
         }
 
         // set value attribute
-        $this->attrib['checked'] = ($value && (string)$value == (string)$this->attrib['value']);
+        $this->attrib['checked'] = ((string)$value == (string)$this->attrib['value']);
 
         return parent::show();
     }
@@ -510,8 +510,8 @@ class html_select extends html
         foreach ($this->options as $option) {
             $attr = array(
                 'value' => $option['value'],
-                'selected' => ((!empty($option['value']) && in_array($option['value'], $select, true)) ||
-            (in_array($option['text'], $select, TRUE))) ? 1 : null);
+                'selected' => (in_array($option['value'], $select, true) ||
+            in_array($option['text'], $select, true)) ? 1 : null);
 
             $this->content .= self::tag('option', $attr, Q($option['text']));
         }
