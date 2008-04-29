@@ -1060,8 +1060,15 @@ function rcube_charset_convert($str, $from, $to=NULL)
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
   global $OUTPUT_TYPE, $OUTPUT;
-  static $html_encode_arr, $js_rep_table, $xml_rep_table;
+  static $html_encode_arr = false;
+  static $js_rep_table = false;
+  static $xml_rep_table = false;
 
+  $charset = $OUTPUT->get_charset();
+  $is_iso_8859_1 = false;
+  if ($charset == 'ISO-8859-1') {
+    $is_iso_8859_1 = true;
+  }
   if (!$enctype)
     $enctype = $GLOBALS['OUTPUT_TYPE'];
 
@@ -1102,7 +1109,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     return rawurlencode($str);
 
   // if the replace tables for XML and JS are not yet defined
-  if (!$js_rep_table)
+  if ($js_rep_table===false)
     {
     $js_rep_table = $xml_rep_table = array();
     $xml_rep_table['&'] = '&amp;';
@@ -1111,7 +1118,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       {
       $xml_rep_table[Chr($c)] = "&#$c;";
       
-      if ($OUTPUT->get_charset()=='ISO-8859-1')
+      if ($is_iso_8859_1)
         $js_rep_table[Chr($c)] = sprintf("\\u%04x", $c);
       }
 
@@ -1125,8 +1132,8 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   // encode for javascript use
   if ($enctype=='js')
     {
-    if ($OUTPUT->get_charset()!='UTF-8')
-      $str = rcube_charset_convert($str, RCMAIL_CHARSET, $OUTPUT->get_charset());
+    if ($charset!='UTF-8')
+      $str = rcube_charset_convert($str, RCMAIL_CHARSET,$charset);
       
     return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), addslashes(strtr($str, $js_rep_table)));
     }

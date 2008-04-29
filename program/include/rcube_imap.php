@@ -574,27 +574,24 @@ class rcube_imap
       // retrieve headers from IMAP
       if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
         {        
-        $msgs = $msg_index[$begin];
-        for ($i=$begin+1; $i < $end; $i++)
-          $msgs = $msgs.','.$msg_index[$i];
+        $mymsgidx = array_slice ($msg_index, $begin, $end-$begin, true);
+        $msgs = join(",", $mymsgidx);
+        $headers_sorted = true;
         }
       else
         {
         $msgs = sprintf("%d:%d", $begin+1, $end);
-
-        $i = 0;
-        for ($msg_seqnum = $begin; $msg_seqnum <= $end; $msg_seqnum++)
-          $msg_index[$i++] = $msg_seqnum;
+        $msg_index = range($begin, $end);
         }
 
-      // use this class for message sorting
-      $sorter = new rcube_header_sorter();
-      $sorter->set_sequence_numbers($msg_index);
 
       // fetch reuested headers from server
       $a_msg_headers = array();
       $deleted_count = $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, $cache_key);
-
+      if ($this->sort_order == 'DESC' && $headers_sorted) {  
+        //since the sort order is not used in the iil_c_sort function we have to do it here
+        $a_msg_headers = array_reverse($a_msg_headers);
+      }
       // delete cached messages with a higher index than $max+1
       // Changed $max to $max+1 to fix this bug : #1484295
       $this->clear_message_cache($cache_key, $max + 1);
@@ -607,13 +604,16 @@ class rcube_imap
 
 
     // return empty array if no messages found
-	if (!is_array($a_msg_headers) || empty($a_msg_headers))
-		return array();
-
+    if (!is_array($a_msg_headers) || empty($a_msg_headers)) {
+      return array();
+    }
 
     // if not already sorted
     if (!$headers_sorted)
       {
+      // use this class for message sorting
+      $sorter = new rcube_header_sorter();
+      $sorter->set_sequence_numbers($msg_index);
       $sorter->sort_headers($a_msg_headers);
 
       if ($this->sort_order == 'DESC')
@@ -652,16 +652,19 @@ class rcube_imap
    */
   function _list_header_set($mailbox, $msgs, $page=NULL, $sort_field=NULL, $sort_order=NULL)
     {
-    // also accept a comma-separated list of message ids
-    if (is_string($msgs))
-      $msgs = split(',', $msgs);
-      
     if (!strlen($mailbox) || empty($msgs))
       return array();
 
+    // also accept a comma-separated list of message ids
+    if (is_array ($msgs)) {
+      $max = count ($msgs);
+      $msgs = join (',', $msgs);
+    } else {
+      $max = count(split(',', $msgs));
+    } 
+
     $this->_set_sort_order($sort_field, $sort_order);
 
-    $max = count($msgs);
     $start_msg = ($this->list_page-1) * $this->page_size;
 
     // fetch reuested headers from server

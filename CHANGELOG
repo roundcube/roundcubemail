@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/29 (alec)
+----------
+- improved messages list performance - patch from Justin Heesemann
+
 2008/04/23 (alec)
 ----------
 - Append skin_path to images location only when it starts 

@@ -92,7 +92,8 @@ function rcube_browser()
 function rcube_label($attrib)
 {
   global $sess_user_lang, $OUTPUT;
-  static $sa_text_data, $s_language, $utf8_decode;
+  static $sa_text_data = false;
+  static $s_language, $utf8_decode;
 
   // extract attributes
   if (is_string($attrib))
@@ -106,7 +107,7 @@ function rcube_label($attrib)
 
 
   // load localized texts
-  if (!$sa_text_data || $s_language != $sess_user_lang)
+  if ($sa_text_data===false || $s_language != $sess_user_lang)
     {
     $sa_text_data = array();
     
