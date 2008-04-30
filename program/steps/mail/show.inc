@@ -19,7 +19,7 @@
 
 */
 
-$PRINT_MODE = $_action=='print' ? TRUE : FALSE;
+$PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 
 // similar code as in program/steps/mail/get.inc
 if ($_GET['_uid'])
@@ -35,11 +35,11 @@ if ($_GET['_uid'])
   if (!$MESSAGE['headers'])
     {
     $OUTPUT->show_message('messageopenerror', 'error');
-    if ($_action=='preview' && template_exists('messagepreview'))
+    if ($RCMAIL->action=='preview' && template_exists('messagepreview'))
         $OUTPUT->send('messagepreview');
     else
       {
-      $_action = 'list';
+      $RCMAIL->action = 'list';
       return;
       }
     }
@@ -78,7 +78,7 @@ if ($_GET['_uid'])
   if (!$MESSAGE['headers']->seen)
   {
     $marked = $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
-    if($_action == 'preview' && $marked != -1)
+    if($RCMAIL->action == 'preview' && $marked != -1)
     {
       $OUTPUT->command('set_unread_count_from_preview', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
       $OUTPUT->command('mark_as_read_from_preview', $MESSAGE['UID']);
@@ -203,9 +203,9 @@ $OUTPUT->add_handlers(array(
   'blockedobjects' => 'rcmail_remote_objects_msg'));
 
 
-if ($_action=='print' && template_exists('printmessage'))
+if ($RCMAIL->action=='print' && template_exists('printmessage'))
   $OUTPUT->send('printmessage');
-else if ($_action=='preview' && template_exists('messagepreview'))
+else if ($RCMAIL->action=='preview' && template_exists('messagepreview'))
     $OUTPUT->send('messagepreview');
 else
   $OUTPUT->send('message');

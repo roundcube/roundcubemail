@@ -24,7 +24,7 @@ $old_count = $IMAP->messagecount();
 $old_pages = ceil($old_count / $IMAP->page_size);
 
 // move messages
-if ($_action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_target_mbox']))
+if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_target_mbox']))
 {
   $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
   $target = get_input_value('_target_mbox', RCUBE_INPUT_POST);
@@ -41,7 +41,7 @@ if ($_action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_target_mbox'
 }
 
 // delete messages 
-else if ($_action=='delete' && !empty($_POST['_uid']))
+else if ($RCMAIL->action=='delete' && !empty($_POST['_uid']))
 {
   $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
   $del = $IMAP->delete_message($uids, get_input_value('_mbox', RCUBE_INPUT_POST));
@@ -89,7 +89,7 @@ $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 $mbox = $IMAP->get_mailbox_name();
 $OUTPUT->command('set_unread_count', $mbox, $IMAP->messagecount($mbox, 'UNSEEN'), ($mbox == 'INBOX'));
 
-if ($_action=='moveto' && $target)
+if ($RCMAIL->action=='moveto' && $target)
   $OUTPUT->command('set_unread_count', $target, $IMAP->messagecount($target, 'UNSEEN'));
 
 $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));

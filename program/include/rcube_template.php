@@ -30,6 +30,7 @@
  */
 class rcube_template extends rcube_html_page
 {
+    var $app;
     var $config;
     var $task = '';
     var $framed = false;
@@ -45,13 +46,17 @@ class rcube_template extends rcube_html_page
      * Constructor
      *
      * @todo   Use jQuery's $(document).ready() here.
+     * @todo   Replace $this->config with the real rcube_config object
      */
-    public function __construct(&$config, $task)
+    public function __construct($task, $framed = false)
     {
         parent::__construct();
 
+        $this->app = rcmail::get_instance();
+        $this->config = $this->app->config->all();
+        
+        //$this->framed = $framed;
         $this->task = $task;
-        $this->config = $config;
 
         // add common javascripts
         $javascript = 'var '.JS_OBJECT_NAME.' = new rcube_webmail();';
@@ -348,7 +353,7 @@ class rcube_template extends rcube_html_page
      */
     private function parse_with_globals($input)
     {
-        $GLOBALS['__comm_path'] = Q($GLOBALS['COMM_PATH']);
+        $GLOBALS['__comm_path'] = Q($this->app->comm_path);
         return preg_replace('/\$(__[a-z0-9_\-]+)/e', '$GLOBALS["\\1"]', $input);
     }
 
@@ -609,7 +614,6 @@ class rcube_template extends rcube_html_page
      */
     private function button($attrib)
     {
-        global $CONFIG, $OUTPUT, $MAIN_TASKS;
         static $sa_buttons = array();
         static $s_button_count = 100;
 
@@ -692,7 +696,7 @@ class rcube_template extends rcube_html_page
             ));
 
             // make valid href to specific buttons
-            if (in_array($attrib['command'], $MAIN_TASKS)) {
+            if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = Q(rcmail_url(null, null, $attrib['command']));
             }
             else if (in_array($attrib['command'], $a_static_commands)) {
@@ -795,13 +799,35 @@ class rcube_template extends rcube_html_page
 
 
     /**
+     * Create a form tag with the necessary hidden fields
+     *
+     * @param array Named tag parameters
+     * @return string HTML code for the form
+     */
+    public function form_tag($attrib, $content = null)
+    {
+      if ($this->framed) {
+        $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
+        $hidden = $hiddenfield->show();
+      }
+      
+      if (!$content)
+        $attrib['noclose'] = true;
+      
+      return html::tag('form',
+        $attrib + array('action' => "./", 'method' => "get"),
+        $hidden . $content);
+    }
+
+
+    /**
      * GUI object 'username'
      * Showing IMAP username of the current session
      *
      * @param array Named tag parameters (currently not used)
      * @return string HTML code for the gui object
      */
-    static function current_username($attrib)
+    public function current_username($attrib)
     {
         global $USER;
         static $username;
@@ -835,8 +861,7 @@ class rcube_template extends rcube_html_page
      */
     private function login_form($attrib)
     {
-        global $CONFIG, $SESS_HIDDEN_FIELD;
-        $default_host = $CONFIG['default_host'];
+        $default_host = $this->config['default_host'];
 
         $_SESSION['temp'] = true;
 
@@ -880,20 +905,12 @@ class rcube_template extends rcube_html_page
             $table->add(null, $input_host->show(get_input_value('_host', RCUVE_INPUT_POST)));
         }
 
-        $out = $SESS_HIDDEN_FIELD;
-        $out .= $input_action->show();
+        $out = $input_action->show();
         $out .= $table->show();
 
         // surround html output with a form tag
         if (empty($attrib['form'])) {
-            $out = html::tag(
-                'form',
-                array(
-                    'name' => $form_name,
-                    'action' => "./",
-                    'method' => "post"
-                ),
-            $out);
+            $out = $this->form_tag(array('name' => $form_name, 'method' => "post"), $out);
         }
 
         return $out;
@@ -924,15 +941,11 @@ class rcube_template extends rcube_html_page
 
         // add form tag around text field
         if (empty($attrib['form'])) {
-            $out = html::tag(
-                'form',
-                array(
-                    'name' => "rcmqsearchform",
-                    'action' => "./",
-                    'onsubmit' => JS_OBJECT_NAME . ".command('search');return false;",
-                    'style' => "display:inline",
-                ),
-            $out);
+            $out = $this->form_tag(array(
+                'name' => "rcmqsearchform",
+                'onsubmit' => JS_OBJECT_NAME . ".command('search');return false;",
+                'style' => "display:inline"),
+              $out);
         }
 
         return $out;

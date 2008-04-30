@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/04/30 (thomasb)
+----------
+- Introduce new application class 'rcmail' and get rid of some global vars
+
 2008/04/29 (alec)
 ----------
 - improved messages list performance - patch from Justin Heesemann

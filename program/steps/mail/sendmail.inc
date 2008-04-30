@@ -313,7 +313,7 @@ $MAIL_MIME->setParam(array(
 ));
 
 // encoding subject header with mb_encode provides better results with asian characters
-if ($MBSTRING && function_exists("mb_encode_mimeheader"))
+if (function_exists("mb_encode_mimeheader"))
 {
   mb_internal_encoding($message_charset);
   $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');

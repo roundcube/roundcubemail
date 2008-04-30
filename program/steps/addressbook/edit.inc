@@ -33,10 +33,10 @@ if ($CONTACTS->readonly)
 
 function rcmail_contact_editform($attrib)
 {
-  global $CONTACTS, $OUTPUT;
+  global $RCMAIL, $CONTACTS, $OUTPUT;
 
   // check if we have a valid result
-  if ($GLOBALS['_action'] != 'add' && !(($result = $CONTACTS->get_result()) && ($record = $result->first())))
+  if ($RCMAIL->action != 'add' && !(($result = $CONTACTS->get_result()) && ($record = $result->first())))
   {
     $OUTPUT->show_message('contactnotfound');
     return false;
@@ -83,20 +83,19 @@ $OUTPUT->add_handler('contacteditform', 'rcmail_contact_editform');
 // similar function as in /steps/settings/edit_identity.inc
 function get_form_tags($attrib)
   {
-  global $CONTACTS, $OUTPUT, $EDIT_FORM, $SESS_HIDDEN_FIELD;  
+  global $CONTACTS, $EDIT_FORM, $RCMAIL;
 
   $result = $CONTACTS->get_result();
   $form_start = '';
   if (!strlen($EDIT_FORM))
     {
-    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'save', 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
     
     if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
       $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
     
-    $form_start = !strlen($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
-    $form_start .= "\n$SESS_HIDDEN_FIELD\n";
+    $form_start = !strlen($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();
     }
     
@@ -104,11 +103,11 @@ function get_form_tags($attrib)
   $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';
   
   if (!strlen($EDIT_FORM))
-    $OUTPUT->add_gui_object('editform', $form_name);
+    $RCMAIL->output->add_gui_object('editform', $form_name);
   
   $EDIT_FORM = $form_name;
 
-  return array($form_start, $form_end);  
+  return array($form_start, $form_end); 
   }
 
 

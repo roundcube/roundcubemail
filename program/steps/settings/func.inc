@@ -27,7 +27,7 @@ if ($USER->ID)
 
 function rcmail_user_prefs_form($attrib)
   {
-  global $DB, $CONFIG, $sess_user_lang;
+  global $DB, $CONFIG;
 
   $no_override = is_array($CONFIG['dont_override']) ? array_flip($CONFIG['dont_override']) : array();
 
@@ -56,7 +56,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('language')),
-                    $select_lang->show($sess_user_lang));
+                    $select_lang->show($_SESSION['language']));
     }
 
 
@@ -251,19 +251,18 @@ function rcmail_identities_list($attrib)
 // similar function as in /steps/addressbook/edit.inc
 function get_form_tags($attrib, $action, $add_hidden=array())
   {
-  global $OUTPUT, $EDIT_FORM, $SESS_HIDDEN_FIELD;  
+  global $EDIT_FORM, $RCMAIL;
 
   $form_start = '';
   if (!strlen($EDIT_FORM))
     {
-    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => $action));
     
     if ($add_hidden)
       $hiddenfields->add($add_hidden);
     
-    $form_start = !strlen($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
-    $form_start .= "\n$SESS_HIDDEN_FIELD\n";
+    $form_start = !strlen($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();
     }
     
@@ -271,11 +270,11 @@ function get_form_tags($attrib, $action, $add_hidden=array())
   $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';
 
   if (!strlen($EDIT_FORM))
-    $OUTPUT->add_gui_object('editform', $form_name);
+    $RCMAIL->output->add_gui_object('editform', $form_name);
   
   $EDIT_FORM = $form_name;
 
-  return array($form_start, $form_end);  
+  return array($form_start, $form_end);
   }
 
 

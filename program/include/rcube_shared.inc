@@ -91,9 +91,11 @@ function rcube_browser()
  */
 function rcube_label($attrib)
 {
-  global $sess_user_lang, $OUTPUT;
+  global $OUTPUT;
   static $sa_text_data = false;
   static $s_language, $utf8_decode;
+  
+  $sess_user_lang = $_SESSION['language'];
 
   // extract attributes
   if (is_string($attrib))

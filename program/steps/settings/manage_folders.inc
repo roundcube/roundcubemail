@@ -20,10 +20,10 @@
 */
 
 // init IMAP connection
-rcmail_imap_init(TRUE);
+$RCMAIL->imap_init(true);
 
 // subscribe to one or more mailboxes
-if ($_action=='subscribe')
+if ($RCMAIL->action=='subscribe')
   {
   if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST))
     $IMAP->subscribe(array($mbox));
@@ -33,7 +33,7 @@ if ($_action=='subscribe')
   }
 
 // unsubscribe one or more mailboxes
-else if ($_action=='unsubscribe')
+else if ($RCMAIL->action=='unsubscribe')
   {
   if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST))
     $IMAP->unsubscribe(array($mbox));
@@ -43,7 +43,7 @@ else if ($_action=='unsubscribe')
   }
 
 // create a new mailbox
-else if ($_action=='create-folder')
+else if ($RCMAIL->action=='create-folder')
   {
   if (!empty($_POST['_name']))
     $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF-7')), TRUE);
@@ -62,7 +62,7 @@ else if ($_action=='create-folder')
   }
 
 // rename a mailbox
-else if ($_action=='rename-folder')
+else if ($RCMAIL->action=='rename-folder')
   {
   if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
     $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_POST)), trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, FALSE, 'UTF-7')));
@@ -97,7 +97,7 @@ else if ($_action=='rename-folder')
   }
 
 // delete an existing IMAP mailbox
-else if ($_action=='delete-folder')
+else if ($RCMAIL->action=='delete-folder')
   {
   $a_mboxes = array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed());
   $delimiter = $IMAP->get_hierarchy_delimiter();

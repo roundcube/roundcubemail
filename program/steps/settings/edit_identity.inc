@@ -19,7 +19,7 @@
 
 */
 
-if (($_GET['_iid'] || $_POST['_iid']) && $_action=='edit-identity')
+if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity')
   {
   $IDENTITY_RECORD = $USER->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
   
@@ -37,9 +37,9 @@ $OUTPUT->include_script('list.js');
 
 function rcube_identity_form($attrib)
   {
-  global $IDENTITY_RECORD, $OUTPUT;
+  global $IDENTITY_RECORD, $RCMAIL, $OUTPUT;
 
-  $tinylang = substr($_SESSION['user_lang'], 0, 2);
+  $tinylang = substr($_SESSION['language'], 0, 2);
   if (!file_exists('program/js/tiny_mce/langs/'.$tinylang.'.js'))
     {
       $tinylang = 'en';
@@ -58,7 +58,7 @@ function rcube_identity_form($attrib)
                                     "theme_advanced_buttons2 : 'link,unlink,code,forecolor,fontselect,fontsizeselect'," .
                                     "theme_advanced_buttons3 : '' });");
 
-  if (!$IDENTITY_RECORD && $GLOBALS['_action']!='add-identity')
+  if (!$IDENTITY_RECORD && $RCMAIL->action != 'add-identity')
     return rcube_label('notfound');
 
   // add some labels to client
@@ -138,7 +138,7 @@ function rcube_identity_form($attrib)
 
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 
-if ($_action=='add-identity' && template_exists('addidentity'))
+if ($RCMAIL->action=='add-identity' && template_exists('addidentity'))
   $OUTPUT->send('addidentity');
 
 $OUTPUT->send('editidentity');

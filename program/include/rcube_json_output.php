@@ -41,10 +41,10 @@ class rcube_json_output
     /**
      * Constructor
      */
-    public function __construct(&$config, $task)
+    public function __construct($task)
     {
         $this->task   = $task;
-        $this->config = $config;
+        $this->config = rcmail::get_instance()->config;
     }
     
     

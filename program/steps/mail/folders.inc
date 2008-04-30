@@ -21,7 +21,7 @@
 $mbox_name = $IMAP->get_mailbox_name();
 
 // send EXPUNGE command
-if ($_action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
+if ($RCMAIL->action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 {
   $success = $IMAP->expunge($mbox);
 
@@ -29,7 +29,7 @@ if ($_action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
   if ($success && !empty($_REQUEST['_reload']))
   {
     $OUTPUT->command('message_list.clear');
-    $_action = 'list';
+    $RCMAIL->action = 'list';
     return;
   }
   else
@@ -37,7 +37,7 @@ if ($_action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 }
 
 // clear mailbox
-else if ($_action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
+else if ($RCMAIL->action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 {
   // we should only be purging trash and junk
   if($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']) 

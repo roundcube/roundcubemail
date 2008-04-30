@@ -118,7 +118,7 @@ $rcmail_config['double_auth'] = false;
 $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
 // the default locale setting
-$rcmail_config['locale_string'] = 'en';
+$rcmail_config['language'] = 'en';
 
 // use this format for short date display
 $rcmail_config['date_short'] = 'D H:i';

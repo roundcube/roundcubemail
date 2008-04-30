@@ -107,6 +107,6 @@ if ($default_id)
   $USER->set_default($default_id);
 
 // go to next step
-rcmail_overwrite_action($_framed ? 'edit-identity' : 'identities');
+rcmail_overwrite_action($OUTPUT->action ? 'edit-identity' : 'identities');
 
 ?>

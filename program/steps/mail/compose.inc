@@ -26,7 +26,7 @@ define('RCUBE_COMPOSE_DRAFT', 0x0108);
 
 
 // remove an attachment
-if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_POST['_file'], $regs))
+if ($RCMAIL->action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_POST['_file'], $regs))
 {
   $id = $regs[1];
   if (is_array($_SESSION['compose']['attachments'][$id]))
@@ -39,7 +39,7 @@ if ($_action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_POST['_
   }
 }
 
-if ($_action=='display-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
+if ($RCMAIL->action=='display-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
 {
   $id = $regs[1];
   if (is_array($_SESSION['compose']['attachments'][$id]))
@@ -337,7 +337,7 @@ function rcmail_compose_header_from($attrib)
 
 function rcmail_compose_body($attrib)
 {
-  global $CONFIG, $OUTPUT, $MESSAGE, $compose_mode;
+  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode;
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -410,7 +410,7 @@ function rcmail_compose_body($attrib)
     $body = rcmail_create_draft_body($body, $isHtml);
     }
 
-  $tinylang = substr($_SESSION['user_lang'], 0, 2); 
+  $tinylang = substr($_SESSION['language'], 0, 2);
   if (!file_exists('program/js/tiny_mce/langs/'.$tinylang.'.js'))
     { 
     $tinylang = 'en'; 
@@ -455,14 +455,14 @@ function rcmail_compose_body($attrib)
       "googie.setCurrentLanguage('%s');\n".
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
-      $GLOBALS['COMM_PATH'],
+      $RCMAIL->comm_path,
       JQ(Q(rcube_label('checkspelling'))),
       JQ(Q(rcube_label('resumeediting'))),
       JQ(Q(rcube_label('close'))),
       JQ(Q(rcube_label('revertto'))),
       JQ(Q(rcube_label('nospellerrors'))),
       $lang_set,
-      substr($_SESSION['user_lang'], 0, 2),
+      substr($_SESSION['language'], 0, 2),
       $attrib['id'],
       JS_OBJECT_NAME), 'foot');
 
@@ -704,30 +704,21 @@ function rcmail_compose_attachment_list($attrib)
 
 function rcmail_compose_attachment_form($attrib)
 {
-  global $OUTPUT, $SESS_HIDDEN_FIELD;
+  global $OUTPUT;
 
   // add ID if not given
   if (!$attrib['id'])
     $attrib['id'] = 'rcmUploadbox';
   
-  // allow the following attributes to be added to the <div> tag
-  $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style'));
-  $input_field = rcmail_compose_attachment_field(array());
-  $label_send = rcube_label('upload');
-  $label_close = rcube_label('close');
-  $js_instance = JS_OBJECT_NAME;
+  $button = new html_inputfield(array('type' => "button", 'class' => "button"));
   
-  $out = <<<EOF
-<div$attrib_str>
-<form action="./" method="post" enctype="multipart/form-data">
-$SESS_HIDDEN_FIELD
-$input_field<br />
-<input type="button" value="$label_close" class="button" onclick="document.getElementById('$attrib[id]').style.visibility='hidden'" />
-<input type="button" value="$label_send" class="button" onclick="$js_instance.command('send-attachment', this.form)" />
-</form>
-</div>
-EOF;
-
+  $out = html::div($attrib,
+    $OUTPUT->form_tag(array('name' => "form", 'method' => "post")) .
+    rcmail_compose_attachment_field(array()) . html::br() .
+    $button->show(rcube_label('close'), array('onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) .
+    $button->show(rcube_label('upload'), array('onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
+  );
+  
   
   $OUTPUT->add_gui_object('uploadbox', $attrib['id']);
   return $out;
@@ -843,16 +834,15 @@ function rcmail_editor_selector($attrib)
 
 function get_form_tags($attrib)
 {
-  global $CONFIG, $OUTPUT, $MESSAGE_FORM, $SESS_HIDDEN_FIELD;  
+  global $RCMAIL, $MESSAGE_FORM;
 
   $form_start = '';
   if (!strlen($MESSAGE_FORM))
   {
-    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $GLOBALS['_task']));
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
 
-    $form_start = empty($attrib['form']) ? '<form name="form" action="./" method="post">' : '';
-    $form_start .= "\n$SESS_HIDDEN_FIELD\n";
+    $form_start = empty($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();
   }
     
@@ -860,7 +850,7 @@ function get_form_tags($attrib)
   $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
   
   if (!strlen($MESSAGE_FORM))
-    $OUTPUT->add_gui_object('messageform', $form_name);
+    $RCMAIL->output->add_gui_object('messageform', $form_name);
   
   $MESSAGE_FORM = $form_name;
 

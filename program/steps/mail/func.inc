@@ -74,7 +74,7 @@ if (!$OUTPUT->ajax_call)
   rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
 
 // set page title
-if (empty($_action) || $_action == 'list')
+if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
 
 

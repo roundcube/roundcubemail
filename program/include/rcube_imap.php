@@ -465,7 +465,7 @@ class rcube_imap
     if (!$force && is_array($a_mailbox_cache[$mailbox]) && isset($a_mailbox_cache[$mailbox][$mode]))
       return $a_mailbox_cache[$mailbox][$mode];
 
-    // RECENT count is fetched abit different      
+    // RECENT count is fetched a bit different
     if ($mode == 'RECENT')
        $count = iil_C_CheckForRecent($this->conn, $mailbox);
 
