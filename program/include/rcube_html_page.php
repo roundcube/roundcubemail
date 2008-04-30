@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | program/include/rcube_html_page.php                                   |
@@ -22,25 +23,26 @@
  * Class for HTML page creation
  *
  * @package HTML
- *
- * @author  Thomas Bruederli <roundcube@gmail.com>
- * @license http://gnu.org GPL
- * @todo    See about improving performance (__get, __set, sprintf)
  */
 class rcube_html_page
 {
-    protected $_store = array();
+    protected $scripts_path = '';
+    protected $script_files = array();
+    protected $scripts = array();
+    protected $charset = 'UTF-8';
 
-    /**
-     * Constructor
-     *
-     * @return rcube_html_page
-     * @uses self::reset()
-     */
-    public function __construct()
-    {
-        $this->reset();
-    }
+    protected $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
+    protected $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
+    protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
+
+    protected $title = '';
+    protected $header = '';
+    protected $footer = '';
+    protected $body = '';
+
+
+    /** Constructor */
+    public function __construct() {}
 
     /**
      * Link an external script file
@@ -120,26 +122,11 @@ class rcube_html_page
 
     /**
      * Reset all saved properties
-     *
-     * @return void
-     * @see self::__construct
-     * @uses self::$_store
      */
     public function reset()
     {
-        $this->scripts_path = '';
         $this->script_files = array();
-        $this->external_scripts = array();
         $this->scripts = array();
-        $this->charset = 'UTF-8';
-
-        // templates
-        $this->script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
-        $this->script_tag = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
-        $this->default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
-        $this->tag_format_external_script = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-
-        // page stuff
         $this->title = '';
         $this->header = '';
         $this->footer = '';
@@ -264,31 +251,5 @@ class rcube_html_page
 
         echo rcube_charset_convert($output, 'UTF-8', $this->charset);
     }
-
-    /**
-     * __get
-     *
-     * @param string $var A variable name.
-     *
-     * @return mixed
-     * @uses self::$_store
-     */
-    public function __get($var)
-    {
-        return $this->_store[$var];
-    }
-
-    /**
-     * __set
-     *
-     * @param string $var A variable name.
-     * @param mixed  $value The value of the variable.
-     *
-     * @return mixed
-     * @uses self::$_store
-     */
-    public function __set($var, $value)
-    {
-        return $this->_store[$var] = $value;
-    }
 }
+

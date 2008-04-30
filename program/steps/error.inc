@@ -99,8 +99,7 @@ EOF;
 
 if (template_exists('error'))
   {
-  $OUTPUT->scripts = array();
-  $OUTPUT->script_files = array();
+  $OUTPUT->reset();
   $OUTPUT->send('error');
   }
 
