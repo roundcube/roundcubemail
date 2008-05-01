@@ -1419,10 +1419,12 @@ function rcmail_deliver_message(&$message, $from, $mailto)
     // clean Bcc from header for recipients
     $send_headers = $headers;
     unset($send_headers['Bcc']);
+    // here too, it because txtHeaders() below use $message->_headers not only $send_headers
+    unset($message->_headers['Bcc']);
 
     // send message
     $smtp_response = array();
-    $sent = smtp_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers)), $msg_body, $smtp_response);
+    $sent = smtp_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers, true)), $msg_body, $smtp_response);
 
     // log error
     if (!$sent)
