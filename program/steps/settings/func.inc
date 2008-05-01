@@ -27,9 +27,10 @@ if ($USER->ID)
 
 function rcmail_user_prefs_form($attrib)
   {
-  global $DB, $CONFIG;
+  global $RCMAIL;
+  $config = $RCMAIL->config->all();
 
-  $no_override = is_array($CONFIG['dont_override']) ? array_flip($CONFIG['dont_override']) : array();
+  $no_override = is_array($config['dont_override']) ? array_flip($config['dont_override']) : array();
 
   // add some labels to client
   rcube_add_label('nopagesizewarning');
@@ -109,7 +110,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('timezone')),
-                    $select_timezone->show((string)$CONFIG['timezone']));
+                    $select_timezone->show((string)$config['timezone']));
     }
 
   // daylight savings
@@ -120,7 +121,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('dstactive')),
-                    $input_dst->show($CONFIG['dst_active']));
+                    $input_dst->show($config['dst_active']));
     }
 
   // show page size selection
@@ -132,7 +133,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('pagesize')),
-                    $input_pagesize->show($CONFIG['pagesize']));
+                    $input_pagesize->show($config['pagesize']));
     }
 
   // MM: Show checkbox for toggling 'pretty dates' 
@@ -144,7 +145,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('prettydate')),
-                    $input_prettydate->show($CONFIG['prettydate']?1:0));
+                    $input_prettydate->show($config['prettydate']?1:0));
     }
 
   // show checkbox for HTML/plaintext messages
@@ -156,7 +157,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('preferhtml')),
-                    $input_pagesize->show($CONFIG['prefer_html']?1:0));
+                    $input_pagesize->show($config['prefer_html']?1:0));
     }
 
   // Show checkbox for HTML Editor
@@ -167,7 +168,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('htmleditor')),
-                    $input_htmleditor->show($CONFIG['htmleditor']?1:0));
+                    $input_htmleditor->show($config['htmleditor']?1:0));
     }
 
   // show config parameter for preview pane
@@ -178,12 +179,12 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('previewpane')),
-                    $input_preview->show($CONFIG['preview_pane']?1:0));
+                    $input_preview->show($config['preview_pane']?1:0));
     }
 
   $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('serversettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
                   
-  if (!empty($CONFIG['drafts_mbox']) && !isset($no_override['draft_autosave']))
+  if (!empty($config['drafts_mbox']) && !isset($no_override['draft_autosave']))
     {
     $field_id = 'rcmfd_autosave';
     $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => $field_id));
@@ -194,7 +195,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('autosavedraft')),
-                    $select_autosave->show($CONFIG['draft_autosave']));
+                    $select_autosave->show($config['draft_autosave']));
     }
 
   // Trash purging on logout
@@ -205,7 +206,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('logoutclear')),
-                    $input_purge->show($CONFIG['logout_purge']?1:0));
+                    $input_purge->show($config['logout_purge']?1:0));
     }
 
   // INBOX compacting on logout
@@ -216,7 +217,7 @@ function rcmail_user_prefs_form($attrib)
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('logoutcompact')),
-                    $input_expunge->show($CONFIG['logout_expunge']?1:0));
+                    $input_expunge->show($config['logout_expunge']?1:0));
     }
 
   $out .= "\n</table></fieldset>$form_end";
