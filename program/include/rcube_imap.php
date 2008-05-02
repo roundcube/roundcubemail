@@ -669,7 +669,7 @@ class rcube_imap
 
     // fetch reuested headers from server
     $a_msg_headers = array();
-    $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
+    $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, NULL);
 
     // return empty array if no messages found
     if (!is_array($a_msg_headers) || empty($a_msg_headers))
