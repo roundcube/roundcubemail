@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.68 2007/11/25 13:38:29 quipo Exp $
+// $Id: pgsql.php,v 1.70 2008/03/13 20:38:09 quipo Exp $
 
 require_once 'MDB2/Driver/Reverse/Common.php';
 
@@ -358,7 +358,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             $query = 'SELECT a.attname
                         FROM pg_constraint c
                    LEFT JOIN pg_class t  ON c.confrelid  = t.oid
-                   LEFT JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(c.conkey)
+                   LEFT JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(c.confkey)
                        WHERE c.conname = %s
                          AND t.relname = ' . $db->quote($definition['references']['table'], 'text');
             $constraint_name_mdb2 = $db->getIndexName($constraint_name);
@@ -424,7 +424,10 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
                             WHEN 24 THEN 'UPDATE, DELETE'
                             WHEN 12 THEN 'INSERT, DELETE'
                          END AS trigger_event,
-                         trg.tgenabled AS trigger_enabled,
+                         CASE trg.tgenabled
+                            WHEN 'O' THEN 't'
+                            ELSE trg.tgenabled
+                         END AS trigger_enabled,
                          obj_description(trg.oid, 'pg_trigger') AS trigger_comment
                     FROM pg_trigger trg,
                          pg_class tbl,

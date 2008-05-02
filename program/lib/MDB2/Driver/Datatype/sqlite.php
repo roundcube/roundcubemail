@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.65 2007/12/03 20:59:51 quipo Exp $
+// $Id: sqlite.php,v 1.67 2008/02/22 19:58:06 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -212,8 +212,6 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
                 $field['default'] = empty($field['notnull']) ? null : 0;
             }
             $default = ' DEFAULT '.$this->quote($field['default'], 'integer');
-        } elseif (empty($field['notnull'])) {
-            $default = ' DEFAULT NULL';
         }
 
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
@@ -394,7 +392,6 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
             if (PEAR::isError($db)) {
                 return $db;
             }
-
             return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'unknown database attribute type: '.$db_type, __FUNCTION__);
         }

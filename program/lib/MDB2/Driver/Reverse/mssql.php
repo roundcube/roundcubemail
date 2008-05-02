@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: mssql.php,v 1.48 2007/11/25 13:38:29 quipo Exp $
+// $Id: mssql.php,v 1.49 2008/02/17 15:30:57 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Reverse/Common.php';
@@ -454,7 +454,7 @@ class MDB2_Driver_Reverse_mssql extends MDB2_Driver_Reverse_Common
         }
         $trg_body = $db->queryCol('EXEC sp_helptext '. $db->quote($trigger, 'text'), 'text');
         if (!PEAR::isError($trg_body)) {
-            $def['trigger_body'] = implode('', $trg_body);
+            $def['trigger_body'] = implode(' ', $trg_body);
         }
         return $def;
     }

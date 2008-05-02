@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.62 2007/11/09 20:54:58 quipo Exp $
+// $Id: mysql.php,v 1.65 2008/02/22 19:23:49 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -232,6 +232,93 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
                 $field['default'] = empty($field['notnull']) ? null : 0;
             }
             $default = ' DEFAULT '.$this->quote($field['default'], 'integer');
+        }
+
+        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+        $unsigned = empty($field['unsigned']) ? '' : ' UNSIGNED';
+        $name = $db->quoteIdentifier($name, true);
+        return $name.' '.$this->getTypeDeclaration($field).$unsigned.$default.$notnull.$autoinc;
+    }
+
+    // }}}
+    // {{{ _getFloatDeclaration()
+
+    /**
+     * Obtain DBMS specific SQL code portion needed to declare an float type
+     * field to be used in statements like CREATE TABLE.
+     *
+     * @param string  $name   name the field to be declared.
+     * @param string  $field  associative array with the name of the properties
+     *                        of the field being declared as array indexes.
+     *                        Currently, the types of supported field
+     *                        properties are as follows:
+     *
+     *                       unsigned
+     *                        Boolean flag that indicates whether the field
+     *                        should be declared as unsigned float if
+     *                        possible.
+     *
+     *                       default
+     *                        float value to be used as default for this
+     *                        field.
+     *
+     *                       notnull
+     *                        Boolean flag that indicates whether this field is
+     *                        constrained to not be set to null.
+     * @return string  DBMS specific SQL code portion that should be used to
+     *                 declare the specified field.
+     * @access protected
+     */
+    function _getFloatDeclaration($name, $field)
+    {
+        // Since AUTO_INCREMENT can be used for integer or floating-point types,
+        // reuse the INTEGER declaration
+        // @see http://bugs.mysql.com/bug.php?id=31032
+        return $this->_getIntegerDeclaration($name, $field);
+    }
+
+    // }}}
+    // {{{ _getDecimalDeclaration()
+
+    /**
+     * Obtain DBMS specific SQL code portion needed to declare an decimal type
+     * field to be used in statements like CREATE TABLE.
+     *
+     * @param string  $name   name the field to be declared.
+     * @param string  $field  associative array with the name of the properties
+     *                        of the field being declared as array indexes.
+     *                        Currently, the types of supported field
+     *                        properties are as follows:
+     *
+     *                       unsigned
+     *                        Boolean flag that indicates whether the field
+     *                        should be declared as unsigned integer if
+     *                        possible.
+     *
+     *                       default
+     *                        Decimal value to be used as default for this
+     *                        field.
+     *
+     *                       notnull
+     *                        Boolean flag that indicates whether this field is
+     *                        constrained to not be set to null.
+     * @return string  DBMS specific SQL code portion that should be used to
+     *                 declare the specified field.
+     * @access protected
+     */
+    function _getDecimalDeclaration($name, $field)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $default = '';
+        if (array_key_exists('default', $field)) {
+            if ($field['default'] === '') {
+                $field['default'] = empty($field['notnull']) ? null : 0;
+            }
+            $default = ' DEFAULT '.$this->quote($field['default'], 'integer');
         } elseif (empty($field['notnull'])) {
             $default = ' DEFAULT NULL';
         }
@@ -239,7 +326,7 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
         $unsigned = empty($field['unsigned']) ? '' : ' UNSIGNED';
         $name = $db->quoteIdentifier($name, true);
-        return $name.' '.$this->getTypeDeclaration($field).$unsigned.$default.$notnull.$autoinc;
+        return $name.' '.$this->getTypeDeclaration($field).$unsigned.$default.$notnull;
     }
 
     // }}}

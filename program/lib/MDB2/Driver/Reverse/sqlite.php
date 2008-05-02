@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.78 2007/12/01 10:46:13 quipo Exp $
+// $Id: sqlite.php,v 1.79 2008/03/05 11:08:53 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Reverse/Common.php';
@@ -382,6 +382,18 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
             if ($constraint_name == 'primary') {
                 // search in table definition for PRIMARY KEYs
                 if (preg_match("/\bPRIMARY\s+KEY\b\s*\(([^)]+)/i", $sql, $tmp)) {
+                    $definition['primary'] = true;
+                    $definition['fields'] = array();
+                    $column_names = split(',', $tmp[1]);
+                    $colpos = 1;
+                    foreach ($column_names as $column_name) {
+                        $definition['fields'][trim($column_name)] = array(
+                            'position' => $colpos++
+                        );
+                    }
+                    return $definition;
+                }
+                if (preg_match("/\"([^\"]+)\"[^\,\"]+\bPRIMARY\s+KEY\b[^\,\)]*/i", $sql, $tmp)) {
                     $definition['primary'] = true;
                     $definition['fields'] = array();
                     $column_names = split(',', $tmp[1]);

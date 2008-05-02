@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.41 2007/09/09 13:47:36 quipo Exp $
+// $Id: Common.php,v 1.42 2008/01/12 12:50:58 quipo Exp $
 //
 
 /**
@@ -465,6 +465,8 @@ class MDB2_Driver_Reverse_Common extends MDB2_Module_Common
                 }
             }
         }
+
+        $res = array();
 
         if ($mode) {
             $res['num_fields'] = count($fields);

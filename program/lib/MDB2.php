@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: MDB2.php,v 1.307 2007/11/10 13:29:05 quipo Exp $
+// $Id: MDB2.php,v 1.318 2008/03/08 14:18:38 quipo Exp $
 //
 
 /**
@@ -100,6 +100,8 @@ define('MDB2_ERROR_MANAGER',            -32);
 define('MDB2_ERROR_MANAGER_PARSE',      -33);
 define('MDB2_ERROR_LOADMODULE',         -34);
 define('MDB2_ERROR_INSUFFICIENT_DATA',  -35);
+define('MDB2_ERROR_NO_PERMISSION',      -36);
+
 // }}}
 // {{{ Verbose constants
 /**
@@ -564,7 +566,7 @@ class MDB2
      */
     function apiVersion()
     {
-        return '2.5.0a2';
+        return '2.5.0b1';
     }
 
     // }}}
@@ -764,6 +766,7 @@ class MDB2
                 MDB2_ERROR_LOADMODULE         => 'error while including on demand module',
                 MDB2_ERROR_TRUNCATED          => 'truncated',
                 MDB2_ERROR_DEADLOCK           => 'deadlock detected',
+                MDB2_ERROR_NO_PERMISSION      => 'no permission',
             );
         }
 
@@ -888,7 +891,7 @@ class MDB2
                 //"username/password@[//]host[:port][/service_name]"
                 //e.g. "scott/tiger@//mymachine:1521/oracle"
                 $proto_opts = $dsn;
-                $dsn = null;
+                $dsn = substr($proto_opts, strrpos($proto_opts, '/') + 1);
             } elseif (strpos($dsn, '/') !== false) {
                 list($proto_opts, $dsn) = explode('/', $dsn, 2);
             } else {
@@ -1095,6 +1098,7 @@ class MDB2_Driver_Common extends PEAR
         'LOBs' => false,
         'replace' => false,
         'sub_selects' => false,
+        'triggers' => false,
         'auto_increment' => false,
         'primary_key' => false,
         'result_introspection' => false,
@@ -1142,6 +1146,7 @@ class MDB2_Driver_Common extends PEAR
      *  <li>$options['datatype_map'] -> array: map user defined datatypes to other primitive datatypes</li>
      *  <li>$options['datatype_map_callback'] -> array: callback function/method that should be called</li>
      *  <li>$options['bindname_format'] -> string: regular expression pattern for named parameters
+     *  <li>$options['max_identifiers_length'] -> integer: max identifier length</li>
      * </ul>
      *
      * @var     array
@@ -1190,6 +1195,7 @@ class MDB2_Driver_Common extends PEAR
         'nativetype_map_callback' => array(),
         'lob_allow_url_include' => false,
         'bindname_format' => '(?:\d+)|(?:[a-zA-Z][a-zA-Z0-9_]*)',
+        'max_identifiers_length' => 30,
     );
 
     /**
@@ -2219,6 +2225,23 @@ class MDB2_Driver_Common extends PEAR
     }
 
     // }}}
+    // {{{ databaseExists()
+
+    /**
+     * check if given database name is exists?
+     *
+     * @param string $name    name of the database that should be checked
+     *
+     * @return mixed true/false on success, a MDB2 error on failure
+     * @access public
+     */
+    function databaseExists($name)
+    {
+        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            'method not implemented', __FUNCTION__);
+    }
+
+    // }}}
     // {{{ setCharset($charset, $connection = null)
 
     /**
@@ -2277,7 +2300,9 @@ class MDB2_Driver_Common extends PEAR
     {
         $previous_database_name = (isset($this->database_name)) ? $this->database_name : '';
         $this->database_name = $name;
-        $this->disconnect(false);
+        if (!empty($this->connected_database_name) && ($this->connected_database_name != $this->database_name)) {
+            $this->disconnect(false);
+        }
         return $previous_database_name;
     }
 
@@ -2795,7 +2820,7 @@ class MDB2_Driver_Common extends PEAR
                     return $this->raiseError(MDB2_ERROR_CANNOT_REPLACE, null, null,
                         'key value '.$name.' may not be NULL', __FUNCTION__);
                 }
-                $condition[] = $name . '=' . $value;
+                $condition[] = $this->quoteIdentifier($name, true) . '=' . $value;
             }
         }
         if (empty($condition)) {
@@ -2815,13 +2840,16 @@ class MDB2_Driver_Common extends PEAR
         }
 
         $condition = ' WHERE '.implode(' AND ', $condition);
-        $query = "DELETE FROM $table$condition";
+        $query = 'DELETE FROM ' . $this->quoteIdentifier($table, true) . $condition;
         $result =& $this->_doQuery($query, true, $connection);
         if (!PEAR::isError($result)) {
             $affected_rows = $this->_affectedRows($connection, $result);
-            $insert = implode(', ', array_keys($values));
+            $insert = '';
+            foreach ($values as $key => $value) {
+                $insert .= ($insert?', ':'') . $this->quoteIdentifier($key, true);
+            }
             $values = implode(', ', $values);
-            $query = "INSERT INTO $table ($insert) VALUES ($values)";
+            $query = 'INSERT INTO '. $this->quoteIdentifier($table, true) . "($insert) VALUES ($values)";
             $result =& $this->_doQuery($query, true, $connection);
             if (!PEAR::isError($result)) {
                 $affected_rows += $this->_affectedRows($connection, $result);;
@@ -2998,7 +3026,7 @@ class MDB2_Driver_Common extends PEAR
                                 return $err;
                             }
                         }
-                    } while ($ignore['escape'] && $query[($end_quote - 1)] == $ignore['escape']);
+                    } while ($ignore['escape'] && $query[($end_quote - 1)] == $ignore['escape'] && $end_quote-1 != $start_quote);
                     $position = $end_quote + 1;
                     return $position;
                 }
@@ -3980,9 +4008,11 @@ class MDB2_Statement_Common
         $types = is_array($types) ? array_values($types) : array_fill(0, count($values), null);
         $parameters = array_keys($values);
         foreach ($parameters as $key => $parameter) {
+            $this->db->pushErrorHandling(PEAR_ERROR_RETURN);
             $this->db->expectError(MDB2_ERROR_NOT_FOUND);
             $err = $this->bindValue($parameter, $values[$parameter], $types[$key]);
             $this->db->popExpect();
+            $this->db->popErrorHandling();
             if (PEAR::isError($err)) {
                 if ($err->getCode() == MDB2_ERROR_NOT_FOUND) {
                     //ignore (extra value for missing placeholder)

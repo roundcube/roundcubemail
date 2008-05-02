@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.152 2007/11/27 07:44:41 quipo Exp $
+// $Id: sqlite.php,v 1.158 2008/03/08 14:18:39 quipo Exp $
 //
 
 /**
@@ -89,6 +89,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $this->supported['transactions'] = true;
         $this->supported['savepoints'] = false;
         $this->supported['sub_selects'] = true;
+        $this->supported['triggers'] = true;
         $this->supported['auto_increment'] = true;
         $this->supported['primary_key'] = false; // requires alter table implementation
         $this->supported['result_introspection'] = false; // not implemented
@@ -97,11 +98,14 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $this->supported['pattern_escaping'] = false;
         $this->supported['new_link'] = false;
 
+        $this->options['DBA_username'] = false;
+        $this->options['DBA_password'] = false;
         $this->options['base_transaction_name'] = '___php_MDB2_sqlite_auto_commit_off';
         $this->options['fixed_float'] = 0;
         $this->options['database_path'] = '';
         $this->options['database_extension'] = '';
         $this->options['server_version'] = '';
+        $this->options['max_identifiers_length'] = 128; //no real limit
     }
 
     // }}}
@@ -125,7 +129,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
             
         // PHP 5.2+ prepends the function name to $php_errormsg, so we need
         // this hack to work around it, per bug #9599.
-        $native_msg = preg_replace('/^sqlite[a-z_]+\(\): /', '', $native_msg);
+        $native_msg = preg_replace('/^sqlite[a-z_]+\(\)[^:]*: /', '', $native_msg);
 
         if (is_null($error)) {
             static $error_regexps;
@@ -425,6 +429,24 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
     }
 
     // }}}
+    // {{{ databaseExists()
+
+    /**
+     * check if given database name is exists?
+     *
+     * @param string $name    name of the database that should be checked
+     *
+     * @return mixed true/false on success, a MDB2 error on failure
+     * @access public
+     */
+    function databaseExists($name)
+    {
+        $database_file = $this->_getDatabaseFile($name);
+        $result = file_exists($database_file);
+        return $result;
+    }
+
+    // }}}
     // {{{ disconnect()
 
     /**
@@ -721,7 +743,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
                 $query .= ',';
                 $values.= ',';
             }
-            $query.= $name;
+            $query.= $this->quoteIdentifier($name, true);
             if (isset($fields[$name]['null']) && $fields[$name]['null']) {
                 $value = 'NULL';
             } else {
@@ -750,6 +772,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
             return $connection;
         }
 
+        $table = $this->quoteIdentifier($table, true);
         $query = "REPLACE INTO $table ($query) VALUES ($values)";
         $result =& $this->_doQuery($query, true, $connection);
         if (PEAR::isError($result)) {
@@ -777,9 +800,11 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($seq_name), true);
         $seqcol_name = $this->options['seqcol_name'];
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
+        $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError(MDB2_ERROR_NOSUCHTABLE);
         $result =& $this->_doQuery($query, true);
         $this->popExpect();
+        $this->popErrorHandling();
         if (PEAR::isError($result)) {
             if ($ondemand && $result->getCode() == MDB2_ERROR_NOSUCHTABLE) {
                 $this->loadModule('Manager', null, true);

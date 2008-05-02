@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/02 (alec)
+----------
+- Updated MDB2 package to version 2.5.0b1
+- Updated MDB2 pgsql, mysql, mysqli, sqlite drivers to version 1.5.0b1
+- Updated MDB2 mssql driver to version 1.3.0b1
+- Fixed identities saving when using MDB2 pgsql driver (#1485032)
+
 2008/05/01 (alec)
 ----------
 - Fix BCC header reset (#1484997)

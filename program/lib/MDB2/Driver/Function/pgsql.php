@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.9 2006/06/12 21:48:43 lsmith Exp $
+// $Id: pgsql.php,v 1.10 2008/02/17 18:54:08 quipo Exp $
 
 require_once 'MDB2/Driver/Function/Common.php';
 
@@ -80,6 +80,22 @@ class MDB2_Driver_Function_pgsql extends MDB2_Driver_Function_Common
         $query .= $params ? '('.implode(', ', $params).')' : '()';
         return $db->query($query, $types, $result_class, $result_wrap_class);
     }
+    // }}}
+    // {{{ unixtimestamp()
+
+    /**
+     * return string to call a function to get the unix timestamp from a iso timestamp
+     *
+     * @param string $expression
+     *
+     * @return string to call a variable with the timestamp
+     * @access public
+     */
+    function unixtimestamp($expression)
+    {
+        return 'EXTRACT(EPOCH FROM DATE_TRUNC(\'seconds\', TIMESTAMP '. $expression.'))';
+    }
+
     // }}}
     // {{{ random()
 

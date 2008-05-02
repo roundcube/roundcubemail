@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.8 2006/06/13 22:55:55 lsmith Exp $
+// $Id: sqlite.php,v 1.10 2008/02/17 18:54:08 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Function/Common.php';
@@ -90,6 +90,22 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
     }
 
     // }}}
+    // {{{ unixtimestamp()
+
+    /**
+     * return string to call a function to get the unix timestamp from a iso timestamp
+     *
+     * @param string $expression
+     *
+     * @return string to call a variable with the timestamp
+     * @access public
+     */
+    function unixtimestamp($expression)
+    {
+        return 'strftime("%s",'. $expression.', "utc")';
+    }
+
+    // }}}
     // {{{ substring()
 
     /**
@@ -118,6 +134,27 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
     function random()
     {
         return '((RANDOM()+2147483648)/4294967296)';
+    }
+
+    // }}}
+    // {{{ replace()
+
+    /**
+     * return string to call a function to get a replacement inside an SQL statement.
+     *
+     * @return string to call a function to get a replace
+     * @access public
+     */
+    function replace($str, $from_str, $to_str)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $error =& $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            'method not implemented', __FUNCTION__);
+        return $error;
     }
 
     // }}}

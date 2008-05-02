@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysqli.php,v 1.13 2007/01/12 11:29:12 quipo Exp $
+// $Id: mysqli.php,v 1.14 2008/02/17 18:54:08 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Function/Common.php';
@@ -89,6 +89,22 @@ class MDB2_Driver_Function_mysqli extends MDB2_Driver_Function_Common
             $db->setOption('multi_query', false);
         }
         return $result;
+    }
+
+    // }}}
+    // {{{ unixtimestamp()
+
+    /**
+     * return string to call a function to get the unix timestamp from a iso timestamp
+     *
+     * @param string $expression
+     *
+     * @return string to call a variable with the timestamp
+     * @access public
+     */
+    function unixtimestamp($expression)
+    {
+        return 'UNIX_TIMESTAMP('. $expression.')';
     }
 
     // }}}
