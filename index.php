@@ -170,6 +170,7 @@ if (empty($RCMAIL->user->ID)) {
     );
   }
   
+  $OUTPUT->set_env('task', 'login');
   $OUTPUT->task = 'login';
   $OUTPUT->send('login');
   exit;
