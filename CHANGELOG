@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/05 (alec)
+----------
+- Installer: encode special characters in DB username/password (#1485042)
+
 2008/05/02 (alec)
 ----------
 - Updated MDB2 package to version 2.5.0b1

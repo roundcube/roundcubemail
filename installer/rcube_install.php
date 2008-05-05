@@ -137,7 +137,9 @@ class rcube_install
         if ($_POST['_dbtype'] == 'sqlite')
           $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
         else
-          $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], $_POST['_dbuser'], $_POST['_dbpass'], $_POST['_dbhost'], $_POST['_dbname']);
+          $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], 
+		    rawurlencode($_POST['_dbuser']), rawurlencode($_POST['_dbpass']),
+		    $_POST['_dbhost'], $_POST['_dbname']);
       }
       else if ($prop == 'smtp_auth_type' && $value == '0') {
         $value = '';
