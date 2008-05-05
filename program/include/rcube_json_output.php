@@ -64,7 +64,8 @@ class rcube_json_output
      */
     public function set_pagetitle($title)
     {
-        // ignore
+	$name = $this->config->get('product_name');
+	$this->command('set_pagetitle', JQ(empty($name) ? $title : $name.' :: '.$title));
     }
 
     /**
@@ -232,7 +233,7 @@ class rcube_json_output
                 implode(',', $args)
             );
         }
-        
+
         return $out;
     }
 }
