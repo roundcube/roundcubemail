@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/05/05 (alec)
 ----------
 - Installer: encode special characters in DB username/password (#1485042)
+- Do charset conversion also for from/to column on messages list
 
 2008/05/02 (alec)
 ----------

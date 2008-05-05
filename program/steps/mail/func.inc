@@ -231,12 +231,12 @@ function rcmail_message_list($attrib)
                     $zebra_class);    
     
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
-    
+
     // format each col
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = Q(rcmail_address_string($header->$col, 3, $attrib['addicon']), 'show');
+        $cont = Q(rcmail_address_string(rcube_imap::decode_mime_string($header->$col, $header->charset), 3, $attrib['addicon']), 'show');
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
@@ -325,7 +325,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = Q(rcmail_address_string($header->$col, 3), 'show');
+        $cont = Q(rcmail_address_string(rcube_imap::decode_mime_string($header->$col, $header->charset), 3), 'show');
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
@@ -1277,7 +1277,7 @@ function rcmail_first_text_part($message_struct)
 function rcmail_address_string($input, $max=NULL, $addicon=NULL)
   {
   global $IMAP, $PRINT_MODE, $CONFIG, $OUTPUT, $EMAIL_ADDRESS_PATTERN;
-  
+
   $a_parts = $IMAP->decode_address_list($input);
 
   if (!sizeof($a_parts))
@@ -1291,7 +1291,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     {
     $j++;
     if ($PRINT_MODE)
-      $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
+      $out .= sprintf('%s &lt;%s&gt;', Q(rcube_charset_convert($part['name'])), $part['mailto']);
     else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto']))
       {
       $out .= sprintf('<a href="mailto:%s" onclick="return %s.command(\'compose\',\'%s\',this)" class="rcmContactAddress" title="%s">%s</a>',
