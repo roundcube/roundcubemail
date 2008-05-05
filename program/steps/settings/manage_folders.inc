@@ -46,8 +46,13 @@ else if ($RCMAIL->action=='unsubscribe')
 else if ($RCMAIL->action=='create-folder')
   {
   if (!empty($_POST['_name']))
-    $create = $IMAP->create_mailbox(trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF-7')), TRUE);
-
+    {
+    $name = trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF-7'));
+     // #1485036 (RFC3501, 5.1.3) TODO: it should be done on read not on write
+    $name = str_replace('&-', '&', $name);
+    $create = $IMAP->create_mailbox($name, TRUE);
+    }
+  
   if ($create && $OUTPUT->ajax_call)
     {
     $delimiter = $IMAP->get_hierarchy_delimiter();
@@ -65,8 +70,13 @@ else if ($RCMAIL->action=='create-folder')
 else if ($RCMAIL->action=='rename-folder')
   {
   if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
-    $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_POST)), trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, FALSE, 'UTF-7')));
-    
+    {
+    $name = trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, FALSE, 'UTF-7'));
+     // #1485036 (RFC3501, 5.1.3) TODO: it should be done on read not on write
+    $name = str_replace('&-', '&', $name);
+    $rename = $IMAP->rename_mailbox(($oldname = get_input_value('_folder_oldname', RCUBE_INPUT_POST)), $name);
+    }
+
   if ($rename && $OUTPUT->ajax_call)
     {
     $a_mboxes = array_unique(array_merge($IMAP->list_mailboxes(), $IMAP->list_unsubscribed()));

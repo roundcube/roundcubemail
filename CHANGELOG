@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Installer: encode special characters in DB username/password (#1485042)
 - Do charset conversion also for from/to column on messages list
+- Fix management of folders with national characters in names (#1485036, #1485001)
 
 2008/05/02 (alec)
 ----------
