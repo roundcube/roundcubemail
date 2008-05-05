@@ -1291,7 +1291,7 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
     {
     $j++;
     if ($PRINT_MODE)
-      $out .= sprintf('%s &lt;%s&gt;', Q(rcube_charset_convert($part['name'])), $part['mailto']);
+      $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
     else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto']))
       {
       $out .= sprintf('<a href="mailto:%s" onclick="return %s.command(\'compose\',\'%s\',this)" class="rcmContactAddress" title="%s">%s</a>',
