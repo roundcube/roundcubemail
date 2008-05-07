@@ -2476,7 +2476,7 @@ function rcube_webmail()
       qs += '&_search='+this.env.search_request;
 
     // send request to server
-    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_from='+(this.env.action ? this.env.action : '')+qs);
+    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_from='+(this.env.action ? this.env.action : '')+qs);
     return true;
     };
 

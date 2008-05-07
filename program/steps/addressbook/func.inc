@@ -22,8 +22,17 @@
 // instantiate a contacts object according to the given source
 if (($source = get_input_value('_source', RCUBE_INPUT_GPC)) && isset($CONFIG['ldap_public'][$source]))
   $CONTACTS = new rcube_ldap($CONFIG['ldap_public'][$source]);
-else
-  $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+else {
+    if (!$CONFIG["use_SQL_address_book"]) {
+    // Get the first LDAP address book.
+    $source = key((array)$CONFIG['ldap_public']);
+    $prop = current((array)$CONFIG['ldap_public']);
+    $CONTACTS = new rcube_ldap($prop);
+  } // end if
+  else {
+    $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+  } // end else
+} // end else
 
 $CONTACTS->set_pagesize($CONFIG['pagesize']);
 
@@ -42,9 +51,13 @@ $OUTPUT->set_env('source', $source ? $source : '0');
 $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
 
 // add list of address sources to client env
-$js_list = array("0" => array('id' => 0, 'readonly' => false));
+$js_list = array();
+if ($CONFIG["use_SQL_address_book"]) {
+  // We are using the DB address book, add it.
+  $js_list = array("0" => array('id' => 0, 'readonly' => false));
+} // end if
 foreach ((array)$CONFIG['ldap_public'] as $id => $prop)
-  $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writeable']);
+  $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writable']);
 $OUTPUT->set_env('address_sources', $js_list);
 
 
@@ -66,19 +79,28 @@ function rcmail_directory_list($attrib)
     
   // allow the following attributes to be added to the <ul> tag
   $out = '<ul' . create_attrib_string($attrib, array('style', 'class', 'id')) . ">\n";
-  $out .= sprintf($line_templ,
-    'rcmli'.$local_id,
-    !$current ? 'selected' : '',
-    Q(rcmail_url('list', array('_source' => 0))),
-    JS_OBJECT_NAME,
-    $local_id,
-    JS_OBJECT_NAME,
-    $local_id,
-    JS_OBJECT_NAME,
-    $local_id,
-    JS_OBJECT_NAME,
-    $local_id,
-    rcube_label('personaladrbook'));
+  if ($CONFIG["use_SQL_address_book"]) {
+    $out .= sprintf($line_templ,
+      'rcmli'.$local_id,
+      !$current ? 'selected' : '',
+      Q(rcmail_url('list', array('_source' => 0))),
+      JS_OBJECT_NAME,
+      $local_id,
+      JS_OBJECT_NAME,
+      $local_id,
+      JS_OBJECT_NAME,
+      $local_id,
+      JS_OBJECT_NAME,
+      $local_id,
+      rcube_label('personaladrbook'));
+  } // end if
+  else {
+    // DB address book not used, see if a source is set, if not use the
+    // first LDAP directory.
+    if (!$current) {
+      $current = key((array)$CONFIG['ldap_public']);
+    } // end if
+  } // end else
   
   foreach ((array)$CONFIG['ldap_public'] as $id => $prop)
   {

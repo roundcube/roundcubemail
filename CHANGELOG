@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/07 (davidke/richs)
+----------
+- Completed LDAP address book support so it can now write to an LDAP server. 
+- Expanded LDAP configuration options to support LDAP server writes.
+- Modified config/main.inc.php.dist:
+  New Option: $rcmail_config['use_SQL_address_book']
+  Changed Option:  $rcmail_config['ldap_public']['Verisign']
+
 2008/05/05 (alec)
 ----------
 - Installer: encode special characters in DB username/password (#1485042)

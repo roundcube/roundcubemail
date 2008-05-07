@@ -602,7 +602,7 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
       {
       $zebra_class = $c%2 ? 'even' : 'odd';
 
-      $table .= sprintf('<tr id="rcmrow%d" class="contact '.$zebra_class.'">'."\n", $row_data[$id_col]);
+      $table .= sprintf('<tr id="rcmrow%s" class="contact '.$zebra_class.'">'."\n", $row_data[$id_col]);
 
       // format each col
       foreach ($a_show_cols as $col)

@@ -213,9 +213,28 @@ $rcmail_config['mail_header_delimiter'] = NULL;
 // session domain: .example.org
 $rcmail_config['session_domain'] = '';
 
-// in order to enable public ldap search, create a config array
-// like the Verisign example below. if you would like to test, 
-// simply uncomment the Verisign example.
+// This indicates whether or not to use the SQL address book.
+// If set to false then it will look at using the first writable LDAP
+// address book as the primary address book and it will not display the
+// SQL address book in the 'Address Book' view.
+$rcmail_config['use_SQL_address_book'] = true;
+
+// In order to enable public ldap search, configure an array like the Verisign
+// example further below. if you would like to test, simply uncomment the example.
+//
+// If you are going to use LDAP for individual address books, you will need to 
+// set 'user_specific' to true and use the variables to generate the appropriate DNs to access it.
+//
+// The recommended directory structure for LDAP is to store all the address book entries
+// under the users main entry, e.g.:
+//
+//  o=root
+//   ou=people
+//    uid=user@domain
+//	mail=contact@contactdomain
+//	
+// So the base_dn would be uid=%fu,ou=people,o=root
+// The bind_dn would be the same as based_dn or some super user login.
 /** 
  * example config for Verisign directory
  *
@@ -223,15 +242,27 @@ $rcmail_config['session_domain'] = '';
  *  'name'          => 'Verisign.com',
  *  'hosts'         => array('directory.verisign.com'),
  *  'port'          => 389,
+ *  'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
+ *  // %fu - The full username provided, assumes the username is an email
+ *  //       address, uses the username_domain value if not an email address.
+ *  // %u  - The username prior to the '@'.
+ *  // %d  - The domain name after the '@'.
  *  'base_dn'       => '',
  *  'bind_dn'       => '',
  *  'bind_pass'     => '',
+ *  'writable'      => false,   // Indicates if we can write to the LDAP directory or not.
+ *  // If writable is true then these fields need to be populated:
+ *  // LDAP_Object_Classes, required_fields, LDAP_rdn
+ *  'LDAP_Object_Classes' => array("top", "inetOrgPerson"), // To create a new contact these are the object classes to specify (or any other classes you wish to use).
+ *  'required_fields'     => array("cn", "sn", "mail"),     // The required fields needed to build a new contact as required by the object classes (can include additional fields not required by the object classes).
+ *  'LDAP_rdn'      => 'mail', // The RDN field that is used for new entries, this field needs to be one of the search_fields, the base of base_dn is appended to the RDN to insert into the LDAP directory.
  *  'ldap_version'  => 3,       // using LDAPv3
  *  'search_fields' => array('mail', 'cn'),  // fields to search in
  *  'name_field'    => 'cn',    // this field represents the contact's name
  *  'email_field'   => 'mail',  // this field represents the contact's e-mail
  *  'surname_field' => 'sn',    // this field represents the contact's last name
  *  'firstname_field' => 'gn',  // this field represents the contact's first name
+ *  'sort'          => 'cn',    // The field to sort the listing by.
  *  'scope'         => 'sub',   // search mode: sub|base|list
  *  'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
  *  'fuzzy_search'  => true);   // server allows wildcard search
