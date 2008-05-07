@@ -55,7 +55,7 @@ $SMTP_CONN = null;
  */
 function smtp_mail($from, $recipients, &$headers, &$body, &$response)
   {
-  global $SMTP_CONN, $CONFIG;
+  global $SMTP_CONN, $CONFIG, $RCMAIL;
   $smtp_timeout = null;
   $smtp_host = $CONFIG['smtp_server'];
   $smtp_port = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;
@@ -102,7 +102,7 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
         $smtp_user = $CONFIG['smtp_user'];
 
       if (strstr($CONFIG['smtp_pass'], '%p'))
-        $smtp_pass = str_replace('%p', decrypt_passwd($_SESSION['password']), $CONFIG['smtp_pass']);
+        $smtp_pass = str_replace('%p', $RCMAIL->decrypt_passwd($_SESSION['password']), $CONFIG['smtp_pass']);
       else
         $smtp_pass = $CONFIG['smtp_pass'];
 

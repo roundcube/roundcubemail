@@ -38,8 +38,9 @@ foreach ((array)$CONFIG['dont_override'] as $p)
 
 
 // switch UI language
-if (isset($_POST['_language']))
-  $_SESSION['language'] = get_input_value('_language', RCUBE_INPUT_POST);
+if (isset($_POST['_language'])) {
+  $RCMAIL->load_language(get_input_value('_language', RCUBE_INPUT_POST));
+}
 
 // force min size
 if ($a_user_prefs['pagesize'] < 1)

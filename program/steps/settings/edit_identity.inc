@@ -87,7 +87,7 @@ function rcube_identity_form($attrib)
     if (is_array($colprop))
       {
       $out = $form_start;
-      $out .= rcmail_get_edit_field($attrib['part'], $IDENTITY_RECORD[$attrib['part']], $attrib, $colprop['type']); 
+      $out .= rcmail_get_edit_field($attrib['part'], $IDENTITY_RECORD[$attrib['part']], $attrib + array('size' => 30), $colprop['type']); 
       return $out;
       }
     else
@@ -118,7 +118,7 @@ function rcube_identity_form($attrib)
       }
     else
       {
-      unset($attrib['size']);
+      $attrib['size'] = 40;
       unset($attrib['rows']);
       }
 

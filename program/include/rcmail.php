@@ -28,7 +28,7 @@
  */
 class rcmail
 {
-  static public $main_tasks = array('mail','settings','addressbook','logout');
+  static public $main_tasks = array('mail','settings','addressbook','login','logout');
   
   static private $instance;
   
@@ -194,7 +194,7 @@ class rcmail
       $lang = $this->language_prop(substr($lang, 0, 2));
     }
 
-    if (!isset($rcube_languages[$lang])) {
+    if (!isset($rcube_languages[$lang]) || !is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
       $lang = 'en_US';
     }
 
@@ -271,19 +271,11 @@ class rcmail
    * @param boolean True if connection should be established
    * @todo Remove global $IMAP
    */
-  function imap_init($connect = false)
+  public function imap_init($connect = false)
   {
     $this->imap = new rcube_imap($this->db);
     $this->imap->debug_level = $this->config->get('debug_level');
     $this->imap->skip_deleted = $this->config->get('skip_deleted');
-
-    // connect with stored session data
-    if ($connect && $_SESSION['imap_host']) {
-      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'])))
-        ; #$OUTPUT->show_message('imaperror', 'error');
-
-      $this->set_imap_prop();
-    }
 
     // enable caching of imap data
     if ($this->config->get('enable_caching')) {
@@ -292,9 +284,34 @@ class rcmail
 
     // set pagesize from config
     $this->imap->set_pagesize($this->config->get('pagesize', 50));
-    
+  
     // set global object for backward compatibility
     $GLOBALS['IMAP'] = $this->imap;
+    
+    if ($connect)
+      $this->imap_connect();
+  }
+
+
+  /**
+   * Connect to IMAP server with stored session data
+   *
+   * @return bool True on success, false on error
+   */
+  public function imap_connect()
+  {
+    $conn = false;
+    
+    if ($_SESSION['imap_host']) {
+      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
+        if ($this->output)
+          $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
+      }
+
+      $this->set_imap_prop();
+    }
+
+    return $conn;    
   }
 
 
@@ -402,7 +419,7 @@ class rcmail
       $_SESSION['imap_host'] = $host;
       $_SESSION['imap_port'] = $imap_port;
       $_SESSION['imap_ssl']  = $imap_ssl;
-      $_SESSION['password']  = encrypt_passwd($pass);
+      $_SESSION['password']  = $this->encrypt_passwd($pass);
       $_SESSION['login_time'] = mktime();
 
       // force reloading complete list of subscribed mailboxes
@@ -442,7 +459,266 @@ class rcmail
     }
   }
 
-  
+
+  /**
+   * Auto-select IMAP host based on the posted login information
+   *
+   * @return string Selected IMAP host
+   */
+  public function autoselect_host()
+  {
+    $default_host = $this->config->get('default_host');
+    $host = !empty($default_host) ? get_input_value('_host', RCUBE_INPUT_POST) : $default_host;
+    
+    if (is_array($host)) {
+      list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
+      if (!empty($domain)) {
+        foreach ($host as $imap_host => $mail_domains) {
+          if (is_array($mail_domains) && in_array($domain, $mail_domains)) {
+            $host = $imap_host;
+            break;
+          }
+        }
+      }
+
+      // take the first entry if $host is still an array
+      if (is_array($host))
+        $host = array_shift($host);
+    }
+
+    return $host;
+  }
+
+
+  /**
+   * Get localized text in the desired language
+   *
+   * @param mixed Named parameters array or label name
+   * @return string Localized text
+   */
+  public function gettext($attrib)
+  {
+    // load localization files if not done yet
+    if (empty($this->texts))
+      $this->load_language();
+    
+    // extract attributes
+    if (is_string($attrib))
+      $attrib = array('name' => $attrib);
+
+    $nr = is_numeric($attrib['nr']) ? $attrib['nr'] : 1;
+    $vars = isset($attrib['vars']) ? $attrib['vars'] : '';
+
+    $command_name = !empty($attrib['command']) ? $attrib['command'] : NULL;
+    $alias = $attrib['name'] ? $attrib['name'] : ($command_name && $command_label_map[$command_name] ? $command_label_map[$command_name] : '');
+
+    // text does not exist
+    if (!($text_item = $this->texts[$alias])) {
+      /*
+      raise_error(array(
+        'code' => 500,
+        'type' => 'php',
+        'line' => __LINE__,
+        'file' => __FILE__,
+        'message' => "Missing localized text for '$alias' in '$sess_user_lang'"), TRUE, FALSE);
+      */
+      return "[$alias]";
+    }
+
+    // make text item array 
+    $a_text_item = is_array($text_item) ? $text_item : array('single' => $text_item);
+
+    // decide which text to use
+    if ($nr == 1) {
+      $text = $a_text_item['single'];
+    }
+    else if ($nr > 0) {
+      $text = $a_text_item['multiple'];
+    }
+    else if ($nr == 0) {
+      if ($a_text_item['none'])
+        $text = $a_text_item['none'];
+      else if ($a_text_item['single'])
+        $text = $a_text_item['single'];
+      else if ($a_text_item['multiple'])
+        $text = $a_text_item['multiple'];
+    }
+
+    // default text is single
+    if ($text == '') {
+      $text = $a_text_item['single'];
+    }
+
+    // replace vars in text
+    if (is_array($attrib['vars'])) {
+      foreach ($attrib['vars'] as $var_key => $var_value)
+        $a_replace_vars[$var_key{0}=='$' ? substr($var_key, 1) : $var_key] = $var_value;
+    }
+
+    if ($a_replace_vars)
+      $text = preg_replace('/\$\{?([_a-z]{1}[_a-z0-9]*)\}?/ei', '$a_replace_vars["\1"]', $text);
+
+    // format output
+    if (($attrib['uppercase'] && strtolower($attrib['uppercase']=='first')) || $attrib['ucfirst'])
+      return ucfirst($text);
+    else if ($attrib['uppercase'])
+      return strtoupper($text);
+    else if ($attrib['lowercase'])
+      return strtolower($text);
+
+    return $text;
+  }
+
+
+  /**
+   * Load a localization package
+   *
+   * @param string Language ID
+   */
+  public function load_language($lang = null)
+  {
+    $lang = $lang ? $this->language_prop($lang) : $_SESSION['language'];
+    
+    // load localized texts
+    if (empty($this->texts) || $lang != $_SESSION['language']) {
+      $this->texts = array();
+
+      // get english labels (these should be complete)
+      @include(INSTALL_PATH . 'program/localization/en_US/labels.inc');
+      @include(INSTALL_PATH . 'program/localization/en_US/messages.inc');
+
+      if (is_array($labels))
+        $sa_text_data = $labels;
+      if (is_array($messages))
+        $sa_text_data = array_merge($sa_text_data, $messages);
+
+      // include user language files
+      if ($lang != 'en' && is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
+        include_once(INSTALL_PATH . 'program/localization/' . $lang . '/labels.inc');
+        include_once(INSTALL_PATH . 'program/localization/' . $lang . '/messages.inc');
+
+        if (is_array($labels))
+          $this->texts = array_merge($this->texts, $labels);
+        if (is_array($messages))
+          $this->texts = array_merge($this->texts, $messages);
+      }
+      
+      $_SESSION['language'] = $lang;
+    }
+  }
+
+
+  /**
+   * Read directory program/localization and return a list of available languages
+   *
+   * @return array List of available localizations
+   */
+  public function list_languages()
+  {
+    static $sa_languages = array();
+
+    if (!sizeof($sa_languages)) {
+      @include(INSTALL_PATH . 'program/localization/index.inc');
+
+      if ($dh = @opendir(INSTALL_PATH . 'program/localization')) {
+        while (($name = readdir($dh)) !== false) {
+          if ($name{0}=='.' || !is_dir(INSTALL_PATH . 'program/localization/' . $name))
+            continue;
+
+          if ($label = $rcube_languages[$name])
+            $sa_languages[$name] = $label ? $label : $name;
+        }
+        closedir($dh);
+      }
+    }
+
+    return $sa_languages;
+  }
+
+
+  /**
+   * Check the auth hash sent by the client against the local session credentials
+   *
+   * @return boolean True if valid, False if not
+   */
+  function authenticate_session()
+  {
+    global $SESS_CLIENT_IP, $SESS_CHANGED;
+
+    // advanced session authentication
+    if ($this->config->get('double_auth')) {
+      $now = time();
+      $valid = ($_COOKIE['sessauth'] == $this->get_auth_hash(session_id(), $_SESSION['auth_time']) ||
+                $_COOKIE['sessauth'] == $this->get_auth_hash(session_id(), $_SESSION['last_auth']));
+
+      // renew auth cookie every 5 minutes (only for GET requests)
+      if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now - $_SESSION['auth_time'] > 300)) {
+        $_SESSION['last_auth'] = $_SESSION['auth_time'];
+        $_SESSION['auth_time'] = $now;
+        setcookie('sessauth', $this->get_auth_hash(session_id(), $now));
+      }
+    }
+    else {
+      $valid = $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] == $SESS_CLIENT_IP : true;
+    }
+
+    // check session filetime
+    $lifetime = $this->config->get('session_lifetime');
+    if (!empty($lifetime) && isset($SESS_CHANGED) && $SESS_CHANGED + $lifetime*60 < time()) {
+      $valid = false;
+    }
+
+    return $valid;
+  }
+
+
+  /**
+   * Destroy session data and remove cookie
+   */
+  public function kill_session()
+  {
+    $user_prefs = $this->user->get_prefs();
+    
+    if ((isset($_SESSION['sort_col']) && $_SESSION['sort_col'] != $user_prefs['message_sort_col']) ||
+        (isset($_SESSION['sort_order']) && $_SESSION['sort_order'] != $user_prefs['message_sort_order'])) {
+      $this->user->save_prefs(array('message_sort_col' => $_SESSION['sort_col'], 'message_sort_order' => $_SESSION['sort_order']));
+    }
+
+    $_SESSION = array('language' => $USER->language, 'auth_time' => time(), 'temp' => true);
+    setcookie('sessauth', '-del-', time() - 60);
+    $this->user->reset();
+  }
+
+
+  /**
+   * Do server side actions on logout
+   */
+  public function logout_actions()
+  {
+    $config = $this->config->all();
+    
+    // on logout action we're not connected to imap server  
+    if (($config['logout_purge'] && !empty($config['trash_mbox'])) || $config['logout_expunge']) {
+      if (!$this->authenticate_session())
+        return;
+
+      $this->imap_init(true);
+    }
+
+    if ($config['logout_purge'] && !empty($config['trash_mbox'])) {
+      $this->imap->clear_mailbox($config['trash_mbox']);
+    }
+
+    if ($config['logout_expunge']) {
+      $this->imap->expunge('INBOX');
+    }
+  }
+
+
+  /**
+   * Function to be executed in script shutdown
+   * Registered with register_shutdown_function()
+   */
   public function shutdown()
   {
     if (is_object($this->imap)) {
@@ -457,6 +733,86 @@ class rcmail
     session_write_close();
   }
   
+  
+  /**
+   * Create unique authorization hash
+   *
+   * @param string Session ID
+   * @param int Timestamp
+   * @return string The generated auth hash
+   */
+  private function get_auth_hash($sess_id, $ts)
+  {
+    $auth_string = sprintf('rcmail*sess%sR%s*Chk:%s;%s',
+      $sess_id,
+      $ts,
+      $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] : '***.***.***.***',
+      $_SERVER['HTTP_USER_AGENT']);
+
+    if (function_exists('sha1'))
+      return sha1($auth_string);
+    else
+      return md5($auth_string);
+  }
+
+  /**
+   * Encrypt IMAP password using DES encryption
+   *
+   * @param string Password to encrypt
+   * @return string Encryprted string
+   */
+  private function encrypt_passwd($pass)
+  {
+    if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
+      $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+      mcrypt_generic_init($td, $this->config->get_des_key(), $iv);
+      $cypher = mcrypt_generic($td, $pass);
+      mcrypt_generic_deinit($td);
+      mcrypt_module_close($td);
+    }
+    else if (function_exists('des')) {
+      $cypher = des($this->config->get_des_key(), $pass, 1, 0, NULL);
+    }
+    else {
+      $cypher = $pass;
+
+      raise_error(array(
+        'code' => 500,
+        'type' => 'php',
+        'file' => __FILE__,
+        'message' => "Could not convert encrypt password. Make sure Mcrypt is installed or lib/des.inc is available"
+        ), true, false);
+    }
+
+    return base64_encode($cypher);
+  }
+
+
+  /**
+   * Decrypt IMAP password using DES encryption
+   *
+   * @param string Encrypted password
+   * @return string Plain password
+   */
+  public function decrypt_passwd($cypher)
+  {
+    if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
+      $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+      mcrypt_generic_init($td, $this->config->get_des_key(), $iv);
+      $pass = mdecrypt_generic($td, base64_decode($cypher));
+      mcrypt_generic_deinit($td);
+      mcrypt_module_close($td);
+    }
+    else if (function_exists('des')) {
+      $pass = des($this->config->get_des_key(), base64_decode($cypher), 0, 0, NULL);
+    }
+    else {
+      $pass = base64_decode($cypher);
+    }
+
+    return preg_replace('/\x00/', '', $pass);
+  }
+
 }
 
 

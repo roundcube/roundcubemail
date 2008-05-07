@@ -148,5 +148,26 @@ class rcube_config
     return $this->prop;
   }
   
+  
+  /**
+   * Return a 24 byte key for the DES encryption
+   *
+   * @return string DES encryption key
+   */
+  public function get_des_key()
+  {
+    $key = !empty($this->prop['des_key']) ? $this->prop['des_key'] : 'rcmail?24BitPwDkeyF**ECB';
+    $len = strlen($key);
+
+    // make sure the key is exactly 24 chars long
+    if ($len<24)
+      $key .= str_repeat('_', 24-$len);
+    else if ($len>24)
+      substr($key, 0, 24);
+
+    return $key;
+  }
+  
+  
 }
 

@@ -2,7 +2,7 @@
 /*
  +-----------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                         |
- | Version 0.1-20080430                                                  |
+ | Version 0.1-20080506                                                  |
  |                                                                       |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
@@ -83,7 +83,7 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
 
 // try to log in
 if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
-  $host = rcmail_autoselect_host();
+  $host = $RCMAIL->autoselect_host();
   
   // check if client supports cookies
   if (empty($_COOKIE)) {
@@ -97,7 +97,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
     sess_regenerate_id();
 
     // send auth cookie if necessary
-    rcmail_authenticate_session();
+    $RCMAIL->authenticate_session();
 
     // send redirect
     header("Location: {$RCMAIL->comm_path}");
@@ -105,35 +105,30 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
   }
   else {
     $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'loginfailed', 'warning');
-    rcmail_kill_session();
+    $RCMAIL->kill_session();
   }
 }
 
 // end session
 else if (($RCMAIL->task=='logout' || $RCMAIL->action=='logout') && isset($_SESSION['user_id'])) {
   $OUTPUT->show_message('loggedout');
-  rcmail_logout_actions();
-  rcmail_kill_session();
+  $RCMAIL->logout_actions();
+  $RCMAIL->kill_session();
 }
 
 // check session and auth cookie
 else if ($RCMAIL->action != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
-  if (!rcmail_authenticate_session()) {
+  if (!$RCMAIL->authenticate_session()) {
     $OUTPUT->show_message('sessionerror', 'error');
-    rcmail_kill_session();
+    $RCMAIL->kill_session();
   }
 }
 
 
 // log in to imap server
 if (!empty($RCMAIL->user->ID) && $RCMAIL->task == 'mail') {
-  $conn = $IMAP->connect($_SESSION['imap_host'], $_SESSION['username'], decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']);
-  if (!$conn) {
-    $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
-    rcmail_kill_session();
-  }
-  else {
-    $RCMAIL->set_imap_prop();
+  if (!$RCMAIL->imap_connect()) {
+    $RCMAIL->kill_session();
   }
 }
 
@@ -143,7 +138,7 @@ if (empty($RCMAIL->user->ID)) {
   if ($OUTPUT->ajax_call)
     $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
   
-  $RCMAIL->task = 'login';
+  $RCMAIL->set_task('login');
 }
 
 

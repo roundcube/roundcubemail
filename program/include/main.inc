@@ -39,111 +39,6 @@ define('RCUBE_INPUT_POST', 0x0102);
 define('RCUBE_INPUT_GPC', 0x0103);
 
 
-/**
- * Create unique authorization hash
- *
- * @param string Session ID
- * @param int Timestamp
- * @return string The generated auth hash
- */
-function rcmail_auth_hash($sess_id, $ts)
-  {
-  global $CONFIG;
-  
-  $auth_string = sprintf('rcmail*sess%sR%s*Chk:%s;%s',
-                         $sess_id,
-                         $ts,
-                         $CONFIG['ip_check'] ? $_SERVER['REMOTE_ADDR'] : '***.***.***.***',
-                         $_SERVER['HTTP_USER_AGENT']);
-  
-  if (function_exists('sha1'))
-    return sha1($auth_string);
-  else
-    return md5($auth_string);
-  }
-
-
-/**
- * Check the auth hash sent by the client against the local session credentials
- *
- * @return boolean True if valid, False if not
- */
-function rcmail_authenticate_session()
-  {
-  global $CONFIG, $SESS_CLIENT_IP, $SESS_CHANGED;
-  
-  // advanced session authentication
-  if ($CONFIG['double_auth'])
-  {
-    $now = time();
-    $valid = ($_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['auth_time']) ||
-              $_COOKIE['sessauth'] == rcmail_auth_hash(session_id(), $_SESSION['last_auth']));
-
-    // renew auth cookie every 5 minutes (only for GET requests)
-    if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now-$_SESSION['auth_time'] > 300))
-    {
-      $_SESSION['last_auth'] = $_SESSION['auth_time'];
-      $_SESSION['auth_time'] = $now;
-      setcookie('sessauth', rcmail_auth_hash(session_id(), $now));
-    }
-  }
-  else
-    $valid = $CONFIG['ip_check'] ? $_SERVER['REMOTE_ADDR'] == $SESS_CLIENT_IP : true;
-  
-  // check session filetime
-  if (!empty($CONFIG['session_lifetime']) && isset($SESS_CHANGED)
-      && $SESS_CHANGED + $CONFIG['session_lifetime']*60 < time())
-    $valid = false;
-  
-  return $valid;
-  }
-
-
-
-/**
- * Destroy session data and remove cookie
- */
-function rcmail_kill_session()
-  {
-  global $USER;
-  
-  if ((isset($_SESSION['sort_col']) && $_SESSION['sort_col']!=$a_user_prefs['message_sort_col']) ||
-      (isset($_SESSION['sort_order']) && $_SESSION['sort_order']!=$a_user_prefs['message_sort_order']))
-    {
-    $a_user_prefs = array('message_sort_col' => $_SESSION['sort_col'], 'message_sort_order' => $_SESSION['sort_order']);
-    $USER->save_prefs($a_user_prefs);
-    }
-
-  $_SESSION = array('language' => $USER->language, 'auth_time' => time(), 'temp' => true);
-  setcookie('sessauth', '-del-', time()-60);
-  $USER->reset();
-  }
-
-
-/**
- * Do server side actions on logout
- */
-function rcmail_logout_actions()
-  {
-  global $CONFIG, $IMAP, $RCMAIL;
-
-  // on logout action we're not connected to imap server  
-  if (($CONFIG['logout_purge'] && !empty($CONFIG['trash_mbox'])) 
-      || $CONFIG['logout_expunge'])
-    {
-      if (!rcmail_authenticate_session())
-        return;
-
-      $RCMAIL->imap_init(true);
-    }
-
-  if ($CONFIG['logout_purge'] && !empty($CONFIG['trash_mbox']))
-    $IMAP->clear_mailbox($CONFIG['trash_mbox']);
-
-  if ($CONFIG['logout_expunge'])
-    $IMAP->expunge('INBOX');
-  }
-
 
 /**
  * Return correct name for a specific database table
@@ -187,35 +82,17 @@ function get_sequence_name($sequence)
 
 
 /**
- * Auto-select IMAP host based on the posted login information
+ * Get localized text in the desired language
+ * It's a global wrapper for rcmail::gettext()
  *
- * @return string Selected IMAP host
+ * @param mixed Named parameters array or label name
+ * @return string Localized text
+ * @see rcmail::gettext()
  */
-function rcmail_autoselect_host()
-  {
-  global $CONFIG;
-  
-  $host = isset($_POST['_host']) ? get_input_value('_host', RCUBE_INPUT_POST) : $CONFIG['default_host'];
-  if (is_array($host))
-    {
-    list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
-    if (!empty($domain))
-      {
-      foreach ($host as $imap_host => $mail_domains)
-        if (is_array($mail_domains) && in_array($domain, $mail_domains))
-          {
-          $host = $imap_host;
-          break;
-          }
-      }
-
-    // take the first entry if $host is still an array
-    if (is_array($host))
-      $host = array_shift($host);
-    }
-  
-  return $host;
-  }
+function rcube_label($p)
+{
+  return rcmail::get_instance()->gettext($p);
+}
 
 
 /**
@@ -300,124 +177,6 @@ function rcmail_url($action, $p=array(), $task=null)
   
   return $base . ($action ? '&_action='.$action : '') . $qstring;
 }
-
-
-// @deprecated
-function show_message($message, $type='notice', $vars=NULL)
-  {
-  global $OUTPUT;
-  $OUTPUT->show_message($message, $type, $vars);
-  }
-
-
-/**
- * Encrypt IMAP password using DES encryption
- *
- * @param string Password to encrypt
- * @return string Encryprted string
- */
-function encrypt_passwd($pass)
-{
-  if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
-    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-    mcrypt_generic_init($td, get_des_key(), $iv);
-    $cypher = mcrypt_generic($td, $pass);
-    mcrypt_generic_deinit($td);
-    mcrypt_module_close($td);
-  }
-  else if (function_exists('des')) {
-    $cypher = des(get_des_key(), $pass, 1, 0, NULL);
-  }
-  else {
-    $cypher = $pass;
-    
-    raise_error(array(
-      'code' => 500,
-      'type' => 'php',
-      'file' => __FILE__,
-      'message' => "Could not convert encrypt password. Make sure Mcrypt is installed or lib/des.inc is available"
-      ), true, false);
-  }
-  
-  return base64_encode($cypher);
-}
-
-
-/**
- * Decrypt IMAP password using DES encryption
- *
- * @param string Encrypted password
- * @return string Plain password
- */
-function decrypt_passwd($cypher)
-{
-  if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
-    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-    mcrypt_generic_init($td, get_des_key(), $iv);
-    $pass = mdecrypt_generic($td, base64_decode($cypher));
-    mcrypt_generic_deinit($td);
-    mcrypt_module_close($td);
-  }
-  else if (function_exists('des')) {
-    $pass = des(get_des_key(), base64_decode($cypher), 0, 0, NULL);
-  }
-  else {
-    $pass = base64_decode($cypher);
-  }
-  
-  return preg_replace('/\x00/', '', $pass);
-  }
-
-
-/**
- * Return a 24 byte key for the DES encryption
- *
- * @return string DES encryption key
- */
-function get_des_key()
-  {
-  $key = !empty($GLOBALS['CONFIG']['des_key']) ? $GLOBALS['CONFIG']['des_key'] : 'rcmail?24BitPwDkeyF**ECB';
-  $len = strlen($key);
-  
-  // make sure the key is exactly 24 chars long
-  if ($len<24)
-    $key .= str_repeat('_', 24-$len);
-  else if ($len>24)
-    substr($key, 0, 24);
-  
-  return $key;
-  }
-
-
-/**
- * Read directory program/localization and return a list of available languages
- *
- * @return array List of available localizations
- */
-function rcube_list_languages()
-  {
-  global $CONFIG;
-  static $sa_languages = array();
-
-  if (!sizeof($sa_languages))
-    {
-    @include(INSTALL_PATH.'program/localization/index.inc');
-
-    if ($dh = @opendir(INSTALL_PATH.'program/localization'))
-      {
-      while (($name = readdir($dh)) !== false)
-        {
-        if ($name{0}=='.' || !is_dir(INSTALL_PATH.'program/localization/'.$name))
-          continue;
-
-        if ($label = $rcube_languages[$name])
-          $sa_languages[$name] = $label ? $label : $name;
-        }
-      closedir($dh);
-      }
-    }
-  return $sa_languages;
-  }
 
 
 /**

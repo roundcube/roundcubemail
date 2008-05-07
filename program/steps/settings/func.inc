@@ -47,7 +47,7 @@ function rcmail_user_prefs_form($attrib)
   // show language selection
   if (!isset($no_override['language']))
     {
-    $a_lang = rcube_list_languages();
+    $a_lang = $RCMAIL->list_languages();
     asort($a_lang);
   
     $field_id = 'rcmfd_lang';
