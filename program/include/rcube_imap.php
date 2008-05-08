@@ -2361,7 +2361,7 @@ class rcube_imap
       }
       
     // no encoding information, use fallback
-    return rcube_charset_convert($input, !empty($fallback) ? $fallback : 'ISO-8859-1');
+    return rcube_charset_convert($input, !empty($fallback) ? $fallback : $this->default_charset);
     }
 
 

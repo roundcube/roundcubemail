@@ -232,16 +232,19 @@ function rcmail_message_list($attrib)
     
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
 
+    if (!empty($header->charset))
+      $IMAP->set_charset($header->charset);
+  
     // format each col
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = Q(rcmail_address_string(rcube_imap::decode_mime_string($header->$col, $header->charset), 3, $attrib['addicon']), 'show');
+        $cont = Q(rcmail_address_string($header->$col, 3, $attrib['addicon']), 'show');
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draf_uid' : '_uid';
-        $cont = Q(rcube_imap::decode_mime_string($header->$col, $header->charset));
+        $cont = Q($IMAP->decode_header($header->$col));
         if (empty($cont)) $cont = Q(rcube_label('nosubject'));
         $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
         }
@@ -321,16 +324,19 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     if (empty($header))
       continue;
 
+    if (!empty($header->charset))
+      $IMAP->set_charset($header->charset);
+
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = Q(rcmail_address_string(rcube_imap::decode_mime_string($header->$col, $header->charset), 3), 'show');
+        $cont = Q(rcmail_address_string($header->$col, 3), 'show');
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draf_uid' : '_uid';
-        $cont = Q(rcube_imap::decode_mime_string($header->$col, $header->charset));
+        $cont = Q($IMAP->decode_header($header->$col));
         if (!$cont) $cont = Q(rcube_label('nosubject'));
         $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
         }
@@ -974,7 +980,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
       $header_value = Q(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']), 'show');
     else
-      $header_value = Q(rcube_imap::decode_mime_string($headers[$hkey], $headers['charset']));
+      $header_value = Q($IMAP->decode_header($headers[$hkey]));
 
     $out .= "\n<tr>\n";
     $out .= '<td class="header-title">'.Q(rcube_label($hkey)).":&nbsp;</td>\n";
@@ -1466,7 +1472,7 @@ function rcmail_send_mdn($uid)
   
   $message = array('UID' => $uid);
   $message['headers'] = $IMAP->get_headers($message['UID']);
-  $message['subject'] = rcube_imap::decode_mime_string($message['headers']->subject, $message['headers']->charset);
+  $message['subject'] = $IMAP->decode_header($message['headers']->subject);
   
   if ($message['headers']->mdn_to && !$message['headers']->mdn_sent)
   {

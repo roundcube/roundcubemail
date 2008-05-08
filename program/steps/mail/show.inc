@@ -61,7 +61,7 @@ if ($_GET['_uid'])
   else if (empty($CONFIG['devel_mode']))
     send_modified_header($_SESSION['login_time'], $etag, !$MESSAGE['headers']->seen);
 
-  $MESSAGE['subject'] = rcube_imap::decode_mime_string($MESSAGE['headers']->subject, $MESSAGE['headers']->charset);
+  $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
   $OUTPUT->set_pagetitle($MESSAGE['subject']);
   
   if ($MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']))
