@@ -602,7 +602,6 @@ class rcube_imap
 
       }
 
-
     // return empty array if no messages found
     if (!is_array($a_msg_headers) || empty($a_msg_headers)) {
       return array();
@@ -2837,13 +2836,9 @@ class rcube_header_sorter
     */
    function position_of($seqnum)
    {
-      $c = count($this->sequence_numbers);
-      for ($pos = 0; $pos <= $c; $pos++)
-      {
-         if ($this->sequence_numbers[$pos] == $seqnum)
-            return $pos;
-      }
-      return -1;
+      $pos = array_search($seqnum, $this->sequence_numbers);
+      if ($pos === false) return -1;
+      return $pos;
    }
  
    /**

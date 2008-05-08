@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/05/08 (alec)
 ----------
 - Don't attempt to delete cache entries if enable_caching is FALSE (#1485051)
+- Optimized messages sorting on servers without sort capability (#1485049)
 
 2008/05/07 (davidke/richs)
 ----------
