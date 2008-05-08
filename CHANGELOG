@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/08 (alec)
+----------
+- Don't attempt to delete cache entries if enable_caching is FALSE (#1485051)
+
 2008/05/07 (davidke/richs)
 ----------
 - Completed LDAP address book support so it can now write to an LDAP server. 

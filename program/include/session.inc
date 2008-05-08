@@ -26,7 +26,6 @@ function sess_open($save_path, $session_name)
   }
 
 
-
 function sess_close()
   {
   return TRUE;
@@ -90,8 +89,6 @@ function sess_write($key, $vars)
                 $key,
                 $vars,
                 $_SERVER['REMOTE_ADDR']);
-                
-
     }
 
   return TRUE;
@@ -101,15 +98,18 @@ function sess_write($key, $vars)
 // handler for session_destroy()
 function sess_destroy($key)
   {
-  global $DB;
+  global $DB, $CONFIG;
   
   if ($DB->is_error())
     return FALSE;
-  
-  // delete session entries in cache table
-  $DB->query("DELETE FROM ".get_table_name('cache')."
-              WHERE  session_id=?",
+
+  if ($CONFIG['enable_caching'])
+    {
+    // delete session entries in cache table
+    $DB->query("DELETE FROM ".get_table_name('cache')."
+              WHERE session_id=?",
               $key);
+    }
               
   $DB->query("DELETE FROM ".get_table_name('session')."
               WHERE sess_id=?",
@@ -122,7 +122,7 @@ function sess_destroy($key)
 // garbage collecting function
 function sess_gc($maxlifetime)
   {
-  global $DB;
+  global $DB, $CONFIG;
 
   if ($DB->is_error())
     return FALSE;
@@ -137,20 +137,23 @@ function sess_gc($maxlifetime)
   while ($sql_arr = $DB->fetch_assoc($sql_result))
     $a_exp_sessions[] = $sql_arr['sess_id'];
 
-  
   if (sizeof($a_exp_sessions))
     {
-    // delete session cache records
-    $DB->query("DELETE FROM ".get_table_name('cache')."
-                WHERE  session_id IN ('".join("','", $a_exp_sessions)."')");
-                
+    if ($CONFIG['enable_caching'])
+      {
+        // delete session cache records
+	$DB->query("DELETE FROM ".get_table_name('cache')."
+                WHERE session_id IN ('".join("','", $a_exp_sessions)."')");
+      }
+                  
     // delete session records
     $DB->query("DELETE FROM ".get_table_name('session')."
                 WHERE sess_id IN ('".join("','", $a_exp_sessions)."')");
     }
 
   // also run message cache GC
-  rcmail_message_cache_gc();
+  if ($CONFIG['enable_caching'])
+    rcmail_message_cache_gc();
   rcmail_temp_gc();
 
   return TRUE;
