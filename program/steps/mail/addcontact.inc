@@ -24,7 +24,7 @@ $done = false;
 if (!empty($_POST['_address']))
 {
   $CONTACTS = array();
-  if ($CONFIG['address_book_type'] == 'ldap') {
+  if (strtolower($CONFIG['address_book_type']) == 'ldap') {
     // Use the first writable LDAP address book.
     foreach ($CONFIG["ldap_public"] as $id => $prop) {
       if ($prop["writable"]) {
