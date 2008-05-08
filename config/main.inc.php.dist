@@ -213,11 +213,12 @@ $rcmail_config['mail_header_delimiter'] = NULL;
 // session domain: .example.org
 $rcmail_config['session_domain'] = '';
 
-// This indicates whether or not to use the SQL address book.
-// If set to false then it will look at using the first writable LDAP
+// This indicates which type of address book to use. Possible choises:
+// 'sql' (default) and 'ldap'.
+// If set to 'ldap' then it will look at using the first writable LDAP
 // address book as the primary address book and it will not display the
 // SQL address book in the 'Address Book' view.
-$rcmail_config['use_SQL_address_book'] = true;
+$rcmail_config['address_book_type'] = 'sql';
 
 // In order to enable public ldap search, configure an array like the Verisign
 // example further below. if you would like to test, simply uncomment the example.

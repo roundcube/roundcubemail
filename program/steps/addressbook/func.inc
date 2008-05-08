@@ -22,16 +22,13 @@
 // instantiate a contacts object according to the given source
 if (($source = get_input_value('_source', RCUBE_INPUT_GPC)) && isset($CONFIG['ldap_public'][$source]))
   $CONTACTS = new rcube_ldap($CONFIG['ldap_public'][$source]);
-else {
-    if (!$CONFIG["use_SQL_address_book"]) {
+else if ($CONFIG['address_book_type'] == 'ldap') {
     // Get the first LDAP address book.
     $source = key((array)$CONFIG['ldap_public']);
     $prop = current((array)$CONFIG['ldap_public']);
     $CONTACTS = new rcube_ldap($prop);
-  } // end if
-  else {
+} else {
     $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
-  } // end else
 } // end else
 
 $CONTACTS->set_pagesize($CONFIG['pagesize']);
@@ -52,7 +49,7 @@ $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
 
 // add list of address sources to client env
 $js_list = array();
-if ($CONFIG["use_SQL_address_book"]) {
+if ($CONFIG['address_book_type'] != 'ldap') {
   // We are using the DB address book, add it.
   $js_list = array("0" => array('id' => 0, 'readonly' => false));
 } // end if
@@ -79,7 +76,7 @@ function rcmail_directory_list($attrib)
     
   // allow the following attributes to be added to the <ul> tag
   $out = '<ul' . create_attrib_string($attrib, array('style', 'class', 'id')) . ">\n";
-  if ($CONFIG["use_SQL_address_book"]) {
+  if ($CONFIG['address_book_type'] != 'ldap') {
     $out .= sprintf($line_templ,
       'rcmli'.$local_id,
       !$current ? 'selected' : '',
