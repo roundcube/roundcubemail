@@ -2341,8 +2341,10 @@ class rcube_imap
     $pos = strpos($input, '=?');
     if ($pos !== false)
       {
-      // rfc: all line breaks or other characters not found in the Base64 Alphabet must be ignored by decoding software
-      // delete all blanks between MIME-lines, differently we can receive unnecessary blanks and broken utf-8 symbols
+      // rfc: all line breaks or other characters not found 
+      // in the Base64 Alphabet must be ignored by decoding software
+      // delete all blanks between MIME-lines, differently we can 
+      // receive unnecessary blanks and broken utf-8 symbols
       $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
 
       $out = substr($input, 0, $pos);
@@ -2359,9 +2361,10 @@ class rcube_imap
 
       return $out;
       }
-      
+
     // no encoding information, use fallback
-    return rcube_charset_convert($input, !empty($fallback) ? $fallback : $this->default_charset);
+    return rcube_charset_convert($input, 
+      !empty($fallback) ? $fallback : $GLOBALS['CONFIG']['default_charset']);
     }
 
 
