@@ -273,6 +273,7 @@ $rcmail_config['address_book_type'] = 'sql';
 $rcmail_config['dont_override'] = array();
 
 // try to load host-specific configuration
+// see http://trac.roundcube.net/wiki/Howto_Config for more details
 $rcmail_config['include_host_config'] = false;
 
 // don't let users set pagesize to more than this value if set

@@ -54,6 +54,9 @@ class rcube_config
     // load database config
     include_once(INSTALL_PATH . 'config/db.inc.php');
     $this->prop += (array)$rcmail_config;
+    
+    // load host-specific configuration
+    $this->load_host_config();
 
     // fix paths
     $this->prop['skin_path'] = $this->prop['skin_path'] ? unslashify($this->prop['skin_path']) : 'skins/default';
