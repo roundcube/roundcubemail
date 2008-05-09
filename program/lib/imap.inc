@@ -52,7 +52,8 @@
 		- $ICL_SSL is not boolean anymore but contains the connection schema (ssl or tls)
 		- Removed some debuggers (echo ...)
 		File altered by Aleksander Machniak <alec@alec.pl>
-		- RFC3501 [7.1] don't call CAPABILITY twice if possible in iil_Connect()
+		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
+		  optional resposne in iil_Connect()
 		
 
 ********************************************************/

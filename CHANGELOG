@@ -2,7 +2,8 @@ CHANGELOG RoundCube Webmail
 ---------------------------
 
 2008/05/09 (alec)
-- Don't call CAPABILITY twice if possible (RFC3501 [7.1]) 
+- Don't call CAPABILITY if was recieved as server's optional response 
+  on connect (RFC3501 [7.1]) 
 
 2008/05/08 (alec)
 ----------
