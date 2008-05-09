@@ -51,6 +51,9 @@
 		- Abort do-loop on socket errors (fgets returns false)
 		- $ICL_SSL is not boolean anymore but contains the connection schema (ssl or tls)
 		- Removed some debuggers (echo ...)
+		File altered by Aleksander Machniak <alec@alec.pl>
+		- RFC3501 [7.1] don't call CAPABILITY twice if possible in iil_Connect()
+		
 
 ********************************************************/
 
@@ -473,7 +476,27 @@ function iil_Connect($host, $user, $password) {
 	}
 
 	$iil_error .= "Socket connection established\r\n";
-	$line       = iil_ReadLine($conn->fp, 300);
+	$line       = iil_ReadLine($conn->fp, 1024);
+
+	// RFC3501 [7.1] optional CAPABILITY response
+	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
+		$conn->capability = explode(' ', $matches[1]);
+	} else {
+		fputs($conn->fp, "cp01 CAPABILITY\r\n");
+		do {
+			$line = trim(chop(iil_ReadLine($conn->fp, 100)));
+
+			$conn->message .= "$line\n";
+
+			$a = explode(' ', $line);
+			if ($line[0] == '*') {
+				while (list($k, $w) = each($a)) {
+					if ($w != '*' && $w != 'CAPABILITY')
+    					$conn->capability[] = $w;
+				}
+			}
+		} while ($a[0] != 'cp01');
+	}
 
 	if (strcasecmp($auth_method, "check") == 0) {
 		//check for supported auth methods
@@ -482,25 +505,12 @@ function iil_Connect($host, $user, $password) {
 		$auth_method = 'plain';
 			
 		//check for CRAM-MD5
-		fputs($conn->fp, "cp01 CAPABILITY\r\n");
-		do {
-		    $line = trim(chop(iil_ReadLine($conn->fp, 100)));
-
-		    $conn->message .= "$line\n";
-
-			$a = explode(' ', $line);
-			if ($line[0] == '*') {
-				while (list($k, $w) = each($a)) {
-				    if ($w != '*' && $w != 'CAPABILITY') {
-    					$conn->capability[] = $w;
-                    }
-					if ((strcasecmp($w, "AUTH=CRAM_MD5") == 0)||
-						(strcasecmp($w, "AUTH=CRAM-MD5") == 0)) {
-					    $auth_method = "auth";
-					}
-				}
+		foreach ($conn->capability as $c)
+			if (strcasecmp($c, 'AUTH=CRAM_MD5') == 0 ||
+				strcasecmp($c, 'AUTH=CRAM-MD5') == 0) {
+				$auth_method = 'auth';
+				break;
 			}
-		} while ($a[0] != 'cp01');
 	}
 
 	if (strcasecmp($auth_method, 'auth') == 0) {
