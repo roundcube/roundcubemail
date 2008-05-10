@@ -588,9 +588,9 @@ class rcmail
       @include(INSTALL_PATH . 'program/localization/en_US/messages.inc');
 
       if (is_array($labels))
-        $sa_text_data = $labels;
+        $this->texts = $labels;
       if (is_array($messages))
-        $sa_text_data = array_merge($sa_text_data, $messages);
+        $this->texts = array_merge($this->texts, $messages);
 
       // include user language files
       if ($lang != 'en' && is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
