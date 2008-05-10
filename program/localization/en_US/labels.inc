@@ -121,7 +121,7 @@ $labels['today'] = 'Today';
 // toolbar buttons
 $labels['checkmail']        = 'Check for new messages';
 $labels['writenewmessage']  = 'Create a new message';
-$labels['replytomessage']   = 'Reply to the message';
+$labels['replytomessage']   = 'Reply to sender';
 $labels['replytoallmessage'] = 'Reply to sender and all recipients';
 $labels['forwardmessage']   = 'Forward the message';
 $labels['deletemessage']    = 'Delete message';
