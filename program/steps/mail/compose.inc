@@ -710,10 +710,10 @@ function rcmail_compose_attachment_form($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmUploadbox';
   
-  $button = new html_inputfield(array('type' => "button", 'class' => "button"));
+  $button = new html_inputfield(array('type' => 'button', 'class' => 'button'));
   
   $out = html::div($attrib,
-    $OUTPUT->form_tag(array('name' => "form", 'method' => "post")) .
+    $OUTPUT->form_tag(array('name' => 'form', 'method' => 'post', 'enctype' => 'multipart/form-data')) .
     rcmail_compose_attachment_field(array()) . html::br() .
     $button->show(rcube_label('close'), array('onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) .
     $button->show(rcube_label('upload'), array('onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
