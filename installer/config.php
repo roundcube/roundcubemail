@@ -199,7 +199,7 @@ foreach ($supported_dbs AS $database => $ext) {
 $input_dbhost = new html_inputfield(array('name' => '_dbhost', 'size' => 20, 'id' => "cfgdbhost"));
 $input_dbname = new html_inputfield(array('name' => '_dbname', 'size' => 20, 'id' => "cfgdbname"));
 $input_dbuser = new html_inputfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
-$input_dbpass = new html_inputfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
+$input_dbpass = new html_passwordfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
 
 $dsnw = DB::parseDSN($RCI->getprop('db_dsnw'));
 
@@ -386,7 +386,7 @@ echo $text_smtpport->show($RCI->getprop('smtp_port'));
 <?php
 
 $text_smtpuser = new html_inputfield(array('name' => '_smtp_user', 'size' => 20, 'id' => "cfgsmtpuser"));
-$text_smtppass = new html_inputfield(array('name' => '_smtp_pass', 'size' => 20, 'id' => "cfgsmtppass"));
+$text_smtppass = new html_passwordfield(array('name' => '_smtp_pass', 'size' => 20, 'id' => "cfgsmtppass"));
 echo $text_smtpuser->show($RCI->getprop('smtp_user'));
 echo $text_smtppass->show($RCI->getprop('smtp_pass'));
 

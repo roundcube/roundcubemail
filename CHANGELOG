@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/10 (alec)
+- Make password input fields of type password in installer (#1484886)
+
 2008/05/09 (alec)
 - Don't call CAPABILITY if was recieved as server's optional response 
   on connect (RFC3501 [7.1]) 
