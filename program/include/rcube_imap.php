@@ -1903,6 +1903,9 @@ class rcube_imap
    */
   function clear_cache($key=NULL)
     {
+    if (!$this->caching_enabled)
+      return;
+    
     if ($key===NULL)
       {
       foreach ($this->cache as $key => $data)
