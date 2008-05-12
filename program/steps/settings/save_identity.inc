@@ -81,6 +81,8 @@ else
 {
   if ($insert_id = $USER->insert_identity($save_data))
   {
+    $OUTPUT->show_message('successfullysaved', 'confirmation');
+    
     $_GET['_iid'] = $insert_id;
 
     if (!empty($_POST['_standard']))
