@@ -69,14 +69,23 @@ function get_table_name($table)
  */
 function get_sequence_name($sequence)
   {
-  global $CONFIG;
-
   // return table name if configured
   $config_key = 'db_sequence_'.$sequence;
+  $opt = rcmail::get_instance()->config->get($config_key);
 
-  if (strlen($CONFIG[$config_key]))
-    return $CONFIG[$config_key];
+  if (!empty($opt))
+    {
+    $db = &rcmail::get_instance()->db;
 
+    if($db->db_provider=='pgsql') // just for sure
+      {
+      $db->db_handle->setOption('disable_smart_seqname', true);
+      $db->db_handle->setOption('seqname_format', '%s');
+      }	      
+  
+    return $CONFIG[$opt];
+    }
+    
   return $sequence;
   }
 
