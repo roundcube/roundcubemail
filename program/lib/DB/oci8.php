@@ -18,7 +18,7 @@
  * @package    DB
  * @author     James L. Pine <jlp@valinux.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -45,9 +45,9 @@ require_once 'DB/common.php';
  * @package    DB
  * @author     James L. Pine <jlp@valinux.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_oci8 extends DB_common
@@ -94,24 +94,25 @@ class DB_oci8 extends DB_common
      * @var array
      */
     var $errorcode_map = array(
-        1    => DB_ERROR_CONSTRAINT,
-        900  => DB_ERROR_SYNTAX,
-        904  => DB_ERROR_NOSUCHFIELD,
-        913  => DB_ERROR_VALUE_COUNT_ON_ROW,
-        921  => DB_ERROR_SYNTAX,
-        923  => DB_ERROR_SYNTAX,
-        942  => DB_ERROR_NOSUCHTABLE,
-        955  => DB_ERROR_ALREADY_EXISTS,
-        1400 => DB_ERROR_CONSTRAINT_NOT_NULL,
-        1401 => DB_ERROR_INVALID,
-        1407 => DB_ERROR_CONSTRAINT_NOT_NULL,
-        1418 => DB_ERROR_NOT_FOUND,
-        1476 => DB_ERROR_DIVZERO,
-        1722 => DB_ERROR_INVALID_NUMBER,
-        2289 => DB_ERROR_NOSUCHTABLE,
-        2291 => DB_ERROR_CONSTRAINT,
-        2292 => DB_ERROR_CONSTRAINT,
-        2449 => DB_ERROR_CONSTRAINT,
+        1     => DB_ERROR_CONSTRAINT,
+        900   => DB_ERROR_SYNTAX,
+        904   => DB_ERROR_NOSUCHFIELD,
+        913   => DB_ERROR_VALUE_COUNT_ON_ROW,
+        921   => DB_ERROR_SYNTAX,
+        923   => DB_ERROR_SYNTAX,
+        942   => DB_ERROR_NOSUCHTABLE,
+        955   => DB_ERROR_ALREADY_EXISTS,
+        1400  => DB_ERROR_CONSTRAINT_NOT_NULL,
+        1401  => DB_ERROR_INVALID,
+        1407  => DB_ERROR_CONSTRAINT_NOT_NULL,
+        1418  => DB_ERROR_NOT_FOUND,
+        1476  => DB_ERROR_DIVZERO,
+        1722  => DB_ERROR_INVALID_NUMBER,
+        2289  => DB_ERROR_NOSUCHTABLE,
+        2291  => DB_ERROR_CONSTRAINT,
+        2292  => DB_ERROR_CONSTRAINT,
+        2449  => DB_ERROR_CONSTRAINT,
+        12899 => DB_ERROR_INVALID,
     );
 
     /**
@@ -159,6 +160,13 @@ class DB_oci8 extends DB_common
      * @access private
      */
     var $manip_query = array();
+
+    /**
+     * Store of prepared SQL queries.
+     * @var array
+     * @access private
+     */
+    var $_prepared_queries = array();
 
 
     // }}}
@@ -216,6 +224,13 @@ class DB_oci8 extends DB_common
             $this->dbsyntax = $dsn['dbsyntax'];
         }
 
+        // Backwards compatibility with DB < 1.7.0
+        if (empty($dsn['database']) && !empty($dsn['hostspec'])) {
+            $db = $dsn['hostspec'];
+        } else {
+            $db = $dsn['database'];
+        }
+
         if (function_exists('oci_connect')) {
             if (isset($dsn['new_link'])
                 && ($dsn['new_link'] == 'true' || $dsn['new_link'] === true))
@@ -225,12 +240,8 @@ class DB_oci8 extends DB_common
                 $connect_function = $persistent ? 'oci_pconnect'
                                     : 'oci_connect';
             }
-
-            // Backwards compatibility with DB < 1.7.0
-            if (empty($dsn['database']) && !empty($dsn['hostspec'])) {
-                $db = $dsn['hostspec'];
-            } else {
-                $db = $dsn['database'];
+            if (isset($this->dsn['port']) && $this->dsn['port']) {
+                $db = '//'.$db.':'.$this->dsn['port'];
             }
 
             $char = empty($dsn['charset']) ? null : $dsn['charset'];
@@ -248,10 +259,10 @@ class DB_oci8 extends DB_common
             }
         } else {
             $connect_function = $persistent ? 'OCIPLogon' : 'OCILogon';
-            if ($dsn['hostspec']) {
+            if ($db) {
                 $this->connection = @$connect_function($dsn['username'],
                                                        $dsn['password'],
-                                                       $dsn['hostspec']);
+                                                       $db);
             } elseif ($dsn['username'] || $dsn['password']) {
                 $this->connection = @$connect_function($dsn['username'],
                                                        $dsn['password']);
@@ -322,7 +333,7 @@ class DB_oci8 extends DB_common
             return $this->oci8RaiseError($result);
         }
         $this->last_stmt = $result;
-        if (DB::isManip($query)) {
+        if ($this->_checkManip($query)) {
             return DB_OK;
         } else {
             @ocisetprefetch($result, $this->options['result_buffering']);
@@ -415,7 +426,7 @@ class DB_oci8 extends DB_common
      */
     function freeResult($result)
     {
-        return @OCIFreeStatement($result);
+        return is_resource($result) ? OCIFreeStatement($result) : false;
     }
 
     /**
@@ -476,20 +487,18 @@ class DB_oci8 extends DB_common
             $save_query = $this->last_query;
             $save_stmt = $this->last_stmt;
 
-            if (count($this->_data)) {
-                $smt = $this->prepare('SELECT COUNT(*) FROM ('.$this->last_query.')');
-                $count = $this->execute($smt, $this->_data);
-            } else {
-                $count =& $this->query($countquery);
-            }
+            $count = $this->query($countquery);
 
+            // Restore the last query and statement.
+            $this->last_query = $save_query;
+            $this->last_stmt = $save_stmt;
+            
             if (DB::isError($count) ||
                 DB::isError($row = $count->fetchRow(DB_FETCHMODE_ORDERED)))
             {
-                $this->last_query = $save_query;
-                $this->last_stmt = $save_stmt;
                 return $this->raiseError(DB_ERROR_NOT_CAPABLE);
             }
+
             return $row[0];
         }
         return $this->raiseError(DB_ERROR_NOT_CAPABLE);
@@ -590,6 +599,7 @@ class DB_oci8 extends DB_common
         }
         $this->prepare_types[(int)$stmt] = $types;
         $this->manip_query[(int)$stmt] = DB::isManip($query);
+        $this->_prepared_queries[(int)$stmt] = $newquery;
         return $stmt;
     }
 
@@ -620,11 +630,12 @@ class DB_oci8 extends DB_common
     {
         $data = (array)$data;
         $this->last_parameters = $data;
+        $this->last_query = $this->_prepared_queries[(int)$stmt];
         $this->_data = $data;
 
-        $types =& $this->prepare_types[(int)$stmt];
+        $types = $this->prepare_types[(int)$stmt];
         if (count($types) != count($data)) {
-            $tmp =& $this->raiseError(DB_ERROR_MISMATCH);
+            $tmp = $this->raiseError(DB_ERROR_MISMATCH);
             return $tmp;
         }
 
@@ -643,16 +654,23 @@ class DB_oci8 extends DB_common
             } elseif ($types[$i] == DB_PARAM_OPAQUE) {
                 $fp = @fopen($data[$key], 'rb');
                 if (!$fp) {
-                    $tmp =& $this->raiseError(DB_ERROR_ACCESS_VIOLATION);
+                    $tmp = $this->raiseError(DB_ERROR_ACCESS_VIOLATION);
                     return $tmp;
                 }
                 $data[$key] = fread($fp, filesize($data[$key]));
                 fclose($fp);
+            } elseif ($types[$i] == DB_PARAM_SCALAR) {
+                // Floats have to be converted to a locale-neutral
+                // representation.
+                if (is_float($data[$key])) {
+                    $data[$key] = $this->quoteFloat($data[$key]);
+                }
             }
             if (!@OCIBindByName($stmt, ':bind' . $i, $data[$key], -1)) {
                 $tmp = $this->oci8RaiseError($stmt);
                 return $tmp;
             }
+            $this->last_query = str_replace(':bind'.$i, $this->quoteSmart($data[$key]), $this->last_query);
             $i++;
         }
         if ($this->autocommit) {
@@ -665,11 +683,14 @@ class DB_oci8 extends DB_common
             return $tmp;
         }
         $this->last_stmt = $stmt;
-        if ($this->manip_query[(int)$stmt]) {
+        if ($this->manip_query[(int)$stmt] || $this->_next_query_manip) {
+            $this->_last_query_manip = true;
+            $this->_next_query_manip = false;
             $tmp = DB_OK;
         } else {
+            $this->_last_query_manip = false;
             @ocisetprefetch($stmt, $this->options['result_buffering']);
-            $tmp =& new DB_result($this, $stmt);
+            $tmp = new DB_result($this, $stmt);
         }
         return $tmp;
     }
@@ -797,7 +818,7 @@ class DB_oci8 extends DB_common
         if (count($params)) {
             $result = $this->prepare("SELECT * FROM ($query) "
                                      . 'WHERE NULL = NULL');
-            $tmp =& $this->execute($result, $params);
+            $tmp = $this->execute($result, $params);
         } else {
             $q_fields = "SELECT * FROM ($query) WHERE NULL = NULL";
 
@@ -857,7 +878,7 @@ class DB_oci8 extends DB_common
         $repeat = 0;
         do {
             $this->expectError(DB_ERROR_NOSUCHTABLE);
-            $result =& $this->query("SELECT ${seqname}.nextval FROM dual");
+            $result = $this->query("SELECT ${seqname}.nextval FROM dual");
             $this->popExpect();
             if ($ondemand && DB::isError($result) &&
                 $result->getCode() == DB_ERROR_NOSUCHTABLE) {
@@ -1015,7 +1036,7 @@ class DB_oci8 extends DB_common
             if (!@OCIExecute($stmt, OCI_DEFAULT)) {
                 return $this->oci8RaiseError($stmt);
             }
-
+            
             $i = 0;
             while (@OCIFetch($stmt)) {
                 $res[$i] = array(
@@ -1098,11 +1119,29 @@ class DB_oci8 extends DB_common
                 return 'SELECT table_name FROM user_tables';
             case 'synonyms':
                 return 'SELECT synonym_name FROM user_synonyms';
+            case 'views':
+                return 'SELECT view_name FROM user_views';
             default:
                 return null;
         }
     }
 
+    // }}}
+    // {{{ quoteFloat()
+
+    /**
+     * Formats a float value for use within a query in a locale-independent
+     * manner.
+     *
+     * @param float the float value to be quoted.
+     * @return string the quoted string.
+     * @see DB_common::quoteSmart()
+     * @since Method available since release 1.7.8.
+     */
+    function quoteFloat($float) {
+        return $this->escapeSimple(str_replace(',', '.', strval(floatval($float))));
+    }
+     
     // }}}
 
 }

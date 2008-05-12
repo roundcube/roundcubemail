@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/12 (alec)
+- Updated PEAR::DB package to version 1.7.13
+
 2008/05/10 (alec)
 - Make password input fields of type password in installer (#1484886)
 

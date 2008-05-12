@@ -17,7 +17,7 @@
  * @category   Database
  * @package    DB
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -41,9 +41,9 @@ require_once 'DB/common.php';
  * @category   Database
  * @package    DB
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  * @since      Class functional since Release 1.6.3
  */
@@ -114,6 +114,9 @@ class DB_mysqli extends DB_common
         1146 => DB_ERROR_NOSUCHTABLE,
         1216 => DB_ERROR_CONSTRAINT,
         1217 => DB_ERROR_CONSTRAINT,
+        1356 => DB_ERROR_DIVZERO,
+        1451 => DB_ERROR_CONSTRAINT,
+        1452 => DB_ERROR_CONSTRAINT,
     );
 
     /**
@@ -210,6 +213,10 @@ class DB_mysqli extends DB_common
         MYSQLI_TYPE_VAR_STRING  => 'varchar',
         MYSQLI_TYPE_STRING      => 'char',
         MYSQLI_TYPE_GEOMETRY    => 'geometry',
+        /* These constants are conditionally compiled in ext/mysqli, so we'll
+         * define them by number rather than constant. */
+        16                      => 'bit',
+        246                     => 'decimal',
     );
 
 
@@ -264,7 +271,7 @@ class DB_mysqli extends DB_common
      *     'ssl' => true,
      * );
      * 
-     * $db =& DB::connect($dsn, $options);
+     * $db = DB::connect($dsn, $options);
      * if (PEAR::isError($db)) {
      *     die($db->getMessage());
      * }
@@ -287,10 +294,10 @@ class DB_mysqli extends DB_common
         }
 
         $ini = ini_get('track_errors');
-        ini_set('track_errors', 1);
+        @ini_set('track_errors', 1);
         $php_errormsg = '';
 
-        if ($this->getOption('ssl') === true) {
+        if (((int) $this->getOption('ssl')) === 1) {
             $init = mysqli_init();
             mysqli_ssl_set(
                 $init,
@@ -322,7 +329,7 @@ class DB_mysqli extends DB_common
             );
         }
 
-        ini_set('track_errors', $ini);
+        @ini_set('track_errors', $ini);
 
         if (!$this->connection) {
             if (($err = @mysqli_connect_error()) != '') {
@@ -372,7 +379,7 @@ class DB_mysqli extends DB_common
      */
     function simpleQuery($query)
     {
-        $ismanip = DB::isManip($query);
+        $ismanip = $this->_checkManip($query);
         $this->last_query = $query;
         $query = $this->modifyQuery($query);
         if ($this->_db) {
@@ -490,7 +497,7 @@ class DB_mysqli extends DB_common
      */
     function freeResult($result)
     {
-        return @mysqli_free_result($result);
+        return is_resource($result) ? mysqli_free_result($result) : false;
     }
 
     // }}}
@@ -626,7 +633,7 @@ class DB_mysqli extends DB_common
      */
     function affectedRows()
     {
-        if (DB::isManip($this->last_query)) {
+        if ($this->_last_query_manip) {
             return @mysqli_affected_rows($this->connection);
         } else {
             return 0;
@@ -823,9 +830,10 @@ class DB_mysqli extends DB_common
 
     /**
      * Quotes a string so it can be safely used as a table or column name
+     * (WARNING: using names that require this is a REALLY BAD IDEA)
      *
-     * MySQL can't handle the backtick character (<kbd>`</kbd>) in
-     * table or column names.
+     * WARNING:  Older versions of MySQL can't handle the backtick
+     * character (<kbd>`</kbd>) in table or column names.
      *
      * @param string $str  identifier name to be quoted
      *
@@ -836,7 +844,7 @@ class DB_mysqli extends DB_common
      */
     function quoteIdentifier($str)
     {
-        return '`' . $str . '`';
+        return '`' . str_replace('`', '``', $str) . '`';
     }
 
     // }}}
@@ -878,7 +886,7 @@ class DB_mysqli extends DB_common
      */
     function modifyLimitQuery($query, $from, $count, $params = array())
     {
-        if (DB::isManip($query)) {
+        if (DB::isManip($query) || $this->_next_query_manip) {
             return $query . " LIMIT $count";
         } else {
             return $query . " LIMIT $from, $count";
@@ -954,6 +962,13 @@ class DB_mysqli extends DB_common
     function tableInfo($result, $mode = null)
     {
         if (is_string($result)) {
+            // Fix for bug #11580.
+            if ($this->_db) {
+                if (!@mysqli_select_db($this->connection, $this->_db)) {
+                    return $this->mysqliRaiseError(DB_ERROR_NODBSELECTED);
+                }
+            }
+
             /*
              * Probably received a table name.
              * Create a result resource identifier.
@@ -1015,7 +1030,8 @@ class DB_mysqli extends DB_common
                 'type'  => isset($this->mysqli_types[$tmp->type])
                                     ? $this->mysqli_types[$tmp->type]
                                     : 'unknown',
-                'len'   => $tmp->max_length,
+                // http://bugs.php.net/?id=36579
+                'len'   => $tmp->length,
                 'flags' => $flags,
             );
 

@@ -18,7 +18,7 @@
  * @package    DB
  * @author     Sterling Hughes <sterling@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -35,13 +35,21 @@ require_once 'DB/common.php';
  *
  * These methods overload the ones declared in DB_common.
  *
+ * DB's mssql driver is only for Microsfoft SQL Server databases.
+ *
+ * If you're connecting to a Sybase database, you MUST specify "sybase"
+ * as the "phptype" in the DSN.
+ *
+ * This class only works correctly if you have compiled PHP using
+ * --with-mssql=[dir_to_FreeTDS].
+ *
  * @category   Database
  * @package    DB
  * @author     Sterling Hughes <sterling@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_mssql extends DB_common
@@ -89,19 +97,40 @@ class DB_mssql extends DB_common
      */
     // XXX Add here error codes ie: 'S100E' => DB_ERROR_SYNTAX
     var $errorcode_map = array(
+        102   => DB_ERROR_SYNTAX,
         110   => DB_ERROR_VALUE_COUNT_ON_ROW,
         155   => DB_ERROR_NOSUCHFIELD,
+        156   => DB_ERROR_SYNTAX,
         170   => DB_ERROR_SYNTAX,
         207   => DB_ERROR_NOSUCHFIELD,
         208   => DB_ERROR_NOSUCHTABLE,
         245   => DB_ERROR_INVALID_NUMBER,
+        319   => DB_ERROR_SYNTAX,
+        321   => DB_ERROR_NOSUCHFIELD,
+        325   => DB_ERROR_SYNTAX,
+        336   => DB_ERROR_SYNTAX,
         515   => DB_ERROR_CONSTRAINT_NOT_NULL,
         547   => DB_ERROR_CONSTRAINT,
+        1018  => DB_ERROR_SYNTAX,
+        1035  => DB_ERROR_SYNTAX,
         1913  => DB_ERROR_ALREADY_EXISTS,
+        2209  => DB_ERROR_SYNTAX,
+        2223  => DB_ERROR_SYNTAX,
+        2248  => DB_ERROR_SYNTAX,
+        2256  => DB_ERROR_SYNTAX,
+        2257  => DB_ERROR_SYNTAX,
         2627  => DB_ERROR_CONSTRAINT,
         2714  => DB_ERROR_ALREADY_EXISTS,
+        3607  => DB_ERROR_DIVZERO,
         3701  => DB_ERROR_NOSUCHTABLE,
+        7630  => DB_ERROR_SYNTAX,
         8134  => DB_ERROR_DIVZERO,
+        9303  => DB_ERROR_SYNTAX,
+        9317  => DB_ERROR_SYNTAX,
+        9318  => DB_ERROR_SYNTAX,
+        9331  => DB_ERROR_SYNTAX,
+        9332  => DB_ERROR_SYNTAX,
+        15253 => DB_ERROR_SYNTAX,
     );
 
     /**
@@ -244,7 +273,7 @@ class DB_mssql extends DB_common
      */
     function simpleQuery($query)
     {
-        $ismanip = DB::isManip($query);
+        $ismanip = $this->_checkManip($query);
         $this->last_query = $query;
         if (!@mssql_select_db($this->_db, $this->connection)) {
             return $this->mssqlRaiseError(DB_ERROR_NODBSELECTED);
@@ -316,7 +345,7 @@ class DB_mssql extends DB_common
             }
         }
         if ($fetchmode & DB_FETCHMODE_ASSOC) {
-            $arr = @mssql_fetch_array($result, MSSQL_ASSOC);
+            $arr = @mssql_fetch_assoc($result);
             if ($this->options['portability'] & DB_PORTABILITY_LOWERCASE && $arr) {
                 $arr = array_change_key_case($arr, CASE_LOWER);
             }
@@ -353,7 +382,7 @@ class DB_mssql extends DB_common
      */
     function freeResult($result)
     {
-        return @mssql_free_result($result);
+        return is_resource($result) ? mssql_free_result($result) : false;
     }
 
     // }}}
@@ -483,7 +512,7 @@ class DB_mssql extends DB_common
      */
     function affectedRows()
     {
-        if (DB::isManip($this->last_query)) {
+        if ($this->_last_query_manip) {
             $res = @mssql_query('select @@rowcount', $this->connection);
             if (!$res) {
                 return $this->mssqlRaiseError();
@@ -537,7 +566,15 @@ class DB_mssql extends DB_common
                     return $this->raiseError($result);
                 }
             } elseif (!DB::isError($result)) {
-                $result =& $this->query("SELECT @@IDENTITY FROM $seqname");
+                $result = $this->query("SELECT IDENT_CURRENT('$seqname')");
+                if (DB::isError($result)) {
+                    /* Fallback code for MS SQL Server 7.0, which doesn't have
+                     * IDENT_CURRENT. This is *not* safe for concurrent
+                     * requests, and really, if you're using it, you're in a
+                     * world of hurt. Nevertheless, it's here to ensure BC. See
+                     * bug #181 for the gory details.*/
+                    $result = $this->query("SELECT @@IDENTITY FROM $seqname");
+                }
                 $repeat = 0;
             } else {
                 $repeat = false;
@@ -745,16 +782,22 @@ class DB_mssql extends DB_common
         }
 
         for ($i = 0; $i < $count; $i++) {
+            if ($got_string) {
+                $flags = $this->_mssql_field_flags($result,
+                        @mssql_field_name($id, $i));
+                if (DB::isError($flags)) {
+                    return $flags;
+                }
+            } else {
+                $flags = '';
+            }
+
             $res[$i] = array(
                 'table' => $got_string ? $case_func($result) : '',
                 'name'  => $case_func(@mssql_field_name($id, $i)),
                 'type'  => @mssql_field_type($id, $i),
                 'len'   => @mssql_field_length($id, $i),
-                // We only support flags for table
-                'flags' => $got_string
-                           ? $this->_mssql_field_flags($result,
-                                                       @mssql_field_name($id, $i))
-                           : '',
+                'flags' => $flags,
             );
             if ($mode & DB_TABLEINFO_ORDER) {
                 $res['order'][$res[$i]['name']] = $i;
@@ -805,7 +848,10 @@ class DB_mssql extends DB_common
             $tableName = $table;
 
             // get unique and primary keys
-            $res = $this->getAll("EXEC SP_HELPINDEX[$table]", DB_FETCHMODE_ASSOC);
+            $res = $this->getAll("EXEC SP_HELPINDEX $table", DB_FETCHMODE_ASSOC);
+            if (DB::isError($res)) {
+                return $res;
+            }
 
             foreach ($res as $val) {
                 $keys = explode(', ', $val['index_keys']);
@@ -828,7 +874,10 @@ class DB_mssql extends DB_common
             }
 
             // get auto_increment, not_null and timestamp
-            $res = $this->getAll("EXEC SP_COLUMNS[$table]", DB_FETCHMODE_ASSOC);
+            $res = $this->getAll("EXEC SP_COLUMNS $table", DB_FETCHMODE_ASSOC);
+            if (DB::isError($res)) {
+                return $res;
+            }
 
             foreach ($res as $val) {
                 $val = array_change_key_case($val, CASE_LOWER);

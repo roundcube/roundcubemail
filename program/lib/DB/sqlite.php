@@ -19,7 +19,7 @@
  * @author     Urs Gehrig <urs@circle.ch>
  * @author     Mika Tuupola <tuupola@appelsiini.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -45,9 +45,9 @@ require_once 'DB/common.php';
  * @author     Urs Gehrig <urs@circle.ch>
  * @author     Mika Tuupola <tuupola@appelsiini.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_sqlite extends DB_common
@@ -182,7 +182,7 @@ class DB_sqlite extends DB_common
      *     'portability' => DB_PORTABILITY_ALL,
      * );
      * 
-     * $db =& DB::connect($dsn, $options);
+     * $db = DB::connect($dsn, $options);
      * if (PEAR::isError($db)) {
      *     die($db->getMessage());
      * }
@@ -204,7 +204,11 @@ class DB_sqlite extends DB_common
             $this->dbsyntax = $dsn['dbsyntax'];
         }
 
-        if ($dsn['database']) {
+        if (!$dsn['database']) {
+            return $this->sqliteRaiseError(DB_ERROR_ACCESS_VIOLATION);
+        }
+
+        if ($dsn['database'] !== ':memory:') {
             if (!file_exists($dsn['database'])) {
                 if (!touch($dsn['database'])) {
                     return $this->sqliteRaiseError(DB_ERROR_NOT_FOUND);
@@ -229,14 +233,12 @@ class DB_sqlite extends DB_common
             if (!is_readable($dsn['database'])) {
                 return $this->sqliteRaiseError(DB_ERROR_ACCESS_VIOLATION);
             }
-        } else {
-            return $this->sqliteRaiseError(DB_ERROR_ACCESS_VIOLATION);
         }
 
         $connect_function = $persistent ? 'sqlite_popen' : 'sqlite_open';
 
         // track_errors must remain on for simpleQuery()
-        ini_set('track_errors', 1);
+        @ini_set('track_errors', 1);
         $php_errormsg = '';
 
         if (!$this->connection = @$connect_function($dsn['database'])) {
@@ -280,7 +282,7 @@ class DB_sqlite extends DB_common
      */
     function simpleQuery($query)
     {
-        $ismanip = DB::isManip($query);
+        $ismanip = $this->_checkManip($query);
         $this->last_query = $query;
         $query = $this->modifyQuery($query);
 
@@ -356,6 +358,16 @@ class DB_sqlite extends DB_common
             $arr = @sqlite_fetch_array($result, SQLITE_ASSOC);
             if ($this->options['portability'] & DB_PORTABILITY_LOWERCASE && $arr) {
                 $arr = array_change_key_case($arr, CASE_LOWER);
+            }
+
+            /* Remove extraneous " characters from the fields in the result.
+             * Fixes bug #11716. */
+            if (is_array($arr) && count($arr) > 0) {
+                $strippedArr = array();
+                foreach ($arr as $field => $value) {
+                    $strippedArr[trim($field, '"')] = $value;
+                }
+                $arr = $strippedArr;
             }
         } else {
             $arr = @sqlite_fetch_array($result, SQLITE_NUM);
@@ -727,6 +739,11 @@ class DB_sqlite extends DB_common
     function errorCode($errormsg)
     {
         static $error_regexps;
+        
+        // PHP 5.2+ prepends the function name to $php_errormsg, so we need
+        // this hack to work around it, per bug #9599.
+        $errormsg = preg_replace('/^sqlite[a-z_]+\(\): /', '', $errormsg);
+        
         if (!isset($error_regexps)) {
             $error_regexps = array(
                 '/^no such table:/' => DB_ERROR_NOSUCHTABLE,

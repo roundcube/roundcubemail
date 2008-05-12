@@ -18,7 +18,7 @@
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V.V. Cox <cox@idecnet.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -40,9 +40,9 @@ require_once 'PEAR.php';
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V.V. Cox <cox@idecnet.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_common extends PEAR
@@ -120,6 +120,21 @@ class DB_common extends PEAR
      * @var array
      */
     var $prepared_queries = array();
+
+    /**
+     * Flag indicating that the last query was a manipulation query.
+     * @access protected
+     * @var boolean
+     */
+    var $_last_query_manip = false;
+
+    /**
+     * Flag indicating that the next query <em>must</em> be a manipulation
+     * query.
+     * @access protected
+     * @var boolean
+     */
+    var $_next_query_manip = false;
 
 
     // }}}
@@ -424,17 +439,56 @@ class DB_common extends PEAR
      */
     function quoteSmart($in)
     {
-        if (is_int($in) || is_double($in)) {
+        if (is_int($in)) {
             return $in;
+        } elseif (is_float($in)) {
+            return $this->quoteFloat($in);
         } elseif (is_bool($in)) {
-            return $in ? 1 : 0;
+            return $this->quoteBoolean($in);
         } elseif (is_null($in)) {
             return 'NULL';
         } else {
+            if ($this->dbsyntax == 'access'
+                && preg_match('/^#.+#$/', $in))
+            {
+                return $this->escapeSimple($in);
+            }
             return "'" . $this->escapeSimple($in) . "'";
         }
     }
 
+    // }}}
+    // {{{ quoteBoolean()
+
+    /**
+     * Formats a boolean value for use within a query in a locale-independent
+     * manner.
+     *
+     * @param boolean the boolean value to be quoted.
+     * @return string the quoted string.
+     * @see DB_common::quoteSmart()
+     * @since Method available since release 1.7.8.
+     */
+    function quoteBoolean($boolean) {
+        return $boolean ? '1' : '0';
+    }
+     
+    // }}}
+    // {{{ quoteFloat()
+
+    /**
+     * Formats a float value for use within a query in a locale-independent
+     * manner.
+     *
+     * @param float the float value to be quoted.
+     * @return string the quoted string.
+     * @see DB_common::quoteSmart()
+     * @since Method available since release 1.7.8.
+     */
+    function quoteFloat($float) {
+        return "'".$this->escapeSimple(str_replace(',', '.', strval(floatval($float))))."'";
+    }
+     
     // }}}
     // {{{ escapeSimple()
 
@@ -837,7 +891,7 @@ class DB_common extends PEAR
         if (DB::isError($sth)) {
             return $sth;
         }
-        $ret =& $this->execute($sth, array_values($fields_values));
+        $ret = $this->execute($sth, array_values($fields_values));
         $this->freePrepared($sth);
         return $ret;
 
@@ -931,7 +985,7 @@ class DB_common extends PEAR
      *     "'it''s good'",
      *     'filename.txt'
      * );
-     * $res =& $db->execute($sth, $data);
+     * $res = $db->execute($sth, $data);
      * </code>
      *
      * @param resource $stmt  a DB statement resource returned from prepare()
@@ -960,7 +1014,7 @@ class DB_common extends PEAR
         if ($result === DB_OK || DB::isError($result)) {
             return $result;
         } else {
-            $tmp =& new DB_result($this, $result);
+            $tmp = new DB_result($this, $result);
             return $tmp;
         }
     }
@@ -1041,7 +1095,7 @@ class DB_common extends PEAR
     function executeMultiple($stmt, $data)
     {
         foreach ($data as $value) {
-            $res =& $this->execute($stmt, $value);
+            $res = $this->execute($stmt, $value);
             if (DB::isError($res)) {
                 return $res;
             }
@@ -1154,7 +1208,7 @@ class DB_common extends PEAR
             if (DB::isError($sth)) {
                 return $sth;
             }
-            $ret =& $this->execute($sth, $params);
+            $ret = $this->execute($sth, $params);
             $this->freePrepared($sth, false);
             return $ret;
         } else {
@@ -1163,7 +1217,7 @@ class DB_common extends PEAR
             if ($result === DB_OK || DB::isError($result)) {
                 return $result;
             } else {
-                $tmp =& new DB_result($this, $result);
+                $tmp = new DB_result($this, $result);
                 return $tmp;
             }
         }
@@ -1194,7 +1248,7 @@ class DB_common extends PEAR
         if (DB::isError($query)){
             return $query;
         }
-        $result =& $this->query($query, $params);
+        $result = $this->query($query, $params);
         if (is_a($result, 'DB_result')) {
             $result->setOption('limit_from', $from);
             $result->setOption('limit_count', $count);
@@ -1229,10 +1283,10 @@ class DB_common extends PEAR
             if (DB::isError($sth)) {
                 return $sth;
             }
-            $res =& $this->execute($sth, $params);
+            $res = $this->execute($sth, $params);
             $this->freePrepared($sth);
         } else {
-            $res =& $this->query($query);
+            $res = $this->query($query);
         }
 
         if (DB::isError($res)) {
@@ -1293,10 +1347,10 @@ class DB_common extends PEAR
             if (DB::isError($sth)) {
                 return $sth;
             }
-            $res =& $this->execute($sth, $params);
+            $res = $this->execute($sth, $params);
             $this->freePrepared($sth);
         } else {
-            $res =& $this->query($query);
+            $res = $this->query($query);
         }
 
         if (DB::isError($res)) {
@@ -1344,10 +1398,10 @@ class DB_common extends PEAR
                 return $sth;
             }
 
-            $res =& $this->execute($sth, $params);
+            $res = $this->execute($sth, $params);
             $this->freePrepared($sth);
         } else {
-            $res =& $this->query($query);
+            $res = $this->query($query);
         }
 
         if (DB::isError($res)) {
@@ -1360,7 +1414,7 @@ class DB_common extends PEAR
             $ret = array();
         } else {
             if (!array_key_exists($col, $row)) {
-                $ret =& $this->raiseError(DB_ERROR_NOSUCHFIELD);
+                $ret = $this->raiseError(DB_ERROR_NOSUCHFIELD);
             } else {
                 $ret = array($row[$col]);
                 while (is_array($row = $res->fetchRow($fetchmode))) {
@@ -1476,10 +1530,10 @@ class DB_common extends PEAR
                 return $sth;
             }
 
-            $res =& $this->execute($sth, $params);
+            $res = $this->execute($sth, $params);
             $this->freePrepared($sth);
         } else {
-            $res =& $this->query($query);
+            $res = $this->query($query);
         }
 
         if (DB::isError($res)) {
@@ -1491,7 +1545,7 @@ class DB_common extends PEAR
         $cols = $res->numCols();
 
         if ($cols < 2) {
-            $tmp =& $this->raiseError(DB_ERROR_TRUNCATED);
+            $tmp = $this->raiseError(DB_ERROR_TRUNCATED);
             return $tmp;
         }
 
@@ -1603,10 +1657,10 @@ class DB_common extends PEAR
                 return $sth;
             }
 
-            $res =& $this->execute($sth, $params);
+            $res = $this->execute($sth, $params);
             $this->freePrepared($sth);
         } else {
-            $res =& $this->query($query);
+            $res = $this->query($query);
         }
 
         if ($res === DB_OK || DB::isError($res)) {
@@ -1627,7 +1681,7 @@ class DB_common extends PEAR
         $res->free();
 
         if (DB::isError($row)) {
-            $tmp =& $this->raiseError($row);
+            $tmp = $this->raiseError($row);
             return $tmp;
         }
         return $results;
@@ -2100,6 +2154,52 @@ class DB_common extends PEAR
     function getSpecialQuery($type)
     {
         return $this->raiseError(DB_ERROR_UNSUPPORTED);
+    }
+
+    // }}}
+    // {{{ nextQueryIsManip()
+
+    /**
+     * Sets (or unsets) a flag indicating that the next query will be a
+     * manipulation query, regardless of the usual DB::isManip() heuristics.
+     *
+     * @param boolean true to set the flag overriding the isManip() behaviour,
+     * false to clear it and fall back onto isManip()
+     *
+     * @return void
+     *
+     * @access public
+     */
+    function nextQueryIsManip($manip)
+    {
+        $this->_next_query_manip = $manip;
+    }
+
+    // }}}
+    // {{{ _checkManip()
+
+    /**
+     * Checks if the given query is a manipulation query. This also takes into
+     * account the _next_query_manip flag and sets the _last_query_manip flag
+     * (and resets _next_query_manip) according to the result.
+     *
+     * @param string The query to check.
+     *
+     * @return boolean true if the query is a manipulation query, false
+     * otherwise
+     *
+     * @access protected
+     */
+    function _checkManip($query)
+    {
+        if ($this->_next_query_manip || DB::isManip($query)) {
+            $this->_last_query_manip = true;
+        } else {
+            $this->_last_query_manip = false;
+        }
+        $this->_next_query_manip = false;
+        return $this->_last_query_manip;
+        $manip = $this->_next_query_manip;
     }
 
     // }}}

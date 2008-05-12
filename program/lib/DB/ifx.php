@@ -18,7 +18,7 @@
  * @package    DB
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -46,9 +46,9 @@ require_once 'DB/common.php';
  * @package    DB
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_ifx extends DB_common
@@ -101,6 +101,7 @@ class DB_ifx extends DB_common
         '-236'    => DB_ERROR_VALUE_COUNT_ON_ROW,
         '-239'    => DB_ERROR_CONSTRAINT,
         '-253'    => DB_ERROR_SYNTAX,
+        '-268'    => DB_ERROR_CONSTRAINT,
         '-292'    => DB_ERROR_CONSTRAINT_NOT_NULL,
         '-310'    => DB_ERROR_ALREADY_EXISTS,
         '-316'    => DB_ERROR_ALREADY_EXISTS,
@@ -113,6 +114,7 @@ class DB_ifx extends DB_common
         '-691'    => DB_ERROR_CONSTRAINT,
         '-692'    => DB_ERROR_CONSTRAINT,
         '-703'    => DB_ERROR_CONSTRAINT_NOT_NULL,
+        '-1202'   => DB_ERROR_DIVZERO,
         '-1204'   => DB_ERROR_INVALID_DATE,
         '-1205'   => DB_ERROR_INVALID_DATE,
         '-1206'   => DB_ERROR_INVALID_DATE,
@@ -243,10 +245,10 @@ class DB_ifx extends DB_common
      */
     function simpleQuery($query)
     {
-        $ismanip = DB::isManip($query);
+        $ismanip = $this->_checkManip($query);
         $this->last_query = $query;
         $this->affected   = null;
-        if (preg_match('/(SELECT)/i', $query)) {    //TESTME: Use !DB::isManip()?
+        if (preg_match('/(SELECT|EXECUTE)/i', $query)) {    //TESTME: Use !DB::isManip()?
             // the scroll is needed for fetching absolute row numbers
             // in a select query result
             $result = @ifx_query($query, $this->connection, IFX_SCROLL);
@@ -268,7 +270,7 @@ class DB_ifx extends DB_common
         $this->affected = @ifx_affected_rows($result);
         // Determine which queries should return data, and which
         // should return an error code only.
-        if (preg_match('/(SELECT)/i', $query)) {
+        if (preg_match('/(SELECT|EXECUTE)/i', $query)) {
             return $result;
         }
         // XXX Testme: free results inside a transaction
@@ -309,7 +311,7 @@ class DB_ifx extends DB_common
      */
     function affectedRows()
     {
-        if (DB::isManip($this->last_query)) {
+        if ($this->_last_query_manip) {
             return $this->affected;
         } else {
             return 0;
@@ -420,7 +422,7 @@ class DB_ifx extends DB_common
      */
     function freeResult($result)
     {
-        return @ifx_free_result($result);
+        return is_resource($result) ? ifx_free_result($result) : false;
     }
 
     // }}}

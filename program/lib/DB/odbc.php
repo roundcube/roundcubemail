@@ -18,7 +18,7 @@
  * @package    DB
  * @author     Stig Bakken <ssb@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -42,9 +42,9 @@ require_once 'DB/common.php';
  * @package    DB
  * @author     Stig Bakken <ssb@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_odbc extends DB_common
@@ -266,7 +266,7 @@ class DB_odbc extends DB_common
         }
         // Determine which queries that should return data, and which
         // should return an error code only.
-        if (DB::isManip($query)) {
+        if ($this->_checkManip($query)) {
             $this->affected = $result; // For affectedRows()
             return DB_OK;
         }
@@ -367,7 +367,7 @@ class DB_odbc extends DB_common
      */
     function freeResult($result)
     {
-        return @odbc_free_result($result);
+        return is_resource($result) ? odbc_free_result($result) : false;
     }
 
     // }}}

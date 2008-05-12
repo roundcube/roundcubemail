@@ -21,7 +21,7 @@
  * @category   Database
  * @package    DB
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -45,9 +45,9 @@ require_once 'DB/common.php';
  * @category   Database
  * @package    DB
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  * @since      Class not functional until Release 1.7.0
  */
@@ -153,7 +153,7 @@ class DB_msql extends DB_common
      *     'portability' => DB_PORTABILITY_ALL,
      * );
      * 
-     * $db =& DB::connect($dsn, $options);
+     * $db = DB::connect($dsn, $options);
      * if (PEAR::isError($db)) {
      *     die($db->getMessage());
      * }
@@ -190,10 +190,10 @@ class DB_msql extends DB_common
             $this->connection = @call_user_func_array($connect_function,
                                                       $params);
         } else {
-            ini_set('track_errors', 1);
+            @ini_set('track_errors', 1);
             $this->connection = @call_user_func_array($connect_function,
                                                       $params);
-            ini_set('track_errors', $ini);
+            @ini_set('track_errors', $ini);
         }
 
         if (!$this->connection) {
@@ -251,7 +251,7 @@ class DB_msql extends DB_common
         }
         // Determine which queries that should return data, and which
         // should return an error code only.
-        if (DB::isManip($query)) {
+        if ($this->_checkManip($query)) {
             $this->_result = $result;
             return DB_OK;
         } else {
@@ -350,7 +350,7 @@ class DB_msql extends DB_common
      */
     function freeResult($result)
     {
-        return @msql_free_result($result);
+        return is_resource($result) ? msql_free_result($result) : false;
     }
 
     // }}}
@@ -443,7 +443,7 @@ class DB_msql extends DB_common
         $repeat = false;
         do {
             $this->pushErrorHandling(PEAR_ERROR_RETURN);
-            $result =& $this->query("SELECT _seq FROM ${seqname}");
+            $result = $this->query("SELECT _seq FROM ${seqname}");
             $this->popErrorHandling();
             if ($ondemand && DB::isError($result) &&
                 $result->getCode() == DB_ERROR_NOSUCHTABLE) {
@@ -531,6 +531,22 @@ class DB_msql extends DB_common
     }
 
     // }}}
+    // {{{ quoteFloat()
+
+    /**
+     * Formats a float value for use within a query in a locale-independent
+     * manner.
+     *
+     * @param float the float value to be quoted.
+     * @return string the quoted string.
+     * @see DB_common::quoteSmart()
+     * @since Method available since release 1.7.8.
+     */
+    function quoteFloat($float) {
+        return $this->escapeSimple(str_replace(',', '.', strval(floatval($float))));
+    }
+     
+    // }}}
     // {{{ escapeSimple()
 
     /**
@@ -598,6 +614,11 @@ class DB_msql extends DB_common
     function errorCode($errormsg)
     {
         static $error_regexps;
+        
+        // PHP 5.2+ prepends the function name to $php_errormsg, so we need
+        // this hack to work around it, per bug #9599.
+        $errormsg = preg_replace('/^msql[a-z_]+\(\): /', '', $errormsg);
+
         if (!isset($error_regexps)) {
             $error_regexps = array(
                 '/^Access to database denied/i'

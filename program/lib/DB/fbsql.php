@@ -18,7 +18,7 @@
  * @package    DB
  * @author     Frank M. Kromann <frank@frontbase.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
@@ -39,9 +39,9 @@ require_once 'DB/common.php';
  * @package    DB
  * @author     Frank M. Kromann <frank@frontbase.com>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  * @since      Class functional since Release 1.7.0
  */
@@ -171,10 +171,10 @@ class DB_fbsql extends DB_common
             $this->connection = @call_user_func_array($connect_function,
                                                       $params);
         } else {
-            ini_set('track_errors', 1);
+            @ini_set('track_errors', 1);
             $this->connection = @call_user_func_array($connect_function,
                                                       $params);
-            ini_set('track_errors', $ini);
+            @ini_set('track_errors', $ini);
         }
 
         if (!$this->connection) {
@@ -229,7 +229,7 @@ class DB_fbsql extends DB_common
         }
         // Determine which queries that should return data, and which
         // should return an error code only.
-        if (DB::isManip($query)) {
+        if ($this->_checkManip($query)) {
             return DB_OK;
         }
         return $result;
@@ -320,7 +320,7 @@ class DB_fbsql extends DB_common
      */
     function freeResult($result)
     {
-        return @fbsql_free_result($result);
+        return is_resource($result) ? fbsql_free_result($result) : false;
     }
 
     // }}}
@@ -353,7 +353,7 @@ class DB_fbsql extends DB_common
      */
     function commit()
     {
-        @fbsql_commit();
+        @fbsql_commit($this->connection);
     }
 
     // }}}
@@ -366,7 +366,7 @@ class DB_fbsql extends DB_common
      */
     function rollback()
     {
-        @fbsql_rollback();
+        @fbsql_rollback($this->connection);
     }
 
     // }}}
@@ -431,7 +431,7 @@ class DB_fbsql extends DB_common
      */
     function affectedRows()
     {
-        if (DB::isManip($this->last_query)) {
+        if ($this->_last_query_manip) {
             $result = @fbsql_affected_rows($this->connection);
         } else {
             $result = 0;
@@ -543,7 +543,7 @@ class DB_fbsql extends DB_common
      */
     function modifyLimitQuery($query, $from, $count, $params = array())
     {
-        if (DB::isManip($query)) {
+        if (DB::isManip($query) || $this->_next_query_manip) {
             return preg_replace('/^([\s(])*SELECT/i',
                                 "\\1SELECT TOP($count)", $query);
         } else {
@@ -553,38 +553,37 @@ class DB_fbsql extends DB_common
     }
 
     // }}}
-    // {{{ quoteSmart()
+    // {{{ quoteBoolean()
 
     /**
-     * Formats input so it can be safely used in a query
+     * Formats a boolean value for use within a query in a locale-independent
+     * manner.
      *
-     * @param mixed $in  the data to be formatted
-     *
-     * @return mixed  the formatted data.  The format depends on the input's
-     *                 PHP type:
-     *                 + null = the string <samp>NULL</samp>
-     *                 + boolean = string <samp>TRUE</samp> or <samp>FALSE</samp>
-     *                 + integer or double = the unquoted number
-     *                 + other (including strings and numeric strings) =
-     *                   the data escaped according to FrontBase's settings
-     *                   then encapsulated between single quotes
-     *
+     * @param boolean the boolean value to be quoted.
+     * @return string the quoted string.
      * @see DB_common::quoteSmart()
-     * @since Method available since Release 1.6.0
+     * @since Method available since release 1.7.8.
      */
-    function quoteSmart($in)
-    {
-        if (is_int($in) || is_double($in)) {
-            return $in;
-        } elseif (is_bool($in)) {
-            return $in ? 'TRUE' : 'FALSE';
-        } elseif (is_null($in)) {
-            return 'NULL';
-        } else {
-            return "'" . $this->escapeSimple($in) . "'";
-        }
+    function quoteBoolean($boolean) {
+        return $boolean ? 'TRUE' : 'FALSE';
     }
+     
+    // }}}
+    // {{{ quoteFloat()
 
+    /**
+     * Formats a float value for use within a query in a locale-independent
+     * manner.
+     *
+     * @param float the float value to be quoted.
+     * @return string the quoted string.
+     * @see DB_common::quoteSmart()
+     * @since Method available since release 1.7.8.
+     */
+    function quoteFloat($float) {
+        return $this->escapeSimple(str_replace(',', '.', strval(floatval($float))));
+    }
+     
     // }}}
     // {{{ fbsqlRaiseError()
 
