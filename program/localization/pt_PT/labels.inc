@@ -2,20 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/pt_PT/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
- |          João Vale <jpvale@gmail.com>                                 |
- |          Fernando Silva <fernando.silva@openquest.pt>                 |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/pt_PT/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
+|          João Vale <jpvale@gmail.com>                                 |
+|          Fernando Silva <fernando.silva@openquest.pt>                 |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -70,6 +70,30 @@ $labels['wednesday'] = 'Quarta-feira';
 $labels['thursday'] = 'Quinta-feira';
 $labels['friday'] = 'Sexta-feira';
 $labels['saturday'] = 'Sábado';
+$labels['jan'] = 'Jan';
+$labels['feb'] = 'Fev';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Abr';
+$labels['may'] = 'Mai';
+$labels['jun'] = 'Jun';
+$labels['jul'] = 'Jul';
+$labels['aug'] = 'Ago';
+$labels['sep'] = 'Set';
+$labels['oct'] = 'Out';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Dez';
+$labels['longjan'] = 'Janeiro';
+$labels['longfeb'] = 'Fevereiro';
+$labels['longmar'] = 'Março';
+$labels['longapr'] = 'Abril';
+$labels['longmay'] = 'Maio';
+$labels['longjun'] = 'Junho';
+$labels['longjul'] = 'Junho';
+$labels['longaug'] = 'Agosto';
+$labels['longsep'] = 'Setembro';
+$labels['longoct'] = 'Outubro';
+$labels['longnov'] = 'Novembro';
+$labels['longdec'] = 'Dezembro';
 $labels['today'] = 'Hoje';
 $labels['checkmail'] = 'Verificar novas mensagens';
 $labels['writenewmessage'] = 'Criar nova mensagem';
@@ -173,6 +197,10 @@ $labels['dstactive'] = 'Horário de verão';
 $labels['htmleditor'] = 'Escrever mensagens em HTML';
 $labels['htmlsignature'] = 'Assinatura em HTML';
 $labels['previewpane'] = 'Mostrar pré-visualização';
+$labels['logoutclear'] = 'Limpar a Lixeira após sair';
+$labels['logoutcompact'] = 'Compactar Caixa de Entrada após sair';
+$labels['uisettings'] = 'Interface de Utilizador';
+$labels['serversettings'] = 'Definições do Servidor';
 $labels['autosavedraft'] = 'Salvar rascunho automaticamente';
 $labels['everynminutes'] = 'a cada $n minutos';
 $labels['never'] = 'nunca';
