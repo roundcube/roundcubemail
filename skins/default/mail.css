@@ -622,7 +622,7 @@ table.headers-table tr td.subject
   list-style-type: none;
   background: url(images/icons/attachment.png) 52px 1px no-repeat #DFDFDF;
   /* css hack for IE */
-  height: expression(Math.min(18, parseInt(this.clientHeight))+'px');
+  height: expression(Math.min(18, parseInt(document.documentElement.clientHeight))+'px');
 }
 
 #attachment-list:after
