@@ -135,7 +135,7 @@ img
   width: 600px;
   height: 37px;
   background: url(images/taskbar.gif) top right no-repeat;
-  padding: 10px 14px 10px 0px;
+  padding: 10px 4px 10px 0px;
   text-align: right;
   white-space: nowrap;
   z-index: 2;
@@ -148,7 +148,7 @@ img
   font-size: 11px;
   color: #666666;
   text-decoration: none;
-  padding: 6px 16px 6px 30px;
+  padding: 6px 16px 6px 25px;
   background-repeat: no-repeat;
 }
 
@@ -318,7 +318,7 @@ table.records-table tr.unfocused td
 {
   position: absolute;
   top: 60px;
-  right: 30px;
+  right: 20px;
   width: 182px;
   height: 20px;
   text-align: right;

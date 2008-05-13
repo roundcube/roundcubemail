@@ -133,7 +133,7 @@ td.formlinks a:visited
 {
   position: absolute;
   bottom: 16px;
-  right: 30px;
+  right: 20px;
   width: 300px;
   height: 20px;
   text-align: right;
@@ -163,13 +163,13 @@ td.formlinks a:visited
   position: absolute;
   top: 85px;
   left: 200px;
-  right: 30px;
+  right: 20px;
   bottom: 40px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
@@ -178,12 +178,12 @@ td.formlinks a:visited
   position: absolute;
   top: 305px;
   left: 200px;
-  right: 30px;
+  right: 20px;
   bottom: 40px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-135-document.getElementById('mailcontframe').offsetHeight)+'px');
 }
 
@@ -195,7 +195,7 @@ td.formlinks a:visited
   right: 0px;
   bottom: 0px;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-135-document.getElementById('mailcontframe').offsetHeight)+'px');
 }
 
@@ -559,14 +559,14 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
   position: absolute;
   top: 85px;
   left: 200px;
-  right: 30px;
+  right: 20px;
   bottom: 40px;
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
   /* css hack for IE */
   /* margin-bottom: 10px; */
-  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
@@ -745,12 +745,12 @@ div.message-part blockquote blockquote blockquote
   position: absolute;
   top: 90px;
   left: 200px;
-  right: 40px;
-  bottom: 40px;
+  right: 25px;
+  bottom: 30px;
   padding: 0px;
   margin: 0px;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-130)+'px');
 }
 
