@@ -1175,9 +1175,8 @@ function rcmail_sanitize_html($body, $container_id)
 // parse link attributes and set correct target
 function rcmail_alter_html_link($tag, $attrs, $container_id)
   {
-  $in = preg_replace('/=([^("|\'|\s)]+)(\s|$)/', '="\1"', $in);
   $attrib = parse_attrib_string($attrs);
-  
+
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href']))
     $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($container_id);
 
@@ -1186,7 +1185,7 @@ function rcmail_alter_html_link($tag, $attrs, $container_id)
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
       JQ(substr($attrib['href'], 7)));
-  
+
   else if (!empty($attrib['href']) && $attrib['href']{0}!='#')
     $attrib['target'] = '_blank';
 
