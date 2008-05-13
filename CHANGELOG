@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/12 (estadtherr)
+----------
+- fix JavaScript in compose.html that shows cc/bcc fields if populated
+
 2008/05/12 (alec)
 - Updated PEAR::DB package to version 1.7.13
 

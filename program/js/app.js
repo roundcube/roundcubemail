@@ -1835,8 +1835,8 @@ function rcube_webmail()
     {
     // check input fields
     var input_to = rcube_find_object('_to');
-    var input_cc = rcube_find_object('_to');
-    var input_bcc = rcube_find_object('_to');
+    var input_cc = rcube_find_object('_cc');
+    var input_bcc = rcube_find_object('_bcc');
     var input_subject = rcube_find_object('_subject');
     var input_message = rcube_find_object('_message');
     

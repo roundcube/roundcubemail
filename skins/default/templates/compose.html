@@ -164,10 +164,10 @@ function rcmail_prev_sibling(elm)
 <script type="text/javascript">
 <!--
 
-var cc_field = document.form._cc;
+var cc_field = document.getElementById('rcmcomposecc');
 if (cc_field && cc_field.value!='')
   rcmail_show_header_form('compose-cc', document.getElementById('addcclink'));
-var bcc_field = document.form._bcc;
+var bcc_field = document.getElementById('rcmcomposebcc');
 if (bcc_field && bcc_field.value!='')
   rcmail_show_header_form('compose-bcc', document.getElementById('addbcclink'));
 
