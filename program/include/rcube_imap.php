@@ -118,8 +118,10 @@ class rcube_imap
 
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
+
+    $auth_type = rcmail::get_instance()->config->get('imap_auth_type', 'check');
     
-    $this->conn = iil_Connect($host, $user, $pass, array('imap' => 'check'));
+    $this->conn = iil_Connect($host, $user, $pass, array('imap' => $auth_type));
     $this->host = $host;
     $this->user = $user;
     $this->pass = $pass;
@@ -2367,7 +2369,7 @@ class rcube_imap
 
     // no encoding information, use fallback
     return rcube_charset_convert($input, 
-      !empty($fallback) ? $fallback : $GLOBALS['CONFIG']['default_charset']);
+      !empty($fallback) ? $fallback : rcmail::get_instance()->config->get('default_charset', 'ISO-8859-1'));
     }
 
 

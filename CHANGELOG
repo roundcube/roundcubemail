@@ -1,7 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/15 (thomasb)
+----------
+- Make IMAP auth type configurable (#1483825)
+- Fix empty values with FROM_UNIXTIME() in rcube_mdb2 (#1485055)
+
 2008/05/15 (alec)
+----------
 - Fix attachment list on IE 6/7 (#1484807)
 
 2008/05/12 (estadtherr)
@@ -9,12 +15,15 @@ CHANGELOG RoundCube Webmail
 - fix JavaScript in compose.html that shows cc/bcc fields if populated
 
 2008/05/12 (alec)
+----------
 - Updated PEAR::DB package to version 1.7.13
 
 2008/05/10 (alec)
+----------
 - Make password input fields of type password in installer (#1484886)
 
 2008/05/09 (alec)
+----------
 - Don't call CAPABILITY if was recieved as server's optional response 
   on connect (RFC3501 [7.1]) 
 
