@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/15 (alec)
+- Fix attachment list on IE 6/7 (#1484807)
+
 2008/05/12 (estadtherr)
 ----------
 - fix JavaScript in compose.html that shows cc/bcc fields if populated
