@@ -393,13 +393,8 @@ class rcube_contacts
    */
   function delete_all()
   {
-    if (is_array($ids))
-      $ids = join(',', $ids);
-
-    $this->db->query("DELETE FROM {$this->db_name} WHERE  user_id=?", $this->user_id);
+    $this->db->query("DELETE FROM {$this->db_name} WHERE user_id=?", $this->user_id);
     return $this->db->affected_rows();
   }
 
 }
-
-
