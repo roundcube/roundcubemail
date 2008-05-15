@@ -500,7 +500,7 @@ class rcube_mdb2
       case 'mysqli':
       case 'mysql':
       case 'sqlite':
-        return "FROM_UNIXTIME($timestamp)";
+        return sprintf("FROM_UNIXTIME(%d)", $timestamp);
 
       default:
         return date("'Y-m-d H:i:s'", $timestamp);
