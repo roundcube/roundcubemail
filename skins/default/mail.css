@@ -277,7 +277,7 @@ td.formlinks a:visited
 {
   font-size: 11px;
   background: url(images/icons/folder-closed.png) no-repeat;
-  background-position: 10px 1px;
+  background-position: 5px 1px;
   border-bottom: 1px solid #EBEBEB;
 }
 
@@ -309,7 +309,7 @@ td.formlinks a:visited
 #mailboxlist li a
 {
   display: block;
-  padding-left: 32px;
+  padding-left: 25px;
   padding-top: 2px;
   padding-bottom: 2px;
   text-decoration: none;
