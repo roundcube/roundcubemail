@@ -62,14 +62,11 @@ class rcmail
   
   /**
    * Private constructor
-   *
-   * @todo Remove global $CONFIG
    */
   private function __construct()
   {
     // load configuration
     $this->config = new rcube_config();
-    $GLOBALS['CONFIG'] = $this->config->all();
     
     register_shutdown_function(array($this, 'shutdown'));
   }

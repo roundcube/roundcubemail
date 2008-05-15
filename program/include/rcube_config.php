@@ -40,6 +40,8 @@ class rcube_config
 
   /**
    * Load config from local config file
+   *
+   * @todo Remove global $CONFIG
    */
   private function load()
   {
@@ -80,6 +82,9 @@ class rcube_config
     
     // clear output buffer
     ob_end_clean();
+
+    // export config data
+    $GLOBALS['CONFIG'] = &$this->prop;
   }
   
   
