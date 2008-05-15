@@ -415,7 +415,7 @@ class html_checkbox extends html_inputfield
 class html_textarea extends html
 {
     protected $tagname = 'textarea';
-    protected $allowed_attrib = array('name','rows','cols','wrap');
+    protected $allowed_attrib = array('name','rows','cols','wrap','tabindex');
 
     /**
      * Get HTML code for this object
