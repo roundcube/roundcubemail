@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/16 (alec)
+----------
+- In Preferences added possibility to configure 'read_when_deleted',
+  'mdn_requests', 'message_sort_col' and 'message_sort_order' options
+
 2008/05/15 (thomasb)
 ----------
 - Make IMAP auth type configurable (#1483825)
