@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/nl_NL/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Mark Moses <mark@katmoda.com>                                 |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/nl_NL/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Mark Moses <mark@katmoda.com>                                 |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -31,7 +31,7 @@ $labels['inbox'] = 'Postvak IN';
 $labels['drafts'] = 'Concepten';
 $labels['sent'] = 'Verzonden';
 $labels['trash'] = 'Prullenbak';
-$labels['junk'] = 'SPAM';
+$labels['junk'] = 'Spam';
 $labels['subject'] = 'Onderwerp';
 $labels['from'] = 'Afzender';
 $labels['to'] = 'Ontvanger';
@@ -50,9 +50,9 @@ $labels['moveto'] = 'verplaats naar...';
 $labels['download'] = 'download';
 $labels['filename'] = 'Bestandsnaam';
 $labels['filesize'] = 'Bestandsgrootte';
-$labels['preferhtml'] = 'Prefereer HTML';
+$labels['preferhtml'] = 'Toon HTML';
 $labels['htmlmessage'] = 'HTML Bericht';
-$labels['prettydate'] = 'Opgemaakte data';
+$labels['prettydate'] = 'Opgemaakte datums';
 $labels['addtoaddressbook'] = 'Toevoegen aan adresboek';
 $labels['sun'] = 'Zo';
 $labels['mon'] = 'Ma';
@@ -94,7 +94,7 @@ $labels['longnov'] = 'November';
 $labels['longdec'] = 'December';
 $labels['today'] = 'Vandaag';
 $labels['checkmail'] = 'Controleer op nieuwe berichten';
-$labels['writenewmessage'] = 'Nieuw bericht';
+$labels['writenewmessage'] = 'Maak een nieuw bericht';
 $labels['replytomessage'] = 'Beantwoord het bericht';
 $labels['replytoallmessage'] = 'Beantwoord alle ontvangers';
 $labels['forwardmessage'] = 'Bericht doorsturen';
@@ -151,7 +151,7 @@ $labels['plaintoggle'] = 'Gewone tekst';
 $labels['addcc'] = 'Kopie toevoegen';
 $labels['addbcc'] = 'Bcc toevoegen';
 $labels['addreplyto'] = 'Antwoord-aan toevoegen';
-$labels['mdnrequest'] = 'De afzender van dit bericht heeft gevraagd of er een melding kan worden verzonden als dit bericht is ontvangen. Wilt u de een melding verzenden?';
+$labels['mdnrequest'] = 'De afzender van dit bericht heeft gevraagd of er een melding kan worden verzonden als dit bericht is ontvangen. Wilt u de melding verzenden?';
 $labels['receiptread'] = 'Ontvangstbevestiging (gelezen)';
 $labels['yourmessage'] = 'Dit is een ontvangstbevestiging voor uw bericht';
 $labels['receiptnote'] = 'Let op: Deze bevestigt alleen dat uw bericht bij de geaddresseerde is binnen gekomen. Er is geen garantie dat de geaddresseerde het bericht daadwerkelijk heeft gelezen of de inhoud heeft begrepen.';
@@ -199,6 +199,13 @@ $labels['logoutclear'] = 'Prullenbak legen bij uitloggen';
 $labels['logoutcompact'] = 'Postvak IN opschonen bij uitloggen';
 $labels['uisettings'] = 'Gebruikers Interface';
 $labels['serversettings'] = 'Server Instellingen';
+$labels['descending'] = 'aflopend';
+$labels['ascending'] = 'oplopend';
+$labels['askuser'] = 'vraag de gebruiker';
+$labels['autosend'] = 'stuur automatisch';
+$labels['ignore'] = 'negeer';
+$labels['readwhendeleted'] = 'Markeer het bericht na verwijderen als gelezen';
+$labels['messagesorder'] = 'Bericht volgorde';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
 $labels['never'] = 'nooit';

@@ -13,6 +13,7 @@
 | Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
 |          João Vale <jpvale@gmail.com>                                 |
 |          Fernando Silva <fernando.silva@openquest.pt>                 |
+|          Nuno Costa <nuno@criacaoweb.net>                             |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -218,5 +219,14 @@ $labels['managefolders'] = 'Gerir pastas';
 $labels['sortby'] = 'Ordenado por';
 $labels['sortasc'] = 'Ascendente';
 $labels['sortdesc'] = 'Descendente';
+$labels['mailboxview'] = 'Visualizar caixa de Entrada';
+$labels['mdnrequests'] = 'Enviar Notificações';
+$labels['descending'] = 'Descendente';
+$labels['ascending'] = 'Ascendente';
+$labels['askuser'] = 'Perguntar ao ultilizador';
+$labels['autosend'] = 'enviar automáticamente';
+$labels['ignore'] = 'ignorar';
+$labels['readwhendeleted'] = 'Marcar a mensagem como lida ao excluir';
+$labels['messagesorder'] = 'Ordem das mensagens';
 
 ?>
