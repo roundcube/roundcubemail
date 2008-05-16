@@ -613,11 +613,6 @@ table.headers-table tr td.subject
   font-weight: bold;
 }
 
-#attachment-list-div
-{
-  background: url(images/icons/attachment.png) 60px 2px no-repeat #DFDFDF;
-}
-
 #attachment-list
 {
   margin: 0px;
@@ -625,8 +620,9 @@ table.headers-table tr td.subject
   min-height: 16px;
   list-style-image: none;
   list-style-type: none;
+  background: url(images/icons/attachment.png) 60px 2px no-repeat #DFDFDF;
   /* IE6 hack */    
-  height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
+  _height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
 }
 
 #attachment-list:after
@@ -645,6 +641,7 @@ table.headers-table tr td.subject
   height: 18px;
   font-size: 11px;
   padding: 2px 0px 0px 15px;
+  white-space: nowrap;
 }
 
 #attachment-list li a
