@@ -32,7 +32,7 @@ class html
     protected $allowed;
     protected $content;
 
-    protected static $common_attrib = array('id','class','style','title','align');
+    public static $common_attrib = array('id','class','style','title','align');
     public static $containers = array('div','span','p','h1','h2','h3','form','textarea');
     public static $lc_tags = true;
 

@@ -22,79 +22,59 @@
 $PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 
 // similar code as in program/steps/mail/get.inc
-if ($_GET['_uid'])
-  {
-  $MESSAGE = array('UID' => get_input_value('_uid', RCUBE_INPUT_GET));
-  $MESSAGE['headers'] = $IMAP->get_headers($MESSAGE['UID']);
+if ($_GET['_uid']) {
+  $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
   
   // set message charset as default
-  if (!empty($MESSAGE['headers']->charset))
-    $IMAP->set_charset($MESSAGE['headers']->charset);
+  if (!empty($MESSAGE->headers->charset))
+    $IMAP->set_charset($MESSAGE->headers->charset);
 
   // go back to list if message not found (wrong UID)
-  if (!$MESSAGE['headers'])
-    {
+  if (empty($MESSAGE->headers)) {
     $OUTPUT->show_message('messageopenerror', 'error');
     if ($RCMAIL->action=='preview' && template_exists('messagepreview'))
         $OUTPUT->send('messagepreview');
-    else
-      {
+    else {
       $RCMAIL->action = 'list';
       return;
-      }
     }
+  }
     
-  // check if safe flag is set
-  if ($MESSAGE['is_safe'] = intval($_GET['_safe']))
-    $_SESSION['safe_messages'][$MESSAGE['UID']] = true;
-  else if ($_SESSION['safe_messages'][$MESSAGE['UID']])
-    $MESSAGE['is_safe'] = 1;
-
   $mbox_name = $IMAP->get_mailbox_name();
   
   // calculate Etag for this request
-  $etag = md5($MESSAGE['UID'].$mbox_name.session_id().intval($MESSAGE['headers']->mdn_sent).intval($MESSAGE['is_safe']).intval($PRINT_MODE));
+  $etag = md5($MESSAGE->uid.$mbox_name.session_id().intval($MESSAGE->headers->mdn_sent).intval($MESSAGE->is_safe).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
-  if ((bool)$MESSAGE['is_safe'])
+  if ((bool)$MESSAGE->is_safe)
     send_nocacheing_headers();
   else if (empty($CONFIG['devel_mode']))
-    send_modified_header($_SESSION['login_time'], $etag, !$MESSAGE['headers']->seen);
+    send_modified_header($_SESSION['login_time'], $etag, !$MESSAGE->headers->seen);
 
-  $MESSAGE['subject'] = $IMAP->decode_header($MESSAGE['headers']->subject);
-  $OUTPUT->set_pagetitle($MESSAGE['subject']);
+  $OUTPUT->set_pagetitle($MESSAGE->subject);
   
-  if ($MESSAGE['structure'] = $IMAP->get_structure($MESSAGE['UID']))
-    list($MESSAGE['parts'], $MESSAGE['attachments']) = rcmail_parse_message(
-      $MESSAGE['structure'],
-      array('safe' => $MESSAGE['is_safe'],
-            'prefer_html' => $CONFIG['prefer_html'],
-            'get_url' => $GET_URL.'&_part=%s')
-      );
-  else
-    $MESSAGE['body'] = $IMAP->get_body($MESSAGE['UID']);
-
   // mark message as read
-  if (!$MESSAGE['headers']->seen)
+  if (!$MESSAGE->headers->seen)
   {
-    $marked = $IMAP->set_flag($MESSAGE['UID'], 'SEEN');
+    $marked = $IMAP->set_flag($MESSAGE->uid, 'SEEN');
     if($RCMAIL->action == 'preview' && $marked != -1)
     {
       $OUTPUT->command('set_unread_count_from_preview', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
-      $OUTPUT->command('mark_as_read_from_preview', $MESSAGE['UID']);
+      $OUTPUT->command('mark_as_read_from_preview', $MESSAGE->uid);
     }
   }
 
   // give message uid to the client
-  $OUTPUT->set_env('uid', $MESSAGE['UID']);
-  $OUTPUT->set_env('safemode', $MESSAGE['is_safe']);
+  $OUTPUT->set_env('uid', $MESSAGE->uid);
+  $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   
   // check for unset disposition notification
-  if ($MESSAGE['headers']->mdn_to && !$MESSAGE['headers']->mdn_sent && $mbox_name != $CONFIG['drafts_mbox'])
+  if ($MESSAGE->headers->mdn_to && !$MESSAGE->headers->mdn_sent &&
+      $mbox_name != $CONFIG['drafts_mbox'] && $mbox_name != $CONFIG['sent_mbox'])
   {
     if (intval($CONFIG['mdn_requests']) === 1)
     {
-      if (rcmail_send_mdn($MESSAGE['UID']))
+      if (rcmail_send_mdn($MESSAGE->uid))
         $OUTPUT->show_message('receiptsent', 'confirmation');
     }
     else if (empty($CONFIG['mdn_requests']))
@@ -113,21 +93,21 @@ if ($_GET['_uid'])
     // Only if we use custom sorting
     $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
  
-    $MESSAGE['index'] = array_search((string)$MESSAGE['UID'], $a_msg_index, TRUE);
-    $prev = isset($a_msg_index[$MESSAGE['index']-1]) ? $a_msg_index[$MESSAGE['index']-1] : -1 ;
+    $MESSAGE->index = array_search((string)$MESSAGE->uid, $a_msg_index, TRUE);
+    $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $a_msg_index[$MESSAGE->index-1] : -1 ;
     $first = count($a_msg_index)>0 ? $a_msg_index[0] : -1;
-    $next = isset($a_msg_index[$MESSAGE['index']+1]) ? $a_msg_index[$MESSAGE['index']+1] : -1 ;
+    $next = isset($a_msg_index[$MESSAGE->index+1]) ? $a_msg_index[$MESSAGE->index+1] : -1 ;
     $last = count($a_msg_index)>0 ? $a_msg_index[count($a_msg_index)-1] : -1;
     }
   else
     {
     // this assumes that we are sorted by date_DESC
-    $seq = $IMAP->get_id($MESSAGE['UID']);
+    $seq = $IMAP->get_id($MESSAGE->uid);
     $prev = $IMAP->get_uid($seq + 1);
     $first = $IMAP->get_uid($IMAP->messagecount());
     $next = $IMAP->get_uid($seq - 1);
     $last = $IMAP->get_uid(1);
-    $MESSAGE['index'] = $IMAP->messagecount() - $seq;
+    $MESSAGE->index = $IMAP->messagecount() - $seq;
     }
   
   if ($prev > 0)
@@ -143,35 +123,35 @@ if ($_GET['_uid'])
 
 
 function rcmail_message_attachments($attrib)
-  {
-  global $CONFIG, $OUTPUT, $PRINT_MODE, $MESSAGE, $GET_URL;
+{
+  global $PRINT_MODE, $MESSAGE;
+  
+  $out = $ol = '';
 
-  if (sizeof($MESSAGE['attachments']))
-    {
-    // allow the following attributes to be added to the <ul> tag
-    $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-    $out = '<ul' . $attrib_str . ">\n";
-
-    foreach ($MESSAGE['attachments'] as $attach_prop)
-      {
-      if ($PRINT_MODE)
-        $out .= sprintf('<li>%s (%s)</li>'."\n",
-                        $attach_prop->filename,
-                        show_bytes($attach_prop->size));
-      else
-        $out .= sprintf('<li><a href="%s&amp;_part=%s" onclick="return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)">%s</a></li>'."\n",
-                        htmlspecialchars($GET_URL),
-                        $attach_prop->mime_id,
-                        JS_OBJECT_NAME,
-                        $attach_prop->mime_id,
-                        $attach_prop->mimetype,
-                        $attach_prop->filename);
+  if (sizeof($MESSAGE->attachments)) {
+    foreach ($MESSAGE->attachments as $attach_prop) {
+      if ($PRINT_MODE) {
+        $ol .= html::tag('li', null, sprintf("%s (%s)", Q($attach_prop->filename), Q(show_bytes($attach_prop->size))));
       }
+      else {
+        $ol .= html::tag('li', null,
+          html::a(array(
+            'href' => $MESSAGE->get_part_url($attach_prop->mime_id),
+            'onclick' => sprintf(
+              'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
+              JS_OBJECT_NAME,
+              $attach_prop->mime_id,
+              $attach_prop->mimetype),
+            ),
+            Q($attach_prop->filename)));
+      }
+    }
 
-    $out .= "</ul>";
-    return $out;
-    }  
-  }
+    $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
+  } 
+  
+  return $out;
+}
 
 
 

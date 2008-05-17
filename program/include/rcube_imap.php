@@ -1180,36 +1180,6 @@ class rcube_imap
     
   
   /**
-   * Return a flat array with references to all parts, indexed by part numbers
-   *
-   * @param object rcube_message_part Message body structure
-   * @return Array with part number -> object pairs
-   */
-  function get_mime_numbers(&$structure)
-    {
-    $a_parts = array();
-    $this->_get_part_numbers($structure, $a_parts);
-    return $a_parts;
-    }
-  
-  
-  /**
-   * Helper method for recursive calls
-   *
-   * @access private
-   */
-  function _get_part_numbers(&$part, &$a_parts)
-    {
-    if ($part->mime_id)
-      $a_parts[$part->mime_id] = &$part;
-      
-    if (is_array($part->parts))
-      for ($i=0; $i<count($part->parts); $i++)
-        $this->_get_part_numbers($part->parts[$i], $a_parts);
-    }
-  
-
-  /**
    * Fetch message body of a specific message from the server
    *
    * @param  int    Message UID

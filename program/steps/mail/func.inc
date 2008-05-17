@@ -5,7 +5,7 @@
  | program/steps/mail/func.inc                                           |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -52,11 +52,6 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
   $OUTPUT->set_env('search_request', $_REQUEST['_search']);
   $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
   }
-
-
-// define url for getting message parts
-if (strlen($_GET['_uid']))
-  $GET_URL = rcmail_url('get', array('_mbox'=>$IMAP->get_mailbox_name(), '_uid'=>get_input_value('_uid', RCUBE_INPUT_GET)));
 
 
 // set current mailbox in client environment
@@ -475,10 +470,10 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   {
   global $IMAP, $MESSAGE;
   
-  if (isset($MESSAGE['index']))
+  if (isset($MESSAGE->index))
     {
     return rcube_label(array('name' => 'messagenrof',
-                             'vars' => array('nr'  => $MESSAGE['index']+1,
+                             'vars' => array('nr'  => $MESSAGE->index+1,
                                              'count' => $count!==NULL ? $count : $IMAP->messagecount())));
     }
 
@@ -959,7 +954,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
   // get associative array of headers object
   if (!$headers)
-    $headers = is_object($MESSAGE['headers']) ? get_object_vars($MESSAGE['headers']) : $MESSAGE['headers'];
+    $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
   
   $header_count = 0;
   
@@ -997,15 +992,15 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
 function rcmail_message_body($attrib)
   {
-  global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $GET_URL, $REMOTE_OBJECTS;
+  global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $REMOTE_OBJECTS;
   
-  if (!is_array($MESSAGE['parts']) && !$MESSAGE['body'])
+  if (!is_array($MESSAGE->parts) && empty($MESSAGE->body))
     return '';
     
   if (!$attrib['id'])
     $attrib['id'] = 'rcmailMsgBody';
 
-  $safe_mode = $MESSAGE['is_safe'] || intval($_GET['_safe']);
+  $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
   $out = '<div '. $attrib_str . ">\n";
   
@@ -1014,33 +1009,20 @@ function rcmail_message_body($attrib)
     if (preg_match('/^headertable([a-z]+)$/i', $attr, $regs))
       $header_attrib[$regs[1]] = $value;
 
-
-  // this is an ecrypted message
-  // -> create a plaintext body with the according message
-  if (!sizeof($MESSAGE['parts']) && $MESSAGE['headers']->ctype=='multipart/encrypted')
+  if (!empty($MESSAGE->parts))
     {
-    $p = new stdClass;
-    $p->type = 'content';
-    $p->ctype_primary = 'text';
-    $p->ctype_secondary = 'plain';
-    $p->body = rcube_label('encryptedmessage');
-    $MESSAGE['parts'][0] = $p;
-    }
-  
-  if ($MESSAGE['parts'])
-    {
-    foreach ($MESSAGE['parts'] as $i => $part)
+    foreach ($MESSAGE->parts as $i => $part)
       {
-      if ($part->type=='headers')
+      if ($part->type == 'headers')
         $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
-      else if ($part->type=='content')
+      else if ($part->type == 'content')
         {
         if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset']))
-          $part->ctype_parameters['charset'] = $MESSAGE['headers']->charset;
+          $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
 
         // fetch part if not available
         if (!isset($part->body))
-          $part->body = $IMAP->get_message_part($MESSAGE['UID'], $part->mime_id, $part);
+          $part->body = $MESSAGE->get_part_content($part->mime_id);
 
         $body = rcmail_print_body($part, $safe_mode, !$CONFIG['prefer_html']);
         $out .= '<div class="message-part">';
@@ -1055,25 +1037,26 @@ function rcmail_message_body($attrib)
       }
     }
   else
-    $out .= $MESSAGE['body'];
+    $out .= $MESSAGE->body;
 
 
-  $ctype_primary = strtolower($MESSAGE['structure']->ctype_primary);
-  $ctype_secondary = strtolower($MESSAGE['structure']->ctype_secondary);
+  $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
+  $ctype_secondary = strtolower($MESSAGE->structure->ctype_secondary);
   
   // list images after mail body
-  if (get_boolean($attrib['showimages']) && $ctype_primary=='multipart' &&
-      !empty($MESSAGE['attachments']) && !strstr($message_body, '<html') && strlen($GET_URL))
-    {
-    foreach ($MESSAGE['attachments'] as $attach_prop)
-      {
-      if (strpos($attach_prop->mimetype, 'image/')===0)
-        $out .= sprintf("\n<hr />\n<p align=\"center\"><img src=\"%s&amp;_part=%s\" alt=\"%s\" title=\"%s\" /></p>\n",
-                        htmlspecialchars($GET_URL), $attach_prop->mime_id,
-                        $attach_prop->filename,
-                        $attach_prop->filename);
-      }
+  if (get_boolean($attrib['showimages']) && $ctype_primary == 'multipart' &&
+      !empty($MESSAGE->attachments) && !strstr($message_body, '<html')) {
+    foreach ($MESSAGE->attachments as $attach_prop) {
+      if (strpos($attach_prop->mimetype, 'image/') === 0) {
+        $out .= html::tag('hr') . html::p(array('align' => "center"),
+          html::img(array(
+            'src' => $MESSAGE->get_part_url($attach_prop->mime_id),
+            'title' => $attach_prop->filename,
+            'alt' => $attach_prop->filename,
+          )));
+        }
     }
+  }
   
   // tell client that there are blocked remote objects
   if ($REMOTE_OBJECTS && !$safe_mode)
@@ -1193,91 +1176,6 @@ function rcmail_alter_html_link($tag, $attrs, $container_id)
   }
 
 
-function rcmail_has_html_part($message_parts)
-{
-   if (!is_array($message_parts))
-      return FALSE;
-
-   // check all message parts
-   foreach ($message_parts as $pid => $part)
-   {
-      $mimetype = strtolower($part->ctype_primary.'/'.$part->ctype_secondary);
-      if ($mimetype=='text/html')
-      {
-         return TRUE;
-      }
-   }
-    
-   return FALSE;
-}
-
-// return first HTML part of a message
-function rcmail_first_html_part($message_struct)
-  {
-  global $IMAP;
-
-  if (!is_array($message_struct['parts']))
-    return FALSE;
-    
-  $html_part = NULL;
-
-  // check all message parts
-  foreach ($message_struct['parts'] as $pid => $part)
-    {
-    $mimetype = strtolower($part->ctype_primary.'/'.$part->ctype_secondary);
-    if ($mimetype=='text/html')
-      {
-      $html_part = $IMAP->get_message_part($message_struct['UID'], $pid, $part);
-      }
-    }
-
-  if ($html_part)
-    {
-    // remove special chars encoding
-    //$trans = array_flip(get_html_translation_table(HTML_ENTITIES));
-    //$html_part = strtr($html_part, $trans);
-
-    return $html_part;
-    }
-
-  return FALSE;
-}
-
-
-// return first text part of a message
-function rcmail_first_text_part($message_struct)
-  {
-  global $IMAP;
-
-  if (empty($message_struct['parts']))
-    return $message_struct['UID'] ? $IMAP->get_body($message_struct['UID']) : false;
-
-  // check all message parts
-  foreach ($message_struct['parts'] as $pid => $part)
-    {
-    $mimetype = strtolower($part->ctype_primary.'/'.$part->ctype_secondary);
-
-    if ($mimetype=='text/plain')
-      return $IMAP->get_message_part($message_struct['UID'], $pid, $part);
-
-    else if ($mimetype=='text/html')
-      {
-      $html_part = $IMAP->get_message_part($message_struct['UID'], $pid, $part);
-      
-      // remove special chars encoding
-      $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
-      $html_part = strtr($html_part, $trans);
-
-      // create instance of html2text class
-      $txt = new html2text($html_part);
-      return $txt->get_text();
-      }
-    }
-
-  return FALSE;
-  }
-
-
 // decode address string and re-format it as HTML links
 function rcmail_address_string($input, $max=NULL, $addicon=NULL)
   {
@@ -1338,33 +1236,27 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
 
 function rcmail_message_part_controls()
   {
-  global $CONFIG, $IMAP, $MESSAGE;
+  global $MESSAGE;
   
   $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
-  if (!is_array($MESSAGE) || !is_array($MESSAGE['parts']) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE['parts'][$part])
+  if (!is_object($MESSAGE) || !is_array($MESSAGE->parts) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE->mime_parts[$part])
     return '';
     
-  $part = $MESSAGE['parts'][$part];
-  $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'cellspacing', 'cellpadding', 'border', 'summary'));
-  $out = '<table '. $attrib_str . ">\n";
+  $part = $MESSAGE->mime_parts[$part];
+  $table = new html_table(array('cols' => 3));
   
-  if ($part->filename)
-    {
-    $out .= sprintf('<tr><td class="title">%s</td><td>%s</td><td>[<a href="./?%s">%s</a>]</tr>'."\n",
-                    Q(rcube_label('filename')),
-                    Q($part->filename),
-                    str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING']),
-                    Q(rcube_label('download')));
-    }
-    
-  if ($part->size)
-    $out .= sprintf('<tr><td class="title">%s</td><td>%s</td></tr>'."\n",
-                    Q(rcube_label('filesize')),
-                    show_bytes($part->size));
+  if (!empty($part->filename)) {
+    $table->add('title', Q(rcube_label('filename')));
+    $table->add(null, Q($part->filename));
+    $table->add(null, '[' . html::a(str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING']), Q(rcube_label('download'))) . ']');
+  }
   
-  $out .= "\n</table>";
+  if (!empty($part->size)) {
+    $table->add('title', Q(rcube_label('filesize')));
+    $table->add(null, Q(show_bytes($part->size)));
+  }
   
-  return $out;
+  return $table->show($attrib);
   }
 
 
@@ -1373,7 +1265,7 @@ function rcmail_message_part_frame($attrib)
   {
   global $MESSAGE;
   
-  $part = $MESSAGE['parts'][asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
+  $part = $MESSAGE->mime_parts[asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
   $ctype_primary = strtolower($part->ctype_primary);
 
   $attrib['src'] = Q('./?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']));
@@ -1407,8 +1299,8 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 {
   global $CONFIG;
 
-  $headers = $message->headers();
   $msg_body = $message->get();
+  $headers = $message->headers();
   
   // send thru SMTP server using custom SMTP library
   if ($CONFIG['smtp_server'])
@@ -1468,16 +1360,14 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 function rcmail_send_mdn($uid)
 {
   global $CONFIG, $USER, $IMAP;
+
+  $message = new rcube_message($uid);
   
-  $message = array('UID' => $uid);
-  $message['headers'] = $IMAP->get_headers($message['UID']);
-  $message['subject'] = $IMAP->decode_header($message['headers']->subject);
-  
-  if ($message['headers']->mdn_to && !$message['headers']->mdn_sent)
+  if ($message->headers->mdn_to && !$message->headers->mdn_sent)
   {
     $identity = $USER->get_identity();
     $sender = format_email_recipient($identity['email'], $identity['name']);
-    $recipient = array_shift($IMAP->decode_address_list($message['headers']->mdn_to));
+    $recipient = array_shift($IMAP->decode_address_list($message->headers->mdn_to));
     $mailto = $recipient['mailto'];
 
     $compose = new rcube_mail_mime(rcmail_header_delm());
@@ -1494,8 +1384,8 @@ function rcmail_send_mdn($uid)
     $headers = array(
       'Date' => date('r'),
       'From' => $sender,
-      'To'   => $message['headers']->mdn_to,
-      'Subject' => rcube_label('receiptread') . ': ' . $message['subject'],
+      'To'   => $message->headers->mdn_to,
+      'Subject' => rcube_label('receiptread') . ': ' . $message->subject,
       'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), rcmail_mail_domain($_SESSION['imap_host'])),
       'X-Sender' => $identity['email'],
       'Content-Type' => 'multipart/report; report-type=disposition-notification',
@@ -1505,30 +1395,30 @@ function rcmail_send_mdn($uid)
       $headers['User-Agent'] = $CONFIG['useragent'];
 
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
-      "\t" . rcube_label("to") . ': ' . rcube_imap::decode_mime_string($message['headers']->to, $message['headers']->charset) . "\r\n" .
-      "\t" . rcube_label("subject") . ': ' . $message['subject'] . "\r\n" .
-      "\t" . rcube_label("sent") . ': ' . format_date($message['headers']->date, $CONFIG['date_long']) . "\r\n" .
+      "\t" . rcube_label("to") . ': ' . rcube_imap::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
+      "\t" . rcube_label("subject") . ': ' . $message->subject . "\r\n" .
+      "\t" . rcube_label("sent") . ': ' . format_date($message->headers->date, $CONFIG['date_long']) . "\r\n" .
       "\r\n" . rcube_label("receiptnote") . "\r\n";
     
     $ua = !empty($CONFIG['useragent']) ? $CONFIG['useragent'] : "RoundCube Webmail (Version ".RCMAIL_VERSION.")";
     $report = "Reporting-UA: $ua\r\n";
     
-    if ($message['headers']->to)
-        $report .= "Original-Recipient: {$message['headers']->to}\r\n";
+    if ($message->headers->to)
+        $report .= "Original-Recipient: {$message->headers->to}\r\n";
     
     $report .= "Final-Recipient: rfc822; {$identity['email']}\r\n" .
-               "Original-Message-ID: {$message['headers']->messageID}\r\n" .
+               "Original-Message-ID: {$message->headers->messageID}\r\n" .
                "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
     
-    $compose->headers($headers, true);
-    $compose->setTXTBody($body);
+    $compose->headers($headers);
+    $compose->setTXTBody(wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
     $sent = rcmail_deliver_message($compose, $identity['email'], $mailto);
 
     if ($sent)
     {
-      $IMAP->set_flag($message['UID'], 'MDNSENT');
+      $IMAP->set_flag($message->uid, 'MDNSENT');
       return true;
     }
   }

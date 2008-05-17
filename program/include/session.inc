@@ -88,7 +88,7 @@ function sess_write($key, $vars)
                 VALUES (?, ?, ?, ".$DB->now().", ".$DB->now().")",
                 $key,
                 $vars,
-                $_SERVER['REMOTE_ADDR']);
+                (string)$_SERVER['REMOTE_ADDR']);
     }
 
   return TRUE;
