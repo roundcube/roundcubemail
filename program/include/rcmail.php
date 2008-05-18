@@ -758,7 +758,7 @@ class rcmail
    * @param string Password to encrypt
    * @return string Encryprted string
    */
-  private function encrypt_passwd($pass)
+  public function encrypt_passwd($pass)
   {
     if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
       $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
