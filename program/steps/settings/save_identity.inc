@@ -76,7 +76,7 @@ if ($_POST['_iid'])
   }
 }
 
-// insert a new contact
+// insert a new identity record
 else
 {
   if ($insert_id = $USER->insert_identity($save_data))
@@ -87,12 +87,6 @@ else
 
     if (!empty($_POST['_standard']))
       $default_id = $insert_id;
-
-    if ($_POST['_framed'])
-    {
-      // add contact row or jump to the page where it should appear
-      // ....
-    }
   }
   else
   {
@@ -109,6 +103,6 @@ if ($default_id)
   $USER->set_default($default_id);
 
 // go to next step
-rcmail_overwrite_action($OUTPUT->action ? 'edit-identity' : 'identities');
+rcmail_overwrite_action('identities');
 
 ?>

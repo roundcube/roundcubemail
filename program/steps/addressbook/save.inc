@@ -28,7 +28,7 @@ if ($CONTACTS->readonly)
 }
 
 // check input
-if ((!get_input_value('_name', RCUBE_INPUT_POST) || !get_input_value('_email', RCUBE_INPUT_POST)) && $OUTPUT->action)
+if ((!get_input_value('_name', RCUBE_INPUT_POST) || !get_input_value('_email', RCUBE_INPUT_POST)))
 {
   $OUTPUT->show_message('formincomplete', 'warning');
   rcmail_overwrite_action(empty($_POST['_cid']) ? 'add' : 'show');
@@ -54,18 +54,15 @@ if (!empty($cid))
 {
   if ($CONTACTS->update($cid, $a_record))
   {
-    if ($OUTPUT->action)
-    {
-      // define list of cols to be displayed
-      $a_js_cols = array();
-      $record = $CONTACTS->get_record($cid, true);
+    // define list of cols to be displayed
+    $a_js_cols = array();
+    $record = $CONTACTS->get_record($cid, true);
 
-      foreach (array('name', 'email') as $col)
-        $a_js_cols[] = (string)$record[$col];
+    foreach (array('name', 'email') as $col)
+      $a_js_cols[] = (string)$record[$col];
 
-      // update the changed col in list
-      $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols);
-    }
+    // update the changed col in list
+    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols);
       
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation');    
@@ -96,19 +93,16 @@ else
   // insert record and send response
   if ($insert_id = $CONTACTS->insert($a_record))
   {
-    if ($OUTPUT->action)
-    {
-      // add contact row or jump to the page where it should appear
-      $CONTACTS->reset();
-      $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
+    // add contact row or jump to the page where it should appear
+    $CONTACTS->reset();
+    $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
 
-      rcmail_js_contacts_list($result, 'parent.');
-      $OUTPUT->command('parent.contact_list.select', $insert_id);
+    rcmail_js_contacts_list($result, 'parent.');
+    $OUTPUT->command('parent.contact_list.select', $insert_id);
 
-      // update record count display
-      $CONTACTS->reset();
-      $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text());
-    }
+    // update record count display
+    $CONTACTS->reset();
+    $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text());
 
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation');
