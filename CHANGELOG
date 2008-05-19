@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/19 (alec)
+----------
+- Fixed Mysql DDL for default identities creation (#1485070)
+
 2008/05/16 (alec)
 ----------
 - In Preferences added possibility to configure 'read_when_deleted',

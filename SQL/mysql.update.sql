@@ -15,3 +15,13 @@ ALTER TABLE `cache`
 ALTER TABLE `users`
     ADD INDEX `username_index` (`username`),
     ADD INDEX `alias_index` (`alias`);
+
+-- Updates from version 0.1.1
+
+ALTER TABLE `identities`
+    MODIFY `signature` text NOT NULL DEFAULT '', 
+    MODIFY `bcc` varchar(128) NOT NULL DEFAULT '', 
+    MODIFY `reply-to` varchar(128) NOT NULL DEFAULT '', 
+    MODIFY `organization` varchar(128) NOT NULL DEFAULT '',
+    MODIFY `name` varchar(128) NOT NULL, 
+    MODIFY `email` varchar(128) NOT NULL; 
