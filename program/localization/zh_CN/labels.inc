@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | localization/zh_CN/labels.inc                                         |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| localization/zh_CN/labels.inc                                         |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -199,6 +199,12 @@ $labels['logoutclear'] = '退出时清空回收站';
 $labels['logoutcompact'] = '退出时压缩收件箱';
 $labels['uisettings'] = '用户界面';
 $labels['serversettings'] = '服务器设置';
+$labels['mailboxview'] = '邮箱查看';
+$labels['mdnrequests'] = '发件人通知';
+$labels['askuser'] = '询问用户';
+$labels['autosend'] = '自动发送';
+$labels['ignore'] = '乎略';
+$labels['readwhendeleted'] = '删除后标记为已读';
 $labels['autosavedraft'] = '自动保存到草稿箱';
 $labels['everynminutes'] = '第 $n 分钟';
 $labels['never'] = '从不';
