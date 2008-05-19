@@ -260,6 +260,7 @@ $labels['askuser'] = 'ask the user';
 $labels['autosend'] = 'send automatically';
 $labels['ignore'] = 'ignore';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
+$labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';

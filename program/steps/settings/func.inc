@@ -225,6 +225,16 @@ function rcmail_user_prefs_form($attrib)
                     $input_readdeleted->show($config['read_when_deleted']?1:0));
     }
 
+  if (!isset($no_override['flag_for_deletion']))
+    {
+    $field_id = 'rcmfd_flag_for_deletion';
+    $input_flagfordeletion = new html_checkbox(array('name' => '_flag_for_deletion', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('flagfordeletion')),
+                    $input_flagfordeletion->show($config['flag_for_deletion']?1:0));
+    }
+
   // Trash purging on logout
   if (!isset($no_override['logout_purge']))
     {

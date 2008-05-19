@@ -220,5 +220,12 @@ $labels['managefolders'] = 'Zarządzaj folderami';
 $labels['sortby'] = 'Sortuj wg';
 $labels['sortasc'] = 'Rosnąco';
 $labels['sortdesc'] = 'Malejąco';
+$labels['mailboxview'] = 'Widok poczty';
+$labels['mdnrequests'] = 'Powiadomienia nadawcy';
+$labels['askuser'] = 'spytaj użytkownika';
+$labels['autosend'] = 'wyślij automatycznie';
+$labels['ignore'] = 'ignoruj';
+$labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
+$labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 
 ?>
