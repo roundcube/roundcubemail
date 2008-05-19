@@ -188,31 +188,6 @@ function rcmail_user_prefs_form($attrib)
 
   $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('mailboxview')) . "</legend>\n<table" . $attrib_str . ">\n\n";
 
-  if (!isset($no_override['message_sort_col']))
-    {
-    $field_id = 'rcmfd_sort_col';
-    $select_sort_col = new html_select(array('name' => '_message_sort_col', 'id' => $field_id));
-    $select_sort_col->add(rcube_label('subject'), 'subject');
-    $select_sort_col->add(rcube_label('date'), 'date');
-    $select_sort_col->add(rcube_label('from'), 'from');
-    $select_sort_col->add(rcube_label('to'), 'to');
-    $select_sort_col->add(rcube_label('size'), 'size');
-
-    if (!isset($no_override['message_sort_order']))
-      {
-	$select_sort_order = new html_select(array('name' => '_message_sort_order', 'id' => 'rcmfd_sort_order'));
-	$select_sort_order->add(rcube_label('ascending'), 'ASC');
-	$select_sort_order->add(rcube_label('descending'), 'DESC');
-      }
-
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s %s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('messagesorder')),
-                    $select_sort_col->show($config['message_sort_col']),
-		    (isset($select_sort_order) ? $select_sort_order->show($config['message_sort_order']) : ''));
-    }
-
-
   // show config parameter for preview pane
   if (!isset($no_override['preview_pane']))
     {

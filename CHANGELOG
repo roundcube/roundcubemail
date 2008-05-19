@@ -4,7 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/05/16 (alec)
 ----------
 - In Preferences added possibility to configure 'read_when_deleted',
-  'mdn_requests', 'message_sort_col' and 'message_sort_order' options
+  'mdn_requests' options
 
 2008/05/15 (thomasb)
 ----------

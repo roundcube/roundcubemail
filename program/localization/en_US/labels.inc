@@ -256,13 +256,10 @@ $labels['uisettings'] = 'User Interface';
 $labels['serversettings'] = 'Server Settings';
 $labels['mailboxview'] = 'Mailbox View';
 $labels['mdnrequests'] = 'Sender notifications';
-$labels['descending'] = 'descending';
-$labels['ascending'] = 'ascending';
 $labels['askuser'] = 'ask the user';
 $labels['autosend'] = 'send automatically';
 $labels['ignore'] = 'ignore';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
-$labels['messagesorder'] = 'Messages order';
 
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';
