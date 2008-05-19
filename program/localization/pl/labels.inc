@@ -203,6 +203,13 @@ $labels['logoutclear'] = 'Przy wylogowaniu opróżnij Kosz';
 $labels['logoutcompact'] = 'Przy wylogowaniu porządkuj folder Odebrane';
 $labels['uisettings'] = 'Interfejs użytkownika';
 $labels['serversettings'] = 'Ustawienia serwera';
+$labels['mailboxview'] = 'Widok skrzynki pocztowej';
+$labels['mdnrequests'] = 'Potwierdzenia odbioru';
+$labels['askuser'] = 'spytaj użytkownika';
+$labels['autosend'] = 'wyślij automatycznie';
+$labels['ignore'] = 'ignoruj';
+$labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
+$labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 $labels['autosavedraft'] = 'Automatyczny zapis tworzonej wiadomości';
 $labels['everynminutes'] = 'co $n minut';
 $labels['never'] = 'nigdy';
@@ -220,12 +227,5 @@ $labels['managefolders'] = 'Zarządzaj folderami';
 $labels['sortby'] = 'Sortuj wg';
 $labels['sortasc'] = 'Rosnąco';
 $labels['sortdesc'] = 'Malejąco';
-$labels['mailboxview'] = 'Widok poczty';
-$labels['mdnrequests'] = 'Powiadomienia nadawcy';
-$labels['askuser'] = 'spytaj użytkownika';
-$labels['autosend'] = 'wyślij automatycznie';
-$labels['ignore'] = 'ignoruj';
-$labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
-$labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 
 ?>
