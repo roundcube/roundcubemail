@@ -1383,16 +1383,16 @@ class rcube_imap
    */
   function move_message($uids, $to_mbox, $from_mbox='')
     {
-    $to_mbox = stripslashes($to_mbox);
+    $to_mbox_in = stripslashes($to_mbox);
     $from_mbox = stripslashes($from_mbox);
-    $to_mbox = $this->_mod_mailbox($to_mbox);
+    $to_mbox = $this->_mod_mailbox($to_mbox_in);
     $from_mbox = $from_mbox ? $this->_mod_mailbox($from_mbox) : $this->mailbox;
 
     // make sure mailbox exists
     if (!in_array($to_mbox, $this->_list_mailboxes()))
       {
-      if (in_array($to_mbox, $this->default_folders))
-        $this->create_mailbox($to_mbox, TRUE);
+      if (in_array($to_mbox_in, $this->default_folders))
+        $this->create_mailbox($to_mbox_in, TRUE);
       else
         return FALSE;
       }
