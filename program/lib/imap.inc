@@ -480,9 +480,10 @@ function iil_Connect($host, $user, $password) {
 	$line       = iil_ReadLine($conn->fp, 1024);
 
 	// RFC3501 [7.1] optional CAPABILITY response
-	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-		$conn->capability = explode(' ', $matches[1]);
-	} else {
+	// commented out, because it's not working always as should
+//	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
+//		$conn->capability = explode(' ', $matches[1]);
+//	} else {
 		fputs($conn->fp, "cp01 CAPABILITY\r\n");
 		do {
 			$line = trim(chop(iil_ReadLine($conn->fp, 100)));
@@ -497,7 +498,7 @@ function iil_Connect($host, $user, $password) {
 				}
 			}
 		} while ($a[0] != 'cp01');
-	}
+//	}
 
 	if (strcasecmp($auth_method, "check") == 0) {
 		//check for supported auth methods
