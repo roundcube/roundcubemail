@@ -238,7 +238,7 @@ function rcmail_message_list($attrib)
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
-        $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draf_uid' : '_uid';
+        $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
         $cont = Q($IMAP->decode_header($header->$col));
         if (empty($cont)) $cont = Q(rcube_label('nosubject'));
         $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
@@ -330,7 +330,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
-        $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draf_uid' : '_uid';
+        $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
         $cont = Q($IMAP->decode_header($header->$col));
         if (!$cont) $cont = Q(rcube_label('nosubject'));
         $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
