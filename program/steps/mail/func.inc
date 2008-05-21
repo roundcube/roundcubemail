@@ -134,7 +134,7 @@ function rcmail_message_list($attrib)
 
     // make sort links
     $sort = '';
-    if ($IMAP->get_capability('sort') && in_array($col, $a_sort_cols))
+    if (in_array($col, $a_sort_cols))
       {
       // have buttons configured
       if (!empty($attrib['sortdescbutton']) || !empty($attrib['sortascbutton']))
