@@ -239,7 +239,8 @@ function rcmail_get_rowcount_text()
 
   return $out;
   }
-  
+
+$OUTPUT->set_pagetitle(rcube_label('addressbook'));
   
 // register UI objects
 $OUTPUT->add_handlers(array(

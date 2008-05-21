@@ -19,8 +19,7 @@
 
 */
 
-if ($USER_DATA = $DB->fetch_assoc($sql_result))
-  $OUTPUT->set_pagetitle(sprintf('%s (%s@%s)', rcube_label('identities'), $USER_DATA['username'], $USER_DATA['mail_host']));
+$OUTPUT->set_pagetitle(rcube_label('identities'));
 
 $OUTPUT->include_script('list.js');
 

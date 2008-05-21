@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/21 (alec)
+----------
+- Localized pagetitle in Settings 
+
 2008/05/19 (alec)
 ----------
 - Fixed Mysql DDL for default identities creation (#1485070)

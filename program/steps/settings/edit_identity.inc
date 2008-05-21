@@ -19,17 +19,15 @@
 
 */
 
+$OUTPUT->set_pagetitle(rcube_label('identities'));
+
 if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity')
   {
   $IDENTITY_RECORD = $USER->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
   
   if (is_array($IDENTITY_RECORD))
     $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);
-
-  $OUTPUT->set_pagetitle(rcube_label('edititem'));
   }
-else
-  $OUTPUT->set_pagetitle(rcube_label('newitem'));
 
 
 $OUTPUT->include_script('list.js');

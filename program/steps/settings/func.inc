@@ -19,10 +19,7 @@
 
 */
 
-
-if ($USER->ID)
-  $OUTPUT->set_pagetitle(rcube_label('settingsfor') . " ". $USER->get_username());
-
+$OUTPUT->set_pagetitle(rcube_label('preferences'));
 
 
 function rcmail_user_prefs_form($attrib)

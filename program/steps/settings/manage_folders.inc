@@ -19,6 +19,8 @@
 
 */
 
+$OUTPUT->set_pagetitle(rcube_label('folders'));
+
 // init IMAP connection
 $RCMAIL->imap_init(true);
 
