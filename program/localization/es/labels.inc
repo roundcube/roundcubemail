@@ -2,21 +2,21 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/es/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
- |         http://www.smaldone.com.ar                                    |
- |         David Grajal Blanco <dgrabla@gmail.com>                       |
- |         http://david.grajal.net                                       |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/es/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Javier Smaldone <javier@smaldone.com.ar>                      |
+|         http://www.smaldone.com.ar                                    |
+|         David Grajal Blanco <dgrabla@gmail.com>                       |
+|         http://david.grajal.net                                       |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -71,6 +71,30 @@ $labels['wednesday'] = 'Miércoles';
 $labels['thursday'] = 'Jueves';
 $labels['friday'] = 'Viernes';
 $labels['saturday'] = 'Sábado';
+$labels['jan'] = 'Ene';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Abr';
+$labels['may'] = 'May';
+$labels['jun'] = 'Jun';
+$labels['jul'] = 'Jul';
+$labels['aug'] = 'Ago';
+$labels['sep'] = 'Sep';
+$labels['oct'] = 'Oct';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Duc';
+$labels['longjan'] = 'Enero';
+$labels['longfeb'] = 'Febrero';
+$labels['longmar'] = 'Marzo';
+$labels['longapr'] = 'Abril';
+$labels['longmay'] = 'Mayo';
+$labels['longjun'] = 'Junio';
+$labels['longjul'] = 'Julio';
+$labels['longaug'] = 'Agosto';
+$labels['longsep'] = 'Septiembre';
+$labels['longoct'] = 'Octubre';
+$labels['longnov'] = 'Noviembre';
+$labels['longdec'] = 'Diciembre';
 $labels['today'] = 'Hoy';
 $labels['checkmail'] = 'Revisar si hay nuevos mensajes';
 $labels['writenewmessage'] = 'Crear nuevo mensaje';
@@ -174,6 +198,17 @@ $labels['dstactive'] = 'Cambio de horario';
 $labels['htmleditor'] = 'Componer mensaje en HTML';
 $labels['htmlsignature'] = 'Firma HTML';
 $labels['previewpane'] = 'Mostrar vista preliminar';
+$labels['logoutclear'] = 'Vaciar papelera al cerrar sesión';
+$labels['logoutcompact'] = 'Compactar la bandeja de entrada al cerrar sesión';
+$labels['uisettings'] = 'Interfaz de usuario';
+$labels['serversettings'] = 'Configuracion del servidor';
+$labels['mailboxview'] = 'Vista de buzón';
+$labels['mdnrequests'] = 'Notificaciones de envio';
+$labels['askuser'] = 'preguntar al usuario';
+$labels['autosend'] = 'enviar automáticamente';
+$labels['ignore'] = 'ignorar';
+$labels['readwhendeleted'] = 'Marcar el mensage como leido al borrarlo';
+$labels['flagfordeletion'] = 'Marcar el mensage para borrarse en vez de borrarlo';
 $labels['autosavedraft'] = 'Guardar borrador automáticamente';
 $labels['everynminutes'] = 'cada $n minutos';
 $labels['never'] = 'nunca';
@@ -193,3 +228,4 @@ $labels['sortasc'] = 'Orden ascendente';
 $labels['sortdesc'] = 'Orden descendente';
 
 ?>
+
