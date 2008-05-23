@@ -54,6 +54,7 @@
 		File altered by Aleksander Machniak <alec@alec.pl>
 		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
 		  optional resposne in iil_Connect()
+		- trim(chop()) replaced by trim()
 		
 
 ********************************************************/
@@ -211,7 +212,7 @@ function iil_ReadBytes($fp, $bytes) {
 
 function iil_ReadReply($fp) {
 	do {
-		$line = chop(trim(iil_ReadLine($fp, 1024)));
+		$line = trim(iil_ReadLine($fp, 1024));
 	} while ($line[0] == '*');
 	
 	return $line;
@@ -486,7 +487,7 @@ function iil_Connect($host, $user, $password) {
 //	} else {
 		fputs($conn->fp, "cp01 CAPABILITY\r\n");
 		do {
-			$line = trim(chop(iil_ReadLine($conn->fp, 100)));
+			$line = trim(iil_ReadLine($conn->fp, 100));
 
 			$conn->message .= "$line\n";
 
@@ -520,7 +521,7 @@ function iil_Connect($host, $user, $password) {
 
 		//do CRAM-MD5 authentication
 		fputs($conn->fp, "a000 AUTHENTICATE CRAM-MD5\r\n");
-		$line = trim(chop(iil_ReadLine($conn->fp, 1024)));
+		$line = trim(iil_ReadLine($conn->fp, 1024));
         
 		$conn->message .= "$line\n";
         
@@ -1577,10 +1578,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 			do {
 				$line = chop(iil_ReadLine($fp, 300), "\r\n");
 				if (ord($line[0])<=32) {
-				    $lines[$i] .= (empty($lines[$i])?'':"\n").trim(chop($line));
+				    $lines[$i] .= (empty($lines[$i])?'':"\n").trim($line);
 				} else {
 					$i++;
-					$lines[$i] = trim(chop($line));
+					$lines[$i] = trim($line);
 				}
 				/* 
 					The preg_match below works around communigate imap, which outputs " UID <number>)".
@@ -2025,7 +2026,7 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 		$query = 'srch1 SEARCH ' . chop($criteria) . "\r\n";
 		fputs($fp, $query);
 		do {
-			$line=trim(chop(iil_ReadLine($fp, 10000)));
+			$line=trim(iil_ReadLine($fp, 10000));
 			if (eregi("^\* SEARCH", $line)) {
 				$str = trim(substr($line, 8));
 				$messages = explode(' ', $str);
@@ -2266,7 +2267,7 @@ function iil_C_Subscribe(&$conn, $folder) {
 	$query = 'sub1 SUBSCRIBE "' . $folder. '"' . "\r\n";
 	fputs($fp, $query);
 
-	$line = trim(chop(iil_ReadLine($fp, 10000)));
+	$line = trim(iil_ReadLine($fp, 10000));
 	return iil_ParseResult($line);
 }
 
@@ -2277,7 +2278,7 @@ function iil_C_UnSubscribe(&$conn, $folder) {
 	$query = 'usub1 UNSUBSCRIBE "' . $folder . '"' . "\r\n";
 	fputs($fp, $query);
     
-	$line = trim(chop(iil_ReadLine($fp, 10000)));
+	$line = trim(iil_ReadLine($fp, 10000));
 	return iil_ParseResult($line);
 }
 
@@ -2301,7 +2302,7 @@ function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 			if (($line[0] == '*') && ($a[2] == 'FETCH')
                 && ($line[strlen($line)-1] != ')')) {
 				$line=iil_ReadLine($fp, 300);
-				while (chop($line) != ')') {
+				while (trim($line) != ')') {
 					$result .= $line;
 					$line=iil_ReadLine($fp, 300);
 				}
