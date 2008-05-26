@@ -1,10 +1,13 @@
 <?php
-
 ini_set('error_reporting', E_ALL&~E_NOTICE);
 ini_set('display_errors', 1);
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../').'/');
-$include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR . INSTALL_PATH . 'program' . PATH_SEPARATOR . INSTALL_PATH . 'program/include' . PATH_SEPARATOR . ini_get('include_path');
+$include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
+$include_path .= INSTALL_PATH . 'program' . PATH_SEPARATOR;
+$include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
+$include_path .= ini_get('include_path');
+
 set_include_path($include_path);
 
 session_start();
@@ -22,7 +25,6 @@ function __autoload($classname)
   );
   include_once $filename. '.php';
 }
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
