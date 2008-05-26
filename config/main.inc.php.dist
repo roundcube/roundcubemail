@@ -338,7 +338,7 @@ $rcmail_config['logout_expunge'] = FALSE;
  * This is a failover setting for iil_C_Move when a message is moved
  * to the Trash, and not the same as "delete_right_away".
  */
-$rcmail_config['delete_always'] = true;
+$rcmail_config['delete_always'] = false;
 
 // end of config file
 ?>
