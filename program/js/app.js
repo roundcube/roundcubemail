@@ -2973,7 +2973,7 @@ function rcube_webmail()
     var button, obj;
 
     if(!a_buttons || !a_buttons.length)
-      return;
+      return false;
 
     for(var n=0; n<a_buttons.length; n++)
       {
@@ -3041,7 +3041,7 @@ function rcube_webmail()
     var button, img;
 
     if(!a_buttons || !a_buttons.length)
-      return;
+      return false;
 
     for(var n=0; n<a_buttons.length; n++)
       {
@@ -3053,6 +3053,7 @@ function rcube_webmail()
           img.src = button.over;
         }
       }
+      
     };
 
   // mouse down on button
