@@ -206,6 +206,7 @@ $labels['askuser'] = '询问用户';
 $labels['autosend'] = '自动发送';
 $labels['ignore'] = '乎略';
 $labels['readwhendeleted'] = '删除后标记为已读';
+$labels['flagfordeletion'] = '标记邮件为已删除而不是实际删除';
 $labels['autosavedraft'] = '自动保存到草稿箱';
 $labels['everynminutes'] = '第 $n 分钟';
 $labels['never'] = '从不';
