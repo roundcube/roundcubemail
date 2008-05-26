@@ -81,7 +81,6 @@ else if ($msg_uid = get_input_value('_forward_uid', RCUBE_INPUT_GET))
 else if ($msg_uid = get_input_value('_draft_uid', RCUBE_INPUT_GET))
   $compose_mode = RCUBE_COMPOSE_DRAFT;
 
-
 if (!empty($msg_uid))
 {
   // similar as in program/steps/mail/show.inc
@@ -435,7 +434,7 @@ function rcmail_compose_body($attrib)
     rcube_add_label('checking');
     }
  
-  $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
+  $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
 
   return $out;
 }
