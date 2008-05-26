@@ -78,6 +78,10 @@ if (is_array($_FILES['_attachments']['tmp_name']))
       }
     }
   }
+else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+  { 
+  $OUTPUT->command('display_message', rcube_label('fileuploaderror'), 'error');
+  }
 
 // send html page with JS calls as response
 $OUTPUT->command('show_attachment_form', false);
