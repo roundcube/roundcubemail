@@ -1988,7 +1988,7 @@ function rcube_webmail()
 
       // have to do it this way for IE
       // otherwise the form will be posted to a new window
-      if(document.all && !window.opera)
+      if(document.all)
         {
         var html = '<iframe name="'+frame_name+'" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
         document.body.insertAdjacentHTML('BeforeEnd',html);
@@ -1997,8 +1997,9 @@ function rcube_webmail()
         {
         var frame = document.createElement('IFRAME');
         frame.name = frame_name;
-        frame.width = 10;
-        frame.height = 10;
+        frame.style.border = 'none';
+        frame.style.width = 0;
+        frame.style.height = 0;
         frame.style.visibility = 'hidden';
         document.body.appendChild(frame);
         }
