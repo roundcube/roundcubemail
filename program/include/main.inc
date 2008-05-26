@@ -279,7 +279,11 @@ function rcube_charset_convert($str, $from, $to=NULL)
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
     {
     $aliases['GB2312'] = 'GB18030';
-    return iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
+    $_iconv = iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
+    if ($_iconv !== false)
+      {
+        return $_iconv;
+      }
     }
 
   // settings for mbstring module (by Tadashi Jokagi)
