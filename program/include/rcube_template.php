@@ -829,7 +829,6 @@ class rcube_template extends rcube_html_page
      */
     public function current_username($attrib)
     {
-        global $USER;
         static $username;
 
         // alread fetched
@@ -838,14 +837,11 @@ class rcube_template extends rcube_html_page
         }
 
         // get e-mail address form default identity
-        if ($sql_arr = $USER->get_identity()) {
-          $s_username = $sql_arr['email'];
-        }
-        else if (strstr($_SESSION['username'], '@')) {
-            $username = $_SESSION['username'];
+        if ($sql_arr = $this->app->user->get_identity()) {
+            $username = $sql_arr['email'];
         }
         else {
-            $username = $_SESSION['username'].'@'.$_SESSION['imap_host'];
+            $username = $this->app->user->get_username();
         }
 
         return $username;
