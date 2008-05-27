@@ -575,10 +575,9 @@ class rcube_imap
       {
       // retrieve headers from IMAP
       if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
-        {        
-        $mymsgidx = array_slice ($msg_index, $begin, $end-$begin, true);
+        {
+        $mymsgidx = array_slice ($msg_index, $begin, $end-$begin);
         $msgs = join(",", $mymsgidx);
-        $headers_sorted = true;
         }
       else
         {
@@ -2789,7 +2788,7 @@ class rcube_header_sorter
     */
    function set_sequence_numbers($seqnums)
    {
-      $this->sequence_numbers = $seqnums;
+      $this->sequence_numbers = array_flip($seqnums);
    }
  
    /**
@@ -2810,19 +2809,6 @@ class rcube_header_sorter
    }
  
    /**
-    * Get the position of a message sequence number in my sequence_numbers array
-    *
-    * @param int Message sequence number contained in sequence_numbers
-    * @return int Position, -1 if not found
-    */
-   function position_of($seqnum)
-   {
-      $pos = array_search($seqnum, $this->sequence_numbers);
-      if ($pos === false) return -1;
-      return $pos;
-   }
- 
-   /**
     * Sort method called by uasort()
     */
    function compare_seqnums($a, $b)
@@ -2832,12 +2818,11 @@ class rcube_header_sorter
       $seqb = $b->id;
       
       // then find each sequence number in my ordered list
-      $posa = $this->position_of($seqa);
-      $posb = $this->position_of($seqb);
+      $posa = isset($this->sequence_numbers[$seqa]) ? intval($this->sequence_numbers[$seqa]) : -1;
+      $posb = isset($this->sequence_numbers[$seqb]) ? intval($this->sequence_numbers[$seqb]) : -1;
       
       // return the relative position as the comparison value
-      $ret = $posa - $posb;
-      return $ret;
+      return $posa - $posb;
    }
 }
 
