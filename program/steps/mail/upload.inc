@@ -20,10 +20,9 @@
 */
 
 
-if (!$_SESSION['compose'])
-  {
-  exit;
-  }
+if (!$_SESSION['compose']) {
+  die("Invalid session var!");
+}
 
 
 // use common temp dir for file uploads
@@ -34,7 +33,8 @@ if (!is_array($_SESSION['compose']['attachments']))
   $_SESSION['compose']['attachments'] = array();
 
 
-$response = '';
+// clear all stored output properties (like scripts and env vars)
+$OUTPUT->reset();
 
 if (is_array($_FILES['_attachments']['tmp_name']))
   {
