@@ -1414,12 +1414,15 @@ class rcube_imap
     
     // send expunge command in order to have the moved message
     // really deleted from the source mailbox
-    if ($moved)
-      {
+    if ($moved) {
       $this->_expunge($from_mbox, FALSE);
       $this->_clear_messagecount($from_mbox);
       $this->_clear_messagecount($to_mbox);
-      }
+    }
+    // moving failed
+    else if (rcmail::get_instance()->config->get('delete_always', false)) {
+      return iil_C_Delete($this->conn, $from_mbox, join(',', $a_mids));
+    }
       
     // remove message ids from search set
     if ($moved && $this->search_set && $from_mbox == $this->mailbox)

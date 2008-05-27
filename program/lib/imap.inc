@@ -1907,9 +1907,7 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
     
 	if (iil_C_Select($conn, $mailbox)) {
 		$c = 0;
-                $_line = "flg STORE $messages " . $mod . "FLAGS (" . $flag . ")\r\n";
-                trigger_error($_line, E_USER_WARNING);
-		fputs($fp, $_line);
+		fputs($fp, "flg STORE $messages " . $mod . "FLAGS (" . $flag . ")\r\n");
 		do {
 			$line=chop(iil_ReadLine($fp, 100));
 			if ($line[0] == '*') {
@@ -2048,8 +2046,6 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 }
 
 function iil_C_Move(&$conn, $messages, $from, $to) {
-    global $CONFIG;
-
     $fp = $conn->fp;
 
     if (!$from || !$to) {
@@ -2057,10 +2053,6 @@ function iil_C_Move(&$conn, $messages, $from, $to) {
     }
     $r = iil_C_Copy($conn, $messages, $from,$to);
     if ($r==0) {
-        return iil_C_Delete($conn, $from, $messages);
-    }
-    // Copy failed
-    if (isset($CONFIG['delete_always']) && $CONFIG['delete_always'] === true) {
         return iil_C_Delete($conn, $from, $messages);
     }
     return $r;
