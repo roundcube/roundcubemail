@@ -213,7 +213,10 @@ td.formlinks a:visited
   position: absolute;
   top: 10px;
   left: 220px;
+  right: 20px;
   height: 40px;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
 #partheader table td
