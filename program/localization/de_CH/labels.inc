@@ -89,6 +89,34 @@ $labels['thursday']  = 'Donnerstag';
 $labels['friday']    = 'Freitag';
 $labels['saturday']  = 'Samstag';
 
+// months short
+$labels['jan'] = 'Jan';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mär';
+$labels['apr'] = 'Apr';
+$labels['may'] = 'Mai';
+$labels['jun'] = 'Jun';
+$labels['jul'] = 'Jul';
+$labels['aug'] = 'Aug';
+$labels['sep'] = 'Sep';
+$labels['oct'] = 'Okt';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Dez';
+
+// months long
+$labels['longjan'] = 'Januar';
+$labels['longfeb'] = 'Februar';
+$labels['longmar'] = 'März';
+$labels['longapr'] = 'April';
+$labels['longmay'] = 'Mai';
+$labels['longjun'] = 'Juni';
+$labels['longjul'] = 'Juli';
+$labels['longaug'] = 'August';
+$labels['longsep'] = 'September';
+$labels['longoct'] = 'Oktober';
+$labels['longnov'] = 'November';
+$labels['longdec'] = 'Dezember';
+
 $labels['today'] = 'Heute';
 
 // toolbar buttons // Symbolleisten-Tipps
@@ -223,6 +251,18 @@ $labels['dstactive']  = 'Sommerzeit';
 $labels['htmleditor'] = 'HTML-Nachrichten verfassen';
 $labels['htmlsignature'] = 'HTML-Signatur';
 $labels['previewpane'] = 'Nachrichtenvorschau anzeigen';
+
+$labels['logoutclear'] = 'Papierkorb beim Abmelden leeren';
+$labels['logoutcompact'] = 'Posteingang beim Abmleden packen';
+$labels['uisettings'] = 'Benutzeroberfläche';
+$labels['serversettings'] = 'Server-Einstellungen';
+$labels['mailboxview'] = 'Mailbox-Ansicht';
+$labels['mdnrequests'] = 'Lesebestätigung senden';
+$labels['askuser'] = 'immer fragen';
+$labels['autosend'] = 'automatisch senden';
+$labels['ignore'] = 'ignorieren';
+$labels['readwhendeleted'] = 'Beim Löschen als gelesen markieren';
+$labels['flagfordeletion'] = 'Als gelöscht markieren wenn kein Papierkorb';
 
 $labels['autosavedraft']  = 'Entwurf autom. speichern';
 $labels['everynminutes']  = 'alle $n Minuten';
