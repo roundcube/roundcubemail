@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/lt/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Martynas Bendorius <martynas@evanet.lt>                       |
- +-----------------------------------------------------------------------+'
++-----------------------------------------------------------------------+
+| language/lt/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Martynas Bendorius <martynas@evanet.lt>                       |
++-----------------------------------------------------------------------+'
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -68,6 +68,30 @@ $labels['wednesday'] = 'Trečiadienis';
 $labels['thursday'] = 'Ketvirtadienis';
 $labels['friday'] = 'Penktadienis';
 $labels['saturday'] = 'Šeštadienis';
+$labels['jan'] = 'Sau';
+$labels['feb'] = 'Vas';
+$labels['mar'] = 'Kov';
+$labels['apr'] = 'Bal';
+$labels['may'] = 'Geg';
+$labels['jun'] = 'Bir';
+$labels['jul'] = 'Lie';
+$labels['aug'] = 'Rugp';
+$labels['sep'] = 'Rugs';
+$labels['oct'] = 'Spa';
+$labels['nov'] = 'Lap';
+$labels['dec'] = 'Gruo';
+$labels['longjan'] = 'Sausis';
+$labels['longfeb'] = 'Vasaris';
+$labels['longmar'] = 'Kovas';
+$labels['longapr'] = 'Balandis';
+$labels['longmay'] = 'Gegužė';
+$labels['longjun'] = 'Biržėlis';
+$labels['longjul'] = 'Liepa';
+$labels['longaug'] = 'Rugpjūtis';
+$labels['longsep'] = 'Rugsėjis';
+$labels['longoct'] = 'Spalis';
+$labels['longnov'] = 'Lapkritis';
+$labels['longdec'] = 'Gruodis';
 $labels['today'] = 'Šiandien';
 $labels['checkmail'] = 'Tikrinti ar nėra naujų laiškų';
 $labels['writenewmessage'] = 'Rašyti naują laišką';
@@ -171,6 +195,17 @@ $labels['dstactive'] = 'Vasaros/Žiemos laikas';
 $labels['htmleditor'] = 'Kurti HTML laiškus';
 $labels['htmlsignature'] = 'HTML parašas';
 $labels['previewpane'] = 'Rodyti peržiūros lauką';
+$labels['logoutclear'] = 'Išvalyti šiukšliadėžę atsijungiant';
+$labels['logoutcompact'] = 'Suspausti Gautus atsijungiant';
+$labels['uisettings'] = 'Vartotojo Aplinka';
+$labels['serversettings'] = 'Serverio Nuostatos';
+$labels['mailboxview'] = 'Pašto Dėžutės Peržiūra';
+$labels['mdnrequests'] = 'Siuntėjo perspėjimai';
+$labels['askuser'] = 'prašyti vartotojo';
+$labels['autosend'] = 'siųsti automatiškai';
+$labels['ignore'] = 'ignoruoti';
+$labels['readwhendeleted'] = 'Pažymėti laišką kaip perskaitytu trinant';
+$labels['flagfordeletion'] = 'Pažymėti laišką trynimui vietoje ištrynimo';
 $labels['autosavedraft'] = 'Automatiškai išsaugoti juodraščius';
 $labels['everynminutes'] = 'kas $n minutes(-ių)';
 $labels['never'] = 'niekada';
