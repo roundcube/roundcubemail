@@ -102,7 +102,7 @@ class rcube_imap
    * @return boolean  TRUE on success, FALSE on failure
    * @access public
    */
-  function connect($host, $user, $pass, $port=143, $use_ssl=null)
+  function connect($host, $user, $pass, $port=143, $use_ssl=null, $auth_type='check')
     {
     global $ICL_SSL, $ICL_PORT, $IMAP_USE_INTERNAL_DATE;
     
@@ -119,8 +119,6 @@ class rcube_imap
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
 
-    $auth_type = rcmail::get_instance()->config->get('imap_auth_type', 'check');
-    
     $this->conn = iil_Connect($host, $user, $pass, array('imap' => $auth_type));
     $this->host = $host;
     $this->user = $user;
