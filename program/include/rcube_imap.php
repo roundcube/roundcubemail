@@ -2502,13 +2502,15 @@ class rcube_imap
       if (($p = array_search(strtolower($folder), $this->default_folders_lc)) !== false && !$a_defaults[$p])
         $a_defaults[$p] = $folder;
       else
-        $a_out[] = $folder;
+	{
+	$l_folders[$folder] = mb_strtolower(rcube_charset_convert($folder, 'UTF-7'));
+	}
       }
 
-    natcasesort($a_out);
+    asort($l_folders, SORT_LOCALE_STRING);
     ksort($a_defaults);
-    
-    return array_merge($a_defaults, $a_out);
+
+    return array_merge($a_defaults, array_keys($l_folders));
     }
 
   /**

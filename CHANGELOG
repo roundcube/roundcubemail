@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/28 (alec)
+----------
+- Fixed sorting of folders with non-ascii characters
+
 2008/05/21 (alec)
 ----------
 - Localized pagetitle in Settings and Address Book
