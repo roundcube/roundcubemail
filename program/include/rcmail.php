@@ -101,9 +101,8 @@ class rcmail
       ini_set('session.gc_maxlifetime', ($config_all['session_lifetime']) * 120);
     }
 
-    // start PHP session (if not in CLI mode)
-    if ($_SERVER['REMOTE_ADDR'])
-      session_start();
+    // start PHP session
+    session_start();
 
     // set initial session vars
     if (!isset($_SESSION['auth_time'])) {
@@ -162,9 +161,9 @@ class rcmail
     }
     
     $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language'));
-    
+
     // set localization
-    setlocale(LC_ALL, $_SESSION['language']);
+    setlocale(LC_ALL, $_SESSION['language'] . '.utf8');
   }
   
   
@@ -301,7 +300,7 @@ class rcmail
     $conn = false;
     
     if ($_SESSION['imap_host']) {
-      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'], rcmail::get_instance()->config->get('imap_auth_type', 'check')))) {
+      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
         if ($this->output)
           $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
       }
@@ -382,7 +381,7 @@ class rcmail
       $username = $user->data['username'];
 
     // exit if IMAP login failed
-    if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl, $config['imap_auth_type'])))
+    if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl)))
       return false;
 
     // user already registered -> update user's record
@@ -728,8 +727,7 @@ class rcmail
       $this->contacts->close();
 
     // before closing the database connection, write session data
-    if ($_SERVER['REMOTE_ADDR'])
-      session_write_close();
+    session_write_close();
   }
   
   
