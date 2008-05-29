@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/pl/messages.inc                                              |
+ | language/pl_PL/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
@@ -15,9 +15,10 @@
  |         Janusz Zamecki      <janusz@zamecki.eu>                       |
  |         Mariusz Szulerecki  <nob@force.eu.org>                        |
  |         Wojciech Szczepucha <donkoyote@gmail.com>                     |
+ |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 
- @version $Id$
+ @version $Id: messages.inc 1245 2008-04-03 13:17:34Z alec $
 
 */
 

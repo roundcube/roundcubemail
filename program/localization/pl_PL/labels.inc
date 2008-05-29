@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/pl/labels.inc                                                |
+ | language/pl_PL/labels.inc                                             |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
@@ -15,9 +15,10 @@
  |         Janusz Zamecki      <janusz@zamecki.eu>                       |
  |         Mariusz Szulerecki  <nob@force.eu.org>                        |
  |         Wojciech Szczepucha <donkoyote@gmail.com>                     |
+ |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 
- @version $Id$
+ @version $Id: labels.inc 1404 2008-05-19 08:12:54Z alec $
 
 */
 

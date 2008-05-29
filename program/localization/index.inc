@@ -64,7 +64,7 @@
      'nb_NO' => 'Norsk (bokmål)',
      'nn_NO' => 'Norsk (nynorsk)',
      'fa'    => 'Persian',
-     'pl'    => 'Polski',
+     'pl_PL' => 'Polski',
      'pt_BR' => 'Portuguese (Brazilian)',
      'pt_PT' => 'Portuguese (Standard)',
      'ro'    => 'Romanian',
@@ -93,7 +93,8 @@ $rcube_language_aliases = array(
     'no' => 'nn_NO',
     'pt' => 'pt_PT',
     'th' => 'th_TH',
-    'tw' => 'zh_TW'
+    'tw' => 'zh_TW',
+    'pl' => 'pl_PL'
 );
 
 $rcube_charsets = array();
