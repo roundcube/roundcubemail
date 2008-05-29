@@ -19,7 +19,8 @@
 
 */
 
-$OUTPUT->set_pagetitle(rcube_label('preferences'));
+if (!$OUTPUT->ajax_call)
+  $OUTPUT->set_pagetitle(rcube_label('preferences'));
 
 
 function rcmail_user_prefs_form($attrib)
