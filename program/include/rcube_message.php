@@ -21,9 +21,8 @@
 
 
 /**
- * Interface class for accessing an IMAP server
- *
- * This is a wrapper that implements the Iloha IMAP Library (IIL)
+ * Logical representation of a mail message with all its data
+ * and related functions
  *
  * @package    Mail
  * @author     Thomas Bruederli <roundcube@gmail.com>
@@ -65,8 +64,8 @@ class rcube_message
     );
     
     if ($this->structure = $this->imap->get_structure($uid)) {
-      $this->parse_structure($this->structure);
       $this->get_mime_numbers($this->structure);
+      $this->parse_structure($this->structure);
     }
     else {
       $this->body = $this->imap->get_body($uid);
@@ -356,18 +355,18 @@ class rcube_message
       }
 
       // if this was a related part try to resolve references
-      if ($message_ctype_secondary == 'related' && sizeof($this->inline_objects)) {
+      if ($message_ctype_secondary == 'related' && sizeof($this->inline_parts)) {
         $a_replaces = array();
 
         foreach ($this->inline_parts as $inline_object) {
-          $a_replaces['cid:'.$inline_object->content_id] = htmlspecialchars(sprintf($this->opt['get_url'], $inline_object->mime_id));
+          $a_replaces['cid:'.$inline_object->content_id] = $this->get_part_url($inline_object->mime_id);
         }
 
         // add replace array to each content part
         // (will be applied later when part body is available)
-        for ($i=0; $i<count($a_return_parts); $i++) {
-          if ($a_return_parts[$i]->type=='content')
-            $a_return_parts[$i]->replaces = $a_replaces;
+        foreach ($this->parts as $i => $part) {
+          if ($part->type == 'content')
+            $this->parts[$i]->replaces = $a_replaces;
         }
       }
     }

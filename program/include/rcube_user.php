@@ -24,7 +24,7 @@
 /**
  * Class representing a system user
  *
- * @package    core
+ * @package    Core
  * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_user
