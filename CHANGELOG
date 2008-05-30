@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/05/30 (alec)
 ----------
 - Support for subfolders in default/protected folders (#1484665)
+- Disallowed delimiter in folder name (#1484803)
 
 2008/05/29 (alec)
 ----------

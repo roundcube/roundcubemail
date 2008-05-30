@@ -83,5 +83,6 @@ $messages['receiptsent'] = 'Pomyślnie wysłano potwierdzenie dostarczenia';
 $messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia';
 $messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';
 $messages['addsubfolderhint'] = 'Ten folder zostanie utworzony jako podfolder aktualnie wybranego.';
+$messages['forbiddencharacter'] = 'Nazwa folderu zawiera niedozwolony znak';
 
 ?>
