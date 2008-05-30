@@ -1148,7 +1148,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
       $class_name = 'junk';
 
     $js_name = htmlspecialchars(JQ($folder['id']));
-    $out .= sprintf('<li id="rcmli%s" class="mailbox %s %s%s%s"><a href="%s"'.
+    $out .= sprintf('<li id="rcmli%s" class="mailbox %s %s%s"><a href="%s"'.
                     ' onclick="return %s.command(\'list\',\'%s\',this)"'.
                     ' onmouseover="return %s.focus_folder(\'%s\')"' .
                     ' onmouseout="return %s.unfocus_folder(\'%s\')"' .
@@ -1156,7 +1156,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
                     $folder_id,
                     $class_name,
                     $zebra_class,
-                    $unread_count ? ' unread' : '',
                     $folder['id']==$mbox_name ? ' selected' : '',
                     Q(rcmail_url('', array('_mbox' => $folder['id']))),
                     JS_OBJECT_NAME,
