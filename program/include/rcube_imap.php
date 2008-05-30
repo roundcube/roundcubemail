@@ -2489,7 +2489,7 @@ class rcube_imap
    */
   function _sort_mailbox_list($a_folders)
     {
-    $a_out = $a_defaults = $folders = $subfolders = array();
+    $a_out = $a_defaults = $folders = array();
 
     $delimiter = $this->get_hierarchy_delimiter();
 
