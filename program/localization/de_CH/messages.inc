@@ -81,5 +81,6 @@ $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 
 $messages['nodeletelastidentity'] = 'Sie können diesen Absender nicht löschen';
 $messages['addsubfolderhint'] = 'Wird als Unterdornder des aktuell selektieren Ordners erstellt';
+$messages['forbiddencharacter'] = 'Der Ordnername enthält ein ungültiges Zeichen';
 
 ?>

@@ -78,5 +78,6 @@ $messages['receiptsent'] = 'Lesebestätigung erfolgreich gesendet';
 $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 $messages['nodeletelastidentity'] = 'Diese Identität kann nicht gelöscht werden, da dies die letzte ist.';
 $messages['addsubfolderhint'] = 'Wird als Unterordner des aktuell selektieren Ordners erstellt';
+$messages['forbiddencharacter'] = 'Der Ordnername enthält ein ungültiges Zeichen';
 
 ?>
