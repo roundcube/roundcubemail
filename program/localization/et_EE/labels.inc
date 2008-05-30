@@ -205,6 +205,7 @@ $labels['askuser'] = 'küsi kasutajalt';
 $labels['autosend'] = 'saada automaatselt';
 $labels['ignore'] = 'ignoreeri';
 $labels['readwhendeleted'] = 'Märgi kiri kustutamisel loetuks';
+$labels['flagfordeletion'] = 'Kustutamise asemel märgi kiri kustutatavaks';
 $labels['autosavedraft'] = 'Salvesta mustandid automaatselt';
 $labels['everynminutes'] = 'iga $n minuti tagant';
 $labels['never'] = 'mitte kunagi';

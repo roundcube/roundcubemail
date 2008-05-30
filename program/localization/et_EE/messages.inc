@@ -78,4 +78,5 @@ $messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
 $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
 $messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
 $messages['addsubfolderhint'] = 'See kataloog luuakse valitud kausta alamkataloogina.';
+$messages['forbiddencharacter'] = 'Kausta nimi sisaldab keelatud sümbolit';
 ?>
