@@ -55,6 +55,7 @@
 		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
 		  optional resposne in iil_Connect()
 		- trim(chop()) replaced by trim()
+		- added iil_Escape() with support for " and \ in folder names
 		
 
 ********************************************************/
@@ -256,6 +257,11 @@ function iil_StartsWithI($string, $match) {
 }
 
 
+function iil_Escape($string)
+{
+    return strtr($string, array('"'=>'\\"', '\\' => '\\\\')); 
+}
+
 function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
     
     $ipad = '';
@@ -298,7 +304,7 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
 
 function iil_C_Login(&$conn, $user, $password) {
 
-    $password = strtr($password, array('"'=>'\\"', '\\' => '\\\\'));  
+    $password = iil_Escape($password);  
     fputs($conn->fp, "a001 LOGIN $user \"$password\"\r\n");
 
     do {
@@ -672,7 +678,7 @@ function iil_CheckForRecent($host, $user, $password, $mailbox) {
 	$conn = iil_Connect($host, $user, $password, 'plain');
 	$fp   = $conn->fp;
 	if ($fp) {
-		fputs($fp, "a002 EXAMINE \"$mailbox\"\r\n");
+		fputs($fp, "a002 EXAMINE \"".iil_Escape($mailbox)."\"\r\n");
 		do {
 			$line=chop(iil_ReadLine($fp, 300));
 			$a=explode(' ', $line);
@@ -702,7 +708,7 @@ function iil_C_Select(&$conn, $mailbox) {
     
 	iil_C_LoadCache($conn, $mailbox);
 	
-	if (fputs($fp, "sel1 SELECT \"$mailbox\"\r\n")) {
+	if (fputs($fp, "sel1 SELECT \"".iil_Escape($mailbox)."\"\r\n")) {
 		do {
 			$line=chop(iil_ReadLine($fp, 300));
 			$a=explode(' ', $line);
@@ -826,12 +832,12 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 
 	$fp       = $conn->fp;
 	$command  = 's ' . $is_uid . 'SORT (' . $field . ') ';
-    $command .= $encoding . ' ALL' . "$add\r\n";
+	$command .= $encoding . ' ALL' . "$add\r\n";
 	$line     = $data = '';
 	
 	if (!fputs($fp, $command)) {
 	    return false;
-    }
+	}
 	do {
 		$line = chop(iil_ReadLine($fp, 1024));
 		if (iil_StartsWith($line, '* SORT')) {
@@ -1942,7 +1948,6 @@ function iil_C_Undelete(&$conn, $mailbox, $messages) {
 	return iil_C_ModFlag($conn, $mailbox, $messages, 'DELETED', '-');
 }
 
-
 function iil_C_Unseen(&$conn, $mailbox, $messages) {
 	return iil_C_ModFlag($conn, $mailbox, $messages, 'SEEN', '-');
 }
@@ -1958,7 +1963,7 @@ function iil_C_Copy(&$conn, $messages, $from, $to) {
 	if (iil_C_Select($conn, $from)) {
 		$c=0;
 		
-		fputs($fp, "cpy1 COPY $messages \"$to\"\r\n");
+		fputs($fp, "cpy1 COPY $messages \"".iil_Escape($to)."\"\r\n");
 		$line=iil_ReadReply($fp);
 		return iil_ParseResult($line);
 	} else {
@@ -2135,20 +2140,22 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
 	$ignore = $IGNORE_FOLDERS[strtolower($conn->host)];
 		
 	$fp = $conn->fp;
+	
 	if (empty($mailbox)) {
 	    $mailbox = '*';
-    }
+	}
+	
 	if (empty($ref) && $conn->rootdir) {
 	    $ref = $conn->rootdir;
 	}
     
-    // send command
-	if (!fputs($fp, "lmb LIST \"".$ref."\" \"$mailbox\"\r\n")) {
+	// send command
+	if (!fputs($fp, "lmb LIST \"".$ref."\" \"".iil_Escape($mailbox)."\"\r\n")) {
 	    return false;
-    }
+	}
     
 	$i = 0;
-    // get folder list
+	// get folder list
 	do {
 		$line = iil_ReadLine($fp, 500);
 		$line = iil_MultLine($fp, $line);
@@ -2158,9 +2165,8 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
 			$line = rtrim($line);
             // split one line
 			$a = iil_ExplodeQuotedString(' ', $line);
-            
             // last string is folder name
-			$folder = str_replace('"', '', $a[count($a)-1]);
+			$folder = trim($a[count($a)-1], '"');
             
             if (empty($ignore) || (!empty($ignore)
                 && !eregi($ignore, $folder))) {
@@ -2168,20 +2174,22 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
             }
             
             // second from last is delimiter
-            $delim = str_replace('"', '', $a[count($a)-2]);
+            $delim = trim($a[count($a)-2], '"');
             // is it a container?
             $i++;
 		}
 	} while (!iil_StartsWith($line, 'lmb'));
 
 	if (is_array($folders)) {
-        if (!empty($ref)) {
+    	    if (!empty($ref)) {
             // if rootdir was specified, make sure it's the first element
             // some IMAP servers (i.e. Courier) won't return it
-            if ($ref[strlen($ref)-1]==$delim) $ref = substr($ref, 0, strlen($ref)-1);
-            if ($folders[0]!=$ref) array_unshift($folders, $ref);
-        }
-        return $folders;
+            if ($ref[strlen($ref)-1]==$delim)
+		    $ref = substr($ref, 0, strlen($ref)-1);
+    	    if ($folders[0]!=$ref)
+		    array_unshift($folders, $ref);
+    	    }
+    	    return $folders;
 	}else if (iil_ParseResult($line) == 0) {
 		return array('INBOX');
 	} else {
@@ -2206,7 +2214,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
 	$folders = array();
 
     // send command
-	if (!fputs($fp, 'lsb LSUB "' . $ref . '" "' . $mailbox.'"' . "\r\n")) {
+	if (!fputs($fp, 'lsb LSUB "' . $ref . '" "' . iil_Escape($mailbox).'"' . "\r\n")) {
 		$conn->error = "Couldn't send LSUB command\n";
 		return false;
 	}
@@ -2227,7 +2235,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
             
             // last string is folder name
             //$folder = UTF7DecodeString(str_replace('"', '', $a[count($a)-1]));
-            $folder = str_replace('"', '', $a[count($a)-1]);
+            $folder = trim($a[count($a)-1], '"');
             
 			if ((!in_array($folder, $folders)) && (empty($ignore)
                 || (!empty($ignore) && !eregi($ignore, $folder)))) {
@@ -2235,7 +2243,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
             }
             
             // second from last is delimiter
-            $delim = str_replace('"', '', $a[count($a)-2]);
+            $delim = trim($a[count($a)-2], '"');
             
             // is it a container?
             $i++;
@@ -2263,7 +2271,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
 function iil_C_Subscribe(&$conn, $folder) {
 	$fp = $conn->fp;
 
-	$query = 'sub1 SUBSCRIBE "' . $folder. '"' . "\r\n";
+	$query = 'sub1 SUBSCRIBE "' . iil_Escape($folder). '"' . "\r\n";
 	fputs($fp, $query);
 
 	$line = trim(iil_ReadLine($fp, 10000));
@@ -2274,7 +2282,7 @@ function iil_C_Subscribe(&$conn, $folder) {
 function iil_C_UnSubscribe(&$conn, $folder) {
 	$fp = $conn->fp;
 
-	$query = 'usub1 UNSUBSCRIBE "' . $folder . '"' . "\r\n";
+	$query = 'usub1 UNSUBSCRIBE "' . iil_Escape($folder) . '"' . "\r\n";
 	fputs($fp, $query);
     
 	$line = trim(iil_ReadLine($fp, 10000));
@@ -2419,7 +2427,7 @@ function iil_C_PrintBase64Body(&$conn, $mailbox, $id, $part) {
 
 function iil_C_CreateFolder(&$conn, $folder) {
 	$fp = $conn->fp;
-	if (fputs($fp, 'c CREATE "' . $folder . '"' . "\r\n")) {
+	if (fputs($fp, 'c CREATE "' . iil_Escape($folder) . '"' . "\r\n")) {
 		do {
 			$line=iil_ReadLine($fp, 300);
 		} while ($line[0] != 'c');
@@ -2431,7 +2439,7 @@ function iil_C_CreateFolder(&$conn, $folder) {
 
 function iil_C_RenameFolder(&$conn, $from, $to) {
 	$fp = $conn->fp;
-	if (fputs($fp, 'r RENAME "' . $from . '" "' . $to . '"' . "\r\n")) {
+	if (fputs($fp, 'r RENAME "' . iil_Escape($from) . '" "' . iil_Escape($to) . '"' . "\r\n")) {
 		do {
 			$line = iil_ReadLine($fp, 300);
 		} while ($line[0] != 'r');
@@ -2442,7 +2450,7 @@ function iil_C_RenameFolder(&$conn, $from, $to) {
 
 function iil_C_DeleteFolder(&$conn, $folder) {
 	$fp = $conn->fp;
-	if (fputs($fp, 'd DELETE "' . $folder. '"' . "\r\n")) {
+	if (fputs($fp, 'd DELETE "' . iil_Escape($folder). '"' . "\r\n")) {
 		do {
 			$line=iil_ReadLine($fp, 300);
 		} while ($line[0] != 'd');
@@ -2465,7 +2473,7 @@ function iil_C_Append(&$conn, $folder, &$message) {
 	if (!$len) {
         return false;
 	}
-	$request = 'A APPEND "' . $folder .'" (\\Seen) {' . $len . "}\r\n";
+	$request = 'A APPEND "' . iil_Escape($folder) .'" (\\Seen) {' . $len . "}\r\n";
     
 	if (fputs($fp, $request)) {
 		$line=iil_ReadLine($fp, 100);		
@@ -2508,7 +2516,7 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	}
     
 	//send APPEND command
-	$request    = 'A APPEND "' . $folder . '" (\\Seen) {' . $len . "}\r\n";
+	$request    = 'A APPEND "' . iil_Escape($folder) . '" (\\Seen) {' . $len . "}\r\n";
 	$bytes_sent = 0;
 	if (fputs($fp, $request)) {
 		$line = iil_ReadLine($fp, 100);
@@ -2630,4 +2638,5 @@ function iil_C_ClearFolder(&$conn, $folder) {
     }
 	return (iil_C_Expunge($conn, $folder) >= 0);
 }
+
 ?>
