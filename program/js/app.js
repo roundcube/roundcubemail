@@ -2575,12 +2575,13 @@ function rcube_webmail()
     var row, folder;
     var reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
 
-    if (this.drag_active && (row = document.getElementById(id)))
+    if (this.drag_active && this.env.folder && (row = document.getElementById(id)))
       if (this.env.subscriptionrows[id] &&
           (folder = this.env.subscriptionrows[id][0]))
         {
         if (this.check_droptarget(folder) &&
-            (folder != this.env.folder.replace(reg, '')) &&
+    	    !this.env.subscriptionrows[this.get_folder_row_id(this.env.folder)][2] &&    
+	    (folder != this.env.folder.replace(reg, '')) &&
             (!folder.match(new RegExp('^'+RegExp.escape(this.env.folder+this.env.delimiter)))))
           {
           this.set_env('dstfolder', folder);
@@ -2612,8 +2613,7 @@ function rcube_webmail()
     var id, folder;
     if ((id = list.get_single_selection()) &&
         this.env.subscriptionrows['rcmrow'+id] &&
-        (folder = this.env.subscriptionrows['rcmrow'+id][0]) &&
-        (find_in_array(this.env.defaultfolders, folder)!=0))
+        (folder = this.env.subscriptionrows['rcmrow'+id][0]))
       this.set_env('folder', folder);
     else
       this.set_env('folder', null);
@@ -2665,20 +2665,20 @@ function rcube_webmail()
     var temp, row, form;
 
     // reset current renaming
-  if (temp = this.edit_folder)
-    {
-    this.reset_folder_rename();
-    if (temp == id)
-      return;
-    }
+    if (temp = this.edit_folder)
+      {
+      this.reset_folder_rename();
+      if (temp == id)
+        return;
+      }
 
     if (id && this.env.subscriptionrows[id] && (row = document.getElementById(id)))
       {
       var reg = new RegExp('.*['+RegExp.escape(this.env.delimiter)+']');
       this.name_input = document.createElement('INPUT');
-      this.name_input.value = this.env.subscriptionrows[id][1].replace(reg, '');
+      this.name_input.value = this.env.subscriptionrows[id][0].replace(reg, '');
       this.name_input.style.width = '100%';
-      
+
       reg = new RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
       this.name_input.__parent = this.env.subscriptionrows[id][0].replace(reg, '');
       this.name_input.onkeypress = function(e){ rcmail.name_input_keypress(e); };
@@ -2697,11 +2697,9 @@ function rcube_webmail()
   this.reset_folder_rename = function()
     {
     var cell = this.name_input ? this.name_input.parentNode : null;
+
     if (cell && this.edit_folder && this.env.subscriptionrows[this.edit_folder])
-      {
-      var reg = new RegExp('[^'+RegExp.escape(this.env.delimiter)+']*['+RegExp.escape(this.env.delimiter)+']', 'g');
-      cell.innerHTML = this.env.subscriptionrows[this.edit_folder][1].replace(reg, '&nbsp;&nbsp;&nbsp;&nbsp;');
-      }
+      cell.innerHTML = this.env.subscriptionrows[this.edit_folder][1];
       
     this.edit_folder = null;
     };
@@ -2744,20 +2742,20 @@ function rcube_webmail()
 
       if (this.gui_objects.createfolderhint)
         this.gui_objects.createfolderhint.innerHTML = '';
-
       }
     };
 
 
   // add a new folder to the subscription list by cloning a folder row
-  this.add_folder_row = function(name, display_name, replace)
+  this.add_folder_row = function(name, display_name, replace, before)
     {
     name = name.replace('\\',"");
     if (!this.gui_objects.subscriptionlist)
       return false;
 
+    // find not protected folder    
     for (var refid in this.env.subscriptionrows)
-      if (this.env.subscriptionrows[refid]!=null)
+      if (this.env.subscriptionrows[refid]!=null && !this.env.subscriptionrows[refid][2])
         break;
 
     var refrow, form;
@@ -2781,14 +2779,18 @@ function rcube_webmail()
       // clone a table row if there are existing rows
       var row = this.clone_table_row(refrow);
       row.id = id;
-      if (replace)
-        tbody.replaceChild(row, replace);
+
+      if (before && (before = this.get_folder_row_id(before)))
+	tbody.insertBefore(row, document.getElementById(before));
       else
-        tbody.appendChild(row);
+        tbody.appendChild(row);	  
+      
+      if (replace)
+	tbody.removeChild(replace);
       }
-    
+
     // add to folder/row-ID map
-    this.env.subscriptionrows[row.id] = [name, display_name];
+    this.env.subscriptionrows[row.id] = [name, display_name, 0];
 
     // set folder name
     row.cells[0].innerHTML = display_name;
@@ -2812,7 +2814,6 @@ function rcube_webmail()
         form.elements['_folder_name'].value = ''; 
       }
 
-    this.sort_subscription_list();
     this.init_subscription_list();
     if (selection && document.getElementById('rcmrow'+selection))
       this.subscription_list.select_row(selection);
@@ -2823,13 +2824,13 @@ function rcube_webmail()
 
 
   // replace an existing table row with a new folder line
-  this.replace_folder_row = function(oldfolder, newfolder, display_name)
+  this.replace_folder_row = function(oldfolder, newfolder, display_name, before)
     {
     var id = this.get_folder_row_id(oldfolder);
     var row = document.getElementById(id);
     
     // replace an existing table row (if found)
-    this.add_folder_row(newfolder, display_name, row);
+    this.add_folder_row(newfolder, display_name, row, before);
     
     // rename folder in rename-folder dropdown
     var form, elm;
@@ -2848,7 +2849,7 @@ function rcube_webmail()
       form.elements['_folder_newname'].value = '';
       }
     };
-    
+
 
   // remove the table row of a specific mailbox from the table
   // (the row will not be removed, just hidden)
@@ -2857,7 +2858,7 @@ function rcube_webmail()
     var row;
     var id = this.get_folder_row_id(folder);
     if (id && (row = document.getElementById(id)))
-      row.style.display = 'none';    
+      row.style.display = 'none';
 
     // remove folder from rename-folder list
     var form;
@@ -2922,32 +2923,6 @@ function rcube_webmail()
       }
     
     return new_row;
-    };
-
-  // sort subscription folder list
-  this.sort_subscription_list = function()
-    {
-    var index = new Array();
-    var tbody = this.gui_objects.subscriptionlist.tBodies[0];
-    var swapped = false;
-    for (var i = 0; i<tbody.childNodes.length; i++)
-      if (this.env.subscriptionrows[tbody.childNodes[i].id]!=null)
-        index.push(i);
-    for (i = 0; i<(index.length-1); i++)
-      {
-      var one = tbody.childNodes[index[i]];
-      var two = tbody.childNodes[index[i+1]];
-      if (this.env.subscriptionrows[one.id][0].toLowerCase()>
-          this.env.subscriptionrows[two.id][0].toLowerCase())
-        {
-        var swap = one.cloneNode(true);
-        tbody.replaceChild(swap, two);
-        tbody.replaceChild(two, one);
-        swapped = true;
-        }
-      }
-    if (swapped)
-      this.sort_subscription_list();
     };
 
 

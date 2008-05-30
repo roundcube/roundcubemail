@@ -2489,10 +2489,12 @@ class rcube_imap
    */
   function _sort_mailbox_list($a_folders)
     {
-    $a_out = $a_defaults = array();
+    $a_out = $a_defaults = $folders = $subfolders = array();
+
+    $delimiter = $this->get_hierarchy_delimiter();
 
     // find default folders and skip folders starting with '.'
-    foreach($a_folders as $i => $folder)
+    foreach ($a_folders as $i => $folder)
       {
       if ($folder{0}=='.')
         continue;
@@ -2500,15 +2502,31 @@ class rcube_imap
       if (($p = array_search(strtolower($folder), $this->default_folders_lc)) !== false && !$a_defaults[$p])
         $a_defaults[$p] = $folder;
       else
-	{
-	$l_folders[$folder] = mb_strtolower(rcube_charset_convert($folder, 'UTF-7'));
+	$folders[$folder] = mb_strtolower(rcube_charset_convert($folder, 'UTF-7'));
+      }
+
+    asort($folders, SORT_LOCALE_STRING);
+    ksort($a_defaults);
+
+    $folders = array_merge($a_defaults, array_keys($folders));
+
+    // finally we must rebuild the list to move 
+    // subfolders of default folders to their place
+    while (list($key, $folder) = each($folders)) {
+      $a_out[] = $folder;
+      unset($folders[$key]);
+      if (in_array(strtolower($folder), $this->default_folders_lc)) {
+	foreach ($folders as $idx => $f) {
+	  if (strpos($f, $folder.$delimiter) === 0) {
+    	    $a_out[] = $f;
+	    unset($folders[$idx]);
+	    }
+	  }
+	reset($folders);  
 	}
       }
 
-    asort($l_folders, SORT_LOCALE_STRING);
-    ksort($a_defaults);
-
-    return array_merge($a_defaults, array_keys($l_folders));
+    return $a_out;
     }
 
   /**

@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/05/30 (alec)
+----------
+- Support for subfolders in default/protected folders (#1484665)
+
+2008/05/29 (alec)
+----------
+- Polish localization folder renamed to pl_PL
+
 2008/05/28 (alec)
 ----------
 - Fixed sorting of folders with non-ascii characters
