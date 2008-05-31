@@ -1,13 +1,16 @@
 <form action="index.php" method="get">
 <?php
 
-$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session', 'DOM XML' => 'dom');
+$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session',
+    'DOM XML' => 'dom');
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
-    'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt', 'GD' => 'gd');
+    'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
+    'GD' => 'gd');
 
 $required_libs = array('PEAR' => 'PEAR.php', 'DB' => 'DB.php', 'MDB2' => 'MDB2.php',
-    'Net_SMTP' => 'Net/SMTP.php', 'Mail_mime' => 'Mail/mime.php', 'iilConnection' => 'lib/imap.inc');
+    'Net_SMTP' => 'Net/SMTP.php', 'Mail_mime' => 'Mail/mime.php',
+    'iilConnection' => 'lib/imap.inc');
 
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
