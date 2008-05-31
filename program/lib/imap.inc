@@ -56,7 +56,7 @@
 		  optional resposne in iil_Connect()
 		- trim(chop()) replaced by trim()
 		- added iil_Escape() with support for " and \ in folder names
-		
+		- support \ character in username in iil_C_Login()
 
 ********************************************************/
 
@@ -304,8 +304,7 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
 
 function iil_C_Login(&$conn, $user, $password) {
 
-    $password = iil_Escape($password);  
-    fputs($conn->fp, "a001 LOGIN $user \"$password\"\r\n");
+    fputs($conn->fp, 'a001 LOGIN "'.iil_Escape($user).'" "'.iil_Escape($password)."\"\r\n");
 
     do {
         $line = iil_ReadReply($conn->fp);
