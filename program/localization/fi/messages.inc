@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/fi/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Ville Alatalo <ville@alatalo.org>                             |
- |         Veljo Velling <veve@utu.fi>                                   |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/fi/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Ville Alatalo <ville@alatalo.org>                             |
+|         Veljo Velling <veve@utu.fi>                                   |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -79,5 +79,6 @@ $messages['receiptsent'] = 'Lukukuittaus lähetetty onnistuneesti';
 $messages['errorsendingreceipt'] = 'Lukukuittausta ei voitu lähettää';
 $messages['nodeletelastidentity'] = 'Et voi poistaa tätä identiteettiä, koska se on ainoa jäljelläoleva';
 $messages['addsubfolderhint'] = 'Uusi kansio luodaan valitun kansion alikansiona';
+$messages['forbiddencharacter'] = 'Kansion nimessä on kiellettyjä merkkejä';
 
 ?>

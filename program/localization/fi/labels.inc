@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/fi/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Ville Alatalo <ville@alatalo.org>                             |
- |         Veljo Velling <veve@utu.fi>                                   |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/fi/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Ville Alatalo <ville@alatalo.org>                             |
+|         Veljo Velling <veve@utu.fi>                                   |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -69,6 +69,30 @@ $labels['wednesday'] = 'Keskiviikko';
 $labels['thursday'] = 'Torstai';
 $labels['friday'] = 'Perjantai';
 $labels['saturday'] = 'Lauantai';
+$labels['jan'] = 'Tammi';
+$labels['feb'] = 'Helmi';
+$labels['mar'] = 'Maalis';
+$labels['apr'] = 'Huhti';
+$labels['may'] = 'Touko';
+$labels['jun'] = 'Kesä';
+$labels['jul'] = 'Heinä';
+$labels['aug'] = 'Elo';
+$labels['sep'] = 'Syys';
+$labels['oct'] = 'Loka';
+$labels['nov'] = 'Marras';
+$labels['dec'] = 'Joulu';
+$labels['longjan'] = 'Tammikuu';
+$labels['longfeb'] = 'Helmikuu';
+$labels['longmar'] = 'Maaliskuu';
+$labels['longapr'] = 'Huhtikuu';
+$labels['longmay'] = 'Toukokuu';
+$labels['longjun'] = 'Kesäkuu';
+$labels['longjul'] = 'Heinäkuu';
+$labels['longaug'] = 'Elokuu';
+$labels['longsep'] = 'Syyskuu';
+$labels['longoct'] = 'Lokakuu';
+$labels['longnov'] = 'Marraskuu';
+$labels['longdec'] = 'Joulukuu';
 $labels['today'] = 'Tänään';
 $labels['checkmail'] = 'Tarkista saapuneet viestit';
 $labels['writenewmessage'] = 'Kirjoita uusi viesti';
@@ -131,7 +155,7 @@ $labels['addreplyto'] = 'Lisää vastausosoite';
 $labels['mdnrequest'] = 'Viestin lähettäjä on pyytänyt kuittauksen siitä että olet lukenut viestin. Haluatko lähettää kuittauksen?';
 $labels['receiptread'] = 'Lukukuittaus';
 $labels['yourmessage'] = 'Tämä viesti on kuittaus lähettämällesi viestille';
-$labels['receiptnote'] = 'Huom! Kuittaus kertoo vain siitä, että viesti on avattu vastaanottajan tietokoneella. Se ei tarkoita että vastaanottaja on myös lukenut tai ymmärtänyt viestin.';
+$labels['receiptnote'] = 'Huom! Kuittaus tarkoittaa vain sitä, että viesti on avattu vastaanottajan tietokoneella. Se ei tarkoita että vastaanottaja on myös lukenut tai ymmärtänyt viestin.';
 $labels['name'] = 'Näkyvä nimi';
 $labels['firstname'] = 'Etunimi';
 $labels['surname'] = 'Sukunimi';
@@ -172,6 +196,17 @@ $labels['dstactive'] = 'Kesäaika';
 $labels['htmleditor'] = 'Kirjoita HTML-muodossa';
 $labels['htmlsignature'] = 'HTML-allekirjoitus';
 $labels['previewpane'] = 'Näytä esikatselulehti';
+$labels['logoutclear'] = 'Tyhjennä roskakori ulos kirjautuessa';
+$labels['logoutcompact'] = 'Tiivistä kansiot ulos kirjautuessa';
+$labels['uisettings'] = 'Käyttöliittymä';
+$labels['serversettings'] = 'Palvelinasetukset';
+$labels['mailboxview'] = 'Postilaatikkonäkymä';
+$labels['mdnrequests'] = 'Lähettäjän kuittaukset';
+$labels['askuser'] = 'kysy käyttäjältä';
+$labels['autosend'] = 'lähetä automaattisesti';
+$labels['ignore'] = 'jätä huomiotta';
+$labels['readwhendeleted'] = 'Merkitse poistettavat viestit luetuiksi';
+$labels['flagfordeletion'] = 'Poistamisen sijaan, merkitse viestit poistettavaksi';
 $labels['autosavedraft'] = 'Tallenna luonnos automaattisesti';
 $labels['everynminutes'] = '$n minuutin välein';
 $labels['never'] = 'ei koskaan';
