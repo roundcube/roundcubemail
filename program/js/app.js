@@ -1838,9 +1838,9 @@ function rcube_webmail()
     var input_cc = rcube_find_object('_cc');
     var input_bcc = rcube_find_object('_bcc');
     var input_subject = rcube_find_object('_subject');
-    var input_message = rcube_find_object('_message');
-    
+    var editor, input_message;
     var str = '';
+    
     if (input_to && input_to.value)
       str += input_to.value+':';
     if (input_cc && input_cc.value)
@@ -1849,8 +1849,14 @@ function rcube_webmail()
       str += input_bcc.value+':';
     if (input_subject && input_subject.value)
       str += input_subject.value+':';
-    if (input_message && input_message.value)
+    
+    if (editor = tinyMCE.get('compose-body'))
+      str += editor.getContent();
+    else
+      {
+      input_message = rcube_find_object('_message');
       str += input_message.value;
+      }
     
     if (save)
       this.cmp_hash = str;
