@@ -2764,7 +2764,6 @@ function rcube_webmail()
   // add a new folder to the subscription list by cloning a folder row
   this.add_folder_row = function(name, display_name, replace, before)
     {
-    name = name.replace('\\',"");
     if (!this.gui_objects.subscriptionlist)
       return false;
 
