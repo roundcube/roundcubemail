@@ -187,6 +187,7 @@ class washtml
     //Charset seems to be ignored (probably if defined in the HTML document)
     $node = new DOMDocument('1.0', $config['charset']);
     $full = true;
+    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
     @$node->loadHTML($html);
     return self::dumpHtml($node, $config, $full);
   }
