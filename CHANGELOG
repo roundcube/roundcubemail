@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/03 (alec)
+----------
+- imap.inc: Fixed iil_MultLine(): use iil_ReadBytes() instead of iil_ReadLine()
+- imap.inc: Fixed iil_C_FetchStructureString() to handle many 
+  literal strings in response (#1484969)
+- imap.inc: Removed hardcoded data size in iil_ReadLine()
+
 2008/05/30 (alec)
 ----------
 - Support for subfolders in default/protected folders (#1484665)

@@ -57,6 +57,9 @@
 		- trim(chop()) replaced by trim()
 		- added iil_Escape() with support for " and \ in folder names
 		- support \ character in username in iil_C_Login()
+		- fixed iil_MultLine(): use iil_ReadBytes() instead of iil_ReadLine()
+		- fixed iil_C_FetchStructureString() to handle many literal strings in response
+		- removed hardcoded data size in iil_ReadLine() 
 
 ********************************************************/
 
@@ -171,9 +174,13 @@ function iil_ReadLine($fp, $size) {
     if (!$fp) {
         return $line;
     }
+    
+    if (!$size) {
+	$size = 1024;
+    }
+    
     do {
-	// FIXME: hardcode size?
-        $buffer = fgets($fp, 2048);
+        $buffer = fgets($fp, $size);
         if ($buffer === false) {
             break;
         }
@@ -190,8 +197,8 @@ function iil_MultLine($fp, $line) {
 		preg_match_all('/(.*)\{([0-9]+)\}$/', $line, $a);
 		$bytes = $a[2][0];
 		while (strlen($out) < $bytes) {
-		    $line = iil_ReadLine($fp, 1024); 
-			$out .= chop($line);
+		    $line = iil_ReadBytes($fp, $bytes); 
+		    $out .= $line;
 		}
 		$line = $a[1][0] . "\"$out\"";
 	}
@@ -2550,33 +2557,18 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 function iil_C_FetchStructureString(&$conn, $folder, $id) {
 	$fp     = $conn->fp;
 	$result = false;
+	
 	if (iil_C_Select($conn, $folder)) {
 		$key = 'F1247';
         
 		if (fputs($fp, "$key FETCH $id (BODYSTRUCTURE)\r\n")) {
 			do {
-				$line=chop(iil_ReadLine($fp, 5000));
-				if ($line[0] == '*') {
-					if (ereg("\}$", $line)) {
-						preg_match('/(.+)\{([0-9]+)\}/', $line, $match);  
-						$result = $match[1];
-						do {
-							$line = chop(iil_ReadLine($fp, 100));
-							if (!preg_match("/^$key/", $line)) {
-							    $result .= $line;
-                            } else {
-                                $done = true;
-                            }
-						} while (!$done);
-					} else {
-						$result = $line;
-					}
-					list($pre, $post) = explode('BODYSTRUCTURE ', $result);
-					
-					//truncate last ')' and return
-					$result = substr($post, 0, strlen($post)-1);
-				}
+				$line = iil_ReadLine($fp, 5000);
+				$line = iil_MultLine($fp, $line);
+				$result .= $line;
 			} while (!preg_match("/^$key/", $line));
+
+			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, ')')-1)));
 		}
 	}
 	return $result;
