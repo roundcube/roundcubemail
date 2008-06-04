@@ -82,7 +82,7 @@ class rcube_message
    */
   public function get_header($name, $raw = false)
   {
-    $value = $this->header->$name;
+    $value = $this->headers->$name;
     return $raw ? $value : $this->imap->decode_header($value);
   }
   
