@@ -715,6 +715,11 @@ div.message-part blockquote blockquote blockquote
   border-right: 2px solid #bb0000;
 }
 
+body.iframe div.message-htmlpart
+{
+  margin: 8px;
+}
+
 div.message-htmlpart div.rcmBody
 {
   margin: 8px;
