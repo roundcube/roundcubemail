@@ -15,6 +15,10 @@ CHANGELOG RoundCube Webmail
 - Support " and \ in folder names
 - Escape \ in login (#1484614)
 
+2008/05/29 (thomasb)
+----------
+- Better HTML sanitization with the DOM-based washtml script (#1484701)
+
 2008/05/29 (alec)
 ----------
 - Polish localization folder renamed to pl_PL
