@@ -514,9 +514,15 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
 
 
 /**
+ * Convert the given message part to proper HTML
+ * which can be displayed the message view
  *
+ * @param object rcube_message_part Message part
+ * @param bool  True if external objects (ie. images ) are allowed
+ * @param bool  True if part should be converted to plaintext
+ * @return string Formatted HTML string
  */
-function rcmail_print_body($part, $safe=FALSE, $plain=FALSE)
+function rcmail_print_body($part, $safe=false, $plain=false)
 {
   global $REMOTE_OBJECTS;
   
