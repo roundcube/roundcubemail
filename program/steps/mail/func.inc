@@ -680,7 +680,10 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
 
 /**
+ * Handler for the 'messagebody' GUI object
  *
+ * @param array Named parameters
+ * @return string HTML content showing the message body
  */
 function rcmail_message_body($attrib)
   {
@@ -693,8 +696,7 @@ function rcmail_message_body($attrib)
     $attrib['id'] = 'rcmailMsgBody';
 
   $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-  $out = '<div '. $attrib_str . ">\n";
+  $out = '';
   
   $header_attrib = array();
   foreach ($attrib as $attr => $value)
@@ -717,14 +719,11 @@ function rcmail_message_body($attrib)
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
         $body = rcmail_print_body($part, $safe_mode, !$CONFIG['prefer_html']);
-        $out .= '<div class="message-part">';
         
         if ($part->ctype_secondary != 'plain')
-          $out .= rcmail_html4inline($body, $attrib['id']);
+          $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id']));
         else
-          $out .= $body;
-
-        $out .= "</div>\n";
+          $out .= html::div('message-part', $body);
         }
       }
     }
@@ -754,8 +753,7 @@ function rcmail_message_body($attrib)
   if ($REMOTE_OBJECTS && !$safe_mode)
     $OUTPUT->set_env('blockedobjects', true);
 
-  $out .= "\n</div>";
-  return $out;
+  return html::div($attrib, $out);
   }
 
 

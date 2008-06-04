@@ -715,6 +715,11 @@ div.message-part blockquote blockquote blockquote
   border-right: 2px solid #bb0000;
 }
 
+div.message-htmlpart div.rcmBody
+{
+  margin: 8px;
+}
+
 #remote-objects-message
 {
   display: none;
