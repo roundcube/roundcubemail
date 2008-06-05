@@ -1248,7 +1248,10 @@ class rcube_imap
    */
   function &get_body($uid, $part=1)
     {
-    return $this->get_message_part($uid, $part);
+    $headers = $this->get_headers($uid);
+    return rcube_charset_convert(
+      $this->mime_decode($this->get_message_part($uid, $part), 'quoted-printable'),
+      $headers->charset ? $headers->charset : $this->default_charset);
     }
 
 

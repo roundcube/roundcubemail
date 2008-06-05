@@ -728,7 +728,7 @@ function rcmail_message_body($attrib)
       }
     }
   else
-    $out .= $MESSAGE->body;
+    $out .= html::div('message-part', html::div('pre', $MESSAGE->body));
 
 
   $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
