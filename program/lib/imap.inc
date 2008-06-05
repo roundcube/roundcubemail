@@ -2568,7 +2568,7 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 				$result .= $line;
 			} while (!preg_match("/^$key/", $line));
 
-			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, ')')-1)));
+			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, $key)-2)));
 		}
 	}
 	return $result;
