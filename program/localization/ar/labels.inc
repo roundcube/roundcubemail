@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/ar/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Ossama Khayat <okhayat@yahoo.com>                             |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/ar/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Ossama Khayat <okhayat@yahoo.com>                             |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -68,6 +68,30 @@ $labels['wednesday'] = 'الأربعاء';
 $labels['thursday'] = 'الخميس';
 $labels['friday'] = 'الجمعة';
 $labels['saturday'] = 'السبت';
+$labels['jan'] = 'ينا';
+$labels['feb'] = 'فبر';
+$labels['mar'] = 'مار';
+$labels['apr'] = 'أبر';
+$labels['may'] = 'ماي';
+$labels['jun'] = 'يون';
+$labels['jul'] = 'يول';
+$labels['aug'] = 'أغس';
+$labels['sep'] = 'سبت';
+$labels['oct'] = 'أكت';
+$labels['nov'] = 'نوف';
+$labels['dec'] = 'ديس';
+$labels['longjan'] = 'يناير';
+$labels['longfeb'] = 'فبراير';
+$labels['longmar'] = 'مارس';
+$labels['longapr'] = 'أبريل';
+$labels['longmay'] = 'مايو';
+$labels['longjun'] = 'يونيو';
+$labels['longjul'] = 'يوليو';
+$labels['longaug'] = 'أغسطس';
+$labels['longsep'] = 'سبتمبر';
+$labels['longoct'] = 'أكتوبر';
+$labels['longnov'] = 'نوفمبر';
+$labels['longdec'] = 'ديسمبر';
 $labels['today'] = 'اليوم';
 $labels['checkmail'] = 'التحقق من وجود رسائل جديدة';
 $labels['writenewmessage'] = 'إنشاء رسالة جديدة';
@@ -171,6 +195,17 @@ $labels['dstactive'] = 'التوقيت الصيفي';
 $labels['htmleditor'] = 'إنشاء رسائل بنسق HTML';
 $labels['htmlsignature'] = 'توقيع HTML';
 $labels['previewpane'] = 'إظهار قسم المعاينة';
+$labels['logoutclear'] = 'أفرغ المحذوفات عند الخروج';
+$labels['logoutcompact'] = 'اضغط الوارد عن الخروج';
+$labels['uisettings'] = 'واجهة المستخدم';
+$labels['serversettings'] = 'إعدادات الخادم';
+$labels['mailboxview'] = 'مظهر صندوق البريد';
+$labels['mdnrequests'] = 'تنويهات المُرسِل';
+$labels['askuser'] = 'اسأل المستخدم';
+$labels['autosend'] = 'أأرسلها تلقائياً';
+$labels['ignore'] = 'تجاهلها';
+$labels['readwhendeleted'] = 'حدد الرسالة كمقروءة عند حذفها';
+$labels['flagfordeletion'] = 'ضع علامة على الرسالة لحذفها بدلاً من حذفها';
 $labels['autosavedraft'] = 'حفظ المسودة تلقائياً';
 $labels['everynminutes'] = 'كل $n دقيقة';
 $labels['never'] = 'أبداً';

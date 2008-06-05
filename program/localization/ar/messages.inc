@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/ar/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Ossama Khayat <okhayat@yahoo.com>                             |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/ar/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Ossama Khayat <okhayat@yahoo.com>                             |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -52,7 +52,7 @@ $messages['noemailwarning'] = 'الرجاء إدخال عنوان بريد إل�
 $messages['nonamewarning'] = 'الرجاء إدخال اسم';
 $messages['nopagesizewarning'] = 'الرجاء إدخال حجم الصفحة';
 $messages['norecipientwarning'] = 'الرجاء إدخال اسم مستقبل واحد على الأقل';
-$messages['nosubjectwarning'] = 'حقل "الموضوع" فارغ. هل تريد كتابة موضوع للرسالة؟';
+$messages['nosubjectwarning'] = 'حقل \"الموضوع\" فارغ. هل تريد كتابة موضوع للرسالة؟';
 $messages['nobodywarning'] = 'إرسال هذه الرسالة دون نص؟';
 $messages['notsentwarning'] = 'لم يتم إرسال الرسالة. هل تريد تجاهل الرسالة؟';
 $messages['noldapserver'] = 'الرجاء اختيار خادم ldap للبحث فيه';
@@ -78,5 +78,6 @@ $messages['receiptsent'] = 'أرسل إيصال الاستلام بنجاح';
 $messages['errorsendingreceipt'] = 'تعذر إرسال إيصال الاستلام';
 $messages['nodeletelastidentity'] = 'لا يمكن حذف هذا السجل حيث أنه الوحيد المتبقي.';
 $messages['addsubfolderhint'] = 'سيتم إنشاء هذا المجلد كمجلد فرعي للمحدد.';
+$messages['forbiddencharacter'] = 'اسم المجلّد يحتوي حروفاً ممنوعة';
 
 ?>
