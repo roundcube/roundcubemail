@@ -1466,7 +1466,6 @@ class rcube_imap
     if (!is_array($a_uids))
       return false;
 
-
     // convert uids to message ids
     $a_mids = array();
     foreach ($a_uids as $uid)
@@ -1483,7 +1482,7 @@ class rcube_imap
       }
 
     // remove message ids from search set
-    if ($moved && $this->search_set && $mailbox == $this->mailbox)
+    if ($deleted && $this->search_set && $mailbox == $this->mailbox)
       $this->search_set = array_diff($this->search_set, $a_mids);
 
     // remove deleted messages from cache

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/05 (alec)
+----------
+- Fix removing messages from search set after deleting them (#1485106)
+
 2008/06/03 (alec)
 ----------
 - imap.inc: Fixed iil_MultLine(): use iil_ReadBytes() instead of iil_ReadLine()
