@@ -677,7 +677,8 @@ div.message-part
   border-top: 0;
 }
 
-div.message-part a
+div.message-part a,
+div.message-htmlpart a
 {
   color: #0000CC;
 }

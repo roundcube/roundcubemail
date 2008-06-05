@@ -549,6 +549,7 @@ function rcmail_print_body($part, $safe=false, $plain=false)
   }
   // text/enriched
   else if ($part->ctype_secondary=='enriched') {
+    $part->ctype_secondary = 'html';
     return Q(enriched_to_html($body), 'show');
   }
   else
@@ -645,6 +646,10 @@ function rcmail_message_headers($attrib, $headers=NULL)
   // get associative array of headers object
   if (!$headers)
     $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
+    
+  // add empty subject if none exsists
+  if (empty($headers['subject']))
+    $headers['subject'] = rcube_label('nosubject');
   
   $header_count = 0;
   
@@ -720,7 +725,7 @@ function rcmail_message_body($attrib)
 
         $body = rcmail_print_body($part, $safe_mode, !$CONFIG['prefer_html']);
         
-        if ($part->ctype_secondary != 'plain')
+        if ($part->ctype_secondary == 'html')
           $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id']));
         else
           $out .= html::div('message-part', $body);
@@ -728,7 +733,7 @@ function rcmail_message_body($attrib)
       }
     }
   else
-    $out .= html::div('message-part', html::div('pre', $MESSAGE->body));
+    $out .= html::div('message-part', html::div('pre', Q($MESSAGE->body)));
 
 
   $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);

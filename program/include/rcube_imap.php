@@ -1074,7 +1074,7 @@ class rcube_imap
       $struct->ctype_primary = 'multipart';
       
       // find first non-array entry
-      for ($i=1; count($part); $i++)
+      for ($i=1; $i<count($part); $i++)
         if (!is_array($part[$i]))
           {
           $struct->ctype_secondary = strtolower($part[$i]);
@@ -1085,7 +1085,7 @@ class rcube_imap
 
       $struct->parts = array();
       for ($i=0, $count=0; $i<count($part); $i++)
-        if (is_array($part[$i]) && count($part[$i]) > 5)
+        if (is_array($part[$i]) && count($part[$i]) > 3)
           $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id);
           
       return $struct;
