@@ -94,7 +94,7 @@ class rcube_ldap
     {
       if ($lc = @ldap_connect($host, $this->prop['port']))
       {
-	if ($this->prop['use_tls']===true || strtoupper($this->prop['use_tls'])==='TRUE')
+	if ($this->prop['use_tls']===true)
 	  if (!ldap_start_tls($lc))
 	    continue;
 
