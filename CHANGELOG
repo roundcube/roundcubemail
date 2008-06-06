@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/06 (robin)
+----------
+- Add option to log successful logins
+
 2008/06/06 (alec)
 ----------
 - TLS support in LDAP connections: 'use_tls' property (#1485104)

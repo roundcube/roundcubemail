@@ -341,5 +341,8 @@ $rcmail_config['logout_expunge'] = FALSE;
  */
 $rcmail_config['delete_always'] = false;
 
+// Log successful logins
+// $rcmail_config['log_logins'] = false;
+
 // end of config file
 ?>
