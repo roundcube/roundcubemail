@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/06 (alec)
+----------
+- TLS support in LDAP connections: 'use_tls' property (#1485104)
+
 2008/06/05 (alec)
 ----------
 - Fix removing messages from search set after deleting them (#1485106)
