@@ -534,7 +534,12 @@ class rcube_template extends rcube_html_page
                     return Q($name);
                 }
                 if ($object=='version') {
-                    return (string)RCMAIL_VERSION;
+                    $ver = (string)RCMAIL_VERSION;
+                    if (is_file(INSTALL_PATH . '.svn/entries')) {
+                        if (preg_match('/Revision:\s(\d+)/', @shell_exec('svn info'), $regs))
+                          $ver .= ' [SVN r'.$regs[1].']';
+                    }
+                    return $ver;
                 }
                 if ($object=='pagetitle') {
                     $task  = $this->task;

@@ -1,7 +1,11 @@
 UPDATE instructions
 ===================
 
-Follow these instructions if upgrading from a previous version
+First you should remove all subfolders from /program/localization/
+because most language codes have changed in 0.2-alpha. This way you
+can make sure that no old localization files remain on your disk.
+
+Then follow these instructions if upgrading from a previous version
 of RoundCube Webmail.
 
 from version 0.1.1
@@ -10,6 +14,8 @@ from version 0.1.1
 * replace all files in folder /bin/
 * replace all files in folder /program/
 * replace all files in folder /skins/default/
+* run all commands in SQL/[yourdbtype].update.sql
+  below the line "-- Updates from version 0.1.1"
 * check the config/main.inc.php.dist for new configuration 
   options and add them to your config 
 
