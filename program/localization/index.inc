@@ -111,6 +111,7 @@ $rcube_language_aliases = array(
   'ne' => 'ne_NP',
   'no' => 'nn_NO',
   'ms' => 'ms_MY',
+  'pl' => 'pl_PL',
   'tw' => 'zh_TW',
   'si' => 'si_LK',
   'sl' => 'sl_SI',
