@@ -188,8 +188,8 @@ class rcmail
     }
     // try the first two chars
     else if (!isset($rcube_languages[$lang])) {
-      $short = $this->language_prop(substr($lang, 0, 2));
-      
+      $short = substr($lang, 0, 2);
+     
       // check if we have an alias for the short language code
       if (!isset($rcube_languages[$short]) && isset($rcube_language_aliases[$short])) {
         $lang = $rcube_language_aliases[$short];
