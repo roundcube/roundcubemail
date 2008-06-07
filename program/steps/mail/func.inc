@@ -534,12 +534,15 @@ function rcmail_print_body($part, $safe=false, $plain=false)
   }
   // text/html
   else if ($part->ctype_secondary == 'html') {
+    // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
+    $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s+charset)=([a-z0-9-]+)/i', '\\1='.RCMAIL_CHARSET, $part->body);
+    
     // clean HTML with washhtml by Frederic Motte
-    $body = washtml::wash($part->body, array(
+    $body = washtml::wash($html, array(
       'show_washed' => false,
       'allow_remote' => $safe,
       'blocked_src' => "./program/blocked.gif",
-      'charset' => 'UTF-8',
+      'charset' => RCMAIL_CHARSET,
       'cid_map' => $part->replaces,
       ), $full_inline);
 
