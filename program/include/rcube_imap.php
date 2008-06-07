@@ -1159,10 +1159,13 @@ class rcube_imap
       if (is_array($part[8]) && empty($struct->parts))
         $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
       }
-      
+
     // normalize filename property
     if ($filename_mime = $struct->d_parameters['filename'] ? $struct->d_parameters['filename'] : $struct->ctype_parameters['name'])
-      $struct->filename = rcube_imap::decode_mime_string($filename_mime, $this->default_charset);
+    {
+      $struct->filename = rcube_imap::decode_mime_string($filename_mime, 
+    	    $struct->charset ? $struct->charset : rc_detect_encoding($filename_mime, $this->default_charset));
+    }
     else if ($filename_encoded = $struct->d_parameters['filename*'] ? $struct->d_parameters['filename*'] : $struct->ctype_parameters['name*'])
     {
       // decode filename according to RFC 2231, Section 4
@@ -1170,7 +1173,8 @@ class rcube_imap
       $struct->filename = rcube_charset_convert(urldecode($filename_urlencoded), $filename_charset);
     }
     else if (!empty($struct->headers['content-description']))
-      $struct->filename = rcube_imap::decode_mime_string($struct->headers['content-description'], $this->default_charset);
+      $struct->filename = rcube_imap::decode_mime_string($struct->headers['content-description'],
+    	    $struct->charset ? $struct->charset : rc_detect_encoding($struct->headers['content-description'],$this->default_charset));
       
     return $struct;
     }

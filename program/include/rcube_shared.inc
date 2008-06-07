@@ -581,4 +581,33 @@ function rc_mime_content_type($path, $failover = 'unknown/unknown')
     return $mime_type;
 }
 
+
+/**
+ * A method to guess encoding of a string.
+ *
+ * @param string $string     	String.
+ * @param string $failover 	Default result for failover.
+ *
+ * @return string
+ */
+function rc_detect_encoding($string, $failover='')
+{
+    if (!function_exists('mb_detect_encoding')) {
+        return $failover;
+    }
+
+    // FIXME: the order is important, because sometimes 
+    // iso string is detected as euc-jp and etc.
+    $enc = array(
+	'UTF-8', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
+	'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
+	'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
+	'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R'
+    );
+
+    $result = mb_detect_encoding($string, join(',', $enc));
+
+    return $result ? $result : $failover;
+}
+
 ?>
