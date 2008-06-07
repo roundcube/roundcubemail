@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/07 (thomasb)
+----------
+- Cleaned up localization names. Now named with lang_COUNTRY according to ISO 639-1/3166-1
+- Updated Catala localization
+
 2008/06/06 (robin)
 ----------
 - Add option to log successful logins

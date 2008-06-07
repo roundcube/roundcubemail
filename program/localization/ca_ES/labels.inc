@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/ca/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
- |         Simo <sim6@graciasensefils.net>                               |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/ca_ES/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
+|         Simo <sim6@graciasensefils.net>                               |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -69,6 +69,30 @@ $labels['wednesday'] = 'Dimecres';
 $labels['thursday'] = 'Dijous';
 $labels['friday'] = 'Divendres';
 $labels['saturday'] = 'Dissabte';
+$labels['jan'] = 'gen';
+$labels['feb'] = 'feb';
+$labels['mar'] = 'mar';
+$labels['apr'] = 'abr';
+$labels['may'] = 'mai';
+$labels['jun'] = 'jun';
+$labels['jul'] = 'jul';
+$labels['aug'] = 'ago';
+$labels['sep'] = 'set';
+$labels['oct'] = 'oct';
+$labels['nov'] = 'nov';
+$labels['dec'] = 'des';
+$labels['longjan'] = 'gener';
+$labels['longfeb'] = 'febrer';
+$labels['longmar'] = 'març';
+$labels['longapr'] = 'abril';
+$labels['longmay'] = 'maig';
+$labels['longjun'] = 'juny';
+$labels['longjul'] = 'juliol';
+$labels['longaug'] = 'agost';
+$labels['longsep'] = 'setembre';
+$labels['longoct'] = 'octubre';
+$labels['longnov'] = 'novembre';
+$labels['longdec'] = 'desembre';
 $labels['today'] = 'Avui';
 $labels['checkmail'] = 'Recupera missatges nous';
 $labels['writenewmessage'] = 'Crear nou missatge';
@@ -172,6 +196,17 @@ $labels['dstactive'] = 'Horari d\'estiu';
 $labels['htmleditor'] = 'Escriure missatges HTML';
 $labels['htmlsignature'] = 'Signatura HTML';
 $labels['previewpane'] = 'Mostrar el panell de previsualització';
+$labels['logoutclear'] = 'Esborrar la paperera al tancar sessió';
+$labels['logoutcompact'] = 'Compactar la safata d\'entrada al tancar sessió';
+$labels['uisettings'] = 'Interfície d\'usuari';
+$labels['serversettings'] = 'Configuració del servidor';
+$labels['mailboxview'] = 'Vista de la bústia';
+$labels['mdnrequests'] = 'Notificacions de recepció';
+$labels['askuser'] = 'Pregunta-ho a l\'usuari';
+$labels['autosend'] = 'Envia-les automàticament';
+$labels['ignore'] = 'Ignora-les';
+$labels['readwhendeleted'] = 'Marca el missatge com a llegit quan s\'esborri';
+$labels['flagfordeletion'] = 'Afegeix marca d\'esborrat en comptes d\'esborrar-lo';
 $labels['autosavedraft'] = 'Desar esborrany automàticament';
 $labels['everynminutes'] = 'cada $n minuts';
 $labels['never'] = 'mai';

@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/ca/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
- |         Simo <sim6@graciasensefils.net>                               |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/ca_ES/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
+|         Simo <sim6@graciasensefils.net>                               |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -79,5 +79,6 @@ $messages['receiptsent'] = 'Confirmació de lectura enviada satisfactòriament';
 $messages['errorsendingreceipt'] = 'No es pot enviar la confirmació';
 $messages['nodeletelastidentity'] = 'No pots eliminar aquesta identitat, és l\'última.';
 $messages['addsubfolderhint'] = 'Aquesta carpeta serà creada com a subcarpeta de la seleccionada actualment';
+$messages['forbiddencharacter'] = 'El nom de carpeta conté un caràcter prohibit';
 
 ?>

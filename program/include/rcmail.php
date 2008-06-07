@@ -181,21 +181,21 @@ class rcmail
     if (empty($rcube_languages)) {
       @include(INSTALL_PATH . 'program/localization/index.inc');
     }
-
+    
     // check if we have an alias for that language
     if (!isset($rcube_languages[$lang]) && isset($rcube_language_aliases[$lang])) {
       $lang = $rcube_language_aliases[$lang];
     }
-    
     // try the first two chars
-    else if (!isset($rcube_languages[$lang]) && strlen($lang) > 2) {
+    else if (!isset($rcube_languages[$lang])) {
       $short = $this->language_prop(substr($lang, 0, 2));
       
       // check if we have an alias for the short language code
       if (!isset($rcube_languages[$short]) && isset($rcube_language_aliases[$short])) {
         $lang = $rcube_language_aliases[$short];
       }
-      else {  // expand 'de' to 'de_DE'
+      // expand 'nn' to 'nn_NN'
+      else if (!isset($rcube_languages[$short])) {
         $lang = $short.'_'.strtoupper($short);
       }
     }
