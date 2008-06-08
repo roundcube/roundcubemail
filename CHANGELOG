@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/08 (alec)
+----------
+- Added option to disable autocompletion from selected LDAP address books (#1484922)
+
 2008/06/07 (thomasb)
 ----------
 - Cleaned up localization names. Now named with lang_COUNTRY according to ISO 639-1/3166-1

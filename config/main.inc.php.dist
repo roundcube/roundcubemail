@@ -271,6 +271,7 @@ $rcmail_config['address_book_type'] = 'sql';
  *  'sort'          => 'cn',    // The field to sort the listing by.
  *  'scope'         => 'sub',   // search mode: sub|base|list
  *  'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
+ *  'global_search' => true,    // perform a global search for address auto-completion on compose
  *  'fuzzy_search'  => true);   // server allows wildcard search
  */
 

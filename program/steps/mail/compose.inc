@@ -829,10 +829,11 @@ if (isset($CONFIG['ldap_public']))
   /* LDAP autocompletion */ 
   foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
     { 
-    if ($ldapserv_config['fuzzy_search'] != 1) 
+    if ($ldapserv_config['fuzzy_search'] != 1 || 
+        $ldapserv_config['global_search'] != 1)
       { 
       continue; 
- 	  } 
+      }
 	 
     $LDAP = new rcube_ldap($ldapserv_config); 
     $LDAP->connect(); 
@@ -856,6 +857,8 @@ if (isset($CONFIG['ldap_public']))
 if ($a_contacts) 
   { 
  	$OUTPUT->set_env('contacts', $a_contacts); 
-  } 
+  }
+
 $OUTPUT->send('compose');
+
 ?>
