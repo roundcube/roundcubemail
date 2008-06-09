@@ -1,14 +1,5 @@
 RoundCube Webmail (http://roundcube.net)
-
-
-ATTENTION
----------
-This is just a snapshot of the current SVN repository and is NOT A STABLE
-version of RoundCube. Unlike the latest release this version requires PHP 5
-and does not work on a webserver with PHP 4. It's not recommended to
-replace an existing installation of RoundCube with this version. Also using
-a separate database or this installation is highly recommended.
-
+=================
 
 Introduction:
 -------------
@@ -51,23 +42,8 @@ records. If you have 'auto_create_user' set to FALSE only IMAP logins which
 already have a corresponding entry in the user's table (username and hostname)
 will be allowed.
 
-
-Code Layout:
-------------
-Basic sequence (index.php):
-  - index.php -> rcmail_load_gui -> new rcmail_template -> rcmail_template::send
-  - authentication details in this sequence
-
-Tasks
-  - index.php limits tasks to set list
-  - can see task in roundcube link when you mouse over it
-  - task templates stored in skins/default/templates
-  - templates "roundcube:" tokens that get replaced in rcmail_template class
-
-program/include/rcube_shared.inc
-  - defines rcube_html_page, class that lays out a roundcube web page
-  - defines form control classes
-  - provides common functions
+Read more at http://trac.roundcube.net/wiki/Howto_Config
+and http://trac.roundcube.net/wiki/Dev_Docs
 
 
 Contact:
