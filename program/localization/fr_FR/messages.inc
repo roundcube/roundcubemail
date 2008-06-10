@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/fr/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Joel S. <joel.s@spijoprod.net>                                |
- |         Jerome Lipowicz <jerome@yayel.com>                            |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/fr_FR/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Joel S. <joel.s@spijoprod.net>                                |
+|         Jerome Lipowicz <jerome@yayel.com>                            |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -79,5 +79,6 @@ $messages['receiptsent'] = 'L\'accusé de réception a bien été envoyé';
 $messages['errorsendingreceipt'] = 'L\'accusé de réception n\'a pas pu être envoyé';
 $messages['nodeletelastidentity'] = 'Vous ne pouvez pas effacer votre seule identité.';
 $messages['addsubfolderhint'] = 'Ce dossier sera créé comme sous-dossier de celui sélectionné.';
+$messages['forbiddencharacter'] = 'Le nom du dossier contient un caractère interdit';
 
 ?>

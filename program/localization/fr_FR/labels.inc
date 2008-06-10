@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/fr/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Joel S. <joel.s@spijoprod.net>                                |
- |         Jerome Lipowicz <jerome@yayel.com>                            |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/fr_FR/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Joel S. <joel.s@spijoprod.net>                                |
+|         Jerome Lipowicz <jerome@yayel.com>                            |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -69,6 +69,30 @@ $labels['wednesday'] = 'Mercredi';
 $labels['thursday'] = 'Jeudi';
 $labels['friday'] = 'Vendredi';
 $labels['saturday'] = 'Samedi';
+$labels['jan'] = 'Jan';
+$labels['feb'] = 'Fév';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Avr';
+$labels['may'] = 'Mai';
+$labels['jun'] = 'Jun';
+$labels['jul'] = 'Jul';
+$labels['aug'] = 'Aoû';
+$labels['sep'] = 'Sep';
+$labels['oct'] = 'Oct';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Déc';
+$labels['longjan'] = 'Janvier';
+$labels['longfeb'] = 'Février';
+$labels['longmar'] = 'Mars';
+$labels['longapr'] = 'Avril';
+$labels['longmay'] = 'Mai';
+$labels['longjun'] = 'Juin';
+$labels['longjul'] = 'Juillet';
+$labels['longaug'] = 'Août';
+$labels['longsep'] = 'Septembre';
+$labels['longoct'] = 'Octobre';
+$labels['longnov'] = 'Novembre';
+$labels['longdec'] = 'Décembre';
 $labels['today'] = 'Aujourd\'hui';
 $labels['checkmail'] = 'Vérification des nouveaux messages';
 $labels['writenewmessage'] = 'Écrire un nouveau message';
@@ -172,6 +196,17 @@ $labels['dstactive'] = 'Heure d\'été';
 $labels['htmleditor'] = 'Composer un message au format HTML';
 $labels['htmlsignature'] = 'Signature HTML';
 $labels['previewpane'] = 'Afficher le panneau d\'aperçu';
+$labels['logoutclear'] = 'Vider la corbeille à la déconnexion';
+$labels['logoutcompact'] = 'Compacter la boite de réception à la déconnexion';
+$labels['uisettings'] = 'Interface utilisateur';
+$labels['serversettings'] = 'Préférences du serveur';
+$labels['mailboxview'] = 'Vue du courrier';
+$labels['mdnrequests'] = 'Notifications à l\'expéditeur';
+$labels['askuser'] = 'demander à l\'utilisateur';
+$labels['autosend'] = 'envoyer automatiquement';
+$labels['ignore'] = 'ignorer';
+$labels['readwhendeleted'] = 'Marquer le message comme lu à la suppression';
+$labels['flagfordeletion'] = 'Mettre le drapeau de suppression au lieu de supprimer';
 $labels['autosavedraft'] = 'Sauvegarde automatique des brouillons';
 $labels['everynminutes'] = 'toutes les $n minutes';
 $labels['never'] = 'jamais';
