@@ -760,7 +760,7 @@ class rcube_template extends rcube_html_page
                 array(
                     'style', 'class', 'id', 'width',
                     'height', 'border', 'hspace',
-                    'vspace', 'align', 'alt',
+                    'vspace', 'align', 'alt', 'tabindex'
                 )
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
@@ -771,7 +771,7 @@ class rcube_template extends rcube_html_page
         }
         else if ($attrib['type']=='link') {
             $btn_content = $attrib['label'] ? $attrib['label'] : $attrib['command'];
-            $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style');
+            $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style', 'tabindex');
         }
         else if ($attrib['type']=='input') {
             $attrib['type'] = 'button';
@@ -784,7 +784,7 @@ class rcube_template extends rcube_html_page
                 $attrib,
                 array(
                     'type', 'value', 'onclick',
-                    'id', 'class', 'style'
+                    'id', 'class', 'style', 'tabindex'
                 )
             );
             $out = sprintf('<input%s disabled="disabled" />', $attrib_str);
