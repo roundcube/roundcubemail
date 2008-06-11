@@ -692,6 +692,8 @@ drag_mouse_up: function(e)
   rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
 
+  this.focus();
+  
   return rcube_event.cancel(e);
 },
 
