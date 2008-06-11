@@ -441,9 +441,10 @@ class html_textarea extends html
             unset($this->attrib['value']);
         }
 
-        if (!empty($value) && !isset($this->attrib['mce_editable'])) {
+        if (!empty($value) && !ereg('mce_editor', $this->attrib['class'])) {
             $value = Q($value, 'strict', false);
         }
+
         return self::tag($this->tagname, $this->attrib, $value, array_merge(self::$common_attrib, $this->allowed_attrib));
     }
 }
