@@ -1419,9 +1419,13 @@ class rcube_imap
     // send expunge command in order to have the moved message
     // really deleted from the source mailbox
     if ($moved) {
-      $this->_expunge($from_mbox, FALSE);
-      $this->_clear_messagecount($from_mbox);
-      $this->_clear_messagecount($to_mbox);
+      // but only when flag_for_deletion is set to false
+      if (!rcmail::get_instance()->config->get('flag_for_deletion', false))
+        {
+        $this->_expunge($from_mbox, FALSE);
+        $this->_clear_messagecount($from_mbox);
+        $this->_clear_messagecount($to_mbox);
+        }
     }
     // moving failed
     else if (rcmail::get_instance()->config->get('delete_always', false)) {

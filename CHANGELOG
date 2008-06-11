@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/11 (alec)
+----------
+- Don't call expunge and don't remove message row after message move 
+  if flag_for_deletion is set to true (#1485002)
+
 2008/06/08 (alec)
 ----------
 - Added option to disable autocompletion from selected LDAP address books (#1484922)

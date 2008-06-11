@@ -1397,13 +1397,13 @@ function rcube_webmail()
       lock = true;
       this.set_busy(true, 'movingmessage');
       }
-    else
+    else if (!this.env.flag_for_deletion)
       this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
     this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false);
 
-    this._with_selected_messages('moveto', lock, add_url);
+    this._with_selected_messages('moveto', lock, add_url, (this.env.flag_for_deletion ? false : true));
     };
 
   // delete selected messages from the current mailbox
@@ -1453,12 +1453,12 @@ function rcube_webmail()
       return;
       
     this.show_contentframe(false);
-    this._with_selected_messages('delete', false, '&_from='+(this.env.action ? this.env.action : ''));
+    this._with_selected_messages('delete', false, '&_from='+(this.env.action ? this.env.action : ''), true);
     };
 
   // Send a specifc request with UIDs of all selected messages
   // @private
-  this._with_selected_messages = function(action, lock, add_url)
+  this._with_selected_messages = function(action, lock, add_url, remove)
     {
     var a_uids = new Array();
 
@@ -1467,13 +1467,28 @@ function rcube_webmail()
     else
       {
       var selection = this.message_list.get_selection();
+      var rows = this.message_list.rows;
       var id;
       for (var n=0; n<selection.length; n++)
         {
         id = selection[n];
         a_uids[a_uids.length] = id;
 
-        this.message_list.remove_row(id, (n == selection.length-1));
+	if (remove)
+          this.message_list.remove_row(id, (n == selection.length-1));
+        else
+	  {
+	  rows[id].deleted = true;
+        
+          if (rows[id].classname.indexOf('deleted')<0)
+	    {
+            rows[id].classname += ' deleted';
+            this.set_classname(rows[id].obj, 'deleted', true);
+            }
+        
+	  if (rows[id].icon && this.env.deletedicon)
+            rows[id].icon.src = this.env.deletedicon;
+	  }
         }
       }
     
