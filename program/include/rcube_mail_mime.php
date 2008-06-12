@@ -27,6 +27,9 @@
  */
 class rcube_mail_mime extends Mail_mime
 {
+
+  protected $mime_content;
+
   /**
    * Set build parameters
    */
@@ -200,6 +203,21 @@ class rcube_mail_mime extends Mail_mime
     
     $result[] = substr($string, $p);
     return $result;
+  }
+  
+  /**
+   * Provides caching of body of constructed MIME Message to avoid 
+   * duplicate construction of message and damage of MIME headers
+   *
+   * @return string The mime content
+   * @access public
+   * @override
+   */
+  public function &get($build_params = null)
+  {
+    if(empty($this->mime_content))
+      $this->mime_content = parent::get($build_params);
+    return $this->mime_content;
   }
 
 }

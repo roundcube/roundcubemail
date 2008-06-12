@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/12 (alec)
+----------
+- Fix corrupted MIME headers of messages in Sent folder (#1485111)
+- Fixed bug in MDB2 package: http://pear.php.net/bugs/bug.php?id=14124
+- Use keypress instead of keydown to select list's row (#1484816)
+
 2008/06/11 (alec)
 ----------
 - Don't call expunge and don't remove message row after message move 
