@@ -3008,9 +3008,9 @@ class MDB2_Driver_Common extends PEAR
      */
     function _skipDelimitedStrings($query, $position, $p_position)
     {
-        $ignores = $this->sql_comments;
-        $ignores[] = $this->string_quoting;
+        $ignores = $this->string_quoting;
         $ignores[] = $this->identifier_quoting;
+        $ignores[] = $this->sql_comments;
         
         foreach ($ignores as $ignore) {
             if (!empty($ignore['start'])) {
