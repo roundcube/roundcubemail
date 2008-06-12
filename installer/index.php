@@ -25,6 +25,18 @@ function __autoload($classname)
   );
   include_once $filename. '.php';
 }
+
+$RCI = rcube_install::get_instance();
+$RCI->load_config();
+
+if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db')))
+{
+  header('Content-type: text/plain');
+  header('Content-Disposition: attachment; filename="'.$_GET['_getfile'].'.inc.php"');
+  echo $RCI->create_config($_GET['_getfile']);
+  exit;
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -51,9 +63,6 @@ function __autoload($classname)
 <div id="content">
 
 <?php
-
-  $RCI = rcube_install::get_instance();
-  $RCI->load_config();
 
   // exit if installation is complete
   if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
