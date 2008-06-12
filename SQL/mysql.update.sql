@@ -19,7 +19,7 @@ ALTER TABLE `users`
 -- Updates from version 0.1.1
 
 ALTER TABLE `identities`
-    MODIFY `signature` text NOT NULL DEFAULT '', 
+    MODIFY `signature` text, 
     MODIFY `bcc` varchar(128) NOT NULL DEFAULT '', 
     MODIFY `reply-to` varchar(128) NOT NULL DEFAULT '', 
     MODIFY `organization` varchar(128) NOT NULL DEFAULT '',

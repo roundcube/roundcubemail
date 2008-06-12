@@ -111,7 +111,7 @@ CREATE TABLE `identities` (
  `email` varchar(128) NOT NULL,
  `reply-to` varchar(128) NOT NULL DEFAULT '',
  `bcc` varchar(128) NOT NULL DEFAULT '',
- `signature` text NOT NULL DEFAULT '',
+ `signature` text,
  `html_signature` tinyint(1) NOT NULL DEFAULT '0',
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`identity_id`),
