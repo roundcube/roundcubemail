@@ -87,7 +87,7 @@ init: function()
 
     // set body events
     if (this.keyboard)
-      rcube_event.add_listener({element:document, event:'keydown', object:this, method:'key_press'});
+      rcube_event.add_listener({element:document, event:'keypress', object:this, method:'key_press'});
   }
 },
 
@@ -557,6 +557,8 @@ key_press: function(e)
   {
     case 40:
     case 38: 
+	case 63233: // "down", in safari keypress
+	case 63232: // "up", in safari keypress
       return this.use_arrow_key(keyCode, mod_key);
       break;
 
@@ -576,9 +578,11 @@ key_press: function(e)
 use_arrow_key: function(keyCode, mod_key)
 {
   var new_row;
-  if (keyCode == 40) // down arrow key pressed
+  // Safari uses the nonstandard keycodes 63232/63233 for up/down, if we're
+  // using the keypress event (but not the keydown or keyup event).
+  if (keyCode == 40 || keyCode == 63233) // down arrow key pressed
     new_row = this.get_next_row();
-  else if (keyCode == 38) // up arrow key pressed
+  else if (keyCode == 38 || keyCode == 63232) // up arrow key pressed
     new_row = this.get_prev_row();
 
   if (new_row)
