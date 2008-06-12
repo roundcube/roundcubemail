@@ -25,3 +25,8 @@ ALTER TABLE `identities`
     MODIFY `organization` varchar(128) NOT NULL DEFAULT '',
     MODIFY `name` varchar(128) NOT NULL, 
     MODIFY `email` varchar(128) NOT NULL; 
+
+-- Updates from version 0.2-alpha
+
+ALTER TABLE `messages`
+    ADD INDEX `created_index` (`created`);

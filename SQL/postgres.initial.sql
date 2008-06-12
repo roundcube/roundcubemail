@@ -152,7 +152,7 @@ CREATE SEQUENCE message_ids
 -- Name: messages; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE "messages" (
+CREATE TABLE messages (
     message_id integer DEFAULT nextval('message_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     del integer DEFAULT 0 NOT NULL,
@@ -170,4 +170,5 @@ CREATE TABLE "messages" (
     structure text
 );
 
-ALTER TABLE "messages" ADD UNIQUE (user_id, cache_key, uid);
+ALTER TABLE messages ADD UNIQUE (user_id, cache_key, uid);
+CREATE INDEX messages_created_idx ON messages (created);

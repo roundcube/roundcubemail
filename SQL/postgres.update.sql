@@ -17,3 +17,7 @@ ALTER TABLE contacts DROP CONSTRAINT contacts_user_id_fkey;
 ALTER TABLE contacts ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE cache DROP CONSTRAINT cache_user_id_fkey;
 ALTER TABLE cache ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Updates from version 0.2-alpha
+
+CREATE INDEX messages_created_idx ON messages (created);

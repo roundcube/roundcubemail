@@ -54,6 +54,7 @@ CREATE TABLE `messages` (
  `headers` text NOT NULL,
  `structure` text,
  PRIMARY KEY(`message_id`),
+ INDEX `created_index` (`created`),
  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`),
  CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)

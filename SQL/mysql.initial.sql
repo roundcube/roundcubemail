@@ -119,6 +119,7 @@ CREATE TABLE `messages` (
   `headers` text NOT NULL,
   `structure` text,
   PRIMARY KEY (`message_id`),
+  INDEX `created_index` (`created`),
   UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`)
 );
 
