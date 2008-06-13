@@ -1,8 +1,7 @@
 <form action="index.php" method="get">
 <?php
 
-$required_php_exts = array('PCRE' => 'pcre', 'Session' => 'session',
-    'DOM XML' => 'dom');
+$required_php_exts = array('PCRE' => 'pcre', 'DOM' => 'dom2', 'Session' => 'session',);
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
@@ -31,7 +30,8 @@ $source_urls = array(
     'PEAR' => 'http://pear.php.net',
     'MDB2' => 'http://pear.php.net/package/MDB2',
     'Net_SMTP' => 'http://pear.php.net/package/Net_SMTP',
-    'Mail_mime' => 'http://pear.php.net/package/Mail_mime'
+    'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
+    'DOM' => 'http://www.php.net/manual/en/intro.dom.php'
 );
 
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';

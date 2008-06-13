@@ -13,6 +13,7 @@ REQUIREMENTS
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.2 or greater including
    - PCRE (perl compatible regular expression)
+   - DOM (xml document object model)
    - libiconv (recommended)
    - mbstring (optional)
 * php.ini options:
