@@ -184,7 +184,7 @@ echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
 <p>Database settings for read/write operations:</p>
 <?php
 
-require_once 'DB.php';
+require_once 'MDB2.php';
 
 $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PgSQL' => 'pgsql', 'SQLite' => 'sqlite');
@@ -201,7 +201,7 @@ $input_dbname = new html_inputfield(array('name' => '_dbname', 'size' => 20, 'id
 $input_dbuser = new html_inputfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
 $input_dbpass = new html_passwordfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
 
-$dsnw = DB::parseDSN($RCI->getprop('db_dsnw'));
+$dsnw = MDB2::parseDSN($RCI->getprop('db_dsnw'));
 
 echo $select_dbtype->show($RCI->is_post ? $_POST['_dbtype'] : $dsnw['phptype']);
 echo '<label for="cfgdbtype">Database type</label><br />';
