@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Added option to display images in messages from known senders (#1484601)
 - Updated PEAR::Mail_Mime
+- User preferences grouped in more fieldsets
 
 2008/06/12 (alec)
 ----------

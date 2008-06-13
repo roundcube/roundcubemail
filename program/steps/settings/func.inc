@@ -104,7 +104,6 @@ function rcmail_user_prefs_form($attrib)
     $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
     $select_timezone->add('(GMT +14:00) Kiribati', '14');
   
-  
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('timezone')),
@@ -122,18 +121,6 @@ function rcmail_user_prefs_form($attrib)
                     $input_dst->show($config['dst_active']));
     }
 
-  // show page size selection
-  if (!isset($no_override['pagesize']))
-    {
-    $field_id = 'rcmfd_pgsize';
-    $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
-
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('pagesize')),
-                    $input_pagesize->show($config['pagesize']));
-    }
-
   // MM: Show checkbox for toggling 'pretty dates' 
   if (!isset($no_override['prettydate']))
     {
@@ -146,43 +133,17 @@ function rcmail_user_prefs_form($attrib)
                     $input_prettydate->show($config['prettydate']?1:0));
     }
 
-  // show checkbox for HTML/plaintext messages
-  if (!isset($no_override['prefer_html']))
+  // show page size selection
+  if (!isset($no_override['pagesize']))
     {
-    $field_id = 'rcmfd_htmlmsg';
-    $input_preferhtml = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1,
-	'onchange' => JS_OBJECT_NAME.'.toggle_prefer_html(this)'));
+    $field_id = 'rcmfd_pgsize';
+    $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
-                    Q(rcube_label('preferhtml')),
-                    $input_preferhtml->show($config['prefer_html']?1:0));
+                    Q(rcube_label('pagesize')),
+                    $input_pagesize->show($config['pagesize']));
     }
-
-  // show checkbox for displaying images from people in the addressbook
-  if (!isset($no_override['addrbook_show_images']))
-    {
-    $field_id = 'rcmfd_addrbook_show_images';
-    $input_addrbook_show_images = new html_checkbox(array('name' => '_addrbook_show_images', 'id' => $field_id, 
-	'value' => 1, 'disabled' => $config['prefer_html']?0:1));
-
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('showknownimages')),
-                    $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
-    }
-
-  // Show checkbox for HTML Editor
-  if (!isset($no_override['htmleditor']))
-    {
-    $field_id = 'rcmfd_htmleditor';
-    $input_htmleditor = new html_checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('htmleditor')),
-                    $input_htmleditor->show($config['htmleditor']?1:0));
-    }
-
 
   if (!isset($no_override['mdn_requests']))
     {
@@ -211,7 +172,46 @@ function rcmail_user_prefs_form($attrib)
                     $input_preview->show($config['preview_pane']?1:0));
     }
 
-  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('serversettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('messagesdisplaying')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+
+  // show checkbox for HTML/plaintext messages
+  if (!isset($no_override['prefer_html']))
+    {
+    $field_id = 'rcmfd_htmlmsg';
+    $input_preferhtml = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1,
+	'onchange' => JS_OBJECT_NAME.'.toggle_prefer_html(this)'));
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('preferhtml')),
+                    $input_preferhtml->show($config['prefer_html']?1:0));
+    }
+
+  // show checkbox for displaying images from people in the addressbook
+  if (!isset($no_override['addrbook_show_images']))
+    {
+    $field_id = 'rcmfd_addrbook_show_images';
+    $input_addrbook_show_images = new html_checkbox(array('name' => '_addrbook_show_images', 'id' => $field_id, 
+	'value' => 1, 'disabled' => $config['prefer_html']?0:1));
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('showknownimages')),
+                    $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
+    }
+
+  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('messagescomposition')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+
+  // Show checkbox for HTML Editor
+  if (!isset($no_override['htmleditor']))
+    {
+    $field_id = 'rcmfd_htmleditor';
+    $input_htmleditor = new html_checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('htmleditor')),
+                    $input_htmleditor->show($config['htmleditor']?1:0));
+    }
                   
   if (!empty($config['drafts_mbox']) && !isset($no_override['draft_autosave']))
     {
@@ -226,6 +226,8 @@ function rcmail_user_prefs_form($attrib)
                     Q(rcube_label('autosavedraft')),
                     $select_autosave->show($config['draft_autosave']));
     }
+
+  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('serversettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
 
   if (!isset($no_override['read_when_deleted']))
     {

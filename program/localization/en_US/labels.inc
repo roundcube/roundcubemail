@@ -266,6 +266,8 @@ $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';
 $labels['never']  = 'never';
+$labels['messagesdisplaying'] = 'Messages displaying';
+$labels['messagescomposition'] = 'Messages composition';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
