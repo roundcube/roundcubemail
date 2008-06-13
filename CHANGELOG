@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/13 (alec)
+----------
+- Added option to display images in messages from known senders (#1484601)
+
 2008/06/12 (alec)
 ----------
 - Fix corrupted MIME headers of messages in Sent folder (#1485111)

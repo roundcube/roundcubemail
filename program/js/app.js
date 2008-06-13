@@ -3399,6 +3399,14 @@ function rcube_webmail()
     };
 
 
+  this.toggle_prefer_html = function(checkbox)
+    {
+    var addrbook_show_images;
+    if (addrbook_show_images = document.getElementById('rcmfd_addrbook_show_images'))
+      addrbook_show_images.disabled = !checkbox.checked;
+    }
+
+
 
   /********************************************************/
   /*********        remote request methods        *********/

@@ -150,12 +150,26 @@ function rcmail_user_prefs_form($attrib)
   if (!isset($no_override['prefer_html']))
     {
     $field_id = 'rcmfd_htmlmsg';
-    $input_pagesize = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1));
+    $input_preferhtml = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1,
+	'onchange' => JS_OBJECT_NAME.'.toggle_prefer_html(this)'));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                     $field_id,
                     Q(rcube_label('preferhtml')),
-                    $input_pagesize->show($config['prefer_html']?1:0));
+                    $input_preferhtml->show($config['prefer_html']?1:0));
+    }
+
+  // show checkbox for displaying images from people in the addressbook
+  if (!isset($no_override['addrbook_show_images']))
+    {
+    $field_id = 'rcmfd_addrbook_show_images';
+    $input_addrbook_show_images = new html_checkbox(array('name' => '_addrbook_show_images', 'id' => $field_id, 
+	'value' => 1, 'disabled' => $config['prefer_html']?0:1));
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('showknownimages')),
+                    $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
     }
 
   // Show checkbox for HTML Editor

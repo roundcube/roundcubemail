@@ -25,6 +25,7 @@ $a_user_prefs = array(
   'pagesize'     => is_numeric($_POST['_pagesize']) ? max(2, intval($_POST['_pagesize'])) : $CONFIG['pagesize'],
   'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
   'prefer_html'  => isset($_POST['_prefer_html']) ? TRUE : FALSE,
+  'addrbook_show_images' => isset($_POST['_addrbook_show_images']) ? TRUE : FALSE,
   'htmleditor'   => isset($_POST['_htmleditor']) ? TRUE : FALSE,
   'preview_pane' => isset($_POST['_preview_pane']) ? TRUE : FALSE,
   'read_when_deleted' => isset($_POST['_read_when_deleted']) ? TRUE : FALSE,

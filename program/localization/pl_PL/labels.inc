@@ -57,6 +57,7 @@ $labels['filename'] = 'Nazwa pliku';
 $labels['filesize'] = 'Rozmiar pliku';
 $labels['preferhtml'] = 'Domyślny HTML';
 $labels['htmlmessage'] = 'Wiadomość HTML';
+$labels['showknownimages'] = 'Wyświetlaj obrazki od znanych nadawców';
 $labels['prettydate'] = 'Ładne daty';
 $labels['addtoaddressbook'] = 'Dodaj do książki adresowej ';
 $labels['sun'] = 'Nd';

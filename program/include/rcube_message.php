@@ -86,6 +86,16 @@ class rcube_message
     return $raw ? $value : $this->imap->decode_header($value);
   }
   
+  /**
+   * Set is_safe var and session data
+   *
+   * @param bool enable/disable
+   */
+  public function set_safe($safe = true)
+  {
+    $this->is_safe = $safe;
+    $_SESSION['safe_messages'][$this->uid] = $this->is_safe;
+  }
   
   /**
    * Compose a valid URL for getting a message part

@@ -45,6 +45,24 @@ if ($_GET['_uid']) {
   // calculate Etag for this request
   $etag = md5($MESSAGE->uid.$mbox_name.session_id().intval($MESSAGE->headers->mdn_sent).intval($MESSAGE->is_safe).intval($PRINT_MODE));
 
+  // check known senders to display images
+  if (!$MESSAGE->is_safe 
+	&& !$_SESSION['safe_messages'][$MESSAGE->uid]
+	&& !isset($_GET['_safe']) 
+	&& $RCMAIL->config->get('addrbook_show_images')
+	&& $MESSAGE->has_html_part())
+    {
+      $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+      $senders = $IMAP->decode_address_list($MESSAGE->headers->from);
+
+      foreach ($senders as $sender)
+        if ($sender['mailto'] && $CONTACTS->search('email', $sender['mailto'], true, false)->count)
+	  {
+	  $MESSAGE->set_safe();
+	  break;
+	  }
+    }
+
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE->is_safe)
     send_nocacheing_headers();

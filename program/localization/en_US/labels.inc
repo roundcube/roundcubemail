@@ -66,6 +66,7 @@ $labels['filesize'] = 'File size';
 
 $labels['preferhtml'] = 'Display HTML';
 $labels['htmlmessage'] = 'HTML Message';
+$labels['showknownimages'] = 'Show images from known senders';
 $labels['prettydate'] = 'Pretty dates';
 
 $labels['addtoaddressbook'] = 'Add to address book';
