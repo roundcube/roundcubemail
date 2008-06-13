@@ -78,4 +78,5 @@ $messages['receiptsent'] = 'Ontvangstbevestiging is verstuurd';
 $messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen';
 $messages['nodeletelastidentity'] = 'U kunt dit afzenderadres niet verwijderen';
 $messages['addsubfolderhint'] = 'Deze map zal worden aangemaakt onder de geselecteerde map';
+$messages['forbiddencharacter'] = 'De naam van de map bevat een karakter dat niet is toegestaan';
 ?>
