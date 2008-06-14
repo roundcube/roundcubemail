@@ -185,7 +185,7 @@ function rcube_webmail()
           {
           if (this.gui_objects.remoteobjectsmsg)
             this.gui_objects.remoteobjectsmsg.style.display = 'block';
-          this.enable_command('load-images', true);
+          this.enable_command('load-images', 'always-load', true);
           }
 
         if (this.env.action=='compose')
@@ -704,6 +704,13 @@ function rcube_webmail()
           
         this.mark_message(flag, uid);
         break;
+        
+      case 'always-load':
+        if (this.env.uid && this.env.sender) {
+          this.add_contact(urlencode(this.env.sender));
+          window.setTimeout(function(){ ref.command('load-images'); }, 300);
+          break;
+        }
         
       case 'load-images':
         if (this.env.uid)

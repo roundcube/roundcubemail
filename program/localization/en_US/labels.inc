@@ -184,6 +184,7 @@ $labels['highest'] = 'Highest';
 
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Display images';
+$labels['alwaysshow'] = 'Always show images from $sender';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';

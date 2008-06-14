@@ -42,6 +42,7 @@ class rcube_message
   public $mime_parts = array();
   public $attachments = array();
   public $subject = '';
+  public $sender = null;
   public $is_safe = false;
   
   
@@ -53,9 +54,10 @@ class rcube_message
     $this->uid = $uid;
     $this->headers = $this->imap->get_headers($uid);
     $this->subject = rcube_imap::decode_mime_string($this->headers->subject, $this->headers->charset);
+    list(, $this->sender) = each($this->imap->decode_address_list($this->headers->from));
     
-    $this->is_safe = (intval($_GET['_safe']) || $_SESSION['safe_messages'][$uid]) ? true : false;
-    $_SESSION['safe_messages'][$uid] = $this->is_safe;
+    $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$uid]));
+    $this->set_safe(0);
     
     $this->opt = array(
       'safe' => $this->is_safe,

@@ -146,6 +146,7 @@ $labels['high'] = 'Hoch';
 $labels['highest'] = 'Höchste';
 $labels['nosubject'] = '(kein Betreff)';
 $labels['showimages'] = 'Bilder anzeigen';
+$labels['alwaysshow'] = 'Bilder von $sender immer zeigen';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Nur-Text';
 $labels['addcc'] = 'Cc hinzufügen';

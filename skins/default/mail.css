@@ -730,10 +730,9 @@ div.message-htmlpart div.rcmBody
 #remote-objects-message
 {
   display: none;
-  height: 20px;
+  margin: 8px;
   min-height: 20px;
-  margin: 8px 8px 0px 8px;
-  padding: 10px 10px 6px 46px;  
+  padding: 10px 10px 6px 46px;
 }
 
 #remote-objects-message a

@@ -47,21 +47,15 @@ if ($_GET['_uid']) {
 
   // check known senders to display images
   if (!$MESSAGE->is_safe 
-	&& !$_SESSION['safe_messages'][$MESSAGE->uid]
-	&& !isset($_GET['_safe']) 
-	&& $RCMAIL->config->get('addrbook_show_images')
-	&& $MESSAGE->has_html_part())
-    {
-      $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
-      $senders = $IMAP->decode_address_list($MESSAGE->headers->from);
-
-      foreach ($senders as $sender)
-        if ($sender['mailto'] && $CONTACTS->search('email', $sender['mailto'], true, false)->count)
-	  {
-	  $MESSAGE->set_safe();
-	  break;
-	  }
+      && !empty($MESSAGE->sender['mailto'])
+      && $RCMAIL->config->get('addrbook_show_images')
+      && $MESSAGE->has_html_part()) {
+    $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+    
+    if ($CONTACTS->search('email', $MESSAGE->sender['mailto'], true, false)->count) {
+      $MESSAGE->set_safe(true);
     }
+  }
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE->is_safe)
@@ -85,6 +79,7 @@ if ($_GET['_uid']) {
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE->uid);
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
+  $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to && !$MESSAGE->headers->mdn_sent &&
@@ -174,26 +169,24 @@ function rcmail_message_attachments($attrib)
 
 
 function rcmail_remote_objects_msg($attrib)
-  {
-  global $CONFIG, $OUTPUT;
+{
+  global $MESSAGE, $RCMAIL;
   
   if (!$attrib['id'])
     $attrib['id'] = 'rcmremoteobjmsg';
-
-  // allow the following attributes to be added to the <div> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-  $out = '<div' . $attrib_str . ">";
   
-  $out .= sprintf('%s&nbsp;<a href="#loadimages" onclick="%s.command(\'load-images\')">%s</a>',
-                  Q(rcube_label('blockedimages')),
-                  JS_OBJECT_NAME,
-                  Q(rcube_label('showimages')));
+  $msg = Q(rcube_label('blockedimages')) . '&nbsp;';
+  $msg .= html::a(array('href' => "#loadimages", 'onclick' => JS_OBJECT_NAME.".command('load-images')"), Q(rcube_label('showimages')));
   
-  $out .= '</div>';
-  
-  $OUTPUT->add_gui_object('remoteobjectsmsg', $attrib['id']);
-  return $out;
+  // add link to save sender in addressbook and reload message
+  if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('addrbook_show_images')) {
+    $msg .= ' ' . html::a(array('href' => "#alwaysload", 'onclick' => JS_OBJECT_NAME.".command('always-load')", 'style' => "white-space:nowrap"),
+      Q(rcube_label(array('name' => 'alwaysshow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
   }
+  
+  $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
+  return html::div($attrib, $msg);
+}
 
 
 $OUTPUT->add_handlers(array(
