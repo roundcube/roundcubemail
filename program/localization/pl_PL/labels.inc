@@ -155,6 +155,7 @@ $labels['high'] = 'Wysoki';
 $labels['highest'] = 'Bardzo wysoki';
 $labels['nosubject'] = '(brak tematu)';
 $labels['showimages'] = 'Wyświetl obrazki';
+$labels['alwaysshow'] = 'Zawsze wyświetlaj obrazki od $sender'; 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Zwykły tekst';
 $labels['addcc'] = 'Dodaj Cc';
