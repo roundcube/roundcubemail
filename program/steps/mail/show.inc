@@ -42,9 +42,6 @@ if ($_GET['_uid']) {
     
   $mbox_name = $IMAP->get_mailbox_name();
   
-  // calculate Etag for this request
-  $etag = md5($MESSAGE->uid.$mbox_name.session_id().intval($MESSAGE->headers->mdn_sent).intval($MESSAGE->is_safe).intval($PRINT_MODE));
-
   // check known senders to display images
   if (!$MESSAGE->is_safe 
       && !empty($MESSAGE->sender['mailto'])
@@ -56,6 +53,9 @@ if ($_GET['_uid']) {
       $MESSAGE->set_safe(true);
     }
   }
+
+  // calculate Etag for this request
+  $etag = md5($MESSAGE->uid.$mbox_name.session_id().intval($MESSAGE->headers->mdn_sent).intval($MESSAGE->is_safe).intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE->is_safe)
