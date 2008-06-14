@@ -603,10 +603,12 @@ class html_table extends html
      * @param array Table attributes
      * @return string The final table HTML code
      */
-    public function show($attr = array())
+    public function show($attrib = null)
     {
-        $this->attrib = array_merge($this->attrib, $attr);
-        $thead = $tbody = "";
+	if (is_array($attrib))
+    	    $this->attrib = array_merge($this->attrib, $attrib);
+        
+	$thead = $tbody = "";
 
         // include <thead>
         if (!empty($this->header)) {
