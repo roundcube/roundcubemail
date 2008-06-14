@@ -687,9 +687,10 @@ div.message-part div.pre
 {
   margin: 0px;
   padding: 0px;
+  font-family: monospace;
   white-space: -moz-pre-wrap !important;
   white-space: pre;
-  font-family: monospace;
+  word-wrap: break-word; /* IE (and Safari) */
 }
 
 div.message-part blockquote
