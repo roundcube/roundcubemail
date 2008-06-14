@@ -105,51 +105,6 @@ function rcube_label($p)
 
 
 /**
- * Load virtuser table in array
- *
- * @return array Virtuser table entries
- */
-function rcmail_getvirtualfile()
-  {
-  global $CONFIG;
-  if (empty($CONFIG['virtuser_file']) || !is_file($CONFIG['virtuser_file']))
-    return FALSE;
-  
-  // read file 
-  $a_lines = file($CONFIG['virtuser_file']);
-  return $a_lines;
-  }
-
-
-/**
- * Find matches of the given pattern in virtuser table
- * 
- * @param string Regular expression to search for
- * @return array Matching entries
- */
-function rcmail_findinvirtual($pattern)
-  {
-  $result = array();
-  $virtual = rcmail_getvirtualfile();
-  if ($virtual==FALSE)
-    return $result;
-
-  // check each line for matches
-  foreach ($virtual as $line)
-    {
-    $line = trim($line);
-    if (empty($line) || $line{0}=='#')
-      continue;
-      
-    if (eregi($pattern, $line))
-      $result[] = $line;
-    }
-
-  return $result;
-  }
-
-
-/**
  * Overwrite action variable
  *
  * @param string New action value
@@ -574,65 +529,46 @@ function template_exists($name)
  */
 function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
   {
-  global $DB;
+  global $RCMAIL;
   
-  // allow the following attributes to be added to the <table> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
-  
-  $table = '<table' . $attrib_str . ">\n";
+  $table = new html_table(/*array('cols' => count($a_show_cols))*/);
     
-  // add table title
-  $table .= "<thead><tr>\n";
-
+  // add table header
   foreach ($a_show_cols as $col)
-    $table .= '<td class="'.$col.'">' . Q(rcube_label($col)) . "</td>\n";
-
-  $table .= "</tr></thead>\n<tbody>\n";
+    $table->add_header($col, Q(rcube_label($col)));
   
   $c = 0;
   if (!is_array($table_data)) 
+  {
+    $db = $RCMAIL->get_dbh();
+    while ($table_data && ($sql_arr = $db->fetch_assoc($table_data)))
     {
-    while ($table_data && ($sql_arr = $DB->fetch_assoc($table_data)))
-      {
-      $zebra_class = $c%2 ? 'even' : 'odd';
-
-      $table .= sprintf('<tr id="rcmrow%d" class="contact '.$zebra_class.'">'."\n", $sql_arr[$id_col]);
+      $zebra_class = $c % 2 ? 'even' : 'odd';
+      $table->add_row(array('id' => 'rcmrow' . $sql_arr[$id_col], 'class' => "contact $zebra_class"));
 
       // format each col
       foreach ($a_show_cols as $col)
-        {
-        $cont = Q($sql_arr[$col]);
-        $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
-        }
-
-      $table .= "</tr>\n";
+        $table->add($col, Q($sql_arr[$col]));
+      
       $c++;
-      }
     }
+  }
   else 
-    {
+  {
     foreach ($table_data as $row_data)
-      {
-      $zebra_class = $c%2 ? 'even' : 'odd';
-
-      $table .= sprintf('<tr id="rcmrow%s" class="contact '.$zebra_class.'">'."\n", $row_data[$id_col]);
+    {
+      $zebra_class = $c % 2 ? 'even' : 'odd';
+      $table->add_row(array('id' => 'rcmrow' . $row_data[$id_col], 'class' => "contact $zebra_class"));
 
       // format each col
       foreach ($a_show_cols as $col)
-        {
-        $cont = Q($row_data[$col]);
-        $table .= '<td class="'.$col.'">' . $cont . "</td>\n";
-        }
-
-      $table .= "</tr>\n";
+        $table->add($col, Q($row_data[$col]));
+        
       $c++;
-      }
     }
+  }
 
-  // complete message table
-  $table .= "</tbody></table>\n";
-  
-  return $table;
+  return $table->show($attrib);
   }
 
 
@@ -670,29 +606,6 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
   $out = $input->show($value);
          
   return $out;
-  }
-
-
-/**
- * Return the mail domain configured for the given host
- *
- * @param string IMAP host
- * @return string Resolved SMTP host
- */
-function rcmail_mail_domain($host)
-  {
-  global $CONFIG;
-
-  $domain = $host;
-  if (is_array($CONFIG['mail_domain']))
-    {
-    if (isset($CONFIG['mail_domain'][$host]))
-      $domain = $CONFIG['mail_domain'][$host];
-    }
-  else if (!empty($CONFIG['mail_domain']))
-    $domain = $CONFIG['mail_domain'];
-
-  return $domain;
   }
 
 
@@ -743,26 +656,6 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
 
   return $styles;
   }
-
-/**
- * Try to autodetect operating system and find the correct line endings
- *
- * @return string The appropriate mail header delimiter
- */
-function rcmail_header_delm()
-{
-  global $CONFIG;
-  
-  // use the configured delimiter for headers
-  if (!empty($CONFIG['mail_header_delimiter']))
-    return $CONFIG['mail_header_delimiter'];
-  else if (strtolower(substr(PHP_OS, 0, 3)=='win')) 
-    return "\r\n";
-  else if (strtolower(substr(PHP_OS, 0, 3)=='mac'))
-    return "\r\n";
-  else    
-    return "\n";
-}
 
 
 /**

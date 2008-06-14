@@ -177,5 +177,46 @@ class rcube_config
   }
   
   
+  /**
+   * Try to autodetect operating system and find the correct line endings
+   *
+   * @return string The appropriate mail header delimiter
+   */
+  public function header_delimiter()
+  {
+    // use the configured delimiter for headers
+    if (!empty($this->prop['mail_header_delimiter']))
+      return $this->prop['mail_header_delimiter'];
+    else if (strtolower(substr(PHP_OS, 0, 3) == 'win'))
+      return "\r\n";
+    else if (strtolower(substr(PHP_OS, 0, 3) == 'mac'))
+      return "\r\n";
+    else
+      return "\n";
+  }
+
+  
+  
+  /**
+   * Return the mail domain configured for the given host
+   *
+   * @param string IMAP host
+   * @return string Resolved SMTP host
+   */
+  public function mail_domain($host)
+  {
+    $domain = $host;
+    
+    if (is_array($this->prop['mail_domain'])) {
+      if (isset($this->prop['mail_domain'][$host]))
+        $domain = $this->prop['mail_domain'][$host];
+    }
+    else if (!empty($this->prop['mail_domain']))
+      $domain = $this->prop['mail_domain'];
+    
+    return $domain;
+  }
+
+
 }
 

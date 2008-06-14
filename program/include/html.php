@@ -571,7 +571,7 @@ class html_table extends html
      * @param array Cell attributes
      * @param string Cell content
      */
-    private function add_header($attr, $cont)
+    public function add_header($attr, $cont)
     {
         if (is_string($attr))
         $attr = array('class' => $attr);
@@ -587,7 +587,7 @@ class html_table extends html
      *
      * @param array Row attributes
      */
-    private function add_row($attr = array())
+    public function add_row($attr = array())
     {
         $this->rowindex++;
         $this->colindex = 0;
@@ -612,7 +612,7 @@ class html_table extends html
         if (!empty($this->header)) {
             $rowcontent = '';
             foreach ($this->header as $c => $col) {
-                $rowcontent .= self::tag('th', $col->attrib, $col->content);
+                $rowcontent .= self::tag('td', $col->attrib, $col->content);
             }
             $thead = self::tag('thead', null, self::tag('tr', null, $rowcontent));
         }
@@ -624,7 +624,7 @@ class html_table extends html
             }
 
             if ($r < $this->rowindex || count($row->cells)) {
-                $tbody .= self::tag('tr', $rows->attrib, $rowcontent);
+                $tbody .= self::tag('tr', $row->attrib, $rowcontent);
             }
         }
 

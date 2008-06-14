@@ -362,7 +362,7 @@ class rcube_user
 
     if ($user_id = $dbh->insert_id(get_sequence_name('users')))
     {
-      $mail_domain = rcmail_mail_domain($host);
+      $mail_domain = $rcmail->config->mail_domain($host);
 
       if ($user_email=='')
         $user_email = strpos($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
@@ -420,7 +420,7 @@ class rcube_user
   static function email2user($email)
   {
     $user = $email;
-    $r = rcmail_findinvirtual("^$email");
+    $r = self::findinvirtual("^$email");
 
     for ($i=0; $i<count($r); $i++)
     {
@@ -446,7 +446,7 @@ class rcube_user
   static function user2email($user)
   {
     $email = "";
-    $r = rcmail_findinvirtual("$user$");
+    $r = self::findinvirtual("$user$");
 
     for ($i=0; $i<count($r); $i++)
     {
@@ -461,6 +461,39 @@ class rcube_user
 
     return $email;
   }
+  
+  
+  /**
+   * Find matches of the given pattern in virtuser table
+   * 
+   * @param string Regular expression to search for
+   * @return array Matching entries
+   */
+  private static function findinvirtual($pattern)
+  {
+    $result = array();
+    $virtual = null;
+    
+    if ($virtuser_file = rcmail::get_instance()->config->get('virtuser_file'))
+      $virtual = file($virtuser_file);
+    
+    if (empty($virtual))
+      return $result;
+    
+    // check each line for matches
+    foreach ($virtual as $line)
+    {
+      $line = trim($line);
+      if (empty($line) || $line{0}=='#')
+        continue;
+        
+      if (eregi($pattern, $line))
+        $result[] = $line;
+    }
+    
+    return $result;
+  }
+
 
 }
 

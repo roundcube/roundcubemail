@@ -34,7 +34,6 @@ class rcube_json_output
     private $texts = array();
     private $commands = array();
 
-    public $task = '';
     public $ajax_call = true;
     
     
@@ -43,7 +42,6 @@ class rcube_json_output
      */
     public function __construct($task)
     {
-        $this->task   = $task;
         $this->config = rcmail::get_instance()->config;
     }
     

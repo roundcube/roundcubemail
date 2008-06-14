@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.1-20080506                                                    |
+ | Version 0.2-20080614                                                    |
  |                                                                         |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -33,6 +33,12 @@ require_once 'program/include/iniset.php';
 // define global vars
 $OUTPUT_TYPE = 'html';
 
+// init application and start session with requested task
+$RCMAIL = rcmail::get_instance();
+
+// init output class
+$OUTPUT = !empty($_REQUEST['_remote']) ? $RCMAIL->init_json() : $RCMAIL->load_gui(!empty($_REQUEST['_framed']));
+
 // set output buffering
 if ($RCMAIL->action != 'get' && $RCMAIL->action != 'viewsource') {
   // use gzip compression if supported
@@ -45,14 +51,6 @@ if ($RCMAIL->action != 'get' && $RCMAIL->action != 'viewsource') {
     ob_start();
   }
 }
-
-
-// init application and start session with requested task
-$RCMAIL = rcmail::get_instance();
-
-// init output class
-$OUTPUT = (!empty($_GET['_remote']) || !empty($_POST['_remote'])) ? $RCMAIL->init_json() : $RCMAIL->load_gui((!empty($_GET['_framed']) || !empty($_POST['_framed'])));
-
 
 // check DB connections and exit on failure
 if ($err_str = $DB->is_error()) {
@@ -127,18 +125,9 @@ if (!empty($RCMAIL->user->ID) && $RCMAIL->task == 'mail') {
 }
 
 
-// not logged in -> set task to 'login
-if (empty($RCMAIL->user->ID)) {
-  if ($OUTPUT->ajax_call)
-    $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
-  
-  $RCMAIL->set_task('login');
-}
-
-
 // check client X-header to verify request origin
 if ($OUTPUT->ajax_call) {
-  if (empty($CONFIG['devel_mode']) && !rc_request_header('X-RoundCube-Referer')) {
+  if ($RCMAIL->config->get('devel_mode') && !rc_request_header('X-RoundCube-Referer')) {
     header('HTTP/1.1 404 Not Found');
     die("Invalid Request");
   }
@@ -147,8 +136,12 @@ if ($OUTPUT->ajax_call) {
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
+  
+  if ($OUTPUT->ajax_call)
+    $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
+  
   // check if installer is still active
-  if ($CONFIG['enable_installer'] && is_readable('./installer/index.php')) {
+  if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
     $OUTPUT->add_footer(html::div(array('style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
       html::tag('h2', array('style' => "margin-top:0.2em"), "Installer script is still accessible") .
       html::p(null, "The install script of your RoundCube installation is still stored in its default location!") .
@@ -160,17 +153,14 @@ if (empty($RCMAIL->user->ID)) {
   }
   
   $OUTPUT->set_env('task', 'login');
-  $OUTPUT->task = 'login';
   $OUTPUT->send('login');
-  exit;
 }
 
 
 // handle keep-alive signal
 if ($RCMAIL->action=='keep-alive') {
   $OUTPUT->reset();
-  $OUTPUT->send('');
-  exit;
+  $OUTPUT->send();
 }
 
 // include task specific files

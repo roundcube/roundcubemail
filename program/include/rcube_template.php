@@ -32,7 +32,6 @@ class rcube_template extends rcube_html_page
 {
     var $app;
     var $config;
-    var $task = '';
     var $framed = false;
     var $pagetitle = '';
     var $env = array();
@@ -56,7 +55,7 @@ class rcube_template extends rcube_html_page
         $this->config = $this->app->config->all();
         
         //$this->framed = $framed;
-        $this->task = $task;
+        $this->set_env('task', $task);
 
         // add common javascripts
         $javascript = 'var '.JS_OBJECT_NAME.' = new rcube_webmail();';
@@ -542,7 +541,7 @@ class rcube_template extends rcube_html_page
                     return $ver;
                 }
                 if ($object=='pagetitle') {
-                    $task  = $this->task;
+                    $task  = $this->env['task'];
                     $title = !empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '';
 
                     if (!empty($this->pagetitle)) {

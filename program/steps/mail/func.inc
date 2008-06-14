@@ -1040,18 +1040,18 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 
 function rcmail_send_mdn($uid)
 {
-  global $CONFIG, $USER, $IMAP;
+  global $RCMAIL, $IMAP;
 
   $message = new rcube_message($uid);
   
   if ($message->headers->mdn_to && !$message->headers->mdn_sent)
   {
-    $identity = $USER->get_identity();
+    $identity = $RCMAIL->user->get_identity();
     $sender = format_email_recipient($identity['email'], $identity['name']);
     $recipient = array_shift($IMAP->decode_address_list($message->headers->mdn_to));
     $mailto = $recipient['mailto'];
 
-    $compose = new rcube_mail_mime(rcmail_header_delm());
+    $compose = new rcube_mail_mime($RCMAIL->config->header_delimiter());
     $compose->setParam(array(
       'text_encoding' => 'quoted-printable',
       'html_encoding' => 'quoted-printable',
@@ -1067,21 +1067,21 @@ function rcmail_send_mdn($uid)
       'From' => $sender,
       'To'   => $message->headers->mdn_to,
       'Subject' => rcube_label('receiptread') . ': ' . $message->subject,
-      'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), rcmail_mail_domain($_SESSION['imap_host'])),
+      'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host'])),
       'X-Sender' => $identity['email'],
       'Content-Type' => 'multipart/report; report-type=disposition-notification',
     );
     
-    if (!empty($CONFIG['useragent']))
-      $headers['User-Agent'] = $CONFIG['useragent'];
+    if ($agent = $RCMAIL->config->get('useragent'))
+      $headers['User-Agent'] = $agent;
 
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
       "\t" . rcube_label("to") . ': ' . rcube_imap::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
       "\t" . rcube_label("subject") . ': ' . $message->subject . "\r\n" .
-      "\t" . rcube_label("sent") . ': ' . format_date($message->headers->date, $CONFIG['date_long']) . "\r\n" .
+      "\t" . rcube_label("sent") . ': ' . format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
       "\r\n" . rcube_label("receiptnote") . "\r\n";
     
-    $ua = !empty($CONFIG['useragent']) ? $CONFIG['useragent'] : "RoundCube Webmail (Version ".RCMAIL_VERSION.")";
+    $ua = $RCMAIL->config->get('useragent', "RoundCube Webmail (Version ".RCMAIL_VERSION.")");
     $report = "Reporting-UA: $ua\r\n";
     
     if ($message->headers->to)

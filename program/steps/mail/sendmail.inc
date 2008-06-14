@@ -113,7 +113,7 @@ function rcmail_attach_emoticons(&$mime_message)
 if (strlen($_POST['_draft_saveid']) > 3)
   $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
 
-$message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), rcmail_mail_domain($_SESSION['imap_host']));
+$message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host']));
 $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 
 // remove all scripts and act as called in frame
@@ -207,7 +207,7 @@ if (!empty($_POST['_receipt']))
 // additional headers
 if ($CONFIG['http_received_header'])
 {
-  $nldlm = rcmail_header_delm() . "\t";
+  $nldlm = $RCMAIL->config->header_delimiter() . "\t";
   $headers['Received'] =  wordwrap('from ' . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
       gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']).' ['.$_SERVER['HTTP_X_FORWARDED_FOR'].']'.$nldlm.' via ' : '') .
     gethostbyaddr($_SERVER['REMOTE_ADDR']).' ['.$_SERVER['REMOTE_ADDR'].']'.$nldlm.'with ' .
@@ -232,7 +232,7 @@ $isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
 $isHtml = ($isHtmlVal == "1");
 
 // create extended PEAR::Mail_mime instance
-$MAIL_MIME = new rcube_mail_mime(rcmail_header_delm());
+$MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
 
 // For HTML-formatted messages, construct the MIME message with both
 // the HTML part and the plain-text part
