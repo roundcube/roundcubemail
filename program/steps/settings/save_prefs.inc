@@ -27,6 +27,7 @@ $a_user_prefs = array(
   'prefer_html'  => isset($_POST['_prefer_html']) ? TRUE : FALSE,
   'addrbook_show_images' => isset($_POST['_addrbook_show_images']) ? TRUE : FALSE,
   'htmleditor'   => isset($_POST['_htmleditor']) ? TRUE : FALSE,
+  'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
   'preview_pane' => isset($_POST['_preview_pane']) ? TRUE : FALSE,
   'read_when_deleted' => isset($_POST['_read_when_deleted']) ? TRUE : FALSE,
   'flag_for_deletion' => isset($_POST['_flag_for_deletion']) ? TRUE : FALSE,

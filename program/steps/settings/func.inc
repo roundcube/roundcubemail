@@ -200,6 +200,17 @@ function rcmail_user_prefs_form($attrib)
                     $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
     }
 
+  if (!isset($no_override['inline_images']))
+    {
+    $field_id = 'rcmfd_inline_images';
+    $input_inline_images = new html_checkbox(array('name' => '_inline_images', 'id' => $field_id, 'value' => 1));
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('showinlineimages')),
+                    $input_inline_images->show($config['inline_images']?1:0));
+    }
+
   $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('messagescomposition')) . "</legend>\n<table" . $attrib_str . ">\n\n";
 
   // Show checkbox for HTML Editor

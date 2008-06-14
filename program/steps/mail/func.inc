@@ -745,10 +745,14 @@ function rcmail_message_body($attrib)
 
   $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
   $ctype_secondary = strtolower($MESSAGE->structure->ctype_secondary);
-  
+
   // list images after mail body
-  if (get_boolean($attrib['showimages']) && $ctype_primary == 'multipart' &&
-      !empty($MESSAGE->attachments) && !strstr($message_body, '<html')) {
+  if (get_boolean($attrib['showimages']) 
+	&& $CONFIG['inline_images']
+	&& $ctype_primary == 'multipart'
+        && !empty($MESSAGE->attachments) 
+	&& !strstr($message_body, '<html'))
+    {
     foreach ($MESSAGE->attachments as $attach_prop) {
       if (strpos($attach_prop->mimetype, 'image/') === 0) {
         $out .= html::tag('hr') . html::p(array('align' => "center"),

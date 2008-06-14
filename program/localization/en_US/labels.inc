@@ -263,7 +263,7 @@ $labels['autosend'] = 'send automatically';
 $labels['ignore'] = 'ignore';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
-
+$labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';
 $labels['never']  = 'never';

@@ -59,6 +59,7 @@ $labels['preferhtml'] = 'Domyślny HTML';
 $labels['htmlmessage'] = 'Wiadomość HTML';
 $labels['showknownimages'] = 'Wyświetlaj obrazki od znanych nadawców';
 $labels['prettydate'] = 'Ładne daty';
+$labels['showinlineimages'] = 'Wyświetlaj załączone obrazki pod treścią wiadomości';
 $labels['messagesdisplaying'] = 'Wyświetlanie wiadomości';
 $labels['messagescomposition'] = 'Tworzenie wiadomości';
 $labels['addtoaddressbook'] = 'Dodaj do książki adresowej ';

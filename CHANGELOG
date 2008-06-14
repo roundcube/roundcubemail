@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/14 (alec)
+----------
+- Added option to disable displaying of attached images below the message body
+
 2008/06/13 (alec)
 ----------
 - Added option to display images in messages from known senders (#1484601)
