@@ -145,18 +145,24 @@ function rcmail_user_prefs_form($attrib)
                     $input_pagesize->show($config['pagesize']));
     }
 
-  if (!isset($no_override['mdn_requests']))
+  // show drop-down for available skins
+  if (!isset($no_override['skin']))
     {
-    $field_id = 'rcmfd_mdn_requests';
-    $select_mdn_requests = new html_select(array('name' => '_mdn_requests', 'id' => $field_id));
-    $select_mdn_requests->add(rcube_label('askuser'), 0);
-    $select_mdn_requests->add(rcube_label('autosend'), 1);
-    $select_mdn_requests->add(rcube_label('ignore'), 2);
+    $skins = rcmail_get_skins();
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('mdnrequests')),
-                    $select_mdn_requests->show($config['mdn_requests']));
+    if (count($skins) > 1)
+      {
+      $field_id = 'rcmfd_skin';
+      $input_skin = new html_select(array('name'=>'_skin', 'id'=>$field_id));
+      
+      foreach($skins as $skin)
+        $input_skin->add($skin, $skin);
+
+      $out .= sprintf("<tr><td class=\"title\"><lable for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+		    $field_id,
+		    Q(rcube_label('skin')),
+		    $input_skin->show($config['skin']));
+      }
     }
 
   $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('mailboxview')) . "</legend>\n<table" . $attrib_str . ">\n\n";
@@ -170,6 +176,20 @@ function rcmail_user_prefs_form($attrib)
                     $field_id,
                     Q(rcube_label('previewpane')),
                     $input_preview->show($config['preview_pane']?1:0));
+    }
+
+  if (!isset($no_override['mdn_requests']))
+    {
+    $field_id = 'rcmfd_mdn_requests';
+    $select_mdn_requests = new html_select(array('name' => '_mdn_requests', 'id' => $field_id));
+    $select_mdn_requests->add(rcube_label('askuser'), 0);
+    $select_mdn_requests->add(rcube_label('autosend'), 1);
+    $select_mdn_requests->add(rcube_label('ignore'), 2);
+
+    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
+                    $field_id,
+                    Q(rcube_label('mdnrequests')),
+                    $select_mdn_requests->show($config['mdn_requests']));
     }
 
   $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('messagesdisplaying')) . "</legend>\n<table" . $attrib_str . ">\n\n";
@@ -338,6 +358,29 @@ function get_form_tags($attrib, $action, $add_hidden=array())
   $EDIT_FORM = $form_name;
 
   return array($form_start, $form_end);
+  }
+
+function rcmail_get_skins()
+  {
+  $path = 'skins';
+  $skins = array();
+
+  $dir = opendir($path);
+  
+  if (!$dir)
+	return false;
+  
+  while (($file = readdir($dir)) !== false)
+    {
+    $filename = $path.'/'.$file;
+    if (is_dir($filename) && is_readable($filename) 
+	&& !in_array($file, array('.', '..', '.svn')))
+      $skins[] = $file;
+    }
+
+  closedir($dir);
+
+  return $skins;
   }
 
 

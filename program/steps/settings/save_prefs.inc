@@ -35,6 +35,7 @@ $a_user_prefs = array(
   'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
   'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
   'mdn_requests' => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
+  'skin' => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['default_skin'],
   );
 
 // don't override these parameters
@@ -46,6 +47,9 @@ foreach ((array)$CONFIG['dont_override'] as $p)
 if (isset($_POST['_language'])) {
   $RCMAIL->load_language(get_input_value('_language', RCUBE_INPUT_POST));
 }
+
+// switch skin
+$OUTPUT->set_skin($a_user_prefs['skin']);
 
 // force min size
 if ($a_user_prefs['pagesize'] < 1)
