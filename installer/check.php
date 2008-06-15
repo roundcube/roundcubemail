@@ -1,7 +1,7 @@
 <form action="index.php" method="get">
 <?php
 
-$required_php_exts = array('PCRE' => 'pcre', 'DOM' => 'dom2', 'Session' => 'session',);
+$required_php_exts = array('PCRE' => 'pcre', 'DOM' => 'dom', 'Session' => 'session');
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
