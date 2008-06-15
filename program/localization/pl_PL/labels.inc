@@ -205,6 +205,7 @@ $labels['dstactive'] = 'Czas letni';
 $labels['htmleditor'] = 'Twórz wiadomości HTML';
 $labels['htmlsignature'] = 'Podpis w HTML';
 $labels['previewpane'] = 'Pokaż podgląd';
+$labels['skin'] = 'Wygląd interfejsu';
 $labels['logoutclear'] = 'Przy wylogowaniu opróżnij Kosz';
 $labels['logoutcompact'] = 'Przy wylogowaniu porządkuj folder Odebrane';
 $labels['uisettings'] = 'Interfejs użytkownika';
