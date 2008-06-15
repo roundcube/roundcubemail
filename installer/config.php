@@ -78,15 +78,15 @@ echo $input_prodname->show($RCI->getprop('product_name'));
 <div>The name of your service (used to compose page titles)</div>
 </dd>
 
-<dt class="propname">default_skin</dt>
+<dt class="propname">skin</dt>
 <dd>
 <?php
 
-$input_skin = new html_inputfield(array('name' => '_default_skin', 'size' => 30, 'id' => "cfgdefaultskin"));
-echo $input_skin->show($RCI->getprop('default_skin'));
+$input_skin = new html_inputfield(array('name' => '_skin', 'size' => 30, 'id' => "cfgskin"));
+echo $input_skin->show($RCI->getprop('skin'));
 
 ?>
-<div>Name of the skin folder</div>
+<div>Name of interface skin (folder in /skins)</div>
 </dd>
 
 <dt class="propname">temp_dir</dt>
