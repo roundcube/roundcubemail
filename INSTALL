@@ -21,7 +21,7 @@ REQUIREMENTS
    - file_uploads on (for attachment upload features)
    - memory_limit (increase as suitable to support large attachments)
    - session.auto_start needs to be off/0
-* PHP compiled with Open SSL to connect to IMAPS and to use the spell checker
+* PHP compiled with OpenSSL to connect to IMAPS and to use the spell checker
 * A MySQL or PostgreSQL database engine or the SQLite extension for PHP
 * One of the above databases with permission to create tables
 * An SMTP server or PHP configured for mail delivery
