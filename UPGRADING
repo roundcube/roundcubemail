@@ -8,6 +8,19 @@ can make sure that no old localization files remain on your disk.
 Then follow these instructions if upgrading from a previous version
 of RoundCube Webmail.
 
+from version 0.2-alpha
+----------------------------------------
+* replace index.php
+* replace all files in folder /bin/
+* replace all files in folder /program/
+* replace all files in folder /skins/default/
+* run all commands in SQL/[yourdbtype].update.sql
+  below the line "-- Updates from version 0.2-alpha"
+* check the config/main.inc.php.dist for new configuration 
+  options and add them to your config 
+  WARNING: 'skin_path' option was replaced by 'skin' option
+
+
 from version 0.1.1
 ----------------------------------------
 * replace index.php
