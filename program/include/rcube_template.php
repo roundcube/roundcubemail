@@ -59,7 +59,7 @@ class rcube_template extends rcube_html_page
 
 	// load the correct skin (in case user-defined)
 	if (empty($this->config['skin']) || !is_readable('skins/'.$this->config['skin']))
-	    $this->config['skin'] = $this->config['default_skin'];
+	    $this->config['skin'] = 'default';
 
 	$this->config['skin_path'] = 'skins/'.$this->config['skin'];
 

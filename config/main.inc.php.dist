@@ -94,9 +94,6 @@ $rcmail_config['smtp_log'] = TRUE;
 // available cols are: subject, from, to, cc, replyto, date, size, encoding
 $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size');
 
-// skin name: folder from skins/
-$rcmail_config['default_skin'] = 'default';
-
 // includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = FALSE;
 
@@ -315,8 +312,8 @@ $rcmail_config['delete_always'] = false;
 
 /***** these settings can be overwritten by user's preferences *****/
 
-// skin name (see 'default_skin' option)
-$rcmail_config['skin'] = $rcmail_config['default_skin'];
+// skin name: folder from skins/
+$rcmail_config['skin'] = 'default';
 
 // show up to X items in list view
 $rcmail_config['pagesize'] = 40;

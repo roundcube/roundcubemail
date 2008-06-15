@@ -35,7 +35,7 @@ $a_user_prefs = array(
   'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
   'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
   'mdn_requests' => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
-  'skin' => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['default_skin'],
+  'skin' => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
   );
 
 // don't override these parameters

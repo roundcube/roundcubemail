@@ -61,7 +61,7 @@ class rcube_config
     $this->load_host_config();
 
     // fix paths
-    $this->prop['default_skin'] = $this->prop['default_skin'] ? unslashify($this->prop['default_skin']) : 'default';
+    $this->prop['skin'] = $this->prop['skin'] ? unslashify($this->prop['skin']) : 'default';
     $this->prop['log_dir'] = $this->prop['log_dir'] ? unslashify($this->prop['log_dir']) : INSTALL_PATH . 'logs';
     
     // handle aliases
