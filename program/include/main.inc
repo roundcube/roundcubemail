@@ -503,22 +503,6 @@ function strip_newlines($str)
 
 
 /**
- * Check if a specific template exists
- *
- * @param string Template name
- * @return boolean True if template exists
- */
-function template_exists($name)
-  {
-  global $CONFIG;
-  $skin_path = $CONFIG['skin_path'];
-
-  // check template file
-  return is_file("$skin_path/templates/$name.html");
-  }
-
-
-/**
  * Create a HTML table based on the given data
  *
  * @param  array  Named table attributes

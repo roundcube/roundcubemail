@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/15 (alec)
+----------
+- Added option to select skin in user preferences
+  WARNING: option 'skin_path' replaced by 'default_skin'!
+
 2008/06/14 (alec)
 ----------
 - Added option to disable displaying of attached images below the message body

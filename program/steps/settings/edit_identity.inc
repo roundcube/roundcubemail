@@ -136,7 +136,7 @@ function rcube_identity_form($attrib)
 
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 
-if ($RCMAIL->action=='add-identity' && template_exists('addidentity'))
+if ($RCMAIL->action=='add-identity' && $OUTPUT->template_exists('addidentity'))
   $OUTPUT->send('addidentity');
 
 $OUTPUT->send('editidentity');

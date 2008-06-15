@@ -57,6 +57,12 @@ class rcube_template extends rcube_html_page
         //$this->framed = $framed;
         $this->set_env('task', $task);
 
+	// load the correct skin (in case user-defined)
+	if (empty($this->config['skin']) || !is_readable('skins/'.$this->config['skin']))
+	    $this->config['skin'] = $this->config['default_skin'];
+
+	$this->config['skin_path'] = 'skins/'.$this->config['skin'];
+
         // add common javascripts
         $javascript = 'var '.JS_OBJECT_NAME.' = new rcube_webmail();';
 
@@ -102,6 +108,27 @@ class rcube_template extends rcube_html_page
         $this->pagetitle = $title;
     }
 
+    /**
+     * Set skin
+     */
+    public function set_skin($skin)
+    {
+	if (!empty($skin) && is_dir('skins/'.$skin) && is_readable('skins/'.$skin))
+	    $this->config['skin_path'] = 'skins/'.$skin;
+    }
+
+    /**
+     * Check if a specific template exists
+     *
+     * @param string Template name
+     * @return boolean True if template exists
+     */
+    public function template_exists($name)
+    {
+	$filename = $this->config['skin_path'] . '/templates/' . $name . '.html';
+
+	return (is_file($filename) && is_readable($filename));
+    }
 
     /**
      * Register a template object handler

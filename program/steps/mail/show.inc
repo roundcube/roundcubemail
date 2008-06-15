@@ -32,7 +32,7 @@ if ($_GET['_uid']) {
   // go back to list if message not found (wrong UID)
   if (empty($MESSAGE->headers)) {
     $OUTPUT->show_message('messageopenerror', 'error');
-    if ($RCMAIL->action=='preview' && template_exists('messagepreview'))
+    if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
         $OUTPUT->send('messagepreview');
     else {
       $RCMAIL->action = 'list';
@@ -194,9 +194,9 @@ $OUTPUT->add_handlers(array(
   'blockedobjects' => 'rcmail_remote_objects_msg'));
 
 
-if ($RCMAIL->action=='print' && template_exists('printmessage'))
+if ($RCMAIL->action=='print' && $OUTPUT->template_exists('printmessage'))
   $OUTPUT->send('printmessage');
-else if ($RCMAIL->action=='preview' && template_exists('messagepreview'))
+else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
     $OUTPUT->send('messagepreview');
 else
   $OUTPUT->send('message');

@@ -97,7 +97,7 @@ EOF;
 
 
 
-if (template_exists('error'))
+if ($OUTPUT->template_exists('error'))
   {
   $OUTPUT->reset();
   $OUTPUT->send('error');

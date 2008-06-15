@@ -94,16 +94,16 @@ $rcmail_config['smtp_log'] = TRUE;
 // available cols are: subject, from, to, cc, replyto, date, size, encoding
 $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size');
 
-// relative path to the skin folder
-$rcmail_config['skin_path'] = 'skins/default/';
+// skin name: folder from skins/
+$rcmail_config['default_skin'] = 'default';
 
 // includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = FALSE;
 
-// use this folder to store temp files (must be writebale for apache user)
+// use this folder to store temp files (must be writeable for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
 
-// use this folder to store log files (must be writebale for apache user)
+// use this folder to store log files (must be writeable for apache user)
 $rcmail_config['log_dir'] = 'logs/';
 
 // session lifetime in minutes
@@ -314,6 +314,9 @@ $rcmail_config['log_logins'] = false;
 $rcmail_config['delete_always'] = false;
 
 /***** these settings can be overwritten by user's preferences *****/
+
+// skin name (see 'default_skin' option)
+$rcmail_config['skin'] = $rcmail_config['default_skin'];
 
 // show up to X items in list view
 $rcmail_config['pagesize'] = 40;

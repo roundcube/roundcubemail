@@ -113,7 +113,7 @@ function get_form_tags($attrib)
 
 
 
-if (!$CONTACTS->get_result() && template_exists('addcontact'))
+if (!$CONTACTS->get_result() && $OUTPUT->template_exists('addcontact'))
   $OUTPUT->send('addcontact');
 
 // this will be executed if no template for addcontact exists
