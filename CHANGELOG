@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/16 (alec)
+----------
+- Fixed sending emoticons
+- Fixed forwarding messages with one HTML attachment (#1484442)
+- Fixed encoding of message/rfc822 attachments and image/pjpeg handling (#1484914)
+
 2008/06/15 (alec)
 ----------
 - Added option to select skin in user preferences

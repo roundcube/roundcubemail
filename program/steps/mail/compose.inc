@@ -522,7 +522,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
   // add attachments
   if (!isset($_SESSION['compose']['forward_attachments']) && is_array($MESSAGE->mime_parts))
-    rcmail_write_compose_attachments($MESSAGE);
+    rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
     
   return $prefix.$body;
 }
@@ -539,13 +539,13 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
   if (!isset($_SESSION['compose']['forward_attachments'])
       && is_array($MESSAGE->mime_parts)
       && count($MESSAGE->mime_parts) > 0)
-    rcmail_write_compose_attachments($MESSAGE);
+    rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
 
   return $body;
 }
   
   
-function rcmail_write_compose_attachments(&$message)
+function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
   global $RCMAIL, $IMAP;
 
@@ -556,7 +556,7 @@ function rcmail_write_compose_attachments(&$message)
   
   foreach ((array)$message->mime_parts as $pid => $part)
   {
-    if ($part->ctype_primary != 'message' &&
+    if (($part->ctype_primary != 'message' || !$bodyIsHtml) &&
         ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
          (empty($part->disposition) && $part->filename)))
     {
