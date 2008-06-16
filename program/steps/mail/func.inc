@@ -538,9 +538,13 @@ function rcmail_print_body($part, $safe=false, $plain=false)
     $html = $part->body; 
     if(preg_match('/(\s+content=[\'"]\w+\/\w+;\s+charset)=([a-z0-9-]+)/i', $html)) 
       $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s+charset)=([a-z0-9-]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
-    else 
+    else {
+      // add <head> for malformed messages, washtml cannot work without that
+      if (!preg_match('/<head>(.*)<\/head>/m', $html))
+        $html = '<head></head>' . $html;
       $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '</head>')), 0);
-    
+    }
+
     // clean HTML with washhtml by Frederic Motte
     $body = washtml::wash($html, array(
       'show_washed' => false,
@@ -700,7 +704,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 function rcmail_message_body($attrib)
   {
   global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $REMOTE_OBJECTS;
-  
+
   if (!is_array($MESSAGE->parts) && empty($MESSAGE->body))
     return '';
     
@@ -731,7 +735,7 @@ function rcmail_message_body($attrib)
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
         $body = rcmail_print_body($part, $safe_mode, !$CONFIG['prefer_html']);
-        
+
         if ($part->ctype_secondary == 'html')
           $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id']));
         else
