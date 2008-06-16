@@ -74,7 +74,7 @@ function rcmail_attach_emoticons(&$mime_message)
   
   $last_img_pos = 0;
 
-  $searchstr = 'program/js/tiny_mce/plugins/emotions/images/';
+  $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
 
   // keep track of added images, so they're only added once
   $included_images = array();
@@ -96,13 +96,13 @@ function rcmail_attach_emoticons(&$mime_message)
       {
       // add the image to the MIME message
       $img_file = INSTALL_PATH . '/' . $searchstr . $image_name;
-      if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, '_' . $image_name))
+      if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
         $OUTPUT->show_message("emoticonerror", 'error');
 
       array_push($included_images, $image_name);
       }
 
-    $body = $body_pre . 'cid:_' . $image_name . $body_post;
+    $body = $body_pre . $img_file . $body_post;
 
     $last_img_pos = $pos2;
     }
@@ -266,6 +266,9 @@ else
   $MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
   }
 
+// chose transfer encoding
+$charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-15');
+$transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 // add stored attachments, if any
 if (is_array($_SESSION['compose']['attachments']))
@@ -285,22 +288,31 @@ if (is_array($_SESSION['compose']['attachments']))
         We need to replace mime_content_type in a later release because the function
         is deprecated in favour of File_Info
       */
+      $ctype = rc_mime_content_type($attachment['path'], $attachment['mimetype']);
+      $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
+
+      // .eml attachments send inline
       $MAIL_MIME->addAttachment($attachment['path'],
-        rc_mime_content_type($attachment['path'], $attachment['mimetype']),
-        $attachment['name'], true, 'base64',
-        'attachment', $message_charset);
+	$ctype, 
+        $attachment['name'], true, 
+	($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
+        ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
+	$message_charset);
     }
   }
 
 // add submitted attachments
 if (is_array($_FILES['_attachments']['tmp_name']))
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
-    $MAIL_MIME->addAttachment($filepath, $files['type'][$i], $files['name'][$i], true, 'base64', 'attachment', $message_charset);
+    {
+    $ctype = $files['type'][$i];
+    $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
+    
+    $MAIL_MIME->addAttachment($filepath, $ctype, $files['name'][$i], true,
+	($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
+	'attachment', $message_charset);
+    }
 
-
-// chose transfer encoding
-$charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-15');
-$transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 // encoding settings for mail composing
 $MAIL_MIME->setParam(array(
