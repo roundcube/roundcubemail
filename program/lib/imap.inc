@@ -297,12 +297,10 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
     }
     
     // generate hash
-    $hash  = iil_xor($pass,$opad);
-    $hash .= pack("H*", md5(iil_xor($pass, $ipad) . base64_decode($encChallenge)));
-    $hash  = md5($hash);
+    $hash  = md5(iil_xor($pass,$opad) . pack("H*", md5(iil_xor($pass, $ipad) . base64_decode($encChallenge))));
     
     // generate reply
-    $reply = base64_encode('"' . $user . '" "' . $hash . '"');
+    $reply = base64_encode($user . ' ' . $hash);
     
     // send result, get reply
     iil_PutLine($conn->fp, $reply);
@@ -544,9 +542,9 @@ function iil_Connect($host, $user, $password) {
 		//do CRAM-MD5 authentication
 		iil_PutLine($conn->fp, "a000 AUTHENTICATE CRAM-MD5");
 		$line = trim(iil_ReadLine($conn->fp, 1024));
-        
+
 		$conn->message .= "$line\n";
-        
+
 		if ($line[0] == '+') {
 			$conn->message .= 'Got challenge: ' . htmlspecialchars($line) . "\n";
 
@@ -556,7 +554,7 @@ function iil_Connect($host, $user, $password) {
 			$conn->message .= "Tried CRAM-MD5: $result \n";
 		} else {
 			$conn->message .='No challenge ('.htmlspecialchars($line)."), try plain\n";
-	        	$auth = 'plain';            
+			$auth = 'plain';
 		}
 	}
 		
