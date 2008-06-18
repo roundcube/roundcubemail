@@ -60,9 +60,15 @@ class rcube_config
     // load host-specific configuration
     $this->load_host_config();
 
+    // set skin (with fallback to old 'skin_path' property)
+    if (empty($this->prop['skin']) && !empty($this->prop['skin_path']))
+      $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
+    else if (empty($this->prop['skin']))
+      $this->prop['skin'] = 'default';
+
     // fix paths
-    $this->prop['skin'] = $this->prop['skin'] ? unslashify($this->prop['skin']) : 'default';
     $this->prop['log_dir'] = $this->prop['log_dir'] ? unslashify($this->prop['log_dir']) : INSTALL_PATH . 'logs';
+    $this->prop['temp_dir'] = $this->prop['temp_dir'] ? unslashify($this->prop['temp_dir']) : INSTALL_PATH . 'temp';
     
     // handle aliases
     if (isset($this->prop['locale_string']) && empty($this->prop['language']))

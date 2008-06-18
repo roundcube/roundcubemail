@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/16 (thomasb)
+----------
+- Fixed CRAM-MD5 authentication (#1484819)
+
 2008/06/16 (alec)
 ----------
 - Fixed sending emoticons

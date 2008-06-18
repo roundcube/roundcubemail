@@ -57,8 +57,8 @@ class rcube_template extends rcube_html_page
         //$this->framed = $framed;
         $this->set_env('task', $task);
 
-	// load the correct skin (in case user-defined)
-	$this->set_skin($this->config['skin']);
+        // load the correct skin (in case user-defined)
+        $this->set_skin($this->config['skin']);
 
         // add common javascripts
         $javascript = 'var '.JS_OBJECT_NAME.' = new rcube_webmail();';
@@ -110,13 +110,13 @@ class rcube_template extends rcube_html_page
      */
     public function set_skin($skin)
     {
-	if (!empty($skin) && is_dir('skins/'.$skin) && is_readable('skins/'.$skin))
-	    $skin_path = 'skins/'.$skin;
-	else
-	    $skin_path = $this->config['skin_path'] ? $this->config['skin_path'] : 'skins/default';
-	
-	$this->app->config->set('skin_path', $skin_path);
-	$this->config['skin_path'] = $skin_path;
+        if (!empty($skin) && is_dir('skins/'.$skin) && is_readable('skins/'.$skin))
+            $skin_path = 'skins/'.$skin;
+        else
+            $skin_path = $this->config['skin_path'] ? $this->config['skin_path'] : 'skins/default';
+
+        $this->app->config->set('skin_path', $skin_path);
+        $this->config['skin_path'] = $skin_path;
     }
 
     /**
@@ -127,9 +127,9 @@ class rcube_template extends rcube_html_page
      */
     public function template_exists($name)
     {
-	$filename = $this->config['skin_path'] . '/templates/' . $name . '.html';
+        $filename = $this->config['skin_path'] . '/templates/' . $name . '.html';
 
-	return (is_file($filename) && is_readable($filename));
+        return (is_file($filename) && is_readable($filename));
     }
 
     /**
