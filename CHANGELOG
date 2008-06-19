@@ -1,9 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/06/16 (thomasb)
+2008/06/18 (thomasb)
 ----------
 - Fixed CRAM-MD5 authentication (#1484819)
+- Add fallback to old 'skin_path' property
 
 2008/06/16 (alec)
 ----------
