@@ -58,12 +58,14 @@ class rcube_json_output
     }
     
     /**
-     * @ignore
+     * Issue command to set page title
+     *
+     * @param string New page title
      */
     public function set_pagetitle($title)
     {
-	$name = $this->config->get('product_name');
-	$this->command('set_pagetitle', JQ(empty($name) ? $title : $name.' :: '.$title));
+        $name = $this->config->get('product_name');
+        $this->command('set_pagetitle', JQ(empty($name) ? $title : $name.' :: '.$title));
     }
 
     /**
@@ -159,6 +161,19 @@ class rcube_json_output
         $this->env = array();
         $this->texts = array();
         $this->commands = array();
+    }
+    
+    /**
+     * Redirect to a certain url
+     *
+     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @see rcmail::url()
+     */
+    public function redirect($p = array(), $delay = 0)
+    {
+        $location = rcmail::get_instance()->url($p);
+        $this->remote_response("window.setTimeout(\"location.href='{$location}'\", $delay);");
+        exit;
     }
     
     

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/20 (thomasb)
+----------
+- Store compose parameters in session and redirect to a unique URL
+
 2008/06/18 (thomasb)
 ----------
 - Fixed CRAM-MD5 authentication (#1484819)

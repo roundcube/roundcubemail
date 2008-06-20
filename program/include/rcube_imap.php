@@ -1487,6 +1487,7 @@ class rcube_imap
       {
       $this->_expunge($mailbox, FALSE);
       $this->_clear_messagecount($mailbox);
+      unset($this->uid_id_map[$mailbox]);
       }
 
     // remove message ids from search set

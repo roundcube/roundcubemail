@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.2-20080619                                                    |
+ | Version 0.2-20080620                                                    |
  |                                                                         |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -92,8 +92,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
                       $_SERVER['REMOTE_ADDR']));
 
     // send redirect
-    header("Location: {$RCMAIL->comm_path}");
-    exit;
+    $OUTPUT->redirect();
   }
   else {
     $OUTPUT->show_message($IMAP->error_code == -1 ? 'imaperror' : 'loginfailed', 'warning');
@@ -138,7 +137,7 @@ if ($OUTPUT->ajax_call) {
 if (empty($RCMAIL->user->ID)) {
   
   if ($OUTPUT->ajax_call)
-    $OUTPUT->remote_response("setTimeout(\"location.href='\"+this.env.comm_path+\"'\", 2000);");
+    $OUTPUT->redirect(array(), 2000);
   
   // check if installer is still active
   if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {

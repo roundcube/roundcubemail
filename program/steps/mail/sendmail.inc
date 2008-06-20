@@ -387,8 +387,8 @@ if ($CONFIG[$store_target])
   if ($olddraftmessageid)
     {
     // delete previous saved draft
-    $a_deleteid = $IMAP->search($CONFIG['drafts_mbox'],'HEADER Message-ID',$olddraftmessageid);
-    $deleted = $IMAP->delete_message($IMAP->get_uid($a_deleteid[0],$CONFIG['drafts_mbox']),$CONFIG['drafts_mbox']);
+    $a_deleteid = $IMAP->search($CONFIG['drafts_mbox'], 'HEADER Message-ID', $olddraftmessageid);
+    $deleted = $IMAP->delete_message($IMAP->get_uid($a_deleteid[0], $CONFIG['drafts_mbox']), $CONFIG['drafts_mbox']);
 
     // raise error if deletion of old draft failed
     if (!$deleted)
@@ -399,11 +399,17 @@ if ($CONFIG[$store_target])
 
 if ($savedraft)
   {
+  $msgid = strtr($message_id, array('>' => '', '<' => ''));
+  
+  // remember new draft-uid
+  $draftids = $IMAP->search($CONFIG['drafts_mbox'], 'HEADER Message-ID', $msgid);
+  $_SESSION['compose']['param']['_draft_uid'] = $IMAP->get_uid($draftids[0], $CONFIG['drafts_mbox']);
+
   // display success
   $OUTPUT->show_message('messagesaved', 'confirmation');
 
   // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
-  $OUTPUT->command('set_draft_id', str_replace(array('<','>'), "", $message_id));
+  $OUTPUT->command('set_draft_id', $msgid);
   $OUTPUT->command('compose_field_hash', true);
 
   // start the auto-save timer again

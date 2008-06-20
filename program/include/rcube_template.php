@@ -218,13 +218,27 @@ class rcube_template extends rcube_html_page
      * @uses   self::$js_commands
      * @uses   self::$object_handlers
      */
-    public public function reset()
+    public function reset()
     {
         $this->env = array();
         $this->js_env = array();
         $this->js_commands = array();
         $this->object_handlers = array();
         parent::reset();
+    }
+
+
+    /**
+     * Redirect to a certain url
+     *
+     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @see rcmail::url()
+     */
+    public function redirect($p = array())
+    {
+        $location = $this->app->url($p);
+        header('Location: ' . $location);
+        exit;
     }
 
 

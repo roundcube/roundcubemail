@@ -63,7 +63,10 @@ $MESSAGE = NULL;
 if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_value('_id', RCUBE_INPUT_GET))
 {
   rcmail_compose_cleanup();
-  $_SESSION['compose'] = array('id' => uniqid(rand()));
+  $_SESSION['compose'] = array('id' => uniqid(rand()), 'param' => array_map('strip_tags', $_GET));
+  
+  // redirect to a unique URL with all parameters stored in session
+  $OUTPUT->redirect(array('_action' => 'compose', '_id' => $_SESSION['compose']['id']));
 }
 
 // add some labels to client
@@ -74,11 +77,11 @@ $OUTPUT->set_env('draft_autosave', !empty($CONFIG['drafts_mbox']) ? $CONFIG['dra
 
 
 // get reference message and set compose mode
-if ($msg_uid = get_input_value('_reply_uid', RCUBE_INPUT_GET))
+if ($msg_uid = $_SESSION['compose']['param']['_reply_uid'])
   $compose_mode = RCUBE_COMPOSE_REPLY;
-else if ($msg_uid = get_input_value('_forward_uid', RCUBE_INPUT_GET))
+else if ($msg_uid = $_SESSION['compose']['param']['_forward_uid'])
   $compose_mode = RCUBE_COMPOSE_FORWARD;
-else if ($msg_uid = get_input_value('_draft_uid', RCUBE_INPUT_GET))
+else if ($msg_uid = $_SESSION['compose']['param']['_draft_uid'])
   $compose_mode = RCUBE_COMPOSE_DRAFT;
 
 if (!empty($msg_uid))
@@ -95,7 +98,7 @@ if (!empty($msg_uid))
     $_SESSION['compose']['reply_msgid'] = $MESSAGE->headers->messageID;
     $_SESSION['compose']['references']  = trim($MESSAGE->headers->references . " " . $MESSAGE->headers->messageID);
 
-    if (!empty($_GET['_all']))
+    if (!empty($_SESSION['compose']['param']['_all']))
       $MESSAGE->reply_all = 1;
   }
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
@@ -131,10 +134,10 @@ function rcmail_compose_headers($attrib)
       $header = 'to';
       
       // we have a set of recipients stored is session
-      if (($mailto_id = get_input_value('_mailto', RCUBE_INPUT_GET)) && $_SESSION['mailto'][$mailto_id])
+      if (($mailto_id = $_SESSION['compose']['param']['_mailto']) && $_SESSION['mailto'][$mailto_id])
         $fvalue = $_SESSION['mailto'][$mailto_id];
-      else if (!empty($_GET['_to']))
-        $fvalue = get_input_value('_to', RCUBE_INPUT_GET);
+      else if (!empty($_SESSION['compose']['param']['_to']))
+        $fvalue = $_SESSION['compose']['param']['_to'];
         
     case 'cc':
       if (!$fname)

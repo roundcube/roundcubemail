@@ -139,7 +139,7 @@ class rcmail
       $task = 'mail';
     
     $this->task = $task;
-    $this->comm_path = './?_task=' . $task;
+    $this->comm_path = $this->url(array('task' => $task));
     
     if ($this->output)
       $this->output->set_env('task', $task);
@@ -820,6 +820,26 @@ class rcmail
     return preg_replace('/\x00/', '', $pass);
   }
 
+
+  /**
+   * Build a valid URL to this instance of RoundCube
+   *
+   * @param mixed Either a string with the action or url parameters as key-value pairs
+   * @return string Valid application URL
+   */
+  public function url($p)
+  {
+    if (!is_array($p))
+      $p = array('action' => @func_get_arg(0));
+      
+    $url = $p['task'] ? './?_task=' . $p['task'] : $this->comm_path;
+    unset($p['task']);
+    
+    foreach ($p as $par => $val)
+      $url .= sprintf('&%s=%s', urlencode($par), urlencode($val));
+    
+    return $url;
+  }
 }
 
 
