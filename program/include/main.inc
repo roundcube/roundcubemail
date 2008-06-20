@@ -128,18 +128,7 @@ function rcmail_overwrite_action($action)
 function rcmail_url($action, $p=array(), $task=null)
 {
   $app = rcmail::get_instance();
-  
-  $qstring = '';
-  $base = $app->comm_path;
-  
-  if ($task && in_array($task, rcmail::$main_tasks))
-    $base = ereg_replace('_task=[a-z]+', '_task='.$task, $app->comm_path);
-  
-  if (is_array($p))
-    foreach ($p as $key => $val)
-      $qstring .= '&'.urlencode($key).'='.urlencode($val);
-  
-  return $base . ($action ? '&_action='.$action : '') . $qstring;
+  return $app->url((array)$p + array('_action' => $action, 'task' => $task));
 }
 
 

@@ -135,7 +135,7 @@ function rcmail_compose_headers($attrib)
       
       // we have a set of recipients stored is session
       if (($mailto_id = $_SESSION['compose']['param']['_mailto']) && $_SESSION['mailto'][$mailto_id])
-        $fvalue = $_SESSION['mailto'][$mailto_id];
+        $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
       else if (!empty($_SESSION['compose']['param']['_to']))
         $fvalue = $_SESSION['compose']['param']['_to'];
         

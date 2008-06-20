@@ -169,7 +169,7 @@ class rcube_json_output
      * @param mixed Either a string with the action or url parameters as key-value pairs
      * @see rcmail::url()
      */
-    public function redirect($p = array(), $delay = 0)
+    public function redirect($p = array(), $delay = 1)
     {
         $location = rcmail::get_instance()->url($p);
         $this->remote_response("window.setTimeout(\"location.href='{$location}'\", $delay);");
