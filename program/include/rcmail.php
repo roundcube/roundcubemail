@@ -84,7 +84,7 @@ class rcmail
 
     // set task and action properties
     $this->set_task(strip_quotes(get_input_value('_task', RCUBE_INPUT_GPC)));
-    $this->action = strip_quotes(get_input_value('_action', RCUBE_INPUT_GPC));
+    $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
 
     // connect to database
     $GLOBALS['DB'] = $this->get_dbh();

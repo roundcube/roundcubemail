@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.2-20080614                                                    |
+ | Version 0.2-20080619                                                    |
  |                                                                         |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -163,122 +163,62 @@ if ($RCMAIL->action=='keep-alive') {
   $OUTPUT->send();
 }
 
-// include task specific files
-if ($RCMAIL->task=='mail') {
-  include_once('program/steps/mail/func.inc');
+
+// map task/action to a certain include file
+$action_map = array(
+  'mail' => array(
+    'preview' => 'show.inc',
+    'print'   => 'show.inc',
+    'moveto'  => 'move_del.inc',
+    'delete'  => 'move_del.inc',
+    'send'    => 'sendmail.inc',
+    'expunge' => 'folders.inc',
+    'purge'   => 'folders.inc',
+    'remove-attachment'  => 'compose.inc',
+    'display-attachment' => 'compose.inc',
+  ),
   
-  if ($RCMAIL->action=='show' || $RCMAIL->action=='preview' || $RCMAIL->action=='print')
-    include('program/steps/mail/show.inc');
+  'addressbook' => array(
+    'add' => 'edit.inc',
+  ),
+  
+  'settings' => array(
+    'folders'       => 'manage_folders.inc',
+    'create-folder' => 'manage_folders.inc',
+    'rename-folder' => 'manage_folders.inc',
+    'delete-folder' => 'manage_folders.inc',
+    'subscribe'     => 'manage_folders.inc',
+    'unsubscribe'   => 'manage_folders.inc',
+    'add-identity'  => 'edit_identity.inc',
+  )
+);
 
-  if ($RCMAIL->action=='get')
-    include('program/steps/mail/get.inc');
+// include task specific functions
+include_once 'program/steps/'.$RCMAIL->task.'/func.inc';
 
-  if ($RCMAIL->action=='moveto' || $RCMAIL->action=='delete')
-    include('program/steps/mail/move_del.inc');
-
-  if ($RCMAIL->action=='mark')
-    include('program/steps/mail/mark.inc');
-
-  if ($RCMAIL->action=='viewsource')
-    include('program/steps/mail/viewsource.inc');
-
-  if ($RCMAIL->action=='sendmdn')
-    include('program/steps/mail/sendmdn.inc');
-
-  if ($RCMAIL->action=='send')
-    include('program/steps/mail/sendmail.inc');
-
-  if ($RCMAIL->action=='upload')
-    include('program/steps/mail/upload.inc');
-
-  if ($RCMAIL->action=='compose' || $RCMAIL->action=='remove-attachment' || $RCMAIL->action=='display-attachment')
-    include('program/steps/mail/compose.inc');
-
-  if ($RCMAIL->action=='addcontact')
-    include('program/steps/mail/addcontact.inc');
-
-  if ($RCMAIL->action=='expunge' || $RCMAIL->action=='purge')
-    include('program/steps/mail/folders.inc');
-
-  if ($RCMAIL->action=='check-recent')
-    include('program/steps/mail/check_recent.inc');
-
-  if ($RCMAIL->action=='getunread')
-    include('program/steps/mail/getunread.inc');
+// allow 5 "redirects" to another action
+$redirects = 0; $incstep = null;
+while ($redirects < 5) {
+  $stepfile = !empty($action_map[$RCMAIL->task][$RCMAIL->action]) ?
+    $action_map[$RCMAIL->task][$RCMAIL->action] : strtr($RCMAIL->action, '-', '_') . '.inc';
     
-  if ($RCMAIL->action=='list' && isset($_REQUEST['_remote']))
-    include('program/steps/mail/list.inc');
+  // try to include the step file
+  if (is_file(($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile))) {
+    include($incfile);
+    $redirects++;
+  }
+  else {
+    break;
+  }
+}
 
-   if ($RCMAIL->action=='search')
-     include('program/steps/mail/search.inc');
-     
-  if ($RCMAIL->action=='spell')
-    include('program/steps/mail/spell.inc');
 
-  if ($RCMAIL->action=='rss')
-    include('program/steps/mail/rss.inc');
-    
-  // make sure the message count is refreshed
+// make sure the message count is refreshed (for default view)
+if ($RCMAIL->task == 'mail') {
   $IMAP->messagecount($_SESSION['mbox'], 'ALL', true);
 }
 
-
-// include task specific files
-if ($RCMAIL->task=='addressbook') {
-  include_once('program/steps/addressbook/func.inc');
-
-  if ($RCMAIL->action=='save')
-    include('program/steps/addressbook/save.inc');
-  
-  if ($RCMAIL->action=='edit' || $RCMAIL->action=='add')
-    include('program/steps/addressbook/edit.inc');
-  
-  if ($RCMAIL->action=='delete')
-    include('program/steps/addressbook/delete.inc');
-
-  if ($RCMAIL->action=='show')
-    include('program/steps/addressbook/show.inc');  
-
-  if ($RCMAIL->action=='list' && $_REQUEST['_remote'])
-    include('program/steps/addressbook/list.inc');
-
-  if ($RCMAIL->action=='search')
-    include('program/steps/addressbook/search.inc');
-
-  if ($RCMAIL->action=='copy')
-    include('program/steps/addressbook/copy.inc');
-
-  if ($RCMAIL->action=='mailto')
-    include('program/steps/addressbook/mailto.inc');
-}
-
-
-// include task specific files
-if ($RCMAIL->task=='settings') {
-  include_once('program/steps/settings/func.inc');
-
-  if ($RCMAIL->action=='save-identity')
-    include('program/steps/settings/save_identity.inc');
-
-  if ($RCMAIL->action=='add-identity' || $RCMAIL->action=='edit-identity')
-    include('program/steps/settings/edit_identity.inc');
-
-  if ($RCMAIL->action=='delete-identity')
-    include('program/steps/settings/delete_identity.inc');
-  
-  if ($RCMAIL->action=='identities')
-    include('program/steps/settings/identities.inc');  
-
-  if ($RCMAIL->action=='save-prefs')
-    include('program/steps/settings/save_prefs.inc');  
-
-  if ($RCMAIL->action=='folders' || $RCMAIL->action=='subscribe' || $RCMAIL->action=='unsubscribe' ||
-      $RCMAIL->action=='create-folder' || $RCMAIL->action=='rename-folder' || $RCMAIL->action=='delete-folder')
-    include('program/steps/settings/manage_folders.inc');
-}
-
-
-// parse main template
+// parse main template (default)
 $OUTPUT->send($RCMAIL->task);
 
 
