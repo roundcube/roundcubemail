@@ -105,10 +105,6 @@ if (!empty($msg_uid))
   {
     $_SESSION['compose']['forward_uid'] = $msg_uid;
   }
-  else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
-  {
-    $_SESSION['compose']['draft_uid'] = $msg_uid;
-  }
 }
 
 /****** compose mode functions ********/

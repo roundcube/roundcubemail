@@ -348,11 +348,13 @@ if (!$savedraft)
     return;
     }
   
-  // set repliead flag
+  // set replied/forwarded flag
   if ($_SESSION['compose']['reply_uid'])
     $IMAP->set_flag($_SESSION['compose']['reply_uid'], 'ANSWERED');
+  else if ($_SESSION['compose']['forward_uid'])
+    $IMAP->set_flag($_SESSION['compose']['forward_uid'], 'FORWARDED');
 
-  } // End of SMTP Delivery Block
+} // End of SMTP Delivery Block
 
 
 

@@ -147,6 +147,7 @@ class iilBasicHeader
 	var $deleted = false;
 	var $recent = false;
 	var $answered = false;
+	var $forwarded = false;
 	var $junk = false;
 }
 
@@ -1741,11 +1742,6 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					// process flags
 					$flags_str = eregi_replace('[\\\"]', '', $flags_str);
 					$flags_a   = explode(' ', $flags_str);
-
-                    /*
-                    trigger_error("<!-- ID: $id FLAGS: ".implode(",", $flags_a)." //-->\n",
-                        E_USER_WARNING);
-                    */
 					
 					if (is_array($flags_a)) {
 						reset($flags_a);
@@ -1758,9 +1754,11 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 							    $result[$id]->recent = true;
 							} else if (strcasecmp($val, 'Answered') == 0) {
 							    $result[$id]->answered = true;
-							} else if (strcasecmp($val, "\$MDNSent") == 0) {
+							} else if (strcasecmp($val, '$Forwarded') == 0) {
+							    $result[$id]->forwarded = true;
+							} else if (strcasecmp($val, '$MDNSent') == 0) {
 							    $result[$id]->mdn_sent = true;
-    				                        }
+							}
 						}
 						$result[$id]->flags = $flags_a;
 					}
@@ -1915,7 +1913,8 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
         'ANSWERED' => '\\Answered',
         'DRAFT'    => '\\Draft',
         'FLAGGED'  => '\\Flagged',
-        'MDNSENT'  => "\$MDNSent");
+        'FORWARDED' => '$Forwarded',
+        'MDNSENT'  => '$MDNSent');
         
 	$flag = strtoupper($flag);
 	$flag = $flags[$flag];
