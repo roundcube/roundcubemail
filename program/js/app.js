@@ -2761,7 +2761,7 @@ function rcube_webmail()
         if (this.name_input.__parent)
           newname = this.name_input.__parent + this.env.delimiter + newname;
 
-        this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname));
+        this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname), true);
         }
       }
     // escape
