@@ -27,6 +27,7 @@ $rcube_languages = array(
   'sq_AL' => 'Albanian',
   'ar_SA' => 'Arabic',
   'hy_AM' => 'Armenian',
+  'az_AZ' => 'Azerbaijani',
   'bs_BA' => 'Bosnian (Serbian Latin)',
   'bg_BG' => 'Bulgarian',
   'ca_ES' => 'Català',
@@ -85,8 +86,9 @@ $rcube_languages = array(
 );
 
 $rcube_language_aliases = array(
-  'ar' => 'ar_SA',
   'am' => 'hy_AM',
+  'ar' => 'ar_SA',
+  'az' => 'az_AZ',
   'bg' => 'bg_BG',
   'bs' => 'bs_BA',
   'ca' => 'ca_ES',
