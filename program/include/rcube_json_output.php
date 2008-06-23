@@ -156,7 +156,7 @@ class rcube_json_output
     /**
      * Delete all stored env variables and commands
      */
-    public public function reset()
+    public function reset()
     {
         $this->env = array();
         $this->texts = array();
