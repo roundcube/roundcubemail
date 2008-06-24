@@ -474,12 +474,20 @@ class rcmail
   public function autoselect_host()
   {
     $default_host = $this->config->get('default_host');
-    $host = empty($default_host) ? get_input_value('_host', RCUBE_INPUT_POST) : $default_host;
+    $host = null;
     
-    if (is_array($host)) {
+    if (is_array($default_host)) {
+      $post_host = get_input_value('_host', RCUBE_INPUT_POST);
+      
+      // direct match in default_host array
+      if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
+        $host = $post_host;
+      }
+      
+      // try to select host by mail domain
       list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
       if (!empty($domain)) {
-        foreach ($host as $imap_host => $mail_domains) {
+        foreach ($default_host as $imap_host => $mail_domains) {
           if (is_array($mail_domains) && in_array($domain, $mail_domains)) {
             $host = $imap_host;
             break;
@@ -488,8 +496,12 @@ class rcmail
       }
 
       // take the first entry if $host is still an array
-      if (is_array($host))
-        $host = array_shift($host);
+      if (empty($host)) {
+        $host = array_shift($default_host);
+      }
+    }
+    else if (empty($default_host)) {
+      $host = get_input_value('_host', RCUBE_INPUT_POST);
     }
 
     return $host;
