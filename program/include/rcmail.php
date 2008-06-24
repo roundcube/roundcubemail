@@ -474,7 +474,7 @@ class rcmail
   public function autoselect_host()
   {
     $default_host = $this->config->get('default_host');
-    $host = !empty($default_host) ? get_input_value('_host', RCUBE_INPUT_POST) : $default_host;
+    $host = empty($default_host) ? get_input_value('_host', RCUBE_INPUT_POST) : $default_host;
     
     if (is_array($host)) {
       list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
