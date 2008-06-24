@@ -39,8 +39,13 @@ if ($RCMAIL->action=='expunge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_
 // clear mailbox
 else if ($RCMAIL->action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST)))
 {
-  // we should only be purging trash and junk
-  if($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']) 
+  $delimiter = $IMAP->get_hierarchy_delimiter();
+  $trash_regexp = '/^' . preg_quote($CONFIG['trash_mbox'] . $delimiter, '/') . '/';
+  $junk_regexp = '/^' . preg_quote($CONFIG['junk_mbox'] . $delimiter, '/') . '/';		      
+
+  // we should only be purging trash and junk (or their subfolders)
+  if ($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']
+    || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox))
   {
     $success = $IMAP->clear_mailbox($mbox);
   

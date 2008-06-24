@@ -203,7 +203,10 @@ function rcube_webmail()
         if (this.env.messagecount)
           this.enable_command('select-all', 'select-none', 'expunge', true);
 
-        if (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox))
+        if (this.env.messagecount 
+	    && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
+		|| this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
+		|| this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))))
           this.enable_command('purge', true);
 
         this.set_page_buttons();
@@ -3559,7 +3562,11 @@ function rcube_webmail()
       case 'check-recent':
       case 'getunread':
 	this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
-	this.enable_command('purge', (this.env.messagecount && (this.env.mailbox==this.env.trash_mailbox || this.env.mailbox==this.env.junk_mailbox)));
+	var mailboxtest = (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
+	    || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
+	    || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))) ? true : false;
+	
+	this.enable_command('purge', (this.env.messagecount && mailboxtest));
 
 	break;
 

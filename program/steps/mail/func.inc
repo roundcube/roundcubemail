@@ -57,6 +57,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
 $OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
+$OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
 
 if ($CONFIG['trash_mbox'])
   $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);

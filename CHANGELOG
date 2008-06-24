@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/24 (alec)
+----------
+- Allow trash/junk subfolders to be purged (#1485085)
+
 2008/06/20 (alec)
 ----------
 - Added Azerbaijani translation
