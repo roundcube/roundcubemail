@@ -1,30 +1,30 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/fa/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
- |         Anoosh <anoosher2003@yahoo.com>                               |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/fa/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
+|         Anoosh <anoosher2003@yahoo.com>                               |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
 $labels = array();
-$labels['welcome'] = 'به $product خوش آمدید';
+$labels['welcome'] = 'خوش آمدید $product به';
 $labels['username'] = 'نام کاربری';
 $labels['password'] = 'گذرواژه';
-$labels['server'] = 'خادم';
+$labels['server'] = 'سرور';
 $labels['login'] = 'ورود';
 $labels['logout'] = 'خروج';
-$labels['mail'] = 'رایانامه';
+$labels['mail'] = 'ایمیل';
 $labels['settings'] = 'تنظیمات شخصی';
 $labels['addressbook'] = 'دفتر نشانی‌ها';
 $labels['inbox'] = 'صندوق';
@@ -44,30 +44,55 @@ $labels['priority'] = 'اولویت';
 $labels['organization'] = 'سازمان‌دهی';
 $labels['reply-to'] = 'پاسخ-به';
 $labels['mailboxlist'] = 'پوشه‌ها';
-$labels['messagesfromto'] = 'پیغام‌های $from تا $to از $count تا';
-$labels['messagenrof'] = 'پیغام $nr از $count تا';
+$labels['messagesfromto'] = 'تا $count از $to تا $from پیغام‌های';
+$labels['messagenrof'] = 'تا $count پیغام  از $nr';
 $labels['moveto'] = '...انتقال به';
-$labels['download'] = 'پایین‌گذاری';
+$labels['download'] = 'دانلود';
 $labels['filename'] = 'نام پرونده';
 $labels['filesize'] = 'اندازه‌ی پرونده';
-$labels['preferhtml'] = 'نمایش HTML';
-$labels['htmlmessage'] = 'پیغام HTML';
+$labels['preferhtml'] = 'HTML نمایش';
+$labels['htmlmessage'] = 'HTML پیغام';
+$labels['showknownimages'] = 'نمایش عکسها از فرستندگان شناخته شده';
 $labels['prettydate'] = 'تاریخ‌های زیبا';
 $labels['addtoaddressbook'] = 'افزودن به دفتر نشانی‌ها';
-$labels['sun'] = 'یک‌شنبه';
+$labels['sun'] = 'یکشنبه';
 $labels['mon'] = 'دوشنبه';
 $labels['tue'] = 'سه‌شنبه';
 $labels['wed'] = 'چهارشنبه';
 $labels['thu'] = 'پنج‌شنبه';
 $labels['fri'] = 'جمعه';
 $labels['sat'] = 'شنبه';
-$labels['sunday'] = 'یک‌شنبه';
+$labels['sunday'] = 'یکشنبه';
 $labels['monday'] = 'دوشنبه';
 $labels['tuesday'] = 'سه‌شنبه';
 $labels['wednesday'] = 'چهارشنبه';
 $labels['thursday'] = 'پنج‌شنبه';
 $labels['friday'] = 'جمعه';
 $labels['saturday'] = 'شنبه';
+$labels['jan'] = 'ژانویه';
+$labels['feb'] = 'فوریه';
+$labels['mar'] = 'مارس';
+$labels['apr'] = 'آوریل';
+$labels['may'] = 'می';
+$labels['jun'] = 'ژوئن';
+$labels['jul'] = 'جولی';
+$labels['aug'] = 'آگوست';
+$labels['sep'] = 'سپتامبر';
+$labels['oct'] = 'اکتبر';
+$labels['nov'] = 'نوامبر';
+$labels['dec'] = 'دسامبر';
+$labels['longjan'] = 'ژانویه';
+$labels['longfeb'] = 'فوریه';
+$labels['longmar'] = 'مارس';
+$labels['longapr'] = 'آوریل';
+$labels['longmay'] = 'می';
+$labels['longjun'] = 'ژوئن';
+$labels['longjul'] = 'جولی';
+$labels['longaug'] = 'آگوست';
+$labels['longsep'] = 'سپتامبر';
+$labels['longoct'] = 'اکتبر';
+$labels['longnov'] = 'نوامبر';
+$labels['longdec'] = 'دسامبر';
 $labels['today'] = 'امروز';
 $labels['checkmail'] = 'بررسی برای پیغام‌های جدید';
 $labels['writenewmessage'] = 'ایجاد پیغام جدید';
@@ -122,19 +147,20 @@ $labels['high'] = 'زیاد';
 $labels['highest'] = 'بیش‌ترین';
 $labels['nosubject'] = '(بدون موضوع)';
 $labels['showimages'] = 'نمایش عکس‌ها';
+$labels['alwaysshow'] = 'را نمایش بده $sender همیشه عکسهای دریافتی از  ';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'متن ساده';
 $labels['addcc'] = 'افزودن رونوشت';
 $labels['addbcc'] = 'افزودن رونوشت مخفی';
 $labels['addreplyto'] = 'افزودن پاسخ-به';
 $labels['mdnrequest'] = 'فرستندهٔ این پیغام خواسته است که وقتی شما این پیغام را می‌خوانید، آگاه شود. آیا مایلید فرستنده را آگاه کنید؟';
-$labels['receiptread'] = 'رسید دریافت (خواندن)';
+$labels['receiptread'] = '(رسید دریافت (خواندن';
 $labels['yourmessage'] = 'این یک رسید دریافت برای پیغام شماست';
 $labels['receiptnote'] = 'تذکر: این رسید فقط تصدیق می‌کند که پیغام، روی رایانهٔ گیرنده نمایش داده شده است. هیچ تضمینی نیست که گیرنده، محتوای پیغام را خوانده یا فهمیده باشد.';
 $labels['name'] = 'نمایش نام';
 $labels['firstname'] = 'نام';
 $labels['surname'] = 'نام خانوادگی';
-$labels['email'] = 'رایانامه';
+$labels['email'] = 'ایمیل';
 $labels['addcontact'] = 'افزودن تماس جدید';
 $labels['editcontact'] = 'ویرایش تماس';
 $labels['edit'] = 'ویرایش';
@@ -144,7 +170,7 @@ $labels['delete'] = 'حذف';
 $labels['newcontact'] = 'ایجاد کارت تماس جدید';
 $labels['deletecontact'] = 'حذف تماس‌های انتخاب شده';
 $labels['composeto'] = 'نوشتن نامه به';
-$labels['contactsfromto'] = 'تماس‌های $from تا $to از $count تا';
+$labels['contactsfromto'] = ' تا $count از $to تا $from  تماس‌های';
 $labels['print'] = 'چاپ';
 $labels['export'] = 'صدور';
 $labels['previouspage'] = 'نمایش دسته‌ی قبلی';
@@ -171,9 +197,23 @@ $labels['dstactive'] = 'ساعت تابستانی';
 $labels['htmleditor'] = 'HTML ‌نوشتن پیغام‌های';
 $labels['htmlsignature'] = 'HTML امضای';
 $labels['previewpane'] = 'نمایش قاب پیش‌نمایش';
+$labels['logoutclear'] = 'تمیز کردن زباله دان در هنگام خروچ';
+$labels['logoutcompact'] = 'فشرده سازی صندوق در هنگام خروچ';
+$labels['uisettings'] = 'محیط کاربری';
+$labels['serversettings'] = 'تنظیمات سرور';
+$labels['mailboxview'] = 'نمایش صندوق';
+$labels['mdnrequests'] = 'تاییدهای فرستنده';
+$labels['askuser'] = 'پرسش از کاربر';
+$labels['autosend'] = 'ارسال خود به خود';
+$labels['ignore'] = 'نادیده گیری';
+$labels['readwhendeleted'] = 'در هنگام پاک کردن، پیغام را به عنوان خوانده شده علامت بزن';
+$labels['flagfordeletion'] = 'پیغام را بجای پاک کردن، برای پاک شدن آماده کن ';
+$labels['showinlineimages'] = 'نمایش عکس های الصاق شده در پایین پیغام';
 $labels['autosavedraft'] = 'ذخیره‌ی خودکار پیش‌نویس';
-$labels['everynminutes'] = 'هر $n دقیقه';
+$labels['everynminutes'] = 'دقیقه $n هر';
 $labels['never'] = 'هرگز';
+$labels['messagesdisplaying'] = 'نمایش داده شدن پیغام ها';
+$labels['messagescomposition'] = 'نوشته شدن پیغام ها';
 $labels['folder'] = 'پوشه';
 $labels['folders'] = 'پوشه‌ها';
 $labels['foldername'] = 'نام پوشه';
