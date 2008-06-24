@@ -503,6 +503,8 @@ class rcmail
     else if (empty($default_host)) {
       $host = get_input_value('_host', RCUBE_INPUT_POST);
     }
+    else
+      $host = $default_host;
 
     return $host;
   }
