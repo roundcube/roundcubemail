@@ -398,7 +398,7 @@ class Mail_mimePart {
         //is not any of the defaults, we need to encode the value.
         $shouldEncode = 0;
         $secondAsterisk = '';
-        if (preg_match('#([\x80-\xFF]){1}#', $value)) {
+        if (preg_match('#([ \x80-\xFF \*\'\\%\t(\)\<\>\@\,\;\:\\\"/\[\]\?\=]){1}#', $value)) {
             $shouldEncode = 1;
         } elseif ($charset && (strtolower($charset) != 'us-ascii')) {
             $shouldEncode = 1;
@@ -406,10 +406,7 @@ class Mail_mimePart {
             $shouldEncode = 1;
         }
         if ($shouldEncode) {
-            $search  = array('%',   ' ',   "\t");
-            $replace = array('%25', '%20', '%09');
-            $encValue = str_replace($search, $replace, $value);
-            $encValue = preg_replace('#([\x80-\xFF])#e', '"%" . strtoupper(dechex(ord("\1")))', $encValue);
+            $encValue = preg_replace('#([\x80-\xFF \*\'\%\t\(\)\<\>\@\,\;\:\\\"/\[\]\?\=])#e', '"%" . strtoupper(dechex(ord("\1")))', $value);
             $value = "$charset'$language'$encValue";
             $secondAsterisk = '*';
         }
