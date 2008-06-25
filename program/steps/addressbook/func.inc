@@ -53,8 +53,10 @@ if (strtolower($CONFIG['address_book_type']) != 'ldap') {
   // We are using the DB address book, add it.
   $js_list = array("0" => array('id' => 0, 'readonly' => false));
 } // end if
-foreach ((array)$CONFIG['ldap_public'] as $id => $prop)
-  $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writable']);
+else if (!empty($CONFIG['ldap_public'])) {
+  foreach ($CONFIG['ldap_public'] as $id => $prop)
+    $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writable']);
+}
 $OUTPUT->set_env('address_sources', $js_list);
 
 
