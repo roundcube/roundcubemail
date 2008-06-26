@@ -2,20 +2,21 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/pt_BR/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
- |         Robson F. Ramaldes <rframaldes@gmail.com>                     |
- |         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/pt_BR/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                        |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+|         Robson F. Ramaldes <rframaldes@gmail.com>                     |
+|         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
+|         Gervasio Antonio <gdsa32-translations@yahoo.com.br            |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -56,7 +57,7 @@ $messages['nopagesizewarning'] = 'Por favor, informe o tamanho da página.';
 $messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário.';
 $messages['nosubjectwarning'] = 'O campo assunto não foi informado. Deseja incluí-lo agora?';
 $messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
-$messages['notsentwarning'] = 'A mensegem não foi enviada, deseja excluí-la?';
+$messages['notsentwarning'] = 'A mensagem não foi enviada, deseja excluí-la?';
 $messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesquisa';
 $messages['nocontactsreturned'] = 'Nenhum contato foi encontrado.';
 $messages['nosearchname'] = 'Por favor, informe o nome do contado ou seu endereço de e-mail';
@@ -80,5 +81,6 @@ $messages['receiptsent'] = 'Confirmação de Leitura enviada com sucesso.';
 $messages['errorsendingreceipt'] = 'Não foi possível enviar a confirmação de leitura.';
 $messages['nodeletelastidentity'] = 'Você não pode excluir sua única identidade.';
 $messages['addsubfolderhint'] = 'Esta pasta será criada como uma sub-pasta da que está selecionada.';
+$messages['forbiddencharacter'] = 'O nome da pasta contém um caracter não permitido';
 
 ?>
