@@ -2,20 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/ru_RU/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
- |         Vladimir Kulev <me@lightoze.net>                              |
- |         Artur Smolkin <admin@roundcube.ru>                            |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/ru_RU/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Maxim Zenin <maxx@webmechanics.ru>                            |
+|         Vladimir Kulev <me@lightoze.net>                              |
+|         Artur Smolkin <admin@roundcube.ru>                            |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -54,7 +54,7 @@ $messages['noemailwarning'] = 'Пожалуйста, введите коррек
 $messages['nonamewarning'] = 'Пожалуйста, введите имя';
 $messages['nopagesizewarning'] = 'Пожалуйста, введите размер страницы';
 $messages['norecipientwarning'] = 'Пожалуйста, введите имя получателя';
-$messages['nosubjectwarning'] = 'Поле "Тема" не заполнено. Хотите заполнить его сейчас?';
+$messages['nosubjectwarning'] = 'Поле \"Тема\" не заполнено. Хотите заполнить его сейчас?';
 $messages['nobodywarning'] = 'Отправить сообщение без текста?';
 $messages['notsentwarning'] = 'Сообщение не было отправлено. Вы хотите отказаться от отправки?';
 $messages['noldapserver'] = 'Пожалуйста, выберите LDAP сервер для поиска';
@@ -80,5 +80,6 @@ $messages['receiptsent'] = 'Уведомление о прочтении отп�
 $messages['errorsendingreceipt'] = 'Уведомление о прочтении не отправлено';
 $messages['nodeletelastidentity'] = 'Вы не можете удалить этот профиль, он у вас последний';
 $messages['addsubfolderhint'] = 'Эта папка будет создана как подпапка в текущей папке';
+$messages['forbiddencharacter'] = 'Имя папки содержит недопустимые символы';
 
 ?>
