@@ -76,8 +76,9 @@ function get_sequence_name($sequence)
   if (!empty($opt))
     {
     $db = &rcmail::get_instance()->db;
-
-    if ($db->db_provider=='pgsql' && is_a($db, 'rcube_mdb2'))
+    $dbclass = 'rcube_mdb2';
+    
+    if ($db->db_provider=='pgsql' && ($db instanceof $dbclass))
       {
       $db->db_handle->setOption('disable_smart_seqname', true);
       $db->db_handle->setOption('seqname_format', '%s');
