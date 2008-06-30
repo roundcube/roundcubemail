@@ -39,16 +39,17 @@ function utf7_to_utf8($str)
   );
 
   $u7len = strlen($str);
+  $str = strval($str);
   $p = $err = '';
 
   for ($i=0; $u7len > 0; $i++, $u7len--)
   {
-    $u7 = $str{$i};
+    $u7 = $str[$i];
     if ($u7 == '&')
     {
       $i++;
       $u7len--;
-      $u7 = $str{$i};
+      $u7 = $str[$i];
       
       if ($u7len && $u7 == '-')
       {
@@ -60,7 +61,7 @@ function utf7_to_utf8($str)
       $k = 10;
       for (; $u7len > 0; $i++, $u7len--)
       {
-        $u7 = $str{$i};
+        $u7 = $str[$i];
 
         if ((ord($u7) & 0x80) || ($b = $Index_64[ord($u7)]) == -1)
           break;
@@ -106,7 +107,7 @@ function utf7_to_utf8($str)
         return $err;
         
       /* Adjacent BASE64 sections */
-      if ($u7len > 2 && $str{$i+1} == '&' && $str{$i+2} != '-')
+      if ($u7len > 2 && $str[$i+1] == '&' && $str[$i+2] != '-')
         return $err;
     }
     /* Not printable US-ASCII */
@@ -141,7 +142,7 @@ function utf8_to_utf7($str)
 
   while ($u8len)
   {
-    $u8 = $str{$i};
+    $u8 = $str[$i];
     $c = ord($u8);
     
     if ($c < 0x80)
@@ -187,7 +188,7 @@ function utf8_to_utf7($str)
 
     for ($j=0; $j < $n; $j++)
     {
-      $o = ord($str{$i+$j});
+      $o = ord($str[$i+$j]);
       if (($o & 0xc0) != 0x80)
         return $err;
       $ch = ($ch << 6) | ($o & 0x3f);
