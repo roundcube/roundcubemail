@@ -68,7 +68,9 @@ body_keypress: function(evt, p)
   unreadIcon="/images/icons/unread.png"
   deletedIcon="/images/icons/deleted.png"
   repliedIcon="/images/icons/replied.png"
-  attachmentIcon="/images/icons/attachment.png" />
+  attachmentIcon="/images/icons/attachment.png"
+  flaggedIcon="/images/icons/flagged.png"
+  unflaggedIcon="/images/icons/unflagged.png" />
 </div>
 
 <roundcube:if condition="config:preview_pane == true" />
@@ -112,6 +114,8 @@ body_keypress: function(evt, p)
   <ul class="toolbarmenu">
     <li><roundcube:button command="mark" prop="read" label="markread" classAct="active" /></li>
     <li><roundcube:button command="mark" prop="unread" label="markunread" classAct="active" /></li>
+    <li><roundcube:button command="mark" prop="flagged" label="markflagged" classAct="active" /></li>
+    <li><roundcube:button command="mark" prop="unflagged" label="markunflagged" classAct="active" /></li>
   </ul>
 </div>
 </div>

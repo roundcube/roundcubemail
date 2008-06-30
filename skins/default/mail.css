@@ -456,7 +456,8 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
   vertical-align: middle;
 }
 
-#messagelist tr td.icon
+#messagelist tr td.icon,
+#messagelist tr td.flag
 {
   width: 16px;
   vertical-align: middle;

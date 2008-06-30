@@ -22,7 +22,9 @@ $a_flags_map = array(
   'undelete' => 'UNDELETED',
   'delete' => 'DELETED',
   'read' => 'SEEN',
-  'unread' => 'UNSEEN');
+  'unread' => 'UNSEEN',
+  'flagged' => 'FLAGGED',
+  'unflagged' => 'UNFLAGGED');
 
 if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_value('_flag', RCUBE_INPUT_POST)))
 {

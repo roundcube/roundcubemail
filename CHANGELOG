@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/06/30 (alec)
+----------
+- Added flag column on messages list (#1484623)
+
 2008/06/24 (alec)
 ----------
 - Patched Mail/MimePart.php (http://pear.php.net/bugs/bug.php?id=14232)

@@ -1315,6 +1315,8 @@ class rcube_imap
       $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
     else if ($flag=='UNSEEN')
       $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
+    else if ($flag=='UNFLAGGED')
+      $result = iil_C_UnFlag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), 'FLAGGED');
     else
       $result = iil_C_Flag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), $flag);
 

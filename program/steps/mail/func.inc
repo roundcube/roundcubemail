@@ -74,7 +74,6 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
 
 
-
 /**
  * return the message list as HTML table
  */
@@ -83,7 +82,7 @@ function rcmail_message_list($attrib)
   global $IMAP, $CONFIG, $COMM_PATH, $OUTPUT;
 
   $skin_path = $CONFIG['skin_path'];
-  $image_tag = '<img src="%s%s" alt="%s" border="0" />';
+  $image_tag = '<img src="%s%s" alt="%s" />';
 
   // check to see if we have some settings for sorting
   $sort_col   = $_SESSION['sort_col'];
@@ -103,7 +102,6 @@ function rcmail_message_list($attrib)
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
 
   $out = '<table' . $attrib_str . ">\n";
-
 
   // define list of cols to be displayed
   $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
@@ -133,7 +131,7 @@ function rcmail_message_list($attrib)
   foreach ($a_show_cols as $col)
     {
     // get column name
-    $col_name = Q(rcube_label($col));
+    $col_name = $col != 'flag' ? Q(rcube_label($col)) : sprintf($image_tag, $skin_path, $attrib['unflaggedicon'], '');
 
     // make sort links
     $sort = '';
@@ -197,7 +195,7 @@ function rcmail_message_list($attrib)
   // create row for each message
   foreach ($a_headers as $i => $header)  //while (list($i, $header) = each($a_headers))
     {
-    $message_icon = $attach_icon = '';
+    $message_icon = $attach_icon = $flagged_icon = '';
     $js_row_arr = array();
     $zebra_class = $i%2 ? 'even' : 'odd';
 
@@ -208,6 +206,9 @@ function rcmail_message_list($attrib)
       $js_row_arr['unread'] = true;
     if ($header->answered)
       $js_row_arr['replied'] = true;
+    if ($header->flagged)
+      $js_row_arr['flagged'] = true;
+
     // set message icon  
     if ($attrib['deletedicon'] && $header->deleted)
       $message_icon = $attrib['deletedicon'];
@@ -217,6 +218,11 @@ function rcmail_message_list($attrib)
       $message_icon = $attrib['repliedicon'];
     else if ($attrib['messageicon'])
       $message_icon = $attrib['messageicon'];
+
+    if ($attrib['flaggedicon'] && $header->flagged)
+      $flagged_icon = $attrib['flaggedicon'];
+    else if ($attrib['unflaggedicon'] && !$header->flagged)
+      $flagged_icon = $attrib['unflaggedicon'];
     
     // set attachment icon
     if ($attrib['attachmenticon'] && preg_match("/multipart\/[mr]/i", $header->ctype))
@@ -226,9 +232,11 @@ function rcmail_message_list($attrib)
                     $header->uid,
                     $header->seen ? '' : ' unread',
                     $header->deleted ? ' deleted' : '',
+                    $header->flagged ? ' flagged' : '',
                     $zebra_class);    
     
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
+
 
     if (!empty($header->charset))
       $IMAP->set_charset($header->charset);
@@ -246,6 +254,8 @@ function rcmail_message_list($attrib)
         if (empty($cont)) $cont = Q(rcube_label('nosubject'));
         $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
         }
+      else if ($col=='flag')
+        $cont = $flagged_icon ? sprintf($image_tag, $skin_path, $flagged_icon, '') : '';
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')
@@ -288,6 +298,10 @@ function rcmail_message_list($attrib)
     $OUTPUT->set_env('repliedicon', $skin_path . $attrib['repliedicon']);
   if ($attrib['attachmenticon'])
     $OUTPUT->set_env('attachmenticon', $skin_path . $attrib['attachmenticon']);
+  if ($attrib['flaggedicon'])
+    $OUTPUT->set_env('flaggedicon', $skin_path . $attrib['flaggedicon']);
+  if ($attrib['unflaggedicon'])
+    $OUTPUT->set_env('unflaggedicon', $skin_path . $attrib['unflaggedicon']);
   
   $OUTPUT->set_env('messages', $a_js_message_arr);
   $OUTPUT->set_env('coltypes', $a_show_cols);
@@ -353,6 +367,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     $a_msg_flags['deleted'] = $header->deleted ? 1 : 0;
     $a_msg_flags['unread'] = $header->seen ? 0 : 1;
     $a_msg_flags['replied'] = $header->answered ? 1 : 0;
+    $a_msg_flags['flagged'] = $header->flagged ? 1 : 0;
+    
     $OUTPUT->command('add_message_row',
       $header->uid,
       $a_msg_cols,

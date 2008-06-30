@@ -149,6 +149,7 @@ class iilBasicHeader
 	var $answered = false;
 	var $forwarded = false;
 	var $junk = false;
+	var $flagged = false;
 }
 
 /**
@@ -1758,6 +1759,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 							    $result[$id]->forwarded = true;
 							} else if (strcasecmp($val, '$MDNSent') == 0) {
 							    $result[$id]->mdn_sent = true;
+							} else if (strcasecmp($val, 'Flagged') == 0) {
+							     $result[$id]->flagged = true;
 							}
 						}
 						$result[$id]->flags = $flags_a;

@@ -136,7 +136,7 @@ function rcube_webmail()
           this.message_list.addEventListener('dragend', function(o){ p.drag_active = false; });
 
           this.message_list.init();
-          this.enable_command('toggle_status', true);
+          this.enable_command('toggle_status', 'toggle_flag', true);
           
           if (this.gui_objects.mailcontframe)
             {
@@ -373,6 +373,7 @@ function rcube_webmail()
       row.deleted = this.env.messages[uid].deleted ? true : false;
       row.unread = this.env.messages[uid].unread ? true : false;
       row.replied = this.env.messages[uid].replied ? true : false;
+      row.flagged = this.env.messages[uid].flagged ? true : false;
       }
 
     // set eventhandler to message icon
@@ -382,6 +383,24 @@ function rcube_webmail()
       row.icon.id = 'msgicn_'+row.uid;
       row.icon._row = row.obj;
       row.icon.onmousedown = function(e) { p.command('toggle_status', this); };
+      }
+
+    // global variable 'flagged_col' may be not defined yet
+    if (!this.env.flagged_col && this.env.coltypes)
+      {
+      var found;
+      if((found = find_in_array('flag', this.env.coltypes)) >= 0)
+          this.set_env('flagged_col', found+1);
+      }
+
+    // set eventhandler to flag icon, if icon found
+    if (this.env.flagged_col && (row.flagged_icon = row.obj.cells[this.env.flagged_col].childNodes[0]) 
+	&& row.flagged_icon.nodeName=='IMG')
+      {
+      var p = this;
+      row.flagged_icon.id = 'flaggedicn_'+row.uid;
+      row.flagged_icon._row = row.obj;
+      row.flagged_icon.onmousedown = function(e) { p.command('toggle_flag', this); };
       }
   };
 
@@ -708,6 +727,24 @@ function rcube_webmail()
         this.mark_message(flag, uid);
         break;
         
+      case 'toggle_flag':
+        if (props && !props._row)
+          break;
+
+        var uid;
+        var flag = 'flagged';
+
+        if (props._row.uid)
+          {
+          uid = props._row.uid;
+          this.message_list.dont_select = true;
+          // toggle flagged/unflagged
+          if (this.message_list.rows[uid].flagged)
+            flag = 'unflagged';
+          }
+        this.mark_message(flag, uid);
+        break;
+
       case 'always-load':
         if (this.env.uid && this.env.sender) {
           this.add_contact(urlencode(this.env.sender));
@@ -1526,7 +1563,7 @@ function rcube_webmail()
       {
       for (var n=0; n<selection.length; n++)
         {
-    	  a_uids[a_uids.length] = selection[n];
+          a_uids[a_uids.length] = selection[n];
         }
       }
 
@@ -1538,8 +1575,10 @@ function rcube_webmail()
         id = a_uids[n];
         if ((flag=='read' && this.message_list.rows[id].unread) 
 	    || (flag=='unread' && !this.message_list.rows[id].unread)
-            || (flag=='delete' && !this.message_list.rows[id].deleted)
-	    || (flag=='undelete' && this.message_list.rows[id].deleted))
+        || (flag=='delete' && !this.message_list.rows[id].deleted)
+	    || (flag=='undelete' && this.message_list.rows[id].deleted)
+	    || (flag=='flagged' && !this.message_list.rows[id].flagged)
+	    || (flag=='unflagged' && this.message_list.rows[id].flagged))
 	  {
 	    r_uids[r_uids.length] = id;
 	  }
@@ -1558,6 +1597,10 @@ function rcube_webmail()
         case 'delete':
         case 'undelete':
           this.toggle_delete_status(r_uids);
+          break;
+        case 'flagged':
+        case 'unflagged':
+          this.toggle_flagged_status(flag, a_uids);
           break;
       }
     };
@@ -1625,6 +1668,32 @@ function rcube_webmail()
       }
   }
   
+  
+  // set image to flagged or unflagged
+  this.toggle_flagged_status = function(flag, a_uids)
+  {
+    // mark all message rows as flagged/unflagged
+    var icn_src;
+    var rows = this.message_list.rows;
+    for (var i=0; i<a_uids.length; i++)
+      {
+      uid = a_uids[i];
+      if (rows[uid])
+        {
+        rows[uid].flagged = (flag=='flagged' ? true : false);
+
+        if (rows[uid].flagged && this.env.flaggedicon)
+          icn_src = this.env.flaggedicon;
+        else if (this.env.unflaggedicon)
+          icn_src = this.env.unflaggedicon;
+
+        if (rows[uid].flagged_icon && icn_src)
+          rows[uid].flagged_icon.src = icn_src;
+        }
+      }
+
+    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
+  };
   
   // mark all message rows as deleted/undeleted
   this.toggle_delete_status = function(a_uids)
@@ -3243,9 +3312,12 @@ function rcube_webmail()
 
         cell.id = 'rcmHead'+col;
         }
-        
-      if (col == 'subject' && this.message_list)
+      else if (col == 'subject' && this.message_list)
         this.message_list.subject_col = n+1;
+      else if (col == 'flag' && this.env.unflaggedicon)
+        {
+	  cell.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
+	}
       }
   };
 
@@ -3261,7 +3333,8 @@ function rcube_webmail()
     
     this.env.messages[uid] = {deleted:flags.deleted?1:0,
                               replied:flags.replied?1:0,
-                              unread:flags.unread?1:0};
+                              unread:flags.unread?1:0,
+                              flagged:flags.flagged?1:0};
     
     var row = document.createElement('TR');
     row.id = 'rcmrow'+uid;
@@ -3276,7 +3349,7 @@ function rcube_webmail()
 
     var col = document.createElement('TD');
     col.className = 'icon';
-    col.innerHTML = icon ? '<img src="'+icon+'" alt="" border="0" />' : '';
+    col.innerHTML = icon ? '<img src="'+icon+'" alt="" />' : '';
     row.appendChild(col);
 
     // add each submitted col
@@ -3285,13 +3358,23 @@ function rcube_webmail()
       var c = this.coltypes[n];
       col = document.createElement('TD');
       col.className = String(c).toLowerCase();
-      col.innerHTML = cols[c];
+      
+      if (c=='flag')
+        {
+        if (flags.flagged && this.env.flaggedicon)
+          col.innerHTML = '<img src="'+this.env.flaggedicon+'" alt="" />';
+        else if(this.env.unflaggedicon)
+          col.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
+	}
+      else
+        col.innerHTML = cols[c];
+
       row.appendChild(col);
       }
 
     col = document.createElement('TD');
     col.className = 'icon';
-    col.innerHTML = attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" border="0" />' : '';
+    col.innerHTML = attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '';
     row.appendChild(col);
 
     this.message_list.insert_row(row, attop);

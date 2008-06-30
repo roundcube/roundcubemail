@@ -141,6 +141,8 @@ $labels['viewsource']       = 'Show source';
 $labels['markmessages']     = 'Mark messages';
 $labels['markread']         = 'As read';
 $labels['markunread']       = 'As unread';
+$labels['markflagged']         = 'As flagged';
+$labels['markunflagged']       = 'As unflagged';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
