@@ -254,6 +254,7 @@ $labels['dstactive']  = 'Daylight saving time';
 $labels['htmleditor'] = 'Compose HTML messages';
 $labels['htmlsignature'] = 'HTML signature';
 $labels['previewpane'] = 'Show preview pane';
+$labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';
 $labels['logoutcompact'] = 'Compact Inbox on logout';
 $labels['uisettings'] = 'User Interface';
