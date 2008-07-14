@@ -908,8 +908,8 @@ class rcube_template extends rcube_html_page
 
         $_SESSION['temp'] = true;
 
-        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30, 'autocomplete' => 'off'));
-        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30));
+        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30) + $attrib);
+        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30) + $attrib);
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_host   = null;
 
@@ -926,7 +926,7 @@ class rcube_template extends rcube_html_page
                 }
             }
         }
-        else if (!strlen($default_host)) {
+        else if (empty($default_host)) {
             $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
         }
 
@@ -937,7 +937,7 @@ class rcube_template extends rcube_html_page
         $table = new html_table(array('cols' => 2));
 
         $table->add('title', html::label('rcmloginuser', Q(rcube_label('username'))));
-        $table->add(null, $input_user->show(get_input_value('_user', RCUVE_INPUT_POST)));
+        $table->add(null, $input_user->show(get_input_value('_user', RCUBE_INPUT_POST)));
 
         $table->add('title', html::label('rcmloginpwd', Q(rcube_label('password'))));
         $table->add(null, $input_pass->show());
@@ -945,7 +945,7 @@ class rcube_template extends rcube_html_page
         // add host selection row
         if (is_object($input_host)) {
             $table->add('title', html::label('rcmloginhost', Q(rcube_label('server'))));
-            $table->add(null, $input_host->show(get_input_value('_host', RCUVE_INPUT_POST)));
+            $table->add(null, $input_host->show(get_input_value('_host', RCUBE_INPUT_POST)));
         }
 
         $out = $input_action->show();

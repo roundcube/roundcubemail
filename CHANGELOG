@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/07/14 (thomasb)
+----------
+- Re-enable autocomplete attribute for login form (#1485211)
+
 2008/06/30 (alec)
 ----------
 - Added flag column on messages list (#1484623)

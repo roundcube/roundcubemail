@@ -29,7 +29,7 @@ class html
 {
     protected $tagname;
     protected $attrib = array();
-    protected $allowed;
+    protected $allowed = array();
     protected $content;
 
     public static $common_attrib = array('id','class','style','title','align');
@@ -55,7 +55,7 @@ class html
      */
     public function show()
     {
-        return self::tag($this->tagname, $this->attrib, $this->content, $this->allowed);
+        return self::tag($this->tagname, $this->attrib, $this->content, array_merge(self::$common_attrib, $this->allowed));
     }
 
     /****** STATIC METHODS *******/
@@ -248,6 +248,7 @@ class html_inputfield extends html
 {
     protected $tagname = 'input';
     protected $type = 'text';
+    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked');
 
     public function __construct($attrib = array())
     {
@@ -415,7 +416,7 @@ class html_checkbox extends html_inputfield
 class html_textarea extends html
 {
     protected $tagname = 'textarea';
-    protected $allowed_attrib = array('name','rows','cols','wrap','tabindex');
+    protected $allowed = array('name','rows','cols','wrap','tabindex');
 
     /**
      * Get HTML code for this object
@@ -445,7 +446,7 @@ class html_textarea extends html
             $value = Q($value, 'strict', false);
         }
 
-        return self::tag($this->tagname, $this->attrib, $value, array_merge(self::$common_attrib, $this->allowed_attrib));
+        return self::tag($this->tagname, $this->attrib, $value, array_merge(self::$common_attrib, $this->allowed));
     }
 }
 
