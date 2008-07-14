@@ -190,5 +190,16 @@ $labels['managefolders'] = 'Spravovat složky';
 $labels['sortby'] = 'Seřadit podle';
 $labels['sortasc'] = 'Seřadit vzestupně';
 $labels['sortdesc'] = 'Seřadit sestupně';
+$labels['uisettings'] = 'Uživatelské rozhraní';
+$labels['mdnrequests'] = 'Oznámení o doručení';
+$labels['askuser'] = 'zeptat se';
+$labels['autosend'] = 'poslat automaticky';
+$labels['ignore'] = 'ignorovat';
+$labels['mailboxview'] = 'Zobrazení schránky';
+$labels['serversettings'] = 'Nastavení serveru';
+$labels['readwhendeleted'] = 'Při odstranění označit zprávu jako přečtenou';
+$labels['flagfordeletion'] = 'Zprávu nemazat, pouze označit pro odstranění';
+$labels['logoutclear'] = 'Vyprázdnit koš při odhlášení';
+$labels['logoutcompact'] = 'Provést údržbu schránky při odhlášení';
 
 ?>

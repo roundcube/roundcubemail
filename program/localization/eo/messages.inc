@@ -2,16 +2,16 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/eo/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Andreas van Cranenburgh <andreas@unstable.nl                  |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/eo/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Andreas van Cranenburgh <andreas@unstable.nl                  |
++-----------------------------------------------------------------------+
 
 */
 
@@ -76,5 +76,6 @@ $messages['receiptsent'] = 'Sukcese sendis konfirmon';
 $messages['errorsendingreceipt'] = 'Ne povis sendi konfirmon';
 $messages['nodeletelastidentity'] = 'Vi ne povas forigi ĉi tiun identon, ĉar ĝi estas la lasta';
 $messages['addsubfolderhint'] = 'Ĉi tiu dosierujo estos farita kiel subdosierujo de la nune elektita dosierujo';
+$messages['forbiddencharacter'] = 'Dosierujo-nomo enhavas malpermesitan karaktron';
 
 ?>

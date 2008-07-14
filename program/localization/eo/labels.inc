@@ -2,16 +2,16 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/eo/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/eo/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
++-----------------------------------------------------------------------+
 
 */
 
@@ -50,6 +50,7 @@ $labels['filename'] = 'Dosiernomo';
 $labels['filesize'] = 'Dosiergrando';
 $labels['preferhtml'] = 'Montru HTML';
 $labels['htmlmessage'] = 'HTML Mesaĝo';
+$labels['showknownimages'] = 'Montru bildojn de konataj sendantoj';
 $labels['prettydate'] = 'Agrablaj Datoj';
 $labels['addtoaddressbook'] = 'Aldonu al adresaro';
 $labels['sun'] = 'Dim';
@@ -66,6 +67,30 @@ $labels['wednesday'] = 'Merkredo';
 $labels['thursday'] = 'Ĵaŭdo';
 $labels['friday'] = 'Vendredo';
 $labels['saturday'] = 'Sabato';
+$labels['jan'] = 'Jan';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Apr';
+$labels['may'] = 'Maj';
+$labels['jun'] = 'Jun';
+$labels['jul'] = 'Jul';
+$labels['aug'] = 'Aŭg';
+$labels['sep'] = 'Sep';
+$labels['oct'] = 'Okt';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Dec';
+$labels['longjan'] = 'Januaro';
+$labels['longfeb'] = 'Februaro';
+$labels['longmar'] = 'Marĉo';
+$labels['longapr'] = 'Aprilo';
+$labels['longmay'] = 'Majo';
+$labels['longjun'] = 'Junio';
+$labels['longjul'] = 'Julio';
+$labels['longaug'] = 'Aŭgusto';
+$labels['longsep'] = 'Septembro';
+$labels['longoct'] = 'Oktobro';
+$labels['longnov'] = 'Novembro';
+$labels['longdec'] = 'Decembro';
 $labels['today'] = 'Hodiaŭ';
 $labels['checkmail'] = 'Kontrolu, ĉu novaj mesaĝoj';
 $labels['writenewmessage'] = 'Verku novan mesaĝon';
@@ -88,6 +113,8 @@ $labels['viewsource'] = 'Montru fonton';
 $labels['markmessages'] = 'Marku mesaĝojn';
 $labels['markread'] = 'Kiel legita';
 $labels['markunread'] = 'Kiel nelegita';
+$labels['markflagged'] = 'kiel markita';
+$labels['markunflagged'] = 'kiel nemarkita';
 $labels['select'] = 'Elektu';
 $labels['all'] = 'Ĉion';
 $labels['none'] = 'Nenion';
@@ -120,6 +147,7 @@ $labels['high'] = 'Alta';
 $labels['highest'] = 'Plej alta';
 $labels['nosubject'] = '(sen temo)';
 $labels['showimages'] = 'Montru bildojn';
+$labels['alwaysshow'] = 'Ĉiam montru bildojn de $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plata teksto';
 $labels['addcc'] = 'Aldonu kopi-ricevanton';
@@ -169,9 +197,24 @@ $labels['dstactive'] = 'Taglumsavado';
 $labels['htmleditor'] = 'Uzado de HTML-redaktilo';
 $labels['htmlsignature'] = 'HTML subskribo';
 $labels['previewpane'] = 'Montru antaŭrigardejon';
+$labels['skin'] = 'Interfaco-etoso';
+$labels['logoutclear'] = 'Malplenigu rubujon je eliro';
+$labels['logoutcompact'] = 'Kompaktigu ricevitujon je eliro';
+$labels['uisettings'] = 'Uzanto-interfaco';
+$labels['serversettings'] = 'Servilo-agordo';
+$labels['mailboxview'] = 'Ricevitujo vido';
+$labels['mdnrequests'] = 'Sendanto-sciigoj';
+$labels['askuser'] = 'demandu';
+$labels['autosend'] = 'sendu aŭtomate';
+$labels['ignore'] = 'malatentu';
+$labels['readwhendeleted'] = 'Marku mesaĝon kiel legita kiam forigata';
+$labels['flagfordeletion'] = 'Marku mesaĝon kiel forigita anstataŭ forigi';
+$labels['showinlineimages'] = 'Montru alfiksitajn bildojn sub la mesaĝo';
 $labels['autosavedraft'] = 'Aŭtomate savu malneton';
 $labels['everynminutes'] = 'ĉiujn $n minutojn';
 $labels['never'] = 'neniam';
+$labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
+$labels['messagescomposition'] = 'Mesaĝo-verkado';
 $labels['folder'] = 'Dosierujo';
 $labels['folders'] = 'Dosierujoj';
 $labels['foldername'] = 'Dosierujo-nomo';
