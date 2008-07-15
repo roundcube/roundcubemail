@@ -248,7 +248,7 @@ class html_inputfield extends html
 {
     protected $tagname = 'input';
     protected $type = 'text';
-    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked');
+    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange');
 
     public function __construct($attrib = array())
     {
@@ -416,7 +416,7 @@ class html_checkbox extends html_inputfield
 class html_textarea extends html
 {
     protected $tagname = 'textarea';
-    protected $allowed = array('name','rows','cols','wrap','tabindex');
+    protected $allowed = array('name','rows','cols','wrap','tabindex','onchange');
 
     /**
      * Get HTML code for this object
@@ -473,6 +473,7 @@ class html_select extends html
 {
     protected $tagname = 'select';
     protected $options = array();
+    protected $allowed = array('name','size','tabindex','autocomplete','multiple','onchange');
     
     /**
      * Add a new option to this drop-down
@@ -513,7 +514,7 @@ class html_select extends html
             $attr = array(
                 'value' => $option['value'],
                 'selected' => (in_array($option['value'], $select, true) ||
-            in_array($option['text'], $select, true)) ? 1 : null);
+                  in_array($option['text'], $select, true)) ? 1 : null);
 
             $this->content .= self::tag('option', $attr, Q($option['text']));
         }

@@ -90,6 +90,16 @@ $GLOBALS['IMAP_MONTHS'] = array("Jan" => 1, "Feb" => 2, "Mar" => 3, "Apr" => 4,
 
 $GLOBALS['IMAP_SERVER_TZ'] = date('Z');
 
+$GLOBALS['IMAP_FLAGS'] = array(
+    'SEEN'     => '\\Seen',
+    'DELETED'  => '\\Deleted',
+    'RECENT'   => '\\Recent',
+    'ANSWERED' => '\\Answered',
+    'DRAFT'    => '\\Draft',
+    'FLAGGED'  => '\\Flagged',
+    'FORWARDED' => '$Forwarded',
+    'MDNSENT'  => '$MDNSent');
+
 $iil_error;
 $iil_errornum;
 $iil_selected;
@@ -113,6 +123,7 @@ class iilConnection
 	var $rootdir;
 	var $delimiter;
 	var $capability = array();
+	var $permanentflags = array();
 }
 
 /**
@@ -142,7 +153,7 @@ class iilBasicHeader
 	var $priority;
 	var $mdn_to;
 	var $mdn_sent = false;
-	var $is_reply = false;
+	var $is_draft = false;
 	var $seen = false;
 	var $deleted = false;
 	var $recent = false;
@@ -716,7 +727,7 @@ function iil_C_Select(&$conn, $mailbox) {
 		return false;
 	}
 	if (strcmp($conn->selected, $mailbox) == 0) {
-    		return true;
+		return true;
 	}
     
 	iil_C_LoadCache($conn, $mailbox);
@@ -729,9 +740,12 @@ function iil_C_Select(&$conn, $mailbox) {
 				if (strcasecmp($a[2], 'EXISTS') == 0) {
 					$conn->exists = (int) $a[1];
 				}
-            			if (strcasecmp($a[2], 'RECENT') == 0) {
-                			$conn->recent = (int) $a[1];
-            			}
+				if (strcasecmp($a[2], 'RECENT') == 0) {
+					$conn->recent = (int) $a[1];
+				}
+			}
+			else if (preg_match('/\[?PERMANENTFLAGS\s+\(([^\)]+)\)\]/U', $line, $match)) {
+				$conn->permanentflags = explode(' ', $match[1]);
 			}
 		} while (!iil_StartsWith($line, 'sel1'));
 
@@ -1757,6 +1771,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 							    $result[$id]->answered = true;
 							} else if (strcasecmp($val, '$Forwarded') == 0) {
 							    $result[$id]->forwarded = true;
+							} else if (strcasecmp($val, 'Draft') == 0) {
+							    $result[$id]->is_draft = true;
 							} else if (strcasecmp($val, '$MDNSent') == 0) {
 							    $result[$id]->mdn_sent = true;
 							} else if (strcasecmp($val, 'Flagged') == 0) {
@@ -1909,15 +1925,7 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
 	}
     
 	$fp    = $conn->fp;
-	$flags = array(
-        'SEEN'     => '\\Seen',
-        'DELETED'  => '\\Deleted',
-        'RECENT'   => '\\Recent',
-        'ANSWERED' => '\\Answered',
-        'DRAFT'    => '\\Draft',
-        'FLAGGED'  => '\\Flagged',
-        'FORWARDED' => '$Forwarded',
-        'MDNSENT'  => '$MDNSent');
+	$flags = $GLOBALS['IMAP_FLAGS'];
         
 	$flag = strtoupper($flag);
 	$flag = $flags[$flag];

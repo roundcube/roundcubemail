@@ -82,8 +82,11 @@ if ($_GET['_uid']) {
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   
   // check for unset disposition notification
-  if ($MESSAGE->headers->mdn_to && !$MESSAGE->headers->mdn_sent &&
-      $mbox_name != $CONFIG['drafts_mbox'] && $mbox_name != $CONFIG['sent_mbox'])
+  if ($MESSAGE->headers->mdn_to &&
+      !$MESSAGE->headers->mdn_sent &&
+      $IMAP->check_permflag('MDNSENT') &&
+      $mbox_name != $CONFIG['drafts_mbox'] &&
+      $mbox_name != $CONFIG['sent_mbox'])
   {
     if (intval($CONFIG['mdn_requests']) === 1)
     {

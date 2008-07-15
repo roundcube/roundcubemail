@@ -346,6 +346,21 @@ class rcube_imap
 
 
   /**
+   * Checks the PERMANENTFLAGS capability of the current mailbox
+   * and returns true if the given flag is supported by the IMAP server
+   *
+   * @param   string  Permanentflag name
+   * @return  mixed   True if this flag is supported
+   * @access  public
+   */
+  function check_permflag($flag)
+    {
+    $flagsmap = $GLOBALS['IMAP_FLAGS'];
+    return (($imap_flag = $flagsmap[strtoupper($flag)]) && in_array_nocase($imap_flag, $this->conn->permanentflags));
+    }
+
+
+  /**
    * Returns the delimiter that is used by the IMAP server for folder separation
    *
    * @return  string  Delimiter string

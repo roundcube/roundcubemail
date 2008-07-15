@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/07/14 (thomasb)
 ----------
 - Re-enable autocomplete attribute for login form (#1485211)
+- Check PERMANENTFLAGS before saving $MDNSent flag (#1484963, #1485163)
 
 2008/06/30 (alec)
 ----------
