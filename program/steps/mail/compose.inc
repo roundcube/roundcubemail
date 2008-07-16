@@ -823,7 +823,7 @@ if ($result = $CONTACTS->list_records())
     if ($sql_arr['email'])
       $a_contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
   }
-if (isset($CONFIG['ldap_public']))
+if (!empty($CONFIG['ldap_public']) && is_array($CONFIG['ldap_public']))
   {
   /* LDAP autocompletion */ 
   foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
