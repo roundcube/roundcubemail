@@ -1,18 +1,18 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/mk/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author:  Ivan Mishev - mishevivan@gmail.com                           |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/mk_MK/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author:  Ivan Mishev - mishevivan@gmail.com                           |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -51,6 +51,7 @@ $labels['filename'] = 'Име на датотеката';
 $labels['filesize'] = 'Големина на датотеката';
 $labels['preferhtml'] = 'Прикажи во HTML';
 $labels['htmlmessage'] = 'HTML Порака';
+$labels['showknownimages'] = 'Прикажи ги сликите од непознат праќач';
 $labels['prettydate'] = 'Убави дати';
 $labels['addtoaddressbook'] = 'Додади во именик';
 $labels['sun'] = 'Нед';
@@ -67,6 +68,30 @@ $labels['wednesday'] = 'Среда';
 $labels['thursday'] = 'Четврток';
 $labels['friday'] = 'Петок';
 $labels['saturday'] = 'Сабота';
+$labels['jan'] = 'Јан';
+$labels['feb'] = 'Фев';
+$labels['mar'] = 'Мар';
+$labels['apr'] = 'Апр';
+$labels['may'] = 'Мај';
+$labels['jun'] = 'Јун';
+$labels['jul'] = 'Јул';
+$labels['aug'] = 'Авг';
+$labels['sep'] = 'Сеп';
+$labels['oct'] = 'Окт';
+$labels['nov'] = 'Ное';
+$labels['dec'] = 'Дек';
+$labels['longjan'] = 'Јануари';
+$labels['longfeb'] = 'Февруари';
+$labels['longmar'] = 'Март';
+$labels['longapr'] = 'Април';
+$labels['longmay'] = 'Мај';
+$labels['longjun'] = 'Јуни';
+$labels['longjul'] = 'Јули';
+$labels['longaug'] = 'Август';
+$labels['longsep'] = 'Септември';
+$labels['longoct'] = 'Октомври';
+$labels['longnov'] = 'Ноември';
+$labels['longdec'] = 'Декември';
 $labels['today'] = 'Денес';
 $labels['checkmail'] = 'Провери пошта';
 $labels['writenewmessage'] = 'Нова порака';
@@ -89,6 +114,8 @@ $labels['viewsource'] = 'Покажи го изворот на пракање';
 $labels['markmessages'] = 'Обележи ги пораките';
 $labels['markread'] = 'Како прочитани';
 $labels['markunread'] = 'Како непрочитани';
+$labels['markflagged'] = 'Како обележана';
+$labels['markunflagged'] = 'Како необележана';
 $labels['select'] = 'Одбележи';
 $labels['all'] = 'Сите';
 $labels['none'] = 'Никоја';
@@ -121,6 +148,7 @@ $labels['high'] = 'Висок';
 $labels['highest'] = 'Највисок';
 $labels['nosubject'] = '(нема тема)';
 $labels['showimages'] = 'Прикажи ги сликите';
+$labels['alwaysshow'] = 'Секогаш прикажувај ги сликите од $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Обичен текст';
 $labels['addcc'] = 'Додај Cc';
@@ -170,9 +198,24 @@ $labels['dstactive'] = 'Промени на времето';
 $labels['htmleditor'] = 'Создади HTML порака';
 $labels['htmlsignature'] = 'HTML потпис';
 $labels['previewpane'] = 'Прикажи го претходниот панел';
+$labels['skin'] = 'Модел на изгледот';
+$labels['logoutclear'] = 'Очисти ја Кантата при излез';
+$labels['logoutcompact'] = 'Подреди ја поштата при излез';
+$labels['uisettings'] = 'Кориснички изглед';
+$labels['serversettings'] = 'Подесувања на серверот';
+$labels['mailboxview'] = 'Приказ на поштенското сандаче';
+$labels['mdnrequests'] = 'Најави за праќачот';
+$labels['askuser'] = 'прашај го корисникот';
+$labels['autosend'] = 'автоматски испрати';
+$labels['ignore'] = 'игнорирање';
+$labels['readwhendeleted'] = 'Обележи ја пораката како прочитана при бришење';
+$labels['flagfordeletion'] = 'Обележи ја пораката за бришење наместо да ја избришеш';
+$labels['showinlineimages'] = 'Прикажи ги прикачените слики под пораката';
 $labels['autosavedraft'] = 'Авоматски снимај во Непратени';
 $labels['everynminutes'] = 'секои $n минути';
 $labels['never'] = 'никогаш';
+$labels['messagesdisplaying'] = 'Прикажување на порака';
+$labels['messagescomposition'] = 'Пишување на порака';
 $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Име на папката';

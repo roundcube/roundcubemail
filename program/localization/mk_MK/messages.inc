@@ -1,18 +1,18 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/mk/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author:  Ivan Mishev - mishevivan@gmail.com                           |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/mk_MK/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author:  Ivan Mishev - mishevivan@gmail.com                           |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -77,5 +77,6 @@ $messages['receiptsent'] = 'Известувањето е успешно пра�
 $messages['errorsendingreceipt'] = 'Известувањето не е пратено';
 $messages['nodeletelastidentity'] = 'Овој идентитет неможе да се избрише, тој е последниот.';
 $messages['addsubfolderhint'] = 'Оваа папка ќе биде креирана како под-папка на селектираната.';
+$messages['forbiddencharacter'] = 'Името на папката содржи несоодветен формат';
 
 ?>
