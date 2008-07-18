@@ -649,7 +649,7 @@ function rcmail_compose_attachment_list($attrib)
         html::a(array(
             'href' => "#delete",
             'title' => rcube_label('delete'),
-              'onclick' => sprintf("return %s.command(\'remove-attachment\',\'rcmfile%d\', this)", JS_OBJECT_NAME, $id)),
+            'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%d', this)", JS_OBJECT_NAME, $id)),
           $button) . Q($a_prop['name']));
   }
 
