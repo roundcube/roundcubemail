@@ -561,13 +561,17 @@ function rc_mime_content_type($path, $failover = 'unknown/unknown')
     $mime_magic = $CONFIG['mime_magic'];
 
     if (function_exists('mime_content_type')) {
-        return mime_content_type($path);
+	$finfo = mime_content_type($path); 
+	if ($finfo)
+	    return $finfo;
     }
+    
     if (!extension_loaded('fileinfo')) { 
         if (!dl('fileinfo.' . PHP_SHLIB_SUFFIX)) {
             return $failover;
         }
     }
+    
     $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
     if (!$finfo) {
         return $failover;
