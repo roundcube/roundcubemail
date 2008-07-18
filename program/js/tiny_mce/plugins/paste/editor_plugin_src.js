@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 738 2008-03-20 20:00:48Z spocke $
+ * $Id: editor_plugin_src.js 862 2008-06-02 20:09:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -103,7 +103,9 @@
 			return Event.cancel(e);
 		},
 
-		_insertText : function(content, bLinebreaks) { 
+		_insertText : function(content, bLinebreaks) {
+			content = this.editor.dom.encode(content);
+
 			if (content && content.length > 0) {
 				if (bLinebreaks) { 
 					// Special paragraph treatment 
@@ -154,7 +156,7 @@
 						content = content.replace(/\n/g, '<br />');
 					}
 				} 
-			
+
 				this.editor.execCommand("mceInsertRawHTML", false, content); 
 			}
 		},

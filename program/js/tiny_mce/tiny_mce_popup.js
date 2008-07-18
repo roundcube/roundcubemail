@@ -101,7 +101,7 @@ tinyMCEPopup = {
 			u += '/langs/' + this.editor.settings.language + '_dlg.js';
 
 			if (!tinymce.ScriptLoader.isDone(u)) {
-				document.write('<script type="text/javascript" src="' + u + '"></script>');
+				document.write('<script type="text/javascript" src="' + tinymce._addVer(u) + '"></script>');
 				tinymce.ScriptLoader.markDone(u);
 			}
 		}
@@ -132,7 +132,7 @@ tinyMCEPopup = {
 
 		// To avoid domain relaxing issue in Opera
 		function close() {
-			t.editor.windowManager.close(window, t.id);
+			t.editor.windowManager.close(window);
 			tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
 		};
 
@@ -183,7 +183,7 @@ tinyMCEPopup = {
 
 		// Set inline title
 		if (!t.isWindow)
-			t.editor.windowManager.setTitle(ti, t.id);
+			t.editor.windowManager.setTitle(window, ti);
 		else
 			window.focus();
 

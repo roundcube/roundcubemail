@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 763 2008-04-03 13:25:45Z spocke $
+ * $Id: editor_plugin_src.js 870 2008-06-13 09:25:41Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -18,6 +18,11 @@
 			function isMediaElm(n) {
 				return /^(mceItemFlash|mceItemShockWave|mceItemWindowsMedia|mceItemQuickTime|mceItemRealMedia)$/.test(n.className);
 			};
+
+			ed.onPreInit.add(function() {
+				// Force in _value parameter this extra parameter is required for older Opera versions
+				ed.serializer.addRules('param[name|value|_value]');
+			});
 
 			// Register commands
 			ed.addCommand('mceMedia', function() {
@@ -83,6 +88,7 @@
 				});
 
 				h = h.replace(/<object([^>]*)>/gi, '<span class="mceItemObject" $1>');
+				h = h.replace(/<embed([^>]*)\/>/gi, '<span class="mceItemEmbed" $1>');
 				h = h.replace(/<embed([^>]*)>/gi, '<span class="mceItemEmbed" $1>');
 				h = h.replace(/<\/(object|embed)([^>]*)>/gi, '</span>');
 				h = h.replace(/<param([^>]*)>/gi, function(a, b) {return '<span ' + b.replace(/value=/gi, '_value=') + ' class="mceItemParam"></span>'});
