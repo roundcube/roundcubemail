@@ -248,7 +248,7 @@ class html_inputfield extends html
 {
     protected $tagname = 'input';
     protected $type = 'text';
-    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange');
+    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange','onclick');
 
     public function __construct($attrib = array())
     {
