@@ -13,7 +13,7 @@
  | Author: Marcel Schlesinger <info@marcel-schlesinger.de>               |
  +-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -197,7 +197,7 @@ $labels['htmleditor'] = 'HTML-Nachrichten erstellen';
 $labels['htmlsignature'] = 'HTML-Signatur';
 $labels['previewpane'] = 'Vorschaufenster anzeigen';
 $labels['logoutclear'] = 'Papierkorb beim Abmelden leeren';
-$labels['logoutcompact'] = 'Posteingang beim Abmleden packen';
+$labels['logoutcompact'] = 'Posteingang beim Abmelden packen';
 $labels['uisettings'] = 'Benutzeroberfläche';
 $labels['serversettings'] = 'Server-Einstellungen';
 $labels['mailboxview'] = 'Mailbox-Ansicht';
