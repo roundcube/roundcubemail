@@ -420,11 +420,11 @@ class rcube_user
   static function email2user($email)
   {
     $user = $email;
-    $r = self::findinvirtual("^$email");
+    $r = self::findinvirtual("^$email\s");
 
     for ($i=0; $i<count($r); $i++)
     {
-      $data = $r[$i];
+      $data = trim($r[$i]);
       $arr = preg_split('/\s+/', $data);
       if (count($arr) > 0)
       {
@@ -446,7 +446,7 @@ class rcube_user
   static function user2email($user)
   {
     $email = "";
-    $r = self::findinvirtual("$user$");
+    $r = self::findinvirtual("\s$user\s*$");
 
     for ($i=0; $i<count($r); $i++)
     {
