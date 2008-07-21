@@ -2,7 +2,7 @@
 
 /*
 +-----------------------------------------------------------------------+
-| language/he/labels.inc                                                |
+| language/he_IL/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
@@ -112,6 +112,8 @@ $labels['viewsource'] = 'הצגת קוד מקור';
 $labels['markmessages'] = 'סימון מכתבים';
 $labels['markread'] = 'כנקראו';
 $labels['markunread'] = 'כלא נקראו';
+$labels['markflagged'] = 'כמסומן';
+$labels['markunflagged'] = 'כלא מסומן';
 $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
@@ -157,7 +159,7 @@ $labels['receiptnote'] = 'הערה: האישור אינו מבטיח שהנמע�
 $labels['name'] = 'שם להצגה';
 $labels['firstname'] = 'שם פרטי';
 $labels['surname'] = 'שם משפחה';
-$labels['email'] = 'כתובת דוא\\\"ל';
+$labels['email'] = 'כתובת דוא\"ל';
 $labels['addcontact'] = 'הוספת איש קשר';
 $labels['editcontact'] = 'עריכת איש קשר';
 $labels['edit'] = 'עריכה';
@@ -194,11 +196,12 @@ $labels['dstactive'] = 'שעון קיץ';
 $labels['htmleditor'] = 'צור מכתב מעוצב';
 $labels['htmlsignature'] = 'חתימה מעוצבת';
 $labels['previewpane'] = 'הצג הצצה מוקדמת';
+$labels['skin'] = 'ערכת מראה';
 $labels['logoutclear'] = 'ריקון סל אשפה ביציאה';
 $labels['logoutcompact'] = 'פינוי שטח לא מנוצל ביציאה';
 $labels['uisettings'] = 'ממשק משתמש';
 $labels['serversettings'] = 'הגדרות שרת';
-$labels['mailboxview'] = 'הצצה לתיבת הדוא\\\"ל';
+$labels['mailboxview'] = 'הצצה לתיבת הדוא\"ל';
 $labels['mdnrequests'] = 'הודעות השרת';
 $labels['askuser'] = 'שאל את המשתמש';
 $labels['autosend'] = 'שליחה אוטומטית';

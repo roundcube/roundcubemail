@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/hu/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
- |         Ervin Hegedüs <airween@damson.hu>                             |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/hu_HU/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
+|         Ervin Hegedüs <airween@damson.hu>                             |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -53,6 +53,7 @@ $labels['filename'] = 'File neve';
 $labels['filesize'] = 'File mérete';
 $labels['preferhtml'] = 'HTML megjelenítés';
 $labels['htmlmessage'] = 'HTML üzenet';
+$labels['showknownimages'] = 'Képek megjelenítése ismert Feladó esetén';
 $labels['prettydate'] = 'Rövid dátumok';
 $labels['addtoaddressbook'] = 'Hozzáadás a címjegyzékhez';
 $labels['sun'] = 'Vas';
@@ -69,6 +70,30 @@ $labels['wednesday'] = 'Szerda';
 $labels['thursday'] = 'Csütörtök';
 $labels['friday'] = 'Péntek';
 $labels['saturday'] = 'Szombat';
+$labels['jan'] = 'Jan';
+$labels['feb'] = 'Febr';
+$labels['mar'] = 'Márc';
+$labels['apr'] = 'Ápr';
+$labels['may'] = 'Máj';
+$labels['jun'] = 'Jún';
+$labels['jul'] = 'Júl';
+$labels['aug'] = 'Aug';
+$labels['sep'] = 'Szept';
+$labels['oct'] = 'Okt';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Dec';
+$labels['longjan'] = 'Január';
+$labels['longfeb'] = 'Február';
+$labels['longmar'] = 'Március';
+$labels['longapr'] = 'Április';
+$labels['longmay'] = 'Május';
+$labels['longjun'] = 'Június';
+$labels['longjul'] = 'Július';
+$labels['longaug'] = 'Augusztus';
+$labels['longsep'] = 'Szeptember';
+$labels['longoct'] = 'Október';
+$labels['longnov'] = 'November';
+$labels['longdec'] = 'December';
 $labels['today'] = 'Ma';
 $labels['checkmail'] = 'Új üzenetek ellenőrzése';
 $labels['writenewmessage'] = 'Új üzenet';
@@ -91,6 +116,8 @@ $labels['viewsource'] = 'Forrás megtekintése';
 $labels['markmessages'] = 'Üzenetek megjelölése';
 $labels['markread'] = 'Olvasottként';
 $labels['markunread'] = 'Olvasatlanként';
+$labels['markflagged'] = 'Jelöltként';
+$labels['markunflagged'] = 'Jelöletlenként';
 $labels['select'] = 'Kijelölés';
 $labels['all'] = 'Összes';
 $labels['none'] = 'Nincs';
@@ -123,6 +150,7 @@ $labels['high'] = 'Magas';
 $labels['highest'] = 'Legmagasabb';
 $labels['nosubject'] = '(nincs tárgy)';
 $labels['showimages'] = 'Képek megjelenítése';
+$labels['alwaysshow'] = 'Képek megjelenítése mindíg ha a feladó $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Egyszerű szöveg';
 $labels['addcc'] = 'Cc (Másolati cím) hozzáadása';
@@ -172,9 +200,24 @@ $labels['dstactive'] = 'Nyári időszámítás';
 $labels['htmleditor'] = 'HTML üzenet írása';
 $labels['htmlsignature'] = 'HTML aláírás';
 $labels['previewpane'] = 'Előnézeti kép';
+$labels['skin'] = 'Smink';
+$labels['logoutclear'] = 'Törölt elemek mappa ürítése kilépéskor';
+$labels['logoutcompact'] = 'Beérkezett üzenetek mappa tömörítése kilépéskor';
+$labels['uisettings'] = 'Felhasználói felület';
+$labels['serversettings'] = 'Szerverbeállítások';
+$labels['mailboxview'] = 'Postafiók nézet';
+$labels['mdnrequests'] = 'Olvasási értesítés küldése';
+$labels['askuser'] = 'kérdezzen rá';
+$labels['autosend'] = 'automatikus küldés';
+$labels['ignore'] = 'hagyja figyelmen kívül';
+$labels['readwhendeleted'] = 'Üzenet olvasottként jelölése törléskor';
+$labels['flagfordeletion'] = 'Üzenet törlendőnek jelölése törlés helyett ';
+$labels['showinlineimages'] = 'Csatolt képek megjelenítése az üzenet alatt';
 $labels['autosavedraft'] = 'Automatikus piszkozat mentés';
 $labels['everynminutes'] = 'minden $n percben';
 $labels['never'] = 'soha';
+$labels['messagesdisplaying'] = 'Üzenetek megjelenítése';
+$labels['messagescomposition'] = 'Üzenetek írása';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Mappák';
 $labels['foldername'] = 'Mappa neve';

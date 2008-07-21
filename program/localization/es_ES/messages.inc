@@ -2,20 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/es/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
- |         David Grajal Blanco <dgrabla@gmail.com>                       |
- |         Lito Jornero <jornero@gmail.com>                              |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/es_ES/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Javier Smaldone <javier@smaldone.com.ar>                      |
+|         David Grajal Blanco <dgrabla@gmail.com>                       |
+|         Lito Jornero <jornero@gmail.com>                              |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -80,5 +80,6 @@ $messages['receiptsent'] = 'La notificación de lectura se ha enviado con éxito
 $messages['errorsendingreceipt'] = 'No se ha podido enviar la notificación de lectura.';
 $messages['nodeletelastidentity'] = 'No se puede borrar esta identidad puesto que es la última.';
 $messages['addsubfolderhint'] = 'Esta carpeta se creará como una subcarpeta dentro de la carpeta seleccionada';
+$messages['forbiddencharacter'] = 'El nombre de la carpeta contiene un caracter prohibido';
 
 ?>

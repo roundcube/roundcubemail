@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/hu/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
- |         Ervin Hegedüs <airween@damson.hu>                             |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/hu_HU/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
+|         Ervin Hegedüs <airween@damson.hu>                             |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -32,7 +32,7 @@ $messages['checkingmail'] = 'Új üzenetek keresése...';
 $messages['sendingmessage'] = 'Az üzenet küldése...';
 $messages['messagesent'] = 'Az üzenet elküldve';
 $messages['savingmessage'] = 'Az üzenet mentése...';
-$messages['messagesaved'] = 'Az üzenet elmentve a Sablonokhoz';
+$messages['messagesaved'] = 'Az üzenet elmentve a Piszkozatokhoz';
 $messages['successfullysaved'] = 'A mentés sikerült';
 $messages['addedsuccessfully'] = 'A cím hozzáadása a címjegyzékhez megtörtént';
 $messages['contactexists'] = 'A kapcsolat már létezik ezzel az e-mail címmel';
@@ -53,7 +53,7 @@ $messages['noemailwarning'] = 'Adj meg egy valós e-mail címet';
 $messages['nonamewarning'] = 'Adj meg egy nevet';
 $messages['nopagesizewarning'] = 'Add meg a papír méretét';
 $messages['norecipientwarning'] = 'Legalább egy címzettet adj meg';
-$messages['nosubjectwarning'] = 'A "Tárgy" mező üres. Szeretnéd most kitölteni?';
+$messages['nosubjectwarning'] = 'A \"Tárgy\" mező üres. Szeretnéd most kitölteni?';
 $messages['nobodywarning'] = 'Elküldöd az üzenetet tárgy nélkül?';
 $messages['notsentwarning'] = 'Az üzenet még nem küldtem el. Eldobod az üzenetet?';
 $messages['noldapserver'] = 'Adj meg egy LDAP szervert a kereséshez';
@@ -79,5 +79,6 @@ $messages['receiptsent'] = 'Az Olvasási Értesítést elküldtük';
 $messages['errorsendingreceipt'] = 'Az Olvasási Értesítést nem sikerült elküldeni';
 $messages['nodeletelastidentity'] = 'Nem törölheti ezt a profilt, ez az egyetlen';
 $messages['addsubfolderhint'] = 'Az új könyvtárat az aktuálisan kiválasztott alkönyvtáraként fogjuk létrehozni';
+$messages['forbiddencharacter'] = 'A mappa neve tiltott karaktert tartalmaz';
 
 ?>
