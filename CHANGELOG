@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/07/21 (alec)
+----------
+- use long date format in print mode (#1485191)
+
 2008/07/18 (alec)
 ----------
 - Updated TinyMCE to version 3.1.0.1

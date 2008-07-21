@@ -658,7 +658,7 @@ function rcmail_str_replacement($str, &$rep)
  */
 function rcmail_message_headers($attrib, $headers=NULL)
   {
-  global $IMAP, $OUTPUT, $MESSAGE;
+  global $IMAP, $OUTPUT, $MESSAGE, $PRINT_MODE, $CONFIG;
   static $sa_attrib;
   
   // keep header table attrib
@@ -678,7 +678,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   // add empty subject if none exsists
   if (empty($headers['subject']))
     $headers['subject'] = rcube_label('nosubject');
-  
+
   $header_count = 0;
   
   // allow the following attributes to be added to the <table> tag
@@ -694,7 +694,12 @@ function rcmail_message_headers($attrib, $headers=NULL)
       continue;
 
     if ($hkey=='date' && !empty($headers[$hkey]))
-      $header_value = format_date($headers[$hkey]);
+      {
+      if ($PRINT_MODE)
+        $header_value = format_date($headers[$hkey], $CONFIG['date_long'] ? $CONFIG['date_long'] : 'x');
+      else
+        $header_value = format_date($headers[$hkey]);
+      }
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
       $header_value = Q(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']), 'show');
     else
