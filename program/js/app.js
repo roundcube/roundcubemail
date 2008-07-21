@@ -1889,9 +1889,9 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((input_message.value == '' &&
-         (!window.tinyMCE || tinyMCE.get('compose-body').getContent() == '')) &&
-        !confirm(this.get_label('nobodywarning')))
+    if ((((!window.tinyMCE || !tinyMCE.get('compose-body')) && input_message.value == '')
+	|| (window.tinyMCE && tinyMCE.get('compose-body') && tinyMCE.get('compose-body').getContent() == ''))
+	&& !confirm(this.get_label('nobodywarning')))
       {
       input_message.focus();
       return false;
