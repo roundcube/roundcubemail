@@ -595,7 +595,7 @@ function rcmail_print_body($part, $p = array())
   // text/enriched
   else if ($part->ctype_secondary=='enriched') {
     $part->ctype_secondary = 'html';
-    return Q(enriched_to_html($body), 'show');
+    return Q(enriched_to_html($part->body), 'show');
   }
   else
     $body = $part->body;
