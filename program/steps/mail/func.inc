@@ -563,7 +563,10 @@ function rcmail_print_body($part, $p = array())
         $html = '<head></head>' . $html;
       $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '</head>')), 0);
     }
-    
+
+    // PHP bug #32547 workaround: remove title tag
+    $html = preg_replace('/<title>.*<\/title>/', '', $html);
+
     // clean HTML with washhtml by Frederic Motte
     $wash_opts = array(
       'show_washed' => false,
