@@ -1,16 +1,16 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/gl/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author:    David Garabana Barro <david garabana com>                  |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/gl_ES/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author:    David Garabana Barro <david garabana com>                  |
++-----------------------------------------------------------------------+
 
 */
 
@@ -75,5 +75,6 @@ $messages['receiptsent'] = 'A notificación de disposición enviouse correctamen
 $messages['errorsendingreceipt'] = 'Non se puido enviar a notificación';
 $messages['nodeletelastidentity'] = 'Non pode borrar esta identidade, é a última';
 $messages['addsubfolderhint'] = 'Este cartafol vaise crear coma un subcartafol do seleccionado';
+$messages['forbiddencharacter'] = 'O nome do cartafol contén un carácter non autorizado';
 
 ?>

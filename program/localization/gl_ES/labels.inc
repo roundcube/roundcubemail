@@ -1,16 +1,16 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/gl/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author:    David Garabana Barro <david garabana com>                  |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/gl_ES/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author:    David Garabana Barro <david garabana com>                  |
++-----------------------------------------------------------------------+
 
 */
 
@@ -49,6 +49,7 @@ $labels['filename'] = 'Nome de ficheiro';
 $labels['filesize'] = 'Tamaño de ficheiro';
 $labels['preferhtml'] = 'Prefiro HTML';
 $labels['htmlmessage'] = 'Mensaxe HTML';
+$labels['showknownimages'] = 'Mostrar as imaxes nos correos de remitentes coñecidos.';
 $labels['prettydate'] = 'Data decorada';
 $labels['addtoaddressbook'] = 'Engadir ao caderno de enderezos';
 $labels['sun'] = 'Dom';
@@ -65,6 +66,30 @@ $labels['wednesday'] = 'Mércores';
 $labels['thursday'] = 'Xoves';
 $labels['friday'] = 'Venres';
 $labels['saturday'] = 'Sábado';
+$labels['jan'] = 'Xan';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Abr';
+$labels['may'] = 'Mai';
+$labels['jun'] = 'Xuñ';
+$labels['jul'] = 'Xul';
+$labels['aug'] = 'Ago';
+$labels['sep'] = 'Set';
+$labels['oct'] = 'Out';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Dec';
+$labels['longjan'] = 'Xaneiro';
+$labels['longfeb'] = 'Febreiro';
+$labels['longmar'] = 'Marzo';
+$labels['longapr'] = 'Abril';
+$labels['longmay'] = 'Maio';
+$labels['longjun'] = 'Xuño';
+$labels['longjul'] = 'Xullo';
+$labels['longaug'] = 'Agosto';
+$labels['longsep'] = 'Setembro';
+$labels['longoct'] = 'Outobro';
+$labels['longnov'] = 'Novembro';
+$labels['longdec'] = 'Decembro';
 $labels['today'] = 'Hoxe';
 $labels['checkmail'] = 'Buscar novas mensaxes';
 $labels['writenewmessage'] = 'Crear unha nova mensaxe';
@@ -87,6 +112,8 @@ $labels['viewsource'] = 'Ver fonte';
 $labels['markmessages'] = 'Marcar mensaxes';
 $labels['markread'] = 'Coma lidos';
 $labels['markunread'] = 'Coma non lidos';
+$labels['markflagged'] = 'Coma  marcados';
+$labels['markunflagged'] = 'Coma non marcados';
 $labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Ningunha';
@@ -119,6 +146,7 @@ $labels['high'] = 'Alta';
 $labels['highest'] = 'A máis alta';
 $labels['nosubject'] = '(Sen asunto)';
 $labels['showimages'] = 'Mostrar imaxes';
+$labels['alwaysshow'] = 'Mostrar sempre as imaxes nos correos remitidos por $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Texto claro';
 $labels['addcc'] = 'Engadir Copia (CC)';
@@ -168,9 +196,24 @@ $labels['dstactive'] = 'Cambio de hora';
 $labels['htmleditor'] = 'Redactar mensaxes HTML';
 $labels['htmlsignature'] = 'Sinatura HTML';
 $labels['previewpane'] = 'Amosar panel de previsualización';
+$labels['skin'] = 'Aspecto da interface';
+$labels['logoutclear'] = 'Baleirar o cubo do lixo ao saír';
+$labels['logoutcompact'] = 'Compactar a caixa de entrada ao saír.';
+$labels['uisettings'] = 'Interface de usuario';
+$labels['serversettings'] = 'Axustes do servidor';
+$labels['mailboxview'] = 'Vista das caixas de correo';
+$labels['mdnrequests'] = 'Notificacións de envío';
+$labels['askuser'] = 'preguntar ao usuario';
+$labels['autosend'] = 'enviar automáticamente';
+$labels['ignore'] = 'ignorar';
+$labels['readwhendeleted'] = 'Marcar a mensaxe coma lida ao borrar';
+$labels['flagfordeletion'] = 'Marcar a mensaxe para borrar no canto de borrar';
+$labels['showinlineimages'] = 'Mostrar as imaxes anexas baixo a mensaxe';
 $labels['autosavedraft'] = 'Gardar borrador automáticamente';
 $labels['everynminutes'] = 'cada $n minutos';
 $labels['never'] = 'nunca';
+$labels['messagesdisplaying'] = 'Visualización das mensaxes';
+$labels['messagescomposition'] = 'Composición das mensaxes';
 $labels['folder'] = 'Cartafol';
 $labels['folders'] = 'Cartafoles';
 $labels['foldername'] = 'Nome do cartafol';
