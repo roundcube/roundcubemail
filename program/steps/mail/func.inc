@@ -539,12 +539,14 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
  * @param bool  True if part should be converted to plaintext
  * @return string Formatted HTML string
  */
-function rcmail_print_body($part, $safe=false, $plain=false)
+function rcmail_print_body($part, $p = array())
 {
   global $REMOTE_OBJECTS;
   
+  $p += array('safe' => false, 'plain' => false, 'inline_html' => true);
+  
   // convert html to text/plain
-  if ($part->ctype_secondary == 'html' && $plain) {
+  if ($part->ctype_secondary == 'html' && $p['plain']) {
     $txt = new html2text($part->body, false, true);
     $body = $txt->get_text();
     $part->ctype_secondary = 'plain';
@@ -553,25 +555,40 @@ function rcmail_print_body($part, $safe=false, $plain=false)
   else if ($part->ctype_secondary == 'html') {
     // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
     $html = $part->body; 
-    if(preg_match('/(\s+content=[\'"]\w+\/\w+;\s+charset)=([a-z0-9-]+)/i', $html)) 
-      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s+charset)=([a-z0-9-]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
+    if (preg_match('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-]+)/i', $html)) 
+      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
     else {
       // add <head> for malformed messages, washtml cannot work without that
-      if (!preg_match('/<head>(.*)<\/head>/m', $html))
+      if (!preg_match('/<head>(.*)<\\/head>/Uims', $html))
         $html = '<head></head>' . $html;
       $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '</head>')), 0);
     }
-
+    
     // clean HTML with washhtml by Frederic Motte
-    $body = washtml::wash($html, array(
+    $wash_opts = array(
       'show_washed' => false,
-      'allow_remote' => $safe,
+      'allow_remote' => $p['safe'],
       'blocked_src' => "./program/blocked.gif",
       'charset' => RCMAIL_CHARSET,
       'cid_map' => $part->replaces,
-      ), $full_inline);
-
-    $REMOTE_OBJECTS = !$full_inline;
+      'html_elements' => array('body'),
+    );
+    
+    if (!$p['inline_html']) {
+      $wash_opts['html_elements'] = array('html','head','title','body');
+    }
+    
+    /* CSS styles need to be sanitized!
+    if ($p['safe']) {
+      $wash_opts['html_elements'][] = 'style';
+      $wash_opts['html_attribs'] = array('type');
+    }
+    */
+    
+    $washer = new washtml($wash_opts);
+    $washer->add_callback('form', 'rcmail_washtml_callback');
+    $body = $washer->wash($html);
+    $REMOTE_OBJECTS = $washer->extlinks;
 
     return $body;
   }
@@ -637,20 +654,35 @@ function rcmail_print_body($part, $safe=false, $plain=false)
   $body = preg_replace("/##string_replacement\{([0-9]+)\}##/e", "\$replace_strings[\\1]", join("\n", $a_lines));
   
   return "<div class=\"pre\">".$body."\n</div>";
-  }
-
-
+}
 
 /**
  * add a string to the replacement array and return a replacement string
  */
 function rcmail_str_replacement($str, &$rep)
-  {
+{
   static $count = 0;
   $rep[$count] = stripslashes($str);
   return "##string_replacement{".($count++)."}##";
-  }
+}
 
+
+/**
+ * Callback function for washtml cleaning class
+ */
+function rcmail_washtml_callback($tagname, $attrib, $content)
+{
+  switch ($tagname) {
+    case 'form':
+      $out = html::div('form', $content);
+      break;
+      
+    default:
+      $out = '';
+  }
+  
+  return $out;
+}
 
 
 /**
@@ -756,7 +788,7 @@ function rcmail_message_body($attrib)
         if (!isset($part->body))
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
-        $body = rcmail_print_body($part, $safe_mode, !$CONFIG['prefer_html']);
+        $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
         if ($part->ctype_secondary == 'html')
           $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id']));

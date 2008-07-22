@@ -33,7 +33,8 @@
  *
  * SYNOPSIS:
  *
- * washtml::wash($html, $config, $full);
+ * $washer = new washtml($config);
+ * $washer->wash($html);
  * It return a sanityzed string of the $html parameter without html and head tags.
  * $html is a string containing the html code to wash.
  * $config is an array containing options:
@@ -42,11 +43,11 @@
  *   $config['show_washed'] is a boolean to include washed out attributes as x-washed
  *   $config['cid_map'] is an array where cid urls index urls to replace them.
  *   $config['charset'] is a string containing the charset of the HTML document if it is not defined in it.
- * $full is a reference to a boolean that is set to true if no remote images are removed. (FE: show remote images link)
+ * $washer->extlinks is a reference to a boolean that is set to true if remote images were removed. (FE: show remote images link)
  *
  * INTERNALS:
  *
- * Only tags and attributes in the globals $html_elements and $html_attributes
+ * Only tags and attributes in the static lists $html_elements and $html_attributes
  * are kept, inline styles are also filtered: all style identifiers matching
  * /[a-z\-]/i are allowed. Values matching colors, sizes, /[a-z\-]/i and safe
  * urls if allowed and cid urls if mapped are kept.
@@ -72,15 +73,51 @@
 
 class washtml
 {
+  /* Allowed HTML elements (default) */
+  static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b', 'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'ins', 'label', 'legend', 'li', 'map', 'menu', 'ol', 'p', 'pre', 'q', 's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'img');
+  
+  /* Ignore these HTML tags but process their content */
+  static $ignore_elements = array('html', 'body');
+  
+  /* Allowed HTML attributes */
+  static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir', 'background');  
+  
+  /* State for linked objects in HTML */
+  public $extlinks = false;
 
+  /* Current settings */
+  private $config = array();
+
+  /* Registered callback functions for tags */
+  private $handlers = array();
+  
   /* Allowed HTML elements */
-  static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b', 'basefont', 'bdo', 'big', 'blockquote', 'body', 'br', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'ins', 'label', 'legend', 'li', 'map', 'menu', 'ol', 'p', 'pre', 'q', 's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'u', 'ul', 'var', 'img');
+  private $_html_elements = array();
+
+  /* Ignore these HTML tags but process their content */
+  private $_ignore_elements = array();
 
   /* Allowed HTML attributes */
-  static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir', 'background');
+  private $_html_attribs = array();
+  
 
+  /* Constructor */
+  public function __construct($p = array()) {
+    $this->_html_elements = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements) ;
+    $this->_html_attribs = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
+    $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
+    unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements']);
+    $this->config = $p + array('show_washed'=>true, 'allow_remote'=>false, 'cid_map'=>array());
+  }
+  
+  /* Register a callback function for a certain tag */
+  public function add_callback($tagName, $callback)
+  {
+    $this->handlers[$tagName] = $callback;
+  }
+  
   /* Check CSS style */
-  static function wash_style($style, $config, &$full) {
+  private function wash_style($style) {
     $s = '';
 
     foreach(explode(';', $style) as $declaration) {
@@ -96,12 +133,12 @@ class washtml
                  ')\s*/i', $str, $match)) {
           if($match[2]) {
             if(preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
-              if($config['allow_remote'])
+              if($this->config['allow_remote'])
                 $value .= ' url(\''.htmlspecialchars($url[0], ENT_QUOTES).'\')';
               else
-                $full = false;
+                $this->extlinks = true;
             } else if(preg_match('/^cid:(.*)$/i', $match[2], $cid))
-              $value .= ' url(\''.htmlspecialchars($config['cid_map']['cid:'.$cid[1]], ENT_QUOTES) . '\')';
+              $value .= ' url(\''.htmlspecialchars($this->config['cid_map']['cid:'.$cid[1]], ENT_QUOTES) . '\')';
           } else if($match[0] != 'url' && $match[0] != 'rbg')//whitelist ?
             $value .= ' ' . $match[0];
           $str = substr($str, strlen($match[0]));
@@ -114,39 +151,39 @@ class washtml
   }
 
   /* Take a node and return allowed attributes and check values */
-  static function wash_attribs($node, $config, &$full) {
+  private function wash_attribs($node) {
     $t = '';
     $washed;
 
     foreach($node->attributes as $key => $plop) {
       $key = strtolower($key);
       $value = $node->getAttribute($key);
-      if((in_array($key, self::$html_attribs)) ||
+      if(isset($this->_html_attribs[$key]) ||
          ($key == 'href' && preg_match('/^(http|https|ftp|mailto):.*/i', $value)))
         $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
-      else if($key == 'style' && ($style = self::wash_style($value, $config, $full)))
+      else if($key == 'style' && ($style = $this->wash_style($value)))
         $t .= ' style="' . $style . '"';
       else if($key == 'src' && strtolower($node->tagName) == 'img') { //check tagName anyway
         if(preg_match('/^(http|https|ftp):.*/i', $value)) {
-          if($config['allow_remote'])
+          if($this->config['allow_remote'])
             $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
           else {
-            $full = false;
-            if ($config['blocked_src'])
-              $t .= ' src="' . htmlspecialchars($config['blocked_src'], ENT_QUOTES) . '"';
+            $this->extlinks = true;
+            if ($this->config['blocked_src'])
+              $t .= ' src="' . htmlspecialchars($this->config['blocked_src'], ENT_QUOTES) . '"';
           }
         } else if(preg_match('/^cid:(.*)$/i', $value, $cid))
-          $t .= ' ' . $key . '="' . htmlspecialchars($config['cid_map']['cid:'.$cid[1]], ENT_QUOTES) . '"';
+          $t .= ' ' . $key . '="' . htmlspecialchars($this->config['cid_map']['cid:'.$cid[1]], ENT_QUOTES) . '"';
       } else
         $washed .= ($washed?' ':'') . $key;
     }
-    return $t . ($washed && $config['show_washed']?' x-washed="'.$washed.'"':'');
+    return $t . ($washed && $this->config['show_washed']?' x-washed="'.$washed.'"':'');
   }
 
   /* The main loop that recurse on a node tree.
    * It output only allowed tags with allowed attributes
    * and allowed inline styles */
-  static function dumpHtml($node, $config, &$full) {
+  private function dumpHtml($node) {
     if(!$node->hasChildNodes())
       return '';
 
@@ -157,23 +194,31 @@ class washtml
       switch($node->nodeType) {
       case XML_ELEMENT_NODE: //Check element
         $tagName = strtolower($node->tagName);
-        if(in_array($tagName, self::$html_elements)) {
-          $content = self::dumpHtml($node, $config, $full);
-          $dump .= '<' . $tagName . self::wash_attribs($node, $config, $full) .
+        if($callback = $this->handlers[$tagName]) {
+          $dump .= call_user_func($callback, $tagName, $this->wash_attribs($node), $this->dumpHtml($node));
+        } else if(isset($this->_html_elements[$tagName])) {
+          $content = $this->dumpHtml($node);
+          $dump .= '<' . $tagName . $this->wash_attribs($node) .
             ($content?">$content</$tagName>":' />');
-        } else if($tagName == 'html' || $tagName == 'body') {
-          $dump .= self::dumpHtml($node, $config, $full); //Just ignored
+        } else if(isset($this->_ignore_elements[$tagName])) {
+          $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
+          $dump .= $this->dumpHtml($node); //Just ignored
         } else
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
+        break;
+      case XML_CDATA_SECTION_NODE:
+        $dump .= $node->nodeValue;
         break;
       case XML_TEXT_NODE:
         $dump .= htmlspecialchars($node->nodeValue);
         break;
       case XML_HTML_DOCUMENT_NODE:
-        $dump .= self::dumpHtml($node, $config, $full);
+        $dump .= $this->dumpHtml($node);
         break;
-      case XML_DOCUMENT_TYPE_NODE: break;
+      case XML_DOCUMENT_TYPE_NODE:
+        break;
       default:
+        $dump . '<!-- node type ' . $node->nodeType . ' -->';
       }
     } while($node = $node->nextSibling);
 
@@ -182,13 +227,12 @@ class washtml
 
   /* Main function, give it untrusted HTML, tell it if you allow loading
    * remote images and give it a map to convert "cid:" urls. */
-  static function wash($html, $config=array(), &$full=true) {
-    $config += array('show_washed'=>true, 'allow_remote'=>false, 'cid_map'=>array());
+  public function wash($html) {
     //Charset seems to be ignored (probably if defined in the HTML document)
-    $node = new DOMDocument('1.0', $config['charset']);
-    $full = true;
+    $node = new DOMDocument('1.0', $this->config['charset']);
+    $this->extlinks = false;
     @$node->loadHTML($html);
-    return self::dumpHtml($node, $config, $full);
+    return $this->dumpHtml($node);
   }
 
 }

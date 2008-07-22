@@ -65,6 +65,8 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
       header("Cache-Control: private", false);
       header("Content-Type: application/octet-stream");
     }
+    else if ($ctype_primary == 'text')
+      header("Content-Type: text/$ctype_secondary; charset=" . RCMAIL_CHARSET);
     else
       header("Content-Type: $mimetype");
 
@@ -95,7 +97,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
         $part->body = $MESSAGE->get_part_content($part->mime_id);
 
       $OUTPUT = new rcube_html_page();
-      $OUTPUT->write(rcmail_print_body($part, $MESSAGE->is_safe));
+      $OUTPUT->write(rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false)));
     }
     else {
       header(sprintf('Content-Disposition: %s; filename="%s";',

@@ -57,7 +57,6 @@ class rcube_message
     list(, $this->sender) = each($this->imap->decode_address_list($this->headers->from));
     
     $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$uid]));
-    $this->set_safe(0);
     
     $this->opt = array(
       'safe' => $this->is_safe,
