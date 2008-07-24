@@ -1,5 +1,5 @@
 
-var rc_client = tinyMCEPopup.windowOpener.rcube_webmail_client;
+var rc_client = tinyMCEPopup.getParam("rc_client");
 if (rc_client.gui_objects.attachmentlist)
 {
    var tinyMCEImageList = new Array();

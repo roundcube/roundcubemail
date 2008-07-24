@@ -31,7 +31,8 @@ function rcmail_editor_init(skin_path, editor_lang)
                  theme_advanced_toolbar_align : "left",
                  extended_valid_elements : "font[face|size|color|style],span[id|class|align|style]",
                  content_css : skin_path + "/editor_content.css",
-                 external_image_list_url : "editor_images.js"
+                 external_image_list_url : "program/js/editor_images.js",
+		 rc_client: rcube_webmail_client
                });
   }
 
