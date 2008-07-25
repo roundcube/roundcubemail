@@ -1889,11 +1889,18 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((((!window.tinyMCE || !tinyMCE.get('compose-body')) && input_message.value == '')
-	|| (window.tinyMCE && tinyMCE.get('compose-body') && tinyMCE.get('compose-body').getContent() == ''))
+    if ((!window.tinyMCE || !tinyMCE.get('compose-body'))
+	&& input_message.value == ''
 	&& !confirm(this.get_label('nobodywarning')))
       {
       input_message.focus();
+      return false;
+      }
+    else if (window.tinyMCE && tinyMCE.get('compose-body')
+	&& !tinyMCE.get('compose-body').getContent()
+	&& !confirm(this.get_label('nobodywarning')))
+      {
+      tinyMCE.get('compose-body').focus();
       return false;
       }
 
