@@ -556,31 +556,26 @@ function get_offset_time($offset_str, $factor=1)
  */
 function rc_mime_content_type($path, $failover = 'unknown/unknown')
 {
-    global $CONFIG;
+    $mime_type = null;
+    $mime_magic = rcmail::get_instance()->config->get('mime_magic');
 
-    $mime_magic = $CONFIG['mime_magic'];
-
-    if (function_exists('mime_content_type')) {
-	$finfo = mime_content_type($path); 
-	if ($finfo)
-	    return $finfo;
+    if (!extension_loaded('fileinfo')) {
+        @dl('fileinfo.' . PHP_SHLIB_SUFFIX);
     }
-    
-    if (!extension_loaded('fileinfo')) { 
-        if (!dl('fileinfo.' . PHP_SHLIB_SUFFIX)) {
-            return $failover;
+
+    if (function_exists('finfo_open')) {
+        if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
+            $mime_type = finfo_file($finfo, $path);
+            finfo_close($finfo);
         }
     }
+    else if (function_exists('mime_content_type')) {
+      $mime_type = mime_content_type($path); 
+    }
     
-    $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
-    if (!$finfo) {
-        return $failover;
-    }
-    $mime_type = finfo_file($finfo,$path);
     if (!$mime_type) {
-        return $failover;
+        $mime_type = $failover;
     }
-    finfo_close($finfo);
 
     return $mime_type;
 }

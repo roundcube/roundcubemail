@@ -29,59 +29,62 @@ if (!$_SESSION['compose']) {
 $temp_dir = unslashify($CONFIG['temp_dir']);
 
 
-if (!is_array($_SESSION['compose']['attachments']))
+if (!is_array($_SESSION['compose']['attachments'])) {
   $_SESSION['compose']['attachments'] = array();
-
+}
 
 // clear all stored output properties (like scripts and env vars)
 $OUTPUT->reset();
 
-if (is_array($_FILES['_attachments']['tmp_name']))
-  {
-  foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
-    {
+if (is_array($_FILES['_attachments']['tmp_name'])) {
+  foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
     $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
-    if (move_uploaded_file($filepath, $tmpfname))
-      {
+    if (move_uploaded_file($filepath, $tmpfname)) {
       $id = count($_SESSION['compose']['attachments']);
-      $_SESSION['compose']['attachments'][] = array('name' => $_FILES['_attachments']['name'][$i],
-                                                  'mimetype' => $_FILES['_attachments']['type'][$i],
-                                                  'path' => $tmpfname);
+      $_SESSION['compose']['attachments'][] = array(
+        'name' => $_FILES['_attachments']['name'][$i],
+        'mimetype' => rc_mime_content_type($tmpfname, $_FILES['_attachments']['type'][$i]),
+        'path' => $tmpfname,
+      );
 
-      if (is_file($CONFIG['skin_path'] . '/images/icons/remove-attachment.png'))
-        $button = sprintf(
-          '<img src="%s/images/icons/remove-attachment.png" alt="%s" border="0" style="padding-right:2px;vertical-align:middle" />',
-          $CONFIG['skin_path'],
-          Q(rcube_label('delete')));
-      else
-        $button = Q(rcube_label('delete'));
-
-      $content = sprintf(
-        '<a href="#delete" onclick="return %s.command(\'remove-attachment\', \'rcmfile%d\', this)" title="%s">%s</a>%s',
-        JS_OBJECT_NAME,
-        $id,
-        Q(rcube_label('delete')),
-        $button,
-        Q($_FILES['_attachments']['name'][$i]));
-
-      $OUTPUT->command('add2attachment_list', "rcmfile$id", $content);
+      if (is_file($icon = $CONFIG['skin_path'] . '/images/icons/remove-attachment.png')) {
+        $button = html::img(array(
+          'src' => $icon,
+          'border' => 0,
+          'alt' => rcube_label('delete'),
+          'style' => "padding-right:2px;vertical-align:middle",
+        ));
       }
-    else // upload failed
-      {
+      else {
+        $button = Q(rcube_label('delete'));
+      }
+
+      $content = html::a(array(
+        'href' => "#delete",
+        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%d', this)", JS_OBJECT_NAME, $id),
+        'title' => rcube_label('delete'),
+      ), $button);
+      
+      $content .= Q($_FILES['_attachments']['name'][$i]);
+      
+      $OUTPUT->command('add2attachment_list', "rcmfile$id", $content);
+    }
+    else {  // upload failed
       $err = $_FILES['_attachments']['error'][$i];
-      if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE)
+      if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
         $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
-      else
+      }
+      else {
         $msg = rcube_label('fileuploaderror');
+      }
     
       $OUTPUT->command('display_message', $msg, 'error');
-      }
     }
   }
-else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-  { 
+}
+else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $OUTPUT->command('display_message', rcube_label('fileuploaderror'), 'error');
-  }
+}
 
 // send html page with JS calls as response
 $OUTPUT->command('show_attachment_form', false);

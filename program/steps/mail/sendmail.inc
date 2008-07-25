@@ -284,12 +284,7 @@ if (is_array($_SESSION['compose']['attachments']))
     }
     else
     {
-      /*
-        We need to replace mime_content_type in a later release because the function
-        is deprecated in favour of File_Info
-      */
-      $ctype = rc_mime_content_type($attachment['path'], $attachment['mimetype']);
-      $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
+      $ctype = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
 
       // .eml attachments send inline
       $MAIL_MIME->addAttachment($attachment['path'],

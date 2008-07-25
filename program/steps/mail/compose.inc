@@ -645,12 +645,17 @@ function rcmail_compose_attachment_list($attrib)
       $button = Q(rcube_label('delete'));
 
     foreach ($_SESSION['compose']['attachments'] as $id => $a_prop)
+    {
+      if (empty($a_prop))
+        continue;
+      
       $out .= html::tag('li', array('id' => "rcmfile".$id),
         html::a(array(
             'href' => "#delete",
             'title' => rcube_label('delete'),
             'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%d', this)", JS_OBJECT_NAME, $id)),
           $button) . Q($a_prop['name']));
+    }
   }
 
   $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);
