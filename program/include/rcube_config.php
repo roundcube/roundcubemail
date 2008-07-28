@@ -27,6 +27,7 @@
 class rcube_config
 {
   private $prop = array();
+  private $errors = array();
 
 
   /**
@@ -50,12 +51,16 @@ class rcube_config
     ob_start();
     
     // load main config file
-    include_once(INSTALL_PATH . 'config/main.inc.php');
-    $this->prop = (array)$rcmail_config;
+    if (include(INSTALL_PATH . 'config/main.inc.php'))
+      $this->prop = (array)$rcmail_config;
+    else
+      $this->errors[] = 'main.inc.php was not found.';
 
     // load database config
-    include_once(INSTALL_PATH . 'config/db.inc.php');
-    $this->prop += (array)$rcmail_config;
+    if (include(INSTALL_PATH . 'config/db.inc.php'))
+      $this->prop += (array)$rcmail_config;
+    else
+      $this->errors[] = 'db.inc.php was not found.';
     
     // load host-specific configuration
     $this->load_host_config();
@@ -221,6 +226,17 @@ class rcube_config
       $domain = $this->prop['mail_domain'];
     
     return $domain;
+  }
+  
+  
+  /**
+   * Getter for error state
+   *
+   * @return mixed Error message on error, False if no errors
+   */
+  public function get_error()
+  {
+    return empty($this->errors) ? false : join("\n", $this->errors);
   }
 
 

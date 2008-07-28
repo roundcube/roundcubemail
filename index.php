@@ -52,6 +52,15 @@ if ($RCMAIL->action != 'get' && $RCMAIL->action != 'viewsource') {
   }
 }
 
+
+// check if config files had errors
+if ($err_str = $RCMAIL->config->get_error()) {
+  raise_error(array(
+    'code' => 601,
+    'type' => 'php',
+    'message' => $err_str), false, true);
+}
+
 // check DB connections and exit on failure
 if ($err_str = $DB->is_error()) {
   raise_error(array(
