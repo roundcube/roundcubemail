@@ -15,6 +15,8 @@ if (rc_client.gui_objects.attachmentlist)
             fname = liElem.childNodes[j].nodeValue;
          }
       }
-      tinyMCEImageList.push([fname, rc_client.env.comm_path+'&_action=display-attachment&_file='+attachElems[i].id]);
+      
+      if (fname.match(/\.(bmp|gif|png|jpg|jpeg)$/))
+        tinyMCEImageList.push([fname, rc_client.env.comm_path+'&_action=display-attachment&_file='+attachElems[i].id]);
    }
 };
