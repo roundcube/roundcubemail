@@ -233,11 +233,15 @@ class rcmail
    * Init output object for GUI and add common scripts.
    * This will instantiate a rcmail_template object and set
    * environment vars according to the current session and configuration
+   *
+   * @param boolean True if this request is loaded in a (i)frame
+   * @return object rcube_template Reference to HTML output object
    */
   public function load_gui($framed = false)
   {
     // init output page
-    $this->output = new rcube_template($this->task, $framed);
+    if (!($this->output instanceof rcube_template))
+      $this->output = new rcube_template($this->task, $framed);
 
     foreach (array('flag_for_deletion') as $js_config_var) {
       $this->output->set_env($js_config_var, $this->config->get($js_config_var));
@@ -262,10 +266,13 @@ class rcmail
   
   /**
    * Create an output object for JSON responses
+   *
+   * @return object rcube_json_output Reference to JSON output object
    */
   public function init_json()
   {
-    $this->output = new rcube_json_output($this->task);
+    if (!($this->output instanceof rcube_json_output))
+      $this->output = new rcube_json_output($this->task);
     
     return $this->output;
   }
@@ -308,7 +315,7 @@ class rcmail
   {
     $conn = false;
     
-    if ($_SESSION['imap_host']) {
+    if ($_SESSION['imap_host'] && !$this->imap->conn) {
       if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'], rcmail::get_instance()->config->get('imap_auth_type', 'check')))) {
         if ($this->output)
           $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
@@ -317,7 +324,7 @@ class rcmail
       $this->set_imap_prop();
     }
 
-    return $conn;    
+    return $conn;
   }
 
 
