@@ -33,7 +33,7 @@ class html
     protected $content;
 
     public static $common_attrib = array('id','class','style','title','align');
-    public static $containers = array('div','span','p','h1','h2','h3','form','textarea');
+    public static $containers = array('div','span','p','h1','h2','h3','form','textarea','table','tr','th','td');
     public static $lc_tags = true;
 
     /**
@@ -607,10 +607,10 @@ class html_table extends html
      */
     public function show($attrib = null)
     {
-	if (is_array($attrib))
-    	    $this->attrib = array_merge($this->attrib, $attrib);
+        if (is_array($attrib))
+            $this->attrib = array_merge($this->attrib, $attrib);
         
-	$thead = $tbody = "";
+        $thead = $tbody = "";
 
         // include <thead>
         if (!empty($this->header)) {

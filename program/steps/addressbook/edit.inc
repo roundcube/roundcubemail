@@ -90,7 +90,7 @@ function get_form_tags($attrib)
   if (!strlen($EDIT_FORM))
     {
     $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
-    $hiddenfields->add(array('name' => '_action', 'value' => 'save', 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+    $hiddenfields->add(array('name' => '_action', 'value' => 'save'));
     $hiddenfields->add(array('name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
     $hiddenfields->add(array('name' => '_framed', 'value' => (empty($_REQUEST['_framed']) ? 0 : 1)));
     
