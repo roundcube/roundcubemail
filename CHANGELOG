@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Make default imap folders configurable for each user (#1485075)
 - Save outgoing mail to selectable folder (#1324581)
+- Fix hiding of mark menu when clicking th button again (#1484944)
 
 2008/07/21 (alec)
 ----------
