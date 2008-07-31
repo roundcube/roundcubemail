@@ -248,7 +248,7 @@ class html_inputfield extends html
 {
     protected $tagname = 'input';
     protected $type = 'text';
-    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange','onclick');
+    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange','onclick','disabled');
 
     public function __construct($attrib = array())
     {
@@ -416,7 +416,7 @@ class html_checkbox extends html_inputfield
 class html_textarea extends html
 {
     protected $tagname = 'textarea';
-    protected $allowed = array('name','rows','cols','wrap','tabindex','onchange');
+    protected $allowed = array('name','rows','cols','wrap','tabindex','onchange','disabled');
 
     /**
      * Get HTML code for this object
@@ -473,7 +473,7 @@ class html_select extends html
 {
     protected $tagname = 'select';
     protected $options = array();
-    protected $allowed = array('name','size','tabindex','autocomplete','multiple','onchange');
+    protected $allowed = array('name','size','tabindex','autocomplete','multiple','onchange','disabled');
     
     /**
      * Add a new option to this drop-down

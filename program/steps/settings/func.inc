@@ -213,9 +213,9 @@ function rcmail_user_prefs_form($attrib)
     $table->add(null, $input_htmleditor->show($config['htmleditor']?1:0));
   }
                   
-  if (!empty($config['drafts_mbox']) && !isset($no_override['draft_autosave'])) {
+  if (!isset($no_override['draft_autosave'])) {
     $field_id = 'rcmfd_autosave';
-    $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => $field_id));
+    $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => $field_id, 'disabled' => empty($config['drafts_mbox'])));
     $select_autosave->add(rcube_label('never'), 0);
     foreach (array(3, 5, 10) as $i => $min)
       $select_autosave->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min*60);
@@ -225,6 +225,28 @@ function rcmail_user_prefs_form($attrib)
   }
 
   $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagescomposition'))) . $table->show($attrib));
+
+  // Configure special folders
+  if (!isset($no_override['folders'])) {
+    $RCMAIL->imap_init(true);
+    $select = rcmail_mailbox_select(array('noselection' => '---'));
+    
+    $table = new html_table(array('cols' => 2));
+
+    $table->add('title', Q(rcube_label('drafts')));
+    $table->add(null, $select->show($config['drafts_mbox'], array('name' => "_drafts_mbox", 'onchange' => "document.getElementById('rcmfd_autosave').disabled=this.selectedIndex==0")));
+    
+    $table->add('title', Q(rcube_label('sent')));
+    $table->add(null, $select->show($config['sent_mbox'], array('name' => "_sent_mbox")));
+    
+    $table->add('title', Q(rcube_label('junk')));
+    $table->add(null, $select->show($config['junk_mbox'], array('name' => "_junk_mbox")));
+    
+    $table->add('title', Q(rcube_label('trash')));
+    $table->add(null, $select->show($config['trash_mbox'], array('name' => "_trash_mbox")));
+    
+    $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('specialfolders'))) . $table->show($attrib));
+  }
 
   $table = new html_table(array('cols' => 2));
 

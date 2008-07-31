@@ -934,6 +934,31 @@ function rcmail_mailbox_list($attrib)
   }
 
 
+/**
+ * Return the mailboxlist as html_select object
+ *
+ * @param array Named parameters
+ * @return object html_select HTML drop-down object
+ */
+function rcmail_mailbox_select($p = array())
+{
+  global $RCMAIL;
+  
+  $p += array('maxlength' => 100);
+  $a_mailboxes = array();
+  
+  foreach ($RCMAIL->imap->list_mailboxes() as $folder)
+    rcmail_build_folder_tree($a_mailboxes, $folder, $RCMAIL->imap->get_hierarchy_delimiter());
+
+  $select = new html_select($p);
+  
+  if ($p['noselection'])
+    $select->add($p['noselection'], '');
+    
+  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select);
+  
+  return $select;
+}
 
 
 /**
@@ -981,7 +1006,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
   $out = '';
   foreach ($arrFolders as $key => $folder)
     {
-    $zebra_class = ($nestLevel*$idx)%2 ? 'even' : 'odd';
+    $zebra_class = (($nestLevel+1)*$idx) % 2 == 0 ? 'even' : 'odd';
     $title = null;
 
     if ($folder_class = rcmail_folder_classname($folder['id']))
