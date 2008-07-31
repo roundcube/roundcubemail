@@ -188,6 +188,8 @@ $labels['alwaysshow'] = 'Bilder von $sender immer zeigen';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Klartext';
+$labels['savesentmessagein'] = 'Nachricht speichern in';
+$labels['dontsave'] = 'nicht speichern';
 
 $labels['addcc'] = 'Cc hinzufügen';
 $labels['addbcc'] = 'Bcc hinzufügen';
@@ -280,6 +282,7 @@ $labels['rename'] = 'Umbenennen';
 $labels['renamefolder'] = 'Ordner umbenennen';
 $labels['deletefolder']  = 'Ordner löschen';
 $labels['managefolders']  = 'Ordner verwalten';
+$labels['specialfolders']  = 'Spezialordner';
 
 $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc']  = 'aufsteigend sortieren';

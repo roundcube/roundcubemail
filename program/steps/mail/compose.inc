@@ -776,6 +776,14 @@ function rcmail_editor_selector($attrib)
 }
 
 
+function rcmail_store_target_selection($attrib)
+{
+  $attrib['name'] = '_store_target';
+  $select = rcmail_mailbox_select(array('noselection' => '- '.rcube_label('dontsave').' -'));
+  return $select->show(rcmail::get_instance()->config->get('sent_mbox'), $attrib);
+}
+
+
 function get_form_tags($attrib)
 {
   global $RCMAIL, $MESSAGE_FORM;
@@ -813,6 +821,7 @@ $OUTPUT->add_handlers(array(
   'priorityselector' => 'rcmail_priority_selector',
   'editorselector' => 'rcmail_editor_selector',
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
+  'storetarget' => 'rcmail_store_target_selection',
 ));
 
 /****** get contacts for this user and add them to client scripts ********/

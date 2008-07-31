@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/07/31 (thomasb)
+----------
+- Make default imap folders configurable for each user (#1485075)
+- Save outgoing mail to selectable folder (#1324581)
+
 2008/07/21 (alec)
 ----------
 - use long date format in print mode (#1485191)

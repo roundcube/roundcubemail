@@ -190,6 +190,8 @@ $labels['alwaysshow'] = 'Always show images from $sender';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
+$labels['savesentmessagein'] = 'Save sent message in';
+$labels['dontsave'] = 'don\'t save';
 
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
@@ -284,6 +286,7 @@ $labels['rename'] = 'Rename';
 $labels['renamefolder'] = 'Rename folder';
 $labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
+$labels['specialfolders']  = 'Special folders';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';

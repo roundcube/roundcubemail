@@ -355,27 +355,27 @@ if (!$savedraft)
 
 // Determine which folder to save message
 if ($savedraft)
-  $store_target = 'drafts_mbox';
+  $store_target = $CONFIG['drafts_mbox'];
 else
-  $store_target = 'sent_mbox';
+  $store_target = isset($_POST['_store_target']) ? get_input_value('_store_target', RCUBE_INPUT_POST) : $CONFIG['sent_mbox'];
 
-if ($CONFIG[$store_target])
+if ($store_target)
   {
   // check if mailbox exists
-  if (!in_array_nocase($CONFIG[$store_target], $IMAP->list_mailboxes()))
-    $store_folder = $IMAP->create_mailbox($CONFIG[$store_target], TRUE);
+  if (!in_array_nocase($store_target, $IMAP->list_mailboxes()))
+    $store_folder = $IMAP->create_mailbox($store_target, TRUE);
   else
     $store_folder = TRUE;
   
   // append message to sent box
   if ($store_folder)
-    $saved = $IMAP->save_message($CONFIG[$store_target], $MAIL_MIME->getMessage());
+    $saved = $IMAP->save_message($store_target, $MAIL_MIME->getMessage());
 
   // raise error if saving failed
   if (!$saved)
     {
     raise_error(array('code' => 800, 'type' => 'imap', 'file' => __FILE__,
-                      'message' => "Could not save message in $CONFIG[$store_target]"), TRUE, FALSE);
+                      'message' => "Could not save message in $store_target"), TRUE, FALSE);
     
     $OUTPUT->show_message('errorsaving', 'error');
     $OUTPUT->send('iframe');
