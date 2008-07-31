@@ -879,6 +879,8 @@ function rcmail_mailbox_list($attrib)
 {
   global $IMAP, $OUTPUT;
   static $a_mailboxes;
+  
+  $attrib += array('maxlength' => 100, 'relanames' => false);
 
   // add some labels to client
   rcube_add_label('purgefolderconfirm');
@@ -911,11 +913,11 @@ function rcmail_mailbox_list($attrib)
     if ($attrib['noselection'])
       $select->add(rcube_label($attrib['noselection']), '0');
     
-    rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select);
+    rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
     $out = $select->show();
   }
   else {
-    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength']), html::$common_attrib);
+    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength'], $attrib['realnames']), html::$common_attrib);
   }
 
   if ($type=='ul')
@@ -935,7 +937,7 @@ function rcmail_mailbox_select($p = array())
 {
   global $RCMAIL;
   
-  $p += array('maxlength' => 100);
+  $p += array('maxlength' => 100, 'relanames' => false);
   $a_mailboxes = array();
   
   foreach ($RCMAIL->imap->list_mailboxes() as $folder)
@@ -946,7 +948,7 @@ function rcmail_mailbox_select($p = array())
   if ($p['noselection'])
     $select->add($p['noselection'], '');
     
-  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select);
+  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames']);
   
   return $select;
 }
@@ -989,7 +991,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
  * Return html for a structured list &lt;ul&gt; for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $nestLevel=0)
+function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $realnames=false, $nestLevel=0)
   {
   global $COMM_PATH, $IMAP, $CONFIG, $OUTPUT;
 
@@ -1000,7 +1002,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
     $zebra_class = (($nestLevel+1)*$idx) % 2 == 0 ? 'even' : 'odd';
     $title = null;
 
-    if ($folder_class = rcmail_folder_classname($folder['id']))
+    if (($folder_class = rcmail_folder_classname($folder['id'])) && !$realnames)
       $foldername = rcube_label($folder_class);
     else
       {
@@ -1052,7 +1054,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
       ), Q($foldername)));
     
     if (!empty($folder['folders']))
-      $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $maxlength, $nestLevel+1) . "</ul>\n";
+      $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $maxlength, $realnames, $nestLevel+1) . "</ul>\n";
 
     $out .= "</li>\n";
     $idx++;
@@ -1066,7 +1068,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
  * Return html for a flat list <select> for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $nestLevel=0)
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0)
   {
   global $IMAP, $OUTPUT;
 
@@ -1074,7 +1076,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
   $out = '';
   foreach ($arrFolders as $key=>$folder)
     {
-    if ($folder_class = rcmail_folder_classname($folder['id']))
+    if (!$realnames && ($folder_class = rcmail_folder_classname($folder['id'])))
       $foldername = rcube_label($folder_class);
     else
       {
@@ -1088,7 +1090,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
     $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
 
     if (!empty($folder['folders']))
-      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $select, $nestLevel+1);
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $select, $realnames, $nestLevel+1);
 
     $idx++;
     }

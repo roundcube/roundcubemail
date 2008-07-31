@@ -227,9 +227,9 @@ function rcmail_user_prefs_form($attrib)
   $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagescomposition'))) . $table->show($attrib));
 
   // Configure special folders
-  if (!isset($no_override['folders'])) {
+  if (!isset($no_override['default_imap_folders'])) {
     $RCMAIL->imap_init(true);
-    $select = rcmail_mailbox_select(array('noselection' => '---'));
+    $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true));
     
     $table = new html_table(array('cols' => 2));
 
