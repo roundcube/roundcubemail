@@ -24,7 +24,7 @@ if (!$OUTPUT->ajax_call)
 
 
 function rcmail_user_prefs_form($attrib)
-  {
+{
   global $RCMAIL;
   $config = $RCMAIL->config->all();
 
@@ -36,15 +36,11 @@ function rcmail_user_prefs_form($attrib)
   list($form_start, $form_end) = get_form_tags($attrib, 'save-prefs');
   unset($attrib['form']);
 
-  // allow the following attributes to be added to the <table> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
-
-  // return the complete edit form as tables
-  $out = "$form_start<fieldset><legend>" . Q(rcube_label('uisettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+  $out = $form_start;
+  $table = new html_table(array('cols' => 2));
 
   // show language selection
-  if (!isset($no_override['language']))
-    {
+  if (!isset($no_override['language'])) {
     $a_lang = $RCMAIL->list_languages();
     asort($a_lang);
   
@@ -52,16 +48,13 @@ function rcmail_user_prefs_form($attrib)
     $select_lang = new html_select(array('name' => '_language', 'id' => $field_id));
     $select_lang->add(array_values($a_lang), array_keys($a_lang));
   
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('language')),
-                    $select_lang->show($_SESSION['language']));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('language'))));
+    $table->add(null, $select_lang->show($_SESSION['language']));
+  }
 
 
   // show page size selection
-  if (!isset($no_override['timezone']))
-    {
+  if (!isset($no_override['timezone'])) {
     $field_id = 'rcmfd_timezone';
     $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id));
     $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
@@ -104,207 +97,174 @@ function rcmail_user_prefs_form($attrib)
     $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
     $select_timezone->add('(GMT +14:00) Kiribati', '14');
   
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('timezone')),
-                    $select_timezone->show((string)$config['timezone']));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('timezone'))));
+    $table->add(null, $select_timezone->show((string)$config['timezone']));
+  }
 
   // daylight savings
-  if (!isset($no_override['dst_active']))
-    {
+  if (!isset($no_override['dst_active'])) {
     $field_id = 'rcmfd_dst';
     $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('dstactive')),
-                    $input_dst->show($config['dst_active']));
-    }
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('dstactive'))));
+    $table->add(null, $input_dst->show($config['dst_active']));
+  }
 
   // MM: Show checkbox for toggling 'pretty dates' 
-  if (!isset($no_override['prettydate']))
-    {
+  if (!isset($no_override['prettydate'])) {
     $field_id = 'rcmfd_prettydate';
     $input_prettydate = new html_checkbox(array('name' => '_pretty_date', 'id' => $field_id, 'value' => 1));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('prettydate')),
-                    $input_prettydate->show($config['prettydate']?1:0));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('prettydate'))));
+    $table->add(null, $input_prettydate->show($config['prettydate']?1:0));
+  }
 
   // show page size selection
-  if (!isset($no_override['pagesize']))
-    {
+  if (!isset($no_override['pagesize'])) {
     $field_id = 'rcmfd_pgsize';
     $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('pagesize')),
-                    $input_pagesize->show($config['pagesize']));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('pagesize'))));
+    $table->add(null, $input_pagesize->show($config['pagesize']));
+  }
 
   // show drop-down for available skins
-  if (!isset($no_override['skin']))
-    {
+  if (!isset($no_override['skin'])) {
     $skins = rcmail_get_skins();
 
-    if (count($skins) > 1)
-      {
+    if (count($skins) > 1) {
       $field_id = 'rcmfd_skin';
       $input_skin = new html_select(array('name'=>'_skin', 'id'=>$field_id));
       
       foreach($skins as $skin)
         $input_skin->add($skin, $skin);
 
-      $out .= sprintf("<tr><td class=\"title\"><lable for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-		    $field_id,
-		    Q(rcube_label('skin')),
-		    $input_skin->show($config['skin']));
-      }
+      $table->add('title', html::label($field_id, Q(rcube_label('skin'))));
+      $table->add(null, $input_skin->show($config['skin']));
     }
+  }
 
-  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('mailboxview')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+  $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('uisettings'))) . $table->show($attrib));
+  
+  $table = new html_table(array('cols' => 2));
 
   // show config parameter for preview pane
-  if (!isset($no_override['preview_pane']))
-    {
+  if (!isset($no_override['preview_pane'])) {
     $field_id = 'rcmfd_preview';
     $input_preview = new html_checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('previewpane')),
-                    $input_preview->show($config['preview_pane']?1:0));
-    }
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('previewpane'))));
+    $table->add(null, $input_preview->show($config['preview_pane']?1:0));
+  }
 
-  if (!isset($no_override['mdn_requests']))
-    {
+  if (!isset($no_override['mdn_requests'])) {
     $field_id = 'rcmfd_mdn_requests';
     $select_mdn_requests = new html_select(array('name' => '_mdn_requests', 'id' => $field_id));
     $select_mdn_requests->add(rcube_label('askuser'), 0);
     $select_mdn_requests->add(rcube_label('autosend'), 1);
     $select_mdn_requests->add(rcube_label('ignore'), 2);
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('mdnrequests')),
-                    $select_mdn_requests->show($config['mdn_requests']));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('mdnrequests'))));
+    $table->add(null, $select_mdn_requests->show($config['mdn_requests']));
+  }
 
-  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('messagesdisplaying')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+  $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('mailboxview'))) . $table->show($attrib));
+
+  $table = new html_table(array('cols' => 2));
 
   // show checkbox for HTML/plaintext messages
-  if (!isset($no_override['prefer_html']))
-    {
+  if (!isset($no_override['prefer_html'])) {
     $field_id = 'rcmfd_htmlmsg';
     $input_preferhtml = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1,
-	'onchange' => JS_OBJECT_NAME.'.toggle_prefer_html(this)'));
+      'onchange' => JS_OBJECT_NAME.'.toggle_prefer_html(this)'));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('preferhtml')),
-                    $input_preferhtml->show($config['prefer_html']?1:0));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('preferhtml'))));
+    $table->add(null, $input_preferhtml->show($config['prefer_html']?1:0));
+  }
 
   // show checkbox for displaying images from people in the addressbook
-  if (!isset($no_override['addrbook_show_images']))
-    {
+  if (!isset($no_override['addrbook_show_images'])) {
     $field_id = 'rcmfd_addrbook_show_images';
-    $input_addrbook_show_images = new html_checkbox(array('name' => '_addrbook_show_images', 'id' => $field_id, 
-	'value' => 1, 'disabled' => $config['prefer_html']?0:1));
+    $input_addrbook_show_images = new html_checkbox(array('name' => '_addrbook_show_images', 'id' => $field_id,
+      'value' => 1, 'disabled' => $config['prefer_html']?0:1));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('showknownimages')),
-                    $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('showknownimages'))));
+    $table->add(null, $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
+  }
 
-  if (!isset($no_override['inline_images']))
-    {
+  if (!isset($no_override['inline_images'])) {
     $field_id = 'rcmfd_inline_images';
     $input_inline_images = new html_checkbox(array('name' => '_inline_images', 'id' => $field_id, 'value' => 1));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('showinlineimages')),
-                    $input_inline_images->show($config['inline_images']?1:0));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('showinlineimages'))));
+    $table->add(null, $input_inline_images->show($config['inline_images']?1:0));
+  }
 
-  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('messagescomposition')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+  $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagesdisplaying'))) . $table->show($attrib));
+  
+  $table = new html_table(array('cols' => 2));
 
   // Show checkbox for HTML Editor
-  if (!isset($no_override['htmleditor']))
-    {
+  if (!isset($no_override['htmleditor'])) {
     $field_id = 'rcmfd_htmleditor';
     $input_htmleditor = new html_checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('htmleditor')),
-                    $input_htmleditor->show($config['htmleditor']?1:0));
-    }
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('htmleditor'))));
+    $table->add(null, $input_htmleditor->show($config['htmleditor']?1:0));
+  }
                   
-  if (!empty($config['drafts_mbox']) && !isset($no_override['draft_autosave']))
-    {
+  if (!empty($config['drafts_mbox']) && !isset($no_override['draft_autosave'])) {
     $field_id = 'rcmfd_autosave';
     $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => $field_id));
     $select_autosave->add(rcube_label('never'), 0);
     foreach (array(3, 5, 10) as $i => $min)
       $select_autosave->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min*60);
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('autosavedraft')),
-                    $select_autosave->show($config['draft_autosave']));
-    }
+    $table->add('title', html::label($field_id, Q(rcube_label('autosavedraft'))));
+    $table->add(null, $select_autosave->show($config['draft_autosave']));
+  }
 
-  $out .= "</table></fieldset>\n<fieldset><legend>" . Q(rcube_label('serversettings')) . "</legend>\n<table" . $attrib_str . ">\n\n";
+  $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagescomposition'))) . $table->show($attrib));
 
-  if (!isset($no_override['read_when_deleted']))
-    {
+  $table = new html_table(array('cols' => 2));
+
+  if (!isset($no_override['read_when_deleted'])) {
     $field_id = 'rcmfd_read_deleted';
     $input_readdeleted = new html_checkbox(array('name' => '_read_when_deleted', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('readwhendeleted')),
-                    $input_readdeleted->show($config['read_when_deleted']?1:0));
-    }
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('readwhendeleted'))));
+    $table->add(null, $input_readdeleted->show($config['read_when_deleted']?1:0));
+  }
 
-  if (!isset($no_override['flag_for_deletion']))
-    {
+  if (!isset($no_override['flag_for_deletion'])) {
     $field_id = 'rcmfd_flag_for_deletion';
     $input_flagfordeletion = new html_checkbox(array('name' => '_flag_for_deletion', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('flagfordeletion')),
-                    $input_flagfordeletion->show($config['flag_for_deletion']?1:0));
-    }
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('flagfordeletion'))));
+    $table->add(null, $input_flagfordeletion->show($config['flag_for_deletion']?1:0));
+  }
 
   // Trash purging on logout
-  if (!isset($no_override['logout_purge']))
-    {
+  if (!isset($no_override['logout_purge'])) {
     $field_id = 'rcmfd_logout_purge';
     $input_purge = new html_checkbox(array('name' => '_logout_purge', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('logoutclear')),
-                    $input_purge->show($config['logout_purge']?1:0));
-    }
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('logoutclear'))));
+    $table->add(null, $input_purge->show($config['logout_purge']?1:0));
+  }
 
   // INBOX compacting on logout
-  if (!isset($no_override['logout_expunge']))
-    {
+  if (!isset($no_override['logout_expunge'])) {
     $field_id = 'rcmfd_logout_expunge';
     $input_expunge = new html_checkbox(array('name' => '_logout_expunge', 'id' => $field_id, 'value' => 1));
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $field_id,
-                    Q(rcube_label('logoutcompact')),
-                    $input_expunge->show($config['logout_expunge']?1:0));
-    }
 
-  $out .= "\n</table></fieldset>$form_end";
+    $table->add('title', html::label($field_id, Q(rcube_label('logoutcompact'))));
+    $table->add(null, $input_expunge->show($config['logout_expunge']?1:0));
+  }
 
-  return $out;  
+  $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('serversettings'))) . $table->show($attrib));
+
+  return $out . $form_end;
   }
 
 

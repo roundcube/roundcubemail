@@ -145,7 +145,7 @@ class html
         if (is_string($attr)) {
             $attr = array('href' => $attr);
         }
-        return self::tag('a', $attr, $cont, array_merge(self::$common_attrib, array('href','target','name','onclick','onmouseover','onmouseout')));
+        return self::tag('a', $attr, $cont, array_merge(self::$common_attrib, array('href','target','name','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
     }
 
     /**

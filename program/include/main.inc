@@ -463,9 +463,10 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
  * Remove all non-ascii and non-word chars
  * except . and -
  */
-function asciiwords($str)
+function asciiwords($str, $css_id = false)
 {
-  return preg_replace('/[^a-z0-9._-]/i', '', $str);
+  $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
+  return preg_replace("/[^$allowed]/i", '', $str);
 }
 
 /**
@@ -887,22 +888,11 @@ function rcmail_mailbox_list($attrib)
 // $mboxlist_start = rcube_timer();
   
   $type = $attrib['type'] ? $attrib['type'] : 'ul';
-  $add_attrib = $type=='select' ? array('style', 'class', 'id', 'name', 'onchange') :
-                                  array('style', 'class', 'id');
-                                  
+  unset($attrib['type']);
+
   if ($type=='ul' && !$attrib['id'])
     $attrib['id'] = 'rcmboxlist';
 
-  // allow the following attributes to be added to the <ul> tag
-  $attrib_str = create_attrib_string($attrib, $add_attrib);
- 
-  $out = '<' . $type . $attrib_str . ">\n";
-  
-  // add no-selection option
-  if ($type=='select' && $attrib['noselection'])
-    $out .= sprintf('<option value="0">%s</option>'."\n",
-                    rcube_label($attrib['noselection']));
-  
   // get mailbox list
   $mbox_name = $IMAP->get_mailbox_name();
   
@@ -922,18 +912,25 @@ function rcmail_mailbox_list($attrib)
 
 // var_dump($a_mailboxes);
 
-  if ($type=='select')
-    $out .= rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength']);
-   else
-    $out .= rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength']);
-
-// rcube_print_time($mboxlist_start, 'render_folder_tree()');
+  if ($type=='select') {
+    $select = new html_select($attrib);
+    
+    // add no-selection option
+    if ($attrib['noselection'])
+      $select->add(rcube_label($attrib['noselection']), '0');
+    
+    rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select);
+    $out = $select->show($mbox_name);
+  }
+  else {
+    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength']), html::$common_attrib);
+  }
 
 
   if ($type=='ul')
     $OUTPUT->add_gui_object('mailboxlist', $attrib['id']);
 
-  return $out . "</$type>";
+  return $out;
   }
 
 
@@ -961,9 +958,10 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 
   if (!isset($arrFolders[$currentFolder]))
     {
-    $arrFolders[$currentFolder] = array('id' => $path,
-                                        'name' => rcube_charset_convert($currentFolder, 'UTF-7'),
-                                        'folders' => array());
+    $arrFolders[$currentFolder] = array(
+      'id' => $path,
+      'name' => rcube_charset_convert($currentFolder, 'UTF-7'),
+      'folders' => array());
     }
 
   if (!empty($subFolders))
@@ -984,7 +982,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
   foreach ($arrFolders as $key => $folder)
     {
     $zebra_class = ($nestLevel*$idx)%2 ? 'even' : 'odd';
-    $title = '';
+    $title = null;
 
     if ($folder_class = rcmail_folder_classname($folder['id']))
       $foldername = rcube_label($folder_class);
@@ -997,47 +995,46 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
         {
         $fname = abbreviate_string($foldername, $maxlength);
         if ($fname != $foldername)
-          $title = ' title="'.Q($foldername).'"';
+          $title = $foldername;
         $foldername = $fname;
         }
       }
 
     // make folder name safe for ids and class names
-    $folder_id = preg_replace('/[^A-Za-z0-9\-_]/', '', $folder['id']);
-    $class_name = preg_replace('/[^a-z0-9\-_]/', '', $folder_class ? $folder_class : strtolower($folder['id']));
+    $folder_id = asciiwords($folder['id'], true);
+    $classes = array('mailbox');
 
     // set special class for Sent, Drafts, Trash and Junk
     if ($folder['id']==$CONFIG['sent_mbox'])
-      $class_name = 'sent';
+      $classes[] = 'sent';
     else if ($folder['id']==$CONFIG['drafts_mbox'])
-      $class_name = 'drafts';
+      $classes[] = 'drafts';
     else if ($folder['id']==$CONFIG['trash_mbox'])
-      $class_name = 'trash';
+      $classes[] = 'trash';
     else if ($folder['id']==$CONFIG['junk_mbox'])
-      $class_name = 'junk';
+      $classes[] = 'junk';
+    else
+      $classes[] = asciiwords($folder_class ? $folder_class : strtolower($folder['id']), true);
+      
+    $classes[] = $zebra_class;
+    
+    if ($folder['id'] == $mbox_name)
+      $classes[] = 'selected';
 
-    $js_name = htmlspecialchars(JQ($folder['id']));
-    $out .= sprintf('<li id="rcmli%s" class="mailbox %s %s%s"><a href="%s"'.
-                    ' onclick="return %s.command(\'list\',\'%s\',this)"'.
-                    ' onmouseover="return %s.focus_folder(\'%s\')"' .
-                    ' onmouseout="return %s.unfocus_folder(\'%s\')"' .
-                    ' onmouseup="return %s.folder_mouse_up(\'%s\')"%s>%s</a>',
-                    $folder_id,
-                    $class_name,
-                    $zebra_class,
-                    $folder['id']==$mbox_name ? ' selected' : '',
-                    Q(rcmail_url('', array('_mbox' => $folder['id']))),
-                    JS_OBJECT_NAME,
-                    $js_name,
-                    JS_OBJECT_NAME,
-                    $js_name,
-                    JS_OBJECT_NAME,
-                    $js_name,
-                    JS_OBJECT_NAME,
-                    $js_name,
-                    $title,
-                    Q($foldername));
-
+    $js_name = JQ($folder['id']);
+    $out .= html::tag('li', array(
+        'id' => "rcmli".$folder_id,
+        'class' => join(' ', $classes),
+        'noclose' => true),
+      html::a(array(
+        'href' => rcmail_url('', array('_mbox' => $folder['id'])),
+        'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
+        'onmouseover' => sprintf("return %s.focus_folder('%s')", JS_OBJECT_NAME, $js_name),
+        'onmouseout' => sprintf("return %s.unfocus_folder('%s')", JS_OBJECT_NAME, $js_name),
+        'onmouseup' => sprintf("return %s.folder_mouse_up('%s')", JS_OBJECT_NAME, $js_name),
+        'title' => $title,
+      ), Q($foldername)));
+    
     if (!empty($folder['folders']))
       $out .= "\n<ul>\n" . rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $maxlength, $nestLevel+1) . "</ul>\n";
 
@@ -1053,7 +1050,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
  * Return html for a flat list <select> for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, $nestLevel=0, $selected='')
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $nestLevel=0)
   {
   global $IMAP, $OUTPUT;
 
@@ -1072,14 +1069,10 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
         $foldername = abbreviate_string($foldername, $maxlength);
       }
 
-    $out .= sprintf('<option value="%s"%s>%s%s</option>'."\n",
-                    htmlspecialchars($folder['id']),
-		    ($selected == $foldername ? ' selected="selected"' : ''),
-                    str_repeat('&nbsp;', $nestLevel*4),
-                    Q($foldername));
+    $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
 
     if (!empty($folder['folders']))
-      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $nestLevel+1, $selected);
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $select, $nestLevel+1);
 
     $idx++;
     }
