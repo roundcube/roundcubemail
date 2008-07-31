@@ -876,16 +876,13 @@ function rcube_print_time($timer, $label='Timer')
  * @return string HTML code for the gui object
  */
 function rcmail_mailbox_list($attrib)
-  {
-  global $IMAP, $CONFIG, $OUTPUT, $COMM_PATH;
-  static $s_added_script = FALSE;
+{
+  global $IMAP, $OUTPUT;
   static $a_mailboxes;
 
   // add some labels to client
   rcube_add_label('purgefolderconfirm');
   rcube_add_label('deletemessagesconfirm');
-  
-// $mboxlist_start = rcube_timer();
   
   $type = $attrib['type'] ? $attrib['type'] : 'ul';
   unset($attrib['type']);
@@ -897,20 +894,15 @@ function rcmail_mailbox_list($attrib)
   $mbox_name = $IMAP->get_mailbox_name();
   
   // build the folders tree
-  if (empty($a_mailboxes))
-    {
+  if (empty($a_mailboxes)) {
     // get mailbox list
     $a_folders = $IMAP->list_mailboxes();
     $delimiter = $IMAP->get_hierarchy_delimiter();
     $a_mailboxes = array();
 
-// rcube_print_time($mboxlist_start, 'list_mailboxes()');
-
     foreach ($a_folders as $folder)
       rcmail_build_folder_tree($a_mailboxes, $folder, $delimiter);
-    }
-
-// var_dump($a_mailboxes);
+  }
 
   if ($type=='select') {
     $select = new html_select($attrib);
@@ -920,18 +912,17 @@ function rcmail_mailbox_list($attrib)
       $select->add(rcube_label($attrib['noselection']), '0');
     
     rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select);
-    $out = $select->show($mbox_name);
+    $out = $select->show();
   }
   else {
     $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength']), html::$common_attrib);
   }
 
-
   if ($type=='ul')
     $OUTPUT->add_gui_object('mailboxlist', $attrib['id']);
 
   return $out;
-  }
+}
 
 
 /**
