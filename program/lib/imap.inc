@@ -2570,12 +2570,14 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 	
 	if (iil_C_Select($conn, $folder)) {
 		$key = 'F1247';
-        
+
 		if (iil_PutLine($fp, "$key FETCH $id (BODYSTRUCTURE)")) {
 			do {
 				$line = iil_ReadLine($fp, 5000);
 				$line = iil_MultLine($fp, $line);
-				$result .= $line;
+				list(, $index, $rest) = explode(' ', $line);
+				if ($index == $id || preg_match("/^$key/", $line))
+					$result .= $line;
 			} while (!preg_match("/^$key/", $line));
 
 			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, $key)+1)));
