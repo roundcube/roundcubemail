@@ -175,7 +175,7 @@ $rcmail_config['read_when_deleted'] = TRUE;
 // When a Trash folder is not present and a message is deleted, flag 
 // the message for deletion rather than deleting it immediately.  Setting this to 
 // false causes deleted messages to be permanantly removed if there is no Trash folder
-$rcmail_config['flag_for_deletion'] = TRUE;
+$rcmail_config['flag_for_deletion'] = FALSE;
 
 // Behavior if a received message requests a message delivery notification (read receipt)
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)

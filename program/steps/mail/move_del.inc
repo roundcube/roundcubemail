@@ -29,7 +29,12 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST);
     $moved = $IMAP->move_message($uids, $target, get_input_value('_mbox', RCUBE_INPUT_POST));
   
-    if (!$moved) {
+    if ($moved) {
+        // flag old messages as read because rcube_imap will not send expunge command after moving
+        if ($CONFIG['read_when_deleted'])
+            $IMAP->set_flag($uids, 'SEEN');
+    }
+    else {
         // send error message
         $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errormoving', 'error');

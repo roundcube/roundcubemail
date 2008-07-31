@@ -1282,8 +1282,8 @@ function rcube_webmail()
       if (!show && window.frames[this.env.contentframe])
         {
         if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
-	  window.frames[this.env.contentframe].location.href = this.env.blankpage;
-	}
+          window.frames[this.env.contentframe].location.href = this.env.blankpage;
+        }
       else if (!bw.safari)
         frm.style.display = show ? 'block' : 'none';
       }
@@ -1506,13 +1506,13 @@ function rcube_webmail()
   // Send a specifc request with UIDs of all selected messages
   // @private
   this._with_selected_messages = function(action, lock, add_url, remove)
-    {
+  {
     var a_uids = new Array();
 
     if (this.env.uid)
       a_uids[0] = this.env.uid;
     else
-      {
+    {
       var selection = this.message_list.get_selection();
       var rows = this.message_list.rows;
       var id;
@@ -1521,23 +1521,28 @@ function rcube_webmail()
         id = selection[n];
         a_uids[a_uids.length] = id;
 
-	if (remove)
+        if (remove)
           this.message_list.remove_row(id, (n == selection.length-1));
         else
-	  {
-	  rows[id].deleted = true;
+        {
+          rows[id].deleted = true;
         
           if (rows[id].classname.indexOf('deleted')<0)
-	    {
+          {
             rows[id].classname += ' deleted';
             this.set_classname(rows[id].obj, 'deleted', true);
-            }
+          }
+          if (this.env.read_when_deleted)
+          {
+            rows[id].classname = rows[id].classname.replace(/\s*unread/, '');
+            this.set_classname(rows[id].obj, 'unread', false);
+          }
         
-	  if (rows[id].icon && this.env.deletedicon)
+          if (rows[id].icon && this.env.deletedicon)
             rows[id].icon.src = this.env.deletedicon;
-	  }
         }
       }
+    }
     
     // also send search request to get the right messages 
     if (this.env.search_request) 
@@ -1545,7 +1550,7 @@ function rcube_webmail()
 
     // send request to server
     this.http_post(action, '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
-    };
+  };
 
 
   // set a specific flag to one or more messages
@@ -1574,14 +1579,14 @@ function rcube_webmail()
       {
         id = a_uids[n];
         if ((flag=='read' && this.message_list.rows[id].unread) 
-	    || (flag=='unread' && !this.message_list.rows[id].unread)
-        || (flag=='delete' && !this.message_list.rows[id].deleted)
-	    || (flag=='undelete' && this.message_list.rows[id].deleted)
-	    || (flag=='flagged' && !this.message_list.rows[id].flagged)
-	    || (flag=='unflagged' && this.message_list.rows[id].flagged))
-	  {
-	    r_uids[r_uids.length] = id;
-	  }
+            || (flag=='unread' && !this.message_list.rows[id].unread)
+            || (flag=='delete' && !this.message_list.rows[id].deleted)
+            || (flag=='undelete' && this.message_list.rows[id].deleted)
+            || (flag=='flagged' && !this.message_list.rows[id].flagged)
+            || (flag=='unflagged' && this.message_list.rows[id].flagged))
+        {
+          r_uids[r_uids.length] = id;
+        }
       }
 
     // nothing to do
@@ -1636,7 +1641,7 @@ function rcube_webmail()
           }
 
         if (rows[uid].icon && icn_src 
-	    && !(rows[uid].replied && this.env.repliedicon)
+            && !(rows[uid].replied && this.env.repliedicon)
             && !(rows[uid].deleted && this.env.deletedicon))
           rows[uid].icon.src = icn_src;
         }
@@ -1657,13 +1662,13 @@ function rcube_webmail()
         parent.rcmail.set_classname(rows[uid].obj, 'unread', false);
 
         if (rows[uid].replied && parent.rcmail.env.repliedicon)
-    	  icn_src = parent.rcmail.env.repliedicon;
+          icn_src = parent.rcmail.env.repliedicon;
         else if (rows[uid].deleted && parent.rcmail.env.deletedicon)
-    	  icn_src = parent.rcmail.env.deletedicon;
+          icn_src = parent.rcmail.env.deletedicon;
         else if (parent.rcmail.env.messageicon)
           icn_src = parent.rcmail.env.messageicon;
       
-	if (rows[uid].icon && icn_src)
+        if (rows[uid].icon && icn_src)
           rows[uid].icon.src = icn_src;
       }
   }
@@ -1779,16 +1784,21 @@ function rcube_webmail()
         rows[uid].deleted = true;
         
         if (rows[uid].classname.indexOf('deleted')<0)
-	  {
+          {
           rows[uid].classname += ' deleted';
           this.set_classname(rows[uid].obj, 'deleted', true);
           }
-        
-	if (rows[uid].icon && this.env.deletedicon)
+        if (this.env.read_when_deleted)
+        {
+          rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
+          this.set_classname(rows[uid].obj, 'unread', false);
+        }
+          
+        if (rows[uid].icon && this.env.deletedicon)
           rows[uid].icon.src = this.env.deletedicon;
 
-	if (rows[uid].unread)
-	  r_uids[r_uids.length] = uid;
+        if (rows[uid].unread)
+          r_uids[r_uids.length] = uid;
         }
       }
 
@@ -1817,7 +1827,7 @@ function rcube_webmail()
       if (rows[uid])
         {
         rows[uid].unread = false;
-	rows[uid].read = true;
+        rows[uid].read = true;
         
         rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
         this.set_classname(rows[uid].obj, 'unread', false);

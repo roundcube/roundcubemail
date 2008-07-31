@@ -243,7 +243,7 @@ class rcmail
     if (!($this->output instanceof rcube_template))
       $this->output = new rcube_template($this->task, $framed);
 
-    foreach (array('flag_for_deletion') as $js_config_var) {
+    foreach (array('flag_for_deletion','read_when_deleted') as $js_config_var) {
       $this->output->set_env($js_config_var, $this->config->get($js_config_var));
     }
 
