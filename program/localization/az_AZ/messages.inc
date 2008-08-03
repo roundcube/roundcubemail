@@ -1,17 +1,17 @@
-﻿<?php
+<?php
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/az_AZ/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Orkhan NASIB <orkhan@nasib.ws>                                |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/az_AZ/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Orkhan Guliyev, OUR Technology, LLC.<office@ourtechnology.net>|
++-----------------------------------------------------------------------+
 
 */
 
@@ -50,7 +50,7 @@ $messages['noemailwarning'] = 'Xahiş olunur düzgün e-poçt ünvanı daxil edi
 $messages['nonamewarning'] = 'Xahiş olunur bir ad daxil edin';
 $messages['nopagesizewarning'] = 'Xahiş olunur bir səhifə ölçüsü daxil edin';
 $messages['norecipientwarning'] = 'Xahiş olunur ən az bir qəbul edən göstərin';
-$messages['nosubjectwarning'] = '"Mövzu" daxil edilməmişdir. İndi bir mövzu daxil etmək istəyirsinizmi?';
+$messages['nosubjectwarning'] = '\"Mövzu\" daxil edilməmişdir. İndi bir mövzu daxil etmək istəyirsinizmi?';
 $messages['nobodywarning'] = 'Məktubu boş olaraq göndər?';
 $messages['notsentwarning'] = 'Məktub göndərilmədi. Məktubunuzu ləğv etmək istəyirsinizmi?';
 $messages['noldapserver'] = 'Xahiş olunur axtarmaq üçün bir Ldap server seçin';

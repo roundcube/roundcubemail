@@ -1,22 +1,22 @@
-﻿<?php
+<?php
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/az_AZ/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Orkhan NASIB <orkhan@nasib.ws>                                |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/az_AZ/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Orkhan Guliyev, OUR Technology, LLC.<office@ourtechnology.net>|
++-----------------------------------------------------------------------+
 
 */
 
 $labels = array();
-$labels['welcome'] = '$product \-a xoş gəldiniz';
+$labels['welcome'] = '$product \\-a xoş gəldiniz';
 $labels['username'] = 'İstifadəçi Adı';
 $labels['password'] = 'Şifrə';
 $labels['server'] = 'Server';
@@ -113,6 +113,8 @@ $labels['viewsource'] = 'Qaynağı göstər';
 $labels['markmessages'] = 'Məktubları qeyd et';
 $labels['markread'] = 'Oxunmuş kimi';
 $labels['markunread'] = 'Oxunmamış kimi';
+$labels['markflagged'] = 'Qeydə alındı';
+$labels['markunflagged'] = 'Qeyddən çıxdı';
 $labels['select'] = 'Seç';
 $labels['all'] = 'Hamısı';
 $labels['none'] = 'Heç biri';
@@ -126,8 +128,8 @@ $labels['unlimited'] = 'limitsiz';
 $labels['quicksearch'] = 'Sürətli axtarış';
 $labels['resetsearch'] = 'Axtarışı yenilə';
 $labels['compose'] = 'Yeni məktub yaz';
-$labels['sendmessage'] = 'Məktubu göndər';
 $labels['savemessage'] = 'Qaralama olaraq məktubu saxla';
+$labels['sendmessage'] = 'Məktubu göndər';
 $labels['addattachment'] = 'Fayl əlavə et';
 $labels['charset'] = 'Xarakter seti';
 $labels['editortype'] = 'Düzənləyici tipi';
@@ -148,6 +150,8 @@ $labels['showimages'] = 'Qrafikləri göstər';
 $labels['alwaysshow'] = 'Həmişə göstər';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Düz metn';
+$labels['savesentmessagein'] = 'Göndərilmiş məktubu saxla...';
+$labels['dontsave'] = 'Saxlama';
 $labels['addcc'] = 'CC əlavə et';
 $labels['addbcc'] = 'BCC əlavə et';
 $labels['addreplyto'] = 'Reply-To əlavə et';
@@ -195,6 +199,7 @@ $labels['dstactive'] = 'Yay vaxt;';
 $labels['htmleditor'] = 'HTML redaktorda mesaj redaktə et';
 $labels['htmlsignature'] = 'HTML imza';
 $labels['previewpane'] = 'İlk paneli göstər';
+$labels['skin'] = 'İnterfeys stili';
 $labels['logoutclear'] = 'Poçtdan çıxış vaxtı zibil qutusu təmizlənsin';
 $labels['logoutcompact'] = 'Poçtdan çıxış vaxtı gələnlər yığcam olunsun';
 $labels['uisettings'] = 'İstifadəçi İnterfeysi';
@@ -223,6 +228,7 @@ $labels['rename'] = 'Yenidən adlandır';
 $labels['renamefolder'] = 'Qovluğu yenidən adlandır';
 $labels['deletefolder'] = 'Qovluğu sil';
 $labels['managefolders'] = 'Qovluqlarla iş';
+$labels['specialfolders'] = 'Xüsusi qovluqlar';
 $labels['sortby'] = 'Sırala';
 $labels['sortasc'] = 'Azdan çoxa';
 $labels['sortdesc'] = 'Çoxdan aza';
