@@ -2,16 +2,16 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/de_DE/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Marcel Schlesinger <info@marcel-schlesinger.de>               |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/de_DE/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Marcel Schlesinger <info@marcel-schlesinger.de>               |
++-----------------------------------------------------------------------+
 
 @version $Id$
 
@@ -52,6 +52,7 @@ $labels['filename'] = 'Dateiname';
 $labels['filesize'] = 'Dateigröße';
 $labels['preferhtml'] = 'HTML anzeigen';
 $labels['htmlmessage'] = 'HTML-Nachricht';
+$labels['showknownimages'] = 'Zeige Bilder von bekannten Absendern an';
 $labels['prettydate'] = 'Kurze Datumsanzeige';
 $labels['addtoaddressbook'] = 'Ins Adressbuch übernehmen';
 $labels['sun'] = 'So';
@@ -114,6 +115,8 @@ $labels['viewsource'] = 'Quelltext anzeigen';
 $labels['markmessages'] = 'Nachrichten markieren';
 $labels['markread'] = 'Als gelesen';
 $labels['markunread'] = 'Als ungelesen';
+$labels['markflagged'] = 'Flagge hinzufügen';
+$labels['markunflagged'] = 'Flagge entfernen';
 $labels['select'] = 'Auswählen';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Keine';
@@ -198,6 +201,7 @@ $labels['dstactive'] = 'Sommerzeit';
 $labels['htmleditor'] = 'HTML-Nachrichten erstellen';
 $labels['htmlsignature'] = 'HTML-Signatur';
 $labels['previewpane'] = 'Vorschaufenster anzeigen';
+$labels['skin'] = 'Oberflächendesign';
 $labels['logoutclear'] = 'Papierkorb beim Abmelden leeren';
 $labels['logoutcompact'] = 'Posteingang beim Abmelden packen';
 $labels['uisettings'] = 'Benutzeroberfläche';
@@ -209,9 +213,12 @@ $labels['autosend'] = 'automatisch senden';
 $labels['ignore'] = 'ignorieren';
 $labels['readwhendeleted'] = 'Beim Löschen als gelesen markieren';
 $labels['flagfordeletion'] = 'Als gelöscht markieren wenn kein Papierkorb';
+$labels['showinlineimages'] = 'Stelle angehängte Bilder unter der Nachricht dar';
 $labels['autosavedraft'] = 'Entwurf automatisch speichern';
 $labels['everynminutes'] = 'alle $n Minuten';
 $labels['never'] = 'nie';
+$labels['messagesdisplaying'] = 'Nachrichtendarstellung';
+$labels['messagescomposition'] = 'Nachrichtenerstellung';
 $labels['folder'] = 'Ordner';
 $labels['folders'] = 'Ordner';
 $labels['foldername'] = 'Ordnername';
@@ -223,7 +230,7 @@ $labels['rename'] = 'Umbenennen';
 $labels['renamefolder'] = 'Ordner umbenennen';
 $labels['deletefolder'] = 'Ordner löschen';
 $labels['managefolders'] = 'Ordner verwalten';
-$labels['specialfolders']  = 'Spezialordner';
+$labels['specialfolders'] = 'Spezialordner';
 $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc'] = 'Aufsteigend sortieren';
 $labels['sortdesc'] = 'Absteigend sortieren';
