@@ -2539,19 +2539,19 @@ class rcube_imap
     $folders = array_merge($a_defaults, array_keys($folders));
 
     // finally we must rebuild the list to move 
-    // subfolders of default folders to their place
+    // subfolders of default folders to their place...
+    // ...also do this for the rest of folders because
+    // asort() is not properly sorting case sensitive names	
     while (list($key, $folder) = each($folders)) {
       $a_out[] = $folder;
       unset($folders[$key]);
-      if (in_array(strtolower($folder), $this->default_folders_lc)) {
-	foreach ($folders as $idx => $f) {
-	  if (strpos($f, $folder.$delimiter) === 0) {
-    	    $a_out[] = $f;
-	    unset($folders[$idx]);
-	    }
+      foreach ($folders as $idx => $f) {
+	if (strpos($f, $folder.$delimiter) === 0) {
+    	  $a_out[] = $f;
+	  unset($folders[$idx]);
 	  }
-	reset($folders);  
-	}
+        }
+      reset($folders);  
       }
 
     return $a_out;
