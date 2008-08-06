@@ -274,13 +274,11 @@ class html2text
      */
     function set_html( $source, $from_file = false )
     {
-        $this->html = $source;
-
         if ( $from_file && file_exists($source) ) {
-            $fp = fopen($source, 'r');
-            $this->html = fread($fp, filesize($source));
-            fclose($fp);
+            $this->html = file_get_contents($source);
         }
+	else
+    	    $this->html = $source;
 
         $this->_converted = false;
     }

@@ -566,12 +566,7 @@ class rcube_mdb2
     if (empty($file_name) || !is_string($file_name))
       return;
 
-    $data = '';
-    if ($fd = fopen($file_name, 'r'))
-      {
-      $data = fread($fd, filesize($file_name));
-      fclose($fd);
-      }
+    $data = file_get_contents($file_name);
 
     if (strlen($data))
       sqlite_exec($dbh->connection, $data);

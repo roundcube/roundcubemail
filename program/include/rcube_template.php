@@ -299,16 +299,13 @@ class rcube_template extends rcube_html_page
     private function parse($name = 'main', $exit = true)
     {
         $skin_path = $this->config['skin_path'];
-
-        // read template file
-        $templ = '';
         $path = "$skin_path/templates/$name.html";
 
-        if (($fp = fopen($path, 'r')) === false) {
-            $message = '';
+        // read template file
+	if (($templ = file_get_contents($path)) === false) {
             ob_start();
-            fopen($path, 'r');
-            $message.= ob_get_contents();
+            file_get_contents($path);
+            $message = ob_get_contents();
             ob_end_clean();
             raise_error(array(
                 'code' => 501,
@@ -319,8 +316,6 @@ class rcube_template extends rcube_html_page
                 ), true, true);
             return false;
         }
-        $templ = fread($fp, filesize($path));
-        fclose($fp);
 
         // parse for specialtags
         $output = $this->parse_conditions($templ);
@@ -529,14 +524,13 @@ class rcube_template extends rcube_html_page
             // include a file
             case 'include':
                 $path = realpath($this->config['skin_path'].$attrib['file']);
-                if ($fsize = filesize($path)) {
+                if (is_readable($path)) {
                     if ($this->config['skin_include_php']) {
                         $incl = $this->include_php($path);
                     }
-                    else if ($fp = fopen($path, 'r')) {
-                        $incl = fread($fp, $fsize);
-                        fclose($fp);
-                    }
+                    else {
+		        $incl = file_get_contents($path);
+		    }
                     return $this->parse_xml($incl);
                 }
                 break;
