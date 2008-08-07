@@ -5,7 +5,7 @@
  | program/include/rcube_user.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -98,31 +98,39 @@ class rcube_user
   /**
    * Write the given user prefs to the user's record
    *
-   * @param mixed User prefs to save
+   * @param array User prefs to save
    * @return boolean True on success, False on failure
    */
   function save_prefs($a_user_prefs)
   {
     if (!$this->ID)
       return false;
+      
+    $config = rcmail::get_instance()->config;
+    $old_prefs = (array)$this->get_prefs();
 
     // merge (partial) prefs array with existing settings
-    $a_user_prefs += (array)$this->get_prefs();
-    unset($a_user_prefs['language']);
-
+    $save_prefs = $a_user_prefs + $old_prefs;
+    unset($save_prefs['language']);
+    
+    // don't save prefs with default values if they haven't been changed yet
+    foreach ($a_user_prefs as $key => $value) {
+      if (!isset($old_prefs[$key]) && ($value == $config->get($key)))
+        unset($save_prefs[$key]);
+    }
+    
     $this->db->query(
       "UPDATE ".get_table_name('users')."
        SET    preferences=?,
               language=?
        WHERE  user_id=?",
-      serialize($a_user_prefs),
+      serialize($save_prefs),
       $_SESSION['language'],
       $this->ID);
 
     $this->language = $_SESSION['language'];
-    if ($this->db->affected_rows())
-    {
-      rcmail::get_instance()->config->merge($a_user_prefs);
+    if ($this->db->affected_rows()) {
+      $config->merge($a_user_prefs);
       return true;
     }
 
