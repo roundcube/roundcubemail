@@ -326,16 +326,18 @@ class rcube_user
   {
     $dbh = rcmail::get_instance()->get_dbh();
     
-    // query if user already registered
-    $sql_result = $dbh->query(
-      "SELECT * FROM ".get_table_name('users')."
-       WHERE  mail_host=? AND (username=? OR alias=?)",
-      $host,
-      $user,
-      $user);
-      
+    // query for matching user name
+    $query = "SELECT * FROM ".get_table_name('users')." WHERE mail_host=? AND %s=?";
+    $sql_result = $dbh->query(sprintf($query, 'username'), $host, $user);
+    
+    // query for matching alias
+    if (!($sql_arr = $dbh->fetch_assoc($sql_result))) {
+      $sql_result = $dbh->query(sprintf($query, 'alias'), $host, $user);
+      $sql_arr = $dbh->fetch_assoc($sql_result);
+    }
+    
     // user already registered -> overwrite username
-    if ($sql_arr = $dbh->fetch_assoc($sql_result))
+    if ($sql_arr)
       return new rcube_user($sql_arr['user_id'], $sql_arr);
     else
       return false;
