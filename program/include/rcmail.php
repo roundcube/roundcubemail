@@ -860,7 +860,8 @@ class rcmail
     
     unset($p['task']);
     foreach ($p as $par => $val)
-      $url .= '&'.urlencode($par).'='.urlencode($val);
+      if (isset($val))
+        $url .= '&'.urlencode($par).'='.urlencode($val);
     
     return $url;
   }
