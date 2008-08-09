@@ -196,12 +196,12 @@ class rcube_contacts
       if ($col == 'ID' || $col == $this->primary_key)
       {
         $ids = !is_array($value) ? split(',', $value) : $value;
-        $add_where[] = $this->primary_key." IN (".join(',', $ids).")";
+        $add_where[] = $this->primary_key.' IN ('.join(',', $ids).')';
       }
       else if ($strict)
-        $add_where[] = $this->db->quoteIdentifier($col)."=".$this->db->quote($value);
+        $add_where[] = $this->db->quoteIdentifier($col).'='.$this->db->quote($value);
       else
-        $add_where[] = $this->db->quoteIdentifier($col)." LIKE ".$this->db->quote(strlen($value)>2 ? "%$value%" : "$value%");
+        $add_where[] = $this->db->ilike($col, '%'.$value.'%');
     }
     
     if (!empty($add_where))

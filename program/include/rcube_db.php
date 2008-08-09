@@ -511,6 +511,26 @@ class rcube_db
 
 
   /**
+   * Return SQL statement for case insensitive LIKE
+   *
+   * @param  string  Field name
+   * @param  string  Search value
+   * @return string  SQL statement to use in query
+   * @access public
+   */
+  function ilike($column, $value)
+    {
+    switch($this->db_provider)
+      {
+      case 'pgsql':
+        return $this->quote_identifier($column).' ILIKE '.$this->quote($value);
+      default:
+        return $this->quote_identifier($column).' LIKE '.$this->quote($value);
+      }
+    }
+
+
+  /**
    * Adds a query result and returns a handle ID
    *
    * @param  object  Query handle

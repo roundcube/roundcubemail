@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/09 (alec)
+----------
+- Case insensitive contacts searching using PostgreSQL (#1485259)
+
 2008/07/31 (thomasb)
 ----------
 - Make default imap folders configurable for each user (#1485075)
