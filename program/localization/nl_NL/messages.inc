@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/nl_NL/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Mark Moses <mark@katmoda.com>                                 |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/nl_NL/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Mark Moses <mark@katmoda.com>                                 |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -79,4 +79,5 @@ $messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen';
 $messages['nodeletelastidentity'] = 'U kunt dit afzenderadres niet verwijderen';
 $messages['addsubfolderhint'] = 'Deze map zal worden aangemaakt onder de geselecteerde map';
 $messages['forbiddencharacter'] = 'De naam van de map bevat een karakter dat niet is toegestaan';
+
 ?>
