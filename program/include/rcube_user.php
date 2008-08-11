@@ -430,7 +430,7 @@ class rcube_user
   static function email2user($email)
   {
     $user = $email;
-    $r = self::findinvirtual("^$email\s");
+    $r = self::findinvirtual('^' . quotemeta($email) . '[[:space:]]');
 
     for ($i=0; $i<count($r); $i++)
     {
@@ -455,8 +455,8 @@ class rcube_user
    */
   static function user2email($user)
   {
-    $email = "";
-    $r = self::findinvirtual("\s$user\s*$");
+    $email = '';
+    $r = self::findinvirtual('[[:space:]]' . quotemeta($user) . '[[:space:]]*$');
 
     for ($i=0; $i<count($r); $i++)
     {
