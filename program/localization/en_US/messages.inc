@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'This is an encrypted message and can not be dis
 $messages['nocontactsfound'] = 'No contacts found';
 $messages['contactnotfound'] = 'The requested contact was not found';
 $messages['sendingfailed'] = 'Failed to send message';
+$messages['errorsavingsent'] = 'An error occured while saving sent message';
 $messages['errorsaving'] = 'An error occured while saving';
 $messages['errormoving'] = 'Could not move the message';
 $messages['errordeleting'] = 'Could not delete the message';

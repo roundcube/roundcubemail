@@ -2206,10 +2206,10 @@ function rcube_webmail()
     };
 
 
-  this.sent_successfully = function(msg)
+  this.sent_successfully = function(type, msg)
     {
     this.list_mailbox();
-    this.display_message(msg, 'confirmation', true);
+    this.display_message(msg, type, true);
     }
 
 

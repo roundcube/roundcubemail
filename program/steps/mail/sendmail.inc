@@ -377,8 +377,10 @@ if ($store_target)
     raise_error(array('code' => 800, 'type' => 'imap', 'file' => __FILE__,
                       'message' => "Could not save message in $store_target"), TRUE, FALSE);
     
-    $OUTPUT->show_message('errorsaving', 'error');
-    $OUTPUT->send('iframe');
+    if ($savedraft) {
+      $OUTPUT->show_message('errorsaving', 'error');
+      $OUTPUT->send('iframe');
+      }
     }
 
   if ($olddraftmessageid)
@@ -434,7 +436,11 @@ else
     }
 
   rcmail_compose_cleanup();
-  $OUTPUT->command('sent_successfully', rcube_label('messagesent'));
+
+  if ($store_folder && !$saved)
+    $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'));
+  else
+    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'));
   $OUTPUT->send('iframe');
   }
 
