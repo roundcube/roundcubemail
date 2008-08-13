@@ -40,7 +40,7 @@ function rcube_splitter(attrib)
     rcube_event.add_listener({element: this.elm, event:'mousedown', object:this, method:'onDragStart'});
     rcube_event.add_listener({element: window, event:'resize', object:this, method:'onResize'});
 
-    // read saved position form cookie
+    // read saved position from cookie
     var cookie = bw.get_cookie(this.id);
     if (cookie)
       {
@@ -190,6 +190,11 @@ function rcube_splitter(attrib)
     var exp = new Date();
     exp.setYear(exp.getFullYear() + 1);
     bw.set_cookie(this.id, 'pos='+this.pos, exp);
+
+    // Firefox 3 will initiate its built in drag-and-drop on the divider 
+    // widget if it already has focus when a second drag event starts 
+    this.p1.focus();
+    this.p1.blur();
 
     return bw.safari ? true : rcube_event.cancel(e);
     };
