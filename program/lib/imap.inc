@@ -2575,8 +2575,8 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 			do {
 				$line = iil_ReadLine($fp, 5000);
 				$line = iil_MultLine($fp, $line);
-				list(, $index, $rest) = explode(' ', $line);
-				if ($index == $id || preg_match("/^$key/", $line))
+				list(, $index, $cmd, $rest) = explode(' ', $line);
+				if ($cmd != 'FETCH' || $index == $id)
 					$result .= $line;
 			} while (!preg_match("/^$key/", $line));
 
