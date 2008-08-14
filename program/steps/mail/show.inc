@@ -194,6 +194,7 @@ function rcmail_remote_objects_msg($attrib)
 
 $OUTPUT->add_handlers(array(
   'messageattachments' => 'rcmail_message_attachments',
+  'mailboxname' => 'rcmail_mailbox_name_display',
   'blockedobjects' => 'rcmail_remote_objects_msg'));
 
 

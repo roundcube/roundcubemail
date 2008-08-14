@@ -3409,6 +3409,13 @@ function rcube_webmail()
     };
 
 
+  // replace content of mailboxname display
+  this.set_mailboxname = function(content)
+    {
+    if (this.gui_objects.mailboxname && content)
+      this.gui_objects.mailboxname.innerHTML = content;
+    };
+
   // replace content of quota display
   this.set_quota = function(content)
     {

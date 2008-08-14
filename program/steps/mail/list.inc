@@ -51,6 +51,8 @@ $pages = ceil($count/$IMAP->page_size);
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
+$OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
+
 
 
 // add message rows

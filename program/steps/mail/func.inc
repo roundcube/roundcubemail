@@ -529,6 +529,27 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   return Q($out);
   }
 
+/**
+ *
+ */
+function rcmail_mailbox_name_display($attrib)
+{
+    global $RCMAIL;
+
+    if (!$attrib['id'])
+        $attrib['id'] = 'rcmmailboxname';
+
+    $RCMAIL->output->add_gui_object('mailboxname', $attrib['id']);
+
+    return html::span($attrib, rcmail_get_mailbox_name_text());
+}
+
+function rcmail_get_mailbox_name_text()
+{
+    global $RCMAIL;
+    return rcmail_localize_foldername($RCMAIL->imap->get_mailbox_name());
+}
+
 
 /**
  * Convert the given message part to proper HTML
@@ -1179,6 +1200,7 @@ $OUTPUT->add_handlers(array(
   'messages' => 'rcmail_message_list',
   'messagecountdisplay' => 'rcmail_messagecount_display',
   'quotadisplay' => 'rcmail_quota_display',
+  'mailboxname' => 'rcmail_mailbox_name_display',
   'messageheaders' => 'rcmail_message_headers',
   'messagebody' => 'rcmail_message_body',
   'messagecontentframe' => 'rcmail_messagecontent_frame',
