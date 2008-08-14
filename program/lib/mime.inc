@@ -63,12 +63,9 @@ function iml_ParseBSString($str){
                 $i++;
                 $endPos = iml_ClosingParenPos($str, $i);
                 $partLen = $endPos - $i;
+                if ($partLen < 0) break;
                 $part = substr($str, $i, $partLen);
                 $a[$id] = iml_ParseBSString($part); //send part string
-                if ($verbose){
-					echo "{>".$endPos."}";
-					flush();
-				}
                 $i = $endPos;
             }else $a[$id].=$str[$i]; //add to current element in array
         }else if ($in_quote){
