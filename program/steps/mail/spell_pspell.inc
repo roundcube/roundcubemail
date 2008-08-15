@@ -39,7 +39,7 @@ foreach ($words as $w) {
     $word = $w[0];
     $pos  = $w[1];
     $len  = strlen($word);
-    if (!pspell_check($plink, $word)) {
+    if ($plink && !pspell_check($plink, $word)) {
         $suggestions = pspell_suggest($plink, $word);
         $out .= '<c o="'.$pos.'" l="'.$len.'">';
         $out .= implode("\t", $suggestions);
@@ -48,6 +48,7 @@ foreach ($words as $w) {
 }
 $out .= '</spellresult>';
 
+header("Content-Type: text/xml");
 echo $out;
 exit;
 
