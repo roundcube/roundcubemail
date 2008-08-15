@@ -53,8 +53,16 @@ class GoogleSpell extends SpellChecker {
 		$server = "www.google.com";
 		$port = 443;
 		$path = "/tbproxy/spell?lang=" . $lang . "&hl=en";
-		$host = "www.google.com";
-		$url = "https://" . $server;
+		$ssl = true;
+		
+		// spell check uri is configured (added by RoundCube)
+		if (!empty($this->_config['rpc_uri'])) {
+			$a_uri = parse_url($this->_config['rpc_uri']);
+			$ssl = ($a_uri['scheme']=='https' || $a_uri['scheme']=='ssl');
+			$port = $a_uri['port'] ? $a_uri['port'] : ($ssl ? 443 : 80);
+			$server = $a_uri['host'];
+			$path = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $lang;
+		}
 
 		// Setup XML request
 		$xml = '<?xml version="1.0" encoding="utf-8" ?><spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1"><text>' . $str . '</text></spellrequest>';
@@ -74,7 +82,7 @@ class GoogleSpell extends SpellChecker {
 		if (function_exists('curl_init')) {
 			// Use curl
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_URL, ($ssl ? "https://" : "http://") . $server);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $header);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -82,7 +90,7 @@ class GoogleSpell extends SpellChecker {
 			curl_close($ch);
 		} else {
 			// Use raw sockets
-			$fp = fsockopen("ssl://" . $server, $port, $errno, $errstr, 30);
+			$fp = fsockopen(($ssl ? "ssl://" : "") . $server, $port, $errno, $errstr, 30);
 			if ($fp) {
 				// Send request
 				fwrite($fp, $header);

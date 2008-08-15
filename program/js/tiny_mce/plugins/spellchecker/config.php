@@ -7,6 +7,7 @@
 	
 	$rcmail_config = new rcube_config();
 	$config['general.engine'] = $rcmail_config->get('spellcheck_engine') == 'pspell' ? 'PSpell' : 'GoogleSpell';
+	$config['GoogleSpell.rpc_uri'] = $rcmail_config->get('spellcheck_uri');
 	
 	/** end RoundCube specific code */
 
