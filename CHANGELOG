@@ -1,10 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/08/14 (thomasb)
+2008/08/15 (thomasb)
 ----------
 - Use current mailbox name in template (#1485256)
 - Better fix for skipping untagged responses (#1485261)
+- Added pspell support patch by Kris Steinhoff (#1483960)
 
 2008/08/09 (alec)
 ----------
