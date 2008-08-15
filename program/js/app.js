@@ -195,6 +195,8 @@ function rcube_webmail()
             {
             this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
             this.set_spellcheck_state('ready');
+            if (rcube_find_object('_is_html').value == '1')
+              this.display_spellcheck_controls(false);
             }
           if (this.env.drafts_mailbox)
             this.enable_command('savedraft', true);
@@ -204,9 +206,9 @@ function rcube_webmail()
           this.enable_command('select-all', 'select-none', 'expunge', true);
 
         if (this.env.messagecount 
-	    && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
-		|| this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
-		|| this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))))
+            && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
+              || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
+              || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))))
           this.enable_command('purge', true);
 
         this.set_page_buttons();
@@ -855,11 +857,13 @@ function rcube_webmail()
         break;
         
       case 'spellcheck':
-        if (this.env.spellcheck && this.env.spellcheck.spellCheck && this.spellcheck_ready)
-          {
+        if (window.tinyMCE && tinyMCE.get('compose-body')) {
+          tinyMCE.execCommand('mceSpellCheck', true);
+        }
+        else if (this.env.spellcheck && this.env.spellcheck.spellCheck && this.spellcheck_ready) {
           this.env.spellcheck.spellCheck(this.env.spellcheck.check_link);
           this.set_spellcheck_state('checking');
-          }
+        }
         break;
 
       case 'savedraft':
@@ -1899,16 +1903,12 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((!window.tinyMCE || !tinyMCE.get('compose-body'))
-	&& input_message.value == ''
-	&& !confirm(this.get_label('nobodywarning')))
+    if ((!window.tinyMCE || !tinyMCE.get('compose-body')) && input_message.value == '' && !confirm(this.get_label('nobodywarning')))
       {
       input_message.focus();
       return false;
       }
-    else if (window.tinyMCE && tinyMCE.get('compose-body')
-	&& !tinyMCE.get('compose-body').getContent()
-	&& !confirm(this.get_label('nobodywarning')))
+    else if (window.tinyMCE && tinyMCE.get('compose-body') && !tinyMCE.get('compose-body').getContent() && !confirm(this.get_label('nobodywarning')))
       {
       tinyMCE.get('compose-body').focus();
       return false;
@@ -1917,6 +1917,13 @@ function rcube_webmail()
     return true;
     };
 
+  this.display_spellcheck_controls = function(vis)
+  {
+    if (this.env.spellcheck) {
+      this.env.spellcheck.check_link.style.visibility = vis ? 'visible' : 'hidden';
+      this.env.spellcheck.switch_lan_pic.style.visibility = vis ? 'visible' : 'hidden';
+    }
+  };
 
   this.set_spellcheck_state = function(s)
     {

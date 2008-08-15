@@ -15,26 +15,28 @@
 
 // Initialize the message editor
 
-function rcmail_editor_init(skin_path, editor_lang)
-  {
-  tinyMCE.init({ mode : "textareas",
-                 editor_selector : "mce_editor",
-                 accessibility_focus : false,
-                 apply_source_formatting : true,
-                 theme : "advanced",
-                 language : editor_lang,
-                 plugins : "emotions,media,nonbreaking,table,searchreplace,visualchars,directionality",
-                 theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,link,unlink,emotions,charmap,code,forecolor,backcolor,fontselect,fontsizeselect, separator,undo,redo,image,media,ltr,rtl",
-                 theme_advanced_buttons2 : "",
-                 theme_advanced_buttons3 : "",
-                 theme_advanced_toolbar_location : "top",
-                 theme_advanced_toolbar_align : "left",
-                 extended_valid_elements : "font[face|size|color|style],span[id|class|align|style]",
-                 content_css : skin_path + "/editor_content.css",
-                 external_image_list_url : "program/js/editor_images.js",
-		 rc_client: rcube_webmail_client
-               });
-  }
+function rcmail_editor_init(skin_path, editor_lang, spellcheck)
+{
+  tinyMCE.init({ 
+    mode : "textareas",
+    editor_selector : "mce_editor",
+    accessibility_focus : false,
+    apply_source_formatting : true,
+    theme : "advanced",
+    language : editor_lang,
+    plugins : "emotions,media,nonbreaking,table,searchreplace,visualchars,directionality" + (spellcheck ? ",spellchecker" : ""),
+    theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,link,unlink,emotions,charmap,code,forecolor,backcolor,fontselect,fontsizeselect, separator" + (spellcheck ? ",spellchecker" : "") + ",undo,redo,image,media,ltr,rtl",
+    theme_advanced_buttons2 : "",
+    theme_advanced_buttons3 : "",
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",
+    extended_valid_elements : "font[face|size|color|style],span[id|class|align|style]",
+    content_css : skin_path + "/editor_content.css",
+    external_image_list_url : "program/js/editor_images.js",
+    spellchecker_languages : (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : "Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv"),
+    rc_client: rcube_webmail_client
+  });
+}
 
 // Toggle between the HTML and Plain Text editors
 
@@ -63,6 +65,7 @@ function rcmail_toggle_editor(toggler)
     composeElement.value = htmlText;
     tinyMCE.execCommand('mceAddControl', true, 'compose-body');
     htmlFlag.value = "1";
+    rcmail.display_spellcheck_controls(false);
     }
   else
     {
@@ -72,6 +75,7 @@ function rcmail_toggle_editor(toggler)
     rcmail_html2plain(existingHtml);
     tinyMCE.execCommand('mceRemoveControl', true, 'compose-body');
     htmlFlag.value = "0";
+    rcmail.display_spellcheck_controls(true);
     }
   }
 
@@ -82,7 +86,7 @@ function rcmail_html2plain(htmlText)
   http_request.onerror = function(o) { rcmail_handle_toggle_error(o); };
   http_request.oncomplete = function(o) { rcmail_set_text_value(o); };
   var url = rcmail.env.bin_path+'html2text.php';
-  console.log('HTTP request: ' + url);
+  //console.log('HTTP request: ' + url);
   http_request.POST(url, htmlText, 'application/octet-stream');
   }
 

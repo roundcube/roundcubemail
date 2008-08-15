@@ -382,7 +382,7 @@ function rcmail_compose_body($attrib)
 
   $OUTPUT->include_script('tiny_mce/tiny_mce.js');
   $OUTPUT->include_script("editor.js");
-  $OUTPUT->add_script('rcmail_editor_init("$__skin_path", "'.$tinylang.'");');
+  $OUTPUT->add_script('rcmail_editor_init("$__skin_path", "'.JQ($tinylang).'", '.intval($CONFIG['enable_spellcheck']).');');
 
   $out = $form_start ? "$form_start\n" : '';
 
@@ -402,11 +402,13 @@ function rcmail_compose_body($attrib)
   $out .= $form_end ? "\n$form_end" : '';
 
   // include GoogieSpell
-  if (!empty($CONFIG['enable_spellcheck']) && !$isHtml)
-    {
-    $lang_set = '';
-    if (!empty($CONFIG['spellcheck_languages']) && is_array($CONFIG['spellcheck_languages']))
-      $lang_set = "googie.setLanguages(".array2js($CONFIG['spellcheck_languages']).");\n";
+  if (!empty($CONFIG['enable_spellcheck'])) {
+    $googie_lang_set = $editor_lang_set = '';
+    if (!empty($CONFIG['spellcheck_languages']) && is_array($CONFIG['spellcheck_languages'])) {
+      $googie_lang_set = "googie.setLanguages(".json_serialize($CONFIG['spellcheck_languages']).");\n";
+      foreach ($CONFIG['spellcheck_languages'] as $key => $name)
+        $editor_lang_set .= ($editor_lang_set ? ',' : '') . ($key == $tinylang ? '+' : '') . JQ($name).'='.JQ($key);
+    }
     
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf(
@@ -425,13 +427,14 @@ function rcmail_compose_body($attrib)
       JQ(Q(rcube_label('close'))),
       JQ(Q(rcube_label('revertto'))),
       JQ(Q(rcube_label('nospellerrors'))),
-      $lang_set,
+      $googie_lang_set,
       substr($_SESSION['language'], 0, 2),
       $attrib['id'],
       JS_OBJECT_NAME), 'foot');
 
     rcube_add_label('checking');
-    }
+    $OUTPUT->set_env('spellcheck_langs', $editor_lang_set);
+  }
  
   $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
 

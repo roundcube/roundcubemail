@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Use current mailbox name in template (#1485256)
 - Better fix for skipping untagged responses (#1485261)
 - Added pspell support patch by Kris Steinhoff (#1483960)
+- Enable spellchecker for HTML editor (#1485114)
 
 2008/08/09 (alec)
 ----------
