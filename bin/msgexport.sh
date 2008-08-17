@@ -1,4 +1,4 @@
-#!/usr/bin/php -qC 
+#!/usr/bin/php
 <?php
 
 define('INSTALL_PATH', preg_replace('/bin\/$/', '', getcwd()) . '/');
@@ -43,8 +43,8 @@ function print_usage()
 	print "Usage:  msgexport -h imap-host -u user-name -m mailbox name\n";
 	print "--host   IMAP host\n";
 	print "--user   IMAP user name\n";
-	print "--mbox   Mailbox/folder name\n";
-	print "--file   Mailbox/folder name\n";
+	print "--mbox   Folder name, set to '*' for all\n";
+	print "--file   Output file\n";
 }
 
 function vputs($str)
@@ -57,6 +57,45 @@ function progress_update($pos, $max)
 {
 	$percent = round(100 * $pos / $max);
 	vputs(sprintf("%3d%% [%-51s] %d/%d\033[K\r", $percent, @str_repeat('=', $percent / 2) . '>', $pos, $max));
+}
+
+function export_mailbox($mbox, $filename)
+{
+	global $IMAP;
+	
+	$IMAP->set_mailbox($mbox);
+	
+	vputs("Getting message list of {$mbox}...");
+	vputs($IMAP->messagecount()." messages\n");
+	
+	if ($filename)
+	{
+		if (!($out = fopen($filename, 'w')))
+		{
+			vputs("Cannot write to output file\n");
+			return;
+		}
+		vputs("Writing to $filename\n");
+	}
+	else
+		$out = STDOUT;
+	
+	for ($count = $IMAP->messagecount(), $i=1; $i <= $count; $i++)
+	{
+		$headers = $IMAP->get_headers($i, null, false);
+		$from = current($IMAP->decode_address_list($headers->from, 1, false));
+		
+		fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
+		fwrite($out, iil_C_FetchPartHeader($IMAP->conn, $IMAP->mailbox, $i, null));
+		fwrite($out, iil_C_HandlePartBody($IMAP->conn, $IMAP->mailbox, $i, null, 1));
+		fwrite($out, "\n\n\n");
+		
+		progress_update($i, $count);
+	}
+	vputs("\ncomplete.\n");
+	
+	if ($filename)
+		fclose($out);
 }
 
 
@@ -109,35 +148,21 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 {
 	vputs("IMAP login successful.\n");
 	
-	$IMAP->set_mailbox($args['mbox']);
-	
-	vputs("Getting message list of {$args['mbox']}...");
-	vputs($IMAP->messagecount()." messages\n");
-	
-	if ($args['file'])
+	$filename = null;
+	$mailboxes = $args['mbox'] == '*' ? $IMAP->list_mailboxes(null) : array($args['mbox']);
+
+	foreach ($mailboxes as $mbox)
 	{
-		if (!($out = fopen($args['file'], 'w')))
-		{
-			vputs("Cannot write to output file\n");
-			exit;
-		}
+		if ($args['file'])
+			$filename = preg_replace('/\.[a-z0-9]{3,4}$/i', '', $args['file']) . asciiwords($mbox) . '.mbox';
+		else if ($args['mbox'] == '*')
+			$filename = asciiwords($mbox) . '.mbox';
+			
+		if ($args['mbox'] == '*' && in_array(strtolower($mbox), array('junk','spam','trash')))
+			continue;
+
+		export_mailbox($mbox, $filename);
 	}
-	else
-		$out = STDOUT;
-	
-	for ($count = $IMAP->messagecount(), $i=1; $i <= $count; $i++)
-	{
-		$headers = $IMAP->get_headers($i, null, false);
-		$from = current($IMAP->decode_address_list($headers->from, 1, false));
-		
-		fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
-		fwrite($out, iil_C_FetchPartHeader($IMAP->conn, $IMAP->mailbox, $i, null));
-		fwrite($out, iil_C_HandlePartBody($IMAP->conn, $IMAP->mailbox, $i, null, 1));
-		fwrite($out, "\n\n\n");
-		
-		progress_update($i, $count);
-	}
-	vputs("\ncomplete.\n");
 }
 else
 {
