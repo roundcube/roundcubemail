@@ -2576,11 +2576,11 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 				$line = iil_ReadLine($fp, 5000);
 				$line = iil_MultLine($fp, $line);
 				list(, $index, $cmd, $rest) = explode(' ', $line);
-				if ($cmd != 'FETCH' || $index == $id)
+				if ($cmd != 'FETCH' || $index == $id || preg_match("/^$key/", $line))
 					$result .= $line;
 			} while (!preg_match("/^$key/", $line));
 
-			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13));
+			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, $key)+1)));
 		}
 	}
 	return $result;
