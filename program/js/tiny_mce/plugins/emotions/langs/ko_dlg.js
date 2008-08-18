@@ -1,0 +1,20 @@
+tinyMCE.addI18n('ko.emotions_dlg',{
+title:"\uC774\uBAA8\uD2F0\uCF58 \uC0BD\uC785",
+desc:"\uC774\uBAA8\uD2F0\uCF58",
+cool:"\uCFE8",
+cry:"\uC6B8\uC74C",
+embarassed:"\uBD80\uB044\uB7EC\uC6C0",
+foot_in_mouth:"\uC2E4\uC5B8",
+frown:"\uCC21\uADF8\uB9B0 \uC5BC\uAD74",
+innocent:"\uCC9C\uC9C4\uB09C\uB9CC",
+kiss:"Kiss",
+laughing:"\uC6C3\uC74C",
+money_mouth:"\uB3C8",
+sealed:"\uBD09\uC778",
+smile:"\uC2A4\uB9C8\uC77C",
+surprised:"\uB180\uB77C\uC6C0",
+tongue_out:"\uBA54\uB871",
+undecided:"\uACE0\uBBFC\uD55C\uB2E4",
+wink:"\uC719\uD06C",
+yell:"\uC678\uCE5C\uB2E4"
+});

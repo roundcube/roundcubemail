@@ -1,0 +1,20 @@
+tinyMCE.addI18n('is.emotions_dlg',{
+title:"Setja inn broskall",
+desc:"Broskarlar",
+cool:"T\u00F6ff",
+cry:"Gr\u00E1tandi",
+embarassed:"Skammast s\u00EDn",
+foot_in_mouth:"F\u00F3tur \u00ED munni",
+frown:"Frown",
+innocent:"Saklaus",
+kiss:"Koss",
+laughing:"Hl\u00E6gjandi",
+money_mouth:"Peningamunnur",
+sealed:"Rennil\u00E1samunnur",
+smile:"Bros",
+surprised:"Hissa",
+tongue_out:"Tungan \u00FAt",
+undecided:"\u00D3\u00E1kve\u00F0inn",
+wink:"Wink",
+yell:"\u00D6skrandi"
+});

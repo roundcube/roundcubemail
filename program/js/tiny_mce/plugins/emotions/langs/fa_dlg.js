@@ -1,0 +1,20 @@
+tinyMCE.addI18n('fa.emotions_dlg',{
+title:"\u062F\u0631\u062C \u0634\u06A9\u0644\u06A9",
+desc:"\u0634\u06A9\u0644\u06A9\u200C\u0647\u0627",
+cool:"\u062E\u0648\u0646\u0633\u0631\u062F",
+cry:"Cry",
+embarassed:"Embarassed",
+foot_in_mouth:"Foot in mouth",
+frown:"Frown",
+innocent:"Innocent",
+kiss:"Kiss",
+laughing:"Laughing",
+money_mouth:"Money mouth",
+sealed:"Sealed",
+smile:"Smile",
+surprised:"Surprised",
+tongue_out:"Tongue out",
+undecided:"Undecided",
+wink:"\u0686\u0634\u0645\u06A9",
+yell:"Yell"
+});

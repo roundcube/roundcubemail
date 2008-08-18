@@ -1,0 +1,20 @@
+tinyMCE.addI18n('lv.emotions_dlg',{
+title:"Ievietot smaidi\u0146u",
+desc:"Smaidi\u0146i",
+cool:"V\u0113sais",
+cry:"Raudul\u012Bgais",
+embarassed:"Nokautr\u0113jies",
+foot_in_mouth:"K\u0101jmutis",
+frown:"Satraukts",
+innocent:"Nevain\u012Bgs",
+kiss:"Sk\u016Bpsts",
+laughing:"Smejo\u0161s",
+money_mouth:"Naudmutis",
+sealed:"Nosl\u0113gts",
+smile:"Smaid\u012Bgs",
+surprised:"P\u0101rsteigts",
+tongue_out:"M\u0113d\u012Bgs",
+undecided:"Neizl\u0113m\u012Bgs",
+wink:"Aci miedzo\u0161s",
+yell:"Kliedzo\u0161s"
+});
