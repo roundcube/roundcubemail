@@ -35,7 +35,7 @@ if ($_GET['_uid']) {
     if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
         $OUTPUT->send('messagepreview');
     else {
-      $RCMAIL->action = 'list';
+      rcmail_overwrite_action('');
       return;
     }
   }
