@@ -376,8 +376,8 @@ function rcmail_compose_body($attrib)
       $body = rcmail_create_draft_body($body, $isHtml);
   }
 
-  $tinylang = substr($_SESSION['language'], 0, 2);
-  if (!file_exists('program/js/tiny_mce/langs/'.$tinylang.'.js'))
+  $lang = $tinylang = strtolower(substr($_SESSION['language'], 0, 2));
+  if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$tinylang.'.js'))
     $tinylang = 'en'; 
 
   $OUTPUT->include_script('tiny_mce/tiny_mce.js');
@@ -403,11 +403,13 @@ function rcmail_compose_body($attrib)
 
   // include GoogieSpell
   if (!empty($CONFIG['enable_spellcheck'])) {
-    $googie_lang_set = $editor_lang_set = '';
-    if (!empty($CONFIG['spellcheck_languages']) && is_array($CONFIG['spellcheck_languages'])) {
-      $googie_lang_set = "googie.setLanguages(".json_serialize($CONFIG['spellcheck_languages']).");\n";
-      foreach ($CONFIG['spellcheck_languages'] as $key => $name)
-        $editor_lang_set .= ($editor_lang_set ? ',' : '') . ($key == $tinylang ? '+' : '') . JQ($name).'='.JQ($key);
+    $spellcheck_langs = (array)$RCMAIL->config->get('spellcheck_languages', array('da'=>'Dansk', 'de'=>'Deutsch', 'en' => 'English', 'es'=>'Español', 'fr'=>'Français', 'it'=>'Italiano', 'nl'=>'Nederlands', 'pl'=>'Polski', 'pt'=>'Português', 'fi'=>'Suomi', 'sv'=>'Svenska'));
+    if (!$spellcheck_langs[$lang])
+      $lang = 'en';
+    
+    $editor_lang_set = array();
+    foreach ($spellcheck_langs as $key => $name) {
+      $editor_lang_set[] = ($key == $lang ? '+' : '') . JQ($name).'='.JQ($key);
     }
     
     $OUTPUT->include_script('googiespell.js');
@@ -417,7 +419,8 @@ function rcmail_compose_body($attrib)
       "googie.lang_rsm_edt = \"%s\";\n".
       "googie.lang_close = \"%s\";\n".
       "googie.lang_revert = \"%s\";\n".
-      "googie.lang_no_error_found = \"%s\";\n%s".
+      "googie.lang_no_error_found = \"%s\";\n".
+      "googie.setLanguages(%s);\n".
       "googie.setCurrentLanguage('%s');\n".
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
@@ -427,13 +430,13 @@ function rcmail_compose_body($attrib)
       JQ(Q(rcube_label('close'))),
       JQ(Q(rcube_label('revertto'))),
       JQ(Q(rcube_label('nospellerrors'))),
-      $googie_lang_set,
-      substr($_SESSION['language'], 0, 2),
+      json_serialize($spellcheck_langs),
+      $lang,
       $attrib['id'],
       JS_OBJECT_NAME), 'foot');
 
     rcube_add_label('checking');
-    $OUTPUT->set_env('spellcheck_langs', $editor_lang_set);
+    $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
   }
  
   $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
