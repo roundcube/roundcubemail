@@ -484,7 +484,32 @@ class rcube_template extends rcube_html_page
      */
     private function parse_xml($input)
     {
-        return preg_replace('/<roundcube:([-_a-z]+)\s+([^>]+)>/Uie', "\$this->xml_command('\\1', '\\2')", $input);
+        return preg_replace_callback('/<roundcube:([-_a-z]+)\s+([^>]+)>/Ui', array($this, 'xml_command_callback'), $input);
+    }
+
+
+    /**
+     * This is a callback function for preg_replace_callback (see #1485286)
+     * It's only purpose is to reconfigure parameters for xml_command, so that the signature isn't disturbed
+     */
+    private function xml_command_callback($matches)
+    {
+	if (isset($matches[2])) {
+	    $str_attrib = $matches[2];
+	} else {
+	    $str_attrib = '';
+	}
+
+	if (isset($matches[3])) {
+	    $add_attrib = $matches[3];
+	} else {
+	    $add_attrib = array();
+	}
+
+	$command = $matches[1];
+	//matches[0] is the entire matched portion of the string
+
+	return $this->xml_command($command, $str_attrib, $add_attrib);
     }
 
 
