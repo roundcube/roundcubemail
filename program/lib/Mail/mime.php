@@ -350,7 +350,7 @@ class Mail_mime
             $err = PEAR::raiseError($msg);
             return $err;
         }
-        $filename = basename($filename);
+        $filename = substr('s_'.basename($filename), 2);
         if (PEAR::isError($filedata)) {
             return $filedata;
         }
@@ -667,7 +667,7 @@ class Mail_mime
 
                 $this->_htmlbody = preg_replace($regex, $rep, $this->_htmlbody);
                 $this->_html_images[$key]['name'] = 
-                    basename($this->_html_images[$key]['name']);
+                    substr(basename('s_'.$this->_html_images[$key]['name']), 2);
             }
         }
 
