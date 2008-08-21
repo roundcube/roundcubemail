@@ -100,6 +100,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
       $OUTPUT->write(rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false)));
     }
     else {
+      header(sprintf('Content-Length: %d', $part->size));
       header(sprintf('Content-Disposition: %s; filename="%s";',
                      $_GET['_download'] ? 'attachment' : 'inline',
                      $part->filename ? abbreviate_string($part->filename, 55) : "roundcube.$ctype_secondary"));

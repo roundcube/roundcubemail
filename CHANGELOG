@@ -1,6 +1,14 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/21 (alec)
+----------
+- Add Content-Length header while attachments downloading (#1484256)
+- Fix In-Reply-To and References headers when composing saved draft 
+  message (#1485288)
+- Removed PHP4 class constructors
+- Fix html message charset conversion for charsets with underline (#1485287) 
+
 2008/08/21 (estadtherr)
 ----------
 - Fix escaping of To: and From: fields when building message body for reply
