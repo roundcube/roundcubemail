@@ -1,18 +1,19 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | language/eu/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Bicyus <bicyus@tenkanet.com>                                  |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/eu_ES/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Bicyus <bicyus@tenkanet.com>                                  |
+|         Bihar <gaurdabihar@gmail.com>                                 |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -36,12 +37,12 @@ $labels['from'] = 'Nork';
 $labels['to'] = 'Nori';
 $labels['cc'] = 'Kopia';
 $labels['bcc'] = 'Bcc';
-$labels['replyto'] = 'Erantzun-Hona';
+$labels['replyto'] = 'Erantzun-Honi';
 $labels['date'] = 'Data';
 $labels['size'] = 'Tamaina';
 $labels['priority'] = 'Lehentasuna';
 $labels['organization'] = 'Erakundea';
-$labels['reply-to'] = 'Erantzun-Hona';
+$labels['reply-to'] = 'Erantzun-Honi';
 $labels['mailboxlist'] = 'Karpetak';
 $labels['messagesfromto'] = '$from -tik $to -ra $count mezuetatik';
 $labels['messagenrof'] = '$nr mezua $count -tik';
@@ -51,6 +52,7 @@ $labels['filename'] = 'Fitxategi Izena';
 $labels['filesize'] = 'Fitxategi Tamaina';
 $labels['preferhtml'] = 'HTML nahiago';
 $labels['htmlmessage'] = 'HTML Mezua';
+$labels['showknownimages'] = 'Bidaltzaile ezagunen imajinak ikusi';
 $labels['prettydate'] = 'Data politak';
 $labels['addtoaddressbook'] = 'Helbide liburura gehitu';
 $labels['sun'] = 'Iga';
@@ -67,13 +69,38 @@ $labels['wednesday'] = 'Asteazkena';
 $labels['thursday'] = 'Osteguna';
 $labels['friday'] = 'Ostirala';
 $labels['saturday'] = 'Larunbata';
+$labels['jan'] = 'Urt';
+$labels['feb'] = 'Ots';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Api';
+$labels['may'] = 'Mai';
+$labels['jun'] = 'Eka';
+$labels['jul'] = 'Uzt';
+$labels['aug'] = 'Abu';
+$labels['sep'] = 'Ira';
+$labels['oct'] = 'Urr';
+$labels['nov'] = 'Aza';
+$labels['dec'] = 'Abe';
+$labels['longjan'] = 'Urtarrila';
+$labels['longfeb'] = 'Otsaila';
+$labels['longmar'] = 'Martxoa';
+$labels['longapr'] = 'Apirila';
+$labels['longmay'] = 'Maiatza';
+$labels['longjun'] = 'Ekaina';
+$labels['longjul'] = 'Uztaila';
+$labels['longaug'] = 'Abuztua';
+$labels['longsep'] = 'Iraila';
+$labels['longoct'] = 'Urria';
+$labels['longnov'] = 'Azaroa';
+$labels['longdec'] = 'Abendua';
 $labels['today'] = 'Gaur';
 $labels['checkmail'] = 'Mezu berrien bila arakatu';
 $labels['writenewmessage'] = 'Mezu berri bat sortu';
 $labels['replytomessage'] = 'Mezuari erantzun';
 $labels['replytoallmessage'] = 'Bidaltzaile eta hartzaile guztiei erantzun';
 $labels['forwardmessage'] = 'Mezua Birbidali';
-$labels['deletemessage'] = 'Mezua zakarrontzira mugitu';
+$labels['deletemessage'] = 'Mezua ezabatu';
+$labels['movemessagetotrash'] = 'Mezua zakarrontzira mugitu';
 $labels['printmessage'] = 'Mezu hau inprimatu';
 $labels['previousmessage'] = 'Aurreko mezua ikusi';
 $labels['previousmessages'] = 'Aurreko mezuak ikusi';
@@ -85,6 +112,11 @@ $labels['lastmessage'] = 'Azken mezua ikusi';
 $labels['lastmessages'] = 'Azken mezu sorta ikusi';
 $labels['backtolist'] = 'Mezu zerrendara itzuli';
 $labels['viewsource'] = 'Jatorria bistarazi';
+$labels['markmessages'] = 'Markatu mezuak';
+$labels['markread'] = 'Irakurria bezala';
+$labels['markunread'] = 'Ez-irakurria bezala';
+$labels['markflagged'] = 'Markatua bezala';
+$labels['markunflagged'] = 'Ez-markatua bezala';
 $labels['select'] = 'Hautatu';
 $labels['all'] = 'Denak';
 $labels['none'] = 'Batez';
@@ -98,8 +130,8 @@ $labels['unlimited'] = 'mugagabea';
 $labels['quicksearch'] = 'Bilaketa azkarra';
 $labels['resetsearch'] = 'Bilaketa berrabiarazi';
 $labels['compose'] = 'Mezu bat sortu';
-$labels['sendmessage'] = 'Mezua orain bidali';
 $labels['savemessage'] = 'Zirriborro hau gorde';
+$labels['sendmessage'] = 'Mezua orain bidali';
 $labels['addattachment'] = 'Fitxategia erantsi';
 $labels['charset'] = 'Karaktere jokoa';
 $labels['editortype'] = 'Editore mota';
@@ -117,8 +149,18 @@ $labels['high'] = 'Altua';
 $labels['highest'] = 'Altuena';
 $labels['nosubject'] = '(gairik gabea)';
 $labels['showimages'] = 'Irudiak bistarazi';
+$labels['alwaysshow'] = 'Beti ikusi $sender -en irudiak';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testu laua';
+$labels['savesentmessagein'] = 'Gorde mezua hemen';
+$labels['dontsave'] = 'ez gorde';
+$labels['addcc'] = 'Gehitu Cc (kopia)';
+$labels['addbcc'] = 'Gehitu Bcc (kopia ezkutua)';
+$labels['addreplyto'] = 'Gehitu erantzun-honi';
+$labels['mdnrequest'] = 'Mezu honen bidaltzaileak mezua irakurtzen duzunean jakinaraztea eskatu du. Bidaltzailea ohartu nahi duzu?';
+$labels['receiptread'] = 'Itzulketa agiria (irakurria)';
+$labels['yourmessage'] = 'Hau zure mezuaren Itzulketa Agiria da';
+$labels['receiptnote'] = 'Oharra: Agiri honek hartzailearen ordenagailuan mezua ikusi dala adierazten du besterik gabe. Honek ez du esan nahi hartzaileak mezua irakurri edo/eta ulertu duenik:';
 $labels['name'] = 'Izena bistarazi';
 $labels['firstname'] = 'Izena';
 $labels['surname'] = 'Abizena';
@@ -159,19 +201,36 @@ $labels['dstactive'] = 'Eguneko gordeketak';
 $labels['htmleditor'] = 'HTML mezuak sortu';
 $labels['htmlsignature'] = 'HTML sinadura';
 $labels['previewpane'] = 'Aurrebista panela ikusi';
+$labels['skin'] = 'Azal-interfazea';
+$labels['logoutclear'] = 'Garbitu Zakarronzia irtetean';
+$labels['logoutcompact'] = 'Trinkotu Sarrera irtetean';
+$labels['uisettings'] = 'Erabiltzaile-interfazea';
+$labels['serversettings'] = 'Zerbitzariaren ezarpenak';
+$labels['mailboxview'] = 'Postakutxatilaren ikuspegia';
+$labels['mdnrequests'] = 'Bidaltzailearen jakinarazpena';
+$labels['askuser'] = 'galdetu erabiltzaileari';
+$labels['autosend'] = 'bidali automatikoki';
+$labels['ignore'] = 'ezikusi';
+$labels['readwhendeleted'] = 'Markatu mezua irakurrita bezala ezabatzerakoan';
+$labels['flagfordeletion'] = 'Markatu mezua ezabatzeko ezabatu beharrean';
+$labels['showinlineimages'] = 'Erakutsi erantzitako irudiak mezuaren azpian';
 $labels['autosavedraft'] = 'Zirriborroa automatikoki gorde';
 $labels['everynminutes'] = '$n minuturo';
-$labels['never'] = 'inoiz';
+$labels['never'] = 'inoiz ez';
+$labels['messagesdisplaying'] = 'Mezuak ikusi';
+$labels['messagescomposition'] = 'Mezuak sortu';
 $labels['folder'] = 'Karpeta';
 $labels['folders'] = 'Karpetak';
 $labels['foldername'] = 'Karpeta izena';
 $labels['subscribed'] = 'Harpideturik';
+$labels['messagecount'] = 'Mezuak';
 $labels['create'] = 'Sortu';
 $labels['createfolder'] = 'Karpeta berria sortu';
 $labels['rename'] = 'Berrizendatu';
 $labels['renamefolder'] = 'Karpeta berrizendatu';
 $labels['deletefolder'] = 'Karpeta ezabatu';
 $labels['managefolders'] = 'Karpeta kudeaketa';
+$labels['specialfolders'] = 'Karpeta bereziak';
 $labels['sortby'] = 'Honela ordenatu';
 $labels['sortasc'] = 'Goraka ordenatu';
 $labels['sortdesc'] = 'Beheraka ordenatu';

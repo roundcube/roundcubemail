@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/ar/messages.inc                                              |
+| language/ar_SA/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'هذه الرسالة مشفرة ولا يمك�
 $messages['nocontactsfound'] = 'لم يعثر على أي مراسل';
 $messages['contactnotfound'] = 'تعذر العثور على المراسل المطلوب';
 $messages['sendingfailed'] = 'فشل إرسال الرسالة';
+$messages['errorsavingsent'] = 'حدث خطأ أثناء حفظ الرسالة المُرسلة';
 $messages['errorsaving'] = 'حدث خطأ أثناء الحفظ';
 $messages['errormoving'] = 'تعذر نقل هذه الرسالة';
 $messages['errordeleting'] = 'تعذر حذف هذه الرسالة';

@@ -2,19 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/pt_PT/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
- |          João Vale <jpvale@gmail.com>                                 |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/pt_PT/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
+|          João Vale <jpvale@gmail.com>                                 |
+|         Nuno Costa <nuno@criacaoweb.net>                              |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -41,6 +42,7 @@ $messages['encryptedmessage'] = 'Esta mensagem está encriptada e não pode ser 
 $messages['nocontactsfound'] = 'Nenhum contacto encontrado';
 $messages['contactnotfound'] = 'O contacto especificado não foi encontrado';
 $messages['sendingfailed'] = 'Falha no envio da mensagem';
+$messages['errorsavingsent'] = 'Ocorreu um erro ao salvar mensagem enviada';
 $messages['errorsaving'] = 'Ocorreu um erro a gravar';
 $messages['errormoving'] = 'Não foi possível mover a mensagem';
 $messages['errordeleting'] = 'Não foi possível apagar a mensagem';
@@ -79,5 +81,6 @@ $messages['receiptsent'] = 'Recibo de leitura enviado';
 $messages['errorsendingreceipt'] = 'Não foi possível enviar o recibo';
 $messages['nodeletelastidentity'] = 'Esta é a última identidade, não é possível apagá-la.';
 $messages['addsubfolderhint'] = 'Esta pasta será criada como uma sub-pasta da que está seleccionada';
+$messages['forbiddencharacter'] = 'O nome da pasta contém um caractere proibido';
 
 ?>
