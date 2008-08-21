@@ -62,16 +62,6 @@ class rcube_ldap
     $this->connect();
   }
 
-  /**
-   * PHP 4 object constructor
-   *
-   * @see  rcube_ldap::__construct()
-   */
-  function rcube_ldap($p)
-  {
-    $this->__construct($p);
-  }
-  
 
   /**
    * Establish a connection to the LDAP server

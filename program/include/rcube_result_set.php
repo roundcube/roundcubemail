@@ -39,11 +39,6 @@ class rcube_result_set
     $this->first = (int)$f;
   }
   
-  function rcube_result_set($c=0, $f=0)
-  {
-    $this->__construct($c, $f);
-  }
-  
   function add($rec)
   {
     $this->records[] = $rec;

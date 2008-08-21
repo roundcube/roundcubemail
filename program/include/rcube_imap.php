@@ -81,17 +81,6 @@ class rcube_imap
 
 
   /**
-   * PHP 4 object constructor
-   *
-   * @see  rcube_imap::__construct
-   */
-  function rcube_imap($db_conn)
-    {
-    $this->__construct($db_conn);
-    }
-
-
-  /**
    * Connect to an IMAP server
    *
    * @param  string   Host to connect

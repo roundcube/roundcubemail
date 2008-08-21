@@ -69,17 +69,6 @@ class rcube_mdb2
 
 
   /**
-   * PHP 4 object constructor
-   *
-   * @see  rcube_mdb2::__construct
-   */
-  function rcube_db($db_dsnw,$db_dsnr='')
-    {
-    $this->__construct($db_dsnw,$db_dsnr);
-    }
-
-
-  /**
    * Connect to specific database
    *
    * @param  string  DSN for DB connections

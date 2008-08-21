@@ -58,16 +58,6 @@ class rcube_contacts
     $this->ready = $this->db && !$this->db->is_error();
   }
 
-  /**
-   * PHP 4 object constructor
-   *
-   * @see rcube_contacts::__construct()
-   */
-  function rcube_contacts($dbconn, $user)
-  {
-    $this->__construct($dbconn, $user);
-  }
-
 
   /**
    * Set internal list page

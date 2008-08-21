@@ -68,16 +68,10 @@ Class utf8{
   var $ascMap = array();
   var $utfMap = array();
 
-  // made PHP5 capable by RoundCube
   function __construct($charset="ISO-8859-1"){
     $this->loadCharset($charset);
   }
   
-  //Constructor
-  function utf8($charset="ISO-8859-1"){
-    $this->__construct($charset);
-  }
-
   //Load charset
   function loadCharset($charset){
     global $utf8_maps;

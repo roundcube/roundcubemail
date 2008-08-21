@@ -59,17 +59,7 @@ class rcube_user
     }
   }
 
-  /**
-   * PHP 4 object constructor
-   *
-   * @see  rcube_user::__construct
-   */
-  function rcube_user($id = null, $sql_arr = null)
-  {
-    $this->__construct($id, $sql_arr);
-  }
-  
-  
+
   /**
    * Build a user name string (as e-mail address)
    *
