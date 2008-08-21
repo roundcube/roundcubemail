@@ -101,6 +101,16 @@ if (!empty($msg_uid))
     if (!empty($_SESSION['compose']['param']['_all']))
       $MESSAGE->reply_all = 1;
   }
+  else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
+  {
+    if($MESSAGE->headers->in_reply_to)
+    {
+      // TODO: chow to get reply_uid/forward_uid value, maybe we must set X-Reply-UID/X-Forward-UID
+      // $_SESSION['compose']['reply_uid'] = ?
+      $_SESSION['compose']['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
+    }
+    $_SESSION['compose']['references']  = $MESSAGE->headers->references;
+  }
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
   {
     $_SESSION['compose']['forward_uid'] = $msg_uid;
