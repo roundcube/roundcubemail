@@ -576,8 +576,8 @@ function rcmail_print_body($part, $p = array())
   else if ($part->ctype_secondary == 'html') {
     // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
     $html = $part->body; 
-    if (preg_match('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-]+)/i', $html)) 
-      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
+    if (preg_match('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', $html)) 
+      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
     else {
       // add <head> for malformed messages, washtml cannot work without that
       if (!preg_match('/<head>(.*)<\\/head>/Uims', $html))
