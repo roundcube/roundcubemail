@@ -458,7 +458,7 @@ function rcmail_compose_body($attrib)
 
 function rcmail_create_reply_body($body, $bodyIsHtml)
 {
-  global $IMAP, $MESSAGE;
+  global $IMAP, $MESSAGE, $OUTPUT;
 
   if (! $bodyIsHtml)
   {
@@ -496,7 +496,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   {
     $prefix = sprintf("<br /><br />On %s, %s wrote:<br />\n",
       $MESSAGE->headers->date,
-      Q($MESSAGE->get_header('from'), 'replace'));
+      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
     $suffix = "</blockquote>";
   }
@@ -507,7 +507,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 
 function rcmail_create_forward_body($body, $bodyIsHtml)
 {
-  global $IMAP, $MESSAGE;
+  global $IMAP, $MESSAGE, $OUTPUT;
 
   if (!$bodyIsHtml)
   {
@@ -532,8 +532,8 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "</tbody></table><br>",
       Q($MESSAGE->subject),
       Q($MESSAGE->headers->date),
-      Q($MESSAGE->get_header('from'), 'replace'),
-      Q($MESSAGE->get_header('to'), 'replace'));
+      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true),
+      htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true));
   }
 
   // add attachments
