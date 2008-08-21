@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/21 (estadtherr)
+----------
+- Fix escaping of To: and From: fields when building message body for reply
+  or forward in the HTML editor (#1484904)
+
 2008/08/15 (thomasb)
 ----------
 - Use current mailbox name in template (#1485256)
