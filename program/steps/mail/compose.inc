@@ -496,7 +496,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   {
     $prefix = sprintf("<br /><br />On %s, %s wrote:<br />\n",
       $MESSAGE->headers->date,
-      Q($MESSAGE->get_header('from')));
+      Q($MESSAGE->get_header('from'), 'replace'));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
     $suffix = "</blockquote>";
   }
@@ -513,7 +513,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
   {
     // soft-wrap message first
     $body = wordwrap($body, 80);
-  
+
     $prefix = sprintf("\n\n\n-------- Original Message --------\nSubject: %s\nDate: %s\nFrom: %s\nTo: %s\n\n",
       $MESSAGE->subject,
       $MESSAGE->headers->date,
@@ -532,8 +532,8 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "</tbody></table><br>",
       Q($MESSAGE->subject),
       Q($MESSAGE->headers->date),
-      Q($MESSAGE->get_header('from')),
-      Q($MESSAGE->get_header('to')));
+      Q($MESSAGE->get_header('from'), 'replace'),
+      Q($MESSAGE->get_header('to'), 'replace'));
   }
 
   // add attachments
