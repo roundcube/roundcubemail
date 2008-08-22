@@ -1189,7 +1189,7 @@ function rcube_webmail()
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting)
-      this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, this.dblclick_time + 10);
+      this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
     else if (this.env.contentframe)
       this.show_contentframe(false);
     };
@@ -2460,7 +2460,7 @@ function rcube_webmail()
 
       var id, frame, ref = this;
       if (id = list.get_single_selection())
-        this.preview_timer = window.setTimeout(function(){ ref.load_contact(id, 'show'); }, this.dblclick_time + 10);
+        this.preview_timer = window.setTimeout(function(){ ref.load_contact(id, 'show'); }, 200);
       else if (this.env.contentframe)
         this.show_contentframe(false);
 

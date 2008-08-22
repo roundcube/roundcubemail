@@ -86,8 +86,10 @@ init: function()
     this.frame = this.list.parentNode;
 
     // set body events
-    if (this.keyboard)
-      rcube_event.add_listener({element:document, event:'keypress', object:this, method:'key_press'});
+    if (this.keyboard) {
+      rcube_event.add_listener({element:document, event:'keyup', object:this, method:'key_press'});
+      rcube_event.add_listener({element:document, event:'keydown', object:rcube_event, method:'cancel'});
+    }
   }
 },
 
@@ -548,20 +550,20 @@ highlight_row: function(id, multiple)
  */
 key_press: function(e)
 {
-  if (this.focused != true) 
+  if (this.focused != true)
     return true;
 
-  var keyCode = document.layers ? e.which : document.all ? event.keyCode : document.getElementById ? e.keyCode : 0;
+  var keyCode = rcube_event.get_keycode(e);
   var mod_key = rcube_event.get_modifier(e);
   switch (keyCode)
   {
     case 40:
     case 38: 
-	case 63233: // "down", in safari keypress
-	case 63232: // "up", in safari keypress
+    case 63233: // "down", in safari keypress
+    case 63232: // "up", in safari keypress
+      // Stop propagation so that the browser doesn't scroll
+      rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
-      break;
-
     default:
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
