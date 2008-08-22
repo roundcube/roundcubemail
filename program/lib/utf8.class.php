@@ -55,7 +55,9 @@ $utf8_maps = array(
   "ISO-8859-6" => UTF8_MAP_DIR . "/ISO-8859-6.map",
   "ISO-8859-7" => UTF8_MAP_DIR . "/ISO-8859-7.map",
   "ISO-8859-8" => UTF8_MAP_DIR . "/ISO-8859-8.map",
-  "ISO-8859-9" => UTF8_MAP_DIR . "/ISO-8859-9.map"
+  "ISO-8859-9" => UTF8_MAP_DIR . "/ISO-8859-9.map",
+  "KOI8-R" => UTF8_MAP_DIR . "/KOI8R.map",
+  "KOI8R" => UTF8_MAP_DIR . "/KOI8R.map"
   );
 
 //Error constants
