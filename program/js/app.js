@@ -2464,8 +2464,8 @@ function rcube_webmail()
       else if (this.env.contentframe)
         this.show_contentframe(false);
 
-      this.enable_command('edit', id?true:false);
       this.enable_command('compose', list.selection.length > 0);
+      this.enable_command('edit', (id && this.env.address_sources && !this.env.address_sources[this.env.source].readonly) ? true : false);
       this.enable_command('delete', list.selection.length && this.env.address_sources && !this.env.address_sources[this.env.source].readonly);
 
       return false;
@@ -3650,15 +3650,22 @@ function rcube_webmail()
       {
 
       case 'delete':
+	if (this.task == 'addressbook')
+	  {
+	    var uid = this.contact_list.get_selection();
+	    this.enable_command('compose', (uid && this.contact_list.rows[uid]));
+	    this.enable_command('delete', 'edit', (uid && this.contact_list.rows[uid] && this.env.address_sources && !this.env.address_sources[this.env.source].readonly));
+	    break;  
+	  }
       case 'moveto':
         if (this.env.action=='show')
           this.command('list');
         else if (this.message_list)
           this.message_list.init();
-
+	  
       case 'purge':
       case 'expunge':      
-	if (!this.env.messagecount)
+	if (!this.env.messagecount && this.task == 'mail')
     	  {
 	    // clear preview pane content
 	    if (this.env.contentframe)
@@ -3667,7 +3674,6 @@ function rcube_webmail()
 	    this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
 	      'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
 	  }
-
 	break;
 
       case 'list':
@@ -3675,13 +3681,15 @@ function rcube_webmail()
 
       case 'check-recent':
       case 'getunread':
-	this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
-	var mailboxtest = (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
+	if (this.task == 'mail')
+	{
+	  this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
+	  var mailboxtest = (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
 	    || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
 	    || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))) ? true : false;
 	
-	this.enable_command('purge', (this.env.messagecount && mailboxtest));
-
+	  this.enable_command('purge', (this.env.messagecount && mailboxtest));
+	}
 	break;
 
       }

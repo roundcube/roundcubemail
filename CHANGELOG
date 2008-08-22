@@ -8,6 +8,7 @@ CHANGELOG RoundCube Webmail
   message (#1485288)
 - Removed PHP4 class constructors
 - Fix html message charset conversion for charsets with underline (#1485287) 
+- Fix buttons status after contacts deletion (#1485233)
 
 2008/08/21 (estadtherr)
 ----------
