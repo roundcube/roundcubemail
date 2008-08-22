@@ -88,7 +88,7 @@ init: function()
     // set body events
     if (this.keyboard) {
       rcube_event.add_listener({element:document, event:'keyup', object:this, method:'key_press'});
-      rcube_event.add_listener({element:document, event:'keydown', object:rcube_event, method:'cancel'});
+      rcube_event.add_listener({element:document, event:'keydown', object:this, method:'key_down'});
     }
   }
 },
@@ -568,6 +568,26 @@ key_press: function(e)
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
       this.trigger_event('keypress');
+  }
+  
+  return true;
+},
+
+/**
+ * Handler for keydown events
+ */
+key_down: function(e)
+{
+  switch (rcube_event.get_keycode(e))
+  {
+    case 40:
+    case 38: 
+    case 63233:
+    case 63232:
+      if (!rcube_event.get_modifier(e) && this.focused)
+        return rcube_event.cancel(e);
+        
+    default:
   }
   
   return true;
