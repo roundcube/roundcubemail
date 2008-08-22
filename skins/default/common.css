@@ -18,7 +18,7 @@ body.extwin
   margin: 10px;
 }
 
-body, td, th, span, div, p, h3
+body, td, th, div, p, h3
 {
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 12px;

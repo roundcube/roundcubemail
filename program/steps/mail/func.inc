@@ -245,7 +245,7 @@ function rcmail_message_list($attrib)
     foreach ($a_show_cols as $col)
       {
       if ($col=='from' || $col=='to')
-        $cont = Q(rcmail_address_string($header->$col, 3, $attrib['addicon']), 'show');
+        $cont = Q(rcmail_address_string($header->$col, 3, false, $attrib['addicon']), 'show');
       else if ($col=='subject')
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
@@ -757,7 +757,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
         $header_value = format_date($headers[$hkey]);
       }
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
-      $header_value = Q(rcmail_address_string($headers[$hkey], NULL, $attrib['addicon']), 'show');
+      $header_value = Q(rcmail_address_string($headers[$hkey], null, true, $attrib['addicon']), 'show');
     else
       $header_value = Q($IMAP->decode_header($headers[$hkey]));
 
@@ -942,8 +942,8 @@ function rcmail_alter_html_link($tag, $attrs, $container_id)
 /**
  * decode address string and re-format it as HTML links
  */
-function rcmail_address_string($input, $max=NULL, $addicon=NULL)
-  {
+function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
+{
   global $IMAP, $PRINT_MODE, $CONFIG, $OUTPUT, $EMAIL_ADDRESS_PATTERN;
 
   $a_parts = $IMAP->decode_address_list($input);
@@ -955,48 +955,56 @@ function rcmail_address_string($input, $max=NULL, $addicon=NULL)
   $j = 0;
   $out = '';
 
-  foreach ($a_parts as $part)
-    {
+  foreach ($a_parts as $part) {
     $j++;
-    if ($PRINT_MODE)
+    if ($PRINT_MODE) {
       $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
-    else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto']))
-      {
-      $out .= sprintf('<a href="mailto:%s" onclick="return %s.command(\'compose\',\'%s\',this)" class="rcmContactAddress" title="%s">%s</a>',
-                      Q($part['mailto']),
-                      JS_OBJECT_NAME,
-                      JQ($part['mailto']),
-                      Q($part['mailto']),
-                      Q($part['name']));
-                      
-      if ($addicon)
-        $out .= sprintf('&nbsp;<a href="#add" onclick="return %s.command(\'add-contact\',\'%s\',this)" title="%s"><img src="%s%s" alt="add" border="0" /></a>',
-                        JS_OBJECT_NAME,
-                        urlencode($part['string']),
-                        rcube_label('addtoaddressbook'),
-                        $CONFIG['skin_path'],
-                        $addicon);
+    }
+    else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto'])) {
+      if ($linked) {
+        $out .= html::a(array(
+            'href' => 'mailto:'.$part['mailto'],
+            'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($part['mailto'])),
+            'title' => $part['mailto'],
+            'class' => "rcmContactAddress",
+          ),
+        Q($part['name']));
       }
-    else
-      {
+      else {
+        $out .= html::span(array('title' => $part['mailto'], 'class' => "rcmContactAddress"), Q($part['name']));
+      }
+
+      if ($addicon) {
+        $out .= '&nbsp;' . html::a(array(
+            'href' => "#add",
+            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($part['string'])),
+            'title' => rcube_label('addtoaddressbook'),
+          ),
+          html::img(array(
+            'src' => $CONFIG['skin_path'] . $addicon,
+            'alt' => "Add contact",
+            'border' => 0,
+          )));
+      }
+    }
+    else {
       if ($part['name'])
         $out .= Q($part['name']);
       if ($part['mailto'])
         $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', Q($part['mailto']));
-      }
+    }
       
     if ($c>$j)
       $out .= ','.($max ? '&nbsp;' : ' ');
         
-    if ($max && $j==$max && $c>$j)
-      {
+    if ($max && $j==$max && $c>$j) {
       $out .= '...';
       break;
-      }        
     }
+  }
     
   return $out;
-  }
+}
 
 
 function rcmail_message_part_controls()
