@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/de_DE/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Marcel Schlesinger <info@marcel-schlesinger.de>               |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/de_DE/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Marcel Schlesinger <info@marcel-schlesinger.de>               |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kan
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
 $messages['contactnotfound'] = 'Der angeforderte Kontakt wurde nicht gefunden';
 $messages['sendingfailed'] = 'Versenden der Nachricht fehlgeschlagen';
+$messages['errorsavingsent'] = 'Ein Fehler ist beim Speichern der gesendeten Nachricht aufgetreten';
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 $messages['errormoving'] = 'Nachricht konnte nicht verschoben werden';
 $messages['errordeleting'] = 'Nachricht konnte nicht gelöscht werden';
