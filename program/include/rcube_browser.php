@@ -38,11 +38,11 @@ class rcube_browser
         $this->linux = stristr($HTTP_USER_AGENT, 'linux');
         $this->unix  = stristr($HTTP_USER_AGENT, 'unix');
 
+        $this->opera = stristr($HTTP_USER_AGENT, 'opera');
         $this->ns4 = stristr($HTTP_USER_AGENT, 'mozilla/4') && !stristr($HTTP_USER_AGENT, 'msie');
         $this->ns  = ($this->ns4 || stristr($HTTP_USER_AGENT, 'netscape'));
-        $this->ie  = stristr($HTTP_USER_AGENT, 'msie');
+        $this->ie  = stristr($HTTP_USER_AGENT, 'compatible; msie') && !$this->opera;
         $this->mz  = stristr($HTTP_USER_AGENT, 'mozilla/5');
-        $this->opera = stristr($HTTP_USER_AGENT, 'opera');
         $this->safari = stristr($HTTP_USER_AGENT, 'safari');
 
         if ($this->ns) {
