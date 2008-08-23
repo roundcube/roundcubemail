@@ -41,6 +41,7 @@ $messages['encryptedmessage'] = '因此邮件已加密，无法正常显示';
 $messages['nocontactsfound'] = '未找到联系人';
 $messages['contactnotfound'] = '未找到指定的联系人';
 $messages['sendingfailed'] = '发送失败';
+$messages['errorsavingsent'] = '保存已发送邮件时出现错误';
 $messages['errorsaving'] = '保存过程中发生错误';
 $messages['errormoving'] = '无法移动邮件';
 $messages['errordeleting'] = '无法删除邮件';
