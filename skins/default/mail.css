@@ -750,10 +750,16 @@ div.message-htmlpart div.rcmBody
 
 /** message compose styles */
 
+#compose-toolbar
+{
+  white-space: nowrap;
+}
+
 #priority-selector,
 #receipt-selector
 {
   padding-left: 30px;
+  white-space: nowrap;
 }
 
 #compose-container
