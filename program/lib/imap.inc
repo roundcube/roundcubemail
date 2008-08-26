@@ -62,6 +62,7 @@
 		- removed hardcoded data size in iil_ReadLine() 
 		- added iil_PutLine() wrapper for fputs()
 		- code cleanup and identation fixes
+		- removed flush() calls in iil_C_HandlePartBody() to prevent from memory leak (#1485187)
 
 ********************************************************/
 
@@ -2402,9 +2403,9 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
 		                if ($mode == 1) {
             			        $result .= rtrim($line, "\t\r\n\0\x0B") . "\n";
 		                } else if ($mode == 2) {
-            			        echo rtrim($line, "\t\r\n\0\x0B") . "\n"; flush();
+            			        echo rtrim($line, "\t\r\n\0\x0B") . "\n";
 		                } else if ($mode == 3) {
-            				echo base64_decode($line); flush();
+            				echo base64_decode($line);
             			}
         		}
     		}
