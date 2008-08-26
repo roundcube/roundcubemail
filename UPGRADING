@@ -19,6 +19,8 @@ from version 0.2-alpha
 * check the config/main.inc.php.dist for new configuration 
   options and add them to your config 
   WARNING: 'skin_path' option was replaced by 'skin' option
+* WARNING: 'db_backend' option has been removed, now only
+  PEAR::MDB2 driver is supported
 
 
 from version 0.1.1

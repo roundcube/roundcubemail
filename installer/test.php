@@ -61,14 +61,9 @@ else {
 
 $db_working = false;
 if ($RCI->configured) {
-    if (!empty($RCI->config['db_backend']) && !empty($RCI->config['db_dsnw'])) {
+    if (!empty($RCI->config['db_dsnw'])) {
 
-        echo 'Backend: ';
-        echo 'PEAR::' . strtoupper($RCI->config['db_backend']) . '<br />';
-
-        $dbclass = 'rcube_' . strtolower($RCI->config['db_backend']);
-
-        $DB = new $dbclass($RCI->config['db_dsnw'], '', false);
+        $DB = new rcube_mdb2($RCI->config['db_dsnw'], '', false);
         $DB->db_connect('w');
         if (!($db_error_msg = $DB->is_error())) {
             $RCI->pass('DSN (write)');
@@ -79,8 +74,6 @@ if ($RCI->configured) {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
             echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
-            if ($RCI->config['db_backend'] == 'mdb2')
-              echo '<p class="hint">There are known problems with MDB2 running on PHP 4. Try setting <tt>db_backend</tt> to \'db\' instead</p>';
         }
     }
     else {

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/26 (alec)
+----------
+- Removed support for PEAR::DB driver
+
 2008/08/21 (alec)
 ----------
 - Add Content-Length header while attachments downloading (#1484256)

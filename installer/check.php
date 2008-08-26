@@ -7,7 +7,7 @@ $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
     'GD' => 'gd');
 
-$required_libs = array('PEAR' => 'PEAR.php', 'DB' => 'DB.php', 'MDB2' => 'MDB2.php',
+$required_libs = array('PEAR' => 'PEAR.php', 'MDB2' => 'MDB2.php',
     'Net_SMTP' => 'Net/SMTP.php', 'Mail_mime' => 'Mail/mime.php',
     'iilConnection' => 'lib/imap.inc');
 

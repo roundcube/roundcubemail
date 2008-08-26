@@ -216,10 +216,9 @@ class rcmail
   public function get_dbh()
   {
     if (!$this->db) {
-      $dbclass = "rcube_" . $this->config->get('db_backend', 'mdb2');
       $config_all = $this->config->all();
 
-      $this->db = new $dbclass($config_all['db_dsnw'], $config_all['db_dsnr'], $config_all['db_persistent']);
+      $this->db = new rcube_mdb2($config_all['db_dsnw'], $config_all['db_dsnr'], $config_all['db_persistent']);
       $this->db->sqlite_initials = INSTALL_PATH . 'SQL/sqlite.initial.sql';
       $this->db->set_debug((bool)$config_all['sql_debug']);
       $this->db->db_connect('w');

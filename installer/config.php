@@ -78,17 +78,6 @@ echo $input_prodname->show($RCI->getprop('product_name'));
 <div>The name of your service (used to compose page titles)</div>
 </dd>
 
-<dt class="propname">skin</dt>
-<dd>
-<?php
-
-$input_skin = new html_inputfield(array('name' => '_skin', 'size' => 30, 'id' => "cfgskin"));
-echo $input_skin->show($RCI->getprop('skin'));
-
-?>
-<div>Name of interface skin (folder in /skins)</div>
-</dd>
-
 <dt class="propname">temp_dir</dt>
 <dd>
 <?php
@@ -161,18 +150,6 @@ echo $check_caching->show(intval($RCI->getprop('enable_spellcheck')), array('val
 <p class="hint">It is based on GoogieSpell what implies that the message content will be sent to Google in order to check the spelling.</p>
 </dd>
 
-<dt class="propname">mdn_requests</dt>
-<dd>
-<?php
-
-$select_mdnreq = new html_select(array('name' => '_mdn_requests', 'id' => "cfgmdnreq"));
-$select_mdnreq->add(array('ask the user', 'send automatically', 'ignore'), array(0, 1, 2));
-echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
-
-?>
-<div>Behavior if a received message requests a message delivery notification (read receipt)</div>
-</dd>
-
 </dl>
 </fieldset>
 
@@ -216,28 +193,6 @@ echo '<label for="cfgdbpass">Database password</label><br />';
 
 ?>
 </dd>
-
-<dt class="propname">db_backend</dt>
-<dd>
-<?php
-
-// check for existing PEAR classes
-@include_once 'DB.php';
-@include_once 'MDB2.php';
-
-$select_dbba = new html_select(array('name' => '_db_backend', 'id' => "cfgdbba"));
-
-if (class_exists('DB'))
-  $select_dbba->add('DB', 'db');
-if (class_exists('MDB2'))
-  $select_dbba->add('MDB2', 'mdb2');
-
-echo $select_dbba->show($RCI->getprop('db_backend'));
-
-?>
-<div>PEAR Database backend to use</div>
-</dd>
-
 </dl>
 </fieldset>
 
@@ -446,6 +401,17 @@ echo $input_locale->show($RCI->getprop('language'));
 <p class="hint">Enter a <a href="http://www.faqs.org/rfcs/rfc1766">RFC1766</a> formatted language name. Examples: en_US, de_DE, de_CH, fr_FR, pt_BR</p>
 </dd>
 
+<dt class="propname">skin <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$input_skin = new html_inputfield(array('name' => '_skin', 'size' => 30, 'id' => "cfgskin"));
+echo $input_skin->show($RCI->getprop('skin'));
+
+?>
+<div>Name of interface skin (folder in /skins)</div>
+</dd>
+
 <dt class="propname">pagesize <span class="userconf">*</span></dt>
 <dd>
 <?php
@@ -503,6 +469,18 @@ foreach (array(3, 5, 10) as $i => $min)
 echo $select_autosave->show(intval($RCI->getprop('draft_autosave')));
 
 ?>
+</dd>
+
+<dt class="propname">mdn_requests <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$select_mdnreq = new html_select(array('name' => '_mdn_requests', 'id' => "cfgmdnreq"));
+$select_mdnreq->add(array('ask the user', 'send automatically', 'ignore'), array(0, 1, 2));
+echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
+
+?>
+<div>Behavior if a received message requests a message delivery notification (read receipt)</div>
 </dd>
 
 </dl>
