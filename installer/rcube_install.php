@@ -100,7 +100,7 @@ class rcube_install
    */
   function getprop($name, $default = '')
   {
-    $value = $this->is_post && (isset($_POST["_$name"]) || $this->config_props[$name]) ? $_POST["_$name"] : $this->config[$name];
+    $value = $this->config[$name];
     
     if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"]))
       $value = rcube_install::random_key(24);
@@ -127,11 +127,12 @@ class rcube_install
       $value = (isset($_POST["_$prop"]) || $this->config_props[$prop]) ? $_POST["_$prop"] : $default;
       
       // convert some form data
-      if ($prop == 'debug_level' && is_array($value)) {
+      if ($prop == 'debug_level') {
         $val = 0;
-        foreach ($value as $i => $dbgval)
-          $val += intval($dbgval);
-        $value = $val;
+        if (isset($value))
+	  foreach ($value as $dbgval)
+            $val += intval($dbgval);
+	$value = $val;
       }
       else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
         if ($_POST['_dbtype'] == 'sqlite')
@@ -168,7 +169,10 @@ class rcube_install
       // skip this property
       if ($value == $default)
         continue;
-      
+
+      // save change
+      $this->config[$prop] = $value;
+
       // replace the matching line in config file
       $out = preg_replace(
         '/(\$rcmail_config\[\''.preg_quote($prop).'\'\])\s+=\s+(.+);/Uie',

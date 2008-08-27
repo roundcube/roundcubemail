@@ -420,19 +420,13 @@ else
   {
   if ($CONFIG['smtp_log'])
     {
-    $log_entry = sprintf(
+    write_log('sendmail', sprintf(
       "[%s] User: %d on %s; Message for %s; %s\n",
       date("d-M-Y H:i:s O", mktime()),
       $_SESSION['user_id'],
       $_SERVER['REMOTE_ADDR'],
       $mailto,
-      !empty($smtp_response) ? join('; ', $smtp_response) : '');
-
-    if ($fp = @fopen($CONFIG['log_dir'].'/sendmail', 'a'))
-      {
-      fwrite($fp, $log_entry);
-      fclose($fp);
-      }
+      !empty($smtp_response) ? join('; ', $smtp_response) : ''));
     }
 
   rcmail_compose_cleanup();

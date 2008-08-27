@@ -35,7 +35,12 @@ else if (!$read_db) {
 
 if ($RCI->configured) {
     $pass = false;
-    foreach (array($RCI->config['temp_dir'],$RCI->config['log_dir']) as $dir) {
+
+    $dirs[] = $RCI->config['temp_dir'];
+    if($RCI->config['log_driver'] != 'syslog')
+      $dirs[] = $RCI->config['log_dir'];
+
+    foreach ($dirs as $dir) {
         $dirpath = $dir{0} == '/' ? $dir : INSTALL_PATH . $dir;
         if (is_writable(realpath($dirpath))) {
             $RCI->pass($dir);

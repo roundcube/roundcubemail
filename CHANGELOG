@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/27 (alec)
+----------
+- Added options to use syslog instead of log file (#1484850)
+- Added Logging & Debugging section in Installer
+
 2008/08/26 (alec)
 ----------
 - Removed support for PEAR::DB driver

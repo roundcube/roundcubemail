@@ -18,6 +18,23 @@ $rcmail_config = array();
 // system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
 $rcmail_config['debug_level'] = 1;
 
+// log driver:  'syslog' or 'file'.
+$rcmail_config['log_driver'] = 'file';
+
+// Syslog ident string to use, if using the 'syslog' log driver.
+$rcmail_config['syslog_id'] = 'roundcube';
+
+// Syslog facility to use, if using the 'syslog' log driver.
+// For possible values see installer or http://php.net/manual/en/function.openlog.php
+$rcmail_config['syslog_facility'] = LOG_USER;
+
+// use this folder to store log files (must be writebale for apache user)
+// This is used by the 'file' log driver.
+$rcmail_config['log_dir'] = 'logs/';
+
+// use this folder to store temp files (must be writeable for apache user)
+$rcmail_config['temp_dir'] = 'temp/';
+
 // enable caching of messages and mailbox data in the local database.
 // this is recommended if the IMAP server does not run on the same machine
 $rcmail_config['enable_caching'] = TRUE;
@@ -96,12 +113,6 @@ $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag');
 
 // includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = FALSE;
-
-// use this folder to store temp files (must be writeable for apache user)
-$rcmail_config['temp_dir'] = 'temp/';
-
-// use this folder to store log files (must be writeable for apache user)
-$rcmail_config['log_dir'] = 'logs/';
 
 // session lifetime in minutes
 $rcmail_config['session_lifetime'] = 10;

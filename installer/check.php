@@ -116,9 +116,6 @@ foreach ($required_libs as $classname => $file) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
     }
-    else if ($classname == 'DB' || ($classname == 'MDB2' && class_exists('DB'))) {
-        $RCI->na($classname, 'Use ' . ($classname == 'DB' ? 'MDB2' : 'DB') . ' instead');
-    }
     else {
         $RCI->fail($classname, "Failed to load $file", $source_urls[$classname]);
     }

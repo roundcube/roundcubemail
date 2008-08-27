@@ -828,16 +828,24 @@ function write_log($name, $line)
                  date("d-M-Y H:i:s O", mktime()),
                  $line);
                  
-  if (empty($CONFIG['log_dir']))
-    $CONFIG['log_dir'] = INSTALL_PATH.'logs';
+  if ($CONFIG['log_driver'] == 'syslog') {
+    if ($name == 'errors')
+      $prio = LOG_ERR;
+    else
+      $prio = LOG_INFO;
+    syslog($prio, $log_entry);
+  } else {
+    // log_driver == 'file' is assumed here
+    if (empty($CONFIG['log_dir']))
+      $CONFIG['log_dir'] = INSTALL_PATH.'logs';
       
-  // try to open specific log file for writing
-  if ($fp = @fopen($CONFIG['log_dir'].'/'.$name, 'a'))    
-    {
-    fwrite($fp, $log_entry);
-    fclose($fp);
+    // try to open specific log file for writing
+    if ($fp = @fopen($CONFIG['log_dir'].'/'.$name, 'a')) {
+      fwrite($fp, $log_entry);
+      fclose($fp);
     }
   }
+}
 
 
 /**

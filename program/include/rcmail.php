@@ -82,6 +82,13 @@ class rcmail
   {
     $config_all = $this->config->all();
 
+    // initialize syslog
+    if ($this->config->get('log_driver') == 'syslog') {
+      $syslog_id = $this->config->get('syslog_id', 'roundcube');
+      $syslog_facility = $this->config->get('syslog_facility', LOG_USER);
+      openlog($syslog_id, LOG_ODELAY, $syslog_facility);
+    }
+    				
     // set task and action properties
     $this->set_task(strip_quotes(get_input_value('_task', RCUBE_INPUT_GPC)));
     $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
@@ -110,7 +117,6 @@ class rcmail
       $_SESSION['auth_time'] = time();
       $_SESSION['temp'] = true;
     }
-
 
     // create user object
     $this->set_user(new rcube_user($_SESSION['user_id']));

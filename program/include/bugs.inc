@@ -84,8 +84,13 @@ function log_bug($arg_arr)
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
       
     // try to open specific log file for writing
-    if ($fp = @fopen($CONFIG['log_dir'].'/errors', 'a'))
+    if ($CONFIG['log_driver'] == 'syslog')
     {
+      syslog(LOG_ERR, $log_entry);
+    }
+    else if ($fp = @fopen($CONFIG['log_dir'].'/errors', 'a'))
+    {
+      // log_driver == 'file' is the default, assumed here.
       fwrite($fp, $log_entry);
       fclose($fp);
     }

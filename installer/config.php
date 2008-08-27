@@ -15,6 +15,7 @@ $RCI->config_props = array(
   'prefer_html' => 1,
   'preview_pane' => 1,
   'htmleditor' => 1,
+  'debug_level' => 1,
 );
 
 // allow the current user to get to the next step
@@ -47,25 +48,6 @@ if (!empty($_POST['submit'])) {
 <fieldset>
 <legend>General configuration</legend>
 <dl class="configblock">
-<!--
-<dt id="cgfblockgeneral" class="propname">debug_level</dt>
-<dd>
-<?php
-/*
-$value = $RCI->getprop('debug_level');
-$check_debug = new html_checkbox(array('name' => '_debug_level[]'));
-echo $check_debug->show(($value & 1) ? 1 : 0 , array('value' => 1, 'id' => 'cfgdebug1'));
-echo '<label for="cfgdebug1">Log errors</label><br />';
-
-echo $check_debug->show(($value & 4) ? 4 : 0, array('value' => 4, 'id' => 'cfgdebug4'));
-echo '<label for="cfgdebug4">Display errors</label><br />';
-
-echo $check_debug->show(($value & 8) ? 8 : 0, array('value' => 8, 'id' => 'cfgdebug8'));
-echo '<label for="cfgdebug8">Verbose display</label><br />';
-*/
-?>
-</dd>
--->
 
 <dt class="propname">product_name</dt>
 <dd>
@@ -89,16 +71,6 @@ echo $input_tempdir->show($RCI->getprop('temp_dir'));
 <div>Use this folder to store temp files (must be writebale for webserver)</div>
 </dd>
 
-<dt class="propname">log_dir</dt>
-<dd>
-<?php
-
-$input_logdir = new html_inputfield(array('name' => '_log_dir', 'size' => 30, 'id' => "cfglogdir"));
-echo $input_logdir->show($RCI->getprop('log_dir'));
-
-?>
-<div>Use this folder to store log files (must be writebale for webserver)</div>
-</dd>
 
 <dt class="propname">ip_check</dt>
 <dd>
@@ -152,6 +124,90 @@ echo $check_caching->show(intval($RCI->getprop('enable_spellcheck')), array('val
 
 </dl>
 </fieldset>
+
+<fieldset>
+<legend>Logging & Debugging</legend>
+<dl class="loggingblock">
+
+<dt class="propname">debug_level</dt>
+<dd>
+<?php
+
+$value = $RCI->getprop('debug_level');
+$check_debug = new html_checkbox(array('name' => '_debug_level[]'));
+echo $check_debug->show(($value & 1) ? 1 : 0 , array('value' => 1, 'id' => 'cfgdebug1'));
+echo '<label for="cfgdebug1">Log errors</label><br />';
+
+echo $check_debug->show(($value & 4) ? 4 : 0, array('value' => 4, 'id' => 'cfgdebug4'));
+echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
+
+echo $check_debug->show(($value & 8) ? 8 : 0, array('value' => 8, 'id' => 'cfgdebug8'));
+echo '<label for="cfgdebug8">Verbose display (enables debug console)</label><br />';
+
+?>
+</dd>
+
+<dt class="propname">log_driver</dt>
+<dd>
+<?php
+
+$select_log_driver = new html_select(array('name' => '_log_driver', 'id' => "cfglogdriver"));
+$select_log_driver->add(array('file', 'syslog'), array('file', 'syslog'));
+echo $select_log_driver->show($RCI->getprop('log_driver', 'file'));
+
+?>
+<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility.</div>
+</dd>
+
+<dt class="propname">log_dir</dt>
+<dd>
+<?php
+
+$input_logdir = new html_inputfield(array('name' => '_log_dir', 'size' => 30, 'id' => "cfglogdir"));
+echo $input_logdir->show($RCI->getprop('log_dir'));
+
+?>
+<div>Use this folder to store log files (must be writebale for webserver). Note that this only applies if you are using the 'file' log_driver.</div>
+</dd>
+
+<dt class="propname">syslog_id</dt>
+<dd>
+<?php
+
+$input_syslogid = new html_inputfield(array('name' => '_syslog_id', 'size' => 30, 'id' => "cfgsyslogid"));
+echo $input_syslogid->show($RCI->getprop('syslog_id', 'roundcube'));
+
+?>
+<div>What ID to use when logging with syslog. Note that this only applies if you are using the 'syslog' log_driver.</div>
+</dd>
+
+<dt class="propname">syslog_facility</dt>
+<dd>
+<?php
+
+$input_syslogfacility = new html_select(array('name' => '_syslog_facility', 'id' => "cfgsyslogfacility"));
+$input_syslogfacility->add('user-level messages', LOG_USER);
+$input_syslogfacility->add('mail subsystem', LOG_MAIL);
+$input_syslogfacility->add('local level 0', LOG_LOCAL0);
+$input_syslogfacility->add('local level 1', LOG_LOCAL1);
+$input_syslogfacility->add('local level 2', LOG_LOCAL2);
+$input_syslogfacility->add('local level 3', LOG_LOCAL3);
+$input_syslogfacility->add('local level 4', LOG_LOCAL4);
+$input_syslogfacility->add('local level 5', LOG_LOCAL5);
+$input_syslogfacility->add('local level 6', LOG_LOCAL6);
+$input_syslogfacility->add('local level 7', LOG_LOCAL7);
+echo $input_syslogfacility->show($RCI->getprop('syslog_facility'), LOG_USER);
+
+?>
+<div>What ID to use when logging with syslog.  Note that this only applies if you are using the 'syslog' log_driver.</div>
+</dd>
+
+
+
+
+</dl>
+</fieldset>
+
 
 <fieldset>
 <legend>Database setup</legend>
@@ -378,7 +434,7 @@ $check_smtplog = new html_checkbox(array('name' => '_smtp_log', 'id' => "cfgsmtp
 echo $check_smtplog->show(intval($RCI->getprop('smtp_log')), array('value' => 1));
 
 ?>
-<label for="cfgsmtplog">Log sent messages in <tt>logs/sendmail</tt></label><br />
+<label for="cfgsmtplog">Log sent messages in <tt>{log_dir}/sendmail</tt> or to syslog.</label><br />
 </dd>
 
 </dl>
