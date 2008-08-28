@@ -5,7 +5,7 @@
  | program/include/session.inc                                           |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,174 +20,177 @@
 */
 
 
-function sess_open($save_path, $session_name)
-  {
-  return TRUE;
-  }
+function rcube_sess_open($save_path, $session_name)
+{
+  return true;
+}
 
 
-function sess_close()
-  {
-  return TRUE;
-  }
+function rcube_sess_close()
+{
+  return true;
+}
 
 
 // read session data
-function sess_read($key)
-  {
-  global $DB, $SESS_CHANGED, $SESS_CLIENT_IP;
+function rcube_sess_read($key)
+{
+  global $SESS_CHANGED, $SESS_CLIENT_IP;
   
-  if ($DB->is_error())
-    return FALSE;
+  $DB = rcmail::get_instance()->get_dbh();
   
-  $sql_result = $DB->query("SELECT vars, ip, ".$DB->unixtimestamp('changed')." AS changed
-                            FROM ".get_table_name('session')."
-                            WHERE  sess_id=?",
-                            $key);
+  if ($DB->is_error()) {
+    return false;
+  }
+  
+  $sql_result = $DB->query(
+    "SELECT vars, ip, " . $DB->unixtimestamp('changed') . " AS changed
+     FROM " . get_table_name('session') . "
+     WHERE  sess_id=?",
+    $key);
 
-  if ($sql_arr = $DB->fetch_assoc($sql_result))
-    {
+  if ($sql_arr = $DB->fetch_assoc($sql_result)) {
     $SESS_CHANGED = $sql_arr['changed'];
     $SESS_CLIENT_IP = $sql_arr['ip'];
 
     if (strlen($sql_arr['vars']))
       return $sql_arr['vars'];
-    }
-
-  return FALSE;
   }
+
+  return false;
+}
   
 
 // save session data
-function sess_write($key, $vars)
-  {
-  global $DB;
+function rcube_sess_write($key, $vars)
+{
+  $DB = rcmail::get_instance()->get_dbh();
   
-  if ($DB->is_error())
-    return FALSE;
-
-  $sql_result = $DB->query("SELECT 1
-                            FROM ".get_table_name('session')."
-                            WHERE  sess_id=?",
-                            $key);
-
-  if ($DB->num_rows($sql_result))
-    {
-    session_decode($vars);
-    $DB->query("UPDATE ".get_table_name('session')."
-                SET    vars=?,
-                       changed=".$DB->now()."
-                WHERE  sess_id=?",
-                $vars,
-                $key);
-    }
-  else
-    {
-    $DB->query("INSERT INTO ".get_table_name('session')."
-                (sess_id, vars, ip, created, changed)
-                VALUES (?, ?, ?, ".$DB->now().", ".$DB->now().")",
-                $key,
-                $vars,
-                (string)$_SERVER['REMOTE_ADDR']);
-    }
-
-  return TRUE;
+  if ($DB->is_error()) {
+    return false;
   }
+
+  $sql_result = $DB->query(
+    "SELECT 1 FROM " . get_table_name('session') . "
+     WHERE  sess_id=?",
+    $key);
+
+  if ($DB->num_rows($sql_result)) {
+    $DB->query(
+      "UPDATE " . get_table_name('session') . "
+       SET    vars=?, changed=" . $DB->now() . "
+       WHERE  sess_id=?",
+      $vars,
+      $key);
+  }
+  else {
+    $DB->query(
+      "INSERT INTO " . get_table_name('session') . "
+       (sess_id, vars, ip, created, changed)
+       VALUES (?, ?, ?, ".$DB->now().", ".$DB->now().")",
+      $key,
+      $vars,
+      (string)$_SERVER['REMOTE_ADDR']);
+  }
+
+  return true;
+}
 
 
 // handler for session_destroy()
-function sess_destroy($key)
-  {
-  global $DB, $CONFIG;
+function rcube_sess_destroy($key)
+{
+  $rcmail = rcmail::get_instance();
+  $DB = $rcmail->get_dbh();
   
-  if ($DB->is_error())
-    return FALSE;
-
-  if ($CONFIG['enable_caching'])
-    {
-    // delete session entries in cache table
-    $DB->query("DELETE FROM ".get_table_name('cache')."
-              WHERE session_id=?",
-              $key);
-    }
-              
-  $DB->query("DELETE FROM ".get_table_name('session')."
-              WHERE sess_id=?",
-              $key);
-
-  return TRUE;
+  if ($DB->is_error()) {
+    return false;
   }
+
+  // delete session entries in cache table
+  if ($rcmail->config->get('enable_caching')) {
+    $DB->query("DELETE FROM " . get_table_name('cache') . " WHERE session_id=?", $key);
+  }
+              
+  $DB->query("DELETE FROM " . get_table_name('session') . " WHERE sess_id=?", $key);
+
+  return true;
+}
 
 
 // garbage collecting function
-function sess_gc($maxlifetime)
-  {
-  global $DB, $CONFIG;
+function rcube_sess_gc($maxlifetime)
+{
+  $rcmail = rcmail::get_instance();
+  $DB = $rcmail->get_dbh();
 
-  if ($DB->is_error())
-    return FALSE;
-
-  // get all expired sessions  
-  $sql_result = $DB->query("SELECT sess_id
-                            FROM ".get_table_name('session')."
-                            WHERE ".$DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed')." > ?",
-                            $maxlifetime);
-                                   
-  $a_exp_sessions = array();
-  while ($sql_arr = $DB->fetch_assoc($sql_result))
-    $a_exp_sessions[] = $sql_arr['sess_id'];
-
-  if (sizeof($a_exp_sessions))
-    {
-    if ($CONFIG['enable_caching'])
-      {
-        // delete session cache records
-	$DB->query("DELETE FROM ".get_table_name('cache')."
-                WHERE session_id IN ('".join("','", $a_exp_sessions)."')");
-      }
-                  
-    // delete session records
-    $DB->query("DELETE FROM ".get_table_name('session')."
-                WHERE sess_id IN ('".join("','", $a_exp_sessions)."')");
-    }
-
-  // also run message cache GC
-  if ($CONFIG['enable_caching'])
-    rcmail_message_cache_gc();
-  rcmail_temp_gc();
-
-  return TRUE;
+  if ($DB->is_error()) {
+    return false;
   }
 
+  // get all expired sessions
+  $sql_result = $DB->query(
+    "SELECT sess_id
+     FROM " . get_table_name('session') . "
+     WHERE " . $DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed') . " > ?",
+    $maxlifetime);
+                                   
+  $exp_sessions = array();
+  while ($sql_arr = $DB->fetch_assoc($sql_result)) {
+    $exp_sessions[] = $sql_arr['sess_id'];
+  }
 
-function sess_regenerate_id()
-  {
-  $randlen = 32;
+  $caching = $rcmail->config->get('enable_caching');
+
+  if (sizeof($exp_sessions)) {
+    // delete session cache records
+    if ($caching) {
+      $DB->query("DELETE FROM " . get_table_name('cache') . "
+                  WHERE session_id IN ('".join("','", $exp_sessions)."')");
+    }
+
+    // delete session records
+    $DB->query("DELETE FROM " . get_table_name('session') . "
+                WHERE sess_id IN ('".join("','", $exp_sessions)."')");
+  }
+
+  // also run message cache GC
+  if ($caching) {
+    rcmail_message_cache_gc();
+  }
+  rcmail_temp_gc();
+
+  return true;
+}
+
+
+function rcube_sess_regenerate_id()
+{
   $randval = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  $random = "";
-  for ($i=1; $i <= $randlen; $i++)
+
+  for ($random = "", $i=1; $i <= 32; $i++) {
     $random .= substr($randval, rand(0,(strlen($randval) - 1)), 1);
+  }
 
   // use md5 value for id or remove capitals from string $randval
   $random = md5($random);
 
   // delete old session record
-  sess_destroy(session_id());
+  rcube_sess_destroy(session_id());
 
   session_id($random);
 
-  $cookie    = session_get_cookie_params();
-  $_lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
+  $cookie   = session_get_cookie_params();
+  $lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
 
   setcookie(session_name(), '', time() - 3600);
-  setcookie(session_name(), $random, $_lifetime, $cookie['path'],
-    $cookie['domain']);
+  setcookie(session_name(), $random, $lifetime, $cookie['path'], $cookie['domain']);
 
   return true;
-  }
+}
 
 
 // set custom functions for PHP session management
-session_set_save_handler('sess_open', 'sess_close', 'sess_read', 'sess_write', 'sess_destroy', 'sess_gc');
+session_set_save_handler('rcube_sess_open', 'rcube_sess_close', 'rcube_sess_read', 'rcube_sess_write', 'rcube_sess_destroy', 'rcube_sess_gc');
 
 ?>

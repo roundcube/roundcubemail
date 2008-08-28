@@ -88,7 +88,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host)) {
     // create new session ID
     unset($_SESSION['temp']);
-    sess_regenerate_id();
+    rcube_sess_regenerate_id();
 
     // send auth cookie if necessary
     $RCMAIL->authenticate_session();
