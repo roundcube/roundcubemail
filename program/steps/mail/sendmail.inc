@@ -418,17 +418,6 @@ if ($savedraft)
   }
 else
   {
-  if ($CONFIG['smtp_log'])
-    {
-    write_log('sendmail', sprintf(
-      "[%s] User: %d on %s; Message for %s; %s\n",
-      date("d-M-Y H:i:s O", mktime()),
-      $_SESSION['user_id'],
-      $_SERVER['REMOTE_ADDR'],
-      $mailto,
-      !empty($smtp_response) ? join('; ', $smtp_response) : ''));
-    }
-
   rcmail_compose_cleanup();
 
   if ($store_folder && !$saved)

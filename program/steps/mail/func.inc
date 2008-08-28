@@ -1076,7 +1076,7 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 
   $msg_body = $message->get();
   $headers = $message->headers();
-  
+
   // send thru SMTP server using custom SMTP library
   if ($CONFIG['smtp_server'])
     {
@@ -1122,8 +1122,19 @@ function rcmail_deliver_message(&$message, $from, $mailto)
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
     }
   
-  if ($sent)  // remove MDN headers after sending
+  if ($sent)
+  {
+    // remove MDN headers after sending
     unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
+    
+    if ($CONFIG['smtp_log'])
+      write_log('sendmail', sprintf("[%s] User: %d on %s; Message for %s; %s",
+		date("d-M-Y H:i:s O", mktime()),
+		$_SESSION['user_id'],
+		$_SERVER['REMOTE_ADDR'],
+		$mailto,
+		!empty($smtp_response) ? join('; ', $smtp_response) : ''));
+  }
   
   $message->_headers = array();
   $message->headers($headers);

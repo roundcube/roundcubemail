@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Added options to use syslog instead of log file (#1484850)
 - Added Logging & Debugging section in Installer
+- Write to smtp log also sent MDN confirmations
 
 2008/08/26 (alec)
 ----------
