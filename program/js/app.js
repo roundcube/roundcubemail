@@ -3473,7 +3473,7 @@ function rcube_webmail()
     if (item = this.get_folder_li(mbox))
       {
       // set new text
-      text_obj = item.firstChild.nextSibling;
+      text_obj = item.getElementsByTagName('a')[0];
       reg = /\s+\([0-9]+\)$/i;
 
       if (count && text_obj.innerHTML.match(reg))
