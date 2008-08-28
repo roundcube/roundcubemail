@@ -337,6 +337,7 @@ td.formlinks a:visited
 
 #mailboxlist li a
 {
+  cursor: default;
   display: block;
   padding-left: 25px;
   padding-top: 2px;
@@ -467,7 +468,7 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
   white-space: nowrap;
   text-overflow: ellipsis;
   border-bottom: 1px solid #EBEBEB;
-  cursor: pointer;
+  cursor: default;
 }
 
 #messagelist tbody tr td a
@@ -475,6 +476,7 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
   color: #000;
   text-decoration: none;
   white-space: nowrap;
+  cursor: inherit;
 }
 
 #messagelist col
@@ -489,6 +491,7 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
 {
   width: 16px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 #messagelist tr td.subject

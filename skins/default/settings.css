@@ -91,7 +91,7 @@ span.tablink-selected a
 
 #identities-table tbody td
 {
-  cursor: pointer;
+  cursor: default;
 }
 
 #identity-frame

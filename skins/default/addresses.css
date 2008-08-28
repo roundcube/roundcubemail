@@ -105,7 +105,7 @@
 
 #contacts-table tbody td
 {
-  cursor: pointer;
+  cursor: default;
 }
 
 
