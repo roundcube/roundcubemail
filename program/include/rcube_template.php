@@ -480,6 +480,7 @@ class rcube_template extends rcube_html_page
      *
      * @param  string Input string to parse
      * @return string Altered input string
+     * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
      */
     private function parse_xml($input)
@@ -494,22 +495,13 @@ class rcube_template extends rcube_html_page
      */
     private function xml_command_callback($matches)
     {
-	if (isset($matches[2])) {
-	    $str_attrib = $matches[2];
-	} else {
-	    $str_attrib = '';
-	}
+        $str_attrib = isset($matches[2]) ? $matches[2] : '';
+        $add_attrib = isset($matches[3]) ? $matches[3] : array();
 
-	if (isset($matches[3])) {
-	    $add_attrib = $matches[3];
-	} else {
-	    $add_attrib = array();
-	}
+        $command = $matches[1];
+        //matches[0] is the entire matched portion of the string
 
-	$command = $matches[1];
-	//matches[0] is the entire matched portion of the string
-
-	return $this->xml_command($command, $str_attrib, $add_attrib);
+        return $this->xml_command($command, $str_attrib, $add_attrib);
     }
 
 
