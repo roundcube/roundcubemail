@@ -201,6 +201,14 @@ $action_map = array(
   )
 );
 
+// save preference value
+if ($RCMAIL->action=='save-pref')
+  {
+  $USER->save_prefs(array(get_input_value('_name', RCUBE_INPUT_POST) => get_input_value('_value', RCUBE_INPUT_POST)));
+  $OUTPUT->reset();
+  $OUTPUT->send();
+  }
+
 // include task specific functions
 include_once 'program/steps/'.$RCMAIL->task.'/func.inc';
 

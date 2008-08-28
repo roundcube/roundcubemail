@@ -151,7 +151,7 @@ function rcube_webmail()
           this.set_message_coltypes(this.env.coltypes);
 
         // enable mail commands
-        this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', true);
+        this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', 'collapse-folder', true);
 
         if (this.env.search_text != null && document.getElementById('quicksearchbox') != null)
           document.getElementById('quicksearchbox').value = this.env.search_text;
@@ -982,6 +982,11 @@ function rcube_webmail()
           this.list_contacts(this.env.source);
         break;
 
+      // collapse/expand folder
+      case 'collapse-folder':
+        if (props)
+          this.collapse_folder(props);
+        break;
 
       // user settings commands
       case 'preferences':
@@ -1140,6 +1145,33 @@ function rcube_webmail()
     var li;
     if (this.drag_active && (li = this.get_folder_li(id)))
       this.set_classname(li, 'droptarget', false);
+    }
+
+  this.collapse_folder = function(id)
+    {
+    var div;
+    if ((li = this.get_folder_li(id)) &&
+        (div = li.getElementsByTagName("div")[0]) &&
+        (div.className.match(/collapsed/) || div.className.match(/expanded/)))
+      {
+      var ul = li.getElementsByTagName("ul")[0];
+      if (div.className.match(/collapsed/))
+        {
+        ul.style.display = '';
+        this.set_classname(div, 'collapsed', false);
+        this.set_classname(div, 'expanded', true);
+        var reg = new RegExp('&'+escape(id)+'&');
+        this.set_env('collapsed_folders', this.env.collapsed_folders.replace(reg, ''));
+        }
+      else
+        {
+        ul.style.display = 'none';
+        this.set_classname(div, 'expanded', false);
+        this.set_classname(div, 'collapsed', true);
+        this.set_env('collapsed_folders', this.env.collapsed_folders+'&'+escape(id)+'&');
+        }
+      this.http_post('save-pref', '_name=collapsed_folders&_value='+escape(this.env.collapsed_folders));
+      }
     }
 
   // onmouseup handler for folder list item
@@ -3441,7 +3473,7 @@ function rcube_webmail()
     if (item = this.get_folder_li(mbox))
       {
       // set new text
-      text_obj = item.firstChild;
+      text_obj = item.firstChild.nextSibling;
       reg = /\s+\([0-9]+\)$/i;
 
       if (count && text_obj.innerHTML.match(reg))

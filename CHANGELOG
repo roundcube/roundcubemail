@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/28 (robin)
+----------
+- Added folder hierarchy collapsing
+
 2008/08/27 (alec)
 ----------
 - Added options to use syslog instead of log file (#1484850)

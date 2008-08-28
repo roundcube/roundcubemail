@@ -284,6 +284,32 @@ td.formlinks a:visited
   border-bottom: 1px solid #EBEBEB;
 }
 
+#mailboxlist li div
+{
+  position: absolute;
+  padding-left: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-right: 2px;
+  width: 12px;
+}
+
+#mailboxlist li div.collapsed,
+#mailboxlist li div.expanded
+{
+  cursor: pointer;
+}
+
+#mailboxlist li div.collapsed
+{
+  background: url(images/icons/collapsed.png) bottom right no-repeat;
+}
+
+#mailboxlist li div.expanded
+{
+  background: url(images/icons/expanded.png) bottom right no-repeat;
+}
+
 #mailboxlist li.inbox
 {
   background-image: url(images/icons/folder-inbox.png);
@@ -316,6 +342,8 @@ td.formlinks a:visited
   padding-top: 2px;
   padding-bottom: 2px;
   text-decoration: none;
+  /* css hack for IE */
+  margin-top: expression('-12px');
 }
 
 #mailboxlist li.unread

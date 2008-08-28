@@ -98,7 +98,7 @@ class html
         if (is_string($attr)) {
             $attr = array('class' => $attr);
         }
-        return self::tag('div', $attr, $cont, self::$common_attrib);
+        return self::tag('div', $attr, $cont, array_merge(self::$common_attrib, array('onclick')));
     }
 
     /**
