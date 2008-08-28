@@ -457,7 +457,7 @@ function rcmail_quota_display($attrib)
  */
 function rcmail_quota_content($quota=NULL)
   {
-  global $IMAP, $COMM_PATH;
+  global $IMAP, $COMM_PATH, $RCMAIL;
 
   $display = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
@@ -471,7 +471,7 @@ function rcmail_quota_content($quota=NULL)
   else
     $quota = $IMAP->get_quota();
 
-  if ($quota)
+  if ($quota && !($quota['total']==0 && $RCMAIL->config->get('quota_zero_as_unlimited')))
     {
     $quota_text = sprintf('%s / %s (%.0f%%)',
                           show_bytes($quota['used'] * 1024),

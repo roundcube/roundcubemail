@@ -175,6 +175,9 @@ $rcmail_config['create_default_folders'] = FALSE;
 // protect the default folders from renames, deletes, and subscription changes
 $rcmail_config['protect_default_folders'] = TRUE;
 
+// if in your system 0 quota means no limit set this option to TRUE 
+$rcmail_config['quota_zero_as_unlimited'] = FALSE;
+
 // Set TRUE if deleted messages should not be displayed
 // This will make the application run slower
 $rcmail_config['skip_deleted'] = FALSE;

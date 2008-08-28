@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/28 (alec)
+----------
+- Added option 'quota_zero_as_unlimited' (#1484604)
+
 2008/08/28 (robin)
 ----------
 - Added folder hierarchy collapsing

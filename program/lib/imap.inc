@@ -63,6 +63,7 @@
 		- added iil_PutLine() wrapper for fputs()
 		- code cleanup and identation fixes
 		- removed flush() calls in iil_C_HandlePartBody() to prevent from memory leak (#1485187)
+		- don't return "??" from iil_C_GetQuota()
 
 ********************************************************/
 
@@ -2621,13 +2622,9 @@ function iil_C_GetQuota(&$conn) {
 		$parts        = explode(' ', $quota_line);
 		$storage_part = array_search('STORAGE', $parts);
 		if ($storage_part > 0) {
-			$result = array();
-			$used   = $parts[$storage_part+1];
-			$total  = $parts[$storage_part+2];
-            
-			$result['used']    = $used;
-			$result['total']   = (empty($total)?"??":$total);
-			$result['percent'] = (empty($total)?"??":round(($used/$total)*100));
+			$result['used']    = intval($parts[$storage_part+1]);
+			$result['total']   = intval($parts[$storage_part+2]);
+			$result['percent'] = min(100, round(($result['used']/max(1,$result['total']))*100));
 			$result['free']    = 100 - $result['percent'];
 		}
 	}
