@@ -221,15 +221,19 @@ $headers['X-Sender'] = $from;
 if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];
 
+$isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
+$isHtml = ($isHtmlVal == "1");
+
 // fetch message body
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
+
+// remove signature's div ID
+if (!$savedraft && $isHtml)
+  $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
 
 // append generic footer to all messages
 if (!$savedraft && !empty($CONFIG['generic_message_footer']) && ($footer = file_get_contents(realpath($CONFIG['generic_message_footer']))))
   $message_body .= "\r\n" . rcube_charset_convert($footer, 'UTF-8', $message_charset);
-
-$isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
-$isHtml = ($isHtmlVal == "1");
 
 // create extended PEAR::Mail_mime instance
 $MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
