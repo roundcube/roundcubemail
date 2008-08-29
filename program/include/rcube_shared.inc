@@ -569,7 +569,7 @@ function rc_mime_content_type($path, $failover = 'unknown/unknown')
             finfo_close($finfo);
         }
     }
-    else if (function_exists('mime_content_type')) {
+    if (!$mime_type && function_exists('mime_content_type')) {
       $mime_type = mime_content_type($path); 
     }
     
