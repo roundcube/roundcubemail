@@ -230,6 +230,7 @@ function rcube_webmail()
         // get unread count for each mailbox
         if (this.gui_objects.mailboxlist)
         {
+          this.env.unread_counts = {};
           this.gui_objects.folderlist = this.gui_objects.mailboxlist;
           this.http_request('getunread', '');
         }
@@ -3484,22 +3485,18 @@ function rcube_webmail()
     if (!this.gui_objects.mailboxlist)
       return false;
 
-    var reg, text_obj, item;
-    if (item = this.get_folder_li(mbox))
-      {
-      item.setAttribute('count', count);
-      this.set_unread_count_display(mbox, set_title);
-      }
+    this.env.unread_counts[mbox] = count;
+    this.set_unread_count_display(mbox, set_title);
     }
 
 
   // update the mailbox count display
   this.set_unread_count_display = function(mbox, set_title)
     {
-    var reg, text_obj, item, mycount, childcount, div, children;
+    var reg, text_obj, item, mycount, childcount, div;
     if (item = this.get_folder_li(mbox))
       {
-      mycount = parseInt(item.getAttribute('count') ? item.getAttribute('count') : 0);
+      mycount = this.env.unread_counts[mbox];
       text_obj = item.getElementsByTagName('a')[0];
       reg = /\s+\([0-9]+\)$/i;
 
@@ -3508,9 +3505,10 @@ function rcube_webmail()
           div.className.match(/collapsed/))
         {
         // add children's counters
-        children = item.getElementsByTagName('li');
-        for (var i=0; i<children.length; i++)
-          childcount = childcount+parseInt(children[i].getAttribute('count') ? children[i].getAttribute('count') : 0);
+        for (var k in this.env.unread_counts)
+          if (k.indexOf(mbox) == 0) {
+            childcount += this.env.unread_counts[k];
+          }
         }
 
       if (mycount && text_obj.innerHTML.match(reg))
@@ -3536,10 +3534,10 @@ function rcube_webmail()
       var doc_title = String(document.title);
       var new_title = "";
 
-      if (count && doc_title.match(reg))
-        new_title = doc_title.replace(reg, '('+count+') ');
-      else if (count)
-        new_title = '('+count+') '+doc_title;
+      if (mycount && doc_title.match(reg))
+        new_title = doc_title.replace(reg, '('+mycount+') ');
+      else if (mycount)
+        new_title = '('+mycount+') '+doc_title;
       else
         new_title = doc_title.replace(reg, '');
         
