@@ -2034,8 +2034,12 @@ function rcube_webmail()
       // remove the 'old' signature
       if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
         {
-        sig = this.env.signatures[this.env.identity]['text'];
-        if (sig.indexOf('-- ')!=0)
+        if (this.env.signatures[this.env.identity]['is_html'])
+          sig = this.env.signatures[this.env.identity]['plain_text'];
+        else
+	  sig = this.env.signatures[this.env.identity]['text'];
+        
+	if (sig.indexOf('-- ')!=0)
           sig = '-- \n'+sig;
 
         p = message.lastIndexOf(sig);
