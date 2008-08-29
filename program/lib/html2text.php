@@ -207,7 +207,7 @@ class html2text
      *  @access public
      *  @see $pre_replace
      */
-    $pre_search = array(
+    var $pre_search = array(
 	"/\n/",
 	"/\t/",
 	'/ /',
@@ -222,7 +222,7 @@ class html2text
      *  @access public
      *  @see $pre_search
      */
-    $pre_replace = array(
+    var $pre_replace = array(
 	'<br>',
 	'&nbsp;&nbsp;&nbsp;&nbsp;',
 	'&nbsp;',
