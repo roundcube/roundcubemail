@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.2-20080620                                                    |
+ | Version 0.2-20080829                                                    |
  |                                                                         |
  | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -166,7 +166,13 @@ if (empty($RCMAIL->user->ID)) {
 
 
 // handle keep-alive signal
-if ($RCMAIL->action=='keep-alive') {
+if ($RCMAIL->action == 'keep-alive') {
+  $OUTPUT->reset();
+  $OUTPUT->send();
+}
+// save preference value
+else if ($RCMAIL->action == 'save-pref') {
+  $RCMAIL->user->save_prefs(array(get_input_value('_name', RCUBE_INPUT_POST) => get_input_value('_value', RCUBE_INPUT_POST)));
   $OUTPUT->reset();
   $OUTPUT->send();
 }
@@ -200,14 +206,6 @@ $action_map = array(
     'add-identity'  => 'edit_identity.inc',
   )
 );
-
-// save preference value
-if ($RCMAIL->action=='save-pref')
-  {
-  $USER->save_prefs(array(get_input_value('_name', RCUBE_INPUT_POST) => get_input_value('_value', RCUBE_INPUT_POST)));
-  $OUTPUT->reset();
-  $OUTPUT->send();
-  }
 
 // include task specific functions
 include_once 'program/steps/'.$RCMAIL->task.'/func.inc';
