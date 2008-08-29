@@ -3492,26 +3492,27 @@ function rcube_webmail()
   // update the mailbox count display
   this.set_unread_count_display = function(mbox, set_title)
     {
-    var reg, text_obj, item, count, div, children;
+    var reg, text_obj, item, mycount, childcount, div, children;
     if (item = this.get_folder_li(mbox))
       {
-      count = parseInt(item.getAttribute('count') ? item.getAttribute('count') : 0);
+      mycount = parseInt(item.getAttribute('count') ? item.getAttribute('count') : 0);
       text_obj = item.getElementsByTagName('a')[0];
       reg = /\s+\([0-9]+\)$/i;
 
       div = item.getElementsByTagName('div')[0];
+	  childcount = 0;
       if (div.className.match(/collapsed/))
         {
         // add children's counters
         children = item.getElementsByTagName('li');
         for (var i=0; i<children.length; i++)
-          count = count+parseInt(children[i].getAttribute('count') ? children[i].getAttribute('count') : 0);
+          childcount = childcount+parseInt(children[i].getAttribute('count') ? children[i].getAttribute('count') : 0);
         }
 
-      if (count && text_obj.innerHTML.match(reg))
-        text_obj.innerHTML = text_obj.innerHTML.replace(reg, ' ('+count+')');
-      else if (count)
-        text_obj.innerHTML += ' ('+count+')';
+      if (mycount && text_obj.innerHTML.match(reg))
+        text_obj.innerHTML = text_obj.innerHTML.replace(reg, ' ('+mycount+')');
+      else if (mycount)
+        text_obj.innerHTML += ' ('+mycount+')';
       else
         text_obj.innerHTML = text_obj.innerHTML.replace(reg, '');
 
@@ -3521,7 +3522,7 @@ function rcube_webmail()
         this.set_unread_count_display(mbox.replace(reg, ''), false);
 
       // set the right classes
-      this.set_classname(item, 'unread', count>0 ? true : false);
+      this.set_classname(item, 'unread', (mycount+childcount)>0 ? true : false);
       }
 
     // set unread count to window title
