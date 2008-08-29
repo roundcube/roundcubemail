@@ -3499,9 +3499,9 @@ function rcube_webmail()
       text_obj = item.getElementsByTagName('a')[0];
       reg = /\s+\([0-9]+\)$/i;
 
-      div = item.getElementsByTagName('div')[0];
-	  childcount = 0;
-      if (div.className.match(/collapsed/))
+      childcount = 0;
+      if ((div = item.getElementsByTagName('div')[0]) &&
+          div.className.match(/collapsed/))
         {
         // add children's counters
         children = item.getElementsByTagName('li');
