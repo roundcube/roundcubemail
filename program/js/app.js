@@ -1169,6 +1169,10 @@ function rcube_webmail()
         this.set_classname(div, 'expanded', false);
         this.set_classname(div, 'collapsed', true);
         this.set_env('collapsed_folders', this.env.collapsed_folders+'&'+escape(id)+'&');
+        
+        // select parent folder if one of its childs is currently selected
+        if (this.env.mailbox.indexOf(id) == 0)
+          this.command('list', id);
         }
       this.http_post('save-pref', '_name=collapsed_folders&_value='+escape(this.env.collapsed_folders));
       this.set_unread_count_display(id, false);
