@@ -1171,6 +1171,7 @@ function rcube_webmail()
         this.set_env('collapsed_folders', this.env.collapsed_folders+'&'+escape(id)+'&');
         }
       this.http_post('save-pref', '_name=collapsed_folders&_value='+escape(this.env.collapsed_folders));
+      this.set_unread_count_display(id, false);
       }
     }
 
@@ -3482,9 +3483,30 @@ function rcube_webmail()
     var reg, text_obj, item;
     if (item = this.get_folder_li(mbox))
       {
-      // set new text
+      item.setAttribute('count', count);
+      this.set_unread_count_display(mbox, set_title);
+      }
+    }
+
+
+  // update the mailbox count display
+  this.set_unread_count_display = function(mbox, set_title)
+    {
+    var reg, text_obj, item, count, div, children;
+    if (item = this.get_folder_li(mbox))
+      {
+      count = parseInt(item.getAttribute('count') ? item.getAttribute('count') : 0);
       text_obj = item.getElementsByTagName('a')[0];
       reg = /\s+\([0-9]+\)$/i;
+
+      div = item.getElementsByTagName('div')[0];
+      if (div.className.match(/collapsed/))
+        {
+        // add children's counters
+        children = item.getElementsByTagName('li');
+        for (var i=0; i<children.length; i++)
+          count = count+parseInt(children[i].getAttribute('count') ? children[i].getAttribute('count') : 0);
+        }
 
       if (count && text_obj.innerHTML.match(reg))
         text_obj.innerHTML = text_obj.innerHTML.replace(reg, ' ('+count+')');
@@ -3492,6 +3514,11 @@ function rcube_webmail()
         text_obj.innerHTML += ' ('+count+')';
       else
         text_obj.innerHTML = text_obj.innerHTML.replace(reg, '');
+
+      // set parent's display
+      reg = new RegExp(RegExp.escape(this.env.delimiter) + '[^' + RegExp.escape(this.env.delimiter) + ']+');
+      if (mbox.match(reg))
+        this.set_unread_count_display(mbox.replace(reg, ''), false);
 
       // set the right classes
       this.set_classname(item, 'unread', count>0 ? true : false);
