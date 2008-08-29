@@ -884,7 +884,7 @@ function rcube_print_time($timer, $label='Timer')
  */
 function rcmail_mailbox_list($attrib)
 {
-  global $IMAP, $OUTPUT;
+  global $RCMAIL;
   static $a_mailboxes;
   
   $attrib += array('maxlength' => 100, 'relanames' => false);
@@ -900,13 +900,13 @@ function rcmail_mailbox_list($attrib)
     $attrib['id'] = 'rcmboxlist';
 
   // get mailbox list
-  $mbox_name = $IMAP->get_mailbox_name();
+  $mbox_name = $RCMAIL->imap->get_mailbox_name();
   
   // build the folders tree
   if (empty($a_mailboxes)) {
     // get mailbox list
-    $a_folders = $IMAP->list_mailboxes();
-    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $a_folders = $RCMAIL->imap->list_mailboxes();
+    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
     $a_mailboxes = array();
 
     foreach ($a_folders as $folder)
@@ -927,8 +927,10 @@ function rcmail_mailbox_list($attrib)
     $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength'], $attrib['realnames']), html::$common_attrib);
   }
 
-  if ($type=='ul')
-    $OUTPUT->add_gui_object('mailboxlist', $attrib['id']);
+  if ($type=='ul') {
+    $RCMAIL->output->add_gui_object('mailboxlist', $attrib['id']);
+    $RCMAIL->output->set_env('collapsed_folders', $RCMAIL->config->get('collapsed_folders'));
+  }
 
   return $out;
 }
@@ -1000,7 +1002,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
  */
 function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $realnames=false, $nestLevel=0)
   {
-  global $COMM_PATH, $IMAP, $CONFIG, $OUTPUT, $RCMAIL;
+  global $RCMAIL, $CONFIG;
 
   $idx = 0;
   $out = '';
@@ -1074,8 +1076,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
     $idx++;
     }
 
-  $OUTPUT->set_env('collapsed_folders', $RCMAIL->config->get('collapsed_folders'));
-
   return $out;
   }
 
@@ -1086,8 +1086,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
  */
 function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0)
   {
-  global $IMAP, $OUTPUT;
-
   $idx = 0;
   $out = '';
   foreach ($arrFolders as $key=>$folder)
