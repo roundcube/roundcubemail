@@ -2060,24 +2060,30 @@ function rcube_webmail()
       {
       var editor = tinyMCE.get('compose-body');
 
-      if (this.env.signatures && this.env.signatures[id])
+      if (this.env.signatures)
         {
-        // Append the signature as a span within the body
+        // Append the signature as a div within the body
         var sigElem = editor.dom.get("_rc_sig");
+	var newsig = '';
+	var htmlsig = true;
+	
         if (!sigElem)
           {
-          sigElem = editor.getDoc().createElement("span");
+          sigElem = editor.getDoc().createElement("div");
           sigElem.setAttribute("id", "_rc_sig");
           editor.getBody().appendChild(sigElem);
           }
-        if (this.env.signatures[id]['is_html'])
-          {
-          sigElem.innerHTML = this.env.signatures[id]['text'];
-          }
+
+	if (this.env.signatures[id])
+	  {
+	  newsig = this.env.signatures[id]['text'];
+	  htmlsig = this.env.signatures[id]['is_html'];
+	  }
+
+        if (htmlsig)
+          sigElem.innerHTML = newsig;
         else
-          {
-          sigElem.innerHTML = '<pre>' + this.env.signatures[id]['text'] + '</pre>';
-          }
+          sigElem.innerHTML = '<pre>' + newsig + '</pre>';
         }
       }
 
