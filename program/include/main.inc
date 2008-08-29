@@ -1053,10 +1053,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
         'id' => "rcmli".$folder_id,
         'class' => join(' ', $classes),
         'noclose' => true),
-      html::div(array(
-        'class' => empty($folder['folders']) ? 'nocollapse' : ($collapsed ? 'collapsed' : 'expanded'),
-        'onclick' => sprintf("%s.command('collapse-folder', '%s')", JS_OBJECT_NAME, $js_name)
-      ), '&nbsp;') .
       html::a(array(
         'href' => rcmail_url('', array('_mbox' => $folder['id'])),
         'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
@@ -1064,7 +1060,12 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
         'onmouseout' => sprintf("return %s.unfocus_folder('%s')", JS_OBJECT_NAME, $js_name),
         'onmouseup' => sprintf("return %s.folder_mouse_up('%s')", JS_OBJECT_NAME, $js_name),
         'title' => $title,
-      ), Q($foldername)));
+      ), Q($foldername)) .
+      (!empty($folder['folders']) ? html::div(array(
+        'class' => ($collapsed ? 'collapsed' : 'expanded'),
+        'style' => "position:absolute",
+        'onclick' => sprintf("%s.command('collapse-folder', '%s')", JS_OBJECT_NAME, $js_name)
+      ), '&nbsp;') : ''));
     
     if (!empty($folder['folders']))
       $out .= "\n<ul" . ($collapsed ? " style=\"display: none;\"" : "") . ">\n" . rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $maxlength, $realnames, $nestLevel+1) . "</ul>\n";

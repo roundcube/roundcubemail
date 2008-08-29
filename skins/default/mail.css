@@ -266,6 +266,7 @@ td.formlinks a:visited
 
 #mailboxlist
 {
+  position:relative;
   width: 100%;
   height: auto;
   margin: 0px;
@@ -278,6 +279,8 @@ td.formlinks a:visited
 
 #mailboxlist li
 {
+  display: block;
+  position: relative;
   font-size: 11px;
   background: url(images/icons/folder-closed.png) no-repeat;
   background-position: 5px 1px;
@@ -287,11 +290,11 @@ td.formlinks a:visited
 #mailboxlist li div
 {
   position: absolute;
-  padding-left: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-right: 2px;
-  width: 12px;
+  left: 8px !important;
+  left: -16px;
+  top: 2px;
+  width: 14px;
+  height: 16px;
 }
 
 #mailboxlist li div.collapsed,
@@ -339,12 +342,11 @@ td.formlinks a:visited
 {
   cursor: default;
   display: block;
+  position: relative;
   padding-left: 25px;
   padding-top: 2px;
   padding-bottom: 2px;
   text-decoration: none;
-  /* css hack for IE */
-  margin-top: expression('-12px');
 }
 
 #mailboxlist li.unread
