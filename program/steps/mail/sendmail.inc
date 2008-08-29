@@ -356,14 +356,20 @@ if (!$savedraft)
 // Determine which folder to save message
 if ($savedraft)
   $store_target = $CONFIG['drafts_mbox'];
-else
+else	
   $store_target = isset($_POST['_store_target']) ? get_input_value('_store_target', RCUBE_INPUT_POST) : $CONFIG['sent_mbox'];
 
 if ($store_target)
   {
   // check if mailbox exists
   if (!in_array_nocase($store_target, $IMAP->list_mailboxes()))
-    $store_folder = $IMAP->create_mailbox($store_target, TRUE);
+    {
+      // folder may be existing but not subscribed (#1485241)
+      if (!in_array_nocase($store_target, $IMAP->list_unsubscribed()))
+	$store_folder = $IMAP->create_mailbox($store_target, TRUE);
+      else if ($IMAP->subscribe($store_target))
+	$store_folder = TRUE;
+    }
   else
     $store_folder = TRUE;
   
