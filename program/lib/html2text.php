@@ -31,6 +31,7 @@
 *                                                                       *
 *************************************************************************/
 
+/* 2008/08/29: Added PRE handling by A.L.E.C <alec@alec.pl> */
 
 /**
 *  Takes HTML and converts it to formatted, plain text.
@@ -196,6 +197,37 @@ class html2text
         '(R)',
         '*',
         ''
+    );
+
+    /**
+     *  List of preg* regular expression patterns to search for in PRE body,
+     *  used in conjunction with $pre_replace.
+     *
+     *  @var array $pre_search
+     *  @access public
+     *  @see $pre_replace
+     */
+    $pre_search = array(
+	"/\n/",
+	"/\t/",
+	'/ /',
+	'/<pre[^>]*>/',
+	'/<\/pre>/'
+    );
+
+    /**
+     *  List of pattern replacements corresponding to patterns searched for PRE body.
+     *
+     *  @var array $pre_replace
+     *  @access public
+     *  @see $pre_search
+     */
+    $pre_replace = array(
+	'<br>',
+	'&nbsp;&nbsp;&nbsp;&nbsp;',
+	'&nbsp;',
+	'',
+	''
     );
 
     /**
@@ -375,6 +407,9 @@ class html2text
 
         $text = trim(stripslashes($this->html));
 
+	// Convert <PRE>
+	$this->_convert_pre($text);
+
         // Run our defined search-and-replace
         $text = preg_replace($this->search, $this->replace, $text);
 
@@ -443,6 +478,21 @@ class html2text
         }
               
       return $display . ' [' . ($index+1) . ']';
+      }
+
+    /**
+     *  Helper function for PRE body conversion.
+     *
+     *  @param string HTML content
+     *  @access private
+    */
+    function _convert_pre(&$text)
+      {
+      while(preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches))
+        {
+          $result = preg_replace($this->pre_search, $this->pre_replace, $matches[1]);
+	  $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text);
+        }
       }
 }
 
