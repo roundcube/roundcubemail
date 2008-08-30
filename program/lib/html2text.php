@@ -314,6 +314,15 @@ class html2text
      */
     var $_link_count = 0;
 
+    /** 
+     * Boolean flag, true if a table of link URLs should be listed after the text. 
+     *  
+     * @var boolean $_do_links 
+     * @access private 
+     * @see html2text() 
+     */
+    var $_do_links = true;
+ 
     /**
      *  Constructor.
      *
@@ -323,15 +332,20 @@ class html2text
      *
      *  @param string $source HTML content
      *  @param boolean $from_file Indicates $source is a file to pull content from
+     *  @param boolean $do_links Indicate whether a table of link URLs is desired
+     *  @param integer $width Maximum width of the formatted text, 0 for no limit
      *  @access public
      *  @return void
      */
-    function html2text( $source = '', $from_file = false )
+    function html2text( $source = '', $from_file = false, $do_links = true, $width = 75 )
     {
         if ( !empty($source) ) {
             $this->set_html($source, $from_file);
         }
+	
         $this->set_base_url();
+	$this->_do_links = $do_links;
+	$this->width = $width;
     }
 
     /**
@@ -349,7 +363,6 @@ class html2text
         }
         else
 	    $this->html = $source;
-
 
         $this->_converted = false;
     }
@@ -495,7 +508,9 @@ class html2text
      */
     function _build_link_list( $link, $display )
     {
-		if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
+	if ( !$this->_do_links ) return $display;
+	
+	if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
              substr($link, 0, 7) == 'mailto:' ) {
             $this->_link_count++;
             $this->_link_list .= "[" . $this->_link_count . "] $link\n";
