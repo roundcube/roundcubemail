@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/08/30 (alec)
+----------
+- Improved HTML to TXT conversion by html2text class update
+  to version 1.0.0
+
 2008/08/28 (alec)
 ----------
 - Added option 'quota_zero_as_unlimited' (#1484604)

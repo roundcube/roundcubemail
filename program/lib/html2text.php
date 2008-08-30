@@ -1,78 +1,109 @@
 <?php
 
 /*************************************************************************
-*                                                                       *
-* class.html2text.inc                                                   *
-*                                                                       *
-*************************************************************************
-*                                                                       *
-* Converts HTML to formatted plain text                                 *
-*                                                                       *
-* Copyright (c) 2005 Jon Abernathy <jon@chuggnutt.com>                  *
-* All rights reserved.                                                  *
-*                                                                       *
-* This script is free software; you can redistribute it and/or modify   *
-* it under the terms of the GNU General Public License as published by  *
-* the Free Software Foundation; either version 2 of the License, or     *
-* (at your option) any later version.                                   *
-*                                                                       *
-* The GNU General Public License can be found at                        *
-* http://www.gnu.org/copyleft/gpl.html.                                 *
-*                                                                       *
-* This script is distributed in the hope that it will be useful,        *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          *
-* GNU General Public License for more details.                          *
-*                                                                       *
-* Author(s): Jon Abernathy <jon@chuggnutt.com>                          *
-*                                                                       *
-* Last modified: 04/06/05                                               *
-* Modified: 2004/05/19 (tbr)                                            *
-*                                                                       *
-*************************************************************************/
+ *                                                                       *
+ * class.html2text.inc                                                   *
+ *                                                                       *
+ *************************************************************************
+ *                                                                       *
+ * Converts HTML to formatted plain text                                 *
+ *                                                                       *
+ * Copyright (c) 2005-2007 Jon Abernathy <jon@chuggnutt.com>             *
+ * All rights reserved.                                                  *
+ *                                                                       *
+ * This script is free software; you can redistribute it and/or modify   *
+ * it under the terms of the GNU General Public License as published by  *
+ * the Free Software Foundation; either version 2 of the License, or     *
+ * (at your option) any later version.                                   *
+ *                                                                       *
+ * The GNU General Public License can be found at                        *
+ * http://www.gnu.org/copyleft/gpl.html.                                 *
+ *                                                                       *
+ * This script is distributed in the hope that it will be useful,        *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          *
+ * GNU General Public License for more details.                          *
+ *                                                                       *
+ * Author(s): Jon Abernathy <jon@chuggnutt.com>                          *
+ *                                                                       *
+ * Last modified: 08/08/07                                               *
+ *                                                                       *
+ *************************************************************************/
 
-/* 2008/08/29: Added PRE handling by A.L.E.C <alec@alec.pl> */
 
 /**
-*  Takes HTML and converts it to formatted, plain text.
-*
-*  Thanks to Alexander Krug (http://www.krugar.de/) to pointing out and
-*  correcting an error in the regexp search array. Fixed 7/30/03.
-*
-*  Updated set_html() function's file reading mechanism, 9/25/03.
-*
-*  Thanks to Joss Sanglier (http://www.dancingbear.co.uk/) for adding
-*  several more HTML entity codes to the $search and $replace arrays.
-*  Updated 11/7/03.
-*
-*  Thanks to Darius Kasperavicius (http://www.dar.dar.lt/) for
-*  suggesting the addition of $allowed_tags and its supporting function
-*  (which I slightly modified). Updated 3/12/04.
-*
-*  Thanks to Justin Dearing for pointing out that a replacement for the
-*  <TH> tag was missing, and suggesting an appropriate fix.
-*  Updated 8/25/04.
-*
-*  Thanks to Mathieu Collas (http://www.myefarm.com/) for finding a
-*  display/formatting bug in the _build_link_list() function: email
-*  readers would show the left bracket and number ("[1") as part of the
-*  rendered email address.
-*  Updated 12/16/04.
-*
-*  Thanks to Wojciech Bajon (http://histeria.pl/) for submitting code
-*  to handle relative links, which I hadn't considered. I modified his
-*  code a bit to handle normal HTTP links and MAILTO links. Also for
-*  suggesting three additional HTML entity codes to search for.
-*  Updated 03/02/05.
-*
-*  Thanks to Jacob Chandler for pointing out another link condition
-*  for the _build_link_list() function: "https".
-*  Updated 04/06/05.
-*
-*  @author Jon Abernathy <jon@chuggnutt.com>
-*  @version 0.6.1
-*  @since PHP 4.0.2
-*/
+ *  Takes HTML and converts it to formatted, plain text.
+ *
+ *  Thanks to Alexander Krug (http://www.krugar.de/) to pointing out and
+ *  correcting an error in the regexp search array. Fixed 7/30/03.
+ *
+ *  Updated set_html() function's file reading mechanism, 9/25/03.
+ *
+ *  Thanks to Joss Sanglier (http://www.dancingbear.co.uk/) for adding
+ *  several more HTML entity codes to the $search and $replace arrays.
+ *  Updated 11/7/03.
+ *
+ *  Thanks to Darius Kasperavicius (http://www.dar.dar.lt/) for
+ *  suggesting the addition of $allowed_tags and its supporting function
+ *  (which I slightly modified). Updated 3/12/04.
+ *
+ *  Thanks to Justin Dearing for pointing out that a replacement for the
+ *  <TH> tag was missing, and suggesting an appropriate fix.
+ *  Updated 8/25/04.
+ *
+ *  Thanks to Mathieu Collas (http://www.myefarm.com/) for finding a
+ *  display/formatting bug in the _build_link_list() function: email
+ *  readers would show the left bracket and number ("[1") as part of the
+ *  rendered email address.
+ *  Updated 12/16/04.
+ *
+ *  Thanks to Wojciech Bajon (http://histeria.pl/) for submitting code
+ *  to handle relative links, which I hadn't considered. I modified his
+ *  code a bit to handle normal HTTP links and MAILTO links. Also for
+ *  suggesting three additional HTML entity codes to search for.
+ *  Updated 03/02/05.
+ *
+ *  Thanks to Jacob Chandler for pointing out another link condition
+ *  for the _build_link_list() function: "https".
+ *  Updated 04/06/05.
+ *
+ *  Thanks to Marc Bertrand (http://www.dresdensky.com/) for
+ *  suggesting a revision to the word wrapping functionality; if you
+ *  specify a $width of 0 or less, word wrapping will be ignored.
+ *  Updated 11/02/06.
+ *
+ *  *** Big housecleaning updates below:
+ *
+ *  Thanks to Colin Brown (http://www.sparkdriver.co.uk/) for
+ *  suggesting the fix to handle </li> and blank lines (whitespace).
+ *  Christian Basedau (http://www.movetheweb.de/) also suggested the
+ *  blank lines fix.
+ *
+ *  Special thanks to Marcus Bointon (http://www.synchromedia.co.uk/),
+ *  Christian Basedau, Norbert Laposa (http://ln5.co.uk/),
+ *  Bas van de Weijer, and Marijn van Butselaar
+ *  for pointing out my glaring error in the <th> handling. Marcus also
+ *  supplied a host of fixes.
+ *
+ *  Thanks to Jeffrey Silverman (http://www.newtnotes.com/) for pointing
+ *  out that extra spaces should be compressed--a problem addressed with
+ *  Marcus Bointon's fixes but that I had not yet incorporated.
+ *
+ *	Thanks to Daniel Schledermann (http://www.typoconsult.dk/) for
+ *  suggesting a valuable fix with <a> tag handling.
+ *
+ *  Thanks to Wojciech Bajon (again!) for suggesting fixes and additions,
+ *  including the <a> tag handling that Daniel Schledermann pointed
+ *  out but that I had not yet incorporated. I haven't (yet)
+ *  incorporated all of Wojciech's changes, though I may at some
+ *  future time.
+ *
+ *  *** End of the housecleaning updates. Updated 08/08/07.
+ *
+ *  @author Jon Abernathy <jon@chuggnutt.com>
+ *  @version 1.0.0
+ *  @since PHP 4.0.2
+ */
 class html2text
 {
 
@@ -95,6 +126,9 @@ class html2text
     /**
      *  Maximum width of the formatted text, in columns.
      *
+     *  Set this value to 0 (or less) to ignore word wrapping
+     *  and not constrain text to a fixed-width column.
+     *
      *  @var integer $width
      *  @access public
      */
@@ -111,43 +145,46 @@ class html2text
     var $search = array(
         "/\r/",                                  // Non-legal carriage return
         "/[\n\t]+/",                             // Newlines and tabs
+        '/[ ]{2,}/',                             // Runs of spaces, pre-handling
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
+        '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
         //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
-        '/<a [^>]*href=("|\')([^"\']+)\1[^>]*>(.+?)<\/a>/ie', // <a href="">
-        '/<h[123][^>]*>(.+?)<\/h[123]>/ie',      // H1 - H3
-        '/<h[456][^>]*>(.+?)<\/h[456]>/ie',      // H4 - H6
+        '/<h[123][^>]*>(.*?)<\/h[123]>/ie',      // H1 - H3
+        '/<h[456][^>]*>(.*?)<\/h[456]>/ie',      // H4 - H6
         '/<p[^>]*>/i',                           // <P>
         '/<br[^>]*>/i',                          // <br>
-        '/<b[^>]*>(.+?)<\/b>/ie',                // <b>
-        '/<i[^>]*>(.+?)<\/i>/i',                 // <i>
+        '/<b[^>]*>(.*?)<\/b>/ie',                // <b>
+        '/<strong[^>]*>(.*?)<\/strong>/ie',      // <strong>
+        '/<i[^>]*>(.*?)<\/i>/i',                 // <i>
+        '/<em[^>]*>(.*?)<\/em>/i',               // <em>
         '/(<ul[^>]*>|<\/ul>)/i',                 // <ul> and </ul>
         '/(<ol[^>]*>|<\/ol>)/i',                 // <ol> and </ol>
+        '/<li[^>]*>(.*?)<\/li>/i',               // <li> and </li>
         '/<li[^>]*>/i',                          // <li>
+        '/<a [^>]*href=("|\')([^"\']+)\1[^>]*>(.*?)<\/a>/ie',
+                                                 // <a href="">
         '/<hr[^>]*>/i',                          // <hr>
         '/(<table[^>]*>|<\/table>)/i',           // <table> and </table>
         '/(<tr[^>]*>|<\/tr>)/i',                 // <tr> and </tr>
-        '/<td[^>]*>(.+?)<\/td>/i',               // <td> and </td>
-        '/<th[^>]*>(.+?)<\/th>/ie',              // <th> and </th>
-        '/&nbsp;/i',
-        '/&quot;/i',
-        '/&gt;/i',
-        '/&lt;/i',
-        '/&(amp|#38);/i',
-        '/&copy;/i',
-        '/&trade;/i',
-        '/&#8220;/',
-        '/&#8221;/',
-        '/&#8211;/',
-        '/&#(8217|39);/',
-        '/&#169;/',
-        '/&#8482;/',
-        '/&#151;/',
-        '/&#147;/',
-        '/&#148;/',
-        '/&#149;/',
-        '/&reg;/i',
-        '/&bull;/i',
-        '/&[&;]+;/i'
+        '/<td[^>]*>(.*?)<\/td>/i',               // <td> and </td>
+        '/<th[^>]*>(.*?)<\/th>/ie',              // <th> and </th>
+        '/&(nbsp|#160);/i',                      // Non-breaking space
+        '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
+		                                         // Double quotes
+        '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
+        '/&gt;/i',                               // Greater-than
+        '/&lt;/i',                               // Less-than
+        '/&(amp|#38);/i',                        // Ampersand
+        '/&(copy|#169);/i',                      // Copyright
+        '/&(trade|#8482|#153);/i',               // Trademark
+        '/&(reg|#174);/i',                       // Registered
+        '/&(mdash|#151|#8212);/i',               // mdash
+        '/&(ndash|minus|#8211|#8722);/i',        // ndash
+        '/&(bull|#149|#8226);/i',                // Bullet
+        '/&(pound|#163);/i',                     // Pound sign
+        '/&(euro|#8364);/i',                     // Euro sign
+        '/&[^&;]+;/i',                           // Unknown/unhandled entities
+        '/[ ]{2,}/'                              // Runs of spaces, post-handling
     );
 
     /**
@@ -160,53 +197,55 @@ class html2text
     var $replace = array(
         '',                                     // Non-legal carriage return
         ' ',                                    // Newlines and tabs
+        ' ',                                    // Runs of spaces, pre-handling
         '',                                     // <script>s -- which strip_tags supposedly has problems with
-        //'',                                  // Comments -- which strip_tags might have problem a with
-        '$this->_build_link_list("\\2", "\\3")', // <a href="">
+        '',                                     // <style>s -- which strip_tags supposedly has problems with
+        //'',                                     // Comments -- which strip_tags might have problem a with
         "strtoupper(\"\n\n\\1\n\n\")",          // H1 - H3
-        "ucwords(\"\n\n\\1\n\")",               // H4 - H6
-        "\n\n",                                 // <P>
+        "ucwords(\"\n\n\\1\n\")",             // H4 - H6
+        "\n\n",                               // <P>
         "\n",                                   // <br>
         'strtoupper("\\1")',                    // <b>
+        'strtoupper("\\1")',                    // <strong>
         '_\\1_',                                // <i>
+        '_\\1_',                                // <em>
         "\n\n",                                 // <ul> and </ul>
         "\n\n",                                 // <ol> and </ol>
-        "\t*",                                  // <li>
-        "\n-------------------------\n",        // <hr>
-        "\n\n",                                 // <table> and </table>
+        "\t* \\1\n",                            // <li> and </li>
+        "\n\t* ",                               // <li>
+    	'$this->_build_link_list("\\2", "\\3")',
+    	                                	// <a href="">
+    	"\n-------------------------\n",        // <hr>
+    	"\n\n",                                 // <table> and </table>
         "\n",                                   // <tr> and </tr>
         "\t\t\\1\n",                            // <td> and </td>
         "strtoupper(\"\t\t\\1\n\")",            // <th> and </th>
-        ' ',
-        '"',
+        ' ',                                    // Non-breaking space
+        '"',                                    // Double quotes
+        "'",                                    // Single quotes
         '>',
         '<',
         '&',
         '(c)',
         '(tm)',
-        '"',
-        '"',
-        '-',
-        "'",
-        '(c)',
-        '(tm)',
-        '--',
-        '"',
-        '"',
-        '*',
         '(R)',
+        '--',
+        '-',
         '*',
-        ''
+        '£',
+        'EUR',                                  // Euro sign. € ?
+        '',                                     // Unknown/unhandled entities
+        ' '                                     // Runs of spaces, post-handling
     );
 
-    /**
-     *  List of preg* regular expression patterns to search for in PRE body,
-     *  used in conjunction with $pre_replace.
-     *
-     *  @var array $pre_search
-     *  @access public
-     *  @see $pre_replace
-     */
+   /**
+    *  List of preg* regular expression patterns to search for in PRE body,
+    *  used in conjunction with $pre_replace.
+    *
+    *  @var array $pre_search
+    *  @access public
+    *  @see $pre_replace
+    */
     var $pre_search = array(
 	"/\n/",
 	"/\t/",
@@ -250,7 +289,7 @@ class html2text
     /**
      *  Indicates whether content in the $html variable has been converted yet.
      *
-     *  @var boolean $converted
+     *  @var boolean $_converted
      *  @access private
      *  @see $html, $text
      */
@@ -259,20 +298,21 @@ class html2text
     /**
      *  Contains URL addresses from links to be rendered in plain text.
      *
-     *  @var string $link_list
+     *  @var string $_link_list
      *  @access private
      *  @see _build_link_list()
      */
-    var $_link_list = array();
+    var $_link_list = '';
     
     /**
-     * Boolean flag, true if a table of link URLs should be listed after the text.
-     * 
-     * @var boolean $_do_links
-     * @access private
-     * @see html2text()
+     *  Number of valid links detected in the text, used for plain text
+     *  display (rendered similar to footnotes).
+     *
+     *  @var integer $_link_count
+     *  @access private
+     *  @see _build_link_list()
      */
-    var $_do_links = true;
+    var $_link_count = 0;
 
     /**
      *  Constructor.
@@ -283,17 +323,15 @@ class html2text
      *
      *  @param string $source HTML content
      *  @param boolean $from_file Indicates $source is a file to pull content from
-     *  @param boolean $do_link_table indicate whether a table of link URLs is desired
      *  @access public
      *  @return void
      */
-    function html2text( $source = '', $from_file = false, $produce_link_table = true )
+    function html2text( $source = '', $from_file = false )
     {
         if ( !empty($source) ) {
             $this->set_html($source, $from_file);
         }
         $this->set_base_url();
-        $this->_do_links = $produce_link_table;
     }
 
     /**
@@ -307,10 +345,11 @@ class html2text
     function set_html( $source, $from_file = false )
     {
         if ( $from_file && file_exists($source) ) {
-            $this->html = file_get_contents($source);
+	    $this->html = file_get_contents($source); 
         }
-	else
-    	    $this->html = $source;
+        else
+	    $this->html = $source;
+
 
         $this->_converted = false;
     }
@@ -377,7 +416,11 @@ class html2text
     function set_base_url( $url = '' )
     {
         if ( empty($url) ) {
-            $this->url = 'http://' . $_SERVER['HTTP_HOST'];
+        	if ( !empty($_SERVER['HTTP_HOST']) ) {
+	            $this->url = 'http://' . $_SERVER['HTTP_HOST'];
+        	} else {
+	            $this->url = '';
+	        }
         } else {
             // Strip any trailing slashes for consistency (relative
             // URLs may already start with a slash like "/file.html")
@@ -402,14 +445,14 @@ class html2text
     function _convert()
     {
         // Variables used for building the link list
-        //$link_count = 1;
-        //$this->_link_list = '';
+        $this->_link_count = 0;
+        $this->_link_list = '';
 
         $text = trim(stripslashes($this->html));
 
 	// Convert <PRE>
-	$this->_convert_pre($text);
-
+        $this->_convert_pre($text);
+	
         // Run our defined search-and-replace
         $text = preg_replace($this->search, $this->replace, $text);
 
@@ -417,20 +460,20 @@ class html2text
         $text = strip_tags($text, $this->allowed_tags);
 
         // Bring down number of empty lines to 2 max
-        $text = preg_replace("/\n\s+\n/", "\n", $text);
+        $text = preg_replace("/\n\s+\n/", "\n\n", $text);
         $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
 
         // Add link list
-        if ( sizeof($this->_link_list) ) {
-            $text .= "\n\nLinks:\n------\n";
-            foreach ($this->_link_list as $id => $link) {
-                $text .= '[' . ($id+1) . '] ' . $link . "\n";
-            }
+        if ( !empty($this->_link_list) ) {
+            $text .= "\n\nLinks:\n------\n" . $this->_link_list;
         }
 
         // Wrap the text to a readable format
         // for PHP versions >= 4.0.2. Default width is 75
-        $text = wordwrap($text, $this->width);
+        // If width is 0 or less, don't wrap the text.
+        if ( $this->width > 0 ) {
+        	$text = wordwrap($text, $this->width);
+        }
 
         $this->text = $text;
 
@@ -445,55 +488,49 @@ class html2text
      *  appeared. Also makes an effort at identifying and handling absolute
      *  and relative links.
      *
-     *  @param integer $link_count Counter tracking current link number
      *  @param string $link URL of the link
      *  @param string $display Part of the text to associate number with
      *  @access private
      *  @return string
-    */
-    function _build_link_list($link, $display)
-      {
-      if (! $this->_do_links) return $display;
-
-      $link_lc = strtolower($link);
-      
-      if (substr($link_lc, 0, 7) == 'http://' || substr($link_lc, 0, 8) == 'https://' || substr($link_lc, 0, 7) == 'mailto:')
-        {
-        $url = $link;
-        }
-      else
-        {
-        $url = $this->url;
-        if ($link{0} != '/') {
-             $url .= '/';
+     */
+    function _build_link_list( $link, $display )
+    {
+		if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
+             substr($link, 0, 7) == 'mailto:' ) {
+            $this->_link_count++;
+            $this->_link_list .= "[" . $this->_link_count . "] $link\n";
+            $additional = ' [' . $this->_link_count . ']';
+		} elseif ( substr($link, 0, 11) == 'javascript:' ) {
+			// Don't count the link; ignore it
+			$additional = '';
+		// what about href="#anchor" ?
+        } else {
+            $this->_link_count++;
+            $this->_link_list .= "[" . $this->_link_count . "] " . $this->url;
+            if ( substr($link, 0, 1) != '/' ) {
+                $this->_link_list .= '/';
             }
-        $url .= $link;
+            $this->_link_list .= "$link\n";
+            $additional = ' [' . $this->_link_count . ']';
         }
 
-      $index = array_search($url, $this->_link_list);
-      if ($index===FALSE)
-        {
-        $index = sizeof($this->_link_list);
-        $this->_link_list[$index] = $url;
-        }
-              
-      return $display . ' [' . ($index+1) . ']';
-      }
-
+        return $display . $additional;
+    }
+    
     /**
      *  Helper function for PRE body conversion.
      *
      *  @param string HTML content
      *  @access private
-    */
+     */
     function _convert_pre(&$text)
-      {
-      while(preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches))
-        {
-          $result = preg_replace($this->pre_search, $this->pre_replace, $matches[1]);
-	  $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text);
-        }
-      }
+    {
+	while(preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches))
+	{
+	    $result = preg_replace($this->pre_search, $this->pre_replace, $matches[1]);
+	    $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text);
+	}
+    }
 }
 
 ?>
