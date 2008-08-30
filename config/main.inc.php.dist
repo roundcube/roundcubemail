@@ -28,7 +28,7 @@ $rcmail_config['syslog_id'] = 'roundcube';
 // For possible values see installer or http://php.net/manual/en/function.openlog.php
 $rcmail_config['syslog_facility'] = LOG_USER;
 
-// use this folder to store log files (must be writebale for apache user)
+// use this folder to store log files (must be writeable for apache user)
 // This is used by the 'file' log driver.
 $rcmail_config['log_dir'] = 'logs/';
 

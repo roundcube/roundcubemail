@@ -68,7 +68,7 @@ $input_tempdir = new html_inputfield(array('name' => '_temp_dir', 'size' => 30, 
 echo $input_tempdir->show($RCI->getprop('temp_dir'));
 
 ?>
-<div>Use this folder to store temp files (must be writebale for webserver)</div>
+<div>Use this folder to store temp files (must be writeable for webserver)</div>
 </dd>
 
 
@@ -167,7 +167,7 @@ $input_logdir = new html_inputfield(array('name' => '_log_dir', 'size' => 30, 'i
 echo $input_logdir->show($RCI->getprop('log_dir'));
 
 ?>
-<div>Use this folder to store log files (must be writebale for webserver). Note that this only applies if you are using the 'file' log_driver.</div>
+<div>Use this folder to store log files (must be writeable for webserver). Note that this only applies if you are using the 'file' log_driver.</div>
 </dd>
 
 <dt class="propname">syslog_id</dt>

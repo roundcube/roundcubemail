@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/08/28 (alec)
 ----------
 - Added option 'quota_zero_as_unlimited' (#1484604)
+- Added PRE handling in html2text class (#1484740)
 
 2008/08/28 (robin)
 ----------
