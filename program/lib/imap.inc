@@ -298,7 +298,7 @@ function iil_Escape($string)
 function iil_C_GetCapability(&$conn, $name)
 {
 	if (in_array($name, $conn->capability)) {
-		return $conn->capability[$name];
+		return true;
 	}
 	else if ($conn->capability_readed) {
 		return false;
@@ -323,7 +323,7 @@ function iil_C_GetCapability(&$conn, $name)
 	$conn->capability_readed = true;
 
 	if (in_array($name, $conn->capability)) {
-		return $conn->capability[$name];
+		return true;
 	}
 
 	return false;
@@ -548,12 +548,14 @@ function iil_Connect($host, $user, $password) {
 	}
 
 	$iil_error .= "Socket connection established\r\n";
-	$line       = iil_ReadLine($conn->fp, 1024);
+	$line       = iil_ReadLine($conn->fp, 4096);
 
 	// RFC3501 [7.1] optional CAPABILITY response
 	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
 		$conn->capability = explode(' ', strtoupper($matches[1]));
 	}
+
+	$conn->message .= $line;
 
 	if (strcasecmp($auth_method, "check") == 0) {
 		//check for supported auth methods
