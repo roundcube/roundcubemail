@@ -59,7 +59,6 @@ class rcube_imap
   var $cache_changes = array();
   var $uid_id_map = array();
   var $msg_headers = array();
-  var $capabilities = array();
   var $skip_deleted = FALSE;
   var $search_set = NULL;
   var $search_subject = '';
@@ -131,8 +130,6 @@ class rcube_imap
     // get server properties
     if ($this->conn)
       {
-      $this->_parse_capability($this->conn->capability);
-      
       if (!empty($this->conn->delimiter))
         $this->delimiter = $this->conn->delimiter;
       if (!empty($this->conn->rootdir))
@@ -329,8 +326,7 @@ class rcube_imap
    */
   function get_capability($cap)
     {
-    $cap = strtoupper($cap);
-    return $this->capabilities[$cap];
+    return iil_C_GetCapability($this->conn, strtoupper($cap));
     }
 
 
@@ -2578,36 +2574,6 @@ class rcube_imap
       }
     
     return $uid;
-    }
-
-
-  /**
-   * Parse string or array of server capabilities and put them in internal array
-   * @access private
-   */
-  function _parse_capability($caps)
-    {
-    if (!is_array($caps))
-      $cap_arr = explode(' ', $caps);
-    else
-      $cap_arr = $caps;
-    
-    foreach ($cap_arr as $cap)
-      {
-      if ($cap=='CAPABILITY')
-        continue;
-
-      if (strpos($cap, '=')>0)
-        {
-        list($key, $value) = explode('=', $cap);
-        if (!is_array($this->capabilities[$key]))
-          $this->capabilities[$key] = array();
-          
-        $this->capabilities[$key][] = $value;
-        }
-      else
-        $this->capabilities[$cap] = TRUE;
-      }
     }
 
 

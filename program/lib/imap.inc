@@ -52,8 +52,6 @@
 		- $ICL_SSL is not boolean anymore but contains the connection schema (ssl or tls)
 		- Removed some debuggers (echo ...)
 		File altered by Aleksander Machniak <alec@alec.pl>
-		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
-		  optional resposne in iil_Connect()
 		- trim(chop()) replaced by trim()
 		- added iil_Escape() with support for " and \ in folder names
 		- support \ character in username in iil_C_Login()
@@ -64,6 +62,8 @@
 		- code cleanup and identation fixes
 		- removed flush() calls in iil_C_HandlePartBody() to prevent from memory leak (#1485187)
 		- don't return "??" from iil_C_GetQuota()
+		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
+		  optional resposne in iil_Connect(), added iil_C_GetCapability()
 
 ********************************************************/
 
@@ -126,6 +126,7 @@ class iilConnection
 	var $delimiter;
 	var $capability = array();
 	var $permanentflags = array();
+	var $capability_readed = false;
 }
 
 /**
@@ -294,6 +295,40 @@ function iil_Escape($string)
 	return strtr($string, array('"'=>'\\"', '\\' => '\\\\')); 
 }
 
+function iil_C_GetCapability(&$conn, $name)
+{
+	if (in_array($name, $conn->capability)) {
+		return $conn->capability[$name];
+	}
+	else if ($conn->capability_readed) {
+		return false;
+	}
+
+	// get capabilities (only once) because initial 
+	// optional CAPABILITY response may differ
+	$conn->capability = array();
+
+	iil_PutLine($conn->fp, "cp01 CAPABILITY");
+	do {
+		$line = trim(iil_ReadLine($conn->fp, 1024));
+		$a = explode(' ', $line);
+		if ($line[0] == '*') {
+			while (list($k, $w) = each($a)) {
+				if ($w != '*' && $w != 'CAPABILITY')
+    					$conn->capability[] = strtoupper($w);
+			}
+		}
+	} while ($a[0] != 'cp01');
+	
+	$conn->capability_readed = true;
+
+	if (in_array($name, $conn->capability)) {
+		return $conn->capability[$name];
+	}
+
+	return false;
+}
+
 function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
     
     $ipad = '';
@@ -398,7 +433,7 @@ function iil_ParseNamespace2($str, &$i, $len=0, $l) {
 function iil_C_NameSpace(&$conn) {
 	global $my_prefs;
 	
-	if (!in_array('NAMESPACE', $conn->capability)) {
+	if (!iil_C_GetCapability($conn, 'NAMESPACE')) {
 	    return false;
 	}
     
@@ -516,39 +551,19 @@ function iil_Connect($host, $user, $password) {
 	$line       = iil_ReadLine($conn->fp, 1024);
 
 	// RFC3501 [7.1] optional CAPABILITY response
-	// commented out, because it's not working always as should
-//	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-//		$conn->capability = explode(' ', $matches[1]);
-//	} else {
-		iil_PutLine($conn->fp, "cp01 CAPABILITY");
-		do {
-			$line = trim(iil_ReadLine($conn->fp, 1024));
-
-			$conn->message .= "$line\n";
-
-			$a = explode(' ', $line);
-			if ($line[0] == '*') {
-				while (list($k, $w) = each($a)) {
-					if ($w != '*' && $w != 'CAPABILITY')
-    					$conn->capability[] = $w;
-				}
-			}
-		} while ($a[0] != 'cp01');
-//	}
+	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
+		$conn->capability = explode(' ', strtoupper($matches[1]));
+	}
 
 	if (strcasecmp($auth_method, "check") == 0) {
 		//check for supported auth methods
-		
-		//default to plain text auth
-		$auth_method = 'plain';
-			
-		//check for CRAM-MD5
-		foreach ($conn->capability as $c)
-			if (strcasecmp($c, 'AUTH=CRAM_MD5') == 0 ||
-				strcasecmp($c, 'AUTH=CRAM-MD5') == 0) {
-				$auth_method = 'auth';
-				break;
-			}
+		if (iil_C_GetCapability($conn, 'AUTH=CRAM-MD5') || iil_C_GetCapability($conn, 'AUTH=CRAM_MD5')) {
+			$auth_method = 'auth';
+		}
+		else {
+			//default to plain text auth
+			$auth_method = 'plain';
+		}
 	}
 
 	if (strcasecmp($auth_method, 'auth') == 0) {
