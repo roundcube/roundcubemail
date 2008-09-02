@@ -279,7 +279,7 @@ class rcube_message
         $this->parts[] = $print_part;
       }
       // show plaintext warning
-      else if ($html_part !== nullL && empty($this->parts)) {
+      else if ($html_part !== null && empty($this->parts)) {
         $c = new stdClass;
         $c->type = 'content';
         $c->body = rcube_label('htmlmessage');
