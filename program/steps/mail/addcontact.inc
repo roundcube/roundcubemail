@@ -20,22 +20,10 @@
 */
 
 $done = false;
+$CONTACTS = $RCMAIL->get_address_book(null, true);
 
-if (!empty($_POST['_address']))
+if (!empty($_POST['_address']) && is_object($CONTACTS))
 {
-  $CONTACTS = array();
-  if (strtolower($CONFIG['address_book_type']) == 'ldap') {
-    // Use the first writable LDAP address book.
-    foreach ($CONFIG["ldap_public"] as $id => $prop) {
-      if ($prop["writable"]) {
-        $CONTACTS = new rcube_ldap($prop);
-        break;
-      } // end if
-    } // end foreach
-  } // end if
-  else {
-    $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
-  } // end else
   $contact_arr = $IMAP->decode_address_list(get_input_value('_address', RCUBE_INPUT_POST, true), 1, false);
   
   if (!empty($contact_arr[1]['mailto']))

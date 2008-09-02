@@ -235,6 +235,38 @@ class rcmail
   
   
   /**
+   * Return instance of the internal address book class
+   *
+   * @param boolean True if the address book needs to be writeable
+   * @return object rcube_contacts Address book object
+   */
+  public function get_address_book($id, $writeable = false)
+  {
+    $contacts = null;
+    $ldap_config = (array)$this->config->get('ldap_public');
+    $abook_type = strtolower($this->config->get('address_book_type'));
+    
+    if ($id && $ldap_config[$id]) {
+      $contacts = new rcube_ldap($ldap_config[$id]);
+    }
+    else if ($abook_type == 'ldap') {
+      // Use the first writable LDAP address book.
+      foreach ($ldap_config as $id => $prop) {
+        if (!$writeable || $prop['writable']) {
+          $contacts = new rcube_ldap($prop);
+          break;
+        }
+      }
+    }
+    else {
+      $contacts = new rcube_contacts($this->db, $this->user->ID);
+    }
+    
+    return $contacts;
+  }
+  
+  
+  /**
    * Init output object for GUI and add common scripts.
    * This will instantiate a rcmail_template object and set
    * environment vars according to the current session and configuration

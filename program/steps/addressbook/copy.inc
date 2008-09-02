@@ -23,12 +23,9 @@ $cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $target = get_input_value('_to', RCUBE_INPUT_POST);
 if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($target) && $target != $source)
 {
-  if ($target != '0')
-    $TARGET = new rcube_ldap($CONFIG['ldap_public'][$target]);
-  else
-    $TARGET = new rcube_contacts($DB, $_SESSION['user_id']);
-    
-  $success = false;  
+  $success = false;
+  $TARGET = $RCMAIL->get_address_book($target);
+
   if ($TARGET && $TARGET->ready && !$TARGET->readonly)
     $success = $TARGET->insert($CONTACTS->search($CONTACTS->primary_key, $cid), true);
 

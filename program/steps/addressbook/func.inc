@@ -20,16 +20,7 @@
 */
 
 // instantiate a contacts object according to the given source
-if (($source = get_input_value('_source', RCUBE_INPUT_GPC)) && isset($CONFIG['ldap_public'][$source]))
-  $CONTACTS = new rcube_ldap($CONFIG['ldap_public'][$source]);
-else if (strtolower($CONFIG['address_book_type']) == 'ldap') {
-    // Get the first LDAP address book.
-    $source = key((array)$CONFIG['ldap_public']);
-    $prop = current((array)$CONFIG['ldap_public']);
-    $CONTACTS = new rcube_ldap($prop);
-} else {
-    $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
-} // end else
+$CONTACTS = $RCMAIL->get_address_book(($source = get_input_value('_source', RCUBE_INPUT_GPC)));
 
 $CONTACTS->set_pagesize($CONFIG['pagesize']);
 
