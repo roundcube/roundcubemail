@@ -80,5 +80,10 @@ $messages['errorsendingreceipt'] = 'Could not send the receipt';
 $messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';
 $messages['addsubfolderhint'] = 'This folder will be created as subfolder of the currently selected one';
 $messages['forbiddencharacter'] = 'Folder name contains a forbidden character';
+$messages['selectimportfile'] = 'Please select a file to upload';
+$messages['addresswriterror'] = 'The selected address book is not writeable';
+$messages['importwait'] = 'Importing, please wait...';
+$messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
+$messages['importconfirm'] = '<b>Successfully imported $inserted contacts, $skipped existing entries skipped</b>:<p><em>$names</em></p>';
 
 ?>

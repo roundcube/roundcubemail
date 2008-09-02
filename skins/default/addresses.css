@@ -30,7 +30,7 @@
   color: #333333;
 }
 
-#directorylist, #addresslist
+#directorylist, #addresslist, #importbox
 {
   position: absolute;
   top: 85px;
@@ -52,6 +52,20 @@
 {
   left: 185px;
   width: 340px;
+}
+
+#importbox
+{
+  left: 20px;
+  right: 40px;
+  height: auto;
+  bottom: auto;
+  padding-bottom: 4ex;
+}
+
+#importbox a
+{
+  color: blue;
 }
 
 #directorylist ul

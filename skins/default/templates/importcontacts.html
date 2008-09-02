@@ -5,21 +5,23 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/addresses.css" />
 </head>
-<body class="iframe">
+<body>
 
-<div id="contact-title" class="boxtitle"><roundcube:label name="editcontact" /></div>
+<roundcube:include file="/includes/taskbar.html" />
+<roundcube:include file="/includes/header.html" />
 
-<div id="contact-details">
-<roundcube:object name="contacteditform" size="40" />
+<div id="importbox">
+<div class="boxtitle"><roundcube:label name="importcontacts" /></div>
+
+<div style="padding-left:20px; width:48em">
+<roundcube:object name="importstep" />
 
 <p><br />
-<roundcube:button command="show" type="input" class="button" label="cancel" />&nbsp;
-<roundcube:button command="save" type="input" class="button mainaction" label="save" />
+<roundcube:object name="importnav" class="button" />
 </p>
 
-</form>
 </div>
-
+</div>
 
 </body>
 </html>

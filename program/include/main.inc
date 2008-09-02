@@ -792,19 +792,20 @@ function format_email_recipient($email, $name='')
  *
  * @param mixed Debug message or data
  */
-function console($msg)
+function console()
   {
-  if (!is_string($msg))
-    $msg = var_export($msg, true);
+  $msg = array();
+  foreach (func_get_args() as $arg)
+    $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
 
   if (!($GLOBALS['CONFIG']['debug_level'] & 4))
-    write_log('console', $msg);
+    write_log('console', join(";\n", $msg));
   else if ($GLOBALS['OUTPUT']->ajax_call)
-    print "/*\n $msg \n*/\n";
+    print "/*\n " . join(";\n", $msg) . " \n*/\n";
   else
     {
     print '<div style="background:#eee; border:1px solid #ccc; margin-bottom:3px; padding:6px"><pre>';
-    print $msg;
+    print join(";<br/>\n", $msg);
     print "</pre></div>\n";
     }
   }

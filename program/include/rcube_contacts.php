@@ -34,7 +34,7 @@ class rcube_contacts
   var $result = null;
   var $search_fields;
   var $search_string;
-  var $table_cols = array('name', 'email', 'firstname', 'surname');
+  var $table_cols = array('name', 'email', 'firstname', 'surname', 'vcard');
   
   /** public properties */
   var $primary_key = 'contact_id';

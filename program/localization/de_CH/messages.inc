@@ -80,5 +80,10 @@ $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 $messages['nodeletelastidentity'] = 'Sie können diesen Absender nicht löschen';
 $messages['addsubfolderhint'] = 'Wird als Unterdornder des aktuell selektieren Ordners erstellt';
 $messages['forbiddencharacter'] = 'Der Ordnername enthält ein ungültiges Zeichen';
+$messages['selectimportfile'] = 'Bitte wählen Sie eine Datei zum Importieren aus';
+$messages['addresswriterror'] = 'Das gewählte Adressbuch kann nicht verändert werden';
+$messages['importwait'] = 'Daten werden importiert, bitte warten...';
+$messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
+$messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert und $skipped bestehende Einträge übersprungen</b>:<p><em>$names</em></p>';
 
 ?>

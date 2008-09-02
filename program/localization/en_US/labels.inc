@@ -232,6 +232,12 @@ $labels['lastpage']       = 'Show last set';
 $labels['groups'] = 'Groups';
 $labels['personaladrbook'] = 'Personal Addresses';
 
+$labels['import'] = 'Import';
+$labels['importcontacts'] = 'Import contacts';
+$labels['importfromfile'] = 'Import from file:';
+$labels['importreplace'] = 'Replace the entire address book';
+$labels['importtext'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> data format.';
+$labels['done'] = 'Done';
 
 // settings
 $labels['settingsfor']  = 'Settings for';

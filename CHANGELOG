@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/02 (thomasb)
+----------
+- Add feature to import contacts from vcard files (#1326103)
+- Mark form buttons that provide the most obvious operation (mainaction)
+
 2008/08/30 (alec)
 ----------
 - Improved HTML to TXT conversion by html2text class update

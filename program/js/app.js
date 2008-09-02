@@ -281,7 +281,7 @@ function rcube_webmail()
         if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform)
           this.enable_command('save', true);
         else
-          this.enable_command('search', 'reset-search', 'moveto', true);
+          this.enable_command('search', 'reset-search', 'moveto', 'import', true);
 
         this.enable_command('list', true);
         break;
@@ -972,7 +972,7 @@ function rcube_webmail()
           break;
         }
 
-      // reset quicksearch        
+      // reset quicksearch
       case 'reset-search':
         var s = this.env.search_request;
         this.reset_qsearch();
@@ -982,6 +982,21 @@ function rcube_webmail()
         else if (s && this.task == 'addressbook')
           this.list_contacts(this.env.source);
         break;
+
+      case 'import':
+        if (this.env.action == 'import' && this.gui_objects.importform) {
+          var file = document.getElementById('rcmimportfile');
+          if (file && !file.value) {
+            alert(this.get_label('selectimportfile'));
+            break;
+          }
+          this.gui_objects.importform.submit();
+          this.set_busy(true, 'importwait');
+          this.lock_form(this.gui_objects.importform, true);
+        }
+        else
+          this.goto_url('import');
+        break
 
       // collapse/expand folder
       case 'collapse-folder':

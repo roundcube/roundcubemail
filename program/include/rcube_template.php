@@ -670,7 +670,7 @@ class rcube_template extends rcube_html_page
      * @todo   Remove all inline JS calls and use jQuery instead.
      * @todo   Remove all sprintf()'s - they are pretty, but also slow.
      */
-    private function button($attrib)
+    public function button($attrib)
     {
         static $sa_buttons = array();
         static $s_button_count = 100;
