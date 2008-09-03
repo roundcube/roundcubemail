@@ -706,8 +706,8 @@ function format_date($date, $format=NULL)
     return '';
    
   // get user's timezone
-  if ($CONFIG['timezone'] == 'auto')
-    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : intval(date('O'))/100;
+  if ($CONFIG['timezone'] === 'auto')
+    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
   else {
     $tz = $CONFIG['timezone'];
     if ($CONFIG['dst_active'])

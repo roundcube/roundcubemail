@@ -105,7 +105,7 @@ function rcmail_user_prefs_form($attrib)
   // daylight savings
   if (!isset($no_override['dst_active'])) {
     $field_id = 'rcmfd_dst';
-    $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1, 'disabled' => ($config['timezone'] == 'auto')));
+    $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1, 'disabled' => ($config['timezone'] === 'auto')));
     
     $table->add('title', html::label($field_id, Q(rcube_label('dstactive'))));
     $table->add(null, $input_dst->show($config['dst_active']));
