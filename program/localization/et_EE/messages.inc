@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/et_EE/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/et_EE/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda 
 $messages['nocontactsfound'] = 'Ei leitud ühtegi kontakti';
 $messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
+$messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
 $messages['errorsaving'] = 'Salvestamise ajal ilmnes viga';
 $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
@@ -79,4 +80,10 @@ $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
 $messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
 $messages['addsubfolderhint'] = 'See kataloog luuakse valitud kausta alamkataloogina.';
 $messages['forbiddencharacter'] = 'Kausta nimi sisaldab keelatud sümbolit';
+$messages['selectimportfile'] = 'Palun vali üleslaadimiseks fail';
+$messages['addresswriterror'] = 'Valitud aadressiraamat pole kirjutatav';
+$messages['importwait'] = 'Importimine, palun oota...';
+$messages['importerror'] = 'Import nurjus! Üleslaaditud fail ei ole vCard formaadis.';
+$messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
+
 ?>

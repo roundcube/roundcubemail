@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/et_EE/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/et_EE/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -183,6 +183,12 @@ $labels['nextpage'] = 'Näita järgmist lehte';
 $labels['lastpage'] = 'Näita viimast komplekti';
 $labels['groups'] = 'Grupid';
 $labels['personaladrbook'] = 'Isiklikud aadressid';
+$labels['import'] = 'Impordi';
+$labels['importcontacts'] = 'Impordi kontakte';
+$labels['importfromfile'] = 'Impordi failist:';
+$labels['importreplace'] = 'Asenda kogu aadressiraamat';
+$labels['importtext'] = 'Sa saad sisestada kontakte olemasolevast aadressiraamatust. Praegu on toetatud <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> formaat.';
+$labels['done'] = 'Valmis';
 $labels['settingsfor'] = 'Kasutajaeelistused kontole';
 $labels['preferences'] = 'Eelistused';
 $labels['userpreferences'] = 'Kasutaja eelistused';
@@ -193,6 +199,7 @@ $labels['newidentity'] = 'Uus identiteet';
 $labels['newitem'] = 'Uus sissekanne';
 $labels['edititem'] = 'Muuda sissekannet';
 $labels['setdefault'] = 'Muuda vaikeseadeks';
+$labels['autodetect'] = 'Automaatne';
 $labels['language'] = 'Keel';
 $labels['timezone'] = 'Ajatsoon';
 $labels['pagesize'] = 'Ridu lehe kohta';
@@ -234,4 +241,5 @@ $labels['specialfolders'] = 'Erilised kaustad';
 $labels['sortby'] = 'Järjesta';
 $labels['sortasc'] = 'Järjesta kasvavalt';
 $labels['sortdesc'] = 'Järjesta kahanevalt';
+
 ?>
