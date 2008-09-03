@@ -1168,16 +1168,13 @@ class rcube_imap
     
 
   /**
-   * Fetch attachment filename from message part structure 
+   * Set attachment filename from message part structure 
    *
    * @access private
    * @param  object rcube_message_part Part object
-   * @return string Attachment filename
    */
   function _set_part_filename(&$part)
     {
-    // $this->_msg_id
-    
     if (!empty($part->d_parameters['filename']))
       $filename_mime = $part->d_parameters['filename'];
     else if (!empty($part->ctype_parameters['name']))
