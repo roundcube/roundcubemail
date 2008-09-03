@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/03 (alec)
+----------
+- Add RFC2231 header value continuations support for attachment
+  filenames + hack for servers that not support that feature
+
 2008/09/02 (thomasb)
 ----------
 - Add feature to import contacts from vcard files (#1326103)

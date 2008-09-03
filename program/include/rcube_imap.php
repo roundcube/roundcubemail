@@ -1161,24 +1161,118 @@ class rcube_imap
       }
 
     // normalize filename property
-    if ($filename_mime = $struct->d_parameters['filename'] ? $struct->d_parameters['filename'] : $struct->ctype_parameters['name'])
-    {
-      $struct->filename = rcube_imap::decode_mime_string($filename_mime, 
-    	    $struct->charset ? $struct->charset : rc_detect_encoding($filename_mime, $this->default_charset));
-    }
-    else if ($filename_encoded = $struct->d_parameters['filename*'] ? $struct->d_parameters['filename*'] : $struct->ctype_parameters['name*'])
-    {
-      // decode filename according to RFC 2231, Section 4
-      list($filename_charset,, $filename_urlencoded) = split('\'', $filename_encoded);
-      $struct->filename = rcube_charset_convert(urldecode($filename_urlencoded), $filename_charset);
-    }
-    else if (!empty($struct->headers['content-description']))
-      $struct->filename = rcube_imap::decode_mime_string($struct->headers['content-description'],
-    	    $struct->charset ? $struct->charset : rc_detect_encoding($struct->headers['content-description'],$this->default_charset));
-      
+    $this->_set_part_filename($struct);
+
     return $struct;
     }
     
+
+  /**
+   * Fetch attachment filename from message part structure 
+   *
+   * @access private
+   * @param  object rcube_message_part Part object
+   * @return string Attachment filename
+   */
+  function _set_part_filename(&$part)
+    {
+    // $this->_msg_id
+    
+    if (!empty($part->d_parameters['filename']))
+      $filename_mime = $part->d_parameters['filename'];
+    else if (!empty($part->ctype_parameters['name']))
+      $filename_mime = $part->ctype_parameters['name'];
+    else if (!empty($part->d_parameters['filename*']))
+      $filename_encoded = $part->d_parameters['filename*'];
+    else if (!empty($part->ctype_parameters['name*']))
+      $filename_encoded = $part->ctype_parameters['name*'];
+    // RFC2231 value continuations
+    // TODO: this should be rewrited to support RFC2231 4.1 combinations
+    else if (!empty($part->d_parameters['filename*0'])) {
+      $i = 0;
+      while (isset($part->d_parameters['filename*'.$i])) {
+        $i++;
+        $filename_mime .= $part->d_parameters['filename*'.$i];
+	}
+      // some servers (eg. dovecot-1.x) have no support for parameter value continuations
+      // we must fetch and parse headers "manually"
+      if ($i<2) {
+        // TODO: fetch only Content-Type/Content-Disposition header
+        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+	$filename_mime = '';
+	$i = 0;
+	while (preg_match('/filename\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+	  $filename_mime .= $matches[1];
+	  $i++;
+	  }
+        } 	
+      }
+    else if (!empty($part->d_parameters['filename*0*'])) {
+      $i = 0;
+      while (isset($part->d_parameters['filename*'.$i.'*'])) {
+        $i++;
+	$filename_encoded .= $part->d_parameters['filename*'.$i.'*'];
+	}
+      if ($i<2) {
+        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+	$filename_encoded = '';
+	$i = 0;
+	while (preg_match('/filename\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+	  $filename_encoded .= $matches[1];
+	  $i++;
+	  }
+        } 	
+      }
+    else if (!empty($part->ctype_parameters['name*0'])) {
+      $i = 0;
+      while (isset($part->ctype_parameters['name*'.$i])) {
+        $i++;
+        $filename_mime .= $part->ctype_parameters['name*'.$i];
+	}
+      if ($i<2) {
+        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+	$filename_mime = '';
+	$i = 0;
+	while (preg_match('/\s+name\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+	  $filename_mime .= $matches[1];
+	  $i++;
+	  }
+        } 	
+      }
+    else if (!empty($part->ctype_parameters['name*0*'])) {
+      $i = 0;
+      while (isset($part->ctype_parameters['name*'.$i.'*'])) {
+        $i++;
+        $filename_encoded .= $part->ctype_parameters['name*'.$i.'*'];
+	}
+      if ($i<2) {
+        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+	$filename_encoded = '';
+	$i = 0;
+	while (preg_match('/\s+name\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+	  $filename_encoded .= $matches[1];
+	  $i++;
+	  }
+        } 	
+      }
+    // Content-Disposition
+    else if (!empty($part->headers['content-description']))
+      $filename_mime = $part->headers['content-description'];
+    else
+      return;
+
+    // decode filename
+    if (!empty($filename_mime)) {
+      $part->filename = rcube_imap::decode_mime_string($filename_mime, 
+    	    $part->charset ? $part->charset : rc_detect_encoding($filename_mime, $this->default_charset));
+      } 
+    else if (!empty($filename_encoded)) {
+      // decode filename according to RFC 2231, Section 4
+      list($filename_charset,, $filename_urlencoded) = split('\'', $filename_encoded);
+      $part->filename = rcube_charset_convert(urldecode($filename_urlencoded), $filename_charset);
+      }
+    }
+     
   
   /**
    * Fetch message body of a specific message from the server
