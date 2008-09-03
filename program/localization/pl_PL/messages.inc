@@ -85,5 +85,10 @@ $messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia';
 $messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';
 $messages['addsubfolderhint'] = 'Ten folder zostanie utworzony jako podfolder aktualnie wybranego.';
 $messages['forbiddencharacter'] = 'Nazwa folderu zawiera niedozwolony znak';
+$messages['selectimportfile'] = 'Proszę wybrać plik do wysłania'; 
+$messages['addresswriterror'] = 'Wybrana książka adresowa jest tylko-do-odczytu'; 
+$messages['importwait'] = 'Importowanie, proszę czekać...'; 
+$messages['importerror'] = 'Błąd! Pobrany plik nie jest poprawnym plikiem vCard.'; 
+$messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>'; 
 
 ?>
