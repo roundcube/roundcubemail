@@ -80,5 +80,10 @@ $messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen';
 $messages['nodeletelastidentity'] = 'U kunt uw enige identiteit niet verwijderen';
 $messages['addsubfolderhint'] = 'Deze map zal worden aangemaakt onder de geselecteerde map';
 $messages['forbiddencharacter'] = 'De naam van de map bevat een karakter dat niet is toegestaan';
+$messages['selectimportfile'] = 'Selecteer een bestand om de uploaden';
+$messages['addresswriterror'] = 'Het geselecteerde adresboek is alleen lezen';
+$messages['importwait'] = 'Importeren, even geduld...';
+$messages['importerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig vCard bestand.';
+$messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
 
 ?>
