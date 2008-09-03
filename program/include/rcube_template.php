@@ -922,6 +922,7 @@ class rcube_template extends rcube_html_page
         $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30) + $attrib);
         $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30) + $attrib);
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
+        $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
         $input_host   = null;
 
         if (is_array($default_host)) {
@@ -960,6 +961,7 @@ class rcube_template extends rcube_html_page
         }
 
         $out = $input_action->show();
+        $out .= $input_tzone->show();
         $out .= $table->show();
 
         // surround html output with a form tag

@@ -49,14 +49,15 @@ function rcmail_user_prefs_form($attrib)
     $select_lang->add(array_values($a_lang), array_keys($a_lang));
   
     $table->add('title', html::label($field_id, Q(rcube_label('language'))));
-    $table->add(null, $select_lang->show($_SESSION['language']));
+    $table->add(null, $select_lang->show($config['language']));
   }
 
 
   // show page size selection
   if (!isset($no_override['timezone'])) {
     $field_id = 'rcmfd_timezone';
-    $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id));
+    $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id, 'onchange' => "document.getElementById('rcmfd_dst').disabled=this.selectedIndex==0"));
+    $select_timezone->add(rcube_label('autodetect'), 'auto');
     $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
     $select_timezone->add('(GMT -10:00) Hawaii', '-10');
     $select_timezone->add('(GMT -9:30) Marquesas Islands', '-9.5');
@@ -104,7 +105,7 @@ function rcmail_user_prefs_form($attrib)
   // daylight savings
   if (!isset($no_override['dst_active'])) {
     $field_id = 'rcmfd_dst';
-    $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1));
+    $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1, 'disabled' => ($config['timezone'] == 'auto')));
     
     $table->add('title', html::label($field_id, Q(rcube_label('dstactive'))));
     $table->add(null, $input_dst->show($config['dst_active']));

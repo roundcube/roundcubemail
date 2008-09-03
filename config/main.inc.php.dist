@@ -129,8 +129,9 @@ $rcmail_config['double_auth'] = false;
 // please provide a string of exactly 24 chars.
 $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
-// the default locale setting
-$rcmail_config['language'] = 'en_US';
+// the default locale setting (leave empty for auto-detection)
+// RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
+$rcmail_config['language'] = null;
 
 // use this format for short date display
 $rcmail_config['date_short'] = 'D H:i';
@@ -338,7 +339,7 @@ $rcmail_config['skin'] = 'default';
 $rcmail_config['pagesize'] = 40;
 
 // use this timezone to display date/time
-$rcmail_config['timezone'] = intval(date('O'))/100 - date('I');
+$rcmail_config['timezone'] = 'auto';
 
 // is daylight saving On?
 $rcmail_config['dst_active'] = (bool)date('I');

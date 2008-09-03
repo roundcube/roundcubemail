@@ -318,13 +318,19 @@ function rcube_webmail()
       case 'login':
         var input_user = rcube_find_object('rcmloginuser');
         var input_pass = rcube_find_object('rcmloginpwd');
+        var input_tz = rcube_find_object('rcmlogintz');
+
         if (input_user)
           input_user.onkeyup = function(e){ return rcmail.login_user_keyup(e); };
         if (input_user && input_user.value=='')
           input_user.focus();
         else if (input_pass)
           input_pass.focus();
-          
+
+        // detect client timezone
+        if (input_tz)
+          input_tz.value = new Date().getTimezoneOffset() / -60;
+
         this.enable_command('login', true);
         break;
       

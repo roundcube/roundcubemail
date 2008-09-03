@@ -254,6 +254,7 @@ $labels['newitem']  = 'New item';
 $labels['edititem']  = 'Edit item';
 
 $labels['setdefault']  = 'Set default';
+$labels['autodetect']  = 'Auto';
 $labels['language']  = 'Language';
 $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';

@@ -706,9 +706,13 @@ function format_date($date, $format=NULL)
     return '';
    
   // get user's timezone
-  $tz = $CONFIG['timezone'];
-  if ($CONFIG['dst_active'])
-    $tz++;
+  if ($CONFIG['timezone'] == 'auto')
+    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : intval(date('O'))/100;
+  else {
+    $tz = $CONFIG['timezone'];
+    if ($CONFIG['dst_active'])
+      $tz++;
+  }
 
   // convert time to user's timezone
   $timestamp = $ts - date('Z', $ts) + ($tz * 3600);

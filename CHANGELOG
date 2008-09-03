@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/03 (thomasb)
+----------
+- Allow to auto-detect client language if none set (#1484434)
+- Auto-detect the client timezone (user configurable)
+
 2008/09/03 (alec)
 ----------
 - Add RFC2231 header value continuations support for attachment

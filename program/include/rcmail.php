@@ -15,7 +15,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: rcube_browser.php 328 2006-08-30 17:41:21Z thomasb $
+ $Id: rcmail.php 328 2006-08-30 17:41:21Z thomasb $
 
 */
 
@@ -167,7 +167,7 @@ class rcmail
       $this->config->merge((array)$this->user->get_prefs());
     }
     
-    $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language'));
+    $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language', $_SESSION['language']));
 
     // set localization
     setlocale(LC_ALL, $_SESSION['language'] . '.utf8');
@@ -183,7 +183,13 @@ class rcmail
   private function language_prop($lang)
   {
     static $rcube_languages, $rcube_language_aliases;
-
+    
+    // user HTTP_ACCEPT_LANGUAGE if no language is specified
+    if (empty($lang) || $lang == 'auto') {
+       $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+       $lang = str_replace('-', '_', $accept_langs[0]);
+     }
+     
     if (empty($rcube_languages)) {
       @include(INSTALL_PATH . 'program/localization/index.inc');
     }
@@ -471,6 +477,9 @@ class rcmail
       $_SESSION['imap_ssl']  = $imap_ssl;
       $_SESSION['password']  = $this->encrypt_passwd($pass);
       $_SESSION['login_time'] = mktime();
+      
+      if ($_REQUEST['_timezone'] != '_default_')
+        $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
 
       // force reloading complete list of subscribed mailboxes
       $this->set_imap_prop();
@@ -641,7 +650,7 @@ class rcmail
    */
   public function load_language($lang = null)
   {
-    $lang = $lang ? $this->language_prop($lang) : $_SESSION['language'];
+    $lang = $this->language_prop(($lang ? $lang : $_SESSION['language']));
     
     // load localized texts
     if (empty($this->texts) || $lang != $_SESSION['language']) {
@@ -748,7 +757,7 @@ class rcmail
       $this->user->save_prefs(array('message_sort_col' => $_SESSION['sort_col'], 'message_sort_order' => $_SESSION['sort_order']));
     }
 
-    $_SESSION = array('language' => $USER->language, 'auth_time' => time(), 'temp' => true);
+    $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
     setcookie('sessauth', '-del-', time() - 60);
     $this->user->reset();
   }

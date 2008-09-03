@@ -84,9 +84,9 @@ class rcube_config
       ini_set('log_errors', 1);
 
       if ($this->prop['log_driver'] == 'syslog') {
-	ini_set('error_log', 'syslog');
+        ini_set('error_log', 'syslog');
       } else {
-	ini_set('error_log', $this->prop['log_dir'].'/errors');
+        ini_set('error_log', $this->prop['log_dir'].'/errors');
       }
     }
     if ($this->prop['debug_level'] & 4) {

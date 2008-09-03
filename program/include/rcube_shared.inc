@@ -28,62 +28,6 @@
 
 
 /**
- * Provide details about the client's browser
- *
- * @return array Key-value pairs of browser properties
- */
-function rcube_browser()
-{
-  $HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
-
-  $bw['ver'] = 0;
-  $bw['win'] = stristr($HTTP_USER_AGENT, 'win');
-  $bw['mac'] = stristr($HTTP_USER_AGENT, 'mac');
-  $bw['linux'] = stristr($HTTP_USER_AGENT, 'linux');
-  $bw['unix']  = stristr($HTTP_USER_AGENT, 'unix');
-
-  $bw['ns4'] = stristr($HTTP_USER_AGENT, 'mozilla/4') && !stristr($HTTP_USER_AGENT, 'msie');
-  $bw['ns']  = ($bw['ns4'] || stristr($HTTP_USER_AGENT, 'netscape'));
-  $bw['ie']  = stristr($HTTP_USER_AGENT, 'msie');
-  $bw['mz']  = stristr($HTTP_USER_AGENT, 'mozilla/5');
-  $bw['opera'] = stristr($HTTP_USER_AGENT, 'opera');
-  $bw['safari'] = stristr($HTTP_USER_AGENT, 'safari');
-
-  if($bw['ns'])
-  {
-    $test = eregi("mozilla\/([0-9\.]+)", $HTTP_USER_AGENT, $regs);
-    $bw['ver'] = $test ? (float)$regs[1] : 0;
-  }
-  if($bw['mz'])
-  {
-    $test = ereg("rv:([0-9\.]+)", $HTTP_USER_AGENT, $regs);
-    $bw['ver'] = $test ? (float)$regs[1] : 0;
-  }
-  if($bw['ie'])
-  {
-    $test = eregi("msie ([0-9\.]+)", $HTTP_USER_AGENT, $regs);
-    $bw['ver'] = $test ? (float)$regs[1] : 0;
-  }
-  if($bw['opera'])
-  {
-    $test = eregi("opera ([0-9\.]+)", $HTTP_USER_AGENT, $regs);
-    $bw['ver'] = $test ? (float)$regs[1] : 0;
-  }
-
-  if(eregi(" ([a-z]{2})-([a-z]{2})", $HTTP_USER_AGENT, $regs))
-    $bw['lang'] =  $regs[1];
-  else
-    $bw['lang'] =  'en';
-
-  $bw['dom'] = ($bw['mz'] || $bw['safari'] || ($bw['ie'] && $bw['ver']>=5) || ($bw['opera'] && $bw['ver']>=7));
-  $bw['pngalpha'] = $bw['mz'] || $bw['safari'] || ($bw['ie'] && $bw['ver']>=5.5) ||
-                    ($bw['ie'] && $bw['ver']>=5 && $bw['mac']) || ($bw['opera'] && $bw['ver']>=7) ? TRUE : FALSE;
-
-  return $bw;
-}
-
-
-/**
  * Send HTTP headers to prevent caching this page
  */
 function send_nocacheing_headers()
