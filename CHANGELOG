@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Add RFC2231 header value continuations support for attachment
   filenames + hack for servers that not support that feature
+- Fix Reply-To header displaying (#1485314)
 
 2008/09/02 (thomasb)
 ----------

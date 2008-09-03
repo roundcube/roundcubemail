@@ -742,21 +742,28 @@ function rcmail_message_headers($attrib, $headers=NULL)
   $out = '<table' . $attrib_str . ">\n";
 
   // show these headers
-  $standard_headers = array('subject', 'from', 'organization', 'to', 'cc', 'bcc', 'reply-to', 'date');
+  $standard_headers = array('subject', 'from', 'organization', 'to', 'cc', 'bcc', 'replyto', 'date');
   
   foreach ($standard_headers as $hkey)
     {
     if (!$headers[$hkey])
       continue;
 
-    if ($hkey=='date' && !empty($headers[$hkey]))
+    if ($hkey == 'date')
       {
       if ($PRINT_MODE)
         $header_value = format_date($headers[$hkey], $CONFIG['date_long'] ? $CONFIG['date_long'] : 'x');
       else
         $header_value = format_date($headers[$hkey]);
       }
-    else if (in_array($hkey, array('from', 'to', 'cc', 'bcc', 'reply-to')))
+    else if ($hkey == 'replyto')
+      {
+      if ($headers['replyto'] != $headers['from'])
+        $header_value = Q(rcmail_address_string($headers['replyto'], null, true, $attrib['addicon']), 'show');
+      else
+        continue;
+      }
+    else if (in_array($hkey, array('from', 'to', 'cc', 'bcc')))
       $header_value = Q(rcmail_address_string($headers[$hkey], null, true, $attrib['addicon']), 'show');
     else
       $header_value = Q($IMAP->decode_header($headers[$hkey]));
