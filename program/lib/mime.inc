@@ -32,13 +32,15 @@ $MIME_IMAGE = 5;
 $MIME_VIDEO = 6;
 $MIME_OTHER = 7;
 
-function iml_ClosingParenPos($str, $start){
+function iml_ClosingParenPos($str, $start) {
     $level=0;
     $len = strlen($str);
     $in_quote = 0;
-    for ($i=$start;$i<$len;$i++){
-    	if ($str[$i]=="\"") $in_quote = ($in_quote + 1) % 2;
-    	if (!$in_quote){
+
+    for ($i=$start; $i<$len; $i++) {
+    	if ($str[$i] == '"' && $str[$i-1] != "\\")
+		$in_quote = ($in_quote + 1) % 2;
+    	if (!$in_quote) {
         	if ($str[$i]=="(") $level++;
         	else if (($level > 0) && ($str[$i]==")")) $level--;
         	else if (($level == 0) && ($str[$i]==")")) return $i;
@@ -51,15 +53,16 @@ function iml_ParseBSString($str){
     $id = 0;
     $a = array();
     $len = strlen($str);
-    
     $in_quote = 0;
-    for ($i=0; $i<$len; $i++){
-        if ($str[$i] == "\"") $in_quote = ($in_quote + 1) % 2;
-        else if (!$in_quote){
-            if ($str[$i] == " "){ //space means new element
+
+    for ($i=0; $i<$len; $i++) {
+        if ($str[$i] == '"') {
+	    $in_quote = ($in_quote + 1) % 2;
+        } else if (!$in_quote) {
+            if ($str[$i] == " ") { //space means new element
                 $id++;
                 while ($str[$i+1] == " ") $i++;  // skip additional spaces
-            } else if ($str[$i]=="("){ //new part
+            } else if ($str[$i]=="(") { //new part
                 $i++;
                 $endPos = iml_ClosingParenPos($str, $i);
                 $partLen = $endPos - $i;
@@ -67,10 +70,15 @@ function iml_ParseBSString($str){
                 $part = substr($str, $i, $partLen);
                 $a[$id] = iml_ParseBSString($part); //send part string
                 $i = $endPos;
-            }else $a[$id].=$str[$i]; //add to current element in array
-        }else if ($in_quote){
-            if ($str[$i]=="\\") $i++; //escape backslashes
-            else $a[$id].=$str[$i]; //add to current element in array
+            } else
+		$a[$id].=$str[$i]; //add to current element in array
+        } else if ($in_quote) {
+            if ($str[$i]=="\\") {
+		$i++; //escape backslashes
+		if ($str[$i] == '"' || $str[$i] == "\\")
+		    $a[$id] .= $str[$i];
+            } else
+		$a[$id] .= $str[$i]; //add to current element in array
         }
     }
         
@@ -81,7 +89,7 @@ function iml_ParseBSString($str){
 function iml_GetRawStructureArray($str){
     $line=substr($str, 1, strlen($str) - 2);
     $line = str_replace(")(", ") (", $line);
-	
+
 	$struct = iml_ParseBSString($line);
 	if ((strcasecmp($struct[0], "message")==0) && (strcasecmp($struct[1], "rfc822")==0)){
 		$struct = array($struct);
