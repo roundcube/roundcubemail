@@ -245,5 +245,6 @@ $labels['importfromfile'] = 'Import z pliku:';
 $labels['importreplace'] = 'Zastąp całą książkę adresową'; 
 $labels['importtext'] = 'Możesz dodać kontakty z istniejącej książki adresowej.<br/>Aktualnie możliwy jest import kontaktów w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.'; 
 $labels['done'] = 'Wykonane';
+$labels['autodetect'] = '- wybór automatyczny -';
 
 ?>
