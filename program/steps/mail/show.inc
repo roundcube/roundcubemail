@@ -150,6 +150,14 @@ function rcmail_message_attachments($attrib)
         $ol .= html::tag('li', null, sprintf("%s (%s)", Q($attach_prop->filename), Q(show_bytes($attach_prop->size))));
       }
       else {
+	if (rc_strlen($attach_prop->filename) > 50) {
+          $filename = rc_substr($attach_prop->filename, 0, 25) . '...' . rc_substr($attach_prop->filename, strlen($attach_prop->filename)-20, 20);
+	  $title = $attach_prop->filename;
+	} else {
+	  $filename = $attach_prop->filename;
+	  $title = '';
+	}
+		  
         $ol .= html::tag('li', null,
           html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id),
@@ -158,8 +166,9 @@ function rcmail_message_attachments($attrib)
               JS_OBJECT_NAME,
               $attach_prop->mime_id,
               $attach_prop->mimetype),
+	    'title' => Q($title),  
             ),
-            Q($attach_prop->filename)));
+            Q($filename)));
       }
     }
 

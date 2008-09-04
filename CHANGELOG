@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/04 (alec)
+----------
+- Truncate very long (above 50 characters) attachment filenames when displaying
+- Support \" and \\ in quoted strings when parsing BODYSTRUCTURE (mime.inc)
+- Allow 'readonly' atributes in input and textarea (#1485312)
+
 2008/09/03 (thomasb)
 ----------
 - Allow to auto-detect client language if none set (#1484434)
