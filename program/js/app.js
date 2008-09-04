@@ -205,10 +205,7 @@ function rcube_webmail()
         if (this.env.messagecount)
           this.enable_command('select-all', 'select-none', 'expunge', true);
 
-        if (this.env.messagecount 
-            && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
-              || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
-              || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))))
+        if (this.purge_mailbox_test())
           this.enable_command('purge', true);
 
         this.set_page_buttons();
@@ -282,6 +279,9 @@ function rcube_webmail()
           this.enable_command('save', true);
         else
           this.enable_command('search', 'reset-search', 'moveto', 'import', true);
+          
+        if (this.contact_list && this.contact_list.rowcount > 0)
+          this.enable_command('export', true);
 
         this.enable_command('list', true);
         break;
@@ -1002,7 +1002,17 @@ function rcube_webmail()
         }
         else
           this.goto_url('import');
-        break
+        break;
+        
+      case 'export':
+        if (this.contact_list.rowcount > 0) {
+          var add_url = '';
+          if (this.env.search_request)
+            add_url = '_search='+this.env.search_request;
+        
+          this.goto_url('export', add_url);
+        }
+        break;
 
       // collapse/expand folder
       case 'collapse-folder':
@@ -1490,7 +1500,15 @@ function rcube_webmail()
     return true;
     };
 
-  
+  // test if purge command is allowed
+  this.purge_mailbox_test = function()
+  {
+    return (this.env.messagecount && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
+      || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
+      || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
+  };
+
+
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
     {
@@ -1900,7 +1918,8 @@ function rcube_webmail()
         }
       }
   };
-
+  
+  
   /*********************************************************/
   /*********           login form methods          *********/
   /*********************************************************/
@@ -3599,6 +3618,7 @@ function rcube_webmail()
       }
     
     this.contact_list.insert_row(row);
+    this.enable_command('export', (this.contact_list.rowcount > 0));
     };
 
 
@@ -3739,53 +3759,46 @@ function rcube_webmail()
       eval(request_obj.get_text());
 
     // process the response data according to the sent action
-    switch (request_obj.__action)
-      {
-
+    switch (request_obj.__action) {
       case 'delete':
-	if (this.task == 'addressbook')
-	  {
-	    var uid = this.contact_list.get_selection();
-	    this.enable_command('compose', (uid && this.contact_list.rows[uid]));
-	    this.enable_command('delete', 'edit', (uid && this.contact_list.rows[uid] && this.env.address_sources && !this.env.address_sources[this.env.source].readonly));
-	    break;  
-	  }
+        if (this.task == 'addressbook') {
+          var uid = this.contact_list.get_selection();
+          this.enable_command('compose', (uid && this.contact_list.rows[uid]));
+          this.enable_command('delete', 'edit', (uid && this.contact_list.rows[uid] && this.env.address_sources && !this.env.address_sources[this.env.source].readonly));
+          this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+        }
+      
       case 'moveto':
-        if (this.env.action=='show')
+        if (this.env.action == 'show')
           this.command('list');
         else if (this.message_list)
           this.message_list.init();
-	  
+        break;
+        
       case 'purge':
       case 'expunge':      
-	if (!this.env.messagecount && this.task == 'mail')
-    	  {
-	    // clear preview pane content
-	    if (this.env.contentframe)
-	      this.show_contentframe(false);
-	    // disable commands useless when mailbox is empty
-	    this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
-	      'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
-	  }
-	break;
-
-      case 'list':
-	this.msglist_select(this.message_list);
+        if (!this.env.messagecount && this.task == 'mail') {
+          // clear preview pane content
+          if (this.env.contentframe)
+            this.show_contentframe(false);
+          // disable commands useless when mailbox is empty
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
+            'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
+        }
+        break;
 
       case 'check-recent':
       case 'getunread':
-	if (this.task == 'mail')
-	{
-	  this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
-	  var mailboxtest = (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
-	    || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
-	    || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))) ? true : false;
-	
-	  this.enable_command('purge', (this.env.messagecount && mailboxtest));
-	}
-	break;
-
-      }
+      case 'list':
+        if (this.task == 'mail') {
+          this.msglist_select(this.message_list);
+          this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
+          this.enable_command('purge', this.purge_mailbox_test());
+        }
+        else if (this.task == 'addressbook')
+          this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+        break;
+    }
 
     request_obj.reset();
     };

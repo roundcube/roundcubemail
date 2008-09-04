@@ -57,26 +57,20 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     
     $browser = new rcube_browser;
 
-    header("Expires: 0");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Cache-Control: private", false);
-    header("Content-Transfer-Encoding: binary");
-
+    send_nocacheing_headers();
+    
     // send download headers
     if ($_GET['_download']) {
       header("Content-Type: application/octet-stream");
       if ($browser->ie)
         header("Content-Type: application/force-download");
     }
-    else if ($ctype_primary == 'text')
+    else if ($ctype_primary == 'text') {
       header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ? $part->charset : RCMAIL_CHARSET));
-    else
+    }
+    else {
       header("Content-Type: $mimetype");
-
-    // We need to set the following headers to make downloads work using IE in HTTPS mode.
-    if (isset($_SERVER['HTTPS'])) {
-      header('Pragma: ');
-      header('Cache-Control: ');
+      header("Content-Transfer-Encoding: binary");
     }
 
     // deliver part content

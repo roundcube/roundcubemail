@@ -28,7 +28,10 @@
  */
 class rcube_vcard
 {
-  private $raw = array();
+  private $raw = array(
+    'FN' => array(),
+    'N' => array(array('','','','','')),
+  );
 
   public $business = false;
   public $displayname;
@@ -98,7 +101,7 @@ class rcube_vcard
    * @param string Field value
    * @param string Section name
    */
-  public function set($field, $value, $section = 'home')
+  public function set($field, $value, $section = 'HOME')
   {
     switch ($field) {
       case 'name':
@@ -222,7 +225,7 @@ class rcube_vcard
 
   private static function rfc2425_fold($val)
   {
-    return preg_replace('/:([^\n]{72,})/e', '":\n  ".rtrim(chunk_split("\\1", 72, "\n  "))', $val) . "\n\n";
+    return preg_replace('/:([^\n]{72,})/e', '":\n  ".rtrim(chunk_split("\\1", 72, "\n  "))', $val) . "\n";
   }
 
 
@@ -325,7 +328,7 @@ class rcube_vcard
       }
     }
 
-    return "BEGIN:VCARD\nVERSION:3.0\n{$vcard}END:VCARD\n";
+    return "BEGIN:VCARD\nVERSION:3.0\n{$vcard}END:VCARD";
   }
 
 

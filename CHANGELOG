@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/04 (thomasb)
+----------
+- Enable export of address book contacts as vCard
+
 2008/09/04 (alec)
 ----------
 - Truncate very long (above 50 characters) attachment filenames when displaying

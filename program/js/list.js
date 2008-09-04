@@ -31,6 +31,7 @@ function rcube_list_widget(list, p)
   this.frame = null;
   this.rows = [];
   this.selection = [];
+  this.rowcount = 0;
   
   this.subject_col = -1;
   this.shiftkey = false;
@@ -69,6 +70,7 @@ init: function()
   if (this.list && this.list.tBodies[0])
   {
     this.rows = new Array();
+    this.rowcount = 0;
 
     var row;
     for(var r=0; r<this.list.tBodies[0].childNodes.length; r++)
@@ -81,6 +83,7 @@ init: function()
       }
 
       this.init_row(row);
+      this.rowcount++;
     }
 
     this.frame = this.list.parentNode;
@@ -128,6 +131,7 @@ clear: function(sel)
   this.list.insertBefore(tbody, this.list.tBodies[0]);
   this.list.removeChild(this.list.tBodies[1]);
   this.rows = new Array();
+  this.rowcount = 0;
   
   if (sel) this.clear_selection();
 },
@@ -145,6 +149,7 @@ remove_row: function(uid, sel_next)
     this.select_next();
 
   this.rows[uid] = null;
+  this.rowcount--;
 },
 
 
@@ -161,6 +166,7 @@ insert_row: function(row, attop)
     tbody.appendChild(row);
 
   this.init_row(row);
+  this.rowcount++;
 },
 
 
