@@ -79,7 +79,12 @@ $messages['movingmessage'] = '移动邮件到...';
 $messages['receiptsent'] = '成功发送了一个已读回执';
 $messages['errorsendingreceipt'] = '无法发送回执';
 $messages['nodeletelastidentity'] = '无法删除这个身份，这是最后一个。';
-$messages['addsubfolderhint'] = '文件夹将被作为所选中文件夹的子目录';
+$messages['addsubfolderhint'] = '新建的文件夹将成为所选文件夹的子文件夹';
 $messages['forbiddencharacter'] = '目录名包含隐藏字符';
+$messages['selectimportfile'] = '请选择要上传的文件';
+$messages['addresswriterror'] = '已选择的地址簿不可写';
+$messages['importwait'] = '正在导入，请稍后...';
+$messages['importerror'] = '导入失败！所上传的文件不是有效的 vCard 文件。';
+$messages['importconfirm'] = '成功导入 $inserted 联系人，$skipped 乎略已存在的联系人:$names';
 
 ?>
