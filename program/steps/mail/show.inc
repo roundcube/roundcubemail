@@ -92,6 +92,8 @@ if ($_GET['_uid']) {
     {
       if (rcmail_send_mdn($MESSAGE->uid))
         $OUTPUT->show_message('receiptsent', 'confirmation');
+      else
+        $OUTPUT->show_message('errorsendingreceipt', 'error');
     }
     else if (empty($CONFIG['mdn_requests']))
     {
