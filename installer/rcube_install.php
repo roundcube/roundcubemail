@@ -122,7 +122,7 @@ class rcube_install
     
     if (!$out)
       return '[Warning: could not read the template file]';
-    
+
     foreach ($this->config as $prop => $default) {
       $value = (isset($_POST["_$prop"]) || $this->config_props[$prop]) ? $_POST["_$prop"] : $default;
       
@@ -134,7 +134,7 @@ class rcube_install
             $val += intval($dbgval);
 	$value = $val;
       }
-      else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
+      else if ($which == 'db' && $prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
         if ($_POST['_dbtype'] == 'sqlite')
           $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
         else
@@ -179,7 +179,7 @@ class rcube_install
         "'\\1 = ' . var_export(\$value, true) . ';'",
         $out);
     }
-    
+
     return trim($out);
   }
   
