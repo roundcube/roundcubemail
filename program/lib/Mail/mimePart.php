@@ -397,7 +397,7 @@ class Mail_mimePart {
         // RFC 2183/2184/2822: 
 	// value needs encoding if contains non-ASCII chars or is longer than 78 chars
 
-        if (preg_match('#[\x20-\x7E]#', $value)) { // ASCII
+        if (!preg_match('#[^\x20-\x7E]#', $value)) { // ASCII
 	    $quoted = addcslashes($value, '\\"');
 	    if (strlen($name) + strlen($quoted) + 6 <= $maxLength)
 		return " {$name}=\"{$quoted}\"; ";
