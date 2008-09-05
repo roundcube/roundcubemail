@@ -2416,31 +2416,44 @@ class rcube_imap
    */
   function decode_mime_string($input, $fallback=null)
     {
+    // Initialize variable
     $out = '';
 
-    $pos = strpos($input, '=?');
-    if ($pos !== false)
-      {
-      // rfc: all line breaks or other characters not found 
-      // in the Base64 Alphabet must be ignored by decoding software
-      // delete all blanks between MIME-lines, differently we can 
-      // receive unnecessary blanks and broken utf-8 symbols
-      $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
+    // Iterate instead of recursing, this way if there are too many values we don't have stack overflows
+    // rfc: all line breaks or other characters not found 
+    // in the Base64 Alphabet must be ignored by decoding software
+    // delete all blanks between MIME-lines, differently we can 
+    // receive unnecessary blanks and broken utf-8 symbols
+    $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
 
-      $out = substr($input, 0, $pos);
-  
-      $end_cs_pos = strpos($input, "?", $pos+2);
-      $end_en_pos = strpos($input, "?", $end_cs_pos+1);
-      $end_pos = strpos($input, "?=", $end_en_pos+1);
-  
-      $encstr = substr($input, $pos+2, ($end_pos-$pos-2));
-      $rest = substr($input, $end_pos+2);
+    // Check if there is stuff to decode
+    if (strpos($input, '=?') !== false) {
+      // Loop through the string to decode all occurences of =? ?= into the variable $out 
+      while(($pos = strpos($input, '=?')) !== false) {
+        // Append everything that is before the text to be decoded
+        $out .= substr($input, 0, $pos);
 
-      $out .= rcube_imap::_decode_mime_string_part($encstr);
-      $out .= rcube_imap::decode_mime_string($rest, $fallback);
+        // Get the location of the text to decode
+        $end_cs_pos = strpos($input, "?", $pos+2);
+        $end_en_pos = strpos($input, "?", $end_cs_pos+1);
+        $end_pos = strpos($input, "?=", $end_en_pos+1);
 
-      return $out;
+        // Extract the encoded string
+        $encstr = substr($input, $pos+2, ($end_pos-$pos-2));
+        // Extract the remaining string
+        $input = substr($input, $end_pos+2);
+
+        // Decode the string fragement
+        $out .= rcube_imap::_decode_mime_string_part($encstr);
       }
+
+      // Deocde the rest (if any)
+      if (strlen($input) != 0)
+         $out .= rcube_imap::decode_mime_string($input, $fallback);
+
+       // return the results
+      return $out;
+    }
 
     // no encoding information, use fallback
     return rcube_charset_convert($input, 
