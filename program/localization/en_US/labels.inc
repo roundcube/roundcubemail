@@ -223,6 +223,7 @@ $labels['composeto']      = 'Compose mail to';
 $labels['contactsfromto'] = 'Contacts $from to $to of $count';
 $labels['print']          = 'Print';
 $labels['export']         = 'Export';
+$labels['exportvcards']   = 'Export contacts in vCard format';
 
 $labels['previouspage']   = 'Show previous set';
 $labels['firstpage']      = 'Show first set';

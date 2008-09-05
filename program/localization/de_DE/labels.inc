@@ -177,6 +177,7 @@ $labels['composeto'] = 'Nachricht verfassen';
 $labels['contactsfromto'] = 'Kontakte $from bis $to von $count';
 $labels['print'] = 'Drucken';
 $labels['export'] = 'Exportieren';
+$labels['exportvcards'] = 'Kontakte im vCard-Format exportieren';
 $labels['previouspage'] = 'Seite zurück';
 $labels['firstpage'] = 'Erste Seite';
 $labels['nextpage'] = 'Nächste Seite';

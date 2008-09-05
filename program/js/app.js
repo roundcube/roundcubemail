@@ -1006,9 +1006,9 @@ function rcube_webmail()
         
       case 'export':
         if (this.contact_list.rowcount > 0) {
-          var add_url = '';
+          var add_url = (this.env.source ? '_source='+urlencode(this.env.source)+'&' : '');
           if (this.env.search_request)
-            add_url = '_search='+this.env.search_request;
+            add_url += '_search='+this.env.search_request;
         
           this.goto_url('export', add_url);
         }
