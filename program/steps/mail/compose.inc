@@ -65,6 +65,17 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
   rcmail_compose_cleanup();
   $_SESSION['compose'] = array('id' => uniqid(rand()), 'param' => array_map('strip_tags', $_GET));
   
+  // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
+  if ($_SESSION['compose']['param']['_to']) {
+    $mailto = explode('?', $_SESSION['compose']['param']['_to']);
+    if (count($mailto) > 1) {
+      $_SESSION['compose']['param']['_to'] = $mailto[0];
+      parse_str($mailto[1], $query);
+      foreach ($query as $f => $val)
+        $_SESSION['compose']['param']["_$f"] = $val;
+    }
+  }
+
   // redirect to a unique URL with all parameters stored in session
   $OUTPUT->redirect(array('_action' => 'compose', '_id' => $_SESSION['compose']['id']));
 }
@@ -143,9 +154,7 @@ function rcmail_compose_headers($attrib)
       // we have a set of recipients stored is session
       if (($mailto_id = $_SESSION['compose']['param']['_mailto']) && $_SESSION['mailto'][$mailto_id])
         $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
-      else if (!empty($_SESSION['compose']['param']['_to']))
-        $fvalue = $_SESSION['compose']['param']['_to'];
-        
+      
     case 'cc':
       if (!$fname)
       {
@@ -168,11 +177,13 @@ function rcmail_compose_headers($attrib)
       $fname = '_replyto';
       $allow_attrib = array('id', 'class', 'style', 'size', 'tabindex');
       $field_type = 'html_inputfield';
-      break;    
+      break;
   }
  
   if ($fname && !empty($_POST[$fname]))
     $fvalue = get_input_value($fname, RCUBE_INPUT_POST, TRUE);
+  else if ($fname && !$fvalue && !empty($_SESSION['compose']['param'][$fname]))
+    $fvalue = $_SESSION['compose']['param'][$fname];
 
   else if ($header && $compose_mode == RCUBE_COMPOSE_REPLY)
   {
@@ -385,6 +396,10 @@ function rcmail_compose_body($attrib)
     // load draft message body
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
       $body = rcmail_create_draft_body($body, $isHtml);
+  }
+  else if (!empty($_SESSION['compose']['param']['_body']))
+  {
+    $body = $_SESSION['compose']['param']['_body'];
   }
 
   $lang = $tinylang = strtolower(substr($_SESSION['language'], 0, 2));
@@ -608,30 +623,30 @@ function rcmail_compose_subject($attrib)
   $subject = '';
 
   // use subject from post
-  if (isset($_POST['_subject']))
+  if (isset($_POST['_subject'])) {
     $subject = get_input_value('_subject', RCUBE_INPUT_POST, TRUE);
-    
+  }
   // create a reply-subject
-  else if ($compose_mode == RCUBE_COMPOSE_REPLY)
-  {
+  else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
     if (eregi('^re:', $MESSAGE->subject))
       $subject = $MESSAGE->subject;
     else
       $subject = 'Re: '.$MESSAGE->subject;
   }
-
   // create a forward-subject
-  else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
-  {
+  else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
     if (eregi('^fwd:', $MESSAGE->subject))
       $subject = $MESSAGE->subject;
     else
       $subject = 'Fwd: '.$MESSAGE->subject;
   }
-
   // creeate a draft-subject
-  else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
+  else if ($compose_mode == RCUBE_COMPOSE_DRAFT) {
     $subject = $MESSAGE->subject;
+  }
+  else if (!empty($_SESSION['compose']['param']['_subject'])) {
+    $subject = $_SESSION['compose']['param']['_subject'];
+  }
   
   $out = $form_start ? "$form_start\n" : '';
   $out .= $textfield->show($subject);
