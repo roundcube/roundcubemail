@@ -836,8 +836,7 @@ function rcmail_message_body($attrib)
   $ctype_secondary = strtolower($MESSAGE->structure->ctype_secondary);
 
   // list images after mail body
-  if (get_boolean($attrib['showimages']) 
-      && $CONFIG['inline_images']
+  if ($CONFIG['inline_images']
       && $ctype_primary == 'multipart'
       && !empty($MESSAGE->attachments) 
       && !strstr($message_body, '<html'))
