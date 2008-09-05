@@ -154,6 +154,7 @@ $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Nur-Text';
 $labels['savesentmessagein'] = 'Nachricht speichern in';
 $labels['dontsave'] = 'nicht speichern';
+$labels['maxuploadsize'] = 'Maximal erlaubte Dateigrösse ist $size';
 $labels['addcc'] = 'Cc hinzufügen';
 $labels['addbcc'] = 'Bcc hinzufügen';
 $labels['addreplyto'] = 'Antwortadresse hinzufügen';

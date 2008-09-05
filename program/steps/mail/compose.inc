@@ -693,9 +693,11 @@ function rcmail_compose_attachment_form($attrib)
   
   $out = html::div($attrib,
     $OUTPUT->form_tag(array('name' => 'form', 'method' => 'post', 'enctype' => 'multipart/form-data')) .
-    rcmail_compose_attachment_field(array()) . html::br() .
-    $button->show(rcube_label('close'), array('onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) .
-    $button->show(rcube_label('upload'), array('onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
+    html::div(null, rcmail_compose_attachment_field(array())) .
+    html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))))) .
+    html::div('buttons',
+      $button->show(rcube_label('close'), array('onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) . ' ' .
+      $button->show(rcube_label('upload'), array('onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)")))
   );
   
   

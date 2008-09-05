@@ -929,14 +929,18 @@ div.message-htmlpart div.rcmBody
   top: 150px;
   left: 20px;
   z-index: 200;
-  padding: 8px;
+  padding: 6px;
   visibility: hidden;
   border: 1px solid #CCCCCC;
   background-color: #F9F9F9;
 }
 
-#attachment-form input.button
+#attachment-form div
 {
-  margin-top: 8px;
+  padding: 2px;
 }
 
+#attachment-form div.buttons
+{
+  margin-top: 4px;
+}

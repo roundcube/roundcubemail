@@ -192,6 +192,7 @@ $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
+$labels['maxuploadsize'] = 'Maximum allowed file size is $size';
 
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
