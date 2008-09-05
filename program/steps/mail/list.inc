@@ -19,7 +19,6 @@
 
 */
 
-$OUTPUT_TYPE = 'js';
 // is there a sort type for this request?
 if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
 {

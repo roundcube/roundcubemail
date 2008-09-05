@@ -317,7 +317,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $is_iso_8859_1 = true;
   }
   if (!$enctype)
-    $enctype = $GLOBALS['OUTPUT_TYPE'];
+    $enctype = $OUTPUT->type;
 
   // encode for plaintext
   if ($enctype=='text')

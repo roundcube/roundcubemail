@@ -34,6 +34,7 @@ class rcube_json_output
     private $texts = array();
     private $commands = array();
 
+    public $type = 'js';
     public $ajax_call = true;
     
     

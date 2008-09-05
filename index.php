@@ -30,9 +30,6 @@
 // include environment
 require_once 'program/include/iniset.php';
 
-// define global vars
-$OUTPUT_TYPE = 'html';
-
 // init application and start session with requested task
 $RCMAIL = rcmail::get_instance();
 
@@ -94,11 +91,12 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
     $RCMAIL->authenticate_session();
 
     // log successful login
-    if ($RCMAIL->config->get('log_logins') && $RCMAIL->config->get('debug_level') & 1)
-      console(sprintf('Successful login for %s (id %d) from %s',
-                      trim(get_input_value('_user', RCUBE_INPUT_POST), ' '),
-                      $_SESSION['user_id'],
-                      $_SERVER['REMOTE_ADDR']));
+    if ($RCMAIL->config->get('log_logins')) {
+      write_log('userlogins', sprintf('Successful login for %s (id %d) from %s',
+        $RCMAIL->user->get_username(),
+        $RCMAIL->user->ID,
+        $_SERVER['REMOTE_ADDR']));
+    }
 
     // send redirect
     $OUTPUT->redirect();

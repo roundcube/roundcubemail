@@ -39,6 +39,7 @@ class rcube_template extends rcube_html_page
     var $js_commands = array();
     var $object_handlers = array();
 
+    public $type = 'html';
     public $ajax_call = false;
 
     /**
