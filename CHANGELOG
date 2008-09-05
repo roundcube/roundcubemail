@@ -10,6 +10,7 @@ CHANGELOG RoundCube Webmail
 - Also capture backspace key in list mode (#1484566)
 - Allow application/pgp parts to be displayed (#1484753)
 - Correctly handle options in mailto-links (#1485228)
+- Immediately save sort_col/sort_order in user prefs (#1485265)
 
 2008/09/04 (alec)
 ----------

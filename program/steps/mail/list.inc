@@ -26,8 +26,11 @@ if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
   list($sort_col, $sort_order) = explode('_', $sort);
 
   // set session vars for sort (so next page and task switch know how to sort)
-  $_SESSION['sort_col'] = $sort_col;
-  $_SESSION['sort_order'] = $sort_order;
+  $save_arr = array();
+  $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
+  $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
+  
+  $RCMAIL->user->save_prefs($save_arr);
 }
 else
 {

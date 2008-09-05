@@ -750,13 +750,6 @@ class rcmail
    */
   public function kill_session()
   {
-    $user_prefs = $this->user->get_prefs();
-    
-    if ((isset($_SESSION['sort_col']) && $_SESSION['sort_col'] != $user_prefs['message_sort_col']) ||
-        (isset($_SESSION['sort_order']) && $_SESSION['sort_order'] != $user_prefs['message_sort_order'])) {
-      $this->user->save_prefs(array('message_sort_col' => $_SESSION['sort_col'], 'message_sort_order' => $_SESSION['sort_order']));
-    }
-
     $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
     setcookie('sessauth', '-del-', time() - 60);
     $this->user->reset();
