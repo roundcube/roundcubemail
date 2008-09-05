@@ -356,6 +356,10 @@ class rcube_message
             $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
             $this->inline_parts[] = $mail_part;
           }
+          else if ($message_ctype_secondary == 'related' && $mail_part->headers['content-location']) {
+            $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
+            $this->inline_parts[] = $mail_part;
+          }
           // is regular attachment
           else {
             if (!$mail_part->filename)
@@ -370,7 +374,11 @@ class rcube_message
         $a_replaces = array();
 
         foreach ($this->inline_parts as $inline_object) {
-          $a_replaces['cid:'.$inline_object->content_id] = $this->get_part_url($inline_object->mime_id);
+          $part_url = $this->get_part_url($inline_object->mime_id);
+          if ($inline_object->content_id)
+            $a_replaces['cid:'.$inline_object->content_id] = $part_url;
+          if ($inline_object->content_location)
+            $a_replaces[$inline_object->content_location] = $part_url;
         }
 
         // add replace array to each content part

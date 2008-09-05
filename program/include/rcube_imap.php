@@ -1149,16 +1149,17 @@ class rcube_imap
       if (empty($struct->disposition))
         $struct->disposition = 'inline';
       }
+    
+    // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
+    if ($struct->ctype_primary == 'message' || ($struct->ctype_parameters['name'] && !$struct->content_id)) {
+      $part_headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id);
+      $struct->headers = $this->_parse_headers($part_headers) + $struct->headers;
+    }
 
-    // fetch message headers if message/rfc822
-    if ($struct->ctype_primary=='message')
-      {
-      $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
-      $struct->headers = $this->_parse_headers($headers);
-      
+    if ($struct->ctype_primary=='message') {
       if (is_array($part[8]) && empty($struct->parts))
         $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
-      }
+    }
 
     // normalize filename property
     $this->_set_part_filename($struct);

@@ -1,9 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
-2008/09/04 (thomasb)
+2008/09/05 (thomasb)
 ----------
 - Enable export of address book contacts as vCard
+- Respect Content-Location headers in multipart/related messages according to RFC2110 (#1484946)
 
 2008/09/04 (alec)
 ----------

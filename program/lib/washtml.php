@@ -132,13 +132,14 @@ class washtml
                  '|#[0-9a-f]{3,6}|[a-z0-9\-]+'.
                  ')\s*/i', $str, $match)) {
           if($match[2]) {
-            if(preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
+            if($src = $this->config['cid_map'][$match[2]])
+              $value .= ' url(\''.htmlspecialchars($src, ENT_QUOTES) . '\')';
+            else if(preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
               if($this->config['allow_remote'])
                 $value .= ' url(\''.htmlspecialchars($url[0], ENT_QUOTES).'\')';
               else
                 $this->extlinks = true;
-            } else if(preg_match('/^cid:(.*)$/i', $match[2], $cid))
-              $value .= ' url(\''.htmlspecialchars($this->config['cid_map']['cid:'.$cid[1]], ENT_QUOTES) . '\')';
+            }
           } else if($match[0] != 'url' && $match[0] != 'rbg')//whitelist ?
             $value .= ' ' . $match[0];
           $str = substr($str, strlen($match[0]));
@@ -164,7 +165,10 @@ class washtml
       else if($key == 'style' && ($style = $this->wash_style($value)))
         $t .= ' style="' . $style . '"';
       else if($key == 'src' && strtolower($node->tagName) == 'img') { //check tagName anyway
-        if(preg_match('/^(http|https|ftp):.*/i', $value)) {
+        if($src = $this->config['cid_map'][$value]) {
+          $t .= ' ' . $key . '="' . htmlspecialchars($src, ENT_QUOTES) . '"';
+        }
+        else if(preg_match('/^(http|https|ftp):.*/i', $value)) {
           if($this->config['allow_remote'])
             $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
           else {
@@ -172,8 +176,7 @@ class washtml
             if ($this->config['blocked_src'])
               $t .= ' src="' . htmlspecialchars($this->config['blocked_src'], ENT_QUOTES) . '"';
           }
-        } else if(preg_match('/^cid:(.*)$/i', $value, $cid))
-          $t .= ' ' . $key . '="' . htmlspecialchars($this->config['cid_map']['cid:'.$cid[1]], ENT_QUOTES) . '"';
+        }
       } else
         $washed .= ($washed?' ':'') . $key;
     }
