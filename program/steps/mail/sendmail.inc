@@ -292,11 +292,11 @@ if (is_array($_SESSION['compose']['attachments']))
 
       // .eml attachments send inline
       $MAIL_MIME->addAttachment($attachment['path'],
-	$ctype, 
+        $ctype, 
         $attachment['name'], true, 
-	($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
+        ($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
-	$message_charset);
+        $message_charset);
     }
   }
 
@@ -370,9 +370,9 @@ if ($store_target)
     {
       // folder may be existing but not subscribed (#1485241)
       if (!in_array_nocase($store_target, $IMAP->list_unsubscribed()))
-	$store_folder = $IMAP->create_mailbox($store_target, TRUE);
+        $store_folder = $IMAP->create_mailbox($store_target, TRUE);
       else if ($IMAP->subscribe($store_target))
-	$store_folder = TRUE;
+        $store_folder = TRUE;
     }
   else
     $store_folder = TRUE;
