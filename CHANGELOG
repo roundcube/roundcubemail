@@ -8,6 +8,7 @@ CHANGELOG RoundCube Webmail
 - Applied mime_decode patch by David Lublink
 - Allowed max. attachment size now indicated in compose screen (#1485030)
 - Also capture backspace key in list mode (#1484566)
+- Allow application/pgp parts to be displayed (#1484753)
 
 2008/09/04 (alec)
 ----------

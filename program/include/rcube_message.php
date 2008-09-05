@@ -230,6 +230,11 @@ class rcube_message
       $structure->type = 'content';
       $this->parts[] = &$structure;
     }
+    // the same for pgp signed messages
+    else if ($message_ctype_primary == 'application' && $message_ctype_secondary == 'pgp' && !$recursive) {
+      $structure->type = 'content';
+      $this->parts[] = &$structure;
+    }
     // message contains alternative parts
     else if ($message_ctype_primary == 'multipart' && ($message_ctype_secondary == 'alternative') && is_array($structure->parts)) {
       // get html/plaintext parts
