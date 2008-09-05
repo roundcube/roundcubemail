@@ -388,34 +388,30 @@ class Mail_mimePart {
      * @param $value        The value of the paramter
      * @param $charset      The characterset of $value
      * @param $language     The language used in $value
-     * @param $maxLength    The maximum length of a line. Defauls to 75
+     * @param $maxLength    The maximum length of a line. Defauls to 78
      *
      * @access private
      */
-    function _buildHeaderParam($name, $value, $charset=NULL, $language=NULL, $maxLength=75)
+    function _buildHeaderParam($name, $value, $charset=NULL, $language=NULL, $maxLength=78)
     {
-        //If we find chars to encode, or if charset or language
-        //is not any of the defaults, we need to encode the value.
-        $shouldEncode = 0;
-        $secondAsterisk = '';
-        if (preg_match('#([ \x80-\xFF \*\'\\%\t(\)\<\>\@\,\;\:\\\"/\[\]\?\=]){1}#', $value)) {
-            $shouldEncode = 1;
-        } elseif ($charset && (strtolower($charset) != 'us-ascii')) {
-            $shouldEncode = 1;
-        } elseif ($language && ($language != 'en' && $language != 'en-us')) {
-            $shouldEncode = 1;
-        }
-        if ($shouldEncode) {
-            $encValue = preg_replace('#([\x80-\xFF \*\'\%\t\(\)\<\>\@\,\;\:\\\"/\[\]\?\=])#e', '"%" . strtoupper(dechex(ord("\1")))', $value);
-            $value = "$charset'$language'$encValue";
-            $secondAsterisk = '*';
-        }
-        $header = " {$name}{$secondAsterisk}=\"{$value}\"; ";
+        // RFC 2183/2184/2822: 
+	// value needs encoding if contains non-ASCII chars or is longer than 78 chars
+
+        if (preg_match('#[\x20-\x7E]#', $value)) { // ASCII
+	    $quoted = addcslashes($value, '\\"');
+	    if (strlen($name) + strlen($quoted) + 6 <= $maxLength)
+		return " {$name}=\"{$quoted}\"; ";
+	}
+
+        $encValue = preg_replace('#([^\x20-\x7E])#e', '"%" . strtoupper(dechex(ord("\1")))', $value);
+        $value = "$charset'$language'$encValue";
+
+        $header = " {$name}*=\"{$value}\"; ";
         if (strlen($header) <= $maxLength) {
             return $header;
         }
 
-        $preLength = strlen(" {$name}*0{$secondAsterisk}=\"");
+        $preLength = strlen(" {$name}*0*=\"");
         $sufLength = strlen("\";");
         $maxLength = MAX(16, $maxLength - $preLength - $sufLength - 2);
         $maxLengthReg = "|(.{0,$maxLength}[^\%][^\%])|";
@@ -426,10 +422,10 @@ class Mail_mimePart {
             $matches = array();
             $found = preg_match($maxLengthReg, $value, $matches);
             if ($found) {
-                $headers[] = " {$name}*{$headCount}{$secondAsterisk}=\"{$matches[0]}\"";
+                $headers[] = " {$name}*{$headCount}*=\"{$matches[0]}\"";
                 $value = substr($value, strlen($matches[0]));
             } else {
-                $headers[] = " {$name}*{$headCount}{$secondAsterisk}=\"{$value}\"";
+                $headers[] = " {$name}*{$headCount}*=\"{$value}\"";
                 $value = "";
             }
             $headCount++;
