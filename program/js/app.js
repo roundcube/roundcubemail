@@ -1283,6 +1283,8 @@ function rcube_webmail()
       this.command('show');
     else if (list.key_pressed == list.DELETE_KEY)
       this.command('delete');
+    else if (list.key_pressed == list.BACKSPACE_KEY)
+      this.command('delete');
     else
       list.shiftkey = false;
     };

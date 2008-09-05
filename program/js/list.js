@@ -26,6 +26,7 @@ function rcube_list_widget(list, p)
   // static contants
   this.ENTER_KEY = 13;
   this.DELETE_KEY = 46;
+  this.BACKSPACE_KEY = 8;
   
   this.list = list ? list : null;
   this.frame = null;
@@ -574,6 +575,9 @@ key_press: function(e)
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
       this.trigger_event('keypress');
+      
+      if (this.key_pressed == list.BACKSPACE_KEY)
+        return rcube_event.cancel(e);
   }
   
   return true;

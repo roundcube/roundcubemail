@@ -7,6 +7,7 @@ CHANGELOG RoundCube Webmail
 - Respect Content-Location headers in multipart/related messages according to RFC2110 (#1484946)
 - Applied mime_decode patch by David Lublink
 - Allowed max. attachment size now indicated in compose screen (#1485030)
+- Also capture backspace key in list mode (#1484566)
 
 2008/09/04 (alec)
 ----------
