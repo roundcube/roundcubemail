@@ -23,7 +23,8 @@
 
 if (!isset($_SESSION['compose']['id']))
   {
-  rcmail_overwrite_action('list');
+  raise_error(array('code' => 500, 'file' => __FILE__, 'message' => "Invalid compose ID"), true, false);
+  rcmail_overwrite_action('compose');
   return;
   }
 
