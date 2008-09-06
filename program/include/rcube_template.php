@@ -303,17 +303,13 @@ class rcube_template extends rcube_html_page
         $path = "$skin_path/templates/$name.html";
 
         // read template file
-	if (($templ = file_get_contents($path)) === false) {
-            ob_start();
-            file_get_contents($path);
-            $message = ob_get_contents();
-            ob_end_clean();
+        if (($templ = @file_get_contents($path)) === false) {
             raise_error(array(
                 'code' => 501,
                 'type' => 'php',
                 'line' => __LINE__,
                 'file' => __FILE__,
-                'message' => 'Error loading template for '.$name.': '.$message
+                'message' => 'Error loading template for '.$name
                 ), true, true);
             return false;
         }
