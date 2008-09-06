@@ -642,9 +642,6 @@ function rcmail_print_body($part, $p = array())
   $convert_patterns[] = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/ie';
   $convert_replaces[] = "rcmail_str_replacement('<a href=\"mailto:\\1\" onclick=\"return ".JS_OBJECT_NAME.".command(\'compose\',\'\\1\',this)\">\\1</a>', \$replace_strings)";
   
-//    if ($part->ctype_parameters['format'] != 'flowed')
-//      $body = wordwrap(trim($body), 80);
-
   // search for patterns like links and e-mail addresses
   $body = preg_replace($convert_patterns, $convert_replaces, $body);
 
@@ -1009,6 +1006,51 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
     }
   }
     
+  return $out;
+}
+
+
+/**
+ * Wrap text to a given number of characters per line
+ * but respect the mail quotation of replies messages (>)
+ *
+ * @param string Text to wrap
+ * @param int The line width
+ * @return string The wrapped text
+ */
+function rcmail_wrap_quoted($text, $max = 76)
+{
+  // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
+  $lines = preg_split('/\r?\n/', trim($text));
+  $out = '';
+
+  foreach ($lines as $line) {
+    if (strlen($line) > $max) {
+      if (preg_match('/^([>\s]+)/', $line, $regs)) {
+        $length = strlen($regs[0]);
+        $prefix = substr($line, 0, $length);
+
+        // Remove '> ' from the line, then wordwrap() the line
+        $line = wordwrap(substr($line, $length), $max - $length);
+
+        // Rebuild the line with '> ' at the beginning of each 'subline'
+        $newline = '';
+        foreach (explode("\n", $line) as $l) {
+          $newline .= $prefix . $l . "\n";
+        }
+
+        // Remove the righest newline char
+        $line = rtrim($newline);
+      }
+      else {
+        $line = wordwrap($line, $max);
+      }
+    }
+
+    // Append the line
+    $out .= $line . "\n";
+  }
+  
   return $out;
 }
 

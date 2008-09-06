@@ -32,7 +32,7 @@ if ($RCMAIL->action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_
   if (is_array($_SESSION['compose']['attachments'][$id]))
   {
     @unlink($_SESSION['compose']['attachments'][$id]['path']);
-    $_SESSION['compose']['attachments'][$id] = NULL;
+    unset($_SESSION['compose']['attachments'][$id]);
     $OUTPUT->command('remove_from_attachment_list', "rcmfile$id");
     $OUTPUT->send();
     exit;
@@ -478,7 +478,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   if (! $bodyIsHtml)
   {
     // soft-wrap message first
-    $body = wordwrap($body, 75);
+    $body = rcmail_wrap_quoted($body, 75);
   
     // split body into single lines
     $a_lines = preg_split('/\r?\n/', $body);
@@ -526,9 +526,6 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
   if (!$bodyIsHtml)
   {
-    // soft-wrap message first
-    $body = wordwrap($body, 80);
-
     $prefix = sprintf("\n\n\n-------- Original Message --------\nSubject: %s\nDate: %s\nFrom: %s\nTo: %s\n\n",
       $MESSAGE->subject,
       $MESSAGE->headers->date,
