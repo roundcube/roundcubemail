@@ -116,7 +116,7 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
     $IMPORT_STATS = new stdClass;
     $IMPORT_STATS->names = array();
     $IMPORT_STATS->count = count($vcards);
-    $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->errors = 0;
+    $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->nomail = $IMPORT_STATS->errors = 0;
     
     if ($replace)
       $CONTACTS->delete_all();
@@ -134,6 +134,11 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
           $IMPORT_STATS->skipped++;
           continue;
         }
+      }
+      // skip entries without an e-mail address
+      if (empty($email)) {
+        $IMPORT_STATS->nomail++;
+        continue;
       }
       
       $success = $CONTACTS->insert(array(
