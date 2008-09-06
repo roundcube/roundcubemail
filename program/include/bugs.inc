@@ -67,19 +67,20 @@ function raise_error($arg=array(), $log=false, $terminate=false)
 function log_bug($arg_arr)
 {
   global $CONFIG;
-  $program = $arg_arr['type']=='xpath' ? 'XPath' : strtoupper($arg_arr['type']);
+  $program = strtoupper($arg_arr['type']);
 
   // write error to local log file
   if ($CONFIG['debug_level'] & 1)
   {
-    $log_entry = sprintf(
-      "[%s] %s Error: %s in %s on line %d\n",
+    $log_entry = sprintf("[%s] %s Error: %s in %s on line %d (%s %s)\n",
       date("d-M-Y H:i:s O", mktime()),
       $program,
       $arg_arr['message'],
       $arg_arr['file'],
-      $arg_arr['line']);
-                 
+      $arg_arr['line'],
+      $_SERVER['REQUEST_METHOD'],
+      $_SERVER['REQUEST_URI']);
+      
     if (empty($CONFIG['log_dir']))
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
       
