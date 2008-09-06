@@ -20,6 +20,7 @@
 */
 
 // get contacts for this user
+$CONTACTS->set_page(1);
 $CONTACTS->set_pagesize(999);
 $result = $CONTACTS->list_records();
 
