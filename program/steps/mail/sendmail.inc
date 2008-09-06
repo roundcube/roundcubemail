@@ -21,12 +21,17 @@
 */
 
 
-if (!isset($_SESSION['compose']['id']))
-  {
+// remove all scripts and act as called in frame
+$OUTPUT->reset();
+$OUTPUT->framed = TRUE;
+
+
+if (!isset($_SESSION['compose']['id'])) {
   raise_error(array('code' => 500, 'file' => __FILE__, 'message' => "Invalid compose ID"), true, false);
-  rcmail_overwrite_action('compose');
-  return;
-  }
+  console("Sendmail error", $_SESSION['compose']);
+  $OUTPUT->show_message("An internal error occured. Please try again.", 'error');
+  $OUTPUT->send('iframe');
+}
 
 
 /****** message sending functions ********/
@@ -116,10 +121,6 @@ if (strlen($_POST['_draft_saveid']) > 3)
 
 $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host']));
 $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
-
-// remove all scripts and act as called in frame
-$OUTPUT->reset();
-$OUTPUT->framed = TRUE;
 
 
 /****** check submission and compose message ********/
