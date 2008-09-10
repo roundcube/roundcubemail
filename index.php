@@ -133,7 +133,7 @@ if (!empty($RCMAIL->user->ID) && $RCMAIL->task == 'mail') {
 
 // check client X-header to verify request origin
 if ($OUTPUT->ajax_call) {
-  if ($RCMAIL->config->get('devel_mode') && !rc_request_header('X-RoundCube-Referer')) {
+  if (!$RCMAIL->config->get('devel_mode') && !rc_request_header('X-RoundCube-Referer')) {
     header('HTTP/1.1 404 Not Found');
     die("Invalid Request");
   }

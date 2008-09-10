@@ -3793,7 +3793,8 @@ function rcube_webmail()
       case 'getunread':
       case 'list':
         if (this.task == 'mail') {
-          this.msglist_select(this.message_list);
+          if (this.message_list)
+            this.msglist_select(this.message_list);
           this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
           this.enable_command('purge', this.purge_mailbox_test());
         }
@@ -3809,14 +3810,14 @@ function rcube_webmail()
   // handle HTTP request errors
   this.http_error = function(request_obj)
     {
-    //alert('Error sending request: '+request_obj.url);
+    //alert('Error sending request: '+request_obj.url+' => HTTP '+request_obj.xmlhttp.status);
 
     if (request_obj.__lock)
       this.set_busy(false);
 
     request_obj.reset();
     request_obj.__lock = false;
-    this.display_message('Unknown Serer Error!', 'error');
+    this.display_message('Unknown Server Error!', 'error');
     };
 
 
