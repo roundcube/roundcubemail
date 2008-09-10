@@ -166,6 +166,10 @@ class rcube_imap
     {
     $this->close();
     $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
+    
+    // issue SELECT command to restore connection status
+    if ($this->mailbox)
+      iil_C_Select($this->conn, $this->mailbox);
     }
 
 
