@@ -3816,6 +3816,7 @@ function rcube_webmail()
 
     request_obj.reset();
     request_obj.__lock = false;
+    this.display_message('Unknown Serer Error!', 'error');
     };
 
 
@@ -3980,7 +3981,7 @@ function rcube_http_request()
     this.busy = true;
 
     this.xmlhttp.onreadystatechange = function(){ _ref.xmlhttp_onreadystatechange(); };
-    this.xmlhttp.open('GET', url);
+    this.xmlhttp.open('GET', url, true);
     this.xmlhttp.setRequestHeader('X-RoundCube-Referer', bw.get_cookie('roundcube_sessid'));
     this.xmlhttp.send(null);
     };
