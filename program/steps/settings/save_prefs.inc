@@ -20,6 +20,7 @@
 */
 
 $a_user_prefs = array(
+  'language'     => isset($_POST['_language']) ? get_input_value('_language', RCUBE_INPUT_POST) : $CONFIG['language'],
   'timezone'     => isset($_POST['_timezone']) ? (is_numeric($_POST['_timezone']) ? floatval($_POST['_timezone']) : get_input_value('_timezone', RCUBE_INPUT_POST)) : $CONFIG['timezone'],
   'dst_active'   => isset($_POST['_dst_active']) ? TRUE : FALSE,
   'pagesize'     => is_numeric($_POST['_pagesize']) ? max(2, intval($_POST['_pagesize'])) : $CONFIG['pagesize'],
@@ -61,7 +62,7 @@ else {
 
 // switch UI language
 if (isset($_POST['_language'])) {
-  $RCMAIL->load_language(get_input_value('_language', RCUBE_INPUT_POST));
+  $RCMAIL->load_language($a_user_prefs['language']);
 }
 
 // switch skin
