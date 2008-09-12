@@ -639,21 +639,13 @@ if (bw.ie)
   document._getElementById = document.getElementById;
   document.getElementById = function(id)
     {
-    var a = [];
+    var i = 0;
     var o = document._getElementById(id);
 
-    while (o.id != id)
-      {
-      a.push({i:o.id,e:o});
-      o.id = '';
-      o = document._getElementById(id);
-      if (!o) return o;
-      }
+    if (o.id != id)
+      while ((o = document.all[i]) && o.id != id)
+        i++;
 
-    for (j=0,jj=a.length; j<jj; j++)
-      a[j].e.id = a[j].i;
-
-    a = null;
     return o;
     }
   }
