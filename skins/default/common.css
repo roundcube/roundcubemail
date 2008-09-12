@@ -76,8 +76,7 @@ input, textarea
 }
 
 input[type="checkbox"],
-input[type="radio"],
-input[type="file"]
+input[type="radio"]
 {
   border: 0;
   padding: 0;
