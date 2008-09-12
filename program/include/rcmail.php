@@ -891,17 +891,19 @@ class rcmail
   {
     if (!is_array($p))
       $p = array('_action' => @func_get_arg(0));
-    
-    if ($p['task'] && in_array($p['task'], rcmail::$main_tasks))
-      $url = './?_task='.$p['task'];
-    else
-      $url = $this->comm_path;
-    
-    unset($p['task']);
-    foreach ($p as $par => $val)
-      if (isset($val))
-        $url .= '&'.urlencode($par).'='.urlencode($val);
-    
+
+    if (!$p['task'] || !in_array($p['task'], rcmail::$main_tasks))
+      $p['task'] = $this->task;
+
+    $url = './';
+    $delm = '?';
+    foreach (array_reverse($p) as $par => $val)
+    {
+      if (!empty($val)) {
+        $url .= $delm.urlencode($par).'='.urlencode($val);
+        $delm = '&';
+      }
+    }
     return $url;
   }
 }
