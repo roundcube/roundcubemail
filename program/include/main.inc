@@ -597,7 +597,8 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
   $last_pos = 0;
   
   // ignore the whole block if evil styles are detected
-  if (stristr($source, 'expression') || stristr($source, 'behavior'))
+  $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entitiy_decode($source));
+  if (preg_match('/expression|behavior|url\(|import/', $stripped))
     return '';
 
   // cut out all contents between { and }
@@ -630,6 +631,22 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
 
   return $styles;
   }
+
+
+/**
+ * Decode escaped entities used by known XSS exploits.
+ * See http://downloads.securityfocus.com/vulnerabilities/exploits/26800.eml for examples
+ *
+ * @param string CSS content to decode
+ * @return string Decoded string
+ */
+function rcmail_xss_entitiy_decode($content)
+{
+  $out = html_entity_decode(html_entity_decode($content));
+  $out = preg_replace('/\\\00([a-z0-9]{2})/ie', "chr(hexdec('\\1'))", $out);
+  $out = preg_replace('#/\*.+\*/#Um', '', $out);
+  return $out;
+}
 
 
 /**

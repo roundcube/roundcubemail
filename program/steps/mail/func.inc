@@ -602,15 +602,14 @@ function rcmail_print_body($part, $p = array())
       $wash_opts['html_elements'] = array('html','head','title','body');
     }
     
-    /* CSS styles need to be sanitized!
+    // allow CSS styles, will be sanitized by rcmail_washtml_callback()
     if ($p['safe']) {
       $wash_opts['html_elements'][] = 'style';
-      $wash_opts['html_attribs'] = array('type');
     }
-    */
     
     $washer = new washtml($wash_opts);
     $washer->add_callback('form', 'rcmail_washtml_callback');
+    $washer->add_callback('style', 'rcmail_washtml_callback');
     $body = $washer->wash($html);
     $REMOTE_OBJECTS = $washer->extlinks;
 
@@ -698,6 +697,16 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
       $out = html::div('form', $content);
       break;
       
+    case 'style':
+      // decode all escaped entities and reduce to ascii strings
+      $stripped = preg_replace('/[^a-zA-Z\(:]/', '', rcmail_xss_entitiy_decode($source));
+      
+      // now check for evli strings like expression, behavior or url()
+      if (!preg_match('/expression|behavior|url\(|import/', $css)) {
+        $out = html::tag('style', array('type' => 'text/css'), $content);
+        break;
+      }
+    
     default:
       $out = '';
   }
