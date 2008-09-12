@@ -159,7 +159,7 @@ function rcube_webmail()
         
         if (this.env.action=='show' || this.env.action=='preview')
           {
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource', 'print', 'load-attachment', true);
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource', 'print', 'load-attachment', 'load-headers', true);
           if (this.env.next_uid)
             {
             this.enable_command('nextmessage', true);
@@ -510,7 +510,6 @@ function rcube_webmail()
         return false;
      }
 
-
     // process command
     switch (command)
       {
@@ -551,6 +550,11 @@ function rcube_webmail()
           this.list_contacts(props);
           this.enable_command('add', (this.env.address_sources && !this.env.address_sources[props].readonly));
           }
+        break;
+
+
+      case 'load-headers':
+        this.load_headers(obj);
         break;
 
 
@@ -3654,6 +3658,54 @@ function rcube_webmail()
     }
 
 
+  // display fetched raw headers
+  this.set_headers = function(content)
+    {
+    if (this.gui_objects.all_headers_row && this.gui_objects.all_headers_box && content)
+      {
+      var box = this.gui_objects.all_headers_box;
+      box.innerHTML = content;
+      box.style.display = 'block';
+
+      if (this.env.framed && parent.rcmail)
+	parent.rcmail.set_busy(false);
+      else
+        this.set_busy(false);
+      }
+    };
+
+  // display all-headers row and fetch raw message headers
+  this.load_headers = function(elem)
+    {
+    if (!this.gui_objects.all_headers_row || !this.gui_objects.all_headers_box || !this.env.uid)
+      return;
+    
+    this.set_classname(elem, 'show-headers', false);
+    this.set_classname(elem, 'hide-headers', true);
+    this.gui_objects.all_headers_row.style.display = bw.ie ? 'block' : 'table-row';
+    elem.onclick = function() { rcmail.hide_headers(elem); }
+
+    // fetch headers only once
+    if (!this.gui_objects.all_headers_box.innerHTML)
+      {
+      this.set_busy(true, 'loading');
+      this.http_post('headers', '_uid='+this.env.uid);
+      }
+    }
+
+
+  // hide all-headers row
+  this.hide_headers = function(elem)
+    {
+    if (!this.gui_objects.all_headers_row || !this.gui_objects.all_headers_box)
+      return;
+
+    this.set_classname(elem, 'hide-headers', false);
+    this.set_classname(elem, 'show-headers', true);
+    this.gui_objects.all_headers_row.style.display = 'none';
+    elem.onclick = function() { rcmail.load_headers(elem); }
+    }
+
 
   /********************************************************/
   /*********        remote request methods        *********/
@@ -3760,7 +3812,7 @@ function rcube_webmail()
     }
 
     if (request_obj.__lock)
-        this.set_busy(false);
+      this.set_busy(false);
 
     console.log(request_obj.get_text());
 

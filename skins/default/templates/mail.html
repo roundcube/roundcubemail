@@ -47,17 +47,19 @@ body_keypress: function(evt, p)
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 
+<div id="mainscreen">
+
 <div id="mailboxlist-container">
 <h3 id="mailboxlist-header"><roundcube:label name="mailboxlist" /></h3>
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" />
 </div>
 
-<div id="mailboxcontrols">
-<roundcube:label name="folder" />:&nbsp;
-<roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
-<roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
-</div>
+<script type="text/javascript">
+  var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailboxlist-container', p2: 'mailrightcontainer', orientation: 'v', relative: true, start: 165});
+  rcmail.add_onload('mailviewsplitv.init()');
+</script>
 
+<div id="mailrightcontainer">
 
 <div id="mailcontframe">
 <roundcube:object name="messages"
@@ -74,21 +76,32 @@ body_keypress: function(evt, p)
 </div>
 
 <roundcube:if condition="config:preview_pane == true" />
+
 <script type="text/javascript">
-  var mailviewsplit = new rcube_splitter({id:'mailviewsplitter', p1: 'mailcontframe', p2: 'mailpreviewframe', orientation: 'h'});
+  var mailviewsplit = new rcube_splitter({id:'mailviewsplitter', p1: 'mailcontframe', p2: 'mailpreviewframe', orientation: 'h', relative: true, start: 200});
   rcmail.add_onload('mailviewsplit.init()');
 </script>
+
 <div id="mailpreviewframe">
 <roundcube:object name="messagecontentframe" id="messagecontframe" width="100%" height="100%" frameborder="0" src="/watermark.html" />
 </div>
 
 <style type="text/css">
-#mailcontframe {
-  bottom: auto;
-  height: 208px;
-}
+#mailcontframe { height: 195px; }
 </style>
+
 <roundcube:endif />
+
+</div>
+
+</div>
+
+<div id="mailboxcontrols">
+<roundcube:label name="folder" />:&nbsp;
+<roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
+<roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
+</div>
+
 
 <div id="listcontrols">
 <roundcube:label name="select" />:&nbsp;
@@ -98,6 +111,14 @@ body_keypress: function(evt, p)
 <roundcube:if condition="env:quota" />
 <roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="120" id="quotadisplay" />
 <roundcube:endif />
+</div>
+
+<div id="messagecountbar">
+<roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
+<roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
+&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
+<roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
+<roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
 </div>
 
 <div id="messagetoolbar">
@@ -122,14 +143,6 @@ body_keypress: function(evt, p)
 
 <div id="quicksearchbar">
 <roundcube:object name="searchform" type="search" results="5" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
-</div>
-
-<div id="messagecountbar">
-<roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
-<roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
-&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
-<roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
-<roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
 </div>
 
 <script type="text/javascript">

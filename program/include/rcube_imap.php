@@ -1371,6 +1371,23 @@ class rcube_imap
 
     return $body;    
     }
+
+
+  /**
+   * Returns the message headers as string
+   *
+   * @param int  Message UID
+   * @return string Message headers string
+   */
+  function &get_raw_headers($uid)
+    {
+    if (!($msg_id = $this->_uid2id($uid)))
+      return FALSE;
+
+    $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $msg_id, NULL);
+
+    return $headers;    
+    }
     
 
   /**

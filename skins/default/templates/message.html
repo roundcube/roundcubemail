@@ -4,6 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/mail.css" />
+<script type="text/javascript" src="/splitter.js"></script>
 </head>
 <body>
 
@@ -30,6 +31,8 @@
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
 </div>
 
+<div id="mainscreen">
+
 <div id="mailboxlist-container">
 <div id="mailboxlist-header"><roundcube:label name="mailboxlist" /></div>
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" />
@@ -44,6 +47,13 @@
 <roundcube:object name="messageBody" id="messagebody" />
 
 </div>
+
+</div>
+
+<script type="text/javascript">
+    var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailboxlist-container', p2: 'messageframe', orientation: 'v', relative: true, start: 165});
+    rcmail.add_onload('mailviewsplitv.init()');
+</script>
 
 </body>
 </html>

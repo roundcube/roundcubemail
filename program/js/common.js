@@ -253,23 +253,28 @@ function rcube_layer(id, attributes)
     var obj;
 
     obj = document.createElement('DIV');
+
     with(obj)
       {
       id = this.name;
       with(style)
         {
-        position = 'absolute';
+	position = 'absolute';
         visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
         left = l+'px';
         top = t+'px';
-        if(w) width = w+'px';
-        if(h) height = h+'px';
+        if (w)
+	  width = w.toString().match(/\%$/) ? w : w+'px';
+        if (h)
+	  height = h.toString().match(/\%$/) ? h : h+'px';
         if(z) zIndex = z;
-        }
+	}
       }
-      
-    if(parent) parent.appendChild(obj);
-    else document.body.appendChild(obj);
+
+    if (parent)
+      parent.appendChild(obj);
+    else
+      document.body.appendChild(obj);
 
     this.elm = obj;
     };
@@ -496,7 +501,7 @@ function rcube_find_object(id, d)
 
 
 // return the absolute position of an object within the document
-function rcube_get_object_pos(obj)
+function rcube_get_object_pos(obj, relative)
   {
   if(typeof(obj)=='string')
     obj = rcube_find_object(obj);
@@ -506,7 +511,7 @@ function rcube_get_object_pos(obj)
   var iX = (bw.layers) ? obj.x : obj.offsetLeft;
   var iY = (bw.layers) ? obj.y : obj.offsetTop;
 
-  if(bw.ie || bw.mz)
+  if(!relative && (bw.ie || bw.mz))
     {
     var elm = obj.offsetParent;
     while(elm && elm!=null)
@@ -598,8 +603,9 @@ function rcube_console()
   this.log = function(msg)
   {
     box = rcube_find_object('console');
+
     if (box)
-      if (msg[msg.length-1]=='\n')
+      if (msg.charAt(msg.length-1)=='\n')
         box.value += msg+'--------------------------------------\n';
       else
         box.value += msg+'\n--------------------------------------\n';

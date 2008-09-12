@@ -11,40 +11,48 @@ function rcube_splitter(attrib)
   this.id = attrib.id ? attrib.id : this.p1id + '_' + this.p2id + '_splitter';
   this.orientation = attrib.orientation;
   this.horizontal = (this.orientation == 'horizontal' || this.orientation == 'h');
-  this.offset_1 = bw.ie ? 0 : -1;
-  this.offset_2 = bw.ie ? -2 : 1;
-  this.pos = 0;
+  this.offset = bw.ie6 ? 2 : 0;
+  this.pos = attrib.start ? attrib.start * 1 : 0;
+  this.relative = attrib.relative ? true : false;
+  this.drag_active = false;
 
   this.init = function()
     {
     this.p1 = document.getElementById(this.p1id);
     this.p2 = document.getElementById(this.p2id);
-    
+
     // create and position the handle for this splitter
-    this.p1pos = rcube_get_object_pos(this.p1);
-    this.p2pos = rcube_get_object_pos(this.p2);
-    var top = this.p1pos.y + this.p1.offsetHeight;
-    var height = this.p2pos.y - this.p1pos.y - this.p1.offsetHeight;
-    var left = this.p1pos.x + this.p1.offsetWidth;
-    var width = this.p2pos.x - this.p1pos.x - this.p1.offsetWidth;
+    this.p1pos = rcube_get_object_pos(this.p1, this.relative);
+    this.p2pos = rcube_get_object_pos(this.p2, this.relative);
     
     if (this.horizontal)
-      this.layer = new rcube_layer(this.id, {x: this.p1pos.x, y: top, height: height, width: this.p1.offsetWidth, vis: 1});
+      {
+      var top = this.p1pos.y + this.p1.offsetHeight;
+      this.layer = new rcube_layer(this.id, {x: 0, y: top, height: 10, 
+    	    width: '100%', vis: 1, parent: this.p1.parentNode});
+      }
     else
-      this.layer = new rcube_layer(this.id, {x: left, y: this.p1pos.y, width: width, height: this.p1.offsetHeight, vis: 1});
+      {
+      var left = this.p1pos.x + this.p1.offsetWidth;
+      this.layer = new rcube_layer(this.id, {x: left, y: 0, width: 10, 
+    	    height: '100%', vis: 1,  parent: this.p1.parentNode});
+      }
 
     this.elm = this.layer.elm;
     this.elm.className = 'splitter '+(this.horizontal ? 'splitter-h' : 'splitter-v');
+    this.elm.unselectable = 'on';
 
     // add the mouse event listeners
     rcube_event.add_listener({element: this.elm, event:'mousedown', object:this, method:'onDragStart'});
-    rcube_event.add_listener({element: window, event:'resize', object:this, method:'onResize'});
+    if (bw.ie)
+      rcube_event.add_listener({element: window, event:'resize', object:this, method:'onResize'});
 
     // read saved position from cookie
     var cookie = bw.get_cookie(this.id);
     if (cookie)
       {
       var param = cookie.split(':');
+
       for (var i=0, p; i<param.length; i++)
         {
         p = param[i].split('=');
@@ -52,6 +60,11 @@ function rcube_splitter(attrib)
         }
 
       this.resize();
+      }
+    else if (this.pos)
+      {
+      this.resize();
+      this.set_cookie();
       }
     };
 
@@ -61,17 +74,22 @@ function rcube_splitter(attrib)
    */
   this.resize = function()
     {
-     if (this.horizontal)
+    if (this.horizontal)
       {
-      this.p1.style.height = Math.floor(this.pos - this.p1pos.y - this.layer.height / 2 + this.offset_1) + 'px';
-      this.p2.style.top = Math.ceil(this.pos + (this.layer.height / 2 + this.offset_2)) + 'px';
-      this.layer.move(this.layer.x, Math.round(this.pos - this.layer.height / 2 + 1));
+      var lh = this.layer.height - this.offset * 2;
+      this.p1.style.height = Math.floor(this.pos - this.p1pos.y - lh / 2) + 'px';
+      this.p2.style.top = Math.ceil(this.pos + lh / 2) + 'px';
+      this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));	     
+      if (bw.ie)
+        this.p2.style.height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top))+'px';
       }
     else
       {
-      this.p1.style.width = Math.floor(this.pos - this.p1pos.x - this.layer.width / 2 + this.offset_1) + 'px';
-      this.p2.style.left = Math.ceil(this.pos + this.layer.width / 2 + this.offset_2) + 'px';
+      this.p1.style.width = Math.floor(this.pos - this.p1pos.x - this.layer.width / 2) + 'px';
+      this.p2.style.left = Math.ceil(this.pos + this.layer.width / 2) + 'px';
       this.layer.move(Math.round(this.pos - this.layer.width / 2 + 1), this.layer.y);
+      if (bw.ie)
+        this.p2.style.width = (parseInt(this.p2.parentNode.offsetWidth) - parseInt(this.p2.style.left))+'px';
       }
     };
 
@@ -80,9 +98,10 @@ function rcube_splitter(attrib)
    */
   this.onDragStart = function(e)
     {
-    this.p1pos = rcube_get_object_pos(this.p1);
-    this.p2pos = rcube_get_object_pos(this.p2);
-
+    this.p1pos = rcube_get_object_pos(this.p1, this.relative);
+    this.p2pos = rcube_get_object_pos(this.p2, this.relative);
+    this.drag_active = true;
+    
     // start listening to mousemove events
     rcube_event.add_listener({element:document, event:'mousemove', object:this, method:'onDrag'});
     rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
@@ -106,6 +125,7 @@ function rcube_splitter(attrib)
         var s = this;
         var id = iframes[n].id;
         this.iframe_events[n] = function(e){ e._rc_pos_offset = rcube_get_object_pos(document.getElementById(id)); return s.onDrag(e); }
+
         if (iframedoc.addEventListener)
           iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
         else if (iframes[n].attachEvent)
@@ -124,10 +144,20 @@ function rcube_splitter(attrib)
   this.onDrag = function(e)
     {
     var pos = rcube_event.get_mouse_pos(e);
+
+    if (!this.drag_active) return false;
+
     if (e._rc_pos_offset)
       {
       pos.x += e._rc_pos_offset.x;
       pos.y += e._rc_pos_offset.y;
+      }
+
+    if (this.relative)
+      {
+      var parent = rcube_get_object_pos(this.p1.parentNode);
+      pos.x -= parent.x;
+      pos.y -= parent.y;
       }
 
     if (this.horizontal)
@@ -147,8 +177,8 @@ function rcube_splitter(attrib)
         }
       }
 
-    this.p1pos = rcube_get_object_pos(this.p1);
-    this.p2pos = rcube_get_object_pos(this.p2);
+    this.p1pos = rcube_get_object_pos(this.p1, this.relative);
+    this.p2pos = rcube_get_object_pos(this.p2, this.relative);
     return false;
     };
 
@@ -160,6 +190,8 @@ function rcube_splitter(attrib)
     // cancel the listening for drag events
     rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'onDrag'});
     rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
+    this.drag_active = false;
+
     var iframes = document.getElementsByTagName('IFRAME');
 
     for (var n in iframes)
@@ -176,39 +208,37 @@ function rcube_splitter(attrib)
         if (this.iframe_events[n]) {
           if (iframedoc.removeEventListener)
             iframedoc.removeEventListener('mousemove', this.iframe_events[n], false);
-          else if (iframedoc.detachEvent)
+	  else if (iframedoc.detachEvent)
             iframedoc.detachEvent('onmousemove', this.iframe_events[n]);
           else
             iframedoc['onmousemove'] = null;
-        }
+          }
 
         rcube_event.remove_listener({element:iframedoc, event:'mouseup', object:this, method:'onDragStop'});
         }
       }
 
-    // save state in cookie
-    var exp = new Date();
-    exp.setYear(exp.getFullYear() + 1);
-    bw.set_cookie(this.id, 'pos='+this.pos, exp);
-
-    // Firefox 3 will initiate its built in drag-and-drop on the divider 
-    // widget if it already has focus when a second drag event starts 
-    this.p1.focus();
-    this.p1.blur();
+    this.set_cookie();
 
     return bw.safari ? true : rcube_event.cancel(e);
     };
-
   /**
    * Handler for window resize events
    */
   this.onResize = function(e)
     {
-    this.p1pos = rcube_get_object_pos(this.p1);
-    this.p2pos = rcube_get_object_pos(this.p2);
-    var height = this.horizontal ? this.p2pos.y - this.p1pos.y - this.p1.offsetHeight : this.p1.offsetHeight;
-    var width = this.horizontal ? this.p1.offsetWidth : this.p2pos.x - this.p1pos.x - this.p1.offsetWidth;
-    this.layer.resize(width, height);
+    if (this.horizontal)
+      this.p2.style.height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top))+'px';
+    else
+      this.p2.style.width = (parseInt(this.p2.parentNode.offsetWidth) - parseInt(this.p2.style.left))+'px';
     };
+
+  this.set_cookie = function()
+    {
+    // save state in cookie
+    var exp = new Date();
+    exp.setYear(exp.getFullYear() + 1);
+    bw.set_cookie(this.id, 'pos='+this.pos, exp);
+    }
 
   }  // end class rcube_splitter

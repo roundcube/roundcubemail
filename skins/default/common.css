@@ -194,6 +194,8 @@ a.button-logout
   right: 200px;
   z-index: 5000;
   opacity: 0.85;
+  /* IE */
+  filter: alpha(opacity=85);
 }
 
 #message div
@@ -237,8 +239,10 @@ a.button-logout
 
 .splitter
 {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
   position: absolute;
-  padding: 2px;
   background: url(images/dimple.png) center no-repeat;
 }
 
@@ -251,7 +255,7 @@ a.button-logout
 .splitter-v
 {
   cursor: e-resize;
-  background-position: 1px center;
+  background-position: 2px center;
 }
 
 .boxtitle

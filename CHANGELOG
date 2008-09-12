@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/12 (alec)
+----------
+- Added vertical splitter for folders list resizing
+- Added possibility to view all headers in message view
+- Fixed splitter drag/resize on Opera (#1485170)
+
 2008/09/12 (thomasb)
 ----------
 - Refactor drag & drop functionality. Don't rely on browser events anymore (#1484453)

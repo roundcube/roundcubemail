@@ -740,7 +740,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
   // show these headers
   $standard_headers = array('subject', 'from', 'organization', 'to', 'cc', 'bcc', 'replyto', 'date');
-  
+
   foreach ($standard_headers as $hkey)
     {
     if (!$headers[$hkey])
@@ -770,6 +770,14 @@ function rcmail_message_headers($attrib, $headers=NULL)
     $out .= '<td class="'.$hkey.'" width="90%">'.$header_value."</td>\n</tr>";
     $header_count++;
     }
+
+  // all headers division
+  $out .= "\n".'<tr><td colspan="2" class="more-headers show-headers"
+	onclick="return '.JS_OBJECT_NAME.'.command(\'load-headers\', \'\', this)"></td></tr>';
+  $out .= "\n".'<tr id="all-headers"><td colspan="2" class="all"><div id="headers-source"></div></td></tr>';
+
+  $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
+  $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
 
   $out .= "\n</table>\n\n";
 

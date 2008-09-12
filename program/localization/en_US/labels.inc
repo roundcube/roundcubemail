@@ -164,7 +164,7 @@ $labels['resetsearch']  = 'Reset search';
 // message compose
 $labels['compose']        = 'Compose a message';
 $labels['savemessage']    = 'Save this draft';
-$labels['sendmessage']    = 'Send the message now';
+$labels['sendmessage']    = 'Send now';
 $labels['addattachment']  = 'Attach a file';
 $labels['charset']        = 'Charset';
 $labels['editortype']     = 'Editor type';

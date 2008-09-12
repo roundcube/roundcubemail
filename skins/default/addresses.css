@@ -1,6 +1,5 @@
 /***** RoundCube|Mail address book task styles *****/
 
-
 #abooktoolbar
 {
   position: absolute;
@@ -18,7 +17,7 @@
 {
   position: absolute;
   bottom: 16px;
-  left: 185px;
+  left: 190px;
   width: 240px;
   height: 20px;
   text-align: left;
@@ -30,38 +29,63 @@
   color: #333333;
 }
 
-#directorylist, #addresslist, #importbox
+#mainscreen
+{
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  bottom: 40px;
+  left: 200px;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
+#directorylist
 {
   position: absolute;
   top: 85px;
   bottom: 40px;
+  left: 20px;
+  width: 170px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
+  overflow: hidden;
+  /* css hack for IE */
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');  
+}
+
+#addresslist
+{
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  overflow: auto;
+  /* css hack for IE */
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#importbox
+{
+  position: absolute;
+  top: 85px;
+  bottom: 40px;
+  left: 20px;
+  right: 20px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  padding-bottom: 4ex;
   overflow: auto;
   /* css hack for IE */
   height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');  
 }
 
-#directorylist
-{
-  left: 20px;
-  width: 170px;
-  overflow: hidden;
-}
-
 #addresslist
 {
-  left: 200px;
+  left: 0px;
   width: 340px;
-}
-
-#importbox
-{
-  left: 20px;
-  right: 40px;
-  height: auto;
-  bottom: auto;
-  padding-bottom: 4ex;
 }
 
 #importbox a
@@ -129,29 +153,16 @@
 #contacts-box
 {
   position: absolute;
-  top: 85px;
+  top: 0px;
   left: 555px;
-  right: 20px;
-  bottom: 40px;
+  right: 0px;
+  bottom: 0px;
   border: 1px solid #999999;
   overflow: hidden;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-45-document.getElementById('addresslist').offsetLeft-document.getElementById('addresslist').offsetWidth)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+  width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
 }
-
-
-#addressviewsplitter
-{
-  background-position: 4px center;
-}
-
-#addressviewsplitter .splitterLine
-{
-  margin-left: 3px;
-  width: 6px;
-}
-
 
 body.iframe,
 #contact-frame

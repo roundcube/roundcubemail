@@ -24,31 +24,38 @@
 </div>
 
 <roundcube:if condition="config:ldap_public" />
+
 <div id="directorylist">
 <div id="groups-title"><roundcube:label name="groups" /></div>
 <roundcube:object name="directorylist" id="directories-list" />
 </div>
 
 <roundcube:else />
+
 <style type="text/css">
-#addresslist { left:20px; width:440px }
-#contacts-box { left:475px }
-#abookcountbar { left:20px }
+#abookcountbar { left: 20px;}
+#mainscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
+#addresslist { width:245px }
+#contacts-box { left:255px; /* IE hack */ width:expression((parseInt(mainscreen.offsetWidth)-255)+'px') }
 </style>
 
 <roundcube:endif />
+
+<div id="mainscreen">
 
 <div id="addresslist">
 <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" summary="Contacts list" />
 </div>
 
 <script type="text/javascript">
-  var addrviewsplit = new rcube_splitter({id:'addressviewsplitter', p1: 'addresslist', p2: 'contacts-box', orientation: 'v'});
+  var addrviewsplit = new rcube_splitter({id:'addressviewsplitter', p1: 'addresslist', p2: 'contacts-box', orientation: 'v', relative: true, start: 250});
   rcmail.add_onload('addrviewsplit.init()');
 </script>
 
 <div id="contacts-box">
 <roundcube:object name="addressframe" id="contact-frame" width="100%" height="100%" frameborder="0" src="/watermark.html" />
+</div>
+
 </div>
 
 <div id="abookcountbar">

@@ -146,6 +146,30 @@ td.formlinks a:visited
   color: #333333;
 }
 
+#mainscreen 
+{
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  bottom: 40px;
+  left: 20px;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
+#mailrightcontainer
+{
+  position: absolute;
+  top: 0px;
+  left: 170px;
+  bottom: 0px;
+  right: 0px;
+  /* css hack for IE */
+  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+	  
 #messagepartcontainer
 {
   position: absolute;
@@ -161,42 +185,37 @@ td.formlinks a:visited
 #mailcontframe
 {
   position: absolute;
-  top: 85px;
-  left: 200px;
-  right: 20px;
-  bottom: 40px;
+  width: 100%;
+  top: 0px;
+  bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #mailpreviewframe
 {
   position: absolute;
-  top: 305px;
-  left: 200px;
-  right: 20px;
-  bottom: 40px;
+  width: 100%;
+  top: 205px;
+  bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-135-document.getElementById('mailcontframe').offsetHeight)+'px');
+  height: expression((parseInt(this.parentNode.offsetHeight)-205)+'px');
 }
 
 #messagecontframe
 {
-  position: absolute;
+  position: relative;
   top: 0px;
   left: 0px;
   right: 0px;
   bottom: 0px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-135-document.getElementById('mailcontframe').offsetHeight)+'px');
+  width: 100%;
+  height: 100%;
 }
 
 #messagepartframe
@@ -253,15 +272,15 @@ td.formlinks a:visited
 #mailboxlist-container
 {
   position: absolute;
-  top: 85px;
-  left: 20px;
-  width: 170px;
-  bottom: 40px;
+  top: 0px;
+  left: 0px;
+  width: 160px;
+  bottom: 0px;
   border: 1px solid #999;
   background-color: #F9F9F9;
   overflow: auto;
   /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #mailboxlist
@@ -599,15 +618,14 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
 #messageframe
 {
   position: absolute;
-  top: 85px;
-  left: 200px;
-  right: 20px;
-  bottom: 40px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
   /* css hack for IE */
-  /* margin-bottom: 10px; */
   width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
@@ -641,7 +659,7 @@ table.headers-table tr td
 
 table.headers-table td.header-title
 {
-  width: 80px;
+  width: 85px;
   color: #666666;
   font-weight: bold;
   text-align: right;
@@ -651,8 +669,18 @@ table.headers-table td.header-title
 
 table.headers-table tr td.subject
 {
-  width: 95%;
+  width: 90%;
   font-weight: bold;
+}
+
+table.headers-table tr td.all
+{
+  width: 100%;
+  color: #666666;
+  text-align: left;
+  padding-right: 10px;
+  vertical-align: center;
+  text-align: center;
 }
 
 #attachment-list
@@ -948,4 +976,47 @@ div.message-htmlpart div.rcmBody
 #attachment-form div.buttons
 {
   margin-top: 4px;
+}
+
+.more-headers
+{
+  cursor: pointer;
+  width: 100%;
+  height: 6px;
+}
+
+.show-headers
+{
+  background: url(images/icons/down_small.gif) no-repeat center;
+}
+
+.hide-headers
+{
+  background: url(images/icons/up_small.gif) no-repeat center;
+}
+
+#all-headers
+{
+  height: 150px;
+  display: none;
+}
+
+#headers-source
+{
+  margin: 0 5px;
+  width: 100%;
+  height: 145px;
+  background: white;
+  overflow: auto;
+  font-size: 11px;
+  white-space: nowrap;
+  border: 1px solid #999999;
+  display: none;
+  text-align: left;
+  color: #666666;
+}
+
+font.bold
+{
+  font-weight: bold;
 }
