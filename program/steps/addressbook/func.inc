@@ -58,31 +58,15 @@ function rcmail_directory_list($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmdirectorylist';
 
+  $out = '';
   $local_id = '0';
   $current = get_input_value('_source', RCUBE_INPUT_GPC);
-  $line_templ = '<li id="%s" class="%s"><a href="%s"' .
-    ' onclick="return %s.command(\'list\',\'%s\',this)"' .
-    ' onmouseover="return %s.focus_folder(\'%s\')"' .
-    ' onmouseout="return %s.unfocus_folder(\'%s\')"' .
-    ' onmouseup="return %s.folder_mouse_up(\'%s\')">%s'.
-    "</a></li>\n";
+  $line_templ = html::tag('li', array('id' => 'rcmli%s', 'class' => '%s'),
+    html::a(array('href' => '%s', 'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
     
-  // allow the following attributes to be added to the <ul> tag
-  $out = '<ul' . create_attrib_string($attrib, array('style', 'class', 'id')) . ">\n";
   if (strtolower($CONFIG['address_book_type']) != 'ldap') {
-    $out .= sprintf($line_templ,
-      'rcmli'.$local_id,
-      !$current ? 'selected' : '',
-      Q(rcmail_url(null, array('_source' => 0))),
-      JS_OBJECT_NAME,
-      $local_id,
-      JS_OBJECT_NAME,
-      $local_id,
-      JS_OBJECT_NAME,
-      $local_id,
-      JS_OBJECT_NAME,
-      $local_id,
-      rcube_label('personaladrbook'));
+    $out .= sprintf($line_templ, $local_id, (!$current ? 'selected' : ''),
+      Q(rcmail_url(null, array('_source' => $local_id))), $local_id, rcube_label('personaladrbook'));
   } // end if
   else {
     // DB address book not used, see if a source is set, if not use the
@@ -92,30 +76,16 @@ function rcmail_directory_list($attrib)
     } // end if
   } // end else
   
-  foreach ((array)$CONFIG['ldap_public'] as $id => $prop)
-  {
+  foreach ((array)$CONFIG['ldap_public'] as $id => $prop) {
     $js_id = JQ($id);
     $dom_id = preg_replace('/[^a-z0-9\-_]/i', '', $id);
-    $out .= sprintf($line_templ,
-      'rcmli'.$dom_id,
-      $current == $id ? 'selected' : '',
-      Q(rcmail_url(null, array('_source' => $id))),
-      JS_OBJECT_NAME,
-      $js_id,
-      JS_OBJECT_NAME,
-      $js_id,
-      JS_OBJECT_NAME,
-      $js_id,
-      JS_OBJECT_NAME,
-      $js_id,
-      !empty($prop['name']) ? Q($prop['name']) : Q($id));
+    $out .= sprintf($line_templ, $dom_id, ($current == $id ? 'selected' : ''),
+      Q(rcmail_url(null, array('_source' => $id))), $js_id, (!empty($prop['name']) ? Q($prop['name']) : Q($id)));
   }
   
-  $out .= '</ul>';
-
   $OUTPUT->add_gui_object('folderlist', $attrib['id']);
   
-  return $out;
+  return html::tag('ul', $attrib, $out, html::$common_attrib);
 }
 
 

@@ -51,7 +51,7 @@ function rcube_list_widget(list, p)
   this.drag_mouse_start = null;
   this.dblclick_time = 600;
   this.row_init = function(){};
-  this.events = { click:[], dblclick:[], select:[], keypress:[], dragstart:[], dragend:[] };
+  this.events = { click:[], dblclick:[], select:[], keypress:[], dragstart:[], dragmove:[], dragend:[] };
   
   // overwrite default paramaters
   if (p && typeof(p)=='object')
@@ -221,7 +221,11 @@ drag_row: function(e, id)
   var evtarget = rcube_event.get_target(e);
   if (this.dont_select || (evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
     return false;
-
+    
+  // accept right-clicks
+  if (rcube_event.get_button(e) == 2)
+    return true;
+  
   this.in_selection_before = this.in_selection(id) ? id : false;
 
   // selects currently unselected row
@@ -576,7 +580,7 @@ key_press: function(e)
       this.key_pressed = keyCode;
       this.trigger_event('keypress');
       
-      if (this.key_pressed == list.BACKSPACE_KEY)
+      if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);
   }
   
@@ -704,6 +708,7 @@ drag_mouse_move: function(e)
   {
     var pos = rcube_event.get_mouse_pos(e);
     this.draglayer.move(pos.x+20, pos.y-5);
+    this.trigger_event('dragmove', e);
   }
 
   this.drag_start = false;
@@ -784,12 +789,12 @@ removeEventListener: function(evt, handle)
  * This will execute all registered event handlers
  * @private
  */
-trigger_event: function(evt)
+trigger_event: function(evt, p)
 {
   if (this.events[evt] && this.events[evt].length) {
     for (var i=0; i<this.events[evt].length; i++)
       if (typeof(this.events[evt][i]) == 'function')
-        this.events[evt][i](this);
+        this.events[evt][i](this, p);
   }
 }
 

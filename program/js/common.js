@@ -114,6 +114,15 @@ get_keycode: function(e)
 },
 
 /**
+ * returns the event key code
+ */
+get_button: function(e)
+{
+  e = e || window.event;
+  return e && (typeof e.button != 'undefined') ? e.button : (e && e.which ? e.which : 0);
+},
+
+/**
  * returns modifier key (constants defined at top of file)
  */
 get_modifier: function(e)
@@ -502,17 +511,24 @@ function rcube_get_object_pos(obj)
     var elm = obj.offsetParent;
     while(elm && elm!=null)
       {
-      iX += elm.offsetLeft;
-      iY += elm.offsetTop;
+      iX += elm.offsetLeft - (elm.parentNode && elm.parentNode.scrollLeft ? elm.parentNode.scrollLeft : 0);
+      iY += elm.offsetTop - (elm.parentNode && elm.parentNode.scrollTop ? elm.parentNode.scrollTop : 0);
       elm = elm.offsetParent;
       }
     }
 
-  //if(bw.mac && bw.ie5) iX += document.body.leftMargin;
-  //if(bw.mac && bw.ie5) iY += document.body.topMargin;
-
   return {x:iX, y:iY};
   }
+
+// determine whether the mouse is over the given object or not
+function rcube_mouse_is_over(ev, obj)
+{
+  var mouse = rcube_event.get_mouse_pos(ev);
+  var pos = rcube_get_object_pos(obj);
+  
+  return ((mouse.x >= pos.x) && (mouse.x < (pos.x + obj.offsetWidth)) &&
+    (mouse.y >= pos.y) && (mouse.y < (pos.y + obj.offsetHeight)));
+}
 
 
 /**

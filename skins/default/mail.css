@@ -354,6 +354,11 @@ td.formlinks a:visited
   font-weight: bold;
 }
 
+#mailboxlist li.virtual > a
+{
+  color: #666;
+}
+
 #mailboxlist li.selected,
 #mailboxlist li.droptarget li.selected
 {

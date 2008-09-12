@@ -45,12 +45,13 @@
 #directorylist
 {
   left: 20px;
-  width: 150px;
+  width: 170px;
+  overflow: hidden;
 }
 
 #addresslist
 {
-  left: 185px;
+  left: 200px;
   width: 340px;
 }
 
@@ -79,6 +80,7 @@
 {
   font-size: 11px;
   border-bottom: 1px solid #EBEBEB;
+  white-space: nowrap;
 }
 
 #directorylist ul li a
@@ -88,6 +90,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 #directorylist li.selected
@@ -127,7 +130,7 @@
 {
   position: absolute;
   top: 85px;
-  left: 540px;
+  left: 555px;
   right: 20px;
   bottom: 40px;
   border: 1px solid #999999;

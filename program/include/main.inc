@@ -929,11 +929,11 @@ function rcmail_mailbox_list($attrib)
     $out = $select->show();
   }
   else {
-    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $attrib['maxlength'], $attrib['realnames']), html::$common_attrib);
-  }
-
-  if ($type=='ul') {
+    $js_mailboxlist = array();
+    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib), html::$common_attrib);
+    
     $RCMAIL->output->add_gui_object('mailboxlist', $attrib['id']);
+    $RCMAIL->output->set_env('mailboxes', $js_mailboxlist);
     $RCMAIL->output->set_env('collapsed_folders', $RCMAIL->config->get('collapsed_folders'));
   }
 
@@ -973,64 +973,68 @@ function rcmail_mailbox_select($p = array())
  * @access private
  */
 function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
-  {
+{
   $pos = strpos($folder, $delm);
-  if ($pos !== false)
-    {
+  if ($pos !== false) {
     $subFolders = substr($folder, $pos+1);
     $currentFolder = substr($folder, 0, $pos);
-    }
-  else
-    {
+    $virtual = !isset($arrFolders[$currentFolder]);
+  }
+  else {
     $subFolders = false;
     $currentFolder = $folder;
-    }
+    $virtual = false;
+  }
 
   $path .= $currentFolder;
 
-  if (!isset($arrFolders[$currentFolder]))
-    {
+  if (!isset($arrFolders[$currentFolder])) {
     $arrFolders[$currentFolder] = array(
       'id' => $path,
       'name' => rcube_charset_convert($currentFolder, 'UTF-7'),
+      'virtual' => $virtual,
       'folders' => array());
-    }
+  }
+  else
+    $arrFolders[$currentFolder]['virtual'] = $virtual;
 
   if (!empty($subFolders))
     rcmail_build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
-  }
+}
   
 
 /**
  * Return html for a structured list &lt;ul&gt; for the mailbox tree
  * @access private
  */
-function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $realnames=false, $nestLevel=0)
-  {
+function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel=0)
+{
   global $RCMAIL, $CONFIG;
+  
+  $maxlength = intval($attrib['maxlength']);
+  $realnames = (bool)$attrib['realnames'];
+  $msgcounts = $RCMAIL->imap->get_cache('messagecount');
 
   $idx = 0;
   $out = '';
-  foreach ($arrFolders as $key => $folder)
-    {
+  foreach ($arrFolders as $key => $folder) {
     $zebra_class = (($nestLevel+1)*$idx) % 2 == 0 ? 'even' : 'odd';
     $title = null;
 
-    if (($folder_class = rcmail_folder_classname($folder['id'])) && !$realnames)
+    if (($folder_class = rcmail_folder_classname($folder['id'])) && !$realnames) {
       $foldername = rcube_label($folder_class);
-    else
-      {
+    }
+    else {
       $foldername = $folder['name'];
 
       // shorten the folder name to a given length
-      if ($maxlength && $maxlength>1)
-        {
+      if ($maxlength && $maxlength > 1) {
         $fname = abbreviate_string($foldername, $maxlength);
         if ($fname != $foldername)
           $title = $foldername;
         $foldername = $fname;
-        }
       }
+    }
 
     // make folder name safe for ids and class names
     $folder_id = asciiwords($folder['id'], true);
@@ -1054,35 +1058,45 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, $maxlength, $
       $classes[] = 'selected';
 
     $collapsed = preg_match('/&'.rawurlencode($folder['id']).'&/', $RCMAIL->config->get('collapsed_folders'));
+    $unread = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
+    
+    if ($folder['virtual'])
+      $classes[] = 'virtual';
+    else if ($unread)
+      $classes[] = 'unread';
 
     $js_name = JQ($folder['id']);
+    $html_name = Q($foldername . ($unread ? " ($unread)" : ''));
+    $link_attrib = $folder['virtual'] ? array() : array(
+      'href' => rcmail_url('', array('_mbox' => $folder['id'])),
+      'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
+      'title' => $title,
+    );
+
     $out .= html::tag('li', array(
         'id' => "rcmli".$folder_id,
         'class' => join(' ', $classes),
         'noclose' => true),
-      html::a(array(
-        'href' => rcmail_url('', array('_mbox' => $folder['id'])),
-        'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
-        'onmouseover' => sprintf("return %s.focus_folder('%s')", JS_OBJECT_NAME, $js_name),
-        'onmouseout' => sprintf("return %s.unfocus_folder('%s')", JS_OBJECT_NAME, $js_name),
-        'onmouseup' => sprintf("return %s.folder_mouse_up('%s')", JS_OBJECT_NAME, $js_name),
-        'title' => $title,
-      ), Q($foldername)) .
+      html::a($link_attrib, $html_name) .
       (!empty($folder['folders']) ? html::div(array(
         'class' => ($collapsed ? 'collapsed' : 'expanded'),
         'style' => "position:absolute",
         'onclick' => sprintf("%s.command('collapse-folder', '%s')", JS_OBJECT_NAME, $js_name)
       ), '&nbsp;') : ''));
     
-    if (!empty($folder['folders']))
-      $out .= "\n<ul" . ($collapsed ? " style=\"display: none;\"" : "") . ">\n" . rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $maxlength, $realnames, $nestLevel+1) . "</ul>\n";
+    $jslist[$folder_id] = array('id' => $folder['id'], 'name' => $foldername, 'virtual' => $folder['virtual']);
+    
+    if (!empty($folder['folders'])) {
+      $out .= html::tag('ul', array('style' => ($collapsed ? "display:none;" : null)),
+        rcmail_render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel+1));
+    }
 
     $out .= "</li>\n";
     $idx++;
-    }
+  }
 
   return $out;
-  }
+}
 
 
 /**
