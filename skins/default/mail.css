@@ -506,6 +506,11 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
   cursor: inherit;
 }
 
+#messagelist tr td.subject a
+{
+  cursor: default;
+}
+
 #messagelist col
 {
   display: table-column;
