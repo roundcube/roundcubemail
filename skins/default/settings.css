@@ -161,13 +161,18 @@ div.settingspart
 
 #subscription-table tbody td
 {
-  height: 16px;
+  height: 20px;
   padding-left: 6px;
   padding-right: 10px;
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   background-color: #F9F9F9;
   cursor: pointer;
+}
+
+#subscription-table tr.virtual td
+{
+  color: #666;
 }
 
 #subscription-table tr.selected td,

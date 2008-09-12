@@ -96,16 +96,16 @@ else if ($RCMAIL->action=='rename-folder')
       {
       if (preg_match($regexp, $folderlist[$x]))
         {
-	$oldfolder = $oldname . $delimiter . preg_replace($regexp, '', $folderlist[$x]);
+        $oldfolder = $oldname . $delimiter . preg_replace($regexp, '', $folderlist[$x]);
         $foldersplit = explode($delimiter, $folderlist[$x]);
         $level = count($foldersplit) - 1;
         $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) 
-	    . rcube_charset_convert($foldersplit[$level], 'UTF-7');
+          . rcube_charset_convert($foldersplit[$level], 'UTF-7');
 
-	$before = isset($folderlist[$x+1]) ? rcube_charset_convert($folderlist[$x+1], 'UTF-7') : false;
+        $before = isset($folderlist[$x+1]) ? rcube_charset_convert($folderlist[$x+1], 'UTF-7') : false;
         
-	$OUTPUT->command('replace_folder_row', rcube_charset_convert($oldfolder, 'UTF-7'),
-	    rcube_charset_convert($folderlist[$x], 'UTF-7'), $display_rename, $before);
+        $OUTPUT->command('replace_folder_row', rcube_charset_convert($oldfolder, 'UTF-7'),
+          rcube_charset_convert($folderlist[$x], 'UTF-7'), $display_rename, $before);
         }
       }
 
@@ -115,8 +115,7 @@ else if ($RCMAIL->action=='rename-folder')
     $index = array_search($rename, $folderlist);
     $before = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF-7') : false;
 
-    $OUTPUT->command('replace_folder_row', $oldname_utf8, rcube_charset_convert($rename, 'UTF-7'),
-	$display_rename, $before);
+    $OUTPUT->command('replace_folder_row', $oldname_utf8, rcube_charset_convert($rename, 'UTF-7'), $display_rename, $before);
 
     $OUTPUT->command('reset_folder_rename');
     }
@@ -174,19 +173,14 @@ function rcube_subscription_form($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmSubscriptionlist';
 
-  // allow the following attributes to be added to the <table> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
-
-  $out = "$form_start\n<table" . $attrib_str . ">\n";
-
+  $table = new html_table();
 
   // add table header
-  $out .= "<thead><tr>\n";
-  $out .= sprintf('<td class="name">%s</td><td class="msgcount">%s</td><td class="subscribed">%s</td>'.
-                  '<td class="rename">&nbsp;</td><td class="delete">&nbsp;</td>',
-                  rcube_label('foldername'), rcube_label('messagecount'), rcube_label('subscribed'));
-                  
-  $out .= "\n</tr></thead>\n<tbody>\n";
+  $table->add_header('name', rcube_label('foldername'));
+  $table->add_header('msgcount', rcube_label('messagecount'));
+  $table->add_header('subscribed', rcube_label('subscribed'));
+  $table->add_header('rename', '&nbsp;');
+  $table->add_header('delete', '&nbsp;');
 
 
   // get folders from server
@@ -195,69 +189,80 @@ function rcube_subscription_form($attrib)
   $a_unsubscribed = $IMAP->list_unsubscribed();
   $a_subscribed = $IMAP->list_mailboxes();
   $delimiter = $IMAP->get_hierarchy_delimiter();
-  $a_js_folders = array();
+  $a_js_folders = $seen_folders = $list_folders = array();
+  
+  // pre-process folders list
+  foreach ($a_unsubscribed as $i => $folder) {
+    $foldersplit = explode($delimiter, $folder);
+    $name = rcube_charset_convert(array_pop($foldersplit), 'UTF-7');
+    $parent_folder = join($delimiter, $foldersplit);
+    $level = count($foldersplit);
+    
+    // add a "virtual" parent folder
+    if ($parent_folder && !$seen[$parent_folder]++) {
+      $parent_name = rcube_charset_convert($foldersplit[$level-1], 'UTF-7');
+      $list_folders[] = array('id' => $parent_folder, 'name' => $parent_name, 'level' => $level-1, 'virtual' => true);
+    }
+    
+    $list_folders[] = array('id' => $folder, 'name' => $name, 'level' => $level);
+    $seen[$folder]++;
+  }
 
-  $checkbox_subscribe = new html_checkbox(array('name' => '_subscribed[]', 'onclick' => JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)"));
+  $checkbox_subscribe = new html_checkbox(array(
+    'name' => '_subscribed[]',
+    'onclick' => JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)",
+  ));
   
   if (!empty($attrib['deleteicon']))
-    $del_button = sprintf('<img src="%s%s" alt="%s" border="0" />', $CONFIG['skin_path'], $attrib['deleteicon'], rcube_label('delete'));
+    $del_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete'), 'border' => 0));
   else
     $del_button = rcube_label('delete');
 
   if (!empty($attrib['renameicon']))
-    $edit_button = sprintf('<img src="%s%s" alt="%s" border="0" />', $CONFIG['skin_path'], $attrib['renameicon'], rcube_label('rename'));
+    $edit_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['renameicon'], 'alt' => rcube_label('rename'), 'border' => 0));
   else
     $del_button = rcube_label('rename');
-
-  // create list of available folders
-  foreach ($a_unsubscribed as $i => $folder)
-    {
-    $subscribed = in_array($folder, $a_subscribed);
-    $protected = ($CONFIG['protect_default_folders'] == TRUE && in_array($folder,$CONFIG['default_imap_folders']));
-    $zebra_class = $i%2 ? 'even' : 'odd';
-    $folder_js = JQ($folder);
-    $foldersplit = explode($delimiter, $folder);
-    $level = count($foldersplit) - 1;
-    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
-    $folder_html = $CONFIG['protect_default_folders'] && in_array($folder, $CONFIG['default_imap_folders']) ? rcmail_localize_foldername($folder) : $display_folder;
-    $folder_utf8 = rcube_charset_convert($folder, 'UTF-7');
-
-    $a_js_folders['rcmrow'.($i+1)] = array($folder_utf8, $display_folder, $protected);
-
-    $out .= sprintf('<tr id="rcmrow%d" class="%s"><td class="name">%s</td><td class="msgcount">%d</td>',
-                    $i+1,
-                    $zebra_class,
-                    Q($folder_html),
-                    $IMAP->messagecount($folder));
-                    
-    if ($protected)
-      $out .= '<td class="subscribed">&nbsp;'.($subscribed ? '&#x2022;' : '-').'</td>';
-    else
-      $out .= '<td class="subscribed">'.$checkbox_subscribe->show($subscribed?$folder_utf8:'', array('value' => $folder_utf8)).'</td>';
-
-    // add rename and delete buttons
-    if (!$protected)
-      $out .= sprintf('<td class="rename"><a href="#rename" title="%s">%s</a>'.
-                      '<td class="delete"><a href="#delete" title="%s">%s</a></td>',
-                      rcube_label('renamefolder'),
-                      $edit_button,
-                      rcube_label('deletefolder'),
-                      $del_button);
-    else
-      $out .= '<td></td><td></td>';
     
-    $out .= "</tr>\n";
+  // create list of available folders
+  foreach ($list_folders as $i => $folder) {
+    $idx = $i + 1;
+    $subscribed = in_array($folder['id'], $a_subscribed);
+    $protected = ($folder['virtual'] || ($CONFIG['protect_default_folders'] == true && in_array($folder['id'], $CONFIG['default_imap_folders'])));
+    $classes = array($i%2 ? 'even' : 'odd');
+    $folder_js = JQ($folder['id']);
+    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level']) . ($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
+    $folder_utf8 = rcube_charset_convert($folder['id'], 'UTF-7');
+    
+    if ($folder['virtual'])
+      $classes[] = 'virtual';
+    
+    $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
+    
+    $table->add('name', Q($display_folder));
+    $table->add('msgcount', ($folder['virtual'] ? '' : $IMAP->messagecount($folder['id'])));
+    $table->add('subscribed', $protected ? ($subscribed ? '&nbsp;&#x2022;' : '&nbsp;-') :
+        $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''), array('value' => $folder_utf8)));
+    
+    // add rename and delete buttons
+    if (!$protected) {
+      $table->add('rename', html::a(array('href' => "#rename", 'title' => rcube_label('renamefolder')), $edit_button));
+      $table->add('delete', html::a(array('href' => "#delete", 'title' => rcube_label('deletefolder')), $del_button));
     }
+    else {
+      $table->add(null, '');
+      $table->add(null, '');
+    }
+    
+    $a_js_folders['rcmrow'.$idx] = array($folder_utf8, $display_folder, $protected);
+  }
 
-  $out .= "</tbody>\n</table>";
-  $out .= "\n$form_end";
 
   $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
   $OUTPUT->set_env('subscriptionrows', $a_js_folders);
   $OUTPUT->set_env('defaultfolders', $CONFIG['default_imap_folders']);
   $OUTPUT->set_env('delimiter', $delimiter);
 
-  return $out;  
+  return $form_start . $table->show($attrib) . $form_end;
   }
 
 

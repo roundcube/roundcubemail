@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/12 (thomasb)
+----------
+- Refactor drag & drop functionality. Don't rely on browser events anymore (#1484453)
+- Insert "virtual" folders in subscription list (#1484779)
+
 2008/09/05 (thomasb)
 ----------
 - Enable export of address book contacts as vCard
