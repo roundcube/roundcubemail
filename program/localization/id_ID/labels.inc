@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/id_ID/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/id_ID/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -52,6 +52,7 @@ $labels['filename'] = 'Nama berkas';
 $labels['filesize'] = 'Ukuran berkas';
 $labels['preferhtml'] = 'Lebih suka HTML';
 $labels['htmlmessage'] = 'Pesan HTML';
+$labels['showknownimages'] = 'Tampilakn gambar dari pengirim yang dikenal';
 $labels['prettydate'] = 'Tanggal cantik';
 $labels['addtoaddressbook'] = 'Tambahkan ke buku tamu';
 $labels['sun'] = 'Min';
@@ -68,6 +69,30 @@ $labels['wednesday'] = 'Rabu';
 $labels['thursday'] = 'Kamis';
 $labels['friday'] = 'Jumat';
 $labels['saturday'] = 'Sabtu';
+$labels['jan'] = 'Jan';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Apr';
+$labels['may'] = 'Mei';
+$labels['jun'] = 'Jun';
+$labels['jul'] = 'Jul';
+$labels['aug'] = 'Ags';
+$labels['sep'] = 'Sep';
+$labels['oct'] = 'Okt';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Des';
+$labels['longjan'] = 'Januari';
+$labels['longfeb'] = 'Februari';
+$labels['longmar'] = 'Maret';
+$labels['longapr'] = 'April';
+$labels['longmay'] = 'Mei';
+$labels['longjun'] = 'Juni';
+$labels['longjul'] = 'Juli';
+$labels['longaug'] = 'Agustus';
+$labels['longsep'] = 'Spetember';
+$labels['longoct'] = 'Oktober';
+$labels['longnov'] = 'November';
+$labels['longdec'] = 'Desember';
 $labels['today'] = 'Hari ini';
 $labels['checkmail'] = 'Periksa pesan baru';
 $labels['writenewmessage'] = 'Buat pesan baru';
@@ -90,6 +115,8 @@ $labels['viewsource'] = 'Perlihatkan kode sumber';
 $labels['markmessages'] = 'Tandai Pesan';
 $labels['markread'] = 'Terbaca';
 $labels['markunread'] = 'Belum Terbaca';
+$labels['markflagged'] = 'Sudah ditandai';
+$labels['markunflagged'] = 'Belum ditandai';
 $labels['select'] = 'Pilih';
 $labels['all'] = 'Semua';
 $labels['none'] = 'Tidak satupun';
@@ -122,8 +149,11 @@ $labels['high'] = 'Tinggi';
 $labels['highest'] = 'tertinggi';
 $labels['nosubject'] = '(tanpa judul)';
 $labels['showimages'] = 'Tampilkan gambar';
+$labels['alwaysshow'] = 'Selalu tampilkan gambar dari $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Text murni';
+$labels['savesentmessagein'] = 'Simpan pesan terkirim di';
+$labels['dontsave'] = 'Jangan disimpan';
 $labels['addcc'] = 'Tambah Cc';
 $labels['addbcc'] = 'Tambah Bcc';
 $labels['addreplyto'] = 'Tambah Balas Ke';
@@ -171,9 +201,24 @@ $labels['dstactive'] = 'Waktu Musim Panas';
 $labels['htmleditor'] = 'Tulis pesan HTML';
 $labels['htmlsignature'] = 'Tandatangan HTML';
 $labels['previewpane'] = 'Perlihatkan tempat melihat';
+$labels['skin'] = 'Tampilan antarmuka';
+$labels['logoutclear'] = 'Bersihkan Tong Sampah saat keluar';
+$labels['logoutcompact'] = 'Mampatkan Kotak Masuk saat keluar';
+$labels['uisettings'] = 'Antarmuka pengguna';
+$labels['serversettings'] = 'Pengaturan Server';
+$labels['mailboxview'] = 'Tampilan Kotak Surat';
+$labels['mdnrequests'] = 'Pemberitahuan pada pengirim';
+$labels['askuser'] = 'tanya si pengguna';
+$labels['autosend'] = 'kirim otomatis';
+$labels['ignore'] = 'acuhkan';
+$labels['readwhendeleted'] = 'Tandai pesan sebagai terbaca saat dihapus';
+$labels['flagfordeletion'] = 'Tandai pesan untuk penghapusan daripada dihapus';
+$labels['showinlineimages'] = 'Tampilkan gambar terlampir dibawah pesan';
 $labels['autosavedraft'] = 'Otomatis menyimpan pesan tertunda';
 $labels['everynminutes'] = 'setiap $n menit';
 $labels['never'] = 'tidak pernah';
+$labels['messagesdisplaying'] = 'Penampilan Pesan';
+$labels['messagescomposition'] = 'Pengaturan Pesan';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Map-map';
 $labels['foldername'] = 'Nama map';
@@ -185,6 +230,7 @@ $labels['rename'] = 'Namai ulang';
 $labels['renamefolder'] = 'Namai ulang map';
 $labels['deletefolder'] = 'Hapus map';
 $labels['managefolders'] = 'Atur map';
+$labels['specialfolders'] = 'Map Khusus';
 $labels['sortby'] = 'Urut berdasarkan';
 $labels['sortasc'] = 'Urut menaik';
 $labels['sortdesc'] = 'Urut menurun';

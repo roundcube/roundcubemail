@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/id_ID/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/id_ID/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'Pesan ini terenkripsi dan tidak bisa ditampilka
 $messages['nocontactsfound'] = 'Kontak tidak ditemukan';
 $messages['contactnotfound'] = 'Kontak yang diminta tidak ditemukan';
 $messages['sendingfailed'] = 'Pengiriman pesan gagal';
+$messages['errorsavingsent'] = 'Error ketika menyimpan pesan terkirim';
 $messages['errorsaving'] = 'Error ketika menyimpan';
 $messages['errormoving'] = 'Pesan tidak bisa dipindahkan';
 $messages['errordeleting'] = 'Pesan tidak bisa dihapus';
@@ -52,7 +53,7 @@ $messages['noemailwarning'] = 'Tolong masukkan alamat email yang valid';
 $messages['nonamewarning'] = 'Tolong masukkan nama';
 $messages['nopagesizewarning'] = 'Tolong masukkan ukuran halaman';
 $messages['norecipientwarning'] = 'Tolong masukkan sedikitnya satu penerima';
-$messages['nosubjectwarning'] = '\\"Judul\\" kosong. Isi judul sekarang?';
+$messages['nosubjectwarning'] = '"Judul" kosong. Isi judul sekarang?';
 $messages['nobodywarning'] = 'Kirim pesan ini tanpa teks?';
 $messages['notsentwarning'] = 'Pesan belum terkirim. Buang pesan Anda?';
 $messages['noldapserver'] = 'Tolong pilih server LDAP untuk pencarian';
@@ -78,5 +79,6 @@ $messages['receiptsent'] = 'Berhasil mengirim pemberitahuan tanda terima telah t
 $messages['errorsendingreceipt'] = 'Tidak dapat mengirim tanda terima';
 $messages['nodeletelastidentity'] = 'Anda tidak bida mengapus identitas ini, ini identitas yang terakhir';
 $messages['addsubfolderhint'] = 'Folder ini akan dibuat sebagai subfolder pada folder yang terpilih';
+$messages['forbiddencharacter'] = 'Nama folder mengandung karakter terlarang';
 
 ?>
