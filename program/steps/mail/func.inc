@@ -446,7 +446,7 @@ function rcmail_quota_display($attrib)
   $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'display'));
 
   $out = '<span' . $attrib_str . '>';
-  $out .= rcmail_quota_content();
+  $out .= rcmail_quota_content(NULL, $attrib);
   $out .= '</span>';
   return $out;
   }
@@ -455,7 +455,7 @@ function rcmail_quota_display($attrib)
 /**
  *
  */
-function rcmail_quota_content($quota=NULL)
+function rcmail_quota_content($quota=NULL, $attrib=NULL)
   {
   global $IMAP, $COMM_PATH, $RCMAIL;
 
@@ -481,14 +481,23 @@ function rcmail_quota_content($quota=NULL)
     // show quota as image (by Brett Patterson)
     if ($display == 'image' && function_exists('imagegif'))
       {
-      $attrib = array('width' => 100, 'height' => 14);
+      if (!$attrib['width'])
+        $attrib['width'] = isset($_SESSION['quota_width']) ? $_SESSION['quota_width'] : 100;
+      else
+	$_SESSION['quota_width'] = $attrib['width'];
+
+      if (!$attrib['height'])
+        $attrib['height'] = isset($_SESSION['quota_height']) ? $_SESSION['quota_height'] : 14;
+      else
+	$_SESSION['quota_height'] = $attrib['height'];
+	    
       $quota_text = sprintf('<img src="./bin/quotaimg.php?u=%s&amp;q=%d&amp;w=%d&amp;h=%d" width="%d" height="%d" alt="%s" title="%s / %s" />',
                             $quota['used'], $quota['total'],
                             $attrib['width'], $attrib['height'],
                             $attrib['width'], $attrib['height'],
                             $quota_text,
-                            show_bytes($quota["used"] * 1024),
-                            show_bytes($quota["total"] * 1024));
+                            show_bytes($quota['used'] * 1024),
+                            show_bytes($quota['total'] * 1024));
       }
     }
   else

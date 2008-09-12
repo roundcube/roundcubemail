@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Added vertical splitter for folders list resizing
 - Added possibility to view all headers in message view
 - Fixed splitter drag/resize on Opera (#1485170)
+- Fixed quota img height/width setting from template (#1484857)
 
 2008/09/12 (thomasb)
 ----------
