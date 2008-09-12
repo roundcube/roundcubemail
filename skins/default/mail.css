@@ -1001,6 +1001,12 @@ table.headers-table tr td.more-headers
   border-bottom: 0;
 }
 
+table.headers-table tr td.all
+{
+  padding: 2px 6px 4px 6px;
+  border-bottom: 0;
+}
+
 td.show-headers
 {
   background: url(images/icons/down_small.gif) no-repeat center;
