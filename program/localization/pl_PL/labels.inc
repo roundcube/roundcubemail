@@ -137,6 +137,7 @@ $labels['unknown'] = 'nieznane';
 $labels['unlimited'] = 'bez limitu';
 $labels['quicksearch'] = 'Szybkie wyszukiwanie';
 $labels['resetsearch'] = 'Wyczyść filtr';
+$labels['openinextwin'] = 'Otwórz w nowym oknie';
 $labels['compose'] = 'Utwórz wiadomość';
 $labels['savemessage'] = 'Zapisz kopię roboczą';
 $labels['sendmessage'] = 'Wyślij teraz';
