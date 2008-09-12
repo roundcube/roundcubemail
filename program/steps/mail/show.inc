@@ -80,6 +80,7 @@ if ($_GET['_uid']) {
   $OUTPUT->set_env('uid', $MESSAGE->uid);
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
+  $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
   
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
@@ -152,14 +153,15 @@ function rcmail_message_attachments($attrib)
         $ol .= html::tag('li', null, sprintf("%s (%s)", Q($attach_prop->filename), Q(show_bytes($attach_prop->size))));
       }
       else {
-	if (rc_strlen($attach_prop->filename) > 50) {
-          $filename = rc_substr($attach_prop->filename, 0, 25) . '...' . rc_substr($attach_prop->filename, strlen($attach_prop->filename)-20, 20);
-	  $title = $attach_prop->filename;
-	} else {
-	  $filename = $attach_prop->filename;
-	  $title = '';
-	}
-		  
+        if (rc_strlen($attach_prop->filename) > 50) {
+          $filename = abbreviate_string($attach_prop->filename, 50);
+          $title = $attach_prop->filename;
+      }
+      else {
+        $filename = $attach_prop->filename;
+        $title = '';
+      }
+
         $ol .= html::tag('li', null,
           html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id),
@@ -168,7 +170,7 @@ function rcmail_message_attachments($attrib)
               JS_OBJECT_NAME,
               $attach_prop->mime_id,
               $attach_prop->mimetype),
-	    'title' => Q($title),  
+              'title' => Q($title),
             ),
             Q($filename)));
       }

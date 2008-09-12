@@ -122,6 +122,9 @@ function rcube_webmail()
     // enable general commands
     this.enable_command('logout', 'mail', 'addressbook', 'settings', true);
     
+    if (this.env.permaurl)
+      this.enable_command('permaurl', true);
+    
     switch (this.task)
       {
       case 'mail':
@@ -529,6 +532,12 @@ function rcube_webmail()
         this.switch_task(command);
         break;
 
+      case 'permaurl':
+        if (obj && obj.href && obj.target)
+          return true;
+        else if (this.env.permaurl)
+          parent.location.href = this.env.permaurl;
+          break;
 
       // misc list commands
       case 'list':

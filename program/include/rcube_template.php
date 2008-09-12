@@ -752,10 +752,13 @@ class rcube_template extends rcube_html_page
 
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
-                $attrib['href'] = Q(rcmail_url(null, null, $attrib['command']));
+                $attrib['href'] = rcmail_url(null, null, $attrib['command']);
             }
             else if (in_array($attrib['command'], $a_static_commands)) {
-                $attrib['href'] = Q(rcmail_url($attrib['command']));
+                $attrib['href'] = rcmail_url($attrib['command']);
+            }
+            else if ($attrib['command'] == 'permaurl' && !empty($this->env['permaurl'])) {
+                $attrib['href'] = $this->env['permaurl'];
             }
         }
 
@@ -817,11 +820,11 @@ class rcube_template extends rcube_html_page
             if ($attrib['label']) {
                 $btn_content .= ' '.$attrib['label'];
             }
-            $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'title');
+            $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'title', 'target');
         }
         else if ($attrib['type']=='link') {
             $btn_content = $attrib['label'] ? $attrib['label'] : $attrib['command'];
-            $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style', 'tabindex');
+            $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style', 'tabindex', 'target');
         }
         else if ($attrib['type']=='input') {
             $attrib['type'] = 'button';

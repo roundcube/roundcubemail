@@ -11,6 +11,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Refactor drag & drop functionality. Don't rely on browser events anymore (#1484453)
 - Insert "virtual" folders in subscription list (#1484779)
+- Added link to open message in new window
 
 2008/09/05 (thomasb)
 ----------

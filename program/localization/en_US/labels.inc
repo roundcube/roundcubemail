@@ -160,6 +160,7 @@ $labels['unlimited']  = 'unlimited';
 $labels['quicksearch']  = 'Quick search';
 $labels['resetsearch']  = 'Reset search';
 
+$labels['openinextwin'] = 'Open in new window';
 
 // message compose
 $labels['compose']        = 'Compose a message';

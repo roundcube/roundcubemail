@@ -632,6 +632,7 @@ html>body*#messagelist[id$="messagelist"]:not([class="none"]) { table-layout: au
 
 div.messageheaderbox
 {
+  position: relative;
   margin: 6px 8px 0px 8px;
   border: 1px solid #ccc;
 }
@@ -649,6 +650,11 @@ table.headers-table
   margin: 6px 8px;
   background-color: #F4F4F4;
   border: 1px solid #ccc;
+}
+
+#messageframe table.headers-table
+{
+  border-bottom: 1px solid #ccc;
 }
 
 table.headers-table tr td
@@ -813,6 +819,15 @@ div.message-htmlpart div.rcmBody
   color: #333333;
 }
 
+#messageviewlink
+{
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 15px;
+  height: 15px;
+  border: 0;
+}
 
 /** message compose styles */
 
@@ -978,19 +993,20 @@ div.message-htmlpart div.rcmBody
   margin-top: 4px;
 }
 
-.more-headers
+table.headers-table tr td.more-headers
 {
   cursor: pointer;
   width: 100%;
-  height: 6px;
+  height: 8px;
+  border-bottom: 0;
 }
 
-.show-headers
+td.show-headers
 {
   background: url(images/icons/down_small.gif) no-repeat center;
 }
 
-.hide-headers
+td.hide-headers
 {
   background: url(images/icons/up_small.gif) no-repeat center;
 }
@@ -1004,7 +1020,7 @@ div.message-htmlpart div.rcmBody
 #headers-source
 {
   margin: 0 5px;
-  width: 100%;
+  padding: 0.5em;
   height: 145px;
   background: white;
   overflow: auto;
@@ -1013,7 +1029,7 @@ div.message-htmlpart div.rcmBody
   border: 1px solid #999999;
   display: none;
   text-align: left;
-  color: #666666;
+  color: #333;
 }
 
 font.bold

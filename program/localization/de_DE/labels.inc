@@ -129,6 +129,7 @@ $labels['unknown'] = 'unbekannt';
 $labels['unlimited'] = 'unbegrenzt';
 $labels['quicksearch'] = 'Schnellsuche';
 $labels['resetsearch'] = 'Suche zurücksetzen';
+$labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['compose'] = 'Neue Nachricht verfassen';
 $labels['savemessage'] = 'Nachricht speichern';
 $labels['sendmessage'] = 'Nachricht jetzt senden';
