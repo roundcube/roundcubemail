@@ -643,8 +643,8 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
 function rcmail_xss_entitiy_decode($content)
 {
   $out = html_entity_decode(html_entity_decode($content));
-  $out = preg_replace('/\\\00([a-z0-9]{2})/ie', "chr(hexdec('\\1'))", $out);
-  $out = preg_replace('#/\*.+\*/#Um', '', $out);
+  $out = preg_replace('/\\\([a-z0-9]{4})/ie', "chr(hexdec('\\1'))", $out);
+  $out = preg_replace('#/\*.*\*/#Um', '', $out);
   return $out;
 }
 
