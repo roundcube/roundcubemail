@@ -631,3 +631,29 @@ RegExp.escape = function(str)
   {
   return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
   }
+
+
+// Make getElementById() case-sensitive on IE
+if (bw.ie)
+  {
+  document._getElementById = document.getElementById;
+  document.getElementById = function(id)
+    {
+    var a = [];
+    var o = document._getElementById(id);
+
+    while (o.id != id)
+      {
+      a.push({i:o.id,e:o});
+      o.id = '';
+      o = document._getElementById(id);
+      if (!o) return o;
+      }
+
+    for (j=0,jj=a.length; j<jj; j++)
+      a[j].e.id = a[j].i;
+
+    a = null;
+    return o;
+    }
+  }
