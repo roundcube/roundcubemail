@@ -642,7 +642,7 @@ if (bw.ie)
     var i = 0;
     var o = document._getElementById(id);
 
-    if (o.id != id)
+    if (!o || o.id != id)
       while ((o = document.all[i]) && o.id != id)
         i++;
 
