@@ -49,8 +49,12 @@ span.tablink-selected a
   position: absolute;
   top: 95px;
   left: 20px;
+  bottom: 30px;
   width: 600px;
+  overflow: auto;
   border: 1px solid #999999;  
+  /* css hack for IE */
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 #userprefs-box table td.title
@@ -73,6 +77,7 @@ span.tablink-selected a
   bottom: 140px;
   overflow: auto;
   border: 1px solid #999999;
+  /* css hack for IE */
   height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
 }
 
@@ -144,7 +149,6 @@ div.settingsbox
 {
   width: 600px;
   margin-top: 20px;
-  margin-bottom: 20px;
   border: 1px solid #999999;
 }
 
@@ -214,4 +218,3 @@ legend
 {
   color: #999999;
 }
-  
