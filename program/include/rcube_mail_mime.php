@@ -141,7 +141,7 @@ class rcube_mail_mime extends Mail_mime
         $value = trim($value);
 
         //This header contains non ASCII chars and should be encoded.
-        if (preg_match('#[\x00-\x1F\x80-\xFF]{1}#', $value)) {
+        if (preg_match('/[\x80-\xFF]{1}/', $value)) {
           $suffix = '';
           // Don't encode e-mail address
           if (preg_match('/(.+)\s(<.+@[a-z0-9\-\.]+>)$/Ui', $value, $matches)) {
@@ -160,9 +160,9 @@ class rcube_mail_mime extends Mail_mime
             default:
             // quoted-printable encoding has been selected
             $mode = 'Q';
-            $encoded = preg_replace('/([\x3F\x00-\x1F\x80-\xFF])/e', "'='.sprintf('%02X', ord('\\1'))", $value);
-            // replace spaces with _
-            $encoded = str_replace(' ', '_', $encoded);
+            // replace ?, =, _ and spaces
+            $encoded = str_replace(array('=','_','?',' '), array('=3D','=5F','=3F','_'), $value);
+            $encoded = preg_replace('/([\x80-\xFF])/e', "'='.sprintf('%02X', ord('\\1'))", $encoded);
           }
 
           $value = '=?' . $params['head_charset'] . '?' . $mode . '?' . $encoded . '?=' . $suffix;
