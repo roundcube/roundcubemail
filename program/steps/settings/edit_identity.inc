@@ -71,7 +71,7 @@ function rcube_identity_form($attrib)
   $a_show_cols = array('name'         => array('type' => 'text'),
                        'email'        => array('type' => 'text'),
                        'organization' => array('type' => 'text'),
-                       'reply-to'     => array('type' => 'text', 'label' => 'replyto'),
+                       'reply-to'     => array('type' => 'text', 'label' => 'reply-to'),
                        'bcc'          => array('type' => 'text'),
                        'signature'	  => array('type' => 'textarea', 'size' => "40", 'rows' => "6"),
                        'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'rcmfd_signature\');'),
