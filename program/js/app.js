@@ -3683,6 +3683,7 @@ function rcube_webmail()
       }
     };
 
+
   // display all-headers row and fetch raw message headers
   this.load_headers = function(elem)
     {
@@ -3697,7 +3698,7 @@ function rcube_webmail()
     // fetch headers only once
     if (!this.gui_objects.all_headers_box.innerHTML)
       {
-      this.set_busy(true, 'loading');
+      this.display_message(this.get_label('loading'), 'loading', true); 
       this.http_post('headers', '_uid='+this.env.uid);
       }
     }
