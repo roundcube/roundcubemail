@@ -895,6 +895,9 @@ class rcmail
     if (!$p['task'] || !in_array($p['task'], rcmail::$main_tasks))
       $p['task'] = $this->task;
 
+    $p['_task'] = $p['task'];
+    unset($p['task']);
+
     $url = './';
     $delm = '?';
     foreach (array_reverse($p) as $par => $val)
