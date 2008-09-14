@@ -3750,11 +3750,6 @@ function rcube_webmail()
     console.log(httpRequest.get_text());
     }
 
-  this.handle_conv_error = function(httpRequest)
-    {
-    alert('html2text request returned with error ' + httpRequest.xmlhttp.status);
-    }
-
 
   /********************************************************/
   /*********        remote request methods        *********/
