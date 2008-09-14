@@ -230,7 +230,7 @@ function rcmail_user_prefs_form($attrib)
   // Configure special folders
   if (!isset($no_override['default_imap_folders'])) {
     $RCMAIL->imap_init(true);
-    $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true));
+    $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true, 'maxlength' => 30));
     
     $table = new html_table(array('cols' => 2));
 

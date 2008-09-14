@@ -815,7 +815,7 @@ function rcmail_editor_selector($attrib)
 function rcmail_store_target_selection($attrib)
 {
   $attrib['name'] = '_store_target';
-  $select = rcmail_mailbox_select(array('noselection' => '- '.rcube_label('dontsave').' -'));
+  $select = rcmail_mailbox_select(array_merge($attrib, array('noselection' => '- '.rcube_label('dontsave').' -')));
   return $select->show(rcmail::get_instance()->config->get('sent_mbox'), $attrib);
 }
 
