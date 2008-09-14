@@ -3648,13 +3648,21 @@ function rcube_webmail()
   this.toggle_editor = function(checkbox, textAreaId)
     {
     var ischecked = checkbox.checked;
+    var composeElement = document.getElementById(textAreaId);
+    
     if (ischecked)
       {
-        tinyMCE.execCommand('mceAddControl', true, textAreaId);
+      var existingPlainText = composeElement.value;
+      var htmlText = "<pre>" + existingPlainText + "</pre>";
+      composeElement.value = htmlText;
+      tinyMCE.execCommand('mceAddControl', true, textAreaId);
       }
     else
       {
-        tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
+      var thisMCE = tinyMCE.get(textAreaId);
+      var existingHtml = thisMCE.getContent();
+      this.html2plain(existingHtml, textAreaId);
+      tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
       }
     };
 
@@ -3714,6 +3722,37 @@ function rcube_webmail()
     this.set_classname(elem, 'show-headers', true);
     this.gui_objects.all_headers_row.style.display = 'none';
     elem.onclick = function() { rcmail.load_headers(elem); }
+    }
+
+
+  /********************************************************/
+  /*********  html to text conversion functions   *********/
+  /********************************************************/
+
+  this.html2plain = function(htmlText, id)
+    {
+    var http_request = new rcube_http_request();
+    var url = this.env.bin_path+'html2text.php';
+    var rcmail = this;
+
+    this.set_busy(true, 'converting');
+    console.log('HTTP POST: '+url);
+
+    http_request.onerror = function(o) { rcmail.http_error(o); };
+    http_request.oncomplete = function(o) { rcmail.set_text_value(o, id); };
+    http_request.POST(url, htmlText, 'application/octet-stream');
+    }
+
+  this.set_text_value = function(httpRequest, id)
+    {
+    this.set_busy(false);
+    document.getElementById(id).value = httpRequest.get_text();
+    console.log(httpRequest.get_text());
+    }
+
+  this.handle_conv_error = function(httpRequest)
+    {
+    alert('html2text request returned with error ' + httpRequest.xmlhttp.status);
     }
 
 

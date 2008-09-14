@@ -55,13 +55,10 @@ function rcmail_toggle_editor(toggler)
     }
 
   // do the appropriate conversion
-
-  var composeElement = document.getElementById('compose-body');
-
   if (selectedEditor == 'html')
     {
-    var existingPlainText = composeElement.value;
-    var htmlText = "<pre>" + existingPlainText + "</pre>";
+    var composeElement = document.getElementById('compose-body');
+    var htmlText = "<pre>" + composeElement.value + "</pre>";
     composeElement.value = htmlText;
     tinyMCE.execCommand('mceAddControl', true, 'compose-body');
     htmlFlag.value = "1";
@@ -69,35 +66,11 @@ function rcmail_toggle_editor(toggler)
     }
   else
     {
-    rcmail.set_busy(true, 'converting');
     var thisMCE = tinyMCE.get('compose-body');
     var existingHtml = thisMCE.getContent();
-    rcmail_html2plain(existingHtml);
+    rcmail.html2plain(existingHtml, 'compose-body');
     tinyMCE.execCommand('mceRemoveControl', true, 'compose-body');
     htmlFlag.value = "0";
     rcmail.display_spellcheck_controls(true);
     }
-  }
-
-function rcmail_html2plain(htmlText)
-  {
-  var http_request = new rcube_http_request();
-
-  http_request.onerror = function(o) { rcmail_handle_toggle_error(o); };
-  http_request.oncomplete = function(o) { rcmail_set_text_value(o); };
-  var url = rcmail.env.bin_path+'html2text.php';
-  //console.log('HTTP request: ' + url);
-  http_request.POST(url, htmlText, 'application/octet-stream');
-  }
-
-function rcmail_set_text_value(httpRequest)
-  {
-  rcmail.set_busy(false);
-  var composeElement = document.getElementById('compose-body');
-  composeElement.value = httpRequest.get_text();
-  }
-
-function rcmail_handle_toggle_error(httpRequest)
-  {
-  alert('html2text request returned with error ' + httpRequest.xmlhttp.status);
   }

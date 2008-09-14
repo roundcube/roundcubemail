@@ -60,7 +60,7 @@ function rcube_identity_form($attrib)
     return rcube_label('notfound');
 
   // add some labels to client
-  rcube_add_label('noemailwarning', 'nonamewarning');
+  $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting');
 
 
   list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
