@@ -778,8 +778,6 @@ function rcmail_message_headers($attrib, $headers=NULL)
       else
         continue;
       }
-    else if ($hkey == 'to' && preg_match('/^undisclosed-recipients[:;]*$/', $headers['to']))
-      continue;
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc')))
       $header_value = Q(rcmail_address_string($headers[$hkey], null, true, $attrib['addicon']), 'show');
     else

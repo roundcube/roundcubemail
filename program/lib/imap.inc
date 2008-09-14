@@ -64,6 +64,7 @@
 		- don't return "??" from iil_C_GetQuota()
 		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
 		  optional resposne in iil_Connect(), added iil_C_GetCapability()
+		- remove 'undisclosed-recipients' string from 'To' header
 
 ********************************************************/
 
@@ -1676,7 +1677,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 						$result[$id]->from = $string;
 						break;
 					case 'to':
-						$result[$id]->to = $string;
+						$result[$id]->to = preg_replace('/undisclosed-recipients:[;,]*/', '', $string);
 						break;
 					case 'subject':
 						$result[$id]->subject = $string;
