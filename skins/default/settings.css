@@ -6,12 +6,12 @@
   position: absolute;
   top: 50px;
   left: 220px;
-  right: 60px;
+  right: 40px;
   height: 22px;
   border-bottom: 1px solid #999999;
   white-space: nowrap;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-280)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
 }
 
 span.tablink,
@@ -87,16 +87,42 @@ span.tablink-selected a
   background-color: #FFFFA6;
 }
 
+#identities-list
+{
+  bottom: 60px;
+  width: 420px;
+  border: 1px solid #999999;
+}
+
+#listbuttons
+{
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+}
+
 #identities-table
 {
-  width: 600px;
-  border: 1px solid #999999;
+  width: 420px;
+  table-layout: fixed;
   background-color: #F9F9F9;
 }
 
 #identities-table tbody td
 {
   cursor: default;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#identities-table thead td.name
+{
+  width: 55%;
+}
+
+#identities-table thead td.email
+{
+  width: 45%;
 }
 
 #identity-frame
@@ -108,9 +134,16 @@ span.tablink-selected a
 
 #identity-details
 {
-  margin-top: 30px;
-  width: 600px;
+  position: absolute;
+  top: 95px;
+  left: 450px;
+  right: 40px;
+  bottom: 60px;
   border: 1px solid #999999;
+  overflow: auto;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-490)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-160)+'px');
 }
 
 #identity-details table td.title

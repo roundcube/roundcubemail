@@ -85,5 +85,6 @@ $messages['addresswriterror'] = 'Das ausgewählte Adressbuch kann nicht verände
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
 $messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
 $messages['importconfirm'] = 'Es wurden $inserted Adressen erfolgreich importiert und $skipped bestehende Einträge übersprungen:$names';
+$messages['opnotpermitted'] = 'Operation nicht erlaubt!';
 
 ?>

@@ -77,7 +77,7 @@ if ($_POST['_iid'])
 }
 
 // insert a new identity record
-else
+else if ($RCMAIL->config->get('multiple_identities', true))
 {
   if ($insert_id = $USER->insert_identity($save_data))
   {
@@ -96,6 +96,8 @@ else
     return;
   }
 }
+else
+  $OUTPUT->show_message('opnotpermitted', 'error');
 
 
 // mark all other identities as 'not-default'

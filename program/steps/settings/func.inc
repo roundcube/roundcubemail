@@ -301,7 +301,7 @@ function rcmail_identities_list($attrib)
     $attrib['id'] = 'rcmIdentitiesList';
 
   // define list of cols to be displayed
-  $a_show_cols = array('name', 'email', 'organization', 'reply-to');
+  $a_show_cols = array('name', 'email');
 
   // create XHTML table  
   $out = rcube_table_output($attrib, $USER->list_identities(), $a_show_cols, 'identity_id');
@@ -366,6 +366,7 @@ function rcmail_get_skins()
   return $skins;
   }
 
+$OUTPUT->set_env('multiple_identities', $RCMAIL->config->get('multiple_identities', true));
 
 // register UI objects
 $OUTPUT->add_handlers(array(

@@ -106,6 +106,28 @@ class rcube_template extends rcube_html_page
         $this->pagetitle = $title;
     }
 
+
+    /**
+     * Getter for the current page title
+     *
+     * @return string The page title
+     */
+    public function get_pagetitle()
+    {
+        if (!empty($this->pagetitle)) {
+            $title = $this->pagetitle;
+        }
+        else if ($this->env['task'] == 'login') {
+            $title = rcube_label(array('name' => 'welcome', 'vars' => array('product' => $this->config['product_name'])));
+        }
+        else {
+            $title = ucfirst($this->env['task']);
+        }
+        
+        return $title;
+    }
+
+
     /**
      * Set skin
      */
@@ -357,13 +379,7 @@ class rcube_template extends rcube_html_page
             implode(',', $args)
             );
         }
-        // add command to set page title
-        if ($this->ajax_call && !empty($this->pagetitle)) {
-            $out .= sprintf(
-                "this.set_pagetitle('%s');\n",
-                JQ((!empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '') . $this->pagetitle)
-            );
-        }
+        
         return $out;
     }
 
@@ -455,13 +471,13 @@ class rcube_template extends rcube_html_page
         $condition = preg_replace(
             array(
                 '/session:([a-z0-9_]+)/i',
-                '/config:([a-z0-9_]+)/i',
+                '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
                 '/env:([a-z0-9_]+)/i',
                 '/request:([a-z0-9_]+)/ie'
             ),
             array(
                 "\$_SESSION['\\1']",
-                "\$this->config['\\1']",
+                "\$this->app->config->get('\\1',get_boolean('\\3'))",
                 "\$this->env['\\1']",
                 "get_input_value('\\1', RCUVE_INPUT_GPC)"
             ),
@@ -591,20 +607,12 @@ class rcube_template extends rcube_html_page
                     }
                     return $ver;
                 }
+                if ($object=='steptitle') {
+                  return Q($this->get_pagetitle());
+                }
                 if ($object=='pagetitle') {
-                    $task  = $this->env['task'];
                     $title = !empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '';
-
-                    if (!empty($this->pagetitle)) {
-                        $title .= $this->pagetitle;
-                    }
-                    else if ($task == 'login') {
-                        $title = rcube_label(array('name' => 'welcome', 'vars' => array('product' => $this->config['product_name'])));
-                    }
-                    else {
-                        $title .= ucfirst($task);
-                    }
-
+                    $title .= $this->get_pagetitle();
                     return Q($title);
                 }
                 break;

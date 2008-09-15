@@ -21,15 +21,18 @@
 
 if (($ids = get_input_value('_iid', RCUBE_INPUT_GET)) && preg_match('/^[0-9]+(,[0-9]+)*$/', $ids))
 {
-
-  if ($USER->delete_identity($ids))
-  {
-    $OUTPUT->show_message('deletedsuccessfully', 'confirmation');
+  if ($RCMAIL->config->get('multiple_identities', true)) {
+    if ($USER->delete_identity($ids)) {
+      $OUTPUT->show_message('deletedsuccessfully', 'confirmation');
+    }
+    else {
+      $OUTPUT->show_message('nodeletelastidentity', 'error');
+    }
   }
-  else 
-  {
-    $OUTPUT->show_message('nodeletelastidentity', 'error');
+  else {
+    $OUTPUT->show_message('opnotpermitted', 'error');
   }
+  
   // send response
   if ($OUTPUT->ajax_call)
     $OUTPUT->send();

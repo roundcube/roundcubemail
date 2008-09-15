@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/15 (thomasb)
+----------
+- Redesign of the identities settings (#1484042)
+- Add config option to disable creation/deletion of identities (#1484498)
+
 2008/09/15 (alec)
 ----------
 - Added 'sendmail_delay' option to restrict messages sending interval (#1484491)

@@ -21,14 +21,18 @@
 
 $OUTPUT->set_pagetitle(rcube_label('identities'));
 
-if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity')
-  {
+if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity') {
   $IDENTITY_RECORD = $USER->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
   
   if (is_array($IDENTITY_RECORD))
     $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);
-  }
-
+}
+else if (!$RCMAIL->config->get('multiple_identities', true)) {
+  $OUTPUT->show_message('opnotpermitted', 'error');
+  // go to identities page
+  rcmail_overwrite_action('identities');
+  return;
+}
 
 $OUTPUT->include_script('list.js');
 
@@ -135,6 +139,8 @@ function rcube_identity_form($attrib)
   }
 
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
+
+$OUTPUT->set_pagetitle(rcube_label(($RCMAIL->action=='add-identity' ? 'newidentity' : 'edititem')));
 
 if ($RCMAIL->action=='add-identity' && $OUTPUT->template_exists('addidentity'))
   $OUTPUT->send('addidentity');
