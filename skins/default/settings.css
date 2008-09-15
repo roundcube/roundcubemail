@@ -6,12 +6,12 @@
   position: absolute;
   top: 50px;
   left: 220px;
-  right: 40px;
+  right: 20px;
   height: 22px;
   border-bottom: 1px solid #999999;
   white-space: nowrap;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-260)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
 span.tablink,
@@ -92,6 +92,8 @@ span.tablink-selected a
   bottom: 60px;
   width: 420px;
   border: 1px solid #999999;
+  /* css hack for IE */
+  height: expression((parseInt(document.documentElement.clientHeight)-160)+'px');
 }
 
 #listbuttons
@@ -137,12 +139,12 @@ span.tablink-selected a
   position: absolute;
   top: 95px;
   left: 450px;
-  right: 40px;
+  right: 20px;
   bottom: 60px;
   border: 1px solid #999999;
   overflow: auto;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-490)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-470)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-160)+'px');
 }
 
