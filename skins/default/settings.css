@@ -206,7 +206,7 @@ div.settingspart
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   background-color: #F9F9F9;
-  cursor: pointer;
+  cursor: default;
 }
 
 #subscription-table tr.virtual td
