@@ -504,7 +504,7 @@ function get_offset_time($offset_str, $factor=1)
  * @see    http://de2.php.net/manual/en/ref.fileinfo.php
  * @see    http://de2.php.net/mime_content_type
  */
-function rc_mime_content_type($path, $failover = 'unknown/unknown')
+function rc_mime_content_type($path, $failover = 'application/octet-stream')
 {
     $mime_type = null;
     $mime_magic = rcmail::get_instance()->config->get('mime_magic');
