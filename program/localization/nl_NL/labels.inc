@@ -130,6 +130,7 @@ $labels['unknown'] = 'onbekend';
 $labels['unlimited'] = 'onbeperkt';
 $labels['quicksearch'] = 'Snel zoeken';
 $labels['resetsearch'] = 'Reset zoekopdracht';
+$labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['compose'] = 'Nieuw bericht aanmaken';
 $labels['savemessage'] = 'Bewaar als concept';
 $labels['sendmessage'] = 'Verstuur het bericht nu';

@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'Dit is een gecodeerd bericht en kan niet weerge
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden';
 $messages['contactnotfound'] = 'Contactpersoon niet gevonden';
 $messages['sendingfailed'] = 'Verzenden van bericht is mislukt';
+$messages['senttooquickly'] = 'Je moet $sec seconden wachten om het bericht te versturen.';
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht';
 $messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan';
 $messages['errormoving'] = 'Kan het bericht niet verplaatsen';
