@@ -25,6 +25,9 @@
 $OUTPUT->reset();
 $OUTPUT->framed = TRUE;
 
+$savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
+
+/****** checks ********/
 
 if (!isset($_SESSION['compose']['id'])) {
   raise_error(array('code' => 500, 'file' => __FILE__, 'message' => "Invalid compose ID"), true, false);
@@ -33,9 +36,22 @@ if (!isset($_SESSION['compose']['id'])) {
   $OUTPUT->send('iframe');
 }
 
+if (!$savedraft && empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && empty($_POST['_subject']) && $_POST['_message']) {
+  $OUTPUT->show_message('sendingfailed', 'error');
+  $OUTPUT->send('iframe');
+}
+
+if(!$savedraft && !empty($CONFIG['sendmail_delay'])) {
+  $wait_sec = time() - intval($CONFIG['sendmail_delay']) - intval($_SESSION['last_message_time']);
+  if($wait_sec < 0)
+    {
+    $OUTPUT->show_message('senttooquickly', 'error', array('sec' => $wait_sec * -1));
+    $OUTPUT->send('iframe');
+    }
+}
+
 
 /****** message sending functions ********/
-
 
 // get identity record
 function rcmail_get_identity($id)
@@ -116,23 +132,13 @@ function rcmail_attach_emoticons(&$mime_message)
   $mime_message->setHTMLBody($body);
 }
 
+
+/****** compose message ********/
+
 if (strlen($_POST['_draft_saveid']) > 3)
   $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
 
 $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host']));
-$savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
-
-
-/****** check submission and compose message ********/
-
-
-if (!$savedraft && empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && empty($_POST['_subject']) && $_POST['_message'])
-  {
-  $OUTPUT->show_message("sendingfailed", 'error');
-  $OUTPUT->send('iframe');
-  return;
-  }
-
 
 // set default charset
 $input_charset = $OUTPUT->get_charset();
@@ -346,8 +352,11 @@ if (!$savedraft)
     {
     $OUTPUT->show_message("sendingfailed", 'error'); 
     $OUTPUT->send('iframe');
-    return;
     }
+
+  // save message sent time
+  if (!empty($CONFIG['sendmail_delay']))
+    $_SESSION['last_message_time'] = time();
   
   // set replied/forwarded flag
   if ($_SESSION['compose']['reply_uid'])

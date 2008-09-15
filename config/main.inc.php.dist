@@ -107,6 +107,9 @@ $rcmail_config['smtp_helo_host'] = '';
 // Log sent messages
 $rcmail_config['smtp_log'] = TRUE;
 
+// how many seconds must pass between emails sent by a user
+$rcmail_config['sendmail_delay'] = 0;
+
 // these cols are shown in the message list
 // available cols are: subject, from, to, cc, replyto, date, size, encoding, flag
 $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag');

@@ -45,6 +45,7 @@ $messages['encryptedmessage'] = 'Przepraszamy, nie można wyświetlić zaszyfrow
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
 $messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony';
 $messages['sendingfailed'] = 'Nie udało się wysłać wiadomości!';
+$messages['senttooquickly'] = 'Musisz poczekać $sec sek. aby móc wysłać tą wiadomość!';
 $messages['errorsavingsent'] = 'Wystąpił błąd podczas zapisu wysłanej wiadomości!';
 $messages['errorsaving'] = 'Wystąpił błąd podczas zapisu!';
 $messages['errormoving'] = 'Nie można przenieść wybranej wiadomości!';

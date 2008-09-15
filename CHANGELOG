@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/15 (alec)
+----------
+- Added 'sendmail_delay' option to restrict messages sending interval (#1484491)
+
 2008/09/12 (alec)
 ----------
 - Added vertical splitter for folders list resizing
