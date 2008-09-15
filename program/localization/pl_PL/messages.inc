@@ -91,5 +91,6 @@ $messages['addresswriterror'] = 'Wybrana książka adresowa jest tylko-do-odczyt
 $messages['importwait'] = 'Importowanie, proszę czekać...'; 
 $messages['importerror'] = 'Błąd! Pobrany plik nie jest poprawnym plikiem vCard.'; 
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>'; 
+$messages['opnotpermitted'] = 'Niedozwolona operacja!';
 
 ?>
