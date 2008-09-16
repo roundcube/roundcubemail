@@ -390,6 +390,7 @@ function rcube_webmail()
       row.unread = this.env.messages[uid].unread ? true : false;
       row.replied = this.env.messages[uid].replied ? true : false;
       row.flagged = this.env.messages[uid].flagged ? true : false;
+      row.forwarded = this.env.messages[uid].forwarded ? true : false;
       }
 
     // set eventhandler to message icon
@@ -1748,6 +1749,7 @@ function rcube_webmail()
 
         if (rows[uid].icon && icn_src 
             && !(rows[uid].replied && this.env.repliedicon)
+	    && !(rows[uid].forwarded && this.env.forwardedicon)
             && !(rows[uid].deleted && this.env.deletedicon))
           rows[uid].icon.src = icn_src;
         }
@@ -1767,10 +1769,17 @@ function rcube_webmail()
         rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
         parent.rcmail.set_classname(rows[uid].obj, 'unread', false);
 
-        if (rows[uid].replied && parent.rcmail.env.repliedicon)
-          icn_src = parent.rcmail.env.repliedicon;
-        else if (rows[uid].deleted && parent.rcmail.env.deletedicon)
+        if (rows[uid].deleted && parent.rcmail.env.deletedicon)
           icn_src = parent.rcmail.env.deletedicon;
+        else if (rows[uid].replied && parent.rcmail.env.repliedicon)
+	  {
+	  if (rows[uid].forwarded && parent.rcmail.env.forwardedrepliedicon)
+	    icn_src = parent.rcmail.env.forwardedrepliedicon;
+          else
+	    icn_src = parent.rcmail.env.repliedicon;
+          }
+	else if (rows[uid].forwarded && parent.rcmail.env.forwardedicon)
+          icn_src = parent.rcmail.env.forwardedicon;
         else if (parent.rcmail.env.messageicon)
           icn_src = parent.rcmail.env.messageicon;
       
@@ -1859,10 +1868,18 @@ function rcube_webmail()
           rows[uid].classname = rows[uid].classname.replace(/\s*deleted/, '');
           this.set_classname(rows[uid].obj, 'deleted', false);
         }
+
         if (rows[uid].unread && this.env.unreadicon)
           icn_src = this.env.unreadicon;
         else if (rows[uid].replied && this.env.repliedicon)
-          icn_src = this.env.repliedicon;
+	  {
+	  if (rows[uid].forwarded && this.env.forwardedrepliedicon)
+            icn_src = this.env.forwardedrepliedicon;
+          else
+	    icn_src = this.env.repliedicon;
+          }
+	else if (rows[uid].forwarded && this.env.forwardedicon)
+          icn_src = this.env.forwardedicon;
         else if (this.env.messageicon)
           icn_src = this.env.messageicon;
 
@@ -3471,6 +3488,7 @@ function rcube_webmail()
     this.env.messages[uid] = {deleted:flags.deleted?1:0,
                               replied:flags.replied?1:0,
                               unread:flags.unread?1:0,
+			      forwarded:flags.forwarded?1:0,
                               flagged:flags.flagged?1:0};
     
     var row = document.createElement('TR');
@@ -3480,10 +3498,21 @@ function rcube_webmail()
     if (this.message_list.in_selection(uid))
       row.className += ' selected';
 
-    var icon = flags.deleted && this.env.deletedicon ? this.env.deletedicon:
-               (flags.unread && this.env.unreadicon ? this.env.unreadicon :
-               (flags.replied && this.env.repliedicon ? this.env.repliedicon : this.env.messageicon));
-
+    var icon = this.env.messageicon;
+    if (flags.deleted && this.env.deletedicon)
+      icon = this.env.deletedicon;
+    else if(flags.unread && this.env.unreadicon)
+      icon = this.env.unreadicon;
+    else if (flags.replied && this.env.repliedicon)
+      {
+      if (flags.forwarded && this.env.forwardedrepliedicon)
+        icon = this.env.forwardedrepliedicon;
+      else
+        icon = this.env.repliedicon;
+      }
+    else if (flags.forwarded && this.env.forwardedicon)
+      icon = this.env.forwardedicon;
+    
     var col = document.createElement('TD');
     col.className = 'icon';
     col.innerHTML = icon ? '<img src="'+icon+'" alt="" />' : '';

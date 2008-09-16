@@ -206,16 +206,25 @@ function rcmail_message_list($attrib)
       $js_row_arr['unread'] = true;
     if ($header->answered)
       $js_row_arr['replied'] = true;
+    if ($header->forwarded)
+      $js_row_arr['forwarded'] = true;
     if ($header->flagged)
       $js_row_arr['flagged'] = true;
 
     // set message icon  
     if ($attrib['deletedicon'] && $header->deleted)
       $message_icon = $attrib['deletedicon'];
+    else if ($attrib['repliedicon'] && $header->answered)
+      {
+      if ($attrib['forwardedrepliedicon'] && $header->forwarded)
+        $message_icon = $attrib['forwardedrepliedicon'];
+      else
+        $message_icon = $attrib['repliedicon'];
+      }
+    else if ($attrib['forwardedicon'] && $header->forwarded)
+      $message_icon = $attrib['forwardedicon'];
     else if ($attrib['unreadicon'] && !$header->seen)
       $message_icon = $attrib['unreadicon'];
-    else if ($attrib['repliedicon'] && $header->answered)
-      $message_icon = $attrib['repliedicon'];
     else if ($attrib['messageicon'])
       $message_icon = $attrib['messageicon'];
 
@@ -296,6 +305,10 @@ function rcmail_message_list($attrib)
     $OUTPUT->set_env('unreadicon', $skin_path . $attrib['unreadicon']);
   if ($attrib['repliedicon'])
     $OUTPUT->set_env('repliedicon', $skin_path . $attrib['repliedicon']);
+  if ($attrib['forwardedicon'])
+    $OUTPUT->set_env('forwardedicon', $skin_path . $attrib['forwardedicon']);
+  if ($attrib['forwardedrepliedicon'])
+    $OUTPUT->set_env('forwardedrepliedicon', $skin_path . $attrib['forwardedrepliedicon']);
   if ($attrib['attachmenticon'])
     $OUTPUT->set_env('attachmenticon', $skin_path . $attrib['attachmenticon']);
   if ($attrib['flaggedicon'])
@@ -367,6 +380,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     $a_msg_flags['deleted'] = $header->deleted ? 1 : 0;
     $a_msg_flags['unread'] = $header->seen ? 0 : 1;
     $a_msg_flags['replied'] = $header->answered ? 1 : 0;
+    $a_msg_flags['forwarded'] = $header->forwarded ? 1 : 0;
     $a_msg_flags['flagged'] = $header->flagged ? 1 : 0;
     
     $OUTPUT->command('add_message_row',
