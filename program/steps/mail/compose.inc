@@ -35,8 +35,8 @@ if ($RCMAIL->action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_
     unset($_SESSION['compose']['attachments'][$id]);
     $OUTPUT->command('remove_from_attachment_list', "rcmfile$id");
     $OUTPUT->send();
-    exit;
   }
+  exit;
 }
 
 if ($RCMAIL->action=='display-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
@@ -401,6 +401,16 @@ function rcmail_compose_body($attrib)
     // load draft message body
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
       $body = rcmail_create_draft_body($body, $isHtml);
+
+    if ($isHtml) {
+      // replace cid with href in inline images links
+      foreach ((array)$_SESSION['compose']['attachments'] as $pid => $attachment) {
+        if ($attachment['content_id']) {
+	  $body = str_replace('cid:'. $attachment['content_id'], 
+	    $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$pid, $body);
+        }
+      }
+    }
   }
   else if (!empty($_SESSION['compose']['param']['_body']))
   {
@@ -426,8 +436,8 @@ function rcmail_compose_body($attrib)
   $msgtype = new html_hiddenfield(array('name' => '_is_html', 'value' => ($isHtml?"1":"0")));
   $out .= $msgtype->show();
 
-  // If desired, set this text area to be editable by TinyMCE
-  if ($isHtml) $attrib['class'] = "mce_editor";
+  // If desired, set this textarea to be editable by TinyMCE
+  if ($isHtml) $attrib['class'] = 'mce_editor';
   $textarea = new html_textarea($attrib);
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
@@ -500,7 +510,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $body = join("\n", $a_lines);
 
     // add title line
-    $prefix = sprintf("\n\n\nOn %s, %s wrote:\n",
+    $prefix = sprintf("On %s, %s wrote:\n",
       $MESSAGE->headers->date,
       $MESSAGE->get_header('from'));
 
@@ -514,11 +524,13 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   }
   else
   {
-    $prefix = sprintf("<br /><br />On %s, %s wrote:<br />\n",
+    $prefix = sprintf("On %s, %s wrote:<br />\n",
       $MESSAGE->headers->date,
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
     $suffix = "</blockquote>";
+
+    rcmail_write_inline_attachments($MESSAGE);
   }
 
   return $prefix.$body.$suffix;
@@ -580,35 +592,53 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
   
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
-  global $RCMAIL, $IMAP;
-
-  $temp_dir = unslashify($RCMAIL->config->get('temp_dir'));
-
-  if (!is_array($_SESSION['compose']['attachments']))
-    $_SESSION['compose']['attachments'] = array();
-  
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if (($part->ctype_primary != 'message' || !$bodyIsHtml) &&
-        ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id'] ||
-         (empty($part->disposition) && $part->filename)))
+        ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id']
+	|| (empty($part->disposition) && $part->filename)))
     {
-      $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
-      if ($fp = fopen($tmp_path, 'w'))
-      {
-        $message->get_part_content($pid, $fp);
-        fclose($fp);
-        
-        $_SESSION['compose']['attachments'][] = array(
-          'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
-          'name' => $part->filename,
-          'path' => $tmp_path
-          );
-      }
+      if ($attachment = rcmail_save_attachment($message, $pid))
+        $_SESSION['compose']['attachments'][] = $attachment;
     }
   }
 	
   $_SESSION['compose']['forward_attachments'] = true;
+}
+
+
+function rcmail_write_inline_attachments(&$message)
+{
+  foreach ((array)$message->mime_parts as $pid => $part)
+  {
+    if ($part->content_id && $part->filename)
+    {
+      if ($attachment = rcmail_save_attachment($message, $pid))
+        $_SESSION['compose']['attachments'][] = $attachment;
+    }
+  }
+}
+
+function rcmail_save_attachment(&$message, $pid)
+{
+  global $RCMAIL;
+
+  $temp_dir = unslashify($RCMAIL->config->get('temp_dir'));
+  $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
+  $part = $message->mime_parts[$pid];
+  
+  if ($fp = fopen($tmp_path, 'w'))
+  {
+    $message->get_part_content($pid, $fp);
+    fclose($fp);
+
+    return array(
+        'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+        'name' => $part->filename,
+        'path' => $tmp_path,
+	'content_id' => $part->content_id
+    );
+  }
 }
 
 
