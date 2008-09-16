@@ -58,7 +58,8 @@ function rcube_identity_form($attrib)
                                     "theme_advanced_toolbar_align : 'left'," .
                                     "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr'," .
                                     "theme_advanced_buttons2 : 'link,unlink,code,forecolor,fontselect,fontsizeselect'," .
-                                    "theme_advanced_buttons3 : '' });");
+                                    "theme_advanced_buttons3 : '',".
+				    "gecko_spellcheck : true });");
 
   if (!$IDENTITY_RECORD && $RCMAIL->action != 'add-identity')
     return rcube_label('notfound');
@@ -113,6 +114,7 @@ function rcube_identity_form($attrib)
       {
       $attrib['size'] = $colprop['size'];
       $attrib['rows'] = $colprop['rows'];
+      $attrib['spellcheck'] = true;
       if ($IDENTITY_RECORD['html_signature'])
         {
         $attrib['class'] = "mce_editor";

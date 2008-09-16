@@ -248,7 +248,7 @@ class html_inputfield extends html
 {
     protected $tagname = 'input';
     protected $type = 'text';
-    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange','onclick','disabled','readonly');
+    protected $allowed = array('type','name','value','size','tabindex','autocomplete','checked','onchange','onclick','disabled','readonly','spellcheck');
 
     public function __construct($attrib = array())
     {
@@ -416,7 +416,7 @@ class html_checkbox extends html_inputfield
 class html_textarea extends html
 {
     protected $tagname = 'textarea';
-    protected $allowed = array('name','rows','cols','wrap','tabindex','onchange','disabled','readonly');
+    protected $allowed = array('name','rows','cols','wrap','tabindex','onchange','disabled','readonly','spellcheck');
 
     /**
      * Get HTML code for this object

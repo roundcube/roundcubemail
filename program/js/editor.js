@@ -34,6 +34,7 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck)
     content_css : skin_path + "/editor_content.css",
     external_image_list_url : "program/js/editor_images.js",
     spellchecker_languages : (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : "Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv"),
+    gecko_spellcheck : true,
     rc_client: rcube_webmail_client
   });
 }

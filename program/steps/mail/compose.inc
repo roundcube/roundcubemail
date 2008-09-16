@@ -241,7 +241,7 @@ function rcmail_compose_headers($attrib)
   if ($fname && $field_type)
   {
     // pass the following attributes to the form class
-    $field_attrib = array('name' => $fname);
+    $field_attrib = array('name' => $fname, 'spellcheck' => 'false');
     foreach ($attrib as $attr => $value)
       if (in_array($attr, $allow_attrib))
         $field_attrib[$attr] = $value;
@@ -650,6 +650,7 @@ function rcmail_compose_subject($attrib)
   unset($attrib['form']);
   
   $attrib['name'] = '_subject';
+  $attrib['spellcheck'] = 'true';
   $textfield = new html_inputfield($attrib);
 
   $subject = '';

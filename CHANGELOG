@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Reduced memory footprint when forwarding attachments (#1485345)
 - Fix inline images handling when replying/forwarding html messages
+- Allow and use spellcheck attribute for input/textarea fields (#1485060)
 
 2008/09/15 (thomasb)
 ----------
