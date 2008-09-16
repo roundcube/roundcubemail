@@ -65,6 +65,7 @@
 		- RFC3501 [7.1] don't call CAPABILITY if was returned in server 
 		  optional resposne in iil_Connect(), added iil_C_GetCapability()
 		- remove 'undisclosed-recipients' string from 'To' header
+		- iil_C_HandlePartBody(): added 6th argument and fixed endless loop
 
 ********************************************************/
 
@@ -2353,19 +2354,19 @@ function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 	return $result;
 }
 
-function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
+function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
 	/* modes:
-        1: return string
+        1: return string (or write to $file pointer)
         2: print
-        3: base64 and print
+        3: base64 and print (or write to $file pointer)
 	*/
 	
 	$fp     = $conn->fp;
 	$result = false;
 	if (($part == 0) || empty($part)) {
-	    $part = 'TEXT';
+		$part = 'TEXT';
 	}
-    
+	
 	if (iil_C_Select($conn, $mailbox)) {
     		$reply_key = '* ' . $id;
         
@@ -2399,8 +2400,11 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
 	                if ($mode == 2) {
         		        echo $result;
 	                } else if ($mode == 3) {
-        		        echo base64_decode($result);
-	                }
+				if ($file)
+					fwrite($file, base64_decode($result));
+        		    	else
+					echo base64_decode($result);
+			}			     
     		} else if ($line[$len-1] == '}') {
 	                //multi-line request, find sizes of content and receive that many bytes
         		$from     = strpos($line, '{') + 1;
@@ -2408,34 +2412,47 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
         		$len      = $to - $from;
 	                $sizeStr  = substr($line, $from, $len);
         		$bytes    = (int)$sizeStr;
-	                $received = 0;
 
-        		while ($received < $bytes) {
-            			$remaining = $bytes - $received;
-		                $line      = iil_ReadLine($fp, 1024);
+        		while ($bytes > 0) {
+    		                $line      = iil_ReadLine($fp, 1024);
             			$len       = strlen($line);
                 
-		                if ($len > $remaining) {
-            			        $line = substr($line, 0, $remaining);
+		                if ($len > $bytes) {
+            			        $line = substr($line, 0, $bytes);
 		                }
-            			$received += strlen($line);
+            			$bytes -= strlen($line);
+
 		                if ($mode == 1) {
-            			        $result .= rtrim($line, "\t\r\n\0\x0B") . "\n";
+					if ($file)
+						fwrite($file, rtrim($line, "\t\r\n\0\x0B") . "\n");
+            			        else
+						$result .= rtrim($line, "\t\r\n\0\x0B") . "\n";
 		                } else if ($mode == 2) {
             			        echo rtrim($line, "\t\r\n\0\x0B") . "\n";
 		                } else if ($mode == 3) {
-            				echo base64_decode($line);
-            			}
+					if ($file)
+						fwrite($file, base64_decode($line));
+            				else
+						echo base64_decode($line);
+				}
         		}
     		}
-	        // read in anything up until 'til last line
+	        // read in anything up until last line
 		do {
         		$line = iil_ReadLine($fp, 1024);
 		} while (!iil_StartsWith($line, $key));
         
+		if ($mode == 3 && $file) {
+			return true;
+		}
+	
     		if ($result) {
 	    		$result = rtrim($result, "\t\r\n\0\x0B");
-        		return $result; // substr($result, 0, strlen($result)-1);
+			if ($file) {
+				fwrite($file, $result);
+				return true;
+			}	
+			return $result; // substr($result, 0, strlen($result)-1);
     		}
     		
 		return false;
@@ -2444,13 +2461,18 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode) {
 	}
     
 	if ($mode==1) {
+		if ($file) {
+			fwrite($file, $result);
+			return true;
+		}
     		return $result;
 	}
-	return $received;
+	
+	return false;
 }
 
-function iil_C_FetchPartBody(&$conn, $mailbox, $id, $part) {
-	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1);
+function iil_C_FetchPartBody(&$conn, $mailbox, $id, $part, $file=NULL) {
+	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1, $file);
 }
 
 function iil_C_PrintPartBody(&$conn, $mailbox, $id, $part) {

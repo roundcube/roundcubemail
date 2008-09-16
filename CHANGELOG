@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/16 (alec)
+----------
+- Reduced memory footprint when forwarding attachments (#1485345)
+
 2008/09/15 (thomasb)
 ----------
 - Redesign of the identities settings (#1484042)

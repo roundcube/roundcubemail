@@ -1283,9 +1283,10 @@ class rcube_imap
    * @param  string Part number
    * @param  object rcube_message_part Part object created by get_structure()
    * @param  mixed  True to print part, ressource to write part contents in
+   * @param  resource File pointer to save the message part
    * @return string Message/part body if not printed
    */
-  function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL)
+  function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL)
     {
     if (!($msg_id = $this->_uid2id($uid)))
       return FALSE;
@@ -1293,6 +1294,7 @@ class rcube_imap
     // get part encoding if not provided
     if (!is_object($o_part))
       {
+      write_log('errors', 'get_message_part: !is_object');
       $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id); 
       $structure = iml_GetRawStructureArray($structure_str);
       $part_type = iml_GetPartTypeCode($structure, $part);
@@ -1318,7 +1320,10 @@ class rcube_imap
       }
     else
       {
-      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, 1);
+      if ($fp && $o_part->encoding == 'base64')
+        return iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, 3, $fp);
+      else
+        $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, 1);
 
       // decode part body
       if ($o_part->encoding)
@@ -1333,8 +1338,14 @@ class rcube_imap
 
         $body = rcube_charset_convert($body, $o_part->charset);
         }
+      
+      if ($fp)
+        {
+        fwrite($fp, $body);
+	return true;
+        }
       }
-
+    
     return $body;
     }
 

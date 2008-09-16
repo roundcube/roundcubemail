@@ -596,7 +596,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
       if ($fp = fopen($tmp_path, 'w'))
       {
-        fwrite($fp, $message->get_part_content($pid));
+        $message->get_part_content($pid, $fp);
         fclose($fp);
         
         $_SESSION['compose']['attachments'][] = array(

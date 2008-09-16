@@ -117,12 +117,13 @@ class rcube_message
    * Get content of a specific part of this message
    *
    * @param string Part MIME-ID
+   * @param resource File pointer to save the message part
    * @return string Part content
    */
-  public function get_part_content($mime_id)
+  public function get_part_content($mime_id, $fp=NULL)
   {
     if ($part = $this->mime_parts[$mime_id])
-      return $this->imap->get_message_part($this->uid, $mime_id, $part);
+      return $this->imap->get_message_part($this->uid, $mime_id, $part, NULL, $fp);
     else
       return null;
   }
