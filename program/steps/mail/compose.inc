@@ -543,11 +543,14 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
   if (!$bodyIsHtml)
   {
-    $prefix = sprintf("\n\n\n-------- Original Message --------\nSubject: %s\nDate: %s\nFrom: %s\nTo: %s\n\n",
-      $MESSAGE->subject,
-      $MESSAGE->headers->date,
-      $MESSAGE->get_header('from'),
-      $MESSAGE->get_header('to'));
+    $prefix = "\n\n\n-------- Original Message --------\n";
+    $prefix .= 'Subject: ' . $MESSAGE->subject . "\n";
+    $prefix .= 'Date: ' . $MESSAGE->headers->date . "\n";
+    $prefix .= 'From: ' . $MESSAGE->get_header('from') . "\n";
+    $prefix .= 'To: ' . $MESSAGE->get_header('to') . "\n";
+    if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
+      $prefix .= 'Reply-To: ' . $MESSAGE->get_header('replyto') . "\n";
+    $prefix .= "\n";
   }
   else
   {
@@ -557,12 +560,17 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Subject: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Date: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">From: </th><td>%s</td></tr>" .
-        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">To: </th><td>%s</td></tr>" .
-        "</tbody></table><br>",
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">To: </th><td>%s</td></tr>",
       Q($MESSAGE->subject),
       Q($MESSAGE->headers->date),
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true),
-      htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true));
+	htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true));
+
+    if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
+      $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Reply-To: </th><td>%s</td></tr>",
+	htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset(), true));
+
+    $prefix .= "</tbody></table><br>";
   }
 
   // add attachments

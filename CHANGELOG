@@ -7,6 +7,7 @@ CHANGELOG RoundCube Webmail
 - Fix inline images handling when replying/forwarding html messages
 - Allow and use spellcheck attribute for input/textarea fields (#1485060)
 - Added icons for forwarded/forwarded+replied messages (#1485257)
+- Added Reply-To to forwarded emails (#1485315)
 
 2008/09/15 (thomasb)
 ----------
