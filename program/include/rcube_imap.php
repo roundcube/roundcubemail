@@ -1294,7 +1294,6 @@ class rcube_imap
     // get part encoding if not provided
     if (!is_object($o_part))
       {
-      write_log('errors', 'get_message_part: !is_object');
       $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id); 
       $structure = iml_GetRawStructureArray($structure_str);
       $part_type = iml_GetPartTypeCode($structure, $part);
