@@ -9,6 +9,7 @@ CHANGELOG RoundCube Webmail
 - Added icons for forwarded/forwarded+replied messages (#1485257)
 - Added Reply-To to forwarded emails (#1485315)
 - Display progress message for folders create/delete/rename (#1485357)
+- Smart Tags and NOBR tag support in html messages (#1485363, #1485327)
 
 2008/09/15 (thomasb)
 ----------

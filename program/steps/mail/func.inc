@@ -611,6 +611,17 @@ function rcmail_print_body($part, $p = array())
     // PHP bug #32547 workaround: remove title tag
     $html = preg_replace('/<title>.*<\/title>/', '', $html);
 
+    // special replacements (not properly handled by washtml class)
+    $html_search = array(
+	'/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
+	'/(<[\/]*st1:[^>]+>)/i',	// Microsoft's Smart Tags <ST1>
+    );
+    $html_replace = array(
+	'\\1'.' &nbsp; '.'\\3',
+	'',
+    );
+    $html = preg_replace($html_search, $html_replace, $html);
+
     // clean HTML with washhtml by Frederic Motte
     $wash_opts = array(
       'show_washed' => false,
