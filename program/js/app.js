@@ -1240,6 +1240,18 @@ function rcube_webmail()
         if (this.env.mailbox.indexOf(id + this.env.delimiter) == 0)
           this.command('list', id);
         }
+
+      // Work around a bug in IE6 and IE7, see #1485309
+      if ((bw.ie6 || bw.ie7) &&
+          li.nextSibling &&
+          (li.nextSibling.getElementsByTagName("ul").length>0) &&
+          li.nextSibling.getElementsByTagName("ul")[0].style &&
+          (li.nextSibling.getElementsByTagName("ul")[0].style.display!='none'))
+        {
+          li.nextSibling.getElementsByTagName("ul")[0].style.display = 'none';
+          li.nextSibling.getElementsByTagName("ul")[0].style.display = '';
+        }
+
       this.http_post('save-pref', '_name=collapsed_folders&_value='+escape(this.env.collapsed_folders));
       this.set_unread_count_display(id, false);
       }
