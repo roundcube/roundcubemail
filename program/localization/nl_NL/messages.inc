@@ -86,5 +86,6 @@ $messages['addresswriterror'] = 'Het geselecteerde adresboek is alleen lezen';
 $messages['importwait'] = 'Importeren, even geduld...';
 $messages['importerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig vCard bestand.';
 $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
 
 ?>
