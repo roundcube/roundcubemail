@@ -597,30 +597,34 @@ function rcmail_print_body($part, $p = array())
   }
   // text/html
   else if ($part->ctype_secondary == 'html') {
-    // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
-    $html = $part->body; 
-    if (preg_match('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', $html)) 
-      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
-    else {
-      // add <head> for malformed messages, washtml cannot work without that
-      if (!preg_match('/<head>(.*)<\\/head>/Uims', $html))
-        $html = '<head></head>' . $html;
-      $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '</head>')), 0);
-    }
-
-    // PHP bug #32547 workaround: remove title tag
-    $html = preg_replace('/<title>.*<\/title>/', '', $html);
+    $html = $part->body;
 
     // special replacements (not properly handled by washtml class)
     $html_search = array(
 	'/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
 	'/(<[\/]*st1:[^>]+>)/i',	// Microsoft's Smart Tags <ST1>
+	'/<title>.*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
+	'/<html[^>]*>/im',		// malformed html: remove html tags (#1485139)
+	'/<\/html>/i',			// malformed html: remove html tags (#1485139)
     );
     $html_replace = array(
 	'\\1'.' &nbsp; '.'\\3',
 	'',
+	'',
+	'',
+	'',
     );
     $html = preg_replace($html_search, $html_replace, $html);
+
+    // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
+    if (preg_match('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', $html)) 
+      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
+    else {
+      // add head for malformed messages, washtml cannot work without that
+      if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
+        $html = '<head></head>'. $html;
+      $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '</head>')), 0);
+    }
 
     // clean HTML with washhtml by Frederic Motte
     $wash_opts = array(
