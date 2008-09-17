@@ -2913,6 +2913,7 @@ function rcube_webmail()
       if (this.env.folder && name != '')
         name = this.env.folder+this.env.delimiter+name;
 
+      this.set_busy(true, 'foldercreating');
       this.http_post('create-folder', '_name='+urlencode(name), true);
       }
     else if (form.elements['_folder_name'])
@@ -2987,6 +2988,7 @@ function rcube_webmail()
         if (this.name_input.__parent)
           newname = this.name_input.__parent + this.env.delimiter + newname;
 
+        this.set_busy(true, 'folderrenaming');
         this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.subscriptionrows[this.edit_folder][0])+'&_folder_newname='+urlencode(newname), true);
         }
       }
@@ -3006,7 +3008,8 @@ function rcube_webmail()
 
     if (folder && confirm(this.get_label('deletefolderconfirm')))
       {
-      this.http_post('delete-folder', '_mboxes='+urlencode(folder));
+      this.set_busy(true, 'folderdeleting');
+      this.http_post('delete-folder', '_mboxes='+urlencode(folder), true);
       this.set_env('folder', null);
 
       if (this.gui_objects.createfolderhint)

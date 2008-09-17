@@ -8,6 +8,7 @@ CHANGELOG RoundCube Webmail
 - Allow and use spellcheck attribute for input/textarea fields (#1485060)
 - Added icons for forwarded/forwarded+replied messages (#1485257)
 - Added Reply-To to forwarded emails (#1485315)
+- Display progress message for folders create/delete/rename (#1485357)
 
 2008/09/15 (thomasb)
 ----------

@@ -346,7 +346,7 @@ $OUTPUT->add_handlers(array(
 ));
 
 // add some labels to client
-rcube_add_label('deletefolderconfirm','addsubfolderhint','forbiddencharacter');
+$OUTPUT->add_label('deletefolderconfirm','addsubfolderhint','forbiddencharacter','folderdeleting','folderrenaming','foldercreating');
 
 $OUTPUT->send('managefolders');
 ?>
