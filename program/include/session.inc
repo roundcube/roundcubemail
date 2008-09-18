@@ -184,7 +184,8 @@ function rcube_sess_regenerate_id()
   $lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
 
   setcookie(session_name(), '', time() - 3600);
-  setcookie(session_name(), $random, $lifetime, $cookie['path'], $cookie['domain']);
+  setcookie(session_name(), $random, $lifetime, $cookie['path'], $cookie['domain'],
+            $_SERVER['HTTPS'] && ($_SERVER['HTTPS']!='off'));
 
   return true;
 }
