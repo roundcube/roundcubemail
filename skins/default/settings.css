@@ -49,12 +49,12 @@ span.tablink-selected a
   position: absolute;
   top: 95px;
   left: 20px;
-  bottom: 30px;
-  width: 600px;
+  bottom: 60px;
+  width: 640px;
   overflow: auto;
-  border: 1px solid #999999;  
+  border: 1px solid #999999;
   /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #userprefs-box table td.title
