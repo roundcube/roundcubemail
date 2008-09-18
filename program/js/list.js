@@ -693,7 +693,7 @@ drag_mouse_move: function(e)
       return false;
   
     if (!this.draglayer)
-      this.draglayer = new rcube_layer('rcmdraglayer', {x:0, y:0, width:300, vis:0, zindex:2000});
+      this.draglayer = new rcube_layer('rcmdraglayer', {x:0, y:0, vis:0, zindex:2000});
   
     // get subjects of selectedd messages
     var names = '';
