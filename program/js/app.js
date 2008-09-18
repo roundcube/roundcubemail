@@ -3654,6 +3654,9 @@ function rcube_webmail()
         
       this.set_pagetitle(new_title);
       }
+
+      // update page buttons
+      this.set_page_buttons();
     };
 
   // update parent's mailboxlist (from preview)
