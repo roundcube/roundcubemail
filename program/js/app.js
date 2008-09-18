@@ -3559,6 +3559,14 @@ function rcube_webmail()
     row.appendChild(col);
 
     this.message_list.insert_row(row, attop);
+
+    // remove 'old' row
+    if (attop && this.env.pagesize && this.message_list.rowcount > this.env.pagesize)
+      {
+	var uid = this.message_list.get_last_row();
+        this.message_list.remove_row(uid);
+	this.message_list.clear_selection(uid);
+      }
     };
 
 

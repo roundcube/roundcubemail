@@ -290,7 +290,7 @@ click_row: function(e, id)
 
 
 /**
- * get next and previous rows that are not hidden
+ * get next/previous/last rows that are not hidden
  */
 get_next_row: function()
 {
@@ -318,8 +318,24 @@ get_prev_row: function()
   return new_row;
 },
 
+get_last_row: function()
+{
+  if (this.rowcount)
+    {
+    var rows = this.list.tBodies[0].rows;
 
-// selects or unselects the proper row depending on the modifier key pressed
+    for(var i=rows.length-1; i>=0; i--)
+      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=]+)/i) && this.rows[RegExp.$1] != null)
+	return RegExp.$1;
+    }
+
+  return null;
+},
+
+
+/**
+ * selects or unselects the proper row depending on the modifier key pressed
+ */
 select_row: function(id, mod_key, with_mouse)
 {
   var select_before = this.selection.join(',');
@@ -482,21 +498,36 @@ select_all: function(filter)
 
 
 /**
- * Unselect all selected rows
+ * Unselect selected row(s)
  */
-clear_selection: function()
+clear_selection: function(id)
 {
   var num_select = this.selection.length;
-  for (var n=0; n<this.selection.length; n++)
-    if (this.rows[this.selection[n]])
+
+  // one row
+  if (id)
     {
-      this.set_classname(this.rows[this.selection[n]].obj, 'selected', false);
-      this.set_classname(this.rows[this.selection[n]].obj, 'unfocused', false);
+    for (var n=0; n<this.selection.length; n++)
+      if (this.selection[n] == id)
+        {
+	this.selection.splice(n,1);
+    	break;
+	}
+    }
+  // all rows
+  else
+    {
+    for (var n=0; n<this.selection.length; n++)
+      if (this.rows[this.selection[n]])
+        {
+        this.set_classname(this.rows[this.selection[n]].obj, 'selected', false);
+        this.set_classname(this.rows[this.selection[n]].obj, 'unfocused', false);
+        }
+    
+    this.selection = new Array();
     }
 
-  this.selection = new Array();
-  
-  if (num_select)
+  if (num_select && !this.selection.length)
     this.trigger_event('select');
 },
 
