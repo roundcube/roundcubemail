@@ -479,7 +479,7 @@ class rcube_template extends rcube_html_page
                 "\$_SESSION['\\1']",
                 "\$this->app->config->get('\\1',get_boolean('\\3'))",
                 "\$this->env['\\1']",
-                "get_input_value('\\1', RCUVE_INPUT_GPC)"
+                "get_input_value('\\1', RCUBE_INPUT_GPC)"
             ),
             $condition);
             
