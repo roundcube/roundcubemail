@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/fr_FR/messages.inc                                              |
+| language/fr_FR/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Joel S. <joel.s@spijoprod.net>                                |
 |         Jerome Lipowicz <jerome@yayel.com>                            |
+|         Maximilien Cuony <theglu@theglu.org>                          |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -41,6 +42,8 @@ $messages['encryptedmessage'] = 'Ceci est un message crypté et il ne peut pas �
 $messages['nocontactsfound'] = 'Aucun contact n\'a pu être trouvé';
 $messages['contactnotfound'] = 'Le contact demandé n\'a pas été trouvé';
 $messages['sendingfailed'] = 'L\'envoie du message a échoué';
+$messages['senttooquickly'] = 'Vous devez attendre $sec sec. pour envoyer le message';
+$messages['errorsavingsent'] = 'Une erreur est survenue pendant la sauvegarde du message envoyé';
 $messages['errorsaving'] = 'Une erreur a empêché la sauvegarde';
 $messages['errormoving'] = 'Impossible de déplacer le message';
 $messages['errordeleting'] = 'Impossible d\'effacer le message';
@@ -48,6 +51,9 @@ $messages['deletecontactconfirm'] = 'Voulez-vous vraiment effacer le(s) contact(
 $messages['deletemessagesconfirm'] = 'Voulez-vous vraiment supprimer le(s) message(s) séléctionné(s) ?';
 $messages['deletefolderconfirm'] = 'Voulez-vous vraiment effacer ce dossier ?';
 $messages['purgefolderconfirm'] = 'Voulez-vous vraiment effacer tous les messages de ce dossier ?';
+$messages['foldercreating'] = 'Création du dossier...';
+$messages['folderdeleting'] = 'Suppression du dossier...';
+$messages['folderrenaming'] = 'Renommage du dossier...';
 $messages['formincomplete'] = 'Le formulaire n\'a pas été entièrement rempli';
 $messages['noemailwarning'] = 'Veuillez spécifier un courriel valide';
 $messages['nonamewarning'] = 'Veuillez fournir un nom';
@@ -80,5 +86,11 @@ $messages['errorsendingreceipt'] = 'L\'accusé de réception n\'a pas pu être e
 $messages['nodeletelastidentity'] = 'Vous ne pouvez pas effacer votre seule identité.';
 $messages['addsubfolderhint'] = 'Ce dossier sera créé comme sous-dossier de celui sélectionné.';
 $messages['forbiddencharacter'] = 'Le nom du dossier contient un caractère interdit';
+$messages['selectimportfile'] = 'Veuillez sélectionner un fichier à envoyer';
+$messages['addresswriterror'] = 'Impossible d\'écrire dans le carnet d\'adresse sélectionné';
+$messages['importwait'] = 'Importation, veuillez patienter...';
+$messages['importerror'] = 'Importation échouée ! Le fichier envoyé n\'est pas un fichier vCard valide.';
+$messages['importconfirm'] = '$inserted contacts importés avec succès, $skipped entrées existantes ignorées:$names';
+$messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
 
 ?>
