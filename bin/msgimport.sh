@@ -77,11 +77,14 @@ if (empty($args['user']))
 }
 
 // prompt for password
-echo "Password: ";
-$args['pass'] = trim(fgets(STDIN));
+if (empty($args['pass']))
+{
+	echo "Password: ";
+	$args['pass'] = trim(fgets(STDIN));
 
-// clear password input
-echo chr(8)."\rPassword: ".str_repeat("*", strlen($args['pass']))."\n";
+	// clear password input
+	echo chr(8)."\rPassword: ".str_repeat("*", strlen($args['pass']))."\n";
+}
 
 // parse $host URL
 $a_host = parse_url($args['host']);
@@ -119,7 +122,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 				if ($IMAP->save_message($args['mbox'], rtrim($message)))
 					$count++;
 				else
-					die("Failed to save message to $mailbox\n");
+					die("Failed to save message to {$args['mbox']}\n");
 				$message = '';
 			}
 			continue;
@@ -134,7 +137,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 
 	// upload message from file
 	if ($count)
-		print "$count messages successfully added to $mailbox.\n";
+		print "$count messages successfully added to {$args['mbox']}.\n";
 	else
 		print "Adding messages failed!\n";
 }
