@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/nn_NO/messages.inc                                              |
+| language/nn_NO/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
@@ -41,6 +41,8 @@ $messages['encryptedmessage'] = 'Dette er ei kryptert melding og kan ikkje visas
 $messages['nocontactsfound'] = 'Fann ingen kontaktar';
 $messages['contactnotfound'] = 'Fann ikkje kontakten du såg etter';
 $messages['sendingfailed'] = 'Kunne ikkje sende meldinga';
+$messages['senttooquickly'] = 'Du må venta $sec sekund for å senda meldinga';
+$messages['errorsavingsent'] = 'Klarte ikkje lagra den sende meldinga';
 $messages['errorsaving'] = 'Det skjedde ein feil ved lagring';
 $messages['errormoving'] = 'Kunne ikkje flytte meldinga';
 $messages['errordeleting'] = 'Kunne ikkje slette meldinga';
@@ -55,18 +57,18 @@ $messages['nopagesizewarning'] = 'Skriv inn sidestorleik';
 $messages['norecipientwarning'] = 'Skriv inn minst ein mottakar';
 $messages['nosubjectwarning'] = 'Emnefeltet er tomt. Vil du skriva inn eitt emne no?';
 $messages['nobodywarning'] = 'Senda melding utan tekst?';
-$messages['notsentwarning'] = 'Melding er ikkje sendt. Vil du kasta meldingen?';
+$messages['notsentwarning'] = 'Meldinga er ikkje sendt. Vil du kasta ho?';
 $messages['noldapserver'] = 'Vel LDAP-tenar å søkja i';
 $messages['nocontactsreturned'] = 'Fann ingen kontaktar';
 $messages['nosearchname'] = 'Skriv inn kontaktnamn eller epostadressa';
 $messages['searchsuccessful'] = 'Fann $nr meldingar';
 $messages['searchnomatch'] = 'Søket fann ingenting';
-$messages['searching'] = 'Søker...';
+$messages['searching'] = 'Søkjer...';
 $messages['checking'] = 'Sjekkar...';
 $messages['nospellerrors'] = 'Fann ingen stavefeil';
 $messages['folderdeleted'] = 'Mappe sletta';
 $messages['deletedsuccessfully'] = 'Sletta';
-$messages['converting'] = 'Fjerner formattering frå meldinga...';
+$messages['converting'] = 'Fjerner formattering frå melding...';
 $messages['messageopenerror'] = 'Kunne ikkje lasta meldinga frå tenaren';
 $messages['fileuploaderror'] = 'Filopplasting feila';
 $messages['filesizeerror'] = 'Fila du lasta opp, er større enn maksimumsstorleiken, $size';
@@ -80,5 +82,11 @@ $messages['errorsendingreceipt'] = 'Kunne ikkje senda melding-er-lest-kvittering
 $messages['nodeletelastidentity'] = 'Du kan ikkje sletta denne identiteten, det er den siste.';
 $messages['addsubfolderhint'] = 'Denne mappa vert laga som ei undermappe til den du hev markert';
 $messages['forbiddencharacter'] = 'Mappenamn inneheld eit teikn som ikkje er støtta';
+$messages['selectimportfile'] = 'Vel ei fil til å lasta opp';
+$messages['addresswriterror'] = 'Denne adresseboka er ikkje skrivbar';
+$messages['importwait'] = 'Importerer, vent...';
+$messages['importerror'] = 'Importering feila! Fila er ikkje ei korrekt vCard-file.';
+$messages['importconfirm'] = 'Importerte $inserted kontakar, hoppa over $skipped oppføringar: $names';
+$messages['opnotpermitted'] = 'Ulovleg operasjon.';
 
 ?>
