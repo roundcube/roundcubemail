@@ -212,6 +212,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     return $str;
     
   $aliases = array(
+    'US-ASCII'       => 'ISO-8859-1',
     'UNKNOWN-8BIT'   => 'ISO-8859-15',
     'X-UNKNOWN'      => 'ISO-8859-15',
     'X-USER-DEFINED' => 'ISO-8859-15',
