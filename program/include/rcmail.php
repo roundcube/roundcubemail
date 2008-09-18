@@ -728,7 +728,8 @@ class rcmail
       if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now - $_SESSION['auth_time'] > 300)) {
         $_SESSION['last_auth'] = $_SESSION['auth_time'];
         $_SESSION['auth_time'] = $now;
-        setcookie('sessauth', $this->get_auth_hash(session_id(), $now));
+        setcookie('sessauth', $this->get_auth_hash(session_id(), $now), '/',
+                  $_SERVER['HTTPS'] && ($_SERVER['HTTPS']!='off'));
       }
     }
     else {
