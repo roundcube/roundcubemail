@@ -52,6 +52,7 @@
   border: 1px solid #CCC;
   padding: 1px;
   opacity: 0.9;
+  filter:alpha(opacity=90);
   z-index: 240;
 }
 
