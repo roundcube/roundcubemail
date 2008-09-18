@@ -259,9 +259,9 @@ function rcmail_message_list($attrib)
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
-        $cont = Q($IMAP->decode_header($header->$col));
-        if (empty($cont)) $cont = Q(rcube_label('nosubject'));
-        $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
+        $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
+        if (empty($cont)) $cont = rcube_label('nosubject');
+        $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
       else if ($col=='flag')
         $cont = $flagged_icon ? sprintf($image_tag, $skin_path, $flagged_icon, '') : '';
@@ -363,9 +363,9 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
-        $cont = Q($IMAP->decode_header($header->$col));
-        if (!$cont) $cont = Q(rcube_label('nosubject'));
-        $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), $cont);
+        $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
+        if (!$cont) $cont = rcube_label('nosubject');
+        $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
@@ -809,7 +809,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc')))
       $header_value = Q(rcmail_address_string($headers[$hkey], null, true, $attrib['addicon']), 'show');
     else
-      $header_value = Q($IMAP->decode_header($headers[$hkey]));
+      $header_value = Q(trim($IMAP->decode_header($headers[$hkey])));
 
     $out .= "\n<tr>\n";
     $out .= '<td class="header-title">'.Q(rcube_label($hkey)).":&nbsp;</td>\n";
