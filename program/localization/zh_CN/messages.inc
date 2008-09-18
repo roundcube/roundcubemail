@@ -41,6 +41,7 @@ $messages['encryptedmessage'] = '因此邮件已加密，无法正常显示';
 $messages['nocontactsfound'] = '未找到联系人';
 $messages['contactnotfound'] = '未找到指定的联系人';
 $messages['sendingfailed'] = '发送失败';
+$messages['senttooquickly'] = '您需要等待 $sec 秒才能发送邮件';
 $messages['errorsavingsent'] = '保存已发送邮件时出现错误';
 $messages['errorsaving'] = '保存过程中发生错误';
 $messages['errormoving'] = '无法移动邮件';
@@ -49,6 +50,9 @@ $messages['deletecontactconfirm'] = '确定要删除已选中的联系人？';
 $messages['deletemessagesconfirm'] = '确定要删除已选中的邮件？';
 $messages['deletefolderconfirm'] = '确定要删除已选中的邮件夹？';
 $messages['purgefolderconfirm'] = '是否确认要删除当前邮件夹中的所有邮件？';
+$messages['foldercreating'] = '正在创建邮件夹';
+$messages['folderdeleting'] = '正在删除邮件夹';
+$messages['folderrenaming'] = '正在重命名邮件夹';
 $messages['formincomplete'] = '当前表单未填写完整，请完整填写';
 $messages['noemailwarning'] = '请输入一个有效的邮件地址';
 $messages['nonamewarning'] = '请输入名字';
@@ -86,5 +90,6 @@ $messages['addresswriterror'] = '已选择的地址簿不可写';
 $messages['importwait'] = '正在导入，请稍后...';
 $messages['importerror'] = '导入失败！所上传的文件不是有效的 vCard 文件。';
 $messages['importconfirm'] = '成功导入 $inserted 联系人，$skipped 乎略已存在的联系人:$names';
+$messages['opnotpermitted'] = '不允许的操作';
 
 ?>

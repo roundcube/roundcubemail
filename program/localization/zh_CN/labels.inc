@@ -130,6 +130,7 @@ $labels['unknown'] = '未知';
 $labels['unlimited'] = '无限制';
 $labels['quicksearch'] = '快速查找';
 $labels['resetsearch'] = '清空查找内容';
+$labels['openinextwin'] = '在新窗口中打开';
 $labels['compose'] = '写新邮件';
 $labels['savemessage'] = '保存为草稿';
 $labels['sendmessage'] = '立即发送';
