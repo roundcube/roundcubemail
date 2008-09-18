@@ -345,6 +345,10 @@ class rcube_message
         // part message/*
         else if ($primary_type=='message') {
           $this->parse_structure($mail_part, true);
+          
+          // list as attachment as well (mostly .eml)
+          if (!empty($mail_part->filename))
+            $this->attachments[] = $mail_part;
         }
         // ignore "virtual" protocol parts
         else if ($primary_type == 'protocol')
