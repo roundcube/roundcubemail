@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/lt/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Martynas Bendorius <martynas@evanet.lt>                       |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/lt_LT/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Martynas Bendorius <martynas@evanet.lt>                       |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -40,6 +40,8 @@ $messages['encryptedmessage'] = 'Apgailestaujame, tačiau šis laiškas užšifr
 $messages['nocontactsfound'] = 'Kontaktų nerasta';
 $messages['contactnotfound'] = 'Reikalautas kontaktas nerastas';
 $messages['sendingfailed'] = 'Laiško išsiųsti nepavyko';
+$messages['senttooquickly'] = 'Jūs turite palaukti $sec sek., kad galėtumėte išsiųsti laišką';
+$messages['errorsavingsent'] = 'Išsaugant išsiųstą laišką įvyko klaida';
 $messages['errorsaving'] = 'Išsaugant įvyko klaida';
 $messages['errormoving'] = 'Laiško perkelti nepavyko';
 $messages['errordeleting'] = 'Laiško ištrinti nepavyko';
@@ -47,6 +49,9 @@ $messages['deletecontactconfirm'] = 'Ar jūs tikrai norite ištrinti pasirinktą
 $messages['deletemessagesconfirm'] = 'Ar jūs tikrai norite ištrinti pasirinktą(-us) žinutę(-es)?';
 $messages['deletefolderconfirm'] = 'Ar jūs tikrai norite ištrinti šį aplanką?';
 $messages['purgefolderconfirm'] = 'Ar jūs tikrai norite ištrinti visus laiškus, esančius šiame aplanke?';
+$messages['foldercreating'] = 'Aplankas kuriamas...';
+$messages['folderdeleting'] = 'Aplankas pašalinamas...';
+$messages['folderrenaming'] = 'Aplankas pervardinamas...';
 $messages['formincomplete'] = 'Šios formos laukai yra nepilnai užpildyti';
 $messages['noemailwarning'] = 'Prašome įvesti teisingą el. pašto adresą';
 $messages['nonamewarning'] = 'Prašome įvesti vardą';
@@ -78,5 +83,12 @@ $messages['receiptsent'] = 'Sėkmingai išsiųstas laiško perskaitymo patvirtin
 $messages['errorsendingreceipt'] = 'Nepavyko išsiųsti laiško perskaitymo patvirtinimo';
 $messages['nodeletelastidentity'] = 'Jūs negalite ištrinti šios tapatybės, kadangi ji yra vienintelė likusi.';
 $messages['addsubfolderhint'] = 'Šis aplankas bus sukurtas kaip poaplankis, kurį esate pažymėjęs';
+$messages['forbiddencharacter'] = 'Aplanko pavadinimas turi neleistinų simbolių';
+$messages['selectimportfile'] = 'Prašome pasirinkti bylą įkėlimui';
+$messages['addresswriterror'] = 'Pasirinkta adresų knyga nėra įrašoma';
+$messages['importwait'] = 'Importuojama, prašome palaukti...';
+$messages['importerror'] = 'Importavimas nepavyko! Įkelta byla nėra vCard formato.';
+$messages['importconfirm'] = 'Sėkmingai importuoti $inserted kontaktai, $skipped egzistuojančių įrašų praleista:$names';
+$messages['opnotpermitted'] = 'Operacija neleistina!';
 
 ?>
