@@ -49,16 +49,9 @@ function rcube_splitter(attrib)
 
     // read saved position from cookie
     var cookie = bw.get_cookie(this.id);
-    if (cookie)
+    if (cookie && !isNaN(cookie))
       {
-      var param = cookie.split(':');
-
-      for (var i=0, p; i<param.length; i++)
-        {
-        p = param[i].split('=');
-        this[p[0]] = !isNaN(p[1]) ? parseFloat(p[1]) : p[1];
-        }
-
+      this.pos = parseFloat(cookie);
       this.resize();
       }
     else if (this.pos)
@@ -238,7 +231,7 @@ function rcube_splitter(attrib)
     // save state in cookie
     var exp = new Date();
     exp.setYear(exp.getFullYear() + 1);
-    bw.set_cookie(this.id, 'pos='+this.pos, exp);
+    bw.set_cookie(this.id, this.pos, exp);
     }
 
   }  // end class rcube_splitter
