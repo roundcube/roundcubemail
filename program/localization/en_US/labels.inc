@@ -282,8 +282,8 @@ $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';
 $labels['never']  = 'never';
-$labels['messagesdisplaying'] = 'Messages displaying';
-$labels['messagescomposition'] = 'Messages composition';
+$labels['messagesdisplaying'] = 'Displaying messages';
+$labels['messagescomposition'] = 'Composing messages';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
