@@ -758,7 +758,6 @@ function rcube_webmail()
         if (props._row.uid)
           {
           uid = props._row.uid;
-          this.message_list.dont_select = true;
           // toggle flagged/unflagged
           if (this.message_list.rows[uid].flagged)
             flag = 'unflagged';
@@ -1345,7 +1344,6 @@ function rcube_webmail()
   /*********     (message) list functionality      *********/
   /*********************************************************/
 
-
   // when user doble-clicks on a row
   this.show_message = function(id, safe, preview)
     {
@@ -1540,6 +1538,98 @@ function rcube_webmail()
       || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
   };
 
+  // set message icon
+  this.set_message_icon = function(uid)
+  {
+    var icn_src;
+    var rows = this.message_list.rows;
+
+    if (!rows[uid])
+      return false;
+
+    if (rows[uid].deleted && this.env.deletedicon)
+      icn_src = this.env.deletedicon;
+    else if (rows[uid].replied && this.env.repliedicon)
+      {
+      if (rows[uid].forwarded && this.env.forwardedrepliedicon)
+        icn_src = this.env.forwardedrepliedicon;
+      else
+        icn_src = this.env.repliedicon;
+      }
+    else if (rows[uid].forwarded && this.env.forwardedicon)
+      icn_src = this.env.forwardedicon;
+    else if (rows[uid].unread && this.env.unreadicon)
+      icn_src = this.env.unreadicon;
+    else if (this.env.messageicon)
+      icn_src = this.env.messageicon;
+      
+    if (icn_src && rows[uid].icon)
+      rows[uid].icon.src = icn_src;
+
+    icn_src = '';
+    
+    if (rows[uid].flagged && this.env.flaggedicon)
+      icn_src = this.env.flaggedicon;
+    else if (this.env.unflaggedicon)
+      icn_src = this.env.unflaggedicon;
+
+    if (rows[uid].flagged_icon && icn_src)
+      rows[uid].flagged_icon.src = icn_src;
+  }
+
+  // set message status
+  this.set_message_status = function(uid, flag, status)
+    {
+    var rows = this.message_list.rows;
+
+    if (!rows[uid]) return false;
+
+    if (flag == 'unread')
+      rows[uid].unread = status;
+    else if(flag == 'deleted')
+      rows[uid].deleted = status;
+    else if (flag == 'replied')
+      rows[uid].replied = status;
+    else if (flag == 'forwarded')
+      rows[uid].forwarded = status;
+    else if (flag == 'flagged')
+      rows[uid].flagged = status;
+    }
+
+  // set message row status, class and icon
+  this.set_message = function(uid, flag, status)
+    {
+    var rows = this.message_list.rows;
+
+    if (!rows[uid]) return false;
+    
+    if (flag)
+      this.set_message_status(uid, flag, status);
+    
+    if (rows[uid].unread && rows[uid].classname.indexOf('unread')<0)
+      {
+      rows[uid].classname += ' unread';
+      this.set_classname(rows[uid].obj, 'unread', true);
+      }
+    else if (!rows[uid].unread && rows[uid].classname.indexOf('unread')>=0)
+      {
+      rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
+      this.set_classname(rows[uid].obj, 'unread', false);
+      }
+    
+    if (rows[uid].deleted && rows[uid].classname.indexOf('deleted')<0)
+      {
+      rows[uid].classname += ' deleted';
+      this.set_classname(rows[uid].obj, 'deleted', true);
+      }
+    else if (!rows[uid].deleted && rows[uid].classname.indexOf('deleted')>=0)
+      {
+      rows[uid].classname = rows[uid].classname.replace(/\s*deleted/, '');
+      this.set_classname(rows[uid].obj, 'deleted', false);
+      }
+
+    this.set_message_icon(uid);
+    }
 
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
@@ -1639,20 +1729,9 @@ function rcube_webmail()
         else
         {
           rows[id].deleted = true;
-        
-          if (rows[id].classname.indexOf('deleted')<0)
-          {
-            rows[id].classname += ' deleted';
-            this.set_classname(rows[id].obj, 'deleted', true);
-          }
           if (this.env.read_when_deleted)
-          {
-            rows[id].classname = rows[id].classname.replace(/\s*unread/, '');
-            this.set_classname(rows[id].obj, 'unread', false);
-          }
-        
-          if (rows[id].icon && this.env.deletedicon)
-            rows[id].icon.src = this.env.deletedicon;
+    	    rows[id].unread = false;
+	  this.set_message(id);
         }
       }
     }
@@ -1727,96 +1806,18 @@ function rcube_webmail()
   this.toggle_read_status = function(flag, a_uids)
   {
     // mark all message rows as read/unread
-    var icn_src;
-    var rows = this.message_list.rows;
     for (var i=0; i<a_uids.length; i++)
-      {
-      uid = a_uids[i];
-      if (rows[uid])
-        {
-        rows[uid].unread = (flag=='unread' ? true : false);
-        
-        if (rows[uid].classname.indexOf('unread')<0 && rows[uid].unread)
-          {
-          rows[uid].classname += ' unread';
-          this.set_classname(rows[uid].obj, 'unread', true);
-
-          if (this.env.unreadicon)
-            icn_src = this.env.unreadicon;
-          }
-        else if (!rows[uid].unread)
-          {
-          rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
-          this.set_classname(rows[uid].obj, 'unread', false);
-
-          if (this.env.messageicon)
-            icn_src = this.env.messageicon;
-          }
-
-        if (rows[uid].icon && icn_src 
-            && !(rows[uid].replied && this.env.repliedicon)
-	    && !(rows[uid].forwarded && this.env.forwardedicon)
-            && !(rows[uid].deleted && this.env.deletedicon))
-          rows[uid].icon.src = icn_src;
-        }
-      }
+      this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
 
     this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   };
 
-  // set class to read/unread
-  this.mark_as_read_from_preview = function(uid)
-  {
-    var icn_src;
-    var rows = parent.rcmail.message_list.rows;
-    if(rows[uid].unread)
-      {
-        rows[uid].unread = false;
-        rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
-        parent.rcmail.set_classname(rows[uid].obj, 'unread', false);
-
-        if (rows[uid].deleted && parent.rcmail.env.deletedicon)
-          icn_src = parent.rcmail.env.deletedicon;
-        else if (rows[uid].replied && parent.rcmail.env.repliedicon)
-	  {
-	  if (rows[uid].forwarded && parent.rcmail.env.forwardedrepliedicon)
-	    icn_src = parent.rcmail.env.forwardedrepliedicon;
-          else
-	    icn_src = parent.rcmail.env.repliedicon;
-          }
-	else if (rows[uid].forwarded && parent.rcmail.env.forwardedicon)
-          icn_src = parent.rcmail.env.forwardedicon;
-        else if (parent.rcmail.env.messageicon)
-          icn_src = parent.rcmail.env.messageicon;
-      
-        if (rows[uid].icon && icn_src)
-          rows[uid].icon.src = icn_src;
-      }
-  }
-  
-  
   // set image to flagged or unflagged
   this.toggle_flagged_status = function(flag, a_uids)
   {
     // mark all message rows as flagged/unflagged
-    var icn_src;
-    var rows = this.message_list.rows;
     for (var i=0; i<a_uids.length; i++)
-      {
-      uid = a_uids[i];
-      if (rows[uid])
-        {
-        rows[uid].flagged = (flag=='flagged' ? true : false);
-
-        if (rows[uid].flagged && this.env.flaggedicon)
-          icn_src = this.env.flaggedicon;
-        else if (this.env.unflaggedicon)
-          icn_src = this.env.unflaggedicon;
-
-        if (rows[uid].flagged_icon && icn_src)
-          rows[uid].flagged_icon.src = icn_src;
-        }
-      }
+      this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
 
     this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
   };
@@ -1828,7 +1829,7 @@ function rcube_webmail()
     
     if (a_uids.length==1)
     {
-      if (!rows.length || (rows[a_uids[0]] && rows[a_uids[0]].classname.indexOf('deleted') < 0))
+      if (!rows.length || (rows[a_uids[0]] && !rows[a_uids[0]].deleted))
         this.flag_as_deleted(a_uids);
       else
         this.flag_as_undeleted(a_uids);
@@ -1841,7 +1842,7 @@ function rcube_webmail()
     {
       uid = a_uids[i];
       if (rows[uid]) {
-        if (rows[uid].classname.indexOf('deleted')<0)
+        if (!rows[uid].deleted)
         {
           all_deleted = false;
           break;
@@ -1860,39 +1861,8 @@ function rcube_webmail()
 
   this.flag_as_undeleted = function(a_uids)
   {
-    var icn_src;
-    var rows = this.message_list ? this.message_list.rows : new Array();
-      
     for (var i=0; i<a_uids.length; i++)
-    {
-      uid = a_uids[i];
-      if (rows[uid]) {
-        rows[uid].deleted = false;
-        
-        if (rows[uid].classname.indexOf('deleted') > 0)
-        {
-          rows[uid].classname = rows[uid].classname.replace(/\s*deleted/, '');
-          this.set_classname(rows[uid].obj, 'deleted', false);
-        }
-
-        if (rows[uid].unread && this.env.unreadicon)
-          icn_src = this.env.unreadicon;
-        else if (rows[uid].replied && this.env.repliedicon)
-	  {
-	  if (rows[uid].forwarded && this.env.forwardedrepliedicon)
-            icn_src = this.env.forwardedrepliedicon;
-          else
-	    icn_src = this.env.repliedicon;
-          }
-	else if (rows[uid].forwarded && this.env.forwardedicon)
-          icn_src = this.env.forwardedicon;
-        else if (this.env.messageicon)
-          icn_src = this.env.messageicon;
-
-        if (rows[uid].icon && icn_src)
-          rows[uid].icon.src = icn_src;
-      }
-    }
+      this.set_message(a_uids[i], 'deleted', false);
 
     this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag=undelete');
     return true;
@@ -1910,22 +1880,7 @@ function rcube_webmail()
       uid = a_uids[i];
       if (rows[uid])
         {
-        rows[uid].deleted = true;
-        
-        if (rows[uid].classname.indexOf('deleted')<0)
-          {
-          rows[uid].classname += ' deleted';
-          this.set_classname(rows[uid].obj, 'deleted', true);
-          }
-        if (this.env.read_when_deleted)
-        {
-          rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
-          this.set_classname(rows[uid].obj, 'unread', false);
-        }
-          
-        if (rows[uid].icon && this.env.deletedicon)
-          rows[uid].icon.src = this.env.deletedicon;
-
+	this.set_message(uid, 'deleted', true);
         if (rows[uid].unread)
           r_uids[r_uids.length] = uid;
         }
@@ -1957,12 +1912,7 @@ function rcube_webmail()
         {
         rows[uid].unread = false;
         rows[uid].read = true;
-        
-        rows[uid].classname = rows[uid].classname.replace(/\s*unread/, '');
-        this.set_classname(rows[uid].obj, 'unread', false);
-
-        if (rows[uid].icon)
-          rows[uid].icon.src = this.env.deletedicon;
+	this.set_message(uid);
         }
       }
   };
@@ -2360,7 +2310,6 @@ function rcube_webmail()
   /*********     keyboard live-search methods      *********/
   /*********************************************************/
 
-
   // handler for keyboard events on address-fields
   this.ksearch_keypress = function(e, obj)
     {
@@ -2580,7 +2529,6 @@ function rcube_webmail()
   /*********************************************************/
   /*********         address book methods          *********/
   /*********************************************************/
-
 
   this.contactlist_keypress = function(list)
     {
@@ -3510,8 +3458,6 @@ function rcube_webmail()
     var icon = this.env.messageicon;
     if (flags.deleted && this.env.deletedicon)
       icon = this.env.deletedicon;
-    else if(flags.unread && this.env.unreadicon)
-      icon = this.env.unreadicon;
     else if (flags.replied && this.env.repliedicon)
       {
       if (flags.forwarded && this.env.forwardedrepliedicon)
@@ -3521,6 +3467,8 @@ function rcube_webmail()
       }
     else if (flags.forwarded && this.env.forwardedicon)
       icon = this.env.forwardedicon;
+    else if(flags.unread && this.env.unreadicon)
+      icon = this.env.unreadicon;
     
     var col = document.createElement('TD');
     col.className = 'icon';
@@ -3656,12 +3604,6 @@ function rcube_webmail()
       }
     };
 
-  // update parent's mailboxlist (from preview)
-  this.set_unread_count_from_preview = function(mbox, count, set_title)
-  {
-    parent.rcmail.set_unread_count(mbox, count, set_title);
-  }
-  
   // add row to contacts list
   this.add_contact_row = function(cid, cols, select)
     {
@@ -4233,4 +4175,3 @@ function call_init(o)
     window.setTimeout('if (window[\''+o+'\'] && window[\''+o+'\'].init) { '+o+'.init(); }',
                       bw.win ? 500 : 200);
   }
-

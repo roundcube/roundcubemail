@@ -71,8 +71,8 @@ if ($_GET['_uid']) {
     $marked = $IMAP->set_flag($MESSAGE->uid, 'SEEN');
     if($RCMAIL->action == 'preview' && $marked != -1)
     {
-      $OUTPUT->command('set_unread_count_from_preview', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
-      $OUTPUT->command('mark_as_read_from_preview', $MESSAGE->uid);
+      $OUTPUT->command('parent.set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
+      $OUTPUT->command('parent.set_message', $MESSAGE->uid, 'unread', false);
     }
   }
 

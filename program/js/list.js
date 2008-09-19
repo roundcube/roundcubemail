@@ -173,7 +173,7 @@ insert_row: function(row, attop)
 
 
 /**
- * Set focur to the list
+ * Set focus to the list
  */
 focus: function(e)
 {
