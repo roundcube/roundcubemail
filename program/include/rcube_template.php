@@ -639,6 +639,9 @@ class rcube_template extends rcube_html_page
                     case 'session':
                         $value = $_SESSION[$name];
                         break;
+                    case 'cookie':
+                        $value = htmlspecialchars($_COOKIE[$name]);
+                        break;
                 }
 
                 if (is_array($value)) {
