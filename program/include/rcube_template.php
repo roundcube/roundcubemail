@@ -464,17 +464,29 @@ class rcube_template extends rcube_html_page
      * @todo   Get rid off eval() once I understand what this does.
      * @todo   Extend this to allow real conditions, not just "set"
      * @param  string Condition statement
-     * @return boolean True if condition is met, False is not
+     * @return boolean True if condition is met, False if not
      */
     private function check_condition($condition)
     {
-        $condition = preg_replace(
+            return eval("return (".$this->parse_expression($condition).");");
+    }
+
+
+    /**
+     * Parses expression and replaces variables
+     *
+     * @param  string Expression statement
+     * @return string Expression statement
+     */
+    private function parse_expression($expression)
+    {
+        return preg_replace(
             array(
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
                 '/env:([a-z0-9_]+)/i',
-                '/request:([a-z0-9_]+)/ie',
-                '/cookie:([a-z0-9_]+)/ie'
+                '/request:([a-z0-9_]+)/i',
+                '/cookie:([a-z0-9_]+)/i'
             ),
             array(
                 "\$_SESSION['\\1']",
@@ -483,9 +495,7 @@ class rcube_template extends rcube_html_page
                 "get_input_value('\\1', RCUBE_INPUT_GPC)",
                 "\$_COOKIE['\\1']"
             ),
-            $condition);
-            
-            return eval("return (".$condition.");");
+            $expression);
     }
 
 
@@ -618,6 +628,11 @@ class rcube_template extends rcube_html_page
                     return Q($title);
                 }
                 break;
+
+            // return code for a specified eval expression
+            case 'exp':
+        	$value = $this->parse_expression($attrib['expression']);
+                return eval("return Q($value);");
             
             // return variable
             case 'var':
