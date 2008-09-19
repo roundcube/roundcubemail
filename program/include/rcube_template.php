@@ -473,13 +473,15 @@ class rcube_template extends rcube_html_page
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
                 '/env:([a-z0-9_]+)/i',
-                '/request:([a-z0-9_]+)/ie'
+                '/request:([a-z0-9_]+)/ie',
+                '/cookie:([a-z0-9_]+)/ie'
             ),
             array(
                 "\$_SESSION['\\1']",
                 "\$this->app->config->get('\\1',get_boolean('\\3'))",
                 "\$this->env['\\1']",
-                "get_input_value('\\1', RCUBE_INPUT_GPC)"
+                "get_input_value('\\1', RCUBE_INPUT_GPC)",
+                "\$_COOKIE['\\1']"
             ),
             $condition);
             
