@@ -1202,62 +1202,62 @@ class rcube_imap
       if ($i<2) {
         // TODO: fetch only Content-Type/Content-Disposition header
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
-	$filename_mime = '';
-	$i = 0;
-	while (preg_match('/filename\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-	  $filename_mime .= $matches[1];
-	  $i++;
-	  }
-        } 	
+        $filename_mime = '';
+        $i = 0;
+        while (preg_match('/filename\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+          $filename_mime .= $matches[1];
+          $i++;
+        }
       }
+    }
     else if (!empty($part->d_parameters['filename*0*'])) {
       $i = 0;
       while (isset($part->d_parameters['filename*'.$i.'*'])) {
         $i++;
-	$filename_encoded .= $part->d_parameters['filename*'.$i.'*'];
-	}
+        $filename_encoded .= $part->d_parameters['filename*'.$i.'*'];
+      }
       if ($i<2) {
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
-	$filename_encoded = '';
-	$i = 0; $matches = array();
-	while (preg_match('/filename\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-	  $filename_encoded .= $matches[1];
-	  $i++;
-	  }
-        } 	
+        $filename_encoded = '';
+        $i = 0; $matches = array();
+        while (preg_match('/filename\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+          $filename_encoded .= $matches[1];
+          $i++;
+        }
       }
+    }
     else if (!empty($part->ctype_parameters['name*0'])) {
       $i = 0;
       while (isset($part->ctype_parameters['name*'.$i])) {
         $i++;
         $filename_mime .= $part->ctype_parameters['name*'.$i];
-	}
+      }
       if ($i<2) {
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
-	$filename_mime = '';
-	$i = 0; $matches = array();
-	while (preg_match('/\s+name\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-	  $filename_mime .= $matches[1];
-	  $i++;
-	  }
-        } 	
+        $filename_mime = '';
+        $i = 0; $matches = array();
+        while (preg_match('/\s+name\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+          $filename_mime .= $matches[1];
+          $i++;
+        }
       }
+    }
     else if (!empty($part->ctype_parameters['name*0*'])) {
       $i = 0;
       while (isset($part->ctype_parameters['name*'.$i.'*'])) {
         $i++;
         $filename_encoded .= $part->ctype_parameters['name*'.$i.'*'];
-	}
+      }
       if ($i<2) {
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
-	$filename_encoded = '';
-	$i = 0; $matches = array();
-	while (preg_match('/\s+name\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-	  $filename_encoded .= $matches[1];
-	  $i++;
-	  }
-        } 	
+        $filename_encoded = '';
+        $i = 0; $matches = array();
+        while (preg_match('/\s+name\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
+          $filename_encoded .= $matches[1];
+          $i++;
+        }
       }
+    }
     // Content-Disposition
     else if (!empty($part->headers['content-description']))
       $filename_mime = $part->headers['content-description'];
@@ -1267,7 +1267,7 @@ class rcube_imap
     // decode filename
     if (!empty($filename_mime)) {
       $part->filename = rcube_imap::decode_mime_string($filename_mime, 
-    	    $part->charset ? $part->charset : rc_detect_encoding($filename_mime, $this->default_charset));
+        $part->charset ? $part->charset : rc_detect_encoding($filename_mime, $this->default_charset));
       } 
     else if (!empty($filename_encoded)) {
       // decode filename according to RFC 2231, Section 4
@@ -1342,7 +1342,7 @@ class rcube_imap
       if ($fp)
         {
         fwrite($fp, $body);
-	return true;
+        return true;
         }
       }
     
