@@ -977,23 +977,26 @@ function rcmail_html4inline($body, $container_id)
  * parse link attributes and set correct target
  */
 function rcmail_alter_html_link($tag, $attrs, $container_id)
-  {
+{
   $attrib = parse_attrib_string($attrs);
+  $end = '>';
 
-  if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href']))
+  if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
     $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($container_id);
-
-  else if (stristr((string)$attrib['href'], 'mailto:'))
+    $end = ' />';
+  }
+  else if (stristr((string)$attrib['href'], 'mailto:')) {
     $attrib['onclick'] = sprintf(
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
       JQ(substr($attrib['href'], 7)));
-
-  else if (!empty($attrib['href']) && $attrib['href']{0}!='#')
-    $attrib['target'] = '_blank';
-
-  return "<$tag" . create_attrib_string($attrib, array('href','name','target','onclick','id','class','style','title','rel','type','media')) . ' />';
   }
+  else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
+    $attrib['target'] = '_blank';
+  }
+
+  return "<$tag" . html::attrib_string($attrib, array('href','name','target','onclick','id','class','style','title','rel','type','media')) . $end;
+}
 
 
 /**
