@@ -43,7 +43,8 @@ class rcube_browser
         $this->ns  = ($this->ns4 || stristr($HTTP_USER_AGENT, 'netscape'));
         $this->ie  = stristr($HTTP_USER_AGENT, 'compatible; msie') && !$this->opera;
         $this->mz  = stristr($HTTP_USER_AGENT, 'mozilla/5');
-        $this->safari = stristr($HTTP_USER_AGENT, 'safari');
+        $this->khtml = stristr($HTTP_USER_AGENT, 'khtml');
+        $this->safari = ($this->khtml || stristr($HTTP_USER_AGENT, 'safari'));
 
         if ($this->ns) {
             $test = eregi("mozilla\/([0-9\.]+)", $HTTP_USER_AGENT, $regs);

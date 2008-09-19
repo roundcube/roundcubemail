@@ -755,7 +755,6 @@ table.headers-table tr td.all
 #messagebody
 {
   position:relative;
-  min-height: 300px;
   padding-bottom: 10px;
   background-color: #FFFFFF;
 }

@@ -54,6 +54,7 @@ class rcube_template extends rcube_html_page
 
         $this->app = rcmail::get_instance();
         $this->config = $this->app->config->all();
+        $this->browser = new rcube_browser();
         
         //$this->framed = $framed;
         $this->set_env('task', $task);
@@ -707,8 +708,6 @@ class rcube_template extends rcube_html_page
             return '';
         }
 
-        $browser   = new rcube_browser();
-
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
@@ -755,7 +754,7 @@ class rcube_template extends rcube_html_page
             $attrib['alt'] = Q(rcube_label($attrib['alt']));
         }
         // set title to alt attribute for IE browsers
-        if ($browser->ie && $attrib['title'] && !$attrib['alt']) {
+        if ($this->browser->ie && $attrib['title'] && !$attrib['alt']) {
             $attrib['alt'] = $attrib['title'];
             unset($attrib['title']);
         }
@@ -1018,6 +1017,10 @@ class rcube_template extends rcube_html_page
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmqsearchbox';
         }
+        if ($attrib['type'] == 'search' && !$this->browser->khtml) {
+          unset($attrib['type'], $attrib['results']);
+        }
+        
         $input_q = new html_inputfield($attrib);
         $out = $input_q->show();
 
