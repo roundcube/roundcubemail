@@ -40,6 +40,7 @@ $messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda 
 $messages['nocontactsfound'] = 'Ei leitud ühtegi kontakti';
 $messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
+$messages['senttooquickly'] = 'Palun oota enne selle kirja saatmist $sec sekundit.';
 $messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
 $messages['errorsaving'] = 'Salvestamise ajal ilmnes viga';
 $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
@@ -48,6 +49,9 @@ $messages['deletecontactconfirm'] = 'Soovid valitud kontaktid kustutada ?';
 $messages['deletemessagesconfirm'] = 'Soovid valitud kirja(d) kustutada ?';
 $messages['deletefolderconfirm'] = 'Soovid selle kataloogi kindlasti kustutada ?';
 $messages['purgefolderconfirm'] = 'Soovid sellest kaustast kõik kirjad kustutada ?';
+$messages['foldercreating'] = 'Kausta loomine...';
+$messages['folderdeleting'] = 'Kausta kustutamine...';
+$messages['folderrenaming'] = 'Kausta ümber nimetamine...';
 $messages['formincomplete'] = 'Vormi kõik väljad ei ole täidetud';
 $messages['noemailwarning'] = 'Palun sisesta toimiv e-maili aadress';
 $messages['nonamewarning'] = 'Palun sisesta nimi';
@@ -85,5 +89,6 @@ $messages['addresswriterror'] = 'Valitud aadressiraamat pole kirjutatav';
 $messages['importwait'] = 'Importimine, palun oota...';
 $messages['importerror'] = 'Import nurjus! Üleslaaditud fail ei ole vCard formaadis.';
 $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Tegevus pole lubatud!';
 
 ?>
