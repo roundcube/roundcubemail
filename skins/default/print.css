@@ -108,7 +108,10 @@ div.message-part div.pre
   margin: 0;
   padding: 0;
   white-space: pre;
+  white-space: -o-pre-wrap !important;
+  white-space: -moz-pre-wrap !important;
   font-family: monospace;
+  word-wrap: break-word; /* IE (and Safari) */
 }
 
 div.message-part blockquote

@@ -782,8 +782,9 @@ div.message-part div.pre
   margin: 0px;
   padding: 0px;
   font-family: monospace;
-  white-space: -moz-pre-wrap !important;
   white-space: pre;
+  white-space: -moz-pre-wrap !important;
+  white-space: -o-pre-wrap !important;
   word-wrap: break-word; /* IE (and Safari) */
 }
 
