@@ -31,7 +31,7 @@ class rcube_user
 {
   public $ID = null;
   public $data = null;
-  public $language = 'en_US';
+  public $language = null;
   
   private $db = null;
   
