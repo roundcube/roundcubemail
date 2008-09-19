@@ -51,13 +51,13 @@ class rcube_config
     ob_start();
     
     // load main config file
-    if (include(INSTALL_PATH . 'config/main.inc.php'))
+    if (include(RCMAIL_CONFIG_DIR . '/main.inc.php'))
       $this->prop = (array)$rcmail_config;
     else
       $this->errors[] = 'main.inc.php was not found.';
 
     // load database config
-    if (include(INSTALL_PATH . 'config/db.inc.php'))
+    if (include(RCMAIL_CONFIG_DIR . '/db.inc.php'))
       $this->prop += (array)$rcmail_config;
     else
       $this->errors[] = 'db.inc.php was not found.';
@@ -119,8 +119,8 @@ class rcube_config
       $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $_SERVER['HTTP_HOST']) . '.inc.php';
     }
 
-    if ($fname && is_file(INSTALL_PATH . 'config/' . $fname)) {
-      include(INSTALL_PATH . 'config/' . $fname);
+    if ($fname && is_file(RCMAIL_CONFIG_DIR . '/' . $fname)) {
+      include(RCMAIL_CONFIG_DIR . '/' . $fname);
       $this->prop = array_merge($this->prop, (array)$rcmail_config);
     }
   }

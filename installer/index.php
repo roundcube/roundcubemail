@@ -3,6 +3,8 @@ ini_set('error_reporting', E_ALL&~E_NOTICE);
 ini_set('display_errors', 1);
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../').'/');
+define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+
 $include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
 $include_path .= INSTALL_PATH . 'program' . PATH_SEPARATOR;
 $include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
@@ -68,7 +70,7 @@ if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db'))
   if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
     // header("HTTP/1.0 404 Not Found");
     echo '<h2 class="error">The installer is disabled!</h2>';
-    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in config/main.inc.php</p>';
+    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in '.RCMAIL_CONFIG_DIR.'/main.inc.php</p>';
     echo '</div></body></html>';
     exit;
   }

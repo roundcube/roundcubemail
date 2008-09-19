@@ -30,6 +30,8 @@ if (!defined('INSTALL_PATH')) {
   define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
 }
 
+define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+
 // make sure path_separator is defined
 if (!defined('PATH_SEPARATOR')) {
   define('PATH_SEPARATOR', (eregi('win', PHP_OS) ? ';' : ':'));

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/19 (thomasb)
+----------
+- Made config files location configurable (#1485215)
+
 2008/09/16 (alec)
 ----------
 - Reduced memory footprint when forwarding attachments (#1485345)

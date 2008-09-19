@@ -79,12 +79,12 @@ class rcube_install
    */
   function _load_config($suffix)
   {
-    @include '../config/main.inc' . $suffix;
+    @include RCMAIL_CONFIG_DIR . '/main.inc' . $suffix;
     if (is_array($rcmail_config)) {
       $this->config += $rcmail_config;
     }
       
-    @include '../config/db.inc'. $suffix;
+    @include RCMAIL_CONFIG_DIR . '/db.inc'. $suffix;
     if (is_array($rcmail_config)) {
       $this->config += $rcmail_config;
     }

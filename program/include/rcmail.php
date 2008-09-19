@@ -460,7 +460,7 @@ class rcmail
       raise_error(array(
         'code' => 600,
         'type' => 'php',
-        'file' => "config/main.inc.php",
+        'file' => RCMAIL_CONFIG_DIR."/main.inc.php",
         'message' => "Acces denied for new user $username. 'auto_create_user' is disabled"
         ), true, false);
     }

@@ -3,8 +3,8 @@
 <h3>Check config files</h3>
 <?php
 
-$read_main = is_readable(INSTALL_PATH.'config/main.inc.php');
-$read_db = is_readable(INSTALL_PATH.'config/db.inc.php');
+$read_main = is_readable(RCMAIL_CONFIG_DIR.'/main.inc.php');
+$read_db = is_readable(RCMAIL_CONFIG_DIR.'/db.inc.php');
 
 if ($read_main && !empty($RCI->config)) {
   $RCI->pass('main.inc.php');
