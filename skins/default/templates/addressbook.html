@@ -5,6 +5,16 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/addresses.css" />
 <script type="text/javascript" src="/splitter.js"></script>
+
+<roundcube:if condition="config:ldap_public == false" />
+<style type="text/css">
+#abookcountbar { left: 20px;}
+#mainscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
+#addresslist { width:245px }
+#contacts-box { left:255px; /* IE hack */ width:expression((parseInt(mainscreen.offsetWidth)-255)+'px') }
+</style>
+<roundcube:endif />
+
 </head>
 <body>
 
@@ -24,21 +34,10 @@
 </div>
 
 <roundcube:if condition="config:ldap_public" />
-
 <div id="directorylist">
 <div id="groups-title"><roundcube:label name="groups" /></div>
 <roundcube:object name="directorylist" id="directories-list" />
 </div>
-
-<roundcube:else />
-
-<style type="text/css">
-#abookcountbar { left: 20px;}
-#mainscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
-#addresslist { width:245px }
-#contacts-box { left:255px; /* IE hack */ width:expression((parseInt(mainscreen.offsetWidth)-255)+'px') }
-</style>
-
 <roundcube:endif />
 
 <div id="mainscreen">
