@@ -2,21 +2,22 @@
 
 /*
 
-+-----------------------------------------------------------------------+
-| language/pt_BR/labels.inc                                             |
-|                                                                       |
-| Language file of the RoundCube Webmail client                        |
-| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
-|         Robson F. Ramaldes <rframaldes@gmail.com>                     |
-|         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
-|         Gervasio Antonio <gdsa32-translations@yahoo.com.br            |
-+-----------------------------------------------------------------------+
+ +-----------------------------------------------------------------------+
+ | language/pt_BR/labels.inc                                             |
+ |                                                                       |
+ | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+ |         Robson F. Ramaldes <rframaldes@gmail.com>                     |
+ |         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
+ |         Gervasio Antonio <gdsa32-translations@yahoo.com.br>           |
+ |         Victor Benincasa <vbenincasa@gmail.com>                       |
+ +-----------------------------------------------------------------------+
 
-@version $Id$
+ @version $Id$
 
 */
 
@@ -29,7 +30,7 @@ $labels['password'] = 'Senha';
 $labels['server'] = 'Servidor';
 $labels['login'] = 'Entrar';
 
-// taskbar
+// Barra de tarefas
 $labels['logout'] = 'Sair';
 $labels['mail'] = 'E-mail';
 $labels['settings'] = 'Configurações pessoais';
@@ -67,10 +68,10 @@ $labels['download'] = 'download';
 $labels['filename'] = 'Arquivo';
 $labels['filesize'] = 'Tamanho';
 
-$labels['preferhtml'] = 'Preferir HTML';
+$labels['preferhtml'] = 'Exibir mensagens em HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
 $labels['showknownimages'] = 'Exibir imagens de remetentes conhecidos';
-$labels['prettydate'] = 'Formatar datas';
+$labels['prettydate'] = 'Exibir datas amigáveis';
 
 $labels['addtoaddressbook'] = 'Incluir no catálogo de endereços';
 
@@ -141,10 +142,11 @@ $labels['lastmessage'] = 'Última Mensagem';
 $labels['lastmessages'] = 'Última Página';
 $labels['backtolist'] = 'Voltar';
 $labels['viewsource'] = 'Exibir código fonte';
-
 $labels['markmessages'] = 'Marcar mensagens';
 $labels['markread'] = 'como lidas';
 $labels['markunread'] = 'como não lidas';
+$labels['markflagged'] = 'como sinalizadas';
+$labels['markunflagged'] = 'como não sinalizadas';
 
 $labels['select'] = 'Selecionar';
 $labels['all'] = 'Todas';
@@ -156,11 +158,13 @@ $labels['empty'] = 'Esvaziar';
 $labels['purge'] = 'Apagar';
 
 $labels['quota'] = 'Utilização';
-
 $labels['unknown'] = 'desconhecido';
 $labels['unlimited'] = 'Ilimitado';
+
 $labels['quicksearch'] = 'Pesquisa Rápida';
 $labels['resetsearch'] = 'Limpar';
+
+$labels['openinextwin'] = 'Abrir em nova janela';
 
 // Compor mensagem
 $labels['compose'] = 'Escrever mensagem';
@@ -170,6 +174,7 @@ $labels['addattachment'] = 'Anexar';
 $labels['charset'] = 'Codificação';
 $labels['editortype'] = 'Tipo';
 $labels['returnreceipt'] = 'Receber Confirmação';
+
 $labels['checkspelling'] = 'Verificar Ortografia';
 $labels['resumeediting'] = 'Continuar';
 $labels['revertto'] = 'Reverter para';
@@ -178,7 +183,6 @@ $labels['attachments'] = 'Anexos';
 $labels['upload'] = 'Enviar';
 $labels['close'] = 'Fechar';
 
-// prioridade
 $labels['low'] = 'Mais baixa';
 $labels['lowest'] = 'Baixa';
 $labels['normal'] = 'Normal';
@@ -188,11 +192,18 @@ $labels['highest'] = 'Mais alta';
 $labels['nosubject'] = '(Sem assunto)';
 $labels['showimages'] = 'Exibir imagens';
 $labels['alwaysshow'] = 'Sempre exibir imagens de $sender';
+
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Texto Puro';
+$labels['savesentmessagein'] = 'Salvar mensagens enviadas em';
+$labels['dontsave'] = 'não salvar';
+$labels['maxuploadsize'] = 'Tamanho máximo permitido de arquivo � $size';
+
 $labels['addcc'] = 'Cópia';
 $labels['addbcc'] = 'Cópia Oculta';
 $labels['addreplyto'] = 'Responder para';
+
+// mdn
 $labels['mdnrequest'] = 'O remetente desta mensagem deseja ser notificado quando você ler esta mensagem. Você permite o envio desta notificação?';
 $labels['receiptread'] = 'Confirmação de Leitura (Exibida)';
 $labels['yourmessage'] = 'Esta é uma confirmação de leitura da sua mensagem.';
@@ -218,12 +229,22 @@ $labels['composeto'] = 'Escrever mensagem para';
 $labels['contactsfromto'] = 'Contatos de $from a $to de $count';
 $labels['print'] = 'Imprimir';
 $labels['export'] = 'Exportar';
+$labels['exportvcards']   = 'Exportar os contatos em formato vCard';
 
+$labels['previouspage'] = 'Página Anterior';
 $labels['firstpage'] = 'Primeira Página ';
 $labels['nextpage'] = 'Próxima Página';
 $labels['lastpage'] = 'Última Página';
+
 $labels['groups'] = 'Grupos';
 $labels['personaladrbook'] = 'Endereços Pessoais';
+
+$labels['import'] = 'Importar';
+$labels['importcontacts'] = 'Importar contatos';
+$labels['importfromfile'] = 'Importar de arquivo:';
+$labels['importreplace'] = 'Substituir o catálogo de endereços atual';
+$labels['importtext'] = 'Você pode enviar contatos de um catálogo de endereços existente.<br/>Os contatos devem ser enviados no formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
+$labels['done'] = 'Finalizado';
 
 // Configurações
 $labels['settingsfor'] = 'Configurações para';
@@ -240,15 +261,16 @@ $labels['newitem'] = 'Novo item';
 $labels['edititem'] = 'Editar item';
 
 $labels['setdefault'] = 'Padrão';
+$labels['autodetect']  = 'Auto';
 $labels['language'] = 'Idioma';
 $labels['timezone'] = 'Fuso Horário';
-$labels['pagesize'] = 'Linhas por página';
+$labels['pagesize'] = 'Mensagens por página';
 $labels['signature'] = 'Assinatura';
 $labels['dstactive'] = 'Horário de Verão';
-
 $labels['htmleditor'] = 'Criar mensagens em HTML';
 $labels['htmlsignature'] = 'Assinatura em HTML';
 $labels['previewpane'] = 'Exibir Pré-visualização';
+$labels['skin'] = 'Aparência da interface';
 $labels['logoutclear'] = 'Esvaziar a Lixeira ao sair';
 $labels['logoutcompact'] = 'Compactar a Caixa de Entrada ao sair';
 $labels['uisettings'] = 'Interface com o usuário';
@@ -270,7 +292,7 @@ $labels['messagescomposition'] = 'Composição de mensagens';
 $labels['folder'] = 'Pasta';
 $labels['folders'] = 'Pastas';
 $labels['foldername'] = 'Nome da pasta';
-$labels['subscribed'] = 'Assinado';
+$labels['subscribed'] = 'Ativo';
 $labels['messagecount'] = 'Mensagens';
 $labels['create'] = 'Criar';
 $labels['createfolder'] = 'Criar nova pasta';
@@ -278,6 +300,7 @@ $labels['rename'] = 'Renomear';
 $labels['renamefolder'] = 'Renomear pasta';
 $labels['deletefolder'] = 'Apagar pasta';
 $labels['managefolders'] = 'Gerenciar pastas';
+$labels['specialfolders']  = 'Pastas especiais';
 
 $labels['sortby'] = 'Ordenado por';
 $labels['sortasc'] = 'Ascendente';
