@@ -1198,9 +1198,10 @@ class rcube_imap
 	}
       // some servers (eg. dovecot-1.x) have no support for parameter value continuations
       // we must fetch and parse headers "manually"
+      //TODO: fetching headers for a second time is not effecient, this code should be moved somewhere earlier --tensor
       if ($i<2) {
         // TODO: fetch only Content-Type/Content-Disposition header
-        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+        $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
 	$filename_mime = '';
 	$i = 0;
 	while (preg_match('/filename\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
@@ -1216,9 +1217,9 @@ class rcube_imap
 	$filename_encoded .= $part->d_parameters['filename*'.$i.'*'];
 	}
       if ($i<2) {
-        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+        $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
 	$filename_encoded = '';
-	$i = 0;
+	$i = 0; $matches = array();
 	while (preg_match('/filename\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
 	  $filename_encoded .= $matches[1];
 	  $i++;
@@ -1232,9 +1233,9 @@ class rcube_imap
         $filename_mime .= $part->ctype_parameters['name*'.$i];
 	}
       if ($i<2) {
-        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+        $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
 	$filename_mime = '';
-	$i = 0;
+	$i = 0; $matches = array();
 	while (preg_match('/\s+name\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
 	  $filename_mime .= $matches[1];
 	  $i++;
@@ -1248,9 +1249,9 @@ class rcube_imap
         $filename_encoded .= $part->ctype_parameters['name*'.$i.'*'];
 	}
       if ($i<2) {
-        $headers = iil_C_FetchPartBody($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id.'.HEADER');
+        $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
 	$filename_encoded = '';
-	$i = 0;
+	$i = 0; $matches = array();
 	while (preg_match('/\s+name\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
 	  $filename_encoded .= $matches[1];
 	  $i++;
