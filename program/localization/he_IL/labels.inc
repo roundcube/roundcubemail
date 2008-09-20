@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  01092008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  20092008                |
 +-----------------------------------------------------------------------+
 */
 
@@ -127,6 +127,7 @@ $labels['unknown'] = 'לא ידוע';
 $labels['unlimited'] = 'ללא הגבלה';
 $labels['quicksearch'] = 'חיפוש מהיר';
 $labels['resetsearch'] = 'ניקוי תיבת החיפוש';
+$labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['compose'] = 'כתיבת הודעה';
 $labels['savemessage'] = 'שמירת טיוטה';
 $labels['sendmessage'] = 'משלוח מיידי';
@@ -152,6 +153,7 @@ $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'ללא עיצוב';
 $labels['savesentmessagein'] = 'היכן לשמור ההודעה?';
 $labels['dontsave'] = 'ללא שמירה';
+$labels['maxuploadsize'] = 'גודל מקסימלי לקובץ הוא  $size';
 $labels['addcc'] = 'הוספת מכותב לידיעה';
 $labels['addbcc'] = 'הוספת מכותב נסתר';
 $labels['addreplyto'] = 'הוספת כתובת למענה';
@@ -175,12 +177,19 @@ $labels['composeto'] = 'יצירת הודעה אל';
 $labels['contactsfromto'] = 'אנשי קשר $from עד $to מתוך $count';
 $labels['print'] = 'הדפסה';
 $labels['export'] = 'ייצוא';
+$labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard ';
 $labels['previouspage'] = 'הצגת הקבוצה הקודמת';
 $labels['firstpage'] = 'הצגת הקבוצה הראשונה';
 $labels['nextpage'] = 'הצגת הקבוצה הבאה';
 $labels['lastpage'] = 'הצגת הקבוצה האחרונה';
 $labels['groups'] = 'קבוצות';
 $labels['personaladrbook'] = 'כתובות פרטיות';
+$labels['import'] = 'ייבוא';
+$labels['importcontacts'] = 'ייבוא אנשי קשר';
+$labels['importfromfile'] = 'ייבוא מקובץ';
+$labels['importreplace'] = 'החלפת כל פנקס הכתובות';
+$labels['importtext'] = '<a href=\"http://en.wikipedia.org/wiki/VCard\">vCard</a>  ניתן לייבא אנשי קשר מפנקס כתובות קיים.  אנו תומכים בפורמט';
+$labels['done'] = 'בוצע';
 $labels['settingsfor'] = 'הגדרות עבור';
 $labels['preferences'] = 'העדפות';
 $labels['userpreferences'] = 'העדפות משתמש';
@@ -191,6 +200,7 @@ $labels['newidentity'] = 'זהות חדשה';
 $labels['newitem'] = 'רשומה חדשה';
 $labels['edititem'] = 'עריכת רשומה';
 $labels['setdefault'] = 'קביעה כברירת מחדל';
+$labels['autodetect'] = 'אוטומטי';
 $labels['language'] = 'שפה';
 $labels['timezone'] = 'איזור זמן';
 $labels['pagesize'] = 'מספר שורות בדף';

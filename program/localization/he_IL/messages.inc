@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  01092008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  20092008                |
 +-----------------------------------------------------------------------+
 
 */
@@ -33,12 +33,13 @@ $messages['savingmessage'] = 'שמירת הודעה...';
 $messages['messagesaved'] = 'ההודעה נשמרה כטיוטה';
 $messages['successfullysaved'] = 'נשמרה בהצלחה';
 $messages['addedsuccessfully'] = 'איש הקשר נוסף לפנקס בהצלחה';
-$messages['contactexists'] = 'קיים כבר איש קשר עם כתובת דוא"ל זו';
+$messages['contactexists'] = 'קיים כבר איש קשר עם כתובת דוא\"ל זו';
 $messages['blockedimages'] = 'תמונות משרת אחר נחסמו כדי לשמור על הפרטיות';
 $messages['encryptedmessage'] = 'זו הודעת מוצפנת ולא ניתן להציגה';
 $messages['nocontactsfound'] = 'לא נמצאו אנשי קשר';
 $messages['contactnotfound'] = 'איש הקשר המבוקש לא נמצא';
 $messages['sendingfailed'] = 'שליחת ההודעה נכשלה';
+$messages['senttooquickly'] = 'נא להמתין $sec שניות לפני מסירת הודעה זו';
 $messages['errorsavingsent'] = 'נגרמה שגיאה במהלך שמירת ההודעה בתיק הודעות יוצאות';
 $messages['errorsaving'] = 'נגרמה שגיאה במהלך השמירה';
 $messages['errormoving'] = 'לא ניתן לתייק את ההודעה';
@@ -47,8 +48,11 @@ $messages['deletecontactconfirm'] = 'האם למחוק את איש הקשר?';
 $messages['deletemessagesconfirm'] = 'האם למחוק את ההודעות המסומנות?';
 $messages['deletefolderconfirm'] = 'האם למחוק תיק זה?';
 $messages['purgefolderconfirm'] = 'האם למחוק את כל ההודעות בתיק זה?';
+$messages['foldercreating'] = 'התיקיה נוצרת...';
+$messages['folderdeleting'] = 'התיקיה נמחקת...';
+$messages['folderrenaming'] = 'שינוי שם תיקיה...';
 $messages['formincomplete'] = 'לא הוזנו כל השדות בטופס זה';
-$messages['noemailwarning'] = 'נא להוסיף כתובת דוא"ל חוקית';
+$messages['noemailwarning'] = 'נא להוסיף כתובת דוא\"ל חוקית';
 $messages['nonamewarning'] = 'נא להוסיף שם';
 $messages['nopagesizewarning'] = 'נא להוסיף גודל דף';
 $messages['norecipientwarning'] = 'נא להוסיף לפחות נמען אחד';
@@ -57,7 +61,7 @@ $messages['nobodywarning'] = 'האם לשלוח הודעה ללא תוכן?';
 $messages['notsentwarning'] = 'ההודעה לא נשלחה. האם לבטל?';
 $messages['noldapserver'] = 'נא לבחור שרת כתובות לחיפוש';
 $messages['nocontactsreturned'] = 'לא נמצאו אנשי קשר';
-$messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא"ל';
+$messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא\"ל';
 $messages['searchsuccessful'] = 'נמצאו $nr הודעות';
 $messages['searchnomatch'] = 'תוצאת החיפוש ריקה';
 $messages['searching'] = 'חיפוש...';
@@ -79,5 +83,11 @@ $messages['errorsendingreceipt'] = 'לא ניתן לשלוח אישור קבלה
 $messages['nodeletelastidentity'] = 'זו הזהות האחרונה ולכן לא ניתן לבטלה';
 $messages['addsubfolderhint'] = 'תיקיה זו תוקם תחת התיקיה שנבחרה';
 $messages['forbiddencharacter'] = 'שם התיקיה מכיל תוים אסורים';
+$messages['selectimportfile'] = 'נא לבחור קובץ לייבוא';
+$messages['addresswriterror'] = 'פנקס הכתובות שנבחר אינו ניתן לכתיבה';
+$messages['importwait'] = 'ייבוא, נא להמתין..';
+$messages['importerror'] = 'חוקי vCard הייבוא נכשל כי הקובץ אינו בפורמט';
+$messages['importconfirm'] = 'יובאו $inserted אנשי קשר, $skipped היו קיימים $names';
+$messages['opnotpermitted'] = 'פעולה אסורה!';
 
 ?>
