@@ -440,11 +440,6 @@ body.messagelist
   width: expression(parseInt(document.getElementById('mailcontframe').clientWidth)+'px');
 }
 
-/* safari hack \*/
-html>body*#messagelist[id$="messagelist"]:not([class="none"]) { width: 99%; }
-html>body*input[type$="file"]:not([class="none"]) { background-color: transparent; border:0; }
-/**/
-
 #messagelist thead tr td
 {
   height: 20px;
@@ -604,6 +599,12 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
   color: #CCCCCC;
 }
 
+/* safari hacks \*/
+html>body*#messagelist[id$="messagelist"]:not([class="none"]) { width: 99.8%; }
+html>body*#messagelist[id$="messagelist"]:not([class="none"]) tr td.flag,
+html>body*#messagelist[id$="messagelist"]:not([class="none"]) tr td.icon { width: 20px; }
+html>body*input[type$="file"]:not([class="none"]) { background-color: transparent; border: 0; }
+/**/
 
 #quotadisplay
 {

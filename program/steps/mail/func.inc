@@ -774,10 +774,6 @@ function rcmail_message_headers($attrib, $headers=NULL)
   if (!$headers)
     $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
     
-  // add empty subject if none exsists
-  if (empty($headers['subject']))
-    $headers['subject'] = rcube_label('nosubject');
-
   $header_count = 0;
   
   // allow the following attributes to be added to the <table> tag
@@ -808,6 +804,8 @@ function rcmail_message_headers($attrib, $headers=NULL)
       }
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc')))
       $header_value = Q(rcmail_address_string($headers[$hkey], null, true, $attrib['addicon']), 'show');
+    else if ($hkey == 'subject' && empty($headers[$hkey]))
+      $header_value = Q(rcube_label('nosubject'));
     else
       $header_value = Q(trim($IMAP->decode_header($headers[$hkey])));
 
