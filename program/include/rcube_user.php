@@ -156,7 +156,7 @@ class rcube_user
        WHERE  del<>1
        AND    user_id=?
        $sql_add
-       ORDER BY ".$this->db->quoteIdentifier('standard')." DESC, name ASC",
+       ORDER BY ".$this->db->quoteIdentifier('standard')." DESC, name ASC, identity_id ASC",
       $this->ID);
     
     return $sql_result;
