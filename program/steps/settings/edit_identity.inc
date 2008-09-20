@@ -56,8 +56,8 @@ function rcube_identity_form($attrib)
                                     "theme : 'advanced'," .
                                     "theme_advanced_toolbar_location : 'top'," .
                                     "theme_advanced_toolbar_align : 'left'," .
-                                    "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr'," .
-                                    "theme_advanced_buttons2 : 'link,unlink,code,forecolor,fontselect,fontsizeselect'," .
+                                    "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor'," .
+                                    "theme_advanced_buttons2 : ',fontselect,fontsizeselect'," .
                                     "theme_advanced_buttons3 : '',".
 				    "gecko_spellcheck : true });");
 
@@ -67,18 +67,21 @@ function rcube_identity_form($attrib)
   // add some labels to client
   $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting');
 
+  $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
+  $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
+  $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
 
   list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
   unset($attrib['form']);
 
 
   // list of available cols
-  $a_show_cols = array('name'         => array('type' => 'text'),
-                       'email'        => array('type' => 'text'),
-                       'organization' => array('type' => 'text'),
-                       'reply-to'     => array('type' => 'text', 'label' => 'reply-to'),
-                       'bcc'          => array('type' => 'text'),
-                       'signature'	  => array('type' => 'textarea', 'size' => "40", 'rows' => "6"),
+  $a_show_cols = array('name'         => array('type' => 'text', 'size' => $i_size),
+                       'email'        => array('type' => 'text', 'size' => $i_size),
+                       'organization' => array('type' => 'text', 'size' => $i_size),
+                       'reply-to'     => array('type' => 'text', 'label' => 'reply-to', 'size' => $i_size),
+                       'bcc'          => array('type' => 'text', 'size' => $i_size),
+                       'signature'	  => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows),
                        'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'rcmfd_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
@@ -90,7 +93,7 @@ function rcube_identity_form($attrib)
     if (is_array($colprop))
       {
       $out = $form_start;
-      $out .= rcmail_get_edit_field($attrib['part'], $IDENTITY_RECORD[$attrib['part']], $attrib + array('size' => 30), $colprop['type']); 
+      $out .= rcmail_get_edit_field($attrib['part'], $IDENTITY_RECORD[$attrib['part']], $attrib, $colprop['type']); 
       return $out;
       }
     else
@@ -103,34 +106,22 @@ function rcube_identity_form($attrib)
 
   foreach ($a_show_cols as $col => $colprop)
     {
-    $attrib['id'] = 'rcmfd_'.$col;
-
-    if (strlen($colprop['onclick']))
-      $attrib['onclick'] = $colprop['onclick'];
-    else
-      unset($attrib['onclick']);
+    $colprop['id'] = 'rcmfd_'.$col;
 
     if ($col == 'signature')
       {
-      $attrib['size'] = $colprop['size'];
-      $attrib['rows'] = $colprop['rows'];
-      $attrib['spellcheck'] = true;
+      $colprop['spellcheck'] = true;
       if ($IDENTITY_RECORD['html_signature'])
         {
-        $attrib['class'] = "mce_editor";
+        $colprop['class'] = 'mce_editor';
         }
-      }
-    else
-      {
-      $attrib['size'] = 40;
-      unset($attrib['rows']);
       }
 
     $label = strlen($colprop['label']) ? $colprop['label'] : $col;
-    $value = rcmail_get_edit_field($col, $IDENTITY_RECORD[$col], $attrib, $colprop['type']);
+    $value = rcmail_get_edit_field($col, $IDENTITY_RECORD[$col], $colprop, $colprop['type']);
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                    $attrib['id'],
+                    $colprop['id'],
                     Q(rcube_label($label)),
                     $value);
     }
