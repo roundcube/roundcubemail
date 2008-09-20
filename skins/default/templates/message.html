@@ -5,6 +5,13 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/mail.css" />
 <script type="text/javascript" src="/splitter.js"></script>
+<style type="text/css">
+#mailboxlist-container { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 160" />px; }
+#messageframe {
+    left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px;
+    width: expression((parseInt(this.parentNode.offsetWidth)-<roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />)+'px');
+}
+</style>
 </head>
 <body>
 

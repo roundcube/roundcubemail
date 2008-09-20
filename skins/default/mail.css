@@ -633,8 +633,8 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
   background-color: #FFF;
   overflow: auto;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
+  height: expression((parseInt(this.parentNode.offsetHeight))+'px');
 }
 
 #printmessageframe

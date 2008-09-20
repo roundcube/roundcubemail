@@ -6,14 +6,25 @@
 <link rel="stylesheet" type="text/css" href="/addresses.css" />
 <script type="text/javascript" src="/splitter.js"></script>
 
-<roundcube:if condition="config:ldap_public == false" />
 <style type="text/css">
+<roundcube:if condition="config:ldap_public == false" />
 #abookcountbar { left: 20px;}
 #mainscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
-#addresslist { width:245px }
-#contacts-box { left:255px; /* IE hack */ width:expression((parseInt(mainscreen.offsetWidth)-255)+'px') }
-</style>
+#addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
+#contacts-box {
+    left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
+    /* IE hack */
+    width:expression((parseInt(mainscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
+}
+<roundcube:else />
+#addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
+#contacts-box {
+    left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
+    /* IE hack */
+    width:expression((parseInt(mainscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
+}
 <roundcube:endif />
+</style>
 
 </head>
 <body>
