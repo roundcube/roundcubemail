@@ -72,6 +72,7 @@ function log_bug($arg_arr)
   // write error to local log file
   if ($CONFIG['debug_level'] & 1)
   {
+    $post_query = ($_SERVER['REQUEST_METHOD'] == 'POST' ? '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']) : '');
     $log_entry = sprintf("[%s] %s Error: %s in %s on line %d (%s %s)\n",
       date("d-M-Y H:i:s O", mktime()),
       $program,
@@ -79,7 +80,7 @@ function log_bug($arg_arr)
       $arg_arr['file'],
       $arg_arr['line'],
       $_SERVER['REQUEST_METHOD'],
-      $_SERVER['REQUEST_URI']);
+      $_SERVER['REQUEST_URI'] . $post_query);
       
     if (empty($CONFIG['log_dir']))
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
