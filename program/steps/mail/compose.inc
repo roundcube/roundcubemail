@@ -765,11 +765,10 @@ function rcmail_compose_attachment_form($attrib)
 
 function rcmail_compose_attachment_field($attrib)
 {
-  // allow the following attributes to be added to the <input> tag
-  $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'size'));
- 
-  $out = '<input type="file" name="_attachments[]"'. $attrib_str . " />";
-  return $out;
+  $attrib['type'] = 'file';
+  $attrib['name'] = '_attachments[]';
+  $field = new html_inputfield($attrib);
+  return $field->show();
 }
 
 

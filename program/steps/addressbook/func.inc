@@ -152,11 +152,11 @@ function rcmail_contact_frame($attrib)
     $attrib['id'] = 'rcmcontactframe';
     
   $attrib['name'] = $attrib['id'];
-  $attrib_str = create_attrib_string($attrib, array('name', 'id', 'class', 'style', 'src', 'width', 'height', 'frameborder'));
 
   $OUTPUT->set_env('contentframe', $attrib['name']);
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
-  return '<iframe'. $attrib_str . '></iframe>';
+
+  return html::tag('iframe', $attrib);
   }
 
 
@@ -169,13 +169,7 @@ function rcmail_rowcount_display($attrib)
 
   $OUTPUT->add_gui_object('countdisplay', $attrib['id']);
 
-  // allow the following attributes to be added to the <span> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-
-  $out = '<span' . $attrib_str . '>';
-  $out .= rcmail_get_rowcount_text();
-  $out .= '</span>';
-  return $out;
+  return html::span($attrib, rcmail_get_rowcount_text());
   }
 
 
@@ -202,6 +196,7 @@ function rcmail_get_rowcount_text()
 
   return $out;
   }
+
 
 $OUTPUT->set_pagetitle(rcube_label('addressbook'));
   

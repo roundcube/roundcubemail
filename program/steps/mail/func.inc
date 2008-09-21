@@ -403,18 +403,12 @@ function rcmail_messagecontent_frame($attrib)
   if (empty($attrib['id']))
     $attrib['id'] = 'rcmailcontentwindow';
 
-  // allow the following attributes to be added to the <iframe> tag
-  $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'src', 'width', 'height', 'frameborder'));
-  $framename = $attrib['id'];
+  $attrib['name'] = $attrib['id'];
 
-  $out = sprintf('<iframe name="%s"%s></iframe>'."\n",
-         $framename,
-         $attrib_str);
-
-  $OUTPUT->set_env('contentframe', $framename);
+  $OUTPUT->set_env('contentframe', $attrib['id']);
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
 
-  return $out;
+  return html::tag('iframe', $attrib);
   }
 
 
@@ -430,14 +424,7 @@ function rcmail_messagecount_display($attrib)
 
   $OUTPUT->add_gui_object('countdisplay', $attrib['id']);
 
-  // allow the following attributes to be added to the <span> tag
-  $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id'));
-
-  
-  $out = '<span' . $attrib_str . '>';
-  $out .= rcmail_get_messagecount_text();
-  $out .= '</span>';
-  return $out;
+  return html::span($attrib, rcmail_get_messagecount_text());
   }
 
 
@@ -1140,10 +1127,7 @@ function rcmail_message_part_frame($attrib)
 
   $attrib['src'] = Q('./?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']));
 
-  $attrib_str = create_attrib_string($attrib, array('id', 'class', 'style', 'src', 'width', 'height'));
-  $out = '<iframe '. $attrib_str . "></iframe>";
-    
-  return $out;
+  return html::tag('iframe', $attrib);
   }
 
 
