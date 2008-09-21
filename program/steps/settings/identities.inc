@@ -36,7 +36,7 @@ function rcmail_identity_frame($attrib)
 
   $OUTPUT->set_env('contentframe', $attrib['name']);
 
-  return html::tag('iframe', $attrib);
+  return html::iframe($attrib);
   }
 
 $OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');

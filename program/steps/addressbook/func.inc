@@ -156,7 +156,7 @@ function rcmail_contact_frame($attrib)
   $OUTPUT->set_env('contentframe', $attrib['name']);
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
 
-  return html::tag('iframe', $attrib);
+  return html::iframe($attrib);
   }
 
 

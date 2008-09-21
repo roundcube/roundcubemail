@@ -408,7 +408,7 @@ function rcmail_messagecontent_frame($attrib)
   $OUTPUT->set_env('contentframe', $attrib['id']);
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
 
-  return html::tag('iframe', $attrib);
+  return html::iframe($attrib);
   }
 
 
@@ -1125,9 +1125,9 @@ function rcmail_message_part_frame($attrib)
   $part = $MESSAGE->mime_parts[asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
   $ctype_primary = strtolower($part->ctype_primary);
 
-  $attrib['src'] = Q('./?'.str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']));
+  $attrib['src'] = './?' . str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']);
 
-  return html::tag('iframe', $attrib);
+  return html::iframe($attrib);
   }
 
 

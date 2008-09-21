@@ -181,6 +181,21 @@ class html
     }
 
     /**
+     * Derrived method to create <iframe></iframe>
+     *
+     * @param mixed Hash array with tag attributes or string with frame source (src)
+     * @return string HTML code
+     * @see html::tag()
+     */
+    public static function iframe($attr = null, $cont = null)
+    {
+        if (is_string($attr)) {
+            $attr = array('src' => $attr);
+        }
+        return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib, array('src','name','width','height','border','frameborder')));
+    }
+
+    /**
      * Derrived method for line breaks
      *
      * @return string HTML code
