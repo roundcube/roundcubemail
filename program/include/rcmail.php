@@ -223,7 +223,7 @@ class rcmail
   /**
    * Get the current database connection
    *
-   * @return object rcube_db  Database connection object
+   * @return object rcube_mdb2  Database connection object
    */
   public function get_dbh()
   {
