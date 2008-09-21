@@ -33,7 +33,7 @@ class html
     protected $content;
 
     public static $common_attrib = array('id','class','style','title','align');
-    public static $containers = array('div','span','p','h1','h2','h3','form','textarea','table','tr','th','td','style');
+    public static $containers = array('iframe','div','span','p','h1','h2','h3','form','textarea','table','tr','th','td','style');
     public static $lc_tags = true;
 
     /**
