@@ -30,10 +30,10 @@ if (!empty($_POST['submit'])) {
   $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
   
   echo '<div><em>main.inc.php (<a href="index.php?_getfile=main">download</a>)</em></div>';
-  echo $textbox->show($RCI->create_config('main'));
+  echo $textbox->show(($_SESSION['main.inc.php'] = $RCI->create_config('main')));
   
   echo '<div style="margin-top:1em"><em>db.inc.php (<a href="index.php?_getfile=db">download</a>)</em></div>';
-  echo $textbox->show($RCI->create_config('db'));
+  echo $textbox->show($_SESSION['db.inc.php'] = $RCI->create_config('db'));
 
   echo '<p class="hint">Of course there are more options to configure.
     Have a look at the config files or visit <a href="http://trac.roundcube.net/wiki/Howto_Config">Howto_Config</a> to find out.</p>';

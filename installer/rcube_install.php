@@ -129,18 +129,17 @@ class rcube_install
       // convert some form data
       if ($prop == 'debug_level') {
         $val = 0;
-        if (isset($value))
-	  foreach ($value as $dbgval)
+        if (is_array($value))
+          foreach ($value as $dbgval)
             $val += intval($dbgval);
-	$value = $val;
+        $value = $val;
       }
       else if ($which == 'db' && $prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
         if ($_POST['_dbtype'] == 'sqlite')
           $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
         else
           $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], 
-		    rawurlencode($_POST['_dbuser']), rawurlencode($_POST['_dbpass']),
-		    $_POST['_dbhost'], $_POST['_dbname']);
+            rawurlencode($_POST['_dbuser']), rawurlencode($_POST['_dbpass']), $_POST['_dbhost'], $_POST['_dbname']);
       }
       else if ($prop == 'smtp_auth_type' && $value == '0') {
         $value = '';

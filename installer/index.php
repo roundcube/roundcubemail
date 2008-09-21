@@ -31,12 +31,18 @@ function __autoload($classname)
 $RCI = rcube_install::get_instance();
 $RCI->load_config();
 
-if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db')))
-{
-  header('Content-type: text/plain');
-  header('Content-Disposition: attachment; filename="'.$_GET['_getfile'].'.inc.php"');
-  echo $RCI->create_config($_GET['_getfile']);
-  exit;
+if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db'))) {
+  $filename = $_GET['_getfile'] . '.inc.php';
+  if (!empty($_SESSION[$filename])) {
+    header('Content-type: text/plain');
+    header('Content-Disposition: attachment; filename="'.$filename.'"');
+    echo $_SESSION[$filename];
+    exit;
+  }
+  else {
+    header('HTTP/1.0 404 Not found');
+    die("The requested configuration was not found. Please run the installer from the beginning.");
+  }
 }
 
 ?>
