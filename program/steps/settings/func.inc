@@ -233,18 +233,26 @@ function rcmail_user_prefs_form($attrib)
     
     $table = new html_table(array('cols' => 2));
 
-    $table->add('title', Q(rcube_label('drafts')));
-    $table->add(null, $select->show($config['drafts_mbox'], array('name' => "_drafts_mbox", 'onchange' => "document.getElementById('rcmfd_autosave').disabled=this.selectedIndex==0")));
-    
-    $table->add('title', Q(rcube_label('sent')));
-    $table->add(null, $select->show($config['sent_mbox'], array('name' => "_sent_mbox")));
-    
-    $table->add('title', Q(rcube_label('junk')));
-    $table->add(null, $select->show($config['junk_mbox'], array('name' => "_junk_mbox")));
-    
-    $table->add('title', Q(rcube_label('trash')));
-    $table->add(null, $select->show($config['trash_mbox'], array('name' => "_trash_mbox")));
-    
+    if (!isset($no_override['drafts_mbox'])) {
+      $table->add('title', Q(rcube_label('drafts')));
+      $table->add(null, $select->show($config['drafts_mbox'], array('name' => "_drafts_mbox", 'onchange' => "document.getElementById('rcmfd_autosave').disabled=this.selectedIndex==0")));
+    }
+
+    if (!isset($no_override['sent_mbox'])) {
+      $table->add('title', Q(rcube_label('sent')));
+      $table->add(null, $select->show($config['sent_mbox'], array('name' => "_sent_mbox")));
+    }
+
+    if (!isset($no_override['junk_mbox'])) {
+      $table->add('title', Q(rcube_label('junk')));
+      $table->add(null, $select->show($config['junk_mbox'], array('name' => "_junk_mbox")));
+    }
+
+    if (!isset($no_override['trash_mbox'])) {
+      $table->add('title', Q(rcube_label('trash')));
+      $table->add(null, $select->show($config['trash_mbox'], array('name' => "_trash_mbox")));
+    }
+
     $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('specialfolders'))) . $table->show($attrib));
   }
 
