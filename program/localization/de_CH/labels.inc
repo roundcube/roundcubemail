@@ -204,6 +204,7 @@ $labels['newitem'] = 'Neuer Eintrag';
 $labels['edititem'] = 'Eintrag bearbeiten';
 $labels['setdefault'] = 'Als Standard';
 $labels['language'] = 'Sprache';
+$labels['autodetect'] = 'Automatisch';
 $labels['timezone'] = 'Zeitzone';
 $labels['pagesize'] = 'Einträge pro Seite';
 $labels['signature'] = 'Signatur';
