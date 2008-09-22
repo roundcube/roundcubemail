@@ -75,10 +75,6 @@ class rcube_config
     $this->prop['log_dir'] = $this->prop['log_dir'] ? unslashify($this->prop['log_dir']) : INSTALL_PATH . 'logs';
     $this->prop['temp_dir'] = $this->prop['temp_dir'] ? unslashify($this->prop['temp_dir']) : INSTALL_PATH . 'temp';
     
-    // handle aliases
-    if (isset($this->prop['locale_string']) && empty($this->prop['language']))
-      $this->prop['language'] = $this->prop['locale_string'];
-
     // set PHP error logging according to config
     if ($this->prop['debug_level'] & 1) {
       ini_set('log_errors', 1);

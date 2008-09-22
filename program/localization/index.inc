@@ -128,5 +128,4 @@ $rcube_language_aliases = array(
   'zh' => 'zh_CN',
 );
 
-
 ?>
