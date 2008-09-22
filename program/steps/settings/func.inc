@@ -22,7 +22,6 @@
 if (!$OUTPUT->ajax_call)
   $OUTPUT->set_pagetitle(rcube_label('preferences'));
 
-
 function rcmail_user_prefs_form($attrib)
 {
   global $RCMAIL;
@@ -49,7 +48,7 @@ function rcmail_user_prefs_form($attrib)
     $select_lang->add(array_values($a_lang), array_keys($a_lang));
   
     $table->add('title', html::label($field_id, Q(rcube_label('language'))));
-    $table->add(null, $select_lang->show($config['language']));
+    $table->add(null, $select_lang->show($RCMAIL->user->language));
   }
 
 
