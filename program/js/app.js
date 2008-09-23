@@ -3555,7 +3555,7 @@ function rcube_webmail()
     var reg, text_obj, item, mycount, childcount, div;
     if (item = this.get_folder_li(mbox))
       {
-      mycount = this.env.unread_counts[mbox];
+      mycount = this.env.unread_counts[mbox] ? this.env.unread_counts[mbox] : 0;
       text_obj = item.getElementsByTagName('a')[0];
       reg = /\s+\([0-9]+\)$/i;
 
@@ -3564,10 +3564,10 @@ function rcube_webmail()
           div.className.match(/collapsed/))
         {
         // add children's counters
-        for (var k in this.env.unread_counts)
+        for (var k in this.env.unread_counts) 
           if (k.indexOf(mbox + this.env.delimiter) == 0) {
             childcount += this.env.unread_counts[k];
-          }
+	  }
         }
 
       if (mycount && text_obj.innerHTML.match(reg))
@@ -3578,7 +3578,7 @@ function rcube_webmail()
         text_obj.innerHTML = text_obj.innerHTML.replace(reg, '');
 
       // set parent's display
-      reg = new RegExp(RegExp.escape(this.env.delimiter) + '[^' + RegExp.escape(this.env.delimiter) + ']+');
+      reg = new RegExp(RegExp.escape(this.env.delimiter) + '[^' + RegExp.escape(this.env.delimiter) + ']+$');
       if (mbox.match(reg))
         this.set_unread_count_display(mbox.replace(reg, ''), false);
 
