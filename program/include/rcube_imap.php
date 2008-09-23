@@ -1057,7 +1057,7 @@ class rcube_imap
       if ($this->caching_enabled)
         $this->add_message_cache($cache_key, $msg_id, $headers, $struct);
       }
-      
+
     return $struct;
     }
 
@@ -1271,8 +1271,11 @@ class rcube_imap
       } 
     else if (!empty($filename_encoded)) {
       // decode filename according to RFC 2231, Section 4
-      list($filename_charset,, $filename_urlencoded) = split('\'', $filename_encoded);
-      $part->filename = rcube_charset_convert(urldecode($filename_urlencoded), $filename_charset);
+      if (preg_match("/^([^']*)'[^']*'(.*)$/", $filename_encoded, $fmatches)) {
+        $filename_charset = $fmatches[1];
+        $filename_encoded = $fmatches[2];
+        }
+      $part->filename = rcube_charset_convert(urldecode($filename_encoded), $filename_charset);
       }
     }
      
