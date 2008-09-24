@@ -221,7 +221,7 @@ function rcube_subscription_form($attrib)
   if (!empty($attrib['renameicon']))
     $edit_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['renameicon'], 'alt' => rcube_label('rename'), 'border' => 0));
   else
-    $del_button = rcube_label('rename');
+    $edit_button = rcube_label('rename');
     
   // create list of available folders
   foreach ($list_folders as $i => $folder) {
