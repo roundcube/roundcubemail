@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/23 (alec)
+----------
+- Fix language autodetection (#1485401)
+- Fix button label in folders management (#1485405)
+- Fix collapsed folder not indicating unread msgs count of all subfolders (#1485403)
+- Fix handling of apostrophes in filenames decoded according to rfc2231
+
 2008/09/19 (thomasb)
 ----------
 - Made config files location configurable (#1485215)

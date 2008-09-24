@@ -78,7 +78,8 @@ class rcube_user
    */
   function get_prefs()
   {
-    $prefs = array('language' => $this->language);
+    if (!empty($this->language))
+      $prefs = array('language' => $this->language);
     
     if ($this->ID && $this->data['preferences'])
       $prefs += (array)unserialize($this->data['preferences']);
