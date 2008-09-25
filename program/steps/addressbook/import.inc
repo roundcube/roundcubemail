@@ -124,6 +124,12 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
     foreach ($vcards as $vcard) {
       $email = $vcard->email[0];
       
+      // skip entries without an e-mail address
+      if (empty($email)) {
+        $IMPORT_STATS->nomail++;
+        continue;
+      }
+      
       if (!$replace) {
         // compare e-mail address
         $existing = $CONTACTS->search('email', $email, false, false);
@@ -134,11 +140,6 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
           $IMPORT_STATS->skipped++;
           continue;
         }
-      }
-      // skip entries without an e-mail address
-      if (empty($email)) {
-        $IMPORT_STATS->nomail++;
-        continue;
       }
       
       $success = $CONTACTS->insert(array(

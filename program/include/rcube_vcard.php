@@ -73,7 +73,7 @@ class rcube_vcard
     $this->business = ($this->raw['X-ABShowAs'][0] == 'COMPANY') || (join('', (array)$this->raw['N'][0]) == '' && !empty($this->organization));
     
     foreach ((array)$this->raw['EMAIL'] as $i => $raw_email)
-      $this->email[$i] = $raw_email[0];
+      $this->email[$i] = is_array($raw_email) ? $raw_email[0] : $raw_email;
     
     // make the pref e-mail address the first entry in $this->email
     $pref_index = $this->get_type_index('EMAIL', 'pref');
@@ -217,7 +217,7 @@ class rcube_vcard
     $vcard = preg_replace(array('/^item\d*\.X-AB.*$/m', '/^item\d*\./m', "/\n+/"), array('', '', "\n"), $vcard);
 
     // remove vcard 2.1 charset definitions
-    $vcard = preg_replace('/;CHARSET=[^:]+/', '', $vcard);
+    $vcard = preg_replace('/;CHARSET=[^:;]+/', '', $vcard);
 
     return $vcard;
   }
@@ -244,19 +244,26 @@ class rcube_vcard
     $data = array();
     if (preg_match_all('/^([^\\:]*):(.+)$/m', $vcard, $regs, PREG_SET_ORDER)) {
       foreach($regs as $line) {
-        // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet,home:"
-        if(($data['VERSION'][0] == "2.1") && preg_match('/^([^;]+);([^:]+)/', $line[1], $regs2) && !preg_match('/^TYPE=/i', $regs2[2])) {
-          $line[1] = $regs2[1] . ";TYPE=" . strtr($regs2[2], array(";" => ","));
+        // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet;TYPE=home:"
+        if (($data['VERSION'][0] == "2.1") && preg_match('/^([^;]+);([^:]+)/', $line[1], $regs2) && !preg_match('/^TYPE=/i', $regs2[2])) {
+          $line[1] = $regs2[1];
+          foreach (explode(';', $regs2[2]) as $prop)
+            $line[1] .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
         }
 
         if (!preg_match('/^(BEGIN|END)$/', $line[1]) && preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
           $entry = array(self::vcard_unquote($line[2]));
 
           foreach($regs2[1] as $attrid => $attr) {
-            if ((list($key, $value) = explode('=', $attr)) && $value)
-              $entry[strtolower($key)] = array_merge((array)$entry[strtolower($key)], (array)self::vcard_unquote($value, ','));
-            elseif ($attrid > 0)
+            if ((list($key, $value) = explode('=', $attr)) && $value) {
+              if ($key == 'ENCODING')
+                $entry[0] = self::decode_value($entry[0], $value);
+              else
+                $entry[strtolower($key)] = array_merge((array)$entry[strtolower($key)], (array)self::vcard_unquote($value, ','));
+            }
+            else if ($attrid > 0) {
               $entry[$key] = true;  # true means attr without =value
+            }
           }
 
           $data[$regs2[1][0]][] = count($entry) > 1 ? $entry : $entry[0];
@@ -288,6 +295,28 @@ class rcube_vcard
     }
     else {
       return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\,' => ',', '\;' => ';', '\:' => ':'));
+    }
+  }
+
+
+  /**
+   * Decode a given string with the encoding rule from ENCODING attributes
+   *
+   * @param string String to decode
+   * @param string Encoding type (quoted-printable and base64 supported)
+   * @return string Decoded 8bit value
+   */
+  private static function decode_value($value, $encoding)
+  {
+    switch (strtolower($encoding)) {
+      case 'quoted-printable':
+        return quoted_printable_decode($value);
+
+      case 'base64':
+        return base64_decode($value);
+
+      default:
+        return $value;
     }
   }
 
@@ -381,7 +410,7 @@ class rcube_vcard
         )*\z/xs', substr($string, 0, 2048)))
       return 'UTF-8';
 
-    return null;
+    return 'ISO-8859-1'; # fallback to Latin-1
   }
 
 }
