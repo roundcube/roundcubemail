@@ -1493,7 +1493,7 @@ class rcube_imap
     $mailbox = $this->_mod_mailbox($mbox_name);
 
     // make sure mailbox exists
-    if (in_array($mailbox, $this->_list_mailboxes()))
+    if (($mailbox == 'INBOX') || in_array($mailbox, $this->_list_mailboxes()))
       $saved = iil_C_Append($this->conn, $mailbox, $message);
 
     if ($saved)
