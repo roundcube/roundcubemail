@@ -350,7 +350,7 @@ class Mail_mime
             $err = PEAR::raiseError($msg);
             return $err;
         }
-        $filename = substr('s_'.basename($filename), 2);
+        $filename = $this->_basename($filename);
         if (PEAR::isError($filedata)) {
             return $filedata;
         }
@@ -667,7 +667,7 @@ class Mail_mime
 
                 $this->_htmlbody = preg_replace($regex, $rep, $this->_htmlbody);
                 $this->_html_images[$key]['name'] = 
-                    substr(basename('s_'.$this->_html_images[$key]['name']), 2);
+                    $this->_basename($this->_html_images[$key]['name']);
             }
         }
 
@@ -1114,6 +1114,21 @@ class Mail_mime
         }
     }
 
-    
+    /**
+     * Get file's basename (locale independent) 
+     *
+     * @param string Filename
+     *
+     * @return string Basename
+     * @access private
+     */
+    function _basename($filename)
+    {
+	// basename() is not unicode safe and locale dependent
+	if (stristr(PHP_OS, 'win') || stristr(PHP_OS, 'netware'))
+	    return preg_replace('/^.*[\\\\\\/]/', '', $filename);
+	else
+	    return preg_replace('/^.*[\/]/', '', $filename);
+    }
 
 } // End of class

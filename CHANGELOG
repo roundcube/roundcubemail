@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/25 (alec)
+----------
+- Fix problem with non-ascii attachment names in Mail_mime (#1485267, #1485096)
+
 2008/09/23 (alec)
 ----------
 - Fix language autodetection (#1485401)
