@@ -2,20 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/cz/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Martin Mrajca <martin@moonlake.cz>                            |
- |        joe <joe@humlak.cz>                                            |
- |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/cs_CZ/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Martin Mrajca <martin@moonlake.cz>                            |
+|        joe <joe@humlak.cz>                                            |
+|        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -42,6 +42,8 @@ $messages['encryptedmessage'] = 'Tato zpráva je zašifrovaná a nelze ji zobraz
 $messages['nocontactsfound'] = 'Nemáte žádné kontakty';
 $messages['contactnotfound'] = 'Požadovaný kontakt nebyl nalezen.';
 $messages['sendingfailed'] = 'Odesílání zprávy selhalo';
+$messages['senttooquickly'] = 'Prosím počkejte $sec sekund před odesláním zprávy';
+$messages['errorsavingsent'] = 'Nastala chyba při ukládání odeslané zprávy';
 $messages['errorsaving'] = 'Vyskytla se chyba při ukládání';
 $messages['errormoving'] = 'Nemohu přesunout zprávu';
 $messages['errordeleting'] = 'Nemohu smazat zprávu';
@@ -49,6 +51,9 @@ $messages['deletecontactconfirm'] = 'Opravdu chcete smazat označené kontakty?'
 $messages['deletemessagesconfirm'] = 'Opravdu chcete smazat označené zprávy?';
 $messages['deletefolderconfirm'] = 'Chcete opravdu smazat tento adresář?';
 $messages['purgefolderconfirm'] = 'Opravdu chcete smazat všechny zprávy v této složce?';
+$messages['foldercreating'] = 'Vytvářím složku...';
+$messages['folderdeleting'] = 'Mažu složku...';
+$messages['folderrenaming'] = 'Přejmenovávám složku...';
 $messages['formincomplete'] = 'Formulář nebyl korektně vyplněn';
 $messages['noemailwarning'] = 'Zadejte, prosím, platnou adresu';
 $messages['nonamewarning'] = 'Zadejte, prosím, jméno';
@@ -80,5 +85,12 @@ $messages['receiptsent'] = 'Potvrzení o přřijetí zprávy odesláno';
 $messages['errorsendingreceipt'] = 'Potvrzení o přijetí zprávy nebylo možné odeslat';
 $messages['nodeletelastidentity'] = 'Alespoň jedna identita musí být ponechána. Identitu nelze odstranit.';
 $messages['addsubfolderhint'] = 'Tato složka bude vytvořena jako podsložka aktuálně zvolené složky';
+$messages['forbiddencharacter'] = 'Název složky obsahuje zakázaný znak';
+$messages['selectimportfile'] = 'Prosím vyberte soubor k nahrání';
+$messages['addresswriterror'] = 'Vybraný seznam kontaktů není zapisovatelný';
+$messages['importwait'] = 'Importuji, prosím čekejte...';
+$messages['importerror'] = 'Během importu nastala chyba! Nahraný soubor není ve formátu vCard.';
+$messages['importconfirm'] = 'Úspěšně naimportováno $inserted kontaktů, $skipped existujících záznamů přeskočeno:$names';
+$messages['opnotpermitted'] = 'Operace není povolena!';
 
 ?>

@@ -2,20 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/cz/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Martin Mrajca <martin@moonlake.cz>                            |
- |        joe <joe@humlak.cz>                                            |
- |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/cs_CZ/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Martin Mrajca <martin@moonlake.cz>                            |
+|        joe <joe@humlak.cz>                                            |
+|        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -54,6 +54,7 @@ $labels['filename'] = 'Jméno přílohy';
 $labels['filesize'] = 'Velikost přílohy';
 $labels['preferhtml'] = 'Upřednostňovat HTML zobrazení';
 $labels['htmlmessage'] = 'HTML zpráva';
+$labels['showknownimages'] = 'Ukazovat obrázky v mailech od neznámých odesilatelů';
 $labels['prettydate'] = 'Hezčí datum';
 $labels['addtoaddressbook'] = 'Přidat do adresáře';
 $labels['sun'] = 'Ne';
@@ -70,6 +71,30 @@ $labels['wednesday'] = 'Středa';
 $labels['thursday'] = 'Čtvrtek';
 $labels['friday'] = 'Pátek';
 $labels['saturday'] = 'Sobota';
+$labels['jan'] = 'Led';
+$labels['feb'] = 'Úno';
+$labels['mar'] = 'Bře';
+$labels['apr'] = 'Dub';
+$labels['may'] = 'Kvě';
+$labels['jun'] = 'Čer';
+$labels['jul'] = 'Čec';
+$labels['aug'] = 'Srp';
+$labels['sep'] = 'Zář';
+$labels['oct'] = 'Říj';
+$labels['nov'] = 'Lis';
+$labels['dec'] = 'Pro';
+$labels['longjan'] = 'Leden';
+$labels['longfeb'] = 'Únor';
+$labels['longmar'] = 'Březen';
+$labels['longapr'] = 'Duben';
+$labels['longmay'] = 'Květen';
+$labels['longjun'] = 'Červen';
+$labels['longjul'] = 'Červenec';
+$labels['longaug'] = 'Srpen';
+$labels['longsep'] = 'Září';
+$labels['longoct'] = 'Říjen';
+$labels['longnov'] = 'Listopad';
+$labels['longdec'] = 'Prosinec';
 $labels['today'] = 'Dnes';
 $labels['checkmail'] = 'Zkontrolovat nové zprávy';
 $labels['writenewmessage'] = 'Vytvořit novou zprávu';
@@ -92,18 +117,21 @@ $labels['viewsource'] = 'Zobrazit zdroj';
 $labels['markmessages'] = 'Označ zprávy';
 $labels['markread'] = 'Jako přečtené';
 $labels['markunread'] = 'Jako nepřečtené';
+$labels['markflagged'] = 'Jako označené';
+$labels['markunflagged'] = 'Jako neoznačené';
 $labels['select'] = 'Vybrat';
 $labels['all'] = 'Vše';
 $labels['none'] = 'Nic';
 $labels['unread'] = 'Nepřečtené';
-$labels['compact'] = 'Kompaktní';
-$labels['empty'] = 'Prázdný';
+$labels['compact'] = 'Zmenšit';
+$labels['empty'] = 'Vymazat';
 $labels['purge'] = 'Vyprázdnit';
 $labels['quota'] = 'Využití schránky';
 $labels['unknown'] = 'neznámý';
 $labels['unlimited'] = 'neomezený';
 $labels['quicksearch'] = 'Rychlé vyhledávání';
 $labels['resetsearch'] = 'Zrušit vyhledávání';
+$labels['openinextwin'] = 'Otevřít v novém okně';
 $labels['compose'] = 'Napsat zprávu';
 $labels['savemessage'] = 'Uložit do rozepsaných';
 $labels['sendmessage'] = 'Odeslat zprávu nyní';
@@ -124,11 +152,15 @@ $labels['high'] = 'Vysoká';
 $labels['highest'] = 'Nejvyšší';
 $labels['nosubject'] = '(bez predmetu)';
 $labels['showimages'] = 'Zobrazit obrázky';
+$labels['alwaysshow'] = 'Vždy ukazovat obrázky od $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Prostý text';
-$labels['addcc'] = 'Přidat pole "Kopie"';
-$labels['addbcc'] = 'Přidat pole "Skrytá Kopie"';
-$labels['addreplyto'] = 'Přidat pole "Odpověď"';
+$labels['savesentmessagein'] = 'Ukládat odeslané zprávy v';
+$labels['dontsave'] = 'neukládat';
+$labels['maxuploadsize'] = 'Maximální povolená velikost souboru je $size';
+$labels['addcc'] = 'Přidat pole \"Kopie\"';
+$labels['addbcc'] = 'Přidat pole \"Skrytá Kopie\"';
+$labels['addreplyto'] = 'Přidat pole \"Odpověď\"';
 $labels['mdnrequest'] = 'Odesílatel této zprávy si přeje být upozorněn na to, že jste zprávu obdrželi. Chcete přijetí zprávy potvrdit?';
 $labels['receiptread'] = 'Potvrzení o přijetí zprávy';
 $labels['yourmessage'] = 'Toto je potvrzení o přijetí Vaší zprávy';
@@ -149,12 +181,19 @@ $labels['composeto'] = 'Poslat e-mail';
 $labels['contactsfromto'] = 'Kontakty $from až $to z celkem $count';
 $labels['print'] = 'Tisk';
 $labels['export'] = 'Export';
+$labels['exportvcards'] = 'Exportovat kontakty ve formátu vCard';
 $labels['previouspage'] = 'Předchozí';
 $labels['firstpage'] = 'Zobrazit první zprávy';
 $labels['nextpage'] = 'Další';
 $labels['lastpage'] = 'Zobrazit poslední zprávy';
 $labels['groups'] = 'Skupiny';
 $labels['personaladrbook'] = 'Osobní kontakty';
+$labels['import'] = 'Import';
+$labels['importcontacts'] = 'Importovat kontakty';
+$labels['importfromfile'] = 'Importovat ze souboru';
+$labels['importreplace'] = 'Nahradit celý seznam kontaktů';
+$labels['importtext'] = 'Můžete nahrát kontakty z existujícího seznamu kontaktů.Podporujeme formát vCard';
+$labels['done'] = 'Hotovo';
 $labels['settingsfor'] = 'Nastavení pro';
 $labels['preferences'] = 'Vlastnosti';
 $labels['userpreferences'] = 'Vlastnosti uživatele';
@@ -165,6 +204,7 @@ $labels['newidentity'] = 'Nový profil';
 $labels['newitem'] = 'Nová položka';
 $labels['edititem'] = 'Upravit položku';
 $labels['setdefault'] = 'Nastavit výchozí';
+$labels['autodetect'] = 'Automaticky';
 $labels['language'] = 'Jazyk';
 $labels['timezone'] = 'Časová zóna';
 $labels['pagesize'] = 'Řádků na stránku';
@@ -173,9 +213,24 @@ $labels['dstactive'] = 'Letní čas';
 $labels['htmleditor'] = 'Vytvářet HTML zprávy';
 $labels['htmlsignature'] = 'HTML podpis';
 $labels['previewpane'] = 'Zobrazit panel náhledu';
+$labels['skin'] = 'Vzhled';
+$labels['logoutclear'] = 'Vyprázdnit koš při odhlášení';
+$labels['logoutcompact'] = 'Provést údržbu schránky při odhlášení';
+$labels['uisettings'] = 'Uživatelské rozhraní';
+$labels['serversettings'] = 'Nastavení serveru';
+$labels['mailboxview'] = 'Zobrazení schránky';
+$labels['mdnrequests'] = 'Oznámení o doručení';
+$labels['askuser'] = 'zeptat se';
+$labels['autosend'] = 'poslat automaticky';
+$labels['ignore'] = 'ignorovat';
+$labels['readwhendeleted'] = 'Při odstranění označit zprávu jako přečtenou';
+$labels['flagfordeletion'] = 'Zprávu nemazat, pouze označit pro odstranění';
+$labels['showinlineimages'] = 'Zobrazovat připojené obrázky pod textem';
 $labels['autosavedraft'] = 'Automaticky uložit rozepsané zprávy';
 $labels['everynminutes'] = 'každých $n minut';
 $labels['never'] = 'nikdy';
+$labels['messagesdisplaying'] = 'Zobrazování zpráv';
+$labels['messagescomposition'] = 'Psaní zpráv';
 $labels['folder'] = 'Složka';
 $labels['folders'] = 'Složky';
 $labels['foldername'] = 'Jméno složky';
@@ -187,19 +242,9 @@ $labels['rename'] = 'Přejmenovat';
 $labels['renamefolder'] = 'Přejmenovat složku';
 $labels['deletefolder'] = 'Smazat složku';
 $labels['managefolders'] = 'Spravovat složky';
+$labels['specialfolders'] = 'Speciální složky';
 $labels['sortby'] = 'Seřadit podle';
 $labels['sortasc'] = 'Seřadit vzestupně';
 $labels['sortdesc'] = 'Seřadit sestupně';
-$labels['uisettings'] = 'Uživatelské rozhraní';
-$labels['mdnrequests'] = 'Oznámení o doručení';
-$labels['askuser'] = 'zeptat se';
-$labels['autosend'] = 'poslat automaticky';
-$labels['ignore'] = 'ignorovat';
-$labels['mailboxview'] = 'Zobrazení schránky';
-$labels['serversettings'] = 'Nastavení serveru';
-$labels['readwhendeleted'] = 'Při odstranění označit zprávu jako přečtenou';
-$labels['flagfordeletion'] = 'Zprávu nemazat, pouze označit pro odstranění';
-$labels['logoutclear'] = 'Vyprázdnit koš při odhlášení';
-$labels['logoutcompact'] = 'Provést údržbu schránky při odhlášení';
 
 ?>
