@@ -183,9 +183,7 @@ function rcube_sess_regenerate_id()
   $cookie   = session_get_cookie_params();
   $lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
 
-  setcookie(session_name(), '', time() - 3600);
-  setcookie(session_name(), $random, $lifetime, $cookie['path'], $cookie['domain'],
-            $_SERVER['HTTPS'] && ($_SERVER['HTTPS']!='off'));
+  rcmail::setcookie(session_name(), $random, $lifetime);
 
   return true;
 }

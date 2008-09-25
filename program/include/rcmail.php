@@ -728,9 +728,7 @@ class rcmail
       if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now - $_SESSION['auth_time'] > 300)) {
         $_SESSION['last_auth'] = $_SESSION['auth_time'];
         $_SESSION['auth_time'] = $now;
-        $cookie = session_get_cookie_params();
-        setcookie('sessauth', $this->get_auth_hash(session_id(), $now), 0, $cookie['path'],
-                  $cookie['domain'], $_SERVER['HTTPS'] && ($_SERVER['HTTPS']!='off'));
+        rcmail::setcookie('sessauth', $this->get_auth_hash(session_id(), $now), 0);
       }
     }
     else {
@@ -753,7 +751,7 @@ class rcmail
   public function kill_session()
   {
     $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
-    setcookie('sessauth', '-del-', time() - 60);
+    rcmail::setcookie('sessauth', '-del-', time() - 60);
     $this->user->reset();
   }
 
@@ -910,6 +908,21 @@ class rcmail
       }
     }
     return $url;
+  }
+
+
+  /**
+   * Helper method to set a cookie with the current path and host settings
+   *
+   * @param string Cookie name
+   * @param string Cookie value
+   * @param string Expiration time
+   */
+  public static function setcookie($name, $value, $exp = 0)
+  {
+    $cookie = session_get_cookie_params();
+    setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'],
+      ($_SERVER['HTTPS'] && ($_SERVER['HTTPS'] != 'off')));
   }
 }
 
