@@ -1182,8 +1182,6 @@ class rcube_imap
     {
     if (!empty($part->d_parameters['filename']))
       $filename_mime = $part->d_parameters['filename'];
-    else if (!empty($part->ctype_parameters['name']))
-      $filename_mime = $part->ctype_parameters['name'];
     else if (!empty($part->d_parameters['filename*']))
       $filename_encoded = $part->d_parameters['filename*'];
     else if (!empty($part->ctype_parameters['name*']))
@@ -1258,6 +1256,9 @@ class rcube_imap
         }
       }
     }
+    // read 'name' after rfc2231 parameters as it may contains truncated filename (from Thunderbird)
+    else if (!empty($part->ctype_parameters['name']))
+      $filename_mime = $part->ctype_parameters['name'];
     // Content-Disposition
     else if (!empty($part->headers['content-description']))
       $filename_mime = $part->headers['content-description'];
