@@ -170,7 +170,7 @@ class rcmail
     $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language', $_SESSION['language']));
 
     // set localization
-    setlocale(LC_ALL, $_SESSION['language'] . '.utf8');
+    setlocale(LC_ALL, $_SESSION['language'] . '.utf8', 'en_US.utf8');
   }
   
   
