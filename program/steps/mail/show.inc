@@ -67,14 +67,7 @@ if ($_GET['_uid']) {
   
   // mark message as read
   if (!$MESSAGE->headers->seen)
-  {
-    $marked = $IMAP->set_flag($MESSAGE->uid, 'SEEN');
-    if($RCMAIL->action == 'preview' && $marked != -1)
-    {
-      $OUTPUT->command('parent.set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
-      $OUTPUT->command('parent.set_message', $MESSAGE->uid, 'unread', false);
-    }
-  }
+    $IMAP->set_flag($MESSAGE->uid, 'SEEN');
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE->uid);

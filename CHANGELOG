@@ -7,6 +7,7 @@ CHANGELOG RoundCube Webmail
   long/non-ascii attachment names encoding eg. to be readable
   in MS Outlook/OE (#1485320)
 - Added "advanced options" feature in User Preferences
+- Fix unread counter when displaying cached massage in preview panel (#1485290)
 
 2008/09/25 (alec)
 ----------
