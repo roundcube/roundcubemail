@@ -8,6 +8,7 @@ CHANGELOG RoundCube Webmail
   in MS Outlook/OE (#1485320)
 - Added "advanced options" feature in User Preferences
 - Fix unread counter when displaying cached massage in preview panel (#1485290)
+- Fix htmleditor spellchecking on MS Windows (#1485397)
 
 2008/09/25 (alec)
 ----------

@@ -2,7 +2,7 @@
 
 	/** start RoundCube specific code */
 	
-	define('INSTALL_PATH', preg_replace('/program\/js\/.+$/', '', getcwd()));
+	define('INSTALL_PATH', preg_replace('/program[\\\\\/]js[\\\\\/].+$/', '', getcwd()));
 	require_once INSTALL_PATH . 'program/include/iniset.php';
 	
 	$rcmail_config = new rcube_config();
