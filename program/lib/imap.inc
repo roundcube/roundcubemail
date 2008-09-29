@@ -700,15 +700,15 @@ function iil_C_ExpireCachedItems(&$conn, $folder, $message_set) {
 }
 
 function iil_ExplodeQuotedString($delimiter, $string) {
-	$quotes=explode('"', $string);
+	$quotes = explode('"', $string);
 	while ( list($key, $val) = each($quotes)) {
 		if (($key % 2) == 1) {
 			$quotes[$key] = str_replace($delimiter, "_!@!_", $quotes[$key]);
     		}
 	}
-	$string=implode('"', $quotes);
+	$string = implode('"', $quotes);
 	
-	$result=explode($delimiter, $string);
+	$result = explode($delimiter, $string);
 	while ( list($key, $val) = each($result) ) {
 		$result[$key] = str_replace('_!@!_', $delimiter, $result[$key]);
 	}
@@ -2019,11 +2019,9 @@ function iil_FormatSearchDate($month, $day, $year) {
 function iil_C_CountUnseen(&$conn, $folder) {
 	$index = iil_C_Search($conn, $folder, 'ALL UNSEEN');
 	if (is_array($index)) {
-		$str = implode(',', $index);
-		if (empty($str)) {
-		    return false;
-    		}
-		return count($index);
+		if (($cnt = count($index)) && $index[0] != '') {
+			return $cnt;
+		}
 	}
 	return false;
 }
@@ -2031,11 +2029,7 @@ function iil_C_CountUnseen(&$conn, $folder) {
 function iil_C_UID2ID(&$conn, $folder, $uid) {
 	if ($uid > 0) {
 		$id_a = iil_C_Search($conn, $folder, "UID $uid");
-		if (is_array($id_a)) {
-			$count = count($id_a);
-			if ($count > 1) {
-			    return false;
-        		}
+		if (is_array($id_a) && count($id_a) == 1) {
 			return $id_a[0];
 		}
 	}
