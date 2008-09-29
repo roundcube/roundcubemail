@@ -1,6 +1,13 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/09/29 (alec)
+----------
+- Added 'mime_param_folding' option with possibility to choose 
+  long/non-ascii attachment names encoding eg. to be readable
+  in MS Outlook/OE (#1485320)
+- Added "advanced options" feature in User Preferences
+
 2008/09/25 (alec)
 ----------
 - Fix problem with non-ascii attachment names in Mail_mime (#1485267, #1485096)

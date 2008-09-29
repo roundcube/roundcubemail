@@ -4,6 +4,15 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/settings.css" />
+<script type="text/javascript">
+function show_adv(box)
+{
+    var rows = document.getElementsByTagName('TR');
+    for(var i=0; i<rows.length; i++)
+	if(rows[i].className && rows[i].className.match(/advanced/))
+	    rows[i].style.display = box.checked ? (bw.ie ? 'block' : 'table-row') : 'none';
+}
+</script>
 </head>
 <body>
 
@@ -19,7 +28,14 @@
 </div>
 </div>
 
-<p id="listbuttons"><roundcube:button command="save" type="input" class="button mainaction" label="save" /></p>
+<p id="listbuttons">
+<roundcube:button command="save" type="input" class="button mainaction" label="save" />
+</p>
+
+<div class="advswitch">
+<label for="advswitch"><roundcube:label name="advancedoptions"><label>
+<input type="checkbox" id="advswitch" name="_advanced" value="0" onclick="show_adv(this)" />
+</div>
 
 <roundcube:include file="/includes/settingscripts.html" />
 

@@ -63,6 +63,11 @@ span.tablink-selected a
   padding-right: 10px;
 }
 
+#userprefs-box table tr.advanced
+{
+  display: none;
+}
+
 #identities-list,
 #folder-manager
 {
@@ -252,4 +257,14 @@ fieldset
 legend
 {
   color: #999999;
+}
+
+div.advswitch
+{
+  white-space: nowrap;
+  text-align: right;
+  position: absolute;
+  bottom: 35px;
+  left: 20px;
+  width: 640px;
 }

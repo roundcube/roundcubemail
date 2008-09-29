@@ -304,7 +304,10 @@ if (is_array($_SESSION['compose']['attachments']))
         $attachment['name'], true, 
         ($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
-        $message_charset);
+        $message_charset, '', '', 
+	$CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
+	$CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
+	);
     }
   }
 
@@ -316,8 +319,11 @@ if (is_array($_FILES['_attachments']['tmp_name']))
     $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
     
     $MAIL_MIME->addAttachment($filepath, $ctype, $files['name'][$i], true,
-	($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
-	'attachment', $message_charset);
+	$ctype == 'message/rfc822' ? $transfer_encoding : 'base64',
+	'attachment', $message_charset, '', '', 
+	$CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
+	$CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
+	);
     }
 
 

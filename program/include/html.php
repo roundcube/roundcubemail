@@ -591,7 +591,7 @@ class html_table extends html
     public function add_header($attr, $cont)
     {
         if (is_string($attr))
-        $attr = array('class' => $attr);
+    	    $attr = array('class' => $attr);
 
         $cell = new stdClass;
         $cell->attrib = $attr;
@@ -613,6 +613,18 @@ class html_table extends html
         $this->rows[$this->rowindex]->cells = array();
     }
 
+    /**
+     * Set current row attrib
+     *
+     * @param array Row attributes
+     */
+    public function set_row_attribs($attr = array())
+    {
+        if (is_string($attr))
+    	    $attr = array('class' => $attr);
+
+        $this->rows[$this->rowindex]->attrib = $attr;
+    }
 
     /**
      * Build HTML output of the table data

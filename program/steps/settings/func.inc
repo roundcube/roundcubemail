@@ -224,6 +224,18 @@ function rcmail_user_prefs_form($attrib)
     $table->add(null, $select_autosave->show($config['draft_autosave']));
   }
 
+  if (!isset($no_override['mime_param_folding'])) {
+    $field_id = 'rcmfd_param_folding';
+    $select_param_folding = new html_select(array('name' => '_mime_param_folding', 'id' => $field_id));
+    $select_param_folding->add(rcube_label('2231folding'), 0);
+    $select_param_folding->add(rcube_label('miscfolding'), 1);
+    $select_param_folding->add(rcube_label('2047folding'), 2);
+
+    $table->set_row_attribs('advanced');
+    $table->add('title', html::label($field_id, Q(rcube_label('mimeparamfolding'))));
+    $table->add(null, $select_param_folding->show($config['mime_param_folding']));
+  }
+
   $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagescomposition'))) . $table->show($attrib));
 
   // Configure special folders

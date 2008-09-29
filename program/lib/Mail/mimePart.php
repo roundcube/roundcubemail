@@ -182,13 +182,16 @@ class Mail_mimePart {
 
             }
         }
+	
         if (isset($contentType['type'])) {
             $headers['Content-Type'] = $contentType['type'];
             if (isset($contentType['name'])) {
                 $headers['Content-Type'] .= ';' . MAIL_MIMEPART_CRLF;
-                $headers['Content-Type'] .= $this->_buildHeaderParam('name', $contentType['name'], 
-                                                isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII', 
-                                                isset($contentType['language']) ? $contentType['language'] : NULL);
+                $headers['Content-Type'] .=
+		    $this->_buildHeaderParam('name', $contentType['name'], 
+                        isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII', 
+                        isset($contentType['language']) ? $contentType['language'] : NULL,
+			isset($params['name-encoding']) ?  $params['name-encoding'] : NULL);
             } elseif (isset($contentType['charset'])) {
                 $headers['Content-Type'] .= "; charset=\"{$contentType['charset']}\"";
             }
@@ -199,15 +202,14 @@ class Mail_mimePart {
             $headers['Content-Disposition'] = $contentDisp['disp'];
             if (isset($contentDisp['filename'])) {
                 $headers['Content-Disposition'] .= ';' . MAIL_MIMEPART_CRLF;
-                $headers['Content-Disposition'] .= $this->_buildHeaderParam('filename', $contentDisp['filename'], 
-                                                isset($contentDisp['charset']) ? $contentDisp['charset'] : 'US-ASCII', 
-                                                isset($contentDisp['language']) ? $contentDisp['language'] : NULL);
+                $headers['Content-Disposition'] .=
+		    $this->_buildHeaderParam('filename', $contentDisp['filename'], 
+                        isset($contentDisp['charset']) ? $contentDisp['charset'] : 'US-ASCII', 
+                        isset($contentDisp['language']) ? $contentDisp['language'] : NULL,
+			isset($params['filename-encoding']) ? $params['filename-encoding'] : NULL);
             }
         }
-        
-        
-        
-        
+
         // Default content-type
         if (!isset($headers['Content-Type'])) {
             $headers['Content-Type'] = 'text/plain';
@@ -388,20 +390,24 @@ class Mail_mimePart {
      * @param $value        The value of the paramter
      * @param $charset      The characterset of $value
      * @param $language     The language used in $value
+     * @param $paramEnc     Parameter encoding type
      * @param $maxLength    The maximum length of a line. Defauls to 78
      *
      * @access private
      */
-    function _buildHeaderParam($name, $value, $charset=NULL, $language=NULL, $maxLength=78)
+    function _buildHeaderParam($name, $value, $charset=NULL, $language=NULL, $paramEnc=NULL, $maxLength=78)
     {
         // RFC 2183/2184/2822: 
 	// value needs encoding if contains non-ASCII chars or is longer than 78 chars
-
         if (!preg_match('#[^\x20-\x7E]#', $value)) { // ASCII
 	    $quoted = addcslashes($value, '\\"');
 	    if (strlen($name) + strlen($quoted) + 6 <= $maxLength)
 		return " {$name}=\"{$quoted}\"; ";
 	}
+
+	// use quoted-printable/base64 encoding (RFC2047)
+	if ($paramEnc == 'quoted-printable' || $paramEnc == 'base64')
+	    return $this->_buildRFC2047Param($name, $value, $charset, $paramEnc);
 
         $encValue = preg_replace('#([^\x20-\x7E])#e', '"%" . strtoupper(dechex(ord("\1")))', $value);
         $value = "$charset'$language'$encValue";
@@ -413,7 +419,7 @@ class Mail_mimePart {
 
         $preLength = strlen(" {$name}*0*=\"");
         $sufLength = strlen("\";");
-        $maxLength = MAX(16, $maxLength - $preLength - $sufLength - 2);
+        $maxLength = max(16, $maxLength - $preLength - $sufLength - 2);
         $maxLengthReg = "|(.{0,$maxLength}[^\%][^\%])|";
 
         $headers = array();
@@ -433,4 +439,84 @@ class Mail_mimePart {
         $headers = implode(MAIL_MIMEPART_CRLF, $headers) . ';';
         return $headers;
     }
+
+    /**
+     * Encodes header parameter as per RFC2047 if needed (values too long will be truncated)
+     *
+     * @param string $name  The parameter name
+     * @param string $value  The parameter value
+     * @param string $charset  The parameter charset
+     * @param string $encoding  Encoding type (quoted-printable or base64)
+     * @param int $maxLength  Encoded parameter max length (75 is the value specified in the RFC)
+     *
+     * @return string Parameter line
+     * @access private
+     */
+    function _buildRFC2047Param($name, $value, $charset, $encoding='quoted-printable', $maxLength=75)
+    {
+        if (!preg_match('#([^\x20-\x7E]){1}#', $value))
+	{
+	    $quoted = addcslashes($value, '\\"');
+	    $maxLength = $maxLength - 6;
+	    if (strlen($quoted) > $maxLength)
+	    {
+		// truncate filename leaving extension
+		$ext = strrchr($quoted, '.');
+		$quoted = substr($quoted, 0, $maxLength - strlen($ext));
+		// remove backslashes from the end of filename
+		preg_replace('/[\\\\]+$/', '', $quoted);
+		$quoted .= $ext;
+	    }
+	}
+	else if ($encoding == 'base64')
+	{
+	    $ext = strrchr($value, '.');
+            $value = substr($value, 0, strlen($value) - strlen($ext));
+	    
+            $ext = base64_encode($ext);
+	    $value = base64_encode($value);
+
+            $prefix = '=?' . $charset . '?B?';
+            $suffix = '?=';
+            $maxLength = $maxLength - strlen($prefix . $suffix) - strlen($ext) - 2;
+
+            //We can cut base64 every 4 characters, so the real max
+            //we can get must be rounded down.
+            $maxLength = $maxLength - ($maxLength % 4);
+            $quoted = $prefix . substr($value, 0, $maxLength) . $ext . $suffix;
+        }
+	else // quoted-printable
+	{
+	    $ext = strrchr($value, '.');
+            $value = substr($value, 0, strlen($value) - strlen($ext));
+
+	    // Replace all special characters used by the encoder.
+            $search  = array('=',   '_',   '?',   ' ');
+	    $replace = array('=3D', '=5F', '=3F', '_');
+	    $ext = str_replace($search, $replace, $ext);
+	    $value = str_replace($search, $replace, $value);
+
+	    // Replace all extended characters (\x80-xFF) with their
+	    // ASCII values.
+	    $ext = preg_replace('/([\x80-\xFF])/e', 
+		'"=" . strtoupper(dechex(ord("\1")))', $ext);
+	    $value = preg_replace('/([\x80-\xFF])/e', 
+		'"=" . strtoupper(dechex(ord("\1")))', $value);
+
+            $prefix = '=?' . $charset . '?Q?';
+            $suffix = '?=';
+
+            $maxLength = $maxLength - strlen($prefix . $suffix) - strlen($ext) - 2;
+	    
+	    // Truncate QP-encoded text at $maxLength
+	    // but not break any encoded letters.
+	    if(preg_match("/^(.{0,$maxLength}[^\=][^\=])/", $value, $matches))
+    		$value = $matches[1];
+	
+	    $quoted = $prefix . $value . $ext . $suffix;
+        }
+
+	return " {$name}=\"{$quoted}\"; ";
+    }
+
 } // End of class

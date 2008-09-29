@@ -323,6 +323,8 @@ class Mail_mime
      *                             of this attachment.
      * @param string $language    The language of the attachment
      * @param string $location    The RFC 2557.4 location of the attachment
+     * @param string $n_encoding      Use RFC 2047 for attachment name (Content-Type) encoding
+     * @param string $f_encoding      Use RFC 2047 for attachment filename (Content-Disposition) encoding
      *
      * @return mixed true on success or PEAR_Error object
      * @access public
@@ -335,7 +337,9 @@ class Mail_mime
                            $disposition = 'attachment',
                            $charset     = '',
                             $language   = '',
-                           $location    = '')
+                           $location    = '',
+			   $n_encoding	= NULL,
+			   $f_encoding   = NULL)
     {
         $filedata = ($isfile === true) ? $this->_file2str($file)
                                            : $file;
@@ -363,7 +367,9 @@ class Mail_mime
                                 'charset'     => $charset,
                                 'language'    => $language,
                                 'location'    => $location,
-                                'disposition' => $disposition
+                                'disposition' => $disposition,
+				'name-encoding'    => $n_encoding,
+				'filename-encoding'=> $f_encoding
                                );
         return true;
     }
@@ -532,6 +538,12 @@ class Mail_mime
         $params['disposition']  = 'inline';
         $params['dfilename']    = $value['name'];
         $params['cid']          = $value['cid'];
+	if ($value['name-encoding']) {
+	    $params['name-encoding'] = $value['name-encoding'];
+	}
+	if ($value['filename-encoding']) {
+	    $params['filename-encoding'] = $value['filename-encoding'];
+	}
         
         $ret = $obj->addSubpart($value['body'], $params);
         return $ret;
@@ -561,6 +573,12 @@ class Mail_mime
         if ($value['location']) {
             $params['location'] = $value['location'];
         }
+	if ($value['name-encoding']) {
+	    $params['name-encoding'] = $value['name-encoding'];
+	}
+	if ($value['filename-encoding']) {
+	    $params['filename-encoding'] = $value['filename-encoding'];
+	}
         $params['content_type'] = $value['c_type'];
         $params['disposition']  = isset($value['disposition']) ? 
                                   $value['disposition'] : 'attachment';
@@ -914,7 +932,6 @@ class Mail_mime
      */
     function _encodeHeaders($input, $params = array())
     {
-        
         $build_params = $this->_build_params;
         while (list($key, $value) = each($params)) {
             $build_params[$key] = $value;

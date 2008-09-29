@@ -539,6 +539,21 @@ echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
 <div>Behavior if a received message requests a message delivery notification (read receipt)</div>
 </dd>
 
+<dt class="propname">mime_param_folding <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$select_param_folding = new html_select(array('name' => '_mime_param_folding', 'id' => "cfgmimeparamfolding"));
+$select_param_folding->add('Full RFC 2231 (Roundcube, Thunderbird)', '0'); 
+$select_param_folding->add('RFC 2047/2231 (MS Outlook, OE)', '1');
+$select_param_folding->add('Full RFC 2047 (deprecated)', '2');
+
+echo $select_param_folding->show(intval($RCI->getprop('mime_param_folding')));
+
+?>
+<div>How to encode attachment long/non-ascii names</div>
+</dd>
+
 </dl>
 
 <p class="hint"><span class="userconf">*</span>&nbsp; These settings are defaults for the user preferences</p>

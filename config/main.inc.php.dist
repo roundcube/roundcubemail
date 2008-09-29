@@ -377,5 +377,11 @@ $rcmail_config['logout_expunge'] = FALSE;
 // Display attached images below the message body 
 $rcmail_config['inline_images'] = TRUE;
 
+// Encoding of long/non-ascii attachment names:
+// 0 - Full RFC 2231 compatible
+// 1 - RFC 2047 for 'name' and RFC 2231 for 'filename' parameter (Thunderbird's default)
+// 2 - Full 2047 compatible
+$rcmail_config['mime_param_folding'] = 0;
+
 // end of config file
 ?>
