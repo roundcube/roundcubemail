@@ -373,9 +373,9 @@ class rcube_user
       $user_name = $user != $user_email ? $user : '';
 
       // try to resolve the e-mail address from the virtuser table
-      if ($virtuser_query = $rcmail->config->get('virtuser_query') &&
-          ($sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query))) &&
-          ($dbh->num_rows() > 0))
+      if (($virtuser_query = $rcmail->config->get('virtuser_query'))
+    	&& ($sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query)))
+	&& ($dbh->num_rows() > 0))
       {
         while ($sql_arr = $dbh->fetch_array($sql_result))
         {
