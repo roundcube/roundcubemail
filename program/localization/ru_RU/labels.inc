@@ -246,5 +246,9 @@ $labels['specialfolders'] = 'Особые папки';
 $labels['sortby'] = 'Сортировать по';
 $labels['sortasc'] = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
+$labels['B'] = 'Б';
+$labels['KB'] = 'КБ';
+$labels['MB'] = 'МБ';
+$labels['GB'] = 'ГБ';
 
 ?>

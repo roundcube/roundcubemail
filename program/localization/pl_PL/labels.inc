@@ -254,5 +254,9 @@ $labels['done'] = 'Wykonane';
 $labels['autodetect'] = '- wybór automatyczny -';
 $labels['maxuploadsize'] = 'Maksymalny rozmiar pliku to $size';
 $labels['exportvcards'] = 'Eksport kontaktów w formacie vCard';
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 
 ?>

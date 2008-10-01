@@ -58,8 +58,8 @@ $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
 $labels['messagenrof'] = 'Message $nr of $count';
 
-$labels['moveto']   = 'move to...';
-$labels['download'] = 'download';
+$labels['moveto']   = 'Move to...';
+$labels['download'] = 'Download';
 
 $labels['filename'] = 'File name';
 $labels['filesize'] = 'File size';
@@ -282,13 +282,13 @@ $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';
 $labels['never']  = 'never';
-$labels['messagesdisplaying'] = 'Displaying messages';
-$labels['messagescomposition'] = 'Composing messages';
+$labels['messagesdisplaying'] = 'Displaying Messages';
+$labels['messagescomposition'] = 'Composing Messages';
 $labels['mimeparamfolding'] = 'Attachment names';
 $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
-$labels['advancedoptions'] = 'advanced options';
+$labels['advancedoptions'] = 'Advanced options';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
@@ -301,10 +301,16 @@ $labels['rename'] = 'Rename';
 $labels['renamefolder'] = 'Rename folder';
 $labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
-$labels['specialfolders']  = 'Special folders';
+$labels['specialfolders'] = 'Special Folders';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
+
+// units
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 
 ?>

@@ -249,17 +249,17 @@ function show_bytes($bytes)
   if ($bytes > 1073741824)
   {
     $gb = $bytes/1073741824;
-    $str = sprintf($gb>=10 ? "%d GB" : "%.1f GB", $gb);
+    $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . rcube_label('GB');
   }
   else if ($bytes > 1048576)
   {
     $mb = $bytes/1048576;
-    $str = sprintf($mb>=10 ? "%d MB" : "%.1f MB", $mb);
+    $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . rcube_label('MB');
   }
   else if ($bytes > 1024)
-    $str = sprintf("%d KB",  round($bytes/1024));
+    $str = sprintf("%d ",  round($bytes/1024)) . rcube_label('KB');
   else
-    $str = sprintf('%d B', $bytes);
+    $str = sprintf('%d ', $bytes) . rcube_label('B');
 
   return $str;
 }
