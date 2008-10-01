@@ -61,6 +61,7 @@ $messages['formincomplete'] = 'Uzupełnij formularz!';
 $messages['noemailwarning'] = 'Podaj poprawny adres e-mail!';
 $messages['nonamewarning'] = 'Podaj nazwę!';
 $messages['nopagesizewarning'] = 'Podaj poprawną wartość!';
+$messages['nosenderwarning'] = 'Podaj adres nadawcy!'; 
 $messages['norecipientwarning'] = 'Podaj co najmniej jednego odbiorcę!';
 $messages['nosubjectwarning'] = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
 $messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chcesz ją wysłać?';
@@ -95,5 +96,6 @@ $messages['importwait'] = 'Importowanie, proszę czekać...';
 $messages['importerror'] = 'Błąd! Pobrany plik nie jest poprawnym plikiem vCard.'; 
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>'; 
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';
+$messages['nofromaddress'] = 'Brak adresu e-mail w wybranej tożsamości';
 
 ?>

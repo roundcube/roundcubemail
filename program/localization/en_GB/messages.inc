@@ -56,6 +56,7 @@ $messages['formincomplete'] = 'The form was not completely filled out';
 $messages['noemailwarning'] = 'Please enter a valid email address';
 $messages['nonamewarning'] = 'Please enter a name';
 $messages['nopagesizewarning'] = 'Please enter a page size';
+$messages['nosenderwarning'] = 'Please enter sender e-mail address';
 $messages['norecipientwarning'] = 'Please enter at least one recipient';
 $messages['nosubjectwarning'] = 'The "Subject" field is empty. Would you like to enter one now?';
 $messages['nobodywarning'] = 'Send this message without any text?';
@@ -90,5 +91,6 @@ $messages['importwait'] = 'Importing, please wait...';
 $messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
 $messages['importconfirm'] = 'Successfully imported $inserted contacts, $skipped existing entries skipped:$names';
 $messages['opnotpermitted'] = 'Operation not permitted!';
+$messages['nofromaddress'] = 'Missing e-mail address in selected identity';
 
 ?>
