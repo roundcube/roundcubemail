@@ -1971,6 +1971,13 @@ function rcube_webmail()
   this.display_spellcheck_controls = function(vis)
   {
     if (this.env.spellcheck) {
+      // stop spellchecking process
+      if (!vis && !this.spellcheck_ready) 
+        {
+	exec_event(this.env.spellcheck.check_link, 'click');
+	this.set_spellcheck_state('ready');
+	}
+			      
       this.env.spellcheck.check_link.style.visibility = vis ? 'visible' : 'hidden';
       this.env.spellcheck.switch_lan_pic.style.visibility = vis ? 'visible' : 'hidden';
     }

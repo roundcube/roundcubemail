@@ -58,12 +58,12 @@ function rcmail_toggle_editor(toggler)
   // do the appropriate conversion
   if (selectedEditor == 'html')
     {
+    rcmail.display_spellcheck_controls(false);
     var composeElement = document.getElementById('compose-body');
     var htmlText = "<pre>" + composeElement.value + "</pre>";
     composeElement.value = htmlText;
     tinyMCE.execCommand('mceAddControl', true, 'compose-body');
     htmlFlag.value = "1";
-    rcmail.display_spellcheck_controls(false);
     }
   else
     {

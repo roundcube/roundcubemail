@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/01 (alec)
+- Stop spellchecking when switching to html editor (#1485362)
+
 2008/09/29 (alec)
 ----------
 - Added 'mime_param_folding' option with possibility to choose 
