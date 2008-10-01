@@ -864,7 +864,6 @@ div.message-htmlpart div.rcmBody
 #receipt-selector
 {
   padding-left: 30px;
-  white-space: nowrap;
 }
 
 #compose-container
@@ -874,44 +873,16 @@ div.message-htmlpart div.rcmBody
   left: 200px;
   right: 25px;
   bottom: 30px;
-  padding: 0px;
   margin: 0px;
   /* css hack for IE */
   width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-130)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
-
-/*
-#compose-headers
-{
-  position: absolute;
-  top: 70px;
-  left: 200px;
-  height: 84px;
-  border-top: 1px solid #cccccc;
-  overflow: auto;
-}
-
-#compose-headers td
-{
-  padding-top: 1px;
-  padding-bottom: 1px;
-  border-right: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
-}
-*/
 
 #compose-headers
 {
   width: 100%;
 }
-
-/*
-#compose-headers td
-{
-  width: 100%;
-}
-*/
 
 #compose-headers td.top
 {
@@ -951,10 +922,8 @@ div.message-htmlpart div.rcmBody
 
 #compose-body
 {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  height: 90%;
-  min-height: 280px;
+  min-height: 100px;
+  height: 100%;
   font-size: 9pt;
   font-family: "Courier New", Courier, monospace;
 }
