@@ -879,6 +879,15 @@ div.message-htmlpart div.rcmBody
   height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
 
+#compose-div
+{
+  position: absolute;
+  top: 110px;
+  bottom: 40px;
+  width: 100%;
+  vertical-align: top;
+}
+
 #compose-headers
 {
   width: 100%;
