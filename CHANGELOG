@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Fix compose window width/height (#1485396)
 - Allow calling msgimport.sh/msgexport.sh from any directory (#1485431)
 - Localized filesize units (#1485340)
+- Better handling of "no identity" and "no email in identity" situations (#1485117)
 
 2008/09/29 (alec)
 ----------

@@ -1924,8 +1924,17 @@ function rcube_webmail()
     var input_to = rcube_find_object('_to');
     var input_cc = rcube_find_object('_cc');
     var input_bcc = rcube_find_object('_bcc');
+    var input_from = rcube_find_object('_from');
     var input_subject = rcube_find_object('_subject');
     var input_message = rcube_find_object('_message');
+
+    // check sender (if have no identities)
+    if (input_from.type == 'text' && !rcube_check_email(input_from.value, true))
+      {
+      alert(this.get_label('nosenderwarning'));
+      input_from.focus();
+      return false;
+      }
 
     // check for empty recipient
     var recipients = input_to.value ? input_to.value : (input_cc.value ? input_cc.value : input_bcc.value);

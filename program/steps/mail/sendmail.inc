@@ -63,9 +63,10 @@ function rcmail_get_identity($id)
     $out = $sql_arr;
     $out['mailto'] = $sql_arr['email'];
     $name = strpos($sql_arr['name'], ",") ? '"'.$sql_arr['name'].'"' : $sql_arr['name'];
-    $out['string'] = sprintf('%s <%s>',
-                             rcube_charset_convert($name, RCMAIL_CHARSET, $OUTPUT->get_charset()),
-                             $sql_arr['email']);
+    $out['string'] = rcube_charset_convert($name, RCMAIL_CHARSET, $OUTPUT->get_charset());
+    if ($sql_arr['email'])
+      $out['string'] .= ' <' . $sql_arr['email'] . '>';
+
     return $out;
     }
 
@@ -160,8 +161,11 @@ else if (empty($mailto))
   $mailto = 'undisclosed-recipients:;';
 
 // get sender name and address
-$identity_arr = rcmail_get_identity(get_input_value('_from', RCUBE_INPUT_POST));
-$from = $identity_arr['mailto'];
+$from = get_input_value('_from', RCUBE_INPUT_POST);
+$identity_arr = rcmail_get_identity($from);
+
+if ($identity_arr)
+  $from = $identity_arr['mailto'];
 
 if (empty($identity_arr['string']))
   $identity_arr['string'] = $from;
@@ -351,6 +355,12 @@ $MAIL_MIME->headers($headers);
 // Begin SMTP Delivery Block 
 if (!$savedraft)
 {
+  // check for 'From' address (identity may be incomplete)
+  if ($identity_arr && !$identity_arr['mailto']) {
+    $OUTPUT->show_message('nofromaddress', 'error');
+    $OUTPUT->send('iframe'); 
+  }
+
   $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto);
   
   // return to compose page if sending failed
