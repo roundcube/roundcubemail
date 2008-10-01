@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/10/01 (alec)
 - Fix spellchecking when switching to html editor (#1485362)
 - Fix compose window width/height (#1485396)
+- Allow calling msgimport.sh/msgexport.sh from any directory (#1485431)
 
 2008/09/29 (alec)
 ----------

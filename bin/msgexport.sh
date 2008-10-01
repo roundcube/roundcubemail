@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-define('INSTALL_PATH', preg_replace('/bin\/$/', '', getcwd()) . '/');
+define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 ini_set('memory_limit', -1);
 
 require_once INSTALL_PATH.'program/include/iniset.php';
