@@ -128,36 +128,40 @@ function rcube_sess_gc($maxlifetime)
     return false;
   }
 
-  // get all expired sessions
-  $sql_result = $DB->query(
-    "SELECT sess_id
-     FROM " . get_table_name('session') . "
-     WHERE " . $DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed') . " > ?",
-    $maxlifetime);
+  if ($rcmail->config->get('enable_caching')) {
+    // get all expired sessions
+    $sql_result = $DB->query(
+	"SELECT sess_id
+        FROM " . get_table_name('session') . "
+        WHERE " . $DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed') . " > ?",
+	$maxlifetime);
                                    
-  $exp_sessions = array();
-  while ($sql_arr = $DB->fetch_assoc($sql_result)) {
-    $exp_sessions[] = $sql_arr['sess_id'];
-  }
-
-  $caching = $rcmail->config->get('enable_caching');
-
-  if (sizeof($exp_sessions)) {
-    // delete session cache records
-    if ($caching) {
-      $DB->query("DELETE FROM " . get_table_name('cache') . "
-                  WHERE session_id IN ('".join("','", $exp_sessions)."')");
+    $exp_sessions = array();
+    while ($sql_arr = $DB->fetch_assoc($sql_result)) {
+      $exp_sessions[] = $sql_arr['sess_id'];
     }
 
-    // delete session records
+    if (sizeof($exp_sessions)) {
+      $exp_sessions = "'" . join("','", $exp_sessions) . "'";
+      // delete session cache records
+      $DB->query("DELETE FROM " . get_table_name('cache') . "
+            WHERE session_id IN (" . $exp_sessions . ")");
+
+      // delete session records
+      $DB->query("DELETE FROM " . get_table_name('session') . "
+            WHERE sess_id IN (" . $exp_sessions . ")");
+    }
+
+    // also run message cache GC
+    rcmail_message_cache_gc();
+  
+  } else {
+    // just delete all expired sessions
     $DB->query("DELETE FROM " . get_table_name('session') . "
-                WHERE sess_id IN ('".join("','", $exp_sessions)."')");
+        WHERE " . $DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed') . " > ?",
+	$maxlifetime);
   }
 
-  // also run message cache GC
-  if ($caching) {
-    rcmail_message_cache_gc();
-  }
   rcmail_temp_gc();
 
   return true;
