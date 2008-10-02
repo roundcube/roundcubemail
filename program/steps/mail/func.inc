@@ -53,25 +53,26 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
   $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
   }
 
-
-// set current mailbox in client environment
-$OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
-$OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
-$OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
-
-if ($CONFIG['trash_mbox'])
-  $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
-if ($CONFIG['drafts_mbox'])
-  $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
-if ($CONFIG['junk_mbox'])
-  $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
-
-if (!$OUTPUT->ajax_call)
-  rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
-
-// set page title
+// set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
+  {
+  // set current mailbox in client environment
+  $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
+  $OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
+  $OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
+
+  if ($CONFIG['trash_mbox'])
+    $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
+  if ($CONFIG['drafts_mbox'])
+    $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
+  if ($CONFIG['junk_mbox'])
+    $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
+
+  if (!$OUTPUT->ajax_call)
+    rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
+
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
+  }
 
 
 /**
