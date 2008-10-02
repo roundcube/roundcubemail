@@ -1067,8 +1067,10 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
       $classes[] = 'trash';
     else if ($folder['id']==$CONFIG['junk_mbox'])
       $classes[] = 'junk';
+    else if ($folder['id']=='INBOX')
+      $classes[] = 'inbox';
     else
-      $classes[] = asciiwords($folder_class ? $folder_class : strtolower($folder['id']), true);
+      $classes[] = '_'.asciiwords($folder_class ? $folder_class : strtolower($folder['id']), true);
       
     $classes[] = $zebra_class;
     

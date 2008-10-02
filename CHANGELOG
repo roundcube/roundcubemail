@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/10/02 (alec)
 ----------
 - Minimize "inline" javascript scripts use (#1485433)
+- Fix folders css class setting for folder with names matching defined classes (#1485355)
 
 2008/10/01 (alec)
 - Fix spellchecking when switching to html editor (#1485362)
