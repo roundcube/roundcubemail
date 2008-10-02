@@ -5,59 +5,9 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/mail.css" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
-<script type="text/javascript">
-<!--
-
-function rcmail_show_header_form(id, link)
-{
-  var row, parent, ns, ps, links;
-
-  if (link)
-  {
-    var parent = link.parentNode;
-
-    if ((ns = rcmail_next_sibling(link)))
-      parent.removeChild(ns);
-    else if ((ps = rcmail_prev_sibling(link)))
-      parent.removeChild(ps);
-    
-    parent.removeChild(link);
-
-    if(!parent.getElementsByTagName('A').length)
-      document.getElementById('compose-links').style.display = 'none';
-  }
-
-  if (row = document.getElementById(id))
-    {
-    var div = document.getElementById('compose-div');
-    var headers_div = document.getElementById('compose-headers-div');
-    row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
-    div.style.top = (parseInt(headers_div.offsetHeight)) + 'px';
-    }
-
-  return false;
-}
-
-function rcmail_next_sibling(elm)
-{
-  var ns = elm.nextSibling;
-  while (ns && ns.nodeType == 3)
-    ns = ns.nextSibling;
-  return ns;
-}
-
-function rcmail_prev_sibling(elm)
-{
-  var ps = elm.previousSibling;
-  while (ps && ps.nodeType == 3)
-    ps = ps.previousSibling;
-  return ps;
-}
-
-//-->
-</script>
+<script type="text/javascript" src="/functions.js"></script>
 </head>
-<body>
+<body onload="rcmail_init_compose_form()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -146,20 +96,6 @@ function rcmail_prev_sibling(elm)
 </form>
 
 <roundcube:object name="composeAttachmentForm" id="attachment-form" />
-
-<script type="text/javascript">
-<!--
-
-var cc_field = document.getElementById('rcmcomposecc');
-if (cc_field && cc_field.value!='')
-  rcmail_show_header_form('compose-cc', document.getElementById('addcclink'));
-var bcc_field = document.getElementById('rcmcomposebcc');
-if (bcc_field && bcc_field.value!='')
-  rcmail_show_header_form('compose-bcc', document.getElementById('addbcclink'));
-
-//-->
-</script>
-
 
 </body>
 </html>

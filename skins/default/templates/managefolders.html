@@ -4,8 +4,9 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/settings.css" />
+<script type="text/javascript" src="/functions.js"></script>
 </head>
-<body>
+<body onload="rcube_init_settings_tabs()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -35,8 +36,6 @@
 </div>
 
 </form>
-
-<roundcube:include file="/includes/settingscripts.html" />
 
 </body>
 </html>

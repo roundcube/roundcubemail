@@ -5,42 +5,7 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/mail.css" />
 <script type="text/javascript" src="/splitter.js"></script>
-<script type="text/javascript">
-
-function rcube_mail_ui()
-{
-  this.markmenu = new rcube_layer('markmessagemenu');
-}
-
-rcube_mail_ui.prototype = {
-
-show_markmenu: function(show)
-{
-  if (typeof show == 'undefined')
-    show = this.markmenu.visible ? false : true;
-  
-  var ref = rcube_find_object('markreadbutton');
-  if (show && ref)
-    this.markmenu.move(ref.offsetLeft, ref.offsetTop + ref.offsetHeight);
-  
-  this.markmenu.show(show);
-},
-
-body_mouseup: function(evt, p)
-{
-  if (this.markmenu && this.markmenu.visible && evt.target != rcube_find_object('markreadbutton'))
-    this.show_markmenu(false);
-},
-
-body_keypress: function(evt, p)
-{
-  if (rcube_event.get_keycode(evt) == 27 && this.markmenu && this.markmenu.visible)
-    this.show_markmenu(false);
-}
-
-};
-
-</script>
+<script type="text/javascript" src="/functions.js"></script>
 <style type="text/css">
 <roundcube:if condition="config:preview_pane == true" />
 #mailcontframe { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-5 : 195" />px; }
@@ -58,7 +23,7 @@ body_keypress: function(evt, p)
 }
 </style>
 </head>
-<body>
+<body onload="rcube_init_mail_ui()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -138,7 +103,7 @@ body_keypress: function(evt, p)
 <div id="messagetoolbar">
 <roundcube:button command="checkmail" imageSel="/images/buttons/inbox_sel.png" imageAct="/images/buttons/inbox_act.png" imagePas="/images/buttons/inbox_pas.png" width="32" height="32" title="checkmail" />
 <roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="writenewmessage" />
-<roundcube:button name="markreadbutton" id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmailUI.show_markmenu();return false" />
+<roundcube:button name="markreadbutton" id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" />
 <roundcube:button command="reply" imageSel="/images/buttons/reply_sel.png" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
 <roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
 <roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
@@ -159,12 +124,5 @@ body_keypress: function(evt, p)
 <roundcube:object name="searchform" type="search" results="5" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
 
-<script type="text/javascript">
-
-var rcmailUI = new rcube_mail_ui();
-rcube_event.add_listener({ object:rcmailUI, method:'body_mouseup', event:'mouseup' });
-rcube_event.add_listener({ object:rcmailUI, method:'body_keypress', event:'keypress' });
-  
-</script>
 </body>
 </html>

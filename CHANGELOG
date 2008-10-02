@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/02 (alec)
+----------
+- Minimize "inline" javascript scripts use (#1485433)
+
 2008/10/01 (alec)
 - Fix spellchecking when switching to html editor (#1485362)
 - Fix compose window width/height (#1485396)
