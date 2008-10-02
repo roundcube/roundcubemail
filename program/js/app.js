@@ -2112,7 +2112,7 @@ function rcube_webmail()
 
 	if (this.env.signatures[id])
 	  {
-	  newsig = this.env.signatures[id]['text'];
+	  newsig = String(this.env.signatures[id]['text']).replace("\n", "\r\n");
 	  htmlsig = this.env.signatures[id]['is_html'];
 	  }
 
@@ -3828,13 +3828,14 @@ function rcube_webmail()
       case 'getunread':
       case 'list':
         if (this.task == 'mail') {
-          if (this.message_list)
+          if (this.message_list && request_obj.__action == 'list')
             this.msglist_select(this.message_list);
           this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
           this.enable_command('purge', this.purge_mailbox_test());
         }
         else if (this.task == 'addressbook')
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+
         break;
       }
 

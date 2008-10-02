@@ -23,8 +23,9 @@ $a_folders = $IMAP->list_mailboxes();
 
 if (!empty($a_folders))
 {
+  $inbox = ($IMAP->get_mailbox_name() == 'INBOX');
   foreach ($a_folders as $mbox_row)
-    $OUTPUT->command('set_unread_count', $mbox_row, $IMAP->messagecount($mbox_row, 'UNSEEN'), ($IMAP->get_mailbox_name() == 'INBOX' && $mbox_row == 'INBOX'));
+    $OUTPUT->command('set_unread_count', $mbox_row, $IMAP->messagecount($mbox_row, 'UNSEEN'), $inbox && $mbox_row == 'INBOX');
 }
 
 $OUTPUT->send();
