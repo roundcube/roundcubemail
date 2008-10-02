@@ -2112,7 +2112,7 @@ function rcube_webmail()
 
 	if (this.env.signatures[id])
 	  {
-	  newsig = String(this.env.signatures[id]['text']).replace("\n", "\r\n");
+	  newsig = this.env.signatures[id]['text'];
 	  htmlsig = this.env.signatures[id]['is_html'];
 	  }
 
