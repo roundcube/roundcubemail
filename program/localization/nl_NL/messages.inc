@@ -56,6 +56,7 @@ $messages['formincomplete'] = 'Het formulier was niet volledig ingevuld';
 $messages['noemailwarning'] = 'Geef een geldig e-mailadres op';
 $messages['nonamewarning'] = 'Vul een naam in';
 $messages['nopagesizewarning'] = 'Geef een paginagrootte op';
+$messages['nosenderwarning'] = 'Geef een e-mailadres van de afzender op';
 $messages['norecipientwarning'] = 'Geef tenminste één ontvanger op';
 $messages['nosubjectwarning'] = 'Het \'Onderwerp\' veld is leeg. Wilt u nu alsnog een onderwerp opgeven?';
 $messages['nobodywarning'] = 'Dit bericht zonder inhoud versturen?';
@@ -90,5 +91,6 @@ $messages['importwait'] = 'Importeren, even geduld...';
 $messages['importerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig vCard bestand.';
 $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
+$messages['nofromaddress'] = 'Het e-mailadres mist in de geslecteerde identiteit';
 
 ?>

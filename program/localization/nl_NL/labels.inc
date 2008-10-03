@@ -252,5 +252,9 @@ $labels['specialfolders'] = 'Speciale mappen';
 $labels['sortby'] = 'Sorteer op';
 $labels['sortasc'] = 'Sorteer oplopend';
 $labels['sortdesc'] = 'Sorteer aflopend';
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 
 ?>
