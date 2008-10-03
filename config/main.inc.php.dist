@@ -182,19 +182,6 @@ $rcmail_config['protect_default_folders'] = TRUE;
 // if in your system 0 quota means no limit set this option to TRUE 
 $rcmail_config['quota_zero_as_unlimited'] = FALSE;
 
-// Set TRUE if deleted messages should not be displayed
-// This will make the application run slower
-$rcmail_config['skip_deleted'] = FALSE;
-
-// Set true to Mark deleted messages as read as well as deleted
-// False means that a message's read status is not affected by marking it as deleted
-$rcmail_config['read_when_deleted'] = TRUE;
-
-// When a Trash folder is not present and a message is deleted, flag 
-// the message for deletion rather than deleting it immediately.  Setting this to 
-// false causes deleted messages to be permanantly removed if there is no Trash folder
-$rcmail_config['flag_for_deletion'] = FALSE;
-
 // Behavior if a received message requests a message delivery notification (read receipt)
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
 $rcmail_config['mdn_requests'] = 0;
@@ -382,6 +369,19 @@ $rcmail_config['inline_images'] = TRUE;
 // 1 - RFC 2047 for 'name' and RFC 2231 for 'filename' parameter (Thunderbird's default)
 // 2 - Full 2047 compatible
 $rcmail_config['mime_param_folding'] = 0;
+
+// Set TRUE if deleted messages should not be displayed
+// This will make the application run slower
+$rcmail_config['skip_deleted'] = FALSE;
+
+// Set true to Mark deleted messages as read as well as deleted
+// False means that a message's read status is not affected by marking it as deleted
+$rcmail_config['read_when_deleted'] = TRUE;
+
+// When a Trash folder is not present and a message is deleted, flag 
+// the message for deletion rather than deleting it immediately.  Setting this to 
+// false causes deleted messages to be permanantly removed if there is no Trash folder
+$rcmail_config['flag_for_deletion'] = FALSE;
 
 // end of config file
 ?>
