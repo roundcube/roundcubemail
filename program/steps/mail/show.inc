@@ -74,6 +74,7 @@ if ($_GET['_uid']) {
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
+  $OUTPUT->set_env('mailbox', $mbox_name);
   
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
