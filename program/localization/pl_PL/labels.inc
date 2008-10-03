@@ -227,6 +227,7 @@ $labels['2047folding'] = 'zgodne z RFC 2047 (inne)';
 $labels['advancedoptions'] = 'opcje zaawansowane';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
+$labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
 $labels['autosavedraft'] = 'Automatyczny zapis tworzonej wiadomości';
 $labels['everynminutes'] = 'co $n minut';
 $labels['never'] = 'nigdy';

@@ -31,6 +31,7 @@ $a_user_prefs = array(
   'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
   'preview_pane' => isset($_POST['_preview_pane']) ? TRUE : FALSE,
   'read_when_deleted' => isset($_POST['_read_when_deleted']) ? TRUE : FALSE,
+  'skip_deleted' => isset($_POST['_skip_deleted']) ? TRUE : FALSE,
   'flag_for_deletion' => isset($_POST['_flag_for_deletion']) ? TRUE : FALSE,
   'logout_purge' => isset($_POST['_logout_purge']) ? TRUE : FALSE,
   'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,

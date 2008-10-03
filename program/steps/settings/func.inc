@@ -285,7 +285,16 @@ function rcmail_user_prefs_form($attrib)
     $table->add('title', html::label($field_id, Q(rcube_label('flagfordeletion'))));
     $table->add(null, $input_flagfordeletion->show($config['flag_for_deletion']?1:0));
   }
-
+  
+  // don't show deleted messages
+  if (!isset($no_override['skip_deleted'])) {
+    $field_id = 'rcmfd_skip_deleted';
+    $input_purge = new html_checkbox(array('name' => '_skip_deleted', 'id' => $field_id, 'value' => 1));
+    
+    $table->add('title', html::label($field_id, Q(rcube_label('skipdeleted'))));
+    $table->add(null, $input_purge->show($config['skip_deleted']?1:0));
+  }
+  
   // Trash purging on logout
   if (!isset($no_override['logout_purge'])) {
     $field_id = 'rcmfd_logout_purge';
@@ -294,7 +303,7 @@ function rcmail_user_prefs_form($attrib)
     $table->add('title', html::label($field_id, Q(rcube_label('logoutclear'))));
     $table->add(null, $input_purge->show($config['logout_purge']?1:0));
   }
-
+  
   // INBOX compacting on logout
   if (!isset($no_override['logout_expunge'])) {
     $field_id = 'rcmfd_logout_expunge';
