@@ -533,8 +533,7 @@ function rcube_webmail()
           if (this.env.search_request<0 || (props != '' && (this.env.search_request && props != this.env.mailbox)))
             this.reset_qsearch();
 
-	  if (props != this.env.mailbox)
-            this.list_mailbox(props);
+          this.list_mailbox(props);
 
           if (this.env.trash_mailbox)
             this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
