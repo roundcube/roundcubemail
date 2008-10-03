@@ -281,9 +281,9 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
   else {
     $RCI->fail('SMTP send', 'Invalid sender or recipient');
   }
+  
+  echo '</p>';
 }
-
-echo '</p>';
 
 ?>
 
