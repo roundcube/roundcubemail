@@ -96,7 +96,7 @@ if (is_array($result) && $result[0] != '')
 }
 else
 {
-  $OUTPUT->show_message('searchnomatch', 'warning');
+  $OUTPUT->show_message('searchnomatch', 'notice');
   $search_request = -1;
 }
 
