@@ -85,7 +85,8 @@ rcube_add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubject
 
 // add config parameter to client script
 $OUTPUT->set_env('draft_autosave', !empty($CONFIG['drafts_mbox']) ? $CONFIG['draft_autosave'] : 0);
-
+// set current mailbox in client environment
+$OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
 
 // get reference message and set compose mode
 if ($msg_uid = $_SESSION['compose']['param']['_reply_uid'])
