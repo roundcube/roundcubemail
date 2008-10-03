@@ -396,6 +396,9 @@ class rcube_vcard
     if (substr($string, 0, 2) == "\xFF\xFE")     return 'UTF-16LE';  // Little Endian
     if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
 
+    if ($enc = rc_detect_encoding($string))
+      return $enc;
+
     // No match, check for UTF-8
     // from http://w3.org/International/questions/qa-forms-utf-8.html
     if (preg_match('/\A(

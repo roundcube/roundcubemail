@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/03 (alec)
+- Add support for SJIS, GB2312, BIG5 in rc_detect_encoding()
+- Fix vCard file encoding detection for non-UTF-8 strings (#1485410)
+
 2008/10/02 (alec)
 ----------
 - Minimize "inline" javascript scripts use (#1485433)

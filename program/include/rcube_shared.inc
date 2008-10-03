@@ -249,17 +249,17 @@ function show_bytes($bytes)
   if ($bytes > 1073741824)
   {
     $gb = $bytes/1073741824;
-    $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . rcube_label('GB');
+    $str = sprintf($gb>=10 ? "%d GB" : "%.1f GB", $gb);
   }
   else if ($bytes > 1048576)
   {
     $mb = $bytes/1048576;
-    $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . rcube_label('MB');
+    $str = sprintf($mb>=10 ? "%d MB" : "%.1f MB", $mb);
   }
   else if ($bytes > 1024)
-    $str = sprintf("%d ",  round($bytes/1024)) . rcube_label('KB');
+    $str = sprintf("%d KB",  round($bytes/1024));
   else
-    $str = sprintf('%d ', $bytes) . rcube_label('B');
+    $str = sprintf('%d B', $bytes);
 
   return $str;
 }
@@ -548,10 +548,12 @@ function rc_detect_encoding($string, $failover='')
     // FIXME: the order is important, because sometimes 
     // iso string is detected as euc-jp and etc.
     $enc = array(
-	'UTF-8', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
+	'SJIS', 'BIG5', 'GB2312', 'UTF-8',
+	'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
 	'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
 	'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
-	'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R'
+	'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 
+	'ISO-2022-KR', 'ISO-2022-JP'
     );
 
     $result = mb_detect_encoding($string, join(',', $enc));
