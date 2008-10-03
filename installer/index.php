@@ -45,6 +45,23 @@ if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db'))
   }
 }
 
+if (isset($_GET['_mergeconfig']) && in_array($_GET['_mergeconfig'], array('main', 'db'))) {
+  $filename = $_GET['_mergeconfig'] . '.inc.php';
+
+  header('Content-type: text/plain');
+  header('Content-Disposition: attachment; filename="'.$filename.'"');
+  
+  $RCI->merge_config();
+  echo $RCI->create_config($_GET['_mergeconfig'], true);
+  exit;
+}
+
+// go to 'test' step if we have a local configuration
+if ($RCI->configured && empty($_REQUEST['_step'])) {
+  header("Location: ./?_step=3");
+  exit;
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

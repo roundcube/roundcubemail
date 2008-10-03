@@ -131,7 +131,7 @@ textarea.configfile {
   height: 30em;
 }
 
-dt.propname {
+.propname {
   font-family: monospace;
   font-size: 9pt;
   margin-top: 1em;
@@ -219,10 +219,23 @@ a.removelink {
   border: 2px solid #c2d071;
 }
 
-.warning {
+.suggestion {
+  padding: 0.6em;
+  background-color: #ebebeb;
+  border: 1px solid #999;
+}
+
+p.warning,
+div.warning {
   padding: 1em;
   background-color: #ef9398;
   border: 2px solid #dc5757;
+}
+
+h3.warning {
+  color: #c00;
+  background: url('images/error.png') top left no-repeat;
+  padding-left: 24px;
 }
 
 .userconf {

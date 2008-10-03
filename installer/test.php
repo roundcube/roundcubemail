@@ -27,6 +27,50 @@ else if (!$read_db) {
   $RCI->fail('db.inc.php', 'Unable to read file. Did you create the config files?');
 }
 
+if ($RCI->configured && ($messages = $RCI->check_config())) {
+  
+  if (is_array($messages['missing'])) {
+    echo '<h3 class="warning">Missing config options</h3>';
+    echo '<p class="hint">The following config options are not present in the current configuration.<br/>';
+    echo 'Please check the default config files and add the missing properties to your local config files.</p>';
+    
+    echo '<ul class="configwarings">';
+    foreach ($messages['missing'] as $msg) {
+      echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
+    }    
+    echo '</ul>';
+  }
+
+  if (is_array($messages['replaced'])) {
+    echo '<h3 class="warning">Replaced config options</h3>';
+    echo '<p class="hint">The following config options have been replaced or renamed. ';
+    echo 'Please update them accordingly in your config files.</p>';
+    
+    echo '<ul class="configwarings">';
+    foreach ($messages['replaced'] as $msg) {
+      echo html::tag('li', null, html::span('propname', $msg['prop']) .
+        ' was replaced by ' . html::span('propname', $msg['replacement']));
+    }
+    echo '</ul>';
+  }
+
+  if (is_array($messages['obsolete'])) {
+    echo '<h3>Obsolete config options</h3>';
+    echo '<p class="hint">You still have some obsolete or inexistent properties set. This isn\'t a problem but should be noticed.</p>';
+    
+    echo '<ul class="configwarings">';
+    foreach ($messages['obsolete'] as $msg) {
+      echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
+    }
+    echo '</ul>';
+  }
+  
+  echo '<p class="suggestion">OK, lazy people can download the updated config files here: ';
+  echo html::a(array('href' => './?_mergeconfig=main'), 'main.inc.php') . ' &nbsp;';
+  echo html::a(array('href' => './?_mergeconfig=db'), 'db.inc.php');
+  echo "</p>";
+}
+
 ?>
 
 <h3>Check if directories are writable</h3>

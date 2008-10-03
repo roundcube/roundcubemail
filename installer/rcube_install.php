@@ -31,6 +31,18 @@ class rcube_install
   var $last_error = null;
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   var $config_props = array();
+
+  var $obsolete_config = array('db_backend');
+  var $replaced_config = array('skin_path' => 'skin', 'locale_string' => 'language');
+  
+  // these config options are optional or can be set to null
+  var $optional_config = array(
+    'log_driver', 'syslog_id', 'syslog_facility', 'imap_auth_type',
+    'smtp_helo_host', 'sendmail_delay', 'double_auth', 'language',
+    'mail_header_delimiter', 'create_default_folders',
+    'quota_zero_as_unlimited', 'spellcheck_uri', 'spellcheck_languages',
+    'http_received_header', 'session_domain', 'mime_magic', 'log_logins',
+    'enable_installer', 'skin_include_php');
   
   /**
    * Constructor
@@ -116,7 +128,7 @@ class rcube_install
    * @param string Which config file (either 'main' or 'db')
    * @return string The complete config file content
    */
-  function create_config($which)
+  function create_config($which, $force = false)
   {
     $out = file_get_contents("../config/{$which}.inc.php.dist");
     
@@ -166,7 +178,7 @@ class rcube_install
       }
       
       // skip this property
-      if ($value == $default)
+      if (!$force && ($value == $default))
         continue;
 
       // save change
@@ -180,6 +192,75 @@ class rcube_install
     }
 
     return trim($out);
+  }
+
+
+  /**
+   * Check the current configuration for missing properties
+   * and deprecated or obsolete settings
+   *
+   * @return array List with problems detected
+   */
+  function check_config()
+  {
+    $this->config = array();
+    $this->load_defaults();
+    $defaults = $this->config;
+    
+    $this->load_config();
+    if (!$this->configured)
+      return null;
+    
+    $out = $seen = array();
+    $optional = array_flip($this->optional_config);
+    
+    // ireate over the current configuration
+    foreach ($this->config as $prop => $value) {
+      if ($replacement = $this->replaced_config[$prop]) {
+        $out['replaced'][] = array('prop' => $prop, 'replacement' => $replacement);
+        $seen[$replacement] = true;
+      }
+      else if (!$seen[$prop] && in_array($prop, $this->obsolete_config)) {
+        $out['obsolete'][] = array('prop' => $prop);
+        $seen[$prop] = true;
+      }
+    }
+    
+    // iterate over default config
+    foreach ($defaults as $prop => $value) {
+      if (!$seen[$prop] && !isset($this->config[$prop]) && !isset($optional[$prop]))
+        $out['missing'][] = array('prop' => $prop);
+    }
+    
+    return $out;
+  }
+  
+  
+  /**
+   * Merge the current configuration with the defaults
+   * and copy replaced values to the new options.
+   */
+  function merge_config()
+  {
+    $current = $this->config;
+    $this->config = array();
+    $this->load_defaults();
+    
+    foreach ($this->replaced_config as $prop => $replacement)
+      if (isset($current[$prop])) {
+        if ($prop == 'skin_path')
+          $this->config[$replacement] = preg_replace('#skins/(\w+)/?$#', '\\1', $current[$prop]);
+        else
+          $this->config[$replacement] = $current[$prop];
+        
+        unset($current[$prop]);
+    }
+    
+    foreach ($this->obsolete_config as $prop) {
+      unset($current[$prop]);
+    }
+    
+    $this->config  = array_merge($current, $this->config);
   }
   
   
