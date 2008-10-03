@@ -821,22 +821,27 @@ function rcube_webmail()
       case 'compose':
         var url = this.env.comm_path+'&_action=compose';
        
-        if (this.task=='mail' && this.env.mailbox==this.env.drafts_mailbox)
+        if (this.task=='mail')
           {
-          var uid;
-          if (uid = this.get_single_uid())
-            url += '&_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
-          }
+    	  url += '&_mbox='+urlencode(this.env.mailbox);
+          
+	  if (this.env.mailbox==this.env.drafts_mailbox)
+	    {
+	    var uid;
+            if (uid = this.get_single_uid())
+              url += '&_draft_uid='+uid;
+            }
+	  }
         // modify url if we're in addressbook
         else if (this.task=='addressbook')
           {
           // switch to mail compose step directly
           if (props && props.indexOf('@') > 0)
-          {
+            {
             url = this.get_task_url('mail', url);
             this.redirect(url + '&_to='+urlencode(props));
             break;
-          }
+            }
           
           // use contact_id passed as command parameter
           var a_cids = new Array();
