@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/it/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
- |         Yusef Maali <contact@yusefmaali.net>                          |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/it/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
+|         Yusef Maali <contact@yusefmaali.net>                          |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -53,6 +53,7 @@ $labels['filename'] = 'Nome file';
 $labels['filesize'] = 'Dimensione file';
 $labels['preferhtml'] = 'Mostra HTML';
 $labels['htmlmessage'] = 'Messaggio HTML';
+$labels['showknownimages'] = 'Mostra immagini da mittenti conosciuti';
 $labels['prettydate'] = 'Date più leggibili';
 $labels['addtoaddressbook'] = 'Aggiungi alla rubrica';
 $labels['sun'] = 'Dom';
@@ -69,6 +70,30 @@ $labels['wednesday'] = 'Mercoledì';
 $labels['thursday'] = 'Giovedì';
 $labels['friday'] = 'Venerdì';
 $labels['saturday'] = 'Sabato';
+$labels['jan'] = 'Gen';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Apr';
+$labels['may'] = 'Mag';
+$labels['jun'] = 'Giu';
+$labels['jul'] = 'Lug';
+$labels['aug'] = 'Ago';
+$labels['sep'] = 'Set';
+$labels['oct'] = 'Ott';
+$labels['nov'] = 'Nov';
+$labels['dec'] = 'Dic';
+$labels['longjan'] = 'Gennaio';
+$labels['longfeb'] = 'Febbario';
+$labels['longmar'] = 'Marzo';
+$labels['longapr'] = 'Aprile';
+$labels['longmay'] = 'Maggio';
+$labels['longjun'] = 'Giugno';
+$labels['longjul'] = 'Luglio';
+$labels['longaug'] = 'Agosto';
+$labels['longsep'] = 'Settembre';
+$labels['longoct'] = 'Ottobre';
+$labels['longnov'] = 'Novembre';
+$labels['longdec'] = 'Dicembre';
 $labels['today'] = 'Oggi';
 $labels['checkmail'] = 'Controlla nuovi messaggi';
 $labels['writenewmessage'] = 'Scrivi un nuovo messaggio';
@@ -91,6 +116,8 @@ $labels['viewsource'] = 'Visualizza sorgente messaggio';
 $labels['markmessages'] = 'Marca i messaggi';
 $labels['markread'] = 'Letti';
 $labels['markunread'] = 'Non letti';
+$labels['markflagged'] = 'Contrassegnato';
+$labels['markunflagged'] = 'Non contrassegnato';
 $labels['select'] = 'Seleziona';
 $labels['all'] = 'Tutti';
 $labels['none'] = 'Nessuno';
@@ -103,6 +130,7 @@ $labels['unknown'] = 'sconosciuto';
 $labels['unlimited'] = 'illimitato';
 $labels['quicksearch'] = 'Ricerca veloce';
 $labels['resetsearch'] = 'Annulla ricerca';
+$labels['openinextwin'] = 'Apri un una nuova finestra';
 $labels['compose'] = 'Scrivi un messaggio';
 $labels['savemessage'] = 'Salva come bozza';
 $labels['sendmessage'] = 'Invia il messaggio adesso';
@@ -123,8 +151,12 @@ $labels['high'] = 'Alta';
 $labels['highest'] = 'Molto alta';
 $labels['nosubject'] = '(nessun oggetto)';
 $labels['showimages'] = 'Visualizza immagini';
+$labels['alwaysshow'] = 'Mostra sempre immagini da $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testo semplice';
+$labels['savesentmessagein'] = 'Salva messaggi inviati in';
+$labels['dontsave'] = 'non salvare';
+$labels['maxuploadsize'] = 'La dimensione massima consentita è $size';
 $labels['addcc'] = 'Aggiungi Cc';
 $labels['addbcc'] = 'Aggiungi Bcc';
 $labels['addreplyto'] = 'Aggiungi Rispondi a';
@@ -148,12 +180,19 @@ $labels['composeto'] = 'Invia email a';
 $labels['contactsfromto'] = 'Contatti da $from a $to di $count';
 $labels['print'] = 'Stampa';
 $labels['export'] = 'Esporta';
+$labels['exportvcards'] = 'Esporta i contatti in formato vCard';
 $labels['previouspage'] = 'Pagina precedente';
 $labels['firstpage'] = 'Prima pagina';
 $labels['nextpage'] = 'Pagina successiva';
 $labels['lastpage'] = 'Ultima pagina';
 $labels['groups'] = 'Gruppi';
 $labels['personaladrbook'] = 'Rubrica Personale';
+$labels['import'] = 'Importa';
+$labels['importcontacts'] = 'Importa contatti';
+$labels['importfromfile'] = 'Importa da file:';
+$labels['importreplace'] = 'Sostituisci l\'intera rubrica';
+$labels['importtext'] = 'Puoi caricare i contatti da una rubrica esistente.Al momento è supportata l\'importazione dei contatti dal formato vCard.';
+$labels['done'] = 'Fatto';
 $labels['settingsfor'] = 'Impostazioni per ';
 $labels['preferences'] = 'Preferenze';
 $labels['userpreferences'] = 'Preferenze utente';
@@ -164,6 +203,7 @@ $labels['newidentity'] = 'Nuova identità';
 $labels['newitem'] = 'Nuovo elemento';
 $labels['edititem'] = 'Modifica elemento';
 $labels['setdefault'] = 'Imposta predefinita';
+$labels['autodetect'] = 'Auto';
 $labels['language'] = 'Lingua';
 $labels['timezone'] = 'Fuso orario';
 $labels['pagesize'] = 'Righe per pagina';
@@ -172,9 +212,30 @@ $labels['dstactive'] = 'Gestione ora legale / ora solare';
 $labels['htmleditor'] = 'Scrivi i messaggi in HTML';
 $labels['htmlsignature'] = 'Firma in HTML';
 $labels['previewpane'] = 'Mostra l\'anteprima';
+$labels['skin'] = 'Tema interfaccia';
+$labels['logoutclear'] = 'Svuota il Cestino all\'uscita';
+$labels['logoutcompact'] = 'Compatta la Posta In Arrivo all\'uscita';
+$labels['uisettings'] = 'Interfaccia Utente';
+$labels['serversettings'] = 'Impostazioni Server';
+$labels['mailboxview'] = 'Vista Messaggi';
+$labels['mdnrequests'] = 'Notifiche Lettura';
+$labels['askuser'] = 'chiedi all\'utente';
+$labels['autosend'] = 'invia automaticamente';
+$labels['ignore'] = 'ignora';
+$labels['readwhendeleted'] = 'Segna il messaggio come letto all\'eliminazione';
+$labels['flagfordeletion'] = 'Segna il messaggio per l\'eliminazione invece che eliminare';
+$labels['skipdeleted'] = 'Non mostrare messaggi eliminati';
+$labels['showinlineimages'] = 'Mostra immagini allegate sotto il messaggio';
 $labels['autosavedraft'] = 'Salva le bozze automaticamente';
 $labels['everynminutes'] = 'ogni $n minuti';
 $labels['never'] = 'mai';
+$labels['messagesdisplaying'] = 'Visualizzazione Messaggi';
+$labels['messagescomposition'] = 'Composizione Messaggi';
+$labels['mimeparamfolding'] = 'Nomi allegati';
+$labels['2231folding'] = 'RFC 2231 completo (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'RFC 2047 completo (altri)';
+$labels['advancedoptions'] = 'Opzioni avanzate';
 $labels['folder'] = 'Cartella';
 $labels['folders'] = 'Cartelle';
 $labels['foldername'] = 'Nome cartella';
@@ -186,8 +247,13 @@ $labels['rename'] = 'Rinomina';
 $labels['renamefolder'] = 'Rinomina cartella';
 $labels['deletefolder'] = 'Cancella cartella';
 $labels['managefolders'] = 'Gestione cartelle';
+$labels['specialfolders'] = 'Cartelle Speciali';
 $labels['sortby'] = 'Ordina per';
 $labels['sortasc'] = 'Ordinamento crescente';
 $labels['sortdesc'] = 'Ordinamento decrescente';
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 
 ?>

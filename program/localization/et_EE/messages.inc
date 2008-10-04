@@ -56,6 +56,7 @@ $messages['formincomplete'] = 'Vormi kõik väljad ei ole täidetud';
 $messages['noemailwarning'] = 'Palun sisesta toimiv e-maili aadress';
 $messages['nonamewarning'] = 'Palun sisesta nimi';
 $messages['nopagesizewarning'] = 'Palun sisesta lehekülje suurus';
+$messages['nosenderwarning'] = 'Palun sisesta saatja e-posti aadress';
 $messages['norecipientwarning'] = 'Palun sisesta vähemalt üks kirjasaaja';
 $messages['nosubjectwarning'] = 'Väli "Pealkiri" on tühi. Soovid selle ära täita ?';
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita ?';
@@ -90,5 +91,6 @@ $messages['importwait'] = 'Importimine, palun oota...';
 $messages['importerror'] = 'Import nurjus! Üleslaaditud fail ei ole vCard formaadis.';
 $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
+$messages['nofromaddress'] = 'Valitud identiteedil puudub e-posti aadress';
 
 ?>
