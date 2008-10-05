@@ -71,11 +71,16 @@ if ($_GET['_uid']) {
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE->uid);
+  // set environement
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
   $OUTPUT->set_env('mailbox', $mbox_name);
-  
+  if ($CONFIG['trash_mbox'])
+    $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
+  if (!$OUTPUT->ajax_call)
+    $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
+    
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
       !$MESSAGE->headers->mdn_sent &&
@@ -92,7 +97,7 @@ if ($_GET['_uid']) {
     }
     else if (empty($CONFIG['mdn_requests']))
     {
-      rcube_add_label('mdnrequest');
+      $OUTPUT->add_label('mdnrequest');
       $OUTPUT->set_env('mdn_request', true);
     }
   }

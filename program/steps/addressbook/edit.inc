@@ -43,8 +43,7 @@ function rcmail_contact_editform($attrib)
   }
 
   // add some labels to client
-  rcube_add_label('noemailwarning');
-  rcube_add_label('nonamewarning');
+  $OUTPUT->add_label('noemailwarning', 'nonamewarning');
 
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);

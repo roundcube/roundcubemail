@@ -69,18 +69,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
     $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
 
   if (!$OUTPUT->ajax_call)
-    rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
+    $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
 
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
-  }
-else if ($RCMAIL->action == 'show')
-  {
-  // set current mailbox in client environment
-  $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
-  if ($CONFIG['trash_mbox'])
-    $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
-  if (!$OUTPUT->ajax_call)
-    rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
   }
 
 
@@ -99,7 +90,7 @@ function rcmail_message_list($attrib)
   $sort_order = $_SESSION['sort_order'];
   
   // add some labels to client
-  rcube_add_label('from', 'to');
+  $OUTPUT->add_label('from', 'to');
 
   // get message headers
   $a_headers = $IMAP->list_headers('', '', $sort_col, $sort_order);

@@ -114,7 +114,7 @@ function rcmail_contacts_list($attrib)
   $OUTPUT->include_script('list.js');
   
   // add some labels to client
-  rcube_add_label('deletecontactconfirm');
+  $OUTPUT->add_label('deletecontactconfirm');
   
   return $out;
   }

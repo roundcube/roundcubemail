@@ -133,20 +133,6 @@ function rcmail_url($action, $p=array(), $task=null)
 
 
 /**
- * Add a localized label to the client environment
- * @deprecated
- */
-function rcube_add_label()
-  {
-  global $OUTPUT;
-  
-  $arg_list = func_get_args();
-  foreach ($arg_list as $i => $name)
-    $OUTPUT->add_label($name);
-  }
-
-
-/**
  * Garbage collector function for temp files.
  * Remove temp files older than two days
  */
@@ -913,8 +899,7 @@ function rcmail_mailbox_list($attrib)
   $attrib += array('maxlength' => 100, 'relanames' => false);
 
   // add some labels to client
-  rcube_add_label('purgefolderconfirm');
-  rcube_add_label('deletemessagesconfirm');
+  $RCMAIL->output->add_label('purgefolderconfirm', 'deletemessagesconfirm');
   
   $type = $attrib['type'] ? $attrib['type'] : 'ul';
   unset($attrib['type']);
