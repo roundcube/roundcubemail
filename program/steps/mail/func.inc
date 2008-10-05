@@ -73,6 +73,15 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
 
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
   }
+else if ($RCMAIL->action == 'show')
+  {
+  // set current mailbox in client environment
+  $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
+  if ($CONFIG['trash_mbox'])
+    $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
+  if (!$OUTPUT->ajax_call)
+    rcube_add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
+  }
 
 
 /**
@@ -183,7 +192,7 @@ function rcmail_message_list($attrib)
     $out .= '<td class="'.$col.$sort_class.'" id="rcmHead'.$col.'">' . "$col_name$sort</td>\n";    
     }
 
-  $out .= '<td class="icon">'.($attrib['attachmenticon'] ? sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '') : '')."</td>\n";
+  $out .= '<td class="icon">'.($attrib['attachmenticon'] ? sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '') : '&nbsp;')."</td>\n";
   $out .= "</tr></thead>\n<tbody>\n";
 
   // no messages in this mailbox
