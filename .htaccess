@@ -23,5 +23,9 @@ php_value	session.gc_probability	1
   Deny from all
 </FilesMatch>
 
+<IfModule mod_alias.c>
+  Redirect /favicon.ico /skins/default/images/favicon.ico
+</IfModule>
+
 Order deny,allow
 Allow from all
