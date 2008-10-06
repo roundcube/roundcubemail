@@ -55,7 +55,11 @@ if ($_GET['_uid']) {
   }
 
   // calculate Etag for this request
-  $etag = md5($MESSAGE->uid.$mbox_name.session_id().intval($MESSAGE->headers->mdn_sent).intval($MESSAGE->is_safe).intval($PRINT_MODE));
+  $etag = md5($MESSAGE->uid.$mbox_name.session_id()
+    .intval($MESSAGE->headers->mdn_sent)
+    .intval($MESSAGE->is_safe)
+    .(!empty($MESSAGE->attachments) ? intval($CONFIG['inline_images']) : '')
+    .intval($PRINT_MODE));
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE->is_safe)
