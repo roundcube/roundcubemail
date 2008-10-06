@@ -53,8 +53,6 @@ if (set_include_path($include_path) === false) {
 ini_set('session.name', 'roundcube_sessid');
 ini_set('session.use_cookies', 1);
 ini_set('session.only_use_cookies', 1);
-ini_set('session.gc_maxlifetime', 21600);
-ini_set('session.gc_divisor', 500);
 ini_set('error_reporting', E_ALL&~E_NOTICE);
 set_magic_quotes_runtime(0);
 
