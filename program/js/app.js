@@ -1614,6 +1614,17 @@ function rcube_webmail()
       this.set_classname(rows[uid].obj, 'deleted', false);
       }
 
+    if (rows[uid].flagged && rows[uid].classname.indexOf('flagged')<0)
+      {
+      rows[uid].classname += ' flagged';
+      this.set_classname(rows[uid].obj, 'flagged', true);
+      }
+    else if (!rows[uid].flagged && rows[uid].classname.indexOf('flagged')>=0)
+      {
+      rows[uid].classname = rows[uid].classname.replace(/\s*flagged/, '');
+      this.set_classname(rows[uid].obj, 'flagged', false);
+      }
+
     this.set_message_icon(uid);
     }
 
