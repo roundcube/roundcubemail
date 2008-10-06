@@ -1191,9 +1191,9 @@ class rcube_imap
     else if (!empty($part->d_parameters['filename*0'])) {
       $i = 0;
       while (isset($part->d_parameters['filename*'.$i])) {
-        $i++;
         $filename_mime .= $part->d_parameters['filename*'.$i];
-	}
+        $i++;
+      }
       // some servers (eg. dovecot-1.x) have no support for parameter value continuations
       // we must fetch and parse headers "manually"
       //TODO: fetching headers for a second time is not effecient, this code should be moved somewhere earlier --tensor
@@ -1211,8 +1211,8 @@ class rcube_imap
     else if (!empty($part->d_parameters['filename*0*'])) {
       $i = 0;
       while (isset($part->d_parameters['filename*'.$i.'*'])) {
-        $i++;
         $filename_encoded .= $part->d_parameters['filename*'.$i.'*'];
+        $i++;
       }
       if ($i<2) {
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
@@ -1227,8 +1227,8 @@ class rcube_imap
     else if (!empty($part->ctype_parameters['name*0'])) {
       $i = 0;
       while (isset($part->ctype_parameters['name*'.$i])) {
-        $i++;
         $filename_mime .= $part->ctype_parameters['name*'.$i];
+        $i++;
       }
       if ($i<2) {
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
@@ -1243,8 +1243,8 @@ class rcube_imap
     else if (!empty($part->ctype_parameters['name*0*'])) {
       $i = 0;
       while (isset($part->ctype_parameters['name*'.$i.'*'])) {
-        $i++;
         $filename_encoded .= $part->ctype_parameters['name*'.$i.'*'];
+        $i++;
       }
       if ($i<2) {
         $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
