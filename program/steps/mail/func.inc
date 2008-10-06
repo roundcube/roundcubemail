@@ -198,7 +198,7 @@ function rcmail_message_list($attrib)
     {
     $message_icon = $attach_icon = $flagged_icon = '';
     $js_row_arr = array();
-    $zebra_class = $i%2 ? 'even' : 'odd';
+    $zebra_class = $i%2 ? ' even' : ' odd';
 
     // set messag attributes to javascript array
     if ($header->deleted)
@@ -238,12 +238,12 @@ function rcmail_message_list($attrib)
     if ($attrib['attachmenticon'] && preg_match("/multipart\/[mr]/i", $header->ctype))
       $attach_icon = $attrib['attachmenticon'];
         
-    $out .= sprintf('<tr id="rcmrow%d" class="message%s%s %s">'."\n",
+    $out .= sprintf('<tr id="rcmrow%d" class="message%s%s%s%s">'."\n",
                     $header->uid,
                     $header->seen ? '' : ' unread',
                     $header->deleted ? ' deleted' : '',
                     $header->flagged ? ' flagged' : '',
-                    $zebra_class);    
+                    $zebra_class);
     
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
 

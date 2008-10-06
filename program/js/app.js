@@ -3406,7 +3406,11 @@ function rcube_webmail()
     
     var row = document.createElement('TR');
     row.id = 'rcmrow'+uid;
-    row.className = 'message '+(even ? 'even' : 'odd')+(flags.unread ? ' unread' : '')+(flags.deleted ? ' deleted' : '');
+    row.className = 'message'
+	+ (even ? ' even' : ' odd')
+        + (flags.unread ? ' unread' : '')
+	+ (flags.deleted ? ' deleted' : '')
+	+ (flags.flagged ? ' flagged' : '');		    
 
     if (this.message_list.in_selection(uid))
       row.className += ' selected';
