@@ -83,8 +83,11 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
 // add some labels to client
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved', 'converting');
 
-// add config parameter to client script
-$OUTPUT->set_env('draft_autosave', !empty($CONFIG['drafts_mbox']) ? $CONFIG['draft_autosave'] : 0);
+// add config parameters to client script
+if (!empty($CONFIG['drafts_mbox'])) {
+  $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
+  $OUTPUT->set_env('draft_autosave', $CONFIG['draft_autosave']);
+}
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
 
