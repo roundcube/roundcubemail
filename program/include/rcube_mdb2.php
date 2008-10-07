@@ -83,6 +83,8 @@ class rcube_mdb2
         'emulate_prepared' => $this->debug_mode,
         'debug' => $this->debug_mode,
         'debug_handler' => 'mdb2_debug_handler',
+	'disable_smart_seqname' => true, 	// for postgresql
+	'seqname_format' => '%s',		// for postgresql
         'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL));
 
     if (MDB2::isError($dbh))

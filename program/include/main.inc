@@ -74,17 +74,7 @@ function get_sequence_name($sequence)
   $opt = rcmail::get_instance()->config->get($config_key);
 
   if (!empty($opt))
-    {
-    $db = &rcmail::get_instance()->db;
-    
-    if ($db->db_provider=='pgsql')
-      {
-      $db->db_handle->setOption('disable_smart_seqname', true);
-      $db->db_handle->setOption('seqname_format', '%s');
-      }
-  
     return $opt;
-    }
     
   return $sequence;
   }
