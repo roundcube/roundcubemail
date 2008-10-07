@@ -1,4 +1,23 @@
 <?php
+/*
+
+ +-----------------------------------------------------------------------+
+ | bin/dumpschema.php                                                    |
+ |                                                                       |
+ | This file is part of the RoundCube Webmail client                     |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Dumps database schema in XML format using MDB2_Schema               |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ +-----------------------------------------------------------------------+
+
+ $Id$
+
+*/
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 require INSTALL_PATH.'program/include/iniset.php';
@@ -44,7 +63,7 @@ else {
 		// 'output_mode' => 'file',
 		'output' => 'print_schema',
 	);
-
+	
 	$definition = $schema->getDefinitionFromDatabase();
 	if (PEAR::isError($definition)) {
 		$error = $definition->getMessage() . ' ' . $definition->getUserInfo();

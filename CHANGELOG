@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Write username instead of id in sendmail log (#1485477)
 - Fix htmlspecialchars() use for PHP version < 5.2.3 (#1485475)
 - Fix js keywords escaping in json_serialize() for IE/Opera (#1485472)
+- Added bin/killcache.php script (#1485434)
 
 2008/10/03 (alec)
 ----------

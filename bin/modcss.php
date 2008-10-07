@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/bin/modcss.php                                                |
+ | bin/modcss.php                                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2007, RoundCube Dev. - Switzerland                      |
+ | Copyright (C) 2007-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -15,7 +15,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id:  $
+ $Id$
 
 */
 
