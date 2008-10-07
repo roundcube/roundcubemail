@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/07 (alec)
+----------
+- Write username instead of id in sendmail log (#1485477)
+- Fix htmlspecialchars() use for PHP version < 5.2.3 (#1485475)
+- Fix js keywords escaping in json_serialize() for IE/Opera (#1485472)
+
 2008/10/03 (alec)
 ----------
 - Add support for SJIS, GB2312, BIG5 in rc_detect_encoding()

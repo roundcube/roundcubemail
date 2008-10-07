@@ -1154,7 +1154,7 @@ function rcmail_compose_cleanup()
  */
 function rcmail_deliver_message(&$message, $from, $mailto)
 {
-  global $CONFIG;
+  global $CONFIG, $RCMAIL;
 
   $msg_body = $message->get();
   $headers = $message->headers();
@@ -1210,9 +1210,9 @@ function rcmail_deliver_message(&$message, $from, $mailto)
     unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
     
     if ($CONFIG['smtp_log'])
-      write_log('sendmail', sprintf("[%s] User: %d on %s; Message for %s; %s",
+      write_log('sendmail', sprintf("[%s] User: %s on %s; Message for %s; %s",
 		date("d-M-Y H:i:s O", mktime()),
-		$_SESSION['user_id'],
+		$RCMAIL->user->get_username(),
 		$_SERVER['REMOTE_ADDR'],
 		$mailto,
 		!empty($smtp_response) ? join('; ', $smtp_response) : ''));
