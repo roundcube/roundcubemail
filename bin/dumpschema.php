@@ -44,12 +44,15 @@ $options = array(
 	'debug' => false,
 	'quote_identifier' => true,
 	'force_defaults' => false,
-	'portability' => false
+	'portability' => false,
+	'disable_smart_seqname' => true,
+	'seqname_format' => '%s'
 );
 
 $schema =& MDB2_Schema::factory($config->get('db_dsnw'), $options);
 $schema->db->supported['transactions'] = false;
 
+			
 // send as text/xml when opened in browser
 if ($_SERVER['REMOTE_ADDR'])
 	header('Content-Type: text/xml');
