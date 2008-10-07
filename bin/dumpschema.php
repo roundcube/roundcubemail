@@ -1,6 +1,6 @@
 <?php
 
-define('INSTALL_PATH', realpath('./../') . '/');
+define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 require INSTALL_PATH.'program/include/iniset.php';
 
 /** callback function for schema dump **/
