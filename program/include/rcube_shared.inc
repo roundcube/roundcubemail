@@ -109,6 +109,31 @@ function send_modified_header($mdate, $etag=null, $skip_check=false)
 
 
 /**
+ * Returns whether an $str is a reserved word for any of the version of Javascript or ECMAScript
+ * @param str String to check
+ * @return boolean True if $str is a reserver word, False if not
+ */
+function is_js_reserved_word($str)
+{
+  return in_array($str, array(
+    // ECMASript ver 4 reserved words
+    'as','break','case','catch','class','const','continue',
+    'default','delete','do','else','export','extends','false','finally','for','function',
+    'if','import','in','instanceof','is','namespace','new','null','package','private',
+    'public','return','super','switch','this','throw','true','try','typeof','use','var',
+    'void','while','with',
+    // ECMAScript ver 4 future reserved words
+    'abstract','debugger','enum','goto','implements','interface','native','protected',
+    'synchronized','throws','transient','volatile',
+    // special meaning in some contexts
+    'get','set',
+    // were reserved in ECMAScript ver 3
+    'boolean','byte','char','double','final','float','int','long','short','static'
+  ));
+}
+
+
+/**
  * Convert a variable into a javascript object notation
  *
  * @param mixed Input value
@@ -145,7 +170,7 @@ function json_serialize($var)
       foreach ($var as $key => $value)
       {
         // enclose key with quotes if it is not variable-name conform
-        if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) /* || is_js_reserved_word($key) */)
+        if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) || is_js_reserved_word($key))
           $key = "'$key'";
 
         $pairs[] = sprintf("%s%s", $is_assoc ? "$key:" : '', json_serialize($value));
@@ -162,6 +187,7 @@ function json_serialize($var)
     return "'".JQ($var)."'";
 
 }
+
 
 /**
  * Function to convert an array to a javascript array
