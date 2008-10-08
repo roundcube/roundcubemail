@@ -66,6 +66,7 @@
 		  optional resposne in iil_Connect(), added iil_C_GetCapability()
 		- remove 'undisclosed-recipients' string from 'To' header
 		- iil_C_HandlePartBody(): added 6th argument and fixed endless loop
+		- added iil_PutLineC() 
 
 ********************************************************/
 
@@ -189,8 +190,28 @@ function iil_xor($string, $string2) {
 }
 
 function iil_PutLine($fp, $string, $endln=true) {
-//	console('C: '. $string);
-	return fputs($fp, $string . ($endln ? "\r\n" : ''));
+//      console('C: '. rtrim($string));
+        return fputs($fp, $string . ($endln ? "\r\n" : ''));
+}
+
+// iil_PutLine replacement with Command Continuation Requests (RFC3501 7.5) support
+function iil_PutLineC($fp, $string, $endln=true) {
+	if ($endln)
+		$string .= "\r\n";
+
+	$res = 0;
+	if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
+		for($i=0, $cnt=count($parts); $i<$cnt; $i++) {
+			if(preg_match('/^\{[0-9]+\}\r\n$/', $parts[$i+1])) {
+				$res += iil_PutLine($fp, $parts[$i].$parts[$i+1], false);
+				$line = iil_ReadLine($fp, 1000);
+				$i++;
+			}
+			else
+				$res += iil_PutLine($fp, $parts[$i], false);
+		}
+	}
+	return $res;
 }
 
 function iil_ReadLine($fp, $size) {
@@ -2062,7 +2083,7 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 		$c = 0;
 		
 		$query = 'srch1 SEARCH ' . chop($criteria);
-		iil_PutLine($fp, $query);
+		iil_PutLineC($fp, $query);
 		do {
 			$line=trim(iil_ReadLine($fp, 10000));
 			if (eregi("^\* SEARCH", $line)) {

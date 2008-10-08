@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/08 (alec)
+----------
+- Fix imap searching on ISMail server (#1485466)
+- Add css class for flagged messages (#1485464)
+
 2008/10/07 (alec)
 ----------
 - Write username instead of id in sendmail log (#1485477)
