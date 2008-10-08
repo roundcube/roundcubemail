@@ -1580,6 +1580,8 @@ function rcube_webmail()
       rows[uid].forwarded = status;
     else if (flag == 'flagged')
       rows[uid].flagged = status;
+
+    this.env.messages[uid] = rows[uid];
     }
 
   // set message row status, class and icon
@@ -1724,14 +1726,14 @@ function rcube_webmail()
           this.message_list.remove_row(id, (n == selection.length-1));
         else
         {
-          rows[id].deleted = true;
+          this.set_message_status(id, 'deleted', true);
           if (this.env.read_when_deleted)
-    	    rows[id].unread = false;
+    	    this.set_message_status(id, 'unread', false);
 	  this.set_message(id);
         }
       }
     }
-    
+
     // also send search request to get the right messages 
     if (this.env.search_request) 
       add_url += '&_search='+this.env.search_request;
@@ -1901,11 +1903,7 @@ function rcube_webmail()
       {
       uid = a_uids[i];
       if (rows[uid])
-        {
-        rows[uid].unread = false;
-        rows[uid].read = true;
-	this.set_message(uid);
-        }
+        this.set_message(uid, 'unread', false);
       }
   };
   
