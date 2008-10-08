@@ -566,6 +566,12 @@ body.messagelist
   background-color: #FFFFFF;
 }
 
+#messagelist tr.flagged td,
+#messagelist tr.flagged td a
+{
+  color: #FF0000;
+}
+
 #messagelist tr.selected td
 {
   color: #FFFFFF;
@@ -593,14 +599,6 @@ body.messagelist
 {
   color: #CCCCCC;
 }
-
-/*
-#messagelist tr.flagged td,
-#messagelist tr.flagged td a
-{
-  color: #FF0000;
-}
-*/
 
 /* safari hacks \*/
 html>body*#messagelist[id$="messagelist"]:not([class="none"]) { width: 99.8%; }
