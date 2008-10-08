@@ -588,16 +588,19 @@ body.messagelist
   color: #FFFFFF;
 }
 
-#messagelist tr.deleted td a
-{
-  color: #CCCCCC;
-}
-
 #messagelist tr.deleted td,
 #messagelist tr.deleted td a
 {
   color: #CCCCCC;
 }
+
+/*
+#messagelist tr.flagged td,
+#messagelist tr.flagged td a
+{
+  color: #FF0000;
+}
+*/
 
 /* safari hacks \*/
 html>body*#messagelist[id$="messagelist"]:not([class="none"]) { width: 99.8%; }
