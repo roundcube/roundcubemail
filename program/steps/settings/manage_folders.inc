@@ -214,12 +214,12 @@ function rcube_subscription_form($attrib)
   ));
   
   if (!empty($attrib['deleteicon']))
-    $del_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete'), 'border' => 0));
+    $del_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete')));
   else
     $del_button = rcube_label('delete');
 
   if (!empty($attrib['renameicon']))
-    $edit_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['renameicon'], 'alt' => rcube_label('rename'), 'border' => 0));
+    $edit_button = html::img(array('src' => $CONFIG['skin_path'] . $attrib['renameicon'], 'alt' => rcube_label('rename')));
   else
     $edit_button = rcube_label('rename');
     

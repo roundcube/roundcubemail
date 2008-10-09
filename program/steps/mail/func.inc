@@ -286,7 +286,6 @@ function rcmail_message_list($attrib)
   // complete message table
   $out .= "</tbody></table>\n";
   
-  
   $message_count = $IMAP->messagecount();
   
   // set client env
@@ -1023,7 +1022,6 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
           html::img(array(
             'src' => $CONFIG['skin_path'] . $addicon,
             'alt' => "Add contact",
-            'border' => 0,
           )));
       }
     }

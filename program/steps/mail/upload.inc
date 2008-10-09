@@ -50,7 +50,6 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       if (is_file($icon = $CONFIG['skin_path'] . '/images/icons/remove-attachment.png')) {
         $button = html::img(array(
           'src' => $icon,
-          'border' => 0,
           'alt' => rcube_label('delete'),
           'style' => "padding-right:2px;vertical-align:middle",
         ));

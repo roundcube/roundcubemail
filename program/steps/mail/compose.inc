@@ -720,7 +720,7 @@ function rcmail_compose_attachment_list($attrib)
       $button = html::img(array(
         'src' => $CONFIG['skin_path'] . $attrib['deleteicon'],
         'alt' => rcube_label('delete'),
-        'style' => "border:0;padding-right:2px;vertical-align:middle"));
+        'style' => "padding-right:2px;vertical-align:middle"));
     else
       $button = Q(rcube_label('delete'));
 
