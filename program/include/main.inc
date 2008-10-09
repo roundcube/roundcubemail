@@ -207,12 +207,10 @@ function rcube_charset_convert($str, $from, $to=NULL)
       }
     }
 
-  // settings for mbstring module (by Tadashi Jokagi)
-  if (is_null($mbstring_loaded)) {
-    if ($mbstring_loaded = extension_loaded("mbstring"))
-      mb_internal_encoding(RCMAIL_CHARSET);
-  }
 
+  if (is_null($mbstring_loaded))
+    $mbstring_loaded = extension_loaded('mbstring');
+    
   // convert charset using mbstring module
   if ($mbstring_loaded)
     {

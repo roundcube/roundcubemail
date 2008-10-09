@@ -62,6 +62,11 @@ if (!ini_get('safe_mode')) {
   set_time_limit(120);
 }
 
+// set internal encoding for mbstring extension
+if(extension_loaded('mbstring'))
+  mb_internal_encoding(RCMAIL_CHARSET);
+	      
+
 /**
  * Use PHP5 autoload for dynamic class loading
  * 
