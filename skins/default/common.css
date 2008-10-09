@@ -108,6 +108,7 @@ input.mainaction
 img
 {
   behavior: url('skins/default/pngbehavior.htc');
+  border: 0;
 }
 
 .alttext
