@@ -283,7 +283,7 @@ function rcmail_compose_header_from($attrib)
     foreach ($a_to as $addr)
     {
       if (!empty($addr['mailto']))
-        $a_recipients[] = $addr['mailto'];
+        $a_recipients[] = rc_strtolower($addr['mailto']);
     }
 
     if (!empty($MESSAGE->headers->cc))
@@ -292,7 +292,7 @@ function rcmail_compose_header_from($attrib)
       foreach ($a_cc as $addr)
       {
         if (!empty($addr['mailto']))
-          $a_recipients[] = $addr['mailto'];
+          $a_recipients[] = rc_strtolower($addr['mailto']);
       }
     }
   }
@@ -326,19 +326,22 @@ function rcmail_compose_header_from($attrib)
         }
       }
 
-      // set identity if it's one of the reply-message recipients
-      if (in_array($sql_arr['email'], $a_recipients))
-        $from_id = $sql_arr['identity_id'];
-
       if ($compose_mode == RCUBE_COMPOSE_REPLY && is_array($MESSAGE->compose_from))
         $MESSAGE->compose_from[] = $sql_arr['email'];
 
-      if ($compose_mode == RCUBE_COMPOSE_DRAFT && strstr($MESSAGE->headers->from, $sql_arr['email']))
-        $from_id = $sql_arr['identity_id'];
+      if (empty($_POST['_from']))
+      {
+        // set draft's identity
+        if ($compose_mode == RCUBE_COMPOSE_DRAFT && strstr($MESSAGE->headers->from, $sql_arr['email']))
+          $from_id = $sql_arr['identity_id'];
+        // set identity if it's one of the reply-message recipients (with prio for default identity)
+        else if (in_array(rc_strtolower($sql_arr['email']), $a_recipients) && (empty($from_id) || $sql_arr['standard']))
+          $from_id = $sql_arr['identity_id'];
+      }
     }
 
     // overwrite identity selection with post parameter
-    if (isset($_POST['_from']))
+    if (!empty($_POST['_from']))
       $from_id = get_input_value('_from', RCUBE_INPUT_POST);
 
     $out = $select_from->show($from_id);

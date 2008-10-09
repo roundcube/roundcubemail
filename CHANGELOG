@@ -3,7 +3,9 @@ CHANGELOG RoundCube Webmail
 
 2008/10/09 (alec)
 ----------
-- fixed iil_C_Sort() to support very long and/or divided responses (#1485283)
+- Fix iil_C_Sort() to support very long and/or divided responses (#1485283)
+- Fix matching case sensitivity when setting identity on reply (#1485480)
+- Prefer default identity on reply
 
 2008/10/08 (alec)
 ----------
