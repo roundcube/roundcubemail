@@ -67,6 +67,7 @@
 		- remove 'undisclosed-recipients' string from 'To' header
 		- iil_C_HandlePartBody(): added 6th argument and fixed endless loop
 		- added iil_PutLineC() 
+		- fixed iil_C_Sort() to support very long and/or divided responses
 
 ********************************************************/
 
@@ -912,8 +913,10 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	do {
 		$line = chop(iil_ReadLine($fp, 1024));
 		if (iil_StartsWith($line, '* SORT')) {
-			$data .= ($data?' ':'') . substr($line, 7);
-    		}
+			$data .= ($data ? ' ' : '') . substr($line, 7);
+    		} else if (preg_match('/^[0-9 ]+$/', $line)) {
+			$data .= $line;
+		}
 	} while ($line[0]!='s');
 	
 	if (empty($data)) {

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/09 (alec)
+----------
+- fixed iil_C_Sort() to support very long and/or divided responses (#1485283)
+
 2008/10/08 (alec)
 ----------
 - Fix imap searching on ISMail server (#1485466)
