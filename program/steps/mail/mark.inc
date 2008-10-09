@@ -40,12 +40,13 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       $OUTPUT->command('flag_deleted_as_read', $uids);
     }
 
-  if ($marked != -1)
+  if ($marked != -1 && ($flag == 'SEEN' || $flag == 'UNSEEN'))
   {
     $mbox_name = $IMAP->get_mailbox_name();
     $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
-    $OUTPUT->send();
   }
+
+  $OUTPUT->send();
 }
   
 exit;
