@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/10 (alec)
+----------
+- Fix 'Empty' link visibility for some languages e.g. Slovak (#1485489)
+- Fix messages count bar overlapping (#1485270)
+
 2008/10/09 (alec)
 ----------
 - Fix iil_C_Sort() to support very long and/or divided responses (#1485283)

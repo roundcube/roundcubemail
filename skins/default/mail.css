@@ -85,16 +85,6 @@ ul.toolbarmenu li a.active:hover
   background-color: #ddd;
 }
 
-#listcontrols
-{
-  position: absolute;
-  left: 200px;
-  bottom: 20px;
-  height: 16px;
-  width: 500px;
-  font-size: 11px;
-}
-
 #listcontrols a,
 #listcontrols a:active,
 #listcontrols a:visited,
@@ -411,14 +401,28 @@ td.formlinks a:visited
 }
 
 
-#mailboxcontrols
+#mailfooter
 {
   position: absolute;
   left: 20px;
-  width: 185px;
-  bottom: 20px;
-  height: 16px;
-  overflow: hidden;
+  right: 20px;
+  bottom: 18px;
+  height: 20px;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+}
+
+#mailfooter table tr td
+{
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+#mailboxcontrols,
+#listcontrols,
+#countcontrols
+{
+  white-space: nowrap;
   font-size: 11px;
 }
 
@@ -622,7 +626,6 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
 
 
 /** message view styles */
-
 
 #messageframe
 {
