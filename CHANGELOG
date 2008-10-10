@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Fix 'Empty' link visibility for some languages e.g. Slovak (#1485489)
 - Fix messages count bar overlapping (#1485270)
+- Fix adding signature in drafts compose mode (#1485484)
 
 2008/10/09 (alec)
 ----------

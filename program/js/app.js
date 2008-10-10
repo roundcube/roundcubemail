@@ -423,6 +423,7 @@ function rcube_webmail()
     var input_replyto = rcube_find_object('_replyto');
     var input_subject = rcube_find_object('_subject');
     var input_message = rcube_find_object('_message');
+    var draftid = rcube_find_object('_draft_saveid');
 
     // init live search events
     if (input_to)
@@ -433,7 +434,7 @@ function rcube_webmail()
       this.init_address_input_events(input_bcc);
 
     // add signature according to selected identity
-    if (input_from && input_from.type=='select-one')
+    if (input_from && input_from.type=='select-one' && (!draftid || draftid.value==''))
       this.change_identity(input_from);
 
     if (input_to && input_to.value=='')
