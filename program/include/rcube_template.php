@@ -736,10 +736,6 @@ class rcube_template extends rcube_html_page
             $attrib = $sa_buttons[$command];
         }
 
-        // set border to 0 because of the link arround the button
-        if ($attrib['type']=='image' && !isset($attrib['border'])) {
-            $attrib['border'] = 0;
-        }
         if (!$attrib['id']) {
             $attrib['id'] =  sprintf('rcmbtn%d', $s_button_count++);
         }
