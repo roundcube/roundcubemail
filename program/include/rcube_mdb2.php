@@ -78,14 +78,19 @@ class rcube_mdb2
   function dsn_connect($dsn)
     {
     // Use persistent connections if available
-    $dbh = MDB2::connect($dsn, array(
+    $db_options = array(
         'persistent' => $this->db_pconn,
         'emulate_prepared' => $this->debug_mode,
         'debug' => $this->debug_mode,
         'debug_handler' => 'mdb2_debug_handler',
-	'disable_smart_seqname' => true, 	// for postgresql
-	'seqname_format' => '%s',		// for postgresql
-        'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL));
+        'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
+
+    if ($this->db_provider == 'pgsql') {
+	$db_options['disable_smart_seqname'] = true;
+	$db_options['seqname_format'] = '%s';
+      }
+
+    $dbh = MDB2::connect($dsn, $db_options);
 
     if (MDB2::isError($dbh))
       {
