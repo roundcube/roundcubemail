@@ -1,6 +1,7 @@
 # AddDefaultCharset	UTF-8
 AddType text/x-component .htc
 
+<IfModule mod_php5.c>
 php_flag	display_errors	Off
 php_flag	log_errors	On
 php_value	error_log	logs/errors
@@ -17,15 +18,17 @@ php_value	session.auto_start	0
 php_value	session.gc_maxlifetime	21600
 php_value	session.gc_divisor	500
 php_value	session.gc_probability	1
+</IfModule>
 
 <FilesMatch "(\.inc|\~)$">
   Order allow,deny
   Deny from all
 </FilesMatch>
 
-<IfModule mod_alias.c>
-  Redirect /favicon.ico /skins/default/images/favicon.ico
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^favicon.ico$ skins/default/images/favicon.ico
 </IfModule>
-
+ 
 Order deny,allow
 Allow from all
