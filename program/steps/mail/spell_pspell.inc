@@ -32,19 +32,22 @@ if (!extension_loaded('pspell')) {
 $data = file_get_contents('php://input');
 $xml = simplexml_load_string($data);
 $text = (string)$xml->text;
-$words = preg_split('/[ !"#$%&()*+\\,-.\/\n:;<=>?@\[\]^_{|}]+/', $text, NULL,  PREG_SPLIT_NO_EMPTY |  PREG_SPLIT_OFFSET_CAPTURE );
+$words = preg_split('/[ !"#$%&()*+\\,-.\/\n:;<=>?@\[\]^_{|}]+/', $text, NULL,  PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE );
 $plink = pspell_new(get_input_value('lang', RCUBE_INPUT_GET), null, null, 'utf-8');
-$out = '<?xml version="1.0" encoding="UTF-8"?><spellresult charschecked="'.strlen($text).'">';
+$out = '<?xml version="1.0" encoding="UTF-8"?><spellresult charschecked="'.rc_strlen($text).'">';
+
+$diff = 0;
 foreach ($words as $w) {
     $word = $w[0];
-    $pos  = $w[1];
-    $len  = strlen($word);
+    $pos  = $w[1] - $diff;
+    $len  = rc_strlen($word);
     if ($plink && !pspell_check($plink, $word)) {
         $suggestions = pspell_suggest($plink, $word);
         $out .= '<c o="'.$pos.'" l="'.$len.'">';
         $out .= implode("\t", $suggestions);
         $out .= '</c>';
     }
+    $diff += (strlen($word) - $len);
 }
 $out .= '</spellresult>';
 
