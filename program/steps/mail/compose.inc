@@ -499,34 +499,38 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 
   if (! $bodyIsHtml)
   {
+    // try to remove the signature
+    if (($sp = strrpos($body, '-- ')) !== false && ($sp == 0 || $body{$sp-1} == "\n"))
+      {
+      if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
+        $body = substr($body, 0, max(0, $sp-1));
+      }
+
     // soft-wrap message first
     $body = rcmail_wrap_quoted($body, 75);
-  
-    // split body into single lines
-    $a_lines = preg_split('/\r?\n/', $body);
-  
-    // add > to each line
-    for($n=0; $n<sizeof($a_lines); $n++)
-    {
-      if (strpos($a_lines[$n], '>')===0)
-        $a_lines[$n] = '>'.$a_lines[$n];
-      else
-        $a_lines[$n] = '> '.$a_lines[$n];
-    }
+
+    $body = rtrim($body, "\r\n");
+
+    if ($body) {
+      // split body into single lines
+      $a_lines = preg_split('/\r?\n/', $body);
+
+      // add > to each line
+      for($n=0; $n<sizeof($a_lines); $n++) {
+        if (strpos($a_lines[$n], '>')===0)
+          $a_lines[$n] = '>'.$a_lines[$n];
+        else
+          $a_lines[$n] = '> '.$a_lines[$n];
+        }
  
-    $body = join("\n", $a_lines);
+      $body = join("\n", $a_lines);
+      }
 
     // add title line
     $prefix = sprintf("On %s, %s wrote:\n",
       $MESSAGE->headers->date,
       $MESSAGE->get_header('from'));
 
-    // try to remove the signature
-    if ($sp = strrpos($body, '-- '))
-      {
-      if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
-        $body = substr($body, 0, $sp-1);
-      }
     $suffix = '';
   }
   else
