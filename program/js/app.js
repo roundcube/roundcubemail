@@ -2094,6 +2094,8 @@ function rcube_webmail()
           message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
         }
 
+      message = message.replace(/[\r\n]+$/, '');
+      
       // add the new signature string
       if (this.env.signatures && this.env.signatures[id])
         {
@@ -2104,7 +2106,7 @@ function rcube_webmail()
           }
         if (sig.indexOf('-- ')!=0)
           sig = '-- \n'+sig;
-        message += '\n'+sig;
+        message += '\n\n'+sig;
         }
       }
     else
