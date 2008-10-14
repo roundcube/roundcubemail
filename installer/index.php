@@ -45,7 +45,8 @@ if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db'))
   }
 }
 
-if (isset($_GET['_mergeconfig']) && in_array($_GET['_mergeconfig'], array('main', 'db'))) {
+if ($RCI->configured && ($RCI->getprop('enable_installer') || $_SESSION['allowinstaller']) &&
+    isset($_GET['_mergeconfig']) && in_array($_GET['_mergeconfig'], array('main', 'db'))) {
   $filename = $_GET['_mergeconfig'] . '.inc.php';
 
   header('Content-type: text/plain');
@@ -93,7 +94,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
   if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
     // header("HTTP/1.0 404 Not Found");
     echo '<h2 class="error">The installer is disabled!</h2>';
-    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in '.RCMAIL_CONFIG_DIR.'/main.inc.php</p>';
+    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCMAIL_CONFIG_DIR/main.inc.php</p>';
     echo '</div></body></html>';
     exit;
   }
