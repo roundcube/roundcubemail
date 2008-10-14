@@ -30,7 +30,7 @@ class rcube_install
   var $configured = false;
   var $last_error = null;
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
-  var $config_props = array();
+  var $bool_config_props = array();
 
   var $obsolete_config = array('db_backend');
   var $replaced_config = array('skin_path' => 'skin', 'locale_string' => 'language');
@@ -136,7 +136,7 @@ class rcube_install
       return '[Warning: could not read the template file]';
 
     foreach ($this->config as $prop => $default) {
-      $value = (isset($_POST["_$prop"]) || $this->config_props[$prop]) ? $_POST["_$prop"] : $default;
+      $value = (isset($_POST["_$prop"]) || $this->bool_config_props[$prop]) ? $_POST["_$prop"] : $default;
       
       // convert some form data
       if ($prop == 'debug_level') {
@@ -232,6 +232,30 @@ class rcube_install
         $out['missing'][] = array('prop' => $prop);
     }
     
+    // check config dependencies and contradictions
+    if ($this->config['enable_spellcheck'] && $this->config['spellcheck_engine'] == 'pspell') {
+      if (!extension_loaded('pspell')) {
+        $out['dependencies'][] = array('prop' => 'spellcheck_engine',
+          'explain' => 'This requires the <tt>pspell</tt> extension which could not be loaded.');
+      }
+      if (empty($this->config['spellcheck_languages'])) {
+        $out['dependencies'][] = array('prop' => 'spellcheck_languages',
+          'explain' => 'You should specify the list of languages supported by your local pspell installation.');
+      }
+    }
+    
+    if ($this->config['log_driver'] == 'syslog') {
+      if (!function_exists('openlog')) {
+        $out['dependencies'][] = array('prop' => 'log_driver',
+          'explain' => 'This requires the <tt>sylog</tt> extension which could not be loaded.');
+      }
+      if (empty($this->config['syslog_id'])) {
+        $out['dependencies'][] = array('prop' => 'syslog_id',
+          'explain' => 'Using <tt>syslog</tt> for logging requires a syslog ID to be configured');
+      }
+      
+    }
+    
     return $out;
   }
   
@@ -261,6 +285,83 @@ class rcube_install
     }
     
     $this->config  = array_merge($current, $this->config);
+  }
+  
+  
+  /**
+   * Compare the local database schema with the reference schema
+   * required for this version of RoundCube
+   *
+   * @param boolean True if the schema schould be updated
+   * @return boolean True if the schema is up-to-date, false if not or an error occured
+   */
+  function db_schema_check($update = false)
+  {
+    if (!$this->configured)
+      return false;
+    
+    $options = array(
+      'use_transactions' => false,
+      'log_line_break' => "\n",
+      'idxname_format' => '%s',
+      'debug' => false,
+      'quote_identifier' => true,
+      'force_defaults' => false,
+      'portability' => true
+    );
+    
+    $schema =& MDB2_Schema::factory($this->config['db_dsnw'], $options);
+    $schema->db->supported['transactions'] = false;
+    
+    if (PEAR::isError($schema)) {
+      $this->raise_error(array('code' => $schema->getCode(), 'message' => $schema->getMessage() . ' ' . $schema->getUserInfo()));
+      return false;
+    }
+    else {
+      $definition = $schema->getDefinitionFromDatabase();
+      $definition['charset'] = 'utf8';
+      
+      if (PEAR::isError($definition)) {
+        $this->raise_error(array('code' => $definition->getCode(), 'message' => $definition->getMessage() . ' ' . $definition->getUserInfo()));
+        return false;
+      }
+      
+      // load reference schema
+      $dsn = MDB2::parseDSN($this->config['db_dsnw']);
+      $ref_schema = INSTALL_PATH . 'SQL/' . $dsn['phptype'] . '.schema.xml';
+      
+      if (is_file($ref_schema)) {
+        $reference = $schema->parseDatabaseDefinition($ref_schema, false, array(), $schema->options['fail_on_invalid_names']);
+        
+        if (PEAR::isError($reference)) {
+          $this->raise_error(array('code' => $reference->getCode(), 'message' => $reference->getMessage() . ' ' . $reference->getUserInfo()));
+        }
+        else {
+          $diff = $schema->compareDefinitions($reference, $definition);
+          
+          if (empty($diff)) {
+            return true;
+          }
+          else if ($update) {
+            // update database schema with the diff from the above check
+            $success = $schema->alterDatabase($reference, $definition, $diff);
+            
+            if (PEAR::isError($success)) {
+              $this->raise_error(array('code' => $success->getCode(), 'message' => $success->getMessage() . ' ' . $success->getUserInfo()));
+            }
+            else
+              return true;
+          }
+          echo '<pre>'; var_dump($diff); echo '</pre>';
+          return false;
+        }
+      }
+      else
+        $this->raise_error(array('message' => "Could not find reference schema file ($ref_schema)"));
+        return false;
+    }
+    
+    return false;
   }
   
   

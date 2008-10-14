@@ -69,6 +69,20 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
   echo html::a(array('href' => './?_mergeconfig=main'), 'main.inc.php') . ' &nbsp;';
   echo html::a(array('href' => './?_mergeconfig=db'), 'db.inc.php');
   echo "</p>";
+  
+  
+  if (is_array($messages['dependencies'])) {
+    echo '<h3 class="warning">Dependency check failed</h3>';
+    echo '<p class="hint">Some of your configuration settings require other options to be configured or additional PHP modules to be installed</p>';
+    
+    echo '<ul class="configwarings">';
+    foreach ($messages['dependencies'] as $msg) {
+      echo html::tag('li', null, html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
+    }
+    echo '</ul>';
+  }
+
+  
 }
 
 ?>
@@ -147,13 +161,22 @@ if ($db_working) {
     $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
     if (!$db_read) {
         $RCI->fail('DB Schema', "Database not initialized");
-        $db_working = false;
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
+        $db_working = false;
     }
+  /*
+    else if (!$RCI->db_schema_check($update = !empty($_POST['updatedb']))) {
+        $RCI->fail('DB Schema', "Database schema differs");
+        
+        echo $update ? '<p class="warning">Failed to update the database schema! Please manually execute the SQL statements from the SQL/*.update.sql file on your database</p>' :
+          '<p><input type="submit" name="updatedb" value="Update schema now" /></p>';
+        $db_working = false;
+    }
+  */
     else {
         $RCI->pass('DB Schema');
+        echo '<br />';
     }
-    echo '<br />';
 }
 
 // more database tests
@@ -169,7 +192,7 @@ if ($db_working) {
     else {
       $RCI->fail('DB Write', $RCI->get_error());
     }
-    echo '<br />';    
+    echo '<br />';
     
     // check timezone settings
     $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';

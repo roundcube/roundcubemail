@@ -6,7 +6,7 @@
 $RCI->load_defaults();
 
 // register these boolean fields
-$RCI->config_props = array(
+$RCI->bool_config_props = array(
   'ip_check' => 1,
   'enable_caching' => 1,
   'enable_spellcheck' => 1,
