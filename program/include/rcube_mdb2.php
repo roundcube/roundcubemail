@@ -86,9 +86,9 @@ class rcube_mdb2
         'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 
     if ($this->db_provider == 'pgsql') {
-	$db_options['disable_smart_seqname'] = true;
-	$db_options['seqname_format'] = '%s';
-      }
+      $db_options['disable_smart_seqname'] = true;
+      $db_options['seqname_format'] = '%s';
+    }
 
     $dbh = MDB2::connect($dsn, $db_options);
 

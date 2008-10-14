@@ -1,5 +1,6 @@
 <?php
 /*
+ #!/usr/bin/php
 
  +-----------------------------------------------------------------------+
  | bin/dumpschema.php                                                    |
@@ -45,14 +46,21 @@ $options = array(
 	'quote_identifier' => true,
 	'force_defaults' => false,
 	'portability' => false,
-	'disable_smart_seqname' => true,
-	'seqname_format' => '%s'
 );
 
-$schema =& MDB2_Schema::factory($config->get('db_dsnw'), $options);
+$dsnw = $config->get('db_dsnw');
+$dsn_array = MDB2::parseDSN($dsnw);
+
+// set options for postgres databases
+if ($dsn_array['phptype'] == 'pgsql') {
+	$options['disable_smart_seqname'] = true;
+	$options['seqname_format'] = '%s';
+}
+
+$schema =& MDB2_Schema::factory($dsnw, $options);
 $schema->db->supported['transactions'] = false;
 
-			
+
 // send as text/xml when opened in browser
 if ($_SERVER['REMOTE_ADDR'])
 	header('Content-Type: text/xml');
@@ -68,6 +76,8 @@ else {
 	);
 	
 	$definition = $schema->getDefinitionFromDatabase();
+	$definition['charset'] = 'utf8';
+
 	if (PEAR::isError($definition)) {
 		$error = $definition->getMessage() . ' ' . $definition->getUserInfo();
 	}
@@ -81,7 +91,7 @@ else {
 
 $schema->disconnect();
 
-//if ($error)
-//	fputs(STDERR, $error);
+if ($error && !$_SERVER['REMOTE_ADDR'])
+	fputs(STDERR, $error);
 
 ?>
