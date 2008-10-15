@@ -37,7 +37,7 @@ class PSpell extends SpellChecker {
 		$words = pspell_suggest($this->_getPLink($lang), $word);
 
 		for ($i=0; $i<count($words); $i++)
-			$words[$i] = utf8_encode($words[$i]);
+			$words[$i] = $words[$i];
 
 		return $words;
 	}
