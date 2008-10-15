@@ -346,7 +346,7 @@ $OUTPUT->add_handlers(array(
 ));
 
 // add some labels to client
-$OUTPUT->add_label('deletefolderconfirm','addsubfolderhint','forbiddencharacter','folderdeleting','folderrenaming','foldercreating');
+$OUTPUT->add_label('deletefolderconfirm','addsubfolderhint','forbiddencharacter','folderdeleting','folderrenaming','foldercreating','foldermoving');
 
 $OUTPUT->send('managefolders');
 ?>

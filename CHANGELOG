@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/15 (alec)
+----------
+- Add feedback and set busy when moving folder (#1485497)
+
 2008/10/10 (alec)
 ----------
 - Fix 'Empty' link visibility for some languages e.g. Slovak (#1485489)

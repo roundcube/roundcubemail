@@ -57,6 +57,7 @@ $messages['purgefolderconfirm'] = 'Czy na pewno chcesz usunąć wszystkie wiadom
 $messages['foldercreating'] = 'Dodawanie folderu...';
 $messages['folderdeleting'] = 'Usuwanie folderu...';
 $messages['folderrenaming'] = 'Zmiana nazwy folderu...';
+$messages['foldermoving'] = 'Przenoszenie folderu...';
 $messages['formincomplete'] = 'Uzupełnij formularz!';
 $messages['noemailwarning'] = 'Podaj poprawny adres e-mail!';
 $messages['nonamewarning'] = 'Podaj nazwę!';

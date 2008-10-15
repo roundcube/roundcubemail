@@ -52,6 +52,7 @@ $messages['purgefolderconfirm'] = 'Do you really want to delete all messages in 
 $messages['foldercreating'] = 'Creating folder...';
 $messages['folderdeleting'] = 'Deleting folder...';
 $messages['folderrenaming'] = 'Renaming folder...';
+$messages['foldermoving'] = 'Moving folder...';
 $messages['formincomplete'] = 'The form was not completely filled out';
 $messages['noemailwarning'] = 'Please enter a valid email address';
 $messages['nonamewarning'] = 'Please enter a name';

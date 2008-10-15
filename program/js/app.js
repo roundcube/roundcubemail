@@ -2827,7 +2827,9 @@ function rcube_webmail()
       var reg = new RegExp('[^'+RegExp.escape(this.env.delimiter)+']*['+RegExp.escape(this.env.delimiter)+']', 'g');
       var basename = this.env.folder.replace(reg, '');
       var newname = this.env.dstfolder==this.env.delimiter ? basename : this.env.dstfolder+this.env.delimiter+basename;
-      this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.folder)+'&_folder_newname='+urlencode(newname));
+
+      this.set_busy(true, 'foldermoving');
+      this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.folder)+'&_folder_newname='+urlencode(newname), true);
       }
     this.drag_active = false;
     this.unfocus_subscription(this.get_folder_row_id(this.env.dstfolder));
