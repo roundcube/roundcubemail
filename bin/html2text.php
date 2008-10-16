@@ -19,7 +19,7 @@
 
 */
 
-define('INSTALL_PATH', realpath('./../') . '/');
+define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/');
 require INSTALL_PATH.'program/include/iniset.php';
 
 $converter = new html2text(html_entity_decode($HTTP_RAW_POST_DATA, ENT_COMPAT, 'UTF-8'));
