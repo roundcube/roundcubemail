@@ -1989,23 +1989,31 @@ function rcube_webmail()
       return false;
       }
 
+    // Apply spellcheck changes if spell checker is active
+    this.stop_spellchecking();
+
     return true;
     };
 
+  this.stop_spellchecking = function()
+    {
+    if (this.env.spellcheck && !this.spellcheck_ready) {
+      exec_event(this.env.spellcheck.check_link, 'click');
+      this.set_spellcheck_state('ready');
+      }
+    };
+
   this.display_spellcheck_controls = function(vis)
-  {
+    {
     if (this.env.spellcheck) {
       // stop spellchecking process
       if (!vis && !this.spellcheck_ready) 
-        {
-	exec_event(this.env.spellcheck.check_link, 'click');
-	this.set_spellcheck_state('ready');
-	}
+	this.stop_spellchecking();
 			      
       this.env.spellcheck.check_link.style.visibility = vis ? 'visible' : 'hidden';
       this.env.spellcheck.switch_lan_pic.style.visibility = vis ? 'visible' : 'hidden';
-    }
-  };
+      }
+    };
 
   this.set_spellcheck_state = function(s)
     {
