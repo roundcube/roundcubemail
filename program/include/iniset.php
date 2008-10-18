@@ -75,8 +75,18 @@ if(extension_loaded('mbstring'))
 function __autoload($classname)
 {
   $filename = preg_replace(
-      array('/MDB2_(.+)/', '/Mail_(.+)/', '/^html_.+/', '/^utf8$/'),
-      array('MDB2/\\1', 'Mail/\\1', 'html', 'utf8.class'),
+      array('/MDB2_(.+)/',
+    	    '/Mail_(.+)/',
+	    '/^html_.+/',
+	    '/^utf8$/',
+	    '/html2text/'
+	),
+      array('MDB2/\\1',
+    	    'Mail/\\1',
+	    'html',
+	    'utf8.class',
+	    'lib/html2text'	// see #1485505
+	),
       $classname
   );
   include_once $filename. '.php';
