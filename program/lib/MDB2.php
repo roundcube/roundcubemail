@@ -2915,9 +2915,9 @@ class MDB2_Driver_Common extends PEAR
         $colon = ':';
         $positions = array();
         $position = 0;
-        $ignores = $this->sql_comments;
-        $ignores[] = $this->string_quoting;
+        $ignores = $this->string_quoting;
         $ignores[] = $this->identifier_quoting;
+        $ignores[] = $this->sql_comments;
         while ($position < strlen($query)) {
             $q_position = strpos($query, $question, $position);
             $c_position = strpos($query, $colon, $position);
@@ -3148,7 +3148,7 @@ class MDB2_Driver_Common extends PEAR
     function getSequenceName($sqn)
     {
         return sprintf($this->options['seqname_format'],
-            preg_replace('/[^a-z0-9_\$.]/i', '_', $sqn));
+            preg_replace('/[^a-z0-9_\-\$.]/i', '_', $sqn));
     }
 
     // }}}
