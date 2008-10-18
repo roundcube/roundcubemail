@@ -53,10 +53,12 @@ $messages['purgefolderconfirm'] = '是否确认要删除当前邮件夹中的所
 $messages['foldercreating'] = '正在创建邮件夹';
 $messages['folderdeleting'] = '正在删除邮件夹';
 $messages['folderrenaming'] = '正在重命名邮件夹';
+$messages['foldermoving'] = '正在移动目录...';
 $messages['formincomplete'] = '当前表单未填写完整，请完整填写';
 $messages['noemailwarning'] = '请输入一个有效的邮件地址';
 $messages['nonamewarning'] = '请输入名字';
 $messages['nopagesizewarning'] = '请输入每页显示的邮件数量';
+$messages['nosenderwarning'] = '请输入发件人的邮件地址';
 $messages['norecipientwarning'] = '至少需要一个收件人';
 $messages['nosubjectwarning'] = '主题为空。您要输入一个主题吗？';
 $messages['nobodywarning'] = '要发送无正文的邮件吗？';
@@ -91,5 +93,6 @@ $messages['importwait'] = '正在导入，请稍后...';
 $messages['importerror'] = '导入失败！所上传的文件不是有效的 vCard 文件。';
 $messages['importconfirm'] = '成功导入 $inserted 联系人，$skipped 乎略已存在的联系人:$names';
 $messages['opnotpermitted'] = '不允许的操作';
+$messages['nofromaddress'] = '选种的身份中没有邮件地址';
 
 ?>
