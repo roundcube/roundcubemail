@@ -52,6 +52,7 @@ $messages['purgefolderconfirm'] = 'Soovid sellest kaustast kõik kirjad kustutad
 $messages['foldercreating'] = 'Kausta loomine...';
 $messages['folderdeleting'] = 'Kausta kustutamine...';
 $messages['folderrenaming'] = 'Kausta ümber nimetamine...';
+$messages['foldermoving'] = 'Kausta liigutamine...';
 $messages['formincomplete'] = 'Vormi kõik väljad ei ole täidetud';
 $messages['noemailwarning'] = 'Palun sisesta toimiv e-maili aadress';
 $messages['nonamewarning'] = 'Palun sisesta nimi';

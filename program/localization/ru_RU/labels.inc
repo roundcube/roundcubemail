@@ -225,6 +225,7 @@ $labels['autosend'] = 'отправлять автоматически';
 $labels['ignore'] = 'игнорировать';
 $labels['readwhendeleted'] = 'Помечать как прочитанное при удалении';
 $labels['flagfordeletion'] = 'Помечать для удаления вместо удаления';
+$labels['skipdeleted'] = 'Не показывать удаленные сообщения';
 $labels['showinlineimages'] = 'Показывать вложенные изображения внизу сообщения';
 $labels['autosavedraft'] = 'Автосохранение черновика';
 $labels['everynminutes'] = 'каждые $n минут';
