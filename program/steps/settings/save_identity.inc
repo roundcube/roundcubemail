@@ -28,7 +28,7 @@ $updated = $default_id = false;
 if (empty($_POST['_name']) || empty($_POST['_email']))
   {
   $OUTPUT->show_message('formincomplete', 'warning');
-  rcmail_overwrite_action('edit-identitiy');
+  rcmail_overwrite_action('edit-identity');
   return;
   }
 
@@ -71,7 +71,7 @@ if ($_POST['_iid'])
   {
     // show error message
     $OUTPUT->show_message('errorsaving', 'error');
-    rcmail_overwrite_action('edit-identitiy');
+    rcmail_overwrite_action('edit-identity');
     return;
   }
 }

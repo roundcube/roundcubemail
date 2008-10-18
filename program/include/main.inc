@@ -550,7 +550,8 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
 
   // use value from post
   if (!empty($_POST[$fname]))
-    $value = get_input_value($fname, RCUBE_INPUT_POST);
+    $value = get_input_value($fname, RCUBE_INPUT_POST,
+	    $type == 'textarea' && strpos($attrib['class'], 'mce_editor')!==false ? true : false);
 
   $out = $input->show($value);
          

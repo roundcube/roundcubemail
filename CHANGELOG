@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/18 (alec)
+----------
+- Fix html2text class autoloading on Windows (#1485505)
+- Fix html signature formatting when identity save error occured (#1485426)
+
 2008/10/15 (alec)
 ----------
 - Add feedback and set busy when moving folder (#1485497)
