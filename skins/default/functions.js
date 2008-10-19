@@ -86,6 +86,12 @@ function rcmail_init_compose_form()
   var bcc_field = document.getElementById('rcmcomposebcc');
   if (bcc_field && bcc_field.value!='')
     rcmail_show_header_form('compose-bcc', document.getElementById('addbcclink'));
+
+  // prevent from form data loss when pressing ESC key in IE
+  if (bw.ie) {
+    var form = rcube_find_object('form');
+    form.onkeydown = function (e) { if (rcube_event.get_keycode(e) == 27) rcube_event.cancel(e); };
+  }
 }
 
 /**
@@ -125,7 +131,7 @@ body_keypress: function(evt, p)
 
 };
 
-var rcmail_ui;// = new rcube_mail_ui();
+var rcmail_ui;
 
 function rcube_init_mail_ui()
 {
