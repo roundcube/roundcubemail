@@ -52,6 +52,7 @@ $messages['purgefolderconfirm'] = 'Weet u zeker dat u alle berichten in deze map
 $messages['foldercreating'] = 'Map aanmaken...';
 $messages['folderdeleting'] = 'Map verwijderen...';
 $messages['folderrenaming'] = 'Mapnaam wijzigen...';
+$messages['foldermoving'] = 'Map verplaatsen...';
 $messages['formincomplete'] = 'Het formulier was niet volledig ingevuld';
 $messages['noemailwarning'] = 'Geef een geldig e-mailadres op';
 $messages['nonamewarning'] = 'Vul een naam in';
