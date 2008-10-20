@@ -209,8 +209,9 @@ function array2js($arr, $type='')
  */
 function in_array_nocase($needle, $haystack)
 {
+  $needle = rc_strtolower($needle);
   foreach ($haystack as $value)
-    if (rc_strtolower($needle)===rc_strtolower($value))
+    if ($needle===rc_strtolower($value))
       return true;
   
   return false;
