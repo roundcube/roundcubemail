@@ -210,7 +210,7 @@ function array2js($arr, $type='')
 function in_array_nocase($needle, $haystack)
 {
   foreach ($haystack as $value)
-    if (strtolower($needle)===strtolower($value))
+    if (rc_strtolower($needle)===rc_strtolower($value))
       return true;
   
   return false;

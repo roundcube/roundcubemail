@@ -219,7 +219,7 @@ function rcmail_compose_headers($attrib)
         if (!empty($addr_part['mailto'])
 	    && !in_array($addr_part['mailto'], $sa_recipients)
 	    && (!$MESSAGE->compose_from
-		|| !in_array($addr_part['mailto'], $MESSAGE->compose_from)
+		|| !in_array_nocase($addr_part['mailto'], $MESSAGE->compose_from)
 		|| count($to_addresses)==1)) // allow reply to yourself
         {
           $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
