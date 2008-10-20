@@ -2915,9 +2915,7 @@ class MDB2_Driver_Common extends PEAR
         $colon = ':';
         $positions = array();
         $position = 0;
-        $ignores = $this->string_quoting;
-        $ignores[] = $this->identifier_quoting;
-        $ignores[] = $this->sql_comments;
+	
         while ($position < strlen($query)) {
             $q_position = strpos($query, $question, $position);
             $c_position = strpos($query, $colon, $position);
@@ -3008,9 +3006,9 @@ class MDB2_Driver_Common extends PEAR
      */
     function _skipDelimitedStrings($query, $position, $p_position)
     {
-        $ignores = $this->string_quoting;
-        $ignores[] = $this->identifier_quoting;
-        $ignores[] = $this->sql_comments;
+	$ignores[] = $this->string_quoting;
+	$ignores[] = $this->identifier_quoting;	
+        $ignores = array_merge($ignores, $this->sql_comments);
         
         foreach ($ignores as $ignore) {
             if (!empty($ignore['start'])) {
