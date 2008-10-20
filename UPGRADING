@@ -1,5 +1,5 @@
-UPDATE instructions
-===================
+UPGRADING instructions
+======================
 
 First you should remove all subfolders from /program/localization/
 because most language codes have changed in 0.2-alpha. This way you
