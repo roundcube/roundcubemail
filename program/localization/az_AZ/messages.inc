@@ -87,7 +87,7 @@ $messages['selectimportfile'] = 'Zəhmət olmasa, yüklənilən faylı seç';
 $messages['addresswriterror'] = 'Seçilmiş ünvan kitabçası yazılmayandır';
 $messages['importwait'] = 'İdxal, gözləyin...';
 $messages['importerror'] = 'İdxal alınmadı! Yüklənilən fayl vCard fayla uyğun deyil.';
-$messages['importconfirm'] = '$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud daxil edilən $skipped atla:  $names';
+$messages['importconfirm'] = '$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud daxil edilən $skipped atla:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Əməliyyata icazə verilmir!';
 $messages['nofromaddress'] = 'Seçilmiş eynilikdə e-poçt ünvanı axtarılır';
 

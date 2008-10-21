@@ -58,7 +58,7 @@ function rcmail_import_confirm($attrib)
   global $IMPORT_STATS;
   
   $vars = get_object_vars($IMPORT_STATS);
-  $vars['names'] = join(', ', $IMPORT_STATS->names);
+  $vars['names'] = join(', ', array_map('Q', $IMPORT_STATS->names));
   
   return html::p($attrib, Q(rcube_label(array(
     'name' => 'importconfirm',

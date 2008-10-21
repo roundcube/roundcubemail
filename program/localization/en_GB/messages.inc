@@ -90,7 +90,7 @@ $messages['selectimportfile'] = 'Please select a file to upload';
 $messages['addresswriterror'] = 'The selected address book is not writeable';
 $messages['importwait'] = 'Importing, please wait...';
 $messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
-$messages['importconfirm'] = 'Successfully imported $inserted contacts, $skipped existing entries skipped:$names';
+$messages['importconfirm'] = 'Successfully imported $inserted contacts, $skipped existing entries skipped:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity';
 

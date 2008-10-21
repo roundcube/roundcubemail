@@ -90,7 +90,7 @@ $messages['selectimportfile'] = 'Prosím vyberte soubor k nahrání';
 $messages['addresswriterror'] = 'Vybraný seznam kontaktů není zapisovatelný';
 $messages['importwait'] = 'Importuji, prosím čekejte...';
 $messages['importerror'] = 'Během importu nastala chyba! Nahraný soubor není ve formátu vCard.';
-$messages['importconfirm'] = 'Úspěšně naimportováno $inserted kontaktů, $skipped existujících záznamů přeskočeno:$names';
+$messages['importconfirm'] = 'Úspěšně naimportováno $inserted kontaktů, $skipped existujících záznamů přeskočeno:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operace není povolena!';
 
 ?>

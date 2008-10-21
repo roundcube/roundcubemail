@@ -87,7 +87,7 @@ $messages['selectimportfile'] = 'נא לבחור קובץ לייבוא';
 $messages['addresswriterror'] = 'פנקס הכתובות שנבחר אינו ניתן לכתיבה';
 $messages['importwait'] = 'ייבוא, נא להמתין..';
 $messages['importerror'] = 'חוקי vCard הייבוא נכשל כי הקובץ אינו בפורמט';
-$messages['importconfirm'] = 'יובאו $inserted אנשי קשר, $skipped היו קיימים $names';
+$messages['importconfirm'] = 'יובאו $inserted אנשי קשר, $skipped היו קיימים <p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'פעולה אסורה!';
 
 ?>

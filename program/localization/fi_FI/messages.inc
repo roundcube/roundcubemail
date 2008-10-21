@@ -91,7 +91,7 @@ $messages['selectimportfile'] = 'Valitse lähetettävä tiedosto';
 $messages['addresswriterror'] = 'Valittuun osoitekirjaan ei voi kirjoittaa';
 $messages['importwait'] = 'Tuodaan, odota...';
 $messages['importerror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole vCard -muodossa.';
-$messages['importconfirm'] = '$inserted kontaktia tuotu onnistuneesti $inserted kontaktioa, $skipped olemassaolevaa kontaktia hypättiin yli: $names';
+$messages['importconfirm'] = '$inserted kontaktia tuotu onnistuneesti $inserted kontaktioa, $skipped olemassaolevaa kontaktia hypättiin yli: <p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Toiminto ei ole sallittu!';
 $messages['nofromaddress'] = 'Valittu identiteetti ei sisällä sähköpostiosoitetta';
 

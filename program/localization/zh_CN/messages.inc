@@ -91,7 +91,7 @@ $messages['selectimportfile'] = '请选择要上传的文件';
 $messages['addresswriterror'] = '已选择的地址簿不可写';
 $messages['importwait'] = '正在导入，请稍后...';
 $messages['importerror'] = '导入失败！所上传的文件不是有效的 vCard 文件。';
-$messages['importconfirm'] = '成功导入 $inserted 联系人，$skipped 乎略已存在的联系人:$names';
+$messages['importconfirm'] = '成功导入 $inserted 联系人，$skipped 乎略已存在的联系人: <p><em>$names</em></p>';
 $messages['opnotpermitted'] = '不允许的操作';
 $messages['nofromaddress'] = '选种的身份中没有邮件地址';
 

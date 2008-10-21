@@ -86,7 +86,7 @@ $messages['selectimportfile'] = 'Vel ei fil til å lasta opp';
 $messages['addresswriterror'] = 'Denne adresseboka er ikkje skrivbar';
 $messages['importwait'] = 'Importerer, vent...';
 $messages['importerror'] = 'Importering feila! Fila er ikkje ei korrekt vCard-file.';
-$messages['importconfirm'] = 'Importerte $inserted kontakar, hoppa over $skipped oppføringar: $names';
+$messages['importconfirm'] = 'Importerte $inserted kontakar, hoppa over $skipped oppføringar: <p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Ulovleg operasjon.';
 
 ?>

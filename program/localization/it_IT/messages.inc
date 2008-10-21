@@ -90,7 +90,7 @@ $messages['selectimportfile'] = 'Per favore, seleziona il file da caricare';
 $messages['addresswriterror'] = 'La rubrica selezionata non è scrivibile';
 $messages['importwait'] = 'Importazione in corso, attendere...';
 $messages['importerror'] = 'Importazione fallita! Il file caricato non è un file vCard valido.';
-$messages['importconfirm'] = 'Importati con successo $inserted contatti, saltate $skipped voci esistenti:$names';
+$messages['importconfirm'] = 'Importati con successo $inserted contatti, saltate $skipped voci esistenti:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operazione non consentita!';
 $messages['nofromaddress'] = 'Indirizzo e-mail mancante nell\'identità selezionata';
 

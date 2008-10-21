@@ -218,6 +218,9 @@ class rcube_vcard
 
     // remove vcard 2.1 charset definitions
     $vcard = preg_replace('/;CHARSET=[^:;]+/', '', $vcard);
+    
+    // if N doesn't have any semicolons, add some 
+    $vcard = preg_replace('/^(N:[^;\R]*)$/m', '\1;;;;', $vcard);
 
     return $vcard;
   }
@@ -241,37 +244,47 @@ class rcube_vcard
     // Perform RFC2425 line unfolding
     $vcard = preg_replace(array("/\r/", "/\n\s+/"), '', $vcard);
     
+    $lines = preg_split('/\r?\n/', $vcard);
     $data = array();
-    if (preg_match_all('/^([^\\:]*):(.+)$/m', $vcard, $regs, PREG_SET_ORDER)) {
-      foreach($regs as $line) {
-        // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet;TYPE=home:"
-        if (($data['VERSION'][0] == "2.1") && preg_match('/^([^;]+);([^:]+)/', $line[1], $regs2) && !preg_match('/^TYPE=/i', $regs2[2])) {
-          $line[1] = $regs2[1];
-          foreach (explode(';', $regs2[2]) as $prop)
-            $line[1] .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
-        }
+    
+    for ($i=0; $i < count($lines); $i++) {
+      if (!preg_match('/^([^\\:]*):(.+)$/', $lines[$i], $line))
+          continue;
 
-        if (!preg_match('/^(BEGIN|END)$/', $line[1]) && preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
-          $entry = array(self::vcard_unquote($line[2]));
-
-          foreach($regs2[1] as $attrid => $attr) {
-            if ((list($key, $value) = explode('=', $attr)) && $value) {
-              if ($key == 'ENCODING')
-                $entry[0] = self::decode_value($entry[0], $value);
-              else
-                $entry[strtolower($key)] = array_merge((array)$entry[strtolower($key)], (array)self::vcard_unquote($value, ','));
-            }
-            else if ($attrid > 0) {
-              $entry[$key] = true;  # true means attr without =value
-            }
-          }
-
-          $data[$regs2[1][0]][] = count($entry) > 1 ? $entry : $entry[0];
-        }
+      // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet;TYPE=home:"
+      if (($data['VERSION'][0] == "2.1") && preg_match('/^([^;]+);([^:]+)/', $line[1], $regs2) && !preg_match('/^TYPE=/i', $regs2[2])) {
+        $line[1] = $regs2[1];
+        foreach (explode(';', $regs2[2]) as $prop)
+          $line[1] .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
       }
 
-      unset($data['VERSION']);
+      if (!preg_match('/^(BEGIN|END)$/', $line[1]) && preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
+        $entry = array('');
+        $field = $regs2[1][0];
+
+        foreach($regs2[1] as $attrid => $attr) {
+          if ((list($key, $value) = explode('=', $attr)) && $value) {
+            if ($key == 'ENCODING') {
+              # add next line(s) to value string if QP line end detected                                                                                                               
+              while ($value == 'QUOTED-PRINTABLE' && ereg('=$', $lines[$i]))
+                  $line[2] .= "\n" . $lines[++$i];
+              
+              $line[2] = self::decode_value($line[2], $value);
+            }
+            else
+              $entry[strtolower($key)] = array_merge((array)$entry[strtolower($key)], (array)self::vcard_unquote($value, ','));
+          }
+          else if ($attrid > 0) {
+            $entry[$key] = true;  # true means attr without =value
+          }
+        }
+
+        $entry[0] = self::vcard_unquote($line[2]);
+        $data[$field][] = count($entry) > 1 ? $entry : $entry[0];
+      }
     }
+
+    unset($data['VERSION']);
 
     return $data;
   }
@@ -331,7 +344,7 @@ class rcube_vcard
   {
     foreach((array)$data as $type => $entries) {
       /* valid N has 5 properties */
-      while ($type == "N" && count($entries[0]) < 5)
+      while ($type == "N" && is_array($entries[0]) && count($entries[0]) < 5)
         $entries[0][] = "";
 
       foreach((array)$entries as $entry) {
