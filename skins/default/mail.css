@@ -526,6 +526,12 @@ body.messagelist
   cursor: pointer;
 }
 
+#messagelist tbody tr td.flag img:hover,
+#messagelist thead tr td.flag img
+{
+  background: url(images/icons/unflagged.png) center no-repeat;
+}
+
 #messagelist tr td.subject
 {
   overflow: hidden;
@@ -573,7 +579,7 @@ body.messagelist
 #messagelist tr.flagged td,
 #messagelist tr.flagged td a
 {
-  color: #FF0000;
+  color: #CC0000;
 }
 
 #messagelist tr.selected td
