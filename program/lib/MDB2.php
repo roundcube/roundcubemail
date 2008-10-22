@@ -3024,7 +3024,11 @@ class MDB2_Driver_Common extends PEAR
                                 return $err;
                             }
                         }
-                    } while ($ignore['escape'] && $query[($end_quote - 1)] == $ignore['escape'] && $end_quote-1 != $start_quote);
+                    } while ($ignore['escape']
+			    && $end_quote-1 != $start_quote
+			    && $query[($end_quote - 1)] == $ignore['escape']
+			    && ($ignore['escape_pattern'] !== $ignore['escape']
+				    || $query[($end_quote - 2)] != $ignore['escape']));
                     $position = $end_quote + 1;
                     return $position;
                 }
