@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/22 (alec)
+----------
+- Added option focus_on_new_message (#1485374)
+
 2008/10/18 (alec)
 ----------
 - Fix html2text class autoloading on Windows (#1485505)

@@ -231,6 +231,7 @@ $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
 $labels['autosavedraft'] = 'Automatyczny zapis tworzonej wiadomości';
 $labels['everynminutes'] = 'co $n minut';
 $labels['never'] = 'nigdy';
+$labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Foldery';
 $labels['foldername'] = 'Nazwa folderu';

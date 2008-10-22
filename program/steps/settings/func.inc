@@ -148,6 +148,13 @@ function rcmail_user_prefs_form($attrib)
   
   $table = new html_table(array('cols' => 2));
 
+  if (!isset($no_override['focus_on_new_message'])) {
+    $field_id = 'rcmfd_focus_on_new_message';
+    $input_focus_on_new_message = new html_checkbox(array('name' => '_focus_on_new_message', 'id' => $field_id, 'value' => 1));
+    $table->add('title', html::label($field_id, Q(rcube_label('focusonnewmessage'))));
+    $table->add(null, $input_focus_on_new_message->show($config['focus_on_new_message']?1:0));
+  }
+
   // show config parameter for preview pane
   if (!isset($no_override['preview_pane'])) {
     $field_id = 'rcmfd_preview';
@@ -294,7 +301,7 @@ function rcmail_user_prefs_form($attrib)
     $table->add('title', html::label($field_id, Q(rcube_label('skipdeleted'))));
     $table->add(null, $input_purge->show($config['skip_deleted']?1:0));
   }
-  
+
   // Trash purging on logout
   if (!isset($no_override['logout_purge'])) {
     $field_id = 'rcmfd_logout_purge';

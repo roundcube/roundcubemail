@@ -41,6 +41,9 @@ foreach ($a_mailboxes as $mbox_name)
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
       $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
 
+      if (rcmail::get_instance()->config->get('focus_on_new_message',true))
+        $OUTPUT->command('new_message_focus');
+
       // add new message headers to list
       $a_headers = array();
       for ($i=$recent_count, $id=$count_all-$recent_count+1; $i>0; $i--, $id++)

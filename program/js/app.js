@@ -3582,6 +3582,16 @@ function rcube_webmail()
       }
     };
 
+  // notifies that a new message(s) has hit the mailbox
+  this.new_message_focus = function()
+    {
+    // focus main window
+    if (this.env.framed && window.parent)
+      window.parent.focus();
+    else
+      window.focus();
+    }
+
   // add row to contacts list
   this.add_contact_row = function(cid, cols, select)
     {

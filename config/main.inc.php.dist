@@ -355,6 +355,9 @@ $rcmail_config['draft_autosave'] = 300;
 // default setting if preview pane is enabled
 $rcmail_config['preview_pane'] = FALSE;
 
+// focus new window if new message arrives
+$rcmail_config['focus_on_new_message'] = true;
+
 // Clear Trash on logout
 $rcmail_config['logout_purge'] = FALSE;
 
