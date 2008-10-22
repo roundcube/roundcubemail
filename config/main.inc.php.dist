@@ -319,7 +319,7 @@ $rcmail_config['log_logins'] = false;
  * quota (and Trash is included in the quota).
  *
  * This is a failover setting for iil_C_Move when a message is moved
- * to the Trash, and not the same as "delete_right_away".
+ * to the Trash.
  */
 $rcmail_config['delete_always'] = false;
 
