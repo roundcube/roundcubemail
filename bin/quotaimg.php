@@ -18,10 +18,29 @@
 
 */
 
+// define INSTALL_PATH since it's sort of custom from /bin/quotaimg.php
+define('INSTALL_PATH', str_replace('bin', '', dirname(__FILE__)));
+
+// include environment
+require_once INSTALL_PATH . 'program/include/iniset.php';
+
+// init application and start session with requested task
+$RCMAIL = rcmail::get_instance();
+if (empty($RCMAIL->user->ID)) {
+    die('You are not logged in, there is no need you are allowed to render the quota image.');
+}
+
 $used   = ((isset($_GET['u']) && !empty($_GET['u'])) || $_GET['u']=='0')?(int)$_GET['u']:'??';
 $quota  = ((isset($_GET['q']) && !empty($_GET['q'])) || $_GET['q']=='0')?(int)$_GET['q']:'??';
 $width  = empty($_GET['w']) ? 100 : (int)$_GET['w'];
 $height = empty($_GET['h']) ? 14 : (int)$_GET['h'];
+
+// let's apply some sanity
+// @todo Maybe a config option?
+if ($width > 200 || $height > 50) {
+    $width = 100;
+    $height = 14;
+}
 
 /**
  * Quota display
