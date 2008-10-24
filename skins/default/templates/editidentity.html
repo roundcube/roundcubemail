@@ -17,7 +17,7 @@
 </div>
 
 <p id="listbuttons">
-<roundcube:button command="add" type="input" label="newidentity" class="button" condition="config:multiple_identities:true" />
+<roundcube:button command="add" type="input" label="newidentity" class="button" condition="config:identities_level:0<2" />
 </p>
 
 <div id="identity-details">
@@ -27,7 +27,7 @@
 <roundcube:object name="identityform" size="40" textareacols="60" textarearows="6" />
 
 <p><br />
-<roundcube:button command="delete" type="input" class="button" label="delete" condition="env:action=='edit-identity'&&config:multiple_identities:true" style="margin-right:0.5em" />
+<roundcube:button command="delete" type="input" class="button" label="delete" condition="env:action=='edit-identity'" style="margin-right:0.5em" />
 <roundcube:button command="save" type="input" class="button mainaction" label="save" />
 </p>
 </div>

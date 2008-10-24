@@ -288,8 +288,8 @@ function rcube_webmail()
         this.enable_command('preferences', 'identities', 'save', 'folders', true);
         
         if (this.env.action=='identities' || this.env.action=='edit-identity' || this.env.action=='add-identity') {
-          this.enable_command('add', 'delete', this.env.multiple_identities);
-          this.enable_command('edit', true);
+          this.enable_command('add', this.env.identities_level < 2);
+          this.enable_command('delete', 'edit', true);
         }
 
         if (this.env.action=='edit-identity' || this.env.action=='add-identity')

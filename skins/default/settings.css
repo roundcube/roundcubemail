@@ -161,6 +161,11 @@ span.tablink-selected a
   padding-right: 10px;
 }
 
+input.disabled
+{
+  color: #999999;
+}
+
 #bottomboxes
 {
   position: absolute;

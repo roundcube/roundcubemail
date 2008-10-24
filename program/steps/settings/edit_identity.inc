@@ -19,22 +19,26 @@
 
 */
 
-$OUTPUT->set_pagetitle(rcube_label('identities'));
+define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
+// edit-identity
 if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity') {
   $IDENTITY_RECORD = $USER->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
   
   if (is_array($IDENTITY_RECORD))
     $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);
 }
-else if (!$RCMAIL->config->get('multiple_identities', true)) {
-  $OUTPUT->show_message('opnotpermitted', 'error');
-  // go to identities page
-  rcmail_overwrite_action('identities');
-  return;
+// add-identity
+else {
+  if (IDENTITIES_LEVEL > 1) {
+    $OUTPUT->show_message('opnotpermitted', 'error');
+    // go to identities page
+    rcmail_overwrite_action('identities');
+    return;
+  }
+  else if (IDENTITIES_LEVEL == 1)
+    $IDENTITY_RECORD['email'] = rcmail_get_email();
 }
-
-$OUTPUT->include_script('list.js');
 
 
 function rcube_identity_form($attrib)
@@ -85,7 +89,12 @@ function rcube_identity_form($attrib)
                        'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'rcmfd_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
-
+  // disable some field according to access level
+  if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
+    $a_show_cols['email']['disabled'] = true;
+    $a_show_cols['email']['class'] = 'disabled';
+  }
+  
   // a specific part is requested
   if ($attrib['part'])
     {
@@ -131,7 +140,9 @@ function rcube_identity_form($attrib)
   return $out;  
   }
 
+$OUTPUT->include_script('list.js');
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
+$OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
 
 $OUTPUT->set_pagetitle(rcube_label(($RCMAIL->action=='add-identity' ? 'newidentity' : 'edititem')));
 
@@ -139,4 +150,5 @@ if ($RCMAIL->action=='add-identity' && $OUTPUT->template_exists('addidentity'))
   $OUTPUT->send('addidentity');
 
 $OUTPUT->send('editidentity');
+
 ?>

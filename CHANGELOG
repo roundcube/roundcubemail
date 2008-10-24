@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/24 (alec)
+----------
+- Added option 'identities_level', removed 'multiple_identities'
+- Allow deleting identities when multiple_identities=false (#1485435)
+
 2008/10/22 (alec)
 ----------
 - Added option focus_on_new_message (#1485374)

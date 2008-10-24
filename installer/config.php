@@ -122,6 +122,22 @@ echo $check_caching->show(intval($RCI->getprop('enable_spellcheck')), array('val
 <p class="hint">It is based on GoogieSpell what implies that the message content will be sent to Google in order to check the spelling.</p>
 </dd>
 
+<dt class="propname">identities_level</dt>
+<dd>
+<?php
+
+$input_ilevel = new html_select(array('name' => '_identities_level', 'id' => "cfgidentitieslevel"));
+$input_ilevel->add('many identities with possibility to edit all params', 0);
+$input_ilevel->add('many identities with possibility to edit all params but not email address', 1);
+$input_ilevel->add('one identity with possibility to edit all params', 2);
+$input_ilevel->add('one identity with possibility to edit all params but not email address', 3);
+echo $input_ilevel->show($RCI->getprop('identities_level'), 0);
+
+?>
+<div>Level of identities access</div>
+<p class="hint">Defines what users can do with their identities.</p>
+</dd>
+
 </dl>
 </fieldset>
 

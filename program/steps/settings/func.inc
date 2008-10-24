@@ -401,7 +401,24 @@ function rcmail_get_skins()
   return $skins;
   }
 
-$OUTPUT->set_env('multiple_identities', $RCMAIL->config->get('multiple_identities', true));
+
+function rcmail_get_email()
+  {
+  global $RCMAIL;
+  
+  if (strpos($RCMAIL->user->data['username'], '@'))
+    return $RCMAIL->user->data['username'];
+  else {
+    if ($RCMAIL->config->get('virtuser_file'))
+      $user_email = rcube_user::user2email($RCMAIL->user->data['username']);
+
+    if ($user_email == '')
+      $user_email = sprintf('%s@%s', $RCMAIL->user->data['username'], 
+    	    $RCMAIL->config->mail_domain($_SESSION['imap_host']));
+
+    return $user_email;
+    }		      
+  }
 
 // register UI objects
 $OUTPUT->add_handlers(array(
