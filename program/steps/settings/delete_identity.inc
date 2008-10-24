@@ -32,6 +32,9 @@ if (($ids = get_input_value('_iid', RCUBE_INPUT_GET)) && preg_match('/^[0-9]+(,[
     $OUTPUT->send();
 }
 
+if ($OUTPUT->ajax_call)
+  exit;
+
 // go to identities page
 rcmail_overwrite_action('identities');
 
