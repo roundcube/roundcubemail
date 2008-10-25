@@ -69,10 +69,6 @@ if ($_GET['_uid']) {
 
   $OUTPUT->set_pagetitle($MESSAGE->subject);
   
-  // mark message as read
-  if (!$MESSAGE->headers->seen)
-    $IMAP->set_flag($MESSAGE->uid, 'SEEN');
-
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE->uid);
   // set environement
@@ -87,7 +83,7 @@ if ($_GET['_uid']) {
     
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
-      !$MESSAGE->headers->mdn_sent &&
+      !$MESSAGE->headers->mdn_sent && !$MESSAGE->headers->seen &&
       $IMAP->check_permflag('MDNSENT') &&
       $mbox_name != $CONFIG['drafts_mbox'] &&
       $mbox_name != $CONFIG['sent_mbox'])
@@ -140,6 +136,10 @@ if ($_GET['_uid']) {
     $OUTPUT->set_env('next_uid', $next);
   if ($last >0)
     $OUTPUT->set_env('last_uid', $last);
+
+  // mark message as read
+  if (!$MESSAGE->headers->seen)
+    $IMAP->set_flag($MESSAGE->uid, 'SEEN');
   }
 
 

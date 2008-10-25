@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/25 (alec)
+----------
+- Don't send disposition notification receipts for messages marked as 'read' (#1485523)
+
 2008/10/24 (alec)
 ----------
 - Added option 'identities_level', removed 'multiple_identities'
