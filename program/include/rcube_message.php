@@ -63,7 +63,7 @@ class rcube_message
       'prefer_html' => $this->app->config->get('prefer_html'),
       'get_url' => rcmail_url('get', array('_mbox' => $this->imap->get_mailbox_name(), '_uid' => $uid))
     );
-    
+
     if ($this->structure = $this->imap->get_structure($uid)) {
       $this->get_mime_numbers($this->structure);
       $this->parse_structure($this->structure);

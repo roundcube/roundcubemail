@@ -188,12 +188,14 @@ function rcube_charset_convert($str, $from, $to=NULL)
     return $str;
     
   $aliases = array(
-    'US-ASCII'       => 'ISO-8859-1',
-    'UNKNOWN-8BIT'   => 'ISO-8859-15',
-    'X-UNKNOWN'      => 'ISO-8859-15',
-    'X-USER-DEFINED' => 'ISO-8859-15',
-    'ISO-8859-8-I'   => 'ISO-8859-8',
-    'KS_C_5601-1987' => 'EUC-KR',
+    'US-ASCII'         => 'ISO-8859-1',
+    'ANSI_X3.110-1983' => 'ISO-8859-1',
+    'ANSI_X3.4-1968'   => 'ISO-8859-1',
+    'UNKNOWN-8BIT'     => 'ISO-8859-15',
+    'X-UNKNOWN'        => 'ISO-8859-15',
+    'X-USER-DEFINED'   => 'ISO-8859-15',
+    'ISO-8859-8-I'     => 'ISO-8859-8',
+    'KS_C_5601-1987'   => 'EUC-KR',
   );
 
   // convert charset using iconv module  
@@ -684,10 +686,10 @@ function format_date($date, $format=NULL)
     $ts = $date;
   else if (!empty($date))
     {
-    while (($ts = @strtotime($date))===false)
+    // if date parsing fails, we have a date in non-rfc format.
+    // remove token from the end and try again
+    while ((($ts = @strtotime($date))===false) || ($ts < 0))
       {
-        // if we have a date in non-rfc format
-        // remove token from the end and try again
         $d = explode(' ', $date);
         array_pop($d);
         if (!$d) break;
@@ -825,7 +827,7 @@ function write_log($name, $line)
   $log_entry = sprintf("[%s]: %s\n",
                  date("d-M-Y H:i:s O", mktime()),
                  $line);
-                 
+
   if ($CONFIG['log_driver'] == 'syslog') {
     if ($name == 'errors')
       $prio = LOG_ERR;
@@ -836,10 +838,11 @@ function write_log($name, $line)
     // log_driver == 'file' is assumed here
     if (empty($CONFIG['log_dir']))
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
-      
+
     // try to open specific log file for writing
     if ($fp = @fopen($CONFIG['log_dir'].'/'.$name, 'a')) {
       fwrite($fp, $log_entry);
+      fflush($fp);
       fclose($fp);
     }
   }

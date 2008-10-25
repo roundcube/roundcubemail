@@ -1025,14 +1025,16 @@ class rcube_imap
     $headers = &$this->get_cached_message($cache_key, $uid, true);
 
     // return cached message structure
-    if (is_object($headers) && is_object($headers->structure))
+    if (is_object($headers) && is_object($headers->structure)) {
       return $headers->structure;
-    
-    // resolve message sequence number
-    if (!($msg_id = $this->_uid2id($uid)))
-      return FALSE;
+    }
 
-    $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id); 
+    // resolve message sequence number
+    if (!($msg_id = $this->_uid2id($uid))) {
+      return FALSE;
+    }
+
+    $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id);
     $structure = iml_GetRawStructureArray($structure_str);
     $struct = false;
 

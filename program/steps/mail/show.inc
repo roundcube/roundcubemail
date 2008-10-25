@@ -24,7 +24,7 @@ $PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 // similar code as in program/steps/mail/get.inc
 if ($_GET['_uid']) {
   $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
-  
+
   // set message charset as default
   if (!empty($MESSAGE->headers->charset))
     $IMAP->set_charset($MESSAGE->headers->charset);
@@ -217,7 +217,7 @@ $OUTPUT->add_handlers(array(
 if ($RCMAIL->action=='print' && $OUTPUT->template_exists('printmessage'))
   $OUTPUT->send('printmessage');
 else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
-    $OUTPUT->send('messagepreview');
+  $OUTPUT->send('messagepreview');
 else
   $OUTPUT->send('message');
 ?>

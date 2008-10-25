@@ -1068,7 +1068,6 @@ class Mail_mime
                     //Concat the double quotes and encoded string together
                     $hdr_value = $quotePrefix . $hdr_value . $quoteSuffix;
                     
-
                     $hdr_value_out = $hdr_value;
                     $realMax = $maxLength1stLine + strlen($prefix . $suffix);
                     if (strlen($hdr_value_out) >= $realMax) {
