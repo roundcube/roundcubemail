@@ -120,6 +120,12 @@ td.formlinks a:visited
   text-decoration: underline;
 }
 
+#listcontrols,
+#mailboxcontrols
+{
+  padding-right: 2em;
+}
+
 #messagecountbar
 {
   position: absolute;
