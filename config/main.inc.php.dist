@@ -107,17 +107,18 @@ $rcmail_config['smtp_helo_host'] = '';
 // Log sent messages
 $rcmail_config['smtp_log'] = TRUE;
 
-// how many seconds must pass between emails sent by a user
+// How many seconds must pass between emails sent by a user
 $rcmail_config['sendmail_delay'] = 0;
 
-// these cols are shown in the message list
+// These cols are shown in the message list
 // available cols are: subject, from, to, cc, replyto, date, size, encoding, flag
 $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag');
 
-// includes should be interpreted as PHP files
+// Includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = FALSE;
 
-// session lifetime in minutes
+// Session lifetime in minutes
+// must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
 
 // check client IP in session athorization
@@ -327,6 +328,10 @@ $rcmail_config['log_logins'] = false;
  */
 $rcmail_config['delete_always'] = false;
 
+// Minimal value of user's 'keep_alive' setting (in seconds)
+// Must be less than 'session_lifetime'
+$rcmail_config['min_keep_alive'] = 60;
+
 /***** these settings can be overwritten by user's preferences *****/
 
 // skin name: folder from skins/
@@ -389,6 +394,10 @@ $rcmail_config['read_when_deleted'] = TRUE;
 // the message for deletion rather than deleting it immediately.  Setting this to 
 // false causes deleted messages to be permanantly removed if there is no Trash folder
 $rcmail_config['flag_for_deletion'] = FALSE;
+
+// Default interval for keep-alive/check-recent requests (in seconds)
+// Must be greater than or equal to 'min_keep_alive' and less than 'session_lifetime'
+$rcmail_config['keep_alive'] = 60;
 
 // end of config file
 ?>

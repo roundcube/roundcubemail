@@ -289,6 +289,14 @@ class rcmail
     foreach (array('flag_for_deletion','read_when_deleted') as $js_config_var) {
       $this->output->set_env($js_config_var, $this->config->get($js_config_var));
     }
+    
+    // set keep-alive/check-recent interval
+    if ($keep_alive = $this->config->get('keep_alive')) {
+      // be sure that it's less than session lifetime
+      if ($session_lifetime = $this->config->get('session_lifetime'))
+        $keep_alive = min($keep_alive, $session_lifetime * 60 - 30);
+      $this->output->set_env('keep_alive', max(60, $keep_alive));
+    }
 
     if ($framed) {
       $this->comm_path .= '&_framed=1';

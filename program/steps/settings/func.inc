@@ -175,6 +175,20 @@ function rcmail_user_prefs_form($attrib)
     $table->add(null, $select_mdn_requests->show($config['mdn_requests']));
   }
 
+  if (!isset($no_override['keep_alive'])) {
+    $field_id = 'rcmfd_keep_alive';
+    $select_keep_alive = new html_select(array('name' => '_keep_alive', 'id' => $field_id));
+
+    foreach(array(1, 3, 5, 10, 15, 30, 60) as $min)
+      if((!$config['min_keep_alive'] || $config['min_keep_alive'] <= $min * 60)
+	&& (!$config['session_lifetime'] || $config['session_lifetime'] > $min)) {
+        $select_keep_alive->add(rcube_label(array('name' => 'keepaliveevery', 'vars' => array('n' => $min))), $min);
+      }
+
+    $table->add('title', html::label($field_id, Q(rcube_label('keepalive'))));
+    $table->add(null, $select_keep_alive->show($config['keep_alive']/60));
+  }
+
   $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('mailboxview'))) . $table->show($attrib));
 
   $table = new html_table(array('cols' => 2));

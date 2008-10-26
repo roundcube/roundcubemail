@@ -366,7 +366,7 @@ function rcube_webmail()
     if (this.env.keep_alive && !this.env.framed && this.task=='mail' && this.gui_objects.mailboxlist)
       this._int = setInterval(function(){ ref.check_for_recent(); }, this.env.keep_alive * 1000);
     else if (this.env.keep_alive && !this.env.framed && this.task!='login')
-      this._int = setInterval(function(){ ref.send_keep_alive(); }, this.env.keep_alive * 1000);    
+      this._int = setInterval(function(){ ref.send_keep_alive(); }, this.env.keep_alive * 1000);
     }
 
   this.init_message_row = function(row)

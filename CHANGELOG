@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/10/25 (alec)
 ----------
 - Don't send disposition notification receipts for messages marked as 'read' (#1485523)
+- Added 'keep_alive' and 'min_keep_alive' options (#1485360)
 
 2008/10/24 (alec)
 ----------

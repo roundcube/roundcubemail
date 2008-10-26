@@ -37,6 +37,7 @@ $a_user_prefs = array(
   'logout_purge' => isset($_POST['_logout_purge']) ? TRUE : FALSE,
   'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
   'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
+  'keep_alive' => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],
   'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
   'mdn_requests' => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
   'skin' => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
@@ -77,6 +78,13 @@ if ($a_user_prefs['pagesize'] < 1)
 
 if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['pagesize'] > $CONFIG['max_pagesize']))
   $a_user_prefs['pagesize'] = (int) $CONFIG['max_pagesize'];
+
+// force keep_alive
+if (isset($a_user_prefs['keep_alive'])) {
+    $a_user_prefs['keep_alive'] = max(60, $CONFIG['min_keep_alive'], $a_user_prefs['keep_alive']);
+    if (!empty($CONFIG['session_lifetime']))
+      $a_user_prefs['keep_alive'] = min($CONFIG['session_lifetime']*60, $a_user_prefs['keep_alive']);
+}
 
 if ($USER->save_prefs($a_user_prefs))
   $OUTPUT->show_message('successfullysaved', 'confirmation');
