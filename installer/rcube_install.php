@@ -130,7 +130,7 @@ class rcube_install
    */
   function create_config($which, $force = false)
   {
-    $out = file_get_contents("../config/{$which}.inc.php.dist");
+    $out = file_get_contents(RCMAIL_CONFIG_DIR . "/{$which}.inc.php.dist");
     
     if (!$out)
       return '[Warning: could not read the template file]';
@@ -540,27 +540,5 @@ class rcube_install
     return $out;
   }
   
-}
-
-
-/**
- * Shortcut function for htmlentities()
- *
- * @param string String to quote
- * @return string The html-encoded string
- */
-function Q($string)
-{
-  return htmlentities($string);
-}
-
-
-/**
- * Fake rinternal error handler to catch errors
- */
-function raise_error($p)
-{
-  $rci = rcube_install::get_instance();
-  $rci->raise_error($p);
 }
 

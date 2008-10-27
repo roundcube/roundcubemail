@@ -1,4 +1,5 @@
 <?php
+
 ini_set('error_reporting', E_ALL&~E_NOTICE);
 ini_set('display_errors', 1);
 
@@ -12,21 +13,9 @@ $include_path .= ini_get('include_path');
 
 set_include_path($include_path);
 
-session_start();
+require_once 'utils.php';
 
-/**
- * Use PHP5 autoload for dynamic class loading
- * (copy from program/incllude/iniset.php)
- */
-function __autoload($classname)
-{
-  $filename = preg_replace(
-      array('/MDB2_(.+)/', '/Mail_(.+)/', '/^html_.+/', '/^utf8$/'),
-      array('MDB2/\\1', 'Mail/\\1', 'html', 'utf8.class'),
-      $classname
-  );
-  include_once $filename. '.php';
-}
+session_start();
 
 $RCI = rcube_install::get_instance();
 $RCI->load_config();
