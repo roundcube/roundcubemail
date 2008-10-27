@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/10/27 (alec)
+----------
+- Fix unread message unintentionally marked as read if read_when_deleted=true (#1485409)
+- Remove port number from SERVER_NAME in smtp_helo_host (#1485518)
+
 2008/10/25 (alec)
 ----------
 - Don't send disposition notification receipts for messages marked as 'read' (#1485523)
