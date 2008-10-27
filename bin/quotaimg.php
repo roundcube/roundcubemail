@@ -96,12 +96,11 @@ function genQuota($used, $total, $width, $height)
     // @todo: Set to "??" instead?
 	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total)) {
 		return false; 
-    }
+	}
 
-	if (strpos($used, '?') !== false || strpos($total, '?') !== false
-        && $used != 0) {
+	if (strpos($used, '?') !== false || strpos($total, '?') !== false && $used != 0) {
 		$unknown = true; 
-    }
+	}
 
 	$im = imagecreate($width, $height);
 
@@ -153,7 +152,7 @@ function genQuota($used, $total, $width, $height)
 			list($r, $g, $b) = explode(',', $color['fill']['mid']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
 		} else {
-		    // if($quota >= $limit['low'])
+			// if($quota >= $limit['low'])
 			list($r, $g, $b) = explode(',', $color['fill']['low']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
 		}
@@ -163,21 +162,27 @@ function genQuota($used, $total, $width, $height)
 
 		$string = $quota . '%';
 		$mid    = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
-        // Print percent in black
+		// Print percent in black
 		imagestring($im, $font, $mid, $padding, $string, $text); 
 	}
 
 	header('Content-Type: image/gif');
-    
-    // @todo is harcoding GMT necessary?
-	header('Expires: ' . gmdate('D, d M Y H:i:s', mktime()+86400) . ' GMT');
-	header('Cache-Control: ');
-	header('Pragma: ');
+
+	// cache for 1 hour
+	$maxage = 3600;
+	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$maxage). ' GMT');
+	header('Cache-Control: max-age=' . $maxage);
 	
 	imagegif($im);
 	imagedestroy($im);
 }
 
-genQuota($used, $quota, $width, $height);
+if ($width > 1 && $height > 1) {
+	genQuota($used, $quota, $width, $height);  
+}
+else {
+	header("HTTP/1.0 404 Not Found");
+}
+
 exit;
 ?>
