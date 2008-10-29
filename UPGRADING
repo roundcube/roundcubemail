@@ -8,11 +8,33 @@ can make sure that no old localization files remain on your disk.
 Then follow these instructions if upgrading from a previous version
 of RoundCube Webmail.
 
+1. Replace index.php and all files in
+   - ./bin/
+   - ./SQL/
+   - ./program/
+   - ./installer/
+   - ./skins/default/
+2. Run ./bin/update.sh from the commandline OR
+   open http://url-to-roundcube/installer/ in a browser. To enable
+   the latter one, you have to temporary set 'enable_installer' to true
+   in your local config/main.inc.php file.
+3. Let the update script/installer check your configuration and
+   update your config files as suggested by the updater.
+4. If suggested by the update script, run all commands in
+   ./SQL/[yourdbtype].update.sql that are superscribed with the
+   currently installed version number.
+5. Make sure 'enable_installer' is set to false again.
+
+
+For manually upgrading your RoundCube installation follow the instructions
+that match the currently installed version:
+
 from version 0.2-alpha
 ----------------------------------------
 * replace index.php
 * replace all files in folder /bin/
 * replace all files in folder /program/
+* replace all files in folder /installer/
 * replace all files in folder /skins/default/
 * run all commands in SQL/[yourdbtype].update.sql
   below the line "-- Updates from version 0.2-alpha"
