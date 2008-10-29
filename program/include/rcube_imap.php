@@ -2669,13 +2669,15 @@ class rcube_imap
     // finally we must rebuild the list to move 
     // subfolders of default folders to their place...
     // ...also do this for the rest of folders because
-    // asort() is not properly sorting case sensitive names	
+    // asort() is not properly sorting case sensitive names
+
+    // set the type of folder name variable (#1485527) 
     while (list($key, $folder) = each($folders)) {
-      $a_out[] = $folder;
+      $a_out[] = (string) $folder;
       unset($folders[$key]);
       foreach ($folders as $idx => $f) {
 	if (strpos($f, $folder.$delimiter) === 0) {
-    	  $a_out[] = $f;
+    	  $a_out[] = (string) $f;
 	  unset($folders[$idx]);
 	  }
         }

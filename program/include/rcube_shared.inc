@@ -179,7 +179,7 @@ function json_serialize($var)
       return $brackets{0} . implode(',', $pairs) . $brackets{1};
     }
   }
-  else if (is_numeric($var) && strval(intval($var)) === strval($var))
+  else if (!is_string($var) && strval(intval($var)) === strval($var))
     return $var;
   else if (is_bool($var))
     return $var ? '1' : '0';
