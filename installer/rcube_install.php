@@ -33,7 +33,11 @@ class rcube_install
   var $bool_config_props = array();
 
   var $obsolete_config = array('db_backend');
-  var $replaced_config = array('skin_path' => 'skin', 'locale_string' => 'language');
+  var $replaced_config = array(
+    'skin_path' => 'skin',
+    'locale_string' => 'language',
+    'multiple_identities' => 'identities_level',
+  );
   
   // these config options are optional or can be set to null
   var $optional_config = array(
@@ -214,7 +218,7 @@ class rcube_install
     $out = $seen = array();
     $optional = array_flip($this->optional_config);
     
-    // ireate over the current configuration
+    // iterate over the current configuration
     foreach ($this->config as $prop => $value) {
       if ($replacement = $this->replaced_config[$prop]) {
         $out['replaced'][] = array('prop' => $prop, 'replacement' => $replacement);
@@ -274,6 +278,8 @@ class rcube_install
       if (isset($current[$prop])) {
         if ($prop == 'skin_path')
           $this->config[$replacement] = preg_replace('#skins/(\w+)/?$#', '\\1', $current[$prop]);
+        else if ($prop == 'multiple_identities')
+          $this->config[$replacement] = $current[$prop] ? 2 : 0;
         else
           $this->config[$replacement] = $current[$prop];
         

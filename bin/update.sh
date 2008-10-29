@@ -19,7 +19,7 @@ if ($RCI->configured) {
       echo "(These config options should be present in the current configuration)\n";
 
       foreach ($messages['missing'] as $msg) {
-        echo '- ' . $msg['prop'] . ($msg['name'] ? ': ' . $msg['name'] : '') . "\n";
+        echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
         $err++;
       }
       echo "\n";
@@ -31,7 +31,7 @@ if ($RCI->configured) {
       echo "(These config options have been replaced or renamed)\n";
 
       foreach ($messages['replaced'] as $msg) {
-        echo "- " . $msg['prop'] . "\t\t was replaced by " . $msg['replacement'] . "\n";
+        echo "- '" . $msg['prop'] . "' was replaced by '" . $msg['replacement'] . "'\n";
         $err++;
       }
       echo "\n";
@@ -43,7 +43,7 @@ if ($RCI->configured) {
       echo "(You still have some obsolete or inexistent properties set. This isn't a problem but should be noticed)\n";
 
       foreach ($messages['obsolete'] as $msg) {
-        echo "- " . $msg['prop'] . ($msg['name'] ? ': ' . $msg['name'] : '') . "\n";
+        echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
         $err++;
       }
       echo "\n";
