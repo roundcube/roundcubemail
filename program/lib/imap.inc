@@ -68,6 +68,8 @@
 		- iil_C_HandlePartBody(): added 6th argument and fixed endless loop
 		- added iil_PutLineC() 
 		- fixed iil_C_Sort() to support very long and/or divided responses
+		- added BYE response simple support for endless loop prevention
+		- added 3rd argument in iil_StartsWith* functions
 
 ********************************************************/
 
@@ -286,13 +288,15 @@ function iil_ParseResult($string) {
 			return -1;
 		} else if (strcasecmp($a[1], 'BAD') == 0) {
 			return -2;
+		} else if (strcasecmp($a[1], 'BYE') == 0) {
+			return -3;
     		}
 	}
-	return -3;
+	return -4;
 }
 
 // check if $string starts with $match
-function iil_StartsWith($string, $match) {
+function iil_StartsWith($string, $match, $bye=false) {
 	$len = strlen($match);
 	if ($len == 0) {
 		return false;
@@ -300,15 +304,21 @@ function iil_StartsWith($string, $match) {
 	if (strncmp($string, $match, $len) == 0) {
 		return true;
 	}
+	if ($bye && strncmp($string, '* BYE ', 6) == 0) {
+		return true;
+	}
 	return false;
 }
 
-function iil_StartsWithI($string, $match) {
+function iil_StartsWithI($string, $match, $bye=false) {
 	$len = strlen($match);
 	if ($len == 0) {
 		return false;
 	}
 	if (strncasecmp($string, $match, $len) == 0) {
+		return true;
+	}
+	if ($bye && strncmp($string, '* BYE ', 6) == 0) {
 		return true;
 	}
 	return false;
@@ -381,15 +391,20 @@ function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
     $line = iil_ReadLine($conn->fp, 1024);
     
     // process result
-    if (iil_ParseResult($line) == 0) {
+    $result = iil_ParseResult($line);
+    if ($result == 0) {
         $conn->error    .= '';
         $conn->errorNum  = 0;
         return $conn->fp;
     }
+
+    if ($result == -3) fclose($conn->fp); // BYE response
+
     $conn->error    .= 'Authentication for ' . $user . ' failed (AUTH): "';
     $conn->error    .= htmlspecialchars($line) . '"';
-    $conn->errorNum  = -2;
-    return false;
+    $conn->errorNum  = $result;
+
+    return $result;
 }
 
 function iil_C_Login(&$conn, $user, $password) {
@@ -401,20 +416,22 @@ function iil_C_Login(&$conn, $user, $password) {
         if ($line === false) {
             break;
         }
-    } while (!iil_StartsWith($line, "a001 "));
-    $a = explode(' ', $line);
-    if (strcmp($a[1], 'OK') == 0) {
-        $result          = $conn->fp;
+    } while (!iil_StartsWith($line, 'a001 ', true));
+    
+    // process result
+    $result = iil_ParseResult($line);
+
+    if ($result == 0) {
         $conn->error    .= '';
         $conn->errorNum  = 0;
-        return $result;
+        return $conn->fp;
     }
-    $result = false;
+
     fclose($conn->fp);
     
     $conn->error    .= 'Authentication for ' . $user . ' failed (LOGIN): "';
     $conn->error    .= htmlspecialchars($line)."\"";
-    $conn->errorNum  = -2;
+    $conn->errorNum  = $result;
 
     return $result;
 }
@@ -472,7 +489,7 @@ function iil_C_NameSpace(&$conn) {
 			$i    = 0;
 			$data = iil_ParseNamespace2(substr($line,11), $i, 0, 0);
 		}
-	} while (!iil_StartsWith($line, "ns1"));
+	} while (!iil_StartsWith($line, 'ns1', true));
 	
 	if (!is_array($data)) {
 	    return false;
@@ -503,10 +520,6 @@ function iil_Connect($host, $user, $password) {
 	
 	$iil_error = '';
 	$iil_errornum = 0;
-	
-	//strip slashes
-	// $user = stripslashes($user);
-	// $password = stripslashes($password);
 	
 	//set auth method
 	$auth_method = 'plain';
@@ -543,15 +556,18 @@ function iil_Connect($host, $user, $password) {
 	
 	//check input
 	if (empty($host)) {
-		$iil_error .= "Invalid host\n";
+		$iil_error = "Empty host";
+		$iil_errornum = -1;
+		return false;
 	}
 	if (empty($user)) {
-		$iil_error .= "Invalid user\n";
+		$iil_error = "Empty user";
+		$iil_errornum = -1;
+		return false;
 	}
 	if (empty($password)) {
-		$iil_error .= "Invalid password\n";
-	}
-	if (!empty($iil_error)) {
+		$iil_error = "Empty password";
+		$iil_errornum = -1;
 		return false;
 	}
 	if (!$ICL_PORT) {
@@ -606,7 +622,13 @@ function iil_Connect($host, $user, $password) {
 
 			//got a challenge string, try CRAM-5
 			$result = iil_C_Authenticate($conn, $user, $password, substr($line,2));
-            
+        		
+			// stop if server sent BYE response
+			if($result == -3) {
+	            		$iil_error = $conn->error;
+	            		$iil_errornum = $conn->errorNum;
+				return false;
+			}
 			$conn->message .= "Tried CRAM-MD5: $result \n";
 		} else {
 			$conn->message .='No challenge ('.htmlspecialchars($line)."), try plain\n";
@@ -617,12 +639,12 @@ function iil_Connect($host, $user, $password) {
 	if ((!$result)||(strcasecmp($auth, "plain") == 0)) {
 		//do plain text auth
 		$result = iil_C_Login($conn, $user, $password);
-		$conn->message.="Tried PLAIN: $result \n";
+		$conn->message .= "Tried PLAIN: $result \n";
 	}
 		
 	$conn->message .= $auth;
 			
-	if ($result) {
+	if (!is_int($result)) {
 		iil_C_Namespace($conn);
 		return $conn;
 	} else {
@@ -752,8 +774,8 @@ function iil_CheckForRecent($host, $user, $password, $mailbox) {
 			$a=explode(' ', $line);
 			if (($a[0] == '*') && (strcasecmp($a[2], 'RECENT') == 0)) {
 			    $result = (int) $a[1];
-            }
-		} while (!iil_StartsWith($a[0], 'a002'));
+        		}
+		} while (!iil_StartsWith($a[0], 'a002', true));
 
 		iil_PutLine($fp, "a003 LOGOUT");
 		fclose($fp);
@@ -790,7 +812,7 @@ function iil_C_Select(&$conn, $mailbox) {
 			else if (preg_match('/\[?PERMANENTFLAGS\s+\(([^\)]+)\)\]/U', $line, $match)) {
 				$conn->permanentflags = explode(' ', $match[1]);
 			}
-		} while (!iil_StartsWith($line, 'sel1'));
+		} while (!iil_StartsWith($line, 'sel1', true));
 
 		$a = explode(' ', $line);
 
@@ -838,7 +860,7 @@ function iil_SplitHeaderLine($string) {
 
 function iil_StrToTime($str) {
 	$IMAP_MONTHS    = $GLOBALS['IMAP_MONTHS'];
-	$IMAP_SERVER_TZ = $GLOBALS['IMAP_SERVER_TR'];
+	$IMAP_SERVER_TZ = $GLOBALS['IMAP_SERVER_TZ'];
 		
 	if ($str) {
     	    $time1 = strtotime($str);
@@ -917,7 +939,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
     		} else if (preg_match('/^[0-9 ]+$/', $line)) {
 			$data .= $line;
 		}
-	} while ($line[0]!='s');
+	} while (!iil_StartsWith($line, 's ', true));
 	
 	if (empty($data)) {
 		$conn->error = $line;
@@ -1039,7 +1061,7 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,
 				//one line response, not expected so ignore				
 			}
 			*/
-		} while (!iil_StartsWith($line, $key));
+		} while (!iil_StartsWith($line, $key, true));
 
 	}else if ($mode == 6) {
 
@@ -1070,7 +1092,7 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,
 			} else {
 				$a = explode(' ', $line);
 			}
-		} while (!iil_StartsWith($a[0], $key));
+		} while (!iil_StartsWith($a[0], $key, true));
 	} else {
 		if ($mode >= 3) {
 		    $field_name = 'FLAGS';
@@ -1112,7 +1134,7 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,
 					$result[$id] = (strpos($haystack, $index_field) > 0 ? "F" : "N");
 				}
 			}
-		} while (!iil_StartsWith($line, $key));
+		} while (!iil_StartsWith($line, $key, true));
 	}
 
 	//check number of elements...
@@ -1951,7 +1973,7 @@ function iil_C_Expunge(&$conn, $mailbox) {
 			if ($line[0] == '*') {
             			$c++;
         		}
-		} while (!iil_StartsWith($line, 'exp1'));
+		} while (!iil_StartsWith($line, 'exp1', true));
 		
 		if (iil_ParseResult($line) == 0) {
 			$conn->selected = ''; //state has changed, need to reselect			
@@ -1983,7 +2005,7 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
 			if ($line[0] == '*') {
 			    $c++;
         		}
-		} while (!iil_StartsWith($line, 'flg'));
+		} while (!iil_StartsWith($line, 'flg', true));
 
 		if (iil_ParseResult($line) == 0) {
 			iil_C_ExpireCachedItems($conn, $mailbox, $messages);
@@ -2093,7 +2115,7 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 				$str = trim(substr($line, 8));
 				$messages = explode(' ', $str);
 			}
-		} while (!iil_StartsWith($line, 'srch1'));
+		} while (!iil_StartsWith($line, 'srch1', true));
 		
 		$result_code = iil_ParseResult($line);
 		if ($result_code == 0) {
@@ -2151,7 +2173,7 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 			    $delimiter = str_replace('"', '', $a[count($a)-2]);
         		}
 		}
-	} while (!iil_StartsWith($line, 'ghd'));
+	} while (!iil_StartsWith($line, 'ghd', true));
 
 	if (strlen($delimiter)>0) {
 	    return $delimiter;
@@ -2166,7 +2188,7 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 			$i = 0;
 			$data = iil_ParseNamespace2(substr($line,11), $i, 0, 0);
 		}
-	} while (!iil_StartsWith($line, 'ns1'));
+	} while (!iil_StartsWith($line, 'ns1', true));
 		
 	if (!is_array($data)) {
 	    return false;
@@ -2234,7 +2256,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
         		// is it a container?
         		$i++;
 		}
-	} while (!iil_StartsWith($line, 'lmb'));
+	} while (!iil_StartsWith($line, 'lmb', true));
 
 	if (is_array($folders)) {
     	    if (!empty($ref)) {
@@ -2303,7 +2325,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
         		// is it a container?
         		$i++;
 		}
-	} while (!iil_StartsWith($line, 'lsb'));
+	} while (!iil_StartsWith($line, 'lsb', true));
 
 	if (is_array($folders)) {
     	    if (!empty($ref)) {
@@ -2359,14 +2381,14 @@ function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 			$line = chop(iil_ReadLine($fp, 200));
 			$a    = explode(' ', $line);
 			if (($line[0] == '*') && ($a[2] == 'FETCH')
-                && ($line[strlen($line)-1] != ')')) {
+            			&& ($line[strlen($line)-1] != ')')) {
 				$line=iil_ReadLine($fp, 300);
 				while (trim($line) != ')') {
 					$result .= $line;
 					$line=iil_ReadLine($fp, 300);
 				}
 			}
-		} while (strcmp($a[0], $key) != 0);
+		} while (strcmp($a[0], $key) != 0 && ($a[0] != '*' || $a[1] != 'BYE'));
 	}
 	
 	return $result;
@@ -2402,8 +2424,9 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
         		$a    = explode(' ', $line);
     		} while ($a[2] != 'FETCH');
     		$len = strlen($line);
-    
-    		if ($line[$len-1] == ')') {
+
+		// handle empty "* X FETCH ()" response
+    		if ($line[$len-1] == ')' && $line[$len-2] != '(') {
         		// one line response, get everything between first and last quotes
 			if (substr($line, -4, 3) == 'NIL') {
 				// NIL response
@@ -2458,7 +2481,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
 	        // read in anything up until last line
 		do {
         		$line = iil_ReadLine($fp, 1024);
-		} while (!iil_StartsWith($line, $key));
+		} while (!iil_StartsWith($line, $key, true));
         
 		if ($mode == 3 && $file) {
 			return true;
@@ -2671,7 +2694,7 @@ function iil_C_GetQuota(&$conn) {
 			if (iil_StartsWith($line, '* QUOTA ')) {
 				$quota_line = $line;
         		}
-		} while (!iil_StartsWith($line, 'QUOT1'));
+		} while (!iil_StartsWith($line, 'QUOT1', true));
 	}
 	
 	//return false if not found, parse if found

@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/10/29 (alec)
 ----------
 - Fix problem with numeric folder names (#1485527)
+- Added BYE response simple support to prevent from endless loops in imap.inc (#1483956)
 
 2008/10/27 (alec)
 ----------
