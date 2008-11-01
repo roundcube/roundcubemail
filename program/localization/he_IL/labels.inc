@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  20092008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  28102008                |
 +-----------------------------------------------------------------------+
 */
 
@@ -221,12 +221,21 @@ $labels['autosend'] = 'שליחה אוטומטית';
 $labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
+$labels['skipdeleted'] = 'הסתרת הודעות שנמחקו';
 $labels['showinlineimages'] = 'הצגת תמונות מצורפות בתחתית ההודעה';
 $labels['autosavedraft'] = 'שמירה אוטומטית של טיוטה';
 $labels['everynminutes'] = 'כל $n דקות';
+$labels['keepaliveevery'] = 'כל $n דקות';
+$labels['keepalive'] = 'בדיקת הגעה של הודעות חדשות';
 $labels['never'] = 'אף פעם';
 $labels['messagesdisplaying'] = 'הצגת הודעות';
 $labels['messagescomposition'] = 'כתיבת הודעות';
+$labels['mimeparamfolding'] = 'שמות קבצים מצורפים';
+$labels['2231folding'] = 'תאימות מלאה 2231 תאנדרבירד';
+$labels['miscfolding'] = 'תאימות 2047/2231 אאוטלוק';
+$labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
+$labels['advancedoptions'] = 'הגדרות נוספות';
+$labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';
@@ -242,5 +251,9 @@ $labels['specialfolders'] = 'תיקים מיוחדים';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';
+$labels['B'] = 'בייט';
+$labels['KB'] = 'ק"ב';
+$labels['MB'] = 'מ\"ב';
+$labels['GB'] = 'ג\"ב';
 
 ?>

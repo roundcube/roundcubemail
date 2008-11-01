@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  20092008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  28102008                |
 +-----------------------------------------------------------------------+
 
 */
@@ -51,10 +51,12 @@ $messages['purgefolderconfirm'] = 'האם למחוק את כל ההודעות ב
 $messages['foldercreating'] = 'התיקיה נוצרת...';
 $messages['folderdeleting'] = 'התיקיה נמחקת...';
 $messages['folderrenaming'] = 'שינוי שם תיקיה...';
+$messages['foldermoving'] = 'העברת תיקיה...';
 $messages['formincomplete'] = 'לא הוזנו כל השדות בטופס זה';
 $messages['noemailwarning'] = 'נא להוסיף כתובת דוא\"ל חוקית';
 $messages['nonamewarning'] = 'נא להוסיף שם';
 $messages['nopagesizewarning'] = 'נא להוסיף גודל דף';
+$messages['nosenderwarning'] = 'נא להוסיף כתובת השולח';
 $messages['norecipientwarning'] = 'נא להוסיף לפחות נמען אחד';
 $messages['nosubjectwarning'] = 'שורת הנושא ריקה. האם ברצונך להוסיף נושא כעת?';
 $messages['nobodywarning'] = 'האם לשלוח הודעה ללא תוכן?';
@@ -89,5 +91,6 @@ $messages['importwait'] = 'ייבוא, נא להמתין..';
 $messages['importerror'] = 'חוקי vCard הייבוא נכשל כי הקובץ אינו בפורמט';
 $messages['importconfirm'] = 'יובאו $inserted אנשי קשר, $skipped היו קיימים <p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'פעולה אסורה!';
+$messages['nofromaddress'] = 'לזהות שנבחרה חסרה כתובת דואר';
 
 ?>

@@ -54,10 +54,12 @@ $messages['purgefolderconfirm'] = 'Voulez-vous vraiment effacer tous les message
 $messages['foldercreating'] = 'Création du dossier...';
 $messages['folderdeleting'] = 'Suppression du dossier...';
 $messages['folderrenaming'] = 'Renommage du dossier...';
+$messages['foldermoving'] = 'Déplacement du dossier...';
 $messages['formincomplete'] = 'Le formulaire n\'a pas été entièrement rempli';
 $messages['noemailwarning'] = 'Veuillez spécifier un courriel valide';
 $messages['nonamewarning'] = 'Veuillez fournir un nom';
 $messages['nopagesizewarning'] = 'Veuillez indiquer une taille de page';
+$messages['nosenderwarning'] = 'Veuillez renseigner l\'adresse d\'expéditeur';
 $messages['norecipientwarning'] = 'Veuillez ajouter au moins un destinataire';
 $messages['nosubjectwarning'] = 'Le champ « Objet » est vide. Souhaitez-vous le renseigner maintenant ?';
 $messages['nobodywarning'] = 'Envoyer ce message sans texte ?';
@@ -92,5 +94,6 @@ $messages['importwait'] = 'Importation, veuillez patienter...';
 $messages['importerror'] = 'Importation échouée ! Le fichier envoyé n\'est pas un fichier vCard valide.';
 $messages['importconfirm'] = '$inserted contacts importés avec succès, $skipped entrées existantes ignorées: <p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
+$messages['nofromaddress'] = 'Il manque une adresse e-mail dans l\'identitée sélectionnée';
 
 ?>
