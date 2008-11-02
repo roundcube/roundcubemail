@@ -823,16 +823,18 @@ function rcube_webmail()
         var url = this.env.comm_path+'&_action=compose';
        
         if (this.task=='mail')
-          {
-    	  url += '&_mbox='+urlencode(this.env.mailbox);
+        {
+          url += '&_mbox='+urlencode(this.env.mailbox);
           
-	  if (this.env.mailbox==this.env.drafts_mailbox)
-	    {
-	    var uid;
+          if (this.env.mailbox==this.env.drafts_mailbox)
+          {
+            var uid;
             if (uid = this.get_single_uid())
               url += '&_draft_uid='+uid;
-            }
-	  }
+          }
+          else if (props)
+             url += '&_to='+urlencode(props);
+        }
         // modify url if we're in addressbook
         else if (this.task=='addressbook')
           {
@@ -861,8 +863,6 @@ function rcube_webmail()
 
           break;
           }
-        else if (props)
-           url += '&_to='+urlencode(props);
 
         // don't know if this is necessary...
         url = url.replace(/&_framed=1/, "");
