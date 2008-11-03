@@ -420,8 +420,11 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
       $value = $_COOKIE[$fname];
     }
   
+  // strip single quotes if magic_quotes_sybase is enabled
+  if (ini_get('magic_quotes_sybase'))
+    $value = str_replace("''", "'", $value);
   // strip slashes if magic_quotes enabled
-  if ((bool)get_magic_quotes_gpc())
+  else if (get_magic_quotes_gpc() || get_magic_quotes_runtime())
     $value = stripslashes($value);
 
   // remove HTML tags if not allowed    
