@@ -98,5 +98,6 @@ $messages['importerror'] = 'Błąd! Pobrany plik nie jest poprawnym plikiem vCar
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>'; 
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';
 $messages['nofromaddress'] = 'Brak adresu e-mail w wybranej tożsamości';
+$messages['editorwarning'] = 'Zmiana edytora spowoduje utratę formatowania tekstu. Czy jesteś pewien, że chcesz to zrobić?';
 
 ?>

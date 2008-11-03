@@ -81,7 +81,9 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
 }
 
 // add some labels to client
-$OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved', 'converting');
+$OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning',
+    'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved',
+    'converting', 'editorwarning');
 
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
@@ -848,9 +850,13 @@ function rcmail_editor_selector($attrib)
   if ($compose_mode)
     $useHtml = ($useHtml && $MESSAGE->has_html_part());
 
+  $editorid = empty($attrib['editorid']) ? 'rcmComposeMessage' : $attrib['editorid'];
+
   $selector = '';
   $chosenvalue = $useHtml ? 'html' : 'plain';
-  $radio = new html_radiobutton(array('name' => '_editorSelect', 'onclick' => 'return rcmail_toggle_editor(this)'));
+  $radio = new html_radiobutton(array('name' => '_editorSelect',
+    'onclick' => "return rcmail.toggle_editor(this.value=='html', '$editorid', '_is_html')"));
+
   foreach ($choices as $value => $text)
   {
     $attrib['id'] = '_' . $value;

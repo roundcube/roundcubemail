@@ -3622,24 +3622,34 @@ function rcube_webmail()
     this.enable_command('export', (this.contact_list.rowcount > 0));
     };
 
-  this.toggle_editor = function(checkbox, textAreaId)
+  this.toggle_editor = function(ishtml, textAreaId, flagElement)
     {
-    var ischecked = checkbox.checked;
     var composeElement = document.getElementById(textAreaId);
-    
-    if (ischecked)
+    var flag;
+
+    if (ishtml)
       {
       var existingPlainText = composeElement.value;
       var htmlText = "<pre>" + existingPlainText + "</pre>";
+
+      this.display_spellcheck_controls(false);
       composeElement.value = htmlText;
       tinyMCE.execCommand('mceAddControl', true, textAreaId);
+      if (flagElement && (flag = rcube_find_object(flagElement)))
+        flag.value = '1';
       }
     else
       {
+      if (!confirm(rcmail.get_label('editorwarning')))
+        return false;
+
       var thisMCE = tinyMCE.get(textAreaId);
       var existingHtml = thisMCE.getContent();
       this.html2plain(existingHtml, textAreaId);
       tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
+      this.display_spellcheck_controls(true);
+      if (flagElement && (flag = rcube_find_object(flagElement)))
+        flag.value = '0';
       }
     };
 

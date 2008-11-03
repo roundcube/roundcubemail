@@ -72,7 +72,7 @@ function rcube_identity_form($attrib)
 				    "gecko_spellcheck : true });");
 
   // add some labels to client
-  $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting');
+  $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting', 'editorwarning');
 
   $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
   $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
@@ -89,7 +89,7 @@ function rcube_identity_form($attrib)
                        'reply-to'     => array('type' => 'text', 'label' => 'reply-to', 'size' => $i_size),
                        'bcc'          => array('type' => 'text', 'size' => $i_size),
                        'signature'	  => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows),
-                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this, \'rcmfd_signature\');'),
+                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this.checked, \'rcmfd_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
   // disable some field according to access level
