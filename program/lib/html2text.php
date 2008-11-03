@@ -543,7 +543,7 @@ class html2text
 	while(preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches))
 	{
 	    $result = preg_replace($this->pre_search, $this->pre_replace, $matches[1]);
-	    $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text);
+	    $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text, 1);
 	}
     }
 }
