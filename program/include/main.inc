@@ -347,6 +347,8 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
       }
 
     $xml_rep_table['"'] = '&quot;';
+    $js_rep_table['"'] = '\\"';
+    $js_rep_table["'"] = "\\'";
     }
 
   // encode for XML
@@ -359,7 +361,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     if ($charset!='UTF-8')
       $str = rcube_charset_convert($str, RCMAIL_CHARSET,$charset);
       
-    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), addslashes(strtr($str, $js_rep_table)));
+    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
     }
 
   // no encoding given -> return original string
