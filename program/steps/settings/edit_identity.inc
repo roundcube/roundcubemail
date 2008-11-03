@@ -27,6 +27,12 @@ if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity') {
   
   if (is_array($IDENTITY_RECORD))
     $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);
+  else {
+    $OUTPUT->show_message('opnotpermitted', 'error');
+    // go to identities page
+    rcmail_overwrite_action('identities');
+    return;
+  }
 }
 // add-identity
 else {
@@ -64,9 +70,6 @@ function rcube_identity_form($attrib)
                                     "theme_advanced_buttons2 : ',fontselect,fontsizeselect'," .
                                     "theme_advanced_buttons3 : '',".
 				    "gecko_spellcheck : true });");
-
-  if (!$IDENTITY_RECORD && $RCMAIL->action != 'add-identity')
-    return rcube_label('notfound');
 
   // add some labels to client
   $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting');
