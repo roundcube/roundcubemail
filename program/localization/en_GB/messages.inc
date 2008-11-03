@@ -93,5 +93,6 @@ $messages['importerror'] = 'Import failed! The uploaded file is not a valid vCar
 $messages['importconfirm'] = 'Successfully imported $inserted contacts, $skipped existing entries skipped:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity';
+$messages['editorwarning'] = 'Switching to the plain text editor will cause all text formatting to be lost. Do you wish to continue?';
 
 ?>
