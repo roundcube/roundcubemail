@@ -349,6 +349,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $xml_rep_table['"'] = '&quot;';
     $js_rep_table['"'] = '\\"';
     $js_rep_table["'"] = "\\'";
+    $js_rep_table["\\"] = "\\\\";
     }
 
   // encode for XML
