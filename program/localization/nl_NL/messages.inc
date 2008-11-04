@@ -11,6 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Mark Moses <mark@katmoda.com>                                 |
+|         Lazlo Westerhof <roundcube@lazlo.me>                          |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -93,5 +94,6 @@ $messages['importerror'] = 'Importeren mislukt! Het verstuurde bestand is geen g
 $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
 $messages['nofromaddress'] = 'Het e-mailadres mist in de geselecteerde identiteit';
+$messages['editorwarning'] = 'Door het overschakelen naar de platte tekst editor gaat alle opmaak verloren. Weet je zeker dat je verder wil gaan?';
 
 ?>

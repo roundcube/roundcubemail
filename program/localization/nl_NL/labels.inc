@@ -11,7 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Mark Moses <mark@katmoda.com>                                 |
-|         Lazlo Westerhof <contact@lazlo.me>                            |
+|         Lazlo Westerhof <roundcube@lazlo.me>                          |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -230,6 +230,8 @@ $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';
 $labels['showinlineimages'] = 'Toon bijgevoegde afbeeldingen onder het bericht';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
+$labels['keepaliveevery'] = 'iedere $n minuten';
+$labels['keepalive'] = 'Controleer op nieuwe berichten';
 $labels['never'] = 'nooit';
 $labels['messagesdisplaying'] = 'Berichten weergave';
 $labels['messagescomposition'] = 'Berichten aanmaken';
@@ -238,6 +240,7 @@ $labels['2231folding'] = 'Volledig RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Volledig RFC 2047 (andere)';
 $labels['advancedoptions'] = 'Geavanceerde opties';
+$labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Mapnaam';
