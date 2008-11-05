@@ -1176,7 +1176,7 @@ function rcmail_localize_foldername($name)
 /**
  * Output HTML editor scripts
  *
- * @param boolean Editor mode (use true for minimal editor)
+ * @param string Editor mode
  */
 function rcube_html_editor($mode='')
 {
