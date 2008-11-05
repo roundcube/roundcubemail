@@ -51,25 +51,7 @@ function rcube_identity_form($attrib)
   {
   global $IDENTITY_RECORD, $RCMAIL, $OUTPUT;
 
-  $tinylang = substr($_SESSION['language'], 0, 2);
-  if (!file_exists('program/js/tiny_mce/langs/'.$tinylang.'.js'))
-    {
-      $tinylang = 'en';
-    }
-
-  $OUTPUT->include_script('tiny_mce/tiny_mce.js');
-  $OUTPUT->add_script("tinyMCE.init({ mode : 'textareas'," .
-                                    "editor_selector : 'mce_editor'," .
-                                    "apply_source_formatting : true," .
-                                    "language : '$tinylang'," .
-                                    "content_css : '\$__skin_path' + '/editor_content.css'," .
-                                    "theme : 'advanced'," .
-                                    "theme_advanced_toolbar_location : 'top'," .
-                                    "theme_advanced_toolbar_align : 'left'," .
-                                    "theme_advanced_buttons1 : 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor'," .
-                                    "theme_advanced_buttons2 : ',fontselect,fontsizeselect'," .
-                                    "theme_advanced_buttons3 : '',".
-				    "gecko_spellcheck : true });");
+  rcube_html_editor('identity');
 
   // add some labels to client
   $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting', 'editorwarning');
@@ -81,7 +63,6 @@ function rcube_identity_form($attrib)
   list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
   unset($attrib['form']);
 
-
   // list of available cols
   $a_show_cols = array('name'         => array('type' => 'text', 'size' => $i_size),
                        'email'        => array('type' => 'text', 'size' => $i_size),
@@ -89,7 +70,7 @@ function rcube_identity_form($attrib)
                        'reply-to'     => array('type' => 'text', 'label' => 'reply-to', 'size' => $i_size),
                        'bcc'          => array('type' => 'text', 'size' => $i_size),
                        'signature'	  => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows),
-                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail.toggle_editor(this.checked, \'rcmfd_signature\');'),
+                       'html_signature'=>array('type' => 'checkbox', 'label' => 'htmlsignature', 'onclick' => 'return rcmail_toggle_editor(this.checked, \'rcmfd_signature\');'),
                        'standard'     => array('type' => 'checkbox', 'label' => 'setdefault'));
 
   // disable some field according to access level

@@ -426,13 +426,7 @@ function rcmail_compose_body($attrib)
     $body = $_SESSION['compose']['param']['_body'];
   }
 
-  $lang = $tinylang = strtolower(substr($_SESSION['language'], 0, 2));
-  if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$tinylang.'.js'))
-    $tinylang = 'en'; 
-
-  $OUTPUT->include_script('tiny_mce/tiny_mce.js');
-  $OUTPUT->include_script("editor.js");
-  $OUTPUT->add_script('rcmail_editor_init("$__skin_path", "'.JQ($tinylang).'", '.intval($CONFIG['enable_spellcheck']).');');
+  rcube_html_editor();
 
   $out = $form_start ? "$form_start\n" : '';
 
@@ -855,7 +849,7 @@ function rcmail_editor_selector($attrib)
   $selector = '';
   $chosenvalue = $useHtml ? 'html' : 'plain';
   $radio = new html_radiobutton(array('name' => '_editorSelect',
-    'onclick' => "return rcmail.toggle_editor(this.value=='html', '$editorid', '_is_html')"));
+    'onclick' => "return rcmail_toggle_editor(this.value=='html', '$editorid', '_is_html')"));
 
   foreach ($choices as $value => $text)
   {

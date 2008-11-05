@@ -434,8 +434,12 @@ function rcube_webmail()
       this.init_address_input_events(input_bcc);
 
     // add signature according to selected identity
-    if (input_from && input_from.type=='select-one' && (!draftid || draftid.value==''))
+    if (input_from && input_from.type=='select-one' && (!draftid || draftid.value=='')
+	// if we have HTML editor, signature is added in callback
+	&& rcube_find_object('_is_html').value != '1')
+      {
       this.change_identity(input_from);
+      }
 
     if (input_to && input_to.value=='')
       input_to.focus();
@@ -2007,7 +2011,7 @@ function rcube_webmail()
     {
     if (this.env.spellcheck) {
       // stop spellchecking process
-      if (!vis && !this.spellcheck_ready) 
+      if (!vis)
 	this.stop_spellchecking();
 			      
       this.env.spellcheck.check_link.style.visibility = vis ? 'visible' : 'hidden';
@@ -3622,37 +3626,6 @@ function rcube_webmail()
     this.enable_command('export', (this.contact_list.rowcount > 0));
     };
 
-  this.toggle_editor = function(ishtml, textAreaId, flagElement)
-    {
-    var composeElement = document.getElementById(textAreaId);
-    var flag;
-
-    if (ishtml)
-      {
-      var existingPlainText = composeElement.value;
-      var htmlText = "<pre>" + existingPlainText + "</pre>";
-
-      this.display_spellcheck_controls(false);
-      composeElement.value = htmlText;
-      tinyMCE.execCommand('mceAddControl', true, textAreaId);
-      if (flagElement && (flag = rcube_find_object(flagElement)))
-        flag.value = '1';
-      }
-    else
-      {
-      if (!confirm(rcmail.get_label('editorwarning')))
-        return false;
-
-      var thisMCE = tinyMCE.get(textAreaId);
-      var existingHtml = thisMCE.getContent();
-      this.html2plain(existingHtml, textAreaId);
-      tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
-      this.display_spellcheck_controls(true);
-      if (flagElement && (flag = rcube_find_object(flagElement)))
-        flag.value = '0';
-      }
-    };
-
   this.toggle_prefer_html = function(checkbox)
     {
     var addrbook_show_images;
@@ -4150,10 +4123,10 @@ function rcube_http_request()
   
   }  // end class rcube_http_request
 
-
 // helper function to call the init method with a delay
 function call_init(o)
   {
     window.setTimeout('if (window[\''+o+'\'] && window[\''+o+'\'].init) { '+o+'.init(); }',
-                      bw.win ? 500 : 200);
+        bw.win ? 500 : 200);
   }
+

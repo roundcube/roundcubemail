@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/05 (alec)
+----------
+- Fix HTML editor initialization on IE (#1485304)
+
 2008/11/03 (alec)
 ----------
 - Add warning when switching editor mode from html to plain (#1485488)

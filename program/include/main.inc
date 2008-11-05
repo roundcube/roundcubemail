@@ -1173,4 +1173,22 @@ function rcmail_localize_foldername($name)
 }
 
 
+/**
+ * Output HTML editor scripts
+ *
+ * @param boolean Editor mode (use true for minimal editor)
+ */
+function rcube_html_editor($mode='')
+{
+  global $OUTPUT, $CONFIG;
+
+  $lang = $tinylang = strtolower(substr($_SESSION['language'], 0, 2));
+  if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$tinylang.'.js'))
+    $tinylang = 'en';
+
+  $OUTPUT->include_script('tiny_mce/tiny_mce.js');
+  $OUTPUT->include_script('editor.js');
+  $OUTPUT->add_script('rcmail_editor_init("$__skin_path", "'.JQ($tinylang).'", '.intval($CONFIG['enable_spellcheck']).', "'.$mode.'");');
+}
+
 ?>
