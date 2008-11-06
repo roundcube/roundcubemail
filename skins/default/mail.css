@@ -426,7 +426,8 @@ td.formlinks a:visited
 
 #mailboxcontrols,
 #listcontrols,
-#countcontrols
+#countcontrols,
+#quotabox
 {
   white-space: nowrap;
   font-size: 11px;
