@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/06 (alec)
+----------
+- Fix empty file sending (#1485389)
+
 2008/11/05 (alec)
 ----------
 - Fix HTML editor initialization on IE (#1485304)

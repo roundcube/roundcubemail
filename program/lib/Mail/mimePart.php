@@ -257,8 +257,8 @@ class Mail_mimePart {
             }
 
             $encoded['body'] = '--' . $boundary . MAIL_MIMEPART_CRLF . 
-                               rtrim(implode('--' . $boundary . MAIL_MIMEPART_CRLF , $subparts), MAIL_MIMEPART_CRLF) . MAIL_MIMEPART_CRLF . 
-                               '--' . $boundary.'--' . MAIL_MIMEPART_CRLF;
+				implode('--' . $boundary . MAIL_MIMEPART_CRLF , $subparts) .
+                        	'--' . $boundary.'--' . MAIL_MIMEPART_CRLF;
 
         } else {
             $encoded['body'] = $this->_getEncodedData($this->_body, $this->_encoding);
