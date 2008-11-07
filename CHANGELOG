@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/11/06 (alec)
 ----------
 - Fix empty file sending (#1485389)
+- Improved searching with many criterias (calling one SEARCH command)
 
 2008/11/05 (alec)
 ----------

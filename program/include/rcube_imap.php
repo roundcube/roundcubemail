@@ -285,10 +285,10 @@ class rcube_imap
    * @param  string Search string
    * @param  array  List of message ids or NULL if empty
    */
-  function set_search_set($subject, $str=null, $msgs=null, $charset=null)
+  function set_search_set($subject, $str=null, $msgs=null, $charset=null, $sorted=null)
     {
     if (is_array($subject) && $str == null && $msgs == null)
-      list($subject, $str, $msgs, $charset) = $subject;
+      list($subject, $str, $msgs, $charset, $sorted) = $subject;
     if ($msgs != null && !is_array($msgs))
       $msgs = split(',', $msgs);
       
@@ -900,33 +900,27 @@ class rcube_imap
   function search($mbox_name='', $criteria='ALL', $str=NULL, $charset=NULL)
     {
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
+    $search = '';
 
-    // have an array of criterias => execute multiple searches
-    if (is_array($criteria) && $str)
-      {
-      $results = array();
-      foreach ($criteria as $crit)
-        if ($search_result = $this->search($mbox_name, $crit, $str, $charset))
-          $results = array_merge($results, $search_result);
-      
-      $results = array_unique($results);
-      $this->set_search_set($criteria, $str, $results, $charset);
-      return $results;
-      }
-    else if ($str && $criteria)
-      {
-      $search = (!empty($charset) ? "CHARSET $charset " : '') . sprintf("%s {%d}\r\n%s", $criteria, strlen($str), $str);
-      $results = $this->_search_index($mailbox, $search);
+    // have an array of criterias => create search string
+    if (is_array($criteria))
+      $search .= 'OR';
 
-      // try search with ISO charset (should be supported by server)
-      if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
-        $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1');
-      
-      $this->set_search_set($criteria, $str, $results, $charset);
-      return $results;
-      }
-    else
-      return $this->_search_index($mailbox, $criteria);
+    $criteria = (array) $criteria;
+    foreach($criteria as $idx => $crit)
+      if ($str)
+        $search .= sprintf(" (%s {%d}\r\n%s)", $crit, strlen($str), $str);
+      else
+        $search .= '('. $crit .')';
+
+    $results = $this->_search_index($mailbox, (!empty($charset) ? "CHARSET $charset " : '') . $search);
+
+    // try search with ISO charset (should be supported by server)
+    if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
+      $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1');
+
+    $this->set_search_set($criteria, $str, $results, $charset);
+    return $results;
     }    
 
 
@@ -940,6 +934,7 @@ class rcube_imap
   function _search_index($mailbox, $criteria='ALL')
     {
     $a_messages = iil_C_Search($this->conn, $mailbox, $criteria);
+
     // clean message list (there might be some empty entries)
     if (is_array($a_messages))
       {
