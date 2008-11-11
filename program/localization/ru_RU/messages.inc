@@ -91,7 +91,7 @@ $messages['selectimportfile'] = 'Выберите файл для загрузк
 $messages['addresswriterror'] = 'Выбранная адресная книга недоступна для записи';
 $messages['importwait'] = 'Импортирование, пожалуйста, подождите...';
 $messages['importerror'] = 'Импорт завершился неудачно! Загруженный файл не является правильным файлом vCard.';
-$messages['importconfirm'] = 'Успешно импортировано $inserted контакт(ов), пропущено $skipped существующих: <p><em>$names</em></p>';
+$messages['importconfirm'] = '<b>Успешно импортировано $inserted контакт(ов), пропущено $skipped существующих</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Действие запрещено!';
 $messages['nofromaddress'] = 'В выбранном профиле не хватает адреса электронной почты';
 

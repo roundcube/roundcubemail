@@ -92,7 +92,7 @@ $messages['selectimportfile'] = 'Veuillez sélectionner un fichier à envoyer';
 $messages['addresswriterror'] = 'Impossible d\'écrire dans le carnet d\'adresse sélectionné';
 $messages['importwait'] = 'Importation, veuillez patienter...';
 $messages['importerror'] = 'Importation échouée ! Le fichier envoyé n\'est pas un fichier vCard valide.';
-$messages['importconfirm'] = '$inserted contacts importés avec succès, $skipped entrées existantes ignorées: <p><em>$names</em></p>';
+$messages['importconfirm'] = '<b>$inserted contacts importés avec succès, $skipped entrées existantes ignorées</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
 $messages['nofromaddress'] = 'Il manque une adresse e-mail dans l\'identitée sélectionnée';
 

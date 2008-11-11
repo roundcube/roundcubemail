@@ -89,7 +89,7 @@ $messages['selectimportfile'] = 'رجاء اختر ملفاً لرفعه';
 $messages['addresswriterror'] = 'دفتر العناوين المحدد غير قابل للكتابة';
 $messages['importwait'] = 'جاري الاستيراد، رجاء انتظر...';
 $messages['importerror'] = 'فشل الاستيراد! الملف المرفوع ليس ملف vCard صالح.';
-$messages['importconfirm'] = 'تم استيراد $inserted مراسلين بنجاح، وتجاهل $skipped موجودين مسبقاً:<p><em>$names</em></p>';
+$messages['importconfirm'] = '<b>تم استيراد $inserted مراسلين بنجاح، وتجاهل $skipped موجودين مسبقاً</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'العملية ممنوعة!';
 $messages['nofromaddress'] = 'عنوان البريد الالكتروني غير محدد في الهويّة المنتقاة';
 

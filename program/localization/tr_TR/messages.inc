@@ -89,7 +89,7 @@ $messages['selectimportfile'] = 'Lütfen yüklenecek dosyayı seçin';
 $messages['addresswriterror'] = 'Seçili adres defterine yazılamaz';
 $messages['importwait'] = 'Aktarılıyor, lütfen bekleyin...';
 $messages['importerror'] = 'İçe aktarma başarısız! Yüklenen dosya geçerli bir vCard dosyası değil';
-$messages['importconfirm'] = '<b>$inserted kişi başarıyla aktarıldı, halihazırda var olan $skipped kişi atlandı:</b>:<p><em>$names</em></p>';
+$messages['importconfirm'] = '<b>$inserted kişi başarıyla aktarıldı, halihazırda var olan $skipped kişi atlandı</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Bu işleme izin verilmedi!';
 
 ?>

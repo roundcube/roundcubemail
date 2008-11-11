@@ -87,7 +87,7 @@ $messages['selectimportfile'] = 'Dewiswch ffeil i\'w lwytho fyny';
 $messages['addresswriterror'] = 'Nid yw\'n bosib ysgrifennu i\'r llyfr cyfeiriadau ';
 $messages['importwait'] = 'Yn mewnforio, arhoswch os gwelwch yn dda...';
 $messages['importerror'] = 'Methwyd a mewnforio! Nid yw\'r ffeil a lwythwyd fyny yn ffeil vCard dilys.';
-$messages['importconfirm'] = 'Fe mewnforiwyd $inserted cyswllt yn llwyddiannus, anwybyddwyd $skipped cofnod presennol: <p><em>$names</em></p>';
+$messages['importconfirm'] = '<b>Fe mewnforiwyd $inserted cyswllt yn llwyddiannus, anwybyddwyd $skipped cofnod presennol</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Ni chaniateir y weithred!';
 $messages['nofromaddress'] = 'Cyfeiriad e-bost ar goll yn y personoliaeth a ddewiswyd';
 

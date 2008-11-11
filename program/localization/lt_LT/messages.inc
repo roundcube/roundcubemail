@@ -88,7 +88,7 @@ $messages['selectimportfile'] = 'Prašome pasirinkti bylą įkėlimui';
 $messages['addresswriterror'] = 'Pasirinkta adresų knyga nėra įrašoma';
 $messages['importwait'] = 'Importuojama, prašome palaukti...';
 $messages['importerror'] = 'Importavimas nepavyko! Įkelta byla nėra vCard formato.';
-$messages['importconfirm'] = 'Sėkmingai importuoti $inserted kontaktai, $skipped egzistuojančių įrašų praleista:<p><em>$names</em></p>';
+$messages['importconfirm'] = '<b>Sėkmingai importuoti $inserted kontaktai, $skipped egzistuojančių įrašų praleista</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operacija neleistina!';
 
 ?>
