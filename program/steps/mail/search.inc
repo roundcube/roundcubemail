@@ -69,16 +69,15 @@ else
   $search = trim($str);
 }
 
-
 // execute IMAP search
-$result = $IMAP->search($mbox, $subject, $search, $imap_charset);
+$result = $IMAP->search($mbox, $subject, $search, $imap_charset, $_SESSION['sort_col']);
 $count = 0;
-  
+
 // Make sure our $result is legit..
 if (is_array($result) && $result[0] != '')
 {
   // Get the headers
-  $result_h = $IMAP->list_header_set($mbox, $result, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
+  $result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
   $count = $IMAP->messagecount();
 
   // save search results in session

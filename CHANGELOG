@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/12 (alec)
+----------
+- Use SORT for searching on servers with SORT capability
+
 2008/11/06 (alec)
 ----------
 - Fix empty file sending (#1485389)

@@ -838,7 +838,7 @@ function iil_C_CheckForRecent(&$conn, $mailbox) {
 
 function iil_C_CountMessages(&$conn, $mailbox, $refresh = false) {
 	if ($refresh) {
-		$conn->selected= '';
+		$conn->selected = '';
 	}
 	
 	iil_C_Select($conn, $mailbox);
@@ -926,10 +926,10 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 
 	$fp       = $conn->fp;
 	$command  = 's ' . $is_uid . 'SORT (' . $field . ') ';
-	$command .= $encoding . ' ALL' . $add;
+	$command .= $encoding . ' ALL ' . $add;
 	$line     = $data = '';
 	
-	if (!iil_PutLine($fp, $command)) {
+	if (!iil_PutLineC($fp, $command)) {
 	    return false;
 	}
 	do {

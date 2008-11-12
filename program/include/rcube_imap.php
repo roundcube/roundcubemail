@@ -64,6 +64,7 @@ class rcube_imap
   var $search_subject = '';
   var $search_string = '';
   var $search_charset = '';
+  var $search_sort_field = '';  
   var $debug_level = 1;
   var $error_code = 0;
 
@@ -285,10 +286,10 @@ class rcube_imap
    * @param  string Search string
    * @param  array  List of message ids or NULL if empty
    */
-  function set_search_set($subject, $str=null, $msgs=null, $charset=null, $sorted=null)
+  function set_search_set($subject, $str=null, $msgs=null, $charset=null, $sort_field=null)
     {
     if (is_array($subject) && $str == null && $msgs == null)
-      list($subject, $str, $msgs, $charset, $sorted) = $subject;
+      list($subject, $str, $msgs, $charset, $sort_field) = $subject;
     if ($msgs != null && !is_array($msgs))
       $msgs = split(',', $msgs);
       
@@ -296,6 +297,7 @@ class rcube_imap
     $this->search_string = $str;
     $this->search_set = (array)$msgs;
     $this->search_charset = $charset;
+    $this->search_sort_field = $sort_field;
     }
 
 
@@ -305,7 +307,7 @@ class rcube_imap
    */
   function get_search_set()
     {
-    return array($this->search_subject, $this->search_string, $this->search_set, $this->search_charset);
+    return array($this->search_subject, $this->search_string, $this->search_set, $this->search_charset, $this->search_sort_field);
     }
 
 
@@ -544,7 +546,7 @@ class rcube_imap
 
     // use saved message set
     if ($this->search_string && $mailbox == $this->mailbox)
-      return $this->_list_header_set($mailbox, $this->search_set, $page, $sort_field, $sort_order);
+      return $this->_list_header_set($mailbox, $page, $sort_field, $sort_order);
 
     $this->_set_sort_order($sort_field, $sort_order);
 
@@ -626,62 +628,74 @@ class rcube_imap
     }
 
 
-
   /**
-   * Public method for listing a specific set of headers
-   * convert mailbox name with root dir first
+   * Private method for listing a set of message headers (search results)
    *
    * @param   string   Mailbox/folder name
-   * @param   array    List of message ids to list
    * @param   int      Current page to list
    * @param   string   Header field to sort by
    * @param   string   Sort order [ASC|DESC]
    * @return  array    Indexed array with message header objects
-   * @access  public   
-   */
-  function list_header_set($mbox_name='', $msgs, $page=NULL, $sort_field=NULL, $sort_order=NULL)
-    {
-    $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
-    return $this->_list_header_set($mailbox, $msgs, $page, $sort_field, $sort_order);    
-    }
-    
-
-  /**
-   * Private method for listing a set of message headers
-   *
    * @access  private
    * @see     rcube_imap::list_header_set()
    */
-  function _list_header_set($mailbox, $msgs, $page=NULL, $sort_field=NULL, $sort_order=NULL)
+  function _list_header_set($mailbox, $page=NULL, $sort_field=NULL, $sort_order=NULL)
     {
-    if (!strlen($mailbox) || empty($msgs))
+    if (!strlen($mailbox) || empty($this->search_set))
       return array();
 
-    // also accept a comma-separated list of message ids
-    if (is_array ($msgs)) {
-      $max = count ($msgs);
-      $msgs = join (',', $msgs);
-    } else {
-      $max = count(split(',', $msgs));
-    } 
+    $msgs = $this->search_set;
+    $a_msg_headers = array();
+    $start_msg = ($this->list_page-1) * $this->page_size;
 
     $this->_set_sort_order($sort_field, $sort_order);
 
-    $start_msg = ($this->list_page-1) * $this->page_size;
+    // sorted messages, so we can first slice array and then fetch only wanted headers
+    if ($this->get_capability('sort')) // SORT searching result
+      {
+      // reset search set if sorting field has been changed
+      if ($sort_field && $this->search_sort_field != $sort_field)
+        {
+        $msgs = $this->search('', $this->search_subject, $this->search_string, $this->search_charset, $sort_field);
+        }
 
-    // fetch reuested headers from server
-    $a_msg_headers = array();
-    $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, NULL);
+      // return empty array if no messages found
+      if (empty($msgs))
+        return array();
 
-    // return empty array if no messages found
-    if (!is_array($a_msg_headers) || empty($a_msg_headers))
-      return array();
+      if ($sort_order == 'DESC')
+        $msgs = array_reverse($msgs);
 
-    // if not already sorted
-    $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+      // get messages uids for one page
+      $msgs = array_slice(array_values($msgs), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
 
-    // only return the requested part of the set
-    return array_slice(array_values($a_msg_headers), $start_msg, min($max-$start_msg, $this->page_size));
+      // fetch headers
+      $this->_fetch_headers($mailbox, join(',',$msgs), $a_msg_headers, NULL);
+
+      $sorter = new rcube_header_sorter();
+      $sorter->set_sequence_numbers($msgs);
+      $sorter->sort_headers($a_msg_headers);
+
+      return array_values($a_msg_headers);
+      }
+    else { // SEARCH searching result
+      // not sorted, so we must fetch headers for all messages
+      // TODO: to minimize big memory consumption on servers without SORT 
+      // capability, we should fetch only headers used for sorting, and then
+      // fetch all headers needed for displaying one page of messages list.
+      // Of course it has sense only for big results if count($msgs) > $this->pagesize
+      $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
+    
+      // return empty array if no messages found
+      if (!is_array($a_msg_headers) || empty($a_msg_headers))
+        return array();
+
+      // if not already sorted
+      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+      
+      // only return the requested part of the set
+      return array_slice(array_values($a_msg_headers), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+      }
     }
 
 
@@ -894,16 +908,18 @@ class rcube_imap
    * @param  string  mailbox name to search in
    * @param  string  search criteria (ALL, TO, FROM, SUBJECT, etc)
    * @param  string  search string
+   * @param  string  search string charset
+   * @param  string  header field to sort by
    * @return array   search results as list of message ids
    * @access public
    */
-  function search($mbox_name='', $criteria='ALL', $str=NULL, $charset=NULL)
+  function search($mbox_name='', $criteria='ALL', $str=NULL, $charset=NULL, $sort_field=NULL)
     {
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     $search = '';
 
     // have an array of criterias => create search string
-    if (is_array($criteria))
+    if (is_array($criteria) && count($criteria) > 1)
       $search .= 'OR';
 
     $criteria = (array) $criteria;
@@ -913,13 +929,14 @@ class rcube_imap
       else
         $search .= '('. $crit .')';
 
-    $results = $this->_search_index($mailbox, (!empty($charset) ? "CHARSET $charset " : '') . $search);
+    $results = $this->_search_index($mailbox, $search, $charset, $sort_field);
 
     // try search with ISO charset (should be supported by server)
     if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
-      $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1');
+      $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1', $sort_field);
 
-    $this->set_search_set($criteria, $str, $results, $charset);
+    $this->set_search_set($criteria, $str, $results, $charset, $sort_field);
+
     return $results;
     }    
 
@@ -931,9 +948,12 @@ class rcube_imap
    * @access private
    * @see rcube_imap::search()
    */
-  function _search_index($mailbox, $criteria='ALL')
+  function _search_index($mailbox, $criteria='ALL', $charset='', $sort_field='')
     {
-    $a_messages = iil_C_Search($this->conn, $mailbox, $criteria);
+    if ($this->get_capability('sort'))
+      $a_messages = iil_C_Sort($this->conn, $mailbox, $sort_field, $criteria, FALSE, $charset);
+    else
+      $a_messages = iil_C_Search($this->conn, $mailbox, ($charset ? "CHARSET $charset " : '') . $criteria);
 
     // clean message list (there might be some empty entries)
     if (is_array($a_messages))
@@ -955,7 +975,7 @@ class rcube_imap
   function refresh_search()
     {
     if (!empty($this->search_subject) && !empty($this->search_string))
-      $this->search_set = $this->search('', $this->search_subject, $this->search_string, $this->search_charset);
+      $this->search_set = $this->search('', $this->search_subject, $this->search_string, $this->search_charset, $this->search_sort_field);
       
     return $this->get_search_set();
     }
@@ -2245,7 +2265,7 @@ class rcube_imap
   /**
    * @access private
    */  
-  function get_message_cache_index($key, $force=FALSE, $sort_col='idx', $sort_order='ASC')
+  function get_message_cache_index($key, $force=FALSE, $sort_field='idx', $sort_order='ASC')
     {
     static $sa_message_index = array();
     
@@ -2262,7 +2282,7 @@ class rcube_imap
        FROM ".get_table_name('messages')."
        WHERE  user_id=?
        AND    cache_key=?
-       ORDER BY ".$this->db->quote_identifier($sort_col)." ".$sort_order,
+       ORDER BY ".$this->db->quote_identifier($sort_field)." ".$sort_order,
       $_SESSION['user_id'],
       $key);
 
