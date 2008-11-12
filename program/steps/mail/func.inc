@@ -1208,8 +1208,7 @@ function rcmail_deliver_message(&$message, $from, $mailto)
     unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
     
     if ($CONFIG['smtp_log'])
-      write_log('sendmail', sprintf("[%s] User: %s on %s; Message for %s; %s",
-		date("d-M-Y H:i:s O", mktime()),
+      write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
 		$RCMAIL->user->get_username(),
 		$_SERVER['REMOTE_ADDR'],
 		$mailto,
