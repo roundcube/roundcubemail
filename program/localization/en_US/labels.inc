@@ -148,6 +148,8 @@ $labels['select'] = 'Select';
 $labels['all'] = 'All';
 $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
+$labels['flagged'] = 'Flagged';
+$labels['unanswered'] = 'Unanswered';
 
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
