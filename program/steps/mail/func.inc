@@ -56,8 +56,23 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
   {
+  $mbox_name = $IMAP->get_mailbox_name();
+
+  if (empty($RCMAIL->action))
+    {
+    // initialize searching result if search_filter is used
+    if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
+      {
+      $search_request = md5($mbox_name.$_SESSION['search_filter']);
+  
+      $IMAP->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $_SESSION['sort_col']);
+      $_SESSION['search'][$search_request] = $IMAP->get_search_set();
+      $OUTPUT->set_env('search_request', $search_request);
+      }
+    }
+	
   // set current mailbox in client environment
-  $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
+  $OUTPUT->set_env('mailbox', $mbox_name);
   $OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
   $OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
 
