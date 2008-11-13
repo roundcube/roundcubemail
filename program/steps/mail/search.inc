@@ -26,51 +26,66 @@ $imap_charset = 'UTF-8';
 
 // get search string
 $str = get_input_value('_q', RCUBE_INPUT_GET);
+$filter = get_input_value('_filter', RCUBE_INPUT_GET);
 $mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
-$search_request = md5($mbox.$str);
+$search_request = md5($mbox.$filter.$str);
 
+// add list filter string
+$search_str = $filter && $filter != 'ALL' ? $filter : '';
+
+$_SESSION['search_filter'] = $filter;
 
 // Check the search string for type of search
-if (preg_match("/^from:/i", $str))
+if (preg_match("/^from:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject =  "HEADER FROM";
+  $subject = "HEADER FROM";
   $search = trim($srch);
 }
-else if (preg_match("/^to:/i", $str))
+else if (preg_match("/^to.*:/i", $str))
 {
   list(,$srch) = explode(":", $str);
   $subject = "HEADER TO";
   $search = trim($srch);
 }
-else if (preg_match("/^cc:/i", $str))
+else if (preg_match("/^cc:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
   $subject = "HEADER CC";
   $search = trim($srch);
 }
-else if (preg_match("/^subject:/i", $str))
+else if (preg_match("/^subject:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
   $subject = "HEADER SUBJECT";
   $search = trim($srch);
 }
-else if (preg_match("/^body:/i", $str))
+else if (preg_match("/^body:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
   $subject = "TEXT";
   $search = trim($srch);
 }
 // search in subject and sender by default
-else
+else if(trim($str))
 {
   $from = ($mbox == $CONFIG['sent_mbox'] || $mbox == $CONFIG['drafts_mbox']) ? "TO" : "FROM";
   $subject = array("HEADER SUBJECT", "HEADER $from");
   $search = trim($str);
 }
 
+if ($subject && !is_array($subject))
+  $search_str .= sprintf(" %s {%d}\r\n%s", $subject, strlen($search), $search);
+else if ($subject) {
+  $search_str .= ' OR';
+  foreach($subject as $sub)
+    $search_str .= sprintf(" (%s {%d}\r\n%s)", $sub, strlen($search), $search);
+}
+
+$search_str = trim($search_str);
+
 // execute IMAP search
-$result = $IMAP->search($mbox, $subject, $search, $imap_charset, $_SESSION['sort_col']);
+$result = $IMAP->search($mbox, $search_str, $imap_charset, $_SESSION['sort_col']);
 $count = 0;
 
 // Make sure our $result is legit..

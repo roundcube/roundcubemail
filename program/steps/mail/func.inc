@@ -1292,6 +1292,36 @@ function rcmail_send_mdn($uid)
 }
 
 
+function rcmail_search_filter($attrib)
+{
+  global $OUTPUT;
+
+  if (!strlen($attrib['id']))
+    $attrib['id'] = 'rcmlistfilter';
+
+  $attrib['onchange'] = JS_OBJECT_NAME.'.filter_mailbox(this.value)';
+  
+  /*
+    RFC3501 (6.4.4): 'ALL', 'RECENT', 
+    'ANSWERED', 'DELETED', 'FLAGGED', 'SEEN',
+    'UNANSWERED', 'UNDELETED', 'UNFLAGGED', 'UNSEEN',
+    'NEW', // = (RECENT UNSEEN)
+    'OLD' // = NOT RECENT
+  */
+
+  $select_filter = new html_select($attrib);
+  $select_filter->add(rcube_label('all'), 'ALL');
+  $select_filter->add(rcube_label('unread'), 'UNSEEN');
+  $select_filter->add(rcube_label('flagged'), 'FLAGGED');
+  $select_filter->add(rcube_label('unanswered'), 'UNANSWERED');
+
+  $out = $select_filter->show($_SESSION['search_filter']);
+
+  $OUTPUT->add_gui_object('search_filter', $attrib['id']);
+
+  return $out;										
+}
+
 // register UI objects
 $OUTPUT->add_handlers(array(
   'mailboxlist' => 'rcmail_mailbox_list',
@@ -1304,6 +1334,7 @@ $OUTPUT->add_handlers(array(
   'messagecontentframe' => 'rcmail_messagecontent_frame',
   'messagepartframe' => 'rcmail_message_part_frame',
   'messagepartcontrols' => 'rcmail_message_part_controls',
+  'searchfilter' => 'rcmail_search_filter',
   'searchform' => array($OUTPUT, 'search_form'),
 ));
 

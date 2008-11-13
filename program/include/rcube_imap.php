@@ -61,7 +61,6 @@ class rcube_imap
   var $msg_headers = array();
   var $skip_deleted = FALSE;
   var $search_set = NULL;
-  var $search_subject = '';
   var $search_string = '';
   var $search_charset = '';
   var $search_sort_field = '';  
@@ -282,18 +281,18 @@ class rcube_imap
   /**
    * Save a set of message ids for future message listing methods
    *
-   * @param  array  List of IMAP fields to search in
-   * @param  string Search string
-   * @param  array  List of message ids or NULL if empty
+   * @param  string  IMAP Search query
+   * @param  array   List of message ids or NULL if empty
+   * @param  string  Charset of search string
+   * @param  string  Sorting field
    */
-  function set_search_set($subject, $str=null, $msgs=null, $charset=null, $sort_field=null)
+  function set_search_set($str=null, $msgs=null, $charset=null, $sort_field=null)
     {
-    if (is_array($subject) && $str == null && $msgs == null)
-      list($subject, $str, $msgs, $charset, $sort_field) = $subject;
+    if ($msgs == null)
+      list($str, $msgs, $charset, $sort_field) = $str;
     if ($msgs != null && !is_array($msgs))
       $msgs = split(',', $msgs);
       
-    $this->search_subject = $subject;
     $this->search_string = $str;
     $this->search_set = (array)$msgs;
     $this->search_charset = $charset;
@@ -307,7 +306,7 @@ class rcube_imap
    */
   function get_search_set()
     {
-    return array($this->search_subject, $this->search_string, $this->search_set, $this->search_charset, $this->search_sort_field);
+    return array($this->search_string, $this->search_set, $this->search_charset, $this->search_sort_field);
     }
 
 
@@ -654,9 +653,9 @@ class rcube_imap
     if ($this->get_capability('sort')) // SORT searching result
       {
       // reset search set if sorting field has been changed
-      if ($sort_field && $this->search_sort_field != $sort_field)
+      if ($this->sort_field && $this->search_sort_field != $this->sort_field)
         {
-        $msgs = $this->search('', $this->search_subject, $this->search_string, $this->search_charset, $sort_field);
+        $msgs = $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
         }
 
       // return empty array if no messages found
@@ -783,7 +782,7 @@ class rcube_imap
     
   
   /**
-   * Return sorted array of message UIDs
+   * Return sorted array of message IDs (not UIDs)
    *
    * @param string Mailbox to get index from
    * @param string Sort column
@@ -801,10 +800,25 @@ class rcube_imap
     if (!isset($this->cache[$key]) && $this->search_string && $mailbox == $this->mailbox)
     {
       $this->cache[$key] = $a_msg_headers = array();
-      $this->_fetch_headers($mailbox, join(',', $this->search_set), $a_msg_headers, NULL);
+      
+      if ($this->get_capability('sort'))
+        {
+        if ($this->sort_field && $this->search_sort_field != $this->sort_field)
+          $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
 
-      foreach (iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order) as $i => $msg)
-        $this->cache[$key][] = $msg->uid;
+	if ($this->sort_order == 'DESC')
+          $this->cache[$key] = array_reverse($this->search_set);
+	else
+	  $this->cache[$key] = $this->search_set;
+        }
+      else
+        {
+	// TODO: see list_header_set (fetch only one header field needed for sorting)
+        $this->_fetch_headers($mailbox, join(',', $this->search_set), $a_msg_headers, NULL);
+
+        foreach (iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order) as $i => $msg)
+          $this->cache[$key][] = $msg->id;
+	}
     }
 
     // have stored it in RAM
@@ -825,28 +839,23 @@ class rcube_imap
 
     // fetch complete message index
     $msg_count = $this->_messagecount($mailbox);
-    if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, '', TRUE)))
+    if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, '')))
       {
       if ($this->sort_order == 'DESC')
         $a_index = array_reverse($a_index);
 
       $this->cache[$key] = $a_index;
-
       }
     else
       {
       $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:$msg_count", $this->sort_field);
-      $a_uids = iil_C_FetchUIDs($this->conn, $mailbox);
-    
+
       if ($this->sort_order=="ASC")
         asort($a_index);
       else if ($this->sort_order=="DESC")
         arsort($a_index);
         
-      $i = 0;
-      $this->cache[$key] = array();
-      foreach ($a_index as $index => $value)
-        $this->cache[$key][$i++] = $a_uids[$index];
+      $this->cache[$key] = $a_index;
       }
 
     return $this->cache[$key];
@@ -906,39 +915,46 @@ class rcube_imap
    * Invoke search request to IMAP server
    *
    * @param  string  mailbox name to search in
-   * @param  string  search criteria (ALL, TO, FROM, SUBJECT, etc)
    * @param  string  search string
    * @param  string  search string charset
    * @param  string  header field to sort by
    * @return array   search results as list of message ids
    * @access public
    */
-  function search($mbox_name='', $criteria='ALL', $str=NULL, $charset=NULL, $sort_field=NULL)
+  function search($mbox_name='', $str=NULL, $charset=NULL, $sort_field=NULL)
     {
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
-    $search = '';
 
-    // have an array of criterias => create search string
-    if (is_array($criteria) && count($criteria) > 1)
-      $search .= 'OR';
-
-    $criteria = (array) $criteria;
-    foreach($criteria as $idx => $crit)
-      if ($str)
-        $search .= sprintf(" (%s {%d}\r\n%s)", $crit, strlen($str), $str);
-      else
-        $search .= '('. $crit .')';
-
-    $results = $this->_search_index($mailbox, $search, $charset, $sort_field);
+    $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
     // try search with ISO charset (should be supported by server)
     if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
-      $results = $this->search($mbox_name, $criteria, rcube_charset_convert($str, $charset, 'ISO-8859-1'), 'ISO-8859-1', $sort_field);
+      {
+	// convert strings to ISO-8859-1
+        if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE))
+	  {
+	  $last = 0; $res = '';
+	  foreach($matches[1] as $m)
+	    {
+	    $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
+	    $string = substr($str, $string_offset - 1, $m[0]);
+	    $string = rcube_charset_convert($string, $charset, 'ISO-8859-1');
+	    $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
+	    $last = $m[0] + $string_offset - 1;
+	    }
+	    if ($last < strlen($str))
+	      $res .= substr($str, $last, strlen($str)-$last);
+	  }
+	else // strings for conversion not found
+	  $res = $str;
+	  
+	$results = $this->search($mbox_name, $res, 'ISO-8859-1', $sort_field);
+      }
 
-    $this->set_search_set($criteria, $str, $results, $charset, $sort_field);
+    $this->set_search_set($str, $results, $charset, $sort_field);
 
     return $results;
-    }    
+    }
 
 
   /**
@@ -974,8 +990,8 @@ class rcube_imap
    */
   function refresh_search()
     {
-    if (!empty($this->search_subject) && !empty($this->search_string))
-      $this->search_set = $this->search('', $this->search_subject, $this->search_string, $this->search_charset, $this->search_sort_field);
+    if (!empty($this->search_string))
+      $this->search_set = $this->search('', $this->search_string, $this->search_charset, $this->search_sort_field);
       
     return $this->get_search_set();
     }

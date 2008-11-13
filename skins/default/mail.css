@@ -4,7 +4,7 @@
 #messagetoolbar
 {
   position: absolute;
-  top: 45px;
+  top: 47px;
   left: 200px;
   right: 200px;
   height: 35px;
@@ -24,11 +24,17 @@
   color: #333333;
 }
 
+#messagetoolbar select.searchfilter
+{
+  position: relative;
+  bottom: 10px;
+}
+
 #messagetoolbar select.mboxlist
 {
   position: absolute;
   left: 375px;
-  top: 10px;
+  top: 8px;
 }
 
 #messagetoolbar select.mboxlist option

@@ -266,7 +266,7 @@ function rcube_webmail()
 
         this.set_page_buttons();
         
-        if (this.env.address_sources && !this.env.address_sources[this.env.source].readonly)
+        if (this.env.address_sources && this.env.address_sources[this.env.source] && !this.env.address_sources[this.env.source].readonly)
           this.enable_command('add', true);
         
         if (this.env.cid)
@@ -1414,6 +1414,24 @@ function rcube_webmail()
       }
     };
 
+  // list messages of a specific mailbox using filter
+  this.filter_mailbox = function(filter)
+    {
+      var search;
+      if (this.gui_objects.qsearchbox)
+        search = this.gui_objects.qsearchbox.value;
+      
+      this.message_list.clear();
+
+      // reset vars
+      this.env.current_page = 1;
+      this.set_busy(true, 'searching');
+      this.http_request('search', '_filter='+filter
+    	    + (search ? '&_q='+urlencode(search) : '')
+    	    + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : ''), true);
+    }
+
+
   // list messages of a specific mailbox
   this.list_mailbox = function(mbox, page, sort)
     {
@@ -2283,7 +2301,7 @@ function rcube_webmail()
     };
 
   // send remote request to search mail or contacts
-  this.qsearch = function(value)
+  this.qsearch = function(value, addurl)
     {
     if (value != '')
       {
@@ -2292,12 +2310,18 @@ function rcube_webmail()
       else if (this.contact_list) {
         this.contact_list.clear(true);
         this.show_contentframe(false);
-      }
+        }
+
+      if (this.gui_objects.search_filter)
+	addurl = '&_filter=' + this.gui_objects.search_filter.value;
 
       // reset vars
       this.env.current_page = 1;
       this.set_busy(true, 'searching');
-      this.http_request('search', '_q='+urlencode(value)+(this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')+(this.env.source ? '&_source='+urlencode(this.env.source) : ''), true);
+      this.http_request('search', '_q='+urlencode(value)
+    	    +(this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')
+	    +(this.env.source ? '&_source='+urlencode(this.env.source) : '')
+	    +(addurl ? addurl : ''), true);
       }
     return true;
     };

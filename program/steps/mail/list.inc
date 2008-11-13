@@ -41,6 +41,17 @@ else
 
 $mbox_name = $IMAP->get_mailbox_name();
 
+// initialize searching result if search_filter is used
+if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
+{
+  $search_request = md5($mbox_name.$_SESSION['search_filter']);
+
+  $IMAP->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $sort_col);
+  $_SESSION['search'][$search_request] = $IMAP->get_search_set();
+  $OUTPUT->set_env('search_request', $search_request);
+}
+			      
+
 // fetch message headers
 if ($IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))
   $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
@@ -54,8 +65,6 @@ $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
-
-
 
 // add message rows
 if (isset($a_headers) && count($a_headers))

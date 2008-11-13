@@ -110,12 +110,13 @@ if ($_GET['_uid']) {
     {
     // Only if we use custom sorting
     $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
- 
-    $MESSAGE->index = array_search((string)$MESSAGE->uid, $a_msg_index, TRUE);
-    $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $a_msg_index[$MESSAGE->index-1] : -1 ;
-    $first = count($a_msg_index)>0 ? $a_msg_index[0] : -1;
-    $next = isset($a_msg_index[$MESSAGE->index+1]) ? $a_msg_index[$MESSAGE->index+1] : -1 ;
-    $last = count($a_msg_index)>0 ? $a_msg_index[count($a_msg_index)-1] : -1;
+
+    $MESSAGE->index = array_search($IMAP->get_id($MESSAGE->uid), $a_msg_index);
+
+    $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1 ;
+    $first = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[0]) : -1;
+    $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1 ;
+    $last = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[count($a_msg_index)-1]) : -1;
     }
   else
     {
@@ -130,11 +131,11 @@ if ($_GET['_uid']) {
   
   if ($prev > 0)
     $OUTPUT->set_env('prev_uid', $prev);
-  if ($first >0)
+  if ($first > 0)
     $OUTPUT->set_env('first_uid', $first);
   if ($next > 0)
     $OUTPUT->set_env('next_uid', $next);
-  if ($last >0)
+  if ($last > 0)
     $OUTPUT->set_env('last_uid', $last);
 
   // mark message as read
