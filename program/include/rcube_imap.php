@@ -288,7 +288,7 @@ class rcube_imap
    */
   function set_search_set($str=null, $msgs=null, $charset=null, $sort_field=null)
     {
-    if ($msgs == null)
+    if (is_array($str) && $msgs == null)
       list($str, $msgs, $charset, $sort_field) = $str;
     if ($msgs != null && !is_array($msgs))
       $msgs = split(',', $msgs);
@@ -923,12 +923,16 @@ class rcube_imap
    */
   function search($mbox_name='', $str=NULL, $charset=NULL, $sort_field=NULL)
     {
+    if (!$str)
+      return false;
+    
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
 
     $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
     // try search with ISO charset (should be supported by server)
-    if (empty($results) && !empty($charset) && $charset!='ISO-8859-1')
+    // only if UTF-8 search is not supported
+    if (empty($results) && !is_array($results) && !empty($charset) && $charset!='ISO-8859-1')
       {
 	// convert strings to ISO-8859-1
         if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE))

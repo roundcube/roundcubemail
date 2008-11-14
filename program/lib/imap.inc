@@ -941,9 +941,11 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 		}
 	} while (!iil_StartsWith($line, 's ', true));
 	
-	if (empty($data)) {
-		$conn->error = $line;
-		return false;
+	$result_code = iil_ParseResult($line);
+	
+	if ($result_code != 0) {
+                $conn->error = 'iil_C_Sort: ' . $line . "\n";
+                return false;
 	}
 	
 	$out = explode(' ',$data);
@@ -2116,7 +2118,7 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 				$messages = explode(' ', $str);
 			}
 		} while (!iil_StartsWith($line, 'srch1', true));
-		
+
 		$result_code = iil_ParseResult($line);
 		if ($result_code == 0) {
 		    return $messages;

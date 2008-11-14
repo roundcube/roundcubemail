@@ -85,40 +85,36 @@ else if ($subject) {
 $search_str = trim($search_str);
 
 // execute IMAP search
-$result = $IMAP->search($mbox, $search_str, $imap_charset, $_SESSION['sort_col']);
-$count = 0;
+if ($search_str)
+  $result = $IMAP->search($mbox, $search_str, $imap_charset, $_SESSION['sort_col']);
 
-// Make sure our $result is legit..
-if (is_array($result) && $result[0] != '')
+// Get the headers
+$result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
+$count = $IMAP->messagecount();
+
+// save search results in session
+if (!is_array($_SESSION['search']))
+  $_SESSION['search'] = array();
+
+// Make sure we got the headers
+if (!empty($result_h))
 {
-  // Get the headers
-  $result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
-  $count = $IMAP->messagecount();
-
-  // save search results in session
-  if (!is_array($_SESSION['search']))
-    $_SESSION['search'] = array();
-
-  // Make sure we got the headers
-  if ($result_h != NULL)
-  {
+  if ($search_str) {
     $_SESSION['search'][$search_request] = $IMAP->get_search_set();
     $_SESSION['last_text_search'] = $str;
-    rcmail_js_message_list($result_h);
-    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
   }
+  rcmail_js_message_list($result_h);
+  $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
 }
 else
 {
   $OUTPUT->show_message('searchnomatch', 'notice');
-  $search_request = -1;
 }
 
 // update message count display
-$pages = ceil($count/$IMAP->page_size);
-$OUTPUT->set_env('search_request', $search_request);
+$OUTPUT->set_env('search_request', $search_str ? $search_request : -1);
 $OUTPUT->set_env('messagecount', $count);
-$OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->set_env('pagecount', ceil($count/$IMAP->page_size));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1));
 $OUTPUT->send();
 
