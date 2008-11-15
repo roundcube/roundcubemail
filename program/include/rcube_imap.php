@@ -673,11 +673,12 @@ class rcube_imap
       return array_values($a_msg_headers);
       }
     else { // SEARCH searching result, need sorting
-      if ($cnt > $this->pagesize * 2) {
+      $cnt = count($msgs);
+      if ($cnt > 300) { // experimantal best result
         // use memory less expensive (and quick) method for big result set
 	$a_index = $this->message_index($mailbox, $this->sort_field, $this->sort_order);
         // get messages uids for one page...
-        $msgs = array_slice(array_keys($a_index), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+        $msgs = array_slice(array_keys($a_index), $start_msg, min($cnt-$start_msg, $this->page_size));
 	// ...and fetch headers
         $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
 
@@ -703,7 +704,7 @@ class rcube_imap
         $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
       
         // only return the requested part of the set
-        return array_slice(array_values($a_msg_headers), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+        return array_slice(array_values($a_msg_headers), $start_msg, min($cnt-$start_msg, $this->page_size));
         }
       }
     }
