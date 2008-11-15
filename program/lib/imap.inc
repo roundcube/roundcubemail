@@ -902,10 +902,7 @@ function iil_StrToTime($str) {
 
 function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
     $encoding = 'US-ASCII') {
-	/*  Do "SELECT" command */
-	if (!iil_C_Select($conn, $mailbox)) {
-	    return false;
-	}
+
 	$field = strtoupper($field);
 	if ($field == 'INTERNALDATE') {
 	    $field = 'ARRIVAL';
@@ -917,6 +914,11 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	if (!$fields[$field]) {
 	    return false;
 	}
+
+	/*  Do "SELECT" command */
+	if (!iil_C_Select($conn, $mailbox)) {
+	    return false;
+	}
     
 	$is_uid = $is_uid ? 'UID ' : '';
 	
@@ -924,16 +926,15 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	    $add = " $add";
 	}
 
-	$fp       = $conn->fp;
 	$command  = 's ' . $is_uid . 'SORT (' . $field . ') ';
-	$command .= $encoding . ' ALL ' . $add;
+	$command .= $encoding . ' ALL' . $add;
 	$line     = $data = '';
 	
-	if (!iil_PutLineC($fp, $command)) {
+	if (!iil_PutLineC($conn->fp, $command)) {
 	    return false;
 	}
 	do {
-		$line = chop(iil_ReadLine($fp, 1024));
+		$line = chop(iil_ReadLine($conn->fp, 1024));
 		if (iil_StartsWith($line, '* SORT')) {
 			$data .= ($data ? ' ' : '') . substr($line, 7);
     		} else if (preg_match('/^[0-9 ]+$/', $line)) {

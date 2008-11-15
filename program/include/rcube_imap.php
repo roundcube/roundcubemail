@@ -984,9 +984,8 @@ class rcube_imap
    */
   function _search_index($mailbox, $criteria='ALL', $charset=NULL, $sort_field=NULL)
     {
-    if ($this->get_capability('sort'))
+    if ($sort_field && $this->get_capability('sort'))
       {
-      $sort_field = $sort_field ? $sort_field : $this->sort_field;
       $charset = $charset ? $charset : $this->default_charset;
       $a_messages = iil_C_Sort($this->conn, $mailbox, $sort_field, $criteria, FALSE, $charset);
       }
