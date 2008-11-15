@@ -45,7 +45,20 @@ class rcube_message
   public $sender = null;
   public $is_safe = false;
   
-  
+
+  /**
+   * __construct
+   *
+   * Provide a uid, and parse message structure.
+   *
+   * @param string $uid The message UID.
+   *
+   * @uses rcmail::get_instance()
+   * @uses rcube_imap::decode_mime_string()
+   * @uses self::set_safe()
+   *
+   * @see self::$app, self::$imap, self::$opt, self::$structure
+   */
   function __construct($uid)
   {
     $this->app = rcmail::get_instance();
