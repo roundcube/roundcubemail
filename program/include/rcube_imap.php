@@ -592,18 +592,13 @@ class rcube_imap
       // fetch reuested headers from server
       $a_msg_headers = array();
       $deleted_count = $this->_fetch_headers($mailbox, $msgs, $a_msg_headers, $cache_key);
-      if ($this->sort_order == 'DESC' && $headers_sorted) {  
-        //since the sort order is not used in the iil_c_sort function we have to do it here
-        $a_msg_headers = array_reverse($a_msg_headers);
-      }
+
       // delete cached messages with a higher index than $max+1
       // Changed $max to $max+1 to fix this bug : #1484295
       $this->clear_message_cache($cache_key, $max + 1);
 
-
       // kick child process to sync cache
       // ...
-
       }
 
     // return empty array if no messages found
@@ -677,23 +672,39 @@ class rcube_imap
 
       return array_values($a_msg_headers);
       }
-    else { // SEARCH searching result
-      // not sorted, so we must fetch headers for all messages
-      // TODO: to minimize big memory consumption on servers without SORT 
-      // capability, we should fetch only headers used for sorting, and then
-      // fetch all headers needed for displaying one page of messages list.
-      // Of course it has sense only for big results if count($msgs) > $this->pagesize
-      $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
-    
-      // return empty array if no messages found
-      if (!is_array($a_msg_headers) || empty($a_msg_headers))
-        return array();
+    else { // SEARCH searching result, need sorting
+      if ($cnt > $this->pagesize * 2) {
+        // use memory less expensive (and quick) method for big result set
+	$a_index = $this->message_index($mailbox, $this->sort_field, $this->sort_order);
+        // get messages uids for one page...
+        $msgs = array_slice(array_keys($a_index), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+	// ...and fetch headers
+        $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
 
-      // if not already sorted
-      $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+        // return empty array if no messages found
+        if (!is_array($a_msg_headers) || empty($a_msg_headers))
+          return array();
+
+        $sorter = new rcube_header_sorter();
+        $sorter->set_sequence_numbers($msgs);
+        $sorter->sort_headers($a_msg_headers);
+
+        return array_values($a_msg_headers);
+        }
+      else {
+        // for small result set we can fetch all messages headers
+        $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
+    
+        // return empty array if no messages found
+        if (!is_array($a_msg_headers) || empty($a_msg_headers))
+          return array();
+
+        // if not already sorted
+        $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
       
-      // only return the requested part of the set
-      return array_slice(array_values($a_msg_headers), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+        // only return the requested part of the set
+        return array_slice(array_values($a_msg_headers), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+        }
       }
     }
 
@@ -813,11 +824,14 @@ class rcube_imap
         }
       else
         {
-	// TODO: see list_header_set (fetch only one header field needed for sorting)
-        $this->_fetch_headers($mailbox, join(',', $this->search_set), $a_msg_headers, NULL);
+	$a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, join(',', $this->search_set), $this->sort_field);
 
-        foreach (iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order) as $i => $msg)
-          $this->cache[$key][] = $msg->id;
+        if ($this->sort_order=="ASC")
+          asort($a_index);
+        else if ($this->sort_order=="DESC")
+          arsort($a_index);
+
+        $this->cache[$key] = $a_index;
 	}
     }
 
