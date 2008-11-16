@@ -171,6 +171,10 @@ class rcmail
 
     // set localization
     setlocale(LC_ALL, $_SESSION['language'] . '.utf8', 'en_US.utf8');
+
+    // workaround for http://bugs.php.net/bug.php?id=18556 
+    if (in_array($_SESSION['language'], array('tr_TR', 'ku', 'az_AZ'))) 
+      setlocale(LC_CTYPE, 'en_US' . '.utf8'); 
   }
   
   

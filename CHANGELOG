@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/11/15 (alec)
 ----------
 - Fix big memory consumption and speed up searching on servers without SORT capability
+- Fix setting locale to tr_TR, ku and az_AZ (#1485470) 
 
 2008/11/12 (alec)
 ----------
