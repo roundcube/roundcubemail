@@ -2500,12 +2500,13 @@ class rcube_imap
   /**
    * Decode a mime-encoded string to internal charset
    *
-   * @param string  Header value
-   * @param string  Fallback charset if none specified
+   * @param string $input    Header value
+   * @param string $fallback Fallback charset if none specified
+   *
    * @return string Decoded string
    * @static
    */
-  function decode_mime_string($input, $fallback=null)
+  public static function decode_mime_string($input, $fallback=null)
     {
     // Initialize variable
     $out = '';
