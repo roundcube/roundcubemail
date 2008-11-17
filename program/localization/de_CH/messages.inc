@@ -52,10 +52,12 @@ $messages['purgefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich leeren?';
 $messages['foldercreating'] = 'Erstelle Ordner...';
 $messages['folderdeleting'] = 'Lösche Ordner...';
 $messages['folderrenaming'] = 'Nenne Ordner um...';
+$messages['foldermoving'] = 'Verschiebe Ordner...';
 $messages['formincomplete'] = 'Das Formular wurde nicht vollständig ausgefüllt';
 $messages['noemailwarning'] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 $messages['nonamewarning'] = 'Bitte geben Sie einen Namen ein';
 $messages['nopagesizewarning'] = 'Bitte geben Sie eine Einträge pro Seite ein';
+$messages['nosenderwarning'] = 'Bitte geben Sie die E-Mail-Adresse des Senders an';
 $messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger an';
 $messages['nosubjectwarning'] = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
 $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
@@ -90,5 +92,7 @@ $messages['importwait'] = 'Daten werden importiert, bitte warten...';
 $messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert und $skipped bestehende Einträge übersprungen</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';
+$messages['nofromaddress'] = 'Fehlende E-Mail-Adresse in ausgewählter Identität';
+$messages['editorwarning'] = 'Beim Wechseln in den Texteditor gehen alle Textformatierungen verloren. Möchten Sie fortfahren?';
 
 ?>
