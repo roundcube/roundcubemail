@@ -102,41 +102,46 @@ if ($_GET['_uid']) {
     }
   }
 
-
-  $next = $prev = $first = $last = -1;
   // get previous, first, next and last message UID
-  if ((!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') &&
+  if ($RCMAIL->action != 'preview' && $RCMAIL->action != 'print')
+    {
+    $next = $prev = $first = $last = -1;
+
+    if ((!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') &&
       $IMAP->get_capability('sort')) || !empty($_REQUEST['_search']))
-    {
-    // Only if we use custom sorting
-    $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
+      {
+      // Only if we use custom sorting
+      $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
 
-    $MESSAGE->index = array_search($IMAP->get_id($MESSAGE->uid), $a_msg_index);
+      $MESSAGE->index = array_search($IMAP->get_id($MESSAGE->uid), $a_msg_index);
 
-    $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1 ;
-    $first = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[0]) : -1;
-    $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1 ;
-    $last = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[count($a_msg_index)-1]) : -1;
+      $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1 ;
+      $first = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[0]) : -1;
+      $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1 ;
+      $last = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[count($a_msg_index)-1]) : -1;
+      }
+    else
+      {
+      // this assumes that we are sorted by date_DESC
+      $cnt = $IMAP->messagecount();
+      $seq = $IMAP->get_id($MESSAGE->uid);
+      $MESSAGE->index = $cnt - $seq;
+
+      $prev = $IMAP->get_uid($seq + 1);
+      $first = $IMAP->get_uid($cnt);
+      $next = $IMAP->get_uid($seq - 1);
+      $last = $IMAP->get_uid(1);
+      }
+
+    if ($prev > 0)
+      $OUTPUT->set_env('prev_uid', $prev);
+    if ($first > 0)
+      $OUTPUT->set_env('first_uid', $first);
+    if ($next > 0)
+      $OUTPUT->set_env('next_uid', $next);
+    if ($last > 0)
+      $OUTPUT->set_env('last_uid', $last);
     }
-  else
-    {
-    // this assumes that we are sorted by date_DESC
-    $seq = $IMAP->get_id($MESSAGE->uid);
-    $prev = $IMAP->get_uid($seq + 1);
-    $first = $IMAP->get_uid($IMAP->messagecount());
-    $next = $IMAP->get_uid($seq - 1);
-    $last = $IMAP->get_uid(1);
-    $MESSAGE->index = $IMAP->messagecount() - $seq;
-    }
-  
-  if ($prev > 0)
-    $OUTPUT->set_env('prev_uid', $prev);
-  if ($first > 0)
-    $OUTPUT->set_env('first_uid', $first);
-  if ($next > 0)
-    $OUTPUT->set_env('next_uid', $next);
-  if ($last > 0)
-    $OUTPUT->set_env('last_uid', $last);
 
   // mark message as read
   if (!$MESSAGE->headers->seen)
