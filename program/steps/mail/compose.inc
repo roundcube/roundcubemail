@@ -426,8 +426,6 @@ function rcmail_compose_body($attrib)
     $body = $_SESSION['compose']['param']['_body'];
   }
 
-  rcube_html_editor();
-
   $out = $form_start ? "$form_start\n" : '';
 
   $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE->headers->messageID) : ''));
@@ -445,8 +443,14 @@ function rcmail_compose_body($attrib)
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
 
+  // include HTML editor
+  rcube_html_editor();
+  
   // include GoogieSpell
   if (!empty($CONFIG['enable_spellcheck'])) {
+
+    $lang = strtolower(substr($_SESSION['language'], 0, 2));
+  
     $spellcheck_langs = (array)$RCMAIL->config->get('spellcheck_languages', array('da'=>'Dansk', 'de'=>'Deutsch', 'en' => 'English', 'es'=>'Español', 'fr'=>'Français', 'it'=>'Italiano', 'nl'=>'Nederlands', 'pl'=>'Polski', 'pt'=>'Português', 'fi'=>'Suomi', 'sv'=>'Svenska'));
     if (!$spellcheck_langs[$lang])
       $lang = 'en';
@@ -454,7 +458,7 @@ function rcmail_compose_body($attrib)
     $editor_lang_set = array();
     foreach ($spellcheck_langs as $key => $name) {
       $editor_lang_set[] = ($key == $lang ? '+' : '') . JQ($name).'='.JQ($key);
-    }
+      }
     
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf(
