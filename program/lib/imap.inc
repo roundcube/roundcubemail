@@ -70,6 +70,7 @@
 		- fixed iil_C_Sort() to support very long and/or divided responses
 		- added BYE response simple support for endless loop prevention
 		- added 3rd argument in iil_StartsWith* functions
+		- fix iil_C_FetchPartHeader() in some cases by use of iil_C_HandlePartBody()
 
 ********************************************************/
 
@@ -2368,33 +2369,14 @@ function iil_C_UnSubscribe(&$conn, $folder) {
 }
 
 function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
-	$fp     = $conn->fp;
-	$result = false;
-	if (($part == 0) || (empty($part))) {
+
+	if (empty($part)) {
 	    $part = 'HEADER';
 	} else {
     	    $part .= '.MIME';
 	}
     
-	if (iil_C_Select($conn, $mailbox)) {
-		$key     = 'fh' . ($c++);
-		$request = $key . " FETCH $id (BODY.PEEK[$part])";
-		if (!iil_PutLine($fp, $request)) return false;
-		do {
-			$line = chop(iil_ReadLine($fp, 200));
-			$a    = explode(' ', $line);
-			if (($line[0] == '*') && ($a[2] == 'FETCH')
-            			&& ($line[strlen($line)-1] != ')')) {
-				$line=iil_ReadLine($fp, 300);
-				while (trim($line) != ')') {
-					$result .= $line;
-					$line=iil_ReadLine($fp, 300);
-				}
-			}
-		} while (strcmp($a[0], $key) != 0 && ($a[0] != '*' || $a[1] != 'BYE'));
-	}
-	
-	return $result;
+	return iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, 1);
 }
 
 function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
