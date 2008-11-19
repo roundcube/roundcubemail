@@ -597,24 +597,28 @@ function rcmail_print_body($part, $p = array())
 
     // special replacements (not properly handled by washtml class)
     $html_search = array(
-	'/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-	'/(<[\/]*st1:[^>]+>)/i',	// Microsoft's Smart Tags <ST1>
-	'/<title>.*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
-	'/<html[^>]*>/im',		// malformed html: remove html tags (#1485139)
-	'/<\/html>/i',			// malformed html: remove html tags (#1485139)
+      '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
+    '/(<[\/]*st1:[^>]+>)/i',	// Microsoft's Smart Tags <ST1>
+    '/<title>.*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
+    '/<html[^>]*>/im',		// malformed html: remove html tags (#1485139)
+    '/<\/html>/i',			// malformed html: remove html tags (#1485139)
+    '/^[\xFE\xFF\xBB\xBF\x00]+((?:<\!doctype|\<html))/im',	// remove byte-order mark (only outlook?)
     );
     $html_replace = array(
-	'\\1'.' &nbsp; '.'\\3',
-	'',
-	'',
-	'',
-	'',
+      '\\1'.' &nbsp; '.'\\3',
+      '',
+      '',
+      '',
+      '\\1',
+      '',
     );
     $html = preg_replace($html_search, $html_replace, $html);
 
     // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
-    if (preg_match('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', $html)) 
-      $html = preg_replace('/(\s+content=[\'"]\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i', '\\1='.RCMAIL_CHARSET, $html); 
+    $charset_pattern = '/(\s+content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i';
+    if (preg_match($charset_pattern, $html)) {
+      $html = preg_replace($charset_pattern, '\\1='.RCMAIL_CHARSET, $html);
+    }
     else {
       // add head for malformed messages, washtml cannot work without that
       if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
