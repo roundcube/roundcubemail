@@ -2370,12 +2370,8 @@ function iil_C_UnSubscribe(&$conn, $folder) {
 
 function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 
-	if (empty($part)) {
-	    $part = 'HEADER';
-	} else {
-    	    $part .= '.MIME';
-	}
-    
+	$part = empty($part) ? 'HEADER' : $part.'.MIME';
+
 	return iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, 1);
 }
 
@@ -2388,10 +2384,10 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
 	
 	$fp     = $conn->fp;
 	$result = false;
-	if (($part == 0) || empty($part)) {
+	if (empty($part)) {
 		$part = 'TEXT';
 	}
-	
+
 	if (iil_C_Select($conn, $mailbox)) {
     		$reply_key = '* ' . $id;
         
