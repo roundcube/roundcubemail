@@ -25,19 +25,14 @@ require_once('include/rcube_smtp.inc');
 
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
 
-if (empty($_SESSION['mbox']))
-  $_SESSION['mbox'] = $IMAP->get_mailbox_name();
-
 // set imap properties and session vars
 if ($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC))
   $IMAP->set_mailbox(($_SESSION['mbox'] = $mbox));
+else
+  $_SESSION['mbox'] = $IMAP->get_mailbox_name();
 
 if (!empty($_GET['_page']))
   $IMAP->set_page(($_SESSION['page'] = intval($_GET['_page'])));
-
-// set mailbox to INBOX if not set
-if (empty($_SESSION['mbox']))
-  $_SESSION['mbox'] = $IMAP->get_mailbox_name();
 
 // set default sort col/order to session
 if (!isset($_SESSION['sort_col']))
@@ -86,7 +81,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
 
-  $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->get_mailbox_name()));
+  $OUTPUT->set_pagetitle(rcmail_localize_foldername($mbox_name));
   }
 
 
