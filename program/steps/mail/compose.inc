@@ -323,8 +323,7 @@ function rcmail_compose_header_from($attrib)
         if ($a_signatures[$identity_id]['is_html'])
         {
             $h2t = new html2text($a_signatures[$identity_id]['text'], false, false);
-            $plainTextPart = $h2t->get_text();
-            $a_signatures[$identity_id]['plain_text'] = trim(html_entity_decode($plainTextPart, ENT_NOQUOTES, 'UTF-8'));
+            $a_signatures[$identity_id]['plain_text'] = trim($h2t->get_text());
         }
       }
 

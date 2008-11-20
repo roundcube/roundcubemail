@@ -265,7 +265,7 @@ if ($isHtml)
     // empty message body breaks attachment handling in drafts 
     $plainTextPart = "\r\n"; 
     }
-  $MAIL_MIME->setTXTBody(html_entity_decode($plainTextPart, ENT_COMPAT, 'utf-8'));
+  $MAIL_MIME->setTXTBody($plainTextPart);
 
   // look for "emoticon" images from TinyMCE and copy into message as attachments
   rcmail_attach_emoticons($MAIL_MIME);

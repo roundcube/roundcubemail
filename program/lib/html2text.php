@@ -232,7 +232,7 @@ class html2text
         '--',
         '-',
         '*',
-        '£',
+        'Â£',
         'EUR',                                  // Euro sign. € ?
         '',                                     // Unknown/unhandled entities
         ' '                                     // Runs of spaces, post-handling
@@ -465,7 +465,10 @@ class html2text
 
 	// Convert <PRE>
         $this->_convert_pre($text);
-	
+
+	// Replace known html entities
+	$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+
         // Run our defined search-and-replace
         $text = preg_replace($this->search, $this->replace, $text);
 
