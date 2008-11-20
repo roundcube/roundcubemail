@@ -1365,6 +1365,8 @@ class rcube_imap
       
     // TODO: Add caching for message parts
 
+    if (!$part) $part = 'TEXT';
+
     if ($print)
       {
       $mode = $o_part->encoding == 'base64' ? 3 : ($o_part->encoding == 'quoted-printable' ? 1 : 2);
