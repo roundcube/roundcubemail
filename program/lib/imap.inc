@@ -72,6 +72,7 @@
 		- added 3rd argument in iil_StartsWith* functions
 		- fix iil_C_FetchPartHeader() in some cases by use of iil_C_HandlePartBody()
 		- allow iil_C_HandlePartBody() to fetch whole message
+		- optimize iil_C_FetchHeaders() to use only one FETCH command
 
 ********************************************************/
 
@@ -1610,7 +1611,6 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 {
 	global $IMAP_USE_INTERNAL_DATE;
 	
-	$c      = 0;
 	$result = array();
 	$fp     = $conn->fp;
 	
@@ -1648,11 +1648,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 		}
 	}
 
-	/* FETCH date,from,subject headers */
-	$key	  = 'fh' . ($c++);
-	$prefix	  = $uidfetch?' UID':'';
-	$request  = $key . $prefix;
-	$request .= " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ";
+	/* FETCH uid, size, flags and headers */
+	$key  	  = 'FH12';
+	$request  = $key . ($uidfetch ? ' UID' : '') . " FETCH $message_set ";
+	$request .= "(UID RFC822.SIZE FLAGS INTERNALDATE BODY.PEEK[HEADER.FIELDS ";
 	$request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
 	$request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
 	$request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])";
@@ -1661,7 +1660,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 		return false;
 	}
 	do {
-		$line = chop(iil_ReadLine($fp, 200));
+		$line = chop(iil_ReadLine($fp, 1024));
 		$a    = explode(' ', $line);
 		if (($line[0] == '*') && ($a[2] == 'FETCH')) {
 			$id = $a[1];
@@ -1672,15 +1671,100 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 			$result[$id]->messageID = 'mid:' . $id;
 
 			/*
+			    Sample reply line:
+			    * 321 FETCH (UID 2417 RFC822.SIZE 2730 FLAGS (\Seen)
+			    INTERNALDATE "16-Nov-2008 21:08:46 +0100" BODY[HEADER.FIELDS ...
+			*/
+			
+			if (preg_match('/^\* [0-9]+ FETCH \((.*) BODY\[HEADER/', $line, $matches)) {
+				$str = $matches[1];
+
+				//swap parents with quotes, then explode
+				$str = eregi_replace("[()]", "\"", $str);
+				$a = iil_ExplodeQuotedString(' ', $str);
+
+				//did we get the right number of replies?
+				$parts_count = count($a);
+				if ($parts_count>=8) {
+					for ($i=0; $i<$parts_count; $i=$i+2) {
+						if (strcasecmp($a[$i],'UID') == 0)
+							$result[$id]->uid = $a[$i+1];
+						else if (strcasecmp($a[$i],'RFC822.SIZE') == 0)
+							$result[$id]->size = $a[$i+1];
+						else if (strcasecmp($a[$i],'INTERNALDATE') == 0)
+							$time_str = $a[$i+1];
+						else if (strcasecmp($a[$i],'FLAGS') == 0)
+							$flags_str = $a[$i+1];
+					}
+
+					// process flags
+					$flags_str = eregi_replace('[\\\"]', '', $flags_str);
+					$flags_a   = explode(' ', $flags_str);
+					
+					if (is_array($flags_a)) {
+						reset($flags_a);
+						while (list(,$val)=each($flags_a)) {
+							if (strcasecmp($val,'Seen') == 0) {
+							    $result[$id]->seen = true;
+							} else if (strcasecmp($val, 'Deleted') == 0) {
+							    $result[$id]->deleted=true;
+							} else if (strcasecmp($val, 'Recent') == 0) {
+							    $result[$id]->recent = true;
+							} else if (strcasecmp($val, 'Answered') == 0) {
+							    $result[$id]->answered = true;
+							} else if (strcasecmp($val, '$Forwarded') == 0) {
+							    $result[$id]->forwarded = true;
+							} else if (strcasecmp($val, 'Draft') == 0) {
+							    $result[$id]->is_draft = true;
+							} else if (strcasecmp($val, '$MDNSent') == 0) {
+							    $result[$id]->mdn_sent = true;
+							} else if (strcasecmp($val, 'Flagged') == 0) {
+							     $result[$id]->flagged = true;
+							}
+						}
+						$result[$id]->flags = $flags_a;
+					}
+
+					$time_str = str_replace('"', '', $time_str);
+					
+					// if time is gmt...
+		                        $time_str = str_replace('GMT','+0000',$time_str);
+					
+					//get timezone
+					$time_str      = substr($time_str, 0, -1);
+					$time_zone_str = substr($time_str, -5); // extract timezone
+					$time_str      = substr($time_str, 1, -6); // remove quotes
+					$time_zone     = (float)substr($time_zone_str, 1, 2); // get first two digits
+			
+					if ($time_zone_str[3] != '0') {
+					         $time_zone += 0.5;  //handle half hour offset
+					}
+					if ($time_zone_str[0] == '-') {
+					        $time_zone = $time_zone * -1.0; //minus?
+					}
+					
+					//calculate timestamp
+                                        $timestamp     = strtotime($time_str); //return's server's time
+					$timestamp    -= $time_zone * 3600; //compensate for tz, get GMT
+					
+					$result[$id]->internaldate = $time_str;
+					$result[$id]->timestamp = $timestamp;
+					$result[$id]->date = $time_str;
+				}
+			}
+
+			/*
 				Start parsing headers.  The problem is, some header "lines" take up multiple lines.
 				So, we'll read ahead, and if the one we're reading now is a valid header, we'll
 				process the previous line.  Otherwise, we'll keep adding the strings until we come
 				to the next valid header line.
 			*/
+	
 			$i     = 0;
 			$lines = array();
 			do {
 				$line = chop(iil_ReadLine($fp, 300), "\r\n");
+
 				if (ord($line[0])<=32) {
 				    $lines[$i] .= (empty($lines[$i])?'':"\n").trim($line);
 				} else {
@@ -1689,7 +1773,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 				}
 				/* 
 					The preg_match below works around communigate imap, which outputs " UID <number>)".
-					Without this, the while statement continues on and gets the "fh0 OK completed" message.
+					Without this, the while statement continues on and gets the "FH0 OK completed" message.
 					If this loop gets the ending message, then the outer loop does not receive it from radline on line 1249.  
 					This in causes the if statement on line 1278 to never be true, which causes the headers to end up missing
 					If the if statement was changed to pick up the fh0 from this loop, then it causes the outer loop to spin
@@ -1702,7 +1786,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 				}
 			// patch from "Maksim Rubis" <siburny@hotmail.com>
 			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));
-			
+
 			if (strncmp($line, $key, strlen($key))) { 
 				//process header, fill iilBasicHeader obj.
 				//	initialize
@@ -1722,8 +1806,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					
 					switch ($field) {
 					case 'date';
-						$result[$id]->date = $string;
-						$result[$id]->timestamp = iil_StrToTime($string);
+						if (!$IMAP_USE_INTERNAL_DATE) {
+							$result[$id]->date = $string;
+							$result[$id]->timestamp = iil_StrToTime($string);
+						}
 						break;
 					case 'from':
 						$result[$id]->from = $string;
@@ -1776,128 +1862,23 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 						break;
 					} // end switch ()
 				} // end while ()
+		
+				if ($conn->do_cache) {
+					$uid = $result[$id]->uid;
+					$conn->cache[$mailbox][$uid] = $result[$id];
+					$conn->cache_dirty[$mailbox] = true;
+				}
 			} else {
 				$a = explode(' ', $line);
 			}
 		}
 	} while (strcmp($a[0], $key) != 0);
 
-	/* 
-		FETCH uid, size, flags
-		Sample reply line: "* 3 FETCH (UID 2417 RFC822.SIZE 2730 FLAGS (\Seen \Deleted))"
-	*/
-	$command_key = 'fh' . ($c++);
-	$request     = $command_key . $prefix;
-	$request    .= " FETCH $message_set (UID RFC822.SIZE FLAGS INTERNALDATE)";
-	
-	if (!iil_PutLine($fp, $request)) {
-	    return false;
-	}
-	do {
-		$line = chop(iil_ReadLine($fp, 200));
-		//$a = explode(' ', $line);
-		//if (($line[0]=="*") && ($a[2]=="FETCH")) {
-		if ($line[0] == '*') {
-			//echo "<!-- $line //-->\n";
-			//get outter most parens
-			$open_pos = strpos($line, "(") + 1;
-			$close_pos = strrpos($line, ")");
-			if ($open_pos && $close_pos) {
-				//extract ID from pre-paren
-				$pre_str = substr($line, 0, $open_pos);
-				$pre_a = explode(' ', $line);
-				$id = $pre_a[1];
-				
-				//get data
-				$len = $close_pos - $open_pos;
-				$str = substr($line, $open_pos, $len);
-				
-				//swap parents with quotes, then explode
-				$str = eregi_replace("[()]", "\"", $str);
-				$a = iil_ExplodeQuotedString(' ', $str);
-				
-				//did we get the right number of replies?
-				$parts_count = count($a);
-				if ($parts_count>=8) {
-					for ($i=0;$i<$parts_count;$i=$i+2) {
-						if (strcasecmp($a[$i],"UID") == 0) $result[$id]->uid=$a[$i+1];
-						else if (strcasecmp($a[$i],"RFC822.SIZE") == 0) $result[$id]->size=$a[$i+1];
-						else if (strcasecmp($a[$i],"INTERNALDATE") == 0) $time_str = $a[$i+1];
-						else if (strcasecmp($a[$i],"FLAGS") == 0) $flags_str = $a[$i+1];
-					}
-
-					// process flags
-					$flags_str = eregi_replace('[\\\"]', '', $flags_str);
-					$flags_a   = explode(' ', $flags_str);
-					
-					if (is_array($flags_a)) {
-						reset($flags_a);
-						while (list($key,$val)=each($flags_a)) {
-							if (strcasecmp($val,'Seen') == 0) {
-							    $result[$id]->seen = true;
-							} else if (strcasecmp($val, 'Deleted') == 0) {
-							    $result[$id]->deleted=true;
-							} else if (strcasecmp($val, 'Recent') == 0) {
-							    $result[$id]->recent = true;
-							} else if (strcasecmp($val, 'Answered') == 0) {
-							    $result[$id]->answered = true;
-							} else if (strcasecmp($val, '$Forwarded') == 0) {
-							    $result[$id]->forwarded = true;
-							} else if (strcasecmp($val, 'Draft') == 0) {
-							    $result[$id]->is_draft = true;
-							} else if (strcasecmp($val, '$MDNSent') == 0) {
-							    $result[$id]->mdn_sent = true;
-							} else if (strcasecmp($val, 'Flagged') == 0) {
-							     $result[$id]->flagged = true;
-							}
-						}
-						$result[$id]->flags = $flags_a;
-					}
-			
-					// if time is gmt...	
-					$time_str = str_replace('GMT','+0000',$time_str);
-					
-					//get timezone
-					$time_str      = substr($time_str, 0, -1);
-					$time_zone_str = substr($time_str, -5); //extract timezone
-					$time_str      = substr($time_str, 1, -6); //remove quotes
-					$time_zone     = (float)substr($time_zone_str, 1, 2); //get first two digits
-					if ($time_zone_str[3] != '0') {
-					    $time_zone += 0.5;  //handle half hour offset
-					}
-					if ($time_zone_str[0] == '-') {
-						$time_zone = $time_zone * -1.0; //minus?
-					}
-					$result[$id]->internaldate = $time_str;
-					
-					if ($IMAP_USE_INTERNAL_DATE || empty($result[$id]->date)) {
-						//calculate timestamp
-						$timestamp     = strtotime($time_str); //return's server's time
-						$na_timestamp  = $timestamp;
-						$timestamp    -= $time_zone * 3600; //compensate for tz, get GMT
-						
-						$result[$id]->timestamp = $timestamp;
-						$result[$id]->date = $time_str;
-					}
-						
-					if ($conn->do_cache) {
-						$uid = $result[$id]->uid;
-						$conn->cache[$mailbox][$uid] = $result[$id];
-						$conn->cache_dirty[$mailbox] = true;
-					}
-					//echo "<!-- ID: $id : $time_str -- local: $na_timestamp (".date("F j, Y, g:i a", $na_timestamp).") tz: $time_zone -- GMT: ".$timestamp." (".date("F j, Y, g:i a", $timestamp).")  //-->\n";
-				} else {
-					//echo "<!-- ERROR: $id : $str //-->\n";
-				}
-			}
-		}
-	} while (strpos($line, $command_key) === false);
-		
 	return $result;
 }
 
 function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false) {
-	$fp = $conn->fp;
+
 	$a  = iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch);
 	if (is_array($a)) {
 		return array_shift($a);
@@ -2385,7 +2366,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
 	
 	$fp     = $conn->fp;
 	$result = false;
-
+	
 	if (iil_C_Select($conn, $mailbox)) {
     		$reply_key = '* ' . $id;
         
