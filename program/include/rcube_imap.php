@@ -1436,10 +1436,7 @@ class rcube_imap
     if (!($msg_id = $this->_uid2id($uid)))
       return FALSE;
 
-    $body = iil_C_FetchPartHeader($this->conn, $this->mailbox, $msg_id, NULL);
-    $body .= iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, NULL, 1);
-
-    return $body;    
+    return iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id);
     }
 
 
@@ -1470,8 +1467,6 @@ class rcube_imap
     if (!($msg_id = $this->_uid2id($uid)))
       return FALSE;
 
-    print iil_C_FetchPartHeader($this->conn, $this->mailbox, $msg_id, NULL);
-    flush();
     iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, NULL, 2);
     }
 

@@ -71,6 +71,7 @@
 		- added BYE response simple support for endless loop prevention
 		- added 3rd argument in iil_StartsWith* functions
 		- fix iil_C_FetchPartHeader() in some cases by use of iil_C_HandlePartBody()
+		- allow iil_C_HandlePartBody() to fetch whole message
 
 ********************************************************/
 
@@ -2375,7 +2376,7 @@ function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 	return iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, 1);
 }
 
-function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
+function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NULL) {
 	/* modes:
         1: return string (or write to $file pointer)
         2: print
@@ -2384,9 +2385,6 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, $mode, $file=NULL) {
 	
 	$fp     = $conn->fp;
 	$result = false;
-	if (empty($part)) {
-		$part = 'TEXT';
-	}
 
 	if (iil_C_Select($conn, $mailbox)) {
     		$reply_key = '* ' . $id;
