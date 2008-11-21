@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/21 (alec)
+----------
+- Fix 'cache' table cleanup on session destroy (#1485516)
+
 2008/11/19 (alec)
 ----------
 - Fix handling of some malformed messages (#1484438)

@@ -21,3 +21,9 @@ ALTER TABLE cache ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE 
 -- Updates from version 0.2-alpha
 
 CREATE INDEX messages_created_idx ON messages (created);
+
+-- Updates from version 0.2-beta
+
+ALTER TABLE cache DROP CONSTRAINT cache_session_id_fkey;
+ALTER TABLE cache ADD FOREIGN KEY (session_id) REFERENCES session(sess_id) ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE INDEX cache_session_id_idx ON "cache" (session_id);

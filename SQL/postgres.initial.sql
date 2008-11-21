@@ -128,13 +128,14 @@ CREATE SEQUENCE cache_ids
 CREATE TABLE "cache" (
     cache_id integer DEFAULT nextval('cache_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    session_id character varying(40) REFERENCES "session" (sess_id),
+    session_id character varying(40) REFERENCES "session" (sess_id) ON DELETE CASCADE ON UPDATE CASCADE,
     cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     data text NOT NULL
 );
 
 CREATE INDEX cache_user_id_idx ON "cache" (user_id, cache_key);
+CREATE INDEX cache_session_id_idx ON "cache" (session_id);
 
 --
 -- Sequence "message_ids"

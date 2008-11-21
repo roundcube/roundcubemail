@@ -77,6 +77,10 @@ CREATE TABLE `cache` (
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
      ON DELETE CASCADE
+     ON UPDATE CASCADE,
+ CONSTRAINT `session_id_fk_cache` FOREIGN KEY (`session_id`)
+   REFERENCES `session`(`sess_id`)
+     ON DELETE CASCADE
      ON UPDATE CASCADE
 ) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 

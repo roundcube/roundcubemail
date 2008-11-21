@@ -2146,11 +2146,11 @@ class rcube_imap
       {
       $this->db->query(
         "UPDATE ".get_table_name('cache')."
-         SET    created=".$this->db->now().",
-                data=?
+         SET    created=".$this->db->now().", data=?, session_id=?
          WHERE  user_id=?
          AND    cache_key=?",
         $data,
+	session_id(),
         $_SESSION['user_id'],
         $key);
       }
@@ -2159,11 +2159,12 @@ class rcube_imap
       {
       $this->db->query(
         "INSERT INTO ".get_table_name('cache')."
-         (created, user_id, cache_key, data)
-         VALUES (".$this->db->now().", ?, ?, ?)",
+         (created, user_id, cache_key, data, session_id)
+         VALUES (".$this->db->now().", ?, ?, ?, ?)",
         $_SESSION['user_id'],
         $key,
-        $data);
+        $data,
+	session_id());
       }
     }
 
