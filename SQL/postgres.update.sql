@@ -25,5 +25,7 @@ CREATE INDEX messages_created_idx ON messages (created);
 -- Updates from version 0.2-beta
 
 ALTER TABLE cache DROP CONSTRAINT cache_session_id_fkey;
-ALTER TABLE cache ADD FOREIGN KEY (session_id) REFERENCES session(sess_id) ON DELETE CASCADE ON UPDATE CASCADE;
-CREATE INDEX cache_session_id_idx ON "cache" (session_id);
+ALTER TABLE cache ADD FOREIGN KEY (session_id) REFERENCES session (sess_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE INDEX cache_session_id_idx ON cache (session_id);
+CREATE INDEX session_changed_idx ON session (changed);

@@ -73,7 +73,8 @@ CREATE TABLE `session` (
   `changed` datetime NOT NULL default '0000-00-00 00:00:00',
   `ip` VARCHAR(40) NOT NULL default '',
   `vars` text NOT NULL,
-  PRIMARY KEY  (`sess_id`)
+  PRIMARY KEY  (`sess_id`),
+  INDEX `changed_index` (`changed`) 
 );
 
 -- --------------------------------------------------------

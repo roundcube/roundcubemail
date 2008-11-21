@@ -97,6 +97,7 @@ CREATE TABLE session (
   vars text NOT NULL
 );
 
+CREATE INDEX ix_session_changed ON session (changed);
 
 -- --------------------------------------------------------
 

@@ -75,10 +75,12 @@ function rcube_sess_write($key, $vars)
      WHERE  sess_id=?",
     $key);
 
+  $now = $DB->fromunixtime(time());
+
   if ($DB->num_rows($sql_result)) {
     $DB->query(
       "UPDATE " . get_table_name('session') . "
-       SET    vars=?, changed=" . $DB->now() . "
+       SET    vars=?, changed= " . $now . "
        WHERE  sess_id=?",
       $vars,
       $key);
@@ -87,7 +89,7 @@ function rcube_sess_write($key, $vars)
     $DB->query(
       "INSERT INTO " . get_table_name('session') . "
        (sess_id, vars, ip, created, changed)
-       VALUES (?, ?, ?, ".$DB->now().", ".$DB->now().")",
+       VALUES (?, ?, ?, " . $now . ", " . $now .")",
       $key,
       $vars,
       (string)$_SERVER['REMOTE_ADDR']);
@@ -107,12 +109,13 @@ function rcube_sess_destroy($key)
     return false;
   }
 
+  $DB->query("DELETE FROM " . get_table_name('session') . " WHERE sess_id=?", $key);
+
   // delete session entries in cache table
-  if ($rcmail->config->get('enable_caching')) {
+  // on databases wthout foreign keys
+  if ($rcmail->config->get('enable_caching') && $DB->db_provider != 'pgsql') {
     $DB->query("DELETE FROM " . get_table_name('cache') . " WHERE session_id=?", $key);
   }
-              
-  $DB->query("DELETE FROM " . get_table_name('session') . " WHERE sess_id=?", $key);
 
   return true;
 }
@@ -128,39 +131,38 @@ function rcube_sess_gc($maxlifetime)
     return false;
   }
 
+  $now = $DB->fromunixtime(time() - $maxlifetime);
+
+  // delete session entries in cache table
   if ($rcmail->config->get('enable_caching')) {
-    // get all expired sessions
-    $sql_result = $DB->query(
-	"SELECT sess_id
-        FROM " . get_table_name('session') . "
-        WHERE " . $DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed') . " > ?",
-	$maxlifetime);
-                                   
-    $exp_sessions = array();
-    while ($sql_arr = $DB->fetch_assoc($sql_result)) {
-      $exp_sessions[] = $sql_arr['sess_id'];
-    }
 
-    if (sizeof($exp_sessions)) {
-      $exp_sessions = "'" . join("','", $exp_sessions) . "'";
-      // delete session cache records
-      $DB->query("DELETE FROM " . get_table_name('cache') . "
+    // on databases wthout foreign keys...
+    if($DB->db_provider != 'pgsql') {
+
+      // get all expired sessions
+      $sql_result = $DB->query(
+	"SELECT sess_id FROM " . get_table_name('session') . "
+    	    WHERE changed < " . $now);
+
+      $exp_sessions = array();
+      while ($sql_arr = $DB->fetch_assoc($sql_result)) {
+        $exp_sessions[] = $sql_arr['sess_id'];
+      }
+
+      if (sizeof($exp_sessions)) {
+        $exp_sessions = "'" . join("','", $exp_sessions) . "'";
+        // delete session cache records
+        $DB->query("DELETE FROM " . get_table_name('cache') . "
             WHERE session_id IN (" . $exp_sessions . ")");
-
-      // delete session records
-      $DB->query("DELETE FROM " . get_table_name('session') . "
-            WHERE sess_id IN (" . $exp_sessions . ")");
+      }
     }
-
     // also run message cache GC
     rcmail_message_cache_gc();
-  
-  } else {
-    // just delete all expired sessions
-    $DB->query("DELETE FROM " . get_table_name('session') . "
-        WHERE " . $DB->unixtimestamp($DB->now())."-".$DB->unixtimestamp('changed') . " > ?",
-	$maxlifetime);
   }
+
+  // just delete all expired sessions
+  $DB->query("DELETE FROM " . get_table_name('session') . "
+    WHERE changed < " . $now);
 
   rcmail_temp_gc();
 

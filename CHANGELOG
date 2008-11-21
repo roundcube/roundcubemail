@@ -4,6 +4,8 @@ CHANGELOG RoundCube Webmail
 2008/11/21 (alec)
 ----------
 - Fix 'cache' table cleanup on session destroy (#1485516)
+- Increase speed of session destroy and garbage clean up
+- Fix session timeout when DB server got clock skew (#1485490)
 
 2008/11/19 (alec)
 ----------

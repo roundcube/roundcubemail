@@ -196,6 +196,9 @@ ALTER TABLE [dbo].[session] ADD
 	CONSTRAINT [DF_session_ip] DEFAULT ('') FOR [ip]
 GO
 
+ CREATE  INDEX [IX_session_changed] ON [dbo].[session]([changed]) ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[users] ADD 
 	CONSTRAINT [DF_users_username] DEFAULT ('') FOR [username],
 	CONSTRAINT [DF_users_mail_host] DEFAULT ('') FOR [mail_host],

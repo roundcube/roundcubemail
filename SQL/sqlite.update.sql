@@ -29,3 +29,7 @@ CREATE INDEX ix_users_alias ON users(alias);
 -- Updates from version 0.2-alpha
 
 CREATE INDEX ix_messages_created ON messages (created);
+
+-- Updates from version 0.2-beta
+
+CREATE INDEX ix_session_changed ON session (changed);

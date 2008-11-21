@@ -42,6 +42,7 @@ CREATE TABLE "session" (
     vars text NOT NULL
 );
 
+CREATE INDEX session_changed_idx ON session (changed);
 
 
 --

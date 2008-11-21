@@ -38,3 +38,6 @@ ALTER TABLE `cache`
     REFERENCES `session`(`sess_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
+ALTER TABLE `session`
+    ADD INDEX `changed_index` (`changed`);

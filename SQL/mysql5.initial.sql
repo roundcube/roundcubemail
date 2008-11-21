@@ -14,7 +14,8 @@ CREATE TABLE `session` (
  `changed` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `ip` varchar(40) NOT NULL,
  `vars` text NOT NULL,
- PRIMARY KEY(`sess_id`)
+ PRIMARY KEY(`sess_id`),
+ INDEX `changed_index` (`changed`)
 ) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
