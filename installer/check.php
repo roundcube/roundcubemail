@@ -15,7 +15,7 @@ $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
     'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
 
 $ini_checks = array('file_uploads' => 1, 'session.auto_start' => 0,
-    'zend.ze1_compatibility_mode' => 0);
+    'zend.ze1_compatibility_mode' => 0, 'mbstring.func_overload' => 0);
 
 $source_urls = array(
     'Sockets' => 'http://www.php.net/manual/en/ref.sockets.php',
