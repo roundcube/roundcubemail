@@ -11,7 +11,6 @@
 CREATE TABLE `cache` (
   `cache_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
-  `session_id` varchar(40) default NULL,
   `cache_key` varchar(128) NOT NULL default '',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `data` longtext NOT NULL,

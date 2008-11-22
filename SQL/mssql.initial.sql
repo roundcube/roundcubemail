@@ -1,7 +1,6 @@
 CREATE TABLE [dbo].[cache] (
 	[cache_id] [int] IDENTITY (1, 1) NOT NULL ,
 	[user_id] [int] NOT NULL ,
-	[session_id] [varchar] (32) COLLATE Latin1_General_CI_AI NULL ,
 	[cache_key] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
@@ -119,7 +118,6 @@ GO
 
 ALTER TABLE [dbo].[cache] ADD 
 	CONSTRAINT [DF_cache_user_id] DEFAULT ('0') FOR [user_id],
-	CONSTRAINT [DF_cache_session_id] DEFAULT (null) FOR [session_id],
 	CONSTRAINT [DF_cache_cache_key] DEFAULT ('') FOR [cache_key],
 	CONSTRAINT [DF_cache_created] DEFAULT (getdate()) FOR [created]
 GO
@@ -128,9 +126,6 @@ GO
 GO
 
  CREATE  INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
-GO
-
- CREATE  INDEX [IX_cache_session_id] ON [dbo].[cache]([session_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contacts] ADD 

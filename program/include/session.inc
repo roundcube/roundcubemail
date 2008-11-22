@@ -111,12 +111,6 @@ function rcube_sess_destroy($key)
 
   $DB->query("DELETE FROM " . get_table_name('session') . " WHERE sess_id=?", $key);
 
-  // delete session entries in cache table
-  // on databases wthout foreign keys
-  if ($rcmail->config->get('enable_caching') && $DB->db_provider != 'pgsql') {
-    $DB->query("DELETE FROM " . get_table_name('cache') . " WHERE session_id=?", $key);
-  }
-
   return true;
 }
 
@@ -131,34 +125,8 @@ function rcube_sess_gc($maxlifetime)
     return false;
   }
 
-  $now = $DB->fromunixtime(time() - $maxlifetime);
-
-  // delete session entries in cache table
-  if ($rcmail->config->get('enable_caching')) {
-
-    // on databases wthout foreign keys...
-    if($DB->db_provider != 'pgsql') {
-
-      // get all expired sessions
-      $sql_result = $DB->query(
-	"SELECT sess_id FROM " . get_table_name('session') . "
-    	    WHERE changed < " . $now);
-
-      $exp_sessions = array();
-      while ($sql_arr = $DB->fetch_assoc($sql_result)) {
-        $exp_sessions[] = $sql_arr['sess_id'];
-      }
-
-      if (sizeof($exp_sessions)) {
-        $exp_sessions = "'" . join("','", $exp_sessions) . "'";
-        // delete session cache records
-        $DB->query("DELETE FROM " . get_table_name('cache') . "
-            WHERE session_id IN (" . $exp_sessions . ")");
-      }
-    }
-    // also run message cache GC
+  if ($rcmail->config->get('enable_caching'))
     rcmail_message_cache_gc();
-  }
 
   // just delete all expired sessions
   $DB->query("DELETE FROM " . get_table_name('session') . "

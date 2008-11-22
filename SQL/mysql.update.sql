@@ -34,10 +34,7 @@ ALTER TABLE `messages`
 -- Updates from version 0.2-beta (InnoDB only)
 
 ALTER TABLE `cache`
-    ADD CONSTRAINT `session_id_fk_cache` FOREIGN KEY (`session_id`)
-    REFERENCES `session`(`sess_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
-
+    DROP `session_id`;
+    
 ALTER TABLE `session`
     ADD INDEX `changed_index` (`changed`);

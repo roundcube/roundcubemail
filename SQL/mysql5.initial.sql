@@ -68,7 +68,6 @@ CREATE TABLE `messages` (
 
 CREATE TABLE `cache` (
  `cache_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- `session_id` varchar(40) CHARACTER SET ascii COLLATE ascii_general_ci,
  `cache_key` varchar(128) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `data` longtext NOT NULL,
@@ -77,10 +76,6 @@ CREATE TABLE `cache` (
  INDEX `user_cache_index` (`user_id`,`cache_key`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
-     ON DELETE CASCADE
-     ON UPDATE CASCADE,
- CONSTRAINT `session_id_fk_cache` FOREIGN KEY (`session_id`)
-   REFERENCES `session`(`sess_id`)
      ON DELETE CASCADE
      ON UPDATE CASCADE
 ) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
