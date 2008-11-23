@@ -202,6 +202,8 @@ function rcube_webmail()
             }
           if (this.env.drafts_mailbox)
             this.enable_command('savedraft', true);
+            
+          document.onmouseup = function(e){ return p.doc_mouse_up(e); };
           }
 
         if (this.env.messagecount)
@@ -2503,7 +2505,7 @@ function rcube_webmail()
         li = document.createElement('LI');
         li.innerHTML = a_results[i].replace(/</, '&lt;').replace(/>/, '&gt;').replace(new RegExp('('+this.ksearch_value+')', 'ig'), '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
-        li.onclick = function(){ ref.ksearch_click(this) };
+        li.onmouseup = function(){ ref.ksearch_click(this) };
         li._rcm_id = a_result_ids[i];
         ul.appendChild(li);
       }
