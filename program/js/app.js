@@ -565,7 +565,7 @@ function rcube_webmail()
         var sort_col = a_sort[0];
         var sort_order = a_sort[1] ? a_sort[1].toUpperCase() : null;
         var header;
-        
+
         // no sort order specified: toggle
         if (sort_order==null)
           {
@@ -579,9 +579,9 @@ function rcube_webmail()
           break;
 
         // set table header class
-        if (header = document.getElementById('rcmHead'+this.env.sort_col))
+        if (header = document.getElementById('rcm'+this.env.sort_col))
           this.set_classname(header, 'sorted'+(this.env.sort_order.toUpperCase()), false);
-        if (header = document.getElementById('rcmHead'+sort_col))
+        if (header = document.getElementById('rcm'+sort_col))
           this.set_classname(header, 'sorted'+sort_order, true);
 
         // save new sort properties
@@ -3427,7 +3427,7 @@ function rcube_webmail()
         else
           cell.innerHTML = this.get_label(this.coltypes[n]);
 
-        cell.id = 'rcmHead'+col;
+        cell.id = 'rcm'+col;
         }
       else if (col == 'subject' && this.message_list)
         this.message_list.subject_col = n+1;
@@ -3498,17 +3498,14 @@ function rcube_webmail()
           col.innerHTML = '<img src="'+this.env.flaggedicon+'" alt="" />';
         else if(this.env.unflaggedicon)
           col.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
-	}
+      }
+      else if (c=='attachment')
+        col.innerHTML = attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '';
       else
         col.innerHTML = cols[c];
 
       row.appendChild(col);
       }
-
-    col = document.createElement('TD');
-    col.className = 'icon';
-    col.innerHTML = attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '';
-    row.appendChild(col);
 
     this.message_list.insert_row(row, attop);
 

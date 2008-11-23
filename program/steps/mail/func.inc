@@ -114,8 +114,16 @@ function rcmail_message_list($attrib)
 
   $out = '<table' . $attrib_str . ">\n";
 
-  // define list of cols to be displayed
-  $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  // define list of cols to be displayed based on parameter or config
+  if (empty($attrib['columns']))
+      $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  else
+      $a_show_cols = explode(',', strip_quotes($attrib['columns']));
+
+  // store column list in a session-variable
+  $_SESSION['list_columns'] = $a_show_cols;
+  
+  // define sortable columns
   $a_sort_cols = array('subject', 'date', 'from', 'to', 'size');
 
   $mbox = $IMAP->get_mailbox_name();
@@ -130,9 +138,8 @@ function rcmail_message_list($attrib)
   $out .= '<col class="icon" />';
 
   foreach ($a_show_cols as $col)
-    $out .= sprintf('<col class="%s" />', $col);
+    $out .= ($col!='attachment') ? sprintf('<col class="%s" />', $col) : '<col class="icon" />';
 
-  $out .= '<col class="icon" />';
   $out .= "</colgroup>\n";
 
   // add table title
@@ -142,7 +149,17 @@ function rcmail_message_list($attrib)
   foreach ($a_show_cols as $col)
     {
     // get column name
-    $col_name = $col != 'flag' ? Q(rcube_label($col)) : sprintf($image_tag, $skin_path, $attrib['unflaggedicon'], '');
+    switch ($col)
+      {
+      case 'flag':
+        $col_name = sprintf($image_tag, $skin_path, $attrib['unflaggedicon'], '');
+        break;
+      case 'attachment':
+        $col_name = sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '');
+        break;
+      default:
+        $col_name = Q(rcube_label($col));
+    }
 
     // make sort links
     $sort = '';
@@ -190,10 +207,12 @@ function rcmail_message_list($attrib)
     $sort_class = $col==$sort_col ? " sorted$sort_order" : '';
 
     // put it all together
-    $out .= '<td class="'.$col.$sort_class.'" id="rcmHead'.$col.'">' . "$col_name$sort</td>\n";    
+    if ($col!='attachment')
+      $out .= '<td class="'.$col.$sort_class.'" id="rcm'.$col.'">' . "$col_name$sort</td>\n";
+    else    
+      $out .= '<td class="icon" id="rcm'.$col.'">' . "$col_name$sort</td>\n";
     }
 
-  $out .= '<td class="icon">'.($attrib['attachmenticon'] ? sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '') : '&nbsp;')."</td>\n";
   $out .= "</tr></thead>\n<tbody>\n";
 
   // no messages in this mailbox
@@ -283,10 +302,12 @@ function rcmail_message_list($attrib)
       else
         $cont = Q($header->$col);
         
-      $out .= '<td class="'.$col.'">' . $cont . "</td>\n";
+      if ($col!='attachment')
+        $out .= '<td class="'.$col.'">' . $cont . "</td>\n";
+      else
+        $out .= sprintf("<td class=\"icon\">%s</td>\n", $attach_icon ? sprintf($image_tag, $skin_path, $attach_icon, '') : '');
       }
 
-    $out .= sprintf("<td class=\"icon\">%s</td>\n", $attach_icon ? sprintf($image_tag, $skin_path, $attach_icon, '') : '');
     $out .= "</tr>\n";
     
     if (sizeof($js_row_arr))
@@ -342,7 +363,11 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   {
   global $CONFIG, $IMAP, $OUTPUT;
 
-  $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  if (empty($_SESSION['list_columns']))
+    $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  else
+    $a_show_cols = $_SESSION['list_columns'];
+
   $mbox = $IMAP->get_mailbox_name();
 
   // show 'to' instead of from in sent messages
@@ -363,6 +388,12 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
 
     if (!empty($header->charset))
       $IMAP->set_charset($header->charset);
+
+    // remove 'attachment' and 'flag' columns, we don't need them here
+    if(($key = array_search('attachment', $a_show_cols)) !== FALSE)
+      unset($a_show_cols[$key]);
+    if(($key = array_search('flag', $a_show_cols)) !== FALSE)
+      unset($a_show_cols[$key]);
 
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col)

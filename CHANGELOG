@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/23 (alec)
+----------
+- Allow setting attachment col position in 'list_cols' option
+- Allow override 'list_cols' via skin (#1485577)
+
 2008/11/21 (alec)
 ----------
 - Fix 'cache' table cleanup on session destroy (#1485516)

@@ -661,7 +661,7 @@ function create_attrib_string($attrib, $allowed_attribs=array('id', 'class', 'st
 function parse_attrib_string($str)
   {
   $attrib = array();
-  preg_match_all('/\s*([-_a-z]+)=(["\'])??(?(2)([^\2]+)\2|(\S+?))/Ui', stripslashes($str), $regs, PREG_SET_ORDER);
+  preg_match_all('/\s*([-_a-z]+)=(["\'])??(?(2)([^\2]*)\2|(\S+?))/Ui', stripslashes($str), $regs, PREG_SET_ORDER);
 
   // convert attributes to an associative array (name => value)
   if ($regs)
