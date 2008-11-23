@@ -125,12 +125,12 @@ function rcube_sess_gc($maxlifetime)
     return false;
   }
 
-  if ($rcmail->config->get('enable_caching'))
-    rcmail_message_cache_gc();
-
   // just delete all expired sessions
   $DB->query("DELETE FROM " . get_table_name('session') . "
-    WHERE changed < " . $now);
+    WHERE changed < " . $DB->fromunixtime(time() - $maxlifetime));
+
+  if ($rcmail->config->get('enable_caching'))
+    rcmail_cache_gc();
 
   rcmail_temp_gc();
 

@@ -151,19 +151,19 @@ function rcmail_temp_gc()
  * Garbage collector for cache entries.
  * Remove all expired message cache records
  */
-function rcmail_message_cache_gc()
+function rcmail_cache_gc()
   {
-  global $DB, $CONFIG;
-  
-  // no cache lifetime configured
-  if (empty($CONFIG['message_cache_lifetime']))
-    return;
+  $rcmail = rcmail::get_instance();
+  $db = $rcmail->get_dbh();
   
   // get target timestamp
-  $ts = get_offset_time($CONFIG['message_cache_lifetime'], -1);
+  $ts = get_offset_time($rcmail->config->get('message_cache_lifetime', '30d'), -1);
   
-  $DB->query("DELETE FROM ".get_table_name('messages')."
-             WHERE  created < ".$DB->fromunixtime($ts));
+  $db->query("DELETE FROM ".get_table_name('messages')."
+             WHERE  created < " . $db->fromunixtime($ts));
+
+  $db->query("DELETE FROM ".get_table_name('cache')."
+              WHERE  created < " . $db->fromunixtime($ts));
   }
 
 
