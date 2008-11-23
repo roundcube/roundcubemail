@@ -84,9 +84,9 @@ class rcube_ldap
     {
       if ($lc = @ldap_connect($host, $this->prop['port']))
       {
-	if ($this->prop['use_tls']===true)
-	  if (!ldap_start_tls($lc))
-	    continue;
+        if ($this->prop['use_tls']===true)
+          if (!ldap_start_tls($lc))
+            continue;
 
         ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $this->prop['ldap_version']);
         $this->prop['host'] = $host;
@@ -162,7 +162,7 @@ class rcube_ldap
       return false;
     }
     
-    if (ldap_bind($this->conn, $dn, $pass)) {
+    if (@ldap_bind($this->conn, $dn, $pass)) {
       return true;
     }
 
@@ -560,7 +560,7 @@ class rcube_ldap
    */
   function _exec_search()
   {
-    if ($this->conn && $this->filter)
+    if ($this->ready && $this->filter)
     {
       $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
       $this->ldap_result = $function($this->conn, $this->prop['base_dn'], $this->filter, array_values($this->fieldmap), 0, 0);
