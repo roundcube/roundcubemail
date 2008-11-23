@@ -416,7 +416,7 @@ class rcube_vcard
       'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
       'WINDOWS-1252', 'WINDOWS-1251', 'BIG5', 'GB2312');
 
-    if (function_exists('mb_detect_encoding') && ($enc = mb_detect_encoding($string, join(',', $encodings))))
+    if (function_exists('mb_detect_encoding') && ($enc = mb_detect_encoding($string, $encodings)))
       return $enc;
 
     // No match, check for UTF-8
@@ -433,7 +433,7 @@ class rcube_vcard
         )*\z/xs', substr($string, 0, 2048)))
       return 'UTF-8';
 
-    return 'ISO-8859-1'; # fallback to Latin-1
+    return rcmail::get_instance()->config->get('default_charset', 'ISO-8859-1'); # fallback to Latin-1
   }
 
 }
