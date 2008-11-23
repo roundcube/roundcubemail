@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/23 (thomasb)
+----------
+- Do serverside addressbook queries for autocompletion (#1485531)
+
 2008/11/23 (alec)
 ----------
 - Allow setting attachment col position in 'list_cols' option

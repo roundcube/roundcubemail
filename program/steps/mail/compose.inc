@@ -83,7 +83,7 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
 // add some labels to client
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning',
     'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved',
-    'converting', 'editorwarning');
+    'converting', 'editorwarning', 'searching');
 
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
@@ -912,54 +912,6 @@ $OUTPUT->add_handlers(array(
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
   'storetarget' => 'rcmail_store_target_selection',
 ));
-
-/****** get contacts for this user and add them to client scripts ********/
-
-$CONTACTS = new rcube_contacts($DB, $USER->ID);
-$CONTACTS->set_pagesize(1000);
-
-$a_contacts = array(); 
-                                   
-if ($result = $CONTACTS->list_records())
-  {
-  while ($sql_arr = $result->iterate())
-    if ($sql_arr['email'])
-      $a_contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
-  }
-if (!empty($CONFIG['ldap_public']) && is_array($CONFIG['ldap_public']))
-  {
-  /* LDAP autocompletion */ 
-  foreach ($CONFIG['ldap_public'] as $ldapserv_config) 
-    { 
-    if ($ldapserv_config['fuzzy_search'] != 1 || 
-        $ldapserv_config['global_search'] != 1)
-      { 
-      continue; 
-      }
-	 
-    $LDAP = new rcube_ldap($ldapserv_config); 
-    $LDAP->connect(); 
-    $LDAP->set_pagesize(1000);
-  
-    $results = $LDAP->search($ldapserv_config['mail_field'], ""); 
- 
-    for ($i = 0; $i < $results->count; $i++) 
- 	  { 
- 	  if ($results->records[$i]['email'] != '') 
- 	    { 
- 	    $email = $results->records[$i]['email']; 
- 	    $name = $results->records[$i]['name']; 
- 		 
- 	    $a_contacts[] = format_email_recipient($email, $name);
- 	    } 
- 	  }
-    $LDAP->close(); 
-    }
-  }
-if ($a_contacts) 
-  { 
- 	$OUTPUT->set_env('contacts', $a_contacts); 
-  }
 
 $OUTPUT->send('compose');
 

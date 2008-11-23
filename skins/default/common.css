@@ -431,12 +431,14 @@ a.rcmContactAddress:hover
 
 #rcmKSearchpane ul li
 {
+  display: block;
   height: 16px;
   font-size: 11px;
-  padding-left: 8px;
+  padding-left: 6px;
   padding-top: 2px;
-  padding-right: 8px;
-  white-space: nowrap;  
+  padding-right: 6px;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 #rcmKSearchpane ul li.selected

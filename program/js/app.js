@@ -458,20 +458,13 @@ function rcube_webmail()
   this.init_address_input_events = function(obj)
     {
     var handler = function(e){ return ref.ksearch_keypress(e,this); };
-    var handler2 = function(e){ return ref.ksearch_blur(e,this); };
     
     if (obj.addEventListener)
-    {
       obj.addEventListener(bw.safari ? 'keydown' : 'keypress', handler, false);
-      obj.addEventListener('blur', handler2, false);
-    }
     else
-    {
       obj.onkeydown = handler;
-      obj.onblur = handler2;
-    }
 
-    obj.setAttribute('autocomplete', 'off');       
+    obj.setAttribute('autocomplete', 'off');
     };
 
 
@@ -1172,6 +1165,9 @@ function rcube_webmail()
     else if (this.contact_list) {
       this.contact_list.blur();
       model = this.env.address_sources;
+    }
+    else if (this.ksearch_value) {
+      this.ksearch_blur();
     }
     
     // handle mouse release when dragging
@@ -2313,15 +2309,15 @@ function rcube_webmail()
         }
 
       if (this.gui_objects.search_filter)
-	addurl = '&_filter=' + this.gui_objects.search_filter.value;
+      addurl = '&_filter=' + this.gui_objects.search_filter.value;
 
       // reset vars
       this.env.current_page = 1;
       this.set_busy(true, 'searching');
       this.http_request('search', '_q='+urlencode(value)
-    	    +(this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')
-	    +(this.env.source ? '&_source='+urlencode(this.env.source) : '')
-	    +(addurl ? addurl : ''), true);
+        + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')
+        + (this.env.source ? '&_source='+urlencode(this.env.source) : '')
+        + (addurl ? addurl : ''), true);
       }
     return true;
     };
@@ -2349,10 +2345,7 @@ function rcube_webmail()
 
   // handler for keyboard events on address-fields
   this.ksearch_keypress = function(e, obj)
-    {
-    if (typeof(this.env.contacts)!='object' || !this.env.contacts.length)
-      return true;
-
+  {
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
@@ -2368,24 +2361,13 @@ function rcube_webmail()
           break;
           
         var dir = key==38 ? 1 : 0;
-        var next;
         
         highlight = document.getElementById('rcmksearchSelected');
         if (!highlight)
           highlight = this.ksearch_pane.ul.firstChild;
         
-        if (highlight && (next = dir ? highlight.previousSibling : highlight.nextSibling))
-          {
-          highlight.removeAttribute('id');
-          this.set_classname(highlight, 'selected', false);
-          }
-
-        if (next)
-          {
-          next.setAttribute('id', 'rcmksearchSelected');
-          this.set_classname(next, 'selected', true);
-          this.ksearch_selected = next._rcm_id;
-          }
+        if (highlight)
+          this.ksearch_select(dir ? highlight.previousSibling : highlight.nextSibling);
 
         return rcube_event.cancel(e);
 
@@ -2393,7 +2375,7 @@ function rcube_webmail()
         if(mod == SHIFT_KEY)
           break;
 
-      case 13:  // enter     
+      case 13:  // enter
         if (this.ksearch_selected===null || !this.ksearch_input || !this.ksearch_value)
           break;
 
@@ -2414,7 +2396,22 @@ function rcube_webmail()
     this.ksearch_input = obj;
     
     return true;
-    };
+  };
+  
+  this.ksearch_select = function(node)
+  {
+    var current = document.getElementById('rcmksearchSelected');
+    if (current && node) {
+      current.removeAttribute('id');
+      this.set_classname(current, 'selected', false);
+    }
+
+    if (node) {
+      node.setAttribute('id', 'rcmksearchSelected');
+      this.set_classname(node, 'selected', true);
+      this.ksearch_selected = node._rcm_id;
+    }
+  };
 
   this.insert_recipient = function(id)
   {
@@ -2440,10 +2437,13 @@ function rcube_webmail()
 
   // address search processor
   this.ksearch_get_results = function()
-    {
+  {
     var inp_value = this.ksearch_input ? this.ksearch_input.value : null;
-    if (inp_value===null)
+    if (inp_value === null)
       return;
+      
+    if (this.ksearch_pane && this.ksearch_pane.visible)
+      this.ksearch_pane.show(0);
 
     // get string from current cursor pos to last comma
     var cpos = this.get_caret_pos(this.ksearch_input);
@@ -2453,45 +2453,45 @@ function rcube_webmail()
     // trim query string
     q = q.replace(/(^\s+|\s+$)/g, '').toLowerCase();
 
-    if (!q.length || q==this.ksearch_value)
-      {
-      if (!q.length && this.ksearch_pane && this.ksearch_pane.visible)
-        this.ksearch_pane.show(0);
-
-      return;
-      }
+    // Don't (re-)search if string is empty or if the last results are still active
+    if (!q.length || q == this.ksearch_value)
+        return;
 
     this.ksearch_value = q;
     
-    // start searching the contact list
-    var a_results = new Array();
-    var a_result_ids = new Array();
-    var c=0;
-    for (var i=0; i<this.env.contacts.length; i++)
-      {
-      if (this.env.contacts[i].toLowerCase().indexOf(q)>=0)
-        {
-        a_results[c] = this.env.contacts[i];
-        a_result_ids[c++] = i;
-        
-        if (c==15)  // limit search results
-          break;
-        }
-      }
+    this.display_message('searching', 'loading', true);
+    this.http_post('autocomplete', '_search='+q);
+  };
 
+  this.ksearch_query_results = function(results)
+  {
+    this.hide_message();
+    this.env.contacts = results ? results : [];
+
+    var result_ids = new Array();
+    var c=0;
+    for (var i=0; i < this.env.contacts.length; i++) {
+      result_ids[c++] = i;
+      if (c == 15)  // limit search results
+        break;
+    }
+    
+    this.ksearch_display_results(this.env.contacts, result_ids, c);
+  };
+
+  this.ksearch_display_results = function (a_results, a_result_ids, c)
+  {
     // display search results
-    if (c && a_results.length)
-      {
+    if (c && a_results.length) {
       var p, ul, li;
       
       // create results pane if not present
-      if (!this.ksearch_pane)
-        {
+      if (!this.ksearch_pane) {
         ul = document.createElement('UL');
         this.ksearch_pane = new rcube_layer('rcmKSearchpane', {vis:0, zindex:30000});
         this.ksearch_pane.elm.appendChild(ul);
         this.ksearch_pane.ul = ul;
-        }
+      }
       else
         ul = this.ksearch_pane.ul;
 
@@ -2499,51 +2499,58 @@ function rcube_webmail()
       ul.innerHTML = '';
             
       // add each result line to list
-      for (i=0; i<a_results.length; i++)
-        {
+      for (i=0; i<a_results.length; i++) {
         li = document.createElement('LI');
-        li.innerHTML = a_results[i].replace(/</, '&lt;').replace(/>/, '&gt;');
+        li.innerHTML = a_results[i].replace(/</, '&lt;').replace(/>/, '&gt;').replace(new RegExp('('+this.ksearch_value+')', 'ig'), '<b>$1</b>');
+        li.onmouseover = function(){ ref.ksearch_select(this); };
+        li.onclick = function(){ ref.ksearch_click(this) };
         li._rcm_id = a_result_ids[i];
         ul.appendChild(li);
-        }
+      }
 
       // check if last selected item is still in result list
-      if (this.ksearch_selected!==null)
-        {
+      if (this.ksearch_selected !== null) {
         p = find_in_array(this.ksearch_selected, a_result_ids);
-        if (p>=0 && ul.childNodes)
-          {
+        if (p >= 0 && ul.childNodes) {
           ul.childNodes[p].setAttribute('id', 'rcmksearchSelected');
           this.set_classname(ul.childNodes[p], 'selected', true);
-          }
+        }
         else
           this.ksearch_selected = null;
-        }
+      }
       
       // if no item selected, select the first one
-      if (this.ksearch_selected===null)
-        {
+      if (this.ksearch_selected === null) {
         ul.firstChild.setAttribute('id', 'rcmksearchSelected');
         this.set_classname(ul.firstChild, 'selected', true);
         this.ksearch_selected = a_result_ids[0];
-        }
+      }
 
       // move the results pane right under the input box and make it visible
       var pos = rcube_get_object_pos(this.ksearch_input);
       this.ksearch_pane.move(pos.x, pos.y+this.ksearch_input.offsetHeight);
-      this.ksearch_pane.show(1); 
-      }
+      this.ksearch_pane.show(1);
+    }
     // hide results pane
     else
       this.ksearch_hide();
-    };
+  };
+  
+  this.ksearch_click = function(node)
+  {
+    this.insert_recipient(node._rcm_id);
+    this.ksearch_hide();
+    
+    if (ref.ksearch_input)
+      this.ksearch_input.focus();
+  };
 
-  this.ksearch_blur = function(e, obj)
+  this.ksearch_blur = function()
     {
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    this.ksearch_value = '';      
+    this.ksearch_value = '';
     this.ksearch_input = null;
     
     this.ksearch_hide();
@@ -2555,7 +2562,7 @@ function rcube_webmail()
     this.ksearch_selected = null;
     
     if (this.ksearch_pane)
-      this.ksearch_pane.show(0);    
+      this.ksearch_pane.show(0);
     };
 
 
