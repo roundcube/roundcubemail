@@ -2354,7 +2354,7 @@ function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 
 	$part = empty($part) ? 'HEADER' : $part.'.MIME';
 
-	return iil_C_HandlePartBody(&$conn, $mailbox, $id, $part, 1);
+	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1);
 }
 
 function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NULL) {
