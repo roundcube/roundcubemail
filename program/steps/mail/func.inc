@@ -264,7 +264,7 @@ function rcmail_message_list($attrib)
       $flagged_icon = $attrib['unflaggedicon'];
     
     // set attachment icon
-    if ($attrib['attachmenticon'] && preg_match("/multipart\/[mr]/i", $header->ctype))
+    if ($attrib['attachmenticon'] && preg_match("/multipart\/m/i", $header->ctype))
       $attach_icon = $attrib['attachmenticon'];
         
     $out .= sprintf('<tr id="rcmrow%d" class="message%s%s%s%s">'."\n",
