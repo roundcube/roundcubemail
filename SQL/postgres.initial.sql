@@ -135,6 +135,7 @@ CREATE TABLE "cache" (
 );
 
 CREATE INDEX cache_user_id_idx ON "cache" (user_id, cache_key);
+CREATE INDEX cache_created_idx ON "cache" (created);
 
 --
 -- Sequence "message_ids"

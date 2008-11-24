@@ -73,6 +73,7 @@ CREATE TABLE `cache` (
  `data` longtext NOT NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`cache_id`),
+ INDEX `created_index` (`created`),
  INDEX `user_cache_index` (`user_id`,`cache_key`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)

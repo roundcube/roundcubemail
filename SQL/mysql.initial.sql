@@ -15,6 +15,7 @@ CREATE TABLE `cache` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `data` longtext NOT NULL,
   PRIMARY KEY  (`cache_id`),
+  INDEX `created_index` (`created`),
   INDEX `user_cache_index` (`user_id`,`cache_key`)
 );
 

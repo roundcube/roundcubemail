@@ -17,6 +17,7 @@ CREATE TABLE cache (
 );
 
 CREATE INDEX ix_cache_user_cache_key ON cache(user_id, cache_key);
+CREATE INDEX ix_cache_created ON cache(created);
 
 
 -- --------------------------------------------------------

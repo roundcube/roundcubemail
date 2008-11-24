@@ -38,3 +38,6 @@ ALTER TABLE `cache`
     
 ALTER TABLE `session`
     ADD INDEX `changed_index` (`changed`);
+
+ALTER TABLE `cache`
+    ADD INDEX `created_index` (`created`);

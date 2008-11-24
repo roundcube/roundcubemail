@@ -27,3 +27,4 @@ CREATE INDEX messages_created_idx ON messages (created);
 ALTER TABLE cache DROP session_id;
 
 CREATE INDEX session_changed_idx ON session (changed);
+CREATE INDEX cache_created_idx ON "cache" (created);

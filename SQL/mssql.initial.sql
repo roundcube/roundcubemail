@@ -128,6 +128,9 @@ GO
  CREATE  INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
 GO
 
+ CREATE  INDEX [IX_cache_created] ON [dbo].[cache]([created]) ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[contacts] ADD 
 	CONSTRAINT [DF_contacts_user_id] DEFAULT (0) FOR [user_id],
 	CONSTRAINT [DF_contacts_changed] DEFAULT (getdate()) FOR [changed],
@@ -179,10 +182,10 @@ GO
  CREATE  INDEX [IX_messages_cache_key] ON [dbo].[messages]([cache_key]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_messages_idx] ON [dbo].[messages]([idx]) ON [PRIMARY]
+ CREATE  INDEX [IX_messages_uid] ON [dbo].[messages]([uid]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_messages_uid] ON [dbo].[messages]([uid]) ON [PRIMARY]
+ CREATE  INDEX [IX_messages_created] ON [dbo].[messages]([created]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[session] ADD 
@@ -200,5 +203,11 @@ ALTER TABLE [dbo].[users] ADD
 	CONSTRAINT [DF_users_alias] DEFAULT ('') FOR [alias],
 	CONSTRAINT [DF_users_created] DEFAULT (getdate()) FOR [created],
 	CONSTRAINT [DF_users_language] DEFAULT ('en') FOR [language]
+GO
+
+ CREATE  INDEX [IX_users_username] ON [dbo].[users]([username]) ON [PRIMARY]
+GO
+
+ CREATE  INDEX [IX_users_alias] ON [dbo].[users]([alias]) ON [PRIMARY]
 GO
 
