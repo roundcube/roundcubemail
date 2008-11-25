@@ -21,7 +21,7 @@ CREATE TABLE users (
     alias character varying(128) DEFAULT ''::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     last_login timestamp with time zone DEFAULT now() NOT NULL,
-    "language" character varying(5) DEFAULT 'en'::character varying NOT NULL,
+    "language" character varying(5),
     preferences text DEFAULT ''::text NOT NULL
 );
 

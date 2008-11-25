@@ -41,3 +41,6 @@ ALTER TABLE `session`
 
 ALTER TABLE `cache`
     ADD INDEX `created_index` (`created`);
+
+ALTER TABLE `users`
+    CHANGE `language` `language` varchar(5);

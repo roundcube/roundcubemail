@@ -76,7 +76,7 @@ CREATE TABLE users (
   alias varchar(128) NOT NULL default '',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   last_login datetime NOT NULL default '0000-00-00 00:00:00',
-  language varchar(5) NOT NULL default 'en',
+  language varchar(5),
   preferences text NOT NULL default ''
 );
 
