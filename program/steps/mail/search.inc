@@ -79,7 +79,7 @@ if ($subject && !is_array($subject))
 else if ($subject) {
   $search_str .= ' OR';
   foreach($subject as $sub)
-    $search_str .= sprintf(" (%s {%d}\r\n%s)", $sub, strlen($search), $search);
+    $search_str .= sprintf(" %s {%d}\r\n%s", $sub, strlen($search), $search);
 }
 
 $search_str = trim($search_str);
