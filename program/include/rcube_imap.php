@@ -294,7 +294,7 @@ class rcube_imap
       $msgs = split(',', $msgs);
       
     $this->search_string = $str;
-    $this->search_set = (array)$msgs;
+    $this->search_set = $msgs;
     $this->search_charset = $charset;
     $this->search_sort_field = $sort_field;
     }
