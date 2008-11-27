@@ -24,7 +24,7 @@ function __autoload($classname)
  */
 function Q($string)
 {
-  return htmlentities($string);
+  return htmlentities($string, ENT_COMPAT, 'UTF-8');
 }
 
 

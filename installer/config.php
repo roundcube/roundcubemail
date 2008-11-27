@@ -348,7 +348,7 @@ $text_sentmbox = new html_inputfield(array('name' => '_sent_mbox', 'size' => 20,
 echo $text_sentmbox->show($RCI->getprop('sent_mbox'));
 
 ?>
-<div>Store sent messages is this folder</div>
+<div>Store sent messages in this folder</div>
 
 <p class="hint">Leave blank if sent messages should not be stored</p>
 </dd>
@@ -374,9 +374,21 @@ $text_draftsmbox = new html_inputfield(array('name' => '_drafts_mbox', 'size' =>
 echo $text_draftsmbox->show($RCI->getprop('drafts_mbox'));
 
 ?>
-<div>Store draft messages is this folder</div>
+<div>Store draft messages in this folder</div>
+
+<p class="hint">Leave blank if they should not be stored</p>
 </dd>
 
+<dt class="propname">junk_mbox</dt>
+<dd>
+<?php
+
+$text_junkmbox = new html_inputfield(array('name' => '_junk_mbox', 'size' => 20, 'id' => "cfgjunkmbox"));
+echo $text_junkmbox->show($RCI->getprop('junk_mbox'));
+
+?>
+<div>Store spam messages in this folder</div>
+</dd>
 </dl>
 </fieldset>
 

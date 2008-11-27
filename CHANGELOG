@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/26 (alec)
+----------
+- Allow UTF-8 folder names in config (#1485579)
+- Add junk_mbox option configuration in installer (#1485579)
+
 2008/11/23 (thomasb)
 ----------
 - Do serverside addressbook queries for autocompletion (#1485531)
