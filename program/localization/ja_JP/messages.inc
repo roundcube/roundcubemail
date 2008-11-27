@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/ja/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
- |         Takashi Takamatsu <taka717@gmail.com>                         |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/ja_JP/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
+|         Takashi Takamatsu <taka717@gmail.com>                         |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -41,6 +41,8 @@ $messages['encryptedmessage'] = 'このメールは暗号化されているた�
 $messages['nocontactsfound'] = '連絡先がありません。';
 $messages['contactnotfound'] = '要求された連絡先が見つかりません。';
 $messages['sendingfailed'] = 'メールの送信に失敗しました。';
+$messages['senttooquickly'] = 'このメールを送信する前に、$sec お待ちください。';
+$messages['errorsavingsent'] = '送信メールの保存中にエラーが発生しました。';
 $messages['errorsaving'] = '保存中にエラーが発生しました。';
 $messages['errormoving'] = 'メールを移動できません。';
 $messages['errordeleting'] = 'メールを削除できません。';
@@ -48,10 +50,15 @@ $messages['deletecontactconfirm'] = '選択した連絡先を本当に削除し�
 $messages['deletemessagesconfirm'] = '選択したメールを本当に削除しますか？';
 $messages['deletefolderconfirm'] = 'このフォルダを本当に削除しますか？';
 $messages['purgefolderconfirm'] = 'このフォルダの全てのメールを本当に削除しますか？';
+$messages['foldercreating'] = 'フォルダの作成中です...';
+$messages['folderdeleting'] = 'フォルダの削除中です...';
+$messages['folderrenaming'] = 'フォルダ名の変更中です...';
+$messages['foldermoving'] = 'フォルダの移動中です...';
 $messages['formincomplete'] = 'フォームの項目が完全に入力されていません。';
 $messages['noemailwarning'] = '有効なメールアドレスを入力して下さい。';
 $messages['nonamewarning'] = '名前を入力して下さい。';
 $messages['nopagesizewarning'] = 'ページのサイズを入力して下さい。';
+$messages['nosenderwarning'] = '送信者のメールアドレスを入力してください。';
 $messages['norecipientwarning'] = '受信者を最低 1 人は入力して下さい。';
 $messages['nosubjectwarning'] = '件名が空です。今すぐ入力しますか？';
 $messages['nobodywarning'] = '本文が無いメールを送信しますか？';
@@ -79,5 +86,14 @@ $messages['receiptsent'] = '開封確認を送信しました。';
 $messages['errorsendingreceipt'] = '開封確認を送信できません。';
 $messages['nodeletelastidentity'] = '削除できません。少なくとも１つの個人情報が必要です。';
 $messages['addsubfolderhint'] = '現在選択しているフォルダのサブフォルダとして作成されます。';
+$messages['forbiddencharacter'] = 'フォルダ名に利用できない文字が含まれています。';
+$messages['selectimportfile'] = 'アップロードするファイルを選択してください。';
+$messages['addresswriterror'] = '選択したアドレス帳に書き込めません。';
+$messages['importwait'] = 'インポート中です。しばらくお待ちください...';
+$messages['importerror'] = 'インポートに失敗しました。アップロードしたファイルは正しくない vCard ファイルです。';
+$messages['importconfirm'] = '<b>$inserted 件の連絡先のインポートに成功ました。<br />$skipped 件の登録済み連絡先をスキップしました。</b><p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'その操作は許可されていません。';
+$messages['nofromaddress'] = '選択中の個人情報のメールアドレスが失われました';
+$messages['editorwarning'] = 'テキストエディタに切替えるとすべての装飾が失われます。切替えてもよろしいですか?';
 
 ?>
