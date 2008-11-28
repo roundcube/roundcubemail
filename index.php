@@ -100,7 +100,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
     $OUTPUT->redirect();
   }
   else {
-    $OUTPUT->show_message($IMAP->error_code == 0 ? 'loginfailed' : 'imaperror', 'warning');
+    $OUTPUT->show_message($IMAP->error_code < -1 ? 'imaperror' : 'loginfailed', 'warning');
     $RCMAIL->kill_session();
   }
 }

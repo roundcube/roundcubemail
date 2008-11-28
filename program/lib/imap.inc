@@ -586,7 +586,7 @@ function iil_Connect($host, $user, $password) {
 	$conn->fp = fsockopen($host, $ICL_PORT, $errno, $errstr, 10);
 	if (!$conn->fp) {
     		$iil_error = "Could not connect to $host at port $ICL_PORT: $errstr";
-    		$iil_errornum = -1;
+    		$iil_errornum = -2;
 		return false;
 	}
 
