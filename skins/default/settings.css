@@ -50,17 +50,26 @@ span.tablink-selected a
   top: 95px;
   left: 20px;
   bottom: 60px;
-  width: 640px;
+  right: 20px;
   overflow: auto;
   border: 1px solid #999999;
   /* css hack for IE */
   height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
+  width: expression((parseInt(document.documentElement.clientwidth)-40)+'px');
+}
+
+#userprefs-box fieldset
+{
+  float: left;
+  margin-right: 14px;
+  width: 520px;
 }
 
 #userprefs-box table td.title
 {
   color: #666666;
   padding-right: 10px;
+  white-space: nowrap;
 }
 
 #userprefs-box table tr.advanced
@@ -271,6 +280,6 @@ div.advswitch
   text-align: right;
   position: absolute;
   bottom: 35px;
-  left: 200px;
+  right: 20px;
   width: 460px;
 }
