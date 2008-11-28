@@ -78,7 +78,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
   if (empty($_COOKIE)) {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
-  else if ($_SESSION['temp'] && !empty($_POST['_user']) && isset($_POST['_pass']) &&
+  else if ($_SESSION['temp'] && !empty($_POST['_user']) && !empty($_POST['_pass']) &&
            $RCMAIL->login(trim(get_input_value('_user', RCUBE_INPUT_POST), ' '),
               get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host)) {
     // create new session ID
@@ -100,7 +100,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
     $OUTPUT->redirect();
   }
   else {
-    $OUTPUT->show_message($IMAP->error_code == -1 ? 'loginfailed' : 'imaperror', 'warning');
+    $OUTPUT->show_message($IMAP->error_code == 0 ? 'loginfailed' : 'imaperror', 'warning');
     $RCMAIL->kill_session();
   }
 }
