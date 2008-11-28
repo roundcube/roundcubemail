@@ -38,6 +38,7 @@ $a_user_prefs = array(
   'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
   'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
   'keep_alive' => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],
+  'check_all_folders' => isset($_POST['_check_all_folders']) ? TRUE : FALSE,
   'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
   'mdn_requests' => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
   'skin' => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],

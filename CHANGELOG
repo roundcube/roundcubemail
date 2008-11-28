@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/11/28 (thomasb)
+----------
+- Option to check for new mails in all folders (#1484374)
+- Don't set client busy when checking for new messages (#1485276)
+
 2008/11/26 (alec)
 ----------
 - Allow UTF-8 folder names in config (#1485579)

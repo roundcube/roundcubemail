@@ -181,12 +181,19 @@ function rcmail_user_prefs_form($attrib)
 
     foreach(array(1, 3, 5, 10, 15, 30, 60) as $min)
       if((!$config['min_keep_alive'] || $config['min_keep_alive'] <= $min * 60)
-	&& (!$config['session_lifetime'] || $config['session_lifetime'] > $min)) {
+          && (!$config['session_lifetime'] || $config['session_lifetime'] > $min)) {
         $select_keep_alive->add(rcube_label(array('name' => 'keepaliveevery', 'vars' => array('n' => $min))), $min);
       }
 
     $table->add('title', html::label($field_id, Q(rcube_label('keepalive'))));
     $table->add(null, $select_keep_alive->show($config['keep_alive']/60));
+  }
+
+  if (!isset($no_override['check_all_folders'])) {
+    $field_id = 'rcmfd_check_all_folders';
+    $input_check_all = new html_checkbox(array('name' => '_check_all_folders', 'id' => $field_id, 'value' => 1));
+    $table->add('title', html::label($field_id, Q(rcube_label('checkallfolders'))));
+    $table->add(null, $input_check_all->show($config['check_all_folders']?1:0));
   }
 
   $out .= html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('mailboxview'))) . $table->show($attrib));

@@ -402,5 +402,8 @@ $rcmail_config['flag_for_deletion'] = FALSE;
 // Must be greater than or equal to 'min_keep_alive' and less than 'session_lifetime'
 $rcmail_config['keep_alive'] = 60;
 
+// If true all folders will be checked for recent messages
+$rcmail_config['check_all_folders'] = FALSE;
+
 // end of config file
 ?>

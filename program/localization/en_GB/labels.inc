@@ -233,6 +233,7 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
+$labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['messagesdisplaying'] = 'Displaying Messages';
 $labels['messagescomposition'] = 'Composing Messages';
 $labels['folder'] = 'Folder';

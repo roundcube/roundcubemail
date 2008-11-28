@@ -5,7 +5,7 @@
  | program/steps/mail/check_recent.inc                                   |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -20,13 +20,11 @@
 */
 
 $a_mailboxes = $IMAP->list_mailboxes();
+$check_all = (bool)$RCMAIL->config->get('check_all_folders');
 
-foreach ($a_mailboxes as $mbox_name)
-  {
-  if ($mbox_name == $IMAP->get_mailbox_name())
-    {
-    if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE))
-      {
+foreach ($a_mailboxes as $mbox_name) {
+  if ($mbox_name == $IMAP->get_mailbox_name()) {
+    if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE)) {
       // refresh saved search set
       if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set)
         $_SESSION['search'][$search_request] = $IMAP->refresh_search();
@@ -47,7 +45,7 @@ foreach ($a_mailboxes as $mbox_name)
       // add new message headers to list
       $a_headers = array();
       for ($i=$recent_count, $id=$count_all-$recent_count+1; $i>0; $i--, $id++)
-        {
+      {
         // skip message if it does not match the current search
         if (!$IMAP->in_searchset($id))
           continue;
@@ -55,17 +53,15 @@ foreach ($a_mailboxes as $mbox_name)
         $header = $IMAP->get_headers($id, NULL, FALSE);
         if ($header->recent)
           $a_headers[] = $header;
-        }
+      }
 
       rcmail_js_message_list($a_headers, TRUE);
-      }
-    }
-  else
-    {
-    if ($IMAP->messagecount($mbox_name, 'RECENT'))
-      $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'));
     }
   }
+  else if ($IMAP->messagecount($mbox_name, 'RECENT', $check_all)) {
+    $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN', $check_all));
+  }
+}
 
 $OUTPUT->send();
 
