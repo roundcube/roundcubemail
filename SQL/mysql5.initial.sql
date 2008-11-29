@@ -1,9 +1,9 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1
+-- Version 0.2
 
 -- --------------------------------------------------------
 
-SET FOREIGN_KEY_CHECKS=0;
+/*!40014  SET FOREIGN_KEY_CHECKS=0 */;
 
 
 -- Table structure for table `session`
@@ -16,7 +16,7 @@ CREATE TABLE `session` (
  `vars` text NOT NULL,
  PRIMARY KEY(`sess_id`),
  INDEX `changed_index` (`changed`)
-) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `users`
@@ -33,7 +33,7 @@ CREATE TABLE `users` (
  PRIMARY KEY(`user_id`),
  INDEX `username_index` (`username`),
  INDEX `alias_index` (`alias`)
-) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `messages`
@@ -42,7 +42,7 @@ CREATE TABLE `messages` (
  `message_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  `del` tinyint(1) NOT NULL DEFAULT '0',
- `cache_key` varchar(128) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+ `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL,
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `idx` int(11) UNSIGNED NOT NULL DEFAULT '0',
  `uid` int(11) UNSIGNED NOT NULL DEFAULT '0',
@@ -59,16 +59,17 @@ CREATE TABLE `messages` (
  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`),
  CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
+   /*!40008
      ON DELETE CASCADE
-     ON UPDATE CASCADE
-) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+     ON UPDATE CASCADE */
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `cache`
 
 CREATE TABLE `cache` (
  `cache_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- `cache_key` varchar(128) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+ `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL ,
  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
  `data` longtext NOT NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -77,9 +78,10 @@ CREATE TABLE `cache` (
  INDEX `user_cache_index` (`user_id`,`cache_key`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
+   /*!40008
      ON DELETE CASCADE
-     ON UPDATE CASCADE
-) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+     ON UPDATE CASCADE */
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `contacts`
@@ -97,9 +99,10 @@ CREATE TABLE `contacts` (
  PRIMARY KEY(`contact_id`),
  CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
+   /*!40008
      ON DELETE CASCADE
-     ON UPDATE CASCADE
-) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+     ON UPDATE CASCADE */
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `identities`
@@ -119,9 +122,10 @@ CREATE TABLE `identities` (
  PRIMARY KEY(`identity_id`),
  CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
+   /*!40008
      ON DELETE CASCADE
-     ON UPDATE CASCADE
-) TYPE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+     ON UPDATE CASCADE */
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
-SET FOREIGN_KEY_CHECKS=1;
+/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
