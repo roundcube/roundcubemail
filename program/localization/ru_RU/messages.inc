@@ -54,6 +54,7 @@ $messages['purgefolderconfirm'] = 'Вы действительно хотите 
 $messages['foldercreating'] = 'Создание папки...';
 $messages['folderdeleting'] = 'Удаление папки...';
 $messages['folderrenaming'] = 'Переименование папки...';
+$messages['foldermoving'] = 'Перемещение папки...';
 $messages['formincomplete'] = 'Заполнены не все поля';
 $messages['noemailwarning'] = 'Пожалуйста, введите корректный адрес электронной почты';
 $messages['nonamewarning'] = 'Пожалуйста, введите имя';
@@ -94,5 +95,6 @@ $messages['importerror'] = 'Импорт завершился неудачно! 
 $messages['importconfirm'] = '<b>Успешно импортировано $inserted контакт(ов), пропущено $skipped существующих</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Действие запрещено!';
 $messages['nofromaddress'] = 'В выбранном профиле не хватает адреса электронной почты';
+$messages['editorwarning'] = 'При переключении в редактор простого текста все форматирование будет потеряно. Продолжить?';
 
 ?>
