@@ -479,16 +479,6 @@ class rcube_install
     $db_map = array('pgsql' => 'postgres', 'mysqli' => 'mysql');
     $engine = isset($db_map[$DB->db_provider]) ? $db_map[$DB->db_provider] : $DB->db_provider;
     
-    // find out db version
-    if ($engine == 'mysql') {
-      $DB->query('SELECT VERSION() AS version');
-      $sql_arr = $DB->fetch_assoc();
-      $version = floatval($sql_arr['version']);
-      
-      if ($version >= 4.1)
-        $engine = 'mysql5';
-    }
-    
     // read schema file from /SQL/*
     $fname = "../SQL/$engine.initial.sql";
     if ($lines = @file($fname, FILE_SKIP_EMPTY_LINES)) {
