@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/hr/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Edi Budimilic <edi@gemstudio.hr>                              |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/hr/labels.inc                                                |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Edi Budimilic <edi@gemstudio.hr>                              |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -52,6 +52,7 @@ $labels['filename'] = 'Ime datoteke';
 $labels['filesize'] = 'Veličina datoteke';
 $labels['preferhtml'] = 'HTML format u prednosti';
 $labels['htmlmessage'] = 'HTML format poruke';
+$labels['showknownimages'] = 'Prikaži poruke od poznatih pošiljatelja';
 $labels['prettydate'] = 'Formatiran datum';
 $labels['addtoaddressbook'] = 'Dodaj u imenik';
 $labels['sun'] = 'Ned';
@@ -68,6 +69,30 @@ $labels['wednesday'] = 'Srijeda';
 $labels['thursday'] = 'Četvrtak';
 $labels['friday'] = 'Petak';
 $labels['saturday'] = 'Subota';
+$labels['jan'] = 'Sij';
+$labels['feb'] = 'Velj';
+$labels['mar'] = 'Ožu';
+$labels['apr'] = 'Tra';
+$labels['may'] = 'Svi';
+$labels['jun'] = 'Lip';
+$labels['jul'] = 'Srp';
+$labels['aug'] = 'Kol';
+$labels['sep'] = 'Ruj';
+$labels['oct'] = 'Lis';
+$labels['nov'] = 'Stu';
+$labels['dec'] = 'Pro';
+$labels['longjan'] = 'Siječanj';
+$labels['longfeb'] = 'Veljača';
+$labels['longmar'] = 'Ožujak';
+$labels['longapr'] = 'Travanj';
+$labels['longmay'] = 'Svibanj';
+$labels['longjun'] = 'Lipanj';
+$labels['longjul'] = 'Srpanj';
+$labels['longaug'] = 'Kolovoz';
+$labels['longsep'] = 'Rujan';
+$labels['longoct'] = 'Listopad';
+$labels['longnov'] = 'Studeni';
+$labels['longdec'] = 'Prosinac';
 $labels['today'] = 'danas';
 $labels['checkmail'] = 'Provjera novih poruka';
 $labels['writenewmessage'] = 'Nova poruka';
@@ -90,18 +115,23 @@ $labels['viewsource'] = 'Prikaži poruku u izvornom obliku';
 $labels['markmessages'] = 'Označi poruke';
 $labels['markread'] = 'Kao pročitano';
 $labels['markunread'] = 'Kao nepročitano';
-$labels['select'] = 'Oznaći';
+$labels['markflagged'] = 'Kao markiranu';
+$labels['markunflagged'] = 'Kao nemarkiranu';
+$labels['select'] = 'Označi';
 $labels['all'] = 'Sve';
 $labels['none'] = 'Nijednu';
 $labels['unread'] = 'Nepročitane';
+$labels['flagged'] = 'Markirane';
+$labels['unanswered'] = 'Neodgovrene';
 $labels['compact'] = 'Kompresiranje';
-$labels['empty'] = 'Izprazni';
+$labels['empty'] = 'Isprazni ';
 $labels['purge'] = 'Očisti';
 $labels['quota'] = 'Kvota';
 $labels['unknown'] = 'nepoznato';
 $labels['unlimited'] = 'beskonačna';
 $labels['quicksearch'] = 'Brza pretraga';
 $labels['resetsearch'] = 'Prikaži sve poruke';
+$labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['compose'] = 'Nova poruka';
 $labels['savemessage'] = 'Spremi u \'Predlošci\'';
 $labels['sendmessage'] = 'Pošalji poruku';
@@ -122,8 +152,12 @@ $labels['high'] = 'Visok';
 $labels['highest'] = 'Najviši';
 $labels['nosubject'] = '(bez naslova)';
 $labels['showimages'] = 'Prikaži slike';
+$labels['alwaysshow'] = 'Uvijek prikaži slike od $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Samo tekst';
+$labels['savesentmessagein'] = 'Spremi poslane poruke u';
+$labels['dontsave'] = 'ne spremaj';
+$labels['maxuploadsize'] = 'Maksimalna dozvoljena velicina datoteke je $size';
 $labels['addcc'] = 'Dodaj Cc';
 $labels['addbcc'] = 'Dodaj Bcc';
 $labels['addreplyto'] = 'Dodaj Odgovori-na';
@@ -147,12 +181,19 @@ $labels['composeto'] = 'Napiši mail...';
 $labels['contactsfromto'] = 'Kontakti od $from do $to od ukupno $count';
 $labels['print'] = 'Print';
 $labels['export'] = 'Export';
+$labels['exportvcards'] = 'Izvezi kontakte u vCard formatu';
 $labels['previouspage'] = 'Prethodna strana';
 $labels['firstpage'] = 'Prva strana';
 $labels['nextpage'] = 'Slijedeća strana';
 $labels['lastpage'] = 'Zadnja strana';
 $labels['groups'] = 'Grupe';
 $labels['personaladrbook'] = 'Privatna adresa';
+$labels['import'] = 'Uvoz';
+$labels['importcontacts'] = 'Uvoz kontakta';
+$labels['importfromfile'] = 'Uvezi iz datoteke:';
+$labels['importreplace'] = 'Prepiši cijeli adresar';
+$labels['importtext'] = 'Možete prebaciti kontakte iz postojećeg adresara.<br/>Trenutno podržavamo uvozenje adresa iz <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> formata.';
+$labels['done'] = 'Završeno';
 $labels['settingsfor'] = 'Postavke za';
 $labels['preferences'] = 'Postavke';
 $labels['userpreferences'] = 'Korisničke postavke';
@@ -163,6 +204,7 @@ $labels['newidentity'] = 'Dodaj identitet';
 $labels['newitem'] = 'Novo';
 $labels['edititem'] = 'Uredi';
 $labels['setdefault'] = 'Postavi predodređeno';
+$labels['autodetect'] = 'Auto';
 $labels['language'] = 'Jezik';
 $labels['timezone'] = 'Vremenska zona';
 $labels['pagesize'] = 'Redova po stranici';
@@ -171,9 +213,33 @@ $labels['dstactive'] = 'Automatska promjena vremena';
 $labels['htmleditor'] = 'Sastavi HTML poruke';
 $labels['htmlsignature'] = 'HTML potpis';
 $labels['previewpane'] = 'Prikaži područje pregleda';
+$labels['skin'] = 'Tema izgleda';
+$labels['logoutclear'] = 'Očisti smeće pri izlazu';
+$labels['logoutcompact'] = 'Komprimiraj Inbox pri izlazu';
+$labels['uisettings'] = 'Korisnički interfejs';
+$labels['serversettings'] = 'Postavke servera';
+$labels['mailboxview'] = 'Pregled Mailboxa';
+$labels['mdnrequests'] = 'Obavijest pošiljatelja';
+$labels['askuser'] = 'pitaj korisnika';
+$labels['autosend'] = 'šalji automatski';
+$labels['ignore'] = 'ignoriraj';
+$labels['readwhendeleted'] = 'Označi poruku kao pročitanu pri brisanju';
+$labels['flagfordeletion'] = 'Označi poruku za brisanje umjesto brisanja';
+$labels['skipdeleted'] = 'Ne prikazivaj pobrisane poruke';
+$labels['showinlineimages'] = 'Prikaži slike ispod poruke';
 $labels['autosavedraft'] = 'Automatski spremi draft';
 $labels['everynminutes'] = 'svakih $n minuta';
+$labels['keepaliveevery'] = 'svakih $n minuta';
+$labels['keepalive'] = 'Provjeri nove poruke';
 $labels['never'] = 'Nikada';
+$labels['messagesdisplaying'] = 'Prikazujem poruke';
+$labels['messagescomposition'] = 'Komponiram poruke';
+$labels['mimeparamfolding'] = 'Nazivi privitaka';
+$labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'Full RFC 2047 (ostali)';
+$labels['advancedoptions'] = 'Napredne postavke';
+$labels['focusonnewmessage'] = 'Fokusiraj browser pri novoj poruci';
 $labels['folder'] = 'Mapa';
 $labels['folders'] = 'Mape';
 $labels['foldername'] = 'Ime mape';
@@ -185,8 +251,13 @@ $labels['rename'] = 'Preimenuj';
 $labels['renamefolder'] = 'Preimenuj Mapu';
 $labels['deletefolder'] = 'Obriši Mapu';
 $labels['managefolders'] = 'Podesi Mapu';
+$labels['specialfolders'] = 'Specijalna Mapa';
 $labels['sortby'] = 'Sortiraj po';
 $labels['sortasc'] = 'Sortiraj rastućim nizom';
 $labels['sortdesc'] = 'Sortiraj opadajućim nizom';
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 
 ?>

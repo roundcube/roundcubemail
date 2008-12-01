@@ -95,5 +95,6 @@ $messages['importerror'] = 'Importation échouée ! Le fichier envoyé n\'est pa
 $messages['importconfirm'] = '<b>$inserted contacts importés avec succès, $skipped entrées existantes ignorées</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
 $messages['nofromaddress'] = 'Il manque une adresse e-mail dans l\'identitée sélectionnée';
+$messages['editorwarning'] = 'Passer à l\'éditeur texte seul causera la perte du formatage du texte. Voulez-vous continuer ?';
 
 ?>

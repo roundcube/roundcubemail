@@ -52,6 +52,7 @@ $messages['purgefolderconfirm'] = 'هل تريد حقاً حذف جميع الر
 $messages['foldercreating'] = 'جاري إنشاء المجلد...';
 $messages['folderdeleting'] = 'جاري حذف المجلد...';
 $messages['folderrenaming'] = 'جاري إعادة تسمية المجلد...';
+$messages['foldermoving'] = 'جاري نقل المجلد...';
 $messages['formincomplete'] = 'لم يتم تعبئة بيانات الاستمارة بالكامل';
 $messages['noemailwarning'] = 'الرجاء إدخال عنوان بريد إلكتروني صالح';
 $messages['nonamewarning'] = 'الرجاء إدخال اسم';
@@ -92,5 +93,6 @@ $messages['importerror'] = 'فشل الاستيراد! الملف المرفوع
 $messages['importconfirm'] = '<b>تم استيراد $inserted مراسلين بنجاح، وتجاهل $skipped موجودين مسبقاً</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'العملية ممنوعة!';
 $messages['nofromaddress'] = 'عنوان البريد الالكتروني غير محدد في الهويّة المنتقاة';
+$messages['editorwarning'] = 'يتسبب الانتقال إلى محرر النص البسيط بضياع جميع التنسيق. هل تريد الاستمرار؟';
 
 ?>

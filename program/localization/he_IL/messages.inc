@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  28102008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  11112008                |
 +-----------------------------------------------------------------------+
 
 */
@@ -92,5 +92,6 @@ $messages['importerror'] = 'חוקי vCard הייבוא נכשל כי הקובץ
 $messages['importconfirm'] = '<b>יובאו $inserted אנשי קשר, $skipped היו קיימים </b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'פעולה אסורה!';
 $messages['nofromaddress'] = 'לזהות שנבחרה חסרה כתובת דואר';
+$messages['editorwarning'] = 'המעבר לעורך רגיל יגרום לאיבוד את העריכה הקיימת. האם להמשיך?';
 
 ?>

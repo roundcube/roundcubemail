@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  28102008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  11112008                |
 +-----------------------------------------------------------------------+
 */
 
@@ -188,7 +188,7 @@ $labels['import'] = 'ייבוא';
 $labels['importcontacts'] = 'ייבוא אנשי קשר';
 $labels['importfromfile'] = 'ייבוא מקובץ';
 $labels['importreplace'] = 'החלפת כל פנקס הכתובות';
-$labels['importtext'] = '<a href=\"http://en.wikipedia.org/wiki/VCard\">vCard</a>  ניתן לייבא אנשי קשר מפנקס כתובות קיים.  אנו תומכים בפורמט';
+$labels['importtext'] = '<a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  ניתן לייבא אנשי קשר מפנקס כתובות קיים.  אנו תומכים בפורמט';
 $labels['done'] = 'בוצע';
 $labels['settingsfor'] = 'הגדרות עבור';
 $labels['preferences'] = 'העדפות';
@@ -253,7 +253,7 @@ $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';
 $labels['B'] = 'בייט';
 $labels['KB'] = 'ק"ב';
-$labels['MB'] = 'מ\"ב';
-$labels['GB'] = 'ג\"ב';
+$labels['MB'] = 'מ"ב';
+$labels['GB'] = 'ג"ב';
 
 ?>

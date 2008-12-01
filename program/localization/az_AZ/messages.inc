@@ -50,13 +50,14 @@ $messages['purgefolderconfirm'] = 'Bu qovluqdakı bütün məktubları silməyə
 $messages['foldercreating'] = 'Qovluğun yaradılması...';
 $messages['folderdeleting'] = 'Qovluğun silinməsi...';
 $messages['folderrenaming'] = 'Qovluğun adının dəyişdirilməsi...';
+$messages['foldermoving'] = 'Qovluq köçürülür...';
 $messages['formincomplete'] = 'Form tam olaraq doldurulmadı';
 $messages['noemailwarning'] = 'Xahiş olunur düzgün e-poçt ünvanı daxil edin';
 $messages['nonamewarning'] = 'Xahiş olunur bir ad daxil edin';
 $messages['nopagesizewarning'] = 'Xahiş olunur bir səhifə ölçüsü daxil edin';
 $messages['nosenderwarning'] = 'Zəhmət olmasa, göndərənin e-poçt ünvanını daxil edin';
 $messages['norecipientwarning'] = 'Xahiş olunur ən az bir qəbul edən göstərin';
-$messages['nosubjectwarning'] = '\\\"Mövzu\\\" daxil edilməmişdir. İndi bir mövzu daxil etmək istəyirsinizmi?';
+$messages['nosubjectwarning'] = '"Mövzu" daxil edilməmişdir. İndi bir mövzu daxil etmək istəyirsinizmi?';
 $messages['nobodywarning'] = 'Məktubu boş olaraq göndər?';
 $messages['notsentwarning'] = 'Məktub göndərilmədi. Məktubunuzu ləğv etmək istəyirsinizmi?';
 $messages['noldapserver'] = 'Xahiş olunur axtarmaq üçün bir Ldap server seçin';
@@ -90,5 +91,6 @@ $messages['importerror'] = 'İdxal alınmadı! Yüklənilən fayl vCard fayla uy
 $messages['importconfirm'] = '<b>$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud daxil edilən $skipped atla</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Əməliyyata icazə verilmir!';
 $messages['nofromaddress'] = 'Seçilmiş eynilikdə e-poçt ünvanı axtarılır';
+$messages['editorwarning'] = 'Adi mətn redaktoruna keçid, bütün mətn formatlarının itkisinə gətirəcək. Davam edim?';
 
 ?>
