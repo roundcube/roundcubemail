@@ -373,14 +373,14 @@ class rcube_message
           // skip apple resource forks
           if ($message_ctype_secondary == 'appledouble' && $secondary_type == 'applefile')
             continue;
-
-          // part belongs to a related message
-          if ($message_ctype_secondary == 'related' && $mail_part->headers['content-id']) {
+            
+          if ($message_ctype_secondary == 'related' && $mail_part->headers['content-id'])
             $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
-            $this->inline_parts[] = $mail_part;
-          }
-          else if ($message_ctype_secondary == 'related' && $mail_part->headers['content-location']) {
+          if ($message_ctype_secondary == 'related' && $mail_part->headers['content-location'])
             $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
+            
+          // part belongs to a related message
+          if ($mail_part->content_id || $mail_part->content_location) {
             $this->inline_parts[] = $mail_part;
           }
           // is regular attachment

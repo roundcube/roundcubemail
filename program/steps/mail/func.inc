@@ -649,7 +649,7 @@ function rcmail_print_body($part, $p = array())
       // add head for malformed messages, washtml cannot work without that
       if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
         $html = '<head></head>'. $html;
-      $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '</head>')), 0);
+      $html = substr_replace($html, '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
     }
 
     // clean HTML with washhtml by Frederic Motte
