@@ -30,7 +30,8 @@ CREATE TABLE [dbo].[identities] (
 	[email] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[reply-to] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[bcc] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[signature] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+	[signature] [text] COLLATE Latin1_General_CI_AI NOT NULL, 
+	[html_signature] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
