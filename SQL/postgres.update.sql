@@ -31,3 +31,8 @@ CREATE INDEX cache_created_idx ON "cache" (created);
 
 ALTER TABLE users ALTER "language" DROP NOT NULL;
 ALTER TABLE users ALTER "language" DROP DEFAULT;
+
+ALTER TABLE identities ALTER del TYPE smallint;
+ALTER TABLE identities ALTER standard TYPE smallint;
+ALTER TABLE contacts ALTER del TYPE smallint;
+ALTER TABLE messages ALTER del TYPE smallint;
