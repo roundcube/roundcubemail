@@ -412,12 +412,14 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
                 'unable to establish a connection', __FUNCTION__);
             }
 
+/*
             if (!empty($this->dsn['charset'])) {
                 $result = $this->setCharset($this->dsn['charset'], $connection);
                 if (PEAR::isError($result)) {
                     return $result;
                 }
             }
+*/
 
             $this->connection = $connection;
             $this->connected_dsn = $this->dsn;

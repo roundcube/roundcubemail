@@ -349,12 +349,14 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
 
         @mssql_query('SET ANSI_NULL_DFLT_ON ON', $connection);
 
+/*
         if (!empty($this->dsn['charset'])) {
             $result = $this->setCharset($this->dsn['charset'], $connection);
             if (PEAR::isError($result)) {
                 return $result;
             }
         }
+*/
 
        if ((bool)ini_get('mssql.datetimeconvert')) {
            @ini_set('mssql.datetimeconvert', '0');
