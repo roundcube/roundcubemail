@@ -68,7 +68,13 @@ $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows
 if (isset($a_headers) && count($a_headers))
+{
   rcmail_js_message_list($a_headers);
+  if ($search_request)
+    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
+}
+else if ($search_request)
+  $OUTPUT->show_message('searchnomatch', 'notice');
 else
   $OUTPUT->show_message('nomessagesfound', 'notice');
   

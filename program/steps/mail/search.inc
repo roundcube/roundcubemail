@@ -99,12 +99,12 @@ if (!is_array($_SESSION['search']))
 // Make sure we got the headers
 if (!empty($result_h))
 {
+  rcmail_js_message_list($result_h);
   if ($search_str) {
     $_SESSION['search'][$search_request] = $IMAP->get_search_set();
     $_SESSION['last_text_search'] = $str;
+    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
   }
-  rcmail_js_message_list($result_h);
-  $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
 }
 else
 {
