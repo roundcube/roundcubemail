@@ -1144,12 +1144,11 @@ function rcmail_folder_classname($folder_id)
   global $CONFIG;
 
   $cname = null;
-  $folder_lc = strtolower($folder_id);
-  
+
   // for these mailboxes we have localized labels and css classes
   foreach (array('inbox', 'sent', 'drafts', 'trash', 'junk') as $smbx)
   {
-    if ($folder_lc == $smbx || $folder_id == $CONFIG[$smbx.'_mbox'])
+    if ($folder_id == $CONFIG[$smbx.'_mbox'])
       $cname = $smbx;
   }
   
