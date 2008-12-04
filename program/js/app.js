@@ -2461,7 +2461,7 @@ function rcube_webmail()
 
     this.ksearch_value = q;
     
-    this.display_message('searching', 'loading', true);
+    this.display_message(this.get_label('searching'), 'loading', true);
     this.http_post('autocomplete', '_search='+q);
   };
 
