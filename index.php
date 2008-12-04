@@ -121,14 +121,6 @@ else if ($RCMAIL->action != 'login' && $_SESSION['user_id'] && $RCMAIL->action !
 }
 
 
-// log in to imap server
-if (!empty($RCMAIL->user->ID) && $RCMAIL->task == 'mail') {
-  if (!$RCMAIL->imap_connect()) {
-    $RCMAIL->kill_session();
-  }
-}
-
-
 // check client X-header to verify request origin
 if ($OUTPUT->ajax_call) {
   if (!$RCMAIL->config->get('devel_mode') && !rc_request_header('X-RoundCube-Referer')) {
@@ -222,11 +214,6 @@ while ($redirects < 5) {
   }
 }
 
-
-// make sure the message count is refreshed (for default view)
-if ($RCMAIL->task == 'mail') {
-  $IMAP->messagecount($_SESSION['mbox'], 'ALL', true);
-}
 
 // parse main template (default)
 $OUTPUT->send($RCMAIL->task);

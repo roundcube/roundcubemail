@@ -22,8 +22,24 @@
 require_once('lib/enriched.inc');
 require_once('include/rcube_smtp.inc');
 
-
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
+
+// actions that do not require imap connection
+$NOIMAP_ACTIONS = array('spell', 'addcontact', 'autocomplete', 'upload');
+
+
+// log in to imap server
+if (!in_array($RCMAIL->action, $NOIMAP_ACTIONS) && !$RCMAIL->imap_connect()) {
+  $RCMAIL->kill_session();
+
+  if ($OUTPUT->ajax_call)
+    $OUTPUT->redirect(array(), 2000);
+
+  $OUTPUT->set_env('task', 'login');
+  $OUTPUT->send('login');
+}
+
+
 
 // set imap properties and session vars
 if ($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC))
@@ -64,6 +80,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
       $_SESSION['search'][$search_request] = $IMAP->get_search_set();
       $OUTPUT->set_env('search_request', $search_request);
       }
+    
+      // make sure the message count is refreshed (for default view)
+      $IMAP->messagecount($mbox_name, 'ALL', true);
     }
 	
   // set current mailbox in client environment
