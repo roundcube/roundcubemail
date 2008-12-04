@@ -76,7 +76,7 @@ class rcube_config
     $this->prop['temp_dir'] = $this->prop['temp_dir'] ? unslashify($this->prop['temp_dir']) : INSTALL_PATH . 'temp';
 
     // fix default imap folders encode
-    foreach (Array('draft_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
+    foreach (Array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
       $this->prop[$folder] = rcube_charset_convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF-7');
 
     foreach ($this->prop['default_imap_folders'] as $n => $folder)
