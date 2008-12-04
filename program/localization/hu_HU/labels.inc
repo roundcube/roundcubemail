@@ -53,7 +53,6 @@ $labels['filename'] = 'File neve';
 $labels['filesize'] = 'File mérete';
 $labels['preferhtml'] = 'HTML megjelenítés';
 $labels['htmlmessage'] = 'HTML üzenet';
-$labels['showknownimages'] = 'Képek megjelenítése ismert Feladó esetén';
 $labels['prettydate'] = 'Rövid dátumok';
 $labels['addtoaddressbook'] = 'Hozzáadás a címjegyzékhez';
 $labels['sun'] = 'Vas';

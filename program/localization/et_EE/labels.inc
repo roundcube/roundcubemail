@@ -52,7 +52,6 @@ $labels['filename'] = 'Faili nimi';
 $labels['filesize'] = 'Faili suurus';
 $labels['preferhtml'] = 'Eelista HTMLi';
 $labels['htmlmessage'] = 'HTML kirjad';
-$labels['showknownimages'] = 'Näita tuntud saatjate kirjades pilte';
 $labels['prettydate'] = 'Kenad kuupäevad';
 $labels['addtoaddressbook'] = 'Lisa aadressiraamatusse';
 $labels['sun'] = 'P';

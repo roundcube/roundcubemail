@@ -51,7 +51,6 @@ $labels['filename'] = 'Име на датотеката';
 $labels['filesize'] = 'Големина на датотеката';
 $labels['preferhtml'] = 'Прикажи во HTML';
 $labels['htmlmessage'] = 'HTML Порака';
-$labels['showknownimages'] = 'Прикажи ги сликите од непознат праќач';
 $labels['prettydate'] = 'Убави дати';
 $labels['addtoaddressbook'] = 'Додади во именик';
 $labels['sun'] = 'Нед';

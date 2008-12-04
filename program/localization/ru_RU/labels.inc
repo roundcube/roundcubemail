@@ -54,7 +54,6 @@ $labels['filename'] = 'Имя файла';
 $labels['filesize'] = 'Размер файла';
 $labels['preferhtml'] = 'Предпочитать HTML';
 $labels['htmlmessage'] = 'Сообщение HTML';
-$labels['showknownimages'] = 'Показывать изображения от известных отправителей';
 $labels['prettydate'] = 'Красивые даты';
 $labels['addtoaddressbook'] = 'Добавить в контакты';
 $labels['sun'] = 'Вс';

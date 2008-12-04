@@ -54,7 +54,6 @@ $labels['filename'] = 'Nom du fichier';
 $labels['filesize'] = 'Taille du fichier';
 $labels['preferhtml'] = 'Afficher en HTML';
 $labels['htmlmessage'] = 'Message en HTML';
-$labels['showknownimages'] = 'Afficher les images des expéditeurs connus';
 $labels['prettydate'] = 'Affichage court des dates';
 $labels['addtoaddressbook'] = 'Ajouter au carnet d\'adresses';
 $labels['sun'] = 'Dim';

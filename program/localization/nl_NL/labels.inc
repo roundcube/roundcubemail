@@ -53,7 +53,6 @@ $labels['filename'] = 'Bestandsnaam';
 $labels['filesize'] = 'Bestandsgrootte';
 $labels['preferhtml'] = 'Toon HTML';
 $labels['htmlmessage'] = 'HTML-Bericht';
-$labels['showknownimages'] = 'Toon afbeeldingen van bekende afzenders';
 $labels['prettydate'] = 'Gebruiksvriendelijke data';
 $labels['addtoaddressbook'] = 'Toevoegen aan adresboek';
 $labels['sun'] = 'Zo';

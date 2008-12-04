@@ -210,14 +210,15 @@ function rcmail_user_prefs_form($attrib)
     $table->add(null, $input_preferhtml->show($config['prefer_html']?1:0));
   }
 
-  // show checkbox for displaying images from people in the addressbook
-  if (!isset($no_override['addrbook_show_images'])) {
-    $field_id = 'rcmfd_addrbook_show_images';
-    $input_addrbook_show_images = new html_checkbox(array('name' => '_addrbook_show_images', 'id' => $field_id,
-      'value' => 1, 'disabled' => $config['prefer_html']?0:1));
+  if (!isset($no_override['show_images'])) {
+    $field_id = 'rcmfd_show_images';
+    $input_show_images = new html_select(array('name' => '_show_images', 'id' => $field_id));
+    $input_show_images->add(rcube_label('never'), 0);
+    $input_show_images->add(rcube_label('fromknownsenders'), 1);
+    $input_show_images->add(rcube_label('always'), 2);
 
-    $table->add('title', html::label($field_id, Q(rcube_label('showknownimages'))));
-    $table->add(null, $input_addrbook_show_images->show($config['addrbook_show_images']?1:0));
+    $table->add('title', html::label($field_id, Q(rcube_label('showremoteimages'))));
+    $table->add(null, $input_show_images->show($config['show_images']));
   }
 
   if (!isset($no_override['inline_images'])) {

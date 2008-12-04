@@ -53,7 +53,6 @@ $labels['filename'] = 'Tiedoston nimi';
 $labels['filesize'] = 'Tiedoston koko';
 $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['htmlmessage'] = 'HTML-viesti';
-$labels['showknownimages'] = 'Näytä tunnetuilta lähettäjiltä saapuneet kuvat';
 $labels['prettydate'] = 'Nätit päiväykset';
 $labels['addtoaddressbook'] = 'Lisää osoitekirjaan';
 $labels['sun'] = 'Su';

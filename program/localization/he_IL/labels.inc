@@ -50,7 +50,6 @@ $labels['filename'] = 'שם קובץ';
 $labels['filesize'] = 'גודל קובץ';
 $labels['preferhtml'] = 'הצגת HTML';
 $labels['htmlmessage'] = 'תוכן HTML';
-$labels['showknownimages'] = 'הצגת תמונות ממקור ידוע';
 $labels['prettydate'] = 'תאריכים מעוצבים';
 $labels['addtoaddressbook'] = 'הוספה לפנקס כתובות';
 $labels['sun'] = 'יום א';

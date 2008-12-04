@@ -52,7 +52,6 @@ $labels['filename'] = 'نام پرونده';
 $labels['filesize'] = 'اندازه‌ی پرونده';
 $labels['preferhtml'] = 'HTML نمایش';
 $labels['htmlmessage'] = 'HTML پیغام';
-$labels['showknownimages'] = 'نمایش عکسها از فرستندگان شناخته شده';
 $labels['prettydate'] = 'تاریخ‌های زیبا';
 $labels['addtoaddressbook'] = 'افزودن به دفتر نشانی‌ها';
 $labels['sun'] = 'یکشنبه';

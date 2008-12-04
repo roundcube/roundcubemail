@@ -42,15 +42,22 @@ if ($_GET['_uid']) {
     
   $mbox_name = $IMAP->get_mailbox_name();
   
-  // check known senders to display images
-  if (!$MESSAGE->is_safe 
-      && !empty($MESSAGE->sender['mailto'])
-      && $RCMAIL->config->get('addrbook_show_images')
-      && $MESSAGE->has_html_part()) {
-    $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
-    
-    if ($CONTACTS->search('email', $MESSAGE->sender['mailto'], true, false)->count) {
-      $MESSAGE->set_safe(true);
+  // show images?
+  $show_images = $RCMAIL->config->get('show_images');
+  if(!$MESSAGE->is_safe
+	&& !empty($show_images)
+	&& $MESSAGE->has_html_part())
+  {
+    switch($show_images) {
+      case '1': // known senders only
+        $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+	if ($CONTACTS->search('email', $MESSAGE->sender['mailto'], true, false)->count) {
+          $MESSAGE->set_safe(true);
+	  }
+      break;
+      case '2': // always
+        $MESSAGE->set_safe(true);
+      break;
     }
   }
 
@@ -204,7 +211,7 @@ function rcmail_remote_objects_msg($attrib)
   $msg .= html::a(array('href' => "#loadimages", 'onclick' => JS_OBJECT_NAME.".command('load-images')"), Q(rcube_label('showimages')));
   
   // add link to save sender in addressbook and reload message
-  if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('addrbook_show_images')) {
+  if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
     $msg .= ' ' . html::a(array('href' => "#alwaysload", 'onclick' => JS_OBJECT_NAME.".command('always-load')", 'style' => "white-space:nowrap"),
       Q(rcube_label(array('name' => 'alwaysshow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
   }

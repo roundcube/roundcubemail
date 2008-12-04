@@ -52,7 +52,6 @@ $labels['filename'] = 'Nama berkas';
 $labels['filesize'] = 'Ukuran berkas';
 $labels['preferhtml'] = 'Lebih suka HTML';
 $labels['htmlmessage'] = 'Pesan HTML';
-$labels['showknownimages'] = 'Tampilakn gambar dari pengirim yang dikenal';
 $labels['prettydate'] = 'Tanggal cantik';
 $labels['addtoaddressbook'] = 'Tambahkan ke buku tamu';
 $labels['sun'] = 'Min';

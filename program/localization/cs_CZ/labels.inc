@@ -54,7 +54,6 @@ $labels['filename'] = 'Jméno přílohy';
 $labels['filesize'] = 'Velikost přílohy';
 $labels['preferhtml'] = 'Upřednostňovat HTML zobrazení';
 $labels['htmlmessage'] = 'HTML zpráva';
-$labels['showknownimages'] = 'Ukazovat obrázky v mailech od neznámých odesilatelů';
 $labels['prettydate'] = 'Hezčí datum';
 $labels['addtoaddressbook'] = 'Přidat do adresáře';
 $labels['sun'] = 'Ne';

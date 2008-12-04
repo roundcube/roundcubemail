@@ -68,7 +68,6 @@ $labels['filesize'] = '檔案大小';
 
 $labels['preferhtml'] = '使用 HTML 顯示';
 $labels['htmlmessage'] = 'HTML 郵件';
-$labels['showknownimages'] = '已知的寄件者顯示圖片';
 $labels['prettydate'] = '簡短日期顯示';
 
 $labels['addtoaddressbook'] = '新增至通訊錄';

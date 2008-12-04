@@ -55,7 +55,6 @@ $labels['filename'] = 'Nombre del archivo';
 $labels['filesize'] = 'Tamaño del archivo';
 $labels['preferhtml'] = 'Prefiero HTML';
 $labels['htmlmessage'] = 'Mensaje HTML';
-$labels['showknownimages'] = 'Muestra imágenes de remitentes conocidos';
 $labels['prettydate'] = 'Fecha detallada';
 $labels['addtoaddressbook'] = 'Añadir a contactos';
 $labels['sun'] = 'Dom';

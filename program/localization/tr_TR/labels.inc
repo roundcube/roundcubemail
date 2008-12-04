@@ -53,7 +53,6 @@ $labels['filename'] = 'Dosya Adı';
 $labels['filesize'] = 'Dosya Boyutu';
 $labels['preferhtml'] = 'HTML görüntüle';
 $labels['htmlmessage'] = 'HTML Posta';
-$labels['showknownimages'] = 'Bilinen göndericilerden gelen resimleri göster';
 $labels['prettydate'] = 'Tarihi kısaltarak göster';
 $labels['addtoaddressbook'] = 'Adres Defterine Ekle';
 $labels['sun'] = 'Paz';

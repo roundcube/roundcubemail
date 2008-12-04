@@ -52,7 +52,6 @@ $labels['filename'] = 'Bylos vardas';
 $labels['filesize'] = 'Bylos dydis';
 $labels['preferhtml'] = 'Rodyti HTML';
 $labels['htmlmessage'] = 'HTML Laiškas';
-$labels['showknownimages'] = 'Rodyti žinomų siuntėjų paveikslėlius';
 $labels['prettydate'] = 'Gražios datos';
 $labels['addtoaddressbook'] = 'Įtraukti į adresų knygą';
 $labels['sun'] = 'Sek';

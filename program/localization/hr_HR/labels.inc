@@ -52,7 +52,6 @@ $labels['filename'] = 'Ime datoteke';
 $labels['filesize'] = 'Veličina datoteke';
 $labels['preferhtml'] = 'HTML format u prednosti';
 $labels['htmlmessage'] = 'HTML format poruke';
-$labels['showknownimages'] = 'Prikaži poruke od poznatih pošiljatelja';
 $labels['prettydate'] = 'Formatiran datum';
 $labels['addtoaddressbook'] = 'Dodaj u imenik';
 $labels['sun'] = 'Ned';

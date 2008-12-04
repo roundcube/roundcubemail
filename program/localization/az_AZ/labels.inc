@@ -50,7 +50,6 @@ $labels['filename'] = 'Fayl Adı';
 $labels['filesize'] = 'Fayl Ölçüsü';
 $labels['preferhtml'] = 'HTML göstərməyi dəstəklə';
 $labels['htmlmessage'] = 'HTML Mesaj';
-$labels['showknownimages'] = 'Tanınmış qrafikləri göstər';
 $labels['prettydate'] = 'Tarixi qısaltaraq göstər';
 $labels['addtoaddressbook'] = 'Ünvan Kitabçasına Əlavə Et';
 $labels['sun'] = 'B';

@@ -53,7 +53,6 @@ $labels['filename'] = 'Nome file';
 $labels['filesize'] = 'Dimensione file';
 $labels['preferhtml'] = 'Mostra HTML';
 $labels['htmlmessage'] = 'Messaggio HTML';
-$labels['showknownimages'] = 'Mostra immagini da mittenti conosciuti';
 $labels['prettydate'] = 'Date più leggibili';
 $labels['addtoaddressbook'] = 'Aggiungi alla rubrica';
 $labels['sun'] = 'Dom';

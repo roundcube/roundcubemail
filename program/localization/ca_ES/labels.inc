@@ -53,7 +53,6 @@ $labels['filename'] = 'Nom del fitxer';
 $labels['filesize'] = 'Grandària de fitxer';
 $labels['preferhtml'] = 'Preferisc HTML';
 $labels['htmlmessage'] = 'Missatge HTML';
-$labels['showknownimages'] = 'Mostrar imatges dels remitents coneguts';
 $labels['prettydate'] = 'Dates curtes';
 $labels['addtoaddressbook'] = 'Afegir a contactes';
 $labels['sun'] = 'DG';

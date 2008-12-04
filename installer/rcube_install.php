@@ -37,6 +37,7 @@ class rcube_install
     'skin_path' => 'skin',
     'locale_string' => 'language',
     'multiple_identities' => 'identities_level',
+    'addrbook_show_images' => 'show_images',
   );
   
   // these config options are optional or can be set to null

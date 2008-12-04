@@ -26,7 +26,6 @@ $a_user_prefs = array(
   'pagesize'     => is_numeric($_POST['_pagesize']) ? max(2, intval($_POST['_pagesize'])) : $CONFIG['pagesize'],
   'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
   'prefer_html'  => isset($_POST['_prefer_html']) ? TRUE : FALSE,
-  'addrbook_show_images' => isset($_POST['_addrbook_show_images']) ? TRUE : FALSE,
   'htmleditor'   => isset($_POST['_htmleditor']) ? TRUE : FALSE,
   'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
   'preview_pane' => isset($_POST['_preview_pane']) ? TRUE : FALSE,
@@ -37,6 +36,7 @@ $a_user_prefs = array(
   'logout_purge' => isset($_POST['_logout_purge']) ? TRUE : FALSE,
   'logout_expunge' => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
   'draft_autosave' => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
+  'show_images' => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
   'keep_alive' => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],
   'check_all_folders' => isset($_POST['_check_all_folders']) ? TRUE : FALSE,
   'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
@@ -87,9 +87,9 @@ if (isset($a_user_prefs['keep_alive'])) {
       $a_user_prefs['keep_alive'] = min($CONFIG['session_lifetime']*60, $a_user_prefs['keep_alive']);
 }
 
+
 if ($USER->save_prefs($a_user_prefs))
   $OUTPUT->show_message('successfullysaved', 'confirmation');
-
 
 // go to next step
 rcmail_overwrite_action('preferences');

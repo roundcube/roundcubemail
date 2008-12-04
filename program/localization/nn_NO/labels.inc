@@ -53,7 +53,6 @@ $labels['filename'] = 'Filnamn';
 $labels['filesize'] = 'Filstorleik';
 $labels['preferhtml'] = 'Føretrekk HTML';
 $labels['htmlmessage'] = 'HTML-melding';
-$labels['showknownimages'] = 'Vis bilete frå kjende sendarar';
 $labels['prettydate'] = 'Pene datoar';
 $labels['addtoaddressbook'] = 'Legg til i adressebok';
 $labels['sun'] = 'Sun';

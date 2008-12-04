@@ -53,7 +53,6 @@ $labels['filename'] = 'ファイル名';
 $labels['filesize'] = 'ファイルサイズ';
 $labels['preferhtml'] = 'HTMLを表示';
 $labels['htmlmessage'] = 'HTMLメール';
-$labels['showknownimages'] = '　登録済み送信者の画像を表示';
 $labels['prettydate'] = '簡易な日付表示';
 $labels['addtoaddressbook'] = 'アドレス帳に追加';
 $labels['sun'] = '日';

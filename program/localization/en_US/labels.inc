@@ -66,7 +66,6 @@ $labels['filesize'] = 'File size';
 
 $labels['preferhtml'] = 'Display HTML';
 $labels['htmlmessage'] = 'HTML Message';
-$labels['showknownimages'] = 'Show images from known senders';
 $labels['prettydate'] = 'Pretty dates';
 
 $labels['addtoaddressbook'] = 'Add to address book';
@@ -281,6 +280,9 @@ $labels['ignore'] = 'ignore';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['skipdeleted'] = 'Do not show deleted messages';
+$labels['showremoteimages'] = 'Display remote inline images';
+$labels['fromknownsenders'] = 'from known senders';
+$labels['always'] = 'always';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minutes';

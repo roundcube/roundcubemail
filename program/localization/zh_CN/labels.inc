@@ -53,7 +53,6 @@ $labels['filename'] = '文件名';
 $labels['filesize'] = '文件大小';
 $labels['preferhtml'] = '以 HTML 格式显示';
 $labels['htmlmessage'] = 'HTML 邮件';
-$labels['showknownimages'] = '显示已知的发件人的邮件中的图片';
 $labels['prettydate'] = '短日期格式';
 $labels['addtoaddressbook'] = '添加到通讯录';
 $labels['sun'] = '日';

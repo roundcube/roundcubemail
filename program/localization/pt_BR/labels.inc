@@ -70,7 +70,6 @@ $labels['filesize'] = 'Tamanho';
 
 $labels['preferhtml'] = 'Exibir mensagens em HTML';
 $labels['htmlmessage'] = 'Mensagem HTML';
-$labels['showknownimages'] = 'Exibir imagens de remetentes conhecidos';
 $labels['prettydate'] = 'Exibir datas amigáveis';
 
 $labels['addtoaddressbook'] = 'Incluir no catálogo de endereços';

@@ -50,7 +50,6 @@ $labels['filename'] = 'Dosiernomo';
 $labels['filesize'] = 'Dosiergrando';
 $labels['preferhtml'] = 'Montru HTML';
 $labels['htmlmessage'] = 'HTML Mesaĝo';
-$labels['showknownimages'] = 'Montru bildojn de konataj sendantoj';
 $labels['prettydate'] = 'Agrablaj Datoj';
 $labels['addtoaddressbook'] = 'Aldonu al adresaro';
 $labels['sun'] = 'Dim';

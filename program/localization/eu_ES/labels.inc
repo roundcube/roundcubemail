@@ -52,7 +52,6 @@ $labels['filename'] = 'Fitxategi Izena';
 $labels['filesize'] = 'Fitxategi Tamaina';
 $labels['preferhtml'] = 'HTML nahiago';
 $labels['htmlmessage'] = 'HTML Mezua';
-$labels['showknownimages'] = 'Bidaltzaile ezagunen imajinak ikusi';
 $labels['prettydate'] = 'Data politak';
 $labels['addtoaddressbook'] = 'Helbide liburura gehitu';
 $labels['sun'] = 'Iga';

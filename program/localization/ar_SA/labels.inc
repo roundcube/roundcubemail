@@ -52,7 +52,6 @@ $labels['filename'] = 'اسم الملف';
 $labels['filesize'] = 'حجم الملف';
 $labels['preferhtml'] = 'تفضيل صيغة HTML';
 $labels['htmlmessage'] = 'رسالة بنسق HTML';
-$labels['showknownimages'] = 'أظهر الصّور من المرسلين المعروفين';
 $labels['prettydate'] = 'تواريخ منمقة';
 $labels['addtoaddressbook'] = 'إضافة إلى دفتر العناوين';
 $labels['sun'] = 'أح';

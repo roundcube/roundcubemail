@@ -54,7 +54,6 @@ $labels['filename'] = 'Meno súboru';
 $labels['filesize'] = 'Veľkosť súboru';
 $labels['preferhtml'] = 'Uprednostniť HTML zobrazenie';
 $labels['htmlmessage'] = 'HTML správa';
-$labels['showknownimages'] = 'Zobraziť obrázky v správach od známych odosielateľov';
 $labels['prettydate'] = 'Krajší dátum';
 $labels['addtoaddressbook'] = 'Pridať do adresára';
 $labels['sun'] = 'Ne';

@@ -54,7 +54,6 @@ $labels['filename'] = 'Filnavn';
 $labels['filesize'] = 'Filstørrelse';
 $labels['preferhtml'] = 'Foretræk HTML';
 $labels['htmlmessage'] = 'HTML-besked';
-$labels['showknownimages'] = 'Vis billeder fra kendte afsendere';
 $labels['prettydate'] = 'Pæn datovisning';
 $labels['addtoaddressbook'] = 'Tilføj til adressebogen';
 $labels['sun'] = 'Søn';

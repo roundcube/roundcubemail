@@ -53,7 +53,6 @@ $labels['filename'] = 'Dateiname';
 $labels['filesize'] = 'Dateigrösse';
 $labels['preferhtml'] = 'HTML bevorzugen';
 $labels['htmlmessage'] = 'HTML Nachricht';
-$labels['showknownimages'] = 'Zeige Bilder von bekannten Absendern an';
 $labels['prettydate'] = 'Kurze Datumsanzeige';
 $labels['addtoaddressbook'] = 'Ins Adressbuch übernehmen';
 $labels['sun'] = 'So';

@@ -53,7 +53,6 @@ $labels['filename'] = 'Име на файла';
 $labels['filesize'] = 'Размер на файла';
 $labels['preferhtml'] = 'Показвай първо HTML версия';
 $labels['htmlmessage'] = 'HTML съобщение';
-$labels['showknownimages'] = 'Показвай изображения от известни податели';
 $labels['prettydate'] = 'Кратки дати';
 $labels['addtoaddressbook'] = 'Добави в адресната книга';
 $labels['sun'] = 'Нед';

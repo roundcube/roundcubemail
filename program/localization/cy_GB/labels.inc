@@ -49,7 +49,6 @@ $labels['filename'] = 'Enw ffeil';
 $labels['filesize'] = 'Maint ffeil';
 $labels['preferhtml'] = 'Dangos HTML';
 $labels['htmlmessage'] = 'Neges HTML';
-$labels['showknownimages'] = 'Dangos lluniau gan anfonwyr cyfarwydd';
 $labels['prettydate'] = 'Dyddiadau pert';
 $labels['addtoaddressbook'] = 'Ychwanegu i\'r llyfr cyfeiriadau';
 $labels['sun'] = 'Sul';

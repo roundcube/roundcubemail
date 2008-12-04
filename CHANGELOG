@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/12/04 (alec)
+----------
+- Added 'show_images' option, removed 'addrbook_show_images' (#1485597)
+
 2008/11/28 (thomasb)
 ----------
 - Option to check for new mails in all folders (#1484374)
