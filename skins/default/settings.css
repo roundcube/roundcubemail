@@ -55,7 +55,7 @@ span.tablink-selected a
   border: 1px solid #999999;
   /* css hack for IE */
   height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
-  width: expression((parseInt(document.documentElement.clientwidth)-40)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
 }
 
 #userprefs-box fieldset
@@ -108,7 +108,7 @@ span.tablink-selected a
   width: 420px;
   border: 1px solid #999999;
   /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-160)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #listbuttons
@@ -160,7 +160,7 @@ span.tablink-selected a
   overflow: auto;
   /* css hack for IE */
   width: expression((parseInt(document.documentElement.clientWidth)-470)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-160)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #identity-details table td.title

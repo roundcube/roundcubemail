@@ -678,7 +678,6 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
 
 div.messageheaderbox
 {
-  position: relative;
   margin: 6px 8px 0px 8px;
   border: 1px solid #ccc;
 }
@@ -837,6 +836,12 @@ div.message-part blockquote blockquote blockquote
   border-right: 2px solid #bb0000;
 }
 
+body.iframe 
+{
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth))+'px');
+}
+
 body.iframe div.message-htmlpart
 {
   margin: 8px;
@@ -869,8 +874,8 @@ div.message-htmlpart div.rcmBody
 #messageviewlink
 {
   position: absolute;
-  top: 1px;
-  right: 1px;
+  top: 8px;
+  right: 10px;
   width: 15px;
   height: 15px;
   border: 0;
