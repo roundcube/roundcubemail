@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/12/04 (alec)
 ----------
 - Added 'show_images' option, removed 'addrbook_show_images' (#1485597)
+- Performance fix: some mail actions do not require imap connection
 
 2008/11/28 (thomasb)
 ----------
