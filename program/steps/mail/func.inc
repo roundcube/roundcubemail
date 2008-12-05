@@ -25,7 +25,7 @@ require_once('include/rcube_smtp.inc');
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
 
 // actions that do not require imap connection
-$NOIMAP_ACTIONS = array('spell', 'addcontact', 'autocomplete', 'upload');
+$NOIMAP_ACTIONS = array('spell', 'addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment');
 
 
 // log in to imap server
@@ -38,7 +38,6 @@ if (!in_array($RCMAIL->action, $NOIMAP_ACTIONS) && !$RCMAIL->imap_connect()) {
   $OUTPUT->set_env('task', 'login');
   $OUTPUT->send('login');
 }
-
 
 
 // set imap properties and session vars

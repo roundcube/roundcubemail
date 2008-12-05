@@ -24,34 +24,6 @@ define('RCUBE_COMPOSE_REPLY', 0x0106);
 define('RCUBE_COMPOSE_FORWARD', 0x0107);
 define('RCUBE_COMPOSE_DRAFT', 0x0108);
 
-
-// remove an attachment
-if ($RCMAIL->action=='remove-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_POST['_file'], $regs))
-{
-  $id = $regs[1];
-  if (is_array($_SESSION['compose']['attachments'][$id]))
-  {
-    @unlink($_SESSION['compose']['attachments'][$id]['path']);
-    unset($_SESSION['compose']['attachments'][$id]);
-    $OUTPUT->command('remove_from_attachment_list', "rcmfile$id");
-    $OUTPUT->send();
-  }
-  exit;
-}
-
-if ($RCMAIL->action=='display-attachment' && preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
-{
-  $id = $regs[1];
-  if (is_array($_SESSION['compose']['attachments'][$id]))
-  {
-    $apath = $_SESSION['compose']['attachments'][$id]['path'];
-    header('Content-Type: ' . $_SESSION['compose']['attachments'][$id]['mimetype']);
-    header('Content-Length: ' . filesize($apath));
-    readfile($apath);
-  }
-  exit;
-}
-
 $MESSAGE_FORM = NULL;
 $MESSAGE = NULL;
 

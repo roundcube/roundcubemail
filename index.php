@@ -176,8 +176,9 @@ $action_map = array(
     'send'    => 'sendmail.inc',
     'expunge' => 'folders.inc',
     'purge'   => 'folders.inc',
-    'remove-attachment'  => 'compose.inc',
-    'display-attachment' => 'compose.inc',
+    'remove-attachment'  => 'attachments.inc',
+    'display-attachment' => 'attachments.inc',
+    'upload' => 'attachments.inc',
   ),
   
   'addressbook' => array(

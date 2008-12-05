@@ -2,20 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/mail/upload.inc                                         |
+ | program/steps/mail/attachments.inc                                    |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Handle file-upload and make them available as attachments           |
+ |   Upload, remove, display attachments in compose form                 |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id$
+ $Id: compose.inc 2081 2008-11-23 12:38:44Z thomasb $
 
 */
 
@@ -25,9 +25,43 @@ if (!$_SESSION['compose']) {
 }
 
 
+// remove an attachment
+if ($RCMAIL->action=='remove-attachment')
+{
+  if (preg_match('/^rcmfile([0-9]+)$/', $_POST['_file'], $regs))
+  {
+    $id = $regs[1];
+    if (is_array($_SESSION['compose']['attachments'][$id]))
+    {
+      @unlink($_SESSION['compose']['attachments'][$id]['path']);
+      unset($_SESSION['compose']['attachments'][$id]);
+      $OUTPUT->command('remove_from_attachment_list', "rcmfile$id");
+      $OUTPUT->send();
+    }
+  }
+  exit;
+}
+
+if ($RCMAIL->action=='display-attachment')
+{
+  if (preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
+  {
+    $id = $regs[1];
+    if (is_array($_SESSION['compose']['attachments'][$id]))
+    {
+      $apath = $_SESSION['compose']['attachments'][$id]['path'];
+      header('Content-Type: ' . $_SESSION['compose']['attachments'][$id]['mimetype']);
+      header('Content-Length: ' . filesize($apath));
+      readfile($apath);
+    }
+  }
+  exit;
+}
+
+// attachment upload action
+
 // use common temp dir for file uploads
 $temp_dir = unslashify($CONFIG['temp_dir']);
-
 
 if (!is_array($_SESSION['compose']['attachments'])) {
   $_SESSION['compose']['attachments'] = array();
