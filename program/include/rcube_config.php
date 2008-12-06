@@ -75,12 +75,13 @@ class rcube_config
     $this->prop['log_dir'] = $this->prop['log_dir'] ? unslashify($this->prop['log_dir']) : INSTALL_PATH . 'logs';
     $this->prop['temp_dir'] = $this->prop['temp_dir'] ? unslashify($this->prop['temp_dir']) : INSTALL_PATH . 'temp';
 
-    // fix default imap folders encode
-    foreach (Array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
+    // fix default imap folders encoding
+    foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
       $this->prop[$folder] = rcube_charset_convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF-7');
 
-    foreach ($this->prop['default_imap_folders'] as $n => $folder)
-      $this->prop['default_imap_folders'][$n] = rcube_charset_convert($folder, RCMAIL_CHARSET, 'UTF-7');
+    if (!empty($this->prop['default_imap_folders']))
+      foreach ($this->prop['default_imap_folders'] as $n => $folder)
+        $this->prop['default_imap_folders'][$n] = rcube_charset_convert($folder, RCMAIL_CHARSET, 'UTF-7');
 
     // set PHP error logging according to config
     if ($this->prop['debug_level'] & 1) {

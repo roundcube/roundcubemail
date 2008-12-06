@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/12/06 (alec)
+----------
+- Fix sorting of folders with more than 2 levels (#1485569)
+
 2008/12/04 (alec)
 ----------
 - Added 'show_images' option, removed 'addrbook_show_images' (#1485597)

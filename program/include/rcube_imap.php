@@ -2711,31 +2711,42 @@ class rcube_imap
         $folders[$folder] = rc_strtolower(rcube_charset_convert($folder, 'UTF-7'));
       }
 
+    // sort folders and place defaults on the top
     asort($folders, SORT_LOCALE_STRING);
     ksort($a_defaults);
-
     $folders = array_merge($a_defaults, array_keys($folders));
 
     // finally we must rebuild the list to move 
     // subfolders of default folders to their place...
     // ...also do this for the rest of folders because
     // asort() is not properly sorting case sensitive names
-
-    // set the type of folder name variable (#1485527) 
     while (list($key, $folder) = each($folders)) {
+      // set the type of folder name variable (#1485527) 
       $a_out[] = (string) $folder;
       unset($folders[$key]);
-      foreach ($folders as $idx => $f) {
-	if (strpos($f, $folder.$delimiter) === 0) {
-    	  $a_out[] = (string) $f;
-	  unset($folders[$idx]);
-	  }
-        }
-      reset($folders);  
+      $this->_rsort($folder, $delimiter, $folders, $a_out);	
       }
 
     return $a_out;
     }
+
+
+  /**
+   * @access private
+   */
+  function _rsort($folder, $delimiter, &$list, &$out)
+    {
+      while (list($key, $name) = each($list)) {
+	if (strpos($name, $folder.$delimiter) === 0) {
+	  // set the type of folder name variable (#1485527) 
+    	  $out[] = (string) $name;
+	  unset($list[$key]);
+	  $this->_rsort($name, $delimiter, $list, $out);
+	  }
+        }
+      reset($list);	
+    }
+
 
   /**
    * @access private
