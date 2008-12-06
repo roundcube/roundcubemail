@@ -119,7 +119,6 @@
 <roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
 <roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
 <roundcube:button command="print" imageSel="/images/buttons/print_sel.png" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
-<roundcube:object name="searchfilter" id="searchfilter" class="searchfilter" />
 
 <div id="markmessagemenu">
   <ul class="toolbarmenu">
@@ -128,6 +127,12 @@
     <li><roundcube:button command="mark" prop="flagged" label="markflagged" classAct="active" /></li>
     <li><roundcube:button command="mark" prop="unflagged" label="markunflagged" classAct="active" /></li>
   </ul>
+</div>
+
+<div id="searchfilter">
+  <label for="rcmcomposepriority"><roundcube:label name="filter" />:
+  <roundcube:object name="searchfilter" class="searchfilter" />
+  </label>
 </div>
 </div>
 

@@ -149,6 +149,7 @@ $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
+$labels['filter'] = 'Filter';
 
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';

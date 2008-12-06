@@ -24,12 +24,6 @@
   color: #333333;
 }
 
-#messagetoolbar select.searchfilter
-{
-  position: relative;
-  bottom: 10px;
-}
-
 #messagetoolbar select.mboxlist
 {
   position: absolute;
@@ -89,6 +83,20 @@ ul.toolbarmenu li a
 ul.toolbarmenu li a.active:hover
 {
   background-color: #ddd;
+}
+
+#searchfilter
+{
+  position: absolute;
+  right: 18px;
+  bottom: 7px;
+  width: 240px;
+  text-align: right;
+}
+
+#searchfilter label
+{
+  font-size: 11px;
 }
 
 #listcontrols a,
