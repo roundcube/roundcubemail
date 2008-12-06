@@ -256,7 +256,7 @@ class rcube_ldap
   function list_records($cols=null, $subset=0)
   {
     // add general filter to query
-    if (!empty($this->prop['filter']))
+    if (!empty($this->prop['filter']) && empty($this->filter))
     {
       $filter = $this->prop['filter'];
       $this->set_search_set($filter);

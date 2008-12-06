@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/12/06 (alec)
 ----------
 - Fix sorting of folders with more than 2 levels (#1485569)
+- Fix search results page jumps in LDAP addressbook (#1485253)
 
 2008/12/04 (alec)
 ----------
