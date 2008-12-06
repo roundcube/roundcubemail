@@ -133,6 +133,7 @@ $labels['none'] = 'Anuluj';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
 $labels['unanswered'] = 'Bez odpowiedzi';
+$labels['filter'] = 'Filtr';
 $labels['compact'] = 'Porządkuj';
 $labels['empty'] = 'Opróżnij';
 $labels['purge'] = 'Oczyść';
