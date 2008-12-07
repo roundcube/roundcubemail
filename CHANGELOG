@@ -7,6 +7,7 @@ CHANGELOG RoundCube Webmail
 - Fix search results page jumps in LDAP addressbook (#1485253)
 - Fix empty line before the signature in IE (#1485351)
 - Fix horizontal scrollbar in preview pane on IE (#1484633)
+- Add Robots meta tag in login page and installer (#1484846)
 
 2008/12/04 (alec)
 ----------
