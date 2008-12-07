@@ -671,6 +671,12 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
   height: expression((parseInt(this.parentNode.offsetHeight))+'px');
 }
 
+#messagecanvas 
+{
+  /* css hack for IE */
+  width: expression((parseInt(this.parentNode.offsetWidth)-20)+'px');
+}
+
 #printmessageframe
 {
   position: absolute;
