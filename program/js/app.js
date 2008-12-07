@@ -2144,14 +2144,18 @@ function rcube_webmail()
       if (this.env.signatures)
         {
         // Append the signature as a div within the body
-        var sigElem = editor.dom.get("_rc_sig");
+        var sigElem = editor.dom.get('_rc_sig');
 	var newsig = '';
 	var htmlsig = true;
-	
+
         if (!sigElem)
           {
-          sigElem = editor.getDoc().createElement("div");
-          sigElem.setAttribute("id", "_rc_sig");
+	  // add empty line before signature on IE
+	  if (bw.ie)
+            editor.getBody().appendChild(editor.getDoc().createElement('br'));
+
+	  sigElem = editor.getDoc().createElement('div');
+          sigElem.setAttribute('id', '_rc_sig');
           editor.getBody().appendChild(sigElem);
           }
 
