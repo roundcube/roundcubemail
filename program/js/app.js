@@ -133,7 +133,7 @@ function rcube_webmail()
           this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
           this.message_list.addEventListener('keypress', function(o){ p.msglist_keypress(o); });
           this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
-          this.message_list.addEventListener('dragstart', function(o){ p.drag_active = true; if (p.preview_timer) clearTimeout(p.preview_timer); });
+          this.message_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
           this.message_list.addEventListener('dragmove', function(o, e){ p.drag_move(e); });
           this.message_list.addEventListener('dragend', function(o){ p.drag_active = false; });
 
@@ -249,7 +249,7 @@ function rcube_webmail()
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist, {multiselect:true, draggable:true, keyboard:true});
           this.contact_list.addEventListener('keypress', function(o){ p.contactlist_keypress(o); });
           this.contact_list.addEventListener('select', function(o){ p.contactlist_select(o); });
-          this.contact_list.addEventListener('dragstart', function(o){ p.drag_active = true; });
+          this.contact_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
           this.contact_list.addEventListener('dragmove', function(o, e){ p.drag_move(e); });
           this.contact_list.addEventListener('dragend', function(o){ p.drag_active = false; });
           this.contact_list.init();
@@ -1173,29 +1173,76 @@ function rcube_webmail()
     }
     
     // handle mouse release when dragging
-    if (this.drag_active && model) {
-      for (var k in model) {
-        if ((li = this.get_folder_li(k)) && rcube_mouse_is_over(e, li.firstChild) && this.check_droptarget(k)) {
-          this.set_classname(li, 'droptarget', false);
-          this.command('moveto', model[k].id);
-          break;
-        }
-      }
+    if (this.drag_active && model && this.env.last_folder_target) {
+      this.set_classname(this.get_folder_li(this.env.last_folder_target), 'droptarget', false);
+      this.command('moveto', model[this.env.last_folder_target].id);
+      this.env.last_folder_target = null;
     }
   };
 
-  this.drag_move = function(e)
+  this.drag_start = function(list)
   {
-    var li;
     var model = this.task == 'mail' ? this.env.mailboxes : this.env.address_sources;
+
+    this.drag_active = true;
+    if (this.preview_timer)
+      clearTimeout(this.preview_timer);
     
-    if (this.gui_objects.folderlist && model) {
+    // save folderlist and folders location/sizes for droptarget calculation in drag_move()
+    if (this.gui_objects.folderlist && model)
+      {
+      var li, pos, list, height;
+      list = rcube_find_object(this.task == 'mail' ? 'mailboxlist' : 'folderlist');
+      pos = rcube_get_object_pos(list);
+      this.env.folderlist_coords = {x1:pos.x, y1:pos.y, x2:pos.x + list.offsetWidth, y2:pos.y + list.offsetHeight};
+
+      this.env.folder_coords = new Array();
       for (var k in model) {
         if (li = this.get_folder_li(k))
-          this.set_classname(li, 'droptarget', (rcube_mouse_is_over(e, li.firstChild) && this.check_droptarget(k)));
+	  {
+	  pos = rcube_get_object_pos(li.firstChild);
+	  // only visible folders
+	  if (height = li.firstChild.offsetHeight)
+	    this.env.folder_coords[k] = {x1:pos.x, y1:pos.y, x2:pos.x + li.firstChild.offsetWidth, y2:pos.y + height};
+          }
+        }
       }
-    }
   };
+
+  this.drag_move = function(e)
+    {
+    if (this.gui_objects.folderlist && this.env.folder_coords)
+      {
+      var li, pos, mouse;
+      mouse = rcube_event.get_mouse_pos(e);
+      pos = this.env.folderlist_coords;
+
+      // if mouse pointer is outside of folderlist
+      if (mouse.x < pos.x1 || mouse.x >= pos.x2 
+	    || mouse.y < pos.y1 || mouse.y >= pos.y2)
+	{
+	if (this.env.last_folder_target) {
+	  this.set_classname(this.get_folder_li(this.env.last_folder_target), 'droptarget', false);
+          this.env.last_folder_target = null;
+	  }
+	return;
+        }
+
+      // over the folders
+      for (var k in this.env.folder_coords)
+        {
+	pos = this.env.folder_coords[k];
+	if (this.check_droptarget(k) && ((mouse.x >= pos.x1) && (mouse.x < pos.x2) 
+	    && (mouse.y >= pos.y1) && (mouse.y < pos.y2)))
+	  {
+          this.set_classname(this.get_folder_li(k), 'droptarget', true);
+	  this.env.last_folder_target = k;
+	  }
+	else
+	  this.set_classname(this.get_folder_li(k), 'droptarget', false);
+        }
+      }
+    };
   
   this.collapse_folder = function(id)
     {
