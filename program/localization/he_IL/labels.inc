@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  11112008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  06122008                |
 +-----------------------------------------------------------------------+
 */
 
@@ -118,6 +118,9 @@ $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
 $labels['unread'] = 'לא נקראו';
+$labels['flagged'] = 'מסומן';
+$labels['unanswered'] = 'לא נענה';
+$labels['filter'] = 'סינון';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
 $labels['purge'] = 'מחיקה';
@@ -221,6 +224,9 @@ $labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
 $labels['skipdeleted'] = 'הסתרת הודעות שנמחקו';
+$labels['showremoteimages'] = 'הצגת תמונות משרת מרוחק בגוף ההודעה';
+$labels['fromknownsenders'] = 'משולחים מוכרים';
+$labels['always'] = 'תמיד';
 $labels['showinlineimages'] = 'הצגת תמונות מצורפות בתחתית ההודעה';
 $labels['autosavedraft'] = 'שמירה אוטומטית של טיוטה';
 $labels['everynminutes'] = 'כל $n דקות';
@@ -235,6 +241,7 @@ $labels['miscfolding'] = 'תאימות 2047/2231 אאוטלוק';
 $labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
 $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
+$labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקים';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';
