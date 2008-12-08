@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Mark Moses <mark@katmoda.com>                                 |
 |         Lazlo Westerhof <roundcube@lazlo.me>                          |
+|         Laurens Vets <laurens@daemon.be>                              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -123,6 +124,7 @@ $labels['none'] = 'Geen';
 $labels['unread'] = 'Ongelezen';
 $labels['flagged'] = 'Gemarkeerd';
 $labels['unanswered'] = 'Onbeantwoord';
+$labels['filter'] = 'Filter';
 $labels['compact'] = 'Opschonen';
 $labels['empty'] = 'Legen';
 $labels['purge'] = 'Verwijderen';
@@ -161,8 +163,6 @@ $labels['maxuploadsize'] = 'Maximum toegestane bestandsgrootte is $size';
 $labels['addcc'] = 'Cc toevoegen';
 $labels['addbcc'] = 'Bcc toevoegen';
 $labels['addreplyto'] = 'Antwoord-aan toevoegen';
-$labels['savesentmessagein'] = 'Bewaar verzonden bericht in';
-$labels['dontsave'] = 'niet bewaren';
 $labels['mdnrequest'] = 'De afzender van dit bericht heeft gevraagd een melding te ontvangen wanneer u dit bericht heeft gelezen. Wilt u deze melding verzenden?';
 $labels['receiptread'] = 'Ontvangstbevestiging (gelezen)';
 $labels['yourmessage'] = 'Dit is een ontvangstbevestiging voor uw bericht';
@@ -228,6 +228,9 @@ $labels['ignore'] = 'negeer';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
 $labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren ';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';
+$labels['showremoteimages'] = 'Geef externe toegevoegde berichten weer';
+$labels['fromknownsenders'] = 'Van bekende afzenders';
+$labels['always'] = 'altijd';
 $labels['showinlineimages'] = 'Toon bijgevoegde afbeeldingen onder het bericht';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
@@ -242,6 +245,7 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Volledig RFC 2047 (andere)';
 $labels['advancedoptions'] = 'Geavanceerde opties';
 $labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
+$labels['checkallfolders'] = 'Controleer alle mappen op nieuwe berichten';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Mapnaam';

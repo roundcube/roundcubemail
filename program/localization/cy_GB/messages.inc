@@ -90,5 +90,6 @@ $messages['importerror'] = 'Methwyd a mewnforio! Nid yw\'r ffeil a lwythwyd fyny
 $messages['importconfirm'] = '<b>Fe mewnforiwyd $inserted cyswllt yn llwyddiannus, anwybyddwyd $skipped cofnod presennol</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Ni chaniateir y weithred!';
 $messages['nofromaddress'] = 'Cyfeiriad e-bost ar goll yn y personoliaeth a ddewiswyd';
+$messages['editorwarning'] = 'Mi fydd newid i\'r golygydd testun plaen yn golygu byddwch chi\'n colli unrhyw arddulliau yn eich testun. Hoffech chi barhau?';
 
 ?>

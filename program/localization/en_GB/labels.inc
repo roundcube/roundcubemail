@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/en_GB/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Weiran Zhang (weiran@weiran.co.uk)                            |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/en_GB/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Weiran Zhang (weiran@weiran.co.uk)                            |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -120,6 +120,9 @@ $labels['select'] = 'Select';
 $labels['all'] = 'All';
 $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
+$labels['flagged'] = 'Flagged';
+$labels['unanswered'] = 'Unanswered';
+$labels['filter'] = 'Filter';
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
 $labels['purge'] = 'Purge';
@@ -222,10 +225,18 @@ $labels['autosend'] = 'send automatically';
 $labels['ignore'] = 'ignore';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
+$labels['skipdeleted'] = 'Do not show deleted messages';
+$labels['showremoteimages'] = 'Display remote inline images';
+$labels['fromknownsenders'] = 'from known senders';
+$labels['always'] = 'always';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft'] = 'Automatically save draft';
 $labels['everynminutes'] = 'every $n minutes';
+$labels['keepaliveevery'] = 'every $n minute(s)';
+$labels['keepalive'] = 'Check for new messages on';
 $labels['never'] = 'never';
+$labels['messagesdisplaying'] = 'Displaying Messages';
+$labels['messagescomposition'] = 'Composing Messages';
 $labels['mimeparamfolding'] = 'Attachment names';
 $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
@@ -233,8 +244,6 @@ $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
-$labels['messagesdisplaying'] = 'Displaying Messages';
-$labels['messagescomposition'] = 'Composing Messages';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Folders';
 $labels['foldername'] = 'Folder name';
