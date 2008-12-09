@@ -249,8 +249,8 @@ function rcube_subscription_form($attrib)
       $table->add('delete', html::a(array('href' => "#delete", 'title' => rcube_label('deletefolder')), $del_button));
     }
     else {
-      $table->add(null, '');
-      $table->add(null, '');
+      $table->add('rename', '&nbsp;');
+      $table->add('delete', '&nbsp;');
     }
     
     $a_js_folders['rcmrow'.$idx] = array($folder_utf8, $display_folder, $protected);

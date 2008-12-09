@@ -216,6 +216,8 @@ div.settingspart
 #subscription-table
 {
   width: 100%;
+  /* css hack for IE */ 
+  width: expression('auto');
 }
 
 #subscription-table tbody td

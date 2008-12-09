@@ -299,7 +299,6 @@ td.formlinks a:visited
 #mailboxlist
 {
   position:relative;
-  width: 100%;
   height: auto;
   margin: 0px;
   padding: 0px;
@@ -464,7 +463,7 @@ body.messagelist
   display: table;
   table-layout: fixed;
   /* css hack for IE */
-  width: expression(parseInt(document.getElementById('mailcontframe').clientWidth)+'px');
+  width: expression('auto');
 }
 
 #messagelist thead tr td

@@ -3560,7 +3560,7 @@ function rcube_webmail()
           col.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
       }
       else if (c=='attachment')
-        col.innerHTML = attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '';
+        col.innerHTML = attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '&nbsp;';
       else
         col.innerHTML = cols[c];
 

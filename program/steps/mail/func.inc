@@ -323,7 +323,7 @@ function rcmail_message_list($attrib)
       if ($col!='attachment')
         $out .= '<td class="'.$col.'">' . $cont . "</td>\n";
       else
-        $out .= sprintf("<td class=\"icon\">%s</td>\n", $attach_icon ? sprintf($image_tag, $skin_path, $attach_icon, '') : '');
+        $out .= sprintf("<td class=\"icon\">%s</td>\n", $attach_icon ? sprintf($image_tag, $skin_path, $attach_icon, '') : '&nbsp;');
       }
 
     $out .= "</tr>\n";
