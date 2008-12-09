@@ -84,7 +84,7 @@ input, textarea
   padding-left: 3px;
   padding-right: 3px;
   /* IE hacks for input elements */
-  border-style: expression(this.type=='checkbox' || this.type=='radio' ? 'none' : 'solid');
+  border-style: expression(this.type=='checkbox' || this.type=='radio' || this.id=='quicksearchbox' ? 'none' : 'solid');
   border-width: expression(this.type=='checkbox' || this.type=='radio' ? '0' : '1px');
   border-color: expression(this.type=='checkbox' || this.type=='radio' ? '' : '#666666');
   background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
