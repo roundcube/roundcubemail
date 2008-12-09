@@ -825,7 +825,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   $out = '<table' . $attrib_str . ">\n";
 
   // show these headers
-  $standard_headers = array('subject', 'from', 'organization', 'to', 'cc', 'bcc', 'replyto', 'date');
+  $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto', 'date');
 
   foreach ($standard_headers as $hkey)
     {
