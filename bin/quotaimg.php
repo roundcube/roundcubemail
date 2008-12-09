@@ -70,14 +70,14 @@ function genQuota($used, $total, $width, $height)
 	$font    = 2;
 	$padding = 0;
 
-	$limit['high'] = 70;
-	$limit['mid']  = 45;
+	$limit['high'] = 80;
+	$limit['mid']  = 55;
 	$limit['low']  = 0;
 
 	// Fill Colors
-	$color['fill']['high'] = '215, 13, 13';	  // Near quota fill color
-	$color['fill']['mid']  = '126, 192, 238'; // Mid-area of quota fill color
-	$color['fill']['low']  = '147, 225, 100'; // Far from quota fill color
+	$color['fill']['high'] = '243, 49, 49';	  // Near quota fill color
+	$color['fill']['mid']  = '245, 173, 60'; // Mid-area of quota fill color
+	$color['fill']['low']  = '145, 225, 100'; // Far from quota fill color
 
 	// Background colors
 	$color['bg']['OL']      = '215, 13, 13';   // Over limit bbackground
@@ -86,14 +86,17 @@ function genQuota($used, $total, $width, $height)
 
 	// Misc. Colors
 	$color['border'] = '0, 0, 0';
-	$color['text']   = '102, 102, 102';
+	$color['text']['high'] = '255, 255, 255';  // white text for red background
+	$color['text']['mid'] = '102, 102, 102';
+	$color['text']['low'] = '102, 102, 102';
+	$color['text']['normal'] = '102, 102, 102';
 
 
 	/************************************
 	 *****	DO NOT EDIT BELOW HERE	*****
 	 ***********************************/
 
-    // @todo: Set to "??" instead?
+	// @todo: Set to "??" instead?
 	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total)) {
 		return false; 
 	}
@@ -115,20 +118,21 @@ function genQuota($used, $total, $width, $height)
 		imageline($im, $width, $height-$border, 0, $height-$border, $borderc);
 	}
 		
-	list($r, $g, $b) = explode(',', $color['text']);
-	$text = imagecolorallocate($im, $r, $g, $b);
-
 	if ($unknown) {
+		list($r, $g, $b) = explode(',', $color['text']['normal']);
+		$text = imagecolorallocate($im, $r, $g, $b);
 		list($r, $g, $b) = explode(',', $color['bg']['Unknown']);
 		$background = imagecolorallocate($im, $r, $g, $b);
+
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
 
 		$string = 'Unknown';
 		$mid    = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
 		imagestring($im, $font, $mid, $padding, $string, $text);
 	} else if ($used > $total) {
+		list($r, $g, $b) = explode(',', $color['text']['normal']);
+		$text = imagecolorallocate($im, $r, $g, $b);
 		list($r, $g, $b) = explode(',', $color['bg']['OL']);
-        
 		$background = imagecolorallocate($im, $r, $g, $b);
         
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
@@ -138,7 +142,6 @@ function genQuota($used, $total, $width, $height)
 		imagestring($im, $font, $mid, $padding, $string, $text);
 	} else {
 		list($r, $g, $b) = explode(',', $color['bg']['quota']);
-        
 		$background = imagecolorallocate($im, $r, $b, $g);
         
 		imagefilledrectangle($im, 0, 0, $width, $height, $background);
@@ -146,13 +149,19 @@ function genQuota($used, $total, $width, $height)
 		$quota = ($used==0)?0:(round($used/$total, 2)*100);
 
 		if ($quota >= $limit['high']) {
+			list($r, $g, $b) = explode(',', $color['text']['high']);
+			$text = imagecolorallocate($im, $r, $g, $b);
 			list($r, $g, $b) = explode(',', $color['fill']['high']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
 		} elseif($quota >= $limit['mid']) {
+			list($r, $g, $b) = explode(',', $color['text']['mid']);
+			$text = imagecolorallocate($im, $r, $g, $b);
 			list($r, $g, $b) = explode(',', $color['fill']['mid']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
 		} else {
 			// if($quota >= $limit['low'])
+			list($r, $g, $b) = explode(',', $color['text']['low']);
+			$text = imagecolorallocate($im, $r, $g, $b);
 			list($r, $g, $b) = explode(',', $color['fill']['low']);
 			$fill = imagecolorallocate($im, $r, $g, $b);
 		}

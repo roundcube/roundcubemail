@@ -650,7 +650,7 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
 {
   vertical-align: middle;
   margin-left: 4px;
-  border: 1px solid #666666;
+  border: 1px solid #999;
 }
 
 
