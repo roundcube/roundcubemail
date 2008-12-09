@@ -63,27 +63,31 @@ hr
   border-style: none;
 }
 
-input, textarea
+input[type="text"],
+input[type="button"],
+input[type="password"],
+textarea
 {
   font-size: 9pt;
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   padding: 1px;
   padding-left: 3px;
   padding-right: 3px;
+  border: 1px solid #666666;
   color: #333333;
   background-color: #ffffff;
-  border: 1px solid #666666;
-  /* css hack for IE */
-  background-color: expression(this.type=="checkbox" || this.type=="radio"? 'transparent' : '#ffffff');
-  border-width: expression(this.type=="checkbox" || this.type=="radio"? '0' : '1px');
 }
 
-input[type="checkbox"],
-input[type="radio"]
+input, textarea
 {
-  border: 0;
-  padding: 0;
-  background-color: transparent;
+  color: #333333;
+  padding-left: 3px;
+  padding-right: 3px;
+  /* IE hacks for input elements */
+  border-style: expression(this.type=='checkbox' || this.type=='radio' ? 'none' : 'solid');
+  border-width: expression(this.type=='checkbox' || this.type=='radio' ? '0' : '1px');
+  border-color: expression(this.type=='checkbox' || this.type=='radio' ? '' : '#666666');
+  background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
 }
 
 input.button
