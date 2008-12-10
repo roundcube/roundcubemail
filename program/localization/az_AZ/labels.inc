@@ -16,7 +16,7 @@
 */
 
 $labels = array();
-$labels['welcome'] = '$product \\-a xoş gəldiniz';
+$labels['welcome'] = '$product \-a xoş gəldiniz';
 $labels['username'] = 'İstifadəçi Adı';
 $labels['password'] = 'Şifrə';
 $labels['server'] = 'Server';
@@ -118,6 +118,9 @@ $labels['select'] = 'Seç';
 $labels['all'] = 'Hamısı';
 $labels['none'] = 'Heç biri';
 $labels['unread'] = 'Oxunmamış';
+$labels['flagged'] = 'İşarəli';
+$labels['unanswered'] = 'Cavabsız';
+$labels['filter'] = 'Süzgəc';
 $labels['compact'] = 'Yığcam';
 $labels['empty'] = 'Boşalt';
 $labels['purge'] = 'Sil';
@@ -221,6 +224,9 @@ $labels['ignore'] = 'iqnor';
 $labels['readwhendeleted'] = 'Məktubu siləndə oxunmuş kimi qeyd et';
 $labels['flagfordeletion'] = 'Silinmə üçün bayraq';
 $labels['skipdeleted'] = 'Silinmiş məktubları göstərmə';
+$labels['showremoteimages'] = 'Uzaq fəaliyyətdəki şəkilləri göstər';
+$labels['fromknownsenders'] = 'bilinən göndərilənlərdən';
+$labels['always'] = 'hər zaman';
 $labels['showinlineimages'] = 'Əlavə olunmuş qrafikləri məktubun aşağısında göstər';
 $labels['autosavedraft'] = 'Qaralamanı avtomatik olaraq yaddaşda saxla';
 $labels['everynminutes'] = 'hər $n dəqiqədə bir';
@@ -235,6 +241,7 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['advancedoptions'] = 'Geniş xüsusiyyətlər';
 $labels['focusonnewmessage'] = 'Yeni məktubda mərkəzi səyyah pəncərəsi';
+$labels['checkallfolders'] = 'Qovluqları yeni məktublar üçün yoxlayın';
 $labels['folder'] = 'Qovluq';
 $labels['folders'] = 'Qovluqlar';
 $labels['foldername'] = 'Qovluq adı';
