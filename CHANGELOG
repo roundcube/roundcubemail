@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/12/11 (alec)
+----------
+- Performance: allow setting imap rootdir and delimiter before connect (#1485172)
+
 2008/12/06 (alec)
 ----------
 - Fix sorting of folders with more than 2 levels (#1485569)

@@ -73,6 +73,8 @@
 		- fix iil_C_FetchPartHeader() in some cases by use of iil_C_HandlePartBody()
 		- allow iil_C_HandlePartBody() to fetch whole message
 		- optimize iil_C_FetchHeaders() to use only one FETCH command
+		- added 4th argument to iil_Connect()
+		- allow setting rootdir and delimiter before connect
 
 ********************************************************/
 
@@ -196,7 +198,7 @@ function iil_xor($string, $string2) {
 }
 
 function iil_PutLine($fp, $string, $endln=true) {
-//      console('C: '. rtrim($string));
+      console('C: '. rtrim($string));
         return fputs($fp, $string . ($endln ? "\r\n" : ''));
 }
 
@@ -476,13 +478,14 @@ function iil_ParseNamespace2($str, &$i, $len=0, $l) {
 
 function iil_C_NameSpace(&$conn) {
 	global $my_prefs;
+
+	if (isset($my_prefs['rootdir']) && is_string($my_prefs['rootdir'])) {
+    		$conn->rootdir = $my_prefs['rootdir'];
+		return true;
+	}
 	
 	if (!iil_C_GetCapability($conn, 'NAMESPACE')) {
 	    return false;
-	}
-    
-	if ($my_prefs["rootdir"]) {
-	    return true;
 	}
     
 	iil_PutLine($conn->fp, "ns1 NAMESPACE");
@@ -510,12 +513,13 @@ function iil_C_NameSpace(&$conn) {
     
 	$conn->rootdir       = $first_userspace[0];
 	$conn->delimiter     = $first_userspace[1];
-	$my_prefs["rootdir"] = substr($conn->rootdir, 0, -1);
+	$my_prefs['rootdir'] = substr($conn->rootdir, 0, -1);
+	$my_prefs['delimiter'] = $conn->delimiter;
 	
 	return true;
 }
 
-function iil_Connect($host, $user, $password) {	
+function iil_Connect($host, $user, $password, $options=null) {	
 	global $iil_error, $iil_errornum;
 	global $ICL_SSL, $ICL_PORT;
 	global $IMAP_NO_CACHE;
@@ -523,18 +527,23 @@ function iil_Connect($host, $user, $password) {
 	
 	$iil_error = '';
 	$iil_errornum = 0;
-	
-	//set auth method
-	$auth_method = 'plain';
-	if (func_num_args() >= 4) {
-		$auth_array = func_get_arg(3);
-		if (is_array($auth_array)) {
-			$auth_method = $auth_array['imap'];
-    		}
-		if (empty($auth_method)) {
-        		$auth_method = "plain";
-    		}
+
+	// set some imap options
+	if (is_array($options)) {
+		foreach($options as $optkey => $optval) {
+			if ($optkey == 'imap') {
+				$auth_method = $optval;
+			} else if ($optkey == 'rootdir') {
+    				$my_prefs['rootdir'] = $optval;
+			} else if ($optkey == 'delimiter') {
+    				$my_prefs['delimiter'] = $optval;
+			}
+		}
 	}
+
+	if (empty($auth_method))
+    		$auth_method = 'plain';
+		
 	$message = "INITIAL: $auth_method\n";
 		
 	$result = false;
@@ -2138,8 +2147,14 @@ function iil_C_Move(&$conn, $messages, $from, $to) {
  * @see iil_Connect()
  */
 function iil_C_GetHierarchyDelimiter(&$conn) {
+
+	global $my_prefs;
+	
 	if ($conn->delimiter) {
-        return $conn->delimiter;
+    		return $conn->delimiter;
+	}
+	if (!empty($my_prefs['delimiter'])) {
+    	    return ($conn->delimiter = $my_prefs['delimiter']);
 	}
     
 	$fp        = $conn->fp;

@@ -18,6 +18,7 @@ of RoundCube Webmail.
    open http://url-to-roundcube/installer/ in a browser. To enable
    the latter one, you have to temporary set 'enable_installer' to true
    in your local config/main.inc.php file.
+   WARNING: If you don't know what is IMAP root directory, set imap_root option to NULL
 3. Let the update script/installer check your configuration and
    update your config files as suggested by the updater.
 4. If suggested by the update script, run all commands in

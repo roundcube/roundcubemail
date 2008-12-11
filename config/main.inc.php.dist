@@ -61,6 +61,12 @@ $rcmail_config['default_port'] = 143;
 // Optional, defaults to "check"
 $rcmail_config['imap_auth_type'] = null;
 
+// If you know your imap's root directory and its folder delimiter,
+// you can specify them here. Otherwise they will be determined
+// during every imap connection.
+$rcmail_config['imap_root'] = null;
+$rcmail_config['imap_delimiter'] = null;
+
 // Automatically add this domain to user names for login
 // Only for IMAP servers that require full e-mail addresses for login
 // Specify an array with 'host' => 'domain' values to support multiple hosts
@@ -151,9 +157,6 @@ $rcmail_config['useragent'] = 'RoundCube Webmail/0.2-beta';
 
 // use this name to compose page titles
 $rcmail_config['product_name'] = 'RoundCube Webmail';
-
-// only list folders within this path
-$rcmail_config['imap_root'] = '';
 
 // store draft message is this mailbox
 // leave blank if draft messages should not be stored

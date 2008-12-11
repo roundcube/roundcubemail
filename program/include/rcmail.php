@@ -515,10 +515,6 @@ class rcmail
   {
     $this->imap->set_charset($this->config->get('default_charset', RCMAIL_CHARSET));
 
-    // set root dir from config
-    if ($imap_root = $this->config->get('imap_root')) {
-      $this->imap->set_rootdir($imap_root);
-    }
     if ($default_folders = $this->config->get('default_imap_folders')) {
       $this->imap->set_default_mailboxes($default_folders);
     }
