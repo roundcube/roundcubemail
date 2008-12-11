@@ -567,6 +567,11 @@ body.messagelist
   vertical-align: middle;
 }
 
+#messagelist thead tr td.size
+{
+  text-align: left;
+}
+
 #messagelist tr td.from,
 #messagelist tr td.to
 {
