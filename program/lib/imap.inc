@@ -198,7 +198,7 @@ function iil_xor($string, $string2) {
 }
 
 function iil_PutLine($fp, $string, $endln=true) {
-      console('C: '. rtrim($string));
+//      console('C: '. rtrim($string));
         return fputs($fp, $string . ($endln ? "\r\n" : ''));
 }
 
