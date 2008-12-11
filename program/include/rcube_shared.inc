@@ -362,6 +362,17 @@ function rc_strtolower($str)
 }
 
 /**
+ * Wrapper function for strtoupper
+ */
+function rc_strtoupper($str)
+{
+  if (function_exists('mb_strtoupper'))
+    return mb_strtoupper($str);
+  else
+    return strtoupper($str);
+}
+
+/**
  * Wrapper function for substr
  */
 function rc_substr($str, $start, $len=null)
