@@ -107,7 +107,17 @@ class rcube_imap
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
 
-    $this->conn = iil_Connect($host, $user, $pass, array('imap' => $auth_type ? $auth_type : 'check'));
+    // set connection options
+    $options['imap'] = $auth_type ? $auth_type : 'check';
+
+    // Setting root and delimiter before iil_Connect can save time detecting them
+    // using NAMESPACE and LIST 
+    if (is_string($imap_root = rcmail::get_instance()->config->get('imap_root'))) 
+        $options['rootdir'] = $imap_root;
+    if($imap_delimiter = rcmail::get_instance()->config->get('imap_delimiter'))
+        $options['delimiter'] = $imap_delimiter;
+
+    $this->conn = iil_Connect($host, $user, $pass, $options);
     $this->host = $host;
     $this->user = $user;
     $this->pass = $pass;
@@ -811,7 +821,7 @@ class rcube_imap
     // we have a saved search result. get index from there
     if (!isset($this->cache[$key]) && $this->search_string && $mailbox == $this->mailbox)
     {
-      $this->cache[$key] = $a_msg_headers = array();
+      $this->cache[$key] = array();
       
       if ($this->get_capability('sort'))
         {
@@ -832,7 +842,7 @@ class rcube_imap
         else if ($this->sort_order=="DESC")
           arsort($a_index);
 
-        $this->cache[$key] = $a_index;
+        $this->cache[$key] = array_keys($a_index);
 	}
     }
 
@@ -848,9 +858,8 @@ class rcube_imap
     if ($cache_status>0)
       {
       $a_index = $this->get_message_cache_index($cache_key, TRUE, $this->sort_field, $this->sort_order);
-      return array_values($a_index);
+      return array_keys($a_index);
       }
-
 
     // fetch complete message index
     $msg_count = $this->_messagecount($mailbox);
@@ -870,7 +879,7 @@ class rcube_imap
       else if ($this->sort_order=="DESC")
         arsort($a_index);
         
-      $this->cache[$key] = $a_index;
+      $this->cache[$key] = array_keys($a_index);
       }
 
     return $this->cache[$key];
