@@ -158,6 +158,11 @@ get_mouse_pos: function(e)
     mY += document.body.scrollTop;
   }
 
+  if (e._offset) {
+    mX += e._offset.x;
+    mY += e._offset.y;
+  }
+
   return { x:mX, y:mY };
 },
 

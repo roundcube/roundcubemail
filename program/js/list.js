@@ -241,6 +241,36 @@ drag_row: function(e, id)
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
     rcube_event.add_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
     rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
+
+    // add listener for iframes
+    var iframes = document.getElementsByTagName('IFRAME');
+    this.iframe_events = Object();
+    for (var n in iframes)
+    {
+      var iframedoc = null;
+      if (iframes[n].contentDocument)
+        iframedoc = iframes[n].contentDocument;
+      else if (iframes[n].contentWindow)
+	iframedoc = iframes[n].contentWindow.document;
+      else if (iframes[n].document)
+        iframedoc = iframes[n].document;
+
+      if (iframedoc)
+      {
+	var list = this;
+	var pos = rcube_get_object_pos(document.getElementById(iframes[n].id));
+	this.iframe_events[n] = function(e) { e._offset = pos; return list.drag_mouse_move(e); }
+	
+	if (iframedoc.addEventListener)
+	  iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
+	else if (iframes[n].attachEvent)
+	  iframedoc.attachEvent('onmousemove', this.iframe_events[n]);
+	else
+	  iframedoc['onmousemove'] = this.iframe_events[n];
+
+        rcube_event.add_listener({element:iframedoc, event:'mouseup', object:this, method:'drag_mouse_up'});
+      }
+    }								  
   }
 
   return false;
@@ -689,6 +719,7 @@ drag_mouse_move: function(e)
   {
     // check mouse movement, of less than 3 pixels, don't start dragging
     var m = rcube_event.get_mouse_pos(e);
+
     if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3))
       return false;
   
@@ -763,6 +794,30 @@ drag_mouse_up: function(e)
 
   rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
+
+  var iframes = document.getElementsByTagName('IFRAME');
+  for (var n in iframes) {
+    var iframedoc;
+    
+    if (iframes[n].contentDocument)
+      iframedoc = iframes[n].contentDocument;
+    else if (iframes[n].contentWindow)
+      iframedoc = iframes[n].contentWindow.document;
+    else if (iframes[n].document)
+      iframedoc = iframes[n].document;
+
+    if (iframedoc) {
+      if (this.iframe_events[n]) {
+	if (iframedoc.removeEventListener)
+	  iframedoc.removeEventListener('mousemove', this.iframe_events[n], false);
+	else if (iframedoc.detachEvent)
+	  iframedoc.detachEvent('onmousemove', this.iframe_events[n]);
+	else
+	  iframedoc['onmousemove'] = null;
+	}
+      rcube_event.remove_listener({element:iframedoc, event:'mouseup', object:this, method:'drag_mouse_up'});
+      }
+    }
 
   this.focus();
   
