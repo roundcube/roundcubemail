@@ -1624,7 +1624,7 @@ function rcube_webmail()
     
     if (rows[uid].flagged && this.env.flaggedicon)
       icn_src = this.env.flaggedicon;
-    else if (this.env.unflaggedicon)
+    else if (!rows[uid].flagged && this.env.unflaggedicon)
       icn_src = this.env.unflaggedicon;
 
     if (rows[uid].flagged_icon && icn_src)
@@ -3491,10 +3491,6 @@ function rcube_webmail()
         }
       else if (col == 'subject' && this.message_list)
         this.message_list.subject_col = n+1;
-      else if (col == 'flag' && this.env.unflaggedicon)
-        {
-	  cell.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
-	}
       }
   };
 
@@ -3556,7 +3552,7 @@ function rcube_webmail()
         {
         if (flags.flagged && this.env.flaggedicon)
           col.innerHTML = '<img src="'+this.env.flaggedicon+'" alt="" />';
-        else if(this.env.unflaggedicon)
+        else if(!flags.flagged && this.env.unflaggedicon)
           col.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
       }
       else if (c=='attachment')
