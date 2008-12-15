@@ -37,28 +37,31 @@
 	<table border="0" cellspacing="0" cellpadding="1" id="compose-headers" summary="">
 	<tbody>
 	    <tr>
-		<td class="title"><label for="rcmcomposefrom"><roundcube:label name="from" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="from" form="form" id="rcmcomposefrom" tabindex="1" /></td>
+		<td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
+		<td><roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" /></td>
 	    </tr><tr>
-		<td class="title top"><label for="rcmcomposeto"><roundcube:label name="to" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="to" form="form" id="rcmcomposeto" cols="70" rows="2" tabindex="2" /></td>
+		<td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
+		<td><roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="2" tabindex="2" /></td>
 	    </tr><tr id="compose-cc">
-		<td class="title top"><label for="rcmcomposecc"><roundcube:label name="cc" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="cc" form="form" id="rcmcomposecc" cols="70" rows="2" tabindex="3" /></td>
+		<td class="title top"><a href="#cc" onclick="return rcmail_hide_header_form('cc');" /><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name="delete" />" /></a>
+		<label for="_cc"><roundcube:label name="cc" /></label></td>
+		<td><roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="2" tabindex="3" /></td>
 	    </tr><tr id="compose-bcc">
-		<td class="title top"><label for="rcmcomposebcc"><roundcube:label name="bcc" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="bcc" form="form" id="rcmcomposebcc" cols="70" rows="2" tabindex="4" /></td>
+		<td class="title top"><a href="#bcc" onclick="return rcmail_hide_header_form('bcc');" /><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name="delete" />" /></a>
+		<label for="_bcc"><roundcube:label name="bcc" /></label></td>
+		<td><roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="2" tabindex="4" /></td>
 	    </tr><tr id="compose-replyto">
-		<td class="title top"><label for="rcmcomposereplyto"><roundcube:label name="replyto" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="replyto" form="form" id="rcmcomposereplyto" size="70" tabindex="5" /></td>
+		<td class="title top"><a href="#replyto" onclick="return rcmail_hide_header_form('replyto');" /><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name="delete" />" /></a>
+		<label for="_replyto"><roundcube:label name="replyto" /></label></td>
+		<td><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" /></td>
 	    </tr><tr id="compose-links">
 		<td></td>
 		<td class="formlinks">
-		    <a href="#cc" onclick="return rcmail_show_header_form('compose-cc', this);" id="addcclink"><roundcube:label name="addcc" /></a>
+		    <a href="#cc" onclick="return rcmail_show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
 		    <span class="separator">|</span>
-		    <a href="#bcc" onclick="return rcmail_show_header_form('compose-bcc', this);" id="addbcclink"><roundcube:label name="addbcc" /></a>
+		    <a href="#bcc" onclick="return rcmail_show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
 		    <span class="separator">|</span>
-		    <a href="#reply-to" onclick="return rcmail_show_header_form('compose-replyto', this);" id="addreplytolink"><roundcube:label name="addreplyto" /></a>
+		    <a href="#reply-to" onclick="return rcmail_show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
 		</td>
 	    </tr><tr>
 		<td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>

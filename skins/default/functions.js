@@ -32,30 +32,57 @@ function rcube_show_advanced(visible)
  * Mail Composing
  */
 
-function rcmail_show_header_form(id, link)
+function rcmail_show_header_form(id)
 {
-  var row, parent, ns, ps, links;
+  var link, row, parent, ns, ps;
+  
+  link = document.getElementById(id + '-link');
+  parent = link.parentNode;
 
-  if (link)
-  {
-    var parent = link.parentNode;
-
-    if ((ns = rcmail_next_sibling(link)))
-      parent.removeChild(ns);
-    else if ((ps = rcmail_prev_sibling(link)))
-      parent.removeChild(ps);
+  if ((ns = rcmail_next_sibling(link)))
+    ns.style.display = 'none';
+  else if ((ps = rcmail_prev_sibling(link)))
+    ps.style.display = 'none';
     
-    parent.removeChild(link);
+  link.style.display = 'none';
 
-    if(!parent.getElementsByTagName('A').length)
-      document.getElementById('compose-links').style.display = 'none';
-  }
-
-  if (row = document.getElementById(id))
+  if (row = document.getElementById('compose-' + id))
     {
     var div = document.getElementById('compose-div');
     var headers_div = document.getElementById('compose-headers-div');
     row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
+    div.style.top = (parseInt(headers_div.offsetHeight)) + 'px';
+    }
+
+  return false;
+}
+
+function rcmail_hide_header_form(id)
+{
+  var row, parent, ns, ps, link, links;
+
+  link = document.getElementById(id + '-link');
+  link.style.display = '';
+  
+  parent = link.parentNode;
+  links = parent.getElementsByTagName('A');
+
+  for (var i=0; i<links.length; i++)
+    if (links[i].style.display != 'none')
+      for (var j=i+1; j<links.length; j++)
+	if (links[j].style.display != 'none')
+          if ((ns = rcmail_next_sibling(links[i]))) {
+	    ns.style.display = '';
+	    break;
+	  }
+
+  document.getElementById('_' + id).value = '';
+
+  if (row = document.getElementById('compose-' + id))
+    {
+    var div = document.getElementById('compose-div');
+    var headers_div = document.getElementById('compose-headers-div');
+    row.style.display = 'none';
     div.style.top = (parseInt(headers_div.offsetHeight)) + 'px';
     }
 
@@ -80,12 +107,13 @@ function rcmail_prev_sibling(elm)
 
 function rcmail_init_compose_form()
 {
-  var cc_field = document.getElementById('rcmcomposecc');
+  var cc_field = document.getElementById('_cc');
   if (cc_field && cc_field.value!='')
-    rcmail_show_header_form('compose-cc', document.getElementById('addcclink'));
-  var bcc_field = document.getElementById('rcmcomposebcc');
+    rcmail_show_header_form('cc');
+
+  var bcc_field = document.getElementById('_bcc');
   if (bcc_field && bcc_field.value!='')
-    rcmail_show_header_form('compose-bcc', document.getElementById('addbcclink'));
+    rcmail_show_header_form('bcc');
 
   // prevent from form data loss when pressing ESC key in IE
   if (bw.ie) {
