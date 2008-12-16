@@ -185,6 +185,9 @@ class Mail_mimePart {
 	
         if (isset($contentType['type'])) {
             $headers['Content-Type'] = $contentType['type'];
+	    if (isset($contentType['charset'])) {
+                $headers['Content-Type'] .= "; charset=\"{$contentType['charset']}\"";
+            }
             if (isset($contentType['name'])) {
                 $headers['Content-Type'] .= ';' . MAIL_MIMEPART_CRLF;
                 $headers['Content-Type'] .=
@@ -192,8 +195,6 @@ class Mail_mimePart {
                         isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII', 
                         isset($contentType['language']) ? $contentType['language'] : NULL,
 			isset($params['name-encoding']) ?  $params['name-encoding'] : NULL);
-            } elseif (isset($contentType['charset'])) {
-                $headers['Content-Type'] .= "; charset=\"{$contentType['charset']}\"";
             }
         }
 
