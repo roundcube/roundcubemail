@@ -136,7 +136,7 @@ function rcmail_message_list($attrib)
   if (empty($attrib['columns']))
       $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
   else
-      $a_show_cols = explode(',', strip_quotes($attrib['columns']));
+      $a_show_cols = preg_split('/[\s,;]+/', strip_quotes($attrib['columns']));
 
   // store column list in a session-variable
   $_SESSION['list_columns'] = $a_show_cols;

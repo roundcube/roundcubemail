@@ -117,7 +117,7 @@ $rcmail_config['smtp_log'] = TRUE;
 $rcmail_config['sendmail_delay'] = 0;
 
 // These cols are shown in the message list. Available cols are:
-// subject, from, to, cc, replyto, date, size, encoding, flag, attachment
+// subject, from, to, cc, replyto, date, size, flag, attachment
 $rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag', 'attachment');
 
 // Includes should be interpreted as PHP files
