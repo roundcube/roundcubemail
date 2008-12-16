@@ -89,8 +89,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
       }
       
       $filename = $part->filename ? $part->filename : ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . '.'.$ctype_secondary;
-      $filename = abbreviate_string($part->filename, 55);
-      $filename = $browser->ie ? rawurlencode($filename) : addcslashes($filename, '"');
+      $filename = $browser->ie ? rawurlencode(abbreviate_string($filename, 55)) : addcslashes($filename, '"');
       $disposition = !empty($_GET['_download']) ? 'attachment' : 'inline';
       
       header("Content-Disposition: $disposition; filename=\"$filename\"");

@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/12/16 (thomasb)
+----------
+- Only abbreviate file name for IE browsers (#1485063)
+
 2008/12/11 (alec)
 ----------
 - Performance: allow setting imap rootdir and delimiter before connect (#1485172)
