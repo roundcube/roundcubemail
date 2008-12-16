@@ -58,13 +58,6 @@ span.tablink-selected a
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
 }
 
-#userprefs-box fieldset
-{
-  float: left;
-  margin-right: 14px;
-  width: 520px;
-}
-
 #userprefs-box table td.title
 {
   color: #666666;
@@ -75,6 +68,13 @@ span.tablink-selected a
 #userprefs-box table tr.advanced
 {
   display: none;
+}
+
+.userprefs-block
+{
+  float: left;
+  margin-right: 14px;
+  width: 520px;
 }
 
 #identities-list,

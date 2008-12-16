@@ -669,6 +669,16 @@ class html_table extends html
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
         return parent::show();
     }
+    
+    /**
+     * Count number of rows
+     *
+     * @return The number of rows
+     */
+    public function size()
+    {
+      return count($this->rows);
+    }
 }
 
 ?>

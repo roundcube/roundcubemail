@@ -12,11 +12,18 @@
 <roundcube:include file="/includes/header.html" />
 <roundcube:include file="/includes/settingstabs.html" />
 
+<form name="form" action="./" method="post">
+
 <div id="userprefs-box">
 <div id="userprefs-title"><roundcube:label name="userpreferences" /></div>
 
 <div style="padding:15px 0 15px 15px">
-<roundcube:object name="userprefs">
+<div class="userprefs-block">
+  <roundcube:object name="userprefs" form="form" parts="general,mailbox,mailview" />
+</div>
+<div class="userprefs-block">
+  <roundcube:object name="userprefs" form="form" parts="compose,folders,server" />
+</div>
 <div style="clear:left"></div>
 </div>
 </div>
@@ -24,6 +31,8 @@
 <p id="listbuttons">
 <roundcube:button command="save" type="input" class="button mainaction" label="save" />
 </p>
+
+</form>
 
 <div class="advswitch">
 <label for="advswitch"><roundcube:label name="advancedoptions"></label>
