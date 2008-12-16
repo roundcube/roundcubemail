@@ -178,7 +178,9 @@ function rcmail_cache_gc()
  */
 function rcube_charset_convert($str, $from, $to=NULL)
   {
-  static $mbstring_loaded = null, $convert_warning = false;
+  static $mbstring_loaded = null;
+  static $mbstring_list = null;
+  static $convert_warning = false;
 
   $from = strtoupper($from);
   $to = $to==NULL ? strtoupper(RCMAIL_CHARSET) : strtoupper($to);
@@ -219,9 +221,19 @@ function rcube_charset_convert($str, $from, $to=NULL)
     $aliases['UTF-7'] = 'UTF7-IMAP';
     $aliases['WINDOWS-1257'] = 'ISO-8859-13';
     
-    // return if convert succeeded
-    if (($out = mb_convert_encoding($str, ($aliases[$to] ? $aliases[$to] : $to), ($aliases[$from] ? $aliases[$from] : $from))) != '')
-      return $out;
+    if (is_null($mbstring_list)) {
+      $mbstring_list = mb_list_encodings();
+      $mbstring_list = array_map('strtoupper', $mbstring_list);
+    }
+    
+    $mb_from = $aliases[$from] ? $aliases[$from] : $from;
+    $mb_to = $aliases[$to] ? $aliases[$to] : $to;
+    
+    // return if encoding found, string matches encoding and convert succeeded
+    if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list))
+      if (mb_check_encoding($str, $mb_from))
+	if ($out = mb_convert_encoding($str, $mb_to, $mb_from))
+          return $out;
     }
     
   
