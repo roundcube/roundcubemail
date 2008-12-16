@@ -191,10 +191,10 @@ function rcmail_compose_headers($attrib)
       foreach ($to_addresses as $addr_part)
       {
         if (!empty($addr_part['mailto'])
-	    && !in_array($addr_part['mailto'], $sa_recipients)
-	    && (!$MESSAGE->compose_from
-		|| !in_array_nocase($addr_part['mailto'], $MESSAGE->compose_from)
-		|| count($to_addresses)==1)) // allow reply to yourself
+            && !in_array($addr_part['mailto'], $sa_recipients)
+            && (!$MESSAGE->compose_from
+                || !in_array_nocase($addr_part['mailto'], $MESSAGE->compose_from)
+                || count($to_addresses)==1)) // allow reply to yourself
         {
           $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
           $sa_recipients[] = $addr_part['mailto'];
@@ -386,8 +386,8 @@ function rcmail_compose_body($attrib)
       // replace cid with href in inline images links
       foreach ((array)$_SESSION['compose']['attachments'] as $pid => $attachment) {
         if ($attachment['content_id']) {
-	  $body = str_replace('cid:'. $attachment['content_id'], 
-	    $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$pid, $body);
+          $body = str_replace('cid:'. $attachment['content_id'], 
+            $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$pid, $body);
         }
       }
     }
@@ -510,7 +510,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
       $MESSAGE->headers->date,
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
-    $suffix = "</blockquote>";
+    $suffix = "</blockquote><p></p>";
 
     rcmail_write_inline_attachments($MESSAGE);
   }
@@ -586,7 +586,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   {
     if (($part->ctype_primary != 'message' || !$bodyIsHtml) &&
         ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id']
-	|| (empty($part->disposition) && $part->filename)))
+         || (empty($part->disposition) && $part->filename)))
     {
       if ($attachment = rcmail_save_attachment($message, $pid))
         $_SESSION['compose']['attachments'][] = $attachment;
