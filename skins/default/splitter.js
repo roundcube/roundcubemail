@@ -74,7 +74,10 @@ function rcube_splitter(attrib)
       this.p2.style.top = Math.ceil(this.pos + lh / 2) + 'px';
       this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));	     
       if (bw.ie)
-        this.p2.style.height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top))+'px';
+	{
+        var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top));
+        this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
+        }
       }
     else
       {
@@ -117,7 +120,7 @@ function rcube_splitter(attrib)
         // the position of each iframe when the event is received
         var s = this;
         var id = iframes[n].id;
-        this.iframe_events[n] = function(e){ e._rc_pos_offset = rcube_get_object_pos(document.getElementById(id)); return s.onDrag(e); }
+        this.iframe_events[n] = function(e){ e._offset = rcube_get_object_pos(document.getElementById(id)); return s.onDrag(e); }
 
         if (iframedoc.addEventListener)
           iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
@@ -136,15 +139,9 @@ function rcube_splitter(attrib)
    */
   this.onDrag = function(e)
     {
-    var pos = rcube_event.get_mouse_pos(e);
-
     if (!this.drag_active) return false;
 
-    if (e._rc_pos_offset)
-      {
-      pos.x += e._rc_pos_offset.x;
-      pos.y += e._rc_pos_offset.y;
-      }
+    var pos = rcube_event.get_mouse_pos(e);
 
     if (this.relative)
       {
@@ -215,13 +212,17 @@ function rcube_splitter(attrib)
 
     return bw.safari ? true : rcube_event.cancel(e);
     };
+
   /**
    * Handler for window resize events
    */
   this.onResize = function(e)
     {
     if (this.horizontal)
-      this.p2.style.height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top))+'px';
+      {
+      var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top));
+      this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
+      }
     else
       this.p2.style.width = (parseInt(this.p2.parentNode.offsetWidth) - parseInt(this.p2.style.left))+'px';
     };
