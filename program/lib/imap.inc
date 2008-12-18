@@ -75,6 +75,7 @@
 		- optimize iil_C_FetchHeaders() to use only one FETCH command
 		- added 4th argument to iil_Connect()
 		- allow setting rootdir and delimiter before connect
+		- support multiquota result
 
 ********************************************************/
 
@@ -2656,31 +2657,41 @@ function iil_C_GetQuota(&$conn) {
  * GETQUOTAROOT "INBOX"
  * QUOTAROOT INBOX user/rchijiiwa1
  * QUOTA user/rchijiiwa1 (STORAGE 654 9765)
- b OK Completed
+ * OK Completed
  */
 	$fp         = $conn->fp;
 	$result     = false;
-	$quota_line = '';
+	$quota_lines = array();
 	
-	//get line containing quota info
+	// get line(s) containing quota info
 	if (iil_PutLine($fp, 'QUOT1 GETQUOTAROOT "INBOX"')) {
 		do {
 			$line=chop(iil_ReadLine($fp, 5000));
 			if (iil_StartsWith($line, '* QUOTA ')) {
-				$quota_line = $line;
+				$quota_lines[] = $line;
         		}
 		} while (!iil_StartsWith($line, 'QUOT1', true));
 	}
 	
-	//return false if not found, parse if found
-	if (!empty($quota_line)) {
+	// return false if not found, parse if found
+	$min_free = PHP_INT_MAX;
+	foreach ($quota_lines as $key => $quota_line) {
 		$quota_line   = eregi_replace('[()]', '', $quota_line);
 		$parts        = explode(' ', $quota_line);
 		$storage_part = array_search('STORAGE', $parts);
-		if ($storage_part > 0) {
-			$result['used']    = intval($parts[$storage_part+1]);
-			$result['total']   = intval($parts[$storage_part+2]);
-			$result['percent'] = min(100, round(($result['used']/max(1,$result['total']))*100));
+		
+		if (!$storage_part) continue;
+	
+		$used	= intval($parts[$storage_part+1]);
+		$total	= intval($parts[$storage_part+2]);
+		$free	= $total - $used; 
+	
+		// return lowest available space from all quotas
+		if ($free < $min_free) { 
+		        $min_free = $free; 
+			$result['used']    = $used;
+			$result['total']   = $total;
+			$result['percent'] = min(100, round(($used/max(1,$total))*100));
 			$result['free']    = 100 - $result['percent'];
 		}
 	}

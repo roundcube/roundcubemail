@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2008/12/18 (alec)
 ----------
 - Fix STARTTLS before AUTH in SMTP connection (#1484883)
+- Support multiple quota values in QUOTAROOT resonse (#1485626)
 
 2008/12/16 (thomasb)
 ----------
