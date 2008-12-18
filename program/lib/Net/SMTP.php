@@ -532,7 +532,7 @@ class Net_SMTP
         /* We don't use the protocol's third step because SMTP doesn't
          * allow subsequent authentication, so we just silently ignore
          * it. */
-        if (PEAR::isError($error = $this->_put(' '))) {
+        if (PEAR::isError($error = $this->_put(''))) {
             return $error;
         }
         /* 235: Authentication successful */
