@@ -36,18 +36,20 @@ if (!isset($_SESSION['compose']['id'])) {
   $OUTPUT->send('iframe');
 }
 
-if (!$savedraft && empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && empty($_POST['_subject']) && $_POST['_message']) {
-  $OUTPUT->show_message('sendingfailed', 'error');
-  $OUTPUT->send('iframe');
-}
-
-if(!$savedraft && !empty($CONFIG['sendmail_delay'])) {
-  $wait_sec = time() - intval($CONFIG['sendmail_delay']) - intval($_SESSION['last_message_time']);
-  if($wait_sec < 0)
-    {
-    $OUTPUT->show_message('senttooquickly', 'error', array('sec' => $wait_sec * -1));
+if (!$savedraft) {
+  if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc'])
+    && empty($_POST['_subject']) && $_POST['_message']) {
+    $OUTPUT->show_message('sendingfailed', 'error');
     $OUTPUT->send('iframe');
+  }
+
+  if(!empty($CONFIG['sendmail_delay'])) {
+    $wait_sec = time() - intval($CONFIG['sendmail_delay']) - intval($CONFIG['last_message_time']);
+    if($wait_sec < 0) {
+      $OUTPUT->show_message('senttooquickly', 'error', array('sec' => $wait_sec * -1));
+      $OUTPUT->send('iframe');
     }
+  }
 }
 
 
@@ -372,7 +374,7 @@ if (!$savedraft)
 
   // save message sent time
   if (!empty($CONFIG['sendmail_delay']))
-    $_SESSION['last_message_time'] = time();
+    $RCMAIL->user->save_prefs(array('last_message_time' => time()));
   
   // set replied/forwarded flag
   if ($_SESSION['compose']['reply_uid'])
