@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/12/18 (thomasb)
+----------
+- Only abbreviate attachment file names in MSIE < 7
+- Fix autocomplete "unknown server error" (#1485637)
+- Optimize autocomplete search and output
+
 2008/12/18 (alec)
 ----------
 - Fix STARTTLS before AUTH in SMTP connection (#1484883)
