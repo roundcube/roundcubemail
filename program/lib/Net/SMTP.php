@@ -375,7 +375,7 @@ class Net_SMTP
 
             return true;
         }
-console($this->_arguments);
+
         foreach ($this->_arguments as $argument) {
             $verb = strtok($argument, ' ');
             $arguments = substr($argument, strlen($verb) + 1,
