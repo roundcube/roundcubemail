@@ -375,7 +375,7 @@ class Net_SMTP
 
             return true;
         }
-
+console($this->_arguments);
         foreach ($this->_arguments as $argument) {
             $verb = strtok($argument, ' ');
             $arguments = substr($argument, strlen($verb) + 1,
@@ -424,11 +424,8 @@ class Net_SMTP
      */
     function auth($uid, $pwd , $method = '')
     {
-        if (empty($this->_esmtp['AUTH'])) {
-            if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
-                if (!isset($this->_esmtp['STARTTLS'])) {
-                    return PEAR::raiseError('SMTP server does not support authentication');
-                }
+        if (version_compare(PHP_VERSION, '5.1.0', '>=') && isset($this->_esmtp['STARTTLS'])) {
+
                 if (PEAR::isError($result = $this->_put('STARTTLS'))) {
                     return $result;
                 }
@@ -444,12 +441,10 @@ class Net_SMTP
                 /* Send EHLO again to recieve the AUTH string from the
                  * SMTP server. */
                 $this->_negotiate();
-                if (empty($this->_esmtp['AUTH'])) {
-                    return PEAR::raiseError('SMTP server does not support authentication');
-                }
-            } else {
-                return PEAR::raiseError('SMTP server does not support authentication');
-            }
+	}
+        
+	if (empty($this->_esmtp['AUTH'])) {
+            return PEAR::raiseError('SMTP server does not support authentication');
         }
 
         /* If no method has been specified, get the name of the best
