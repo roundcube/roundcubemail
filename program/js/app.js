@@ -2535,7 +2535,7 @@ function rcube_webmail()
   this.ksearch_display_results = function (a_results, a_result_ids, c)
   {
     // display search results
-    if (c && a_results.length) {
+    if (c && a_results.length && this.ksearch_input) {
       var p, ul, li;
       
       // create results pane if not present
@@ -2554,7 +2554,7 @@ function rcube_webmail()
       // add each result line to list
       for (i=0; i<a_results.length; i++) {
         li = document.createElement('LI');
-        li.innerHTML = a_results[i].replace(/</, '&lt;').replace(/>/, '&gt;').replace(new RegExp('('+this.ksearch_value+')', 'ig'), '<b>$1</b>');
+        li.innerHTML = a_results[i].replace(new RegExp('('+this.ksearch_value+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
         li._rcm_id = a_result_ids[i];

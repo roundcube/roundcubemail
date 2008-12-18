@@ -19,13 +19,14 @@
 
 */
 
+$MAXNUM = 15;  // same limit as in app.js
 $contacts = array();
 
 if ($search = get_input_value('_search', RCUBE_INPUT_POST)) {
 
   foreach ($RCMAIL->config->get('autocomplete_addressbooks', array('sql')) as $id) {
     $abook = $RCMAIL->get_address_book($id);
-    $abook->set_pagesize(20);
+    $abook->set_pagesize($MAXNUM);
 
     if ($result = $abook->search(array('email','name'), $search)) {
       while ($sql_arr = $result->iterate()) {
@@ -34,6 +35,9 @@ if ($search = get_input_value('_search', RCUBE_INPUT_POST)) {
         }
       }
     }
+    
+    if (count($contacts) >= $MAXNUM)
+      break;
   }
   
   sort($contacts);
