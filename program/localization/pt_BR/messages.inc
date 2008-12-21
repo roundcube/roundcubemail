@@ -2,49 +2,49 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/pt_BR/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
- |         Robson F. Ramaldes <rframaldes@gmail.com>                     |
- |         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
- |         Gervasio Antonio <gdsa32-translations@yahoo.com.br>           |
- |         Victor Benincasa <vbenincasa@gmail.com>                       |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/pt_BR/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Anderson S. Ferreira <anderson@cnpm.embrapa.br>               |
+|         Robson F. Ramaldes <rframaldes@gmail.com>                     |
+|         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
+|         Gervasio Antonio <gdsa32-translations@yahoo.com.br>           |
+|         Victor Benincasa <vbenincasa@gmail.com>                       |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Falha no login.';
-$messages['cookiesdisabled'] = 'Seu navegador não suporta cookies.';
-$messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou.';
-$messages['imaperror'] = 'Falha na conexão com o servidor IMAP.';
-$messages['nomessagesfound'] = 'Nenhuma mensagem foi encontrada.';
+$messages['loginfailed'] = 'Falha no login';
+$messages['cookiesdisabled'] = 'Seu navegador não suporta cookies';
+$messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
+$messages['imaperror'] = 'Falha na conexão com o servidor IMAP';
+$messages['nomessagesfound'] = 'Nenhuma mensagem foi encontrada';
 $messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até breve!';
-$messages['mailboxempty'] = 'A caixa de mensagens está vazia.';
+$messages['mailboxempty'] = 'A caixa de mensagens está vazia';
 $messages['loading'] = 'Carregando...';
 $messages['loadingdata'] = 'Carregando informações...';
 $messages['checkingmail'] = 'Verificando se há novas mensagens...';
-$messages['sendingmessage'] = 'Enviando...';
-$messages['messagesent'] = 'Mensagem enviada';
+$messages['sendingmessage'] = 'Enviando mensagem...';
+$messages['messagesent'] = 'Mensagem enviada com sucesso';
 $messages['savingmessage'] = 'Salvando Mensagem...';
-$messages['messagesaved'] = 'Rascunho Salvo';
-$messages['successfullysaved'] = 'Operação realizada com sucesso.';
-$messages['addedsuccessfully'] = 'Contato incluído com sucesso.';
-$messages['contactexists'] = 'Um contato com esse e-mail já existe';
+$messages['messagesaved'] = 'Mensagem gravada como rascunho';
+$messages['successfullysaved'] = 'Gravado com sucesso';
+$messages['addedsuccessfully'] = 'Contato incluído com sucesso';
+$messages['contactexists'] = 'Já existe um contato com esse e-mail';
 $messages['blockedimages'] = 'Para proteger sua privacidade, as imagens desta mensagem foram bloqueadas';
 $messages['encryptedmessage'] = 'Esta mensagem está criptografada e não pode ser exibida. Desculpe.';
 $messages['nocontactsfound'] = 'Nenhum contato foi encontrado';
 $messages['contactnotfound'] = 'O contato solicitado não foi encontrado';
 $messages['sendingfailed'] = 'Falha no envio da mensagem';
-$messages['senttooquickly'] = 'Você terá que esperar $sec s para enviar a mensagem';
+$messages['senttooquickly'] = 'Aguarde $sec s para enviar a mensagem';
 $messages['errorsavingsent'] = 'Ocorreu um erro ao salvar a mensagem enviada';
 $messages['errorsaving'] = 'Ocorreu um erro ao salvar';
 $messages['errormoving'] = 'Não foi possível mover a mensagem';
@@ -56,37 +56,39 @@ $messages['purgefolderconfirm'] = 'Deseja realmente excluir todas mensagens dest
 $messages['foldercreating'] = 'Criando pasta...';
 $messages['folderdeleting'] = 'Apagando pasta...';
 $messages['folderrenaming'] = 'Renomeando pasta...';
-$messages['formincomplete'] = 'Os campos não foram completamente preenchidos.';
-$messages['noemailwarning'] = 'Por favor, informe um endereço de e-mail válido.';
-$messages['nonamewarning'] = 'Por favor, informe o nome.';
-$messages['nopagesizewarning'] = 'Por favor, informe o tamanho da página.';
-$messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário.';
-$messages['nosubjectwarning'] = 'O campo assunto não foi informado. Deseja incluí-lo agora?';
+$messages['foldermoving'] = 'Movendo pasta...';
+$messages['formincomplete'] = 'Os campos não foram completamente preenchidos';
+$messages['noemailwarning'] = 'Por favor, informe um endereço de e-mail válido';
+$messages['nonamewarning'] = 'Por favor, informe o nome';
+$messages['nopagesizewarning'] = 'Por favor, informe o tamanho da página';
+$messages['nosenderwarning'] = 'Por favor, informe o e-mail do remetente';
+$messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário';
+$messages['nosubjectwarning'] = 'O campo "Assunto" não foi preenchido. Deseja incluí-lo agora?';
 $messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
 $messages['notsentwarning'] = 'A mensagem não foi enviada, deseja excluí-la?';
 $messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesquisa';
-$messages['nocontactsreturned'] = 'Nenhum contato foi encontrado.';
+$messages['nocontactsreturned'] = 'Nenhum contato foi encontrado';
 $messages['nosearchname'] = 'Por favor, informe o nome do contado ou seu endereço de e-mail';
 $messages['searchsuccessful'] = '$nr mensagens encontradas';
 $messages['searchnomatch'] = 'A pesquisa não encontrou resultados';
 $messages['searching'] = 'Pesquisando...';
 $messages['checking'] = 'Verificando...';
-$messages['nospellerrors'] = 'Nenhum erro ortográfico encontrado.';
+$messages['nospellerrors'] = 'Nenhum erro ortográfico foi encontrado';
 $messages['folderdeleted'] = 'Pasta excluída com sucesso';
 $messages['deletedsuccessfully'] = 'Excluído com sucesso';
-$messages['converting'] = 'Removendo formatação da Mensagem...';
+$messages['converting'] = 'Removendo formatação...';
 $messages['messageopenerror'] = 'Não foi possível carregar a mensagem do servidor';
 $messages['fileuploaderror'] = 'Falha ao enviar o arquivo';
-$messages['filesizeerror'] = 'O Arquivo enviado excede o tamanho máximo de $size';
+$messages['filesizeerror'] = 'O arquivo enviado excede o tamanho máximo de $size';
 $messages['copysuccess'] = '$nr endereço(s) copiado(s) com sucesso';
-$messages['copyerror'] = 'Não foi possível copiar quaisquer endereços';
+$messages['copyerror'] = 'Não foi possível copiar os endereços';
 $messages['sourceisreadonly'] = 'Esta fonte de endereço é somente leitura';
-$messages['errorsavingcontact'] = 'Não foi possível salvar o endereço de contato.';
+$messages['errorsavingcontact'] = 'Não foi possível salvar o endereço de contato';
 $messages['movingmessage'] = 'Movendo mensagem...';
-$messages['receiptsent'] = 'Confirmação de Leitura enviada com sucesso.';
-$messages['errorsendingreceipt'] = 'Não foi possível enviar a confirmação de leitura.';
-$messages['nodeletelastidentity'] = 'Você não pode excluir sua única identidade.';
-$messages['addsubfolderhint'] = 'Esta pasta será criada como uma sub-pasta da que está selecionada.';
+$messages['receiptsent'] = 'Confirmação de recebimento enviada com sucesso';
+$messages['errorsendingreceipt'] = 'Não foi possível enviar a confirmação de recebimento';
+$messages['nodeletelastidentity'] = 'Você não pode excluir a única identidade';
+$messages['addsubfolderhint'] = 'Esta pasta será criada como uma sub-pasta da que está selecionada';
 $messages['forbiddencharacter'] = 'O nome da pasta contém um caractere não permitido';
 $messages['selectimportfile'] = 'Selecione o arquivo para envio';
 $messages['addresswriterror'] = 'O catálogo de endereços selecionado não tem permissão de modificação';
@@ -94,5 +96,7 @@ $messages['importwait'] = 'Importando, aguarde por favor...';
 $messages['importerror'] = 'Falha na importação! O arquivo enviado não é um arquivo vCard válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contatos, e $skipped contatos foram ignorados</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operação não permitida!';
+$messages['nofromaddress'] = 'Falta o endereço de email na identidade selecionada';
+$messages['editorwarning'] = 'Mudar para o editor de texto simples elimina toda a formatação de texto. Deseja continuar?';
 
 ?>

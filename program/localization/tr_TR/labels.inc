@@ -32,7 +32,7 @@ $labels['inbox'] = 'Gelen';
 $labels['drafts'] = 'Taslaklar';
 $labels['sent'] = 'Giden';
 $labels['trash'] = 'Çöp';
-$labels['junk'] = 'Spam';
+$labels['junk'] = 'İstenmeyen';
 $labels['subject'] = 'Konu';
 $labels['from'] = 'Gönderen';
 $labels['to'] = 'Alıcı';
@@ -244,5 +244,27 @@ $labels['specialfolders'] = 'Özel klasörler';
 $labels['sortby'] = 'Sırala';
 $labels['sortasc'] = 'Artarak';
 $labels['sortdesc'] = 'Azalarak';
+$labels['filter'] = 'Süzgeç';
+$labels['always'] = 'her zaman'; 
+$labels['fromknownsenders'] = 'bilinen göndericilerden';
+$labels['showremoteimages'] = 'Uzaktan yüklenen resimleri göster';
+$labels['checkallfolders'] = 'Tüm klasörlerdeki yeni postaları denetle';
+$labels['flagged'] = 'İşaretlenmiş'; 
+$labels['unanswered'] = 'Yanıtlanmamış';
+$labels['keepaliveevery']  = 'her $n dakikada bir'; 
+$labels['keepalive']  = 'Yeni postaları denetle:';
+$labels['focusonnewmessage'] = 'Yeni posta geldiğinde web tarayıcı penceresine odaklan.';
+$labels['skipdeleted'] = 'Silinmiş postaları gösterme';
+
+$labels['B'] = 'B'; 
+$labels['KB'] = 'KB'; 
+$labels['MB'] = 'MB'; 
+$labels['GB'] = 'GB'; 
+
+$labels['mimeparamfolding'] = 'Eklenti isimleri';
+$labels['2231folding'] = 'Tam RFC 2231 (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'Tam RFC 2047 (diğer)';
+$labels['advancedoptions'] = 'Gelişmiş seçenekler';
 
 ?>

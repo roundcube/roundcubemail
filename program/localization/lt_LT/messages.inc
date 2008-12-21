@@ -52,10 +52,12 @@ $messages['purgefolderconfirm'] = 'Ar jūs tikrai norite ištrinti visus laišku
 $messages['foldercreating'] = 'Aplankas kuriamas...';
 $messages['folderdeleting'] = 'Aplankas pašalinamas...';
 $messages['folderrenaming'] = 'Aplankas pervardinamas...';
+$messages['foldermoving'] = 'Aplankas perkeliamas...';
 $messages['formincomplete'] = 'Šios formos laukai yra nepilnai užpildyti';
 $messages['noemailwarning'] = 'Prašome įvesti teisingą el. pašto adresą';
 $messages['nonamewarning'] = 'Prašome įvesti vardą';
 $messages['nopagesizewarning'] = 'Prašome įvesti puslapio dydį';
+$messages['nosenderwarning'] = 'Prašome įvesti siuntėjo el. pašto adresą';
 $messages['norecipientwarning'] = 'Prašome įvesti bent vieną gavėją';
 $messages['nosubjectwarning'] = 'Temos laukelis tuščias. Ar norite temą įvesti dabar?';
 $messages['nobodywarning'] = 'Išsiųsti šį laišką be teksto?';
@@ -90,5 +92,7 @@ $messages['importwait'] = 'Importuojama, prašome palaukti...';
 $messages['importerror'] = 'Importavimas nepavyko! Įkelta byla nėra vCard formato.';
 $messages['importconfirm'] = '<b>Sėkmingai importuoti $inserted kontaktai, $skipped egzistuojančių įrašų praleista</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operacija neleistina!';
+$messages['nofromaddress'] = 'Nerastas el. pašto adresas pasirinktoje tapatybėje';
+$messages['editorwarning'] = 'Pereinant tik į teksto redagavimą visas formatavimas bus prarastas. Ar tikrai norite vykdyti užklausą?';
 
 ?>

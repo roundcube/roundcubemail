@@ -53,6 +53,7 @@ $messages['purgefolderconfirm'] = 'Bu klasördeki tüm postaları silmek istedi�
 $messages['foldercreating'] = 'Klasör oluştuluyor...';
 $messages['folderdeleting'] = 'Klasör siliniyor...';
 $messages['folderrenaming'] = 'Klasör yeniden adlandırılıyor...';
+$messages['foldermoving'] = 'Klasör taşınıyor...'; 
 $messages['formincomplete'] = 'Form tam olarak doldurulmadı';
 $messages['noemailwarning'] = 'Lütfen geçerli bir e-posta adresi girin';
 $messages['nonamewarning'] = 'Lütfen bir isim girin';
@@ -91,5 +92,8 @@ $messages['importwait'] = 'Aktarılıyor, lütfen bekleyin...';
 $messages['importerror'] = 'İçe aktarma başarısız! Yüklenen dosya geçerli bir vCard dosyası değil';
 $messages['importconfirm'] = '<b>$inserted kişi başarıyla aktarıldı, halihazırda var olan $skipped kişi atlandı</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Bu işleme izin verilmedi!';
+$messages['editorwarning'] = 'Düz metin düzenleyiciye geçmek, metin üzerindeki bütün biçimlendirmeleri kaldıracak. Devam etmek istiyor musunuz?';
+$messages['nofromaddress'] = 'Seçili kimlikte e-posta adresi yok';
+$messages['nosenderwarning'] = 'Lütfen gönderici e-posta adresini girin';
 
 ?>
