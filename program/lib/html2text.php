@@ -468,12 +468,12 @@ class html2text
 	// Convert <PRE>
         $this->_convert_pre($text);
 
-	// Replace known html entities
-	$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
-
         // Run our defined search-and-replace
         $text = preg_replace($this->search, $this->replace, $text);
         $text = preg_replace_callback($this->callback_search, array('html2text', '_preg_callback'), $text);
+
+	// Replace known html entities
+	$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
