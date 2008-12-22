@@ -1743,7 +1743,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					//get timezone
 					$time_str      = substr($time_str, 0, -1);
 					$time_zone_str = substr($time_str, -5); // extract timezone
-					$time_str      = substr($time_str, 1, -6); // remove quotes
+					$time_str      = substr($time_str, 0, -5); // remove timezone
 					$time_zone     = (float)substr($time_zone_str, 1, 2); // get first two digits
 			
 					if ($time_zone_str[3] != '0') {
@@ -1756,7 +1756,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					//calculate timestamp
                                         $timestamp     = strtotime($time_str); //return's server's time
 					$timestamp    -= $time_zone * 3600; //compensate for tz, get GMT
-					
+
 					$result[$id]->internaldate = $time_str;
 					$result[$id]->timestamp = $timestamp;
 					$result[$id]->date = $time_str;
