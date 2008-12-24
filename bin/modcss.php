@@ -20,10 +20,12 @@
 */
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/');
-require INSTALL_PATH.'program/include/iniset.php';
+require INSTALL_PATH . 'program/include/iniset.php';
+
+$RCMAIL = rcmail::get_instance();
 
 $source = "";
-if ($url = preg_replace('/[^a-z0-9.-_\?\$&=%]/i', '', $_GET['u']))
+if (!empty($RCMAIL->user->ID) && ($url = preg_replace('/[^a-z0-9.-_\?\$&=%]/i', '', $_GET['u'])))
 {
 	$a_uri = parse_url($url);
 	$port = $a_uri['port'] ? $a_uri['port'] : 80;
@@ -59,7 +61,9 @@ if (!empty($source))
 	header("Content-Type: text/css");
 	echo rcmail_mod_css_styles($source, preg_replace('/[^a-z0-9]/i', '', $_GET['c']), $url);
 }
-else
+else {
 	header("HTTP/1.0 404 Not Found");
+	echo "Requires a valid user session and source url";
+}
 
 ?>

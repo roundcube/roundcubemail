@@ -612,18 +612,26 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
     array(
       '/(^\s*<!--)|(-->\s*$)/',
       '/(^\s*|,\s*|\}\s*)([a-z0-9\._#][a-z0-9\.\-_]*)/im',
-      '/@import\s+(url\()?[\'"]?([^\)\'"]+)[\'"]?(\))?/ime',
-      '/<<str_replacement\[([0-9]+)\]>>/e',
-      "/$container_id\s+body/i"
+      "/$container_id\s+body/i",
     ),
     array(
       '',
       "\\1#$container_id \\2",
-      "sprintf(\"@import url('./bin/modcss.php?u=%s&c=%s')\", urlencode(make_absolute_url('\\2','$base_url')), urlencode($container_id))",
-      "\$a_css_values[\\1]",
-      "$container_id div.rcmBody"
+      "$container_id div.rcmBody",
     ),
     $source);
+  
+  // replace all @import statements to modify the imported CSS sources too
+  $styles = preg_replace_callback(
+    '/@import\s+(url\()?[\'"]?([^\)\'"]+)[\'"]?(\))?/im',
+    create_function('$matches', "return sprintf(\"@import url('./bin/modcss.php?u=%s&c=%s')\", urlencode(make_absolute_url(\$matches[2],'$base_url')), urlencode('$container_id'));"),
+    $styles);
+  
+  // put block contents back in
+  $styles = preg_replace_callback(
+    '/<<str_replacement\[([0-9]+)\]>>/',
+    create_function('$matches', "\$values = ".var_export($a_css_values, true)."; return \$values[\$matches[1]];"),
+    $styles);
 
   return $styles;
   }
@@ -639,7 +647,7 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
 function rcmail_xss_entitiy_decode($content)
 {
   $out = html_entity_decode(html_entity_decode($content));
-  $out = preg_replace('/\\\([0-9a-f]{4})/ie', "chr(hexdec('\\1'))", $out);
+  $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', create_function('$matches', 'return chr(hexdec($matches[1]));'), $out);
   $out = preg_replace('#/\*.*\*/#Um', '', $out);
   return $out;
 }

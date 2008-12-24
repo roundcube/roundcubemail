@@ -18,6 +18,11 @@
 
 */
 
+define('INSTALL_PATH', realpath(dirname(__FILE__).'/..') . '/');
+require INSTALL_PATH . 'program/include/iniset.php';
+
+$RCMAIL = rcmail::get_instance();
+
 $used   = isset($_GET['u']) ? intval($_GET['u']) : '??';
 $quota  = isset($_GET['q']) ? intval($_GET['q']) : '??';
 $width  = empty($_GET['w']) ? 100 : min(300, intval($_GET['w']));
@@ -186,11 +191,12 @@ function genQuota($used, $total, $width, $height)
 	imagedestroy($im);
 }
 
-if ($width > 1 && $height > 1) {
-	genQuota($used, $quota, $width, $height);  
+if (!empty($RCMAIL->user->ID) && $width > 1 && $height > 1) {
+	genQuota($used, $quota, $width, $height);
 }
 else {
-	header("HTTP/1.0 404 Not Found");
+	header("HTTP/1.0 403 Forbidden");
+	echo "Requires a valid user session and positive values";
 }
 
 exit;
