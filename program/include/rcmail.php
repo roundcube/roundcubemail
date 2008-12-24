@@ -352,6 +352,20 @@ class rcmail
 
     // set pagesize from config
     $this->imap->set_pagesize($this->config->get('pagesize', 50));
+    
+    // Setting root and delimiter before iil_Connect can save time detecting them
+    // using NAMESPACE and LIST 
+    $options = array(
+      'imap' => $this->config->get('imap_auth_type', 'check'),
+      'delimiter' => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
+    );
+    
+    if (isset($_SESSION['imap_root']))
+      $options['rootdir'] = $_SESSION['imap_root'];
+    else if ($imap_root = $this->config->get('imap_root'))
+      $options['rootdir'] = $imap_root;
+    
+    $this->imap->set_options($options);
   
     // set global object for backward compatibility
     $GLOBALS['IMAP'] = $this->imap;
@@ -371,7 +385,7 @@ class rcmail
     $conn = false;
     
     if ($_SESSION['imap_host'] && !$this->imap->conn) {
-      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'], rcmail::get_instance()->config->get('imap_auth_type', 'check')))) {
+      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
         if ($this->output)
           $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
       }
@@ -452,7 +466,7 @@ class rcmail
       $username = $user->data['username'];
 
     // exit if IMAP login failed
-    if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl, $config['imap_auth_type'])))
+    if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl)))
       return false;
 
     // user already registered -> update user's record
@@ -524,6 +538,10 @@ class rcmail
     if (isset($_SESSION['page'])) {
       $this->imap->set_page($_SESSION['page']);
     }
+    
+    // cache IMAP root and delimiter in session for performance reasons
+    $_SESSION['imap_root'] = $this->imap->root_dir;
+    $_SESSION['imap_delimiter'] = $this->imap->delimiter;
   }
 
 

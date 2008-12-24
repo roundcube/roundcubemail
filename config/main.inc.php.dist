@@ -62,8 +62,7 @@ $rcmail_config['default_port'] = 143;
 $rcmail_config['imap_auth_type'] = null;
 
 // If you know your imap's root directory and its folder delimiter,
-// you can specify them here. Otherwise they will be determined
-// during every imap connection.
+// you can specify them here. Otherwise they will be determined automatically.
 $rcmail_config['imap_root'] = null;
 $rcmail_config['imap_delimiter'] = null;
 

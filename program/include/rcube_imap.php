@@ -66,6 +66,7 @@ class rcube_imap
   var $search_sort_field = '';  
   var $debug_level = 1;
   var $error_code = 0;
+  var $options = array('imap' => 'check');
 
 
   /**
@@ -90,7 +91,7 @@ class rcube_imap
    * @return boolean  TRUE on success, FALSE on failure
    * @access public
    */
-  function connect($host, $user, $pass, $port=143, $use_ssl=null, $auth_type=null)
+  function connect($host, $user, $pass, $port=143, $use_ssl=null)
     {
     global $ICL_SSL, $ICL_PORT, $IMAP_USE_INTERNAL_DATE;
     
@@ -107,17 +108,7 @@ class rcube_imap
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
 
-    // set connection options
-    $options['imap'] = $auth_type ? $auth_type : 'check';
-
-    // Setting root and delimiter before iil_Connect can save time detecting them
-    // using NAMESPACE and LIST 
-    if (is_string($imap_root = rcmail::get_instance()->config->get('imap_root'))) 
-        $options['rootdir'] = $imap_root;
-    if($imap_delimiter = rcmail::get_instance()->config->get('imap_delimiter'))
-        $options['delimiter'] = $imap_delimiter;
-
-    $this->conn = iil_Connect($host, $user, $pass, $options);
+    $this->conn = iil_Connect($host, $user, $pass, $this->options);
     $this->host = $host;
     $this->user = $user;
     $this->pass = $pass;
@@ -182,6 +173,13 @@ class rcube_imap
       iil_C_Select($this->conn, $this->mailbox);
     }
 
+  /**
+   * Set options to be used in iil_Connect()
+   */
+  function set_options($opt)
+  {
+    $this->options = array_merge((array)$opt, $this->options);
+  }
 
   /**
    * Set a root folder for the IMAP connection.
@@ -198,6 +196,7 @@ class rcube_imap
       $root = substr($root, 0, -1);
 
     $this->root_dir = $root;
+    $this->options['rootdir'] = $root;
     
     if (empty($this->delimiter))
       $this->get_hierarchy_delimiter();
