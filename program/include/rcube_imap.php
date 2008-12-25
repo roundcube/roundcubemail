@@ -178,7 +178,7 @@ class rcube_imap
    */
   function set_options($opt)
   {
-    $this->options = array_merge((array)$opt, $this->options);
+    $this->options = array_merge($this->options, (array)$opt);
   }
 
   /**
