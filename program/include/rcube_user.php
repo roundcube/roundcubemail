@@ -377,15 +377,18 @@ class rcube_user
     	&& ($sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query)))
 	&& ($dbh->num_rows() > 0))
       {
+        $standard = 1;
         while ($sql_arr = $dbh->fetch_array($sql_result))
         {
           $dbh->query(
             "INSERT INTO ".get_table_name('identities')."
               (user_id, del, standard, name, email)
-             VALUES (?, 0, 1, ?, ?)",
+             VALUES (?, 0, ?, ?, ?)",
             $user_id,
+	    $standard,
             strip_newlines($user_name),
             preg_replace('/^@/', $user . '@', $sql_arr[0]));
+	  $standard = 0;
         }
       }
       else
