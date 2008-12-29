@@ -64,7 +64,13 @@ function rcmail_get_identity($id)
     {
     $out = $sql_arr;
     $out['mailto'] = $sql_arr['email'];
-    $name = strpos($sql_arr['name'], ",") ? '"'.$sql_arr['name'].'"' : $sql_arr['name'];
+    
+    // Special chars as defined by RFC 822 need to in quoted string (or escaped).
+    if (preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $sql_arr['name']))
+      $name = '"' . addcslashes($sql_arr['name'], '"') . '"';
+    else
+      $name = $sql_arr['name'];
+
     $out['string'] = rcube_charset_convert($name, RCMAIL_CHARSET, $OUTPUT->get_charset());
     if ($sql_arr['email'])
       $out['string'] .= ' <' . $sql_arr['email'] . '>';
