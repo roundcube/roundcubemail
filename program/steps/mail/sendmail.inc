@@ -98,8 +98,8 @@ function rcmail_attach_emoticons(&$mime_message)
   $body = preg_replace('/\x00/', '', $htmlContents);
   
   $last_img_pos = 0;
-
   $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
+  $path_len = strlen(INSTALL_PATH . '/');
 
   // keep track of added images, so they're only added once
   $included_images = array();
@@ -109,29 +109,29 @@ function rcmail_attach_emoticons(&$mime_message)
     {
     $pos2 = strpos($body, '"', $pos);
     $body_pre = substr($body, 0, $pos);
+    $body_post = substr($body, $pos2);
+
     $image_name = substr($body,
                          $pos + strlen($searchstr),
                          $pos2 - ($pos + strlen($searchstr)));
+
     // sanitize image name so resulting attachment doesn't leave images dir
     $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i','',$image_name);
-
-    $body_post = substr($body, $pos2);
+    $img_file = INSTALL_PATH . '/' . $searchstr . $image_name;
 
     if (! in_array($image_name, $included_images))
       {
       // add the image to the MIME message
-      $img_file = INSTALL_PATH . '/' . $searchstr . $image_name;
       if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
         $OUTPUT->show_message("emoticonerror", 'error');
-
       array_push($included_images, $image_name);
       }
-
+    
     $body = $body_pre . $img_file . $body_post;
 
-    $last_img_pos = $pos2;
+    $last_img_pos = $pos2 + $path_len;
     }
-   
+
   $mime_message->setHTMLBody($body);
 }
 
