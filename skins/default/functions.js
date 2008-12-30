@@ -147,7 +147,7 @@ show_markmenu: function(show)
 
 body_mouseup: function(evt, p)
 {
-  if (this.markmenu && this.markmenu.visible && evt.target != rcube_find_object('markreadbutton'))
+  if (this.markmenu && this.markmenu.visible && rcube_event.get_target(evt) != rcube_find_object('markreadbutton'))
     this.show_markmenu(false);
 },
 
