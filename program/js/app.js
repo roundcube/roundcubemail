@@ -1192,7 +1192,7 @@ function rcube_webmail()
     if (this.gui_objects.folderlist && model)
       {
       var li, pos, list, height;
-      list = rcube_find_object(this.task == 'mail' ? 'mailboxlist' : 'folderlist');
+      list = rcube_find_object(this.task == 'mail' ? 'mailboxlist' : 'directorylist');
       pos = rcube_get_object_pos(list);
       this.env.folderlist_coords = {x1:pos.x, y1:pos.y, x2:pos.x + list.offsetWidth, y2:pos.y + list.offsetHeight};
 
