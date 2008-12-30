@@ -3769,7 +3769,7 @@ function rcube_webmail()
     var rcmail = this;
 
     this.set_busy(true, 'converting');
-    console.log('HTTP POST: '+url);
+    //console.log('HTTP POST: '+url);
 
     http_request.onerror = function(o) { rcmail.http_error(o); };
     http_request.oncomplete = function(o) { rcmail.set_text_value(o, id); };
@@ -3780,7 +3780,7 @@ function rcube_webmail()
     {
     this.set_busy(false);
     document.getElementById(id).value = httpRequest.get_text();
-    console.log(httpRequest.get_text());
+    //console.log(httpRequest.get_text());
     }
 
 
@@ -3836,7 +3836,7 @@ function rcube_webmail()
     // send request
     if (request_obj)
       {
-      console.log('HTTP request: '+this.env.comm_path+'&_action='+action+'&'+querystring);
+      //console.log('HTTP request: '+this.env.comm_path+'&_action='+action+'&'+querystring);
 
       if (lock)
         this.set_busy(true);
@@ -3862,7 +3862,7 @@ function rcube_webmail()
       // send request
       if (request_obj = this.get_request_obj())
         {
-        console.log('HTTP POST: '+this.env.comm_path+'&_action='+action);
+        //console.log('HTTP POST: '+this.env.comm_path+'&_action='+action);
 
         if (lock)
           this.set_busy(true);
@@ -3890,7 +3890,7 @@ function rcube_webmail()
     if (request_obj.__lock)
       this.set_busy(false);
 
-    console.log(request_obj.get_text());
+    //console.log(request_obj.get_text());
 
     // if we get javascript code from server -> execute it
     if (request_obj.get_text() && (ctype=='text/javascript' || ctype=='application/x-javascript'))
