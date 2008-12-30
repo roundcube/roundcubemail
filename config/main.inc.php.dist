@@ -236,6 +236,8 @@ $rcmail_config['address_book_type'] = 'sql';
 
 // In order to enable public ldap search, configure an array like the Verisign
 // example further below. if you would like to test, simply uncomment the example.
+$rcmail_config['ldap_public'] = array();
+
 //
 // If you are going to use LDAP for individual address books, you will need to 
 // set 'user_specific' to true and use the variables to generate the appropriate DNs to access it.

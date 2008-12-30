@@ -43,11 +43,12 @@ class rcube_install
   // these config options are optional or can be set to null
   var $optional_config = array(
     'log_driver', 'syslog_id', 'syslog_facility', 'imap_auth_type',
-    'smtp_helo_host', 'sendmail_delay', 'double_auth', 'language',
-    'mail_header_delimiter', 'create_default_folders',
+    'smtp_helo_host', 'smtp_auth_type', 'sendmail_delay', 'double_auth',
+    'language', 'mail_header_delimiter', 'create_default_folders',
     'quota_zero_as_unlimited', 'spellcheck_uri', 'spellcheck_languages',
     'http_received_header', 'session_domain', 'mime_magic', 'log_logins',
-    'enable_installer', 'skin_include_php');
+    'enable_installer', 'skin_include_php', 'imap_root', 'imap_delimiter',
+    'virtuser_file', 'virtuser_query', 'dont_override');
   
   /**
    * Constructor
@@ -192,7 +193,7 @@ class rcube_install
       // replace the matching line in config file
       $out = preg_replace(
         '/(\$rcmail_config\[\''.preg_quote($prop).'\'\])\s+=\s+(.+);/Uie',
-        "'\\1 = ' . var_export(\$value, true) . ';'",
+        "'\\1 = ' . rcube_install::_dump_var(\$value) . ';'",
         $out);
     }
 
@@ -258,7 +259,16 @@ class rcube_install
         $out['dependencies'][] = array('prop' => 'syslog_id',
           'explain' => 'Using <tt>syslog</tt> for logging requires a syslog ID to be configured');
       }
-      
+    }
+    
+    // check ldap_public sources having global_search enabled
+    if (is_array($this->config['ldap_public']) && !is_array($this->config['autocomplete_addressbooks'])) {
+      foreach ($this->config['ldap_public'] as $ldap_public) {
+        if ($ldap_public['global_search']) {
+          $out['replaced'][] = array('prop' => 'ldap_public::global_search', 'replacement' => 'autocomplete_addressbooks');
+          break;
+        }
+      }
     }
     
     return $out;
@@ -291,7 +301,21 @@ class rcube_install
       unset($current[$prop]);
     }
     
-    $this->config  = array_merge($current, $this->config);
+    // add all ldap_public sources having global_search enabled to autocomplete_addressbooks
+    if (is_array($current['ldap_public'])) {
+      foreach ($current['ldap_public'] as $key => $ldap_public) {
+        if ($ldap_public['global_search']) {
+          $this->config['autocomplete_addressbooks'][] = $key;
+          unset($current['ldap_public'][$key]['global_search']);
+        }
+      }
+    }
+    
+    $this->config  = array_merge($this->config, $current);
+    
+    foreach ((array)$current['ldap_public'] as $key => $values) {
+      $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
+    }
   }
   
   
@@ -457,15 +481,43 @@ class rcube_install
   }
   
   
-  function _clean_array($arr)
+  static function _clean_array($arr)
   {
     $out = array();
     
-    foreach (array_unique($arr) as $i => $val)
-      if (!empty($val))
-        $out[] = $val;
+    foreach (array_unique($arr) as $k => $val) {
+      if (!empty($val)) {
+        if (is_numeric($k))
+          $out[] = $val;
+        else
+          $out[$k] = $val;
+      }
+    }
     
     return $out;
+  }
+  
+  
+  static function _dump_var($var) {
+    if (is_array($var)) {
+      if (empty($var)) {
+        return 'array()';
+      }
+      else {  // check if all keys are numeric
+        $isnum = true;
+        foreach ($var as $key => $value) {
+          if (!is_numeric($key)) {
+            $isnum = false;
+            break;
+          }
+        }
+        
+        if ($isnum)
+          return 'array(' . join(', ', array_map(array('rcube_install', '_dump_var'), $var)) . ')';
+      }
+    }
+    
+    return var_export($var, true);
   }
   
   
