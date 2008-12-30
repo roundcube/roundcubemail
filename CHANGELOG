@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2008/12/30 (thomasb)
+----------
+- Fix mark popup in IE 7 (#1485369)
+- Fix line-break issue when copy & paste in Firefox (#1485425)
+
 2008/12/18 (thomasb)
 ----------
 - Only abbreviate attachment file names in MSIE < 7
