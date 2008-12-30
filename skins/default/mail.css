@@ -820,6 +820,7 @@ div.message-htmlpart a
   color: #0000CC;
 }
 
+div.message-part pre,
 div.message-part div.pre
 {
   margin: 0px;

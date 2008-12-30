@@ -755,8 +755,8 @@ function rcmail_print_body($part, $p = array())
 
   // insert the links for urls and mailtos
   $body = preg_replace("/##string_replacement\{([0-9]+)\}##/e", "\$replace_strings[\\1]", join("\n", $a_lines));
-  
-  return "<div class=\"pre\">".$body."\n</div>";
+
+  return html::tag('pre', array(), $body);
 }
 
 /**
@@ -924,7 +924,7 @@ function rcmail_message_body($attrib)
       }
     }
   else
-    $out .= html::div('message-part', html::div('pre', Q($MESSAGE->body)));
+    $out .= html::div('message-part', html::tag('pre', array(), Q($MESSAGE->body)));
 
 
   $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
