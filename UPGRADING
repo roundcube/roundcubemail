@@ -20,9 +20,8 @@ of RoundCube Webmail.
    in your local config/main.inc.php file.
 3. Let the update script/installer check your configuration and
    update your config files as suggested by the updater.
-4. If suggested by the update script, run all commands in
-   ./SQL/[yourdbtype].update.sql that are superscribed with the
-   currently installed version number.
+4. Run all commands in ./SQL/[yourdbtype].update.sql that are superscribed
+   with the currently installed version number.
 5. Make sure 'enable_installer' is set to false again.
 
 

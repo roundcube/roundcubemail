@@ -22,7 +22,7 @@
 
 
 // application constants
-define('RCMAIL_VERSION', '0.2-trunk');
+define('RCMAIL_VERSION', '0.2-stable');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
