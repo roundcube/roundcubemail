@@ -3,16 +3,16 @@
 /*
 
  +-----------------------------------------------------------------------+
- | language/se/messages.inc                                              |
+ | language/sv_SE/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Fredrik Nygren <f.nygren@gmail.com>                           |
- |         Andreas Henriksson <andreas@fatal.se>						 |
- |		   Jonas Näsholm <hostmaster@bitfuse.net>                        |
+ |         Andreas Henriksson <andreas@fatal.se>                         |
+ |         Jonas Nasholm <info@bitfuse.net>                              |
  +-----------------------------------------------------------------------+
 
  @version $Id$
@@ -26,7 +26,7 @@ $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
 $messages['imaperror'] = 'Kontakt med IMAP-servern misslyckades';
 $messages['nomessagesfound'] = 'Inga meddelanden';
 $messages['loggedout'] = 'Du är utloggad. Välkommen åter!';
-$messages['mailboxempty'] = 'Mappen är tom';
+$messages['mailboxempty'] = 'Katalogen är tom';
 $messages['loading'] = 'Laddar...';
 $messages['loadingdata'] = 'Laddar data...';
 $messages['checkingmail'] = 'Letar efter nya meddelanden...';
@@ -34,25 +34,32 @@ $messages['sendingmessage'] = 'Skickar meddelande...';
 $messages['messagesent'] = 'Meddelandet har skickats';
 $messages['savingmessage'] = 'Sparar meddelande...';
 $messages['messagesaved'] = 'Meddelande sparades till utkast';
-$messages['successfullysaved'] = 'Sparat';
+$messages['successfullysaved'] = 'Informationen har sparats';
 $messages['addedsuccessfully'] = 'Kontakten har lagts till i adressboken';
 $messages['contactexists'] = 'En kontakt med den här adressen finns redan';
-$messages['blockedimages'] = 'För att skydda dig är bilder blockerade.';
+$messages['blockedimages'] = 'Externt länkade bilder i meddelandet har blockerats.';
 $messages['encryptedmessage'] = 'Meddelandet är krypterat och kan tyvärr inte visas.';
 $messages['nocontactsfound'] = 'Inga kontakter hittades';
 $messages['contactnotfound'] = 'Den efterfrågade kontanten hittades inte';
 $messages['sendingfailed'] = 'Meddelandet kunde inte skickas';
-$messages['errorsaving'] = 'Ett fel uppstod när meddelandet sparades';
+$messages['senttooquickly'] = 'Vänta ytterligare $sec sekunder med att skicka meddelandet';
+$messages['errorsavingsent'] = 'Ett fel inträffade när det skickade meddelandet sparades';
+$messages['errorsaving'] = 'Meddelandet kunde inte sparads';
 $messages['errormoving'] = 'Meddelandet kunde inte flyttas';
 $messages['errordeleting'] = 'Meddelandet kunde inte raderas';
 $messages['deletecontactconfirm'] = 'Vill du verkligen radera valda kontakter?';
 $messages['deletemessagesconfirm'] = 'Vill du verkligen ta bort valda meddelanden?';
-$messages['deletefolderconfirm'] = 'Vill du verkligen radera den här mappen?';
-$messages['purgefolderconfirm'] = 'Vill du verkligen radera alla meddelanden i den här mappen?';
+$messages['deletefolderconfirm'] = 'Vill du verkligen radera den här katalogen?';
+$messages['purgefolderconfirm'] = 'Vill du verkligen radera alla meddelanden i den här katalogen?';
+$messages['foldercreating'] = 'Skapar katalog...';
+$messages['folderdeleting'] = 'Raderar katalog...';
+$messages['folderrenaming'] = 'Namnändrar katalog...';
+$messages['foldermoving'] = 'Flyttar katalog...';
 $messages['formincomplete'] = 'Formuläret var inte ifyllt i sin helhet';
 $messages['noemailwarning'] = 'Vänligen ange en giltig adress';
 $messages['nonamewarning'] = 'Vänligen ange ett namn';
 $messages['nopagesizewarning'] = 'Vänligen ange en sidstorlek';
+$messages['nosenderwarning'] = 'Vänligen ange en avsändaradress';
 $messages['norecipientwarning'] = 'Vänligen ange minst en mottagare';
 $messages['nosubjectwarning'] = 'Ämnesfältet är tomt. Vill du lägga till något nu?';
 $messages['nobodywarning'] = 'Skicka det här meddelandet utan text?';
@@ -65,7 +72,7 @@ $messages['searchnomatch'] = 'Sökningen returnerade inga träffar';
 $messages['searching'] = 'Söker...';
 $messages['checking'] = 'Kontrollerar...';
 $messages['nospellerrors'] = 'Inget stavfel hittades';
-$messages['folderdeleted'] = 'Mappen raderades';
+$messages['folderdeleted'] = 'Katalogen raderades';
 $messages['deletedsuccessfully'] = 'Lyckad borttagning';
 $messages['converting'] = 'Tar bort formatering från meddelande...';
 $messages['messageopenerror'] = 'Kunde inte ladda meddelande från servern';
@@ -74,11 +81,20 @@ $messages['filesizeerror'] = 'Den uppladdade filen överstiger maxstorleken $siz
 $messages['copysuccess'] = 'Lyckad kopiering av $nr adresser';
 $messages['copyerror'] = 'Kunde inte kopiera några adresser';
 $messages['sourceisreadonly'] = 'Denna adresskälla är skrivskyddad';
-$messages['errorsavingcontact'] = 'Kunde inte spara kontakt-adressen';
+$messages['errorsavingcontact'] = 'Kunde inte spara kontaktadressen';
 $messages['movingmessage'] = 'Flyttar meddelande...';
-$messages['receiptsent'] = 'Ett läskvitto har skickats';
-$messages['errorsendingreceipt'] = 'Kunde inte skicka läskvittot';
+$messages['receiptsent'] = 'Mottagarkvitto har skickats';
+$messages['errorsendingreceipt'] = 'Kunde inte skicka mottagarkvitto';
 $messages['nodeletelastidentity'] = 'Du kan inte radera den här identiteten, det är din sista.';
-$messages['addsubfolderhint'] = 'Den här mappen kommer att skapas som en underkatalog till den valda';
+$messages['addsubfolderhint'] = 'Den här katalogen kommer att skapas som en underkatalog till den valda';
+$messages['forbiddencharacter'] = 'Katalognamnet innehåller otillåtna tecken';
+$messages['selectimportfile'] = 'Välj en fil att ladda upp';
+$messages['addresswriterror'] = 'Angiven adressbok är skrivskyddad';
+$messages['importwait'] = 'Importerar, var god vänta...';
+$messages['importerror'] = 'Importen misslyckades! Filen är inte i vCard-format.';
+$messages['importconfirm'] = '<b>Lyckad import av $inserted kontakter, $skipped dubbletter har ignorerats:</b><p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Otillåten operation!';
+$messages['nofromaddress'] = 'Adressen saknas i den valda identiteten';
+$messages['editorwarning'] = 'Genom att växla till text-läge går formateringen förlorad. Vill du fortsätta?';
 
 ?>

@@ -42,7 +42,7 @@ $messages['errorsavingsent'] = 'Ocurriu un erro mentres se gardaba a mensaxe env
 $messages['errorsaving'] = 'Ocurriu un erro mentres se gardaba';
 $messages['errormoving'] = 'Non puiden mover a mensaxe';
 $messages['errordeleting'] = 'Non puiden eliminar a mensaxe';
-$messages['deletecontactconfirm'] = 'Quere eliminar o(s) contacto(s) seleccionados?';
+$messages['deletecontactconfirm'] = 'Quere eliminar o(s) contacto(s) seleccionado(s)?';
 $messages['deletemessagesconfirm'] = 'Quere eliminar a(s) mensaxe(s) seleccionadas?';
 $messages['deletefolderconfirm'] = 'Quere eliminar este cartafol?';
 $messages['purgefolderconfirm'] = 'Quere eliminar tódalas mensaxes neste cartafol?';
@@ -90,5 +90,6 @@ $messages['importerror'] = 'Fallou a importación! O ficheiro que cargou non é 
 $messages['importconfirm'] = '<b>Importáronse correctamente $inserted contactos. Ignoráronse $skipped contactos que xa existían</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operación non permitida';
 $messages['nofromaddress'] = 'Falta o enderezo de correo electrónico na identidade que escolleu';
+$messages['editorwarning'] = 'Se troca neste intre ao editor de texto plano, vai perder todo o formato do texto. Quere continuar?';
 
 ?>
