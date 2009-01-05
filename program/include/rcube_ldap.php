@@ -71,7 +71,7 @@ class rcube_ldap
     global $RCMAIL;
     
     if (!function_exists('ldap_connect'))
-      raise_error(array('type' => 'ldap', 'message' => "No ldap support in this installation of PHP"), true);
+      raise_error(array('code' => 100, 'type' => 'ldap', 'message' => "No ldap support in this installation of PHP"), true);
 
     if (is_resource($this->conn))
       return true;
@@ -122,7 +122,7 @@ class rcube_ldap
         $this->ready = $this->bind($this->prop['bind_dn'], $this->prop['bind_pass']);
     }
     else
-      raise_error(array('type' => 'ldap', 'message' => "Could not connect to any LDAP server, tried $host:{$this->prop[port]} last"), true);
+      raise_error(array('code' => 100, 'type' => 'ldap', 'message' => "Could not connect to any LDAP server, tried $host:{$this->prop[port]} last"), true);
 
     // See if the directory is writeable.
     if ($this->prop['writable']) {

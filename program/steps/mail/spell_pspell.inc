@@ -22,6 +22,7 @@
 if (!extension_loaded('pspell')) {
     raise_error(array(
       'code' => 500,
+      'type' => 'php',
       'file' => __FILE__,
       'message' => "Pspell extension not available"), true, false);
       

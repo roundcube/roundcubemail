@@ -108,6 +108,7 @@ Class utf8{
   function onError($err_code,$err_text){
     //print($err_code . " : " . $err_text . "<hr>\n");
     raise_error(array('code' => 500,
+                      'type' => 'php',
                       'file' => __FILE__,
                       'message' => $err_text), TRUE, FALSE);
   }
