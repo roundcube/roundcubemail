@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | localization/kr/labels.inc                                            |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: lordmiss <lordmiss@lordmiss.com>                              |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| localization/kr/labels.inc                                            |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: lordmiss <lordmiss@lordmiss.com>                              |
++-----------------------------------------------------------------------+
 
- @version $Id: labels.inc 560 2007-05-17 15:01:26Z thomasb $
+@version $Id: labels.inc 560 2007-05-17 15:01:26Z thomasb $
 
 */
 
@@ -44,8 +44,8 @@ $labels['priority'] = '우선순위';
 $labels['organization'] = '기관';
 $labels['reply-to'] = '회신 주소';
 $labels['mailboxlist'] = '폴더';
-$labels['messagesfromto'] = '$from 이 $to에게 보낸 메시지 $count 개';
-$labels['messagenrof'] = '메시지 $count 개 중 $nr 개';
+$labels['messagesfromto'] = '$count 개 중 $from 에서 $to 번 메시지';
+$labels['messagenrof'] = '$count 개 중 $nr 번 메시지';
 $labels['moveto'] = '이동...';
 $labels['download'] = '다운로드';
 $labels['filename'] = '파일 이름';
@@ -68,6 +68,30 @@ $labels['wednesday'] = '수요일';
 $labels['thursday'] = '목요일';
 $labels['friday'] = '금요일';
 $labels['saturday'] = '토요일';
+$labels['jan'] = '1월';
+$labels['feb'] = '2월';
+$labels['mar'] = '3월';
+$labels['apr'] = '4월';
+$labels['may'] = '5월';
+$labels['jun'] = '6월';
+$labels['jul'] = '7월';
+$labels['aug'] = '8월';
+$labels['sep'] = '9월';
+$labels['oct'] = '10월';
+$labels['nov'] = '11월';
+$labels['dec'] = '12월';
+$labels['longjan'] = '1월';
+$labels['longfeb'] = '2월';
+$labels['longmar'] = '3월';
+$labels['longapr'] = '4월';
+$labels['longmay'] = '5월';
+$labels['longjun'] = '6월';
+$labels['longjul'] = '7월';
+$labels['longaug'] = '8월';
+$labels['longsep'] = '9월';
+$labels['longoct'] = '10월';
+$labels['longnov'] = '11월';
+$labels['longdec'] = '12월';
 $labels['today'] = '오늘';
 $labels['checkmail'] = '새 메일 확인';
 $labels['writenewmessage'] = '새 메일 작성';
@@ -88,12 +112,17 @@ $labels['lastmessages'] = '마지막 메일 세트 보기';
 $labels['backtolist'] = '메일 목록으로';
 $labels['viewsource'] = '소스 보기';
 $labels['markmessages'] = '메시지 표시';
-$labels['markread'] = '읽은 것으로';
-$labels['markunread'] = '읽지 않은 것으로';
+$labels['markread'] = '읽은 것으로 표시';
+$labels['markunread'] = '읽지 않은 것으로 표시';
+$labels['markflagged'] = '깃발 달기';
+$labels['markunflagged'] = '깃발 내리기';
 $labels['select'] = '선택';
 $labels['all'] = '모두';
 $labels['none'] = '없음';
 $labels['unread'] = '읽지 않음';
+$labels['flagged'] = '깃발';
+$labels['unanswered'] = '답장하지 않음';
+$labels['filter'] = '필터';
 $labels['compact'] = '간단하게';
 $labels['empty'] = '비우기';
 $labels['purge'] = '삭제';
@@ -102,6 +131,7 @@ $labels['unknown'] = '알수 없음';
 $labels['unlimited'] = '제한 없음';
 $labels['quicksearch'] = '빨리 찾기';
 $labels['resetsearch'] = '찾기 리셋';
+$labels['openinextwin'] = '새 창에서 열기';
 $labels['compose'] = '메일 쓰기';
 $labels['savemessage'] = '드래프트 저장';
 $labels['sendmessage'] = '메일 지금 보냄';
@@ -122,8 +152,12 @@ $labels['high'] = '높음';
 $labels['highest'] = '가장 높음';
 $labels['nosubject'] = '(제목 없음)';
 $labels['showimages'] = '이미지 표시';
+$labels['alwaysshow'] = '$sender 에서 온 이미지 항상 보기';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = '일반 텍스트';
+$labels['savesentmessagein'] = '보낸 메시지를 다음에 저장';
+$labels['dontsave'] = '저장하지 않음';
+$labels['maxuploadsize'] = '최대 파일 크기는 $size 입니다';
 $labels['addcc'] = '참조 넣기';
 $labels['addbcc'] = '숨은참조 넣기';
 $labels['addreplyto'] = '회신주소 넣기';
@@ -147,12 +181,19 @@ $labels['composeto'] = '새 메일 작성';
 $labels['contactsfromto'] = '$from 에서 $to 로의 연락처 $count 개';
 $labels['print'] = '인쇄';
 $labels['export'] = '내보내기';
+$labels['exportvcards'] = '연락처를 vCard 포맷으로 내보내기';
 $labels['previouspage'] = '이전 세트 보기';
 $labels['firstpage'] = '처음 세트 보기';
 $labels['nextpage'] = '다음 세트 보기';
 $labels['lastpage'] = '마지막 세트 보기';
 $labels['groups'] = '그룹';
 $labels['personaladrbook'] = '개인 주소';
+$labels['import'] = '가져오기';
+$labels['importcontacts'] = '연락처 가져오기';
+$labels['importfromfile'] = '파일에서 가져오기';
+$labels['importreplace'] = '전체 주소록을 바꿈';
+$labels['importtext'] = '연락처들을 가지고 있는 주소록에서 가져올 수 있습니다.<br/> 현재는 <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> 포맷에서 가져오기를 지원합니다.';
+$labels['done'] = '완료';
 $labels['settingsfor'] = '설정';
 $labels['preferences'] = '환경 설정';
 $labels['userpreferences'] = '사용자 환경';
@@ -163,6 +204,7 @@ $labels['newidentity'] = '새 신원';
 $labels['newitem'] = '새 아이템';
 $labels['edititem'] = '아이템 편집';
 $labels['setdefault'] = '기본으로 설정';
+$labels['autodetect'] = '자동';
 $labels['language'] = '언어';
 $labels['timezone'] = '시간대';
 $labels['pagesize'] = '페이지당 줄 수';
@@ -171,9 +213,37 @@ $labels['dstactive'] = '서머타임';
 $labels['htmleditor'] = 'HTML 메일 쓰기';
 $labels['htmlsignature'] = 'HTML 서명';
 $labels['previewpane'] = '이전 구역 보기';
+$labels['skin'] = '인터페이스 스킨';
+$labels['logoutclear'] = '로그아웃할 때 휴지통 비우기';
+$labels['logoutcompact'] = '로그아웃할 때 받은편지함 압축하기';
+$labels['uisettings'] = '사용자 인터페이스';
+$labels['serversettings'] = '서버 설정';
+$labels['mailboxview'] = '메일 상자 보기';
+$labels['mdnrequests'] = '수신 확인';
+$labels['askuser'] = '사용자에게 묻기';
+$labels['autosend'] = '자동으로 보내기';
+$labels['ignore'] = '무시';
+$labels['readwhendeleted'] = '삭제할 때 메시지를 읽은 것으로 표시';
+$labels['flagfordeletion'] = '지우는 대신 지울 메시지에 깃발 달기';
+$labels['skipdeleted'] = '지운 메시지 보이지 않기';
+$labels['showremoteimages'] = '원격 이미지 보이기';
+$labels['fromknownsenders'] = '아는 발신인에게서만';
+$labels['always'] = '항상';
+$labels['showinlineimages'] = '메시지 아래에 첨부 이미지 보이기';
 $labels['autosavedraft'] = '드래프트 자동 저장';
 $labels['everynminutes'] = '$n 분마다';
+$labels['keepaliveevery'] = '$n 분마다';
+$labels['keepalive'] = '다음 간격마다 새 메시지 자동 체크';
 $labels['never'] = '하지 않음';
+$labels['messagesdisplaying'] = '메시지 표시 중';
+$labels['messagescomposition'] = '메시지 작성 중';
+$labels['mimeparamfolding'] = '첨부 파일 이름';
+$labels['2231folding'] = 'Full RFC 2231 (선더버드)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS 아웃룻)';
+$labels['2047folding'] = 'Full RFC 2047 (다른 프로그램들)';
+$labels['advancedoptions'] = '상세 설정';
+$labels['focusonnewmessage'] = '새 메시지가 있으면 브라우저 윈도우로 포커스 이동';
+$labels['checkallfolders'] = '새 메시지를 위해 모든 폴더 체크';
 $labels['folder'] = '폴더';
 $labels['folders'] = '폴더';
 $labels['foldername'] = '폴더 이름';
@@ -185,8 +255,13 @@ $labels['rename'] = '이름 바꾸기';
 $labels['renamefolder'] = '폴더 이름 바꾸기';
 $labels['deletefolder'] = '폴더 지우기';
 $labels['managefolders'] = '폴더 관리';
+$labels['specialfolders'] = '특수 폴더';
 $labels['sortby'] = '정렬';
 $labels['sortasc'] = '오름차순으로 정렬';
 $labels['sortdesc'] = '내림차순으로 정렬';
+$labels['B'] = '바이트';
+$labels['KB'] = '킬로바이트';
+$labels['MB'] = '메가바이트';
+$labels['GB'] = '기가바이트';
 
 ?>
