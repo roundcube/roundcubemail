@@ -74,7 +74,12 @@ span.tablink-selected a
 {
   float: left;
   margin-right: 14px;
-  width: 520px;
+  min-width: 520px;
+}
+
+#rcmfd_timezone
+{
+  width: 300px;
 }
 
 #identities-list,
