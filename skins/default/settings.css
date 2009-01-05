@@ -75,6 +75,8 @@ span.tablink-selected a
   float: left;
   margin-right: 14px;
   min-width: 520px;
+  /* css hack for IE */
+  width: expression(Math.min(520, parseInt(document.documentElement.clientWidth))+'px');
 }
 
 #rcmfd_timezone
