@@ -543,7 +543,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	}
 
 	if (empty($auth_method))
-    		$auth_method = 'plain';
+    		$auth_method = 'check';
 		
 	$message = "INITIAL: $auth_method\n";
 		
