@@ -42,7 +42,7 @@ if (preg_match("/^from:.*/i", $str))
   $subject = "HEADER FROM";
   $search = trim($srch);
 }
-else if (preg_match("/^to.*:/i", $str))
+else if (preg_match("/^to:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
   $subject = "HEADER TO";
