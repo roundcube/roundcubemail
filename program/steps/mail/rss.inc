@@ -19,14 +19,11 @@
 
 */
 
-require_once('Mail/mimeDecode.php');
-
 
 function rss_encode($string){
 	$string = rep_specialchars_output($string, 'xml');
 	return $string;
 }
-
 
 
 $REMOTE_REQUEST = TRUE;

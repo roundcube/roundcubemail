@@ -19,8 +19,6 @@
 
 */
 
-require_once('Mail/mimeDecode.php');
-
 
 // show loading page
 if (!empty($_GET['_preload'])) {
