@@ -76,6 +76,8 @@
 		- added 4th argument to iil_Connect()
 		- allow setting rootdir and delimiter before connect
 		- support multiquota result
+		- include BODYSTRUCTURE in iil_C_FetchHeaders()
+		- added iil_C_FetchMIMEHeaders() function
 
 ********************************************************/
 
@@ -163,6 +165,7 @@ class iilBasicHeader
 	var $flags;
 	var $timestamp;
 	var $f;
+	var $body_structure;
 	var $internaldate;
 	var $references;
 	var $priority;
@@ -1617,7 +1620,7 @@ function iil_IndexThreads(&$tree) {
 	return $t_index;
 }
 
-function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
+function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bodystr=false)
 {
 	global $IMAP_USE_INTERNAL_DATE;
 	
@@ -1661,7 +1664,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 	/* FETCH uid, size, flags and headers */
 	$key  	  = 'FH12';
 	$request  = $key . ($uidfetch ? ' UID' : '') . " FETCH $message_set ";
-	$request .= "(UID RFC822.SIZE FLAGS INTERNALDATE BODY.PEEK[HEADER.FIELDS ";
+	$request .= "(UID RFC822.SIZE FLAGS INTERNALDATE ";
+	if ($bodystr)
+		$request .= "BODYSTRUCTURE ";
+	$request .= "BODY.PEEK[HEADER.FIELDS ";
 	$request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
 	$request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
 	$request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])";
@@ -1670,7 +1676,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 		return false;
 	}
 	do {
-		$line = chop(iil_ReadLine($fp, 1024));
+		$line = iil_ReadLine($fp, 1024);
+		$line = iil_MultLine($fp, $line);
+		
 		$a    = explode(' ', $line);
 		if (($line[0] == '*') && ($a[2] == 'FETCH')) {
 			$id = $a[1];
@@ -1680,20 +1688,23 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 			$result[$id]->subject   = '';
 			$result[$id]->messageID = 'mid:' . $id;
 
+			$lines = array();
+			$ln = 0;
 			/*
 			    Sample reply line:
 			    * 321 FETCH (UID 2417 RFC822.SIZE 2730 FLAGS (\Seen)
-			    INTERNALDATE "16-Nov-2008 21:08:46 +0100" BODY[HEADER.FIELDS ...
+			    INTERNALDATE "16-Nov-2008 21:08:46 +0100" BODYSTRUCTURE (...)
+			    BODY[HEADER.FIELDS ...
 			*/
-			
-			if (preg_match('/^\* [0-9]+ FETCH \((.*) BODY\[HEADER/', $line, $matches)) {
+
+			if (preg_match('/^\* [0-9]+ FETCH \((.*) BODY/s', $line, $matches)) {
 				$str = $matches[1];
 
-				//swap parents with quotes, then explode
+				// swap parents with quotes, then explode
 				$str = eregi_replace("[()]", "\"", $str);
 				$a = iil_ExplodeQuotedString(' ', $str);
 
-				//did we get the right number of replies?
+				// did we get the right number of replies?
 				$parts_count = count($a);
 				if ($parts_count>=8) {
 					for ($i=0; $i<$parts_count; $i=$i+2) {
@@ -1761,6 +1772,27 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					$result[$id]->timestamp = $timestamp;
 					$result[$id]->date = $time_str;
 				}
+
+				// BODYSTRUCTURE 
+				if($bodystr) {
+					while (!preg_match('/ BODYSTRUCTURE (.*) BODY\[HEADER.FIELDS/s', $line, $m)) {
+						$line2 = iil_ReadLine($fp, 1024);
+						$line .= iil_MultLine($fp, $line2);
+					}
+					$result[$id]->body_structure = $m[1];
+				}
+
+				// the rest of the result
+				preg_match('/ BODY\[HEADER.FIELDS \(.*\)\]\s*(.*)/s', $line, $m);
+				$reslines = explode("\n", trim($m[1], '"'));
+				// re-parse (see below)
+				foreach ($reslines as $line) {
+					if (ord($line[0])<=32) {
+					    $lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
+					} else {
+						$lines[++$ln] = trim($line);
+					}
+				}
 			}
 
 			/*
@@ -1770,16 +1802,13 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 				to the next valid header line.
 			*/
 	
-			$i     = 0;
-			$lines = array();
 			do {
 				$line = chop(iil_ReadLine($fp, 300), "\r\n");
 
 				if (ord($line[0])<=32) {
-				    $lines[$i] .= (empty($lines[$i])?'':"\n").trim($line);
+				    $lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
 				} else {
-					$i++;
-					$lines[$i] = trim($line);
+					$lines[++$ln] = trim($line);
 				}
 				/* 
 					The preg_match below works around communigate imap, which outputs " UID <number>)".
@@ -1798,8 +1827,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));
 
 			if (strncmp($line, $key, strlen($key))) { 
-				//process header, fill iilBasicHeader obj.
-				//	initialize
+				// process header, fill iilBasicHeader obj.
+				// initialize
 				if (is_array($headers)) {
 					reset($headers);
 					while (list($k, $bar) = each($headers)) {
@@ -1807,7 +1836,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 					}
 				}
 	
-				//	create array with header field:data
+				// create array with header field:data
 				while ( list($lines_key, $str) = each($lines) ) {
 					list($field, $string) = iil_SplitHeaderLine($str);
 					
@@ -1887,9 +1916,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false)
 	return $result;
 }
 
-function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false) {
+function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false, $bodystr=false) {
 
-	$a  = iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch);
+	$a  = iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch, $bodystr);
 	if (is_array($a)) {
 		return array_shift($a);
 	}
@@ -2366,11 +2395,51 @@ function iil_C_UnSubscribe(&$conn, $folder) {
 	return iil_ParseResult($line);
 }
 
+function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
+	
+	$fp     = $conn->fp;
+
+	if (!iil_C_Select($conn, $mailbox)) {
+		return false;
+	}
+	
+	$result = false;
+	$parts = (array) $parts;
+	$key = 'fmh0';
+	$peeks = '';
+	$idx = 0;
+
+	// format request
+	foreach($parts as $part)
+		$peeks[] = "BODY[$part.MIME]";
+	
+	$request = "$key FETCH $id (" . implode(' ', $peeks) . ')';
+
+	// send request
+	if (!iil_PutLine($fp, $request)) {
+	    return false;
+	}
+        
+	do {
+        	$line = iil_ReadLine($fp, 1000);
+        	$line = iil_MultLine($fp, $line);
+
+		if (preg_match('/BODY\[([0-9\.]+)\.MIME\]/', $line, $matches)) {
+			$idx = $matches[1];
+			$result[$idx] = preg_replace('/^(\* '.$id.' FETCH \()?\s*BODY\['.$idx.'\.MIME\]\s+/', '', $line);
+			$result[$idx] = trim($result[$idx], '"');
+	    		$result[$idx] = rtrim($result[$idx], "\t\r\n\0\x0B");
+    		}
+	} while (!iil_StartsWith($line, $key, true));
+
+	return $result;
+}
+
 function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 
 	$part = empty($part) ? 'HEADER' : $part.'.MIME';
 
-	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1);
+        return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1);
 }
 
 function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NULL) {

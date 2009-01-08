@@ -65,19 +65,19 @@ class rcube_message
     $this->imap = $this->app->imap;
     
     $this->uid = $uid;
-    $this->headers = $this->imap->get_headers($uid);
+    $this->headers = $this->imap->get_headers($uid, NULL, true, true);
+
     $this->subject = rcube_imap::decode_mime_string($this->headers->subject, $this->headers->charset);
     list(, $this->sender) = each($this->imap->decode_address_list($this->headers->from));
     
     $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$uid]));
-    
     $this->opt = array(
       'safe' => $this->is_safe,
       'prefer_html' => $this->app->config->get('prefer_html'),
       'get_url' => rcmail_url('get', array('_mbox' => $this->imap->get_mailbox_name(), '_uid' => $uid))
     );
 
-    if ($this->structure = $this->imap->get_structure($uid)) {
+    if ($this->structure = $this->imap->get_structure($uid, $this->headers->body_structure)) {
       $this->get_mime_numbers($this->structure);
       $this->parse_structure($this->structure);
     }

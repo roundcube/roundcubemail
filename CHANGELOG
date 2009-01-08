@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/01/08 (alec)
+----------
+- Improve messages display performance
+- Fix messages searching with 'to:' modifier
+
 2008/12/30 (thomasb)
 ----------
 - Fix mark popup in IE 7 (#1485369)
