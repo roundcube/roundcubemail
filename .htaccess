@@ -23,7 +23,7 @@ php_value	session.gc_probability	1
 php_value	mbstring.func_overload	0
 </IfModule>
 
-<FilesMatch "(\.inc|\~)$">
+<FilesMatch "(\.inc|.sh|\~)$">
   Order allow,deny
   Deny from all
 </FilesMatch>
