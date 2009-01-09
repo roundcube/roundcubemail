@@ -1,6 +1,6 @@
+#!/usr/bin/env php
 <?php
 /*
- #!/usr/bin/php
 
  +-----------------------------------------------------------------------+
  | bin/dumpschema.php                                                    |
@@ -19,6 +19,10 @@
  $Id$
 
 */
+
+if (php_sapi_name() != 'cli') {
+    die('Not on the "shell" (php-cli).');
+}
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 require INSTALL_PATH.'program/include/iniset.php';

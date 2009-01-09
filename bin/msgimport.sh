@@ -1,5 +1,8 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
+if (php_sapi_name() != 'cli') {
+    die('Not on the "shell" (php-cli).');
+}
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 ini_set('memory_limit', -1);
