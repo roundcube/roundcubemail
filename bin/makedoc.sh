@@ -1,4 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+if [ -z "$SSH_TTY" ]
+then
+  if [ -z "$DEV_TTY" ]
+  then
+    echo "Not on the shell."
+    exit 1
+  fi
+fi
 
 TITLE="RoundCube Classes"
 PACKAGES="Core"
@@ -6,15 +15,11 @@ PACKAGES="Core"
 INSTALL_PATH="`dirname $0`/.."
 PATH_PROJECT=$INSTALL_PATH/program/include
 PATH_DOCS=$INSTALL_PATH/doc/phpdoc
+BIN_PHPDOC="`/usr/bin/which phpdoc`"
 
-if [ -x /usr/local/php5/bin/phpdoc ]
+if [ ! -x "$BIN_PHPDOC" ]
 then
-  PATH_PHPDOC=/usr/local/php5/bin/phpdoc
-elif [ -x /usr/bin/phpdoc ]
-then
-  PATH_PHPDOC=/usr/bin/phpdoc
-else
-  echo "phpdoc not found"
+  echo "phpdoc not found: $BIN_PHPDOC"
   exit 1
 fi
 
@@ -24,6 +29,6 @@ TEMPLATE=earthli
 PRIVATE=off
 
 # make documentation
-$PATH_PHPDOC -d $PATH_PROJECT -t $PATH_DOCS -ti "$TITLE" -dn $PACKAGES \
+$BIN_PHPDOC -d $PATH_PROJECT -t $PATH_DOCS -ti "$TITLE" -dn $PACKAGES \
 -o $OUTPUTFORMAT:$CONVERTER:$TEMPLATE -pp $PRIVATE
 
