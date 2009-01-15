@@ -98,47 +98,43 @@ function rcmail_attach_emoticons(&$mime_message)
 {
   global $CONFIG;
 
-  $htmlContents = $mime_message->getHtmlBody();
+  $body = $mime_message->getHtmlBody();
 
   // remove any null-byte characters before parsing
-  $body = preg_replace('/\x00/', '', $htmlContents);
+  $body = preg_replace('/\x00/', '', $body);
   
-  $last_img_pos = 0;
   $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
-  $path_len = strlen(INSTALL_PATH . '/');
+  $offset = 0;
 
   // keep track of added images, so they're only added once
   $included_images = array();
 
-  // find emoticon image tags
-  while ($pos = strpos($body, $searchstr, $last_img_pos))
-    {
-    $pos2 = strpos($body, '"', $pos);
-    $body_pre = substr($body, 0, $pos);
-    $body_post = substr($body, $pos2);
+  if (preg_match_all('# src=[\'"]([^\'"]+)#', $body, $matches, PREG_OFFSET_CAPTURE)) {
+    foreach ($matches[1] as $m) {
+      // find emoticon image tags
+      if (preg_match('#'.$searchstr.'(.*)$#', $m[0], $imatches)) {
+        $image_name = $imatches[1];
 
-    $image_name = substr($body,
-                         $pos + strlen($searchstr),
-                         $pos2 - ($pos + strlen($searchstr)));
+        // sanitize image name so resulting attachment doesn't leave images dir
+        $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i', '', $image_name);
+        $img_file = INSTALL_PATH . '/' . $searchstr . $image_name;
 
-    // sanitize image name so resulting attachment doesn't leave images dir
-    $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i','',$image_name);
-    $img_file = INSTALL_PATH . '/' . $searchstr . $image_name;
+        if (! in_array($image_name, $included_images)) {
+          // add the image to the MIME message
+          if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
+            $OUTPUT->show_message("emoticonerror", 'error');
+          array_push($included_images, $image_name);
+        }
 
-    if (! in_array($image_name, $included_images))
-      {
-      // add the image to the MIME message
-      if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
-        $OUTPUT->show_message("emoticonerror", 'error');
-      array_push($included_images, $image_name);
+        $body = substr_replace($body, $img_file, $m[1] + $offset, strlen($m[0]));
+        $offset += strlen($img_file) - strlen($m[0]);
       }
-    
-    $body = $body_pre . $img_file . $body_post;
-
-    $last_img_pos = $pos2 + $path_len;
     }
+  }
 
   $mime_message->setHTMLBody($body);
+
+  return $body;
 }
 
 
@@ -276,7 +272,7 @@ if ($isHtml)
   $MAIL_MIME->setTXTBody($plainTextPart);
 
   // look for "emoticon" images from TinyMCE and copy into message as attachments
-  rcmail_attach_emoticons($MAIL_MIME);
+  $message_body = rcmail_attach_emoticons($MAIL_MIME);
   }
 else
   {

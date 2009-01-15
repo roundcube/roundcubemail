@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/01/15 (alec)
+----------
+- Allow absolute URLs to images in HTML messages/sigs (#1485666)
+- Fix message body which contains both inline attachments and emotions
+
 2009/01/08 (alec)
 ----------
 - Improve messages display performance
