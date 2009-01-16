@@ -2933,7 +2933,7 @@ class rcube_imap
     // remove any newlines and carriage returns before
     $a = $this->_explode_quoted_string('[,;]', preg_replace( "/[\r\n]/", " ", $str));
     $result = array();
-    
+
     foreach ($a as $key => $val)
       {
       $val = preg_replace("/([\"\w])</", "$1 <", $val);
@@ -2942,8 +2942,8 @@ class rcube_imap
 
       foreach ($sub_a as $k => $v)
         {
-        if (strpos($v, '@') > 0)
-          $result[$key]['address'] = str_replace('<', '', str_replace('>', '', $v));
+        if (preg_match('/^<\S+@\S+>$/', $v))
+          $result[$key]['address'] = trim($v, '<>');
         else
           $result[$key]['name'] .= (empty($result[$key]['name'])?'':' ').str_replace("\"",'',stripslashes($v));
         }
