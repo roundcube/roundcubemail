@@ -288,17 +288,18 @@ class rcube_mdb2
 
 
   /**
-   * Get number of affected rows fort he last query
+   * Get number of affected rows for the last query
    *
+   * @param  number  Optional query handle identifier
    * @return mixed   Number of rows or FALSE on failure
    * @access public
    */
-  function affected_rows($result = null)
+  function affected_rows($res_id = null)
     {
     if (!$this->db_handle)
       return FALSE;
 
-    return $this->_get_result($result);
+    return (int) $this->_get_result($res_id);
     }
 
 
@@ -350,7 +351,7 @@ class rcube_mdb2
 
 
   /**
-   * Get co values for a result row
+   * Get col values for a result row
    *
    * @param  object  Query result handle
    * @param  number  Fetch mode identifier
@@ -359,12 +360,8 @@ class rcube_mdb2
    */
   function _fetch_row($result, $mode)
     {
-    if (PEAR::isError($result))
-      {
-      raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $this->db_link->getMessage()), TRUE, FALSE);
+    if ($result === FALSE || PEAR::isError($result))
       return FALSE;
-      }
 
     return $result->fetchRow($mode);
     }
@@ -398,13 +395,13 @@ class rcube_mdb2
    * @param  string  Value to quote
    * @return string  Quoted string for use in query
    * @deprecated     Replaced by rcube_MDB2::quote_identifier
-   * @see            rcube_MDB2::quote_identifier
+   * @see            rcube_mdb2::quote_identifier
    * @access public
    */
   function quoteIdentifier($str)
-	{
+    {
     return $this->quote_identifier($str);
-	}
+    }
 
 
   /**
@@ -529,7 +526,7 @@ class rcube_mdb2
    * Adds a query result and returns a handle ID
    *
    * @param  object  Query handle
-   * @return mixed   Handle ID or FALE on failure
+   * @return mixed   Handle ID
    * @access private
    */
   function _add_result($res)
@@ -537,26 +534,27 @@ class rcube_mdb2
     // sql error occured
     if (PEAR::isError($res))
       {
+      $this->db_error = TRUE;
+      $this->db_error_msg = $res->getMessage();
       raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $res->getMessage() . " Query: " . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)), TRUE, FALSE);
-      return FALSE;
+    	    'message' => $res->getMessage() . " Query: " 
+	    . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)),
+	    TRUE, FALSE);
       }
-    else
-      {
-      $res_id = sizeof($this->a_query_results);
-      $this->a_query_results[$res_id] = $res;
-      $this->last_res_id = $res_id;
-      return $res_id;
-      }
+    
+    $res_id = sizeof($this->a_query_results);
+    $this->last_res_id = $res_id;
+    $this->a_query_results[$res_id] = $res;
+    return $res_id;
     }
 
 
   /**
    * Resolves a given handle ID and returns the according query handle
-   * If no ID is specified, the last ressource handle will be returned
+   * If no ID is specified, the last resource handle will be returned
    *
    * @param  number  Handle ID
-   * @return mixed   Ressource handle or FALE on failure
+   * @return mixed   Resource handle or FALSE on failure
    * @access private
    */
   function _get_result($res_id=NULL)
@@ -564,10 +562,11 @@ class rcube_mdb2
     if ($res_id==NULL)
       $res_id = $this->last_res_id;
 
-     if ($res_id && isset($this->a_query_results[$res_id]))
-       return $this->a_query_results[$res_id];
-     else
-       return FALSE;
+    if (isset($this->a_query_results[$res_id]))
+      if (!PEAR::isError($this->a_query_results[$res_id]))
+        return $this->a_query_results[$res_id];
+    
+    return FALSE;
     }
 
 

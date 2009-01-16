@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Allow absolute URLs to images in HTML messages/sigs (#1485666)
 - Fix message body which contains both inline attachments and emotions
+- Fix SQL query execution errors handling in rcube_mdb2 class (#1485509)
 
 2009/01/08 (alec)
 ----------
