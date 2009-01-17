@@ -6,7 +6,7 @@
  | language/nl_BE/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -20,7 +20,7 @@
 $messages = array();
 $messages['loginfailed'] = 'Aanmelden mislukt...';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies...';
-$messages['sessionerror'] = 'Sessie is reeds beëindigd of is ongeldig...';
+$messages['sessionerror'] = 'Sessie is reeds beï¿½indigd of is ongeldig...';
 $messages['imaperror'] = 'Kon geen verbinding maken met de IMAP server...';
 $messages['nomessagesfound'] = 'Er zijn geen berichten in deze map...';
 $messages['loggedout'] = 'U bent nu afgemeld. Tot ziens!';
@@ -36,7 +36,7 @@ $messages['successfullysaved'] = 'Succesvol opgeslagen...';
 $messages['addedsuccessfully'] = 'Contactpersoon is toegevoegd...';
 $messages['contactexists'] = 'Er bestaat reeds een contactpersoon met dit e-mailadres...';
 $messages['blockedimages'] = 'Om uw privacy te beschermen worden de afbeeldingen in dit bericht niet getoond...';
-$messages['encryptedmessage'] = 'Dit bericht is geëncrypteerd en kan niet worden weergegeven, sorry...';
+$messages['encryptedmessage'] = 'Dit bericht is geï¿½ncrypteerd en kan niet worden weergegeven, sorry...';
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden...';
 $messages['contactnotfound'] = 'De gevraagde contactpersoon was niet gevonden';
 $messages['sendingfailed'] = 'Kon het bericht niet versturen...';
@@ -51,7 +51,7 @@ $messages['formincomplete'] = 'Het formulier is niet volledig ingevuld...';
 $messages['noemailwarning'] = 'Geef een geldig e-mailadres op...';
 $messages['nonamewarning'] = 'Geef een naam op...';
 $messages['nopagesizewarning'] = 'Geef een geldig aantal berichten per pagina op...';
-$messages['norecipientwarning'] = 'Geef minstens één bestemmeling op...';
+$messages['norecipientwarning'] = 'Geef minstens ï¿½ï¿½n bestemmeling op...';
 $messages['nosubjectwarning'] = 'Geen onderwerp opgegeven. Wenst u alsnog een onderwerp te geven?';
 $messages['nobodywarning'] = 'Wilt u dit lege bericht versturen?';
 $messages['notsentwarning'] = 'Het bericht is niet verzonden. Wilt u het bericht verwijderen?';
@@ -69,8 +69,8 @@ $messages['converting'] = 'Opmaak van het bericht wordt gewist...';
 $messages['messageopenerror'] = 'Kon het bericht niet ophalen van de server';
 $messages['fileuploaderror'] = 'Bestandupload mislukt';
 $messages['filesizeerror'] = 'Het bestand overschrijdt de maximum grootte van $size';
-$messages['copysuccess'] = '$nr adressen met succes gekopiëerd';
-$messages['copyerror'] = 'Kon de adressen niet kopiëren';
+$messages['copysuccess'] = '$nr adressen met succes gekopiï¿½erd';
+$messages['copyerror'] = 'Kon de adressen niet kopiï¿½ren';
 $messages['sourceisreadonly'] = 'Het adres kan niet worden opgeslagen';
 $messages['errorsavingcontact'] = 'Kon de contactpersoon niet bewaren';
 $messages['movingmessage'] = 'Bericht wordt verplaatst...';

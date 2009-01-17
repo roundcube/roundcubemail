@@ -4,7 +4,7 @@
  | program/include/rcube_ldap.php                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2006-2008, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2006-2009, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |

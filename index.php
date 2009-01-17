@@ -4,7 +4,7 @@
  | RoundCube Webmail IMAP Client                                           |
  | Version 0.2-20080829                                                    |
  |                                                                         |
- | Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                   |
+ | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
  |                                                                         |
  | This program is free software; you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License version 2          |
