@@ -20,34 +20,43 @@
 */
 
 define('INSTALL_PATH', realpath(dirname(__FILE__).'/..') . '/');
-require INSTALL_PATH.'program/include/iniset.php';
+require INSTALL_PATH . 'program/include/iniset.php';
 
 $config = new rcube_config();
 
 // don't allow public access if not in devel_mode
 if (!$config->get('devel_mode') && $_SERVER['REMOTE_ADDR']) {
-	header("HTTP/1.0 401 Access denied");
-	die("Access denied!");
+    header("HTTP/1.0 401 Access denied");
+    die("Access denied!");
 }
 
+$options = array(
+    'use_transactions' => false,
+    'log_line_break' => "\n",
+    'idxname_format' => '%s',
+    'debug' => false,
+    'quote_identifier' => true,
+    'force_defaults' => false,
+    'portability' => true
+);
 
-$dbh =& MDB2::factory($config->get('db_dsnw'), $options);
+$dbh = MDB2::factory($config->get('db_dsnw'), $options);
 if (PEAR::isError($dbh)) {
-        exit($mdb2->getMessage());
+    exit($mdb2->getMessage());
 }
 
 //TODO: transaction here (if supported by DB) would be a good thing
 $res =& $dbh->exec("DELETE FROM cache");
 if (PEAR::isError($res)) {
-  $dbh->disconnect();
-  exit($res->getMessage());
-};
+    $dbh->disconnect();
+    exit($res->getMessage());
+}
 
 $res =& $dbh->exec("DELETE FROM messages");
 if (PEAR::isError($res)) {
-  $dbh->disconnect();
-  exit($res->getMessage());
-};
+    $dbh->disconnect();
+    exit($res->getMessage());
+}
 
 echo "Cache cleared\n";
 
