@@ -1568,7 +1568,6 @@ class rcube_imap
    */
   function save_message($mbox_name, &$message)
     {
-    $mbox_name = stripslashes($mbox_name);
     $mailbox = $this->_mod_mailbox($mbox_name);
 
     // make sure mailbox exists
@@ -1595,9 +1594,7 @@ class rcube_imap
    */
   function move_message($uids, $to_mbox, $from_mbox='')
     {
-    $to_mbox_in = stripslashes($to_mbox);
-    $from_mbox = stripslashes($from_mbox);
-    $to_mbox = $this->_mod_mailbox($to_mbox_in);
+    $to_mbox = $this->_mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->_mod_mailbox($from_mbox) : $this->mailbox;
 
     // make sure mailbox exists
@@ -1672,7 +1669,6 @@ class rcube_imap
    */
   function delete_message($uids, $mbox_name='')
     {
-    $mbox_name = stripslashes($mbox_name);
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
 
     // convert the list of uids to array
@@ -1729,7 +1725,6 @@ class rcube_imap
    */
   function clear_mailbox($mbox_name=NULL)
     {
-    $mbox_name = stripslashes($mbox_name);
     $mailbox = !empty($mbox_name) ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     $msg_count = $this->_messagecount($mailbox, 'ALL');
     
@@ -1762,7 +1757,6 @@ class rcube_imap
    */
   function expunge($mbox_name='', $clear_cache=TRUE)
     {
-    $mbox_name = stripslashes($mbox_name);
     $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
     return $this->_expunge($mailbox, $clear_cache);
     }
@@ -1881,9 +1875,6 @@ class rcube_imap
     {
     $result = FALSE;
     
-    // replace backslashes
-    $name = preg_replace('/[\\\]+/', '-', $name);
-
     // reduce mailbox name to 100 chars
     $name = substr($name, 0, 100);
 
@@ -1912,9 +1903,6 @@ class rcube_imap
     {
     $result = FALSE;
 
-    // replace backslashes
-    $name = preg_replace('/[\\\]+/', '-', $new_name);
-        
     // encode mailbox name and reduce it to 100 chars
     $name = substr($new_name, 0, 100);
 

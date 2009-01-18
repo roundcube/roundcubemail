@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/01/18 (alec)
+----------
+- Fix problems with backslash as IMAP hierarchy delimiter (#1484467)
+
 2009/01/15 (alec)
 ----------
 - Allow absolute URLs to images in HTML messages/sigs (#1485666)

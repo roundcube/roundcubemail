@@ -53,7 +53,7 @@
 		- Removed some debuggers (echo ...)
 		File altered by Aleksander Machniak <alec@alec.pl>
 		- trim(chop()) replaced by trim()
-		- added iil_Escape() with support for " and \ in folder names
+		- added iil_Escape()/iil_UnEscape() with support for " and \ in folder names
 		- support \ character in username in iil_C_Login()
 		- fixed iil_MultLine(): use iil_ReadBytes() instead of iil_ReadLine()
 		- fixed iil_C_FetchStructureString() to handle many literal strings in response
@@ -338,6 +338,11 @@ function iil_Escape($string)
 	return strtr($string, array('"'=>'\\"', '\\' => '\\\\')); 
 }
 
+function iil_UnEscape($string)
+{
+	return strtr($string, array('\\"'=>'"', '\\\\' => '\\')); 
+}
+
 function iil_C_GetCapability(&$conn, $name)
 {
 	if (in_array($name, $conn->capability)) {
@@ -497,6 +502,7 @@ function iil_C_NameSpace(&$conn) {
 		$line = iil_ReadLine($conn->fp, 1024);
 		if (iil_StartsWith($line, '* NAMESPACE')) {
 			$i    = 0;
+			$line = iil_UnEscape($line);
 			$data = iil_ParseNamespace2(substr($line,11), $i, 0, 0);
 		}
 	} while (!iil_StartsWith($line, 'ns1', true));
@@ -2199,7 +2205,7 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 		$line=iil_ReadLine($fp, 500);
 		if ($line[0] == '*') {
 			$line = rtrim($line);
-			$a=iil_ExplodeQuotedString(' ', $line);
+			$a=iil_ExplodeQuotedString(' ', iil_UnEscape($line));
 			if ($a[0] == '*') {
 			    $delimiter = str_replace('"', '', $a[count($a)-2]);
         		}
@@ -2209,7 +2215,7 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 	if (strlen($delimiter)>0) {
 	    return $delimiter;
 	}
-    
+
 	//if that fails, try namespace extension
 	//try to fetch namespace data
 	iil_PutLine($conn->fp, "ns1 NAMESPACE");
@@ -2217,6 +2223,7 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 		$line = iil_ReadLine($conn->fp, 1024);
 		if (iil_StartsWith($line, '* NAMESPACE')) {
 			$i = 0;
+			$line = iil_UnEscape($line);
 			$data = iil_ParseNamespace2(substr($line,11), $i, 0, 0);
 		}
 	} while (!iil_StartsWith($line, 'ns1', true));
