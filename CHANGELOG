@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Fix problems with backslash as IMAP hierarchy delimiter (#1484467)
 - Secure vcard export by getting rid of preg's 'e' modifier use (#1485689)
+- Fix authentication when submitting form with existing session (#1485679)
 
 2009/01/15 (alec)
 ----------

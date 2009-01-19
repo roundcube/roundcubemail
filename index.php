@@ -72,6 +72,10 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
 
 // try to log in
 if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
+  // purge the session in case of new login when a session already exists 
+  $RCMAIL->kill_session(); 
+  
+  // set IMAP host
   $host = $RCMAIL->autoselect_host();
   
   // check if client supports cookies
