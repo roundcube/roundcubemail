@@ -21,10 +21,11 @@
 
 $MAXNUM = 15;  // same limit as in app.js
 $contacts = array();
+$book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
 
-if ($search = get_input_value('_search', RCUBE_INPUT_POST)) {
+if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_POST)) {
 
-  foreach ($RCMAIL->config->get('autocomplete_addressbooks', array('sql')) as $id) {
+  foreach ($book_types as $id) {
     $abook = $RCMAIL->get_address_book($id);
     $abook->set_pagesize($MAXNUM);
 
