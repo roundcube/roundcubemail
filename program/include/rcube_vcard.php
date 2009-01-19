@@ -226,10 +226,14 @@ class rcube_vcard
     return $vcard;
   }
 
+  private static function rfc2425_fold_callback($matches)
+  {
+    return ":\n  ".rtrim(chunk_split($matches[1], 72, "\n  "));
+  }
 
   private static function rfc2425_fold($val)
   {
-    return preg_replace('/:([^\n]{72,})/e', '":\n  ".rtrim(chunk_split("\\1", 72, "\n  "))', $val) . "\n";
+    return preg_replace_callback('/:([^\n]{72,})/', 'self::rfc2425_fold_callback', $val) . "\n";
   }
 
 
