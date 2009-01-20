@@ -80,7 +80,7 @@ class washtml
   static $ignore_elements = array('html', 'head', 'body');
   
   /* Allowed HTML attributes */
-  static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir', 'background');  
+  static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir');  
   
   /* State for linked objects in HTML */
   public $extlinks = false;
@@ -160,21 +160,21 @@ class washtml
       $key = strtolower($key);
       $value = $node->getAttribute($key);
       if(isset($this->_html_attribs[$key]) ||
-         ($key == 'href' && preg_match('/^(http|https|ftp|mailto):.*/i', $value)))
+         ($key == 'href' && preg_match('/^(http|https|ftp|mailto):.+/i', $value)))
         $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
       else if($key == 'style' && ($style = $this->wash_style($value)))
         $t .= ' style="' . $style . '"';
-      else if($key == 'src' && strtolower($node->tagName) == 'img') { //check tagName anyway
+      else if($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
         if($src = $this->config['cid_map'][$value]) {
           $t .= ' ' . $key . '="' . htmlspecialchars($src, ENT_QUOTES) . '"';
         }
-        else if(preg_match('/^(http|https|ftp):.*/i', $value)) {
+        else if(preg_match('/^(http|https|ftp):.+/i', $value)) {
           if($this->config['allow_remote'])
             $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
           else {
             $this->extlinks = true;
             if ($this->config['blocked_src'])
-              $t .= ' src="' . htmlspecialchars($this->config['blocked_src'], ENT_QUOTES) . '"';
+              $t .= ' ' . $key . '="' . htmlspecialchars($this->config['blocked_src'], ENT_QUOTES) . '"';
           }
         }
       } else
