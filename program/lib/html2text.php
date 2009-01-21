@@ -176,7 +176,6 @@ class html2text
         '/&(bull|#149|#8226);/i',                // Bullet
         '/&(pound|#163);/i',                     // Pound sign
         '/&(euro|#8364);/i',                     // Euro sign
-        '/&[^&;]+;/i',                           // Unknown/unhandled entities
         '/[ ]{2,}/'                              // Runs of spaces, post-handling
     );
 
@@ -220,7 +219,6 @@ class html2text
         '*',
         'Â£',
         'EUR',                                  // Euro sign. € ?
-        '',                                     // Unknown/unhandled entities
         ' '                                     // Runs of spaces, post-handling
     );
 
@@ -474,6 +472,9 @@ class html2text
 
 	// Replace known html entities
 	$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+
+        // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
+        $text = preg_replace('/&[^&;]+;/i', '', $text); 
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
