@@ -74,10 +74,9 @@ function rcmail_toggle_editor(ishtml, textAreaId, flagElement)
 
   if (ishtml)
     {
-    var existingPlainText = composeElement.value;
-    var htmlText = "<pre>" + existingPlainText + "</pre>";
-
     rcmail.display_spellcheck_controls(false);
+    var htmlText = "<pre>" + composeElement.value + "</pre>";
+
     composeElement.value = htmlText;
     tinyMCE.execCommand('mceAddControl', true, textAreaId);
     if (flagElement && (flag = rcube_find_object(flagElement)))
