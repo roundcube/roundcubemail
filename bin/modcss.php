@@ -63,14 +63,14 @@ while (!feof($fp)) {
     if ($header
         && preg_match('/^HTTP\/1\..\s+(\d+)/', $line, $regs)
         && intval($regs[1]) != 200) {
-	break;
+        break;
     } else if (empty($line) && $header) {
         $header = false;
     } else if (!$header) {
         $source .= "$line\n";
     }
-    fclose($fp);
 }
+fclose($fp);
 
 if (!empty($source)) {
     header('Content-Type: text/css');
