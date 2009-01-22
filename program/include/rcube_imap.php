@@ -1504,34 +1504,36 @@ class rcube_imap
    *
    * @param mixed  Message UIDs as array or as comma-separated string
    * @param string Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
+   * @param boolean Simulate flagging (don't set flag on IMAP server)
    * @return boolean True on success, False on failure
    */
-  function set_flag($uids, $flag)
+  function set_flag($uids, $flag, $fake=false)
     {
     $flag = strtoupper($flag);
     $msg_ids = array();
     if (!is_array($uids))
       $uids = explode(',',$uids);
       
-    foreach ($uids as $uid) {
-      $msg_ids[$uid] = $this->_uid2id($uid);
-    }
-      
-    if ($flag=='UNDELETED')
-      $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
-    else if ($flag=='UNSEEN')
-      $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
-    else if ($flag=='UNFLAGGED')
-      $result = iil_C_UnFlag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), 'FLAGGED');
-    else
-      $result = iil_C_Flag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), $flag);
-
+    if (!$fake || $this->caching_enabled)
+      foreach ($uids as $uid) {
+        $msg_ids[$uid] = $this->_uid2id($uid);
+      }
+    
+    if (!$fake) {
+      if ($flag=='UNDELETED')
+        $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
+      else if ($flag=='UNSEEN')
+        $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
+      else if ($flag=='UNFLAGGED')
+        $result = iil_C_UnFlag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), 'FLAGGED');
+      else
+        $result = iil_C_Flag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), $flag);
+      }
+    
     // reload message headers if cached
-    $cache_key = $this->mailbox.'.msg';
-    if ($this->caching_enabled)
-      {
-      foreach ($msg_ids as $uid => $id)
-        {
+    if ($this->caching_enabled) {
+      $cache_key = $this->mailbox.'.msg';
+      foreach ($msg_ids as $uid => $id) {
         if ($cached_headers = $this->get_cached_message($cache_key, $uid))
           {
           $this->remove_message_cache($cache_key, $id);
@@ -1545,7 +1547,7 @@ class rcube_imap
       }
 
     // set nr of messages that were flaged
-    $count = count($msg_ids);
+    $count = count($uids);
 
     // clear message count cache
     if ($result && $flag=='SEEN')
@@ -2930,6 +2932,7 @@ class rcube_imap
 
       foreach ($sub_a as $k => $v)
         {
+	// use angle brackets in regexp to not handle names with @ sign
         if (preg_match('/^<\S+@\S+>$/', $v))
           $result[$key]['address'] = trim($v, '<>');
         else
@@ -2937,7 +2940,9 @@ class rcube_imap
         }
         
       if (empty($result[$key]['name']))
-        $result[$key]['name'] = $result[$key]['address'];        
+        $result[$key]['name'] = $result[$key]['address'];
+      elseif (empty($result[$key]['address'])) 
+	$result[$key]['address'] = $result[$key]['name'];     
       }
     
     return $result;
