@@ -41,6 +41,7 @@ $rcube_languages = array(
   'de_CH' => 'Deutsch (Schweiz)',
   'en_GB' => 'English (GB)',
   'en_US' => 'English (US)',
+  'es_AR' => 'Spanish (Argentina)',
   'es_ES' => 'Español',
   'eo'    => 'Esperanto',
   'et_EE' => 'Estonian',
