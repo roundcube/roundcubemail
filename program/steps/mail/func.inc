@@ -671,6 +671,9 @@ function rcmail_print_body($part, $p = array())
         $html = '<head></head>'. $html;
       $html = substr_replace($html, '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
     }
+    
+    // turn relative into absolute urls
+    $html = rcmail_resolve_base($html);
 
     // clean HTML with washhtml by Frederic Motte
     $wash_opts = array(
@@ -684,6 +687,9 @@ function rcmail_print_body($part, $p = array())
     
     if (!$p['inline_html']) {
       $wash_opts['html_elements'] = array('html','head','title','body');
+    }
+    if ($p['safe']) {
+      $wash_opts['html_elements'][] = 'link';
     }
     
     $washer = new washtml($wash_opts);
@@ -710,22 +716,15 @@ function rcmail_print_body($part, $p = array())
   /**** assert plaintext ****/
 
   // make links and email-addresses clickable
-  $convert_patterns = $convert_replaces = $replace_strings = array();
+  $replacements = new rcube_string_replacer;
   
   $url_chars = 'a-z0-9_\-\+\*\$\/&%=@#:;';
   $url_chars_within = '\?\.~,!';
-
-  $convert_patterns[] = "/([\w]+):\/\/([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/ie";
-  $convert_replaces[] = "rcmail_str_replacement('<a href=\"\\1://\\2\" target=\"_blank\">\\1://\\2</a>', \$replace_strings)";
-
-  $convert_patterns[] = "/([^\/:]|\s)(www\.)([a-z0-9\-]{2,}[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/ie";
-  $convert_replaces[] = "rcmail_str_replacement('\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>', \$replace_strings)";
-  
-  $convert_patterns[] = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/ie';
-  $convert_replaces[] = "rcmail_str_replacement('<a href=\"mailto:\\1\" onclick=\"return ".JS_OBJECT_NAME.".command(\'compose\',\'\\1\',this)\">\\1</a>', \$replace_strings)";
   
   // search for patterns like links and e-mail addresses
-  $body = preg_replace($convert_patterns, $convert_replaces, $body);
+  $body = preg_replace_callback("/([\w]+):\/\/([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/i", array($replacements, 'link_callback'), $body);
+  $body = preg_replace_callback("/([^\/:]|\s)(www\.)([a-z0-9\-]{2,}[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/i", array($replacements, 'link_callback'), $body);
+  $body = preg_replace_callback('/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i', array($replacements, 'mailto_callback'), $body);
 
   // split body into single lines
   $a_lines = preg_split('/\r?\n/', $body);
@@ -754,7 +753,7 @@ function rcmail_print_body($part, $p = array())
   }
 
   // insert the links for urls and mailtos
-  $body = preg_replace("/##string_replacement\{([0-9]+)\}##/e", "\$replace_strings[\\1]", join("\n", $a_lines));
+  $body = $replacements->resolve(join("\n", $a_lines));
 
   return html::tag('pre', array(), $body);
 }
@@ -956,19 +955,30 @@ function rcmail_message_body($attrib)
   }
 
 
+/**
+ * Convert all relative URLs according to a <base> in HTML
+ */
+function rcmail_resolve_base($body)
+{
+  // check for <base href=...>
+  if (preg_match('!(<base.*href=["\']?)([hftps]{3,5}://[a-z0-9/.%-]+)!i', $body, $regs)) {
+    $replacer = new rcube_base_replacer($regs[2]);
+
+    // replace all relative paths
+    $body = preg_replace_callback('/(src|background|href)=(["\']?)([\.\/]+[^"\'\s]+)(\2|\s|>)/Ui', array($replacer, 'callback'), $body);
+    $body = preg_replace_callback('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Ui', array($replacer, 'callback'), $body);
+  }
+
+  return $body;
+}
 
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
 function rcmail_html4inline($body, $container_id)
   {
-  $base_url = "";
   $last_style_pos = 0;
   $body_lc = strtolower($body);
-  
-  // check for <base href>
-  if (preg_match(($base_reg = '/(<base.*href=["\']?)([hftps]{3,5}:\/{2}[^"\'\s]+)([^<]*>)/i'), $body, $base_regs))
-    $base_url = $base_regs[2];
   
   // find STYLE tags
   while (($pos = strpos($body_lc, '<style', $last_style_pos)) && ($pos2 = strpos($body_lc, '</style>', $pos)))
@@ -976,21 +986,13 @@ function rcmail_html4inline($body, $container_id)
     $pos = strpos($body_lc, '>', $pos)+1;
 
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id, $base_url);
+    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id);
 
     $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
     $body_lc = strtolower($body);
     $last_style_pos = $pos2;
     }
 
-  // resolve <base href>
-  if ($base_url)
-    {
-    $body = preg_replace('/(src|background|href)=(["\']?)([\.\/]+[^"\'\s]+)(\2|\s|>)/Uie', "'\\1=\"'.make_absolute_url('\\3', '$base_url').'\"'", $body);
-    $body = preg_replace('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Uie', "'\\1\''.make_absolute_url('\\3', '$base_url').'\')'", $body);
-    $body = preg_replace($base_reg, '', $body);
-    }
-    
   // modify HTML links to open a new window if clicked
   $body = preg_replace('/<(a|link)\s+([^>]+)>/Uie', "rcmail_alter_html_link('\\1','\\2', '$container_id');", $body);
 

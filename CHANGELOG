@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/01/22 (thomasb)
+----------
+- Get rid of preg_replace() with eval modifier and create_function usage (#1485686)
+- Bring back <base> and <link> tags in HTML messages
+
 2009/01/20 (thomasb)
 ----------
 - Fix XSS vulnerability through background attributes as reported by Julien Cayssol

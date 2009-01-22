@@ -587,25 +587,24 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
  * @param string Container ID to use as prefix
  * @return string Modified CSS source
  */
-function rcmail_mod_css_styles($source, $container_id, $base_url = '')
+function rcmail_mod_css_styles($source, $container_id)
   {
-  $a_css_values = array();
   $last_pos = 0;
+  $replacements = new rcube_string_replacer;
   
   // ignore the whole block if evil styles are detected
   $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entitiy_decode($source));
   if (preg_match('/expression|behavior|url\(|import/', $stripped))
-    return '';
+    return '/* evil! */';
 
   // cut out all contents between { and }
   while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
   {
-    $key = sizeof($a_css_values);
-    $a_css_values[$key] = substr($source, $pos+1, $pos2-($pos+1));
-    $source = substr($source, 0, $pos+1) . "<<str_replacement[$key]>>" . substr($source, $pos2, strlen($source)-$pos2);
+    $key = $replacements->add(substr($source, $pos+1, $pos2-($pos+1)));
+    $source = substr($source, 0, $pos+1) . $replacements->get_replacement($key) . substr($source, $pos2, strlen($source)-$pos2);
     $last_pos = $pos+2;
   }
-
+  
   // remove html comments and add #container to each tag selector.
   // also replace body definition because we also stripped off the <body> tag
   $styles = preg_replace(
@@ -621,17 +620,8 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
     ),
     $source);
   
-  // replace all @import statements to modify the imported CSS sources too
-  $styles = preg_replace_callback(
-    '/@import\s+(url\()?[\'"]?([^\)\'"]+)[\'"]?(\))?/im',
-    create_function('$matches', "return sprintf(\"@import url('./bin/modcss.php?u=%s&c=%s')\", urlencode(make_absolute_url(\$matches[2],'$base_url')), urlencode('$container_id'));"),
-    $styles);
-  
   // put block contents back in
-  $styles = preg_replace_callback(
-    '/<<str_replacement\[([0-9]+)\]>>/',
-    create_function('$matches', "\$values = ".var_export($a_css_values, true)."; return \$values[\$matches[1]];"),
-    $styles);
+  $styles = $replacements->resolve($styles);
 
   return $styles;
   }
@@ -647,11 +637,22 @@ function rcmail_mod_css_styles($source, $container_id, $base_url = '')
 function rcmail_xss_entitiy_decode($content)
 {
   $out = html_entity_decode(html_entity_decode($content));
-  $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', create_function('$matches', 'return chr(hexdec($matches[1]));'), $out);
+  $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', 'rcmail_xss_entitiy_decode_callback', $out);
   $out = preg_replace('#/\*.*\*/#Um', '', $out);
   return $out;
 }
 
+
+/**
+ * preg_replace_callback callback for rcmail_xss_entitiy_decode_callback
+ *
+ * @param array matches result from preg_replace_callback
+ * @return string decoded entity
+ */ 
+function rcmail_xss_entitiy_decode_callback($matches)
+{ 
+  return chr(hexdec($matches[1]));
+}
 
 /**
  * Compose a valid attribute string for HTML tags
@@ -1208,5 +1209,27 @@ function rcube_html_editor($mode='')
   $OUTPUT->include_script('editor.js');
   $OUTPUT->add_script('rcmail_editor_init("$__skin_path", "'.JQ($tinylang).'", '.intval($CONFIG['enable_spellcheck']).', "'.$mode.'");');
 }
+
+
+
+/**
+ * Helper class to turn relative urls into absolute ones
+ * using a predefined base
+ */
+class rcube_base_replacer
+{
+  private $base_url;
+  
+  public function __construct($base)
+  {
+    $this->base_url = $base;
+  }
+  
+  public function callback($matches)
+  {
+    return $matches[1] . '="' . make_absolute_url($matches[3], $this->base_url) . '"';
+  }
+}
+
 
 ?>
