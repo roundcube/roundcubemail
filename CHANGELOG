@@ -6,6 +6,7 @@ CHANGELOG RoundCube Webmail
 - Fix creation of folders with '&' sign in name
 - Fix parsing of email addresses without angle brackets (#1485693)
 - Save spellcheck corrections when switching from plain to html editor (and spellchecking is on)
+- Fix large search results on server without SORT capability (#1485668)
 
 2009/01/22 (thomasb)
 ----------
