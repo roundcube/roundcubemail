@@ -44,8 +44,6 @@ else if ($RCMAIL->action=='create-folder')
   if (!empty($_POST['_name']))
     {
     $name = trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF-7'));
-    // #1485036 (RFC3501, 5.1.3) TODO: it should be done on read not on write
-    $name = str_replace('&-', '&', $name);
     $create = $IMAP->create_mailbox($name, TRUE);
     }
   
@@ -77,9 +75,6 @@ else if ($RCMAIL->action=='rename-folder')
     $oldname_utf8 = get_input_value('_folder_oldname', RCUBE_INPUT_POST);
     $name = rcube_charset_convert($name_utf8, 'UTF-8', 'UTF-7');
     $oldname = rcube_charset_convert($oldname_utf8, 'UTF-8', 'UTF-7');
-
-    // #1485036 (RFC3501, 5.1.3) TODO: it should be done on read not on write
-    $name = str_replace('&-', '&', $name);
 
     $rename = $IMAP->rename_mailbox($oldname, $name);
     }
@@ -190,14 +185,14 @@ function rcube_subscription_form($attrib)
   $a_subscribed = $IMAP->list_mailboxes();
   $delimiter = $IMAP->get_hierarchy_delimiter();
   $a_js_folders = $seen_folders = $list_folders = array();
-  
+
   // pre-process folders list
   foreach ($a_unsubscribed as $i => $folder) {
     $foldersplit = explode($delimiter, $folder);
     $name = rcube_charset_convert(array_pop($foldersplit), 'UTF-7');
     $parent_folder = join($delimiter, $foldersplit);
     $level = count($foldersplit);
-    
+
     // add any necessary "virtual" parent folders
     if ($parent_folder && !$seen[$parent_folder]) {
       for ($i=1; $i<=$level; $i++) {

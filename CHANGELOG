@@ -1,6 +1,12 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/01/23 (alec)
+----------
+- Fix creation of folders with '&' sign in name
+- Fix parsing of email addresses without angle brackets (#1485693)
+- Save spellcheck corrections when switching from plain to html editor (and spellchecking is on)
+
 2009/01/22 (thomasb)
 ----------
 - Get rid of preg_replace() with eval modifier and create_function usage (#1485686)
