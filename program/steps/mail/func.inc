@@ -690,6 +690,7 @@ function rcmail_print_body($part, $p = array())
     }
     if ($p['safe']) {
       $wash_opts['html_elements'][] = 'link';
+      $wash_opts['html_attribs'] = array('rel','type');
     }
     
     $washer = new washtml($wash_opts);
