@@ -685,7 +685,7 @@ class rcube_imap
       $cnt = count($msgs);
       if ($cnt > 300 && $cnt > $this->page_size) { // experimantal value for best result
         // use memory less expensive (and quick) method for big result set
-	$a_index = $this->message_index($mailbox, $this->sort_field, $this->sort_order);
+	$a_index = $this->message_index('', $this->sort_field, $this->sort_order);
         // get messages uids for one page...
         $msgs = array_slice($a_index, $start_msg, min($cnt-$start_msg, $this->page_size));
 	// ...and fetch headers
