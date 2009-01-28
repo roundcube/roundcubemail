@@ -91,7 +91,7 @@ if ($_GET['_uid']) {
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
       !$MESSAGE->headers->mdn_sent && !$MESSAGE->headers->seen &&
-      $IMAP->check_permflag('MDNSENT') &&
+      ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*')) &&
       $mbox_name != $CONFIG['drafts_mbox'] &&
       $mbox_name != $CONFIG['sent_mbox'])
   {

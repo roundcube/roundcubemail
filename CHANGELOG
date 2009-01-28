@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/01/28 (alec)
+----------
+- Fix MDNSent flag checking, use arbitrary keywords (asterisk) flag (#1485706)
+
 2009/01/23 (alec)
 ----------
 - Fix creation of folders with '&' sign in name

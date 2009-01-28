@@ -78,6 +78,7 @@
 		- support multiquota result
 		- include BODYSTRUCTURE in iil_C_FetchHeaders()
 		- added iil_C_FetchMIMEHeaders() function
+		- added \* flag support 
 
 ********************************************************/
 
@@ -114,7 +115,9 @@ $GLOBALS['IMAP_FLAGS'] = array(
     'DRAFT'    => '\\Draft',
     'FLAGGED'  => '\\Flagged',
     'FORWARDED' => '$Forwarded',
-    'MDNSENT'  => '$MDNSent');
+    'MDNSENT'  => '$MDNSent',
+    '*'        => '\\*',
+);
 
 $iil_error;
 $iil_errornum;

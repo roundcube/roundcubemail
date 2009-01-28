@@ -354,8 +354,9 @@ class rcube_imap
    */
   function check_permflag($flag)
     {
-    $flagsmap = $GLOBALS['IMAP_FLAGS'];
-    return (($imap_flag = $flagsmap[strtoupper($flag)]) && in_array_nocase($imap_flag, $this->conn->permanentflags));
+    $flag = strtoupper($flag);
+    $imap_flag = $GLOBALS['IMAP_FLAGS'][$flag];
+    return (in_array_nocase($imap_flag, $this->conn->permanentflags));
     }
 
 
