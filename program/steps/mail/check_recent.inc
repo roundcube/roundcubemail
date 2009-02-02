@@ -26,36 +26,44 @@ foreach ($a_mailboxes as $mbox_name) {
   if ($mbox_name == $IMAP->get_mailbox_name()) {
     if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE)) {
       // refresh saved search set
-      if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set)
+      if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && isset($_SESSION['search'][$search_request])) {
         $_SESSION['search'][$search_request] = $IMAP->refresh_search();
-        
-      $count_all = $IMAP->messagecount(NULL, 'ALL', TRUE);
+	$all_count = $IMAP->messagecount();
+      } else {
+        $all_count = $IMAP->messagecount(NULL, 'ALL', TRUE);
+      }
+      
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
 
-      $OUTPUT->set_env('messagecount', $IMAP->messagecount());
+      $OUTPUT->set_env('messagecount', $all_count);
       $OUTPUT->set_env('pagesize', $IMAP->page_size);
-      $OUTPUT->set_env('pagecount', ceil($IMAP->messagecount()/$IMAP->page_size));
+      $OUTPUT->set_env('pagecount', ceil($all_count/$IMAP->page_size));
       $OUTPUT->command('set_unread_count', $mbox_name, $unread_count, ($mbox_name == 'INBOX'));
-      $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
-      $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
+      $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($all_count));
 
       if (rcmail::get_instance()->config->get('focus_on_new_message',true))
         $OUTPUT->command('new_message_focus');
 
-      // add new message headers to list
-      $a_headers = array();
-      for ($i=$recent_count, $id=$count_all-$recent_count+1; $i>0; $i--, $id++)
-      {
-        // skip message if it does not match the current search
-        if (!$IMAP->in_searchset($id))
-          continue;
-        
-        $header = $IMAP->get_headers($id, NULL, FALSE);
-        if ($header->recent)
-          $a_headers[] = $header;
-      }
+      if (!empty($_GET['_quota']))
+        $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
 
-      rcmail_js_message_list($a_headers, TRUE);
+      // "No-list" mode, don't get messages
+      if (empty($_GET['_list']))
+        continue;
+
+      // use SEARCH/SORT to find recent messages
+      $search_str = 'RECENT';
+      if ($search_request)
+        $search_str .= ' '.$IMAP->search_string;
+
+      $result = $IMAP->search($mbox_name, $search_str, NULL, 'date');
+
+      if ($result) {
+        // get the headers
+        $result_h = $IMAP->list_headers($mbox_name, 1, 'date', 'DESC');
+        // add to the list
+	rcmail_js_message_list($result_h, TRUE);
+      }
     }
   }
   else if ($IMAP->messagecount($mbox_name, 'RECENT', $check_all)) {

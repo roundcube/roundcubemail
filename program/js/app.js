@@ -3971,7 +3971,16 @@ function rcube_webmail()
     if (setbusy)
       this.set_busy(true, 'checkingmail');
 
-    this.http_request('check-recent', (this.env.search_request ? '_search='+this.env.search_request+'&' : '') + '_t='+(new Date().getTime()), true);
+    var addurl = '_t=' + (new Date().getTime());
+
+    if (this.gui_objects.messagelist)
+      addurl += '&_list=1';
+    if (this.gui_objects.quotadisplay)
+      addurl += '&_quota=1';
+    if (this.env.search_request)
+      addurl += '&_search=' + this.env.search_request;
+
+    this.http_request('check-recent', addurl, true);
     };
 
 

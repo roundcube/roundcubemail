@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/02 (alec)
+----------
+- Fix checking for recent messages on various IMAP servers (#1485702)
+- performance fix: Don't fetch quota and recent messages in "message view" mode
+
 2009/01/28 (alec)
 ----------
 - Fix MDNSent flag checking, use arbitrary keywords (asterisk) flag (#1485706)
