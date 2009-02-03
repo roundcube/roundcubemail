@@ -266,7 +266,7 @@ class rcube_message
           $html_part = $p;
         else if ($sub_ctype_primary=='text' && $sub_ctype_secondary=='enriched')
           $enriched_part = $p;
-        else if ($sub_ctype_primary=='multipart' && ($sub_ctype_secondary=='related' || $sub_ctype_secondary=='mixed'))
+        else if ($sub_ctype_primary=='multipart' && in_array($sub_ctype_secondary, array('related', 'mixed', 'alternative')))
           $related_part = $p;
       }
 
