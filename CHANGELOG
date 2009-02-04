@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/04 (alec)
+----------
+- performance fix: don't fetch attachment headers twice when parse filename cont. values
+
 2009/02/02 (alec)
 ----------
 - Fix checking for recent messages on various IMAP servers (#1485702)
