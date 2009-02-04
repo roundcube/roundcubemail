@@ -3,7 +3,7 @@ CHANGELOG RoundCube Webmail
 
 2009/02/04 (alec)
 ----------
-- performance fix: don't fetch attachment headers twice when parse filename cont. values
+- performance fix: don't fetch attachment parts headers twice to parse filename
 
 2009/02/02 (alec)
 ----------
