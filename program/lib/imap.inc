@@ -68,7 +68,7 @@
 		- iil_C_HandlePartBody(): added 6th argument and fixed endless loop
 		- added iil_PutLineC() 
 		- fixed iil_C_Sort() to support very long and/or divided responses
-		- added BYE response simple support for endless loop prevention
+		- added BYE/BAD response simple support for endless loop prevention
 		- added 3rd argument in iil_StartsWith* functions
 		- fix iil_C_FetchPartHeader() in some cases by use of iil_C_HandlePartBody()
 		- allow iil_C_HandlePartBody() to fetch whole message
@@ -307,8 +307,8 @@ function iil_ParseResult($string) {
 	return -4;
 }
 
-// check if $string starts with $match
-function iil_StartsWith($string, $match, $bye=false) {
+// check if $string starts with $match (or * BYE/BAD)
+function iil_StartsWith($string, $match, $error=false) {
 	$len = strlen($match);
 	if ($len == 0) {
 		return false;
@@ -316,7 +316,7 @@ function iil_StartsWith($string, $match, $bye=false) {
 	if (strncmp($string, $match, $len) == 0) {
 		return true;
 	}
-	if ($bye && strncmp($string, '* BYE ', 6) == 0) {
+	if ($error && preg_match('/^\* (BYE|BAD) /', $string)) {
 		return true;
 	}
 	return false;

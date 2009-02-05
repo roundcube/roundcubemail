@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/05 (alec)
+----------
+- Support NGINX as IMAP backend: better BAD response handling (#1485720)
+
 2009/02/04 (alec)
 ----------
 - performance fix: don't fetch attachment parts headers twice to parse filename
