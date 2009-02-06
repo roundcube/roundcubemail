@@ -1313,7 +1313,7 @@ function rcube_webmail()
     if (this.env.mailbox == this.env.drafts_mailbox)
       {
       this.enable_command('reply', 'reply-all', 'forward', false);
-      this.enable_command('show', selected);
+      this.enable_command('show', 'print', selected);
       this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
     else
