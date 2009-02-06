@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/06 (alec)
+----------
+- Fix selecting all unread does not honor new messages (#1485724)
+
 2009/02/05 (alec)
 ----------
 - Support NGINX as IMAP backend: better BAD response handling (#1485720)

@@ -510,7 +510,7 @@ select_all: function(filter)
 
   for (var n in this.rows)
   {
-    if (!filter || this.rows[n][filter]==true)
+    if (!filter || (this.rows[n] && this.rows[n][filter] == true))
     {
       this.last_selected = n;
       this.highlight_row(n, true);
