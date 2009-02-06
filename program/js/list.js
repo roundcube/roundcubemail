@@ -506,14 +506,19 @@ select_all: function(filter)
 
   // reset but remember selection first
   var select_before = this.selection.join(',');
-  this.clear_selection();
-
+  this.selection = new Array();
+  
   for (var n in this.rows)
   {
     if (!filter || (this.rows[n] && this.rows[n][filter] == true))
     {
       this.last_selected = n;
       this.highlight_row(n, true);
+    }
+    else if (this.rows[n])
+    {
+      this.set_classname(this.rows[n].obj, 'selected', false);
+      this.set_classname(this.rows[n].obj, 'unfocused', false);
     }
   }
 
