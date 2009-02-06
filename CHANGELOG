@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Fix pressing select all/unread multiple times (#1485723)
 - Fix selecting all unread does not honor new messages (#1485724)
+- Fix some base64 encoded attachments handling (#1485725)
 
 2009/02/05 (alec)
 ----------

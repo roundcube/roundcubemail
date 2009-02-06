@@ -2508,7 +2508,8 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
         		$len      = $to - $from;
 	                $sizeStr  = substr($line, $from, $len);
         		$bytes    = (int)$sizeStr;
-
+			$prev	  = '';
+			
         		while ($bytes > 0) {
     		                $line      = iil_ReadLine($fp, 1024);
             			$len       = strlen($line);
@@ -2518,14 +2519,27 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
 		                }
             			$bytes -= strlen($line);
 
+				$line = rtrim($line, "\t\r\n\0\x0B");
+
 		                if ($mode == 1) {
 					if ($file)
-						fwrite($file, rtrim($line, "\t\r\n\0\x0B") . "\n");
+						fwrite($file, $line . "\n");
             			        else
-						$result .= rtrim($line, "\t\r\n\0\x0B") . "\n";
+						$result .= $line . "\n";
 		                } else if ($mode == 2) {
-            			        echo rtrim($line, "\t\r\n\0\x0B") . "\n";
+            			        echo $line . "\n";
 		                } else if ($mode == 3) {
+					// create chunks with proper length for base64 decoding
+					$line = $prev.$line;
+					$length = strlen($line);
+					if ($length % 4) {
+						$length = floor($length / 4) * 4;
+						$prev = substr($line, $length);
+						$line = substr($line, 0, $length);
+					}
+					else
+						$prev = '';
+
 					if ($file)
 						fwrite($file, base64_decode($line));
             				else
