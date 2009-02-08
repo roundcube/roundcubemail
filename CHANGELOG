@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/08 (alec)
+----------
+- Fix "value continuation" MIME headers by adding required semicolon (#1485727)
+
 2009/02/06 (alec)
 ----------
 - Fix pressing select all/unread multiple times (#1485723)
