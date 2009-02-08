@@ -26,6 +26,7 @@
  */
 require_once('lib/imap.inc');
 require_once('lib/mime.inc');
+require_once('lib/tnef_decoder.inc');
 
 
 /**
@@ -1602,7 +1603,7 @@ class rcube_imap
     $from_mbox = $from_mbox ? $this->_mod_mailbox($from_mbox) : $this->mailbox;
 
     // make sure mailbox exists
-    if (!in_array($to_mbox, $this->_list_mailboxes()))
+    if ($to_mbox != 'INBOX' && !in_array($to_mbox, $this->_list_mailboxes()))
       {
       if (in_array($to_mbox_in, $this->default_folders))
         $this->create_mailbox($to_mbox_in, TRUE);
@@ -2492,6 +2493,40 @@ class rcube_imap
     
     return $out;
     }
+  
+  
+  /**
+   * Decode a Microsoft Outlook TNEF part (winmail.dat)
+   *
+   * @param object rcube_message_part Message part to decode
+   * @param string UID of the message
+   * @return array List of rcube_message_parts extracted from windmail.dat
+   */
+  function tnef_decode(&$part, $uid)
+  {
+    if (!isset($part->body))
+      $part->body = $this->get_message_part($uid, $part->mime_id, $part);
+
+    $pid = 0;
+    $tnef_parts = array();
+    $tnef_arr = tnef_decode($part->body);
+    foreach ($tnef_arr as $winatt) {
+      $tpart = new rcube_message_part;
+      $tpart->filename = $winatt["name"];
+      $tpart->encoding = 'stream';
+      $tpart->ctype_primary = $winatt["type0"];
+      $tpart->ctype_secondary = $winatt["type1"];
+      $tpart->mimetype = strtolower($winatt["type0"] . "/" . $winatt["type1"]);
+      $tpart->mime_id = "winmail." . $part->mime_id . ".$pid";
+      $tpart->size = $winatt["size"];
+      $tpart->body = $winatt['stream'];
+      
+      $tnef_parts[] = $tpart;
+      $pid++;
+    }
+
+    return $tnef_parts;
+  }
 
 
   /**

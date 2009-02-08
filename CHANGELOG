@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/08 (thomasb)
+----------
+- Added TNEF support to decode MS Outlook attachments (winmail.dat)
+
 2009/02/08 (alec)
 ----------
 - Fix "value continuation" MIME headers by adding required semicolon (#1485727)

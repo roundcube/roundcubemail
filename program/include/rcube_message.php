@@ -366,6 +366,14 @@ class rcube_message
         // ignore "virtual" protocol parts
         else if ($primary_type == 'protocol')
           continue;
+          
+        // part is Microsoft outlook TNEF (winmail.dat)
+        else if ($primary_type == 'application' && $secondary_type == 'ms-tnef') {
+          foreach ((array)$this->imap->tnef_decode($mail_part, $structure->headers['uid']) as $tnef_part) {
+            $this->mime_parts[$tnef_part->mime_id] = $tnef_part;
+            $this->attachments[] = $tnef_part;
+          }
+        }
 
         // part is file/attachment
         else if ($mail_part->disposition == 'attachment' || $mail_part->disposition == 'inline' ||
@@ -381,10 +389,10 @@ class rcube_message
             if ($mail_part->headers['content-location'])
               $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
             
-	    if ($mail_part->content_id || $mail_part->content_location) {
+            if ($mail_part->content_id || $mail_part->content_location) {
               $this->inline_parts[] = $mail_part;
             }
-	  }
+          }
           // is regular attachment
           else {
             if (!$mail_part->filename)
