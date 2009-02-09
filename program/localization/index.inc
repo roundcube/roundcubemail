@@ -27,6 +27,7 @@ $rcube_languages = array(
   'sq_AL' => 'Albanian',
   'ar_SA' => 'Arabic',
   'hy_AM' => 'Armenian',
+  'ast'	=> 'Asturianu',
   'az_AZ' => 'Azerbaijani',
   'bs_BA' => 'Bosnian (Serbian Latin)',
   'bg_BG' => 'Bulgarian',
