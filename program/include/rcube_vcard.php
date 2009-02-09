@@ -233,7 +233,7 @@ class rcube_vcard
 
   private static function rfc2425_fold($val)
   {
-    return preg_replace_callback('/:([^\n]{72,})/', 'self::rfc2425_fold_callback', $val) . "\n";
+    return preg_replace_callback('/:([^\n]{72,})/', array('self', 'rfc2425_fold_callback'), $val) . "\n";
   }
 
 
