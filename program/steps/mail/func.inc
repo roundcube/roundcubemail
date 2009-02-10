@@ -295,8 +295,7 @@ function rcmail_message_list($attrib)
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
 
 
-    if (!empty($header->charset))
-      $IMAP->set_charset($header->charset);
+    $IMAP->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
   
     // format each col
     foreach ($a_show_cols as $col)
@@ -404,8 +403,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
     if (empty($header))
       continue;
 
-    if (!empty($header->charset))
-      $IMAP->set_charset($header->charset);
+    $IMAP->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
 
     // remove 'attachment' and 'flag' columns, we don't need them here
     if(($key = array_search('attachment', $a_show_cols)) !== FALSE)

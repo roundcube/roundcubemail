@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/10 (alec)
+----------
+- Use default_charset for messages without specified charset (#1485661, #1484961)
+
 2009/02/08 (thomasb)
 ----------
 - Added TNEF support to decode MS Outlook attachments (winmail.dat)
