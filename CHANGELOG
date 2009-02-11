@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2009/02/10 (alec)
 ----------
 - Use default_charset for messages without specified charset (#1485661, #1484961)
+- Support non-standard "GMT-XXXX" literal in date header (#1485729)
 
 2009/02/08 (thomasb)
 ----------
