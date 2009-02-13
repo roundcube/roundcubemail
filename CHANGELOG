@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/13 (alec)
+----------
+- Fix multiple recipients input parsing (#1485733)
+
 2009/02/10 (alec)
 ----------
 - Use default_charset for messages without specified charset (#1485661, #1484961)

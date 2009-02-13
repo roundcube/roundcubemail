@@ -128,7 +128,7 @@ class rcube_mail_mime extends Mail_mime
     {
       // if header contains e-mail addresses
       if (preg_match('/\s<.+@[a-z0-9\-\.]+\.[a-z]+>/U', $hdr_value)) {
-        $chunks = $this->_explode_quoted_string(',', $hdr_value);
+        $chunks = rcube_explode_quoted_string(',', $hdr_value);
       }
       else {
         $chunks = array($hdr_value);
@@ -187,24 +187,6 @@ class rcube_mail_mime extends Mail_mime
   }
 
 
-  function _explode_quoted_string($delimiter, $string)
-  {
-    $result = array();
-    $strlen = strlen($string);
-    for ($q=$p=$i=0; $i < $strlen; $i++) {
-      if ($string{$i} == "\"" && $string{$i-1} != "\\") {
-        $q = $q ? false : true;
-      }
-      else if (!$q && $string{$i} == $delimiter) {
-        $result[] = substr($string, $p, $i - $p);
-        $p = $i + 1;
-      }
-    }
-    
-    $result[] = substr($string, $p);
-    return $result;
-  }
-  
   /**
    * Provides caching of body of constructed MIME Message to avoid 
    * duplicate construction of message and damage of MIME headers

@@ -143,33 +143,39 @@ function rcmail_mailto_format($mailto)
   $regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/', '/(\S{1})(<\S+@\S+>)/U');
   $replace = array(', ', ', ', '', ',', '\\1 \\2');
 
-  // replace new lines and strip ending ', ', make address strings more valid also
+  // replace new lines and strip ending ', ', make address input more valid
   $mailto = trim(preg_replace($regexp, $replace, $mailto));
 
-  $result = $name = '';
+  $result = array();
+  $items = rcube_explode_quoted_string(',', $mailto);
 
-  // handle simple email (without <>)
-  if (preg_match('/^\S+@\S+$/', $mailto))
-    $result = '<' . $mailto . '>';
-  else
-    // quote unquoted names (#1485654)
-    foreach (explode(' ', $mailto) as $item) {
-      if (preg_match('/<\S+@\S+>,*/', $item)) {
-        if ($name && ($name[0] != '"' || $name[strlen($name)-1] != '"')
+  foreach($items as $item) {
+    $item = trim($item);
+    // address in brackets without name (do nothing)
+    if (preg_match('/^<\S+@\S+>$/', $item)) {
+      $result[] = $item;
+    // address without brackets and without name (add brackets)
+    } else if (preg_match('/^\S+@\S+$/', $item)) {
+      $result[] = '<'.$item.'>';
+    // address with name (handle name)
+    } else if (preg_match('/\S+@\S+>*$/', $item, $matches)) {
+      $address = $matches[0];
+      $name = str_replace($address, '', $item);
+      $name = trim($name);
+      if ($name && ($name[0] != '"' || $name[strlen($name)-1] != '"')
           && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
 	  $name = '"'.addcslashes($name, '"').'"';
-        }
-        if ($name) {
-          $result .= ' ' . $name;
-          $name = '';
-        }
-        $result .= ' ' . $item;
-      } else {
-        $name .= ($name ? ' ' : '') . $item;
       }
-    }
+      if (!preg_match('/^<\S+@\S+>$/', $address))
+        $address = '<'.$address.'>';
 
-  return trim($result);
+      $result[] = $name.' '.$address;
+    } else if (trim($item)) {
+      // @TODO: handle errors
+    }
+  }
+
+  return implode(', ', $result);
 }
 
 /****** compose message ********/

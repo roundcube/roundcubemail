@@ -1233,5 +1233,29 @@ class rcube_base_replacer
   }
 }
 
+/**
+ * Explode quoted string
+ * 
+ * @param string Delimiter expression string for preg_match()
+ * @param string Input string
+ */
+function rcube_explode_quoted_string($delimiter, $string)
+{
+  $result = array();
+  $strlen = strlen($string);
+
+  for ($q=$p=$i=0; $i < $strlen; $i++) {
+    if ($string[$i] == "\"" && $string[$i-1] != "\\") {
+      $q = $q ? false : true;
+    } 
+    else if (!$q && preg_match("/$delimiter/", $string[$i])) {
+      $result[] = substr($string, $p, $i - $p);
+      $p = $i + 1;
+    }
+  }
+  
+  $result[] = substr($string, $p);
+  return $result;
+}
 
 ?>

@@ -327,7 +327,7 @@ function smtp_parse_rfc822($recipients)
     $recipients = implode(', ', $recipients);
     
   $addresses = array();
-  $recipients = smtp_explode_quoted_str(",", $recipients);
+  $recipients = rcube_explode_quoted_string(',', $recipients);
   
   reset($recipients);
   while (list($k, $recipient) = each($recipients))
@@ -345,25 +345,5 @@ function smtp_parse_rfc822($recipients)
     }
   return $addresses;
   }
-
-
-/**
- * @access private
- */
-function smtp_explode_quoted_str($delimiter, $string)
-  {
-  $quotes=explode("\"", $string);
-  while ( list($key, $val) = each($quotes))
-    if (($key % 2) == 1) 
-      $quotes[$key] = str_replace($delimiter, "_!@!_", $quotes[$key]);
-    $string=implode("\"", $quotes);
-  
-    $result=explode($delimiter, $string);
-    while (list($key, $val) = each($result))
-      $result[$key] = str_replace("_!@!_", $delimiter, $result[$key]);
-
-  return $result;
-  } 
-
 
 ?>

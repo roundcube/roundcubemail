@@ -2958,13 +2958,13 @@ class rcube_imap
   function _parse_address_list($str, $decode=true)
     {
     // remove any newlines and carriage returns before
-    $a = $this->_explode_quoted_string('[,;]', preg_replace( "/[\r\n]/", " ", $str));
+    $a = rcube_explode_quoted_string('[,;]', preg_replace( "/[\r\n]/", " ", $str));
     $result = array();
 
     foreach ($a as $key => $val)
       {
       $val = preg_replace("/([\"\w])</", "$1 <", $val);
-      $sub_a = $this->_explode_quoted_string(' ', $decode ? $this->decode_header($val) : $val);
+      $sub_a = rcube_explode_quoted_string(' ', $decode ? $this->decode_header($val) : $val);
       $result[$key]['name'] = '';
 
       foreach ($sub_a as $k => $v)
@@ -2982,29 +2982,6 @@ class rcube_imap
         $result[$key]['address'] = $result[$key]['name'];
       }
     
-    return $result;
-    }
-
-
-  /**
-   * @access private
-   */
-  function _explode_quoted_string($delimiter, $string)
-    {
-    $result = array();
-    $strlen = strlen($string);
-    for ($q=$p=$i=0; $i < $strlen; $i++)
-    {
-      if ($string{$i} == "\"" && $string{$i-1} != "\\")
-        $q = $q ? false : true;
-      else if (!$q && preg_match("/$delimiter/", $string{$i}))
-      {
-        $result[] = substr($string, $p, $i - $p);
-        $p = $i + 1;
-      }
-    }
-    
-    $result[] = substr($string, $p);
     return $result;
     }
 
