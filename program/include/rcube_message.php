@@ -166,17 +166,13 @@ class rcube_message
    */
   function first_html_part()
     {
-    $html_part = null;
-
     // check all message parts
     foreach ($this->mime_parts as $mime_id => $part) {
       $mimetype = strtolower($part->ctype_primary . '/' . $part->ctype_secondary);
       if ($mimetype == 'text/html') {
-        $html_part = $this->imap->get_message_part($this->uid, $mime_id, $part);
+        return $this->imap->get_message_part($this->uid, $mime_id, $part);
       }
     }
-
-    return $html_part;
   }
 
 
