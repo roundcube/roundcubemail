@@ -10,7 +10,8 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
-|         Anoosh <anoosher2003@yahoo.com>                               |
+|         Anoosh <anoosher2003@yahoo.com>     |
+|   Nader Aghazadeh <Nader.aghazadeh@gmail.com>            |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -114,10 +115,15 @@ $labels['viewsource'] = 'نمایش منبع';
 $labels['markmessages'] = 'علامت‌گذاری پیغام‌ها';
 $labels['markread'] = 'به عنوان خوانده‌شده';
 $labels['markunread'] = 'به عنوان خوانده‌نشده';
+$labels['markflagged'] = 'به عنوان علامت گذاری شده';
+$labels['markunflagged'] = 'به عنوان علامت گذاری نشده';
 $labels['select'] = 'انتخاب';
 $labels['all'] = 'همه';
 $labels['none'] = 'هیچ';
 $labels['unread'] = 'ناخوانده';
+$labels['flagged'] = 'علامت گذاری شده';
+$labels['unanswered'] = 'پاسخ داده نشده';
+$labels['filter'] = 'فیلتر';
 $labels['compact'] = 'فشرده';
 $labels['empty'] = 'خالی';
 $labels['purge'] = 'خرد کردن';
@@ -126,6 +132,7 @@ $labels['unknown'] = 'ناشناخته';
 $labels['unlimited'] = 'نامحدود';
 $labels['quicksearch'] = 'جستجوی سریع';
 $labels['resetsearch'] = 'شروع مجدد جستجو';
+$labels['openinextwin'] = 'نمایش در صفحه جدید';
 $labels['compose'] = 'نوشتن پیغام';
 $labels['savemessage'] = 'ذخیره‌ی این پیش‌نویس';
 $labels['sendmessage'] = 'ارسال پیغام';
@@ -149,6 +156,9 @@ $labels['showimages'] = 'نمایش عکس‌ها';
 $labels['alwaysshow'] = 'را نمایش بده $sender همیشه عکسهای دریافتی از  ';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'متن ساده';
+$labels['savesentmessagein'] = 'ذخیره پیغام ارسالی در';
+$labels['dontsave'] = 'ذخیره نکن';
+$labels['maxuploadsize'] = 'مجاز می باشد $size حجم فایل حداکثر تا میزان  ';
 $labels['addcc'] = 'افزودن رونوشت';
 $labels['addbcc'] = 'افزودن رونوشت مخفی';
 $labels['addreplyto'] = 'افزودن پاسخ-به';
@@ -172,12 +182,19 @@ $labels['composeto'] = 'نوشتن نامه به';
 $labels['contactsfromto'] = ' تا $count از $to تا $from  تماس‌های';
 $labels['print'] = 'چاپ';
 $labels['export'] = 'صدور';
+$labels['exportvcards'] = 'صدور اطلاعات تماس ها با فرمت Vcard';
 $labels['previouspage'] = 'نمایش دسته‌ی قبلی';
 $labels['firstpage'] = 'نمایش دسته‌ی اول';
 $labels['nextpage'] = 'نمایش دسته‌ی بعدی';
 $labels['lastpage'] = 'نمایش دسته‌ی آخر';
 $labels['groups'] = 'گروه‌ها';
 $labels['personaladrbook'] = 'نشانی‌های شخصی';
+$labels['import'] = 'وارد کردن ';
+$labels['importcontacts'] = 'وارد کردن تماسها';
+$labels['importfromfile'] = ':ورود اطلاعات از فایل ';
+$labels['importreplace'] = 'جایگزینی دفترچه آدرس کامل';
+$labels['importtext'] = 'شما میتوانید اطلاعات تماس ها را به دفترچه تلفن موجود منتقل کنید. <br/>  ما در حال حاضر امکان انتقال آدرسها را با فرمت <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> برای شما فراهم نموده ایم.';
+$labels['done'] = 'انجام شد';
 $labels['settingsfor'] = 'تنظیمات';
 $labels['preferences'] = 'ترجیحات';
 $labels['userpreferences'] = 'ترجیحات کاربر';
@@ -188,6 +205,7 @@ $labels['newidentity'] = 'شناسه جدید';
 $labels['newitem'] = 'مورد جدید';
 $labels['edititem'] = 'ویرایش مورد';
 $labels['setdefault'] = 'پیش‌فرض کن';
+$labels['autodetect'] = 'خودکار';
 $labels['language'] = 'زبان';
 $labels['timezone'] = 'محدوده‌ی زمانی';
 $labels['pagesize'] = 'سطر در صفحه';
@@ -196,6 +214,7 @@ $labels['dstactive'] = 'ساعت تابستانی';
 $labels['htmleditor'] = 'HTML ‌نوشتن پیغام‌های';
 $labels['htmlsignature'] = 'HTML امضای';
 $labels['previewpane'] = 'نمایش قاب پیش‌نمایش';
+$labels['skin'] = 'پوسته ظاهری';
 $labels['logoutclear'] = 'تمیز کردن زباله دان در هنگام خروچ';
 $labels['logoutcompact'] = 'فشرده سازی صندوق در هنگام خروچ';
 $labels['uisettings'] = 'محیط کاربری';
@@ -207,12 +226,25 @@ $labels['autosend'] = 'ارسال خود به خود';
 $labels['ignore'] = 'نادیده گیری';
 $labels['readwhendeleted'] = 'در هنگام پاک کردن، پیغام را به عنوان خوانده شده علامت بزن';
 $labels['flagfordeletion'] = 'پیغام را بجای پاک کردن، برای پاک شدن آماده کن ';
+$labels['skipdeleted'] = 'پیغام های حذف شده را نمایش نده';
+$labels['showremoteimages'] = 'تصاویر لینک شده را نمایش بده';
+$labels['fromknownsenders'] = 'از سوی فرستنده شناس';
+$labels['always'] = 'همواره';
 $labels['showinlineimages'] = 'نمایش عکس های الصاق شده در پایین پیغام';
 $labels['autosavedraft'] = 'ذخیره‌ی خودکار پیش‌نویس';
 $labels['everynminutes'] = 'دقیقه $n هر';
+$labels['keepaliveevery'] = 'دقیقه/ها $n هر';
+$labels['keepalive'] = 'بررسی پیغام جدید روی';
 $labels['never'] = 'هرگز';
 $labels['messagesdisplaying'] = 'نمایش داده شدن پیغام ها';
 $labels['messagescomposition'] = 'نوشته شدن پیغام ها';
+$labels['mimeparamfolding'] = 'عناوین پیوستی';
+$labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'Full RFC 2047 (سایر)';
+$labels['advancedoptions'] = 'گزینه های پیشرفته';
+$labels['focusonnewmessage'] = 'مشخص نمودن پیغام جدید';
+$labels['checkallfolders'] = 'همه پوشه ها رو برای مشاهده پیغام های جدید بگردید';
 $labels['folder'] = 'پوشه';
 $labels['folders'] = 'پوشه‌ها';
 $labels['foldername'] = 'نام پوشه';
@@ -224,8 +256,13 @@ $labels['rename'] = 'تغییر نام';
 $labels['renamefolder'] = 'تغییر نام پوشه';
 $labels['deletefolder'] = 'حذف پوشه';
 $labels['managefolders'] = 'مدیریت پوشه‌ها';
+$labels['specialfolders'] = 'پوشه های ویژه';
 $labels['sortby'] = 'مرتب‌سازی بر اساس';
 $labels['sortasc'] = 'مرتب‌سازی صعودی';
 $labels['sortdesc'] = 'مرتب‌سازی نزولی';
+$labels['B'] = 'بایت';
+$labels['KB'] = 'کیلو بایت';
+$labels['MB'] = 'مگابایت';
+$labels['GB'] = 'گیگا بایت';
 
 ?>
