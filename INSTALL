@@ -53,7 +53,7 @@ importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
 
 # mysql
-> CREATE DATABASE roundcubemail;
+> CREATE DATABASE roundcubemail /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
     IDENTIFIED BY 'password';
 > quit
@@ -88,7 +88,7 @@ simple steps, which have to be done as the postgres system user (or
 which ever is the database superuser):
 
 $ createuser roundcube
-$ createdb -O roundcube roundcubemail
+$ createdb -O roundcube -E UNICODE roundcubemail
 $ psql roundcubemail
 
 roundcubemail =# ALTER USER roundcube WITH PASSWORD 'the_new_password';
