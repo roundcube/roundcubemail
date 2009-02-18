@@ -19,7 +19,6 @@
 
 */
 
-require_once('lib/enriched.inc');
 require_once('include/rcube_smtp.inc');
 
 $EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
@@ -611,22 +610,128 @@ function rcmail_get_mailbox_name_text()
     return rcmail_localize_foldername($RCMAIL->imap->get_mailbox_name());
 }
 
+/**
+ * Sets message is_safe flag according to 'show_images' option value
+ *
+ * @param object rcube_message Message
+ */
+function rcmail_check_safe(&$message)
+{
+  global $RCMAIL;
+
+  $show_images = $RCMAIL->config->get('show_images');
+  if (!$message->is_safe
+    && !empty($show_images)
+    && $message->has_html_part())
+  {
+    switch($show_images) {
+      case '1': // known senders only
+        $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+        if ($CONTACTS->search('email', $message->sender['mailto'], true, false)->count) {
+          $message->set_safe(true);
+        }
+      break;
+      case '2': // always
+        $message->set_safe(true);
+      break;
+    }
+  }
+}
+
+/**
+ * Cleans up the given message HTML Body (for displaying)
+ *
+ * @param string HTML
+ * @param array  Display parameters 
+ * @param array  CID map replaces (inline images)
+ * @return string Clean HTML
+ */
+function rcmail_wash_html($html, $p = array(), $cid_replaces)
+{
+  global $REMOTE_OBJECTS;
+  
+  $p += array('safe' => false, 'inline_html' => true);
+  
+  // special replacements (not properly handled by washtml class)
+  $html_search = array(
+    '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
+    '/(<[\/]*st1:[^>]+>)/i',		// Microsoft's Smart Tags <ST1>
+    '/<\/?rte_text>/i',			// Rich Text Editor tags (#1485647)
+    '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
+    '/<html[^>]*>/im',			// malformed html: remove html tags (#1485139)
+    '/<\/html>/i',			// malformed html: remove html tags (#1485139)
+    '/^[\xFE\xFF\xBB\xBF\x00]+((?:<\!doctype|\<html))/im',	// remove byte-order mark (only outlook?)
+  );
+  $html_replace = array(
+    '\\1'.' &nbsp; '.'\\3',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '\\1',
+  );
+  $html = preg_replace($html_search, $html_replace, $html);
+
+  // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
+  $charset_pattern = '/(\s+content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i';
+  if (preg_match($charset_pattern, $html)) {
+    $html = preg_replace($charset_pattern, '\\1='.RCMAIL_CHARSET, $html);
+  }
+  else {
+    // add head for malformed messages, washtml cannot work without that
+    if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
+      $html = '<head></head>'. $html;
+    $html = substr_replace($html, '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
+  }
+    
+  // turn relative into absolute urls
+  $html = rcmail_resolve_base($html);
+
+  // clean HTML with washhtml by Frederic Motte
+  $wash_opts = array(
+    'show_washed' => false,
+    'allow_remote' => $p['safe'],
+    'blocked_src' => "./program/blocked.gif",
+    'charset' => RCMAIL_CHARSET,
+    'cid_map' => $cid_replaces,
+    'html_elements' => array('body'),
+  );
+    
+  if (!$p['inline_html']) {
+    $wash_opts['html_elements'] = array('html','head','title','body');
+  }
+  if ($p['safe']) {
+    $wash_opts['html_elements'][] = 'link';
+    $wash_opts['html_attribs'] = array('rel','type');
+  }
+    
+  $washer = new washtml($wash_opts);
+  $washer->add_callback('form', 'rcmail_washtml_callback');
+
+  if ($p['safe']) {  // allow CSS styles, will be sanitized by rcmail_washtml_callback()
+    $washer->add_callback('style', 'rcmail_washtml_callback');
+  }
+    
+  $html = $washer->wash($html);
+  $REMOTE_OBJECTS = $washer->extlinks;
+  
+  return $html;
+}
+
 
 /**
  * Convert the given message part to proper HTML
  * which can be displayed the message view
  *
  * @param object rcube_message_part Message part
- * @param bool  True if external objects (ie. images ) are allowed
- * @param bool  True if part should be converted to plaintext
+ * @param array  Display parameters array 
  * @return string Formatted HTML string
  */
 function rcmail_print_body($part, $p = array())
 {
-  global $REMOTE_OBJECTS;
-  
   $p += array('safe' => false, 'plain' => false, 'inline_html' => true);
-  
+
   // convert html to text/plain
   if ($part->ctype_secondary == 'html' && $p['plain']) {
     $txt = new html2text($part->body, false, true);
@@ -635,77 +740,12 @@ function rcmail_print_body($part, $p = array())
   }
   // text/html
   else if ($part->ctype_secondary == 'html') {
-    $html = $part->body;
-
-    // special replacements (not properly handled by washtml class)
-    $html_search = array(
-      '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-      '/(<[\/]*st1:[^>]+>)/i',		// Microsoft's Smart Tags <ST1>
-      '/<\/?rte_text>/i',		// Rich Text Editor tags (#1485647)
-      '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
-      '/<html[^>]*>/im',		// malformed html: remove html tags (#1485139)
-      '/<\/html>/i',			// malformed html: remove html tags (#1485139)
-      '/^[\xFE\xFF\xBB\xBF\x00]+((?:<\!doctype|\<html))/im',	// remove byte-order mark (only outlook?)
-    );
-    $html_replace = array(
-      '\\1'.' &nbsp; '.'\\3',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '\\1',
-    );
-    $html = preg_replace($html_search, $html_replace, $html);
-
-    // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
-    $charset_pattern = '/(\s+content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i';
-    if (preg_match($charset_pattern, $html)) {
-      $html = preg_replace($charset_pattern, '\\1='.RCMAIL_CHARSET, $html);
-    }
-    else {
-      // add head for malformed messages, washtml cannot work without that
-      if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
-        $html = '<head></head>'. $html;
-      $html = substr_replace($html, '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
-    }
-    
-    // turn relative into absolute urls
-    $html = rcmail_resolve_base($html);
-
-    // clean HTML with washhtml by Frederic Motte
-    $wash_opts = array(
-      'show_washed' => false,
-      'allow_remote' => $p['safe'],
-      'blocked_src' => "./program/blocked.gif",
-      'charset' => RCMAIL_CHARSET,
-      'cid_map' => $part->replaces,
-      'html_elements' => array('body'),
-    );
-    
-    if (!$p['inline_html']) {
-      $wash_opts['html_elements'] = array('html','head','title','body');
-    }
-    if ($p['safe']) {
-      $wash_opts['html_elements'][] = 'link';
-      $wash_opts['html_attribs'] = array('rel','type');
-    }
-    
-    $washer = new washtml($wash_opts);
-    $washer->add_callback('form', 'rcmail_washtml_callback');
-    
-    if ($p['safe']) {  // allow CSS styles, will be sanitized by rcmail_washtml_callback()
-      $washer->add_callback('style', 'rcmail_washtml_callback');
-    }
-    
-    $body = $washer->wash($html);
-    $REMOTE_OBJECTS = $washer->extlinks;
-
-    return $body;
+    return rcmail_wash_html($part->body, $p, $part->replaces);
   }
   // text/enriched
   else if ($part->ctype_secondary=='enriched') {
     $part->ctype_secondary = 'html';
+    require_once('lib/enriched.inc');
     return Q(enriched_to_html($part->body), 'show');
   }
   else
@@ -756,6 +796,7 @@ function rcmail_print_body($part, $p = array())
 
   return html::tag('pre', array(), $body);
 }
+
 
 /**
  * add a string to the replacement array and return a replacement string

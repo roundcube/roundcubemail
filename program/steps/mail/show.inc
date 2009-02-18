@@ -43,23 +43,7 @@ if ($_GET['_uid']) {
   $mbox_name = $IMAP->get_mailbox_name();
   
   // show images?
-  $show_images = $RCMAIL->config->get('show_images');
-  if(!$MESSAGE->is_safe
-	&& !empty($show_images)
-	&& $MESSAGE->has_html_part())
-  {
-    switch($show_images) {
-      case '1': // known senders only
-        $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
-	if ($CONTACTS->search('email', $MESSAGE->sender['mailto'], true, false)->count) {
-          $MESSAGE->set_safe(true);
-	  }
-      break;
-      case '2': // always
-        $MESSAGE->set_safe(true);
-      break;
-    }
-  }
+  rcmail_check_safe($MESSAGE);
 
   // calculate Etag for this request
   $etag = md5($MESSAGE->uid.$mbox_name.session_id()

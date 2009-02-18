@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/18 (alec)
+----------
+- Fix html body washing on reply/forward + fix attachments handling (#1485676)
+
 2009/02/13 (alec)
 ----------
 - Fix multiple recipients input parsing (#1485733)
