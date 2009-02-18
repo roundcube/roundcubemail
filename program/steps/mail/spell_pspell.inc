@@ -37,6 +37,7 @@ $data = file_get_contents('php://input');
 $left = strpos($data, '<text>');
 $right = strrpos($data, '</text>');
 $text = substr($data, $left+6, $right-($left+6));
+$text = html_entity_decode($text, ENT_QUOTES);
 
 // tokenize
 $words = preg_split('/[ !"#$%&()*+\\,-.\/\n:;<=>?@\[\]^_{|}]+/', $text, NULL,  PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE );
