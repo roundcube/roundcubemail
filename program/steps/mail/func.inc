@@ -626,7 +626,7 @@ function rcmail_check_safe(&$message)
   {
     switch($show_images) {
       case '1': // known senders only
-        $CONTACTS = new rcube_contacts($DB, $_SESSION['user_id']);
+        $CONTACTS = new rcube_contacts($RCMAIL->db, $_SESSION['user_id']);
         if ($CONTACTS->search('email', $message->sender['mailto'], true, false)->count) {
           $message->set_safe(true);
         }
