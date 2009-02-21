@@ -13,6 +13,7 @@ $include_path .= ini_get('include_path');
 
 set_include_path($include_path);
 
+require_once 'rcube_shared.inc';
 require_once 'utils.php';
 
 session_start();
@@ -105,7 +106,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 </ol>
 
 <?php
-$include_steps = array('welcome.html', 'check.php', 'config.php', 'test.php');
+$include_steps = array('./welcome.html', './check.php', './config.php', './test.php');
 
 if ($include_steps[$RCI->step]) {
   include $include_steps[$RCI->step];
