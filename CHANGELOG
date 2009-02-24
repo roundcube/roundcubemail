@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/24 (alec)
+----------
+- Fix IE problem with mouse click autocomplete (#1485739)
+
 2009/02/18 (alec)
 ----------
 - Fix html body washing on reply/forward + fix attachments handling (#1485676)

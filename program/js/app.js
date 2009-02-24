@@ -2475,13 +2475,13 @@ function rcube_webmail()
     var inp_value = this.ksearch_input.value.toLowerCase();
     var cpos = this.get_caret_pos(this.ksearch_input);
     var p = inp_value.lastIndexOf(this.ksearch_value, cpos);
-    
+
     // replace search string with full address
     var pre = this.ksearch_input.value.substring(0, p);
     var end = this.ksearch_input.value.substring(p+this.ksearch_value.length, this.ksearch_input.value.length);
     var insert  = this.env.contacts[id]+', ';
     this.ksearch_input.value = pre + insert + end;
-    
+
     // set caret to insert pos
     cpos = p+insert.length;
     if (this.ksearch_input.setSelectionRange)
@@ -2591,11 +2591,11 @@ function rcube_webmail()
   
   this.ksearch_click = function(node)
   {
+    if (this.ksearch_input)
+      this.ksearch_input.focus();
+
     this.insert_recipient(node._rcm_id);
     this.ksearch_hide();
-    
-    if (ref.ksearch_input)
-      this.ksearch_input.focus();
   };
 
   this.ksearch_blur = function()
@@ -4006,7 +4006,6 @@ function rcube_webmail()
     {
     if (typeof(obj.selectionEnd)!='undefined')
       return obj.selectionEnd;
-
     else if (document.selection && document.selection.createRange)
       {
       var range = document.selection.createRange();
@@ -4024,7 +4023,6 @@ function rcube_webmail()
 
       return p<=obj.value.length ? p : -1;
       }
-
     else
       return obj.value.length;
     };
