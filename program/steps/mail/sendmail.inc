@@ -279,13 +279,17 @@ $isHtml = ($isHtmlVal == "1");
 // fetch message body
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
-// remove signature's div ID
-if (!$savedraft && $isHtml)
-  $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
+if (!$savedraft) {
+  // remove signature's div ID
+  if ($isHtml)
+    $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
 
-// append generic footer to all messages
-if (!$savedraft && !empty($CONFIG['generic_message_footer']) && ($footer = file_get_contents(realpath($CONFIG['generic_message_footer']))))
-  $message_body .= "\r\n" . rcube_charset_convert($footer, 'UTF-8', $message_charset);
+  // generic footer for all messages
+  if (!empty($CONFIG['generic_message_footer'])) {
+    $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));
+    $footer = rcube_charset_convert($footer, 'UTF-8', $message_charset);
+  }
+}
 
 // create extended PEAR::Mail_mime instance
 $MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
@@ -295,11 +299,12 @@ $MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
 
 if ($isHtml)
   {
-  $MAIL_MIME->setHTMLBody($message_body);
+  $MAIL_MIME->setHTMLBody($message_body . ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
 
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($message_body);
-  $plainTextPart = wordwrap($h2t->get_text(), 998, "\r\n", true);
+  $plainTextPart = $h2t->get_text() . ($footer ? "\r\n".$footer : '');
+  $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
   if (!strlen($plainTextPart)) 
     { 
     // empty message body breaks attachment handling in drafts 
@@ -313,6 +318,8 @@ if ($isHtml)
 else
   {
   $message_body = wordwrap($message_body, 75, "\r\n");
+  if ($footer)
+    $message_body .= "\r\n" . $footer;
   $message_body = wordwrap($message_body, 998, "\r\n", true);
   if (!strlen($message_body))  
     { 
@@ -335,7 +342,7 @@ if (is_array($_SESSION['compose']['attachments']))
     if ($isHtml && ($match > 0))
     {
       $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'"', $message_body);
-      $MAIL_MIME->setHTMLBody($message_body);
+      $MAIL_MIME->setHTMLBody($message_body. ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
       $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name']);
     }
     else

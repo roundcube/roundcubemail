@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/26 (alec)
+----------
+- Fix new lines stripped from message footer (#1485751)
+
 2009/02/24 (alec)
 ----------
 - Fix IE problem with mouse click autocomplete (#1485739)
