@@ -201,23 +201,20 @@ function rcube_charset_convert($str, $from, $to=NULL)
   );
 
   // convert charset using iconv module  
-  if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7')
-    {
+  if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
     $aliases['GB2312'] = 'GB18030';
     $_iconv = iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
-    if ($_iconv !== false)
-      {
+    if ($_iconv !== false) {
         return $_iconv;
-      }
     }
+  }
 
 
   if (is_null($mbstring_loaded))
     $mbstring_loaded = extension_loaded('mbstring');
     
   // convert charset using mbstring module
-  if ($mbstring_loaded)
-    {
+  if ($mbstring_loaded) {
     $aliases['UTF-7'] = 'UTF7-IMAP';
     $aliases['WINDOWS-1257'] = 'ISO-8859-13';
     
@@ -230,45 +227,48 @@ function rcube_charset_convert($str, $from, $to=NULL)
     $mb_to = $aliases[$to] ? $aliases[$to] : $to;
     
     // return if encoding found, string matches encoding and convert succeeded
-    if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list))
-      if (mb_check_encoding($str, $mb_from))
-	if ($out = mb_convert_encoding($str, $mb_to, $mb_from))
-          return $out;
+    if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
+      if (mb_check_encoding($str, $mb_from) && ($out = mb_convert_encoding($str, $mb_to, $mb_from)))
+        return $out;
     }
+  }
     
   
   if (class_exists('utf8'))
     $conv = new utf8();
 
   // convert string to UTF-8
-  if ($from == 'UTF-7')
-    $str = utf7_to_utf8($str);
-  else if (($from == 'ISO-8859-1') && function_exists('utf8_encode'))
+  if ($from == 'UTF-7') {
+    if ($_str = utf7_to_utf8($str))
+      $str = $_str;
+  }
+  else if (($from == 'ISO-8859-1') && function_exists('utf8_encode')) {
     $str = utf8_encode($str);
-  else if ($from != 'UTF-8' && $conv)
-    {
+  }
+  else if ($from != 'UTF-8' && $conv) {
     $conv->loadCharset($from);
     $str = $conv->strToUtf8($str);
-    }
-  else if ($from != 'UTF-8')
+  }
+  else if ($from != 'UTF-8') {}
     $error = true;
 
   // encode string for output
-  if ($to == 'UTF-7')
+  if ($to == 'UTF-7') {
     return utf8_to_utf7($str);
-  else if ($to == 'ISO-8859-1' && function_exists('utf8_decode'))
+  }
+  else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
     return utf8_decode($str);
-  else if ($to != 'UTF-8' && $conv)
-    {
+  }
+  else if ($to != 'UTF-8' && $conv) {
     $conv->loadCharset($to);
     return $conv->utf8ToStr($str);
-    }
-  else if ($to != 'UTF-8')
+  }
+  else if ($to != 'UTF-8') {
     $error = true;
-
+  }
+  
   // report error
-  if ($error && !$convert_warning)
-    {
+  if ($error && !$convert_warning){
     raise_error(array(
       'code' => 500,
       'type' => 'php',
@@ -277,7 +277,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       ), true, false);
     
     $convert_warning = true;
-    }
+  }
   
   // return UTF-8 string
   return $str;
