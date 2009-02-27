@@ -2516,8 +2516,12 @@ function rcube_webmail()
     this.http_post('autocomplete', '_search='+q);
   };
 
-  this.ksearch_query_results = function(results)
+  this.ksearch_query_results = function(results, search)
   {
+    // ignore this outdated search response
+    if (search != this.ksearch_value)
+      return;
+      
     this.hide_message();
     this.env.contacts = results ? results : [];
 

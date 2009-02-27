@@ -44,7 +44,7 @@ if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_POST)) {
   sort($contacts);
 }
 
-$OUTPUT->command('ksearch_query_results', $contacts);
+$OUTPUT->command('ksearch_query_results', $contacts, $search);
 $OUTPUT->send();
 
 ?>

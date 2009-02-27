@@ -5,6 +5,7 @@ CHANGELOG RoundCube Webmail
 ----------
 - Fix mime-type detection using a hard-coded map (#1485311)
 - Don't return empty string if charset conversion failed (#1485757)
+- Disable concurrent autocomplete query results display (#1485743)
 
 2009/02/26 (alec)
 ----------
