@@ -535,6 +535,7 @@ function get_offset_time($offset_str, $factor=1)
  * A method to guess the mime_type of an attachment.
  *
  * @param string $path     Path to the file.
+ * @param string $name     File name (with suffix)
  * @param string $failover Mime type supplied for failover.
  *
  * @return string
@@ -542,25 +543,34 @@ function get_offset_time($offset_str, $factor=1)
  * @see    http://de2.php.net/manual/en/ref.fileinfo.php
  * @see    http://de2.php.net/mime_content_type
  */
-function rc_mime_content_type($path, $failover = 'application/octet-stream')
+function rc_mime_content_type($path, $name, $failover = 'application/octet-stream')
 {
     $mime_type = null;
     $mime_magic = rcmail::get_instance()->config->get('mime_magic');
+    $mime_ext = @include(RCMAIL_CONFIG_DIR . '/mimetypes.php');
+    $suffix = $name ? substr($name, strrpos($name, '.')+1) : '*';
 
-    if (!extension_loaded('fileinfo')) {
-        @dl('fileinfo.' . PHP_SHLIB_SUFFIX);
+    // use file name suffix with hard-coded mime-type map
+    if (is_array($mime_ext)) {
+        $mime_type = $mime_ext[$suffix];
     }
-
-    if (function_exists('finfo_open')) {
-        if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
-            $mime_type = finfo_file($finfo, $path);
-            finfo_close($finfo);
+    // try fileinfo extension if available
+    if (!$mime_type) {
+        if (!extension_loaded('fileinfo')) {
+            @dl('fileinfo.' . PHP_SHLIB_SUFFIX);
+        }
+        if (function_exists('finfo_open')) {
+            if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
+                $mime_type = finfo_file($finfo, $path);
+                finfo_close($finfo);
+            }
         }
     }
+    // try PHP's mime_content_type
     if (!$mime_type && function_exists('mime_content_type')) {
       $mime_type = mime_content_type($path); 
     }
-    
+    // fall back to user-submitted string
     if (!$mime_type) {
         $mime_type = $failover;
     }

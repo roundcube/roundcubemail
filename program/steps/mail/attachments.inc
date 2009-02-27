@@ -77,7 +77,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       $id = count($_SESSION['compose']['attachments']);
       $_SESSION['compose']['attachments'][] = array(
         'name' => $_FILES['_attachments']['name'][$i],
-        'mimetype' => rc_mime_content_type($tmpfname, $_FILES['_attachments']['type'][$i]),
+        'mimetype' => rc_mime_content_type($tmpfname, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i]),
         'path' => $tmpfname,
       );
 

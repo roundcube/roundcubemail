@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/02/27 (thomasb)
+----------
+- Fix mime-type detection using a hard-coded map (#1485311)
+
 2009/02/26 (alec)
 ----------
 - Fix new lines stripped from message footer (#1485751)
