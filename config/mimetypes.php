@@ -40,6 +40,7 @@ return array(
   'xlsm' => 'application/vnd.ms-excel.sheet.macroEnabled.12',
   'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'xps' => 'application/vnd.ms-xpsdocument',
+  'rar' => 'application/x-rar-compressed',
 );
 
 ?>
