@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2009/03/01 (alec)
 ----------
 - Fix attaching more than nine inline images (#1485759)
+- Support 'UNICODE-1-1-UTF-7' alias for UTF-7 encoding (#1485758)
 
 2009/02/27 (thomasb)
 ----------

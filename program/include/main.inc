@@ -186,6 +186,12 @@ function rcube_charset_convert($str, $from, $to=NULL)
   $to = $to==NULL ? strtoupper(RCMAIL_CHARSET) : strtoupper($to);
   $error = false; $conv = null;
 
+  # RFC1642
+  if ($from == 'UNICODE-1-1-UTF-7')
+    $from = 'UTF-7';
+  if ($to == 'UNICODE-1-1-UTF-7')
+    $to = 'UTF-7';
+
   if ($from==$to || $str=='' || empty($from))
     return $str;
     
@@ -209,7 +215,6 @@ function rcube_charset_convert($str, $from, $to=NULL)
     }
   }
 
-
   if (is_null($mbstring_loaded))
     $mbstring_loaded = extension_loaded('mbstring');
     
@@ -232,8 +237,8 @@ function rcube_charset_convert($str, $from, $to=NULL)
         return $out;
     }
   }
-    
-  
+
+  # try to convert with custom classes
   if (class_exists('utf8'))
     $conv = new utf8();
 
