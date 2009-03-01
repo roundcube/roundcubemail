@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/03/01 (alec)
+----------
+- Fix attaching more than nine inline images (#1485759)
+
 2009/02/27 (thomasb)
 ----------
 - Fix mime-type detection using a hard-coded map (#1485311)

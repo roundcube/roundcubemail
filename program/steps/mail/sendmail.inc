@@ -337,11 +337,11 @@ $transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7b
 if (is_array($_SESSION['compose']['attachments']))
   foreach ($_SESSION['compose']['attachments'] as $id => $attachment)
   {
-    $dispurl = '/\ssrc\s*=\s*[\'"]?\S+display-attachment\S+file=rcmfile' . $id . '[\'"]?/';
-    $match = preg_match($dispurl, $message_body);
+    $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . $id . '[\s\'"]\s*/';
+    $match = preg_match($dispurl, $message_body, $matches);
     if ($isHtml && ($match > 0))
     {
-      $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'"', $message_body);
+      $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'" ', $message_body);
       $MAIL_MIME->setHTMLBody($message_body. ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
       $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name']);
     }
