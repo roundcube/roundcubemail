@@ -3,7 +3,7 @@
 
 <p><img onLoad.="alert(document.cookie)" src="skins/default/images/roundcube_logo.png" /></p>
 
-<p><a href="javascript:alert(document.cookie)">mail me!</a>
+<p><a href="mailto:xss@somehost.net') && alert(document.cookie) || ignore('">mail me!</a>
 <a href="http://roundcube.net" target="_self">roundcube.net</a>
 <a href="http://roundcube.net" \onmouseover="alert('XSS')">roundcube.net (2)</a>
 

@@ -19,6 +19,8 @@ class rcube_test_mailfunc extends UnitTestCase
     $IMAP = $RCMAIL->imap;
     
     require_once 'steps/mail/func.inc';
+    
+    $GLOBALS['EMAIL_ADDRESS_PATTERN'] = $EMAIL_ADDRESS_PATTERN;
   }
 
   /**
@@ -43,7 +45,7 @@ class rcube_test_mailfunc extends UnitTestCase
     $part->replaces = array('ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg');
     
     // render HTML in normal mode
-    $html = rcmail_print_body($part, array('safe' => false));
+    $html = rcmail_html4inline(rcmail_print_body($part, array('safe' => false)), 'foo');
 
     $this->assertPattern('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
     $this->assertPattern('#background="./program/blocked.gif"#', $html, "Replace external background image");
@@ -71,10 +73,13 @@ class rcube_test_mailfunc extends UnitTestCase
   {
     $part = $this->get_html_part('src/htmlxss.txt');
     $washed = rcmail_print_body($part, array('safe' => true));
-
+    
     $this->assertNoPattern('/src="skins/', $washed, "Remove local references");
-    $this->assertNoPattern('/\son[a-z]+/', $wahsed, "Remove on* attributes");
-    $this->assertNoPattern('/alert/', $wahsed, "Remove alerts");
+    $this->assertNoPattern('/\son[a-z]+/', $washed, "Remove on* attributes");
+    
+    $html = rcmail_html4inline($washed, 'foo');
+    $this->assertNoPattern('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
+    $this->assertNoPattern('/alert/', $html, "Remove alerts");
   }
 
   /**

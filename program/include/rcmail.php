@@ -47,7 +47,7 @@ class rcmail
   /**
    * This implements the 'singleton' design pattern
    *
-   * @return object qvert The one and only instance
+   * @return object rcmail The one and only instance
    */
   static function get_instance()
   {

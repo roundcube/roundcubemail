@@ -21,7 +21,7 @@
 
 require_once('include/rcube_smtp.inc');
 
-$EMAIL_ADDRESS_PATTERN = '/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i';
+$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})';
 
 // actions that do not require imap connection
 $NOIMAP_ACTIONS = array('spell', 'addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment');
@@ -707,7 +707,6 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   }
     
   $washer = new washtml($wash_opts);
-  $washer->add_callback('a', 'rcmail_washtml_callback');
   $washer->add_callback('form', 'rcmail_washtml_callback');
 
   if ($p['safe']) {  // allow CSS styles, will be sanitized by rcmail_washtml_callback()
@@ -818,11 +817,6 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
   switch ($tagname) {
     case 'form':
       $out = html::div('form', $content);
-      break;
-      
-    case 'a':
-      if ($attrib) $attrib .= ' target="_blank"';
-      $out = '<a'.$attrib.'>' . $content . '</a>';
       break;
       
     case 'style':
@@ -1040,7 +1034,9 @@ function rcmail_html4inline($body, $container_id)
     }
 
   // modify HTML links to open a new window if clicked
-  $body = preg_replace('/<(a|link)\s+([^>]+)>/Uie', "rcmail_alter_html_link('\\1','\\2', '$container_id');", $body);
+  $GLOBALS['rcmail_html_container_id'] = $container_id;
+  $body = preg_replace_callback('/<(a|link)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
+  unset($GLOBALS['rcmail_html_container_id']);
 
   // add comments arround html and other tags
   $out = preg_replace(array(
@@ -1068,20 +1064,24 @@ function rcmail_html4inline($body, $container_id)
 /**
  * parse link attributes and set correct target
  */
-function rcmail_alter_html_link($tag, $attrs, $container_id)
+function rcmail_alter_html_link($matches)
 {
-  $attrib = parse_attrib_string($attrs);
+  global $EMAIL_ADDRESS_PATTERN;
+  
+  $tag = $matches[1];
+  $attrib = parse_attrib_string($matches[2]);
   $end = '>';
 
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
-    $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($container_id);
+    $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($GLOBALS['rcmail_html_container_id']);
     $end = ' />';
   }
-  else if (stristr((string)$attrib['href'], 'mailto:')) {
+  else if (preg_match("/^mailto:$EMAIL_ADDRESS_PATTERN/i", $attrib['href'], $mailto)) {
+    $attrib['href'] = $mailto[0];
     $attrib['onclick'] = sprintf(
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
-      JQ(substr($attrib['href'], 7)));
+      JQ($mailto[1]));
   }
   else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
     $attrib['target'] = '_blank';
@@ -1112,7 +1112,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
     if ($PRINT_MODE) {
       $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
     }
-    else if (preg_match($EMAIL_ADDRESS_PATTERN, $part['mailto'])) {
+    else if (preg_match("/$EMAIL_ADDRESS_PATTERN/i", $part['mailto'])) {
       if ($linked) {
         $out .= html::a(array(
             'href' => 'mailto:'.$part['mailto'],
