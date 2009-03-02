@@ -707,6 +707,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   }
     
   $washer = new washtml($wash_opts);
+  $washer->add_callback('a', 'rcmail_washtml_callback');
   $washer->add_callback('form', 'rcmail_washtml_callback');
 
   if ($p['safe']) {  // allow CSS styles, will be sanitized by rcmail_washtml_callback()
@@ -817,6 +818,11 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
   switch ($tagname) {
     case 'form':
       $out = html::div('form', $content);
+      break;
+      
+    case 'a':
+      if ($attrib) $attrib .= ' target="_blank"';
+      $out = '<a'.$attrib.'>' . $content . '</a>';
       break;
       
     case 'style':
