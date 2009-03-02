@@ -1,0 +1,52 @@
+<html>
+<head>
+</head>
+<body>
+<h1>1 test</h1>
+<p>&lt;style&gt; block</p>
+<style>input { left:expression( alert(&#039;expression!&#039;) ) }</style>
+<style>div   { background:url(alert(&#039;URL!&#039;) ) }</style>
+
+<h1>2 test</h1>
+<p>&lt;div&gt; block</p>
+<div style="font-style:italic">valid css</div>
+<div style="{ left:expression( alert(&#039;expression!&#039;) ) }">
+<div style="{ background:url( alert(&#039;URL!&#039;) ) }">
+
+<h1>3 test</h1>
+<p>Inject comment text</p>
+<div style="{ left:exp/*  */ression( alert(&#039;xss3&#039;) ) }">
+<div style="{ background:u/* */rl( alert(&#039;xssurl3&#039;) ) }">
+
+<h1>4 test</h1>
+<p>Using reverse solid to directe the codepoint</p>
+<div style="{ left:\0065\0078pression( alert(&#039;xss4&#039;) ) }">
+<div style="{ background:\0075rl( alert(&#039;xssurl4&#039;) ) }">
+
+<h1>5 test</h1>
+<p>Character entity references</p>
+<p>Character entity references is acceptable in "inline styles"</p>
+<div style="{ left:&#x0065;xpression( alert(&#039;xss&#039;) ) }">
+<div style="{ left:&#101;xpression( alert(&#039;xss&#039;) ) }">
+<div style="{ background:&#x0075;rl( alert(&#039;URL!&#039;) ) }">
+<div style="{ background:&#117;rl( alert(&#039;URL!&#039;) ) }">
+<div style="{ left:&#x0065xpression( alert(&#039;xss&#039;) ) }">
+
+<div style="{ left:ï½.ï½.ï½ï½.ï½.ï½.ï½.ï½.ï½ï½.( alert(&#039;xss&#039;) ) }">
+<div style="{ left:ï½.ï½.&#x2f;**/pression( alert(&#039;xss&#039;) ) }">
+<div style="{ left:exp&#x0280;essio&#x0274;( alert(&#039;xss&#039;) ) }">
+<div style="{ left:&#x5c;0065&#x5c;0078pression( alert(&#039;xss&#039;) ) }">
+<div style="{ left:ex p ression( alert(&#039;xss&#039;) ) }">
+
+<div style="{ background:ï½.ï½.ï½.( javascript:alert(&#039;xss&#039;) ) }">
+<div style="{ background:&#x0075;/**/rl( javascript:alert(&#039;xss&#039;) ) }">
+<div style="{ background:\0075\0072\006c( javascript:alert(&#039;xss&#039;) ) }">
+<div style="{ background:u&#x0280;&#x029F;( javascript:alert(&#039;xss&#039;) ) 
+}">
+<div style="{ background:&#x5c;0075&#x5c;0280l( javascript:alert(&#039;xss&#039;) 
+) }">
+<div style="{ background:u r l( javascript:alert(&#039;xss&#039;) ) }">
+
+</body>
+</html>
+
