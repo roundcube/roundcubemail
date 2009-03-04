@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/03/04 (alec)
+----------
+- Fix datetime columns defaults in mysql's DDL (#1485641)
+
 2009/03/01 (alec)
 ----------
 - Fix attaching more than nine inline images (#1485759)
