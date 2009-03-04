@@ -55,15 +55,19 @@ class rcube_test_mailfunc extends UnitTestCase
     $this->assertNoPattern('/<form [^>]+>/', $html, "No form tags allowed");
     $this->assertPattern('/Subscription form/', $html, "Include <form> contents");
     $this->assertPattern('/<!-- input not allowed -->/', $html, "No input elements allowed");
+    $this->assertPattern('/<!-- link not allowed -->/', $html, "No external links allowed");
     $this->assertPattern('/<a[^>]+ target="_blank">/', $html, "Set target to _blank");
     $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
     
     // render HTML in safe mode
-    $html2 = rcmail_print_body($part, array('safe' => true));
+    $html2 = rcmail_html4inline(rcmail_print_body($part, array('safe' => true)), 'foo');
     
     $this->assertPattern('/<style [^>]+>/', $html2, "Allow styles in safe mode");
     $this->assertPattern('#src="http://evilsite.net/mailings/ex3.jpg"#', $html2, "Allow external images in HTML (safe mode)");
     $this->assertPattern("#url\('http://evilsite.net/newsletter/image/bg/bg-64.jpg'\)#", $html2, "Allow external images in CSS (safe mode)");
+    
+    $css = '<link rel="stylesheet" type="text/css" href="./bin/modcss.php?u='.urlencode('http://anysite.net/styles/mail.css').'&amp;c=foo"';
+    $this->assertPattern('#'.preg_quote($css).'#', $html2, "Filter external styleseehts with bin/modcss.php");
   }
 
   /**
