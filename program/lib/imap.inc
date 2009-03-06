@@ -1690,7 +1690,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 	do {
 		$line = iil_ReadLine($fp, 1024);
 		$line = iil_MultLine($fp, $line);
-		
+
 		$a    = explode(' ', $line);
 		if (($line[0] == '*') && ($a[2] == 'FETCH')) {
 			$id = $a[1];
@@ -1718,7 +1718,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 
 				// did we get the right number of replies?
 				$parts_count = count($a);
-				if ($parts_count>=8) {
+				if ($parts_count>=6) {
 					for ($i=0; $i<$parts_count; $i=$i+2) {
 						if (strcasecmp($a[$i],'UID') == 0)
 							$result[$id]->uid = $a[$i+1];
@@ -1728,34 +1728,6 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 							$time_str = $a[$i+1];
 						else if (strcasecmp($a[$i],'FLAGS') == 0)
 							$flags_str = $a[$i+1];
-					}
-
-					// process flags
-					$flags_str = eregi_replace('[\\\"]', '', $flags_str);
-					$flags_a   = explode(' ', $flags_str);
-					
-					if (is_array($flags_a)) {
-						reset($flags_a);
-						while (list(,$val)=each($flags_a)) {
-							if (strcasecmp($val,'Seen') == 0) {
-							    $result[$id]->seen = true;
-							} else if (strcasecmp($val, 'Deleted') == 0) {
-							    $result[$id]->deleted=true;
-							} else if (strcasecmp($val, 'Recent') == 0) {
-							    $result[$id]->recent = true;
-							} else if (strcasecmp($val, 'Answered') == 0) {
-							    $result[$id]->answered = true;
-							} else if (strcasecmp($val, '$Forwarded') == 0) {
-							    $result[$id]->forwarded = true;
-							} else if (strcasecmp($val, 'Draft') == 0) {
-							    $result[$id]->is_draft = true;
-							} else if (strcasecmp($val, '$MDNSent') == 0) {
-							    $result[$id]->mdn_sent = true;
-							} else if (strcasecmp($val, 'Flagged') == 0) {
-							     $result[$id]->flagged = true;
-							}
-						}
-						$result[$id]->flags = $flags_a;
 					}
 
 					$time_str = str_replace('"', '', $time_str);
@@ -1800,7 +1772,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				// re-parse (see below)
 				foreach ($reslines as $line) {
 					if (ord($line[0])<=32) {
-					    $lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
+						$lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
 					} else {
 						$lines[++$ln] = trim($line);
 					}
@@ -1817,23 +1789,28 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 			do {
 				$line = chop(iil_ReadLine($fp, 300), "\r\n");
 
-				if (ord($line[0])<=32) {
-				    $lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
-				} else {
-					$lines[++$ln] = trim($line);
-				}
-				/* 
-					The preg_match below works around communigate imap, which outputs " UID <number>)".
-					Without this, the while statement continues on and gets the "FH0 OK completed" message.
-					If this loop gets the ending message, then the outer loop does not receive it from radline on line 1249.  
-					This in causes the if statement on line 1278 to never be true, which causes the headers to end up missing
-					If the if statement was changed to pick up the fh0 from this loop, then it causes the outer loop to spin
-					An alternative might be:
-					if (!preg_match("/:/",$line) && preg_match("/\)$/",$line)) break;
-					however, unsure how well this would work with all imap clients.
-				*/
+				// The preg_match below works around communigate imap, which outputs " UID <number>)".
+				// Without this, the while statement continues on and gets the "FH0 OK completed" message.
+				// If this loop gets the ending message, then the outer loop does not receive it from radline on line 1249.  
+				// This in causes the if statement on line 1278 to never be true, which causes the headers to end up missing
+				// If the if statement was changed to pick up the fh0 from this loop, then it causes the outer loop to spin
+				// An alternative might be:
+				// if (!preg_match("/:/",$line) && preg_match("/\)$/",$line)) break;
+				// however, unsure how well this would work with all imap clients.
 				if (preg_match("/^\s*UID [0-9]+\)$/", $line)) {
 				    break;
+				}
+
+				// handle FLAGS reply after headers (AOL, Zimbra?)
+				if (preg_match('/\s+FLAGS \((.*)\)\)$/', $line, $matches)) {
+					$flags_str = $matches[1];
+					break;
+				}
+
+				if (ord($line[0])<=32) {
+					$lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
+				} else {
+					$lines[++$ln] = trim($line);
 				}
 			// patch from "Maksim Rubis" <siburny@hotmail.com>
 			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));
@@ -1921,6 +1898,36 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				}
 			} else {
 				$a = explode(' ', $line);
+			}
+
+			// process flags
+			if (!empty($flags_str)) {
+				$flags_str = eregi_replace('[\\\"]', '', $flags_str);
+				$flags_a   = explode(' ', $flags_str);
+					
+				if (is_array($flags_a)) {
+					reset($flags_a);
+					while (list(,$val)=each($flags_a)) {
+						if (strcasecmp($val,'Seen') == 0) {
+						    $result[$id]->seen = true;
+						} else if (strcasecmp($val, 'Deleted') == 0) {
+						    $result[$id]->deleted=true;
+						} else if (strcasecmp($val, 'Recent') == 0) {
+						    $result[$id]->recent = true;
+						} else if (strcasecmp($val, 'Answered') == 0) {
+							$result[$id]->answered = true;
+						} else if (strcasecmp($val, '$Forwarded') == 0) {
+							$result[$id]->forwarded = true;
+						} else if (strcasecmp($val, 'Draft') == 0) {
+							$result[$id]->is_draft = true;
+						} else if (strcasecmp($val, '$MDNSent') == 0) {
+							$result[$id]->mdn_sent = true;
+						} else if (strcasecmp($val, 'Flagged') == 0) {
+						         $result[$id]->flagged = true;
+						}
+					}
+					$result[$id]->flags = $flags_a;
+				}
 			}
 		}
 	} while (strcmp($a[0], $key) != 0);

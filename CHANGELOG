@@ -4,6 +4,7 @@ CHANGELOG RoundCube Webmail
 2009/03/06 (alec)
 ----------
 - Fix errors handling in IMAP command continuations (#1485762)
+- Fix FETCH result parsing for servers returning flags at the end of result (#1485763)
 
 2009/03/04 (alec)
 ----------
