@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Use US-ASCII as failover when Unicode searching fails (#1485762)
 - Fix errors handling in IMAP command continuations (#1485762)
 - Fix FETCH result parsing for servers returning flags at the end of result (#1485763)
 - Fix datetime columns defaults in mysql's DDL (#1485641)

@@ -955,11 +955,11 @@ class rcube_imap
 
     $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
-    // try search with ISO charset (should be supported by server)
+    // try search with US-ASCII charset (should be supported by server)
     // only if UTF-8 search is not supported
-    if (empty($results) && !is_array($results) && !empty($charset) && $charset!='ISO-8859-1')
+    if (empty($results) && !is_array($results) && !empty($charset) && $charset!='US-ASCII')
       {
-	// convert strings to ISO-8859-1
+	// convert strings to US_ASCII
         if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE))
 	  {
 	  $last = 0; $res = '';
@@ -967,7 +967,8 @@ class rcube_imap
 	    {
 	    $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
 	    $string = substr($str, $string_offset - 1, $m[0]);
-	    $string = rcube_charset_convert($string, $charset, 'ISO-8859-1');
+	    $string = rcube_charset_convert($string, $charset, 'US-ASCII');
+	    if (!$string) continue;
 	    $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
 	    $last = $m[0] + $string_offset - 1;
 	    }
@@ -977,7 +978,7 @@ class rcube_imap
 	else // strings for conversion not found
 	  $res = $str;
 	  
-	$results = $this->search($mbox_name, $res, 'ISO-8859-1', $sort_field);
+	$results = $this->search($mbox_name, $res, '', $sort_field);
       }
 
     $this->set_search_set($str, $results, $charset, $sort_field);
