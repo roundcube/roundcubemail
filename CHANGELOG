@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ---------------------------
 
+2009/03/06 (alec)
+----------
+- Fix errors handling in IMAP command continuations (#1485762)
+
 2009/03/04 (alec)
 ----------
 - Fix datetime columns defaults in mysql's DDL (#1485641)

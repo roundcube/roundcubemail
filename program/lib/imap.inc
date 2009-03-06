@@ -220,6 +220,9 @@ function iil_PutLineC($fp, $string, $endln=true) {
 			if(preg_match('/^\{[0-9]+\}\r\n$/', $parts[$i+1])) {
 				$res += iil_PutLine($fp, $parts[$i].$parts[$i+1], false);
 				$line = iil_ReadLine($fp, 1000);
+				// handle error in command
+				if ($line[0] != '+')
+					return false;
 				$i++;
 			}
 			else
@@ -292,7 +295,7 @@ function iil_ReadReply($fp) {
 }
 
 function iil_ParseResult($string) {
-	$a=explode(' ', $string);
+	$a = explode(' ', $string);
 	if (count($a) > 2) {
 		if (strcasecmp($a[1], 'OK') == 0) {
 			return 0;
@@ -2142,7 +2145,9 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 		$c = 0;
 		
 		$query = 'srch1 SEARCH ' . chop($criteria);
-		iil_PutLineC($fp, $query);
+		if (!iil_PutLineC($fp, $query)) {
+			return false;
+		}
 		do {
 			$line=trim(iil_ReadLine($fp, 10000));
 			if (eregi("^\* SEARCH", $line)) {
