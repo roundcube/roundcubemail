@@ -978,7 +978,7 @@ class rcube_imap
 	else // strings for conversion not found
 	  $res = $str;
 	  
-	$results = $this->search($mbox_name, $res, '', $sort_field);
+	$results = $this->search($mbox_name, $res, 'US-ASCII', $sort_field);
       }
 
     $this->set_search_set($str, $results, $charset, $sort_field);
