@@ -9,9 +9,9 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Mohammad Ebrahim Mohammadi Panah <mebrahim@gmail.com>         |
-|         Anoosh <anoosher2003@yahoo.com>       |
-|   Nader Aghazadeh <Nader.aghazadeh@gmail.com>    |
+| Author: Mohammad Ebrahim Mohammadi Panah <mebrahim at gmail.com>      |
+|         Anoosh <anoosher2003 at yahoo.com>                            |
+|         Nader Aghazadeh <Nader.aghazadeh at gmail.com>                |
 +-----------------------------------------------------------------------+
 
 @version $Id$
