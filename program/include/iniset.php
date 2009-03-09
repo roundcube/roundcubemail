@@ -95,7 +95,7 @@ function __autoload($classname)
 	),
       $classname
   );
-  include_once $filename. '.php';
+  include $filename. '.php';
 }
 
 /**
