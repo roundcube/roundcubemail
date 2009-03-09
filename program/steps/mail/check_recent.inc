@@ -66,7 +66,7 @@ foreach ($a_mailboxes as $mbox_name) {
       }
     }
   }
-  else if ($IMAP->messagecount($mbox_name, 'RECENT', $check_all)) {
+  else if ($IMAP->messagecount($mbox_name, 'UNSEEN', $check_all)) {
     $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN', $check_all));
   }
 }

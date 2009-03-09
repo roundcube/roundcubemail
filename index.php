@@ -183,6 +183,7 @@ $action_map = array(
     'remove-attachment'  => 'attachments.inc',
     'display-attachment' => 'attachments.inc',
     'upload' => 'attachments.inc',
+    'check-recent' => 'check_recent.inc',
   ),
   
   'addressbook' => array(
