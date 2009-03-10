@@ -28,7 +28,7 @@ foreach ($a_mailboxes as $mbox_name) {
       // refresh saved search set
       if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && isset($_SESSION['search'][$search_request])) {
         $_SESSION['search'][$search_request] = $IMAP->refresh_search();
-	$all_count = $IMAP->messagecount();
+        $all_count = $IMAP->messagecount();
       } else {
         $all_count = $IMAP->messagecount(NULL, 'ALL', TRUE);
       }
@@ -62,12 +62,12 @@ foreach ($a_mailboxes as $mbox_name) {
         // get the headers
         $result_h = $IMAP->list_headers($mbox_name, 1, 'date', 'DESC');
         // add to the list
-	rcmail_js_message_list($result_h, TRUE);
+        rcmail_js_message_list($result_h, TRUE);
       }
     }
   }
-  else if ($IMAP->messagecount($mbox_name, 'UNSEEN', $check_all)) {
-    $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN', $check_all));
+  else if ($unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', $check_all)) {
+    $OUTPUT->command('set_unread_count', $mbox_name, $unseen);
   }
 }
 
