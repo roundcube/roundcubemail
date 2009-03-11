@@ -824,7 +824,7 @@ class MDB2
      */
     function parseDSN($dsn)
     {
-        $parsed = $GLOBALS['_MDB2_dsninfo_default'];
+        $parsed = array();
 
         if (is_array($dsn)) {
             $dsn = array_merge($parsed, $dsn);
@@ -843,6 +843,7 @@ class MDB2
             $dsn = null;
         }
 
+  
         // Get phptype and dbsyntax
         // $str => phptype(dbsyntax)
         if (preg_match('|^(.+?)\((.*?)\)$|', $str, $arr)) {
@@ -854,7 +855,7 @@ class MDB2
         }
 
         if (!count($dsn)) {
-            return $parsed;
+            return array_merge($GLOBALS['_MDB2_dsninfo_default'], $parsed);
         }
 
         // Get (if found): username and password
@@ -937,7 +938,7 @@ class MDB2
             }
         }
 
-        return $parsed;
+	return array_merge($GLOBALS['_MDB2_dsninfo_default'], $parsed);
     }
 
     // }}}
