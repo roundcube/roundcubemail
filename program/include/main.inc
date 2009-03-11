@@ -192,7 +192,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
   if ($to == 'UNICODE-1-1-UTF-7')
     $to = 'UTF-7';
 
-  if ($from==$to || $str=='' || empty($from))
+  if ($from == $to || empty($str) || empty($from))
     return $str;
     
   $aliases = array(
@@ -246,6 +246,8 @@ function rcube_charset_convert($str, $from, $to=NULL)
   if ($from == 'UTF-7') {
     if ($_str = utf7_to_utf8($str))
       $str = $_str;
+    else
+      $error = true;
   }
   else if (($from == 'ISO-8859-1') && function_exists('utf8_encode')) {
     $str = utf8_encode($str);
@@ -254,7 +256,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     $conv->loadCharset($from);
     $str = $conv->strToUtf8($str);
   }
-  else if ($from != 'UTF-8') {}
+  else if ($from != 'UTF-8')
     $error = true;
 
   // encode string for output
@@ -278,7 +280,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       'code' => 500,
       'type' => 'php',
       'file' => __FILE__,
-      'message' => "Could not convert string charset. Make sure iconv is installed or lib/utf8.class is available"
+      'message' => "Could not convert string from $from to $to. Make sure iconv is installed or lib/utf8.class is available"
       ), true, false);
     
     $convert_warning = true;
