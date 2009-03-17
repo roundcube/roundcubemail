@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix incorrect row id parsing for LDAP contacts list (#1485784) 
 - Fix 'mode' parameter in sqlite DSN (#1485772)
 
 RELEASE 0.2.1

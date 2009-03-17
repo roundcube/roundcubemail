@@ -104,7 +104,7 @@ init: function()
 init_row: function(row)
 {
   // make references in internal array and set event handlers
-  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=]+)/i))
+  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i))
   {
     var p = this;
     var uid = RegExp.$1;
@@ -355,7 +355,7 @@ get_last_row: function()
     var rows = this.list.tBodies[0].rows;
 
     for(var i=rows.length-1; i>=0; i--)
-      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=]+)/i) && this.rows[RegExp.$1] != null)
+      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
 	return RegExp.$1;
     }
 
