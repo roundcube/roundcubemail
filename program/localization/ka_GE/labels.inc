@@ -1,19 +1,18 @@
 <?php
 
 /*
++-----------------------------------------------------------------------+
+| localization/ka_GE/labels.inc                                         |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Zaza Zviadadze <zviadadze@gmail.com>                          |
++-----------------------------------------------------------------------+
 
- +-----------------------------------------------------------------------+
- | language/ge/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Zaza Zviadadze <zviadadze@gmail.com>                          |
- +-----------------------------------------------------------------------+
-
- @version $Id: labels.inc 842 2007-10-20 13:55:02Z  zaza$
+@version $Id: labels.inc 842 2009-03-16 01:00:02Z  zaza$
 
 */
 
@@ -68,6 +67,30 @@ $labels['wednesday'] = 'ოთხშაბათი';
 $labels['thursday'] = 'ხუთშაბათი';
 $labels['friday'] = 'პარასკევი';
 $labels['saturday'] = 'შაბათი';
+$labels['jan'] = 'იან';
+$labels['feb'] = 'თებ';
+$labels['mar'] = 'მარ';
+$labels['apr'] = 'აპრ';
+$labels['may'] = 'მაი';
+$labels['jun'] = 'ივნ';
+$labels['jul'] = 'ივლ';
+$labels['aug'] = 'აგვ';
+$labels['sep'] = 'სექ';
+$labels['oct'] = 'ოქტ';
+$labels['nov'] = 'ნოე';
+$labels['dec'] = 'დეკ';
+$labels['longjan'] = 'იანვარი';
+$labels['longfeb'] = 'თებერვალი';
+$labels['longmar'] = 'მარტი';
+$labels['longapr'] = 'აპრილი';
+$labels['longmay'] = 'მაისი';
+$labels['longjun'] = 'ივნისი';
+$labels['longjul'] = 'ივლისი';
+$labels['longaug'] = 'აგვისტო';
+$labels['longsep'] = 'სექტემბერი';
+$labels['longoct'] = 'ოქტომბერი';
+$labels['longnov'] = 'ნოემბერი';
+$labels['longdec'] = 'დეკემბერი';
 $labels['today'] = 'დღეს';
 $labels['checkmail'] = 'შემოწმება ახალ შეტყობინებაზე';
 $labels['writenewmessage'] = 'ახალი შეტყობინება';
@@ -90,10 +113,15 @@ $labels['viewsource'] = 'შიგთავსი';
 $labels['markmessages'] = 'მონიშნეთ შეტყობინებები';
 $labels['markread'] = 'როგორც წაკითხული';
 $labels['markunread'] = 'როგორც წაუკითხავი';
+$labels['markflagged'] = 'როგორც მონიშნული';
+$labels['markunflagged'] = 'როგორც მოუნიშნავი';
 $labels['select'] = 'მონიშვნა';
 $labels['all'] = 'ყველა';
 $labels['none'] = 'არცერთი';
 $labels['unread'] = 'წაუკითხავი';
+$labels['flagged'] = 'მონიშნული';
+$labels['unanswered'] = 'უპასუხო';
+$labels['filter'] = 'ფილტრი';
 $labels['compact'] = 'შეკუმშვა';
 $labels['empty'] = 'გაცარიელება';
 $labels['purge'] = 'გასუფთავება';
@@ -102,6 +130,7 @@ $labels['unknown'] = 'უცნობი';
 $labels['unlimited'] = 'შეუზღუდავი';
 $labels['quicksearch'] = 'სწრაფი ძიება';
 $labels['resetsearch'] = 'ძიების გასუფთავება';
+$labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
 $labels['compose'] = 'შეტყობინების დაწერა';
 $labels['savemessage'] = 'დროებით შენახვა';
 $labels['sendmessage'] = 'შეტყობინების გაგზავნა';
@@ -122,8 +151,12 @@ $labels['high'] = 'მაღალი';
 $labels['highest'] = 'უმაღლესი';
 $labels['nosubject'] = '(უსათაურო)';
 $labels['showimages'] = 'გამოსახულების ჩვენება';
+$labels['alwaysshow'] = 'ყოველთვის გამოაჩინე სურათები $sender –გან';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'ტექსტური';
+$labels['savesentmessagein'] = 'შეინახე შეტყობინება';
+$labels['dontsave'] = 'არ შეინახო';
+$labels['maxuploadsize'] = 'მაქსიმალური დაშვებული ფაილის ზომა $size';
 $labels['addcc'] = 'დაამატე კოპიო';
 $labels['addbcc'] = 'დაამატე ფარული კოპიო';
 $labels['addreplyto'] = 'დაამატე გამომგზავნი';
@@ -147,12 +180,19 @@ $labels['composeto'] = 'ფოსტის გაგზავნა შერჩ
 $labels['contactsfromto'] = 'კონტაქტები $from დან $to ში $count';
 $labels['print'] = 'დაბეჭვდა';
 $labels['export'] = 'ექსპორტი';
+$labels['exportvcards'] = 'კონტაქტების ექსპორტი vCard ფორმატში';
 $labels['previouspage'] = 'წინას ჩვენება';
 $labels['firstpage'] = 'პირველის ჩვენება';
 $labels['nextpage'] = 'შემდეგის ჩვენება';
 $labels['lastpage'] = 'ბოლოს ჩვენება';
 $labels['groups'] = 'ჯგუფები';
 $labels['personaladrbook'] = 'პერსონალური მისამართები';
+$labels['import'] = 'შემოტანა';
+$labels['importcontacts'] = 'კონტაქტების შემოტანა';
+$labels['importfromfile'] = 'შემოტანა ფაილიდან:';
+$labels['importreplace'] = 'ჩაანაცვლეთ არსებული მისამართები';
+$labels['importtext'] = 'თქვენ შეგიძლიათ ატვირთოთ კონტაქტები აღნიშნული მისამართიდან. <br/> ჩვენ შეგვიძლია მივიღოთ მისამართები <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> მონაცემთა ფორმატში.';
+$labels['done'] = 'დასრულებულია';
 $labels['settingsfor'] = 'პარამეტრები';
 $labels['preferences'] = 'პარამეტრები';
 $labels['userpreferences'] = 'მომხმარებლის პარამეტრები';
@@ -163,6 +203,7 @@ $labels['newidentity'] = 'ახალი პროფილი';
 $labels['newitem'] = 'ახალი';
 $labels['edititem'] = 'რედაქტირება';
 $labels['setdefault'] = 'როგორც ზოგაგად';
+$labels['autodetect'] = 'ავტომატური';
 $labels['language'] = 'ენა';
 $labels['timezone'] = 'დროითი ზონა';
 $labels['pagesize'] = 'სტრიქონი გვერდზე';
@@ -171,13 +212,41 @@ $labels['dstactive'] = 'დროის გადაყვანა';
 $labels['htmleditor'] = 'შეტყობინების შექმნა HTML –ში';
 $labels['htmlsignature'] = 'HTML ხელმოწერა';
 $labels['previewpane'] = 'ჩვენება';
+$labels['skin'] = 'ინტერფეისი';
+$labels['logoutclear'] = 'წაშლილების გასუფთავება გამოსვლისას';
+$labels['logoutcompact'] = 'მიღებულების შეკუმშვა გამოსვლისას';
+$labels['uisettings'] = 'მომხმარებლის ინტერფეისი';
+$labels['serversettings'] = 'სერვერის პარამეტრები';
+$labels['mailboxview'] = 'საფოსტო ყუთის ჩვენება';
+$labels['mdnrequests'] = 'მგზავნელის შეტყობინებები';
+$labels['askuser'] = 'ჰკითხე მომხმარებელს';
+$labels['autosend'] = 'გაგზავნე ავტომატურად';
+$labels['ignore'] = 'იგნორირება';
+$labels['readwhendeleted'] = 'მონიშნე გზავნილი წაკითხულად წაშლის დროს';
+$labels['flagfordeletion'] = 'აღნიშნეთ გზავნილები როგორც წასაშლელი წაშლის ნაცვლად';
+$labels['skipdeleted'] = 'არ გამოაჩინო წაშლილი გზავნილები';
+$labels['showremoteimages'] = 'გამოაჩინე მოშორებული სურათები';
+$labels['fromknownsenders'] = 'ნაცნობი მგზავნელებისგან';
+$labels['always'] = 'ყოველთვის';
+$labels['showinlineimages'] = 'ატვირთული სურათები გამოაჩინე გზავნილის ქვემოთ';
 $labels['autosavedraft'] = 'ავტომატური შენახვა';
 $labels['everynminutes'] = 'ყოველ $n წუთში';
+$labels['keepaliveevery'] = 'ყოველ $n წუთში';
+$labels['keepalive'] = 'შეამოწმე ახალ შეტყობინებაზე';
 $labels['never'] = 'არასდროს';
+$labels['messagesdisplaying'] = 'გამოაჩინე შეტყობინებები';
+$labels['messagescomposition'] = 'შეტყობინებების შექმნა';
+$labels['mimeparamfolding'] = 'ბმულის სახელები';
+$labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'Full RFC 2047 (other)';
+$labels['advancedoptions'] = 'დამატებითი პარამეტრები';
+$labels['focusonnewmessage'] = 'ფოკუსირება ახალ შეტყობინებებზე';
+$labels['checkallfolders'] = 'შეამოწმე ყველა საქაღალდე ახალ შეტყობინებაზე';
 $labels['folder'] = 'საქაღალდე';
 $labels['folders'] = 'საქაღალდეები';
 $labels['foldername'] = 'საქაღალდის დასახელება';
-$labels['subscribed'] = 'გამოცერილია';
+$labels['subscribed'] = 'გამოწერილია';
 $labels['messagecount'] = 'შეტყობინებები';
 $labels['create'] = 'შექმნა';
 $labels['createfolder'] = 'საქაღალდის შექმნა';
@@ -185,8 +254,13 @@ $labels['rename'] = 'სახელის გადარქმევა';
 $labels['renamefolder'] = 'სახელის გადარქმევა საქაღალდისთვის';
 $labels['deletefolder'] = 'საქაღალდის წაშლა';
 $labels['managefolders'] = 'საქაღალდეების მართვა';
+$labels['specialfolders'] = 'სპეციალური საქაღალდე';
 $labels['sortby'] = 'დალაგება';
 $labels['sortasc'] = 'დალაგება ზრდადობით';
 $labels['sortdesc'] = 'დალაგება კლებადობით';
+$labels['B'] = 'ბ';
+$labels['KB'] = 'კბ';
+$labels['MB'] = 'მბ';
+$labels['GB'] = 'გბ';
 
 ?>

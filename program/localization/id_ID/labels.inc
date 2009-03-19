@@ -193,6 +193,7 @@ $labels['importcontacts'] = 'Import kontak';
 $labels['importfromfile'] = 'Import dari berkas:';
 $labels['importreplace'] = 'Ganti seluruh buku alamat';
 $labels['importtext'] = 'Anda bisa mengunggah kontak dari buku alamat yang sudah ada.<br/>Kami kebetulan mendukung pengimportan alamat dari format data <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
+$labels['done'] = 'Selesai';
 $labels['settingsfor'] = 'Pengaturan untuk';
 $labels['preferences'] = 'Pilihan';
 $labels['userpreferences'] = 'Pilihan pengguna';

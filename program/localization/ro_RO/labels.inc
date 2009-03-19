@@ -1,20 +1,19 @@
 <?php
 
 /*
++-----------------------------------------------------------------------+
+| language/ro_RO/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
+|         Zeno Popovici <zeno.popovici at ulbsibiu.ro>                  |
++-----------------------------------------------------------------------+
 
- +-----------------------------------------------------------------------+
- | language/ro/labels.inc                                                |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
- |         Ispas Dorin <dorinxp2004@yahoo.com>                           |
- +-----------------------------------------------------------------------+
-
- @version $Id$
+@version $Id$
 
 */
 
@@ -32,7 +31,7 @@ $labels['inbox'] = 'Primite';
 $labels['drafts'] = 'Ciorne';
 $labels['sent'] = 'Trimise';
 $labels['trash'] = 'Gunoi';
-$labels['junk'] = 'Junk';
+$labels['junk'] = 'Spam';
 $labels['subject'] = 'Subiect';
 $labels['from'] = 'Expeditor';
 $labels['to'] = 'Destinatar';
@@ -69,6 +68,30 @@ $labels['wednesday'] = 'Miercuri';
 $labels['thursday'] = 'Joi';
 $labels['friday'] = 'Vineri';
 $labels['saturday'] = 'Sambata';
+$labels['jan'] = 'Ian';
+$labels['feb'] = 'Feb';
+$labels['mar'] = 'Mar';
+$labels['apr'] = 'Apr';
+$labels['may'] = 'Mai';
+$labels['jun'] = 'Iun';
+$labels['jul'] = 'Iul';
+$labels['aug'] = 'Aug';
+$labels['sep'] = 'Sep';
+$labels['oct'] = 'Oct';
+$labels['nov'] = 'Noi';
+$labels['dec'] = 'Dec';
+$labels['longjan'] = 'Ianuarie';
+$labels['longfeb'] = 'Februarie';
+$labels['longmar'] = 'Martie';
+$labels['longapr'] = 'Aprilie';
+$labels['longmay'] = 'Mai';
+$labels['longjun'] = 'Iunie';
+$labels['longjul'] = 'Iulie';
+$labels['longaug'] = 'August';
+$labels['longsep'] = 'Septembrie';
+$labels['longoct'] = 'Octombrie';
+$labels['longnov'] = 'Noiembrie';
+$labels['longdec'] = 'Decembrie';
 $labels['today'] = 'Astazi';
 $labels['checkmail'] = 'Verifica pentru mesaje noi';
 $labels['writenewmessage'] = 'Creaza mesaj nou';
@@ -91,10 +114,15 @@ $labels['viewsource'] = 'Afiseaza sursa';
 $labels['markmessages'] = 'Marcheaza mesajele';
 $labels['markread'] = 'Ca citit';
 $labels['markunread'] = 'Ca necitit';
+$labels['markflagged'] = 'Ca marcat';
+$labels['markunflagged'] = 'Ca nemarcat';
 $labels['select'] = 'Selecteaza';
 $labels['all'] = 'Toate';
 $labels['none'] = 'Nici unul';
 $labels['unread'] = 'Necitite';
+$labels['flagged'] = 'Marcat';
+$labels['unanswered'] = 'Neraspuns';
+$labels['filter'] = 'Filtru';
 $labels['compact'] = 'Compreseaza';
 $labels['empty'] = 'Goleste';
 $labels['purge'] = 'Curata';
@@ -103,6 +131,7 @@ $labels['unknown'] = 'necunoscut';
 $labels['unlimited'] = 'nelimitat';
 $labels['quicksearch'] = 'Cautare rapida';
 $labels['resetsearch'] = 'Resetare cautare';
+$labels['openinextwin'] = 'Deschide in fereastra noua';
 $labels['compose'] = 'Compune mesaj';
 $labels['savemessage'] = 'Salveaza aceasta ciorna';
 $labels['sendmessage'] = 'Trimite mesaj';
@@ -123,8 +152,12 @@ $labels['high'] = 'Mare';
 $labels['highest'] = 'Cea mai mare';
 $labels['nosubject'] = '(fara subiect)';
 $labels['showimages'] = 'Afiseaza imagini';
+$labels['alwaysshow'] = 'Afiseaza intotdeauna imaginile de la $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Text simplu';
+$labels['savesentmessagein'] = 'Salveaza mesajele in';
+$labels['dontsave'] = 'Nu salva';
+$labels['maxuploadsize'] = 'Marimea maxima admisa a fisierului este $size';
 $labels['addcc'] = 'Adauga Cc';
 $labels['addbcc'] = 'Adauga Bcc';
 $labels['addreplyto'] = 'Adauga Raspunde-La';
@@ -148,12 +181,19 @@ $labels['composeto'] = 'Compune e-mail pentru';
 $labels['contactsfromto'] = 'Contacte de la $from pana la $to din $count';
 $labels['print'] = 'Listeaza';
 $labels['export'] = 'Exporta';
+$labels['exportvcards'] = 'Exporta contactele in format vCard';
 $labels['previouspage'] = 'Pagina anterioara';
 $labels['firstpage'] = 'Arata primul set';
 $labels['nextpage'] = 'Pagina urmatoare';
 $labels['lastpage'] = 'Arata ultimul set';
 $labels['groups'] = 'Grupuri';
 $labels['personaladrbook'] = 'Adrese personale';
+$labels['import'] = 'Importa';
+$labels['importcontacts'] = 'Importa contacte';
+$labels['importfromfile'] = 'Importa din fisier:';
+$labels['importreplace'] = 'Inlocuieste intreaga agenda';
+$labels['importtext'] = 'Puteti incarca contacte dintr-o agenda existenta.<br/>Se pot importa adresele in format <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
+$labels['done'] = 'Finalizat';
 $labels['settingsfor'] = 'Setari pentru';
 $labels['preferences'] = 'Preferinte';
 $labels['userpreferences'] = 'Preferinte utilizator';
@@ -164,6 +204,7 @@ $labels['newidentity'] = 'Identitate noua';
 $labels['newitem'] = 'Item nou';
 $labels['edititem'] = 'Editeaza item';
 $labels['setdefault'] = 'Seteaza implicit';
+$labels['autodetect'] = 'Automat';
 $labels['language'] = 'Limba';
 $labels['timezone'] = 'Fus orar';
 $labels['pagesize'] = 'Randuri pe pagina';
@@ -172,9 +213,37 @@ $labels['dstactive'] = 'Daylight savings';
 $labels['htmleditor'] = 'Scrie mesaje HTML';
 $labels['htmlsignature'] = 'Semnatura HTML';
 $labels['previewpane'] = 'Arata preview';
+$labels['skin'] = 'Tema interfata';
+$labels['logoutclear'] = 'Goleste dosarul Gunoi la logout';
+$labels['logoutcompact'] = 'Compacteaza dosarul Primite la logout';
+$labels['uisettings'] = 'Interfata utilizator';
+$labels['serversettings'] = 'Configuratii server';
+$labels['mailboxview'] = 'Afisare Mailbox';
+$labels['mdnrequests'] = 'Notificari expeditor';
+$labels['askuser'] = 'intreaba utilizatorul';
+$labels['autosend'] = 'trimite automat';
+$labels['ignore'] = 'ignora';
+$labels['readwhendeleted'] = 'Marcheaza mesajul ca si citit la stergere';
+$labels['flagfordeletion'] = 'Marcheaza mesajele pentru stergere in loc de a-l sterge direct';
+$labels['skipdeleted'] = 'Nu arata mesajele sterse';
+$labels['showremoteimages'] = 'Arata imagini remote';
+$labels['fromknownsenders'] = 'de la expeditori cunoscuti';
+$labels['always'] = 'intotdeauna';
+$labels['showinlineimages'] = 'Arata imaginile atasate sub mesaj';
 $labels['autosavedraft'] = 'Salveaza ciorna automat';
 $labels['everynminutes'] = 'fiecare $n minute';
+$labels['keepaliveevery'] = 'fiecare $n minut(e)';
+$labels['keepalive'] = 'Verifica mesaje noi la';
 $labels['never'] = 'niciodata';
+$labels['messagesdisplaying'] = 'Afisarea Mesajelor';
+$labels['messagescomposition'] = 'Compunerea Mesajelor';
+$labels['mimeparamfolding'] = 'Nume Atasamente';
+$labels['2231folding'] = 'RFC 2231 (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'RFC 2047 (Altele)';
+$labels['advancedoptions'] = 'Optiuni Avansate';
+$labels['focusonnewmessage'] = 'Focus pe fereastra browser-ului la mesaje noi';
+$labels['checkallfolders'] = 'Verifica toate dosarele pentru mesaje noi';
 $labels['folder'] = 'Dosar';
 $labels['folders'] = 'Dosare';
 $labels['foldername'] = 'Nume dosar';
@@ -186,8 +255,14 @@ $labels['rename'] = 'Redenumeste';
 $labels['renamefolder'] = 'Redenumeste dosar';
 $labels['deletefolder'] = 'Sterge dosar';
 $labels['managefolders'] = 'Administreaza dosare';
+$labels['specialfolders'] = 'Dosare speciale';
 $labels['sortby'] = 'Sorteaza dupa';
 $labels['sortasc'] = 'Sorteaza ascendent';
 $labels['sortdesc'] = 'Sorteaza descendent';
+$labels['B'] = 'O';
+$labels['KB'] = 'KO';
+$labels['MB'] = 'MO';
+$labels['GB'] = 'GO';
 
 ?>
+

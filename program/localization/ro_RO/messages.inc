@@ -1,20 +1,19 @@
 <?php
 
 /*
++-----------------------------------------------------------------------+
+| language/ro_RO/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
+|         Zeno Popovici <zeno.popovici at ulbsibiu.ro>                  |
++-----------------------------------------------------------------------+
 
- +-----------------------------------------------------------------------+
- | language/ro/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
- |         Ispas Dorin <dorinxp2004@yahoo.com>                           |
- +-----------------------------------------------------------------------+
-
- @version $Id$
+@version $Id$
 
 */
 
@@ -41,6 +40,8 @@ $messages['encryptedmessage'] = 'Acesta este un mesaj criptat si nu poate fi afi
 $messages['nocontactsfound'] = 'Nu s-a gasit nici un contact';
 $messages['contactnotfound'] = 'Contactul solicitat nu a fost gasit.';
 $messages['sendingfailed'] = 'Nu s-a reusit trimiterea mesajului';
+$messages['senttooquickly'] = 'Va rugam asteptati $sec sec. inainte de a trimite acest mesaj';
+$messages['errorsavingsent'] = 'A intervenit o eroare in timp ce se efectua salvarea mesajului trimis';
 $messages['errorsaving'] = 'A intervenit o eroare in timp ce se efectua salvarea';
 $messages['errormoving'] = 'Nu s-a putut muta mesajul';
 $messages['errordeleting'] = 'Nu s-a putut sterge mesajul';
@@ -48,10 +49,15 @@ $messages['deletecontactconfirm'] = 'Sunteti sigur ca doriti sa stergeti contact
 $messages['deletemessagesconfirm'] = 'Chiar doriti sa stergeti mesajele selectate ?';
 $messages['deletefolderconfirm'] = 'Sunteti sigur ca doriti sa stergeti acest dosar?';
 $messages['purgefolderconfirm'] = 'Sunteti sigur ca doriti sa stergeti toate mesajele din acest dosar?';
+$messages['foldercreating'] = 'Se creaza dosarul...';
+$messages['folderdeleting'] = 'Se sterge dosarul...';
+$messages['folderrenaming'] = 'Se redenumeste dosarul...';
+$messages['foldermoving'] = 'Se muta dosarul...';
 $messages['formincomplete'] = 'Formularul nu a fost completat corect';
 $messages['noemailwarning'] = 'Va rugam introduceti o adresa de e-mail valida';
 $messages['nonamewarning'] = 'Va rugam introduceti un nume';
 $messages['nopagesizewarning'] = 'Va rugam introduceti marimea paginii';
+$messages['nosenderwarning'] = 'Va rugam introduceti adresa expeditorului';
 $messages['norecipientwarning'] = 'Va rugam introduceti cel putin un destinatar';
 $messages['nosubjectwarning'] = 'Mesajul nu are subiect. Vreti sa introduceti unul acum?';
 $messages['nobodywarning'] = 'Trimiteti acest mesaj fara text?';
@@ -79,5 +85,15 @@ $messages['receiptsent'] = 'Confirmarea a fost trimisa cu succes';
 $messages['errorsendingreceipt'] = 'Confirmarea nu a putut fi trimisa';
 $messages['nodeletelastidentity'] = 'Nu putesti sterge aceasta identitate, este ultima.';
 $messages['addsubfolderhint'] = 'Acest dosar va fi creat ca subdosar al celui selectat.';
+$messages['forbiddencharacter'] = 'Numele dosarului contine un caracter nepermis.';
+$messages['selectimportfile'] = 'Va rugam selectati fisierul pentru incarcare';
+$messages['addresswriterror'] = 'Agenda selectata nu poate fi actualizata';
+$messages['importwait'] = 'Se importeaza, va rugam asteptati...';
+$messages['importerror'] = 'Importarea a esuat! Fisierul incarcat nu este un fisier vCard valid.';
+$messages['importconfirm'] = '<b>Contactele $inserted au fost importate cu succes, $skipped intrari au fost ignorate deoarece ele exista deja</b>:<p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Operatia nu este permisa!';
+$messages['nofromaddress'] = 'Nu exista o adresa de e-mail in identitatea selectata';
+$messages['editorwarning'] = 'Trecerea in mod text a editorului va cauza pierderea formatarii textului. Doriti sa continuati?';
 
 ?>
+
