@@ -70,8 +70,10 @@ if ($msg_uid = $_SESSION['compose']['param']['_reply_uid'])
   $compose_mode = RCUBE_COMPOSE_REPLY;
 else if ($msg_uid = $_SESSION['compose']['param']['_forward_uid'])
   $compose_mode = RCUBE_COMPOSE_FORWARD;
-else if ($msg_uid = $_SESSION['compose']['param']['_draft_uid'])
+else if ($msg_uid = $_SESSION['compose']['param']['_draft_uid']) {
+  $RCMAIl->imap->set_mailbox($CONFIG['drafts_mbox']);
   $compose_mode = RCUBE_COMPOSE_DRAFT;
+}
 
 if (!empty($msg_uid))
 {
