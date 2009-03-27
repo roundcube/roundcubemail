@@ -102,7 +102,7 @@ function tnef_geti32(&$buf)
 
 function tnef_decode_attribute($attribute, &$buf)
 {
-   global $debug, $download;
+   global $debug;
 
    $length = tnef_geti32($buf);
    $value = tnef_getx($length, $buf); //data
@@ -116,9 +116,9 @@ function tnef_decode_attribute($attribute, &$buf)
    switch($attribute)
    {
       case TNEF_BODYTEXT:
-         if (!$download)
+         if ($debug)
          {
-            printf("<b>Embedded message:</b><pre>%s</pre>",$value);
+            printf("<b>Embedded message:</b><pre>%s</pre>", $value);
          }
          break;
 
@@ -195,7 +195,7 @@ function extract_mapi_attrs($buf, &$attachment_data)
 
          case TNEF_MAPI_ATTACH_DATA:
             tnef_getx(16, $value); // skip the next 16 bytes (unknown data)
-            array_shift($attachment_data); // eliminate the current (bogus) attachment
+	    array_shift($attachment_data); // eliminate the current (bogus) attachment
             do_tnef_decode($value, $attachment_data); // recursively process the attached message
             break;
 

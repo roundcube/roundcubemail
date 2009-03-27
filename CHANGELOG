@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix TNEF implementation bug (#1485773)
 - Fix incorrect row id parsing for LDAP contacts list (#1485784) 
 - Fix 'mode' parameter in sqlite DSN (#1485772)
 
