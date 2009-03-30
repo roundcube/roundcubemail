@@ -490,7 +490,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
       }
 
     // add title line(s)
-    $prefix = wordwrap(sprintf("On %s, %s wrote:\n",
+    $prefix = rc_wordwrap(sprintf("On %s, %s wrote:\n",
       $MESSAGE->headers->date,
       $MESSAGE->get_header('from')), 76);
 

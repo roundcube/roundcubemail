@@ -1179,7 +1179,7 @@ function rcmail_wrap_quoted($text, $max = 76)
         $prefix = substr($line, 0, $length);
 
         // Remove '> ' from the line, then wordwrap() the line
-        $line = wordwrap(substr($line, $length), $max - $length);
+        $line = rc_wordwrap(substr($line, $length), $max - $length);
 
         // Rebuild the line with '> ' at the beginning of each 'subline'
         $newline = '';
@@ -1191,7 +1191,7 @@ function rcmail_wrap_quoted($text, $max = 76)
         $line = rtrim($newline);
       }
       else {
-        $line = wordwrap($line, $max);
+        $line = rc_wordwrap($line, $max);
       }
     }
 
@@ -1390,7 +1390,7 @@ function rcmail_send_mdn($uid)
                "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
     
     $compose->headers($headers);
-    $compose->setTXTBody(wordwrap($body, 75, "\r\n"));
+    $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
     $sent = rcmail_deliver_message($compose, $identity['email'], $mailto);

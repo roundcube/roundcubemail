@@ -302,10 +302,10 @@ if ($isHtml)
   $MAIL_MIME->setHTMLBody($message_body . ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
 
   // add a plain text version of the e-mail as an alternative part.
-  $h2t = new html2text($message_body);
-  $plainTextPart = $h2t->get_text() . ($footer ? "\r\n".$footer : '');
+  $h2t = new html2text($message_body, false, true, 0);
+  $plainTextPart = rc_wordwrap($h2t->get_text(), 75, "\r\n"). ($footer ? "\r\n".$footer : '');
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
-  if (!strlen($plainTextPart)) 
+  if (!strlen($plainTextPart))
     { 
     // empty message body breaks attachment handling in drafts 
     $plainTextPart = "\r\n"; 
@@ -317,7 +317,7 @@ if ($isHtml)
   }
 else
   {
-  $message_body = wordwrap($message_body, 75, "\r\n");
+  $message_body = rc_wordwrap($message_body, 75, "\r\n");
   if ($footer)
     $message_body .= "\r\n" . $footer;
   $message_body = wordwrap($message_body, 998, "\r\n", true);
@@ -342,7 +342,7 @@ if (is_array($_SESSION['compose']['attachments']))
     if ($isHtml && ($match > 0))
     {
       $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'" ', $message_body);
-      $MAIL_MIME->setHTMLBody($message_body. ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
+      $MAIL_MIME->setHTMLBody($message_body);
       $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name']);
     }
     else
