@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix word wrapping in message-part's <PRE>s for printing (#1485787)
 - Fix incorrect word wrapping in outgoing plaintext multibyte messages (#1485714)
 - Fix double footer in HTML message with embedded images
 - Fix TNEF implementation bug (#1485773)
