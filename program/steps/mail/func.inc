@@ -1308,7 +1308,14 @@ function rcmail_deliver_message(&$message, $from, $mailto)
     // reset stored headers and overwrite
     $message->_headers = array();
     $header_str = $message->txtHeaders($headers_php);
-  
+    
+    // #1485779
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+      if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
+        $headers_enc['To'] = implode(', ', $m[1]);
+        }
+      }
+       
     if (ini_get('safe_mode'))
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
     else
