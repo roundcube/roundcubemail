@@ -19,6 +19,10 @@
 
 */
 
+if (!$OUTPUT->ajax_call) {
+  return;
+}
+
 // is there a sort type for this request?
 if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
 {
