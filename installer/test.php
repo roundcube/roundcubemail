@@ -159,7 +159,7 @@ if ($db_working && $_POST['initdb']) {
 // test database
 if ($db_working) {
     $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
-    if (!$db_read) {
+    if ($DB->db_error) {
         $RCI->fail('DB Schema', "Database not initialized");
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
         $db_working = false;

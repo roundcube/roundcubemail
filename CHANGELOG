@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix "Initialize Database" button missing from installer (#1485802)
 - Fix compose window doesn't fit 1024x768 window (#1485396)
 - Fix service not available error when pressing back from compose dialog (#1485552)
 - Fix using mail() on Windows (#1485779)
