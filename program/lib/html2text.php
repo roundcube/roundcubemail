@@ -522,9 +522,9 @@ class html2text
             $this->_link_count++;
             $this->_link_list .= "[" . $this->_link_count . "] $link\n";
             $additional = ' [' . $this->_link_count . ']';
-		} elseif ( substr($link, 0, 11) == 'javascript:' ) {
-			// Don't count the link; ignore it
-			$additional = '';
+	} elseif ( substr($link, 0, 11) == 'javascript:' ) {
+		// Don't count the link; ignore it
+		$additional = '';
 		// what about href="#anchor" ?
         } else {
             $this->_link_count++;
