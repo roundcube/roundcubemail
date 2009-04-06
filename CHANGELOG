@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix 'temp_dir' does not support relative path under Windows (#1484529)
 - Fix "Initialize Database" button missing from installer (#1485802)
 - Fix compose window doesn't fit 1024x768 window (#1485396)
 - Fix service not available error when pressing back from compose dialog (#1485552)

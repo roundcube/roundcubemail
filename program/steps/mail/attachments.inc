@@ -63,6 +63,11 @@ if ($RCMAIL->action=='display-attachment')
 // use common temp dir for file uploads
 $temp_dir = unslashify($CONFIG['temp_dir']);
 
+// #1484529: we need absolute path on Windows for move_uploaded_file()
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+  $temp_dir = realpath($temp_dir);
+}
+
 if (!is_array($_SESSION['compose']['attachments'])) {
   $_SESSION['compose']['attachments'] = array();
 }
@@ -73,7 +78,7 @@ $OUTPUT->reset();
 if (is_array($_FILES['_attachments']['tmp_name'])) {
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
     $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
-    if (move_uploaded_file($filepath, $tmpfname)) {
+    if (move_uploaded_file($filepath, $tmpfname) && file_exists($tmpfname)) {
       $id = count($_SESSION['compose']['attachments']);
       $_SESSION['compose']['attachments'][] = array(
         'name' => $_FILES['_attachments']['name'][$i],
