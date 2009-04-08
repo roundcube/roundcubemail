@@ -2210,6 +2210,13 @@ function rcube_webmail()
 	  {
 	  newsig = this.env.signatures[id]['text'];
 	  htmlsig = this.env.signatures[id]['is_html'];
+        
+	  if (newsig) {
+	    if (htmlsig && this.env.signatures[id]['plain_text'].indexOf('-- ')!=0)
+              newsig = '<p>-- </p>' + newsig;
+	    else if (!htmlsig && newsig.indexOf('-- ')!=0)
+              newsig = '-- \n' + newsig;
+	    }
 	  }
 
         if (htmlsig)
