@@ -53,7 +53,6 @@ function rcube_webmail()
   this.env.bin_path = './bin/';
   this.env.blankpage = 'program/blank.gif';
 
-
   // set environment variable(s)
   this.set_env = function(p, value)
     {
@@ -1182,6 +1181,9 @@ function rcube_webmail()
 
   this.drag_start = function(list)
   {
+       this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
+       this.initialMailBoxScrollTop = document.getElementById("mailboxlist-container").scrollTop;
+
     var model = this.task == 'mail' ? this.env.mailboxes : this.env.address_sources;
 
     this.drag_active = true;
@@ -1213,9 +1215,16 @@ function rcube_webmail()
     {
     if (this.gui_objects.folderlist && this.env.folder_coords)
       {
+      // offsets to compensate for scrolling while dragging a message
+      var boffset = bw.ie ? -document.documentElement.scrollTop : this.initialBodyScrollTop;
+      var moffset = this.initialMailBoxScrollTop-document.getElementById('mailboxlist-container').scrollTop;
+      var toffset = -moffset-boffset;
+
       var li, pos, mouse;
       mouse = rcube_event.get_mouse_pos(e);
       pos = this.env.folderlist_coords;
+
+      mouse.y += toffset;
 
       // if mouse pointer is outside of folderlist
       if (mouse.x < pos.x1 || mouse.x >= pos.x2 

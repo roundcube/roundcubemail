@@ -774,7 +774,7 @@ drag_mouse_move: function(e)
   if (this.drag_active && this.draglayer)
   {
     var pos = rcube_event.get_mouse_pos(e);
-    this.draglayer.move(pos.x+20, pos.y-5);
+    this.draglayer.move(pos.x+20, bw.ie ? pos.y-5+document.documentElement.scrollTop : pos.y-5);
     this.trigger_event('dragmove', e);
   }
 
