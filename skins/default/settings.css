@@ -177,7 +177,7 @@ span.tablink-selected a
 
 #subscription-table thead td.name
 {
-  width: 250px;
+  width: 360px;
 }
 
 #subscription-table thead td.msgcount
@@ -188,6 +188,12 @@ span.tablink-selected a
 #subscription-table thead td.subscribed
 {
   width: 90px;
+}
+
+#subscription-table thead td.rename,
+#subscription-table thead td.delete
+{
+  width: 30px;
 }
 
 #identity-frame
