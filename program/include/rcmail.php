@@ -453,9 +453,10 @@ class rcmail
         $username .= '@'.$config['username_domain'];
     }
 
-    // try to resolve email address from virtuser table    
-    if (!empty($config['virtuser_file']) && strpos($username, '@'))
-      $username = rcube_user::email2user($username);
+    // try to resolve email address from virtuser table
+    if (strpos($username, '@'))
+      if ($virtuser = rcube_user::email2user($username))
+        $username = $virtuser;
 
     // lowercase username if it's an e-mail address (#1484473)
     if (strpos($username, '@'))

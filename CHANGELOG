@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Support several e-mail addresses per user from virtuser_file (#1485678)
 - Fix drag&drop with scrolling on IE (#1485786)
 - Fix adding signature separator in html mode (#1485350)
 - Fix opening attachment marks message as read (#1485803)
