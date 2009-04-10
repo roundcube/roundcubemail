@@ -86,7 +86,7 @@ if ($_POST['_iid'])
 else if (IDENTITIES_LEVEL < 2)
 {
   if (IDENTITIES_LEVEL == 1)
-    $save_data['email'] = rcmail_get_email();
+    $save_data['email'] = $RCMAIL->user->get_username();
 
   if ($save_data['email'] && ($insert_id = $USER->insert_identity($save_data)))
   {
