@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix DEL key problem in search boxes (#1485528)
 - Support several e-mail addresses per user from virtuser_file (#1485678)
 - Fix drag&drop with scrolling on IE (#1485786)
 - Fix adding signature separator in html mode (#1485350)

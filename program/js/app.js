@@ -1158,7 +1158,7 @@ function rcube_webmail()
   this.doc_mouse_up = function(e)
   {
     var model, li;
-    
+
     if (this.message_list) {
       this.message_list.blur();
       model = this.env.mailboxes;
@@ -1170,7 +1170,7 @@ function rcube_webmail()
     else if (this.ksearch_value) {
       this.ksearch_blur();
     }
-    
+
     // handle mouse release when dragging
     if (this.drag_active && model && this.env.last_folder_target) {
       this.set_classname(this.get_folder_li(this.env.last_folder_target), 'droptarget', false);
@@ -1299,10 +1299,13 @@ function rcube_webmail()
 
   this.click_on_list = function(e)
     {
+    if (this.gui_objects.qsearchbox)
+      this.gui_objects.qsearchbox.blur();
+
     if (this.message_list)
       this.message_list.focus();
     else if (this.contact_list)
-        this.contact_list.focus();
+      this.contact_list.focus();
 
     var mbox_li;
     if (mbox_li = this.get_folder_li())

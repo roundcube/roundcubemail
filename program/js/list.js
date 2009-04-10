@@ -824,8 +824,6 @@ drag_mouse_up: function(e)
       }
     }
 
-  this.focus();
-  
   return rcube_event.cancel(e);
 },
 
