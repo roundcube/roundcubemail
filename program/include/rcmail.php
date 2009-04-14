@@ -436,11 +436,13 @@ class rcmail
     if ($a_host['host']) {
       $host = $a_host['host'];
       $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
-      $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $config['default_port']);
+      if(!empty($a_host['port']))
+        $imap_port = $a_host['port'];
+      else if ($imap_ssl && $imap_ssl != 'tls')
+        $imap_port = 993;
     }
-    else
-      $imap_port = $config['default_port'];
-
+    
+    $imap_port = $imap_port ? $imap_port : $config['default_port'];
 
     /* Modify username with domain if required  
        Inspired by Marco <P0L0_notspam_binware.org>
