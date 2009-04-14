@@ -2543,22 +2543,13 @@ function rcube_webmail()
       
     this.hide_message();
     this.env.contacts = results ? results : [];
-
-    var result_ids = new Array();
-    var c=0;
-    for (var i=0; i < this.env.contacts.length; i++) {
-      result_ids[c++] = i;
-      if (c == 15)  // limit search results
-        break;
-    }
-    
-    this.ksearch_display_results(this.env.contacts, result_ids, c);
+    this.ksearch_display_results(this.env.contacts);
   };
 
-  this.ksearch_display_results = function (a_results, a_result_ids, c)
+  this.ksearch_display_results = function (a_results)
   {
     // display search results
-    if (c && a_results.length && this.ksearch_input) {
+    if (a_results.length && this.ksearch_input) {
       var p, ul, li;
       
       // create results pane if not present
@@ -2580,27 +2571,14 @@ function rcube_webmail()
         li.innerHTML = a_results[i].replace(new RegExp('('+this.ksearch_value+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
-        li._rcm_id = a_result_ids[i];
+        li._rcm_id = i;
         ul.appendChild(li);
       }
 
-      // check if last selected item is still in result list
-      if (this.ksearch_selected !== null) {
-        p = find_in_array(this.ksearch_selected, a_result_ids);
-        if (p >= 0 && ul.childNodes) {
-          ul.childNodes[p].setAttribute('id', 'rcmksearchSelected');
-          this.set_classname(ul.childNodes[p], 'selected', true);
-        }
-        else
-          this.ksearch_selected = null;
-      }
-      
-      // if no item selected, select the first one
-      if (this.ksearch_selected === null) {
-        ul.firstChild.setAttribute('id', 'rcmksearchSelected');
-        this.set_classname(ul.firstChild, 'selected', true);
-        this.ksearch_selected = a_result_ids[0];
-      }
+      // select the first
+      ul.firstChild.setAttribute('id', 'rcmksearchSelected');
+      this.set_classname(ul.firstChild, 'selected', true);
+      this.ksearch_selected = 0;
 
       // move the results pane right under the input box and make it visible
       var pos = rcube_get_object_pos(this.ksearch_input);
