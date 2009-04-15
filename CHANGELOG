@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix messagelist focus issue when modifying status of selected messages (#1485807)
 - Support STARTTLS in IMAP connection (#1485284)
 - Fix DEL key problem in search boxes (#1485528)
 - Support several e-mail addresses per user from virtuser_file (#1485678)

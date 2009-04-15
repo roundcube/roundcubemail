@@ -1160,11 +1160,13 @@ function rcube_webmail()
     var model, li;
 
     if (this.message_list) {
-      this.message_list.blur();
+      if (!rcube_mouse_is_over(e, this.message_list.list))
+        this.message_list.blur();
       model = this.env.mailboxes;
     }
     else if (this.contact_list) {
-      this.contact_list.blur();
+      if (!rcube_mouse_is_over(e, this.contact_list.list))
+        this.contact_list.blur();
       model = this.env.address_sources;
     }
     else if (this.ksearch_value) {
@@ -1181,8 +1183,8 @@ function rcube_webmail()
 
   this.drag_start = function(list)
   {
-       this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
-       this.initialMailBoxScrollTop = document.getElementById("mailboxlist-container").scrollTop;
+    this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
+    this.initialMailBoxScrollTop = document.getElementById("mailboxlist-container").scrollTop;
 
     var model = this.task == 'mail' ? this.env.mailboxes : this.env.address_sources;
 
