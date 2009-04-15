@@ -1419,6 +1419,7 @@ function rcube_webmail()
       {
       this.set_busy(true, 'loading');
       target.location.href = this.env.comm_path+url;
+
       // mark as read and change mbox unread counter
       if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread)
         {
@@ -1442,10 +1443,10 @@ function rcube_webmail()
         if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
           window.frames[this.env.contentframe].location.href = this.env.blankpage;
         }
-      else if (!bw.safari)
+      else if (!bw.safari && !bw.konq)
         frm.style.display = show ? 'block' : 'none';
       }
-      
+
     if (!show && this.busy)
       this.set_busy(false);
     };
@@ -2462,7 +2463,11 @@ function rcube_webmail()
       case 27:  // escape
         this.ksearch_hide();
         break;
-
+      
+      case 37:  // left
+      case 39:  // right
+        if (mod != SHIFT_KEY)
+	  return;
       }
 
     // start timer
@@ -2529,7 +2534,7 @@ function rcube_webmail()
 
     // Don't (re-)search if string is empty or if the last results are still active
     if (!q.length || q == this.ksearch_value)
-        return;
+      return;
 
     this.ksearch_value = q;
     
