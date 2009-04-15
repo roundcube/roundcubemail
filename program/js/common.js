@@ -608,20 +608,28 @@ function rcube_console()
 {
   this.log = function(msg)
   {
-    box = rcube_find_object('console');
+    var box = rcube_find_object('console');
 
-    if (box)
+    if (box) {
       if (msg.charAt(msg.length-1)=='\n')
-        box.value += msg+'--------------------------------------\n';
+	msg += '--------------------------------------\n';
       else
-        box.value += msg+'\n--------------------------------------\n';
+        msg += '\n--------------------------------------\n';
+
+      // Konqueror (Safari also?) doesn't allows to just change value of hidden element
+      if (bw.konq) {
+        box.innerText += msg;
+        box.value = box.innerText;
+      } else
+        box.value += msg;
+    }
   };
 
   this.reset = function()
   {
-    box = rcube_find_object('console');
+    var box = rcube_find_object('console');
     if (box)
-      box.value = '';
+      box.innerText = box.value = '';
   };
 }
 
