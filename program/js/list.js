@@ -755,7 +755,10 @@ drag_mouse_move: function(e)
               (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)))
             {
               subject = node.nodeType==3 ? node.data : node.innerHTML;
-              names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
+	      // remove leading spaces
+	      subject = subject.replace(/^\s+/i, '');
+              // truncate line to 50 characters
+	      names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
               break;
             }
             c++;
