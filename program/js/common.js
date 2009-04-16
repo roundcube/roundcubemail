@@ -602,7 +602,6 @@ function getCookie(name)
 
 roundcube_browser.prototype.get_cookie = getCookie;
 
-
 // tiny replacement for Firebox functionality
 function rcube_console()
 {
@@ -616,7 +615,7 @@ function rcube_console()
       else
         msg += '\n--------------------------------------\n';
 
-      // Konqueror (Safari also?) doesn't allows to just change value of hidden element
+      // Konqueror doesn't allows to just change value of hidden element
       if (bw.konq) {
         box.innerText += msg;
         box.value = box.innerText;
@@ -634,9 +633,7 @@ function rcube_console()
 }
 
 var bw = new roundcube_browser();
-
-if (!window.console)
-  console = new rcube_console();
+var console = new rcube_console();
 
 
 // Add escape() method to RegExp object
