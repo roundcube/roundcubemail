@@ -220,7 +220,7 @@ drag_row: function(e, id)
   // don't do anything (another action processed before)
   var evtarget = rcube_event.get_target(e);
   if (this.dont_select || (evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
-    return false;
+    return true;
     
   // accept right-clicks
   if (rcube_event.get_button(e) == 2)
@@ -285,10 +285,10 @@ click_row: function(e, id)
   var now = new Date().getTime();
   var mod_key = rcube_event.get_modifier(e);
   var evtarget = rcube_event.get_target(e);
-  
+
   if ((evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
-    return false;
-  
+    return true;
+
   // don't do anything (another action processed before)
   if (this.dont_select)
     {

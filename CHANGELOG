@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix folders subscribtions on Konqueror (#1484841) 
 - Fix debug console on Konqueror and Safari
 - Fix messagelist focus issue when modifying status of selected messages (#1485807)
 - Support STARTTLS in IMAP connection (#1485284)
