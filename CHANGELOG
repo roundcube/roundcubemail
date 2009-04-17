@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix UTF-8 byte-order mark removing (#1485514)
 - Fix folders subscribtions on Konqueror (#1484841) 
 - Fix debug console on Konqueror and Safari
 - Fix messagelist focus issue when modifying status of selected messages (#1485807)

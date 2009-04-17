@@ -660,7 +660,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
     '/<html[^>]*>/im',			// malformed html: remove html tags (#1485139)
     '/<\/html>/i',			// malformed html: remove html tags (#1485139)
-    '/^[\xFE\xFF\xBB\xBF\x00]+((?:<\!doctype|\<html))/im',	// remove byte-order mark (only outlook?)
+    '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
   );
   $html_replace = array(
     '\\1'.' &nbsp; '.'\\3',
@@ -669,7 +669,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     '',
     '',
     '',
-    '\\1',
+    '',
   );
   $html = preg_replace($html_search, $html_replace, $html);
 
