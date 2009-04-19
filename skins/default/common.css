@@ -364,17 +364,11 @@ table.records-table tr.unfocused td
   top: 2px;
   left: 20px;
   width: 140px;
+  height: 15px;
   font-size: 11px;
   padding: 0px;
   border: none;
 }
-
-
-/*\*/
-html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) { background-image: none; }
-html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) a { top: 5px; }
-html>body*#quicksearchbar[id$="quicksearchbar"]:not([class="none"]) #quicksearchbox { width: 180px; top:0px; right: 1px; left: auto; }
-/**/
 
 
 /***** roundcube webmail pre-defined classes *****/
