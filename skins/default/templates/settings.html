@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/settings.css" />
 <script type="text/javascript" src="/functions.js"></script>
 </head>
-<body onload="rcube_init_settings_tabs()">
+<body>
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -17,7 +17,7 @@
 <div id="userprefs-box">
 <div id="userprefs-title"><roundcube:label name="userpreferences" /></div>
 
-<div style="padding:15px 0 15px 15px">
+<div id="userprefscontainer" style="padding:15px 0 15px 15px">
 <div class="userprefs-block">
   <roundcube:object name="userprefs" form="form" parts="general,mailbox,mailview" />
 </div>
@@ -25,6 +25,8 @@
   <roundcube:object name="userprefs" form="form" parts="compose,folders,server" />
 </div>
 <div style="clear:left"></div>
+
+<roundcube:container name="userprefs" id="userprefscontainer" />
 </div>
 </div>
 

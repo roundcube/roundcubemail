@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.2-20080829                                                    |
+ | Version 0.3-20090419                                                    |
  |                                                                         |
  | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -35,6 +35,9 @@ $RCMAIL = rcmail::get_instance();
 
 // init output class
 $OUTPUT = !empty($_REQUEST['_remote']) ? $RCMAIL->init_json() : $RCMAIL->load_gui(!empty($_REQUEST['_framed']));
+
+// init plugin API
+$RCMAIL->plugins->init();
 
 // set output buffering
 if ($RCMAIL->action != 'get' && $RCMAIL->action != 'viewsource') {
@@ -70,21 +73,29 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
 }
 
+
+// trigger startup plugin hook
+$startup = $RCMAIL->plugins->exec_hook('startup', array('task' => $RCMAIL->task, 'action' => $RCMAIL->action));
+$RCMAIL->set_task($startup['task']);
+$RCMAIL->action = $startup['action'];
+
+
 // try to log in
 if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
   // purge the session in case of new login when a session already exists 
-  $RCMAIL->kill_session(); 
+  $RCMAIL->kill_session();
   
-  // set IMAP host
-  $host = $RCMAIL->autoselect_host();
-  
+  $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
+    'host' => $RCMAIL->autoselect_host(),
+    'user' => trim(get_input_value('_user', RCUBE_INPUT_POST)),
+  )) + array('pass' => get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'));
+
   // check if client supports cookies
   if (empty($_COOKIE)) {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
-  else if ($_SESSION['temp'] && !empty($_POST['_user']) && !empty($_POST['_pass']) &&
-           $RCMAIL->login(trim(get_input_value('_user', RCUBE_INPUT_POST), ' '),
-              get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'), $host)) {
+  else if ($_SESSION['temp'] && !empty($auth['user']) && !empty($auth['host']) && isset($auth['pass']) && 
+            $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
     // create new session ID
     unset($_SESSION['temp']);
     rcube_sess_regenerate_id();
@@ -99,12 +110,22 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
         $RCMAIL->user->ID,
         $_SERVER['REMOTE_ADDR']));
     }
+    
+    // restore original request parameters
+    $query = array();
+    if ($url = get_input_value('_url', RCUBE_INPUT_POST))
+      parse_str($url, $query);
+
+    // allow plugins to control the redirect url after login success
+    $redir = $RCMAIL->plugins->exec_hook('login_after', $query + array('task' => $RCMAIL->task));
+    unset($redir['abort']);
 
     // send redirect
-    $OUTPUT->redirect();
+    $OUTPUT->redirect($redir);
   }
   else {
     $OUTPUT->show_message($IMAP->error_code < -1 ? 'imaperror' : 'loginfailed', 'warning');
+    $RCMAIL->plugins->exec_hook('login_failed', array('code' => $IMAP->error_code, 'host' => $auth['host'], 'user' => $auth['user']));
     $RCMAIL->kill_session();
   }
 }
@@ -208,9 +229,14 @@ $redirects = 0; $incstep = null;
 while ($redirects < 5) {
   $stepfile = !empty($action_map[$RCMAIL->task][$RCMAIL->action]) ?
     $action_map[$RCMAIL->task][$RCMAIL->action] : strtr($RCMAIL->action, '-', '_') . '.inc';
-    
+
+  // execute a plugin action
+  if (eregi('^plugin.', $RCMAIL->action)) {
+    $RCMAIL->plugins->exec_action($RCMAIL->action);
+    break;
+  }
   // try to include the step file
-  if (is_file(($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile))) {
+  else if (is_file(($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile))) {
     include($incfile);
     $redirects++;
   }

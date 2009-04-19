@@ -7,7 +7,7 @@
 <script type="text/javascript" src="/splitter.js"></script>
 
 <style type="text/css">
-<roundcube:if condition="config:ldap_public == false" />
+<roundcube:if condition="count(env:address_sources) &lt;= 1" />
 #abookcountbar { left: 20px;}
 #mainscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
@@ -44,7 +44,7 @@
 <roundcube:object name="searchform" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
 
-<roundcube:if condition="config:ldap_public" />
+<roundcube:if condition="count(env:address_sources) &gt; 1" />
 <div id="directorylist">
 <div id="groups-title"><roundcube:label name="groups" /></div>
 <roundcube:object name="directorylist" id="directories-list" />

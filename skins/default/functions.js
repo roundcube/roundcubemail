@@ -8,24 +8,16 @@
 
 function rcube_init_settings_tabs()
 {
+  var tab = '#settingstabdefault';
   if (window.rcmail && rcmail.env.action)
-    {
-    var action = rcmail.env.action=='preferences' ? 'default' : (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action);
-    var tab = document.getElementById('settingstab'+action);
-    }
-  else 
-    var tab = document.getElementById('settingstabdefault');
-  
-  if (tab)
-    tab.className = 'tablink-selected';
+    tab = '#settingstab' + (rcmail.env.action=='preferences' ? 'default' : (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, '')));
+
+  $(tab).addClass('tablink-selected');
 }
 
 function rcube_show_advanced(visible)
 {
-  var rows = document.getElementsByTagName('TR');
-  for(var i=0; i<rows.length; i++)
-    if(rows[i].className && rows[i].className.match(/advanced/))
-      rows[i].style.display = visible ? (bw.ie ? 'block' : 'table-row') : 'none';
+  $('tr.advanced').css('display', (visible ? (bw.ie ? 'block' : 'table-row') : 'none'));
 }
 
 /**
@@ -128,7 +120,7 @@ function rcmail_init_compose_form()
 
 function rcube_mail_ui()
 {
-  this.markmenu = new rcube_layer('markmessagemenu');
+  this.markmenu = $('#markmessagemenu');
 }
 
 rcube_mail_ui.prototype = {
@@ -136,24 +128,24 @@ rcube_mail_ui.prototype = {
 show_markmenu: function(show)
 {
   if (typeof show == 'undefined')
-    show = this.markmenu.visible ? false : true;
+    show = this.markmenu.is(':visible') ? false : true;
   
   var ref = rcube_find_object('markreadbutton');
   if (show && ref)
-    this.markmenu.move(ref.offsetLeft, ref.offsetTop + ref.offsetHeight);
+    this.markmenu.css({ left:ref.offsetLeft, top:(ref.offsetTop + ref.offsetHeight) });
   
-  this.markmenu.show(show);
+  this.markmenu[show?'show':'hide']();
 },
 
 body_mouseup: function(evt, p)
 {
-  if (this.markmenu && this.markmenu.visible && rcube_event.get_target(evt) != rcube_find_object('markreadbutton'))
+  if (this.markmenu && this.markmenu.is(':visible') && rcube_event.get_target(evt) != rcube_find_object('markreadbutton'))
     this.show_markmenu(false);
 },
 
 body_keypress: function(evt, p)
 {
-  if (rcube_event.get_keycode(evt) == 27 && this.markmenu && this.markmenu.visible)
+  if (rcube_event.get_keycode(evt) == 27 && this.markmenu && this.markmenu.is(':visible'))
     this.show_markmenu(false);
 }
 

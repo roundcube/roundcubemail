@@ -84,6 +84,9 @@ class rcube_message
     else {
       $this->body = $this->imap->get_body($uid);
     }
+    
+    // notify plugins and let them analyze this structured message object
+    $this->app->plugins->exec_hook('message_load', array('object' => $this));
   }
   
   

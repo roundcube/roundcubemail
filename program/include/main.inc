@@ -88,9 +88,9 @@ function get_sequence_name($sequence)
  * @return string Localized text
  * @see rcmail::gettext()
  */
-function rcube_label($p)
+function rcube_label($p, $domain=null)
 {
-  return rcmail::get_instance()->gettext($p);
+  return rcmail::get_instance()->gettext($p, $domain);
 }
 
 
@@ -302,12 +302,11 @@ function rcube_charset_convert($str, $from, $to=NULL)
  */
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
-  global $OUTPUT;
   static $html_encode_arr = false;
   static $js_rep_table = false;
   static $xml_rep_table = false;
 
-  $charset = $OUTPUT->get_charset();
+  $charset = rcmail::get_instance()->config->get('charset', RCMAIL_CHARSET);
   $is_iso_8859_1 = false;
   if ($charset == 'ISO-8859-1') {
     $is_iso_8859_1 = true;
@@ -692,11 +691,11 @@ function parse_attrib_string($str)
   preg_match_all('/\s*([-_a-z]+)=(["\'])??(?(2)([^\2]*)\2|(\S+?))/Ui', stripslashes($str), $regs, PREG_SET_ORDER);
 
   // convert attributes to an associative array (name => value)
-  if ($regs)
-    foreach ($regs as $attr)
-      {
-      $attrib[strtolower($attr[1])] = $attr[3] . $attr[4];
-      }
+  if ($regs) {
+    foreach ($regs as $attr) {
+      $attrib[strtolower($attr[1])] = html_entity_decode($attr[3] . $attr[4]);
+    }
+  }
 
   return $attrib;
   }
@@ -829,9 +828,13 @@ function format_email_recipient($email, $name='')
  */
 function console()
   {
+  $args = func_get_args();
+  if (class_exists('rcmail', false))
+      rcmail::get_instance()->plugins->exec_hook('console', $args);
+
   $msg = array();
-  foreach (func_get_args() as $arg)
-    $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
+  foreach ($args as $arg)
+     $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
 
   if (!($GLOBALS['CONFIG']['debug_level'] & 4))
     write_log('console', join(";\n", $msg));

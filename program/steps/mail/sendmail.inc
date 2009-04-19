@@ -297,86 +297,92 @@ $MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
 // For HTML-formatted messages, construct the MIME message with both
 // the HTML part and the plain-text part
 
-if ($isHtml)
-  {
-  $MAIL_MIME->setHTMLBody($message_body . ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
+if ($isHtml) {
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $message_body, 'type' => 'html', 'message' => $MAIL_MIME));
+  $MAIL_MIME->setHTMLBody($plugin['body'] . ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
 
   // add a plain text version of the e-mail as an alternative part.
-  $h2t = new html2text($message_body, false, true, 0);
-  $plainTextPart = rc_wordwrap($h2t->get_text(), 75, "\r\n"). ($footer ? "\r\n".$footer : '');
+  $h2t = new html2text($plugin['body'], false, true, 0);
+  $plainTextPart = rc_wordwrap($h2t->get_text(), 75, "\r\n") . ($footer ? "\r\n".$footer : '');
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
-  if (!strlen($plainTextPart))
-    { 
+  if (!strlen($plainTextPart)) {
     // empty message body breaks attachment handling in drafts 
     $plainTextPart = "\r\n"; 
-    }
-  $MAIL_MIME->setTXTBody($plainTextPart);
+  }
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
+  $MAIL_MIME->setTXTBody($plugin['body']);
 
   // look for "emoticon" images from TinyMCE and copy into message as attachments
   $message_body = rcmail_attach_emoticons($MAIL_MIME);
-  }
+}
 else
   {
   $message_body = rc_wordwrap($message_body, 75, "\r\n");
   if ($footer)
     $message_body .= "\r\n" . $footer;
   $message_body = wordwrap($message_body, 998, "\r\n", true);
-  if (!strlen($message_body))  
-    { 
+  if (!strlen($message_body)) { 
     // empty message body breaks attachment handling in drafts 
     $message_body = "\r\n"; 
-    } 
-  $MAIL_MIME->setTXTBody($message_body, FALSE, TRUE);
   }
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $message_body, 'type' => 'plain', 'message' => $MAIL_MIME));
+  $MAIL_MIME->setTXTBody($plugin['body'], false, true);
+}
 
 // chose transfer encoding
 $charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-15');
 $transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 // add stored attachments, if any
-if (is_array($_SESSION['compose']['attachments']))
-  foreach ($_SESSION['compose']['attachments'] as $id => $attachment)
-  {
-    $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . $id . '[\s\'"]\s*/';
-    $match = preg_match($dispurl, $message_body, $matches);
-    if ($isHtml && ($match > 0))
-    {
+if (is_array($_SESSION['compose']['attachments'])) {
+  foreach ($_SESSION['compose']['attachments'] as $id => $attachment) {
+    // This hook retrieves the attachment contents from the file storage backend
+    $attachment = $RCMAIL->plugins->exec_hook('get_attachment', $attachment);
+
+    $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\s\'"]\s*/';
+    $message_body = $MAIL_MIME->getHTMLBody();
+    if ($isHtml && (preg_match($dispurl, $message_body) > 0)) {
       $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'" ', $message_body);
       $MAIL_MIME->setHTMLBody($message_body);
-      $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name']);
+      
+      if ($attachment['data'])
+        $MAIL_MIME->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false);
+      else
+        $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name'], true);
     }
-    else
-    {
+    else {
       $ctype = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
+      $file = $attachment['data'] ? $attachment['data'] : $attachment['path'];
 
       // .eml attachments send inline
-      $MAIL_MIME->addAttachment($attachment['path'],
+      $MAIL_MIME->addAttachment($file,
         $ctype, 
-        $attachment['name'], true, 
+        $attachment['name'],
+        ($attachment['data'] ? false : true),
         ($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
         $message_charset, '', '', 
-	$CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
-	$CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
-	);
+        $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
+        $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
+      );
     }
   }
+}
 
 // add submitted attachments
-if (is_array($_FILES['_attachments']['tmp_name']))
-  foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath)
-    {
+if (is_array($_FILES['_attachments']['tmp_name'])) {
+  foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
     $ctype = $files['type'][$i];
     $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
     
     $MAIL_MIME->addAttachment($filepath, $ctype, $files['name'][$i], true,
-	$ctype == 'message/rfc822' ? $transfer_encoding : 'base64',
-	'attachment', $message_charset, '', '', 
-	$CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
-	$CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
-	);
-    }
-
+      $ctype == 'message/rfc822' ? $transfer_encoding : 'base64',
+      'attachment', $message_charset, '', '', 
+      $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
+      $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
+    );
+  }
+}
 
 // encoding settings for mail composing
 $MAIL_MIME->setParam(array(
@@ -387,6 +393,9 @@ $MAIL_MIME->setParam(array(
   'html_charset'  => $message_charset,
   'text_charset'  => $message_charset,
 ));
+
+$data = $RCMAIL->plugins->exec_hook('outgoing_message_headers', array('headers' => $headers));
+$headers = $data['headers'];
 
 // encoding subject header with mb_encode provides better results with asian characters
 if (function_exists("mb_encode_mimeheader"))

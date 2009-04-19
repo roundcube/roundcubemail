@@ -182,6 +182,7 @@ class iilBasicHeader
 	var $forwarded = false;
 	var $junk = false;
 	var $flagged = false;
+	var $others = array();
 }
 
 /**
@@ -1661,7 +1662,7 @@ function iil_IndexThreads(&$tree) {
 	return $t_index;
 }
 
-function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bodystr=false)
+function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bodystr=false, $add='')
 {
 	global $IMAP_USE_INTERNAL_DATE;
 	
@@ -1701,6 +1702,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 			}
 		}
 	}
+	
+	if ($add)
+	  $add = ' '.strtoupper(trim($add));
 
 	/* FETCH uid, size, flags and headers */
 	$key  	  = 'FH12';
@@ -1711,7 +1715,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 	$request .= "BODY.PEEK[HEADER.FIELDS ";
 	$request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
 	$request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
-	$request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY)])";
+	$request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY".$add.")])";
 
 	if (!iil_PutLine($fp, $request)) {
 		return false;
@@ -1859,7 +1863,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 					list($field, $string) = iil_SplitHeaderLine($str);
 					
 					$field  = strtolower($field);
-                                        $string = ereg_replace("\n[[:space:]]*"," ",$string); 
+					$string = ereg_replace("\n[[:space:]]*"," ",$string);
 					
 					switch ($field) {
 					case 'date';
@@ -1917,6 +1921,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 						if (preg_match('/^(\d+)/', $string, $matches))
 							$result[$id]->priority = intval($matches[1]);
 						break;
+					default:
+						if (strlen($field) > 2)
+							$result[$id]->others[$field] = $string;
+						break;
 					} // end switch ()
 				} // end while ()
 		
@@ -1964,9 +1972,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 	return $result;
 }
 
-function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false, $bodystr=false) {
+function iil_C_FetchHeader(&$conn, $mailbox, $id, $uidfetch=false, $bodystr=false, $add='') {
 
-	$a  = iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch, $bodystr);
+	$a  = iil_C_FetchHeaders($conn, $mailbox, $id, $uidfetch, $bodystr, $add);
 	if (is_array($a)) {
 		return array_shift($a);
 	}

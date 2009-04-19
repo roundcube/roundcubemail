@@ -42,18 +42,20 @@ $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
 $js_list = array();
 if (strtolower($CONFIG['address_book_type']) != 'ldap') {
   // We are using the DB address book, add it.
-  $js_list = array("0" => array('id' => 0, 'readonly' => false));
+  $js_list['0'] = array('id' => 0, 'name' => rcube_label('personaladrbook'), 'readonly' => false);
 }
 if (is_array($CONFIG['ldap_public'])) {
   foreach ($CONFIG['ldap_public'] as $id => $prop)
-    $js_list[$id] = array('id' => $id, 'readonly' => !$prop['writable']);
+    $js_list[$id] = array('id' => $id, 'name' => $prop['name'], 'readonly' => !$prop['writable']);
 }
-$OUTPUT->set_env('address_sources', $js_list);
+
+$plugin = $RCMAIL->plugins->exec_hook('address_sources', array('sources' => $js_list));
+$OUTPUT->set_env('address_sources', $plugin['sources']);
 
 
 function rcmail_directory_list($attrib)
 {
-  global $CONFIG, $OUTPUT;
+  global $RCMAIL, $OUTPUT;
   
   if (!$attrib['id'])
     $attrib['id'] = 'rcmdirectorylist';
@@ -63,26 +65,24 @@ function rcmail_directory_list($attrib)
   $current = get_input_value('_source', RCUBE_INPUT_GPC);
   $line_templ = html::tag('li', array('id' => 'rcmli%s', 'class' => '%s'),
     html::a(array('href' => '%s', 'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
-    
-  if (strtolower($CONFIG['address_book_type']) != 'ldap') {
-    $out .= sprintf($line_templ, $local_id, (!$current ? 'selected' : ''),
-      Q(rcmail_url(null, array('_source' => $local_id))), $local_id, rcube_label('personaladrbook'));
-  } // end if
-  else {
+
+  if (!$current && strtolower($RCMAIL->config->get('address_book_type', 'sql')) != 'ldap') {
+    $current = '0';
+  }
+  else if (!$current) {
     // DB address book not used, see if a source is set, if not use the
     // first LDAP directory.
-    if (!$current) {
-      $current = key((array)$CONFIG['ldap_public']);
-    } // end if
-  } // end else
-  
-  foreach ((array)$CONFIG['ldap_public'] as $id => $prop) {
+    $current = key((array)$RCMAIL->config->get('ldap_public', array()));
+  }
+
+  foreach ((array)$OUTPUT->env['address_sources'] as $j => $source) {
+    $id = $source['id'] ? $source['id'] : $j;
     $js_id = JQ($id);
     $dom_id = preg_replace('/[^a-z0-9\-_]/i', '', $id);
     $out .= sprintf($line_templ, $dom_id, ($current == $id ? 'selected' : ''),
-      Q(rcmail_url(null, array('_source' => $id))), $js_id, (!empty($prop['name']) ? Q($prop['name']) : Q($id)));
+      Q(rcmail_url(null, array('_source' => $id))), $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
   }
-  
+
   $OUTPUT->add_gui_object('folderlist', $attrib['id']);
   
   return html::tag('ul', $attrib, $out, html::$common_attrib);

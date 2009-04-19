@@ -159,6 +159,8 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       }
     }
     
+    $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
+    
     if ($table->size())
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('uisettings'))) . $table->show($attrib));
     break;
@@ -216,6 +218,8 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       $table->add(null, $input_check_all->show($config['check_all_folders']?1:0));
     }
 
+    $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
+
     if ($table->size())
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('mailboxview'))) . $table->show($attrib));
     break;
@@ -253,6 +257,8 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       $table->add('title', html::label($field_id, Q(rcube_label('showinlineimages'))));
       $table->add(null, $input_inline_images->show($config['inline_images']?1:0));
     }
+
+    $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
 
     if ($table->size())
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagesdisplaying'))) . $table->show($attrib));
@@ -295,6 +301,8 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       $table->add(null, $select_param_folding->show($config['mime_param_folding']));
     }
 
+    $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
+
     if ($table->size())
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagescomposition'))) . $table->show($attrib));
     break;
@@ -328,6 +336,8 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
         $table->add('title', Q(rcube_label('trash')));
         $table->add(null, $select->show($config['trash_mbox'], array('name' => "_trash_mbox")));
       }
+
+      $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
 
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('specialfolders'))) . $table->show($attrib));
     }
@@ -380,6 +390,8 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       $table->add('title', html::label($field_id, Q(rcube_label('logoutcompact'))));
       $table->add(null, $input_expunge->show($config['logout_expunge']?1:0));
     }
+
+    $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
 
     if ($table->size())
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('serversettings'))) . $table->show($attrib));

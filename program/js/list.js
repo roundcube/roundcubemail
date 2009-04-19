@@ -51,7 +51,6 @@ function rcube_list_widget(list, p)
   this.drag_mouse_start = null;
   this.dblclick_time = 600;
   this.row_init = function(){};
-  this.events = { click:[], dblclick:[], select:[], keypress:[], dragstart:[], dragmove:[], dragend:[] };
   
   // overwrite default paramaters
   if (p && typeof(p)=='object')
@@ -160,13 +159,15 @@ remove_row: function(uid, sel_next)
 insert_row: function(row, attop)
 {
   var tbody = this.list.tBodies[0];
+  if (!row.jquery)
+    row = $(row);
 
   if (attop && tbody.rows.length)
-    tbody.insertBefore(row, tbody.firstChild);
+    row.prependTo(tbody)
   else
-    tbody.appendChild(row);
+    row.appendTo(tbody);
 
-  this.init_row(row);
+  this.init_row(row[0]);
   this.rowcount++;
 },
 
@@ -181,10 +182,8 @@ focus: function(e)
   for (var n=0; n<this.selection.length; n++)
   {
     id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj)
-    {
-      this.set_classname(this.rows[id].obj, 'selected', true);
-      this.set_classname(this.rows[id].obj, 'unfocused', false);
+    if (this.rows[id] && this.rows[id].obj) {
+      $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
     }
   }
 
@@ -203,10 +202,8 @@ blur: function()
   for (var n=0; n<this.selection.length; n++)
   {
     id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj)
-    {
-      this.set_classname(this.rows[id].obj, 'selected', false);
-      this.set_classname(this.rows[id].obj, 'unfocused', true);
+    if (this.rows[id] && this.rows[id].obj) {
+      $(this.rows[id].obj).removeClass('selected').addClass('unfocused');
     }
   }
 },
@@ -251,26 +248,26 @@ drag_row: function(e, id)
       if (iframes[n].contentDocument)
         iframedoc = iframes[n].contentDocument;
       else if (iframes[n].contentWindow)
-	iframedoc = iframes[n].contentWindow.document;
+        iframedoc = iframes[n].contentWindow.document;
       else if (iframes[n].document)
         iframedoc = iframes[n].document;
 
       if (iframedoc)
       {
-	var list = this;
-	var pos = rcube_get_object_pos(document.getElementById(iframes[n].id));
-	this.iframe_events[n] = function(e) { e._offset = pos; return list.drag_mouse_move(e); }
-	
-	if (iframedoc.addEventListener)
-	  iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
-	else if (iframes[n].attachEvent)
-	  iframedoc.attachEvent('onmousemove', this.iframe_events[n]);
-	else
-	  iframedoc['onmousemove'] = this.iframe_events[n];
+        var list = this;
+        var pos = $('#'+iframes[n].id).offset();
+        this.iframe_events[n] = function(e) { e._offset = pos; return list.drag_mouse_move(e); }
+
+        if (iframedoc.addEventListener)
+          iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
+        else if (iframes[n].attachEvent)
+          iframedoc.attachEvent('onmousemove', this.iframe_events[n]);
+        else
+          iframedoc['onmousemove'] = this.iframe_events[n];
 
         rcube_event.add_listener({element:iframedoc, event:'mouseup', object:this, method:'drag_mouse_up'});
       }
-    }								  
+    }
   }
 
   return false;
@@ -307,9 +304,9 @@ click_row: function(e, id)
 
   // row was double clicked
   if (this.rows && dblclicked && this.in_selection(id))
-    this.trigger_event('dblclick');
+    this.triggerEvent('dblclick');
   else
-    this.trigger_event('click');
+    this.triggerEvent('click');
 
   if (!this.drag_active)
     rcube_event.cancel(e);
@@ -407,10 +404,10 @@ select_row: function(id, mod_key, with_mouse)
 
   // trigger event if selection changed
   if (this.selection.join(',') != select_before)
-    this.trigger_event('select');
+    this.triggerEvent('select');
 
   if (this.last_selected != 0 && this.rows[this.last_selected])
-    this.set_classname(this.rows[this.last_selected].obj, 'focused', false);
+    $(this.rows[this.last_selected].obj).removeClass('focused');
 
   // unselect if toggleselect is active and the same row was clicked again
   if (this.toggleselect && this.last_selected == id)
@@ -419,7 +416,7 @@ select_row: function(id, mod_key, with_mouse)
     id = null;
   }
   else
-    this.set_classname(this.rows[id].obj, 'focused', true);
+    $(this.rows[id].obj).addClass('focused');
 
   if (!this.selection.length)
     this.shift_start = null;
@@ -524,7 +521,7 @@ select_all: function(filter)
 
   // trigger event if selection changed
   if (this.selection.join(',') != select_before)
-    this.trigger_event('select');
+    this.triggerEvent('select');
 
   this.focus();
 
@@ -543,27 +540,24 @@ clear_selection: function(id)
   if (id)
     {
     for (var n=0; n<this.selection.length; n++)
-      if (this.selection[n] == id)
-        {
-	this.selection.splice(n,1);
-    	break;
-	}
+      if (this.selection[n] == id) {
+        this.selection.splice(n,1);
+        break;
+      }
     }
   // all rows
   else
     {
     for (var n=0; n<this.selection.length; n++)
-      if (this.rows[this.selection[n]])
-        {
-        this.set_classname(this.rows[this.selection[n]].obj, 'selected', false);
-        this.set_classname(this.rows[this.selection[n]].obj, 'unfocused', false);
+      if (this.rows[this.selection[n]]) {
+        $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
         }
     
     this.selection = new Array();
     }
 
   if (num_select && !this.selection.length)
-    this.trigger_event('select');
+    this.triggerEvent('select');
 },
 
 
@@ -599,7 +593,7 @@ highlight_row: function(id, multiple)
     {
       this.clear_selection();
       this.selection[0] = id;
-      this.set_classname(this.rows[id].obj, 'selected', true);
+      $(this.rows[id].obj).addClass('selected');
     }
   }
   else if (this.rows[id])
@@ -607,7 +601,7 @@ highlight_row: function(id, multiple)
     if (!this.in_selection(id))  // select row
     {
       this.selection[this.selection.length] = id;
-      this.set_classname(this.rows[id].obj, 'selected', true);
+      $(this.rows[id].obj).addClass('selected');
     }
     else  // unselect row
     {
@@ -615,8 +609,7 @@ highlight_row: function(id, multiple)
       var a_pre = this.selection.slice(0, p);
       var a_post = this.selection.slice(p+1, this.selection.length);
       this.selection = a_pre.concat(a_post);
-      this.set_classname(this.rows[id].obj, 'selected', false);
-      this.set_classname(this.rows[id].obj, 'unfocused', false);
+      $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
     }
   }
 },
@@ -644,7 +637,7 @@ key_press: function(e)
     default:
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
-      this.trigger_event('keypress');
+      this.triggerEvent('keypress');
       
       if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);
@@ -729,7 +722,7 @@ drag_mouse_move: function(e)
       return false;
   
     if (!this.draglayer)
-      this.draglayer = new rcube_layer('rcmdraglayer', {x:0, y:0, vis:0, zindex:2000});
+      this.draglayer = $('<div>').attr('id', 'rcmdraglayer').css({ position:'absolute', display:'none', 'z-index':2000 }).appendTo(document.body);
   
     // get subjects of selectedd messages
     var names = '';
@@ -754,6 +747,9 @@ drag_mouse_move: function(e)
             if (((node = obj.childNodes[i].firstChild) && (node.nodeType==3 || node.nodeName=='A')) &&
               (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)))
             {
+              if (n == 0)
+                this.drag_start_pos = $(node).offset();
+              
               subject = node.nodeType==3 ? node.data : node.innerHTML;
 	      // remove leading spaces
 	      subject = subject.replace(/^\s+/i, '');
@@ -767,18 +763,18 @@ drag_mouse_move: function(e)
       }
     }
 
-    this.draglayer.write(names);
-    this.draglayer.show(1);
+    this.draglayer.html(names);
+    this.draglayer.show();
 
     this.drag_active = true;
-    this.trigger_event('dragstart');
+    this.triggerEvent('dragstart');
   }
 
   if (this.drag_active && this.draglayer)
   {
     var pos = rcube_event.get_mouse_pos(e);
-    this.draglayer.move(pos.x+20, bw.ie ? pos.y-5+document.documentElement.scrollTop : pos.y-5);
-    this.trigger_event('dragmove', e);
+    this.draglayer.css({ left:(pos.x+20)+'px', top:(pos.y-5 + (bw.ie ? document.documentElement.scrollTop : 0))+'px' });
+    this.triggerEvent('dragmove', e);
   }
 
   this.drag_start = false;
@@ -794,11 +790,15 @@ drag_mouse_up: function(e)
 {
   document.onmousemove = null;
 
-  if (this.draglayer && this.draglayer.visible)
-    this.draglayer.show(0);
+  if (this.draglayer && this.draglayer.is(':visible')) {
+    if (this.drag_start_pos)
+      this.draglayer.animate(this.drag_start_pos, 300, 'swing').hide(20);
+    else
+      this.draglayer.hide();
+  }
 
   this.drag_active = false;
-  this.trigger_event('dragend');
+  this.triggerEvent('dragend');
 
   rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
@@ -828,68 +828,10 @@ drag_mouse_up: function(e)
     }
 
   return rcube_event.cancel(e);
-},
-
-
-
-/**
- * set/unset a specific class name
- */
-set_classname: function(obj, classname, set)
-{
-  var reg = new RegExp('\s*'+classname, 'i');
-  if (!set && obj.className.match(reg))
-    obj.className = obj.className.replace(reg, '');
-  else if (set && !obj.className.match(reg))
-    obj.className += ' '+classname;
-},
-
-
-/**
- * Setter for object event handlers
- *
- * @param {String}   Event name
- * @param {Function} Handler function
- * @return Listener ID (used to remove this handler later on)
- */
-addEventListener: function(evt, handler)
-{
-  if (this.events[evt]) {
-    var handle = this.events[evt].length;
-    this.events[evt][handle] = handler;
-    return handle;
-  }
-  else
-    return false;
-},
-
-
-/**
- * Removes a specific event listener
- *
- * @param {String} Event name
- * @param {Int}    Listener ID to remove
- */
-removeEventListener: function(evt, handle)
-{
-  if (this.events[evt] && this.events[evt][handle])
-    this.events[evt][handle] = null;
-},
-
-
-/**
- * This will execute all registered event handlers
- * @private
- */
-trigger_event: function(evt, p)
-{
-  if (this.events[evt] && this.events[evt].length) {
-    for (var i=0; i<this.events[evt].length; i++)
-      if (typeof(this.events[evt][i]) == 'function')
-        this.events[evt][i](this, p);
-  }
 }
-
 
 };
 
+rcube_list_widget.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
+rcube_list_widget.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
+rcube_list_widget.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;

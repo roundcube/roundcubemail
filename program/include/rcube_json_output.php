@@ -196,26 +196,33 @@ class rcube_json_output
      * @return void
      * @deprecated
      */
-    public function remote_response($add='', $flush=false)
+    public function remote_response($add='')
     {
         static $s_header_sent = false;
 
         if (!$s_header_sent) {
             $s_header_sent = true;
             send_nocacheing_headers();
-            header('Content-Type: application/x-javascript; charset=' . $this->get_charset());
+            header('Content-Type: text/plain; charset=' . $this->get_charset());
             print '/** ajax response ['.date('d/M/Y h:i:s O')."] **/\n";
         }
 
         // unset default env vars
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
-        // send response code
-        echo $this->get_js_commands() . $add;
+        $rcmail = rcmail::get_instance();
+        $response = array('action' => $rcmail->action, 'unlock' => (bool)$_REQUEST['_unlock']);
+        
+        if (!empty($this->env))
+          $response['env'] = $this->env;
+          
+        if (!empty($this->texts))
+          $response['texts'] = $this->texts;
 
-        // flush the output buffer
-        if ($flush)
-            flush();
+        // send response code
+        $response['exec'] = $this->get_js_commands() . $add;
+
+        echo json_serialize($response);
     }
     
     
@@ -227,14 +234,7 @@ class rcube_json_output
     private function get_js_commands()
     {
         $out = '';
-	
-	if (sizeof($this->env))
-	    $out .= 'this.set_env('.json_serialize($this->env).");\n";
         
-        foreach($this->texts as $name => $text) {
-            $out .= sprintf("this.add_label('%s', '%s');\n", $name, JQ($text));
-        }
-
         foreach ($this->commands as $i => $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {

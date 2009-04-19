@@ -52,8 +52,8 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
       spellchecker_languages : (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
       gecko_spellcheck : true,
       relative_urls : false,
-      remove_script_host : false ,
-      rc_client: rcube_webmail_client,
+      remove_script_host : false,
+      rc_client: rcmail,
       oninit : 'rcmail_editor_callback'
     });
 }

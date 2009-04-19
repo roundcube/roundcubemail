@@ -37,6 +37,7 @@ class rcmail
   public $db;
   public $imap;
   public $output;
+  public $plugins;
   public $task = 'mail';
   public $action = '';
   public $comm_path = './';
@@ -88,7 +89,7 @@ class rcmail
       $syslog_facility = $this->config->get('syslog_facility', LOG_USER);
       openlog($syslog_id, LOG_ODELAY, $syslog_facility);
     }
-    				
+
     // set task and action properties
     $this->set_task(strip_quotes(get_input_value('_task', RCUBE_INPUT_GPC)));
     $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
@@ -131,6 +132,9 @@ class rcmail
     // create IMAP object
     if ($this->task == 'mail')
       $this->imap_init();
+      
+    // create plugin API and load plugins
+    $this->plugins = rcube_plugin_api::get_instance();
   }
   
   
@@ -255,9 +259,18 @@ class rcmail
     $contacts = null;
     $ldap_config = (array)$this->config->get('ldap_public');
     $abook_type = strtolower($this->config->get('address_book_type'));
+
+    $plugin = $this->plugins->exec_hook('get_address_book', array('id' => $id, 'writeable' => $writeable));
     
-    if ($id && $ldap_config[$id]) {
+    // plugin returned instance of a rcube_addressbook
+    if ($plugin['instance'] instanceof rcube_addressbook) {
+      $contacts = $plugin['instance'];
+    }
+    else if ($id && $ldap_config[$id]) {
       $contacts = new rcube_ldap($ldap_config[$id]);
+    }
+    else if ($id === '0') {
+      $contacts = new rcube_contacts($this->db, $this->user->ID);
     }
     else if ($abook_type == 'ldap') {
       // Use the first writable LDAP address book.
@@ -598,7 +611,7 @@ class rcmail
    * @param mixed Named parameters array or label name
    * @return string Localized text
    */
-  public function gettext($attrib)
+  public function gettext($attrib, $domain=null)
   {
     // load localization files if not done yet
     if (empty($this->texts))
@@ -613,9 +626,12 @@ class rcmail
 
     $command_name = !empty($attrib['command']) ? $attrib['command'] : NULL;
     $alias = $attrib['name'] ? $attrib['name'] : ($command_name && $command_label_map[$command_name] ? $command_label_map[$command_name] : '');
-
+    
+    // check for text with domain
+    if ($domain && ($text_item = $this->texts[$domain.'.'.$alias]))
+      ;
     // text does not exist
-    if (!($text_item = $this->texts[$alias])) {
+    else if (!($text_item = $this->texts[$alias])) {
       /*
       raise_error(array(
         'code' => 500,
@@ -677,7 +693,7 @@ class rcmail
    *
    * @param string Language ID
    */
-  public function load_language($lang = null)
+  public function load_language($lang = null, $add = array())
   {
     $lang = $this->language_prop(($lang ? $lang : $_SESSION['language']));
     
@@ -707,6 +723,10 @@ class rcmail
       
       $_SESSION['language'] = $lang;
     }
+
+    // append additional texts (from plugin)
+    if (is_array($add) && !empty($add))
+      $this->texts += $add;
   }
 
 
@@ -920,18 +940,20 @@ class rcmail
   {
     if (!is_array($p))
       $p = array('_action' => @func_get_arg(0));
+      
+    $task = $p['_task'] ? $p['_task'] : $p['task'];
+    if (!$task || !in_array($task, rcmail::$main_tasks))
+      $task = $this->task;
 
-    if (!$p['task'] || !in_array($p['task'], rcmail::$main_tasks))
-      $p['task'] = $this->task;
-
-    $p['_task'] = $p['task'];
+    $p['_task'] = $task;
     unset($p['task']);
 
     $url = './';
     $delm = '?';
-    foreach (array_reverse($p) as $par => $val)
+    foreach (array_reverse($p) as $key => $val)
     {
       if (!empty($val)) {
+        $par = $key[0] == '_' ? $key : '_'.$key;
         $url .= $delm.urlencode($par).'='.urlencode($val);
         $delm = '&';
       }

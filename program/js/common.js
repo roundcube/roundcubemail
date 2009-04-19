@@ -93,7 +93,7 @@ function roundcube_browser()
   }
 
 
-// static functions for event handling
+// static functions for DOM event handling
 var rcube_event = {
 
 /**
@@ -159,8 +159,8 @@ get_mouse_pos: function(e)
   }
 
   if (e._offset) {
-    mX += e._offset.x;
-    mY += e._offset.y;
+    mX += e._offset.left;
+    mY += e._offset.top;
   }
 
   return { x:mX, y:mY };
@@ -234,7 +234,86 @@ cancel: function(evt)
 };
 
 
-var rcube_layer_objects = new Array();
+/**
+ * rcmail objects event interface
+ */
+function rcube_event_engine()
+{
+  this._events = {};
+}
+
+rcube_event_engine.prototype = {
+
+/**
+ * Setter for object event handlers
+ *
+ * @param {String}   Event name
+ * @param {Function} Handler function
+ * @return Listener ID (used to remove this handler later on)
+ */
+addEventListener: function(evt, func, obj)
+{
+  if (!this._events)
+    this._events = {};
+  if (!this._events[evt])
+    this._events[evt] = [];
+    
+  var e = {func:func, obj:obj ? obj : window};
+  this._events[evt][this._events[evt].length] = e;
+},
+
+/**
+ * Removes a specific event listener
+ *
+ * @param {String} Event name
+ * @param {Int}    Listener ID to remove
+ */
+removeEventListener: function(evt, func, obj)
+{
+  if (typeof obj == 'undefined')
+    obj = window;
+    
+  for (var h,i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
+    if ((h = this._events[evt][i]) && h.func == func && h.obj == obj)
+      this._events[evt][i] = null;
+},
+
+/**
+ * This will execute all registered event handlers
+ *
+ * @param {String} Event to trigger
+ * @param {Object} Event object/arguments
+ */
+triggerEvent: function(evt, e)
+{
+  var ret, h;
+  if (typeof e == 'undefined')
+    e = {};
+  if (typeof e == 'object')
+    e.event = evt;
+  
+  if (this._events && this._events[evt] && !this._event_exec) {
+    this._event_exec = true;
+    for (var i=0; i < this._events[evt].length; i++) {
+      if ((h = this._events[evt][i])) {
+        if (typeof h.func == 'function')
+          ret = h.func.call ? h.func.call(h.obj, this, e) : h.func(this, e);
+        else if (typeof h.obj[h.func] == 'function')
+          ret = h.obj[h.func](this, e);
+              
+        // cancel event execution
+        if (typeof ret != 'undefined' && !ret)
+          break;
+      }
+    }
+  }
+
+  this._event_exec = false;
+  return ret;
+}
+
+}  // end rcube_event_engine.prototype
+
 
 
 /**
@@ -243,7 +322,7 @@ var rcube_layer_objects = new Array();
  * @constructor
  */
 function rcube_layer(id, attributes)
-  {
+{
   this.name = id;
   
   // create a new layer in the current document
@@ -310,10 +389,6 @@ function rcube_layer(id, attributes)
   this.y = parseInt(this.elm.offsetTop);
   this.visible = (this.css.visibility=='visible' || this.css.visibility=='show' || this.css.visibility=='inherit') ? true : false;
 
-  this.id = rcube_layer_objects.length;
-  this.obj = 'rcube_layer_objects['+this.id+']';
-  rcube_layer_objects[this.id] = this;
-
 
   // ********* layer object methods *********
 
@@ -327,16 +402,6 @@ function rcube_layer(id, attributes)
     this.css.top = Math.round(this.y)+'px';
     }
 
-
-  // move the layer for a specific step
-  this.shift = function(x,y)
-    {
-    x = Math.round(x*100)/100;
-    y = Math.round(y*100)/100;
-    this.move(this.x+x, this.y+y);
-    }
-
-
   // change the layers width and height
   this.resize = function(w,h)
     {
@@ -344,15 +409,6 @@ function rcube_layer(id, attributes)
     this.css.height = h+'px';
     this.width = w;
     this.height = h;
-    }
-
-
-  // cut the layer (top,width,height,left)
-  this.clip = function(t,w,h,l)
-    {
-    this.css.clip='rect('+t+' '+w+' '+h+' '+l+')';
-    this.clip_height = h;
-    this.clip_width = w;
     }
 
 
@@ -383,36 +439,7 @@ function rcube_layer(id, attributes)
     this.elm.innerHTML = cont;
     }
 
-
-  // set the given color to the layer background
-  this.set_bgcolor = function(c)
-    {
-    if(!c || c=='#')
-      c = 'transparent';
-
-    this.css.backgroundColor = c;
-    }
-
-
-  // set the opacity of a layer to the given ammount (in %)
-  this.set_opacity = function(v)
-    {
-    if(!bw.opacity)
-      return;
-
-    var op = v<=1 ? Math.round(v*100) : parseInt(v);
-
-    if(bw.ie)
-      this.css.filter = 'alpha(opacity:'+op+')';
-    else if(bw.safari)
-      {
-      this.css.opacity = op/100;
-      this.css.KhtmlOpacity = op/100;
-      }
-    else if(bw.mz)
-      this.css.MozOpacity = op/100;
-    }
-  }
+}
 
 
 // check if input is a valid email address
@@ -472,7 +499,7 @@ function urlencode(str)
 
 // get any type of html objects by id/name
 function rcube_find_object(id, d)
-  {
+{
   var n, f, obj, e;
   if(!d) d = document;
 
@@ -486,88 +513,34 @@ function rcube_find_object(id, d)
   if(!obj && d.images.length)
     obj = d.images[id];
 
-  if(!obj && d.forms.length)
-    for(f=0; f<d.forms.length; f++)
-      {
+  if (!obj && d.forms.length) {
+    for (f=0; f<d.forms.length; f++) {
       if(d.forms[f].name == id)
         obj = d.forms[f];
       else if(d.forms[f].elements[id])
         obj = d.forms[f].elements[id];
-      }
-
-  if(!obj && d.layers)
-    {
-    if(d.layers[id]) obj = d.layers[id];
-    for(n=0; !obj && n<d.layers.length; n++)
-      obj = rcube_find_object(id, d.layers[n].document);
     }
+  }
+
+  if (!obj && d.layers) {
+    if (d.layers[id]) obj = d.layers[id];
+    for (n=0; !obj && n<d.layers.length; n++)
+      obj = rcube_find_object(id, d.layers[n].document);
+  }
 
   return obj;
-  }
-
-
-// return the absolute position of an object within the document
-function rcube_get_object_pos(obj, relative)
-  {
-  if(typeof(obj)=='string')
-    obj = rcube_find_object(obj);
-
-  if(!obj) return {x:0, y:0};
-
-  var iX = (bw.layers) ? obj.x : obj.offsetLeft;
-  var iY = (bw.layers) ? obj.y : obj.offsetTop;
-
-  if(!relative && (bw.ie || bw.mz))
-    {
-    var elm = obj.offsetParent;
-    while(elm && elm!=null)
-      {
-      iX += elm.offsetLeft - (elm.parentNode && elm.parentNode.scrollLeft ? elm.parentNode.scrollLeft : 0);
-      iY += elm.offsetTop - (elm.parentNode && elm.parentNode.scrollTop ? elm.parentNode.scrollTop : 0);
-      elm = elm.offsetParent;
-      }
-    }
-
-  return {x:iX, y:iY};
-  }
+}
 
 // determine whether the mouse is over the given object or not
 function rcube_mouse_is_over(ev, obj)
 {
   var mouse = rcube_event.get_mouse_pos(ev);
-  var pos = rcube_get_object_pos(obj);
-  
-  return ((mouse.x >= pos.x) && (mouse.x < (pos.x + obj.offsetWidth)) &&
-    (mouse.y >= pos.y) && (mouse.y < (pos.y + obj.offsetHeight)));
+  var pos = $(obj).offset();
+
+  return ((mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
+    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight)));
 }
 
-
-/**
- * Return the currently applied value of a css property
- *
- * @param {Object} html_element  Node reference
- * @param {String} css_property  Property name to read in Javascript notation (eg. 'textAlign')
- * @param {String} mozilla_equivalent  Equivalent property name in CSS notation (eg. 'text-align')
- * @return CSS property value
- * @type String
- */
-function get_elements_computed_style(html_element, css_property, mozilla_equivalent)
-  {
-  if (arguments.length==2)
-    mozilla_equivalent = css_property;
-
-  var el = html_element;
-  if (typeof(html_element)=='string')
-    el = rcube_find_object(html_element);
-
-  if (el && el.currentStyle)
-    return el.currentStyle[css_property];
-  else if (el && document.defaultView && document.defaultView.getComputedStyle)
-    return document.defaultView.getComputedStyle(el, null).getPropertyValue(mozilla_equivalent);
-  else
-    return false;
-  }
-  
 
 // cookie functions by GoogieSpell
 function setCookie(name, value, expires, path, domain, secure)
@@ -611,7 +584,7 @@ function rcube_console()
 
     if (box) {
       if (msg.charAt(msg.length-1)=='\n')
-	msg += '--------------------------------------\n';
+        msg += '--------------------------------------\n';
       else
         msg += '\n--------------------------------------\n';
 
@@ -633,7 +606,8 @@ function rcube_console()
 }
 
 var bw = new roundcube_browser();
-var console = new rcube_console();
+if (!window.console) 
+  console = new rcube_console();
 
 
 // Add escape() method to RegExp object

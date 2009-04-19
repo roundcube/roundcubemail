@@ -31,8 +31,8 @@ class rcube_html_page
     protected $scripts = array();
     protected $charset = 'UTF-8';
 
-    protected $script_tag_file = "<script type=\"text/javascript\" src=\"%s%s\"></script>\n";
-    protected $script_tag      = "<script type=\"text/javascript\">\n<!--\n%s\n\n//-->\n</script>\n";
+    protected $script_tag_file = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
+    protected $script_tag  =  "<script type=\"text/javascript\">\n/* <![CDATA[ */\n%s\n/* ]]> */\n</script>";
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
 
     protected $title = '';
@@ -53,6 +53,9 @@ class rcube_html_page
     public function include_script($file, $position='head')
     {
         static $sa_files = array();
+        
+        if (!ereg('^https?://', $file) && $file[0] != '/')
+          $file = $this->scripts_path . $file;
 
         if (in_array($file, $sa_files)) {
             return;
@@ -165,7 +168,7 @@ class rcube_html_page
         // definition of the code to be placed in the document header and footer
         if (is_array($this->script_files['head'])) {
             foreach ($this->script_files['head'] as $file) {
-                $__page_header .= sprintf($this->script_tag_file, $this->scripts_path, $file);
+                $__page_header .= sprintf($this->script_tag_file, $file);
             }
         }
 
@@ -180,7 +183,7 @@ class rcube_html_page
 
         if (is_array($this->script_files['foot'])) {
             foreach ($this->script_files['foot'] as $file) {
-                $__page_footer .= sprintf($this->script_tag_file, $this->scripts_path, $file);
+                $__page_footer .= sprintf($this->script_tag_file, $file);
             }
         }
 

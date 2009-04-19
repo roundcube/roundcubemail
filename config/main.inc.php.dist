@@ -35,6 +35,12 @@ $rcmail_config['log_dir'] = 'logs/';
 // use this folder to store temp files (must be writeable for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
 
+// use this folder to search for plugin sources
+$rcmail_config['plugins_dir'] = 'plugins/';
+
+// List of active plugins. Add the name of a directory found in 'plugins_dir'
+$rcmail_config['plugins'] = array();
+
 // enable caching of messages and mailbox data in the local database.
 // this is recommended if the IMAP server does not run on the same machine
 $rcmail_config['enable_caching'] = TRUE;
@@ -152,7 +158,7 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 $rcmail_config['date_today'] = 'H:i';
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/0.2-beta';
+$rcmail_config['useragent'] = 'RoundCube Webmail/0.3-beta';
 
 // use this name to compose page titles
 $rcmail_config['product_name'] = 'RoundCube Webmail';

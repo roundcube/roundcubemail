@@ -346,16 +346,22 @@ class rcube_user
    */
   static function create($user, $host)
   {
+    $user_name  = '';
     $user_email = '';
     $rcmail = rcmail::get_instance();
+
+    $data = $rcmail->plugins->exec_hook('create_user', array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email));
+    $user_name = $data['user_name'];
+    $user_email = $data['user_email'];
+
     $dbh = $rcmail->get_dbh();
 
     // try to resolve user in virtuser table and file
-    if (!strpos($user, '@')) {
+    if ($user_email != '' && !strpos($user, '@')) {
       if ($email_list = self::user2email($user, false))
         $user_email = $email_list[0];
     }
-    
+
     $dbh->query(
       "INSERT INTO ".get_table_name('users')."
         (created, last_login, username, mail_host, alias, language)
@@ -372,7 +378,9 @@ class rcube_user
       if ($user_email=='')
         $user_email = strpos($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
 
-      $user_name = $user != $user_email ? $user : '';
+      if ($user_name == '') {
+        $user_name = $user != $user_email ? $user : '';
+      }
 
       if (empty($email_list))
         $email_list[] = strip_newlines($user_email); 
@@ -385,10 +393,10 @@ class rcube_user
               (user_id, del, standard, name, email)
              VALUES (?, 0, ?, ?, ?)",
             $user_id,
-	    $standard,
+            $standard,
             strip_newlines($user_name),
             preg_replace('/^@/', $user . '@', $email));
-	$standard = 0;
+        $standard = 0;
       }
     }
     else
@@ -446,9 +454,9 @@ class rcube_user
       while ($sql_arr = $dbh->fetch_array($sql_result))
         if (strpos($sql_arr[0], '@')) {
           $result[] = $sql_arr[0];
-	  if ($first)
-	    return $result[0];
-	}
+          if ($first)
+            return $result[0];
+        }
     }
     // File lookup
     $r = self::findinvirtual('[[:space:]]' . quotemeta($user) . '[[:space:]]*$');
@@ -460,7 +468,7 @@ class rcube_user
       {
         $result[] = trim(str_replace('\\@', '@', $arr[0]));
 
-	if ($first)
+        if ($first)
           return $result[0];
       }
     }

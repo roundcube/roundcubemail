@@ -28,45 +28,44 @@ if (!$_SESSION['compose']) {
 // remove an attachment
 if ($RCMAIL->action=='remove-attachment')
 {
-  if (preg_match('/^rcmfile([0-9]+)$/', $_POST['_file'], $regs))
-  {
+  $id = 'undefined';
+  if (preg_match('/^rcmfile(\w+)$/', $_POST['_file'], $regs))
     $id = $regs[1];
-    if (is_array($_SESSION['compose']['attachments'][$id]))
-    {
-      @unlink($_SESSION['compose']['attachments'][$id]['path']);
+  if ($attachment = $_SESSION['compose']['attachments'][$id])
+    $attachment = $RCMAIL->plugins->exec_hook('remove_attachment', $attachment);
+  if ($attachment['status']) {
+    if (is_array($_SESSION['compose']['attachments'][$id])) {
       unset($_SESSION['compose']['attachments'][$id]);
       $OUTPUT->command('remove_from_attachment_list', "rcmfile$id");
-      $OUTPUT->send();
     }
   }
+  
+  $OUTPUT->send();
   exit;
 }
 
 if ($RCMAIL->action=='display-attachment')
 {
-  if (preg_match('/^rcmfile([0-9]+)$/', $_GET['_file'], $regs))
-  {
+  $id = 'undefined';
+  if (preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs))
     $id = $regs[1];
-    if (is_array($_SESSION['compose']['attachments'][$id]))
-    {
-      $apath = $_SESSION['compose']['attachments'][$id]['path'];
-      header('Content-Type: ' . $_SESSION['compose']['attachments'][$id]['mimetype']);
-      header('Content-Length: ' . filesize($apath));
-      readfile($apath);
-    }
+  if ($attachment = $_SESSION['compose']['attachments'][$id])
+    $attachment = $RCMAIL->plugins->exec_hook('display_attachment', $attachment);
+    
+  if ($attachment['status']) {
+    $size = $attachment['data'] ? strlen($attachment['data']) : @filesize($attachment['path']);
+    header('Content-Type: ' . $attachment['mimetype']);
+    header('Content-Length: ' . $size);
+    
+    if ($attachment['data'])
+      echo $attachment['data'];
+    else if ($attachment['path'])
+      readfile($attachment['path']);
   }
   exit;
 }
 
 // attachment upload action
-
-// use common temp dir for file uploads
-$temp_dir = unslashify($CONFIG['temp_dir']);
-
-// #1484529: we need absolute path on Windows for move_uploaded_file()
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-  $temp_dir = realpath($temp_dir);
-}
 
 if (!is_array($_SESSION['compose']['attachments'])) {
   $_SESSION['compose']['attachments'] = array();
@@ -77,15 +76,20 @@ $OUTPUT->reset();
 
 if (is_array($_FILES['_attachments']['tmp_name'])) {
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
-    $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
-    if (move_uploaded_file($filepath, $tmpfname) && file_exists($tmpfname)) {
-      $id = count($_SESSION['compose']['attachments']);
-      $_SESSION['compose']['attachments'][] = array(
-        'name' => $_FILES['_attachments']['name'][$i],
-        'mimetype' => rc_mime_content_type($tmpfname, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i]),
-        'path' => $tmpfname,
-      );
+    $attachment = array(
+      'path' => $filepath,
+      'name' => $_FILES['_attachments']['name'][$i],
+      'mimetype' => rc_mime_content_type($tmpfname, $_FILES['_attachments']['type'][$i])
+    );
 
+    $attachment = $RCMAIL->plugins->exec_hook('upload_attachment', $attachment);
+    if ($attachment['status']) {
+      $id = $attachment['id'];
+      
+      // store new attachment in session
+      unset($attachment['status']);
+      $_SESSION['compose']['attachments'][$id] = $attachment;
+      
       if (is_file($icon = $CONFIG['skin_path'] . '/images/icons/remove-attachment.png')) {
         $button = html::img(array(
           'src' => $icon,
@@ -99,11 +103,11 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
 
       $content = html::a(array(
         'href' => "#delete",
-        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%d', this)", JS_OBJECT_NAME, $id),
+        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id),
         'title' => rcube_label('delete'),
       ), $button);
-      
-      $content .= Q($_FILES['_attachments']['name'][$i]);
+
+      $content .= Q($attachment['name']);
       
       $OUTPUT->command('add2attachment_list', "rcmfile$id", $content);
     }

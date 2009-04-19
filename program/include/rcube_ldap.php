@@ -24,7 +24,7 @@
  *
  * @package Addressbook
  */
-class rcube_ldap
+class rcube_ldap extends rcube_addressbook
 {
   var $conn;
   var $prop = array();

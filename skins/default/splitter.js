@@ -22,18 +22,18 @@ function rcube_splitter(attrib)
     this.p2 = document.getElementById(this.p2id);
 
     // create and position the handle for this splitter
-    this.p1pos = rcube_get_object_pos(this.p1, this.relative);
-    this.p2pos = rcube_get_object_pos(this.p2, this.relative);
+    this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
+    this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
     
     if (this.horizontal)
       {
-      var top = this.p1pos.y + this.p1.offsetHeight;
+      var top = this.p1pos.top + this.p1.offsetHeight;
       this.layer = new rcube_layer(this.id, {x: 0, y: top, height: 10, 
     	    width: '100%', vis: 1, parent: this.p1.parentNode});
       }
     else
       {
-      var left = this.p1pos.x + this.p1.offsetWidth;
+      var left = this.p1pos.left + this.p1.offsetWidth;
       this.layer = new rcube_layer(this.id, {x: left, y: 0, width: 10, 
     	    height: '100%', vis: 1,  parent: this.p1.parentNode});
       }
@@ -70,18 +70,18 @@ function rcube_splitter(attrib)
     if (this.horizontal)
       {
       var lh = this.layer.height - this.offset * 2;
-      this.p1.style.height = Math.floor(this.pos - this.p1pos.y - lh / 2) + 'px';
+      this.p1.style.height = Math.floor(this.pos - this.p1pos.top - lh / 2) + 'px';
       this.p2.style.top = Math.ceil(this.pos + lh / 2) + 'px';
-      this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));	     
+      this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));
       if (bw.ie)
-	{
+        {
         var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top));
         this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
         }
       }
     else
       {
-      this.p1.style.width = Math.floor(this.pos - this.p1pos.x - this.layer.width / 2) + 'px';
+      this.p1.style.width = Math.floor(this.pos - this.p1pos.left - this.layer.width / 2) + 'px';
       this.p2.style.left = Math.ceil(this.pos + this.layer.width / 2) + 'px';
       this.layer.move(Math.round(this.pos - this.layer.width / 2 + 1), this.layer.y);
       if (bw.ie)
@@ -94,8 +94,8 @@ function rcube_splitter(attrib)
    */
   this.onDragStart = function(e)
     {
-    this.p1pos = rcube_get_object_pos(this.p1, this.relative);
-    this.p2pos = rcube_get_object_pos(this.p2, this.relative);
+    this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
+    this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
     this.drag_active = true;
     
     // start listening to mousemove events
@@ -119,8 +119,8 @@ function rcube_splitter(attrib)
         // I don't use the add_listener function for this one because I need to create closures to fetch
         // the position of each iframe when the event is received
         var s = this;
-        var id = iframes[n].id;
-        this.iframe_events[n] = function(e){ e._offset = rcube_get_object_pos(document.getElementById(id)); return s.onDrag(e); }
+        var id = '#'+iframes[n].id;
+        this.iframe_events[n] = function(e){ e._offset = $(id).offset(); return s.onDrag(e); }
 
         if (iframedoc.addEventListener)
           iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
@@ -145,14 +145,14 @@ function rcube_splitter(attrib)
 
     if (this.relative)
       {
-      var parent = rcube_get_object_pos(this.p1.parentNode);
-      pos.x -= parent.x;
-      pos.y -= parent.y;
+      var parent = $(this.p1.parentNode).offset();
+      pos.x -= parent.left;
+      pos.y -= parent.top;
       }
 
     if (this.horizontal)
       {
-      if (((pos.y - this.layer.height * 1.5) > this.p1pos.y) && ((pos.y + this.layer.height * 1.5) < (this.p2pos.y + this.p2.offsetHeight)))
+      if (((pos.y - this.layer.height * 1.5) > this.p1pos.top) && ((pos.y + this.layer.height * 1.5) < (this.p2pos.top + this.p2.offsetHeight)))
         {
         this.pos = pos.y;
         this.resize();
@@ -160,15 +160,15 @@ function rcube_splitter(attrib)
       }
     else
       {
-      if (((pos.x - this.layer.width * 1.5) > this.p1pos.x) && ((pos.x + this.layer.width * 1.5) < (this.p2pos.x + this.p2.offsetWidth)))
+      if (((pos.x - this.layer.width * 1.5) > this.p1pos.left) && ((pos.x + this.layer.width * 1.5) < (this.p2pos.left + this.p2.offsetWidth)))
         {
         this.pos = pos.x;
         this.resize();
         }
       }
 
-    this.p1pos = rcube_get_object_pos(this.p1, this.relative);
-    this.p2pos = rcube_get_object_pos(this.p2, this.relative);
+    this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
+    this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
     return false;
     };
 
@@ -198,7 +198,7 @@ function rcube_splitter(attrib)
         if (this.iframe_events[n]) {
           if (iframedoc.removeEventListener)
             iframedoc.removeEventListener('mousemove', this.iframe_events[n], false);
-	  else if (iframedoc.detachEvent)
+          else if (iframedoc.detachEvent)
             iframedoc.detachEvent('onmousemove', this.iframe_events[n]);
           else
             iframedoc['onmousemove'] = null;

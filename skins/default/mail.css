@@ -49,7 +49,7 @@
   top: 32px;
   left: 90px;
   width: auto;
-  visibility: hidden;
+  display: none;
   background-color: #F9F9F9;
   border: 1px solid #CCC;
   padding: 1px;

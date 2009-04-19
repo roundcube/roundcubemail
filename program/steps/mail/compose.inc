@@ -594,8 +594,6 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   global $OUTPUT;
   
   $cid_map = array();
-  $id = 0;
-  
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if (($part->ctype_primary != 'message' || !$bodyIsHtml) &&
@@ -603,16 +601,14 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
          || (empty($part->disposition) && $part->filename)))
     {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
-        $_SESSION['compose']['attachments'][$id] = $attachment;
-	if ($bodyIsHtml && $part->filename && $part->content_id) {
-	  $cid_map['cid:'.$part->content_id] = 
-	    $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$id;
+        $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+        if ($bodyIsHtml && $part->filename && $part->content_id) {
+          $cid_map['cid:'.$part->content_id] = $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
         }
-	$id++;
       }
     }
   }
-	
+
   $_SESSION['compose']['forward_attachments'] = true;
 
   return $cid_map;
@@ -624,15 +620,11 @@ function rcmail_write_inline_attachments(&$message)
   global $OUTPUT;
 
   $cid_map = array();
-  $id = 0;
-  
   foreach ((array)$message->mime_parts as $pid => $part) {
     if ($part->content_id && $part->filename) {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
-        $_SESSION['compose']['attachments'][$id] = $attachment;
-        $cid_map['cid:'.$part->content_id] = 
-	  $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$id;
-        $id++;
+        $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+        $cid_map['cid:'.$part->content_id] = $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
       }
     }
   }
@@ -642,24 +634,22 @@ function rcmail_write_inline_attachments(&$message)
 
 function rcmail_save_attachment(&$message, $pid)
 {
-  global $RCMAIL;
-
-  $temp_dir = unslashify($RCMAIL->config->get('temp_dir'));
-  $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
   $part = $message->mime_parts[$pid];
   
-  if ($fp = fopen($tmp_path, 'w'))
-  {
-    $message->get_part_content($pid, $fp);
-    fclose($fp);
-
-    return array(
-        'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
-        'name' => $part->filename,
-        'path' => $tmp_path,
-	'content_id' => $part->content_id
-    );
+  $attachment = array(
+    'name' => $part->filename,
+    'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+    'content_id' => $part->content_id,
+    'data' => $message->get_part_content($pid),
+  );
+  
+  $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+  if ($attachment['status']) {
+    unset($attachment['data'], $attachment['status']);
+    return $attachment;
   }
+
+  return false;
 }
 
 
@@ -739,7 +729,7 @@ function rcmail_compose_attachment_list($attrib)
         html::a(array(
             'href' => "#delete",
             'title' => rcube_label('delete'),
-            'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%d', this)", JS_OBJECT_NAME, $id)),
+            'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id)),
           $button) . Q($a_prop['name']));
     }
   }

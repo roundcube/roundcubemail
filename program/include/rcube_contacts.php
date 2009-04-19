@@ -25,7 +25,7 @@
  *
  * @package Addressbook
  */
-class rcube_contacts
+class rcube_contacts extends rcube_addressbook
 {
   var $db = null;
   var $db_name = '';
@@ -56,30 +56,6 @@ class rcube_contacts
     $this->db_name = get_table_name('contacts');
     $this->user_id = $user;
     $this->ready = $this->db && !$this->db->is_error();
-  }
-
-
-  /**
-   * Set internal list page
-   *
-   * @param  number  Page number to list
-   * @access public
-   */
-  function set_page($page)
-  {
-    $this->list_page = (int)$page;
-  }
-
-
-  /**
-   * Set internal page size
-   *
-   * @param  number  Number of messages to display on one page
-   * @access public
-   */
-  function set_pagesize($size)
-  {
-    $this->page_size = (int)$size;
   }
 
 
@@ -115,13 +91,6 @@ class rcube_contacts
     $this->search_fields = null;
     $this->search_string = null;
   }
-  
-  
-  /**
-   * Close connection to source
-   * Called on script shutdown
-   */
-  function close(){}
   
   
   /**
@@ -233,7 +202,7 @@ class rcube_contacts
    *
    * @return Result array or NULL if nothing selected yet
    */
-  function get_result($as_res=true)
+  function get_result()
   {
     return $this->result;
   }

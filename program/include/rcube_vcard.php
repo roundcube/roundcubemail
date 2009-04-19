@@ -263,9 +263,9 @@ class rcube_vcard
           $line[1] .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
       }
 
-      if (!preg_match('/^(BEGIN|END)$/', $line[1]) && preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
+      if (!preg_match('/^(BEGIN|END)$/i', $line[1]) && preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
         $entry = array('');
-        $field = $regs2[1][0];
+        $field = strtoupper($regs2[1][0]);
 
         foreach($regs2[1] as $attrid => $attr) {
           if ((list($key, $value) = explode('=', $attr)) && $value) {

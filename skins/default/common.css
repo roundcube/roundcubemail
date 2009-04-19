@@ -246,6 +246,13 @@ a.button-logout
   border: 1px solid #CCCCCC;
 }
 
+#pagecontent
+{
+  position: absolute;
+  top: 95px;
+  left: 20px;
+}
+
 .splitter
 {
   user-select: none;
