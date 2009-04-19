@@ -5,7 +5,7 @@
 | language/gl_ES/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -40,8 +40,8 @@ $messages['sendingfailed'] = 'Fallou o envío da mensaxe';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundos antes de enviar esta mensaxe';
 $messages['errorsavingsent'] = 'Ocurriu un erro mentres se gardaba a mensaxe enviada';
 $messages['errorsaving'] = 'Ocurriu un erro mentres se gardaba';
-$messages['errormoving'] = 'Non puiden mover a mensaxe';
-$messages['errordeleting'] = 'Non puiden eliminar a mensaxe';
+$messages['errormoving'] = 'Non se puido mover a mensaxe';
+$messages['errordeleting'] = 'Non se puido eliminar a mensaxe';
 $messages['deletecontactconfirm'] = 'Quere eliminar o(s) contacto(s) seleccionado(s)?';
 $messages['deletemessagesconfirm'] = 'Quere eliminar a(s) mensaxe(s) seleccionadas?';
 $messages['deletefolderconfirm'] = 'Quere eliminar este cartafol?';
@@ -70,13 +70,13 @@ $messages['nospellerrors'] = 'Non hai erros ortográficos';
 $messages['folderdeleted'] = 'Eliminouse correctamente o cartafol';
 $messages['deletedsuccessfully'] = 'Eliminouse correctamente';
 $messages['converting'] = 'Eliminando o formato da mensaxe...';
-$messages['messageopenerror'] = 'Non puiden cargar a mensaxe desde o servidor';
+$messages['messageopenerror'] = 'Non se puido cargar a mensaxe desde o servidor';
 $messages['fileuploaderror'] = 'Fallou a carga do ficheiro';
 $messages['filesizeerror'] = 'O ficheiro cargado é máis grande que o tamaño máximo de $size';
 $messages['copysuccess'] = 'Copiáronse correctamente $nr enderezos';
-$messages['copyerror'] = 'Non puiden copiar ningún enderezo';
+$messages['copyerror'] = 'Non se puido copiar ningún enderezo';
 $messages['sourceisreadonly'] = 'A orixe é de só lectura';
-$messages['errorsavingcontact'] = 'Non puiden gardar o contacto';
+$messages['errorsavingcontact'] = 'Non se puido gardar o contacto';
 $messages['movingmessage'] = 'Movendo mensaxe...';
 $messages['receiptsent'] = 'A notificación de disposición enviouse correctamente';
 $messages['errorsendingreceipt'] = 'Non se puido enviar a notificación de disposición';

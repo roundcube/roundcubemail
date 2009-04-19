@@ -5,7 +5,7 @@
 | language/gl_ES/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2008, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -158,7 +158,7 @@ $labels['maxuploadsize'] = 'O tamaño máximo permitido de ficheiro é de $size'
 $labels['addcc'] = 'Engadir Copia (CC)';
 $labels['addbcc'] = 'Engadir Copia Oculta (BCC)';
 $labels['addreplyto'] = 'Engadir Respostar a (Reply-To)';
-$labels['mdnrequest'] = 'O remitente desta mensaxe pediu ser notificado cando vostede lea esta mensaxe. Quere notificar ao remitente?';
+$labels['mdnrequest'] = 'O remitente desta mensaxe pediu ser notificado cando vostede a lea. Quere notificar ao remitente?';
 $labels['receiptread'] = 'Notificación da disposición da mensaxe (lectura)';
 $labels['yourmessage'] = 'Esta é unha notificación de disposición para a súa mensaxe';
 $labels['receiptnote'] = 'Nota: Esta notificación só confirma que a mensaxe se abriu no computador do destinatario. Non asegura que o destinatario o lera ou entendera o seu contido.';
