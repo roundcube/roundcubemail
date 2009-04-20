@@ -348,7 +348,7 @@ function rcube_webmail()
 
       case 'login':
         var input_user = $('#rcmloginuser');
-        input_user.bind('keypress', function(e){ return rcmail.login_user_keyup(e); });
+        input_user.bind('keyup', function(e){ return rcmail.login_user_keyup(e); });
         
         if (input_user.val() == '')
           input_user.focus();
