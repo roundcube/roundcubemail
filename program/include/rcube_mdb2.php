@@ -228,7 +228,7 @@ class rcube_mdb2
   function _query($query, $offset, $numrows, $params)
     {
     // Read or write ?
-    if (strtolower(trim(substr($query,0,6)))=='select')
+    if (strtolower(substr(trim($query),0,6))=='select')
       $mode='r';
     else
       $mode='w';

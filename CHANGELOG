@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix read/write database recognition (#1485811)
 - Fix quicksearchbox look in Chrome and Konqueror (#1484841)
 - Fix UTF-8 byte-order mark removing (#1485514)
 - Fix folders subscribtions on Konqueror (#1484841) 
