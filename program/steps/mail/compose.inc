@@ -290,7 +290,7 @@ function rcmail_compose_header_from($attrib)
       $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);
 
       // add signature to array
-      if (!empty($sql_arr['signature']))
+      if (!empty($sql_arr['signature']) && empty($_SESSION['compose']['param']['_nosig']))
       {
         $a_signatures[$identity_id]['text'] = $sql_arr['signature'];
         $a_signatures[$identity_id]['is_html'] = ($sql_arr['html_signature'] == 1) ? true : false;
