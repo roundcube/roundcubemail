@@ -98,7 +98,7 @@ init: function()
 
 
 /**
- *
+ * Init list row and set mouse events on it
  */
 init_row: function(row)
 {
@@ -123,7 +123,7 @@ init_row: function(row)
 
 
 /**
- *
+ * Remove all list rows
  */
 clear: function(sel)
 {
@@ -154,20 +154,21 @@ remove_row: function(uid, sel_next)
 
 
 /**
- *
+ * Add row to the list and initialize it
  */
 insert_row: function(row, attop)
 {
-  var tbody = this.list.tBodies[0];
-  if (!row.jquery)
-    row = $(row);
+  if (this.background)
+    var tbody = this.background;
+  else
+    var tbody = this.list.tBodies[0];
 
   if (attop && tbody.rows.length)
-    row.prependTo(tbody)
+    tbody.insertBefore(row, tbody.firstChild);
   else
-    row.appendTo(tbody);
+    tbody.appendChild(row);
 
-  this.init_row(row[0]);
+  this.init_row(row);
   this.rowcount++;
 },
 
@@ -828,6 +829,20 @@ drag_mouse_up: function(e)
     }
 
   return rcube_event.cancel(e);
+},
+
+
+/**
+ * Creating the list in background
+ */
+set_background_mode: function(flag)
+{
+  if (flag) {
+    this.background = document.createElement('TBODY');
+  } else if (this.background) {
+    this.list.replaceChild(this.background, this.list.tBodies[0]);
+    this.background = null;
+  }
 }
 
 };

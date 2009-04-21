@@ -391,7 +391,11 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
+  $browser = new rcube_browser;
+
   $OUTPUT->command('set_message_coltypes', $a_show_cols);
+  if ($browser->ie)
+    $OUTPUT->command('offline_message_list', true);
 
   // loop through message headers
   foreach ($a_headers as $n => $header)
@@ -433,11 +437,16 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       $a_msg_cols[$col] = $cont;
       }
 
-    $a_msg_flags['deleted'] = $header->deleted ? 1 : 0;
-    $a_msg_flags['unread'] = $header->seen ? 0 : 1;
-    $a_msg_flags['replied'] = $header->answered ? 1 : 0;
-    $a_msg_flags['forwarded'] = $header->forwarded ? 1 : 0;
-    $a_msg_flags['flagged'] = $header->flagged ? 1 : 0;
+    if ($header->deleted)
+      $a_msg_flags['deleted'] = 1;
+    if (!$header->seen)
+      $a_msg_flags['unread'] = 1;
+    if ($header->answered)
+      $a_msg_flags['replied'] = 1;
+    if ($header->forwarded)
+      $a_msg_flags['forwarded'] = 1;
+    if ($header->flagged)
+      $a_msg_flags['flagged'] = 1;
     
     $OUTPUT->command('add_message_row',
       $header->uid,
@@ -446,6 +455,9 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       preg_match("/multipart\/m/i", $header->ctype),
       $insert_top);
     }
+
+    if ($browser->ie)
+      $OUTPUT->command('offline_message_list', false);
   }
 
 

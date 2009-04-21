@@ -418,7 +418,7 @@ function rcube_webmail()
       }
 
     // set eventhandler to message icon
-    if ((row.icon = row.obj.cells[0].childNodes[0]) && row.icon.nodeName=='IMG')
+    if (row.icon = row.obj.getElementsByTagName('TD')[0].getElementsByTagName('IMG')[0])
       {
       var p = this;
       row.icon.id = 'msgicn_'+row.uid;
@@ -431,12 +431,11 @@ function rcube_webmail()
       {
       var found;
       if((found = find_in_array('flag', this.env.coltypes)) >= 0)
-          this.set_env('flagged_col', found+1);
+        this.set_env('flagged_col', found+1);
       }
 
     // set eventhandler to flag icon, if icon found
-    if (this.env.flagged_col && (row.flagged_icon = row.obj.cells[this.env.flagged_col].childNodes[0]) 
-	&& row.flagged_icon.nodeName=='IMG')
+    if (this.env.flagged_col && (row.flagged_icon = row.obj.getElementsByTagName('TD')[this.env.flagged_col].getElementsByTagName('IMG')[0]))
       {
       var p = this;
       row.flagged_icon.id = 'flaggedicn_'+row.uid;
@@ -3512,7 +3511,11 @@ function rcube_webmail()
     if (!this.gui_objects.messagelist || !this.message_list)
       return false;
 
-    var tbody = this.gui_objects.messagelist.tBodies[0];
+    if (this.message_list.background)
+      var tbody = this.message_list.background;
+    else
+      var tbody = this.gui_objects.messagelist.tBodies[0];
+    
     var rowcount = tbody.rows.length;
     var even = rowcount%2;
     
@@ -3528,13 +3531,14 @@ function rcube_webmail()
         + (even ? ' even' : ' odd')
         + (flags.unread ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
-        + (flags.flagged ? ' flagged' : '');
+        + (flags.flagged ? ' flagged' : '')
+	+ (this.message_list.in_selection(uid) ? ' selected' : '');
 
-    var row = $('<tr>').attr('id', 'rcmrow'+uid).attr('class', css_class);
-
-    if (this.message_list.in_selection(uid))
-      row.addClass('selected');
-
+    // for performance use DOM instead of jQuery here
+    var row = document.createElement('TR');
+    row.id = 'rcmrow'+uid;
+    row.className = css_class;
+    
     var icon = this.env.messageicon;
     if (flags.deleted && this.env.deletedicon)
       icon = this.env.deletedicon;
@@ -3551,25 +3555,29 @@ function rcube_webmail()
       icon = this.env.unreadicon;
     
     // add icon col
-    $('<td>').addClass('icon').html(icon ? '<img src="'+icon+'" alt="" />' : '').appendTo(row);
-
+    var col = document.createElement('TD');
+    col.className = 'icon';
+    col.innerHTML = icon ? '<img src="'+icon+'" alt="" />' : '';
+    row.appendChild(col);
+		  
     // add each submitted col
     for (var n = 0; n < this.coltypes.length; n++) {
       var c = this.coltypes[n];
-      col = $('<td>').addClass(String(c).toLowerCase());
-      
+      col = document.createElement('TD');
+      col.className = String(c).toLowerCase();
+            
       if (c=='flag') {
         if (flags.flagged && this.env.flaggedicon)
-          col.html('<img src="'+this.env.flaggedicon+'" alt="" />');
+          col.innerHTML = '<img src="'+this.env.flaggedicon+'" alt="" />';
         else if(!flags.flagged && this.env.unflaggedicon)
-          col.html('<img src="'+this.env.unflaggedicon+'" alt="" />');
-      }
+          col.innerHTML = '<img src="'+this.env.unflaggedicon+'" alt="" />';
+        }
       else if (c=='attachment')
-        col.html(attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '&nbsp;');
+        col.innerHTML = (attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '&nbsp;');
       else
-        col.html(cols[c]);
+        col.innerHTML = cols[c];
 
-      col.appendTo(row);
+      row.appendChild(col);
       }
 
     this.message_list.insert_row(row, attop);
@@ -3579,8 +3587,15 @@ function rcube_webmail()
       var uid = this.message_list.get_last_row();
       this.message_list.remove_row(uid);
       this.message_list.clear_selection(uid);
-    }
-  };
+      }
+    };
+
+  // messages list handling in background (for performance)
+  this.offline_message_list = function(flag)
+    {
+      if (this.message_list)
+      	this.message_list.set_background_mode(flag);
+    };
 
   // replace content of row count display
   this.set_rowcount = function(text)
@@ -3848,7 +3863,7 @@ function rcube_webmail()
       console.log(response.exec);
       eval(response.exec);
     }
-    
+ 
     // process the response data according to the sent action
     switch (response.action) {
       case 'delete':
