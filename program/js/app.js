@@ -3911,16 +3911,12 @@ function rcube_webmail()
   // handle HTTP request errors
   this.http_error = function(request, status, err)
     {
-      alert(status+":"+err);
-/*
-    //alert('Error sending request: '+request_obj.url+' => HTTP '+request_obj.xmlhttp.status);
-    if (request_obj.__lock)
-      this.set_busy(false);
+    var errmsg = request.statusText;
 
-    request_obj.reset();
-    request_obj.__lock = false;
-    this.display_message('Unknown Server Error!', 'error');
-*/
+    this.set_busy(false);
+    request.abort();
+    
+    this.display_message('Unknown Server Error!' + (errmsg ? ' ('+errmsg+')' : ''), 'error');
     };
 
   // use an image to send a keep-alive siganl to the server
