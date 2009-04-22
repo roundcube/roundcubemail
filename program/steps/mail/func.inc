@@ -394,7 +394,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
   $browser = new rcube_browser;
 
   $OUTPUT->command('set_message_coltypes', $a_show_cols);
-  if ($browser->ie)
+  if ($browser->ie && !$insert_top)
     $OUTPUT->command('offline_message_list', true);
 
   // loop through message headers
@@ -456,7 +456,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE)
       $insert_top);
     }
 
-    if ($browser->ie)
+    if ($browser->ie && !$insert_top)
       $OUTPUT->command('offline_message_list', false);
   }
 
