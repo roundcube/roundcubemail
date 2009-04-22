@@ -172,7 +172,8 @@ function genQuota($used, $total, $width, $height)
 		}
 
 		$quota_width = $quota / 100 * $width;
-		imagefilledrectangle($im, $border, 0, $quota_width, $height-2*$border, $fill);
+		if ($quota_width)
+			imagefilledrectangle($im, $border, 0, $quota_width, $height-2*$border, $fill);
 
 		$string = $quota . '%';
 		$mid    = floor(($width-(strlen($string)*imagefontwidth($font)))/2)+1;
