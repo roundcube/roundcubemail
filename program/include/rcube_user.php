@@ -385,7 +385,11 @@ class rcube_user
       if (empty($email_list))
         $email_list[] = strip_newlines($user_email); 
 
-      // also create new identity records
+      // identities_level check
+      if (count($email_list) > 1 && $rcmail->config->get('identities_level', 0) > 1)
+        $email_list = array($email_list[0]);
+
+      // create new identities records
       $standard = 1;
       foreach ($email_list as $email) {
         $dbh->query(
