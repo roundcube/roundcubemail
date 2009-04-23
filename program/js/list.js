@@ -515,8 +515,7 @@ select_all: function(filter)
     }
     else if (this.rows[n])
     {
-      this.set_classname(this.rows[n].obj, 'selected', false);
-      this.set_classname(this.rows[n].obj, 'unfocused', false);
+      $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
     }
   }
 
