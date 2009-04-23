@@ -21,6 +21,10 @@ $rcmail_config['debug_level'] = 1;
 // log driver:  'syslog' or 'file'.
 $rcmail_config['log_driver'] = 'file';
 
+// date format for log entries
+// (read http://php.net/manual/en/function.date.php for all format characters)  
+$rcmail_config['log_date_format'] = 'd-M-Y H:i:s O';
+
 // Syslog ident string to use, if using the 'syslog' log driver.
 $rcmail_config['syslog_id'] = 'roundcube';
 

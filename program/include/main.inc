@@ -862,10 +862,11 @@ function write_log($name, $line)
 
   if (!is_string($line))
     $line = var_export($line, true);
-  
-  $log_entry = sprintf("[%s]: %s\n",
-                 date("d-M-Y H:i:s O", mktime()),
-                 $line);
+ 
+  if (empty($CONFIG['log_date_format']))
+    $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
+ 
+  $log_entry = sprintf("[%s]: %s\n", date($CONFIG['log_date_format']), $line);
 
   if ($CONFIG['log_driver'] == 'syslog') {
     if ($name == 'errors')

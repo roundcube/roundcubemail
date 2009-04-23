@@ -69,12 +69,15 @@ function log_bug($arg_arr)
   global $CONFIG;
   $program = strtoupper($arg_arr['type']);
 
+  if (empty($CONFIG['log_date_format']))
+    $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
+
   // write error to local log file
   if ($CONFIG['debug_level'] & 1)
   {
     $post_query = ($_SERVER['REQUEST_METHOD'] == 'POST' ? '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']) : '');
     $log_entry = sprintf("[%s] %s Error: %s%s (%s %s)\n",
-      date("d-M-Y H:i:s O", mktime()),
+      date($CONFIG['log_date_format']),
       $program,
       $arg_arr['message'],
       $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
