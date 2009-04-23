@@ -3789,6 +3789,13 @@ function rcube_webmail()
       });
     }
 
+  this.plain2html = function(plainText, id)
+    {
+    this.set_busy(true, 'converting');
+    $(document.getElementById(id)).val('<pre>'+plainText+'</pre>');
+    this.set_busy(false);
+    }
+
 
   /********************************************************/
   /*********        remote request methods        *********/

@@ -13,3 +13,13 @@ body {
 	margin-top: 2px;
 }
 
+pre
+{
+	margin: 0;
+	padding: 0;
+        white-space: -o-pre-wrap !important;
+	white-space: -moz-pre-wrap !important;
+	white-space: pre-wrap !important;
+	white-space: pre;
+	word-wrap: break-word; /* IE (and Safari) */
+}

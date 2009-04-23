@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix text wrapping in HTML editor after switching from plain text to HTML (#1485521)
 - Fix auto-complete function hangs with plus sign (#1485815)
 - Fix AJAX requests errors handler (#1485000)
 - Speed up message list displaying on IE
