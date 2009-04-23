@@ -2568,7 +2568,7 @@ function rcube_webmail()
     this.ksearch_value = q;
     
     this.display_message(this.get_label('searching'), 'loading', true);
-    this.http_post('autocomplete', '_search='+q);
+    this.http_post('autocomplete', '_search='+urlencode(q));
   };
 
   this.ksearch_query_results = function(results, search)
