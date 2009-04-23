@@ -62,7 +62,7 @@ foreach ($a_mailboxes as $mbox_name) {
         // get the headers
         $result_h = $IMAP->list_headers($mbox_name, 1, 'date', 'DESC');
         // add to the list
-        rcmail_js_message_list($result_h, TRUE);
+        rcmail_js_message_list($result_h, true, false);
       }
     }
   }

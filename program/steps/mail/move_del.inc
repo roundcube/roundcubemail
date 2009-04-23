@@ -108,7 +108,7 @@ if ($addrows && $_POST['_from']!='show' && ($jump_back || $nextpage_count > 0)) 
     if (!$jump_back) {
         $a_headers = array_slice($a_headers, -$count, $count);
     }
-    rcmail_js_message_list($a_headers);
+    rcmail_js_message_list($a_headers, false, false);
 }
 
 // send response
