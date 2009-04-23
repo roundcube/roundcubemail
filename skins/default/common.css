@@ -277,7 +277,7 @@ a.button-logout
 .boxtitle
 {
   height: 12px !important;
-  padding: 4px 20px 3px 20px;
+  padding: 2px 10px 5px 10px;
   border-bottom: 1px solid #999;
   color: #333;
   font-size: 11px;
@@ -457,3 +457,30 @@ a.rcmContactAddress:hover
   background-color: #CC3333;
 }
 
+#login-form
+{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 400px;
+  border: 1px solid #999;
+}
+
+#login-form table td.title
+{
+  color: #666;
+  text-align: right;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+
+#login-form table
+{
+  width: 1%;
+  margin: auto;
+}
+
+#login-form .boxcontent
+{
+  padding: 20px 10px 10px 10px;
+}

@@ -139,6 +139,11 @@ span.tablink-selected a
   width: expression('auto');
 }
 
+#subscription-table input
+{
+  font: inherit;
+}
+
 #subscription-table tbody td,
 #identities-table tbody td
 {
@@ -196,6 +201,12 @@ span.tablink-selected a
   width: 30px;
 }
 
+#subscription-table td.name input
+{
+  font: inherit;
+  width: 240px;
+}
+
 #identity-frame
 {
   position: relative;
@@ -244,7 +255,7 @@ input.disabled
 div.boxtitle
 {
   height: 12px !important;
-  padding: 4px 20px 3px 6px;
+  padding: 2px 10px 5px 10px;
   border-bottom: 1px solid #999999;
   color: #333333;
   font-size: 11px;
