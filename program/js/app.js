@@ -3706,14 +3706,19 @@ function rcube_webmail()
     var rowcount = tbody.rows.length;
     var even = rowcount%2;
     
-    var row = $('<tr>').attr('id', 'rcmrow'+cid).addClass('class').addClass(even ? 'even' : 'odd');
-    
+    var row = document.createElement('TR');
+    row.id = 'rcmrow'+cid;
+    row.className = 'contact '+(even ? 'even' : 'odd');
+	    
     if (this.contact_list.in_selection(cid))
-      row.addClass('selected');
+      row.className += ' selected';
 
     // add each submitted col
     for (var c in cols) {
-      col = $('<td>').addClass(String(c).toLowerCase()).html(cols[c]).appendTo(row);
+      col = document.createElement('TD');
+      col.className = String(c).toLowerCase();
+      col.innerHTML = cols[c];
+      row.appendChild(col);
     }
     
     this.contact_list.insert_row(row);
