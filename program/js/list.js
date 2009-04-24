@@ -723,7 +723,7 @@ drag_mouse_move: function(e)
   
     if (!this.draglayer)
       this.draglayer = $('<div>').attr('id', 'rcmdraglayer').css({ position:'absolute', display:'none', 'z-index':2000 }).appendTo(document.body);
-  
+
     // get subjects of selectedd messages
     var names = '';
     var c, i, node, subject, obj;
@@ -747,9 +747,12 @@ drag_mouse_move: function(e)
             if (((node = obj.childNodes[i].firstChild) && (node.nodeType==3 || node.nodeName=='A')) &&
               (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)))
             {
-              if (n == 0)
-                this.drag_start_pos = $(node).offset();
-              
+	      if (n == 0) {
+	        if (node.nodeType == 3)
+		  this.drag_start_pos = $(obj.childNodes[i]).offset();
+		else
+                  this.drag_start_pos = $(node).offset();
+	      }
               subject = node.nodeType==3 ? node.data : node.innerHTML;
 	      // remove leading spaces
 	      subject = subject.replace(/^\s+/i, '');
