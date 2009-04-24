@@ -371,13 +371,9 @@ class rcmail
     $options = array(
       'imap' => $this->config->get('imap_auth_type', 'check'),
       'delimiter' => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
+      'rootdir' => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
     );
-    
-    if (isset($_SESSION['imap_root']))
-      $options['rootdir'] = $_SESSION['imap_root'];
-    else if ($imap_root = $this->config->get('imap_root'))
-      $options['rootdir'] = $imap_root;
-    
+
     $this->imap->set_options($options);
   
     // set global object for backward compatibility
