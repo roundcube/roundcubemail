@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix autocomplete spinning wheel does not disappear (#1485804)
 - Added log_date_format option (#1485709)
 - Fix text wrapping in HTML editor after switching from plain text to HTML (#1485521)
 - Fix auto-complete function hangs with plus sign (#1485815)

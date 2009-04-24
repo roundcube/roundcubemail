@@ -2574,7 +2574,7 @@ function rcube_webmail()
   this.ksearch_query_results = function(results, search)
   {
     // ignore this outdated search response
-    if (search != this.ksearch_value)
+    if (this.ksearch_value && search != this.ksearch_value)
       return;
       
     this.hide_message();
