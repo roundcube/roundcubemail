@@ -1232,9 +1232,6 @@ function rcube_webmail()
 
   this.drag_start = function(list)
   {
-    this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
-    this.initialMailBoxScrollTop = document.getElementById("mailboxlist-container").scrollTop;
-
     var model = this.task == 'mail' ? this.env.mailboxes : this.env.address_sources;
 
     this.drag_active = true;
@@ -1244,6 +1241,9 @@ function rcube_webmail()
     // save folderlist and folders location/sizes for droptarget calculation in drag_move()
     if (this.gui_objects.folderlist && model)
       {
+      this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
+      this.initialListScrollTop = this.gui_objects.folderlist.parentNode.scrollTop;
+
       var li, pos, list, height;
       list = $(this.gui_objects.folderlist);
       pos = list.offset();
@@ -1266,7 +1266,7 @@ function rcube_webmail()
     if (this.gui_objects.folderlist && this.env.folder_coords) {
       // offsets to compensate for scrolling while dragging a message
       var boffset = bw.ie ? -document.documentElement.scrollTop : this.initialBodyScrollTop;
-      var moffset = this.initialMailBoxScrollTop-document.getElementById('mailboxlist-container').scrollTop;
+      var moffset = this.initialListScrollTop-this.gui_objects.folderlist.parentNode.scrollTop;
       var toffset = -moffset-boffset;
 
       var li, pos, mouse;
