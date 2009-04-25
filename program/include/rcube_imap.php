@@ -53,6 +53,7 @@ class rcube_imap
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
   var $default_charset = 'ISO-8859-1';
+  var $struct_charset = NULL;
   var $default_folders = array('INBOX');
   var $default_folders_lc = array('inbox');
   var $fetch_add_headers = '';
@@ -1119,7 +1120,20 @@ class rcube_imap
       {
       $this->_msg_id = $msg_id;
       $headers = $this->get_headers($uid);
-      
+
+      // set message charset from message headers
+      if ($headers->charset)
+        $this->struct_charset = $headers->charset;
+      // ... or from first part headers
+      else if (is_array($structure[2]) && $structure[2][0] == 'charset')
+        $this->struct_charset = $structure[2][1];
+      else if (is_array($structure[0][2]) && $structure[0][2][0] == 'charset')
+        $this->struct_charset = $structure[0][2][1];
+      else if (is_array($structure[0][0][2]) && $structure[0][0][2][0] == 'charset')
+        $this->struct_charset = $structure[0][0][2][1];
+      else
+        $this->struct_charset = null;
+
       $struct = &$this->_structure_part($structure);
       $struct->headers = get_object_vars($headers);
 
@@ -1364,7 +1378,8 @@ class rcube_imap
     // decode filename
     if (!empty($filename_mime)) {
       $part->filename = rcube_imap::decode_mime_string($filename_mime, 
-        $part->charset ? $part->charset : rc_detect_encoding($filename_mime, $this->default_charset));
+        $part->charset ? $part->charset : $this->struct_charset ? $this->struct_charset :
+	    rc_detect_encoding($filename_mime, $this->default_charset));
       } 
     else if (!empty($filename_encoded)) {
       // decode filename according to RFC 2231, Section 4

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix attachment names encoding when charset isn't specified in attachment part (#1484969)
 - Fix message normal priority problem (#1485820)
 - Fix autocomplete spinning wheel does not disappear (#1485804)
 - Added log_date_format option (#1485709)
