@@ -3459,6 +3459,9 @@ function rcube_webmail()
       if ((target_li = this.get_folder_li(name))) {
         $(target_li).removeClass('unfocused').addClass('selected');
       }
+      
+      // trigger event hook
+      this.triggerEvent('selectfolder', { folder:name, old:old });
     }
   };
 
@@ -3912,9 +3915,16 @@ function rcube_webmail()
             this.msglist_select(this.message_list);
           this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
           this.enable_command('purge', this.purge_mailbox_test());
+          
+          if (response.action == 'list')
+            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
         }
-        else if (this.task == 'addressbook')
+        else if (this.task == 'addressbook') {
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+          
+          if (response.action == 'list')
+            this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
+        }
         break;
     }
   };
