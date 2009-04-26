@@ -732,13 +732,13 @@ class rcube_template extends rcube_html_page
         }
         // get localized text for labels and titles
         if ($attrib['title']) {
-            $attrib['title'] = Q(rcube_label($attrib['title']));
+            $attrib['title'] = Q(rcube_label($attrib['title'], $attrib['domain']));
         }
         if ($attrib['label']) {
-            $attrib['label'] = Q(rcube_label($attrib['label']));
+            $attrib['label'] = Q(rcube_label($attrib['label'], $attrib['domain']));
         }
         if ($attrib['alt']) {
-            $attrib['alt'] = Q(rcube_label($attrib['alt']));
+            $attrib['alt'] = Q(rcube_label($attrib['alt'], $attrib['domain']));
         }
         // set title to alt attribute for IE browsers
         if ($this->browser->ie && $attrib['title'] && !$attrib['alt']) {

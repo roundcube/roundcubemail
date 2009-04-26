@@ -101,11 +101,29 @@ abstract class rcube_plugin
    * @return string Localized text
    * @see rcmail::gettext()
    */
-  function gettext($p)
+  public function gettext($p)
   {
     return rcmail::get_instance()->gettext($p, $this->ID);
   }
-  
+
+  /**
+   * Register this plugin to be responsible for a specific task
+   *
+   * @param string Task name (only characters [a-z0-9_.-] are allowed)
+   */
+  public function register_task($task)
+  {
+    if ($task != asciiwords($task)) {
+      raise_error(array('code' => 526, 'type' => 'php', 'message' => "Invalid task name: $task. Only characters [a-z0-9_.-] are allowed"), true, false);
+    }
+    else if (in_array(rcmail::$main_tasks, $task)) {
+      raise_error(array('code' => 526, 'type' => 'php', 'message' => "Cannot register taks $task; already taken by another plugin or the application itself"), true, false);
+    }
+    else {
+      rcmail::$main_tasks[] = $task;
+    }
+  }
+
   /**
     * Register a handler for a specific client-request action
     *

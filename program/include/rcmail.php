@@ -91,7 +91,7 @@ class rcmail
     }
 
     // set task and action properties
-    $this->set_task(strip_quotes(get_input_value('_task', RCUBE_INPUT_GPC)));
+    $this->set_task(get_input_value('_task', RCUBE_INPUT_GPC));
     $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
 
     // connect to database
@@ -145,14 +145,12 @@ class rcmail
    */
   public function set_task($task)
   {
-    if (!in_array($task, self::$main_tasks))
-      $task = 'mail';
-    
-    $this->task = $task;
-    $this->comm_path = $this->url(array('task' => $task));
+    $task = asciiwords($task);
+    $this->task = $task ? $task : 'mail';
+    $this->comm_path = $this->url(array('task' => $this->task));
     
     if ($this->output)
-      $this->output->set_env('task', $task);
+      $this->output->set_env('task', $this->task);
   }
   
   
@@ -936,11 +934,8 @@ class rcmail
   {
     if (!is_array($p))
       $p = array('_action' => @func_get_arg(0));
-      
-    $task = $p['_task'] ? $p['_task'] : $p['task'];
-    if (!$task || !in_array($task, rcmail::$main_tasks))
-      $task = $this->task;
-
+    
+    $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
     $p['_task'] = $task;
     unset($p['task']);
 
