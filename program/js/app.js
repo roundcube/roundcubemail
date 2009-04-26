@@ -3534,7 +3534,7 @@ function rcube_webmail()
         + (flags.unread ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
-	+ (this.message_list.in_selection(uid) ? ' selected' : '');
+        + (this.message_list.in_selection(uid) ? ' selected' : '');
 
     // for performance use DOM instead of jQuery here
     var row = document.createElement('TR');
@@ -3583,6 +3583,7 @@ function rcube_webmail()
       }
 
     this.message_list.insert_row(row, attop);
+    this.triggerEvent('insertrow', { uid:uid, row:row });
 
     // remove 'old' row
     if (attop && this.env.pagesize && this.message_list.rowcount > this.env.pagesize) {
@@ -3725,6 +3726,8 @@ function rcube_webmail()
     }
     
     this.contact_list.insert_row(row);
+    this.triggerEvent('insertrow', { cid:cid, row:row });
+    
     this.enable_command('export', (this.contact_list.rowcount > 0));
     };
 
