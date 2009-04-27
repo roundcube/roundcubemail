@@ -79,10 +79,11 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
     $attachment = array(
       'path' => $filepath,
       'name' => $_FILES['_attachments']['name'][$i],
-      'mimetype' => rc_mime_content_type($tmpfname, $_FILES['_attachments']['type'][$i])
+      'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['type'][$i])
     );
 
     $attachment = $RCMAIL->plugins->exec_hook('upload_attachment', $attachment);
+
     if ($attachment['status']) {
       $id = $attachment['id'];
       
@@ -93,8 +94,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       if (is_file($icon = $CONFIG['skin_path'] . '/images/icons/remove-attachment.png')) {
         $button = html::img(array(
           'src' => $icon,
-          'alt' => rcube_label('delete'),
-          'style' => "padding-right:2px;vertical-align:middle",
+          'alt' => rcube_label('delete')
         ));
       }
       else {

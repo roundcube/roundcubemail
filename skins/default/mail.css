@@ -1016,6 +1016,12 @@ div.message-htmlpart div.rcmBody
   overflow: hidden;
 }
 
+#compose-attachments ul li img
+{
+  padding-right: 2px;
+  vertical-align: middle;
+}
+
 #attachment-title
 {
   background: url(images/icons/attachment.png) top left no-repeat;
