@@ -104,7 +104,7 @@ class password extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
 
-    $confirm = $this->_confirm($rcmail->config);
+    $confirm = $rcmail->config->get('password_confirm_current');
     $this->add_texts('localization/');
 
     if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']))
@@ -130,7 +130,7 @@ class password extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
 
-    $confirm = $this->_confirm($rcmail->config);
+    $confirm = $rcmail->config->get('password_confirm_current');
     // add some labels to client
     $rcmail->output->add_label(
 	'password.nopassword',
@@ -199,12 +199,6 @@ class password extends rcube_plugin
 	'method' => 'post',
 	'action' => './?_task=settings&_action=plugin.password-save',
 	), $out);
-  }
-
-  private function _confirm($cfg) {
-    $val = $cfg->get('password_confirm_current');
-    //return empty($val) || $val;
-    return $val;
   }
 
   private function _save($curpass,$passwd)
