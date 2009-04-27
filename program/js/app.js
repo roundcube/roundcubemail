@@ -596,17 +596,12 @@ function rcube_webmail()
 
 
       case 'sort':
-        // get the type of sorting
-        var a_sort = props.split('_');
-        var sort_col = a_sort[0];
-        var sort_order = a_sort[1] ? a_sort[1].toUpperCase() : 'ASC';
+        var sort_order, sort_col = props;
 
-        if (this.env.sort_col==sort_col) {
+        if (this.env.sort_col==sort_col)
           sort_order = this.env.sort_order=='ASC' ? 'DESC' : 'ASC';
-          
-	  if (this.env.sort_order==sort_order)
-            break;
-	}
+        else
+	  sort_order = 'ASC';
 	
         // set table header class
         $('#rcm'+this.env.sort_col).removeClass('sorted'+(this.env.sort_order.toUpperCase()));
