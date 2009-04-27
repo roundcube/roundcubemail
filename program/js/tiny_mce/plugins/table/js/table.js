@@ -12,7 +12,7 @@ function insertTable() {
 	tinyMCEPopup.restoreSelection();
 
 	if (!AutoValidator.validate(formObj)) {
-		alert(inst.getLang('invalid_data'));
+		tinyMCEPopup.alert(inst.getLang('invalid_data'));
 		return false;
 	}
 
@@ -46,13 +46,13 @@ function insertTable() {
 
 	// Validate table size
 	if (colLimit && cols > colLimit) {
-		inst.windowManager.alert(inst.getLang('table_dlg.col_limit').replace(/\{\$cols\}/g, colLimit));
+		tinyMCEPopup.alert(inst.getLang('table_dlg.col_limit').replace(/\{\$cols\}/g, colLimit));
 		return false;
 	} else if (rowLimit && rows > rowLimit) {
-		inst.windowManager.alert(inst.getLang('table_dlg.row_limit').replace(/\{\$rows\}/g, rowLimit));
+		tinyMCEPopup.alert(inst.getLang('table_dlg.row_limit').replace(/\{\$rows\}/g, rowLimit));
 		return false;
 	} else if (cellLimit && cols * rows > cellLimit) {
-		inst.windowManager.alert(inst.getLang('table_dlg.cell_limit').replace(/\{\$cells\}/g, cellLimit));
+		tinyMCEPopup.alert(inst.getLang('table_dlg.cell_limit').replace(/\{\$cells\}/g, cellLimit));
 		return false;
 	}
 
@@ -87,7 +87,7 @@ function insertTable() {
 			elm.insertBefore(capEl, elm.firstChild);
 		}
 
-		if (width && /(pt|em|cm)$/.test(width)) {
+		if (width && inst.settings.inline_styles) {
 			dom.setStyle(elm, 'width', width);
 			dom.setAttrib(elm, 'width', '');
 		} else {
@@ -100,10 +100,13 @@ function insertTable() {
 		dom.setAttrib(elm, 'bgColor', '');
 		dom.setAttrib(elm, 'background', '');
 
-		if (height) {
+		if (height && inst.settings.inline_styles) {
 			dom.setStyle(elm, 'height', height);
 			dom.setAttrib(elm, 'height', '');
-		}
+		} else {
+			dom.setAttrib(elm, 'height', height, true);
+			dom.setStyle(elm, 'height', '');
+ 		}
 
 		if (background != '')
 			elm.style.backgroundImage = "url('" + background + "')";
@@ -149,9 +152,13 @@ function insertTable() {
 	html += makeAttrib('cellpadding', cellpadding);
 	html += makeAttrib('cellspacing', cellspacing);
 
-	if (width && /(pt|em|cm)$/.test(width)) {
+	if (width && inst.settings.inline_styles) {
 		if (style)
 			style += '; ';
+
+		// Force px
+		if (/[0-9\.]+/.test(width))
+			width += 'px';
 
 		style += 'width: ' + width;
 	} else
@@ -200,7 +207,30 @@ function insertTable() {
 	html += "</table>";
 
 	inst.execCommand('mceBeginUndoLevel');
-	inst.execCommand('mceInsertContent', false, html);
+
+	// Move table
+	if (inst.settings.fix_table_elements) {
+		var bm = inst.selection.getBookmark(), patt = '';
+
+		inst.execCommand('mceInsertContent', false, '<br class="_mce_marker" />');
+
+		tinymce.each('h1,h2,h3,h4,h5,h6,p'.split(','), function(n) {
+			if (patt)
+				patt += ',';
+
+			patt += n + ' ._mce_marker';
+		});
+
+		tinymce.each(inst.dom.select(patt), function(n) {
+			inst.dom.split(inst.dom.getParent(n, 'h1,h2,h3,h4,h5,h6,p'), n);
+		});
+
+		dom.setOuterHTML(dom.select('._mce_marker')[0], html);
+
+		inst.selection.moveToBookmark(bm);
+	} else
+		inst.execCommand('mceInsertContent', false, html);
+
 	inst.addVisual();
 	inst.execCommand('mceEndUndoLevel');
 

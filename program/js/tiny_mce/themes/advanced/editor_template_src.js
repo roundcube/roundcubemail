@@ -1,17 +1,19 @@
 /**
- * $Id: editor_template_src.js 852 2008-05-27 05:52:09Z spocke $
+ * $Id: editor_template_src.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode;
 
 	// Tell it to load theme specific language pack(s)
 	tinymce.ThemeManager.requireLangPack('advanced');
 
 	tinymce.create('tinymce.themes.AdvancedTheme', {
+		sizes : [8, 10, 12, 14, 18, 24, 36],
+
 		// Control name lookup, format: title, command
 		controls : {
 			bold : ['bold_desc', 'Bold'],
@@ -55,7 +57,7 @@
 		stateControls : ['bold', 'italic', 'underline', 'strikethrough', 'bullist', 'numlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'sub', 'sup', 'blockquote'],
 
 		init : function(ed, url) {
-			var t = this, s, v;
+			var t = this, s, v, o;
 	
 			t.editor = ed;
 			t.url = url;
@@ -71,12 +73,45 @@
 				theme_advanced_blockformats : "p,address,pre,h1,h2,h3,h4,h5,h6",
 				theme_advanced_toolbar_align : "center",
 				theme_advanced_fonts : "Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats",
-				theme_advanced_font_sizes : "1,2,3,4,5,6,7",
 				theme_advanced_more_colors : 1,
 				theme_advanced_row_height : 23,
 				theme_advanced_resize_horizontal : 1,
-				theme_advanced_resizing_use_cookie : 1
+				theme_advanced_resizing_use_cookie : 1,
+				theme_advanced_font_sizes : "1,2,3,4,5,6,7",
+				readonly : ed.settings.readonly
 			}, ed.settings);
+
+			// Setup default font_size_style_values
+			if (!s.font_size_style_values)
+				s.font_size_style_values = "8pt,10pt,12pt,14pt,18pt,24pt,36pt";
+
+			if (tinymce.is(s.theme_advanced_font_sizes, 'string')) {
+				s.font_size_style_values = tinymce.explode(s.font_size_style_values);
+				s.font_size_classes = tinymce.explode(s.font_size_classes || '');
+
+				// Parse string value
+				o = {};
+				ed.settings.theme_advanced_font_sizes = s.theme_advanced_font_sizes;
+				each(ed.getParam('theme_advanced_font_sizes', '', 'hash'), function(v, k) {
+					var cl;
+
+					if (k == v && v >= 1 && v <= 7) {
+						k = v + ' (' + t.sizes[v - 1] + 'pt)';
+
+						if (ed.settings.convert_fonts_to_spans) {
+							cl = s.font_size_classes[v - 1];
+							v = s.font_size_style_values[v - 1] || (t.sizes[v - 1] + 'pt');
+						}
+					}
+
+					if (/^\s*\./.test(v))
+						cl = v.replace(/\./g, '');
+
+					o[k] = cl ? {'class' : cl} : {fontSize : v};
+				});
+
+				s.theme_advanced_font_sizes = o;
+			}
 
 			if ((v = s.theme_advanced_path_location) && v != 'none')
 				s.theme_advanced_statusbar_location = s.theme_advanced_path_location;
@@ -111,10 +146,10 @@
 				}
 			});
 
-			DOM.loadCSS(ed.baseURI.toAbsolute(s.editor_css || "themes/advanced/skins/" + ed.settings.skin + "/ui.css"));
+			DOM.loadCSS(s.editor_css ? ed.documentBaseURI.toAbsolute(s.editor_css) : url + "/skins/" + ed.settings.skin + "/ui.css");
 
 			if (s.skin_variant)
-				DOM.loadCSS(ed.baseURI.toAbsolute(s.editor_css || "themes/advanced/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css"));
+				DOM.loadCSS(url + "/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css");
 		},
 
 		createControl : function(n, cf) {
@@ -188,8 +223,13 @@
 				});
 
 				c.onPostRender.add(function(ed, n) {
-					Event.add(n.id + '_text', 'focus', t._importClasses, t);
-					Event.add(n.id + '_text', 'mousedown', t._importClasses, t);
+					if (!c.NativeListBox) {
+						Event.add(n.id + '_text', 'focus', t._importClasses, t);
+						Event.add(n.id + '_text', 'mousedown', t._importClasses, t);
+						Event.add(n.id + '_open', 'focus', t._importClasses, t);
+						Event.add(n.id + '_open', 'mousedown', t._importClasses, t);
+					} else
+						Event.add(n.id, 'focus', t._importClasses, t);
 				});
 			}
 
@@ -210,20 +250,29 @@
 		},
 
 		_createFontSizeSelect : function() {
-			var t = this, ed = t.editor, c, lo = [
-				"1 (8 pt)",
-				"2 (10 pt)",
-				"3 (12 pt)",
-				"4 (14 pt)",
-				"5 (18 pt)",
-				"6 (24 pt)",
-				"7 (36 pt)"
-			], fz = [8, 10, 12, 14, 18, 24, 36];
+			var t = this, ed = t.editor, c, i = 0, cl = [];
 
-			c = ed.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', cmd : 'FontSize'});
+			c = ed.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', onselect : function(v) {
+				if (v.fontSize)
+					ed.execCommand('FontSize', false, v.fontSize);
+				else {
+					each(t.settings.theme_advanced_font_sizes, function(v, k) {
+						if (v['class'])
+							cl.push(v['class']);
+					});
+
+					ed.editorCommands._applyInlineStyle('span', {'class' : v['class']}, {check_classes : cl});
+				}
+			}});
+
 			if (c) {
-				each(ed.getParam('theme_advanced_font_sizes', t.settings.theme_advanced_font_sizes, 'hash'), function(v, k) {
-					c.add(k != v ? k : lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
+				each(t.settings.theme_advanced_font_sizes, function(v, k) {
+					var fz = v.fontSize;
+
+					if (fz >= 1 && fz <= 7)
+						fz = t.sizes[parseInt(fz) - 1] + 'pt';
+
+					c.add(k, v, {'style' : 'font-size:' + fz, 'class' : 'mceFontSize' + (i++) + (' ' + (v['class'] || ''))});
 				});
 			}
 
@@ -276,6 +325,9 @@
 			if (v = s.theme_advanced_text_colors)
 				o.colors = v;
 
+			if (s.theme_advanced_default_foreground_color)
+				o.default_color = s.theme_advanced_default_foreground_color;
+
 			o.title = 'advanced.forecolor_desc';
 			o.cmd = 'ForeColor';
 			o.scope = this;
@@ -301,6 +353,9 @@
 
 			if (v = s.theme_advanced_background_colors)
 				o.colors = v;
+
+			if (s.theme_advanced_default_background_color)
+				o.default_color = s.theme_advanced_default_background_color;
 
 			o.title = 'advanced.backcolor_desc';
 			o.cmd = 'HiliteColor';
@@ -385,7 +440,7 @@
 			}
 */
 
-			if (!ed.getParam('accessibility_focus') || ed.getParam('tab_focus'))
+			if (!ed.getParam('accessibility_focus'))
 				Event.add(DOM.add(p, 'a', {href : '#'}, '<!-- IE -->'), 'focus', function() {tinyMCE.get(ed.id).focus();});
 
 			if (s.theme_advanced_toolbar_location == 'external')
@@ -446,6 +501,12 @@
 
 		_simpleLayout : function(s, tb, o, p) {
 			var t = this, ed = t.editor, lo = s.theme_advanced_toolbar_location, sl = s.theme_advanced_statusbar_location, n, ic, etb, c;
+
+			if (s.readonly) {
+				n = DOM.add(tb, 'tr');
+				n = ic = DOM.add(n, 'td', {'class' : 'mceIframeContainer'});
+				return ic;
+			}
 
 			// Create toolbar container at top
 			if (lo == 'top')
@@ -594,7 +655,7 @@
 
 			n = DOM.add(DOM.add(c, 'tr'), 'td', {'class' : 'mceToolbar ' + a});
 
-			if (!ed.getParam('accessibility_focus') || ed.getParam('tab_focus'))
+			if (!ed.getParam('accessibility_focus'))
 				h.push(DOM.createHTML('a', {href : '#', onfocus : 'tinyMCE.get(\'' + ed.id + '\').focus();'}, '<!-- IE -->'));
 
 			h.push(DOM.createHTML('a', {href : '#', accesskey : 'q', title : ed.getLang("advanced.toolbar_focus")}, '<!-- IE -->'));
@@ -626,10 +687,10 @@
 
 			n = DOM.add(tb, 'tr');
 			n = td = DOM.add(n, 'td', {'class' : 'mceStatusbar'});
-			n = DOM.add(n, 'div', {id : ed.id + '_path_row'}, s.theme_advanced_path ? ed.translate('advanced.path') + ': ' : '&nbsp;');
+			n = DOM.add(n, 'div', {id : ed.id + '_path_row'}, s.theme_advanced_path ? ed.translate('advanced.path') + ': ' : '&#160;');
 			DOM.add(n, 'a', {href : '#', accesskey : 'x'});
 
-			if (s.theme_advanced_resizing && !tinymce.isOldWebKit) {
+			if (s.theme_advanced_resizing) {
 				DOM.add(td, 'a', {id : ed.id + '_resize', href : 'javascript:;', onclick : "return false;", 'class' : 'mceResize'});
 
 				if (s.theme_advanced_resizing_use_cookie) {
@@ -741,7 +802,10 @@
 		},
 
 		_nodeChanged : function(ed, cm, n, co) {
-			var t = this, p, de = 0, v, c, s = t.settings;
+			var t = this, p, de = 0, v, c, s = t.settings, cl, fz, fn;
+
+			if (s.readonly)
+				return;
 
 			tinymce.each(t.stateControls, function(c) {
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
@@ -793,11 +857,48 @@
 					c.select(p.nodeName.toLowerCase());
 			}
 
-			if (c = cm.get('fontselect'))
-				c.select(ed.queryCommandValue('FontName'));
+			if (ed.settings.convert_fonts_to_spans) {
+				ed.dom.getParent(n, function(n) {
+					if (n.nodeName === 'SPAN') {
+						if (!cl && n.className)
+							cl = n.className;
 
-			if (c = cm.get('fontsizeselect'))
-				c.select('' + ed.queryCommandValue('FontSize'));
+						if (!fz && n.style.fontSize)
+							fz = n.style.fontSize;
+
+						if (!fn && n.style.fontFamily)
+							fn = n.style.fontFamily.replace(/[\"\']+/g, '').replace(/^([^,]+).*/, '$1').toLowerCase();
+					}
+
+					return false;
+				});
+
+				if (c = cm.get('fontselect')) {
+					c.select(function(v) {
+						return v.replace(/^([^,]+).*/, '$1').toLowerCase() == fn;
+					});
+				}
+
+				if (c = cm.get('fontsizeselect')) {
+					c.select(function(v) {
+						if (v.fontSize && v.fontSize === fz)
+							return true;
+
+						if (v['class'] && v['class'] === cl)
+							return true;
+					});
+				}
+			} else {
+				if (c = cm.get('fontselect'))
+					c.select(ed.queryCommandValue('FontName'));
+
+				if (c = cm.get('fontsizeselect')) {
+					v = ed.queryCommandValue('FontSize');
+					c.select(function(iv) {
+						return iv.fontSize == v;
+					});
+				}
+			}
 
 			if (s.theme_advanced_path && s.theme_advanced_statusbar_location) {
 				p = DOM.get(ed.id + '_path') || DOM.add(ed.id + '_path_row', 'span', {id : ed.id + '_path'});
@@ -807,13 +908,13 @@
 					var na = n.nodeName.toLowerCase(), u, pi, ti = '';
 
 					// Ignore non element and hidden elements
-					if (n.nodeType != 1 || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')))
+					if (n.nodeType != 1 || n.nodeName === 'BR' || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')))
 						return;
 
 					// Fake name
 					if (v = DOM.getAttrib(n, 'mce_name'))
 						na = v;
-	
+
 					// Handle prefix
 					if (tinymce.isIE && n.scopeName !== 'HTML')
 						na = n.scopeName + ':' + na;
@@ -1049,4 +1150,4 @@
 	});
 
 	tinymce.ThemeManager.add('advanced', tinymce.themes.AdvancedTheme);
-}());
+}(tinymce));
