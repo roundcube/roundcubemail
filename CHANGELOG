@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix wrong column sort order icons (#1485823)
 - Updated TinyMCE to 3.2.3 version
 - Fix attachment names encoding when charset isn't specified in attachment part (#1484969)
 - Fix message normal priority problem (#1485820)
