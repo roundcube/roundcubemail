@@ -1124,15 +1124,8 @@ class rcube_imap
       // set message charset from message headers
       if ($headers->charset)
         $this->struct_charset = $headers->charset;
-      // ... or from first part headers
-      else if (is_array($structure[2]) && $structure[2][0] == 'charset')
-        $this->struct_charset = $structure[2][1];
-      else if (is_array($structure[0][2]) && $structure[0][2][0] == 'charset')
-        $this->struct_charset = $structure[0][2][1];
-      else if (is_array($structure[0][0][2]) && $structure[0][0][2][0] == 'charset')
-        $this->struct_charset = $structure[0][0][2][1];
       else
-        $this->struct_charset = null;
+        $this->struct_charset = $this->_structure_charset($structure);
 
       $struct = &$this->_structure_part($structure);
       $struct->headers = get_object_vars($headers);
@@ -1390,8 +1383,25 @@ class rcube_imap
       $part->filename = rcube_charset_convert(urldecode($filename_encoded), $filename_charset);
       }
     }
-     
-  
+
+
+  /**
+   * Get charset name from message structure (first part)
+   *
+   * @access private
+   * @param  array  Message structure
+   * @return string Charset name
+   */
+  function _structure_charset($structure)
+    {
+      while (is_array($structure)) {
+	if (is_array($structure[2]) && $structure[2][0] == 'charset')
+	  return $structure[2][1];
+	$structure = $structure[0];
+	}
+    } 
+
+
   /**
    * Fetch message body of a specific message from the server
    *
