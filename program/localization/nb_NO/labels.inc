@@ -2,19 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/nb_NO/labels.inc                                             |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Kjetil Waage - Nextline AS <kjetil@nextline.no>               |
- | Author: Tor Erik Linnerud - JKLM <tel@jklm.no>                        |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/nb_NO/labels.inc                                             |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Kjetil Waage - Nextline AS <kjetil@nextline.no>               |
+| Author: Tor Erik Linnerud - JKLM <tel@jklm.no>                        |
+| Author: Odd Henriksen <odd@digicon.no>                                |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -52,7 +53,7 @@ $labels['download'] = 'last ned';
 $labels['filename'] = 'Filnavn';
 $labels['filesize'] = 'Filstørrelse';
 $labels['preferhtml'] = 'Foretrekk HTML';
-$labels['htmlmessage'] = 'HTML-beskjed';
+$labels['htmlmessage'] = 'HTML-melding';
 $labels['prettydate'] = 'Pen datovisning';
 $labels['addtoaddressbook'] = 'Tilføy til adresseboken';
 $labels['sun'] = 'Søn';
@@ -83,7 +84,7 @@ $labels['nov'] = 'Nov';
 $labels['dec'] = 'Des';
 $labels['longjan'] = 'Januar';
 $labels['longfeb'] = 'Februar';
-$labels['longmar'] = 'Marsj';
+$labels['longmar'] = 'Mars';
 $labels['longapr'] = 'April';
 $labels['longmay'] = 'Mai';
 $labels['longjun'] = 'Juni';
@@ -94,7 +95,7 @@ $labels['longoct'] = 'Oktober';
 $labels['longnov'] = 'November';
 $labels['longdec'] = 'Desember';
 $labels['today'] = 'I dag';
-$labels['checkmail'] = 'Sjekk for nye beskjeder';
+$labels['checkmail'] = 'Sjekk for nye meldinger';
 $labels['writenewmessage'] = 'Opprett en ny e-post';
 $labels['replytomessage'] = 'Svar på denne e-posten';
 $labels['replytoallmessage'] = 'Svar til alle mottakere';
@@ -112,13 +113,18 @@ $labels['lastmessage'] = 'Vis siste melding';
 $labels['lastmessages'] = 'Vis siste side med meldinger';
 $labels['backtolist'] = 'Tilbake til e-postlisten';
 $labels['viewsource'] = 'Vis kilde';
-$labels['markmessages'] = 'Merk e-postene';
+$labels['markmessages'] = 'Merk meldinger';
 $labels['markread'] = 'som lest';
 $labels['markunread'] = 'som ulest';
+$labels['markflagged'] = 'som flagget';
+$labels['markunflagged'] = 'som uflagget';
 $labels['select'] = 'Velg';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Ingen';
 $labels['unread'] = 'Uleste';
+$labels['flagged'] = 'Flagget';
+$labels['unanswered'] = 'Ubesvarte';
+$labels['filter'] = 'Filter';
 $labels['compact'] = 'Rydd opp';
 $labels['empty'] = 'Tøm';
 $labels['purge'] = 'Tøm';
@@ -127,6 +133,7 @@ $labels['unknown'] = 'ukjent';
 $labels['unlimited'] = 'ubegrenset';
 $labels['quicksearch'] = 'Hurtigsøk';
 $labels['resetsearch'] = 'Nullstill søk';
+$labels['openinextwin'] = 'Åpne i nytt vindu';
 $labels['compose'] = 'Skriv ny e-post';
 $labels['savemessage'] = 'Lagre kladd';
 $labels['sendmessage'] = 'Send e-posten';
@@ -147,8 +154,12 @@ $labels['high'] = 'Høy';
 $labels['highest'] = 'Høyest';
 $labels['nosubject'] = '(intet emne)';
 $labels['showimages'] = 'Vis bilder';
+$labels['alwaysshow'] = 'Vis alltid bilder fra $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Ren tekst';
+$labels['savesentmessagein'] = 'Lagre sendt melding i';
+$labels['dontsave'] = 'ikke lagre';
+$labels['maxuploadsize'] = 'Maksimalt tillatt filstørrelse er $size';
 $labels['addcc'] = 'Legg til Cc';
 $labels['addbcc'] = 'Legg til Bcc';
 $labels['addreplyto'] = 'Legg til Reply-To';
@@ -171,13 +182,20 @@ $labels['deletecontact'] = 'Slett valgte kontakter';
 $labels['composeto'] = 'Skriv e-post til';
 $labels['contactsfromto'] = 'Kontakter $from til $to av $count';
 $labels['print'] = 'Skriv ut';
-$labels['export'] = 'Eksportere';
+$labels['export'] = 'Eksporter';
+$labels['exportvcards'] = 'Eksporter kontakter i vCard-format';
 $labels['previouspage'] = 'Vis forrige sett';
 $labels['firstpage'] = 'Vis første sett';
 $labels['nextpage'] = 'Vis neste sett';
 $labels['lastpage'] = 'Vis siste sett';
 $labels['groups'] = 'Grupper';
 $labels['personaladrbook'] = 'Egne adresser';
+$labels['import'] = 'Importer';
+$labels['importcontacts'] = 'Importer kontakter';
+$labels['importfromfile'] = 'Importer fra fil:';
+$labels['importreplace'] = 'Erstatt hele adresseboken';
+$labels['importtext'] = 'Du kan laste opp kontakter fra en eksisterende adressebok.<br/>For øyeblikket støttes importering av kontakter i <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>-formatet.';
+$labels['done'] = 'Fullført';
 $labels['settingsfor'] = 'Innstillinger for';
 $labels['preferences'] = 'Oppsett';
 $labels['userpreferences'] = 'Brukeroppsett';
@@ -188,6 +206,7 @@ $labels['newidentity'] = 'Ny identitet';
 $labels['newitem'] = 'Nytt punkt';
 $labels['edititem'] = 'Rediger punkt';
 $labels['setdefault'] = 'Sett som standard';
+$labels['autodetect'] = 'Auto';
 $labels['language'] = 'Språk';
 $labels['timezone'] = 'Tidssone';
 $labels['pagesize'] = 'Linjer per side';
@@ -196,13 +215,37 @@ $labels['dstactive'] = 'Sommertid';
 $labels['htmleditor'] = 'Bruk HTML-editor';
 $labels['htmlsignature'] = 'HTML-signatur';
 $labels['previewpane'] = 'Forhåndsvisning';
-$labels['logoutclear'] = 'Tøm søpel ved utlogging';
+$labels['skin'] = 'Utseende';
+$labels['logoutclear'] = 'Tøm søppel ved utlogging';
 $labels['logoutcompact'] = 'Kompakt innboksen ved utlogging';
 $labels['uisettings'] = 'Brukergrensesnitt';
 $labels['serversettings'] = 'Serverinnstillinger';
+$labels['mailboxview'] = 'E-postvisning';
+$labels['mdnrequests'] = 'Tilbakemelding til avsender';
+$labels['askuser'] = 'spør hver gang';
+$labels['autosend'] = 'send automatisk';
+$labels['ignore'] = 'ignorer';
+$labels['readwhendeleted'] = 'Merk melding som lest ved sletting';
+$labels['flagfordeletion'] = 'Flagg meldingen for sletting i stedet for å slette';
+$labels['skipdeleted'] = 'Ikke vis slettede meldinger';
+$labels['showremoteimages'] = 'Vis eksterne bilder i meldinger';
+$labels['fromknownsenders'] = 'fra kjente avsendere';
+$labels['always'] = 'alltid';
+$labels['showinlineimages'] = 'Vis vedlagte bilder under meldingen';
 $labels['autosavedraft'] = 'Autolagring av utkast';
 $labels['everynminutes'] = 'Hvert $n. minutt';
+$labels['keepaliveevery'] = 'hvert $n minutt';
+$labels['keepalive'] = 'Se etter ny e-post';
 $labels['never'] = 'Aldri';
+$labels['messagesdisplaying'] = 'Visning av meldinger';
+$labels['messagescomposition'] = 'Skriving av meldinger';
+$labels['mimeparamfolding'] = 'Vedleggsnavn';
+$labels['2231folding'] = 'Fullstendig RFC 2231 (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
+$labels['2047folding'] = 'Fullstendig RFC 2047 (andre)';
+$labels['advancedoptions'] = 'Avanserte alternativer';
+$labels['focusonnewmessage'] = 'Gi nettleservindu fokus ved nye meldinger';
+$labels['checkallfolders'] = 'Kontroller alle mapper for nye meldinger';
 $labels['folder'] = 'Mappe';
 $labels['folders'] = 'Mapper';
 $labels['foldername'] = 'Mappenavn';
@@ -214,8 +257,13 @@ $labels['rename'] = 'Endre navn';
 $labels['renamefolder'] = 'Endre navn på mappe';
 $labels['deletefolder'] = 'Slett mappe';
 $labels['managefolders'] = 'Rediger mapper';
+$labels['specialfolders'] = 'Spesielle mapper';
 $labels['sortby'] = 'Sorter etter';
 $labels['sortasc'] = 'Eldste først';
 $labels['sortdesc'] = 'Nyeste først';
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 
 ?>
