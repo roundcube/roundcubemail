@@ -180,7 +180,7 @@ class rcube_mail_mime extends Mail_mime
         }
       }
 
-      $input[$hdr_name] = $hdr_value;
+      $input[$hdr_name] = wordwrap($hdr_value, 990, "\n", true);  // hard limit header length
     }
 
     return $input;
