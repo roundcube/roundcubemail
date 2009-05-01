@@ -219,8 +219,7 @@ $rcmail_config['spellcheck_uri'] = '';
 
 // These languages can be selected for spell checking.
 // Configure as a PHP style hash array: array('en'=>'English', 'de'=>'Deutsch');
-// Leave empty for default set of Google spell check languages, should be defined
-// when using local Pspell extension
+// Leave empty for default set of available language.
 $rcmail_config['spellcheck_languages'] = NULL;
 
 // path to a text file which will be added to each sent message

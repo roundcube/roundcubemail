@@ -244,9 +244,11 @@ class rcube_install
         $out['dependencies'][] = array('prop' => 'spellcheck_engine',
           'explain' => 'This requires the <tt>pspell</tt> extension which could not be loaded.');
       }
-      if (empty($this->config['spellcheck_languages'])) {
-        $out['dependencies'][] = array('prop' => 'spellcheck_languages',
-          'explain' => 'You should specify the list of languages supported by your local pspell installation.');
+      if (!empty($this->config['spellcheck_languages'])) {
+        foreach ($this->config['spellcheck_languages'] as $lang => $descr)
+	  if (!pspell_new($lang))
+            $out['dependencies'][] = array('prop' => 'spellcheck_languages',
+              'explain' => "You are missing pspell support for language $lang ($descr)");
       }
     }
     
