@@ -433,6 +433,7 @@ function rcmail_compose_body($attrib)
       "googie.lang_no_error_found = \"%s\";\n".
       "googie.setLanguages(%s);\n".
       "googie.setCurrentLanguage('%s');\n".
+      "googie.setSpellContainer('spellcheck-control');\n".
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
       $RCMAIL->comm_path,
@@ -834,23 +835,26 @@ function rcmail_editor_selector($attrib)
 {
   global $CONFIG, $MESSAGE, $compose_mode;
 
-  $choices = array(
-    'html'  => 'htmltoggle',
-    'plain' => 'plaintoggle'
-  );
-
   // determine whether HTML or plain text should be checked
   $useHtml = $CONFIG['htmleditor'] ? true : false;
 
   if ($compose_mode)
     $useHtml = ($useHtml && $MESSAGE->has_html_part());
 
-  $editorid = empty($attrib['editorid']) ? 'rcmComposeMessage' : $attrib['editorid'];
+  if (empty($attrib['editorid']))
+    $attrib['editorid'] = 'rcmComposeMessage';
 
-  $selector = '';
-  $chosenvalue = $useHtml ? 'html' : 'plain';
-  $radio = new html_radiobutton(array('name' => '_editorSelect',
-    'onclick' => "return rcmail_toggle_editor(this.value=='html', '$editorid', '_is_html')"));
+  if (empty($attrib['name']))
+    $attrib['name'] = 'editorSelect';
+    
+    $attrib['onchange'] = "return rcmail_toggle_editor(this.value=='html', '".$attrib['editorid']."', '_is_html')";
+
+  $select = new html_select($attrib);
+
+  $select->add(Q(rcube_label('htmltoggle')), 'html');
+  $select->add(Q(rcube_label('plaintoggle')), 'plain');
+
+  return $select->show($useHtml ? 'html' : 'plain');
 
   foreach ($choices as $value => $text)
   {

@@ -286,11 +286,6 @@ a.button-logout
   background-image: url(images/listheader_aqua.gif);
 }
 
-.radios-left label
-{
-  padding-left: 0.3em;
-}
-
 /***** common table settings ******/
 
 table.records-table thead tr td

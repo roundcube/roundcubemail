@@ -19,11 +19,13 @@
   padding-right: 10px;
 }
 
-#messagetoolbar select
+#messagetoolbar select,
+#compose-container select
 {
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 11px;
   color: #333333;
+  height: 21px;
 }
 
 #messagetoolbar select.mboxlist
@@ -913,6 +915,7 @@ div.message-htmlpart div.rcmBody
 #receipt-selector
 {
   padding-left: 30px;
+  white-space: nowrap;
 }
 
 #compose-container
@@ -928,13 +931,25 @@ div.message-htmlpart div.rcmBody
   height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
 
+#spellcheck-control
+{
+  text-align: right;
+  padding-top: 3px;
+}
+
+#editor-select
+{
+  float: left;
+}
+
 #compose-div
 {
   position: absolute;
-  top: 110px;
-  bottom: 40px;
+  top: 130px;
+  bottom: 30px;
   width: 100%;
   vertical-align: top;
+  padding-top: 2px;
 }
 
 #compose-headers
