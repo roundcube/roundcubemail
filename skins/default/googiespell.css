@@ -62,15 +62,21 @@
   cursor: pointer;
 }
 
-.googie_check_spelling_link {  
+.googie_resume_editing,
+.googie_check_spelling_link {
   color: #CC0000;
   font-size: 11px;
   text-decoration: none;
   cursor: pointer;
 }
 
+.googie_resume_editing:hover,
 .googie_check_spelling_link:hover {
   text-decoration: underline;
+}
+
+.googie_resume_editing {
+  color: green;
 }
 
 .googie_no_style {

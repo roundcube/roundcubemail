@@ -902,8 +902,7 @@ function rcube_webmail()
           tinyMCE.execCommand('mceSpellCheck', true);
         }
         else if (this.env.spellcheck && this.env.spellcheck.spellCheck && this.spellcheck_ready) {
-          this.env.spellcheck.spellCheck(this.env.spellcheck.check_link);
-          this.set_spellcheck_state('checking');
+          this.env.spellcheck.spellCheck();
         }
         break;
 
@@ -2123,8 +2122,8 @@ function rcube_webmail()
     if (this.env.spellcheck) {
       // stop spellchecking process
       if (!vis)
-	this.stop_spellchecking();
-			      
+        this.stop_spellchecking();
+
       this.env.spellcheck.check_link.style.visibility = vis ? 'visible' : 'hidden';
       this.env.spellcheck.switch_lan_pic.style.visibility = vis ? 'visible' : 'hidden';
       }
@@ -2132,7 +2131,7 @@ function rcube_webmail()
 
   this.set_spellcheck_state = function(s)
     {
-    this.spellcheck_ready = (s=='check_spelling' || s=='ready');
+    this.spellcheck_ready = (s=='check_spelling' || s=='spell_check' || s=='ready');
     this.enable_command('spellcheck', this.spellcheck_ready);
     };
 
