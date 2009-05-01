@@ -52,7 +52,10 @@ foreach ($a_save_cols as $col)
 // update an existing contact
 if (!empty($cid))
 {
-  if ($CONTACTS->update($cid, $a_record))
+  $plugin = $RCMAIL->plugins->exec_hook('save_contact', array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  $a_record = $plugin['record'];
+  
+  if (!$plugin['abort'] && $CONTACTS->update($cid, $a_record))
   {
     // define list of cols to be displayed
     $a_js_cols = array();
@@ -65,13 +68,13 @@ if (!empty($cid))
     $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols);
       
     // show confirmation
-    $OUTPUT->show_message('successfullysaved', 'confirmation');    
+    $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
     rcmail_overwrite_action('show');
   }
   else
   {
     // show error message
-    $OUTPUT->show_message('errorsaving', 'error');
+    $OUTPUT->show_message('errorsaving', 'error', null, false);
     rcmail_overwrite_action('show');
   }
 }
@@ -85,13 +88,16 @@ else
   // show warning message
   if ($existing->count)
   {
-    $OUTPUT->show_message('contactexists', 'warning');
+    $OUTPUT->show_message('contactexists', 'warning', null, false);
     rcmail_overwrite_action('add');
     return;
   }
 
+  $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  $a_record = $plugin['record'];
+
   // insert record and send response
-  if ($insert_id = $CONTACTS->insert($a_record))
+  if (!$plugin['abort'] && ($insert_id = $CONTACTS->insert($a_record)))
   {
     // add contact row or jump to the page where it should appear
     $CONTACTS->reset();
@@ -105,14 +111,14 @@ else
     $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text());
 
     // show confirmation
-    $OUTPUT->show_message('successfullysaved', 'confirmation');
+    $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
     rcmail_overwrite_action('show');
     $_GET['_cid'] = $insert_id;
   }
   else
   {
     // show error message
-    $OUTPUT->show_message('errorsaving', 'error');
+    $OUTPUT->show_message('errorsaving', 'error', null, false);
     rcmail_overwrite_action('add');
   }
 }

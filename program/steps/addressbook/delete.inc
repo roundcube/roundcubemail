@@ -24,7 +24,9 @@ if (($cid = get_input_value('_cid', RCUBE_INPUT_POST)) &&
      preg_match('/^[a-zA-Z0-9=]+(,[a-zA-Z0-9=]+)*$/', $cid))
    )
   {
-  $deleted = $CONTACTS->delete($cid);
+  $plugin = $RCMAIL->plugins->exec_hook('delete_contact', array('id' => $cid, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  
+  $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid) : false;
   if (!$deleted)
     {
     // send error message

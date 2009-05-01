@@ -34,6 +34,7 @@ class rcube_template extends rcube_html_page
     var $config;
     var $framed = false;
     var $pagetitle = '';
+    var $message = null;
     var $env = array();
     var $js_env = array();
     var $js_commands = array();
@@ -225,14 +226,18 @@ class rcube_template extends rcube_html_page
      * @param string Message to display
      * @param string Message type [notice|confirm|error]
      * @param array Key-value pairs to be replaced in localized text
+     * @param boolean Override last set message
      * @uses self::command()
      */
-    public function show_message($message, $type='notice', $vars=NULL)
+    public function show_message($message, $type='notice', $vars=null, $override=true)
     {
-        $this->command(
-            'display_message',
-            rcube_label(array('name' => $message, 'vars' => $vars)),
-            $type);
+        if ($override || !$this->message) {
+            $this->message = $message;
+            $this->command(
+                'display_message',
+                rcube_label(array('name' => $message, 'vars' => $vars)),
+                $type);
+        }
     }
 
 

@@ -33,6 +33,7 @@ class rcube_json_output
     private $env = array();
     private $texts = array();
     private $commands = array();
+    private $message = null;
 
     public $type = 'js';
     public $ajax_call = true;
@@ -146,15 +147,19 @@ class rcube_json_output
      * @param string Message to display
      * @param string Message type [notice|confirm|error]
      * @param array Key-value pairs to be replaced in localized text
+     * @param boolean Override last set message
      * @uses self::command()
      */
-    public function show_message($message, $type='notice', $vars=null)
+    public function show_message($message, $type='notice', $vars=null, $override=true)
     {
-        $this->command(
-            'display_message',
-            rcube_label(array('name' => $message, 'vars' => $vars)),
-            $type
-        );
+        if ($override || !$this->message) {
+            $this->message = $message;
+            $this->command(
+                'display_message',
+                rcube_label(array('name' => $message, 'vars' => $vars)),
+                $type
+            );
+        }
     }
     
     /**

@@ -368,7 +368,7 @@ class rcube_user
        VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?, ?)",
       strip_newlines($user),
       strip_newlines($host),
-      strip_newlines($user_email),
+      strip_newlines($data['alias'] ? $data['alias'] : $user_email),
       $_SESSION['language']);
 
     if ($user_id = $dbh->insert_id(get_sequence_name('users')))
