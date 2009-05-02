@@ -1549,30 +1549,26 @@ class rcube_imap
   function set_flag($uids, $flag)
     {
     $flag = strtoupper($flag);
-    $msg_ids = array();
     if (!is_array($uids))
       $uids = explode(',',$uids);
       
-    foreach ($uids as $uid) {
-      $msg_ids[$uid] = $this->_uid2id($uid);
-    }
-      
     if ($flag=='UNDELETED')
-      $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
+      $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', $uids));
     else if ($flag=='UNSEEN')
-      $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', array_values($msg_ids)));
+      $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', $uids));
     else if ($flag=='UNFLAGGED')
-      $result = iil_C_UnFlag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), 'FLAGGED');
+      $result = iil_C_UnFlag($this->conn, $this->mailbox, join(',', $uids), 'FLAGGED');
     else
-      $result = iil_C_Flag($this->conn, $this->mailbox, join(',', array_values($msg_ids)), $flag);
+      $result = iil_C_Flag($this->conn, $this->mailbox, join(',', $uids), $flag);
 
     // reload message headers if cached
     $cache_key = $this->mailbox.'.msg';
     if ($this->caching_enabled)
       {
-      foreach ($msg_ids as $uid => $id)
+      foreach ($uids as $uid)
         {
-        if ($cached_headers = $this->get_cached_message($cache_key, $uid))
+	$id = $this->_uid2id($uid);
+        if ($cached_headers = $this->get_cached_message($cache_key, $id))
           {
           $this->remove_message_cache($cache_key, $id);
           //$this->get_headers($uid);
@@ -1585,7 +1581,7 @@ class rcube_imap
       }
 
     // set nr of messages that were flaged
-    $count = count($msg_ids);
+    $count = count($uids);
 
     // clear message count cache
     if ($result && $flag=='SEEN')
@@ -1650,15 +1646,10 @@ class rcube_imap
     $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
     
     // exit if no message uids are specified
-    if (!is_array($a_uids))
+    if (!is_array($a_uids) || empty($a_uids))
       return false;
 
-    // convert uids to message ids
-    $a_mids = array();
-    foreach ($a_uids as $uid)
-      $a_mids[] = $this->_uid2id($uid, $from_mbox);
-
-    $iil_move = iil_C_Move($this->conn, join(',', $a_mids), $from_mbox, $to_mbox);
+    $iil_move = iil_C_Move($this->conn, join(',', $a_uids), $from_mbox, $to_mbox);
     $moved = !($iil_move === false || $iil_move < 0);
     
     // send expunge command in order to have the moved message
@@ -1674,13 +1665,15 @@ class rcube_imap
     }
     // moving failed
     else if (rcmail::get_instance()->config->get('delete_always', false)) {
-      return iil_C_Delete($this->conn, $from_mbox, join(',', $a_mids));
+      return iil_C_Delete($this->conn, $from_mbox, join(',', $a_uids));
     }
       
     // remove message ids from search set
-    if ($moved && $this->search_set && $from_mbox == $this->mailbox)
+    if ($moved && $this->search_set && $from_mbox == $this->mailbox) {
+      foreach ($a_uids as $uid)
+        $a_mids[] = $this->_uid2id($uid, $from_mbox);
       $this->search_set = array_diff($this->search_set, $a_mids);
-
+    }
     // update cached message headers
     $cache_key = $from_mbox.'.msg';
     if ($moved && ($a_cache_index = $this->get_message_cache_index($cache_key)))
@@ -1715,15 +1708,10 @@ class rcube_imap
     $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
     
     // exit if no message uids are specified
-    if (!is_array($a_uids))
+    if (!is_array($a_uids) || empty($a_uids))
       return false;
 
-    // convert uids to message ids
-    $a_mids = array();
-    foreach ($a_uids as $uid)
-      $a_mids[] = $this->_uid2id($uid, $mailbox);
-        
-    $deleted = iil_C_Delete($this->conn, $mailbox, join(',', $a_mids));
+    $deleted = iil_C_Delete($this->conn, $mailbox, join(',', $a_uids));
     
     // send expunge command in order to have the deleted message
     // really deleted from the mailbox
@@ -1735,9 +1723,12 @@ class rcube_imap
       }
 
     // remove message ids from search set
-    if ($deleted && $this->search_set && $mailbox == $this->mailbox)
+    if ($deleted && $this->search_set && $mailbox == $this->mailbox) {
+      foreach ($a_uids as $uid)
+        $a_mids[] = $this->_uid2id($uid, $mailbox);
       $this->search_set = array_diff($this->search_set, $a_mids);
-
+    }
+    
     // remove deleted messages from cache
     $cache_key = $mailbox.'.msg';
     if ($deleted && ($a_cache_index = $this->get_message_cache_index($cache_key)))

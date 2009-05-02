@@ -2080,7 +2080,7 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
     
 	if (iil_C_Select($conn, $mailbox)) {
 		$c = 0;
-		iil_PutLine($fp, "flg STORE $messages " . $mod . "FLAGS (" . $flag . ")");
+		iil_PutLine($fp, "flg UID STORE $messages " . $mod . "FLAGS (" . $flag . ")");
 		do {
 			$line=chop(iil_ReadLine($fp, 100));
 			if ($line[0] == '*') {
@@ -2129,7 +2129,7 @@ function iil_C_Copy(&$conn, $messages, $from, $to) {
 	if (iil_C_Select($conn, $from)) {
 		$c=0;
 		
-		iil_PutLine($fp, "cpy1 COPY $messages \"".iil_Escape($to)."\"");
+		iil_PutLine($fp, "cpy1 UID COPY $messages \"".iil_Escape($to)."\"");
 		$line=iil_ReadReply($fp);
 		return iil_ParseResult($line);
 	} else {
@@ -2843,7 +2843,7 @@ function iil_C_GetQuota(&$conn) {
 function iil_C_ClearFolder(&$conn, $folder) {
 	$num_in_trash = iil_C_CountMessages($conn, $folder);
 	if ($num_in_trash > 0) {
-		iil_C_Delete($conn, $folder, '1:' . $num_in_trash);
+		iil_C_Delete($conn, $folder, '1:*');
 	}
 	return (iil_C_Expunge($conn, $folder) >= 0);
 }
