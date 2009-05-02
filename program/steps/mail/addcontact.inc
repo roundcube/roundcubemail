@@ -41,8 +41,14 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
     $existing = $CONTACTS->search('email', $contact['email'], true, false);
     if ($done = $existing->count)
       $OUTPUT->show_message('contactexists', 'warning');
-    else if ($done = $CONTACTS->insert($contact))
-      $OUTPUT->show_message('addedsuccessfully', 'confirmation');
+    else
+    {
+      $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $contact, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+      $contact = $plugin['record'];
+
+      if (!$plugin['abort'] && ($done = $CONTACTS->insert($contact)))
+        $OUTPUT->show_message('addedsuccessfully', 'confirmation');
+    }
   }
 }
 
