@@ -41,7 +41,9 @@
 </div>
 
 <div id="quicksearchbar">
-<roundcube:object name="searchform" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
+<roundcube:button name="searchmod" id="searchmod" image="/images/icons/glass.gif" />
+<roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
 
 <roundcube:if condition="count(env:address_sources) &gt; 1" />

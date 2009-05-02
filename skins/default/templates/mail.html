@@ -136,8 +136,21 @@
 </div>
 </div>
 
+<div id="searchmenu">
+  <ul class="toolbarmenu">
+    <li><input type="checkbox" name="s_mods[]" value="subject" id="s_mod_subject" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_subject"><roundcube:label name="subject" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="from" id="s_mod_from" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_from"><roundcube:label name="from" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="to" id="s_mod_to" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_to"><roundcube:label name="to" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="cc" id="s_mod_cc" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_cc"><roundcube:label name="cc" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_bcc"><roundcube:label name="bcc" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_text"><roundcube:label name="msgtext" /></label></li>
+  </ul>
+</div>
+
 <div id="quicksearchbar">
-<roundcube:object name="searchform" id="quicksearchbox" /><roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
+<roundcube:button name="searchmod" id="searchmod" image="/images/icons/glass.gif" onclick="rcmail_ui.show_searchmenu();return false" title="searchmod" />
+<roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
 
 </body>

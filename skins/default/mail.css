@@ -45,7 +45,8 @@
   padding-left: 2px;
 }
 
-#markmessagemenu
+#markmessagemenu,
+#searchmenu
 {
   position: absolute;
   top: 32px;
@@ -58,6 +59,11 @@
   opacity: 0.9;
   filter:alpha(opacity=90);
   z-index: 240;
+}
+
+#searchmenu
+{
+  width: 172px;
 }
 
 ul.toolbarmenu
@@ -87,6 +93,11 @@ ul.toolbarmenu li a
 ul.toolbarmenu li a.active:hover
 {
   background-color: #ddd;
+}
+
+ul.toolbarmenu li input
+{
+  vertical-align: middle;
 }
 
 #searchfilter

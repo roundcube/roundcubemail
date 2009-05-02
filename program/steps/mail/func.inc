@@ -79,6 +79,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
       $OUTPUT->set_env('search_request', $search_request);
       }
     
+      $OUTPUT->set_env('search_mods', $_SESSION['search_mods'] ? $_SESSION['search_mods'] : array('subject'=>'subject'));
       // make sure the message count is refreshed (for default view)
       $IMAP->messagecount($mbox_name, 'ALL', true);
     }

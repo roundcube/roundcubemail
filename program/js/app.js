@@ -2392,19 +2392,26 @@ function rcube_webmail()
     };
 
   // send remote request to search mail or contacts
-  this.qsearch = function(value, addurl)
+  this.qsearch = function(value)
     {
     if (value != '')
       {
-      if (this.message_list)
+      var addurl = '';
+      if (this.message_list) {
         this.message_list.clear();
-      else if (this.contact_list) {
+	if (this.env.search_mods) {
+          var head_arr = new Array();
+          for (var n in this.env.search_mods)
+	    head_arr.push(n);
+	  addurl += '&_headers='+head_arr.join(',');
+          }
+        } else if (this.contact_list) {
         this.contact_list.clear(true);
         this.show_contentframe(false);
         }
 
       if (this.gui_objects.search_filter)
-      addurl = '&_filter=' + this.gui_objects.search_filter.value;
+        addurl += '&_filter=' + this.gui_objects.search_filter.value;
 
       // reset vars
       this.env.current_page = 1;

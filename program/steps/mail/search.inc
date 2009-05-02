@@ -28,6 +28,7 @@ $imap_charset = 'UTF-8';
 $str = get_input_value('_q', RCUBE_INPUT_GET);
 $filter = get_input_value('_filter', RCUBE_INPUT_GET);
 $mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
+$headers = get_input_value('_headers', RCUBE_INPUT_GET);
 $search_request = md5($mbox.$filter.$str);
 
 // add list filter string
@@ -39,47 +40,55 @@ $_SESSION['search_filter'] = $filter;
 if (preg_match("/^from:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject = "HEADER FROM";
-  $search = trim($srch);
+  $subject['from'] = "HEADER FROM";
 }
 else if (preg_match("/^to:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject = "HEADER TO";
-  $search = trim($srch);
+  $subject['to'] = "HEADER TO";
 }
 else if (preg_match("/^cc:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject = "HEADER CC";
-  $search = trim($srch);
+  $subject['cc'] = "HEADER CC";
+}
+else if (preg_match("/^bcc:.*/i", $str))
+{
+  list(,$srch) = explode(":", $str);
+  $subject['bcc'] = "HEADER BCC";
 }
 else if (preg_match("/^subject:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject = "HEADER SUBJECT";
-  $search = trim($srch);
+  $subject['subject'] = "HEADER SUBJECT";
 }
 else if (preg_match("/^body:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject = "TEXT";
-  $search = trim($srch);
+  $subject['text'] = "TEXT";
 }
 // search in subject and sender by default
 else if(trim($str))
 {
-  $from = ($mbox == $CONFIG['sent_mbox'] || $mbox == $CONFIG['drafts_mbox']) ? "TO" : "FROM";
-  $subject = array("HEADER SUBJECT", "HEADER $from");
-  $search = trim($str);
+  if ($headers) {
+    $headers = explode(',', $headers);
+    foreach($headers as $header)
+      switch ($header) {
+        case 'text': $subject['text'] = 'TEXT'; break;
+        default: $subject[$header] = 'HEADER '.$header;
+      }
+  } else {
+    $subject['subject'] = 'HEADER SUBJECT';
+  }
 }
 
-if ($subject && !is_array($subject))
-  $search_str .= sprintf(" %s {%d}\r\n%s", $subject, strlen($search), $search);
-else if ($subject) {
-  $search_str .= ' OR';
-  foreach($subject as $sub)
+$search = $srch ? trim($srch) : trim($str);
+
+if ($subject) {
+  $search_str .= str_repeat(' OR', count($subject)-1);
+  foreach ($subject as $sub)
     $search_str .= sprintf(" %s {%d}\r\n%s", $sub, strlen($search), $search);
+  $_SESSION['search_mods'] = $subject;
 }
 
 $search_str = trim($search_str);

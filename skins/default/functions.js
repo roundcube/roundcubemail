@@ -121,6 +121,7 @@ function rcmail_init_compose_form()
 function rcube_mail_ui()
 {
   this.markmenu = $('#markmessagemenu');
+  this.searchmenu = $('#searchmenu');
 }
 
 rcube_mail_ui.prototype = {
@@ -137,16 +138,61 @@ show_markmenu: function(show)
   this.markmenu[show?'show':'hide']();
 },
 
+show_searchmenu: function(show)
+{
+  if (typeof show == 'undefined')
+    show = this.searchmenu.is(':visible') ? false : true;
+
+  var ref = rcube_find_object('searchmod');
+  if (show && ref) {
+    var pos = $(ref).offset();
+    this.searchmenu.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
+
+    if (rcmail.env.search_mods) {
+      for (var n in rcmail.env.search_mods) {
+        box = rcube_find_object('s_mod_' + n);
+        box.checked = 'checked';
+      }
+    }
+  }
+  this.searchmenu[show?'show':'hide']();
+},
+ 
+set_searchmod: function(elem)
+{
+  if (!rcmail.env.search_mods)
+    rcmail.env.search_mods = new Object();
+  
+  if (!elem.checked)
+    delete(rcmail.env.search_mods[elem.value]);
+  else
+    rcmail.env.search_mods[elem.value] = elem.value;
+},
+
 body_mouseup: function(evt, p)
 {
   if (this.markmenu && this.markmenu.is(':visible') && rcube_event.get_target(evt) != rcube_find_object('markreadbutton'))
     this.show_markmenu(false);
+  else if (this.searchmenu && this.searchmenu.is(':visible') && rcube_event.get_target(evt) != rcube_find_object('searchmod')) {
+    var menu = rcube_find_object('searchmenu');
+    var target = rcube_event.get_target(evt);
+    while (target.parentNode) {
+      if (target.parentNode == menu)
+        return;
+      target = target.parentNode;
+    }
+    this.show_searchmenu(false);
+  }
 },
 
 body_keypress: function(evt, p)
 {
-  if (rcube_event.get_keycode(evt) == 27 && this.markmenu && this.markmenu.is(':visible'))
-    this.show_markmenu(false);
+  if (rcube_event.get_keycode(evt) == 27) {
+    if (this.markmenu && this.markmenu.is(':visible'))
+      this.show_markmenu(false);
+    if (this.searchmenu && this.searchmenu.is(':visible'))
+      this.show_searchmenu(false);
+  }
 }
 
 };
