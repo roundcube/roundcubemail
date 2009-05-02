@@ -585,7 +585,9 @@ class rcube_mdb2
     $data = file_get_contents($file_name);
 
     if (strlen($data))
-      sqlite_exec($dbh->connection, $data);
+      if (!sqlite_exec($dbh->connection, $data, $error) || MDB2::isError($dbh)) 
+        raise_error(array('code' => 500, 'type' => 'db',
+	    'line' => __LINE__, 'file' => __FILE__, 'message' => $error), TRUE, FALSE); 
     }
 
 

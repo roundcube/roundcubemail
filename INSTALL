@@ -70,9 +70,8 @@ RoundCube with utf-8 charset.
 
 * SQLite
 --------
-Sqlite requires specifically php5 (sqlite in php4 currently doesn't
-work with roundcube), and you need sqlite 2 (preferably 2.8) to setup
-the sqlite db (sqlite 3.x also doesn't work at the moment). Here is
+You need sqlite 2 (preferably 2.8) to setup the sqlite db 
+(sqlite 3.x also doesn't work at the moment). Here is
 an example how you can setup the sqlite.db for roundcube:
 
 # sqlite -init SQL/sqlite.initial.sql sqlite.db
