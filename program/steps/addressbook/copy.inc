@@ -31,7 +31,7 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
     $a_record = $plugin['record'];
 
     if (!$plugin['abort'])
-      $success = $TARGET->insert($CONTACTS->search($a_record, true);
+      $success = $TARGET->insert($CONTACTS->search($a_record, true));
   }
 
   if (empty($success))
