@@ -79,6 +79,8 @@
 		- include BODYSTRUCTURE in iil_C_FetchHeaders()
 		- added iil_C_FetchMIMEHeaders() function
 		- added \* flag support 
+		- use PREG instead of EREG
+		- removed caching functions
 
 ********************************************************/
 
@@ -134,9 +136,6 @@ class iilConnection
 	var $selected;
 	var $message;
 	var $host;
-	var $cache;
-	var $uid_cache;
-	var $do_cache;
 	var $exists;
 	var $recent;
 	var $rootdir;
@@ -258,7 +257,7 @@ function iil_ReadLine($fp, $size) {
 
 function iil_MultLine($fp, $line) {
 	$line = chop($line);
-	if (ereg('\{[0-9]+\}$', $line)) {
+	if (preg_match('/\{[0-9]+\}$/', $line)) {
 		$out = '';
         
 		preg_match_all('/(.*)\{([0-9]+)\}$/', $line, $a);
@@ -320,7 +319,7 @@ function iil_StartsWith($string, $match, $error=false) {
 	if (strncmp($string, $match, $len) == 0) {
 		return true;
 	}
-	if ($error && preg_match('/^\* (BYE|BAD) /', $string)) {
+	if ($error && preg_match('/^\* (BYE|BAD) /i', $string)) {
 		return true;
 	}
 	return false;
@@ -546,7 +545,6 @@ function iil_C_NameSpace(&$conn) {
 function iil_Connect($host, $user, $password, $options=null) {	
 	global $iil_error, $iil_errornum;
 	global $ICL_SSL, $ICL_PORT;
-	global $IMAP_NO_CACHE;
 	global $my_prefs, $IMAP_USE_INTERNAL_DATE;
 	
 	$iil_error = '';
@@ -579,9 +577,6 @@ function iil_Connect($host, $user, $password, $options=null) {
 	$conn->selected    = '';
 	$conn->user        = $user;
 	$conn->host        = $host;
-	$conn->cache       = array();
-	$conn->do_cache    = (function_exists("cache_write")&&!$IMAP_NO_CACHE);
-	$conn->cache_dirty = array();
 	
 	if ($my_prefs['sort_field'] == 'INTERNALDATE') {
 		$IMAP_USE_INTERNAL_DATE = true;
@@ -713,92 +708,11 @@ function iil_Connect($host, $user, $password, $options=null) {
 }
 
 function iil_Close(&$conn) {
-	iil_C_WriteCache($conn);
 	if (iil_PutLine($conn->fp, "I LOGOUT")) {
 		fgets($conn->fp, 1024);
 		fclose($conn->fp);
 		$conn->fp = false;
 	}
-}
-
-function iil_ClearCache($user, $host) {
-}
-
-function iil_C_WriteCache(&$conn) {
-	//echo "<!-- doing iil_C_WriteCache //-->\n";
-	if (!$conn->do_cache) return false;
-	
-	if (is_array($conn->cache)) {
-		while (list($folder,$data)=each($conn->cache)) {
-			if ($folder && is_array($data) && $conn->cache_dirty[$folder]) {
-				$key = $folder.".imap";
-				$result = cache_write($conn->user, $conn->host, $key, $data, true);
-				//echo "<!-- writing $key $data: $result //-->\n";
-			}
-		}
-	}
-}
-
-function iil_C_EnableCache(&$conn) {
-	$conn->do_cache = true;
-}
-
-function iil_C_DisableCache(&$conn) {
-	$conn->do_cache = false;
-}
-
-function iil_C_LoadCache(&$conn, $folder) {
-	if (!$conn->do_cache) {
-	    return false;
-	}
-    
-	$key = $folder.'.imap';
-	if (!is_array($conn->cache[$folder])) {
-		$conn->cache[$folder]       = cache_read($conn->user, $conn->host, $key);
-		$conn->cache_dirty[$folder] = false;
-	}
-}
-
-function iil_C_ExpireCachedItems(&$conn, $folder, $message_set) {
-	
-	if (!$conn->do_cache) {
-		return;	//caching disabled
-	}
-	if (!is_array($conn->cache[$folder])) {
-    		return;	//cache not initialized|empty
-	}
-	if (count($conn->cache[$folder]) == 0) {
-    		return;	//cache not initialized|empty
-	}
-    
-	$uids = iil_C_FetchHeaderIndex($conn, $folder, $message_set, 'UID');
-	$num_removed = 0;
-	if (is_array($uids)) {
-		//echo "<!-- unsetting: ".implode(",",$uids)." //-->\n";
-		while (list($n,$uid)=each($uids)) {
-			unset($conn->cache[$folder][$uid]);
-			//$conn->cache[$folder][$uid] = false;
-			//$num_removed++;
-		}
-		$conn->cache_dirty[$folder] = true;
-
-		//echo '<!--'."\n";
-		//print_r($conn->cache);
-		//echo "\n".'//-->'."\n";
-	} else {
-		echo "<!-- failed to get uids: $message_set //-->\n";
-	}
-	
-	/*
-	if ($num_removed>0) {
-		$new_cache;
-		reset($conn->cache[$folder]);
-		while (list($uid,$item)=each($conn->cache[$folder])) {
-			if ($item) $new_cache[$uid] = $conn->cache[$folder][$uid];
-		}
-		$conn->cache[$folder] = $new_cache;
-	}
-	*/
 }
 
 function iil_ExplodeQuotedString($delimiter, $string) {
@@ -853,8 +767,6 @@ function iil_C_Select(&$conn, $mailbox) {
 		return true;
 	}
     
-	iil_C_LoadCache($conn, $mailbox);
-	
 	if (iil_PutLine($conn->fp, "sel1 SELECT \"".iil_Escape($mailbox).'"')) {
 		do {
 			$line = chop(iil_ReadLine($conn->fp, 300));
@@ -1285,50 +1197,7 @@ function iil_C_FetchUIDs(&$conn,$mailbox) {
 	}
 	$message_set = '1' . ($num>1?':' . $num:'');
 	
-	//if cache not enabled, just call iil_C_FetchHeaderIndex on 'UID' field
-	if (!$conn->do_cache)
-		return iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID');
-
-	//otherwise, let's check cache first
-	$key        = $mailbox.'.uids';
-	$cache_good = true;
-	if ($conn->uid_cache) {
-	    $data = $conn->uid_cache;
-	} else {
-	    $data = cache_read($conn->user, $conn->host, $key);
-	}
-    
-	//was anything cached at all?
-	if ($data === false) {
-	    $cache_good = -1;
-	}
-    
-	//make sure number of messages were the same
-	if ($cache_good > 0 && $data['n'] != $num) {
-	    $cache_good = -2;
-	}
-    
-	//if everything's okay so far...
-	if ($cache_good > 0) {
-		//check UIDs of highest mid with current and cached
-		$temp = iil_C_Search($conn, $mailbox, 'UID ' . $data['d'][$num]);
-		if (!$temp || !is_array($temp) || $temp[0] != $num) {
-		    $cache_good = -3;
-    		}
-	}
-
-	//if cached data's good, return it
-	if ($cache_good > 0) {
-		return $data['d'];
-	}
-
-	//otherwise, we need to fetch it
-	$data      = array('n' => $num, 'd' => array());
-	$data['d'] = iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID');
-    
-	cache_write($conn->user, $conn->host, $key, $data);
-	$conn->uid_cache = $data;
-	return $data['d'];
+	return iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID');
 }
 
 function iil_SortThreadHeaders($headers, $index_a, $uids) {
@@ -1355,30 +1224,7 @@ function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set) {
 	$uids   = iil_C_FetchUIDs($conn, $mailbox);
 	$debug  = false;
 	
-	/* Get cached records where possible */
-	if ($conn->do_cache) {
-		$cached = cache_read($conn->user, $conn->host, $mailbox.'.thhd');
-		if ($cached && is_array($uids) && count($uids)>0) {
-			$needed_set = '';
-			foreach ($uids as $id=>$uid) {
-				if ($cached[$uid]) {
-					$result[$uid]     = $cached[$uid];
-					$result[$uid]->id = $id;
-				} else {
-				    $needed_set .= ($needed_set ? ',' : '') . $id;
-            			}
-			}
-			if ($needed_set) {
-			    $message_set = $needed_set;
-			} else {
-			    $message_set = '';
-        		}
-		}
-	}
 	$message_set = iil_CompressMessageSet($message_set);
-	if ($debug) {
-	    echo "Still need: ".$message_set;
-	}
     
 	/* if we're missing any, get them */
 	if ($message_set) {
@@ -1396,7 +1242,7 @@ function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set) {
 			if ($debug) {
 			    echo $line . "\n";
         		}
-			if (ereg('\{[0-9]+\}$', $line)) {
+			if (preg_match('/\{[0-9]+\}$/', $line)) {
 				$a 	 = explode(' ', $line);
 				$new = array();
 
@@ -1414,7 +1260,7 @@ function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set) {
 
 						$new[strtoupper($field_name)] = trim($field_val);
 
-					} else if (ereg('^[[:space:]]', $line)) {
+					} else if (preg_match('/^\s+/', $line)) {
 						$new[strtoupper($field_name)] .= trim($line);
 					}
 				} while ($line[0] != ')');
@@ -1431,13 +1277,6 @@ function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set) {
 	/* sort headers */
 	if (is_array($index_a)) {
 		$result = iil_SortThreadHeaders($result, $index_a, $uids);	
-	}
-	
-	/* write new set to cache */
-	if ($conn->do_cache) {
-		if (count($result)!=count($cached)) {
-			cache_write($conn->user, $conn->host, $mailbox . '.thhd', $result);
-    		}
 	}
 	
 	//echo 'iil_FetchThreadHeaders:'."\n";
@@ -1464,7 +1303,7 @@ function iil_C_BuildThreads2(&$conn, $mailbox, $message_set, &$clock) {
 	$fp        = $conn->fp;
 	$debug     = false;
 	
-	$sbj_filter_pat = '[a-zA-Z]{2,3}(\[[0-9]*\])?:([[:space:]]*)';
+	$sbj_filter_pat = '/[a-z]{2,3}(\[[0-9]*\])?:(\s*)/i';
 	
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) {
@@ -1501,18 +1340,18 @@ function iil_C_BuildThreads2(&$conn, $mailbox, $message_set, &$clock) {
 		}
         
 		/* if subject contains 'RE:' or has in-reply-to header, it's a reply */
-		$sbj_pre ='';
+		$sbj_pre = '';
 		$has_re = false;
-		if (eregi($sbj_filter_pat, $new['SUBJECT'])) {
+		if (preg_match($sbj_filter_pat, $new['SUBJECT'])) {
 		    $has_re = true;
 		}
-    		if ($has_re||$new['IN-REPLY-TO']) {
+    		if ($has_re || $new['IN-REPLY-TO']) {
         	    $sbj_pre = 'RE:';
 		}
         
 		/* strip out 're:', 'fw:' etc */
 		if ($has_re) {
-		    $sbj = ereg_replace($sbj_filter_pat, '', $new['SUBJECT']);
+		    $sbj = preg_replace($sbj_filter_pat, '', $new['SUBJECT']);
 		} else {
 		    $sbj = $new['SUBJECT'];
 		}
@@ -1681,30 +1520,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 		return false;
 	}
 		
-	/* Get cached records where possible */
-	if ($conn->do_cache) {
-		$uids = iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, "UID");
-		if (is_array($uids) && count($conn->cache[$mailbox]>0)) {
-			$needed_set = '';
-			while (list($id,$uid)=each($uids)) {
-				if ($conn->cache[$mailbox][$uid]) {
-					$result[$id]     = $conn->cache[$mailbox][$uid];
-					$result[$id]->id = $id;
-				} else {
-				    $needed_set.=($needed_set ? ',': '') . $id;
-				}
-			}
-			//echo "<!-- iil_C_FetchHeader\nMessage Set: $message_set\nNeeded Set:$needed_set\n//-->\n";
-			if ($needed_set) {
-				$message_set = iil_CompressMessageSet($needed_set);
-			} else {
-				return $result;
-			}
-		}
-	}
-	
 	if ($add)
-	  $add = ' '.strtoupper(trim($add));
+		$add = ' '.strtoupper(trim($add));
 
 	/* FETCH uid, size, flags and headers */
 	$key  	  = 'FH12';
@@ -1746,7 +1563,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				$str = $matches[1];
 
 				// swap parents with quotes, then explode
-				$str = eregi_replace("[()]", "\"", $str);
+				$str = preg_replace('/[()]/', '"', $str);
 				$a = iil_ExplodeQuotedString(' ', $str);
 
 				// did we get the right number of replies?
@@ -1863,7 +1680,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 					list($field, $string) = iil_SplitHeaderLine($str);
 					
 					$field  = strtolower($field);
-					$string = ereg_replace("\n[[:space:]]*"," ",$string);
+					$string = preg_replace('/\n\s*/', ' ', $string);
 					
 					switch ($field) {
 					case 'date';
@@ -1904,7 +1721,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 						}
 						break;
 					case 'in-reply-to':
-						$result[$id]->in_reply_to = ereg_replace("[\n<>]", '', $string);
+						$result[$id]->in_reply_to = preg_replace('/[\n<>]/', '', $string);
 						break;
 					case 'references':
 						$result[$id]->references = $string;
@@ -1927,19 +1744,13 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 						break;
 					} // end switch ()
 				} // end while ()
-		
-				if ($conn->do_cache) {
-					$uid = $result[$id]->uid;
-					$conn->cache[$mailbox][$uid] = $result[$id];
-					$conn->cache_dirty[$mailbox] = true;
-				}
 			} else {
 				$a = explode(' ', $line);
 			}
 
 			// process flags
 			if (!empty($flags_str)) {
-				$flags_str = eregi_replace('[\\\"]', '', $flags_str);
+				$flags_str = preg_replace('/[\\\"]/', '', $flags_str);
 				$flags_a   = explode(' ', $flags_str);
 					
 				if (is_array($flags_a)) {
@@ -2089,7 +1900,6 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
 		} while (!iil_StartsWith($line, 'flg', true));
 
 		if (iil_ParseResult($line) == 0) {
-			iil_C_ExpireCachedItems($conn, $mailbox, $messages);
 			return $c;
 		}
 		$conn->error = $line;
@@ -2174,7 +1984,7 @@ function iil_C_ID2UID(&$conn, $folder, $id) {
 		if (iil_PutLine($fp, "$key FETCH $id (UID)")) {
 			do {
 				$line=chop(iil_ReadLine($fp, 1024));
-				if (eregi("^\* $id FETCH \(UID (.*)\)", $line, $r)) {
+				if (preg_match("/^\* $id FETCH \(UID (.*)\)/i", $line, $r)) {
 					$result = $r[1];
 				}
 			} while (!preg_match("/^$key/", $line));
@@ -2194,7 +2004,7 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 		}
 		do {
 			$line=trim(iil_ReadLine($fp, 10000));
-			if (eregi("^\* SEARCH", $line)) {
+			if (preg_match('/^\* SEARCH/i', $line)) {
 				$str = trim(substr($line, 8));
 				$messages = explode(' ', $str);
 			}
@@ -2337,7 +2147,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
 			$folder = trim($a[count($a)-1], '"');
             
         		if (empty($ignore) || (!empty($ignore)
-            			&& !eregi($ignore, $folder))) {
+            			&& !preg_match('/'.preg_quote(ignore, '/').'/i', $folder))) {
             			$folders[$i] = $folder;
         		}
             
@@ -2405,7 +2215,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
         		$folder = trim($a[count($a)-1], '"');
             
 			if ((!in_array($folder, $folders)) && (empty($ignore)
-            			|| (!empty($ignore) && !eregi($ignore, $folder)))) {
+            			|| (!empty($ignore) && !preg_match('/'.preg_quote(ignore, '/').'/i', $folder)))) {
 			    $folders[$i] = $folder;
         		}
             
@@ -2818,7 +2628,7 @@ function iil_C_GetQuota(&$conn) {
 	// return false if not found, parse if found
 	$min_free = PHP_INT_MAX;
 	foreach ($quota_lines as $key => $quota_line) {
-		$quota_line   = eregi_replace('[()]', '', $quota_line);
+		$quota_line   = preg_replace('/[()]/', '', $quota_line);
 		$parts        = explode(' ', $quota_line);
 		$storage_part = array_search('STORAGE', $parts);
 		
