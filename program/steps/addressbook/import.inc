@@ -75,18 +75,18 @@ function rcmail_import_buttons($attrib)
 {
   global $IMPORT_STATS, $OUTPUT;
   
-  $attrib += array('type' => "input");
+  $attrib += array('type' => 'input');
   unset($attrib['name']);
   
   if (is_object($IMPORT_STATS)) {
     $attrib['class'] = trim($attrib['class'] . ' mainaction');
-    $out = $OUTPUT->button(array('command' => "list", 'label' => "done") + $attrib);
+    $out = $OUTPUT->button(array('command' => 'list', 'label' => 'done') + $attrib);
   }
   else {
-    $out = $OUTPUT->button(array('command' => "list", 'label' => "cancel") + $attrib);
+    $out = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
     $out .= '&nbsp;';
     $attrib['class'] = trim($attrib['class'] . ' mainaction');
-    $out .= $OUTPUT->button(array('command' => "import", 'label' => "import") + $attrib);
+    $out .= $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
   }
   
   return $out;
@@ -142,19 +142,22 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
         }
       }
       
-      $success = $CONTACTS->insert(array(
+      $a_record = array(
         'name' => $vcard->displayname,
         'firstname' => $vcard->firstname,
         'surname' => $vcard->surname,
         'email' => $email,
         'vcard' => $vcard->export(),
-      ));
+      );
       
-      if ($success) {
+      $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $a_record, 'source' => null));
+      $a_record = $plugin['record'];
+
+      // insert record and send response
+      if (!$plugin['abort'] && ($success = $CONTACTS->insert($a_record))) {
         $IMPORT_STATS->inserted++;
         $IMPORT_STATS->names[] = $vcard->displayname;
-      }
-      else {
+      } else {
         $IMPORT_STATS->errors++;
       }
     }
@@ -165,8 +168,7 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
 else if ($err = $_FILES['_file']['error']) {
   if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
     $OUTPUT->show_message('filesizeerror', 'error', array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize')))));
-  }
-  else {
+  } else {
     $OUTPUT->show_message('fileuploaderror', 'error');
   }
 }
