@@ -195,7 +195,7 @@ abstract class rcube_plugin
    */
   private function ressource_url($fn)
   {
-    if ($fn[0] != '/' && !eregi('^https?://', $fn))
+    if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn))
       return $this->ID . '/' . $fn;
     else
       return $fn;

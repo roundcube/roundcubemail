@@ -47,23 +47,23 @@ class rcube_browser
         $this->safari = ($this->khtml || stristr($HTTP_USER_AGENT, 'safari'));
 
         if ($this->ns) {
-            $test = eregi("mozilla\/([0-9\.]+)", $HTTP_USER_AGENT, $regs);
+            $test = preg_match('/mozilla\/([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
             $this->ver = $test ? (float)$regs[1] : 0;
         }
         if ($this->mz) {
-            $test = ereg("rv:([0-9\.]+)", $HTTP_USER_AGENT, $regs);
+            $test = preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs);
             $this->ver = $test ? (float)$regs[1] : 0;
         }
         if($this->ie) {
-            $test = eregi("msie ([0-9\.]+)", $HTTP_USER_AGENT, $regs);
+            $test = preg_match('/msie ([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
             $this->ver = $test ? (float)$regs[1] : 0;
         }
         if ($this->opera) {
-            $test = eregi("opera ([0-9\.]+)", $HTTP_USER_AGENT, $regs);
+            $test = preg_match('/opera ([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
             $this->ver = $test ? (float)$regs[1] : 0;
         }
 
-        if (eregi(" ([a-z]{2})-([a-z]{2})", $HTTP_USER_AGENT, $regs))
+        if (preg_match('/ ([a-z]{2})-([a-z]{2})/i', $HTTP_USER_AGENT, $regs))
             $this->lang =  $regs[1];
         else
             $this->lang =  'en';

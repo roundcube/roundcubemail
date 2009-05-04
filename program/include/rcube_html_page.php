@@ -54,7 +54,7 @@ class rcube_html_page
     {
         static $sa_files = array();
         
-        if (!ereg('^https?://', $file) && $file[0] != '/')
+        if (!preg_match('|^https?://|i', $file) && $file[0] != '/')
           $file = $this->scripts_path . $file;
 
         if (in_array($file, $sa_files)) {

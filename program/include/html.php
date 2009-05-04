@@ -457,7 +457,7 @@ class html_textarea extends html
             unset($this->attrib['value']);
         }
 
-        if (!empty($value) && !ereg('mce_editor', $this->attrib['class'])) {
+        if (!empty($value) && !preg_match('/mce_editor/', $this->attrib['class'])) {
             $value = Q($value, 'strict', false);
         }
 

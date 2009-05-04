@@ -673,14 +673,14 @@ function rcmail_compose_subject($attrib)
   }
   // create a reply-subject
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-    if (eregi('^re:', $MESSAGE->subject))
+    if (preg_match('/^re:/i', $MESSAGE->subject))
       $subject = $MESSAGE->subject;
     else
       $subject = 'Re: '.$MESSAGE->subject;
   }
   // create a forward-subject
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
-    if (eregi('^fwd:', $MESSAGE->subject))
+    if (preg_match('/^fwd:/i', $MESSAGE->subject))
       $subject = $MESSAGE->subject;
     else
       $subject = 'Fwd: '.$MESSAGE->subject;

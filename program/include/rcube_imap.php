@@ -139,7 +139,7 @@ class rcube_imap
       if (!empty($this->conn->rootdir))
         {
         $this->set_rootdir($this->conn->rootdir);
-        $this->root_ns = ereg_replace('[\.\/]$', '', $this->conn->rootdir);
+        $this->root_ns = preg_replace('/[.\/]$/', '', $this->conn->rootdir);
         }
       }
 
@@ -195,7 +195,7 @@ class rcube_imap
    */
   function set_rootdir($root)
     {
-    if (ereg('[\.\/]$', $root)) //(substr($root, -1, 1)==='/')
+    if (preg_match('/[.\/]$/', $root)) //(substr($root, -1, 1)==='/')
       $root = substr($root, 0, -1);
 
     $this->root_dir = $root;

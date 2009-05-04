@@ -302,7 +302,7 @@ class rcube_plugin_api
    */
   private function ressource_url($fn)
   {
-    if ($fn[0] != '/' && !eregi('^https?://', $fn))
+    if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn))
       return $this->url . $fn;
     else
       return $fn;

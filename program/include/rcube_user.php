@@ -425,7 +425,7 @@ class rcube_user
    */
   static function email2user($email)
   {
-    $r = self::findinvirtual('^' . quotemeta($email) . '[[:space:]]');
+    $r = self::findinvirtual('/^' . preg_quote($email, '/') . '\s/');
 
     for ($i=0; $i<count($r); $i++)
     {
@@ -463,7 +463,7 @@ class rcube_user
         }
     }
     // File lookup
-    $r = self::findinvirtual('[[:space:]]' . quotemeta($user) . '[[:space:]]*$');
+    $r = self::findinvirtual('/\s' . preg_quote($user, '/') . '\s*$/');
     for ($i=0; $i<count($r); $i++)
     {
       $data = $r[$i];
@@ -505,7 +505,7 @@ class rcube_user
       if (empty($line) || $line{0}=='#')
         continue;
         
-      if (eregi($pattern, $line))
+      if (preg_match($pattern, $line))
         $result[] = $line;
     }
     

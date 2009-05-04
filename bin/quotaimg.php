@@ -102,7 +102,7 @@ function genQuota($used, $total, $width, $height)
 	 ***********************************/
 
 	// @todo: Set to "??" instead?
-	if (ereg("^[^0-9?]*$", $used) || ereg("^[^0-9?]*$", $total)) {
+	if (preg_match('/^[^0-9?]*$/', $used) || preg_match('/^[^0-9?]*$/', $total)) {
 		return false; 
 	}
 

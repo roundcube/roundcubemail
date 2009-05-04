@@ -170,7 +170,7 @@ function json_serialize($var)
       foreach ($var as $key => $value)
       {
         // enclose key with quotes if it is not variable-name conform
-        if (!ereg("^[_a-zA-Z]{1}[_a-zA-Z0-9]*$", $key) || is_js_reserved_word($key))
+        if (!preg_match('/^[_a-zA-Z]{1}[_a-zA-Z0-9]*$/', $key) || is_js_reserved_word($key))
           $key = "'$key'";
 
         $pairs[] = sprintf("%s%s", $is_assoc ? "$key:" : '', json_serialize($value));

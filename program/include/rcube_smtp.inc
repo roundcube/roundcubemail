@@ -337,7 +337,7 @@ function smtp_parse_rfc822($recipients)
     {
       if ((strpos($word, "@") > 0) && (strpos($word, "\"")===false))
         {
-        $word = ereg_replace('^<|>$', '', trim($word));
+        $word = preg_replace('/^<|>$/', '', trim($word));
         if (in_array($word, $addresses)===false)
           array_push($addresses, $word);
         }

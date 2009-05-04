@@ -271,7 +271,7 @@ class rcube_vcard
           if ((list($key, $value) = explode('=', $attr)) && $value) {
             if ($key == 'ENCODING') {
               # add next line(s) to value string if QP line end detected
-              while ($value == 'QUOTED-PRINTABLE' && ereg('=$', $lines[$i]))
+              while ($value == 'QUOTED-PRINTABLE' && preg_match('/=$/', $lines[$i]))
                   $line[2] .= "\n" . $lines[++$i];
               
               $line[2] = self::decode_value($line[2], $value);
