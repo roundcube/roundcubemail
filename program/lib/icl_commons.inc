@@ -48,8 +48,8 @@ function iil_utf7_decode($str, $raw=false){
 }
 
 function iil_utf7_encode($str){
-	if (!ereg("[\200-\237]",$str) && !ereg("[\241-\377]",$str))
-        return $str;
+	if (!preg_match('/[\200-\237\241-\377]/', $str))
+    		return $str;
 
 	$len = strlen($str);
 

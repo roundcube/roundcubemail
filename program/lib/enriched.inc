@@ -45,7 +45,7 @@ function enriched_convert_formatting($body){
 			'</indentright>'=>'</span>');
 	
 	while(list($find,$replace)=each($a)){
-		$body = eregi_replace($find,$replace,$body);
+		$body = preg_replace('#'.$find.'#i', $replace, $body);
 	}
 	return $body;
 }

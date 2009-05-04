@@ -185,12 +185,12 @@ function extract_mapi_attrs($buf, &$attachment_data)
       switch($attr_name)
       {
          case TNEF_MAPI_ATTACH_LONG_FILENAME: // used in preference to AFILENAME value
-            $attachment_data[0]['name'] = ereg_replace('.*[\/](.*)$', '\1', $value); // strip path
+            $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/', '\1', $value); // strip path
             break;
 
          case TNEF_MAPI_ATTACH_MIME_TAG: // Is this ever set, and what is format?
-            $attachment_data[0]['type0'] = ereg_replace('^(.*)/.*', '\1', $value);
-            $attachment_data[0]['type1'] = ereg_replace('.*/(.*)$', '\1', $value);
+            $attachment_data[0]['type0'] = preg_replace('/^(.*)\/.*/', '\1', $value);
+            $attachment_data[0]['type1'] = preg_replace('/.*\/(.*)$/', '\1', $value);
             break;
 
          case TNEF_MAPI_ATTACH_DATA:
@@ -247,7 +247,7 @@ function tnef_decode_attachment(&$buf, &$attachment_data)
 
       case TNEF_AFILENAME: // filename
          $length = tnef_geti32($buf);
-         $attachment_data[0]['name'] = ereg_replace('.*[\/](.*)$',
+         $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/',
                                                     '\1',
                                                     tnef_getx($length, $buf)); // strip path
          tnef_geti16($buf); //checksum
