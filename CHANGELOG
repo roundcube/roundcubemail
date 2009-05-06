@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix html editor mode setting when reopening draft message (#1485834)
 - Added quick search box menu (#1484304)
 - Fix wrong column sort order icons (#1485823)
 - Updated TinyMCE to 3.2.3 version

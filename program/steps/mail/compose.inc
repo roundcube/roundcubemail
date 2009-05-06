@@ -363,7 +363,7 @@ function rcmail_compose_body($attrib)
   }
   else if ($compose_mode)
   {
-    if ($isHtml && $MESSAGE->has_html_part())
+    if (($isHtml || $compose_mode == RCUBE_COMPOSE_DRAFT) && $MESSAGE->has_html_part())
     {
       $body = $MESSAGE->first_html_part();
       $isHtml = true;
