@@ -1566,14 +1566,8 @@ class rcube_imap
     if ($this->caching_enabled)
       {
       foreach ($uids as $uid)
-        {
-	$id = $this->_uid2id($uid);
-        if ($cached_headers = $this->get_cached_message($cache_key, $id))
-          {
-          $this->remove_message_cache($cache_key, $id);
-          //$this->get_headers($uid);
-          }
-        }
+        if ($cached_headers = $this->get_cached_message($cache_key, $uid))
+          $this->remove_message_cache($cache_key, $this->_uid2id($uid));
 
       // close and re-open connection
       // this prevents connection problems with Courier 
