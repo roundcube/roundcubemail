@@ -178,6 +178,17 @@ class rcube_mdb2
     
 
   /**
+   * Connection state checker
+   *
+   * @param  boolean  True if in connected state
+   */
+  function is_connected()
+    {
+    return PEAR::isError($this->db_handle) ? false : true;
+    }
+
+
+  /**
    * Execute a SQL query
    *
    * @param  string  SQL query to execute
@@ -187,6 +198,9 @@ class rcube_mdb2
    */
   function query()
     {
+    if (!$this->is_connected())
+      return NULL;
+    
     $params = func_get_args();
     $query = array_shift($params);
 
@@ -360,7 +374,7 @@ class rcube_mdb2
    */
   function _fetch_row($result, $mode)
     {
-    if ($result === FALSE || PEAR::isError($result))
+    if ($result === FALSE || PEAR::isError($result) || !$this->is_connected())
       return FALSE;
 
     return $result->fetchRow($mode);

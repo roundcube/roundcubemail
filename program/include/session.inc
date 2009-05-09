@@ -39,10 +39,6 @@ function rcube_sess_read($key)
   
   $DB = rcmail::get_instance()->get_dbh();
   
-  if ($DB->is_error()) {
-    return false;
-  }
-  
   $sql_result = $DB->query(
     "SELECT vars, ip, " . $DB->unixtimestamp('changed') . " AS changed
      FROM " . get_table_name('session') . "
@@ -66,10 +62,6 @@ function rcube_sess_write($key, $vars)
 {
   $DB = rcmail::get_instance()->get_dbh();
   
-  if ($DB->is_error()) {
-    return false;
-  }
-
   $sql_result = $DB->query(
     "SELECT 1 FROM " . get_table_name('session') . "
      WHERE  sess_id=?",
@@ -105,10 +97,6 @@ function rcube_sess_destroy($key)
   $rcmail = rcmail::get_instance();
   $DB = $rcmail->get_dbh();
   
-  if ($DB->is_error()) {
-    return false;
-  }
-
   $DB->query("DELETE FROM " . get_table_name('session') . " WHERE sess_id=?", $key);
 
   return true;
@@ -120,10 +108,6 @@ function rcube_sess_gc($maxlifetime)
 {
   $rcmail = rcmail::get_instance();
   $DB = $rcmail->get_dbh();
-
-  if ($DB->is_error()) {
-    return false;
-  }
 
   // just delete all expired sessions
   $DB->query("DELETE FROM " . get_table_name('session') . "
