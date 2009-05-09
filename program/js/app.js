@@ -472,7 +472,7 @@ function rcube_webmail()
     else if (input_subject.val() == '')
       input_subject.focus();
     else if (input_message)
-      this.set_caret2start(input_message);
+      input_message.focus();
 
     // get summary of all field values
     this.compose_field_hash(true);
@@ -2188,7 +2188,7 @@ function rcube_webmail()
     var input_message = $("[name='_message']");
     var message = input_message.val();
     var is_html = ($("input[name='_is_html']").val() == '1');
-    var sig, p;
+    var sig, p, len;
 
     if (!this.env.identity)
       this.env.identity = id
@@ -2212,7 +2212,8 @@ function rcube_webmail()
         }
 
       message = message.replace(/[\r\n]+$/, '');
-      
+      len = message.length;
+
       // add the new signature string
       if (this.env.signatures && this.env.signatures[id])
         {
@@ -2224,6 +2225,7 @@ function rcube_webmail()
         if (sig.indexOf('-- ')!=0)
           sig = '-- \n'+sig;
         message += '\n\n'+sig;
+	if (len) len += 1;
         }
       }
     else
@@ -2269,6 +2271,10 @@ function rcube_webmail()
       }
 
     input_message.val(message);
+
+    // move cursor before the signature
+    if (!is_html)
+      this.set_caret_pos(input_message.get(0), len);
 
     this.env.identity = id;
     return true;
@@ -4011,19 +4017,19 @@ function rcube_webmail()
       return obj.value.length;
     };
 
-  this.set_caret2start = function(obj)
+  this.set_caret_pos = function(obj, pos)
     {
-    if (obj.createTextRange)
+    if (obj.setSelectionRange)
+      obj.setSelectionRange(pos, pos);
+    else if (obj.createTextRange)
       {
       var range = obj.createTextRange();
       range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
       range.select();
       }
-    else if (obj.setSelectionRange)
-      obj.setSelectionRange(0,0);
-
-    obj.focus();
-    };
+    }
 
   // set all fields of a form disabled
   this.lock_form = function(form, lock)
