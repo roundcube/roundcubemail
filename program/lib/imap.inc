@@ -2323,7 +2323,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
 	
 	if (iil_C_Select($conn, $mailbox)) {
     		$reply_key = '* ' . $id;
-        
+
     		// format request
 		$key     = 'ftch' . ($c++) . ' ';
 		$request = $key . "FETCH $id (BODY.PEEK[$part])";
@@ -2336,7 +2336,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
     		do {
         		$line = chop(iil_ReadLine($fp, 1000));
         		$a    = explode(' ', $line);
-    		} while ($a[2] != 'FETCH');
+    		} while (!($end = iil_StartsWith($line, $key, true)) && $a[2] != 'FETCH');
     		$len = strlen($line);
 
 		// handle empty "* X FETCH ()" response
@@ -2407,9 +2407,10 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
         		}
     		}
 	        // read in anything up until last line
-		do {
-        		$line = iil_ReadLine($fp, 1024);
-		} while (!iil_StartsWith($line, $key, true));
+		if (!$end)
+			do {
+        			$line = iil_ReadLine($fp, 1024);
+			} while (!iil_StartsWith($line, $key, true));
         
 		if ($mode == 3 && $file) {
 			return true;
@@ -2425,12 +2426,10 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
     		}
     		
 		return false;
-	} else {
-		echo 'Select failed.';
 	}
     
 	if ($mode==1) {
-		if ($file) {
+		if ($file && $result) {
 			fwrite($file, $result);
 			return true;
 		}
