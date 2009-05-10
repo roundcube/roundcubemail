@@ -1436,7 +1436,7 @@ class rcube_imap
     if ($print)
       {
       $mode = $o_part->encoding == 'base64' ? 3 : ($o_part->encoding == 'quoted-printable' ? 1 : 2);
-      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, '', $part, $mode);
+      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, $mode);
       
       // we have to decode the part manually before printing
       if ($mode == 1)
