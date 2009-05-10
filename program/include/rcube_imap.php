@@ -796,7 +796,7 @@ class rcube_imap
           {
           // delete from cache
           if ($cache_index[$headers->id] && $cache_index[$headers->id] == $headers->uid)
-            $this->remove_message_cache($cache_key, $headers->id);
+            $this->remove_message_cache($cache_key, $headers->uid);
 
           $deleted_count++;
           continue;
@@ -927,7 +927,7 @@ class rcube_imap
       // other message at this position
       if (isset($cache_index[$id]))
         {
-        $this->remove_message_cache($cache_key, $id);
+        $this->remove_message_cache($cache_key, $cache_index[$id]);
         unset($cache_index[$id]);
         }
         
@@ -941,7 +941,7 @@ class rcube_imap
     if (!empty($cache_index))
       {
       foreach ($cache_index as $id => $uid)
-        $this->remove_message_cache($cache_key, $id);
+        $this->remove_message_cache($cache_key, $uid);
       }
     }
 
@@ -1436,7 +1436,7 @@ class rcube_imap
     if ($print)
       {
       $mode = $o_part->encoding == 'base64' ? 3 : ($o_part->encoding == 'quoted-printable' ? 1 : 2);
-      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, $mode);
+      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, '', $part, $mode);
       
       // we have to decode the part manually before printing
       if ($mode == 1)
@@ -1567,7 +1567,7 @@ class rcube_imap
       {
       foreach ($uids as $uid)
         if ($cached_headers = $this->get_cached_message($cache_key, $uid))
-          $this->remove_message_cache($cache_key, $this->_uid2id($uid));
+          $this->remove_message_cache($cache_key, $uid);
 
       // close and re-open connection
       // this prevents connection problems with Courier 
@@ -2430,7 +2430,7 @@ class rcube_imap
   /**
    * @access private
    */
-  function remove_message_cache($key, $index)
+  function remove_message_cache($key, $uid)
     {
     if (!$this->caching_enabled)
       return;
@@ -2439,10 +2439,10 @@ class rcube_imap
       "DELETE FROM ".get_table_name('messages')."
        WHERE  user_id=?
        AND    cache_key=?
-       AND    idx=?",
+       AND    uid=?",
       $_SESSION['user_id'],
       $key,
-      $index);
+      $uid);
     }
 
   /**
