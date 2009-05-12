@@ -97,7 +97,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
   else if ($_SESSION['temp'] && !empty($auth['user']) && !empty($auth['host']) && isset($auth['pass']) && 
             $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
     // create new session ID
-    unset($_SESSION['temp']);
+    rcube_sess_unset('temp');
     rcube_sess_regenerate_id();
 
     // send auth cookie if necessary
