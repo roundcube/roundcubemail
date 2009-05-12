@@ -62,19 +62,14 @@ function rcube_sess_write($key, $vars)
 {
   $DB = rcmail::get_instance()->get_dbh();
   
-  $sql_result = $DB->query(
-    "SELECT 1 FROM " . get_table_name('session') . "
-     WHERE  sess_id=?",
-    $key);
-
   $now = $DB->fromunixtime(time());
 
-  if ($DB->num_rows($sql_result)) {
+  if ($oldvars = rcube_sess_read($key)) {
     $DB->query(
       "UPDATE " . get_table_name('session') . "
        SET    vars=?, changed= " . $now . "
        WHERE  sess_id=?",
-      $vars,
+      rcube_sess_serialize(array_merge(rcube_sess_unserialize($oldvars), rcube_sess_unserialize($vars))),
       $key);
   }
   else {
@@ -88,6 +83,140 @@ function rcube_sess_write($key, $vars)
   }
 
   return true;
+}
+
+
+// unset session variable
+function rcube_sess_unset($var)
+{
+  $DB = rcmail::get_instance()->get_dbh();
+
+  if ($DB->is_error()) {
+    return false;
+  }
+
+  $now = $DB->fromunixtime(time());
+
+  $sql_result = $DB->query(
+    "SELECT vars
+     FROM " . get_table_name('session') . "
+     WHERE  sess_id=?",
+     session_id());
+
+  if ($sql_arr = $DB->fetch_assoc($sql_result)) {
+    $vars = rcube_sess_unserialize($sql_arr['vars']);
+    if (isset($vars[$var])) {
+      unset($vars[$var]);
+      $DB->query(
+        "UPDATE " . get_table_name('session') . "
+         SET    vars=?, changed= " . $now . "
+         WHERE  sess_id=?",
+         rcube_sess_serialize($vars),
+         session_id());
+    }
+  }   
+
+  return true;
+}
+
+
+// serialize session data
+function rcube_sess_serialize($vars)
+{
+  $data = '';
+  if (is_array($vars))
+    foreach ($vars as $var=>$value)
+      $data .= $var.'|'.serialize($value);
+  else
+    $data = 'b:0;';
+  return $data;
+}
+
+
+// unserialize session data
+// http://www.php.net/manual/en/function.session-decode.php#56106
+function rcube_sess_unserialize($str)
+{
+  $str = (string)$str;
+  $endptr = strlen($str);
+  $p = 0;
+
+  $serialized = '';
+  $items = 0;
+  $level = 0;
+
+  while ($p < $endptr) {
+    $q = $p;
+    while ($str[$q] != '|')
+      if (++$q >= $endptr) break 2;
+
+    if ($str[$p] == '!') {
+      $p++;
+      $has_value = false;
+    } else {
+      $has_value = true;
+    }
+
+    $name = substr($str, $p, $q - $p);
+    $q++;
+
+    $serialized .= 's:' . strlen($name) . ':"' . $name . '";';
+
+    if ($has_value) {
+      for (;;) {
+        $p = $q;
+        switch (strtolower($str[$q])) {
+          case 'n': /* null */
+          case 'b': /* boolean */
+          case 'i': /* integer */
+          case 'd': /* decimal */
+            do $q++;
+            while ( ($q < $endptr) && ($str[$q] != ';') );
+            $q++;
+            $serialized .= substr($str, $p, $q - $p);
+            if ($level == 0) break 2;
+            break;
+          case 'r': /* reference  */
+            $q+= 2;
+            for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) $id .= $str[$q];
+            $q++;
+            $serialized .= 'R:' . ($id + 1) . ';'; /* increment pointer because of outer array */
+            if ($level == 0) break 2;
+            break;
+          case 's': /* string */
+            $q+=2;
+            for ($length=''; ($q < $endptr) && ($str[$q] != ':'); $q++) $length .= $str[$q];
+            $q+=2;
+            $q+= (int)$length + 2;
+            $serialized .= substr($str, $p, $q - $p);
+            if ($level == 0) break 2;
+            break;
+          case 'a': /* array */
+          case 'o': /* object */
+            do $q++;
+            while ( ($q < $endptr) && ($str[$q] != '{') );
+            $q++;
+            $level++;
+            $serialized .= substr($str, $p, $q - $p);
+            break;
+          case '}': /* end of array|object */
+            $q++;
+            $serialized .= substr($str, $p, $q - $p);
+            if (--$level == 0) break 2;
+            break;
+          default:
+            return false;
+        }
+      }
+    } else {
+      $serialized .= 'N;';
+      $q+= 2;
+    }
+    $items++;
+    $p = $q;
+  }
+
+  return unserialize( 'a:' . $items . ':{' . $serialized . '}' );
 }
 
 

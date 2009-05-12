@@ -124,7 +124,7 @@ class rcmail
 
     // reset some session parameters when changing task
     if ($_SESSION['task'] != $this->task)
-      unset($_SESSION['page']);
+      rcube_sess_unset('page');
 
     // set current task to session
     $_SESSION['task'] = $this->task;

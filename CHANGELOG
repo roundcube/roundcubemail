@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Minimize chance of race condition in session handling (#1485659, #1484678)
 - Fix session handling on non-session SQL query error (#1485734)
 - Fix html editor mode setting when reopening draft message (#1485834)
 - Added quick search box menu (#1484304)

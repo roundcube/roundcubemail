@@ -1278,7 +1278,7 @@ function rcmail_compose_cleanup()
 
   rcmail::get_instance()->plugins->exec_hook('cleanup_attachments',array());
   
-  unset($_SESSION['compose']);
+  rcube_sess_unset('compose');
   }
   
 
