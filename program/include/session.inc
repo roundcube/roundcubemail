@@ -91,10 +91,6 @@ function rcube_sess_unset($var)
 {
   $DB = rcmail::get_instance()->get_dbh();
 
-  if ($DB->is_error()) {
-    return false;
-  }
-
   $now = $DB->fromunixtime(time());
 
   $sql_result = $DB->query(
@@ -223,8 +219,7 @@ function rcube_sess_unserialize($str)
 // handler for session_destroy()
 function rcube_sess_destroy($key)
 {
-  $rcmail = rcmail::get_instance();
-  $DB = $rcmail->get_dbh();
+  $DB = rcmail::get_instance()->get_dbh();
   
   $DB->query("DELETE FROM " . get_table_name('session') . " WHERE sess_id=?", $key);
 
