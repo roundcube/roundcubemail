@@ -12,7 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Maxim Zenin <maxx@webmechanics.ru>                            |
 |         Vladimir Kulev <me@lightoze.net>                              |
-|         Artur Smolkin <admin@roundcube.ru>                            |
+|         Artur Smolkin <artsmolkin@ya.ru>                              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -133,6 +133,8 @@ $labels['unknown'] = 'неизвестно';
 $labels['unlimited'] = 'без ограничений';
 $labels['quicksearch'] = 'Быстрый поиск';
 $labels['resetsearch'] = 'Сброс';
+$labels['searchmod'] = 'Варианты поиска';
+$labels['msgtext'] = 'Всё сообщение';
 $labels['openinextwin'] = 'Открыть в новом окне';
 $labels['compose'] = 'Написать сообщение';
 $labels['savemessage'] = 'Сохранить черновик';
