@@ -87,9 +87,12 @@ function rcube_sess_write($key, $vars)
 
 
 // unset session variable
-function rcube_sess_unset($var)
+function rcube_sess_unset($var=NULL)
 {
   $DB = rcmail::get_instance()->get_dbh();
+
+  if (empty($var))
+    return rcube_sess_destroy(session_id());
 
   $now = $DB->fromunixtime(time());
 
