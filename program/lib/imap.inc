@@ -2418,6 +2418,8 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 					else
 						$result .= quoted_printable_decode($line);
 				} else if ($mode == 3) {
+					if ($line == 'end')
+						continue;
 					if ($file)
 						fwrite($file, convert_uudecode($line));
             				else if ($print)
