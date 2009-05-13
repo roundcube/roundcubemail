@@ -1433,44 +1433,19 @@ class rcube_imap
 
     if (!$part) $part = 'TEXT';
 
-    if ($print)
-      {
-      $mode = $o_part->encoding == 'base64' ? 3 : ($o_part->encoding == 'quoted-printable' ? 1 : 2);
-      $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, $mode);
+    $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part,
+        $o_part->encoding, $print, $fp);
       
-      // we have to decode the part manually before printing
-      if ($mode == 1)
-        {
-        echo $this->mime_decode($body, $o_part->encoding);
-        $body = true;
-        }
-      }
-    else
-      {
-      if ($fp && $o_part->encoding == 'base64')
-        return iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, 3, $fp);
-      else
-        $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part, 1);
+    if ($fp || $print)
+      return true;
 
-      // decode part body
-      if ($o_part->encoding)
-        $body = $this->mime_decode($body, $o_part->encoding);
+    // convert charset (if text or message part)
+    if ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message') {
+      // assume default if no charset specified
+      if (empty($o_part->charset))
+        $o_part->charset = $this->default_charset;
 
-      // convert charset (if text or message part)
-      if ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message')
-        {
-        // assume default if no charset specified
-        if (empty($o_part->charset))
-          $o_part->charset = $this->default_charset;
-
-        $body = rcube_charset_convert($body, $o_part->charset);
-        }
-      
-      if ($fp)
-        {
-        fwrite($fp, $body);
-        return true;
-        }
+      $body = rcube_charset_convert($body, $o_part->charset);
       }
     
     return $body;
@@ -1487,8 +1462,7 @@ class rcube_imap
   function &get_body($uid, $part=1)
     {
     $headers = $this->get_headers($uid);
-    return rcube_charset_convert(
-      $this->mime_decode($this->get_message_part($uid, $part), 'quoted-printable'),
+    return rcube_charset_convert($this->get_message_part($uid, $part, NULL),
       $headers->charset ? $headers->charset : $this->default_charset);
     }
 
@@ -1535,7 +1509,7 @@ class rcube_imap
     if (!($msg_id = $this->_uid2id($uid)))
       return FALSE;
 
-    iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, NULL, 2);
+    iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, NULL, NULL, true);
     }
 
 
@@ -2665,10 +2639,6 @@ class rcube_imap
     {
     switch (strtolower($encoding))
       {
-      case '7bit':
-        return $input;
-        break;
-      
       case 'quoted-printable':
         return quoted_printable_decode($input);
         break;
@@ -2676,7 +2646,15 @@ class rcube_imap
       case 'base64':
         return base64_decode($input);
         break;
-      
+
+      case 'x-uuencode':
+      case 'x-uue':
+      case 'uue':
+      case 'uuencode':
+        return convert_uudecode($input);
+        break;
+						      
+      case '7bit':
       default:
         return $input;
       }

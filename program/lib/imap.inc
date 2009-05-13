@@ -2308,30 +2308,42 @@ function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
 
 	$part = empty($part) ? 'HEADER' : $part.'.MIME';
 
-        return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1);
+        return iil_C_HandlePartBody($conn, $mailbox, $id, $part);
 }
 
-function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NULL) {
-	/* modes:
-        1: return string (or write to $file pointer)
-        2: print
-        3: base64 and print (or write to $file pointer)
-	*/
+function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $print=NULL, $file=NULL) {
 	
 	$fp     = $conn->fp;
 	$result = false;
+	
+	switch ($encoding) {
+		case 'base64':
+			$mode = 1;
+		break;
+		case 'quoted-printable':
+			$mode = 2;
+		break;
+		case 'x-uuencode':
+		case 'x-uue':
+		case 'uue':
+		case 'uuencode':
+			$mode = 3;
+		break;
+		default:
+			$mode = 0;
+	}
 	
 	if (iil_C_Select($conn, $mailbox)) {
     		$reply_key = '* ' . $id;
 
     		// format request
-		$key     = 'ftch' . ($c++) . ' ';
-		$request = $key . "FETCH $id (BODY.PEEK[$part])";
+		$key     = 'ftch0';
+		$request = $key . " FETCH $id (BODY.PEEK[$part])";
     		// send request
 		if (!iil_PutLine($fp, $request)) {
 		    return false;
     		}
-        
+
     		// receive reply line
     		do {
         		$line = chop(iil_ReadLine($fp, 1000));
@@ -2352,14 +2364,13 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
 				$result = substr($line, $from, $len);
 			}
 	    
-	                if ($mode == 2) {
-        		        echo $result;
-	                } else if ($mode == 3) {
-				if ($file)
-					fwrite($file, base64_decode($result));
-        		    	else
-					echo base64_decode($result);
-			}			     
+        		if ($mode == 1)
+				$result = base64_decode($result);
+			else if ($mode == 2)
+				$result = quoted_printable_decode($result);
+			else if ($mode == 3)
+				$result = convert_uudecode($result);
+
     		} else if ($line[$len-1] == '}') {
 	                //multi-line request, find sizes of content and receive that many bytes
         		$from     = strpos($line, '{') + 1;
@@ -2381,13 +2392,6 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
 				$line = rtrim($line, "\t\r\n\0\x0B");
 
 		                if ($mode == 1) {
-					if ($file)
-						fwrite($file, $line . "\n");
-            			        else
-						$result .= $line . "\n";
-		                } else if ($mode == 2) {
-            			        echo $line . "\n";
-		                } else if ($mode == 3) {
 					// create chunks with proper length for base64 decoding
 					$line = $prev.$line;
 					$length = strlen($line);
@@ -2401,8 +2405,32 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
 
 					if ($file)
 						fwrite($file, base64_decode($line));
-            				else
+            				else if ($print)
 						echo base64_decode($line);
+					else
+						$result .= base64_decode($line);
+				} else if ($mode == 2) {
+					$line .= $line[sizeof($line)-1] != '=' ? "\n" : '';
+					if ($file)
+						fwrite($file, quoted_printable_decode($line));
+            				else if ($print)
+						echo quoted_printable_decode($line);
+					else
+						$result .= quoted_printable_decode($line);
+				} else if ($mode == 3) {
+					if ($file)
+						fwrite($file, convert_uudecode($line));
+            				else if ($print)
+						echo convert_uudecode($line);
+					else
+						$result .= convert_uudecode($line);
+				} else {
+					if ($file)
+						fwrite($file, $line . "\n");
+            			        else if ($print)
+						echo $line . "\n";
+					else
+						$result .= $line . "\n";
 				}
         		}
     		}
@@ -2412,43 +2440,28 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $mode=1, $file=NU
         			$line = iil_ReadLine($fp, 1024);
 			} while (!iil_StartsWith($line, $key, true));
         
-		if ($mode == 3 && $file) {
-			return true;
-		}
-	
     		if ($result) {
 	    		$result = rtrim($result, "\t\r\n\0\x0B");
 			if ($file) {
 				fwrite($file, $result);
-				return true;
-			}	
-			return $result; // substr($result, 0, strlen($result)-1);
+			} else if ($print) {
+				echo $result;
+			} else
+				return $result; // substr($result, 0, strlen($result)-1);
     		}
     		
-		return false;
+		return true;
 	}
     
-	if ($mode==1) {
-		if ($file && $result) {
-			fwrite($file, $result);
-			return true;
-		}
-    		return $result;
-	}
-	
 	return false;
 }
 
 function iil_C_FetchPartBody(&$conn, $mailbox, $id, $part, $file=NULL) {
-	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, 1, $file);
+	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, NULL, NULL, $file);
 }
 
 function iil_C_PrintPartBody(&$conn, $mailbox, $id, $part) {
-	iil_C_HandlePartBody($conn, $mailbox, $id, $part, 2);
-}
-
-function iil_C_PrintBase64Body(&$conn, $mailbox, $id, $part) {
-	iil_C_HandlePartBody($conn, $mailbox, $id, $part, 3);
+	iil_C_HandlePartBody($conn, $mailbox, $id, $part, NULL, true, NULL);
 }
 
 function iil_C_CreateFolder(&$conn, $folder) {
@@ -2594,13 +2607,6 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 		}
 	}
 	return $result;
-}
-
-function iil_C_PrintSource(&$conn, $folder, $id, $part) {
-	$header = iil_C_FetchPartHeader($conn, $folder, $id, $part);
-	//echo str_replace("\r", '', $header);
-	echo $header;
-	echo iil_C_PrintPartBody($conn, $folder, $id, $part);
 }
 
 function iil_C_GetQuota(&$conn) {
