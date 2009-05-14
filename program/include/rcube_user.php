@@ -353,6 +353,10 @@ class rcube_user
     $data = $rcmail->plugins->exec_hook('create_user', array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email));
     $user_name = $data['user_name'];
     $user_email = $data['user_email'];
+    
+    // plugin aborted this operation
+    if ($data['abort'])
+      return false;
 
     $dbh = $rcmail->get_dbh();
 
@@ -392,14 +396,23 @@ class rcube_user
       // create new identities records
       $standard = 1;
       foreach ($email_list as $email) {
-        $dbh->query(
-            "INSERT INTO ".get_table_name('identities')."
-              (user_id, del, standard, name, email)
-             VALUES (?, 0, ?, ?, ?)",
-            $user_id,
-            $standard,
-            strip_newlines($user_name),
-            preg_replace('/^@/', $user . '@', $email));
+        $plugin = $RCMAIL->plugins->exec_hook('create_identity', array('record' => array(
+          'login' => true,
+          'user_id' => $user_id,
+          'name' => strip_newlines($user_name),
+          'email' => $email,
+          'standard' => $standard)));
+          
+        if (!$plugin['abort'] && $plugin['record']['name'] && $plugin['record']['email']) {
+          $dbh->query(
+              "INSERT INTO ".get_table_name('identities')."
+                (user_id, del, standard, name, email)
+               VALUES (?, 0, ?, ?, ?)",
+              $user_id,
+              $plugin['record']['standard'],
+              $plugin['record']['name'],
+              $plugin['record']['email']);
+        }
         $standard = 0;
       }
     }

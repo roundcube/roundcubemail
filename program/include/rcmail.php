@@ -491,6 +491,13 @@ class rcmail
         // get existing mailboxes (but why?)
         // $a_mailboxes = $this->imap->list_mailboxes();
       }
+      else {
+        raise_error(array(
+          'code' => 600,
+          'type' => 'php',
+          'message' => "Failed to create a user record. Maybe aborted by a plugin?"
+          ), true, false);        
+      }
     }
     else {
       raise_error(array(
