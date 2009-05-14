@@ -1293,8 +1293,7 @@ function rcmail_deliver_message(&$message, $from, $mailto)
   $headers = $message->headers();
 
   // send thru SMTP server using custom SMTP library
-  if ($CONFIG['smtp_server'])
-    {
+  if ($CONFIG['smtp_server']) {
     // generate list of recipients
     $a_recipients = array($mailto);
   
@@ -1317,11 +1316,9 @@ function rcmail_deliver_message(&$message, $from, $mailto)
     if (!$sent)
       raise_error(array('code' => 800, 'type' => 'smtp', 'line' => __LINE__, 'file' => __FILE__,
                         'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
-    }
-  
+  }
   // send mail using PHP's mail() function
-  else
-    {
+  else {
     // unset some headers because they will be added by the mail() function
     $headers_enc = $message->headers($headers);
     $headers_php = $message->_headers;
@@ -1342,19 +1339,21 @@ function rcmail_deliver_message(&$message, $from, $mailto)
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
     else
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
-    }
+  }
   
-  if ($sent)
-  {
+  if ($sent) {
+    $RCMAIL->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body));
+    
     // remove MDN headers after sending
     unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
     
-    if ($CONFIG['smtp_log'])
+    if ($CONFIG['smtp_log']) {
       write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
-		$RCMAIL->user->get_username(),
-		$_SERVER['REMOTE_ADDR'],
-		$mailto,
-		!empty($smtp_response) ? join('; ', $smtp_response) : ''));
+        $RCMAIL->user->get_username(),
+        $_SERVER['REMOTE_ADDR'],
+        $mailto,
+        !empty($smtp_response) ? join('; ', $smtp_response) : ''));
+    }
   }
   
   $message->_headers = array();
