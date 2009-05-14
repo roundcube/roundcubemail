@@ -2564,10 +2564,13 @@ function rcube_webmail()
     q = q.replace(/(^\s+|\s+$)/g, '').toLowerCase();
 
     // Don't (re-)search if string is empty or if the last results are still active
-    if (!q.length || q == this.ksearch_value)
+    if (q == this.ksearch_value)
       return;
-
+    
     this.ksearch_value = q;
+    
+    if (!q.length)
+      return;
     
     this.display_message(this.get_label('searching'), 'loading', true);
     this.http_post('autocomplete', '_search='+urlencode(q));

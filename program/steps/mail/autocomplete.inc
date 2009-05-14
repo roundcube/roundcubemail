@@ -31,11 +31,9 @@ if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_POST)) {
 
     if ($result = $abook->search(array('email','name'), $search)) {
       while ($sql_arr = $result->iterate()) {
-        if (stripos((string)$sql_arr['email'], $search) !== false || stripos((string)$sql_arr['name'], $search) !== false) {
           $contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
 	  if (count($contacts) >= $MAXNUM)
             break 2;
-        }
       }
     }
   }
