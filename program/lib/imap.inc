@@ -2418,7 +2418,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 					else
 						$result .= quoted_printable_decode($line);
 				} else if ($mode == 3) {
-					if ($line == 'end')
+					if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line))
 						continue;
 					if ($file)
 						fwrite($file, convert_uudecode($line));
