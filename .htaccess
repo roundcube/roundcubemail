@@ -7,12 +7,13 @@ php_flag	log_errors	On
 php_value	error_log	logs/errors
 
 php_value	upload_max_filesize	5M
-php_value	post_max_size	6M
-php_value	memory_limit	64M
+php_value	post_max_size		6M
+php_value	memory_limit		64M
 
-php_value	zlib.output_compression	0
-php_value	magic_quotes_gpc	0
+php_value	zlib.output_compression		0
+php_value	magic_quotes_gpc		0
 php_value	zend.ze1_compatibility_mode	0
+php_value 	suhosin.session.encrypt 	Off 
 
 php_value	session.auto_start	0
 php_value	session.gc_maxlifetime	21600
