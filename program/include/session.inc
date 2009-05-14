@@ -19,6 +19,7 @@
 
 */
 
+$GLOBALS['rcube_session_unsets'] = array();
 
 function rcube_sess_open($save_path, $session_name)
 {
@@ -65,11 +66,15 @@ function rcube_sess_write($key, $vars)
   $now = $DB->fromunixtime(time());
 
   if ($oldvars = rcube_sess_read($key)) {
+    $a_oldvars = rcube_sess_unserialize($oldvars);
+    foreach ((array)$GLOBALS['rcube_session_unsets'] as $k)
+      unset($a_oldvars[$k]);
+
     $DB->query(
       "UPDATE " . get_table_name('session') . "
        SET    vars=?, changed= " . $now . "
        WHERE  sess_id=?",
-      rcube_sess_serialize(array_merge(rcube_sess_unserialize($oldvars), rcube_sess_unserialize($vars))),
+      rcube_sess_serialize(array_merge($a_oldvars, rcube_sess_unserialize($vars))),
       $key);
   }
   else {
@@ -82,6 +87,7 @@ function rcube_sess_write($key, $vars)
       (string)$_SERVER['REMOTE_ADDR']);
   }
 
+  $GLOBALS['rcube_session_unsets'] = array();
   return true;
 }
 
@@ -89,31 +95,11 @@ function rcube_sess_write($key, $vars)
 // unset session variable
 function rcube_sess_unset($var=NULL)
 {
-  $DB = rcmail::get_instance()->get_dbh();
-
   if (empty($var))
     return rcube_sess_destroy(session_id());
 
-  $now = $DB->fromunixtime(time());
-
-  $sql_result = $DB->query(
-    "SELECT vars
-     FROM " . get_table_name('session') . "
-     WHERE  sess_id=?",
-     session_id());
-
-  if ($sql_arr = $DB->fetch_assoc($sql_result)) {
-    $vars = rcube_sess_unserialize($sql_arr['vars']);
-    if (isset($vars[$var])) {
-      unset($vars[$var]);
-      $DB->query(
-        "UPDATE " . get_table_name('session') . "
-         SET    vars=?, changed= " . $now . "
-         WHERE  sess_id=?",
-         rcube_sess_serialize($vars),
-         session_id());
-    }
-  }   
+  $GLOBALS['rcube_session_unsets'][] = $var;
+  unset($_SESSION[$var]);
 
   return true;
 }
