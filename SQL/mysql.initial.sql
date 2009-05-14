@@ -1,10 +1,7 @@
 -- RoundCube Webmail initial database structure
--- Version 0.2
 
--- --------------------------------------------------------
 
 /*!40014  SET FOREIGN_KEY_CHECKS=0 */;
-
 
 -- Table structure for table `session`
 

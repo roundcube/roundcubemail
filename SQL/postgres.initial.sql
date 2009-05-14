@@ -1,3 +1,5 @@
+-- RoundCube Webmail initial database structure
+
 --
 -- Sequence "user_ids"
 -- Name: user_ids; Type: SEQUENCE; Schema: public; Owner: postgres

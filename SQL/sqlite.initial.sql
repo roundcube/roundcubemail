@@ -1,8 +1,4 @@
 -- RoundCube Webmail initial database structure
--- Version 0.1
--- 
-
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `cache`
