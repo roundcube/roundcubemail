@@ -35,7 +35,11 @@ $MESSAGE = NULL;
 if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_value('_id', RCUBE_INPUT_GET))
 {
   rcmail_compose_cleanup();
-  $_SESSION['compose'] = array('id' => uniqid(rand()), 'param' => array_map('strip_tags', $_GET));
+  $_SESSION['compose'] = array(
+	'id' => uniqid(rand()),
+	'param' => array_map('strip_tags', $_GET),
+	'mailbox' => $IMAP->get_mailbox_name()
+  );
   
   // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
   if ($_SESSION['compose']['param']['_to']) {
@@ -847,7 +851,7 @@ function rcmail_editor_selector($attrib)
   if (empty($attrib['name']))
     $attrib['name'] = 'editorSelect';
     
-    $attrib['onchange'] = "return rcmail_toggle_editor(this.value=='html', '".$attrib['editorid']."', '_is_html')";
+  $attrib['onchange'] = "return rcmail_toggle_editor(this.value=='html', '".$attrib['editorid']."', '_is_html')";
 
   $select = new html_select($attrib);
 

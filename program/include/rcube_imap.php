@@ -1518,25 +1518,28 @@ class rcube_imap
    *
    * @param mixed  Message UIDs as array or as comma-separated string
    * @param string Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
+   * @param string Folder name
    * @return boolean True on success, False on failure
    */
-  function set_flag($uids, $flag)
+  function set_flag($uids, $flag, $mbox_name=NULL)
     {
+    $mailbox = $mbox_name ? $this->_mod_mailbox($mbox_name) : $this->mailbox;
+
     $flag = strtoupper($flag);
     if (!is_array($uids))
       $uids = explode(',',$uids);
       
     if ($flag=='UNDELETED')
-      $result = iil_C_Undelete($this->conn, $this->mailbox, join(',', $uids));
+      $result = iil_C_Undelete($this->conn, $mailbox, join(',', $uids));
     else if ($flag=='UNSEEN')
-      $result = iil_C_Unseen($this->conn, $this->mailbox, join(',', $uids));
+      $result = iil_C_Unseen($this->conn, $mailbox, join(',', $uids));
     else if ($flag=='UNFLAGGED')
-      $result = iil_C_UnFlag($this->conn, $this->mailbox, join(',', $uids), 'FLAGGED');
+      $result = iil_C_UnFlag($this->conn, $mailbox, join(',', $uids), 'FLAGGED');
     else
-      $result = iil_C_Flag($this->conn, $this->mailbox, join(',', $uids), $flag);
+      $result = iil_C_Flag($this->conn, $mailbox, join(',', $uids), $flag);
 
     // reload message headers if cached
-    $cache_key = $this->mailbox.'.msg';
+    $cache_key = $mailbox.'.msg';
     if ($this->caching_enabled)
       {
       foreach ($uids as $uid)
@@ -1553,11 +1556,11 @@ class rcube_imap
 
     // clear message count cache
     if ($result && $flag=='SEEN')
-      $this->_set_messagecount($this->mailbox, 'UNSEEN', $count*(-1));
+      $this->_set_messagecount($mailbox, 'UNSEEN', $count*(-1));
     else if ($result && $flag=='UNSEEN')
-      $this->_set_messagecount($this->mailbox, 'UNSEEN', $count);
+      $this->_set_messagecount($mailbox, 'UNSEEN', $count);
     else if ($result && $flag=='DELETED')
-      $this->_set_messagecount($this->mailbox, 'ALL', $count*(-1));
+      $this->_set_messagecount($mailbox, 'ALL', $count*(-1));
 
     return $result;
     }
