@@ -13,7 +13,7 @@
  * Configuration Items (config/main.inc.php):
  *   password_confirm_current - boolean to determine whether current password
  *     is required to change password. Defaults to FALSE.
- *   db_passwd_dsn - is the PEAR database DSN for performing the query. Defaults
+ *   password_db_dsn - is the PEAR database DSN for performing the query. Defaults
  *     to the default databse setting in config/db.inc.php
  *   password_query - the SQL query used to change the password.
  *     If the SQL query is a SELECT it will return an error message in a row if unsuccessful
@@ -208,13 +208,14 @@ class password extends rcube_plugin
     if (!($sql = $cfg->get('password_query')))
       $sql = "SELECT update_passwd(%c, %u)";
 
-    if ($dsn = $cfg->get('db_passwd_dsn')) {
+    if ($dsn = $cfg->get('password_db_dsn')) {
       $db = new rcube_mdb2($dsn, '', FALSE);
       $db->set_debug((bool)$cfg->get('sql_debug'));
       $db->db_connect('w');
     } else {
       $db = rcmail::get_instance()->get_dbh();
     }
+
     if ($err = $db->is_error())
       return $err;
     
