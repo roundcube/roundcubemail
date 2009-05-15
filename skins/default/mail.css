@@ -820,6 +820,7 @@ div.message-htmlpart a
 }
 
 div.message-part pre,
+div.message-htmlpart pre,
 div.message-part div.pre
 {
   margin: 0px;
@@ -918,12 +919,12 @@ div.message-htmlpart div.rcmBody
 {
   position: absolute;
   top: 90px;
-  left: 200px;
+  left: 190px;
   right: 25px;
   bottom: 30px;
   margin: 0px;
   /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-210)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
 

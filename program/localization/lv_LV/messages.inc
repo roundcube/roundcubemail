@@ -2,19 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/lv/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Rudolfs Osins <dev.random@gmail.com>                          |
- |         Mikelis Zalais <mik@prog.lv>                                  |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/lv/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Rudolfs Osins <dev.random@gmail.com>                          |
+|         Mikelis Zalais <mik@prog.lv>                                  |
+|         Lauris Bukšis-Haberkorns <lauris@nix.lv>                      |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -41,6 +42,8 @@ $messages['encryptedmessage'] = 'Šī ir šifrēta vēstule un diemžēl nevar t
 $messages['nocontactsfound'] = 'Ieraksti netika atrasti';
 $messages['contactnotfound'] = 'Prasītais kontakts nav atrasts';
 $messages['sendingfailed'] = 'Vēstule netika nosūtīta';
+$messages['senttooquickly'] = 'Lūdzu uzgaidiet $sec sekundi(-es) pirms sūtiet šo vēstuli';
+$messages['errorsavingsent'] = 'Notika kļūda saglabājot nosūtīto vēstuli';
 $messages['errorsaving'] = 'Saglabājot vēstuli notikusi kļūme, vēstule netika saglabāta';
 $messages['errormoving'] = 'Vēstule netika pārvietota';
 $messages['errordeleting'] = 'Vēstule netika dzēsta';
@@ -48,10 +51,15 @@ $messages['deletecontactconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ā
 $messages['deletemessagesconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ās) vēstules?';
 $messages['deletefolderconfirm'] = 'Vai tiešām vēlaties dzēst šo mapi?';
 $messages['purgefolderconfirm'] = 'Vai tiešām vēlaties dzēst visas vēstules, kas atrodas šajā mapē?';
+$messages['foldercreating'] = 'Izveidoju mapi...';
+$messages['folderdeleting'] = 'Dzēšu mapi...';
+$messages['folderrenaming'] = 'Pārsaucu mapi...';
+$messages['foldermoving'] = 'Pārvietoju mapi...';
 $messages['formincomplete'] = 'Formulārs nav pilnībā aizpildīts';
 $messages['noemailwarning'] = 'Lūdzu ievadiet pareizu e-pasta adresi';
 $messages['nonamewarning'] = 'Lūdzu ievadiet vārdu';
 $messages['nopagesizewarning'] = 'Lūdzu ievadiet lapas izmēru';
+$messages['nosenderwarning'] = 'Lūdzu ievadiet saņēmēja e-pasta adresi';
 $messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
 $messages['nosubjectwarning'] = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
 $messages['nobodywarning'] = 'Sūtīt vēstuli bez satura teksta?';
@@ -79,5 +87,14 @@ $messages['receiptsent'] = 'Saņemšanas apstiprinājums nosūtīts';
 $messages['errorsendingreceipt'] = 'Neizdevās nosūtīt apstiprinājumu';
 $messages['nodeletelastidentity'] = 'Šo identitāti nevar izdzēst, tā ir pati pēdējā.';
 $messages['addsubfolderhint'] = 'Šis folderis tiks izveidots kā apakšfolderis tam, kurš patreiz ir izvēlēts';
+$messages['forbiddencharacter'] = 'Mapes nosaukums satur aizliegtus simbolus';
+$messages['selectimportfile'] = 'Lūdzu izvēlieties failu, ko vēlaties augšupielādēt';
+$messages['addresswriterror'] = 'Izvēlētās adrešu grāmatas datus nevar labot';
+$messages['importwait'] = 'Importēju, lūdzu uzgaidiet...';
+$messages['importerror'] = 'Imports neizdevās! Augšupielādētais fails nav korekts vCard fails';
+$messages['importconfirm'] = '<b>Veiksmīgi ieimportēti $inserted kontakti, netika importēti $skipped esoši ieraksti</b>:<p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Darbība nav atļauta!';
+$messages['nofromaddress'] = 'Izvēlētajai identitātei nav norādīta e-pasta adrese';
+$messages['editorwarning'] = 'Pārslēdzoties uz vienkāršotu teksta redaktoru, tiks pazaudēts esošais teksta formatējums. Vai vēlaties turpināt?';
 
 ?>

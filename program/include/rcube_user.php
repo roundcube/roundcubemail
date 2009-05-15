@@ -350,10 +350,12 @@ class rcube_user
     $rcmail = rcmail::get_instance();
     $dbh = $rcmail->get_dbh();
 
-    // try to resolve user in virtusertable
-    if ($rcmail->config->get('virtuser_file') && !strpos($user, '@'))
-      $user_email = rcube_user::user2email($user);
-
+    // try to resolve user in virtuser table and file
+    if (!strpos($user, '@')) {
+      if ($email_list = self::user2email($user, false))
+        $user_email = $email_list[0];
+    }
+    
     $dbh->query(
       "INSERT INTO ".get_table_name('users')."
         (created, last_login, username, mail_host, alias, language)
@@ -372,35 +374,21 @@ class rcube_user
 
       $user_name = $user != $user_email ? $user : '';
 
-      // try to resolve the e-mail address from the virtuser table
-      if (($virtuser_query = $rcmail->config->get('virtuser_query'))
-    	&& ($sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query)))
-	&& ($dbh->num_rows() > 0))
-      {
-        $standard = 1;
-        while ($sql_arr = $dbh->fetch_array($sql_result))
-        {
-          $dbh->query(
+      if (empty($email_list))
+        $email_list[] = strip_newlines($user_email); 
+
+      // also create new identity records
+      $standard = 1;
+      foreach ($email_list as $email) {
+        $dbh->query(
             "INSERT INTO ".get_table_name('identities')."
               (user_id, del, standard, name, email)
              VALUES (?, 0, ?, ?, ?)",
             $user_id,
 	    $standard,
             strip_newlines($user_name),
-            preg_replace('/^@/', $user . '@', $sql_arr[0]));
-	  $standard = 0;
-        }
-      }
-      else
-      {
-        // also create new identity records
-        $dbh->query(
-          "INSERT INTO ".get_table_name('identities')."
-            (user_id, del, standard, name, email)
-           VALUES (?, 0, 1, ?, ?)",
-          $user_id,
-          strip_newlines($user_name),
-          strip_newlines($user_email));
+            preg_replace('/^@/', $user . '@', $email));
+	$standard = 0;
       }
     }
     else
@@ -418,14 +406,13 @@ class rcube_user
   
   
   /**
-   * Resolve username using a virtuser table
+   * Resolve username using a virtuser file
    *
    * @param string E-mail address to resolve
    * @return string Resolved IMAP username
    */
   static function email2user($email)
   {
-    $user = $email;
     $r = self::findinvirtual('^' . quotemeta($email) . '[[:space:]]');
 
     for ($i=0; $i<count($r); $i++)
@@ -433,44 +420,57 @@ class rcube_user
       $data = trim($r[$i]);
       $arr = preg_split('/\s+/', $data);
       if (count($arr) > 0)
-      {
-        $user = trim($arr[count($arr)-1]);
-        break;
-      }
+        return trim($arr[count($arr)-1]);
     }
 
-    return $user;
+    return NULL;
   }
 
 
   /**
-   * Resolve e-mail address from virtuser table
+   * Resolve e-mail address from virtuser file/table
    *
    * @param string User name
-   * @return string Resolved e-mail address
+   * @param boolean If true returns first found entry
+   * @return mixed Resolved e-mail address string or array of strings
    */
-  static function user2email($user)
+  static function user2email($user, $first=true)
   {
-    $email = '';
-    $r = self::findinvirtual('[[:space:]]' . quotemeta($user) . '[[:space:]]*$');
+    $result = array();
+    $rcmail = rcmail::get_instance();
+    $dbh = $rcmail->get_dbh();
 
+    // SQL lookup
+    if ($virtuser_query = $rcmail->config->get('virtuser_query')) {
+      $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query));
+      while ($sql_arr = $dbh->fetch_array($sql_result))
+        if (strpos($sql_arr[0], '@')) {
+          $result[] = $sql_arr[0];
+	  if ($first)
+	    return $result[0];
+	}
+    }
+    // File lookup
+    $r = self::findinvirtual('[[:space:]]' . quotemeta($user) . '[[:space:]]*$');
     for ($i=0; $i<count($r); $i++)
     {
       $data = $r[$i];
       $arr = preg_split('/\s+/', $data);
-      if (count($arr) > 0)
+      if (count($arr) > 0 && strpos($arr[0], '@'))
       {
-        $email = trim(str_replace('\\@', '@', $arr[0]));
-        break;
+        $result[] = trim(str_replace('\\@', '@', $arr[0]));
+
+	if ($first)
+          return $result[0];
       }
     }
-
-    return $email;
+    
+    return empty($result) ? NULL : $result;
   }
   
   
   /**
-   * Find matches of the given pattern in virtuser table
+   * Find matches of the given pattern in virtuser file
    * 
    * @param string Regular expression to search for
    * @return array Matching entries
@@ -499,7 +499,6 @@ class rcube_user
     
     return $result;
   }
-
 
 }
 

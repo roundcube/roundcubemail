@@ -660,7 +660,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
     '/<html[^>]*>/im',			// malformed html: remove html tags (#1485139)
     '/<\/html>/i',			// malformed html: remove html tags (#1485139)
-    '/^[\xFE\xFF\xBB\xBF\x00]+((?:<\!doctype|\<html))/im',	// remove byte-order mark (only outlook?)
+    '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
   );
   $html_replace = array(
     '\\1'.' &nbsp; '.'\\3',
@@ -669,7 +669,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     '',
     '',
     '',
-    '\\1',
+    '',
   );
   $html = preg_replace($html_search, $html_replace, $html);
 
@@ -1179,7 +1179,7 @@ function rcmail_wrap_quoted($text, $max = 76)
         $prefix = substr($line, 0, $length);
 
         // Remove '> ' from the line, then wordwrap() the line
-        $line = wordwrap(substr($line, $length), $max - $length);
+        $line = rc_wordwrap(substr($line, $length), $max - $length);
 
         // Rebuild the line with '> ' at the beginning of each 'subline'
         $newline = '';
@@ -1191,7 +1191,7 @@ function rcmail_wrap_quoted($text, $max = 76)
         $line = rtrim($newline);
       }
       else {
-        $line = wordwrap($line, $max);
+        $line = rc_wordwrap($line, $max);
       }
     }
 
@@ -1308,7 +1308,14 @@ function rcmail_deliver_message(&$message, $from, $mailto)
     // reset stored headers and overwrite
     $message->_headers = array();
     $header_str = $message->txtHeaders($headers_php);
-  
+    
+    // #1485779
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+      if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
+        $headers_enc['To'] = implode(', ', $m[1]);
+        }
+      }
+       
     if (ini_get('safe_mode'))
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
     else
@@ -1390,7 +1397,7 @@ function rcmail_send_mdn($uid)
                "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
     
     $compose->headers($headers);
-    $compose->setTXTBody(wordwrap($body, 75, "\r\n"));
+    $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
     $sent = rcmail_deliver_message($compose, $identity['email'], $mailto);

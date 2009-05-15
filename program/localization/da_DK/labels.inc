@@ -1,9 +1,8 @@
 <?php
 
 /*
-
 +-----------------------------------------------------------------------+
-| language/da/labels.inc                                                |
+| language/da_DK/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
@@ -122,6 +121,9 @@ $labels['select'] = 'Vælg';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Ingen';
 $labels['unread'] = 'Ulæste';
+$labels['flagged'] = 'Markeret';
+$labels['unanswered'] = 'Ubesvaret';
+$labels['filter'] = 'Filter';
 $labels['compact'] = 'Ryd op';
 $labels['empty'] = 'Tøm';
 $labels['purge'] = 'Udrens';
@@ -217,14 +219,20 @@ $labels['logoutclear'] = 'Tøm Skrald når jeg logger af';
 $labels['logoutcompact'] = 'Komprimér Indbakke når jeg logger af';
 $labels['uisettings'] = 'Brugerinterface';
 $labels['serversettings'] = 'Serverindstillinger';
+$labels['mdnrequests'] = 'Kvitteringer';
 $labels['askuser'] = 'spørg brugeren';
 $labels['autosend'] = 'send automatisk';
 $labels['ignore'] = 'ignorér';
 $labels['readwhendeleted'] = 'Markér beskeden som læst ved sletning';
+$labels['flagfordeletion'] = 'Markér beskeden til sletning istedet for at slette';
 $labels['skipdeleted'] = 'Skjul slettede beskeder';
+$labels['showremoteimages'] = 'Vis eksterne indlejrede billeder';
+$labels['fromknownsenders'] = 'fra kendte afsendere';
+$labels['always'] = 'altid';
 $labels['showinlineimages'] = 'Vis vedhæftede billeder under beskeden';
 $labels['autosavedraft'] = 'Gem kladde automatisk';
 $labels['everynminutes'] = 'hver $n. minut';
+$labels['keepaliveevery'] = 'hver $n. minut';
 $labels['never'] = 'aldrig';
 $labels['messagesdisplaying'] = 'Viser beskeder';
 $labels['messagescomposition'] = 'Skriver nye beskeder';
@@ -233,6 +241,8 @@ $labels['2231folding'] = 'Fuld RFC 2231 understøttelse (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 understøttelse (MS Outlook)';
 $labels['2047folding'] = 'Fuld RFC 2047 understøttelse (andre)';
 $labels['advancedoptions'] = 'Advancerede muligheder';
+$labels['focusonnewmessage'] = 'Fokusér browservindue når der kommer nye beskeder';
+$labels['checkallfolders'] = 'Tjek alle mapper for nye beskeder';
 $labels['folder'] = 'Mappe';
 $labels['folders'] = 'Mapper';
 $labels['foldername'] = 'Mappenavn';
@@ -254,3 +264,4 @@ $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 
 ?>
+

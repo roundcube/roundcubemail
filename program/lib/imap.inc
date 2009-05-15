@@ -335,6 +335,7 @@ function iil_StartsWithI($string, $match, $bye=false) {
 	}
 	if ($bye && strncmp($string, '* BYE ', 6) == 0) {
 		return true;
+
 	}
 	return false;
 }
@@ -381,6 +382,12 @@ function iil_C_GetCapability(&$conn, $name)
 	}
 
 	return false;
+}
+
+function iil_C_ClearCapability(&$conn)
+{
+	$conn->capability = array();
+	$conn->capability_readed = false;
 }
 
 function iil_C_Authenticate(&$conn, $user, $pass, $encChallenge) {
@@ -564,7 +571,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 		
 	$result = false;
 	
-	//initialize connection
+	// initialize connection
 	$conn              = new iilConnection;
 	$conn->error       = '';
 	$conn->errorNum    = 0;
@@ -598,16 +605,15 @@ function iil_Connect($host, $user, $password, $options=null) {
 		$iil_errornum = -1;
 		return false;
 	}
+
 	if (!$ICL_PORT) {
 		$ICL_PORT = 143;
 	}
-    
 	//check for SSL
-	if ($ICL_SSL) {
+	if ($ICL_SSL && $ICL_SSL != 'tls') {
 		$host = $ICL_SSL . '://' . $host;
 	}
-	
-	//open socket connection
+
 	$conn->fp = fsockopen($host, $ICL_PORT, $errno, $errstr, 10);
 	if (!$conn->fp) {
     		$iil_error = "Could not connect to $host at port $ICL_PORT: $errstr";
@@ -624,6 +630,29 @@ function iil_Connect($host, $user, $password, $options=null) {
 	}
 
 	$conn->message .= $line;
+
+	// TLS connection
+	if ($ICL_SSL == 'tls' && iil_C_GetCapability($conn, 'STARTTLS')) {
+        	if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
+               		iil_PutLine($conn->fp, 'stls000 STARTTLS');
+
+			$line = iil_ReadLine($conn->fp, 4096);
+                	if (!iil_StartsWith($line, 'stls000 OK')) {
+				$iil_error = "Server responded to STARTTLS with: $line";
+				$iil_errornum = -2;
+                    		return false;
+                	}
+
+			if (!stream_socket_enable_crypto($conn->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+				$iil_error = "Unable to negotiate TLS";
+				$iil_errornum = -2;
+				return false;
+			}
+			
+			// Now we're authenticated, capabilities need to be reread
+			iil_C_ClearCapability($conn);
+        	}
+	}
 
 	if (strcasecmp($auth_method, "check") == 0) {
 		//check for supported auth methods
@@ -2433,7 +2462,7 @@ function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
 
 	// format request
 	foreach($parts as $part)
-		$peeks[] = "BODY[$part.MIME]";
+		$peeks[] = "BODY.PEEK[$part.MIME]";
 	
 	$request = "$key FETCH $id (" . implode(' ', $peeks) . ')';
 

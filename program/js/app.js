@@ -53,7 +53,6 @@ function rcube_webmail()
   this.env.bin_path = './bin/';
   this.env.blankpage = 'program/blank.gif';
 
-
   // set environment variable(s)
   this.set_env = function(p, value)
     {
@@ -1159,19 +1158,21 @@ function rcube_webmail()
   this.doc_mouse_up = function(e)
   {
     var model, li;
-    
+
     if (this.message_list) {
-      this.message_list.blur();
+      if (!rcube_mouse_is_over(e, this.message_list.list))
+        this.message_list.blur();
       model = this.env.mailboxes;
     }
     else if (this.contact_list) {
-      this.contact_list.blur();
+      if (!rcube_mouse_is_over(e, this.contact_list.list))
+        this.contact_list.blur();
       model = this.env.address_sources;
     }
     else if (this.ksearch_value) {
       this.ksearch_blur();
     }
-    
+
     // handle mouse release when dragging
     if (this.drag_active && model && this.env.last_folder_target) {
       this.set_classname(this.get_folder_li(this.env.last_folder_target), 'droptarget', false);
@@ -1182,6 +1183,9 @@ function rcube_webmail()
 
   this.drag_start = function(list)
   {
+    this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
+    this.initialMailBoxScrollTop = document.getElementById("mailboxlist-container").scrollTop;
+
     var model = this.task == 'mail' ? this.env.mailboxes : this.env.address_sources;
 
     this.drag_active = true;
@@ -1213,9 +1217,16 @@ function rcube_webmail()
     {
     if (this.gui_objects.folderlist && this.env.folder_coords)
       {
+      // offsets to compensate for scrolling while dragging a message
+      var boffset = bw.ie ? -document.documentElement.scrollTop : this.initialBodyScrollTop;
+      var moffset = this.initialMailBoxScrollTop-document.getElementById('mailboxlist-container').scrollTop;
+      var toffset = -moffset-boffset;
+
       var li, pos, mouse;
       mouse = rcube_event.get_mouse_pos(e);
       pos = this.env.folderlist_coords;
+
+      mouse.y += toffset;
 
       // if mouse pointer is outside of folderlist
       if (mouse.x < pos.x1 || mouse.x >= pos.x2 
@@ -1290,10 +1301,13 @@ function rcube_webmail()
 
   this.click_on_list = function(e)
     {
+    if (this.gui_objects.qsearchbox)
+      this.gui_objects.qsearchbox.blur();
+
     if (this.message_list)
       this.message_list.focus();
     else if (this.contact_list)
-        this.contact_list.focus();
+      this.contact_list.focus();
 
     var mbox_li;
     if (mbox_li = this.get_folder_li())
@@ -1405,6 +1419,7 @@ function rcube_webmail()
       {
       this.set_busy(true, 'loading');
       target.location.href = this.env.comm_path+url;
+
       // mark as read and change mbox unread counter
       if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread)
         {
@@ -1428,10 +1443,10 @@ function rcube_webmail()
         if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
           window.frames[this.env.contentframe].location.href = this.env.blankpage;
         }
-      else if (!bw.safari)
+      else if (!bw.safari && !bw.konq)
         frm.style.display = show ? 'block' : 'none';
       }
-      
+
     if (!show && this.busy)
       this.set_busy(false);
     };
@@ -2210,6 +2225,13 @@ function rcube_webmail()
 	  {
 	  newsig = this.env.signatures[id]['text'];
 	  htmlsig = this.env.signatures[id]['is_html'];
+        
+	  if (newsig) {
+	    if (htmlsig && this.env.signatures[id]['plain_text'].indexOf('-- ')!=0)
+              newsig = '<p>-- </p>' + newsig;
+	    else if (!htmlsig && newsig.indexOf('-- ')!=0)
+              newsig = '-- \n' + newsig;
+	    }
 	  }
 
         if (htmlsig)
@@ -2441,7 +2463,11 @@ function rcube_webmail()
       case 27:  // escape
         this.ksearch_hide();
         break;
-
+      
+      case 37:  // left
+      case 39:  // right
+        if (mod != SHIFT_KEY)
+	  return;
       }
 
     // start timer
@@ -2508,7 +2534,7 @@ function rcube_webmail()
 
     // Don't (re-)search if string is empty or if the last results are still active
     if (!q.length || q == this.ksearch_value)
-        return;
+      return;
 
     this.ksearch_value = q;
     
@@ -2524,22 +2550,13 @@ function rcube_webmail()
       
     this.hide_message();
     this.env.contacts = results ? results : [];
-
-    var result_ids = new Array();
-    var c=0;
-    for (var i=0; i < this.env.contacts.length; i++) {
-      result_ids[c++] = i;
-      if (c == 15)  // limit search results
-        break;
-    }
-    
-    this.ksearch_display_results(this.env.contacts, result_ids, c);
+    this.ksearch_display_results(this.env.contacts);
   };
 
-  this.ksearch_display_results = function (a_results, a_result_ids, c)
+  this.ksearch_display_results = function (a_results)
   {
     // display search results
-    if (c && a_results.length && this.ksearch_input) {
+    if (a_results.length && this.ksearch_input) {
       var p, ul, li;
       
       // create results pane if not present
@@ -2561,27 +2578,14 @@ function rcube_webmail()
         li.innerHTML = a_results[i].replace(new RegExp('('+this.ksearch_value+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
-        li._rcm_id = a_result_ids[i];
+        li._rcm_id = i;
         ul.appendChild(li);
       }
 
-      // check if last selected item is still in result list
-      if (this.ksearch_selected !== null) {
-        p = find_in_array(this.ksearch_selected, a_result_ids);
-        if (p >= 0 && ul.childNodes) {
-          ul.childNodes[p].setAttribute('id', 'rcmksearchSelected');
-          this.set_classname(ul.childNodes[p], 'selected', true);
-        }
-        else
-          this.ksearch_selected = null;
-      }
-      
-      // if no item selected, select the first one
-      if (this.ksearch_selected === null) {
-        ul.firstChild.setAttribute('id', 'rcmksearchSelected');
-        this.set_classname(ul.firstChild, 'selected', true);
-        this.ksearch_selected = a_result_ids[0];
-      }
+      // select the first
+      ul.firstChild.setAttribute('id', 'rcmksearchSelected');
+      this.set_classname(ul.firstChild, 'selected', true);
+      this.ksearch_selected = 0;
 
       // move the results pane right under the input box and make it visible
       var pos = rcube_get_object_pos(this.ksearch_input);

@@ -405,6 +405,54 @@ function rc_strrpos($haystack, $needle, $offset=0)
     return strrpos($haystack, $needle, $offset);
 }
 
+/**
+ * Wrapper function for wordwrap
+ */
+function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
+{
+  if (!function_exists('mb_substr') || !function_exists('mb_strlen'))
+    return wordwrap($string, $width, $break, $cut);
+    
+  $para = explode($break, $string);
+  $string = '';
+  while (count($para)) {
+    $list = explode(' ', array_shift($para));
+    $len = 0;
+    while (count($list)) {
+      $line = array_shift($list);
+      $l = mb_strlen($line);
+      $newlen = $len + $l + ($len ? 1 : 0);
+
+      if ($newlen <= $width) {
+        $string .= ($len ? ' ' : '').$line;
+        $len += ($len ? 1 : 0) + $l;
+      } else {
+	if ($l > $width) {
+	  if ($cut) {
+	    $start = 0;
+	    while ($l) {
+	      $str = mb_substr($line, $start, $width);
+	      $strlen = mb_strlen($str);
+	      $string .= ($len ? $break : '').$str;
+	      $start += $strlen;
+	      $l -= $strlen;
+	      $len = $strlen;
+	    }
+	  } else {
+            $string .= ($len ? $break : '').$line;
+	    if (count($list)) $string .= $break;
+	    $len = 0;
+	  }
+	} else {
+          $string .= $break.$line;
+	  $len = $l;
+        }
+      }
+    }
+    if (count($para)) $string .= $break;
+  }
+  return $string;
+}
 
 /**
  * Read a specific HTTP request header

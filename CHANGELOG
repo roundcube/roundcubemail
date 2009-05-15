@@ -1,6 +1,31 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix quicksearchbox look in Chrome and Konqueror (#1484841)
+- Fix UTF-8 byte-order mark removing (#1485514)
+- Fix folders subscribtions on Konqueror (#1484841) 
+- Fix debug console on Konqueror and Safari
+- Fix messagelist focus issue when modifying status of selected messages (#1485807)
+- Support STARTTLS in IMAP connection (#1485284)
+- Fix DEL key problem in search boxes (#1485528)
+- Support several e-mail addresses per user from virtuser_file (#1485678)
+- Fix drag&drop with scrolling on IE (#1485786)
+- Fix adding signature separator in html mode (#1485350)
+- Fix opening attachment marks message as read (#1485803)
+- Fix 'temp_dir' does not support relative path under Windows (#1484529)
+- Fix "Initialize Database" button missing from installer (#1485802)
+- Fix compose window doesn't fit 1024x768 window (#1485396)
+- Fix service not available error when pressing back from compose dialog (#1485552)
+- Fix using mail() on Windows (#1485779)
+- Fix word wrapping in message-part's <PRE>s for printing (#1485787)
+- Fix incorrect word wrapping in outgoing plaintext multibyte messages (#1485714)
+- Fix double footer in HTML message with embedded images
+- Fix TNEF implementation bug (#1485773)
+- Fix incorrect row id parsing for LDAP contacts list (#1485784) 
+- Fix 'mode' parameter in sqlite DSN (#1485772)
+
+RELEASE 0.2.1
+------------------
 - Use US-ASCII as failover when Unicode searching fails (#1485762)
 - Fix errors handling in IMAP command continuations (#1485762)
 - Fix FETCH result parsing for servers returning flags at the end of result (#1485763)

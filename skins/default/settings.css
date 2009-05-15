@@ -132,6 +132,14 @@ span.tablink-selected a
   background-color: #F9F9F9;
 }
 
+#subscription-table
+{
+  width: 100%;
+  /* css hack for IE */
+  width: expression('auto');
+}
+
+#subscription-table tbody td,
 #identities-table tbody td
 {
   cursor: default;
@@ -147,6 +155,45 @@ span.tablink-selected a
 #identities-table thead td.email
 {
   width: 45%;
+}
+
+#subscription-table tr.virtual td
+{
+  color: #666;
+}
+
+#subscription-table tr.selected td,
+#subscription-table tr.selected td a
+{
+  color: #FFFFFF;
+  background-color: #CC3333;
+}
+
+#subscription-table tr.droptarget td,
+#subscription-table tr.droptarget td a
+{
+  background-color: #FFFFA6;
+}
+
+#subscription-table thead td.name
+{
+  width: 360px;
+}
+
+#subscription-table thead td.msgcount
+{
+  width: 90px;
+}
+
+#subscription-table thead td.subscribed
+{
+  width: 90px;
+}
+
+#subscription-table thead td.rename,
+#subscription-table thead td.delete
+{
+  width: 30px;
 }
 
 #identity-frame
@@ -194,8 +241,7 @@ input.disabled
 
 #userprefs-title,
 #identity-title,
-div.boxtitle,
-#subscription-table thead td
+div.boxtitle
 {
   height: 12px !important;
   padding: 4px 20px 3px 6px;
@@ -218,57 +264,6 @@ div.settingspart
 {
   display: block;
   padding: 10px;
-}
-
-#subscription-table
-{
-  width: 100%;
-  /* css hack for IE */ 
-  width: expression('auto');
-}
-
-#subscription-table tbody td
-{
-  height: 20px;
-  padding-left: 6px;
-  padding-right: 10px;
-  white-space: nowrap;
-  border-bottom: 1px solid #EBEBEB;
-  background-color: #F9F9F9;
-  cursor: default;
-}
-
-#subscription-table tr.virtual td
-{
-  color: #666;
-}
-
-#subscription-table tr.selected td,
-#subscription-table tr.selected td a
-{
-  color: #FFFFFF;
-  background-color: #CC3333;
-}
-
-#subscription-table tr.droptarget td,
-#subscription-table tr.droptarget td a
-{
-  background-color: #FFFFA6;
-}
-
-#subscription-table thead td.name
-{
-  width: 250px;
-}
-
-#subscription-table thead td.msgcount
-{
-  width: 90px;
-}
-
-#subscription-table thead td.subscribed
-{
-  width: 90px;
 }
 
 fieldset 

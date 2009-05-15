@@ -104,7 +104,7 @@ init: function()
 init_row: function(row)
 {
   // make references in internal array and set event handlers
-  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=]+)/i))
+  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i))
   {
     var p = this;
     var uid = RegExp.$1;
@@ -220,7 +220,7 @@ drag_row: function(e, id)
   // don't do anything (another action processed before)
   var evtarget = rcube_event.get_target(e);
   if (this.dont_select || (evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
-    return false;
+    return true;
     
   // accept right-clicks
   if (rcube_event.get_button(e) == 2)
@@ -285,10 +285,10 @@ click_row: function(e, id)
   var now = new Date().getTime();
   var mod_key = rcube_event.get_modifier(e);
   var evtarget = rcube_event.get_target(e);
-  
+
   if ((evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
-    return false;
-  
+    return true;
+
   // don't do anything (another action processed before)
   if (this.dont_select)
     {
@@ -355,7 +355,7 @@ get_last_row: function()
     var rows = this.list.tBodies[0].rows;
 
     for(var i=rows.length-1; i>=0; i--)
-      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=]+)/i) && this.rows[RegExp.$1] != null)
+      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
 	return RegExp.$1;
     }
 
@@ -755,7 +755,10 @@ drag_mouse_move: function(e)
               (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)))
             {
               subject = node.nodeType==3 ? node.data : node.innerHTML;
-              names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
+	      // remove leading spaces
+	      subject = subject.replace(/^\s+/i, '');
+              // truncate line to 50 characters
+	      names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
               break;
             }
             c++;
@@ -774,7 +777,7 @@ drag_mouse_move: function(e)
   if (this.drag_active && this.draglayer)
   {
     var pos = rcube_event.get_mouse_pos(e);
-    this.draglayer.move(pos.x+20, pos.y-5);
+    this.draglayer.move(pos.x+20, bw.ie ? pos.y-5+document.documentElement.scrollTop : pos.y-5);
     this.trigger_event('dragmove', e);
   }
 
@@ -824,8 +827,6 @@ drag_mouse_up: function(e)
       }
     }
 
-  this.focus();
-  
   return rcube_event.cancel(e);
 },
 

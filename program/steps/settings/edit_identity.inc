@@ -43,7 +43,7 @@ else {
     return;
   }
   else if (IDENTITIES_LEVEL == 1)
-    $IDENTITY_RECORD['email'] = rcmail_get_email();
+    $IDENTITY_RECORD['email'] = $RCMAIL->user->get_username();
 }
 
 

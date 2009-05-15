@@ -1,21 +1,20 @@
 <?php
 
 /*
++-----------------------------------------------------------------------+
+| language/da_DK/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author : Martin Moeller <martin@liga.dk>                              |
+|         Jesper R. Meyer <jesper@upthere.dk>                           |
+|         Søren Aggeboe <soren@aggeboe.dk>                              |
++-----------------------------------------------------------------------+
 
- +-----------------------------------------------------------------------+
- | language/da/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author : Martin Moeller <martin@liga.dk>                              |
- |         Jesper R. Meyer <jesper@upthere.dk>                           |
- |         Søren Aggeboe <soren@aggeboe.dk>                              |
- +-----------------------------------------------------------------------+
-
- @version $Id$
+@version $Id$
 
 */
 
@@ -42,6 +41,8 @@ $messages['encryptedmessage'] = 'Beskeden er krypteret og kan ikke vises. Beklag
 $messages['nocontactsfound'] = 'Ingen kontakter blev fundet';
 $messages['contactnotfound'] = 'Den søgte kontakt blev ikke fundet';
 $messages['sendingfailed'] = 'Beskeden kunne ikke sendes';
+$messages['senttooquickly'] = 'Vent venligst $sec sekunder før du sender denne besked';
+$messages['errorsavingsent'] = 'Der opstod en fejl da den sendte besked blev gemt';
 $messages['errorsaving'] = 'Der opstod en fejl ved lagring af data';
 $messages['errormoving'] = 'Beskeden kunne ikke flyttes';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes';
@@ -49,10 +50,15 @@ $messages['deletecontactconfirm'] = 'Vil du virkelig slette den/de valgte kontak
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette den/de valgte besked(er)?';
 $messages['deletefolderconfirm'] = 'Vil du virkelig slette den valgte mappe';
 $messages['purgefolderconfirm'] = 'Vil du virkelig slette alle beskeder i denne mappe?';
+$messages['foldercreating'] = 'Opretter mappen...';
+$messages['folderdeleting'] = 'Sletter mappen...';
+$messages['folderrenaming'] = 'Omdøber mappen...';
+$messages['foldermoving'] = 'Flytter mappen...';
 $messages['formincomplete'] = 'Formularen var ikke fuldstændig fyldt ud';
 $messages['noemailwarning'] = 'Indtast venligst en gyldig e-mail adresse';
 $messages['nonamewarning'] = 'Angiv venligst et navn';
 $messages['nopagesizewarning'] = 'Angiv sidestørrelsen';
+$messages['nosenderwarning'] = 'Indtast venligst afsenders email-adresse';
 $messages['norecipientwarning'] = 'Indtast mindst én modtager';
 $messages['nosubjectwarning'] = '\'Emne\'-feltet er tomt. Kunne du tænke dig at skrive et nu?';
 $messages['nobodywarning'] = 'Send denne besked uden tekst?';
@@ -79,6 +85,16 @@ $messages['movingmessage'] = 'Flytter besked...';
 $messages['receiptsent'] = 'Kvittering for læsning er sendt';
 $messages['errorsendingreceipt'] = 'Kvitteringen kunne ikke sendes';
 $messages['nodeletelastidentity'] = 'Du kan ikke slette denne identitet, da det er den eneste der er tilbage.';
-$messages['addsubfolderhint'] = 'Denne mappe vil blive oprettet som en undermappe af den der er valgt i øjeblikket.';
+$messages['addsubfolderhint'] = 'Denne mappe vil blive oprettet som en undermappe til den mappe der er valgt i øjeblikket.';
+$messages['forbiddencharacter'] = 'Mappe-navnet indeholder ugyldige tegn';
+$messages['selectimportfile'] = 'Vælg venligst den fil der skal uploades';
+$messages['addresswriterror'] = 'Der kan ikke skrives i den valgte adressebog';
+$messages['importwait'] = 'Importerer, vent venligst...';
+$messages['importerror'] = 'Fejl i importen! Den uploadede fil er ikke en gyldig vCard fil.';
+$messages['importconfirm'] = '<b>Importerede $inserted kontakter, sprang over $skipped allerede eksisterende kontakter</b>:<p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Handlingen er ikke tilladt!';
+$messages['nofromaddress'] = 'Der mangler en email-adresse i den valgte identitet';
+$messages['editorwarning'] = 'Al formatering af teksten forsvinder, hvis der skiftes til ren tekst. Vil du fortsætte?';
 
 ?>
+

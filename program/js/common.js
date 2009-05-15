@@ -602,41 +602,47 @@ function getCookie(name)
 
 roundcube_browser.prototype.get_cookie = getCookie;
 
-
 // tiny replacement for Firebox functionality
 function rcube_console()
 {
   this.log = function(msg)
   {
-    box = rcube_find_object('console');
+    var box = rcube_find_object('console');
 
-    if (box)
+    if (box) {
       if (msg.charAt(msg.length-1)=='\n')
-        box.value += msg+'--------------------------------------\n';
+	msg += '--------------------------------------\n';
       else
-        box.value += msg+'\n--------------------------------------\n';
+        msg += '\n--------------------------------------\n';
+
+      // Konqueror doesn't allows to just change value of hidden element
+      if (bw.konq) {
+        box.innerText += msg;
+        box.value = box.innerText;
+      } else
+        box.value += msg;
+    }
   };
 
   this.reset = function()
   {
-    box = rcube_find_object('console');
+    var box = rcube_find_object('console');
     if (box)
-      box.value = '';
+      box.innerText = box.value = '';
   };
 }
 
 var bw = new roundcube_browser();
-
 if (!window.console)
-  console = new rcube_console();
+  var console = new rcube_console();
 
 
 // Add escape() method to RegExp object
 // http://dev.rubyonrails.org/changeset/7271
 RegExp.escape = function(str)
-  {
+{
   return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
-  }
+}
 
 
 // Make getElementById() case-sensitive on IE

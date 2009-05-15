@@ -97,7 +97,7 @@ class rcube_imap
     global $ICL_SSL, $ICL_PORT, $IMAP_USE_INTERNAL_DATE;
     
     // check for Open-SSL support in PHP build
-    if ($use_ssl && in_array('openssl', get_loaded_extensions()))
+    if ($use_ssl && extension_loaded('openssl'))
       $ICL_SSL = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
     else if ($use_ssl)
       {
