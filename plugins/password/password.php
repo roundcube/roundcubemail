@@ -97,15 +97,18 @@ class password extends rcube_plugin
   function password_init()
   {
     $this->add_texts('localization/');
-    rcmail::get_instance()->output->send('plugin');
+    $rcmail = rcmail::get_instance();
+    $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+    $rcmail->output->send('plugin');
   }
   
   function password_save()
   {
     $rcmail = rcmail::get_instance();
 
-    $confirm = $rcmail->config->get('password_confirm_current');
     $this->add_texts('localization/');
+    $confirm = $rcmail->config->get('password_confirm_current');
+    $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
 
     if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']))
       $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
@@ -123,7 +126,7 @@ class password extends rcube_plugin
     }
 
     rcmail_overwrite_action('plugin.password');
-    rcmail::get_instance()->output->send('plugin');
+    $rcmail->output->send('plugin');
   }
 
   function password_form()
@@ -135,10 +138,9 @@ class password extends rcube_plugin
     $rcmail->output->add_label(
 	'password.nopassword',
 	'password.nocurpassword',
-        'password.passwordinconsistency',
-	'password.changepasswd'
+        'password.passwordinconsistency'
     );
-//    $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+
     $rcmail->output->set_env('product_name', $rcmail->config->get('product_name'));
 
     // allow the following attributes to be added to the <table> tag

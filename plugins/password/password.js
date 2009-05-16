@@ -33,12 +33,4 @@ if (window.rcmail) {
 	}
     }, true);
   })
-
-    // set page title
-    if (rcmail.env.action == 'plugin.password' && rcmail.env.task == 'settings') {
-      var title = rcmail.gettext('changepasswd','password')
-      if (rcmail.env.product_name)
-        title = rcmail.env.product_name + ' :: ' + title;
-      rcmail.set_pagetitle(title);
-    }
 }
