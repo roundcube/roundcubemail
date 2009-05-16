@@ -229,6 +229,12 @@ $rcmail_config['generic_message_footer'] = '';
 // add a received header to outgoing mails containing the creators IP and hostname
 $rcmail_config['http_received_header'] = false;
 
+// Whether or not to encrypt the IP address and the host name
+// these could, in some circles, be considered as sensitive information;
+// however, for the administrator, these could be invaluable help
+// when tracking down issues.
+$rcmail_config['http_received_header_encrypt'] = false;
+
 // this string is used as a delimiter for message headers when sending
 // leave empty for auto-detection
 $rcmail_config['mail_header_delimiter'] = NULL;

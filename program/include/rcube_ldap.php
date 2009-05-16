@@ -105,7 +105,7 @@ class rcube_ldap extends rcube_addressbook
       if ($this->prop["user_specific"]) {
         // No password set, use the session password
         if (empty($this->prop['bind_pass'])) {
-          $this->prop['bind_pass'] = $RCMAIL->decrypt_passwd($_SESSION["password"]);
+          $this->prop['bind_pass'] = $RCMAIL->decrypt($_SESSION['password']);
         }
 
         // Get the pieces needed for variable replacement.

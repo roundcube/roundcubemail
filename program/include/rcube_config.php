@@ -176,28 +176,42 @@ class rcube_config
   {
     return $this->prop;
   }
-  
-  
-  /**
-   * Return a 24 byte key for the DES encryption
-   *
-   * @return string DES encryption key
-   */
-  public function get_des_key()
-  {
-    $key = !empty($this->prop['des_key']) ? $this->prop['des_key'] : 'rcmail?24BitPwDkeyF**ECB';
-    $len = strlen($key);
 
-    // make sure the key is exactly 24 chars long
-    if ($len<24)
-      $key .= str_repeat('_', 24-$len);
-    else if ($len>24)
-      substr($key, 0, 24);
+  /**
+   * Return requested DES crypto key.
+   *
+   * @param string Crypto key name
+   * @return string Crypto key
+   */
+  public function get_crypto_key($key)
+  {
+    // Bomb out if the requested key does not exist
+    if (!array_key_exists($key, $this->prop))
+    {
+      raise_error(array(
+        'code' => 500,
+        'type' => 'php',
+        'file' => __FILE__,
+        'message' => "Request for unconfigured crypto key \"$key\""
+      ), true, true);
+    }
+  
+    $key = $this->prop[$key];
+  
+    // Bomb out if the configured key is not exactly 24 bytes long
+    if (strlen($key) != 24)
+    {
+      raise_error(array(
+        'code' => 500,
+        'type' => 'php',
+        'file' => __FILE__,
+        'message' => "Configured crypto key \"$key\" is not exactly 24 bytes long"
+      ), true, true);
+    }
 
     return $key;
   }
-  
-  
+
   /**
    * Try to autodetect operating system and find the correct line endings
    *

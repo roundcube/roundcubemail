@@ -95,5 +95,6 @@ $messages['importconfirm'] = '<b>Sikeresen importálásra került $inserted kapc
 $messages['opnotpermitted'] = 'A művelet nem megengedett!';
 $messages['nofromaddress'] = 'Hiányzó email cím a kiválasztott feladónál';
 $messages['editorwarning'] = 'Az egyszerű szöveges formátumra való váltás az összes formázás elvesztésével jár. Biztosan folytatja?';
+$messages['httpreceivedencrypterror'] = 'Végzetes konfigurációs hiba történt, azonnal lépjen kapcsolatba az üzemeltetővel. <b>Az üzenet nem küldhető el.</b>';
 
 ?>

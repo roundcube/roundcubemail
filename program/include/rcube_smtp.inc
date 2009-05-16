@@ -103,7 +103,7 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
         $smtp_user = $CONFIG['smtp_user'];
 
       if (strstr($CONFIG['smtp_pass'], '%p'))
-        $smtp_pass = str_replace('%p', $RCMAIL->decrypt_passwd($_SESSION['password']), $CONFIG['smtp_pass']);
+        $smtp_pass = str_replace('%p', $RCMAIL->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
       else
         $smtp_pass = $CONFIG['smtp_pass'];
 

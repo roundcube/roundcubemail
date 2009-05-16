@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added possibility to encrypt received header, option 'http_received_header_encrypt',
+  added some more logic in encrypt/decrypt functions for security
 - Fix Answered/Forwarded flag setting for messages in subfolders
 - Fix autocomplete problem with capital letters (#1485792)
 - Support UUencode content encoding (#1485839)

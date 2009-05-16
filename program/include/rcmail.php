@@ -392,7 +392,7 @@ class rcmail
     $conn = false;
     
     if ($_SESSION['imap_host'] && !$this->imap->conn) {
-      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt_passwd($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
+      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
         if ($this->output)
           $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
       }
@@ -518,7 +518,7 @@ class rcmail
       $_SESSION['imap_host'] = $host;
       $_SESSION['imap_port'] = $imap_port;
       $_SESSION['imap_ssl']  = $imap_ssl;
-      $_SESSION['password']  = $this->encrypt_passwd($pass);
+      $_SESSION['password']  = $this->encrypt($pass);
       $_SESSION['login_time'] = mktime();
       
       if ($_REQUEST['_timezone'] != '_default_')
@@ -873,64 +873,103 @@ class rcmail
       return md5($auth_string);
   }
 
+
   /**
-   * Encrypt IMAP password using DES encryption
+   * Encrypt using 3DES
    *
-   * @param string Password to encrypt
-   * @return string Encryprted string
+   * @param string $clear clear text input
+   * @param string $key encryption key to retrieve from the configuration, defaults to 'des_key'
+   * @param boolean $base64 whether or not to base64_encode() the result before returning
+   *
+   * @return string encrypted text
    */
-  public function encrypt_passwd($pass)
+  public function encrypt($clear, $key = 'des_key', $base64 = true)
   {
-    if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
+    /*-
+     * Add a single canary byte to the end of the clear text, which
+     * will help find out how much of padding will need to be removed
+     * upon decryption; see http://php.net/mcrypt_generic#68082
+     */
+    $clear = pack("a*H2", $clear, "80");
+  
+    if (function_exists('mcrypt_module_open') &&
+        ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, "")))
+    {
       $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-      mcrypt_generic_init($td, $this->config->get_des_key(), $iv);
-      $cypher = mcrypt_generic($td, $pass);
+      mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
+      $cipher = $iv . mcrypt_generic($td, $clear);
       mcrypt_generic_deinit($td);
       mcrypt_module_close($td);
     }
-    else if (function_exists('des')) {
-      $cypher = des($this->config->get_des_key(), $pass, 1, 0, NULL);
+    else if (function_exists('des'))
+    {
+      define('DES_IV_SIZE', 8);
+      $iv = '';
+      for ($i = 0; $i < constant('DES_IV_SIZE'); $i++)
+        $iv .= sprintf("%c", mt_rand(0, 255));
+      $cipher = $iv . des($this->config->get_crypto_key($key), $clear, 1, 1, $iv);
     }
-    else {
-      $cypher = $pass;
-
+    else
+    {
       raise_error(array(
         'code' => 500,
         'type' => 'php',
         'file' => __FILE__,
-        'message' => "Could not convert encrypt password. Make sure Mcrypt is installed or lib/des.inc is available"
-        ), true, false);
+        'message' => "Could not perform encryption; make sure Mcrypt is installed or lib/des.inc is available"
+      ), true, true);
     }
-
-    return base64_encode($cypher);
+  
+    return $base64 ? base64_encode($cipher) : $cipher;
   }
 
-
   /**
-   * Decrypt IMAP password using DES encryption
+   * Decrypt 3DES-encrypted string
    *
-   * @param string Encrypted password
-   * @return string Plain password
+   * @param string $cipher encrypted text
+   * @param string $key encryption key to retrieve from the configuration, defaults to 'des_key'
+   * @param boolean $base64 whether or not input is base64-encoded
+   *
+   * @return string decrypted text
    */
-  public function decrypt_passwd($cypher)
+  public function decrypt($cipher, $key = 'des_key', $base64 = true)
   {
-    if (function_exists('mcrypt_module_open') && ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_ECB, ""))) {
-      $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-      mcrypt_generic_init($td, $this->config->get_des_key(), $iv);
-      $pass = mdecrypt_generic($td, base64_decode($cypher));
+    $cipher = $base64 ? base64_decode($cipher) : $cipher;
+
+    if (function_exists('mcrypt_module_open') &&
+        ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, "")))
+    {
+      $iv = substr($cipher, 0, mcrypt_enc_get_iv_size($td));
+      $cipher = substr($cipher, mcrypt_enc_get_iv_size($td));
+      mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
+      $clear = mdecrypt_generic($td, $cipher);
       mcrypt_generic_deinit($td);
       mcrypt_module_close($td);
     }
-    else if (function_exists('des')) {
-      $pass = des($this->config->get_des_key(), base64_decode($cypher), 0, 0, NULL);
+    else if (function_exists('des'))
+    {
+      define('DES_IV_SIZE', 8);
+      $iv = substr($cipher, 0, constant('DES_IV_SIZE'));
+      $cipher = substr($cipher, constant('DES_IV_SIZE'));
+      $clear = des($this->config->get_crypto_key($key), $cipher, 0, 1, $iv);
     }
-    else {
-      $pass = base64_decode($cypher);
+    else
+    {
+      raise_error(array(
+        'code' => 500,
+        'type' => 'php',
+        'file' => __FILE__,
+        'message' => "Could not perform decryption; make sure Mcrypt is installed or lib/des.inc is available"
+      ), true, true);
     }
-
-    return preg_replace('/\x00/', '', $pass);
+  
+    /*-
+     * Trim PHP's padding and the canary byte; see note in
+     * rcmail::encrypt() and http://php.net/mcrypt_generic#68082
+     */
+    $clear = substr(rtrim($clear, "\0"), 0, -1);
+  
+    return $clear;
   }
-
 
   /**
    * Build a valid URL to this instance of RoundCube

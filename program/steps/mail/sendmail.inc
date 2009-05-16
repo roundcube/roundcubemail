@@ -55,6 +55,17 @@ if (!$savedraft) {
 
 /****** message sending functions ********/
 
+// encrypt parts of the header
+function rcmail_encrypt_header($what)
+{
+  global $CONFIG, $RCMAIL;
+  if (!$CONFIG['http_received_header_encrypt'])
+  {
+    return $what;
+  }
+  return $RCMAIL->encrypt($what);
+}
+
 // get identity record
 function rcmail_get_identity($id)
   {
@@ -211,9 +222,29 @@ if (empty($identity_arr['string']))
   $identity_arr['string'] = $from;
 
 // compose headers array
-$headers = array('Date' => date('r'),
-                 'From' => rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset),
-                 'To'   => $mailto);
+$headers = array();
+
+// if configured, the Received headers goes to top, for good measure
+if ($CONFIG['http_received_header'])
+{
+  $nldlm = $RCMAIL->config->header_delimiter() . "\t";
+  $http_header = 'from ';
+  if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $http_header .= rcmail_encrypt_header(gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR'])) .
+      ' [' . rcmail_encrypt_header($_SERVER['HTTP_X_FORWARDED_FOR']) . ']';
+    $http_header .= $nldlm . ' via ';
+  }
+  $http_header .= rcmail_encrypt_header(gethostbyaddr($_SERVER['REMOTE_ADDR'])) .
+      ' [' . rcmail_encrypt_header($_SERVER['REMOTE_ADDR']) .']';
+  $http_header .= $nldlm . 'with ' . $_SERVER['SERVER_PROTOCOL'] .
+      ' ('.$_SERVER['REQUEST_METHOD'] . '); ' . date('r');
+  $http_header = wordwrap($http_header, 69, $nldlm);
+  $headers['Received'] = $http_header;
+}
+
+$headers['Date'] = date('r');
+$headers['From'] = rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset);
+$headers['To'] = $mailto;
 
 // additional recipients
 if (!empty($mailcc))
@@ -257,16 +288,6 @@ if (!empty($_POST['_receipt']))
   }
 
 // additional headers
-if ($CONFIG['http_received_header'])
-{
-  $nldlm = $RCMAIL->config->header_delimiter() . "\t";
-  $headers['Received'] =  wordwrap('from ' . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
-      gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']).' ['.$_SERVER['HTTP_X_FORWARDED_FOR'].']'.$nldlm.' via ' : '') .
-    gethostbyaddr($_SERVER['REMOTE_ADDR']).' ['.$_SERVER['REMOTE_ADDR'].']'.$nldlm.'with ' .
-    $_SERVER['SERVER_PROTOCOL'].' ('.$_SERVER['REQUEST_METHOD'].'); ' . date('r'),
-    69, $nldlm);
-}
-
 $headers['Message-ID'] = $message_id;
 $headers['X-Sender'] = $from;
 

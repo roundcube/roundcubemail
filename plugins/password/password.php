@@ -7,7 +7,7 @@
  * (Settings -> Password tab)
  *
  * @version 1.1
- * @author Aleksander 'A.L.E.C' Machniak
+ * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  * @editor Daniel Black
  *
  * Configuration Items (config/main.inc.php):
@@ -113,11 +113,11 @@ class password extends rcube_plugin
       $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
       $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
 
-      if ($confirm && $_SESSION['password'] !=  $rcmail->encrypt_passwd($curpwd))
+      if ($confirm && $rcmail->decrypt($_SESSION['password']) != $curpwd)
         $rcmail->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
       else if (!($res = $this->_save($curpwd,$newpwd))) {
         $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-        $_SESSION['password'] = $rcmail->encrypt_passwd($newpwd);
+        $_SESSION['password'] = $rcmail->encrypt($newpwd);
       } else
         $rcmail->output->command('display_message', $res, 'error');
     }
@@ -147,14 +147,11 @@ class password extends rcube_plugin
     // return the complete edit form as table
     $out = '<table' . $attrib_str . ">\n\n";
 
-    $a_show_cols = array('newpasswd'   => array('type' => 'text'),
-                'confpasswd'   => array('type' => 'text'));
-
     if ($confirm) {
-      $a_show_cols['curpasswd'] = array('type' => 'text');
       // show current password selection
       $field_id = 'curpasswd';
-      $input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id, 'size' => 20));
+      $input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id,
+    	    'size' => 20, 'autocomplete' => 'off'));
   
       $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                   $field_id,
@@ -164,7 +161,8 @@ class password extends rcube_plugin
 
     // show new password selection
     $field_id = 'newpasswd';
-    $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => $field_id, 'size' => 20));
+    $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => $field_id,
+	    'size' => 20, 'autocomplete' => 'off'));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                 $field_id,
@@ -173,7 +171,8 @@ class password extends rcube_plugin
 
     // show confirm password selection
     $field_id = 'confpasswd';
-    $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => $field_id, 'size' => 20));
+    $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => $field_id,
+	    'size' => 20, 'autocomplete' => 'off'));
 
     $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
                 $field_id,

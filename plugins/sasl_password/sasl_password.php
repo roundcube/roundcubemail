@@ -51,12 +51,12 @@ class sasl_password extends rcube_plugin
       $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
       $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
 
-      if ($_SESSION['password'] != $rcmail->encrypt_passwd($curpwd)) {
+      if ($rcmail->decrypt($_SESSION['password']) != $curpwd) {
         $rcmail->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
       }
       else if ($this->_save($newpwd)) {
         $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-        $_SESSION['password'] = $rcmail->encrypt_passwd($newpwd);
+        $_SESSION['password'] = $rcmail->encrypt($newpwd);
       }
       else {
         $rcmail->output->command('display_message', $this->gettext('errorsaving'), 'error');
