@@ -22,6 +22,7 @@ $messages['loginfailed'] = 'Login failed';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies';
 $messages['sessionerror'] = 'Your session is invalid or has expired';
 $messages['imaperror'] = 'Connection to IMAP server failed';
+$messages['servererror'] = 'Server Error!';
 $messages['nomessagesfound'] = 'No messages found in this mailbox';
 $messages['loggedout'] = 'You have successfully terminated the session. Good bye!';
 $messages['mailboxempty'] = 'Mailbox is empty';

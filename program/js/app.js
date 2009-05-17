@@ -3945,7 +3945,8 @@ function rcube_webmail()
     this.set_busy(false);
     request.abort();
     
-    this.display_message('Unknown Server Error!' + (errmsg ? ' ('+errmsg+')' : ''), 'error');
+    if (errmsg)
+      this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');
     };
 
   // use an image to send a keep-alive siganl to the server

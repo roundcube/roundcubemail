@@ -324,7 +324,7 @@ class rcmail
     $this->output->set_charset($this->config->get('charset', RCMAIL_CHARSET));
 
     // add some basic label to client
-    $this->output->add_label('loading');
+    $this->output->add_label('loading', 'servererror');
     
     return $this->output;
   }

@@ -27,6 +27,7 @@ $messages['loginfailed'] = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['imaperror'] = 'Błąd połączenia z serwerem!';
+$messages['servererror'] = 'Błąd serwera!';
 $messages['nomessagesfound'] = 'Brak wiadomości w skrzynce.';
 $messages['loggedout'] = 'Użytkownik wylogował się poprawnie.';
 $messages['mailboxempty'] = 'Skrzynka jest pusta!';
@@ -99,6 +100,5 @@ $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pomini�
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';
 $messages['nofromaddress'] = 'Brak adresu e-mail w wybranej tożsamości';
 $messages['editorwarning'] = 'Zmiana edytora spowoduje utratę formatowania tekstu. Czy jesteś pewien, że chcesz to zrobić?';
-$messages['httpreceivedencrypterror'] = 'Wystąpił błąd systemu. Skontaktuj się z administratorem. <b>Nie można wysłać wiadomości.</b>';
 
 ?>
