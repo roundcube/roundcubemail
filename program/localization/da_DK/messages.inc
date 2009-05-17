@@ -97,4 +97,3 @@ $messages['nofromaddress'] = 'Der mangler en email-adresse i den valgte identite
 $messages['editorwarning'] = 'Al formatering af teksten forsvinder, hvis der skiftes til ren tekst. Vil du fortsætte?';
 
 ?>
-

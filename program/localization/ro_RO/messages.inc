@@ -96,4 +96,3 @@ $messages['nofromaddress'] = 'Nu exista o adresa de e-mail in identitatea select
 $messages['editorwarning'] = 'Trecerea in mod text a editorului va cauza pierderea formatarii textului. Doriti sa continuati?';
 
 ?>
-

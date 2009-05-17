@@ -22,6 +22,7 @@ $messages['loginfailed'] = 'Sisselogimine ebaõnnestus';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
 $messages['sessionerror'] = 'Sinu sessioon on aegunud või vigane';
 $messages['imaperror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
+$messages['servererror'] = 'Serveri tõrge!';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu sessioon on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Postkast on tühi';
@@ -94,5 +95,6 @@ $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
 $messages['nofromaddress'] = 'Valitud identiteedil puudub e-posti aadress';
 $messages['editorwarning'] = 'Klaarteksti redaktorile lülitamine kaotab kogu teksti vorminduse. Soovid jätkata?';
+$messages['httpreceivedencrypterror'] = 'Ilmnes saatuslik konfiguratsiooniviga. Võta koheselt oma süsteemiadministraatoriga ühendust. <b> Sinu kirja polnud võimalik ära saata. </b>';
 
 ?>
