@@ -361,7 +361,7 @@ this.createListSeparator = function() {
 
 this.correctError = function(id, elm, l_elm, rm_pre_space) {
     var old_value = elm.innerHTML;
-    var new_value = l_elm.innerHTML;
+    var new_value = l_elm.nodeType == 3 ? l_elm.nodeValue : l_elm.innerHTML;
     var offset = this.results[id]['attrs']['o'];
 
     if (rm_pre_space) {

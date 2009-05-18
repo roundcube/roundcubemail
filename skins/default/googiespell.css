@@ -48,7 +48,7 @@
 }
 
 .googie_list_onout {
-  background-color: #F6F6F6;
+  background-color: #fff;
 }
 
 .googie_list_selected {
@@ -67,9 +67,12 @@
 
 .googie_list_revert {
   font-size: 11px;
-  color: #b91479;
+  color: #b91414;
 }
 
+.googie_list_revert:hover {
+  color: #fff;
+}
 .googie_link {
   color: #b91414;
   text-decoration: underline;
