@@ -176,23 +176,24 @@ class rcube_user
     if (!$this->ID)
       return false;
     
-    $write_sql = array();
+    $query_cols = $query_params = array();
     
     foreach ((array)$data as $col => $value)
     {
-      $write_sql[] = sprintf("%s=%s",
-        $this->db->quoteIdentifier($col),
-        $this->db->quote($value));
+      $query_cols[] = $this->db->quoteIdentifier($col) . '=?';
+      $query_params[] = $value;
     }
-    
-    $this->db->query(
-      "UPDATE ".get_table_name('identities')."
-       SET ".join(', ', $write_sql)."
+    $query_params[] = $iid;
+    $query_params[] = $this->ID;
+
+    $sql = "UPDATE ".get_table_name('identities')."
+       SET ".join(', ', $query_cols)."
        WHERE  identity_id=?
        AND    user_id=?
-       AND    del<>1",
-      $iid,
-      $this->ID);
+       AND    del<>1";
+
+    call_user_func_array(array($this->db, 'query'),
+                        array_merge(array($sql), $query_params));
     
     return $this->db->affected_rows();
   }
@@ -213,14 +214,17 @@ class rcube_user
     foreach ((array)$data as $col => $value)
     {
       $insert_cols[] = $this->db->quoteIdentifier($col);
-      $insert_values[] = $this->db->quote($value);
+      $insert_values[] = $value;
     }
+    $insert_cols[] = 'user_id';
+    $insert_values[] = $this->ID;
 
-    $this->db->query(
-      "INSERT INTO ".get_table_name('identities')."
-        (user_id, ".join(', ', $insert_cols).")
-       VALUES (?, ".join(', ', $insert_values).")",
-      $this->ID);
+    $sql = "INSERT INTO ".get_table_name('identities')."
+        (".join(', ', $insert_cols).")
+       VALUES (".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
+
+    call_user_func_array(array($this->db, 'query'),
+                        array_merge(array($sql), $insert_values));
 
     return $this->db->insert_id(get_sequence_name('identities'));
   }
