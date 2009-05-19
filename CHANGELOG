@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Better support for malformed character names (#1485758)
 - Added possibility to encrypt received header, option 'http_received_header_encrypt',
   added some more logic in encrypt/decrypt functions for security
 - Fix Answered/Forwarded flag setting for messages in subfolders

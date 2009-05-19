@@ -182,30 +182,15 @@ function rcube_charset_convert($str, $from, $to=NULL)
   static $mbstring_list = null;
   static $convert_warning = false;
 
-  $from = strtoupper($from);
-  $to = $to==NULL ? strtoupper(RCMAIL_CHARSET) : strtoupper($to);
-  $error = false; $conv = null;
+  $error = false;
+  $conv = null;
 
-  # RFC1642
-  if ($from == 'UNICODE-1-1-UTF-7')
-    $from = 'UTF-7';
-  if ($to == 'UNICODE-1-1-UTF-7')
-    $to = 'UTF-7';
+  $to = empty($to) ? $to = strtoupper(RCMAIL_CHARSET) : rcube_parse_charset($to);
+  $from = rcube_parse_charset($from);
 
   if ($from == $to || empty($str) || empty($from))
     return $str;
     
-  $aliases = array(
-    'US-ASCII'         => 'ISO-8859-1',
-    'ANSI_X3.110-1983' => 'ISO-8859-1',
-    'ANSI_X3.4-1968'   => 'ISO-8859-1',
-    'UNKNOWN-8BIT'     => 'ISO-8859-15',
-    'X-UNKNOWN'        => 'ISO-8859-15',
-    'X-USER-DEFINED'   => 'ISO-8859-15',
-    'ISO-8859-8-I'     => 'ISO-8859-8',
-    'KS_C_5601-1987'   => 'EUC-KR',
-  );
-
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
     $aliases['GB2312'] = 'GB18030';
@@ -227,7 +212,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       $mbstring_list = mb_list_encodings();
       $mbstring_list = array_map('strtoupper', $mbstring_list);
     }
-    
+
     $mb_from = $aliases[$from] ? $aliases[$from] : $from;
     $mb_to = $aliases[$to] ? $aliases[$to] : $to;
     
@@ -235,6 +220,9 @@ function rcube_charset_convert($str, $from, $to=NULL)
     if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
       if (mb_check_encoding($str, $mb_from) && ($out = mb_convert_encoding($str, $mb_to, $mb_from)))
         return $out;
+      else
+        // return here, encoding supported, but string is invalid
+        return $str;
     }
   }
 
@@ -280,7 +268,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       'code' => 500,
       'type' => 'php',
       'file' => __FILE__,
-      'message' => "Could not convert string from $from to $to. Make sure iconv is installed or lib/utf8.class is available"
+      'message' => "Could not convert string from $from to $to. Make sure iconv/mbstring is installed or lib/utf8.class is available."
       ), true, false);
     
     $convert_warning = true;
@@ -288,6 +276,48 @@ function rcube_charset_convert($str, $from, $to=NULL)
   
   // return UTF-8 string
   return $str;
+  }
+
+
+/**
+ * Parse and validate charset name string (see #1485758).
+ * Sometimes charset string is malformed, there are also charset aliases 
+ * but we need strict names for charset conversion (specially utf8 class)
+ *
+ * @param  string  Input charset name
+ * @return The validated charset name
+ */
+function rcube_parse_charset($charset)
+  {
+  $charset = strtoupper($charset);
+
+  # RFC1642
+  $charset = str_replace('UNICODE-1-1-', '', $charset);
+
+  $aliases = array(
+    'USASCII'       => 'ISO-8859-1',
+    'ANSIX31101983' => 'ISO-8859-1',
+    'ANSIX341968'   => 'ISO-8859-1',
+    'UNKNOWN8BIT'   => 'ISO-8859-15',
+    'XUNKNOWN'      => 'ISO-8859-15',
+    'XUSERDEFINED'  => 'ISO-8859-15',
+    'ISO88598I'     => 'ISO-8859-8',
+    'KSC56011987'   => 'EUC-KR',
+    'UNICODE'	    => 'UTF-8',
+  );
+
+  $str = preg_replace('/[^a-z0-9]/i', '', $charset);
+
+  if (isset($aliases[$str]))
+    return $aliases[$str];
+
+  if (preg_match('/UTF(7|8|16|32)(BE|LE)*/', $str, $m))
+    return 'UTF-' . $m[1] . $m[2];
+
+  if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m))
+    return 'ISO-8859-' . ($m[1] ? $m[1] : 1);
+
+  return $charset;
   }
 
 
