@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Support UTF-7 encoding in messages (#1485832)
 - Better support for malformed character names (#1485758)
 - Added possibility to encrypt received header, option 'http_received_header_encrypt',
   added some more logic in encrypt/decrypt functions for security

@@ -78,11 +78,11 @@ class rcube_config
 
     // fix default imap folders encoding
     foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
-      $this->prop[$folder] = rcube_charset_convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF-7');
+      $this->prop[$folder] = rcube_charset_convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF7-IMAP');
 
     if (!empty($this->prop['default_imap_folders']))
       foreach ($this->prop['default_imap_folders'] as $n => $folder)
-        $this->prop['default_imap_folders'][$n] = rcube_charset_convert($folder, RCMAIL_CHARSET, 'UTF-7');
+        $this->prop['default_imap_folders'][$n] = rcube_charset_convert($folder, RCMAIL_CHARSET, 'UTF7-IMAP');
 
     // set PHP error logging according to config
     if ($this->prop['debug_level'] & 1) {

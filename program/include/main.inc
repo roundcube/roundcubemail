@@ -205,7 +205,6 @@ function rcube_charset_convert($str, $from, $to=NULL)
     
   // convert charset using mbstring module
   if ($mbstring_loaded) {
-    $aliases['UTF-7'] = 'UTF7-IMAP';
     $aliases['WINDOWS-1257'] = 'ISO-8859-13';
     
     if (is_null($mbstring_list)) {
@@ -220,9 +219,6 @@ function rcube_charset_convert($str, $from, $to=NULL)
     if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
       if (mb_check_encoding($str, $mb_from) && ($out = mb_convert_encoding($str, $mb_to, $mb_from)))
         return $out;
-      else
-        // return here, encoding supported, but string is invalid
-        return $str;
     }
   }
 
@@ -231,35 +227,49 @@ function rcube_charset_convert($str, $from, $to=NULL)
     $conv = new utf8();
 
   // convert string to UTF-8
-  if ($from == 'UTF-7') {
-    if ($_str = utf7_to_utf8($str))
-      $str = $_str;
-    else
+  if ($to == 'UTF-8') {
+    if ($from == 'UTF7-IMAP') {
+      if ($_str = utf7_to_utf8($str))
+        $str = $_str;
+      else
+        $error = true;
+    }
+    else if ($from == 'UTF-7') {
+      if ($_str = rcube_utf7_to_utf8($str))
+        $str = $_str;
+      else
+        $error = true;
+    }
+    else if (($from == 'ISO-8859-1') && function_exists('utf8_encode')) {
+      $str = utf8_encode($str);
+    }
+    else if ($from != 'UTF-8' && $conv) {
+      $conv->loadCharset($from);
+      $str = $conv->strToUtf8($str);
+    }
+    else if ($from != 'UTF-8')
       $error = true;
   }
-  else if (($from == 'ISO-8859-1') && function_exists('utf8_encode')) {
-    $str = utf8_encode($str);
-  }
-  else if ($from != 'UTF-8' && $conv) {
-    $conv->loadCharset($from);
-    $str = $conv->strToUtf8($str);
-  }
-  else if ($from != 'UTF-8')
-    $error = true;
-
+  
   // encode string for output
-  if ($to == 'UTF-7') {
-    return utf8_to_utf7($str);
-  }
-  else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
-    return utf8_decode($str);
-  }
-  else if ($to != 'UTF-8' && $conv) {
-    $conv->loadCharset($to);
-    return $conv->utf8ToStr($str);
-  }
-  else if ($to != 'UTF-8') {
-    $error = true;
+  if ($from == 'UTF-8') {
+    // @TODO: we need a function for UTF-7 (RFC2152) conversion
+    if ($to == 'UTF7-IMAP' || $to == 'UTF-7') {
+      if ($_str = utf8_to_utf7($str))
+        $str = $_str;
+      else
+        $error = true;
+    }
+    else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
+      return utf8_decode($str);
+    }
+    else if ($to != 'UTF-8' && $conv) {
+      $conv->loadCharset($to);
+      return $conv->utf8ToStr($str);
+    }
+    else if ($to != 'UTF-8') {
+      $error = true;
+    }
   }
   
   // report error
@@ -304,6 +314,7 @@ function rcube_parse_charset($charset)
     'ISO88598I'     => 'ISO-8859-8',
     'KSC56011987'   => 'EUC-KR',
     'UNICODE'	    => 'UTF-8',
+    'UTF7IMAP'	    => 'UTF7-IMAP'
   );
 
   $str = preg_replace('/[^a-z0-9]/i', '', $charset);
@@ -319,6 +330,93 @@ function rcube_parse_charset($charset)
 
   return $charset;
   }
+
+
+/**
+ * Converts string from standard UTF-7 (RFC 2152) to UTF-8.
+ *
+ * @param  string  Input string
+ * @return The converted string
+ */
+function rcube_utf7_to_utf8($str)
+{
+  $Index_64 = array(
+    0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,
+    0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,
+    0,0,0,0, 0,0,0,0, 0,0,0,1, 0,0,0,0,
+    1,1,1,1, 1,1,1,1, 1,1,0,0, 0,0,0,0,
+    0,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1,
+    1,1,1,1, 1,1,1,1, 1,1,1,0, 0,0,0,0,
+    0,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1,
+    1,1,1,1, 1,1,1,1, 1,1,1,0, 0,0,0,0,
+  );
+
+  $u7len = strlen($str);
+  $str = strval($str);
+  $res = '';
+
+  for ($i=0; $u7len > 0; $i++, $u7len--)
+  {
+    $u7 = $str[$i];
+    if ($u7 == '+')
+    {
+      $i++;
+      $u7len--;
+      $ch = '';
+
+      for (; $u7len > 0; $i++, $u7len--)
+      {
+        $u7 = $str[$i];
+
+        if (!$Index_64[ord($u7)])
+          break;
+
+	$ch .= $u7;
+      }
+
+      if ($ch == '') {
+        if ($u7 == '-')
+          $res .= '+';
+        continue;
+      }
+
+      $res .= rcube_utf16_to_utf8(base64_decode($ch));
+    }
+    else
+    {
+      $res .= $u7;
+    }
+  }
+
+  return $res;
+}
+
+/**
+ * Converts string from UTF-16 to UTF-8 (helper for utf-7 to utf-8 conversion)
+ *
+ * @param  string  Input string
+ * @return The converted string
+ */
+function rcube_utf16_to_utf8($str)
+{
+  $len = strlen($str);
+  $dec = '';
+
+  for ($i = 0; $i < $len; $i += 2) {
+    $c = ord($str[$i]) << 8 | ord($str[$i + 1]);
+    if ($c >= 0x0001 && $c <= 0x007F) {
+      $dec .= chr($c);
+    } else if ($c > 0x07FF) {
+      $dec .= chr(0xE0 | (($c >> 12) & 0x0F));
+      $dec .= chr(0x80 | (($c >>  6) & 0x3F));
+      $dec .= chr(0x80 | (($c >>  0) & 0x3F));
+    } else {
+      $dec .= chr(0xC0 | (($c >>  6) & 0x1F));
+      $dec .= chr(0x80 | (($c >>  0) & 0x3F));
+    }
+  }
+  return $dec;
+}
 
 
 /**
@@ -408,7 +506,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   if ($enctype=='js')
     {
     if ($charset!='UTF-8')
-      $str = rcube_charset_convert($str, RCMAIL_CHARSET,$charset);
+      $str = rcube_charset_convert($str, RCMAIL_CHARSET, $charset);
       
     return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
     }
@@ -1057,7 +1155,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   if (!isset($arrFolders[$currentFolder])) {
     $arrFolders[$currentFolder] = array(
       'id' => $path,
-      'name' => rcube_charset_convert($currentFolder, 'UTF-7'),
+      'name' => rcube_charset_convert($currentFolder, 'UTF7-IMAP'),
       'virtual' => $virtual,
       'folders' => array());
   }
@@ -1232,7 +1330,7 @@ function rcmail_localize_foldername($name)
   if ($folder_class = rcmail_folder_classname($name))
     return rcube_label($folder_class);
   else
-    return rcube_charset_convert($name, 'UTF-7');
+    return rcube_charset_convert($name, 'UTF7-IMAP');
 }
 
 

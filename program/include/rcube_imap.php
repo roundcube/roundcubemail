@@ -2762,7 +2762,7 @@ class rcube_imap
       if (($p = array_search(strtolower($folder), $this->default_folders_lc)) !== false && !$a_defaults[$p])
         $a_defaults[$p] = $folder;
       else
-        $folders[$folder] = rc_strtolower(rcube_charset_convert($folder, 'UTF-7'));
+        $folders[$folder] = rc_strtolower(rcube_charset_convert($folder, 'UTF7-IMAP'));
       }
 
     // sort folders and place defaults on the top

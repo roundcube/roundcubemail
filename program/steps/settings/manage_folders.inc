@@ -19,7 +19,7 @@
 
 */
 
-// WARNING: folder names in UI are encoded with UTF-8
+// WARNING: folder names in UI are encoded with RCMAIL_CHARSET
 
 // init IMAP connection
 $RCMAIL->imap_init(true);
@@ -27,14 +27,14 @@ $RCMAIL->imap_init(true);
 // subscribe to one or more mailboxes
 if ($RCMAIL->action=='subscribe')
   {
-  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF-7'))
+  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
     $IMAP->subscribe(array($mbox));
   }
 
 // unsubscribe one or more mailboxes
 else if ($RCMAIL->action=='unsubscribe')
   {
-  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF-7'))
+  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
     $IMAP->unsubscribe(array($mbox));
   }
 
@@ -43,7 +43,7 @@ else if ($RCMAIL->action=='create-folder')
   {
   if (!empty($_POST['_name']))
     {
-    $name = trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF-7'));
+    $name = trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF7-IMAP'));
     $create = $IMAP->create_mailbox($name, TRUE);
     }
   
@@ -52,9 +52,9 @@ else if ($RCMAIL->action=='create-folder')
     $delimiter = $IMAP->get_hierarchy_delimiter();
     $folderlist = $IMAP->list_unsubscribed();
     $index = array_search($create, $folderlist);
-    $before = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF-7') : false;
+    $before = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF7-IMAP') : false;
     
-    $create = rcube_charset_convert($create, 'UTF-7');
+    $create = rcube_charset_convert($create, 'UTF7-IMAP');
     $foldersplit = explode($delimiter, $create);
     $display_create = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', substr_count($create, $delimiter)) . $foldersplit[count($foldersplit)-1];
 
@@ -73,8 +73,8 @@ else if ($RCMAIL->action=='rename-folder')
     {
     $name_utf8 = trim(get_input_value('_folder_newname', RCUBE_INPUT_POST));
     $oldname_utf8 = get_input_value('_folder_oldname', RCUBE_INPUT_POST);
-    $name = rcube_charset_convert($name_utf8, 'UTF-8', 'UTF-7');
-    $oldname = rcube_charset_convert($oldname_utf8, 'UTF-8', 'UTF-7');
+    $name = rcube_charset_convert($name_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
+    $oldname = rcube_charset_convert($oldname_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
 
     $rename = $IMAP->rename_mailbox($oldname, $name);
     }
@@ -95,23 +95,22 @@ else if ($RCMAIL->action=='rename-folder')
         $foldersplit = explode($delimiter, $folderlist[$x]);
         $level = count($foldersplit) - 1;
         $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) 
-          . rcube_charset_convert($foldersplit[$level], 'UTF-7');
+          . rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP');
 
-        $before = isset($folderlist[$x+1]) ? rcube_charset_convert($folderlist[$x+1], 'UTF-7') : false;
+        $before = isset($folderlist[$x+1]) ? rcube_charset_convert($folderlist[$x+1], 'UTF7-IMAP') : false;
         
-        $OUTPUT->command('replace_folder_row', rcube_charset_convert($oldfolder, 'UTF-7'),
-          rcube_charset_convert($folderlist[$x], 'UTF-7'), $display_rename, $before);
+        $OUTPUT->command('replace_folder_row', rcube_charset_convert($oldfolder, 'UTF7-IMAP'),
+          rcube_charset_convert($folderlist[$x], 'UTF7-IMAP'), $display_rename, $before);
         }
       }
 
     $foldersplit = explode($delimiter, $rename);
     $level = count($foldersplit) - 1;
-    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF-7');
+    $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP');
     $index = array_search($rename, $folderlist);
-    $before = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF-7') : false;
+    $before = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF7-IMAP') : false;
 
-    $OUTPUT->command('replace_folder_row', $oldname_utf8, rcube_charset_convert($rename, 'UTF-7'), $display_rename, $before);
-
+    $OUTPUT->command('replace_folder_row', $oldname_utf8, rcube_charset_convert($rename, 'UTF7-IMAP'), $display_rename, $before);
     $OUTPUT->command('reset_folder_rename');
     }
   else if (!$rename && $OUTPUT->ajax_call)
@@ -130,7 +129,7 @@ else if ($RCMAIL->action=='delete-folder')
   $delimiter = $IMAP->get_hierarchy_delimiter();
   
   $mboxes_utf8 = get_input_value('_mboxes', RCUBE_INPUT_POST);
-  $mboxes = rcube_charset_convert($mboxes_utf8, 'UTF-8', 'UTF-7');
+  $mboxes = rcube_charset_convert($mboxes_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
 
   if ($mboxes)
     $deleted = $IMAP->delete_mailbox(array($mboxes));
@@ -142,7 +141,7 @@ else if ($RCMAIL->action=='delete-folder')
       {
       if (preg_match('/^'. preg_quote($mboxes.$delimiter, '/') .'/', $mbox))
         {
-        $OUTPUT->command('remove_folder_row', rcube_charset_convert($mbox, 'UTF-7'));
+        $OUTPUT->command('remove_folder_row', rcube_charset_convert($mbox, 'UTF7-IMAP'));
         }
       }
     $OUTPUT->show_message('folderdeleted', 'confirmation');
@@ -189,7 +188,7 @@ function rcube_subscription_form($attrib)
   // pre-process folders list
   foreach ($a_unsubscribed as $i => $folder) {
     $foldersplit = explode($delimiter, $folder);
-    $name = rcube_charset_convert(array_pop($foldersplit), 'UTF-7');
+    $name = rcube_charset_convert(array_pop($foldersplit), 'UTF7-IMAP');
     $parent_folder = join($delimiter, $foldersplit);
     $level = count($foldersplit);
 
@@ -198,7 +197,7 @@ function rcube_subscription_form($attrib)
       for ($i=1; $i<=$level; $i++) {
 	$ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
 	if ($ancestor_folder && !$seen[$ancestor_folder]++) {
-	  $ancestor_name = rcube_charset_convert($foldersplit[$i-1], 'UTF-7');
+	  $ancestor_name = rcube_charset_convert($foldersplit[$i-1], 'UTF7-IMAP');
 	  $list_folders[] = array('id' => $ancestor_folder, 'name' => $ancestor_name, 'level' => $i-1, 'virtual' => true);
 	}
       }
@@ -231,7 +230,7 @@ function rcube_subscription_form($attrib)
     $classes = array($i%2 ? 'even' : 'odd');
     $folder_js = JQ($folder['id']);
     $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level']) . ($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
-    $folder_utf8 = rcube_charset_convert($folder['id'], 'UTF-7');
+    $folder_utf8 = rcube_charset_convert($folder['id'], 'UTF7-IMAP');
     
     if ($folder['virtual'])
       $classes[] = 'virtual';
