@@ -23,6 +23,7 @@ $messages['loginfailed'] = 'Inloggen mislukt';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies';
 $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig';
 $messages['imaperror'] = 'Connectie met IMAP server mislukt';
+$messages['servererror'] = 'Server Fout!';
 $messages['nomessagesfound'] = 'Geen berichten gevonden in deze mailbox';
 $messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg';
@@ -95,5 +96,6 @@ $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol ge√
 $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
 $messages['nofromaddress'] = 'Het e-mailadres mist in de geselecteerde identiteit';
 $messages['editorwarning'] = 'Door het overschakelen naar de platte tekst editor gaat alle opmaak verloren. Weet je zeker dat je verder wil gaan?';
+$messages['httpreceivedencrypterror'] = 'Er is een fatale fout opgetreden. Neem direct contact op met uw systeembeheerder. <b>Uw bericht kon niet worden verzonden.</b>';
 
 ?>
