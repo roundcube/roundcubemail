@@ -400,7 +400,7 @@ class rcube_user
       // create new identities records
       $standard = 1;
       foreach ($email_list as $email) {
-        $plugin = $RCMAIL->plugins->exec_hook('create_identity', array('record' => array(
+        $plugin = $rcmail->plugins->exec_hook('create_identity', array('record' => array(
           'login' => true,
           'user_id' => $user_id,
           'name' => strip_newlines($user_name),
