@@ -3,6 +3,10 @@ CHANGELOG RoundCube Webmail
 
 - Support UTF-7 encoding in messages (#1485832)
 - Better support for malformed character names (#1485758)
+
+RELEASE 0.3-BETA
+----------------
+- Plugin API + jQuery engine
 - Added possibility to encrypt received header, option 'http_received_header_encrypt',
   added some more logic in encrypt/decrypt functions for security
 - Fix Answered/Forwarded flag setting for messages in subfolders
@@ -23,6 +27,9 @@ CHANGELOG RoundCube Webmail
 - Fix AJAX requests errors handler (#1485000)
 - Speed up message list displaying on IE
 - Fix read/write database recognition (#1485811)
+
+RELEASE 0.2.2
+-------------
 - Fix quicksearchbox look in Chrome and Konqueror (#1484841)
 - Fix UTF-8 byte-order mark removing (#1485514)
 - Fix folders subscribtions on Konqueror (#1484841) 
