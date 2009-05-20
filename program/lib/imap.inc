@@ -92,9 +92,6 @@
  * @todo Replace echo-debugging (make it adhere to config setting and log)
  */
 
-// changed path to work within roundcube webmail
-include_once 'lib/icl_commons.inc';
-
 
 if (!isset($IMAP_USE_HEADER_DATE) || !$IMAP_USE_HEADER_DATE) {
     $IMAP_USE_INTERNAL_DATE = true;
@@ -2211,7 +2208,6 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
 			$a = iil_ExplodeQuotedString(' ', $line);
             
         		// last string is folder name
-        		//$folder = UTF7DecodeString(str_replace('"', '', $a[count($a)-1]));
         		$folder = trim($a[count($a)-1], '"');
             
 			if ((!in_array($folder, $folders)) && (empty($ignore)
