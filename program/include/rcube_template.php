@@ -357,9 +357,10 @@ class rcube_template extends rcube_html_page
             return false;
         }
         
-        // replace all path references to plugins/... with the current plugins dir
+        // replace all path references to plugins/... with the configured plugins dir
+        // and /this/ to the current plugin skin directory
         if ($plugin) {
-          $templ = preg_replace('/\bplugins\//', $this->config['plugins_dir'].'/', $templ);
+            $templ = preg_replace(array('/\bplugins\//', '/(["\']?)\/this\//'), array($this->config['plugins_dir'].'/', "\\1$skin_path/"), $templ);
         }
 
         // parse for specialtags
@@ -374,7 +375,7 @@ class rcube_template extends rcube_html_page
             );
         }
         $output = $this->parse_with_globals($output);
-        $this->write(trim($output), $skin_path);
+        $this->write(trim($output));
         if ($exit) {
             exit;
         }
