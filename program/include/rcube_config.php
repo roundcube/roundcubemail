@@ -51,15 +51,11 @@ class rcube_config
     ob_start();
     
     // load main config file
-    if (include(RCMAIL_CONFIG_DIR . '/main.inc.php'))
-      $this->prop = (array)$rcmail_config;
-    else
+    if (!$this->load_from_file(RCMAIL_CONFIG_DIR . '/main.inc.php'))
       $this->errors[] = 'main.inc.php was not found.';
 
     // load database config
-    if (include(RCMAIL_CONFIG_DIR . '/db.inc.php'))
-      $this->prop += (array)$rcmail_config;
-    else
+    if (!$this->load_from_file(RCMAIL_CONFIG_DIR . '/db.inc.php'))
       $this->errors[] = 'db.inc.php was not found.';
     
     // load host-specific configuration
@@ -124,10 +120,30 @@ class rcube_config
       $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $_SERVER['HTTP_HOST']) . '.inc.php';
     }
 
-    if ($fname && is_file(RCMAIL_CONFIG_DIR . '/' . $fname)) {
-      include(RCMAIL_CONFIG_DIR . '/' . $fname);
-      $this->prop = array_merge($this->prop, (array)$rcmail_config);
+    if ($fname) {
+      $this->load_from_file(RCMAIL_CONFIG_DIR . '/' . $fname);
     }
+  }
+  
+  
+  /**
+   * Read configuration from a file
+   * and merge with the already stored config values
+   *
+   * @param string Full path to the config file to be loaded
+   * @return booelan True on success, false on failure
+   */
+  public function load_from_file($fpath)
+  {
+    if (is_file($fpath)) {
+      @include($fpath);
+      if (is_array($rcmail_config)) {
+        $this->prop = array_merge($this->prop, $rcmail_config);
+        return true;
+      }
+    }
+    
+    return false;
   }
   
   

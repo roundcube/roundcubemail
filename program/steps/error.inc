@@ -81,7 +81,7 @@ else {
   if (($CONFIG['debug_level'] & 4) && $ERROR_MESSAGE)
     $__error_text = $ERROR_MESSAGE;
   else
-    $__error_text = sprintf('Error No. [0x%04X]', $ERROR_CODE);
+    $__error_text = sprintf('Error No. [%s]', $ERROR_CODE);
 }
 
 

@@ -47,6 +47,20 @@ abstract class rcube_plugin
    * Initialization method, needs to be implemented by the plugin itself
    */
   abstract function init();
+  
+  /**
+   * Load local config file from plugins directory.
+   * The loaded values are patched over the global configuration.
+   *
+   * @param string Config file name relative to the plugin's folder
+   */
+  public function load_config($fname = 'config.inc.php')
+  {
+    $fpath = $this->home.'/'.$fname;
+    $rcmail = rcmail::get_instance();
+    if (!$rcmail->config->load_from_file($fpath))
+      raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $fpath"), true, false);
+  }
 
   /**
    * Register a callback function for a specific (server-side) hook
