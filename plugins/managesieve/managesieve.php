@@ -43,10 +43,9 @@ class managesieve extends rcube_plugin
 {
   public $task = 'settings';
 
-  private $sieve;
   private $rc;
+  private $sieve;
   private $errors;
-  private $dir;
   private $form;
   private $script = array();
   private $exts = array();
@@ -58,9 +57,6 @@ class managesieve extends rcube_plugin
 
   function init()
   {
-    $rcmail = rcmail::get_instance();
-    $this->rc = &$rcmail;
-
     // add Tab label/title
     $this->add_texts('localization/', array('filters','managefilters'));
 
@@ -74,6 +70,9 @@ class managesieve extends rcube_plugin
   
   function managesieve_start()
   {
+    $rcmail = rcmail::get_instance();
+    $this->rc = &$rcmail;
+
     // register UI objects
     $this->rc->output->add_handlers(array(
 	'filterslist' => array($this, 'filters_list'),
