@@ -332,7 +332,12 @@ class rcube_template extends rcube_html_page
     private function parse($name = 'main', $exit = true)
     {
         $skin_path = $this->config['skin_path'];
-        $path = "$skin_path/templates/$name.html";
+        
+	$temp = explode(".", $name, 2);
+	if (count($temp) > 1) {
+	    $path = $this->config['plugins_dir'] . '/' . $temp[0] . '/skins/' . $this->config['skin'] . '/templates/' . $temp[1] . '.html';
+	} else
+	    $path = "$skin_path/templates/$name.html";
 
         // read template file
         if (($templ = @file_get_contents($path)) === false) {
