@@ -171,7 +171,6 @@ $labels['htmleditor'] = 'HTML පනිවුඩයක් සෑදීම';
 $labels['htmlsignature'] = 'HTML අත්සන';
 $labels['previewpane'] = 'පූර්වදර්ශන කොටස පෙන්නන්න';
 $labels['autosavedraft'] = 'ස්වයංක්රීයව කටු සටහනේ තැන්පත් කරන්න';
-$labels['everynminutes'] = 'සෑම මිනිත්තු $n';
 $labels['never'] = 'කිසි විටෙකත් නැති';
 $labels['folder'] = 'ෆෝල්ඩරය';
 $labels['folders'] = 'ෆෝල්ඩර';

@@ -155,7 +155,6 @@ $labels['htmleditor'] = 'เขียนจดหมายแบบ HTML';
 $labels['htmlsignature'] = 'ลายมือชื่อแบบ HTML';
 $labels['previewpane'] = 'แสดงหน้าต่างตัวอย่างแสดงผล';
 $labels['autosavedraft'] = 'บันทึกเป็นจดหมายร่างอัตโนมัติ';
-$labels['everynminutes'] = 'ทุกๆ $n นาที';
 $labels['never'] = 'ไม่ใช้';
 $labels['folder'] = 'กล่องจดหมาย';
 $labels['folders'] = 'กล่องจดหมาย';

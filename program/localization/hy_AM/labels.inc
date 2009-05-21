@@ -231,7 +231,6 @@ $labels['always'] = 'միշտ';
 $labels['showinlineimages'] = 'Ցուցադրել կցված պատկերները հաղորդագրության տակ';
 $labels['autosavedraft'] = 'Սևագրի ավտոմատ գրանցում';
 $labels['everynminutes'] = 'ամեն $n րոպեն';
-$labels['keepaliveevery'] = 'ամեն $n րոպեն';
 $labels['keepalive'] = 'Ստուգել նոր նամակները';
 $labels['never'] = 'երբեք';
 $labels['messagesdisplaying'] = 'նամակները ցուցադրելիս';

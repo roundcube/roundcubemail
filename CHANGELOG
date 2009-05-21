@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add 1 minute interval in autosave options (#1485854)
 - Support UTF-7 encoding in messages (#1485832)
 - Better support for malformed character names (#1485758)
 

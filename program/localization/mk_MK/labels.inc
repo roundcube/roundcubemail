@@ -231,7 +231,6 @@ $labels['always'] = 'секогаш';
 $labels['showinlineimages'] = 'Прикажи ги прикачените слики под пораката';
 $labels['autosavedraft'] = 'Авоматски снимај во Непратени';
 $labels['everynminutes'] = 'секои $n минути';
-$labels['keepaliveevery'] = 'секои $n минути';
 $labels['keepalive'] = 'Провери за нови пораки на';
 $labels['never'] = 'никогаш';
 $labels['messagesdisplaying'] = 'Прикажување на порака';

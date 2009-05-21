@@ -159,7 +159,6 @@ $labels['htmleditor'] = 'ऐच-टी-ऐम-एल (HTML) मेल लखन 
 $labels['htmlsignature'] = 'ऐच-टी-ऐम-एल (HTML) हस्ताक्षर';
 $labels['previewpane'] = 'पूर्व दृष्य देखाउनुहोस';
 $labels['autosavedraft'] = 'स्वत ड्राफ्ट जोगाउनुहोस';
-$labels['everynminutes'] = 'प्रत्येक $n मिनटमा';
 $labels['never'] = 'काहिलै नहुने';
 $labels['folder'] = 'फोल्डर';
 $labels['folders'] = 'फोल्डरहरु';

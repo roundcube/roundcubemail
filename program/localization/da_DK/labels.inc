@@ -232,7 +232,6 @@ $labels['always'] = 'altid';
 $labels['showinlineimages'] = 'Vis vedhæftede billeder under beskeden';
 $labels['autosavedraft'] = 'Gem kladde automatisk';
 $labels['everynminutes'] = 'hver $n. minut';
-$labels['keepaliveevery'] = 'hver $n. minut';
 $labels['never'] = 'aldrig';
 $labels['messagesdisplaying'] = 'Viser beskeder';
 $labels['messagescomposition'] = 'Skriver nye beskeder';

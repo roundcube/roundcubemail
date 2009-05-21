@@ -236,7 +236,6 @@ $labels['always'] = '總是接受';
 $labels['showinlineimages'] = '將附加檔案的圖片顯示於郵件最後';
 $labels['autosavedraft'] = '自動儲存草稿';
 $labels['everynminutes'] = '每 $n 分鐘';
-$labels['keepaliveevery'] = '每 $n 分鐘';
 $labels['keepalive'] = '檢查新郵件的間隔時間';
 $labels['never'] = '絕對不要';
 $labels['messagesdisplaying'] = '郵件顯示設定';

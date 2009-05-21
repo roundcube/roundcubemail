@@ -169,7 +169,6 @@ $labels['htmleditor'] = 'Peyameke HTML biafirîne';
 $labels['htmlsignature'] = 'Şanenava HTML';
 $labels['previewpane'] = 'Panela berê nîşan bide';
 $labels['autosavedraft'] = 'Xweber hilîne';
-$labels['everynminutes'] = 'her $n çirke';
 $labels['never'] = 'qet';
 $labels['folder'] = 'Peldank';
 $labels['folders'] = 'Peldank';

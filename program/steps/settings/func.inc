@@ -204,7 +204,7 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       foreach(array(1, 3, 5, 10, 15, 30, 60) as $min)
         if((!$config['min_keep_alive'] || $config['min_keep_alive'] <= $min * 60)
             && (!$config['session_lifetime'] || $config['session_lifetime'] > $min)) {
-          $select_keep_alive->add(rcube_label(array('name' => 'keepaliveevery', 'vars' => array('n' => $min))), $min);
+          $select_keep_alive->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min);
         }
 
       $table->add('title', html::label($field_id, Q(rcube_label('keepalive'))));
@@ -282,7 +282,7 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       $field_id = 'rcmfd_autosave';
       $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => $field_id, 'disabled' => empty($config['drafts_mbox'])));
       $select_autosave->add(rcube_label('never'), 0);
-      foreach (array(3, 5, 10) as $i => $min)
+      foreach (array(1, 3, 5, 10) as $i => $min)
         $select_autosave->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min*60);
 
       $table->add('title', html::label($field_id, Q(rcube_label('autosavedraft'))));

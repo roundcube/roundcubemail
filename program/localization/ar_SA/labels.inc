@@ -226,7 +226,6 @@ $labels['skipdeleted'] = 'لا تظهر الرسائل المحذوفة';
 $labels['showinlineimages'] = 'أظهر الصّور المرفقة أسفل الرسالة';
 $labels['autosavedraft'] = 'حفظ المسودة تلقائياً';
 $labels['everynminutes'] = 'كل $n دقيقة';
-$labels['keepaliveevery'] = 'كل $n دقيقة';
 $labels['keepalive'] = 'تحقق من وجود رسائل جديدة عند';
 $labels['never'] = 'أبداً';
 $labels['messagesdisplaying'] = 'إظهار الرسائل';

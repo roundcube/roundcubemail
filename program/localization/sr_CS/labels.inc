@@ -172,7 +172,6 @@ $labels['htmleditor'] = 'Састави HTML поруке';
 $labels['htmlsignature'] = 'HTML потпис';
 $labels['previewpane'] = 'Прикажи панел за преглед';
 $labels['autosavedraft'] = 'Аутоматски чувај у Снимљене';
-$labels['everynminutes'] = 'сваких $n минута';
 $labels['never'] = 'никад';
 $labels['folder'] = 'Фасцикла';
 $labels['folders'] = 'Фасцикле';

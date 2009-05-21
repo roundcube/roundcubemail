@@ -236,7 +236,6 @@ $labels['always'] = 'всегда';
 $labels['showinlineimages'] = 'Показывать вложенные изображения внизу сообщения';
 $labels['autosavedraft'] = 'Автосохранение черновика';
 $labels['everynminutes'] = 'каждые $n минут';
-$labels['keepaliveevery'] = 'каждые $n минут';
 $labels['keepalive'] = 'Проверять новые сообщения';
 $labels['never'] = 'никогда';
 $labels['messagesdisplaying'] = 'Отображение сообщений';

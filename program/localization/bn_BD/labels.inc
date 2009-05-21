@@ -229,7 +229,6 @@ $labels['always'] = 'সবসময়';
 $labels['showinlineimages'] = 'মেইলের সাথে জোড়া লাগানো ছবি, মেইলের নিচে দেখা যাবে';
 $labels['autosavedraft'] = 'নিজেনিজি খসড়া জমা হয়ে যাবে';
 $labels['everynminutes'] = 'প্রতি $n মিনিটে';
-$labels['keepaliveevery'] = 'প্রতি $n মিনিটে';
 $labels['keepalive'] = 'নতুন মেইল/চিঠি এসেছে কিনা তা দেখা হবে,';
 $labels['never'] = 'কখোনোই না';
 $labels['messagesdisplaying'] = 'মেইল/চিঠি দেখা যাচ্ছে';

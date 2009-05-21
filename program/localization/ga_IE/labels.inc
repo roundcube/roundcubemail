@@ -160,7 +160,6 @@ $labels['htmleditor'] = 'Scríobh teachtaireachta HTML';
 $labels['htmlsignature'] = 'Mana clabhsúir HTML';
 $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
 $labels['autosavedraft'] = 'Sábháil dréachta go huathoibríoch';
-$labels['everynminutes'] = ' i gceann gach $n nóiméad';
 $labels['never'] = 'riamh';
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';

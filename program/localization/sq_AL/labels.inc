@@ -172,7 +172,6 @@ $labels['htmleditor'] = 'Shkruaj mesazhe HTML';
 $labels['htmlsignature'] = 'Nënshkrimi HTML';
 $labels['previewpane'] = 'Shiko si duket';
 $labels['autosavedraft'] = 'Ruaje automatikisht si draft';
-$labels['everynminutes'] = 'çdo $n minuta';
 $labels['never'] = 'kurrë';
 $labels['folder'] = 'Kutia';
 $labels['folders'] = 'Kutitë';

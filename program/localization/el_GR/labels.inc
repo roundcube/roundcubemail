@@ -173,7 +173,6 @@ $labels['htmleditor'] = 'Σύνθεση HTML μηνύματος';
 $labels['htmlsignature'] = 'Υπογραφή HTML';
 $labels['previewpane'] = 'Εμφάνιση προηγούμενου παραθύρου';
 $labels['autosavedraft'] = 'Αυτόματη προχείρου';
-$labels['everynminutes'] = 'κάθε $n λεπτά';
 $labels['never'] = 'ποτέ';
 $labels['folder'] = 'Φάκελος';
 $labels['folders'] = 'Φάκελοι';

@@ -234,7 +234,6 @@ $labels['always'] = 'alati';
 $labels['showinlineimages'] = 'Näita manustatud pilte kirja all';
 $labels['autosavedraft'] = 'Salvesta mustandid automaatselt';
 $labels['everynminutes'] = 'iga $n minuti tagant';
-$labels['keepaliveevery'] = 'iga $n minuti tagant';
 $labels['keepalive'] = 'Kontrolli uusi kirju';
 $labels['never'] = 'mitte kunagi';
 $labels['messagesdisplaying'] = 'Kirjade näitamine';

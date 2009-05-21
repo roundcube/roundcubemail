@@ -213,7 +213,6 @@ $labels['htmleditor']= 'Pisi HTML poruke';
 $labels['htmlsignature'] ='HTML potpis';
 $labels['previewpane'] ='Pokaži prethodu poruku';
 $labels['autosavedraft'] ='Automatski spasi predlozak';
-$labels['everynminutes'] ='svakih $n minuta';
 $labels['never'] ='nikada';
 
 $labels['folder']  = 'Fascikla';

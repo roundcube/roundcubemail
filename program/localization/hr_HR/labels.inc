@@ -228,7 +228,6 @@ $labels['skipdeleted'] = 'Ne prikazivaj pobrisane poruke';
 $labels['showinlineimages'] = 'Prikaži slike ispod poruke';
 $labels['autosavedraft'] = 'Automatski spremi draft';
 $labels['everynminutes'] = 'svakih $n minuta';
-$labels['keepaliveevery'] = 'svakih $n minuta';
 $labels['keepalive'] = 'Provjeri nove poruke';
 $labels['never'] = 'Nikada';
 $labels['messagesdisplaying'] = 'Prikazujem poruke';

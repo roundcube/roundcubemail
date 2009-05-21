@@ -231,7 +231,6 @@ $labels['always'] = 'ყოველთვის';
 $labels['showinlineimages'] = 'ატვირთული სურათები გამოაჩინე გზავნილის ქვემოთ';
 $labels['autosavedraft'] = 'ავტომატური შენახვა';
 $labels['everynminutes'] = 'ყოველ $n წუთში';
-$labels['keepaliveevery'] = 'ყოველ $n წუთში';
 $labels['keepalive'] = 'შეამოწმე ახალ შეტყობინებაზე';
 $labels['never'] = 'არასდროს';
 $labels['messagesdisplaying'] = 'გამოაჩინე შეტყობინებები';

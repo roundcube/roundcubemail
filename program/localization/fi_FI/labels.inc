@@ -226,7 +226,6 @@ $labels['flagfordeletion'] = 'Poistamisen sijaan, merkitse viestit poistettavaks
 $labels['skipdeleted'] = 'Älä näytä poistettuja viestejä';
 $labels['showinlineimages'] = 'Näytä liitekuvat viestin jälkeen';
 $labels['autosavedraft'] = 'Tallenna luonnos automaattisesti';
-$labels['everynminutes'] = '$n minuutin välein';
 $labels['never'] = 'ei koskaan';
 $labels['messagesdisplaying'] = 'Viestien näyttäminen';
 $labels['messagescomposition'] = 'Viestien kirjoittaminen';

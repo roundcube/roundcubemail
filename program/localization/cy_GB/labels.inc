@@ -229,7 +229,6 @@ $labels['always'] = 'bob amser';
 $labels['showinlineimages'] = 'Dangos lluniau atodol islaw\'r neges';
 $labels['autosavedraft'] = 'Cadw drafft yn awtomatig';
 $labels['everynminutes'] = 'bob $n munud';
-$labels['keepaliveevery'] = 'bob $n munud';
 $labels['keepalive'] = 'Gofyn am negeseuon newydd ymlaen';
 $labels['never'] = 'byth';
 $labels['messagesdisplaying'] = 'Dangos Negeseuon';

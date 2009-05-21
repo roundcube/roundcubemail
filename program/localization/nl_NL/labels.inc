@@ -236,7 +236,6 @@ $labels['always'] = 'altijd';
 $labels['showinlineimages'] = 'Toon bijgevoegde afbeeldingen onder het bericht';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
-$labels['keepaliveevery'] = 'iedere $n minuten';
 $labels['keepalive'] = 'Controleer op nieuwe berichten';
 $labels['never'] = 'nooit';
 $labels['messagesdisplaying'] = 'Berichten weergave';

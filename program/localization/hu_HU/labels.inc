@@ -233,7 +233,6 @@ $labels['always'] = 'mindig';
 $labels['showinlineimages'] = 'Csatolt képek megjelenítése az üzenet alatt';
 $labels['autosavedraft'] = 'Automatikus piszkozat mentés';
 $labels['everynminutes'] = 'minden $n percben';
-$labels['keepaliveevery'] = 'minden $n percben';
 $labels['keepalive'] = 'Új üzenetek keresése itt: ';
 $labels['never'] = 'soha';
 $labels['messagesdisplaying'] = 'Üzenetek megjelenítése';

@@ -173,7 +173,6 @@ $labels['htmleditor'] = 'Sestavi sporočila z obogatenim besedilom';
 $labels['htmlsignature'] = 'Podpis z obogatenim besedilom';
 $labels['previewpane'] = 'Prikaži predogled';
 $labels['autosavedraft'] = 'Avtomatično shrani osnutke';
-$labels['everynminutes'] = 'vsakih $n minut';
 $labels['never'] = 'nikoli';
 $labels['folder'] = 'Mapa';
 $labels['folders'] = 'Mape';

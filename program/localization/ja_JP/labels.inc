@@ -232,7 +232,6 @@ $labels['always'] = '常に';
 $labels['showinlineimages'] = 'メールに添付された画像を表示する';
 $labels['autosavedraft'] = '自動的に下書きを保存';
 $labels['everynminutes'] = '$n 分毎';
-$labels['keepaliveevery'] = '$n 分毎';
 $labels['keepalive'] = '新着メールの確認間隔';
 $labels['never'] = 'しない';
 $labels['messagesdisplaying'] = 'メールの表示';

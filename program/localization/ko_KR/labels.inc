@@ -232,7 +232,6 @@ $labels['always'] = '항상';
 $labels['showinlineimages'] = '메시지 아래에 첨부 이미지 보이기';
 $labels['autosavedraft'] = '드래프트 자동 저장';
 $labels['everynminutes'] = '$n 분마다';
-$labels['keepaliveevery'] = '$n 분마다';
 $labels['keepalive'] = '다음 간격마다 새 메시지 자동 체크';
 $labels['never'] = '하지 않음';
 $labels['messagesdisplaying'] = '메시지 표시 중';

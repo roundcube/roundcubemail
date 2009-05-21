@@ -236,7 +236,6 @@ $labels['always'] = 'Alltid';
 $labels['showinlineimages'] = 'Visa bifogade bilder efter meddelande';
 $labels['autosavedraft'] = 'Spara utkast med automatiskt intervall';
 $labels['everynminutes'] = '$n min';
-$labels['keepaliveevery'] = '$n min';
 $labels['keepalive'] = 'Hämta nya meddelanden med automatiskt intervall';
 $labels['never'] = 'Aldrig';
 $labels['messagesdisplaying'] = 'Visning av meddelanden';

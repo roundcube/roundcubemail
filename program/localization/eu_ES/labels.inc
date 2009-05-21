@@ -214,7 +214,6 @@ $labels['readwhendeleted'] = 'Markatu mezua irakurrita bezala ezabatzerakoan';
 $labels['flagfordeletion'] = 'Markatu mezua ezabatzeko ezabatu beharrean';
 $labels['showinlineimages'] = 'Erakutsi erantzitako irudiak mezuaren azpian';
 $labels['autosavedraft'] = 'Zirriborroa automatikoki gorde';
-$labels['everynminutes'] = '$n minuturo';
 $labels['never'] = 'inoiz ez';
 $labels['messagesdisplaying'] = 'Mezuak ikusi';
 $labels['messagescomposition'] = 'Mezuak sortu';

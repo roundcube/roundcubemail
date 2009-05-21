@@ -232,7 +232,6 @@ $labels['always'] = 'selalu';
 $labels['showinlineimages'] = 'Tampilkan gambar terlampir dibawah pesan';
 $labels['autosavedraft'] = 'Otomatis menyimpan pesan tertunda';
 $labels['everynminutes'] = 'setiap $n menit';
-$labels['keepaliveevery'] = 'setiap $n menit';
 $labels['keepalive'] = 'Periksa pesan baru saat';
 $labels['never'] = 'tidak pernah';
 $labels['messagesdisplaying'] = 'Penampilan Pesan';

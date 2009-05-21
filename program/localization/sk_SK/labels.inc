@@ -227,7 +227,6 @@ $labels['flagfordeletion'] = 'Pri odstránení správy iba označiť správu ako
 $labels['skipdeleted'] = 'Nezobrazovať zmazané správy';
 $labels['showinlineimages'] = 'Zobraziť pripojené obrázky pod správou';
 $labels['autosavedraft'] = 'Automaticky uložiť koncept';
-$labels['everynminutes'] = 'každých $n minút';
 $labels['keepalive'] = 'Kontrolovať nové správy';
 $labels['never'] = 'nikdy';
 $labels['messagesdisplaying'] = 'Zobrazovanie správ';

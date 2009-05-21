@@ -230,7 +230,6 @@ $labels['always'] = 'תמיד';
 $labels['showinlineimages'] = 'הצגת תמונות מצורפות בתחתית ההודעה';
 $labels['autosavedraft'] = 'שמירה אוטומטית של טיוטה';
 $labels['everynminutes'] = 'כל $n דקות';
-$labels['keepaliveevery'] = 'כל $n דקות';
 $labels['keepalive'] = 'בדיקת הגעה של הודעות חדשות';
 $labels['never'] = 'אף פעם';
 $labels['messagesdisplaying'] = 'הצגת הודעות';

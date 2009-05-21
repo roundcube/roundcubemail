@@ -232,7 +232,6 @@ $labels['always'] = 'завжди';
 $labels['showinlineimages'] = 'Показувати вкладені зображення внизу повідомлення';
 $labels['autosavedraft'] = 'Автозбереження чернетки';
 $labels['everynminutes'] = 'кожні $n хвилин';
-$labels['keepaliveevery'] = 'кожні $n хвилин';
 $labels['keepalive'] = 'Перевірка нових повідомлень';
 $labels['never'] = 'ніколи';
 $labels['messagesdisplaying'] = 'Відображення повідомлень';

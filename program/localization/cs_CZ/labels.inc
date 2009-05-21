@@ -234,7 +234,6 @@ $labels['always'] = 'vždy';
 $labels['showinlineimages'] = 'Zobrazovat připojené obrázky pod textem';
 $labels['autosavedraft'] = 'Automaticky uložit rozepsané zprávy';
 $labels['everynminutes'] = 'každých $n minut';
-$labels['keepaliveevery'] = 'každých $n minut';
 $labels['keepalive'] = 'Zkontrolovat nové zprávy';
 $labels['never'] = 'nikdy';
 $labels['messagesdisplaying'] = 'Zobrazování zpráv';

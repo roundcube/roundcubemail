@@ -210,7 +210,6 @@ $labels['readwhendeleted'] = 'Marku mesaĝon kiel legita kiam forigata';
 $labels['flagfordeletion'] = 'Marku mesaĝon kiel forigita anstataŭ forigi';
 $labels['showinlineimages'] = 'Montru alfiksitajn bildojn sub la mesaĝo';
 $labels['autosavedraft'] = 'Aŭtomate savu malneton';
-$labels['everynminutes'] = 'ĉiujn $n minutojn';
 $labels['never'] = 'neniam';
 $labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
 $labels['messagescomposition'] = 'Mesaĝo-verkado';

@@ -207,7 +207,6 @@ $labels['ignore'] = 'Biarkan';
 $labels['readwhendeleted'] = 'Tanda mesej sebagai dibaca ketika hapus';
 $labels['flagfordeletion'] = 'Tanda mesej untuk pembuangan (tidak delete terus)';
 $labels['autosavedraft'] = 'Simpan draf dengan automatik';
-$labels['everynminutes'] = 'setiap $n minit';
 $labels['never'] = 'tidak pernah';
 $labels['folder'] = 'Kabinet Fail';
 $labels['folders'] = 'Kabinet Fail';

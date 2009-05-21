@@ -225,7 +225,6 @@ $labels['readwhendeleted'] = 'Marker melding som lese ved sletting';
 $labels['flagfordeletion'] = 'Flagg meldinga for sletting i staden for å sletta';
 $labels['showinlineimages'] = 'Vis vedlagte bilete under meldinga';
 $labels['autosavedraft'] = 'Lagra kladd automatisk';
-$labels['everynminutes'] = 'kvart $n minutt';
 $labels['never'] = 'aldri';
 $labels['messagesdisplaying'] = 'Meldingar som viser';
 $labels['messagescomposition'] = 'Meldingar sin komposisjon';
