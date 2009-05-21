@@ -1,0 +1,157 @@
+/***** RoundCube|Filters styles *****/
+
+
+#filterslist
+{
+  position: absolute;
+  left: 20px;
+  width: 220px;
+  top: 130px;
+  bottom: 30px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  overflow: auto;
+  /* css hack for IE */
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
+}
+
+#filters-table
+{
+  width: 100%;
+  table-layout: fixed;
+  /* css hack for IE */
+  width: expression(document.getElementById('filterslist').clientWidth);
+}
+
+#filters-table tbody td
+{
+  cursor: pointer;
+}
+
+#filtersbuttons
+{
+  position: absolute;
+  left: 20px;
+  top: 95px;
+}
+
+#filter-box
+{
+  position: absolute;
+  top: 95px;
+  left: 250px;
+  right: 20px;
+  bottom: 30px;
+  border: 1px solid #999999;
+  overflow: hidden;
+  /* css hack for IE */
+  width: expression((parseInt(document.documentElement.clientWidth)-30-parseInt(document.getElementById('filterslist').offsetLeft)-parseInt(document.getElementById('filterslist').offsetWidth))+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
+}
+
+#filter-frame
+{
+  background-color: #F9F9F9;
+  border: none;
+}
+
+body.iframe
+{
+  background-color: #F9F9F9;
+  min-width: 740px;
+  width: expression(Math.max(740, document.documentElement.clientWidth)+'px');
+}
+
+#filter-form
+{
+  min-width: 650px;
+  white-space: nowrap;
+  background-color: #F9F9F9;
+  padding: 20px 10px 10px 10px;
+}
+
+#filter-form input, select
+{
+  font-size: 10pt;
+  font-family: inherit;
+}
+
+fieldset
+{
+  background-color: white;
+}
+
+label
+{
+  color: #666666;
+}
+
+#rules, #actions
+{
+  margin-top: 5px;
+  width: 100%;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+div.rulerow, div.actionrow
+{
+  width: 100%;
+  padding: 2px;
+  white-space: nowrap;
+  float: left;
+  border: 1px solid white;
+  display: block;
+}
+
+div.rulerow:hover, div.actionrow:hover
+{
+  padding: 2px;
+  white-space: nowrap;
+  display: block;
+  float: left;
+  background: #F2F2F2;
+  border: 1px solid silver;
+}
+
+div.rulerow table, div.actionrow table
+{
+  width: 100%;
+  padding: 0px;
+}
+
+td.rowbuttons
+{
+  width: 98%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+td.rowactions, td.rowtargets
+{
+  width: 1%;
+  white-space: nowrap;
+}
+
+input.disabled, input.disabled:hover
+{
+  color: #999999;
+}
+
+input.error, textarea.error
+{
+  background-color: #FFFF88;
+}
+
+input.box,
+input.radio
+{
+  border: 0;
+}
+
+span.label
+{
+  color: #666666;
+  font-size: 10px;
+  white-space: nowrap;
+}
