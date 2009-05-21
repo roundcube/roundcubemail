@@ -53,13 +53,18 @@ abstract class rcube_plugin
    * The loaded values are patched over the global configuration.
    *
    * @param string Config file name relative to the plugin's folder
+   * @return boolean True on success, false on failure
    */
   public function load_config($fname = 'config.inc.php')
   {
     $fpath = $this->home.'/'.$fname;
     $rcmail = rcmail::get_instance();
-    if (!$rcmail->config->load_from_file($fpath))
+    if (!$rcmail->config->load_from_file($fpath)) {
       raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $fpath"), true, false);
+      return false;
+    }
+    
+    return true;
   }
 
   /**
