@@ -485,7 +485,7 @@ echo $check_smtplog->show(intval($RCI->getprop('smtp_log')), array('value' => 1)
 <legend>Display settings &amp; user prefs</legend>
 <dl class="configblock" id="cgfblockdisplay">
 
-<dt class="propname">language</dt>
+<dt class="propname">language <span class="userconf">*</span></dt>
 <dd>
 <?php
 
@@ -559,7 +559,7 @@ echo $check_htmlcomp->show(intval($RCI->getprop('htmleditor')));
 
 $select_autosave = new html_select(array('name' => '_draft_autosave', 'id' => 'cfgautosave'));
 $select_autosave->add('never', 0);
-foreach (array(3, 5, 10) as $i => $min)
+foreach (array(1, 3, 5, 10) as $i => $min)
   $select_autosave->add("$min min", $min*60);
 
 echo $select_autosave->show(intval($RCI->getprop('draft_autosave')));
