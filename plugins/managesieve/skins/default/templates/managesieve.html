@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/settings.css" />
-<link rel="stylesheet" type="text/css" href="plugins/managesieve/skins/default/managesieve.css" />
+<link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
 <script type="text/javascript" src="/functions.js"></script>
 </head>
 <body>
@@ -14,10 +14,10 @@
 <roundcube:include file="/includes/settingstabs.html" />
 
 <div id="filtersbuttons">
-<roundcube:button command="plugin.managesieve-add" imageSel="plugins/managesieve/skins/default/filter_add_sel.png" imagePas="plugins/managesieve/skins/default/filter_add_pas.png" imageAct="plugins/managesieve/skins/default/filter_add.png" width="32" height="32" title="managesieve.filteradd" />
-<roundcube:button command="plugin.managesieve-del" imageSel="plugins/managesieve/skins/default/filter_del_sel.png" imagePas="plugins/managesieve/skins/default/filter_del_pas.png" imageAct="plugins/managesieve/skins/default/filter_del.png"  width="32" height="32" title="managesieve.filterdel" />
-<roundcube:button command="plugin.managesieve-up" imageSel="plugins/managesieve/skins/default/filter_up_sel.png" imagePas="plugins/managesieve/skins/default/filter_up_pas.png" imageAct="plugins/managesieve/skins/default/filter_up.png"  width="32" height="32" title="managesieve.moveup" />
-<roundcube:button command="plugin.managesieve-down" imageSel="plugins/managesieve/skins/default/filter_down_sel.png" imagePas="plugins/managesieve/skins/default/filter_down_pas.png" imageAct="plugins/managesieve/skins/default/filter_down.png"  width="32" height="32" title="managesieve.movedown" />
+<roundcube:button command="plugin.managesieve-add" imageSel="/this/filter_add_sel.png" imagePas="/this/filter_add_pas.png" imageAct="/this/filter_add.png" width="32" height="32" title="managesieve.filteradd" />
+<roundcube:button command="plugin.managesieve-del" imageSel="/this/filter_del_sel.png" imagePas="/this/filter_del_pas.png" imageAct="/this/filter_del.png"  width="32" height="32" title="managesieve.filterdel" />
+<roundcube:button command="plugin.managesieve-up" imageSel="/this/filter_up_sel.png" imagePas="/this/filter_up_pas.png" imageAct="/this/filter_up.png"  width="32" height="32" title="managesieve.moveup" />
+<roundcube:button command="plugin.managesieve-down" imageSel="/this/filter_down_sel.png" imagePas="/this/filter_down_pas.png" imageAct="/this/filter_down.png"  width="32" height="32" title="managesieve.movedown" />
 </div>
 
 <div id="filterslist">
