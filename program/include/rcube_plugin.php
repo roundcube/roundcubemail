@@ -177,7 +177,7 @@ abstract class rcube_plugin
    */
   public function include_script($fn)
   {
-    $this->api->include_script($this->ressource_url($fn));
+    $this->api->include_script($this->resource_url($fn));
   }
 
   /**
@@ -187,7 +187,7 @@ abstract class rcube_plugin
    */
   public function include_stylesheet($fn)
   {
-    $this->api->include_stylesheet($this->ressource_url($fn));
+    $this->api->include_stylesheet($this->resource_url($fn));
   }
   
   /**
@@ -203,7 +203,7 @@ abstract class rcube_plugin
       // fix relative paths
       foreach (array('imagepas', 'imageact', 'imagesel') as $key)
         if ($p[$key])
-          $p[$key] = $this->api->url . $this->ressource_url($p[$key]);
+          $p[$key] = $this->api->url . $this->resource_url($p[$key]);
       
       $this->api->add_content($this->api->output->button($p), $container);
     }
@@ -212,7 +212,7 @@ abstract class rcube_plugin
   /**
    * Make the given file name link into the plugin directory
    */
-  private function ressource_url($fn)
+  private function resource_url($fn)
   {
     if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn))
       return $this->ID . '/' . $fn;

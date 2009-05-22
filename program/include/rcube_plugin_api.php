@@ -264,7 +264,7 @@ class rcube_plugin_api
   public function include_script($fn)
   {
     if ($this->output->type == 'html') {
-      $src = $this->ressource_url($fn);
+      $src = $this->resource_url($fn);
       $this->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $src)));
     }
   }
@@ -275,7 +275,7 @@ class rcube_plugin_api
   public function include_stylesheet($fn)
   {
     if ($this->output->type == 'html') {
-      $src = $this->ressource_url($fn);
+      $src = $this->resource_url($fn);
       $this->output->add_header(html::tag('link', array('rel' => "stylesheet", 'type' => "text/css", 'href' => $src)));
     }
   }
@@ -300,7 +300,7 @@ class rcube_plugin_api
   /**
    * Make the given file name link into the plugins directory
    */
-  private function ressource_url($fn)
+  private function resource_url($fn)
   {
     if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn))
       return $this->url . $fn;
