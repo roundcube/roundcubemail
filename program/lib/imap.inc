@@ -81,6 +81,7 @@
 		- added \* flag support 
 		- use PREG instead of EREG
 		- removed caching functions
+		- handling connection startup response
 
 ********************************************************/
 
@@ -229,7 +230,7 @@ function iil_PutLineC($fp, $string, $endln=true) {
 	return $res;
 }
 
-function iil_ReadLine($fp, $size) {
+function iil_ReadLine($fp, $size=1024) {
 	$line = '';
 
 	if (!$fp) {
@@ -614,9 +615,19 @@ function iil_Connect($host, $user, $password, $options=null) {
 		return false;
 	}
 
-	$iil_error .= "Socket connection established\r\n";
-	$line       = iil_ReadLine($conn->fp, 4096);
+	stream_set_timeout($conn->fp, 10);
+	$line = stream_get_line($conn->fp, 8192, "\r\n");
 
+	// Connected to wrong port or connection error?
+	if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
+		if ($line)
+			$iil_error = "Wrong startup greeting ($host:$ICL_PORT): $line";
+		else
+			$iil_error = "Empty startup greeting ($host:$ICL_PORT)";
+	        $iil_errornum = -2;
+	        return false;
+	}
+	
 	// RFC3501 [7.1] optional CAPABILITY response
 	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
 		$conn->capability = explode(' ', strtoupper($matches[1]));
