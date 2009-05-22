@@ -338,9 +338,12 @@ class rcube_template extends rcube_html_page
         if (count($temp) > 1) {
             $plugin = $temp[0];
             $name = $temp[1];
-            $skin_path = $this->config['plugins_dir'] . '/' . $temp[0] . '/skins/' . $this->config['skin'];
-            if (!is_dir($skin_path))  // fallback to default skin
-                $skin_path = $this->config['plugins_dir'] . '/' . $temp[0] . '/skins/default';
+            $skin_dir = $plugin . '/skins/' . $this->config['skin'];
+            $skin_path = $this->config['plugins_dir'] . '/' . $skin_dir;
+            if (!is_dir($skin_path)) {  // fallback to default skin
+                $skin_dir = $plugin . '/skins/default';
+                $skin_path = $this->config['plugins_dir'] . '/' . $skin_dir;
+            }
         }
         
         $path = "$skin_path/templates/$name.html";
@@ -360,7 +363,7 @@ class rcube_template extends rcube_html_page
         // replace all path references to plugins/... with the configured plugins dir
         // and /this/ to the current plugin skin directory
         if ($plugin) {
-            $templ = preg_replace(array('/\bplugins\//', '/(["\']?)\/this\//'), array($this->config['plugins_dir'].'/', "\\1$skin_path/"), $templ);
+            $templ = preg_replace(array('/\bplugins\//', '/(["\']?)\/this\//'), array($this->app->plugins->url, '\\1'.$this->app->plugins->url.$skin_dir.'/'), $templ);
         }
 
         // parse for specialtags
