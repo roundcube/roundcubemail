@@ -46,7 +46,8 @@
 }
 
 #markmessagemenu,
-#searchmenu
+#searchmenu,
+#messagemenu
 {
   position: absolute;
   top: 32px;
@@ -98,6 +99,12 @@ ul.toolbarmenu li a.active:hover
 ul.toolbarmenu li input
 {
   vertical-align: middle;
+}
+
+ul.toolbarmenu li hr
+{
+  width: 90%;
+  margin: 2px 10px;
 }
 
 #searchfilter
@@ -903,16 +910,6 @@ div.message-htmlpart div.rcmBody
 #remote-objects-message a:hover
 {
   color: #333333;
-}
-
-#messageviewlink
-{
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  width: 15px;
-  height: 15px;
-  border: 0;
 }
 
 /** message compose styles */

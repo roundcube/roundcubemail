@@ -150,9 +150,6 @@ function rcube_webmail()
     // enable general commands
     this.enable_command('logout', 'mail', 'addressbook', 'settings', true);
     
-    if (this.env.permaurl)
-      this.enable_command('permaurl', true);
-    
     switch (this.task)
       {
       case 'mail':
@@ -188,7 +185,9 @@ function rcube_webmail()
         
         if (this.env.action=='show' || this.env.action=='preview')
           {
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource', 'print', 'load-attachment', 'load-headers', true);
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete',
+	    'open', 'mark', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
+
           if (this.env.next_uid)
             {
             this.enable_command('nextmessage', true);
@@ -198,6 +197,13 @@ function rcube_webmail()
             {
             this.enable_command('previousmessage', true);
             this.enable_command('firstmessage', true);
+            }
+        
+	  if (this.env.blockedobjects)
+            {
+            if (this.gui_objects.remoteobjectsmsg)
+              this.gui_objects.remoteobjectsmsg.style.display = 'block';
+            this.enable_command('load-images', 'always-load', true);
             }
           }
 
@@ -209,13 +215,6 @@ function rcube_webmail()
           {
           this.enable_command('compose', 'add-contact', false);
           parent.rcmail.show_contentframe(true);
-          }
-
-        if ((this.env.action=='show' || this.env.action=='preview') && this.env.blockedobjects)
-          {
-          if (this.gui_objects.remoteobjectsmsg)
-            this.gui_objects.remoteobjectsmsg.style.display = 'block';
-          this.enable_command('load-images', 'always-load', true);
           }
 
         if (this.env.action=='compose')
@@ -560,12 +559,14 @@ function rcube_webmail()
         this.switch_task(command);
         break;
 
-      case 'permaurl':
-        if (obj && obj.href && obj.target)
-          return true;
-        else if (this.env.permaurl)
-          parent.location.href = this.env.permaurl;
-          break;
+      case 'open':
+	var uid;
+        if (uid = this.get_single_uid())
+	  {
+	  obj.href = '?_task='+this.env.task+'&_action=show&_mbox='+urlencode(this.env.mailbox)+'&_uid='+uid;
+	  return true;
+          }
+	break;
 
       // misc list commands
       case 'list':
@@ -992,10 +993,16 @@ function rcube_webmail()
         var uid;
         if (uid = this.get_single_uid())
           {
-          ref.sourcewin = window.open(this.env.comm_path+'&_action=viewsource&_uid='+this.env.uid+'&_mbox='+urlencode(this.env.mailbox));
+          ref.sourcewin = window.open(this.env.comm_path+'&_action=viewsource&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox));
           if (this.sourcewin)
             window.setTimeout(function(){ ref.sourcewin.focus(); }, 20);
           }
+        break;
+
+      case 'download':
+        var uid;
+        if (uid = this.get_single_uid())
+          this.goto_url('viewsource', '&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+'&_save=1');
         break;
 
       case 'add-contact':
@@ -1357,12 +1364,12 @@ function rcube_webmail()
     if (this.env.mailbox == this.env.drafts_mailbox)
       {
       this.enable_command('reply', 'reply-all', 'forward', false);
-      this.enable_command('show', 'print', selected);
+      this.enable_command('show', 'print', 'open', 'download', 'viewsource', selected);
       this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
     else
       {
-      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', selected);
+      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'open', 'download', 'viewsource', selected);
       this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
 

@@ -145,6 +145,7 @@ $labels['resetsearch'] = 'Wyczyść filtr';
 $labels['searchmod']  = 'Parametry wyszukiwania';
 $labels['msgtext']  = 'Cała wiadomość';
 $labels['openinextwin'] = 'Otwórz w nowym oknie';
+$labels['emlsave'] = 'Zapisz (.eml)';
 $labels['compose'] = 'Utwórz wiadomość';
 $labels['savemessage'] = 'Zapisz kopię roboczą';
 $labels['sendmessage'] = 'Wyślij teraz';

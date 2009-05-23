@@ -27,6 +27,7 @@
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
+<roundcube:include file="/includes/messagemenu.html" />
 
 <div id="mainscreen">
 
@@ -113,12 +114,12 @@
 <div id="messagetoolbar">
 <roundcube:button command="checkmail" imageSel="/images/buttons/inbox_sel.png" imageAct="/images/buttons/inbox_act.png" imagePas="/images/buttons/inbox_pas.png" width="32" height="32" title="checkmail" />
 <roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="writenewmessage" />
-<roundcube:button name="markreadbutton" id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" />
 <roundcube:button command="reply" imageSel="/images/buttons/reply_sel.png" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
 <roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
 <roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
 <roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
-<roundcube:button command="print" imageSel="/images/buttons/print_sel.png" imageAct="/images/buttons/print_act.png" imagePas="/images/buttons/print_pas.png" width="32" height="32" title="printmessage" />
+<roundcube:button name="markreadbutton" id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" />
+<roundcube:button name="messagemenulink" id="messagemenulink" image="/images/icons/extwin.png" width="32" height="32" title="messagemenu" onclick="rcmail_ui.show_messagemenu();return false" />
 <roundcube:container name="toolbar" id="messagetoolbar" />
 
 <div id="markmessagemenu">

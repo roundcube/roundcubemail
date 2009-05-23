@@ -165,6 +165,7 @@ $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 
 $labels['openinextwin'] = 'Open in new window';
+$labels['emlsave'] = 'Save (.eml)';
 
 // message compose
 $labels['compose']        = 'Compose a message';

@@ -134,6 +134,7 @@ $labels['resetsearch'] = 'Reset search';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['openinextwin'] = 'Open in new window';
+$labels['emlsave'] = 'Save (.eml)';
 $labels['compose'] = 'Compose a message';
 $labels['savemessage'] = 'Save this draft';
 $labels['sendmessage'] = 'Send now';

@@ -1,7 +1,9 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
-- Add 1 minute interval in autosave options (#1485854)
+- Added message menu, removed Print and Source buttons
+- Added possibility to save message as .eml file (#1485861)
+- Added 1 minute interval in autosave options (#1485854)
 - Support UTF-7 encoding in messages (#1485832)
 - Better support for malformed character names (#1485758)
 
