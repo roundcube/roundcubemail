@@ -122,6 +122,7 @@ function rcube_mail_ui()
 {
   this.markmenu = $('#markmessagemenu');
   this.searchmenu = $('#searchmenu');
+  this.messagemenu = $('#messagemenu');
 }
 
 rcube_mail_ui.prototype = {
@@ -136,6 +137,19 @@ show_markmenu: function(show)
     this.markmenu.css({ left:ref.offsetLeft, top:(ref.offsetTop + ref.offsetHeight) });
   
   this.markmenu[show?'show':'hide']();
+},
+
+show_messagemenu: function(show)
+{
+  if (typeof show == 'undefined')
+    show = this.messagemenu.is(':visible') ? false : true;
+
+  var ref = rcube_find_object('messagemenulink');
+  if (show && ref) {
+    var pos = $(ref).offset();
+    this.messagemenu.css({ left:pos.left, top:(pos.top + ref.offsetHeight) });
+  }
+  this.messagemenu[show?'show':'hide']();
 },
 
 show_searchmenu: function(show)
@@ -173,6 +187,8 @@ body_mouseup: function(evt, p)
 {
   if (this.markmenu && this.markmenu.is(':visible') && rcube_event.get_target(evt) != rcube_find_object('markreadbutton'))
     this.show_markmenu(false);
+  else if (this.messagemenu && this.messagemenu.is(':visible') && rcube_event.get_target(evt) != rcube_find_object('messagemenulink'))
+    this.show_messagemenu(false);
   else if (this.searchmenu && this.searchmenu.is(':visible') && rcube_event.get_target(evt) != rcube_find_object('searchmod')) {
     var menu = rcube_find_object('searchmenu');
     var target = rcube_event.get_target(evt);
@@ -192,6 +208,8 @@ body_keypress: function(evt, p)
       this.show_markmenu(false);
     if (this.searchmenu && this.searchmenu.is(':visible'))
       this.show_searchmenu(false);
+    if (this.messagemenu && this.messagemenu.is(':visible'))
+      this.show_messagemenu(false);
   }
 }
 
