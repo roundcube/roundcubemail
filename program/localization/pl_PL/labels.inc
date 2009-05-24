@@ -127,6 +127,7 @@ $labels['markread'] = 'Jako przeczytaną';
 $labels['markunread'] = 'Jako nieprzeczytaną';
 $labels['markflagged'] = 'Jako oflagowaną';
 $labels['markunflagged'] = 'Jako nieoflagowaną';
+$labels['messagemenu'] = 'Menu wiadomości';
 $labels['select'] = 'Zaznacz';
 $labels['all'] = 'Wszystkie';
 $labels['none'] = 'Anuluj';
