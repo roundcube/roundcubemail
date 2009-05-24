@@ -2,20 +2,20 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/sv_SE/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Fredrik Nygren <f.nygren@gmail.com>                           |
- |         Andreas Henriksson <andreas@fatal.se>                         |
- |         Jonas Nasholm <info@bitfuse.net>                              |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/sv_SE/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Jonas Nasholm <info@bitfuse.net>                              |
+|         Fredrik Nygren <f.nygren@gmail.com>                           |
+|         Andreas Henriksson <andreas@fatal.se>                         |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -24,6 +24,7 @@ $messages['loginfailed'] = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
 $messages['imaperror'] = 'Kontakt med IMAP-servern misslyckades';
+$messages['servererror'] = 'Fel i servern!';
 $messages['nomessagesfound'] = 'Inga meddelanden';
 $messages['loggedout'] = 'Du är utloggad. Välkommen åter!';
 $messages['mailboxempty'] = 'Katalogen är tom';
@@ -96,5 +97,6 @@ $messages['importconfirm'] = '<b>Lyckad import av $inserted kontakter, $skipped 
 $messages['opnotpermitted'] = 'Otillåten operation!';
 $messages['nofromaddress'] = 'Adressen saknas i den valda identiteten';
 $messages['editorwarning'] = 'Genom att växla till text-läge går formateringen förlorad. Vill du fortsätta?';
+$messages['httpreceivedencrypterror'] = 'Ett irreparabelt fel har uppstått. Kontakta administratören omgående. <b>Meddelandet kan inte skickas.</b>';
 
 ?>

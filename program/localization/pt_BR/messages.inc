@@ -26,6 +26,7 @@ $messages['loginfailed'] = 'Falha no login';
 $messages['cookiesdisabled'] = 'Seu navegador não suporta cookies';
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
 $messages['imaperror'] = 'Falha na conexão com o servidor IMAP';
+$messages['servererror'] = 'Erro no Servidor!';
 $messages['nomessagesfound'] = 'Nenhuma mensagem foi encontrada';
 $messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até breve!';
 $messages['mailboxempty'] = 'A caixa de mensagens está vazia';
@@ -98,5 +99,6 @@ $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contatos
 $messages['opnotpermitted'] = 'Operação não permitida!';
 $messages['nofromaddress'] = 'Falta o endereço de email na identidade selecionada';
 $messages['editorwarning'] = 'Mudar para o editor de texto simples elimina toda a formatação de texto. Deseja continuar?';
+$messages['httpreceivedencrypterror'] = 'Ocorreu um erro de configuração. Informe ao administrador do sistema imediatamente. <b>Sua mensagem não pode ser enviada.</b>';
 
 ?>

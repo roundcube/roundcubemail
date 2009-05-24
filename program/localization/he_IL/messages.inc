@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  06122008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  22052009                |
 +-----------------------------------------------------------------------+
 
 */
@@ -21,6 +21,7 @@ $messages['loginfailed'] = 'הכניסה נכשלה';
 $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
 $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או שפג תוקפה';
 $messages['imaperror'] = 'הקשר לשרת הדואר נכשל';
+$messages['servererror'] = '! שגיאת שרת';
 $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
 $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
 $messages['mailboxempty'] = 'רשימת ההודעות ריקה';
@@ -93,5 +94,6 @@ $messages['importconfirm'] = '<b>יובאו $inserted אנשי קשר, $skipped 
 $messages['opnotpermitted'] = 'פעולה אסורה!';
 $messages['nofromaddress'] = 'לזהות שנבחרה חסרה כתובת דואר';
 $messages['editorwarning'] = 'המעבר לעורך רגיל יגרום לאיבוד את העריכה הקיימת. האם להמשיך?';
+$messages['httpreceivedencrypterror'] = 'ארעה שגיאת תצורה חמורה. נא להודיע מייד למנהל/ת המערכת. <B> הודעתך לא תשלח <B> ';
 
 ?>

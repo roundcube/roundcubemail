@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  06122008                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  22052009                |
 +-----------------------------------------------------------------------+
 */
 
@@ -129,6 +129,8 @@ $labels['unknown'] = 'לא ידוע';
 $labels['unlimited'] = 'ללא הגבלה';
 $labels['quicksearch'] = 'חיפוש מהיר';
 $labels['resetsearch'] = 'ניקוי תיבת החיפוש';
+$labels['searchmod'] = 'מאפייני חיפוש';
+$labels['msgtext'] = 'כל ההודעה';
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['compose'] = 'כתיבת הודעה';
 $labels['savemessage'] = 'שמירת טיוטה';
