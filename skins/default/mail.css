@@ -103,8 +103,66 @@ ul.toolbarmenu li input
 
 ul.toolbarmenu li hr
 {
-  width: 90%;
-  margin: 2px 10px;
+  width: 130px;
+  margin: 2px 8px 2px 22px;
+}
+
+ul.toolbarmenu li img
+{
+  float: left;
+  margin: 0 2px;
+}
+
+#messagemenu ul.toolbarmenu a,
+#markmessagemenu ul.toolbarmenu a
+{
+  padding: 2px 8px 3px 22px;
+}
+
+#messagemenu li a.active:hover,
+#markmessagemenu li a.active:hover
+{
+  background-color: #ddd;
+}
+
+#messagemenu a.printlink
+{
+  background: url('images/icons/print.png') no-repeat 2px;
+}
+
+#messagemenu a.downloadlink
+{
+  background: url('images/icons/save.png') no-repeat 2px;
+}
+
+#messagemenu a.openlink
+{
+  background: url('images/icons/extwin.png') no-repeat 2px;
+}
+
+#messagemenu a.sourcelink
+{
+  background: url('images/icons/source.png') no-repeat 2px;
+}
+
+#markmessagemenu a.readlink
+{
+  background: url('images/icons/dot.png') no-repeat 2px;
+}
+
+#markmessagemenu a.unreadlink
+{
+  background: url('images/icons/unread.png') no-repeat 2px;
+}
+
+#markmessagemenu a.flaggedlink
+{
+  background: url('images/icons/flagged.png') no-repeat 2px;
+}
+
+#markmessagemenu a.unflaggedlink
+{
+  background: url('images/icons/unflagged.png') no-repeat 2px;
 }
 
 #searchfilter

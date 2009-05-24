@@ -1,10 +1,10 @@
 <div id="messagemenu">
     <ul class="toolbarmenu">
-	<li><roundcube:button command="print" label="printmessage" classAct="active" /></li>
-	<li><roundcube:button command="download" label="emlsave" classAct="active" /></li>
-	<li><roundcube:button command="viewsource" label="viewsource" classAct="active" /></li>
-	<li><hr></li>
-	<li><roundcube:button command="open" label="openinextwin" target="_blank" classAct="active" /></li>
+	<li><roundcube:button class="printlink" command="print" label="printmessage" classAct="printlink active" /></li>
+	<li><roundcube:button class="downloadlink" command="download" label="emlsave" classAct="downloadlink active" /></li>
+	<li><roundcube:button class="sourcelink" command="viewsource" label="viewsource" classAct="sourcelink active" /></li>
+	<li><hr /></li>
+	<li><roundcube:button class="openlink" command="open" label="openinextwin" target="_blank" classAct="openlink active" /></li>
 	<roundcube:container name="messagemenu" id="messagemenu" />
     </ul>
 </div>
