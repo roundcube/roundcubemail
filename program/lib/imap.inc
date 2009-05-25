@@ -2396,9 +2396,8 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 		                }
             			$bytes -= strlen($line);
 
-				$line = rtrim($line, "\t\r\n\0\x0B");
-
 		                if ($mode == 1) {
+					$line = rtrim($line, "\t\r\n\0\x0B");
 					// create chunks with proper length for base64 decoding
 					$line = $prev.$line;
 					$length = strlen($line);
@@ -2417,7 +2416,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 					else
 						$result .= base64_decode($line);
 				} else if ($mode == 2) {
-					$line .= $line[sizeof($line)-1] != '=' ? "\n" : '';
+					$line = rtrim($line, "\t\r\0\x0B");
 					if ($file)
 						fwrite($file, quoted_printable_decode($line));
             				else if ($print)
@@ -2425,6 +2424,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 					else
 						$result .= quoted_printable_decode($line);
 				} else if ($mode == 3) {
+					$line = rtrim($line, "\t\r\n\0\x0B");
 					if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line))
 						continue;
 					if ($file)
@@ -2434,6 +2434,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 					else
 						$result .= convert_uudecode($line);
 				} else {
+					$line = rtrim($line, "\t\r\n\0\x0B");
 					if ($file)
 						fwrite($file, $line . "\n");
             			        else if ($print)
@@ -2443,6 +2444,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 				}
         		}
     		}
+
 	        // read in anything up until last line
 		if (!$end)
 			do {
