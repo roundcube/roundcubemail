@@ -339,10 +339,10 @@ class rcube_template extends rcube_html_page
             $plugin = $temp[0];
             $name = $temp[1];
             $skin_dir = $plugin . '/skins/' . $this->config['skin'];
-            $skin_path = $this->config['plugins_dir'] . '/' . $skin_dir;
+            $skin_path = $this->app->plugins->dir . $skin_dir;
             if (!is_dir($skin_path)) {  // fallback to default skin
                 $skin_dir = $plugin . '/skins/default';
-                $skin_path = $this->config['plugins_dir'] . '/' . $skin_dir;
+                $skin_path = $this->app->plugins->dir . $skin_dir;
             }
         }
         

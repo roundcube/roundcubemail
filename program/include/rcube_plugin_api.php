@@ -61,8 +61,7 @@ class rcube_plugin_api
    */
   private function __construct()
   {
-    $rcmail = rcmail::get_instance();
-    $this->dir = realpath($rcmail->config->get('plugins_dir'));
+    $this->dir = INSTALL_PATH . $this->url;
   }
   
   

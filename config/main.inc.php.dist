@@ -39,10 +39,7 @@ $rcmail_config['log_dir'] = 'logs/';
 // use this folder to store temp files (must be writeable for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
 
-// use this folder to search for plugin sources
-$rcmail_config['plugins_dir'] = 'plugins/';
-
-// List of active plugins. Add the name of a directory found in 'plugins_dir'
+// List of active plugins (in plugins/ directory)
 $rcmail_config['plugins'] = array();
 
 // enable caching of messages and mailbox data in the local database.
