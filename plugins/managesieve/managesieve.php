@@ -367,7 +367,7 @@ class managesieve extends rcube_plugin
 
     	    if ($this->form['actions'][$i]['target'] == '')
     	      $this->errors['actions'][$i]['target'] = $this->gettext('cannotbeempty');
-    	    else if (!check_email($this->form['actions'][$i]['target']))
+    	    else if (!$this->check_email($this->form['actions'][$i]['target']))
     	      $this->errors['actions'][$i]['target'] = $this->gettext('noemailwarning');
     	  break;
           case 'vacation':
@@ -382,7 +382,7 @@ class managesieve extends rcube_plugin
 		$address = trim($address);
 		if (!$address)
 	          unset($this->form['actions'][$i]['addresses'][$aidx]);
-		else if(!check_email($address)) {
+		else if(!$this->check_email($address)) {
 	          $this->errors['actions'][$i]['addresses'] = $this->gettext('noemailwarning');
 	          break;
 		} else
