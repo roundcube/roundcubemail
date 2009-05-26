@@ -162,7 +162,7 @@ function rcube_webmail()
           this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
           this.message_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
           this.message_list.addEventListener('dragmove', function(o, e){ p.drag_move(e); });
-          this.message_list.addEventListener('dragend', function(o){ p.drag_active = false; });
+          this.message_list.addEventListener('dragend', function(o, e){ p.drag_end(e); });
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
 
           this.message_list.init();
@@ -278,7 +278,7 @@ function rcube_webmail()
           this.contact_list.addEventListener('select', function(o){ p.contactlist_select(o); });
           this.contact_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
           this.contact_list.addEventListener('dragmove', function(o, e){ p.drag_move(e); });
-          this.contact_list.addEventListener('dragend', function(o){ p.drag_active = false; });
+          this.contact_list.addEventListener('dragend', function(o, e){ p.drag_end(e); });
           this.contact_list.init();
 
           if (this.env.cid)
@@ -1258,6 +1258,21 @@ function rcube_webmail()
     }
   };
 
+  this.drag_end = function(e)
+  {
+    this.drag_active = false;
+
+    // over the folders
+    if (this.gui_objects.folderlist && this.env.folder_coords) {
+      for (var k in this.env.folder_coords) {
+        if (k == this.env.last_folder_target) {
+          $(this.get_folder_li(k)).removeClass('droptarget');
+          this.env.last_folder_target = null;
+        }
+      }
+    }
+  };
+  
   this.drag_move = function(e)
   {
     if (this.gui_objects.folderlist && this.env.folder_coords) {

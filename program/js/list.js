@@ -625,6 +625,7 @@ key_press: function(e)
 
   var keyCode = rcube_event.get_keycode(e);
   var mod_key = rcube_event.get_modifier(e);
+
   switch (keyCode)
   {
     case 40:
@@ -653,6 +654,9 @@ key_down: function(e)
 {
   switch (rcube_event.get_keycode(e))
   {
+    case 27:
+      if (this.drag_active)
+	this.drag_mouse_up(e);
     case 40:
     case 38: 
     case 63233:

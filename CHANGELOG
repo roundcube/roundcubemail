@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add drag cancelling with ESC key (#1484344)
 - Support initial identity name from virtuser_query (#1484003)
 - Added message menu, removed Print and Source buttons
 - Added possibility to save message as .eml file (#1485861)
