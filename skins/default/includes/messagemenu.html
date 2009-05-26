@@ -3,10 +3,8 @@
     <li><roundcube:button class="printlink" command="print" label="printmessage" classAct="printlink active" /></li>
     <li><roundcube:button class="downloadlink" command="download" label="emlsave" classAct="downloadlink active" /></li>
     <li><roundcube:button class="sourcelink" command="viewsource" label="viewsource" classAct="sourcelink active" /></li>
-  <roundcube:if condition="env:action != 'show'" />
     <li class="separator">&nbsp;</li>
     <li><roundcube:button class="openlink" command="open" label="openinextwin" target="_blank" classAct="openlink active" /></li>
-  <roundcube:endif />
     <roundcube:container name="messagemenu" id="messagemenu" />
   </ul>
 </div>
