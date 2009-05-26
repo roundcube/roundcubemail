@@ -1629,7 +1629,7 @@ class rcube_imap
       // but only when flag_for_deletion is set to false
       if (!rcmail::get_instance()->config->get('flag_for_deletion', false))
         {
-        $this->_expunge($from_mbox, FALSE);
+        $this->_expunge($from_mbox, FALSE, $a_uids);
         $this->_clear_messagecount($from_mbox);
         $this->_clear_messagecount($to_mbox);
         }
@@ -1688,7 +1688,7 @@ class rcube_imap
     // really deleted from the mailbox
     if ($deleted)
       {
-      $this->_expunge($mailbox, FALSE);
+      $this->_expunge($mailbox, FALSE, $a_uids);
       $this->_clear_messagecount($mailbox);
       unset($this->uid_id_map[$mailbox]);
       }
@@ -1768,11 +1768,20 @@ class rcube_imap
    * Send IMAP expunge command and clear cache
    *
    * @see rcube_imap::expunge()
+   * @param string 	Mailbox name
+   * @param boolean 	False if cache should not be cleared
+   * @param string 	List of UIDs to remove, separated by comma
+   * @return boolean True on success
    * @access private
    */
-  function _expunge($mailbox, $clear_cache=TRUE)
+  function _expunge($mailbox, $clear_cache=TRUE, $uids=NULL)
     {
-    $result = iil_C_Expunge($this->conn, $mailbox);
+    if ($uids && $this->get_capability('UIDPLUS')) 
+      $a_uids = is_array($uids) ? join(',', $uids) : $uids;
+    else
+      $a_uids = NULL;
+
+    $result = iil_C_Expunge($this->conn, $mailbox, $a_uids);
 
     if ($result>=0 && $clear_cache)
       {

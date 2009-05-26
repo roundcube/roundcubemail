@@ -82,6 +82,7 @@
 		- use PREG instead of EREG
 		- removed caching functions
 		- handling connection startup response
+		- added UID EXPUNGE support
 
 ********************************************************/
 
@@ -1863,11 +1864,13 @@ function iil_SortHeaders($a, $field, $flag) {
 	return $result;
 }
 
-function iil_C_Expunge(&$conn, $mailbox) {
+function iil_C_Expunge(&$conn, $mailbox, $messages=NULL) {
 
 	if (iil_C_Select($conn, $mailbox)) {
 		$c = 0;
-		iil_PutLine($conn->fp, "exp1 EXPUNGE");
+		$command = $messages ? "UID EXPUNGE $messages" : "EXPUNGE";
+
+		iil_PutLine($conn->fp, "exp1 $command");
 		do {
 			$line=chop(iil_ReadLine($conn->fp, 100));
 			if ($line[0] == '*') {
@@ -2030,12 +2033,13 @@ function iil_C_Search(&$conn, $folder, $criteria) {
 }
 
 function iil_C_Move(&$conn, $messages, $from, $to) {
-    $fp = $conn->fp;
 
     if (!$from || !$to) {
         return -1;
     }
-    $r = iil_C_Copy($conn, $messages, $from,$to);
+    
+    $r = iil_C_Copy($conn, $messages, $from, $to);
+
     if ($r==0) {
         return iil_C_Delete($conn, $from, $messages);
     }

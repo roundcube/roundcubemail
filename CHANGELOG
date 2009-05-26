@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Support UID EXPUNGE: remove only moved/deleted messages
 - Add drag cancelling with ESC key (#1484344)
 - Support initial identity name from virtuser_query (#1484003)
 - Added message menu, removed Print and Source buttons
