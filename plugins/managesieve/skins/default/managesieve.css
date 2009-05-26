@@ -81,7 +81,7 @@ fieldset
   background-color: white;
 }
 
-label
+legend, label
 {
   color: #666666;
 }
