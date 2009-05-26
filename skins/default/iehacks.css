@@ -1,0 +1,175 @@
+/* CSS hacks for IE versions <= 7 */
+
+input, textarea
+{
+  border-style: expression(this.type=='checkbox' || this.type=='radio' || this.id=='quicksearchbox' ? 'none' : 'solid');
+  border-width: expression(this.type=='checkbox' || this.type=='radio' ? '0' : '1px');
+  border-color: expression(this.type=='checkbox' || this.type=='radio' ? '' : '#666666');
+  background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
+}
+
+#markmessagemenu,
+#searchmenu,
+#messagemenu
+{
+  filter:alpha(opacity=90);
+}
+
+#tabsbar
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+}
+
+#userprefs-box
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+}
+
+.userprefs-block
+{
+  width: expression(Math.min(520, parseInt(document.documentElement.clientWidth))+'px');
+}
+
+#folder-manager
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
+}
+
+#identities-list
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
+}
+
+#messagetoolbar
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-400)+'px');
+}
+
+#mainscreen 
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
+#directorylist
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');  
+}
+
+#addresslist
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#mailrightcontainer
+{
+  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#messagepartcontainer
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-100)+'px');
+}
+
+#mailcontframe
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#mailpreviewframe
+{
+  height: expression((parseInt(this.parentNode.offsetHeight)-205)+'px');
+}
+
+#partheader
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+}
+
+#mailboxlist-container
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#mailfooter
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+}
+
+#messagelist,
+#subscription-table
+{
+  width: auto;
+}
+
+#messageframe
+{
+  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
+  height: expression((parseInt(this.parentNode.offsetHeight))+'px');
+}
+
+#messagecanvas 
+{
+  width: expression((parseInt(this.parentNode.offsetWidth)-20)+'px');
+}
+
+#printmessageframe
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
+#attachment-list
+{
+  height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
+}
+
+body.iframe 
+{
+  width: expression((parseInt(document.documentElement.clientWidth))+'px');
+}
+
+#compose-container
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-210)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
+}
+
+#compose-body,
+#compose-headers td textarea,
+#compose-headers td input
+{
+  width: 99%;
+}
+
+#addressscreen
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
+#importbox
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
+}
+
+#contacts-table
+{
+  width: expression(document.getElementById('addresslist').clientWidth);
+}
+
+#contacts-box
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+  width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
+}
+
+#identity-details
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-470)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
+}
+

@@ -1,0 +1,18 @@
+/* CSS hacks for IE versions 5,6 */
+
+img
+{
+  behavior: url('skins/default/pngbehavior.htc');
+}
+
+ul.toolbarmenu li
+{
+  width: 130px;
+}
+
+#messagemenu li a
+{
+  background-image: url('images/messageactions.gif');
+}
+
+
