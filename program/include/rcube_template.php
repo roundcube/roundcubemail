@@ -797,6 +797,9 @@ class rcube_template extends rcube_html_page
             else if (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = rcmail_url($attrib['command']);
             }
+            else if ($attrib['command'] == 'permaurl' && !empty($this->env['permaurl'])) {
+                $attrib['href'] = $this->env['permaurl'];
+            }
         }
 
         // overwrite attributes

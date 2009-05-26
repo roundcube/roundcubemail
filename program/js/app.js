@@ -150,6 +150,9 @@ function rcube_webmail()
     // enable general commands
     this.enable_command('logout', 'mail', 'addressbook', 'settings', true);
     
+    if (this.env.permaurl)
+      this.enable_command('permaurl', true);
+    
     switch (this.task)
       {
       case 'mail':
@@ -559,14 +562,21 @@ function rcube_webmail()
         this.switch_task(command);
         break;
 
+      case 'permaurl':
+        if (obj && obj.href && obj.target)
+          return true;
+        else if (this.env.permaurl)
+          parent.location.href = this.env.permaurl;
+        break;
+
       case 'open':
-	var uid;
+        var uid;
         if (uid = this.get_single_uid())
-	  {
-	  obj.href = '?_task='+this.env.task+'&_action=show&_mbox='+urlencode(this.env.mailbox)+'&_uid='+uid;
-	  return true;
-          }
-	break;
+        {
+          obj.href = '?_task='+this.env.task+'&_action=show&_mbox='+urlencode(this.env.mailbox)+'&_uid='+uid;
+          return true;
+        }
+        break;
 
       // misc list commands
       case 'list':
