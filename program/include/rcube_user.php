@@ -366,8 +366,8 @@ class rcube_user
 
     // try to resolve user in virtuser table and file
     if ($user_email != '' && !strpos($user, '@')) {
-      if ($email_list = self::user2email($user, false))
-        $user_email = $email_list[0];
+      if ($email_list = self::user2email($user, false, true))
+        $user_email = is_array($email_list[0]) ? $email_list[0][0] : $email_list[0];
     }
 
     $dbh->query(
@@ -399,11 +399,20 @@ class rcube_user
 
       // create new identities records
       $standard = 1;
-      foreach ($email_list as $email) {
+      foreach ($email_list as $row) {
+
+        if (is_array($row)) {
+          $email = $row[0];
+          $name = $row[1] ? $row[1] : $user_name;
+        } else {
+	  $email = $row;
+	  $name = $user_name;
+	}
+	
         $plugin = $rcmail->plugins->exec_hook('create_identity', array('record' => array(
           'login' => true,
           'user_id' => $user_id,
-          'name' => strip_newlines($user_name),
+          'name' => strip_newlines($name),
           'email' => $email,
           'standard' => $standard)));
           
@@ -461,9 +470,10 @@ class rcube_user
    *
    * @param string User name
    * @param boolean If true returns first found entry
+   * @param boolean If true returns email as array (email and name for identity)
    * @return mixed Resolved e-mail address string or array of strings
    */
-  static function user2email($user, $first=true)
+  static function user2email($user, $first=true, $extended=false)
   {
     $result = array();
     $rcmail = rcmail::get_instance();
@@ -474,7 +484,7 @@ class rcube_user
       $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query));
       while ($sql_arr = $dbh->fetch_array($sql_result))
         if (strpos($sql_arr[0], '@')) {
-          $result[] = $sql_arr[0];
+          $result[] = ($extended && count($sql_arr) > 1) ? $sql_arr : $sql_arr[0];
           if ($first)
             return $result[0];
         }

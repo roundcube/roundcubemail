@@ -87,7 +87,8 @@ $rcmail_config['virtuser_file'] = '';
 
 // Query to resolve user names and e-mail addresses from the database
 // %u will be replaced with the current username for login.
-// The query should select the user's e-mail address as first col
+// The query should select the user's e-mail address as first column
+// and optional identity name as second column
 $rcmail_config['virtuser_query'] = '';
 
 // use this host for sending mails.
