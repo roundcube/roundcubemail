@@ -85,16 +85,19 @@ else {
 }
 
 
-// compose page content
+// Ajax request
+if ($OUTPUT && ($OUTPUT instanceof rcube_json_output)) {
+  header("HTTP/1.0 $ERROR_CODE $__error_title");
+  die;
+}
 
+// compose page content
 $__page_content = <<<EOF
 <div>
 <h3 class="error-title">$__error_title</h3>
 <p class="error-text">$__error_text</p>
 </div>
 EOF;
-
-
 
 if ($OUTPUT && $OUTPUT->template_exists('error')) {
   $OUTPUT->reset();
