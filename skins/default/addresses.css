@@ -29,16 +29,13 @@
   color: #333333;
 }
 
-#mainscreen
+#addressscreen
 {
   position: absolute;
   top: 85px;
   right: 20px;
   bottom: 40px;
   left: 200px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 #directorylist
@@ -51,8 +48,6 @@
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
-  /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');  
 }
 
 #addresslist
@@ -63,8 +58,6 @@
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #importbox
@@ -78,8 +71,6 @@
   background-color: #F9F9F9;
   padding-bottom: 4ex;
   overflow: auto;
-  /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');  
 }
 
 #addresslist
@@ -139,8 +130,6 @@
 {
   width: 100%;
   table-layout: fixed;
-  /* css hack for IE */
-  width: expression(document.getElementById('addresslist').clientWidth);
 }
 
 
@@ -159,9 +148,6 @@
   bottom: 0px;
   border: 1px solid #999999;
   overflow: hidden;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
-  width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
 }
 
 body.iframe,

@@ -1,3 +1,8 @@
 <link rel="index" href="$__comm_path" />
 <link rel="shortcut icon" href="/images/favicon.ico"/>
 <link rel="stylesheet" type="text/css" href="/common.css" />
+<roundcube:if condition="env:task != 'login'" />
+<link rel="stylesheet" type="text/css" href="/<roundcube:exp expression="env:task=='addressbook'?'addresses':env:task" />.css" />
+<roundcube:endif />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/iehacks.css" /><![endif]-->
+<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/ie6hacks.css" /><![endif]-->

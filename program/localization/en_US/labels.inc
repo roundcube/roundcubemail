@@ -142,6 +142,7 @@ $labels['markread']         = 'As read';
 $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
+$labels['messageactions']   = 'More actions...';
 $labels['messagemenu']      = 'Message menu';
 
 $labels['select'] = 'Select';

@@ -3,25 +3,24 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
-<link rel="stylesheet" type="text/css" href="/addresses.css" />
 <script type="text/javascript" src="/splitter.js"></script>
 
 <style type="text/css">
 <roundcube:if condition="count(env:address_sources) &lt;= 1" />
 #abookcountbar { left: 20px;}
-#mainscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
+#addressscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
 #contacts-box {
     left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
     /* IE hack */
-    width:expression((parseInt(mainscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
+    width:expression((parseInt(addressscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
 }
 <roundcube:else />
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
 #contacts-box {
     left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
     /* IE hack */
-    width:expression((parseInt(mainscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
+    width:expression((parseInt(addressscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
 }
 <roundcube:endif />
 </style>
@@ -53,7 +52,7 @@
 </div>
 <roundcube:endif />
 
-<div id="mainscreen">
+<div id="addressscreen">
 
 <div id="addresslist">
 <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" summary="Contacts list" />

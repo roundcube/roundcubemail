@@ -145,10 +145,9 @@ show_messagemenu: function(show)
     show = this.messagemenu.is(':visible') ? false : true;
 
   var ref = rcube_find_object('messagemenulink');
-  if (show && ref) {
-    var pos = $(ref).offset();
-    this.messagemenu.css({ left:pos.left, top:(pos.top + ref.offsetHeight) });
-  }
+  if (show && ref)
+    this.messagemenu.css({ left:ref.offsetLeft, top:(ref.offsetTop + ref.offsetHeight) });
+
   this.messagemenu[show?'show':'hide']();
 },
 

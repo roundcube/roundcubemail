@@ -3,7 +3,6 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
-<link rel="stylesheet" type="text/css" href="/mail.css" />
 <script type="text/javascript" src="/splitter.js"></script>
 <script type="text/javascript" src="/functions.js"></script>
 <style type="text/css">
@@ -18,7 +17,6 @@
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
-<roundcube:include file="/includes/messagemenu.html" />
 
 <div id="messagecountbar">
 <roundcube:button command="firstmessage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessage" />
@@ -35,9 +33,11 @@
 <roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
 <roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
 <roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
-<roundcube:button name="messagemenulink" image="/images/buttons/messagemenu.png" width="32" height="32" title="messagemenu" onclick="rcmail_ui.show_messagemenu();return false" id="messagemenulink" />
+<roundcube:button name="messagemenulink" image="/images/buttons/actions_act.png" width="34" height="32" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" id="messagemenulink" />
 <roundcube:container name="toolbar" id="messagetoolbar" />
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
+
+<roundcube:include file="/includes/messagemenu.html" />
 </div>
 
 <div id="mainscreen">

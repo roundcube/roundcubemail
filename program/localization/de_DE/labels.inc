@@ -116,6 +116,7 @@ $labels['markread'] = 'Als gelesen';
 $labels['markunread'] = 'Als ungelesen';
 $labels['markflagged'] = 'Stern hinzufügen';
 $labels['markunflagged'] = 'Stern entfernen';
+$labels['messageactions']   = 'Weitere Aktionen...';
 $labels['select'] = 'Auswählen';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Keine';

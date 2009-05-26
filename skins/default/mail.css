@@ -10,8 +10,6 @@
   height: 35px;
   white-space: nowrap;
 /*  border: 1px solid #cccccc; */
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-400)+'px');
 }
 
 #messagetoolbar a
@@ -57,7 +55,6 @@
   border: 1px solid #CCC;
   padding: 1px;
   opacity: 0.9;
-  filter:alpha(opacity=90);
   z-index: 240;
 }
 
@@ -78,21 +75,22 @@ ul.toolbarmenu li
   font-size: 11px;
   white-space: nowrap;
   min-width: 130px;
-  width: auto !important;
-  width: 130px;
 }
 
 ul.toolbarmenu li a
 {
   display: block;
   color: #a0a0a0;
-  padding: 2px 8px 3px 12px;
+  padding: 2px 8px 3px 22px;
   text-decoration: none;
+  min-height: 14px;
 }
 
-ul.toolbarmenu li a.active:hover
+ul.toolbarmenu li a.active,
+ul.toolbarmenu li a.active:active,
+ul.toolbarmenu li a.active:visited
 {
-  background-color: #ddd;
+  color: #333;
 }
 
 ul.toolbarmenu li input
@@ -102,8 +100,10 @@ ul.toolbarmenu li input
 
 ul.toolbarmenu li hr
 {
+  color: #ccc;
   width: 130px;
-  margin: 2px 8px 2px 22px;
+  height: 1px;
+  margin: 2px 1px 2px 1px;
 }
 
 ul.toolbarmenu li img
@@ -112,36 +112,45 @@ ul.toolbarmenu li img
   margin: 0 2px;
 }
 
-#messagemenu ul.toolbarmenu a,
-#markmessagemenu ul.toolbarmenu a
+ul.toolbarmenu li.separator
 {
-  padding: 2px 8px 3px 22px;
+  height: 1px;
+  font-size: 1pt;
+  border-bottom: 1px solid #ccc;
+  margin: 1px 1px 2px 1px;
+  padding: 0;
 }
 
 #messagemenu li a.active:hover,
 #markmessagemenu li a.active:hover
 {
-  background-color: #ddd;
+  color: #fff;
+  background-color: #c00;
 }
 
-#messagemenu a.printlink
+#messagemenu li a
 {
-  background: url('images/icons/print.png') no-repeat 2px;
+  background: url('images/messageactions.png') no-repeat 1px 0;
 }
 
-#messagemenu a.downloadlink
+#messagemenu li a.printlink
 {
-  background: url('images/icons/save.png') no-repeat 2px;
+  background-position: 1px 1px;
 }
 
-#messagemenu a.openlink
+#messagemenu li a.downloadlink
 {
-  background: url('images/icons/extwin.png') no-repeat 2px;
+  background-position: 1px -17px;
 }
 
-#messagemenu a.sourcelink
+#messagemenu li a.sourcelink
 {
-  background: url('images/icons/source.png') no-repeat 2px;
+  background-position: 1px -35px;
+}
+
+#messagemenu li a.openlink
+{
+  background-position: 1px -53px;
 }
 
 #markmessagemenu a.readlink
@@ -197,9 +206,6 @@ td.formlinks a:visited
 #mailboxcontrols a.active,
 #mailboxcontrols a.active:active,
 #mailboxcontrols a.active:visited,
-ul.toolbarmenu li a.active,
-ul.toolbarmenu li a.active:active,
-ul.toolbarmenu li a.active:visited,
 td.formlinks a,
 td.formlinks a:visited
 {
@@ -242,9 +248,6 @@ td.formlinks a:visited
   right: 20px;
   bottom: 40px;
   left: 20px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 #mailrightcontainer
@@ -254,11 +257,8 @@ td.formlinks a:visited
   left: 170px;
   bottom: 0px;
   right: 0px;
-  /* css hack for IE */
-  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
-	  
+
 #messagepartcontainer
 {
   position: absolute;
@@ -266,9 +266,6 @@ td.formlinks a:visited
   left: 20px;
   right: 20px;
   bottom: 20px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-100)+'px');
 }
 
 #mailcontframe
@@ -280,8 +277,6 @@ td.formlinks a:visited
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #mailpreviewframe
@@ -292,8 +287,6 @@ td.formlinks a:visited
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  /* css hack for IE */
-  height: expression((parseInt(this.parentNode.offsetHeight)-205)+'px');
 }
 
 #messagecontframe
@@ -323,8 +316,6 @@ td.formlinks a:visited
   left: 220px;
   right: 20px;
   height: 40px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
 #partheader table td
@@ -368,8 +359,6 @@ td.formlinks a:visited
   border: 1px solid #999;
   background-color: #F9F9F9;
   overflow: auto;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #mailboxlist
@@ -505,8 +494,6 @@ td.formlinks a:visited
   right: 20px;
   bottom: 18px;
   height: 20px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
 }
 
 #mailfooter table tr td
@@ -538,8 +525,6 @@ body.messagelist
   width: 100%;
   display: table;
   table-layout: fixed;
-  /* css hack for IE */
-  width: expression('auto');
 }
 
 #messagelist thead tr td
@@ -746,15 +731,6 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
-  /* css hack for IE */
-  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
-  height: expression((parseInt(this.parentNode.offsetHeight))+'px');
-}
-
-#messagecanvas 
-{
-  /* css hack for IE */
-  width: expression((parseInt(this.parentNode.offsetWidth)-20)+'px');
 }
 
 #printmessageframe
@@ -767,9 +743,6 @@ html>body*input[type$="file"]:not([class="none"]) { background-color: transparen
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
 div.messageheaderbox
@@ -838,8 +811,6 @@ table.headers-table tr td.all
   list-style-image: none;
   list-style-type: none;
   background: url(images/icons/attachment.png) 60px 2px no-repeat #DFDFDF;
-  /* IE6 hack */    
-  _height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
 }
 
 #attachment-list:after
@@ -934,12 +905,6 @@ div.message-part blockquote blockquote blockquote
   border-right: 2px solid #bb0000;
 }
 
-body.iframe 
-{
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth))+'px');
-}
-
 body.iframe div.message-htmlpart
 {
   margin: 8px;
@@ -969,6 +934,16 @@ div.message-htmlpart div.rcmBody
   color: #333333;
 }
 
+#messageviewlink
+{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  border: 0;
+}
+
 /** message compose styles */
 
 #compose-toolbar
@@ -991,9 +966,6 @@ div.message-htmlpart div.rcmBody
   right: 25px;
   bottom: 30px;
   margin: 0px;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-210)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
 
 #spellcheck-control
@@ -1043,7 +1015,6 @@ div.message-htmlpart div.rcmBody
 #compose-headers td input
 {
   width: 100%;
-  width: expression('99%');
 }
 
 #compose-headers td textarea

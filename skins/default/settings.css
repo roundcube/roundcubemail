@@ -10,8 +10,6 @@
   height: 22px;
   border-bottom: 1px solid #999999;
   white-space: nowrap;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
 span.tablink,
@@ -53,9 +51,6 @@ span.tablink-selected a
   right: 20px;
   overflow: auto;
   border: 1px solid #999999;
-  /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
 }
 
 #userprefs-box table td.title
@@ -75,8 +70,6 @@ span.tablink-selected a
   float: left;
   margin-right: 14px;
   min-width: 520px;
-  /* css hack for IE */
-  width: expression(Math.min(520, parseInt(document.documentElement.clientWidth))+'px');
 }
 
 #rcmfd_timezone
@@ -99,8 +92,6 @@ span.tablink-selected a
   bottom: 140px;
   overflow: auto;
   border: 1px solid #999999;
-  /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
 }
 
 #folder-manager.droptarget
@@ -114,8 +105,6 @@ span.tablink-selected a
   bottom: 60px;
   width: 420px;
   border: 1px solid #999999;
-  /* css hack for IE */
-  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #listbuttons
@@ -135,8 +124,6 @@ span.tablink-selected a
 #subscription-table
 {
   width: 100%;
-  /* css hack for IE */
-  width: expression('auto');
 }
 
 #subscription-table input
@@ -223,9 +210,6 @@ span.tablink-selected a
   bottom: 60px;
   border: 1px solid #999999;
   overflow: auto;
-  /* css hack for IE */
-  width: expression((parseInt(document.documentElement.clientWidth)-470)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #identity-details table td.title

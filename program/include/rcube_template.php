@@ -587,6 +587,7 @@ class rcube_template extends rcube_html_page
                     else {
                       $incl = file_get_contents($path);
                     }
+                    $incl = $this->parse_conditions($incl);
                     return $this->parse_xml($incl);
                 }
                 break;
