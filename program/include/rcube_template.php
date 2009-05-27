@@ -766,10 +766,10 @@ class rcube_template extends rcube_html_page
         if ($attrib['alt']) {
             $attrib['alt'] = Q(rcube_label($attrib['alt'], $attrib['domain']));
         }
+
         // set title to alt attribute for IE browsers
         if ($this->browser->ie && $attrib['title'] && !$attrib['alt']) {
             $attrib['alt'] = $attrib['title'];
-            unset($attrib['title']);
         }
 
         // add empty alt attribute for XHTML compatibility
@@ -796,9 +796,6 @@ class rcube_template extends rcube_html_page
             }
             else if (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = rcmail_url($attrib['command']);
-            }
-            else if ($attrib['command'] == 'permaurl' && !empty($this->env['permaurl'])) {
-                $attrib['href'] = $this->env['permaurl'];
             }
         }
 
