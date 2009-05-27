@@ -8,6 +8,11 @@ input, textarea
   background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
 }
 
+#message
+{
+  filter: alpha(opacity=85);
+}
+
 #markmessagemenu,
 #searchmenu,
 #messagemenu
@@ -173,3 +178,7 @@ body.iframe
   height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
+#rcmdraglayer
+{
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+}
