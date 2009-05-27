@@ -1,59 +1,65 @@
-*  version 1.0 [2009-05-21]
+* version 1.1 [2009-05-27]
 -----------------------------------------------------------    
-Rewritten using plugin API
-Added hu_HU localization (Tamas Tevesz)
+- Added new icons
+- Added support for headers lists (coma-separated) in rules
+- Added de_CH localization
 
-*  version beta7 (svn-r2300) [2009-03-01]
+* version 1.0 [2009-05-21]
 -----------------------------------------------------------    
-Added SquirrelMail script auto-import (Jonathan Ernst)
-Added 'vacation' support (Jonathan Ernst & alec)
-Added 'stop' support (Jonathan Ernst)
-Added option for extensions disabling (Jonathan Ernst & alec)
-Added fi_FI, nl_NL, bg_BG localization
-Small style fixes
+- Rewritten using plugin API
+- Added hu_HU localization (Tamas Tevesz)
+
+* version beta7 (svn-r2300) [2009-03-01]
+-----------------------------------------------------------    
+- Added SquirrelMail script auto-import (Jonathan Ernst)
+- Added 'vacation' support (Jonathan Ernst & alec)
+- Added 'stop' support (Jonathan Ernst)
+- Added option for extensions disabling (Jonathan Ernst & alec)
+- Added fi_FI, nl_NL, bg_BG localization
+- Small style fixes
 
 * version 0.2-stable1 (svn-r2205) [2009-01-03]
 -----------------------------------------------------------    
-Fix moving down filter row
-Fixes for compressed js files in stable release package
-Created patch for svn version r2205
+- Fix moving down filter row
+- Fixes for compressed js files in stable release package
+- Created patch for svn version r2205
 
 * version 0.2-stable [2008-12-31]
 -----------------------------------------------------------    
-Added ru_RU, fr_FR, zh_CN translation
-Fixes for Roundcube 0.2-stable
+- Added ru_RU, fr_FR, zh_CN translation
+- Fixes for Roundcube 0.2-stable
 
 * version rc0.2beta [2008-09-21]
 -----------------------------------------------------------    
-Small css fixes for IE
-Fixes for Roundcube 0.2-beta
+- Small css fixes for IE
+- Fixes for Roundcube 0.2-beta
 
 * version beta6 [2008-08-08]
 -----------------------------------------------------------    
-Added de_DE translation
-Fix for Roundcube r1634
+- Added de_DE translation
+- Fix for Roundcube r1634
 
 * version beta5 [2008-06-10]
 -----------------------------------------------------------    
-Fixed 'exists' operators
-Fixed 'not*' operators for custom headers
-Fixed filters deleting
+- Fixed 'exists' operators
+- Fixed 'not*' operators for custom headers
+- Fixed filters deleting
 
 * version beta4 [2008-06-09]
 -----------------------------------------------------------    
-Fix for Roundcube r1490
+- Fix for Roundcube r1490
 
 * version beta3 [2008-05-22]
 -----------------------------------------------------------    
-Fixed textarea error class setting
-Added pagetitle setting
-Added option 'managesieve_replace_delimiter'
-Fixed errors on IE (still need some css fixes)
+- Fixed textarea error class setting
+- Added pagetitle setting
+- Added option 'managesieve_replace_delimiter'
+- Fixed errors on IE (still need some css fixes)
     
 * version beta2 [2008-05-20]
 -----------------------------------------------------------    
-Use 'if' only for first filter and 'elsif' for the rest
+- Use 'if' only for first filter and 'elsif' for the rest
 
 * version beta1 [2008-05-15]
 -----------------------------------------------------------    
-Initial version for Roundcube r1388.
+- Initial version for Roundcube r1388.

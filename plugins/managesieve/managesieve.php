@@ -7,7 +7,7 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 1.0
+ * @version 1.1
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  * Configuration (main.inc.php):
@@ -308,7 +308,7 @@ class managesieve extends rcube_plugin
 		$this->errors['tests'][$i]['sizetarget'] = $this->gettext('wrongformat');
 	      break;
 	    case '...':
-              $cust_header = $this->strip_value($cust_headers[$idx]);
+              $cust_header = $headers = $this->strip_value($cust_headers[$idx]);
 
               if(preg_match('/^not/', $op))
 		$this->form['tests'][$i]['not'] = true;
@@ -316,10 +316,22 @@ class managesieve extends rcube_plugin
 
               if ($cust_header == '')
     		$this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
-              elseif (!preg_match('/^[a-z0-9-]+$/i', $cust_header))
-    		$this->errors['tests'][$i]['header'] = $this->gettext('forbiddenchars');
-
-              if ($type == 'exists')
+              else {
+	        $headers = preg_split('/[\s,]+/', $cust_header, -1, PREG_SPLIT_NO_EMPTY);
+	        
+		if (!count($headers))
+    		  $this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
+		else {
+		  foreach ($headers as $hr)
+		    if (!preg_match('/^[a-z0-9-]+$/i', $hr))
+    		      $this->errors['tests'][$i]['header'] = $this->gettext('forbiddenchars');
+	        }
+	      }
+	      
+	      if (empty($this->errors['tests'][$i]['header']))
+		$cust_header = $headers;
+              
+	      if ($type == 'exists')
     	      {
 		$this->form['tests'][$i]['test'] = 'exists';
     		$this->form['tests'][$i]['arg'] = $cust_header;
@@ -599,9 +611,11 @@ class managesieve extends rcube_plugin
 
     // TODO: list arguments
 
-    if ((isset($rule['test']) && $rule['test'] == 'header') && in_array($rule['arg1'], $this->headers))
+    if ((isset($rule['test']) && $rule['test'] == 'header')
+	&& !is_array($rule['arg1']) && in_array($rule['arg1'], $this->headers))
       $out .= $select_header->show($rule['arg1']);
-    elseif ((isset($rule['test']) && $rule['test'] == 'exists') && in_array($rule['arg'], $this->headers))
+    elseif ((isset($rule['test']) && $rule['test'] == 'exists')
+	&& !is_array($rule['arg']) && in_array($rule['arg'], $this->headers))
       $out .= $select_header->show($rule['arg']);
     elseif (isset($rule['test']) && $rule['test'] == 'size')
       $out .= $select_header->show('size');
@@ -612,10 +626,12 @@ class managesieve extends rcube_plugin
 
     $out .= '</td><td class="rowtargets">';
 
-    if ((isset($rule['test']) && $rule['test'] == 'header') && !in_array($rule['arg1'], $this->headers))
-      $custom = $rule['arg1'];
-    elseif ((isset($rule['test']) && $rule['test'] == 'exists') && !in_array($rule['arg'], $this->headers))
-      $custom = $rule['arg'];
+    if ((isset($rule['test']) && $rule['test'] == 'header')
+	&& (is_array($rule['arg1']) || !in_array($rule['arg1'], $this->headers)))
+      $custom = is_array($rule['arg1']) ? implode(', ', $rule['arg1']) : $rule['arg1'];
+    elseif ((isset($rule['test']) && $rule['test'] == 'exists')
+	&& (is_array($rule['arg']) || !in_array($rule['arg'], $this->headers)))
+      $custom = is_array($rule['arg']) ? implode(', ', $rule['arg']) : $rule['arg'];
     
     $out .= '<div id="custom_header' .$id. '" style="display:' .(isset($custom) ? 'inline' : 'none'). '">
 	<input type="text" name="_custom_header[]" '. $this->error_class($id, 'test', 'header')
