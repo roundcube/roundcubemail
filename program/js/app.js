@@ -486,7 +486,7 @@ function rcube_webmail()
   this.init_address_input_events = function(obj)
     {
     var handler = function(e){ return ref.ksearch_keypress(e,this); };
-    obj.bind((bw.safari ? 'keydown' : 'keypress'), handler);
+    obj.bind((bw.safari || bw.ie ? 'keydown' : 'keypress'), handler);
     obj.attr('autocomplete', 'off');
     };
 
