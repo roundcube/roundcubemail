@@ -149,6 +149,12 @@ span.tablink-selected a
   width: 45%;
 }
 
+#subscription-table tbody td
+{
+  height: 22px !important;
+  height: 18px;
+}
+
 #subscription-table tr.virtual td
 {
   color: #666;
@@ -180,6 +186,13 @@ span.tablink-selected a
 #subscription-table thead td.subscribed
 {
   width: 90px;
+}
+
+#subscription-table tbody td.subscribed,
+#subscription-table tbody td.rename,
+#subscription-table tbody td.delete
+{
+  padding: 1px 4px;
 }
 
 #subscription-table thead td.rename,
