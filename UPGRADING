@@ -14,6 +14,7 @@ of RoundCube Webmail.
    - ./program/
    - ./installer/
    - ./skins/default/
+   - ./plugins/
 2. Run ./bin/update.sh from the commandline OR
    open http://url-to-roundcube/installer/ in a browser. To enable
    the latter one, you have to temporary set 'enable_installer' to true
