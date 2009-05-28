@@ -601,9 +601,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   $cid_map = array();
   foreach ((array)$message->mime_parts as $pid => $part)
   {
-    if (($part->ctype_primary != 'message' || !$bodyIsHtml) &&
-        ($part->disposition=='attachment' || $part->disposition=='inline' || $part->headers['content-id']
-         || (empty($part->disposition) && $part->filename)))
+    if (($part->ctype_primary != 'message' || !$bodyIsHtml) && $part->filename &&
+        ($part->disposition=='attachment' || ($part->disposition=='inline' && $bodyIsHtml) || (empty($part->disposition))))
     {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
