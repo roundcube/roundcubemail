@@ -325,11 +325,11 @@ class managesieve extends rcube_plugin
 		  foreach ($headers as $hr)
 		    if (!preg_match('/^[a-z0-9-]+$/i', $hr))
     		      $this->errors['tests'][$i]['header'] = $this->gettext('forbiddenchars');
-	        }
+		}
 	      }
 	      
 	      if (empty($this->errors['tests'][$i]['header']))
-		$cust_header = $headers;
+		$cust_header = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
               
 	      if ($type == 'exists')
     	      {
