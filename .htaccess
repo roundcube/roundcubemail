@@ -28,6 +28,22 @@ php_value	mbstring.func_overload	0
 RewriteEngine On
 RewriteRule ^favicon.ico$ skins/default/images/favicon.ico
 </IfModule>
- 
+
+<IfModule mod_deflate.c>
+SetOutputFilter DEFLATE
+</IfModule>
+
+<IfModule mod_headers.c>
+# replace 'append' with 'merge' for Apache version 2.2.9 and later
+Header append Cache-Control public env=!NO_CACHE
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 month"
+</IfModule>
+
+FileETag MTime
+
 Order deny,allow
 Allow from all

@@ -151,15 +151,13 @@ img
   z-index: 2;
 }
 
-#taskbar a,
-#taskbar a:active,
-#taskbar a:visited
+#taskbar a
 {
   font-size: 11px;
   color: #666666;
   text-decoration: none;
   padding: 6px 14px 6px 27px;
-  background-repeat: no-repeat;
+  background: url('images/taskicons.gif') no-repeat;
 }
 
 #taskbar a:hover
@@ -167,24 +165,24 @@ img
   color: #333333;
 }
 
-a.button-mail
+#taskbar a.button-mail
 {
-  background-image: url(images/buttons/mail.gif);
+  background-position: 0 0;
 }
 
-a.button-addressbook
+#taskbar a.button-addressbook
 {
-  background-image: url(images/buttons/addressbook.gif);
+  background-position: 0 -25px;
 }
 
-a.button-settings
+#taskbar a.button-settings
 {
-  background-image: url(images/buttons/settings.gif);
+  background-position: 0 -50px;
 }
 
-a.button-logout
+#taskbar a.button-logout
 {
-  background-image: url(images/buttons/logout.gif);
+  background-position: 0 -75px;
 }
 
 
@@ -203,15 +201,15 @@ a.button-logout
 {
   width: 400px;
   margin: 0px auto;
-  height: 24px;
-  min-height: 24px;
+  height: 22px;
+  min-height: 22px;
   padding: 8px 10px 8px 46px;
 }
 
 #message div.notice,
 #remote-objects-message
 {
-  background: url(images/display/info.png) 6px 3px no-repeat;
+  background: url('images/display/icons.png') 6px 3px no-repeat;
   background-color: #F7FDCB;
   border: 1px solid #C2D071;
 }
@@ -219,21 +217,21 @@ a.button-logout
 #message div.error,
 #message div.warning
 {
-  background: url(images/display/warning.png) 6px 3px no-repeat;
+  background: url('images/display/icons.png') 6px -97px no-repeat;
   background-color: #EF9398;
   border: 1px solid #DC5757;
 }
 
 #message div.confirmation
 {
-  background: url(images/display/confirm.png) 6px 3px no-repeat;
+  background: url('images/display/icons.png') 6px -47px no-repeat;
   background-color: #A6EF7B;
   border: 1px solid #76C83F;
 }
 
 #message div.loading
 {
-  background: url(images/display/loading.gif) 6px 3px no-repeat;
+  background: url('images/display/loading.gif') 6px 3px no-repeat;
   background-color: #EBEBEB;
   border: 1px solid #CCCCCC;
 }
@@ -274,8 +272,7 @@ a.button-logout
   color: #333;
   font-size: 11px;
   font-weight: bold;
-  background-color: #EBEBEB;
-  background-image: url(images/listheader_aqua.gif);
+  background: url('images/listheader.gif') top left repeat-x #CCC;
 }
 
 /***** common table settings ******/
@@ -287,8 +284,7 @@ table.records-table thead tr td
   vertical-align: middle;
   border-bottom: 1px solid #999999;
   color: #333333;
-  background-color: #EBEBEB;
-  background-image: url(images/listheader_aqua.gif); 
+  background: url('images/listheader.gif') top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
 }

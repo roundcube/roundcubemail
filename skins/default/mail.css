@@ -341,8 +341,7 @@ td.formlinks a:visited
   height: 12px;
   margin: 0;
   padding: 3px 10px 4px 10px;
-  background-color: #EBEBEB;
-  background-image: url(images/listheader_aqua.gif); 
+  background: url('images/listheader.gif') top left repeat-x #CCC;
   border-bottom: 1px solid #999;
   color: #333333;
   font-size: 11px;
@@ -378,8 +377,7 @@ td.formlinks a:visited
   display: block;
   position: relative;
   font-size: 11px;
-  background: url(images/icons/folder-closed.png) no-repeat;
-  background-position: 5px 1px;
+  background: url('images/icons/folders.png') 5px 1px no-repeat;
   border-bottom: 1px solid #EBEBEB;
 }
 
@@ -401,37 +399,37 @@ td.formlinks a:visited
 
 #mailboxlist li div.collapsed
 {
-  background: url(images/icons/collapsed.png) bottom right no-repeat;
+  background: url('images/icons/collapsed.png') bottom right no-repeat;
 }
 
 #mailboxlist li div.expanded
 {
-  background: url(images/icons/expanded.png) bottom right no-repeat;
+  background: url('images/icons/expanded.png') bottom right no-repeat;
 }
 
 #mailboxlist li.inbox
 {
-  background-image: url(images/icons/folder-inbox.png);
+  background-position: 5px -15px;
 }
 
 #mailboxlist li.drafts
 {
-  background-image: url(images/icons/folder-drafts.png);
+  background-position: 5px -31px;
 }
 
 #mailboxlist li.sent
 {
-  background-image: url(images/icons/folder-sent.png);
+  background-position: 5px -47px;
 }
 
 #mailboxlist li.junk
 {
-  background-image: url(images/icons/folder-junk.png);
+  background-position: 5px -63px;
 }
 
 #mailboxlist li.trash
 {
-  background-image: url(images/icons/folder-trash.png);
+  background-position: 5px -79px;
 }
 
 #mailboxlist li a
@@ -537,8 +535,7 @@ body.messagelist
   vertical-align: middle;
   border-bottom: 1px solid #999999;
   color: #333333;
-  background-color: #EBEBEB;
-  background-image: url(images/listheader_aqua.gif); 
+  background: url('images/listheader.gif') top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
 }
@@ -546,17 +543,17 @@ body.messagelist
 #messagelist thead tr td.sortedASC,
 #messagelist thead tr td.sortedDESC
 {
-  background-image: url(images/listheader_dark.gif); 
+  background-position: 0 -20px;
 }
 
 #messagelist thead tr td.sortedASC a
 {
-  background: url(images/sort_asc.gif) top right no-repeat;
+  background: url('images/icons/sort.gif') right 0 no-repeat;
 }
 
 #messagelist thead tr td.sortedDESC a
 {
-  background: url(images/sort_desc.gif) top right no-repeat;
+  background: url('images/icons/sort.gif') right -14px no-repeat;
 }
 
 #messagelist thead tr td a

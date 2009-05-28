@@ -75,6 +75,11 @@ You need sqlite 2 (preferably 2.8) to setup the sqlite db
 an example how you can setup the sqlite.db for roundcube:
 
 # sqlite -init SQL/sqlite.initial.sql sqlite.db
+Loading resources from SQL/sqlite.initial.sql
+SQLite version 2.8.16
+Enter ".help" for instructions
+sqlite> .exit
+# chmod o+rw sqlite.db
 
 Make sure your configuration points to the sqlite.db file and that the
 webserver can write to the file and the directory containing the file.
@@ -117,5 +122,82 @@ UPGRADING
 
 If you already have a previous version of RoundCube installed,
 please refer to the instructions in UPGRADING guide.
+
+
+OPTIMISING
+==========
+
+There are two forms of optimisation here, compression and caching, both aimed
+at increasing an end user's experience using RoundCube Webmail. Compression
+allows the static web pages to be delivered with less bandwidth. The index.php
+of RoundCube Webmail already enables compression on its output. The settings
+below allow compression to occur for all static files. Caching sets HTTP 
+response headers that enable a user's web client to understand what is static
+and how to cache it.
+
+The caching directives used are:
+ * Etags - sets at tag so the client can request is the page has changed
+ * Cache-control - defines the age of the page and that the page is 'public'
+   This enables clients to cache javascript files that don't have private 
+   information between sessions even if using HTTPS. It also allows proxies
+   to share the same cached page between users.
+ * Expires - provides another hint to increase the lifetime of static pages.
+
+For more information refer to RFC 2616.
+
+Side effects:
+-------------
+These directives are designed for production use. If you are using this in
+a development environment you may get horribly confused if your webclient
+is caching stuff that you changed on the server. Disabling the expires 
+parts below should save you some grief.
+
+If you are changing the skins, it is recommended that you copy content to 
+a different directory apart from 'default'.
+
+Apache:
+-------
+To enable these features in apache the following modules need to be enabled:
+ * mod_compress
+ * mod_expire
+ * mod_headers
+
+The optimisation is already included in the .htaccess file in the top 
+directory of your installation.
+
+If you are using Apache version 2.2.9 and later, in the .htaccess file
+change the 'append' word to 'merge' for a more correct response. Keeping
+as 'append' shouldn't cause any problems though changing to merge will 
+eliminate the possibility of duplicate 'public' headers in Cache-control.
+
+Lighttpd:
+---------
+With Lightty the addition of Expire: tags by mod_expire is incompatible with
+the addition of "Cache-control: public". Using Cache-control 'public' is 
+used below as it is assumed to give a better caching result.
+
+Enable modules in server.modules:
+    "mod_setenv"
+    "mod_compress"
+
+Mod_compress is a server side cache of compressed files to improve its performance.
+
+$HTTP["host"] == "www.example.com" {
+
+    static-file.etags = "enable"
+    # http://redmine.lighttpd.net/projects/lighttpd/wiki/Etag.use-mtimeDetails
+    etag.use-mtime = "enable"
+
+    # http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ModSetEnv
+    $HTTP["url"] =~ "^/roundcubemail/(plugins|skins|program)" {
+        setenv.add-response-header  = ( "Cache-Control" => "public, max-age=2592000")
+    }
+
+    # http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ModCompress
+    # set compress.cache-dir to somewhere outside the docroot.
+    compress.cache-dir   = var.statedir + "/cache/compress"
+
+    compress.filetype = ("text/plain", "text/html", "text/javascript", "text/css", "text/xml", "image/gif", "image/png")
+}
 
 

@@ -5,6 +5,15 @@ img
   behavior: url('skins/default/pngbehavior.htc');
 }
 
+#message div.notice,
+#message div.error,
+#message div.warning,
+#message div.confirmation,
+#remote-objects-message
+{
+  background-image: url(images/display/icons.gif);
+}
+
 ul.toolbarmenu li
 {
   width: 130px;
@@ -15,4 +24,7 @@ ul.toolbarmenu li
   background-image: url('images/messageactions.gif');
 }
 
-
+#mailboxlist li
+{
+  background-image: url('images/icons/folders.gif');
+}
