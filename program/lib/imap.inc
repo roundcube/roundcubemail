@@ -83,7 +83,7 @@
 		- removed caching functions
 		- handling connection startup response
 		- added UID EXPUNGE support
-		- fixed problem with double quote at the end of folder name in LIST and LSUB 
+		- fixed problem with double quotes and spaces in folder names in LIST and LSUB 
 
 ********************************************************/
 
@@ -255,7 +255,7 @@ function iil_ReadLine($fp, $size=1024) {
 	return $line;
 }
 
-function iil_MultLine($fp, $line) {
+function iil_MultLine($fp, $line, $escape=false) {
 	$line = chop($line);
 	if (preg_match('/\{[0-9]+\}$/', $line)) {
 		$out = '';
@@ -266,7 +266,8 @@ function iil_MultLine($fp, $line) {
 			$line = iil_ReadBytes($fp, $bytes); 
 			$out .= $line;
 		}
-		$line = $a[1][0] . "\"$out\"";
+
+		$line = $a[1][0] . '"' . ($escape ? iil_Escape($out) : $out) . '"';
 //		console('[...] '. $out);
 	}
 	return $line;
@@ -726,19 +727,20 @@ function iil_Close(&$conn) {
 }
 
 function iil_ExplodeQuotedString($delimiter, $string) {
-	$quotes = explode('"', $string);
-	while ( list($key, $val) = each($quotes)) {
-		if (($key % 2) == 1) {
-			$quotes[$key] = str_replace($delimiter, "_!@!_", $quotes[$key]);
-    		}
+	$result = array();
+	$strlen = strlen($string);
+	  
+	for ($q=$p=$i=0; $i < $strlen; $i++) {
+	        if ($string[$i] == "\"" && $string[$i-1] != "\\") {
+			$q = $q ? false : true;
+		}
+		else if (!$q && preg_match("/$delimiter/", $string[$i])) {
+			$result[] = substr($string, $p, $i - $p);
+			$p = $i + 1;
+		}
 	}
-	$string = implode('"', $quotes);
-	
-	$result = explode($delimiter, $string);
-	while ( list($key, $val) = each($result) ) {
-		$result[$key] = str_replace('_!@!_', $delimiter, $result[$key]);
-	}
-    
+
+	$result[] = substr($string, $p);
 	return $result;
 }
 
@@ -1529,7 +1531,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 		$conn->error = "Couldn't select $mailbox";
 		return false;
 	}
-		
+
 	if ($add)
 		$add = ' '.strtoupper(trim($add));
 
@@ -2149,7 +2151,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
 	// get folder list
 	do {
 		$line = iil_ReadLine($fp, 500);
-		$line = iil_MultLine($fp, $line);
+		$line = iil_MultLine($fp, $line, true);
 
 		$a = explode(' ', $line);
 		if (($line[0] == '*') && ($a[1] == 'LIST')) {
@@ -2157,7 +2159,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
         		// split one line
 			$a = iil_ExplodeQuotedString(' ', $line);
         		// last string is folder name
-			$folder = preg_replace(array('/^"/', '/"$/'), '', $a[count($a)-1]);
+			$folder = preg_replace(array('/^"/', '/"$/'), '', iil_UnEscape($a[count($a)-1]));
             
         		if (empty($ignore) || (!empty($ignore)
             			&& !preg_match('/'.preg_quote(ignore, '/').'/i', $folder))) {
@@ -2214,7 +2216,7 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
 	// get folder list
 	do {
 		$line = iil_ReadLine($fp, 500);
-		$line = iil_MultLine($fp, $line);
+		$line = iil_MultLine($fp, $line, true);
 		$a    = explode(' ', $line);
         
 		if (($line[0] == '*') && ($a[1] == 'LSUB' || $a[1] == 'LIST')) {
@@ -2222,9 +2224,8 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
             
         		// split one line
 			$a = iil_ExplodeQuotedString(' ', $line);
-            
         		// last string is folder name
-    			$folder = preg_replace(array('/^"/', '/"$/'), '', $a[count($a)-1]);
+    			$folder = preg_replace(array('/^"/', '/"$/'), '', iil_UnEscape($a[count($a)-1]));
         
 			if ((!in_array($folder, $folders)) && (empty($ignore)
             			|| (!empty($ignore) && !preg_match('/'.preg_quote(ignore, '/').'/i', $folder)))) {
@@ -2622,6 +2623,7 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, $key)+1)));
 		}
 	}
+	console('----'.$result);
 	return $result;
 }
 
