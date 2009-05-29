@@ -408,7 +408,7 @@ class rcube_user
 	  $email = $row;
 	  $name = $user_name;
 	}
-	
+
         $plugin = $rcmail->plugins->exec_hook('create_identity', array('record' => array(
           'login' => true,
           'user_id' => $user_id,
@@ -416,14 +416,14 @@ class rcube_user
           'email' => $email,
           'standard' => $standard)));
           
-        if (!$plugin['abort'] && $plugin['record']['name'] && $plugin['record']['email']) {
+        if (!$plugin['abort'] && $plugin['record']['email']) {
           $dbh->query(
               "INSERT INTO ".get_table_name('identities')."
                 (user_id, del, standard, name, email)
                VALUES (?, 0, ?, ?, ?)",
               $user_id,
               $plugin['record']['standard'],
-              $plugin['record']['name'],
+              $plugin['record']['name'] != NULL ? $plugin['record']['name'] : '',
               $plugin['record']['email']);
         }
         $standard = 0;
