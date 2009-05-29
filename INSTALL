@@ -158,8 +158,8 @@ a different directory apart from 'default'.
 Apache:
 -------
 To enable these features in apache the following modules need to be enabled:
- * mod_compress
- * mod_expire
+ * mod_deflate
+ * mod_expires
  * mod_headers
 
 The optimisation is already included in the .htaccess file in the top 
