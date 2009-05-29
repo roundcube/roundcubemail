@@ -409,27 +409,27 @@ td.formlinks a:visited
 
 #mailboxlist li.inbox
 {
-  background-position: 5px -15px;
+  background-position: 5px -19px;
 }
 
 #mailboxlist li.drafts
 {
-  background-position: 5px -31px;
+  background-position: 5px -39px;
 }
 
 #mailboxlist li.sent
 {
-  background-position: 5px -47px;
+  background-position: 5px -59px;
 }
 
 #mailboxlist li.junk
 {
-  background-position: 5px -63px;
+  background-position: 5px -79px;
 }
 
 #mailboxlist li.trash
 {
-  background-position: 5px -79px;
+  background-position: 5px -99px;
 }
 
 #mailboxlist li a
