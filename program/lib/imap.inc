@@ -83,6 +83,7 @@
 		- removed caching functions
 		- handling connection startup response
 		- added UID EXPUNGE support
+		- fixed problem with double quote at the end of folder name in LIST and LSUB 
 
 ********************************************************/
 
@@ -2156,7 +2157,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
         		// split one line
 			$a = iil_ExplodeQuotedString(' ', $line);
         		// last string is folder name
-			$folder = trim($a[count($a)-1], '"');
+			$folder = preg_replace(array('/^"/', '/"$/'), '', $a[count($a)-1]);
             
         		if (empty($ignore) || (!empty($ignore)
             			&& !preg_match('/'.preg_quote(ignore, '/').'/i', $folder))) {
@@ -2223,8 +2224,8 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
 			$a = iil_ExplodeQuotedString(' ', $line);
             
         		// last string is folder name
-        		$folder = trim($a[count($a)-1], '"');
-            
+    			$folder = preg_replace(array('/^"/', '/"$/'), '', $a[count($a)-1]);
+        
 			if ((!in_array($folder, $folders)) && (empty($ignore)
             			|| (!empty($ignore) && !preg_match('/'.preg_quote(ignore, '/').'/i', $folder)))) {
 			    $folders[$i] = $folder;

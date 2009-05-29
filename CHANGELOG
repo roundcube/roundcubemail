@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fixed problem with double quote at the end of folder name (#1485884)
 - Speedup UI by using CSS sprites and etags/expires/deflate in Apache config (#1484858,#1485800)
 - Support UID EXPUNGE: remove only moved/deleted messages
 - Add drag cancelling with ESC key (#1484344)
