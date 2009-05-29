@@ -91,7 +91,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       unset($attachment['status']);
       $_SESSION['compose']['attachments'][$id] = $attachment;
       
-      if (is_file($icon = $CONFIG['skin_path'] . '/images/icons/remove-attachment.png')) {
+      if (($icon = $_SESSION['compose']['deleteicon']) && is_file($icon)) {
         $button = html::img(array(
           'src' => $icon,
           'alt' => rcube_label('delete')

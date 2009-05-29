@@ -716,11 +716,13 @@ function rcmail_compose_attachment_list($attrib)
   
   if (is_array($_SESSION['compose']['attachments']))
   {
-    if ($attrib['deleteicon'])
+    if ($attrib['deleteicon']) {
       $button = html::img(array(
         'src' => $CONFIG['skin_path'] . $attrib['deleteicon'],
         'alt' => rcube_label('delete')
-	));
+      ));
+      $_SESSION['compose']['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
+    }
     else
       $button = Q(rcube_label('delete'));
 
