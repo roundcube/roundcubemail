@@ -2623,7 +2623,6 @@ function iil_C_FetchStructureString(&$conn, $folder, $id) {
 			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, $key)+1)));
 		}
 	}
-	console('----'.$result);
 	return $result;
 }
 
