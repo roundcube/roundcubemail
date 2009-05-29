@@ -377,7 +377,7 @@ td.formlinks a:visited
   display: block;
   position: relative;
   font-size: 11px;
-  background: url('images/icons/folders.png') 5px 1px no-repeat;
+  background: url('images/icons/folders.png') 5px 2px no-repeat;
   border-bottom: 1px solid #EBEBEB;
 }
 
@@ -409,17 +409,17 @@ td.formlinks a:visited
 
 #mailboxlist li.inbox
 {
-  background-position: 5px -19px;
+  background-position: 5px -18px;
 }
 
 #mailboxlist li.drafts
 {
-  background-position: 5px -39px;
+  background-position: 5px -38px;
 }
 
 #mailboxlist li.sent
 {
-  background-position: 5px -59px;
+  background-position: 5px -58px;
 }
 
 #mailboxlist li.junk
