@@ -65,8 +65,13 @@ function rcube_sess_write($key, $vars)
   
   $now = $DB->fromunixtime(time());
 
-  if ($oldvars = rcube_sess_read($key)) {
-    $a_oldvars = rcube_sess_unserialize($oldvars);
+  $sql_result = $DB->query(
+    "SELECT vars FROM " . get_table_name('session') . "
+     WHERE  sess_id=?", $key);
+
+  if ($sql_arr = $DB->fetch_assoc($sql_result)) {
+
+    $a_oldvars = rcube_sess_unserialize($sql_arr['vars']);
     foreach ((array)$GLOBALS['rcube_session_unsets'] as $k)
       unset($a_oldvars[$k]);
 
