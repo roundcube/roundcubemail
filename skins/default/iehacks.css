@@ -182,3 +182,13 @@ body.iframe
 {
   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
 }
+
+ul.toolbarmenu li
+{
+  min-width: auto;
+}
+
+ul.toolbarmenu li a
+{
+  min-height: auto;
+}

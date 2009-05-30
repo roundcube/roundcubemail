@@ -16,7 +16,8 @@ img
 
 ul.toolbarmenu li
 {
-  width: 130px;
+  width: auto;
+  border: 1px solid #f6f6f6;
 }
 
 #messagemenu li a

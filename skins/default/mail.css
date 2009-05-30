@@ -112,13 +112,18 @@ ul.toolbarmenu li img
   margin: 0 2px;
 }
 
-ul.toolbarmenu li.separator
+ul.toolbarmenu li.separator_below
 {
-  height: 1px;
-  font-size: 1pt;
   border-bottom: 1px solid #ccc;
-  margin: 1px 1px 2px 1px;
-  padding: 0;
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+}
+
+ul.toolbarmenu li.separator_above
+{
+  border-top: 1px solid #ccc;
+  margin-top: 2px;
+  padding-top: 2px;
 }
 
 #messagemenu li a.active:hover,
@@ -377,7 +382,7 @@ td.formlinks a:visited
   display: block;
   position: relative;
   font-size: 11px;
-  background: url('images/icons/folders.png') 5px 2px no-repeat;
+  background: url('images/icons/folders.png') 5px 1px no-repeat;
   border-bottom: 1px solid #EBEBEB;
 }
 
@@ -409,27 +414,27 @@ td.formlinks a:visited
 
 #mailboxlist li.inbox
 {
-  background-position: 5px -18px;
+  background-position: 5px -19px;
 }
 
 #mailboxlist li.drafts
 {
-  background-position: 5px -38px;
+  background-position: 5px -40px;
 }
 
 #mailboxlist li.sent
 {
-  background-position: 5px -58px;
+  background-position: 5px -60px;
 }
 
 #mailboxlist li.junk
 {
-  background-position: 5px -79px;
+  background-position: 5px -80px;
 }
 
 #mailboxlist li.trash
 {
-  background-position: 5px -99px;
+  background-position: 5px -100px;
 }
 
 #mailboxlist li a
