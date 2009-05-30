@@ -1797,7 +1797,7 @@ function rcube_webmail()
       this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
-    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', false);
+    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'viewsource', 'download', false);
 
     this._with_selected_messages('moveto', lock, add_url, (this.env.flag_for_deletion ? false : true));
     };
@@ -1809,7 +1809,7 @@ function rcube_webmail()
 
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && !selection.length)
-        return;
+      return;
 
     // if there is a trash mailbox defined and we're not currently in it:
     if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase() != String(this.env.trash_mailbox).toLowerCase())
@@ -1830,8 +1830,8 @@ function rcube_webmail()
     else if (!this.env.trash_mailbox && this.env.flag_for_deletion)
       {
       this.mark_message('delete');
-      if(this.env.action=="show")
-        this.command('nextmessage','',this);
+      if (this.env.action == 'show')
+        this.command('nextmessage', '', this);
       else if (selection.length == 1)
         this.message_list.select_next();
       }
@@ -1884,6 +1884,9 @@ function rcube_webmail()
     // also send search request to get the right messages 
     if (this.env.search_request) 
       add_url += '&_search='+this.env.search_request;
+
+    if (this.env.next_uid)
+      add_url += '&_next_uid='+this.env.next_uid;
 
     // send request to server
     this.http_post(action, '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
@@ -3929,9 +3932,10 @@ function rcube_webmail()
         }
       
       case 'moveto':
-        if (this.env.action == 'show')
-          this.command('list');
-        else if (this.message_list)
+        if (this.env.action == 'show') {
+	  // re-enable commands on move/delete error
+	  this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'viewsource', 'download', true);
+        } else if (this.message_list)
           this.message_list.init();
         break;
         
@@ -3942,8 +3946,9 @@ function rcube_webmail()
           if (this.env.contentframe)
             this.show_contentframe(false);
           // disable commands useless when mailbox is empty
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 'mark', 'viewsource',
-            'print', 'load-attachment', 'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 
+	    'mark', 'viewsource', 'open', 'download', 'print', 'load-attachment', 
+	    'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
         }
         break;
 

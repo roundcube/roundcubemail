@@ -37,7 +37,8 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
   
     if (!$moved) {
         // send error message
-        $OUTPUT->command('list_mailbox');
+	if ($_POST['_from'] != 'show')
+          $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errormoving', 'error');
         $OUTPUT->send();
         exit;
@@ -54,7 +55,8 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
   
     if (!$del) {
         // send error message
-        $OUTPUT->command('list_mailbox');
+	if ($_POST['_from'] != 'show')
+          $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errordeleting', 'error');
         $OUTPUT->send();
         exit;
@@ -66,41 +68,51 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
 else {
     exit;
 }
+
 // refresh saved search set after moving some messages
 if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set) {
     $_SESSION['search'][$search_request] = $IMAP->refresh_search();
 }
 
-$msg_count      = $IMAP->messagecount();
-$pages          = ceil($msg_count / $IMAP->page_size);
-$nextpage_count = $old_count - $IMAP->page_size * $IMAP->list_page;
-$remaining      = $msg_count - $IMAP->page_size * ($IMAP->list_page - 1);
+if ($_POST['_from'] == 'show')
+{
+  if ($next = get_input_value('_next_uid', RCUBE_INPUT_GPC))
+    $OUTPUT->command('show_message', $next);
+  else
+    $OUTPUT->command('command', 'list');
+}
+else
+{
+  $msg_count      = $IMAP->messagecount();
+  $pages          = ceil($msg_count / $IMAP->page_size);
+  $nextpage_count = $old_count - $IMAP->page_size * $IMAP->list_page;
+  $remaining      = $msg_count - $IMAP->page_size * ($IMAP->list_page - 1);
 
-// jump back one page (user removed the whole last page)
-if ($IMAP->list_page > 1 && $nextpage_count <= 0 && $remaining == 0) {
+  // jump back one page (user removed the whole last page)
+  if ($IMAP->list_page > 1 && $nextpage_count <= 0 && $remaining == 0) {
     $IMAP->set_page($IMAP->list_page-1);
     $_SESSION['page'] = $IMAP->list_page;
     $jump_back = true;
-}
+  }
 
-// update message count display
-$OUTPUT->set_env('pagecount', $pages);
-$OUTPUT->set_env('messagecount', $msg_count);
-$OUTPUT->set_env('current_page', $IMAP->list_page);
-$OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
+  // update message count display
+  $OUTPUT->set_env('messagecount', $msg_count);
+  $OUTPUT->set_env('current_page', $IMAP->list_page);
+  $OUTPUT->set_env('pagecount', $pages);
 
-// update mailboxlist
-$mbox = $IMAP->get_mailbox_name();
-$OUTPUT->command('set_unread_count', $mbox, $IMAP->messagecount($mbox, 'UNSEEN'), ($mbox == 'INBOX'));
+  // update mailboxlist
+  $mbox = $IMAP->get_mailbox_name();
+  $OUTPUT->command('set_unread_count', $mbox, $IMAP->messagecount($mbox, 'UNSEEN'), ($mbox == 'INBOX'));
 
-if ($RCMAIL->action=='moveto' && $target) {
+  if ($RCMAIL->action=='moveto' && $target) {
     $OUTPUT->command('set_unread_count', $target, $IMAP->messagecount($target, 'UNSEEN'));
-}
+  }
 
-$OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
+  $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
+  $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
-// add new rows from next page (if any)
-if ($addrows && $_POST['_from']!='show' && ($jump_back || $nextpage_count > 0)) {
+  // add new rows from next page (if any)
+  if ($addrows && ($jump_back || $nextpage_count > 0)) {
     $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
     $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   
@@ -109,7 +121,10 @@ if ($addrows && $_POST['_from']!='show' && ($jump_back || $nextpage_count > 0)) 
         $a_headers = array_slice($a_headers, -$count, $count);
     }
     rcmail_js_message_list($a_headers, false, false);
+  }
 }
 
 // send response
 $OUTPUT->send();
+
+?>
