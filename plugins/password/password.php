@@ -90,13 +90,14 @@ class password extends rcube_plugin
     $rcmail->output->add_label('password');
     $this->register_action('plugin.password', array($this, 'password_init'));
     $this->register_action('plugin.password-save', array($this, 'password_save'));
-    $this->register_handler('plugin.body', array($this, 'password_form'));
     $this->include_script('password.js');
   }
 
   function password_init()
   {
     $this->add_texts('localization/');
+    $this->register_handler('plugin.body', array($this, 'password_form'));
+
     $rcmail = rcmail::get_instance();
     $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
     $rcmail->output->send('plugin');
@@ -107,8 +108,10 @@ class password extends rcube_plugin
     $rcmail = rcmail::get_instance();
 
     $this->add_texts('localization/');
-    $confirm = $rcmail->config->get('password_confirm_current');
+    $this->register_handler('plugin.body', array($this, 'password_form'));
     $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+
+    $confirm = $rcmail->config->get('password_confirm_current');
 
     if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']))
       $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');

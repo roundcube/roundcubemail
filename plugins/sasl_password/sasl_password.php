@@ -26,13 +26,14 @@ class sasl_password extends rcube_plugin
     $rcmail->output->add_label('password');
     $this->register_action('plugin.saslpassword', array($this, 'password_init'));
     $this->register_action('plugin.saslpassword-save', array($this, 'password_save'));
-    $this->register_handler('plugin.body', array($this, 'password_form'));
     $this->include_script('sasl_password.js');
   }
 
   function password_init()
   {
     $this->add_texts('locale/');
+    $this->register_handler('plugin.body', array($this, 'password_form'));
+
     $rcmail = rcmail::get_instance();
     $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
     $rcmail->output->send('plugin');
@@ -43,6 +44,7 @@ class sasl_password extends rcube_plugin
     $rcmail = rcmail::get_instance();
 
     $this->add_texts('locale/');
+    $this->register_handler('plugin.body', array($this, 'password_form'));
 
     if (!isset($_POST['_curpasswd']) || !isset($_POST['_newpasswd'])) {
       $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
