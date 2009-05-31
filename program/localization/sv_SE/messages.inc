@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Jonas Nasholm <info@bitfuse.net>                              |
+| Author: Jonas Nasholm <rcm@bitfuse.net>                              |
 |         Fredrik Nygren <f.nygren@gmail.com>                           |
 |         Andreas Henriksson <andreas@fatal.se>                         |
 +-----------------------------------------------------------------------+
@@ -64,7 +64,7 @@ $messages['nosenderwarning'] = 'Vänligen ange en avsändaradress';
 $messages['norecipientwarning'] = 'Vänligen ange minst en mottagare';
 $messages['nosubjectwarning'] = 'Ämnesfältet är tomt. Vill du lägga till något nu?';
 $messages['nobodywarning'] = 'Skicka det här meddelandet utan text?';
-$messages['notsentwarning'] = 'Meddelande har inte skickats. Vill du avbryta meddelandet?';
+$messages['notsentwarning'] = 'Meddelandet har inte skickats. Vill du avbryta meddelandet?';
 $messages['noldapserver'] = 'Vänligen ange en LDAP-server att söka';
 $messages['nocontactsreturned'] = 'Inga kontakter hittades';
 $messages['nosearchname'] = 'Vänligen ange ett kontaktnamn eller en adress';

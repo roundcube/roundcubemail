@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Jonas Nasholm <info@bitfuse.net>                              |
+| Author: Jonas Nasholm <rcm@bitfuse.net>                              |
 |         Fredrik Nygren <f.nygren@gmail.com>                           |
 |         Andreas Henriksson <andreas@fatal.se>                         |
 +-----------------------------------------------------------------------+
@@ -118,12 +118,14 @@ $labels['markread'] = 'Läst';
 $labels['markunread'] = 'Oläst';
 $labels['markflagged'] = 'Flaggat';
 $labels['markunflagged'] = 'Oflaggat';
+$labels['messageactions'] = 'Fler hanteringsalternativ...';
 $labels['select'] = 'Välj';
 $labels['all'] = 'Alla';
 $labels['none'] = 'Ingen';
 $labels['unread'] = 'Olästa';
 $labels['flagged'] = 'Flaggade';
 $labels['unanswered'] = 'Obesvarade';
+$labels['invert'] = 'Invertera';
 $labels['filter'] = 'Filter';
 $labels['compact'] = 'Packa';
 $labels['empty'] = 'Töm';
@@ -136,6 +138,7 @@ $labels['resetsearch'] = 'Återställ sökning';
 $labels['searchmod'] = 'Sökalternativ';
 $labels['msgtext'] = 'Hela meddelandet';
 $labels['openinextwin'] = 'Öppna i nytt fönster';
+$labels['emlsave'] = 'Spara (.eml)';
 $labels['compose'] = 'Skapa nytt meddelande';
 $labels['savemessage'] = 'Spara utkast';
 $labels['sendmessage'] = 'Skicka meddelande';

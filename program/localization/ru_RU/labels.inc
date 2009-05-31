@@ -10,9 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Maxim Zenin <maxx@webmechanics.ru>                            |
-|         Vladimir Kulev <me@lightoze.net>                              |
-|         Artur Smolkin <artsmolkin@ya.ru>                              |
+| Author: Artur Smolkin <artsmolkin@ya.ru>                              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -118,6 +116,7 @@ $labels['markread'] = 'Как прочитанное';
 $labels['markunread'] = 'Как непрочитанное';
 $labels['markflagged'] = 'Установить флаг';
 $labels['markunflagged'] = 'Снять флаг';
+$labels['messageactions'] = 'Еще действия...';
 $labels['select'] = 'Выбрать';
 $labels['all'] = 'Все';
 $labels['none'] = 'Ничего';
@@ -136,6 +135,7 @@ $labels['resetsearch'] = 'Сброс';
 $labels['searchmod'] = 'Варианты поиска';
 $labels['msgtext'] = 'Всё сообщение';
 $labels['openinextwin'] = 'Открыть в новом окне';
+$labels['emlsave'] = 'Сохранить (.eml)';
 $labels['compose'] = 'Написать сообщение';
 $labels['savemessage'] = 'Сохранить черновик';
 $labels['sendmessage'] = 'Отправить сейчас';

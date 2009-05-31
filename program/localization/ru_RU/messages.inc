@@ -10,9 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Maxim Zenin <maxx@webmechanics.ru>                            |
-|         Vladimir Kulev <me@lightoze.net>                              |
-|         Artur Smolkin <admin@roundcube.ru>                            |
+| Author: Artur Smolkin <artsmolkin@ya.ru>                              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -24,6 +22,7 @@ $messages['loginfailed'] = 'Неудачная попытка входа';
 $messages['cookiesdisabled'] = 'Ваш броузер не принимает cookie';
 $messages['sessionerror'] = 'Ваша сессия устарела';
 $messages['imaperror'] = 'Неудачное соединение с IMAP сервером';
+$messages['servererror'] = 'Ошибка сервера!';
 $messages['nomessagesfound'] = 'Сообщений не найдено';
 $messages['loggedout'] = 'Ваша сессия завершена. Всего доброго!';
 $messages['mailboxempty'] = 'Почтовый ящик пуст';
@@ -96,5 +95,6 @@ $messages['importconfirm'] = '<b>Успешно импортировано $inse
 $messages['opnotpermitted'] = 'Действие запрещено!';
 $messages['nofromaddress'] = 'В выбранном профиле не хватает адреса электронной почты';
 $messages['editorwarning'] = 'При переключении в редактор простого текста все форматирование будет потеряно. Продолжить?';
+$messages['httpreceivedencrypterror'] = 'На сервере возникла неизбежная ошибка. Срочно свяжитесь с Вашим администратором. <b>Ваше сообщение может быть не отправлено.</b>';
 
 ?>
