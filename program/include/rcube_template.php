@@ -516,14 +516,16 @@ class rcube_template extends rcube_html_page
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
                 '/env:([a-z0-9_]+)/i',
                 '/request:([a-z0-9_]+)/i',
-                '/cookie:([a-z0-9_]+)/i'
+                '/cookie:([a-z0-9_]+)/i',
+                '/browser:([a-z0-9_]+)/i'
             ),
             array(
                 "\$_SESSION['\\1']",
                 "\$this->app->config->get('\\1',get_boolean('\\3'))",
                 "\$this->env['\\1']",
                 "get_input_value('\\1', RCUBE_INPUT_GPC)",
-                "\$_COOKIE['\\1']"
+                "\$_COOKIE['\\1']",
+                "\$this->browser->{'\\1'}"
             ),
             $expression);
     }
@@ -676,6 +678,9 @@ class rcube_template extends rcube_html_page
                         break;
                     case 'cookie':
                         $value = htmlspecialchars($_COOKIE[$name]);
+                        break;
+                    case 'browser':
+                        $value = $this->browser->{$name};
                         break;
                 }
 
