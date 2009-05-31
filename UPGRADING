@@ -25,6 +25,7 @@ of RoundCube Webmail.
    ./SQL/[yourdbtype].update.sql that are superscribed with the
    currently installed version number.
 5. Make sure 'enable_installer' is set to false again.
+6. Check .htaccess settings (some php settings could become required)
 
 
 For manually upgrading your RoundCube installation follow the instructions

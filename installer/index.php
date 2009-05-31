@@ -47,9 +47,9 @@ if ($RCI->configured && ($RCI->getprop('enable_installer') || $_SESSION['allowin
   exit;
 }
 
-// go to 'test' step if we have a local configuration
+// go to 'check env' step if we have a local configuration
 if ($RCI->configured && empty($_REQUEST['_step'])) {
-  header("Location: ./?_step=3");
+  header("Location: ./?_step=1");
   exit;
 }
 
