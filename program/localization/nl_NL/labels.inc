@@ -119,7 +119,6 @@ $labels['markunread'] = 'Ongelezen';
 $labels['markflagged'] = 'Selecteren';
 $labels['markunflagged'] = 'Niet selecteren';
 $labels['messageactions'] = 'Meer acties...';
-$labels['messagemenu'] = 'Berichtenmenu';
 $labels['select'] = 'Selecteer';
 $labels['all'] = 'Allemaal';
 $labels['none'] = 'Geen';

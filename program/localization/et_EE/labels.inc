@@ -116,7 +116,6 @@ $labels['markread'] = 'Loetuks';
 $labels['markunread'] = 'Mitte loetuks';
 $labels['markflagged'] = 'Lisa lipik';
 $labels['markunflagged'] = 'Eemalda lipik';
-$labels['messagemenu'] = 'Kirjade menüü';
 $labels['select'] = 'Vali';
 $labels['all'] = 'kõik';
 $labels['none'] = 'mitte midagi';

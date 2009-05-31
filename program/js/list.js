@@ -530,6 +530,30 @@ select_all: function(filter)
 
 
 /**
+ * Invert selection
+ */
+invert_selection: function()
+{
+  if (!this.rows || !this.rows.length)
+    return false;
+
+  // remember old selection
+  var select_before = this.selection.join(',');
+  
+  for (var n in this.rows)
+    this.highlight_row(n, true);    
+
+  // trigger event if selection changed
+  if (this.selection.join(',') != select_before)
+    this.triggerEvent('select');
+
+  this.focus();
+
+  return true;
+},
+
+
+/**
  * Unselect selected row(s)
  */
 clear_selection: function(id)

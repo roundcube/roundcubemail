@@ -826,7 +826,10 @@ function rcube_webmail()
         break;
         
       case 'select-all':
-        this.message_list.select_all(props);
+        if (props == 'invert')
+          this.message_list.invert_selection();
+	else
+          this.message_list.select_all(props);
         break;
 
       case 'select-none':

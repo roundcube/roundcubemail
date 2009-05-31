@@ -143,7 +143,6 @@ $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
 $labels['messageactions']   = 'More actions...';
-$labels['messagemenu']      = 'Message menu';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
@@ -151,6 +150,7 @@ $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
+$labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
 
 $labels['compact'] = 'Compact';

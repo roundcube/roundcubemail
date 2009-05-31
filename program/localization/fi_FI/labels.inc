@@ -118,7 +118,6 @@ $labels['markread'] = 'luetuiksi';
 $labels['markunread'] = 'ei-luetuiksi';
 $labels['markflagged'] = 'korostetuiksi';
 $labels['markunflagged'] = 'ei-korostetuiksi';
-$labels['messagemenu'] = 'Viestilista';
 $labels['select'] = 'Valitse';
 $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mitään';
