@@ -39,18 +39,8 @@ $OUTPUT = !empty($_REQUEST['_remote']) ? $RCMAIL->init_json() : $RCMAIL->load_gu
 // init plugin API
 $RCMAIL->plugins->init();
 
-// set output buffering
-if ($RCMAIL->action != 'get' && $RCMAIL->action != 'viewsource') {
-  // use gzip compression if supported
-  if (function_exists('ob_gzhandler')
-      && !ini_get('zlib.output_compression')
-      && ini_get('output_handler') != 'ob_gzhandler') {
-    ob_start('ob_gzhandler');
-  }
-  else {
-    ob_start();
-  }
-}
+// turn on output buffering
+ob_start();
 
 // check if config files had errors
 if ($err_str = $RCMAIL->config->get_error()) {

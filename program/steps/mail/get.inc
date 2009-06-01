@@ -33,6 +33,7 @@ if (!empty($_GET['_preload'])) {
   exit;
 }
 
+ob_end_clean();
 
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {

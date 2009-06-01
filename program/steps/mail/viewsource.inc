@@ -19,6 +19,7 @@
 
 */
 
+ob_end_clean();
 
 // similar code as in program/steps/mail/get.inc
 if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
