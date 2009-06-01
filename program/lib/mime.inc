@@ -91,7 +91,8 @@ function iml_GetRawStructureArray($str){
     $line = str_replace(")(", ") (", $line);
 
 	$struct = iml_ParseBSString($line);
-	if ((strcasecmp($struct[0], "message")==0) && (strcasecmp($struct[1], "rfc822")==0)){
+	if (!is_array($struct[0]) && (strcasecmp($struct[0], "message")==0)
+		&& (strcasecmp($struct[1], "rfc822")==0)) {
 		$struct = array($struct);
 	}
     return $struct;
