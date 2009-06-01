@@ -288,8 +288,8 @@ triggerEvent: function(evt, e)
 {
   var ret, h;
   if (typeof e == 'undefined')
-    e = {};
-  if (typeof e == 'object')
+    e = this;
+  else if (typeof e == 'object')
     e.event = evt;
   
   if (this._events && this._events[evt] && !this._event_exec) {
@@ -297,9 +297,9 @@ triggerEvent: function(evt, e)
     for (var i=0; i < this._events[evt].length; i++) {
       if ((h = this._events[evt][i])) {
         if (typeof h.func == 'function')
-          ret = h.func.call ? h.func.call(h.obj, this, e) : h.func(this, e);
+          ret = h.func.call ? h.func.call(h.obj, e) : h.func(e);
         else if (typeof h.obj[h.func] == 'function')
-          ret = h.obj[h.func](this, e);
+          ret = h.obj[h.func](e);
               
         // cancel event execution
         if (typeof ret != 'undefined' && !ret)

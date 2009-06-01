@@ -3923,6 +3923,12 @@ function rcube_webmail()
       console.log(response.exec);
       eval(response.exec);
     }
+    
+    // execute callback functions of plugins
+    if (response.callbacks && response.callbacks.length) {
+      for (var i=0; i < response.callbacks.length; i++)
+        this.triggerEvent(response.callbacks[i][0], response.callbacks[i][1]);
+    }
  
     // process the response data according to the sent action
     switch (response.action) {

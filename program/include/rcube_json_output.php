@@ -33,6 +33,7 @@ class rcube_json_output
     private $env = array();
     private $texts = array();
     private $commands = array();
+    private $callbacks = array();
     private $message = null;
 
     public $type = 'js';
@@ -122,7 +123,12 @@ class rcube_json_output
      */
     public function command()
     {
-        $this->commands[] = func_get_args();
+        $cmd = func_get_args();
+        
+        if (strpos($cmd[0], 'plugin.') === 0)
+          $this->callbacks[] = $cmd;
+        else
+          $this->commands[] = $cmd;
     }
     
     
@@ -227,8 +233,11 @@ class rcube_json_output
         if (!empty($this->texts))
           $response['texts'] = $this->texts;
 
-        // send response code
+        // send function calls
         $response['exec'] = $this->get_js_commands() . $add;
+        
+        if (!empty($this->callbacks))
+          $response['callbacks'] = $this->callbacks;
 
         echo json_serialize($response);
     }

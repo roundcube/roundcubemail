@@ -201,7 +201,9 @@ class rcube_template extends rcube_html_page
      */
     public function command()
     {
-        $this->js_commands[] = func_get_args();
+        $cmd = func_get_args();
+        if (strpos($cmd[0], 'plugin.') === false)
+          $this->js_commands[] = $cmd;
     }
 
 
