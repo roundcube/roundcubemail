@@ -154,7 +154,7 @@ class rcube_contacts extends rcube_addressbook
     {
       if ($col == 'ID' || $col == $this->primary_key)
       {
-        $ids = !is_array($value) ? split(',', $value) : $value;
+        $ids = !is_array($value) ? explode(',', $value) : $value;
         $add_where[] = $this->primary_key.' IN ('.join(',', $ids).')';
       }
       else if ($strict)

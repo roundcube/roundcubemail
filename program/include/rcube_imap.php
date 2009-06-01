@@ -303,7 +303,7 @@ class rcube_imap
     if (is_array($str) && $msgs == null)
       list($str, $msgs, $charset, $sort_field) = $str;
     if ($msgs != null && !is_array($msgs))
-      $msgs = split(',', $msgs);
+      $msgs = explode(',', $msgs);
       
     $this->search_string = $str;
     $this->search_set = $msgs;
