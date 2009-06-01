@@ -551,11 +551,11 @@ class rcube_install
     if ($lines = @file($fname, FILE_SKIP_EMPTY_LINES)) {
       $buff = '';
       foreach ($lines as $i => $line) {
-        if (eregi('^--', $line))
+        if (preg_match('/^--/', $line))
           continue;
           
         $buff .= $line . "\n";
-        if (eregi(';$', trim($line))) {
+        if (preg_match('/;$/', trim($line))) {
           $DB->query($buff);
           $buff = '';
           if ($this->get_error())

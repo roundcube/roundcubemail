@@ -221,7 +221,7 @@ while ($redirects < 5) {
     $action_map[$RCMAIL->task][$RCMAIL->action] : strtr($RCMAIL->action, '-', '_') . '.inc';
 
   // execute a plugin action
-  if (eregi('^plugin.', $RCMAIL->action)) {
+  if (preg_match('/^plugin\./', $RCMAIL->action)) {
     $RCMAIL->plugins->exec_action($RCMAIL->action);
     break;
   }
