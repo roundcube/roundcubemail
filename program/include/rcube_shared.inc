@@ -238,12 +238,12 @@ function get_boolean($str)
  * Parse a human readable string for a number of bytes
  *
  * @param string Input string
- * @return int Number of bytes
+ * @return float Number of bytes
  */
 function parse_bytes($str)
 {
   if (is_numeric($str))
-    return intval($str);
+    return floatval($str);
     
   if (preg_match('/([0-9]+)([a-z])/i', $str, $regs))
   {
@@ -262,7 +262,7 @@ function parse_bytes($str)
     }
   }
 
-  return intval($bytes);
+  return floatval($bytes);
 }
     
 /**

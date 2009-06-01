@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix displaying of big maximum upload filesize (#1485889)
 - Added possibility to invert messages selection
 - After move/delete from 'show' action display next message instead of messages list (#1485887)
 - Fixed problem with double quote at the end of folder name (#1485884)
