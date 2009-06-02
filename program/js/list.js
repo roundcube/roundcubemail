@@ -805,7 +805,7 @@ drag_mouse_move: function(e)
   {
     var pos = rcube_event.get_mouse_pos(e);
     this.draglayer.css({ left:(pos.x+20)+'px', top:(pos.y-5 + (bw.ie ? document.documentElement.scrollTop : 0))+'px' });
-    this.triggerEvent('dragmove', e);
+    this.triggerEvent('dragmove', e?e:window.event);
   }
 
   this.drag_start = false;

@@ -164,8 +164,8 @@ function rcube_webmail()
           this.message_list.addEventListener('keypress', function(o){ p.msglist_keypress(o); });
           this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
           this.message_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
-          this.message_list.addEventListener('dragmove', function(o, e){ p.drag_move(e); });
-          this.message_list.addEventListener('dragend', function(o, e){ p.drag_end(e); });
+          this.message_list.addEventListener('dragmove', function(e){ p.drag_move(e); });
+          this.message_list.addEventListener('dragend', function(e){ p.drag_end(e); });
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
 
           this.message_list.init();
@@ -280,8 +280,8 @@ function rcube_webmail()
           this.contact_list.addEventListener('keypress', function(o){ p.contactlist_keypress(o); });
           this.contact_list.addEventListener('select', function(o){ p.contactlist_select(o); });
           this.contact_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
-          this.contact_list.addEventListener('dragmove', function(o, e){ p.drag_move(e); });
-          this.contact_list.addEventListener('dragend', function(o, e){ p.drag_end(e); });
+          this.contact_list.addEventListener('dragmove', function(e){ p.drag_move(e); });
+          this.contact_list.addEventListener('dragend', function(e){ p.drag_end(e); });
           this.contact_list.init();
 
           if (this.env.cid)
