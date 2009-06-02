@@ -1629,7 +1629,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				}
 
 				// the rest of the result
-				preg_match('/ BODY\[HEADER.FIELDS \(.*\)\]\s*(.*)/s', $line, $m);
+				preg_match('/ BODY\[HEADER.FIELDS \(.*?\)\]\s*(.*)$/s', $line, $m);
 				$reslines = explode("\n", trim($m[1], '"'));
 				// re-parse (see below)
 				foreach ($reslines as $line) {
@@ -1686,7 +1686,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 						$headers[$k] = '';
 					}
 				}
-	
+
 				// create array with header field:data
 				while ( list($lines_key, $str) = each($lines) ) {
 					list($field, $string) = iil_SplitHeaderLine($str);
