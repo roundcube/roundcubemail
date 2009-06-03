@@ -149,7 +149,7 @@ function rcmail_attach_emoticons(&$mime_message)
 }
 
 // parse email address input
-function rcmail_mailto_format($mailto)
+function rcmail_email_input_format($mailto)
 {
   $regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/', '/(\S{1})(<\S+@\S+>)/U');
   $replace = array(', ', ', ', '', ',', '\\1 \\2');
@@ -200,9 +200,9 @@ $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.rand(),true)), $RCMAIL->con
 $input_charset = $OUTPUT->get_charset();
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
 
-$mailto = rcmail_mailto_format(get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
-$mailcc = rcmail_mailto_format(get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
-$mailbcc = rcmail_mailto_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
+$mailto = rcmail_email_input_format(get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
+$mailcc = rcmail_email_input_format(get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
+$mailbcc = rcmail_email_input_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
 
 if (empty($mailto) && !empty($mailcc)) {
   $mailto = $mailcc;
@@ -215,7 +215,10 @@ else if (empty($mailto))
 $from = get_input_value('_from', RCUBE_INPUT_POST);
 $identity_arr = rcmail_get_identity($from);
 
-if ($identity_arr)
+if (!$identity_arr && ($from = rcmail_email_input_format($from))) {
+  if (preg_match('/(<\S+@\S+)/', $from, $m))
+    $identity_arr['mailto'] = $m[1];
+} else
   $from = $identity_arr['mailto'];
 
 if (empty($identity_arr['string']))
@@ -263,7 +266,7 @@ if (!empty($identity_arr['organization']))
   $headers['Organization'] = $identity_arr['organization'];
 
 if (!empty($_POST['_replyto']))
-  $headers['Reply-To'] = rcmail_mailto_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+  $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
 else if (!empty($identity_arr['reply-to']))
   $headers['Reply-To'] = $identity_arr['reply-to'];
 
