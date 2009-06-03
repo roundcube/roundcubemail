@@ -90,7 +90,7 @@ init: function()
 
     // set body events
     if (this.keyboard) {
-      rcube_event.add_listener({element:document, event:'keyup', object:this, method:'key_press'});
+      rcube_event.add_listener({element:document, event:'keypress', object:this, method:'key_press'});
       rcube_event.add_listener({element:document, event:'keydown', object:this, method:'key_down'});
     }
   }
