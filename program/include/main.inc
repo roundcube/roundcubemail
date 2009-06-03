@@ -243,7 +243,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       $str = utf8_encode($str);
     }
     else if ($from != 'UTF-8' && $conv) {
-      $from = preg_replace(array('/^WINDOWS-*/', '/^CP-/'), array('CP', 'CP'), $from);
+      $from = preg_replace(array('/^WINDOWS-*125([0-8])$/', '/^CP-/'), array('CP125\\1', 'CP'), $from);
       $conv->loadCharset($from);
       $str = $conv->strToUtf8($str);
     }
@@ -264,7 +264,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       return utf8_decode($str);
     }
     else if ($to != 'UTF-8' && $conv) {
-      $to = preg_replace(array('/^WINDOWS-*/', '/^CP-/'), array('CP', 'CP'), $to);
+      $to = preg_replace(array('/^WINDOWS-*125([0-8])$/', '/^CP-/'), array('CP125\\1', 'CP'), $to);
       $conv->loadCharset($to);
       return $conv->utf8ToStr($str);
     }
@@ -305,6 +305,7 @@ function rcube_parse_charset($charset)
   # RFC1642
   $charset = str_replace('UNICODE-1-1-', '', $charset);
 
+  # Aliases: some of them from HTML5 spec.
   $aliases = array(
     'USASCII'       => 'WINDOWS-1252',
     'ANSIX31101983' => 'WINDOWS-1252',
@@ -313,9 +314,14 @@ function rcube_parse_charset($charset)
     'XUNKNOWN'      => 'ISO-8859-15',
     'XUSERDEFINED'  => 'ISO-8859-15',
     'KSC56011987'   => 'EUC-KR',
-    'GB2312' 	    => 'GB18030',
+    'GB2312' 	    => 'GBK',
+    'GB231280'	    => 'GBK',
     'UNICODE'	    => 'UTF-8',
-    'UTF7IMAP'	    => 'UTF7-IMAP'
+    'UTF7IMAP'	    => 'UTF7-IMAP',
+    'XXBIG5'	    => 'BIG5',
+    'TIS620'	    => 'WINDOWS-874',
+    'ISO88599'	    => 'WINDOWS-1254',
+    'ISO885911'	    => 'WINDOWS-874',
   );
 
   $str = preg_replace('/[^a-z0-9]/i', '', $charset);
