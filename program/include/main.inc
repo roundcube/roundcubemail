@@ -190,11 +190,10 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   if ($from == $to || empty($str) || empty($from))
     return $str;
-    
+
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
-    $aliases['GB2312'] = 'GB18030';
-    $_iconv = iconv(($aliases[$from] ? $aliases[$from] : $from), ($aliases[$to] ? $aliases[$to] : $to) . "//IGNORE", $str);
+    $_iconv = iconv($from, $to . '//IGNORE', $str);
     if ($_iconv !== false) {
         return $_iconv;
     }
@@ -244,6 +243,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       $str = utf8_encode($str);
     }
     else if ($from != 'UTF-8' && $conv) {
+      $from = preg_replace(array('/^WINDOWS-*/', '/^CP-/'), array('CP', 'CP'), $from);
       $conv->loadCharset($from);
       $str = $conv->strToUtf8($str);
     }
@@ -264,6 +264,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
       return utf8_decode($str);
     }
     else if ($to != 'UTF-8' && $conv) {
+      $to = preg_replace(array('/^WINDOWS-*/', '/^CP-/'), array('CP', 'CP'), $to);
       $conv->loadCharset($to);
       return $conv->utf8ToStr($str);
     }
@@ -305,14 +306,14 @@ function rcube_parse_charset($charset)
   $charset = str_replace('UNICODE-1-1-', '', $charset);
 
   $aliases = array(
-    'USASCII'       => 'ISO-8859-1',
-    'ANSIX31101983' => 'ISO-8859-1',
-    'ANSIX341968'   => 'ISO-8859-1',
+    'USASCII'       => 'WINDOWS-1252',
+    'ANSIX31101983' => 'WINDOWS-1252',
+    'ANSIX341968'   => 'WINDOWS-1252',
     'UNKNOWN8BIT'   => 'ISO-8859-15',
     'XUNKNOWN'      => 'ISO-8859-15',
     'XUSERDEFINED'  => 'ISO-8859-15',
-    'ISO88598I'     => 'ISO-8859-8',
     'KSC56011987'   => 'EUC-KR',
+    'GB2312' 	    => 'GB18030',
     'UNICODE'	    => 'UTF-8',
     'UTF7IMAP'	    => 'UTF7-IMAP'
   );
@@ -325,8 +326,12 @@ function rcube_parse_charset($charset)
   if (preg_match('/UTF(7|8|16|32)(BE|LE)*/', $str, $m))
     return 'UTF-' . $m[1] . $m[2];
 
-  if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m))
-    return 'ISO-8859-' . ($m[1] ? $m[1] : 1);
+  if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
+    $iso = 'ISO-8859-' . ($m[1] ? $m[1] : 1);
+    # some clients sends windows-1252 text as latin1,
+    # it is safe to use windows-1252 for all latin1
+    return $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
+    }
 
   return $charset;
   }
