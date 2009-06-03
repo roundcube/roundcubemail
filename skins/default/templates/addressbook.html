@@ -8,19 +8,17 @@
 <style type="text/css">
 <roundcube:if condition="count(env:address_sources) &lt;= 1" />
 #abookcountbar { left: 20px;}
-#addressscreen { left:20px; /* IE hack */ width:expression((parseInt(document.documentElement.clientWidth)-40)+'px') }
+#addressscreen { left:20px; 
+<roundcube:exp expression="browser:ie ? 'width:expression((parseInt(document.documentElement.clientWidth)-40)+\\'px\\');' : ''" />
+}
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
-#contacts-box {
-    left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
-    /* IE hack */
-    width:expression((parseInt(addressscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
+#contacts-box { left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
+<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255).'+\\'px\\');') : ''" />
 }
 <roundcube:else />
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
-#contacts-box {
-    left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
-    /* IE hack */
-    width:expression((parseInt(addressscreen.offsetWidth)-<roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />)+'px')
+#contacts-box { left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
+<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255).'+\\'px\\');') : ''" />
 }
 <roundcube:endif />
 </style>

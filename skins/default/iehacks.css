@@ -17,7 +17,7 @@ input, textarea
 #searchmenu,
 #messagemenu
 {
-  filter:alpha(opacity=90);
+  filter: alpha(opacity=90);
 }
 
 #tabsbar
@@ -180,7 +180,7 @@ body.iframe
 
 #rcmdraglayer
 {
-  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+  filter: alpha(opacity=70);
 }
 
 ul.toolbarmenu li

@@ -8,17 +8,13 @@
 <style type="text/css">
 <roundcube:if condition="config:preview_pane == true" />
 #mailcontframe { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-5 : 195" />px; }
-#mailpreviewframe {
-    top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px;
-    /* css hack for IE */
-    height: expression((parseInt(this.parentNode.offsetHeight)-<roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />)+'px');
+#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px;
+<roundcube:exp expression="browser:ie ? ('height: expression((parseInt(this.parentNode.offsetHeight)-'.(!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205).')+\\'px\\');') : ''" />
 }
 <roundcube:endif />
 #mailboxlist-container { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 160" />px; }
-#mailrightcontainer {
-    left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px;
-    /* css hack for IE */
-    width: expression((parseInt(this.parentNode.offsetWidth)-<roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />)+'px');
+#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px;
+<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170).')+\\'px\\');') : ''" />
 }
 </style>
 </head>
