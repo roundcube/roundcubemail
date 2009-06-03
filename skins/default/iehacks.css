@@ -195,3 +195,9 @@ ul.toolbarmenu li a
 {
   min-height: auto;
 }
+
+#console
+{
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}

@@ -401,7 +401,6 @@ table.records-table tr.unfocused td
   font-size: 11px;
   white-space: nowrap;
   opacity: 0.7;
-  -moz-opacity: 0.7;
 }
 
 a.rcmContactAddress
@@ -472,4 +471,9 @@ a.rcmContactAddress:hover
 #login-form .boxcontent
 {
   padding: 20px 10px 10px 10px;
+}
+
+#console
+{
+  opacity: 0.8;
 }
