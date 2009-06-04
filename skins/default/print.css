@@ -110,7 +110,6 @@ div.message-part div.pre
   margin: 0;
   padding: 0;
   font-family: monospace;
-  white-space: -o-pre-wrap !important;
   white-space: -moz-pre-wrap !important;
   white-space: pre-wrap !important;
   white-space: pre;

@@ -579,6 +579,7 @@ body.messagelist
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
   border-bottom: 1px solid #EBEBEB;
   cursor: default;
 }
@@ -886,7 +887,6 @@ div.message-part div.pre
   padding: 0px;
   font-family: monospace;
   white-space: -moz-pre-wrap !important;
-  white-space: -o-pre-wrap !important;
   white-space: pre-wrap !important;
   white-space: pre;
   word-wrap: break-word; /* IE (and Safari) */
