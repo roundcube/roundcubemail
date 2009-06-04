@@ -28,9 +28,19 @@
 class rcube_string_replacer
 {
   public static $pattern = '/##str_replacement\[([0-9]+)\]##/';
-
+  public $mailto_pattern;
+  public $link_pattern;
   private $values = array();
 
+
+  function __construct()
+  {
+    $url_chars = 'a-z0-9_\-\+\*\$\/&%=@#:;';
+    $url_chars_within = '\?\.~,!';
+
+    $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/i";
+    $this->mailto_pattern = "/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i";
+  }
 
   /**
    * Add a string to the internal list
@@ -64,13 +74,13 @@ class rcube_string_replacer
     $i = -1;
     $scheme = strtolower($matches[1]);
 
-    if ($scheme == 'http' || $scheme == 'https' || $scheme == 'ftp') {
-      $url = $matches[1] . '://' . $matches[2];
-      $i = $this->add(html::a(array('href' => $url, 'target' => "_blank"), Q($url)));
+    if ($scheme == 'http://' || $scheme == 'https://' || $scheme == 'ftp://') {
+      $url = $matches[1] . $matches[2];
+      $i = $this->add(html::a(array('href' => $url, 'target' => '_blank'), Q($url)));
     }
-    else if ($matches[2] == 'www.') {
-      $url = $matches[2] . $matches[3];
-      $i = $this->add($matches[1] . html::a(array('href' => 'http://' . $url, 'target' => "_blank"), Q($url)));
+    else if (preg_match('/^(\W)www\.$/', $matches[1], $m)) {
+      $url = 'www.' . $matches[2];
+      $i = $this->add($m[1] . html::a(array('href' => 'http://' . $url, 'target' => '_blank'), Q($url)));
     }
 
     return $i >= 0 ? $this->get_replacement($i) : '';
