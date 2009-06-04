@@ -212,11 +212,11 @@ else if (empty($mailto))
   $mailto = 'undisclosed-recipients:;';
 
 // get sender name and address
-$from = get_input_value('_from', RCUBE_INPUT_POST);
+$from = get_input_value('_from', RCUBE_INPUT_POST, true, $message_charset);
 $identity_arr = rcmail_get_identity($from);
 
 if (!$identity_arr && ($from = rcmail_email_input_format($from))) {
-  if (preg_match('/(<\S+@\S+)/', $from, $m))
+  if (preg_match('/(\S+@\S+)/', $from, $m))
     $identity_arr['mailto'] = $m[1];
 } else
   $from = $identity_arr['mailto'];
