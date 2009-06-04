@@ -1262,10 +1262,11 @@ function rcube_webmail()
       this.env.folder_coords = new Array();
       for (var k in model) {
         if (li = this.get_folder_li(k)) {
-          pos = $(li.firstChild).offset();
-          // only visible folders
-          if (height = li.firstChild.offsetHeight)
-            this.env.folder_coords[k] = { x1:pos.left, y1:pos.top, x2:pos.left + li.firstChild.offsetWidth, y2:pos.top + height };
+	  // only visible folders
+          if (height = li.firstChild.offsetHeight) {
+    	    pos = $(li.firstChild).offset();
+    	    this.env.folder_coords[k] = { x1:pos.left, y1:pos.top, x2:pos.left + li.firstChild.offsetWidth, y2:pos.top + height, on:0 };
+	  }
         }
       }
     }
@@ -1308,24 +1309,30 @@ function rcube_webmail()
         }
         return;
       }
-
+    
+      var last = this.env.last_folder_target;
       // over the folders
       for (var k in this.env.folder_coords) {
         pos = this.env.folder_coords[k];
-        if (this.check_droptarget(k) && ((mouse.x >= pos.x1) && (mouse.x < pos.x2) 
-            && (mouse.y >= pos.y1) && (mouse.y < pos.y2))) {
+        if ((mouse.x >= pos.x1) && (mouse.x < pos.x2) 
+            && (mouse.y >= pos.y1) && (mouse.y < pos.y2)
+	    && this.check_droptarget(k)) {
+	  if (k == last)
+	    continue; 
           $(this.get_folder_li(k)).addClass('droptarget');
           this.env.last_folder_target = k;
-        }
-        else {
+	  this.env.folder_coords[k].on = 1;
+	}
+        else if (pos.on){
+	  if (k == last)
+	    this.env.last_folder_target = null;
+	  this.env.folder_coords[k].on = 0;
           $(this.get_folder_li(k)).removeClass('droptarget');
-          if (k == this.env.last_folder_target)
-            this.env.last_folder_target = null;
-        }
+	}
       }
     }
   };
-  
+
   this.collapse_folder = function(id)
     {
     var div;
