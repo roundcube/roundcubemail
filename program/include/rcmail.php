@@ -301,10 +301,6 @@ class rcmail
     if (!($this->output instanceof rcube_template))
       $this->output = new rcube_template($this->task, $framed);
 
-    foreach (array('flag_for_deletion','read_when_deleted') as $js_config_var) {
-      $this->output->set_env($js_config_var, $this->config->get($js_config_var));
-    }
-    
     // set keep-alive/check-recent interval
     if ($keep_alive = $this->config->get('keep_alive')) {
       // be sure that it's less than session lifetime

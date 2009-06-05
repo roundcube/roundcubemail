@@ -89,6 +89,13 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
   $OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
   $OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
 
+  if ($CONFIG['flag_for_deletion'])
+    $OUTPUT->set_env('flag_for_deletion', true);
+  if ($CONFIG['read_when_deleted'])
+    $OUTPUT->set_env('read_when_deleted', true);
+  if ($CONFIG['skip_deleted'])
+    $OUTPUT->set_env('skip_deleted', true);
+	  
   if ($CONFIG['trash_mbox'])
     $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
   if ($CONFIG['drafts_mbox'])

@@ -1797,13 +1797,13 @@ function rcube_webmail()
       lock = true;
       this.set_busy(true, 'movingmessage');
       }
-    else if (!this.env.flag_for_deletion)
+    else
       this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
     this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'viewsource', 'download', false);
 
-    this._with_selected_messages('moveto', lock, add_url, (this.env.flag_for_deletion ? false : true));
+    this._with_selected_messages('moveto', lock, add_url);
     };
 
   // delete selected messages from the current mailbox
@@ -1815,9 +1815,14 @@ function rcube_webmail()
     if (!this.env.uid && !selection.length)
       return;
 
-    // if there is a trash mailbox defined and we're not currently in it:
-    if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase() != String(this.env.trash_mailbox).toLowerCase())
-      {
+    // if config is set to flag for deletion
+    if (this.env.flag_for_deletion)
+      this.mark_message('delete');
+    // if there isn't a defined trash mailbox or we are in it
+    else if (!this.env.trash_mailbox || String(this.env.mailbox).toLowerCase() == String(this.env.trash_mailbox).toLowerCase()) 
+      this.permanently_remove_messages();
+    // if there is a trash mailbox defined and we're not currently in it
+    else {
       // if shift was pressed delete it immediately
       if (this.message_list && this.message_list.shiftkey)
         {
@@ -1827,21 +1832,6 @@ function rcube_webmail()
       else
         this.move_messages(this.env.trash_mailbox);
       }
-    // if there is a trash mailbox defined but we *are* in it:
-    else if (this.env.trash_mailbox && String(this.env.mailbox).toLowerCase() == String(this.env.trash_mailbox).toLowerCase())
-      this.permanently_remove_messages();
-    // if there isn't a defined trash mailbox and the config is set to flag for deletion
-    else if (!this.env.trash_mailbox && this.env.flag_for_deletion)
-      {
-      this.mark_message('delete');
-      if (this.env.action == 'show')
-        this.command('nextmessage', '', this);
-      else if (selection.length == 1)
-        this.message_list.select_next();
-      }
-    // if there isn't a defined trash mailbox and the config is set NOT to flag for deletion
-    else if (!this.env.trash_mailbox) 
-      this.permanently_remove_messages();
   };
 
   // delete the selected messages permanently
@@ -1852,7 +1842,7 @@ function rcube_webmail()
       return;
       
     this.show_contentframe(false);
-    this._with_selected_messages('delete', false, '&_from='+(this.env.action ? this.env.action : ''), true);
+    this._with_selected_messages('delete', false, '&_from='+(this.env.action ? this.env.action : ''));
     };
 
   // Send a specifc request with UIDs of all selected messages
@@ -1872,16 +1862,7 @@ function rcube_webmail()
         {
         id = selection[n];
         a_uids[a_uids.length] = id;
-
-        if (remove)
-          this.message_list.remove_row(id, (n == selection.length-1));
-        else
-        {
-          this.set_message_status(id, 'deleted', true);
-          if (this.env.read_when_deleted)
-            this.set_message_status(id, 'unread', false);
-          this.set_message(id);
-        }
+        this.message_list.remove_row(id, (n == selection.length-1));
       }
     }
 
@@ -2029,15 +2010,29 @@ function rcube_webmail()
       uid = a_uids[i];
       if (rows[uid])
         {
-	this.set_message(uid, 'deleted', true);
         if (rows[uid].unread)
           r_uids[r_uids.length] = uid;
+
+	if (this.env.skip_deleted)
+          this.message_list.remove_row(uid, (i == this.message_list.selection.length-1));
+	else
+	  this.set_message(uid, 'deleted', true);
         }
       }
 
+    add_url = '&_from='+(this.env.action ? this.env.action : '');
+    
     if (r_uids.length)
-      add_url = '&_ruid='+r_uids.join(',');
+      add_url += '&_ruid='+r_uids.join(',');
 
+    if (this.env.skip_deleted) {
+      // also send search request to get the right messages 
+      if (this.env.search_request) 
+        add_url += '&_search='+this.env.search_request;
+      if (this.env.next_uid)
+        add_url += '&_next_uid='+this.env.next_uid;
+    }
+    
     this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag=delete'+add_url);
     return true;  
   };

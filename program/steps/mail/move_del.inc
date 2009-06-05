@@ -44,8 +44,7 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
         exit;
     }
 
-    if (!$CONFIG['flag_for_deletion'])
-        $addrows = true;
+    $addrows = true;
 }
 // delete messages 
 else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
