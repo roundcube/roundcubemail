@@ -152,6 +152,13 @@ body.iframe
   width: 99%;
 }
 
+div.message-part pre,
+div.message-htmlpart pre,
+div.message-part div.pre
+{
+  word-wrap: break-word;
+}
+
 #addressscreen
 {
   width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
