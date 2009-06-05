@@ -29,7 +29,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
   header("Content-Type: text/plain; charset={$charset}");
 
   if (!empty($_GET['_save'])) {
-    $filename = ($headers->subject ? $headers->subject : 'roundcube') . '.eml';
+    $filename = ($headers->subject ? $IMAP->decode_header($headers->subject) : 'roundcube') . '.eml';
     $browser = new rcube_browser;
     
     if ($browser->ie && $browser->ver < 7)
