@@ -90,7 +90,7 @@ init: function()
 
     // set body events
     if (this.keyboard) {
-      rcube_event.add_listener({element:document, event:'keypress', object:this, method:'key_press'});
+      rcube_event.add_listener({element:document, event:bw.opera?'keypress':'keydown', object:this, method:'key_press'});
       rcube_event.add_listener({element:document, event:'keydown', object:this, method:'key_down'});
     }
   }
@@ -680,7 +680,8 @@ key_down: function(e)
   {
     case 27:
       if (this.drag_active)
-	this.drag_mouse_up(e);
+	return this.drag_mouse_up(e);
+	
     case 40:
     case 38: 
     case 63233:
