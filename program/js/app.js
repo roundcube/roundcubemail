@@ -1310,8 +1310,6 @@ function rcube_webmail()
         return;
       }
     
-      var last = this.env.last_folder_target;
-
       // over the folders
       for (var k in this.env.folder_coords) {
         pos = this.env.folder_coords[k];
