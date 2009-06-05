@@ -321,7 +321,7 @@ class rcmail
     $this->output->set_env('task', $this->task);
     $this->output->set_env('action', $this->action);
     $this->output->set_env('comm_path', $this->comm_path);
-    $this->output->set_charset($this->config->get('charset', RCMAIL_CHARSET));
+    $this->output->set_charset(RCMAIL_CHARSET);
 
     // add some basic label to client
     $this->output->add_label('loading', 'servererror');

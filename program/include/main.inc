@@ -445,17 +445,8 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   static $js_rep_table = false;
   static $xml_rep_table = false;
 
-  $charset = rcmail::get_instance()->config->get('charset', RCMAIL_CHARSET);
-  $is_iso_8859_1 = false;
-  if ($charset == 'ISO-8859-1') {
-    $is_iso_8859_1 = true;
-  }
   if (!$enctype)
     $enctype = $OUTPUT->type;
-
-  // encode for plaintext
-  if ($enctype=='text')
-    return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
 
   // encode for HTML output
   if ($enctype=='html')
@@ -486,6 +477,14 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     return $newlines ? nl2br($out) : $out;
     }
 
+  // encode for javascript use
+  if ($enctype=='js')
+    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
+
+  // encode for plaintext
+  if ($enctype=='text')
+    return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
+
   if ($enctype=='url')
     return rawurlencode($str);
 
@@ -496,12 +495,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $xml_rep_table['&'] = '&amp;';
 
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
-      {
       $xml_rep_table[Chr($c)] = "&#$c;";
-      
-      if ($is_iso_8859_1)
-        $js_rep_table[Chr($c)] = sprintf("\\u%04x", $c);
-      }
 
     $xml_rep_table['"'] = '&quot;';
     $js_rep_table['"'] = '\\"';
@@ -512,15 +506,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   // encode for XML
   if ($enctype=='xml')
     return strtr($str, $xml_rep_table);
-
-  // encode for javascript use
-  if ($enctype=='js')
-    {
-    if ($charset!='UTF-8')
-      $str = rcube_charset_convert($str, RCMAIL_CHARSET, $charset);
-      
-    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
-    }
 
   // no encoding given -> return original string
   return $str;
