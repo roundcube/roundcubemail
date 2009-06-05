@@ -134,6 +134,7 @@ $labels['none'] = 'Anuluj';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
 $labels['unanswered'] = 'Bez odpowiedzi';
+$labels['deleted'] = 'Usunięte';
 $labels['invert'] = 'Odwróć';
 $labels['filter'] = 'Filtr';
 $labels['compact'] = 'Porządkuj';

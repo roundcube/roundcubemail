@@ -413,9 +413,8 @@ $rcmail_config['skip_deleted'] = FALSE;
 // False means that a message's read status is not affected by marking it as deleted
 $rcmail_config['read_when_deleted'] = TRUE;
 
-// When a Trash folder is not present and a message is deleted, flag 
-// the message for deletion rather than deleting it immediately.  Setting this to 
-// false causes deleted messages to be permanantly removed if there is no Trash folder
+// Set to TRUE to newer delete messages immediately
+// Use 'Purge' to remove messages marked as deleted 
 $rcmail_config['flag_for_deletion'] = FALSE;
 
 // Default interval for keep-alive/check-recent requests (in seconds)

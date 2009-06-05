@@ -51,6 +51,7 @@ $messages['errorsavingsent'] = 'Wystąpił błąd podczas zapisu wysłanej wiado
 $messages['errorsaving'] = 'Wystąpił błąd podczas zapisu!';
 $messages['errormoving'] = 'Nie można przenieść wybranej wiadomości!';
 $messages['errordeleting'] = 'Nie można usunąć wiadomości!';
+$messages['errormarking'] = 'Nie można oznaczyć wiadomości!';
 $messages['deletecontactconfirm'] = 'Czy na pewno chcesz usunąć wybrane kontakty?';
 $messages['deletemessagesconfirm'] = 'Czy na pewno chcesz usunąć wybrane wiadomości?';
 $messages['deletefolderconfirm'] = 'Czy na pewno chcesz usunąć wybrany folder?';

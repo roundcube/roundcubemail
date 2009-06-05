@@ -46,6 +46,7 @@ $messages['errorsavingsent'] = 'An error occurred while saving sent message';
 $messages['errorsaving'] = 'An error occurred while saving';
 $messages['errormoving'] = 'Could not move the message';
 $messages['errordeleting'] = 'Could not delete the message';
+$messages['errormarking'] = 'Could not mark the message';
 $messages['deletecontactconfirm'] = 'Do you really want to delete the selected contact(s)?';
 $messages['deletemessagesconfirm'] = 'Do you really want to delete the selected message(s)?';
 $messages['deletefolderconfirm'] = 'Do you really want to delete this folder?';

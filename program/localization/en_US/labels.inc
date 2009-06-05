@@ -150,6 +150,7 @@ $labels['none'] = 'None';
 $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
+$labels['deleted'] = 'Deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
 

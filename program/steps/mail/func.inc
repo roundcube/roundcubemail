@@ -1446,7 +1446,7 @@ function rcmail_send_mdn($uid)
 
 function rcmail_search_filter($attrib)
 {
-  global $OUTPUT;
+  global $OUTPUT, $CONFIG;
 
   if (!strlen($attrib['id']))
     $attrib['id'] = 'rcmlistfilter';
@@ -1466,6 +1466,8 @@ function rcmail_search_filter($attrib)
   $select_filter->add(rcube_label('unread'), 'UNSEEN');
   $select_filter->add(rcube_label('flagged'), 'FLAGGED');
   $select_filter->add(rcube_label('unanswered'), 'UNANSWERED');
+  if (!$CONFIG['skip_deleted'])
+    $select_filter->add(rcube_label('deleted'), 'DELETED');
 
   $out = $select_filter->show($_SESSION['search_filter']);
 
