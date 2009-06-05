@@ -128,7 +128,9 @@ function rcmail_url($action, $p=array(), $task=null)
  */
 function rcmail_temp_gc()
   {
-  $tmp = unslashify($CONFIG['temp_dir']);
+  $rcmail = rcmail::get_instance();
+
+  $tmp = unslashify($rcmail->config->get('temp_dir'));
   $expire = mktime() - 172800;  // expire in 48 hours
 
   if ($dir = opendir($tmp))
@@ -564,7 +566,10 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     else if (isset($_COOKIE[$fname]))
       $value = $_COOKIE[$fname];
     }
-  
+
+  if (empty($value))
+    return $value;
+
   // strip single quotes if magic_quotes_sybase is enabled
   if (ini_get('magic_quotes_sybase'))
     $value = str_replace("''", "'", $value);
@@ -723,7 +728,7 @@ function rcmail_mod_css_styles($source, $container_id)
   $replacements = new rcube_string_replacer;
   
   // ignore the whole block if evil styles are detected
-  $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entitiy_decode($source));
+  $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entity_decode($source));
   if (preg_match('/expression|behavior|url\(|import/', $stripped))
     return '/* evil! */';
 
@@ -764,22 +769,22 @@ function rcmail_mod_css_styles($source, $container_id)
  * @param string CSS content to decode
  * @return string Decoded string
  */
-function rcmail_xss_entitiy_decode($content)
+function rcmail_xss_entity_decode($content)
 {
   $out = html_entity_decode(html_entity_decode($content));
-  $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', 'rcmail_xss_entitiy_decode_callback', $out);
+  $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', 'rcmail_xss_entity_decode_callback', $out);
   $out = preg_replace('#/\*.*\*/#Um', '', $out);
   return $out;
 }
 
 
 /**
- * preg_replace_callback callback for rcmail_xss_entitiy_decode_callback
+ * preg_replace_callback callback for rcmail_xss_entity_decode_callback
  *
  * @param array matches result from preg_replace_callback
  * @return string decoded entity
  */ 
-function rcmail_xss_entitiy_decode_callback($matches)
+function rcmail_xss_entity_decode_callback($matches)
 { 
   return chr(hexdec($matches[1]));
 }
