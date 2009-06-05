@@ -477,17 +477,6 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     return $newlines ? nl2br($out) : $out;
     }
 
-  // encode for javascript use
-  if ($enctype=='js')
-    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
-
-  // encode for plaintext
-  if ($enctype=='text')
-    return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
-
-  if ($enctype=='url')
-    return rawurlencode($str);
-
   // if the replace tables for XML and JS are not yet defined
   if ($js_rep_table===false)
     {
@@ -502,6 +491,17 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $js_rep_table["'"] = "\\'";
     $js_rep_table["\\"] = "\\\\";
     }
+
+  // encode for javascript use
+  if ($enctype=='js')
+    return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
+
+  // encode for plaintext
+  if ($enctype=='text')
+    return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
+
+  if ($enctype=='url')
+    return rawurlencode($str);
 
   // encode for XML
   if ($enctype=='xml')
