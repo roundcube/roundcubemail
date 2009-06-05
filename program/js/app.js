@@ -1265,7 +1265,8 @@ function rcube_webmail()
 	  // only visible folders
           if (height = li.firstChild.offsetHeight) {
     	    pos = $(li.firstChild).offset();
-    	    this.env.folder_coords[k] = { x1:pos.left, y1:pos.top, x2:pos.left + li.firstChild.offsetWidth, y2:pos.top + height, on:0 };
+    	    this.env.folder_coords[k] = { x1:pos.left, y1:pos.top,
+		x2:pos.left + li.firstChild.offsetWidth, y2:pos.top + height, on:0 };
 	  }
         }
       }
@@ -1275,14 +1276,13 @@ function rcube_webmail()
   this.drag_end = function(e)
   {
     this.drag_active = false;
+    this.env.last_folder_target = null;
 
     // over the folders
     if (this.gui_objects.folderlist && this.env.folder_coords) {
       for (var k in this.env.folder_coords) {
-        if (k == this.env.last_folder_target) {
+        if (this.env.folder_coords[k].on)
           $(this.get_folder_li(k)).removeClass('droptarget');
-          this.env.last_folder_target = null;
-        }
       }
     }
   };
@@ -1298,36 +1298,32 @@ function rcube_webmail()
       var li, pos, mouse;
       mouse = rcube_event.get_mouse_pos(e);
       pos = this.env.folderlist_coords;
-
       mouse.y += toffset;
 
       // if mouse pointer is outside of folderlist
       if (mouse.x < pos.x1 || mouse.x >= pos.x2 || mouse.y < pos.y1 || mouse.y >= pos.y2) {
-        if (this.env.last_folder_target) {
+	if (this.env.last_folder_target) {
           $(this.get_folder_li(this.env.last_folder_target)).removeClass('droptarget');
-          this.env.last_folder_target = null;
-        }
+	  this.env.folder_coords[this.env.last_folder_target].on = 0;
+	  this.env.last_folder_target = null;
+	}
         return;
       }
     
       var last = this.env.last_folder_target;
+
       // over the folders
       for (var k in this.env.folder_coords) {
         pos = this.env.folder_coords[k];
-        if ((mouse.x >= pos.x1) && (mouse.x < pos.x2) 
-            && (mouse.y >= pos.y1) && (mouse.y < pos.y2)
+        if (mouse.x >= pos.x1 && mouse.x < pos.x2 && mouse.y >= pos.y1 && mouse.y < pos.y2
 	    && this.check_droptarget(k)) {
-	  if (k == last)
-	    continue; 
           $(this.get_folder_li(k)).addClass('droptarget');
           this.env.last_folder_target = k;
 	  this.env.folder_coords[k].on = 1;
 	}
-        else if (pos.on){
-	  if (k == last)
-	    this.env.last_folder_target = null;
+        else if (pos.on) {
+	  $(this.get_folder_li(k)).removeClass('droptarget');
 	  this.env.folder_coords[k].on = 0;
-          $(this.get_folder_li(k)).removeClass('droptarget');
 	}
       }
     }
