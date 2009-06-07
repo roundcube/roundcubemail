@@ -1,3 +1,8 @@
+body
+{
+  height: 100%;
+}
+
 html>body*#messagelist[id$="messagelist"]:not([class="none"]) { width: 99.8%; }
 html>body*#messagelist[id$="messagelist"]:not([class="none"]) tr td.flag,
 html>body*#messagelist[id$="messagelist"]:not([class="none"]) tr td.icon { width: 20px; }
