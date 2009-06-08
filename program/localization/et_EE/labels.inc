@@ -123,6 +123,7 @@ $labels['none'] = 'mitte midagi';
 $labels['unread'] = 'mitte loetud';
 $labels['flagged'] = 'Märgistatud';
 $labels['unanswered'] = 'Vastamata';
+$labels['deleted'] = 'Kustutatud';
 $labels['invert'] = 'Vaheta';
 $labels['filter'] = 'Filtreeri';
 $labels['compact'] = 'Tihenda';

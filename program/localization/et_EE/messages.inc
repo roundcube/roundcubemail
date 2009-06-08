@@ -46,6 +46,7 @@ $messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
 $messages['errorsaving'] = 'Salvestamise ajal ilmnes viga';
 $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
+$messages['errormarking'] = 'Kirja märkimine nurjus';
 $messages['deletecontactconfirm'] = 'Soovid valitud kontaktid kustutada ?';
 $messages['deletemessagesconfirm'] = 'Soovid valitud kirja(d) kustutada ?';
 $messages['deletefolderconfirm'] = 'Soovid selle kataloogi kindlasti kustutada ?';

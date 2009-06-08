@@ -11,10 +11,12 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
+|         http://www.smaldone.com.ar                                    |
 |         David Grajal Blanco <dgrabla@gmail.com>                       |
+|         http://david.grajal.net                                       |
 |         Lito Jornero <jornero@gmail.com>                              |
-|         Angel Bueno  <info@mediaiberia.com>                           |
-|          htt://www.mediaiberia.com                                    |
+|         Angel Bueno Prieto <info@mediaiberia.com>                     |
+|         http://www.mediaiberia.com                                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -25,6 +27,7 @@ $messages['loginfailed'] = 'Contraseña o nombre de usuario incorrecto';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies';
 $messages['sessionerror'] = 'Su sesión no existe o ha expirado';
 $messages['imaperror'] = 'Error de conexión con el servidor IMAP';
+$messages['servererror'] = '¡Error en el servidor!';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
 $messages['loggedout'] = 'Ha cerrado la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
@@ -43,15 +46,15 @@ $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostr
 $messages['nocontactsfound'] = 'No hay contactos';
 $messages['contactnotfound'] = 'El contacto solicitado no existe';
 $messages['sendingfailed'] = 'Error al enviar mensaje';
-$messages['senttooquickly'] = 'Por favor espere $sec seg(s). antes de mandar este mensaje';
-$messages['errorsavingsent'] = 'Un error ha ocurrido al guardar el mensaje enviado';
+$messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de mandar este mensaje';
+$messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado';
 $messages['errorsaving'] = 'Ocurrió un error mientras se guardaba';
 $messages['errormoving'] = 'No se ha podido mover el mensaje';
 $messages['errordeleting'] = 'No se ha podido eliminar el mensaje';
 $messages['deletecontactconfirm'] = '¿Realmente quiere eliminar los contactos seleccionados?';
 $messages['deletemessagesconfirm'] = '¿Realmente quiere eliminar los mensajes seleccionados?';
-$messages['deletefolderconfirm'] = '¿Está seguro de que quiere eliminar esta carpeta?';
-$messages['purgefolderconfirm'] = '¿Está seguro de que quiere eliminar todos los mensajes de esta carpeta?';
+$messages['deletefolderconfirm'] = '¿Realmente quiere eliminar esta carpeta?';
+$messages['purgefolderconfirm'] = '¿Realmente quiere eliminar todos los mensajes de esta carpeta?';
 $messages['foldercreating'] = 'Creando carpeta...';
 $messages['folderdeleting'] = 'Borrando carpeta...';
 $messages['folderrenaming'] = 'Renombrando carpeta...';
@@ -60,7 +63,7 @@ $messages['formincomplete'] = 'No ha rellenado todos los campos del formulario';
 $messages['noemailwarning'] = 'Por favor, introduzca un e-mail válido';
 $messages['nonamewarning'] = 'Por favor, introduzca su nombre';
 $messages['nopagesizewarning'] = 'Por favor, introduzca un tamaño de página';
-$messages['nosenderwarning'] = 'Por favor, introduzca el e-mail de quien envía';
+$messages['nosenderwarning'] = 'Por favor, introduzca el e-mail del emisor';
 $messages['norecipientwarning'] = 'Por favor, introduzca al menos un destinatario';
 $messages['nosubjectwarning'] = 'El campo "Asunto" está vacío. ¿Desea completarlo en este momento?';
 $messages['nobodywarning'] = '¿Quiere enviar este mensaje sin texto?';
@@ -77,7 +80,7 @@ $messages['folderdeleted'] = 'Carpeta eliminada exitosamente';
 $messages['deletedsuccessfully'] = 'Eliminado exitosamente';
 $messages['converting'] = 'Removiendo el formato del mensaje...';
 $messages['messageopenerror'] = 'No puedo descargar el mensaje del servidor';
-$messages['fileuploaderror'] = 'Fallo en la subida de archivos';
+$messages['fileuploaderror'] = 'Error al subir archivos';
 $messages['filesizeerror'] = 'El archivo excede el tamaño máximo ($size)';
 $messages['copysuccess'] = '$nr direcciones copiadas con éxito';
 $messages['copyerror'] = 'No se pudo copiar ninguna dirección';
@@ -92,10 +95,11 @@ $messages['forbiddencharacter'] = 'El nombre de la carpeta contiene un carácter
 $messages['selectimportfile'] = 'Por favor, seleccione un archivo para subir';
 $messages['addresswriterror'] = 'No se puede escribir la dirección de contacto seleccionada';
 $messages['importwait'] = 'Importando, espere...';
-$messages['importerror'] = '¡Fallo al Importar! Este archivo no es un formato válido vCard.';
+$messages['importerror'] = '¡Error al importar! Este archivo no es un formato válido vCard.';
 $messages['importconfirm'] = '<b>Se han insertado: $inserted contactos, y se han omitido: $skipped porque ya existían</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = '¡Operación no permitida!';
-$messages['nofromaddress'] = 'No se encuentra la dirección e-mail en el contacto seleccionado';
+$messages['nofromaddress'] = 'El contacto seleccionado no tiene dirección de e-mail';
 $messages['editorwarning'] = 'Cambiando a texto plano perderá el formato del mensaje. ¿Desea continuar?';
+$messages['httpreceivedencrypterror'] = 'Ha ocurrido un error fatal de configuración. Contacte inmediatamente a su administrador. <b>Su mensaje no ha sido enviado.</b>';
 
 ?>
