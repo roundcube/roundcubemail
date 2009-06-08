@@ -425,7 +425,7 @@ function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
 
       if ($newlen <= $width) {
         $string .= ($len ? ' ' : '').$line;
-        $len += ($len ? 1 : 0) + $l;
+        $len += (1 + $l);
       } else {
 	if ($l > $width) {
 	  if ($cut) {
