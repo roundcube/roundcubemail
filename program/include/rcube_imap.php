@@ -1006,6 +1006,9 @@ class rcube_imap
    */
   function _search_index($mailbox, $criteria='ALL', $charset=NULL, $sort_field=NULL)
     {
+    if ($this->skip_deleted && !preg_match('/UNDELETED/', $criteria))
+      $criteria = 'UNDELETED '.$criteria;
+
     if ($sort_field && $this->get_capability('sort'))
       {
       $charset = $charset ? $charset : $this->default_charset;
