@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Colorized signatures in plain text messages
 - Reviewed/fixed skip_deleted/read_when_deleted/flag_for_deletion options handling in UI
 - Fix displaying of big maximum upload filesize (#1485889)
 - Added possibility to invert messages selection

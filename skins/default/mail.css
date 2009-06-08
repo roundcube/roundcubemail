@@ -884,6 +884,11 @@ div.message-part div.pre
   white-space: pre;
 }
 
+div.message-part span.sig
+{
+  color: #666666;
+}
+
 div.message-part blockquote
 {
   color: blue;

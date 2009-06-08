@@ -819,7 +819,14 @@ function rcmail_print_body($part, $p = array())
     // quote plain text
     $body = Q(join("\n", $a_lines), 'replace', false);
 
-    // ... colorize quoted lines
+    // colorize signature
+    if (($sp = strrpos($body, '-- ')) !== false)
+      if (($sp == 0 || $body[$sp-1] == "\n") && $body[$sp+3] == "\n") {
+	$body = substr($body, 0, max(0, $sp))
+	    .'<span class="sig">'.substr($body, $sp).'</span>';
+      }
+
+    // colorize quoted lines
     $a_lines = preg_split('/\n/', $body);
     foreach ($q_lines as $i => $q)
       if ($q['quote'])
