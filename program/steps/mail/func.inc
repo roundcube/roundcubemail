@@ -808,7 +808,7 @@ function rcmail_print_body($part, $p = array())
         if ($q > $quote_level)
           $q_lines[$n]['quote'] = $q - $quote_level;
         else if ($q < $quote_level)
-          $eq_lines[$n]['endquote'] = $quote_level - $q;
+          $q_lines[$n]['endquote'] = $quote_level - $q;
       }
       else if ($quote_level > 0)
         $q_lines[$n]['endquote'] = $quote_level;
