@@ -278,9 +278,9 @@ function rcmail_compose_header_from($attrib)
   }
 
   // get this user's identities
-  $sql_result = $USER->list_identities();
+  $user_identities = $USER->list_identities();
 
-  if ($DB->num_rows($sql_result))
+  if (count($user_identities))
   {
     $from_id = 0;
     $a_signatures = array();
@@ -288,7 +288,7 @@ function rcmail_compose_header_from($attrib)
     $field_attrib['onchange'] = JS_OBJECT_NAME.".change_identity(this)";
     $select_from = new html_select($field_attrib);
 
-    while ($sql_arr = $DB->fetch_assoc($sql_result))
+    foreach ($user_identities as $sql_arr)
     {
       $identity_id = $sql_arr['identity_id'];
       $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);

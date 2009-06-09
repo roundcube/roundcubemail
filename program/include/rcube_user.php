@@ -135,12 +135,12 @@ class rcube_user
    * Get default identity of this user
    *
    * @param int  Identity ID. If empty, the default identity is returned
-   * @return array Hash array with all cols of the 
+   * @return array Hash array with all cols of the identity record
    */
   function get_identity($id = null)
   {
-    $sql_result = $this->list_identities($id ? sprintf('AND identity_id=%d', $id) : '');
-    return $this->db->fetch_assoc($sql_result);
+    $result = $this->list_identities($id ? sprintf('AND identity_id=%d', $id) : '');
+    return $result[0];
   }
   
   
@@ -160,7 +160,12 @@ class rcube_user
        ORDER BY ".$this->db->quoteIdentifier('standard')." DESC, name ASC, identity_id ASC",
       $this->ID);
     
-    return $sql_result;
+    $result = array();
+    while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+      $result[] = $sql_arr;
+    }
+    
+    return $result;
   }
   
   
