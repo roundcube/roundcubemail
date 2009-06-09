@@ -435,6 +435,7 @@ class rcube_template extends rcube_html_page
      */
     private function parse_with_globals($input)
     {
+        $GLOBALS['__version'] = Q(RCMAIL_VERSION);
         $GLOBALS['__comm_path'] = Q($this->app->comm_path);
         return preg_replace('/\$(__[a-z0-9_\-]+)/e', '$GLOBALS["\\1"]', $input);
     }

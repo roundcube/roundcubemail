@@ -1023,17 +1023,16 @@ function write_log($name, $line)
  * @access private
  */
 function rcube_timer()
-  {
-  list($usec, $sec) = explode(" ", microtime());
-  return ((float)$usec + (float)$sec);
-  }
+{
+  return microtime(true);
+}
   
 
 /**
  * @access private
  */
 function rcube_print_time($timer, $label='Timer')
-  {
+{
   static $print_count = 0;
   
   $print_count++;
@@ -1044,7 +1043,7 @@ function rcube_print_time($timer, $label='Timer')
     $label = 'Timer '.$print_count;
   
   console(sprintf("%s: %0.4f sec", $label, $diff));
-  }
+}
 
 
 /**
