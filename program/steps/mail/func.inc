@@ -21,7 +21,7 @@
 
 require_once('include/rcube_smtp.inc');
 
-$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})';
+$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
 
 // actions that do not require imap connection
 $NOIMAP_ACTIONS = array('spell', 'addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment');
@@ -904,7 +904,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   // get associative array of headers object
   if (!$headers)
     $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
-    
+
   // show these headers
   $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto', 'date');
   $output_headers = array();
