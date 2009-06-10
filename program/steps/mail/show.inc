@@ -98,20 +98,8 @@ if ($_GET['_uid']) {
     {
     $next = $prev = $first = $last = -1;
 
-    if ((!($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC') &&
-      $IMAP->get_capability('sort')) || !empty($_REQUEST['_search']))
-      {
-      // Only if we use custom sorting
-      $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
-
-      $MESSAGE->index = array_search($IMAP->get_id($MESSAGE->uid), $a_msg_index);
-
-      $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1 ;
-      $first = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[0]) : -1;
-      $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1 ;
-      $last = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[count($a_msg_index)-1]) : -1;
-      }
-    else
+    if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] != 'DESC'
+	&& empty($_REQUEST['_search']) && !$IMAP->skip_deleted)
       {
       // this assumes that we are sorted by date_DESC
       $cnt = $IMAP->messagecount();
@@ -122,6 +110,18 @@ if ($_GET['_uid']) {
       $first = $IMAP->get_uid($cnt);
       $next = $IMAP->get_uid($seq - 1);
       $last = $IMAP->get_uid(1);
+      }
+    else 
+      {
+      // Only if we use custom sorting
+      $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
+
+      $MESSAGE->index = array_search($IMAP->get_id($MESSAGE->uid), $a_msg_index);
+
+      $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1 ;
+      $first = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[0]) : -1;
+      $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1 ;
+      $last = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[count($a_msg_index)-1]) : -1;
       }
 
     if ($prev > 0)

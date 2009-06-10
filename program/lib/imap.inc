@@ -84,6 +84,7 @@
 		- handling connection startup response
 		- added UID EXPUNGE support
 		- fixed problem with double quotes and spaces in folder names in LIST and LSUB 
+		- rewritten iil_C_FetchHeaderIndex()
 
 ********************************************************/
 
@@ -935,28 +936,18 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	return $out;
 }
 
-function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,
-    $normalize=true) {
-	global $IMAP_USE_INTERNAL_DATE;
-	
-	$c=0;
-	$result=array();
-	$fp = $conn->fp;
-		
-	if (empty($index_field)) {
-	    $index_field = 'DATE';
-	}
-	$index_field = strtoupper($index_field);
-	
+function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='', $skip_deleted=true) {
+
 	list($from_idx, $to_idx) = explode(':', $message_set);
-	if (empty($message_set) || (isset($to_idx)
-    	    && (int)$from_idx > (int)$to_idx)) {
+	if (empty($message_set) ||
+		(isset($to_idx) && $to_idx != '*' && (int)$from_idx > (int)$to_idx)) {
 		return false;
 	}
+
+	$index_field = empty($index_field) ? 'DATE' : strtoupper($index_field);
 	
-	//$fields_a['DATE'] = ($IMAP_USE_INTERNAL_DATE?6:1);
 	$fields_a['DATE']         = 1;
-	$fields_a['INTERNALDATE'] = 6;
+	$fields_a['INTERNALDATE'] = 4;
 	$fields_a['FROM']         = 1;
 	$fields_a['REPLY-TO']     = 1;
 	$fields_a['SENDER']       = 1;
@@ -965,178 +956,107 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field,
 	$fields_a['UID']          = 2;
 	$fields_a['SIZE']         = 2;
 	$fields_a['SEEN']         = 3;
-	$fields_a['RECENT']       = 4;
-	$fields_a['DELETED']      = 5;
-	
-	$mode=$fields_a[$index_field];
-	if (!($mode > 0)) {
-	    return false;
+	$fields_a['RECENT']       = 3;
+	$fields_a['DELETED']      = 3;
+
+	if (!($mode = $fields_a[$index_field])) {
+		return false;
 	}
-    
+
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) {
-	    return false;
+		return false;
 	}
-    
-	/* FETCH date,from,subject headers */
-	if ($mode == 1) {
-		$key     = 'fhi' . ($c++);
-		$request = $key . " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ($index_field)])";
-		if (!iil_PutLine($fp, $request)) {
-		    return false;
-    		}
-		do {
-			
-			$line=chop(iil_ReadLine($fp, 200));
-			$a=explode(' ', $line);
-			if (($line[0] == '*') && ($a[2] == 'FETCH')
-            		    && ($line[strlen($line)-1] != ')')) {
-				$id=$a[1];
+	
+	// build FETCH command string
+	$key     = 'fhi0';
+	$deleted = $skip_deleted ? ' FLAGS' : '';
 
-				$str=$line=chop(iil_ReadLine($fp, 300));
+	if ($mode == 1)
+		$request = " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ($index_field)]$deleted)";
+	else if ($mode == 2) {
+		if ($index_field == 'SIZE')
+			$request = " FETCH $message_set (RFC822.SIZE$deleted)";
+		else
+			$request = " FETCH $message_set ($index_field$deleted)";
+	} else if ($mode == 3)
+		$request = " FETCH $message_set (FLAGS)";
+	else // 4
+		$request = " FETCH $message_set (INTERNALDATE$deleted)";
 
-				while ($line[0] != ')') {					//caution, this line works only in this particular case
-					$line=chop(iil_ReadLine($fp, 300));
-					if ($line[0] != ')') {
-						if (ord($line[0]) <= 32) {			//continuation from previous header line
-							$str.= ' ' . trim($line);
-						}
-						if ((ord($line[0]) > 32) || (strlen($line[0]) == 0)) {
-							list($field, $string) = iil_SplitHeaderLine($str);
-							if (strcasecmp($field, 'date') == 0) {
-								$result[$id] = iil_StrToTime($string);
-							} else {
-								$result[$id] = str_replace('"', '', $string);
-								if ($normalize) {
-								    $result[$id] = strtoupper($result[$id]);
-                            					}
-							}
-							$str=$line;
-						}
-					}
-				}
-			}
-			/*
-			$end_pos = strlen($line)-1;
-			if (($line[0]=="*") && ($a[2]=="FETCH") && ($line[$end_pos]=="}")) {
-				$id = $a[1];
-				$pos = strrpos($line, "{")+1;
-				$bytes = (int)substr($line, $pos, $end_pos-$pos);
-				$received = 0;
-				do {
-					$line      = iil_ReadLine($fp, 0);
-					$received += strlen($line);
-					$line      = chop($line);
+	$request = $key . $request;
+
+	if (!iil_PutLine($conn->fp, $request))
+		return false;
+
+	$result = array();
+
+	do {
+		$line = chop(iil_ReadLine($conn->fp, 200));
+		$line = iil_MultLine($conn->fp, $line);
+
+		if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
+
+            		$id = $m[1];
+			$flags = NULL;
 					
-					if ($received>$bytes) {
-                    				break;
-					} else if (!$line) {
-                    				continue;
+			if ($skip_deleted && preg_match('/FLAGS \(([^)]+)\)/', $line, $matches)) {
+				$flags = explode(' ', strtoupper($matches[1]));
+				if (in_array('\\DELETED', $flags)) {
+					$deleted[$id] = $id;
+					continue;
+				}
+			}
+
+			if ($mode == 1) {
+				if (preg_match('/BODY\[HEADER\.FIELDS \((DATE|FROM|REPLY-TO|SENDER|TO|SUBJECT)\)\] (.*)/', $line, $matches)) {
+					$value = preg_replace(array('/^"*[a-z]+:/i', '/\s+$/sm'), array('', ''), $matches[2]);
+					$value = trim($value);
+					if ($index_field == 'DATE') {
+						$result[$id] = iil_StrToTime($value);
+					} else {
+						$result[$id] = $value;
 					}
-
-					list($field, $string) = explode(': ', $line);
-					
-					if (strcasecmp($field, 'date') == 0) {
-						$result[$id] = iil_StrToTime($string);
-					} else if ($index_field != 'DATE') {
-						$result[$id]=strtoupper(str_replace('"', '', $string));
-                			}
-				} while ($line[0] != ')');
-			} else {
-				//one line response, not expected so ignore				
-			}
-			*/
-		} while (!iil_StartsWith($line, $key, true));
-
-	}else if ($mode == 6) {
-
-		$key     = 'fhi' . ($c++);
-		$request = $key . " FETCH $message_set (INTERNALDATE)";
-		if (!iil_PutLine($fp, $request)) {
-		    return false;
-    		}
-		do {
-			$line=chop(iil_ReadLine($fp, 200));
-			if ($line[0] == '*') {
-				/*
-				 * original:
-				 * "* 10 FETCH (INTERNALDATE "31-Jul-2002 09:18:02 -0500")"
-				 */
-				$paren_pos = strpos($line, '(');
-				$foo       = substr($line, 0, $paren_pos);
-				$a         = explode(' ', $foo);
-				$id        = $a[1];
-				
-				$open_pos  = strpos($line, '"') + 1;
-				$close_pos = strrpos($line, '"');
-				if ($open_pos && $close_pos) {
-					$len         = $close_pos - $open_pos;
-					$time_str    = substr($line, $open_pos, $len);
-					$result[$id] = strtotime($time_str);
-				}
-			} else {
-				$a = explode(' ', $line);
-			}
-		} while (!iil_StartsWith($a[0], $key, true));
-	} else {
-		if ($mode >= 3) {
-		    $field_name = 'FLAGS';
-		} else if ($index_field == 'SIZE') {
-		    $field_name = 'RFC822.SIZE';
-		} else {
-		    $field_name = $index_field;
-    		}
-        
-		/* 			FETCH uid, size, flags		*/
-		$key     = 'fhi' .($c++);
-		$request = $key . " FETCH $message_set ($field_name)";
-
-		if (!iil_PutLine($fp, $request)) {
-		    return false;
-    		}
-		do {
-			$line=chop(iil_ReadLine($fp, 200));
-			$a = explode(' ', $line);
-			if (($line[0] == '*') && ($a[2] == 'FETCH')) {
-				$line = str_replace('(', '', $line);
-				$line = str_replace(')', '', $line);
-				$a    = explode(' ', $line);
-				
-				$id = $a[1];
-
-				if (isset($result[$id])) {
-				    continue; //if we already got the data, skip forward
-				}
-            			if ($a[3]!=$field_name) {
-                			continue;  //make sure it's returning what we requested
-				}
-                
-				/*  Caution, bad assumptions, next several lines */
-				if ($mode == 2) {
-				    $result[$id] = $a[4];
 				} else {
-					$haystack    = strtoupper($line);
-					$result[$id] = (strpos($haystack, $index_field) > 0 ? "F" : "N");
+					$result[$id] = '';
+				}
+			} else if ($mode == 2) {
+				if (preg_match('/\((UID|RFC822\.SIZE) ([0-9]+)/', $line, $matches)) {
+					$result[$id] = trim($matches[2]);
+				} else {
+					$result[$id] = 0;
+				}
+			} else if ($mode == 3) {
+				if (!$flags && preg_match('/FLAGS \(([^)]+)\)/', $line, $matches)) {
+					$flags = explode(' ', $matches[1]);
+				}
+				$result[$id] = in_array('\\'.$index_field, $flags) ? 1 : 0;
+			} else if ($mode == 4) {
+				if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches)) {
+					$result[$id] = strtotime($matches[1]);
+				} else {
+					$result[$id] = 0;
 				}
 			}
-		} while (!iil_StartsWith($line, $key, true));
-	}
+		}
+	} while (!iil_StartsWith($line, $key, true));
 
+/*
 	//check number of elements...
-	list($start_mid, $end_mid) = explode(':', $message_set);
-	if (is_numeric($start_mid) && is_numeric($end_mid)) {
+	if (is_numeric($from_idx) && is_numeric($to_idx)) {
 		//count how many we should have
-		$should_have = $end_mid - $start_mid +1;
+		$should_have = $to_idx - $from_idx + 1;
 		
 		//if we have less, try and fill in the "gaps"
 		if (count($result) < $should_have) {
-			for ($i=$start_mid; $i<=$end_mid; $i++) {
+			for ($i=$from_idx; $i<=$to_idx; $i++) {
 				if (!isset($result[$i])) {
 			    		$result[$i] = '';
             			}
         		}
 		}
 	}
+*/
 	return $result;	
 }
 
@@ -1520,17 +1440,13 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 	$result = array();
 	$fp     = $conn->fp;
 	
-	list($from_idx, $to_idx) = explode(':', $message_set);
-	if (empty($message_set) || (isset($to_idx)
-		&& (int)$from_idx > (int)$to_idx)) {
-		return false;
-	}
-		
 	/*  Do "SELECT" command */
 	if (!iil_C_Select($conn, $mailbox)) {
 		$conn->error = "Couldn't select $mailbox";
 		return false;
 	}
+
+	$message_set = iil_CompressMessageSet($message_set);
 
 	if ($add)
 		$add = ' '.strtoupper(trim($add));

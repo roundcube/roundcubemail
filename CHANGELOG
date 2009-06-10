@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fixed many 'skip_deleted' issues (#1485634)
+- Fixed messages list sorting on servers without SORT capability
 - Colorized signatures in plain text messages
 - Reviewed/fixed skip_deleted/read_when_deleted/flag_for_deletion options handling in UI
 - Fix displaying of big maximum upload filesize (#1485889)
