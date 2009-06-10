@@ -281,7 +281,8 @@ td.formlinks a:visited
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #mailpreviewframe
