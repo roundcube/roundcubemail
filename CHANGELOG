@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix messages searching on MailEnable IMAP (#1485762)
 - Fixed many 'skip_deleted' issues (#1485634)
 - Fixed messages list sorting on servers without SORT capability
 - Colorized signatures in plain text messages

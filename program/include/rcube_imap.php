@@ -963,7 +963,7 @@ class rcube_imap
 
     // try search with US-ASCII charset (should be supported by server)
     // only if UTF-8 search is not supported
-    if (empty($results) && !is_array($results) && !empty($charset) && $charset!='US-ASCII')
+    if (empty($results) && !is_array($results) && !empty($charset) && $charset != 'US-ASCII')
       {
 	// convert strings to US_ASCII
         if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE))
@@ -984,7 +984,7 @@ class rcube_imap
 	else // strings for conversion not found
 	  $res = $str;
 	  
-	$results = $this->search($mbox_name, $res, 'US-ASCII', $sort_field);
+	$results = $this->search($mbox_name, $res, NULL, $sort_field);
       }
 
     $this->set_search_set($str, $results, $charset, $sort_field);
