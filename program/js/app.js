@@ -1562,7 +1562,6 @@ function rcube_webmail()
   // list messages of a specific mailbox
   this.list_mailbox = function(mbox, page, sort)
     {
-    this.last_selected = 0;
     var add_url = '';
     var target = window;
 
@@ -1578,17 +1577,20 @@ function rcube_webmail()
       add_url += '&_search='+this.env.search_request;
       
     // set page=1 if changeing to another mailbox
-    if (!page && mbox != this.env.mailbox)
+    if (!page)
       {
       page = 1;
       this.env.current_page = page;
-      if (this.message_list)
-        this.message_list.clear_selection();
       this.show_contentframe(false);
       }
     
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       add_url += '&_refresh=1';
+
+    // unselect selected messages
+    this.last_selected = 0;
+    if (this.message_list)
+      this.message_list.clear_selection();
     
     this.select_folder(mbox, this.env.mailbox);
     this.env.mailbox = mbox;
