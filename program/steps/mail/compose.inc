@@ -23,6 +23,7 @@
 define('RCUBE_COMPOSE_REPLY', 0x0106);
 define('RCUBE_COMPOSE_FORWARD', 0x0107);
 define('RCUBE_COMPOSE_DRAFT', 0x0108);
+define('RCUBE_COMPOSE_EDIT', 0x0109);
 
 $MESSAGE_FORM = NULL;
 $MESSAGE = NULL;
@@ -74,6 +75,8 @@ if ($msg_uid = $_SESSION['compose']['param']['_reply_uid'])
   $compose_mode = RCUBE_COMPOSE_REPLY;
 else if ($msg_uid = $_SESSION['compose']['param']['_forward_uid'])
   $compose_mode = RCUBE_COMPOSE_FORWARD;
+else if ($msg_uid = $_SESSION['compose']['param']['_uid'])
+  $compose_mode = RCUBE_COMPOSE_EDIT;
 else if ($msg_uid = $_SESSION['compose']['param']['_draft_uid']) {
   $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);
   $compose_mode = RCUBE_COMPOSE_DRAFT;
@@ -168,7 +171,6 @@ function rcmail_compose_headers($attrib)
     $fvalue = get_input_value($fname, RCUBE_INPUT_POST, TRUE);
   else if ($fname && !$fvalue && !empty($_SESSION['compose']['param'][$fname]))
     $fvalue = $_SESSION['compose']['param'][$fname];
-
   else if ($header && $compose_mode == RCUBE_COMPOSE_REPLY)
   {
     // get recipent address(es) out of the message headers
@@ -208,7 +210,7 @@ function rcmail_compose_headers($attrib)
       }
     }
   }
-  else if ($header && $compose_mode == RCUBE_COMPOSE_DRAFT)
+  else if ($header && in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
   {
     // get drafted headers
     if ($header=='to' && !empty($MESSAGE->headers->to))
@@ -385,7 +387,7 @@ function rcmail_compose_body($attrib)
     else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
       $body = rcmail_create_forward_body($body, $isHtml);
     // load draft message body
-    else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
+    else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT)
       $body = rcmail_create_draft_body($body, $isHtml);
   }
   else if (!empty($_SESSION['compose']['param']['_body']))
@@ -689,7 +691,7 @@ function rcmail_compose_subject($attrib)
       $subject = 'Fwd: '.$MESSAGE->subject;
   }
   // creeate a draft-subject
-  else if ($compose_mode == RCUBE_COMPOSE_DRAFT) {
+  else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
     $subject = $MESSAGE->subject;
   }
   else if (!empty($_SESSION['compose']['param']['_subject'])) {
@@ -828,8 +830,8 @@ function rcmail_receipt_checkbox($attrib)
   $checkbox = new html_checkbox($attrib);
 
   $out = $form_start ? "$form_start\n" : '';
-  $out .= $checkbox->show(
-    $compose_mode == RCUBE_COMPOSE_DRAFT && $MESSAGE->headers->mdn_to ? 1 : 0);
+  $out .= $checkbox->show(in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))
+	&& $MESSAGE->headers->mdn_to ? 1 : 0);
   $out .= $form_end ? "\n$form_end" : '';
 
   return $out;

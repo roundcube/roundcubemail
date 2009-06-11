@@ -136,6 +136,7 @@ ul.toolbarmenu li.separator_above
 #messagemenu li a
 {
   background: url('images/messageactions.png') no-repeat 1px 0;
+  background-position: 0px 20px;
 }
 
 #messagemenu li a.printlink

@@ -189,7 +189,7 @@ function rcube_webmail()
         if (this.env.action=='show' || this.env.action=='preview')
           {
           this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete',
-	    'open', 'mark', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
+	    'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
 
           if (this.env.next_uid)
             {
@@ -691,6 +691,10 @@ function rcube_webmail()
           this.load_contact(cid, 'edit');
         else if (this.task=='settings' && props)
           this.load_identity(props, 'edit-identity');
+        else if (this.task=='mail' && (cid = this.get_single_uid())) {
+	  var url = (this.env.mailbox == this.env.drafts_mailbox) ? '_draft_uid=' : '_uid=';
+          this.goto_url('compose', url+cid+'&_mbox='+urlencode(this.env.mailbox), true);
+	}
         break;
 
       case 'save-identity':
@@ -1393,12 +1397,12 @@ function rcube_webmail()
     if (this.env.mailbox == this.env.drafts_mailbox)
       {
       this.enable_command('reply', 'reply-all', 'forward', false);
-      this.enable_command('show', 'print', 'open', 'download', 'viewsource', selected);
+      this.enable_command('show', 'print', 'open', 'edit', 'download', 'viewsource', selected);
       this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
     else
       {
-      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'open', 'download', 'viewsource', selected);
+      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'edit', 'open', 'download', 'viewsource', selected);
       this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
       }
 
@@ -1803,7 +1807,7 @@ function rcube_webmail()
       this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
-    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'viewsource', 'download', false);
+    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', false);
 
     this._with_selected_messages('moveto', lock, add_url);
     };
@@ -3940,7 +3944,7 @@ function rcube_webmail()
       case 'moveto':
         if (this.env.action == 'show') {
 	  // re-enable commands on move/delete error
-	  this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'viewsource', 'download', true);
+	  this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', true);
         } else if (this.message_list)
           this.message_list.init();
         break;
@@ -3953,7 +3957,7 @@ function rcube_webmail()
             this.show_contentframe(false);
           // disable commands useless when mailbox is empty
           this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 
-	    'mark', 'viewsource', 'open', 'download', 'print', 'load-attachment', 
+	    'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment', 
 	    'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
         }
         break;
