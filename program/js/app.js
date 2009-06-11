@@ -3496,7 +3496,6 @@ function rcube_webmail()
       if ((current_li = this.get_folder_li(old))) {
         $(current_li).removeClass('selected').removeClass('unfocused');
       }
-
       if ((target_li = this.get_folder_li(name))) {
         $(target_li).removeClass('unfocused').addClass('selected');
       }
@@ -3511,7 +3510,7 @@ function rcube_webmail()
   {
     if (this.gui_objects.folderlist)
     {
-      name = String(name).replace(this.identifier_expr, '');
+      name = String(name).replace(this.identifier_expr, '_');
       return document.getElementById('rcmli'+name);
     }
 

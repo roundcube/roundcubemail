@@ -590,12 +590,12 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
 
 /**
  * Remove all non-ascii and non-word chars
- * except . and -
+ * except ., -, _
  */
-function asciiwords($str, $css_id = false)
+function asciiwords($str, $css_id = false, $replace_with = '')
 {
   $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
-  return preg_replace("/[^$allowed]/i", '', $str);
+  return preg_replace("/[^$allowed]/i", $replace_with, $str);
 }
 
 /**
@@ -1201,7 +1201,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
     }
 
     // make folder name safe for ids and class names
-    $folder_id = asciiwords($folder['id'], true);
+    $folder_id = asciiwords($folder['id'], true, '_');
     $classes = array('mailbox');
 
     // set special class for Sent, Drafts, Trash and Junk
