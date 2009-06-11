@@ -57,11 +57,10 @@ if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 			      
 
 // fetch message headers
-if ($IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))
+if ($count = $IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))
   $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
 
-$count = $IMAP->messagecount($mbox_name);
-$unseen = $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_REQUEST['_refresh']));
+$unseen = $count ? $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_REQUEST['_refresh'])) : 0;
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);
