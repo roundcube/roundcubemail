@@ -29,6 +29,14 @@ $a_flags_map = array(
 if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_value('_flag', RCUBE_INPUT_POST)))
 {
   $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
+
+  if ($flag == 'DELETED' && $CONFIG['skip_deleted'] && $_POST['_from'] != 'show') {
+    // count messages before changing anything
+    $old_count = $IMAP->messagecount();
+    $old_pages = ceil($old_count / $IMAP->page_size);
+    $count = sizeof(explode(',', $uids));
+  }
+
   $marked = $IMAP->set_flag($uids, $flag);
   
   if ($marked == -1) {
@@ -59,10 +67,6 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       else
 	$OUTPUT->command('command', 'list');
     } else {
-      // count messages before changing anything
-      $old_count = $IMAP->messagecount();
-      $old_pages = ceil($old_count / $IMAP->page_size);
-
       // refresh saved search set after moving some messages
       if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set) {
         $_SESSION['search'][$search_request] = $IMAP->refresh_search();
