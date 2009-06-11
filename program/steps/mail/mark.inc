@@ -91,9 +91,8 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
 
       // update mailboxlist
       $mbox = $IMAP->get_mailbox_name();
-      $OUTPUT->command('set_unread_count', $mbox, $IMAP->messagecount($mbox, 'UNSEEN'), ($mbox == 'INBOX'));
-
-//      $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
+      $unseen_count = $msg_count ? $IMAP->messagecount($mbox, 'UNSEEN') : 0;
+      $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
       // add new rows from next page (if any)

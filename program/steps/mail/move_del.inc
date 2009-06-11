@@ -101,7 +101,8 @@ else
 
   // update mailboxlist
   $mbox = $IMAP->get_mailbox_name();
-  $OUTPUT->command('set_unread_count', $mbox, $IMAP->messagecount($mbox, 'UNSEEN'), ($mbox == 'INBOX'));
+  $unseen_count = $msg_count ? $IMAP->messagecount($mbox, 'UNSEEN') : 0;
+  $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
 
   if ($RCMAIL->action=='moveto' && $target) {
     $OUTPUT->command('set_unread_count', $target, $IMAP->messagecount($target, 'UNSEEN'));
