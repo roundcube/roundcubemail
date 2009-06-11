@@ -85,6 +85,8 @@ else if ($msg_uid = $_SESSION['compose']['param']['_draft_uid']) {
 if (!empty($msg_uid))
 {
   // similar as in program/steps/mail/show.inc
+  // re-set 'prefer_html' to have possibility to use html part for compose
+  $CONFIG['prefer_html'] = $CONFIG['htmleditor'];
   $MESSAGE = new rcube_message($msg_uid);
   
   if (!empty($MESSAGE->headers->charset))
