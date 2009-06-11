@@ -50,7 +50,10 @@ if ($_GET['_uid']) {
     .intval($MESSAGE->headers->mdn_sent)
     .intval($MESSAGE->is_safe)
     .(!empty($MESSAGE->attachments) ? intval($CONFIG['inline_images']) : '')
-    .intval($PRINT_MODE));
+    .intval($PRINT_MODE)
+    .$_SESSION['sort_col'].$_SESSION['sort_order']
+    .$IMAP->messagecount($mbox_name, 'ALL', true)
+    );
 
   // allow caching, unless remote images are present
   if ((bool)$MESSAGE->is_safe)

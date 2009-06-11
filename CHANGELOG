@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix message Etag generation for counter issues (#1485623)
 - Fix messages searching on MailEnable IMAP (#1485762)
 - Fixed many 'skip_deleted' issues (#1485634)
 - Fixed messages list sorting on servers without SORT capability
