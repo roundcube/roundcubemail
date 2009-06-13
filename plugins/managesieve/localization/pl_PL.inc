@@ -1,5 +1,6 @@
 <?php
 
+$labels = array();
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Zarządzaj filtrami wiadomości przychodzących';
 $labels['filtername'] = 'Nazwa filtru';
