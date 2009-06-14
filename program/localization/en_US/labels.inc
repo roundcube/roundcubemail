@@ -168,10 +168,11 @@ $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 
 $labels['openinextwin'] = 'Open in new window';
-$labels['emlsave'] = 'Save (.eml)';
+$labels['emlsave'] = 'Download (.eml)';
 
 // message compose
 $labels['compose']        = 'Compose a message';
+$labels['editasnew']      = 'Edit as new';
 $labels['savemessage']    = 'Save this draft';
 $labels['sendmessage']    = 'Send now';
 $labels['addattachment']  = 'Attach a file';

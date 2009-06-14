@@ -159,6 +159,11 @@ ul.toolbarmenu li.separator_above
   background-position: 1px -53px;
 }
 
+#messagemenu li a.editlink
+{
+  background-position: 1px -71px;
+}
+
 #markmessagemenu a.readlink
 {
   background: url('images/icons/dot.png') no-repeat 2px;

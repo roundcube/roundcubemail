@@ -138,6 +138,7 @@ $labels['msgtext'] = 'Nachricht';
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Lokal speichern (.eml)';
 $labels['compose'] = 'Neue Nachricht verfassen';
+$labels['editasnew'] = 'Als neue Nachricht öffnen';
 $labels['savemessage'] = 'Nachricht speichern';
 $labels['sendmessage'] = 'Nachricht jetzt senden';
 $labels['addattachment'] = 'Datei anfügen';
