@@ -8,13 +8,13 @@
 <style type="text/css">
 <roundcube:if condition="config:preview_pane == true" />
 #mailcontframe { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-5 : 195" />px; }
-#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px;
-<roundcube:exp expression="browser:ie ? ('height: expression((parseInt(this.parentNode.offsetHeight)-'.(!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205).')+\\'px\\');') : ''" />
+#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 225" />px;
+<roundcube:exp expression="browser:ie ? ('height: expression((parseInt(this.parentNode.offsetHeight)-'.(!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+25 : 245).')+\\'px\\');') : ''" />
 }
 <roundcube:endif />
-#mailboxlist-container { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 160" />px; }
-#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px;
-<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170).')+\\'px\\');') : ''" />
+#mailleftcontainer { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 170" />px; }
+#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180" />px;
+<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180).')+\\'px\\');') : ''" />
 }
 </style>
 </head>
@@ -24,19 +24,26 @@
 <roundcube:include file="/includes/header.html" />
 
 <div id="mainscreen">
-
+<div id="mailleftcontainer">
 <div id="mailboxlist-container">
 <h3 id="mailboxlist-header"><roundcube:label name="mailboxlist" /></h3>
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" />
 </div>
 
 <script type="text/javascript">
-  var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailboxlist-container', p2: 'mailrightcontainer', orientation: 'v', relative: true, start: 165});
+  var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailleftcontainer', p2: 'mailrightcontainer', orientation: 'v', relative: true, start: 165});
   rcmail.add_onload('mailviewsplitv.init()');
 </script>
 
-<div id="mailrightcontainer">
+<div id="mailboxcontrols">
+  <roundcube:label name="folder" />:&nbsp;
+  <roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
+  <roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
+</div>
+</div>
 
+<div id="mailrightcontainer">
+<div id="mailrightcontent">
 <div id="mailcontframe">
 <roundcube:object name="messages"
   id="messagelist"
@@ -66,46 +73,38 @@
 </div>
 
 <roundcube:endif />
-
-</div>
-
 </div>
 
 <div id="mailfooter">
-<table cellpadding="1" cellspacing="0">
-<tr>
-<td width="99%">
-<span id="mailboxcontrols">
-<roundcube:label name="folder" />:&nbsp;
-<roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
-<roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
-</span>
-<span id="listcontrols">
-<roundcube:label name="select" />:&nbsp;
-<roundcube:button command="select-all" label="all" classAct="active" />&nbsp;
-<roundcube:button command="select-all" prop="unread" label="unread" classAct="active" />&nbsp;
-<roundcube:button command="select-all" prop="invert" label="invert" classAct="active" />&nbsp;
-<roundcube:button command="select-none" label="none" classAct="active" /> &nbsp;
-<roundcube:container name="listcontrols" id="listcontrols" />
-</span>
-<roundcube:if condition="env:quota" />
-<span id="quotabox">
-<roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" />
-</span>
-<roundcube:endif />
-</td>
-<td width="1%">
-<span id="countcontrols">
-<roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
-<roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
-&nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
-<roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
-<roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
-</span>
-</td>
-</tr>
-</table>
+<table cellpadding="1" cellspacing="0"><tr>
+  <td width="90%">
+    <span id="listcontrols">
+      <roundcube:label name="select" />:&nbsp;
+      <roundcube:button command="select-all" label="all" classAct="active" />&nbsp;
+      <roundcube:button command="select-all" prop="unread" label="unread" classAct="active" />&nbsp;
+      <roundcube:button command="select-all" prop="invert" label="invert" classAct="active" />&nbsp;
+      <roundcube:button command="select-none" label="none" classAct="active" /> &nbsp;
+      <roundcube:container name="listcontrols" id="listcontrols" />
+    </span>
+  <roundcube:if condition="env:quota" />
+    <span id="quotabox"><roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" /></span>
+  <roundcube:endif />
+  </td>
+  <td width="10%">
+    <span id="countcontrols">
+      <roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
+      <roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
+      &nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
+      <roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
+      <roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
+    </span>
+  </td>
+</tr></table>
 </div>
+
+</div>
+</div>
+
 
 <div id="messagetoolbar">
 <roundcube:button command="checkmail" imageSel="/images/buttons/inbox_sel.png" imageAct="/images/buttons/inbox_act.png" imagePas="/images/buttons/inbox_pas.png" width="32" height="32" title="checkmail" />
@@ -115,8 +114,8 @@
 <roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
 <roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
 <roundcube:button name="markreadbutton" id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" />
-<roundcube:button name="messagemenulink" id="messagemenulink" image="/images/buttons/actions_act.png" width="34" height="32" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" />
 <roundcube:container name="toolbar" id="messagetoolbar" />
+<roundcube:button name="messagemenulink" id="messagemenulink" image="/images/buttons/actions_act.png" width="34" height="32" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" />
 
 <div id="markmessagemenu">
   <ul class="toolbarmenu">

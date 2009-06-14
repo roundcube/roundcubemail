@@ -11,7 +11,7 @@ img
 #message div.confirmation,
 #remote-objects-message
 {
-  background-image: url(images/display/icons.gif);
+  background-image: url('images/display/icons.gif');
 }
 
 ul.toolbarmenu li

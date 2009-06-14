@@ -28,8 +28,9 @@
 
 #messagetoolbar select.mboxlist
 {
-  position: absolute;
-  top: 8px;
+  position: relative;
+  margin: 0 8px;
+  top: -12px;
 }
 
 #messagetoolbar select.mboxlist option
@@ -229,8 +230,7 @@ td.formlinks a:visited
   text-decoration: underline;
 }
 
-#listcontrols,
-#mailboxcontrols
+#listcontrols
 {
   padding-right: 2em;
 }
@@ -238,10 +238,10 @@ td.formlinks a:visited
 #messagecountbar
 {
   position: absolute;
-  bottom: 16px;
-  right: 20px;
+  bottom: 0px;
+  right: 0px;
   width: 300px;
-  height: 20px;
+  height: 16px;
   text-align: right;
   white-space: nowrap;
 }
@@ -252,13 +252,22 @@ td.formlinks a:visited
   color: #333333;
 }
 
-#mainscreen 
+#mainscreen
 {
   position: absolute;
   top: 85px;
   right: 20px;
-  bottom: 40px;
+  bottom: 16px;
   left: 20px;
+}
+
+#mailleftcontainer
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 170px;
 }
 
 #mailrightcontainer
@@ -268,6 +277,15 @@ td.formlinks a:visited
   left: 170px;
   bottom: 0px;
   right: 0px;
+}
+
+#mailrightcontent
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 20px;
 }
 
 #messagepartcontainer
@@ -287,6 +305,7 @@ td.formlinks a:visited
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
+  overflow: auto;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -365,8 +384,8 @@ td.formlinks a:visited
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 160px;
-  bottom: 0px;
+  width: 100%;
+  bottom: 20px;
   border: 1px solid #999;
   background-color: #F9F9F9;
   overflow: auto;
@@ -496,14 +515,13 @@ td.formlinks a:visited
   font-weight: normal;
 }
 
-
 #mailfooter
 {
   position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 18px;
-  height: 20px;
+  left: 0px;
+  bottom: 0px;
+  height: 16px;
+  width: 100%;
 }
 
 #mailfooter table tr td
@@ -512,7 +530,16 @@ td.formlinks a:visited
   vertical-align: bottom;
 }
 
-#mailboxcontrols,
+#mailboxcontrols
+{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  height: 16px;
+  width: auto;
+  font-size: 11px;
+}
+
 #listcontrols,
 #countcontrols,
 #quotabox
@@ -539,7 +566,7 @@ body.messagelist
 
 #messagelist thead tr td
 {
-  height: 20px;
+  height: 19px;
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 2px;
@@ -728,9 +755,9 @@ body.messagelist
 {
   position: absolute;
   top: 0px;
-  left: 170px;
+  left: 180px;
   right: 0px;
-  bottom: 0px;
+  bottom: 20px;
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
