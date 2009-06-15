@@ -725,7 +725,6 @@ function rcmail_compose_attachment_list($attrib)
         'src' => $CONFIG['skin_path'] . $attrib['deleteicon'],
         'alt' => rcube_label('delete')
       ));
-      $_SESSION['compose']['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
     }
     else
       $button = Q(rcube_label('delete'));
@@ -743,6 +742,9 @@ function rcmail_compose_attachment_list($attrib)
           $button) . Q($a_prop['name']));
     }
   }
+
+  if ($attrib['deleteicon'])
+    $_SESSION['compose']['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
 
   $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);
     
