@@ -121,7 +121,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
 }
 
 // end session
-else if (($RCMAIL->task=='logout' || $RCMAIL->action=='logout') && isset($_SESSION['user_id'])) {
+else if ($RCMAIL->task=='logout' && isset($_SESSION['user_id'])) {
   $OUTPUT->show_message('loggedout');
   $RCMAIL->logout_actions();
   $RCMAIL->kill_session();

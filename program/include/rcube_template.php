@@ -969,7 +969,7 @@ class rcube_template extends rcube_html_page
         
         // save original url
         $url = get_input_value('_url', RCUBE_INPUT_POST);
-        if (empty($url) && !preg_match('/_action=logout/', $_SERVER['QUERY_STRING']))
+        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
             $url = $_SERVER['QUERY_STRING'];
 
         $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30) + $attrib);

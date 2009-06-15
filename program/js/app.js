@@ -367,9 +367,6 @@ function rcube_webmail()
         break;
       }
 
-    // enable basic commands
-    this.enable_command('logout', true);
-
     // flag object as complete
     this.loaded = true;
 
@@ -551,14 +548,11 @@ function rcube_webmail()
           this.gui_objects.loginform.submit();
         break;
 
-      case 'logout':
-        this.goto_url('logout', '', true);
-        break;
-
       // commands to switch task
       case 'mail':
       case 'addressbook':
       case 'settings':
+      case 'logout':
         this.switch_task(command);
         break;
 
