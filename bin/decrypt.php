@@ -59,11 +59,6 @@ if (php_sapi_name() != 'cli') {
 define('INSTALL_PATH', realpath(dirname(__FILE__).'/..') . '/');
 require INSTALL_PATH . 'program/include/iniset.php';
 
-$config = new rcube_config();
-if (!$config->get('http_received_header_encrypt')) {
-	die("http_received_header_encrypt is not configured\n");
-}
-
 if ($argc < 2) {
 	die("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
 }
