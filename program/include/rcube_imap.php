@@ -1963,7 +1963,7 @@ class rcube_imap
   /**
    * Remove mailboxes from server
    *
-   * @param string Mailbox name
+   * @param string Mailbox name(s) string/array
    * @return boolean True on success
    */
   function delete_mailbox($mbox_name)
@@ -1987,9 +1987,11 @@ class rcube_imap
 
         // send delete command to server
         $result = iil_C_DeleteFolder($this->conn, $mailbox);
-        if ($result>=0)
+        if ($result >= 0) {
           $deleted = TRUE;
-
+          $this->clear_message_cache($mailbox.'.msg');
+	  }
+	  
         foreach ($all_mboxes as $c_mbox)
           {
           $regex = preg_quote($mailbox . $this->delimiter, '/');
@@ -1998,18 +2000,17 @@ class rcube_imap
             {
             iil_C_UnSubscribe($this->conn, $c_mbox);
             $result = iil_C_DeleteFolder($this->conn, $c_mbox);
-            if ($result>=0)
+            if ($result >= 0) {
               $deleted = TRUE;
-            }
+    	      $this->clear_message_cache($c_mbox.'.msg');
+              }
+	    }
           }
         }
 
     // clear mailboxlist cache
     if ($deleted)
-      {
-      $this->clear_message_cache($mailbox.'.msg');
       $this->clear_cache('mailboxes');
-      }
 
     return $deleted;
     }
