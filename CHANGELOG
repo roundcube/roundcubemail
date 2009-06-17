@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fixed filename encoding according to RFC2231 (#1485875)
 - Added message Edit feature (#1483891, #1484440)
 - Fix message Etag generation for counter issues (#1485623)
 - Fix messages searching on MailEnable IMAP (#1485762)

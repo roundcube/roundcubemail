@@ -186,7 +186,7 @@ class Mail_mimePart {
         if (isset($contentType['type'])) {
             $headers['Content-Type'] = $contentType['type'];
 	    if (isset($contentType['charset'])) {
-                $headers['Content-Type'] .= "; charset=\"{$contentType['charset']}\"";
+                $headers['Content-Type'] .= " charset={$contentType['charset']};";
             }
             if (isset($contentType['name'])) {
                 $headers['Content-Type'] .= ';' . MAIL_MIMEPART_CRLF;
@@ -397,29 +397,36 @@ class Mail_mimePart {
      */
     function _buildHeaderParam($name, $value, $charset=NULL, $language=NULL, $paramEnc=NULL, $maxLength=78)
     {
-        // RFC 2183/2184/2822: 
+        // RFC 2045: 
 	// value needs encoding if contains non-ASCII chars or is longer than 78 chars
         if (!preg_match('#[^\x20-\x7E]#', $value)) { // ASCII
-	    $quoted = addcslashes($value, '\\"');
-	    if (strlen($name) + strlen($quoted) + 6 <= $maxLength)
-		return " {$name}=\"{$quoted}\"; ";
+	    // token
+    	    if (!preg_match('#([^\x21,\x23-\x27,\x2A,\x2B,\x2D,\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#', $value)) {
+		if (strlen($name) + strlen($value) + 3 <= $maxLength)
+		    return " {$name}={$value};";
+	    } else { // quoted-string
+		$quoted = addcslashes($value, '\\"');
+		if (strlen($name) + strlen($quoted) + 5 <= $maxLength)
+		    return " {$name}=\"{$quoted}\";";
+	    }
 	}
 
-	// use quoted-printable/base64 encoding (RFC2047)
+	// RFC2047: use quoted-printable/base64 encoding
 	if ($paramEnc == 'quoted-printable' || $paramEnc == 'base64')
 	    return $this->_buildRFC2047Param($name, $value, $charset, $paramEnc);
 
-        $encValue = preg_replace('#([^\x20-\x7E])#e', '"%" . strtoupper(dechex(ord("\1")))', $value);
+	// RFC2231:
+        $encValue = preg_replace('#([^\x21,\x23,\x24,\x26,\x2B,\x2D,\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#e',
+			'"%" . strtoupper(dechex(ord("\1")))', $value);
         $value = "$charset'$language'$encValue";
 
-        $header = " {$name}*=\"{$value}\"; ";
+        $header = " {$name}*={$value};";
         if (strlen($header) <= $maxLength) {
             return $header;
         }
 
-        $preLength = strlen(" {$name}*0*=\"");
-        $sufLength = strlen("\";");
-        $maxLength = max(16, $maxLength - $preLength - $sufLength - 2);
+        $preLength = strlen(" {$name}*0*=");
+        $maxLength = max(16, $maxLength - $preLength - 3);
         $maxLengthReg = "|(.{0,$maxLength}[^\%][^\%])|";
 
         $headers = array();
@@ -428,11 +435,11 @@ class Mail_mimePart {
             $matches = array();
             $found = preg_match($maxLengthReg, $value, $matches);
             if ($found) {
-                $headers[] = " {$name}*{$headCount}*=\"{$matches[0]}\"";
+                $headers[] = " {$name}*{$headCount}*={$matches[0]}";
                 $value = substr($value, strlen($matches[0]));
             } else {
-                $headers[] = " {$name}*{$headCount}*=\"{$value}\"";
-                $value = "";
+                $headers[] = " {$name}*{$headCount}*={$value}";
+                $value = '';
             }
             $headCount++;
         }
