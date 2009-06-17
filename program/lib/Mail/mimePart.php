@@ -186,7 +186,7 @@ class Mail_mimePart {
         if (isset($contentType['type'])) {
             $headers['Content-Type'] = $contentType['type'];
 	    if (isset($contentType['charset'])) {
-                $headers['Content-Type'] .= " charset={$contentType['charset']};";
+                $headers['Content-Type'] .= " charset={$contentType['charset']} ";
             }
             if (isset($contentType['name'])) {
                 $headers['Content-Type'] .= ';' . MAIL_MIMEPART_CRLF;
