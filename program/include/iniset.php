@@ -58,7 +58,7 @@ if  (isset($_SERVER['HTTPS'])) {
 }
 ini_set('session.name', 'roundcube_sessid');
 ini_set('session.use_cookies', 1);
-ini_set('session.only_use_cookies', 1);
+ini_set('session.use_only_cookies', 1);
 set_magic_quotes_runtime(0);
 
 // increase maximum execution time for php scripts
