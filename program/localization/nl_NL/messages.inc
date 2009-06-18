@@ -11,7 +11,8 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Mark Moses <mark@katmoda.com>                                 |
-|         Lazlo Westerhof <roundcube@lazlo.me>                          |
+|         Lazlo Westerhof <roundcube@lazlo.me>                        	|
+|         Frits Letteboer <f.letteboer@radiotwenterand.nl>              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -47,6 +48,7 @@ $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan va
 $messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan';
 $messages['errormoving'] = 'Kan het bericht niet verplaatsen';
 $messages['errordeleting'] = 'Kan het bericht niet verwijderen';
+$messages['errormarking'] = 'Kon bericht niet markeren';
 $messages['deletecontactconfirm'] = 'Weet u zeker dat u de geselecteerde contactperso(o)n/en wilt verwijderen?';
 $messages['deletemessagesconfirm'] = 'Weet u zeker dat u de geselecteerde bericht(en) wilt verwijderen?';
 $messages['deletefolderconfirm'] = 'Weet u zeker dat u deze map wilt verwijderen?';

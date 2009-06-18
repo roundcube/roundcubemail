@@ -22,6 +22,7 @@ $messages['loginfailed'] = 'Gagal masuk';
 $messages['cookiesdisabled'] = 'Browser Anda tidak menerima cookies';
 $messages['sessionerror'] = 'Session Anda invalid atau kadaluwarsa';
 $messages['imaperror'] = 'Koneksi ke IMAP server gagal';
+$messages['servererror'] = 'Server Error!';
 $messages['nomessagesfound'] = 'Surat tidak ditemukan di kotak masuk ini';
 $messages['loggedout'] = 'Anda berhasil mengakhiri session. Selamat Tinggal!';
 $messages['mailboxempty'] = 'Kotak masuk kosong';
@@ -45,6 +46,7 @@ $messages['errorsavingsent'] = 'Error ketika menyimpan pesan terkirim';
 $messages['errorsaving'] = 'Error ketika menyimpan';
 $messages['errormoving'] = 'Pesan tidak bisa dipindahkan';
 $messages['errordeleting'] = 'Pesan tidak bisa dihapus';
+$messages['errormarking'] = 'Tidak dapat menandai pesan';
 $messages['deletecontactconfirm'] = 'Apakah anda yakin untuk menghapus kontak terpilih?';
 $messages['deletemessagesconfirm'] = 'Yakin menghapus pesan terpilih?';
 $messages['deletefolderconfirm'] = 'Apakah anda benar-benar ingin menghapus map ini?';
@@ -94,5 +96,6 @@ $messages['importconfirm'] = '<b>Berhasil mengimpor $inserted kontak, $skipped e
 $messages['opnotpermitted'] = 'Operasi tidak diperbolehkan!';
 $messages['nofromaddress'] = 'kekurangan alamat e-mail pada identitas terpilih';
 $messages['editorwarning'] = 'Beralih pada editor teks murni akan mengakibatkan semua pemformatan teks hilang. Lanjutkan?';
+$messages['httpreceivedencrypterror'] = 'Terjadi sebuah kesalahan pengaturan. Segera hubungi administrator Anda. <b> Pesan Anda tidak bisa terkirim.</b>';
 
 ?>

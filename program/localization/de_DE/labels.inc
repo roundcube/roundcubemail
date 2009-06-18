@@ -123,6 +123,7 @@ $labels['none'] = 'Keine';
 $labels['unread'] = 'Ungelesene';
 $labels['flagged'] = 'Markierte';
 $labels['unanswered'] = 'Unbeantwortete';
+$labels['deleted'] = 'Gelöschte';
 $labels['invert'] = 'Invertieren';
 $labels['filter'] = 'Filter';
 $labels['compact'] = 'Packen';

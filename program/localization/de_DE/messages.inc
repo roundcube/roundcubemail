@@ -46,6 +46,7 @@ $messages['errorsavingsent'] = 'Ein Fehler ist beim Speichern der gesendeten Nac
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 $messages['errormoving'] = 'Nachricht konnte nicht verschoben werden';
 $messages['errordeleting'] = 'Nachricht konnte nicht gelöscht werden';
+$messages['errormarking'] = 'Nachricht konnte nicht markiert werden';
 $messages['deletecontactconfirm'] = 'Wollen Sie die ausgewählten Kontakte wirklich löschen?';
 $messages['deletemessagesconfirm'] = 'Wollen Sie die ausgewählten Nachrichten wirklich löschen?';
 $messages['deletefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich löschen?';

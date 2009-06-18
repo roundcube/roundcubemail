@@ -139,6 +139,7 @@ $labels['msgtext'] = 'Kogu kirjast';
 $labels['openinextwin'] = 'Ava uues aknas';
 $labels['emlsave'] = 'Salvesta (.eml)';
 $labels['compose'] = 'Koosta kiri';
+$labels['editasnew'] = 'Muuda uuena';
 $labels['savemessage'] = 'Salvesta see mustand';
 $labels['sendmessage'] = 'Saada kiri kohe';
 $labels['addattachment'] = 'Lisa fail';

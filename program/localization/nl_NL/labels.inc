@@ -13,6 +13,7 @@
 | Author: Mark Moses <mark@katmoda.com>                                 |
 |         Lazlo Westerhof <roundcube@lazlo.me>                          |
 |         Laurens Vets <laurens@daemon.be>                              |
+|         Frits Letteboer <f.letteboer@radiotwenterand.nl>              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -125,6 +126,8 @@ $labels['none'] = 'Geen';
 $labels['unread'] = 'Ongelezen';
 $labels['flagged'] = 'Geselecteerd';
 $labels['unanswered'] = 'Onbeantwoord';
+$labels['deleted'] = 'Verwijderd';
+$labels['invert'] = 'Selectie omdraaien';
 $labels['filter'] = 'Filter';
 $labels['compact'] = 'Opschonen';
 $labels['empty'] = 'Legen';
@@ -139,6 +142,7 @@ $labels['msgtext'] = 'Gehele bericht';
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
 $labels['compose'] = 'Nieuw bericht aanmaken';
+$labels['editasnew'] = 'Als nieuw bewerken';
 $labels['savemessage'] = 'Bewaar als concept';
 $labels['sendmessage'] = 'Verstuur het bericht nu';
 $labels['addattachment'] = 'Voeg een bijlage toe';

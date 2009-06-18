@@ -32,6 +32,7 @@ $rcube_languages = array(
   'bs_BA' => 'Bosnian (Serbian Latin)',
   'bg_BG' => 'Bulgarian',
   'bn_BD' => 'Bengali',
+  'br'	  => 'Brezhoneg',
   'ca_ES' => 'Català',
   'cy_GB' => 'Cymraeg',
   'zh_CN' => 'Chinese (Simplified)',

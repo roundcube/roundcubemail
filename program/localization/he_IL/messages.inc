@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  22052009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  17062009                |
 +-----------------------------------------------------------------------+
 
 */
@@ -45,6 +45,7 @@ $messages['errorsavingsent'] = 'נגרמה שגיאה במהלך שמירת הה
 $messages['errorsaving'] = 'נגרמה שגיאה במהלך השמירה';
 $messages['errormoving'] = 'לא ניתן לתייק את ההודעה';
 $messages['errordeleting'] = 'לא ניתן למחוק את ההודעה';
+$messages['errormarking'] = 'לא ניתן לסמן ההודעה';
 $messages['deletecontactconfirm'] = 'האם למחוק את איש הקשר?';
 $messages['deletemessagesconfirm'] = 'האם למחוק את ההודעות המסומנות?';
 $messages['deletefolderconfirm'] = 'האם למחוק תיק זה?';

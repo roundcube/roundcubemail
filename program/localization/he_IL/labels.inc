@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  22052009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  17062009                |
 +-----------------------------------------------------------------------+
 */
 
@@ -114,12 +114,15 @@ $labels['markread'] = 'כנקראו';
 $labels['markunread'] = 'כלא נקראו';
 $labels['markflagged'] = 'כמסומן';
 $labels['markunflagged'] = 'כלא מסומן';
+$labels['messageactions'] = 'פעולות נוספות';
 $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
 $labels['unread'] = 'לא נקראו';
 $labels['flagged'] = 'מסומן';
 $labels['unanswered'] = 'לא נענה';
+$labels['deleted'] = 'נמחק';
+$labels['invert'] = 'היפוך הסימון';
 $labels['filter'] = 'סינון';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
@@ -132,7 +135,9 @@ $labels['resetsearch'] = 'ניקוי תיבת החיפוש';
 $labels['searchmod'] = 'מאפייני חיפוש';
 $labels['msgtext'] = 'כל ההודעה';
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
+$labels['emlsave'] = 'הורדת הודעה בפורמט  EML';
 $labels['compose'] = 'כתיבת הודעה';
+$labels['editasnew'] = 'עריכת ההודעה כחדשה';
 $labels['savemessage'] = 'שמירת טיוטה';
 $labels['sendmessage'] = 'משלוח מיידי';
 $labels['addattachment'] = 'צירוף קובץ';

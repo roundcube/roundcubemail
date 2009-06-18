@@ -48,6 +48,7 @@ $messages['errorsavingsent'] = 'Ett fel inträffade när det skickade meddelande
 $messages['errorsaving'] = 'Meddelandet kunde inte sparads';
 $messages['errormoving'] = 'Meddelandet kunde inte flyttas';
 $messages['errordeleting'] = 'Meddelandet kunde inte raderas';
+$messages['errormarking'] = 'Meddelandet kunde inte markeras';
 $messages['deletecontactconfirm'] = 'Vill du verkligen radera valda kontakter?';
 $messages['deletemessagesconfirm'] = 'Vill du verkligen ta bort valda meddelanden?';
 $messages['deletefolderconfirm'] = 'Vill du verkligen radera den här katalogen?';
