@@ -1263,12 +1263,12 @@ function rcube_webmail()
       this.env.folder_coords = new Array();
       for (var k in model) {
         if (li = this.get_folder_li(k)) {
-	  // only visible folders
+          // only visible folders
           if (height = li.firstChild.offsetHeight) {
-    	    pos = $(li.firstChild).offset();
-    	    this.env.folder_coords[k] = { x1:pos.left, y1:pos.top,
-		x2:pos.left + li.firstChild.offsetWidth, y2:pos.top + height, on:0 };
-	  }
+            pos = $(li.firstChild).offset();
+            this.env.folder_coords[k] = { x1:pos.left, y1:pos.top,
+              x2:pos.left + li.firstChild.offsetWidth, y2:pos.top + height, on:0 };
+          }
         }
       }
     }
@@ -1278,6 +1278,12 @@ function rcube_webmail()
   {
     this.drag_active = false;
     this.env.last_folder_target = null;
+    
+    if (this.folder_auto_timer) {
+      window.clearTimeout(this.folder_auto_timer);
+      this.folder_auto_timer = null;
+      this.folder_auto_expand = null;
+    }
 
     // over the folders
     if (this.gui_objects.folderlist && this.env.folder_coords) {
@@ -1296,18 +1302,18 @@ function rcube_webmail()
       var moffset = this.initialListScrollTop-this.gui_objects.folderlist.parentNode.scrollTop;
       var toffset = -moffset-boffset;
 
-      var li, pos, mouse;
+      var li, div, pos, mouse;
       mouse = rcube_event.get_mouse_pos(e);
       pos = this.env.folderlist_coords;
       mouse.y += toffset;
 
       // if mouse pointer is outside of folderlist
       if (mouse.x < pos.x1 || mouse.x >= pos.x2 || mouse.y < pos.y1 || mouse.y >= pos.y2) {
-	if (this.env.last_folder_target) {
+        if (this.env.last_folder_target) {
           $(this.get_folder_li(this.env.last_folder_target)).removeClass('droptarget');
-	  this.env.folder_coords[this.env.last_folder_target].on = 0;
-	  this.env.last_folder_target = null;
-	}
+          this.env.folder_coords[this.env.last_folder_target].on = 0;
+          this.env.last_folder_target = null;
+        }
         return;
       }
     
@@ -1315,15 +1321,37 @@ function rcube_webmail()
       for (var k in this.env.folder_coords) {
         pos = this.env.folder_coords[k];
         if (mouse.x >= pos.x1 && mouse.x < pos.x2 && mouse.y >= pos.y1 && mouse.y < pos.y2
-	    && this.check_droptarget(k)) {
-          $(this.get_folder_li(k)).addClass('droptarget');
+            && this.check_droptarget(k)) {
+
+          li = this.get_folder_li(k);
+          div = $(li.getElementsByTagName("div")[0]);
+
+          // if the folder is collapsed, expand it after 1sec and restart the drag & drop process.
+          if (div.hasClass('collapsed')) {
+            if (this.folder_auto_timer)
+              window.clearTimeout(this.folder_auto_timer);
+            
+            this.folder_auto_expand = k;
+            this.folder_auto_timer = window.setTimeout(function() {
+                rcmail.command("collapse-folder", rcmail.folder_auto_expand);
+                rcmail.drag_start(null);
+              }, 1000);
+          }
+          
+          if (!div.hasClass('collapsed') && this.folder_auto_timer) {
+            window.clearTimeout(this.folder_auto_timer);
+            this.folder_auto_timer = null;
+            this.folder_auto_expand = null;
+          }
+          
+          $(li).addClass('droptarget');
           this.env.last_folder_target = k;
-	  this.env.folder_coords[k].on = 1;
-	}
+          this.env.folder_coords[k].on = 1;
+        }
         else if (pos.on) {
-	  $(this.get_folder_li(k)).removeClass('droptarget');
-	  this.env.folder_coords[k].on = 0;
-	}
+          $(this.get_folder_li(k)).removeClass('droptarget');
+          this.env.folder_coords[k].on = 0;
+        }
       }
     }
   };
