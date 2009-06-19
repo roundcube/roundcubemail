@@ -74,10 +74,20 @@ input, textarea
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
+#mailleftcontainer
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
 #mailrightcontainer
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#mailrightcontent
+{
+  width: 100%;
 }
 
 #messagepartcontainer
