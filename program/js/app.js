@@ -189,7 +189,7 @@ function rcube_webmail()
         if (this.env.action=='show' || this.env.action=='preview')
           {
           this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete',
-	    'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
+            'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
 
           if (this.env.next_uid)
             {
@@ -202,7 +202,7 @@ function rcube_webmail()
             this.enable_command('firstmessage', true);
             }
         
-	  if (this.env.blockedobjects)
+          if (this.env.blockedobjects)
             {
             if (this.gui_objects.remoteobjectsmsg)
               this.gui_objects.remoteobjectsmsg.style.display = 'block';
@@ -277,6 +277,7 @@ function rcube_webmail()
         if (this.gui_objects.contactslist)
           {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist, {multiselect:true, draggable:true, keyboard:true});
+          this.contact_list.row_init = function(row){ p.triggerEvent('insertrow', { cid:row.uid, row:row }); };
           this.contact_list.addEventListener('keypress', function(o){ p.contactlist_keypress(o); });
           this.contact_list.addEventListener('select', function(o){ p.contactlist_select(o); });
           this.contact_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
@@ -441,6 +442,8 @@ function rcube_webmail()
       row.flagged_icon._row = row.obj;
       row.flagged_icon.onmousedown = function(e) { p.command('toggle_flag', this); };
       }
+      
+    this.triggerEvent('insertrow', { uid:uid, row:row });
   };
 
   // init message compose form: set focus and eventhandlers
@@ -3621,7 +3624,6 @@ function rcube_webmail()
       }
 
     this.message_list.insert_row(row, attop);
-    this.triggerEvent('insertrow', { uid:uid, row:row });
 
     // remove 'old' row
     if (attop && this.env.pagesize && this.message_list.rowcount > this.env.pagesize) {
@@ -3764,7 +3766,6 @@ function rcube_webmail()
     }
     
     this.contact_list.insert_row(row);
-    this.triggerEvent('insertrow', { cid:cid, row:row });
     
     this.enable_command('export', (this.contact_list.rowcount > 0));
     };
