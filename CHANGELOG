@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fixed link text replacements (#1485789)
+- Also trigger 'insertrow' events on page load (#1485826)
+- No link on subject in IE browsers (#1484913)
 - Fixed filename encoding according to RFC2231 (#1485875)
 - Added message Edit feature (#1483891, #1484440)
 - Fix message Etag generation for counter issues (#1485623)
