@@ -74,7 +74,7 @@ class rcube_string_replacer
     $i = -1;
     $scheme = strtolower($matches[1]);
 
-    if ($scheme == 'http://' || $scheme == 'https://' || $scheme == 'ftp://') {
+    if (preg_match('!^(http||ftp|file)s?://!', $scheme)) {
       $url = $matches[1] . $matches[2];
       $i = $this->add(html::a(array('href' => $url, 'target' => '_blank'), Q($url)));
     }
@@ -83,7 +83,8 @@ class rcube_string_replacer
       $i = $this->add($m[1] . html::a(array('href' => 'http://' . $url, 'target' => '_blank'), Q($url)));
     }
 
-    return $i >= 0 ? $this->get_replacement($i) : '';
+    // Return valid link for recognized schemes, otherwise, return the unmodified string for unrecognized schemes.
+    return $i >= 0 ? $this->get_replacement($i) : $matches[0];
   }
 
   /**
