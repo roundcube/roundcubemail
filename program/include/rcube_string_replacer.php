@@ -74,7 +74,7 @@ class rcube_string_replacer
     $i = -1;
     $scheme = strtolower($matches[1]);
 
-    if (preg_match('!^(http||ftp|file)s?://!', $scheme)) {
+    if (preg_match('!^(http|ftp|file)s?://!', $scheme)) {
       $url = $matches[1] . $matches[2];
       $i = $this->add(html::a(array('href' => $url, 'target' => '_blank'), Q($url)));
     }
