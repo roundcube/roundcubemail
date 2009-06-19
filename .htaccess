@@ -43,7 +43,7 @@ ExpiresActive On
 ExpiresDefault "access plus 1 month"
 </IfModule>
 
-FileETag MTime
+FileETag MTime Size
 
 Order deny,allow
 Allow from all

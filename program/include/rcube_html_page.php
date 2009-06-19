@@ -55,7 +55,7 @@ class rcube_html_page
         static $sa_files = array();
         
         if (!preg_match('|^https?://|i', $file) && $file[0] != '/')
-          $file = $this->scripts_path . $file . (($fs = @filesize($this->scripts_path . $file)) ? '?s='.$fs : '');
+          $file = $this->scripts_path . $file . (($fs = @filemtime($this->scripts_path . $file)) ? '?s='.$fs : '');
 
         if (in_array($file, $sa_files)) {
             return;
@@ -250,7 +250,7 @@ class rcube_html_page
 
         // correct absolute paths in images and other tags
         $output = preg_replace('!(src|href|background)=(["\']?)(/[a-z0-9_-]+)!i', "\\1=\\2$base_path\\3", $output);
-        $output = preg_replace_callback('!(src|href)=(["\']?)([a-z0-9/_.-]+.(css|js))(["\'\s>])!i', array($this, 'add_filesize'), $output);
+        $output = preg_replace_callback('!(src|href)=(["\']?)([a-z0-9/_.-]+.(css|js))(["\'\s>])!i', array($this, 'add_filemtime'), $output);
         $output = str_replace('$__skin_path', $base_path, $output);
 
         echo rcube_charset_convert($output, 'UTF-8', $this->charset);
@@ -259,9 +259,9 @@ class rcube_html_page
     /**
      * Callback function for preg_replace_callback in write()
      */
-    public function add_filesize($matches)
+    public function add_filemtime($matches)
     {
-        return sprintf("%s=%s%s?s=%d%s", $matches[1], $matches[2], $matches[3], @filesize($matches[3]), $matches[5]);
+        return sprintf("%s=%s%s?s=%d%s", $matches[1], $matches[2], $matches[3], @filemtime($matches[3]), $matches[5]);
     }
 }
 
