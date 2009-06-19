@@ -244,7 +244,7 @@ function rcmail_message_list($attrib)
   if (!sizeof($a_headers))
     $OUTPUT->show_message('nomessagesfound', 'notice');
 
-
+  $browser = new rcube_browser;
   $a_js_message_arr = array();
 
   // create row for each message
@@ -301,7 +301,6 @@ function rcmail_message_list($attrib)
     
     $out .= sprintf("<td class=\"icon\">%s</td>\n", $message_icon ? sprintf($image_tag, $skin_path, $message_icon, '') : '');
 
-
     $IMAP->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
   
     // format each col
@@ -315,7 +314,7 @@ function rcmail_message_list($attrib)
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
         $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
         if (empty($cont)) $cont = rcube_label('nosubject');
-        $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
+        $cont = $browser->ie ? Q($cont) : sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
       else if ($col=='flag')
         $cont = $flagged_icon ? sprintf($image_tag, $skin_path, $flagged_icon, '') : '';
@@ -434,7 +433,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
         $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
         if (!$cont) $cont = rcube_label('nosubject');
-        $cont = sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
+        $cont = $browser->ie ? Q($cont) : sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
