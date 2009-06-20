@@ -2626,13 +2626,19 @@ function rcube_webmail()
     // trim query string
     q = q.replace(/(^\s+|\s+$)/g, '').toLowerCase();
 
-    // Don't (re-)search if string is empty or if the last results are still active
+    // Don't (re-)search if the last results are still active
     if (q == this.ksearch_value)
       return;
     
+    var old_value = this.ksearch_value;
     this.ksearch_value = q;
     
+    // ...string is empty
     if (!q.length)
+      return;
+
+    // ...new search value contains old one and previous search result was empty
+    if (old_value && old_value.length && this.env.contacts && !this.env.contacts.length && q.indexOf(old_value) == 0)
       return;
     
     this.display_message(this.get_label('searching'), 'loading', true);
