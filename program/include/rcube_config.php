@@ -134,8 +134,8 @@ class rcube_config
    */
   public function load_from_file($fpath)
   {
-    if (is_file($fpath)) {
-      @include($fpath);
+    if (is_file($fpath) && is_readable($fpath)) {
+      include($fpath);
       if (is_array($rcmail_config)) {
         $this->prop = array_merge($this->prop, $rcmail_config);
         return true;
