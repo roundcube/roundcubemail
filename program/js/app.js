@@ -1336,9 +1336,7 @@ function rcube_webmail()
                 rcmail.command("collapse-folder", rcmail.folder_auto_expand);
                 rcmail.drag_start(null);
               }, 1000);
-          }
-          
-          if (!div.hasClass('collapsed') && this.folder_auto_timer) {
+          } else if (this.folder_auto_timer) {
             window.clearTimeout(this.folder_auto_timer);
             this.folder_auto_timer = null;
             this.folder_auto_expand = null;
