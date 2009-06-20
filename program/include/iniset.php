@@ -83,12 +83,14 @@ function __autoload($classname)
   $filename = preg_replace(
       array('/MDB2_(.+)/',
     	    '/Mail_(.+)/',
+    	    '/Net_(.+)/',
 	    '/^html_.+/',
 	    '/^utf8$/',
 	    '/html2text/'
 	),
       array('MDB2/\\1',
     	    'Mail/\\1',
+    	    'Net/\\1',
 	    'html',
 	    'utf8.class',
 	    'lib/html2text'	// see #1485505

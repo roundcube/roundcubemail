@@ -25,10 +25,6 @@
  * @package Mail
  */
 
-// include required PEAR classes
-require_once('Net/SMTP.php');
-
-
 // define headers delimiter
 define('SMTP_MIME_CRLF', "\r\n");
 
