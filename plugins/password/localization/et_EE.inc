@@ -11,7 +11,7 @@ $messages['nopassword'] = 'Palun sisesta uus parool.';
 $messages['nocurpassword'] = 'Palun sisesta vana parool.';
 $messages['passwordincorrect'] = 'Vana parool on vale.';
 $messages['passwordinconsistency'] = 'Paroolid ei kattu, palun proovi uuesti.';
-$messages['nocryptfunction'] = 'Serveris ei ole parooli krüpteerimiseks vajalikku funktsiooni.';
+$messages['crypterror'] = 'Serveris ei ole parooli krüpteerimiseks vajalikku funktsiooni.';
 $messages['internalerror'] = 'Uue parooli andmebaasi salvestamine nurjus.';
 
 ?>

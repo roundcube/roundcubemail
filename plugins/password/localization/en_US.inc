@@ -11,7 +11,8 @@ $messages['nopassword'] = 'Please input new password.';
 $messages['nocurpassword'] = 'Please input current password.';
 $messages['passwordincorrect'] = 'Current password incorrect.';
 $messages['passwordinconsistency'] = 'Passwords do not match, please try again.';
-$messages['nocryptfunction'] = 'The server is missing a function to encrypt your password.';
+$messages['crypterror'] = 'Could not save new password. Encrypt function missing.';
+$messages['connecterror'] = 'Could not save new password. Connection error.';
 $messages['internalerror'] = 'Could not save new password.';
 
 ?>

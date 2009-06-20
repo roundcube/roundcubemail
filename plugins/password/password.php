@@ -3,7 +3,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Password Plugin for Roundcube                                           |
- | Version 1.2                                                             |
+ | Version 1.3                                                             |
  |                                                                         |
  | Copyright (C) 2009, RoundCube Dev. - Switzerland                        |
  |                                                                         |
@@ -30,6 +30,7 @@
 
 define('PASSWORD_CRYPT_ERROR', 1);
 define('PASSWORD_ERROR', 2);
+define('PASSWORD_CONNECT_ERROR', 3);
 define('PASSWORD_SUCCESS', 0);
 
 class password extends rcube_plugin
@@ -192,7 +193,9 @@ class password extends rcube_plugin
       case PASSWORD_SUCCESS:
         return;
       case PASSWORD_CRYPT_ERROR;
-        return $this->gettext('nocryptfunction');
+        return $this->gettext('crypterror');
+      case PASSWORD_CONNECT_ERROR;
+        return $this->gettext('connecterror');
       case PASSWORD_ERROR:
       default:
         return $this->gettext('internalerror');

@@ -6,18 +6,18 @@
  methods (drivers) via Settings/Password tab.
 
  -----------------------------------------------------------------------
- This program is free software; you can redistribute it and/or modify   
- it under the terms of the GNU General Public License version 2         
- as published by the Free Software Foundation.                          
-                                                                        
- This program is distributed in the hope that it will be useful,        
- but WITHOUT ANY WARRANTY; without even the implied warranty of         
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          
- GNU General Public License for more details.                           
-                                                                        
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License version 2
+ as published by the Free Software Foundation.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
  You should have received a copy of the GNU General Public License along
  with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.            
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
  @version 1.2
  @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
@@ -28,6 +28,7 @@
  2.	Drivers
  2.1. 	Database (sql)
  2.2.	Cyrus/SASL (sasl)
+ 2.3.	Poppassd/Courierpassd (poppassd)
  3.	Driver API
 
 
@@ -50,7 +51,7 @@
  You can specify which database to connect by 'password_db_dsn' option and
  what SQL query to execute by 'password_query'. See main.inc.php file for
  more info.
-    
+
  Example implementations of an update_passwd function:
 
  - This is for use with LMS (http://lms.org.pl) database and postgres:
@@ -84,16 +85,16 @@
 	END
 
  Example SQL UPDATEs:
- 
+
  - Plain text passwords:
     UPDATE users SET password=%p WHERE username=%u AND password=%o AND domain=%h LIMIT 1
- 
+
  - Crypt text passwords:
     UPDATE users SET password=%c WHERE username=%u LIMIT 1
 
  - Use a MYSQL crypt function (*nix only) with random 8 character salt
     UPDATE users SET password=ENCRYPT(%p,concat(_utf8'$1$',right(md5(rand()),8),_utf8'$')) WHERE username=%u LIMIT 1
- 
+
  - MD5 stored passwords:
     UPDATE users SET password=MD5(%p) WHERE username=%u AND password=MD5(%o) LIMIT 1
 
@@ -127,7 +128,7 @@
  Compile the wrapper program:
 	gcc -o chgsaslpasswd chgsaslpasswd.c
 
- Chown the chgsaslpasswd and chgsaslpasswd.sh to the cyrus user and group 
+ Chown the chgsaslpasswd and chgsaslpasswd.sh to the cyrus user and group
  that your browser runs as, then chmod them to 4550.
 
  For example, if your cyrus user is 'cyrus' and the apache server group is
@@ -149,11 +150,18 @@
    This could save you some headaches if you are the paranoid type.
 
 
+ 2.3. Poppassd/Courierpassd (poppassd)
+ ----------------------------
+
+ You can specify which host to connect to via `password_pop_host` and
+ what port via `password_pop_port`. See config.inc.php file for more info.
+
+
  3. Driver API
  -------------
- 
+
  Driver file (<driver_name>.php) must define 'password_save' function with
  two arguments. First - current password, second - new password. Function
- may return PASSWORD_SUCCESS on success or PASSWORD_ERROR on any error.
+ may return PASSWORD_SUCCESS on success or any of PASSWORD_CONNECT_ERROR,
+ PASSWORD_CRYPT_ERROR, PASSWORD_ERROR when driver was unable to change password.
  See existing drivers in drivers/ directory for examples.
- 

@@ -3,11 +3,11 @@
 // Password Plugin options
 // -----------------------
 // A driver to use for password change. Default: "sql".
-$rcmail_config['password_driver'] = 'sql';
+$rcmail_config['password_driver'] = 'poppassd';
 
 // Determine whether current password is required to change password.
 // Default: false.
-$rcmail_config['password_confirm_current'] = false;
+$rcmail_config['password_confirm_current'] = true;
 
 
 // SQL Driver options
@@ -25,7 +25,16 @@ $rcmail_config['password_db_dsn'] = '';
 //      %o is replaced with the password before the change
 //      %h is replaced with the imap host (from the session info)
 // Escaping of macros is handled by this module.
-// Default: "SELECT update_passwd(%c, %u)" 
+// Default: "SELECT update_passwd(%c, %u)"
 $rcmail_config['password_query'] = 'SELECT update_passwd(%c, %u)';
+
+
+// Poppassd Driver options
+// -----------------------
+// The host which changes the password
+$rcmail_config['password_pop_host'] = 'localhost';
+
+// TCP port used for poppassd connections
+$rcmail_config['password_pop_port'] = 106;
 
 ?>
