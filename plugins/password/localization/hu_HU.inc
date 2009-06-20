@@ -13,6 +13,5 @@ $messages['passwordincorrect'] = 'Érvénytelen a jelenlegi jelszó.';
 $messages['passwordinconsistency'] = 'A két új jelszó nem egyezik.';
 $messages['nocryptfunction'] = 'Hiba történt a kérés feldolgozása során.';
 $messages['internalerror'] = 'Hiba történt a kérés feldolgozása során.';
-$messages['errorsaving'] = 'Hiba történt a kérés feldolgozása során.';
 
 ?>
