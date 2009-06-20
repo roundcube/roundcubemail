@@ -11,7 +11,7 @@ $messages['nopassword'] = 'Wprowadź nowe hasło.';
 $messages['nocurpassword'] = 'Wprowadź aktualne hasło.';
 $messages['passwordincorrect'] = 'Błędne aktualne hasło, spróbuj ponownie.';
 $messages['passwordinconsistency'] = 'Hasła nie pasują, spróbuj ponownie.';
-$messages['nocryptfunction'] = 'Brak funkcji kodującej hasło. Skontaktuj się z administratorem.';
-$messages['internalerror'] = 'Nie udało się zapisać nowego hasła. Skontaktuj się z administratorem.';
+$messages['nocryptfunction'] = 'Nie udało się zapisać nowego hasła. Brak funkcji kodującej.';
+$messages['internalerror'] = 'Nie udało się zapisać nowego hasła.';
 
 ?>
