@@ -101,15 +101,6 @@ if (!isset($IMAP_USE_HEADER_DATE) || !$IMAP_USE_HEADER_DATE) {
     $IMAP_USE_INTERNAL_DATE = true;
 }
 
-/**
- * @todo Maybe use date() to generate this.
- */
-$GLOBALS['IMAP_MONTHS'] = array("Jan" => 1, "Feb" => 2, "Mar" => 3, "Apr" => 4,
-    "May" => 5, "Jun" => 6, "Jul" => 7, "Aug" => 8, "Sep" => 9, "Oct" => 10,
-    "Nov" => 11, "Dec" => 12);
-
-$GLOBALS['IMAP_SERVER_TZ'] = date('Z');
-
 $GLOBALS['IMAP_FLAGS'] = array(
     'SEEN'     => '\\Seen',
     'DELETED'  => '\\Deleted',
@@ -841,46 +832,23 @@ function iil_SplitHeaderLine($string) {
 	return $string;
 }
 
-function iil_StrToTime($str) {
-	$IMAP_MONTHS    = $GLOBALS['IMAP_MONTHS'];
-	$IMAP_SERVER_TZ = $GLOBALS['IMAP_SERVER_TZ'];
-		
-	if ($str) {
-    	    $time1 = strtotime($str);
-	}
-	if ($time1 && $time1 != -1) {
-	    return $time1-$IMAP_SERVER_TZ;
-	}
-	//echo '<!--'.$str.'//-->';
-	
-	//replace double spaces with single space
-	$str = trim($str);
-	$str = str_replace('  ', ' ', $str);
-	
-	//strip off day of week
-	$pos = strpos($str, ' ');
-	if (!is_numeric(substr($str, 0, $pos))) {
-	    $str = substr($str, $pos+1);
-	}
-	//explode, take good parts
-	$a = explode(' ', $str);
+function iil_StrToTime($date) {
 
-	$month_str = $a[1];
-	$month     = $IMAP_MONTHS[$month_str];
-	$day       = (int)$a[0];
-	$year      = (int)$a[2];
-	$time      = $a[3];
-	$tz_str    = $a[4];
-	$tz        = substr($tz_str, 0, 3);
-	$ta        = explode(':', $time);
-	$hour      = (int)$ta[0]-(int)$tz;
-	$minute    = (int)$ta[1];
-	$second    = (int)$ta[2];
-	
-	//make UNIX timestamp
-	$time2 = mktime($hour, $minute, $second, $month, $day, $year);
-	//echo '<!--'.$time1.' '.$time2.' //-->'."\n";
-	return $time2;
+	// support non-standard "GMTXXXX" literal
+	$date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
+        // if date parsing fails, we have a date in non-rfc format.
+	// remove token from the end and try again
+	while ((($ts = @strtotime($date))===false) || ($ts < 0))
+	{
+	        $d = explode(' ', $date);
+		array_pop($d);
+		if (!$d) break;
+		$date = implode(' ', $d);
+	}
+
+	$ts = (int) $ts;
+
+	return $ts < 0 ? 0 : $ts;	
 }
 
 function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
@@ -1033,7 +1001,7 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='',
 				$result[$id] = in_array('\\'.$index_field, $flags) ? 1 : 0;
 			} else if ($mode == 4) {
 				if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches)) {
-					$result[$id] = strtotime($matches[1]);
+					$result[$id] = iil_StrToTime($matches[1]);
 				} else {
 					$result[$id] = 0;
 				}
@@ -1513,25 +1481,8 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 					// if time is gmt...
 		                        $time_str = str_replace('GMT','+0000',$time_str);
 					
-					//get timezone
-					$time_str      = substr($time_str, 0, -1);
-					$time_zone_str = substr($time_str, -5); // extract timezone
-					$time_str      = substr($time_str, 0, -5); // remove timezone
-					$time_zone     = (float)substr($time_zone_str, 1, 2); // get first two digits
-			
-					if ($time_zone_str[3] != '0') {
-					         $time_zone += 0.5;  //handle half hour offset
-					}
-					if ($time_zone_str[0] == '-') {
-					        $time_zone = $time_zone * -1.0; //minus?
-					}
-					
-					//calculate timestamp
-                                        $timestamp     = strtotime($time_str); //return's server's time
-					$timestamp    -= $time_zone * 3600; //compensate for tz, get GMT
-
 					$result[$id]->internaldate = $time_str;
-					$result[$id]->timestamp = $timestamp;
+					$result[$id]->timestamp = iil_StrToTime($time_str);
 					$result[$id]->date = $time_str;
 				}
 
@@ -1750,8 +1701,8 @@ function iil_SortHeaders($a, $field, $flag) {
 		while (list($key, $val)=each($a)) {
 
 			if ($field == 'timestamp') {
-				$data = @strtotime($val->date);
-				if ($data == false) {
+				$data = iil_StrToTime($val->date);
+				if (!$data) {
 					$data = $val->timestamp;
             			}
 			} else {
@@ -1875,12 +1826,6 @@ function iil_C_Copy(&$conn, $messages, $from, $to) {
 	} else {
 		return -1;
 	}
-}
-
-function iil_FormatSearchDate($month, $day, $year) {
-	$month  = (int) $month;
-	$months = $GLOBALS['IMAP_MONTHS'];
-	return $day . '-' . $months[$month] . '-' . $year;
 }
 
 function iil_C_CountUnseen(&$conn, $folder) {

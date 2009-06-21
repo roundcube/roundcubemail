@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix empty Date header issue (#1485923)
 - Open collapsed folders during drag & drop (#1485914)
 - Fixed link text replacements (#1485789)
 - Also trigger 'insertrow' events on page load (#1485826)
