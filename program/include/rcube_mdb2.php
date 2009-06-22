@@ -470,6 +470,26 @@ class rcube_mdb2
 
 
   /**
+   * Return list of elements for use with SQL's IN clause
+   *
+   * @param  string Input array
+   * @return string Elements list string
+   * @access public
+   */
+  function array2list($arr, $type=null)
+    {
+    if (!is_array($arr))
+      return $this->quote($arr, $type);
+    
+    $res = array();
+    foreach ($arr as $item)
+      $res[] = $this->quote($item, $type);
+
+    return implode(',', $res);
+    }
+
+
+  /**
    * Return SQL statement to convert a field value into a unix timestamp
    *
    * @param  string  Field name

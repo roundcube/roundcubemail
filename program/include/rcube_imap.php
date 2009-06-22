@@ -863,7 +863,6 @@ class rcube_imap
       }
 
     // fetch complete message index
-    $msg_count = $this->_messagecount($mailbox);
     if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
       {
       if ($this->sort_order == 'DESC')
@@ -873,7 +872,7 @@ class rcube_imap
       }
     else
       {
-      $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:$msg_count", $this->sort_field, $this->skip_deleted);
+      $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted);
 
       if ($this->sort_order=="ASC")
         asort($a_index);
@@ -919,25 +918,25 @@ class rcube_imap
       // other message at this position
       if (isset($cache_index[$id]))
         {
-        $this->remove_message_cache($cache_key, $cache_index[$id]);
+	$for_remove[] = $cache_index[$id];
         unset($cache_index[$id]);
         }
         
-	$toupdate[] = $id;
+	$for_update[] = $id;
       }
 
+    // clear messages at wrong positions and those deleted that are still in cache_index      
+    if (!empty($for_remove))
+      $cache_index = array_merge($cache_index, $for_remove);
+    
+    if (!empty($cache_index))
+      $this->remove_message_cache($cache_key, $cache_index);
+
     // fetch complete headers and add to cache
-    if (!empty($toupdate)) {
-      if ($headers = iil_C_FetchHeader($this->conn, $mailbox, join(',', $toupdate), false, $this->fetch_add_headers))
+    if (!empty($for_update)) {
+      if ($headers = iil_C_FetchHeader($this->conn, $mailbox, join(',', $for_update), false, $this->fetch_add_headers))
         foreach ($headers as $header)
           $this->add_message_cache($cache_key, $header->id, $header);
-      }
-    
-    // those ids that are still in cache_index have been deleted      
-    if (!empty($cache_index))
-      {
-      foreach ($cache_index as $id => $uid)
-        $this->remove_message_cache($cache_key, $uid);
       }
     }
 
@@ -1549,9 +1548,7 @@ class rcube_imap
     $cache_key = $mailbox.'.msg';
     if ($this->caching_enabled)
       {
-      foreach ($uids as $uid)
-        if ($cached_headers = $this->get_cached_message($cache_key, $uid))
-          $this->remove_message_cache($cache_key, $uid);
+      $this->remove_message_cache($cache_key, $uids);
 
       // close and re-open connection
       // this prevents connection problems with Courier 
@@ -1660,7 +1657,8 @@ class rcube_imap
         }
 
       // clear cache from the lowest index on
-      $this->clear_message_cache($cache_key, $start_index);
+      if ($start_index < 100000)
+        $this->clear_message_cache($cache_key, $start_index);
       }
 
     return $moved;
@@ -1715,7 +1713,8 @@ class rcube_imap
         }
 
       // clear cache from the lowest index on
-      $this->clear_message_cache($cache_key, $start_index);
+      if ($start_index < 100000)
+        $this->clear_message_cache($cache_key, $start_index);
       }
 
     return $deleted;
@@ -2325,7 +2324,6 @@ class rcube_imap
         $_SESSION['user_id'],
         $key,
         $uid);
-
       if ($sql_arr = $this->db->fetch_assoc($sql_result))
         {
         $this->cache[$internal_key][$uid] = unserialize($sql_arr['headers']);
@@ -2432,19 +2430,18 @@ class rcube_imap
   /**
    * @access private
    */
-  function remove_message_cache($key, $uid)
+  function remove_message_cache($key, $uids)
     {
     if (!$this->caching_enabled)
       return;
     
     $this->db->query(
       "DELETE FROM ".get_table_name('messages')."
-       WHERE  user_id=?
-       AND    cache_key=?
-       AND    uid=?",
+      WHERE  user_id=?
+      AND    cache_key=?
+      AND    uid IN (".$this->db->array2list($uids, 'integer').")",
       $_SESSION['user_id'],
-      $key,
-      $uid);
+      $key);
     }
 
   /**
