@@ -49,7 +49,7 @@ $sort_order = 'DESC';
 
 // Send global XML output
 header('Content-type: text/xml');
-echo '<?xml version="1.0" encoding="UTF-8"?>
+echo '<?xml version="1.0" encoding="'.RCMAIL_CHARSET.'"?>
 	<rss version="2.0"
 	 xmlns:dc="http://purl.org/dc/elements/1.1/"
 	 xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"

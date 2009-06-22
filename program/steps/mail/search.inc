@@ -21,8 +21,8 @@ $IMAP->set_search_set(NULL);
 $_SESSION['page'] = 1;
 
 // using encodeURI with javascript "should" give us
-// a correctly UTF-8 encoded query string
-$imap_charset = 'UTF-8';
+// a correctly encoded query string
+$imap_charset = RCMAIL_CHARSET;
 
 // get search string
 $str = get_input_value('_q', RCUBE_INPUT_GET);

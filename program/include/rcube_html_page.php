@@ -29,7 +29,7 @@ class rcube_html_page
     protected $scripts_path = '';
     protected $script_files = array();
     protected $scripts = array();
-    protected $charset = 'UTF-8';
+    protected $charset = RCMAIL_CHARSET;
 
     protected $script_tag_file = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
     protected $script_tag  =  "<script type=\"text/javascript\">\n/* <![CDATA[ */\n%s\n/* ]]> */\n</script>";
@@ -253,7 +253,10 @@ class rcube_html_page
         $output = preg_replace_callback('!(src|href)=(["\']?)([a-z0-9/_.-]+.(css|js))(["\'\s>])!i', array($this, 'add_filemtime'), $output);
         $output = str_replace('$__skin_path', $base_path, $output);
 
-        echo rcube_charset_convert($output, 'UTF-8', $this->charset);
+        if ($this->charset != RCMAIL_CHARSET)
+	    echo rcube_charset_convert($output, RCMAIL_CHARSET, $this->charset);
+	else
+	    echo $output;
     }
     
     /**

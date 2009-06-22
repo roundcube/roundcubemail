@@ -311,7 +311,7 @@ if (!$savedraft) {
   // generic footer for all messages
   if (!empty($CONFIG['generic_message_footer'])) {
     $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));
-    $footer = rcube_charset_convert($footer, 'UTF-8', $message_charset);
+    $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
   }
 }
 

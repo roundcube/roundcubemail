@@ -29,7 +29,7 @@
 class rcube_json_output
 {
     private $config;
-    private $charset = 'UTF-8';
+    private $charset = RCMAIL_CHARSET;
     private $env = array();
     private $texts = array();
     private $commands = array();

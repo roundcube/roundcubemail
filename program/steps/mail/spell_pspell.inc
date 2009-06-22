@@ -49,7 +49,7 @@ $words = preg_split('/[ !"#$%&()*+\\,-.\/\n:;<=>?@\[\]^_{|}]+/', $text, NULL,  P
 $plink = pspell_new(get_input_value('lang', RCUBE_INPUT_GET), null, null, RCMAIL_CHARSET, PSPELL_FAST);
 
 // send output
-$out = '<?xml version="1.0" encoding="UTF-8"?><spellresult charschecked="'.rc_strlen($text).'">';
+$out = '<?xml version="1.0" encoding="'.RCMAIL_CHARSET.'"?><spellresult charschecked="'.rc_strlen($text).'">';
 
 $diff = 0;
 foreach ($words as $w) {

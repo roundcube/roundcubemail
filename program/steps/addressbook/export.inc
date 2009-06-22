@@ -26,7 +26,7 @@ $result = $CONTACTS->list_records();
 
 // send downlaod headers
 send_nocacheing_headers();
-header('Content-Type: text/x-vcard; charset=UTF-8');
+header('Content-Type: text/x-vcard; charset='.RCMAIL_CHARSET);
 header('Content-Disposition: attachment; filename="rcube_contacts.vcf"');
 
 while ($result && ($row = $result->next())) {

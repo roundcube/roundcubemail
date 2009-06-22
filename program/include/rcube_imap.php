@@ -2690,7 +2690,7 @@ class rcube_imap
 
 
   /**
-   * Convert body charset to UTF-8 according to the ctype_parameters
+   * Convert body charset to RCMAIL_CHARSET according to the ctype_parameters
    *
    * @param string Part body to decode
    * @param string Charset to convert from
