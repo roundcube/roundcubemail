@@ -557,6 +557,54 @@ class rcube_mdb2
 
 
   /**
+   * Encodes non-UTF-8 characters in string/array/object (recursive)
+   *
+   * @param  mixed  Data to fix
+   * @return mixed  Properly UTF-8 encoded data
+   * @access public
+   */
+  function encode($input)
+    {
+    if (is_object($input)) {
+      foreach (get_object_vars($input) as $idx => $value)
+        $input->$idx = $this->encode($value);
+      return $input;
+      }
+    else if (is_array($input)) {
+      foreach ($input as $idx => $value)
+        $input[$idx] = $this->encode($value);
+      return $input;	
+      }
+
+    return utf8_encode($input);
+    }
+
+
+  /**
+   * Decodes encoded UTF-8 string/object/array (recursive)
+   *
+   * @param  mixed  Input data
+   * @return mixed  Decoded data
+   * @access public
+   */
+  function decode($input)
+    {
+    if (is_object($input)) {
+      foreach (get_object_vars($input) as $idx => $value)
+        $input->$idx = $this->decode($value);
+      return $input;
+      }
+    else if (is_array($input)) {
+      foreach ($input as $idx => $value)
+        $input[$idx] = $this->decode($value);
+      return $input;	
+      }
+
+    return utf8_decode($input);
+    }
+
+
+  /**
    * Adds a query result and returns a handle ID
    *
    * @param  object  Query handle

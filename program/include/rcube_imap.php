@@ -118,7 +118,7 @@ class rcube_imap
     $this->port = $port;
     $this->ssl = $use_ssl;
     
-    // print trace mesages
+    // print trace messages
     if ($this->conn && ($this->debug_level & 8))
       console($this->conn->message);
     
@@ -772,14 +772,14 @@ class rcube_imap
    */
   function _fetch_headers($mailbox, $msgs, &$a_msg_headers, $cache_key)
     {
-    // cache is incomplete
-    $cache_index = $this->get_message_cache_index($cache_key);
-    
     // fetch reqested headers from server
     $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs, false, $this->fetch_add_headers);
-    
+
     if (!empty($a_header_index))
       {
+      // cache is incomplete
+      $cache_index = $this->get_message_cache_index($cache_key);
+    
       foreach ($a_header_index as $i => $headers)
         { 
 /*
@@ -799,7 +799,7 @@ class rcube_imap
         $a_msg_headers[$headers->uid] = $headers;
         }
       }
-        
+
     return count($a_msg_headers);
     }
     
@@ -2262,8 +2262,7 @@ class rcube_imap
          FROM ".get_table_name('messages')."
          WHERE  user_id=?
          AND    cache_key=?
-         ORDER BY ".$this->db->quoteIdentifier($sort_field)." ".
-         strtoupper($sort_order),
+         ORDER BY ".$this->db->quoteIdentifier($sort_field)." ".strtoupper($sort_order),
         $from,
         $to-$from,
         $_SESSION['user_id'],
@@ -2272,14 +2271,14 @@ class rcube_imap
       while ($sql_arr = $this->db->fetch_assoc($sql_result))
         {
         $uid = $sql_arr['uid'];
-        $this->cache[$cache_key][$uid] = unserialize($sql_arr['headers']);
-        
+        $this->cache[$cache_key][$uid] =  $this->db->decode(unserialize($sql_arr['headers']));
+
         // featch headers if unserialize failed
         if (empty($this->cache[$cache_key][$uid]))
           $this->cache[$cache_key][$uid] = iil_C_FetchHeader($this->conn, preg_replace('/.msg$/', '', $key), $uid, true, $this->fetch_add_headers);
         }
       }
-      
+
     return $this->cache[$cache_key];
     }
 
@@ -2305,9 +2304,9 @@ class rcube_imap
         $uid);
       if ($sql_arr = $this->db->fetch_assoc($sql_result))
         {
-        $this->cache[$internal_key][$uid] = unserialize($sql_arr['headers']);
+        $this->cache[$internal_key][$uid] = $this->db->decode(unserialize($sql_arr['headers']));
         if (is_object($this->cache[$internal_key][$uid]) && !empty($sql_arr['structure']))
-          $this->cache[$internal_key][$uid]->structure = unserialize($sql_arr['structure']);
+          $this->cache[$internal_key][$uid]->structure = $this->db->decode(unserialize($sql_arr['structure']));
         }
       }
 
@@ -2347,7 +2346,7 @@ class rcube_imap
   /**
    * @access private
    */
-  function add_message_cache($key, $index, $headers, $struct=null)
+  private function add_message_cache($key, $index, $headers, $struct=null)
     {
     if (empty($key) || !is_object($headers) || empty($headers->uid))
         return;
@@ -2355,7 +2354,7 @@ class rcube_imap
     // add to internal (fast) cache
     $this->cache['__single_msg'][$headers->uid] = $headers;
     $this->cache['__single_msg'][$headers->uid]->structure = $struct;
-    
+
     // no further caching
     if (!$this->caching_enabled)
       return;
@@ -2380,8 +2379,8 @@ class rcube_imap
          SET   idx=?, headers=?, structure=?
          WHERE message_id=?",
         $index,
-        serialize($headers),
-        is_object($struct) ? serialize($struct) : NULL,
+        serialize($this->db->encode(clone $headers)),
+        is_object($struct) ? serialize($this->db->encode(clone $struct)) : NULL,
         $sql_arr['message_id']
         );
       }
@@ -2395,13 +2394,14 @@ class rcube_imap
         $key,
         $index,
         $headers->uid,
-        (string)substr($this->decode_header($headers->subject, TRUE), 0, 128),
-        (string)substr($this->decode_header($headers->from, TRUE), 0, 128),
-        (string)substr($this->decode_header($headers->to, TRUE), 0, 128),
-        (string)substr($this->decode_header($headers->cc, TRUE), 0, 128),
+
+        (string)rc_substr($this->db->encode($this->decode_header($headers->subject, TRUE)), 0, 128),
+        (string)rc_substr($this->db->encode($this->decode_header($headers->from, TRUE)), 0, 128),
+        (string)rc_substr($this->db->encode($this->decode_header($headers->to, TRUE)), 0, 128),
+        (string)rc_substr($this->db->encode($this->decode_header($headers->cc, TRUE)), 0, 128),
         (int)$headers->size,
-        serialize($headers),
-        is_object($struct) ? serialize($struct) : NULL
+        serialize($this->db->encode(clone $headers)),
+        is_object($struct) ? serialize($this->db->encode(clone $struct)) : NULL
         );
       }
     }
@@ -2409,7 +2409,7 @@ class rcube_imap
   /**
    * @access private
    */
-  function remove_message_cache($key, $uids)
+  private function remove_message_cache($key, $uids)
     {
     if (!$this->caching_enabled)
       return;
@@ -2426,7 +2426,7 @@ class rcube_imap
   /**
    * @access private
    */
-  function clear_message_cache($key, $start_index=1)
+  private function clear_message_cache($key, $start_index=1)
     {
     if (!$this->caching_enabled)
       return;
@@ -2444,7 +2444,7 @@ class rcube_imap
   /**
    * @access private
    */
-  function get_message_cache_index_min($key, $uids=NULL)
+  private function get_message_cache_index_min($key, $uids=NULL)
     {
     if (!$this->caching_enabled)
       return;

@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix non-unicode characters caching in unicode database (#1484608)
+- Performance improvements of messages caching
 - Fix empty Date header issue (#1485923)
 - Open collapsed folders during drag & drop (#1485914)
 - Fixed link text replacements (#1485789)
