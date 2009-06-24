@@ -794,7 +794,8 @@ class rcube_imap
 */
         // add message to cache
         if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid)
-          $this->add_message_cache($cache_key, $headers->id, $headers);
+          $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
+		!in_array((string)$headers->uid, $cache_index, true));
 
         $a_msg_headers[$headers->uid] = $headers;
         }
@@ -912,7 +913,7 @@ class rcube_imap
       // message in cache but in wrong position
       if (in_array((string)$uid, $cache_index, TRUE))
         {
-        unset($cache_index[$id]);        
+        unset($cache_index[$id]);
         }
       
       // other message at this position
@@ -936,7 +937,8 @@ class rcube_imap
     if (!empty($for_update)) {
       if ($headers = iil_C_FetchHeader($this->conn, $mailbox, join(',', $for_update), false, $this->fetch_add_headers))
         foreach ($headers as $header)
-          $this->add_message_cache($cache_key, $header->id, $header);
+          $this->add_message_cache($cache_key, $header->id, $header, NULL,
+		in_array((string)$header->uid, $for_remove, true));
       }
     }
 
@@ -1085,7 +1087,7 @@ class rcube_imap
       if ($headers->uid && $headers->id)
         $this->uid_id_map[$mailbox][$headers->uid] = $headers->id;
 
-      $this->add_message_cache($mailbox.'.msg', $headers->id, $headers);
+      $this->add_message_cache($mailbox.'.msg', $headers->id, $headers, NULL, true);
       }
 
     return $headers;
@@ -1103,7 +1105,7 @@ class rcube_imap
   function &get_structure($uid, $structure_str='')
     {
     $cache_key = $this->mailbox.'.msg';
-    $headers = &$this->get_cached_message($cache_key, $uid, true);
+    $headers = &$this->get_cached_message($cache_key, $uid);
 
     // return cached message structure
     if (is_object($headers) && is_object($headers->structure)) {
@@ -2200,7 +2202,7 @@ class rcube_imap
    * @param string Internal cache key
    * @return int -3 = off, -2 = incomplete, -1 = dirty
    */
-  function check_cache_status($mailbox, $cache_key)
+  private function check_cache_status($mailbox, $cache_key)
   {
     if (!$this->caching_enabled)
       return -3;
@@ -2246,7 +2248,7 @@ class rcube_imap
   /**
    * @access private
    */
-  function get_message_cache($key, $from, $to, $sort_field, $sort_order)
+  private function get_message_cache($key, $from, $to, $sort_field, $sort_order)
     {
     $cache_key = "$key:$from:$to:$sort_field:$sort_order";
     $db_header_fields = array('idx', 'uid', 'subject', 'from', 'to', 'cc', 'date', 'size');
@@ -2285,16 +2287,15 @@ class rcube_imap
   /**
    * @access private
    */
-  function &get_cached_message($key, $uid, $struct=false)
+  private function &get_cached_message($key, $uid)
     {
     $internal_key = '__single_msg';
     
     if ($this->caching_enabled && (!isset($this->cache[$internal_key][$uid]) ||
         ($struct && empty($this->cache[$internal_key][$uid]->structure))))
       {
-      $sql_select = "idx, uid, headers" . ($struct ? ", structure" : '');
       $sql_result = $this->db->query(
-        "SELECT $sql_select
+        "SELECT idx, headers, structure
          FROM ".get_table_name('messages')."
          WHERE  user_id=?
          AND    cache_key=?
@@ -2302,8 +2303,10 @@ class rcube_imap
         $_SESSION['user_id'],
         $key,
         $uid);
+
       if ($sql_arr = $this->db->fetch_assoc($sql_result))
         {
+	$this->uid_id_map[preg_replace('/\.msg$/', '', $key)][$uid] = $sql_arr['idx'];
         $this->cache[$internal_key][$uid] = $this->db->decode(unserialize($sql_arr['headers']));
         if (is_object($this->cache[$internal_key][$uid]) && !empty($sql_arr['structure']))
           $this->cache[$internal_key][$uid]->structure = $this->db->decode(unserialize($sql_arr['structure']));
@@ -2316,7 +2319,7 @@ class rcube_imap
   /**
    * @access private
    */  
-  function get_message_cache_index($key, $force=FALSE, $sort_field='idx', $sort_order='ASC')
+  private function get_message_cache_index($key, $force=FALSE, $sort_field='idx', $sort_order='ASC')
     {
     static $sa_message_index = array();
     
@@ -2346,13 +2349,13 @@ class rcube_imap
   /**
    * @access private
    */
-  private function add_message_cache($key, $index, $headers, $struct=null)
+  private function add_message_cache($key, $index, $headers, $struct=null, $force=false)
     {
     if (empty($key) || !is_object($headers) || empty($headers->uid))
         return;
 
     // add to internal (fast) cache
-    $this->cache['__single_msg'][$headers->uid] = $headers;
+    $this->cache['__single_msg'][$headers->uid] = clone $headers;
     $this->cache['__single_msg'][$headers->uid]->structure = $struct;
 
     // no further caching
@@ -2360,7 +2363,8 @@ class rcube_imap
       return;
     
     // check for an existing record (probly headers are cached but structure not)
-    $sql_result = $this->db->query(
+    if (!$force) {
+      $sql_result = $this->db->query(
         "SELECT message_id
          FROM ".get_table_name('messages')."
          WHERE  user_id=?
@@ -2370,9 +2374,12 @@ class rcube_imap
         $_SESSION['user_id'],
         $key,
         $headers->uid);
+      if ($sql_arr = $this->db->fetch_assoc($sql_result))
+        $message_id = $sql_arr['message_id'];
+      }
 
     // update cache record
-    if ($sql_arr = $this->db->fetch_assoc($sql_result))
+    if ($message_id)
       {
       $this->db->query(
         "UPDATE ".get_table_name('messages')."
@@ -2381,7 +2388,7 @@ class rcube_imap
         $index,
         serialize($this->db->encode(clone $headers)),
         is_object($struct) ? serialize($this->db->encode(clone $struct)) : NULL,
-        $sql_arr['message_id']
+        $message_id
         );
       }
     else  // insert new record
@@ -2394,7 +2401,6 @@ class rcube_imap
         $key,
         $index,
         $headers->uid,
-
         (string)rc_substr($this->db->encode($this->decode_header($headers->subject, TRUE)), 0, 128),
         (string)rc_substr($this->db->encode($this->decode_header($headers->from, TRUE)), 0, 128),
         (string)rc_substr($this->db->encode($this->decode_header($headers->to, TRUE)), 0, 128),
