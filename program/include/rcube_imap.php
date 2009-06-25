@@ -938,7 +938,7 @@ class rcube_imap
       if ($headers = iil_C_FetchHeader($this->conn, $mailbox, join(',', $for_update), false, $this->fetch_add_headers))
         foreach ($headers as $header)
           $this->add_message_cache($cache_key, $header->id, $header, NULL,
-		in_array((string)$header->uid, $for_remove, true));
+		in_array((string)$header->uid, (array)$for_remove, true));
       }
     }
 
@@ -2291,8 +2291,7 @@ class rcube_imap
     {
     $internal_key = '__single_msg';
     
-    if ($this->caching_enabled && (!isset($this->cache[$internal_key][$uid]) ||
-        ($struct && empty($this->cache[$internal_key][$uid]->structure))))
+    if ($this->caching_enabled && !isset($this->cache[$internal_key][$uid]))
       {
       $sql_result = $this->db->query(
         "SELECT idx, headers, structure
@@ -3037,6 +3036,13 @@ class rcube_message_part
   var $d_parameters = array();
   var $ctype_parameters = array();
 
+  function __clone()
+  {
+    if (isset($this->parts))
+      foreach ($this->parts as $idx => $part)
+        if (is_object($part))
+	  $this->parts[$idx] = clone $part;
+  }				
 }
 
 
