@@ -29,6 +29,7 @@
  2.1. 	Database (sql)
  2.2.	Cyrus/SASL (sasl)
  2.3.	Poppassd/Courierpassd (poppassd)
+ 2.4.	LDAP (ldap)
  3.	Driver API
 
 
@@ -151,10 +152,16 @@
 
 
  2.3. Poppassd/Courierpassd (poppassd)
- ----------------------------
+ -------------------------------------
 
  You can specify which host to connect to via `password_pop_host` and
  what port via `password_pop_port`. See config.inc.php file for more info.
+
+
+ 2.4. LDAP (ldap)
+ ----------------
+ 
+ See config.inc.php file. Requires PEAR::Net_LDAP2 package.
 
 
  3. Driver API
