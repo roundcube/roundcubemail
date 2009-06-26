@@ -23,6 +23,9 @@ class show_additional_headers extends rcube_plugin
     if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
       $this->add_hook('imap_init', array($this, 'imap_init'));
       $this->add_hook('message_headers_output', array($this, 'message_headers'));
+    } else if ($rcmail->action == '') {
+      // with enabled_caching we're fetching additional headers before show/preview
+      $this->add_hook('imap_init', array($this, 'imap_init'));
     }
   }
   
