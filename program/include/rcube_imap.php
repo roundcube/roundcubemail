@@ -773,7 +773,7 @@ class rcube_imap
   function _fetch_headers($mailbox, $msgs, &$a_msg_headers, $cache_key)
     {
     // fetch reqested headers from server
-    $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs, false, $this->fetch_add_headers);
+    $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs, false, false, $this->fetch_add_headers);
 
     if (!empty($a_header_index))
       {
