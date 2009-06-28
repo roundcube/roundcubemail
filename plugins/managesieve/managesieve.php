@@ -775,7 +775,7 @@ class managesieve extends rcube_plugin
 
     foreach ($a_folders as $folder)
     {
-      $utf7folder = $folder;
+      $utf7folder = $this->rc->imap->mod_mailbox($folder);
       $names = explode($delimiter, rcube_charset_convert($folder, 'UTF7-IMAP'));
       $name = $names[sizeof($names)-1];
     
