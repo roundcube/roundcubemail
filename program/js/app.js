@@ -3081,6 +3081,7 @@ function rcube_webmail()
       {
       var reg = new RegExp('.*['+RegExp.escape(this.env.delimiter)+']');
       this.name_input = document.createElement('INPUT');
+      this.name_input.type = 'text';
       this.name_input.value = this.env.subscriptionrows[id][0].replace(reg, '');
 
       reg = new RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
