@@ -43,6 +43,7 @@ $messages['errorsavingsent'] = 'Ocurriu un erro mentres se gardaba a mensaxe env
 $messages['errorsaving'] = 'Ocurriu un erro mentres se gardaba';
 $messages['errormoving'] = 'Non se puido mover a mensaxe';
 $messages['errordeleting'] = 'Non se puido eliminar a mensaxe';
+$messages['errormarking'] = 'Non se puido marcar a mensaxe';
 $messages['deletecontactconfirm'] = 'Quere eliminar o(s) contacto(s) seleccionado(s)?';
 $messages['deletemessagesconfirm'] = 'Quere eliminar a(s) mensaxe(s) seleccionadas?';
 $messages['deletefolderconfirm'] = 'Quere eliminar este cartafol?';
