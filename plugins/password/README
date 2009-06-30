@@ -123,13 +123,13 @@
 
  Installation:
 
- Edit the chgsaslpasswd.c and chgsaslpasswd.sh files as is documented
- within them.
+ Change into the drivers directory. Edit the chgsaslpasswd.c file as is
+ documented within it.
 
  Compile the wrapper program:
 	gcc -o chgsaslpasswd chgsaslpasswd.c
 
- Chown the chgsaslpasswd and chgsaslpasswd.sh to the cyrus user and group
+ Chown the compiled chgsaslpasswd binary to the cyrus user and group
  that your browser runs as, then chmod them to 4550.
 
  For example, if your cyrus user is 'cyrus' and the apache server group is
