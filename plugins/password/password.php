@@ -3,9 +3,9 @@
 /*
  +-------------------------------------------------------------------------+
  | Password Plugin for Roundcube                                           |
- | Version 1.3                                                             |
+ | Version 1.3.1                                                           |
  |                                                                         |
- | Copyright (C) 2009, RoundCube Dev. - Switzerland                        |
+ | Copyright (C) 2009, RoundCube Dev.                                      |
  |                                                                         |
  | This program is free software; you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License version 2          |
@@ -33,6 +33,18 @@ define('PASSWORD_ERROR', 2);
 define('PASSWORD_CONNECT_ERROR', 3);
 define('PASSWORD_SUCCESS', 0);
 
+/**
+ * Change password plugin
+ *
+ * Plugin that adds functionality to change a users password.
+ * It provides common functionality and user interface and supports
+ * several backends to finally update the password.
+ *
+ * For installation and configuration instructions please read the README file.
+ *
+ * @version 1.3.1
+ * @author Aleksander Machniak
+ */
 class password extends rcube_plugin
 {
   public $task = 'settings';
@@ -68,8 +80,9 @@ class password extends rcube_plugin
 
     $confirm = $rcmail->config->get('password_confirm_current');
 
-    if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']))
+    if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd'])) {
       $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
+    }
     else {
       $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
       $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
@@ -94,70 +107,62 @@ class password extends rcube_plugin
 
     // add some labels to client
     $rcmail->output->add_label(
-	'password.nopassword',
-	'password.nocurpassword',
-        'password.passwordinconsistency'
+      'password.nopassword',
+      'password.nocurpassword',
+      'password.passwordinconsistency'
     );
 
     $rcmail->output->set_env('product_name', $rcmail->config->get('product_name'));
 
-    // allow the following attributes to be added to the <table> tag
-    $attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
-
-    // return the complete edit form as table
-    $out = '<table' . $attrib_str . ">\n\n";
+    $table = new html_table(array('cols' => 2));
 
     if ($rcmail->config->get('password_confirm_current')) {
       // show current password selection
       $field_id = 'curpasswd';
-      $input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id,
-    	    'size' => 20, 'autocomplete' => 'off'));
+      $input_curpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id,
+        'size' => 20, 'autocomplete' => 'off'));
   
-      $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                  $field_id,
-                  rep_specialchars_output($this->gettext('curpasswd')),
-                  $input_newpasswd->show($rcmail->config->get('curpasswd')));
+      $table->add('title', html::label($field_id, Q($this->gettext('curpasswd'))));
+      $table->add(null, $input_curpasswd->show());
     }
 
     // show new password selection
     $field_id = 'newpasswd';
     $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => $field_id,
-	    'size' => 20, 'autocomplete' => 'off'));
+      'size' => 20, 'autocomplete' => 'off'));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                $field_id,
-                rep_specialchars_output($this->gettext('newpasswd')),
-                $input_newpasswd->show($rcmail->config->get('newpasswd')));
+    $table->add('title', html::label($field_id, Q($this->gettext('newpasswd'))));
+    $table->add(null, $input_newpasswd->show());
 
     // show confirm password selection
     $field_id = 'confpasswd';
     $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => $field_id,
-	    'size' => 20, 'autocomplete' => 'off'));
+      'size' => 20, 'autocomplete' => 'off'));
 
-    $out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-                $field_id,
-                rep_specialchars_output($this->gettext('confpasswd')),
-                $input_confpasswd->show($rcmail->config->get('confpasswd')));
+    $table->add('title', html::label($field_id, Q($this->gettext('confpasswd'))));
+    $table->add(null, $input_confpasswd->show());
 
-    $out .= "\n</table>";
-
-    $out .= '<br />';
-    
-    $out .= $rcmail->output->button(array(
-	    'command' => 'plugin.password-save',
-	    'type' => 'input',
-	    'class' => 'button mainaction',
-	    'label' => 'save'
-    ));
+    $out = html::div(array('class' => "settingsbox", 'style' => "margin:0"),
+      html::div(array('id' => "userprefs-title"), $this->gettext('changepasswd')) .
+      html::div(array('style' => "padding:15px"), $table->show() .
+        html::p(null,
+          $rcmail->output->button(array(
+            'command' => 'plugin.password-save',
+            'type' => 'input',
+            'class' => 'button mainaction',
+            'label' => 'save'
+        )))
+      )
+    );
 
     $rcmail->output->add_gui_object('passform', 'password-form');
 
     return $rcmail->output->form_tag(array(
-	'id' => 'password-form',
-	'name' => 'password-form',
-	'method' => 'post',
-	'action' => './?_task=settings&_action=plugin.password-save',
-	), $out);
+      'id' => 'password-form',
+      'name' => 'password-form',
+      'method' => 'post',
+      'action' => './?_task=settings&_action=plugin.password-save',
+      ), $out);
   }
 
   private function _save($curpass, $passwd)
@@ -168,10 +173,10 @@ class password extends rcube_plugin
     if (!is_readable($driver)) {
       raise_error(array(
         'code' => 600,
-	'type' => 'php',
-	'file' => __FILE__,
-	'message' => "Password plugin: Unable to open driver file $driver"
-	), true, false);
+        'type' => 'php',
+        'file' => __FILE__,
+        'message' => "Password plugin: Unable to open driver file $driver"
+        ), true, false);
       return $this->gettext('internalerror');
     }
     
@@ -180,10 +185,10 @@ class password extends rcube_plugin
     if (!function_exists('password_save')) {
       raise_error(array(
         'code' => 600,
-	'type' => 'php',
-	'file' => __FILE__,
-	'message' => "Password plugin: Broken driver: $driver"
-	), true, false);
+        'type' => 'php',
+        'file' => __FILE__,
+        'message' => "Password plugin: Broken driver: $driver"
+        ), true, false);
       return $this->gettext('internalerror');
     }
 

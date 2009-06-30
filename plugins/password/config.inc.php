@@ -18,9 +18,9 @@ $rcmail_config['password_db_dsn'] = '';
 
 // The SQL query used to change the password.
 // The query can contain the following macros that will be expanded as follows:
-//	%p is replaced with the plaintext new password
+//      %p is replaced with the plaintext new password
 //      %c is replaced with the crypt version of the new password, MD5 if available
-//    	   otherwise DES.
+//         otherwise DES.
 //      %u is replaced with the username (from the session info)
 //      %o is replaced with the password before the change
 //      %h is replaced with the imap host (from the session info)
