@@ -20,8 +20,9 @@ function password_save($currpass, $newpass)
 {
     $curdir = realpath(dirname(__FILE__));
     $username = escapeshellcmd($_SESSION['username']);
+    $args = rcmail::get_instance()->config->get('password_saslpasswd_args', '');
 
-    if ($fh = popen("$curdir/chgsaslpasswd -p $username", 'w')) {
+    if ($fh = popen("$curdir/chgsaslpasswd -p $args $username", 'w')) {
         fwrite($fh, $newpass."\n");
         $code = pclose($fh);
 

@@ -38,6 +38,12 @@ $rcmail_config['password_pop_host'] = 'localhost';
 $rcmail_config['password_pop_port'] = 106;
 
 
+// SASL Driver options
+// -------------------
+// Additional arguments for the saslpasswd2 call
+$rcmail_config['password_saslpasswd_args'] = '';
+
+
 // LDAP Driver options
 // -------------------
 // LDAP server name to connect to. 
