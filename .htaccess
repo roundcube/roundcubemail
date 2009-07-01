@@ -45,5 +45,4 @@ ExpiresDefault "access plus 1 month"
 
 FileETag MTime Size
 
-Order deny,allow
-Allow from all
+
