@@ -8,7 +8,7 @@
 
 /* INSTALLING:
   gcc -o chgsaslpasswd chgsaslpasswd.c
-  chown root.apache chgsaslpasswd
+  chown cyrus.apache chgsaslpasswd
   strip chgsaslpasswd
   chmod 4550 chgsaslpasswd
 */
@@ -21,7 +21,9 @@ main(int argc, char *argv[])
   rc = execvp(CMD, argv);
   if ((rc != 0) || (cc != 0))
   {
-    fprintf(stderr,"__ %s:  failed %d  %d\n",argv[0],rc,cc);
-    exit(1);
+    fprintf(stderr, "__ %s:  failed %d  %d\n", argv[0], rc, cc);
+    return 1;
   }
+
+  return 0;
 }
