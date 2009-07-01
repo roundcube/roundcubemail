@@ -2170,6 +2170,10 @@ function rcube_webmail()
     // Apply spellcheck changes if spell checker is active
     this.stop_spellchecking();
 
+    // move body from html editor to textarea (just to be sure, #1485860)
+    if (window.tinyMCE && tinyMCE.get('compose-body'))
+      tinyMCE.triggerSave();
+
     return true;
     };
 
