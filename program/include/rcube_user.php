@@ -405,21 +405,24 @@ class rcube_user
       // create new identities records
       $standard = 1;
       foreach ($email_list as $row) {
-
         if (is_array($row)) {
           $email = $row[0];
           $name = $row[1] ? $row[1] : $user_name;
-        } else {
-	  $email = $row;
-	  $name = $user_name;
-	}
+        }
+        else {
+          $email = $row;
+          $name = $user_name;
+        }
 
-        $plugin = $rcmail->plugins->exec_hook('create_identity', array('record' => array(
+        $plugin = $rcmail->plugins->exec_hook('create_identity', array(
           'login' => true,
-          'user_id' => $user_id,
-          'name' => strip_newlines($name),
-          'email' => $email,
-          'standard' => $standard)));
+          'record' => array(
+            'user_id' => $user_id,
+            'name' => strip_newlines($name),
+            'email' => $email,
+            'standard' => $standard,
+          ),
+        ));
           
         if (!$plugin['abort'] && $plugin['record']['email']) {
           $dbh->query(
