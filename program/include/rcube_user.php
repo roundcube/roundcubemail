@@ -359,21 +359,23 @@ class rcube_user
     $user_email = '';
     $rcmail = rcmail::get_instance();
 
-    $data = $rcmail->plugins->exec_hook('create_user', array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email));
-    $user_name = $data['user_name'];
-    $user_email = $data['user_email'];
-    
+    // try to resolve user in virtuser table and file
+    if (!strpos($user, '@')) {
+      if ($email_list = self::user2email($user, false, true))
+        $user_email = is_array($email_list[0]) ? $email_list[0][0] : $email_list[0];
+    }
+
+    $data = $rcmail->plugins->exec_hook('create_user',
+	array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email));
+
     // plugin aborted this operation
     if ($data['abort'])
       return false;
 
-    $dbh = $rcmail->get_dbh();
+    $user_name = $data['user_name'];
+    $user_email = $data['user_email'];
 
-    // try to resolve user in virtuser table and file
-    if ($user_email != '' && !strpos($user, '@')) {
-      if ($email_list = self::user2email($user, false, true))
-        $user_email = is_array($email_list[0]) ? $email_list[0][0] : $email_list[0];
-    }
+    $dbh = $rcmail->get_dbh();
 
     $dbh->query(
       "INSERT INTO ".get_table_name('users')."
@@ -400,10 +402,9 @@ class rcube_user
       }
 
       if (empty($email_list))
-        $email_list[] = strip_newlines($user_email); 
-
+        $email_list[] = strip_newlines($user_email);
       // identities_level check
-      if (count($email_list) > 1 && $rcmail->config->get('identities_level', 0) > 1)
+      else if (count($email_list) > 1 && $rcmail->config->get('identities_level', 0) > 1)
         $email_list = array($email_list[0]);
 
       // create new identities records
