@@ -36,7 +36,8 @@
  1. Configuration
  ----------------
 
- * See config.inc.php file.
+ Copy config.inc.php.dist to config.inc.php and set the options as described
+ within the file.
 
 
  2. Drivers
