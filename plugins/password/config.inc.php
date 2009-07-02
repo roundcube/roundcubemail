@@ -3,7 +3,7 @@
 // Password Plugin options
 // -----------------------
 // A driver to use for password change. Default: "sql".
-$rcmail_config['password_driver'] = 'poppassd';
+$rcmail_config['password_driver'] = 'sasl';
 
 // Determine whether current password is required to change password.
 // Default: false.
@@ -41,7 +41,7 @@ $rcmail_config['password_pop_port'] = 106;
 // SASL Driver options
 // -------------------
 // Additional arguments for the saslpasswd2 call
-$rcmail_config['password_saslpasswd_args'] = '';
+$rcmail_config['password_saslpasswd_args'] = '-u rolig';
 
 
 // LDAP Driver options
