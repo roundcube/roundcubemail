@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.3-20090419                                                    |
+ | Version 0.3-20090702                                                    |
  |                                                                         |
  | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -63,6 +63,11 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
 }
 
+// check if https is required (for login) and redirect if necessary
+if ($RCMAIL->config->get('force_https', false) && empty($_SESSION['user_id']) && !(isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT'] == 443)) {
+  header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+  exit;
+}
 
 // trigger startup plugin hook
 $startup = $RCMAIL->plugins->exec_hook('startup', array('task' => $RCMAIL->task, 'action' => $RCMAIL->action));

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added config option to enforce HTTPS connections
 - Fix non-unicode characters caching in unicode database (#1484608)
 - Performance improvements of messages caching
 - Fix empty Date header issue (#1485923)
