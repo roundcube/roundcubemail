@@ -386,6 +386,10 @@ class rcube_user
 
     if ($user_id = $dbh->insert_id(get_sequence_name('users')))
     {
+      // create rcube_user instance to make plugin hooks work
+      $user_instance = new rcube_user($user_id);
+      $rcmail->user = $user_instance;
+
       $mail_domain = $rcmail->config->mail_domain($host);
 
       if ($user_email=='')
@@ -449,7 +453,7 @@ class rcube_user
         'message' => "Failed to create new user"), true, false);
     }
     
-    return $user_id ? new rcube_user($user_id) : false;
+    return $user_id ? $user_instance : false;
   }
   
   
