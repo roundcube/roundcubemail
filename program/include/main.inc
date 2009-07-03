@@ -1083,7 +1083,7 @@ function rcmail_mailbox_list($attrib)
   }
   
   // allow plugins to alter the folder tree or to localize folder names
-  $hook = $RCMAIL->plugins->exec_hook('list_mailboxes', array('list' => $a_mailboxes, 'delimiter' => $delimiter));
+  $hook = $RCMAIL->plugins->exec_hook('render_mailboxlist', array('list' => $a_mailboxes, 'delimiter' => $delimiter));
 
   if ($type=='select') {
     $select = new html_select($attrib);
