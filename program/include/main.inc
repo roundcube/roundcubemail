@@ -1081,6 +1081,9 @@ function rcmail_mailbox_list($attrib)
     foreach ($a_folders as $folder)
       rcmail_build_folder_tree($a_mailboxes, $folder, $delimiter);
   }
+  
+  // allow plugins to alter the folder tree or to localize folder names
+  $hook = $RCMAIL->plugins->exec_hook('list_mailboxes', array('list' => $a_mailboxes, 'delimiter' => $delimiter));
 
   if ($type=='select') {
     $select = new html_select($attrib);
@@ -1089,12 +1092,12 @@ function rcmail_mailbox_list($attrib)
     if ($attrib['noselection'])
       $select->add(rcube_label($attrib['noselection']), '0');
     
-    rcmail_render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
+    rcmail_render_folder_tree_select($hook['list'], $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
     $out = $select->show();
   }
   else {
     $js_mailboxlist = array();
-    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib), html::$common_attrib);
+    $out = html::tag('ul', $attrib, rcmail_render_folder_tree_html($hook['list'], $mbox_name, $js_mailboxlist, $attrib), html::$common_attrib);
     
     $RCMAIL->output->add_gui_object('mailboxlist', $attrib['id']);
     $RCMAIL->output->set_env('mailboxes', $js_mailboxlist);
