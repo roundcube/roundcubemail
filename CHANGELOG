@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Use spl_autoload_register() instead of __autoload (#1485947)
+- Add hook for identities listing (#1485958)
+- Trigger hook 'smtp_connect' when opening an SMTP connection (#1485954)
 - Added config option to enforce HTTPS connections
 - Fix non-unicode characters caching in unicode database (#1484608)
 - Performance improvements of messages caching
