@@ -51,7 +51,18 @@ $SMTP_CONN = null;
  */
 function smtp_mail($from, $recipients, &$headers, &$body, &$response)
   {
-  global $SMTP_CONN, $CONFIG, $RCMAIL;
+  global $SMTP_CONN, $RCMAIL;
+  
+  // let plugins alter smtp connection config
+  $CONFIG = $RCMAIL->plugins->exec_hook('smtp_connect', array(
+    'smtp_server' => $RCMAIL->config->get('smtp_server'),
+    'smtp_port'   => $RCMAIL->config->get('smtp_port', 25),
+    'smtp_user'   => $RCMAIL->config->get('smtp_user'),
+    'smtp_pass'   => $RCMAIL->config->get('smtp_pass'),
+    'smtp_auth_type' => $RCMAIL->config->get('smtp_auth_type'),
+    'smtp_helo_host' => $RCMAIL->config->get('smtp_helo_host'),
+  ));
+
   $smtp_timeout = null;
   $smtp_host = $CONFIG['smtp_server'];
   $smtp_port = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;

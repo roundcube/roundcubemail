@@ -408,17 +408,19 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
 
 function rcmail_identities_list($attrib)
   {
-  global $OUTPUT, $USER;
+  global $OUTPUT, $USER, $RCMAIL;
 
   // add id to message list table if not specified
   if (!strlen($attrib['id']))
     $attrib['id'] = 'rcmIdentitiesList';
 
-  // define list of cols to be displayed
-  $a_show_cols = array('name', 'email');
+  // get all identites from DB and define list of cols to be displayed
+  $plugin = $RCMAIL->plugins->exec_hook('list_identities', array(
+    'list' => $USER->list_identities(),
+    'cols' => array('name', 'email')));
 
   // create XHTML table  
-  $out = rcube_table_output($attrib, $USER->list_identities(), $a_show_cols, 'identity_id');
+  $out = rcube_table_output($attrib, $plugin['list'], $plugin['cols'], 'identity_id');
   
   // set client env
   $OUTPUT->add_gui_object('identitieslist', $attrib['id']);
