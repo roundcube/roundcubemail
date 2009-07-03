@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Allow WBR tag in HTML message (#1485960)
 - Use spl_autoload_register() instead of __autoload (#1485947)
 - Add hook for identities listing (#1485958)
 - Trigger hook 'smtp_connect' when opening an SMTP connection (#1485954)
