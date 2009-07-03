@@ -293,7 +293,7 @@ class rcube_plugin_api
   private function template_container_hook($attrib)
   {
     $container = $attrib['name'];
-    return array('content' => $this->template_contents[$container]);
+    return array('content' => $attrib['content'] . $this->template_contents[$container]);
   }
   
   /**
