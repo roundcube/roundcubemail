@@ -78,27 +78,31 @@ if(extension_loaded('mbstring'))
  * @todo Make Zend, PEAR etc play with this
  * @todo Make our classes conform to a more straight forward CS.
  */
-function __autoload($classname)
+function rcube_autoload($classname)
 {
   $filename = preg_replace(
-      array('/MDB2_(.+)/',
-    	    '/Mail_(.+)/',
-    	    '/Net_(.+)/',
-	    '/^html_.+/',
-	    '/^utf8$/',
-	    '/html2text/'
-	),
-      array('MDB2/\\1',
-    	    'Mail/\\1',
-    	    'Net/\\1',
-	    'html',
-	    'utf8.class',
-	    'lib/html2text'	// see #1485505
-	),
+      array(
+        '/MDB2_(.+)/',
+        '/Mail_(.+)/',
+        '/Net_(.+)/',
+        '/^html_.+/',
+        '/^utf8$/',
+        '/html2text/'
+      ),
+      array(
+        'MDB2/\\1',
+        'Mail/\\1',
+        'Net/\\1',
+        'html',
+        'utf8.class',
+        'lib/html2text'  // see #1485505
+      ),
       $classname
   );
   include $filename. '.php';
 }
+
+spl_autoload_register('rcube_autoload');
 
 /**
  * Local callback function for PEAR errors
