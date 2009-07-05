@@ -677,6 +677,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
     '/(<[\/]*st1:[^>]+>)/i',		// Microsoft's Smart Tags <ST1>
     '/<\/?rte_text>/i',			// Rich Text Editor tags (#1485647)
+    '/<\/?broadcast[^>]*>/i',		// invoices from the Apple Store contains <broadcast> tags (#1485962)
     '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
     '/<html[^>]*>/im',			// malformed html: remove html tags (#1485139)
     '/<\/html>/i',			// malformed html: remove html tags (#1485139)
@@ -684,6 +685,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   );
   $html_replace = array(
     '\\1'.' &nbsp; '.'\\3',
+    '',
     '',
     '',
     '',
