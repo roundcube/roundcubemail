@@ -656,6 +656,7 @@ body.messagelist
 {
   overflow: hidden;
   vertical-align: middle;
+  width: 99%;
 }
 
 #messagelist tr td.size
