@@ -244,7 +244,6 @@ function rcmail_message_list($attrib)
   if (!sizeof($a_headers))
     $OUTPUT->show_message('nomessagesfound', 'notice');
 
-  $browser = new rcube_browser;
   $a_js_message_arr = array();
 
   // create row for each message
@@ -314,7 +313,7 @@ function rcmail_message_list($attrib)
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
         $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
         if (empty($cont)) $cont = rcube_label('nosubject');
-        $cont = $browser->ie ? Q($cont) : sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
+        $cont = $OUTPUT->browser->ie ? Q($cont) : sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
       else if ($col=='flag')
         $cont = $flagged_icon ? sprintf($image_tag, $skin_path, $flagged_icon, '') : '';
@@ -455,7 +454,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
       $a_msg_flags['forwarded'] = 1;
     if ($header->flagged)
       $a_msg_flags['flagged'] = 1;
-    
+
     $OUTPUT->command('add_message_row',
       $header->uid,
       $a_msg_cols,
