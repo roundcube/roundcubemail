@@ -97,5 +97,11 @@ $messages['opnotpermitted'] = 'Operation nicht erlaubt!';
 $messages['nofromaddress'] = 'Fehlende E-Mail-Adresse in ausgewählter Identität';
 $messages['editorwarning'] = 'Beim Wechseln in den Texteditor gehen alle Textformatierungen verloren. Möchten Sie fortfahren?';
 $messages['httpreceivedencrypterror'] = 'Ein fataler Konfigurationsfehler ist aufgetreten. Kontaktieren Sie bitte sofort Ihren Administrator. <b>Ihre Nachricht konnte nicht versendet werden.</b>';
+$messages['smtpconnerror'] = 'SMTP Fehler ($code): Die Verbindung ist fehlgeschlagen';
+$messages['smtpautherror'] = 'SMTP Fehler ($code): Die Authentisierung ist fehlgeschlagen';
+$messages['smtpfromerror'] = 'SMTP Fehler ($code): Der Absender ("$from") konnte nicht gesetzt werden';
+$messages['smtptoerror'] = 'SMTP Fehler ($code): Der Empfänger ("$to") konnte nicht gesetzt werden';
+$messages['smtprecipientserror'] = 'SMTP Fehler: Die Empfängerliste konnte nicht verarbeitet werden';
+$messages['smtperror'] = 'SMTP Fehler: $msg';
 
 ?>
