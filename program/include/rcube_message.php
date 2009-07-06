@@ -341,7 +341,7 @@ class rcube_message
         // part text/[plain|html] OR message/delivery-status
         else if (($primary_type == 'text' && ($secondary_type == 'plain' || $secondary_type == 'html') && $mail_part->disposition != 'attachment') ||
                  ($primary_type == 'message' && ($secondary_type == 'delivery-status' || $secondary_type == 'disposition-notification'))) {
-          
+
           // add text part if we're not in alternative mode or if it matches the prefs
           if (!$this->parse_alternative ||
               ($secondary_type == 'html' && $this->opt['prefer_html']) ||
@@ -366,7 +366,7 @@ class rcube_message
         else if ($primary_type == 'protocol')
           continue;
           
-        // part is Microsoft outlook TNEF (winmail.dat)
+        // part is Microsoft Outlook TNEF (winmail.dat)
         else if ($primary_type == 'application' && $secondary_type == 'ms-tnef') {
           foreach ((array)$this->imap->tnef_decode($mail_part, $structure->headers['uid']) as $tnef_part) {
             $this->mime_parts[$tnef_part->mime_id] = $tnef_part;
@@ -374,9 +374,10 @@ class rcube_message
           }
         }
 
-        // part is file/attachment
-        else if ($mail_part->disposition == 'attachment' || $mail_part->disposition == 'inline' ||
+        // part is a file/attachment
+        else if (preg_match('/^(inline|attach)/', $mail_part->disposition) ||
                  $mail_part->headers['content-id'] || (empty($mail_part->disposition) && $mail_part->filename)) {
+
           // skip apple resource forks
           if ($message_ctype_secondary == 'appledouble' && $secondary_type == 'applefile')
             continue;
@@ -392,7 +393,7 @@ class rcube_message
               $this->inline_parts[] = $mail_part;
             }
           }
-          // is regular attachment
+          // is a regular attachment
           else {
             if (!$mail_part->filename)
               $mail_part->filename = 'Part '.$mail_part->mime_id;
