@@ -441,12 +441,15 @@ if (!$savedraft)
     $OUTPUT->send('iframe'); 
   }
 
-  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto);
+  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error);
   
   // return to compose page if sending failed
   if (!$sent)
     {
-    $OUTPUT->show_message("sendingfailed", 'error'); 
+    if ($smtp_error)
+      $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']); 
+    else
+      $OUTPUT->show_message('sendingfailed', 'error'); 
     $OUTPUT->send('iframe');
     }
 

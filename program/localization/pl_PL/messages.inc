@@ -102,5 +102,11 @@ $messages['opnotpermitted'] = 'Niedozwolona operacja!';
 $messages['nofromaddress'] = 'Brak adresu e-mail w wybranej tożsamości';
 $messages['editorwarning'] = 'Zmiana edytora spowoduje utratę formatowania tekstu. Czy jesteś pewien, że chcesz to zrobić?';
 $messages['httpreceivedencrypterror'] = 'Wystąpił błąd krytyczny. Skontaktuj się z administratorem. <b>Nie można wysłać wiadomości.</b>';
+$messages['smtpconnerror'] = 'Błąd SMTP ($code): Nie można nawiązać połączenia z serwerem';
+$messages['smtpautherror'] = 'Błąd SMTP ($code): Uwierzytelnianie nie powiodło się';
+$messages['smtpfromerror'] = 'Błąd SMTP ($code): Nie można ustawić nadawcy "$from"';
+$messages['smtptoerror'] = 'Błąd SMTP ($code): Nie można dodać odbiorcy "$to"';
+$messages['smtprecipientserror'] = 'Błąd SMTP: Parsowanie listy odbiorców nie powiodło się';
+$messages['smtperror'] = 'Błąd SMTP: $msg';
 
 ?>

@@ -1302,7 +1302,7 @@ function rcmail_compose_cleanup()
 /**
  * Send the given message compose object using the configured method
  */
-function rcmail_deliver_message(&$message, $from, $mailto)
+function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error)
 {
   global $CONFIG, $RCMAIL;
 
@@ -1327,7 +1327,7 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 
     // send message
     $smtp_response = array();
-    $sent = smtp_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers, true)), $msg_body, $smtp_response);
+    $sent = smtp_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers, true)), $msg_body, $smtp_response, $smtp_error);
 
     // log error
     if (!$sent)
@@ -1380,7 +1380,7 @@ function rcmail_deliver_message(&$message, $from, $mailto)
 }
 
 
-function rcmail_send_mdn($uid)
+function rcmail_send_mdn($uid, &$smtp_error)
 {
   global $RCMAIL, $IMAP;
 
@@ -1438,7 +1438,7 @@ function rcmail_send_mdn($uid)
     $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
-    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto);
+    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error);
 
     if ($sent)
     {

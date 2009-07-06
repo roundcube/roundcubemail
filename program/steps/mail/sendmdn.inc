@@ -21,13 +21,16 @@
 
 
 if (!empty($_POST['_uid'])) {
-  $sent = rcmail_send_mdn(get_input_value('_uid', RCUBE_INPUT_POST));
+  $sent = rcmail_send_mdn(get_input_value('_uid', RCUBE_INPUT_POST), $smtp_error);
 }
 
 // show either confirm or error message
 if ($sent) {
   $OUTPUT->set_env('mdn_request', false);
   $OUTPUT->show_message('receiptsent', 'confirmation');
+}
+else if ($smtp_error) {
+  $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
 }
 else {
   $OUTPUT->show_message('errorsendingreceipt', 'error');

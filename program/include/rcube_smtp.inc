@@ -49,7 +49,7 @@ $SMTP_CONN = null;
  *
  * @return bool  Returns TRUE on success, or FALSE on error
  */
-function smtp_mail($from, $recipients, &$headers, &$body, &$response)
+function smtp_mail($from, $recipients, &$headers, &$body, &$response, &$error)
   {
   global $SMTP_CONN, $RCMAIL;
   
@@ -96,8 +96,9 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
     $result = $SMTP_CONN->connect($smtp_timeout);
     if (PEAR::isError($result))
       {
-      $SMTP_CONN = null;
       $response[] = "Connection failed: ".$result->getMessage();
+      $error = array('label' => 'smtpconnerror', 'vars' => array('code' => $SMTP_CONN->_code));
+      $SMTP_CONN = null;
       return FALSE;
       }
       
@@ -119,8 +120,9 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
     
       if (PEAR::isError($result))
         {
-        smtp_reset();
+        $error = array('label' => 'smtpautherror', 'vars' => array('code' => $SMTP_CONN->_code));
         $response[] .= 'Authentication failure: ' . $result->getMessage() . ' (Code: ' . $result->getCode() . ')';
+        smtp_reset();
         return FALSE;
         }
       }
@@ -160,8 +162,9 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
   // set From: address
   if (PEAR::isError($SMTP_CONN->mailFrom($from)))
     {
-    smtp_reset();
+    $error = array('label' => 'smtpfromerror', 'vars' => array('from' => $from, 'code' => $SMTP_CONN->_code));
     $response[] .= "Failed to set sender '$from'";
+    smtp_reset();
     return FALSE;
     }
 
@@ -170,6 +173,7 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
   $recipients = smtp_parse_rfc822($recipients);
   if (PEAR::isError($recipients))
     {
+    $error = array('label' => 'smtprecipientserror');
     smtp_reset();
     return FALSE;
     }
@@ -180,8 +184,9 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
     {
     if (PEAR::isError($SMTP_CONN->rcptTo($recipient)))
       {
-      smtp_reset();
+      $error = array('label' => 'smtptoerror', 'vars' => array('to' => $recipient, 'code' => $SMTP_CONN->_code));
       $response[] .= "Failed to add recipient '$recipient'";
+      smtp_reset();
       return FALSE;
       }
     }
@@ -197,10 +202,11 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response)
   unset($text_headers, $body);
    
   // Send the message's headers and the body as SMTP data.
-  if (PEAR::isError($SMTP_CONN->data($data)))
+  if (PEAR::isError($result = $SMTP_CONN->data($data)))
     {
-    smtp_reset();
+    $error = array('label' => 'smtperror', 'vars' => array('msg' => $result->getMessage()));
     $response[] .= "Failed to send data";
+    smtp_reset();
     return FALSE;
     }
 
@@ -218,13 +224,12 @@ function smtp_reset()
   {
   global $SMTP_CONN;
 
-  if (is_object($SMTP_CONN))
+  if (is_object($SMTP_CONN) && is_resource($SMTP_CONN->_socket->fp))
     {
     $SMTP_CONN->rset();
     smtp_disconnect();
     }
   }
-
 
 
 /**

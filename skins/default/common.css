@@ -185,7 +185,6 @@ img
   background-position: 0 -75px;
 }
 
-
 #message
 {
   position: absolute;
@@ -201,7 +200,6 @@ img
 {
   width: 400px;
   margin: 0px auto;
-  height: 22px;
   min-height: 22px;
   padding: 8px 10px 8px 46px;
 }

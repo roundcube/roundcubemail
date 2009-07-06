@@ -97,5 +97,11 @@ $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity';
 $messages['editorwarning'] = 'Switching to the plain text editor will cause all text formatting to be lost. Do you wish to continue?';
 $messages['httpreceivedencrypterror'] = 'A fatal configuration error occurred. Contact your administrator immediately. <b>Your message can not be sent.</b>';
+$messages['smtpconnerror'] = 'SMTP Error ($code): Connection to server failed';
+$messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed';
+$messages['smtpfromerror'] = 'SMTP Error ($code): Failed to set sender "$from"';
+$messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to"';
+$messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list';
+$messages['smtperror'] = 'SMTP Error: $msg';
 
 ?>
