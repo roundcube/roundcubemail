@@ -29,11 +29,15 @@ if ($_GET['_uid']) {
   if (!empty($MESSAGE->headers->charset))
     $IMAP->set_charset($MESSAGE->headers->charset);
 
-  // go back to list if message not found (wrong UID)
+  // if message not found (wrong UID)...
   if (empty($MESSAGE->headers)) {
     $OUTPUT->show_message('messageopenerror', 'error');
-    if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
-        $OUTPUT->send('messagepreview');
+    // ... display error or preview page
+    if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messageerror'))
+      $OUTPUT->send('messageerror');
+    else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
+      $OUTPUT->send('messagepreview');
+    // ... go back to the list
     else {
       rcmail_overwrite_action('');
       return;
