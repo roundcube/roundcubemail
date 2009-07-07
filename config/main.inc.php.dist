@@ -14,7 +14,6 @@
 
 $rcmail_config = array();
 
-
 // system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
 $rcmail_config['debug_level'] = 1;
 
@@ -124,6 +123,12 @@ $rcmail_config['smtp_helo_host'] = '';
 
 // Log sent messages
 $rcmail_config['smtp_log'] = TRUE;
+
+// Log SQL queries to <log_dir>/sql or to syslog
+$rcmail_config['sql_debug'] = false;
+
+// Log IMAP conversation to <log_dir>/imap or to syslog
+$rcmail_config['imap_debug'] = false;
 
 // How many seconds must pass between emails sent by a user
 $rcmail_config['sendmail_delay'] = 0;

@@ -197,7 +197,11 @@ function iil_xor($string, $string2) {
 }
 
 function iil_PutLine($fp, $string, $endln=true) {
-//      console('C: '. rtrim($string));
+	global $my_prefs;
+	
+	if(!empty($my_prefs['debug_mode']))
+    		write_log('imap', 'C: '. rtrim($string));
+	
         return fputs($fp, $string . ($endln ? "\r\n" : ''));
 }
 
@@ -225,6 +229,8 @@ function iil_PutLineC($fp, $string, $endln=true) {
 }
 
 function iil_ReadLine($fp, $size=1024) {
+	global $my_prefs;
+	
 	$line = '';
 
 	if (!$fp) {
@@ -240,7 +246,8 @@ function iil_ReadLine($fp, $size=1024) {
     		if ($buffer === false) {
         		break;
     		}
-//		console('S: '. chop($buffer));
+		if(!empty($my_prefs['debug_mode']))
+			write_log('imap', 'S: '. chop($buffer));
     		$line .= $buffer;
 	} while ($buffer[strlen($buffer)-1] != "\n");
 	
@@ -265,6 +272,7 @@ function iil_MultLine($fp, $line, $escape=false) {
 }
 
 function iil_ReadBytes($fp, $bytes) {
+	global $my_prefs;
 	$data = '';
 	$len  = 0;
 	do {
@@ -273,7 +281,8 @@ function iil_ReadBytes($fp, $bytes) {
 		if ($len == strlen($data)) {
     		        break; //nothing was read -> exit to avoid apache lockups
     		}
-//		console('[...] '. $d);
+		if(!empty($my_prefs['debug_mode']))
+			write_log('imap', 'S: '. $d);
     		$len = strlen($data);
 	} while ($len < $bytes);
 	
@@ -553,6 +562,8 @@ function iil_Connect($host, $user, $password, $options=null) {
     				$my_prefs['rootdir'] = $optval;
 			} else if ($optkey == 'delimiter') {
     				$my_prefs['delimiter'] = $optval;
+			} else if ($optkey == 'debug_mode') {
+    				$my_prefs['debug_mode'] = $optval;
 			}
 		}
 	}
