@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Support %h variable in 'smtp_server' option (#1485766)
 - Show SMTP errors in browser (#1485927)
 - Allow WBR tag in HTML message (#1485960)
 - Use spl_autoload_register() instead of __autoload (#1485947)

@@ -64,10 +64,10 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response, &$error)
   ));
 
   $smtp_timeout = null;
-  $smtp_host = $CONFIG['smtp_server'];
+  $smtp_host = str_replace('%h', $_SESSION['imap_host'], $CONFIG['smtp_server']);
   $smtp_port = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;
-  $smtp_host_url = parse_url($CONFIG['smtp_server']);
-  
+  $smtp_host_url = parse_url($smtp_host);
+
   // overwrite port
   if (isset($smtp_host_url['host']) && isset($smtp_host_url['port']))
     {

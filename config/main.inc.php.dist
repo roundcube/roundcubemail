@@ -98,6 +98,7 @@ $rcmail_config['virtuser_query'] = '';
 // use this host for sending mails.
 // to use SSL connection, set ssl://smtp.host.com
 // if left blank, the PHP mail() function is used
+// Use %h variable as replacement for user's IMAP hostname
 $rcmail_config['smtp_server'] = '';
 
 // SMTP port (default is 25; 465 for SSL)

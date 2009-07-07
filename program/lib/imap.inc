@@ -260,7 +260,6 @@ function iil_MultLine($fp, $line, $escape=false) {
 		}
 
 		$line = $a[1][0] . '"' . ($escape ? iil_Escape($out) : $out) . '"';
-//		console('[...] '. $out);
 	}
 	return $line;
 }
@@ -269,10 +268,12 @@ function iil_ReadBytes($fp, $bytes) {
 	$data = '';
 	$len  = 0;
 	do {
-    		$data .= fread($fp, $bytes-$len);
+		$d = fread($fp, $bytes-$len);
+                $data .= $d;
 		if ($len == strlen($data)) {
     		        break; //nothing was read -> exit to avoid apache lockups
     		}
+//		console('[...] '. $d);
     		$len = strlen($data);
 	} while ($len < $bytes);
 	
