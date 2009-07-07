@@ -1034,7 +1034,7 @@ function rcube_timer()
 /**
  * @access private
  */
-function rcube_print_time($timer, $label='Timer')
+function rcube_print_time($timer, $label='Timer', $dest='console')
 {
   static $print_count = 0;
   
@@ -1045,7 +1045,7 @@ function rcube_print_time($timer, $label='Timer')
   if (empty($label))
     $label = 'Timer '.$print_count;
   
-  console(sprintf("%s: %0.4f sec", $label, $diff));
+  write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
 }
 
 
