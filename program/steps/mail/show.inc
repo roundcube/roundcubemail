@@ -84,9 +84,11 @@ if ($_GET['_uid']) {
   {
     if (intval($CONFIG['mdn_requests']) === 1)
     {
-      if (rcmail_send_mdn($MESSAGE->uid))
+      if (rcmail_send_mdn($MESSAGE->uid, $smtp_error))
         $OUTPUT->show_message('receiptsent', 'confirmation');
-      else
+      else if ($smtp_error)
+        $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
+      else	
         $OUTPUT->show_message('errorsendingreceipt', 'error');
     }
     else if (empty($CONFIG['mdn_requests']))
