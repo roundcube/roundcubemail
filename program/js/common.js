@@ -580,7 +580,7 @@ function rcube_console()
 {
   this.log = function(msg)
   {
-    var box = rcube_find_object('console');
+    var box = rcube_find_object('dbgconsole');
 
     if (box) {
       if (msg.charAt(msg.length-1)=='\n')
@@ -599,7 +599,7 @@ function rcube_console()
 
   this.reset = function()
   {
-    var box = rcube_find_object('console');
+    var box = rcube_find_object('dbgconsole');
     if (box)
       box.innerText = box.value = '';
   };
