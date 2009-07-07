@@ -893,6 +893,9 @@ function format_date($date, $format=NULL)
   else if (!$format)
     $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';
 
+  // strftime() format
+  if (preg_match('/%[a-z]+/i', $format))
+    return strftime($format, $timestamp);
 
   // parse format string manually in order to provide localized weekday and month names
   // an alternative would be to convert the date() format string to fit with strftime()

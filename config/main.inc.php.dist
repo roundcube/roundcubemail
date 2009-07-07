@@ -155,13 +155,13 @@ $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
 $rcmail_config['language'] = null;
 
-// use this format for short date display
+// use this format for short date display (date or strftime format)
 $rcmail_config['date_short'] = 'D H:i';
 
-// use this format for detailed date/time formatting
+// use this format for detailed date/time formatting (date or strftime format)
 $rcmail_config['date_long'] = 'd.m.Y H:i';
 
-// use this format for today's date display
+// use this format for today's date display (date or strftime format)
 $rcmail_config['date_today'] = 'H:i';
 
 // add this user-agent to message headers when sending
