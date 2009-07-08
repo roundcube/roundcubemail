@@ -84,11 +84,11 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
 
     $attachment = $RCMAIL->plugins->exec_hook('upload_attachment', $attachment);
 
-    if ($attachment['status']) {
+    if ($attachment['status'] && !$attachment['abort']) {
       $id = $attachment['id'];
       
       // store new attachment in session
-      unset($attachment['status']);
+      unset($attachment['status'], $attachment['abort']);
       $_SESSION['compose']['attachments'][$id] = $attachment;
       
       if (($icon = $_SESSION['compose']['deleteicon']) && is_file($icon)) {
@@ -115,6 +115,9 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       $err = $_FILES['_attachments']['error'][$i];
       if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
         $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
+      }
+      else if ($attachment['error']) {
+        $msg = $attachment['error'];
       }
       else {
         $msg = rcube_label('fileuploaderror');
