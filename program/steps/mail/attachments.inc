@@ -79,7 +79,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
     $attachment = array(
       'path' => $filepath,
       'name' => $_FILES['_attachments']['name'][$i],
-      'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['type'][$i])
+      'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i])
     );
 
     $attachment = $RCMAIL->plugins->exec_hook('upload_attachment', $attachment);
