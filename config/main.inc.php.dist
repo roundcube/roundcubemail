@@ -413,7 +413,7 @@ $rcmail_config['inline_images'] = TRUE;
 // 0 - Full RFC 2231 compatible
 // 1 - RFC 2047 for 'name' and RFC 2231 for 'filename' parameter (Thunderbird's default)
 // 2 - Full 2047 compatible
-$rcmail_config['mime_param_folding'] = 0;
+$rcmail_config['mime_param_folding'] = 1;
 
 // Set TRUE if deleted messages should not be displayed
 // This will make the application run slower
