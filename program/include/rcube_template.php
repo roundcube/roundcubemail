@@ -371,6 +371,9 @@ class rcube_template extends rcube_html_page
         // parse for specialtags
         $output = $this->parse_conditions($templ);
         $output = $this->parse_xml($output);
+        
+        // trigger generic hook where plugins can put additional content to the page
+        $hook = $this->app->plugins->exec_hook("render_page", array('template' => $name, 'content' => $output));
 
         // add debug console
         if ($this->config['debug_level'] & 8) {
@@ -379,7 +382,8 @@ class rcube_template extends rcube_html_page
                 <form action="/" name="debugform" style="display:inline"><textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:x-small" spellcheck="false"></textarea></form></div>'
             );
         }
-        $output = $this->parse_with_globals($output);
+        
+        $output = $this->parse_with_globals($hook['content']);
         $this->write(trim($output));
         if ($exit) {
             exit;
