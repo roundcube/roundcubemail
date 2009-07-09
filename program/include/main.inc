@@ -183,9 +183,9 @@ function rcube_charset_convert($str, $from, $to=NULL)
   static $mbstring_loaded = null;
   static $mbstring_list = null;
   static $convert_warning = false;
-
+  static $conv = null;
+  
   $error = false;
-  $conv = null;
 
   $to = empty($to) ? $to = strtoupper(RCMAIL_CHARSET) : rcube_parse_charset($to);
   $from = rcube_parse_charset($from);
@@ -223,34 +223,29 @@ function rcube_charset_convert($str, $from, $to=NULL)
     }
   }
 
-  # try to convert with custom classes
-  if (class_exists('utf8'))
-    $conv = new utf8();
-
-  // convert string to UTF-8
+  // convert charset using bundled classes/functions
   if ($to == 'UTF-8') {
     if ($from == 'UTF7-IMAP') {
       if ($_str = utf7_to_utf8($str))
-        $str = $_str;
-      else
-        $error = true;
+        return $_str;
     }
     else if ($from == 'UTF-7') {
       if ($_str = rcube_utf7_to_utf8($str))
-        $str = $_str;
-      else
-        $error = true;
+        return $_str;
     }
     else if (($from == 'ISO-8859-1') && function_exists('utf8_encode')) {
-      $str = utf8_encode($str);
+      return utf8_encode($str);
     }
-    else if ($from != 'UTF-8' && $conv) {
-      $from = preg_replace(array('/^WINDOWS-*125([0-8])$/', '/^CP-/'), array('CP125\\1', 'CP'), $from);
-      $conv->loadCharset($from);
-      $str = $conv->strToUtf8($str);
+    else if (class_exists('utf8')) {
+      if (!$conv)
+        $conv = new utf8($from);
+      else
+        $conv->loadCharset($from);
+
+      if($_str = $conv->strToUtf8($str))
+        return $_str;
     }
-    else if ($from != 'UTF-8')
-      $error = true;
+    $error = true;
   }
   
   // encode string for output
@@ -258,36 +253,37 @@ function rcube_charset_convert($str, $from, $to=NULL)
     // @TODO: we need a function for UTF-7 (RFC2152) conversion
     if ($to == 'UTF7-IMAP' || $to == 'UTF-7') {
       if ($_str = utf8_to_utf7($str))
-        $str = $_str;
-      else
-        $error = true;
+        return $_str;
     }
     else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
       return utf8_decode($str);
     }
-    else if ($to != 'UTF-8' && $conv) {
-      $to = preg_replace(array('/^WINDOWS-*125([0-8])$/', '/^CP-/'), array('CP125\\1', 'CP'), $to);
-      $conv->loadCharset($to);
-      return $conv->utf8ToStr($str);
+    else if (class_exists('utf8')) {
+      if (!$conv)
+        $conv = new utf8($to);
+      else
+        $conv->loadCharset($from);
+
+      if ($_str = $conv->strToUtf8($str))
+        return $_str;
     }
-    else if ($to != 'UTF-8') {
-      $error = true;
-    }
+    $error = true;
   }
   
   // report error
-  if ($error && !$convert_warning){
+  if ($error && !$convert_warning) {
     raise_error(array(
       'code' => 500,
       'type' => 'php',
       'file' => __FILE__,
+      'line' => __LINE__,
       'message' => "Could not convert string from $from to $to. Make sure iconv/mbstring is installed or lib/utf8.class is available."
       ), true, false);
     
     $convert_warning = true;
   }
   
-  // return UTF-8 string
+  // return UTF-8 or original string
   return $str;
   }
 

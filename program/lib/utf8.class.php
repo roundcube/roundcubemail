@@ -37,59 +37,48 @@ Note:
 // Charset maps
 // Adapted to fit RoundCube
 define("UTF8_MAP_DIR", "program/lib/encoding");
-$utf8_maps = array(
-  "CP1250" => UTF8_MAP_DIR . "/CP1250.map",
-  "CP1251" => UTF8_MAP_DIR . "/CP1251.map",
-  "CP1252" => UTF8_MAP_DIR . "/CP1252.map",
-  "CP1253" => UTF8_MAP_DIR . "/CP1253.map",
-  "CP1254" => UTF8_MAP_DIR . "/CP1254.map",
-  "CP1255" => UTF8_MAP_DIR . "/CP1255.map",
-  "CP1256" => UTF8_MAP_DIR . "/CP1256.map",
-  "CP1257" => UTF8_MAP_DIR . "/CP1257.map",
-  "CP1258" => UTF8_MAP_DIR . "/CP1258.map",
-  "ISO-8859-1" => UTF8_MAP_DIR . "/ISO-8859-1.map",
-  "ISO-8859-2" => UTF8_MAP_DIR . "/ISO-8859-2.map",
-  "ISO-8859-3" => UTF8_MAP_DIR . "/ISO-8859-3.map",
-  "ISO-8859-4" => UTF8_MAP_DIR . "/ISO-8859-4.map",
-  "ISO-8859-5" => UTF8_MAP_DIR . "/ISO-8859-5.map",
-  "ISO-8859-6" => UTF8_MAP_DIR . "/ISO-8859-6.map",
-  "ISO-8859-7" => UTF8_MAP_DIR . "/ISO-8859-7.map",
-  "ISO-8859-8" => UTF8_MAP_DIR . "/ISO-8859-8.map",
-  "ISO-8859-9" => UTF8_MAP_DIR . "/ISO-8859-9.map",
-  "KOI8-R" => UTF8_MAP_DIR . "/KOI8R.map",
-  "KOI8R" => UTF8_MAP_DIR . "/KOI8R.map"
-  );
 
 //Error constants
-define("ERR_OPEN_MAP_FILE","ERR_OPEN_MAP_FILE");
+define("ERR_OPEN_MAP_FILE", "ERR_OPEN_MAP_FILE");
 
 //Class definition
-Class utf8{
+Class utf8 {
 
   var $charset = "ISO-8859-1";
   var $ascMap = array();
   var $utfMap = array();
+  var $aliases = array(
+    'KOI8-R' => 'KOI8R'
+  );
+  var $error = null;
 
-  function __construct($charset="ISO-8859-1"){
+  function __construct($charset="ISO-8859-1") {
     $this->loadCharset($charset);
   }
   
   //Load charset
-  function loadCharset($charset){
-    global $utf8_maps;
-
-    if (!is_file($utf8_maps[$charset]))
-      {
-      $this->onError(ERR_OPEN_MAP_FILE, "Failed to open map file for $charset");
-      return;
-      }
+  function loadCharset($charset) {
     
+    $charset = preg_replace(array('/^WINDOWS-*125([0-8])$/', '/^CP-/'), array('CP125\\1', 'CP'), $charset);
+    if (isset($aliases[$charset]))
+      $charset = $aliases[$charset];
+    
+    $this->charset = $charset;
+
     if (empty($this->ascMap[$charset]))
       {
-      $lines = file_get_contents($utf8_maps[$charset]);
+      $file = UTF8_MAP_DIR.'/'.$charset.'.map';
+    
+      if (!is_file($file)) {
+        $this->onError(ERR_OPEN_MAP_FILE, "Failed to open map file for $charset");
+        return;
+      }
+    
+      $lines = file_get_contents($file);
       $lines = preg_replace("/#.*$/m","",$lines);
       $lines = preg_replace("/\n\n/","",$lines);
       $lines = explode("\n",$lines);
+
       foreach($lines as $line){
         $parts = explode('0x',$line);
         if(count($parts)==3){
@@ -98,37 +87,42 @@ Class utf8{
           $this->ascMap[$charset][$asc]=$utf;
         }
       }
+      
+      $this->utfMap = array_flip($this->ascMap[$charset]);
     }
-    
-    $this->charset = $charset;
-    $this->utfMap = array_flip($this->ascMap[$charset]);
   }
 
   //Error handler
   function onError($err_code,$err_text){
-    //print($err_code . " : " . $err_text . "<hr>\n");
-    raise_error(array('code' => 500,
-                      'type' => 'php',
-                      'file' => __FILE__,
-                      'message' => $err_text), TRUE, FALSE);
+    $this->error = $err_text;
+    return null;
   }
 
   //Translate string ($str) to UTF-8 from given charset
   function strToUtf8($str){
+    if (empty($this->ascMap[$this->charset]))
+      return null;
+
     $chars = unpack('C*', $str);
     $cnt = count($chars);
-    for($i=1;$i<=$cnt;$i++) $this->_charToUtf8($chars[$i]);
+    for($i=1; $i<=$cnt; $i++)
+      $this->_charToUtf8($chars[$i]);
+
     return implode("",$chars);
   }
 
   //Translate UTF-8 string to single byte string in the given charset
   function utf8ToStr($utf){
+    if (empty($this->ascMap[$this->charset]))
+      return null;
+
     $chars = unpack('C*', $utf);
     $cnt = count($chars);
     $res = ""; //No simple way to do it in place... concatenate char by char
-    for ($i=1;$i<=$cnt;$i++){
+
+    for ($i=1; $i<=$cnt; $i++)
       $res .= $this->_utf8ToChar($chars, $i);
-    }
+
     return $res;
   }
 
