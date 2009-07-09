@@ -1,0 +1,48 @@
+/** Styles for the new-user-dialog overlay box */
+
+#newuseroverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.5) !important;
+  background: black;
+  
+  /** IE hacks */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+  width: expression(document.documentElement.clientWidth+'px');
+  height: expression(document.documentElement.clientHeight+'px');
+}
+
+#newuseroverlay h3 {
+  color: #333;
+  font-size: normal;
+  margin-top: 0.5em;
+}
+
+#newuseroverlay form {
+  width: 30em;
+  margin: 6em auto;
+  padding: 1em 2em;
+  background: #F6F6F6;
+  border: 2px solid #999;
+}
+
+#newuseroverlay table td.title
+{
+  color: #666;
+  text-align: right;
+  padding-right: 1em;
+  white-space: nowrap;
+}
+
+#newuseroverlay table td input
+{
+  width: 20em;
+}
+
+#newuseroverlay .formbuttons {
+  text-align: center;
+}

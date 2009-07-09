@@ -46,7 +46,10 @@ class squirrelmail_usercopy extends rcube_plugin
 			if ($contacts && count($this->abook)) {
 				foreach ($this->abook as $rec)
 					$contacts->insert($rec, true);
-			}			
+			}
+			
+			// mark identity as complete for following hooks
+			$p['complete'] = true;
 		}
 
 		return $p;
