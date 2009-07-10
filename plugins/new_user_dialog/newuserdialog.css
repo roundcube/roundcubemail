@@ -8,10 +8,11 @@
   bottom: 0;
   z-index: 10000;
   background: rgba(0,0,0,0.5) !important;
-  background: black;
+  background: #333;
   
   /** IE hacks */
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+  filter: alpha(opacity=90);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
   width: expression(document.documentElement.clientWidth+'px');
   height: expression(document.documentElement.clientHeight+'px');
 }
@@ -20,14 +21,23 @@
   color: #333;
   font-size: normal;
   margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+#newuseroverlay p.hint {
+  margin-top: 0.5em;
+  font-style: italic;
 }
 
 #newuseroverlay form {
-  width: 30em;
-  margin: 6em auto;
+  width: 32em;
+  margin: 8em auto;
   padding: 1em 2em;
   background: #F6F6F6;
-  border: 2px solid #999;
+  border: 2px solid #555;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
 }
 
 #newuseroverlay table td.title
@@ -44,5 +54,6 @@
 }
 
 #newuseroverlay .formbuttons {
+  margin-top: 1.5em;
   text-align: center;
 }

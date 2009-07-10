@@ -31,8 +31,7 @@ class new_user_dialog extends rcube_plugin
   function create_identity($p)
   {
     // set session flag when a new user was created and the default identity seems to be incomplete
-    $rcmail = rcmail::get_instance();
-    if ($p['login'] && !$p['complete'] && (empty($p['record']['name']) || $p['record']['name'] == $rcmail->user->data['username']))
+    if ($p['login'] && !$p['complete'])
       $_SESSION['plugin.newuserdialog'] = true;
   }
 
@@ -42,7 +41,9 @@ class new_user_dialog extends rcube_plugin
    */
   function render_page($p)
   {
-    if ($_SESSION['plugin.newuserdialog'] && $p['template'] == 'mail') {
+    if ($_SESSION['plugin.newuserdialog']) {
+      $this->add_texts('localization');
+      
       $rcmail = rcmail::get_instance();
       $identity = $rcmail->user->get_identity();
       $identities_level = intval($rcmail->config->get('identities_level', 0));
@@ -61,7 +62,8 @@ class new_user_dialog extends rcube_plugin
         html::tag('form', array(
             'action' => $rcmail->url('plugin.newusersave'),
             'method' => "post"),
-          html::tag('h3', null, 'Please complete your sender identity') .  // TODO: localize title
+          html::tag('h3', null, Q($this->gettext('identitydialogtitle'))) .
+          html::p('hint', Q($this->gettext('identitydialoghint'))) .
           $table->show() .
           html::p(array('class' => "formbuttons"),
             html::tag('input', array('type' => "submit", 'class' => "button mainaction", 'value' => $this->gettext('save'))))
