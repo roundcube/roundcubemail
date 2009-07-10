@@ -37,9 +37,9 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
 {
   rcmail_compose_cleanup();
   $_SESSION['compose'] = array(
-	'id' => uniqid(rand()),
-	'param' => array_map('strip_tags', $_GET),
-	'mailbox' => $IMAP->get_mailbox_name()
+    'id' => uniqid(rand()),
+    'param' => array_map('strip_tags', $_GET),
+    'mailbox' => $IMAP->get_mailbox_name(),
   );
   
   // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
@@ -86,7 +86,7 @@ if (!empty($msg_uid))
 {
   // similar as in program/steps/mail/show.inc
   // re-set 'prefer_html' to have possibility to use html part for compose
-  $CONFIG['prefer_html'] = $CONFIG['htmleditor'];
+  $CONFIG['prefer_html'] = $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
   $MESSAGE = new rcube_message($msg_uid);
   
   if (!empty($MESSAGE->headers->charset))
@@ -357,7 +357,7 @@ function rcmail_compose_body($attrib)
 
   $attrib['name'] = '_message';
 
-  if ($CONFIG['htmleditor'])
+  if ($CONFIG['htmleditor'] || (($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) && $MESSAGE->first_html_part()))
     $isHtml = true;
   else
     $isHtml = false;
@@ -562,11 +562,11 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
       Q($MESSAGE->subject),
       Q($MESSAGE->headers->date),
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()),
-	htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+      htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
 
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Reply-To: </th><td>%s</td></tr>",
-	htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+        htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
 
     $prefix .= "</tbody></table><br>";
   }
@@ -583,7 +583,7 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
    * add attachments
    * sizeof($MESSAGE->mime_parts can be 1 - e.g. attachment, but no text!
    */
-  if (!isset($_SESSION['compose']['forward_attachments'])
+  if (empty($_SESSION['compose']['forward_attachments'])
       && is_array($MESSAGE->mime_parts)
       && count($MESSAGE->mime_parts) > 0)
   {
@@ -605,12 +605,12 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   $cid_map = array();
   foreach ((array)$message->mime_parts as $pid => $part)
   {
-    if (($part->ctype_primary != 'message' || !$bodyIsHtml) && $part->filename &&
-        ($part->disposition=='attachment' || ($part->disposition=='inline' && $bodyIsHtml) || (empty($part->disposition))))
+    if (($part->ctype_primary != 'message' || !$bodyIsHtml) && $part->ctype_primary != 'multipart' && 
+        ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename))
     {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
-        if ($bodyIsHtml && $part->filename && $part->content_id) {
+        if ($bodyIsHtml && $part->content_id) {
           $cid_map['cid:'.$part->content_id] = $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
         }
       }
@@ -645,7 +645,7 @@ function rcmail_save_attachment(&$message, $pid)
   $part = $message->mime_parts[$pid];
   
   $attachment = array(
-    'name' => $part->filename,
+    'name' => $part->filename ? $part->filename : 'Part_'.$pid.'.'.$part->ctype_secondary,
     'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
     'content_id' => $part->content_id,
     'data' => $message->get_part_content($pid),
