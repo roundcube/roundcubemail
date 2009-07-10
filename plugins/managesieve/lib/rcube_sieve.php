@@ -186,8 +186,6 @@ class rcube_sieve_script
     */
   public function __construct($script, $disabled)
     {
-      global $CONFIG;
-
       if (!empty($disabled))
         foreach ($disabled as $ext)
           if (($idx = array_search($ext, $this->supported)) !== false)
