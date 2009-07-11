@@ -537,13 +537,14 @@ class rcube_imap
    * @param   int      Current page to list
    * @param   string   Header field to sort by
    * @param   string   Sort order [ASC|DESC]
+   * @param   boolean  Number of slice items to extract from result array
    * @return  array    Indexed array with message header objects
    * @access  public   
    */
-  function list_headers($mbox_name='', $page=NULL, $sort_field=NULL, $sort_order=NULL)
+  function list_headers($mbox_name='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $slice=0)
     {
     $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
-    return $this->_list_headers($mailbox, $page, $sort_field, $sort_order);
+    return $this->_list_headers($mailbox, $page, $sort_field, $sort_order, false, $slice);
     }
 
 
@@ -553,7 +554,7 @@ class rcube_imap
    * @access  private
    * @see     rcube_imap::list_headers
    */
-  private function _list_headers($mailbox='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $recursive=FALSE)
+  private function _list_headers($mailbox='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $recursive=FALSE, $slice=0)
     {
     if (!strlen($mailbox))
       return array();
@@ -591,6 +592,9 @@ class rcube_imap
       $max = max($msg_index);
       $msg_index = array_slice($msg_index, $begin, $end-$begin);
 
+      if ($slice)
+        $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
+
       // fetch reqested headers from server
       $this->_fetch_headers($mailbox, join(',', $msg_index), $a_msg_headers, $cache_key);
       }
@@ -606,6 +610,9 @@ class rcube_imap
       $max = max($msg_index);
       list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
       $msg_index = array_slice($msg_index, $begin, $end-$begin);
+
+      if ($slice)
+        $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
 
       // fetch reqested headers from server
       $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);

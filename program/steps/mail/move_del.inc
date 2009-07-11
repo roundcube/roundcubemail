@@ -115,11 +115,9 @@ else
   if ($addrows && ($jump_back || $nextpage_count > 0)) {
     $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
     $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
-  
-    $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order);
-    if (!$jump_back) {
-        $a_headers = array_slice($a_headers, -$count, $count);
-    }
+
+    $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order, $count);
+
     rcmail_js_message_list($a_headers, false, false);
   }
 }
