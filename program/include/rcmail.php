@@ -882,6 +882,8 @@ class rcmail
    */
   public function encrypt($clear, $key = 'des_key', $base64 = true)
   {
+    if (!$clear)
+      return '';
     /*-
      * Add a single canary byte to the end of the clear text, which
      * will help find out how much of padding will need to be removed
@@ -930,6 +932,9 @@ class rcmail
    */
   public function decrypt($cipher, $key = 'des_key', $base64 = true)
   {
+    if (!$cipher)
+      return '';
+  
     $cipher = $base64 ? base64_decode($cipher) : $cipher;
 
     if (function_exists('mcrypt_module_open') &&
