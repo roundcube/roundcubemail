@@ -1162,7 +1162,7 @@ class rcube_imap
 
       // write structure to cache
       if ($this->caching_enabled)
-        $this->add_message_cache($cache_key, $msg_id, $headers, $struct);
+        $this->add_message_cache($cache_key, $this->_msg_id, $headers, $struct);
       }
 
     return $struct;
@@ -1442,6 +1442,10 @@ class rcube_imap
       {
       $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $uid, true); 
       $structure = iml_GetRawStructureArray($structure_str);
+      // error or message not found
+      if (empty($structure))
+        return false;
+
       $part_type = iml_GetPartTypeCode($structure, $part);
       $o_part = new rcube_message_part;
       $o_part->ctype_primary = $part_type==0 ? 'text' : ($part_type==2 ? 'message' : 'other');
@@ -1455,7 +1459,7 @@ class rcube_imap
 
     $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $uid, true, $part,
         $o_part->encoding, $print, $fp);
-      
+
     if ($fp || $print)
       return true;
 

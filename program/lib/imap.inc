@@ -2249,7 +2249,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 		        	$len  = $to - $from;
 				$result = substr($line, $from, $len);
 			}
-	    
+
         		if ($mode == 1)
 				$result = base64_decode($result);
 			else if ($mode == 2)
@@ -2265,7 +2265,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 	                $sizeStr  = substr($line, $from, $len);
         		$bytes    = (int)$sizeStr;
 			$prev	  = '';
-			
+
         		while ($bytes > 0) {
     		                $line      = iil_ReadLine($fp, 1024);
             			$len       = strlen($line);
@@ -2329,7 +2329,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 			do {
         			$line = iil_ReadLine($fp, 1024);
 			} while (!iil_StartsWith($line, $key, true));
-        
+
     		if ($result) {
 	    		$result = rtrim($result, "\t\r\n\0\x0B");
 			if ($file) {
@@ -2338,9 +2338,9 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 				echo $result;
 			} else
 				return $result; // substr($result, 0, strlen($result)-1);
+
+			return true;
     		}
-    		
-		return true;
 	}
     
 	return false;
@@ -2480,12 +2480,11 @@ function iil_C_FetchStructureString(&$conn, $folder, $id, $is_uid=false) {
 			do {
 				$line = iil_ReadLine($fp, 5000);
 				$line = iil_MultLine($fp, $line);
-				list(, $index, $cmd, $rest) = explode(' ', $line);
-				if ($cmd != 'FETCH' || $index == $id || preg_match("/^$key/", $line))
+				if (!preg_match("/^$key/", $line))
 					$result .= $line;
 			} while (!preg_match("/^$key/", $line));
 
-			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -(strlen($result)-strrpos($result, $key)+1)));
+			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -1));
 		}
 	}
 	return $result;
