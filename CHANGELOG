@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix HTML editor tabIndex setting (#1485972)
 - Added 'imap_debug' option
 - Support strftime's format modifiers in date_* options (#1484806)
 - Support %h variable in 'smtp_server' option (#1485766)

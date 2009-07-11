@@ -17,7 +17,8 @@
 function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
 {
   if (mode == 'identity')
-    tinyMCE.init({ mode : 'textareas',
+    tinyMCE.init({
+      mode : 'textareas',
       editor_selector : 'mce_editor',
       apply_source_formatting : true,
       theme : 'advanced',
@@ -62,8 +63,21 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
 function rcmail_editor_callback(editor)
 {
   var input_from = rcube_find_object('_from');
-  if(input_from && input_from.type=='select-one')
+  if (input_from && input_from.type=='select-one')
     rcmail.change_identity(input_from);
+  // set tabIndex
+  rcmail_editor_tabindex()
+}
+
+// set tabIndex on tinyMCE editor
+function rcmail_editor_tabindex()
+{
+  if (rcmail.env.task == 'mail') {
+    var textarea = tinyMCE.get('compose-body').getElement();
+    var editor = tinyMCE.get('compose-body').getContentAreaContainer().childNodes[0];
+    if (textarea && editor)
+      editor.tabIndex = textarea.tabIndex;
+  }
 }
 
 // switch html/plain mode
@@ -78,6 +92,7 @@ function rcmail_toggle_editor(ishtml, textAreaId, flagElement)
 
     rcmail.plain2html(composeElement.value, textAreaId);
     tinyMCE.execCommand('mceAddControl', true, textAreaId);
+    rcmail_editor_tabindex();
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '1';
     }
