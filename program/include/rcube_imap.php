@@ -1119,21 +1119,16 @@ class rcube_imap
       return $headers->structure;
     }
 
-    // resolve message sequence number
-    if (!($msg_id = $this->_uid2id($uid))) {
-      return FALSE;
-    }
-
     if (!$structure_str)
-      $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id);
+      $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $uid, true);
     $structure = iml_GetRawStructureArray($structure_str);
     $struct = false;
 
     // parse structure and add headers
     if (!empty($structure))
       {
-      $this->_msg_id = $msg_id;
       $headers = $this->get_headers($uid);
+      $this->_msg_id = $headers->id;
 
       // set message charset from message headers
       if ($headers->charset)
@@ -1271,7 +1266,7 @@ class rcube_imap
     // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
     if ($struct->ctype_primary == 'message' || ($struct->ctype_parameters['name'] && !$struct->content_id)) {
       if (empty($raw_headers))
-        $raw_headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $struct->mime_id);
+        $raw_headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $struct->mime_id);
       $struct->headers = $this->_parse_headers($raw_headers) + $struct->headers;
     }
 
@@ -1314,7 +1309,7 @@ class rcube_imap
       // we must fetch and parse headers "manually"
       if ($i<2) {
 	if (!$headers)
-          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
+          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_mime = '';
         $i = 0;
         while (preg_match('/filename\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
@@ -1331,7 +1326,7 @@ class rcube_imap
       }
       if ($i<2) {
 	if (!$headers)
-          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
+          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_encoded = '';
         $i = 0; $matches = array();
         while (preg_match('/filename\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
@@ -1348,7 +1343,7 @@ class rcube_imap
       }
       if ($i<2) {
 	if (!$headers)
-          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
+          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_mime = '';
         $i = 0; $matches = array();
         while (preg_match('/\s+name\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
@@ -1365,7 +1360,7 @@ class rcube_imap
       }
       if ($i<2) {
 	if (!$headers)
-          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, $part->mime_id);
+          $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_encoded = '';
         $i = 0; $matches = array();
         while (preg_match('/\s+name\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
@@ -1429,13 +1424,10 @@ class rcube_imap
    */
   function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL)
     {
-    if (!($msg_id = $this->_uid2id($uid)))
-      return FALSE;
-    
     // get part encoding if not provided
     if (!is_object($o_part))
       {
-      $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $msg_id); 
+      $structure_str = iil_C_FetchStructureString($this->conn, $this->mailbox, $uid, true); 
       $structure = iml_GetRawStructureArray($structure_str);
       $part_type = iml_GetPartTypeCode($structure, $part);
       $o_part = new rcube_message_part;
@@ -1448,7 +1440,7 @@ class rcube_imap
 
     if (!$part) $part = 'TEXT';
 
-    $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, $part,
+    $body = iil_C_HandlePartBody($this->conn, $this->mailbox, $uid, true, $part,
         $o_part->encoding, $print, $fp);
       
     if ($fp || $print)
@@ -1490,10 +1482,7 @@ class rcube_imap
    */
   function &get_raw_body($uid)
     {
-    if (!($msg_id = $this->_uid2id($uid)))
-      return FALSE;
-
-    return iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id);
+    return iil_C_HandlePartBody($this->conn, $this->mailbox, $uid, true);
     }
 
 
@@ -1505,12 +1494,7 @@ class rcube_imap
    */
   function &get_raw_headers($uid)
     {
-    if (!($msg_id = $this->_uid2id($uid)))
-      return FALSE;
-
-    $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $msg_id, NULL);
-
-    return $headers;    
+    return iil_C_FetchPartHeader($this->conn, $this->mailbox, $uid, true);
     }
     
 
@@ -1521,10 +1505,7 @@ class rcube_imap
    */ 
   function print_raw_body($uid)
     {
-    if (!($msg_id = $this->_uid2id($uid)))
-      return FALSE;
-
-    iil_C_HandlePartBody($this->conn, $this->mailbox, $msg_id, NULL, NULL, true);
+    iil_C_HandlePartBody($this->conn, $this->mailbox, $uid, true, NULL, NULL, true);
     }
 
 

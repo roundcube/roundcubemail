@@ -2190,14 +2190,14 @@ function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
 	return $result;
 }
 
-function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $part) {
+function iil_C_FetchPartHeader(&$conn, $mailbox, $id, $is_uid=false, $part=NULL) {
 
 	$part = empty($part) ? 'HEADER' : $part.'.MIME';
 
-        return iil_C_HandlePartBody($conn, $mailbox, $id, $part);
+        return iil_C_HandlePartBody($conn, $mailbox, $id, $is_uid, $part);
 }
 
-function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $print=NULL, $file=NULL) {
+function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL) {
 	
 	$fp     = $conn->fp;
 	$result = false;
@@ -2224,7 +2224,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 
     		// format request
 		$key     = 'ftch0';
-		$request = $key . " FETCH $id (BODY.PEEK[$part])";
+		$request = $key . ($is_uid ? ' UID' : '') . " FETCH $id (BODY.PEEK[$part])";
     		// send request
 		if (!iil_PutLine($fp, $request)) {
 		    return false;
@@ -2344,14 +2344,6 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $part='', $encoding=NULL, $
 	}
     
 	return false;
-}
-
-function iil_C_FetchPartBody(&$conn, $mailbox, $id, $part, $file=NULL) {
-	return iil_C_HandlePartBody($conn, $mailbox, $id, $part, NULL, NULL, $file);
-}
-
-function iil_C_PrintPartBody(&$conn, $mailbox, $id, $part) {
-	iil_C_HandlePartBody($conn, $mailbox, $id, $part, NULL, true, NULL);
 }
 
 function iil_C_CreateFolder(&$conn, $folder) {
@@ -2477,14 +2469,14 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	return false;
 }
 
-function iil_C_FetchStructureString(&$conn, $folder, $id) {
+function iil_C_FetchStructureString(&$conn, $folder, $id, $is_uid=false) {
 	$fp     = $conn->fp;
 	$result = false;
 	
 	if (iil_C_Select($conn, $folder)) {
 		$key = 'F1247';
 
-		if (iil_PutLine($fp, "$key FETCH $id (BODYSTRUCTURE)")) {
+		if (iil_PutLine($fp, $key . ($is_uid ? ' UID' : '') ." FETCH $id (BODYSTRUCTURE)")) {
 			do {
 				$line = iil_ReadLine($fp, 5000);
 				$line = iil_MultLine($fp, $line);
