@@ -561,7 +561,7 @@ class rcube_imap
 
     // use saved message set
     if ($this->search_string && $mailbox == $this->mailbox)
-      return $this->_list_header_set($mailbox, $page, $sort_field, $sort_order);
+      return $this->_list_header_set($mailbox, $page, $sort_field, $sort_order, $slice);
 
     $this->_set_sort_order($sort_field, $sort_order);
 
@@ -574,13 +574,16 @@ class rcube_imap
       {
       $start_msg = ($page-1) * $this->page_size;
       $a_msg_headers = $this->get_message_cache($cache_key, $start_msg, $start_msg+$this->page_size, $this->sort_field, $this->sort_order);
-      return array_values($a_msg_headers);
+      $result = array_values($a_msg_headers);
+      if ($slice)
+        $result = array_slice($result, -$slice, $slice);
+      return $result;
       }
     // cache is dirty, sync it
     else if ($this->caching_enabled && $cache_status==-1 && !$recursive)
       {
       $this->sync_header_index($mailbox);
-      return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE);
+      return $this->_list_headers($mailbox, $page, $this->sort_field, $this->sort_order, TRUE, $slice);
       }
 
     // retrieve headers from IMAP
@@ -648,11 +651,12 @@ class rcube_imap
    * @param   int      Current page to list
    * @param   string   Header field to sort by
    * @param   string   Sort order [ASC|DESC]
+   * @param   boolean  Number of slice items to extract from result array
    * @return  array    Indexed array with message header objects
    * @access  private
    * @see     rcube_imap::list_header_set()
    */
-  private function _list_header_set($mailbox, $page=NULL, $sort_field=NULL, $sort_order=NULL)
+  private function _list_header_set($mailbox, $page=NULL, $sort_field=NULL, $sort_order=NULL, $slice=0)
     {
     if (!strlen($mailbox) || empty($this->search_set))
       return array();
@@ -683,6 +687,9 @@ class rcube_imap
       // get messages uids for one page
       $msgs = array_slice(array_values($msgs), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
 
+      if ($slice)
+        $msgs = array_slice($msgs, -$slice, $slice);
+
       // fetch headers
       $this->_fetch_headers($mailbox, join(',',$msgs), $a_msg_headers, NULL);
 
@@ -699,6 +706,8 @@ class rcube_imap
 	$a_index = $this->message_index('', $this->sort_field, $this->sort_order);
         // get messages uids for one page...
         $msgs = array_slice($a_index, $start_msg, min($cnt-$start_msg, $this->page_size));
+        if ($slice)
+          $msgs = array_slice($msgs, -$slice, $slice);
 	// ...and fetch headers
         $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
 
@@ -724,7 +733,11 @@ class rcube_imap
         $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
       
         // only return the requested part of the set
-        return array_slice(array_values($a_msg_headers), $start_msg, min($cnt-$start_msg, $this->page_size));
+	$a_msg_headers = array_slice(array_values($a_msg_headers), $start_msg, min($cnt-$start_msg, $this->page_size));
+        if ($slice)
+          $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
+
+        return $a_msg_headers;
         }
       }
     }
