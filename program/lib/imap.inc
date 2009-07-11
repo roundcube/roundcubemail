@@ -199,7 +199,7 @@ function iil_xor($string, $string2) {
 function iil_PutLine($fp, $string, $endln=true) {
 	global $my_prefs;
 	
-	if(!empty($my_prefs['debug_mode']))
+	if (!empty($my_prefs['debug_mode']))
     		write_log('imap', 'C: '. rtrim($string));
 	
         return fputs($fp, $string . ($endln ? "\r\n" : ''));
@@ -246,7 +246,7 @@ function iil_ReadLine($fp, $size=1024) {
     		if ($buffer === false) {
         		break;
     		}
-		if(!empty($my_prefs['debug_mode']))
+		if (!empty($my_prefs['debug_mode']))
 			write_log('imap', 'S: '. chop($buffer));
     		$line .= $buffer;
 	} while ($buffer[strlen($buffer)-1] != "\n");
@@ -277,13 +277,14 @@ function iil_ReadBytes($fp, $bytes) {
 	$len  = 0;
 	do {
 		$d = fread($fp, $bytes-$len);
+		if (!empty($my_prefs['debug_mode']))
+			write_log('imap', 'S: '. $d);
                 $data .= $d;
-		if ($len == strlen($data)) {
+		$data_len = strlen($data);
+		if ($len == $data_len) {
     		        break; //nothing was read -> exit to avoid apache lockups
     		}
-		if(!empty($my_prefs['debug_mode']))
-			write_log('imap', 'S: '. $d);
-    		$len = strlen($data);
+    		$len = $data_len;
 	} while ($len < $bytes);
 	
 	return $data;
@@ -328,7 +329,7 @@ function iil_StartsWith($string, $match, $error=false) {
 	return false;
 }
 
-function iil_StartsWithI($string, $match, $bye=false) {
+function iil_StartsWithI($string, $match, $error=false) {
 	$len = strlen($match);
 	if ($len == 0) {
 		return false;
@@ -336,7 +337,7 @@ function iil_StartsWithI($string, $match, $bye=false) {
 	if (strncasecmp($string, $match, $len) == 0) {
 		return true;
 	}
-	if ($bye && strncmp($string, '* BYE ', 6) == 0) {
+	if ($error && preg_match('/^\* (BYE|BAD) /i', $string)) {
 		return true;
 
 	}
@@ -791,7 +792,7 @@ function iil_C_Select(&$conn, $mailbox) {
 				if (strcasecmp($a[2], 'EXISTS') == 0) {
 					$conn->exists = (int) $a[1];
 				}
-				if (strcasecmp($a[2], 'RECENT') == 0) {
+				else if (strcasecmp($a[2], 'RECENT') == 0) {
 					$conn->recent = (int) $a[1];
 				}
 			}
@@ -892,7 +893,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	$command  = 's ' . $is_uid . 'SORT (' . $field . ') ';
 	$command .= $encoding . ' ALL' . $add;
 	$line     = $data = '';
-	
+
 	if (!iil_PutLineC($conn->fp, $command)) {
 	    return false;
 	}
@@ -2265,15 +2266,16 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 	                $sizeStr  = substr($line, $from, $len);
         		$bytes    = (int)$sizeStr;
 			$prev	  = '';
-
+			
         		while ($bytes > 0) {
     		                $line      = iil_ReadLine($fp, 1024);
             			$len       = strlen($line);
                 
 		                if ($len > $bytes) {
             			        $line = substr($line, 0, $bytes);
+					$len = strlen($line);
 		                }
-            			$bytes -= strlen($line);
+            			$bytes -= $len;
 
 		                if ($mode == 1) {
 					$line = rtrim($line, "\t\r\n\0\x0B");
@@ -2352,7 +2354,6 @@ function iil_C_CreateFolder(&$conn, $folder) {
 		do {
 			$line=iil_ReadLine($fp, 300);
 		} while ($line[0] != 'c');
-        $conn->error = $line;
 		return (iil_ParseResult($line) == 0);
 	}
 	return false;
@@ -2377,7 +2378,6 @@ function iil_C_DeleteFolder(&$conn, $folder) {
 		} while ($line[0] != 'd');
 		return (iil_ParseResult($line) == 0);
 	}
-	$conn->error = "Couldn't send command\n";
 	return false;
 }
 
