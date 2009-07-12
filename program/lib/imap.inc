@@ -898,9 +898,9 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	    return false;
 	}
 	do {
-		$line = chop(iil_ReadLine($conn->fp, 1024));
+		$line = chop(iil_ReadLine($conn->fp));
 		if (iil_StartsWith($line, '* SORT')) {
-			$data .= ($data ? ' ' : '') . substr($line, 7);
+			$data .= substr($line, 7);
     		} else if (preg_match('/^[0-9 ]+$/', $line)) {
 			$data .= $line;
 		}
@@ -913,8 +913,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
                 return false;
 	}
 	
-	$out = explode(' ',$data);
-	return $out;
+	return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
 }
 
 function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='', $skip_deleted=true) {
@@ -1842,13 +1841,10 @@ function iil_C_Copy(&$conn, $messages, $from, $to) {
 }
 
 function iil_C_CountUnseen(&$conn, $folder) {
-	$index = iil_C_Search($conn, $folder, 'ALL UNSEEN');
-	if (is_array($index)) {
-		if (($cnt = count($index)) && $index[0] != '') {
-			return $cnt;
-		}
-	}
-	return false;
+        $index = iil_C_Search($conn, $folder, 'ALL UNSEEN');
+        if (is_array($index))
+                return count($index);
+        return false;
 }
 
 function iil_C_UID2ID(&$conn, $folder, $uid) {
@@ -1862,45 +1858,46 @@ function iil_C_UID2ID(&$conn, $folder, $uid) {
 }
 
 function iil_C_ID2UID(&$conn, $folder, $id) {
-	$fp = $conn->fp;
+
 	if ($id == 0) {
 	    return 	-1;
 	}
 	$result = -1;
 	if (iil_C_Select($conn, $folder)) {
-		$key = 'FUID';
-		if (iil_PutLine($fp, "$key FETCH $id (UID)")) {
+		$key = 'fuid';
+		if (iil_PutLine($conn->fp, "$key FETCH $id (UID)")) {
 			do {
-				$line=chop(iil_ReadLine($fp, 1024));
+				$line = chop(iil_ReadLine($conn->fp, 1024));
 				if (preg_match("/^\* $id FETCH \(UID (.*)\)/i", $line, $r)) {
 					$result = $r[1];
 				}
-			} while (!preg_match("/^$key/", $line));
+			} while (!iil_StartsWith($line, $key, true));
 		}
 	}
 	return $result;
 }
 
 function iil_C_Search(&$conn, $folder, $criteria) {
-	$fp = $conn->fp;
+
 	if (iil_C_Select($conn, $folder)) {
-		$c = 0;
+		$data = '';
 		
 		$query = 'srch1 SEARCH ' . chop($criteria);
-		if (!iil_PutLineC($fp, $query)) {
+		if (!iil_PutLineC($conn->fp, $query)) {
 			return false;
 		}
 		do {
-			$line=trim(iil_ReadLine($fp, 10000));
-			if (preg_match('/^\* SEARCH/i', $line)) {
-				$str = trim(substr($line, 8));
-				$messages = explode(' ', $str);
+			$line = trim(iil_ReadLine($conn->fp));
+			if (iil_StartsWith($line, '* SEARCH')) {
+				$data .= substr($line, 8);
+    			} else if (preg_match('/^[0-9 ]+$/', $line)) {
+				$data .= $line;
 			}
 		} while (!iil_StartsWith($line, 'srch1', true));
 
 		$result_code = iil_ParseResult($line);
 		if ($result_code == 0) {
-		    return $messages;
+		    return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
 		}
 		$conn->error = 'iil_C_Search: ' . $line . "\n";
 		return false;	

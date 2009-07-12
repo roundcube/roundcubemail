@@ -1035,14 +1035,6 @@ class rcube_imap
       }
     else
       $a_messages = iil_C_Search($this->conn, $mailbox, ($charset ? "CHARSET $charset " : '') . $criteria);
-
-    // clean message list (there might be some empty entries)
-    if (is_array($a_messages))
-      {
-      foreach ($a_messages as $i => $val)
-        if (empty($val))
-          unset($a_messages[$i]);
-      }
     
     // update messagecount cache ?
 //    $a_mailbox_cache = get_cache('messagecount');
