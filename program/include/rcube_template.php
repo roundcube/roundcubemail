@@ -294,11 +294,11 @@ class rcube_template extends rcube_html_page
             $this->write();
         }
 
-	// set output asap
-	ob_flush();
-	flush();
+        // set output asap
+        ob_flush();
+        flush();
         
-	if ($exit) {
+        if ($exit) {
             exit;
         }
     }
