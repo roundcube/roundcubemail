@@ -25,10 +25,6 @@ $PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 if ($_GET['_uid']) {
   $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
 
-  // set message charset as default
-  if (!empty($MESSAGE->headers->charset))
-    $IMAP->set_charset($MESSAGE->headers->charset);
-
   // if message not found (wrong UID)...
   if (empty($MESSAGE->headers)) {
     $OUTPUT->show_message('messageopenerror', 'error');
@@ -43,7 +39,7 @@ if ($_GET['_uid']) {
       return;
     }
   }
-    
+
   $mbox_name = $IMAP->get_mailbox_name();
   
   // show images?
@@ -64,6 +60,10 @@ if ($_GET['_uid']) {
     send_nocacheing_headers();
   else if (empty($CONFIG['devel_mode']))
     send_modified_header($_SESSION['login_time'], $etag, !$MESSAGE->headers->seen);
+
+  // set message charset as default
+  if (!empty($MESSAGE->headers->charset))
+    $IMAP->set_charset($MESSAGE->headers->charset);
 
   $OUTPUT->set_pagetitle($MESSAGE->subject);
   
@@ -143,11 +143,9 @@ if ($_GET['_uid']) {
       $OUTPUT->set_env('last_uid', $last);
     }
 
-  // mark message as read
-  if (!$MESSAGE->headers->seen) {
-    $IMAP->set_flag($MESSAGE->uid, 'SEEN');
-    $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid, 'mailbox' => $IMAP->mailbox, 'message' => $MESSAGE));
-  }
+  if (!$MESSAGE->headers->seen)
+    $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid,
+	'mailbox' => $IMAP->mailbox, 'message' => $MESSAGE));
 }
 
 
@@ -223,9 +221,17 @@ $OUTPUT->add_handlers(array(
 
 
 if ($RCMAIL->action=='print' && $OUTPUT->template_exists('printmessage'))
-  $OUTPUT->send('printmessage');
+  $OUTPUT->send('printmessage', false);
 else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
-  $OUTPUT->send('messagepreview');
+  $OUTPUT->send('messagepreview', false);
 else
-  $OUTPUT->send('message');
+  $OUTPUT->send('message', false);
+
+
+// mark message as read
+if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen)
+  $IMAP->set_flag($MESSAGE->uid, 'SEEN');
+
+exit;
+
 ?>
