@@ -108,7 +108,7 @@ if ($_GET['_uid']) {
     $next = $prev = $first = $last = -1;
 
     if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] != 'DESC'
-	&& empty($_REQUEST['_search']) && !$IMAP->skip_deleted)
+        && empty($_REQUEST['_search']) && !$IMAP->skip_deleted)
       {
       // this assumes that we are sorted by date_DESC
       $cnt = $IMAP->messagecount();
@@ -145,7 +145,7 @@ if ($_GET['_uid']) {
 
   if (!$MESSAGE->headers->seen)
     $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid,
-	'mailbox' => $IMAP->mailbox, 'message' => $MESSAGE));
+      'mailbox' => $IMAP->mailbox, 'message' => $MESSAGE));
 }
 
 

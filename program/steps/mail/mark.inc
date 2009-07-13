@@ -63,9 +63,9 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
   else if ($flag == 'DELETED' && $CONFIG['skip_deleted']) {
     if ($_POST['_from'] == 'show') {
       if ($next = get_input_value('_next_uid', RCUBE_INPUT_GPC))
-	$OUTPUT->command('show_message', $next);
+        $OUTPUT->command('show_message', $next);
       else
-	$OUTPUT->command('command', 'list');
+        $OUTPUT->command('command', 'list');
     } else {
       // refresh saved search set after moving some messages
       if (($search_request = get_input_value('_search', RCUBE_INPUT_GPC)) && $IMAP->search_set) {
@@ -79,9 +79,9 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
 
       // jump back one page (user removed the whole last page)
       if ($IMAP->list_page > 1 && $nextpage_count <= 0 && $remaining == 0) {
-	$IMAP->set_page($IMAP->list_page-1);
-	$_SESSION['page'] = $IMAP->list_page;
-	$jump_back = true;
+        $IMAP->set_page($IMAP->list_page-1);
+        $_SESSION['page'] = $IMAP->list_page;
+        $jump_back = true;
       }
 
       // update message count display
@@ -97,10 +97,10 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
 
       // add new rows from next page (if any)
       if (($jump_back || $nextpage_count > 0)) {
-	$sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
-	$sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
+        $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
+        $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   
-	$a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order, $count);
+        $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order, $count);
       
         rcmail_js_message_list($a_headers, false, false);
       }
