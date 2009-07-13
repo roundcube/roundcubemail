@@ -39,7 +39,8 @@ class rcube_plugin_api
   private $objectsmap = array();
   private $template_contents = array();
   
-  private  $required_plugins = array('filesystem_attachments');
+  private $required_plugins = array('filesystem_attachments');
+  private $active_hook = false;
 
   /**
    * This implements the 'singleton' design pattern
@@ -179,6 +180,7 @@ class rcube_plugin_api
   public function exec_hook($hook, $args = array())
   {
     $args += array('abort' => false);
+    $this->active_hook = $hook;
     
     foreach ((array)$this->handlers[$hook] as $callback) {
       $ret = call_user_func($callback, $args);
@@ -189,6 +191,7 @@ class rcube_plugin_api
         break;
     }
     
+    $this->active_hook = false;
     return $args;
   }
 
@@ -255,6 +258,19 @@ class rcube_plugin_api
     else {
       raise_error(array('code' => 525, 'type' => 'php', 'message' => "Cannot register template handler $name; already taken by another plugin"), true, false);
     }
+  }
+  
+  
+  /**
+   * Check if a plugin hook is currently processing.
+   * Mainly used to prevent loops and recursion.
+   *
+   * @param string Hook to check (optional)
+   * @return boolean True if any/the given hook is currently processed, otherwise false
+   */
+  public function is_processing($hook = null)
+  {
+    return $this->active_hook && (!$hook || $this->active_hook == $hook);
   }
   
   /**
