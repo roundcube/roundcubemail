@@ -987,23 +987,30 @@ function console()
  */
 function write_log($name, $line)
   {
-  global $CONFIG;
+  global $CONFIG, $RCMAIL;
 
   if (!is_string($line))
     $line = var_export($line, true);
  
   if (empty($CONFIG['log_date_format']))
     $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
+  
+  // trigger logging hook
+  if (is_object($RCMAIL) && is_object($RCMAIL->plugins)) {
+    $log = $RCMAIL->plugins->exec_hook('write_log', array('name' => $name, 'line' => $line));
+    $name = $log['name'];
+    $line = $log['line'];
+    if ($log['abort'])
+      return;
+  }
  
   $log_entry = sprintf("[%s]: %s\n", date($CONFIG['log_date_format']), $line);
 
   if ($CONFIG['log_driver'] == 'syslog') {
-    if ($name == 'errors')
-      $prio = LOG_ERR;
-    else
-      $prio = LOG_INFO;
+    $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
     syslog($prio, $log_entry);
-  } else {
+  }
+  else {
     // log_driver == 'file' is assumed here
     if (empty($CONFIG['log_dir']))
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
