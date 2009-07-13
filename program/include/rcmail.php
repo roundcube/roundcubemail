@@ -797,6 +797,8 @@ class rcmail
    */
   public function kill_session()
   {
+    $this->plugins->exec_hook('kill_session');
+    
     rcube_sess_unset();
     $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
     rcmail::setcookie('sessauth', '-del-', time() - 60);
