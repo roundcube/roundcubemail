@@ -137,7 +137,7 @@ foreach ($ini_checks as $var => $val) {
         } else {
             switch ($var) {
                 case 'date.timezone':
-                    if (date_default_timezone_get() === false) {
+                    if (date_default_timezone_set($status) === false) {
                         $RCI->fail($var, "is '$status', but the settings is wrong");
                         echo '<br />';
                         continue;
