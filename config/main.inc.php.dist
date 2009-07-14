@@ -130,6 +130,9 @@ $rcmail_config['sql_debug'] = false;
 // Log IMAP conversation to <log_dir>/imap or to syslog
 $rcmail_config['imap_debug'] = false;
 
+// Log SMTP conversation to <log_dir>/smtp or to syslog
+$rcmail_config['smtp_debug'] = false;
+
 // How many seconds must pass between emails sent by a user
 $rcmail_config['sendmail_delay'] = 0;
 

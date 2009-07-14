@@ -5,7 +5,7 @@ CHANGELOG RoundCube Webmail
 - Added hook to write_log function (#1485971)
 - Performance improvements by use UID commands (#1485690)
 - Fix HTML editor tabIndex setting (#1485972)
-- Added 'imap_debug' option
+- Added 'imap_debug' and 'smtp_debug' options
 - Support strftime's format modifiers in date_* options (#1484806)
 - Support %h variable in 'smtp_server' option (#1485766)
 - Show SMTP errors in browser (#1485927)

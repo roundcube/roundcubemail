@@ -92,6 +92,9 @@ function smtp_mail($from, $recipients, &$headers, &$body, &$response, &$error)
 
     $SMTP_CONN = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
+    if($RCMAIL->config->get('smtp_debug'))
+      $SMTP_CONN->setDebug(true, 'smtp_debug_handler');
+
     // try to connect to server and exit on failure
     $result = $SMTP_CONN->connect($smtp_timeout);
     if (PEAR::isError($result))
@@ -245,6 +248,12 @@ function smtp_disconnect()
     $SMTP_CONN->disconnect();
     $SMTP_CONN = null;
     }
+  }
+
+/* this is our own debug handler for the SMTP connection */
+function smtp_debug_handler(&$smtp, $message)
+  {
+  write_log('smtp', preg_replace('/\r\n$/', '', $message));
   }
 
 
