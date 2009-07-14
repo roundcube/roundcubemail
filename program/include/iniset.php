@@ -16,13 +16,13 @@
  |         Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: cache.inc 88 2005-12-03 16:54:12Z roundcube $
+ $Id$
 
 */
 
 
 // application constants
-define('RCMAIL_VERSION', '0.3-trunk');
+define('RCMAIL_VERSION', '0.3-trunk-$Rev$');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 
@@ -59,7 +59,9 @@ if  (isset($_SERVER['HTTPS'])) {
 ini_set('session.name', 'roundcube_sessid');
 ini_set('session.use_cookies', 1);
 ini_set('session.use_only_cookies', 1);
-set_magic_quotes_runtime(0);
+if (function_exists('set_magic_quotes_runtime')) {
+  set_magic_quotes_runtime(0);
+}
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
