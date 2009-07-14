@@ -2350,7 +2350,7 @@ function iil_C_CreateFolder(&$conn, $folder) {
 	if (iil_PutLine($fp, 'c CREATE "' . iil_Escape($folder) . '"')) {
 		do {
 			$line=iil_ReadLine($fp, 300);
-		} while ($line[0] != 'c');
+		} while (!iil_StartsWith($line, 'c ', true));
 		return (iil_ParseResult($line) == 0);
 	}
 	return false;
@@ -2361,7 +2361,7 @@ function iil_C_RenameFolder(&$conn, $from, $to) {
 	if (iil_PutLine($fp, 'r RENAME "' . iil_Escape($from) . '" "' . iil_Escape($to) . '"')) {
 		do {
 			$line = iil_ReadLine($fp, 300);
-		} while ($line[0] != 'r');
+		} while (!iil_StartsWith($line, 'r ', true));
 		return (iil_ParseResult($line) == 0);
 	}
 	return false;
@@ -2372,7 +2372,7 @@ function iil_C_DeleteFolder(&$conn, $folder) {
 	if (iil_PutLine($fp, 'd DELETE "' . iil_Escape($folder). '"')) {
 		do {
 			$line=iil_ReadLine($fp, 300);
-		} while ($line[0] != 'd');
+		} while (!iil_StartsWith($line, 'd ', true));
 		return (iil_ParseResult($line) == 0);
 	}
 	return false;
@@ -2392,14 +2392,14 @@ function iil_C_Append(&$conn, $folder, &$message) {
     		return false;
 	}
 
-	$request = 'A APPEND "' . iil_Escape($folder) .'" (\\Seen) {' . $len . '}';
+	$request = 'a APPEND "' . iil_Escape($folder) .'" (\\Seen) {' . $len . '}';
     
 	if (iil_PutLine($fp, $request)) {
-		$line=iil_ReadLine($fp, 100);		
-		$sent = fwrite($fp, $message."\r\n");
+		$line = iil_ReadLine($fp, 100);		
+		$sent = iil_PutLine($fp, $message);
 		do {
-			$line=iil_ReadLine($fp, 1000);
-		} while ($line[0] != 'A');
+			$line=iil_ReadLine($fp);
+		} while (!iil_StartsWith($line, 'a ', true));
 	
 		$result = (iil_ParseResult($line) == 0);
 		if (!$result) {
@@ -2434,7 +2434,7 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	}
     
 	//send APPEND command
-	$request    = 'A APPEND "' . iil_Escape($folder) . '" (\\Seen) {' . $len . '}';
+	$request    = 'a APPEND "' . iil_Escape($folder) . '" (\\Seen) {' . $len . '}';
 	$bytes_sent = 0;
 	if (iil_PutLine($fp, $request)) {
 		$line = iil_ReadLine($fp, 100);
@@ -2447,12 +2447,12 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 		}
 		fclose($in_fp);
 
-		iil_PutLine($fp, '');
+		iil_PutLine($fp, ''); // \r\n
 
 		//read response
 		do {
-			$line = iil_ReadLine($fp, 1000);
-		} while ($line[0] != 'A');
+			$line = iil_ReadLine($fp);
+		} while (!iil_StartsWith($line, 'a ', true));
 			
 		$result = (iil_ParseResult($line) == 0);
 		if (!$result) {
@@ -2479,7 +2479,7 @@ function iil_C_FetchStructureString(&$conn, $folder, $id, $is_uid=false) {
 				$line = iil_MultLine($fp, $line);
 				if (!preg_match("/^$key/", $line))
 					$result .= $line;
-			} while (!preg_match("/^$key/", $line));
+			} while (!iil_StartsWith($line, $key, true));
 
 			$result = trim(substr($result, strpos($result, 'BODYSTRUCTURE')+13, -1));
 		}
