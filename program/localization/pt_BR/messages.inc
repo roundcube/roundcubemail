@@ -50,6 +50,7 @@ $messages['errorsavingsent'] = 'Ocorreu um erro ao salvar a mensagem enviada';
 $messages['errorsaving'] = 'Ocorreu um erro ao salvar';
 $messages['errormoving'] = 'Não foi possível mover a mensagem';
 $messages['errordeleting'] = 'Não foi possível apagar a mensagem';
+$messages['errormarking'] = 'Não foi possível marcar a mensagem';
 $messages['deletecontactconfirm'] = 'Deseja realmente excluir o(s) contato(s) selecionado(s)?';
 $messages['deletemessagesconfirm'] = 'Deseja realmente excluir a(s) mensagem(s) selecionada(s)?';
 $messages['deletefolderconfirm'] = 'Deseja realmente excluir esta pasta?';

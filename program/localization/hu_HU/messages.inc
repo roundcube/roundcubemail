@@ -23,6 +23,7 @@ $messages['loginfailed'] = 'Sikertelen belépés';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 $messages['imaperror'] = 'Nem sikerült a kapcsolódás az IMAP szerverhez';
+$messages['servererror'] = 'Szerver hiba!';
 $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 $messages['loggedout'] = 'Sikeres kijelentkezés. Viszont látásra!';
 $messages['mailboxempty'] = 'A fiók üres';
@@ -46,6 +47,7 @@ $messages['errorsavingsent'] = 'Hiba történt az elküldött üzenet mentése k
 $messages['errorsaving'] = 'A mentés során hiba lépett fel';
 $messages['errormoving'] = 'Az üzenetet nem sikerült áthelyezni';
 $messages['errordeleting'] = 'Az üzenetet nem sikerült törölni';
+$messages['errormarking'] = 'Az üzenetet nem sikerült megjelölni';
 $messages['deletecontactconfirm'] = 'Biztos, hogy törölni szeretnéd a kijelölt címe(ke)t?';
 $messages['deletemessagesconfirm'] = 'Biztos, hogy törölni szeretnéd a kijelölt üzenete(ke)t?';
 $messages['deletefolderconfirm'] = 'Biztos, hogy törölni szeretnéd ezt a mappát?';
@@ -96,5 +98,11 @@ $messages['opnotpermitted'] = 'A művelet nem megengedett!';
 $messages['nofromaddress'] = 'Hiányzó email cím a kiválasztott feladónál';
 $messages['editorwarning'] = 'Az egyszerű szöveges formátumra való váltás az összes formázás elvesztésével jár. Biztosan folytatja?';
 $messages['httpreceivedencrypterror'] = 'Végzetes konfigurációs hiba történt, azonnal lépjen kapcsolatba az üzemeltetővel. <b>Az üzenet nem küldhető el.</b>';
+$messages['smtpconnerror'] = 'SMTP hiba ($code): Sikertelen kapcsolódás a szerverhez';
+$messages['smtpautherror'] = 'SMTP hiba ($code): Sikertelen bejelentkezés';
+$messages['smtpfromerror'] = 'SMTP hiba ($code): Nem sikerült a feladó beállítása: "$from"';
+$messages['smtptoerror'] = 'SMTP hiba ($code): Nem sikerült a következő címzett hozzáadása: "$to"';
+$messages['smtprecipientserror'] = 'SMTP hiba ($code): A címzett lista feldolgozása sikertelen';
+$messages['smtperror'] = 'SMTP hiba ($code): $msg';
 
 ?>

@@ -23,6 +23,7 @@ $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu'
 $messages['sessionerror'] = 'Sinu sessioon on aegunud või vigane';
 $messages['imaperror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
 $messages['servererror'] = 'Serveri tõrge!';
+$messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu sessioon on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Postkast on tühi';
@@ -97,5 +98,11 @@ $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
 $messages['nofromaddress'] = 'Valitud identiteedil puudub e-posti aadress';
 $messages['editorwarning'] = 'Klaarteksti redaktorile lülitamine kaotab kogu teksti vorminduse. Soovid jätkata?';
 $messages['httpreceivedencrypterror'] = 'Ilmnes saatuslik konfiguratsiooniviga. Võta koheselt oma süsteemiadministraatoriga ühendust. <b> Sinu kirja polnud võimalik ära saata. </b>';
+$messages['smtpconnerror'] = 'SMTP Tõrge ($code): Serveriga ühendumine nurjus';
+$messages['smtpautherror'] = 'SMTP Tõrge ($code): Autentimine nurjus';
+$messages['smtpfromerror'] = 'SMTP Tõrge ($code): "$from" saatjaks määramine nurjus';
+$messages['smtptoerror'] = 'SMTP Tõrge ($code): "$to" saajaks määramine nurjus';
+$messages['smtprecipientserror'] = 'SMTP Tõrge: Saajate nimekirja parsimine nurjus';
+$messages['smtperror'] = 'SMTP Tõrge: $msg';
 
 ?>

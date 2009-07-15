@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  17062009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  13072009                |
 +-----------------------------------------------------------------------+
 
 */
@@ -96,5 +96,11 @@ $messages['opnotpermitted'] = 'פעולה אסורה!';
 $messages['nofromaddress'] = 'לזהות שנבחרה חסרה כתובת דואר';
 $messages['editorwarning'] = 'המעבר לעורך רגיל יגרום לאיבוד את העריכה הקיימת. האם להמשיך?';
 $messages['httpreceivedencrypterror'] = 'ארעה שגיאת תצורה חמורה. נא להודיע מייד למנהל/ת המערכת. <B> הודעתך לא תשלח <B> ';
+$messages['smtpconnerror'] = 'SMTP ($code): אבד הקשר לשרת';
+$messages['smtpautherror'] = 'SMTP ($code): ההזדהות נכשלה';
+$messages['smtpfromerror'] = 'SMTP ($code): "$from" לא נרשמה כתובת השולח';
+$messages['smtptoerror'] = 'SMTP ($code): "$to" לא נרשמה כתובת המקבל';
+$messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
+$messages['smtperror'] = 'SMTP: $msg';
 
 ?>

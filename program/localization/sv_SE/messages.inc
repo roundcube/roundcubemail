@@ -99,5 +99,11 @@ $messages['opnotpermitted'] = 'Otillåten operation!';
 $messages['nofromaddress'] = 'Adressen saknas i den valda identiteten';
 $messages['editorwarning'] = 'Genom att växla till text-läge går formateringen förlorad. Vill du fortsätta?';
 $messages['httpreceivedencrypterror'] = 'Ett irreparabelt fel har uppstått. Kontakta administratören omgående. <b>Meddelandet kan inte skickas.</b>';
+$messages['smtpconnerror'] = 'SMTP-fel ($code): Anslutning till servern misslyckades';
+$messages['smtpautherror'] = 'SMTP-fel ($code): Inloggningen misslyckades';
+$messages['smtpfromerror'] = 'SMTP-fel ($code): Kan inte sätta avsändaradress till "$from"';
+$messages['smtptoerror'] = 'SMTP-fel ($code): Kan inte lägga till mottagaradress "$to"';
+$messages['smtprecipientserror'] = 'SMTP-fel: Felaktigt formaterad lista med mottagaradresser';
+$messages['smtperror'] = 'SMTP-fel: $msg';
 
 ?>

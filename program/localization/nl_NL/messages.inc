@@ -99,5 +99,11 @@ $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
 $messages['nofromaddress'] = 'Het e-mailadres mist in de geselecteerde identiteit';
 $messages['editorwarning'] = 'Door het overschakelen naar de platte tekst editor gaat alle opmaak verloren. Weet je zeker dat je verder wil gaan?';
 $messages['httpreceivedencrypterror'] = 'Er is een fatale fout opgetreden. Neem direct contact op met uw systeembeheerder. <b>Uw bericht kon niet worden verzonden.</b>';
+$messages['smtpconnerror'] = 'SMTP Fout ($code): Verbinding met server mislukt';
+$messages['smtpautherror'] = 'SMTP Fout ($code): Autenticatie mislukt';
+$messages['smtpfromerror'] = 'SMTP Fout ($code): Kon afzender "$from" niet instellen';
+$messages['smtptoerror'] = 'SMTP Fout ($code): Kon ontvanger "$to" niet toevoegen';
+$messages['smtprecipientserror'] = 'SMTP Fout: Kon lijst van ontvangers niet verwerken';
+$messages['smtperror'] = 'SMTP Fout: $msg';
 
 ?>

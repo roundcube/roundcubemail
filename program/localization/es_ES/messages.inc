@@ -51,6 +51,7 @@ $messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje envia
 $messages['errorsaving'] = 'Ocurrió un error mientras se guardaba';
 $messages['errormoving'] = 'No se ha podido mover el mensaje';
 $messages['errordeleting'] = 'No se ha podido eliminar el mensaje';
+$messages['errormarking'] = 'No se ha podido marcar el mensaje';
 $messages['deletecontactconfirm'] = '¿Realmente quiere eliminar los contactos seleccionados?';
 $messages['deletemessagesconfirm'] = '¿Realmente quiere eliminar los mensajes seleccionados?';
 $messages['deletefolderconfirm'] = '¿Realmente quiere eliminar esta carpeta?';
@@ -101,5 +102,11 @@ $messages['opnotpermitted'] = '¡Operación no permitida!';
 $messages['nofromaddress'] = 'El contacto seleccionado no tiene dirección de e-mail';
 $messages['editorwarning'] = 'Cambiando a texto plano perderá el formato del mensaje. ¿Desea continuar?';
 $messages['httpreceivedencrypterror'] = 'Ha ocurrido un error fatal de configuración. Contacte inmediatamente a su administrador. <b>Su mensaje no ha sido enviado.</b>';
+$messages['smtpconnerror'] = 'Error SMTP ($code): Ha fallado la conexión al servidor';
+$messages['smtpautherror'] = 'Error SMTP ($code): Error de autenticación';
+$messages['smtpfromerror'] = 'Error SMTP ($code): No se ha podido asignar el emisor "$from"';
+$messages['smtptoerror'] = 'Error SMTP ($code): No se ha podido establecer remitente "$to"';
+$messages['smtprecipientserror'] = 'Error SMTP: No es posible analizar la lista de destinatarios';
+$messages['smtperror'] = 'Error SMTP: $msg';
 
 ?>
