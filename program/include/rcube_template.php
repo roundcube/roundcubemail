@@ -925,7 +925,7 @@ class rcube_template extends rcube_html_page
      */
     public function form_tag($attrib, $content = null)
     {
-      if ($this->framed) {
+      if ($this->framed || !empty($_REQUEST['_framed'])) {
         $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
         $hidden = $hiddenfield->show();
       }
@@ -935,7 +935,40 @@ class rcube_template extends rcube_html_page
       
       return html::tag('form',
         $attrib + array('action' => "./", 'method' => "get"),
-        $hidden . $content);
+        $hidden . $content,
+        array('id','class','style','name','method','action','enctype','onsubmit'));
+    }
+    
+    
+    /**
+     * Build a form tag with a unique request token
+     *
+     * @param array Named tag parameters including 'action' and 'task' values which will be put into hidden fields
+     * @param string Form content
+     * @return string HTML code for the form
+     */
+    public function request_form($attrib, $content)
+    {
+        $hidden = new html_hiddenfield();
+        if ($attrib['task']) {
+            $hidden->add(array('name' => '_task', 'value' => $attrib['task']));
+        }
+        if ($attrib['action']) {
+            $hidden->add(array('name' => '_action', 'value' => $attrib['action']));
+        }
+      
+        // generate request token
+        $request_key = $attrib['request'] ? $attrib['request'] : $attrib['action'];
+        $hidden->add(array('name' => '_token', 'value' => $this->app->get_request_token($request_key)));
+      
+        unset($attrib['task'], $attrib['request']);
+        $attrib['action'] = './';
+      
+        // we already have a <form> tag
+        if ($attrib['form'])
+            return $hidden->show() . $content;
+        else
+            return $this->form_tag($attrib, $hidden->show() . $content);
     }
 
 

@@ -26,6 +26,12 @@ $a_html_cols = array('signature');
 $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
+// check request token
+if (!$RCMAIL->check_request('save-identity.'.intval(get_input_value('_iid', RCUBE_INPUT_POST)), RCUBE_INPUT_POST)) {
+  $OUTPUT->show_message('invalidrequest', 'error');
+  rcmail_overwrite_action('identities');
+  return;
+}
 // check input
 if (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))
   {

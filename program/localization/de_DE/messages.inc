@@ -23,6 +23,7 @@ $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
 $messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';
 $messages['imaperror'] = 'Keine Verbindung zum IMAP-Server';
 $messages['servererror'] = 'Serverfehler!';
+$messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner';
 $messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wiedersehen!';
 $messages['mailboxempty'] = 'Ordner ist leer';

@@ -431,30 +431,26 @@ function rcmail_identities_list($attrib)
 
 
 // similar function as in /steps/addressbook/edit.inc
-function get_form_tags($attrib, $action, $add_hidden=array())
+function get_form_tags($attrib, $action, $id = null, $hidden = null)
   {
   global $EDIT_FORM, $RCMAIL;
 
-  $form_start = '';
-  if (!strlen($EDIT_FORM))
-    {
-    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
-    $hiddenfields->add(array('name' => '_action', 'value' => $action));
+  $form_start = $form_end = '';
+  
+  if (empty($EDIT_FORM)) {
+    $request_key = $action . (isset($id) ? '.'.$id : '');
+    $form_start = $RCMAIL->output->request_form(array('name' => "form", 'method' => "post", 'task' => $RCMAIL->task, 'action' => $action, 'request' => $request_key, 'noclose' => true) + $attrib);
     
-    if ($add_hidden)
-      $hiddenfields->add($add_hidden);
-    
-    $form_start = !strlen($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
-    $form_start .= $hiddenfields->show();
+    if (is_array($hidden)) {
+      $hiddenfields = new html_hiddenfield($hidden);
+      $form_start .= $hiddenfields->show();
     }
     
-  $form_end = (!strlen($EDIT_FORM) && !strlen($attrib['form'])) ? '</form>' : '';
-  $form_name = strlen($attrib['form']) ? $attrib['form'] : 'form';
+    $form_end = !strlen($attrib['form']) ? '</form>' : '';
 
-  if (!strlen($EDIT_FORM))
-    $RCMAIL->output->add_gui_object('editform', $form_name);
-  
-  $EDIT_FORM = $form_name;
+    $EDIT_FORM = !empty($attrib['form']) ? $attrib['form'] : 'form';
+    $RCMAIL->output->add_gui_object('editform', $EDIT_FORM);
+  }
 
   return array($form_start, $form_end);
   }

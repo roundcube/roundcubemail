@@ -19,6 +19,13 @@
 
 */
 
+// check request token and exit if invalid
+if (!$RCMAIL->check_request('save-prefs', RCUBE_INPUT_POST)) {
+  $OUTPUT->show_message('invalidrequest', 'error');
+  rcmail_overwrite_action('preferences');
+  return;
+}
+
 $a_user_prefs = array(
   'language'     => isset($_POST['_language']) ? get_input_value('_language', RCUBE_INPUT_POST) : $CONFIG['language'],
   'timezone'     => isset($_POST['_timezone']) ? (is_numeric($_POST['_timezone']) ? floatval($_POST['_timezone']) : get_input_value('_timezone', RCUBE_INPUT_POST)) : $CONFIG['timezone'],

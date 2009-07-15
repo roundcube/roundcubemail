@@ -60,7 +60,7 @@ function rcube_identity_form($attrib)
   $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
   $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
 
-  list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
+  list($form_start, $form_end) = get_form_tags($attrib, 'save-identity', intval($IDENTITY_RECORD['identity_id']), array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
   unset($attrib['form']);
 
   // list of available cols

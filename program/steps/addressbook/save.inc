@@ -19,11 +19,22 @@
 
 */
 
+$cid = get_input_value('_cid', RCUBE_INPUT_POST);
+$return_action = empty($cid) ? 'add' : 'show';
+
+// check request token and exit if invalid
+if (!$RCMAIL->check_request('save.'.intval($cid), RCUBE_INPUT_POST))
+{
+  $OUTPUT->show_message('invalidrequest', 'error');
+  rcmail_overwrite_action($return_action);
+  return;
+}
+
 // cannot edit record
 if ($CONTACTS->readonly)
 {
   $OUTPUT->show_message('contactreadonly', 'error');
-  rcmail_overwrite_action(empty($_POST['_cid']) ? 'add' : 'show');
+  rcmail_overwrite_action($return_action);
   return;
 }
 
@@ -31,7 +42,7 @@ if ($CONTACTS->readonly)
 if ((!get_input_value('_name', RCUBE_INPUT_POST) || !get_input_value('_email', RCUBE_INPUT_POST)))
 {
   $OUTPUT->show_message('formincomplete', 'warning');
-  rcmail_overwrite_action(empty($_POST['_cid']) ? 'add' : 'show');
+  rcmail_overwrite_action($return_action);
   return;
 }
 
@@ -39,7 +50,6 @@ if ((!get_input_value('_name', RCUBE_INPUT_POST) || !get_input_value('_email', R
 // setup some vars we need
 $a_save_cols = array('name', 'firstname', 'surname', 'email');
 $a_record = array();
-$cid = get_input_value('_cid', RCUBE_INPUT_POST);
 
 // read POST values into hash array
 foreach ($a_save_cols as $col)
