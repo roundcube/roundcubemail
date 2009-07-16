@@ -947,7 +947,7 @@ class rcube_template extends rcube_html_page
      * @param string Form content
      * @return string HTML code for the form
      */
-    public function request_form($attrib, $content)
+    public function request_form($attrib, $content = '')
     {
         $hidden = new html_hiddenfield();
         if ($attrib['task']) {
