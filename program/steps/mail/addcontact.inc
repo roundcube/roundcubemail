@@ -5,7 +5,7 @@
  | program/steps/mail/addcontact.inc                                     |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -18,6 +18,10 @@
  $Id$
 
 */
+
+// only process ajax requests
+if (!$OUTPUT->ajax_call)
+  return;
 
 $done = false;
 $CONTACTS = $RCMAIL->get_address_book(null, true);

@@ -19,6 +19,10 @@
 
 */
 
+// only process ajax requests
+if (!$OUTPUT->ajax_call)
+  return;
+
 $cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $target = get_input_value('_to', RCUBE_INPUT_POST);
 if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($target) && $target != $source)
