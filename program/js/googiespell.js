@@ -94,10 +94,10 @@ this.decorateTextarea = function(id) {
 
     if (this.text_area) {
         if (!this.spell_container && this.decoration) {
-            var table = document.createElement('TABLE');
-            var tbody = document.createElement('TBODY');
-            var tr = document.createElement('TR');
-            var spell_container = document.createElement('TD');
+            var table = document.createElement('table');
+            var tbody = document.createElement('tbody');
+            var tr = document.createElement('tr');
+            var spell_container = document.createElement('td');
 
             var r_width = this.isDefined(this.force_width) ? this.force_width : this.text_area.offsetWidth;
             var r_height = this.isDefined(this.force_height) ? this.force_height : 16;
@@ -317,7 +317,7 @@ this.parseResult = function(r_text) {
 // Error menu functions
 /////
 this.createErrorWindow = function() {
-    this.error_window = document.createElement('DIV');
+    this.error_window = document.createElement('div');
     $(this.error_window).addClass('googie_window').attr('googie_action_btn', '1');
 }
 
@@ -349,8 +349,8 @@ this.saveOldValue = function(elm, old_value) {
 }
 
 this.createListSeparator = function() {
-    var td = document.createElement('TD');
-    var tr = document.createElement('TR');
+    var td = document.createElement('td');
+    var tr = document.createElement('tr');
 
     $(td).html(' ').attr('googie_action_btn', '1')
 	.css({'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px'});
@@ -395,8 +395,8 @@ this.showErrorWindow = function(elm, id) {
     $(this.error_window).css({'visibility': 'visible',
 	'top': (pos.top+20)+'px', 'left': (pos.left)+'px'}).html('');
 
-    var table = document.createElement('TABLE');
-    var list = document.createElement('TBODY');
+    var table = document.createElement('table');
+    var list = document.createElement('tbody');
 
     $(table).addClass('googie_list').attr('googie_action_btn', '1');
 
@@ -418,9 +418,9 @@ this.showErrorWindow = function(elm, id) {
         var len = this.results[id]['attrs']['l'];
 
         if (suggestions.length == 0) {
-            var row = document.createElement('TR');
-            var item = document.createElement('TD');
-            var dummy = document.createElement('SPAN');
+            var row = document.createElement('tr');
+            var item = document.createElement('td');
+            var dummy = document.createElement('span');
 
             $(dummy).text(this.lang_no_suggestions);
             $(item).attr('googie_action_btn', '1').css('cursor', 'default');
@@ -431,9 +431,9 @@ this.showErrorWindow = function(elm, id) {
         }
 
         for (i=0; i < suggestions.length; i++) {
-            var row = document.createElement('TR');
-            var item = document.createElement('TD');
-            var dummy = document.createElement('SPAN');
+            var row = document.createElement('tr');
+            var item = document.createElement('td');
+            var dummy = document.createElement('span');
 
             $(dummy).html(suggestions[i]);
             
@@ -449,9 +449,9 @@ this.showErrorWindow = function(elm, id) {
         //The element is changed, append the revert
         if (elm.is_changed && elm.innerHTML != elm.old_value) {
             var old_value = elm.old_value;
-            var revert_row = document.createElement('TR');
-            var revert = document.createElement('TD');
-            var rev_span = document.createElement('SPAN');
+            var revert_row = document.createElement('tr');
+            var revert = document.createElement('td');
+            var rev_span = document.createElement('span');
 	    
 	    $(rev_span).addClass('googie_list_revert').html(this.lang_revert + ' ' + old_value);
 
@@ -469,11 +469,11 @@ this.showErrorWindow = function(elm, id) {
         }
         
         //Append the edit box
-        var edit_row = document.createElement('TR');
-        var edit = document.createElement('TD');
-        var edit_input = document.createElement('INPUT');
-        var ok_pic = document.createElement('IMG');
-	var edit_form = document.createElement('FORM');
+        var edit_row = document.createElement('tr');
+        var edit = document.createElement('td');
+        var edit_input = document.createElement('input');
+        var ok_pic = document.createElement('img');
+	var edit_form = document.createElement('form');
 
         var onsub = function () {
             if (edit_input.value != '') {
@@ -515,8 +515,8 @@ this.showErrorWindow = function(elm, id) {
                     var e_elm = ref.extra_menu_items[i];
 
                     if (!e_elm[2] || e_elm[2](elm, ref)) {
-                        var e_row = document.createElement('TR');
-                        var e_col = document.createElement('TD');
+                        var e_row = document.createElement('tr');
+                        var e_col = document.createElement('td');
 
 			$(e_col).html(e_elm[0])
                     	    .bind('mouseover', ref.item_onmouseover)
@@ -561,10 +561,10 @@ this.showErrorWindow = function(elm, id) {
 // Edit layer (the layer where the suggestions are stored)
 //////
 this.createEditLayer = function(width, height) {
-    this.edit_layer = document.createElement('DIV');
+    this.edit_layer = document.createElement('div');
     $(this.edit_layer).addClass('googie_edit_layer').width(width-10).height(height);
 
-    if (this.text_area.nodeName != 'INPUT' || $(this.text_area).val() == '') {
+    if (this.text_area.nodeName.toLowerCase() != 'input' || $(this.text_area).val() == '') {
         $(this.edit_layer).css('overflow', 'auto').height(height-4);
     } else {
         $(this.edit_layer).css('overflow', 'hidden');
@@ -613,7 +613,7 @@ this.resumeEditing = function() {
 }
 
 this.createErrorLink = function(text, id) {
-    var elm = document.createElement('SPAN');
+    var elm = document.createElement('span');
     var ref = this;
     var d = function (e) {
     	    ref.showErrorWindow(elm, id);
@@ -637,13 +637,13 @@ this.createPart = function(txt_part) {
     txt_part = txt_part.replace(/^ /g, "&nbsp;");
     txt_part = txt_part.replace(/ $/g, "&nbsp;");
     
-    var span = document.createElement('SPAN');
+    var span = document.createElement('span');
     $(span).html(txt_part);
     return span;
 }
 
 this.showErrorsInIframe = function() {
-    var output = document.createElement('DIV')
+    var output = document.createElement('div')
     var pointer = 0;
     var results = this.results;
 
@@ -700,22 +700,22 @@ this.showErrorsInIframe = function() {
 // Choose language menu
 //////
 this.createLangWindow = function() {
-    this.language_window = document.createElement('DIV');
+    this.language_window = document.createElement('div');
     $(this.language_window).addClass('googie_window')
 	.width(100).attr('googie_action_btn', '1');
 
     //Build up the result list
-    var table = document.createElement('TABLE');
-    var list = document.createElement('TBODY');
+    var table = document.createElement('table');
+    var list = document.createElement('tbody');
     var ref = this;
 
     $(table).addClass('googie_list').width('100%');
     this.lang_elms = new Array();
 
     for (i=0; i < this.langlist_codes.length; i++) {
-        var row = document.createElement('TR');
-        var item = document.createElement('TD');
-        var span = document.createElement('SPAN');
+        var row = document.createElement('tr');
+        var item = document.createElement('td');
+        var span = document.createElement('span');
 	
 	$(span).text(this.lang_to_word[this.langlist_codes[i]]);
         this.lang_elms.push(item);
@@ -805,13 +805,13 @@ this.createChangeLangPic = function() {
     var img = $('<img>')
 	.attr({src: this.img_dir + 'change_lang.gif', 'alt': 'Change language', 'googie_action_btn': '1'});
 
-    var switch_lan = document.createElement('SPAN');
+    var switch_lan = document.createElement('span');
     var ref = this;
 
     $(switch_lan).addClass('googie_lang_3d_on')
 	.append(img)
 	.bind('click', function(e) {
-    	    var elm = this.tagName == 'IMG' ? this.parentNode : this;
+    	    var elm = this.tagName.toLowerCase() == 'img' ? this.parentNode : this;
     	    if($(elm).hasClass('googie_lang_3d_click')) {
         	elm.className = 'googie_lang_3d_on';
         	ref.hideLangWindow();
@@ -826,7 +826,7 @@ this.createChangeLangPic = function() {
 }
 
 this.createSpellDiv = function() {
-    var span = document.createElement('SPAN');
+    var span = document.createElement('span');
 
     $(span).addClass('googie_check_spelling_link').text(this.lang_chck_spell);
 
@@ -891,7 +891,7 @@ this.checkSpellingState = function(fire) {
     if (this.show_change_lang_pic)
         this.switch_lan_pic = this.createChangeLangPic();
     else
-        this.switch_lan_pic = document.createElement('SPAN');
+        this.switch_lan_pic = document.createElement('span');
 
     var span_chck = this.createSpellDiv();
     var ref = this;
@@ -939,12 +939,12 @@ this.createCloseButton = function(c_fn) {
 }
 
 this.createButton = function(name, css_class, c_fn) {
-    var btn_row = document.createElement('TR');
-    var btn = document.createElement('TD');
+    var btn_row = document.createElement('tr');
+    var btn = document.createElement('td');
     var spn_btn;
 
     if (css_class) {
-        spn_btn = document.createElement('SPAN');
+        spn_btn = document.createElement('span');
 	$(spn_btn).addClass(css_class).html(name);
     } else {
         spn_btn = document.createTextNode(name);
@@ -972,7 +972,7 @@ this.appendIndicator = function(elm) {
     if (window.rcmail)
 	rcmail.set_busy(true, 'checking');
 /*    
-    this.indicator = document.createElement('IMG');
+    this.indicator = document.createElement('img');
     $(this.indicator).attr('src', this.img_dir + 'indicator.gif')
 	.css({'margin-right': '5px', 'text-decoration': 'none'}).width(16).height(16);
     
@@ -984,7 +984,7 @@ this.appendIndicator = function(elm) {
 }
 
 this.createFocusLink = function(name) {
-    var link = document.createElement('A');
+    var link = document.createElement('a');
     $(link).attr({'href': 'javascript:;', 'name': name});
     return link;
 }

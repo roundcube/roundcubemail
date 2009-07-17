@@ -127,7 +127,7 @@ init_row: function(row)
  */
 clear: function(sel)
 {
-  var tbody = document.createElement('TBODY');
+  var tbody = document.createElement('tbody');
   this.list.insertBefore(tbody, this.list.tBodies[0]);
   this.list.removeChild(this.list.tBodies[1]);
   this.rows = new Array();
@@ -217,7 +217,8 @@ drag_row: function(e, id)
 {
   // don't do anything (another action processed before)
   var evtarget = rcube_event.get_target(e);
-  if (this.dont_select || (evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
+  var tagname = evtarget.tagName.toLowerCase();
+  if (this.dont_select || (evtarget && (tagname == 'input' || tagname == 'img')))
     return true;
     
   // accept right-clicks
@@ -241,7 +242,7 @@ drag_row: function(e, id)
     rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
 
     // add listener for iframes
-    var iframes = document.getElementsByTagName('IFRAME');
+    var iframes = document.getElementsByTagName('iframe');
     this.iframe_events = Object();
     for (var n in iframes)
     {
@@ -283,8 +284,9 @@ click_row: function(e, id)
   var now = new Date().getTime();
   var mod_key = rcube_event.get_modifier(e);
   var evtarget = rcube_event.get_target(e);
+  var tagname = evtarget.tagName.toLowerCase();
 
-  if ((evtarget && (evtarget.tagName == 'INPUT' || evtarget.tagName == 'IMG')))
+  if ((evtarget && (tagname == 'input' || tagname == 'img')))
     return true;
 
   // don't do anything (another action processed before)
@@ -835,7 +837,7 @@ drag_mouse_up: function(e)
   rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
 
-  var iframes = document.getElementsByTagName('IFRAME');
+  var iframes = document.getElementsByTagName('iframe');
   for (var n in iframes) {
     var iframedoc;
     
@@ -869,7 +871,7 @@ drag_mouse_up: function(e)
 set_background_mode: function(flag)
 {
   if (flag) {
-    this.background = document.createElement('TBODY');
+    this.background = document.createElement('tbody');
   } else if (this.background) {
     this.list.replaceChild(this.background, this.list.tBodies[0]);
     this.background = null;

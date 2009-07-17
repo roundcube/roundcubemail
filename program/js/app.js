@@ -418,7 +418,7 @@ function rcube_webmail()
       }
 
     // set eventhandler to message icon
-    if (row.icon = row.obj.getElementsByTagName('TD')[0].getElementsByTagName('IMG')[0])
+    if (row.icon = row.obj.getElementsByTagName('td')[0].getElementsByTagName('img')[0])
       {
       var p = this;
       row.icon.id = 'msgicn_'+row.uid;
@@ -435,7 +435,7 @@ function rcube_webmail()
       }
 
     // set eventhandler to flag icon, if icon found
-    if (this.env.flagged_col && (row.flagged_icon = row.obj.getElementsByTagName('TD')[this.env.flagged_col].getElementsByTagName('IMG')[0]))
+    if (this.env.flagged_col && (row.flagged_icon = row.obj.getElementsByTagName('td')[this.env.flagged_col].getElementsByTagName('img')[0]))
       {
       var p = this;
       row.flagged_icon.id = 'flaggedicn_'+row.uid;
@@ -2405,7 +2405,7 @@ function rcube_webmail()
         }
       else  // for standards-compilant browsers
         {
-        var frame = document.createElement('IFRAME');
+        var frame = document.createElement('iframe');
         frame.name = frame_name;
         frame.style.border = 'none';
         frame.style.width = 0;
@@ -2918,7 +2918,7 @@ function rcube_webmail()
     this.subscription_list.addEventListener('dragend', function(o){ p.subscription_move_folder(o); });
     this.subscription_list.row_init = function (row)
       {
-      var anchors = row.obj.getElementsByTagName('A');
+      var anchors = row.obj.getElementsByTagName('a');
       if (anchors[0])
         anchors[0].onclick = function() { p.rename_folder(row.id); return false; };
       if (anchors[1])
@@ -3084,7 +3084,7 @@ function rcube_webmail()
     if (id && this.env.subscriptionrows[id] && (row = document.getElementById(id)))
       {
       var reg = new RegExp('.*['+RegExp.escape(this.env.delimiter)+']');
-      this.name_input = document.createElement('INPUT');
+      this.name_input = document.createElement('input');
       this.name_input.type = 'text';
       this.name_input.value = this.env.subscriptionrows[id][0].replace(reg, '');
 
@@ -3211,7 +3211,7 @@ function rcube_webmail()
     if (!replace)
       row.cells[1].innerHTML = '*';
     
-    if (!replace && row.cells[2] && row.cells[2].firstChild.tagName=='INPUT')
+    if (!replace && row.cells[2] && row.cells[2].firstChild.tagName.toLowerCase()=='input')
       {
       row.cells[2].firstChild.value = name;
       row.cells[2].firstChild.checked = true;
@@ -3314,11 +3314,11 @@ function rcube_webmail()
   this.clone_table_row = function(row)
     {
     var cell, td;
-    var new_row = document.createElement('TR');
+    var new_row = document.createElement('tr');
     for(var n=0; n<row.cells.length; n++)
       {
       cell = row.cells[n];
-      td = document.createElement('TD');
+      td = document.createElement('td');
 
       if (cell.className)
         td.className = cell.className;
@@ -3406,7 +3406,7 @@ function rcube_webmail()
         if (button.type=='image' && obj)
         {
           obj.setAttribute('alt', this.get_label(label));
-          if ((link = obj.parentNode) && link.tagName == 'A')
+          if ((link = obj.parentNode) && link.tagName.toLowerCase() == 'a')
             link.setAttribute('title', this.get_label(label));
         }
         else if (obj)
@@ -3569,7 +3569,7 @@ function rcube_webmail()
       if ((cell = thead.rows[0].cells[n+1]) && (col=='from' || col=='to'))
         {
         // if we have links for sorting, it's a bit more complicated...
-        if (cell.firstChild && cell.firstChild.tagName=='A')
+        if (cell.firstChild && cell.firstChild.tagName.toLowerCase()=='a')
           {
           cell.firstChild.innerHTML = this.get_label(this.coltypes[n]);
           cell.firstChild.onclick = function(){ return rcmail.command('sort', this.__col, this); };
@@ -3615,7 +3615,7 @@ function rcube_webmail()
         + (this.message_list.in_selection(uid) ? ' selected' : '');
 
     // for performance use DOM instead of jQuery here
-    var row = document.createElement('TR');
+    var row = document.createElement('tr');
     row.id = 'rcmrow'+uid;
     row.className = css_class;
     
@@ -3635,7 +3635,7 @@ function rcube_webmail()
       icon = this.env.unreadicon;
     
     // add icon col
-    var col = document.createElement('TD');
+    var col = document.createElement('td');
     col.className = 'icon';
     col.innerHTML = icon ? '<img src="'+icon+'" alt="" />' : '';
     row.appendChild(col);
@@ -3643,7 +3643,7 @@ function rcube_webmail()
     // add each submitted col
     for (var n = 0; n < this.coltypes.length; n++) {
       var c = this.coltypes[n];
-      col = document.createElement('TD');
+      col = document.createElement('td');
       col.className = String(c).toLowerCase();
             
       if (c=='flag') {
@@ -3787,7 +3787,7 @@ function rcube_webmail()
     var rowcount = tbody.rows.length;
     var even = rowcount%2;
     
-    var row = document.createElement('TR');
+    var row = document.createElement('tr');
     row.id = 'rcmrow'+cid;
     row.className = 'contact '+(even ? 'even' : 'odd');
 	    
@@ -3796,7 +3796,7 @@ function rcube_webmail()
 
     // add each submitted col
     for (var c in cols) {
-      col = document.createElement('TD');
+      col = document.createElement('td');
       col.className = String(c).toLowerCase();
       col.innerHTML = cols[c];
       row.appendChild(col);

@@ -171,9 +171,9 @@ if (window.rcmail) {
 
         if (row)
 	  {
-	    new_row = parent.document.createElement('TR');
+	    new_row = parent.document.createElement('tr');
 	    new_row.id = 'rcmrow'+id;
-    	    td = parent.document.createElement('TD');
+    	    td = parent.document.createElement('td');
     	    new_row.appendChild(td);
 	    list.insert_row(new_row, false);
 
