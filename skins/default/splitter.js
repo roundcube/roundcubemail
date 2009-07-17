@@ -103,7 +103,7 @@ function rcube_splitter(attrib)
     rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
 
     // need to listen in any iframe documents too, b/c otherwise the splitter stops moving when we move over an iframe
-    var iframes = document.getElementsByTagName('IFRAME');
+    var iframes = document.getElementsByTagName('iframe');
     this.iframe_events = Object();
     for (var n in iframes)
       {
@@ -182,7 +182,7 @@ function rcube_splitter(attrib)
     rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
     this.drag_active = false;
 
-    var iframes = document.getElementsByTagName('IFRAME');
+    var iframes = document.getElementsByTagName('iframe');
 
     for (var n in iframes)
       {

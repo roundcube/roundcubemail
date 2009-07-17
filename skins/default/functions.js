@@ -57,7 +57,7 @@ function rcmail_hide_header_form(id)
   link.style.display = '';
   
   parent = link.parentNode;
-  links = parent.getElementsByTagName('A');
+  links = parent.getElementsByTagName('a');
 
   for (var i=0; i<links.length; i++)
     if (links[i].style.display != 'none')
