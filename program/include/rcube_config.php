@@ -237,9 +237,9 @@ class rcube_config
     // use the configured delimiter for headers
     if (!empty($this->prop['mail_header_delimiter']))
       return $this->prop['mail_header_delimiter'];
-    else if (strtolower(substr(PHP_OS, 0, 3) == 'win'))
+    else if (strtolower(substr(PHP_OS, 0, 3)) == 'win')
       return "\r\n";
-    else if (strtolower(substr(PHP_OS, 0, 3) == 'mac'))
+    else if (strtolower(substr(PHP_OS, 0, 3)) == 'mac')
       return "\r\n";
     else
       return "\n";
