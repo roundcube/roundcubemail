@@ -81,6 +81,9 @@ class washtml
   
   /* Allowed HTML attributes */
   static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir');  
+
+  /* Block elements which could be empty but cannot be returned in short form (<tag />) */
+  static $block_elements = array('div', 'p', 'pre', 'blockquote');
   
   /* State for linked objects in HTML */
   public $extlinks = false;
@@ -97,6 +100,9 @@ class washtml
   /* Ignore these HTML tags but process their content */
   private $_ignore_elements = array();
 
+  /* Block elements which could be empty but cannot be returned in short form (<tag />) */
+  private $_block_elements = array();
+
   /* Allowed HTML attributes */
   private $_html_attribs = array();
   
@@ -106,7 +112,8 @@ class washtml
     $this->_html_elements = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements) ;
     $this->_html_attribs = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
     $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
-    unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements']);
+    $this->_block_elements = array_flip((array)$p['block_elements']) + array_flip(self::$block_elements);
+    unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['block_elements']);
     $this->config = $p + array('show_washed'=>true, 'allow_remote'=>false, 'cid_map'=>array());
   }
   
@@ -202,7 +209,9 @@ class washtml
         } else if(isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
           $dump .= '<' . $tagName . $this->wash_attribs($node) .
-            ($content?">$content</$tagName>":' />');
+//            ($content?">$content</$tagName>":' />');
+// Roundcube Trac: #1485974
+            ($content || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
         } else if(isset($this->_ignore_elements[$tagName])) {
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
           $dump .= $this->dumpHtml($node); //Just ignored

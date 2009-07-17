@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix HTML messages output with empty block elements (#1485974)
 - Added hook when killing a session
 - Added hook to write_log function (#1485971)
 - Performance improvements by use UID commands (#1485690)
