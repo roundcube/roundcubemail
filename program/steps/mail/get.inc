@@ -113,7 +113,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
       // turn off output buffering and print part content
       if ($part->body)
         echo $part->body;
-      else
+      else if ($part->size)
         $IMAP->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
     }
 

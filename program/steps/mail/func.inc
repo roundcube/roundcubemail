@@ -987,7 +987,7 @@ function rcmail_message_body($attrib)
       {
       if ($part->type == 'headers')
         $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
-      else if ($part->type == 'content')
+      else if ($part->type == 'content' && $part->size)
         {
         if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset']))
           $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
