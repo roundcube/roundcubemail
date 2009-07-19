@@ -601,7 +601,7 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
   global $OUTPUT;
-  
+echo "^^^^^";  
   $cid_map = array();
   foreach ((array)$message->mime_parts as $pid => $part)
   {
@@ -643,20 +643,41 @@ function rcmail_write_inline_attachments(&$message)
 function rcmail_save_attachment(&$message, $pid)
 {
   $part = $message->mime_parts[$pid];
-  
+  $mem_limit = parse_bytes(ini_get('memory_limit'));
+  $curr_mem = function_exists('memory_get_usage') ? memory_get_usage() : 16*1024*1024; // safe value: 16MB
+  $data = $path = null;
+
+  // don't load too big attachments into memory
+  if ($mem_limit > 0 && $part->size > $mem_limit - $curr_mem) {
+    $rcmail = rcmail::get_instance();
+    $temp_dir = unslashify($rcmail->config->get('temp_dir'));
+    $path = tempnam($temp_dir, 'rcmAttmnt');
+    if ($fp = fopen($path, 'w')) {
+      $message->get_part_content($pid, $fp);
+      fclose($fp);
+    } else
+      return false;
+  } else {
+    $data = $message->get_part_content($pid);
+  }
+
   $attachment = array(
     'name' => $part->filename ? $part->filename : 'Part_'.$pid.'.'.$part->ctype_secondary,
     'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
     'content_id' => $part->content_id,
-    'data' => $message->get_part_content($pid),
+    'data' => $data,
+    'path' => $path
   );
   
   $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+
   if ($attachment['status']) {
     unset($attachment['data'], $attachment['status']);
     return $attachment;
+  } else if ($path) {
+    @unlink($path);
   }
-
+  
   return false;
 }
 

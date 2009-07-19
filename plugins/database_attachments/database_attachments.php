@@ -63,6 +63,10 @@ class database_attachments extends filesystem_attachments
         $rcmail = rcmail::get_instance();
 
         $key = $this->_key($args['name']);
+
+	if ($args['path'])
+	    $args['data'] = file_get_contents($args['path']);
+
         $data = base64_encode($args['data']);
 
         $status = $rcmail->db->query(
