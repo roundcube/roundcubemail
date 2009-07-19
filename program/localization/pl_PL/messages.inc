@@ -108,5 +108,6 @@ $messages['smtpfromerror'] = 'Błąd SMTP ($code): Nie można ustawić nadawcy "
 $messages['smtptoerror'] = 'Błąd SMTP ($code): Nie można dodać odbiorcy "$to"';
 $messages['smtprecipientserror'] = 'Błąd SMTP: Parsowanie listy odbiorców nie powiodło się';
 $messages['smtperror'] = 'Błąd SMTP: $msg';
+$messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
 
 ?>
