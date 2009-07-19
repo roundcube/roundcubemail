@@ -672,7 +672,7 @@ function rcmail_save_attachment(&$message, $pid)
   $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
 
   if ($attachment['status']) {
-    unset($attachment['data'], $attachment['status']);
+    unset($attachment['data'], $attachment['status'], $attachment['content_id']);
     return $attachment;
   } else if ($path) {
     @unlink($path);
