@@ -601,7 +601,7 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
   global $OUTPUT;
-echo "^^^^^";  
+
   $cid_map = array();
   foreach ((array)$message->mime_parts as $pid => $part)
   {
