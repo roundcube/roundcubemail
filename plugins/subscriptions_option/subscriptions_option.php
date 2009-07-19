@@ -42,10 +42,10 @@ class subscriptions_option extends rcube_plugin
         if ($args['section'] == 'server') {
             $use_subscriptions = rcmail::get_instance()->config->get('use_subscriptions');
             $field_id = 'rcmfd_use_subscriptions';
-            $use_subscriptions = new html_checkbox(array('name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1));
+            $checkbox = new html_checkbox(array('name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1));
 
             $args['table']->add('title', html::label($field_id, Q($this->gettext('useimapsubscriptions'))));
-            $args['table']->add(null, $use_subscriptions->show($use_subscriptions?1:0));
+            $args['table']->add(null, $checkbox->show($use_subscriptions?1:0));
         }
 
         return $args;
