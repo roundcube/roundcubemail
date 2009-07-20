@@ -330,7 +330,9 @@ class rcube_mdb2
     if (!$this->db_handle || $this->db_mode=='r')
       return FALSE;
 
-    return $this->db_handle->lastInsertID($sequence);
+    $id = $this->db_handle->lastInsertID($sequence);
+    
+    return $this->db_handle->isError($id) ? null : $id;
     }
 
 
