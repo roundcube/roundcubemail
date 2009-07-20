@@ -262,18 +262,18 @@ class rcube_contacts extends rcube_addressbook
         $a_insert_cols[] = $this->db->quoteIdentifier($col);
         $a_insert_values[] = $this->db->quote($save_data[$col]);
       }
-    
+
     if (!$existing->count && !empty($a_insert_cols))
     {
       $this->db->query(
         "INSERT INTO ".$this->db_name."
          (user_id, changed, del, ".join(', ', $a_insert_cols).")
-         VALUES (?, ".$this->db->now().", 0, ".join(', ', $a_insert_values).")",
-        $this->user_id);
+         VALUES (".intval($this->user_id).", ".$this->db->now().", 0, ".join(', ', $a_insert_values).")"
+        );
         
       $insert_id = $this->db->insert_id(get_sequence_name('contacts'));
     }
-    
+
     return $insert_id;
   }
 
