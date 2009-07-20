@@ -382,16 +382,15 @@ class rcube_message
           if ($message_ctype_secondary == 'appledouble' && $secondary_type == 'applefile')
             continue;
 
-          // part belongs to a related message
-          if ($message_ctype_secondary == 'related') {
+          // part belongs to a related message and is linked
+          if ($message_ctype_secondary == 'related'
+	      && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
             if ($mail_part->headers['content-id'])
               $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
             if ($mail_part->headers['content-location'])
               $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
-            
-            if ($mail_part->content_id || $mail_part->content_location) {
-              $this->inline_parts[] = $mail_part;
-            }
+    
+            $this->inline_parts[] = $mail_part;
           }
           // is a regular attachment
           else {
