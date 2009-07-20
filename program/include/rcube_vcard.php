@@ -264,13 +264,13 @@ class rcube_vcard
       }
 
       if (!preg_match('/^(BEGIN|END)$/i', $line[1]) && preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
-        $entry = array('');
+        $entry = array();
         $field = strtoupper($regs2[1][0]);
 
         foreach($regs2[1] as $attrid => $attr) {
           if ((list($key, $value) = explode('=', $attr)) && $value) {
             if ($key == 'ENCODING') {
-              # add next line(s) to value string if QP line end detected
+              // add next line(s) to value string if QP line end detected
               while ($value == 'QUOTED-PRINTABLE' && preg_match('/=$/', $lines[$i]))
                   $line[2] .= "\n" . $lines[++$i];
               
@@ -280,17 +280,16 @@ class rcube_vcard
               $entry[strtolower($key)] = array_merge((array)$entry[strtolower($key)], (array)self::vcard_unquote($value, ','));
           }
           else if ($attrid > 0) {
-            $entry[$key] = true;  # true means attr without =value
+            $entry[$key] = true;  // true means attr without =value
           }
         }
 
-        $entry[0] = self::vcard_unquote($line[2]);
+        $entry = array_merge($entry, (array)self::vcard_unquote($line[2]));
         $data[$field][] = count($entry) > 1 ? $entry : $entry[0];
       }
     }
 
     unset($data['VERSION']);
-
     return $data;
   }
 
@@ -360,7 +359,7 @@ class rcube_vcard
             if (is_int($attrname))
               $value[] = $attrvalues;
             elseif ($attrvalues === true)
-              $attr .= ";$attrname";    # true means just tag, not tag=value, as in PHOTO;BASE64:...
+              $attr .= ";$attrname";    // true means just tag, not tag=value, as in PHOTO;BASE64:...
             else {
               foreach((array)$attrvalues as $attrvalue)
                 $attr .= ";$attrname=" . self::vcard_quote($attrvalue, ',');
