@@ -995,16 +995,19 @@ function write_log($name, $line)
   if (empty($CONFIG['log_date_format']))
     $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
   
+  $date = date($CONFIG['log_date_format']);
+  
   // trigger logging hook
   if (is_object($RCMAIL) && is_object($RCMAIL->plugins)) {
-    $log = $RCMAIL->plugins->exec_hook('write_log', array('name' => $name, 'line' => $line));
+    $log = $RCMAIL->plugins->exec_hook('write_log', array('name' => $name, 'date' => $date, 'line' => $line));
     $name = $log['name'];
     $line = $log['line'];
+    $date = $log['date'];
     if ($log['abort'])
       return;
   }
  
-  $log_entry = sprintf("[%s]: %s\n", date($CONFIG['log_date_format']), $line);
+  $log_entry = sprintf("[%s]: %s\n", $date, $line);
 
   if ($CONFIG['log_driver'] == 'syslog') {
     $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
