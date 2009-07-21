@@ -35,6 +35,7 @@ class rcmail
   public $config;
   public $user;
   public $db;
+  public $smtp;
   public $imap;
   public $output;
   public $plugins;
@@ -337,6 +338,20 @@ class rcmail
       $this->output = new rcube_json_output($this->task);
     
     return $this->output;
+  }
+
+
+  /**
+   * Create SMTP object and connect to server
+   *
+   * @param boolean True if connection should be established
+   */
+  public function smtp_init($connect = false)
+  {
+    $this->smtp = new rcube_smtp();
+  
+    if ($connect)
+      $this->smtp->connect();
   }
   
   
@@ -841,6 +856,9 @@ class rcmail
       $this->imap->close();
       $this->imap->write_cache();
     }
+
+    if (is_object($this->smtp))
+      $this->smtp->disconnect();
 
     if (is_object($this->contacts))
       $this->contacts->close();

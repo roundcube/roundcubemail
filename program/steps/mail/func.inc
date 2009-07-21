@@ -19,8 +19,6 @@
 
 */
 
-require_once('include/rcube_smtp.inc');
-
 $EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
 
 // actions that do not require imap connection
@@ -1326,8 +1324,12 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error)
     unset($message->_headers['Bcc']);
 
     // send message
-    $smtp_response = array();
-    $sent = smtp_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers, true)), $msg_body, $smtp_response, $smtp_error);
+    if (!is_object($RCMAIL->smtp))
+      $RCMAIL->smtp_init(true);
+     
+    $sent = $RCMAIL->smtp->send_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers, true)), $msg_body);
+    $smtp_response = $RCMAIL->smtp->get_response();
+    $smtp_error = $RCMAIL->smtp->get_error();
 
     // log error
     if (!$sent)

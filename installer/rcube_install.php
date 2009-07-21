@@ -136,10 +136,10 @@ class rcube_install
    */
   function create_config($which, $force = false)
   {
-    $out = file_get_contents(RCMAIL_CONFIG_DIR . "/{$which}.inc.php.dist");
+    $out = @file_get_contents(RCMAIL_CONFIG_DIR . "/{$which}.inc.php.dist");
     
     if (!$out)
-      return '[Warning: could not read the template file]';
+      return '[Warning: could not read the config template file]';
 
     foreach ($this->config as $prop => $default) {
       $value = (isset($_POST["_$prop"]) || $this->bool_config_props[$prop]) ? $_POST["_$prop"] : $default;

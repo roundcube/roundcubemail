@@ -248,13 +248,11 @@ $to_field = new html_inputfield(array('name' => '_to', 'id' => 'sendmailto'));
 
 if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to'])) {
   
-  require_once 'rcube_smtp.inc';
-  
   echo '<p>Trying to send email...<br />';
   
   if (preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_from'])) &&
       preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
-  
+
     $headers = array(
       'From'    => trim($_POST['_from']),
       'To'      => trim($_POST['_to']),
@@ -267,7 +265,7 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
     // send mail using configured SMTP server
     if ($RCI->getprop('smtp_server')) {
       $CONFIG = $RCI->config;
-      
+
       if (!empty($_POST['_smtp_user'])) {
         $CONFIG['smtp_user'] = $_POST['_smtp_user'];
       }
@@ -277,10 +275,14 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
 
       $mail_object  = new rcube_mail_mime();
       $send_headers = $mail_object->headers($headers);
-      
-      $status = smtp_mail($headers['From'], $headers['To'],
-          ($foo = $mail_object->txtHeaders($send_headers)),
-          $body, $smtp_response);
+
+      $SMTP = new rcube_smtp();
+      $SMTP->connect();
+
+      $status = $SMTP->send_mail($headers['From'], $headers['To'],
+          ($foo = $mail_object->txtHeaders($send_headers)), $body);
+
+      $smtp_response = $SMTP->get_response();
     }
     else {    // use mail()
       $header_str = 'From: ' . $headers['From'];
