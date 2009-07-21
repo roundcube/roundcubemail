@@ -15,7 +15,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: rcube_smtp.inc 2754 2009-07-14 16:34:34Z alec $
+ $Id$
 
 */
 
