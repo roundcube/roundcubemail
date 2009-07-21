@@ -2969,8 +2969,9 @@ function rcube_webmail()
     if (!id)
       id = this.env.iid ? this.env.iid : selection[0];
 
-    // if (this.env.framed && id)
-    this.goto_url('delete-identity', '_iid='+id, true);
+    // append token to request
+    this.goto_url('delete-identity', '_iid='+id+'&_token='+this.env.request_token, true);
+    
     return true;
     };
 

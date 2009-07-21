@@ -3,6 +3,7 @@ CHANGELOG RoundCube Webmail
 
 - Fix import of vCard entries with params (#1485453)
 - Fix HTML messages output with empty block elements (#1485974)
+- Use request tokens to protect POST requests from CSFR
 - Added hook when killing a session
 - Added hook to write_log function (#1485971)
 - Performance improvements by use UID commands (#1485690)
