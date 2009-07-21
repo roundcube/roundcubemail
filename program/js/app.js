@@ -55,7 +55,7 @@ function rcube_webmail()
   // set jQuery ajax options
   jQuery.ajaxSetup({ cache:false,
     error:function(request, status, err){ ref.http_error(request, status, err); },
-    beforeSend:function(xmlhttp){ xmlhttp.setRequestHeader('X-RoundCube-Referer', bw.get_cookie('roundcube_sessid')); }
+    beforeSend:function(xmlhttp){ xmlhttp.setRequestHeader('X-RoundCube-Request', ref.env.request_token); }
   });
 
   // set environment variable(s)

@@ -5,7 +5,7 @@
  | program/steps/settings/save_prefs.inc                                 |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -18,13 +18,6 @@
  $Id$
 
 */
-
-// check request token and exit if invalid
-if (!$RCMAIL->check_request('save-prefs', RCUBE_INPUT_POST)) {
-  $OUTPUT->show_message('invalidrequest', 'error');
-  rcmail_overwrite_action('preferences');
-  return;
-}
 
 $a_user_prefs = array(
   'language'     => isset($_POST['_language']) ? get_input_value('_language', RCUBE_INPUT_POST) : $CONFIG['language'],

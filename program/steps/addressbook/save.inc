@@ -5,7 +5,7 @@
  | program/steps/addressbook/save.inc                                    |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -21,14 +21,6 @@
 
 $cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $return_action = empty($cid) ? 'add' : 'show';
-
-// check request token and exit if invalid
-if (!$RCMAIL->check_request('save.'.intval($cid), RCUBE_INPUT_POST))
-{
-  $OUTPUT->show_message('invalidrequest', 'error');
-  rcmail_overwrite_action($return_action);
-  return;
-}
 
 // cannot edit record
 if ($CONTACTS->readonly)

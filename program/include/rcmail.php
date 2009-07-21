@@ -872,33 +872,29 @@ class rcmail
   /**
    * Generate a unique token to be used in a form request
    *
-   * @param string Request identifier
    * @return string The request token
    */
-  public function get_request_token($key)
+  public function get_request_token()
   {
-    if (!$this->request_tokens[$key])
-      $_SESSION['request_tokens'][$key] = $this->request_tokens[$key] = md5(uniqid($key . rand(), true));
+    $key = $this->task;
     
-    return $this->request_tokens[$key];
+    if (!$_SESSION['request_tokens'][$key])
+      $_SESSION['request_tokens'][$key] = md5(uniqid($key . rand(), true));
+    
+    return $_SESSION['request_tokens'][$key];
   }
   
   
   /**
    * Check if the current request contains a valid token
    *
-   * @param string Request identifier
+   * @param int Request method
    * @return boolean True if request token is valid false if not
    */
-  public function check_request($key, $mode = RCUBE_INPUT_POST)
+  public function check_request($mode = RCUBE_INPUT_POST)
   {
     $token = get_input_value('_token', $mode);
-    $valid = !(empty($token) || $_SESSION['request_tokens'][$key] != $token);
-    
-    if ($valid)
-      unset($_SESSION['request_tokens'][$key]);
-    
-    return $valid;
+    return !empty($token) && $_SESSION['request_tokens'][$this->task] == $token;
   }
   
   

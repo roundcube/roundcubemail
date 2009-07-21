@@ -59,6 +59,7 @@ class rcube_template extends rcube_html_page
         
         //$this->framed = $framed;
         $this->set_env('task', $task);
+        $this->set_env('request_token', $this->app->get_request_token());
 
         // load the correct skin (in case user-defined)
         $this->set_skin($this->config['skin']);
@@ -325,6 +326,9 @@ class rcube_template extends rcube_html_page
         $js = $this->framed ? "if(window.parent) {\n" : '';
         $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');
         $this->add_script($js, 'head_top');
+        
+        // make sure all <form> tags have a valid request token
+        $template = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $template);
 
         // call super method
         parent::write($template, $this->config['skin_path']);
@@ -514,7 +518,24 @@ class rcube_template extends rcube_html_page
      */
     private function check_condition($condition)
     {
-            return eval("return (".$this->parse_expression($condition).");");
+        return eval("return (".$this->parse_expression($condition).");");
+    }
+    
+    
+    /**
+     *
+     */
+    private function alter_form_tag($matches)
+    {
+        $out = $matches[0];
+        $attrib  = parse_attrib_string($matches[1]);
+      
+        if (strtolower($attrib['method']) == 'post') {
+            $hidden = new html_hiddenfield(array('name' => '_token', 'value' => $this->app->get_request_token()));
+            $out .= "\n" . $hidden->show();
+        }
+      
+        return $out;
     }
 
 
@@ -956,10 +977,6 @@ class rcube_template extends rcube_html_page
         if ($attrib['action']) {
             $hidden->add(array('name' => '_action', 'value' => $attrib['action']));
         }
-      
-        // generate request token
-        $request_key = $attrib['request'] ? $attrib['request'] : $attrib['action'];
-        $hidden->add(array('name' => '_token', 'value' => $this->app->get_request_token($request_key)));
       
         unset($attrib['task'], $attrib['request']);
         $attrib['action'] = './';
