@@ -23,7 +23,7 @@ $MAXNUM = 15;
 $contacts = array();
 $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
 
-if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_POST)) {
+if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_POST, true)) {
 
   foreach ($book_types as $id) {
     $abook = $RCMAIL->get_address_book($id);
