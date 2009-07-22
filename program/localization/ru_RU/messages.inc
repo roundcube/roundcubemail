@@ -23,6 +23,7 @@ $messages['cookiesdisabled'] = 'Ваш броузер не принимает co
 $messages['sessionerror'] = 'Ваша сессия устарела';
 $messages['imaperror'] = 'Неудачное соединение с IMAP сервером';
 $messages['servererror'] = 'Ошибка сервера!';
+$messages['invalidrequest'] = 'Неверный запрос! Информация не сохранена.';
 $messages['nomessagesfound'] = 'Сообщений не найдено';
 $messages['loggedout'] = 'Ваша сессия завершена. Всего доброго!';
 $messages['mailboxempty'] = 'Почтовый ящик пуст';
@@ -97,5 +98,11 @@ $messages['opnotpermitted'] = 'Действие запрещено!';
 $messages['nofromaddress'] = 'В выбранном профиле не хватает адреса электронной почты';
 $messages['editorwarning'] = 'При переключении в редактор простого текста все форматирование будет потеряно. Продолжить?';
 $messages['httpreceivedencrypterror'] = 'На сервере возникла неизбежная ошибка. Срочно свяжитесь с Вашим администратором. <b>Ваше сообщение может быть не отправлено.</b>';
+$messages['smtpconnerror'] = 'SMTP Error ($code): Соединение с сервером сброшено';
+$messages['smtpautherror'] = 'SMTP Error ($code): Ошибка авторизации';
+$messages['smtpfromerror'] = 'SMTP Error ($code): Невозможно установить отправителя "$from"';
+$messages['smtptoerror'] = 'SMTP Error ($code): Невозможно добавить получателя "$to"';
+$messages['smtprecipientserror'] = 'SMTP Error ($code): Невозможно обработать список получателей';
+$messages['smtperror'] = 'SMTP Error ($code): $msg';
 
 ?>

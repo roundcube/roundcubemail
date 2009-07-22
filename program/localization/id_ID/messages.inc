@@ -23,6 +23,7 @@ $messages['cookiesdisabled'] = 'Browser Anda tidak menerima cookies';
 $messages['sessionerror'] = 'Session Anda invalid atau kadaluwarsa';
 $messages['imaperror'] = 'Koneksi ke IMAP server gagal';
 $messages['servererror'] = 'Server Error!';
+$messages['invalidrequest'] = 'Permintaan tidak valid! Tidak ada data yang tersimpan.';
 $messages['nomessagesfound'] = 'Surat tidak ditemukan di kotak masuk ini';
 $messages['loggedout'] = 'Anda berhasil mengakhiri session. Selamat Tinggal!';
 $messages['mailboxempty'] = 'Kotak masuk kosong';
