@@ -222,7 +222,8 @@ $action_map = array(
 );
 
 // include task specific functions
-include_once 'program/steps/'.$RCMAIL->task.'/func.inc';
+if (is_file($incfile = 'program/steps/'.$RCMAIL->task.'/func.inc'))
+  include_once($incfile);
 
 // allow 5 "redirects" to another action
 $redirects = 0; $incstep = null;
@@ -236,7 +237,7 @@ while ($redirects < 5) {
     break;
   }
   // try to include the step file
-  else if (is_file(($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile))) {
+  else if (is_file($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile)) {
     include($incfile);
     $redirects++;
   }

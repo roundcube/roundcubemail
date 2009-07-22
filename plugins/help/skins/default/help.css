@@ -1,0 +1,26 @@
+/***** RoundCube|Mail Help task styles *****/
+
+#taskbar a.button-help
+{
+  background-image: url('help.gif');
+}
+
+#help-box
+{
+  position: absolute;
+  bottom: 30px; 
+  top: 95px;
+  left: 20px;
+  right: 20px;
+  border: 1px solid #999999;
+  overflow: auto;  
+  background-color: #F2F2F2;
+  /* IE hack */
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  width: expression((parseInt(document.documentElement.clientWight)-40)+'px');
+}
+
+#helplicense, #helpabout
+{
+  padding: 20px;
+}

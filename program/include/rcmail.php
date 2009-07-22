@@ -28,7 +28,7 @@
  */
 class rcmail
 {
-  static public $main_tasks = array('mail','settings','addressbook','login','logout');
+  static public $main_tasks = array('mail','settings','addressbook','login','logout','dummy');
   
   static private $instance;
   
