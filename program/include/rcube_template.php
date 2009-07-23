@@ -810,8 +810,8 @@ class rcube_template extends rcube_html_page
         }
 
         // set title to alt attribute for IE browsers
-        if ($this->browser->ie && $attrib['title'] && !$attrib['alt']) {
-            $attrib['alt'] = $attrib['title'];
+        if ($this->browser->ie && !$attrib['title'] && $attrib['alt']) {
+            $attrib['title'] = $attrib['alt'];
         }
 
         // add empty alt attribute for XHTML compatibility
@@ -893,16 +893,15 @@ class rcube_template extends rcube_html_page
             $attrib_str = html::attrib_string(
                 $attrib,
                 array(
-                    'style', 'class', 'id', 'width',
-                    'height', 'border', 'hspace',
-                    'vspace', 'align', 'alt', 'tabindex'
+                    'style', 'class', 'id', 'width', 'height', 'border', 'hspace',
+                    'vspace', 'align', 'alt', 'tabindex', 'title'
                 )
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
             if ($attrib['label']) {
                 $btn_content .= ' '.$attrib['label'];
             }
-            $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'title', 'target');
+            $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target');
         }
         else if ($attrib['type']=='link') {
             $btn_content = $attrib['label'] ? $attrib['label'] : $attrib['command'];
@@ -918,8 +917,7 @@ class rcube_template extends rcube_html_page
             $attrib_str = html::attrib_string(
                 $attrib,
                 array(
-                    'type', 'value', 'onclick',
-                    'id', 'class', 'style', 'tabindex'
+                    'type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex'
                 )
             );
             $out = sprintf('<input%s disabled="disabled" />', $attrib_str);
