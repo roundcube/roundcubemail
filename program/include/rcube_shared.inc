@@ -616,42 +616,33 @@ function rcube_explode_quoted_string($delimiter, $string)
  * mbstring replacement functions
  */
 
-if (!function_exists('mb_strlen')) {
+if (!extension_loaded('mbstring'))
+{
     function mb_strlen($str)
     {
 	return strlen($str);
     }
-}
 
-if (!function_exists('mb_strtolower')) {
     function mb_strtolower($str)
     {
         return strtolower($str);
     }
-}
 
-if (!function_exists('mb_strtoupper')) {
     function mb_strtoupper($str)
     {
         return strtoupper($str);
     }
-}
 
-if (!function_exists('mb_substr')) {
     function mb_substr($str, $start, $len=null)
     {
         return substr($str, $start, $len);
     }
-}
 
-if (!function_exists('mb_strpos')) {
     function mb_strpos($haystack, $needle, $offset=0)
     {
         return strpos($haystack, $needle, $offset);
     }
-}
 
-if (!function_exists('mb_strrpos')) {
     function mb_strrpos($haystack, $needle, $offset=0)
     {
         return strrpos($haystack, $needle, $offset);
