@@ -2397,10 +2397,10 @@ class rcube_imap
         $key,
         $index,
         $headers->uid,
-        (string)rc_substr($this->db->encode($this->decode_header($headers->subject, TRUE)), 0, 128),
-        (string)rc_substr($this->db->encode($this->decode_header($headers->from, TRUE)), 0, 128),
-        (string)rc_substr($this->db->encode($this->decode_header($headers->to, TRUE)), 0, 128),
-        (string)rc_substr($this->db->encode($this->decode_header($headers->cc, TRUE)), 0, 128),
+        (string)mb_substr($this->db->encode($this->decode_header($headers->subject, TRUE)), 0, 128),
+        (string)mb_substr($this->db->encode($this->decode_header($headers->from, TRUE)), 0, 128),
+        (string)mb_substr($this->db->encode($this->decode_header($headers->to, TRUE)), 0, 128),
+        (string)mb_substr($this->db->encode($this->decode_header($headers->cc, TRUE)), 0, 128),
         (int)$headers->size,
         serialize($this->db->encode(clone $headers)),
         is_object($struct) ? serialize($this->db->encode(clone $struct)) : NULL
@@ -2788,7 +2788,7 @@ class rcube_imap
       if (($p = array_search(strtolower($folder), $this->default_folders_lc)) !== false && !$a_defaults[$p])
         $a_defaults[$p] = $folder;
       else
-        $folders[$folder] = rc_strtolower(rcube_charset_convert($folder, 'UTF7-IMAP'));
+        $folders[$folder] = mb_strtolower(rcube_charset_convert($folder, 'UTF7-IMAP'));
       }
 
     // sort folders and place defaults on the top

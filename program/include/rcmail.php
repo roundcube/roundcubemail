@@ -481,7 +481,7 @@ class rcmail
 
     // lowercase username if it's an e-mail address (#1484473)
     if (strpos($username, '@'))
-      $username = rc_strtolower($username);
+      $username = mb_strtolower($username);
 
     // user already registered -> overwrite username
     if ($user = rcube_user::query($username, $host))

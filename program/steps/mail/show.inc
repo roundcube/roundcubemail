@@ -162,7 +162,7 @@ function rcmail_message_attachments($attrib)
         $ol .= html::tag('li', null, sprintf("%s (%s)", Q($attach_prop->filename), Q(show_bytes($attach_prop->size))));
       }
       else {
-        if (rc_strlen($attach_prop->filename) > 50) {
+        if (mb_strlen($attach_prop->filename) > 50) {
           $filename = abbreviate_string($attach_prop->filename, 50);
           $title = $attach_prop->filename;
       }

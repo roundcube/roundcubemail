@@ -267,7 +267,7 @@ function rcmail_compose_header_from($attrib)
     foreach ($a_to as $addr)
     {
       if (!empty($addr['mailto']))
-        $a_recipients[] = rc_strtolower($addr['mailto']);
+        $a_recipients[] = mb_strtolower($addr['mailto']);
     }
 
     if (!empty($MESSAGE->headers->cc))
@@ -276,7 +276,7 @@ function rcmail_compose_header_from($attrib)
       foreach ($a_cc as $addr)
       {
         if (!empty($addr['mailto']))
-          $a_recipients[] = rc_strtolower($addr['mailto']);
+          $a_recipients[] = mb_strtolower($addr['mailto']);
       }
     }
   }
@@ -318,7 +318,7 @@ function rcmail_compose_header_from($attrib)
         if ($compose_mode == RCUBE_COMPOSE_DRAFT && strstr($MESSAGE->headers->from, $sql_arr['email']))
           $from_id = $sql_arr['identity_id'];
         // set identity if it's one of the reply-message recipients (with prio for default identity)
-        else if (in_array(rc_strtolower($sql_arr['email']), $a_recipients) && (empty($from_id) || $sql_arr['standard']))
+        else if (in_array(mb_strtolower($sql_arr['email']), $a_recipients) && (empty($from_id) || $sql_arr['standard']))
           $from_id = $sql_arr['identity_id'];
       }
     }
