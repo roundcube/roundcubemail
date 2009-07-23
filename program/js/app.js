@@ -913,7 +913,7 @@ function rcube_webmail()
         break;
         
       case 'spellcheck':
-        if (window.tinyMCE && tinyMCE.get('compose-body')) {
+        if (window.tinyMCE && tinyMCE.get(this.env.composebody)) {
           tinyMCE.execCommand('mceSpellCheck', true);
         }
         else if (this.env.spellcheck && this.env.spellcheck.spellCheck && this.spellcheck_ready) {
@@ -2156,14 +2156,17 @@ function rcube_webmail()
       }
 
     // check for empty body
-    if ((!window.tinyMCE || !tinyMCE.get('compose-body')) && input_message.val() == '' && !confirm(this.get_label('nobodywarning')))
+    if ((!window.tinyMCE || !tinyMCE.get(this.env.composebody))
+	&& input_message.val() == '' && !confirm(this.get_label('nobodywarning')))
       {
       input_message.focus();
       return false;
       }
-    else if (window.tinyMCE && tinyMCE.get('compose-body') && !tinyMCE.get('compose-body').getContent() && !confirm(this.get_label('nobodywarning')))
+    else if (window.tinyMCE && tinyMCE.get(this.env.composebody)
+	&& !tinyMCE.get(this.env.composebody).getContent()
+	&& !confirm(this.get_label('nobodywarning')))
       {
-      tinyMCE.get('compose-body').focus();
+      tinyMCE.get(this.env.composebody).focus();
       return false;
       }
 
@@ -2171,7 +2174,7 @@ function rcube_webmail()
     this.stop_spellchecking();
 
     // move body from html editor to textarea (just to be sure, #1485860)
-    if (window.tinyMCE && tinyMCE.get('compose-body'))
+    if (window.tinyMCE && tinyMCE.get(this.env.composebody))
       tinyMCE.triggerSave();
 
     return true;
@@ -2234,7 +2237,7 @@ function rcube_webmail()
     if (value_subject)
       str += value_subject+':';
     
-    var editor = tinyMCE.get('compose-body');
+    var editor = tinyMCE.get(this.env.composebody);
     if (editor)
       str += editor.getContent();
     else
@@ -2297,7 +2300,7 @@ function rcube_webmail()
       }
     else
       {
-      var editor = tinyMCE.get('compose-body');
+      var editor = tinyMCE.get(this.env.composebody);
 
       if (this.env.signatures)
         {

@@ -353,7 +353,7 @@ function rcmail_compose_body($attrib)
   unset($attrib['form']);
   
   if (empty($attrib['id']))
-    $attrib['id'] = 'rcmComposeMessage';
+    $attrib['id'] = 'rcmComposeBody';
 
   $attrib['name'] = '_message';
 
@@ -413,6 +413,8 @@ function rcmail_compose_body($attrib)
   $textarea = new html_textarea($attrib);
   $out .= $textarea->show($body);
   $out .= $form_end ? "\n$form_end" : '';
+
+  $OUTPUT->set_env('composebody', $attrib['id']);
 
   // include HTML editor
   rcube_html_editor();
@@ -874,7 +876,7 @@ function rcmail_editor_selector($attrib)
     $useHtml = ($useHtml && $MESSAGE->has_html_part());
 
   if (empty($attrib['editorid']))
-    $attrib['editorid'] = 'rcmComposeMessage';
+    $attrib['editorid'] = 'rcmComposeBody';
 
   if (empty($attrib['name']))
     $attrib['name'] = 'editorSelect';

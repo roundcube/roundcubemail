@@ -73,10 +73,11 @@ function rcmail_editor_callback(editor)
 function rcmail_editor_tabindex()
 {
   if (rcmail.env.task == 'mail') {
-    var textarea = tinyMCE.get('compose-body').getElement();
-    var editor = tinyMCE.get('compose-body').getContentAreaContainer().childNodes[0];
-    if (textarea && editor)
-      editor.tabIndex = textarea.tabIndex;
+    var editor = tinyMCE.get(rcmail.env.composebody);
+    var textarea = editor.getElement();
+    var node = editor.getContentAreaContainer().childNodes[0];
+    if (textarea && node)
+      node.tabIndex = textarea.tabIndex;
   }
 }
 
