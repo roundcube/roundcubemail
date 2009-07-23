@@ -329,6 +329,7 @@ class rcube_template extends rcube_html_page
         
         // make sure all <form> tags have a valid request token
         $template = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $template);
+        $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
 
         // call super method
         parent::write($template, $this->config['skin_path']);
