@@ -289,7 +289,7 @@ class rcube_template extends rcube_html_page
     {
         if ($templ != 'iframe') {
             // prevent from endless loops
-            if ($this->app->plugins->is_processing('render_page')) {
+            if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
                 raise_error(array('code' => 505, 'type' => 'php', 'message' => 'Recursion alert: ignoring output->send()'), true, false);
                 return;
             }
