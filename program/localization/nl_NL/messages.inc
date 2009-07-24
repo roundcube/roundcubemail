@@ -25,6 +25,7 @@ $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies';
 $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig';
 $messages['imaperror'] = 'Connectie met IMAP server mislukt';
 $messages['servererror'] = 'Server Fout!';
+$messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
 $messages['nomessagesfound'] = 'Geen berichten gevonden in deze mailbox';
 $messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg';
