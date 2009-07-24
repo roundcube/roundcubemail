@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.3-20090721                                                    |
+ | Version 0.3-20090724                                                    |
  |                                                                         |
  | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -149,7 +149,7 @@ if ($OUTPUT->ajax_call) {
   }
 }
 // check request token in POST form submissions
-else if (!empty($_POST) && !$RCMAIL->check_request()) {
+else if (!empty($_POST) && $RCMAIL->action != 'login' && !$RCMAIL->check_request()) {
   $OUTPUT->show_message('invalidrequest', 'error');
   $OUTPUT->send($RCMAIL->task);
 }
