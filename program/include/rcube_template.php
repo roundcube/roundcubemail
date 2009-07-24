@@ -876,7 +876,7 @@ class rcube_template extends rcube_html_page
             $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target');
         }
         else if ($attrib['type']=='link') {
-            $btn_content = $attrib['label'] ? $attrib['label'] : $attrib['command'];
+            $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
             $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style', 'tabindex', 'target');
         }
         else if ($attrib['type']=='input') {

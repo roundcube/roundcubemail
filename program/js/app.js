@@ -3461,67 +3461,78 @@ function rcube_webmail()
 
   // mouse over button
   this.button_over = function(command, id)
-    {
+  {
     var a_buttons = this.buttons[command];
-    var button, img;
+    var button, elm;
 
     if(!a_buttons || !a_buttons.length)
       return false;
 
     for(var n=0; n<a_buttons.length; n++)
-      {
+    {
       button = a_buttons[n];
       if(button.id==id && button.status=='act')
-        {
-        img = document.getElementById(button.id);
-        if (img && button.over)
-          img.src = button.over;
+      {
+        elm = document.getElementById(button.id);
+        if (elm && button.over) {
+          if (button.type == 'image')
+            elm.src = button.over;
+          else
+            elm.className = button.over;
         }
       }
-      
-    };
+    }
+  };
 
   // mouse down on button
   this.button_sel = function(command, id)
-    {
+  {
     var a_buttons = this.buttons[command];
-    var button, img;
+    var button, elm;
 
     if(!a_buttons || !a_buttons.length)
       return;
 
     for(var n=0; n<a_buttons.length; n++)
-      {
+    {
       button = a_buttons[n];
       if(button.id==id && button.status=='act')
-        {
-        img = document.getElementById(button.id);
-        if (img && button.sel)
-          img.src = button.sel;
+      {
+        elm = document.getElementById(button.id);
+        if (elm && button.sel) {
+          if (button.type == 'image')
+            elm.src = button.sel;
+          else
+            elm.className = button.sel;
         }
       }
-    };
+    }
+  };
 
   // mouse out of button
   this.button_out = function(command, id)
-    {
+  {
     var a_buttons = this.buttons[command];
-    var button, img;
+    var button, elm;
 
     if(!a_buttons || !a_buttons.length)
       return;
 
     for(var n=0; n<a_buttons.length; n++)
-      {
+    {
       button = a_buttons[n];
       if(button.id==id && button.status=='act')
-        {
-        img = document.getElementById(button.id);
-        if (img && button.act)
-          img.src = button.act;
+      {
+        elm = document.getElementById(button.id);
+        if (elm && button.act) {
+          if (button.type == 'image')
+            elm.src = button.act;
+          else
+            elm.className = button.act;
         }
       }
-    };
+    }
+  };
 
   // write to the document/window title
   this.set_pagetitle = function(title)
