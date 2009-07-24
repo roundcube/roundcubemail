@@ -6,11 +6,10 @@
  * @author Aleksander 'A.L.E.C' Machniak
  * @licence GNU GPL
  *
- * Enable the plugin in config/main.inc.php and set Help content iframe source
- *   $rcmail_config['help_source'] = 'http://trac.roundcube.net/wiki';
+ * Configuration (see config.inc.php.dist)
  * 
  **/
- 
+
 class help extends rcube_plugin
 {
     function init()
@@ -41,6 +40,8 @@ class help extends rcube_plugin
     function action()
     {
       $rcmail = rcmail::get_instance();
+
+      $this->load_config();
 
       // register UI objects
       $rcmail->output->add_handlers(array(

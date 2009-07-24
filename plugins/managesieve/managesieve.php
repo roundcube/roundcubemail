@@ -7,36 +7,10 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 1.1
+ * @version 1.3
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
- * Configuration (main.inc.php):
- 
-// managesieve server port
-$rcmail_config['managesieve_port'] = 2000;
-
-// managesieve server address
-$rcmail_config['managesieve_host'] = 'localhost';
-
-// use or not TLS for managesieve server connection
-// it's because I've problems with TLS and dovecot's managesieve plugin
-// and it's not needed on localhost
-$rcmail_config['managesieve_usetls'] = false;
-
-// default contents of filters script (eg. default spam filter)
-$rcmail_config['managesieve_default'] = '/etc/dovecot/sieve/global';
-
-// I need this because my dovecot (with listescape plugin) uses
-// ':' delimiter, but creates folders with dot delimiter
-$rcmail_config['managesieve_replace_delimiter'] = '';
-
-// disabled sieve extensions (body, copy, date, editheader, encoded-character,
-// envelope, environment, ereject, fileinto, ihave, imap4flags, index,
-// mailbox, mboxmetadata, regex, reject, relational, servermetadata,
-// spamtest, spamtestplus, subaddress, vacation, variables, virustest, etc.
-// Note: not all extensions are implemented
-$rcmail_config['managesieve_disabled_extensions'] = array();
-
+ * Configuration (see config.inc.php.dist):
  */
 
 class managesieve extends rcube_plugin
@@ -72,6 +46,8 @@ class managesieve extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
     $this->rc = &$rcmail;
+
+    $this->load_config();
 
     // register UI objects
     $this->rc->output->add_handlers(array(
