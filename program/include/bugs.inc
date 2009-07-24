@@ -5,7 +5,7 @@
  | program/include/bugs.inc                                              |
  |                                                                       |
  | This file is part of the RoudCube Webmail client                      |
- | Copyright (C) 2005-2007, RoudCube Dev - Switzerland                   |
+ | Copyright (C) 2005-2009, RoudCube Dev - Switzerland                   |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -69,38 +69,20 @@ function log_bug($arg_arr)
   global $CONFIG;
   $program = strtoupper($arg_arr['type']);
 
-  if (empty($CONFIG['log_date_format']))
-    $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
-
   // write error to local log file
   if ($CONFIG['debug_level'] & 1)
   {
     $post_query = ($_SERVER['REQUEST_METHOD'] == 'POST' ? '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']) : '');
-    $log_entry = sprintf("[%s] %s Error: %s%s (%s %s)\n",
-      date($CONFIG['log_date_format']),
+    $log_entry = sprintf("%s Error: %s%s (%s %s)\n",
       $program,
       $arg_arr['message'],
       $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
       $_SERVER['REQUEST_METHOD'],
       $_SERVER['REQUEST_URI'] . $post_query);
-      
-    if (empty($CONFIG['log_dir']))
-      $CONFIG['log_dir'] = INSTALL_PATH.'logs';
-      
-    // try to open specific log file for writing
-    if ($CONFIG['log_driver'] == 'syslog')
+    
+    if (!write_log('errors', $log_entry))
     {
-      syslog(LOG_ERR, $log_entry);
-    }
-    else if ($fp = @fopen($CONFIG['log_dir'].'/errors', 'a'))
-    {
-      // log_driver == 'file' is the default, assumed here.
-      fwrite($fp, $log_entry);
-      fclose($fp);
-    }
-    else
-    {
-      // send error to PHPs error handler
+      // send error to PHPs error handler if write_log didn't succeed
       trigger_error($arg_arr['message']);
     }
   }

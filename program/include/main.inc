@@ -1012,6 +1012,7 @@ function write_log($name, $line)
   if ($CONFIG['log_driver'] == 'syslog') {
     $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
     syslog($prio, $log_entry);
+    return true;
   }
   else {
     // log_driver == 'file' is assumed here
@@ -1023,8 +1024,10 @@ function write_log($name, $line)
       fwrite($fp, $log_entry);
       fflush($fp);
       fclose($fp);
+      return true;
     }
   }
+  return false;
 }
 
 
