@@ -142,6 +142,9 @@ function rcube_webmail()
     // find all registered gui objects
     for (var n in this.gui_objects)
       this.gui_objects[n] = rcube_find_object(this.gui_objects[n]);
+      
+    // init registered buttons
+    this.init_buttons();
 
     // tell parent window that this frame is loaded
     if (this.env.framed && parent.rcmail && parent.rcmail.set_busy)
@@ -3343,12 +3346,50 @@ function rcube_webmail()
 
   // eable/disable buttons for page shifting
   this.set_page_buttons = function()
-    {
+  {
     this.enable_command('nextpage', (this.env.pagecount > this.env.current_page));
     this.enable_command('lastpage', (this.env.pagecount > this.env.current_page));
     this.enable_command('previouspage', (this.env.current_page > 1));
     this.enable_command('firstpage', (this.env.current_page > 1));
+  };
+  
+  // set event handlers on registered buttons
+  this.init_buttons = function()
+  {
+    for (var cmd in this.buttons) {
+      if (typeof cmd != 'string')
+        continue;
+      
+      for (var i=0; i< this.buttons[cmd].length; i++) {
+        var prop = this.buttons[cmd][i];
+        var elm = document.getElementById(prop.id);
+        if (!elm)
+          continue;
+
+        var preload = false;
+        if (prop.type == 'image') {
+          elm = elm.parentNode;
+          preload = true;
+          new Image().src = prop.sel;
+        }
+        
+        elm._command = cmd;
+        elm._id = prop.id;
+        if (prop.sel) {
+          elm.onmousedown = function(e){ return rcmail.button_sel(this._command, this._id); };
+          elm.onmouseup = function(e){ return rcmail.button_out(this._command, this._id); };
+          if (preload)
+            new Image().src = prop.sel;
+        }
+        if (prop.over) {
+          elm.onmouseover = function(e){ return rcmail.button_over(this._command, this._id); };
+          elm.onmouseout = function(e){ return rcmail.button_out(this._command, this._id); };
+          if (preload)
+            new Image().src = prop.over;
+        }
+      }
     }
+  };
 
   // set button to a specific state
   this.set_button = function(command, state)

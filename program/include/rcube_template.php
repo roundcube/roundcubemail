@@ -840,9 +840,9 @@ class rcube_template extends rcube_html_page
             else if (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = rcmail_url($attrib['command']);
             }
-	    else if ($attrib['command'] == 'permaurl' && !empty($this->env['permaurl'])) {
-	        $attrib['href'] = $this->env['permaurl'];
-	    }
+            else if ($attrib['command'] == 'permaurl' && !empty($this->env['permaurl'])) {
+              $attrib['href'] = $this->env['permaurl'];
+            }
         }
 
         // overwrite attributes
@@ -855,35 +855,6 @@ class rcube_template extends rcube_html_page
                 JS_OBJECT_NAME,
                 $command,
                 $attrib['prop']
-            );
-        }
-        if ($command && $attrib['imageover']) {
-            $attrib['onmouseover'] = sprintf(
-                "return %s.button_over('%s','%s')",
-                JS_OBJECT_NAME,
-                $command,
-                $attrib['id']
-            );
-            $attrib['onmouseout'] = sprintf(
-                "return %s.button_out('%s','%s')",
-                JS_OBJECT_NAME,
-                $command,
-                $attrib['id']
-            );
-        }
-
-        if ($command && $attrib['imagesel']) {
-            $attrib['onmousedown'] = sprintf(
-                "return %s.button_sel('%s','%s')",
-                JS_OBJECT_NAME,
-                $command,
-                $attrib['id']
-            );
-            $attrib['onmouseup'] = sprintf(
-                "return %s.button_out('%s','%s')",
-                JS_OBJECT_NAME,
-                $command,
-                $attrib['id']
             );
         }
 
