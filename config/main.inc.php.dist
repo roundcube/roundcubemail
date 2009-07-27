@@ -173,7 +173,7 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 $rcmail_config['date_today'] = 'H:i';
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/0.3-beta';
+$rcmail_config['useragent'] = 'RoundCube Webmail/0.3-RC1';
 
 // use this name to compose page titles
 $rcmail_config['product_name'] = 'RoundCube Webmail';

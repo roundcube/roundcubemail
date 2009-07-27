@@ -3,11 +3,10 @@ RoundCube Webmail (http://roundcube.net)
 
 ATTENTION
 ---------
-This is just a snapshot of the current SVN repository and is NOT A STABLE
-version of RoundCube. Unlike the latest release this version requires PHP 5
-and does not work on a webserver with PHP 4. It's not recommended to
-replace an existing installation of RoundCube with this version. Also using
-a separate database for this installation is highly recommended.
+This is a release candidate and NOT A STABLE version of RoundCube.
+There were major changes on the IMAP backend wich might not yet work
+correctly. It's not recommended to replace an existing installation
+of RoundCube with this version but testing is highly appreciated.
 
 
 Introduction:
