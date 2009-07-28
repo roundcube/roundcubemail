@@ -309,20 +309,20 @@ function rcube_parse_charset($charset)
     'ANSIX31101983' => 'WINDOWS-1252',
     'ANSIX341968'   => 'WINDOWS-1252',
     'UNKNOWN8BIT'   => 'ISO-8859-15',
-    'XUNKNOWN'      => 'ISO-8859-15',
-    'XUSERDEFINED'  => 'ISO-8859-15',
+    'UNKNOWN'       => 'ISO-8859-15',
+    'USERDEFINED'   => 'ISO-8859-15',
     'KSC56011987'   => 'EUC-KR',
     'GB2312' 	    => 'GBK',
     'GB231280'	    => 'GBK',
     'UNICODE'	    => 'UTF-8',
     'UTF7IMAP'	    => 'UTF7-IMAP',
-    'XXBIG5'	    => 'BIG5',
     'TIS620'	    => 'WINDOWS-874',
     'ISO88599'	    => 'WINDOWS-1254',
     'ISO885911'	    => 'WINDOWS-874',
   );
 
-  $str = preg_replace('/[^a-z0-9]/i', '', $charset);
+  // allow a-z and 0-9 only and remove X- prefix (e.g. X-ROMAN8 => ROMAN8)
+  $str = preg_replace(array('/[^a-z0-9]/i', '/^x+/i'), '', $charset);
 
   if (isset($aliases[$str]))
     return $aliases[$str];
