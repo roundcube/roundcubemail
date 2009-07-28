@@ -428,7 +428,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
-        $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
+	$cont = trim($IMAP->decode_header($header->$col));
+	if ($browser->ie)
+	  $cont = rc_utf8_clean($cont);
+        $cont = abbreviate_string($cont, 160);
         if (!$cont) $cont = rcube_label('nosubject');
         $cont = $browser->ie ? Q($cont) : sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
@@ -668,36 +671,28 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   global $REMOTE_OBJECTS;
   
   $p += array('safe' => false, 'inline_html' => true);
-  
+
   // special replacements (not properly handled by washtml class)
   $html_search = array(
     '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-    '/(<[\/]*st1:[^>]+>)/i',		// Microsoft's Smart Tags <ST1>
-    '/<\/?rte_text>/i',			// Rich Text Editor tags (#1485647)
-    '/<\/?broadcast[^>]*>/i',		// invoices from the Apple Store contains <broadcast> tags (#1485962)
     '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
-    '/<html[^>]*>/im',			// malformed html: remove html tags (#1485139)
-    '/<\/html>/i',			// malformed html: remove html tags (#1485139)
     '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
   );
   $html_replace = array(
     '\\1'.' &nbsp; '.'\\3',
     '',
     '',
-    '',
-    '',
-    '',
-    '',
-    '',
   );
   $html = preg_replace($html_search, $html_replace, $html);
+
+  // fix (unknown/malformed) HTML tags before "wash"
+  $html = preg_replace_callback('/(<[\/!]*)([^ >]+)/', 'rcmail_html_tag_callback', $html);
 
   // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
   $charset_pattern = '/(\s+content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i';
   if (preg_match($charset_pattern, $html)) {
     $html = preg_replace($charset_pattern, '\\1='.RCMAIL_CHARSET, $html);
-  }
-  else {
+  } else {
     // add head for malformed messages, washtml cannot work without that
     if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
       $html = '<head></head>'. $html;
@@ -728,9 +723,8 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   $washer = new washtml($wash_opts);
   $washer->add_callback('form', 'rcmail_washtml_callback');
 
-  if ($p['safe']) {  // allow CSS styles, will be sanitized by rcmail_washtml_callback()
-    $washer->add_callback('style', 'rcmail_washtml_callback');
-  }
+  // allow CSS styles, will be sanitized by rcmail_washtml_callback()
+  $washer->add_callback('style', 'rcmail_washtml_callback');
     
   $html = $washer->wash($html);
   $REMOTE_OBJECTS = $washer->extlinks;
@@ -879,6 +873,22 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
   }
   
   return $out;
+}
+
+
+/**
+ * Callback function for HTML tags fixing
+ */
+function rcmail_html_tag_callback($matches)
+{
+  $tagname = $matches[2];
+
+  $tagname = preg_replace(array(
+    '/:.*$/',		// Microsoft's Smart Tags <st1:xxxx>
+    '/[^a-z0-9_-]/i',	// forbidden characters
+    ), '', $tagname);
+
+  return $matches[1].$tagname;
 }
 
 

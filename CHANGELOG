@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix displaying of HTML messages with unknown/malformed tags (#1486003)
+
+RELEASE 0.3-RC1
+---------------
 - Fix import of vCard entries with params (#1485453)
 - Fix HTML messages output with empty block elements (#1485974)
 - Use request tokens to protect POST requests from CSFR

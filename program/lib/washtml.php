@@ -69,6 +69,10 @@
  * Dont be a fool:
  *  - Dont alter data on a GET: '<img src="http://yourhost/mail?action=delete&uid=3267" />'
  *  - ...
+ *
+ * Roundcube Changes:
+ * - added $block_elements
+ * - changed $ignore_elements behaviour
  */
 
 class washtml
@@ -76,8 +80,8 @@ class washtml
   /* Allowed HTML elements (default) */
   static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b', 'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'ins', 'label', 'legend', 'li', 'map', 'menu', 'nobr', 'ol', 'p', 'pre', 'q', 's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img');
   
-  /* Ignore these HTML tags but process their content */
-  static $ignore_elements = array('html', 'head', 'body');
+  /* Ignore these HTML tags and their content */
+  static $ignore_elements = array('script', 'applet', 'embed', 'object', 'style');
   
   /* Allowed HTML attributes */
   static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir');  
@@ -209,14 +213,13 @@ class washtml
         } else if(isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
           $dump .= '<' . $tagName . $this->wash_attribs($node) .
-//            ($content?">$content</$tagName>":' />');
-// Roundcube Trac: #1485974
             ($content || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
         } else if(isset($this->_ignore_elements[$tagName])) {
-          $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
-          $dump .= $this->dumpHtml($node); //Just ignored
-        } else
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
+        } else {
+          $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
+          $dump .= $this->dumpHtml($node); // ignore tags not its content
+	}
         break;
       case XML_CDATA_SECTION_NODE:
         $dump .= $node->nodeValue;
