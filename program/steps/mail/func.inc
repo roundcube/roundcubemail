@@ -428,10 +428,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
         {
         $action = $mbox==$CONFIG['drafts_mbox'] ? 'compose' : 'show';
         $uid_param = $mbox==$CONFIG['drafts_mbox'] ? '_draft_uid' : '_uid';
-	$cont = trim($IMAP->decode_header($header->$col));
-	if ($browser->ie)
-	  $cont = rc_utf8_clean($cont);
-        $cont = abbreviate_string($cont, 160);
+	$cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
         if (!$cont) $cont = rcube_label('nosubject');
         $cont = $browser->ie ? Q($cont) : sprintf('<a href="%s" onclick="return rcube_event.cancel(event)">%s</a>', Q(rcmail_url($action, array($uid_param=>$header->uid, '_mbox'=>$mbox))), Q($cont));
         }
