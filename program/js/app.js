@@ -134,7 +134,7 @@ function rcube_webmail()
       this.goto_url('error', '_code=0x199');
       return;
       }
-    
+
     // find all registered gui containers
     for (var n in this.gui_containers)
       this.gui_containers[n] = $('#'+this.gui_containers[n]);
@@ -155,7 +155,7 @@ function rcube_webmail()
     
     if (this.env.permaurl)
       this.enable_command('permaurl', true);
-    
+
     switch (this.task)
       {
       case 'mail':
@@ -3370,7 +3370,6 @@ function rcube_webmail()
         if (prop.type == 'image') {
           elm = elm.parentNode;
           preload = true;
-          new Image().src = prop.sel;
         }
         
         elm._command = cmd;
