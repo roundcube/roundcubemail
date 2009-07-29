@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix #messagemenu display on IE (#1486006)
 - Speedup UI by using sprites for (toolbar) buttons
 - Fix charset names with X- prefix handling
 - Fix displaying of HTML messages with unknown/malformed tags (#1486003)

@@ -25,6 +25,7 @@ input, textarea
 {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
   filter: alpha(opacity=90);
+
 }
 
 #tabsbar
@@ -56,6 +57,7 @@ input, textarea
 #messagetoolbar
 {
   width: expression((parseInt(document.documentElement.clientWidth)-400)+'px');
+  z-index: 240;
 }
 
 #messagetoolbar select.mboxlist
