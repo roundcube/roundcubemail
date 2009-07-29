@@ -661,6 +661,11 @@ td.formlinks a:visited
   font-size: 11px;
 }
 
+#countcontrols
+{
+  min-width: 25em;
+}
+
 #countcontrols a.button,
 #countcontrols a.buttonPas,
 #messagecountbar a.button,
