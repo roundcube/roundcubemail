@@ -8,6 +8,11 @@ input, textarea
   background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
 }
 
+.pagenav a.buttonPas
+{
+  filter: alpha(opacity=35);
+}
+
 #message
 {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
@@ -56,6 +61,24 @@ input, textarea
 #messagetoolbar select.mboxlist
 {
   top: -8px;
+}
+
+#abooktoolbar a.buttonPas
+{
+  filter: alpha(opacity=35);
+  background-image: url('images/abook_toolbar.gif');
+}
+
+#messagetoolbar a.buttonPas
+{
+  filter: alpha(opacity=35);
+  background-image: url('images/mail_toolbar.gif');
+}
+
+#messagetoolbar select.mboxlist
+{
+  margin: 0 8px;
+  top: 8px;
 }
 
 #mainscreen

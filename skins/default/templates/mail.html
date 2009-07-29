@@ -76,8 +76,8 @@
 </div>
 
 <div id="mailfooter">
-<table cellpadding="1" cellspacing="0"><tr>
-  <td width="90%">
+<table cellpadding="1" cellspacing="0" width="100%"><tr>
+  <td>
     <span id="listcontrols">
       <roundcube:label name="select" />:&nbsp;
       <roundcube:button command="select-all" label="all" classAct="active" />&nbsp;
@@ -86,18 +86,18 @@
       <roundcube:button command="select-none" label="none" classAct="active" /> &nbsp;
       <roundcube:container name="listcontrols" id="listcontrols" />
     </span>
-  <roundcube:if condition="env:quota" />
-    <span id="quotabox"><roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" /></span>
-  <roundcube:endif />
   </td>
-  <td width="10%">
-    <span id="countcontrols">
-      <roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessages" />
-      <roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessages" />
-      &nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
-      <roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessages" />
-      <roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessages" />
-    </span>
+  <roundcube:if condition="env:quota" />
+  <td style="text-align:center">
+    <span id="quotabox"><roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" /></span>
+  </td>
+  <roundcube:endif />
+  <td id="countcontrols" class="pagenav">
+    <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastmessages" content=" " />
+    <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextmessages" content=" " />
+    <roundcube:object name="messageCountDisplay" style="padding:0 1em; float:right" />
+    <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previousmessages" content=" " />
+    <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstmessages" content=" " />
   </td>
 </tr></table>
 </div>
@@ -107,15 +107,15 @@
 
 
 <div id="messagetoolbar">
-<roundcube:button command="checkmail" imageSel="/images/buttons/inbox_sel.png" imageAct="/images/buttons/inbox_act.png" imagePas="/images/buttons/inbox_pas.png" width="32" height="32" title="checkmail" />
-<roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="writenewmessage" />
-<roundcube:button command="reply" imageSel="/images/buttons/reply_sel.png" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
-<roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
-<roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
-<roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
+<roundcube:button command="checkmail" type="link" class="button checkmail" classAct="button checkmail" classSel="button checkmailSel" title="checkmail" content=" " />
+<roundcube:button command="compose" type="link" class="button compose" classAct="button compose" classSel="button composeSel" title="writenewmessage" content=" " />
+<roundcube:button command="reply" type="link" class="buttonPas reply" classAct="button reply" classSel="button replySel" title="replytomessage" content=" " />
+<roundcube:button command="reply-all" type="link" class="buttonPas replyAll" classAct="button replyAll" classSel="button replyAllSel" title="replytoallmessage" content=" " />
+<roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
+<roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletemessage" content=" " />
 <roundcube:container name="toolbar" id="messagetoolbar" />
-<roundcube:button name="markreadbutton" id="markreadbutton" image="/images/buttons/markread_act.png" width="32" height="32" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" />
-<roundcube:button name="messagemenulink" id="messagemenulink" image="/images/buttons/actions_act.png" width="34" height="32" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" />
+<roundcube:button name="markreadbutton" id="markreadbutton" type="link" class="button markmessage" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" content=" " />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" content=" " />
 
 <div id="markmessagemenu">
   <ul class="toolbarmenu">

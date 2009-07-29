@@ -29,3 +29,14 @@ ul.toolbarmenu li
 {
   background-image: url('images/icons/folders.gif');
 }
+
+#messagetoolbar a.button,
+#messagetoolbar a.buttonPas {
+  background-image: url('images/mail_toolbar.gif');
+}
+
+#abooktoolbar a.button,
+#abooktoolbar a.buttonPas,
+#abooktoolbar span.separator {
+  background-image: url('images/abook_toolbar.gif');
+}

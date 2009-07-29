@@ -19,12 +19,14 @@ span.tablink-selected
   width: 100px;
   height: 24px !important;
   height: 22px;
-  background: url('images/tab_pas.gif') top left no-repeat;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: url('images/tabs.gif') top left no-repeat;
 }
 
 span.tablink-selected
 {
-  background: url('images/tab_act.gif') top left no-repeat;
+  background-position: -102px 0;
 }
 
 span.tablink a,

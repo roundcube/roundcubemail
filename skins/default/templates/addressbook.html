@@ -30,11 +30,13 @@
 <roundcube:include file="/includes/header.html" />
 
 <div id="abooktoolbar">
-<roundcube:button command="add" imageSel="/images/buttons/add_contact_sel.png" imageAct="/images/buttons/add_contact_act.png" imagePas="/images/buttons/add_contact_pas.png" width="32" height="32" title="newcontact" />
-<roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletecontact" />
-<roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="composeto" />
-<roundcube:button command="import" imageSel="/images/buttons/adr_import_sel.png" imageAct="/images/buttons/adr_import_act.png" imagePas="/images/buttons/adr_import_pas.png" width="32" height="32" title="importcontacts" />
-<roundcube:button command="export" imageSel="/images/buttons/download_sel.png" imageAct="/images/buttons/download_act.png" imagePas="/images/buttons/download_pas.png" width="32" height="32" title="exportvcards" />
+<roundcube:button command="add" type="link" class="button addcontact" classAct="button addcontact" classSel="button addcontactSel" title="newcontact" content=" " />
+<roundcube:button command="compose" type="link" class="buttonPas compose" classAct="button compose" classSel="button composeSel" title="composeto" content=" " />
+<roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletecontact" content=" " />
+<span class="separator">&nbsp;</span>
+<roundcube:button command="import" type="link" class="buttonPas import" classAct="button import" classSel="button importSel" title="importcontacts" content=" " />
+<roundcube:button command="export" type="link" class="buttonPas export" classAct="button export" classSel="button exportSel" title="exportvcards" content=" " />
+<roundcube:container name="toolbar" id="abooktoolbar" />
 </div>
 
 <div id="quicksearchbar">
@@ -67,12 +69,12 @@
 
 </div>
 
-<div id="abookcountbar">
-<roundcube:button command="firstpage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstpage" />
-<roundcube:button command="previouspage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previouspage" />
-&nbsp;<roundcube:object name="recordsCountDisplay" />&nbsp;
-<roundcube:button command="nextpage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextpage" />
-<roundcube:button command="lastpage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastpage" />
+<div id="abookcountbar" class="pagenav">
+  <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
+  <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
+  <roundcube:object name="recordsCountDisplay" style="padding:0 1em; float:left" />
+  <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
+  <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
 </div>
 
 </body>

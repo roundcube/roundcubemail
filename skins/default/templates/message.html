@@ -18,14 +18,14 @@
 <roundcube:include file="/includes/header.html" />
 
 <div id="messagetoolbar">
-<roundcube:button command="list" image="/images/buttons/back_act.png" imageSel="/images/buttons/back_sel.png" imageAct="/images/buttons/back_act.png" width="32" height="32" title="backtolist" />
-<roundcube:button command="compose" imageSel="/images/buttons/compose_sel.png" imageAct="/images/buttons/compose_act.png" imagePas="/images/buttons/compose_pas.png" width="32" height="32" title="writenewmessage" />
-<roundcube:button command="reply" imageSel="/images/buttons/reply_sel.png" imageAct="/images/buttons/reply_act.png" imagePas="/images/buttons/reply_pas.png" width="32" height="32" title="replytomessage" />
-<roundcube:button command="reply-all" imageSel="/images/buttons/replyall_sel.png" imageAct="/images/buttons/replyall_act.png" imagePas="/images/buttons/replyall_pas.png" width="32" height="32" title="replytoallmessage" />
-<roundcube:button command="forward" imageSel="/images/buttons/forward_sel.png" imageAct="/images/buttons/forward_act.png" imagePas="/images/buttons/forward_pas.png" width="32" height="32" title="forwardmessage" />
-<roundcube:button command="delete" imageSel="/images/buttons/delete_sel.png" imageAct="/images/buttons/delete_act.png" imagePas="/images/buttons/delete_pas.png" width="32" height="32" title="deletemessage" />
+<roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
+<roundcube:button command="compose" type="link" class="button compose" classAct="button compose" classSel="button composeSel" title="writenewmessage" content=" " />
+<roundcube:button command="reply" type="link" class="buttonPas reply" classAct="button reply" classSel="button replySel" title="replytomessage" content=" " />
+<roundcube:button command="reply-all" type="link" class="buttonPas replyAll" classAct="button replyAll" classSel="button replyAllSel" title="replytoallmessage" content=" " />
+<roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
+<roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletemessage" content=" " />
 <roundcube:container name="toolbar" id="messagetoolbar" />
-<roundcube:button name="messagemenulink" image="/images/buttons/actions_act.png" width="34" height="32" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" id="messagemenulink" />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" content=" " />
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
 
 <roundcube:include file="/includes/messagemenu.html" />
@@ -49,12 +49,12 @@
 </div>
 </div>
 
-<div id="messagecountbar">
-  <roundcube:button command="firstmessage" imageSel="/images/buttons/first_sel.png" imageAct="/images/buttons/first_act.png" imagePas="/images/buttons/first_pas.png" width="11" height="11" title="firstmessage" />
-  <roundcube:button command="previousmessage" imageSel="/images/buttons/previous_sel.png" imageAct="/images/buttons/previous_act.png" imagePas="/images/buttons/previous_pas.png" width="11" height="11" title="previousmessage" />
-  &nbsp;<roundcube:object name="messageCountDisplay" />&nbsp;
-  <roundcube:button command="nextmessage" imageSel="/images/buttons/next_sel.png" imageAct="/images/buttons/next_act.png" imagePas="/images/buttons/next_pas.png" width="11" height="11" title="nextmessage" />
-  <roundcube:button command="lastmessage" imageSel="/images/buttons/last_sel.png" imageAct="/images/buttons/last_act.png" imagePas="/images/buttons/last_pas.png" width="11" height="11" title="lastmessage" />
+<div id="messagecountbar" class="pagenav">
+  <roundcube:button command="lastmessage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastmessage" content=" " />
+  <roundcube:button command="nextmessage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextmessage" content=" " />
+  <roundcube:object name="messageCountDisplay" style="padding:0 1em 0 1em; float:right" />
+  <roundcube:button command="previousmessage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previousmessage" content=" " />
+  <roundcube:button command="firstmessage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstmessage" content=" " />
 </div>
 </div>
 

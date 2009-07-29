@@ -241,6 +241,52 @@ img
   left: 20px;
 }
 
+.pagenav a.button,
+.pagenav a.buttonPas
+{
+  display: block;
+  float: left;
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  margin: 1px;
+  overflow: hidden;
+  background: url('images/pagenav.gif') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+.pagenav a.buttonPas {
+  opacity: 0.35;
+}
+
+.pagenav a.firstpageSel {
+  background-position: 0 -11px;
+}
+
+.pagenav a.prevpage {
+  background-position: -11px 0;
+}
+
+.pagenav a.prevpageSel {
+  background-position: -11px -11px;
+}
+
+.pagenav a.nextpage {
+  background-position: -22px 0;
+}
+
+.pagenav a.nextpageSel {
+  background-position: -22px -11px;
+}
+
+.pagenav a.lastpage {
+  background-position: -33px 0;
+}
+
+.pagenav a.lastpageSel {
+  background-position: -33px -11px;
+}
+
 .splitter
 {
   user-select: none;

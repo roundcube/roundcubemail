@@ -12,10 +12,123 @@
 /*  border: 1px solid #cccccc; */
 }
 
-#messagetoolbar a
+#messagetoolbar > a
 {
+  display: block;
+  float: left;
   padding-right: 10px;
 }
+
+#messagetoolbar a.button,
+#messagetoolbar a.buttonPas {
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin-right: 10px;
+  overflow: hidden;
+  background: url('images/mail_toolbar.png') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+#messagetoolbar a.buttonPas {
+  opacity: 0.35;
+}
+
+#messagetoolbar a.checkmailSel {
+  background-position: 0 -32px;
+}
+
+#messagetoolbar a.back {
+  background-position: -32px 0;
+}
+
+#messagetoolbar a.backSel {
+  background-position: -32px -32px;
+}
+
+#messagetoolbar a.compose {
+  background-position: -64px 0;
+}
+
+#messagetoolbar a.composeSel {
+  background-position: -64px -32px;
+}
+
+#messagetoolbar a.reply {
+  background-position: -96px 0;
+}
+
+#messagetoolbar a.replySel {
+  background-position: -96px -32px;
+}
+
+#messagetoolbar a.replyAll {
+  background-position: -128px 0;
+}
+
+#messagetoolbar a.replyAllSel {
+  background-position: -128px -32px;
+}
+
+#messagetoolbar a.forward {
+  background-position: -160px 0;
+}
+
+#messagetoolbar a.forwardSel {
+  background-position: -160px -32px;
+}
+
+#messagetoolbar a.delete {
+  background-position: -192px 0;
+}
+
+#messagetoolbar a.deleteSel {
+  background-position: -192px -32px;
+}
+
+#messagetoolbar a.markmessage {
+  background-position: -256px 0;
+}
+
+#messagetoolbar a.messagemenu {
+  width: 36px;
+  background-position: -288px 0;
+}
+
+#messagetoolbar a.spellcheck {
+  background-position: -386px 0;
+}
+
+#messagetoolbar a.spellcheckSel {
+  background-position: -386px -32px;
+}
+
+#messagetoolbar a.attach {
+  background-position: -354px 0;
+}
+
+#messagetoolbar a.attachSel {
+  background-position: -354px -32px;
+}
+
+#messagetoolbar a.savedraft {
+  background-position: -322px 0;
+}
+
+#messagetoolbar a.savedraftSel {
+  background-position: -322px -32px;
+}
+
+#messagetoolbar a.send {
+  background-position: -418px 0;
+}
+
+#messagetoolbar a.sendSel {
+  background-position: -418px -32px;
+}
+
 
 #messagetoolbar select,
 #compose-container select
@@ -30,7 +143,7 @@
 {
   position: relative;
   margin: 0 8px;
-  top: -12px;
+  top: 6px;
 }
 
 #messagetoolbar select.mboxlist option
@@ -548,6 +661,14 @@ td.formlinks a:visited
   font-size: 11px;
 }
 
+#countcontrols a.button,
+#countcontrols a.buttonPas,
+#messagecountbar a.button,
+#messagecountbar a.buttonPas
+{
+  float: right;
+}
+
 
 /** message list styles */
 
@@ -762,6 +883,7 @@ body.messagelist
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
+  z-index: 1;
 }
 
 #printmessageframe
