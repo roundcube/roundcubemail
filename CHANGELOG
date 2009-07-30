@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix endless loop in iil_C_Login() with Courier IMAP (#1486010)
 - Fix #messagemenu display on IE (#1486006)
 - Speedup UI by using sprites for (toolbar) buttons
 - Fix charset names with X- prefix handling

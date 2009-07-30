@@ -243,6 +243,7 @@ function iil_ReadLine($fp, $size=1024) {
     
 	do {
     		$buffer = fgets($fp, $size);
+
     		if ($buffer === false) {
         		break;
     		}
@@ -250,7 +251,7 @@ function iil_ReadLine($fp, $size=1024) {
 			write_log('imap', 'S: '. chop($buffer));
     		$line .= $buffer;
 	} while ($buffer[strlen($buffer)-1] != "\n");
-	
+
 	return $line;
 }
 
@@ -290,11 +291,12 @@ function iil_ReadBytes($fp, $bytes) {
 	return $data;
 }
 
+// don't use it in loops, until you exactly know what you're doing
 function iil_ReadReply($fp) {
 	do {
 		$line = trim(iil_ReadLine($fp, 1024));
 	} while ($line[0] == '*');
-	
+
 	return $line;
 }
 
@@ -442,13 +444,8 @@ function iil_C_Login(&$conn, $user, $password) {
 
     iil_PutLine($conn->fp, 'a001 LOGIN "'.iil_Escape($user).'" "'.iil_Escape($password).'"');
 
-    do {
-        $line = iil_ReadReply($conn->fp);
-        if ($line === false) {
-            break;
-        }
-    } while (!iil_StartsWith($line, 'a001 ', true));
-    
+    $line = iil_ReadReply($conn->fp);
+
     // process result
     $result = iil_ParseResult($line);
 
@@ -589,7 +586,6 @@ function iil_Connect($host, $user, $password, $options=null) {
 	} else if ($my_prefs['sort_field'] == 'DATE') {
     		$IMAP_USE_INTERNAL_DATE = false;
 	}
-	//echo '<!-- conn sort_field: '.$my_prefs['sort_field'].' //-->';
 	
 	//check input
 	if (empty($host)) {
@@ -626,6 +622,9 @@ function iil_Connect($host, $user, $password, $options=null) {
 	stream_set_timeout($conn->fp, 10);
 	$line = stream_get_line($conn->fp, 8192, "\r\n");
 
+	if ($my_prefs['debug_mode'] && $line)
+		write_log('imap', 'S: '. $line);
+
 	// Connected to wrong port or connection error?
 	if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
 		if ($line)
@@ -635,7 +634,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	        $iil_errornum = -2;
 	        return false;
 	}
-	
+
 	// RFC3501 [7.1] optional CAPABILITY response
 	if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
 		$conn->capability = explode(' ', strtoupper($matches[1]));
@@ -1833,7 +1832,7 @@ function iil_C_Copy(&$conn, $messages, $from, $to) {
 		$c=0;
 		
 		iil_PutLine($fp, "cpy1 UID COPY $messages \"".iil_Escape($to)."\"");
-		$line=iil_ReadReply($fp);
+		$line = iil_ReadReply($fp);
 		return iil_ParseResult($line);
 	} else {
 		return -1;
