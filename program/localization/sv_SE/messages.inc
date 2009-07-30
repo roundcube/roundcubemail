@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Jonas Nasholm <rcm@bitfuse.net>                              |
+| Author: Jonas Nasholm <rcm@bitfuse.net>                               |
 |         Fredrik Nygren <f.nygren@gmail.com>                           |
 |         Andreas Henriksson <andreas@fatal.se>                         |
 +-----------------------------------------------------------------------+
@@ -25,6 +25,7 @@ $messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
 $messages['imaperror'] = 'Kontakt med IMAP-servern misslyckades';
 $messages['servererror'] = 'Fel i servern!';
+$messages['invalidrequest'] = 'Ogiltig begäran! Informationen sparades inte.';
 $messages['nomessagesfound'] = 'Inga meddelanden';
 $messages['loggedout'] = 'Du är utloggad. Välkommen åter!';
 $messages['mailboxempty'] = 'Katalogen är tom';

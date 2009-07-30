@@ -20,6 +20,7 @@ $messages['cookiesdisabled'] = 'O seu navegador non acepta galletas';
 $messages['sessionerror'] = 'A súa sesión non é válida ou expirou';
 $messages['imaperror'] = 'Fallou a conexión co servidor IMAP';
 $messages['servererror'] = 'Erro no servidor!';
+$messages['invalidrequest'] = 'Petición inválida!. Non se gardou ningún dato.';
 $messages['nomessagesfound'] = 'Non se atoparon mensaxes nesta caixa de correo';
 $messages['loggedout'] = 'Rematou correctamente a súa sesión. Ata logo!';
 $messages['mailboxempty'] = 'A caixa de correo está vacía';
@@ -94,5 +95,11 @@ $messages['opnotpermitted'] = 'Operación non permitida';
 $messages['nofromaddress'] = 'Falta o enderezo de correo electrónico na identidade que escolleu';
 $messages['editorwarning'] = 'Se troca neste intre ao editor de texto plano, vai perder todo o formato do texto. Quere continuar?';
 $messages['httpreceivedencrypterror'] = 'Produciuse un erro fatal de configuración. Contacte ao administrador inmediatamente. <b>Non se puido enviar a súa mensaxe.</b>';
+$messages['smtpconnerror'] = 'Erro SMTP ($code): Fallou a conexión co servidor';
+$messages['smtpautherror'] = 'Erro SMTP ($code): Fallou a autenticación';
+$messages['smtpfromerror'] = 'Erro SMTP ($code): Non se puido establecer o remitente "$from"';
+$messages['smtptoerror'] = 'Erro SMTP ($code): Non se puido engadir o destinatario "$to"';
+$messages['smtprecipientserror'] = 'Erro SMTP: Non se pode analizar a lista de destinatarios';
+$messages['smtperror'] = 'Erro SMTP: $msg';
 
 ?>

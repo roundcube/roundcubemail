@@ -20,6 +20,7 @@ $messages['cookiesdisabled'] = 'Nid yw eich porwr yn derbyn cwcis';
 $messages['sessionerror'] = 'Mae\'r sesiwn yn anghywir neu wedi dod i ben';
 $messages['imaperror'] = 'Methwyd cysylltu a\'r gweinydd IMAP';
 $messages['servererror'] = 'Gwall Gweinydd!';
+$messages['invalidrequest'] = 'Cais annilys! Ni chadwyd unrhyw wybodaeth.';
 $messages['nomessagesfound'] = 'Dim negeseuon wedi eu canfod yn y blwch hwn';
 $messages['loggedout'] = 'Rydych wedi gorffen y sesiwn yn llwyddianus. Hwyl fawr!';
 $messages['mailboxempty'] = 'Blwch yn wag';

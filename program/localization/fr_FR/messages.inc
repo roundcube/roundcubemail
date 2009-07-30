@@ -25,6 +25,7 @@ $messages['cookiesdisabled'] = 'Votre navigateur n\'accepte pas les cookies';
 $messages['sessionerror'] = 'Votre session est invalide ou a expiré';
 $messages['imaperror'] = 'Erreur de connexion au serveur IMAP';
 $messages['servererror'] = 'Erreur Serveur !';
+$messages['invalidrequest'] = 'Requête invalide ! Aucune donnée n\'a été sauvegardée.';
 $messages['nomessagesfound'] = 'Aucun message trouvé dans cette boîte aux lettres';
 $messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
 $messages['mailboxempty'] = 'Boîte aux lettres vide';

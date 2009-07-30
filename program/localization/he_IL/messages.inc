@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  13072009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  30072009                |
 +-----------------------------------------------------------------------+
 
 */
@@ -22,6 +22,7 @@ $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
 $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או שפג תוקפה';
 $messages['imaperror'] = 'הקשר לשרת הדואר נכשל';
 $messages['servererror'] = '! שגיאת שרת';
+$messages['invalidrequest'] = 'בקשה לא חוקית. המידע לא נשמר';
 $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
 $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
 $messages['mailboxempty'] = 'רשימת ההודעות ריקה';
