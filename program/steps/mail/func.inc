@@ -685,17 +685,17 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   // fix (unknown/malformed) HTML tags before "wash"
   $html = preg_replace_callback('/(<[\/!]*)([^ >]+)/', 'rcmail_html_tag_callback', $html);
 
-  // charset was converted to UTF-8 in rcube_imap::get_message_part() -> change charset specification in HTML accordingly
+  // charset was converted to UTF-8 in rcube_imap::get_message_part(),
+  // change charset specification in HTML accordingly
   $charset_pattern = '/(\s+content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)/i';
   if (preg_match($charset_pattern, $html)) {
     $html = preg_replace($charset_pattern, '\\1='.RCMAIL_CHARSET, $html);
-  } else {
-    // add head for malformed messages, washtml cannot work without that
-    if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
-      $html = '<head></head>'. $html;
-    $html = substr_replace($html, '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
   }
-    
+  // add head for malformed messages, washtml cannot work without that
+  if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
+    $html = '<head></head>'. $html;
+  $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
+
   // turn relative into absolute urls
   $html = rcmail_resolve_base($html);
 
