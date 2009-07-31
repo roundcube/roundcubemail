@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix rcube_mdb2::unixtimestamp for MS SQL (#1486015)
 - Fix HTML washing to respect character encoding
 - Fix endless loop in iil_C_Login() with Courier IMAP (#1486010)
 - Fix #messagemenu display on IE (#1486006)

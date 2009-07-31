@@ -507,7 +507,7 @@ class rcube_mdb2
         break;
 
       case 'mssql':
-        return "datediff(s, '1970-01-01 00:00:00', $field)";
+	return "DATEDIFF(second, '19700101', $field) + DATEDIFF(second, GETDATE(), GETUTCDATE())";
 
       default:
         return "UNIX_TIMESTAMP($field)";
