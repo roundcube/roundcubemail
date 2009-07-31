@@ -40,6 +40,7 @@ class filesystem_attachments extends rcube_plugin
 
         // Delete all temp files associated with this user
         $this->add_hook('cleanup_attachments', array($this, 'cleanup'));
+        $this->add_hook('kill_session', array($this, 'cleanup'));
     }
 
     /**
@@ -73,21 +74,21 @@ class filesystem_attachments extends rcube_plugin
     function save($args)
     {
         $args['status'] = false;
-	
-	if (!$args['path']) {
-    	    $rcmail = rcmail::get_instance();
-            $temp_dir = unslashify($rcmail->config->get('temp_dir'));
-    	    $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
 
-    	    if ($fp = fopen($tmp_path, 'w')) {
-        	fwrite($fp, $args['data']);
-        	fclose($fp);
-        	$args['path'] = $tmp_path;
-    	    } else
-		return $args;
-	}
+        if (!$args['path']) {
+            $rcmail = rcmail::get_instance();
+            $temp_dir = unslashify($rcmail->config->get('temp_dir'));
+            $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
+
+            if ($fp = fopen($tmp_path, 'w')) {
+                fwrite($fp, $args['data']);
+                fclose($fp);
+                $args['path'] = $tmp_path;
+            } else
+                return $args;
+        }
         
-	$args['id'] = count($_SESSION['plugins']['filesystem_attachments']['tmp_files'])+1;
+        $args['id'] = count($_SESSION['plugins']['filesystem_attachments']['tmp_files'])+1;
         $args['status'] = true;
             
         // Note the file for later cleanup
