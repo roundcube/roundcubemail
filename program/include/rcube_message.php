@@ -323,8 +323,16 @@ class rcube_message
       $p->ctype_primary = 'text';
       $p->ctype_secondary = 'plain';
       $p->body = rcube_label('encryptedmessage');
+      $p->size = strlen($p->body);
       
-      $this->parts[] = $p;
+      // maybe some plugins are able to decode this encrypted message part
+      $data = $this->app->plugins->exec_hook('message_part_encrypted', array('object' => $this, 'struct' => $structure, 'part' => $p));
+      if (is_array($data['parts'])) {
+        $this->parts = array_merge($this->parts, $data['parts']);
+      }
+      else if ($data['part']) {
+        $this->parts[] = $p;
+      }
     }
     // message contains multiple parts
     else if (is_array($structure->parts) && !empty($structure->parts)) {
