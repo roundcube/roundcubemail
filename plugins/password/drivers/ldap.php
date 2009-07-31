@@ -54,7 +54,7 @@ function password_save($curpass, $passwd)
     // Writing new crypted password to LDAP
     $userEntry = $ldap->getEntry($userDN);
     if (Net_LDAP2::isError($userEntry)) {return PASSWORD_CONNECT_ERROR;}
-    if (!$userEntry->replace(array($rcmail->config->get('password_ldap_pwattr') => $newCryptedPassword))) {return PASSWORD_CONNECT_ERROR;}
+    if (!$userEntry->replace(array($rcmail->config->get('password_ldap_pwattr') => $newCryptedPassword),$rcmail->config->get('password_ldap_force_replace'))) {return PASSWORD_CONNECT_ERROR;}
     if (Net_LDAP2::isError($userEntry->update())) {return PASSWORD_CONNECT_ERROR;}
     
     // All done, no error
