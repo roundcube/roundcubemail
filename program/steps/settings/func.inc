@@ -258,12 +258,20 @@ function rcmail_user_prefs_block($part, $no_override, $attrib)
       $table->add(null, $input_inline_images->show($config['inline_images']?1:0));
     }
 
+    // "display after delete" checkbox
+    if (!isset($no_override['display_next'])) {
+      $field_id = 'rcmfd_displaynext';
+      $input_displaynext = new html_checkbox(array('name' => '_display_next', 'id' => $field_id, 'value' => 1));
+
+      $table->add('title', html::label($field_id, Q(rcube_label('displaynext'))));
+      $table->add(null, $input_displaynext->show($config['display_next']?1:0));
+    }
+
     $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $part, 'table' => $table));
 
     if ($table->size())
       $out = html::tag('fieldset', null, html::tag('legend', null, Q(rcube_label('messagesdisplaying'))) . $table->show($attrib));
     break;
-
 
   // Mail composition
   case 'compose':

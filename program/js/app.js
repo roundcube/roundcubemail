@@ -1890,19 +1890,21 @@ function rcube_webmail()
       var selection = this.message_list.get_selection();
       var rows = this.message_list.rows;
       var id;
-      for (var n=0; n<selection.length; n++)
-        {
+      for (var n=0; n<selection.length; n++) {
         id = selection[n];
         a_uids[a_uids.length] = id;
-        this.message_list.remove_row(id, (n == selection.length-1));
+        this.message_list.remove_row(id, (this.env.display_next && n == selection.length-1));
       }
+      // make sure there are no selected rows
+      if (!this.env.display_next)
+        this.message_list.clear_selection();
     }
 
     // also send search request to get the right messages 
     if (this.env.search_request) 
       add_url += '&_search='+this.env.search_request;
 
-    if (this.env.next_uid)
+    if (this.env.display_next && this.env.next_uid)
       add_url += '&_next_uid='+this.env.next_uid;
 
     // send request to server
@@ -2046,11 +2048,15 @@ function rcube_webmail()
           r_uids[r_uids.length] = uid;
 
 	if (this.env.skip_deleted)
-          this.message_list.remove_row(uid, (i == this.message_list.selection.length-1));
+          this.message_list.remove_row(uid, (this.env.display_next && i == this.message_list.selection.length-1));
 	else
 	  this.set_message(uid, 'deleted', true);
         }
       }
+
+    // make sure there are no selected rows
+    if (this.env.skip_deleted && !this.env.display_next && this.message_list)
+      this.message_list.clear_selection();
 
     add_url = '&_from='+(this.env.action ? this.env.action : '');
     
@@ -2061,7 +2067,7 @@ function rcube_webmail()
       // also send search request to get the right messages 
       if (this.env.search_request) 
         add_url += '&_search='+this.env.search_request;
-      if (this.env.next_uid)
+      if (this.env.display_next && this.env.next_uid)
         add_url += '&_next_uid='+this.env.next_uid;
     }
     

@@ -78,7 +78,7 @@ if ($_GET['_uid']) {
     $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
-    
+        
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
       !$MESSAGE->headers->mdn_sent && !$MESSAGE->headers->seen &&
@@ -142,6 +142,9 @@ if ($_GET['_uid']) {
     if ($last > 0)
       $OUTPUT->set_env('last_uid', $last);
     }
+
+  if ($CONFIG['display_next'])
+    $OUTPUT->set_env('display_next', true);
 
   if (!$MESSAGE->headers->seen)
     $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid,

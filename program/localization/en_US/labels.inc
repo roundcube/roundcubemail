@@ -305,6 +305,7 @@ $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
+$labels['displaynext'] = 'After message delete/move display the next message';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

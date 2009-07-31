@@ -245,6 +245,7 @@ $labels['keepalive']  = 'Sprawdzaj czy nadeszły nowe wiadomości';
 $labels['everynminutes']  = 'co $n minut(y)';
 $labels['never'] = 'nigdy';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';
+$labels['displaynext'] = 'Po usunięciu/przeniesieniu wiadomości wyświetl następną';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Foldery';
 $labels['foldername'] = 'Nazwa folderu';

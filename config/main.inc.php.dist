@@ -437,5 +437,8 @@ $rcmail_config['keep_alive'] = 60;
 // If true all folders will be checked for recent messages
 $rcmail_config['check_all_folders'] = FALSE;
 
+// If true, after message delete/move, the next message will be displayed
+$rcmail_config['display_next'] = FALSE;
+
 // end of config file
 ?>
