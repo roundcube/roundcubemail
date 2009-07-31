@@ -246,7 +246,6 @@ class washtml
     //Charset seems to be ignored (probably if defined in the HTML document)
     $node = new DOMDocument('1.0', $this->config['charset']);
     $this->extlinks = false;
-    $html = mb_convert_encoding($html, 'HTML-ENTITIES', $this->config['charset']);
     @$node->loadHTML($html);
     return $this->dumpHtml($node);
   }
