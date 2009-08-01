@@ -644,7 +644,7 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
     while ($table_data && ($sql_arr = $db->fetch_assoc($table_data)))
     {
       $zebra_class = $c % 2 ? 'even' : 'odd';
-      $table->add_row(array('id' => 'rcmrow' . $sql_arr[$id_col], 'class' => "contact $zebra_class"));
+      $table->add_row(array('id' => 'rcmrow' . $sql_arr[$id_col], 'class' => $zebra_class));
 
       // format each col
       foreach ($a_show_cols as $col)
@@ -658,7 +658,7 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
     foreach ($table_data as $row_data)
     {
       $zebra_class = $c % 2 ? 'even' : 'odd';
-      $table->add_row(array('id' => 'rcmrow' . $row_data[$id_col], 'class' => "contact $zebra_class"));
+      $table->add_row(array('id' => 'rcmrow' . $row_data[$id_col], 'class' => $zebra_class));
 
       // format each col
       foreach ($a_show_cols as $col)
