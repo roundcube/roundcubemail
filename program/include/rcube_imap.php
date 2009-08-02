@@ -1534,12 +1534,8 @@ class rcube_imap
     if (!is_array($uids))
       $uids = explode(',',$uids);
       
-    if ($flag=='UNDELETED')
-      $result = iil_C_Undelete($this->conn, $mailbox, join(',', $uids));
-    else if ($flag=='UNSEEN')
-      $result = iil_C_Unseen($this->conn, $mailbox, join(',', $uids));
-    else if ($flag=='UNFLAGGED')
-      $result = iil_C_UnFlag($this->conn, $mailbox, join(',', $uids), 'FLAGGED');
+    if (strpos($flag, 'UN') === 0)
+      $result = iil_C_UnFlag($this->conn, $mailbox, join(',', $uids), substr($flag, 2));
     else
       $result = iil_C_Flag($this->conn, $mailbox, join(',', $uids), $flag);
 
@@ -1566,6 +1562,21 @@ class rcube_imap
       $this->_set_messagecount($mailbox, 'ALL', $count*(-1));
 
     return $result;
+    }
+
+
+  /**
+   * Remove message flag for one or several messages
+   *
+   * @param mixed  Message UIDs as array or as comma-separated string
+   * @param string Flag to unset: SEEN, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
+   * @param string Folder name
+   * @return boolean True on success, False on failure
+   * @see set_flag
+   */
+  function unset_flag($uids, $flag, $mbox_name=NULL)
+    {
+    return $this->set_flag($uids, 'UN'.$flag, $mbox_name);
     }
 
 

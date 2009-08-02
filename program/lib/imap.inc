@@ -1813,14 +1813,6 @@ function iil_C_Delete(&$conn, $mailbox, $messages) {
 	return iil_C_ModFlag($conn, $mailbox, $messages, 'DELETED', '+');
 }
 
-function iil_C_Undelete(&$conn, $mailbox, $messages) {
-	return iil_C_ModFlag($conn, $mailbox, $messages, 'DELETED', '-');
-}
-
-function iil_C_Unseen(&$conn, $mailbox, $messages) {
-	return iil_C_ModFlag($conn, $mailbox, $messages, 'SEEN', '-');
-}
-
 function iil_C_Copy(&$conn, $messages, $from, $to) {
 	$fp = $conn->fp;
 
