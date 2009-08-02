@@ -324,6 +324,4 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 
-//personalizau
-$labels['anu'] = date(Y);
 ?>

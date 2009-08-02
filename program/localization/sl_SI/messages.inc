@@ -1,83 +1,105 @@
 <?php
 
 /*
-
 +-----------------------------------------------------------------------+
-| language/sl/messages.inc                                              |
+| language/_NEW_/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2008, RoundQube Dev. - Switzerland                      |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Andrej Sossi <asossi@dotcom.ts.it>                            |
-|         Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
+| Author:                                                               |
 +-----------------------------------------------------------------------+
-
-@version $Id$
 
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Prijava neuspešna';
-$messages['cookiesdisabled'] = 'Vaš brskalnik nima omogočenih piškotov';
-$messages['sessionerror'] = 'Vaša seja je napačna oz. potekla';
-$messages['imaperror'] = 'Povezava na IMAP strežnik neuspešna';
-$messages['nomessagesfound'] = 'Ni sporočil';
-$messages['loggedout'] = 'Uspešno ste zaključili sejo. Nasvidenje!';
-$messages['mailboxempty'] = 'Nabiralnik je prazen';
-$messages['loading'] = 'Nalagam...';
-$messages['loadingdata'] = 'Nalagam podatke...';
-$messages['checkingmail'] = 'Iščem nova sporočila...';
-$messages['sendingmessage'] = 'Pošiljam sporočilo...';
-$messages['messagesent'] = 'Sporočilo uspešno poslano';
-$messages['savingmessage'] = 'Shranjujem sporočilo';
-$messages['messagesaved'] = 'Sporočilo shranjeno v osnutke';
-$messages['successfullysaved'] = 'Uspešno shranjeno';
-$messages['addedsuccessfully'] = 'Vizitka uspešno dodana';
-$messages['contactexists'] = 'Vizitka s tem e-naslovom že obstaja!';
-$messages['blockedimages'] = 'Zaradi vaše varnosti slike v tem sporočilu niso prikazane.';
-$messages['encryptedmessage'] = 'To je zaščiteno sporočilo, na žalost ne more biti prikazano. Oprostite!';
-$messages['nocontactsfound'] = 'Ne najdem nobene vizitke';
-$messages['contactnotfound'] = 'Ne najdem iskane vizitke';
-$messages['sendingfailed'] = 'Pošiljanje sporočila neuspešno';
-$messages['errorsaving'] = 'Pri shranjevanju je prišlo do napake';
-$messages['errormoving'] = 'Ne morem premakniti sporočila';
-$messages['errordeleting'] = 'Ne morem izbrisati sporočila';
-$messages['deletecontactconfirm'] = 'Želite zbrisati izbrane vizitke?';
-$messages['deletemessagesconfirm'] = 'Želite zbrisati izbrana sporočila?';
-$messages['deletefolderconfirm'] = 'Želite zbrisati to mapo?';
-$messages['purgefolderconfirm'] = 'Želite zbrisati vsa sporočila v tej mapi?';
-$messages['formincomplete'] = 'Obrazec ni bil izpolnjen v celoti';
-$messages['noemailwarning'] = 'Prosim vpišite veljaven e-naslov';
-$messages['nonamewarning'] = 'Prosim vpišite ime';
-$messages['nopagesizewarning'] = 'Prosim vpišite velikost strani';
-$messages['norecipientwarning'] = 'Prosim vpišite vsaj enega naslovnika';
-$messages['nosubjectwarning'] = 'Polje "Naslov" je prazno. Ali ga želite vpisati zdaj?';
-$messages['nobodywarning'] = 'Pošlji to sporočilo brez besedila?';
-$messages['notsentwarning'] = 'Sporočilo ni bilo poslano. Želite opustiti vaše sporočilo?';
-$messages['noldapserver'] = 'Prosim izberite ldap strežnik za iskanje';
-$messages['nocontactsreturned'] = 'Ne najdem vizitk';
-$messages['nosearchname'] = 'Prosim vpišite ime ali e-naslov stika';
-$messages['searchsuccessful'] = 'Število dobljenih sporočil: $nr';
-$messages['searchnomatch'] = 'Iskanje ni doprineslo nobenega rezultata';
-$messages['searching'] = 'Iščem...';
-$messages['checking'] = 'Previrjam...';
-$messages['nospellerrors'] = 'Ni pravopisnih napak';
-$messages['folderdeleted'] = 'Mapa uspešno zbrisana';
-$messages['deletedsuccessfully'] = 'Uspešno zbrisano';
-$messages['converting'] = 'Brišem obogatitev besedila...';
-$messages['messageopenerror'] = 'Neuspešno nalaganje sporočila s stežnika';
-$messages['fileuploaderror'] = 'Neuspešno nalaganje datoteke';
-$messages['filesizeerror'] = 'Naložena datoteka presega maksimalno velikost $size';
-$messages['copysuccess'] = 'Število prepisanih naslovov: $nr';
-$messages['copyerror'] = 'Ne morem prepisati nobenega naslova';
-$messages['sourceisreadonly'] = 'Izvirnik naslova je samo berljiv';
-$messages['errorsavingcontact'] = 'Ne morem shraniti vizitke';
-$messages['movingmessage'] = 'Premakni besedilo...';
-$messages['receiptsent'] = 'Potrdilo o prebranem sporočilu je bilo uspešno poslano';
-$messages['errorsendingreceipt'] = 'Nemogoče poslati potrdilo o prebranem sporočilu';
-$messages['nodeletelastidentity'] = 'Nemogoče zbrisati identitete. Ta je edina, ki imate.';
-$messages['addsubfolderhint'] = 'Mapa bo narejena kot podmapa trenutno izbrane mape';
+$messages['loginfailed'] = 'Prijava ni uspela';
+$messages['cookiesdisabled'] = 'Vaš spletni brskalnik ne sprejema piškotkov.';
+$messages['sessionerror'] = 'Seja je neveljavna ali je potekla.';
+$messages['imaperror'] = 'Povzava z IMAP strežnikom je spodletela.';
+$messages['servererror'] = 'Napaka strežnika!';
+$messages['invalidrequest'] = 'Neveljavna zahteva. Podatki niso bili shranjeni.';
+$messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
+$messages['loggedout'] = 'Odjava je bila uspešna.';
+$messages['mailboxempty'] = 'Poštni predal je prazen.';
+$messages['loading'] = 'Nalaganje...';
+$messages['loadingdata'] = 'Nalaganje podatkov...';
+$messages['checkingmail'] = 'Preverjanje novih sporočil...';
+$messages['sendingmessage'] = 'Pošiljanje sporočil...';
+$messages['messagesent'] = 'Sporočilo je bilo uspešno poslano.';
+$messages['savingmessage'] = 'Shranjevanje sporočila...';
+$messages['messagesaved'] = 'Sporočilo je bilo shranjeno v Osnutke';
+$messages['successfullysaved'] = 'Uspešno shranjeno.';
+$messages['addedsuccessfully'] = 'Stik je bil uspešno dodan v imenik.';
+$messages['contactexists'] = 'Stik s tem elektronskim naslovom že obstaja.';
+$messages['blockedimages'] = 'Zaradi zaščite zasebnosti je prikaz slik v sporočilu onemogočen.';
+$messages['encryptedmessage'] = 'Sporočilo je šifrirano in ne more biti prikazano.';
+$messages['nocontactsfound'] = 'Nobenega stika ni bilo mogoče najti.';
+$messages['contactnotfound'] = 'Iskanega stika ni bilo mogoče najti.';
+$messages['sendingfailed'] = 'Sporočila ni bilo mogoče poslati.';
+$messages['senttooquickly'] = 'Počakajte $sek sekund in nato znova poskusite s pošiljanjem sporočila.';
+$messages['errorsavingsent'] = 'Pri shranjevanju poslanega sporočila je prišlo do napake.';
+$messages['errorsaving'] = 'Pri shranjevanju je prišlo do napake.';
+$messages['errormoving'] = 'Sporočila ni bilo mogoče premakniti.';
+$messages['errordeleting'] = 'Sporočila ni bilo mogoče izbrisati.';
+$messages['errormarking'] = 'Sporočila ni bilo mogoče označiti.';
+$messages['deletecontactconfirm'] = 'Ste prepričani, da želite izbrisati označen(e) stik(e)?';
+$messages['deletemessagesconfirm'] = 'Ste prepričani, da želite izbrisati označeno(a) sporočilo(a)?';
+$messages['deletefolderconfirm'] = 'Ste prepričani, da želite to mapo izbrisati?';
+$messages['purgefolderconfirm'] = 'Ste prepričani, da želite izbrisati vsa sporočila v mapi?';
+$messages['foldercreating'] = 'Ustvarjanje mape...';
+$messages['folderdeleting'] = 'Brisanje mape...';
+$messages['folderrenaming'] = 'Preimenovanje mape...';
+$messages['foldermoving'] = 'Premiranje mape...';
+$messages['formincomplete'] = 'Obrazec ni v celoti izpolnjen';
+$messages['noemailwarning'] = 'Vnesite veljaven elektronski naslov';
+$messages['nonamewarning'] = 'Vnesite ime';
+$messages['nopagesizewarning'] = 'Vnesite velikost strani';
+$messages['nosenderwarning'] = 'Vnesite elektronski naslov pošiljatelja';
+$messages['norecipientwarning'] = 'Vnesite vsaj enega prejemnika sporočila';
+$messages['nosubjectwarning'] = 'Polje "Zadeva" je prazno. Želite dodati tekst v to polje?';
+$messages['nobodywarning'] = 'Želite poslati sporočilo brez vsebine?';
+$messages['notsentwarning'] = 'Sporočilo ni bilo poslano. Želite zavreči to sporočilo?';
+$messages['noldapserver'] = 'Izberite LDAP strežnik, v katerem želite iskati?';
+$messages['nocontactsreturned'] = 'Nobenega stika ni bilo mogoče najti';
+$messages['nosearchname'] = 'Vnesite ime ali elektronski naslov stika';
+$messages['searchsuccessful'] = '$nr najdenih sporočil';
+$messages['searchnomatch'] = 'Ni zadetkov';
+$messages['searching'] = 'Iskanje...';
+$messages['checking'] = 'Preverjanje...';
+$messages['nospellerrors'] = 'V tekstu ni bilo nobenih pravopisnih napak';
+$messages['folderdeleted'] = 'Mapa je bila uspešno izbrisana.';
+$messages['deletedsuccessfully'] = 'Uspešno izbrisano';
+$messages['converting'] = 'Odstranjevanje nastavitev oblikovanja...';
+$messages['messageopenerror'] = 'Sporočila ni bilo mogoče prenesti iz strežnika';
+$messages['fileuploaderror'] = 'Prenos datoteke je spodletel';
+$messages['filesizeerror'] = 'Naložena datoteka presega največjo dovoljeno velikost $size';
+$messages['copysuccess'] = '$nr naslovov je bilo uspešno prenešenih';
+$messages['copyerror'] = 'Nobenih naslovov ni bilo mogoče kopirati';
+$messages['sourceisreadonly'] = 'Ta naslov je na voljo samo za branje';
+$messages['errorsavingcontact'] = 'Stika ni bilo mogoče shraniti';
+$messages['movingmessage'] = 'Premikanje sporočila...';
+$messages['receiptsent'] = 'Sporočilo o branju je bilo uspešno poslano';
+$messages['errorsendingreceipt'] = 'Sporočila o branju ni bilo mogoče poslati';
+$messages['nodeletelastidentity'] = 'Te identitete ni mogoče izbrisati, saj je edina.';
+$messages['addsubfolderhint'] = 'Ta mapa bo ustvarjena kot podmapa od izbrane mape.';
+$messages['forbiddencharacter'] = 'Ime mape vsebuje nedovoljen znak';
+$messages['selectimportfile'] = 'Izberite datoteko, ki jo želite prenesti';
+$messages['addresswriterror'] = 'Izbran imenik ni zapisljiv';
+$messages['importwait'] = 'Uvažanje poteka...';
+$messages['importerror'] = 'Uvažanje je spodletelo. Naložena datoteka ni veljavena vCard datoteka.';
+$messages['importconfirm'] = '<b>Uspešno uvoženi $inserted stiki, $skipped stikov že obstaja v imeniku</b>:<p><em>$names</em></p>';
+$messages['opnotpermitted'] = 'Operacija ni dovoljena.';
+$messages['nofromaddress'] = 'V izbrani identiteti manjka elektronski naslov.';
+$messages['editorwarning'] = 'Preklop v splošen urejevalnik onemogoča uporabo izbranih nastavitev oblikovanja. Želite nadaljevati?';
+$messages['httpreceivedencrypterror'] = 'Prišlo je do večje napake v konfiguraciji.Obrnite se na skrbnika sistema.  <b>Sporočila ni bilo mogoče poslati.</b>';
+$messages['smtpconnerror'] = 'Napaka pri pošiljanju ($code): Povezava s strežnikom je spodletela';
+$messages['smtpautherror'] = 'Napaka pri pošiljanju($code): Avtentikacija je spodletela';
+$messages['smtpfromerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov pošiljatelja "$from"';
+$messages['smtptoerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov prejemnika "$to"';
+$messages['smtprecipientserror'] = 'Napaka pri pošiljanju: Seznama prejemnikov ni bilo mogoče razčleniti';
+$messages['smtperror'] = 'Napaka pri pošiljanju:$msg';
 
 ?>

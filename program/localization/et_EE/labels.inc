@@ -250,6 +250,7 @@ $labels['2047folding'] = 'Täielik RFC 2047 (muu)';
 $labels['advancedoptions'] = 'Lisaseadistused';
 $labels['focusonnewmessage'] = 'Fokusseeri brauseri aken uue kirja korral';
 $labels['checkallfolders'] = 'Kontrolli uusi kirju kõigist kaustadest';
+$labels['displaynext'] = 'Peale kirja kustutamist/liigutamist näita järgmist kirja';
 $labels['folder'] = 'Kaust';
 $labels['folders'] = 'Kaustad';
 $labels['foldername'] = 'Kausta nimi';
