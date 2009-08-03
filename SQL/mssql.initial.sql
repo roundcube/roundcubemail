@@ -30,7 +30,7 @@ CREATE TABLE [dbo].[identities] (
 	[email] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[reply-to] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[bcc] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[signature] [text] COLLATE Latin1_General_CI_AI NOT NULL, 
+	[signature] [text] COLLATE Latin1_General_CI_AI NULL, 
 	[html_signature] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
@@ -69,9 +69,9 @@ CREATE TABLE [dbo].[users] (
 	[mail_host] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[alias] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
-	[last_login] [datetime] NULL ,
+	[last_login] [datetime] NOT NULL ,
 	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NULL ,
-	[preferences] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+	[preferences] [text] COLLATE Latin1_General_CI_AI NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
@@ -155,6 +155,7 @@ ALTER TABLE [dbo].[identities] ADD
 	CONSTRAINT [DF_identities_email] DEFAULT ('') FOR [email],
 	CONSTRAINT [DF_identities_reply] DEFAULT ('') FOR [reply-to],
 	CONSTRAINT [DF_identities_bcc] DEFAULT ('') FOR [bcc],
+	CONSTRAINT [DF_identities_html_signature] DEFAULT ('0') FOR [html_signature],
 	 CHECK ([standard] = '1' or [standard] = '0'),
 	 CHECK ([del] = '1' or [del] = '0')
 GO
@@ -202,7 +203,7 @@ ALTER TABLE [dbo].[users] ADD
 	CONSTRAINT [DF_users_username] DEFAULT ('') FOR [username],
 	CONSTRAINT [DF_users_mail_host] DEFAULT ('') FOR [mail_host],
 	CONSTRAINT [DF_users_alias] DEFAULT ('') FOR [alias],
-	CONSTRAINT [DF_users_created] DEFAULT (getdate()) FOR [created],
+	CONSTRAINT [DF_users_created] DEFAULT (getdate()) FOR [created]
 GO
 
  CREATE  INDEX [IX_users_username] ON [dbo].[users]([username]) ON [PRIMARY]

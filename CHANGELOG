@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix MS SQL DDL (#1486020)
 - Fix rcube_mdb2.php: call to setCharset not implemented in mssql driver (#1486019)
 - Added 'display_next' option
 - Fix rcube_mdb2::unixtimestamp for MS SQL (#1486015)
