@@ -33,17 +33,6 @@ input, textarea
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
-#userprefs-box
-{
-  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-}
-
-.userprefs-block
-{
-  width: expression(Math.min(520, parseInt(document.documentElement.clientWidth))+'px');
-}
-
 #folder-manager
 {
   height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
@@ -94,7 +83,8 @@ input, textarea
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');  
 }
 
-#addresslist
+#addresslist,
+#sectionslist
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
@@ -200,6 +190,12 @@ div.message-part div.pre
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
+#prefsscreen
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
 #importbox
 {
   height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
@@ -210,7 +206,8 @@ div.message-part div.pre
   width: expression(document.getElementById('addresslist').clientWidth);
 }
 
-#contacts-box
+#contacts-box,
+#prefs-box
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
   width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');

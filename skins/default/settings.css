@@ -44,36 +44,6 @@ span.tablink-selected a
   color: #000000;
 }
 
-#userprefs-box
-{
-  position: absolute;
-  top: 95px;
-  left: 20px;
-  bottom: 60px;
-  right: 20px;
-  overflow: auto;
-  border: 1px solid #999999;
-}
-
-#userprefs-box table td.title
-{
-  color: #666666;
-  padding-right: 10px;
-  white-space: nowrap;
-}
-
-#userprefs-box table tr.advanced
-{
-  display: none;
-}
-
-.userprefs-block
-{
-  float: left;
-  margin-right: 14px;
-  min-width: 520px;
-}
-
 #rcmfd_timezone
 {
   width: 300px;
@@ -249,8 +219,8 @@ input.disabled
   bottom: 20px;
 }
 
-#userprefs-title,
 #identity-title,
+#prefs-title,
 div.boxtitle
 {
   height: 12px !important;
@@ -287,12 +257,86 @@ legend
   color: #999999;
 }
 
-div.advswitch
+#prefsscreen
 {
+  position: absolute;
+  top: 95px;
+  right: 20px;
+  bottom: 30px;
+  left: 20px;
+}
+
+#sectionslist
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  overflow: auto;
+}
+
+#sections-table
+{
+  width: 100%;
+  table-layout: fixed;
+}
+
+#sections-table tbody td
+{
+  cursor: default;
+}
+
+#prefs-box
+{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: 1px solid #999999;
+  overflow: hidden;
+}
+
+body.iframe,
+#prefs-frame
+{
+  background-color: #F9F9F9;
+  border: none;
+}
+
+#prefs-details
+{
+  margin: 15px;
+}
+
+#prefs-details table td.title
+{
+  color: #666;
+  padding-right: 10px;
+}
+
+#prefs-details table tr.advanced
+{
+  display: none;
+}
+
+#formfooter
+{
+  width: 100%;
+}
+
+#formfooter .footerleft
+{
+  padding-left: 20px;
+  white-space: nowrap;
+  float: left;
+}
+
+#formfooter .footerright
+{
+  padding-right: 20px;
   white-space: nowrap;
   text-align: right;
-  position: absolute;
-  bottom: 35px;
-  right: 20px;
-  width: 460px;
+  float: right;
 }

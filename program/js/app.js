@@ -237,6 +237,9 @@ function rcube_webmail()
             this.enable_command('savedraft', true);
             
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
+
+          // init message compose form
+          this.init_messageform();
           }
 
         if (this.env.messagecount)
@@ -246,10 +249,6 @@ function rcube_webmail()
           this.enable_command('purge', true);
 
         this.set_page_buttons();
-
-        // init message compose form
-        if (this.env.action=='compose')
-          this.init_messageform();
 
         // show printing dialog
         if (this.env.action=='print')
@@ -325,15 +324,14 @@ function rcube_webmail()
       case 'settings':
         this.enable_command('preferences', 'identities', 'save', 'folders', true);
         
-        if (this.env.action=='identities' || this.env.action=='edit-identity' || this.env.action=='add-identity') {
+        if (this.env.action=='identities') {
           this.enable_command('add', this.env.identities_level < 2);
-          this.enable_command('delete', 'edit', true);
-        }
-
-        if (this.env.action=='edit-identity' || this.env.action=='add-identity')
-          this.enable_command('save', true);
-          
-        if (this.env.action=='folders')
+          }
+	else if (this.env.action=='edit-identity' || this.env.action=='add-identity') {
+          this.enable_command('add', this.env.identities_level < 2);
+          this.enable_command('save', 'delete', 'edit', true);
+          }
+        else if (this.env.action=='folders')
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', 'delete-folder', true);
 
         if (this.gui_objects.identitieslist)
@@ -346,8 +344,14 @@ function rcube_webmail()
           if (this.env.iid)
             this.identity_list.highlight_row(this.env.iid);
           }
-
-        if (this.gui_objects.subscriptionlist)
+        else if (this.gui_objects.sectionslist)
+          {
+          this.sections_list = new rcube_list_widget(this.gui_objects.sectionslist, {multiselect:false, draggable:false, keyboard:false});
+          this.sections_list.addEventListener('select', function(o){ p.section_select(o); });
+          this.sections_list.init();
+          this.sections_list.focus();
+	  }
+        else if (this.gui_objects.subscriptionlist)
           this.init_subscription_list();
 
         break;
@@ -2940,6 +2944,27 @@ function rcube_webmail()
       }
     this.subscription_list.init();
     }
+
+  // preferences section select and load options frame
+  this.section_select = function(list)
+    {
+    var id = list.get_single_selection()
+    
+    if (id) {
+      var add_url = '';
+      var target = window;
+      this.set_busy(true);
+
+      if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+        add_url = '&_framed=1';
+        target = window.frames[this.env.contentframe];
+        }
+
+      target.location.href = this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url;
+      }
+
+    return true;
+    };
 
   this.identity_select = function(list)
     {
