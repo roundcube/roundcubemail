@@ -106,7 +106,7 @@ class rcube_mdb2
       if (!filesize($dsn_array['database']) && !empty($this->sqlite_initials))
         $this->_sqlite_create_database($dbh, $this->sqlite_initials);
       }
-    else
+    else if ($this->db_provider!='mssql')
       $dbh->setCharset('utf8');
 
     return $dbh;
