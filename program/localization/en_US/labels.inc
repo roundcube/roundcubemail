@@ -29,7 +29,7 @@ $labels['login']     = 'Login';
 // taskbar
 $labels['logout']   = 'Logout';
 $labels['mail']     = 'E-Mail';
-$labels['settings'] = 'Personal Settings';
+$labels['settings'] = 'Settings';
 $labels['addressbook'] = 'Address Book';
 
 // mailbox names
@@ -306,6 +306,11 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
+$labels['mainoptions'] = 'Main Options';
+$labels['section'] = 'Section';
+$labels['maintenance'] = 'Maintenance';
+$labels['newmessage'] = 'New Message';
+$labels['listoptions'] = 'List Options';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

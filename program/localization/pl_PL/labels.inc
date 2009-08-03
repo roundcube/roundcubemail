@@ -229,7 +229,7 @@ $labels['uisettings'] = 'Interfejs użytkownika';
 $labels['serversettings'] = 'Ustawienia serwera';
 $labels['mailboxview'] = 'Widok skrzynki pocztowej';
 $labels['mdnrequests'] = 'Potwierdzenia odbioru';
-$labels['askuser'] = 'spytaj użytkownika';
+$labels['askuser'] = 'pytaj';
 $labels['autosend'] = 'wyślij automatycznie';
 $labels['ignore'] = 'ignoruj';
 $labels['mimeparamfolding'] = 'Nazwy załączników';
@@ -275,5 +275,10 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['checkallfolders'] = 'Sprawdzaj czy nadeszły nowe wiadomości we wszystkich folderach';
+$labels['mainoptions'] = 'Opcje główne';
+$labels['section'] = 'Sekcja';
+$labels['maintenance'] = 'Konserwacja';
+$labels['newmessage'] = 'Nowa wiadomość';
+$labels['listoptions'] = 'Opcje list';
 
 ?>
