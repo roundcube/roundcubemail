@@ -321,16 +321,20 @@ class rcube_mdb2
    * Get last inserted record ID
    * For Postgres databases, a sequence name is required
    *
-   * @param  string  Sequence name for increment
+   * @param  string  Table name (to find the incremented sequence)
    * @return mixed   ID or FALSE on failure
    * @access public
    */
-  function insert_id($sequence = '')
+  function insert_id($table = '')
     {
     if (!$this->db_handle || $this->db_mode=='r')
       return FALSE;
 
-    $id = $this->db_handle->lastInsertID($sequence);
+    // find sequence name
+    if ($table && $this->db_provider == 'pgsql')
+      $table = get_sequence_name($table);
+
+    $id = $this->db_handle->lastInsertID($table);
     
     return $this->db_handle->isError($id) ? null : $id;
     }

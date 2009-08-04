@@ -271,7 +271,7 @@ class rcube_contacts extends rcube_addressbook
          VALUES (".intval($this->user_id).", ".$this->db->now().", 0, ".join(', ', $a_insert_values).")"
         );
         
-      $insert_id = $this->db->insert_id(get_sequence_name('contacts'));
+      $insert_id = $this->db->insert_id('contacts');
     }
 
     return $insert_id;

@@ -231,7 +231,7 @@ class rcube_user
     call_user_func_array(array($this->db, 'query'),
                         array_merge(array($sql), $insert_values));
 
-    return $this->db->insert_id(get_sequence_name('identities'));
+    return $this->db->insert_id('identities');
   }
   
   
@@ -386,7 +386,7 @@ class rcube_user
       strip_newlines($data['alias'] ? $data['alias'] : $user_email),
       $_SESSION['language']);
 
-    if ($user_id = $dbh->insert_id(get_sequence_name('users')))
+    if ($user_id = $dbh->insert_id('users'))
     {
       // create rcube_user instance to make plugin hooks work
       $user_instance = new rcube_user($user_id);
