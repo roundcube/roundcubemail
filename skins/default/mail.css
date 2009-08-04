@@ -8,6 +8,7 @@
   left: 200px;
   right: 200px;
   height: 35px;
+  min-width: 650px;
   white-space: nowrap;
 /*  border: 1px solid #cccccc; */
 }
@@ -300,10 +301,10 @@ ul.toolbarmenu li.separator_above
 
 #searchfilter
 {
+  white-space: nowrap;
   position: absolute;
-  right: 18px;
-  top: 8px;
-  text-align: right;
+  right: 190px;
+  vertical-align: middle;
 }
 
 #searchfilter label
