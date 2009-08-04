@@ -131,7 +131,6 @@ input, textarea
   height: expression((parseInt(this.parentNode.offsetHeight)-20)+'px');
 }
 
-#messagelist,
 #subscription-table
 {
   width: auto;
