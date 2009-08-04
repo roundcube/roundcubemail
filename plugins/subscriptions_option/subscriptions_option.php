@@ -45,7 +45,7 @@ class subscriptions_option extends rcube_plugin
             $field_id = 'rcmfd_use_subscriptions';
             $checkbox = new html_checkbox(array('name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1));
 
-            $args['blocks']['main']['options'][] = array(
+            $args['blocks']['main']['options']['use_subscriptions'] = array(
 		'title' => html::label($field_id, Q($this->gettext('useimapsubscriptions'))),
                 'content' => $checkbox->show($use_subscriptions?1:0),
 	    );
