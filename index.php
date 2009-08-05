@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.3-20090724                                                    |
+ | Version 0.3-20090805                                                    |
  |                                                                         |
  | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -83,13 +83,15 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
   $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
     'host' => $RCMAIL->autoselect_host(),
     'user' => trim(get_input_value('_user', RCUBE_INPUT_POST)),
+    'cookiecheck' => true,
   )) + array('pass' => get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'));
 
   // check if client supports cookies
-  if (empty($_COOKIE)) {
+  if ($auth['cookiecheck'] && empty($_COOKIE)) {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
-  else if ($_SESSION['temp'] && !empty($auth['user']) && !empty($auth['host']) && isset($auth['pass']) && 
+  else if ($_SESSION['temp'] && !$auth['abort'] && !empty($auth['host']) &&
+            !empty($auth['user']) && isset($auth['pass']) && 
             $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
     // create new session ID
     rcube_sess_unset('temp');
