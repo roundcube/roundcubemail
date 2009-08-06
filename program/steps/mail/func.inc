@@ -689,9 +689,9 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
 
   // charset was converted to UTF-8 in rcube_imap::get_message_part(),
   // -> change charset specification in HTML accordingly
-  $charset_pattern = '(content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)';
-  if (preg_match("/<meta\s+[^>]*$charset_pattern/Ui", $html)) {
-    $html = preg_replace("/\s+$charset_pattern/i", '\\1='.RCMAIL_CHARSET, $html);
+  $charset_pattern = '(<meta\s+[^>]*)(content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)';
+  if (preg_match("/$charset_pattern/Ui", $html)) {
+    $html = preg_replace("/$charset_pattern/i", '\\1\\2='.RCMAIL_CHARSET, $html);
   }
   else {
     // add meta content-type to malformed messages, washtml cannot work without that
@@ -699,7 +699,6 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
       $html = '<head></head>'. $html;
     $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
   }
-  
   // turn relative into absolute urls
   $html = rcmail_resolve_base($html);
 
@@ -720,6 +719,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     $wash_opts['html_elements'][] = 'link';
     $wash_opts['html_attribs'] = array('rel','type');
   }
+console($html);  
     
   $washer = new washtml($wash_opts);
   $washer->add_callback('form', 'rcmail_washtml_callback');
