@@ -699,6 +699,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
       $html = '<head></head>'. $html;
     $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
   }
+
   // turn relative into absolute urls
   $html = rcmail_resolve_base($html);
 
@@ -719,7 +720,6 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     $wash_opts['html_elements'][] = 'link';
     $wash_opts['html_attribs'] = array('rel','type');
   }
-console($html);  
     
   $washer = new washtml($wash_opts);
   $washer->add_callback('form', 'rcmail_washtml_callback');
