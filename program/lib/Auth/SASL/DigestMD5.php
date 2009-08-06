@@ -186,7 +186,6 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
 
         } else {
             $str = '';
-            mt_srand((double)microtime()*10000000);
             for ($i=0; $i<32; $i++) {
                 $str .= chr(mt_rand(0, 255));
             }

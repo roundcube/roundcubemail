@@ -1,6 +1,6 @@
 <?php
 // +-----------------------------------------------------------------------+ 
-// | Copyright (c) 2002-2003 Richard Heyes                                 | 
+// | Copyright (c) 2008 Christoph Schulz                                   | 
 // | All rights reserved.                                                  | 
 // |                                                                       | 
 // | Redistribution and use in source and binary forms, with or without    | 
@@ -29,76 +29,35 @@
 // | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  | 
 // |                                                                       | 
 // +-----------------------------------------------------------------------+ 
-// | Author: Richard Heyes <richard@php.net>                               | 
+// | Author: Christoph Schulz <develop@kristov.de>                         | 
 // +-----------------------------------------------------------------------+ 
 // 
-// $Id$
+// $Id: External.php 286825 2009-08-05 06:23:42Z cweiske $
 
 /**
-* Client implementation of various SASL mechanisms 
+* Implmentation of EXTERNAL SASL mechanism
 *
-* @author  Richard Heyes <richard@php.net>
+* @author  Christoph Schulz <develop@kristov.de>
 * @access  public
-* @version 1.0
+* @version 1.0.3
 * @package Auth_SASL
 */
 
-require_once('PEAR.php');
+require_once('Auth/SASL/Common.php');
 
-class Auth_SASL
+class Auth_SASL_External extends Auth_SASL_Common
 {
     /**
-    * Factory class. Returns an object of the request
-    * type.
+    * Returns EXTERNAL response
     *
-    * @param string $type One of: Anonymous
-    *                             Plain
-    *                             CramMD5
-    *                             DigestMD5
-    *                     Types are not case sensitive
+    * @param  string $authcid   Authentication id (username)
+    * @param  string $pass      Password
+    * @param  string $authzid   Autorization id
+    * @return string            EXTERNAL Response
     */
-    function &factory($type)
+    function getResponse($authcid, $pass, $authzid = '')
     {
-        switch (strtolower($type)) {
-            case 'anonymous':
-                $filename  = 'Auth/SASL/Anonymous.php';
-                $classname = 'Auth_SASL_Anonymous';
-                break;
-
-            case 'login':
-                $filename  = 'Auth/SASL/Login.php';
-                $classname = 'Auth_SASL_Login';
-                break;
-
-            case 'plain':
-                $filename  = 'Auth/SASL/Plain.php';
-                $classname = 'Auth_SASL_Plain';
-                break;
-
-            case 'external':
-                $filename  = 'Auth/SASL/External.php';
-                $classname = 'Auth_SASL_External';
-                break;
-
-            case 'crammd5':
-                $filename  = 'Auth/SASL/CramMD5.php';
-                $classname = 'Auth_SASL_CramMD5';
-                break;
-
-            case 'digestmd5':
-                $filename  = 'Auth/SASL/DigestMD5.php';
-                $classname = 'Auth_SASL_DigestMD5';
-                break;
-
-            default:
-                return PEAR::raiseError('Invalid SASL mechanism type');
-                break;
-        }
-
-        require_once($filename);
-        $obj = new $classname();
-        return $obj;
+        return $authzid;
     }
 }
-
 ?>

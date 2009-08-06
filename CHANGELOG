@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Updated PEAR::Auth_SASL to 1.0.3 version
 - Use sequence names only with PostgreSQL (#1486018)
 - Re-designed User Preferences interface 
 - Fix MS SQL DDL (#1486020)
