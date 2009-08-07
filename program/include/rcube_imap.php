@@ -70,6 +70,8 @@ class rcube_imap
   var $debug_level = 1;
   var $error_code = 0;
   var $options = array('imap' => 'check');
+  
+  private $host, $user, $pass, $port, $ssl;
 
 
   /**
@@ -101,19 +103,22 @@ class rcube_imap
     // check for Open-SSL support in PHP build
     if ($use_ssl && extension_loaded('openssl'))
       $ICL_SSL = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
-    else if ($use_ssl)
-      {
+    else if ($use_ssl) {
       raise_error(array('code' => 403, 'type' => 'imap', 'file' => __FILE__,
                         'message' => 'Open SSL not available;'), TRUE, FALSE);
       $port = 143;
-      }
+  }
 
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
+    
+    $data = rcmail::get_instance()->plugins->exec_hook('imap_connect', array('host' => $host, 'user' => $user));
+    if (!empty($data['pass']))
+      $pass = $data['pass'];
 
-    $this->conn = iil_Connect($host, $user, $pass, $this->options);
-    $this->host = $host;
-    $this->user = $user;
+    $this->conn = iil_Connect($data['host'], $data['user'], $pass, $this->options);
+    $this->host = $data['host'];
+    $this->user = $data['user'];
     $this->pass = $pass;
     $this->port = $port;
     $this->ssl = $use_ssl;

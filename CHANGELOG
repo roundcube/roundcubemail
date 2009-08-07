@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added 'imap_connect' hook (#1485956)
+- Fix vcard_attachments plugin (#1486035)
 - Updated PEAR::Auth_SASL to 1.0.3 version
 - Use sequence names only with PostgreSQL (#1486018)
 - Re-designed User Preferences interface 
