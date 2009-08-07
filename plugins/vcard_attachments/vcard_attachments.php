@@ -53,12 +53,12 @@ class vcard_attachments extends rcube_plugin
           $display .= ' <'.$vcard->email[0].'>';
         
         // add box below messsage body
-        $p['content'] .= html::p(array('style' => "margin:1em; padding:0.5em; border:1px solid #999; width: auto;"),
+        $p['content'] .= html::p(array('style' => "margin:1em; padding:0.5em; border:1px solid #999; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; width: auto;"),
           html::a(array(
               'href' => "#",
               'onclick' => "return plugin_vcard_save_contact('".JQ($this->vcard_part)."')",
               'title' => "Save contact in local address book"),  // TODO: localize this title
-            html::img(array('src' => '/images/buttons/add_contact_act.png', 'align' => "middle")))
+            html::img(array('src' => $this->url('vcard_add_contact.png'), 'align' => "middle")))
             . ' ' . html::span(null, Q($display)));
         
         $this->include_script('vcardattach.js');
