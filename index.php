@@ -142,6 +142,8 @@ else if ($RCMAIL->action != 'login' && $_SESSION['user_id'] && $RCMAIL->action !
   }
 }
 
+// don't check for valid request tokens in these actions
+$request_check_whitelist = array('login'=>1, 'spell'=>1);
 
 // check client X-header to verify request origin
 if ($OUTPUT->ajax_call) {
@@ -151,7 +153,7 @@ if ($OUTPUT->ajax_call) {
   }
 }
 // check request token in POST form submissions
-else if (!empty($_POST) && $RCMAIL->action != 'login' && !$RCMAIL->check_request()) {
+else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAIL->check_request()) {
   $OUTPUT->show_message('invalidrequest', 'error');
   $OUTPUT->send($RCMAIL->task);
 }
