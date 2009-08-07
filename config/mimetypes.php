@@ -41,6 +41,7 @@ return array(
   'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'xps' => 'application/vnd.ms-xpsdocument',
   'rar' => 'application/x-rar-compressed',
+  'vcf' => 'text/vcard',
 );
 
 ?>
