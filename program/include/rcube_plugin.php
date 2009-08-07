@@ -208,6 +208,18 @@ abstract class rcube_plugin
       $this->api->add_content($this->api->output->button($p), $container);
     }
   }
+  
+  /**
+   * Generate an absolute URL to the given resource within the current
+   * plugin directory
+   *
+   * @param string The file name
+   * @return string Absolute URL to the given resource
+   */
+  public function url($fn)
+  {
+      return $this->api->url . $this->resource_url($fn);
+  }
 
   /**
    * Make the given file name link into the plugin directory
