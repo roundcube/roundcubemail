@@ -344,11 +344,6 @@ td.formlinks a:visited
   text-decoration: underline;
 }
 
-#listcontrols
-{
-  padding-right: 2em;
-}
-
 #messagecountbar
 {
   position: absolute;
@@ -632,39 +627,30 @@ td.formlinks a:visited
 #mailfooter
 {
   position: absolute;
-  left: 0px;
-  bottom: 0px;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
   height: 16px;
-  width: 100%;
-}
-
-#mailfooter table tr td
-{
   white-space: nowrap;
-  vertical-align: bottom;
 }
 
-#mailboxcontrols
-{
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  height: 16px;
-  width: auto;
-  font-size: 11px;
-}
-
+#mailboxcontrols,
 #listcontrols,
 #countcontrols,
 #quotabox
 {
   white-space: nowrap;
   font-size: 11px;
+  margin-right: 10px;
 }
 
 #countcontrols
 {
-  min-width: 25em;
+  position: absolute;
+  right: 10px;
+  bottom: 16px;
+  height: 16px;
+  min-width: 260px;
 }
 
 #countcontrols a.button,
