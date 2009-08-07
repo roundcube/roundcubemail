@@ -10,8 +10,9 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
-|         Ervin Hegedüs <airween@damson.hu>                             |
+| Author: Zark Bonfire (ikkhares@gmail.com)                             |
+|         Levente Farkas <lfarkas at lfarkas dot org>                   |
+|         Ervin Hegedűs <airween@damson.hu>                             |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -38,7 +39,7 @@ $labels['inbox'] = 'Érkezett levelek';
 $labels['drafts'] = 'Piszkozatok';
 $labels['sent'] = 'Küldött levelek';
 $labels['trash'] = 'Törölt elemek';
-$labels['junk'] = 'Szemetes';
+$labels['junk'] = 'Kéretlen levelek';
 
 // message listing 
 $labels['subject'] = 'Tárgy';
@@ -185,7 +186,7 @@ $labels['checkspelling'] = 'Helyesírás-ellenőrzés';
 $labels['resumeediting'] = 'Helyesírás kész';
 $labels['revertto'] = 'Vissza erre:';
 
-$labels['attachments'] = 'Csatolások';
+$labels['attachments'] = 'Csatolmányok';
 $labels['upload'] = 'Feltöltés';
 $labels['close'] = 'Bezárás';
 
@@ -210,7 +211,7 @@ $labels['addbcc'] = 'Bcc (Titkos másolati cím) hozzáadása';
 $labels['addreplyto'] = 'Válaszcím hozzáadása';
 
 // mdn 
-$labels['mdnrequest'] = 'Az üzenet küldője értesítést kér arról hogy elolvasta a levelet. El legyen küldve az Olvasási Értesítés?';
+$labels['mdnrequest'] = 'Az üzenet küldője értesítést kér arról, hogy elolvasta a levelet. El legyen küldve az Olvasási Értesítés?';
 $labels['receiptread'] = 'Olvasási Értesítés (olvasott)';
 $labels['yourmessage'] = 'Ez az üzenete Olvasási Értesítése';
 $labels['receiptnote'] = 'Megjegyzés: Ez az Olvasási Értesítés csak azt igazolja, hogy az üzenet megjelenítésre került a címzett számítógépén. Nincs rá garancia, hogy a címzett elolvasta volna az üzenetet illetve megértette volna annak tartalmát.';
@@ -306,6 +307,12 @@ $labels['2047folding'] = 'Full RFC 2047 (egyéb)';
 $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
 $labels['checkallfolders'] = 'Új üzenetek ellenőrzése minden (al)mappában';
+$labels['displaynext'] = 'Levél törlése/mozgatása után jelenjen meg a következő üzenet';
+$labels['mainoptions'] = 'Általános beállítások';
+$labels['section'] = 'Szakasz';
+$labels['maintenance'] = 'Karbantartás';
+$labels['newmessage'] = 'Új üzenet';
+$labels['listoptions'] = 'Lista beállítások';
 
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Mappák';

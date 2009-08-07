@@ -10,8 +10,9 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Levente Farkas <lfarkas at lfarkas dot org>                   |
-|         Ervin Hegedüs <airween@damson.hu>                             |
+| Author: Zark Bonfire (ikkhares@gmail.com)                             |
+|         Levente Farkas <lfarkas at lfarkas dot org>                   |
+|         Ervin Hegedűs <airween@damson.hu>                             |
 +-----------------------------------------------------------------------+
 
 @version $Id$

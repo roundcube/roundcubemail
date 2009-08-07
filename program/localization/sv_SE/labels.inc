@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Jonas Nasholm <rcm@bitfuse.net>                              |
+| Author: Jonas Nasholm <rcm@bitfuse.net>                               |
 |         Fredrik Nygren <f.nygren@gmail.com>                           |
 |         Andreas Henriksson <andreas@fatal.se>                         |
 +-----------------------------------------------------------------------+
@@ -112,7 +112,7 @@ $labels['nextmessages'] = 'Visa nästa grupp av meddelanden';
 $labels['lastmessage'] = 'Visa sista meddelandet';
 $labels['lastmessages'] = 'Visa sista gruppen av meddelanden';
 $labels['backtolist'] = 'Tillbaka till meddelandelistan';
-$labels['viewsource'] = 'Visa källa';
+$labels['viewsource'] = 'Visa källkod';
 $labels['markmessages'] = 'Markera meddelande';
 $labels['markread'] = 'Läst';
 $labels['markunread'] = 'Oläst';
@@ -125,7 +125,7 @@ $labels['none'] = 'Ingen';
 $labels['unread'] = 'Olästa';
 $labels['flagged'] = 'Flaggade';
 $labels['unanswered'] = 'Obesvarade';
-$labels['deleted'] = 'Raderat';
+$labels['deleted'] = 'Raderade';
 $labels['invert'] = 'Invertera';
 $labels['filter'] = 'Filter';
 $labels['compact'] = 'Packa';
@@ -146,7 +146,7 @@ $labels['savemessage'] = 'Spara utkast';
 $labels['sendmessage'] = 'Skicka meddelande';
 $labels['addattachment'] = 'Bifoga fil';
 $labels['charset'] = 'Teckenkodning';
-$labels['editortype'] = 'Typ av redigerare';
+$labels['editortype'] = 'Textredigerare';
 $labels['returnreceipt'] = 'Mottagarkvitto';
 $labels['checkspelling'] = 'Kontrollera stavning';
 $labels['resumeediting'] = 'Återuppta redigering';
@@ -252,6 +252,12 @@ $labels['2047folding'] = 'Full RFC 2047 (övriga)';
 $labels['advancedoptions'] = 'Avancerade inställningar';
 $labels['focusonnewmessage'] = 'Fokusera webbläsarens fönster vid nytt meddelande';
 $labels['checkallfolders'] = 'Genomsök samtliga kataloger efter nya meddelanden';
+$labels['displaynext'] = 'Visa nästa meddelande efter radering/flyttning av meddelande';
+$labels['mainoptions'] = 'Huvudalternativ';
+$labels['section'] = 'Avdelning';
+$labels['maintenance'] = 'Underhåll';
+$labels['newmessage'] = 'Nytt meddelande';
+$labels['listoptions'] = 'Listalternativ';
 $labels['folder'] = 'Katalog';
 $labels['folders'] = 'Kataloger';
 $labels['foldername'] = 'Katalognamn';
