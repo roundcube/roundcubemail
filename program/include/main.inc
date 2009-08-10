@@ -545,7 +545,7 @@ function JQ($str)
  * @return string   Field value or NULL if not available
  */
 function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
-  {
+{
   global $OUTPUT;
   $value = NULL;
   
@@ -582,7 +582,26 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     return rcube_charset_convert($value, $OUTPUT->get_charset(), $charset);
   else
     return $value;
+}
+
+/**
+ * Convert array of request parameters (prefixed with _)
+ * to a regular array with non-prefixed keys.
+ *
+ * @param  int   Source to get value from (GPC)
+ * @return array Hash array with all request parameters
+ */
+function request2param($mode = RCUBE_INPUT_GPC)
+{
+  $out = array();
+  $src = $mode == RCUBE_INPUT_GET ? $_GET : ($mode == RCUBE_INPUT_POST ? $_POST : $_REQUEST);
+  foreach ($src as $key => $value) {
+    $fname = $key[0] == '_' ? substr($key, 1) : $key;
+    $out[$fname] = get_input_value($key, $mode);
   }
+  
+  return $out;
+}
 
 /**
  * Remove all non-ascii and non-word chars
@@ -958,8 +977,11 @@ function console()
   {
   $args = func_get_args();
 
-  if (class_exists('rcmail', false))
-    rcmail::get_instance()->plugins->exec_hook('console', $args);
+  if (class_exists('rcmail', false)) {
+    $rcmail = rcmail::get_instance();
+    if (is_object($rcmail->plugins))
+      $rcmail->plugins->exec_hook('console', $args);
+  }
 
   $msg = array();
   foreach ($args as $arg)
