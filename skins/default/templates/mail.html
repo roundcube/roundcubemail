@@ -24,18 +24,23 @@
 <roundcube:include file="/includes/header.html" />
 
 <div id="mainscreen">
-
 <div id="mailleftcontainer">
 <div id="mailboxlist-container">
 <h3 id="mailboxlist-header"><roundcube:label name="mailboxlist" /></h3>
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="16" />
-</div>
 </div>
 
 <script type="text/javascript">
   var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailleftcontainer', p2: 'mailrightcontainer', orientation: 'v', relative: true, start: 165});
   rcmail.add_onload('mailviewsplitv.init()');
 </script>
+
+<div id="mailboxcontrols">
+  <roundcube:label name="folder" />:&nbsp;
+  <roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
+  <roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
+</div>
+</div>
 
 <div id="mailrightcontainer">
 <div id="mailrightcontent">
@@ -68,37 +73,36 @@
 </div>
 
 <roundcube:endif />
-
-</div>
-</div>
 </div>
 
 <div id="mailfooter">
-  <span id="mailboxcontrols">
-      <roundcube:label name="folder" />:&nbsp;
-      <roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
-      <roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
-  </span>
-  <span id="listcontrols">
+<table cellpadding="1" cellspacing="0" width="100%"><tr>
+  <td>
+    <span id="listcontrols">
       <roundcube:label name="select" />:&nbsp;
       <roundcube:button command="select-all" label="all" classAct="active" />&nbsp;
       <roundcube:button command="select-all" prop="unread" label="unread" classAct="active" />&nbsp;
       <roundcube:button command="select-all" prop="invert" label="invert" classAct="active" />&nbsp;
       <roundcube:button command="select-none" label="none" classAct="active" /> &nbsp;
       <roundcube:container name="listcontrols" id="listcontrols" />
-  </span>
+    </span>
+  </td>
   <roundcube:if condition="env:quota" />
-  <span id="quotabox">
-    <roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" />
-  </span>
+  <td style="text-align:center">
+    <span id="quotabox"><roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" /></span>
+  </td>
   <roundcube:endif />
-</div>
-<div id="countcontrols" class="pagenav">
+  <td id="countcontrols" class="pagenav">
     <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastmessages" content=" " />
     <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextmessages" content=" " />
-    <roundcube:object name="messageCountDisplay" style="padding:0 .5em; float:right" />
+    <roundcube:object name="messageCountDisplay" style="padding:0 1em; float:right" />
     <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previousmessages" content=" " />
     <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstmessages" content=" " />
+  </td>
+</tr></table>
+</div>
+
+</div>
 </div>
 
 

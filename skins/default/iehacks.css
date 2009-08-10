@@ -158,6 +158,11 @@ input, textarea
   height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
 }
 
+#countcontrols
+{
+  width: 24em;
+}
+
 body.iframe 
 {
   width: expression((parseInt(document.documentElement.clientWidth))+'px');
