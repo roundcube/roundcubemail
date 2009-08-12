@@ -316,11 +316,6 @@ body.iframe,
   padding-right: 10px;
 }
 
-#prefs-details table tr.advanced
-{
-  display: none;
-}
-
 #formfooter
 {
   width: 100%;

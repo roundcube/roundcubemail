@@ -326,11 +326,11 @@ function rcube_webmail()
         
         if (this.env.action=='identities') {
           this.enable_command('add', this.env.identities_level < 2);
-          }
-	else if (this.env.action=='edit-identity' || this.env.action=='add-identity') {
+        }
+        else if (this.env.action=='edit-identity' || this.env.action=='add-identity') {
           this.enable_command('add', this.env.identities_level < 2);
           this.enable_command('save', 'delete', 'edit', true);
-          }
+        }
         else if (this.env.action=='folders')
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', 'delete-folder', true);
 
@@ -350,7 +350,8 @@ function rcube_webmail()
           this.sections_list.addEventListener('select', function(o){ p.section_select(o); });
           this.sections_list.init();
           this.sections_list.focus();
-	  }
+          this.sections_list.select('general');  // open first section by default
+        }
         else if (this.gui_objects.subscriptionlist)
           this.init_subscription_list();
 
@@ -2948,7 +2949,7 @@ function rcube_webmail()
   // preferences section select and load options frame
   this.section_select = function(list)
     {
-    var id = list.get_single_selection()
+    var id = list.get_single_selection();
     
     if (id) {
       var add_url = '';
