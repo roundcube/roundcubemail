@@ -56,10 +56,40 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
   // pipe compose parameters thru plugins
   $plugin = $RCMAIL->plugins->exec_hook('message_compose', $_SESSION['compose']);
   $_SESSION['compose']['param'] = $plugin['param'];
+  
+  // add attachments listed by message_compose hook
+  if (is_array($plugin['attachments'])) {
+    foreach ($plugin['attachments'] as $attach) {
+      // we have structured data
+      if (is_array($attach)) {
+        $attachment = $attach;
+      }
+      // only a file path is given
+      else {
+        $filename = basename($attach);
+        $attachment = array(
+          'name' => $filename,
+          'mimetype' => rc_mime_content_type($attach, $filename),
+          'path' => $attach
+        );
+      }
+      
+      // save attachment if valid
+      if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
+        $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+      }
+      
+      if ($attachment['status'] && !$attachment['abort']) {
+        unset($attachment['data'], $attachment['status'], $attachment['abort']);
+        $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+      }
+    }
+  }
 
   // redirect to a unique URL with all parameters stored in session
   $OUTPUT->redirect(array('_action' => 'compose', '_id' => $_SESSION['compose']['id']));
 }
+
 
 // add some labels to client
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning',
@@ -685,7 +715,7 @@ function rcmail_save_attachment(&$message, $pid)
   $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
 
   if ($attachment['status']) {
-    unset($attachment['data'], $attachment['status'], $attachment['content_id']);
+    unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
     return $attachment;
   } else if ($path) {
     @unlink($path);
