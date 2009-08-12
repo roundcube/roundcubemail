@@ -1,7 +1,7 @@
 <?php
 
 $labels = array();
-$labels['buttontitle'] = 'Märk som skräp';
-$labels['reportedasjunk'] = 'Framgångsrikt rapporterat som skräp';
+$labels['buttontitle'] = 'MÃ¤rk som skrÃ¤p';
+$labels['reportedasjunk'] = 'FramgÃ¥ngsrikt rapporterat som skrÃ¤p';
 
 ?>

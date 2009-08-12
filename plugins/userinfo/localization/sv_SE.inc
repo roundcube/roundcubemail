@@ -1,7 +1,7 @@
 <?php
 
 $labels = array();
-$labels['userinfo'] = 'Användarinfo';
+$labels['userinfo'] = 'AnvÃ¤ndarinfo';
 $labels['created'] = 'Skapad';
 $labels['lastlogin'] = 'Senast inloggad';
 $labels['defaultidentity'] = 'Standardprofil';
