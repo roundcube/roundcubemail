@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.3-20090805                                                    |
+ | Version 0.3-20090814                                                    |
  |                                                                         |
  | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
  |                                                                         |
@@ -132,6 +132,7 @@ else if ($RCMAIL->task=='logout' && isset($_SESSION['user_id'])) {
   $OUTPUT->show_message('loggedout');
   $RCMAIL->logout_actions();
   $RCMAIL->kill_session();
+  $RCMAIL->plugins->exec_hook('logout_after', array());
 }
 
 // check session and auth cookie
