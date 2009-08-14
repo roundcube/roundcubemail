@@ -129,10 +129,11 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
 
 // end session
 else if ($RCMAIL->task=='logout' && isset($_SESSION['user_id'])) {
+  $userdata = array('user' => $_SESSION['username'], 'host' => $_SESSION['imap_host'], 'lang' => $RCMAIL->user->language);
   $OUTPUT->show_message('loggedout');
   $RCMAIL->logout_actions();
   $RCMAIL->kill_session();
-  $RCMAIL->plugins->exec_hook('logout_after', array());
+  $RCMAIL->plugins->exec_hook('logout_after', $userdata);
 }
 
 // check session and auth cookie
