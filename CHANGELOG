@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added 'new_messages' plugin hook (#1486005)
+- Added 'logout_after' plugin hook (#1486042)
 - Added 'message_compose' hook
 - Added 'imap_connect' hook (#1485956)
 - Fix vcard_attachments plugin (#1486035)
