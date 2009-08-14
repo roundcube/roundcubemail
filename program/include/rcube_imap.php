@@ -36,7 +36,7 @@ require_once('lib/tnef_decoder.inc');
  *
  * @package    Mail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.40
+ * @version    1.5
  * @link       http://ilohamail.org
  */
 class rcube_imap
@@ -107,16 +107,20 @@ class rcube_imap
       raise_error(array('code' => 403, 'type' => 'imap', 'file' => __FILE__,
                         'message' => 'Open SSL not available;'), TRUE, FALSE);
       $port = 143;
-  }
+    }
 
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
     
-    $data = rcmail::get_instance()->plugins->exec_hook('imap_connect', array('host' => $host, 'user' => $user));
-    if (!empty($data['pass']))
-      $pass = $data['pass'];
+    $attempt = 0;
+    do {
+      $data = rcmail::get_instance()->plugins->exec_hook('imap_connect', array('host' => $host, 'user' => $user, 'attempt' => ++$attempt));
+      if (!empty($data['pass']))
+        $pass = $data['pass'];
 
-    $this->conn = iil_Connect($data['host'], $data['user'], $pass, $this->options);
+      $this->conn = iil_Connect($data['host'], $data['user'], $pass, $this->options);
+    } while(!$this->conn && $data['retry']);
+
     $this->host = $data['host'];
     $this->user = $data['user'];
     $this->pass = $pass;
