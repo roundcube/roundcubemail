@@ -73,7 +73,7 @@ function log_bug($arg_arr)
   if ($CONFIG['debug_level'] & 1)
   {
     $post_query = ($_SERVER['REQUEST_METHOD'] == 'POST' ? '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']) : '');
-    $log_entry = sprintf("%s Error: %s%s (%s %s)\n",
+    $log_entry = sprintf("%s Error: %s%s (%s %s)",
       $program,
       $arg_arr['message'],
       $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
