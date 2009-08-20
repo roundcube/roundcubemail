@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  17062009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  19082009                |
 +-----------------------------------------------------------------------+
 */
 
@@ -248,6 +248,12 @@ $labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
 $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקים';
+$labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
+$labels['mainoptions'] = 'אפשרויות עיקריות';
+$labels['section'] = 'קטע';
+$labels['maintenance'] = 'תחזוקה';
+$labels['newmessage'] = 'הודעה חדשה';
+$labels['listoptions'] = 'אפשרויות רשימה';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';
