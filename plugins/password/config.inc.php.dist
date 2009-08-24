@@ -114,4 +114,13 @@ $rcmail_config['password_ldap_pwattr'] = 'userPassword';
 // Default: true
 $rcmail_config['password_ldap_force_replace'] = true;
 
+
+// DirectAdmin Driver options
+// --------------------------
+// The host which changes the password
+$rcmail_config['password_directadmin_host'] = 'localhost';
+
+// TCP port used for DirectAdmin connections
+$rcmail_config['password_directadmin_port'] = 2222;
+
 ?>

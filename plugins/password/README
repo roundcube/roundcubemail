@@ -30,6 +30,7 @@
  2.2.	Cyrus/SASL (sasl)
  2.3.	Poppassd/Courierpassd (poppassd)
  2.4.	LDAP (ldap)
+ 2.5.	DirectAdmin Control Panel
  3.	Driver API
 
 
@@ -161,8 +162,16 @@
 
  2.4. LDAP (ldap)
  ----------------
- 
+
  See config.inc.php file. Requires PEAR::Net_LDAP2 package.
+
+
+ 2.5. DirectAdmin Control Panel
+ -------------------------------------
+
+ You can specify which host to connect to via `password_directadmin_host` 
+ and what port via `password_direactadmin_port`. See config.inc.php file 
+ for more info.
 
 
  3. Driver API
