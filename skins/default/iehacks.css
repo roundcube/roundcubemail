@@ -244,3 +244,8 @@ ul.toolbarmenu li a
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
   filter: alpha(opacity=80);
 }
+
+#messagelist
+{
+  width: expression((document.documentElement.clientHeight > this.parentNode.clientHeight) ? 'auto' : '100%');
+}
