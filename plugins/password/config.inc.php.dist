@@ -87,8 +87,11 @@ $rcmail_config['password_ldap_adminDN'] = null;
 $rcmail_config['password_ldap_adminPW'] = null;
 
 // LDAP user DN mask
-// The user's DN is mandatory and as we only have his login, we need to re-create his DN using a mask
-// '%login' will be replace by the current roundcube user's login
+// The user's DN is mandatory and as we only have his login,
+// we need to re-create his DN using a mask
+// '%login' will be replaced by the current roundcube user's login
+// '%name' will be replaced by the current roundcube user's name part
+// '%domain' will be replaced by the current roundcube user's domain part
 // Exemple: 'uid=%login,ou=people,dc=exemple,dc=com'
 $rcmail_config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=exemple,dc=com';
 

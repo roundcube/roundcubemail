@@ -21,6 +21,14 @@ function password_save($curpass, $passwd)
     
     // Building user DN
     $userDN = str_replace('%login', $_SESSION['username'], $rcmail->config->get('password_ldap_userDN_mask'));
+    
+    $parts = explode('@', $_SESSION['username']);
+    if (count($parts) == 2)
+    {
+        $userDN = str_replace('%name', $parts[0], $userDN);
+        $userDN = str_replace('%domain', $parts[1], $userDN);
+    }
+
     if (empty($userDN)) {return PASSWORD_CONNECT_ERROR;}
     
     // Connection Method
