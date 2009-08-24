@@ -94,10 +94,14 @@ function rcube_splitter(attrib)
    */
   this.onDragStart = function(e)
     {
+    // disable text selection while dragging the splitter
+    if (window.webkit || bw.safari)
+      document.body.style.webkitUserSelect = 'none';
+
     this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
     this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
     this.drag_active = true;
-    
+
     // start listening to mousemove events
     rcube_event.add_listener({element:document, event:'mousemove', object:this, method:'onDrag'});
     rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
@@ -177,6 +181,10 @@ function rcube_splitter(attrib)
    */
   this.onDragStop = function(e)
     {
+    // resume the ability to highlight text
+    if(window.webkit || bw.safari)
+      document.body.style.webkitUserSelect = 'auto';
+
     // cancel the listening for drag events
     rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'onDrag'});
     rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix selection disabling while dragging splitter in webkit browsers (#1486056)
 - Added 'new_messages' plugin hook (#1486005)
 - Added 'logout_after' plugin hook (#1486042)
 - Added 'message_compose' hook
