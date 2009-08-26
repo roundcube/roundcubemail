@@ -765,10 +765,18 @@ body.messagelist
   vertical-align: middle;
 }
 
-#messagelist tr td.icon,
-#messagelist tr td.flag
+#messagelist thead tr td.icon,
+#messagelist thead tr td.flag
 {
-  width: 16px;
+  width: 22px;
+  padding: 0;
+  text-align: center;
+}
+
+#messagelist tbody tr td.icon,
+#messagelist tbody tr td.flag
+{
+  padding: 2px 3px 2px 3px;
   vertical-align: middle;
   cursor: pointer;
 }
