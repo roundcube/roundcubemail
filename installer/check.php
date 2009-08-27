@@ -17,7 +17,9 @@ $supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
 
 $ini_checks = array('file_uploads' => 1, 'session.auto_start' => 0,
     'zend.ze1_compatibility_mode' => 0, 'mbstring.func_overload' => 0,
-    'suhosin.session.encrypt' => 0, 'date.timezone' => '-NOTEMPTY-');
+    'suhosin.session.encrypt' => 0);
+
+$optional_checks = array('date.timezone' => '-NOTEMPTY-');
 
 $source_urls = array(
     'Sockets' => 'http://www.php.net/manual/en/ref.sockets.php',
@@ -68,7 +70,7 @@ foreach ($required_php_exts AS $name => $ext) {
 
 ?>
 
-<p class="hint">The next couple of extensions are <em>optional</em> but recommended to get the best performance:</p>
+<p class="hint">The next couple of extensions are <em>optional</em> and recommended to get the best performance:</p>
 <?php
 
 foreach ($optional_php_exts AS $name => $ext) {
@@ -127,6 +129,7 @@ foreach ($required_libs as $classname => $file) {
 ?>
 
 <h3>Checking php.ini/.htaccess settings</h3>
+<p class="hint">The following settings are <em>required</em> to run RoundCube:</p>
 
 <?php
 
@@ -136,15 +139,6 @@ foreach ($ini_checks as $var => $val) {
         if (empty($status)) {
             $RCI->fail($var, "cannot be empty and needs to be set");
         } else {
-            switch ($var) {
-                case 'date.timezone':
-                    if (date_default_timezone_set($status) === false) {
-                        $RCI->fail($var, "is '$status', but the settings is wrong");
-                        echo '<br />';
-                        continue;
-                    }
-                    break;
-            }
             $RCI->pass($var);
         }
         echo '<br />';
@@ -154,6 +148,30 @@ foreach ($ini_checks as $var => $val) {
         $RCI->pass($var);
     } else {
       $RCI->fail($var, "is '$status', should be '$val'");
+    }
+    echo '<br />';
+}
+?>
+
+<p class="hint">The following settings are <em>optional</em> and recommended:</p>
+
+<?php
+
+foreach ($optional_checks as $var => $val) {
+    $status = ini_get($var);
+    if ($val === '-NOTEMPTY-') {
+        if (empty($status)) {
+            $RCI->optfail($var, "Could be set");
+        } else {
+            $RCI->pass($var);
+        }
+        echo '<br />';
+        continue;
+    }
+    if ($status == $val) {
+        $RCI->pass($var);
+    } else {
+      $RCI->optfail($var, "is '$status', could be '$val'");
     }
     echo '<br />';
 }

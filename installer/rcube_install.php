@@ -467,6 +467,20 @@ class rcube_install
     echo Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
     $this->_showhint($message, $url);
   }
+
+
+  /**
+   * Display an error status for optional settings/features
+   *
+   * @param string Test name
+   * @param string Error message
+   * @param string URL for details
+   */
+  function optfail($name, $message = '', $url = '')
+  {
+    echo Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
+    $this->_showhint($message, $url);
+  }
   
   
   /**
