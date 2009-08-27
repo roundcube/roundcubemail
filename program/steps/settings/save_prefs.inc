@@ -102,8 +102,9 @@ switch ($CURR_SECTION)
   case 'general':
 
     // switch UI language
-    if (isset($_POST['_language'])) {
+    if (isset($_POST['_language']) && $a_user_prefs['language'] != $_SESSION['language']) {
       $RCMAIL->load_language($a_user_prefs['language']);
+      $OUTPUT->command('reload', 500);
     }
 
     // switch skin
@@ -132,13 +133,13 @@ switch ($CURR_SECTION)
     // special handling for 'default_imap_folders'
     if (in_array('default_imap_folders', (array)$CONFIG['dont_override'])) {
       foreach (array('drafts_mbox','sent_mbox','junk_mbox','trash_mbox') as $p)
-	$a_user_prefs[$p] = $CONFIG[$p];
+        $a_user_prefs[$p] = $CONFIG[$p];
     } else {
       $a_user_prefs['default_imap_folders'] = array('INBOX');
       foreach (array('drafts_mbox','sent_mbox','junk_mbox','trash_mbox') as $p) {
-	if ($a_user_prefs[$p])
+        if ($a_user_prefs[$p])
           $a_user_prefs['default_imap_folders'][] = $a_user_prefs[$p];
-	}
+      }
     }
   
   break;

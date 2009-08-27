@@ -697,9 +697,9 @@ function rcube_webmail()
         else if (this.task=='settings' && props)
           this.load_identity(props, 'edit-identity');
         else if (this.task=='mail' && (cid = this.get_single_uid())) {
-	  var url = (this.env.mailbox == this.env.drafts_mailbox) ? '_draft_uid=' : '_uid=';
+          var url = (this.env.mailbox == this.env.drafts_mailbox) ? '_draft_uid=' : '_uid=';
           this.goto_url('compose', url+cid+'&_mbox='+urlencode(this.env.mailbox), true);
-	}
+        }
         break;
 
       case 'save-identity':
@@ -837,7 +837,7 @@ function rcube_webmail()
       case 'select-all':
         if (props == 'invert')
           this.message_list.invert_selection();
-	else
+        else
           this.message_list.select_all(props);
         break;
 
@@ -1214,6 +1214,16 @@ function rcube_webmail()
     this.set_busy(false);
     this.display_message('Request timed out!', 'error');
     };
+  
+  this.reload = function(delay)
+  {
+    if (this.env.framed && parent.rcmail)
+      parent.rcmail.reload(delay);
+    else if (delay)
+      window.setTimeout(function(){ rcmail.reload(); }, delay);
+    else if (window.location)
+      location.href = this.env.comm_path;
+  };
 
 
   /*********************************************************/
