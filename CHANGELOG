@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Don't set php_value error_log in .htaccess but mention in INSTALL (#1485924)
 - Fix too small status/flag/attachment columns in Safari 4 (#1486063)
 - Fix selection disabling while dragging splitter in webkit browsers (#1486056)
 - Added 'new_messages' plugin hook (#1486005)

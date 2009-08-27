@@ -43,6 +43,15 @@ INSTALLATION
 7. Done!
 
 
+CONFIGURATION HINTS
+===================
+
+RoundCube writes internal errors to the 'errors' log file located in the logs
+directory which can be configured in config/main.inc.php. If you want ordinary
+PHP errors to be logged there as well, enable the 'php_value error_log' line
+in the .htaccess file and set the path to the log file accordingly.
+
+
 DATABASE SETUP
 ==============
 
