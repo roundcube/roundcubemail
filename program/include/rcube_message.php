@@ -392,16 +392,17 @@ class rcube_message
 
           // part belongs to a related message and is linked
           if ($message_ctype_secondary == 'related'
-	      && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
+              && preg_match('!^image/!', $mail_part->mimetype)
+              && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
             if ($mail_part->headers['content-id'])
               $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
             if ($mail_part->headers['content-location'])
               $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
-    
+              
             $this->inline_parts[] = $mail_part;
           }
           // is a regular attachment
-          else {
+          else if (preg_match('!^[a-z]+/[a-z0-9-.]+$!i', $mail_part->mimetype)) {
             if (!$mail_part->filename)
               $mail_part->filename = 'Part '.$mail_part->mime_id;
             $this->attachments[] = $mail_part;
