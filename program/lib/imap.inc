@@ -988,7 +988,7 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='',
 			}
 
 			if ($mode == 1) {
-				if (preg_match('/BODY\[HEADER\.FIELDS \((DATE|FROM|REPLY-TO|SENDER|TO|SUBJECT)\)\] (.*)/', $line, $matches)) {
+				if (preg_match('/BODY\[HEADER\.FIELDS \("?(DATE|FROM|REPLY-TO|SENDER|TO|SUBJECT)"?\)\] (.*)/', $line, $matches)) {
 					$value = preg_replace(array('/^"*[a-z]+:/i', '/\s+$/sm'), array('', ''), $matches[2]);
 					$value = trim($value);
 					if ($index_field == 'DATE') {
