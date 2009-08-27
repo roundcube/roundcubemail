@@ -22,6 +22,7 @@ function rcube_webmail()
   this.env = new Object();
   this.labels = new Object();
   this.buttons = new Object();
+  this.buttons_sel = new Object();
   this.gui_objects = new Object();
   this.gui_containers = new Object();
   this.commands = new Object();
@@ -1256,6 +1257,14 @@ function rcube_webmail()
       this.command('moveto', model[this.env.last_folder_target].id);
       this.env.last_folder_target = null;
       list.draglayer.hide();
+    }
+    
+    // reset 'pressed' buttons
+    if (this.buttons_sel) {
+      for (var id in this.buttons_sel)
+        if (typeof id != 'function')
+          this.button_out(this.buttons_sel[id], id);
+      this.buttons_sel = {};
     }
   };
 
@@ -3546,6 +3555,7 @@ function rcube_webmail()
           else
             elm.className = button.sel;
         }
+        this.buttons_sel[id] = command;
       }
     }
   };
