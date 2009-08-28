@@ -107,8 +107,10 @@ class archive extends rcube_plugin
 
   function save_prefs($args)
   {
-    $args['prefs']['archive_mbox'] = get_input_value('_archive_mbox', RCUBE_INPUT_POST);
-    return $args;
+    if ($args['section'] == 'folders') {
+      $args['prefs']['archive_mbox'] = get_input_value('_archive_mbox', RCUBE_INPUT_POST);
+      return $args;
+    }
   }
 
 }
