@@ -301,8 +301,8 @@ function iil_ReadReply($fp) {
 }
 
 function iil_ParseResult($string) {
-	$a = explode(' ', $string);
-	if (count($a) > 2) {
+	$a = explode(' ', trim($string));
+	if (count($a) >= 2) {
 		if (strcasecmp($a[1], 'OK') == 0) {
 			return 0;
 		} else if (strcasecmp($a[1], 'NO') == 0) {
@@ -311,7 +311,7 @@ function iil_ParseResult($string) {
 			return -2;
 		} else if (strcasecmp($a[1], 'BYE') == 0) {
 			return -3;
-    		}
+		}
 	}
 	return -4;
 }
@@ -2125,8 +2125,8 @@ function iil_C_Subscribe(&$conn, $folder) {
 	$query = 'sub1 SUBSCRIBE "' . iil_Escape($folder). '"';
 	iil_PutLine($fp, $query);
 
-	$line = trim(iil_ReadLine($fp, 10000));
-	return iil_ParseResult($line);
+	$line = trim(iil_ReadLine($fp, 512));
+	return (iil_ParseResult($line) == 0);
 }
 
 function iil_C_UnSubscribe(&$conn, $folder) {
@@ -2135,8 +2135,8 @@ function iil_C_UnSubscribe(&$conn, $folder) {
 	$query = 'usub1 UNSUBSCRIBE "' . iil_Escape($folder) . '"';
 	iil_PutLine($fp, $query);
     
-	$line = trim(iil_ReadLine($fp, 10000));
-	return iil_ParseResult($line);
+	$line = trim(iil_ReadLine($fp, 512));
+	return (iil_ParseResult($line) == 0);
 }
 
 function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
@@ -2371,31 +2371,39 @@ function iil_C_DeleteFolder(&$conn, $folder) {
 
 function iil_C_Append(&$conn, $folder, &$message) {
 	if (!$folder) {
-    		return false;
+		return false;
 	}
 	$fp = $conn->fp;
 
 	$message = str_replace("\r", '', $message);
-	$message = str_replace("\n", "\r\n", $message);		
+	$message = str_replace("\n", "\r\n", $message);
 
 	$len = strlen($message);
 	if (!$len) {
-    		return false;
+		return false;
 	}
 
 	$request = 'a APPEND "' . iil_Escape($folder) .'" (\\Seen) {' . $len . '}';
-    
+
 	if (iil_PutLine($fp, $request)) {
-		$line = iil_ReadLine($fp, 100);		
-		$sent = iil_PutLine($fp, $message);
+		$line = iil_ReadLine($fp, 512);
+
+		$result = (iil_ParseResult($line) == 0);
+		if (!$result) {
+			$conn->error .= "Cannot write to folder: $line\n";
+			return false;
+		}
+
+		iil_PutLine($fp, $message);
+
 		do {
-			$line=iil_ReadLine($fp);
+			$line = iil_ReadLine($fp);
 		} while (!iil_StartsWith($line, 'a ', true));
 	
 		$result = (iil_ParseResult($line) == 0);
 		if (!$result) {
 		    $conn->error .= $line . "\n";
-    		}
+		}
 		return $result;
 	}
 
@@ -2409,7 +2417,7 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	}
     
 	//open message file
-	$in_fp = false;				
+	$in_fp = false;
 	if (file_exists(realpath($path))) {
 		$in_fp = fopen($path, 'r');
 	}
@@ -2426,14 +2434,18 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
     
 	//send APPEND command
 	$request    = 'a APPEND "' . iil_Escape($folder) . '" (\\Seen) {' . $len . '}';
-	$bytes_sent = 0;
 	if (iil_PutLine($fp, $request)) {
-		$line = iil_ReadLine($fp, 100);
-				
+		$line = iil_ReadLine($fp, 512);
+
+		$result = (iil_ParseResult($line) == 0);
+		if (!$result) {
+			$conn->error .= "Cannot write to folder: $line\n";
+			return false;
+		}
+
 		//send file
 		while (!feof($in_fp)) {
 			$buffer      = fgets($in_fp, 4096);
-			$bytes_sent += strlen($buffer);
 			iil_PutLine($fp, $buffer, false);
 		}
 		fclose($in_fp);
@@ -2444,12 +2456,12 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 		do {
 			$line = iil_ReadLine($fp);
 		} while (!iil_StartsWith($line, 'a ', true));
-			
+
 		$result = (iil_ParseResult($line) == 0);
 		if (!$result) {
 		    $conn->error .= $line . "\n";
 		}
-        
+
 		return $result;
 	}
 	
