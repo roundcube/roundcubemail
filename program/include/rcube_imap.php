@@ -2890,7 +2890,7 @@ class rcube_imap
   private function _change_subscription($a_mboxes, $mode)
     {
     $updated = FALSE;
-    
+
     if (is_array($a_mboxes))
       foreach ($a_mboxes as $i => $mbox_name)
         {
@@ -2898,15 +2898,12 @@ class rcube_imap
         $a_mboxes[$i] = $mailbox;
 
         if ($mode=='subscribe')
-          $result = iil_C_Subscribe($this->conn, $mailbox);
+          $updated = iil_C_Subscribe($this->conn, $mailbox);
         else if ($mode=='unsubscribe')
-          $result = iil_C_UnSubscribe($this->conn, $mailbox);
-
-        if ($result>=0)
-          $updated = TRUE;
+          $updated = iil_C_UnSubscribe($this->conn, $mailbox);
         }
-        
-    // get cached mailbox list    
+
+    // get cached mailbox list
     if ($updated)
       {
       $a_mailbox_cache = $this->get_cache('mailboxes');
@@ -2918,7 +2915,7 @@ class rcube_imap
         $a_mailbox_cache = array_merge($a_mailbox_cache, $a_mboxes);
       else if ($mode=='unsubscribe')
         $a_mailbox_cache = array_diff($a_mailbox_cache, $a_mboxes);
-        
+
       // write mailboxlist to cache
       $this->update_cache('mailboxes', $this->_sort_mailbox_list($a_mailbox_cache));
       }
