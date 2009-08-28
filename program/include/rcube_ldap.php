@@ -52,7 +52,7 @@ class rcube_ldap extends rcube_addressbook
   function __construct($p)
   {
     $this->prop = $p;
-    
+
     foreach ($p as $prop => $value)
       if (preg_match('/^(.+)_field$/', $prop, $matches))
         $this->fieldmap[$matches[1]] = $value;

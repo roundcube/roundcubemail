@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix LDAP addressbook browsing when only one directory is used (#1486022)
 - Fix endless loop on error response for APPEND command (#1486060)
 - Don't require date.timezone setting in installer (#1485989)
 - Fix date sorting problem with Courier IMAP server (#1486065)

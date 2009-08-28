@@ -19,8 +19,30 @@
 
 */
 
+// add list of address sources to client env
+$js_list = array();
+if (strtolower($CONFIG['address_book_type']) != 'ldap') {
+  // We are using the DB address book, add it.
+  $js_list['0'] = array('id' => 0, 'name' => rcube_label('personaladrbook'), 'readonly' => false);
+}
+if (is_array($CONFIG['ldap_public'])) {
+  foreach ($CONFIG['ldap_public'] as $id => $prop)
+    $js_list[$id] = array('id' => $id, 'name' => $prop['name'], 'readonly' => !$prop['writable']);
+}
+
+$plugin = $RCMAIL->plugins->exec_hook('address_sources', array('sources' => $js_list));
+$js_list = $plugin['sources'];
+
+// select source
+$source = get_input_value('_source', RCUBE_INPUT_GPC);
+
+// if source is not set use first directory
+if (empty($source))
+  $source = $js_list[key($js_list)]['id'];
+
+
 // instantiate a contacts object according to the given source
-$CONTACTS = $RCMAIL->get_address_book(($source = get_input_value('_source', RCUBE_INPUT_GPC)));
+$CONTACTS = $RCMAIL->get_address_book($source);
 
 $CONTACTS->set_pagesize($CONFIG['pagesize']);
 
@@ -34,23 +56,11 @@ else
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
   $CONTACTS->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
 
+
 // set data source env
 $OUTPUT->set_env('source', $source ? $source : '0');
 $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
-
-// add list of address sources to client env
-$js_list = array();
-if (strtolower($CONFIG['address_book_type']) != 'ldap') {
-  // We are using the DB address book, add it.
-  $js_list['0'] = array('id' => 0, 'name' => rcube_label('personaladrbook'), 'readonly' => false);
-}
-if (is_array($CONFIG['ldap_public'])) {
-  foreach ($CONFIG['ldap_public'] as $id => $prop)
-    $js_list[$id] = array('id' => $id, 'name' => $prop['name'], 'readonly' => !$prop['writable']);
-}
-
-$plugin = $RCMAIL->plugins->exec_hook('address_sources', array('sources' => $js_list));
-$OUTPUT->set_env('address_sources', $plugin['sources']);
+$OUTPUT->set_env('address_sources', $js_list);
 
 
 function rcmail_directory_list($attrib)
