@@ -244,7 +244,7 @@ class rcube_ldap extends rcube_addressbook
       $filter = $this->prop['filter'];
       $this->set_search_set($filter);
     }
-    
+
     // exec LDAP search if no result resource is stored
     if ($this->conn && !$this->ldap_result)
       $this->_exec_search();
@@ -381,7 +381,7 @@ class rcube_ldap extends rcube_addressbook
     $res = null;
     if ($this->conn && $dn)
     {
-      $this->ldap_result = ldap_read($this->conn, base64_decode($dn), "(objectclass=*)", array_values($this->fieldmap));
+      $this->ldap_result = ldap_read($this->conn, base64_decode($dn), '(objectclass=*)', array_values($this->fieldmap));
       $entry = @ldap_first_entry($this->conn, $this->ldap_result);
 
       if ($entry && ($rec = ldap_get_attributes($this->conn, $entry)))
@@ -554,10 +554,11 @@ class rcube_ldap extends rcube_addressbook
    */
   function _exec_search()
   {
-    if ($this->ready && $this->filter)
+    if ($this->ready)
     {
+      $filter = $this->filter ? $this->filter : '(objectclass=*)';
       $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
-      $this->ldap_result = $function($this->conn, $this->prop['base_dn'], $this->filter, array_values($this->fieldmap), 0, 0);
+      $this->ldap_result = $function($this->conn, $this->prop['base_dn'], $filter, array_values($this->fieldmap), 0, 0);
       return true;
     }
     else
