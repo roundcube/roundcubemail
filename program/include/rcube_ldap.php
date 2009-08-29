@@ -570,6 +570,8 @@ class rcube_ldap extends rcube_addressbook
    */
   function _ldap2result($rec)
   {
+    global $RCMAIL;
+
     $out = array();
     
     if ($rec['dn'])
@@ -577,8 +579,12 @@ class rcube_ldap extends rcube_addressbook
     
     foreach ($this->fieldmap as $rf => $lf)
     {
-      if ($rec[$lf]['count'])
-        $out[$rf] = $rec[$lf][0];
+      if ($rec[$lf]['count']) {
+        if ($rf == 'email' && !strpos($rec[$lf][0], '@'))
+          $out[$rf] = sprintf('%s@%s', $rec[$lf][0] , $RCMAIL->config->mail_domain($_SESSION['imap_host']));
+        else
+          $out[$rf] = $rec[$lf][0];
+      }
     }
     
     return $out;

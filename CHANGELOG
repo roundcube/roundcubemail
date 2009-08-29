@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add mail_domain to LDAP email entries without @ sign (#1485201)
 - Fix saving empty values in LDAP contact data (#1485781)
 - Fix LDAP contact update when RDN field is changed (#1485788)
 - Fix LDAP attributes case senitivity problems (#1485830)
