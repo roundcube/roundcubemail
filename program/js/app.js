@@ -2926,7 +2926,7 @@ function rcube_webmail()
     };
 
   // update a contact record in the list
-  this.update_contact_row = function(cid, cols_arr)
+  this.update_contact_row = function(cid, cols_arr, newcid)
   {
     var row;
     if (this.contact_list.rows[cid] && (row = this.contact_list.rows[cid].obj)) {
@@ -2934,11 +2934,50 @@ function rcube_webmail()
         if (row.cells[c])
           $(row.cells[c]).html(cols_arr[c]);
 
+      // cid change
+      if (newcid) {
+	row.id = 'rcmrow' + newcid;
+        this.contact_list.remove_row(cid);
+        this.contact_list.init_row(row);
+	this.contact_list.selection[0] = newcid;
+	row.style.display = '';
+      }
+
       return true;
     }
 
     return false;
   };
+
+  // add row to contacts list
+  this.add_contact_row = function(cid, cols, select)
+    {
+    if (!this.gui_objects.contactslist || !this.gui_objects.contactslist.tBodies[0])
+      return false;
+    
+    var tbody = this.gui_objects.contactslist.tBodies[0];
+    var rowcount = tbody.rows.length;
+    var even = rowcount%2;
+    
+    var row = document.createElement('tr');
+    row.id = 'rcmrow'+cid;
+    row.className = 'contact '+(even ? 'even' : 'odd');
+	    
+    if (this.contact_list.in_selection(cid))
+      row.className += ' selected';
+
+    // add each submitted col
+    for (var c in cols) {
+      col = document.createElement('td');
+      col.className = String(c).toLowerCase();
+      col.innerHTML = cols[c];
+      row.appendChild(col);
+    }
+    
+    this.contact_list.insert_row(row);
+    
+    this.enable_command('export', (this.contact_list.rowcount > 0));
+    };
 
 
   /*********************************************************/
@@ -2993,7 +3032,7 @@ function rcube_webmail()
       this.load_identity(id, 'edit-identity');
     };
 
-  // load contact record
+  // load identity record
   this.load_identity = function(id, action)
     {
     if (action=='edit-identity' && (!id || id==this.env.iid))
@@ -3883,36 +3922,6 @@ function rcube_webmail()
     else
       window.focus();
     }
-
-  // add row to contacts list
-  this.add_contact_row = function(cid, cols, select)
-    {
-    if (!this.gui_objects.contactslist || !this.gui_objects.contactslist.tBodies[0])
-      return false;
-    
-    var tbody = this.gui_objects.contactslist.tBodies[0];
-    var rowcount = tbody.rows.length;
-    var even = rowcount%2;
-    
-    var row = document.createElement('tr');
-    row.id = 'rcmrow'+cid;
-    row.className = 'contact '+(even ? 'even' : 'odd');
-	    
-    if (this.contact_list.in_selection(cid))
-      row.className += ' selected';
-
-    // add each submitted col
-    for (var c in cols) {
-      col = document.createElement('td');
-      col.className = String(c).toLowerCase();
-      col.innerHTML = cols[c];
-      row.appendChild(col);
-    }
-    
-    this.contact_list.insert_row(row);
-    
-    this.enable_command('export', (this.contact_list.rowcount > 0));
-    };
 
   this.toggle_prefer_html = function(checkbox)
     {

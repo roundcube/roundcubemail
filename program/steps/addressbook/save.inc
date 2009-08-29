@@ -57,17 +57,24 @@ if (!empty($cid))
   $plugin = $RCMAIL->plugins->exec_hook('save_contact', array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
   $a_record = $plugin['record'];
   
-  if (!$plugin['abort'] && $CONTACTS->update($cid, $a_record))
+  if (!$plugin['abort'] && ($result = $CONTACTS->update($cid, $a_record)))
   {
+    // LDAP DN change
+    if (is_string($result) && strlen($result)>1) {
+      $newcid = $result;
+      // change cid in POST for 'show' action
+      $_POST['_cid'] = $newcid;
+    }
+    
     // define list of cols to be displayed
     $a_js_cols = array();
-    $record = $CONTACTS->get_record($cid, true);
+    $record = $CONTACTS->get_record($newcid ? $newcid : $cid, true);
 
     foreach (array('name', 'email') as $col)
       $a_js_cols[] = (string)$record[$col];
 
     // update the changed col in list
-    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols);
+    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid);
       
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);

@@ -480,31 +480,42 @@ class rcube_ldap extends rcube_addressbook
       } // end if
     } // end foreach
 
-    // Update the entry as required.
     $dn = base64_decode($id);
+
+    // Update the entry as required.
     if (!empty($deletedata)) {
       // Delete the fields.
-      $res = ldap_mod_del($this->conn, $dn, $deletedata);
-      if ($res === FALSE) {
+      if (!ldap_mod_del($this->conn, $dn, $deletedata))
         return false;
-      } // end if
     } // end if
 
     if (!empty($replacedata)) {
+      // Handle RDN change
+      if ($replacedata[$this->prop['LDAP_rdn']]) {
+        $newdn = $this->prop['LDAP_rdn'].'='.$replacedata[$this->prop['LDAP_rdn']].','.$this->prop['base_dn']; 
+        if ($dn != $newdn) {
+          $newrdn = $this->prop['LDAP_rdn'].'='.$replacedata[$this->prop['LDAP_rdn']];
+          unset($replacedata[$this->prop['LDAP_rdn']]);
+        }
+      }
       // Replace the fields.
-      $res = ldap_mod_replace($this->conn, $dn, $replacedata);
-      if ($res === FALSE) {
-        return false;
+      if (!empty($replacedata)) {
+        if (!ldap_mod_replace($this->conn, $dn, $replacedata))
+          return false;
       } // end if
     } // end if
 
     if (!empty($newdata)) {
       // Add the fields.
-      $res = ldap_mod_add($this->conn, $dn, $newdata);
-      if ($res === FALSE) {
+      if (!ldap_mod_add($this->conn, $dn, $newdata))
         return false;
-      } // end if
     } // end if
+
+    // Handle RDN change
+    if (!empty($newrdn)) {
+      if (@ldap_rename($this->conn, $dn, $newrdn, NULL, TRUE))
+        return base64_encode($newdn);
+    }
 
     return true;
   }
