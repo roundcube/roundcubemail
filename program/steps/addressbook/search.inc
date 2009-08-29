@@ -32,7 +32,7 @@ if ($result->count > 0)
 {
   // save search settings in session
   $_SESSION['search'][$search_request] = $CONTACTS->get_search_set();
-  
+
   // create javascript list
   rcmail_js_contacts_list($result);
 }

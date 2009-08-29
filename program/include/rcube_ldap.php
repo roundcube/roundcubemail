@@ -55,7 +55,10 @@ class rcube_ldap extends rcube_addressbook
 
     foreach ($p as $prop => $value)
       if (preg_match('/^(.+)_field$/', $prop, $matches))
-        $this->fieldmap[$matches[1]] = strtolower($value);
+        $this->fieldmap[$matches[1]] = $this->_attr_name(strtolower($value));
+
+    foreach ($this->prop['required_fields'] as $key => $val)
+      $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
 
     $this->sort_col = $p['sort'];
 
@@ -552,7 +555,7 @@ class rcube_ldap extends rcube_addressbook
    *
    * @access private
    */
-  function _exec_search()
+  private function _exec_search()
   {
     if ($this->ready)
     {
@@ -569,7 +572,7 @@ class rcube_ldap extends rcube_addressbook
   /**
    * @access private
    */
-  function _ldap2result($rec)
+  private function _ldap2result($rec)
   {
     global $RCMAIL;
 
@@ -595,12 +598,29 @@ class rcube_ldap extends rcube_addressbook
   /**
    * @access private
    */
-  function _map_field($field)
+  private function _map_field($field)
   {
     return $this->fieldmap[$field];
   }
   
   
+  /**
+   * @access private
+   */
+  private function _attr_name($name)
+  {
+    // list of known attribute aliases
+    $aliases = array(
+      'gn' => 'givenname',
+      'rfc822mailbox' => 'mail',
+      'userid' => 'uid',
+      'emailaddress' => 'email',
+      'pkcs9email' => 'email',
+    );
+    return isset($aliases[$name]) ? $aliases[$name] : $name;
+  }
+
+
   /**
    * @static
    */

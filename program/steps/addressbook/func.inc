@@ -56,7 +56,6 @@ else
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
   $CONTACTS->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
 
-
 // set data source env
 $OUTPUT->set_env('source', $source ? $source : '0');
 $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
