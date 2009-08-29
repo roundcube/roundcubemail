@@ -413,7 +413,7 @@ class rcube_ldap extends rcube_addressbook
     $newentry['objectClass'] = $this->prop['LDAP_Object_Classes'];
     foreach ($save_cols as $col => $val) {
       $fld = $this->_map_field($col);
-      if ($fld != '') {
+      if ($fld && $val) {
         // The field does exist, add it to the entry.
         $newentry[$fld] = $val;
       } // end if
@@ -457,7 +457,7 @@ class rcube_ldap extends rcube_addressbook
     $deletedata = array();
     foreach ($save_cols as $col => $val) {
       $fld = $this->_map_field($col);
-      if ($fld != '') {
+      if ($fld) {
         // The field does exist compare it to the ldap record.
         if ($record[$col] != $val) {
           // Changed, but find out how.
