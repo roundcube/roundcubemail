@@ -136,6 +136,12 @@ input, textarea
   width: auto;
 }
 
+#messagelist
+{
+  width: inherit;
+  *width: auto; /* IE6/7 conditional hack */
+}
+
 #messageframe
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-180)+'px');
@@ -243,9 +249,4 @@ ul.toolbarmenu li a
 {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
   filter: alpha(opacity=80);
-}
-
-#messagelist
-{
-  width: expression((document.documentElement.clientHeight > this.parentNode.clientHeight) ? 'auto' : '100%');
 }
