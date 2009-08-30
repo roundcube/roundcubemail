@@ -45,7 +45,7 @@ input, textarea
 
 #messagetoolbar
 {
-  width: expression((parseInt(document.documentElement.clientWidth)-400)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-215)+'px');
   z-index: 240;
 }
 
