@@ -2388,8 +2388,8 @@ function iil_C_Append(&$conn, $folder, &$message) {
 	if (iil_PutLine($fp, $request)) {
 		$line = iil_ReadLine($fp, 512);
 
-		$result = (iil_ParseResult($line) == 0);
-		if (!$result) {
+		if ($line[0] != '+') {
+			// $errornum = iil_ParseResult($line);
 			$conn->error .= "Cannot write to folder: $line\n";
 			return false;
 		}
@@ -2437,8 +2437,8 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	if (iil_PutLine($fp, $request)) {
 		$line = iil_ReadLine($fp, 512);
 
-		$result = (iil_ParseResult($line) == 0);
-		if (!$result) {
+		if ($line[0] != '+') {
+			//$errornum = iil_ParseResult($line);
 			$conn->error .= "Cannot write to folder: $line\n";
 			return false;
 		}
