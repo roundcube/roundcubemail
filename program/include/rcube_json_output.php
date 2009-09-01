@@ -68,7 +68,7 @@ class rcube_json_output
     public function set_pagetitle($title)
     {
         $name = $this->config->get('product_name');
-        $this->command('set_pagetitle', JQ(empty($name) ? $title : $name.' :: '.$title));
+        $this->command('set_pagetitle', empty($name) ? $title : $name.' :: '.$title);
     }
 
     /**
