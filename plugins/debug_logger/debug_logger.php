@@ -107,7 +107,7 @@ class debug_logger extends rcube_plugin
         if(!isset($args[1])){
             // This could be extended to detect types based on the 
             // file which called console.  For now only rcube_imap.inc is supported
-            $bt = debug_backtrace(true);
+            $bt = debug_backtrace();
             $file  = $bt[3]['file'];
             switch(basename($file)){
                 case 'rcube_imap.php':
