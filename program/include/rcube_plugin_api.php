@@ -118,15 +118,17 @@ class rcube_plugin_api
       if (!$loaded) {
         $fn = $plugins_dir->path . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
         if (file_exists($fn)) {
-          include($fn);
+          include_once($fn);
           
           if (class_exists($plugin_name, false)) {
             $plugin = new $plugin_name($this);
             // check inheritance
             if (is_subclass_of($plugin, 'rcube_plugin')) {
-              $plugin->init();
-              $this->plugins[] = $plugin;
-              $loaded = true;
+	      if (!$plugin->task || preg_match('/('.$plugin->task.')/i', $rcmail->task)) {
+                $plugin->init();
+                $this->plugins[] = $plugin;
+              }
+	      $loaded = true;
             }
           }
         }
