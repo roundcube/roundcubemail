@@ -1501,7 +1501,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				if($bodystr) {
 					while (!preg_match('/ BODYSTRUCTURE (.*) BODY\[HEADER.FIELDS/s', $line, $m)) {
 						$line2 = iil_ReadLine($fp, 1024);
-						$line .= iil_MultLine($fp, $line2);
+						$line .= iil_MultLine($fp, $line2, true);
 					}
 					$result[$id]->body_structure = $m[1];
 				}
@@ -2479,7 +2479,7 @@ function iil_C_FetchStructureString(&$conn, $folder, $id, $is_uid=false) {
 		if (iil_PutLine($fp, $key . ($is_uid ? ' UID' : '') ." FETCH $id (BODYSTRUCTURE)")) {
 			do {
 				$line = iil_ReadLine($fp, 5000);
-				$line = iil_MultLine($fp, $line);
+				$line = iil_MultLine($fp, $line, true);
 				if (!preg_match("/^$key/", $line))
 					$result .= $line;
 			} while (!iil_StartsWith($line, $key, true));
