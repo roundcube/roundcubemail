@@ -40,7 +40,7 @@ class archive extends rcube_plugin
       // set env variable for client
       $rcmail->output->set_env('archive_folder', $archive_folder);
 
-      // add archive folder to the list of defailt mailboxes
+      // add archive folder to the list of default mailboxes
       if (($default_folders = $rcmail->config->get('default_imap_folders')) && !in_array($archive_folder, $default_folders)) {
         $default_folders[] = $archive_folder;
         $rcmail->config->set('default_imap_folders', $default_folders);
@@ -60,12 +60,29 @@ class archive extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
     $archive_folder = $rcmail->config->get('archive_mbox');
-    
-    // set localized name for the configured arcive folder
-    if ($archive_folder && $p['list'][$archive_folder])
-      $p['list'][$archive_folder]['name'] = $this->gettext('archivefolder');
-      
+
+    // set localized name for the configured archive folder
+    if ($archive_folder) {
+      if (isset($p['list'][$archive_folder]))
+        $p['list'][$archive_folder]['name'] = $this->gettext('archivefolder');
+      else // search in subfolders
+        $this->_mod_folder_name($p['list'], $archive_folder, $this->gettext('archivefolder'));
+    }
+
     return $p;
+  }
+
+  function _mod_folder_name(&$list, $folder, $new_name)
+  {
+    foreach ($list as $idx => $item) {
+      if ($item['id'] == $folder) {
+        $list[$idx]['name'] = $new_name;
+	return true;
+      } else if (!empty($item['folders']))
+        if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name))
+	  return true;
+    }
+    return false;
   }
 
   function request_action()
@@ -77,8 +94,8 @@ class archive extends rcube_plugin
     
     $rcmail = rcmail::get_instance();
     
-    # There is no "Archive flags", but I left this line in case it may be useful
-    # $rcmail->imap->set_flag($uids, 'ARCHIVE');
+    // There is no "Archive flags", but I left this line in case it may be useful
+    // $rcmail->imap->set_flag($uids, 'ARCHIVE');
     
     if (($archive_mbox = $rcmail->config->get('archive_mbox')) && $mbox != $archive_mbox) {
       $rcmail->output->command('move_messages', $archive_mbox);
