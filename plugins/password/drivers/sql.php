@@ -5,7 +5,7 @@
  *
  * Driver for passwords stored in SQL database
  *
- * @version 1.0
+ * @version 1.1
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  */
@@ -18,6 +18,12 @@ function password_save($curpass, $passwd)
         $sql = 'SELECT update_passwd(%c, %u)';
 
     if ($dsn = $rcmail->config->get('password_db_dsn')) {
+	// #1486067: enable new_link option
+	if (is_array($dsn) && empty($dsn['new_link']))
+	    $dsn['new_link'] = true;
+	else if (!is_array($dsn) && !preg_match('/\?new_link=true/', $dsn))
+	  $dsn .= '?new_link=true';
+
         $db = new rcube_mdb2($dsn, '', FALSE);
         $db->set_debug((bool)$rcmail->config->get('sql_debug'));
         $db->db_connect('w');
