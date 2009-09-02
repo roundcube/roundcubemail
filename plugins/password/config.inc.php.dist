@@ -21,12 +21,28 @@ $rcmail_config['password_db_dsn'] = '';
 //      %p is replaced with the plaintext new password
 //      %c is replaced with the crypt version of the new password, MD5 if available
 //         otherwise DES.
-//      %u is replaced with the username (from the session info)
 //      %o is replaced with the password before the change
+//      %n is replaced with the hashed version of the new password
+//      %q is replaced with the hashed password before the change
 //      %h is replaced with the imap host (from the session info)
+//      %u is replaced with the username (from the session info)
+//      %l is replaced with the local part of the username
+//         (in case the username is an email address)
+//      %d is replaced with the domain part of the username
+//         (in case the username is an email address)
 // Escaping of macros is handled by this module.
 // Default: "SELECT update_passwd(%c, %u)"
 $rcmail_config['password_query'] = 'SELECT update_passwd(%c, %u)';
+
+// Using a password hash for %n and %q variables.
+// Determine which hashing algorithm should be used to generate
+// the hashed new and current password for using them within the
+// SQL query. Requires PHP's 'hash' extension.
+$rcmail_config['password_hash_algorithm'] = 'sha1';
+
+// You can also decide whether the hash should be provided
+// as hex string or in base64 encoded format.
+$rcmail_config['password_hash_base64'] = false;
 
 
 // Poppassd Driver options
