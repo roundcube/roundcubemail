@@ -393,7 +393,7 @@ function rcmail_compose_body($attrib)
 
   $attrib['name'] = '_message';
 
-  if ($CONFIG['htmleditor'] || (($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) && $MESSAGE->first_html_part()))
+  if ($CONFIG['htmleditor'] || (($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) && $MESSAGE->has_html_part()))
     $isHtml = true;
   else
     $isHtml = false;
@@ -422,7 +422,7 @@ function rcmail_compose_body($attrib)
       $body = $MESSAGE->first_text_part();
       $isHtml = false;
     }
-    
+
     // compose reply-body
     if ($compose_mode == RCUBE_COMPOSE_REPLY)
       $body = rcmail_create_reply_body($body, $isHtml);
@@ -911,10 +911,11 @@ function rcmail_editor_selector($attrib)
   global $CONFIG, $MESSAGE, $compose_mode;
 
   // determine whether HTML or plain text should be checked
-  $useHtml = $CONFIG['htmleditor'] ? true : false;
-
   if ($compose_mode)
-    $useHtml = ($useHtml && $MESSAGE->has_html_part());
+    $useHtml = (($CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT)
+	&& $MESSAGE->has_html_part());
+  else
+    $useHtml = $CONFIG['htmleditor'] ? true : false;
 
   if (empty($attrib['editorid']))
     $attrib['editorid'] = 'rcmComposeBody';
