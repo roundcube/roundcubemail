@@ -72,6 +72,11 @@ input, textarea
   top: 8px;
 }
 
+#quicksearchbar
+{
+  z-index: 250;
+}
+
 #mainscreen
 {
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
