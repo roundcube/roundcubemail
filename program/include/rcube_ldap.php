@@ -546,7 +546,7 @@ class rcube_ldap extends rcube_addressbook
       } // end if
     } // end foreach
 
-    return true;
+    return count($dns);
   }
 
 
