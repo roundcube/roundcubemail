@@ -1,3 +1,8 @@
+* version 1.5 [2009-09-04]
+-----------------------------------------------------------
+- Added es_ES, ua_UA localizations
+- Added 'managesieve_mbox_encoding' option
+
 * version 1.4 [2009-07-29]
 -----------------------------------------------------------
 - Updated PEAR::Net_Sieve to 1.1.7

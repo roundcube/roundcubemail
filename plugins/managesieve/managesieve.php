@@ -7,7 +7,7 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 1.3
+ * @version 1.5
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist):
@@ -744,6 +744,9 @@ class managesieve extends rcube_plugin
     $a_folders = $this->rc->imap->list_mailboxes();
     $delimiter = $this->rc->imap->get_hierarchy_delimiter();
 
+    // set mbox encoding
+    $mbox_encoding = $this->rc->config->get('managesieve_mbox_encoding', 'UTF7-IMAP'); 
+
     if ($action['type'] == 'fileinto')
       $mailbox = $action['target'];
     else
@@ -757,6 +760,9 @@ class managesieve extends rcube_plugin
     
       if ($replace_delimiter = $this->rc->config->get('managesieve_replace_delimiter'))
         $utf7folder = str_replace($delimiter, $replace_delimiter, $utf7folder);
+    
+      // convert to Sieve implementation encoding
+      $utf7folder = $this->mbox_encode($utf7folder, $mbox_encoding);
     
       if ($folder_class = rcmail_folder_classname($name))
         $foldername = $this->gettext($folder_class);
@@ -849,6 +855,10 @@ class managesieve extends rcube_plugin
     return false;
   }
  
+  private function mbox_encode($text, $encoding)
+  {
+    return rcube_charset_convert($text, 'UTF7-IMAP', $encoding);
+  }
 }
 
 ?>

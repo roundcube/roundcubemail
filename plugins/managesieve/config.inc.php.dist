@@ -14,6 +14,11 @@ $rcmail_config['managesieve_usetls'] = false;
 // default contents of filters script (eg. default spam filter)
 $rcmail_config['managesieve_default'] = '/etc/dovecot/sieve/global';
 
+// Sieve RFC says that we should use UTF-8 endcoding for mailbox names,
+// but some implementations does not covert UTF-8 to modified UTF-7.
+// Defaults to UTF7-IMAP for backward compatybility
+$rcmail_config['managesieve_mbox_encoding'] = 'UTF7-IMAP';
+
 // I need this because my dovecot (with listescape plugin) uses
 // ':' delimiter, but creates folders with dot delimiter
 $rcmail_config['managesieve_replace_delimiter'] = '';
