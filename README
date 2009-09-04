@@ -1,18 +1,9 @@
-RoundCube Webmail (http://roundcube.net)
-
-
-ATTENTION
----------
-This is just a snapshot of the current SVN repository and is NOT A STABLE
-version of RoundCube. Unlike the latest release this version requires PHP 5
-and does not work on a webserver with PHP 4. It's not recommended to
-replace an existing installation of RoundCube with this version. Also using
-a separate database for this installation is highly recommended.
+Roundcube Webmail (http://roundcube.net)
 
 
 Introduction:
 -------------
-RoundCube Webmail is a browser-based multilingual IMAP client with an
+Roundcube Webmail is a browser-based multilingual IMAP client with an
 application-like user interface. It provides full functionality you expect
 from an e-mail client, including MIME support, address book, folder management,
 message searching and spell checking. RoundCube Webmail is written in PHP and
@@ -43,7 +34,7 @@ LICENSE for more information about our license.
 
 Contribution:
 -------------
-Want to help make RoundCube the best webmail solution ever?
+Want to help make Roundcube the best webmail solution ever?
 RoundCube is open source software. Our developers and contributors all
 are volunteers and we're always looking for new additions and resources.
 For more information visit http://roundcube.net/contribute
