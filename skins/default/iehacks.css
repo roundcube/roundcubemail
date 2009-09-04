@@ -177,7 +177,7 @@ body.iframe
 
 #compose-container
 {
-  width: expression((parseInt(document.documentElement.clientWidth)-210)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
 

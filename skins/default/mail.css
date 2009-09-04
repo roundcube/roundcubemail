@@ -5,7 +5,7 @@
 {
   position: absolute;
   top: 47px;
-  left: 200px;
+  left: 205px;
   right: 10px;
   height: 35px;
   min-width: 650px;
@@ -381,7 +381,7 @@ td.formlinks a:visited
   top: 0px;
   left: 0px;
   bottom: 0px;
-  width: 170px;
+  width: 195px;
 }
 
 #mailrightcontainer
@@ -1141,7 +1141,7 @@ div.message-htmlpart div.rcmBody
 {
   position: absolute;
   top: 90px;
-  left: 190px;
+  left: 205px;
   right: 25px;
   bottom: 30px;
   margin: 0px;
@@ -1221,7 +1221,7 @@ div.message-htmlpart div.rcmBody
   position: absolute;
   top: 100px;
   left: 20px;
-  width: 160px;
+  width: 170px;
 }
 
 #compose-attachments ul

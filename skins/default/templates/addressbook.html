@@ -7,8 +7,8 @@
 
 <style type="text/css">
 <roundcube:if condition="count(env:address_sources) &lt;= 1" />
-#abookcountbar { left: 20px;}
-#addressscreen { left:20px; 
+#abookcountbar { left: 20px; }
+#addressscreen { left: 20px; 
 <roundcube:exp expression="browser:ie ? 'width:expression((parseInt(document.documentElement.clientWidth)-40)+\\'px\\');' : ''" />
 }
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }

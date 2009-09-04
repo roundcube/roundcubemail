@@ -27,8 +27,8 @@ a, a:active, a:visited
 
 #header
 {
-  margin-left: 5mm;
-  margin-bottom: 3mm;
+  float: right;
+  margin: 0 5mm 3mm 5mm;
 }
 
 #messageframe
@@ -39,6 +39,7 @@ a, a:active, a:visited
 table.headers-table
 {
   table-layout: fixed;
+  margin-top: 14px;
 }
 
 table.headers-table tr td

@@ -4,7 +4,7 @@
 {
   position: absolute;
   top: 45px;
-  left: 200px;
+  left: 205px;
   height: 35px;
 }
 
@@ -95,7 +95,7 @@
   top: 85px;
   right: 20px;
   bottom: 40px;
-  left: 200px;
+  left: 205px;
 }
 
 #directorylist
@@ -104,7 +104,7 @@
   top: 85px;
   bottom: 40px;
   left: 20px;
-  width: 170px;
+  width: 175px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
