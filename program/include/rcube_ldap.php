@@ -57,6 +57,10 @@ class rcube_ldap extends rcube_addressbook
       if (preg_match('/^(.+)_field$/', $prop, $matches))
         $this->fieldmap[$matches[1]] = $this->_attr_name(strtolower($value));
 
+    // make sure 'required_fields' is an array
+    if (!is_array($this->prop['required_fields']))
+      $this->prop['required_fields'] = (array) $this->prop['required_fields'];
+
     foreach ($this->prop['required_fields'] as $key => $val)
       $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
 
