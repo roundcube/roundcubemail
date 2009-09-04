@@ -598,7 +598,7 @@ class rcube_imap
     // retrieve headers from IMAP
     $a_msg_headers = array();
 
-    if (!$this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
+    if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
       {
       list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
       $max = max($msg_index);
