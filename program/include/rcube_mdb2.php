@@ -256,11 +256,11 @@ class rcube_mdb2
       $result = $this->db_handle->setLimit($numrows,$offset);
 
     if (empty($params))
-        $result = $this->db_handle->query($query);
+      $result = $mode=='r' ? $this->db_handle->query($query) : $this->db_handle->exec($query);
     else
       {
       $params = (array)$params;
-      $q = $this->db_handle->prepare($query);
+      $q = $this->db_handle->prepare($query, null, $mode=='w' ? MDB2_PREPARE_MANIP : null);
       if ($this->db_handle->isError($q))
         {
         $this->db_error = TRUE;

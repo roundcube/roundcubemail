@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix rcube_mdb2::affected_rows() (#1486082)
+
+RELEASE 0.3-stable
+------------------
 - Fix gn and givenName should be synonymous in LDAP addressbook (#1485892)
 - Add mail_domain to LDAP email entries without @ sign (#1485201)
 - Fix saving empty values in LDAP contact data (#1485781)
