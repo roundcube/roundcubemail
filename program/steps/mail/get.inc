@@ -27,7 +27,7 @@ if (!empty($_GET['_preload'])) {
 
   header('Content-Type: text/html; charset=' . RCMAIL_CHARSET);
   print "<html>\n<head>\n"
-        . '<meta http-equiv="refresh" content="100; url='.Q($url).'">' . "\n"
+        . '<meta http-equiv="refresh" content="0; url='.Q($url).'">' . "\n"
         . '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'">' . "\n"
         . "</head>\n<body>\n$message\n</body>\n</html>";
   exit;
