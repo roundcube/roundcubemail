@@ -140,6 +140,7 @@ input, textarea
 {
   width: inherit;
   *width: auto; /* IE6/7 conditional hack */
+  border-collapse: collapse;
 }
 
 #messageframe
