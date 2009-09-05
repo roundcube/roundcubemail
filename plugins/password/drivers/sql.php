@@ -5,7 +5,7 @@
  *
  * Driver for passwords stored in SQL database
  *
- * @version 1.2
+ * @version 1.3
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  */
@@ -81,7 +81,7 @@ function password_save($curpass, $passwd)
     $user_info = explode('@', $_SESSION['username']);
     if (count($user_info) >= 2) {
 	$sql = str_replace('%l', $db->quote($user_info[0], 'text'), $sql);
-	$sql = str_replace('%d', $db->quote($user_info[0], 'text'), $sql);
+	$sql = str_replace('%d', $db->quote($user_info[1], 'text'), $sql);
     }
     
     $sql = str_replace('%u', $db->quote($_SESSION['username'],'text'), $sql);
