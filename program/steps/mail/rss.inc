@@ -30,7 +30,7 @@ $REMOTE_REQUEST = TRUE;
 $OUTPUT_TYPE = 'rss';
 
 $webmail_url = 'http';
-if (strstr('HTTPS', $_SERVER['SERVER_PROTOCOL'] )!== FALSE)
+if (strstr('HTTPS', $_SERVER['SERVER_PROTOCOL'] )!== FALSE || $RCMAIL->config->get('use_https'))
   $webmail_url .= 's';
 $webmail_url .= '://'.$_SERVER['SERVER_NAME'];
 if ($_SERVER['SERVER_PORT'] != '80')

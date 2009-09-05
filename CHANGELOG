@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix wrong headers for IE on servers without $_SERVER['HTTPS'] (#1485926)
+- Force IE style headers for attachments in non-HTTPS session, 'use_https' option (#1485655)
 - Check 'post_max_size' for upload max filesize (#1486089) 
 - Password Plugin: Fix %d inserts username instead of domain (#1486088)
 - Fix rcube_mdb2::affected_rows() (#1486082)

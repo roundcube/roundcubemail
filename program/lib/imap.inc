@@ -620,7 +620,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	}
 
 	stream_set_timeout($conn->fp, 10);
-	$line = stream_get_line($conn->fp, 8192, "\r\n");
+	$line = stream_get_line($conn->fp, 8192, "\n");
 
 	if ($my_prefs['debug_mode'] && $line)
 		write_log('imap', 'S: '. $line);

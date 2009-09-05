@@ -64,7 +64,8 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
 }
 
 // check if https is required (for login) and redirect if necessary
-if ($RCMAIL->config->get('force_https', false) && empty($_SESSION['user_id']) && !(isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT'] == 443)) {
+if ($RCMAIL->config->get('force_https', false) && empty($_SESSION['user_id'])
+    && !(isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT'] == 443 || $RCMAIL->config->get('use_https'))) {
   header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
   exit;
 }
