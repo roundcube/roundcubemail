@@ -128,7 +128,13 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
   }
 }
 else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $OUTPUT->command('display_message', rcube_label('fileuploaderror'), 'error');
+  // if filesize exceeds post_max_size then $_FILES array is empty,
+  // show filesizeerror instead of fileuploaderror
+  if ($maxsize = ini_get('post_max_size'))
+    $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes($maxsize)))));
+  else
+    $msg = rcube_label('fileuploaderror');
+  $OUTPUT->command('display_message', $msg, 'error');
 }
 
 // send html page with JS calls as response

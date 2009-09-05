@@ -823,13 +823,20 @@ function rcmail_compose_attachment_form($attrib)
   // add ID if not given
   if (!$attrib['id'])
     $attrib['id'] = 'rcmUploadbox';
+
+  // find max filesize value
+  $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
+  $max_postsize = parse_bytes(ini_get('post_max_size'));
+  if ($max_postsize && $max_postsize < $max_filesize)
+    $max_filesize = $max_postsize;
+  $max_filesize = show_bytes($max_filesize);
   
   $button = new html_inputfield(array('type' => 'button', 'class' => 'button'));
   
   $out = html::div($attrib,
     $OUTPUT->form_tag(array('name' => 'form', 'method' => 'post', 'enctype' => 'multipart/form-data'),
       html::div(null, rcmail_compose_attachment_field(array())) .
-      html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))))) .
+      html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
       html::div('buttons',
         $button->show(rcube_label('close'), array('onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) . ' ' .
         $button->show(rcube_label('upload'), array('onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))

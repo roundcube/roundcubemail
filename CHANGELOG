@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Check 'post_max_size' for upload max filesize (#1486089) 
 - Password Plugin: Fix %d inserts username instead of domain (#1486088)
 - Fix rcube_mdb2::affected_rows() (#1486082)
 
