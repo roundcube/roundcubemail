@@ -808,23 +808,14 @@ class rcube_imap
       {
       // cache is incomplete
       $cache_index = $this->get_message_cache_index($cache_key);
-    
+
       foreach ($a_header_index as $i => $headers)
         { 
-/*
-        if ($headers->deleted && $this->skip_deleted)
-          {
-          // delete from cache
-          if ($cache_index[$headers->id] && $cache_index[$headers->id] == $headers->uid)
-            $this->remove_message_cache($cache_key, $headers->uid);
-
-          continue;
-          }
-*/
         // add message to cache
-        if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid)
-          $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
-		!in_array((string)$headers->uid, $cache_index, true));
+        if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid) {
+	  $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
+		!in_array($headers->uid, $cache_index));
+	  }
 
         $a_msg_headers[$headers->uid] = $headers;
         }
@@ -967,7 +958,7 @@ class rcube_imap
       if ($headers = iil_C_FetchHeader($this->conn, $mailbox, join(',', $for_update), false, $this->fetch_add_headers))
         foreach ($headers as $header)
           $this->add_message_cache($cache_key, $header->id, $header, NULL,
-		in_array((string)$header->uid, (array)$for_remove, true));
+		in_array($header->uid, (array)$for_remove));
       }
     }
 
@@ -1533,9 +1524,10 @@ class rcube_imap
    * @param mixed  Message UIDs as array or as comma-separated string
    * @param string Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
    * @param string Folder name
+   * @param boolean True to skip message cache clean up
    * @return boolean True on success, False on failure
    */
-  function set_flag($uids, $flag, $mbox_name=NULL)
+  function set_flag($uids, $flag, $mbox_name=NULL, $skip_cache=false)
     {
     $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
@@ -1549,14 +1541,9 @@ class rcube_imap
       $result = iil_C_Flag($this->conn, $mailbox, join(',', $uids), $flag);
 
     // reload message headers if cached
-    if ($this->caching_enabled)
-      {
+    if ($this->caching_enabled && !$skip_cache) {
       $cache_key = $mailbox.'.msg';
       $this->remove_message_cache($cache_key, $uids);
-
-      // close and re-open connection
-      // this prevents connection problems with Courier 
-      $this->reconnect();
       }
 
     // set nr of messages that were flaged
@@ -1624,6 +1611,8 @@ class rcube_imap
    */
   function move_message($uids, $to_mbox, $from_mbox='')
     {
+    $fbox = $from_mbox;
+    $tbox = $to_mbox;
     $to_mbox = $this->mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->mod_mailbox($from_mbox) : $this->mailbox;
 
@@ -1638,11 +1627,19 @@ class rcube_imap
 
     // convert the list of uids to array
     $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
-    
+
     // exit if no message uids are specified
     if (!is_array($a_uids) || empty($a_uids))
       return false;
 
+    // flag messages as read before moving them
+    $config = rcmail::get_instance()->config;
+    if ($config->get('read_when_deleted') && $tbox == $config->get('trash_mbox')) {
+      // don't flush cache (4th argument)
+      $this->set_flag($uids, 'SEEN', $fbox, true);
+      }
+
+    // move messages
     $iil_move = iil_C_Move($this->conn, join(',', $a_uids), $from_mbox, $to_mbox);
     $moved = !($iil_move === false || $iil_move < 0);
     
@@ -1657,13 +1654,14 @@ class rcube_imap
     else if (rcmail::get_instance()->config->get('delete_always', false)) {
       return iil_C_Delete($this->conn, $from_mbox, join(',', $a_uids));
     }
-      
+
     // remove message ids from search set
     if ($moved && $this->search_set && $from_mbox == $this->mailbox) {
       foreach ($a_uids as $uid)
         $a_mids[] = $this->_uid2id($uid, $from_mbox);
       $this->search_set = array_diff($this->search_set, $a_mids);
     }
+
     // update cached message headers
     $cache_key = $from_mbox.'.msg';
     if ($moved && $start_index = $this->get_message_cache_index_min($cache_key, $a_uids)) {
@@ -1694,7 +1692,7 @@ class rcube_imap
       return false;
 
     $deleted = iil_C_Delete($this->conn, $mailbox, join(',', $a_uids));
-    
+
     // send expunge command in order to have the deleted message
     // really deleted from the mailbox
     if ($deleted)
@@ -1710,7 +1708,7 @@ class rcube_imap
         $a_mids[] = $this->_uid2id($uid, $mailbox);
       $this->search_set = array_diff($this->search_set, $a_mids);
     }
-    
+
     // remove deleted messages from cache
     $cache_key = $mailbox.'.msg';
     if ($deleted && $start_index = $this->get_message_cache_index_min($cache_key, $a_uids)) {
@@ -2387,8 +2385,7 @@ class rcube_imap
          FROM ".get_table_name('messages')."
          WHERE  user_id=?
          AND    cache_key=?
-         AND    uid=?
-         AND    del<>1",
+         AND    uid=?",
         $_SESSION['user_id'],
         $key,
         $headers->uid);

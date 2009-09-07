@@ -33,10 +33,6 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST);
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
-    // flag messages as read before moving them
-    if ($CONFIG['read_when_deleted'] && $target == $CONFIG['trash_mbox'])
-	$IMAP->set_flag($uids, 'SEEN');
-
     $moved = $IMAP->move_message($uids, $target, $mbox);
   
     if (!$moved) {
