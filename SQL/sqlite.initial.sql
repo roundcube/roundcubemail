@@ -119,5 +119,6 @@ CREATE TABLE messages (
   structure text
 );
 
-CREATE INDEX ix_messages_user_cache_uid ON messages(user_id,cache_key,uid);
+CREATE UNIQUE INDEX ix_messages_user_cache_uid ON messages (user_id,cache_key,uid);
+CREATE INDEX ix_messages_index ON messages (user_id,cache_key,idx);
 CREATE INDEX ix_messages_created ON messages (created);

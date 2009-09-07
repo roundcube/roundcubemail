@@ -53,6 +53,7 @@ CREATE TABLE `messages` (
  `structure` text,
  PRIMARY KEY(`message_id`),
  INDEX `created_index` (`created`),
+ INDEX `index_index` (`user_id`, `cache_key`, `idx`),
  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`),
  CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)

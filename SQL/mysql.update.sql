@@ -44,3 +44,8 @@ ALTER TABLE `cache`
 
 ALTER TABLE `users`
     CHANGE `language` `language` varchar(5);
+
+-- Updates from version 0.3-stable
+
+ALTER TABLE `messages`
+    ADD INDEX `index_index` (`user_id`, `cache_key`, `idx`);

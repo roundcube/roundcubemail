@@ -174,4 +174,5 @@ CREATE TABLE messages (
 );
 
 ALTER TABLE messages ADD UNIQUE (user_id, cache_key, uid);
+CREATE INDEX messages_index_idx ON messages (user_id, cache_key, idx);
 CREATE INDEX messages_created_idx ON messages (created);
