@@ -245,7 +245,7 @@ function rcube_sess_regenerate_id()
   $randval = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   for ($random = "", $i=1; $i <= 32; $i++) {
-    $random .= substr($randval, rand(0,(strlen($randval) - 1)), 1);
+    $random .= substr($randval, mt_rand(0,(strlen($randval) - 1)), 1);
   }
 
   // use md5 value for id or remove capitals from string $randval

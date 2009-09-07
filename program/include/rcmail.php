@@ -879,7 +879,7 @@ class rcmail
     $key = $this->task;
     
     if (!$_SESSION['request_tokens'][$key])
-      $_SESSION['request_tokens'][$key] = md5(uniqid($key . rand(), true));
+      $_SESSION['request_tokens'][$key] = md5(uniqid($key . mt_rand(), true));
     
     return $_SESSION['request_tokens'][$key];
   }

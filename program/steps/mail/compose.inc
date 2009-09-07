@@ -37,7 +37,7 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
 {
   rcmail_compose_cleanup();
   $_SESSION['compose'] = array(
-    'id' => uniqid(rand()),
+    'id' => uniqid(mt_rand()),
     'param' => request2param(RCUBE_INPUT_GET),
     'mailbox' => $IMAP->get_mailbox_name(),
   );
