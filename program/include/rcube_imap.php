@@ -2228,8 +2228,10 @@ class rcube_imap
     $msg_count = $this->_messagecount($mailbox);
     $cache_count = count($cache_index);
 
-    // console("Cache check: $msg_count !== ".count($cache_index));
-
+    // empty mailbox
+    if (!$msg_count)
+      return $cache_count ? -2 : 1;
+    
     if ($cache_count==$msg_count) {
       if ($this->skip_deleted) {
 	$h_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", 'UID', $this->skip_deleted);

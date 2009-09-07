@@ -1510,11 +1510,11 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				preg_match('/ BODY\[HEADER.FIELDS \(.*?\)\]\s*(.*)$/s', $line, $m);
 				$reslines = explode("\n", trim($m[1], '"'));
 				// re-parse (see below)
-				foreach ($reslines as $line) {
-					if (ord($line[0])<=32) {
-						$lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($line);
+				foreach ($reslines as $resln) {
+					if (ord($resln[0])<=32) {
+						$l[$ln] .= (empty($lines[$ln])?'':"\n").trim($resln);
 					} else {
-						$lines[++$ln] = trim($line);
+						$lines[++$ln] = trim($resln);
 					}
 				}
 			}
@@ -1668,7 +1668,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				}
 			}
 		}
-	} while (strcmp($a[0], $key) != 0);
+	} while (!iil_StartsWith($line, $key, true));
 
 	return $result;
 }

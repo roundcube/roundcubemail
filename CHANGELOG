@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix roundcube hangs on empty inbox with bincimapd (#1486093)
 - Fix wrong headers for IE on servers without $_SERVER['HTTPS'] (#1485926)
 - Force IE style headers for attachments in non-HTTPS session, 'use_https' option (#1485655)
 - Check 'post_max_size' for upload max filesize (#1486089) 
