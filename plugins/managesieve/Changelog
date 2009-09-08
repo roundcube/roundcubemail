@@ -1,3 +1,8 @@
+* version 1.6 [2009-09-08]
+-----------------------------------------------------------
+- Fix warning when importing squirrelmail rules
+- Fix handling of "true" as "anyof (true)" test
+
 * version 1.5 [2009-09-04]
 -----------------------------------------------------------
 - Added es_ES, ua_UA localizations

@@ -7,7 +7,7 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 1.5
+ * @version 1.6
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist):

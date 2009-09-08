@@ -442,7 +442,7 @@ class rcube_sieve_script
     {
       $result = NULL;
     
-      if (preg_match('/^(if|elsif|else)\s+((allof|anyof|exists|header|not|size)\s+(.*))\s+\{(.*)\}$/sm', trim($content), $matches))
+      if (preg_match('/^(if|elsif|else)\s+((true|not\s+true|allof|anyof|exists|header|not|size)(.*))\s+\{(.*)\}$/sm', trim($content), $matches))
         {
 	  list($tests, $join) = $this->_parse_tests(trim($matches[2]));
 	  $actions = $this->_parse_actions(trim($matches[5]));
@@ -454,7 +454,7 @@ class rcube_sieve_script
 		    'join' => $join,
 	    );
 	}
-    
+
       return $result;
     }    
 
