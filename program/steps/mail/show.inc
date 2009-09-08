@@ -74,8 +74,18 @@ if ($_GET['_uid']) {
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
   $OUTPUT->set_env('mailbox', $mbox_name);
+
   if ($CONFIG['trash_mbox'])
     $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
+  if ($CONFIG['flag_for_deletion'])
+    $OUTPUT->set_env('flag_for_deletion', true);
+  if ($CONFIG['read_when_deleted'])
+    $OUTPUT->set_env('read_when_deleted', true);
+  if ($CONFIG['skip_deleted'])
+    $OUTPUT->set_env('skip_deleted', true);
+  if ($CONFIG['display_next'])
+    $OUTPUT->set_env('display_next', true);
+
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
         
@@ -142,9 +152,6 @@ if ($_GET['_uid']) {
     if ($last > 0)
       $OUTPUT->set_env('last_uid', $last);
     }
-
-  if ($CONFIG['display_next'])
-    $OUTPUT->set_env('display_next', true);
 
   if (!$MESSAGE->headers->seen)
     $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid,
