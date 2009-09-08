@@ -117,7 +117,7 @@ class rcube_sieve
 
           $script = $this->_convert_from_squirrel_rules($script);
 
-          $this->script = new rcube_sieve_script($script);
+          $this->script = new rcube_sieve_script($script, $this->disabled);
        
           $this->save();
 
@@ -184,7 +184,7 @@ class rcube_sieve_script
     * @param  string  Script's text content
     * @param  array   Disabled extensions
     */
-  public function __construct($script, $disabled)
+  public function __construct($script, $disabled=NULL)
     {
       if (!empty($disabled))
         foreach ($disabled as $ext)
