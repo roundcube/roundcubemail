@@ -1512,7 +1512,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				// re-parse (see below)
 				foreach ($reslines as $resln) {
 					if (ord($resln[0])<=32) {
-						$l[$ln] .= (empty($lines[$ln])?'':"\n").trim($resln);
+						$lines[$ln] .= (empty($lines[$ln])?'':"\n").trim($resln);
 					} else {
 						$lines[++$ln] = trim($resln);
 					}
