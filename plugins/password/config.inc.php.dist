@@ -134,7 +134,8 @@ $rcmail_config['password_ldap_force_replace'] = true;
 // DirectAdmin Driver options
 // --------------------------
 // The host which changes the password
-$rcmail_config['password_directadmin_host'] = 'localhost';
+// Use 'ssl://serverip' instead of 'tcp://serverip' when running DirectAdmin over SSL.
+$rcmail_config['password_directadmin_host'] = 'tcp://localhost';
 
 // TCP port used for DirectAdmin connections
 $rcmail_config['password_directadmin_port'] = 2222;
