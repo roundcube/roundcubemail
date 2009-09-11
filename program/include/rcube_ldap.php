@@ -343,7 +343,7 @@ class rcube_ldap extends rcube_addressbook
    *
    * @return object rcube_result_set Resultset with values for 'count' and 'first'
    */
-  function count()
+  function count($check)
   {
     $count = 0;
     if ($this->conn && $this->ldap_result) {
@@ -388,8 +388,8 @@ class rcube_ldap extends rcube_addressbook
     $res = null;
     if ($this->conn && $dn)
     {
-      $this->ldap_result = @ldap_read($this->conn, base64_decode($dn), '(objectclass=*)', array_values($this->fieldmap));
-      $entry = @ldap_first_entry($this->conn, $this->ldap_result);
+      if ($this->ldap_result = @ldap_read($this->conn, base64_decode($dn), '(objectclass=*)', array_values($this->fieldmap)))
+        $entry = ldap_first_entry($this->conn, $this->ldap_result);
 
       if ($entry && ($rec = ldap_get_attributes($this->conn, $entry)))
       {
@@ -565,11 +565,12 @@ class rcube_ldap extends rcube_addressbook
     {
       $filter = $this->filter ? $this->filter : '(objectclass=*)';
       $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
-      $this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $filter, array_values($this->fieldmap), 0, 0);
-      return true;
+
+      if ($this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $filter, array_values($this->fieldmap), 0, 0))
+        return true;
     }
-    else
-      return false;
+    
+    return false;
   }
   
   
