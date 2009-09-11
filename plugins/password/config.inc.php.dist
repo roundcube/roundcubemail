@@ -9,6 +9,14 @@ $rcmail_config['password_driver'] = 'sql';
 // Default: false.
 $rcmail_config['password_confirm_current'] = true;
 
+// Require the new password to be a certain length.
+// set to blank to allow passwords of any length
+$rcmail_config['password_minimum_length'] = 0;
+ 
+// Require the new password to contain a letter and punctuation character
+// Change to false to remove this check.
+$rcmail_config['password_require_nonalpha'] = false;
+
 
 // SQL Driver options
 // ------------------
@@ -134,8 +142,7 @@ $rcmail_config['password_ldap_force_replace'] = true;
 // DirectAdmin Driver options
 // --------------------------
 // The host which changes the password
-// Use 'ssl://serverip' instead of 'tcp://serverip' when running DirectAdmin over SSL.
-$rcmail_config['password_directadmin_host'] = 'tcp://localhost';
+$rcmail_config['password_directadmin_host'] = 'localhost';
 
 // TCP port used for DirectAdmin connections
 $rcmail_config['password_directadmin_port'] = 2222;

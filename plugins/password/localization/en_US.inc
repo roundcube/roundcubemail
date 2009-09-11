@@ -14,5 +14,7 @@ $messages['passwordinconsistency'] = 'Passwords do not match, please try again.'
 $messages['crypterror'] = 'Could not save new password. Encrypt function missing.';
 $messages['connecterror'] = 'Could not save new password. Connection error.';
 $messages['internalerror'] = 'Could not save new password.';
+$messages['passwordshort'] = 'Your password must be at least $length characters long.';
+$messages['passwordweak'] = 'Your new password must include at least one number and one punctuation character.';
 
 ?>

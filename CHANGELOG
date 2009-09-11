@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Password: added password strength options (#1486062)
 - Fix LDAP partial result warning (#1485536)
 - Fix delete in message view deletes permanently with flag_for_deletion=true (#1486101)
 - Use faster/secure mt_rand() (#1486094)
