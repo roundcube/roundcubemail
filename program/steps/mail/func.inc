@@ -152,10 +152,11 @@ function rcmail_message_list($attrib)
   $a_sort_cols = array('subject', 'date', 'from', 'to', 'size');
 
   $mbox = $IMAP->get_mailbox_name();
-  
-  // show 'to' instead of from in sent messages
-  if (($mbox==$CONFIG['sent_mbox'] || $mbox==$CONFIG['drafts_mbox']) && ($f = array_search('from', $a_show_cols))
-      && !array_search('to', $a_show_cols))
+  $delim = $IMAP->get_hierarchy_delimiter();
+
+  // show 'to' instead of 'from' in sent/draft messages
+  if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
+      && ($f = array_search('from', $a_show_cols)) && !array_search('to', $a_show_cols))
     $a_show_cols[$f] = 'to';
   
   // add col definition
@@ -392,9 +393,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
     $a_show_cols = $_SESSION['list_columns'];
 
   $mbox = $IMAP->get_mailbox_name();
-
-  // show 'to' instead of from in sent messages
-  if (($mbox == $CONFIG['sent_mbox'] || $mbox == $CONFIG['drafts_mbox'])
+  $delim = $IMAP->get_hierarchy_delimiter();
+  
+  // show 'to' instead of 'from' in sent/draft messages
+  if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
