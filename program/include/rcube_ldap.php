@@ -343,7 +343,7 @@ class rcube_ldap extends rcube_addressbook
    *
    * @return object rcube_result_set Resultset with values for 'count' and 'first'
    */
-  function count($check)
+  function count()
   {
     $count = 0;
     if ($this->conn && $this->ldap_result) {
