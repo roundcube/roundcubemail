@@ -809,12 +809,16 @@ class rcube_imap
       // cache is incomplete
       $cache_index = $this->get_message_cache_index($cache_key);
 
-      foreach ($a_header_index as $i => $headers)
-        { 
-        // add message to cache
+      foreach ($a_header_index as $i => $headers) {
         if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid) {
+	  // prevent index duplicates
+	  if ($cache_index[$headers->id]) {
+	    $this->remove_message_cache($cache_key, $headers->id, true);
+	    unset($cache_index[$headers->id]);
+	    }
+          // add message to cache
 	  $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
-		!in_array($headers->uid, $cache_index));
+	    !in_array($headers->uid, $cache_index));
 	  }
 
         $a_msg_headers[$headers->uid] = $headers;
@@ -2430,16 +2434,16 @@ class rcube_imap
   /**
    * @access private
    */
-  private function remove_message_cache($key, $uids)
+  private function remove_message_cache($key, $ids, $idx=false)
     {
     if (!$this->caching_enabled)
       return;
     
     $this->db->query(
       "DELETE FROM ".get_table_name('messages')."
-      WHERE  user_id=?
-      AND    cache_key=?
-      AND    uid IN (".$this->db->array2list($uids, 'integer').")",
+      WHERE user_id=?
+      AND cache_key=?
+      AND ".($idx ? "idx" : "uid")." IN (".$this->db->array2list($ids, 'integer').")",
       $_SESSION['user_id'],
       $key);
     }
@@ -2454,12 +2458,10 @@ class rcube_imap
     
     $this->db->query(
       "DELETE FROM ".get_table_name('messages')."
-       WHERE  user_id=?
-       AND    cache_key=?
-       AND    idx>=?",
-      $_SESSION['user_id'],
-      $key,
-      $start_index);
+       WHERE user_id=?
+       AND cache_key=?
+       AND idx>=?",
+      $_SESSION['user_id'], $key, $start_index);
     }
 
   /**
