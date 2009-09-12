@@ -67,7 +67,6 @@ else if (preg_match("/^body:.*/i", $str))
   list(,$srch) = explode(":", $str);
   $subject['text'] = "TEXT";
 }
-// search in subject and sender by default
 else if(trim($str))
 {
   if ($headers) {
@@ -78,6 +77,7 @@ else if(trim($str))
         default: $subject[$header] = 'HEADER '.$header;
       }
   } else {
+    // search in subject by default
     $subject['subject'] = 'HEADER SUBJECT';
   }
 }
