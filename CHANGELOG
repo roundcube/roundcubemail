@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added 'html_editor' hook (#1486068)
 - Fix DB constraint violation when populating messages cache (#1486052)
 - Password: added password strength options (#1486062)
 - Fix LDAP partial result warning (#1485536)

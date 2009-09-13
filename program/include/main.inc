@@ -1378,17 +1378,23 @@ function rcmail_localize_foldername($name)
  */
 function rcube_html_editor($mode='')
 {
-  global $OUTPUT, $CONFIG;
+  global $RCMAIL, $CONFIG;
 
-  $lang = $tinylang = strtolower(substr($_SESSION['language'], 0, 2));
-  if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$tinylang.'.js'))
-    $tinylang = 'en';
+  $lang = strtolower(substr($_SESSION['language'], 0, 2));
+  if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$lang.'.js'))
+    $lang = 'en';
 
-  $OUTPUT->include_script('tiny_mce/tiny_mce.js');
-  $OUTPUT->include_script('editor.js');
-  $OUTPUT->add_script('rcmail_editor_init("$__skin_path", "'.JQ($tinylang).'", '.intval($CONFIG['enable_spellcheck']).', "'.$mode.'");');
+  $hook = $RCMAIL->plugins->exec_hook('hmtl_editor', array('abort' => false,
+    'mode' => $mode, 'lang' => $lang));
+
+  if ($hook['abort'])
+    return;  
+
+  $RCMAIL->output->include_script('tiny_mce/tiny_mce.js');
+  $RCMAIL->output->include_script('editor.js');
+  $RCMAIL->output->add_script('rcmail_editor_init("$__skin_path",
+    "'.JQ($hook['lang']).'", '.intval($CONFIG['enable_spellcheck']).', "'.$hook['mode'].'");');
 }
-
 
 
 /**
