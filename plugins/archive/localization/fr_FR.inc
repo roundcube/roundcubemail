@@ -6,4 +6,3 @@ $labels['archived'] = 'Message archivé avec success';
 $labels['archivefolder'] = 'Archive';
 
 ?>
-

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $labels = array();
 $labels['userinfo'] = 'Informação do utilizador';

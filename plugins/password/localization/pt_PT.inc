@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $labels = array();
 $labels['changepasswd']  = 'Alterar password';
@@ -10,7 +10,7 @@ $messages = array();
 $messages['nopassword'] = 'Introduza a nova password.';
 $messages['nocurpassword'] = 'Introduza a password actual.';
 $messages['passwordincorrect'] = 'Password actual errada.';
-$messages['passwordinconsistency'] = 'Password's não combinam, tente novamente..';
+$messages['passwordinconsistency'] = 'Password\'s não combinam, tente novamente..';
 $messages['crypterror'] = 'Não foi possível gravar a nova password. Função de criptografica inexistente.';
 $messages['connecterror'] = 'Não foi possível gravar a nova password. Erro de ligação.';
 $messages['internalerror'] = 'Não foi possível gravar a nova password.';
