@@ -389,7 +389,7 @@ class MDB2
             return $err;
         }
 
-        $db =& new $class_name();
+        $db = new $class_name();
         $db->setDSN($dsninfo);
         $err = MDB2::setOptions($db, $options);
         if (PEAR::isError($err)) {
@@ -2580,13 +2580,13 @@ class MDB2_Driver_Common extends PEAR
      *
      * @access  protected
      */
-    function &_wrapResult($result, $types = array(), $result_class = true,
+    function &_wrapResult($result_resource, $types = array(), $result_class = true,
         $result_wrap_class = false, $limit = null, $offset = null)
     {
         if ($types === true) {
             if ($this->supports('result_introspection')) {
                 $this->loadModule('Reverse', null, true);
-                $tableInfo = $this->reverse->tableInfo($result);
+                $tableInfo = $this->reverse->tableInfo($result_resource);
                 if (PEAR::isError($tableInfo)) {
                     return $tableInfo;
                 }
@@ -2611,7 +2611,7 @@ class MDB2_Driver_Common extends PEAR
                     'result class does not exist '.$class_name, __FUNCTION__);
                 return $err;
             }
-            $result =& new $class_name($this, $result, $limit, $offset);
+            $result = new $class_name($this, $result_resource, $limit, $offset);
             if (!MDB2::isResultCommon($result)) {
                 $err =& $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'result class is not extended from MDB2_Result_Common', __FUNCTION__);
