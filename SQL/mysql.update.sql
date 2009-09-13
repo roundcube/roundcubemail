@@ -49,3 +49,5 @@ ALTER TABLE `users`
 
 ALTER TABLE `messages`
     ADD INDEX `index_index` (`user_id`, `cache_key`, `idx`);
+
+TRUNCATE `messages`;
