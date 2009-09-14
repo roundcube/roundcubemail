@@ -1254,8 +1254,12 @@ div.message-htmlpart div.rcmBody
 
 #attachment-title
 {
+  color: #666666;
+  font-weight: bold;
+  font-size: 11px;
   background: url(images/icons/attachment.png) top left no-repeat;
-  padding: 0px 0px 3px 22px;
+  padding: 0px 0px 3px 18px;
+  margin-left: 3px;
 }
 
 #attachment-form
