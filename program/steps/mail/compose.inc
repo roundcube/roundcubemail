@@ -831,15 +831,15 @@ function rcmail_compose_attachment_form($attrib)
     $max_filesize = $max_postsize;
   $max_filesize = show_bytes($max_filesize);
   
-  $button = new html_inputfield(array('type' => 'button', 'class' => 'button'));
+  $button = new html_inputfield(array('type' => 'button'));
   
   $out = html::div($attrib,
     $OUTPUT->form_tag(array('name' => 'form', 'method' => 'post', 'enctype' => 'multipart/form-data'),
-      html::div(null, rcmail_compose_attachment_field(array())) .
+      html::div(null, rcmail_compose_attachment_field(array('size' => $attrib[attachmentfieldsize]))) .
       html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
       html::div('buttons',
-        $button->show(rcube_label('close'), array('onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) . ' ' .
-        $button->show(rcube_label('upload'), array('onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
+        $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "document.getElementById('$attrib[id]').style.visibility='hidden'")) . ' ' .
+        $button->show(rcube_label('upload'), array('class' => 'button mainaction', 'onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
       )
     )
   );
