@@ -20,10 +20,13 @@ class markasjunk extends rcube_plugin
     
     $rcmail = rcmail::get_instance();
     if ($rcmail->action == '' || $rcmail->action == 'show') {
+      $skin_path = 'skins/'.$rcmail->output->config['skin'];
       $this->include_script('markasjunk.js');
       $this->add_texts('localization', true);
-      $this->add_button(array('command' => 'plugin.markasjunk', 'imagepas' => 'junk_pas.png',
-        'imageact' => 'junk_act.png', 'title' => 'markasjunk.buttontitle'), 'toolbar');
+      $this->add_button(array('command' => 'plugin.markasjunk',
+        'imagepas' => $skin_path.'/junk_pas.png',
+        'imageact' => $skin_path.'/junk_act.png',
+	'title' => 'markasjunk.buttontitle'), 'toolbar');
     }
   }
 
