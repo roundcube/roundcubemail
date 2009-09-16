@@ -1026,7 +1026,7 @@ function write_log($name, $line)
     $line = $log['line'];
     $date = $log['date'];
     if ($log['abort'])
-      return;
+      return true;
   }
  
   $log_entry = sprintf("[%s]: %s\n", $date, $line);
