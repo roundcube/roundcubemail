@@ -34,6 +34,7 @@ foreach ($a_mailboxes as $mbox_name) {
       }
       
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
+      $_SESSION['unseen_count'][$mbox_name] = $unread_count;
 
       $OUTPUT->set_env('messagecount', $all_count);
       $OUTPUT->set_env('pagesize', $IMAP->page_size);
