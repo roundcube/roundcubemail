@@ -3,7 +3,8 @@
 // managesieve server port
 $rcmail_config['managesieve_port'] = 2000;
 
-// managesieve server address
+// managesieve server address, default is localhost.
+// Use %h variable as replacement for user's IMAP hostname
 $rcmail_config['managesieve_host'] = 'localhost';
 
 // use or not TLS for managesieve server connection

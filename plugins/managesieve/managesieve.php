@@ -62,7 +62,7 @@ class managesieve extends rcube_plugin
     // try to connect to managesieve server and to fetch the script
     $this->sieve = new rcube_sieve($_SESSION['username'],
 	$this->rc->decrypt($_SESSION['password']), 
-	$this->rc->config->get('managesieve_host', 'localhost'),
+	str_replace('%h', $_SESSION['imap_host'], $this->rc->config->get('managesieve_host', 'localhost')),
 	$this->rc->config->get('managesieve_port', 2000),
 	$this->rc->config->get('managesieve_usetls', false),
 	$this->rc->config->get('managesieve_disabled_extensions'));

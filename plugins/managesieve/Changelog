@@ -1,3 +1,6 @@
+- Support multiple managesieve hosts using %h variable
+  in managesieve_host option 
+
 * version 1.6 [2009-09-08]
 -----------------------------------------------------------
 - Fix warning when importing squirrelmail rules
