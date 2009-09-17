@@ -489,9 +489,6 @@ function rcmail_messagecontent_frame($attrib)
   }
 
 
-/**
- *
- */
 function rcmail_messagecount_display($attrib)
   {
   global $IMAP, $OUTPUT;
@@ -505,9 +502,6 @@ function rcmail_messagecount_display($attrib)
   }
 
 
-/**
- *
- */
 function rcmail_quota_display($attrib)
   {
   global $OUTPUT, $COMM_PATH;
@@ -524,9 +518,6 @@ function rcmail_quota_display($attrib)
   }
 
 
-/**
- *
- */
 function rcmail_quota_content($quota=NULL, $attrib=NULL)
   {
   global $IMAP, $COMM_PATH, $RCMAIL;
@@ -579,9 +570,6 @@ function rcmail_quota_content($quota=NULL, $attrib=NULL)
   }
 
 
-/**
- *
- */
 function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   {
   global $IMAP, $MESSAGE;
@@ -610,26 +598,42 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   return Q($out);
   }
 
-/**
- *
- */
+
 function rcmail_mailbox_name_display($attrib)
 {
-    global $RCMAIL;
+  global $RCMAIL;
 
-    if (!$attrib['id'])
-        $attrib['id'] = 'rcmmailboxname';
+  if (!$attrib['id'])
+    $attrib['id'] = 'rcmmailboxname';
 
-    $RCMAIL->output->add_gui_object('mailboxname', $attrib['id']);
+  $RCMAIL->output->add_gui_object('mailboxname', $attrib['id']);
 
-    return html::span($attrib, rcmail_get_mailbox_name_text());
+  return html::span($attrib, rcmail_get_mailbox_name_text());
 }
 
 function rcmail_get_mailbox_name_text()
 {
-    global $RCMAIL;
-    return rcmail_localize_foldername($RCMAIL->imap->get_mailbox_name());
+  global $RCMAIL;
+  return rcmail_localize_foldername($RCMAIL->imap->get_mailbox_name());
 }
+
+
+function rcmail_send_unread_count($mbox_name, $force=false)
+{
+  global $RCMAIL;
+    
+  $old_unseen = $_SESSION['unseen_count'][$mbox_name];
+  $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', $force);
+
+  if ($unseen != $old_unseen)
+    $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
+
+  // @TODO: this data is doubled (session and cache tables) if caching is enabled
+  $_SESSION['unseen_count'][$mbox_name] = $unseen;
+    
+  return $unseen;
+}
+			      
 
 /**
  * Sets message is_safe flag according to 'show_images' option value

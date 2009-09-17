@@ -69,29 +69,14 @@ foreach ($a_mailboxes as $mbox_name) {
       }
     }
     else {
-      send_unread_count($mbox_name);
+      rcmail_send_unread_count($mbox_name, true);
     }
   }
   else if ($check_all) {
-    send_unread_count($mbox_name);
+    rcmail_send_unread_count($mbox_name, true);
   }
 }
 
 $OUTPUT->send();
-
-
-function send_unread_count($mbox_name)
-{
-    global $RCMAIL;
-
-    $old_unseen = $_SESSION['unseen_count'][$mbox_name];
-    $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', true);
-
-    if ($unseen != $old_unseen)
-      $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
-
-    // @TODO: this data is doubled (session and cache tables) if caching is enabled
-    $_SESSION['unseen_count'][$mbox_name] = $unseen;
-}
 
 ?>

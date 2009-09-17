@@ -60,14 +60,8 @@ if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 if ($count = $IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))
   $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
 
-// count UNSEEN messages...
-$old_unseen = $_SESSION['unseen_count'][$mbox_name];
-$unseen = $count ? $IMAP->messagecount($mbox_name, 'UNSEEN', !empty($_REQUEST['_refresh'])) : 0;
-$_SESSION['unseen_count'][$mbox_name] = $unseen;
-
-// ...and update mailboxlist
-if ($unseen != $old_unseen)
-  $OUTPUT->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
+// update mailboxlist
+rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']));
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);

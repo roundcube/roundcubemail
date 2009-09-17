@@ -110,12 +110,7 @@ else
   }
 
   if ($RCMAIL->action=='moveto' && $target) {
-    $unseen_count = $IMAP->messagecount($target, 'UNSEEN', true);
-    $old_unseen = $_SESSION['unseen_count'][$target];
-    if ($old_unseen != $unseen_count) {
-      $OUTPUT->command('set_unread_count', $target, $unseen_count);
-      $_SESSION['unseen_count'][$target] = $unseen_count;
-    }
+    rcmail_send_unread_count($target, true);
   }
 
   $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
