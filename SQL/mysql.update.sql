@@ -1,5 +1,5 @@
 -- RoundCube Webmail update script for MySQL databases
--- Updates from version 0.1-stable to 0.1.1
+-- Updates from version 0.1-stable to 0.3.1
 
 TRUNCATE TABLE `messages`;
 
@@ -51,3 +51,6 @@ ALTER TABLE `messages`
     ADD INDEX `index_index` (`user_id`, `cache_key`, `idx`);
 
 TRUNCATE `messages`;
+
+ALTER TABLE `session` 
+    CHANGE `vars` `vars` MEDIUMTEXT NOT NULL;
