@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix incorrect count of new messages in folder list when using multiple IMAP clients (#1485995)
+- Fix all folders checking for new messages with disabled caching (#1486128)
 - Support skins in 'archive' and 'markasjunk' plugins
 - Added 'html_editor' hook (#1486068)
 - Fix DB constraint violation when populating messages cache (#1486052)

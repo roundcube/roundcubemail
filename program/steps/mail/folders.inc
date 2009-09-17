@@ -60,6 +60,7 @@ else if ($RCMAIL->action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INP
       $OUTPUT->command('message_list.clear');
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
       $OUTPUT->command('set_unread_count', $mbox_name, 0);
+      $_SESSION['unseen_count'][$mbox_name] = 0;
     }
     else
       $commands = "// purged: $success";
@@ -67,4 +68,5 @@ else if ($RCMAIL->action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INP
 }
 
 $OUTPUT->send($commands);
+
 ?>

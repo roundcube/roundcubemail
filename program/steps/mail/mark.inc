@@ -62,7 +62,12 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     
   if ($flag == 'SEEN' || $flag == 'UNSEEN' || ($flag == 'DELETED' && !$CONFIG['skip_deleted'])) {
     $mbox_name = $IMAP->get_mailbox_name();
-    $OUTPUT->command('set_unread_count', $mbox_name, $IMAP->messagecount($mbox_name, 'UNSEEN'), ($mbox_name == 'INBOX'));
+    $unseen = $IMAP->messagecount($mbox_name, 'UNSEEN');
+    $old_unseen = $_SESSION['unseen_count'][$mbox_name];
+    if ($old_unseen != $unseen) {
+      $OUTPUT->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
+      $_SESSION['unseen_count'][$mbox_name] = $unseen;
+    }
   }
   else if ($flag == 'DELETED' && $CONFIG['skip_deleted']) {
     if ($_POST['_from'] == 'show') {
@@ -96,7 +101,11 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       // update mailboxlist
       $mbox = $IMAP->get_mailbox_name();
       $unseen_count = $msg_count ? $IMAP->messagecount($mbox, 'UNSEEN') : 0;
-      $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
+      $old_unseen = $_SESSION['unseen_count'][$mbox];
+      if ($old_unseen != $unseen_count) {
+        $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
+	$_SESSION['unseen_count'][$mbox] = $unseen_count;
+      }
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
       // add new rows from next page (if any)

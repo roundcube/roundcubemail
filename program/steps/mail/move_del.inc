@@ -102,10 +102,20 @@ else
   // update mailboxlist
   $mbox = $IMAP->get_mailbox_name();
   $unseen_count = $msg_count ? $IMAP->messagecount($mbox, 'UNSEEN') : 0;
-  $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
+  $old_unseen = $_SESSION['unseen_count'][$mbox];
+  
+  if ($old_unseen != $unseen_count) {
+    $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
+    $_SESSION['unseen_count'][$mbox] = $unseen_count;
+  }
 
   if ($RCMAIL->action=='moveto' && $target) {
-    $OUTPUT->command('set_unread_count', $target, $IMAP->messagecount($target, 'UNSEEN'));
+    $unseen_count = $IMAP->messagecount($target, 'UNSEEN', true);
+    $old_unseen = $_SESSION['unseen_count'][$target];
+    if ($old_unseen != $unseen_count) {
+      $OUTPUT->command('set_unread_count', $target, $unseen_count);
+      $_SESSION['unseen_count'][$target] = $unseen_count;
+    }
   }
 
   $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
