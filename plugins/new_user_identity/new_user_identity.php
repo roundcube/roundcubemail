@@ -19,10 +19,6 @@
  *  // When automatically setting a new users's full name in their
  *  // new identity, match the user's login name against this field.
  *  $rcmail_config['new_user_identity_match'] = 'uid';
- *  
- *  // Use the value in this field to automatically set a new users's
- *  // full name in their new identity.
- *  $rcmail_config['new_user_identity_field'] = 'name';
  */
 class new_user_identity extends rcube_plugin
 {
@@ -40,7 +36,7 @@ class new_user_identity extends rcube_plugin
             $ldap->prop['search_fields'] = array($match);
             $results = $ldap->search($match, $args['user'], TRUE);
             if (count($results->records) == 1) {
-                $args['user_name'] = $results->records[0][$rcmail->config->get('new_user_identity_field')];
+                $args['user_name'] = $results->records[0]['name'];
             }
         }
         return $args;
