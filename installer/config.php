@@ -124,7 +124,7 @@ echo $check_spell->show(intval($RCI->getprop('enable_spellcheck')), array('value
 $select_spell = new html_select(array('name' => '_spellcheck_engine', 'id' => "cfgspellcheckengine"));
 if (extension_loaded('pspell'))
   $select_spell->add('pspell', 'pspell');
-$select_spell->add('Googlie', 'googlie');
+$select_spell->add('Googie', 'googie');
 
 echo $select_spell->show($RCI->is_post ? $_POST['_spellcheck_engine'] : 'pspell');
 
