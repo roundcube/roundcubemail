@@ -26,11 +26,11 @@ if (!empty($a_folders))
   $inbox = ($IMAP->get_mailbox_name() == 'INBOX');
   foreach ($a_folders as $mbox_row) {
     $unseen = $IMAP->messagecount($mbox_row, 'UNSEEN', !isset($_SESSION['unseen_count'][$mbox_row]));
-    $_SESSION['unseen_count'][$mbox_row] = $unseen;
 
-    if ($unseen) {
+    if ($unseen || !isset($_SESSION['unseen_count'][$mbox_row])) {
       $OUTPUT->command('set_unread_count', $mbox_row, $unseen, $inbox && $mbox_row == 'INBOX');
     }
+    $_SESSION['unseen_count'][$mbox_row] = $unseen;
   }
 }
 
