@@ -25,7 +25,7 @@ if (window.rcmail) {
       } else if (input_confpasswd && input_confpasswd.value=='') {
           alert(rcmail.gettext('nopassword', 'password'));
           input_confpasswd.focus();
-      } else if ((input_newpasswd && input_confpasswd) && (input_newpasswd.value != input_confpasswd.value)) {
+      } else if (input_newpasswd && input_confpasswd && input_newpasswd.value != input_confpasswd.value) {
           alert(rcmail.gettext('passwordinconsistency', 'password'));
           input_newpasswd.focus();
       } else {

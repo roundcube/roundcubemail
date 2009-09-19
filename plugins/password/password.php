@@ -89,8 +89,12 @@ class password extends rcube_plugin
 
       $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
       $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
+      $conpwd = get_input_value('_confpasswd', RCUBE_INPUT_POST);
 
-      if ($confirm && $rcmail->decrypt($_SESSION['password']) != $curpwd) {
+      if ($conpwd != $newpwd) {
+        $rcmail->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
+      }
+      else if ($confirm && $rcmail->decrypt($_SESSION['password']) != $curpwd) {
         $rcmail->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
       }
       else if ($required_length && strlen($newpwd) < $required_length) {
@@ -103,7 +107,8 @@ class password extends rcube_plugin
       else if (!($res = $this->_save($curpwd,$newpwd))) {
         $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
         $_SESSION['password'] = $rcmail->encrypt($newpwd);
-      } else
+      }
+      else
         $rcmail->output->command('display_message', $res, 'error');
     }
 
