@@ -48,8 +48,9 @@ function roundcube_browser()
   this.ie = (document.all) ? true : false;
   this.ie4 = (this.ie && !this.dom);
   this.ie5 = (this.dom && this.appver.indexOf('MSIE 5')>0);
-  this.ie6 = (this.dom && this.appver.indexOf('MSIE 6')>0);
+  this.ie8 = (this.dom && this.appver.indexOf('MSIE 8')>0);
   this.ie7 = (this.dom && this.appver.indexOf('MSIE 7')>0);
+  this.ie6 = (this.dom && !this.ie8 && !this.ie7 && this.appver.indexOf('MSIE 6')>0);
 
   this.mz = (this.dom && this.ver>=5);  // (this.dom && this.product=='Gecko')
   this.ns = ((this.ver<5 && this.name=='Netscape') || (this.ver>=5 && this.vendor.indexOf('Netscape')>=0));
