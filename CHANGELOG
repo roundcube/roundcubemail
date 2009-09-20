@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix "Empty startup greeting" bug (#1486085)
 - Fix setting user name in 'new_user_identity' plugin (#1486137)
 - Fix incorrect count of new messages in folder list when using multiple IMAP clients (#1485995)
 - Fix all folders checking for new messages with disabled caching (#1486128)

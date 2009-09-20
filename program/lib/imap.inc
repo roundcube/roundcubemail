@@ -612,7 +612,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 		$host = $ICL_SSL . '://' . $host;
 	}
 
-	$conn->fp = fsockopen($host, $ICL_PORT, $errno, $errstr, 10);
+	$conn->fp = @fsockopen($host, $ICL_PORT, $errno, $errstr, 10);
 	if (!$conn->fp) {
     		$iil_error = "Could not connect to $host at port $ICL_PORT: $errstr";
     		$iil_errornum = -2;
@@ -620,7 +620,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	}
 
 	stream_set_timeout($conn->fp, 10);
-	$line = stream_get_line($conn->fp, 8192, "\n");
+	$line = trim(fgets($conn->fp, 8192));
 
 	if ($my_prefs['debug_mode'] && $line)
 		write_log('imap', 'S: '. $line);
@@ -640,7 +640,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 		$conn->capability = explode(' ', strtoupper($matches[1]));
 	}
 
-	$conn->message .= $line;
+	$conn->message .= $line . "\n";
 
 	// TLS connection
 	if ($ICL_SSL == 'tls' && iil_C_GetCapability($conn, 'STARTTLS')) {
@@ -704,7 +704,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 		}
 	}
 		
-	if ((!$result)||(strcasecmp($auth, "plain") == 0)) {
+	if (!$result || strcasecmp($auth, "plain") == 0) {
 		//do plain text auth
 		$result = iil_C_Login($conn, $user, $password);
 		$conn->message .= "Tried PLAIN: $result \n";
