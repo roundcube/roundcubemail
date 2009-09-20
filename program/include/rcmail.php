@@ -378,7 +378,7 @@ class rcmail
     // Setting root and delimiter before iil_Connect can save time detecting them
     // using NAMESPACE and LIST 
     $options = array(
-      'imap' => $this->config->get('imap_auth_type', 'check'),
+      'auth_method' => $this->config->get('imap_auth_type', 'check'),
       'delimiter' => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
       'rootdir' => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
       'debug_mode' => (bool) $this->config->get('imap_debug', 0),

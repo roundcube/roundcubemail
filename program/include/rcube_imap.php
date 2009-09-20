@@ -69,7 +69,7 @@ class rcube_imap
   var $search_sort_field = '';  
   var $debug_level = 1;
   var $error_code = 0;
-  var $options = array('imap' => 'check');
+  var $options = array('auth_method' => 'check');
   
   private $host, $user, $pass, $port, $ssl;
 

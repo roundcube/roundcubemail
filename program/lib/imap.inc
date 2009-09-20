@@ -303,13 +303,14 @@ function iil_ReadReply($fp) {
 function iil_ParseResult($string) {
 	$a = explode(' ', trim($string));
 	if (count($a) >= 2) {
-		if (strcasecmp($a[1], 'OK') == 0) {
+		$res = strtoupper($a[1]);
+		if ($res == 'OK') {
 			return 0;
-		} else if (strcasecmp($a[1], 'NO') == 0) {
+		} else if ($res == 'NO') {
 			return -1;
-		} else if (strcasecmp($a[1], 'BAD') == 0) {
+		} else if ($res == 'BAD') {
 			return -2;
-		} else if (strcasecmp($a[1], 'BYE') == 0) {
+		} else if ($res == 'BYE') {
 			return -3;
 		}
 	}
@@ -555,7 +556,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	if (is_array($options)) {
 		foreach($options as $optkey => $optval) {
 			if ($optkey == 'imap') {
-				$auth_method = $optval;
+				$auth_method = strtoupper($optval);
 			} else if ($optkey == 'rootdir') {
     				$my_prefs['rootdir'] = $optval;
 			} else if ($optkey == 'delimiter') {
@@ -567,7 +568,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	}
 
 	if (empty($auth_method))
-    		$auth_method = 'check';
+    		$auth_method = 'CHECK';
 		
 	$message = "INITIAL: $auth_method\n";
 		
@@ -665,29 +666,23 @@ function iil_Connect($host, $user, $password, $options=null) {
         	}
 	}
 
-	if (strcasecmp($auth_method, "check") == 0) {
+	if ($auth_method == 'CHECK') {
 		//check for supported auth methods
 		if (iil_C_GetCapability($conn, 'AUTH=CRAM-MD5') || iil_C_GetCapability($conn, 'AUTH=CRAM_MD5')) {
-			$auth_method = 'auth';
+			$auth_method = 'AUTH';
 		}
 		else {
 			//default to plain text auth
-			$auth_method = 'plain';
+			$auth_method = 'PLAIN';
 		}
 	}
 
-	if (strcasecmp($auth_method, 'auth') == 0) {
-		$conn->message .= "Trying CRAM-MD5\n";
-
+	if ($auth_method == 'AUTH') {
 		//do CRAM-MD5 authentication
 		iil_PutLine($conn->fp, "a000 AUTHENTICATE CRAM-MD5");
 		$line = trim(iil_ReadLine($conn->fp, 1024));
 
-		$conn->message .= "$line\n";
-
 		if ($line[0] == '+') {
-			$conn->message .= 'Got challenge: ' . htmlspecialchars($line) . "\n";
-
 			//got a challenge string, try CRAM-5
 			$result = iil_C_Authenticate($conn, $user, $password, substr($line,2));
         		
@@ -697,21 +692,19 @@ function iil_Connect($host, $user, $password, $options=null) {
 	            		$iil_errornum = $conn->errorNum;
 				return false;
 			}
-			$conn->message .= "Tried CRAM-MD5: $result \n";
+			$conn->message .= "AUTH CRAM-MD5: $result\n";
 		} else {
-			$conn->message .='No challenge ('.htmlspecialchars($line)."), try plain\n";
-			$auth = 'plain';
+			$conn->message .= "AUTH CRAM-MD5: failed\n";
+			$auth_method = 'PLAIN';
 		}
 	}
 		
-	if (!$result || strcasecmp($auth, "plain") == 0) {
+	if (!$result || $auth_method == 'PLAIN') {
 		//do plain text auth
 		$result = iil_C_Login($conn, $user, $password);
-		$conn->message .= "Tried PLAIN: $result \n";
+		$conn->message .= "AUTH PLAIN: $result\n";
 	}
 		
-	$conn->message .= $auth;
-			
 	if (!is_int($result)) {
 		iil_C_Namespace($conn);
 		return $conn;
@@ -779,7 +772,7 @@ function iil_C_Select(&$conn, $mailbox) {
 	if (empty($mailbox)) {
 		return false;
 	}
-	if (strcmp($conn->selected, $mailbox) == 0) {
+	if ($conn->selected == $mailbox) {
 		return true;
 	}
     
@@ -788,10 +781,11 @@ function iil_C_Select(&$conn, $mailbox) {
 			$line = chop(iil_ReadLine($conn->fp, 300));
 			$a = explode(' ', $line);
 			if (count($a) == 3) {
-				if (strcasecmp($a[2], 'EXISTS') == 0) {
+				$token = strtoupper($a[2]);
+				if ($token == 'EXISTS') {
 					$conn->exists = (int) $a[1];
 				}
-				else if (strcasecmp($a[2], 'RECENT') == 0) {
+				else if ($token == 'RECENT') {
 					$conn->recent = (int) $a[1];
 				}
 			}
@@ -799,8 +793,6 @@ function iil_C_Select(&$conn, $mailbox) {
 				$conn->permanentflags = explode(' ', $match[1]);
 			}
 		} while (!iil_StartsWith($line, 'sel1', true));
-
-		$a = explode(' ', $line);
 
 		if (strcasecmp($a[1], 'OK') == 0) {
 			$conn->selected = $mailbox;
@@ -1477,13 +1469,13 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				$parts_count = count($a);
 				if ($parts_count>=6) {
 					for ($i=0; $i<$parts_count; $i=$i+2) {
-						if (strcasecmp($a[$i],'UID') == 0)
+						if ($a[$i] == 'UID')
 							$result[$id]->uid = $a[$i+1];
-						else if (strcasecmp($a[$i],'RFC822.SIZE') == 0)
+						else if ($a[$i] == 'RFC822.SIZE')
 							$result[$id]->size = $a[$i+1];
-						else if (strcasecmp($a[$i],'INTERNALDATE') == 0)
+						else if ($a[$i] == 'INTERNALDATE')
 							$time_str = $a[$i+1];
-						else if (strcasecmp($a[$i],'FLAGS') == 0)
+						else if ($a[$i] == 'FLAGS')
 							$flags_str = $a[$i+1];
 					}
 
@@ -1644,23 +1636,24 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 				$flags_a   = explode(' ', $flags_str);
 					
 				if (is_array($flags_a)) {
-					reset($flags_a);
-					while (list(,$val)=each($flags_a)) {
-						if (strcasecmp($val,'Seen') == 0) {
+				//	reset($flags_a);
+					foreach($flags_a as $flag) {
+						$flag = strtoupper($flag);
+						if ($flag == 'SEEN') {
 						    $result[$id]->seen = true;
-						} else if (strcasecmp($val, 'Deleted') == 0) {
-						    $result[$id]->deleted=true;
-						} else if (strcasecmp($val, 'Recent') == 0) {
+						} else if ($flag == 'DELETED') {
+						    $result[$id]->deleted = true;
+						} else if ($flag == 'RECENT') {
 						    $result[$id]->recent = true;
-						} else if (strcasecmp($val, 'Answered') == 0) {
+						} else if ($flag == 'ANSWERED') {
 							$result[$id]->answered = true;
-						} else if (strcasecmp($val, '$Forwarded') == 0) {
+						} else if ($flag == '$FORWARDED') {
 							$result[$id]->forwarded = true;
-						} else if (strcasecmp($val, 'Draft') == 0) {
+						} else if ($flag == 'DRAFT') {
 							$result[$id]->is_draft = true;
-						} else if (strcasecmp($val, '$MDNSent') == 0) {
+						} else if ($flag == '$MDNSENT') {
 							$result[$id]->mdn_sent = true;
-						} else if (strcasecmp($val, 'Flagged') == 0) {
+						} else if ($flag == 'FLAGGED') {
 						         $result[$id]->flagged = true;
 						}
 					}
