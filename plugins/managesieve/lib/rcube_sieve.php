@@ -264,9 +264,10 @@ class rcube_sieve_script
     {
       $script = '';
       $exts = array();
+      $idx = 0;
       
       // rules
-      foreach ($this->content as $idx => $rule)
+      foreach ($this->content as $rule)
         {
 	  $extension = '';
 	  $tests = array();
@@ -367,7 +368,8 @@ class rcube_sieve_script
 	    }
 	  
 	  $script .= "}\n";
-	
+	  $idx++;
+
 	  if ($extension && !isset($exts[$extension]))
 	    $exts[$extension] = $extension;
 	}
