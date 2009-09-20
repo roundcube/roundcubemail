@@ -29,6 +29,7 @@ function password_save($curpass, $passwd)
             $vpopmaild->writeLine("slogin ". $_SESSION['username'] . " " . $curpass);
             $result = $vpopmaild->readLine();
             if(!preg_match('/^\+OK/', $result) ) {
+                $vpopmaild->writeLine("quit");
                 $vpopmaild->disconnect();
                 return PASSWORD_ERROR;
             }
@@ -36,6 +37,7 @@ function password_save($curpass, $passwd)
                 $vpopmaild->writeLine("mod_user ". $_SESSION['username']);
                 $result = $vpopmaild->readLine();
                 if(!preg_match('/^\+OK/', $result) ) {
+                    $vpopmaild->writeLine("quit");
                     $vpopmaild->disconnect();
                     return PASSWORD_ERROR;
                 }
@@ -43,6 +45,7 @@ function password_save($curpass, $passwd)
                     $vpopmaild->writeLine("clear_text_password ". $passwd);
                     $vpopmaild->writeLine(".");
                     $result = $vpopmaild->readLine();
+                    $vpopmaild->writeLine("quit");
                     $vpopmaild->disconnect();
                     if (!preg_match('/^\+OK/', $result))
                         return PASSWORD_ERROR;
