@@ -3,6 +3,7 @@
 // Password Plugin options
 // -----------------------
 // A driver to use for password change. Default: "sql".
+// Current possibilities: 'directadmin', 'ldap', 'poppassd', 'sasl', 'sql', 'vpopmaild'
 $rcmail_config['password_driver'] = 'sql';
 
 // Determine whether current password is required to change password.
@@ -147,5 +148,14 @@ $rcmail_config['password_directadmin_host'] = 'tcp://localhost';
 
 // TCP port used for DirectAdmin connections
 $rcmail_config['password_directadmin_port'] = 2222;
+
+
+// vpopmaild Driver options
+// -----------------------
+// The host which changes the password
+$rcmail_config['password_vpopmaild_host'] = 'localhost';
+
+// TCP port used for vpopmaild connections
+$rcmail_config['password_vpopmaild_port'] = 89;
 
 ?>
