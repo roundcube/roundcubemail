@@ -34,6 +34,8 @@ class rcube_ldap extends rcube_addressbook
   var $result = null;
   var $ldap_result = null;
   var $sort_col = '';
+  var $mail_domain = '';
+  var $debug = false;
   
   /** public properties */
   var $primary_key = 'ID';
@@ -46,10 +48,12 @@ class rcube_ldap extends rcube_addressbook
   /**
    * Object constructor
    *
-   * @param array LDAP connection properties
+   * @param array 	LDAP connection properties
+   * @param boolean 	Enables debug mode
+   * @param string 	Current user mail domain name
    * @param integer User-ID
    */
-  function __construct($p)
+  function __construct($p, $debug=false, $mail_domain=NULL)
   {
     $this->prop = $p;
 
@@ -65,6 +69,8 @@ class rcube_ldap extends rcube_addressbook
       $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
 
     $this->sort_col = $p['sort'];
+    $this->debug = $debug;
+    $this->mail_domain = $mail_domain;
 
     $this->connect();
   }
@@ -91,17 +97,22 @@ class rcube_ldap extends rcube_addressbook
 
     foreach ($this->prop['hosts'] as $host)
     {
+      $this->_debug("C: Connect [$host".($this->prop['port'] ? ':'.$this->prop['port'] : '')."]");
+
       if ($lc = @ldap_connect($host, $this->prop['port']))
       {
         if ($this->prop['use_tls']===true)
           if (!ldap_start_tls($lc))
             continue;
 
+        $this->_debug("S: OK");
+
         ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $this->prop['ldap_version']);
         $this->prop['host'] = $host;
         $this->conn = $lc;
         break;
       }
+      $this->_debug("S: NOT OK");
     }
     
     if (is_resource($this->conn))
@@ -152,9 +163,14 @@ class rcube_ldap extends rcube_addressbook
       return false;
     }
     
+    $this->_debug("C: Bind [dn: $dn] [pass: $pass]");
+    
     if (@ldap_bind($this->conn, $dn, $pass)) {
+      $this->_debug("S: OK");
       return true;
     }
+
+    $this->_debug("S: ".ldap_error($this->conn));
 
     raise_error(array(
         'code' => ldap_errno($this->conn),
@@ -173,6 +189,7 @@ class rcube_ldap extends rcube_addressbook
   {
     if ($this->conn)
     {
+      $this->_debug("C: Close");
       ldap_unbind($this->conn);
       $this->conn = null;
     }
@@ -388,11 +405,17 @@ class rcube_ldap extends rcube_addressbook
     $res = null;
     if ($this->conn && $dn)
     {
+      $this->_debug("C: Read [dn: ".base64_decode($dn)."] [(objectclass=*)]");
+    
       if ($this->ldap_result = @ldap_read($this->conn, base64_decode($dn), '(objectclass=*)', array_values($this->fieldmap)))
         $entry = ldap_first_entry($this->conn, $this->ldap_result);
+      else
+        $this->_debug("S: ".ldap_error($this->conn));
 
       if ($entry && ($rec = ldap_get_attributes($this->conn, $entry)))
       {
+        $this->_debug("S: OK");
+
         $rec = array_change_key_case($rec, CASE_LOWER);
 
         // Add in the dn for the entry.
@@ -437,10 +460,16 @@ class rcube_ldap extends rcube_addressbook
 
     // Build the new entries DN.
     $dn = $this->prop['LDAP_rdn'].'='.$newentry[$this->prop['LDAP_rdn']].','.$this->prop['base_dn'];
+
+    $this->_debug("C: Add [dn: $dn]: ".print_r($newentry, true));
+
     $res = ldap_add($this->conn, $dn, $newentry);
     if ($res === FALSE) {
+      $this->_debug("S: ".ldap_error($this->conn));
       return false;
     } // end if
+
+    $this->_debug("S: OK");
 
     return base64_encode($dn);
   }
@@ -492,8 +521,12 @@ class rcube_ldap extends rcube_addressbook
     // Update the entry as required.
     if (!empty($deletedata)) {
       // Delete the fields.
-      if (!ldap_mod_del($this->conn, $dn, $deletedata))
+      $this->_debug("C: Delete [dn: $dn]: ".print_r($deletedata, true));
+      if (!ldap_mod_del($this->conn, $dn, $deletedata)) {
+        $this->_debug("S: ".ldap_error($this->conn));
         return false;
+      }
+      $this->_debug("S: OK");
     } // end if
 
     if (!empty($replacedata)) {
@@ -507,21 +540,33 @@ class rcube_ldap extends rcube_addressbook
       }
       // Replace the fields.
       if (!empty($replacedata)) {
-        if (!ldap_mod_replace($this->conn, $dn, $replacedata))
+        $this->_debug("C: Replace [dn: $dn]: ".print_r($replacedata, true));
+        if (!ldap_mod_replace($this->conn, $dn, $replacedata)) {
+          $this->_debug("S: ".ldap_error($this->conn));
           return false;
+	}
+        $this->_debug("S: OK");
       } // end if
     } // end if
 
     if (!empty($newdata)) {
       // Add the fields.
-      if (!ldap_mod_add($this->conn, $dn, $newdata))
+      $this->_debug("C: Add [dn: $dn]: ".print_r($newdata, true));
+      if (!ldap_mod_add($this->conn, $dn, $newdata)) {
+        $this->_debug("S: ".ldap_error($this->conn));
         return false;
+      }
+      $this->_debug("S: OK");
     } // end if
 
     // Handle RDN change
     if (!empty($newrdn)) {
-      if (@ldap_rename($this->conn, $dn, $newrdn, NULL, TRUE))
+      $this->_debug("C: Rename [dn: $dn] [dn: $newrdn]");
+      if (@ldap_rename($this->conn, $dn, $newrdn, NULL, TRUE)) {
+        $this->_debug("S: ".ldap_error($this->conn));
         return base64_encode($newdn);
+      }
+      $this->_debug("S: OK");
     }
 
     return true;
@@ -543,11 +588,14 @@ class rcube_ldap extends rcube_addressbook
 
     foreach ($dns as $id) {
       $dn = base64_decode($id);
+      $this->_debug("C: Delete [dn: $dn]");
       // Delete the record.
       $res = ldap_delete($this->conn, $dn);
       if ($res === FALSE) {
+        $this->_debug("S: ".ldap_error($this->conn));
         return false;
       } // end if
+      $this->_debug("S: OK");
     } // end foreach
 
     return count($dns);
@@ -566,8 +614,13 @@ class rcube_ldap extends rcube_addressbook
       $filter = $this->filter ? $this->filter : '(objectclass=*)';
       $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
 
-      if ($this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $filter, array_values($this->fieldmap), 0, 0))
+      $this->_debug("C: Search [".$filter."]");
+
+      if ($this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $filter, array_values($this->fieldmap), 0, 0)) {
+        $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
         return true;
+      } else
+        $this->_debug("S: ".ldap_error($this->conn));
     }
     
     return false;
@@ -589,8 +642,8 @@ class rcube_ldap extends rcube_addressbook
     foreach ($this->fieldmap as $rf => $lf)
     {
       if ($rec[$lf]['count']) {
-        if ($rf == 'email' && !strpos($rec[$lf][0], '@'))
-          $out[$rf] = sprintf('%s@%s', $rec[$lf][0] , $RCMAIL->config->mail_domain($_SESSION['imap_host']));
+        if ($rf == 'email' && $mail_domain && !strpos($rec[$lf][0], '@'))
+          $out[$rf] = sprintf('%s@%s', $rec[$lf][0], $this->mail_domain);
         else
           $out[$rf] = $rec[$lf][0];
       }
@@ -625,6 +678,16 @@ class rcube_ldap extends rcube_addressbook
     return isset($aliases[$name]) ? $aliases[$name] : $name;
   }
 
+
+  /**
+   * @access private
+   */
+  private function _debug($str)
+  {
+    if ($this->debug)
+      write_log('ldap', $str);
+  }
+  
 
   /**
    * @static

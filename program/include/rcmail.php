@@ -266,7 +266,7 @@ class rcmail
       $contacts = $plugin['instance'];
     }
     else if ($id && $ldap_config[$id]) {
-      $contacts = new rcube_ldap($ldap_config[$id]);
+      $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['imap_host']));
     }
     else if ($id === '0') {
       $contacts = new rcube_contacts($this->db, $this->user->ID);
@@ -275,7 +275,7 @@ class rcmail
       // Use the first writable LDAP address book.
       foreach ($ldap_config as $id => $prop) {
         if (!$writeable || $prop['writable']) {
-          $contacts = new rcube_ldap($prop);
+          $contacts = new rcube_ldap($prop, $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['imap_host']));
           break;
         }
       }
