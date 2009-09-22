@@ -1005,8 +1005,8 @@ class rcube_template extends rcube_html_page
         if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
             $url = $_SERVER['QUERY_STRING'];
 
-        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'size' => 30) + $attrib);
-        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'size' => 30) + $attrib);
+        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser') + $attrib);
+        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd') + $attrib);
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
         $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
@@ -1026,7 +1026,7 @@ class rcube_template extends rcube_html_page
             }
         }
         else if (empty($default_host)) {
-            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost', 'size' => 30));
+            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost') + $attrib);
         }
 
         $form_name  = !empty($attrib['form']) ? $attrib['form'] : 'form';
