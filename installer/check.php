@@ -55,14 +55,17 @@ if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
 <h3>Checking PHP extensions</h3>
 <p class="hint">The following modules/extensions are <em>required</em> to run RoundCube:</p>
 <?php
-    
+
+// get extensions location
+$ext_dir = ini_get('extension_dir');
+
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
 foreach ($required_php_exts AS $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
     } else {
-        $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
-        $msg = @dl($_ext) ? 'Could be loaded. Please add in php.ini' : '';
+        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
     }
     echo '<br />';
@@ -78,8 +81,8 @@ foreach ($optional_php_exts AS $name => $ext) {
         $RCI->pass($name);
     }
     else {
-        $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
-        $msg = @dl($_ext) ? 'Could be loaded. Please add in php.ini' : '';
+        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($name, $msg, $source_urls[$name]);
     }
     echo '<br />';
@@ -99,8 +102,8 @@ foreach ($supported_dbs AS $database => $ext) {
         $RCI->pass($database);
     }
     else {
-        $_ext = $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
-        $msg = @dl($_ext) ? 'Could be loaded. Please add in php.ini' : 'Not installed';
+        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : 'Not installed';
         $RCI->na($database, $msg, $source_urls[$database]);
     }
     echo '<br />';

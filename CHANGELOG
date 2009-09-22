@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix dl() use in installer (#1486150)
 - Added 'ldap_debug' option
 - Fix "Empty startup greeting" bug (#1486085)
 - Fix setting user name in 'new_user_identity' plugin (#1486137)
