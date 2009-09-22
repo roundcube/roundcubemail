@@ -59,15 +59,10 @@ if  (isset($_SERVER['HTTPS'])) {
 ini_set('session.name', 'roundcube_sessid');
 ini_set('session.use_cookies', 1);
 ini_set('session.use_only_cookies', 1);
-if (function_exists('set_magic_quotes_runtime')) {
-  set_magic_quotes_runtime(0);
-}
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
-if (!ini_get('safe_mode')) {
-  set_time_limit(120);
-}
+@set_time_limit(120);
 
 // set internal encoding for mbstring extension
 if(extension_loaded('mbstring'))

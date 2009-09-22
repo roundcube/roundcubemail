@@ -93,9 +93,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     }
     else {
       // don't kill the connection if download takes more than 30 sec.
-      if (!ini_get('safe_mode')) {
-          set_time_limit(0);
-      }
+      @set_time_limit(0);
       
       $filename = $part->filename ? $part->filename : ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . '.'.$ctype_secondary;
       
