@@ -2632,7 +2632,7 @@ function rcube_webmail()
       return;
     
     // get cursor pos
-    var inp_value = this.ksearch_input.value.toLowerCase();
+    var inp_value = this.ksearch_input.value;
     var cpos = this.get_caret_pos(this.ksearch_input);
     var p = inp_value.lastIndexOf(this.ksearch_value, cpos);
 
@@ -2664,7 +2664,7 @@ function rcube_webmail()
     var q = inp_value.substring(p+1, cpos);
 
     // trim query string
-    q = q.replace(/(^\s+|\s+$)/g, '').toLowerCase();
+    q = q.replace(/(^\s+|\s+$)/g, '');
 
     // Don't (re-)search if the last results are still active
     if (q == this.ksearch_value)
