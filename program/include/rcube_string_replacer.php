@@ -39,7 +39,7 @@ class rcube_string_replacer
     $url_chars_within = '\?\.~,!';
 
     $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/i";
-    $this->mailto_pattern = "/([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})/i";
+    $this->mailto_pattern = "/([a-z0-9][a-z0-9\-\.\+\_]*@([a-z0-9]([-a-z0-9]*[a-z0-9])?\\.)+[a-z]{2,5})/i";
   }
 
   /**
