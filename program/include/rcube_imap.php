@@ -50,6 +50,7 @@ class rcube_imap
   var $page_size = 10;
   var $sort_field = 'date';
   var $sort_order = 'DESC';
+  var $index_sort = true;
   var $delimiter = NULL;
   var $caching_enabled = FALSE;
   var $default_charset = 'ISO-8859-1';
@@ -598,7 +599,28 @@ class rcube_imap
     // retrieve headers from IMAP
     $a_msg_headers = array();
 
-    if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
+    // use message index sort for sorting by Date (for better performance)
+    if ($this->index_sort && $this->sort_field == 'date')
+      {
+        if ($this->skip_deleted) {
+          $msg_index = $this->_search_index($mailbox, 'ALL');
+          $max = max($msg_index);
+          list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
+          $msg_index = array_slice($msg_index, $begin, $end-$begin);
+	} else if ($max = iil_C_CountMessages($this->conn, $mailbox)) {
+          list($begin, $end) = $this->_get_message_range($max, $page);
+	  $msg_index = range($begin+1, $end);
+	} else
+	  return array();
+
+        if ($slice)
+          $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
+
+        // fetch reqested headers from server
+        $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);
+      }
+    // use SORT command
+    else if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
       {
       list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
       $max = max($msg_index);
@@ -610,6 +632,7 @@ class rcube_imap
       // fetch reqested headers from server
       $this->_fetch_headers($mailbox, join(',', $msg_index), $a_msg_headers, $cache_key);
       }
+    // fetch specified header for all messages and sort
     else
       {
       $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted);
@@ -677,14 +700,34 @@ class rcube_imap
 
     $this->_set_sort_order($sort_field, $sort_order);
 
+    // quickest method
+    if ($this->index_sort && $this->search_sort_field == 'date' && $this->sort_field == 'date')
+      {
+      if ($sort_order == 'DESC')
+        $msgs = array_reverse($msgs);
+
+      // get messages uids for one page
+      $msgs = array_slice(array_values($msgs), $start_msg, min(count($msgs)-$start_msg, $this->page_size));
+
+      if ($slice)
+        $msgs = array_slice($msgs, -$slice, $slice);
+
+      // fetch headers
+      $this->_fetch_headers($mailbox, join(',',$msgs), $a_msg_headers, NULL);
+
+      // I didn't found in RFC that FETCH always returns messages sorted by index
+      $sorter = new rcube_header_sorter();
+      $sorter->set_sequence_numbers($msgs);
+      $sorter->sort_headers($a_msg_headers);
+
+      return array_values($a_msg_headers);
+      }
     // sorted messages, so we can first slice array and then fetch only wanted headers
-    if ($this->get_capability('sort')) // SORT searching result
+    if ($this->get_capability('sort') && (!$this->index_sort || $this->sort_field != 'date')) // SORT searching result
       {
       // reset search set if sorting field has been changed
       if ($this->sort_field && $this->search_sort_field != $this->sort_field)
-        {
         $msgs = $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
-        }
 
       // return empty array if no messages found
       if (empty($msgs))
@@ -710,7 +753,8 @@ class rcube_imap
       }
     else { // SEARCH searching result, need sorting
       $cnt = count($msgs);
-      if ($cnt > 300 && $cnt > $this->page_size) { // experimantal value for best result
+      // 300: experimantal value for best result
+      if (($cnt > 300 && $cnt > $this->page_size) || ($this->index_sort && $this->sort_field == 'date')) {
         // use memory less expensive (and quick) method for big result set
 	$a_index = $this->message_index('', $this->sort_field, $this->sort_order);
         // get messages uids for one page...
@@ -844,12 +888,26 @@ class rcube_imap
     $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
     $key = "{$mailbox}:{$this->sort_field}:{$this->sort_order}:{$this->search_string}.msgi";
 
-    // we have a saved search result. get index from there
+    // we have a saved search result, get index from there
     if (!isset($this->cache[$key]) && $this->search_string && $mailbox == $this->mailbox)
     {
       $this->cache[$key] = array();
       
-      if ($this->get_capability('sort'))
+      // use message index sort for sorting by Date
+      if ($this->index_sort && $this->sort_field == 'date')
+        {
+	$msgs = $this->search_set;
+	
+	if ($this->search_sort_field != 'date')
+	  sort($msgs);
+	
+        if ($this->sort_order == 'DESC')
+          $this->cache[$key] = array_reverse($msgs);
+        else
+          $this->cache[$key] = $msgs;
+        }
+      // sort with SORT command
+      else if ($this->get_capability('sort'))
         {
         if ($this->sort_field && $this->search_sort_field != $this->sort_field)
           $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
@@ -887,8 +945,22 @@ class rcube_imap
       return array_keys($a_index);
       }
 
+    // use message index sort for sorting by Date
+    if ($this->index_sort && $this->sort_field == 'date')
+      {
+      if ($this->skip_deleted) {
+        $a_index = $this->_search_index($mailbox, 'ALL');
+      } else if ($max = $this->_messagecount($mailbox)) {
+        $a_index = range(1, $max);
+      }
+
+      if ($this->sort_order == 'DESC')
+        $a_index = array_reverse($a_index);
+
+      $this->cache[$key] = $a_index;
+      }
     // fetch complete message index
-    if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
+    else if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
       {
       if ($this->sort_order == 'DESC')
         $a_index = array_reverse($a_index);
@@ -1032,14 +1104,23 @@ class rcube_imap
     if ($this->skip_deleted && !preg_match('/UNDELETED/', $criteria))
       $criteria = 'UNDELETED '.$criteria;
 
-    if ($sort_field && $this->get_capability('sort'))
-      {
+    if ($sort_field && $this->get_capability('sort') && (!$this->index_sort || $sort_field != 'date')) {
       $charset = $charset ? $charset : $this->default_charset;
       $a_messages = iil_C_Sort($this->conn, $mailbox, $sort_field, $criteria, FALSE, $charset);
       }
-    else
-      $a_messages = iil_C_Search($this->conn, $mailbox, ($charset ? "CHARSET $charset " : '') . $criteria);
+    else {
+      if ($orig_criteria == 'ALL') {
+        $max = $this->_messagecount($mailbox);
+        $a_messages = $max ? range(1, $max) : array();
+        }
+      else {
+        $a_messages = iil_C_Search($this->conn, $mailbox, ($charset ? "CHARSET $charset " : '') . $criteria);
     
+        // I didn't found that SEARCH always returns sorted IDs
+        if ($this->index_sort && $this->sort_field == 'date')
+          sort($a_messages);
+        }
+      }
     // update messagecount cache ?
 //    $a_mailbox_cache = get_cache('messagecount');
 //    $a_mailbox_cache[$mailbox][$criteria] = sizeof($a_messages);
@@ -2219,21 +2300,27 @@ class rcube_imap
    *
    * @param string Mailbox name
    * @param string Internal cache key
-   * @return int -3 = off, -2 = incomplete, -1 = dirty
+   * @return int   Cache status: -3 = off, -2 = incomplete, -1 = dirty
    */
   private function check_cache_status($mailbox, $cache_key)
   {
     if (!$this->caching_enabled)
       return -3;
 
-    $cache_index = $this->get_message_cache_index($cache_key, TRUE);
+    $cache_index = $this->get_message_cache_index($cache_key);
     $msg_count = $this->_messagecount($mailbox);
     $cache_count = count($cache_index);
 
     // empty mailbox
     if (!$msg_count)
       return $cache_count ? -2 : 1;
-    
+
+    // @TODO: We've got one big performance problem in cache status checking method
+    // E.g. mailbox contains 1000 messages, in cache table we've got first 100
+    // of them. Now if we want to display only that 100 (which we've got)
+    // check_cache_status returns 'incomplete' and messages are fetched
+    // from IMAP instead of DB.
+
     if ($cache_count==$msg_count) {
       if ($this->skip_deleted) {
 	$h_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", 'UID', $this->skip_deleted);
@@ -2248,12 +2335,12 @@ class rcube_imap
 	}
 	return -2;
       } else {
-        // get highest index
-        $header = iil_C_FetchHeader($this->conn, $mailbox, "$msg_count");
+        // get UID of message with highest index
+        $uid = iil_C_ID2UID($this->conn, $mailbox, $msg_count);
         $cache_uid = array_pop($cache_index);
       
         // uids of highest message matches -> cache seems OK
-        if ($cache_uid == $header->uid)
+        if ($cache_uid == $uid)
           return 1;
       }
       // cache is dirty
@@ -2274,8 +2361,13 @@ class rcube_imap
     $cache_key = "$key:$from:$to:$sort_field:$sort_order";
     $db_header_fields = array('idx', 'uid', 'subject', 'from', 'to', 'cc', 'date', 'size');
     
-    if (!in_array($sort_field, $db_header_fields))
+    $config = rcmail::get_instance()->config;
+
+    // use idx sort for sorting by Date with index_sort=true or for unknown field
+    if (($sort_field == 'date' && $this->index_sort)
+      || !in_array($sort_field, $db_header_fields)) {
       $sort_field = 'idx';
+      }
     
     if ($this->caching_enabled && !isset($this->cache[$cache_key]))
       {
@@ -2349,6 +2441,10 @@ class rcube_imap
     
     if (!empty($sa_message_index[$key]) && !$force)
       return $sa_message_index[$key];
+
+    // use idx sort for sorting by Date with index_sort=true
+    if ($sort_field == 'date' && $this->index_sort)
+      $sort_field = 'idx';
     
     $sa_message_index[$key] = array();
     $sql_result = $this->db->query(

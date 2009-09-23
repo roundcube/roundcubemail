@@ -162,6 +162,17 @@ function rcmail_user_prefs_block($part, $attrib)
       );
     }
 
+    // Show checkbox for toggling 'index_sort' 
+    if (!isset($no_override['index_sort'])) {
+      $field_id = 'rcmfd_indexsort';
+      $input_indexsort = new html_checkbox(array('name' => '_index_sort', 'id' => $field_id, 'value' => 1));
+
+      $blocks['list']['options']['index_sort'] = array(
+        'title' => html::label($field_id, Q(rcube_label('indexsort'))),
+        'content' => $input_indexsort->show($config['index_sort']?1:0),
+      );
+    }
+
     // show drop-down for available skins
     if (!isset($no_override['skin'])) {
       $skins = rcmail_get_skins();

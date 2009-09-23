@@ -3018,7 +3018,6 @@ function rcube_webmail()
         add_url = '&_framed=1';
         target = window.frames[this.env.contentframe];
         }
-
       target.location.href = this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url;
       }
 

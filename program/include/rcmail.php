@@ -366,6 +366,7 @@ class rcmail
     $this->imap = new rcube_imap($this->db);
     $this->imap->debug_level = $this->config->get('debug_level');
     $this->imap->skip_deleted = $this->config->get('skip_deleted');
+    $this->imap->index_sort = $this->config->get('index_sort', true);
 
     // enable caching of imap data
     if ($this->config->get('enable_caching')) {

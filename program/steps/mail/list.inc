@@ -49,12 +49,10 @@ $mbox_name = $IMAP->get_mailbox_name();
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 {
   $search_request = md5($mbox_name.$_SESSION['search_filter']);
-
   $IMAP->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $sort_col);
   $_SESSION['search'][$search_request] = $IMAP->get_search_set();
   $OUTPUT->set_env('search_request', $search_request);
 }
-			      
 
 // fetch message headers
 if ($count = $IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))

@@ -241,6 +241,7 @@ $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczyta
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
 $labels['autosavedraft'] = 'Automatyczny zapis tworzonej wiadomości';
+$labels['indexsort'] = 'Stosuj indeks wiadomości do sortowania wg daty';
 $labels['keepalive']  = 'Sprawdzaj czy nadeszły nowe wiadomości';
 $labels['everynminutes']  = 'co $n minut(y)';
 $labels['never'] = 'nigdy';
