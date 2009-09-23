@@ -231,17 +231,40 @@ $headers = array();
 if ($CONFIG['http_received_header'])
 {
   $nldlm = $RCMAIL->config->header_delimiter() . "\t";
+  // FROM/VIA
   $http_header = 'from ';
   if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $http_header .= rcmail_encrypt_header(gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR'])) .
-      ' [' . rcmail_encrypt_header($_SERVER['HTTP_X_FORWARDED_FOR']) . ']';
+    $host = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    $hostname = gethostbyaddr($host);
+    if ($CONFIG['http_received_header_encrypt']) {
+      $http_header .= rcmail_encrypt_header($hostname);
+      if ($host != $hostname)
+        $http_header .= ' ('. rcmail_encrypt_header($host) . ')';
+    } else {
+      $http_header .= (($host != $hostname) ? $hostname : '[' . $host . ']');
+      $http_header .= ' ('. ($host == $hostname ? '' : $hostname . ' ') .
+        '[' . $host .'])';
+    }
     $http_header .= $nldlm . ' via ';
   }
-  $http_header .= rcmail_encrypt_header(gethostbyaddr($_SERVER['REMOTE_ADDR'])) .
-      ' [' . rcmail_encrypt_header($_SERVER['REMOTE_ADDR']) .']';
+  $host = $_SERVER['REMOTE_ADDR'];
+  $hostname = gethostbyaddr($host);
+  if ($CONFIG['http_received_header_encrypt']) {
+    $http_header .= rcmail_encrypt_header($hostname);
+    if ($host != $hostname)
+      $http_header .= ' ('. rcmail_encrypt_header($host) . ')';
+  } else {
+    $http_header .= (($host != $hostname) ? $hostname : '[' . $host . ']');
+    $http_header .= ' ('. ($host == $hostname ? '' : $hostname . ' ') .
+      '[' . $host .'])';
+  }
+  // BY
+  $http_header .= $nldlm . 'by ' . $_SERVER['HTTP_HOST'];
+  // WITH
   $http_header .= $nldlm . 'with ' . $_SERVER['SERVER_PROTOCOL'] .
       ' ('.$_SERVER['REQUEST_METHOD'] . '); ' . date('r');
   $http_header = wordwrap($http_header, 69, $nldlm);
+
   $headers['Received'] = $http_header;
 }
 
