@@ -517,6 +517,11 @@ a.rcmContactAddress:hover
   padding: 20px 10px 10px 10px;
 }
 
+#rcmloginuser, #rcmloginpwd, #rcmloginhost
+{
+  width: 200px;
+}
+
 #console
 {
   opacity: 0.8;

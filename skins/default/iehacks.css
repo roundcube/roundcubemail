@@ -8,6 +8,11 @@ input, textarea
   background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
 }
 
+#login-form form
+{
+  margin-top: 0;
+}
+
 .pagenav a.buttonPas
 {
   filter: alpha(opacity=35);
