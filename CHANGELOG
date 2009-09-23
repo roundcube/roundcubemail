@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Prevent from setting INBOX as any of special folders (#1486114)
 - Fix regular expression for e-mail address (#1486152)
 - Fix Received header format
 - Implemented sorting by message index - added 'index_sort' option (#1485936)

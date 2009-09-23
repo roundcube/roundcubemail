@@ -1152,11 +1152,12 @@ function rcmail_mailbox_select($p = array())
 {
   global $RCMAIL;
   
-  $p += array('maxlength' => 100, 'relanames' => false);
+  $p += array('maxlength' => 100, 'realnames' => false);
   $a_mailboxes = array();
   
   foreach ($RCMAIL->imap->list_mailboxes() as $folder)
-    rcmail_build_folder_tree($a_mailboxes, $folder, $RCMAIL->imap->get_hierarchy_delimiter());
+    if (empty($p['exceptions']) || !in_array($folder, $p['exceptions']))
+      rcmail_build_folder_tree($a_mailboxes, $folder, $RCMAIL->imap->get_hierarchy_delimiter());
 
   $select = new html_select($p);
   

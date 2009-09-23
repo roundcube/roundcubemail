@@ -115,7 +115,8 @@ class archive extends rcube_plugin
       $this->add_texts('localization');
       
       $rcmail = rcmail::get_instance();
-      $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true, 'maxlength' => 30));
+      $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
+        'maxlength' => 30, 'exceptions' => array('INBOX')));
 
       $args['blocks']['main']['options']['archive_mbox'] = array(
           'title' => $this->gettext('archivefolder'),
