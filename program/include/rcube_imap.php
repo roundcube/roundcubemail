@@ -485,7 +485,6 @@ class rcube_imap
    */
   private function _messagecount($mailbox='', $mode='ALL', $force=FALSE)
     {
-    $a_mailbox_cache = FALSE;
     $mode = strtoupper($mode);
 
     if (empty($mailbox))
@@ -2140,8 +2139,8 @@ class rcube_imap
    */
   function get_cache($key)
     {
-    // read cache
-    if (!isset($this->cache[$key]) && $this->caching_enabled)
+    // read cache (if it was not read before)
+    if (!count($this->cache) && $this->caching_enabled)
       {
       return $this->_read_cache_record($key);
       }
@@ -2218,7 +2217,8 @@ class rcube_imap
         {
 	$sql_key = preg_replace('/^IMAP\./', '', $sql_arr['cache_key']);
         $this->cache_keys[$sql_key] = $sql_arr['cache_id'];
-	$this->cache[$sql_key] = $sql_arr['data'] ? unserialize($sql_arr['data']) : FALSE;
+	if (!isset($this->cache[$sql_key]))
+	  $this->cache[$sql_key] = $sql_arr['data'] ? unserialize($sql_arr['data']) : FALSE;
         }
       }
 
@@ -2232,23 +2232,6 @@ class rcube_imap
     {
     if (!$this->db)
       return FALSE;
-
-    // check if we already have a cache entry for this key
-    if (!isset($this->cache_keys[$key]))
-      {
-      $sql_result = $this->db->query(
-        "SELECT cache_id
-         FROM ".get_table_name('cache')."
-         WHERE  user_id=?
-         AND    cache_key=?",
-        $_SESSION['user_id'],
-        'IMAP.'.$key);
-                                     
-      if ($sql_arr = $this->db->fetch_assoc($sql_result))
-        $this->cache_keys[$key] = $sql_arr['cache_id'];
-      else
-        $this->cache_keys[$key] = FALSE;
-      }
 
     // update existing cache record
     if ($this->cache_keys[$key])
@@ -2272,6 +2255,18 @@ class rcube_imap
         $_SESSION['user_id'],
         'IMAP.'.$key,
         $data);
+
+      // get cache entry ID for this key
+      $sql_result = $this->db->query(
+        "SELECT cache_id
+         FROM ".get_table_name('cache')."
+         WHERE  user_id=?
+         AND    cache_key=?",
+        $_SESSION['user_id'],
+        'IMAP.'.$key);
+                                     
+        if ($sql_arr = $this->db->fetch_assoc($sql_result))
+          $this->cache_keys[$key] = $sql_arr['cache_id'];
       }
     }
 
@@ -2286,6 +2281,8 @@ class rcube_imap
        AND    cache_key=?",
       $_SESSION['user_id'],
       'IMAP.'.$key);
+      
+    unset($this->cache_keys[$key]);
     }
 
 
