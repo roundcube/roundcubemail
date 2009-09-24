@@ -43,7 +43,7 @@ $rcmail_config['plugins'] = array();
 
 // enable caching of messages and mailbox data in the local database.
 // this is recommended if the IMAP server does not run on the same machine
-$rcmail_config['enable_caching'] = TRUE;
+$rcmail_config['enable_caching'] = FALSE;
 
 // lifetime of message cache
 // possible units: s, m, h, d, w
