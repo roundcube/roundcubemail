@@ -43,24 +43,21 @@ class rcube_browser
         $this->ns  = ($this->ns4 || stristr($HTTP_USER_AGENT, 'netscape'));
         $this->ie  = stristr($HTTP_USER_AGENT, 'compatible; msie') && !$this->opera;
         $this->mz  = stristr($HTTP_USER_AGENT, 'mozilla/5');
+        $this->chrome = stristr($HTTP_USER_AGENT, 'chrome');
         $this->khtml = stristr($HTTP_USER_AGENT, 'khtml');
         $this->safari = ($this->khtml || stristr($HTTP_USER_AGENT, 'safari'));
 
-        if ($this->ns) {
-            $test = preg_match('/mozilla\/([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
-            $this->ver = $test ? (float)$regs[1] : 0;
+        if ($this->ns || $this->chrome) {
+            $test = preg_match('/(mozilla|chrome)\/([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
+            $this->ver = $test ? (float)$regs[2] : 0;
         }
-        if ($this->mz) {
+        else if ($this->mz) {
             $test = preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs);
             $this->ver = $test ? (float)$regs[1] : 0;
         }
-        if($this->ie) {
-            $test = preg_match('/msie ([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
-            $this->ver = $test ? (float)$regs[1] : 0;
-        }
-        if ($this->opera) {
-            $test = preg_match('/opera ([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
-            $this->ver = $test ? (float)$regs[1] : 0;
+        else if ($this->ie || $this->opera) {
+            $test = preg_match('/(msie|opera) ([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
+            $this->ver = $test ? (float)$regs[2] : 0;
         }
 
         if (preg_match('/ ([a-z]{2})-([a-z]{2})/i', $HTTP_USER_AGENT, $regs))
