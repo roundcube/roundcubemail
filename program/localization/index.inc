@@ -39,7 +39,6 @@ $rcube_languages = array(
   'zh_CN' => 'Chinese (普通话)',
   'zh_TW' => 'Chinese (國語)',
   'hr_HR' => 'Croatian (Hrvatski)',
-  'cy_GB' => 'Cymric (Cymraeg)',
   'cs_CZ' => 'Czech (Česky)',
   'da_DK' => 'Danish (Dansk)',
   'fa_AF' => 'Dari (ﻯﺭﺩ)',
@@ -92,6 +91,7 @@ $rcube_languages = array(
   'tr_TR' => 'Turkish (Türkçe)',
   'uk_UA' => 'Ukrainian (Українська)',
   'vi_VN' => 'Vietnamese (Tiếng Việt)',
+  'cy_GB' => 'Welsh (Cymraeg)',
 );
 
 $rcube_language_aliases = array(
