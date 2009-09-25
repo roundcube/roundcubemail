@@ -762,7 +762,7 @@ class rcmail
             continue;
 
           if ($label = $rcube_languages[$name])
-            $sa_languages[$name] = $label ? $label : $name;
+            $sa_languages[$name] = $label;
         }
         closedir($dh);
       }
