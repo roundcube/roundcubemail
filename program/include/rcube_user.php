@@ -360,9 +360,8 @@ class rcube_user
     $rcmail = rcmail::get_instance();
 
     // try to resolve user in virtuser table and file
-    if (!strpos($user, '@')) {
-      if ($email_list = self::user2email($user, false, true))
-        $user_email = is_array($email_list[0]) ? $email_list[0][0] : $email_list[0];
+    if ($email_list = self::user2email($user, false, true)) {
+      $user_email = is_array($email_list[0]) ? $email_list[0][0] : $email_list[0];
     }
 
     $data = $rcmail->plugins->exec_hook('create_user',
