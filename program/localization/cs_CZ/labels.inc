@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/cs_CZ/labels.inc                                                |
+| language/cs_CZ/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
@@ -13,6 +13,7 @@
 | Author: Martin Mrajca <martin@moonlake.cz>                            |
 |        joe <joe@humlak.cz>                                            |
 |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
+|        Milan Kozak <hodza@hodza.net>					|
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -253,6 +254,11 @@ $labels['advancedoptions'] = 'Pokročilá nastavení';
 $labels['focusonnewmessage'] = 'Aktivovat okno prohlížeče při príchozí zprávě';
 $labels['checkallfolders'] = 'Kontrolovat nové zprávy ve všech složkách';
 $labels['displaynext'] = 'Zobrazit další zprávu po smazání/přesunu zprávy';
+$labels['mainoptions'] = 'Hlavní nastavení';
+$labels['section'] = 'Sekce';
+$labels['maintenance'] = 'Údržba';
+$labels['newmessage'] = 'Nová zpráva';
+$labels['listoptions'] = 'Nastavení stránkování';
 $labels['folder'] = 'Složka';
 $labels['folders'] = 'Složky';
 $labels['foldername'] = 'Jméno složky';
