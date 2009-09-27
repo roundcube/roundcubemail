@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  19082009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  27092009                |
 +-----------------------------------------------------------------------+
 */
 
@@ -249,6 +249,7 @@ $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקים';
 $labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
+$labels['indexsort'] = 'שימוש בשרת המערכת לשם מיון התצוגה לפי תאריך';
 $labels['mainoptions'] = 'אפשרויות עיקריות';
 $labels['section'] = 'קטע';
 $labels['maintenance'] = 'תחזוקה';

@@ -251,6 +251,7 @@ $labels['advancedoptions'] = 'Lisaseadistused';
 $labels['focusonnewmessage'] = 'Fokusseeri brauseri aken uue kirja korral';
 $labels['checkallfolders'] = 'Kontrolli uusi kirju kõigist kaustadest';
 $labels['displaynext'] = 'Peale kirja kustutamist/liigutamist näita järgmist kirja';
+$labels['indexsort'] = 'Kasuta kuupäeva järgi sorteerimiseks kirjade indeksit';
 $labels['mainoptions'] = 'Peamised valikud';
 $labels['section'] = 'Osa';
 $labels['maintenance'] = 'Hooldus';
