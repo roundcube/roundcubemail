@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix folder/messagelist controls alignment - icons used (#1486072)
 - Fix LDAP addressbook shows 'Contact not found' error sometimes (#1486178)
 - Fix cache status checking + improve cache operations performance (#1486104)
 - Prevent from setting INBOX as any of special folders (#1486114)

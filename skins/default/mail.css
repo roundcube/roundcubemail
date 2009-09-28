@@ -312,12 +312,6 @@ ul.toolbarmenu li.separator_above
   font-size: 11px;
 }
 
-#listcontrols a,
-#listcontrols a:active,
-#listcontrols a:visited,
-#mailboxcontrols a,
-#mailboxcontrols a:active,
-#mailboxcontrols a:visited,
 td.formlinks a,
 td.formlinks a:visited
 {
@@ -326,44 +320,10 @@ td.formlinks a:visited
   text-decoration: none;
 }
 
-#listcontrols a.active,
-#listcontrols a.active:active,
-#listcontrols a.active:visited,
-#mailboxcontrols a.active,
-#mailboxcontrols a.active:active,
-#mailboxcontrols a.active:visited,
 td.formlinks a,
 td.formlinks a:visited
 {
   color: #CC0000;
-}
-
-#listcontrols a.active:hover,
-#mailboxcontrols a.active:hover
-{
-  text-decoration: underline;
-}
-
-#listcontrols
-{
-  padding-right: 2em;
-}
-
-#messagecountbar
-{
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  width: 300px;
-  height: 16px;
-  text-align: right;
-  white-space: nowrap;
-}
-
-#messagecountbar span
-{
-  font-size: 11px;
-  color: #333333;
 }
 
 #mainscreen
@@ -391,6 +351,7 @@ td.formlinks a:visited
   left: 170px;
   bottom: 0px;
   right: 0px;
+  min-width: 600px;
 }
 
 #mailrightcontent
@@ -629,48 +590,111 @@ td.formlinks a:visited
   font-weight: normal;
 }
 
-#mailfooter
-{
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  height: 16px;
-  width: 100%;
-}
-
-#mailfooter table tr td
-{
-  white-space: nowrap;
-  vertical-align: bottom;
-}
-
+#listcontrols,
 #mailboxcontrols
 {
   position: absolute;
+  white-space: nowrap;
   left: 0px;
   bottom: 0px;
-  height: 16px;
+  height: 15px;
   width: auto;
+  min-width: 300px;
+}
+
+#listcontrols > a,
+#listcontrols > span,
+#mailboxcontrols > a,
+#mailboxcontrols > span
+{
+  display: block;
+  float: left;
   font-size: 11px;
 }
 
-#listcontrols,
-#countcontrols,
-#quotabox
+#listcontrols a.button,
+#listcontrols a.buttonPas,
+#mailboxcontrols a.button,
+#mailboxcontrols a.buttonPas
 {
-  white-space: nowrap;
-  font-size: 11px;
+  display: block;
+  float: left;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin-right: 2px;
+  overflow: hidden;
+  background: url('images/mail_footer.png') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+#listcontrols a.buttonPas,
+#mailboxcontrols a.buttonPas
+{
+  opacity: 0.35;
+}
+
+#mailboxcontrols a.expunge {
+  background-position: 0 0;
+}
+
+#mailboxcontrols a.expungesel {
+  background-position: 0 -15px;
+}
+
+#mailboxcontrols a.purge {
+  background-position: -15px 0;
+}
+
+#mailboxcontrols a.purgesel {
+  background-position: -15px -15px;
+}
+
+#listcontrols a.all {
+  background-position: -30px 0;
+}
+
+#listcontrols a.allsel {
+  background-position: -30px -15px;
+}
+
+#listcontrols a.unread {
+  background-position: -45px 0;
+}
+
+#listcontrols a.unreadsel {
+  background-position: -45px -15px;
+}
+
+#listcontrols a.invert {
+  background-position: -60px 0;
+}
+
+#listcontrols a.invertsel {
+  background-position: -60px -15px;
+}
+
+#listcontrols a.none {
+  background-position: -75px 0;
+}
+
+#listcontrols a.nonesel {
+  background-position: -75px -15px;
 }
 
 #countcontrols
 {
+  height: 15px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
   min-width: 25em;
+  white-space: nowrap;
+  font-size: 11px;
 }
 
 #countcontrols a.button,
-#countcontrols a.buttonPas,
-#messagecountbar a.button,
-#messagecountbar a.buttonPas
+#countcontrols a.buttonPas
 {
   float: right;
 }
@@ -871,15 +895,8 @@ body.messagelist
   color: #CCCCCC;
 }
 
-#quotadisplay
-{
-  color: #666666;
-  font-size: 11px;
-}
-
 #quotadisplay img
 {
-  vertical-align: middle;
   margin-left: 4px;
   border: 1px solid #999;
 }

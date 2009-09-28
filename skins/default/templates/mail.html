@@ -36,9 +36,10 @@
 </script>
 
 <div id="mailboxcontrols">
-  <roundcube:label name="folder" />:&nbsp;
-  <roundcube:button command="expunge" label="compact" classAct="active" />&nbsp;
-  <roundcube:button command="purge" label="empty" classAct="active" />&nbsp;
+  <span><roundcube:label name="folder" />:&nbsp;</span>
+  <roundcube:button command="expunge" type="link" title="compact" class="buttonPas expunge" classAct="button expunge" classSel="button expungesel" content=" " />
+  <roundcube:button command="purge" type="link" title="empty" class="buttonPas purge" classAct="button purge" classSel="button purgesel" content=" " />
+  <roundcube:container name="mailboxcontrols" id="mailboxcontrols" />
 </div>
 </div>
 
@@ -75,36 +76,29 @@
 <roundcube:endif />
 </div>
 
-<div id="mailfooter">
-<table cellpadding="1" cellspacing="0" width="100%"><tr>
-  <td>
-    <span id="listcontrols">
-      <roundcube:label name="select" />:&nbsp;
-      <roundcube:button command="select-all" label="all" classAct="active" />&nbsp;
-      <roundcube:button command="select-all" prop="unread" label="unread" classAct="active" />&nbsp;
-      <roundcube:button command="select-all" prop="invert" label="invert" classAct="active" />&nbsp;
-      <roundcube:button command="select-none" label="none" classAct="active" /> &nbsp;
+<div id="listcontrols">
+      <span><roundcube:label name="select" />:&nbsp;</span>
+      <roundcube:button command="select-all" type="link" title="all" class="buttonPas all" classAct="button all" classSel="button allsel" content=" " />
+      <roundcube:button command="select-all" type="link" title="unread" class="buttonPas unread" classAct="button unread" classSel="button unreadsel" content=" "" />
+      <roundcube:button command="select-all" type="link" title="invert" class="buttonPas invert" classAct="button invert" classSel="button invertsel" content=" " />
+      <roundcube:button command="select-none" type="link" title="none" class="buttonPas none" classAct="button none" classSel="button nonesel" content=" " />
       <roundcube:container name="listcontrols" id="listcontrols" />
-    </span>
-  </td>
   <roundcube:if condition="env:quota" />
-  <td style="text-align:center">
-    <span id="quotabox"><roundcube:label name="quota" />: <roundcube:object name="quotaDisplay" display="image" width="100" id="quotadisplay" /></span>
-  </td>
+  <span style="margin-left: 20px"><roundcube:label name="quota" />:</span>
+  <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
   <roundcube:endif />
-  <td id="countcontrols" class="pagenav">
+</div>
+
+<div id="countcontrols" class="pagenav">
     <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastmessages" content=" " />
     <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextmessages" content=" " />
-    <roundcube:object name="messageCountDisplay" style="padding:0 1em; float:right" />
+    <roundcube:object name="messageCountDisplay" style="padding:0 .5em; float:right" />
     <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previousmessages" content=" " />
     <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstmessages" content=" " />
-  </td>
-</tr></table>
 </div>
 
 </div>
 </div>
-
 
 <div id="messagetoolbar">
 <roundcube:button command="checkmail" type="link" class="button checkmail" classAct="button checkmail" classSel="button checkmailSel" title="checkmail" content=" " />
