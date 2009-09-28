@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix LDAP addressbook shows 'Contact not found' error sometimes (#1486178)
 - Fix cache status checking + improve cache operations performance (#1486104)
 - Prevent from setting INBOX as any of special folders (#1486114)
 - Fix regular expression for e-mail address (#1486152)
