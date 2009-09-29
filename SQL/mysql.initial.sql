@@ -95,6 +95,7 @@ CREATE TABLE `contacts` (
  `vcard` text NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`contact_id`),
+ INDEX `user_contacts_index` (`user_id`,`email`),
  CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`)
    /*!40008

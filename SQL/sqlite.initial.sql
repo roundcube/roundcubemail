@@ -34,7 +34,7 @@ CREATE TABLE contacts (
   vcard text NOT NULL default ''
 );
 
-CREATE INDEX ix_contacts_user_id ON contacts(user_id);
+CREATE INDEX ix_contacts_user_id ON contacts(user_id, email);
 
 -- --------------------------------------------------------
 

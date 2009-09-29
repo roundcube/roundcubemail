@@ -110,7 +110,7 @@ CREATE TABLE contacts (
     vcard text
 );
 
-CREATE INDEX contacts_user_id_idx ON contacts (user_id);
+CREATE INDEX contacts_user_id_idx ON contacts (user_id, email);
 
 --
 -- Sequence "cache_ids"
