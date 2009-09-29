@@ -79,8 +79,8 @@
 <div id="listcontrols">
       <span><roundcube:label name="select" />:&nbsp;</span>
       <roundcube:button command="select-all" type="link" title="all" class="buttonPas all" classAct="button all" classSel="button allsel" content=" " />
-      <roundcube:button command="select-all" type="link" title="unread" class="buttonPas unread" classAct="button unread" classSel="button unreadsel" content=" "" />
-      <roundcube:button command="select-all" type="link" title="invert" class="buttonPas invert" classAct="button invert" classSel="button invertsel" content=" " />
+      <roundcube:button command="select-all" type="link" prop="unread" title="unread" class="buttonPas unread" classAct="button unread" classSel="button unreadsel" content=" "" />
+      <roundcube:button command="select-all" type="link" prop="invert" title="invert" class="buttonPas invert" classAct="button invert" classSel="button invertsel" content=" " />
       <roundcube:button command="select-none" type="link" title="none" class="buttonPas none" classAct="button none" classSel="button nonesel" content=" " />
       <roundcube:container name="listcontrols" id="listcontrols" />
   <roundcube:if condition="env:quota" />
