@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix handling HTML comments in HTML messages (#1486189)
 - Fix folder/messagelist controls alignment - icons used (#1486072)
 - Fix LDAP addressbook shows 'Contact not found' error sometimes (#1486178)
 - Fix cache status checking + improve cache operations performance (#1486104)

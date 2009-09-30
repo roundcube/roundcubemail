@@ -734,7 +734,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
 
   // allow CSS styles, will be sanitized by rcmail_washtml_callback()
   $washer->add_callback('style', 'rcmail_washtml_callback');
-    
+
   $html = $washer->wash($html);
   $REMOTE_OBJECTS = $washer->extlinks;
   
@@ -892,6 +892,10 @@ function rcmail_html_tag_callback($matches)
 {
   $tagname = $matches[2];
 
+  // html comments (#1486189)
+  if ($matches[1] == '<!')
+    return '<!';
+    
   $tagname = preg_replace(array(
     '/:.*$/',		// Microsoft's Smart Tags <st1:xxxx>
     '/[^a-z0-9_-]/i',	// forbidden characters
