@@ -75,7 +75,7 @@ function rcube_splitter(attrib)
       this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));
       if (bw.ie)
         {
-        var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top));
+        var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top) - (bw.ie8 ? 2 : 0));
         this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
         }
       }
@@ -228,7 +228,7 @@ function rcube_splitter(attrib)
     {
     if (this.horizontal)
       {
-      var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top));
+      var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top) - (bw.ie8 ? 2 : 0));
       this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
       }
     else
