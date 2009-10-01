@@ -1629,15 +1629,15 @@ function rcube_webmail()
     // also send search request to get the right messages
     if (this.env.search_request)
       add_url += '&_search='+this.env.search_request;
-      
+
     // set page=1 if changeing to another mailbox
-    if (!page)
+    if (!page && this.env.mailbox != mbox)
       {
       page = 1;
       this.env.current_page = page;
       this.show_contentframe(false);
       }
-    
+
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       add_url += '&_refresh=1';
 
