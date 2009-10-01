@@ -1042,12 +1042,15 @@ function write_log($name, $line)
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
 
     // try to open specific log file for writing
-    if ($fp = @fopen($CONFIG['log_dir'].'/'.$name, 'a')) {
+    $logfile = $CONFIG['log_dir'].'/'.$name;
+    if ($fp = @fopen($logfile, 'a')) {
       fwrite($fp, $log_entry);
       fflush($fp);
       fclose($fp);
       return true;
     }
+    else
+      trigger_error("Error writing to log file $logfile; Please check permissions", E_USER_WARNING);
   }
   return false;
 }
