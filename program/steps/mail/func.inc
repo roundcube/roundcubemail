@@ -625,7 +625,7 @@ function rcmail_send_unread_count($mbox_name, $force=false)
   $old_unseen = $_SESSION['unseen_count'][$mbox_name];
   $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', $force);
 
-  if ($unseen != $old_unseen)
+  if ($unseen != $old_unseen || ($mbox_name == 'INBOX'))
     $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
 
   // @TODO: this data is doubled (session and cache tables) if caching is enabled
