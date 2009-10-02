@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Password: added cPanel driver
 - Fix return to first page from e-mail screen (#1486105)
 - Fix handling HTML comments in HTML messages (#1486189)
 - Fix folder/messagelist controls alignment - icons used (#1486072)

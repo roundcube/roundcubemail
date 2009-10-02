@@ -31,6 +31,7 @@
  2.3.	Poppassd/Courierpassd (poppassd)
  2.4.	LDAP (ldap)
  2.5.	DirectAdmin Control Panel
+ 2.6.   cPanel
  3.	Driver API
 
 
@@ -172,6 +173,13 @@
  You can specify which host to connect to via `password_directadmin_host` 
  and what port via `password_direactadmin_port`. See config.inc.php file 
  for more info.
+
+
+ 2.6. cPanel
+ -----------
+
+ You can specify parameters for HTTP connection to cPanel's admin
+ interface. See config.inc.php file for more info.
 
 
  3. Driver API
