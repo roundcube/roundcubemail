@@ -342,7 +342,6 @@ function iil_StartsWithI($string, $match, $error=false) {
 	}
 	if ($error && preg_match('/^\* (BYE|BAD) /i', $string)) {
 		return true;
-
 	}
 	return false;
 }
@@ -1545,7 +1544,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 					$lines[++$ln] = trim($line);
 				}
 			// patch from "Maksim Rubis" <siburny@hotmail.com>
-			} while (trim($line[0]) != ')' && strncmp($line, $key, strlen($key)));
+			} while ($line[0] != ')' && !iil_StartsWith($line, $key, true));
 
 			if (strncmp($line, $key, strlen($key))) { 
 				// process header, fill iilBasicHeader obj.
