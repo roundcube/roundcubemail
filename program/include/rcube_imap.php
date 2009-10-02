@@ -1225,6 +1225,18 @@ class rcube_imap
       else
         $this->struct_charset = $this->_structure_charset($structure);
 
+      /*
+        @TODO: here we can recognize malformed BODYSTRUCTURE and parse
+	the message in other way to create our own message structure.
+	Example of structure for malformed MIME message:
+	("text" "plain" ("charset" "us-ascii") NIL NIL "7bit" 2154 70 NIL NIL NIL)
+
+	if ($headers->ctype != 'text/plain'
+	  && !is_array($structure[0]) && $structure[0] == 'text' 
+	  && !is_array($structure[1]) && $structure[1] == 'plain') 
+	  { }
+      */
+
       $struct = &$this->_structure_part($structure);
       $struct->headers = get_object_vars($headers);
 
