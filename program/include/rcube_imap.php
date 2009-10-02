@@ -1554,7 +1554,7 @@ class rcube_imap
     // convert charset (if text or message part)
     if ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message') {
       // assume default if no charset specified
-      if (empty($o_part->charset))
+      if (empty($o_part->charset) || strtolower($o_part->charset) == 'us-ascii')
         $o_part->charset = $this->default_charset;
 
       $body = rcube_charset_convert($body, $o_part->charset);
