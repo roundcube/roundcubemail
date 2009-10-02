@@ -2270,7 +2270,7 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 					}
 					else
 						$prev = '';
-
+						
 					if ($file)
 						fwrite($file, base64_decode($line));
             				else if ($print)
@@ -2306,7 +2306,6 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 				}
         		}
     		}
-
 	        // read in anything up until last line
 		if (!$end)
 			do {
@@ -2314,18 +2313,17 @@ function iil_C_HandlePartBody(&$conn, $mailbox, $id, $is_uid=false, $part='', $e
 			} while (!iil_StartsWith($line, $key, true));
 
     		if ($result) {
-	    		$result = rtrim($result, "\t\r\n\0\x0B");
 			if ($file) {
 				fwrite($file, $result);
 			} else if ($print) {
 				echo $result;
 			} else
-				return $result; // substr($result, 0, strlen($result)-1);
+				return $result;
 
 			return true;
     		}
 	}
-    
+
 	return false;
 }
 
