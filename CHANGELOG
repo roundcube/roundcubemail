@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added attachment upload indicator with parallel upload (#1486058)
 - Use default_charset for bodies of messages without charset definition (#1486187)
 - Password: added cPanel driver
 - Fix return to first page from e-mail screen (#1486105)

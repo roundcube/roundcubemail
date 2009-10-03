@@ -57,7 +57,7 @@ class filesystem_attachments extends rcube_plugin
         $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
 
         if (move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
-            $args['id'] = count($_SESSION['plugins']['filesystem_attachments']['tmp_files'])+1;
+            $args['id'] = $this->file_id();
             $args['path'] = $tmpfname;
             $args['status'] = true;
 
@@ -88,7 +88,7 @@ class filesystem_attachments extends rcube_plugin
                 return $args;
         }
         
-        $args['id'] = count($_SESSION['plugins']['filesystem_attachments']['tmp_files'])+1;
+        $args['id'] = $this->file_id();
         $args['status'] = true;
             
         // Note the file for later cleanup
@@ -145,5 +145,12 @@ class filesystem_attachments extends rcube_plugin
             unset($_SESSION['plugins']['filesystem_attachments']['tmp_files']);
         }
         return $args;
+    }
+
+    function file_id()
+    {
+        $userid = rcmail::get_instance()->user->ID;
+	list($usec, $sec) = explode(' ', microtime()); 
+        return preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
     }
 }

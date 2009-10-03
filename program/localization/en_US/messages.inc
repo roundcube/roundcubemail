@@ -28,6 +28,7 @@ $messages['nomessagesfound'] = 'No messages found in this mailbox';
 $messages['loggedout'] = 'You have successfully terminated the session. Good bye!';
 $messages['mailboxempty'] = 'Mailbox is empty';
 $messages['loading'] = 'Loading...';
+$messages['uploading'] = 'Uploading file...';
 $messages['loadingdata'] = 'Loading data...';
 $messages['checkingmail'] = 'Checking for new messages...';
 $messages['sendingmessage'] = 'Sending message...';

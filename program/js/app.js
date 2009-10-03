@@ -1629,15 +1629,15 @@ function rcube_webmail()
     // also send search request to get the right messages
     if (this.env.search_request)
       add_url += '&_search='+this.env.search_request;
-
+      
     // set page=1 if changeing to another mailbox
-    if (!page && this.env.mailbox != mbox)
+    if (!page)
       {
       page = 1;
       this.env.current_page = page;
       this.show_contentframe(false);
       }
-
+    
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       add_url += '&_refresh=1';
 
@@ -2171,6 +2171,14 @@ function rcube_webmail()
       return false;
       }
 
+    // check if all files has been uploaded
+    if (this.gui_objects.attachmentlist) {
+      var list = this.gui_objects.attachmentlist.getElementsByTagName("li");
+      for (i=0;i<list.length;i++)
+        if (!String(list[i].id).match(/^rcmfile/))
+          return false;
+    }
+    
     // display localized warning for missing subject
     if (input_subject.val() == '')
       {
@@ -2450,10 +2458,38 @@ function rcube_webmail()
         document.body.appendChild(frame);
         }
 
+      // handle upload errors, parsing iframe content in onload
+      var fr = document.getElementsByName(frame_name)[0];
+      $(fr).bind('load', {ts:ts}, function(e) {
+	var content = '';
+        try {
+          if (this.contentDocument) {
+	    var d = this.contentDocument;
+	  } else if (this.contentWindow) {
+	    var d = this.contentWindow.document;
+	  }
+	  content = d.childNodes[0].innerHTML;
+        } catch (e) {}
+
+	if (!content.match(/add2attachment/)) {
+	alert(content)
+	  rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
+	  rcmail.remove_from_attachment_list(e.data.ts);
+        }
+      });
+
       form.target = frame_name;
-      form.action = this.env.comm_path+'&_action=upload';
+      form.action = this.env.comm_path+'&_action=upload&_uploadid='+ts;
       form.setAttribute('enctype', 'multipart/form-data');
       form.submit();
+      
+      // hide upload form
+      this.show_attachment_form(false);
+      // display upload indicator
+      var content = this.get_label('uploading');
+      if (this.env.loadingicon)
+        content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
+      this.add2attachment_list(ts, content);
       }
     
     // set reference to the form object
@@ -2463,12 +2499,21 @@ function rcube_webmail()
 
   // add file name to attachment list
   // called from upload page
-  this.add2attachment_list = function(name, content)
+  this.add2attachment_list = function(name, content, upload_id)
     {
     if (!this.gui_objects.attachmentlist)
       return false;
-      
-    $('<li>').attr('id', name).html(content).appendTo(this.gui_objects.attachmentlist);
+    
+    var indicator;
+    // replace indicator's li
+    if (upload_id && (indicator = document.getElementById(upload_id))) {
+      var li = document.createElement('li');
+      $(li).attr('id', name).html(content);
+      indicator.parentNode.replaceChild(li, indicator);
+      } else { // add new li
+      $('<li>').attr('id', name).html(content).appendTo(this.gui_objects.attachmentlist);
+      }
+    
     return true;
     };
 
