@@ -2472,7 +2472,6 @@ function rcube_webmail()
         } catch (e) {}
 
 	if (!content.match(/add2attachment/)) {
-	alert(content)
 	  rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
 	  rcmail.remove_from_attachment_list(e.data.ts);
         }
