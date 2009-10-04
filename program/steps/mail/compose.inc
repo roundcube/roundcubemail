@@ -92,9 +92,9 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
 
 
 // add some labels to client
-$OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning',
-    'nobodywarning', 'notsentwarning', 'savingmessage', 'sendingmessage', 'messagesaved',
-    'converting', 'editorwarning', 'searching', 'uploading', 'fileuploaderror');
+$OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
+    'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
+    'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'fileuploaderror');
 
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
@@ -809,6 +809,8 @@ function rcmail_compose_attachment_list($attrib)
 
   if ($attrib['deleteicon'])
     $_SESSION['compose']['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
+  if ($attrib['cancelicon'])
+    $OUTPUT->set_env('cancelicon', $CONFIG['skin_path'] . $attrib['cancelicon']);
   if ($attrib['loadingicon'])
     $OUTPUT->set_env('loadingicon', $CONFIG['skin_path'] . $attrib['loadingicon']);
 

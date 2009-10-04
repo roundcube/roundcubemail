@@ -1631,7 +1631,7 @@ function rcube_webmail()
       add_url += '&_search='+this.env.search_request;
 
     // set page=1 if changeing to another mailbox
-    if (!page  && this.env.mailbox != mbox)
+    if (!page && this.env.mailbox != mbox)
       {
       page = 1;
       this.env.current_page = page;
@@ -2176,7 +2176,10 @@ function rcube_webmail()
       var list = this.gui_objects.attachmentlist.getElementsByTagName("li");
       for (i=0;i<list.length;i++)
         if (!String(list[i].id).match(/^rcmfile/))
+          {
+          alert(this.get_label('notuploadedwarning'));
           return false;
+          }
     }
     
     // display localized warning for missing subject
@@ -2484,10 +2487,12 @@ function rcube_webmail()
       
       // hide upload form
       this.show_attachment_form(false);
-      // display upload indicator
+      // display upload indicator and cancel button
       var content = this.get_label('uploading');
       if (this.env.loadingicon)
         content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
+      if (this.env.cancelicon)
+        content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
       this.add2attachment_list(ts, content);
       }
     
@@ -2533,6 +2538,16 @@ function rcube_webmail()
       this.http_post('remove-attachment', '_file='+urlencode(name));
 
     return true;
+    };
+
+  this.cancel_attachment_upload = function(name, frame_name)
+    {
+    if (!name || !frame_name)
+      return false;
+
+    this.remove_from_attachment_list(name);
+    $("iframe[name='"+frame_name+"']").remove();
+    return false;
     };
 
   // send remote request to add a new contact

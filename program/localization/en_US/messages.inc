@@ -69,6 +69,7 @@ $messages['notsentwarning'] = 'Message has not been sent. Do you want to discard
 $messages['noldapserver'] = 'Please select an ldap server to search';
 $messages['nocontactsreturned'] = 'No contacts were found';
 $messages['nosearchname'] = 'Please enter a contact name or email address';
+$messages['notuploadedwarning'] = 'Not all attachments have been uploaded yet. Please wait or cancel the upload.';
 $messages['searchsuccessful'] = '$nr messages found';
 $messages['searchnomatch'] = 'Search returned no matches';
 $messages['searching'] = 'Searching...';
