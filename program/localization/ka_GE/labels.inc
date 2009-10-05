@@ -9,10 +9,10 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Zaza Zviadadze <zviadadze@gmail.com>                          |
+| Author: Zaza Zviadadze 						                        |
 +-----------------------------------------------------------------------+
 
-@version $Id: labels.inc 842 2009-03-16 01:00:02Z  zaza$
+@version $Id: labels.inc 842 2009-10-03 19:00:00  zaza$
 
 */
 
@@ -115,12 +115,15 @@ $labels['markread'] = 'როგორც წაკითხული';
 $labels['markunread'] = 'როგორც წაუკითხავი';
 $labels['markflagged'] = 'როგორც მონიშნული';
 $labels['markunflagged'] = 'როგორც მოუნიშნავი';
+$labels['messageactions'] = 'მეტი ფუნქციები';
 $labels['select'] = 'მონიშვნა';
 $labels['all'] = 'ყველა';
 $labels['none'] = 'არცერთი';
 $labels['unread'] = 'წაუკითხავი';
 $labels['flagged'] = 'მონიშნული';
 $labels['unanswered'] = 'უპასუხო';
+$labels['deleted'] = 'წაშლილი';
+$labels['invert'] = 'შებრუნებული';
 $labels['filter'] = 'ფილტრი';
 $labels['compact'] = 'შეკუმშვა';
 $labels['empty'] = 'გაცარიელება';
@@ -130,8 +133,12 @@ $labels['unknown'] = 'უცნობი';
 $labels['unlimited'] = 'შეუზღუდავი';
 $labels['quicksearch'] = 'სწრაფი ძიება';
 $labels['resetsearch'] = 'ძიების გასუფთავება';
+$labels['searchmod'] = 'ძებნის ვარიანტები';
+$labels['msgtext'] = 'ყველა შეტყობინება';
 $labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
+$labels['emlsave'] = 'გადმოწერა (.eml)';
 $labels['compose'] = 'შეტყობინების დაწერა';
+$labels['editasnew'] = 'რედაქტირება როგორც ახლის';
 $labels['savemessage'] = 'დროებით შენახვა';
 $labels['sendmessage'] = 'შეტყობინების გაგზავნა';
 $labels['addattachment'] = 'ფაილის ატვირთვა';
@@ -242,6 +249,13 @@ $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['advancedoptions'] = 'დამატებითი პარამეტრები';
 $labels['focusonnewmessage'] = 'ფოკუსირება ახალ შეტყობინებებზე';
 $labels['checkallfolders'] = 'შეამოწმე ყველა საქაღალდე ახალ შეტყობინებაზე';
+$labels['displaynext'] = 'შეტყობინების წაშლის ან გადატანის შემდეგ გამოჩნდეს შემდეგი შეტყობინება';
+$labels['indexsort'] = 'თარიღით დალაგებისთვის გამოიყენე შეტყობინების ინდექსი';
+$labels['mainoptions'] = 'ძირითადი პარამეტრები';
+$labels['section'] = 'განყოფილება';
+$labels['maintenance'] = 'მომსახურება';
+$labels['newmessage'] = 'ახალი შეტყობინება';
+$labels['listoptions'] = 'პარამეტრების ჩამონათვალი';
 $labels['folder'] = 'საქაღალდე';
 $labels['folders'] = 'საქაღალდეები';
 $labels['foldername'] = 'საქაღალდის დასახელება';

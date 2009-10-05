@@ -15,7 +15,7 @@
 |         http://softastur.org                                          |
 +-----------------------------------------------------------------------+
 
- @version $Id: messages.inc 2036 2009-02-02 04:37:58Z mikelg $
+@version $Id: messages.inc 2036 2009-02-02 04:37:58Z mikelg $
 
 */
 
@@ -24,6 +24,8 @@ $messages['loginfailed'] = 'La clave nun val';
 $messages['cookiesdisabled'] = 'El to navegador nun acepta "cookies"';
 $messages['sessionerror'] = 'La to sesión nun val';
 $messages['imaperror'] = 'Fallu de conexón col sirvidor IMAP';
+$messages['servererror'] = '¡Fallu del sirvidor!';
+$messages['invalidrequest'] = 'Fallu de la solicitú. Nun se guardaron datos.';
 $messages['nomessagesfound'] = 'Nun doi con mensaxes';
 $messages['loggedout'] = 'Zarraste la sesión.';
 $messages['mailboxempty'] = 'La to cuenta nun tien mensaxes';
@@ -47,6 +49,7 @@ $messages['errorsavingsent'] = 'Di con un fallu al guardar el mensaxe';
 $messages['errorsaving'] = 'Falló al guardase';
 $messages['errormoving'] = 'Nun fui a mover el mensaxe';
 $messages['errordeleting'] = 'Nun fui a desaniciar el mensaxe';
+$messages['errormarking'] = 'Nun se puede marcar el mensaxe';
 $messages['deletecontactconfirm'] = '¿Tas seguru de desaniciar los contautos que marcaste?';
 $messages['deletemessagesconfirm'] = '¿Tas seguru de desaniciar los mensaxes que marcaste?';
 $messages['deletefolderconfirm'] = '¿Tas seguru de desaniciar esta bandexa?';
@@ -96,5 +99,12 @@ $messages['importconfirm'] = '<b>Importaronse correchamente $inserted contautos,
 $messages['opnotpermitted'] = 'Nun tienes permisu pa facelo.';
 $messages['nofromaddress'] = 'Perdiose la direición de corréu de la identidá qu\'escoyisti';
 $messages['editorwarning'] = 'Si pases a editor en modu testu vas perder tol estilu aplicáu al mensaxe. ¿Tas seguru de que quies facelo?';
+$messages['httpreceivedencrypterror'] = 'Hai un fallu garrafal de configuración. Contauta col alministrador de secute. <b>Nun se pude unviar el mesaxe</b>';
+$messages['smtpconnerror'] = 'Fallu SMTP ($code): Fallu de conexón col sirvidor';
+$messages['smtpautherror'] = 'Fallu SMTP ($code): Fallu d\'autorización';
+$messages['smtpfromerror'] = 'Fallu SMTP ($code): Fallu al aficar el remitente "$from"';
+$messages['smtptoerror'] = 'Fallu SMTP ($code): Fallu al amestar el destinatariu "$to"';
+$messages['smtprecipientserror'] = 'Fallu SMTP: Nun soi a amosar la llista de destinatarios';
+$messages['smtperror'] = 'Fallu SMTP: $msg';
 
 ?>

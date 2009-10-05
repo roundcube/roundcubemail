@@ -14,6 +14,7 @@
 |          João Vale <jpvale@gmail.com>                                 |
 |          Fernando Silva <fernando.silva@openquest.pt>                 |
 |          Nuno Costa <nuno@criacaoweb.net>                             |
+|          Teotónio Ricardo <teotonio.ricardo@webtuga.pt>               |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -254,6 +255,7 @@ $labels['advancedoptions'] = 'Opções avançadas';
 $labels['focusonnewmessage'] = 'Focar janela de navegador na nova mensagem';
 $labels['checkallfolders'] = 'Verificar todas as pastas para novas mensagens';
 $labels['displaynext'] = 'Depois de mover/eliminar uma mensagem, mostrar a próxima mensagem';
+$labels['indexsort'] = 'Utilize o índice de mensagens para ordenar por data';
 $labels['mainoptions'] = 'Opções';
 $labels['section'] = 'Secção';
 $labels['maintenance'] = 'Manutenção';

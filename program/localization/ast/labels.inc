@@ -15,33 +15,25 @@
 |         http://softastur.org                                          |
 +-----------------------------------------------------------------------+
 
- @version $Id: labels.inc 2124 2009-02-02 03:55:53Z mikelg $
+@version $Id: labels.inc 2124 2009-02-02 03:55:53Z mikelg $
 
 */
 
 $labels = array();
-
-// login page
 $labels['welcome'] = 'Bienllegáu a $product';
 $labels['username'] = 'Usuariu';
 $labels['password'] = 'Clave';
 $labels['server'] = 'Sirvidor';
 $labels['login'] = 'Entrar';
-
-// taskbar
 $labels['logout'] = 'Zarrar';
 $labels['mail'] = 'Corréu';
 $labels['settings'] = 'Preferencies personales';
 $labels['addressbook'] = 'Llibru de direiciones';
-
-// mailbox names
 $labels['inbox'] = 'Entrantes';
 $labels['drafts'] = 'Borradores';
 $labels['sent'] = 'Unviaos';
 $labels['trash'] = 'Papelera';
 $labels['junk'] = 'Puxarra';
-
-// message listing
 $labels['subject'] = 'Asuntu';
 $labels['from'] = 'De';
 $labels['to'] = 'Pa';
@@ -52,27 +44,18 @@ $labels['date'] = 'Fecha';
 $labels['size'] = 'Tamañu';
 $labels['priority'] = 'Prioridá';
 $labels['organization'] = 'Organización';
-
-// aliases
-$labels['reply-to'] = $labels['replyto'];
-
+$labels['reply-to'] = 'Contestar a';
 $labels['mailboxlist'] = 'Carpetes';
 $labels['messagesfromto'] = 'Mensaxes del $from a $to de $count';
 $labels['messagenrof'] = 'Mensaxe $nr de $count';
-
 $labels['moveto'] = 'mover pa...';
 $labels['download'] = 'baxar';
-
 $labels['filename'] = 'Nome del Ficheru';
 $labels['filesize'] = 'Tamañu del ficheru';
-
 $labels['preferhtml'] = 'Amosar HTML';
 $labels['htmlmessage'] = 'Mensaxe HTML';
 $labels['prettydate'] = 'Fecha prestosa';
-
 $labels['addtoaddressbook'] = 'Amestar al llibru de direiciones';
-
-// weekdays short
 $labels['sun'] = 'Dom';
 $labels['mon'] = 'Llu';
 $labels['tue'] = 'Mar';
@@ -80,8 +63,6 @@ $labels['wed'] = 'Mie';
 $labels['thu'] = 'Xue';
 $labels['fri'] = 'Vie';
 $labels['sat'] = 'Sab';
-
-// weekdays long
 $labels['sunday'] = 'Domingu';
 $labels['monday'] = 'Llunes';
 $labels['tuesday'] = 'Martes';
@@ -89,8 +70,6 @@ $labels['wednesday'] = 'Miércoles';
 $labels['thursday'] = 'Xueves';
 $labels['friday'] = 'Vienres';
 $labels['saturday'] = 'Sábadu';
-
-// months short
 $labels['jan'] = 'Xin';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
@@ -103,8 +82,6 @@ $labels['sep'] = 'Set';
 $labels['oct'] = 'Och';
 $labels['nov'] = 'Pay';
 $labels['dec'] = 'Avi';
-
-// months long
 $labels['longjan'] = 'Xineru';
 $labels['longfeb'] = 'Febreru';
 $labels['longmar'] = 'Marzu';
@@ -117,10 +94,7 @@ $labels['longsep'] = 'Setiembre';
 $labels['longoct'] = 'Ochobre';
 $labels['longnov'] = 'Payares';
 $labels['longdec'] = 'Avientu';
-
 $labels['today'] = 'Güei';
-
-// toolbar buttons
 $labels['checkmail'] = 'Buscar mensaxes nuevos';
 $labels['writenewmessage'] = 'Facer un mensaxe nuevu';
 $labels['replytomessage'] = 'Contestar al mensaxe';
@@ -144,124 +118,102 @@ $labels['markread'] = 'Como lleíu';
 $labels['markunread'] = 'Como non lleíu';
 $labels['markflagged'] = 'Como marcáu';
 $labels['markunflagged'] = 'Como non marcáu';
-
+$labels['messageactions'] = 'Más aiciones...';
 $labels['select'] = 'Escueye';
 $labels['all'] = 'Toos';
 $labels['none'] = 'Nengún';
 $labels['unread'] = 'Ensin lleer';
 $labels['flagged'] = 'Marcáu';
 $labels['unanswered'] = 'Ensin contestar';
+$labels['deleted'] = 'Desaniciáu';
+$labels['invert'] = 'Invertir';
 $labels['filter'] = 'Filtru';
-
 $labels['compact'] = 'Compautar';
 $labels['empty'] = 'Vaciar';
 $labels['purge'] = 'Desaniciar';
-
 $labels['quota'] = 'Espaciu en discu';
 $labels['unknown'] = 'desconocíu';
 $labels['unlimited'] = 'ensin llímite';
-
 $labels['quicksearch'] = 'Búsqueda rápida';
 $labels['resetsearch'] = 'Anovar la búsqueda';
-
+$labels['searchmod'] = 'Guetar modificadores';
+$labels['msgtext'] = 'Mensax completu';
 $labels['openinextwin'] = 'Abrir en una ventana nueva';
-
-// message compose
+$labels['emlsave'] = 'Baxar (.eml)';
 $labels['compose'] = 'Escribir un mensaxe';
+$labels['editasnew'] = 'Editar como nuevu';
 $labels['savemessage'] = 'Guardar como borrador';
 $labels['sendmessage'] = 'Unviar el mensaxe yá';
 $labels['addattachment'] = 'Amestar un archivu';
 $labels['charset'] = 'Codificación';
 $labels['editortype'] = 'Tipo d\'editor';
 $labels['returnreceipt'] = 'Avisu de recibu';
-
 $labels['checkspelling'] = 'Revisar ortografía';
 $labels['resumeediting'] = 'Siguir cola edición';
 $labels['revertto'] = 'Desfacer a';
-
 $labels['attachments'] = 'Axuntos';
 $labels['upload'] = 'Xubir';
 $labels['close'] = 'Zarrar';
-
 $labels['low'] = 'Baxu';
 $labels['lowest'] = 'Mui baxu';
 $labels['normal'] = 'Normal';
 $labels['high'] = 'Altu';
 $labels['highest'] = 'Mui altu';
-
 $labels['nosubject'] = '(ensin asuntu)';
 $labels['showimages'] = 'Amosar imáxenes';
 $labels['alwaysshow'] = 'Amosar siempre les imáxenes de $sender';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testu';
 $labels['savesentmessagein'] = 'Guardar mensaxe unviau en';
 $labels['dontsave'] = 'Desanicialu';
 $labels['maxuploadsize'] = 'El tamañu másimu pa un ficheru ye $size';
-
 $labels['addcc'] = 'Amestar Cc';
 $labels['addbcc'] = 'Amestar Bcc';
 $labels['addreplyto'] = 'Amestar Rempuesta pa';
-
-// mdn
 $labels['mdnrequest'] = 'El qu\'unvia esti mensaxe quier que lo avises cuando lleas el corréu. ¿Quies avisalo?';
 $labels['receiptread'] = 'Avisu de llectura';
 $labels['yourmessage'] = 'Esto ye un avisu de llectura del to mensaxe';
 $labels['receiptnote'] = 'Nota: Esti avisu namás quier dicir que\'l to mensaxe amosośe nel equipu del receptor. Nun hai forma de garantizate que lo lleera o que pescanciara\'l to mensaxe.';
-
-// address boook
 $labels['name'] = 'Nome completu';
 $labels['firstname'] = 'Nome';
 $labels['surname'] = 'Apellíu';
 $labels['email'] = 'Corréu';
-
 $labels['addcontact'] = 'Amestar contautu nuevu';
 $labels['editcontact'] = 'Editar contautu';
-
 $labels['edit'] = 'Editar';
 $labels['cancel'] = 'Encaboxar';
 $labels['save'] = 'Guardar';
 $labels['delete'] = 'Desaniciar';
-
 $labels['newcontact'] = 'Facer un contautu nuevu';
 $labels['deletecontact'] = 'Desaniciar los contautos marcaos';
 $labels['composeto'] = 'Unviar mensaxe a';
 $labels['contactsfromto'] = 'Contautos $from a $to de $count';
 $labels['print'] = 'Imprentar';
 $labels['export'] = 'Esportar';
-$labels['exportvcards']   = 'Esportar contautos en formatu vCard';
-
+$labels['exportvcards'] = 'Esportar contautos en formatu vCard';
 $labels['previouspage'] = 'Amosar grupu anterior';
 $labels['firstpage'] = 'Amosar primer grupu';
 $labels['nextpage'] = 'Amosar siguiente grupu';
 $labels['lastpage'] = 'Amosar l\'últimu grupu';
-
 $labels['groups'] = 'Grupos';
 $labels['personaladrbook'] = 'Direiciones personales';
-
 $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importar contautos';
 $labels['importfromfile'] = 'Importar dende un ficheru:';
 $labels['importreplace'] = 'Trocar el llibru de direiciones enteru';
 $labels['importtext'] = 'Puedes xubir direcione d\'un llibr que yá tengas.<br/>Anguaño puedes importar direiciones en formatu <a href="http://ast.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Fecho';
-
-// settings
 $labels['settingsfor'] = 'Configuración pa';
-
 $labels['preferences'] = 'Preferencies';
 $labels['userpreferences'] = 'Preferencies d\'usuariu';
 $labels['editpreferences'] = 'Editar preferencies d\'usuariu';
-
 $labels['identities'] = 'Identidaes';
 $labels['manageidentities'] = 'Remanar identidaes pa esta cuenta';
 $labels['newidentity'] = 'Identidad nueva';
-
 $labels['newitem'] = 'Nuevu';
 $labels['edititem'] = 'Editar';
-
 $labels['setdefault'] = 'Escoyer opción preferída';
-$labels['autodetect']  = 'Escoyer automáticamente';
+$labels['autodetect'] = 'Escoyer automáticamente';
 $labels['language'] = 'Idioma';
 $labels['timezone'] = 'Franxa horaria';
 $labels['pagesize'] = 'Fileres per páxina';
@@ -288,8 +240,8 @@ $labels['fromknownsenders'] = 'de contautos conocíos';
 $labels['always'] = 'siempre';
 $labels['showinlineimages'] = 'Amosar imáxenes axuntes embaxu\'l mensaxe';
 $labels['autosavedraft'] = 'Guardar borrador de secute';
-$labels['everynminutes']  = 'cada $n minutu/os';
-$labels['keepalive']  = 'Guetar mensaxes nuevos cada';
+$labels['everynminutes'] = 'cada $n minutu/os';
+$labels['keepalive'] = 'Guetar mensaxes nuevos cada';
 $labels['never'] = 'nunca';
 $labels['messagesdisplaying'] = 'Vista de mensaxes';
 $labels['messagescomposition'] = 'Edición de mensaxes';
@@ -300,7 +252,13 @@ $labels['2047folding'] = 'Too RFC 2047 (otros)';
 $labels['advancedoptions'] = 'Opciones avanzaes';
 $labels['focusonnewmessage'] = 'Poner el focu nos mensaxes nuevos';
 $labels['checkallfolders'] = 'Guetar mensaxes nuevos en toles bandexes';
-
+$labels['displaynext'] = 'Depués de mover/desaniciar amosar el mensaxe que sigue darréu';
+$labels['indexsort'] = 'Usar l\'indiz del mensaxe pa ordenalu por fecha';
+$labels['mainoptions'] = 'Opciones principales';
+$labels['section'] = 'Seición';
+$labels['maintenance'] = 'Mantenimientu';
+$labels['newmessage'] = 'Mensax nuevu';
+$labels['listoptions'] = 'Allistar opciones';
 $labels['folder'] = 'Bandexa';
 $labels['folders'] = 'Bandexes';
 $labels['foldername'] = 'Nome de bandexa';
@@ -313,12 +271,9 @@ $labels['renamefolder'] = 'Renomar bandexa';
 $labels['deletefolder'] = 'Desaniciar bandexa';
 $labels['managefolders'] = 'Alministrar bandexes';
 $labels['specialfolders'] = 'Bandexes especiales';
-
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc'] = 'Orden ascendente';
 $labels['sortdesc'] = 'Orden descendente';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';

@@ -26,6 +26,7 @@ $messages['cookiesdisabled'] = 'Su navegador no acepta cookies';
 $messages['sessionerror'] = 'Su sesión no existe o ha expirado';
 $messages['imaperror'] = 'Error de conexión con el servidor IMAP';
 $messages['servererror'] = '¡Error en el servidor!';
+$messages['invalidrequest'] = 'Peteción invalida! No se guardó nada.';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
 $messages['loggedout'] = 'Ha cerrado la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
@@ -49,6 +50,7 @@ $messages['errorsavingsent'] = 'Ocurrió un error al guardar el mensaje enviado'
 $messages['errorsaving'] = 'Ocurrió un error al guardar';
 $messages['errormoving'] = 'No se ha podido mover el mensaje';
 $messages['errordeleting'] = 'No se ha podido eliminar el mensaje';
+$messages['errormarking'] = 'No se puede marcar el mensaje.';
 $messages['deletecontactconfirm'] = '¿Realmente quiere eliminar los contactos seleccionados?';
 $messages['deletemessagesconfirm'] = '¿Realmente quiere eliminar los mensajes seleccionados?';
 $messages['deletefolderconfirm'] = '¿Realmente quiere eliminar esta carpeta?';
@@ -99,5 +101,11 @@ $messages['opnotpermitted'] = 'Operación no permitida!';
 $messages['nofromaddress'] = 'El contacto seleccionado no tiene dirección de e-mail';
 $messages['editorwarning'] = 'Si cambia a texto plano se perderán todas las opciones de formato. ¿Desea continuar?';
 $messages['httpreceivedencrypterror'] = 'Ha ocurrido un error fatal de configuración. Contacte inmediatamente a su administrador. <b>Su mensaje no ha sido enviado.</b>';
+$messages['smtpconnerror'] = 'Error SMTP ($code): Conexión al servidor falló';
+$messages['smtpautherror'] = 'Error SMTP ($code): Falló la autentificación';
+$messages['smtpfromerror'] = 'Error SMTP ($code): No se pudo establecer el remitente "$from"';
+$messages['smtptoerror'] = 'Error SMTP ($code): No se puedo agregar el destinatario "$to"';
+$messages['smtprecipientserror'] = 'Error SMTP: No se pudo leer la lista de destinatarios';
+$messages['smtperror'] = 'Error SMTP: $msg';
 
 ?>
