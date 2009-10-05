@@ -25,23 +25,28 @@ if (!$OUTPUT->ajax_call)
 
 $cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $target = get_input_value('_to', RCUBE_INPUT_POST);
-if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($target) && $target != $source)
+
+if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($target) && $target !== $source)
 {
-  $success = false;
+  $success = 0;
   $TARGET = $RCMAIL->get_address_book($target);
 
   if ($TARGET && $TARGET->ready && !$TARGET->readonly) {
-    $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $CONTACTS->search($CONTACTS->primary_key, $cid), 'source' => $target));
+    $arr_cids = split(',', $cid);
+    foreach ($arr_cids as $cid) {
+      $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $CONTACTS->get_record($cid, true), 'source' => $target));
     $a_record = $plugin['record'];
 
     if (!$plugin['abort'])
-      $success = $TARGET->insert($CONTACTS->search($a_record, true));
+        if ($TARGET->insert($a_record, true))
+          $success++;
+    }
   }
 
-  if (empty($success))
+  if ($success == 0)
     $OUTPUT->show_message('copyerror', 'error');
   else
-    $OUTPUT->show_message('copysuccess', 'notice', array('nr' => count($success)));
+    $OUTPUT->show_message('copysuccess', 'notice', array('nr' => $success));
     
   // close connection to second address directory
   $TARGET->close();
