@@ -1592,13 +1592,10 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 						$result[$id]->encoding = $string;
 						break;
 					case 'content-type':
-						$ctype_parts = explode(";", $string);
+						$ctype_parts = preg_split('/[; ]/', $string);
 						$result[$id]->ctype = array_shift($ctype_parts);
-						foreach ($ctype_parts as $ctype_add) {
-							if (preg_match('/charset="?([a-z0-9\-\.\_]+)"?/i',
-								$ctype_add, $regs)) {
-								$result[$id]->charset = $regs[1];
-							}
+						if (preg_match('/charset\s*=\s*"?([a-z0-9\-\.\_]+)"?/i', $string, $regs)) {
+							$result[$id]->charset = $regs[1];
 						}
 						break;
 					case 'in-reply-to':
