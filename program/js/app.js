@@ -2474,10 +2474,13 @@ function rcube_webmail()
 	  content = d.childNodes[0].innerHTML;
         } catch (e) {}
 
-	if (!content.match(/add2attachment/)) {
+	if (!String(content).match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
 	  rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
 	  rcmail.remove_from_attachment_list(e.data.ts);
         }
+	// Opera hack: handle double onload
+	if (bw.opera)
+	  rcmail.env.uploadframe = e.data.ts;
       });
 
       form.target = frame_name;
