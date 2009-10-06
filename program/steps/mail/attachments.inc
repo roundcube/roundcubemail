@@ -111,7 +111,11 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
 
       $content .= Q($attachment['name']);
       
-      $OUTPUT->command('add2attachment_list', "rcmfile$id", $content, $uploadid);
+      $OUTPUT->command('add2attachment_list', "rcmfile$id", array(
+        'html' => $content,
+        'name' => $attachment['name'],
+        'mimetype' => $attachment['mimetype'],
+        'complete' => true), $uploadid);
     }
     else {  // upload failed
       $err = $_FILES['_attachments']['error'][$i];

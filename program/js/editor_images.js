@@ -1,22 +1,12 @@
 
 var rc_client = tinyMCEPopup.getParam("rc_client");
-if (rc_client.gui_objects.attachmentlist)
+if (rc_client.env.attachments)
 {
    var tinyMCEImageList = new Array();
-   var attachElems = rc_client.gui_objects.attachmentlist.getElementsByTagName("li");
-   for (i = 0; i < attachElems.length; i++)
+   for (var id in rc_client.env.attachments)
    {
-      var liElem = attachElems[i];
-      var fname = attachElems[i].id;
-      for (j = 0; j < liElem.childNodes.length; j++)
-      {
-         if (liElem.childNodes[j].nodeName == "#text")
-         {
-            fname = liElem.childNodes[j].nodeValue;
-         }
-      }
-      
-      if (fname.match(/\.(bmp|gif|png|jpg|jpeg)$/))
-        tinyMCEImageList.push([fname, rc_client.env.comm_path+'&_action=display-attachment&_file='+attachElems[i].id]);
+      var att = rc_client.env.attachments[id];
+      if (att.complete && att.mimetype.indexOf('image/') == 0)
+        tinyMCEImageList.push([att.name, rc_client.env.comm_path+'&_action=display-attachment&_file='+id]);
    }
 };

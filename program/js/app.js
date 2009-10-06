@@ -2172,14 +2172,11 @@ function rcube_webmail()
       }
 
     // check if all files has been uploaded
-    if (this.gui_objects.attachmentlist) {
-      var list = this.gui_objects.attachmentlist.getElementsByTagName("li");
-      for (i=0;i<list.length;i++)
-        if (!String(list[i].id).match(/^rcmfile/))
-          {
-          alert(this.get_label('notuploadedwarning'));
-          return false;
-          }
+    for (var key in this.env.attachments) {
+      if (typeof this.env.attachments[key] == 'object' && !this.env.attachments[key].complete) {
+        alert(this.get_label('notuploadedwarning'));
+        return false;
+      }
     }
     
     // display localized warning for missing subject
@@ -2464,23 +2461,23 @@ function rcube_webmail()
       // handle upload errors, parsing iframe content in onload
       var fr = document.getElementsByName(frame_name)[0];
       $(fr).bind('load', {ts:ts}, function(e) {
-	var content = '';
+        var content = '';
         try {
           if (this.contentDocument) {
-	    var d = this.contentDocument;
-	  } else if (this.contentWindow) {
-	    var d = this.contentWindow.document;
-	  }
-	  content = d.childNodes[0].innerHTML;
+            var d = this.contentDocument;
+          } else if (this.contentWindow) {
+            var d = this.contentWindow.document;
+          }
+          content = d.childNodes[0].innerHTML;
         } catch (e) {}
 
-	if (!String(content).match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
-	  rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
-	  rcmail.remove_from_attachment_list(e.data.ts);
+        if (!String(content).match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
+          rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
+          rcmail.remove_from_attachment_list(e.data.ts);
         }
-	// Opera hack: handle double onload
-	if (bw.opera)
-	  rcmail.env.uploadframe = e.data.ts;
+        // Opera hack: handle double onload
+        if (bw.opera)
+          rcmail.env.uploadframe = e.data.ts;
       });
 
       form.target = frame_name;
@@ -2496,7 +2493,7 @@ function rcube_webmail()
         content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
       if (this.env.cancelicon)
         content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
-      this.add2attachment_list(ts, content);
+      this.add2attachment_list(ts, { name:'', html:content, complete:false });
       }
     
     // set reference to the form object
@@ -2506,26 +2503,35 @@ function rcube_webmail()
 
   // add file name to attachment list
   // called from upload page
-  this.add2attachment_list = function(name, content, upload_id)
-    {
+  this.add2attachment_list = function(name, att, upload_id)
+  {
     if (!this.gui_objects.attachmentlist)
       return false;
     
+    var li = $('<li>').attr('id', name).html(att.html);
     var indicator;
+    
     // replace indicator's li
     if (upload_id && (indicator = document.getElementById(upload_id))) {
-      var li = document.createElement('li');
-      $(li).attr('id', name).html(content);
-      indicator.parentNode.replaceChild(li, indicator);
-      } else { // add new li
-      $('<li>').attr('id', name).html(content).appendTo(this.gui_objects.attachmentlist);
-      }
+      li.replaceAll(indicator);
+    }
+    else { // add new li
+      li.appendTo(this.gui_objects.attachmentlist);
+    }
+    
+    if (upload_id && this.env.attachments[upload_id])
+      delete this.env.attachments[upload_id];
+    
+    this.env.attachments[name] = att;
     
     return true;
-    };
+  };
 
   this.remove_from_attachment_list = function(name)
-    {
+  {
+    if (this.env.attachments[name])
+      delete this.env.attachments[name];
+    
     if (!this.gui_objects.attachmentlist)
       return false;
 
@@ -2533,11 +2539,11 @@ function rcube_webmail()
     for (i=0;i<list.length;i++)
       if (list[i].id == name)
         this.gui_objects.attachmentlist.removeChild(list[i]);
-    };
+  };
 
   this.remove_attachment = function(name)
     {
-    if (name)
+    if (name && this.env.attachments[name])
       this.http_post('remove-attachment', '_file='+urlencode(name));
 
     return true;
@@ -2570,11 +2576,11 @@ function rcube_webmail()
       var addurl = '';
       if (this.message_list) {
         this.message_list.clear();
-	if (this.env.search_mods) {
+        if (this.env.search_mods) {
           var head_arr = new Array();
           for (var n in this.env.search_mods)
-	    head_arr.push(n);
-	  addurl += '&_headers='+head_arr.join(',');
+            head_arr.push(n);
+          addurl += '&_headers='+head_arr.join(',');
           }
         } else if (this.contact_list) {
         this.contact_list.clear(true);

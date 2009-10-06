@@ -781,6 +781,7 @@ function rcmail_compose_attachment_list($attrib)
     $attrib['id'] = 'rcmAttachmentList';
   
   $out = "\n";
+  $jslist = array();
   
   if (is_array($_SESSION['compose']['attachments']))
   {
@@ -798,12 +799,14 @@ function rcmail_compose_attachment_list($attrib)
       if (empty($a_prop))
         continue;
       
-      $out .= html::tag('li', array('id' => "rcmfile".$id),
+      $out .= html::tag('li', array('id' => 'rcmfile'.$id),
         html::a(array(
             'href' => "#delete",
             'title' => rcube_label('delete'),
             'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id)),
           $button) . Q($a_prop['name']));
+        
+        $jslist['rcmfile'.$id] = array('name' => $a_prop['name'], 'complete' => true, 'mimetype' => $a_prop['mimetype']);
     }
   }
 
@@ -814,6 +817,7 @@ function rcmail_compose_attachment_list($attrib)
   if ($attrib['loadingicon'])
     $OUTPUT->set_env('loadingicon', $CONFIG['skin_path'] . $attrib['loadingicon']);
 
+  $OUTPUT->set_env('attachments', $jslist);
   $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);
     
   return html::tag('ul', $attrib, $out, html::$common_attrib);
