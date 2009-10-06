@@ -219,19 +219,6 @@ input.disabled
   bottom: 20px;
 }
 
-#identity-title,
-#prefs-title,
-div.boxtitle
-{
-  height: 12px !important;
-  padding: 2px 10px 5px 10px;
-  border-bottom: 1px solid #999999;
-  color: #333333;
-  font-size: 11px;
-  font-weight: bold;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
-}
-
 div.settingsbox
 {
   width: 600px;

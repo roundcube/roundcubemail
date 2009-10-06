@@ -159,7 +159,7 @@ class password extends rcube_plugin
     $table->add(null, $input_confpasswd->show());
 
     $out = html::div(array('class' => "settingsbox", 'style' => "margin:0"),
-      html::div(array('id' => "prefs-title"), $this->gettext('changepasswd')) .
+      html::div(array('id' => "prefs-title", 'class' => 'boxtitle'), $this->gettext('changepasswd')) .
       html::div(array('style' => "padding:15px"), $table->show() .
         html::p(null,
           $rcmail->output->button(array(
