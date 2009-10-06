@@ -2283,10 +2283,14 @@ function rcube_webmail()
       str += editor.getContent();
     else
       str += $("[name='_message']").val();
-    
+
+    if (this.env.attachments)
+      for (var upload_id in this.env.attachments)
+        str += upload_id;
+
     if (save)
       this.cmp_hash = str;
-    
+
     return str;
     };
     

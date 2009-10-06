@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix newly attached files are not saved in drafts w/o editing any text (#1486202)
 - Added attachment upload indicator with parallel upload (#1486058)
 - Use default_charset for bodies of messages without charset definition (#1486187)
 - Password: added cPanel driver
