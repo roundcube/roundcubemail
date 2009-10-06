@@ -318,7 +318,19 @@ img
   font-weight: bold;
   background: url('images/listheader.gif') top left repeat-x #CCC;
 }
-	      
+
+.boxcontent
+{
+  padding: 15px 10px 10px 10px;
+}
+
+.boxcontent table td.title
+{
+  color: #666;
+  padding-right: 10px;
+}
+
+
 /***** common table settings ******/
 
 table.records-table thead tr td
@@ -500,9 +512,7 @@ a.rcmContactAddress:hover
 
 #login-form table td.title
 {
-  color: #666;
   text-align: right;
-  padding-right: 10px;
   white-space: nowrap;
 }
 
@@ -510,11 +520,6 @@ a.rcmContactAddress:hover
 {
   width: 1%;
   margin: auto;
-}
-
-#login-form .boxcontent
-{
-  padding: 20px 10px 10px 10px;
 }
 
 #rcmloginuser, #rcmloginpwd, #rcmloginhost
@@ -525,4 +530,70 @@ a.rcmContactAddress:hover
 #console
 {
   opacity: 0.8;
+}
+
+
+/***** onclick menu list *****/
+
+ul.toolbarmenu
+{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.toolbarmenu li
+{
+  font-size: 11px;
+  white-space: nowrap;
+  min-width: 130px;
+}
+
+ul.toolbarmenu li a
+{
+  display: block;
+  color: #a0a0a0;
+  padding: 2px 8px 3px 22px;
+  text-decoration: none;
+  min-height: 14px;
+}
+
+ul.toolbarmenu li a.active,
+ul.toolbarmenu li a.active:active,
+ul.toolbarmenu li a.active:visited
+{
+  color: #333;
+}
+
+ul.toolbarmenu li input
+{
+  vertical-align: middle;
+}
+
+ul.toolbarmenu li hr
+{
+  color: #ccc;
+  width: 130px;
+  height: 1px;
+  margin: 2px 1px 2px 1px;
+}
+
+ul.toolbarmenu li img
+{
+  float: left;
+  margin: 0 2px;
+}
+
+ul.toolbarmenu li.separator_below
+{
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+}
+
+ul.toolbarmenu li.separator_above
+{
+  border-top: 1px solid #ccc;
+  margin-top: 2px;
+  padding-top: 2px;
 }

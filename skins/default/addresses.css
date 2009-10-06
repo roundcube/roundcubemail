@@ -218,15 +218,8 @@ body.iframe,
   border: none;
 }
 
-#contact-details
-{
-  padding: 15px 10px 10px 10px;
-}
-
 #contact-details table td.title
 {
-  color: #666;
   font-weight: bold;
   text-align: right;
-  padding-right: 10px;
 }

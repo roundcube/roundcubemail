@@ -178,69 +178,6 @@
   width: 172px;
 }
 
-ul.toolbarmenu
-{
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-ul.toolbarmenu li
-{
-  font-size: 11px;
-  white-space: nowrap;
-  min-width: 130px;
-}
-
-ul.toolbarmenu li a
-{
-  display: block;
-  color: #a0a0a0;
-  padding: 2px 8px 3px 22px;
-  text-decoration: none;
-  min-height: 14px;
-}
-
-ul.toolbarmenu li a.active,
-ul.toolbarmenu li a.active:active,
-ul.toolbarmenu li a.active:visited
-{
-  color: #333;
-}
-
-ul.toolbarmenu li input
-{
-  vertical-align: middle;
-}
-
-ul.toolbarmenu li hr
-{
-  color: #ccc;
-  width: 130px;
-  height: 1px;
-  margin: 2px 1px 2px 1px;
-}
-
-ul.toolbarmenu li img
-{
-  float: left;
-  margin: 0 2px;
-}
-
-ul.toolbarmenu li.separator_below
-{
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 2px;
-  padding-bottom: 2px;
-}
-
-ul.toolbarmenu li.separator_above
-{
-  border-top: 1px solid #ccc;
-  margin-top: 2px;
-  padding-top: 2px;
-}
-
 #messagemenu li a.active:hover,
 #markmessagemenu li a.active:hover
 {

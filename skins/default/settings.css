@@ -199,10 +199,8 @@ span.tablink-selected a
 
 #identity-details table td.title
 {
-  color: #666666;
   font-weight: bold;
   text-align: right;
-  padding-right: 10px;
 }
 
 input.disabled
@@ -224,12 +222,6 @@ div.settingsbox
   width: 600px;
   margin-top: 20px;
   border: 1px solid #999999;
-}
-
-div.settingspart
-{
-  display: block;
-  padding: 10px;
 }
 
 fieldset 
@@ -292,17 +284,6 @@ body.iframe,
   border: none;
 }
 
-#prefs-details
-{
-  margin: 15px;
-}
-
-#prefs-details table td.title
-{
-  color: #666;
-  padding-right: 10px;
-}
-
 #formfooter
 {
   width: 100%;
@@ -310,14 +291,14 @@ body.iframe,
 
 #formfooter .footerleft
 {
-  padding-left: 20px;
+  padding-left: 15px;
   white-space: nowrap;
   float: left;
 }
 
 #formfooter .footerright
 {
-  padding-right: 20px;
+  padding-right: 15px;
   white-space: nowrap;
   text-align: right;
   float: right;
