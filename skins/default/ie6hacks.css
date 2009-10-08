@@ -24,6 +24,11 @@ img
   background-image: url('images/icons/folders.gif');
 }
 
+#attachment-list
+{
+  height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
+}
+
 #messagetoolbar a
 {
   display: block;

@@ -177,11 +177,6 @@ input, textarea
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
-#attachment-list
-{
-  height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
-}
-
 #countcontrols
 {
   width: 24em;
