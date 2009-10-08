@@ -602,7 +602,8 @@ class rcube_imap
     if ($this->index_sort && $this->sort_field == 'date')
       {
         if ($this->skip_deleted) {
-          $msg_index = $this->_search_index($mailbox, 'ALL');
+          // @TODO: this could be cached
+	  $msg_index = $this->_search_index($mailbox, 'ALL UNDELETED');
           $max = max($msg_index);
           list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
           $msg_index = array_slice($msg_index, $begin, $end-$begin);
