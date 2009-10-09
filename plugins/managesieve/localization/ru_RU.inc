@@ -32,6 +32,10 @@ $labels['add'] = 'Добавить';
 $labels['del'] = 'Удалить';
 $labels['sender'] = 'Отправитель';
 $labels['recipient'] = 'Получатель';
+$labels['vacationaddresses'] = 'Список дополнительных адресов почты (разделённый запятыми):';
+$labels['vacationdays'] = 'Как часто отправлять сообщение (раз в сколько дней):';
+$labels['vacationreason'] = 'Текст сообщения (причины отсутствия):';
+$labels['rulestop'] = 'Не обрабатывать последующие правила';
 
 $messages = array();
 $messages['filterunknownerror'] = 'Неизвестная ошибка сервера';
