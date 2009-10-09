@@ -179,4 +179,13 @@ $rcmail_config['password_cpanel_ssl'] = true;
 // The cPanel theme in use
 $rcmail_config['password_cpanel_theme'] = 'x';
 
+
+// XIMSS (Communigate server) Driver options
+// -----------------------------------------
+// Host name of the Communigate server
+$rcmail_config['password_ximss_host'] = 'mail.example.com';
+
+// XIMSS port on Communigate server
+$rcmail_config['password_ximss_port'] = 11024;
+
 ?>
