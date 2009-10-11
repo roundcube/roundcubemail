@@ -268,3 +268,8 @@ ul.toolbarmenu li a
 {
   padding-right: 10px;
 }
+
+table.records-table thead tr td
+{
+  height: 19px;
+}
