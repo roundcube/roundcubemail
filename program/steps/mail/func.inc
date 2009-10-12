@@ -457,7 +457,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
       $a_msg_flags['forwarded'] = 1;
     if ($header->flagged)
       $a_msg_flags['flagged'] = 1;
-
+      
+    if ($browser->ie)
+      $a_msg_cols = rc_utf8_clean($a_msg_cols);
+    
     $OUTPUT->command('add_message_row',
       $header->uid,
       $a_msg_cols,

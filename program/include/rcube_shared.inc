@@ -554,7 +554,6 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
     return $mime_type;
 }
 
-
 /**
  * A method to guess encoding of a string.
  *
@@ -585,6 +584,72 @@ function rc_detect_encoding($string, $failover='')
     return $result ? $result : $failover;
 }
 
+/**
+ * Removes non-unicode characters from input
+ *
+ * @param mixed $input String or array.
+ * @return string
+ */
+function rc_utf8_clean($input)
+{
+  // handle input of type array
+  if (is_array($input)) {
+    foreach ($input as $idx => $val)
+      $input[$idx] = rc_utf8_clean($val);
+    return $input;
+  }
+  
+  if (!is_string($input))
+    return $input;
+  
+  // iconv is 10x faster
+  if (function_exists('iconv'))
+    return iconv('UTF8', 'UTF8//IGNORE', $input);
+
+  $regexp = '/^('.
+//    '[\x00-\x7F]'.                                  // UTF8-1
+    '|[\xC2-\xDF][\x80-\xBF]'.                      // UTF8-2
+    '|\xE0[\xA0-\xBF][\x80-\xBF]'.                  // UTF8-3
+    '|[\xE1-\xEC][\x80-\xBF][\x80-\xBF]'.           // UTF8-3
+    '|\xED[\x80-\x9F][\x80-\xBF]'.                  // UTF8-3
+    '|[\xEE-\xEF][\x80-\xBF][\x80-\xBF]'.           // UTF8-3
+    '|\xF0[\x90-\xBF][\x80-\xBF][\x80-\xBF]'.       // UTF8-4
+    '|[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]'.// UTF8-4
+    '|\xF4[\x80-\x8F][\x80-\xBF][\x80-\xBF]'.       // UTF8-4
+    ')$/';
+  
+  $seq = '';
+  $out = '';
+
+  for ($i = 0, $len = strlen($input)-1; $i < $len; $i++) {
+    $chr = $input[$i];
+    $ord = ord($chr);
+    // 1-byte character
+    if ($ord <= 0x7F) {
+      if ($seq)
+        $out .= preg_match($regexp, $seq) ? $seq : '';
+      $seq = '';
+      $out .= $chr;
+    // first (or second) byte of multibyte sequence
+    } else if ($ord >= 0xC0) {
+      if (strlen($seq)>1) {
+	$out .= preg_match($regexp, $seq) ? $seq : '';
+        $seq = '';
+      } else if ($seq && ord($seq) < 0xC0) {
+        $seq = '';
+      }
+      $seq .= $chr;
+    // next byte of multibyte sequence
+    } else if ($seq) {
+      $seq .= $chr;
+    }
+  }
+
+  if ($seq)
+    $out .= preg_match($regexp, $seq) ? $seq : '';
+
+  return $out;
+}
 
 /**
  * Explode quoted string
