@@ -269,6 +269,7 @@ class rcube_vcard
 
         foreach($regs2[1] as $attrid => $attr) {
           if ((list($key, $value) = explode('=', $attr)) && $value) {
+	    $value = trim($value);
             if ($key == 'ENCODING') {
               // add next line(s) to value string if QP line end detected
               while ($value == 'QUOTED-PRINTABLE' && preg_match('/=$/', $lines[$i]))

@@ -946,7 +946,7 @@ function format_date($date, $format=NULL)
 
 
 /**
- * Compose a valid representaion of name and e-mail address
+ * Compose a valid representation of name and e-mail address
  *
  * @param string E-mail address
  * @param string Person name
@@ -957,10 +957,10 @@ function format_email_recipient($email, $name='')
   if ($name && $name != $email)
     {
     // Special chars as defined by RFC 822 need to in quoted string (or escaped).
-    return sprintf('%s <%s>', preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name) ? '"'.addcslashes($name, '"').'"' : $name, $email);
+    return sprintf('%s <%s>', preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name) ? '"'.addcslashes($name, '"').'"' : $name, trim($email));
     }
   else
-    return $email;
+    return trim($email);
   }
 
 
