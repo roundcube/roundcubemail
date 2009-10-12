@@ -785,64 +785,76 @@ function rcmail_print_body($part, $p = array())
   unset($data['body']);
 
   // plaintext postprocessing
-  if ($part->ctype_secondary == 'plain') {
-    // make links and email-addresses clickable
-    $replacements = new rcube_string_replacer;
-    
-    // search for patterns like links and e-mail addresses
-    $body = preg_replace_callback($replacements->link_pattern, array($replacements, 'link_callback'), $body);
-    $body = preg_replace_callback($replacements->mailto_pattern, array($replacements, 'mailto_callback'), $body);
-
-    // split body into single lines
-    $a_lines = preg_split('/\r?\n/', $body);
-    $q_lines = array();
-    $quote_level = 0;
-
-    // find/mark quoted lines...
-    for ($n=0, $cnt=count($a_lines); $n < $cnt; $n++) {
-      $q = 0;
-    
-      if ($a_lines[$n][0] == '>' && preg_match('/^(>+\s*)+/', $a_lines[$n], $regs)) {
-        $q = strlen(preg_replace('/\s/', '', $regs[0]));
-	$a_lines[$n] = substr($a_lines[$n], strlen($regs[0]));
-
-        if ($q > $quote_level)
-          $q_lines[$n]['quote'] = $q - $quote_level;
-        else if ($q < $quote_level)
-          $q_lines[$n]['endquote'] = $quote_level - $q;
-      }
-      else if ($quote_level > 0)
-        $q_lines[$n]['endquote'] = $quote_level;
-
-      $quote_level = $q;
-    }
-
-    // quote plain text
-    $body = Q(join("\n", $a_lines), 'replace', false);
-
-    // colorize signature
-    if (($sp = strrpos($body, '-- ')) !== false)
-      if (($sp == 0 || $body[$sp-1] == "\n") && $body[$sp+3] == "\n") {
-	$body = substr($body, 0, max(0, $sp))
-	    .'<span class="sig">'.substr($body, $sp).'</span>';
-      }
-
-    // colorize quoted lines
-    $a_lines = preg_split('/\n/', $body);
-    foreach ($q_lines as $i => $q)
-      if ($q['quote'])
-        $a_lines[$i] = str_repeat('<blockquote>', $q['quote']) . $a_lines[$i];
-      else if ($q['endquote'])
-        $a_lines[$i] = str_repeat('</blockquote>', $q['endquote']) . $a_lines[$i];
-
-    // insert the links for urls and mailtos
-    $body = $replacements->resolve(join("\n", $a_lines));
-  }
+  if ($part->ctype_secondary == 'plain')
+    $body = rcmail_plain_body($body);
 
   // allow post-processing of the message body
   $data = $RCMAIL->plugins->exec_hook('message_part_after', array('type' => $part->ctype_secondary, 'body' => $body) + $data);
 
   return $data['type'] == 'html' ? $data['body'] : html::tag('pre', array(), $data['body']);
+}
+
+/**
+ * Handle links and citation marks in plain text message
+ *
+ * @param string  Plain text string 
+ * @return string Formatted HTML string
+ */
+function rcmail_plain_body($body)
+{
+  // make links and email-addresses clickable
+  $replacements = new rcube_string_replacer;
+    
+  // search for patterns like links and e-mail addresses
+  $body = preg_replace_callback($replacements->link_pattern, array($replacements, 'link_callback'), $body);
+  $body = preg_replace_callback($replacements->mailto_pattern, array($replacements, 'mailto_callback'), $body);
+
+  // split body into single lines
+  $a_lines = preg_split('/\r?\n/', $body);
+  $q_lines = array();
+  $quote_level = 0;
+
+  // find/mark quoted lines...
+  for ($n=0, $cnt=count($a_lines); $n < $cnt; $n++) {
+    $q = 0;
+
+    if ($a_lines[$n][0] == '>' && preg_match('/^(>+\s*)+/', $a_lines[$n], $regs)) {
+      $q = strlen(preg_replace('/\s/', '', $regs[0]));
+        $a_lines[$n] = substr($a_lines[$n], strlen($regs[0]));
+
+      if ($q > $quote_level)
+        $q_lines[$n]['quote'] = $q - $quote_level;
+      else if ($q < $quote_level)
+        $q_lines[$n]['endquote'] = $quote_level - $q;
+    }
+    else if ($quote_level > 0)
+      $q_lines[$n]['endquote'] = $quote_level;
+
+    $quote_level = $q;
+  }
+
+  // quote plain text
+  $body = Q(join("\n", $a_lines), 'replace', false);
+
+  // colorize signature
+  if (($sp = strrpos($body, '-- ')) !== false)
+    if (($sp == 0 || $body[$sp-1] == "\n") && $body[$sp+3] == "\n") {
+      $body = substr($body, 0, max(0, $sp))
+	.'<span class="sig">'.substr($body, $sp).'</span>';
+    }
+
+  // colorize quoted lines
+  $a_lines = preg_split('/\n/', $body);
+  foreach ($q_lines as $i => $q)
+    if ($q['quote'])
+      $a_lines[$i] = str_repeat('<blockquote>', $q['quote']) . $a_lines[$i];
+    else if ($q['endquote'])
+      $a_lines[$i] = str_repeat('</blockquote>', $q['endquote']) . $a_lines[$i];
+
+  // insert the links for urls and mailtos
+  $body = $replacements->resolve(join("\n", $a_lines));
+    
+  return $body;
 }
 
 
@@ -1027,7 +1039,8 @@ function rcmail_message_body($attrib)
       }
     }
   else
-    $out .= html::div('message-part', html::tag('pre', array(), Q($MESSAGE->body)));
+    $out .= html::div('message-part', html::tag('pre', array(),
+      rcmail_plain_body(Q($MESSAGE->body, 'strict', false))));
 
   $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
   $ctype_secondary = strtolower($MESSAGE->structure->ctype_secondary);
