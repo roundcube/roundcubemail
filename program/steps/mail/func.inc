@@ -403,6 +403,13 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
   $browser = new rcube_browser;
 
   $OUTPUT->command('set_message_coltypes', $a_show_cols);
+
+  // remove 'attachment' and 'flag' columns, we don't need them here
+  if(($key = array_search('attachment', $a_show_cols)) !== FALSE)
+    unset($a_show_cols[$key]);
+  if(($key = array_search('flag', $a_show_cols)) !== FALSE)
+    unset($a_show_cols[$key]);
+
   if ($browser->ie && $replace)
     $OUTPUT->command('offline_message_list', true);
 
@@ -416,12 +423,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
       continue;
 
     $IMAP->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
-
-    // remove 'attachment' and 'flag' columns, we don't need them here
-    if(($key = array_search('attachment', $a_show_cols)) !== FALSE)
-      unset($a_show_cols[$key]);
-    if(($key = array_search('flag', $a_show_cols)) !== FALSE)
-      unset($a_show_cols[$key]);
 
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col)
@@ -465,8 +466,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
       $insert_top);
     }
 
-    if ($browser->ie && $replace)
-      $OUTPUT->command('offline_message_list', false);
+  if ($browser->ie && $replace)
+    $OUTPUT->command('offline_message_list', false);
   }
 
 
