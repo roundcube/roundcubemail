@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- added option 'force_https_port' in 'force_https' plugin (#1486091)
+- Option 'force_https' replaced by 'force_https' plugin
 - Fix IE issue with non-UTF-8 characters in AJAX response (#1486159)
 - Partially fixed "empty body" issue by showing raw body of malformed message (#1486166)
 - Fix importing/sending to email address with whitespace (#1486214)

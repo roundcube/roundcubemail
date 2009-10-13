@@ -63,18 +63,10 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
 }
 
-// check if https is required (for login) and redirect if necessary
-if ($RCMAIL->config->get('force_https', false) && empty($_SESSION['user_id'])
-    && !(isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT'] == 443 || $RCMAIL->config->get('use_https'))) {
-  header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-  exit;
-}
-
 // trigger startup plugin hook
 $startup = $RCMAIL->plugins->exec_hook('startup', array('task' => $RCMAIL->task, 'action' => $RCMAIL->action));
 $RCMAIL->set_task($startup['task']);
 $RCMAIL->action = $startup['action'];
-
 
 // try to log in
 if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
@@ -160,7 +152,6 @@ else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAI
   $OUTPUT->show_message('invalidrequest', 'error');
   $OUTPUT->send($RCMAIL->task);
 }
-
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
