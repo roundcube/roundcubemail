@@ -112,7 +112,7 @@ class rcube_imap
 
     $ICL_PORT = $port;
     $IMAP_USE_INTERNAL_DATE = false;
-    
+
     $attempt = 0;
     do {
       $data = rcmail::get_instance()->plugins->exec_hook('imap_connect', array('host' => $host, 'user' => $user, 'attempt' => ++$attempt));
@@ -144,13 +144,13 @@ class rcube_imap
     // get server properties
     if ($this->conn)
       {
-      if (!empty($this->conn->delimiter))
-        $this->delimiter = $this->conn->delimiter;
       if (!empty($this->conn->rootdir))
         {
         $this->set_rootdir($this->conn->rootdir);
         $this->root_ns = preg_replace('/[.\/]$/', '', $this->conn->rootdir);
         }
+      if (empty($this->delimiter))
+	$this->get_hierarchy_delimiter();
       }
 
     return $this->conn ? TRUE : FALSE;
