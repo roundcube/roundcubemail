@@ -159,7 +159,7 @@ if (empty($RCMAIL->user->ID)) {
     $OUTPUT->redirect(array(), 2000);
   
   if (!empty($_REQUEST['_framed']))
-    $OUTPUT->command('redirect', $OUTPUT->app->url());
+    $OUTPUT->command('redirect', '?');
 
   // check if installer is still active
   if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
