@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix login page loading into an iframe when session expires (#1485952)
 - added option 'force_https_port' in 'force_https' plugin (#1486091)
 - Option 'force_https' replaced by 'force_https' plugin
 - Fix IE issue with non-UTF-8 characters in AJAX response (#1486159)

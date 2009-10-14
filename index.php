@@ -142,7 +142,7 @@ $request_check_whitelist = array('login'=>1, 'spell'=>1);
 
 // check client X-header to verify request origin
 if ($OUTPUT->ajax_call) {
-  if (!$RCMAIL->config->get('devel_mode') && rc_request_header('X-RoundCube-Request') != $RCMAIL->get_request_token()) {
+  if (!$RCMAIL->config->get('devel_mode') && rc_request_header('X-RoundCube-Request') != $RCMAIL->get_request_token() && !empty($RCMAIL->user->ID)) {
     header('HTTP/1.1 404 Not Found');
     die("Invalid Request");
   }
@@ -155,10 +155,12 @@ else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAI
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
-  
   if ($OUTPUT->ajax_call)
     $OUTPUT->redirect(array(), 2000);
   
+  if (!empty($_REQUEST['_framed']))
+    $OUTPUT->command('redirect', $OUTPUT->app->url());
+
   // check if installer is still active
   if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
     $OUTPUT->add_footer(html::div(array('style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
