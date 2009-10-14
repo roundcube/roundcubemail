@@ -818,6 +818,9 @@ class managesieve extends rcube_plugin
 
   private function check_email($email)
   {
+    if (function_exists('check_email'));
+      return check_email($email);
+
     // Check for invalid characters
     if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $email))
       return false;

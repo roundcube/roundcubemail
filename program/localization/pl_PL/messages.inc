@@ -110,5 +110,6 @@ $messages['smtptoerror'] = 'Błąd SMTP ($code): Nie można dodać odbiorcy "$to
 $messages['smtprecipientserror'] = 'Błąd SMTP: Parsowanie listy odbiorców nie powiodło się';
 $messages['smtperror'] = 'Błąd SMTP: $msg';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
+$messages['emailformaterror'] = 'Błędny adres e-mail: $email';
 
 ?>

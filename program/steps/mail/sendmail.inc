@@ -151,6 +151,8 @@ function rcmail_attach_emoticons(&$mime_message)
 // parse email address input
 function rcmail_email_input_format($mailto)
 {
+  global $EMAIL_FORMAT_ERROR;
+
   $regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/', '/(\S{1})(<\S+@\S+>)/U');
   $replace = array(', ', ', ', '', ',', '\\1 \\2');
 
@@ -181,8 +183,16 @@ function rcmail_email_input_format($mailto)
         $address = '<'.$address.'>';
 
       $result[] = $name.' '.$address;
+      $item = $address;
     } else if (trim($item)) {
-      // @TODO: handle errors
+      continue;
+    }
+
+    // check address format
+    $item = trim($item, '<>');
+    if ($item && !check_email($item)) {
+      $EMAIL_FORMAT_ERROR = $item;
+      return;
     }
   }
 
@@ -200,9 +210,16 @@ $message_id = sprintf('<%s@%s>', md5(uniqid('rcmail'.mt_rand(),true)), $RCMAIL->
 $input_charset = $OUTPUT->get_charset();
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
 
+$EMAIL_FORMAT_ERROR = NULL;
+
 $mailto = rcmail_email_input_format(get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
 $mailcc = rcmail_email_input_format(get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
 $mailbcc = rcmail_email_input_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
+
+if ($EMAIL_FORMAT_ERROR) {
+  $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR)); 
+  $OUTPUT->send('iframe');
+}
 
 if (empty($mailto) && !empty($mailcc)) {
   $mailto = $mailcc;

@@ -106,5 +106,6 @@ $messages['smtpfromerror'] = 'SMTP Error ($code): Failed to set sender "$from"';
 $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to"';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list';
 $messages['smtperror'] = 'SMTP Error: $msg';
+$messages['emailformaterror'] = 'Incorrect e-mail address: $email';
 
 ?>

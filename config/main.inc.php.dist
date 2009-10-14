@@ -364,6 +364,9 @@ $rcmail_config['delete_always'] = false;
 // Must be less than 'session_lifetime'
 $rcmail_config['min_keep_alive'] = 60;
 
+// Enable DNS checking for e-mail address validation
+$rcmail_config['email_dns_check'] = false;
+
 /***** these settings can be overwritten by user's preferences *****/
 
 // skin name: folder from skins/

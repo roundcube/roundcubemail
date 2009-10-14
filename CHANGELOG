@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added server-side e-mail address validation with 'email_dns_check' option (#1485857)
 - Fix login page loading into an iframe when session expires (#1485952)
 - added option 'force_https_port' in 'force_https' plugin (#1486091)
 - Option 'force_https' replaced by 'force_https' plugin

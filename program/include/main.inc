@@ -1401,6 +1401,58 @@ function rcube_html_editor($mode='')
 
 
 /**
+ * E-mail address validation
+ */
+function check_email($email)
+{
+  // Check for invalid characters
+  if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $email))
+    return false;
+
+  // Check that there's one @ symbol, and that the lengths are right
+  if (!preg_match('/^([^@]{1,64})@([^@]{1,255})$/', $email, $email_array))
+    return false;
+
+  // Check local part
+  $local_array = explode('.', $email_array[1]);
+  foreach ($local_array as $local_part)
+    if (!preg_match('/^(([A-Za-z0-9!#$%&\'*+\/=?^_`{|}~-]+)|("[^"]+"))$/', $local_part))
+      return false;
+
+  // Check domain part
+  if (preg_match('/^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}$/', $email_array[2]) 
+      || preg_match('/^\[(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\]$/', $email_array[2]))
+    return true; // If an IP address
+  else {
+    // If not an IP address
+    $domain_array = explode('.', $email_array[2]);
+    if (sizeof($domain_array) < 2)
+      return false; // Not enough parts to be a valid domain
+
+    foreach ($domain_array as $domain_part)
+      if (!preg_match('/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $domain_part))
+        return false;
+
+    if (!rcmail::get_instance()->config->get('email_dns_check'))
+      return true;
+
+    if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<'))
+      return true;
+
+    // find MX record(s)
+    if (getmxrr($email_array[2], $mx_records))
+      return true;
+
+    // find any DNS record
+    if (checkdnsrr($email_array[2], 'ANY'))
+      return true;
+  }
+
+  return false;
+}
+
+
+/**
  * Helper class to turn relative urls into absolute ones
  * using a predefined base
  */
