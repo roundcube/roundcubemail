@@ -1926,7 +1926,7 @@ class MDB2_Driver_Common extends PEAR
                 return $err;
             }
             $this->{$property} = new $class_name($this->db_index);
-            $this->modules[$module] =& $this->{$property};
+            $this->modules[$module] = $this->{$property};
             if ($version) {
                 // this will be used in the connect method to determine if the module
                 // needs to be loaded with a different version if the server
