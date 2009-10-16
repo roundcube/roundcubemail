@@ -94,24 +94,31 @@
 }
 
 #messagetoolbar a.messagemenu {
-  width: 36px;
   background-position: -288px 0;
 }
 
 #messagetoolbar a.spellcheck {
-  background-position: -386px 0;
+  background-position: -384px 0;
 }
 
 #messagetoolbar a.spellcheckSel {
-  background-position: -386px -32px;
+  background-position: -384px -32px;
 }
 
 #messagetoolbar a.attach {
-  background-position: -354px 0;
+  background-position: -352px 0;
 }
 
 #messagetoolbar a.attachSel {
-  background-position: -354px -32px;
+  background-position: -352px -32px;
+}
+
+#messagetoolbar a.insertsig {
+  background-position: -448px 0;
+}
+
+#messagetoolbar a.insertsigSel {
+  background-position: -448px -32px;
 }
 
 #messagetoolbar a.savedraft {
@@ -123,11 +130,11 @@
 }
 
 #messagetoolbar a.send {
-  background-position: -418px 0;
+  background-position: -416px 0;
 }
 
 #messagetoolbar a.sendSel {
-  background-position: -418px -32px;
+  background-position: -416px -32px;
 }
 
 
