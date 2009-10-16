@@ -697,7 +697,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   $html = preg_replace($html_search, $html_replace, $html);
 
   // fix (unknown/malformed) HTML tags before "wash"
-  $html = preg_replace_callback('/(<[\/!]*)([^ >]+)/', 'rcmail_html_tag_callback', $html);
+  $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', 'rcmail_html_tag_callback', $html);
 
   // charset was converted to UTF-8 in rcube_imap::get_message_part(),
   // -> change charset specification in HTML accordingly
@@ -908,10 +908,6 @@ function rcmail_html_tag_callback($matches)
 {
   $tagname = $matches[2];
 
-  // html comments (#1486189)
-  if ($matches[1] == '<!')
-    return '<!';
-    
   $tagname = preg_replace(array(
     '/:.*$/',		// Microsoft's Smart Tags <st1:xxxx>
     '/[^a-z0-9_-]/i',	// forbidden characters
