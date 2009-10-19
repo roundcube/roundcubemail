@@ -43,7 +43,7 @@ $text = substr($data, $left+6, $right-($left+6));
 $text = html_entity_decode($text, ENT_QUOTES, RCMAIL_CHARSET);
 
 // tokenize
-$words = preg_split('/[ !"#$%&()*+\\,-.\/\n:;<=>?@\[\]^_{|}]+/', $text, NULL,  PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE );
+$words = preg_split('/[ !"#$%&()*+\\,\/\n:;<=>?@\[\]^_{|}-]+|\.[^\w]/', $text, NULL,  PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE );
 
 // init spellchecker
 $plink = pspell_new(get_input_value('lang', RCUBE_INPUT_GET), null, null, RCMAIL_CHARSET, PSPELL_FAST);
@@ -56,7 +56,8 @@ foreach ($words as $w) {
     $word = trim($w[0]);
     $pos  = $w[1] - $diff;
     $len  = mb_strlen($word);
-    if ($word && $plink && !pspell_check($plink, $word)) {
+    if ($word && $plink && preg_match('/[^0-9\.]/', $word)
+	&& !pspell_check($plink, $word)) {
         $suggestions = pspell_suggest($plink, $word);
 	if (sizeof($suggestions)>10)
 	  $suggestions = array_slice($suggestions, 0, MAX_SUGGESTIONS);
