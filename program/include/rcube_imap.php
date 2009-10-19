@@ -603,21 +603,23 @@ class rcube_imap
       {
         if ($this->skip_deleted) {
           // @TODO: this could be cached
-	  $msg_index = $this->_search_index($mailbox, 'ALL UNDELETED');
-          $max = max($msg_index);
-          list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
-          $msg_index = array_slice($msg_index, $begin, $end-$begin);
+	  if ($msg_index = $this->_search_index($mailbox, 'ALL UNDELETED')) {
+            $max = max($msg_index);
+            list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
+            $msg_index = array_slice($msg_index, $begin, $end-$begin);
+	    }
 	} else if ($max = iil_C_CountMessages($this->conn, $mailbox)) {
           list($begin, $end) = $this->_get_message_range($max, $page);
 	  $msg_index = range($begin+1, $end);
 	} else
-	  return array();
+	  $msg_index = array();
 
         if ($slice)
           $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
 
         // fetch reqested headers from server
-        $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);
+	if ($msg_index)
+          $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);
       }
     // use SORT command
     else if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
@@ -633,13 +635,8 @@ class rcube_imap
       $this->_fetch_headers($mailbox, join(',', $msg_index), $a_msg_headers, $cache_key);
       }
     // fetch specified header for all messages and sort
-    else
+    else if ($a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted))
       {
-      $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted);
-
-      if (empty($a_index))
-        return array();
-
       asort($a_index); // ASC
       $msg_index = array_keys($a_index);
       $max = max($msg_index);
