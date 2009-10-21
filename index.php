@@ -63,6 +63,15 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
 }
 
+// check if https is required (for login) and redirect if necessary
+if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
+  $https_port = is_bool($force_https) ? 443 : $force_https;
+  if (!(isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT'] == $use_https || $RCMAIL->config->get('use_https'))) {
+    header('Location: https://' . $_SERVER['HTTP_HOST'] . ($https_port != 443 ? ':' . $https_port : '') . $_SERVER['REQUEST_URI']);
+    exit;
+  }
+}
+
 // trigger startup plugin hook
 $startup = $RCMAIL->plugins->exec_hook('startup', array('task' => $RCMAIL->task, 'action' => $RCMAIL->action));
 $RCMAIL->set_task($startup['task']);

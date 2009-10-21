@@ -49,6 +49,11 @@ $rcmail_config['enable_caching'] = FALSE;
 // possible units: s, m, h, d, w
 $rcmail_config['message_cache_lifetime'] = '10d';
 
+// enforce connections over https
+// with this option enabled, all non-secure connections will be redirected.
+// set the port for the ssl connection as value of this option if it differs from the default 443
+$rcmail_config['force_https'] = FALSE;
+
 // automatically create a new RoundCube user when log-in the first time.
 // a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service
