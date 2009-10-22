@@ -599,12 +599,15 @@ function rc_utf8_clean($input)
     return $input;
   }
   
-  if (!is_string($input))
+  if (!is_string($input) || $input == '')
     return $input;
   
-  // iconv is 10x faster
-  if (function_exists('iconv'))
-    return iconv('UTF8', 'UTF8//IGNORE', $input);
+  // iconv/mbstring are much faster (especially with long strings)
+  if (function_exists('mb_convert_encoding') && ($res = mb_convert_encoding($input, 'UTF8', 'UTF8')))
+    return $res;
+
+  if (function_exists('iconv') && ($res = iconv('UTF8', 'UTF8//IGNORE', $input)))
+    return $res;
 
   $regexp = '/^('.
 //    '[\x00-\x7F]'.                                  // UTF8-1
