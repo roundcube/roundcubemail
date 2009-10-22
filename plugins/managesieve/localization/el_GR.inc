@@ -1,8 +1,6 @@
 <?php
 
 // Antonis Kanouras (2009-10-22)
-// Created with http://alec.pl/roundcube/translator/index.php
-// To be sent to alec@alec.pl
 
 $labels = array();
 $labels['filters'] = 'Φίλτρα';
