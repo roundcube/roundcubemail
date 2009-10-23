@@ -320,7 +320,7 @@ click_row: function(e, id)
 
 
 /**
- * get next/previous/last rows that are not hidden
+ * get first/next/previous/last rows that are not hidden
  */
 get_next_row: function()
 {
@@ -346,6 +346,20 @@ get_prev_row: function()
     new_row = new_row.previousSibling;
 
   return new_row;
+},
+
+get_first_row: function()
+{
+  if (this.rowcount)
+    {
+    var rows = this.list.tBodies[0].rows;
+
+    for(var i=0; i<rows.length-1; i++)
+      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+	return RegExp.$1;
+    }
+
+  return null;
 },
 
 get_last_row: function()
@@ -449,6 +463,16 @@ select_next: function()
   var new_row = (next_row) ? next_row : prev_row;
   if (new_row)
     this.select_row(new_row.uid, false, false);  
+},
+
+/**
+ * Select first row 
+ */
+select_first: function()
+{
+  var first_row = this.get_first_row();
+  if (first_row)
+    this.select_row(first_row, false, false);  
 },
 
 
