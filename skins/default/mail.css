@@ -546,10 +546,10 @@ td.formlinks a:visited
   min-width: 300px;
 }
 
-#listcontrols > a,
-#listcontrols > span,
-#mailboxcontrols > a,
-#mailboxcontrols > span
+#listcontrols a,
+#listcontrols span,
+#mailboxcontrols a,
+#mailboxcontrols span
 {
   display: block;
   float: left;
