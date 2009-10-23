@@ -55,6 +55,5 @@ ul.toolbarmenu li
 
 ul.toolbarmenu li a
 {
-  float: none;
-  padding: ;
+  clear: left;
 }
