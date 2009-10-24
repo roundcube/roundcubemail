@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix quota indicator issues by content generation on client-size (#1486197, #1486220)
 - Don't display disabled sections in Settings (#1486099)
 - Added server-side e-mail address validation with 'email_dns_check' option (#1485857)
 - Fix login page loading into an iframe when session expires (#1485952)

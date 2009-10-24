@@ -517,8 +517,16 @@ function rcmail_quota_display($attrib)
     $_SESSION['quota_display'] = $attrib['display'];
 
   $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
-
-  return html::span($attrib, rcmail_quota_content(NULL, $attrib));
+  
+  $quota = rcmail_quota_content(NULL, $attrib);
+  
+  if (is_array($quota)) {
+    $OUTPUT->add_script('$(document).ready(function(){
+	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
+    $quota = '';
+    }
+  
+  return html::span($attrib, $quota);
   }
 
 
@@ -528,49 +536,34 @@ function rcmail_quota_content($quota=NULL, $attrib=NULL)
 
   $display = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
-  if (is_array($quota) && !empty($quota['used']) && !empty($quota['total']))
-    {
-      if (!isset($quota['percent']))
-        $quota['percent'] = $quota['used'] / $quota['total'];
+  if (empty($quota)) {
+    if (!$IMAP->get_capability('QUOTA'))
+      return rcube_label('unknown');
+    else 
+      $quota = $IMAP->get_quota();
     }
-  elseif (!$IMAP->get_capability('QUOTA'))
-    return rcube_label('unknown');
-  else
-    $quota = $IMAP->get_quota();
 
   if ($quota && !($quota['total']==0 && $RCMAIL->config->get('quota_zero_as_unlimited')))
     {
-    $quota_text = sprintf('%s / %s (%.0f%%)',
-                          show_bytes($quota['used'] * 1024),
-                          show_bytes($quota['total'] * 1024),
-                          $quota['percent']);
+    $quota_result = sprintf('%s / %s (%.0f%%)',
+        show_bytes($quota['used'] * 1024), show_bytes($quota['total'] * 1024),
+        $quota['percent']);
 
-    // show quota as image (by Brett Patterson)
-    if ($display == 'image' && function_exists('imagegif'))
-      {
-      if (!$attrib['width'])
-        $attrib['width'] = isset($_SESSION['quota_width']) ? $_SESSION['quota_width'] : 100;
-      else
-	$_SESSION['quota_width'] = $attrib['width'];
-
-      if (!$attrib['height'])
-        $attrib['height'] = isset($_SESSION['quota_height']) ? $_SESSION['quota_height'] : 14;
-      else
-	$_SESSION['quota_height'] = $attrib['height'];
-	    
-      $quota_text = sprintf('<img src="./bin/quotaimg.php?u=%s&amp;q=%d&amp;w=%d&amp;h=%d" width="%d" height="%d" alt="%s" title="%s / %s" />',
-                            $quota['used'], $quota['total'],
-                            $attrib['width'], $attrib['height'],
-                            $attrib['width'], $attrib['height'],
-                            $quota_text,
-                            show_bytes($quota['used'] * 1024),
-                            show_bytes($quota['total'] * 1024));
+    if ($display == 'image') {
+      $quota_result = array(	    
+    	'percent' 	=> $quota['percent'],
+        'title'		=> $quota_result,
+	);
+      if ($attrib['width'])
+        $quota_result['width'] = $attrib['width'];
+      if ($attrib['height'])
+        $quota_result['height']	= $attrib['height'];
       }
     }
   else
-    $quota_text = rcube_label('unlimited');
+    return rcube_label('unlimited');
 
-  return $quota_text;
+  return $quota_result;
   }
 
 

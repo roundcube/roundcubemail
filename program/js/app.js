@@ -3914,8 +3914,12 @@ function rcube_webmail()
   // replace content of quota display
   this.set_quota = function(content)
     {
-    if (content && this.gui_objects.quotadisplay)
-      $(this.gui_objects.quotadisplay).html(content);
+    if (content && this.gui_objects.quotadisplay) {
+      if (typeof(content) == 'object')
+        this.percent_indicator(this.gui_objects.quotadisplay, content);
+      else
+        $(this.gui_objects.quotadisplay).html(content);
+      }
     };
 
   // update the mailboxlist
@@ -4044,6 +4048,61 @@ function rcube_webmail()
     elem.onclick = function() { rcmail.load_headers(elem); }
     }
 
+  // percent (quota) indicator
+  this.percent_indicator = function(obj, data)
+    {
+    if (!data || !obj)
+      return false;
+
+    var limit_high = 80;
+    var limit_mid  = 55;
+    var width = data.width ? data.width : this.env.indicator_width ? this.env.indicator_width : 100;
+    var height = data.height ? data.height : this.env.indicator_height ? this.env.indicator_height : 24;
+    var quota = data.percent ? Math.abs(parseInt(data.percent)) : 0;
+    var quota_width = parseInt(quota / 100 * width);
+    var pos = $(obj).position();
+
+    this.env.indicator_width = width;
+    this.env.indicator_height = height;
+    
+    // overlimit
+    if (quota_width > width) {
+      quota_width = width;
+      quota = 100; 
+      }
+  
+    // main div
+    var main = $('<div>');
+    main.css({position: 'absolute', top: pos.top, left: pos.left,
+	width: width + 'px', height: height + 'px', zIndex: 100, lineHeight: height + 'px'})
+	.attr('title', data.title).addClass('quota_text').html(quota + '%');
+    // used bar
+    var bar1 = $('<div>');
+    bar1.css({position: 'absolute', top: pos.top + 1, left: pos.left + 1,
+	width: quota_width + 'px', height: height + 'px', zIndex: 99});
+    // background
+    var bar2 = $('<div>');
+    bar2.css({position: 'absolute', top: pos.top + 1, left: pos.left + 1,
+	width: width + 'px', height: height + 'px', zIndex: 98})
+	.addClass('quota_bg');
+
+    if (quota >= limit_high) {
+      main.addClass(' quota_text_high');
+      bar1.addClass('quota_high');
+      }
+    else if(quota >= limit_mid) {
+      main.addClass(' quota_text_mid');
+      bar1.addClass('quota_mid');
+      }
+    else {
+      main.addClass(' quota_text_normal');
+      bar1.addClass('quota_low');
+      }
+
+    // replace quota image
+    obj.innerHTML = '';
+    $(obj).append(bar1).append(bar2).append(main);
+    }
 
   /********************************************************/
   /*********  html to text conversion functions   *********/
@@ -4326,4 +4385,3 @@ function rcube_webmail()
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_webmail.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_webmail.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
-
