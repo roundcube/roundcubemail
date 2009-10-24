@@ -4057,7 +4057,7 @@ function rcube_webmail()
     var limit_high = 80;
     var limit_mid  = 55;
     var width = data.width ? data.width : this.env.indicator_width ? this.env.indicator_width : 100;
-    var height = data.height ? data.height : this.env.indicator_height ? this.env.indicator_height : 24;
+    var height = data.height ? data.height : this.env.indicator_height ? this.env.indicator_height : 14;
     var quota = data.percent ? Math.abs(parseInt(data.percent)) : 0;
     var quota_width = parseInt(quota / 100 * width);
     var pos = $(obj).position();
