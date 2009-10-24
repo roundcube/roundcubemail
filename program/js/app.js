@@ -466,6 +466,7 @@ function rcube_webmail()
     var input_to = $("[name='_to']");
     var input_subject = $("input[name='_subject']");
     var input_message = $("[name='_message']").get(0);
+    var html_mode = $("input[name='_is_html']").val() == '1';
 
     // init live search events
     this.init_address_input_events(input_to);
@@ -474,7 +475,7 @@ function rcube_webmail()
 
     // add signature according to selected identity
     if (input_from.attr('type') == 'select-one' && $("input[name='_draft_saveid']").val() == ''
-        && $("input[name='_is_html']").val() != '1') {  // if we have HTML editor, signature is added in callback
+        && !html_mode) {  // if we have HTML editor, signature is added in callback
       this.change_identity(input_from[0]);
     }
 
@@ -482,7 +483,7 @@ function rcube_webmail()
       input_to.focus();
     else if (input_subject.val() == '')
       input_subject.focus();
-    else if (input_message)
+    else if (input_message && !html_mode)
       input_message.focus();
 
     // get summary of all field values
