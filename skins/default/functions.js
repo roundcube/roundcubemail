@@ -13,6 +13,7 @@ function rcube_init_settings_tabs()
     tab = '#settingstab' + (rcmail.env.action=='preferences' ? 'default' : (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, '')));
 
   $(tab).addClass('tablink-selected');
+  $(tab + '> a').removeAttr('onclick').unbind('click').bind('click', function(){return false});
 }
 
 function rcube_show_advanced(visible)

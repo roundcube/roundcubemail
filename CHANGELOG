@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Avoid unnecessary page loads for selected tab (#1486032)
 - Fix quota indicator issues by content generation on client-size (#1486197, #1486220)
 - Don't display disabled sections in Settings (#1486099)
 - Added server-side e-mail address validation with 'email_dns_check' option (#1485857)

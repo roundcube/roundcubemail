@@ -42,6 +42,7 @@ span.tablink-selected a
 span.tablink-selected a
 {
   color: #000000;
+  cursor: default;
 }
 
 #rcmfd_timezone
