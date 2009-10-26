@@ -28,6 +28,7 @@ $messages['nomessagesfound'] = 'Сообщений не найдено';
 $messages['loggedout'] = 'Ваша сессия завершена. Всего доброго!';
 $messages['mailboxempty'] = 'Почтовый ящик пуст';
 $messages['loading'] = 'Загрузка...';
+$messages['uploading'] = 'Файл загружается…';
 $messages['loadingdata'] = 'Загрузка данных...';
 $messages['checkingmail'] = 'Проверка новых сообщений...';
 $messages['sendingmessage'] = 'Отправка сообщения...';
@@ -68,6 +69,7 @@ $messages['notsentwarning'] = 'Сообщение не было отправле
 $messages['noldapserver'] = 'Пожалуйста, выберите LDAP сервер для поиска';
 $messages['nocontactsreturned'] = 'Контакты не найдены';
 $messages['nosearchname'] = 'Пожалуйста, введите имя или адрес E-Mail';
+$messages['notuploadedwarning'] = 'Вложения загружены не полностью. Подождите или отмените загрузку.';
 $messages['searchsuccessful'] = 'Найденных сообщений - $nr';
 $messages['searchnomatch'] = 'Сообщений не найдено';
 $messages['searching'] = 'Поиск...';
@@ -104,5 +106,6 @@ $messages['smtpfromerror'] = 'SMTP Error ($code): Невозможно уста�
 $messages['smtptoerror'] = 'SMTP Error ($code): Невозможно добавить получателя "$to"';
 $messages['smtprecipientserror'] = 'SMTP Error ($code): Невозможно обработать список получателей';
 $messages['smtperror'] = 'SMTP Error ($code): $msg';
+$messages['emailformaterror'] = 'Неверный адрес: $email';
 
 ?>

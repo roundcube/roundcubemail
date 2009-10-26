@@ -248,6 +248,7 @@ $labels['advancedoptions'] = 'Dewisiadau uwch';
 $labels['focusonnewmessage'] = 'Ffocysu\'r porwr ar y neges newydd';
 $labels['checkallfolders'] = 'Chwilio pob ffolder am negeseuon newydd';
 $labels['displaynext'] = 'Ar ôl dileu/symud neges dangos y neges nesaf';
+$labels['indexsort'] = 'Defnyddio mynegai negeseuon i drefnu yn ôl dyddiad';
 $labels['mainoptions'] = 'Prif Ddewisiadau';
 $labels['section'] = 'Adran';
 $labels['maintenance'] = 'Gwaith cynnal a chadw';

@@ -2,19 +2,19 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/el/messages.inc                                              |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Jim Deves <jim@cobaltblue.gr>                                 |
- |         John Economou <hsoc@irc.gr>                                   |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/el/messages.inc                                              |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Jim Deves <jim@cobaltblue.gr>                                 |
+|         John Economou <hsoc@irc.gr>                                   |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -48,6 +48,10 @@ $messages['deletecontactconfirm'] = 'Θέλετε να διαγράψετε τη
 $messages['deletemessagesconfirm'] = 'Θέλετε να διαγράψετε το συγκεκριμένο μήνυμα/τα;';
 $messages['deletefolderconfirm'] = 'Θέλετε να διαγράψετε το συγκεκριμένο φάκελο;';
 $messages['purgefolderconfirm'] = 'Θέλετε να διαγράψετε όλα τα μηνύματα στο συγκεκριμένο φάκελο;';
+$messages['foldercreating'] = 'Δημιουργία φακέλου';
+$messages['folderdeleting'] = 'Διαγραφή φακέλου';
+$messages['folderrenaming'] = 'Μετονομασία φακέλου';
+$messages['foldermoving'] = 'Μεταφορά φακέλου';
 $messages['formincomplete'] = 'Η φόρμα δεν έχει συμπληρωθεί πλήρως';
 $messages['noemailwarning'] = 'Παρακαλώ εισάγεται έγκυρη διεύθυνση email';
 $messages['nonamewarning'] = 'Παρακαλώ εισάγεται όνομα';
@@ -79,5 +83,6 @@ $messages['receiptsent'] = 'Επιτυχής αποστολή αναφοράς �
 $messages['errorsendingreceipt'] = 'Αποστολή αναφοράς απέτυχε';
 $messages['nodeletelastidentity'] = 'Δε μπορείτε να διαγράψετε αυτήν την ταυτότητα, είναι η τελευταία.';
 $messages['addsubfolderhint'] = 'Αυτός ο φάκελος θα δημιουργηθεί ως υποφάκελος του επιλεγμένου';
+$messages['importwait'] = 'Εισαγωγή, παρακαλώ περιμένετε...';
 
 ?>

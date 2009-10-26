@@ -110,5 +110,6 @@ $messages['smtpfromerror'] = 'Erro SMTP ($code): Falha ao definir o remetente "$
 $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatário "$to"';
 $messages['smtprecipientserror'] = 'Erro SMTP: Não é possível analisar a lista destinatários';
 $messages['smtperror'] = 'Erro SMTP: $msg';
+$messages['emailformaterror'] = 'Endereço de Email incorreto: $email';
 
 ?>

@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  30072009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  25102009                |
 +-----------------------------------------------------------------------+
 
 */
@@ -27,6 +27,7 @@ $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
 $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
 $messages['mailboxempty'] = 'רשימת ההודעות ריקה';
 $messages['loading'] = 'טעינה...';
+$messages['uploading'] = 'קובץ עולה...';
 $messages['loadingdata'] = 'טעינת מידע...';
 $messages['checkingmail'] = 'בדיקת קיום הודעות חדשות...';
 $messages['sendingmessage'] = 'ההודעה נמסרת...';
@@ -67,6 +68,7 @@ $messages['notsentwarning'] = 'ההודעה לא נשלחה. האם לבטל?';
 $messages['noldapserver'] = 'נא לבחור שרת כתובות לחיפוש';
 $messages['nocontactsreturned'] = 'לא נמצאו אנשי קשר';
 $messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא\"ל';
+$messages['notuploadedwarning'] = 'עדיין לא הועלו כל הקבצים. נא לחכות או לבטל הפעולה.';
 $messages['searchsuccessful'] = 'נמצאו $nr הודעות';
 $messages['searchnomatch'] = 'תוצאת החיפוש ריקה';
 $messages['searching'] = 'חיפוש...';
@@ -103,5 +105,6 @@ $messages['smtpfromerror'] = 'SMTP ($code): "$from" לא נרשמה כתובת �
 $messages['smtptoerror'] = 'SMTP ($code): "$to" לא נרשמה כתובת המקבל';
 $messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
 $messages['smtperror'] = 'SMTP: $msg';
+$messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
 
 ?>

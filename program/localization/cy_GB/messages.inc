@@ -25,6 +25,7 @@ $messages['nomessagesfound'] = 'Dim negeseuon wedi eu canfod yn y blwch hwn';
 $messages['loggedout'] = 'Rydych wedi gorffen y sesiwn yn llwyddianus. Hwyl fawr!';
 $messages['mailboxempty'] = 'Blwch yn wag';
 $messages['loading'] = 'Yn llwytho...';
+$messages['uploading'] = 'Yn llwytho ffeil i fyny...';
 $messages['loadingdata'] = 'Yn llwytho data...';
 $messages['checkingmail'] = 'Yn edrych am negeseuon newydd...';
 $messages['sendingmessage'] = 'Yn danfon neges...';
@@ -65,6 +66,7 @@ $messages['notsentwarning'] = 'Ni ddanfonwyd y neges. Hoffech chi gael gwared a\
 $messages['noldapserver'] = 'Dewiswch weinydd ldap i chwilio';
 $messages['nocontactsreturned'] = 'Ni gafwyd hyd i unrhyw gysylltiadau';
 $messages['nosearchname'] = 'Rhowch enw cyswllt neu gyfeiriad e-bost';
+$messages['notuploadedwarning'] = 'Nid yw pob atodiad wedi eu llwytho i fyny eto. Triwch eto neu canslo.';
 $messages['searchsuccessful'] = 'Cafwyd hyd i $nr neges';
 $messages['searchnomatch'] = 'Ni gafwyd hyd i unrhyw ganlyniadau chwilio';
 $messages['searching'] = 'Yn chwilio...';
@@ -101,5 +103,6 @@ $messages['smtpfromerror'] = 'Gwall SMTP ($code): Methwyd gosod y danfonwr "$fro
 $messages['smtptoerror'] = 'Gwall SMTP ($code): Methwyd ychwanegu derbynwr "$to"';
 $messages['smtprecipientserror'] = 'Gwall SMTP: Nid oedd yn bosib darllen y rhestr o dderbynnwyr';
 $messages['smtperror'] = 'Gwall SMTP: $msg';
+$messages['emailformaterror'] = 'Cyfeiriad e-bost anghywir: $email';
 
 ?>

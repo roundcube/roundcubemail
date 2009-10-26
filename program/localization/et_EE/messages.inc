@@ -106,5 +106,6 @@ $messages['smtpfromerror'] = 'SMTP Tõrge ($code): "$from" saatjaks määramine 
 $messages['smtptoerror'] = 'SMTP Tõrge ($code): "$to" saajaks määramine nurjus';
 $messages['smtprecipientserror'] = 'SMTP Tõrge: Saajate nimekirja parsimine nurjus';
 $messages['smtperror'] = 'SMTP Tõrge: $msg';
+$messages['emailformaterror'] = 'Lubamatu e-posti aadress: $email';
 
 ?>

@@ -10,8 +10,8 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Todor Dragnev <todor.dragnev@gmail.com>  			|
-|	  Nickolay Bunev <just4nick@gmail.com>				|
+| Author: Todor Dragnev <todor.dragnev@gmail.com>  						|
+|	  Nickolay Bunev <just4nick@gmail.com>								|
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -69,18 +69,18 @@ $labels['wednesday'] = 'Сряда';
 $labels['thursday'] = 'Четвъртък';
 $labels['friday'] = 'Петък';
 $labels['saturday'] = 'Събота';
-$labels['jan'] = 'Jan';
-$labels['feb'] = 'Feb';
-$labels['mar'] = 'Mar';
-$labels['apr'] = 'Apr';
-$labels['may'] = 'May';
-$labels['jun'] = 'Jun';
-$labels['jul'] = 'Jul';
-$labels['aug'] = 'Aug';
-$labels['sep'] = 'Sep';
-$labels['oct'] = 'Oct';
-$labels['nov'] = 'Nov';
-$labels['dec'] = 'Dec';
+$labels['jan'] = 'Яну';
+$labels['feb'] = 'Фев';
+$labels['mar'] = 'Мар';
+$labels['apr'] = 'Апр';
+$labels['may'] = 'Май';
+$labels['jun'] = 'Юни';
+$labels['jul'] = 'Юли';
+$labels['aug'] = 'Авг';
+$labels['sep'] = 'Сеп';
+$labels['oct'] = 'Окт';
+$labels['nov'] = 'Ное';
+$labels['dec'] = 'Дек';
 $labels['longjan'] = 'Януари';
 $labels['longfeb'] = 'Февруари';
 $labels['longmar'] = 'Март';
@@ -97,7 +97,7 @@ $labels['today'] = 'Днес';
 $labels['checkmail'] = 'Провери за нови писма';
 $labels['writenewmessage'] = 'Създай ново писмо';
 $labels['replytomessage'] = 'Отговори на писмото';
-$labels['replytoallmessage'] = 'Отговори до изпращача и всички получатели';
+$labels['replytoallmessage'] = 'Отговор до изпращача и всички получатели';
 $labels['forwardmessage'] = 'Препрати писмото';
 $labels['deletemessage'] = 'Изтрий писмото';
 $labels['movemessagetotrash'] = 'Премести писмото в кошчето';
@@ -111,7 +111,7 @@ $labels['nextmessages'] = 'Следваща страница';
 $labels['lastmessage'] = 'Последно писмо';
 $labels['lastmessages'] = 'Последна страница';
 $labels['backtolist'] = 'Обратно към списъка';
-$labels['viewsource'] = 'Виж кода';
+$labels['viewsource'] = 'Виж като код';
 $labels['markmessages'] = 'Маркирай писмата';
 $labels['markread'] = 'Като прочетени';
 $labels['markunread'] = 'Като нови';
@@ -125,7 +125,7 @@ $labels['unread'] = 'Нови';
 $labels['flagged'] = 'Отбелязано';
 $labels['unanswered'] = 'Неотговорено';
 $labels['deleted'] = 'Изтрито';
-$labels['invert'] = 'Invert';
+$labels['invert'] = 'Инвертирай';
 $labels['filter'] = 'Филтър';
 $labels['compact'] = 'Свий';
 $labels['empty'] = 'Изпразни';
@@ -135,9 +135,10 @@ $labels['unknown'] = 'няма информация';
 $labels['unlimited'] = 'няма ограничение';
 $labels['quicksearch'] = 'Бързо търсене';
 $labels['resetsearch'] = 'Изчисти търсенето и покажи всички писма';
+$labels['searchmod'] = 'Търсене във';
 $labels['msgtext'] = 'Цялото съобщение';
 $labels['openinextwin'] = 'Отвори в нов прозорец';
-$labels['emlsave'] = 'Изтегли (.eml)';
+$labels['emlsave'] = 'Изтегли като .eml';
 $labels['compose'] = 'Ново писмо';
 $labels['editasnew'] = 'Редактирай като ново';
 $labels['savemessage'] = 'Запиши в Чернови';
@@ -164,7 +165,7 @@ $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'текстов';
 $labels['savesentmessagein'] = 'Запази съобщението в';
 $labels['dontsave'] = 'Не съхранявай';
-$labels['maxuploadsize'] = 'Максимално позволенa големина в $size';
+$labels['maxuploadsize'] = 'Максимално позволен размер $size';
 $labels['addcc'] = 'Копие до';
 $labels['addbcc'] = 'Скрито копие до';
 $labels['addreplyto'] = 'Отговор на';
@@ -233,22 +234,25 @@ $labels['ignore'] = 'Отхвърли';
 $labels['readwhendeleted'] = 'Отбележи като прочетено при изтриване';
 $labels['flagfordeletion'] = 'Отбележи съобщението за изтриване';
 $labels['skipdeleted'] = 'Не показвай изтритите съобщения';
+$labels['showremoteimages'] = 'Покажи блокираните изображения';
 $labels['fromknownsenders'] = 'Oт познати изпращачи';
 $labels['always'] = 'Винаги';
 $labels['showinlineimages'] = 'Покажи прикачените изображения след съобщението';
 $labels['autosavedraft'] = 'Автоматично записвай чернова';
 $labels['everynminutes'] = 'всеки $n минути';
-$labels['keepalive'] = 'Проверявай за нови съобщения при';
+$labels['keepalive'] = 'Проверявай за нови съобщения на';
 $labels['never'] = 'никога';
 $labels['messagesdisplaying'] = 'Показване на събщенията';
 $labels['messagescomposition'] = 'Писане на съобщения';
 $labels['mimeparamfolding'] = 'Добавяне име на прикрепените файлове';
-$labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
+$labels['2231folding'] = 'Според RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
-$labels['2047folding'] = 'Full RFC 2047 (други)';
+$labels['2047folding'] = 'Според RFC 2047 (други)';
 $labels['advancedoptions'] = 'Настройки за напреднали';
+$labels['focusonnewmessage'] = 'Премигване на прозореца при ново писмо';
 $labels['checkallfolders'] = 'Провери всички папки за нови писма';
 $labels['displaynext'] = 'След изтриване / премини към следващото писмо';
+$labels['indexsort'] = 'Използвай индекса на писмата при сортиране по дата';
 $labels['mainoptions'] = 'Основни настройки';
 $labels['section'] = 'Раздел';
 $labels['maintenance'] = 'Поддръжка';
@@ -269,9 +273,9 @@ $labels['specialfolders'] = 'Служебни папки';
 $labels['sortby'] = 'Сортирай по';
 $labels['sortasc'] = 'Сортирай възходящо';
 $labels['sortdesc'] = 'Сортирай низходящо';
-$labels['B'] = 'B';
-$labels['KB'] = 'KB';
-$labels['MB'] = 'MB';
-$labels['GB'] = 'GB';
+$labels['B'] = 'Б';
+$labels['KB'] = 'КБ';
+$labels['MB'] = 'МБ';
+$labels['GB'] = 'ГБ';
 
 ?>

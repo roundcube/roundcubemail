@@ -108,5 +108,6 @@ $messages['smtpfromerror'] = 'Chyba SMTP ($code): Nelze nastavit odesílatele "$
 $messages['smtptoerror'] = 'Chyba SMTP ($code): Nelze přidat příjemce "$to"';
 $messages['smtprecipientserror'] = 'Chyba SMTP: Nelze zpracovat seznam příjemců';
 $messages['smtperror'] = 'Chyba SMTP: $msg';
+$messages['emailformaterror'] = 'Neplatná e-mailová adresa: $email';
 
 ?>
