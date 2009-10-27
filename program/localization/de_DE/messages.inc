@@ -29,6 +29,7 @@ $messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wieder
 $messages['mailboxempty'] = 'Ordner ist leer';
 $messages['loading'] = 'Lade...';
 $messages['loadingdata'] = 'Daten werden geladen...';
+$messages['uploading'] = 'Datei wird hochgeladen...';
 $messages['checkingmail'] = 'Überprüfung auf neue Nachrichten...';
 $messages['sendingmessage'] = 'Nachricht wird gesendet...';
 $messages['messagesent'] = 'Nachricht erfolgreich gesendet';
@@ -68,6 +69,7 @@ $messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie d
 $messages['noldapserver'] = 'Bitte wählen Sie einen LDAP-Server aus';
 $messages['nocontactsreturned'] = 'Es wurden keine Kontakte gefunden';
 $messages['nosearchname'] = 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse ein';
+$messages['notuploadedwarning'] = 'Es wurden noch nicht alle Dateien hochgeladen. Bitte warten oder Upload abbrechen.';
 $messages['searchsuccessful'] = '$nr Nachrichten gefunden';
 $messages['searchnomatch'] = 'Die Suche lieferte keine Treffer';
 $messages['searching'] = 'Suche...';
@@ -104,5 +106,6 @@ $messages['smtpfromerror'] = 'SMTP Fehler ($code): Der Absender ("$from") konnte
 $messages['smtptoerror'] = 'SMTP Fehler ($code): Der Empfänger ("$to") konnte nicht gesetzt werden';
 $messages['smtprecipientserror'] = 'SMTP Fehler: Die Empfängerliste konnte nicht verarbeitet werden';
 $messages['smtperror'] = 'SMTP Fehler: $msg';
+$messages['emailformaterror'] = 'Ungültige E-Mail-Adresse: $email';
 
 ?>
