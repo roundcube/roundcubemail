@@ -41,7 +41,7 @@ function send_nocacheing_headers()
   header("Pragma: no-cache");
   
   // We need to set the following headers to make downloads work using IE in HTTPS mode.
-  if (isset($_SERVER['HTTPS']) || rcmail::get_instance()->config->get('use_https')) {
+  if (rcube_https_check()) {
     header('Pragma: ');
     header('Cache-Control: ');
   }

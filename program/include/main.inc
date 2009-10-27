@@ -1401,6 +1401,27 @@ function rcube_html_editor($mode='')
 
 
 /**
+ * Check if working in SSL mode
+ *
+ * @param integer HTTPS port number
+ * @param boolean Enables 'use_https' option checking
+ */
+function rcube_https_check($port=null, $use_https=true)
+{
+  global $RCMAIL;
+  
+  if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
+    return true;
+  if ($port && $_SERVER['SERVER_PORT'] == $port)
+    return true;
+  if ($use_https && $RCMAIL->config->get('use_https'))
+    return true;
+
+  return false;
+}
+
+
+/**
  * E-mail address validation
  */
 function check_email($email)
