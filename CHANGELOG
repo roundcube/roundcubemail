@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Specify toolbar container in compose template (#1486247)
 - Fix $_SERVER['HTTPS'] check for SSL forcing on IIS (#1486243)
 - Avoid unnecessary page loads for selected tab (#1486032)
 - Fix quota indicator issues by content generation on client-size (#1486197, #1486220)
