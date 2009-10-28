@@ -46,9 +46,9 @@ class subscriptions_option extends rcube_plugin
             $checkbox = new html_checkbox(array('name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1));
 
             $args['blocks']['main']['options']['use_subscriptions'] = array(
-		'title' => html::label($field_id, Q($this->gettext('useimapsubscriptions'))),
+                'title' => html::label($field_id, Q($this->gettext('useimapsubscriptions'))),
                 'content' => $checkbox->show($use_subscriptions?1:0),
-	    );
+            );
         }
 
         return $args;
@@ -57,18 +57,18 @@ class subscriptions_option extends rcube_plugin
     function save_prefs($args)
     {
         if ($args['section'] == 'server') {
-    	    $rcmail = rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
             $use_subscriptions = $rcmail->config->get('use_subscriptions');
 
-    	    $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']) ? true : false;
+            $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']) ? true : false;
 
-    	    // if the use_subscriptions preference changes, flush the folder cache
-    	    if (($use_subscriptions && !isset($_POST['_use_subscriptions'])) ||
-        	(!$use_subscriptions && isset($_POST['_use_subscriptions']))) {
-            	    $rcmail->imap_init(true);
-            	    $rcmail->imap->clear_cache('mailboxes');
-    	    }
-	}
+            // if the use_subscriptions preference changes, flush the folder cache
+            if (($use_subscriptions && !isset($_POST['_use_subscriptions'])) ||
+                (!$use_subscriptions && isset($_POST['_use_subscriptions']))) {
+                    $rcmail->imap_init(true);
+                    $rcmail->imap->clear_cache('mailboxes');
+            }
+        }
         return $args;
     }
 
