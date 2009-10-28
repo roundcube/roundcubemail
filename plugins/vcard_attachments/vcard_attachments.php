@@ -35,6 +35,9 @@ class vcard_attachments extends rcube_plugin
       if (in_array($attachment->mimetype, array('text/vcard', 'text/x-vcard')))
         $this->vcard_part = $attachment->mime_id;
     }
+
+    if ($this->vcard_part)
+      $this->add_texts('localization');
   }
   
   /**
@@ -57,7 +60,7 @@ class vcard_attachments extends rcube_plugin
           html::a(array(
               'href' => "#",
               'onclick' => "return plugin_vcard_save_contact('".JQ($this->vcard_part)."')",
-              'title' => "Save contact in local address book"),  // TODO: localize this title
+              'title' => $this->gettext('addvardmsg')),
             html::img(array('src' => $this->url('vcard_add_contact.png'), 'align' => "middle")))
             . ' ' . html::span(null, Q($display)));
         
@@ -73,6 +76,8 @@ class vcard_attachments extends rcube_plugin
    */
   function save_vcard()
   {
+	  $this->add_texts('localization', true);
+
     $uid = get_input_value('_uid', RCUBE_INPUT_POST);
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
     $mime_id = get_input_value('_part', RCUBE_INPUT_POST);
@@ -80,7 +85,7 @@ class vcard_attachments extends rcube_plugin
     $rcmail = rcmail::get_instance();
     $part = $uid && $mime_id ? $rcmail->imap->get_message_part($uid, $mime_id) : null;
     
-    $error_msg = 'Failed to saved vcard'; // TODO: localize this text
+    $error_msg = $this->gettext('vcardsavefailed');
     
     if ($part && ($vcard = new rcube_vcard($part)) && $vcard->displayname && $vcard->email) {
       $contacts = $rcmail->get_address_book(null, true);
@@ -111,5 +116,4 @@ class vcard_attachments extends rcube_plugin
     
     $rcmail->output->send();
   }
-  
 }
