@@ -231,6 +231,20 @@ abstract class rcube_plugin
     else
       return $fn;
   }
+  
+  /**
+   * Provide path to the currently selected skin folder within the plugin directory
+   * with a fallback to the default skin folder.
+   *
+   * @return string Skin path relative to plugins directory
+   */
+  protected function local_skin_path()
+  {
+      $skin_path = 'skins/'.$this->api->output->config['skin'];
+      if (!is_dir(realpath(slashify($this->home) . $skin_path)))
+        $skin_path = 'skins/default';
+    return $skin_path;
+  }
 
   /**
    * Callback function for array_map
