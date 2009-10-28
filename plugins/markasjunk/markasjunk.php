@@ -19,7 +19,7 @@ class markasjunk extends rcube_plugin
     
     $rcmail = rcmail::get_instance();
     if ($rcmail->action == '' || $rcmail->action == 'show') {
-      $skin_path = $this->local_skin_path();;
+      $skin_path = $this->local_skin_path();
       $this->include_script('markasjunk.js');
       $this->add_texts('localization', true);
       $this->add_button(array(
