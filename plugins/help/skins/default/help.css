@@ -22,5 +22,17 @@
 
 #helplicense, #helpabout
 {
-  padding: 20px;
+  width: 46em;
+  padding: 1em 2em;
 }
+
+#helplicense a, #helpabout a
+{
+  color: #900;
+}
+
+#helpabout
+{
+  margin: 0 auto;
+}
+
