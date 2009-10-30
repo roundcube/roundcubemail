@@ -870,18 +870,6 @@ body.messagelist
   z-index: 1;
 }
 
-#printmessageframe
-{
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  border: 1px solid #999;
-  background-color: #FFF;
-  overflow: auto;
-}
-
 div.messageheaderbox
 {
   margin: 6px 8px 0px 8px;

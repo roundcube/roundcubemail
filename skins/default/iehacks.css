@@ -171,12 +171,6 @@ input, textarea
   width: expression((parseInt(this.parentNode.offsetWidth)-20)+'px');
 }
 
-#printmessageframe
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
-}
-
 #countcontrols
 {
   width: 24em;

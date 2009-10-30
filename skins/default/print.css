@@ -31,11 +31,6 @@ a, a:active, a:visited
   margin: 0 5mm 3mm 5mm;
 }
 
-#messageframe
-{
-  position: relative;
-}
-
 table.headers-table
 {
   table-layout: fixed;
