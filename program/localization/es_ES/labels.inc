@@ -11,11 +11,8 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
-|         http://www.smaldone.com.ar                                    |
 |         David Grajal Blanco <dgrabla@gmail.com>                       |
-|         http://david.grajal.net                                       |
 |         Angel Bueno Prieto <info@mediaiberia.com>                     |
-|         http://www.mediaiberia.com                                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -255,6 +252,13 @@ $labels['2047folding'] = 'RFC 2047 (otro)';
 $labels['advancedoptions'] = 'Opciones Avanzadas';
 $labels['focusonnewmessage'] = 'Activar la ventana del navegador en un mensaje nuevo';
 $labels['checkallfolders'] = 'Comprobar todas las carpetas para mensajes nuevos';
+$labels['displaynext'] = 'Mostrar el siguiente mensaje después de borrar/mover un mensaje';
+$labels['indexsort'] = 'Usar el índice de mensajes para ordenar por fecha';
+$labels['mainoptions'] = 'Opciones principales';
+$labels['section'] = 'Sección';
+$labels['maintenance'] = 'Mantenimiento';
+$labels['newmessage'] = 'Nuevo Mensaje';
+$labels['listoptions'] = 'Listar Opciones';
 $labels['folder'] = 'Bandeja';
 $labels['folders'] = 'Bandejas';
 $labels['foldername'] = 'Nombre de bandeja';

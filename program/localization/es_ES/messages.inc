@@ -11,12 +11,9 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Javier Smaldone <javier@smaldone.com.ar>                      |
-|         http://www.smaldone.com.ar                                    |
 |         David Grajal Blanco <dgrabla@gmail.com>                       |
-|         http://david.grajal.net                                       |
 |         Lito Jornero <jornero@gmail.com>                              |
 |         Angel Bueno Prieto <info@mediaiberia.com>                     |
-|         http://www.mediaiberia.com                                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -28,10 +25,12 @@ $messages['cookiesdisabled'] = 'Su navegador no acepta cookies';
 $messages['sessionerror'] = 'Su sesión no existe o ha expirado';
 $messages['imaperror'] = 'Error de conexión con el servidor IMAP';
 $messages['servererror'] = '¡Error en el servidor!';
+$messages['invalidrequest'] = '¡Petición no válida! No se han guardado los datos.';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
 $messages['loggedout'] = 'Ha cerrado la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
 $messages['loading'] = 'Cargando...';
+$messages['uploading'] = 'Subiendo fichero...';
 $messages['loadingdata'] = 'Cargando datos...';
 $messages['checkingmail'] = 'Verificando si hay nuevos mensajes...';
 $messages['sendingmessage'] = 'Enviando mensaje...';
@@ -72,6 +71,7 @@ $messages['notsentwarning'] = 'El mensaje no ha sido enviado. ¿Desea descartar 
 $messages['noldapserver'] = 'Por favor, seleccione un servidor LDAP para buscar';
 $messages['nocontactsreturned'] = 'No se han encontrado contactos';
 $messages['nosearchname'] = 'Por favor, introduzca un nombre o la dirección de e-mail';
+$messages['notuploadedwarning'] = 'No se han subido aún todos los adjuntos. Por favor espere o cancele la subida.';
 $messages['searchsuccessful'] = 'Se encontraron $nr mensajes';
 $messages['searchnomatch'] = 'No se obtuvieron resultados';
 $messages['searching'] = 'Buscando...';
@@ -108,5 +108,6 @@ $messages['smtpfromerror'] = 'Error SMTP ($code): No se ha podido asignar el emi
 $messages['smtptoerror'] = 'Error SMTP ($code): No se ha podido establecer remitente "$to"';
 $messages['smtprecipientserror'] = 'Error SMTP: No es posible analizar la lista de destinatarios';
 $messages['smtperror'] = 'Error SMTP: $msg';
+$messages['emailformaterror'] = 'Dirección e-mail incorrecta: $email';
 
 ?>
