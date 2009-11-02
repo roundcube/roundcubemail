@@ -108,5 +108,6 @@ $messages['smtpfromerror'] = 'SMTP-fel ($code): Kan inte sätta avsändaradress 
 $messages['smtptoerror'] = 'SMTP-fel ($code): Kan inte lägga till mottagaradress "$to"';
 $messages['smtprecipientserror'] = 'SMTP-fel: Felaktigt formaterad lista med mottagaradresser';
 $messages['smtperror'] = 'SMTP-fel: $msg';
+$messages['emailformaterror'] = 'Felaktig adress: $email';
 
 ?>

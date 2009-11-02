@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  27092009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  03112009                |
 +-----------------------------------------------------------------------+
 */
 
@@ -255,6 +255,16 @@ $labels['section'] = 'קטע';
 $labels['maintenance'] = 'תחזוקה';
 $labels['newmessage'] = 'הודעה חדשה';
 $labels['listoptions'] = 'אפשרויות רשימה';
+$labels['signatureoptions'] = 'אפשרויות לשיבוץ חתימה';
+$labels['whenreplying'] = 'כאשר עונים';
+$labels['replytopposting'] = 'הודעה חדשה תתחיל מעל ההודעה המקורית';
+$labels['replybottomposting'] = 'הודעה חדשה תתחיל מתחת להודעה המקורית';
+$labels['replyremovesignature'] = 'החתימה תוסר מההודעה המקורית במענה להודעה';
+$labels['autoaddsignature'] = 'הוספה אוטומטית של חתימה';
+$labels['newmessageonly'] = 'הודעה חדשה בלבד';
+$labels['replyandforwardonly'] = 'מענה והעברת הודעה בלבד';
+$labels['replysignatureabove'] = 'הוספת חתימה מעל המקור בעת מענה או העברת הודעה';
+$labels['insertsignature'] = 'שיבוץ חתימה';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';

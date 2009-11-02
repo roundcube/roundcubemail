@@ -13,6 +13,7 @@
 | Author: Marek Kutnar <marek19@zmail.sk>                               |
 |         Lukas Kraic  <lukas.kraic@truni.sk>                           |
 |         Peter Mann   <peter.mann@tuke.sk>                             |
+|         Ales Pospichal   <ales@pospichalales.info>                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -24,10 +25,13 @@ $messages['loginfailed'] = 'Chybné prihlásenie';
 $messages['cookiesdisabled'] = 'Váš internetový prehliadač nepodporuje cookies, ktoré sú potrebné pre prihlásenie';
 $messages['sessionerror'] = 'Vaše prihlásenie je neplatné alebo vypršala jeho platnosť';
 $messages['imaperror'] = 'Nepodarilo sa spojiť s IMAP serverom';
+$messages['servererror'] = 'Chyba servera!';
+$messages['invalidrequest'] = 'Chybný požiadavek. Žiadne údaje neboli uložené.';
 $messages['nomessagesfound'] = 'Vo Vašej schránke nie je žiadna správa';
 $messages['loggedout'] = 'Odhlásenie prebehlo úspešne. Dovidenia.';
 $messages['mailboxempty'] = 'Schránka je prázdna';
 $messages['loading'] = 'Načítava sa...';
+$messages['uploading'] = 'Nahrávám súbor...';
 $messages['loadingdata'] = 'Načítavajú sa údaje...';
 $messages['checkingmail'] = 'Kontrolujú sa nové správy...';
 $messages['sendingmessage'] = 'Správa sa odosiela...';
@@ -47,6 +51,7 @@ $messages['errorsavingsent'] = 'Pri ukladaní odoslanej správy nastala chyba';
 $messages['errorsaving'] = 'Vyskytla sa chyba pri ukladaní';
 $messages['errormoving'] = 'Správa sa nedá presunúť';
 $messages['errordeleting'] = 'Správa sa nedá zmazať';
+$messages['errormarking'] = 'Správa sa nedá označiť';
 $messages['deletecontactconfirm'] = 'Ste si istý, že chcete zmazať zvolený(é) kontakt(y)?';
 $messages['deletemessagesconfirm'] = 'Ste si istý, že chcete zmazať zvolenú(é) správu(y)?';
 $messages['deletefolderconfirm'] = 'Ste si istý, že chcete zmazať tento priečinok?';
@@ -67,6 +72,7 @@ $messages['notsentwarning'] = 'Správa nebola odoslaná, chcete ju zrušiť?';
 $messages['noldapserver'] = 'Prosím, zvoľte LDAP server na vyhľadávanie';
 $messages['nocontactsreturned'] = 'Neboli nájdené žiadne kontakty';
 $messages['nosearchname'] = 'Prosím vložte meno alebo emailovú adresu';
+$messages['notuploadedwarning'] = 'Ešte neboli nahrané všetky prílohy. Počkajte prosím alebo nahrávanie zrušte.';
 $messages['searchsuccessful'] = 'nájdených $nr správ';
 $messages['searchnomatch'] = 'Hľadaný výraz nebol nájdený';
 $messages['searching'] = 'Vyhľadáva sa...';
@@ -96,5 +102,13 @@ $messages['importconfirm'] = '<b>Úspešne sa načítalo $inserted kontaktov, pr
 $messages['opnotpermitted'] = 'Operácia nie je povolená!';
 $messages['nofromaddress'] = 'Zvolená identita neobsahuje e-mailovú adresu';
 $messages['editorwarning'] = 'Prepnutie na editor obyčajného textu spôsobí stratu formátovania. Chcete napriek tomu pokračovať?';
+$messages['httpreceivedencrypterror'] = 'Vyskytla sa vážna chyba v konfigurácii. Kontaktujte bezodkladne administrátora. <b>Vaša správa nemohla byť odoslaná.</b>';
+$messages['smtpconnerror'] = 'Chyba SMTP: Pripojenie na server zlyhalo';
+$messages['smtpautherror'] = 'Chyba SMTP: Autorizácie zlyhala';
+$messages['smtpfromerror'] = 'Chyba SMTP: Nemožno nastaviť odosielateľa';
+$messages['smtptoerror'] = 'Chyba SMTP: Nemožno pridať príjemca';
+$messages['smtprecipientserror'] = 'Chyba SMTP: Nemožno spracovať zoznam príjemcov';
+$messages['smtperror'] = 'Chyba SMTP: $msg';
+$messages['emailformaterror'] = 'Neplatná e-mailová adresa: $email';
 
 ?>

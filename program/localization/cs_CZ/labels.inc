@@ -13,7 +13,8 @@
 | Author: Martin Mrajca <martin@moonlake.cz>                            |
 |        joe <joe@humlak.cz>                                            |
 |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
-|        Milan Kozak <hodza@hodza.net>					|
+|        Milan Kozak <hodza@hodza.net>					                        |
+|        Ales Pospichal <ales@pospichalales.info>                       |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -260,6 +261,16 @@ $labels['section'] = 'Sekce';
 $labels['maintenance'] = 'Údržba';
 $labels['newmessage'] = 'Nová zpráva';
 $labels['listoptions'] = 'Nastavení stránkování';
+$labels['signatureoptions'] = 'Nastavení podpisu';
+$labels['whenreplying'] = 'Při odpovídání';
+$labels['replytopposting'] = 'začít novou zprávu nad původní';
+$labels['replybottomposting'] = 'začít novou zprávu pod původní';
+$labels['replyremovesignature'] = 'Při odpovídání odstranit ze zprávy původní podpis';
+$labels['autoaddsignature'] = 'Automaticky přidat podpis';
+$labels['newmessageonly'] = 'pouze k novým zprávám';
+$labels['replyandforwardonly'] = 'jen k odpovědi a přeposílané zprávě';
+$labels['replysignatureabove'] = 'Při odpovídání nebo přeposílání vložit podpis nad citaci';
+$labels['insertsignature'] = 'Vložit podpis';
 $labels['folder'] = 'Složka';
 $labels['folders'] = 'Složky';
 $labels['foldername'] = 'Jméno složky';

@@ -30,6 +30,7 @@ $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 $messages['loggedout'] = 'Sikeres kijelentkezés. Viszontlátásra!';
 $messages['mailboxempty'] = 'A fiók üres';
 $messages['loading'] = 'Betöltés...';
+$messages['uploading'] = 'Fájl feltöltése ...';
 $messages['loadingdata'] = 'Az adatok betöltése...';
 $messages['checkingmail'] = 'Új üzenetek keresése...';
 $messages['sendingmessage'] = 'Az üzenet küldése...';
@@ -70,6 +71,7 @@ $messages['notsentwarning'] = 'Az üzenet még nem lett elküldve. Eldobja az ü
 $messages['noldapserver'] = 'Adjon meg egy LDAP szervert a kereséshez';
 $messages['nocontactsreturned'] = 'Nem található kapcsolat';
 $messages['nosearchname'] = 'Adja meg a kapcsolat nevét vagy e-mail címét';
+$messages['notuploadedwarning'] = 'Még nem került feltöltésre minden csatolmány. Kérem várjon vagy állítsa le a feltöltést.';
 $messages['searchsuccessful'] = '$nr üzenet található';
 $messages['searchnomatch'] = 'Nincs találat';
 $messages['searching'] = 'Keresés...';
@@ -106,5 +108,6 @@ $messages['smtpfromerror'] = 'SMTP hiba ($code): Nem sikerült a feladó beáll�
 $messages['smtptoerror'] = 'SMTP hiba ($code): Nem sikerült a következő címzett hozzáadása: "$to"';
 $messages['smtprecipientserror'] = 'SMTP hiba ($code): A címzett lista feldolgozása sikertelen';
 $messages['smtperror'] = 'SMTP hiba ($code): $msg';
+$messages['emailformaterror'] = 'Helytelen formátumú email cím: $email';
 
 ?>

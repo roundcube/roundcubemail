@@ -13,6 +13,7 @@
 | Author: Marek Kutnar <marek19@zmail.sk>                               |
 |         Lukas Kraic  <lukas.kraic@truni.sk>                           |
 |         Peter Mann   <peter.mann@tuke.sk>                             |
+|         Ales Pospichal   <ales@pospichalales.info>                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -118,10 +119,16 @@ $labels['markread'] = 'Ako prečítané';
 $labels['markunread'] = 'Ako neprečítané';
 $labels['markflagged'] = 'Ako označené';
 $labels['markunflagged'] = 'Ako neoznačené';
+$labels['messageactions'] = 'Ďalšie akcie...';
 $labels['select'] = 'Výber';
 $labels['all'] = 'Všetky';
 $labels['none'] = 'Žiadne';
 $labels['unread'] = 'Neprečítané';
+$labels['flagged'] = 'Označené';
+$labels['unanswered'] = 'Neoznačené';
+$labels['deleted'] = 'Zmazané';
+$labels['invert'] = 'Prevrátiť';
+$labels['filter'] = 'Filter';
 $labels['compact'] = 'Zhustiť priečinok';
 $labels['empty'] = 'Prázdne';
 $labels['purge'] = 'Vyprázdniť';
@@ -130,8 +137,12 @@ $labels['unknown'] = 'neznáme';
 $labels['unlimited'] = 'neobmedzené';
 $labels['quicksearch'] = 'Rýchle vyhľadávanie';
 $labels['resetsearch'] = 'Vyčistiť vyhľadávanie';
+$labels['searchmod'] = 'Parametre hľadanie';
+$labels['msgtext'] = 'Celá správa';
 $labels['openinextwin'] = 'Otvoriť v novom okne';
+$labels['emlsave'] = 'Stiahnuť';
 $labels['compose'] = 'Vytvoriť správu';
+$labels['editasnew'] = 'Upraviť ako novú';
 $labels['savemessage'] = 'Uložiť do rozpísaných';
 $labels['sendmessage'] = 'Odoslať správu';
 $labels['addattachment'] = 'Pridať prílohu';
@@ -225,8 +236,12 @@ $labels['ignore'] = 'ignorovať';
 $labels['readwhendeleted'] = 'Označiť správu ';
 $labels['flagfordeletion'] = 'Pri odstránení správy iba označiť správu ako odstránenú';
 $labels['skipdeleted'] = 'Nezobrazovať zmazané správy';
+$labels['showremoteimages'] = 'Zobrazovať obrázky uložené mimo mail';
+$labels['fromknownsenders'] = 'od známych užívateľov';
+$labels['always'] = 'vždy';
 $labels['showinlineimages'] = 'Zobraziť pripojené obrázky pod správou';
 $labels['autosavedraft'] = 'Automaticky uložiť koncept';
+$labels['everynminutes'] = 'každých $n minút';
 $labels['keepalive'] = 'Kontrolovať nové správy';
 $labels['never'] = 'nikdy';
 $labels['messagesdisplaying'] = 'Zobrazovanie správ';
@@ -236,6 +251,25 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['advancedoptions'] = 'Rozšírené nastavenia';
+$labels['focusonnewmessage'] = 'Aktivovať okno prehliadača pri príchozí správe';
+$labels['checkallfolders'] = 'Kontrolovať nové správy vo všetkých zložkách';
+$labels['displaynext'] = 'Zobraziť ďalšiu správu po zmazanie / prenosu správy';
+$labels['indexsort'] = 'Používať index na radenie správ podľa dátumu';
+$labels['mainoptions'] = 'Hlavné nastavenia';
+$labels['section'] = 'Sekcia';
+$labels['maintenance'] = 'Údržba';
+$labels['newmessage'] = 'Nová správa';
+$labels['listoptions'] = 'Nastavenia stránkovanie';
+$labels['signatureoptions'] = 'Nastavenia podpísania';
+$labels['whenreplying'] = 'Pri odpovedaní';
+$labels['replytopposting'] = 'začať novú správu nad pôvodňou';
+$labels['replybottomposting'] = 'začať novú správu pod pôvodňou';
+$labels['replyremovesignature'] = 'Pri odpovedaní odstrániť zo správy pôvodný podpis';
+$labels['autoaddsignature'] = 'Automaticky pridať podpis';
+$labels['newmessageonly'] = 'iba k novým správam';
+$labels['replyandforwardonly'] = 'len k odpovede a preposílanej správe';
+$labels['replysignatureabove'] = 'Pri odpovedaní alebo preposielanie vložiť podpis nad citáciu';
+$labels['insertsignature'] = 'Vložit podpis';
 $labels['folder'] = 'Priečinok';
 $labels['folders'] = 'Priečinky';
 $labels['foldername'] = 'Názov priečinku';
