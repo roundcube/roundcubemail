@@ -307,16 +307,22 @@ $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
 $labels['indexsort'] = 'Use message index for sorting by date';
-$labels['top_posting'] = 'Start reply on top of the replied message body (not recommended)';
-$labels['auto_add_sig'] = 'Automatically add signature';
-$labels['new_msg_only'] = 'new messages only';
-$labels['reply_forward_only'] = 'edits, replies and forwards only';
-$labels['insertsig'] = 'Insert signature';
 $labels['mainoptions'] = 'Main Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'New Message';
 $labels['listoptions'] = 'List Options';
+
+$labels['signatureoptions'] = 'Signature Options';
+$labels['whenreplying'] = 'When replying';
+$labels['replytopposting'] = 'start new message above original';
+$labels['replybottomposting'] = 'start new message below original';
+$labels['replyremovesignature'] = 'When replying remove original signature from message';
+$labels['autoaddsignature'] = 'Automatically add signature';
+$labels['newmessageonly'] = 'new message only';
+$labels['replyandforwardonly'] = 'replies and forwards only';
+$labels['replysignatureabove'] = 'When replying or forwarding place signature above the quote';
+$labels['insertsignature'] = 'Insert signature';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

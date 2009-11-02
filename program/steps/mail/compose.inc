@@ -103,6 +103,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
 }
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
+$OUTPUT->set_env('sig_above', $CONFIG['sig_above']);
 $OUTPUT->set_env('top_posting', $CONFIG['top_posting']);
 
 // get reference message and set compose mode
@@ -117,12 +118,15 @@ else if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
   $compose_mode = RCUBE_COMPOSE_DRAFT;
 }
 
-if (!$CONFIG['show_sig'])
+$config_show_sig = $RCMAIL->config->get('show_sig', 1);
+if ($config_show_sig == 1)
   $OUTPUT->set_env('show_sig', true);
-else if ($CONFIG['show_sig'] == 2 && empty($compose_mode))
+else if ($config_show_sig == 2 && (empty($compose_mode) || $compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT))
   $OUTPUT->set_env('show_sig', true);
-else if ($CONFIG['show_sig'] == 3 && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD))
+else if ($config_show_sig == 3 && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD))
   $OUTPUT->set_env('show_sig', true);
+else
+  $OUTPUT->set_env('show_sig', false);
 
 if (!empty($msg_uid))
 {
@@ -518,18 +522,14 @@ function rcmail_compose_body($attrib)
 
 function rcmail_create_reply_body($body, $bodyIsHtml)
 {
-  global $MESSAGE;
-  
-  $rcmail = rcmail::get_instance();
+  global $RCMAIL, $MESSAGE;
 
-  if (! $bodyIsHtml)
-  {
+  if (!$bodyIsHtml) {
     // try to remove the signature
-    if (!$rcmail->config->get('top_posting') && ($sp = strrpos($body, '-- ')) !== false && ($sp == 0 || $body{$sp-1} == "\n"))
-      {
+    if ($RCMAIL->config->get('strip_existing_sig', true) && ($sp = strrpos($body, '-- ')) !== false && ($sp == 0 || $body{$sp-1} == "\n")) {
       if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
         $body = substr($body, 0, max(0, $sp-1));
-      }
+    }
 
     // soft-wrap message first
     $body = rcmail_wrap_quoted($body, 75);
@@ -541,15 +541,15 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
       $a_lines = preg_split('/\r?\n/', $body);
 
       // add > to each line
-      for($n=0; $n<sizeof($a_lines); $n++) {
+      for ($n=0; $n<sizeof($a_lines); $n++) {
         if (strpos($a_lines[$n], '>')===0)
           $a_lines[$n] = '>'.$a_lines[$n];
         else
           $a_lines[$n] = '> '.$a_lines[$n];
-        }
+      }
  
       $body = join("\n", $a_lines);
-      }
+    }
 
     // add title line(s)
     $prefix = rc_wordwrap(sprintf("On %s, %s wrote:\n",
@@ -557,12 +557,11 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
       $MESSAGE->get_header('from')), 76);
 
     $suffix = '';
-
-    if ($rcmail->config->get('top_posting'))
+    
+    if ($RCMAIL->config->get('top_posting'))
       $prefix = "\n\n\n" . $prefix;
   }
-  else
-  {
+  else {
     // save inline images to files
     $cid_map = rcmail_write_inline_attachments($MESSAGE);
     // set is_safe flag (we need this for html body washing)
@@ -573,12 +572,12 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     // build reply (quote content)
     $prefix = sprintf("On %s, %s wrote:<br />\n",
       $MESSAGE->headers->date,
-      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $rcmail->output->get_charset()));
+      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $RCMAIL->output->get_charset()));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
-
-    if ($rcmail->config->get('top_posting')) {
-	  $prefix = "<p></p>" . $prefix;
-	  $suffix = "</blockquote>";
+    
+    if ($RCMAIL->config->get('top_posting')) {
+      $prefix = "<p></p>" . $prefix;
+      $suffix = "</blockquote>";
     }
     else {
       $suffix = "</blockquote><p></p>";

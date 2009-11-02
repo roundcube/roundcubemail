@@ -453,12 +453,18 @@ $rcmail_config['index_sort'] = TRUE;
 // When replying place cursor above original message (top posting)
 $rcmail_config['top_posting'] = FALSE;
 
+// When replying strip original signature from message
+$rcmail_config['strip_existing_sig'] = TRUE;
+
 // Show signature:
-// 0 - Always
-// 1 - Never
+// 0 - Never
+// 1 - Always
 // 2 - New messages only
-// 3 - Forwards, Edits and Replies only
-$rcmail_config['show_sig'] = 0;
+// 3 - Forwards and Replies only
+$rcmail_config['show_sig'] = 1;
+
+// When replying or forwarding place sender's signature above existing message
+$rcmail_config['sig_above'] = FALSE;
 
 // end of config file
 ?>

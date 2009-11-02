@@ -409,6 +409,7 @@ function rcmail_user_prefs($current=null)
     
     $blocks = array(
       'main' => array('name' => Q(rcube_label('mainoptions'))),
+      'sig' => array('name' => Q(rcube_label('signatureoptions'))),
     );
 
     // Show checkbox for HTML Editor
@@ -443,7 +444,7 @@ function rcmail_user_prefs($current=null)
       $select_param_folding->add(rcube_label('2047folding'), 2);
 
       $blocks['main']['options']['mime_param_folding'] = array(
-	'advanced' => true,
+        'advanced' => true,
         'title' => html::label($field_id, Q(rcube_label('mimeparamfolding'))),
         'content' => $select_param_folding->show($config['mime_param_folding']),
       );
@@ -451,25 +452,47 @@ function rcmail_user_prefs($current=null)
     
     if (!isset($no_override['top_posting'])) {
       $field_id = 'rcmfd_top_posting';
-      $input_topposting = new html_checkbox(array('name' => '_top_posting', 'id' => $field_id, 'value' => 1));
+      $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id));
+      $select_replymode->add(rcube_label('replybottomposting'), 0);
+      $select_replymode->add(rcube_label('replytopposting'), 1);
 
       $blocks['main']['options']['top_posting'] = array(
-	'title' => html::label($field_id, Q(rcube_label('top_posting'))),
-	'content' => $input_topposting->show($config['top_posting']?1:0),
+        'title' => html::label($field_id, Q(rcube_label('whenreplying'))),
+        'content' => $select_replymode->show($config['top_posting']?1:0),
       );
     }
 
     if (!isset($no_override['show_sig'])) {
       $field_id = 'rcmfd_show_sig';
       $select_show_sig = new html_select(array('name' => '_show_sig', 'id' => $field_id));
-      $select_show_sig->add(rcube_label('always'), 0);
-      $select_show_sig->add(rcube_label('never'), 1);
-      $select_show_sig->add(rcube_label('new_msg_only'), 2);
-      $select_show_sig->add(rcube_label('reply_forward_only'), 3);
+      $select_show_sig->add(rcube_label('never'), 0);
+      $select_show_sig->add(rcube_label('always'), 1);
+      $select_show_sig->add(rcube_label('newmessageonly'), 2);
+      $select_show_sig->add(rcube_label('replyandforwardonly'), 3);
 
-      $blocks['main']['options']['show_sig'] = array(
-	'title' => html::label($field_id, Q(rcube_label('auto_add_sig'))),
-        'content' => $select_show_sig->show(intval($config['show_sig'])),
+      $blocks['sig']['options']['show_sig'] = array(
+        'title' => html::label($field_id, Q(rcube_label('autoaddsignature'))),
+        'content' => $select_show_sig->show($config['show_sig']),
+      );
+    }
+
+    if (!isset($no_override['sig_above'])) {
+      $field_id = 'rcmfd_sig_above';
+      $input_sigabove = new html_checkbox(array('name' => '_sig_above', 'id' => $field_id, 'value' => 1));
+
+      $blocks['sig']['options']['sig_above'] = array(
+        'title' => html::label($field_id, Q(rcube_label('replysignatureabove'))),
+        'content' => $input_sigabove->show($config['sig_above']?1:0),
+      );
+    }
+
+    if (!isset($no_override['strip_existing_sig'])) {
+      $field_id = 'rcmfd_strip_existing_sig';
+      $input_stripexistingsig = new html_checkbox(array('name' => '_strip_existing_sig', 'id' => $field_id, 'value' => 1));
+
+      $blocks['sig']['options']['strip_existing_sig'] = array(
+        'title' => html::label($field_id, Q(rcube_label('replyremovesignature'))),
+        'content' => $input_stripexistingsig->show($config['strip_existing_sig']?1:0),
       );
     }
 
