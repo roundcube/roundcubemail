@@ -25,6 +25,7 @@ $messages['nomessagesfound'] = 'Non se atoparon mensaxes nesta caixa de correo';
 $messages['loggedout'] = 'Rematou correctamente a súa sesión. Ata logo!';
 $messages['mailboxempty'] = 'A caixa de correo está vacía';
 $messages['loading'] = 'Cargando...';
+$messages['uploading'] = 'Cargando ficheiro...';
 $messages['loadingdata'] = 'Cargando datos...';
 $messages['checkingmail'] = 'Á procura de novas mensaxes...';
 $messages['sendingmessage'] = 'Enviando mensaxe...';
@@ -65,6 +66,7 @@ $messages['notsentwarning'] = 'A mensaxe non se enviou. Quere descartala?';
 $messages['noldapserver'] = 'Por favor, elixa un servidor LDAP para buscar';
 $messages['nocontactsreturned'] = 'Non se atoparon contactos';
 $messages['nosearchname'] = 'Por favor, introduza un contacto ou un enderezo de correo electrónico';
+$messages['notuploadedwarning'] = 'Aínda non se cargaron tódolos ficheiros. Por favor, agarde ou cancele a carga.';
 $messages['searchsuccessful'] = 'Atopáronse $nr mensaxes';
 $messages['searchnomatch'] = 'A busca non atopou coincidencias';
 $messages['searching'] = 'Buscando...';
@@ -101,5 +103,6 @@ $messages['smtpfromerror'] = 'Erro SMTP ($code): Non se puido establecer o remit
 $messages['smtptoerror'] = 'Erro SMTP ($code): Non se puido engadir o destinatario "$to"';
 $messages['smtprecipientserror'] = 'Erro SMTP: Non se pode analizar a lista de destinatarios';
 $messages['smtperror'] = 'Erro SMTP: $msg';
+$messages['emailformaterror'] = 'O enderezo de correo electrónico é incorrecto: $email';
 
 ?>

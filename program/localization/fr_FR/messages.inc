@@ -30,6 +30,7 @@ $messages['nomessagesfound'] = 'Aucun message trouvé dans cette boîte aux lett
 $messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
 $messages['mailboxempty'] = 'Boîte aux lettres vide';
 $messages['loading'] = 'Chargement...';
+$messages['uploading'] = 'Envoi du fichier...';
 $messages['loadingdata'] = 'Chargement des données...';
 $messages['checkingmail'] = 'Vérification des nouveaux messages...';
 $messages['sendingmessage'] = 'Message en cours d\'envoi...';
@@ -70,6 +71,7 @@ $messages['notsentwarning'] = 'Le message n\'a pas été envoyé. Voulez-vous ab
 $messages['noldapserver'] = 'Choisissez un serveur LDAP pour la recherche';
 $messages['nocontactsreturned'] = 'Aucun contact trouvé';
 $messages['nosearchname'] = 'Entrez un nom de contact ou un courriel';
+$messages['notuploadedwarning'] = 'Toutes les pièces jointes ne sont pas encore envoyées pour le moment. Merci d\'attendre ou d\'annuler l\'envoi.';
 $messages['searchsuccessful'] = '$nr messages trouvés';
 $messages['searchnomatch'] = 'La recherche ne donne aucun résultat';
 $messages['searching'] = 'En cours de recherche...';
@@ -106,5 +108,6 @@ $messages['smtpfromerror'] = 'Erreur SMTP ($code): Impossible de définir l\'exp
 $messages['smtptoerror'] = 'Erreur SMTP ($code): Impossible d\'ajouter le destinataire "$to"';
 $messages['smtprecipientserror'] = 'Erreur SMTP: Impossible de lire la liste des destinataires';
 $messages['smtperror'] = 'Erreur SMTP: $msg';
+$messages['emailformaterror'] = 'Adresse email incorrecte: $email';
 
 ?>

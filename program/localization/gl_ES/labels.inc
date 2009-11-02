@@ -248,6 +248,7 @@ $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['focusonnewmessage'] = 'Enfocar o navegador se hai mensaxes novas';
 $labels['checkallfolders'] = 'Procurar novas mensaxes en tódolos cartafoles';
 $labels['displaynext'] = 'Amosar a seguinte mensaxe despois de borrar ou mover unha mensaxe';
+$labels['indexsort'] = 'Usar o índice de mensaxes para ordear por data';
 $labels['mainoptions'] = 'Opcións principais';
 $labels['section'] = 'Sección';
 $labels['maintenance'] = 'Mantemento';

@@ -29,6 +29,7 @@ $messages['nomessagesfound'] = 'No s\'han trobat missatges en aquesta bústia';
 $messages['loggedout'] = 'Ha tancat la sessió. Fins aviat!';
 $messages['mailboxempty'] = 'La bústia està buida';
 $messages['loading'] = 'Carregant...';
+$messages['uploading'] = 'Pujant fitxer...';
 $messages['loadingdata'] = 'Carregant dades...';
 $messages['checkingmail'] = 'Cercant nous missatges...';
 $messages['sendingmessage'] = 'Enviant missatge...';
@@ -69,6 +70,7 @@ $messages['notsentwarning'] = 'El missatge no s\'ha enviat. Vol descartar el seu
 $messages['noldapserver'] = 'Seleccioni un servidor LDAP per a cercar';
 $messages['nocontactsreturned'] = 'No s\'han trobat contactes';
 $messages['nosearchname'] = 'Introdueixi un nom de contacte o una adreça e-mail';
+$messages['notuploadedwarning'] = 'Encara no s\'han pujat tots els adjunts. Si us plau, espera o cancel·la la pujada.';
 $messages['searchsuccessful'] = '$nr missatges trobats';
 $messages['searchnomatch'] = 'No s\'ha trobat cap coincidència';
 $messages['searching'] = 'Cercant...';
@@ -105,5 +107,6 @@ $messages['smtpfromerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$from" c
 $messages['smtptoerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$to" com a destinatari';
 $messages['smtprecipientserror'] = 'Error SMTP: No s\'ha pogut analitzar la lista de destinataris';
 $messages['smtperror'] = 'Error SMTP: $msg';
+$messages['emailformaterror'] = 'Adreça d\'e-mail incorrecte: $email';
 
 ?>

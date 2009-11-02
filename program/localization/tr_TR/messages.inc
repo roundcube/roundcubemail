@@ -29,6 +29,7 @@ $messages['nomessagesfound'] = 'Posta kutusunda ileti bulunamadı';
 $messages['loggedout'] = 'Oturumu başarılı bir şekilde kapattınız. Güle güle!';
 $messages['mailboxempty'] = 'Posta kutusu boş';
 $messages['loading'] = 'Yükleniyor...';
+$messages['uploading'] = 'Dosya yükleniyor...';
 $messages['loadingdata'] = 'Veriler yükleniyor...';
 $messages['checkingmail'] = 'Yeni postalara bakılıyor...';
 $messages['sendingmessage'] = 'Posta gönderiliyor...';
@@ -69,6 +70,7 @@ $messages['notsentwarning'] = 'Posta gönderilmedi. Postanızı iptal etmek isti
 $messages['noldapserver'] = 'Lütfen arama için bir LDAP sunucu seçin';
 $messages['nocontactsreturned'] = 'Kişi bulunamadı';
 $messages['nosearchname'] = 'Lütfen bir kişi ismi veya e-posta adresi girin';
+$messages['notuploadedwarning'] = 'Henüz tüm ekli dosyalar yüklenmedi. Lütfen bekleyin ya da yüklemeyi iptal edin.';
 $messages['searchsuccessful'] = '$nr posta bulundu';
 $messages['searchnomatch'] = 'Aramanıza uygun hiçbir sonuç bulunamadı';
 $messages['searching'] = 'Aranıyor...';
@@ -105,5 +107,6 @@ $messages['smtpfromerror'] = 'SMTP Hatası ($code): Gönderen adresi "$from" ola
 $messages['smtptoerror'] = 'SMTP Hatası ($code): "$to" alıcısı eklenemedi';
 $messages['smtprecipientserror'] = 'SMTP Hatası: Posta alıcılarının listesi ayrıştırılamadı';
 $messages['smtperror'] = 'SMTP Hatası: $msg';
+$messages['emailformaterror'] = 'Hatalı e-posta adresi: $email';
 
 ?>
