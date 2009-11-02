@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Managesieve 2.0: multi-script support
 - Fix imap_auth_type regression (#1486263)
 
 RELEASE 0.3.1

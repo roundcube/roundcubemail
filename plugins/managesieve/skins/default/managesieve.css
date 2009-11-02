@@ -6,7 +6,7 @@
   position: absolute;
   left: 20px;
   width: 220px;
-  top: 130px;
+  top: 120px;
   bottom: 30px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
@@ -32,13 +32,113 @@
 {
   position: absolute;
   left: 20px;
-  top: 95px;
+  top: 85px;
+}
+
+#filtersetsbuttons
+{
+  position: absolute;
+  left: 250px;
+  top: 85px;
+}
+
+#filtersbuttons a,
+#filtersetsbuttons a
+{
+  display: block;
+  float: left;
+}
+
+#filtersbuttons a.button,
+#filtersbuttons a.buttonPas,
+#filtersetsbuttons a.button,
+#filtersetsbuttons a.buttonPas
+{
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin-right: 3px;
+  overflow: hidden;
+  background: url('managesieve_toolbar.png') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+#filtersbuttons a.buttonPas,
+#filtersetsbuttons a.buttonPas
+{
+  filter: alpha(opacity=35);
+  opacity: 0.35;
+}
+
+#filtersbuttons a.add {
+  background-position: 0px 0px;
+}
+
+#filtersbuttons a.addsel {
+  background-position: 0 -32px;
+}
+
+#filtersbuttons a.del {
+  background-position: -32px 0px;
+}
+
+#filtersbuttons a.delsel {
+  background-position: -32px -32px;
+}
+
+#filtersbuttons a.up {
+  background-position: -64px 0px;
+}
+
+#filtersbuttons a.upsel {
+  background-position: -64px -32px;
+}
+
+#filtersbuttons a.down {
+  background-position: -96px 0px;
+}
+
+#filtersbuttons a.downsel {
+  background-position: -96px -32px;
+}
+
+#filtersetsbuttons a.setadd {
+  background-position: -128px 0px;
+}
+
+#filtersetsbuttons a.setaddsel {
+  background-position: -128px -32px;
+}
+
+#filtersetsbuttons a.setdel {
+  background-position: -160px 0px;
+}
+
+#filtersetsbuttons a.setdelsel {
+  background-position: -160px -32px;
+}
+
+#filtersetsbuttons a.setset {
+  background-position: -192px 0px;
+}
+
+#filtersetsbuttons a.setsetsel {
+  background-position: -192px -32px;
+}
+
+#filtersetselect
+{
+  position: absolute;
+  left: 380px;
+  top: 90px;
 }
 
 #filter-box
 {
   position: absolute;
-  top: 95px;
+  top: 120px;
   left: 250px;
   right: 20px;
   bottom: 30px;
@@ -46,7 +146,7 @@
   overflow: hidden;
   /* css hack for IE */
   width: expression((parseInt(document.documentElement.clientWidth)-30-parseInt(document.getElementById('filterslist').offsetLeft)-parseInt(document.getElementById('filterslist').offsetWidth))+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #filter-frame

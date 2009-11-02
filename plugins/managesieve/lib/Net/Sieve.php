@@ -1,234 +1,280 @@
 <?php
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003, Richard Heyes                                |
-// | Copyright (c) 2006,2008 Anish Mistry                                  |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// | Co-Author: Damian Fernandez Sosa <damlists@cnba.uba.ar>               |
-// | Co-Author: Anish Mistry <amistry@am-productions.biz>                  |
-// +-----------------------------------------------------------------------+
+/**
+ * This file contains the Net_Sieve class.
+ *
+ * PHP version 4
+ *
+ * +-----------------------------------------------------------------------+
+ * | All rights reserved.                                                  |
+ * |                                                                       |
+ * | Redistribution and use in source and binary forms, with or without    |
+ * | modification, are permitted provided that the following conditions    |
+ * | are met:                                                              |
+ * |                                                                       |
+ * | o Redistributions of source code must retain the above copyright      |
+ * |   notice, this list of conditions and the following disclaimer.       |
+ * | o Redistributions in binary form must reproduce the above copyright   |
+ * |   notice, this list of conditions and the following disclaimer in the |
+ * |   documentation and/or other materials provided with the distribution.|
+ * |                                                                       |
+ * | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
+ * | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
+ * | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
+ * | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
+ * | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
+ * | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
+ * | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+ * | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
+ * | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
+ * | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
+ * | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
+ * +-----------------------------------------------------------------------+
+ *
+ * @category  Networking
+ * @package   Net_Sieve
+ * @author    Richard Heyes <richard@phpguru.org>
+ * @author    Damian Fernandez Sosa <damlists@cnba.uba.ar>
+ * @author    Anish Mistry <amistry@am-productions.biz>
+ * @author    Jan Schneider <jan@horde.org>
+ * @copyright 2002-2003 Richard Heyes
+ * @copyright 2006-2008 Anish Mistry
+ * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+ * @version   SVN: $Id: Sieve.php 289313 2009-10-07 22:26:33Z yunosh $
+ * @link      http://pear.php.net/package/Net_Sieve
+ */
 
-require_once('Net/Socket.php');
+require_once 'PEAR.php';
+require_once 'Net/Socket.php';
 
 /**
-* TODO
-*
-* o supportsAuthMech()
-*/
+ * TODO
+ *
+ * o supportsAuthMech()
+ */
 
 /**
-* Disconnected state
-* @const NET_SIEVE_STATE_DISCONNECTED
-*/
-define('NET_SIEVE_STATE_DISCONNECTED',  1, true);
+ * Disconnected state
+ * @const NET_SIEVE_STATE_DISCONNECTED
+ */
+define('NET_SIEVE_STATE_DISCONNECTED', 1, true);
 
 /**
-* Authorisation state
-* @const NET_SIEVE_STATE_AUTHORISATION
-*/
+ * Authorisation state
+ * @const NET_SIEVE_STATE_AUTHORISATION
+ */
 define('NET_SIEVE_STATE_AUTHORISATION', 2, true);
 
 /**
-* Transaction state
-* @const NET_SIEVE_STATE_TRANSACTION
-*/
-define('NET_SIEVE_STATE_TRANSACTION',   3, true);
+ * Transaction state
+ * @const NET_SIEVE_STATE_TRANSACTION
+ */
+define('NET_SIEVE_STATE_TRANSACTION', 3, true);
+
 
 /**
-* A class for talking to the timsieved server which
-* comes with Cyrus IMAP.
-*
-* SIEVE: RFC3028 http://www.ietf.org/rfc/rfc3028.txt
-* MANAGE-SIEVE: http://www.ietf.org/internet-drafts/draft-martin-managesieve-07.txt
-*
-* @author  Richard Heyes <richard@php.net>
-* @author  Damian Fernandez Sosa <damlists@cnba.uba.ar>
-* @author  Anish Mistry <amistry@am-productions.biz>
-* @access  public
-* @version 1.2.0
-* @package Net_Sieve
-*/
-
+ * A class for talking to the timsieved server which comes with Cyrus IMAP.
+ *
+ * @category  Networking
+ * @package   Net_Sieve
+ * @author    Richard Heyes <richard@phpguru.org>
+ * @author    Damian Fernandez Sosa <damlists@cnba.uba.ar>
+ * @author    Anish Mistry <amistry@am-productions.biz>
+ * @author    Jan Schneider <jan@horde.org>
+ * @copyright 2002-2003 Richard Heyes
+ * @copyright 2006-2008 Anish Mistry
+ * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+ * @version   Release: @package_version@
+ * @link      http://pear.php.net/package/Net_Sieve
+ * @link      http://www.ietf.org/rfc/rfc3028.txt RFC 3028 (Sieve: A Mail
+ *            Filtering Language)
+ * @link      http://tools.ietf.org/html/draft-ietf-sieve-managesieve A
+ *            Protocol for Remotely Managing Sieve Scripts
+ */
 class Net_Sieve
 {
     /**
-    * The socket object
-    * @var object
-    */
+     * The authentication methods this class supports.
+     *
+     * Can be overwritten if having problems with certain methods.
+     *
+     * @var array
+     */
+    var $supportedAuthMethods = array('DIGEST-MD5', 'CRAM-MD5', 'EXTERNAL',
+                                      'PLAIN' , 'LOGIN');
+
+    /**
+     * SASL authentication methods that require Auth_SASL.
+     *
+     * @var array
+     */
+    var $_supportedSASLAuthMethods = array('DIGEST-MD5', 'CRAM-MD5');
+
+    /**
+     * The socket handle.
+     *
+     * @var resource
+     */
     var $_sock;
 
     /**
-    * Info about the connect
-    * @var array
-    */
+     * Parameters and connection information.
+     *
+     * @var array
+     */
     var $_data;
 
     /**
-    * Current state of the connection
-    * @var integer
-    */
+     * Current state of the connection.
+     *
+     * One of the NET_SIEVE_STATE_* constants.
+     *
+     * @var integer
+     */
     var $_state;
 
     /**
-    * Constructor error is any
-    * @var object
-    */
+     * Constructor error.
+     *
+     * @var PEAR_Error
+     */
     var $_error;
 
     /**
-    * To allow class debuging
-    * @var boolean
-    */
+     * Whether to enable debugging.
+     *
+     * @var boolean
+     */
     var $_debug = false;
 
     /**
-    * Allows picking up of an already established connection
-    * @var boolean
-    */
+     * Debug output handler.
+     *
+     * This has to be a valid callback.
+     *
+     * @var string|array
+     */
+    var $_debug_handler = null;
+
+    /**
+     * Whether to pick up an already established connection.
+     *
+     * @var boolean
+     */
     var $_bypassAuth = false;
 
     /**
-    * Whether to use TLS if available
-    * @var boolean
-    */
+     * Whether to use TLS if available.
+     *
+     * @var boolean
+     */
     var $_useTLS = true;
 
     /**
-    * Additional options for stream_context_create()
-    * @var array
-    */
+     * Additional options for stream_context_create().
+     *
+     * @var array
+     */
     var $_options = null;
 
     /**
-    * The auth methods this class support
-    * @var array
-    */
-    var $supportedAuthMethods=array('DIGEST-MD5', 'CRAM-MD5', 'EXTERNAL', 'PLAIN' , 'LOGIN');
-    //if you have problems using DIGEST-MD5 authentication  please comment the line above and uncomment the following line
-    //var $supportedAuthMethods=array( 'CRAM-MD5', 'PLAIN' , 'LOGIN');
-
-    //var $supportedAuthMethods=array( 'PLAIN' , 'LOGIN');
-
-    /**
-    * The auth methods this class support
-    * @var array
-    */
-    var $supportedSASLAuthMethods=array('DIGEST-MD5', 'CRAM-MD5');
-
-    /**
-    * Handles posible referral loops
-    * @var array
-    */
+     * Maximum number of referral loops
+     *
+     * @var array
+     */
     var $_maxReferralCount = 15;
 
     /**
-    * Constructor
-    * Sets up the object, connects to the server and logs in. stores
-    * any generated error in $this->_error, which can be retrieved
-    * using the getError() method.
-    *
-    * @param  string $user      Login username
-    * @param  string $pass      Login password
-    * @param  string $host      Hostname of server
-    * @param  string $port      Port of server
-    * @param  string $logintype Type of login to perform
-    * @param  string $euser     Effective User (if $user=admin, login as $euser)
-    * @param  string $bypassAuth Skip the authentication phase.  Useful if the socket
-                                  is already open.
-    * @param  boolean $useTLS Use TLS if available
-    * @param  array  $options   options for stream_context_create()
-    */
-    function Net_Sieve($user = null , $pass  = null , $host = 'localhost', $port = 2000, $logintype = '', $euser = '', $debug = false, $bypassAuth = false, $useTLS = true, $options = null)
-    {
-        $this->_state = NET_SIEVE_STATE_DISCONNECTED;
-        $this->_data['user'] = $user;
-        $this->_data['pass'] = $pass;
-        $this->_data['host'] = $host;
-        $this->_data['port'] = $port;
+     * Constructor.
+     *
+     * Sets up the object, connects to the server and logs in. Stores any
+     * generated error in $this->_error, which can be retrieved using the
+     * getError() method.
+     *
+     * @param string  $user       Login username.
+     * @param string  $pass       Login password.
+     * @param string  $host       Hostname of server.
+     * @param string  $port       Port of server.
+     * @param string  $logintype  Type of login to perform (see
+     *                            $supportedAuthMethods).
+     * @param string  $euser      Effective user. If authenticating as an
+     *                            administrator, login as this user.
+     * @param boolean $debug      Whether to enable debugging (@see setDebug()).
+     * @param string  $bypassAuth Skip the authentication phase. Useful if the
+     *                            socket is already open.
+     * @param boolean $useTLS     Use TLS if available.
+     * @param array   $options    Additional options for
+     *                            stream_context_create().
+     */
+    function Net_Sieve($user = null, $pass  = null, $host = 'localhost',
+        $port = 2000, $logintype = '', $euser = '', $debug = false,
+        $bypassAuth = false, $useTLS = true, $options = null
+    ) {
+        $this->_state             = NET_SIEVE_STATE_DISCONNECTED;
+        $this->_data['user']      = $user;
+        $this->_data['pass']      = $pass;
+        $this->_data['host']      = $host;
+        $this->_data['port']      = $port;
         $this->_data['logintype'] = $logintype;
-        $this->_data['euser'] = $euser;
-        $this->_sock = &new Net_Socket();
-        $this->_debug = $debug;
-        $this->_bypassAuth = $bypassAuth;
-        $this->_useTLS = $useTLS;
-        $this->_options = $options;
-        /*
-        * Include the Auth_SASL package.  If the package is not available,
-        * we disable the authentication methods that depend upon it.
-        */
+        $this->_data['euser']     = $euser;
+        $this->_sock              = new Net_Socket();
+        $this->_debug             = $debug;
+        $this->_bypassAuth        = $bypassAuth;
+        $this->_useTLS            = $useTLS;
+        $this->_options           = $options;
+
+        /* Try to include the Auth_SASL package.  If the package is not
+         * available, we disable the authentication methods that depend upon
+         * it. */
         if ((@include_once 'Auth/SASL.php') === false) {
-            if($this->_debug){
-                echo "AUTH_SASL NOT PRESENT!\n";
-            }
-            foreach($this->supportedSASLAuthMethods as $SASLMethod){
-                $pos = array_search( $SASLMethod, $this->supportedAuthMethods );
-                if($this->_debug){
-                    echo "DISABLING METHOD $SASLMethod\n";
-                }
+            $this->_debug('Auth_SASL not present');
+            foreach ($this->supportedSASLAuthMethods as $SASLMethod) {
+                $pos = array_search($SASLMethod, $this->supportedAuthMethods);
+                $this->_debug('Disabling method ' . $SASLMethod);
                 unset($this->supportedAuthMethods[$pos]);
             }
         }
-        if( ($user != null) && ($pass != null) ){
+
+        if (strlen($user) && strlen($pass)) {
             $this->_error = $this->_handleConnectAndLogin();
         }
     }
 
     /**
-    * Handles the errors the class can find
-    * on the server
-    *
-    * @access private
-    * @param mixed $msg  Text error message or PEAR error object
-    * @param integer $code  Numeric error code
-    * @return PEAR_Error
-    */
-    function _raiseError($msg, $code)
+     * Returns any error that may have been generated in the constructor.
+     *
+     * @return boolean|PEAR_Error  False if no error, PEAR_Error otherwise.
+     */
+    function getError()
     {
-        include_once 'PEAR.php';
-        return PEAR::raiseError($msg, $code);
+        return PEAR::isError($this->_error) ? $this->_error : false;
     }
 
     /**
-    * Handles connect and login.
-    * on the server
-    *
-    * @access private
-    * @return mixed Indexed array of scriptnames or PEAR_Error on failure
-    */
+     * Sets the debug state and handler function.
+     *
+     * @param boolean $debug   Whether to enable debugging.
+     * @param string  $handler A custom debug handler. Must be a valid callback.
+     *
+     * @return void
+     */
+    function setDebug($debug = true, $handler = null)
+    {
+        $this->_debug = $debug;
+        $this->_debug_handler = $handler;
+    }
+
+    /**
+     * Connects to the server and logs in.
+     *
+     * @return boolean  True on success, PEAR_Error on failure.
+     */
     function _handleConnectAndLogin()
     {
-        if (PEAR::isError($res = $this->connect($this->_data['host'] , $this->_data['port'], $this->_options, $this->_useTLS ))) {
+        if (PEAR::isError($res = $this->connect($this->_data['host'], $this->_data['port'], $this->_options, $this->_useTLS))) {
             return $res;
         }
-        if($this->_bypassAuth === false) {
-           if (PEAR::isError($res = $this->login($this->_data['user'], $this->_data['pass'], $this->_data['logintype'] , $this->_data['euser'] , $this->_bypassAuth) ) ) {
+        if ($this->_bypassAuth === false) {
+            if (PEAR::isError($res = $this->login($this->_data['user'], $this->_data['pass'], $this->_data['logintype'], $this->_data['euser'], $this->_bypassAuth))) {
                 return $res;
             }
         }
@@ -236,11 +282,100 @@ class Net_Sieve
     }
 
     /**
-    * Returns an indexed array of scripts currently
-    * on the server
-    *
-    * @return mixed Indexed array of scriptnames or PEAR_Error on failure
-    */
+     * Handles connecting to the server and checks the response validity.
+     *
+     * @param string  $host    Hostname of server.
+     * @param string  $port    Port of server.
+     * @param array   $options List of options to pass to
+     *                         stream_context_create().
+     * @param boolean $useTLS  Use TLS if available.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
+    function connect($host, $port, $options = null, $useTLS = true)
+    {
+        if (NET_SIEVE_STATE_DISCONNECTED != $this->_state) {
+            return PEAR::raiseError('Not currently in DISCONNECTED state', 1);
+        }
+
+        if (PEAR::isError($res = $this->_sock->connect($host, $port, false, 5, $options))) {
+            return $res;
+        }
+
+        if ($this->_bypassAuth) {
+            $this->_state = NET_SIEVE_STATE_TRANSACTION;
+        } else {
+            $this->_state = NET_SIEVE_STATE_AUTHORISATION;
+            if (PEAR::isError($res = $this->_doCmd())) {
+                return $res;
+            }
+        }
+
+        // Explicitly ask for the capabilities in case the connection is
+        // picked up from an existing connection.
+        if (PEAR::isError($res = $this->_cmdCapability())) {
+            return PEAR::raiseError(
+                'Failed to connect, server said: ' . $res->getMessage(), 2
+            );
+        }
+
+        // Check if we can enable TLS via STARTTLS.
+        if ($useTLS && !empty($this->_capability['starttls'])
+            && function_exists('stream_socket_enable_crypto')
+        ) {
+            if (PEAR::isError($res = $this->_startTLS())) {
+                return $res;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Disconnect from the Sieve server.
+     *
+     * @param boolean $sendLogoutCMD Whether to send LOGOUT command before
+     *                               disconnecting.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
+    function disconnect($sendLogoutCMD = true)
+    {
+        return $this->_cmdLogout($sendLogoutCMD);
+    }
+
+    /**
+     * Logs into server.
+     *
+     * @param string  $user       Login username.
+     * @param string  $pass       Login password.
+     * @param string  $logintype  Type of login method to use.
+     * @param string  $euser      Effective UID (perform on behalf of $euser).
+     * @param boolean $bypassAuth Do not perform authentication.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
+    function login($user, $pass, $logintype = null, $euser = '', $bypassAuth = false)
+    {
+        if (NET_SIEVE_STATE_AUTHORISATION != $this->_state) {
+            return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
+        }
+
+        if (!$bypassAuth ) {
+            if (PEAR::isError($res = $this->_cmdAuthenticate($user, $pass, $logintype, $euser))) {
+                return $res;
+            }
+        }
+        $this->_state = NET_SIEVE_STATE_TRANSACTION;
+
+        return true;
+    }
+
+    /**
+     * Returns an indexed array of scripts currently on the server.
+     *
+     * @return array  Indexed array of scriptnames.
+     */
     function listScripts()
     {
         if (is_array($scripts = $this->_cmdListScripts())) {
@@ -252,37 +387,39 @@ class Net_Sieve
     }
 
     /**
-    * Returns the active script
-    *
-    * @return mixed The active scriptname or PEAR_Error on failure
-    */
+     * Returns the active script.
+     *
+     * @return string  The active scriptname.
+     */
     function getActive()
     {
         if (!empty($this->_active)) {
             return $this->_active;
-
-        } elseif (is_array($scripts = $this->_cmdListScripts())) {
+        }
+        if (is_array($scripts = $this->_cmdListScripts())) {
             $this->_active = $scripts[1];
             return $scripts[1];
         }
     }
 
     /**
-    * Sets the active script
-    *
-    * @param  string $scriptname The name of the script to be set as active
-    * @return mixed              true on success, PEAR_Error on failure
-    */
+     * Sets the active script.
+     *
+     * @param string $scriptname The name of the script to be set as active.
+     *
+     * @return boolean  True on success, PEAR_Error on failure.
+     */
     function setActive($scriptname)
     {
         return $this->_cmdSetActive($scriptname);
     }
 
     /**
-    * Retrieves a script
-    *
-    * @param  string $scriptname The name of the script to be retrieved
-    * @return mixed              The script on success, PEAR_Error on failure
+     * Retrieves a script.
+     *
+     * @param string $scriptname The name of the script to be retrieved.
+     *
+     * @return string  The script on success, PEAR_Error on failure.
     */
     function getScript($scriptname)
     {
@@ -290,359 +427,337 @@ class Net_Sieve
     }
 
     /**
-    * Adds a script to the server
-    *
-    * @param  string $scriptname Name of the script
-    * @param  string $script     The script
-    * @param  boolean $makeactive Whether to make this the active script
-    * @return mixed              true on success, PEAR_Error on failure
-    */
+     * Adds a script to the server.
+     *
+     * @param string  $scriptname Name of the script.
+     * @param string  $script     The script content.
+     * @param boolean $makeactive Whether to make this the active script.
+     *
+     * @return boolean  True on success, PEAR_Error on failure.
+     */
     function installScript($scriptname, $script, $makeactive = false)
     {
         if (PEAR::isError($res = $this->_cmdPutScript($scriptname, $script))) {
             return $res;
-
-        } elseif ($makeactive) {
-            return $this->_cmdSetActive($scriptname);
-
-        } else {
-            return true;
         }
+        if ($makeactive) {
+            return $this->_cmdSetActive($scriptname);
+        }
+        return true;
     }
 
     /**
-    * Removes a script from the server
-    *
-    * @param  string $scriptname Name of the script
-    * @return mixed              True on success, PEAR_Error on failure
-    */
+     * Removes a script from the server.
+     *
+     * @param string $scriptname Name of the script.
+     *
+     * @return boolean  True on success, PEAR_Error on failure.
+     */
     function removeScript($scriptname)
     {
         return $this->_cmdDeleteScript($scriptname);
     }
 
     /**
-    * Returns any error that may have been generated in the
-    * constructor
-    *
-    * @return mixed False if no error, PEAR_Error otherwise
-    */
-    function getError()
+     * Checks if the server has space to store the script by the server.
+     *
+     * @param string  $scriptname The name of the script to mark as active.
+     * @param integer $size       The size of the script.
+     *
+     * @return boolean|PEAR_Error  True if there is space, PEAR_Error otherwise.
+     *
+     * @todo Rename to hasSpace()
+     */
+    function haveSpace($scriptname, $size)
     {
-        return PEAR::isError($this->_error) ? $this->_error : false;
+        if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
+            return PEAR::raiseError('Not currently in TRANSACTION state', 1);
+        }
+        if (PEAR::isError($res = $this->_doCmd(sprintf('HAVESPACE "%s" %d', $scriptname, $size)))) {
+            return $res;
+        }
+        return true;
     }
 
     /**
-    * Handles connecting to the server and checking the
-    * response is valid.
-    *
-    * @access private
-    * @param  string $host Hostname of server
-    * @param  string $port Port of server
-    * @param  array  $options List of options to pass to connect
-    * @param  boolean $useTLS Use TLS if available
-    * @return mixed        True on success, PEAR_Error otherwise
-    */
-    function connect($host, $port, $options = null, $useTLS = true)
+     * Returns the list of extensions the server supports.
+     *
+     * @return array  List of extensions or PEAR_Error on failure.
+     */
+    function getExtensions()
     {
-        if (NET_SIEVE_STATE_DISCONNECTED != $this->_state) {
-            $msg='Not currently in DISCONNECTED state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+        if (NET_SIEVE_STATE_DISCONNECTED == $this->_state) {
+            return PEAR::raiseError('Not currently connected', 7);
+        }
+        return $this->_capability['extensions'];
+    }
+
+    /**
+     * Returns whether the server supports an extension.
+     *
+     * @param string $extension The extension to check.
+     *
+     * @return boolean  Whether the extension is supported or PEAR_Error on
+     *                  failure.
+     */
+    function hasExtension($extension)
+    {
+        if (NET_SIEVE_STATE_DISCONNECTED == $this->_state) {
+            return PEAR::raiseError('Not currently connected', 7);
         }
 
-        if (PEAR::isError($res = $this->_sock->connect($host, $port, false, 5, $options))) {
-            return $res;
-        }
-
-        if($this->_bypassAuth === false) {
-            $this->_state = NET_SIEVE_STATE_AUTHORISATION;
-            if (PEAR::isError($res = $this->_doCmd())) {
-                return $res;
-            }
-        } else {
-            $this->_state = NET_SIEVE_STATE_TRANSACTION;
-        }
-
-        // Explicitly ask for the capabilities in case the connection
-        // is picked up from an existing connection.
-        if(PEAR::isError($res = $this->_cmdCapability() )) {
-            $msg='Failed to connect, server said: ' . $res->getMessage();
-            $code=2;
-            return $this->_raiseError($msg,$code);
-        }
-
-        if($useTLS === true) {
-            // check if we can enable TLS via STARTTLS
-            if(isset($this->_capability['starttls']) && function_exists('stream_socket_enable_crypto') === true) {
-                if (PEAR::isError($res = $this->_startTLS())) {
-                    return $res;
+        $extension = trim($this->_toUpper($extension));
+        if (is_array($this->_capability['extensions'])) {
+            foreach ($this->_capability['extensions'] as $ext) {
+                if ($ext == $extension) {
+                    return true;
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
-    * Logs into server.
-    *
-    * @param  string  $user          Login username
-    * @param  string  $pass          Login password
-    * @param  string  $logintype     Type of login method to use
-    * @param  string  $euser         Effective UID (perform on behalf of $euser)
-    * @param  boolean $bypassAuth    Do not perform authentication
-    * @return mixed                  True on success, PEAR_Error otherwise
-    */
-    function login($user, $pass, $logintype = null , $euser = '', $bypassAuth = false)
+     * Returns the list of authentication methods the server supports.
+     *
+     * @return array  List of authentication methods or PEAR_Error on failure.
+     */
+    function getAuthMechs()
     {
-        if (NET_SIEVE_STATE_AUTHORISATION != $this->_state) {
-            $msg='Not currently in AUTHORISATION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+        if (NET_SIEVE_STATE_DISCONNECTED == $this->_state) {
+            return PEAR::raiseError('Not currently connected', 7);
+        }
+        return $this->_capability['sasl'];
+    }
+
+    /**
+     * Returns whether the server supports an authentication method.
+     *
+     * @param string $method The method to check.
+     *
+     * @return boolean  Whether the method is supported or PEAR_Error on
+     *                  failure.
+     */
+    function hasAuthMech($method)
+    {
+        if (NET_SIEVE_STATE_DISCONNECTED == $this->_state) {
+            return PEAR::raiseError('Not currently connected', 7);
         }
 
-        if( $bypassAuth === false ){
-            if(PEAR::isError($res=$this->_cmdAuthenticate($user , $pass , $logintype, $euser ) ) ){
-                return $res;
+        $method = trim($this->_toUpper($method));
+        if (is_array($this->_capability['sasl'])) {
+            foreach ($this->_capability['sasl'] as $sasl) {
+                if ($sasl == $method) {
+                    return true;
+                }
             }
         }
-        $this->_state = NET_SIEVE_STATE_TRANSACTION;
-        return true;
+
+        return false;
     }
 
     /**
-     * Handles the authentication using any known method
+     * Handles the authentication using any known method.
      *
-     * @param string $uid The userid to authenticate as.
-     * @param string $pwd The password to authenticate with.
-     * @param string $userMethod The method to use ( if $userMethod == '' then the class chooses the best method (the stronger is the best ) )
-     * @param string $euser The effective uid to authenticate as.
+     * @param string $uid        The userid to authenticate as.
+     * @param string $pwd        The password to authenticate with.
+     * @param string $userMethod The method to use. If empty, the class chooses
+     *                           the best (strongest) available method.
+     * @param string $euser      The effective uid to authenticate as.
      *
-     * @return mixed  string or PEAR_Error
-     *
-     * @access private
-     * @since  1.0
+     * @return void
      */
-    function _cmdAuthenticate($uid , $pwd , $userMethod = null , $euser = '' )
+    function _cmdAuthenticate($uid, $pwd, $userMethod = null, $euser = '')
     {
-        if ( PEAR::isError( $method = $this->_getBestAuthMethod($userMethod) ) ) {
+        if (PEAR::isError($method = $this->_getBestAuthMethod($userMethod))) {
             return $method;
         }
         switch ($method) {
-            case 'DIGEST-MD5':
-                $result = $this->_authDigest_MD5( $uid , $pwd , $euser );
-                return $result;
-                break;
-            case 'CRAM-MD5':
-                $result = $this->_authCRAM_MD5( $uid , $pwd, $euser);
-                break;
-            case 'LOGIN':
-                $result = $this->_authLOGIN( $uid , $pwd , $euser );
-                break;
-            case 'PLAIN':
-                $result = $this->_authPLAIN( $uid , $pwd , $euser );
-                break;
-            case 'EXTERNAL':
-                $result = $this->_authEXTERNAL( $uid , $pwd , $euser );
-                break;
-            default :
-                $result = new PEAR_Error( "$method is not a supported authentication method" );
-                break;
+        case 'DIGEST-MD5':
+            return $this->_authDigestMD5($uid, $pwd, $euser);
+        case 'CRAM-MD5':
+            $result = $this->_authCRAMMD5($uid, $pwd, $euser);
+            break;
+        case 'LOGIN':
+            $result = $this->_authLOGIN($uid, $pwd, $euser);
+            break;
+        case 'PLAIN':
+            $result = $this->_authPLAIN($uid, $pwd, $euser);
+            break;
+        case 'EXTERNAL':
+            $result = $this->_authEXTERNAL($uid, $pwd, $euser);
+            break;
+        default :
+            $result = PEAR::raiseError(
+                $method . ' is not a supported authentication method'
+            );
+            break;
         }
 
-        if (PEAR::isError($res = $this->_doCmd() )) {
+        if (PEAR::isError($res = $this->_doCmd())) {
             return $res;
         }
+
         return $result;
     }
 
     /**
      * Authenticates the user using the PLAIN method.
      *
-     * @param string $user The userid to authenticate as.
-     * @param string $pass The password to authenticate with.
+     * @param string $user  The userid to authenticate as.
+     * @param string $pass  The password to authenticate with.
      * @param string $euser The effective uid to authenticate as.
      *
-     * @return array Returns an array containing the response
-     *
-     * @access private
-     * @since  1.0
+     * @return void
      */
-    function _authPLAIN($user, $pass , $euser )
+    function _authPLAIN($user, $pass, $euser)
     {
-        if ($euser != '') {
-            $cmd=sprintf('AUTHENTICATE "PLAIN" "%s"', base64_encode($euser . chr(0) . $user . chr(0) . $pass ) ) ;
-        } else {
-            $cmd=sprintf('AUTHENTICATE "PLAIN" "%s"', base64_encode( chr(0) . $user . chr(0) . $pass ) );
-        }
-        return  $this->_sendCmd( $cmd ) ;
+        return $this->_sendCmd(
+            sprintf(
+                'AUTHENTICATE "PLAIN" "%s"',
+                base64_encode($euser . chr(0) . $user . chr(0) . $pass)
+            )
+        );
     }
 
     /**
-     * Authenticates the user using the PLAIN method.
+     * Authenticates the user using the LOGIN method.
      *
-     * @param string $user The userid to authenticate as.
-     * @param string $pass The password to authenticate with.
+     * @param string $user  The userid to authenticate as.
+     * @param string $pass  The password to authenticate with.
      * @param string $euser The effective uid to authenticate as.
      *
-     * @return array Returns an array containing the response
-     *
-     * @access private
-     * @since  1.0
+     * @return void
      */
-    function _authLOGIN($user, $pass , $euser )
+    function _authLOGIN($user, $pass, $euser)
     {
-        $this->_sendCmd('AUTHENTICATE "LOGIN"');
-        $this->_doCmd(sprintf('"%s"', base64_encode($user)));
-        $this->_doCmd(sprintf('"%s"', base64_encode($pass)));
+        if (PEAR::isError($result = $this->_sendCmd('AUTHENTICATE "LOGIN"'))) {
+            return $result;
+        }
+        if (PEAR::isError($result = $this->_doCmd('"' . base64_encode($user) . '"'))) {
+            return $result;
+        }
+        return $this->_doCmd('"' . base64_encode($pass) . '"');
     }
 
     /**
      * Authenticates the user using the CRAM-MD5 method.
      *
-     * @param string $uid The userid to authenticate as.
-     * @param string $pwd The password to authenticate with.
+     * @param string $user  The userid to authenticate as.
+     * @param string $pass  The password to authenticate with.
      * @param string $euser The effective uid to authenticate as.
      *
-     * @return array Returns an array containing the response
-     *
-     * @access private
-     * @since  1.0
+     * @return void
      */
-    function _authCRAM_MD5($uid, $pwd, $euser)
+    function _authCRAMMD5($user, $pass, $euser)
     {
-        if ( PEAR::isError( $challenge = $this->_doCmd( 'AUTHENTICATE "CRAM-MD5"' ) ) ) {
-            $this->_error=$challenge;
+        if (PEAR::isError($challenge = $this->_doCmd('AUTHENTICATE "CRAM-MD5"', true))) {
             return $challenge;
         }
-        $challenge=trim($challenge);
-        $challenge = base64_decode( trim($challenge) );
-        $cram = &Auth_SASL::factory('crammd5');
-        if ( PEAR::isError($resp=$cram->getResponse( $uid , $pwd , $challenge ) ) ) {
-            $this->_error=$resp;
-            return $resp;
-        }
-        $auth_str = base64_encode( $resp );
-        if ( PEAR::isError($error = $this->_sendStringResponse( $auth_str  ) ) ) {
-            $this->_error=$error;
-            return $error;
+
+        $challenge = base64_decode(trim($challenge));
+        $cram = Auth_SASL::factory('crammd5');
+        if (PEAR::isError($response = $cram->getResponse($user, $pass, $challenge))) {
+            return $response;
         }
 
+        return $this->_sendStringResponse(base64_encode($response));
     }
 
     /**
      * Authenticates the user using the DIGEST-MD5 method.
      *
-     * @param string $uid The userid to authenticate as.
-     * @param string $pwd The password to authenticate with.
+     * @param string $user  The userid to authenticate as.
+     * @param string $pass  The password to authenticate with.
      * @param string $euser The effective uid to authenticate as.
      *
-     * @return array Returns an array containing the response
-     *
-     * @access private
-     * @since  1.0
+     * @return void
      */
-    function _authDigest_MD5($uid, $pwd, $euser)
+    function _authDigestMD5($user, $pass, $euser)
     {
-        if ( PEAR::isError( $challenge = $this->_doCmd('AUTHENTICATE "DIGEST-MD5"') ) ) {
-            $this->_error= $challenge;
+        if (PEAR::isError($challenge = $this->_doCmd('AUTHENTICATE "DIGEST-MD5"', true))) {
             return $challenge;
         }
-        $challenge = base64_decode( $challenge );
-        $digest = &Auth_SASL::factory('digestmd5');
 
-        if(PEAR::isError($param=$digest->getResponse($uid, $pwd, $challenge, "localhost", "sieve" , $euser) )) {
-            return $param;
-        }
-        $auth_str = base64_encode($param);
-
-        if ( PEAR::isError($error = $this->_sendStringResponse( $auth_str  ) ) ) {
-            $this->_error=$error;
-            return $error;
+        $challenge = base64_decode(trim($challenge));
+        $digest = Auth_SASL::factory('digestmd5');
+        // @todo Really 'localhost'?
+        if (PEAR::isError($response = $digest->getResponse($user, $pass, $challenge, 'localhost', 'sieve', $euser))) {
+            return $response;
         }
 
-        if ( PEAR::isError( $challenge = $this->_doCmd() ) ) {
-            $this->_error=$challenge ;
-            return $challenge ;
+        if (PEAR::isError($result = $this->_sendStringResponse(base64_encode($param)))) {
+            return $result;
+        }
+        if (PEAR::isError($result = $this->_doCmd())) {
+            return $result;
+        }
+        if ($this->_toUpper(substr($result, 0, 2)) == 'OK') {
+            return;
         }
 
-        if( strtoupper(substr($challenge,0,2))== 'OK' ){
-                return true;
+        /* We don't use the protocol's third step because SIEVE doesn't allow
+         * subsequent authentication, so we just silently ignore it. */
+        if (PEAR::isError($result = $this->_sendStringResponse(''))) {
+            return $result;
         }
 
-        /**
-        * We don't use the protocol's third step because SIEVE doesn't allow
-        * subsequent authentication, so we just silently ignore it.
-        */
-        if ( PEAR::isError($error = $this->_sendStringResponse( '' ) ) ) {
-            $this->_error=$error;
-            return $error;
-        }
-
-        if (PEAR::isError($res = $this->_doCmd() )) {
-            return $res;
-        }
+        return $this->_doCmd();
     }
 
-     /**
+    /**
      * Authenticates the user using the EXTERNAL method.
      *
-     * @param string $user The userid to authenticate as.
-     * @param string $pass The password to authenticate with.
+     * @param string $user  The userid to authenticate as.
+     * @param string $pass  The password to authenticate with.
      * @param string $euser The effective uid to authenticate as.
      *
-     * @return array Returns an array containing the response
+     * @return void
      *
-     * @access private
      * @since  1.1.7
      */
     function _authEXTERNAL($user, $pass, $euser)
     {
-        if ($euser != '') {
-            $cmd=sprintf('AUTHENTICATE "EXTERNAL" "%s"', base64_encode($euser) ) ;
-        } else {
-            $cmd=sprintf('AUTHENTICATE "EXTERNAL" "%s"', base64_encode($user) );
-        }
-        return $this->_sendCmd( $cmd ) ;
+        $cmd = sprintf(
+            'AUTHENTICATE "EXTERNAL" "%s"',
+            base64_encode(strlen($euser) ? $euser : $user)
+        );
+        return $this->_sendCmd($cmd);
     }
 
     /**
-    * Removes a script from the server
-    *
-    * @access private
-    * @param  string $scriptname Name of the script to delete
-    * @return mixed              True on success, PEAR_Error otherwise
-    */
+     * Removes a script from the server.
+     *
+     * @param string $scriptname Name of the script to delete.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
     function _cmdDeleteScript($scriptname)
     {
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
-            $msg='Not currently in AUTHORISATION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+            return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
-        if (PEAR::isError($res = $this->_doCmd(sprintf('DELETESCRIPT "%s"', $scriptname) ) )) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('DELETESCRIPT "%s"', $scriptname)))) {
             return $res;
         }
         return true;
     }
 
     /**
-    * Retrieves the contents of the named script
-    *
-    * @access private
-    * @param  string $scriptname Name of the script to retrieve
-    * @return mixed              The script if successful, PEAR_Error otherwise
-    */
+     * Retrieves the contents of the named script.
+     *
+     * @param string $scriptname Name of the script to retrieve.
+     *
+     * @return string  The script if successful, PEAR_Error otherwise.
+     */
     function _cmdGetScript($scriptname)
     {
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
-            $msg='Not currently in AUTHORISATION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+            return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
 
-        if (PEAR::isError($res = $this->_doCmd(sprintf('GETSCRIPT "%s"', $scriptname) ) ) ) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('GETSCRIPT "%s"', $scriptname)))) {
             return $res;
         }
 
@@ -650,53 +765,45 @@ class Net_Sieve
     }
 
     /**
-    * Sets the ACTIVE script, ie the one that gets run on new mail
-    * by the server
-    *
-    * @access private
-    * @param  string $scriptname The name of the script to mark as active
-    * @return mixed              True on success, PEAR_Error otherwise
+     * Sets the active script, i.e. the one that gets run on new mail by the
+     * server.
+     *
+     * @param string $scriptname The name of the script to mark as active.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
     */
     function _cmdSetActive($scriptname)
     {
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
-            $msg='Not currently in AUTHORISATION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+            return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
-
-        if (PEAR::isError($res = $this->_doCmd(sprintf('SETACTIVE "%s"', $scriptname) ) ) ) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('SETACTIVE "%s"', $scriptname)))) {
             return $res;
         }
-
         $this->_activeScript = $scriptname;
         return true;
     }
 
     /**
-    * Sends the LISTSCRIPTS command
-    *
-    * @access private
-    * @return mixed Two item array of scripts, and active script on success,
-    *               PEAR_Error otherwise.
-    */
+     * Returns the list of scripts on the server.
+     *
+     * @return array  An array with the list of scripts in the first element
+     *                and the active script in the second element on success,
+     *                PEAR_Error otherwise.
+     */
     function _cmdListScripts()
     {
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
-            $msg='Not currently in AUTHORISATION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+            return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
-
-        $scripts = array();
-        $activescript = null;
 
         if (PEAR::isError($res = $this->_doCmd('LISTSCRIPTS'))) {
             return $res;
         }
 
+        $scripts = array();
+        $activescript = null;
         $res = explode("\r\n", $res);
-
         foreach ($res as $value) {
             if (preg_match('/^"(.*)"( ACTIVE)?$/i', $value, $matches)) {
                 $scripts[] = $matches[1];
@@ -710,25 +817,22 @@ class Net_Sieve
     }
 
     /**
-    * Sends the PUTSCRIPT command to add a script to
-    * the server.
-    *
-    * @access private
-    * @param  string $scriptname Name of the new script
-    * @param  string $scriptdata The new script
-    * @return mixed              True on success, PEAR_Error otherwise
-    */
+     * Adds a script to the server.
+     *
+     * @param string $scriptname Name of the new script.
+     * @param string $scriptdata The new script.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
     function _cmdPutScript($scriptname, $scriptdata)
     {
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
-            $msg='Not currently in TRANSACTION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+            return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
 
         $stringLength = $this->_getLineLength($scriptdata);
 
-        if (PEAR::isError($res = $this->_doCmd(sprintf("PUTSCRIPT \"%s\" {%d+}\r\n%s", $scriptname, $stringLength, $scriptdata) ))) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf("PUTSCRIPT \"%s\" {%d+}\r\n%s", $scriptname, $stringLength, $scriptdata)))) {
             return $res;
         }
 
@@ -736,22 +840,20 @@ class Net_Sieve
     }
 
     /**
-    * Sends the LOGOUT command and terminates the connection
-    *
-    * @access private
-    * @param boolean $sendLogoutCMD True to send LOGOUT command before disconnecting
-    * @return mixed True on success, PEAR_Error otherwise
-    */
-    function _cmdLogout($sendLogoutCMD=true)
+     * Logs out of the server and terminates the connection.
+     *
+     * @param boolean $sendLogoutCMD Whether to send LOGOUT command before
+     *                               disconnecting.
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
+    function _cmdLogout($sendLogoutCMD = true)
     {
-        if (NET_SIEVE_STATE_DISCONNECTED === $this->_state) {
-            $msg='Not currently connected';
-            $code=1;
-            return $this->_raiseError($msg,$code);
-            //return PEAR::raiseError('Not currently connected');
+        if (NET_SIEVE_STATE_DISCONNECTED == $this->_state) {
+            return PEAR::raiseError('Not currently connected', 1);
         }
 
-        if($sendLogoutCMD){
+        if ($sendLogoutCMD) {
             if (PEAR::isError($res = $this->_doCmd('LOGOUT'))) {
                 return $res;
             }
@@ -759,23 +861,20 @@ class Net_Sieve
 
         $this->_sock->disconnect();
         $this->_state = NET_SIEVE_STATE_DISCONNECTED;
+
         return true;
     }
 
     /**
-    * Sends the CAPABILITY command
-    *
-    * @access private
-    * @return mixed True on success, PEAR_Error otherwise
-    */
+     * Sends the CAPABILITY command
+     *
+     * @return boolean  True on success, PEAR_Error otherwise.
+     */
     function _cmdCapability()
     {
-        if (NET_SIEVE_STATE_DISCONNECTED === $this->_state) {
-            $msg='Not currently connected';
-            $code=1;
-            return $this->_raiseError($msg,$code);
+        if (NET_SIEVE_STATE_DISCONNECTED == $this->_state) {
+            return PEAR::raiseError('Not currently connected', 1);
         }
-
         if (PEAR::isError($res = $this->_doCmd('CAPABILITY'))) {
             return $res;
         }
@@ -784,405 +883,332 @@ class Net_Sieve
     }
 
     /**
-    * Checks if the server has space to store the script
-    * by the server
-    *
-    * @param  string $scriptname The name of the script to mark as active
-    * @param integer $size The size of the script
-    * @return mixed              True on success, PEAR_Error otherwise
-    */
-    function haveSpace($scriptname,$size)
-    {
-        if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
-            $msg='Not currently in TRANSACTION state';
-            $code=1;
-            return $this->_raiseError($msg,$code);
-        }
-
-        if (PEAR::isError($res = $this->_doCmd(sprintf('HAVESPACE "%s" %d', $scriptname, $size) ) ) ) {
-            return $res;
-        }
-
-        return true;
-    }
-
-    /**
-    * Parses the response from the capability command. Stores
-    * the result in $this->_capability
-    *
-    * @access private
-    * @param string $data The response from the capability command
-    */
+     * Parses the response from the CAPABILITY command and stores the result
+     * in $_capability.
+     *
+     * @param string $data The response from the capability command.
+     *
+     * @return void
+     */
     function _parseCapability($data)
     {
-        // clear the cached capabilities
-        $this->_capability = array();
+        // Clear the cached capabilities.
+        $this->_capability = array('sasl' => array(),
+                                   'extensions' => array());
 
-        $data = preg_split('/\r?\n/', $data, -1, PREG_SPLIT_NO_EMPTY);
+        $data = preg_split('/\r?\n/', $this->_toUpper($data), -1, PREG_SPLIT_NO_EMPTY);
 
         for ($i = 0; $i < count($data); $i++) {
-            if (preg_match('/^"([a-z]+)"( "(.*)")?$/i', $data[$i], $matches)) {
-                switch (strtolower($matches[1])) {
-                    case 'implementation':
-                        $this->_capability['implementation'] = $matches[3];
-                        break;
+            if (!preg_match('/^"([A-Z]+)"( "(.*)")?$/', $data[$i], $matches)) {
+                continue;
+            }
+            switch ($matches[1]) {
+            case 'IMPLEMENTATION':
+                $this->_capability['implementation'] = $matches[3];
+                break;
 
-                    case 'sasl':
-                        $this->_capability['sasl'] = preg_split('/\s+/', $matches[3]);
-                        break;
+            case 'SASL':
+                $this->_capability['sasl'] = preg_split('/\s+/', $matches[3]);
+                break;
 
-                    case 'sieve':
-                        $this->_capability['extensions'] = preg_split('/\s+/', $matches[3]);
-                        break;
+            case 'SIEVE':
+                $this->_capability['extensions'] = preg_split('/\s+/', $matches[3]);
+                break;
 
-                    case 'starttls':
-                        $this->_capability['starttls'] = true;
-                        break;
-                }
+            case 'STARTTLS':
+                $this->_capability['starttls'] = true;
+                break;
             }
         }
     }
 
     /**
-    * Sends a command to the server
-    *
-    * @access private
-    * @param string $cmd The command to send
-    */
+     * Sends a command to the server
+     *
+     * @param string $cmd The command to send.
+     *
+     * @return void
+     */
     function _sendCmd($cmd)
     {
         $status = $this->_sock->getStatus();
         if (PEAR::isError($status) || $status['eof']) {
-            return new PEAR_Error( 'Failed to write to socket: (connection lost!) ' );
+            return PEAR::raiseError('Failed to write to socket: connection lost');
         }
-        if ( PEAR::isError( $error = $this->_sock->write( $cmd . "\r\n" ) ) ) {
-            return new PEAR_Error( 'Failed to write to socket: ' . $error->getMessage() );
+        if (PEAR::isError($error = $this->_sock->write($cmd . "\r\n"))) {
+            return PEAR::raiseError(
+                'Failed to write to socket: ' . $error->getMessage()
+            );
         }
-
-        if( $this->_debug ){
-            // C: means this data was sent by  the client (this class)
-            echo "C:$cmd\n";
-        }
-        return true;
+        $this->_debug("C: $cmd");
     }
 
     /**
-    * Sends a string response to the server
-    *
-    * @access private
-    * @param string $cmd The command to send
-    */
+     * Sends a string response to the server.
+     *
+     * @param string $str The string to send.
+     *
+     * @return void
+     */
     function _sendStringResponse($str)
     {
-        $response='{' .  $this->_getLineLength($str) . "+}\r\n" . $str  ;
-        return $this->_sendCmd($response);
+        return $this->_sendCmd('{' . $this->_getLineLength($str) . "+}\r\n" . $str);
     }
 
+    /**
+     * Receives a single line from the server.
+     *
+     * @return string  The server response line.
+     */
     function _recvLn()
     {
-        $lastline='';
-        if (PEAR::isError( $lastline = $this->_sock->gets( 8192 ) ) ) {
-            return new PEAR_Error( 'Failed to write to socket: ' . $lastline->getMessage() );
-        }
-        $lastline=rtrim($lastline);
-        if($this->_debug){
-            // S: means this data was sent by  the IMAP Server
-            echo "S:$lastline\n" ;
+        if (PEAR::isError($lastline = $this->_sock->gets(8192))) {
+            return PEAR::raiseError(
+                'Failed to read from socket: ' . $lastline->getMessage()
+            );
         }
 
-        if( $lastline === '' ) {
-            return new PEAR_Error( 'Failed to receive from the socket' );
+        $lastline = rtrim($lastline);
+        $this->_debug("S: $lastline");
+
+        if ($lastline === '') {
+            return PEAR::raiseError('Failed to read from socket');
         }
 
         return $lastline;
     }
 
     /**
-    * Send a command and retrieves a response from the server.
-    *
-    *
-    * @access private
-    * @param string $cmd The command to send
-    * @return mixed Reponse string if an OK response, PEAR_Error if a NO response
-    */
-    function _doCmd($cmd = '' )
+     * Send a command and retrieves a response from the server.
+     *
+     * @param string $cmd   The command to send.
+     * @param boolean $auth Whether this is an authentication command.
+     *
+     * @return string|PEAR_Error  Reponse string if an OK response, PEAR_Error
+     *                            if a NO response.
+     */
+    function _doCmd($cmd = '', $auth = false)
     {
-        $referralCount=0;
-        while($referralCount < $this->_maxReferralCount ){
-
-            if($cmd != '' ){
-                if(PEAR::isError($error = $this->_sendCmd($cmd) )) {
+        $referralCount = 0;
+        while ($referralCount < $this->_maxReferralCount) {
+            if (strlen($cmd)) {
+                if (PEAR::isError($error = $this->_sendCmd($cmd))) {
                     return $error;
                 }
             }
+
             $response = '';
-
             while (true) {
-                    if(PEAR::isError( $line=$this->_recvLn() )){
-                        return $line;
-                    }
-                    if ('ok' === strtolower(substr($line, 0, 2))) {
-                        $response .= $line;
-                        return rtrim($response);
-
-                    } elseif ('no' === strtolower(substr($line, 0, 2))) {
-                        // Check for string literal error message
-                        if (preg_match('/^no {([0-9]+)\+?}/i', $line, $matches)) {
-                            $line .= str_replace("\r\n", ' ', $this->_sock->read($matches[1] + 2 ));
-                            if($this->_debug){
-                                echo "S:$line\n";
-                            }
-                        }
-                        $msg=trim($response . substr($line, 2));
-                        $code=3;
-                        return $this->_raiseError($msg,$code);
-                    } elseif ('bye' === strtolower(substr($line, 0, 3))) {
-
-                        if(PEAR::isError($error = $this->disconnect(false) ) ){
-                            $msg="Can't handle bye, The error was= " . $error->getMessage() ;
-                            $code=4;
-                            return $this->_raiseError($msg,$code);
-                        }
-                        //if (preg_match('/^bye \(referral "([^"]+)/i', $line, $matches)) {
-                        if (preg_match('/^bye \(referral "(sieve:\/\/)?([^"]+)/i', $line, $matches)) {
-                            // Check for referral, then follow it.  Otherwise, carp an error.
-                            // Replace the old host with the referral host preserving any protocol prefix
-                            $this->_data['host'] = preg_replace('/\w+(?!(\w|\:\/\/)).*/',$matches[2],$this->_data['host']);
-                           if (PEAR::isError($error = $this->_handleConnectAndLogin() ) ){
-                                $msg="Can't follow referral to " . $this->_data['host'] . ", The error was= " . $error->getMessage() ;
-                                $code=5;
-                                return $this->_raiseError($msg,$code);
-                            }
-                            break;
-                            // Retry the command
-                            if(PEAR::isError($error = $this->_sendCmd($cmd) )) {
-                                return $error;
-                            }
-                            continue;
-                        }
-                        $msg=trim($response . $line);
-                        $code=6;
-                        return $this->_raiseError($msg,$code);
-                    } elseif (preg_match('/^{([0-9]+)\+?}/i', $line, $matches)) {
-                        // Matches String Responses.
-                        //$line = str_replace("\r\n", ' ', $this->_sock->read($matches[1] + 2 ));
-                        $str_size = $matches[1] + 2;
-                        $line = '';
-                        $line_length = 0;
-                        while ($line_length < $str_size) {
-                            $line .= $this->_sock->read($str_size - $line_length);
-                            $line_length = $this->_getLineLength($line);
-                        }
-                        if($this->_debug){
-                            echo "S:$line\n";
-                        }
-                        if($this->_state != NET_SIEVE_STATE_AUTHORISATION) {
-                            // receive the pending OK only if we aren't authenticating
-                            // since string responses during authentication don't need an
-                            // OK.
-                            $this->_recvLn();
-                        }
-                        return $line;
-                    }
-                    $response .= $line . "\r\n";
-                    $referralCount++;
+                if (PEAR::isError($line = $this->_recvLn())) {
+                    return $line;
                 }
+                $uc_line = $this->_toUpper($line);
+
+                if ('OK' == substr($uc_line, 0, 2)) {
+                    $response .= $line;
+                    return rtrim($response);
+                }
+
+                if ('NO' == substr($uc_line, 0, 2)) {
+                    // Check for string literal error message.
+                    if (preg_match('/^no {([0-9]+)\+?}/i', $line, $matches)) {
+                        $line .= str_replace(
+                            "\r\n", ' ', $this->_sock->read($matches[1] + 2)
+                        );
+                        $this->_debug("S: $line");
+                    }
+                    return PEAR::raiseError(trim($response . substr($line, 2)), 3);
+                }
+
+                if ('BYE' == substr($uc_line, 0, 3)) {
+                    if (PEAR::isError($error = $this->disconnect(false))) {
+                        return PEAR::raiseError(
+                            'Cannot handle BYE, the error was: '
+                            . $error->getMessage(),
+                            4
+                        );
+                    }
+                    // Check for referral, then follow it.  Otherwise, carp an
+                    // error.
+                    if (preg_match('/^bye \(referral "(sieve:\/\/)?([^"]+)/i', $line, $matches)) {
+                        // Replace the old host with the referral host
+                        // preserving any protocol prefix.
+                        $this->_data['host'] = preg_replace(
+                            '/\w+(?!(\w|\:\/\/)).*/', $matches[2],
+                            $this->_data['host']
+                        );
+                        if (PEAR::isError($error = $this->_handleConnectAndLogin())) {
+                            return PEAR::raiseError(
+                                'Cannot follow referral to '
+                                . $this->_data['host'] . ', the error was: '
+                                . $error->getMessage(),
+                                5
+                            );
+                        }
+                        break;
+                    }
+                    return PEAR::raiseError(trim($response . $line), 6);
+                }
+
+                if (preg_match('/^{([0-9]+)\+?}/i', $line, $matches)) {
+                    // Matches String Responses.
+                    $str_size = $matches[1] + 2;
+                    $line = '';
+                    $line_length = 0;
+                    while ($line_length < $str_size) {
+                        $line .= $this->_sock->read($str_size - $line_length);
+                        $line_length = $this->_getLineLength($line);
+                    }
+                    $this->_debug("S: $line");
+
+                    if (!$auth) {
+                        // Receive the pending OK only if we aren't
+                        // authenticating since string responses during
+                        // authentication don't need an OK.
+                        $this->_recvLn();
+                    }
+                    return $line;
+                }
+
+                if ($auth) {
+                    // String responses during authentication don't need an
+                    // OK.
+                    $response .= $line;
+                    return rtrim($response);
+                }
+
+                $response .= $line . "\r\n";
+                $referralCount++;
+            }
         }
-        $msg="Max referral count reached ($referralCount times) Cyrus murder loop error?";
-        $code=7;
-        return $this->_raiseError($msg,$code);
-    }
 
-    /**
-    * Sets the debug state
-    *
-    * @param boolean $debug
-    * @return void
-    */
-    function setDebug($debug = true)
-    {
-        $this->_debug = $debug;
-    }
-
-    /**
-    * Disconnect from the Sieve server
-    *
-    * @param  string $scriptname The name of the script to be set as active
-    * @return mixed              true on success, PEAR_Error on failure
-    */
-    function disconnect($sendLogoutCMD=true)
-    {
-        return $this->_cmdLogout($sendLogoutCMD);
+        return PEAR::raiseError('Max referral count (' . $referralCount . ') reached. Cyrus murder loop error?', 7);
     }
 
     /**
      * Returns the name of the best authentication method that the server
      * has advertised.
      *
-     * @param string if !=null,authenticate with this method ($userMethod).
+     * @param string $userMethod Only consider this method as available.
      *
-     * @return mixed    Returns a string containing the name of the best
-     *                  supported authentication method or a PEAR_Error object
-     *                  if a failure condition is encountered.
-     * @access private
-     * @since  1.0
+     * @return string  The name of the best supported authentication method or
+     *                 a PEAR_Error object on failure.
      */
     function _getBestAuthMethod($userMethod = null)
     {
-       if( isset($this->_capability['sasl']) ){
-           $serverMethods=$this->_capability['sasl'];
-       }else{
-           // if the server don't send an sasl capability fallback to login auth
-           //return 'LOGIN';
-           return new PEAR_Error("This server don't support any Auth methods SASL problem?");
-       }
+        if (!isset($this->_capability['sasl'])) {
+            return PEAR::raiseError('This server doesn\'t support any authentication methods. SASL problem?');
+        }
 
-        if($userMethod != null ){
-            $methods = array();
-            $methods[] = $userMethod;
-        }else{
+        $serverMethods = $this->_capability['sasl'];
 
+        if ($userMethod) {
+            $methods = array($userMethod);
+        } else {
             $methods = $this->supportedAuthMethods;
         }
-        if( ($methods != null) && ($serverMethods != null)){
-            foreach ( $methods as $method ) {
-                if ( in_array( $method , $serverMethods ) ) {
-                    return $method;
-                }
-            }
-            $serverMethods=implode(',' , $serverMethods );
-            $myMethods=implode(',' ,$this->supportedAuthMethods);
-            return new PEAR_Error("$method NOT supported authentication method!. This server " .
-                "supports these methods= $serverMethods, but I support $myMethods");
-        }else{
-            return new PEAR_Error("This server don't support any Auth methods");
-        }
-    }
 
-    /**
-    * Return the list of extensions the server supports
-    *
-    * @return mixed              array  on success, PEAR_Error on failure
-    */
-    function getExtensions()
-    {
-        if (NET_SIEVE_STATE_DISCONNECTED === $this->_state) {
-            $msg='Not currently connected';
-            $code=7;
-            return $this->_raiseError($msg,$code);
+        if (!$methods || !$serverMethods) {
+            return PEAR::raiseError(
+                'This server doesn\'t support any authentication methods.'
+            );
         }
 
-        return $this->_capability['extensions'];
-    }
-
-    /**
-    * Return true if tyhe server has that extension
-    *
-    * @param string  the extension to compare
-    * @return mixed              array  on success, PEAR_Error on failure
-    */
-    function hasExtension($extension)
-    {
-        if (NET_SIEVE_STATE_DISCONNECTED === $this->_state) {
-            $msg='Not currently connected';
-            $code=7;
-            return $this->_raiseError($msg,$code);
-        }
-
-        if(is_array($this->_capability['extensions'] ) ){
-            foreach( $this->_capability['extensions'] as $ext){
-                if( trim( strtolower( $ext ) ) === trim( strtolower( $extension ) ) )
-                    return true;
+        foreach ($methods as $method) {
+            if (in_array($method, $serverMethods)) {
+                return $method;
             }
         }
-        return false;
+
+        return PEAR::raiseError(
+            'No supported authentication method found. The server supports these methods: '
+            . implode(',', $serverMethods)
+            . ', but we only support: '
+            . implode(',', $this->supportedAuthMethods)
+        );
     }
 
     /**
-    * Return the list of auth methods the server supports
-    *
-    * @return mixed              array  on success, PEAR_Error on failure
-    */
-    function getAuthMechs()
-    {
-        if (NET_SIEVE_STATE_DISCONNECTED === $this->_state) {
-            $msg='Not currently connected';
-            $code=7;
-            return $this->_raiseError($msg,$code);
-        }
-        if(!isset($this->_capability['sasl']) ){
-            $this->_capability['sasl']=array();
-        }
-        return $this->_capability['sasl'];
-    }
-
-    /**
-    * Return true if the server has that extension
-    *
-    * @param string  the extension to compare
-    * @return mixed              array  on success, PEAR_Error on failure
-    */
-    function hasAuthMech($method)
-    {
-        if (NET_SIEVE_STATE_DISCONNECTED === $this->_state) {
-            $msg='Not currently connected';
-            $code=7;
-            return $this->_raiseError($msg,$code);
-            //return PEAR::raiseError('Not currently connected');
-        }
-
-        if(is_array($this->_capability['sasl'] ) ){
-            foreach( $this->_capability['sasl'] as $ext){
-                if( trim( strtolower( $ext ) ) === trim( strtolower( $method ) ) )
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-    * Return true if the TLS negotiation was successful
-    *
-    * @access private
-    * @return mixed              true on success, PEAR_Error on failure
-    */
+     * Starts a TLS connection.
+     *
+     * @return boolean  True on success, PEAR_Error on failure.
+     */
     function _startTLS()
     {
-        if (PEAR::isError($res = $this->_doCmd("STARTTLS"))) {
+        if (PEAR::isError($res = $this->_doCmd('STARTTLS'))) {
             return $res;
         }
 
-        if(stream_socket_enable_crypto($this->_sock->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) == false) {
-            $msg='Failed to establish TLS connection';
-            $code=2;
-            return $this->_raiseError($msg,$code);
+        if (!stream_socket_enable_crypto($this->_sock->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            return PEAR::raiseError('Failed to establish TLS connection', 2);
         }
 
-        if($this->_debug === true) {
-            echo "STARTTLS Negotiation Successful\n";
-        }
+        $this->_debug('STARTTLS negotiation successful');
 
         // The server should be sending a CAPABILITY response after
         // negotiating TLS. Read it, and ignore if it doesn't.
         $this->_doCmd();
 
-        // RFC says we need to query the server capabilities again now that
-        // we are under encryption
-        if(PEAR::isError($res = $this->_cmdCapability() )) {
-            $msg='Failed to connect, server said: ' . $res->getMessage();
-            $code=2;
-            return $this->_raiseError($msg,$code);
+        // RFC says we need to query the server capabilities again now that we
+        // are under encryption.
+        if (PEAR::isError($res = $this->_cmdCapability())) {
+            return PEAR::raiseError(
+                'Failed to connect, server said: ' . $res->getMessage(), 2
+            );
         }
 
         return true;
     }
 
-    function _getLineLength($string) {
-        if (extension_loaded('mbstring') || @dl(PHP_SHLIB_PREFIX.'mbstring.'.PHP_SHLIB_SUFFIX)) {
-          return mb_strlen($string,'latin1');
+    /**
+     * Returns the length of a string.
+     *
+     * @param string $string A string.
+     *
+     * @return integer  The length of the string.
+     */
+    function _getLineLength($string)
+    {
+        if (extension_loaded('mbstring')
+            || @dl(PHP_SHLIB_PREFIX . 'mbstring.' . PHP_SHLIB_SUFFIX)
+        ) {
+            return mb_strlen($string, 'latin1');
         } else {
-          return strlen($string);
+            return strlen($string);
+        }
+    }
+
+    /**
+     * Locale independant strtoupper() implementation.
+     *
+     * @param string $string The string to convert to lowercase.
+     *
+     * @return string  The lowercased string, based on ASCII encoding.
+     */
+    function _toUpper($string)
+    {
+        $language = setlocale(LC_CTYPE, 0);
+        setlocale(LC_CTYPE, 'C');
+        $string = strtoupper($string);
+        setlocale(LC_CTYPE, $language);
+        return $string;
+    }
+
+    /**
+     * Write debug text to the current debug output handler.
+     *
+     * @param string $message Debug message text.
+     *
+     * @return void
+     */
+    function _debug($message)
+    {
+        if ($this->_debug) {
+            if ($this->_debug_handler) {
+                call_user_func_array($this->_debug_handler, array(&$this, $message));
+            } else {
+                echo "$message\n";
+            }
         }
     }
 }
-?>

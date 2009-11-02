@@ -7,7 +7,7 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 1.7
+ * @version 2.0
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist):
@@ -35,7 +35,7 @@ class managesieve extends rcube_plugin
     $this->add_texts('localization/', array('filters','managefilters'));
 
     // register actions
-    $this->register_action('plugin.managesieve', array($this, 'managesieve_init'));
+    $this->register_action('plugin.managesieve', array($this, 'managesieve_actions'));
     $this->register_action('plugin.managesieve-save', array($this, 'managesieve_save'));
 
     // include main js script
@@ -52,8 +52,10 @@ class managesieve extends rcube_plugin
     // register UI objects
     $this->rc->output->add_handlers(array(
 	'filterslist' => array($this, 'filters_list'),
+	'filtersetslist' => array($this, 'filtersets_list'),
 	'filterframe' => array($this, 'filter_frame'),
 	'filterform' => array($this, 'filter_form'),
+	'filtersetform' => array($this, 'filterset_form'),
     ));
 
     require_once($this->home . '/lib/Net/Sieve.php');
@@ -65,23 +67,51 @@ class managesieve extends rcube_plugin
 	str_replace('%h', $_SESSION['imap_host'], $this->rc->config->get('managesieve_host', 'localhost')),
 	$this->rc->config->get('managesieve_port', 2000),
 	$this->rc->config->get('managesieve_usetls', false),
-	$this->rc->config->get('managesieve_disabled_extensions'));
+	$this->rc->config->get('managesieve_disabled_extensions'),
+	$this->rc->config->get('managesieve_debug', false)
+    );
 
-    $error = $this->sieve->error();
+    if (!($error = $this->sieve->error())) {
+      
+      $list = $this->sieve->get_scripts();
+      $active = $this->sieve->get_active();
+      $_SESSION['managesieve_active'] = $active;
+      
+      if (!empty($_GET['_sid'])) {
+        $script_name = get_input_value('_sid', RCUBE_INPUT_GET);
+      } else if (!empty($_SESSION['managesieve_current'])) {
+        $script_name = $_SESSION['managesieve_current'];
+      } else {
+        // get active script
+	if ($active) {
+	  $script_name = $active;
+        } else if ($list) {
+          $script_name = $list[0];
+        // create a new (initial) script
+        } else {
+          // if script not exists build default script contents
+          $script_file = $this->rc->config->get('managesieve_default');
+	  $script_name = 'roundcube';
+          if ($script_file && is_readable($script_file))
+	    $content = file_get_contents($script_file);
 
-    if ($error == SIEVE_ERROR_NOT_EXISTS)
-    {
-      // if script not exists build default script contents
-      $script_file = $this->rc->config->get('managesieve_default');
-      if ($script_file && is_readable($script_file))
-	$this->sieve->script->add_text(file_get_contents($script_file)); 
-      // that's not exactly an error
-      $error = false;
+	  // add script and set it active    
+	  if ($this->sieve->save_script($script_name, $content)) 
+            if ($this->sieve->activate($script_name))
+	      $_SESSION['managesieve_active'] = $script_name;
+	}
+      }
+
+      if ($script_name)
+        $this->sieve->load($script_name);
+
+      $error = $this->sieve->error();
     }
-    elseif ($error)
+    
+    // finally set script objects
+    if ($error)
     {
-      switch ($error)
-      {
+      switch ($error) {
 	case SIEVE_ERROR_CONNECTION:
 	case SIEVE_ERROR_LOGIN:
           $this->rc->output->show_message('managesieve.filterconnerror', 'error');  
@@ -90,26 +120,22 @@ class managesieve extends rcube_plugin
           $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
 	break;
       }
-
       // to disable 'Add filter' button set env variable
       $this->rc->output->set_env('filterconnerror', true);
-    }
-
-    // finally set script objects
-    if ($error)
-    {
       $this->script = array();
     }
     else
     {
       $this->script = $this->sieve->script->as_array();
       $this->exts = $this->sieve->get_extensions();
+      $this->rc->output->set_env('active_set', $_SESSION['managesieve_active']);
+      $_SESSION['managesieve_current'] = $this->sieve->current;
     }
     
     return $error;
   }
 
-  function managesieve_init()
+  function managesieve_actions()
   {
     // Init plugin and handle managesieve connection
     $error = $this->managesieve_start();
@@ -134,7 +160,7 @@ class managesieve extends rcube_plugin
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
         }
       }
-      elseif ($action=='down' && !$error)
+      else if ($action=='down' && !$error)
       {
         if (isset($this->script[$fid]) && isset($this->script[$fid+1]))
         {
@@ -142,27 +168,56 @@ class managesieve extends rcube_plugin
     		&& $this->sieve->script->update_rule($fid+1, $this->script[$fid]) !== false)
 	    $result = $this->sieve->save();
       
-          if ($result) {
+          if ($result === true) {
 //          $this->rc->output->show_message('managesieve.filtersaved', 'confirmation');
 	    $this->rc->output->command('managesieve_updatelist', 'down', '', $fid);
-          } else
+          } else {
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
-        }
+          }
+	}
       }
-      elseif ($action=='delete' && !$error)
+      else if ($action=='delete' && !$error)
       {
         if (isset($this->script[$fid]))
         {
           if ($this->sieve->script->delete_rule($fid))
             $result = $this->sieve->save();
 
-          if (!$result)
-            $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
-          else {
+          if ($result === true) {
 	    $this->rc->output->show_message('managesieve.filterdeleted', 'confirmation');
 	    $this->rc->output->command('managesieve_updatelist', 'delete', '', $fid);
+          } else {
+            $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
           }
-        }
+	}
+      }
+      else if ($action=='setact' && !$error)
+      {
+        $script_name = get_input_value('_set', RCUBE_INPUT_GPC);
+	$result = $this->sieve->activate($script_name);
+	
+	if ($result === true) {
+          $this->rc->output->set_env('active_set', $script_name);
+	  $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
+	  $this->rc->output->command('enable_command', 'plugin.managesieve-setact', false);
+	  $this->rc->output->command('managesieve_reset', $script_name);
+	  $_SESSION['managesieve_active'] = $script_name;
+	} else {
+          $this->rc->output->show_message('managesieve.setactivateerror', 'error');
+	}
+      }
+      else if ($action=='setdel' && !$error)
+      {
+        $script_name = get_input_value('_set', RCUBE_INPUT_GPC);
+	$result = $this->sieve->remove($script_name);
+	
+	if ($result === true) {
+	  $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
+	  $this->rc->output->command('managesieve_reload');
+	  rcube_sess_unset('managesieve_current');
+	} else {
+          $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
+	}
       }
       elseif ($action=='ruleadd')
       {
@@ -192,8 +247,29 @@ class managesieve extends rcube_plugin
     // Init plugin and handle managesieve connection
     $error = $this->managesieve_start();
 
-    // add/edit action
-    if (isset($_POST['_name']))
+    // filters set add action
+    if (!empty($_POST['_newset']))
+    {
+      $name = get_input_value('_name', RCUBE_INPUT_GPC);
+      $copy = get_input_value('_copy', RCUBE_INPUT_GPC);
+
+      if (!$name)
+	$error = 'managesieve.emptyname';
+      else if (mb_strlen($name)>128)
+	$error = 'managesieve.nametoolong';
+      else if (!$this->sieve->copy($name, $copy))
+	$error = 'managesieve.setcreateerror';
+		
+      if (!$error) {
+	$this->rc->output->show_message('managesieve.setcreated', 'confirmation');
+	$this->rc->output->command('parent.managesieve_reload', $name);
+//	rcube_sess_unset('managesieve_current');
+      } else {
+        $this->rc->output->show_message($error, 'error');
+      }
+    }
+    // filter add/edit action
+    else if (isset($_POST['_name']))
     {
       $name = trim(get_input_value('_name', RCUBE_INPUT_POST));
       $fid = trim(get_input_value('_fid', RCUBE_INPUT_POST));
@@ -422,9 +498,12 @@ class managesieve extends rcube_plugin
   private function managesieve_send()
   {
     // Handle form action 
-    if (isset($_GET['_framed']) || isset($_POST['_framed']))
-      $this->rc->output->send('managesieve.managesieveedit');
-    else {
+    if (isset($_GET['_framed']) || isset($_POST['_framed'])) {
+      if (isset($_GET['_newset']) || isset($_POST['_newset']))
+        $this->rc->output->send('managesieve.setedit');
+      else
+        $this->rc->output->send('managesieve.filteredit');
+    } else {
       $this->rc->output->set_pagetitle($this->gettext('filters'));
       $this->rc->output->send('managesieve.managesieve');
     }
@@ -451,7 +530,34 @@ class managesieve extends rcube_plugin
     $this->rc->output->include_script('list.js');
   
     // add some labels to client
-    $this->rc->output->add_label('managesieve.filterconfirmdelete');
+    $this->rc->output->add_label('managesieve.filterdeleteconfirm');
+  
+    return $out;
+  }
+
+  // return the filters list as <SELECT>
+  function filtersets_list($attrib)
+  {
+    // add id to message list table if not specified
+    if (!strlen($attrib['id']))
+      $attrib['id'] = 'rcmfiltersetslist';
+
+    $list = $this->sieve->get_scripts();
+    $active = $this->sieve->get_active();
+  
+    $select = new html_select(array('name' => '_set', 'id' => $attrib['id'], 'onchange' => 'rcmail.managesieve_set()'));
+
+    asort($list, SORT_LOCALE_STRING);
+
+    foreach($list as $set)
+      $select->add($set . ($set == $active ? ' ('.$this->gettext('active').')' : ''), $set);
+    
+    $out = $select->show($this->sieve->current);
+    
+    // set client env
+    $this->rc->output->add_gui_object('filtersetslist', $attrib['id']);
+    $this->rc->output->add_label('managesieve.setdeleteconfirm');
+    $this->rc->output->add_label('managesieve.active');
   
     return $out;
   }
@@ -465,9 +571,58 @@ class managesieve extends rcube_plugin
 
     $this->rc->output->set_env('contentframe', $attrib['name']);
     $this->rc->output->set_env('blankpage', $attrib['src'] ? 
-	$this->rc->output->abs_url($attrib['src']) : 'program/blank.gif');
+    $this->rc->output->abs_url($attrib['src']) : 'program/blank.gif');
 
     return html::tag('iframe', $attrib);
+  }
+
+
+  function filterset_form($attrib)
+  {
+    if (!$attrib['id'])
+      $attrib['id'] = 'rcmfiltersetform';
+
+    $out = '<form name="filtersetform" action="./" method="post">'."\n";
+
+    $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $this->rc->task));
+    $hiddenfields->add(array('name' => '_action', 'value' => 'plugin.managesieve-save'));
+    $hiddenfields->add(array('name' => '_framed', 'value' => ($_POST['_framed'] || $_GET['_framed'] ? 1 : 0)));
+    $hiddenfields->add(array('name' => '_newset', 'value' => 1));
+
+    $out .= $hiddenfields->show();
+
+    $name = get_input_value('_name', RCUBE_INPUT_GPC);
+    $copy = get_input_value('_copy', RCUBE_INPUT_GPC);
+
+    $table = new html_table(array('cols' => 2));
+
+    // filter set name input
+    $input_name = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30,
+	'class' => ($this->errors['name'] ? 'error' : '')));
+
+    $table->add('title', sprintf('<label for="%s"><b>%s:</b></label>', '_name', Q($this->gettext('filtersetname'))));
+    $table->add(null, $input_name->show($name));
+
+    // filters set list
+    $list = $this->sieve->get_scripts();
+    $active = $this->sieve->get_active();
+  
+    $select = new html_select(array('name' => '_copy', 'id' => '_copy'));
+
+    asort($list, SORT_LOCALE_STRING);
+
+    $select->add($this->gettext('none'), '');
+    foreach($list as $set)
+      $select->add($set . ($set == $active ? ' ('.$this->gettext('active').')' : ''), $set);
+    
+    $table->add('title', '<label>'.$this->gettext('copyfromset').':</label>');
+    $table->add(null, $select->show($copy));
+
+    $out .= $table->show();
+    
+    $this->rc->output->add_gui_object('sieveform', 'filtersetform');
+
+    return $out;
   }
 
 
@@ -818,7 +973,7 @@ class managesieve extends rcube_plugin
 
   private function check_email($email)
   {
-    if (function_exists('check_email'));
+    if (function_exists('check_email')); 
       return check_email($email);
 
     // Check for invalid characters

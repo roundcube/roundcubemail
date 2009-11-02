@@ -19,16 +19,25 @@ if (window.rcmail) {
     rcmail.register_command('plugin.managesieve-del', function() { rcmail.managesieve_del() }, true);
     rcmail.register_command('plugin.managesieve-up', function() { rcmail.managesieve_up() }, true);
     rcmail.register_command('plugin.managesieve-down', function() { rcmail.managesieve_down() }, true);
+    rcmail.register_command('plugin.managesieve-set', function() { rcmail.managesieve_set() }, true);
+    rcmail.register_command('plugin.managesieve-setadd', function() { rcmail.managesieve_setadd() }, true);
+    rcmail.register_command('plugin.managesieve-setdel', function() { rcmail.managesieve_setdel() }, true);
+    rcmail.register_command('plugin.managesieve-setact', function() { rcmail.managesieve_setact() }, true);
 
     if (rcmail.env.action == 'plugin.managesieve')
       {
 	if (rcmail.gui_objects.sieveform)
 	  rcmail.enable_command('plugin.managesieve-save', true);
 	else {
-	  rcmail.enable_command('plugin.managesieve-del', 'plugin.managesieve-up', 'plugin.managesieve-down', false);
-          rcmail.enable_command('plugin.managesieve-add', !rcmail.env.sieveconnerror);
+	  rcmail.enable_command('plugin.managesieve-del', 'plugin.managesieve-up',
+	    'plugin.managesieve-down', false);
+          rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
+	  rcmail.enable_command('plugin.managesieve-set', rcmail.gui_objects.filtersetslist != null);
+	  rcmail.enable_command('plugin.managesieve-setact',
+	    (rcmail.gui_objects.filtersetslist && rcmail.gui_objects.filtersetslist.value != rcmail.env.active_set));
+	  rcmail.enable_command('plugin.managesieve-setdel',
+	    (rcmail.gui_objects.filtersetslist && rcmail.gui_objects.filtersetslist.length > 1));
 	}
-	
         if (rcmail.gui_objects.filterslist) {
 	    var p = rcmail;
     	    rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist, {multiselect:false, draggable:false, keyboard:false});
@@ -53,7 +62,7 @@ if (window.rcmail) {
     {
     var id = this.filters_list.get_single_selection();
 
-    if (confirm(this.get_label('managesieve.filterconfirmdelete')))
+    if (confirm(this.get_label('managesieve.filterdeleteconfirm')))
       this.http_request('plugin.managesieve',
 	    '_act=delete&_fid='+this.filters_list.rows[id].uid, true);
     };
@@ -203,7 +212,7 @@ if (window.rcmail) {
 
   rcube_webmail.prototype.managesieve_save = function()
     {
-      if (parent.rcmail && parent.rcmail.filters_list)
+      if (parent.rcmail && parent.rcmail.filters_list && this.gui_objects.sieveform.name != 'filtersetform')
         {
         var id = parent.rcmail.filters_list.get_single_selection();
 	if (id != null)
@@ -378,4 +387,75 @@ if (window.rcmail) {
 	  }
         }
     }
+
+  // Set change
+  rcube_webmail.prototype.managesieve_set = function()
+    {
+    var script = $(this.gui_objects.filtersetslist).val();
+    location.href = this.env.comm_path+'&_action=plugin.managesieve&_sid='+script;
+    };
+
+  // Set activate
+  rcube_webmail.prototype.managesieve_setact = function()
+    {
+      if (!this.gui_objects.filtersetslist)
+        return false;
+
+      var script = this.gui_objects.filtersetslist.value;
+      this.http_post('plugin.managesieve', '_act=setact&_set='+script);
+    };
+
+  // Set activate flag in sets list after set activation
+  rcube_webmail.prototype.managesieve_reset = function(name)
+    {
+      if (!this.gui_objects.filtersetslist || !name)
+        return false;
+
+      var opts = this.gui_objects.filtersetslist.getElementsByTagName('option');
+      var regx = new RegExp(RegExp.escape(' (' + this.get_label('managesieve.active') + ')'));
+      
+      for (var x=1; x<opts.length; x++)
+        if (opts[x].value != name && opts[x].innerHTML.match(regx))
+	  opts[x].innerHTML = opts[x].innerHTML.replace(regx, '');
+	else if (opts[x].value == name)
+	  opts[x].innerHTML = opts[x].innerHTML + ' (' + this.get_label('managesieve.active') + ')';
+    };
+
+  // Set delete
+  rcube_webmail.prototype.managesieve_setdel = function()
+    {
+      if (!this.gui_objects.filtersetslist)
+        return false;
+
+      if (!confirm(this.get_label('managesieve.setdeleteconfirm')))
+        return false;
+
+      var script = this.gui_objects.filtersetslist.value;
+      this.http_post('plugin.managesieve', '_act=setdel&_set='+script);
+    };
+
+  // Set add
+  rcube_webmail.prototype.managesieve_setadd = function()
+    {
+      this.filters_list.clear_selection();
+      this.enable_command('plugin.managesieve-up', 'plugin.managesieve-down', 'plugin.managesieve-del', false);
+
+      if (this.env.contentframe && window.frames && window.frames[this.env.contentframe])
+        {
+        target = window.frames[this.env.contentframe];
+        this.set_busy(true, 'loading');
+        target.location.href = this.env.comm_path+'&_action=plugin.managesieve&_framed=1&_newset=1';
+        }
+    };
+
+
+  rcube_webmail.prototype.managesieve_reload = function(set)
+    {
+      this.env.reload_set = set;
+      window.setTimeout(function() {
+        location.href = rcmail.env.comm_path + '&_action=plugin.managesieve'
+	  + (rcmail.env.reload_set ? '&_sid=' + rcmail.env.reload_set : '')
+	}, 500);
+    };
+
 }

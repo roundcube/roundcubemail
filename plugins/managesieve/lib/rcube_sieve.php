@@ -16,19 +16,22 @@ define('SIEVE_ERROR_LOGIN', 2);
 define('SIEVE_ERROR_NOT_EXISTS', 3);	// script not exists
 define('SIEVE_ERROR_INSTALL', 4);	// script installation
 define('SIEVE_ERROR_ACTIVATE', 5);	// script activation
+define('SIEVE_ERROR_DELETE', 6);	// script deletion
+define('SIEVE_ERROR_INTERNAL', 7);	// internal error
 define('SIEVE_ERROR_OTHER', 255);	// other/unknown error
 
 
 class rcube_sieve
 {
-  var $sieve;				// Net_Sieve object
-  var $error = false; 			// error flag 
-  var $list = array(); 			// scripts list 
+    private $sieve;			// Net_Sieve object
+    private $error = false; 		// error flag 
+    private $list = array(); 		// scripts list 
 
-  public $script;			// rcube_sieve_script object
-  private $disabled;			// array of disabled extensions
+    public $script;			// rcube_sieve_script object
+    public $current;			// name of currently loaded script
+    private $disabled;			// array of disabled extensions
 
-  /**
+    /**
     * Object constructor
     *
     * @param  string  Username (to managesieve login)
@@ -38,137 +41,259 @@ class rcube_sieve
     * @param  string  Enable/disable TLS use
     * @param  array   Disabled extensions
     */
-  public function __construct($username, $password='', $host='localhost', $port=2000, $usetls=true, $disabled=array())
+    public function __construct($username, $password='', $host='localhost', $port=2000,
+			    $usetls=true, $disabled=array(), $debug=false)
     {
-      $this->sieve = new Net_Sieve();
+	$this->sieve = new Net_Sieve();
       
-//      $this->sieve->setDebug();
-      if (PEAR::isError($this->sieve->connect($host, $port, NULL, $usetls)))
-        return $this->_set_error(SIEVE_ERROR_CONNECTION);
+        if ($debug)
+    	    $this->sieve->setDebug(true, array($this, 'debug_handler'));
+      
+        if (PEAR::isError($this->sieve->connect($host, $port, NULL, $usetls)))
+    	    return $this->_set_error(SIEVE_ERROR_CONNECTION);
 
-      if (PEAR::isError($this->sieve->login($username, $password)))
-        return $this->_set_error(SIEVE_ERROR_LOGIN);
+        if (PEAR::isError($this->sieve->login($username, $password)))
+    	    return $this->_set_error(SIEVE_ERROR_LOGIN);
 
-      $this->disabled = $disabled;
-      $this->_get_script();
+        $this->disabled = $disabled;
     }
 
-  /**
+    /**
     * Getter for error code
     */
-  public function error()
+    public function error()
     {
-      return $this->error ? $this->error : false;
+	return $this->error ? $this->error : false;
     }
 			    
-  public function save()
+    /**
+    * Saves current script into server
+    */
+    public function save($name = null)
     {
-      $script = $this->script->as_text();
+        if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+	
+	if (!$this->script)
+	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+	
+	if (!$name)
+	    $name = $this->current;
 
-      if (!$script)
-	$script = '/* empty script */';
+        $script = $this->script->as_text();
 
-      if (PEAR::isError($this->sieve->installScript('roundcube', $script)))
-    	return $this->_set_error(SIEVE_ERROR_INSTALL);
+        if (!$script)
+	    $script = '/* empty script */';
 
-      if (PEAR::isError($this->sieve->setActive('roundcube')))
-    	return $this->_set_error(SIEVE_ERROR_ACTIVATE);
+        if (PEAR::isError($this->sieve->installScript($name, $script)))
+    	    return $this->_set_error(SIEVE_ERROR_INSTALL);
 
-      return true;
+        return true;
     }
 
-  public function get_extensions()
+    /**
+    * Saves text script into server
+    */
+    public function save_script($name, $content = null)
     {
-      if ($this->sieve) {
+        if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+	
+        if (!$content)
+	    $content = '/* empty script */';
+
+        if (PEAR::isError($this->sieve->installScript($name, $content)))
+    	    return $this->_set_error(SIEVE_ERROR_INSTALL);
+
+        return true;
+    }
+
+    /**
+    * Activates specified script
+    */
+    public function activate($name = null)
+    {
+	if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+
+	if (!$name)
+	    $name = $this->current;
+
+        if (PEAR::isError($this->sieve->setActive($name)))
+    	    return $this->_set_error(SIEVE_ERROR_ACTIVATE);
+
+        return true;
+    }
+
+    /**
+    * Removes specified script
+    */
+    public function remove($name = null)
+    {
+	if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+
+	if (!$name)
+	    $name = $this->current;
+
+	// script must be deactivated first
+	if ($name == $this->sieve->getActive())
+            if (PEAR::isError($this->sieve->setActive('')))
+    		return $this->_set_error(SIEVE_ERROR_DELETE);
+
+        if (PEAR::isError($this->sieve->removeScript($name)))
+    	    return $this->_set_error(SIEVE_ERROR_DELETE);
+
+	if ($name == $this->current)
+	    $this->current = null;
+
+        return true;
+    }
+
+    /**
+    * Gets list of supported by server Sieve extensions
+    */
+    public function get_extensions()
+    {
+        if (!$this->sieve)
+	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+	
 	$ext = $this->sieve->getExtensions();
+	// we're working on lower-cased names
+	$ext = array_map('strtolower', (array) $ext); 
 
 	if ($this->script) {
-	  $supported = $this->script->get_extensions();
-	  foreach ($ext as $idx => $ext_name)
-	    if (!in_array($ext_name, $supported))
-	      unset($ext[$idx]);
+	    $supported = $this->script->get_extensions();
+	    foreach ($ext as $idx => $ext_name)
+	        if (!in_array($ext_name, $supported))
+		    unset($ext[$idx]);
 	}
 
-        return array_values($ext);
-      }
+    	return array_values($ext);
     }
 
-  private function _get_script()
+    /**
+    * Gets list of scripts from server
+    */
+    public function get_scripts()
     {
-      if (!$this->sieve)
-        return false;
-    
-      $this->list = $this->sieve->listScripts();
+        if (!$this->list) {
 
-      if (PEAR::isError($this->list))
-    	return $this->_set_error(SIEVE_ERROR_OTHER);
+    	    if (!$this->sieve)
+        	return $this->_set_error(SIEVE_ERROR_INTERNAL);
     
-      if (in_array('roundcube', $this->list))
-        {
-          $script = $this->sieve->getScript('roundcube');
+    	    $this->list = $this->sieve->listScripts();
+
+    	    if (PEAR::isError($this->list))
+    		return $this->_set_error(SIEVE_ERROR_OTHER);
+	}
+
+        return $this->list;
+    }
+
+    /**
+    * Returns active script name
+    */
+    public function get_active()
+    {
+	if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+
+	return $this->sieve->getActive();
+    }
     
-          if (PEAR::isError($script))
+    /**
+    * Loads script by name
+    */
+    public function load($name)
+    {
+        if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+
+        if ($this->current == $name)
+    	    return true;
+    
+    	$script = $this->sieve->getScript($name);
+    
+        if (PEAR::isError($script))
     	    return $this->_set_error(SIEVE_ERROR_OTHER);
-	}
-      // import scripts from squirrelmail
-      elseif (in_array('phpscript', $this->list))
-        {
-          $script = $this->sieve->getScript('phpscript');
 
-          $script = $this->_convert_from_squirrel_rules($script);
+	// try to parse from Roundcube format
+        $this->script = new rcube_sieve_script($script, $this->disabled);
 
-          $this->script = new rcube_sieve_script($script, $this->disabled);
-       
-          $this->save();
+        // ... else try Squirrelmail format
+        if (empty($this->script->content) && $name == 'phpscript') {
 
-          $script = $this->sieve->getScript('roundcube');
+    	    $script = $this->sieve->getScript('phpscript');
+    	    $script = $this->_convert_from_squirrel_rules($script);
 
-          if (PEAR::isError($script))
-            return $this->_set_error(SIEVE_ERROR_OTHER);
-        }
-      else
-        {
-	  $this->_set_error(SIEVE_ERROR_NOT_EXISTS);
-          $script = '';
-	}
+    	    $this->script = new rcube_sieve_script($script, $this->disabled);
+    	}
 
-      $this->script = new rcube_sieve_script($script, $this->disabled);
+    	$this->current = $name;
+
+    	return true;
     }
+
+    /**
+    * Creates empty script or copy of other script
+    */
+    public function copy($name, $copy)
+    {
+        if (!$this->sieve)
+    	    return $this->_set_error(SIEVE_ERROR_INTERNAL);
+
+	if ($copy) {
+    	    $content = $this->sieve->getScript($copy);
     
-  private function _convert_from_squirrel_rules($script)
-    {
-      $i = 0;
-      $name = array();
-      // tokenize rules
-      if ($tokens = preg_split('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE))
-        foreach($tokens as $token)
-          {
-            if (preg_match('/^#START_SIEVE_RULE.*/', $token, $matches))
-              {
-	        $name[$i] = "unnamed rule ".($i+1);
-                $content .= "# rule:[".$name[$i]."]\n";
-              }
-            elseif (isset($name[$i]))
-              {
-	        $content .= "if ".$token."\n";
-		$i++;
-              }
-          }
-
-      return $content;
+    	    if (PEAR::isError($content))
+    		return $this->_set_error(SIEVE_ERROR_OTHER);
+	}
+	
+	return $this->save_script($name, $content);
     }
 
 
-  private function _set_error($error)
+    private function _convert_from_squirrel_rules($script)
     {
-      $this->error = $error;
-      return false;
-    }    
+        $i = 0;
+        $name = array();
+
+        // tokenize rules
+        if ($tokens = preg_split('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE))
+    	    foreach($tokens as $token) {
+        	if (preg_match('/^#START_SIEVE_RULE.*/', $token, $matches)) {
+	    	    $name[$i] = "unnamed rule ".($i+1);
+            	    $content .= "# rule:[".$name[$i]."]\n";
+                }
+        	elseif (isset($name[$i])) {
+	    	    $content .= "if $token\n";
+		    $i++;
+                }
+            }
+
+        return $content;
+    }
+
+    private function _set_error($error)
+    {
+	$this->error = $error;
+        return false;
+    }
+
+    /**
+    * This is our own debug handler for connection
+    * @access public
+    */
+    public function debug_handler(&$sieve, $message)
+    {
+        write_log('sieve', preg_replace('/\r\n$/', '', $message));
+    }		        
 }
 
 class rcube_sieve_script
 {
-  var $content = array();	// script rules array   
+  public $content = array();	// script rules array   
 
   private $supported = array(	// extensions supported by class
     'fileinto',

@@ -31,4 +31,7 @@ $rcmail_config['managesieve_replace_delimiter'] = '';
 // Note: not all extensions are implemented
 $rcmail_config['managesieve_disabled_extensions'] = array();
 
+// Enables debugging of conversation with sieve server. Logs it into <log_dir>/sieve
+$rcmail_config['managesieve_debug'] = false;
+
 ?>

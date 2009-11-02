@@ -13,10 +13,20 @@
 <roundcube:include file="/includes/settingstabs.html" />
 
 <div id="filtersbuttons">
-<roundcube:button command="plugin.managesieve-add" imageSel="/this/filter_add_sel.png" imagePas="/this/filter_add_pas.png" imageAct="/this/filter_add_act.png" width="32" height="32" title="managesieve.filteradd" />
-<roundcube:button command="plugin.managesieve-del" imageSel="/this/filter_del_sel.png" imagePas="/this/filter_del_pas.png" imageAct="/this/filter_del_act.png"  width="32" height="32" title="managesieve.filterdel" />
-<roundcube:button command="plugin.managesieve-up" imageSel="/this/filter_up_sel.png" imagePas="/this/filter_up_pas.png" imageAct="/this/filter_up_act.png"  width="32" height="32" title="managesieve.moveup" />
-<roundcube:button command="plugin.managesieve-down" imageSel="/this/filter_down_sel.png" imagePas="/this/filter_down_pas.png" imageAct="/this/filter_down_act.png"  width="32" height="32" title="managesieve.movedown" />
+<roundcube:button command="plugin.managesieve-add" type="link" class="buttonPas add" classSel="button addsel" classAct="button add" title="managesieve.filteradd" content=" " />
+<roundcube:button command="plugin.managesieve-del" type="link" class="buttonPas del" classSel="button delsel" classAct="button del" title="managesieve.filterdel" content=" " />
+<roundcube:button command="plugin.managesieve-up" type="link" class="buttonPas up" classSel="button upsel" classAct="button up" title="managesieve.moveup" content=" " />
+<roundcube:button command="plugin.managesieve-down" type="link" class="buttonPas down" classSel="button downsel" classAct="button down" title="managesieve.movedown" content=" " />
+</div>
+
+<div id="filtersetsbuttons">
+<roundcube:button command="plugin.managesieve-setadd" type="link" class="buttonPas setadd" classSel="button setaddsel" classAct="button setadd" title="managesieve.filtersetadd" content=" " />
+<roundcube:button command="plugin.managesieve-setdel" type="link" class="buttonPas setdel" classSel="button setdelsel" classAct="button setdel" title="managesieve.filtersetdel" content=" " />
+<roundcube:button command="plugin.managesieve-setact" type="link" class="buttonPas setset" classSel="button setsetsel" classAct="button setset" title="managesieve.filtersetact" content=" " />
+</div>
+<div id="filtersetselect">
+<roundcube:label name="managesieve.filterset" />:
+<roundcube:object name="filtersetslist" id="filtersets-select" />
 </div>
 
 <div id="filterslist">
