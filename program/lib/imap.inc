@@ -554,7 +554,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 	// set some imap options
 	if (is_array($options)) {
 		foreach($options as $optkey => $optval) {
-			if ($optkey == 'imap') {
+			if ($optkey == 'auth_method') {
 				$auth_method = strtoupper($optval);
 			} else if ($optkey == 'rootdir') {
     				$my_prefs['rootdir'] = $optval;
