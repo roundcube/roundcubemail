@@ -461,69 +461,67 @@ class Mail_mimePart {
      */
     function _buildRFC2047Param($name, $value, $charset, $encoding='quoted-printable', $maxLength=75)
     {
-        if (!preg_match('#([^\x20-\x7E]){1}#', $value))
+	// WARNING: RFC 2047 says: "An 'encoded-word' MUST NOT be used in
+	// parameter of a MIME Content-Type or Content-Disposition field"
+	// but... it's supported by many clients/servers
+    
+	if ($encoding == 'base64')
 	{
-	    $quoted = addcslashes($value, '\\"');
-	    $maxLength = $maxLength - 6;
-	    if (strlen($quoted) > $maxLength)
-	    {
-		// truncate filename leaving extension
-		$ext = strrchr($quoted, '.');
-		$quoted = substr($quoted, 0, $maxLength - strlen($ext));
-		// remove backslashes from the end of filename
-		preg_replace('/[\\\\]+$/', '', $quoted);
-		$quoted .= $ext;
-	    }
-	}
-	else if ($encoding == 'base64')
-	{
-	    $ext = strrchr($value, '.');
-            $value = substr($value, 0, strlen($value) - strlen($ext));
-	    
-            $ext = base64_encode($ext);
 	    $value = base64_encode($value);
-
             $prefix = '=?' . $charset . '?B?';
             $suffix = '?=';
-            $maxLength = $maxLength - strlen($prefix . $suffix) - strlen($ext) - 2;
+	    $quoted = '';
 
-            //We can cut base64 every 4 characters, so the real max
-            //we can get must be rounded down.
-            $maxLength = $maxLength - ($maxLength % 4);
-            $quoted = $prefix . substr($value, 0, $maxLength) . $ext . $suffix;
+	    $add_len = strlen($prefix . $suffix) + strlen($name) + 6; // 2 x SPACE, 2 x '"', '=', ';'
+	    $len = $add_len + strlen($value);
+
+	    while ($len > $maxLength) { 
+        	// We can cut base64-encoded string every 4 characters
+		$real_len = floor(($maxLength - $add_len) / 4) * 4;
+	        $_quote = substr($value, 0, $real_len);
+		$value = substr($value, $real_len);
+
+		$quoted .= $prefix . $_quote . $suffix . MAIL_MIMEPART_CRLF . ' ';
+		$add_len = strlen($prefix . $suffix) + 4; // 2 x SPACE, '"', ';'
+		$len = strlen($value) + $add_len;
+	    } 
+            $quoted .= $prefix . $value . $suffix;
+
         }
 	else // quoted-printable
 	{
-	    $ext = strrchr($value, '.');
-            $value = substr($value, 0, strlen($value) - strlen($ext));
-
 	    // Replace all special characters used by the encoder.
             $search  = array('=',   '_',   '?',   ' ');
 	    $replace = array('=3D', '=5F', '=3F', '_');
-	    $ext = str_replace($search, $replace, $ext);
 	    $value = str_replace($search, $replace, $value);
 
 	    // Replace all extended characters (\x80-xFF) with their
 	    // ASCII values.
-	    $ext = preg_replace('/([\x80-\xFF])/e', 
-		'"=" . strtoupper(dechex(ord("\1")))', $ext);
 	    $value = preg_replace('/([\x80-\xFF])/e', 
 		'"=" . strtoupper(dechex(ord("\1")))', $value);
 
             $prefix = '=?' . $charset . '?Q?';
             $suffix = '?=';
 
-            $maxLength = $maxLength - strlen($prefix . $suffix) - strlen($ext) - 2;
+	    $add_len = strlen($prefix . $suffix) + strlen($name) + 6; // 2 x SPACE, 2 x '"', '=', ';'
+	    $len = $add_len + strlen($value);
 	    
-	    // Truncate QP-encoded text at $maxLength
-	    // but not break any encoded letters.
-	    if(preg_match("/^(.{0,$maxLength}[^\=][^\=])/", $value, $matches))
-    		$value = $matches[1];
+	    while ($len > $maxLength) { 
+		$length = $maxLength - $add_len;
+		// not break any encoded letters
+		if(preg_match("/^(.{0,$length}[^\=][^\=])/", $value, $matches))
+    		    $_quote = $matches[1];
+		
+		$quoted .= $prefix . $_quote . $suffix . MAIL_MIMEPART_CRLF . ' ';
+		$value = substr($value, strlen($_quote));
+		$add_len = strlen($prefix . $suffix) + 4; // 2 x SPACE, '"', ';'
+		$len = strlen($value) + $add_len;
+	    }
 	
-	    $quoted = $prefix . $value . $ext . $suffix;
+	    $quoted .= $prefix . $value . $suffix;
         }
 
-	return " {$name}=\"{$quoted}\"; ";
+        return " {$name}=\"{$quoted}\"; ";
     }
 
 } // End of class
