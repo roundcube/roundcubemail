@@ -448,6 +448,30 @@ function rcmail_user_prefs($current=null)
         'content' => $select_param_folding->show($config['mime_param_folding']),
       );
     }
+    
+    if (!isset($no_override['top_posting'])) {
+      $field_id = 'rcmfd_top_posting';
+      $input_topposting = new html_checkbox(array('name' => '_top_posting', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['top_posting'] = array(
+	'title' => html::label($field_id, Q(rcube_label('top_posting'))),
+	'content' => $input_topposting->show($config['top_posting']?1:0),
+      );
+    }
+
+    if (!isset($no_override['show_sig'])) {
+      $field_id = 'rcmfd_show_sig';
+      $select_show_sig = new html_select(array('name' => '_show_sig', 'id' => $field_id));
+      $select_show_sig->add(rcube_label('always'), 0);
+      $select_show_sig->add(rcube_label('never'), 1);
+      $select_show_sig->add(rcube_label('new_msg_only'), 2);
+      $select_show_sig->add(rcube_label('reply_forward_only'), 3);
+
+      $blocks['main']['options']['show_sig'] = array(
+	'title' => html::label($field_id, Q(rcube_label('auto_add_sig'))),
+        'content' => $select_show_sig->show(intval($config['show_sig'])),
+      );
+    }
 
     break;
     

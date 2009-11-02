@@ -103,6 +103,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
 }
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
+$OUTPUT->set_env('top_posting', $CONFIG['top_posting']);
 
 // get reference message and set compose mode
 if ($msg_uid = $_SESSION['compose']['param']['reply_uid'])
@@ -115,6 +116,13 @@ else if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
   $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);
   $compose_mode = RCUBE_COMPOSE_DRAFT;
 }
+
+if (!$CONFIG['show_sig'])
+  $OUTPUT->set_env('show_sig', true);
+else if ($CONFIG['show_sig'] == 2 && empty($compose_mode))
+  $OUTPUT->set_env('show_sig', true);
+else if ($CONFIG['show_sig'] == 3 && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD))
+  $OUTPUT->set_env('show_sig', true);
 
 if (!empty($msg_uid))
 {
@@ -510,12 +518,14 @@ function rcmail_compose_body($attrib)
 
 function rcmail_create_reply_body($body, $bodyIsHtml)
 {
-  global $IMAP, $MESSAGE, $OUTPUT;
+  global $MESSAGE;
+  
+  $rcmail = rcmail::get_instance();
 
   if (! $bodyIsHtml)
   {
     // try to remove the signature
-    if (($sp = strrpos($body, '-- ')) !== false && ($sp == 0 || $body{$sp-1} == "\n"))
+    if (!$rcmail->config->get('top_posting') && ($sp = strrpos($body, '-- ')) !== false && ($sp == 0 || $body{$sp-1} == "\n"))
       {
       if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
         $body = substr($body, 0, max(0, $sp-1));
@@ -547,6 +557,9 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
       $MESSAGE->get_header('from')), 76);
 
     $suffix = '';
+
+    if ($rcmail->config->get('top_posting'))
+      $prefix = "\n\n\n" . $prefix;
   }
   else
   {
@@ -560,9 +573,16 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     // build reply (quote content)
     $prefix = sprintf("On %s, %s wrote:<br />\n",
       $MESSAGE->headers->date,
-      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $rcmail->output->get_charset()));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
-    $suffix = "</blockquote><p></p>";
+
+    if ($rcmail->config->get('top_posting')) {
+	  $prefix = "<p></p>" . $prefix;
+	  $suffix = "</blockquote>";
+    }
+    else {
+      $suffix = "</blockquote><p></p>";
+    }
   }
 
   return $prefix.$body.$suffix;

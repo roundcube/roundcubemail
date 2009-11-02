@@ -281,5 +281,10 @@ $labels['section'] = 'Sekcja';
 $labels['maintenance'] = 'Konserwacja';
 $labels['newmessage'] = 'Nowa wiadomość';
 $labels['listoptions'] = 'Opcje list';
+$labels['top_posting'] = 'Odpowiadaj powyżej treści wiadomości (niezalecane)';
+$labels['auto_add_sig'] = 'Automatycznie wstaw podpis';
+$labels['new_msg_only'] = 'tylko nowe wiadomości';
+$labels['reply_forward_only'] = 'tylko dla edycji, przekazywania i odpowiedzi';
+$labels['insertsig'] = 'Wstaw podpis';
 
 ?>

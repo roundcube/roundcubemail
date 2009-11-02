@@ -450,5 +450,15 @@ $rcmail_config['display_next'] = FALSE;
 // If true, messages list will be sorted by message index instead of message date
 $rcmail_config['index_sort'] = TRUE;
 
+// When replying place cursor above original message (top posting)
+$rcmail_config['top_posting'] = FALSE;
+
+// Show signature:
+// 0 - Always
+// 1 - Never
+// 2 - New messages only
+// 3 - Forwards, Edits and Replies only
+$rcmail_config['show_sig'] = 0;
+
 // end of config file
 ?>

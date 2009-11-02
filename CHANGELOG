@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Allow inserting signatures above replied message body (#1484272) 
 - Managesieve 2.0: multi-script support
 - Fix imap_auth_type regression (#1486263)
 

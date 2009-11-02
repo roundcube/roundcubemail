@@ -473,6 +473,9 @@ function rcube_webmail()
     this.init_address_input_events($("[name='_cc']"));
     this.init_address_input_events($("[name='_bcc']"));
 
+    if (!html_mode)
+      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
+
     // add signature according to selected identity
     if (input_from.attr('type') == 'select-one' && $("input[name='_draft_saveid']").val() == ''
         && !html_mode) {  // if we have HTML editor, signature is added in callback
@@ -970,6 +973,10 @@ function rcube_webmail()
         
         // clear timeout (sending could take longer)
         clearTimeout(this.request_timer);
+        break;
+
+      case 'insert-sig':
+        this.change_identity($("[name='_from']")[0], true);
         break;
 
       case 'add-attachment':
@@ -2295,102 +2302,155 @@ function rcube_webmail()
     return str;
     };
     
-  this.change_identity = function(obj)
+  this.change_identity = function(obj, show_sig)
     {
     if (!obj || !obj.options)
       return false;
 
+    if (!show_sig)
+      show_sig = this.env.show_sig;
+
     var id = obj.options[obj.selectedIndex].value;
-    var input_message = $("[name='_message']");
-    var message = input_message.val();
     var is_html = ($("input[name='_is_html']").val() == '1');
-    var sig, p, len;
+    var sig;
+
+    // enable manual signature insert
+    if (this.env.signatures && this.env.signatures[id])
+      this.enable_command('insert-sig', true);
+    else {
+      this.enable_command('insert-sig', false);
+      if (!this.env.signatures)
+        return true;
+      }
 
     if (!this.env.identity)
       this.env.identity = id
+
+    if (!show_sig)
+      return false;
   
     if (!is_html)
       {
+      var input_message = $("[name='_message']");
+      var message = input_message.val();
+      var pos, cursor_pos, p = -1;
+
       // remove the 'old' signature
-      if (this.env.identity && this.env.signatures && this.env.signatures[this.env.identity])
+      if (this.env.identity && this.env.signatures[this.env.identity])
         {
         if (this.env.signatures[this.env.identity]['is_html'])
           sig = this.env.signatures[this.env.identity]['plain_text'];
         else
           sig = this.env.signatures[this.env.identity]['text'];
-        
-        if (sig.indexOf('-- ')!=0)
-          sig = '-- \n'+sig;
 
-        p = message.lastIndexOf(sig);
+	if (this.env.top_posting)
+          p = message.indexOf(sig);
+        else {
+	  if (sig.indexOf('-- ')!=0)
+            sig = '-- \n'+sig;
+          p = message.lastIndexOf(sig);
+	  }
+	  
         if (p>=0)
-          message = message.substring(0, p-1) + message.substring(p+sig.length, message.length);
-        }
+          message = message.substring(0, p) + message.substring(p+sig.length, message.length);
+	}
 
-      message = message.replace(/[\r\n]+$/, '');
-      len = message.length;
+      input_message.get(0).focus();
 
       // add the new signature string
-      if (this.env.signatures && this.env.signatures[id])
+      if (this.env.signatures[id])
         {
-        sig = this.env.signatures[id]['text'];
         if (this.env.signatures[id]['is_html'])
-          {
           sig = this.env.signatures[id]['plain_text'];
-          }
-        if (sig.indexOf('-- ')!=0)
-          sig = '-- \n'+sig;
-        message += '\n\n'+sig;
-	if (len) len += 1;
+	else
+          sig = this.env.signatures[id]['text'];
+
+	if (this.env.top_posting) {
+	  if (p>=0) { // in place of removed signature
+	    message = message.substring(0, p) + sig + message.substring(p, message.length);
+	    cursor_pos = p - 1;
+	    }
+	  else if (pos = this.get_caret_pos(input_message.get(0))) { // at cursor position
+	    message = message.substring(0, pos) + '\n' + sig + '\n' + message.substring(pos, message.length);
+	    cursor_pos = pos;
+	    }
+	  else { // on top
+	    cursor_pos = 0;
+	    message = '\n\n' + sig + '\n' + message;
+	    }
+	  }
+	else {
+          message = message.replace(/[\r\n]+$/, '');
+
+          if (sig.indexOf('-- ')!=0)
+            sig = '-- \n'+sig;
+	  cursor_pos = message.length ? message.length+1 : 0;
+          message += '\n\n' + sig;
+	  }
         }
+
+      input_message.val(message);
+
+      // move cursor before the signature
+      if (typeof(cursor_pos) != 'undefined')
+        this.set_caret_pos(input_message.get(0), cursor_pos);
       }
+    // html
     else
       {
       var editor = tinyMCE.get(this.env.composebody);
+      var sigElem = editor.dom.get('_rc_sig');
 
-      if (this.env.signatures)
-        {
-        // Append the signature as a div within the body
-        var sigElem = editor.dom.get('_rc_sig');
-        var newsig = '';
-        var htmlsig = true;
+      // Append the signature as a div within the body
+      if (!sigElem) {
+	var body = editor.getBody();
+	var doc = editor.getDoc();
+        
+	sigElem = doc.createElement('div');
+        sigElem.setAttribute('id', '_rc_sig');
+      
+        if (this.env.top_posting) {
+          // if no existing sig and top posting then insert at caret pos
+          editor.getWin().focus(); // correct focus in IE
 
-        if (!sigElem)
-          {
-          // add empty line before signature on IE
-          if (bw.ie)
-            editor.getBody().appendChild(editor.getDoc().createElement('br'));
+          var node = editor.selection.getNode();
 
-          sigElem = editor.getDoc().createElement('div');
-          sigElem.setAttribute('id', '_rc_sig');
-          editor.getBody().appendChild(sigElem);
+          if (node.nodeName == 'BODY') {
+            // no real focus, insert at start
+            body.insertBefore(sigElem, body.firstChild);
+            body.insertBefore(doc.createElement('br'), body.firstChild);
+            }
+          else {
+            body.insertBefore(sigElem, node.nextSibling);
+            body.insertBefore(doc.createElement('br'), node.nextSibling);
+            }
+	  }
+        else {
+	  if (bw.ie)
+            // add empty line before signature on IE
+            body.appendChild(doc.createElement('br'));
+
+          body.appendChild(sigElem);
           }
+	}
 
-        if (this.env.signatures[id])
+      if (this.env.signatures[id])
         {
-          newsig = this.env.signatures[id]['text'];
-          htmlsig = this.env.signatures[id]['is_html'];
-
-          if (newsig) {
-            if (htmlsig && this.env.signatures[id]['plain_text'].indexOf('-- ')!=0)
-              newsig = '<p>-- </p>' + newsig;
-            else if (!htmlsig && newsig.indexOf('-- ')!=0)
-              newsig = '-- \n' + newsig;
+        if (this.env.signatures[id]['is_html']) {
+          sig = this.env.signatures[id]['text'];
+          if (!this.env.top_posting && this.env.signatures[id]['plain_text'].indexOf('-- ')!=0)
+            sig = '-- <br />' + sig;
+	  }
+	else {
+          sig = this.env.signatures[id]['text'];
+	  if (!this.env.top_posting && sig.indexOf('-- ')!=0)
+            sig = '-- \n' + sig;
+	  sig = '<pre>' + sig + '</pre>';
           }
-        }
-
-        if (htmlsig)
-          sigElem.innerHTML = newsig;
-        else
-          sigElem.innerHTML = '<pre>' + newsig + '</pre>';
+        
+        sigElem.innerHTML = sig;
         }
       }
-
-    input_message.val(message);
-
-    // move cursor before the signature
-    if (!is_html)
-      this.set_caret_pos(input_message.get(0), len);
 
     this.env.identity = id;
     return true;

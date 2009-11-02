@@ -62,6 +62,8 @@ switch ($CURR_SECTION)
       'htmleditor'         => isset($_POST['_htmleditor']) ? TRUE : FALSE,
       'draft_autosave'     => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
       'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
+      'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 0,
+      'top_posting'        => isset($_POST['_top_posting']) ? TRUE : FALSE,
     );
 
   break;
