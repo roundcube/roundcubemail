@@ -189,47 +189,40 @@ legend, label
 #rules, #actions
 {
   margin-top: 5px;
-  width: 100%;
   padding: 0;
   border-collapse: collapse;
 }
 
 div.rulerow, div.actionrow
 {
-  width: 100%;
+  width: auto;
   padding: 2px;
   white-space: nowrap;
-  float: left;
   border: 1px solid white;
-  display: block;
 }
 
 div.rulerow:hover, div.actionrow:hover
 {
   padding: 2px;
   white-space: nowrap;
-  display: block;
-  float: left;
   background: #F2F2F2;
   border: 1px solid silver;
 }
 
 div.rulerow table, div.actionrow table
 {
-  width: 100%;
   padding: 0px;
+  width: 100%;
 }
 
 td.rowbuttons
 {
-  width: 98%;
   text-align: right;
   white-space: nowrap;
 }
 
 td.rowactions, td.rowtargets
 {
-  width: 1%;
   white-space: nowrap;
 }
 
