@@ -452,7 +452,7 @@ function rcmail_user_prefs($current=null)
     
     if (!isset($no_override['top_posting'])) {
       $field_id = 'rcmfd_top_posting';
-      $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id));
+      $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id, 'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));
       $select_replymode->add(rcube_label('replybottomposting'), 0);
       $select_replymode->add(rcube_label('replytopposting'), 1);
 
@@ -472,17 +472,19 @@ function rcmail_user_prefs($current=null)
 
       $blocks['sig']['options']['show_sig'] = array(
         'title' => html::label($field_id, Q(rcube_label('autoaddsignature'))),
-        'content' => $select_show_sig->show($config['show_sig']),
+        'content' => $select_show_sig->show($RCMAIL->config->get('show_sig', 1)),
       );
     }
 
     if (!isset($no_override['sig_above'])) {
       $field_id = 'rcmfd_sig_above';
-      $input_sigabove = new html_checkbox(array('name' => '_sig_above', 'id' => $field_id, 'value' => 1));
+      $select_sigabove = new html_select(array('name' => '_sig_above', 'id' => $field_id, 'disabled' => !$config['top_posting']));
+      $select_sigabove->add(rcube_label('belowquote'), 0);
+      $select_sigabove->add(rcube_label('abovequote'), 1);
 
       $blocks['sig']['options']['sig_above'] = array(
-        'title' => html::label($field_id, Q(rcube_label('replysignatureabove'))),
-        'content' => $input_sigabove->show($config['sig_above']?1:0),
+        'title' => html::label($field_id, Q(rcube_label('replysignaturepos'))),
+        'content' => $select_sigabove->show($config['sig_above']?1:0),
       );
     }
 

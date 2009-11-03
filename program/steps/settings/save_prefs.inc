@@ -65,7 +65,7 @@ switch ($CURR_SECTION)
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'top_posting'        => !empty($_POST['_top_posting']),
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-      'sig_above'          => isset($_POST['_sig_above']) && !empty($_POST['_top_posting']),
+      'sig_above'          => !empty($_POST['_sig_above']) && !empty($_POST['_top_posting']),
     );
 
   break;

@@ -321,7 +321,9 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignatureabove'] = 'When replying or forwarding place signature above the quote';
+$labels['replysignaturepos'] = 'When replying or forwarding place signature';
+$labels['belowquote'] = 'below the quote';
+$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 
 $labels['folder']  = 'Folder';
