@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix pasting from Office apps into html editor (#1486271)
+- Fix empty <A> tags parsing (#1486272)
 - Don't cut off attachment names when using non-RFC2231 encoding (#1485515)
 - Allow inserting signatures above replied message body (#1484272)
 - Managesieve 2.0: multi-script support
