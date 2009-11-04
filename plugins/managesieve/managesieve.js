@@ -34,7 +34,8 @@ if (window.rcmail) {
           rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
 	  rcmail.enable_command('plugin.managesieve-set', rcmail.gui_objects.filtersetslist != null);
 	  rcmail.enable_command('plugin.managesieve-setact',
-	    (rcmail.gui_objects.filtersetslist && rcmail.gui_objects.filtersetslist.value != rcmail.env.active_set));
+	    (rcmail.gui_objects.filtersetslist && rcmail.gui_objects.filtersetslist.length > 1
+		&& rcmail.gui_objects.filtersetslist.value != rcmail.env.active_set));
 	  rcmail.enable_command('plugin.managesieve-setdel',
 	    (rcmail.gui_objects.filtersetslist && rcmail.gui_objects.filtersetslist.length > 1));
 	}
