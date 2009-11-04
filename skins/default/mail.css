@@ -775,7 +775,9 @@ body.messagelist
 }
 
 #messagelist tr td.from,
-#messagelist tr td.to
+#messagelist tr td.to,
+#messagelist tr td.cc,
+#messagelist tr td.replyto
 {
   width: 180px;
   vertical-align: middle;

@@ -306,7 +306,7 @@ function rcmail_message_list($attrib)
     // format each col
     foreach ($a_show_cols as $col)
       {
-      if ($col=='from' || $col=='to')
+      if (in_array($col, array('from', 'to', 'cc', 'replyto')))
         $cont = Q(rcmail_address_string($header->$col, 3, false, $attrib['addicon']), 'show');
       else if ($col=='subject')
         {
@@ -427,7 +427,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col)
       {
-      if ($col=='from' || $col=='to')
+      if (in_array($col, array('from', 'to', 'cc', 'replyto')))
         $cont = Q(rcmail_address_string($header->$col, 3), 'show');
       else if ($col=='subject')
         {
