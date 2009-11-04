@@ -1410,7 +1410,7 @@ function rcube_https_check($port=null, $use_https=true)
 {
   global $RCMAIL;
   
-  if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
+  if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')
     return true;
   if ($port && $_SERVER['SERVER_PORT'] == $port)
     return true;

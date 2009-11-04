@@ -51,8 +51,8 @@ if (set_include_path($include_path) === false) {
 }
 
 ini_set('error_reporting', E_ALL&~E_NOTICE);
-if  (isset($_SERVER['HTTPS'])) {
-   ini_set('session.cookie_secure', ($_SERVER['HTTPS'] && ($_SERVER['HTTPS'] != 'off'))?1:0);
+if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
+   ini_set('session.cookie_secure', 1);
 } else {
    ini_set('session.cookie_secure', 0);
 }
