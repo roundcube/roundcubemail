@@ -55,6 +55,8 @@ in the .htaccess file and set the path to the log file accordingly.
 DATABASE SETUP
 ==============
 
+Note: Database for RoundCube must use UTF-8 character set.
+
 * MySQL
 -------
 Setting up the mysql database can be done by creating an empty database,
@@ -72,9 +74,6 @@ roundcube user. Here is an example of that procedure:
 Note 1: 'password' is the master password for the roundcube user. It is strongly
 recommended you replace this with a more secure password. Please keep in
 mind: You need to specify this password later in 'config/db.inc.php'.
-
-Note 2: For MySQL version 4.1 and up, it's recommended to create the database for
-RoundCube with utf-8 charset.
 
 
 * SQLite
