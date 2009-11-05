@@ -18,7 +18,7 @@
 @version $Id$
 
 */
-
+	
 $labels = array();
 $labels['welcome'] = 'Üdvözli a $product';
 $labels['username'] = 'Felhasználónév';
@@ -253,7 +253,7 @@ $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
 $labels['checkallfolders'] = 'Új üzenetek ellenőrzése minden (al)mappában';
 $labels['displaynext'] = 'Levél törlése/mozgatása után jelenjen meg a következő üzenet';
-$labels['indexsort'] = 'Üzenet index használata dátum szerinti sorbarendezésnél';
+$labels['indexsort'] = 'Üzenetindexek használata dátum szerinti sorbarendezésnél';
 $labels['mainoptions'] = 'Általános beállítások';
 $labels['section'] = 'Szakasz';
 $labels['maintenance'] = 'Karbantartás';
@@ -264,10 +264,12 @@ $labels['whenreplying'] = 'Válasznál';
 $labels['replytopposting'] = 'Válasznál üzenet írása az eredeti felett';
 $labels['replybottomposting'] = 'Válasznál üzenet írása az eredeti alatt';
 $labels['replyremovesignature'] = 'Válasznál az eredeti aláírás eltávolítása';
-$labels['autoaddsignature'] = 'Aláírás eltávolítása';
-$labels['newmessageonly'] = 'csak új üzenetnél';
-$labels['replyandforwardonly'] = 'válasznál és  továbbításnál';
-$labels['replysignatureabove'] = 'Válasznál és továbbításnál kerüljön az aláírás az idézett szöveg fölé';
+$labels['autoaddsignature'] = 'Aláírás automatikus hozzáadása';
+$labels['newmessageonly'] = 'Csak új üzenetnél';
+$labels['replyandforwardonly'] = 'Válasznál és továbbításnál';
+$labels['replysignaturepos'] = 'Válasznál és továbbításnál kerüljön az aláírás';
+$labels['belowquote'] = 'az idézett szöveg alá';
+$labels['abovequote'] = 'az idézett szöveg fölé';
 $labels['insertsignature'] = 'Aláírás beillesztése';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Mappák';

@@ -13,7 +13,7 @@
 | Author: Martin Mrajca <martin@moonlake.cz>                            |
 |        joe <joe@humlak.cz>                                            |
 |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
-|        Milan Kozak <hodza@hodza.net>					                        |
+|        Milan Kozak <hodza@hodza.net>                                  |
 |        Ales Pospichal <ales@pospichalales.info>                       |
 +-----------------------------------------------------------------------+
 
@@ -269,7 +269,9 @@ $labels['replyremovesignature'] = 'Při odpovídání odstranit ze zprávy půvo
 $labels['autoaddsignature'] = 'Automaticky přidat podpis';
 $labels['newmessageonly'] = 'pouze k novým zprávám';
 $labels['replyandforwardonly'] = 'jen k odpovědi a přeposílané zprávě';
-$labels['replysignatureabove'] = 'Při odpovídání nebo přeposílání vložit podpis nad citaci';
+$labels['replysignaturepos'] = 'Při odpovídání nebo přeposílání zprávy vložit podpis';
+$labels['belowquote'] = 'pod citaci';
+$labels['abovequote'] = 'nad citaci';
 $labels['insertsignature'] = 'Vložit podpis';
 $labels['folder'] = 'Složka';
 $labels['folders'] = 'Složky';
