@@ -132,12 +132,12 @@ class rcube_config
    * @param string Full path to the config file to be loaded
    * @return booelan True on success, false on failure
    */
-  public function load_from_file($fpath)
+  public function load_from_file($fpath, $merge = true)
   {
     if (is_file($fpath) && is_readable($fpath)) {
       include($fpath);
       if (is_array($rcmail_config)) {
-        $this->prop = array_merge($this->prop, $rcmail_config);
+        $this->prop = $merge ? array_merge($this->prop, $rcmail_config) : $this->prop + $rcmail_config;
         return true;
       }
     }
