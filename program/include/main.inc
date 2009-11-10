@@ -300,8 +300,11 @@ function rcube_parse_charset($charset)
   {
   $charset = strtoupper($charset);
 
-  # RFC1642
-  $charset = str_replace('UNICODE-1-1-', '', $charset);
+  $charset = preg_replace(array(
+    '/^[^0-9A-Z]+/',	// e.g. _ISO-8859-JP$SIO
+    '/\$.*$/',		// e.g. _ISO-8859-JP$SIO
+    '/UNICODE-1-1-/',	// RFC1642
+    ), '', $charset);
 
   # Aliases: some of them from HTML5 spec.
   $aliases = array(
@@ -1410,7 +1413,7 @@ function rcube_https_check($port=null, $use_https=true)
 {
   global $RCMAIL;
   
-  if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')
+  if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
     return true;
   if ($port && $_SERVER['SERVER_PORT'] == $port)
     return true;
