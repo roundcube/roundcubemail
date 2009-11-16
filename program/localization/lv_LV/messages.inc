@@ -10,8 +10,8 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Rudolfs Osins <dev.random@gmail.com>                          |
-|         Mikelis Zalais <mik@prog.lv>                                  |
+| Author: Rūdolfs Ošiņš <dev.random@gmail.com>                          |
+|         Miķelis Zaļais <mik@prog.lv>                                  |
 |         Lauris Bukšis-Haberkorns <lauris@nix.lv>                      |
 +-----------------------------------------------------------------------+
 
@@ -24,17 +24,20 @@ $messages['loginfailed'] = 'Neizdevās pieslēgties';
 $messages['cookiesdisabled'] = 'Jūsu pārlūkprogramma neatbalsta sīkdatnes (cookies)';
 $messages['sessionerror'] = 'Jūsu sessija ir beigusies';
 $messages['imaperror'] = 'Neizdevās pieslēgties IMAP serverim';
+$messages['servererror'] = 'Servera kļūme.';
+$messages['invalidrequest'] = 'Nederīgs pieprasījums. Dati netika saglabāti.';
 $messages['nomessagesfound'] = 'Šajā pastkastē nav vēstuļu';
-$messages['loggedout'] = 'Jūs esat veiksmīgi atslēdzies';
+$messages['loggedout'] = 'Jūs esat veiksmīgi atslēdzies no sistēmas';
 $messages['mailboxempty'] = 'Pastkaste tukša';
 $messages['loading'] = 'Notiek ielāde...';
+$messages['uploading'] = 'Notiek faila augšupielāde...';
 $messages['loadingdata'] = 'Tiek ielādēti dati...';
 $messages['checkingmail'] = 'Notiek pasta pārbaude...';
 $messages['sendingmessage'] = 'Tiek sūtīta vēstule...';
 $messages['messagesent'] = 'Vēstule nosūtīta veiksmīgi';
 $messages['savingmessage'] = 'Vēstule tiek saglabāta...';
 $messages['messagesaved'] = 'Vēstule saglabāta pie uzmetumiem';
-$messages['successfullysaved'] = 'Saglabāts veiksmīgi';
+$messages['successfullysaved'] = 'Iestatījumi veiksmīgi saglabāti';
 $messages['addedsuccessfully'] = 'Ieraksts veiksmīgi pievienots adrešu grāmatai';
 $messages['contactexists'] = 'Ieraksts ar šādu e-pasta adresi jau eksistē';
 $messages['blockedimages'] = 'Drošības nolūkos attēli, kas tiek ielādēti no cita servera, šajā vēstulē ir bloķēti';
@@ -47,6 +50,7 @@ $messages['errorsavingsent'] = 'Notika kļūda saglabājot nosūtīto vēstuli';
 $messages['errorsaving'] = 'Saglabājot vēstuli notikusi kļūme, vēstule netika saglabāta';
 $messages['errormoving'] = 'Vēstule netika pārvietota';
 $messages['errordeleting'] = 'Vēstule netika dzēsta';
+$messages['errormarking'] = 'Nebija iespējams iezīmēt vēstuli';
 $messages['deletecontactconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ās) kontaktpersonas?';
 $messages['deletemessagesconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ās) vēstules?';
 $messages['deletefolderconfirm'] = 'Vai tiešām vēlaties dzēst šo mapi?';
@@ -63,10 +67,11 @@ $messages['nosenderwarning'] = 'Lūdzu ievadiet saņēmēja e-pasta adresi';
 $messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
 $messages['nosubjectwarning'] = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
 $messages['nobodywarning'] = 'Sūtīt vēstuli bez satura teksta?';
-$messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai vēlaties atmest savu vēstuli?';
+$messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai tiešām vēlaties atcelt vēstules rakstīsanu?';
 $messages['noldapserver'] = 'Lūdzu izvēlaties LDAP serveri';
 $messages['nocontactsreturned'] = 'Neviena kontaktpersona netika atrasta';
 $messages['nosearchname'] = 'Lūdzu ievadiet kontaktpersonas vārdu vai e-pasta adresi';
+$messages['notuploadedwarning'] = 'Visi pielikumi vēl nav augšupielādēti. Lūdzu uzgaidiet vai atceļiet augšupielādi!';
 $messages['searchsuccessful'] = 'Atrastas $nr vēstules';
 $messages['searchnomatch'] = 'Meklēšanā nekas netika atrasts';
 $messages['searching'] = 'Notiek meklēšana...';
@@ -96,5 +101,13 @@ $messages['importconfirm'] = '<b>Veiksmīgi ieimportēti $inserted kontakti, net
 $messages['opnotpermitted'] = 'Darbība nav atļauta!';
 $messages['nofromaddress'] = 'Izvēlētajai identitātei nav norādīta e-pasta adrese';
 $messages['editorwarning'] = 'Pārslēdzoties uz vienkāršotu teksta redaktoru, tiks pazaudēts esošais teksta formatējums. Vai vēlaties turpināt?';
+$messages['httpreceivedencrypterror'] = 'Kļūme. Lūdzu sazinieties ar administratoru. <b>Nav iespējams nosūtīt vēstuli.</b>';
+$messages['smtpconnerror'] = 'SMTP kļūme ($code): Neizdevās pieslēgties serverim';
+$messages['smtpautherror'] = 'SMTP kļūme ($code): Neizdevās autentificēties';
+$messages['smtpfromerror'] = 'SMTP kļūme ($code): Neizdevās iestatīt sūtītāju "$from"';
+$messages['smtptoerror'] = 'SMTP kļūme ($code): Neizdevās pievienot saņēmēju "$to"';
+$messages['smtprecipientserror'] = 'SMTP kļūme: Nav iespējams parsēt saņēmēju sarakstu';
+$messages['smtperror'] = 'SMTP kļūme: $msg';
+$messages['emailformaterror'] = 'Nepareiza e-pasta adrese: $email';
 
 ?>
