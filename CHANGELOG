@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix displaying of hidden directories in skins list (#1486301)
+- Fix open_basedir restriction error when reading skins list (#1486304)
 - Fix pasting from Office apps into html editor (#1486271)
 - Fix empty <A> tags parsing (#1486272)
 - Don't cut off attachment names when using non-RFC2231 encoding (#1485515)

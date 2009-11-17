@@ -640,8 +640,7 @@ function rcmail_get_skins()
   while (($file = readdir($dir)) !== false)
   {
     $filename = $path.'/'.$file;
-    if (is_dir($filename) && is_readable($filename) 
-	&& !in_array($file, array('.', '..', '.svn')))
+    if (!preg_match('/^\./', $file) && is_dir($filename) && is_readable($filename))
       $skins[] = $file;
   }
 
