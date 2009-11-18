@@ -1711,8 +1711,8 @@ class rcube_imap
     // make sure mailbox exists
     if ($to_mbox != 'INBOX' && !in_array($to_mbox, $this->_list_mailboxes()))
       {
-      if (in_array($to_mbox_in, $this->default_folders))
-        $this->create_mailbox($to_mbox_in, TRUE);
+      if (in_array($tbox, $this->default_folders))
+        $this->create_mailbox($tbox, TRUE);
       else
         return FALSE;
       }
