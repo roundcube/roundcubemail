@@ -1063,7 +1063,7 @@ class rcmail
   {
     $cookie = session_get_cookie_params();
     setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'],
-      rcube_https_check());
+      rcube_https_check(), true);
   }
 }
 
