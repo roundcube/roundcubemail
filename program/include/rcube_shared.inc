@@ -93,7 +93,7 @@ function send_modified_header($mdate, $etag=null, $skip_check=false)
   else
     header("Last-Modified: ".gmdate("D, d M Y H:i:s", $mdate)." GMT");
   
-  header("Cache-Control: max-age=0");
+  header("Cache-Control: private, must-revalidate, max-age=0");
   header("Expires: ");
   header("Pragma: ");
   
