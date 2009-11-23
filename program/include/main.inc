@@ -485,12 +485,15 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $xml_rep_table['&'] = '&amp;';
 
     for ($c=160; $c<256; $c++)  // can be increased to support more charsets
-      $xml_rep_table[Chr($c)] = "&#$c;";
+      $xml_rep_table[chr($c)] = "&#$c;";
 
     $xml_rep_table['"'] = '&quot;';
     $js_rep_table['"'] = '\\"';
     $js_rep_table["'"] = "\\'";
     $js_rep_table["\\"] = "\\\\";
+    // Unicode line and paragraph separators (#1486310)
+    $js_rep_table[chr(hexdec(E2)).chr(hexdec(80)).chr(hexdec(A8))] = '&#8232;';
+    $js_rep_table[chr(hexdec(E2)).chr(hexdec(80)).chr(hexdec(A9))] = '&#8233;';
     }
 
   // encode for javascript use

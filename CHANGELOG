@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix unicode para and line separators in javascript response (#1486310)
 - additional_message_headers: allow unsetting headers, support plugin's config file (#1486268)
 - Fix displaying of hidden directories in skins list (#1486301)
 - Fix open_basedir restriction error when reading skins list (#1486304)
