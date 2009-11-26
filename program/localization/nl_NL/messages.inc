@@ -30,6 +30,7 @@ $messages['nomessagesfound'] = 'Geen berichten gevonden in deze mailbox';
 $messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg';
 $messages['loading'] = 'Laden...';
+$messages['uploading'] = 'Bezig met uploaden...';
 $messages['loadingdata'] = 'Laden van data...';
 $messages['checkingmail'] = 'Controleren op nieuwe berichten...';
 $messages['sendingmessage'] = 'Bezig met bericht versturen...';
@@ -70,6 +71,7 @@ $messages['notsentwarning'] = 'Bericht is niet verstuurd. Weet u zeker dat u het
 $messages['noldapserver'] = 'Geef een LDAP adresboek server op om te doorzoeken';
 $messages['nocontactsreturned'] = 'Er zijn geen contactpersonen gevonden';
 $messages['nosearchname'] = 'Geef de naam of e-mail op van de contactpersoon';
+$messages['notuploadedwarning'] = 'Nog niet alle bijlagen zijn geüpload. Wacht even of annuleer de upload.';
 $messages['searchsuccessful'] = '$nr berichten gevonden';
 $messages['searchnomatch'] = 'Zoekopdracht heeft geen resultaten opgeleverd';
 $messages['searching'] = 'Zoeken...';
@@ -106,5 +108,6 @@ $messages['smtpfromerror'] = 'SMTP Fout ($code): Kon afzender "$from" niet inste
 $messages['smtptoerror'] = 'SMTP Fout ($code): Kon ontvanger "$to" niet toevoegen';
 $messages['smtprecipientserror'] = 'SMTP Fout: Kon lijst van ontvangers niet verwerken';
 $messages['smtperror'] = 'SMTP Fout: $msg';
+$messages['emailformaterror'] = 'Ongeldig e-mailadres: $email';
 
 ?>

@@ -25,6 +25,7 @@ $messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
 $messages['loggedout'] = 'Odjava je bila uspešna.';
 $messages['mailboxempty'] = 'Poštni predal je prazen.';
 $messages['loading'] = 'Nalaganje...';
+$messages['uploading'] = 'Prenos dokumenta na strežnik...';
 $messages['loadingdata'] = 'Nalaganje podatkov...';
 $messages['checkingmail'] = 'Preverjanje novih sporočil...';
 $messages['sendingmessage'] = 'Pošiljanje sporočil...';
@@ -65,6 +66,7 @@ $messages['notsentwarning'] = 'Sporočilo ni bilo poslano. Želite zavreči to s
 $messages['noldapserver'] = 'Izberite LDAP strežnik, v katerem želite iskati?';
 $messages['nocontactsreturned'] = 'Nobenega stika ni bilo mogoče najti';
 $messages['nosearchname'] = 'Vnesite ime ali elektronski naslov stika';
+$messages['notuploadedwarning'] = 'Priponke se še nalagajo na strežnik. Počakajte ali prekinite prenos.';
 $messages['searchsuccessful'] = '$nr najdenih sporočil';
 $messages['searchnomatch'] = 'Ni zadetkov';
 $messages['searching'] = 'Iskanje...';
@@ -101,5 +103,6 @@ $messages['smtpfromerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektro
 $messages['smtptoerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov prejemnika "$to"';
 $messages['smtprecipientserror'] = 'Napaka pri pošiljanju: Seznama prejemnikov ni bilo mogoče razčleniti';
 $messages['smtperror'] = 'Napaka pri pošiljanju:$msg';
+$messages['emailformaterror'] = 'Nepravilen elektronski naslov: $email';
 
 ?>
