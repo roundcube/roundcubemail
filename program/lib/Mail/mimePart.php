@@ -182,19 +182,19 @@ class Mail_mimePart {
 
             }
         }
-	
+
         if (isset($contentType['type'])) {
             $headers['Content-Type'] = $contentType['type'];
-	    if (isset($contentType['charset'])) {
+        if (isset($contentType['charset'])) {
                 $headers['Content-Type'] .= "; charset={$contentType['charset']}";
             }
             if (isset($contentType['name'])) {
                 $headers['Content-Type'] .= ';' . MAIL_MIMEPART_CRLF;
                 $headers['Content-Type'] .=
-		    $this->_buildHeaderParam('name', $contentType['name'], 
-                        isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII', 
+                    $this->_buildHeaderParam('name', $contentType['name'],
+                        isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII',
                         isset($contentType['language']) ? $contentType['language'] : NULL,
-			isset($params['name-encoding']) ?  $params['name-encoding'] : NULL);
+                        isset($params['name-encoding']) ?  $params['name-encoding'] : NULL);
             }
         }
 
@@ -204,10 +204,10 @@ class Mail_mimePart {
             if (isset($contentDisp['filename'])) {
                 $headers['Content-Disposition'] .= ';' . MAIL_MIMEPART_CRLF;
                 $headers['Content-Disposition'] .=
-		    $this->_buildHeaderParam('filename', $contentDisp['filename'], 
-                        isset($contentDisp['charset']) ? $contentDisp['charset'] : 'US-ASCII', 
+                    $this->_buildHeaderParam('filename', $contentDisp['filename'],
+                        isset($contentDisp['charset']) ? $contentDisp['charset'] : 'US-ASCII',
                         isset($contentDisp['language']) ? $contentDisp['language'] : NULL,
-			isset($params['filename-encoding']) ? $params['filename-encoding'] : NULL);
+                        isset($params['filename-encoding']) ? $params['filename-encoding'] : NULL);
             }
         }
 
@@ -257,8 +257,8 @@ class Mail_mimePart {
             }
 
             $encoded['body'] = '--' . $boundary . MAIL_MIMEPART_CRLF . 
-				implode('--' . $boundary . MAIL_MIMEPART_CRLF , $subparts) .
-                        	'--' . $boundary.'--' . MAIL_MIMEPART_CRLF;
+                        implode('--' . $boundary . MAIL_MIMEPART_CRLF , $subparts) .
+                        '--' . $boundary.'--' . MAIL_MIMEPART_CRLF;
 
         } else {
             $encoded['body'] = $this->_getEncodedData($this->_body, $this->_encoding);
@@ -398,26 +398,28 @@ class Mail_mimePart {
     function _buildHeaderParam($name, $value, $charset=NULL, $language=NULL, $paramEnc=NULL, $maxLength=78)
     {
         // RFC 2045: 
-	// value needs encoding if contains non-ASCII chars or is longer than 78 chars
+        // value needs encoding if contains non-ASCII chars or is longer than 78 chars
         if (!preg_match('#[^\x20-\x7E]#', $value)) { // ASCII
-	    // token
-    	    if (!preg_match('#([^\x21,\x23-\x27,\x2A,\x2B,\x2D,\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#', $value)) {
-		if (strlen($name) + strlen($value) + 3 <= $maxLength)
-		    return " {$name}={$value};";
-	    } else { // quoted-string
-		$quoted = addcslashes($value, '\\"');
-		if (strlen($name) + strlen($quoted) + 5 <= $maxLength)
-		    return " {$name}=\"{$quoted}\";";
-	    }
-	}
+            // token
+            if (!preg_match('#([^\x21,\x23-\x27,\x2A,\x2B,\x2D,\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#', $value)) {
+                if (strlen($name) + strlen($value) + 3 <= $maxLength)
+                    return " {$name}={$value};";
+            } else { // quoted-string
+                $quoted = addcslashes($value, '\\"');
+                if (strlen($name) + strlen($quoted) + 5 <= $maxLength)
+                    return " {$name}=\"{$quoted}\";";
+            }
+        }
 
-	// RFC2047: use quoted-printable/base64 encoding
-	if ($paramEnc == 'quoted-printable' || $paramEnc == 'base64')
-	    return $this->_buildRFC2047Param($name, $value, $charset, $paramEnc);
+        // RFC2047: use quoted-printable/base64 encoding
+        if ($paramEnc == 'quoted-printable' || $paramEnc == 'base64')
+            return $this->_buildRFC2047Param($name, $value, $charset, $paramEnc);
 
-	// RFC2231:
-        $encValue = preg_replace('#([^\x21,\x23,\x24,\x26,\x2B,\x2D,\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#e',
-			'"%" . strtoupper(dechex(ord("\1")))', $value);
+        // RFC2231:
+        $encValue = preg_replace(
+            '#([^\x21,\x23,\x24,\x26,\x2B,\x2D,\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#e',
+            '"%" . strtoupper(dechex(ord("\1")))',
+            $value);
         $value = "$charset'$language'$encValue";
 
         $header = " {$name}*={$value};";
@@ -461,64 +463,64 @@ class Mail_mimePart {
      */
     function _buildRFC2047Param($name, $value, $charset, $encoding='quoted-printable', $maxLength=75)
     {
-	// WARNING: RFC 2047 says: "An 'encoded-word' MUST NOT be used in
-	// parameter of a MIME Content-Type or Content-Disposition field"
-	// but... it's supported by many clients/servers
-    
-	if ($encoding == 'base64')
-	{
-	    $value = base64_encode($value);
+        // WARNING: RFC 2047 says: "An 'encoded-word' MUST NOT be used in
+        // parameter of a MIME Content-Type or Content-Disposition field"
+        // but... it's supported by many clients/servers
+
+        if ($encoding == 'base64')
+        {
+            $value = base64_encode($value);
             $prefix = '=?' . $charset . '?B?';
             $suffix = '?=';
-	    $quoted = '';
+            $quoted = '';
 
-	    $add_len = strlen($prefix . $suffix) + strlen($name) + 6; // 2 x SPACE, 2 x '"', '=', ';'
-	    $len = $add_len + strlen($value);
+            $add_len = strlen($prefix . $suffix) + strlen($name) + 6; // 2 x SPACE, 2 x '"', '=', ';'
+            $len = $add_len + strlen($value);
 
-	    while ($len > $maxLength) { 
-        	// We can cut base64-encoded string every 4 characters
-		$real_len = floor(($maxLength - $add_len) / 4) * 4;
-	        $_quote = substr($value, 0, $real_len);
-		$value = substr($value, $real_len);
+            while ($len > $maxLength) { 
+                // We can cut base64-encoded string every 4 characters
+                $real_len = floor(($maxLength - $add_len) / 4) * 4;
+                $_quote = substr($value, 0, $real_len);
+                $value = substr($value, $real_len);
 
-		$quoted .= $prefix . $_quote . $suffix . MAIL_MIMEPART_CRLF . ' ';
-		$add_len = strlen($prefix . $suffix) + 4; // 2 x SPACE, '"', ';'
-		$len = strlen($value) + $add_len;
-	    } 
+                $quoted .= $prefix . $_quote . $suffix . MAIL_MIMEPART_CRLF . ' ';
+                $add_len = strlen($prefix . $suffix) + 4; // 2 x SPACE, '"', ';'
+                $len = strlen($value) + $add_len;
+            }
             $quoted .= $prefix . $value . $suffix;
 
         }
-	else // quoted-printable
-	{
-	    // Replace all special characters used by the encoder.
+        else // quoted-printable
+        {
+            // Replace all special characters used by the encoder.
             $search  = array('=',   '_',   '?',   ' ');
-	    $replace = array('=3D', '=5F', '=3F', '_');
-	    $value = str_replace($search, $replace, $value);
+            $replace = array('=3D', '=5F', '=3F', '_');
+            $value = str_replace($search, $replace, $value);
 
-	    // Replace all extended characters (\x80-xFF) with their
-	    // ASCII values.
-	    $value = preg_replace('/([\x80-\xFF])/e', 
-		'"=" . strtoupper(dechex(ord("\1")))', $value);
+            // Replace all extended characters (\x80-xFF) with their
+            // ASCII values.
+            $value = preg_replace('/([\x80-\xFF])/e',
+                '"=" . strtoupper(dechex(ord("\1")))', $value);
 
             $prefix = '=?' . $charset . '?Q?';
             $suffix = '?=';
 
-	    $add_len = strlen($prefix . $suffix) + strlen($name) + 6; // 2 x SPACE, 2 x '"', '=', ';'
-	    $len = $add_len + strlen($value);
-	    
-	    while ($len > $maxLength) { 
-		$length = $maxLength - $add_len;
-		// not break any encoded letters
-		if(preg_match("/^(.{0,$length}[^\=][^\=])/", $value, $matches))
-    		    $_quote = $matches[1];
-		
-		$quoted .= $prefix . $_quote . $suffix . MAIL_MIMEPART_CRLF . ' ';
-		$value = substr($value, strlen($_quote));
-		$add_len = strlen($prefix . $suffix) + 4; // 2 x SPACE, '"', ';'
-		$len = strlen($value) + $add_len;
-	    }
-	
-	    $quoted .= $prefix . $value . $suffix;
+            $add_len = strlen($prefix . $suffix) + strlen($name) + 6; // 2 x SPACE, 2 x '"', '=', ';'
+            $len = $add_len + strlen($value);
+
+            while ($len > $maxLength) {
+                $length = $maxLength - $add_len;
+                // not break any encoded letters
+                if(preg_match("/^(.{0,$length}[^\=][^\=])/", $value, $matches))
+                    $_quote = $matches[1];
+
+                $quoted .= $prefix . $_quote . $suffix . MAIL_MIMEPART_CRLF . ' ';
+                $value = substr($value, strlen($_quote));
+                $add_len = strlen($prefix . $suffix) + 4; // 2 x SPACE, '"', ';'
+                $len = strlen($value) + $add_len;
+            }
+
+            $quoted .= $prefix . $value . $suffix;
         }
 
         return " {$name}=\"{$quoted}\"; ";

@@ -332,17 +332,21 @@ class Mail_mime
     function addAttachment($file,
                            $c_type      = 'application/octet-stream',
                            $name        = '',
-                            $isfile     = true,
+                           $isfile      = true,
                            $encoding    = 'base64',
                            $disposition = 'attachment',
                            $charset     = '',
-                            $language   = '',
+                           $language    = '',
                            $location    = '',
-			   $n_encoding	= NULL,
-			   $f_encoding   = NULL)
+                           $n_encoding  = NULL,
+                           $f_encoding  = NULL)
     {
-        $filedata = ($isfile === true) ? $this->_file2str($file)
-                                           : $file;
+        $filedata = ($isfile === true) ? $this->_file2str($file) : $file;
+
+        if (PEAR::isError($filedata)) {
+            return $filedata;
+        }
+
         if ($isfile === true) {
             // Force the name the user supplied, otherwise use $file
             $filename = (strlen($name)) ? $name : $file;
@@ -355,9 +359,6 @@ class Mail_mime
             return $err;
         }
         $filename = $this->_basename($filename);
-        if (PEAR::isError($filedata)) {
-            return $filedata;
-        }
 
         $this->_parts[] = array(
                                 'body'        => $filedata,
@@ -368,8 +369,8 @@ class Mail_mime
                                 'language'    => $language,
                                 'location'    => $location,
                                 'disposition' => $disposition,
-				'name-encoding'    => $n_encoding,
-				'filename-encoding'=> $f_encoding
+                                'name-encoding'     => $n_encoding,
+                                'filename-encoding' => $f_encoding
                                );
         return true;
     }
@@ -397,16 +398,16 @@ class Mail_mime
             $err = PEAR::raiseError('File is not readable: ' . $file_name);
             return $err;
         }
-        
+
         //Temporarily reset magic_quotes_runtime and read file contents
         if ($magic_quote_setting = get_magic_quotes_runtime()) {
             set_magic_quotes_runtime(0);
         }
-        $cont = file_get_contents($file_name);        
+        $cont = file_get_contents($file_name);
         if ($magic_quote_setting) {
             set_magic_quotes_runtime($magic_quote_setting);
         }
-        
+
         return $cont;
     }
 
@@ -471,7 +472,7 @@ class Mail_mime
     {
         $params                 = array();
         $params['content_type'] = 'multipart/mixed';
-        
+
         //Create empty multipart/mixed Mail_mimePart object to return
         $ret = new Mail_mimePart('', $params);
         return $ret;
@@ -538,16 +539,17 @@ class Mail_mime
         $params['disposition']  = 'inline';
         $params['dfilename']    = $value['name'];
         $params['cid']          = $value['cid'];
-	if ($value['name-encoding']) {
-	    $params['name-encoding'] = $value['name-encoding'];
-	}
-	if ($value['filename-encoding']) {
-	    $params['filename-encoding'] = $value['filename-encoding'];
-	}
-        
+
+        if (!empty($value['name-encoding'])) {
+            $params['name-encoding'] = $value['name-encoding'];
+        }
+        if (!empty($value['filename-encoding'])) {
+            $params['filename-encoding'] = $value['filename-encoding'];
+        }
+
         $ret = $obj->addSubpart($value['body'], $params);
         return $ret;
-    
+
     }
 
     /**
@@ -573,12 +575,12 @@ class Mail_mime
         if ($value['location']) {
             $params['location'] = $value['location'];
         }
-	if ($value['name-encoding']) {
-	    $params['name-encoding'] = $value['name-encoding'];
-	}
-	if ($value['filename-encoding']) {
-	    $params['filename-encoding'] = $value['filename-encoding'];
-	}
+        if ($value['name-encoding']) {
+            $params['name-encoding'] = $value['name-encoding'];
+        }
+        if ($value['filename-encoding']) {
+            $params['filename-encoding'] = $value['filename-encoding'];
+        }
         $params['content_type'] = $value['c_type'];
         $params['disposition']  = isset($value['disposition']) ? 
                                   $value['disposition'] : 'attachment';
@@ -605,9 +607,9 @@ class Mail_mime
      * @access public
      */
     function getMessage(
-                        $separation   = null, 
-                        $build_params = null, 
-                        $xtra_headers = null, 
+                        $separation   = null,
+                        $build_params = null,
+                        $xtra_headers = null,
                         $overwrite    = false
                        )
     {
@@ -658,7 +660,7 @@ class Mail_mime
                 $this->_build_params[$key] = $value;
             }
         }
-        
+
         if (isset($this->_headers['From'])){
             //Bug #11381: Illegal characters in domain ID
             if (preg_match("|(@[0-9a-zA-Z\-\.]+)|", $this->_headers['From'], $matches)){
@@ -670,7 +672,7 @@ class Mail_mime
                 $this->_html_images[$i]['cid'] = $this->_html_images[$i]['cid'] . $domainID;
             }
         }
-        
+
         if (count($this->_html_images) AND isset($this->_htmlbody)) {
             foreach ($this->_html_images as $key => $value) {
                 $regex   = array();
@@ -684,7 +686,7 @@ class Mail_mime
                 $rep[] = 'url(\1cid:' . $value['cid'] . '\1)';
 
                 $this->_htmlbody = preg_replace($regex, $rep, $this->_htmlbody);
-                $this->_html_images[$key]['name'] = 
+                $this->_html_images[$key]['name'] =
                     $this->_basename($this->_html_images[$key]['name']);
             }
         }
@@ -775,7 +777,7 @@ class Mail_mime
 
         if (isset($message)) {
             $output = $message->encode();
-            
+
             $this->_headers = array_merge($this->_headers,
                                           $output['headers']);
             $body = $output['body'];
@@ -831,7 +833,7 @@ class Mail_mime
     function txtHeaders($xtra_headers = null, $overwrite = false)
     {
         $headers = $this->headers($xtra_headers, $overwrite);
-        
+
         $ret = '';
         foreach ($headers as $key => $val) {
             $ret .= "$key: $val" . MAIL_MIME_CRLF;
@@ -943,11 +945,11 @@ class Mail_mime
         //$hdr_value_out: The recombined $hdr_val-atoms, or the encoded string.
         //Note: Atom as specified here is not exactly the same as an RFC822 atom,
         //as $atom's may contain just a single space.
-                
-        $useIconv = true;        
+
+        $useIconv = true;
         if (isset($build_params['ignore-iconv'])) {
             $useIconv = !$build_params['ignore-iconv'];
-        }            
+        }
         foreach ($input as $hdr_name => $hdr_value) {
             /*
             $parts = preg_split('/([ ])/', $hdr_value, -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -977,14 +979,14 @@ class Mail_mime
                     $imePrefs['output-charset'] = $build_params['head_charset'];
                     $imePrefs['line-length'] = 74;
                     $imePrefs['line-break-chars'] = "\r\n"; //Specified in RFC2047
-                    
+
                     $hdr_value = iconv_mime_encode($hdr_name, $hdr_value, $imePrefs);
                     $hdr_value = preg_replace("#^{$hdr_name}\:\ #", "", $hdr_value);
                 } elseif ($build_params['head_encoding'] == 'base64') {
                     //Base64 encoding has been selected.
                     //Base64 encode the entire string
                     $hdr_value = base64_encode($hdr_value);
-                    
+
                     //Generate the header using the specified params and dynamicly 
                     //determine the maximum length of such strings.
                     //75 is the value specified in the RFC. The first -2 is there so 
@@ -1000,7 +1002,7 @@ class Mail_mime
                     //we can get must be rounded down.
                     $maxLength = $maxLength - ($maxLength % 4);
                     $maxLength1stLine = $maxLength1stLine - ($maxLength1stLine % 4);
-                    
+
                     $cutpoint = $maxLength1stLine;
                     $hdr_value_out = $hdr_value;
                     $output = "";
@@ -1009,10 +1011,10 @@ class Mail_mime
                         $part = substr($hdr_value_out, 0, $cutpoint);
                         $hdr_value_out = substr($hdr_value_out, $cutpoint);
                         $cutpoint = $maxLength;
-                        //RFC 2047 specifies that any split header should 
+                        //RFC 2047 specifies that any split header should
                         //be seperated by a CRLF SPACE. 
                         if ($output) {
-                            $output .=  "\r\n ";
+                            $output .= "\r\n ";
                         }
                         $output .= $prefix . $part . $suffix;
                     }
@@ -1036,7 +1038,7 @@ class Mail_mime
                         $hdr_value = substr($hdr_value, 0, -1);
                         $quoteSuffix = '"';
                     }
-                    
+
                     //Generate the header using the specified params and dynamicly 
                     //determine the maximum length of such strings.
                     //75 is the value specified in the RFC. The -2 is there so 
@@ -1048,12 +1050,12 @@ class Mail_mime
                     $maxLength = 75 - strlen($prefix . $suffix) - 2 - 1;
                     $maxLength1stLine = $maxLength - strlen($hdr_name) - 2;
                     $maxLength = $maxLength - 1;
-                    
+
                     //Replace all special characters used by the encoder.
                     $search  = array('=',   '_',   '?',   ' ');
                     $replace = array('=3D', '=5F', '=3F', '_');
                     $hdr_value = str_replace($search, $replace, $hdr_value);
-                    
+
                     //Replace all extended characters (\x80-xFF) with their
                     //ASCII values.
                     $hdr_value = preg_replace('#([\x80-\xFF])#e',
@@ -1067,7 +1069,7 @@ class Mail_mime
                     //Fix for Bug #10298, Ota Mares <om@viazenetti.de>
                     //Concat the double quotes and encoded string together
                     $hdr_value = $quotePrefix . $hdr_value . $quoteSuffix;
-                    
+
                     $hdr_value_out = $hdr_value;
                     $realMax = $maxLength1stLine + strlen($prefix . $suffix);
                     if (strlen($hdr_value_out) >= $realMax) {
@@ -1078,11 +1080,11 @@ class Mail_mime
                             //Split translated string at every $maxLength
                             //But make sure not to break any translated chars.
                             $found = preg_match($reg, $hdr_value_out, $matches);
-                            
+
                             //After this first line, we need to use a different
                             //regexp for the first line.
                             $reg = $reg2nd;
-                            
+
                             //Save the found part and encapsulate it in the
                             //prefix & suffix. Then remove the part from the
                             //$hdr_value_out variable.
@@ -1094,11 +1096,11 @@ class Mail_mime
                                 $part = $hdr_value_out;
                                 $hdr_value_out = "";
                             }
-                            
+
                             //RFC 2047 specifies that any split header should 
                             //be seperated by a CRLF SPACE
                             if ($output) {
-                                $output .=  "\r\n ";
+                                $output .= "\r\n ";
                             }
                             $output .= $prefix . $part . $suffix;
                         }
@@ -1140,11 +1142,11 @@ class Mail_mime
      */
     function _basename($filename)
     {
-	// basename() is not unicode safe and locale dependent
-	if (stristr(PHP_OS, 'win') || stristr(PHP_OS, 'netware'))
-	    return preg_replace('/^.*[\\\\\\/]/', '', $filename);
-	else
-	    return preg_replace('/^.*[\/]/', '', $filename);
+        // basename() is not unicode safe and locale dependent
+        if (stristr(PHP_OS, 'win') || stristr(PHP_OS, 'netware'))
+            return preg_replace('/^.*[\\\\\\/]/', '', $filename);
+        else
+            return preg_replace('/^.*[\/]/', '', $filename);
     }
 
 } // End of class
