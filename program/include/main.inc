@@ -906,13 +906,15 @@ function format_date($date, $format=NULL)
   $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
   $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
 
-  // define date format depending on current time  
-  if ($CONFIG['prettydate'] && !$format && $timestamp > $today_limit && $timestamp < $now)
-    return sprintf('%s %s', rcube_label('today'), date($CONFIG['date_today'] ? $CONFIG['date_today'] : 'H:i', $timestamp));
-  else if ($CONFIG['prettydate'] && !$format && $timestamp > $week_limit && $timestamp < $now)
-    $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
-  else if (!$format)
-    $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';
+  // define date format depending on current time
+  if (!$format) {
+    if ($CONFIG['prettydate'] && $timestamp > $today_limit && $timestamp < $now)
+      return sprintf('%s %s', rcube_label('today'), date($CONFIG['date_today'] ? $CONFIG['date_today'] : 'H:i', $timestamp));
+    else if ($CONFIG['prettydate'] && $timestamp > $week_limit && $timestamp < $now)
+      $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
+    else
+      $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';
+    }
 
   // strftime() format
   if (preg_match('/%[a-z]+/i', $format))
