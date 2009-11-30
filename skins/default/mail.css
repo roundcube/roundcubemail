@@ -385,19 +385,6 @@ td.formlinks a:visited
 
 /** mailbox list styles */
 
-#mailboxlist-header
-{
-  display: block;
-  height: 12px;
-  margin: 0;
-  padding: 3px 10px 4px 10px;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
-  border-bottom: 1px solid #999;
-  color: #333333;
-  font-size: 11px;
-  font-weight: bold;  
-}
-
 #mailboxlist-container
 {
   position: absolute;
@@ -459,27 +446,27 @@ td.formlinks a:visited
 
 #mailboxlist li.inbox
 {
-  background-position: 5px -19px;
+  background-position: 5px -17px;
 }
 
 #mailboxlist li.drafts
 {
-  background-position: 5px -40px;
+  background-position: 5px -36px;
 }
 
 #mailboxlist li.sent
 {
-  background-position: 5px -60px;
+  background-position: 5px -54px;
 }
 
 #mailboxlist li.junk
 {
-  background-position: 5px -80px;
+  background-position: 5px -73px;
 }
 
 #mailboxlist li.trash
 {
-  background-position: 5px -100px;
+  background-position: 5px -90px;
 }
 
 #mailboxlist li a
@@ -661,7 +648,7 @@ body.messagelist
 
 #messagelist thead tr td
 {
-  height: 19px;
+  height: 20px;
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 2px;
