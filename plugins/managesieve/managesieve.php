@@ -61,11 +61,13 @@ class managesieve extends rcube_plugin
     require_once($this->home . '/lib/Net/Sieve.php');
     require_once($this->home . '/lib/rcube_sieve.php');
 
+    $host = str_replace('%h', $_SESSION['imap_host'], $this->rc->config->get('managesieve_host', 'localhost'));
+    $port = $this->rc->config->get('managesieve_port', 2000);
+
     // try to connect to managesieve server and to fetch the script
     $this->sieve = new rcube_sieve($_SESSION['username'],
 	$this->rc->decrypt($_SESSION['password']), 
-	str_replace('%h', $_SESSION['imap_host'], $this->rc->config->get('managesieve_host', 'localhost')),
-	$this->rc->config->get('managesieve_port', 2000),
+	$host, $port,
 	$this->rc->config->get('managesieve_usetls', false),
 	$this->rc->config->get('managesieve_disabled_extensions'),
 	$this->rc->config->get('managesieve_debug', false)
@@ -120,6 +122,9 @@ class managesieve extends rcube_plugin
           $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
 	break;
       }
+
+      raise_error(array('code' => 403, 'type' => 'php', 'message' => "Unable to connect to managesieve on $host:$port"), true, false);
+
       // to disable 'Add filter' button set env variable
       $this->rc->output->set_env('filterconnerror', true);
       $this->script = array();
@@ -547,10 +552,12 @@ class managesieve extends rcube_plugin
   
     $select = new html_select(array('name' => '_set', 'id' => $attrib['id'], 'onchange' => 'rcmail.managesieve_set()'));
 
-    asort($list, SORT_LOCALE_STRING);
+    if ($list) {
+      asort($list, SORT_LOCALE_STRING);
 
-    foreach($list as $set)
-      $select->add($set . ($set == $active ? ' ('.$this->gettext('active').')' : ''), $set);
+      foreach($list as $set)
+        $select->add($set . ($set == $active ? ' ('.$this->gettext('active').')' : ''), $set);
+    }
     
     $out = $select->show($this->sieve->current);
     
