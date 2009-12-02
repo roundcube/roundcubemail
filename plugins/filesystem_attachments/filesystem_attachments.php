@@ -52,8 +52,7 @@ class filesystem_attachments extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         // use common temp dir for file uploads
-        // #1484529: we need absolute path on Windows for move_uploaded_file()
-        $temp_dir = realpath($rcmail->config->get('temp_dir'));
+        $temp_dir = $rcmail->config->get('temp_dir');
         $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
 
         if (move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
@@ -77,7 +76,7 @@ class filesystem_attachments extends rcube_plugin
 
         if (!$args['path']) {
             $rcmail = rcmail::get_instance();
-            $temp_dir = unslashify($rcmail->config->get('temp_dir'));
+            $temp_dir = $rcmail->config->get('temp_dir');
             $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
 
             if ($fp = fopen($tmp_path, 'w')) {
