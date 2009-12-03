@@ -3833,7 +3833,7 @@ function rcube_webmail()
         cell.id = 'rcm'+col;
         }
       else if (col == 'subject' && this.message_list)
-        this.message_list.subject_col = n;
+        this.message_list.subject_col = n+1;
       }
   };
 
