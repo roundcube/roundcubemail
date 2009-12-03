@@ -111,5 +111,6 @@ $messages['smtprecipientserror'] = 'Błąd SMTP: Parsowanie listy odbiorców nie
 $messages['smtperror'] = 'Błąd SMTP: $msg';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
 $messages['emailformaterror'] = 'Błędny adres e-mail: $email';
+$messages['notuploadedwarning'] = 'Nie wszystkie załączniki zostały pobrane. Poczekaj lub anuluj pobieranie.';
 
 ?>
