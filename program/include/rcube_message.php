@@ -350,14 +350,13 @@ class rcube_message
         else if (($primary_type == 'text' && ($secondary_type == 'plain' || $secondary_type == 'html') && $mail_part->disposition != 'attachment') ||
                  ($primary_type == 'message' && ($secondary_type == 'delivery-status' || $secondary_type == 'disposition-notification'))) {
 
-          // add text part if we're not in alternative mode or if it matches the prefs
-          if (!$this->parse_alternative ||
-              ($secondary_type == 'html' && $this->opt['prefer_html']) ||
+          // add text part if it matches the prefs
+          if (($secondary_type == 'html' && $this->opt['prefer_html']) ||
               ($secondary_type == 'plain' && !$this->opt['prefer_html'])) {
             $mail_part->type = 'content';
             $this->parts[] = $mail_part;
           }
-
+          
           // list as attachment as well
           if (!empty($mail_part->filename))
             $this->attachments[] = $mail_part;

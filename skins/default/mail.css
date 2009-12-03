@@ -972,7 +972,8 @@ table.headers-table tr td.more-headers
   background-color: #FFFFFF;
 }
 
-div.message-part
+div.message-part,
+div.message-htmlpart
 {
   padding: 10px 8px;
   border-top: 1px solid #ccc;
