@@ -226,9 +226,10 @@ class Net_SMTP
     {
         $this->_debug("Send: $data");
 
-        if (PEAR::isError($error = $this->_socket->write($data))) {
-            return PEAR::raiseError('Failed to write to socket: ' .
-                                    $error->getMessage());
+        $error = $this->_socket->write($data);
+        if ($error === false || PEAR::isError($error)) {
+            $msg = ($error) ? $error->getMessage() : "unknown error";
+            return PEAR::raiseError("Failed to write to socket: $msg");
         }
 
         return true;
