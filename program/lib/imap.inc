@@ -234,7 +234,7 @@ function iil_ReadLine($fp, $size=1024) {
 	$line = '';
 
 	if (!$fp) {
-    		return $line;
+    		return NULL;
 	}
     
 	if (!$size) {
@@ -242,6 +242,10 @@ function iil_ReadLine($fp, $size=1024) {
 	}
     
 	do {
+		if (feof($fp)) {
+			return $line ? $line : NULL;
+		}
+		
     		$buffer = fgets($fp, $size);
 
     		if ($buffer === false) {
@@ -264,6 +268,8 @@ function iil_MultLine($fp, $line, $escape=false) {
 		$bytes = $a[2][0];
 		while (strlen($out) < $bytes) {
 			$line = iil_ReadBytes($fp, $bytes); 
+			if ($line === NULL)
+				break;
 			$out .= $line;
 		}
 
@@ -276,7 +282,8 @@ function iil_ReadBytes($fp, $bytes) {
 	global $my_prefs;
 	$data = '';
 	$len  = 0;
-	do {
+	while ($len < $bytes && !feof($fp))
+	{
 		$d = fread($fp, $bytes-$len);
 		if (!empty($my_prefs['debug_mode']))
 			write_log('imap', 'S: '. $d);
@@ -286,7 +293,7 @@ function iil_ReadBytes($fp, $bytes) {
     		        break; //nothing was read -> exit to avoid apache lockups
     		}
     		$len = $data_len;
-	} while ($len < $bytes);
+	};
 	
 	return $data;
 }
@@ -716,7 +723,8 @@ function iil_Connect($host, $user, $password, $options=null) {
 
 function iil_Close(&$conn) {
 	if (iil_PutLine($conn->fp, "I LOGOUT")) {
-		fgets($conn->fp, 1024);
+		if (!feof($conn->fp))
+			fgets($conn->fp, 1024);
 		fclose($conn->fp);
 		$conn->fp = false;
 	}
