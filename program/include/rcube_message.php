@@ -225,7 +225,7 @@ class rcube_message
    * @param object rcube_message_part Message structure node
    * @param bool  True when called recursively
    */
-  private function parse_structure($structure, $recursive = false)
+  private function parse_structure($structure, $recursive = false, $alternative = false)
   {
     $message_ctype_primary = strtolower($structure->ctype_primary);
     $message_ctype_secondary = strtolower($structure->ctype_secondary);
@@ -351,7 +351,8 @@ class rcube_message
                  ($primary_type == 'message' && ($secondary_type == 'delivery-status' || $secondary_type == 'disposition-notification'))) {
 
           // add text part if it matches the prefs
-          if (($secondary_type == 'html' && $this->opt['prefer_html']) ||
+          if ((!$this->parse_alternative && !$alternative) ||
+              ($secondary_type == 'html' && $this->opt['prefer_html']) ||
               ($secondary_type == 'plain' && !$this->opt['prefer_html'])) {
             $mail_part->type = 'content';
             $this->parts[] = $mail_part;
@@ -363,8 +364,19 @@ class rcube_message
         }
         // part message/*
         else if ($primary_type=='message') {
-          $this->parse_structure($mail_part, true);
-          
+          // let's try to find out if message/rfc822 is a multipart/alternative
+          if ($secondary_type == 'rfc822' && is_array($mail_part->parts) && count($mail_part->parts) > 1) {
+            $types = array();
+            // iterate over parts to find its types and count them by type
+            for ($j=0; $j < count($mail_part->parts); $j++) {
+              $_type = strtolower($mail_part->parts[$j]->ctype_primary).'/'.strtolower($mail_part->parts[$j]->ctype_secondary);
+              $types[$_type] = $types[$_type] ? $types[$_type]+1 : 1;
+            }
+            if ($types['text/plain'] == 1 && $types['text/html'] == 1)
+              $_alternative = true;
+          }
+          $this->parse_structure($mail_part, true, $_alternative);
+
           // list as attachment as well (mostly .eml)
           if (!empty($mail_part->filename))
             $this->attachments[] = $mail_part;
