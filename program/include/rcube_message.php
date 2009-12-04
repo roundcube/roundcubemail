@@ -224,8 +224,9 @@ class rcube_message
    *
    * @param object rcube_message_part Message structure node
    * @param bool  True when called recursively
+   * @param bool  True when message should be parsed as message/alternative
    */
-  private function parse_structure($structure, $recursive = false, $alternative = false)
+  private function parse_structure($structure, $recursive = false, $force_alternative = false)
   {
     $message_ctype_primary = strtolower($structure->ctype_primary);
     $message_ctype_secondary = strtolower($structure->ctype_secondary);
@@ -351,7 +352,7 @@ class rcube_message
                  ($primary_type == 'message' && ($secondary_type == 'delivery-status' || $secondary_type == 'disposition-notification'))) {
 
           // add text part if it matches the prefs
-          if ((!$this->parse_alternative && !$alternative) ||
+          if ((!$this->parse_alternative && !$force_alternative) ||
               ($secondary_type == 'html' && $this->opt['prefer_html']) ||
               ($secondary_type == 'plain' && !$this->opt['prefer_html'])) {
             $mail_part->type = 'content';
