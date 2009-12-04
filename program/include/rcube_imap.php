@@ -1368,7 +1368,7 @@ class rcube_imap
     }
 
     if ($struct->ctype_primary=='message') {
-      if (is_array($part[8]) && empty($struct->parts))
+      if (is_array($part[8]) && $di != 8 && empty($struct->parts))
         $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
     }
 
