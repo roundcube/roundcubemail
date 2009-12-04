@@ -2374,7 +2374,7 @@ function rcube_webmail()
       // move cursor before the signature
       this.set_caret_pos(input_message.get(0), cursor_pos);
     }
-    else if (is_html && this.env.signatures) {  // html
+    else if (is_html && show_sig && this.env.signatures) {  // html
       var editor = tinyMCE.get(this.env.composebody);
       var sigElem = editor.dom.get('_rc_sig');
 
