@@ -444,10 +444,11 @@ function rcmail_compose_body($attrib)
     // load draft message body
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT)
       $body = rcmail_create_draft_body($body, $isHtml);
-  }
-  else if (!empty($_SESSION['compose']['param']['body']))
-  {
-    $body = $_SESSION['compose']['param']['body'];
+
+    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body',
+      array('body' => $body, 'html' => $isHtml, 'mode' => $compose_mode));
+
+    $body = $plugin['body'];  
   }
 
   $out = $form_start ? "$form_start\n" : '';

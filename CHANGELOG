@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Plugin API: added 'message_compose_body' hook (#1486285)
 - Fix counters of all folders are checked in 'getunread' action  with check_all_folders disabled (#1486128)
 - Fix displaying alternative parts in messages of type message/rfc822 (#1486246)
 - Fix possible messages exposure when using Roundcube behind a proxy (#1486281)
