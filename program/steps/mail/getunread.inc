@@ -29,7 +29,7 @@ if (!empty($a_folders))
 
   foreach ($a_folders as $mbox_row) {
     if (!$check_all && isset($_SESSION['unseen_count'][$mbox_row]) && $mbox_row != $current)
-      $unseen = isset($_SESSION['unseen_count'][$mbox_row]);
+      $unseen = $_SESSION['unseen_count'][$mbox_row];
     else
       $unseen = $IMAP->messagecount($mbox_row, 'UNSEEN', !isset($_SESSION['unseen_count'][$mbox_row]));
 
