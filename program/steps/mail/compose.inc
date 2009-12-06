@@ -55,8 +55,8 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
   
   // pipe compose parameters thru plugins
   $plugin = $RCMAIL->plugins->exec_hook('message_compose', $_SESSION['compose']);
-  $_SESSION['compose']['param'] = $plugin['param'];
-  
+  $_SESSION['compose']['param'] = array_merge($_SESSION['compose']['param'], $plugin['param']);   
+
   // add attachments listed by message_compose hook
   if (is_array($plugin['attachments'])) {
     foreach ($plugin['attachments'] as $attach) {
