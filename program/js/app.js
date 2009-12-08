@@ -4192,7 +4192,7 @@ function rcube_webmail()
     var url = this.env.comm_path + '&_action=' + action + '&' + querystring
     
     // send request
-    console.log('HTTP POST: ' + url);
+    console.log('HTTP GET: ' + url);
     jQuery.get(url, { _unlock:(lock?1:0) }, function(data){ ref.http_response(data); }, 'json');
   };
 
