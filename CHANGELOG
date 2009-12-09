@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix parsing conditional comments in HTML messages (#1486350)
 - Use built-in json_encode() for proper JSON format in AJAX replies
 - Allow setting only selected params in 'message_compose' hook (#1486312)
 - Plugin API: added 'message_compose_body' hook (#1486285)

@@ -608,6 +608,7 @@ function rcmail_mailbox_name_display($attrib)
   return html::span($attrib, rcmail_get_mailbox_name_text());
 }
 
+
 function rcmail_get_mailbox_name_text()
 {
   global $RCMAIL;
@@ -630,7 +631,7 @@ function rcmail_send_unread_count($mbox_name, $force=false)
     
   return $unseen;
 }
-			      
+
 
 /**
  * Sets message is_safe flag according to 'show_images' option value
@@ -659,6 +660,7 @@ function rcmail_check_safe(&$message)
     }
   }
 }
+
 
 /**
  * Cleans up the given message HTML Body (for displaying)
@@ -791,6 +793,7 @@ function rcmail_print_body($part, $p = array())
   return $data['type'] == 'html' ? $data['body'] : html::tag('pre', array(), $data['body']);
 }
 
+
 /**
  * Handle links and citation marks in plain text message
  *
@@ -902,8 +905,8 @@ function rcmail_html_tag_callback($matches)
   $tagname = $matches[2];
 
   $tagname = preg_replace(array(
-    '/:.*$/',		// Microsoft's Smart Tags <st1:xxxx>
-    '/[^a-z0-9_-]/i',	// forbidden characters
+    '/:.*$/',			// Microsoft's Smart Tags <st1:xxxx>
+    '/[^a-z0-9_\[\]\!-]/i',	// forbidden characters
     ), '', $tagname);
 
   return $matches[1].$tagname;
