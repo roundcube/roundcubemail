@@ -414,12 +414,12 @@ class rcube_template extends rcube_html_page
     {
         $out = '';
         if (!$this->framed && !empty($this->js_env)) {
-            $out .= JS_OBJECT_NAME . '.set_env('.json_serialize($this->js_env).");\n";
+            $out .= JS_OBJECT_NAME . '.set_env('.json_encode($this->js_env).");\n";
         }
         foreach ($this->js_commands as $i => $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
-                $args[$i] = json_serialize($arg);
+                $args[$i] = json_encode($arg);
             }
             $parent = $this->framed || preg_match('/^parent\./', $method);
             $out .= sprintf(

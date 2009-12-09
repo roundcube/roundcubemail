@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Use built-in json_encode() for proper JSON format in AJAX replies
 - Allow setting only selected params in 'message_compose' hook (#1486312)
 - Plugin API: added 'message_compose_body' hook (#1486285)
 - Fix counters of all folders are checked in 'getunread' action  with check_all_folders disabled (#1486128)

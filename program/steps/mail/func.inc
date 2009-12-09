@@ -522,7 +522,7 @@ function rcmail_quota_display($attrib)
   
   if (is_array($quota)) {
     $OUTPUT->add_script('$(document).ready(function(){
-	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
+	rcmail.set_quota('.json_encode($quota).')});', 'foot');
     $quota = '';
     }
   
