@@ -414,7 +414,7 @@ td.formlinks a:visited
   display: block;
   position: relative;
   font-size: 11px;
-  background: url('images/icons/folders.png') 5px 1px no-repeat;
+  background: url('images/icons/folders.png') 5px 0 no-repeat;
   border-bottom: 1px solid #EBEBEB;
 }
 
@@ -423,7 +423,7 @@ td.formlinks a:visited
   position: absolute;
   left: 8px !important;
   left: -16px;
-  top: 2px;
+  top: 1px;
   width: 14px;
   height: 16px;
 }
@@ -446,12 +446,12 @@ td.formlinks a:visited
 
 #mailboxlist li.inbox
 {
-  background-position: 5px -17px;
+  background-position: 5px -18px;
 }
 
 #mailboxlist li.drafts
 {
-  background-position: 5px -36px;
+  background-position: 5px -37px;
 }
 
 #mailboxlist li.sent
@@ -466,7 +466,7 @@ td.formlinks a:visited
 
 #mailboxlist li.trash
 {
-  background-position: 5px -90px;
+  background-position: 5px -91px;
 }
 
 #mailboxlist li a
