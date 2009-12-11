@@ -510,7 +510,7 @@ function rc_utf8_clean($input)
   
   if (!is_string($input) || $input == '')
     return $input;
-  
+
   // iconv/mbstring are much faster (especially with long strings)
   if (function_exists('mb_convert_encoding') && ($res = mb_convert_encoding($input, 'UTF8', 'UTF8')))
     return $res;
@@ -562,6 +562,21 @@ function rc_utf8_clean($input)
 
   return $out;
 }
+
+
+/**
+ * Convert a variable into a javascript object notation
+ *
+ * @param mixed Input value
+ * @return string Serialized JSON string
+ */
+function json_serialize($input)
+{
+  $input = rc_utf8_clean($input);
+  
+  return json_encode($input);
+}
+
 
 /**
  * Explode quoted string

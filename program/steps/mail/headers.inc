@@ -24,11 +24,6 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_POST))
 
   if ($source)
     {
-    $browser = new rcube_browser;
-    
-    if ($browser->ie)
-      $source = rc_utf8_clean($source);	  
-
     $source = htmlspecialchars(trim($source));
     $source = preg_replace('/\t/', '&nbsp;&nbsp;&nbsp;&nbsp;', $source);
     $source = preg_replace('/^([a-z0-9_:-]+)/im', '<font class="bold">'.'\1'.'</font>', $source);

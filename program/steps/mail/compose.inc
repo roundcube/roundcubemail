@@ -505,7 +505,7 @@ function rcmail_compose_body($attrib)
       JQ(Q(rcube_label('close'))),
       JQ(Q(rcube_label('revertto'))),
       JQ(Q(rcube_label('nospellerrors'))),
-      json_encode($spellcheck_langs),
+      json_serialize($spellcheck_langs),
       $lang,
       $attrib['id'],
       JS_OBJECT_NAME), 'foot');

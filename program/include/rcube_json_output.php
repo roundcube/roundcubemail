@@ -239,7 +239,7 @@ class rcube_json_output
         if (!empty($this->callbacks))
           $response['callbacks'] = $this->callbacks;
 
-        echo json_encode($response);
+        echo json_serialize($response);
     }
     
     
@@ -251,11 +251,11 @@ class rcube_json_output
     private function get_js_commands()
     {
         $out = '';
-        
+
         foreach ($this->commands as $i => $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
-                $args[$i] = json_encode($arg);
+                $args[$i] = json_serialize($arg);
             }
 
             $out .= sprintf(

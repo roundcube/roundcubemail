@@ -458,9 +458,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE)
     if ($header->flagged)
       $a_msg_flags['flagged'] = 1;
       
-    if ($browser->ie)
-      $a_msg_cols = rc_utf8_clean($a_msg_cols);
-    
     $OUTPUT->command('add_message_row',
       $header->uid,
       $a_msg_cols,
@@ -522,7 +519,7 @@ function rcmail_quota_display($attrib)
   
   if (is_array($quota)) {
     $OUTPUT->add_script('$(document).ready(function(){
-	rcmail.set_quota('.json_encode($quota).')});', 'foot');
+	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
     $quota = '';
     }
   
