@@ -47,10 +47,10 @@ ALTER TABLE `users`
 
 -- Updates from version 0.3-stable
 
+TRUNCATE `messages`;
+
 ALTER TABLE `messages`
     ADD INDEX `index_index` (`user_id`, `cache_key`, `idx`);
-
-TRUNCATE `messages`;
 
 ALTER TABLE `session` 
     CHANGE `vars` `vars` MEDIUMTEXT NOT NULL;
