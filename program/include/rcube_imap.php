@@ -1281,13 +1281,15 @@ class rcube_imap
       // build parts list for headers pre-fetching
       for ($i=0, $count=0; $i<count($part); $i++)
         if (is_array($part[$i]) && count($part[$i]) > 3)
-	  // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
-	  if (strtolower($part[$i][0]) == 'message' ||
-	    (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL'))) {
+          // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
+	  if (!is_array($part[$i][0]) && (strtolower($part[$i][0]) == 'message' ||
+	    (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')))) {
 	    $part_headers[] = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
 	    }
 
       // pre-fetch headers of all parts (in one command for better performance)
+      // @TODO: we could do this before _structure_part() call, to fetch
+      // headers for parts on all levels
       if ($part_headers)
         $part_headers = iil_C_FetchMIMEHeaders($this->conn, $this->mailbox, $this->_msg_id, $part_headers);
 
@@ -1300,8 +1302,8 @@ class rcube_imap
 
       return $struct;
       }
-    
-    
+
+
     // regular part
     $struct->ctype_primary = strtolower($part[0]);
     $struct->ctype_secondary = strtolower($part[1]);
