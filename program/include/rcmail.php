@@ -1061,6 +1061,9 @@ class rcmail
    */
   public static function setcookie($name, $value, $exp = 0)
   {
+    if (headers_sent())
+      return;
+
     $cookie = session_get_cookie_params();
     setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'],
       rcube_https_check(), true);
