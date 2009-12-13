@@ -113,7 +113,7 @@ else
     rcmail_send_unread_count($target, true);
   }
 
-  $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
+  $OUTPUT->command('set_quota', rcmail_quota_content());
   $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
   // add new rows from next page (if any)

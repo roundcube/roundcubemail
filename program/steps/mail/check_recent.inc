@@ -46,7 +46,7 @@ foreach ($a_mailboxes as $mbox_name) {
         $OUTPUT->command('new_message_focus');
 
       if (!empty($_GET['_quota']))
-        $OUTPUT->command('set_quota', rcmail_quota_content($IMAP->get_quota()));
+        $OUTPUT->command('set_quota', rcmail_quota_content());
 
       // trigger plugin hook
       $RCMAIL->plugins->exec_hook('new_messages', array('mailbox' => $mbox_name, 'count' => $unread_count));

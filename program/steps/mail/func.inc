@@ -515,7 +515,7 @@ function rcmail_quota_display($attrib)
 
   $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
   
-  $quota = rcmail_quota_content(NULL, $attrib);
+  $quota = rcmail_quota_content($attrib);
   
   if (is_array($quota)) {
     $OUTPUT->add_script('$(document).ready(function(){
@@ -527,30 +527,33 @@ function rcmail_quota_display($attrib)
   }
 
 
-function rcmail_quota_content($quota=NULL, $attrib=NULL)
+function rcmail_quota_content($attrib=NULL)
   {
-  global $IMAP, $COMM_PATH, $RCMAIL;
+  global $COMM_PATH, $RCMAIL;
 
   $display = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
-  if (empty($quota)) {
-    if (!$IMAP->get_capability('QUOTA'))
-      return rcube_label('unknown');
-    else 
-      $quota = $IMAP->get_quota();
-    }
+  $quota = $RCMAIL->imap->get_quota();
+  $quota = $RCMAIL->plugins->exec_hook('quota', $quota);
 
-  if ($quota && !($quota['total']==0 && $RCMAIL->config->get('quota_zero_as_unlimited')))
+  if (!isset($quota['used']) || !isset($quota['total']))
+    return rcube_label('unknown');
+
+  if (!($quota['total']==0 && $RCMAIL->config->get('quota_zero_as_unlimited')))
     {
+    if (!isset($quota['percent']))
+      $quota['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
+    
     $quota_result = sprintf('%s / %s (%.0f%%)',
         show_bytes($quota['used'] * 1024), show_bytes($quota['total'] * 1024),
         $quota['percent']);
 
     if ($display == 'image') {
-      $quota_result = array(	    
+      $quota_result = array(
     	'percent' 	=> $quota['percent'],
         'title'		=> $quota_result,
 	);
+
       if ($attrib['width'])
         $quota_result['width'] = $attrib['width'];
       if ($attrib['height'])
@@ -733,7 +736,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
 
   $html = $washer->wash($html);
   $REMOTE_OBJECTS = $washer->extlinks;
-  
+
   return $html;
 }
 
