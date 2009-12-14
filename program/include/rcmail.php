@@ -636,25 +636,14 @@ class rcmail
       $attrib = array('name' => $attrib);
 
     $nr = is_numeric($attrib['nr']) ? $attrib['nr'] : 1;
-    $vars = isset($attrib['vars']) ? $attrib['vars'] : '';
+    $name = $attrib['name'] ? $attrib['name'] : '';
 
-    $command_name = !empty($attrib['command']) ? $attrib['command'] : NULL;
-    $alias = $attrib['name'] ? $attrib['name'] : ($command_name && $command_label_map[$command_name] ? $command_label_map[$command_name] : '');
-    
     // check for text with domain
-    if ($domain && ($text_item = $this->texts[$domain.'.'.$alias]))
+    if ($domain && ($text_item = $this->texts[$domain.'.'.$name]))
       ;
     // text does not exist
-    else if (!($text_item = $this->texts[$alias])) {
-      /*
-      raise_error(array(
-        'code' => 500,
-        'type' => 'php',
-        'line' => __LINE__,
-        'file' => __FILE__,
-        'message' => "Missing localized text for '$alias' in '$sess_user_lang'"), TRUE, FALSE);
-      */
-      return "[$alias]";
+    else if (!($text_item = $this->texts[$name])) {
+      return "[$name]";
     }
 
     // make text item array 
@@ -684,11 +673,8 @@ class rcmail
     // replace vars in text
     if (is_array($attrib['vars'])) {
       foreach ($attrib['vars'] as $var_key => $var_value)
-        $a_replace_vars[$var_key{0}=='$' ? substr($var_key, 1) : $var_key] = $var_value;
+        $text = str_replace($var_key[0]!='$' ? '$'.$var_key : $var_key, $var_value, $text);
     }
-
-    if ($a_replace_vars)
-      $text = preg_replace('/\$\{?([_a-z]{1}[_a-z0-9]*)\}?/ei', '$a_replace_vars["\1"]', $text);
 
     // format output
     if (($attrib['uppercase'] && strtolower($attrib['uppercase']=='first')) || $attrib['ucfirst'])
