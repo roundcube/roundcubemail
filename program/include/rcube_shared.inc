@@ -512,10 +512,10 @@ function rc_utf8_clean($input)
     return $input;
 
   // iconv/mbstring are much faster (especially with long strings)
-  if (function_exists('mb_convert_encoding') && ($res = mb_convert_encoding($input, 'UTF8', 'UTF8')))
+  if (function_exists('mb_convert_encoding') && ($res = mb_convert_encoding($input, 'UTF8', 'UTF8')) !== false)
     return $res;
 
-  if (function_exists('iconv') && ($res = iconv('UTF8', 'UTF8//IGNORE', $input)))
+  if (function_exists('iconv') && ($res = iconv('UTF8', 'UTF8//IGNORE', $input)) !== false)
     return $res;
 
   $regexp = '/^('.
@@ -573,7 +573,7 @@ function rc_utf8_clean($input)
 function json_serialize($input)
 {
   $input = rc_utf8_clean($input);
-  
+
   return json_encode($input);
 }
 
