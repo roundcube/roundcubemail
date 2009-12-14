@@ -181,6 +181,9 @@ class rcube_plugin_api
    */
   public function exec_hook($hook, $args = array())
   {
+    if (!is_array($args))
+      $args = array('arg' => $args);
+
     $args += array('abort' => false);
     $this->active_hook = $hook;
     
