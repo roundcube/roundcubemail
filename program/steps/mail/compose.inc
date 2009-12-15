@@ -615,7 +615,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
     $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
     $prefix = sprintf(
-      "<br><br>-------- Original Message --------" .
+      "<p></p><p>-------- Original Message --------</p>" .
         "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Subject: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Date: </th><td>%s</td></tr>" .
