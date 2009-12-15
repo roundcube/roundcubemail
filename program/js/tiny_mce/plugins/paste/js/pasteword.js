@@ -13,12 +13,12 @@ var PasteWordDialog = {
 		css = [ed.baseURI.toAbsolute("themes/" + ed.settings.theme + "/skins/" + ed.settings.skin + "/content.css")];
 		css = css.concat(tinymce.explode(ed.settings.content_css) || []);
 		tinymce.each(css, function(u) {
-			cssHTML += '<link href="' + ed.documentBaseURI.toAbsolute(u) + '" rel="stylesheet" type="text/css" />';
+			cssHTML += '<link href="' + ed.documentBaseURI.toAbsolute('' + u) + '" rel="stylesheet" type="text/css" />';
 		});
 
 		// Write content into iframe
 		doc.open();
-		doc.write('<html><head>' + cssHTML + '</head><body spellcheck="false"></body></html>');
+		doc.write('<html><head>' + cssHTML + '</head><body class="mceContentBody" spellcheck="false"></body></html>');
 		doc.close();
 
 		doc.designMode = 'on';
@@ -32,7 +32,7 @@ var PasteWordDialog = {
 	insert : function() {
 		var h = document.getElementById('iframe').contentWindow.document.body.innerHTML;
 
-		tinyMCEPopup.editor.execCommand('mceInsertClipboardContent', false, h);
+		tinyMCEPopup.editor.execCommand('mceInsertClipboardContent', false, {content : h, wordContent : true});
 		tinyMCEPopup.close();
 	},
 

@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 1104 2009-04-22 12:16:47Z spocke $
+ * $Id: editor_plugin_src.js 1225 2009-09-07 19:06:19Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -34,8 +34,8 @@
 			});
 
 			// This function executes the process handlers and inserts the contents
-			function process(h) {
-				var dom = ed.dom, o = {content : h};
+			function process(o) {
+				var dom = ed.dom;
 
 				// Execute pre process handlers
 				t.onPreProcess.dispatch(t, o);
@@ -49,7 +49,7 @@
 				// Serialize content
 				o.content = ed.serializer.serialize(o.node, {getInner : 1});
 
-				// Insert cleaned content. We need to handle insertion of contents containing block elements separatly
+				//  Insert cleaned content. We need to handle insertion of contents containing block elements separately
 				if (/<(p|h[1-6]|ul|ol)/.test(o.content))
 					t._insertBlockContent(ed, dom, o.content);
 				else
@@ -57,8 +57,8 @@
 			};
 
 			// Add command for external usage
-			ed.addCommand('mceInsertClipboardContent', function(u, v) {
-				process(v);
+			ed.addCommand('mceInsertClipboardContent', function(u, o) {
+				process(o);
 			});
 
 			// This function grabs the contents from the clipboard by adding a
@@ -71,7 +71,7 @@
 					return;
 
 				// Create container to paste into
-				n = dom.add(body, 'div', {id : '_mcePaste'}, '&nbsp;');
+				n = dom.add(body, 'div', {id : '_mcePaste'}, '\uFEFF');
 
 				// If contentEditable mode we need to find out the position of the closest element
 				if (body != ed.getDoc().body)
@@ -98,9 +98,18 @@
 					// Remove container
 					dom.remove(n);
 
-					// Process contents
-					process(n.innerHTML);
+					// Check if the contents was changed, if it wasn't then clipboard extraction failed probably due
+					// to IE security settings so we pass the junk though better than nothing right
+					if (n.innerHTML === '\uFEFF') {
+						ed.execCommand('mcePasteWord');
+						e.preventDefault();
+						return;
+					}
 
+					// Process contents
+					process({content : n.innerHTML});
+
+					// Block the real paste event
 					return tinymce.dom.Event.cancel(e);
 				} else {
 					or = ed.selection.getRng();
@@ -114,26 +123,23 @@
 
 					// Wait a while and grab the pasted contents
 					window.setTimeout(function() {
-						var n = dom.get('_mcePaste'), h;
+						var h = '', nl = dom.select('div[id=_mcePaste]');
 
-						// Webkit clones the _mcePaste div for some odd reason so this will ensure that we get the real new div not the old empty one
-						n.id = '_mceRemoved';
-						dom.remove(n);
-						n = dom.get('_mcePaste') || n;
+						// WebKit will split the div into multiple ones so this will loop through then all and join them to get the whole HTML string
+						each(nl, function(n) {
+							h += (dom.select('> span.Apple-style-span div', n)[0] || dom.select('> span.Apple-style-span', n)[0] || n).innerHTML;
+						});
 
-						// Grab the HTML contents
-						// We need to look for a apple style wrapper on webkit it also adds a div wrapper if you copy/paste the body of the editor
-						// It's amazing how strange the contentEditable mode works in WebKit
-						h = (dom.select('> span.Apple-style-span div', n)[0] || dom.select('> span.Apple-style-span', n)[0] || n).innerHTML;
-
-						// Remove hidden div and restore selection
-						dom.remove(n);
+						// Remove the nodes
+						each(nl, function(n) {
+							dom.remove(n);
+						});
 
 						// Restore the old selection
 						if (or)
 							sel.setRng(or);
 
-						process(h);
+						process({content : h});
 					}, 0);
 				}
 			};
@@ -154,6 +160,18 @@
 				}
 			}
 
+			// Block all drag/drop events
+			if (ed.getParam('paste_block_drop')) {
+				ed.onInit.add(function() {
+					ed.dom.bind(ed.getBody(), ['dragend', 'dragover', 'draggesture', 'dragdrop', 'drop', 'drag'], function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						return false;
+					});
+				});
+			}
+
 			// Add legacy support
 			t._legacySupport();
 		},
@@ -169,7 +187,7 @@
 		},
 
 		_preProcess : function(pl, o) {
-			var h = o.content, process;
+			var ed = this.editor, h = o.content, process, stripClass;
 
 			//console.log('Before preprocess:' + o.content);
 
@@ -183,27 +201,78 @@
 				});
 			};
 
-			// Process away some basic content
-			process([
-				/^\s*(&nbsp;)+/g,											// nbsp entities at the start of contents
-				/(&nbsp;|<br[^>]*>)+\s*$/g									// nbsp entities at the end of contents
-			]);
-
-			// Detect Word content and process it more agressive
-			if (/(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/.test(h)) {
+			// Detect Word content and process it more aggressive
+			if (/(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/.test(h) || o.wordContent) {
 				o.wordContent = true; // Mark the pasted contents as word specific content
 				//console.log('Word contents detected.');
 
+				// Process away some basic content
+				process([
+					/^\s*(&nbsp;)+/g,											// nbsp entities at the start of contents
+					/(&nbsp;|<br[^>]*>)+\s*$/g									// nbsp entities at the end of contents
+				]);
+
+				if (ed.getParam('paste_convert_middot_lists', true)) {
+					process([
+						[/<!--\[if !supportLists\]-->/gi, '$&__MCE_ITEM__'],			// Convert supportLists to a list item marker
+						[/(<span[^>]+:\s*symbol[^>]+>)/gi, '$1__MCE_ITEM__'],				// Convert symbol spans to list items
+						[/(<span[^>]+mso-list:[^>]+>)/gi, '$1__MCE_ITEM__']				// Convert mso-list to item marker
+					]);
+				}
+
 				process([
 					/<!--[\s\S]+?-->/gi,												// Word comments
-					/<\/?(img|font|meta|link|style|span|div|v:\w+)[^>]*>/gi,			// Remove some tags including VML content
+					/<\/?(img|font|meta|link|style|div|v:\w+)[^>]*>/gi,					// Remove some tags including VML content
 					/<\\?\?xml[^>]*>/gi,												// XML namespace declarations
 					/<\/?o:[^>]*>/gi,													// MS namespaced elements <o:tag>
-					/ (id|name|class|language|type|on\w+|v:\w+)=\"([^\"]*)\"/gi,	// on.., class, style and language attributes with quotes
-					/ (id|name|class|language|type|on\w+|v:\w+)=(\w+)/gi,			// on.., class, style and language attributes without quotes (IE)
+					/ (id|name|language|type|on\w+|v:\w+)=\"([^\"]*)\"/gi,				// on.., class, style and language attributes with quotes
+					/ (id|name|language|type|on\w+|v:\w+)=(\w+)/gi,						// on.., class, style and language attributes without quotes (IE)
 					[/<(\/?)s>/gi, '<$1strike>'],										// Convert <s> into <strike> for line-though
 					/<script[^>]+>[\s\S]*?<\/script>/gi,								// All scripts elements for msoShowComment for example
 					[/&nbsp;/g, '\u00a0']												// Replace nsbp entites to char since it's easier to handle
+				]);
+
+				// Remove all spans if no styles is to be retained
+				if (!ed.getParam('paste_retain_style_properties')) {
+					process([
+						/<\/?(span)[^>]*>/gi
+					]);
+				}
+			}
+
+			// Allow for class names to be retained if desired; either all, or just the ones from Word
+			// Note that the paste_strip_class_attributes: 'none, verify_css_classes: true is also a good variation.
+			stripClass = ed.getParam('paste_strip_class_attributes');
+			if (stripClass != 'none') {
+				// Cleans everything but mceItem... classes
+				function cleanClasses(str, cls) {
+					var i, out = '';
+
+					// Remove all classes
+					if (stripClass == 'all')
+						return '';
+
+					cls = tinymce.explode(cls, ' ');
+
+					for (i = cls.length - 1; i >= 0; i--) {
+						// Remove Mso classes
+						if (!/^(Mso)/i.test(cls[i]))
+							out += (!out ? '' : ' ') + cls[i];
+					}
+
+					return ' class="' + out + '"';
+				};
+
+				process([
+					[/ class=\"([^\"]*)\"/gi, cleanClasses],	// class attributes with quotes
+					[/ class=(\w+)/gi, cleanClasses]			// class attributes without quotes (IE)
+				]);
+			}
+
+			// Remove spans option
+			if (ed.getParam('paste_remove_spans')) {
+				process([
+					/<\/?(span)[^>]*>/gi
 				]);
 			}
 
@@ -216,7 +285,7 @@
 		 * Various post process items.
 		 */
 		_postProcess : function(pl, o) {
-			var t = this, dom = t.editor.dom;
+			var t = this, ed = t.editor, dom = ed.dom, styleProps;
 
 			if (o.wordContent) {
 				// Remove named anchors or TOC links
@@ -228,18 +297,55 @@
 				if (t.editor.getParam('paste_convert_middot_lists', true))
 					t._convertLists(pl, o);
 
-				// Remove all styles
+				// Process styles
+				styleProps = ed.getParam('paste_retain_style_properties'); // retained properties
+
+				// If string property then split it
+				if (tinymce.is(styleProps, 'string'))
+					styleProps = tinymce.explode(styleProps);
+
+				// Retains some style properties
 				each(dom.select('*', o.node), function(el) {
+					var newStyle = {}, npc = 0, i, sp, sv;
+
+					// Store a subset of the existing styles
+					if (styleProps) {
+						for (i = 0; i < styleProps.length; i++) {
+							sp = styleProps[i];
+							sv = dom.getStyle(el, sp);
+
+							if (sv) {
+								newStyle[sp] = sv;
+								npc++;
+							}
+						}
+					}
+
+					// Remove all of the existing styles
 					dom.setAttrib(el, 'style', '');
+
+					if (styleProps && npc > 0)
+						dom.setStyles(el, newStyle); // Add back the stored subset of styles
+					else // Remove empty span tags that do not have class attributes
+						if (el.nodeName == 'SPAN' && !el.className)
+							dom.remove(el, true);
 				});
 			}
 
-			if (tinymce.isWebKit) {
-				// We need to compress the styles on WebKit since if you paste <img border="0" /> it will become <img border="0" style="... lots of junk ..." />
-				// Removing the mce_style that contains the real value will force the Serializer engine to compress the styles
-				each(dom.select('*', o.node), function(el) {
+			// Remove all style information or only specifically on WebKit to avoid the style bug on that browser
+			if (ed.getParam("paste_remove_styles") || (ed.getParam("paste_remove_styles_if_webkit") && tinymce.isWebKit)) {
+				each(dom.select('*[style]', o.node), function(el) {
+					el.removeAttribute('style');
 					el.removeAttribute('mce_style');
 				});
+			} else {
+				if (tinymce.isWebKit) {
+					// We need to compress the styles on WebKit since if you paste <img border="0" /> it will become <img border="0" style="... lots of junk ..." />
+					// Removing the mce_style that contains the real value will force the Serializer engine to compress the styles
+					each(dom.select('*', o.node), function(el) {
+						el.removeAttribute('mce_style');
+					});
+				}
 			}
 		},
 
@@ -247,9 +353,9 @@
 		 * Converts the most common bullet and number formats in Office into a real semantic UL/LI list.
 		 */
 		_convertLists : function(pl, o) {
-			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType;
+			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
 
-			// Convert middot lists into real scemantic lists
+			// Convert middot lists into real semantic lists
 			each(dom.select('p', o.node), function(p) {
 				var sib, val = '', type, html, idx, parents;
 
@@ -257,12 +363,14 @@
 				for (sib = p.firstChild; sib && sib.nodeType == 3; sib = sib.nextSibling)
 					val += sib.nodeValue;
 
+				val = p.innerHTML.replace(/<\/?\w+[^>]*>/gi, '').replace(/&nbsp;/g, '\u00a0');
+
 				// Detect unordered lists look for bullets
-				if (/^[\u2022\u00b7\u00a7\u00d8o]\s*\u00a0\u00a0*/.test(val))
+				if (/^(__MCE_ITEM__)+[\u2022\u00b7\u00a7\u00d8o]\s*\u00a0*/.test(val))
 					type = 'ul';
 
 				// Detect ordered lists 1., a. or ixv.
-				if (/^[\s\S]*\w+\.[\s\S]*\u00a0{2,}/.test(val))
+				if (/^__MCE_ITEM__\s*\w+\.\s*\u00a0{2,}/.test(val))
 					type = 'ol';
 
 				// Check if node value matches the list pattern: o&nbsp;&nbsp;
@@ -287,11 +395,26 @@
 						}
 					}
 
-					if (type == 'ul')
-						html = p.innerHTML.replace(/^[\u2022\u00b7\u00a7\u00d8o]\s*(&nbsp;|\u00a0)+\s*/, '');
-					else
-						html = p.innerHTML.replace(/^[\s\S]*\w+\.(&nbsp;|\u00a0)+\s*/, '');
+					// Remove middot or number spans if they exists
+					each(dom.select('span', p), function(span) {
+						var html = span.innerHTML.replace(/<\/?\w+[^>]*>/gi, '');
 
+						// Remove span with the middot or the number
+						if (type == 'ul' && /^[\u2022\u00b7\u00a7\u00d8o]/.test(html))
+							dom.remove(span);
+						else if (/^[\s\S]*\w+\.(&nbsp;|\u00a0)*\s*/.test(html))
+							dom.remove(span);
+					});
+
+					html = p.innerHTML;
+
+					// Remove middot/list items
+					if (type == 'ul')
+						html = p.innerHTML.replace(/__MCE_ITEM__/g, '').replace(/^[\u2022\u00b7\u00a7\u00d8o]\s*(&nbsp;|\u00a0)+\s*/, '');
+					else
+						html = p.innerHTML.replace(/__MCE_ITEM__/g, '').replace(/^\s*\w+\.(&nbsp;|\u00a0)+\s*/, '');
+
+					// Create li and add paragraph data into the new li
 					li = listElm.appendChild(dom.create('li', 0, html));
 					dom.remove(p);
 
@@ -300,6 +423,11 @@
 				} else
 					listElm = lastMargin = 0; // End list element
 			});
+
+			// Remove any left over makers
+			html = o.node.innerHTML;
+			if (html.indexOf('__MCE_ITEM__') != -1)
+				o.node.innerHTML = html.replace(/__MCE_ITEM__/g, '');
 		},
 
 		/**
@@ -326,9 +454,10 @@
 			// Insert a marker for the caret position
 			this._insert('<span id="_marker">&nbsp;</span>', 1);
 			marker = dom.get('_marker');
-			parentBlock = dom.getParent(marker, 'p,h1,h2,h3,h4,h5,h6,ul,ol');
+			parentBlock = dom.getParent(marker, 'p,h1,h2,h3,h4,h5,h6,ul,ol,th,td');
 
-			if (parentBlock) {
+			// If it's a parent block but not a table cell
+			if (parentBlock && !/TD|TH/.test(parentBlock.nodeName)) {
 				// Split parent block
 				marker = dom.split(parentBlock, marker);
 
@@ -365,7 +494,8 @@
 			var ed = this.editor;
 
 			// First delete the contents seems to work better on WebKit
-			ed.execCommand('Delete');
+			if (!ed.selection.isCollapsed())
+				ed.getDoc().execCommand('Delete', false, null);
 
 			// It's better to use the insertHTML method on Gecko since it will combine paragraphs correctly before inserting the contents
 			ed.execCommand(tinymce.isGecko ? 'insertHTML' : 'mceInsertContent', false, h, {skip_undo : skip_undo});
@@ -382,8 +512,8 @@
 				ed.addCommand(cmd, function() {
 					ed.windowManager.open({
 						file : t.url + (cmd == 'mcePasteText' ? '/pastetext.htm' : '/pasteword.htm'),
-						width : 450,
-						height : 400,
+						width : parseInt(ed.getParam("paste_dialog_width", "450")),
+						height : parseInt(ed.getParam("paste_dialog_height", "400")),
 						inline : 1
 					});
 				});

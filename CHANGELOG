@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Updated TinyMCE to 3.2.7
 - Plugin API: added 'quota' hook
 - Fix parsing conditional comments in HTML messages (#1486350)
 - Use built-in json_encode() for proper JSON format in AJAX replies

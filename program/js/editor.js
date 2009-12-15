@@ -67,7 +67,7 @@ function rcmail_editor_callback(editor)
   if (input_from && input_from.type=='select-one')
     rcmail.change_identity(input_from);
   // set tabIndex
-  rcmail_editor_tabindex()
+  rcmail_editor_tabindex();
 }
 
 // set tabIndex on tinyMCE editor
