@@ -224,12 +224,20 @@ class rcube_message
    *
    * @param object rcube_message_part Message structure node
    * @param bool  True when called recursively
-   * @param bool  True when message should be parsed as message/alternative
    */
-  private function parse_structure($structure, $recursive = false, $force_alternative = false)
+  private function parse_structure($structure, $recursive = false)
   {
-    $message_ctype_primary = strtolower($structure->ctype_primary);
-    $message_ctype_secondary = strtolower($structure->ctype_secondary);
+    $message_ctype_primary = $structure->ctype_primary;
+    $message_ctype_secondary = $structure->ctype_secondary;
+    $mimetype = $structure->mimetype;
+
+    // real content-type of message/rfc822 part
+    if ($mimetype == 'message/rfc822') {
+      if ($structure->real_mimetype) {
+        $mimetype = $structure->real_mimetype;
+        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $mimetype);
+      }
+    }
 
     // show message headers
     if ($recursive && is_array($structure->headers) && isset($structure->headers['subject'])) {
@@ -245,28 +253,26 @@ class rcube_message
       $this->parts[] = &$structure;
     }
     // the same for pgp signed messages
-    else if ($message_ctype_primary == 'application' && $message_ctype_secondary == 'pgp' && !$recursive) {
+    else if ($mimetype == 'application/pgp' && !$recursive) {
       $structure->type = 'content';
       $this->parts[] = &$structure;
     }
     // message contains alternative parts
-    else if ($message_ctype_primary == 'multipart' && ($message_ctype_secondary == 'alternative') && is_array($structure->parts)) {
+    else if ($mimetype == 'multipart/alternative' && is_array($structure->parts)) {
       // get html/plaintext parts
       $plain_part = $html_part = $print_part = $related_part = null;
 
       foreach ($structure->parts as $p => $sub_part) {
-        $rel_parts = $attachmnts = null;
-        $sub_ctype_primary = strtolower($sub_part->ctype_primary);
-        $sub_ctype_secondary = strtolower($sub_part->ctype_secondary);
+        $sub_mimetype = $sub_part->mimetype;
         
-        // check if sub part is 
-        if ($sub_ctype_primary=='text' && $sub_ctype_secondary=='plain')
+        // check if sub part is
+        if ($sub_mimetype == 'text/plain')
           $plain_part = $p;
-        else if ($sub_ctype_primary=='text' && $sub_ctype_secondary=='html')
+        else if ($sub_mimetype == 'text/html')
           $html_part = $p;
-        else if ($sub_ctype_primary=='text' && $sub_ctype_secondary=='enriched')
+        else if ($sub_mimetype == 'text/enriched')
           $enriched_part = $p;
-        else if ($sub_ctype_primary=='multipart' && in_array($sub_ctype_secondary, array('related', 'mixed', 'alternative')))
+        else if (in_array($sub_mimetype, array('multipart/related', 'multipart/mixed', 'multipart/alternative')))
           $related_part = $p;
       }
 
@@ -318,7 +324,7 @@ class rcube_message
       }
     }
     // this is an ecrypted message -> create a plaintext body with the according message
-    else if ($message_ctype_primary == 'multipart' && $message_ctype_secondary == 'encrypted') {
+    else if ($mimetype == 'multipart/encrypted') {
       $p = new stdClass;
       $p->type = 'content';
       $p->ctype_primary = 'text';
@@ -340,19 +346,32 @@ class rcube_message
       // iterate over parts
       for ($i=0; $i < count($structure->parts); $i++) {
         $mail_part = &$structure->parts[$i];
-        $primary_type = strtolower($mail_part->ctype_primary);
-        $secondary_type = strtolower($mail_part->ctype_secondary);
+        $primary_type = $mail_part->ctype_primary;
+        $secondary_type = $mail_part->ctype_secondary;
+
+        // real content-type of message/rfc822
+        if ($mail_part->real_mimetype) {
+          $part_orig_mimetype = $mail_part->mimetype;
+          $part_mimetype = $mail_part->real_mimetype;
+          list($primary_type, $secondary_type) = explode('/', $part_mimetype);
+        }
+        else
+          $part_mimetype = $mail_part->mimetype;
 
         // multipart/alternative
         if ($primary_type=='multipart') {
           $this->parse_structure($mail_part, true);
+
+          // list message/rfc822 as attachment as well (mostly .eml)
+          if ($part_orig_mimetype == 'message/rfc822' && !empty($mail_part->filename))
+            $this->attachments[] = $mail_part;
         }
         // part text/[plain|html] OR message/delivery-status
-        else if (($primary_type == 'text' && ($secondary_type == 'plain' || $secondary_type == 'html') && $mail_part->disposition != 'attachment') ||
-                 ($primary_type == 'message' && ($secondary_type == 'delivery-status' || $secondary_type == 'disposition-notification'))) {
+        else if ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment') ||
+            $part_mimetype == 'message/delivery-status' || $part_mimetype == 'message/disposition-notification') {
 
           // add text part if it matches the prefs
-          if ((!$this->parse_alternative && !$force_alternative) ||
+          if (!$this->parse_alternative ||
               ($secondary_type == 'html' && $this->opt['prefer_html']) ||
               ($secondary_type == 'plain' && !$this->opt['prefer_html'])) {
             $mail_part->type = 'content';
@@ -365,18 +384,7 @@ class rcube_message
         }
         // part message/*
         else if ($primary_type=='message') {
-          // let's try to find out if message/rfc822 is a multipart/alternative
-          if ($secondary_type == 'rfc822' && is_array($mail_part->parts) && count($mail_part->parts) > 1) {
-            $types = array();
-            // iterate over parts to find its types and count them by type
-            for ($j=0; $j < count($mail_part->parts); $j++) {
-              $_type = strtolower($mail_part->parts[$j]->ctype_primary).'/'.strtolower($mail_part->parts[$j]->ctype_secondary);
-              $types[$_type] = $types[$_type] ? $types[$_type]+1 : 1;
-            }
-            if ($types['text/plain'] == 1 && $types['text/html'] == 1)
-              $_alternative = true;
-          }
-          $this->parse_structure($mail_part, true, $_alternative);
+          $this->parse_structure($mail_part, true);
 
           // list as attachment as well (mostly .eml)
           if (!empty($mail_part->filename))
@@ -387,7 +395,7 @@ class rcube_message
           continue;
           
         // part is Microsoft Outlook TNEF (winmail.dat)
-        else if ($primary_type == 'application' && $secondary_type == 'ms-tnef') {
+        else if ($part_mimetype == 'application/ms-tnef') {
           foreach ((array)$this->imap->tnef_decode($mail_part, $structure->headers['uid']) as $tnef_part) {
             $this->mime_parts[$tnef_part->mime_id] = $tnef_part;
             $this->attachments[] = $tnef_part;
@@ -403,8 +411,8 @@ class rcube_message
             continue;
 
           // part belongs to a related message and is linked
-          if ($message_ctype_secondary == 'related'
-              && preg_match('!^image/!', $mail_part->mimetype)
+          if ($mimetype == 'multipart/related'
+              && preg_match('!^image/!', $part_mimetype)
               && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
             if ($mail_part->headers['content-id'])
               $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
@@ -414,7 +422,7 @@ class rcube_message
             $this->inline_parts[] = $mail_part;
           }
           // is a regular attachment
-          else if (preg_match('!^[a-z]+/[a-z0-9-.+]+$!i', $mail_part->mimetype)) {
+          else if (preg_match('!^[a-z]+/[a-z0-9-.+]+$!i', $part_mimetype)) {
             if (!$mail_part->filename)
               $mail_part->filename = 'Part '.$mail_part->mime_id;
             $this->attachments[] = $mail_part;
@@ -423,7 +431,7 @@ class rcube_message
       }
 
       // if this was a related part try to resolve references
-      if ($message_ctype_secondary == 'related' && sizeof($this->inline_parts)) {
+      if ($mimetype == 'multipart/related' && sizeof($this->inline_parts)) {
         $a_replaces = array();
 
         foreach ($this->inline_parts as $inline_object) {
@@ -443,7 +451,7 @@ class rcube_message
       }
     }
 
-    // message is single part non-text
+    // message is a single part non-text
     else if ($structure->filename) {
       $this->attachments[] = $structure;
     }

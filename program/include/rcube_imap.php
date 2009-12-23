@@ -1258,7 +1258,7 @@ class rcube_imap
    *
    * @access private
    */
-  function &_structure_part($part, $count=0, $parent='', $raw_headers=null)
+  function &_structure_part($part, $count=0, $parent='', $mime_headers=null, $raw_headers=null)
     {
     $struct = new rcube_message_part;
     $struct->mime_id = empty($parent) ? (string)$count : "$parent.$count";
@@ -1280,24 +1280,37 @@ class rcube_imap
 
       // build parts list for headers pre-fetching
       for ($i=0, $count=0; $i<count($part); $i++)
-        if (is_array($part[$i]) && count($part[$i]) > 3)
+        if (is_array($part[$i]) && count($part[$i]) > 3) {
           // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
-	  if (!is_array($part[$i][0]) && (strtolower($part[$i][0]) == 'message' ||
-	    (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')))) {
-	    $part_headers[] = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
-	    }
-
+	  if (!is_array($part[$i][0])) {
+            $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
+            if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
+	      $raw_part_headers[] = $tmp_part_id;
+	      $mime_part_headers[] = $tmp_part_id;
+              }
+            else if (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')) {
+	      $mime_part_headers[] = $tmp_part_id;
+	      }
+            }
+          }
+        
       // pre-fetch headers of all parts (in one command for better performance)
       // @TODO: we could do this before _structure_part() call, to fetch
       // headers for parts on all levels
-      if ($part_headers)
-        $part_headers = iil_C_FetchMIMEHeaders($this->conn, $this->mailbox, $this->_msg_id, $part_headers);
+      if ($mime_part_headers)
+        $mime_part_headers = iil_C_FetchMIMEHeaders($this->conn, $this->mailbox,
+          $this->_msg_id, $mime_part_headers);
+      // we'll need a real content-type of message/rfc822 part
+      if ($raw_part_headers)
+        $raw_part_headers = iil_C_FetchMIMEHeaders($this->conn, $this->mailbox,
+          $this->_msg_id, $raw_part_headers, false);
 
       $struct->parts = array();
       for ($i=0, $count=0; $i<count($part); $i++)
         if (is_array($part[$i]) && count($part[$i]) > 3) {
+          $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
           $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id,
-		$part_headers[$struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1]);
+	    $mime_part_headers[$tmp_part_id], $raw_part_headers[$tmp_part_id]);
 	}
 
       return $struct;
@@ -1364,18 +1377,30 @@ class rcube_imap
     
     // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
     if ($struct->ctype_primary == 'message' || ($struct->ctype_parameters['name'] && !$struct->content_id)) {
-      if (empty($raw_headers))
-        $raw_headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $struct->mime_id);
-      $struct->headers = $this->_parse_headers($raw_headers) + $struct->headers;
-    }
+      if (empty($mime_headers))
+        $mime_headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $struct->mime_id);
+      $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
+
+      // get real headers for message of type 'message/rfc822'
+      if ($struct->mimetype == 'message/rfc822') {
+        if (empty($raw_headers))
+          $raw_headers = iil_C_FetchMIMEHeaders($this->conn, $this->mailbox, $this->_msg_id, (array)$struct->mime_id, false);
+        $struct->real_headers = $this->_parse_headers($raw_headers);
+
+        // get real content-type of message/rfc822
+        if (preg_match('/^([a-z0-9_\/-]+)/i', $struct->real_headers['content-type'], $matches)) {
+          $struct->real_mimetype = strtolower($matches[1]);
+          }                                                    
+        }
+      }
 
     if ($struct->ctype_primary=='message') {
       if (is_array($part[8]) && $di != 8 && empty($struct->parts))
         $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
-    }
+      }
 
     // normalize filename property
-    $this->_set_part_filename($struct, $raw_headers);
+    $this->_set_part_filename($struct, $mime_headers);
 
     return $struct;
     }
@@ -3083,6 +3108,7 @@ class rcube_imap
   private function _parse_headers($headers)
     {
     $a_headers = array();
+    $headers = preg_replace('/\r?\n(\t| )+/', ' ', $headers);
     $lines = explode("\n", $headers);
     $c = count($lines);
     for ($i=0; $i<$c; $i++)

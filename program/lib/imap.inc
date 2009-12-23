@@ -2136,7 +2136,7 @@ function iil_C_UnSubscribe(&$conn, $folder) {
 	return (iil_ParseResult($line) == 0);
 }
 
-function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
+function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts, $mime=true) {
 	
 	$fp     = $conn->fp;
 
@@ -2149,10 +2149,11 @@ function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
 	$key = 'fmh0';
 	$peeks = '';
 	$idx = 0;
+        $type = $mime ? 'MIME' : 'HEADER';
 
 	// format request
 	foreach($parts as $part)
-		$peeks[] = "BODY.PEEK[$part.MIME]";
+		$peeks[] = "BODY.PEEK[$part.$type]";
 	
 	$request = "$key FETCH $id (" . implode(' ', $peeks) . ')';
 
@@ -2165,9 +2166,9 @@ function iil_C_FetchMIMEHeaders(&$conn, $mailbox, $id, $parts) {
         	$line = iil_ReadLine($fp, 1000);
         	$line = iil_MultLine($fp, $line);
 
-		if (preg_match('/BODY\[([0-9\.]+)\.MIME\]/', $line, $matches)) {
+		if (preg_match('/BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
 			$idx = $matches[1];
-			$result[$idx] = preg_replace('/^(\* '.$id.' FETCH \()?\s*BODY\['.$idx.'\.MIME\]\s+/', '', $line);
+			$result[$idx] = preg_replace('/^(\* '.$id.' FETCH \()?\s*BODY\['.$idx.'\.'.$type.'\]\s+/', '', $line);
 			$result[$idx] = trim($result[$idx], '"');
 	    		$result[$idx] = rtrim($result[$idx], "\t\r\n\0\x0B");
     		}
