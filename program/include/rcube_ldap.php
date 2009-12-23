@@ -405,9 +405,11 @@ class rcube_ldap extends rcube_addressbook
     $res = null;
     if ($this->conn && $dn)
     {
-      $this->_debug("C: Read [dn: ".base64_decode($dn)."] [(objectclass=*)]");
+      $dn = base64_decode($dn);
+
+      $this->_debug("C: Read [dn: $dn] [(objectclass=*)]");
     
-      if ($this->ldap_result = @ldap_read($this->conn, base64_decode($dn), '(objectclass=*)', array_values($this->fieldmap)))
+      if ($this->ldap_result = @ldap_read($this->conn, $dn, '(objectclass=*)', array_values($this->fieldmap)))
         $entry = ldap_first_entry($this->conn, $this->ldap_result);
       else
         $this->_debug("S: ".ldap_error($this->conn));
@@ -419,7 +421,7 @@ class rcube_ldap extends rcube_addressbook
         $rec = array_change_key_case($rec, CASE_LOWER);
 
         // Add in the dn for the entry.
-        $rec['dn'] = base64_decode($dn);
+        $rec['dn'] = $dn;
         $res = $this->_ldap2result($rec);
         $this->result = new rcube_result_set(1);
         $this->result->add($res);
@@ -459,7 +461,8 @@ class rcube_ldap extends rcube_addressbook
     } // end foreach
 
     // Build the new entries DN.
-    $dn = $this->prop['LDAP_rdn'].'='.$newentry[$this->prop['LDAP_rdn']].','.$this->prop['base_dn'];
+    $dn = $this->prop['LDAP_rdn'].'='.rcube_ldap::quote_string($newentry[$this->prop['LDAP_rdn']], true)
+      .','.$this->prop['base_dn'];
 
     $this->_debug("C: Add [dn: $dn]: ".print_r($newentry, true));
 
@@ -532,9 +535,12 @@ class rcube_ldap extends rcube_addressbook
     if (!empty($replacedata)) {
       // Handle RDN change
       if ($replacedata[$this->prop['LDAP_rdn']]) {
-        $newdn = $this->prop['LDAP_rdn'].'='.$replacedata[$this->prop['LDAP_rdn']].','.$this->prop['base_dn']; 
+        $newdn = $this->prop['LDAP_rdn'].'='
+	  .rcube_ldap::quote_string($replacedata[$this->prop['LDAP_rdn']], true)
+	  .','.$this->prop['base_dn']; 
         if ($dn != $newdn) {
-          $newrdn = $this->prop['LDAP_rdn'].'='.$replacedata[$this->prop['LDAP_rdn']];
+          $newrdn = $this->prop['LDAP_rdn'].'='
+	    .rcube_ldap::quote_string($replacedata[$this->prop['LDAP_rdn']], true);
           unset($replacedata[$this->prop['LDAP_rdn']]);
         }
       }
@@ -692,9 +698,16 @@ class rcube_ldap extends rcube_addressbook
   /**
    * @static
    */
-  function quote_string($str)
+  function quote_string($str, $dn=false)
   {
-    return strtr($str, array('*'=>'\2a', '('=>'\28', ')'=>'\29', '\\'=>'\5c'));
+    if ($dn)
+      $replace = array(','=>'\2c', '='=>'\3d', '+'=>'\2b', '<'=>'\3c',
+        '>'=>'\3e', ';'=>'\3b', '\\'=>'\5c', '"'=>'\22', '#'=>'\23');
+    else
+      $replace = array('*'=>'\2a', '('=>'\28', ')'=>'\29', '\\'=>'\5c',
+        '/'=>'\2f');
+
+    return strtr($str, $replace);
   }
 
 }
