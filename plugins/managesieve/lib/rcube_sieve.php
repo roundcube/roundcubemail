@@ -448,6 +448,7 @@ class rcube_sieve_script
   
 	  // action(s)
 	  foreach ($rule['actions'] as $action)
+          {
 	    switch ($action['type'])
 	    {
 	      case 'fileinto':
@@ -491,12 +492,13 @@ class rcube_sieve_script
 		  $script .= " \"" . $this->_escape_string($action['reason']) . "\";\n";
 	      break;
 	    }
-	  
+
+	    if ($extension && !isset($exts[$extension]))
+	      $exts[$extension] = $extension;
+	  }
+
 	  $script .= "}\n";
 	  $idx++;
-
-	  if ($extension && !isset($exts[$extension]))
-	    $exts[$extension] = $extension;
 	}
       
       // requires
