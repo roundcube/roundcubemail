@@ -2,7 +2,7 @@
 <?php
 
 $required_php_exts = array('PCRE' => 'pcre', 'DOM' => 'dom',
-    'Session' => 'session', 'XML' => 'xml');
+    'Session' => 'session', 'XML' => 'xml', 'JSON' => 'json');
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
@@ -22,20 +22,21 @@ $ini_checks = array('file_uploads' => 1, 'session.auto_start' => 0,
 $optional_checks = array('date.timezone' => '-NOTEMPTY-');
 
 $source_urls = array(
-    'Sockets' => 'http://www.php.net/manual/en/ref.sockets.php',
-    'Session' => 'http://www.php.net/manual/en/ref.session.php',
-    'PCRE' => 'http://www.php.net/manual/en/ref.pcre.php',
-    'FileInfo' => 'http://www.php.net/manual/en/ref.fileinfo.php',
-    'Libiconv' => 'http://www.php.net/manual/en/ref.iconv.php',
-    'Multibyte' => 'http://www.php.net/manual/en/ref.mbstring.php',
-    'Mcrypt' => 'http://www.php.net/manual/en/ref.mcrypt.php',
-    'OpenSSL' => 'http://www.php.net/manual/en/ref.openssl.php',
-    'GD' => 'http://www.php.net/manual/en/ref.image.php',
+    'Sockets' => 'http://www.php.net/manual/en/book.sockets.php',
+    'Session' => 'http://www.php.net/manual/en/book.session.php',
+    'PCRE' => 'http://www.php.net/manual/en/book.pcre.php',
+    'FileInfo' => 'http://www.php.net/manual/en/book.fileinfo.php',
+    'Libiconv' => 'http://www.php.net/manual/en/book.iconv.php',
+    'Multibyte' => 'http://www.php.net/manual/en/book.mbstring.php',
+    'Mcrypt' => 'http://www.php.net/manual/en/book.mcrypt.php',
+    'OpenSSL' => 'http://www.php.net/manual/en/book.openssl.php',
+    'GD' => 'http://www.php.net/manual/en/book.image.php',
+    'JSON' => 'http://www.php.net/manual/en/book.json.php',
+    'DOM' => 'http://www.php.net/manual/en/book.dom.php',
     'PEAR' => 'http://pear.php.net',
     'MDB2' => 'http://pear.php.net/package/MDB2',
     'Net_SMTP' => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
-    'DOM' => 'http://www.php.net/manual/en/intro.dom.php'
 );
 
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
