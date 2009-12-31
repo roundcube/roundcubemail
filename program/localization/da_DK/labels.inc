@@ -1,4 +1,3 @@
-<!-- Update from SVN: da_DK/labels.inc-->
 <?php
 
 /*
