@@ -95,9 +95,10 @@ $rcmail_config['virtuser_file'] = '';
 // and optional identity name as second column
 $rcmail_config['virtuser_query'] = '';
 
-// use this host for sending mails.
-// to use SSL connection, set ssl://smtp.host.com
-// if left blank, the PHP mail() function is used
+// SMTP server host (for sending mails).
+// To use SSL connection, set ssl://smtp.host.com
+// WARNING: Don't use 'tls://' prefix, TLS is used by default if possible
+// If left blank, the PHP mail() function is used
 // Use %h variable as replacement for user's IMAP hostname
 $rcmail_config['smtp_server'] = '';
 
