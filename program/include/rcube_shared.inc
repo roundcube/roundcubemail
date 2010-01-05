@@ -152,19 +152,22 @@ function parse_bytes($str)
 {
   if (is_numeric($str))
     return floatval($str);
-    
-  if (preg_match('/([0-9]+)([a-z])/i', $str, $regs))
+
+  if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs))
   {
     $bytes = floatval($regs[1]);
     switch (strtolower($regs[2]))
     {
       case 'g':
+      case 'gb':
         $bytes *= 1073741824;
         break;
       case 'm':
+      case 'mb':
         $bytes *= 1048576;
         break;
       case 'k':
+      case 'kb':
         $bytes *= 1024;
         break;
     }
