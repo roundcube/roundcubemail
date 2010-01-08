@@ -48,7 +48,7 @@ if ($fp = fsockopen($host, $port, $errno, $errstr, 30))
   $out = "POST $path HTTP/1.0\r\n";
   $out .= "Host: $host\r\n";
   $out .= "Content-Length: " . strlen($data) . "\r\n";
-  $out .= "Content-type: application/x-www-form-urlencoded\r\n";
+  $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
   $out .= "Connection: Close\r\n\r\n";
   $out .= $data;
   fwrite($fp, $out);
@@ -58,6 +58,8 @@ if ($fp = fsockopen($host, $port, $errno, $errstr, 30))
   fclose($fp);
   }
 
+// Don't use server's default Content-Type charset (#1486406)
+header("Content-Type: text/xml; charset=".RCMAIL_CHARSET);
 print $store;  
 exit;
 

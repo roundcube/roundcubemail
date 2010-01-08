@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Bug in spellchecker suggestions when server charset != UTF8 (#1486406)
 - Managesieve: Fix requires generation for multiple actions (#1486397)
 - Fix LDAP problem with special characters in RDN (#1486320)
 - Improved handling of message parts of type message/rfc822
