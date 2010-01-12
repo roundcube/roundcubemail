@@ -322,6 +322,7 @@ function rcube_parse_charset($charset)
     'TIS620'	    => 'WINDOWS-874',
     'ISO88599'	    => 'WINDOWS-1254',
     'ISO885911'	    => 'WINDOWS-874',
+    'MACROMAN'	    => 'MACINTOSH',
   );
 
   // allow a-z and 0-9 only and remove X- prefix (e.g. X-ROMAN8 => ROMAN8)
