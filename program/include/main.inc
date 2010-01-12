@@ -1102,7 +1102,7 @@ function rcmail_mailbox_list($attrib)
   global $RCMAIL;
   static $a_mailboxes;
   
-  $attrib += array('maxlength' => 100, 'relanames' => false);
+  $attrib += array('maxlength' => 100, 'realnames' => false);
 
   // add some labels to client
   $RCMAIL->output->add_label('purgefolderconfirm', 'deletemessagesconfirm');
