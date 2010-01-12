@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix to-text converting of HTML entities inside b/strong/th/hX tags (#1486422)
 - Bug in spellchecker suggestions when server charset != UTF8 (#1486406)
 - Managesieve: Fix requires generation for multiple actions (#1486397)
 - Fix LDAP problem with special characters in RDN (#1486320)
