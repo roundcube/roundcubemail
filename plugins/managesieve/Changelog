@@ -1,4 +1,7 @@
-- Fix requires generation when many modules are used
+* version 2.1 [2010-01-12]
+-----------------------------------------------------------
+- Fix "require" structure generation when many modules are used
+- Fix problem with '<' and '>' characters in header tests
 
 * version 2.0 [2009-11-02]
 -----------------------------------------------------------

@@ -7,7 +7,7 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 2.0
+ * @version 2.1
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist):
@@ -323,7 +323,7 @@ class managesieve extends rcube_plugin
       else foreach($headers as $idx => $header)
       {
 	$header = $this->strip_value($header);
-	$target = $this->strip_value($targets[$idx]);
+	$target = $this->strip_value($targets[$idx], true);
 	$op = $this->strip_value($ops[$idx]);
 
 	// normal header
@@ -962,9 +962,12 @@ class managesieve extends rcube_plugin
     return $result;
   }
 
-  private function strip_value($str)
+  private function strip_value($str, $allow_html=false)
   {
-    return trim(strip_tags($str));
+    if (!$allow_html)
+      $str = strip_tags($str);
+       
+    return trim($str);
   }
 
   private function error_class($id, $type, $target, $name_only=false)
