@@ -2893,11 +2893,13 @@ class rcube_imap
     if ((!empty($this->root_ns) && $this->root_ns == $mbox_name) || $mbox_name == 'INBOX')
       return $mbox_name;
 
-    if (!empty($this->root_dir) && $mode=='in') 
-      $mbox_name = $this->root_dir.$this->delimiter.$mbox_name;
-    else if (strlen($this->root_dir) && $mode=='out') 
-      $mbox_name = substr($mbox_name, strlen($this->root_dir)+1);
-
+    if (!empty($this->root_dir)) {
+      if ($mode=='in')
+        $mbox_name = $this->root_dir.$this->delimiter.$mbox_name;
+      else if (!empty($mbox_name)) // $mode=='out'
+        $mbox_name = substr($mbox_name, strlen($this->root_dir)+1);
+      }
+    
     return $mbox_name;
     }
 
