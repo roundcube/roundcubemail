@@ -408,12 +408,13 @@ function get_offset_time($offset_str, $factor=1)
 function abbreviate_string($str, $maxlength, $place_holder='...')
 {
   $length = mb_strlen($str);
-  $first_part_length = floor($maxlength/2) - mb_strlen($place_holder);
   
   if ($length > $maxlength)
   {
-    $second_starting_location = $length - $maxlength + $first_part_length + 1;
-    $str = mb_substr($str, 0, $first_part_length) . $place_holder . mb_substr($str, $second_starting_location, $length);
+    $place_holder_length = mb_strlen($place_holder);
+    $first_part_length = floor(($maxlength - $place_holder_length)/2);
+    $second_starting_location = $length - $maxlength + $first_part_length + $place_holder_length;
+    $str = mb_substr($str, 0, $first_part_length) . $place_holder . mb_substr($str, $second_starting_location);
   }
 
   return $str;
