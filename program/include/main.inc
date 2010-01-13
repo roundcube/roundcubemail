@@ -195,7 +195,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
-    $_iconv = iconv($from, $to . '//IGNORE', $str);
+    $_iconv = @iconv($from, $to . '//IGNORE', $str);
     if ($_iconv !== false) {
         return $_iconv;
     }
