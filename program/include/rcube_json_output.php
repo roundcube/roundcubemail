@@ -218,7 +218,6 @@ class rcube_json_output
             $s_header_sent = true;
             send_nocacheing_headers();
             header('Content-Type: text/plain; charset=' . $this->get_charset());
-            print '/** ajax response ['.date('d/M/Y h:i:s O')."] **/\n";
         }
 
         // unset default env vars
