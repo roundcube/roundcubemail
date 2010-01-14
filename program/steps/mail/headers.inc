@@ -25,9 +25,17 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_POST))
   if ($source)
     {
     $source = htmlspecialchars(trim($source));
-    $source = preg_replace('/\t/', '&nbsp;&nbsp;&nbsp;&nbsp;', $source);
-    $source = preg_replace('/^([a-z0-9_:-]+)/im', '<font class="bold">'.'\1'.'</font>', $source);
-    $source = preg_replace('/\r?\n/', '<br />', $source);
+    $source = preg_replace(
+      array(
+        '/\n[\t\s]+/',
+        '/^([a-z0-9_:-]+)/im',
+        '/\r?\n/'
+      ),
+      array(
+        "\n&nbsp;&nbsp;&nbsp;&nbsp;",
+        '<font class="bold">\1</font>',
+        '<br />'
+      ), $source);
     
     $OUTPUT->command('set_headers', $source);
     $OUTPUT->send();
