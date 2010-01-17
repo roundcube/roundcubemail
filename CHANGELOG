@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix 'force_https' to specified port when URL contains a port number (#1486411)
 - Fix to-text converting of HTML entities inside b/strong/th/hX tags (#1486422)
 - Bug in spellchecker suggestions when server charset != UTF8 (#1486406)
 - Managesieve: Fix requires generation for multiple actions (#1486397)

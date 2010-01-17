@@ -67,7 +67,9 @@ if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
   $https_port = is_bool($force_https) ? 443 : $force_https;
   if (!rcube_https_check($https_port)) {
-    header('Location: https://' . $_SERVER['HTTP_HOST'] . ($https_port != 443 ? ':' . $https_port : '') . $_SERVER['REQUEST_URI']);
+    $host  = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
+    $host .= ($https_port != 443 ? ':' . $https_port : '');
+    header('Location: https://' . $host . $_SERVER['REQUEST_URI']);
     exit;
   }
 }
