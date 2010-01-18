@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix removal of <title> tag from HTML messages (#1486432)
 - Fix 'force_https' to specified port when URL contains a port number (#1486411)
 - Fix to-text converting of HTML entities inside b/strong/th/hX tags (#1486422)
 - Bug in spellchecker suggestions when server charset != UTF8 (#1486406)

@@ -679,7 +679,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   // special replacements (not properly handled by washtml class)
   $html_search = array(
     '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-    '/<title>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
+    '/<title[^>]*>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
     '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
     '/<html\s[^>]+>/i',			// washtml/DOMDocument cannot handle xml namespaces
   );
