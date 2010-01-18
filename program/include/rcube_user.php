@@ -16,7 +16,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: rcube_user.inc 933 2007-11-29 14:17:32Z thomasb $
+ $Id$
 
 */
 

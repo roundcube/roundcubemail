@@ -15,7 +15,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: sendmail.inc 506 2007-03-14 00:39:51Z thomasb $
+ $Id$
 
 */
 
