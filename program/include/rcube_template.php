@@ -455,7 +455,16 @@ class rcube_template extends rcube_html_page
     {
         $GLOBALS['__version'] = Q(RCMAIL_VERSION);
         $GLOBALS['__comm_path'] = Q($this->app->comm_path);
-        return preg_replace('/\$(__[a-z0-9_\-]+)/e', '$GLOBALS["\\1"]', $input);
+        return preg_replace_callback('/\$(__[a-z0-9_\-]+)/',
+	    array($this, 'globals_callback'), $input);
+    }
+
+    /**
+     * Callback funtion for preg_replace_callback() in parse_with_globals()
+     */
+    private function globals_callback($matches)
+    {
+        return $GLOBALS[$matches[1]];
     }
 
     /**
