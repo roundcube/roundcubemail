@@ -578,7 +578,9 @@ function json_serialize($input)
 {
   $input = rc_utf8_clean($input);
 
-  return json_encode($input);
+  // sometimes even using rc_utf8_clean() the input contains invalid UTF-8 sequences
+  // that's why we have @ here
+  return @json_encode($input);
 }
 
 
