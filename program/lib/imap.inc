@@ -647,7 +647,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 		$conn->capability = explode(' ', strtoupper($matches[1]));
 	}
 
-	$conn->message .= $line . "\n";
+	$conn->message .= $line;
 
 	// TLS connection
 	if ($ICL_SSL == 'tls' && iil_C_GetCapability($conn, 'STARTTLS')) {
@@ -672,46 +672,47 @@ function iil_Connect($host, $user, $password, $options=null) {
         	}
 	}
 
+	$orig_method = $auth_method;
+
 	if ($auth_method == 'CHECK') {
-		//check for supported auth methods
+		// check for supported auth methods
 		if (iil_C_GetCapability($conn, 'AUTH=CRAM-MD5') || iil_C_GetCapability($conn, 'AUTH=CRAM_MD5')) {
 			$auth_method = 'AUTH';
 		}
 		else {
-			//default to plain text auth
+			// default to plain text auth
 			$auth_method = 'PLAIN';
 		}
 	}
 
 	if ($auth_method == 'AUTH') {
-		//do CRAM-MD5 authentication
+		// do CRAM-MD5 authentication
 		iil_PutLine($conn->fp, "a000 AUTHENTICATE CRAM-MD5");
 		$line = trim(iil_ReadLine($conn->fp, 1024));
 
 		if ($line[0] == '+') {
-			//got a challenge string, try CRAM-5
+			// got a challenge string, try CRAM-MD5
 			$result = iil_C_Authenticate($conn, $user, $password, substr($line,2));
         		
 			// stop if server sent BYE response
-			if($result == -3) {
+			if ($result == -3) {
 	            		$iil_error = $conn->error;
 	            		$iil_errornum = $conn->errorNum;
 				return false;
 			}
-			$conn->message .= "AUTH CRAM-MD5: $result\n";
-		} else {
-			$conn->message .= "AUTH CRAM-MD5: failed\n";
+		}
+		
+		if (!is_resource($result) && $orig_method == 'CHECK') {
 			$auth_method = 'PLAIN';
 		}
 	}
 		
-	if (!$result || $auth_method == 'PLAIN') {
-		//do plain text auth
+	if ($auth_method == 'PLAIN') {
+		// do plain text auth
 		$result = iil_C_Login($conn, $user, $password);
-		$conn->message .= "AUTH PLAIN: $result\n";
 	}
-		
-	if (!is_int($result)) {
+
+	if (is_resource($result)) {
 		iil_C_Namespace($conn);
 		return $conn;
 	} else {
