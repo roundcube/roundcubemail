@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix incompatybility with suhosin.executor.disable_emodifier (#1486321)
 - Use PLAIN auth when CRAM fails and imap_auth_type='check' (#1486371)
 - Fix removal of <title> tag from HTML messages (#1486432)
 - Fix 'force_https' to specified port when URL contains a port number (#1486411)

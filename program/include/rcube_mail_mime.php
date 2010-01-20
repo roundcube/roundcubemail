@@ -95,22 +95,6 @@ class rcube_mail_mime extends Mail_mime
   
   
   /**
-   * Creates a new mimePart object, using multipart/mixed as
-   * the initial content-type and returns it during the
-   * build process.
-   *
-   * @return object  The multipart/mixed mimePart object
-   * @access private
-   */
-  function &_addMixedPart()
-  {
-    $params['content_type'] = $this->_headers['Content-Type'] ? $this->_headers['Content-Type'] : 'multipart/mixed';
-    $ret = new Mail_mimePart('', $params);
-    return $ret;
-  }
-  
-  
-  /**
    * Encodes a header as per RFC2047
    *
    * @param  array $input The header data to encode
