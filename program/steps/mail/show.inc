@@ -40,26 +40,12 @@ if ($_GET['_uid']) {
     }
   }
 
+  send_nocacheing_headers();
+
   $mbox_name = $IMAP->get_mailbox_name();
   
   // show images?
   rcmail_check_safe($MESSAGE);
-
-  // calculate Etag for this request
-  $etag = md5($MESSAGE->uid.$mbox_name.session_id()
-    .intval($MESSAGE->headers->mdn_sent)
-    .intval($MESSAGE->is_safe)
-    .(!empty($MESSAGE->attachments) ? intval($CONFIG['inline_images']) : '')
-    .intval($PRINT_MODE)
-    .$_SESSION['sort_col'].$_SESSION['sort_order']
-    .$IMAP->messagecount($mbox_name, 'ALL', true)
-    );
-
-  // allow caching, unless remote images are present
-  if ((bool)$MESSAGE->is_safe)
-    send_nocacheing_headers();
-  else if (empty($CONFIG['devel_mode']))
-    send_modified_header($_SESSION['login_time'], $etag, !$MESSAGE->headers->seen);
 
   // set message charset as default
   if (!empty($MESSAGE->headers->charset))
