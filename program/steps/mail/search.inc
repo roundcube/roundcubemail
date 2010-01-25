@@ -11,6 +11,8 @@
  |         Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
+ $Id$
+
 */
 
 $REMOTE_REQUEST = TRUE;

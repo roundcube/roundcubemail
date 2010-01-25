@@ -15,7 +15,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: compose.inc 2081 2008-11-23 12:38:44Z thomasb $
+ $Id$
 
 */
 

@@ -15,7 +15,7 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 
- $Id: check_recent.inc 233 2006-06-26 17:31:20Z richs $
+ $Id$
 
 */
 
