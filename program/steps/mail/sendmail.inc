@@ -462,10 +462,11 @@ $data = $RCMAIL->plugins->exec_hook('outgoing_message_headers', array('headers' 
 $headers = $data['headers'];
 
 // encoding subject header with mb_encode provides better results with asian characters
-if (function_exists("mb_encode_mimeheader"))
+if (function_exists('mb_encode_mimeheader'))
 {
   mb_internal_encoding($message_charset);
-  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'], $message_charset, 'Q');
+  $headers['Subject'] = mb_encode_mimeheader($headers['Subject'],
+    $message_charset, 'Q', $RCMAIL->config->header_delimiter(), 8);
   mb_internal_encoding(RCMAIL_CHARSET);
 }
 
