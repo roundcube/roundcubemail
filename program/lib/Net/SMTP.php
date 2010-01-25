@@ -503,22 +503,24 @@ class Net_SMTP
      * @param string The password to authenticate with.
      * @param string The requested authentication method.  If none is
      *               specified, the best supported method will be used.
+     * @param bool   Flag indicating whether or not TLS should be attempted.
      *
      * @return mixed Returns a PEAR_Error with an error message on any
      *               kind of failure, or true on success.
      * @access public
      * @since  1.0
      */
-    function auth($uid, $pwd , $method = '')
+    function auth($uid, $pwd , $method = '', $tls = true)
     {
-        /* We can only attempt a TLS connection if we're running PHP 5.1.0 or 
-         * later, have access to the OpenSSL extension, are connected to an 
-         * SMTP server which supports the STARTTLS extension, and aren't 
-         * already connected over a secure (SSL) socket connection. */
-        $tls = version_compare(PHP_VERSION, '5.1.0', '>=') && extension_loaded('openssl') &&
-               isset($this->_esmtp['STARTTLS']) && strncasecmp($this->host, 'ssl://', 6) != 0;
-
-        if ($tls) {
+        /* We can only attempt a TLS connection if one has been requested,
+         * we're running PHP 5.1.0 or later, have access to the OpenSSL 
+         * extension, are connected to an SMTP server which supports the 
+         * STARTTLS extension, and aren't already connected over a secure 
+         * (SSL) socket connection. */
+        if ($tls && version_compare(PHP_VERSION, '5.1.0', '>=') &&
+            extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']) &&
+            strncasecmp($this->host, 'ssl://', 6) !== 0) {
+            /* Start the TLS connection attempt. */
             if (PEAR::isError($result = $this->_put('STARTTLS'))) {
                 return $result;
             }
@@ -896,30 +898,51 @@ class Net_SMTP
     /**
      * Send the DATA command.
      *
-     * @param string $data  The message body to send.
+     * @param mixed $data     The message data, either as a string or an open
+     *                        file resource.
+     * @param string $headers The message headers.  If $headers is provided,
+     *                        $data is assumed to contain only body data.
      *
      * @return mixed Returns a PEAR_Error with an error message on any
      *               kind of failure, or true on success.
      * @access public
      * @since  1.0
      */
-    function data($data)
+    function data($data, $headers = null)
     {
+        /* Verify that $data is a supported type. */
+        if (!is_string($data) && !is_resource($data)) {
+            return PEAR::raiseError('Expected a string or file resource');
+        }
+
         /* RFC 1870, section 3, subsection 3 states "a value of zero
          * indicates that no fixed maximum message size is in force".
          * Furthermore, it says that if "the parameter is omitted no
          * information is conveyed about the server's fixed maximum
          * message size". */
         if (isset($this->_esmtp['SIZE']) && ($this->_esmtp['SIZE'] > 0)) {
-            if (strlen($data) >= $this->_esmtp['SIZE']) {
+            /* Start by considering the size of the optional headers string.  
+             * We also account for the addition 4 character "\r\n\r\n"
+             * separator sequence. */
+            $size = (is_null($headers)) ? 0 : strlen($headers) + 4;
+
+            if (is_resource($data)) {
+                $stat = fstat($data);
+                if ($stat === false) {
+                    return PEAR::raiseError('Failed to get file size');
+                }
+                $size += $stat['size'];
+            } else {
+                $size += strlen($data);
+            }
+
+            if ($size >= $this->_esmtp['SIZE']) {
                 $this->disconnect();
-                return PEAR::raiseError('Message size excedes the server limit');
+                return PEAR::raiseError('Message size exceeds server limit');
             }
         }
 
-        /* Quote the data based on the SMTP standards. */
-        $this->quotedata($data);
-
+        /* Initiate the DATA command. */
         if (PEAR::isError($error = $this->_put('DATA'))) {
             return $error;
         }
@@ -927,9 +950,40 @@ class Net_SMTP
             return $error;
         }
 
-        if (PEAR::isError($result = $this->_send($data . "\r\n.\r\n"))) {
-            return $result;
+        /* If we have a separate headers string, send it first. */
+        if (!is_null($headers)) {
+            $this->quotedata($line);
+            if (PEAR::isError($result = $this->_send($headers . "\r\n\r\n"))) {
+                return $result;
+            }
         }
+
+        /* Now we can send the message body data. */
+        if (is_resource($data)) {
+            /* Stream the contents of the file resource out over our socket 
+             * connection, line by line.  Each line must be run through the 
+             * quoting routine. */
+            while ($line = fgets($data, 1024)) {
+                $this->quotedata($line);
+                if (PEAR::isError($result = $this->_send($line))) {
+                    return $result;
+                }
+            }
+
+            /* Finally, send the DATA terminator sequence. */
+            if (PEAR::isError($result = $this->_send("\r\n.\r\n"))) {
+                return $result;
+            }
+        } else {
+            /* Just send the entire quoted string followed by the DATA 
+             * terminator. */
+            $this->quotedata($data);
+            if (PEAR::isError($result = $this->_send($data . "\r\n.\r\n"))) {
+                return $result;
+            }
+        }
+
+        /* Verify that the data was successfully received by the server. */
         if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
