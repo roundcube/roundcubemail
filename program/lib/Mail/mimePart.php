@@ -330,15 +330,16 @@ class Mail_mimePart
      * Encodes and saves the email into file. File must exist.
      * Data will be appended to the file.
      *
-     * @param string $filename Output file location
-     * @param string $boundary Pre-defined boundary string
+     * @param string  $filename  Output file location
+     * @param string  $boundary  Pre-defined boundary string
+     * @param boolean $skip_head True if you don't want to save headers
      *
      * @return array An associative array containing message headers
      *               or PEAR error object
      * @access public
      * @since 1.6.0
      */
-    function encodeToFile($filename, $boundary=null)
+    function encodeToFile($filename, $boundary=null, $skip_head=false)
     {
         if (file_exists($filename) && !is_writable($filename)) {
             $err = PEAR::raiseError('File is not writeable: ' . $filename);
@@ -355,7 +356,7 @@ class Mail_mimePart
             @ini_set('magic_quotes_runtime', 0);
         }
 
-        $res = $this->_encodePartToFile($fh, $boundary);
+        $res = $this->_encodePartToFile($fh, $boundary, $skip_head);
 
         fclose($fh);
 
@@ -369,13 +370,14 @@ class Mail_mimePart
     /**
      * Encodes given email part into file
      *
-     * @param string $fh       Output file handle
-     * @param string $boundary Pre-defined boundary string
+     * @param string  $fh        Output file handle
+     * @param string  $boundary  Pre-defined boundary string
+     * @param boolean $skip_head True if you don't want to save headers
      *
      * @return array True on sucess or PEAR error object
      * @access private
      */
-    function _encodePartToFile($fh, $boundary=null)
+    function _encodePartToFile($fh, $boundary=null, $skip_head=false)
     {
         $eol = $this->_eol;
 
@@ -384,25 +386,31 @@ class Mail_mimePart
             $this->_headers['Content-Type'] .= ";$eol boundary=\"$boundary\"";
         }
 
-        foreach ($this->_headers as $key => $value) {
-            fwrite($fh, $key . ': ' . $value . $eol);
+        if (!$skip_head) {
+            foreach ($this->_headers as $key => $value) {
+                fwrite($fh, $key . ': ' . $value . $eol);
+            }
+            $f_eol = $eol;
+        } else {
+            $f_eol = '';
         }
 
         if (count($this->_subparts)) {
             for ($i = 0; $i < count($this->_subparts); $i++) {
-                fwrite($fh, $eol . '--' . $boundary . $eol);
+                fwrite($fh, $f_eol . '--' . $boundary . $eol);
                 $res = $this->_subparts[$i]->_encodePartToFile($fh);
                 if (PEAR::isError($res)) {
                     return $res;
                 }
+                $f_eol = $eol;
             }
 
             fwrite($fh, $eol . '--' . $boundary . '--' . $eol);
 
         } else if ($this->_body) {
-            fwrite($fh, $eol . $this->_getEncodedData($this->_body, $this->_encoding));
+            fwrite($fh, $f_eol . $this->_getEncodedData($this->_body, $this->_encoding));
         } else if ($this->_body_file) {
-            fwrite($fh, $eol);
+            fwrite($fh, $f_eol);
             $res = $this->_getEncodedDataFromFile(
                 $this->_body_file, $this->_encoding, $fh
             );

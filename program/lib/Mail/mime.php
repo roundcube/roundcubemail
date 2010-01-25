@@ -726,6 +726,22 @@ class Mail_mime
     }
 
     /**
+     * Returns the complete e-mail body, ready to send using an alternative
+     * mail delivery method.
+     * 
+     * @param array $params The Build parameters passed to the
+     *                      &get() function. See &get for more info.
+     *
+     * @return mixed The e-mail body or PEAR error object
+     * @access public
+     * @since 1.6.0
+     */
+    function getMessageBody($params = null)
+    {
+        return $this->get($params, null, true);
+    }
+
+    /**
      * Writes (appends) the complete e-mail into file.
      * 
      * @param string $filename  Output file location
@@ -738,6 +754,7 @@ class Mail_mime
      *
      * @return mixed True or PEAR error object
      * @access public
+     * @since 1.6.0
      */
     function saveMessage($filename, $params = null, $headers = null, $overwrite = false)
     {
@@ -777,18 +794,55 @@ class Mail_mime
     }
 
     /**
+     * Writes (appends) the complete e-mail body into file.
+     * 
+     * @param string $filename Output file location
+     * @param array  $params   The Build parameters passed to the
+     *                         &get() function. See &get for more info.
+     *
+     * @return mixed True or PEAR error object
+     * @access public
+     * @since 1.6.0
+     */
+    function saveMessageBody($filename, $params = null)
+    {
+        // Check state of file and raise an error properly
+        if (file_exists($filename) && !is_writable($filename)) {
+            $err = PEAR::raiseError('File is not writable: ' . $filename);
+            return $err;
+        }
+
+        // Temporarily reset magic_quotes_runtime and read file contents
+        if ($magic_quote_setting = get_magic_quotes_runtime()) {
+            @ini_set('magic_quotes_runtime', 0);
+        }
+
+        if (!($fh = fopen($filename, 'ab'))) {
+            $err = PEAR::raiseError('Unable to open file: ' . $filename);
+            return $err;
+        }
+
+        // Write the rest of the message into file
+        $res = $this->get($params, $filename, true);
+
+        return $res ? $res : true;
+    }
+
+    /**
      * Builds the multipart message from the list ($this->_parts) and
      * returns the mime content.
      *
-     * @param array    $params   Build parameters that change the way the email
-     *                           is built. Should be associative. See $_build_params.
-     * @param resource $filename Output file where to save the message instead of
-     *                           returning it
+     * @param array    $params    Build parameters that change the way the email
+     *                            is built. Should be associative. See $_build_params.
+     * @param resource $filename  Output file where to save the message instead of
+     *                            returning it
+     * @param boolean  $skip_head True if you want to return/save only the message
+     *                            without headers
      *
      * @return mixed The MIME message content string, null or PEAR error object
      * @access public
      */
-    function &get($params = null, $filename = null)
+    function &get($params = null, $filename = null, $skip_head = false)
     {
         if (isset($params)) {
             while (list($key, $value) = each($params)) {
@@ -958,14 +1012,16 @@ class Mail_mime
         // Write output to file
         if ($filename) {
             // Append mimePart message headers and body into file
-            if (PEAR::isError($headers = $message->encodeToFile($filename, $boundary))) {
+            $headers = $message->encodeToFile($filename, $boundary, $skip_head);
+            if (PEAR::isError($headers)) {
                 return $headers;
             }
             $this->_headers = array_merge($this->_headers, $headers);
             $ret = null;
             return $ret;
         } else {
-            if (PEAR::isError($output = $message->encode($boundary))) {
+            $output = $message->encode($boundary, $skip_head);
+            if (PEAR::isError($output)) {
                 return $output;
             }
             $this->_headers = array_merge($this->_headers, $output['headers']);
@@ -1283,7 +1339,10 @@ class Mail_mime
                 $value = wordwrap($value, 76, $eol . ' ');
             }
 
-            $value = preg_replace('/^'.$name.': /', '', $value);
+            // remove header name prefix (there could be EOL too)
+            $value = preg_replace(
+                '/^'.$name.':('.preg_quote($eol, '/').')* /', '', $value
+            );
 
         } else {
             // Unstructured header
