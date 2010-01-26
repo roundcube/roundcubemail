@@ -42,7 +42,7 @@
 // | Author: Frank M. Kromann <frank@kromann.info>                        |
 // +----------------------------------------------------------------------+
 //
-// $Id: mssql.php,v 1.16 2008/02/17 18:54:08 quipo Exp $
+// $Id: mssql.php 292715 2009-12-28 14:06:34Z quipo $
 //
 
 require_once 'MDB2/Driver/Function/Common.php';
@@ -134,7 +134,7 @@ class MDB2_Driver_Function_mssql extends MDB2_Driver_Function_Common
      */
     function substring($value, $position = 1, $length = null)
     {
-        if (!is_null($length)) {
+        if (null !== $length) {
             return "SUBSTRING($value, $position, $length)";
         }
         return "SUBSTRING($value, $position, LEN($value) - $position + 1)";

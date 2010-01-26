@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.12 2006/07/15 13:07:15 lsmith Exp $
+// $Id: pgsql.php 216444 2006-07-15 13:07:15Z lsmith $
 
 require_once 'MDB2/Driver/Native/Common.php';
 

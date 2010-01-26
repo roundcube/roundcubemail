@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.137 2008/02/17 18:53:40 afz Exp $
+// $Id: Common.php 292715 2009-12-28 14:06:34Z quipo $
 
 require_once 'MDB2/LOB.php';
 
@@ -232,7 +232,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function convertResult($value, $type, $rtrim = true)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return null;
         }
         $db =& $this->getDBInstance();
@@ -313,7 +313,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
         if (count($types)) {
             reset($types);
             foreach (array_keys($sorted_types) as $k) {
-                if (is_null($sorted_types[$k])) {
+                if (null === $sorted_types[$k]) {
                     $sorted_types[$k] = current($types);
                     next($types);
                 }
@@ -511,7 +511,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
                     $field['default'] = ' ';
                 }
             }
-            if (!is_null($field['default'])) {
+            if (null !== $field['default']) {
                 $default = ' DEFAULT ' . $this->quote($field['default'], $field['type']);
             }
         }
@@ -1119,7 +1119,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             return $db;
         }
 
-        if (is_null($value)
+        if ((null === $value)
             || ($value === '' && $db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL)
         ) {
             if (!$quote) {
@@ -1128,7 +1128,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             return 'NULL';
         }
 
-        if (is_null($type)) {
+        if (null === $type) {
             switch (gettype($value)) {
             case 'integer':
                 $type = 'integer';
@@ -1288,9 +1288,15 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function _quoteLOB($value, $quote, $escape_wildcards)
     {
-        $value = $this->_readFile($value);
-        if (PEAR::isError($value)) {
-            return $value;
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        if ($db->options['lob_allow_url_include']) {
+            $value = $this->_readFile($value);
+            if (PEAR::isError($value)) {
+                return $value;
+            }
         }
         return $this->_quoteText($value, $quote, $escape_wildcards);
     }
@@ -1554,7 +1560,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function _retrieveLOB(&$lob)
     {
-        if (is_null($lob['value'])) {
+        if (null === $lob['value']) {
             $lob['value'] = $lob['resource'];
         }
         $lob['loaded'] = true;
@@ -1687,21 +1693,32 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
         }
 
         $match = '';
-        if (!is_null($operator)) {
+        if (null !== $operator) {
             $operator = strtoupper($operator);
             switch ($operator) {
             // case insensitive
             case 'ILIKE':
-                if (is_null($field)) {
+                if (null === $field) {
                     return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                         'case insensitive LIKE matching requires passing the field name', __FUNCTION__);
                 }
                 $db->loadModule('Function', null, true);
                 $match = $db->function->lower($field).' LIKE ';
                 break;
+            case 'NOT ILIKE':
+                if (null === $field) {
+                    return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+                        'case insensitive NOT ILIKE matching requires passing the field name', __FUNCTION__);
+                }
+                $db->loadModule('Function', null, true);
+                $match = $db->function->lower($field).' NOT LIKE ';
+                break;
             // case sensitive
             case 'LIKE':
-                $match = is_null($field) ? 'LIKE ' : $field.' LIKE ';
+                $match = (null === $field) ? 'LIKE ' : ($field.' LIKE ');
+                break;
+            case 'NOT LIKE':
+                $match = (null === $field) ? 'NOT LIKE ' : ($field.' NOT LIKE ');
                 break;
             default:
                 return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
@@ -1713,9 +1730,6 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             if ($key % 2) {
                 $match.= $value;
             } else {
-                if ($operator === 'ILIKE') {
-                    $value = strtolower($value);
-                }
                 $escaped = $db->escape($value);
                 if (PEAR::isError($escaped)) {
                     return $escaped;

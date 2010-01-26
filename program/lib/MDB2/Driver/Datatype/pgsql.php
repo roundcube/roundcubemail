@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.91 2008/03/09 12:28:08 quipo Exp $
+// $Id: pgsql.php 292715 2009-12-28 14:06:34Z quipo $
 
 require_once 'MDB2/Driver/Datatype/Common.php';
 
@@ -68,7 +68,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function _baseConvertResult($value, $type, $rtrim = true)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return null;
         }
         switch ($type) {
@@ -124,8 +124,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
 
         switch ($field['type']) {
         case 'text':
-            $length = !empty($field['length'])
-                ? $field['length'] : $db->options['default_text_field_length'];
+            $length = !empty($field['length']) ? $field['length'] : false;
             $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
             return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR('.$db->options['default_text_field_length'].')')
                 : ($length ? 'VARCHAR('.$length.')' : 'TEXT');
@@ -240,6 +239,16 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function _quoteCLOB($value, $quote, $escape_wildcards)
     {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        if ($db->options['lob_allow_url_include']) {
+            $value = $this->_readFile($value);
+            if (PEAR::isError($value)) {
+                return $value;
+            }
+        }
         return $this->_quoteText($value, $quote, $escape_wildcards);
     }
 
@@ -262,11 +271,17 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         if (!$quote) {
             return $value;
         }
-        if (version_compare(PHP_VERSION, '5.2.0RC6', '>=')) {
-            $db =& $this->getDBInstance();
-            if (PEAR::isError($db)) {
-                return $db;
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        if ($db->options['lob_allow_url_include']) {
+            $value = $this->_readFile($value);
+            if (PEAR::isError($value)) {
+                return $value;
             }
+        }
+        if (version_compare(PHP_VERSION, '5.2.0RC6', '>=')) {
             $connection = $db->getConnection();
             if (PEAR::isError($connection)) {
                 return $connection;
@@ -324,17 +339,23 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         }
 
         $match = '';
-        if (!is_null($operator)) {
-            $field = is_null($field) ? '' : $field.' ';
+        if (null !== $operator) {
+            $field = (null === $field) ? '' : $field.' ';
             $operator = strtoupper($operator);
             switch ($operator) {
             // case insensitive
             case 'ILIKE':
                 $match = $field.'ILIKE ';
                 break;
+            case 'NOT ILIKE':
+                $match = $field.'NOT ILIKE ';
+                break;
             // case sensitive
             case 'LIKE':
                 $match = $field.'LIKE ';
+                break;
+            case 'NOT LIKE':
+                $match = $field.'NOT LIKE ';
                 break;
             default:
                 return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,

@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.74 2008/03/05 11:08:53 quipo Exp $
+// $Id: sqlite.php 292715 2009-12-28 14:06:34Z quipo $
 //
 
 require_once 'MDB2/Driver/Manager/Common.php';
@@ -220,9 +220,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
     /**
      * create a new table
      *
-     * @param string $name   Name of the database that should be created
-     * @param array $fields  Associative array that contains the definition of each field of the new table
-     * @param array $options  An associative array of table options
+     * @param string $name    Name of the database that should be created
+     * @param array  $fields  Associative array that contains the definition
+     *                        of each field of the new table
+     * @param array  $options An associative array of table options
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -242,9 +244,9 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
                 if (empty($fkdef)) {
                     continue;
                 }
-                //set actions to 'RESTRICT' if not set
-                $fkdef['onupdate'] = empty($fkdef['onupdate']) ? 'RESTRICT' : strtoupper($fkdef['onupdate']);
-                $fkdef['ondelete'] = empty($fkdef['ondelete']) ? 'RESTRICT' : strtoupper($fkdef['ondelete']);
+                //set actions to default if not set
+                $fkdef['onupdate'] = empty($fkdef['onupdate']) ? $db->options['default_fk_action_onupdate'] : strtoupper($fkdef['onupdate']);
+                $fkdef['ondelete'] = empty($fkdef['ondelete']) ? $db->options['default_fk_action_ondelete'] : strtoupper($fkdef['ondelete']);
 
                 $trigger_names = array(
                     'insert'    => $fkname.'_insert_trg',
@@ -300,7 +302,12 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
                     $new_values[]  = $table_fields[$i] .' = NEW.'.$referenced_fields[$i];
                     $null_values[] = $table_fields[$i] .' = NULL';
                 }
-                $restrict_action .= implode(' AND ', $conditions).') IS NOT NULL';
+                $conditions2 = array();
+                for ($i=0; $i<count($referenced_fields); $i++) {
+                    $conditions2[]  = 'NEW.'.$referenced_fields[$i] .' <> OLD.'.$referenced_fields[$i];
+                }
+                $restrict_action .= implode(' AND ', $conditions).') IS NOT NULL'
+                                 .' AND (' .implode(' OR ', $conditions2) .')';
 
                 $cascade_action_update = 'UPDATE '.$name.' SET '.implode(', ', $new_values) .' WHERE '.implode(' AND ', $conditions);
                 $cascade_action_delete = 'DELETE FROM '.$name.' WHERE '.implode(' AND ', $conditions);
@@ -331,8 +338,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
                     $sql_update = sprintf($query, $trigger_names['pk_update'], 'BEFORE UPDATE', 'update') . $setdefault_action. '; END;';
                 } elseif ('NO ACTION' == $fkdef['onupdate']) {
                     $sql_update = sprintf($query.$restrict_action, $trigger_names['pk_update'], 'AFTER UPDATE', 'update') . '; END;';
-                } else {
-                    //'RESTRICT'
+                } elseif ('RESTRICT' == $fkdef['onupdate']) {
                     $sql_update = sprintf($query.$restrict_action, $trigger_names['pk_update'], 'BEFORE UPDATE', 'update') . '; END;';
                 }
                 if ('CASCADE' == $fkdef['ondelete']) {
@@ -343,8 +349,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
                     $sql_delete = sprintf($query, $trigger_names['pk_delete'], 'BEFORE DELETE', 'delete') . $setdefault_action. '; END;';
                 } elseif ('NO ACTION' == $fkdef['ondelete']) {
                     $sql_delete = sprintf($query.$restrict_action, $trigger_names['pk_delete'], 'AFTER DELETE', 'delete')  . '; END;';
-                } else {
-                    //'RESTRICT'
+                } elseif ('RESTRICT' == $fkdef['ondelete']) {
                     $sql_delete = sprintf($query.$restrict_action, $trigger_names['pk_delete'], 'BEFORE DELETE', 'delete') . '; END;';
                 }
 
@@ -899,7 +904,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         $query = "SELECT name FROM sqlite_master WHERE type='trigger' AND sql NOT NULL";
-        if (!is_null($table)) {
+        if (null !== $table) {
             if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
                 $query.= ' AND LOWER(tbl_name)='.$db->quote(strtolower($table), 'text');
             } else {
@@ -1159,6 +1164,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      * @param string $table  table name
      * @param string $fkname FOREIGN KEY constraint name
      * @param string $referenced_table  referenced table name
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access private
      */
@@ -1186,7 +1192,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         return MDB2_OK;
     }
 
-    // }]]
+    // }}}
     // {{{ listTableConstraints()
 
     /**

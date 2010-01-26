@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add support for MDB2's 'sqlsrv' driver (#1486395)
 - Use jQuery-1.4
 - Removed problematic browser-caching of messages
 - Fix incompatybility with suhosin.executor.disable_emodifier (#1486321)

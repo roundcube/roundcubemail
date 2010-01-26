@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.21 2008/02/17 18:51:39 quipo Exp $
+// $Id: Common.php 292715 2009-12-28 14:06:34Z quipo $
 //
 
 /**
@@ -166,7 +166,7 @@ class MDB2_Driver_Function_Common extends MDB2_Module_Common
      */
     function substring($value, $position = 1, $length = null)
     {
-        if (!is_null($length)) {
+        if (null !== $length) {
             return "SUBSTRING($value FROM $position FOR $length)";
         }
         return "SUBSTRING($value FROM $position)";

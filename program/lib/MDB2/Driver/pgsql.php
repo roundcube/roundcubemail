@@ -43,7 +43,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.197 2008/03/08 14:18:39 quipo Exp $
+// $Id: pgsql.php 292715 2009-12-28 14:06:34Z quipo $
 
 /**
  * MDB2 PostGreSQL driver
@@ -95,7 +95,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
         $this->options['DBA_username'] = false;
         $this->options['DBA_password'] = false;
         $this->options['multi_query'] = false;
-        $this->options['disable_smart_seqname'] = false;
+        $this->options['disable_smart_seqname'] = true;
         $this->options['max_identifiers_length'] = 63;
     }
 
@@ -135,6 +135,8 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
                 '/(relation|sequence|table).*does not exist|class .* not found/i'
                     => MDB2_ERROR_NOSUCHTABLE,
                 '/database .* does not exist/'
+                    => MDB2_ERROR_NOT_FOUND,
+                '/constraint .* does not exist/'
                     => MDB2_ERROR_NOT_FOUND,
                 '/index .* does not exist/'
                     => MDB2_ERROR_NOT_FOUND,
@@ -234,14 +236,15 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
     function beginTransaction($savepoint = null)
     {
         $this->debug('Starting transaction/savepoint', __FUNCTION__, array('is_manip' => true, 'savepoint' => $savepoint));
-        if (!is_null($savepoint)) {
+        if (null !== $savepoint) {
             if (!$this->in_transaction) {
                 return $this->raiseError(MDB2_ERROR_INVALID, null, null,
                     'savepoint cannot be released when changes are auto committed', __FUNCTION__);
             }
             $query = 'SAVEPOINT '.$savepoint;
             return $this->_doQuery($query, true);
-        } elseif ($this->in_transaction) {
+        }
+        if ($this->in_transaction) {
             return MDB2_OK;  //nothing to do
         }
         if (!$this->destructor_registered && $this->opened_persistent) {
@@ -277,7 +280,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             return $this->raiseError(MDB2_ERROR_INVALID, null, null,
                 'commit/release savepoint cannot be done changes are auto committed', __FUNCTION__);
         }
-        if (!is_null($savepoint)) {
+        if (null !== $savepoint) {
             $query = 'RELEASE SAVEPOINT '.$savepoint;
             return $this->_doQuery($query, true);
         }
@@ -311,7 +314,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             return $this->raiseError(MDB2_ERROR_INVALID, null, null,
                 'rollback cannot be done changes are auto committed', __FUNCTION__);
         }
-        if (!is_null($savepoint)) {
+        if (null !== $savepoint) {
             $query = 'ROLLBACK TO SAVEPOINT '.$savepoint;
             return $this->_doQuery($query, true);
         }
@@ -423,9 +426,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             $params[0].= ' service=' . $this->dsn['service'];
         }
 
-        if (!empty($this->dsn['new_link'])
-            && ($this->dsn['new_link'] == 'true' || $this->dsn['new_link'] === true))
-        {
+        if ($this->_isNewLinkSet()) {
             if (version_compare(phpversion(), '4.3.0', '>=')) {
                 $params[] = PGSQL_CONNECT_FORCE_NEW;
             }
@@ -449,6 +450,29 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             $result = $this->setCharset($this->dsn['charset'], $connection);
             if (PEAR::isError($result)) {
                 return $result;
+            }
+        }
+
+        // Enable extra compatibility settings on 8.2 and later
+        if (function_exists('pg_parameter_status')) {
+            $version = pg_parameter_status($connection, 'server_version');
+            if ($version == false) {
+                return $this->raiseError(null, null, null,
+                  'Unable to retrieve server version', __FUNCTION__);
+            }
+            $version = explode ('.', $version);
+            if (    $version['0'] > 8
+                || ($version['0'] == 8 && $version['1'] >= 2)
+            ) {
+                if (!@pg_query($connection, "SET SESSION STANDARD_CONFORMING_STRINGS = OFF")) {
+                    return $this->raiseError(null, null, null,
+                      'Unable to set standard_conforming_strings to off', __FUNCTION__);
+                }
+
+                if (!@pg_query($connection, "SET SESSION ESCAPE_STRING_WARNING = OFF")) {
+                    return $this->raiseError(null, null, null,
+                      'Unable to set escape_string_warning to off', __FUNCTION__);
+                }
             }
         }
 
@@ -509,7 +533,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
      */
     function setCharset($charset, $connection = null)
     {
-        if (is_null($connection)) {
+        if (null === $connection) {
             $connection = $this->getConnection();
             if (PEAR::isError($connection)) {
                 return $connection;
@@ -580,8 +604,14 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             }
 
             if (!$this->opened_persistent || $force) {
-                @pg_close($this->connection);
+                $ok = @pg_close($this->connection);
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
+                }
             }
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -653,7 +683,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             return $result;
         }
 
-        if (is_null($connection)) {
+        if (null === $connection) {
             $connection = $this->getConnection();
             if (PEAR::isError($connection)) {
                 return $connection;
@@ -691,7 +721,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
      */
     function _affectedRows($connection, $result = null)
     {
-        if (is_null($connection)) {
+        if (null === $connection) {
             $connection = $this->getConnection();
             if (PEAR::isError($connection)) {
                 return $connection;
@@ -879,7 +909,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             } else {
                 break;
             }
-            if (is_null($placeholder_type)) {
+            if (null === $placeholder_type) {
                 $placeholder_type_guess = $query[$p_position];
             }
             
@@ -893,7 +923,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             }
 
             if ($query[$position] == $placeholder_type_guess) {
-                if (is_null($placeholder_type)) {
+                if (null === $placeholder_type) {
                     $placeholder_type = $query[$p_position];
                     $question = $colon = $placeholder_type;
                     if (!empty($types) && is_array($types)) {
@@ -952,7 +982,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
         static $prep_statement_counter = 1;
         $statement_name = sprintf($this->options['statement_format'], $this->phptype, $prep_statement_counter++ . sha1(microtime() + mt_rand()));
         $statement_name = substr(strtolower($statement_name), 0, $this->options['max_identifiers_length']);
-        if ($pgtypes === false) {
+        if (false === $pgtypes) {
             $result = @pg_prepare($connection, $statement_name, $query);
             if (!$result) {
                 $err =& $this->raiseError(null, null, null,
@@ -1036,8 +1066,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             }
         }
 
-        return sprintf($this->options['seqname_format'],
-            preg_replace('/[^\w\$.]/i', '_', $sqn));
+        return parent::getSequenceName($sqn);
     }
 
     // }}}
@@ -1137,7 +1166,7 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
      */
     function &fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
     {
-        if (!is_null($rownum)) {
+        if (null !== $rownum) {
             $seek = $this->seek($rownum);
             if (PEAR::isError($seek)) {
                 return $seek;
@@ -1157,7 +1186,7 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
             $row = @pg_fetch_row($this->result);
         }
         if (!$row) {
-            if ($this->result === false) {
+            if (false === $this->result) {
                 $err =& $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
                 return $err;
@@ -1188,7 +1217,8 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
             if ($object_class == 'stdClass') {
                 $row = (object) $row;
             } else {
-                $row = new $object_class($row);
+                $rowObj = new $object_class($row);
+                $row = $rowObj;
             }
         }
         ++$this->rownum;
@@ -1237,11 +1267,12 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
     function numCols()
     {
         $cols = @pg_num_fields($this->result);
-        if (is_null($cols)) {
-            if ($this->result === false) {
+        if (null === $cols) {
+            if (false === $this->result) {
                 return $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
-            } elseif (is_null($this->result)) {
+            }
+            if (null === $this->result) {
                 return count($this->types);
             }
             return $this->db->raiseError(null, null, null,
@@ -1285,7 +1316,7 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
     {
         if (is_resource($this->result) && $this->db->connection) {
             $free = @pg_free_result($this->result);
-            if ($free === false) {
+            if (false === $free) {
                 return $this->db->raiseError(null, null, null,
                     'Could not free result', __FUNCTION__);
             }
@@ -1316,10 +1347,11 @@ class MDB2_BufferedResult_pgsql extends MDB2_Result_pgsql
     function seek($rownum = 0)
     {
         if ($this->rownum != ($rownum - 1) && !@pg_result_seek($this->result, $rownum)) {
-            if ($this->result === false) {
+            if (false === $this->result) {
                 return $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
-            } elseif (is_null($this->result)) {
+            }
+            if (null === $this->result) {
                 return MDB2_OK;
             }
             return $this->db->raiseError(MDB2_ERROR_INVALID, null, null,
@@ -1359,11 +1391,12 @@ class MDB2_BufferedResult_pgsql extends MDB2_Result_pgsql
     function numRows()
     {
         $rows = @pg_num_rows($this->result);
-        if (is_null($rows)) {
-            if ($this->result === false) {
+        if (null === $rows) {
+            if (false === $this->result) {
                 return $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
-            } elseif (is_null($this->result)) {
+            }
+            if (null === $this->result) {
                 return 0;
             }
             return $this->db->raiseError(null, null, null,
@@ -1389,12 +1422,14 @@ class MDB2_Statement_pgsql extends MDB2_Statement_Common
      *
      * @param mixed $result_class string which specifies which result class to use
      * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
      * @access private
      */
     function &_execute($result_class = true, $result_wrap_class = false)
     {
-        if (is_null($this->statement)) {
+        if (null === $this->statement) {
             $result =& parent::_execute($result_class, $result_wrap_class);
             return $result;
         }
@@ -1490,13 +1525,13 @@ class MDB2_Statement_pgsql extends MDB2_Statement_Common
      */
     function free()
     {
-        if (is_null($this->positions)) {
+        if (null === $this->positions) {
             return $this->db->raiseError(MDB2_ERROR, null, null,
                 'Prepared statement has already been freed', __FUNCTION__);
         }
         $result = MDB2_OK;
 
-        if (!is_null($this->statement)) {
+        if (null !== $this->statement) {
             $connection = $this->db->getConnection();
             if (PEAR::isError($connection)) {
                 return $connection;

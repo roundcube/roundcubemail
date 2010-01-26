@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysqli.php,v 1.63 2008/02/22 19:23:49 quipo Exp $
+// $Id: mysqli.php 292715 2009-12-28 14:06:34Z quipo $
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -352,17 +352,23 @@ class MDB2_Driver_Datatype_mysqli extends MDB2_Driver_Datatype_Common
         }
 
         $match = '';
-        if (!is_null($operator)) {
-            $field = is_null($field) ? '' : $field.' ';
+        if (null !== $operator) {
+            $field = (null === $field) ? '' : $field.' ';
             $operator = strtoupper($operator);
             switch ($operator) {
             // case insensitive
             case 'ILIKE':
                 $match = $field.'LIKE ';
                 break;
+            case 'NOT ILIKE':
+                $match = $field.'NOT LIKE ';
+                break;
             // case sensitive
             case 'LIKE':
                 $match = $field.'LIKE BINARY ';
+                break;
+            case 'NOT LIKE':
+                $match = $field.'NOT LIKE BINARY ';
                 break;
             default:
                 return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,

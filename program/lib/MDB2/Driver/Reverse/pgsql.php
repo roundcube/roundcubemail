@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.70 2008/03/13 20:38:09 quipo Exp $
+// $Id: pgsql.php 292715 2009-12-28 14:06:34Z quipo $
 
 require_once 'MDB2/Driver/Reverse/Common.php';
 
@@ -143,11 +143,12 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         }
         $default = null;
         if ($column['atthasdef'] === 't'
+            && strpos($column['default'], 'NULL') !== 0
             && !preg_match("/nextval\('([^']+)'/", $column['default'])
         ) {
-            $pattern = '/(\'.*\')::[\w ]+$/i';
+            $pattern = '/^\'(.*)\'::[\w ]+$/i';
             $default = $column['default'];#substr($column['adsrc'], 1, -1);
-            if (is_null($default) && $notnull) {
+            if ((null === $default) && $notnull) {
                 $default = '';
             } elseif (!empty($default) && preg_match($pattern, $default)) {
                 //remove data type cast
@@ -159,13 +160,13 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             $autoincrement = true;
         }
         $definition[0] = array('notnull' => $notnull, 'nativetype' => $column['type']);
-        if (!is_null($length)) {
+        if (null !== $length) {
             $definition[0]['length'] = $length;
         }
-        if (!is_null($unsigned)) {
+        if (null !== $unsigned) {
             $definition[0]['unsigned'] = $unsigned;
         }
-        if (!is_null($fixed)) {
+        if (null !== $fixed) {
             $definition[0]['fixed'] = $fixed;
         }
         if ($default !== false) {
@@ -299,7 +300,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
                LEFT JOIN pg_class t  ON c.conrelid  = t.oid
                LEFT JOIN pg_class t2 ON c.confrelid = t2.oid
                    WHERE c.conname = %s
-                    AND t.relname = " . $db->quote($table, 'text');
+                     AND t.relname = " . $db->quote($table, 'text');
         $constraint_name_mdb2 = $db->getIndexName($constraint_name);
         $row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, MDB2_FETCHMODE_ASSOC);
         if (PEAR::isError($row) || empty($row)) {
@@ -310,10 +311,41 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         if (PEAR::isError($row)) {
             return $row;
         }
-
+        $uniqueIndex = false;
         if (empty($row)) {
-            return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
-                $constraint_name . ' is not an existing table constraint', __FUNCTION__);
+            // We might be looking for a UNIQUE index that was not created
+            // as a constraint but should be treated as such.
+            $query = 'SELECT relname AS constraint_name,
+                             indkey,
+                             0 AS "check",
+                             0 AS "foreign",
+                             0 AS "primary",
+                             1 AS "unique",
+                             0 AS deferrable,
+                             0 AS initiallydeferred,
+                             NULL AS references_table,
+                             NULL AS onupdate,
+                             NULL AS ondelete,
+                             NULL AS match
+                        FROM pg_index, pg_class
+                       WHERE pg_class.oid = pg_index.indexrelid
+                         AND indisunique = \'t\'
+                         AND pg_class.relname = %s';
+            $constraint_name_mdb2 = $db->getIndexName($constraint_name);
+            $row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, MDB2_FETCHMODE_ASSOC);
+            if (PEAR::isError($row) || empty($row)) {
+                // fallback to the given $index_name, without transformation
+                $constraint_name_mdb2 = $constraint_name;
+                $row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, MDB2_FETCHMODE_ASSOC);
+            }
+            if (PEAR::isError($row)) {
+                return $row;
+            }
+            if (empty($row)) {
+                return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                    $constraint_name . ' is not an existing table constraint', __FUNCTION__);
+            }
+            $uniqueIndex = true;
         }
 
         $row = array_change_key_case($row, CASE_LOWER);
@@ -335,13 +367,26 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             'match'    => $row['match'],
         );
 
+        if ($uniqueIndex) {
+            $db->loadModule('Manager', null, true);
+            $columns = $db->manager->listTableFields($table_name);
+            $index_column_numbers = explode(' ', $row['indkey']);
+            $colpos = 1;
+            foreach ($index_column_numbers as $number) {
+                $definition['fields'][$columns[($number - 1)]] = array(
+                    'position' => $colpos++,
+                    'sorting'  => 'ascending',
+                );
+            }
+            return $definition;
+        }
+
         $query = 'SELECT a.attname
                     FROM pg_constraint c
                LEFT JOIN pg_class t  ON c.conrelid  = t.oid
                LEFT JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(c.conkey)
                    WHERE c.conname = %s
                      AND t.relname = ' . $db->quote($table, 'text');
-        $constraint_name_mdb2 = $db->getIndexName($constraint_name);
         $fields = $db->queryCol(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null);
         if (PEAR::isError($fields)) {
             return $fields;
@@ -361,7 +406,6 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
                    LEFT JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(c.confkey)
                        WHERE c.conname = %s
                          AND t.relname = ' . $db->quote($definition['references']['table'], 'text');
-            $constraint_name_mdb2 = $db->getIndexName($constraint_name);
             $foreign_fields = $db->queryCol(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null);
             if (PEAR::isError($foreign_fields)) {
                 return $foreign_fields;

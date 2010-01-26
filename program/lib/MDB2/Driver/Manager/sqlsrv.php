@@ -43,13 +43,10 @@
 // |          David Coallier <davidc@php.net>                             |
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
-//
-// $Id: mssql.php 292715 2009-12-28 14:06:34Z quipo $
-//
 
 require_once 'MDB2/Driver/Manager/Common.php';
 
-// {{{ class MDB2_Driver_Manager_mssql
+// {{{ class MDB2_Driver_Manager_sqlsrv
 
 /**
  * MDB2 MSSQL driver for the management modules
@@ -60,7 +57,7 @@ require_once 'MDB2/Driver/Manager/Common.php';
  * @author  David Coallier <davidc@php.net>
  * @author  Lorenzo Alberton <l.alberton@quipo.it>
  */
-class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
+class MDB2_Driver_Manager_sqlsrv extends MDB2_Driver_Manager_Common
 {
     // {{{ createDatabase()
     /**
@@ -148,6 +145,26 @@ class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+    // {{{ dropTable()
+
+    /**
+     * drop an existing table
+     *
+     * @param string $name name of the table that should be dropped
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function dropTable($name)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        $name = $db->quoteIdentifier($name, true);
+        return $db->exec("IF EXISTS (SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='$name') DROP TABLE $name");
+    }
+
+    // }}}	
     // {{{ _getTemporaryTableQuery()
 
     /**
@@ -226,9 +243,9 @@ class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
      */
     function createTable($name, $fields, $options = array())
     {
-        if (!empty($options['temporary'])) {
-            $name = '#'.$name;
-        }
+        /*if (!empty($options['temporary'])) {
+            $name = '#'.$name;//would make subsequent calls fail because it would go out ot scope and be destroyed already
+        }*/
         return parent::createTable($name, $fields, $options);
     }
 
@@ -715,11 +732,11 @@ class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $table = $db->quote($table, 'text');
+        $table = $db->quoteIdentifier($table, true);
         $columns = $db->queryCol("SELECT c.name
                                     FROM syscolumns c
                                LEFT JOIN sysobjects o ON c.id = o.id
-                                   WHERE o.name = $table");
+                                   WHERE o.name = '$table'");
         if (PEAR::isError($columns)) {
             return $columns;
         }
@@ -994,12 +1011,10 @@ class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-        $table = $db->quote($table, 'text');
-
         $query = "SELECT c.constraint_name
                     FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS c
                    WHERE c.constraint_catalog = DB_NAME()
-                     AND c.table_name = $table";
+                     AND c.table_name = '$table'";
         $constraints = $db->queryCol($query);
         if (PEAR::isError($constraints)) {
             return $constraints;
@@ -1017,6 +1032,55 @@ class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
             $result = array_change_key_case($result, $db->options['field_case']);
         }
         return array_keys($result);
+    }
+
+    // }}}
+    // {{{
+
+    /**
+     * Create a basic SQL query for a new table creation
+     *
+     * @param string $name   Name of the database that should be created
+     * @param array $fields  Associative array that contains the definition of each field of the new table
+     * @param array $options An associative array of table options
+     *                          Supported options are:
+     *                          'primary'   An array of column names in the array keys
+     *                                      that form the primary key of the table
+     *                          'temporary' If true, creates the table as a temporary table
+     * @return mixed string  The SQL query on success, or MDB2 error on failure
+     * @see createTable()
+     */
+    function _getCreateTableQuery($name, $fields, $options = array())
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        if (!$name) {
+            return $db->raiseError(MDB2_ERROR_CANNOT_CREATE, null, null,
+                'no valid table name specified', __FUNCTION__);
+        }
+        if (empty($fields)) {
+            return $db->raiseError(MDB2_ERROR_CANNOT_CREATE, null, null,
+                'no fields specified for table "'.$name.'"', __FUNCTION__);
+        }
+        $query_fields = $this->getFieldDeclarationList($fields);
+        if (PEAR::isError($query_fields)) {
+            return $query_fields;
+        }
+        /*Removed since you can't get the PK name from Schema here, will result in a redefinition of PK index error
+		if (!empty($options['primary'])) {
+            $query_fields.= ', PRIMARY KEY ('.implode(', ', array_keys($options['primary'])).')';
+        }*/
+
+        $name = $db->quoteIdentifier($name, true);
+        $result = 'CREATE ';
+        if (!empty($options['temporary']) && $options['temporary']) {
+            $result .= $this->_getTemporaryTableQuery() . ' ';
+        }
+        $result .= "TABLE $name ($query_fields)";
+        return $result;
     }
 
     // }}}
@@ -1123,6 +1187,196 @@ class MDB2_Driver_Manager_mssql extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+    /**
+     * New OPENX method to check table name according to specifications:
+     *  http://msdn.microsoft.com/en-us/library/aa258255(SQL.80).aspx
+     *
+     *  Table names must conform to the rules for identifiers. The combination of owner.table_name 
+     *  must be unique within the database. table_name can contain a maximum of 128 characters, 
+     *  except for local temporary table names (names prefixed with a single number sign (#)) that 
+     *  cannot exceed 116 characters.
+     *
+     * @param string $name table name to check
+     * @return true if name is correct and PEAR error on failure
+     */
+    function validateTableName($name)
+    {
+        // Table name maximum length is 128
+        if (strlen($name) > 128) {
+            return PEAR::raiseError(
+               'SQL Server table names are limited to 128 characters in length');
+        }
+        return true;
+    }
+
+    /**
+     * New OpenX method
+     *
+     * @param string $table
+     * @return array
+     */
+    function getTableStatus($table)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $query      = "exec sp_spaceused '{$table}'";
+        $result     = $db->queryAll($query, null, MDB2_FETCHMODE_ASSOC);
+        if (PEAR::isError($result))
+        {
+            return array();
+        }
+		$result[0]['data_length'] = (isset($result[0]['data'])) ? $result[0]['data'] : 0;
+		$result[0]['data_free'] = (isset($result[0]['unused'])) ? $result[0]['unused'] : 0;
+		//data_length,rows,auto_increment,data_free
+        $query      = "SELECT IDENT_CURRENT ('{$table}') + IDENT_INCR ('{$table}') AS auto_increment";
+        $resultIdentity     = $db->queryAll($query, null, MDB2_FETCHMODE_ASSOC);
+		$result[0]['auto_increment'] = (isset($resultIdentity[0]['auto_increment'])) ? $resultIdentity[0]['auto_increment'] : 0;
+        return $result;
+    }
+
+    function checkTable($tableName)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        $query  = 'CHECK TABLE '.$tableName;
+        $result = $db->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
+        if (PEAR::isError($result))
+        {
+            return array('msg_text' => $result->getUserInfo());
+        }
+        return $result;
+    }
+
+    /**
+     * New OPENX method to check database name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
+     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+     *  For 4.0, 4.1, 5.0 seem to be the same
+     *
+     * @param string $name database name to check
+     * @return true in name is correct and PEAR error on failure
+     */
+    function validateDatabaseName($name)
+    {
+        return $this->_validateEntityName($name, 'Database');
+    }
+
+    /**
+     * New OPENX method to check entity name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
+     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+     *  For 4.0, 4.1, 5.0 seem to be the same
+     *
+     *  There are some restrictions on the characters that may appear in identifiers:
+     *  - No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
+     *  - Before MySQL 4.1, identifier quote characters should not be used in identifiers.
+     *  - Database, table, and column names should not end with space characters.
+     *  - Database and table names cannot contain “/”, “\”, “.”, or characters that are not allowed in filenames.
+     *
+     *  Table/Database name maximum length:
+     *  - 64
+     *
+     * @param string $name table name to check
+     * @return true if name is correct and PEAR error on failure
+     *      *
+     * @param unknown_type $name
+     * @param unknown_type $entityType
+     * @return unknown
+     */
+    function _validateEntityName($name, $entityType)
+    {
+        // Table name maximum length is 64
+        if (strlen($name) > 64) {
+            return PEAR::raiseError(
+               $entityType.' names are limited to 64 characters in length');
+        }
+
+        // Database, table, and column names should not end with space characters.
+        // Extended for leading and ending spaces
+        if ($name != trim($name)) {
+            return PEAR::raiseError(
+                $entityType.' names should not start or end with space characters');
+        }
+
+        // No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
+        if (preg_match( '/([\x00\xff])/', $name)) {
+            return PEAR::raiseError(
+               $entityType.' names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
+        }
+
+        //Before MySQL 4.1, identifier quote characters should not be used in identifiers.
+        //we actually extend that and disallow quoting at all
+        if (preg_match( '/(\\\\|\/|\.|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
+            return PEAR::raiseError(
+                $entityType.' names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
+        }
+
+        return true;
+    }
+
+    // {{{ createConstraint()
+
+    /**
+     * create a constraint on a table
+     *
+     * @param string    $table         name of the table on which the constraint is to be created
+     * @param string    $name         name of the constraint to be created
+     * @param array     $definition        associative array that defines properties of the constraint to be created.
+     *                                 Currently, only one property named FIELDS is supported. This property
+     *                                 is also an associative with the names of the constraint fields as array
+     *                                 constraints. Each entry of this array is set to another type of associative
+     *                                 array that specifies properties of the constraint that are specific to
+     *                                 each field.
+     *
+     *                                 Example
+     *                                    array(
+     *                                        'fields' => array(
+     *                                            'user_name' => array(),
+     *                                            'last_login' => array()
+     *                                        )
+     *                                    )
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function createConstraint($table, $name, $definition)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        $table = $db->quoteIdentifier($table, true);
+        $name = $db->quoteIdentifier($db->getIndexName($name), true);
+        if (!empty($definition['primary']) && empty($definition['unique'])) {
+	        $query = "ALTER TABLE $table ADD CONSTRAINT $name";
+	        if (!empty($definition['primary'])) {
+	            $query.= ' PRIMARY KEY';
+	        } elseif (!empty($definition['unique'])) {
+	            $query.= ' UNIQUE';
+	        }
+        } elseif (!empty($definition['unique'])) {
+	        $query = "CREATE UNIQUE NONCLUSTERED INDEX $name ON $table";
+        }
+        $fields = array();
+        foreach (array_keys($definition['fields']) as $field) {
+            $fields[] = $db->quoteIdentifier($field, true);
+        }
+        $query .= ' ('. implode(', ', $fields) . ')';
+		//deals with NULL values and UNIQUE indexes, this solution is only available in SQL Server 2008
+		//https://connect.microsoft.com/SQLServer/feedback/ViewFeedback.aspx?FeedbackID=299229
+		if (!empty($definition['unique']) && empty($definition['primary'])) {
+			for($i=0;$i<count($fields);$i++) $fields[$i] .= ' is NOT NULL';
+			$query .= ' WHERE '. implode(' AND ', $fields);
+		}
+        return $db->exec($query);
+    }
+
+    // }}}
+	
 }
 
 // }}}

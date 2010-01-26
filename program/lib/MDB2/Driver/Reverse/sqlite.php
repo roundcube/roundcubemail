@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.79 2008/03/05 11:08:53 quipo Exp $
+// $Id: sqlite.php 292715 2009-12-28 14:06:34Z quipo $
 //
 
 require_once 'MDB2/Driver/Reverse/Common.php';
@@ -57,6 +57,25 @@ require_once 'MDB2/Driver/Reverse/Common.php';
  */
 class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
 {
+    /**
+     * Remove SQL comments from the field definition
+     *
+     * @access private
+     */
+    function _removeComments($sql) {
+        $lines = explode("\n", $sql);
+        foreach ($lines as $k => $line) {
+            $pieces = explode('--', $line);
+            if (count($pieces) > 1 && (substr_count($pieces[0], '\'') % 2) == 0) {
+                $lines[$k] = substr($line, 0, strpos($line, '--'));
+            }
+        }
+        return implode("\n", $lines);
+    }
+
+    /**
+     *
+     */
     function _getTableColumns($sql)
     {
         $db =& $this->getDBInstance();
@@ -68,14 +87,15 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
         $column_def = substr($sql, $start_pos+1, $end_pos-$start_pos-1);
         // replace the decimal length-places-separator with a colon
         $column_def = preg_replace('/(\d),(\d)/', '\1:\2', $column_def);
-        $column_sql = split(',', $column_def);
+        $column_def = $this->_removeComments($column_def);
+        $column_sql = explode(',', $column_def);
         $columns    = array();
         $count      = count($column_sql);
         if ($count == 0) {
             return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'unexpected empty table column definition list', __FUNCTION__);
         }
-        $regexp = '/^\s*([^\s]+) +(CHAR|VARCHAR|VARCHAR2|TEXT|BOOLEAN|SMALLINT|INT|INTEGER|DECIMAL|BIGINT|DOUBLE|FLOAT|DATETIME|DATE|TIME|LONGTEXT|LONGBLOB)( ?\(([1-9][0-9]*)(:([1-9][0-9]*))?\))?( UNSIGNED)?( PRIMARY KEY)?( DEFAULT (\'[^\']*\'|[^ ]+))?( NULL| NOT NULL)?( PRIMARY KEY)?$/i';
+        $regexp = '/^\s*([^\s]+) +(CHAR|VARCHAR|VARCHAR2|TEXT|BOOLEAN|SMALLINT|INT|INTEGER|DECIMAL|BIGINT|DOUBLE|FLOAT|DATETIME|DATE|TIME|LONGTEXT|LONGBLOB)( ?\(([1-9][0-9]*)(:([1-9][0-9]*))?\))?( NULL| NOT NULL)?( UNSIGNED)?( NULL| NOT NULL)?( PRIMARY KEY)?( DEFAULT (\'[^\']*\'|[^ ]+))?( NULL| NOT NULL)?( PRIMARY KEY)?(\s*\-\-.*)?$/i';
         $regexp2 = '/^\s*([^ ]+) +(PRIMARY|UNIQUE|CHECK)$/i';
         for ($i=0, $j=0; $i<$count; ++$i) {
             if (!preg_match($regexp, trim($column_sql[$i]), $matches)) {
@@ -93,14 +113,14 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
             if (isset($matches[6]) && strlen($matches[6])) {
                 $columns[$j]['decimal'] = $matches[6];
             }
-            if (isset($matches[7]) && strlen($matches[7])) {
+            if (isset($matches[8]) && strlen($matches[8])) {
                 $columns[$j]['unsigned'] = true;
             }
-            if (isset($matches[8]) && strlen($matches[8])) {
+            if (isset($matches[9]) && strlen($matches[9])) {
                 $columns[$j]['autoincrement'] = true;
             }
-            if (isset($matches[10]) && strlen($matches[10])) {
-                $default = $matches[10];
+            if (isset($matches[12]) && strlen($matches[12])) {
+                $default = $matches[12];
                 if (strlen($default) && $default[0]=="'") {
                     $default = str_replace("''", "'", substr($default, 1, strlen($default)-2));
                 }
@@ -109,8 +129,12 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                 }
                 $columns[$j]['default'] = $default;
             }
-            if (isset($matches[11]) && strlen($matches[11])) {
-                $columns[$j]['notnull'] = ($matches[11] === ' NOT NULL');
+            if (isset($matches[7]) && strlen($matches[7])) {
+                $columns[$j]['notnull'] = ($matches[7] === ' NOT NULL');
+            } else if (isset($matches[9]) && strlen($matches[9])) {
+                $columns[$j]['notnull'] = ($matches[9] === ' NOT NULL');
+            } else if (isset($matches[13]) && strlen($matches[13])) {
+                $columns[$j]['notnull'] = ($matches[13] === ' NOT NULL');
             }
             ++$j;
         }
@@ -177,7 +201,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                 $default = false;
                 if (array_key_exists('default', $column)) {
                     $default = $column['default'];
-                    if (is_null($default) && $notnull) {
+                    if ((null === $default) && $notnull) {
                         $default = '';
                     }
                 }
@@ -190,13 +214,13 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                     'notnull' => $notnull,
                     'nativetype' => preg_replace('/^([a-z]+)[^a-z].*/i', '\\1', $column['type'])
                 );
-                if (!is_null($length)) {
+                if (null !== $length) {
                     $definition[0]['length'] = $length;
                 }
-                if (!is_null($unsigned)) {
+                if (null !== $unsigned) {
                     $definition[0]['unsigned'] = $unsigned;
                 }
-                if (!is_null($fixed)) {
+                if (null !== $fixed) {
                     $definition[0]['fixed'] = $fixed;
                 }
                 if ($default !== false) {
@@ -276,7 +300,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
         $start_pos = strpos($sql, '(');
         $end_pos = strrpos($sql, ')');
         $column_names = substr($sql, $start_pos+1, $end_pos-$start_pos-1);
-        $column_names = split(',', $column_names);
+        $column_names = explode(',', $column_names);
 
         if (preg_match("/^create unique/", $sql)) {
             return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
@@ -384,7 +408,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                 if (preg_match("/\bPRIMARY\s+KEY\b\s*\(([^)]+)/i", $sql, $tmp)) {
                     $definition['primary'] = true;
                     $definition['fields'] = array();
-                    $column_names = split(',', $tmp[1]);
+                    $column_names = explode(',', $tmp[1]);
                     $colpos = 1;
                     foreach ($column_names as $column_name) {
                         $definition['fields'][trim($column_name)] = array(
@@ -396,7 +420,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                 if (preg_match("/\"([^\"]+)\"[^\,\"]+\bPRIMARY\s+KEY\b[^\,\)]*/i", $sql, $tmp)) {
                     $definition['primary'] = true;
                     $definition['fields'] = array();
-                    $column_names = split(',', $tmp[1]);
+                    $column_names = explode(',', $tmp[1]);
                     $colpos = 1;
                     foreach ($column_names as $column_name) {
                         $definition['fields'][trim($column_name)] = array(
@@ -426,14 +450,14 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                     $definition['onupdate'] = 'NO ACTION';
                     $definition['ondelete'] = 'NO ACTION';
                     $definition['references']['table'] = $tmp[2];
-                    $column_names = split(',', $tmp[1]);
+                    $column_names = explode(',', $tmp[1]);
                     $colpos = 1;
                     foreach ($column_names as $column_name) {
                         $definition['fields'][trim($column_name)] = array(
                             'position' => $colpos++
                         );
                     }
-                    $referenced_cols = split(',', $tmp[3]);
+                    $referenced_cols = explode(',', $tmp[3]);
                     $colpos = 1;
                     foreach ($referenced_cols as $column_name) {
                         $definition['references']['fields'][trim($column_name)] = array(
@@ -463,7 +487,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
         $start_pos = strpos($sql, '(');
         $end_pos   = strrpos($sql, ')');
         $column_names = substr($sql, $start_pos+1, $end_pos-$start_pos-1);
-        $column_names = split(',', $column_names);
+        $column_names = explode(',', $column_names);
 
         if (!preg_match("/^create unique/", $sql)) {
             return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,

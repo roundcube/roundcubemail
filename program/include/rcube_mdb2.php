@@ -106,7 +106,7 @@ class rcube_mdb2
       if (!filesize($dsn_array['database']) && !empty($this->sqlite_initials))
         $this->_sqlite_create_database($dbh, $this->sqlite_initials);
       }
-    else if ($this->db_provider!='mssql')
+    else if ($this->db_provider!='mssql' && $this->db_provider!='sqlsrv')
       $dbh->setCharset('utf8');
 
     return $dbh;
@@ -467,6 +467,7 @@ class rcube_mdb2
     switch($this->db_provider)
       {
       case 'mssql':
+      case 'sqlsrv':
         return "getdate()";
 
       default:
@@ -511,6 +512,7 @@ class rcube_mdb2
         break;
 
       case 'mssql':
+      case 'sqlsrv':
 	return "DATEDIFF(second, '19700101', $field) + DATEDIFF(second, GETDATE(), GETUTCDATE())";
 
       default:

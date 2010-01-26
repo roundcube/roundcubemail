@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.10 2008/02/17 18:54:08 quipo Exp $
+// $Id: pgsql.php 268669 2008-11-09 19:46:50Z quipo $
 
 require_once 'MDB2/Driver/Function/Common.php';
 
@@ -93,7 +93,7 @@ class MDB2_Driver_Function_pgsql extends MDB2_Driver_Function_Common
      */
     function unixtimestamp($expression)
     {
-        return 'EXTRACT(EPOCH FROM DATE_TRUNC(\'seconds\', TIMESTAMP '. $expression.'))';
+        return 'EXTRACT(EPOCH FROM DATE_TRUNC(\'seconds\', CAST ((' . $expression . ') AS TIMESTAMP)))';
     }
 
     // }}}

@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Extended.php,v 1.60 2007/11/28 19:49:34 quipo Exp $
+// $Id: Extended.php 292715 2009-12-28 14:06:34Z quipo $
 
 /**
  * @package  MDB2
@@ -214,7 +214,7 @@ class MDB2_Extended extends MDB2_Module_Common
             }
         }
 
-        if ($where !== false && !is_null($where)) {
+        if ((false !== $where) && (null !== $where)) {
             if (is_array($where)) {
                 $where = implode(' AND ', $where);
             }

@@ -42,9 +42,6 @@
 // | Authors: Lukas Smith <smith@pooteeweet.org>                          |
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
-//
-// $Id: mssql.php 292715 2009-12-28 14:06:34Z quipo $
-//
 
 require_once 'MDB2/Driver/Reverse/Common.php';
 
@@ -56,7 +53,7 @@ require_once 'MDB2/Driver/Reverse/Common.php';
  * @author  Lukas Smith <smith@dybnet.de>
  * @author  Lorenzo Alberton <l.alberton@quipo.it>
  */
-class MDB2_Driver_Reverse_mssql extends MDB2_Driver_Reverse_Common
+class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
 {
     // {{{ getTableFieldDefinition()
 
@@ -160,7 +157,7 @@ class MDB2_Driver_Reverse_mssql extends MDB2_Driver_Reverse_Common
         if (null !== $fixed) {
             $definition[0]['fixed'] = $fixed;
         }
-        if (false !== $default) {
+        if ($default !== false) {
             $definition[0]['default'] = $default;
         }
         foreach ($types as $key => $type) {
@@ -507,7 +504,8 @@ class MDB2_Driver_Reverse_mssql extends MDB2_Driver_Reverse_Common
             $case_func = 'strval';
         }
 
-        $count = @mssql_num_fields($resource);
+        $meta = @sqlsrv_field_metadata($resource);
+        $count = count($meta);
         $res   = array();
 
         if ($mode) {
@@ -518,10 +516,12 @@ class MDB2_Driver_Reverse_mssql extends MDB2_Driver_Reverse_Common
         for ($i = 0; $i < $count; $i++) {
             $res[$i] = array(
                 'table' => '',
-                'name'  => $case_func(@mssql_field_name($resource, $i)),
-                'type'  => @mssql_field_type($resource, $i),
-                'length'   => @mssql_field_length($resource, $i),
-                'flags' => '',
+                'name'              => $case_func($meta[$i]['Name']),
+                'type'              => $meta[$i]['Type'],
+                'length'            => $meta[$i]['Size'],
+                'numeric_precision' => $meta[$i]['Precision'],
+                'numeric_scale'     => $meta[$i]['Scale'],
+                'flags'             => ''
             );
             $mdb2type_info = $db->datatype->mapNativeDatatype($res[$i]);
             if (PEAR::isError($mdb2type_info)) {

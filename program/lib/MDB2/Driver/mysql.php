@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.208 2008/03/13 03:31:55 afz Exp $
+// $Id: mysql.php 292659 2009-12-26 17:31:01Z quipo $
 //
 
 /**
@@ -337,7 +337,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             $this->destructor_registered = true;
             register_shutdown_function('MDB2_closeOpenTransactions');
         }
-        $query = $this->start_transaction ? 'START TRANSACTION' : 'SET AUTOCOMMIT = 1';
+        $query = $this->start_transaction ? 'START TRANSACTION' : 'SET AUTOCOMMIT = 0';
         $result =& $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
@@ -390,7 +390,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             return $result;
         }
         if (!$this->start_transaction) {
-            $query = 'SET AUTOCOMMIT = 0';
+            $query = 'SET AUTOCOMMIT = 1';
             $result =& $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 return $result;
@@ -436,7 +436,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             return $result;
         }
         if (!$this->start_transaction) {
-            $query = 'SET AUTOCOMMIT = 0';
+            $query = 'SET AUTOCOMMIT = 1';
             $result =& $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 return $result;
@@ -501,21 +501,19 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         }
 
         $params = array();
-        if ($this->dsn['protocol'] && $this->dsn['protocol'] == 'unix') {
-            $params[0] = ':' . $this->dsn['socket'];
+        $unix = ($this->dsn['protocol'] && $this->dsn['protocol'] == 'unix');
+        if (empty($this->dsn['hostspec'])) {
+            $this->dsn['hostspec'] = $unix ? '' : 'localhost';
+        }
+        if ($this->dsn['hostspec']) {
+            $params[0] = $this->dsn['hostspec'] . ($this->dsn['port'] ? ':' . $this->dsn['port'] : '');
         } else {
-            $params[0] = $this->dsn['hostspec'] ? $this->dsn['hostspec']
-                         : 'localhost';
-            if ($this->dsn['port']) {
-                $params[0].= ':' . $this->dsn['port'];
-            }
+            $params[0] = ':' . $this->dsn['socket'];
         }
         $params[] = $username ? $username : null;
         $params[] = $password ? $password : null;
         if (!$persistent) {
-            if (isset($this->dsn['new_link'])
-                && ($this->dsn['new_link'] == 'true' || $this->dsn['new_link'] === true)
-            ) {
+            if ($this->_isNewLinkSet()) {
                 $params[] = true;
             } else {
                 $params[] = false;
@@ -625,9 +623,18 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             $collation = array_pop($charset);
             $charset   = array_pop($charset);
         }
+        $client_info = mysql_get_client_info();
+        if (function_exists('mysql_set_charset') && version_compare($client_info, '5.0.6')) {
+            if (!$result = mysql_set_charset($charset, $connection)) {
+                $err =& $this->raiseError(null, null, null,
+                    'Could not set client character set', __FUNCTION__);
+                return $err;
+            }
+            return $result;
+        }
         $query = "SET NAMES '".mysql_real_escape_string($charset, $connection)."'";
         if (!is_null($collation)) {
-            $query .= " COLLATE '".mysqli_real_escape_string($connection, $collation)."'";
+            $query .= " COLLATE '".mysql_real_escape_string($collation, $connection)."'";
         }
         return $this->_doQuery($query, true, $connection);
     }
@@ -687,8 +694,14 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             }
 
             if (!$this->opened_persistent || $force) {
-                @mysql_close($this->connection);
+                $ok = @mysql_close($this->connection);
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
+                }
             }
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -780,7 +793,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $function = $this->options['result_buffering']
             ? 'mysql_query' : 'mysql_unbuffered_query';
         $result = @$function($query, $connection);
-        if (!$result) {
+        if (!$result && 0 !== mysql_errno($connection)) {
             $err =& $this->raiseError(null, null, null,
                 'Could not execute statement', __FUNCTION__);
             return $err;
@@ -1021,6 +1034,12 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      */
     function &prepare($query, $types = null, $result_types = null, $lobs = array())
     {
+        // connect to get server capabilities (http://pear.php.net/bugs/16147)
+        $connection = $this->getConnection();
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+
         if ($this->options['emulate_prepared']
             || $this->supported['prepared_statements'] !== true
         ) {
@@ -1099,10 +1118,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
                 $position = $p_position;
             }
         }
-        $connection = $this->getConnection();
-        if (PEAR::isError($connection)) {
-            return $connection;
-        }
+
         static $prep_statement_counter = 1;
         $statement_name = sprintf($this->options['statement_format'], $this->phptype, $prep_statement_counter++ . sha1(microtime() + mt_rand()));
         $statement_name = substr(strtolower($statement_name), 0, $this->options['max_identifiers_length']);
@@ -1124,8 +1140,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
     /**
      * Execute a SQL REPLACE query. A REPLACE query is identical to a INSERT
      * query, except that if there is already a row in the table with the same
-     * key field values, the REPLACE query just updates its values instead of
-     * inserting a new row.
+     * key field values, the old row is deleted before the new row is inserted.
      *
      * The REPLACE type of query does not make part of the SQL standards. Since
      * practically only MySQL implements it natively, this type of query is
@@ -1183,6 +1198,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      *
      *    Default: 0
      *
+     * @see http://dev.mysql.com/doc/refman/5.0/en/replace.html
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      */
     function replace($table, $fields)
@@ -1393,7 +1409,8 @@ class MDB2_Result_mysql extends MDB2_Result_Common
             if ($object_class == 'stdClass') {
                 $row = (object) $row;
             } else {
-                $row = new $object_class($row);
+                $rowObj = new $object_class($row);
+                $row = $rowObj;
             }
         }
         ++$this->rownum;
@@ -1555,6 +1572,8 @@ class MDB2_BufferedResult_mysql extends MDB2_Result_mysql
         }
         return $rows;
     }
+    
+    // }}}
 }
 
 /**
@@ -1573,7 +1592,9 @@ class MDB2_Statement_mysql extends MDB2_Statement_Common
      *
      * @param mixed $result_class string which specifies which result class to use
      * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
      * @access private
      */
     function &_execute($result_class = true, $result_wrap_class = false)
@@ -1602,6 +1623,7 @@ class MDB2_Statement_mysql extends MDB2_Statement_Common
                     return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                         'Unable to bind to missing placeholder: '.$parameter, __FUNCTION__);
                 }
+                $close = false;
                 $value = $this->values[$parameter];
                 $type = array_key_exists($parameter, $this->types) ? $this->types[$parameter] : null;
                 if (is_resource($value) || $type == 'clob' || $type == 'blob' && $this->db->options['lob_allow_url_include']) {

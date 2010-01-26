@@ -40,23 +40,54 @@
 // | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
 // | POSSIBILITY OF SUCH DAMAGE.                                          |
 // +----------------------------------------------------------------------+
-// | Author: Lukas Smith <smith@pooteeweet.org>                           |
+// | Authors: Lukas Smith <smith@pooteeweet.org>                          |
+// |          Daniel Convissor <danielc@php.net>                          |
 // +----------------------------------------------------------------------+
-//
-// $Id: sqlite.php 292715 2009-12-28 14:06:34Z quipo $
-//
 
 require_once 'MDB2/Driver/Datatype/Common.php';
 
 /**
- * MDB2 SQLite driver
+ * MDB2 MS SQL driver
  *
  * @package MDB2
  * @category Database
- * @author  Lukas Smith <smith@pooteeweet.org>
  */
-class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
+class MDB2_Driver_Datatype_sqlsrv extends MDB2_Driver_Datatype_Common
 {
+    // {{{ _baseConvertResult()
+
+    /**
+     * general type conversion method
+     *
+     * @param mixed   $value refernce to a value to be converted
+     * @param string  $type  specifies which type to convert to
+     * @param boolean $rtrim [optional] when TRUE [default], apply rtrim() to text
+     * @return object a MDB2 error on failure
+     * @access protected
+     */
+    function _baseConvertResult($value, $type, $rtrim = true)
+    {
+        if (null === $value) {
+            return null;
+        }
+        switch ($type) {
+        case 'boolean':
+            return $value == '1';
+        case 'date':
+            if (strlen($value) > 10) {
+                $value = substr($value,0,10);
+            }
+            return $value;
+        case 'time':
+            if (strlen($value) > 8) {
+                $value = substr($value,11,8);
+            }
+            return $value;
+        }
+        return parent::_baseConvertResult($value, $type, $rtrim);
+    }
+
+    // }}}
     // {{{ _getCollationFieldDeclaration()
 
     /**
@@ -112,54 +143,35 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
                 ? $field['length'] : false;
             $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
             return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR('.$db->options['default_text_field_length'].')')
-                : ($length ? 'VARCHAR('.$length.')' : 'TEXT');
+                : ($length ? 'VARCHAR('.$length.')' : 'VARCHAR(MAX)');
         case 'clob':
             if (!empty($field['length'])) {
                 $length = $field['length'];
-                if ($length <= 255) {
-                    return 'TINYTEXT';
-                } elseif ($length <= 65532) {
-                    return 'TEXT';
-                } elseif ($length <= 16777215) {
-                    return 'MEDIUMTEXT';
+                if ($length <= 8000) {
+                    return 'VARCHAR('.$length.')';
                 }
-            }
-            return 'LONGTEXT';
+             }
+             return 'VARCHAR(MAX)';
         case 'blob':
             if (!empty($field['length'])) {
                 $length = $field['length'];
-                if ($length <= 255) {
-                    return 'TINYBLOB';
-                } elseif ($length <= 65532) {
-                    return 'BLOB';
-                } elseif ($length <= 16777215) {
-                    return 'MEDIUMBLOB';
+                if ($length <= 8000) {
+                    return "VARBINARY($length)";
                 }
             }
-            return 'LONGBLOB';
+            return 'IMAGE';
         case 'integer':
-            if (!empty($field['length'])) {
-                $length = $field['length'];
-                if ($length <= 2) {
-                    return 'SMALLINT';
-                } elseif ($length == 3 || $length == 4) {
-                    return 'INTEGER';
-                } elseif ($length > 4) {
-                    return 'BIGINT';
-                }
-            }
-            return 'INTEGER';
+            return 'INT';
         case 'boolean':
-            return 'BOOLEAN';
+            return 'BIT';
         case 'date':
-            return 'DATE';
+            return 'CHAR ('.strlen('YYYY-MM-DD').')';
         case 'time':
-            return 'TIME';
+            return 'CHAR ('.strlen('HH:MM:SS').')';
         case 'timestamp':
-            return 'DATETIME';
+            return 'CHAR ('.strlen('YYYY-MM-DD HH:MM:SS').')';
         case 'float':
-            return 'DOUBLE'.($db->options['fixed_float'] ? '('.
-                ($db->options['fixed_float']+2).','.$db->options['fixed_float'].')' : '');
+            return 'FLOAT';
         case 'decimal':
             $length = !empty($field['length']) ? $field['length'] : 18;
             $scale = !empty($field['scale']) ? $field['scale'] : $db->options['decimal_places'];
@@ -204,79 +216,122 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
             return $db;
         }
 
+        $notnull = empty($field['notnull']) ? ' NULL' : ' NOT NULL';
         $default = $autoinc = '';
         if (!empty($field['autoincrement'])) {
-            $autoinc = ' PRIMARY KEY';
+            $autoinc = ' IDENTITY PRIMARY KEY';
         } elseif (array_key_exists('default', $field)) {
             if ($field['default'] === '') {
-                $field['default'] = empty($field['notnull']) ? null : 0;
+                $field['default'] = 0;
             }
-            $default = ' DEFAULT '.$this->quote($field['default'], 'integer');
+            if (null === $field['default']) {
+                $default = ' DEFAULT (NULL)';
+            } else {
+                $default = ' DEFAULT (' . $this->quote($field['default'], 'integer') . ')';
+            }
         }
 
-        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
-        $unsigned = empty($field['unsigned']) ? '' : ' UNSIGNED';
+        if (!empty($field['unsigned'])) {
+            $db->warnings[] = "unsigned integer field \"$name\" is being declared as signed integer";
+        }
+
         $name = $db->quoteIdentifier($name, true);
-        return $name.' '.$this->getTypeDeclaration($field).$unsigned.$default.$notnull.$autoinc;
+        return $name.' '.$this->getTypeDeclaration($field).$notnull.$default.$autoinc;
     }
 
     // }}}
-    // {{{ matchPattern()
+    // {{{ _getCLOBDeclaration()
 
     /**
-     * build a pattern matching string
+     * Obtain DBMS specific SQL code portion needed to declare an character
+     * large object type field to be used in statements like CREATE TABLE.
      *
+     * @param string $name name the field to be declared.
+     * @param array $field associative array with the name of the properties
+     *        of the field being declared as array indexes. Currently, the types
+     *        of supported field properties are as follows:
+     *
+     *        length
+     *            Integer value that determines the maximum length of the large
+     *            object field. If this argument is missing the field should be
+     *            declared to have the longest length allowed by the DBMS.
+     *
+     *        notnull
+     *            Boolean flag that indicates whether this field is constrained
+     *            to not be set to null.
+     * @return string DBMS specific SQL code portion that should be used to
+     *        declare the specified field.
      * @access public
-     *
-     * @param array $pattern even keys are strings, odd are patterns (% and _)
-     * @param string $operator optional pattern operator (LIKE, ILIKE and maybe others in the future)
-     * @param string $field optional field name that is being matched against
-     *                  (might be required when emulating ILIKE)
-     *
-     * @return string SQL pattern
      */
-    function matchPattern($pattern, $operator = null, $field = null)
+    function _getCLOBDeclaration($name, $field)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
 
-        $match = '';
-        if (null !== $operator) {
-            $field = (null === $field) ? '' : $field.' ';
-            $operator = strtoupper($operator);
-            switch ($operator) {
-            // case insensitive
-            case 'ILIKE':
-                $match = $field.'LIKE ';
-                break;
-            case 'NOT ILIKE':
-                $match = $field.'NOT LIKE ';
-                break;
-            // case sensitive
-            case 'LIKE':
-                $match = $field.'LIKE ';
-                break;
-            case 'NOT LIKE':
-                $match = $field.'NOT LIKE ';
-                break;
-            default:
-                return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
-                    'not a supported operator type:'. $operator, __FUNCTION__);
-            }
+        $notnull = empty($field['notnull']) ? ' NULL' : ' NOT NULL';
+        $name = $db->quoteIdentifier($name, true);
+        return $name.' '.$this->getTypeDeclaration($field).$notnull;
+    }
+
+    // }}}
+    // {{{ _getBLOBDeclaration()
+
+    /**
+     * Obtain DBMS specific SQL code portion needed to declare an binary large
+     * object type field to be used in statements like CREATE TABLE.
+     *
+     * @param string $name name the field to be declared.
+     * @param array $field associative array with the name of the properties
+     *        of the field being declared as array indexes. Currently, the types
+     *        of supported field properties are as follows:
+     *
+     *        length
+     *            Integer value that determines the maximum length of the large
+     *            object field. If this argument is missing the field should be
+     *            declared to have the longest length allowed by the DBMS.
+     *
+     *        notnull
+     *            Boolean flag that indicates whether this field is constrained
+     *            to not be set to null.
+     * @return string DBMS specific SQL code portion that should be used to
+     *        declare the specified field.
+     * @access protected
+     */
+    function _getBLOBDeclaration($name, $field)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
         }
-        $match.= "'";
-        foreach ($pattern as $key => $value) {
-            if ($key % 2) {
-                $match.= $value;
-            } else {
-                $match.= $db->escapePattern($db->escape($value));
-            }
+
+        $notnull = empty($field['notnull']) ? ' NULL' : ' NOT NULL';
+        $name = $db->quoteIdentifier($name, true);
+        return $name.' '.$this->getTypeDeclaration($field).$notnull;
+    }
+
+    // }}}
+    // {{{ _quoteBLOB()
+
+    /**
+     * Convert a text value into a DBMS specific format that is suitable to
+     * compose query statements.
+     *
+     * @param string $value text string value that is intended to be converted.
+     * @param bool $quote determines if the value should be quoted and escaped
+     * @param bool $escape_wildcards if to escape escape wildcards
+     * @return string  text string that represents the given argument value in
+     *                 a DBMS specific format.
+     * @access protected
+     */
+    function _quoteBLOB($value, $quote, $escape_wildcards)
+    {
+        if (!$quote) {
+            return $value;
         }
-        $match.= "'";
-        $match.= $this->patternEscapeString();
-        return $match;
+        $value = '0x'.bin2hex($this->_readFile($value));
+        return $value;
     }
 
     // }}}
@@ -291,66 +346,76 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
      */
     function _mapNativeDatatype($field)
     {
-        $db_type = strtolower($field['type']);
-        $length = !empty($field['length']) ? $field['length'] : null;
-        $unsigned = !empty($field['unsigned']) ? $field['unsigned'] : null;
-        $fixed = null;
+        // todo: handle length of various int variations
+        $db_type = $field['type'];
+        $length = $field['length'];
         $type = array();
+        // todo: unsigned handling seems to be missing
+        $unsigned = $fixed = null;
         switch ($db_type) {
-        case 'boolean':
-            $type[] = 'boolean';
+        case 'bit':
+        case SQLSRV_SQLTYPE_BIT:
+            $type[0] = 'boolean';
             break;
         case 'tinyint':
-            $type[] = 'integer';
-            $type[] = 'boolean';
-            if (preg_match('/^(is|has)/', $field['name'])) {
-                $type = array_reverse($type);
-            }
-            $unsigned = preg_match('/ unsigned/i', $field['type']);
+        case SQLSRV_SQLTYPE_TINYINT:
+            $type[0] = 'integer';
             $length = 1;
             break;
         case 'smallint':
-            $type[] = 'integer';
-            $unsigned = preg_match('/ unsigned/i', $field['type']);
+        case SQLSRV_SQLTYPE_SMALLINT:
+            $type[0] = 'integer';
             $length = 2;
             break;
-        case 'mediumint':
-            $type[] = 'integer';
-            $unsigned = preg_match('/ unsigned/i', $field['type']);
-            $length = 3;
-            break;
         case 'int':
-        case 'integer':
-        case 'serial':
-            $type[] = 'integer';
-            $unsigned = preg_match('/ unsigned/i', $field['type']);
+        case SQLSRV_SQLTYPE_INT:
+            $type[0] = 'integer';
             $length = 4;
             break;
         case 'bigint':
-        case 'bigserial':
-            $type[] = 'integer';
-            $unsigned = preg_match('/ unsigned/i', $field['type']);
+        case SQLSRV_SQLTYPE_BIGINT:
+            $type[0] = 'integer';
             $length = 8;
             break;
-        case 'clob':
-            $type[] = 'clob';
-            $fixed  = false;
+        case 'datetime':
+        case SQLSRV_SQLTYPE_DATETIME:
+            $type[0] = 'timestamp';
             break;
-        case 'tinytext':
-        case 'mediumtext':
-        case 'longtext':
+        case 'float':
+        case SQLSRV_SQLTYPE_FLOAT:
+        case 'real':
+        case SQLSRV_SQLTYPE_REAL:
+            $type[0] = 'float';
+            break;
+        case 'numeric':
+        case SQLSRV_SQLTYPE_NUMERIC:
+        case 'decimal':
+        case SQLSRV_SQLTYPE_DECIMAL:
+        case 'money':
+        case SQLSRV_SQLTYPE_MONEY:
+            $type[0] = 'decimal';
+            $length = $field['numeric_precision'].','.$field['numeric_scale'];
+            break;
         case 'text':
+        case SQLSRV_SQLTYPE_TEXT:
+        case 'ntext':
+        case SQLSRV_SQLTYPE_NTEXT:
         case 'varchar':
-        case 'varchar2':
+        case SQLSRV_SQLTYPE_VARCHAR:
+        case 'nvarchar':
+        case SQLSRV_SQLTYPE_NVARCHAR:
             $fixed = false;
         case 'char':
-            $type[] = 'text';
+        case SQLSRV_SQLTYPE_CHAR:
+        case 'nchar':
+        case SQLSRV_SQLTYPE_NCHAR:
+            $type[0] = 'text';
             if ($length == '1') {
                 $type[] = 'boolean';
                 if (preg_match('/^(is|has)/', $field['name'])) {
                     $type = array_reverse($type);
                 }
-            } elseif (strstr($db_type, 'text')) {
+            } elseif (strstr($db_type, 'text') || strstr($db_type, SQLSRV_SQLTYPE_TEXT)) {
                 $type[] = 'clob';
                 $type = array_reverse($type);
             }
@@ -358,39 +423,11 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
                 $fixed = true;
             }
             break;
-        case 'date':
-            $type[] = 'date';
-            $length = null;
-            break;
-        case 'datetime':
-        case 'timestamp':
-            $type[] = 'timestamp';
-            $length = null;
-            break;
-        case 'time':
-            $type[] = 'time';
-            $length = null;
-            break;
-        case 'float':
-        case 'double':
-        case 'real':
-            $type[] = 'float';
-            break;
-        case 'decimal':
-        case 'numeric':
-            $type[] = 'decimal';
-            $length = $length.','.$field['decimal'];
-            break;
-        case 'tinyblob':
-        case 'mediumblob':
-        case 'longblob':
-        case 'blob':
+        case 'image':
+        case SQLSRV_SQLTYPE_IMAGE:
+        case 'varbinary':
+        case SQLSRV_SQLTYPE_VARBINARY:
             $type[] = 'blob';
-            $length = null;
-            break;
-        case 'year':
-            $type[] = 'integer';
-            $type[] = 'date';
             $length = null;
             break;
         default:
@@ -408,7 +445,6 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
 
         return array($type, $length, $unsigned, $fixed);
     }
-
     // }}}
 }
 

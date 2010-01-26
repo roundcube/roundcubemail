@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.71 2008/02/12 23:12:27 quipo Exp $
+// $Id: Common.php 273526 2009-01-14 15:01:21Z quipo $
 //
 
 /**
@@ -69,6 +69,10 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
 
     /**
      * Split the "[owner|schema].table" notation into an array
+     *
+     * @param string $table [schema and] table name
+     *
+     * @return array array(schema, table)
      * @access private
      */
     function splitTableSchema($table)

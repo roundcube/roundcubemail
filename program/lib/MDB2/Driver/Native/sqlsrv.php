@@ -3,7 +3,7 @@
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
-// | Stig. S. Bakken, Lukas Smith                                         |
+// | Stig. S. Bakken, Lukas Smith, Frank M. Kromann                       |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
 // | MDB2 is a merge of PEAR DB and Metabases that provides a unified DB  |
@@ -41,21 +41,17 @@
 // +----------------------------------------------------------------------+
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id: Common.php 242348 2007-09-09 13:47:36Z quipo $
-//
+
+require_once 'MDB2/Driver/Native/Common.php';
 
 /**
- * Base class for the natuve modules that is extended by each MDB2 driver
- *
- * To load this module in the MDB2 object:
- * $mdb->loadModule('Native');
+ * MDB2 MSSQL driver for the native module
  *
  * @package MDB2
  * @category Database
- * @author  Lukas Smith <smith@pooteeweet.org>
+ * @author  Lukas Smith <smith@dybnet.de>
  */
-class MDB2_Driver_Native_Common extends MDB2_Module_Common
+class MDB2_Driver_Native_sqlsrv extends MDB2_Driver_Native_Common
 {
 }
 ?>

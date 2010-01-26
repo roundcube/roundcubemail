@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysqli.php,v 1.8 2006/06/18 21:59:05 lsmith Exp $
+// $Id: mysqli.php 215004 2006-06-18 21:59:05Z lsmith $
 //
 
 require_once 'MDB2/Driver/Native/Common.php';

@@ -39,39 +39,55 @@
 // | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
 // | POSSIBILITY OF SUCH DAMAGE.                                          |
 // +----------------------------------------------------------------------+
-// | Author: Lukas Smith <smith@pooteeweet.org>                           |
+// | Author: Frank M. Kromann <frank@kromann.info>                        |
 // +----------------------------------------------------------------------+
-//
-// $Id: sqlite.php 292715 2009-12-28 14:06:34Z quipo $
-//
 
 require_once 'MDB2/Driver/Function/Common.php';
 
+// {{{ class MDB2_Driver_Function_sqlsrv
 /**
- * MDB2 SQLite driver for the function modules
+ * MDB2 MSSQL driver for the function modules
  *
  * @package MDB2
  * @category Database
- * @author  Lukas Smith <smith@pooteeweet.org>
  */
-class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
+class MDB2_Driver_Function_sqlsrv extends MDB2_Driver_Function_Common
 {
-    // {{{ constructor
+    // {{{ executeStoredProc()
 
     /**
-     * Constructor
+     * Execute a stored procedure and return any results
+     *
+     * @param string $name string that identifies the function to execute
+     * @param mixed  $params  array that contains the paramaters to pass the stored proc
+     * @param mixed   $types  array that contains the types of the columns in
+     *                        the result set
+     * @param mixed $result_class string which specifies which result class to use
+     * @param mixed $result_wrap_class string which specifies which class to wrap results in
+     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     * @access public
      */
-    function __construct($db_index)
+    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
     {
-        parent::__construct($db_index);
-        // create all sorts of UDFs
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $query = 'EXECUTE '.$name;
+        $query .= $params ? ' '.implode(', ', $params) : '';
+        return $db->query($query, $types, $result_class, $result_wrap_class);
     }
 
+    // }}}
     // {{{ now()
 
     /**
      * Return string to call a variable with the current timestamp inside an SQL statement
-     * There are three special variables for current date and time.
+     * There are three special variables for current date and time:
+     * - CURRENT_TIMESTAMP (date and time, TIMESTAMP type)
+     * - CURRENT_DATE (date, DATE type)
+     * - CURRENT_TIME (time, TIME type)
      *
      * @return string to call a variable with the current timestamp
      * @access public
@@ -80,12 +96,10 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
     {
         switch ($type) {
         case 'time':
-            return 'time(\'now\')';
         case 'date':
-            return 'date(\'now\')';
         case 'timestamp':
         default:
-            return 'datetime(\'now\')';
+            return 'GETDATE()';
         }
     }
 
@@ -102,7 +116,7 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
      */
     function unixtimestamp($expression)
     {
-        return 'strftime("%s",'. $expression.', "utc")';
+        return 'DATEDIFF(second, \'19700101\', '. $expression.') + DATEDIFF(second, GETDATE(), GETUTCDATE())';
     }
 
     // }}}
@@ -117,46 +131,59 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
     function substring($value, $position = 1, $length = null)
     {
         if (null !== $length) {
-            return "substr($value, $position, $length)";
+            return "SUBSTRING($value, $position, $length)";
         }
-        return "substr($value, $position, length($value))";
+        return "SUBSTRING($value, $position, LEN($value) - $position + 1)";
     }
 
     // }}}
-    // {{{ random()
+    // {{{ concat()
 
     /**
-     * return string to call a function to get random value inside an SQL statement
+     * Returns string to concatenate two or more string parameters
      *
-     * @return return string to generate float between 0 and 1
+     * @param string $value1
+     * @param string $value2
+     * @param string $values...
+     * @return string to concatenate two strings
      * @access public
-     */
-    function random()
+     **/
+    function concat($value1, $value2)
     {
-        return '((RANDOM()+2147483648)/4294967296)';
+        $args = func_get_args();
+        return "(".implode(' + ', $args).")";
     }
 
     // }}}
-    // {{{ replace()
+    // {{{ length()
 
     /**
-     * return string to call a function to get a replacement inside an SQL statement.
+     * return string to call a function to get the length of a string expression
      *
-     * @return string to call a function to get a replace
+     * @param string $expression
+     * @return return string to get the string expression length
      * @access public
      */
-    function replace($str, $from_str, $to_str)
+    function length($expression)
     {
-        $db =& $this->getDBInstance();
-        if (PEAR::isError($db)) {
-            return $db;
-        }
+        return "LEN($expression)";
+    }
 
-        $error =& $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
-            'method not implemented', __FUNCTION__);
-        return $error;
+    // }}}
+    // {{{ guid()
+
+    /**
+     * Returns global unique identifier
+     *
+     * @return string to get global unique identifier
+     * @access public
+     */
+    function guid()
+    {
+        return 'NEWID()';
     }
 
     // }}}
 }
+// }}}
 ?>
