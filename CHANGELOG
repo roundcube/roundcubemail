@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Use jQuery-1.4
 - Removed problematic browser-caching of messages
 - Fix incompatybility with suhosin.executor.disable_emodifier (#1486321)
 - Use PLAIN auth when CRAM fails and imap_auth_type='check' (#1486371)
