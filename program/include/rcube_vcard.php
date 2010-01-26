@@ -47,10 +47,10 @@ class rcube_vcard
   /**
    * Constructor
    */
-  public function __construct($vcard = null)
+  public function __construct($vcard = null, $charset = RCMAIL_CHARSET)
   {
     if (!empty($vcard))
-      $this->load($vcard);
+      $this->load($vcard, $charset);
   }
 
 
@@ -59,18 +59,22 @@ class rcube_vcard
    *
    * @param string vCard string to parse
    */
-  public function load($vcard)
+  public function load($vcard, $charset = RCMAIL_CHARSET)
   {
     $this->raw = self::vcard_decode($vcard);
+    
+    // resolve charset parameters
+    if ($charset == null)
+      $this->raw = $this->charset_convert($this->raw);
 
     // find well-known address fields
-    $this->displayname = $this->raw['FN'][0];
+    $this->displayname = $this->raw['FN'][0][0];
     $this->surname = $this->raw['N'][0][0];
     $this->firstname = $this->raw['N'][0][1];
     $this->middlename = $this->raw['N'][0][2];
-    $this->nickname = $this->raw['NICKNAME'][0];
-    $this->organization = $this->raw['ORG'][0];
-    $this->business = ($this->raw['X-ABShowAs'][0] == 'COMPANY') || (join('', (array)$this->raw['N'][0]) == '' && !empty($this->organization));
+    $this->nickname = $this->raw['NICKNAME'][0][0];
+    $this->organization = $this->raw['ORG'][0][0];
+    $this->business = ($this->raw['X-ABSHOWAS'][0][0] == 'COMPANY') || (join('', (array)$this->raw['N'][0]) == '' && !empty($this->organization));
     
     foreach ((array)$this->raw['EMAIL'] as $i => $raw_email)
       $this->email[$i] = is_array($raw_email) ? $raw_email[0] : $raw_email;
@@ -106,7 +110,7 @@ class rcube_vcard
     switch ($field) {
       case 'name':
       case 'displayname':
-        $this->raw['FN'][0] = $value;
+        $this->raw['FN'][0][0] = $value;
         break;
         
       case 'firstname':
@@ -118,11 +122,11 @@ class rcube_vcard
         break;
       
       case 'nickname':
-        $this->raw['NICKNAME'][0] = $value;
+        $this->raw['NICKNAME'][0][0] = $value;
         break;
         
       case 'organization':
-        $this->raw['ORG'][0] = $value;
+        $this->raw['ORG'][0][0] = $value;
         break;
         
       case 'email':
@@ -156,6 +160,28 @@ class rcube_vcard
     
     return $result;
   }
+  
+  
+  /**
+   * Convert a whole vcard (array) to UTF-8.
+   * Each member value that has a charset parameter will be converted.
+   */
+  private function charset_convert($card)
+  {
+    foreach ($card as $key => $node) {
+      foreach ($node as $i => $subnode) {
+        if (is_array($subnode) && $subnode['charset'] && ($charset = $subnode['charset'][0])) {
+          foreach ($subnode as $j => $value) {
+            if (is_numeric($j) && is_string($value))
+              $card[$key][$i][$j] = rcube_charset_convert($value, $charset);
+          }
+          unset($card[$key][$i]['charset']);
+        }
+      }
+    }
+
+    return $card;
+  }
 
 
   /**
@@ -168,11 +194,14 @@ class rcube_vcard
   {
     $out = array();
 
+    // check if charsets are specified (usually vcard version < 3.0 but this is not reliable)
+    if (preg_match('/charset=/i', substr($data, 0, 2048)))
+      $charset = null;
     // detect charset and convert to utf-8
-    $encoding = self::detect_encoding($data);
-    if ($encoding && $encoding != RCMAIL_CHARSET) {
-      $data = rcube_charset_convert($data, $encoding);
+    else if (($charset = self::detect_encoding($data)) && $charset != RCMAIL_CHARSET) {
+      $data = rcube_charset_convert($data, $charset);
       $data = preg_replace(array('/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'), '', $data); // also remove BOM
+      $charset = RCMAIL_CHARSET;
     }
 
     $vcard_block = '';
@@ -184,7 +213,7 @@ class rcube_vcard
 
       if (trim($line) == 'END:VCARD') {
         // parse vcard
-        $obj = new rcube_vcard(self::cleanup($vcard_block));
+        $obj = new rcube_vcard(self::cleanup($vcard_block), $charset);
         if (!empty($obj->displayname))
           $out[] = $obj;
 
@@ -217,9 +246,6 @@ class rcube_vcard
     // Remove cruft like item1.X-AB*, item1.ADR instead of ADR, and empty lines
     $vcard = preg_replace(array('/^item\d*\.X-AB.*$/m', '/^item\d*\./m', "/\n+/"), array('', '', "\n"), $vcard);
 
-    // remove vcard 2.1 charset definitions
-    $vcard = preg_replace('/;CHARSET=[^:;]+/', '', $vcard);
-    
     // if N doesn't have any semicolons, add some 
     $vcard = preg_replace('/^(N:[^;\R]*)$/m', '\1;;;;', $vcard);
 
@@ -269,7 +295,7 @@ class rcube_vcard
 
         foreach($regs2[1] as $attrid => $attr) {
           if ((list($key, $value) = explode('=', $attr)) && $value) {
-	    $value = trim($value);
+            $value = trim($value);
             if ($key == 'ENCODING') {
               // add next line(s) to value string if QP line end detected
               while ($value == 'QUOTED-PRINTABLE' && preg_match('/=$/', $lines[$i]))
@@ -286,7 +312,7 @@ class rcube_vcard
         }
 
         $entry = array_merge($entry, (array)self::vcard_unquote($line[2]));
-        $data[$field][] = count($entry) > 1 ? $entry : $entry[0];
+        $data[$field][] = $entry;
       }
     }
 

@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:2.1
+N;CHARSET=windows-1252:Doë;John;;;
+FN;CHARSET=windows-1252:John Doë
+ORG:roundcube.net;
+EMAIL;INTERNET;WORK:inbox@roundcube.net
+EMAIL;INTERNET;HOME;TYPE=pref:roundcube@gmail.com
+TEL;WORK:+123456789
+ADR;WORK:;;The street;Hometown;;5555;Cayman Islands
+NOTE:The notes...
+END:VCARD
