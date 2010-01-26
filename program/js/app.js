@@ -305,7 +305,7 @@ function rcube_webmail()
         this.set_page_buttons();
         
         if (this.env.address_sources && this.env.address_sources[this.env.source] && !this.env.address_sources[this.env.source].readonly)
-          this.enable_command('add', true);
+          this.enable_command('add', 'import', true);
         
         if (this.env.cid)
           this.enable_command('show', 'edit', true);
@@ -313,7 +313,7 @@ function rcube_webmail()
         if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform)
           this.enable_command('save', true);
         else
-          this.enable_command('search', 'reset-search', 'moveto', 'import', true);
+          this.enable_command('search', 'reset-search', 'moveto', true);
           
         if (this.contact_list && this.contact_list.rowcount > 0)
           this.enable_command('export', true);
@@ -608,7 +608,7 @@ function rcube_webmail()
             this.reset_qsearch();
 
           this.list_contacts(props);
-          this.enable_command('add', (this.env.address_sources && !this.env.address_sources[props].readonly));
+          this.enable_command('add', 'import', (this.env.address_sources && !this.env.address_sources[props].readonly));
           }
         break;
 
@@ -1075,7 +1075,7 @@ function rcube_webmail()
           this.lock_form(this.gui_objects.importform, true);
         }
         else
-          this.goto_url('import');
+          this.goto_url('import', (this.env.source ? '_target='+urlencode(this.env.source)+'&' : ''));
         break;
         
       case 'export':

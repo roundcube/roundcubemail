@@ -25,11 +25,15 @@
 function rcmail_import_form($attrib)
 {
   global $RCMAIL, $OUTPUT;
+  $target = get_input_value('_target', RCUBE_INPUT_GPC);
   
   $attrib += array('id' => "rcmImportForm");
   
+  $abook = new html_hiddenfield(array('name' => '_target', 'value' => $target));
+  $form = $abook->show();
+
   $upload = new html_inputfield(array('type' => 'file', 'name' => '_file', 'id' => 'rcmimportfile', 'size' => 40));
-  $form = html::p(null, html::label('rcmimportfile', rcube_label('importfromfile')) . html::br() . $upload->show());
+  $form .= html::p(null, html::label('rcmimportfile', rcube_label('importfromfile')) . html::br() . $upload->show());
   
   $check_replace = new html_checkbox(array('name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace'));
   $form .= html::p(null, $check_replace->show(get_input_value('_replace', RCUBE_INPUT_GPC)) .
@@ -74,13 +78,14 @@ function rcmail_import_confirm($attrib)
 function rcmail_import_buttons($attrib)
 {
   global $IMPORT_STATS, $OUTPUT;
+  $target = get_input_value('_target', RCUBE_INPUT_GPC);
   
   $attrib += array('type' => 'input');
   unset($attrib['name']);
   
   if (is_object($IMPORT_STATS)) {
     $attrib['class'] = trim($attrib['class'] . ' mainaction');
-    $out = $OUTPUT->button(array('command' => 'list', 'label' => 'done') + $attrib);
+    $out = $OUTPUT->button(array('command' => 'list', 'prop' => $target, 'label' => 'done') + $attrib);
   }
   else {
     $out = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
@@ -98,9 +103,9 @@ function rcmail_import_buttons($attrib)
 $importstep = 'rcmail_import_form';
 
 if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'])) {
-
   $replace = (bool)get_input_value('_replace', RCUBE_INPUT_GPC);
-  $CONTACTS = $RCMAIL->get_address_book(null, true);
+  $target = get_input_value('_target', RCUBE_INPUT_GPC);
+  $CONTACTS = $RCMAIL->get_address_book($target, true);
 
   // let rcube_vcard do the hard work :-)
   $vcards = rcube_vcard::import(file_get_contents($_FILES['_file']['tmp_name']));
