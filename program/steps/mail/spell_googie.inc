@@ -58,6 +58,13 @@ if ($fp = fsockopen($host, $port, $errno, $errstr, 30))
   fclose($fp);
   }
 
+// remove headers
+$pos = strpos($store, '<?xml');
+$store = substr($store, $pos);
+
+// set response length
+header("Content-Length: " . strlen($store));
+
 // Don't use server's default Content-Type charset (#1486406)
 header("Content-Type: text/xml; charset=".RCMAIL_CHARSET);
 print $store;  
