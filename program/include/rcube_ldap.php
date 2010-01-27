@@ -648,7 +648,7 @@ class rcube_ldap extends rcube_addressbook
     foreach ($this->fieldmap as $rf => $lf)
     {
       if ($rec[$lf]['count']) {
-        if ($rf == 'email' && $mail_domain && !strpos($rec[$lf][0], '@'))
+        if ($rf == 'email' && $this->mail_domain && !strpos($rec[$lf][0], '@'))
           $out[$rf] = sprintf('%s@%s', $rec[$lf][0], $this->mail_domain);
         else
           $out[$rf] = $rec[$lf][0];
