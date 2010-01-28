@@ -444,20 +444,15 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
         $mime_type = $mime_ext[$suffix];
     }
     // try fileinfo extension if available
-    if (!$mime_type) {
-        if (!extension_loaded('fileinfo')) {
-            @dl('fileinfo.' . PHP_SHLIB_SUFFIX);
-        }
-        if (function_exists('finfo_open')) {
-            if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
-                $mime_type = finfo_file($finfo, $path);
-                finfo_close($finfo);
-            }
+    if (!$mime_type && function_exists('finfo_open')) {
+        if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
+            $mime_type = finfo_file($finfo, $path);
+            finfo_close($finfo);
         }
     }
     // try PHP's mime_content_type
     if (!$mime_type && function_exists('mime_content_type')) {
-      $mime_type = mime_content_type($path); 
+      $mime_type = mime_content_type($path);
     }
     // fall back to user-submitted string
     if (!$mime_type) {
