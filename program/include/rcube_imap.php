@@ -2139,7 +2139,7 @@ class rcube_imap
    */
   function create_default_folders()
     {
-    $a_folders = iil_C_ListMailboxes($this->conn, $this->mod_mailbox(''), 'Drafts');
+    $a_folders = iil_C_ListMailboxes($this->conn, $this->mod_mailbox(''), '*');
     $a_subscribed = iil_C_ListSubscribed($this->conn, $this->mod_mailbox(''), '*');
     
     // create default folders if they do not exist
