@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Login preformance: Create default folders on first login only
 - Import contacts into the selected address book (by Phil Weir)
 - Add support for MDB2's 'sqlsrv' driver (#1486395)
 - Use jQuery-1.4

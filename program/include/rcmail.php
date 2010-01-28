@@ -492,17 +492,22 @@ class rcmail
     if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl)))
       return false;
 
+    $this->set_imap_prop();
+
     // user already registered -> update user's record
     if (is_object($user)) {
+      // create default folders on first login
+      if (!$user->data['last_login'] && $config['create_default_folders'])
+        $this->imap->create_default_folders();
       $user->touch();
     }
     // create new system user
     else if ($config['auto_create_user']) {
       if ($created = rcube_user::create($username, $host)) {
         $user = $created;
-
-        // get existing mailboxes (but why?)
-        // $a_mailboxes = $this->imap->list_mailboxes();
+        // create default folders on first login
+        if ($config['create_default_folders'])
+          $this->imap->create_default_folders();
       }
       else {
         raise_error(array(
@@ -537,11 +542,7 @@ class rcmail
         $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
 
       // force reloading complete list of subscribed mailboxes
-      $this->set_imap_prop();
       $this->imap->clear_cache('mailboxes');
-
-      if ($config['create_default_folders'])
-          $this->imap->create_default_folders();
 
       return true;
     }
