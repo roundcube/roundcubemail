@@ -105,8 +105,9 @@ class rcube_imap
     if ($use_ssl && extension_loaded('openssl'))
       $ICL_SSL = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
     else if ($use_ssl) {
-      raise_error(array('code' => 403, 'type' => 'imap', 'file' => __FILE__,
-                        'message' => 'Open SSL not available;'), TRUE, FALSE);
+      raise_error(array('code' => 403, 'type' => 'imap',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Open SSL not available"), TRUE, FALSE);
       $port = 143;
     }
 
@@ -136,9 +137,9 @@ class rcube_imap
     else if (!$this->conn && $GLOBALS['iil_error'])
       {
       $this->error_code = $GLOBALS['iil_errornum'];
-      raise_error(array('code' => 403,
-                       'type' => 'imap',
-                       'message' => $GLOBALS['iil_error']), TRUE, FALSE);
+      raise_error(array('code' => 403, 'type' => 'imap',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => $GLOBALS['iil_error']), TRUE, FALSE);
       }
 
     // get server properties

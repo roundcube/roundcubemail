@@ -96,11 +96,15 @@ class rcube_plugin_api
           }
         }
         else {
-          raise_error(array('code' => 520, 'type' => 'php', 'message' => "No plugin class $plugin_name found in $fn"), true, false);
+          raise_error(array('code' => 520, 'type' => 'php',
+	    'file' => __FILE__, 'line' => __LINE__,
+	    'message' => "No plugin class $plugin_name found in $fn"), true, false);
         }
       }
       else {
-        raise_error(array('code' => 520, 'type' => 'php', 'message' => "Failed to load plugin file $fn"), true, false);
+        raise_error(array('code' => 520, 'type' => 'php',
+	  'file' => __FILE__, 'line' => __LINE__,
+	  'message' => "Failed to load plugin file $fn"), true, false);
       }
     }
     
@@ -136,7 +140,9 @@ class rcube_plugin_api
       
       // trigger fatal error if still not loaded
       if (!$loaded) {
-        raise_error(array('code' => 520, 'type' => 'php', 'message' => "Requried plugin $plugin_name was not loaded"), true, true);
+        raise_error(array('code' => 520, 'type' => 'php',
+	  'file' => __FILE__, 'line' => __LINE__,
+	  'message' => "Requried plugin $plugin_name was not loaded"), true, true);
       }
     }
 
@@ -167,7 +173,9 @@ class rcube_plugin_api
     if (is_callable($callback))
       $this->handlers[$hook][] = $callback;
     else
-      raise_error(array('code' => 521, 'type' => 'php', 'message' => "Invalid callback function for $hook"), true, false);
+      raise_error(array('code' => 521, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Invalid callback function for $hook"), true, false);
   }
   
   
@@ -220,7 +228,9 @@ class rcube_plugin_api
       $this->actionmap[$action] = $owner;
     }
     else {
-      raise_error(array('code' => 523, 'type' => 'php', 'message' => "Cannot register action $action; already taken by another plugin"), true, false);
+      raise_error(array('code' => 523, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Cannot register action $action; already taken by another plugin"), true, false);
     }
   }
 
@@ -237,7 +247,9 @@ class rcube_plugin_api
       call_user_func($this->actions[$action]);
     }
     else {
-      raise_error(array('code' => 524, 'type' => 'php', 'message' => "No handler found for action $action"), true, true);
+      raise_error(array('code' => 524, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "No handler found for action $action"), true, true);
     }
   }
 
@@ -261,7 +273,9 @@ class rcube_plugin_api
       $this->objectsmap[$name] = $owner;
     }
     else {
-      raise_error(array('code' => 525, 'type' => 'php', 'message' => "Cannot register template handler $name; already taken by another plugin"), true, false);
+      raise_error(array('code' => 525, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Cannot register template handler $name; already taken by another plugin"), true, false);
     }
   }
   

@@ -180,7 +180,7 @@ class rcube_config
   {
     $this->prop = array_merge($this->prop, $prefs);
   }
-  
+
   
   /**
    * Getter for all config options
@@ -191,6 +191,7 @@ class rcube_config
   {
     return $this->prop;
   }
+
 
   /**
    * Return requested DES crypto key.
@@ -204,9 +205,8 @@ class rcube_config
     if (!array_key_exists($key, $this->prop))
     {
       raise_error(array(
-        'code' => 500,
-        'type' => 'php',
-        'file' => __FILE__,
+        'code' => 500, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
         'message' => "Request for unconfigured crypto key \"$key\""
       ), true, true);
     }
@@ -217,15 +217,15 @@ class rcube_config
     if (strlen($key) != 24)
     {
       raise_error(array(
-        'code' => 500,
-        'type' => 'php',
-        'file' => __FILE__,
+        'code' => 500, 'type' => 'php',
+	'file' => __FILE__, 'line' => __LINE__,
         'message' => "Configured crypto key \"$key\" is not exactly 24 bytes long"
       ), true, true);
     }
 
     return $key;
   }
+
 
   /**
    * Try to autodetect operating system and find the correct line endings
@@ -244,9 +244,8 @@ class rcube_config
     else
       return "\n";
   }
+  
 
-  
-  
   /**
    * Return the mail domain configured for the given host
    *

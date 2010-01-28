@@ -50,9 +50,9 @@ else
   raise_error(array(
       'code' => 500,
       'type' => 'php',
+      'file' => __FILE__, 'line' => __LINE__,
       'message' => 'Message UID '.$uid.' not found'),
-    true,
-    true);
+    true, true);
 }
 
 exit;

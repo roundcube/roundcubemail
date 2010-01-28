@@ -266,8 +266,9 @@ class rcube_mdb2
         $this->db_error = TRUE;
         $this->db_error_msg = $q->userinfo;
 
-        raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                          'message' => $this->db_error_msg), TRUE, TRUE);
+        raise_error(array('code' => 500, 'type' => 'db',
+	  'line' => __LINE__, 'file' => __FILE__,
+          'message' => $this->db_error_msg), TRUE, TRUE);
         }
       else
         {
@@ -626,7 +627,8 @@ class rcube_mdb2
       {
       $this->db_error = TRUE;
       $this->db_error_msg = $res->getMessage();
-      raise_error(array('code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
+      raise_error(array('code' => 500, 'type' => 'db',
+    	    'line' => __LINE__, 'file' => __FILE__,
     	    'message' => $res->getMessage() . " Query: " 
 	    . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)),
 	    TRUE, FALSE);

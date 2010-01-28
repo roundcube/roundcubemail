@@ -60,7 +60,9 @@ abstract class rcube_plugin
     $fpath = $this->home.'/'.$fname;
     $rcmail = rcmail::get_instance();
     if (is_file($fpath) && !$rcmail->config->load_from_file($fpath, false)) {
-      raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $fpath"), true, false);
+      raise_error(array('code' => 527, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Failed to load config from $fpath"), true, false);
       return false;
     }
     
@@ -133,10 +135,14 @@ abstract class rcube_plugin
   public function register_task($task)
   {
     if ($task != asciiwords($task)) {
-      raise_error(array('code' => 526, 'type' => 'php', 'message' => "Invalid task name: $task. Only characters [a-z0-9_.-] are allowed"), true, false);
+      raise_error(array('code' => 526, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Invalid task name: $task. Only characters [a-z0-9_.-] are allowed"), true, false);
     }
     else if (in_array(rcmail::$main_tasks, $task)) {
-      raise_error(array('code' => 526, 'type' => 'php', 'message' => "Cannot register taks $task; already taken by another plugin or the application itself"), true, false);
+      raise_error(array('code' => 526, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Cannot register taks $task; already taken by another plugin or the application itself"), true, false);
     }
     else {
       rcmail::$main_tasks[] = $task;

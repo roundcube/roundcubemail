@@ -30,8 +30,10 @@ $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 /****** checks ********/
 
 if (!isset($_SESSION['compose']['id'])) {
-  raise_error(array('code' => 500, 'type' => 'smtp', 'file' => __FILE__, 'message' => "Invalid compose ID"), true, false);
-  console("Sendmail error", $_SESSION['compose']);
+  raise_error(array('code' => 500, 'type' => 'smtp',
+    'file' => __FILE__, 'line' => __LINE__,
+    'message' => "Invalid compose ID"), true, false);
+
   $OUTPUT->show_message("An internal error occured. Please try again.", 'error');
   $OUTPUT->send('iframe');
 }

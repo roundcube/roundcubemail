@@ -23,7 +23,7 @@ if (!extension_loaded('pspell')) {
     raise_error(array(
       'code' => 500,
       'type' => 'php',
-      'file' => __FILE__,
+      'file' => __FILE__, 'line' => __LINE__,
       'message' => "Pspell extension not available"), true, false);
       
     header('HTTP/1.1 404 Not Found');

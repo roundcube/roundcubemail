@@ -84,7 +84,9 @@ class rcube_ldap extends rcube_addressbook
     global $RCMAIL;
     
     if (!function_exists('ldap_connect'))
-      raise_error(array('code' => 100, 'type' => 'ldap', 'message' => "No ldap support in this installation of PHP"), true);
+      raise_error(array('code' => 100, 'type' => 'ldap',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "No ldap support in this installation of PHP"), true);
 
     if (is_resource($this->conn))
       return true;
@@ -140,7 +142,9 @@ class rcube_ldap extends rcube_addressbook
         $this->ready = $this->bind($this->prop['bind_dn'], $this->prop['bind_pass']);
     }
     else
-      raise_error(array('code' => 100, 'type' => 'ldap', 'message' => "Could not connect to any LDAP server, tried $host:{$this->prop[port]} last"), true);
+      raise_error(array('code' => 100, 'type' => 'ldap',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Could not connect to any LDAP server, last tried $host:{$this->prop[port]}"), true);
 
     // See if the directory is writeable.
     if ($this->prop['writable']) {
@@ -173,8 +177,8 @@ class rcube_ldap extends rcube_addressbook
     $this->_debug("S: ".ldap_error($this->conn));
 
     raise_error(array(
-        'code' => ldap_errno($this->conn),
-        'type' => 'ldap',
+        'code' => ldap_errno($this->conn), 'type' => 'ldap',
+	'file' => __FILE__, 'line' => __LINE__,
         'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
         true);
 

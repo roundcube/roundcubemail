@@ -506,17 +506,16 @@ class rcmail
       }
       else {
         raise_error(array(
-          'code' => 600,
-          'type' => 'php',
+          'code' => 600, 'type' => 'php',
+	  'file' => __FILE__, 'line' => __LINE__,
           'message' => "Failed to create a user record. Maybe aborted by a plugin?"
-          ), true, false);        
+          ), true, false);
       }
     }
     else {
       raise_error(array(
-        'code' => 600,
-        'type' => 'php',
-        'file' => RCMAIL_CONFIG_DIR."/main.inc.php",
+        'code' => 600, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
         'message' => "Acces denied for new user $username. 'auto_create_user' is disabled"
         ), true, false);
     }
@@ -947,9 +946,8 @@ class rcmail
     else
     {
       raise_error(array(
-        'code' => 500,
-        'type' => 'php',
-        'file' => __FILE__,
+        'code' => 500, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
         'message' => "Could not perform encryption; make sure Mcrypt is installed or lib/des.inc is available"
       ), true, true);
     }
@@ -993,9 +991,8 @@ class rcmail
     else
     {
       raise_error(array(
-        'code' => 500,
-        'type' => 'php',
-        'file' => __FILE__,
+        'code' => 500, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
         'message' => "Could not perform decryption; make sure Mcrypt is installed or lib/des.inc is available"
       ), true, true);
     }
