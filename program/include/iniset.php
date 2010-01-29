@@ -25,6 +25,7 @@
 define('RCMAIL_VERSION', '0.3-trunk');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
+define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
   define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');

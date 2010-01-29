@@ -853,6 +853,17 @@ class rcmail
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'])
       session_write_close();
+
+    // write performance stats to logs/console
+    if ($this->config->get('devel_mode')) {
+      if (function_exists('memory_get_usage'))
+        $mem = show_bytes(memory_get_usage());
+      if (function_exists('memory_get_peak_usage'))
+        $mem .= '/'.show_bytes(memory_get_peak_usage());
+
+      $log = $this->task . ($this->action ? '/'.$this->action : '') . ($mem ? " [$mem]" : '');
+      rcube_print_time(RCMAIL_START, $log);
+    }
   }
   
   
