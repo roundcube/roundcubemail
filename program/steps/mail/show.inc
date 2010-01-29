@@ -123,10 +123,11 @@ if ($_GET['_uid']) {
 
       $MESSAGE->index = array_search($IMAP->get_id($MESSAGE->uid), $a_msg_index);
 
-      $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1 ;
-      $first = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[0]) : -1;
-      $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1 ;
-      $last = count($a_msg_index)>0 ? $IMAP->get_uid($a_msg_index[count($a_msg_index)-1]) : -1;
+      $count = count($a_msg_index);
+      $prev = isset($a_msg_index[$MESSAGE->index-1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index-1]) : -1;
+      $first = $count > 1 ? $IMAP->get_uid($a_msg_index[0]) : -1;
+      $next = isset($a_msg_index[$MESSAGE->index+1]) ? $IMAP->get_uid($a_msg_index[$MESSAGE->index+1]) : -1;
+      $last = $count > 1 ? $IMAP->get_uid($a_msg_index[$count-1]) : -1;
       }
 
     if ($prev > 0)
