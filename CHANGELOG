@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix character set conversion fails on systems where iconv doesn't accept //IGNORE (#1486375)
 - Login preformance: Create default folders on first login only
 - Import contacts into the selected address book (by Phil Weir)
 - Add support for MDB2's 'sqlsrv' driver (#1486395)

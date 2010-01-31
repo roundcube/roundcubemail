@@ -170,6 +170,18 @@ function rcmail_cache_gc()
 
 
 /**
+ * Catch an error and throw an exception.
+ *
+ * @param  int    Level of the error
+ * @param  string Error message
+ */ 
+function rcube_error_handler($errno, $errstr)
+  {
+  throw new ErrorException($errstr, 0, $errno);
+  }
+
+
+/**
  * Convert a string from one charset to another.
  * Uses mbstring and iconv functions if possible
  *
@@ -180,6 +192,7 @@ function rcmail_cache_gc()
  */
 function rcube_charset_convert($str, $from, $to=NULL)
   {
+  static $iconv_options = null;
   static $mbstring_loaded = null;
   static $mbstring_list = null;
   static $convert_warning = false;
@@ -195,20 +208,36 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
-    $_iconv = @iconv($from, $to . '//IGNORE', $str);
+    if ($iconv_options === null) {
+      // transliterate characters not available in output charset
+      $iconv_options = '//TRANSLIT';
+      if (iconv('', $iconv_options, '') === false) {
+        // iconv implementation does not support options
+        $iconv_options = '';
+      }
+    }
+    // throw an exception if iconv reports an illegal character in input
+    // it means that input string has been truncated
+    set_error_handler('rcube_error_handler', E_NOTICE);
+    try {
+      $_iconv = iconv($from, $to . $iconv_options, $str);
+    } catch (ErrorException $e) {
+      $_iconv = false;
+    }
+    restore_error_handler();
     if ($_iconv !== false) {
-        return $_iconv;
+      return $_iconv;
     }
   }
 
-  if (is_null($mbstring_loaded))
+  if ($mbstring_loaded === null)
     $mbstring_loaded = extension_loaded('mbstring');
     
   // convert charset using mbstring module
   if ($mbstring_loaded) {
     $aliases['WINDOWS-1257'] = 'ISO-8859-13';
     
-    if (is_null($mbstring_list)) {
+    if ($mbstring_list === null) {
       $mbstring_list = mb_list_encodings();
       $mbstring_list = array_map('strtoupper', $mbstring_list);
     }
