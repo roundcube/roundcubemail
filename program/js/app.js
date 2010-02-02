@@ -3368,10 +3368,13 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    // find not protected folder    
-    for (var refid in this.env.subscriptionrows)
-      if (this.env.subscriptionrows[refid]!=null && !this.env.subscriptionrows[refid][2])
+    // find not protected folder
+    var refid;
+    for (var rid in this.env.subscriptionrows)
+      if (this.env.subscriptionrows[rid]!=null && !this.env.subscriptionrows[rid][2]) {
+        refid = rid;
         break;
+      }
 
     var refrow, form;
     var tbody = this.gui_objects.subscriptionlist.tBodies[0];
@@ -3384,10 +3387,11 @@ function rcube_webmail()
       refid = replace.id;
     }
 
-    if (!id || !(refrow = document.getElementById(refid)))
+    if (!id || !refid || !(refrow = document.getElementById(refid)))
       {
       // Refresh page if we don't have a table row to clone
       this.goto_url('folders');
+      return false;
       }
     else
       {
@@ -3413,7 +3417,7 @@ function rcube_webmail()
     // set messages count to zero
     if (!replace)
       row.cells[1].innerHTML = '*';
-    
+
     if (!replace && row.cells[2] && row.cells[2].firstChild.tagName.toLowerCase()=='input')
       {
       row.cells[2].firstChild.value = name;
@@ -4175,7 +4179,7 @@ function rcube_webmail()
 
     if (this.env.framed && window.parent)
       parent.location.href = url;
-    else  
+    else
       location.href = url;
     };
 
