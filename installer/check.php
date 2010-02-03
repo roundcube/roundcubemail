@@ -6,7 +6,7 @@ $required_php_exts = array('PCRE' => 'pcre', 'DOM' => 'dom',
 
 $optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
     'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
-    'GD' => 'gd');
+);
 
 $required_libs = array('PEAR' => 'PEAR.php', 'MDB2' => 'MDB2.php',
     'Net_SMTP' => 'Net/SMTP.php', 'Mail_mime' => 'Mail/mime.php',
@@ -30,7 +30,6 @@ $source_urls = array(
     'Multibyte' => 'http://www.php.net/manual/en/book.mbstring.php',
     'Mcrypt' => 'http://www.php.net/manual/en/book.mcrypt.php',
     'OpenSSL' => 'http://www.php.net/manual/en/book.openssl.php',
-    'GD' => 'http://www.php.net/manual/en/book.image.php',
     'JSON' => 'http://www.php.net/manual/en/book.json.php',
     'DOM' => 'http://www.php.net/manual/en/book.dom.php',
     'PEAR' => 'http://pear.php.net',
