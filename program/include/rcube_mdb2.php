@@ -331,10 +331,15 @@ class rcube_mdb2
     if (!$this->db_handle || $this->db_mode=='r')
       return FALSE;
 
-    // find sequence name
-    if ($table && $this->db_provider == 'pgsql')
-      $table = get_sequence_name($table);
-
+    if ($table) {
+      if ($this->db_provider == 'pgsql')
+        // find sequence name
+        $table = get_sequence_name($table);
+      else
+        // resolve table name
+        $table = get_table_name($table);
+    }
+    
     $id = $this->db_handle->lastInsertID($table);
     
     return $this->db_handle->isError($id) ? null : $id;

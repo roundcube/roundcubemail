@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix inconsistency when not using default table names (#1486467)
 - Fix folder rename/delete buttons do not appear on creation of first folder (#1486468)
 - Fix character set conversion fails on systems where iconv doesn't accept //IGNORE (#1486375)
 - Login preformance: Create default folders on first login only

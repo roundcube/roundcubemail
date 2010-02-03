@@ -69,7 +69,7 @@ function get_table_name($table)
  */
 function get_sequence_name($sequence)
   {
-  // return table name if configured
+  // return sequence name if configured
   $config_key = 'db_sequence_'.$sequence;
   $opt = rcmail::get_instance()->config->get($config_key);
 
