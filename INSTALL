@@ -15,16 +15,18 @@ REQUIREMENTS
    - PCRE, DOM, JSON, XML, Session, Sockets (required)
    - libiconv (recommended)
    - mbstring, fileinfo, mcrypt (optional)
-* php.ini options:
+* php.ini options (see .htaccess file):
    - error_reporting E_ALL & ~E_NOTICE (or lower)
-   - memory_limit (increase as suitable to support large attachments)
+   - memory_limit>16MB (increase as suitable to support large attachments)
    - file_uploads enabled (for attachment upload features)
    - session.auto_start disabled
    - zend.ze1_compatibility_mode disabled
+   - suhosin.session.encrypt disabled
+   - mbstring.func_overload disabled
 * PHP compiled with OpenSSL to connect to IMAPS and to use the spell checker
 * A MySQL, PostgreSQL or MSSQL database engine or the SQLite extension for PHP
 * One of the above databases with permission to create tables
-* An SMTP server or PHP configured for mail delivery
+* An SMTP server (recommended) or PHP configured for mail delivery
 
 
 INSTALLATION
