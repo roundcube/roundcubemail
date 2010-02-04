@@ -143,9 +143,9 @@ img
   top: 0px;
   right: 0px;
   width: 600px;
-  height: 28px;
+  height: 24px;
   background: url(images/taskbar.gif) top right no-repeat;
-  padding: 10px 4px 0px 0px;
+  padding: 10px 4px 5px 0px;
   text-align: right;
   white-space: nowrap;
   z-index: 2;
