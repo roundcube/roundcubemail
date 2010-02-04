@@ -951,7 +951,9 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='',
 	$key     = 'fhi0';
 	$deleted = $skip_deleted ? ' FLAGS' : '';
 
-	if ($mode == 1)
+	if ($mode == 1 && $index_field == 'DATE')
+		$request = " FETCH $message_set (INTERNALDATE BODY.PEEK[HEADER.FIELDS (DATE)]$deleted)";
+	else if ($mode == 1)
 		$request = " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ($index_field)]$deleted)";
 	else if ($mode == 2) {
 		if ($index_field == 'SIZE')
@@ -987,15 +989,23 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='',
 				}
 			}
 
-			if ($mode == 1) {
-				if (preg_match('/BODY\[HEADER\.FIELDS \("?(DATE|FROM|REPLY-TO|SENDER|TO|SUBJECT)"?\)\] (.*)/', $line, $matches)) {
-					$value = preg_replace(array('/^"*[a-z]+:/i', '/\s+$/sm'), array('', ''), $matches[2]);
+			if ($mode == 1 && $index_field == 'DATE') {
+				if (preg_match('/BODY\[HEADER\.FIELDS \("*DATE"*\)\] (.*)/', $line, $matches)) {
+					$value = preg_replace(array('/^"*[a-z]+:/i'), '', $matches[1]);
 					$value = trim($value);
-					if ($index_field == 'DATE') {
-						$result[$id] = iil_StrToTime($value);
-					} else {
-						$result[$id] = $value;
-					}
+					$result[$id] = iil_StrToTime($value);
+				}
+				// non-existent/empty Date: header, use INTERNALDATE
+				if (empty($result[$id])) {
+					if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches))
+						$result[$id] = iil_StrToTime($matches[1]);
+					else
+						$result[$id] = 0;
+				}
+			} else if ($mode == 1) {
+				if (preg_match('/BODY\[HEADER\.FIELDS \("?(FROM|REPLY-TO|SENDER|TO|SUBJECT)"?\)\] (.*)/', $line, $matches)) {
+					$value = preg_replace(array('/^"*[a-z]+:/i', '/\s+$/sm'), array('', ''), $matches[2]);
+					$result[$id] = trim($value);
 				} else {
 					$result[$id] = '';
 				}
