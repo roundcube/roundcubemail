@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix handling of extended mailto links (with params) (#1486354)
 - Fix sorting by date of messages without date header on servers without SORT (#1486286)
 - Fix inconsistency when not using default table names (#1486467)
 - Fix folder rename/delete buttons do not appear on creation of first folder (#1486468)

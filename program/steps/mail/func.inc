@@ -1148,12 +1148,12 @@ function rcmail_alter_html_link($matches)
     $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($GLOBALS['rcmail_html_container_id']);
     $end = ' />';
   }
-  else if (preg_match("/^mailto:$EMAIL_ADDRESS_PATTERN/i", $attrib['href'], $mailto)) {
+  else if (preg_match('/^mailto:'.$EMAIL_ADDRESS_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
     $attrib['href'] = $mailto[0];
     $attrib['onclick'] = sprintf(
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
-      JQ($mailto[1]));
+      JQ($mailto[1].$mailto[2]));
   }
   else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
     $attrib['target'] = '_blank';

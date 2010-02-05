@@ -114,6 +114,22 @@ class rcube_test_mailfunc extends UnitTestCase
     $this->assertPattern('#<a href="http://www.apple.com/legal/privacy/" target="_blank">http://www.apple.com/legal/privacy/</a>#', $html, "Links with target=_blank");
   }
 
+  /**
+   * Test mailto links in html messages
+   */
+  function test_mailto()
+  {
+    $part = $this->get_html_part('src/mailto.txt');
+    
+    // render HTML in normal mode
+    $html = rcmail_html4inline(rcmail_print_body($part, array('safe' => false)), 'foo');
+
+    $mailto = '<a href="mailto:me@me.com?subject=this is the subject&amp;body=this is the body"'
+      .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)">e-mail</a>';
+
+    $this->assertPattern('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
+  }
+
 }
 
 ?>
