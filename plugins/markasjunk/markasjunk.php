@@ -15,9 +15,13 @@ class markasjunk extends rcube_plugin
 
   function init()
   {
-    $this->register_action('plugin.markasjunk', array($this, 'request_action'));
-    
     $rcmail = rcmail::get_instance();
+
+    if (!$rcmail->user->ID)
+      return;
+
+    $this->register_action('plugin.markasjunk', array($this, 'request_action'));
+      
     if ($rcmail->action == '' || $rcmail->action == 'show') {
       $skin_path = $this->local_skin_path();
       $this->include_script('markasjunk.js');

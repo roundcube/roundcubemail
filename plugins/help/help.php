@@ -14,6 +14,11 @@ class help extends rcube_plugin
 {
     function init()
     {
+      $rcmail = rcmail::get_instance();
+      
+      if (!$rcmail->user->ID)
+        return;
+
       $this->add_texts('localization/', false);
       
       // register actions
@@ -29,7 +34,7 @@ class help extends rcube_plugin
 	'href'	=> './?_task=dummy&_action=plugin.help',
         ), 'taskbar');
 
-      $skin = rcmail::get_instance()->config->get('skin');
+      $skin = $rcmail->config->get('skin');
       if (!file_exists($this->home."/skins/$skin/help.css"))
 	$skin = 'default';
 

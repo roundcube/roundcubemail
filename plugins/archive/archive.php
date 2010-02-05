@@ -15,15 +15,17 @@ class archive extends rcube_plugin
 
   function init()
   {
+    $rcmail = rcmail::get_instance();
+
+    if (!$rcmail->user->ID)
+      return;
+
     $this->register_action('plugin.archive', array($this, 'request_action'));
 
     // There is no "Archived flags"
     // $GLOBALS['IMAP_FLAGS']['ARCHIVED'] = 'Archive';
-    
-    $rcmail = rcmail::get_instance();
     if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
       && ($archive_folder = $rcmail->config->get('archive_mbox'))) {
-
       $skin_path = $this->local_skin_path();
       
       $this->include_script('archive.js');
