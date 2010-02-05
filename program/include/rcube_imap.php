@@ -3001,15 +3001,12 @@ class rcube_imap
     {
     if (!$mbox_name)
       $mbox_name = $this->mailbox;
-      
-    $index = array_flip((array)$this->uid_id_map[$mbox_name]);
-    if (isset($index[$id]))
-      $uid = $index[$id];
-    else
-      {
-      $uid = iil_C_ID2UID($this->conn, $mbox_name, $id);
-      $this->uid_id_map[$mbox_name][$uid] = $id;
-      }
+
+    if ($uid = array_search($id, (array)$this->uid_id_map[$mbox_name]))
+      return $uid;
+
+    $uid = iil_C_ID2UID($this->conn, $mbox_name, $id);
+    $this->uid_id_map[$mbox_name][$uid] = $id;
     
     return $uid;
     }
