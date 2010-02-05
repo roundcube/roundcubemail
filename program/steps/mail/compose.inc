@@ -128,11 +128,14 @@ else if ($config_show_sig == 3 && ($compose_mode == RCUBE_COMPOSE_REPLY || $comp
 else
   $OUTPUT->set_env('show_sig', false);
 
+// set line length for body wrapping
+$LINE_LENGTH = $RCMAIL->config->get('line_length', 75);
+
 if (!empty($msg_uid))
 {
   // similar as in program/steps/mail/show.inc
   // re-set 'prefer_html' to have possibility to use html part for compose
-  $CONFIG['prefer_html'] = $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
+  $CONFIG['prefer_html'] = $CONFIG['prefer_html'] || $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
   $MESSAGE = new rcube_message($msg_uid);
   
   if (!empty($MESSAGE->headers->charset))
@@ -395,7 +398,7 @@ function rcmail_compose_header_from($attrib)
 
 function rcmail_compose_body($attrib)
 {
-  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode;
+  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $LINE_LENGTH;
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -424,10 +427,20 @@ function rcmail_compose_body($attrib)
   }
   else if ($compose_mode)
   {
-    if (($isHtml || $compose_mode == RCUBE_COMPOSE_DRAFT) && $MESSAGE->has_html_part())
+    $has_html_part = $MESSAGE->has_html_part();
+    if (($isHtml || $compose_mode == RCUBE_COMPOSE_DRAFT) && $has_html_part)
     {
       $body = $MESSAGE->first_html_part();
       $isHtml = true;
+    }
+    else if ($has_html_part)
+    {
+      // use html part if it has been used for message (pre)viewing
+      // decrease line length for quoting
+      $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
+      $txt = new html2text($MESSAGE->first_html_part(), false, true, $len);
+      $body = $txt->get_text();
+      $isHtml = false;
     }
     else
     {
@@ -522,7 +535,7 @@ function rcmail_compose_body($attrib)
 
 function rcmail_create_reply_body($body, $bodyIsHtml)
 {
-  global $RCMAIL, $MESSAGE;
+  global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
   if (!$bodyIsHtml) {
     // try to remove the signature
@@ -532,7 +545,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     }
 
     // soft-wrap message first
-    $body = rcmail_wrap_quoted($body, 75);
+    $body = rcmail_wrap_quoted($body, $LINE_LENGTH);
 
     $body = rtrim($body, "\r\n");
 
@@ -554,7 +567,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     // add title line(s)
     $prefix = rc_wordwrap(sprintf("On %s, %s wrote:\n",
       $MESSAGE->headers->date,
-      $MESSAGE->get_header('from')), 76);
+      $MESSAGE->get_header('from')), $LINE_LENGTH);
 
     $suffix = '';
     

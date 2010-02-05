@@ -357,6 +357,9 @@ if (!$savedraft) {
   }
 }
 
+// set line length for body wrapping
+$LINE_LENGTH = $RCMAIL->config->get('line_length', 75);
+
 // create extended PEAR::Mail_mime instance
 $MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
 
@@ -369,7 +372,7 @@ if ($isHtml) {
 
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($plugin['body'], false, true, 0);
-  $plainTextPart = rc_wordwrap($h2t->get_text(), 75, "\r\n") . ($footer ? "\r\n".$footer : '');
+  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n") . ($footer ? "\r\n".$footer : '');
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
   if (!strlen($plainTextPart)) {
     // empty message body breaks attachment handling in drafts 
@@ -383,7 +386,7 @@ if ($isHtml) {
 }
 else
   {
-  $message_body = rc_wordwrap($message_body, 75, "\r\n");
+  $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
   if ($footer)
     $message_body .= "\r\n" . $footer;
   $message_body = wordwrap($message_body, 998, "\r\n", true);
