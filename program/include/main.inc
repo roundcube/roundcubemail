@@ -200,7 +200,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
   
   $error = false;
 
-  $to = empty($to) ? $to = strtoupper(RCMAIL_CHARSET) : rcube_parse_charset($to);
+  $to = empty($to) ? strtoupper(RCMAIL_CHARSET) : rcube_parse_charset($to);
   $from = rcube_parse_charset($from);
 
   if ($from == $to || empty($str) || empty($from))
