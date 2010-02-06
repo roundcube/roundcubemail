@@ -17,9 +17,6 @@ class markasjunk extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
 
-    if (!$rcmail->user->ID)
-      return;
-
     $this->register_action('plugin.markasjunk', array($this, 'request_action'));
       
     if ($rcmail->action == '' || $rcmail->action == 'show') {

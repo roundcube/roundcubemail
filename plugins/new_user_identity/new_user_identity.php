@@ -22,6 +22,8 @@
  */
 class new_user_identity extends rcube_plugin
 {
+    public $task = 'login';
+
     function init()
     {
         $this->add_hook('create_user', array($this, 'lookup_user_name'));

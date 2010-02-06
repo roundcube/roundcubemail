@@ -10,6 +10,7 @@
  */
 class http_authentication extends rcube_plugin
 {
+  public $task = 'login';
 
   function init()
   {
@@ -20,7 +21,7 @@ class http_authentication extends rcube_plugin
   function startup($args)
   {
     // change action to login
-    if ($args['task'] == 'mail' && empty($args['action']) && empty($_SESSION['user_id'])
+    if (empty($args['action']) && empty($_SESSION['user_id'])
         && !empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW']))
       $args['action'] = 'login';
 

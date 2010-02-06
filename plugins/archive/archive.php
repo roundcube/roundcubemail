@@ -17,9 +17,6 @@ class archive extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
 
-    if (!$rcmail->user->ID)
-      return;
-
     $this->register_action('plugin.archive', array($this, 'request_action'));
 
     // There is no "Archived flags"

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix setting task name according to auth state
 - Password: fix vpopmaild driver (#1486478)
 - Add workaround for MySQL bug [http://bugs.mysql.com/bug.php?id=46293] (#1486474)
 - Fix quoted text wrapping when replying to an HTML email in plain text (#1484141)

@@ -39,7 +39,7 @@ class rcmail
   public $imap;
   public $output;
   public $plugins;
-  public $task = 'mail';
+  public $task;
   public $action = '';
   public $comm_path = './';
   
@@ -91,10 +91,6 @@ class rcmail
       openlog($syslog_id, LOG_ODELAY, $syslog_facility);
     }
 
-    // set task and action properties
-    $this->set_task(get_input_value('_task', RCUBE_INPUT_GPC));
-    $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
-
     // connect to database
     $GLOBALS['DB'] = $this->get_dbh();
 
@@ -123,6 +119,10 @@ class rcmail
     // create user object
     $this->set_user(new rcube_user($_SESSION['user_id']));
 
+    // set task and action properties
+    $this->set_task(get_input_value('_task', RCUBE_INPUT_GPC));
+    $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
+
     // reset some session parameters when changing task
     if ($_SESSION['task'] != $this->task)
       rcube_sess_unset('page');
@@ -131,7 +131,7 @@ class rcmail
     $_SESSION['task'] = $this->task;
 
     // create IMAP object
-    if ($this->task == 'mail')
+    if ($this->task == 'login')
       $this->imap_init();
       
     // create plugin API and load plugins
@@ -147,7 +147,13 @@ class rcmail
   public function set_task($task)
   {
     $task = asciiwords($task);
-    $this->task = $task ? $task : 'mail';
+
+    if ($this->user && $this->user->ID)
+      $task = !$task || $task == 'login' ? 'mail' : $task;
+    else
+      $task = 'login';
+
+    $this->task = $task;
     $this->comm_path = $this->url(array('task' => $this->task));
     
     if ($this->output)

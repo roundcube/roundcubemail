@@ -80,7 +80,7 @@ $RCMAIL->set_task($startup['task']);
 $RCMAIL->action = $startup['action'];
 
 // try to log in
-if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
+if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   // purge the session in case of new login when a session already exists 
   $RCMAIL->kill_session();
   
@@ -117,6 +117,8 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
     if ($url = get_input_value('_url', RCUBE_INPUT_POST))
       parse_str($url, $query);
 
+    $RCMAIL->set_task('mail');
+
     // allow plugins to control the redirect url after login success
     $redir = $RCMAIL->plugins->exec_hook('login_after', $query + array('task' => $RCMAIL->task));
     unset($redir['abort']);
@@ -132,7 +134,7 @@ if ($RCMAIL->action=='login' && $RCMAIL->task=='mail') {
 }
 
 // end session
-else if ($RCMAIL->task=='logout' && isset($_SESSION['user_id'])) {
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
   $userdata = array('user' => $_SESSION['username'], 'host' => $_SESSION['imap_host'], 'lang' => $RCMAIL->user->language);
   $OUTPUT->show_message('loggedout');
   $RCMAIL->logout_actions();
@@ -141,7 +143,7 @@ else if ($RCMAIL->task=='logout' && isset($_SESSION['user_id'])) {
 }
 
 // check session and auth cookie
-else if ($RCMAIL->action != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
+else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
   if (!$RCMAIL->authenticate_session()) {
     $OUTPUT->show_message('sessionerror', 'error');
     $RCMAIL->kill_session();
@@ -168,7 +170,7 @@ else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAI
 if (empty($RCMAIL->user->ID)) {
   if ($OUTPUT->ajax_call)
     $OUTPUT->redirect(array(), 2000);
-  
+
   if (!empty($_REQUEST['_framed']))
     $OUTPUT->command('redirect', '?');
 

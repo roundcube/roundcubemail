@@ -10,6 +10,8 @@
  */
 class squirrelmail_usercopy extends rcube_plugin
 {
+	public $task = 'login|settings';
+
 	private $prefs = null;
 	private $abook = array();
 

@@ -12,13 +12,13 @@
 
 class help extends rcube_plugin
 {
+    // all task excluding 'login' and 'logout'
+    public $task = '?(?!login|logout).*';
+
     function init()
     {
       $rcmail = rcmail::get_instance();
       
-      if (!$rcmail->user->ID)
-        return;
-
       $this->add_texts('localization/', false);
       
       // register actions

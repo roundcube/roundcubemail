@@ -6,6 +6,7 @@
  */
 class autologon extends rcube_plugin
 {
+  public $task = 'login';
 
   function init()
   {
@@ -18,7 +19,7 @@ class autologon extends rcube_plugin
     $rcmail = rcmail::get_instance();
 
     // change action to login
-    if ($args['task'] == 'mail' && empty($args['action']) && empty($_SESSION['user_id']) && !empty($_GET['_autologin']) && $this->is_localhost())
+    if (empty($_SESSION['user_id']) && !empty($_GET['_autologin']) && $this->is_localhost())
       $args['action'] = 'login';
 
     return $args;
