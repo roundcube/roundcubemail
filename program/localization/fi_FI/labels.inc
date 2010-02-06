@@ -13,6 +13,7 @@
 | Author: Ville Alatalo <ville@alatalo.org>                             |
 |         Veljo Velling <veve@utu.fi>                                   |
 |         Jorma Tuomainen <jt@wiza.fi>                                  |
+|		  Olli <ollinpostit@gmail.com>
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -118,12 +119,15 @@ $labels['markread'] = 'luetuiksi';
 $labels['markunread'] = 'ei-luetuiksi';
 $labels['markflagged'] = 'korostetuiksi';
 $labels['markunflagged'] = 'ei-korostetuiksi';
+$labels['messageactions'] = 'Lisää toimintoja...';
 $labels['select'] = 'Valitse';
 $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mitään';
 $labels['unread'] = 'Lukemattomat';
 $labels['flagged'] = 'Korostettu';
 $labels['unanswered'] = 'Vastaamaton';
+$labels['deleted'] = 'Poistettu';
+$labels['invert'] = 'Käännä';
 $labels['filter'] = 'Suodin';
 $labels['compact'] = 'Tiivistä';
 $labels['empty'] = 'Tyhjennä';
@@ -138,6 +142,7 @@ $labels['msgtext'] = 'Koko viesti';
 $labels['openinextwin'] = 'Avaa uudessa ikkunassa';
 $labels['emlsave'] = 'Tallenna (.eml)';
 $labels['compose'] = 'Viestin kirjoitus';
+$labels['editasnew'] = 'Muokkaa uutena';
 $labels['savemessage'] = 'Tallenna tämä luonnos';
 $labels['sendmessage'] = 'Lähetä viesti';
 $labels['addattachment'] = 'Liitetiedosto';
@@ -248,6 +253,25 @@ $labels['2047folding'] = 'Täysin RFC 2047 mukainen (muut)';
 $labels['advancedoptions'] = 'Lisäasetukset';
 $labels['focusonnewmessage'] = 'Tarkenna selainikkuna uuteen viestiin';
 $labels['checkallfolders'] = 'Tarkista kaikki kansiot uusien viestien varalta';
+$labels['displaynext'] = 'Viestin siirron tai poiston jälkeen, näytä seuraava viesti';
+$labels['indexsort'] = 'Käytä viesti-indeksiä kun järjestetään päiväyksen mukaan';
+$labels['mainoptions'] = 'Pääasetukset';
+$labels['section'] = 'Kohta';
+$labels['maintenance'] = 'Huolto';
+$labels['newmessage'] = 'Uusi viesti';
+$labels['listoptions'] = 'Lista-asetukset';
+$labels['signatureoptions'] = 'Allekirjoituksen asetukset';
+$labels['whenreplying'] = 'Vastattaessa';
+$labels['replytopposting'] = 'aloita uusi viesti alkuperäisen yläpuolelle';
+$labels['replybottomposting'] = 'aloita uusi viesti alkuperäisen alapuolelle';
+$labels['replyremovesignature'] = 'Vastattaessa poista alkuperäinen allekirjoitus viestistä';
+$labels['autoaddsignature'] = 'Lisää allekirjoitus automaattisesti';
+$labels['newmessageonly'] = 'vain uuteen viestiin';
+$labels['replyandforwardonly'] = 'vain vastauksiin ja välityksiin';
+$labels['replysignaturepos'] = 'Vastattaessa tai välitettäessä laita allekirjoitus';
+$labels['belowquote'] = 'lainauksen alle';
+$labels['abovequote'] = 'lainauksen ylle';
+$labels['insertsignature'] = 'Lisää allekirjoitus';
 $labels['folder'] = 'Kansio';
 $labels['folders'] = 'Kansiot';
 $labels['foldername'] = 'Kansion nimi';

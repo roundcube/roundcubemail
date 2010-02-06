@@ -105,5 +105,6 @@ $messages['smtpfromerror'] = 'SMTP Error ($code): ვერ მიეთით�
 $messages['smtptoerror'] = 'SMTP Error ($code): ვერ დაემატა მიმღები "$to"';
 $messages['smtprecipientserror'] = 'SMTP Error: მიმღებთა ჩამონათვალის დამუშავება ვერ მოხერხდა';
 $messages['smtperror'] = 'SMTP Error: $msg';
+$messages['emailformaterror'] = 'ელ-ფოსტის მისამართი არასწორია $email';
 
 ?>

@@ -4,14 +4,14 @@
 +-----------------------------------------------------------------------+
 | language/ro_RO/messages.inc                                           |
 |                                                                       |
-| Language file of the RoundCube Webmail client                         |
+| Language file of the RoundCube Webmail client                        |
 | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
 |         Zeno Popovici <zeno.popovici at ulbsibiu.ro>                  |
-|		  Cristian Nastase <cristian.nastase@itcaffe.net>				|
+|		      Cristian Nastase <cristian.nastase@itcaffe.net>			         	|
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -29,6 +29,7 @@ $messages['nomessagesfound'] = 'Nu a fost găsit nici un mesaj în această căs
 $messages['loggedout'] = 'Sesiune încheiată cu succes. La revedere!';
 $messages['mailboxempty'] = 'Căsuţa poştală este goală';
 $messages['loading'] = 'Se încarcă...';
+$messages['uploading'] = 'Fişierul se încarcă...';
 $messages['loadingdata'] = 'Se încarcă informaţiile...';
 $messages['checkingmail'] = 'Se caută mesaje noi...';
 $messages['sendingmessage'] = 'Trimitere mesaj...';
@@ -69,11 +70,12 @@ $messages['notsentwarning'] = 'Mesajul nu a fost trimis. Vreţi să renunţaţi 
 $messages['noldapserver'] = 'Vă rugăm să alegeţi un server ldap pentru căutare';
 $messages['nocontactsreturned'] = 'Nu s-a găsit nici un contact';
 $messages['nosearchname'] = 'Vă rugăm să introduceţi un nume de contact sau adresă de e-mail';
+$messages['notuploadedwarning'] = 'Nu toate fişierele au fost ataşate. Vă rugăm să aşteptaţi sau să anulaţi încărcarea acestora.';
 $messages['searchsuccessful'] = '$nr mesaje găsite';
-$messages['searchnomatch'] = 'Căutarea nu a returnat nici un rezultat';
+$messages['searchnomatch'] = 'Căutarea nu a returnat niciun rezultat';
 $messages['searching'] = 'Se caută...';
 $messages['checking'] = 'Se verifică...';
-$messages['nospellerrors'] = 'Nu s-a găsit nici-o greşeală de ortografie';
+$messages['nospellerrors'] = 'Nu s-a găsit nicio greşeală de ortografie';
 $messages['folderdeleted'] = 'Dosarul a fost şters cu succes';
 $messages['deletedsuccessfully'] = 'Mesaj şters cu succes !';
 $messages['converting'] = 'Resetez mesajul la parametrii iniţiali...';
@@ -81,7 +83,7 @@ $messages['messageopenerror'] = 'Nu s-a putut încărca mesajul din server';
 $messages['fileuploaderror'] = 'Încărcarea pe server a eşuat';
 $messages['filesizeerror'] = 'Fişierul încărcat depăşeşte mărimea de $size';
 $messages['copysuccess'] = '$nr adrese s-au copiat cu succes';
-$messages['copyerror'] = 'Nu s-a putut copia nici-o adresă';
+$messages['copyerror'] = 'Nu s-a putut copia nicio adresă';
 $messages['sourceisreadonly'] = 'Sursa acestei adrese este "read-only"(se poate doar citi)';
 $messages['errorsavingcontact'] = 'Nu s-a putut salva adresa de contact';
 $messages['movingmessage'] = 'Mutare mesaj....';
@@ -105,4 +107,6 @@ $messages['smtpfromerror'] = 'Eroare SMTP  ($code): Nu s-a putut seta expeditoru
 $messages['smtptoerror'] = 'Eroare SMTP  ($code): Nu s-a putut adăuga destinatarul "$to"';
 $messages['smtprecipientserror'] = 'Eroare SMTP: Nu s-a putut procesa lista cu destinatari';
 $messages['smtperror'] = 'Eroare SMTP: $msg';
+$messages['emailformaterror'] = 'Adresă de e-mail incorectă: $email';
+
 ?>
