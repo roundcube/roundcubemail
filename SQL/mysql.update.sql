@@ -61,7 +61,7 @@ ALTER TABLE `contacts`
 -- Updates from version 0.3.1
 
 /* MySQL bug workaround: http://bugs.mysql.com/bug.php?id=46293 */
-/*!40014 SET FOREIGN_KEY_CHECKS=0; */
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
 ALTER TABLE `messages` DROP FOREIGN KEY `user_id_fk_messages`;
 ALTER TABLE `cache` DROP FOREIGN KEY `user_id_fk_cache`;
@@ -77,4 +77,4 @@ ALTER TABLE `contacts` ADD CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_i
 ALTER TABLE `identities` ADD CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
  REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
 
-/*!40014 SET FOREIGN_KEY_CHECKS=1; */
+/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
