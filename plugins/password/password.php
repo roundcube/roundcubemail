@@ -3,7 +3,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Password Plugin for Roundcube                                           |
- | Version 1.3.1                                                           |
+ | Version 1.3.2                                                           |
  |                                                                         |
  | Copyright (C) 2009, RoundCube Dev.                                      |
  |                                                                         |
@@ -42,7 +42,6 @@ define('PASSWORD_SUCCESS', 0);
  *
  * For installation and configuration instructions please read the README file.
  *
- * @version 1.3.1
  * @author Aleksander Machniak
  */
 class password extends rcube_plugin
