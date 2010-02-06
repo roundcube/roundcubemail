@@ -7,10 +7,12 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 2.1
+ * @version 2.2
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
- * Configuration (see config.inc.php.dist):
+ * Configuration (see config.inc.php.dist)
+ *
+ * $Id$
  */
 
 class managesieve extends rcube_plugin
@@ -276,7 +278,7 @@ class managesieve extends rcube_plugin
     // filter add/edit action
     else if (isset($_POST['_name']))
     {
-      $name = trim(get_input_value('_name', RCUBE_INPUT_POST));
+      $name = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
       $fid = trim(get_input_value('_fid', RCUBE_INPUT_POST));
       $join = trim(get_input_value('_join', RCUBE_INPUT_POST));
   
@@ -485,9 +487,7 @@ class managesieve extends rcube_plugin
 	{
 	  $this->rc->output->show_message('managesieve.filtersaved', 'confirmation');
 	  $this->rc->output->add_script(sprintf("rcmail.managesieve_updatelist('%s', '%s', %d);",
-	    isset($new) ? 'add' : 'update', $this->form['name'], $fid), 'foot');
-//	  $this->rc->output->command('managesieve_updatelist', isset($new) ? 'add' : 'update', $this->form['name'], $fid);
-//	  $this->rc->output->send();
+	    isset($new) ? 'add' : 'update', Q($this->form['name']), $fid), 'foot');
 	}
 	else
 	{

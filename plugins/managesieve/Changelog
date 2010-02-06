@@ -1,3 +1,7 @@
+* version 2.2 [2010-02-06]
+-----------------------------------------------------------
+- Fix handling of "<>" characters in filter names (#1486477)
+
 * version 2.1 [2010-01-12]
 -----------------------------------------------------------
 - Fix "require" structure generation when many modules are used
