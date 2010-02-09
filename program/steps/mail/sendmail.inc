@@ -20,7 +20,6 @@
 
 */
 
-
 // remove all scripts and act as called in frame
 $OUTPUT->reset();
 $OUTPUT->framed = TRUE;
@@ -111,7 +110,7 @@ function rcmail_attach_emoticons(&$mime_message)
 {
   global $CONFIG;
 
-  $body = $mime_message->getHtmlBody();
+  $body = $mime_message->getHTMLBody();
 
   // remove any null-byte characters before parsing
   $body = preg_replace('/\x00/', '', $body);
@@ -134,7 +133,7 @@ function rcmail_attach_emoticons(&$mime_message)
 
         if (! in_array($image_name, $included_images)) {
           // add the image to the MIME message
-          if(! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
+          if (! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
             $OUTPUT->show_message("emoticonerror", 'error');
           array_push($included_images, $image_name);
         }
@@ -360,8 +359,26 @@ if (!$savedraft) {
 // set line length for body wrapping
 $LINE_LENGTH = $RCMAIL->config->get('line_length', 75);
 
-// create extended PEAR::Mail_mime instance
-$MAIL_MIME = new rcube_mail_mime($RCMAIL->config->header_delimiter());
+// Since we can handle big messages with disk usage, we need more time to work
+@set_time_limit(0);
+
+// create PEAR::Mail_mime instance
+$MAIL_MIME = new Mail_mime($RCMAIL->config->header_delimiter());
+
+// Check if we have enough memory to handle the message in it
+// It's faster than using files, so we'll do this if we only can
+if (is_array($_SESSION['compose']['attachments']) && $CONFIG['smtp_server']
+  && ($mem_limit = parse_bytes(ini_get('memory_limit'))))
+{
+  $memory = function_exists('memory_get_usage') ? memory_get_usage() : 16*1024*1024; // safe value: 16MB
+
+  foreach ($_SESSION['compose']['attachments'] as $id => $attachment)
+    $memory += $attachment['size'];
+
+  // Yeah, Net_SMTP needs up to 12x more memory, 1.33 is for base64
+  if ($memory * 1.33 * 12 > $mem_limit)
+    $MAIL_MIME->setParam('delay_file_io', true);
+}
 
 // For HTML-formatted messages, construct the MIME message with both
 // the HTML part and the plain-text part
@@ -403,7 +420,8 @@ $charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8
 $transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 // add stored attachments, if any
-if (is_array($_SESSION['compose']['attachments'])) {
+if (is_array($_SESSION['compose']['attachments']))
+{
   foreach ($_SESSION['compose']['attachments'] as $id => $attachment) {
     // This hook retrieves the attachment contents from the file storage backend
     $attachment = $RCMAIL->plugins->exec_hook('get_attachment', $attachment);
@@ -438,30 +456,13 @@ if (is_array($_SESSION['compose']['attachments'])) {
   }
 }
 
-// add submitted attachments
-if (is_array($_FILES['_attachments']['tmp_name'])) {
-  foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
-    $ctype = $files['type'][$i];
-    $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
-    
-    $MAIL_MIME->addAttachment($filepath, $ctype, $files['name'][$i], true,
-      $ctype == 'message/rfc822' ? $transfer_encoding : 'base64',
-      'attachment', $message_charset, '', '', 
-      $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
-      $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
-    );
-  }
-}
-
 // encoding settings for mail composing
-$MAIL_MIME->setParam(array(
-  'text_encoding' => $transfer_encoding,
-  'html_encoding' => 'quoted-printable',
-  'head_encoding' => 'quoted-printable',
-  'head_charset'  => $message_charset,
-  'html_charset'  => $message_charset,
-  'text_charset'  => $message_charset,
-));
+$MAIL_MIME->setParam('text_encoding', $transfer_encoding);
+$MAIL_MIME->setParam('html_encoding', 'quoted-printable');
+$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
+$MAIL_MIME->setParam('head_charset', $message_charset);
+$MAIL_MIME->setParam('html_charset', $message_charset);
+$MAIL_MIME->setParam('text_charset', $message_charset);
 
 $data = $RCMAIL->plugins->exec_hook('outgoing_message_headers', array('headers' => $headers));
 $headers = $data['headers'];
@@ -487,11 +488,16 @@ if (!$savedraft)
     $OUTPUT->send('iframe'); 
   }
 
-  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error);
-  
+  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $mailbody_file);
+
   // return to compose page if sending failed
   if (!$sent)
     {
+    // remove temp file
+    if ($mailbody_file) {
+      unlink($mailbody_file);
+      }
+
     if ($smtp_error)
       $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']); 
     else
@@ -512,7 +518,6 @@ if (!$savedraft)
 } // End of SMTP Delivery Block
 
 
-
 // Determine which folder to save message
 if ($savedraft)
   $store_target = $CONFIG['drafts_mbox'];
@@ -522,31 +527,63 @@ else
 if ($store_target)
   {
   // check if mailbox exists
-  if (!in_array_nocase($store_target, $IMAP->list_mailboxes()))
+  if (!in_array($store_target, $IMAP->list_mailboxes()))
     {
       // folder may be existing but not subscribed (#1485241)
-      if (!in_array_nocase($store_target, $IMAP->list_unsubscribed()))
+      if (!in_array($store_target, $IMAP->list_unsubscribed()))
         $store_folder = $IMAP->create_mailbox($store_target, TRUE);
       else if ($IMAP->subscribe($store_target))
         $store_folder = TRUE;
     }
   else
     $store_folder = TRUE;
-  
-  // append message to sent box
-  if ($store_folder)
-    $saved = $IMAP->save_message($store_target, $MAIL_MIME->getMessage());
 
-  // raise error if saving failed
-  if (!$saved)
-    {
-    raise_error(array('code' => 800, 'type' => 'imap',
+  // append message to sent box
+  if ($store_folder) {
+
+    // message body in file
+    if ($mailbody_file || $MAIL_MIME->getParam('delay_file_io')) {
+      $headers = $MAIL_MIME->txtHeaders();
+      
+      // file already created
+      if ($mailbody_file)
+        $msg = $mailbody_file;
+      else {
+        $temp_dir = $RCMAIL->config->get('temp_dir');
+        $mailbody_file = tempnam($temp_dir, 'rcmMsg');
+        if (!PEAR::isError($msg = $MAIL_MIME->saveMessageBody($mailbody_file)))
+          $msg = $mailbody_file;
+        }
+      }
+    else {
+      $msg = $MAIL_MIME->getMessage();
+      $headers = '';
+      }
+
+    if (PEAR::isError($msg))
+      raise_error(array('code' => 600, 'type' => 'php',
+	    'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Could not create message: ".$msg->getMessage()),
+            TRUE, FALSE);
+    else {
+      $saved = $IMAP->save_message($store_target, $msg, $headers, $mailbody_file ? true : false);
+      }
+
+    if ($mailbody_file) {
+      unlink($mailbody_file);
+      $mailbody_file = null;
+      }
+
+    // raise error if saving failed
+    if (!$saved) {
+      raise_error(array('code' => 800, 'type' => 'imap',
 	    'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not save message in $store_target"), TRUE, FALSE);
     
-    if ($savedraft) {
-      $OUTPUT->show_message('errorsaving', 'error');
-      $OUTPUT->send('iframe');
+      if ($savedraft) {
+        $OUTPUT->show_message('errorsaving', 'error');
+        $OUTPUT->send('iframe');
+        }
       }
     }
 
@@ -564,6 +601,11 @@ if ($store_target)
                 'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
     }
   }
+// remove temp file
+else if ($mailbody_file) {
+  unlink($mailbody_file);
+  }
+
 
 if ($savedraft)
   {

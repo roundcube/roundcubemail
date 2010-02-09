@@ -53,9 +53,11 @@ if ($RCMAIL->action=='display-attachment')
     $attachment = $RCMAIL->plugins->exec_hook('display_attachment', $attachment);
     
   if ($attachment['status']) {
-    $size = $attachment['data'] ? strlen($attachment['data']) : @filesize($attachment['path']);
+    if (empty($attachment['size']))
+      $attachment['size'] = $attachment['data'] ? strlen($attachment['data']) : @filesize($attachment['path']);
+
     header('Content-Type: ' . $attachment['mimetype']);
-    header('Content-Length: ' . $size);
+    header('Content-Length: ' . $attachment['size']);
     
     if ($attachment['data'])
       echo $attachment['data'];
@@ -80,6 +82,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
     $attachment = array(
       'path' => $filepath,
+      'size' => $_FILES['_attachments']['size'][$i],
       'name' => $_FILES['_attachments']['name'][$i],
       'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i])
     );

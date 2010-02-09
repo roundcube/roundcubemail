@@ -2418,7 +2418,7 @@ function iil_C_Append(&$conn, $folder, &$message) {
 	return false;
 }
 
-function iil_C_AppendFromFile(&$conn, $folder, $path) {
+function iil_C_AppendFromFile(&$conn, $folder, $path, $headers=null, $separator="\n\n") {
 	if (!$folder) {
 	    return false;
 	}
@@ -2438,7 +2438,12 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 	if (!$len) {
 		return false;
 	}
-    
+
+        if ($headers) {
+                $headers = preg_replace('/[\r\n]+$/', '', $headers);
+                $len += strlen($headers) + strlen($separator);
+        }
+
 	//send APPEND command
 	$request    = 'a APPEND "' . iil_Escape($folder) . '" (\\Seen) {' . $len . '}';
 	if (iil_PutLine($fp, $request)) {
@@ -2450,16 +2455,21 @@ function iil_C_AppendFromFile(&$conn, $folder, $path) {
 			return false;
 		}
 
-		//send file
+                // send headers with body separator
+                if ($headers) {
+			iil_PutLine($fp, $headers . $separator, false);
+                }
+
+		// send file
 		while (!feof($in_fp)) {
-			$buffer      = fgets($in_fp, 4096);
+			$buffer = fgets($in_fp, 4096);
 			iil_PutLine($fp, $buffer, false);
 		}
 		fclose($in_fp);
 
 		iil_PutLine($fp, ''); // \r\n
 
-		//read response
+		// read response
 		do {
 			$line = iil_ReadLine($fp);
 		} while (!iil_StartsWith($line, 'a ', true));

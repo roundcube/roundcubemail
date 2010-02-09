@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix attachment excessive memory use, support messages of any size (#1484660)
 - Fix setting task name according to auth state
 - Password: fix vpopmaild driver (#1486478)
 - Add workaround for MySQL bug [http://bugs.mysql.com/bug.php?id=46293] (#1486474)

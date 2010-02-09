@@ -141,7 +141,8 @@ class rcube_smtp {
    *               Either as an associative array or a finally
    *               formatted string
    *
-   * @param string The full text of the message body, including any Mime parts, etc.
+   * @param mixed  The full text of the message body, including any Mime parts
+   *               or file handle
    *
    * @return bool  Returns true on success, or false on error
    */
@@ -206,17 +207,24 @@ class rcube_smtp {
       }
     }
 
-    // Concatenate headers and body so it can be passed by reference to SMTP_CONN->data
-    // so preg_replace in SMTP_CONN->quotedata will store a reference instead of a copy. 
-    // We are still forced to make another copy here for a couple ticks so we don't really 
-    // get to save a copy in the method call.
-    $data = $text_headers . "\r\n" . $body;
+    if (is_resource($body))
+    {
+      // file handle
+      $data = $body;
+      $text_headers = preg_replace('/[\r\n]+$/', '', $text_headers);
+    } else {
+      // Concatenate headers and body so it can be passed by reference to SMTP_CONN->data
+      // so preg_replace in SMTP_CONN->quotedata will store a reference instead of a copy. 
+      // We are still forced to make another copy here for a couple ticks so we don't really 
+      // get to save a copy in the method call.
+      $data = $text_headers . "\r\n" . $body;
 
-    // unset old vars to save data and so we can pass into SMTP_CONN->data by reference.
-    unset($text_headers, $body);
-   
+      // unset old vars to save data and so we can pass into SMTP_CONN->data by reference.
+      unset($text_headers, $body);
+    }
+
     // Send the message's headers and the body as SMTP data.
-    if (PEAR::isError($result = $this->conn->data($data)))
+    if (PEAR::isError($result = $this->conn->data($data, $text_headers)))
     {
       $this->error = array('label' => 'smtperror', 'vars' => array('msg' => $result->getMessage()));
       $this->response[] .= "Failed to send data";

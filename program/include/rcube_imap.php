@@ -1699,17 +1699,27 @@ class rcube_imap
   /**
    * Append a mail message (source) to a specific mailbox
    *
-   * @param string Target mailbox
-   * @param string Message source
+   * @param string   Target mailbox
+   * @param string   The message source string or filename
+   * @param string   Headers string if $message contains only the body
+   * @param boolean  True if $message is a filename
+   *
    * @return boolean True on success, False on error
    */
-  function save_message($mbox_name, &$message)
+  function save_message($mbox_name, &$message, $headers='', $is_file=false)
     {
     $mailbox = $this->mod_mailbox($mbox_name);
 
     // make sure mailbox exists
-    if (($mailbox == 'INBOX') || in_array($mailbox, $this->_list_mailboxes()))
-      $saved = iil_C_Append($this->conn, $mailbox, $message);
+    if (($mailbox == 'INBOX') || in_array($mailbox, $this->_list_mailboxes())) {
+      if ($is_file) {
+        $separator = rcmail::get_instance()->config->header_delimiter();
+        $saved = iil_C_AppendFromFile($this->conn, $mailbox, $message,
+          $headers, $separator.$separator);
+        }
+      else
+        $saved = iil_C_Append($this->conn, $mailbox, $message);
+      }
 
     if ($saved)
       {

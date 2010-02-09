@@ -1332,13 +1332,20 @@ function rcmail_compose_cleanup()
   
 
 /**
- * Send the given message compose object using the configured method
+ * Send the given message using the configured method
+ *
+ * @param object $message    Reference to Mail_MIME object
+ * @param string $from       Sender address string
+ * @param array  $mailto     Array of recipient address strings
+ * @param array  $smtp_error SMTP error array (reference)
+ * @param string $body_file  Location of file with saved message body (reference)
+ *
+ * @return boolean Send status.
  */
-function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error)
+function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file)
 {
   global $CONFIG, $RCMAIL;
 
-  $msg_body = $message->get();
   $headers = $message->headers();
 
   // send thru SMTP server using custom SMTP library
@@ -1357,13 +1364,35 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error)
     // here too, it because txtHeaders() below use $message->_headers not only $send_headers
     unset($message->_headers['Bcc']);
 
+    $smtp_headers = $message->txtHeaders($send_headers, true);
+
+    if ($message->getParam('delay_file_io')) {
+      // use common temp dir
+      $temp_dir = $RCMAIL->config->get('temp_dir');
+      $body_file = tempnam($temp_dir, 'rcmMsg');
+      if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
+        raise_error(array('code' => 600, 'type' => 'php',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Could not create message: ".$mime_result->getMessage()),
+            TRUE, FALSE);
+        return false;
+      }
+      $msg_body = fopen($body_file, 'r');
+    } else {
+      $msg_body = $message->get();
+    }
+
     // send message
     if (!is_object($RCMAIL->smtp))
       $RCMAIL->smtp_init(true);
      
-    $sent = $RCMAIL->smtp->send_mail($from, $a_recipients, ($foo = $message->txtHeaders($send_headers, true)), $msg_body);
+    $sent = $RCMAIL->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body);
     $smtp_response = $RCMAIL->smtp->get_response();
     $smtp_error = $RCMAIL->smtp->get_error();
+
+    if (is_resource($msg_body)) {
+      fclose($msg_body);
+    }
 
     // log error
     if (!$sent)
@@ -1387,8 +1416,15 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error)
         $headers_enc['To'] = implode(', ', $m[1]);
         }
       }
-       
-    if (ini_get('safe_mode'))
+    
+    $msg_body = $message->get();
+
+    if (PEAR::isError($msg_body))
+      raise_error(array('code' => 600, 'type' => 'php',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Could not create message: ".$msg_body->getMessage()),
+            TRUE, FALSE);
+    else if (ini_get('safe_mode'))
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
     else
       $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
@@ -1408,7 +1444,7 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error)
         !empty($smtp_response) ? join('; ', $smtp_response) : ''));
     }
   }
-  
+
   $message->_headers = array();
   $message->headers($headers);
   
@@ -1430,15 +1466,14 @@ function rcmail_send_mdn($uid, &$smtp_error)
     $recipient = array_shift($IMAP->decode_address_list($message->headers->mdn_to));
     $mailto = $recipient['mailto'];
 
-    $compose = new rcube_mail_mime($RCMAIL->config->header_delimiter());
-    $compose->setParam(array(
-      'text_encoding' => 'quoted-printable',
-      'html_encoding' => 'quoted-printable',
-      'head_encoding' => 'quoted-printable',
-      'head_charset'  => RCMAIL_CHARSET,
-      'html_charset'  => RCMAIL_CHARSET,
-      'text_charset'  => RCMAIL_CHARSET,
-    ));
+    $compose = new Mail_mime($RCMAIL->config->header_delimiter());
+
+    $compose->setParam('text_encoding', 'quoted-printable');
+    $compose->setParam('html_encoding', 'quoted-printable');
+    $compose->setParam('head_encoding', 'quoted-printable');
+    $compose->setParam('head_charset', RCMAIL_CHARSET);
+    $compose->setParam('html_charset', RCMAIL_CHARSET);
+    $compose->setParam('text_charset', RCMAIL_CHARSET);
     
     // compose headers array
     $headers = array(
@@ -1474,7 +1509,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
     $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
-    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error);
+    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file);
 
     if ($sent)
     {
