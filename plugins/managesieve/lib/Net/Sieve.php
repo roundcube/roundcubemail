@@ -1169,9 +1169,7 @@ class Net_Sieve
      */
     function _getLineLength($string)
     {
-        if (extension_loaded('mbstring')
-            || @dl(PHP_SHLIB_PREFIX . 'mbstring.' . PHP_SHLIB_SUFFIX)
-        ) {
+        if (extension_loaded('mbstring')) {
             return mb_strlen($string, 'latin1');
         } else {
             return strlen($string);
