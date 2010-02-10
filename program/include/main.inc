@@ -332,7 +332,7 @@ function rcube_parse_charset($charset)
   $charset = preg_replace(array(
     '/^[^0-9A-Z]+/',	// e.g. _ISO-8859-JP$SIO
     '/\$.*$/',		// e.g. _ISO-8859-JP$SIO
-    '/UNICODE-1-1-/',	// RFC1642
+    '/UNICODE-1-1-*/',	// RFC1641/1642
     ), '', $charset);
 
   # Aliases: some of them from HTML5 spec.
@@ -352,15 +352,24 @@ function rcube_parse_charset($charset)
     'ISO88599'	    => 'WINDOWS-1254',
     'ISO885911'	    => 'WINDOWS-874',
     'MACROMAN'	    => 'MACINTOSH',
+    '238'           => 'WINDOWS-1250',
+    '178'           => 'WINDOWS-1256',
+    '177'           => 'WINDOWS-1255',
+    '204'           => 'WINDOWS-1251',
+    '161'           => 'WINDOWS-1253',
+    '222'           => 'WINDOWS-874',
+    '134'           => 'GBK',
+    '238'           => 'WINDOWS-1250',
+    '128'           => 'SHIFT-JIS'
   );
 
   // allow a-z and 0-9 only and remove X- prefix (e.g. X-ROMAN8 => ROMAN8)
-  $str = preg_replace(array('/[^a-z0-9]/i', '/^x+/i'), '', $charset);
+  $str = preg_replace(array('/[^A-Z0-9]/', '/^X+/'), '', $charset);
 
   if (isset($aliases[$str]))
     return $aliases[$str];
 
-  if (preg_match('/UTF(7|8|16|32)(BE|LE)*/', $str, $m))
+  if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m))
     return 'UTF-' . $m[1] . $m[2];
 
   if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
@@ -368,6 +377,11 @@ function rcube_parse_charset($charset)
     # some clients sends windows-1252 text as latin1,
     # it is safe to use windows-1252 for all latin1
     return $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
+    }
+
+  // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
+  if (preg_match('/WINDOWS([0-9]+)/', $str, $m)) {
+    return 'WINDOWS-' . $m[1];
     }
 
   return $charset;
