@@ -44,6 +44,8 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
   
   // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
   if ($_SESSION['compose']['param']['to']) {
+    // #1486037: remove "mailto:" prefix
+    $_SESSION['compose']['param']['to'] = preg_replace('/^mailto:/i', '', $_SESSION['compose']['param']['to']);
     $mailto = explode('?', $_SESSION['compose']['param']['to']);
     if (count($mailto) > 1) {
       $_SESSION['compose']['param']['to'] = $mailto[0];
