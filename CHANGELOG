@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix quota indicator value after folder purge/expunge (#1486488)
 - Fix external mailto links support for use as protocol handler (#1486037)
 - Fix attachment excessive memory use, support messages of any size (#1484660)
 - Fix setting task name according to auth state
