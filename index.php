@@ -30,14 +30,8 @@
 // include environment
 require_once 'program/include/iniset.php';
 
-// init application and start session with requested task
+// init application, start session, init output class, etc.
 $RCMAIL = rcmail::get_instance();
-
-// init output class
-$OUTPUT = !empty($_REQUEST['_remote']) ? $RCMAIL->init_json() : $RCMAIL->load_gui(!empty($_REQUEST['_framed']));
-
-// init plugin API
-$RCMAIL->plugins->init();
 
 // turn on output buffering
 ob_start();

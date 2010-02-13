@@ -130,12 +130,17 @@ class rcmail
     // set current task to session
     $_SESSION['task'] = $this->task;
 
-    // create IMAP object
-    if ($this->task == 'login')
-      $this->imap_init();
-      
+    // init output class
+    if (!empty($_REQUEST['_remote']))
+      $GLOBALS['OUTPUT'] = $this->init_json();
+    else
+      $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
+
     // create plugin API and load plugins
     $this->plugins = rcube_plugin_api::get_instance();
+
+    // init plugins
+    $this->plugins->init();
   }
   
   
@@ -395,7 +400,11 @@ class rcmail
   
     // set global object for backward compatibility
     $GLOBALS['IMAP'] = $this->imap;
-    
+
+    $hook = $this->plugins->exec_hook('imap_init', array('fetch_headers' => $this->imap->fetch_add_headers));
+    if ($hook['fetch_headers'])
+      $this->imap->fetch_add_headers = $hook['fetch_headers'];
+				        
     if ($connect)
       $this->imap_connect();
   }
@@ -409,6 +418,9 @@ class rcmail
   public function imap_connect()
   {
     $conn = false;
+
+    if (!$this->imap)
+      $this->imap_init();
     
     if ($_SESSION['imap_host'] && !$this->imap->conn) {
       if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
@@ -493,6 +505,9 @@ class rcmail
     // user already registered -> overwrite username
     if ($user = rcube_user::query($username, $host))
       $username = $user->data['username'];
+
+    if (!$this->imap)
+      $this->imap_init();
 
     // exit if IMAP login failed
     if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl)))

@@ -150,15 +150,6 @@ class rcube_plugin_api
     $this->register_hook('template_container', array($this, 'template_container_hook'));
     
     // maybe also register a shudown function which triggers shutdown functions of all plugin objects
-    
-    
-    // call imap_init right now
-    // (should actually be done in rcmail::imap_init() but plugins are not initialized then)
-    if ($rcmail->imap) {
-      $hook = $this->exec_hook('imap_init', array('fetch_headers' => $rcmail->imap->fetch_add_headers));
-      if ($hook['fetch_headers'])
-        $rcmail->imap->fetch_add_headers = $hook['fetch_headers'];
-    }
   }
   
   
