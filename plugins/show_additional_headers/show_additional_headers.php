@@ -32,7 +32,7 @@ class show_additional_headers extends rcube_plugin
   function imap_init($p)
   {
     $rcmail = rcmail::get_instance();
-    if ($add_headers = $rcmail->config->get('show_additional_headers', array()))
+    if ($add_headers = (array)$rcmail->config->get('show_additional_headers', array()))
       $p['fetch_headers'] = trim($p['fetch_headers'].' ' . strtoupper(join(' ', $add_headers)));
 
     return $p;
@@ -41,7 +41,7 @@ class show_additional_headers extends rcube_plugin
   function message_headers($p)
   {
     $rcmail = rcmail::get_instance();
-    foreach ($rcmail->config->get('show_additional_headers', array()) as $header) {
+    foreach ((array)$rcmail->config->get('show_additional_headers', array()) as $header) {
       $key = strtolower($header);
       if ($value = $p['headers']->others[$key])
         $p['output'][$key] = array('title' => $header, 'value' => $value);
