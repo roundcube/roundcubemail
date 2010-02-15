@@ -12,7 +12,7 @@
  */
 class new_user_dialog extends rcube_plugin
 {
-  public $task = 'mail';
+  public $task = 'login|mail';
   
   function init()
   {
