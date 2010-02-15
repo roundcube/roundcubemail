@@ -743,9 +743,10 @@ function rcmail_save_attachment(&$message, $pid)
     'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
     'content_id' => $part->content_id,
     'data' => $data,
-    'path' => $path
+    'path' => $path,
+    'size' => $path ? filesize($path) : strlen($data),
   );
-  
+
   $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
 
   if ($attachment['status']) {
