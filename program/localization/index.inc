@@ -87,6 +87,7 @@ $rcube_languages = array(
   'es_AR' => 'Spanish (Argentina)',
   'es_ES' => 'Spanish (Español)',
   'sv_SE' => 'Swedish (Svenska)',
+  'ta_IN' => 'Tamil (தமிழ்)',
   'th_TH' => 'Thai (ไทย)',
   'tr_TR' => 'Turkish (Türkçe)',
   'uk_UA' => 'Ukrainian (Українська)',
