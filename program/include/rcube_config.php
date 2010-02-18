@@ -28,6 +28,7 @@ class rcube_config
 {
   private $prop = array();
   private $errors = array();
+  private $userprefs = array();
 
 
   /**
@@ -132,12 +133,12 @@ class rcube_config
    * @param string Full path to the config file to be loaded
    * @return booelan True on success, false on failure
    */
-  public function load_from_file($fpath, $merge = true)
+  public function load_from_file($fpath)
   {
     if (is_file($fpath) && is_readable($fpath)) {
       include($fpath);
       if (is_array($rcmail_config)) {
-        $this->prop = $merge ? array_merge($this->prop, $rcmail_config) : $this->prop + $rcmail_config;
+        $this->prop = array_merge($this->prop, $rcmail_config, $this->userprefs);
         return true;
       }
     }
@@ -178,6 +179,19 @@ class rcube_config
    */
   public function merge($prefs)
   {
+    $this->prop = array_merge($this->prop, $prefs, $this->userprefs);
+  }
+  
+  
+  /**
+   * Merge the given prefs over the current config
+   * and make sure that they survive further merging.
+   *
+   * @param array  Hash array with user prefs
+   */
+  public function set_user_prefs($prefs)
+  {
+    $this->userprefs = $prefs;
     $this->prop = array_merge($this->prop, $prefs);
   }
 

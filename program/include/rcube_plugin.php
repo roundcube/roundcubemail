@@ -59,7 +59,7 @@ abstract class rcube_plugin
   {
     $fpath = $this->home.'/'.$fname;
     $rcmail = rcmail::get_instance();
-    if (is_file($fpath) && !$rcmail->config->load_from_file($fpath, false)) {
+    if (is_file($fpath) && !$rcmail->config->load_from_file($fpath)) {
       raise_error(array('code' => 527, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "Failed to load config from $fpath"), true, false);

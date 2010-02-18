@@ -123,7 +123,7 @@ class rcube_user
 
     $this->language = $_SESSION['language'];
     if ($this->db->affected_rows()) {
-      $config->merge($a_user_prefs);
+      $config->set_user_prefs($a_user_prefs);
       return true;
     }
 

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix merging of configuration parameters: user prefs always survive (#1486368) 
 - Fix quota indicator value after folder purge/expunge (#1486488)
 - Fix external mailto links support for use as protocol handler (#1486037)
 - Fix attachment excessive memory use, support messages of any size (#1484660)

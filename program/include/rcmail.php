@@ -178,7 +178,7 @@ class rcmail
       $GLOBALS['USER'] = $this->user;
       
       // overwrite config with user preferences
-      $this->config->merge((array)$this->user->get_prefs());
+      $this->config->set_user_prefs((array)$this->user->get_prefs());
     }
     
     $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language', $_SESSION['language']));
