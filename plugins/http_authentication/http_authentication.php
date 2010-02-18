@@ -5,7 +5,7 @@
  *
  * Make use of an existing HTTP authentication and perform login with the existing user credentials
  *
- * @version 1.0
+ * @version 1.1
  * @author Thomas Bruederli
  */
 class http_authentication extends rcube_plugin
@@ -34,6 +34,8 @@ class http_authentication extends rcube_plugin
       $args['user'] = $_SERVER['PHP_AUTH_USER'];
       $args['pass'] = $_SERVER['PHP_AUTH_PW'];
     }
+    
+    $args['cookiecheck'] = false;
   
     return $args;
   }
