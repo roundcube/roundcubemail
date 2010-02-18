@@ -291,8 +291,8 @@ class rcube_template extends rcube_html_page
             // prevent from endless loops
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
                 raise_error(array('code' => 505, 'type' => 'php',
-		    'file' => __FILE__, 'line' => __LINE__,
-		    'message' => 'Recursion alert: ignoring output->send()'), true, false);
+                  'file' => __FILE__, 'line' => __LINE__,
+                  'message' => 'Recursion alert: ignoring output->send()'), true, false);
                 return;
             }
             $this->parse($templ, false);
@@ -555,7 +555,7 @@ class rcube_template extends rcube_html_page
      * Parses expression and replaces variables
      *
      * @param  string Expression statement
-     * @return string Expression statement
+     * @return string Expression value
      */
     private function parse_expression($expression)
     {
@@ -563,9 +563,9 @@ class rcube_template extends rcube_html_page
             array(
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
-                '/env:([a-z0-9_]+)/i',
-                '/request:([a-z0-9_]+)/i',
-                '/cookie:([a-z0-9_]+)/i',
+                '/env:([a-z0-9_-]+)/i',
+                '/request:([a-z0-9_-]+)/i',
+                '/cookie:([a-z0-9_-]+)/i',
                 '/browser:([a-z0-9_]+)/i'
             ),
             array(
