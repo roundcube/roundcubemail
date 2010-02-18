@@ -16,6 +16,7 @@ php_flag	magic_quotes_runtime		Off
 php_flag	zend.ze1_compatibility_mode	Off
 php_flag 	suhosin.session.encrypt 	Off
 
+#php_value	session.cookie_path		/
 php_value	session.auto_start	0
 php_value	session.gc_maxlifetime	21600
 php_value	session.gc_divisor	500
