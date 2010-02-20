@@ -111,7 +111,7 @@ function iml_GetPartArray($a, $part){
 		//echo "m - part: $original_part current: $part rest: $rest array: ".implode(" ", $a)."<br>\n";
 		return iml_GetPartArray($a[$part-1], $rest);
 	}else if ($part>0){
-		if ((strcasecmp($a[0], "message")==0) && (strcasecmp($a[1], "rfc822")==0)){
+		if (!is_array($a[0]) && (strcasecmp($a[0], "message")==0) && (strcasecmp($a[1], "rfc822")==0)){
 			$a = $a[8];
 		}
 		//echo "s - part: $part rest: $rest array: ".implode(" ", $a)."<br>\n";
