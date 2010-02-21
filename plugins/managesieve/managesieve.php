@@ -901,7 +901,7 @@ class managesieve extends rcube_plugin
     $out .= '<select id="action_mailbox' .$id. '" name="_action_mailbox[]" style="display:' 
 	.(!isset($action) || $action['type']=='fileinto' ? 'inline' : 'none'). '">';
 
-    $this->rc->imap_init(true);
+    $this->rc->imap_connect();
 
     $a_folders = $this->rc->imap->list_mailboxes();
     $delimiter = $this->rc->imap->get_hierarchy_delimiter();

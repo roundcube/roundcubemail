@@ -65,7 +65,7 @@ class subscriptions_option extends rcube_plugin
             // if the use_subscriptions preference changes, flush the folder cache
             if (($use_subscriptions && !isset($_POST['_use_subscriptions'])) ||
                 (!$use_subscriptions && isset($_POST['_use_subscriptions']))) {
-                    $rcmail->imap_init(true);
+                    $rcmail->imap_connect();
                     $rcmail->imap->clear_cache('mailboxes');
             }
         }

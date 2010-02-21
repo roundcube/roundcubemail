@@ -5,7 +5,7 @@
  | program/include/rcmail.php                                            |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2008-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2008-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -374,6 +374,10 @@ class rcmail
    */
   public function imap_init($connect = false)
   {
+    // already initialized
+    if (is_object($this->imap))
+      return;
+      
     $this->imap = new rcube_imap($this->db);
     $this->imap->debug_level = $this->config->get('debug_level');
     $this->imap->skip_deleted = $this->config->get('skip_deleted');
@@ -404,9 +408,13 @@ class rcmail
     $hook = $this->plugins->exec_hook('imap_init', array('fetch_headers' => $this->imap->fetch_add_headers));
     if ($hook['fetch_headers'])
       $this->imap->fetch_add_headers = $hook['fetch_headers'];
-				        
-    if ($connect)
+    
+    // support this parameter for backward compatibility but log warning
+    if ($connect) {
       $this->imap_connect();
+      raise_error(array('code' => 800, 'type' => 'imap', 'file' => __FILE__,
+        'message' => "rcube::imap_init(true) is deprecated, use rcube::imap_connect() instead"), true, false);
+    }
   }
 
 
@@ -841,7 +849,7 @@ class rcmail
       if (!$this->authenticate_session())
         return;
 
-      $this->imap_init(true);
+      $this->imap_connect();
     }
 
     if ($config['logout_purge'] && !empty($config['trash_mbox'])) {

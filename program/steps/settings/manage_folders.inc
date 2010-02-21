@@ -22,7 +22,7 @@
 // WARNING: folder names in UI are encoded with RCMAIL_CHARSET
 
 // init IMAP connection
-$RCMAIL->imap_init(true);
+$RCMAIL->imap_connect();
 
 // subscribe to one or more mailboxes
 if ($RCMAIL->action=='subscribe')

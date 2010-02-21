@@ -509,7 +509,7 @@ function rcmail_user_prefs($current=null)
 
     // Configure special folders
     if (!isset($no_override['default_imap_folders'])) {
-      $RCMAIL->imap_init(true);
+      $RCMAIL->imap_connect();
       $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
         'maxlength' => 30, 'exceptions' => array('INBOX')));
 
