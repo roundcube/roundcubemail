@@ -304,6 +304,7 @@ class rcube_ldap extends rcube_addressbook
    *
    * @param array   List of fields to search in
    * @param string  Search value
+   * @param boolean True for strict, False for partial (fuzzy) matching
    * @param boolean True if results are requested, False if count only
    * @return array  Indexed list of contact records and 'count' value
    */
