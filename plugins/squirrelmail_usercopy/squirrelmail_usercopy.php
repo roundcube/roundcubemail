@@ -5,7 +5,7 @@
  *
  * Currently only file-based data storage of Squirrelmail is supported.
  *
- * @version 1.0
+ * @version 1.1
  * @author Thomas Bruederli
  */
 class squirrelmail_usercopy extends rcube_plugin
@@ -33,17 +33,20 @@ class squirrelmail_usercopy extends rcube_plugin
 
 	public function create_identity($p)
 	{
+		$rcmail = rcmail::get_instance();
+
 		// only execute on login
-		if ($p['login'] && $this->prefs) {
+		if ($rcmail->task == 'login' && $this->prefs) {
 			if ($this->prefs['full_name'])
 				$p['record']['name'] = $this->prefs['full_name'];
 			if ($this->prefs['email_address'])
 				$p['record']['email'] = $this->prefs['email_address'];
 			if ($this->prefs['signature'])
 				$p['record']['signature'] = $this->prefs['signature'];
-		
+                        if ($this->prefs['reply-to']) 
+                                $p['record']['reply-to'] = $this->prefs['reply-to']; 		
+
 			// copy address book
-			$rcmail = rcmail::get_instance();
 			$contacts = $rcmail->get_address_book(null, true);
 			if ($contacts && count($this->abook)) {
 				foreach ($this->abook as $rec)

@@ -215,6 +215,8 @@ class rcube_user
     if (!$this->ID)
       return false;
 
+    unset($data['user_id']);
+
     $insert_cols = $insert_values = array();
     foreach ((array)$data as $col => $value)
     {
@@ -422,20 +424,11 @@ class rcube_user
             'name' => strip_newlines($name),
             'email' => $email,
             'standard' => $standard,
-            'signature' => '',
           ),
         ));
           
         if (!$plugin['abort'] && $plugin['record']['email']) {
-          $dbh->query(
-              "INSERT INTO ".get_table_name('identities')."
-                (user_id, del, standard, name, email, signature)
-               VALUES (?, 0, ?, ?, ?, ?)",
-              $user_id,
-              $plugin['record']['standard'],
-              $plugin['record']['name'] != NULL ? $plugin['record']['name'] : '',
-              $plugin['record']['email'],
-              $plugin['record']['signature']);
+          $rcmail->user->insert_identity($plugin['record']);
         }
         $standard = 0;
       }

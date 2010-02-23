@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Squirrelmail_usercopy: support reply-to field (#1486506)
 - Fix IE spellcheck suggestion popup issue (#1486471)
 - Fix email address auto-completion shows regexp pattern (#1486258)
 - Fix merging of configuration parameters: user prefs always survive (#1486368) 
