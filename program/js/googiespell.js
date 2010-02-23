@@ -80,7 +80,7 @@ function GoogieSpell(img_dir, server_url) {
     this.cnt_errors = 0;
     this.cnt_errors_fixed = 0;
     
-    //Set document on click to hide the language and error menu
+    //Set document's onclick to hide the language and error menu
     $(document).bind('click', function(e) {
         if($(e.target).attr('googie_action_btn') != '1' && ref.isLangWindowShown())
 	    ref.hideLangWindow();
@@ -122,7 +122,6 @@ this.decorateTextarea = function(id) {
 /////
 this.setSpellContainer = function(id) {
     this.spell_container = typeof(id) == 'string' ? document.getElementById(id) : id;
-
 }
 
 this.setLanguages = function(lang_dict) {
@@ -225,7 +224,7 @@ this.spellCheck = function(ignore) {
         this.removeIndicator();
         return;
     }
-    
+
     this.createEditLayer(this.text_area.offsetWidth, this.text_area.offsetHeight);
     this.createErrorWindow();
     $('body').append(this.error_window);
@@ -309,6 +308,7 @@ this.parseResult = function(r_text) {
     	}
         results.push(item);
     }
+
     return results;
 }
 
@@ -402,13 +402,11 @@ this.showErrorWindow = function(elm, id) {
 
     //Check if we should use custom menu builder, if not we use the default
     var changed = false;
-    if (this.custom_menu_builder != []) {
-        for (var k=0; k<this.custom_menu_builder.length; k++) {
-            var eb = this.custom_menu_builder[k];
-            if(eb[0]((this.results[id]))){
-                changed = eb[1](this, list, elm);
-                break;
-            }
+    for (var k=0; k<this.custom_menu_builder.length; k++) {
+        var eb = this.custom_menu_builder[k];
+        if(eb[0]((this.results[id]))){
+            changed = eb[1](this, list, elm);
+            break;
         }
     }
     if (!changed) {
@@ -467,7 +465,7 @@ this.showErrorWindow = function(elm, id) {
             revert_row.appendChild(revert);
             list.appendChild(revert_row);
         }
-        
+
         //Append the edit box
         var edit_row = document.createElement('tr');
         var edit = document.createElement('td');
@@ -545,11 +543,11 @@ this.showErrorWindow = function(elm, id) {
     //Dummy for IE - dropdown bug fix
     if ($.browser.msie) {
 	if (!this.error_window_iframe) {
-            var iframe = $('<iframe>').css('position', 'absolute').css('z-index', 0);
+            var iframe = $('<iframe>').css({'position': 'absolute', 'z-index': -1});
 	    $('body').append(iframe);
     	    this.error_window_iframe = iframe;
         }
-	
+
 	$(this.error_window_iframe).css({'visibility': 'visible',
 	    'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
     	    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight});
