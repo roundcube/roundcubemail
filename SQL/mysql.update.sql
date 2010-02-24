@@ -77,4 +77,8 @@ ALTER TABLE `contacts` ADD CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_i
 ALTER TABLE `identities` ADD CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
  REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
 
+ALTER TABLE `contacts` ALTER `name` SET DEFAULT '';
+ALTER TABLE `contacts` ALTER `firstname` SET DEFAULT '';
+ALTER TABLE `contacts` ALTER `surname` SET DEFAULT '';
+
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
