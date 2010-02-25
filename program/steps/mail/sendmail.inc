@@ -260,8 +260,8 @@ if ($CONFIG['http_received_header'])
         $http_header .= ' ('. rcmail_encrypt_header($host) . ')';
     } else {
       $http_header .= (($host != $hostname) ? $hostname : '[' . $host . ']');
-      $http_header .= ' ('. ($host == $hostname ? '' : $hostname . ' ') .
-        '[' . $host .'])';
+      if ($host != $hostname)
+        $http_header .= ' (['. $host .'])';
     }
     $http_header .= $nldlm . ' via ';
   }
@@ -273,14 +273,14 @@ if ($CONFIG['http_received_header'])
       $http_header .= ' ('. rcmail_encrypt_header($host) . ')';
   } else {
     $http_header .= (($host != $hostname) ? $hostname : '[' . $host . ']');
-    $http_header .= ' ('. ($host == $hostname ? '' : $hostname . ' ') .
-      '[' . $host .'])';
+    if ($host != $hostname)
+      $http_header .= ' (['. $host .'])';
   }
   // BY
   $http_header .= $nldlm . 'by ' . $_SERVER['HTTP_HOST'];
   // WITH
-  $http_header .= $nldlm . 'with ' . $_SERVER['SERVER_PROTOCOL'] .
-      ' ('.$_SERVER['REQUEST_METHOD'] . '); ' . date('r');
+  $http_header .= $nldlm . 'with HTTP (' . $_SERVER['SERVER_PROTOCOL'] .
+      ' '.$_SERVER['REQUEST_METHOD'] . '); ' . date('r');
   $http_header = wordwrap($http_header, 69, $nldlm);
 
   $headers['Received'] = $http_header;

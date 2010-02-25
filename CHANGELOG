@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix Received headers to behave better with SpamAssassin (#1486513)
 - Password: Make passwords encoding consistent with core, add 'password_charset' global option (#1486473)
 - Fix adding contacts SQL error on mysql (#1486459)
 - Squirrelmail_usercopy: support reply-to field (#1486506)
