@@ -436,7 +436,7 @@ class Mail_mimePart
      *                       otherwise you will not be able to add further subparts.
      * @access public
      */
-    function &addSubPart($body, $params)
+    function &addSubpart($body, $params)
     {
         $this->_subparts[] = new Mail_mimePart($body, $params);
         return $this->_subparts[count($this->_subparts) - 1];
