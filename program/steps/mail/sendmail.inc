@@ -415,10 +415,6 @@ else
   $MAIL_MIME->setTXTBody($plugin['body'], false, true);
 }
 
-// chose transfer encoding
-$charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-15');
-$transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
-
 // add stored attachments, if any
 if (is_array($_SESSION['compose']['attachments']))
 {
@@ -446,7 +442,9 @@ if (is_array($_SESSION['compose']['attachments']))
         $ctype, 
         $attachment['name'],
         ($attachment['data'] ? false : true),
-        ($ctype == 'message/rfc822' ? $transfer_encoding : 'base64'),
+        // @TODO: quoted-printable for message/rfc822 is safe,
+	// but we should check that 7bit or 8bit is possible here
+        ($ctype == 'message/rfc822' ? 'quoted-printable' : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
         $message_charset, '', '', 
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
@@ -455,6 +453,12 @@ if (is_array($_SESSION['compose']['attachments']))
     }
   }
 }
+
+// choose transfer encoding for plain/text body
+if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody()))
+  $transfer_encoding = '8bit';
+else
+  $transfer_encoding = '7bit';
 
 // encoding settings for mail composing
 $MAIL_MIME->setParam('text_encoding', $transfer_encoding);
