@@ -123,6 +123,11 @@ $rcmail_config['smtp_auth_type'] = '';
 // localhost if that isn't defined. 
 $rcmail_config['smtp_helo_host'] = '';
 
+// Password charset.
+// Use it if your authentication backend doesn't support UTF-8.
+// Defaults to ISO-8859-1 for backward compatibility
+$rcmail_config['password_charset'] = 'ISO-8859-1';
+
 // Log sent messages
 $rcmail_config['smtp_log'] = TRUE;
 

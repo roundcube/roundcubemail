@@ -86,11 +86,31 @@ class password extends rcube_plugin
     }
     else {
 
-      $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
-      $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
-      $conpwd = get_input_value('_confpasswd', RCUBE_INPUT_POST);
+      $charset = strtoupper($rcmail->config->get('password_charset', 'ISO-8859-1'));
+      $rc_charset = strtoupper($rcmail->output->get_charset());
 
-      if ($conpwd != $newpwd) {
+      $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST, true, $charset);
+      $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST, true);
+      $conpwd = get_input_value('_confpasswd', RCUBE_INPUT_POST, true);
+
+      // check allowed characters according to the configured 'password_charset' option
+      // by converting the password entered by the user to this charset and back to UTF-8
+      $orig_pwd = $newpwd;
+      $chk_pwd = rcube_charset_convert($orig_pwd, $rc_charset, $charset);
+      $chk_pwd = rcube_charset_convert($chk_pwd, $charset, $rc_charset);
+
+      // WARNING: Default password_charset is ISO-8859-1, so conversion will
+      // change national characters. This may disable possibility of using
+      // the same password in other MUA's.
+      // We're doing this for consistence with Roundcube core
+      $newpwd = rcube_charset_convert($newpwd, $rc_charset, $charset);
+      $conpwd = rcube_charset_convert($conpwd, $rc_charset, $charset);
+
+      if ($chk_pwd != $orig_pwd) {
+        $rcmail->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
+      }
+      // other passwords validity checks
+      else if ($conpwd != $newpwd) {
         $rcmail->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
       }
       else if ($confirm && $rcmail->decrypt($_SESSION['password']) != $curpwd) {
@@ -103,6 +123,7 @@ class password extends rcube_plugin
       else if ($check_strength && (!preg_match("/[0-9]/", $newpwd) || !preg_match("/[^A-Za-z0-9]/", $newpwd))) {
         $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
       }
+      // try to save the password
       else if (!($res = $this->_save($curpwd,$newpwd))) {
         $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
         $_SESSION['password'] = $rcmail->encrypt($newpwd);

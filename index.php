@@ -82,15 +82,19 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     'host' => $RCMAIL->autoselect_host(),
     'user' => trim(get_input_value('_user', RCUBE_INPUT_POST)),
     'cookiecheck' => true,
-  )) + array('pass' => get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1'));
+  ));
+  
+  if (!isset($auth['pass']))
+    $auth['pass'] = get_input_value('_pass', RCUBE_INPUT_POST, true,
+        $RCMAIL->config->get('password_charset', 'ISO-8859-1'));
 
   // check if client supports cookies
   if ($auth['cookiecheck'] && empty($_COOKIE)) {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
-  else if ($_SESSION['temp'] && !$auth['abort'] && !empty($auth['host']) &&
-            !empty($auth['user']) && isset($auth['pass']) && 
-            $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
+  else if ($_SESSION['temp'] && !$auth['abort'] &&
+        !empty($auth['host']) && !empty($auth['user']) &&
+        $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
     // create new session ID
     rcube_sess_unset('temp');
     rcube_sess_regenerate_id();

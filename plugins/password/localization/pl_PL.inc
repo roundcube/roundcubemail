@@ -16,5 +16,6 @@ $messages['connecterror'] = 'Nie udało się zapisać nowego hasła. Błąd poł
 $messages['internalerror'] = 'Nie udało się zapisać nowego hasła.';
 $messages['passwordshort'] = 'Hasło musi posiadać co najmniej $length znaków.';
 $messages['passwordweak'] = 'Hasło musi zawierać co najmniej jedną cyfrę i znak interpunkcyjny.';
+$messages['passwordforbidden'] = 'Hasło zawiera niedozwolone znaki.';
 
 ?>

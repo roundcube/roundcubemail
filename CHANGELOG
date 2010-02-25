@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Password: Make passwords encoding consistent with core, add 'password_charset' global option (#1486473)
 - Fix adding contacts SQL error on mysql (#1486459)
 - Squirrelmail_usercopy: support reply-to field (#1486506)
 - Fix IE spellcheck suggestion popup issue (#1486471)
