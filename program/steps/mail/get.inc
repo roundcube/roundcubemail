@@ -41,6 +41,7 @@ if (!empty($_GET['_uid'])) {
   $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
 }
 
+send_nocacheing_headers();
 
 // show part page
 if (!empty($_GET['_frame'])) {
@@ -66,8 +67,6 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     
     $browser = new rcube_browser;
 
-    send_nocacheing_headers();
-    
     // send download headers
     if ($_GET['_download']) {
       header("Content-Type: application/octet-stream");
