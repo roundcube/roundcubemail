@@ -596,7 +596,6 @@ function JQ($str)
  */
 function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
 {
-  global $OUTPUT;
   $value = NULL;
   
   if ($source==RCUBE_INPUT_GET && isset($_GET[$fname]))
@@ -613,8 +612,30 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
       $value = $_COOKIE[$fname];
     }
 
+  return parse_input_value($value, $allow_html, $charset);
+}
+
+/**
+ * Parse/validate input value. See get_input_value()
+ * Performs stripslashes() and charset conversion if necessary
+ * 
+ * @param  string   Input value
+ * @param  boolean  Allow HTML tags in field value
+ * @param  string   Charset to convert into
+ * @return string   Parsed value
+ */
+function parse_input_value($value, $allow_html=FALSE, $charset=NULL)
+{
+  global $OUTPUT;
+
   if (empty($value))
     return $value;
+
+  if (is_array($value)) {
+    foreach ($value as $idx => $val)
+      $value[$idx] = parse_input_value($val, $allow_html, $charset);
+    return $value;
+  }
 
   // strip single quotes if magic_quotes_sybase is enabled
   if (ini_get('magic_quotes_sybase'))
@@ -628,7 +649,7 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
     $value = strip_tags($value);
   
   // convert to internal charset
-  if (is_object($OUTPUT))
+  if (is_object($OUTPUT) && $charset)
     return rcube_charset_convert($value, $OUTPUT->get_charset(), $charset);
   else
     return $value;
