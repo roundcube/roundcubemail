@@ -87,7 +87,7 @@ class washtml
   static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir');  
 
   /* Block elements which could be empty but cannot be returned in short form (<tag />) */
-  static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a');
+  static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font');
   
   /* State for linked objects in HTML */
   public $extlinks = false;

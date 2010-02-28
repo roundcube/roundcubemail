@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix invalid font tags which cause HTML message rendering problems (#1486521)
 - Fix CVE-2010-0464: Disable DNS prefetching (#1486449)
 - Fix Received headers to behave better with SpamAssassin (#1486513)
 - Password: Make passwords encoding consistent with core, add 'password_charset' global option (#1486473)
