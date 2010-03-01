@@ -1325,9 +1325,9 @@ function rcmail_compose_cleanup()
   if (!isset($_SESSION['compose']))
     return;
 
-  rcmail::get_instance()->plugins->exec_hook('cleanup_attachments',array());
-  
-  rcube_sess_unset('compose');
+  $rcmail = rcmail::get_instance();
+  $rcmail->plugins->exec_hook('cleanup_attachments',array());
+  $rcmail->session->remove('compose');
   }
   
 

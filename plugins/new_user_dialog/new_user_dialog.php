@@ -98,7 +98,7 @@ class new_user_dialog extends rcube_plugin
     // save data if not empty
     if (!empty($save_data['name']) && !empty($save_data['email'])) {
       $rcmail->user->update_identity($identity['identity_id'], $save_data);
-      rcube_sess_unset('plugin.newuserdialog');
+      $rcmail->session->remove('plugin.newuserdialog');
     }
     
     $rcmail->output->redirect('');

@@ -69,7 +69,7 @@ class rcube_plugin_api
   /**
    * Load and init all enabled plugins
    *
-   * This has to be done after rcmail::load_gui() or rcmail::init_json()
+   * This has to be done after rcmail::load_gui() or rcmail::json_init()
    * was called because plugins need to have access to rcmail->output
    */
   public function init()

@@ -47,7 +47,7 @@ class rcube_user
     
     if ($id && !$sql_arr)
     {
-      $sql_result = $this->db->query("SELECT * FROM ".get_table_name('users')." WHERE  user_id=?", $id);
+      $sql_result = $this->db->query("SELECT * FROM ".get_table_name('users')." WHERE user_id=?", $id);
       $sql_arr = $this->db->fetch_assoc($sql_result);
     }
     
@@ -154,8 +154,7 @@ class rcube_user
     // get contacts from DB
     $sql_result = $this->db->query(
       "SELECT * FROM ".get_table_name('identities')."
-       WHERE  del<>1
-       AND    user_id=?
+       WHERE del<>1 AND user_id=?
        $sql_add
        ORDER BY ".$this->db->quoteIdentifier('standard')." DESC, name ASC, identity_id ASC",
       $this->ID);

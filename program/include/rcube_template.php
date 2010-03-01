@@ -986,7 +986,7 @@ class rcube_template extends rcube_html_page
             return $username;
         }
 
-        // get e-mail address form default identity
+        // get e-mail address from default identity
         if ($sql_arr = $this->app->user->get_identity()) {
             $username = $sql_arr['email'];
         }

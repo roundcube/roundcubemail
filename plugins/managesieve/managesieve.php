@@ -221,7 +221,7 @@ class managesieve extends rcube_plugin
 	if ($result === true) {
 	  $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
 	  $this->rc->output->command('managesieve_reload');
-	  rcube_sess_unset('managesieve_current');
+	  $this->rc->session->remove('managesieve_current');
 	} else {
           $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
 	}
@@ -270,7 +270,7 @@ class managesieve extends rcube_plugin
       if (!$error) {
 	$this->rc->output->show_message('managesieve.setcreated', 'confirmation');
 	$this->rc->output->command('parent.managesieve_reload', $name);
-//	rcube_sess_unset('managesieve_current');
+//	$this->rc->session->remove('managesieve_current');
       } else {
         $this->rc->output->show_message($error, 'error');
       }

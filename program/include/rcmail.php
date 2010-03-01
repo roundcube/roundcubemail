@@ -35,6 +35,7 @@ class rcmail
   public $config;
   public $user;
   public $db;
+  public $session;
   public $smtp;
   public $imap;
   public $output;
@@ -82,8 +83,6 @@ class rcmail
    */
   private function startup()
   {
-    $config_all = $this->config->all();
-
     // initialize syslog
     if ($this->config->get('log_driver') == 'syslog') {
       $syslog_id = $this->config->get('syslog_id', 'roundcube');
@@ -94,30 +93,14 @@ class rcmail
     // connect to database
     $GLOBALS['DB'] = $this->get_dbh();
 
-    // use database for storing session data
-    include_once('include/session.inc');
-
-    // set session domain
-    if (!empty($config_all['session_domain'])) {
-      ini_set('session.cookie_domain', $config_all['session_domain']);
-    }
-    // set session garbage collecting time according to session_lifetime
-    if (!empty($config_all['session_lifetime'])) {
-      ini_set('session.gc_maxlifetime', ($config_all['session_lifetime']) * 120);
-    }
-
-    // start PHP session (if not in CLI mode)
-    if ($_SERVER['REMOTE_ADDR'])
-      session_start();
-
-    // set initial session vars
-    if (!isset($_SESSION['auth_time'])) {
-      $_SESSION['auth_time'] = time();
-      $_SESSION['temp'] = true;
-    }
+    // start session
+    $this->session_init();
 
     // create user object
     $this->set_user(new rcube_user($_SESSION['user_id']));
+
+    // configure session (after user config merge!)
+    $this->session_configure();
 
     // set task and action properties
     $this->set_task(get_input_value('_task', RCUBE_INPUT_GPC));
@@ -125,14 +108,14 @@ class rcmail
 
     // reset some session parameters when changing task
     if ($_SESSION['task'] != $this->task)
-      rcube_sess_unset('page');
+      $this->session->remove('page');
 
     // set current task to session
     $_SESSION['task'] = $this->task;
 
     // init output class
     if (!empty($_REQUEST['_remote']))
-      $GLOBALS['OUTPUT'] = $this->init_json();
+      $GLOBALS['OUTPUT'] = $this->json_init();
     else
       $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
 
@@ -314,11 +297,8 @@ class rcmail
       $this->output = new rcube_template($this->task, $framed);
 
     // set keep-alive/check-recent interval
-    if ($keep_alive = $this->config->get('keep_alive')) {
-      // be sure that it's less than session lifetime
-      if ($session_lifetime = $this->config->get('session_lifetime'))
-        $keep_alive = min($keep_alive, $session_lifetime * 60 - 30);
-      $this->output->set_env('keep_alive', max(60, $keep_alive));
+    if ($keep_alive = $this->session->get_keep_alive()) {
+      $this->output->set_env('keep_alive', $keep_alive);
     }
 
     if ($framed) {
@@ -343,7 +323,7 @@ class rcmail
    *
    * @return object rcube_json_output Reference to JSON output object
    */
-  public function init_json()
+  public function json_init()
   {
     if (!($this->output instanceof rcube_json_output))
       $this->output = new rcube_json_output($this->task);
@@ -440,6 +420,65 @@ class rcmail
     }
 
     return $conn;
+  }
+
+
+  /**
+   * Create session object and start the session.
+   */
+  public function session_init()
+  {
+    $lifetime = $this->config->get('session_lifetime', 0) * 60;
+
+    // set session domain
+    if ($domain = $this->config->get('session_domain')) {
+      ini_set('session.cookie_domain', $domain);
+    }
+    // set session garbage collecting time according to session_lifetime
+    if ($lifetime) {
+      ini_set('session.gc_maxlifetime', $lifetime * 2);
+    }
+
+    ini_set('session.cookie_secure', rcube_https_check());
+    ini_set('session.name', 'roundcube_sessid');
+    ini_set('session.use_cookies', 1);
+    ini_set('session.use_only_cookies', 1);  
+    ini_set('session.serialize_handler', 'php');
+
+    // use database for storing session data
+    $this->session = new rcube_session($this->get_dbh(), $lifetime);
+
+    $this->session->register_gc_handler('rcmail_temp_gc');
+    if ($this->config->get('enable_caching'))
+      $this->session->register_gc_handler('rcmail_cache_gc');
+
+    // start PHP session (if not in CLI mode)
+    if ($_SERVER['REMOTE_ADDR'])
+      session_start();
+
+    // set initial session vars
+    if (!isset($_SESSION['auth_time'])) {
+      $_SESSION['auth_time'] = time();
+      $_SESSION['temp'] = true;
+    }
+  }
+
+
+  /**
+   * Configure session object internals
+   */
+  public function session_configure()
+  {
+    $lifetime = $this->config->get('session_lifetime', 0) * 60;
+
+    // set keep-alive/check-recent interval
+    if ($keep_alive = $this->config->get('keep_alive')) {
+      // be sure that it's less than session lifetime
+      if ($lifetime)
+        $keep_alive = min($keep_alive, $lifetime - 30);
+      $keep_alive = max(60, $keep_alive);
+      $this->session->set_keep_alive($keep_alive);
+    }
   }
 
 
@@ -794,8 +833,6 @@ class rcmail
    */
   function authenticate_session()
   {
-    global $SESS_CLIENT_IP, $SESS_CHANGED;
-
     // advanced session authentication
     if ($this->config->get('double_auth')) {
       $now = time();
@@ -810,12 +847,13 @@ class rcmail
       }
     }
     else {
-      $valid = $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] == $SESS_CLIENT_IP : true;
+      $valid = $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] == $this->session->get_ip() : true;
     }
 
     // check session filetime
     $lifetime = $this->config->get('session_lifetime');
-    if (!empty($lifetime) && isset($SESS_CHANGED) && $SESS_CHANGED + $lifetime*60 < time()) {
+    $sess_ts = $this->session->get_ts();
+    if (!empty($lifetime) && !empty($sess_ts) && $sess_ts + $lifetime*60 < time()) {
       $valid = false;
     }
 
@@ -830,7 +868,7 @@ class rcmail
   {
     $this->plugins->exec_hook('kill_session');
     
-    rcube_sess_unset();
+    $this->session->remove();
     $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
     rcmail::setcookie('sessauth', '-del-', time() - 60);
     $this->user->reset();

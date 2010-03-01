@@ -52,15 +52,6 @@ if (set_include_path($include_path) === false) {
 }
 
 ini_set('error_reporting', E_ALL&~E_NOTICE);
-if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
-   ini_set('session.cookie_secure', 1);
-} else {
-   ini_set('session.cookie_secure', 0);
-}
-ini_set('session.name', 'roundcube_sessid');
-ini_set('session.use_cookies', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.serialize_handler', 'php');
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)

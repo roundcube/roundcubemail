@@ -1487,10 +1487,18 @@ function rcube_https_check($port=null, $use_https=true)
     return true;
   if ($port && $_SERVER['SERVER_PORT'] == $port)
     return true;
-  if ($use_https && $RCMAIL->config->get('use_https'))
+  if ($use_https && isset($RCMAIL) && $RCMAIL->config->get('use_https'))
     return true;
 
   return false;
+}
+
+// for backward compatibility
+function rcube_sess_unset($var_name=null)
+{
+  global $RCMAIL;
+
+  $RCMAIL->session->remove($var_name);
 }
 
 
