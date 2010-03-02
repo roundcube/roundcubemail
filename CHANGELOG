@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix checking for new mail: now checks unseen count of inbox (#1485794)
 - Improve performance by avoiding unnecessary updates to the session table (#1486325)
 - Fix invalid <font> tags which cause HTML message rendering problems (#1486521)
 - Fix CVE-2010-0464: Disable DNS prefetching (#1486449)

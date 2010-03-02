@@ -22,6 +22,17 @@
 $a_mailboxes = $IMAP->list_mailboxes();
 $check_all = (bool)$RCMAIL->config->get('check_all_folders');
 
+// check if unread count of INBOX changed and refresh message list if so
+if (!empty($_GET['_refresh'])) {
+  $unread_count = $IMAP->messagecount('INBOX', 'UNSEEN', TRUE);
+  if ($unread_count > $_SESSION['unseen_count']['INBOX']) {
+    $OUTPUT->command('set_unread_count', 'INBOX', $unread_count, true);
+    $OUTPUT->command('list_mailbox', 'INBOX', 1);  // let the client switch to INBOX and get the message list
+    $OUTPUT->send();
+  }
+}
+
+// check recent/unseen counts for all mailboxes
 foreach ($a_mailboxes as $mbox_name) {
   if ($mbox_name == $IMAP->get_mailbox_name()) {
     if ($recent_count = $IMAP->messagecount(NULL, 'RECENT', TRUE)) {

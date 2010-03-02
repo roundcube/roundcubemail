@@ -624,8 +624,8 @@ function rcube_webmail()
         if (this.env.sort_col==sort_col)
           sort_order = this.env.sort_order=='ASC' ? 'DESC' : 'ASC';
         else
-	  sort_order = 'ASC';
-	
+          sort_order = 'ASC';
+
         // set table header class
         $('#rcm'+this.env.sort_col).removeClass('sorted'+(this.env.sort_order.toUpperCase()));
         $('#rcm'+sort_col).addClass('sorted'+sort_order);
@@ -1618,8 +1618,8 @@ function rcube_webmail()
       this.env.current_page = 1;
       this.set_busy(true, 'searching');
       this.http_request('search', '_filter='+filter
-    	    + (search ? '&_q='+urlencode(search) : '')
-    	    + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : ''), true);
+          + (search ? '&_q='+urlencode(search) : '')
+          + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : ''), true);
     }
 
 
@@ -4260,8 +4260,8 @@ function rcube_webmail()
       
       case 'moveto':
         if (this.env.action == 'show') {
-	  // re-enable commands on move/delete error
-	  this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', true);
+          // re-enable commands on move/delete error
+          this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', true);
         } else if (this.message_list)
           this.message_list.init();
         break;
@@ -4274,8 +4274,8 @@ function rcube_webmail()
             this.show_contentframe(false);
           // disable commands useless when mailbox is empty
           this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 
-	    'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment', 
-	    'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
+            'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment', 
+            'purge', 'expunge', 'select-all', 'select-none', 'sort', false);
         }
         break;
 
@@ -4321,15 +4321,17 @@ function rcube_webmail()
     };
 
   // send periodic request to check for recent messages
-  this.check_for_recent = function(setbusy)
+  this.check_for_recent = function(refresh)
     {
     if (this.busy)
       return;
 
-    if (setbusy)
-      this.set_busy(true, 'checkingmail');
-
     var addurl = '_t=' + (new Date().getTime());
+
+    if (refresh) {
+      this.set_busy(true, 'checkingmail');
+      addurl += '&_refresh=1';
+    }
 
     if (this.gui_objects.messagelist)
       addurl += '&_list=1';
