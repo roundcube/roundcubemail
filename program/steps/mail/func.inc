@@ -158,7 +158,7 @@ function rcmail_message_list($attrib)
 
   // show 'to' instead of 'from' in sent/draft messages
   if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
-      && ($f = array_search('from', $a_show_cols)) && !array_search('to', $a_show_cols))
+      && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
   
   // add col definition
