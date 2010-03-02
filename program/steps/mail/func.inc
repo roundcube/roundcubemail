@@ -1170,7 +1170,8 @@ function rcmail_alter_html_link($matches)
  */
 function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
 {
-  global $IMAP, $PRINT_MODE, $CONFIG, $OUTPUT, $EMAIL_ADDRESS_PATTERN;
+  global $IMAP, $RCMAIL, $PRINT_MODE, $CONFIG, $OUTPUT, $EMAIL_ADDRESS_PATTERN;
+  static $got_writable_abook = null;
 
   $a_parts = $IMAP->decode_address_list($input);
 
@@ -1181,6 +1182,10 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
   $j = 0;
   $out = '';
 
+  if ($got_writable_abook === null && $books = $RCMAIL->get_address_sources(true)) {
+    $got_writable_abook = true;
+  }
+  
   foreach ($a_parts as $part) {
     $j++;
     if ($PRINT_MODE) {
@@ -1200,7 +1205,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
         $out .= html::span(array('title' => $part['mailto'], 'class' => "rcmContactAddress"), Q($part['name']));
       }
 
-      if ($addicon) {
+      if ($addicon && $got_writable_abook) {
         $out .= '&nbsp;' . html::a(array(
             'href' => "#add",
             'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($part['string'])),
