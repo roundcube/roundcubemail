@@ -915,7 +915,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
 }
 
-function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='', $skip_deleted=true) {
+function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='', $skip_deleted=true, $uidfetch=false) {
 
 	list($from_idx, $to_idx) = explode(':', $message_set);
 	if (empty($message_set) ||
@@ -949,21 +949,22 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='',
 	
 	// build FETCH command string
 	$key     = 'fhi0';
+	$cmd     = $uidfetch ? 'UID FETCH' : 'FETCH';
 	$deleted = $skip_deleted ? ' FLAGS' : '';
 
 	if ($mode == 1 && $index_field == 'DATE')
-		$request = " FETCH $message_set (INTERNALDATE BODY.PEEK[HEADER.FIELDS (DATE)]$deleted)";
+		$request = " $cmd $message_set (INTERNALDATE BODY.PEEK[HEADER.FIELDS (DATE)]$deleted)";
 	else if ($mode == 1)
-		$request = " FETCH $message_set (BODY.PEEK[HEADER.FIELDS ($index_field)]$deleted)";
+		$request = " $cmd $message_set (BODY.PEEK[HEADER.FIELDS ($index_field)]$deleted)";
 	else if ($mode == 2) {
 		if ($index_field == 'SIZE')
-			$request = " FETCH $message_set (RFC822.SIZE$deleted)";
+			$request = " $cmd $message_set (RFC822.SIZE$deleted)";
 		else
-			$request = " FETCH $message_set ($index_field$deleted)";
+			$request = " $cmd $message_set ($index_field$deleted)";
 	} else if ($mode == 3)
-		$request = " FETCH $message_set (FLAGS)";
+		$request = " $cmd $message_set (FLAGS)";
 	else // 4
-		$request = " FETCH $message_set (INTERNALDATE$deleted)";
+		$request = " $cmd $message_set (INTERNALDATE$deleted)";
 
 	$request = $key . $request;
 

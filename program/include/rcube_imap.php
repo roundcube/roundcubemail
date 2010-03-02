@@ -495,6 +495,9 @@ class rcube_imap
     if (!$force && is_array($a_mailbox_cache[$mailbox]) && isset($a_mailbox_cache[$mailbox][$mode]))
       return $a_mailbox_cache[$mailbox][$mode];
 
+    if (!is_array($a_mailbox_cache[$mailbox]))
+      $a_mailbox_cache[$mailbox] = array();
+
     // RECENT count is fetched a bit different
     if ($mode == 'RECENT')
        $count = iil_C_CheckForRecent($this->conn, $mailbox);
@@ -513,17 +516,15 @@ class rcube_imap
       $index = $this->_search_index($mailbox, $search_str);
       $count = is_array($index) ? count($index) : 0;
       }
-    else
-      {
+    else {
       if ($mode == 'UNSEEN')
         $count = iil_C_CountUnseen($this->conn, $mailbox);
-      else
+      else {
         $count = iil_C_CountMessages($this->conn, $mailbox);
+        $_SESSION['maxuid'][$mailbox] = $count ? $this->_id2uid($count) : 0;
       }
+    }
 
-    if (!is_array($a_mailbox_cache[$mailbox]))
-      $a_mailbox_cache[$mailbox] = array();
-      
     $a_mailbox_cache[$mailbox][$mode] = (int)$count;
 
     // write back to cache
@@ -863,7 +864,31 @@ class rcube_imap
 
     return count($a_msg_headers);
     }
+  
+  /**
+   * Fetches IDS of pseudo recent messages.
+   *
+   * We compare the maximum UID to determine the number of
+   * new messages because the RECENT flag is not reliable.
+   *
+   * @param string  Mailbox/folder name
+   * @return array  List of recent message UIDs
+   */
+  function recent_uids($mbox_name = null, $nofetch = false)
+  {
+    $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+    $old_maxuid = intval($_SESSION['maxuid'][$mailbox]);
     
+    // refresh message count -> will update $_SESSION['maxuid'][$mailbox]
+    $this->messagecount($mbox_name, 'ALL', true);
+    
+    if ($_SESSION['maxuid'][$mailbox] > $old_maxuid) {
+      $maxuid = max(1, $old_maxuid+1);
+      return array_values((array)iil_C_FetchHeaderIndex($this->conn, $mailbox, "$maxuid:*", 'UID', $this->skip_deleted, true));
+    }
+    
+    return array();
+  }
   
   /**
    * Return sorted array of message IDs (not UIDs)
