@@ -2156,9 +2156,9 @@ class rcube_imap
     foreach ($this->default_folders as $folder)
       {
       $abs_name = $this->mod_mailbox($folder);
-      if (!in_array_nocase($abs_name, $a_folders))
+      if (!in_array($abs_name, $a_folders))
         $this->create_mailbox($folder, TRUE);
-      else if (!in_array_nocase($abs_name, $a_subscribed))
+      else if (!in_array($abs_name, $a_subscribed))
         $this->subscribe($folder);
       }
     }
