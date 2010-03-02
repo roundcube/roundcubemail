@@ -20,18 +20,7 @@
 */
 
 // add list of address sources to client env
-$js_list = array();
-if (strtolower($CONFIG['address_book_type']) != 'ldap') {
-  // We are using the DB address book, add it.
-  $js_list['0'] = array('id' => 0, 'name' => rcube_label('personaladrbook'), 'readonly' => false);
-}
-if (is_array($CONFIG['ldap_public'])) {
-  foreach ($CONFIG['ldap_public'] as $id => $prop)
-    $js_list[$id] = array('id' => $id, 'name' => $prop['name'], 'readonly' => !$prop['writable']);
-}
-
-$plugin = $RCMAIL->plugins->exec_hook('address_sources', array('sources' => $js_list));
-$js_list = $plugin['sources'];
+$js_list = $RCMAIL->get_address_sources();
 
 // select source
 $source = get_input_value('_source', RCUBE_INPUT_GPC);
@@ -39,7 +28,6 @@ $source = get_input_value('_source', RCUBE_INPUT_GPC);
 // if source is not set use first directory
 if (empty($source))
   $source = $js_list[key($js_list)]['id'];
-
 
 // instantiate a contacts object according to the given source
 $CONTACTS = $RCMAIL->get_address_book($source);

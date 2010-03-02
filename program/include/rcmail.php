@@ -244,6 +244,7 @@ class rcmail
   /**
    * Return instance of the internal address book class
    *
+   * @param string  Address book identifier
    * @param boolean True if the address book needs to be writeable
    * @return object rcube_contacts Address book object
    */
@@ -274,11 +275,59 @@ class rcmail
         }
       }
     }
-    else {
+    else { // $id == 'sql'
       $contacts = new rcube_contacts($this->db, $this->user->ID);
     }
     
     return $contacts;
+  }
+
+
+  /**
+   * Return address books list
+   *
+   * @param boolean True if the address book needs to be writeable
+   * @return array  Address books array
+   */
+  public function get_address_sources($writeable = false)
+  {
+    $abook_type = strtolower($this->config->get('address_book_type'));
+    $ldap_config = (array)$this->config->get('ldap_public');
+    $autocomplete = (array)$this->config->get('autocomplete_addressbooks');
+    $list = array();
+
+    // We are using the DB address book
+    if ($abook_type != 'ldap') {
+      $list['0'] = array(
+        'id' => 0,
+	'name' => rcube_label('personaladrbook'),
+        'readonly' => false,
+	'autocomplete' => in_array('sql', $autocomplete)
+      );
+    }
+
+    if (is_array($ldap_config)) {
+      foreach ($ldap_config as $id => $prop)
+        $list[$id] = array(
+	  'id' => $id,
+	  'name' => $prop['name'],
+	  'readonly' => !$prop['writable'],
+	  'autocomplete' => in_array('sql', $autocomplete)
+        );
+    }
+
+    $plugin = $this->plugins->exec_hook('address_sources', array('sources' => $list));
+    $list = $plugin['sources'];
+
+    if ($writeable && !empty($list)) {
+      foreach ($list as $idx => $item) {
+        if ($item['readonly']) {
+	  unset($list[$idx]);
+        }
+      }
+    }
+    
+    return $list;
   }
   
   
