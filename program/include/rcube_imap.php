@@ -880,7 +880,7 @@ class rcube_imap
     $old_maxuid = intval($_SESSION['maxuid'][$mailbox]);
     
     // refresh message count -> will update $_SESSION['maxuid'][$mailbox]
-    $this->messagecount($mbox_name, 'ALL', true);
+    $this->_messagecount($mailbox, 'ALL', true);
     
     if ($_SESSION['maxuid'][$mailbox] > $old_maxuid) {
       $maxuid = max(1, $old_maxuid+1);
