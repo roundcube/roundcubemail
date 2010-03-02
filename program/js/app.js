@@ -1885,7 +1885,7 @@ function rcube_webmail()
     if (this.env.flag_for_deletion)
       this.mark_message('delete');
     // if there isn't a defined trash mailbox or we are in it
-    else if (!this.env.trash_mailbox || String(this.env.mailbox).toLowerCase() == String(this.env.trash_mailbox).toLowerCase()) 
+    else if (!this.env.trash_mailbox || this.env.mailbox == this.env.trash_mailbox) 
       this.permanently_remove_messages();
     // if there is a trash mailbox defined and we're not currently in it
     else {

@@ -56,7 +56,6 @@ class rcube_imap
   var $default_charset = 'ISO-8859-1';
   var $struct_charset = NULL;
   var $default_folders = array('INBOX');
-  var $default_folders_lc = array('inbox');
   var $fetch_add_headers = '';
   var $cache = array();
   var $cache_keys = array();  
@@ -242,15 +241,10 @@ class rcube_imap
     if (is_array($arr))
       {
       $this->default_folders = $arr;
-      $this->default_folders_lc = array();
 
       // add inbox if not included
       if (!in_array_nocase('INBOX', $this->default_folders))
         array_unshift($this->default_folders, 'INBOX');
-
-      // create a second list with lower cased names
-      foreach ($this->default_folders as $mbox)
-        $this->default_folders_lc[] = strtolower($mbox);
       }
     }
 
@@ -2947,7 +2941,7 @@ class rcube_imap
       if ($folder{0}=='.')
         continue;
 
-      if (($p = array_search(strtolower($folder), $this->default_folders_lc)) !== false && !$a_defaults[$p])
+      if (($p = array_search($folder, $this->default_folders)) !== false && !$a_defaults[$p])
         $a_defaults[$p] = $folder;
       else
         $folders[$folder] = mb_strtolower(rcube_charset_convert($folder, 'UTF7-IMAP'));
