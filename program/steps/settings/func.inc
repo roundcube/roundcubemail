@@ -449,7 +449,17 @@ function rcmail_user_prefs($current=null)
         'content' => $select_param_folding->show($config['mime_param_folding']),
       );
     }
-    
+
+    if (!isset($no_override['force_7bit'])) {
+      $field_id = 'rcmfd_force_7bit';
+      $input_7bit = new html_checkbox(array('name' => '_force_7bit', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['force_7bit'] = array(
+        'title' => html::label($field_id, Q(rcube_label('force7bit'))),
+        'content' => $input_7bit->show($config['force_7bit']?1:0),
+      );
+    }
+
     if (!isset($no_override['top_posting'])) {
       $field_id = 'rcmfd_top_posting';
       $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id, 'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));

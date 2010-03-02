@@ -62,6 +62,7 @@ switch ($CURR_SECTION)
       'htmleditor'         => isset($_POST['_htmleditor']) ? TRUE : FALSE,
       'draft_autosave'     => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
       'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
+      'force_7bit'         => isset($_POST['_force_7bit']) ? TRUE : FALSE,
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'top_posting'        => !empty($_POST['_top_posting']),
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),

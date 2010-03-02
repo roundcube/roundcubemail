@@ -236,6 +236,7 @@ $labels['mimeparamfolding'] = 'Stosuj nazwy załączników zgodne z';
 $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (przestarzałe)';
+$labels['force7bit'] = 'Używaj kodowania MIME dla znaków 8-bitowych';
 $labels['advancedoptions'] = 'opcje zaawansowane';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';

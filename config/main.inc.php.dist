@@ -472,5 +472,8 @@ $rcmail_config['show_sig'] = 1;
 // When replying or forwarding place sender's signature above existing message
 $rcmail_config['sig_above'] = FALSE;
 
+// Use MIME encoding (quoted-printable) for 8bit characters in message body
+$rcmail_config['force_7bit'] = FALSE;
+
 // end of config file
 ?>

@@ -456,7 +456,7 @@ if (is_array($_SESSION['compose']['attachments']))
 
 // choose transfer encoding for plain/text body
 if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody()))
-  $transfer_encoding = '8bit';
+  $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 else
   $transfer_encoding = '7bit';
 
