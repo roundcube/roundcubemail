@@ -62,8 +62,10 @@ foreach ($a_mailboxes as $mbox_name) {
         $search_str .= ' '.$IMAP->search_string;
 
       if ($IMAP->search($mbox_name, $search_str, NULL, 'date')) {
+        // revert sort order
+        $order = $_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC' ? 'ASC' : 'DESC';
         // get the headers and add them to the list
-        $result_h = $IMAP->list_headers($mbox_name, 1, 'date', 'DESC');
+        $result_h = $IMAP->list_headers($mbox_name, 1, 'date', $order);
         rcmail_js_message_list($result_h, true, false);
       }
     }
