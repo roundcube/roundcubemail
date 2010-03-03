@@ -243,7 +243,7 @@ class rcube_imap
       $this->default_folders = $arr;
 
       // add inbox if not included
-      if (!in_array_nocase('INBOX', $this->default_folders))
+      if (!in_array('INBOX', $this->default_folders))
         array_unshift($this->default_folders, 'INBOX');
       }
     }
@@ -409,7 +409,7 @@ class rcube_imap
       }
 
     // INBOX should always be available
-    if (!in_array_nocase('INBOX', $a_out))
+    if (!in_array('INBOX', $a_out))
       array_unshift($a_out, 'INBOX');
 
     // sort mailboxes
@@ -777,7 +777,7 @@ class rcube_imap
 
         // if not already sorted
         $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
-      
+
         // only return the requested part of the set
 	$a_msg_headers = array_slice(array_values($a_msg_headers), $start_msg, min($cnt-$start_msg, $this->page_size));
         if ($slice)
