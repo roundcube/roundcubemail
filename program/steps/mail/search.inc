@@ -72,12 +72,17 @@ else if (preg_match("/^body:.*/i", $str))
 else if(trim($str))
 {
   if ($headers) {
-    $headers = explode(',', $headers);
-    foreach($headers as $header)
+    foreach(explode(',', $headers) as $header)
       switch ($header) {
         case 'text': $subject['text'] = 'TEXT'; break;
-        default: $subject[$header] = 'HEADER '.$header;
+        default:     $subject[$header] = 'HEADER '.strtoupper($header);
       }
+    
+    // save search modifiers for the current folder to user prefs
+    $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
+    $search_mods[$mbox] = array_fill_keys(array_keys($subject), 1);
+    $RCMAIL->user->save_prefs(array('search_mods' => $search_mods));
+    console($search_mods);
   } else {
     // search in subject by default
     $subject['subject'] = 'HEADER SUBJECT';
@@ -90,7 +95,6 @@ if ($subject) {
   $search_str .= str_repeat(' OR', count($subject)-1);
   foreach ($subject as $sub)
     $search_str .= sprintf(" %s {%d}\r\n%s", $sub, strlen($search), $search);
-  $_SESSION['search_mods'] = $subject;
 }
 
 $search_str = trim($search_str);

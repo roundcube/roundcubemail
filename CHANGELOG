@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Remember search modifiers in user prefs (#1486146)
 - Added force_7bit option to force MIME encoding of plain/text messages (#1486510)
 - Use case sensitive check when checking for default folders (#1486346)
 - Fix checking for new mail: now checks unseen count of inbox (#1485794)

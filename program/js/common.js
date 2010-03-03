@@ -490,6 +490,20 @@ function find_in_array()
   return -1;
   }
 
+// recursively copy an object
+function rcube_clone_object(obj)
+{
+  var out = {};
+  
+  for (var key in obj) {
+    if (obj[key] && typeof obj[key] == 'object')
+      out[key] = clone_object(obj[key]);
+    else
+      out[key] = obj[key];
+  }
+  
+  return out;
+}
 
 // make a string URL safe
 function urlencode(str)

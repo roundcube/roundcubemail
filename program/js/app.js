@@ -2616,10 +2616,13 @@ function rcube_webmail()
       if (this.message_list) {
         this.message_list.clear();
         if (this.env.search_mods) {
-          var head_arr = new Array();
-          for (var n in this.env.search_mods)
-            head_arr.push(n);
-          addurl += '&_headers='+head_arr.join(',');
+          var mods = this.env.search_mods[this.env.mailbox] ? this.env.search_mods[this.env.mailbox] : this.env.search_mods['*'];
+          if (mods) {
+            var head_arr = new Array();
+            for (var n in mods)
+              head_arr.push(n);
+            addurl += '&_headers='+head_arr.join(',');
+            }
           }
         } else if (this.contact_list) {
         this.contact_list.clear(true);

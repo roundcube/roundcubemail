@@ -161,12 +161,12 @@ show_searchmenu: function(show)
   if (show && ref) {
     var pos = $(ref).offset();
     this.searchmenu.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
+    this.searchmenu.find(":checked").attr('checked', false);
 
     if (rcmail.env.search_mods) {
-      for (var n in rcmail.env.search_mods) {
-        box = rcube_find_object('s_mod_' + n);
-        box.checked = 'checked';
-      }
+      var search_mods = rcmail.env.search_mods[rcmail.env.mailbox] ? rcmail.env.search_mods[rcmail.env.mailbox] : rcmail.env.search_mods['*'];
+      for (var n in search_mods)
+        $('#s_mod_' + n).attr('checked', true);
     }
   }
   this.searchmenu[show?'show':'hide']();
@@ -177,10 +177,13 @@ set_searchmod: function(elem)
   if (!rcmail.env.search_mods)
     rcmail.env.search_mods = new Object();
   
+  if (!rcmail.env.search_mods[rcmail.env.mailbox])
+    rcmail.env.search_mods[rcmail.env.mailbox] = rcube_clone_object(rcmail.env.search_mods['*']);
+  
   if (!elem.checked)
-    delete(rcmail.env.search_mods[elem.value]);
+    delete(rcmail.env.search_mods[rcmail.env.mailbox][elem.value]);
   else
-    rcmail.env.search_mods[elem.value] = elem.value;
+    rcmail.env.search_mods[rcmail.env.mailbox][elem.value] = elem.value;
 },
 
 body_mouseup: function(evt, p)

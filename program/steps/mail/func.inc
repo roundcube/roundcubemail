@@ -19,6 +19,11 @@
 
 */
 
+// setup some global vars used by mail steps
+$SENT_MBOX = $RCMAIL->config->get('sent_mbox');
+$DRAFTS_MBOX = $RCMAIL->config->get('drafts_mbox');
+$SEARCH_MODS_DEFAULT = array('*' => array('subject'=>1, 'from'=>1), $SENT_MBOX => array('subject'=>1, 'to'=>1), $DRAFTS_MBOX => array('subject'=>1, 'to'=>1));
+
 $EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
 
 // actions that do not require imap connection
@@ -79,7 +84,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
       $OUTPUT->set_env('search_request', $search_request);
       }
     
-      $OUTPUT->set_env('search_mods', $_SESSION['search_mods'] ? $_SESSION['search_mods'] : array('subject'=>'subject'));
+      $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
+      $OUTPUT->set_env('search_mods', $search_mods);
+      
       // make sure the message count is refreshed (for default view)
       $IMAP->messagecount($mbox_name, 'ALL', true);
     }
