@@ -563,9 +563,9 @@ class rcube_template extends rcube_html_page
             array(
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
-                '/env:([a-z0-9_-]+)/i',
-                '/request:([a-z0-9_-]+)/i',
-                '/cookie:([a-z0-9_-]+)/i',
+                '/env:([a-z0-9_]+)/i',
+                '/request:([a-z0-9_]+)/i',
+                '/cookie:([a-z0-9_]+)/i',
                 '/browser:([a-z0-9_]+)/i'
             ),
             array(
