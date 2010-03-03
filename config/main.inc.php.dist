@@ -475,5 +475,11 @@ $rcmail_config['sig_above'] = FALSE;
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
 $rcmail_config['force_7bit'] = FALSE;
 
+// Defaults of the search field configuration.
+// The array can contain a per-folder list of header fields which should be considered when searching
+// The entry with key '*' stands for all folders which do not have a specific list set.
+// Please note that folder names should to be in sync with $rcmail_config['default_imap_folders']
+$rcmail_config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
+
 // end of config file
 ?>
