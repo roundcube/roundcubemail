@@ -82,7 +82,6 @@ else if(trim($str))
     $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
     $search_mods[$mbox] = array_fill_keys(array_keys($subject), 1);
     $RCMAIL->user->save_prefs(array('search_mods' => $search_mods));
-    console($search_mods);
   } else {
     // search in subject by default
     $subject['subject'] = 'HEADER SUBJECT';
