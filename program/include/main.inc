@@ -1511,8 +1511,12 @@ function check_email($email)
   if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $email))
     return false;
 
-  // Check that there's one @ symbol, and that the lengths are right
-  if (!preg_match('/^([^@]{1,64})@([^@]{1,255})$/', $email, $email_array))
+  // Check for length limit specified by RFC 5321 (#1486453)
+  if (strlen($email) > 254) 
+    return false;
+
+  // Check that there's one @ symbol
+  if (!preg_match('/^([^@]+)@([^@]+)$/', $email, $email_array))
     return false;
 
   // Check local part
