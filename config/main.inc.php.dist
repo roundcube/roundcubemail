@@ -361,13 +361,9 @@ $rcmail_config['log_logins'] = false;
 
 /**
  * 'Delete always'
- * This setting reflects if mail should be always marked as deleted,
- * even if moving to "Trash" fails. This is necessary in some setups
- * because a) people may not have a Trash folder or b) they are over
- * quota (and Trash is included in the quota).
- *
- * This is a failover setting for iil_C_Move when a message is moved
- * to the Trash.
+ * This setting reflects if mail should be always deleted
+ * when moving to Trash fails. This is necessary in some setups
+ * when user is over quota and Trash is included in the quota.
  */
 $rcmail_config['delete_always'] = false;
 

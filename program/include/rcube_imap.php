@@ -1793,7 +1793,7 @@ class rcube_imap
     // move messages
     $iil_move = iil_C_Move($this->conn, join(',', $a_uids), $from_mbox, $to_mbox);
     $moved = !($iil_move === false || $iil_move < 0);
-    
+
     // send expunge command in order to have the moved message
     // really deleted from the source mailbox
     if ($moved) {
@@ -1802,8 +1802,8 @@ class rcube_imap
       $this->_clear_messagecount($to_mbox);
     }
     // moving failed
-    else if (rcmail::get_instance()->config->get('delete_always', false)) {
-      return iil_C_Delete($this->conn, $from_mbox, join(',', $a_uids));
+    else if ($config->get('delete_always', false) && $tbox == $config->get('trash_mbox')) {
+      return $this->delete_message($a_uids, $fbox);
     }
 
     // remove message ids from search set
