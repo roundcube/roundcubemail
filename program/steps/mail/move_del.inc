@@ -88,7 +88,7 @@ else
   $remaining      = $msg_count - $IMAP->page_size * ($IMAP->list_page - 1);
 
   // jump back one page (user removed the whole last page)
-  if ($IMAP->list_page > 1 && $nextpage_count <= 0 && $remaining == 0) {
+  if ($IMAP->list_page > 1 && $remaining == 0) {
     $IMAP->set_page($IMAP->list_page-1);
     $_SESSION['page'] = $IMAP->list_page;
     $jump_back = true;
@@ -121,7 +121,8 @@ else
     $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
     $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
 
-    $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order, $count);
+    $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order,
+      $jump_back ? NULL : $count);
 
     rcmail_js_message_list($a_headers, false, false);
   }

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix deleting all messages from last list page (#1486293)
 - Flag original messages when sending a draft (#1486203)
 - Changed signature separator when top-posting (#1486330)
 - Let the admin define defaults for search modifiers (#1485897)
