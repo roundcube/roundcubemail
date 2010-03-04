@@ -395,7 +395,7 @@ class rcube_template extends rcube_html_page
         if ($this->config['debug_level'] & 8) {
             $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;">
                 <a href="#toggle" onclick="con=document.getElementById(\'dbgconsole\');con.style.display=(con.style.display==\'none\'?\'block\':\'none\');return false">console</a>
-                <form action="/" name="debugform" style="display:inline"><textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:x-small" spellcheck="false"></textarea></form></div>'
+                <form action="/" name="debugform" style="display:inline"><textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></form></div>'
             );
         }
         
