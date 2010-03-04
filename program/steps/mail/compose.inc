@@ -151,6 +151,8 @@ if (!empty($msg_uid))
 
     if (!empty($_SESSION['compose']['param']['all']))
       $MESSAGE->reply_all = 1;
+      
+    $OUTPUT->set_env('compose_mode', 'reply');
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
   {
@@ -166,6 +168,7 @@ if (!empty($msg_uid))
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
   {
     $_SESSION['compose']['forward_uid'] = $msg_uid;
+    $OUTPUT->set_env('compose_mode', 'forward');
   }
 }
 

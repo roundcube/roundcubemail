@@ -599,22 +599,24 @@ class rcube_imap
       {
         if ($this->skip_deleted) {
           // @TODO: this could be cached
-	  if ($msg_index = $this->_search_index($mailbox, 'ALL UNDELETED')) {
+          if ($msg_index = $this->_search_index($mailbox, 'ALL UNDELETED')) {
             $max = max($msg_index);
             list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
             $msg_index = array_slice($msg_index, $begin, $end-$begin);
-	    }
-	} else if ($max = iil_C_CountMessages($this->conn, $mailbox)) {
+          }
+        }
+        else if ($max = iil_C_CountMessages($this->conn, $mailbox)) {
           list($begin, $end) = $this->_get_message_range($max, $page);
-	  $msg_index = range($begin+1, $end);
-	} else
-	  $msg_index = array();
+          $msg_index = range($begin+1, $end);
+        }
+        else
+          $msg_index = array();
 
         if ($slice)
           $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
 
         // fetch reqested headers from server
-	if ($msg_index)
+        if ($msg_index)
           $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);
       }
     // use SORT command
@@ -749,12 +751,12 @@ class rcube_imap
       // 300: experimantal value for best result
       if (($cnt > 300 && $cnt > $this->page_size) || ($this->index_sort && $this->sort_field == 'date')) {
         // use memory less expensive (and quick) method for big result set
-	$a_index = $this->message_index('', $this->sort_field, $this->sort_order);
+        $a_index = $this->message_index('', $this->sort_field, $this->sort_order);
         // get messages uids for one page...
         $msgs = array_slice($a_index, $start_msg, min($cnt-$start_msg, $this->page_size));
         if ($slice)
           $msgs = array_slice($msgs, -$slice, $slice);
-	// ...and fetch headers
+        // ...and fetch headers
         $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
 
         // return empty array if no messages found
@@ -766,7 +768,7 @@ class rcube_imap
         $sorter->sort_headers($a_msg_headers);
 
         return array_values($a_msg_headers);
-        }
+      }
       else {
         // for small result set we can fetch all messages headers
         $this->_fetch_headers($mailbox, join(',', $msgs), $a_msg_headers, NULL);
@@ -779,7 +781,7 @@ class rcube_imap
         $a_msg_headers = iil_SortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
 
         // only return the requested part of the set
-	$a_msg_headers = array_slice(array_values($a_msg_headers), $start_msg, min($cnt-$start_msg, $this->page_size));
+        $a_msg_headers = array_slice(array_values($a_msg_headers), $start_msg, min($cnt-$start_msg, $this->page_size));
         if ($slice)
           $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
 
@@ -848,15 +850,15 @@ class rcube_imap
 
       foreach ($a_header_index as $i => $headers) {
         if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid) {
-	  // prevent index duplicates
-	  if ($cache_index[$headers->id]) {
-	    $this->remove_message_cache($cache_key, $headers->id, true);
-	    unset($cache_index[$headers->id]);
-	    }
+          // prevent index duplicates
+          if ($cache_index[$headers->id]) {
+            $this->remove_message_cache($cache_key, $headers->id, true);
+            unset($cache_index[$headers->id]);
+          }
           // add message to cache
-	  $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
-	    !in_array($headers->uid, $cache_index));
-	  }
+          $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
+            !in_array($headers->uid, $cache_index));
+        }
 
         $a_msg_headers[$headers->uid] = $headers;
         }
@@ -912,20 +914,20 @@ class rcube_imap
       
       // use message index sort for sorting by Date
       if ($this->index_sort && $this->sort_field == 'date')
-        {
-	$msgs = $this->search_set;
-	
-	if ($this->search_sort_field != 'date')
-	  sort($msgs);
-	
+      {
+        $msgs = $this->search_set;
+
+        if ($this->search_sort_field != 'date')
+          sort($msgs);
+
         if ($this->sort_order == 'DESC')
           $this->cache[$key] = array_reverse($msgs);
         else
           $this->cache[$key] = $msgs;
-        }
+      }
       // sort with SORT command
       else if ($this->get_capability('sort'))
-        {
+      {
         if ($this->sort_field && $this->search_sort_field != $this->sort_field)
           $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
 
@@ -933,9 +935,9 @@ class rcube_imap
           $this->cache[$key] = array_reverse($this->search_set);
         else
           $this->cache[$key] = $this->search_set;
-        }
+      }
       else
-        {
+      {
         $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, join(',', $this->search_set), $this->sort_field, $this->skip_deleted);
 
         if ($this->sort_order=="ASC")
@@ -944,7 +946,7 @@ class rcube_imap
           arsort($a_index);
 
         $this->cache[$key] = array_keys($a_index);
-	}
+      }
     }
 
     // have stored it in RAM
@@ -1032,11 +1034,11 @@ class rcube_imap
       // other message at this position
       if (isset($cache_index[$id]))
         {
-	$for_remove[] = $cache_index[$id];
+        $for_remove[] = $cache_index[$id];
         unset($cache_index[$id]);
         }
         
-	$for_update[] = $id;
+        $for_update[] = $id;
       }
 
     // clear messages at wrong positions and those deleted that are still in cache_index      
@@ -1051,7 +1053,7 @@ class rcube_imap
       if ($headers = iil_C_FetchHeader($this->conn, $mailbox, join(',', $for_update), false, $this->fetch_add_headers))
         foreach ($headers as $header)
           $this->add_message_cache($cache_key, $header->id, $header, NULL,
-		in_array($header->uid, (array)$for_remove));
+            in_array($header->uid, (array)$for_remove));
       }
     }
 
@@ -1078,28 +1080,28 @@ class rcube_imap
     // try search with US-ASCII charset (should be supported by server)
     // only if UTF-8 search is not supported
     if (empty($results) && !is_array($results) && !empty($charset) && $charset != 'US-ASCII')
+    {
+      // convert strings to US_ASCII
+      if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE))
       {
-	// convert strings to US_ASCII
-        if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE))
-	  {
-	  $last = 0; $res = '';
-	  foreach($matches[1] as $m)
-	    {
-	    $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
-	    $string = substr($str, $string_offset - 1, $m[0]);
-	    $string = rcube_charset_convert($string, $charset, 'US-ASCII');
-	    if (!$string) continue;
-	    $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
-	    $last = $m[0] + $string_offset - 1;
-	    }
-	    if ($last < strlen($str))
-	      $res .= substr($str, $last, strlen($str)-$last);
-	  }
-	else // strings for conversion not found
-	  $res = $str;
-	  
-	$results = $this->search($mbox_name, $res, NULL, $sort_field);
+        $last = 0; $res = '';
+        foreach($matches[1] as $m)
+        {
+          $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
+          $string = substr($str, $string_offset - 1, $m[0]);
+          $string = rcube_charset_convert($string, $charset, 'US-ASCII');
+          if (!$string) continue;
+          $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
+          $last = $m[0] + $string_offset - 1;
+        }
+        if ($last < strlen($str))
+          $res .= substr($str, $last, strlen($str)-$last);
       }
+      else // strings for conversion not found
+      $res = $str;
+
+      $results = $this->search($mbox_name, $res, NULL, $sort_field);
+    }
 
     $this->set_search_set($str, $results, $charset, $sort_field);
 
@@ -1249,9 +1251,9 @@ class rcube_imap
       // Example of structure for malformed MIME message:
       // ("text" "plain" ("charset" "us-ascii") NIL NIL "7bit" 2154 70 NIL NIL NIL)
       if ($headers->ctype && $headers->ctype != 'text/plain'
-	  && $structure[0] == 'text' && $structure[1] == 'plain') {
-	return false;  
-	}
+          && $structure[0] == 'text' && $structure[1] == 'plain') {
+        return false;
+      }
 
       $struct = &$this->_structure_part($structure);
       $struct->headers = get_object_vars($headers);
@@ -1302,17 +1304,17 @@ class rcube_imap
       for ($i=0, $count=0; $i<count($part); $i++)
         if (is_array($part[$i]) && count($part[$i]) > 3) {
           // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
-	  if (!is_array($part[$i][0])) {
+          if (!is_array($part[$i][0])) {
             $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
             if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
-	      $raw_part_headers[] = $tmp_part_id;
-	      $mime_part_headers[] = $tmp_part_id;
-              }
+              $raw_part_headers[] = $tmp_part_id;
+              $mime_part_headers[] = $tmp_part_id;
+            }
             else if (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')) {
-	      $mime_part_headers[] = $tmp_part_id;
-	      }
+              $mime_part_headers[] = $tmp_part_id;
             }
           }
+        }
         
       // pre-fetch headers of all parts (in one command for better performance)
       // @TODO: we could do this before _structure_part() call, to fetch
@@ -1330,8 +1332,8 @@ class rcube_imap
         if (is_array($part[$i]) && count($part[$i]) > 3) {
           $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
           $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id,
-	    $mime_part_headers[$tmp_part_id], $raw_part_headers[$tmp_part_id]);
-	}
+            $mime_part_headers[$tmp_part_id], $raw_part_headers[$tmp_part_id]);
+        }
 
       return $struct;
       }
@@ -1452,7 +1454,7 @@ class rcube_imap
       // some servers (eg. dovecot-1.x) have no support for parameter value continuations
       // we must fetch and parse headers "manually"
       if ($i<2) {
-	if (!$headers)
+        if (!$headers)
           $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_mime = '';
         $i = 0;
@@ -1469,7 +1471,7 @@ class rcube_imap
         $i++;
       }
       if ($i<2) {
-	if (!$headers)
+        if (!$headers)
           $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_encoded = '';
         $i = 0; $matches = array();
@@ -1486,7 +1488,7 @@ class rcube_imap
         $i++;
       }
       if ($i<2) {
-	if (!$headers)
+        if (!$headers)
           $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_mime = '';
         $i = 0; $matches = array();
@@ -1503,7 +1505,7 @@ class rcube_imap
         $i++;
       }
       if ($i<2) {
-	if (!$headers)
+        if (!$headers)
           $headers = iil_C_FetchPartHeader($this->conn, $this->mailbox, $this->_msg_id, false, $part->mime_id);
         $filename_encoded = '';
         $i = 0; $matches = array();
@@ -1525,8 +1527,8 @@ class rcube_imap
     // decode filename
     if (!empty($filename_mime)) {
       $part->filename = rcube_imap::decode_mime_string($filename_mime, 
-        $part->charset ? $part->charset : $this->struct_charset ? $this->struct_charset :
-	    rc_detect_encoding($filename_mime, $this->default_charset));
+        $part->charset ? $part->charset : ($this->struct_charset ? $this->struct_charset :
+          rc_detect_encoding($filename_mime, $this->default_charset)));
       } 
     else if (!empty($filename_encoded)) {
       // decode filename according to RFC 2231, Section 4
@@ -1549,10 +1551,10 @@ class rcube_imap
   function _structure_charset($structure)
     {
       while (is_array($structure)) {
-	if (is_array($structure[2]) && $structure[2][0] == 'charset')
-	  return $structure[2][1];
-	$structure = $structure[0];
-	}
+        if (is_array($structure[2]) && $structure[2][0] == 'charset')
+          return $structure[2][1];
+        $structure = $structure[0];
+      }
     } 
 
 

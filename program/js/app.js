@@ -2316,6 +2316,7 @@ function rcube_webmail()
     var input_message = $("[name='_message']");
     var message = input_message.val();
     var is_html = ($("input[name='_is_html']").val() == '1');
+    var sig_separator = this.env.sig_above && (this.env.compose_mode == 'reply' || this.env.compose_mode == 'forward') ? '---' : '-- ';
     var sig, cursor_pos, p = -1;
 
     if (!this.env.identity)
@@ -2333,7 +2334,7 @@ function rcube_webmail()
         sig = this.env.signatures[this.env.identity].is_html ? this.env.signatures[this.env.identity].plain_text : this.env.signatures[this.env.identity].text;
         
         if (sig.indexOf('-- ') != 0)
-          sig = '-- \n'+sig;
+          sig = sig_separator + '\n' + sig;
 
         p = this.env.sig_above ? message.indexOf(sig) : message.lastIndexOf(sig);
         if (p >= 0)
@@ -2344,7 +2345,7 @@ function rcube_webmail()
       if (show_sig && this.env.signatures && this.env.signatures[id]) {
         sig = this.env.signatures[id]['is_html'] ? this.env.signatures[id]['plain_text'] : this.env.signatures[id]['text'];
         if (sig.indexOf('-- ') != 0)
-          sig = '-- \n'+sig;
+          sig = sig_separator + '\n' + sig;
 
         if (this.env.sig_above) {
           if (p >= 0) { // in place of removed signature
@@ -2413,12 +2414,12 @@ function rcube_webmail()
         if (this.env.signatures[id].is_html) {
           sig = this.env.signatures[id].text;
           if (this.env.signatures[id].plain_text.indexOf('-- ') != 0)
-            sig = '-- <br />' + sig;
+            sig = sig_separator + '<br />' + sig;
         }
         else {
           sig = this.env.signatures[id].text;
           if (sig.indexOf('-- ') != 0)
-            sig = '-- \n' + sig;
+            sig = sig_separator + '\n' + sig;
           sig = '<pre>' + sig + '</pre>';
         }
 
