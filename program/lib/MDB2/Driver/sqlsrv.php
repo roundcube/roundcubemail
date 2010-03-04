@@ -1012,7 +1012,7 @@ class MDB2_Result_sqlsrv extends MDB2_Result_Common
             return $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                 'resultset has already been freed', __FUNCTION__);
         }
-        if (null === $this->result)) {
+        if (null === $this->result) {
             return false;
         }
         $ret = sqlsrv_next_result($this->result);
