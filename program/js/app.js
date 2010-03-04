@@ -351,7 +351,6 @@ function rcube_webmail()
           this.sections_list.addEventListener('select', function(o){ p.section_select(o); });
           this.sections_list.init();
           this.sections_list.focus();
-          this.sections_list.select_first();  // open first section by default
         }
         else if (this.gui_objects.subscriptionlist)
           this.init_subscription_list();
