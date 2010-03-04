@@ -314,6 +314,12 @@ else if (!empty($identity_arr['reply-to']))
 if (!empty($_SESSION['compose']['reply_msgid']))
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
 
+// remember reply/forward UIDs in special headers
+if (!empty($_SESSION['compose']['reply_uid']) && $savedraft)
+  $headers['X-Reply-UID'] = $_SESSION['compose']['reply_uid'];
+else if (!empty($_SESSION['compose']['forward_uid']) && $savedraft)
+  $headers['X-Forward-UID'] = $_SESSION['compose']['forward_uid'];
+
 if (!empty($_SESSION['compose']['references']))
   $headers['References'] = $_SESSION['compose']['references'];
 

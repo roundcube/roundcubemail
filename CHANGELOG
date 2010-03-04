@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Flag original messages when sending a draft (#1486203)
 - Changed signature separator when top-posting (#1486330)
 - Let the admin define defaults for search modifiers (#1485897)
 - Fix long e-mail addresses validation (#1486453)

@@ -158,9 +158,9 @@ if (!empty($msg_uid))
   {
     if($MESSAGE->headers->in_reply_to)
     {
-      // TODO: how to get reply_uid/forward_uid value, maybe we must set X-Reply-UID/X-Forward-UID
-      // $_SESSION['compose']['reply_uid'] = ?
-      // $_SESSION['compose']['forward_uid'] = ?
+      // get reply_uid/forward_uid to flag the original message when sending
+      $_SESSION['compose']['reply_uid'] = $MESSAGE->headers->others['x-reply-uid'];
+      $_SESSION['compose']['forward_uid'] = $MESSAGE->headers->others['x-forward-uid'];
       $_SESSION['compose']['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
     }
     $_SESSION['compose']['references']  = $MESSAGE->headers->references;
