@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Support/Require tls:// prefix in 'smtp_server' option for TLS connections
 - Fix inconsistent behaviour of 'delete_always' option (#1486299)
 - Fix deleting all messages from last list page (#1486293)
 - Flag original messages when sending a draft (#1486203)

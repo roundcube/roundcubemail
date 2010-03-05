@@ -82,6 +82,12 @@ class rcube_smtp {
     if (isset($smtp_host_url['host']) && isset($smtp_host_url['scheme']))
       $smtp_host = sprintf('%s://%s', $smtp_host_url['scheme'], $smtp_host_url['host']);
 
+    // remove TLS prefix and set flag for use in Net_SMTP::auth()
+    if (preg_match('#^tls://#i', $smtp_host)) {
+      $smtp_host = preg_replace('#^tls://#i', '', $smtp_host);
+      $use_tls = true;
+    }
+
     if (!empty($CONFIG['smtp_helo_host']))
       $helo_host = $CONFIG['smtp_helo_host'];
     else if (!empty($_SERVER['SERVER_NAME']))
@@ -107,11 +113,12 @@ class rcube_smtp {
     $smtp_user = str_replace('%u', $_SESSION['username'], $CONFIG['smtp_user']);
     $smtp_pass = str_replace('%p', $RCMAIL->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
     $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
-      
+    
     // attempt to authenticate to the SMTP server
     if ($smtp_user && $smtp_pass)
     {
-      $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type);
+      $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls);
+
       if (PEAR::isError($result))
       {
         $this->error = array('label' => 'smtpautherror', 'vars' => array('code' => $this->conn->_code));

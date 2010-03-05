@@ -14,6 +14,10 @@
 
 $rcmail_config = array();
 
+// ----------------------------------
+// LOGGING/DEBUGGING
+// ----------------------------------
+
 // system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
 $rcmail_config['debug_level'] = 1;
 
@@ -31,33 +35,27 @@ $rcmail_config['syslog_id'] = 'roundcube';
 // For possible values see installer or http://php.net/manual/en/function.openlog.php
 $rcmail_config['syslog_facility'] = LOG_USER;
 
-// use this folder to store log files (must be writeable for apache user)
-// This is used by the 'file' log driver.
-$rcmail_config['log_dir'] = 'logs/';
+// Log sent messages
+$rcmail_config['smtp_log'] = true;
 
-// use this folder to store temp files (must be writeable for apache user)
-$rcmail_config['temp_dir'] = 'temp/';
+// Log successful logins
+$rcmail_config['log_logins'] = false;
 
-// List of active plugins (in plugins/ directory)
-$rcmail_config['plugins'] = array();
+// Log SQL queries to <log_dir>/sql or to syslog
+$rcmail_config['sql_debug'] = false;
 
-// enable caching of messages and mailbox data in the local database.
-// this is recommended if the IMAP server does not run on the same machine
-$rcmail_config['enable_caching'] = FALSE;
+// Log IMAP conversation to <log_dir>/imap or to syslog
+$rcmail_config['imap_debug'] = false;
 
-// lifetime of message cache
-// possible units: s, m, h, d, w
-$rcmail_config['message_cache_lifetime'] = '10d';
+// Log LDAP conversation to <log_dir>/ldap or to syslog
+$rcmail_config['ldap_debug'] = false;
 
-// enforce connections over https
-// with this option enabled, all non-secure connections will be redirected.
-// set the port for the ssl connection as value of this option if it differs from the default 443
-$rcmail_config['force_https'] = FALSE;
+// Log SMTP conversation to <log_dir>/smtp or to syslog
+$rcmail_config['smtp_debug'] = false;
 
-// automatically create a new RoundCube user when log-in the first time.
-// a new user will be created once the IMAP login succeeds.
-// set to false if only registered users can use this service
-$rcmail_config['auto_create_user'] = TRUE;
+// ----------------------------------
+// IMAP
+// ----------------------------------
 
 // the mail host chosen to perform the log-in
 // leave blank to show a textbox at login, give a list of hosts
@@ -77,27 +75,12 @@ $rcmail_config['imap_auth_type'] = null;
 $rcmail_config['imap_root'] = null;
 $rcmail_config['imap_delimiter'] = null;
 
-// Automatically add this domain to user names for login
-// Only for IMAP servers that require full e-mail addresses for login
-// Specify an array with 'host' => 'domain' values to support multiple hosts
-$rcmail_config['username_domain'] = '';
-
-// This domain will be used to form e-mail addresses of new users
-// Specify an array with 'host' => 'domain' values to support multiple hosts
-$rcmail_config['mail_domain'] = '';
-
-// Path to a virtuser table file to resolve user names and e-mail addresses
-$rcmail_config['virtuser_file'] = '';
-
-// Query to resolve user names and e-mail addresses from the database
-// %u will be replaced with the current username for login.
-// The query should select the user's e-mail address as first column
-// and optional identity name as second column
-$rcmail_config['virtuser_query'] = '';
+// ----------------------------------
+// SMTP
+// ----------------------------------
 
 // SMTP server host (for sending mails).
-// To use SSL connection, set ssl://smtp.host.com
-// WARNING: Don't use 'tls://' prefix, TLS is used by default if possible
+// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
 // If left blank, the PHP mail() function is used
 // Use %h variable as replacement for user's IMAP hostname
 $rcmail_config['smtp_server'] = '';
@@ -123,35 +106,41 @@ $rcmail_config['smtp_auth_type'] = '';
 // localhost if that isn't defined. 
 $rcmail_config['smtp_helo_host'] = '';
 
-// Password charset.
-// Use it if your authentication backend doesn't support UTF-8.
-// Defaults to ISO-8859-1 for backward compatibility
-$rcmail_config['password_charset'] = 'ISO-8859-1';
+// ----------------------------------
+// SYSTEM
+// ----------------------------------
 
-// Log sent messages
-$rcmail_config['smtp_log'] = TRUE;
+// THIS OPTION WILL ALLOW THE INSTALLER TO RUN AND CAN EXPOSE SENSITIVE CONFIG DATA.
+// ONLY ENABLE IT IF YOU'RE REALLY SURE WHAT YOU'RE DOING!
+$rcmail_config['enable_installer'] = false;
 
-// Log SQL queries to <log_dir>/sql or to syslog
-$rcmail_config['sql_debug'] = false;
+// use this folder to store log files (must be writeable for apache user)
+// This is used by the 'file' log driver.
+$rcmail_config['log_dir'] = 'logs/';
 
-// Log IMAP conversation to <log_dir>/imap or to syslog
-$rcmail_config['imap_debug'] = false;
+// use this folder to store temp files (must be writeable for apache user)
+$rcmail_config['temp_dir'] = 'temp/';
 
-// Log LDAP conversation to <log_dir>/ldap or to syslog
-$rcmail_config['ldap_debug'] = false;
+// enable caching of messages and mailbox data in the local database.
+// this is recommended if the IMAP server does not run on the same machine
+$rcmail_config['enable_caching'] = false;
 
-// Log SMTP conversation to <log_dir>/smtp or to syslog
-$rcmail_config['smtp_debug'] = false;
+// lifetime of message cache
+// possible units: s, m, h, d, w
+$rcmail_config['message_cache_lifetime'] = '10d';
 
-// How many seconds must pass between emails sent by a user
-$rcmail_config['sendmail_delay'] = 0;
+// enforce connections over https
+// with this option enabled, all non-secure connections will be redirected.
+// set the port for the ssl connection as value of this option if it differs from the default 443
+$rcmail_config['force_https'] = false;
 
-// These cols are shown in the message list. Available cols are:
-// subject, from, to, cc, replyto, date, size, flag, attachment
-$rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag', 'attachment');
+// automatically create a new RoundCube user when log-in the first time.
+// a new user will be created once the IMAP login succeeds.
+// set to false if only registered users can use this service
+$rcmail_config['auto_create_user'] = true;
 
 // Includes should be interpreted as PHP files
-$rcmail_config['skin_include_php'] = FALSE;
+$rcmail_config['skin_include_php'] = false;
 
 // Session lifetime in minutes
 // must be greater than 'keep_alive'/60
@@ -169,6 +158,99 @@ $rcmail_config['double_auth'] = false;
 // please provide a string of exactly 24 chars.
 $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
+// Automatically add this domain to user names for login
+// Only for IMAP servers that require full e-mail addresses for login
+// Specify an array with 'host' => 'domain' values to support multiple hosts
+$rcmail_config['username_domain'] = '';
+
+// This domain will be used to form e-mail addresses of new users
+// Specify an array with 'host' => 'domain' values to support multiple hosts
+$rcmail_config['mail_domain'] = '';
+
+// Path to a virtuser table file to resolve user names and e-mail addresses
+$rcmail_config['virtuser_file'] = '';
+
+// Query to resolve user names and e-mail addresses from the database
+// %u will be replaced with the current username for login.
+// The query should select the user's e-mail address as first column
+// and optional identity name as second column
+$rcmail_config['virtuser_query'] = '';
+
+// Password charset.
+// Use it if your authentication backend doesn't support UTF-8.
+// Defaults to ISO-8859-1 for backward compatibility
+$rcmail_config['password_charset'] = 'ISO-8859-1';
+
+// How many seconds must pass between emails sent by a user
+$rcmail_config['sendmail_delay'] = 0;
+
+// add this user-agent to message headers when sending
+$rcmail_config['useragent'] = 'RoundCube Webmail/'.RCMAIL_VERSION;
+
+// use this name to compose page titles
+$rcmail_config['product_name'] = 'RoundCube Webmail';
+
+// try to load host-specific configuration
+// see http://trac.roundcube.net/wiki/Howto_Config for more details
+$rcmail_config['include_host_config'] = false;
+
+// path to a text file which will be added to each sent message
+// paths are relative to the RoundCube root folder
+$rcmail_config['generic_message_footer'] = '';
+
+// add a received header to outgoing mails containing the creators IP and hostname
+$rcmail_config['http_received_header'] = false;
+
+// Whether or not to encrypt the IP address and the host name
+// these could, in some circles, be considered as sensitive information;
+// however, for the administrator, these could be invaluable help
+// when tracking down issues.
+$rcmail_config['http_received_header_encrypt'] = false;
+
+// this string is used as a delimiter for message headers when sending
+// leave empty for auto-detection
+$rcmail_config['mail_header_delimiter'] = NULL;
+
+// session domain: .example.org
+$rcmail_config['session_domain'] = '';
+
+// don't allow these settings to be overriden by the user
+$rcmail_config['dont_override'] = array();
+
+// Set identities access level:
+// 0 - many identities with possibility to edit all params
+// 1 - many identities with possibility to edit all params but not email address
+// 2 - one identity with possibility to edit all params
+// 3 - one identity with possibility to edit all params but not email address
+$rcmail_config['identities_level'] = 0;
+
+// mime magic database
+$rcmail_config['mime_magic'] = '/usr/share/misc/magic';
+
+// Enable DNS checking for e-mail address validation
+$rcmail_config['email_dns_check'] = false;
+
+// ----------------------------------
+// PLUGINS
+// ----------------------------------
+
+// List of active plugins (in plugins/ directory)
+$rcmail_config['plugins'] = array();
+
+// ----------------------------------
+// USER INTERFACE
+// ----------------------------------
+
+// default sort col
+$rcmail_config['message_sort_col'] = 'date';
+
+// default sort order
+$rcmail_config['message_sort_order'] = 'DESC';
+
+// These cols are shown in the message list. Available cols are:
+// subject, from, to, cc, replyto, date, size, flag, attachment
+$rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag', 'attachment');
+
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
 $rcmail_config['language'] = null;
@@ -181,12 +263,6 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 
 // use this format for today's date display (date or strftime format)
 $rcmail_config['date_today'] = 'H:i';
-
-// add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/'.RCMAIL_VERSION;
-
-// use this name to compose page titles
-$rcmail_config['product_name'] = 'RoundCube Webmail';
 
 // store draft message is this mailbox
 // leave blank if draft messages should not be stored
@@ -208,13 +284,13 @@ $rcmail_config['trash_mbox'] = 'Trash';
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
 // automatically create the above listed default folders on login
-$rcmail_config['create_default_folders'] = FALSE;
+$rcmail_config['create_default_folders'] = false;
 
 // protect the default folders from renames, deletes, and subscription changes
-$rcmail_config['protect_default_folders'] = TRUE;
+$rcmail_config['protect_default_folders'] = true;
 
-// if in your system 0 quota means no limit set this option to TRUE 
-$rcmail_config['quota_zero_as_unlimited'] = FALSE;
+// if in your system 0 quota means no limit set this option to true 
+$rcmail_config['quota_zero_as_unlimited'] = false;
 
 // Behavior if a received message requests a message delivery notification (read receipt)
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
@@ -226,7 +302,7 @@ $rcmail_config['default_charset'] = 'ISO-8859-1';
 // Make use of the built-in spell checker. It is based on GoogieSpell.
 // Since Google only accepts connections over https your PHP installatation
 // requires to be compiled with Open SSL support
-$rcmail_config['enable_spellcheck'] = TRUE;
+$rcmail_config['enable_spellcheck'] = true;
 
 // Set the spell checking engine. 'googie' is the default. 'pspell' is also available,
 // but requires the Pspell extensions. When using Nox Spell Server, also set 'googie' here.
@@ -243,25 +319,24 @@ $rcmail_config['spellcheck_uri'] = '';
 // Leave empty for default set of available language.
 $rcmail_config['spellcheck_languages'] = NULL;
 
-// path to a text file which will be added to each sent message
-// paths are relative to the RoundCube root folder
-$rcmail_config['generic_message_footer'] = '';
+// don't let users set pagesize to more than this value if set
+$rcmail_config['max_pagesize'] = 200;
 
-// add a received header to outgoing mails containing the creators IP and hostname
-$rcmail_config['http_received_header'] = false;
+/**
+ * 'Delete always'
+ * This setting reflects if mail should be always deleted
+ * when moving to Trash fails. This is necessary in some setups
+ * when user is over quota and Trash is included in the quota.
+ */
+$rcmail_config['delete_always'] = false;
 
-// Whether or not to encrypt the IP address and the host name
-// these could, in some circles, be considered as sensitive information;
-// however, for the administrator, these could be invaluable help
-// when tracking down issues.
-$rcmail_config['http_received_header_encrypt'] = false;
+// Minimal value of user's 'keep_alive' setting (in seconds)
+// Must be less than 'session_lifetime'
+$rcmail_config['min_keep_alive'] = 60;
 
-// this string is used as a delimiter for message headers when sending
-// leave empty for auto-detection
-$rcmail_config['mail_header_delimiter'] = NULL;
-
-// session domain: .example.org
-$rcmail_config['session_domain'] = '';
+// ----------------------------------
+// ADDRESSBOOK SETTINGS
+// ----------------------------------
 
 // This indicates which type of address book to use. Possible choises:
 // 'sql' (default) and 'ldap'.
@@ -326,55 +401,9 @@ $rcmail_config['ldap_public']['Verisign'] = array(
 // when populating address autocomplete fields server-side. ex: array('sql','Verisign');
 $rcmail_config['autocomplete_addressbooks'] = array('sql');
 
-// don't allow these settings to be overriden by the user
-$rcmail_config['dont_override'] = array();
-
-// Set identities access level:
-// 0 - many identities with possibility to edit all params
-// 1 - many identities with possibility to edit all params but not email address
-// 2 - one identity with possibility to edit all params
-// 3 - one identity with possibility to edit all params but not email address
-$rcmail_config['identities_level'] = 0;
-
-// try to load host-specific configuration
-// see http://trac.roundcube.net/wiki/Howto_Config for more details
-$rcmail_config['include_host_config'] = false;
-
-// don't let users set pagesize to more than this value if set
-$rcmail_config['max_pagesize'] = 200;
-
-// mime magic database
-$rcmail_config['mime_magic'] = '/usr/share/misc/magic';
-
-// default sort col
-$rcmail_config['message_sort_col'] = 'date';
-
-// default sort order
-$rcmail_config['message_sort_order'] = 'DESC';
-
-// THIS OPTION WILL ALLOW THE INSTALLER TO RUN AND CAN EXPOSE SENSITIVE CONFIG DATA.
-// ONLY ENABLE IT IF YOU'RE REALLY SURE WHAT YOU'RE DOING!
-$rcmail_config['enable_installer'] = false;
-
-// Log successful logins
-$rcmail_config['log_logins'] = false;
-
-/**
- * 'Delete always'
- * This setting reflects if mail should be always deleted
- * when moving to Trash fails. This is necessary in some setups
- * when user is over quota and Trash is included in the quota.
- */
-$rcmail_config['delete_always'] = false;
-
-// Minimal value of user's 'keep_alive' setting (in seconds)
-// Must be less than 'session_lifetime'
-$rcmail_config['min_keep_alive'] = 60;
-
-// Enable DNS checking for e-mail address validation
-$rcmail_config['email_dns_check'] = false;
-
-/***** these settings can be overwritten by user's preferences *****/
+// ----------------------------------
+// USER PREFERENCES
+// ----------------------------------
 
 // skin name: folder from skins/
 $rcmail_config['skin'] = 'default';
@@ -389,7 +418,7 @@ $rcmail_config['timezone'] = 'auto';
 $rcmail_config['dst_active'] = (bool)date('I');
 
 // prefer displaying HTML messages
-$rcmail_config['prefer_html'] = TRUE;
+$rcmail_config['prefer_html'] = true;
 
 // display remote inline images
 // 0 - Never, always ask
@@ -398,28 +427,28 @@ $rcmail_config['prefer_html'] = TRUE;
 $rcmail_config['show_images'] = 0;
 
 // compose html formatted messages by default
-$rcmail_config['htmleditor'] = FALSE;
+$rcmail_config['htmleditor'] = false;
 
 // show pretty dates as standard
-$rcmail_config['prettydate'] = TRUE;
+$rcmail_config['prettydate'] = true;
 
 // save compose message every 300 seconds (5min)
 $rcmail_config['draft_autosave'] = 300;
 
 // default setting if preview pane is enabled
-$rcmail_config['preview_pane'] = FALSE;
+$rcmail_config['preview_pane'] = false;
 
 // focus new window if new message arrives
 $rcmail_config['focus_on_new_message'] = true;
 
 // Clear Trash on logout
-$rcmail_config['logout_purge'] = FALSE;
+$rcmail_config['logout_purge'] = false;
 
 // Compact INBOX on logout
-$rcmail_config['logout_expunge'] = FALSE;
+$rcmail_config['logout_expunge'] = false;
 
 // Display attached images below the message body 
-$rcmail_config['inline_images'] = TRUE;
+$rcmail_config['inline_images'] = true;
 
 // Encoding of long/non-ascii attachment names:
 // 0 - Full RFC 2231 compatible
@@ -427,36 +456,36 @@ $rcmail_config['inline_images'] = TRUE;
 // 2 - Full 2047 compatible
 $rcmail_config['mime_param_folding'] = 1;
 
-// Set TRUE if deleted messages should not be displayed
+// Set true if deleted messages should not be displayed
 // This will make the application run slower
-$rcmail_config['skip_deleted'] = FALSE;
+$rcmail_config['skip_deleted'] = false;
 
 // Set true to Mark deleted messages as read as well as deleted
 // False means that a message's read status is not affected by marking it as deleted
-$rcmail_config['read_when_deleted'] = TRUE;
+$rcmail_config['read_when_deleted'] = true;
 
-// Set to TRUE to newer delete messages immediately
+// Set to true to newer delete messages immediately
 // Use 'Purge' to remove messages marked as deleted 
-$rcmail_config['flag_for_deletion'] = FALSE;
+$rcmail_config['flag_for_deletion'] = false;
 
 // Default interval for keep-alive/check-recent requests (in seconds)
 // Must be greater than or equal to 'min_keep_alive' and less than 'session_lifetime'
 $rcmail_config['keep_alive'] = 60;
 
 // If true all folders will be checked for recent messages
-$rcmail_config['check_all_folders'] = FALSE;
+$rcmail_config['check_all_folders'] = false;
 
 // If true, after message delete/move, the next message will be displayed
-$rcmail_config['display_next'] = FALSE;
+$rcmail_config['display_next'] = false;
 
 // If true, messages list will be sorted by message index instead of message date
-$rcmail_config['index_sort'] = TRUE;
+$rcmail_config['index_sort'] = true;
 
 // When replying place cursor above original message (top posting)
-$rcmail_config['top_posting'] = FALSE;
+$rcmail_config['top_posting'] = false;
 
 // When replying strip original signature from message
-$rcmail_config['strip_existing_sig'] = TRUE;
+$rcmail_config['strip_existing_sig'] = true;
 
 // Show signature:
 // 0 - Never
@@ -466,10 +495,10 @@ $rcmail_config['strip_existing_sig'] = TRUE;
 $rcmail_config['show_sig'] = 1;
 
 // When replying or forwarding place sender's signature above existing message
-$rcmail_config['sig_above'] = FALSE;
+$rcmail_config['sig_above'] = false;
 
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
-$rcmail_config['force_7bit'] = FALSE;
+$rcmail_config['force_7bit'] = false;
 
 // Defaults of the search field configuration.
 // The array can contain a per-folder list of header fields which should be considered when searching
