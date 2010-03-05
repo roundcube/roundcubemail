@@ -322,14 +322,6 @@ $rcmail_config['spellcheck_languages'] = NULL;
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;
 
-/**
- * 'Delete always'
- * This setting reflects if mail should be always deleted
- * when moving to Trash fails. This is necessary in some setups
- * when user is over quota and Trash is included in the quota.
- */
-$rcmail_config['delete_always'] = false;
-
 // Minimal value of user's 'keep_alive' setting (in seconds)
 // Must be less than 'session_lifetime'
 $rcmail_config['min_keep_alive'] = 60;
@@ -505,6 +497,12 @@ $rcmail_config['force_7bit'] = false;
 // The entry with key '*' stands for all folders which do not have a specific list set.
 // Please note that folder names should to be in sync with $rcmail_config['default_imap_folders']
 $rcmail_config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
+
+// 'Delete always'
+// This setting reflects if mail should be always deleted
+// when moving to Trash fails. This is necessary in some setups
+// when user is over quota and Trash is included in the quota.
+$rcmail_config['delete_always'] = false;
 
 // end of config file
 ?>

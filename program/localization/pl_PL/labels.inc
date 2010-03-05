@@ -241,6 +241,7 @@ $labels['advancedoptions'] = 'opcje zaawansowane';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
+$labels['deletealways'] = 'Usuń wiadomości, gdy przenoszenie do Kosza zawiedzie';
 $labels['autosavedraft'] = 'Automatycznie zapisuj tworzoną wiadomość';
 $labels['indexsort'] = 'Stosuj indeks wiadomości do sortowania wg daty';
 $labels['keepalive']  = 'Sprawdzaj czy nadeszły nowe wiadomości';

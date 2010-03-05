@@ -589,6 +589,16 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['delete_always'])) {
+      $field_id = 'rcmfd_delete_always';
+      $input_delete_always = new html_checkbox(array('name' => '_delete_always', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['delete_always'] = array(
+        'title' => html::label($field_id, Q(rcube_label('deletealways'))),
+        'content' => $input_delete_always->show($config['delete_always']?1:0),
+      );
+    }
+
     // Trash purging on logout
     if (!isset($no_override['logout_purge'])) {
       $field_id = 'rcmfd_logout_purge';
