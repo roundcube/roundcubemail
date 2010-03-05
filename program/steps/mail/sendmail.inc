@@ -344,6 +344,18 @@ $headers['X-Sender'] = $from;
 if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];
 
+// exec hook for header checking and manipulation
+$data = $RCMAIL->plugins->exec_hook('outgoing_message_headers', array('headers' => $headers));
+
+// sending aborted by plugin
+if ($data['abort'] && !$savedraft) {
+  $OUTPUT->show_message($data['message'] ? $data['message'] : 'sendingfailed');
+  $OUTPUT->send('iframe');
+}
+else
+  $headers = $data['headers'];
+
+
 $isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
 $isHtml = ($isHtmlVal == "1");
 
@@ -473,9 +485,6 @@ $MAIL_MIME->setParam('head_encoding', 'quoted-printable');
 $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $message_charset);
-
-$data = $RCMAIL->plugins->exec_hook('outgoing_message_headers', array('headers' => $headers));
-$headers = $data['headers'];
 
 // encoding subject header with mb_encode provides better results with asian characters
 if (function_exists('mb_encode_mimeheader'))
