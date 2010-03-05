@@ -41,14 +41,7 @@ class rcube_install
   );
   
   // these config options are optional or can be set to null
-  var $optional_config = array(
-    'log_driver', 'syslog_id', 'syslog_facility', 'imap_auth_type',
-    'smtp_helo_host', 'smtp_auth_type', 'sendmail_delay', 'double_auth',
-    'language', 'mail_header_delimiter', 'create_default_folders',
-    'quota_zero_as_unlimited', 'spellcheck_uri', 'spellcheck_languages',
-    'http_received_header', 'session_domain', 'mime_magic', 'log_logins',
-    'enable_installer', 'skin_include_php', 'imap_root', 'imap_delimiter',
-    'virtuser_file', 'virtuser_query', 'dont_override');
+  var $required_config = array('db_dsnw', 'des_key');
   
   /**
    * Constructor
@@ -230,7 +223,7 @@ class rcube_install
       return null;
     
     $out = $seen = array();
-    $optional = array_flip($this->optional_config);
+    $required = array_flip($this->required_config);
     
     // iterate over the current configuration
     foreach ($this->config as $prop => $value) {
@@ -246,10 +239,10 @@ class rcube_install
     
     // iterate over default config
     foreach ($defaults as $prop => $value) {
-      if (!$seen[$prop] && !isset($this->config[$prop]) && !isset($optional[$prop]))
+      if (!isset($seen[$prop]) && !isset($this->config[$prop]) && isset($required[$prop]))
         $out['missing'][] = array('prop' => $prop);
     }
-    
+
     // check config dependencies and contradictions
     if ($this->config['enable_spellcheck'] && $this->config['spellcheck_engine'] == 'pspell') {
       if (!extension_loaded('pspell')) {
