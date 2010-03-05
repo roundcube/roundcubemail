@@ -515,6 +515,9 @@ class rcube_imap
       // not very performant but more precise (using UNDELETED)
       $index = $this->_search_index($mailbox, $search_str);
       $count = is_array($index) ? count($index) : 0;
+
+      if ($mode == 'ALL')
+        $_SESSION['maxuid'][$mailbox] = $index ? $this->_id2uid(max($index)) : 0;
       }
     else {
       if ($mode == 'UNSEEN')
