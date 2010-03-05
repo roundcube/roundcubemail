@@ -1134,39 +1134,67 @@ class rcube_template extends rcube_html_page
      * @param array Named parameters for the select tag
      * @return string HTML code for the gui object
      */
-    static function charset_selector($attrib)
+    function charset_selector($attrib)
     {
         // pass the following attributes to the form class
         $field_attrib = array('name' => '_charset');
         foreach ($attrib as $attr => $value) {
-            if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex'))) {
+            if (in_array($attr, array('id', 'name', 'class', 'style', 'size', 'tabindex'))) {
                 $field_attrib[$attr] = $value;
             }
         }
+
         $charsets = array(
-            'US-ASCII'     => 'ASCII (English)',
-            'EUC-JP'       => 'EUC-JP (Japanese)',
-            'EUC-KR'       => 'EUC-KR (Korean)',
-            'BIG5'         => 'BIG5 (Chinese)',
-            'GB2312'       => 'GB2312 (Chinese)',
-            'ISO-2022-JP'  => 'ISO-2022-JP (Japanese)',
-            'ISO-8859-1'   => 'ISO-8859-1 (Latin-1)',
-            'ISO-8859-2'   => 'ISO-8895-2 (Central European)',
-            'ISO-8859-7'   => 'ISO-8859-7 (Greek)',
-            'ISO-8859-9'   => 'ISO-8859-9 (Turkish)',
-            'Windows-1251' => 'Windows-1251 (Cyrillic)',
-            'Windows-1252' => 'Windows-1252 (Western)',
-            'Windows-1255' => 'Windows-1255 (Hebrew)',
-            'Windows-1256' => 'Windows-1256 (Arabic)',
-            'Windows-1257' => 'Windows-1257 (Baltic)',
-            'UTF-8'        => 'UTF-8'
-            );
+            'UTF-8'        => 'UTF-8 ('.rcube_label('unicode').')',
+            'US-ASCII'     => 'ASCII ('.rcube_label('english').')',
+            'ISO-8859-1'   => 'ISO-8859-1 ('.rcube_label('westerneuropean').')',
+            'ISO-8859-2'   => 'ISO-8895-2 ('.rcube_label('easterneuropean').')',
+            'ISO-8859-4'   => 'ISO-8895-4 ('.rcube_label('baltic').')',
+            'ISO-8859-5'   => 'ISO-8859-5 ('.rcube_label('cyrillic').')',
+            'ISO-8859-6'   => 'ISO-8859-6 ('.rcube_label('arabic').')',
+            'ISO-8859-7'   => 'ISO-8859-7 ('.rcube_label('greek').')',
+            'ISO-8859-8'   => 'ISO-8859-8 ('.rcube_label('hebrew').')',
+            'ISO-8859-9'   => 'ISO-8859-9 ('.rcube_label('turkish').')',
+            'ISO-8859-10'   => 'ISO-8859-10 ('.rcube_label('nordic').')',
+            'ISO-8859-11'   => 'ISO-8859-11 ('.rcube_label('thai').')',
+            'ISO-8859-13'   => 'ISO-8859-13 ('.rcube_label('baltic').')',
+            'ISO-8859-14'   => 'ISO-8859-14 ('.rcube_label('celtic').')',
+            'ISO-8859-15'   => 'ISO-8859-15 ('.rcube_label('westerneuropean').')',
+            'ISO-8859-16'   => 'ISO-8859-16 ('.rcube_label('southeasterneuropean').')',
+            'WINDOWS-1250' => 'Windows-1250 ('.rcube_label('easterneuropean').')',
+            'WINDOWS-1251' => 'Windows-1251 ('.rcube_label('cyrillic').')',
+            'WINDOWS-1252' => 'Windows-1252 ('.rcube_label('westerneuropean').')',
+            'WINDOWS-1253' => 'Windows-1253 ('.rcube_label('greek').')',
+            'WINDOWS-1254' => 'Windows-1254 ('.rcube_label('turkish').')',
+            'WINDOWS-1255' => 'Windows-1255 ('.rcube_label('hebrew').')',
+            'WINDOWS-1256' => 'Windows-1256 ('.rcube_label('arabic').')',
+            'WINDOWS-1257' => 'Windows-1257 ('.rcube_label('baltic').')',
+            'WINDOWS-1258' => 'Windows-1258 ('.rcube_label('vietnamese').')',
+            'ISO-2022-JP'  => 'ISO-2022-JP ('.rcube_label('japanese').')',
+            'ISO-2022-KR'  => 'ISO-2022-KR ('.rcube_label('korean').')',
+            'ISO-2022-CN'  => 'ISO-2022-CN ('.rcube_label('chinese').')',
+            'EUC-JP'       => 'EUC-JP ('.rcube_label('japanese').')',
+            'EUC-KR'       => 'EUC-KR ('.rcube_label('korean').')',
+            'EUC-CN'       => 'EUC-CN ('.rcube_label('chinese').')',
+            'BIG5'         => 'BIG5 ('.rcube_label('chinese').')',
+            'GB2312'       => 'GB2312 ('.rcube_label('chinese').')',
+        );
 
-            $select = new html_select($field_attrib);
-            $select->add(array_values($charsets), array_keys($charsets));
+        if (!empty($_POST['_charset']))
+	    $set = $_POST['_charset'];
+	else if (!empty($attrib['selected']))
+	    $set = $attrib['selected'];
+	else
+	    $set = $this->get_charset();
 
-            $set = $_POST['_charset'] ? $_POST['_charset'] : $this->get_charset();
-            return $select->show($set);
+	$set = strtoupper($set);
+	if (!isset($charsets[$set]))
+	    $charsets[$set] = $set;
+
+        $select = new html_select($field_attrib);
+        $select->add(array_values($charsets), array_keys($charsets));
+
+        return $select->show($set);
     }
 
 }  // end class rcube_template

@@ -54,7 +54,9 @@ switch ($CURR_SECTION)
       'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
       'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
       'display_next'    => isset($_POST['_display_next']) ? TRUE : FALSE,
+      'default_charset' => get_input_value('_default_charset', RCUBE_INPUT_POST),
     );
+
 
   break;
   case 'compose':
@@ -91,7 +93,6 @@ switch ($CURR_SECTION)
 
   break;
 }
-
 
 $data = rcmail::get_instance()->plugins->exec_hook('save_preferences',
   array('prefs' => $a_user_prefs, 'section' => $CURR_SECTION));

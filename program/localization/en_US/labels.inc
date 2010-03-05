@@ -64,10 +64,6 @@ $labels['download'] = 'Download';
 $labels['filename'] = 'File name';
 $labels['filesize'] = 'File size';
 
-$labels['preferhtml'] = 'Display HTML';
-$labels['htmlmessage'] = 'HTML Message';
-$labels['prettydate'] = 'Pretty dates';
-
 $labels['addtoaddressbook'] = 'Add to address book';
 
 // weekdays short
@@ -265,6 +261,10 @@ $labels['newidentity']  = 'New identity';
 $labels['newitem']  = 'New item';
 $labels['edititem']  = 'Edit item';
 
+$labels['preferhtml'] = 'Display HTML';
+$labels['defaultcharset'] = 'Default Character Set';
+$labels['htmlmessage'] = 'HTML Message';
+$labels['prettydate'] = 'Pretty dates';
 $labels['setdefault']  = 'Set default';
 $labels['autodetect']  = 'Auto';
 $labels['language']  = 'Language';
@@ -350,4 +350,24 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 
+// character sets
+$labels['unicode'] = 'Unicode';
+$labels['english'] = 'English';
+$labels['westerneuropean'] = 'Western European';
+$labels['easterneuropean'] = 'Eastern European';
+$labels['southeasterneuropean'] = 'South-Eastern European';
+$labels['baltic'] = 'Baltic';
+$labels['cyrillic'] = 'Cyrillic';
+$labels['arabic'] = 'Arabic';
+$labels['greek'] = 'Greek';
+$labels['hebrew'] = 'Hebrew';
+$labels['turkish'] = 'Turkish';
+$labels['nordic'] = 'Nordic';
+$labels['thai'] = 'Thai';
+$labels['celtic'] = 'Celtic';
+$labels['vietnamese'] = 'Vietnamese';
+$labels['japanese'] = 'Japanese';
+$labels['korean'] = 'Korean';
+$labels['chinese'] = 'Chinese';
+																												
 ?>

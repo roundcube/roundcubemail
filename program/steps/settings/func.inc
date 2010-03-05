@@ -368,6 +368,17 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['default_charset'])) {
+      $field_id = 'rcmfd_default_charset';
+
+      $blocks['main']['options']['default_charset'] = array(
+        'title' => html::label($field_id, Q(rcube_label('defaultcharset'))),
+        'content' => $RCMAIL->output->charset_selector(array(
+	  'name' => '_default_charset', 'selected' => $config['default_charset']
+	  ))
+      );
+    }
+
     if (!isset($no_override['show_images'])) {
       $field_id = 'rcmfd_show_images';
       $input_show_images = new html_select(array('name' => '_show_images', 'id' => $field_id));

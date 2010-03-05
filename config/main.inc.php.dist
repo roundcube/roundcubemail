@@ -296,9 +296,6 @@ $rcmail_config['quota_zero_as_unlimited'] = false;
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
 $rcmail_config['mdn_requests'] = 0;
 
-// Use this charset as fallback for message decoding
-$rcmail_config['default_charset'] = 'ISO-8859-1';
-
 // Make use of the built-in spell checker. It is based on GoogieSpell.
 // Since Google only accepts connections over https your PHP installatation
 // requires to be compiled with Open SSL support
@@ -396,6 +393,9 @@ $rcmail_config['autocomplete_addressbooks'] = array('sql');
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------
+
+// Use this charset as fallback for message decoding
+$rcmail_config['default_charset'] = 'ISO-8859-1';
 
 // skin name: folder from skins/
 $rcmail_config['skin'] = 'default';

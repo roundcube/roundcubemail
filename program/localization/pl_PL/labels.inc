@@ -218,6 +218,7 @@ $labels['language'] = 'Język';
 $labels['timezone'] = 'Strefa czasowa';
 $labels['pagesize'] = 'Liczba wierszy na stronie';
 $labels['signature'] = 'Podpis';
+$labels['defaultcharset'] = 'Domyślny zestaw znaków';
 $labels['dstactive'] = 'Czas letni';
 $labels['htmleditor'] = 'Twórz wiadomości HTML';
 $labels['htmlsignature'] = 'Podpis w HTML';
@@ -296,5 +297,23 @@ $labels['replysignaturepos'] = 'Podczas odpowiedzi wstaw podpis';
 $labels['belowquote'] = 'poniżej cytowanej treści';
 $labels['abovequote'] = 'ponad cytowaną treścią';
 
+$labels['unicode'] = 'uniwersalny';
+$labels['english'] = 'angielski';
+$labels['westerneuropean'] = 'zachodnioeuropejski';
+$labels['easterneuropean'] = 'wschodnioeuropejski';
+$labels['southeasterneuropean'] = 'południowo-wschodnioeuropejski';
+$labels['baltic'] = 'bałtycki';
+$labels['cyrillic'] = 'cyrylica';
+$labels['arabic'] = 'arabski';
+$labels['greek'] = 'grecki';
+$labels['hebrew'] = 'hebrajski';
+$labels['turkish'] = 'turecki';
+$labels['nordic'] = 'nordycki';
+$labels['thai'] = 'tajski';
+$labels['celtic'] = 'celtycki';
+$labels['vietnamese'] = 'wietnamski';
+$labels['japanese'] = 'japoński';
+$labels['korean'] = 'koreański';
+$labels['chinese'] = 'chiński';
 
 ?>
