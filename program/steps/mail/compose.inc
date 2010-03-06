@@ -976,7 +976,7 @@ function rcmail_editor_selector($attrib)
   if (empty($attrib['name']))
     $attrib['name'] = 'editorSelect';
     
-  $attrib['onchange'] = "return rcmail_toggle_editor(this.value=='html', '".$attrib['editorid']."', '_is_html')";
+  $attrib['onchange'] = "return rcmail_toggle_editor(this, '".$attrib['editorid']."', '_is_html')";
 
   $select = new html_select($attrib);
 

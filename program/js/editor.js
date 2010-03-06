@@ -83,10 +83,15 @@ function rcmail_editor_tabindex()
 }
 
 // switch html/plain mode
-function rcmail_toggle_editor(ishtml, textAreaId, flagElement)
+function rcmail_toggle_editor(select, textAreaId, flagElement)
 {
   var composeElement = document.getElementById(textAreaId);
-  var flag;
+  var flag, ishtml;
+
+  if (select.tagName != 'SELECT')
+    ishtml = select.checked;
+  else
+    ishtml = select.value == 'html';
 
   if (ishtml)
     {
@@ -100,12 +105,19 @@ function rcmail_toggle_editor(ishtml, textAreaId, flagElement)
     }
   else
     {
-    if (!confirm(rcmail.get_label('editorwarning')))
-      return false;
-
     var thisMCE = tinyMCE.get(textAreaId);
     var existingHtml = thisMCE.getContent();
-    rcmail.html2plain(existingHtml, textAreaId);
+
+    if (existingHtml) {
+      if (!confirm(rcmail.get_label('editorwarning'))) {
+        if (select.tagName == 'SELECT')
+	  select.value = 'html';
+        return false;
+	}
+
+      rcmail.html2plain(existingHtml, textAreaId);
+      }
+
     tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
     rcmail.display_spellcheck_controls(true);
     if (flagElement && (flag = rcube_find_object(flagElement)))
