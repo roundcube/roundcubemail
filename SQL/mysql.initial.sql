@@ -52,14 +52,12 @@ CREATE TABLE `messages` (
  `headers` text NOT NULL,
  `structure` text,
  PRIMARY KEY(`message_id`),
+ CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
+   REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
  INDEX `created_index` (`created`),
  INDEX `index_index` (`user_id`, `cache_key`, `idx`),
  UNIQUE `uniqueness` (`user_id`, `cache_key`, `uid`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-
-/* create foreign keys outside of create table, because of MySQL bug #46293 */
-ALTER TABLE `messages` ADD CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
 
 
 -- Table structure for table `cache`
@@ -71,13 +69,11 @@ CREATE TABLE `cache` (
  `data` longtext NOT NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`cache_id`),
+ CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
+   REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
  INDEX `created_index` (`created`),
  INDEX `user_cache_index` (`user_id`,`cache_key`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-
-/* create foreign keys outside of create table, because of MySQL bug #46293 */
-ALTER TABLE `cache` ADD CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
 
 
 -- Table structure for table `contacts`
@@ -93,12 +89,10 @@ CREATE TABLE `contacts` (
  `vcard` text NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`contact_id`),
+ CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
+   REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
  INDEX `user_contacts_index` (`user_id`,`email`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-
-/* create foreign keys outside of create table, because of MySQL bug #46293 */
-ALTER TABLE `contacts` ADD CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
 
 
 -- Table structure for table `identities`
@@ -115,12 +109,11 @@ CREATE TABLE `identities` (
  `signature` text,
  `html_signature` tinyint(1) NOT NULL DEFAULT '0',
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
- PRIMARY KEY(`identity_id`)
+ PRIMARY KEY(`identity_id`),
+ CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
+   REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ INDEX `user_identities_index` (`user_id`, `del`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-
-/* create foreign keys outside of create table, because of MySQL bug #46293 */
-ALTER TABLE `identities` ADD CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
 
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;

@@ -78,7 +78,7 @@ CREATE TABLE identities (
     html_signature integer DEFAULT 0 NOT NULL
 );
 
-CREATE INDEX identities_user_id_idx ON identities (user_id);
+CREATE INDEX identities_user_id_idx ON identities (user_id, del);
 
 
 --

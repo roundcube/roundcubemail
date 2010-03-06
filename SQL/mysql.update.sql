@@ -69,16 +69,18 @@ ALTER TABLE `contacts` DROP FOREIGN KEY `user_id_fk_contacts`;
 ALTER TABLE `identities` DROP FOREIGN KEY `user_id_fk_identities`;
 
 ALTER TABLE `messages` ADD CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
+ REFERENCES `users`(`user_id`);
 ALTER TABLE `cache` ADD CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
+ REFERENCES `users`(`user_id`);
 ALTER TABLE `contacts` ADD CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
+ REFERENCES `users`(`user_id`);
 ALTER TABLE `identities` ADD CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`) /*!40008 ON DELETE CASCADE ON UPDATE CASCADE */;
+ REFERENCES `users`(`user_id`);
 
 ALTER TABLE `contacts` ALTER `name` SET DEFAULT '';
 ALTER TABLE `contacts` ALTER `firstname` SET DEFAULT '';
 ALTER TABLE `contacts` ALTER `surname` SET DEFAULT '';
+
+ALTER TABLE `identities` INDEX `user_identities_index` (`user_id`, `del`);
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;

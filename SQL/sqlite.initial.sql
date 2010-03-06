@@ -56,7 +56,7 @@ CREATE TABLE identities (
   html_signature tinyint NOT NULL default '0'
 );
 
-CREATE INDEX ix_identities_user_id ON identities(user_id);
+CREATE INDEX ix_identities_user_id ON identities(user_id, del);
 
 
 -- --------------------------------------------------------
