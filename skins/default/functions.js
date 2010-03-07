@@ -13,7 +13,7 @@ function rcube_init_settings_tabs()
     tab = '#settingstab' + (rcmail.env.action=='preferences' ? 'default' : (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, '')));
 
   $(tab).addClass('tablink-selected');
-  $(tab + '> a').removeAttr('onclick').unbind('click').bind('click', function(){return false});
+  $(tab + '> a').removeAttr('onclick').unbind('click').bind('click', function(){return false;});
 }
 
 function rcube_show_advanced(visible)
@@ -39,12 +39,12 @@ function rcmail_show_header_form(id)
     
   link.style.display = 'none';
 
-  if (row = document.getElementById('compose-' + id))
+  if ((row = document.getElementById('compose-' + id)))
     {
     var div = document.getElementById('compose-div');
     var headers_div = document.getElementById('compose-headers-div');
     row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
-    div.style.top = (parseInt(headers_div.offsetHeight)) + 'px';
+    div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
     }
 
   return false;
@@ -52,7 +52,7 @@ function rcmail_show_header_form(id)
 
 function rcmail_hide_header_form(id)
 {
-  var row, parent, ns, ps, link, links;
+  var row, parent, ns, link, links;
 
   link = document.getElementById(id + '-link');
   link.style.display = '';
@@ -71,12 +71,12 @@ function rcmail_hide_header_form(id)
 
   document.getElementById('_' + id).value = '';
 
-  if (row = document.getElementById('compose-' + id))
+  if ((row = document.getElementById('compose-' + id)))
     {
     var div = document.getElementById('compose-div');
     var headers_div = document.getElementById('compose-headers-div');
     row.style.display = 'none';
-    div.style.top = (parseInt(headers_div.offsetHeight)) + 'px';
+    div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
     }
 
   return false;
@@ -175,7 +175,7 @@ show_searchmenu: function(show)
 set_searchmod: function(elem)
 {
   if (!rcmail.env.search_mods)
-    rcmail.env.search_mods = new Object();
+    rcmail.env.search_mods = {};
   
   if (!rcmail.env.search_mods[rcmail.env.mailbox])
     rcmail.env.search_mods[rcmail.env.mailbox] = rcube_clone_object(rcmail.env.search_mods['*']);

@@ -75,7 +75,7 @@ function rcube_splitter(attrib)
       this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));
       if (bw.ie)
         {
-        var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top) - (bw.ie8 ? 2 : 0));
+        var new_height = parseInt(this.p2.parentNode.offsetHeight, 10) - parseInt(this.p2.style.top, 10) - (bw.ie8 ? 2 : 0);
         this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
         }
       }
@@ -85,7 +85,7 @@ function rcube_splitter(attrib)
       this.p2.style.left = Math.ceil(this.pos + this.layer.width / 2) + 'px';
       this.layer.move(Math.round(this.pos - this.layer.width / 2 + 1), this.layer.y);
       if (bw.ie)
-        this.p2.style.width = (parseInt(this.p2.parentNode.offsetWidth) - parseInt(this.p2.style.left))+'px';
+        this.p2.style.width = parseInt(this.p2.parentNode.offsetWidth, 10) - parseInt(this.p2.style.left, 10) + 'px';
       }
     };
 
@@ -124,14 +124,14 @@ function rcube_splitter(attrib)
         // the position of each iframe when the event is received
         var s = this;
         var id = '#'+iframes[n].id;
-        this.iframe_events[n] = function(e){ e._offset = $(id).offset(); return s.onDrag(e); }
+        this.iframe_events[n] = function(e){ e._offset = $(id).offset(); return s.onDrag(e); };
 
         if (iframedoc.addEventListener)
           iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
         else if (iframes[n].attachEvent)
           iframedoc.attachEvent('onmousemove', this.iframe_events[n]);
         else
-          iframedoc['onmousemove'] = this.iframe_events[n];
+          iframedoc.onmousemove = this.iframe_events[n];
 
         rcube_event.add_listener({element:iframedoc, event:'mouseup', object:this, method:'onDragStop'});
         }
@@ -201,6 +201,7 @@ function rcube_splitter(attrib)
         iframedoc = iframes[n].contentWindow.document;
       else if (iframes[n].document)
         iframedoc = iframes[n].document;
+
       if (iframedoc)
         {
         if (this.iframe_events[n]) {
@@ -209,7 +210,7 @@ function rcube_splitter(attrib)
           else if (iframedoc.detachEvent)
             iframedoc.detachEvent('onmousemove', this.iframe_events[n]);
           else
-            iframedoc['onmousemove'] = null;
+            iframedoc.onmousemove = null;
           }
 
         rcube_event.remove_listener({element:iframedoc, event:'mouseup', object:this, method:'onDragStop'});
@@ -228,11 +229,11 @@ function rcube_splitter(attrib)
     {
     if (this.horizontal)
       {
-      var new_height = (parseInt(this.p2.parentNode.offsetHeight) - parseInt(this.p2.style.top) - (bw.ie8 ? 2 : 0));
+      var new_height = parseInt(this.p2.parentNode.offsetHeight, 10) - parseInt(this.p2.style.top, 10) - (bw.ie8 ? 2 : 0);
       this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
       }
     else
-      this.p2.style.width = (parseInt(this.p2.parentNode.offsetWidth) - parseInt(this.p2.style.left))+'px';
+      this.p2.style.width = parseInt(this.p2.parentNode.offsetWidth, 10) - parseInt(this.p2.style.left, 10) + 'px';
     };
 
   this.set_cookie = function()
@@ -241,6 +242,6 @@ function rcube_splitter(attrib)
     var exp = new Date();
     exp.setYear(exp.getFullYear() + 1);
     bw.set_cookie(this.id, this.pos, exp);
-    }
+    };
 
   }  // end class rcube_splitter
