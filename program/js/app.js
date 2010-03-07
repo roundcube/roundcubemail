@@ -2331,9 +2331,9 @@ function rcube_webmail()
       // remove the 'old' signature
       if (show_sig && this.env.identity && this.env.signatures && this.env.signatures[this.env.identity]) {
         sig = this.env.signatures[this.env.identity].is_html ? this.env.signatures[this.env.identity].plain_text : this.env.signatures[this.env.identity].text;
-
         sig = sig.replace(/\r\n/, '\n');
-        if (!sig.match(/^--[ -]\n/)
+
+        if (!sig.match(/^--[ -]\n/))
           sig = sig_separator + '\n' + sig;
 
         p = this.env.sig_above ? message.indexOf(sig) : message.lastIndexOf(sig);
@@ -2343,7 +2343,9 @@ function rcube_webmail()
       // add the new signature string
       if (show_sig && this.env.signatures && this.env.signatures[id]) {
         sig = this.env.signatures[id]['is_html'] ? this.env.signatures[id]['plain_text'] : this.env.signatures[id]['text'];
-        if (!sig.match(/^--[ -]\n/)
+        sig = sig.replace(/\r\n/, '\n');
+
+        if (!sig.match(/^--[ -]\n/))
           sig = sig_separator + '\n' + sig;
 
         if (this.env.sig_above) {
@@ -2412,12 +2414,12 @@ function rcube_webmail()
       if (this.env.signatures[id]) {
         if (this.env.signatures[id].is_html) {
           sig = this.env.signatures[id].text;
-          if (!this.env.signatures[id].plain_text.match(/^--[ -]\n/)
+          if (!this.env.signatures[id].plain_text.match(/^--[ -]\r?\n/))
             sig = sig_separator + '<br />' + sig;
         }
         else {
           sig = this.env.signatures[id].text;
-          if (!sig.match(/^--[ -]\n/)
+          if (!sig.match(/^--[ -]\r?\n/))
             sig = sig_separator + '\n' + sig;
           sig = '<pre>' + sig + '</pre>';
         }
