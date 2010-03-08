@@ -17,7 +17,7 @@ REQUIREMENTS
    - mbstring, fileinfo, mcrypt (optional)
 * PEAR packages distributed with Roundcube or external:
    - MDB2 2.5.0 or newer
-   - Mail_Mime 1.6.0 or newer
+   - Mail_Mime 1.6.1 or newer
    - Net_SMTP 1.4.2 or newer
 * php.ini options (see .htaccess file):
    - error_reporting E_ALL & ~E_NOTICE (or lower)

@@ -247,6 +247,15 @@ class Mail_mimePart
             }
         }
 
+        if (!empty($headers['Content-Description'])) {
+            $headers['Content-Description'] = $this->encodeHeader(
+                'Content-Description', $headers['Content-Description'],
+                isset($c_type['charset']) ? $c_type['charset'] : 'US-ASCII',
+                isset($params['name_encoding']) ?  $params['name_encoding'] : 'quoted-printable',
+                $this->_eol
+            );
+        }
+
         // Default content-type
         if (!isset($headers['Content-Type'])) {
             $headers['Content-Type'] = 'text/plain';
@@ -769,17 +778,281 @@ class Mail_mimePart
     }
 
     /**
-     * Callback function to replace extended characters (\x80-xFF) with their
-     * ASCII values (RFC2231)
+     * Encodes a header as per RFC2047
      *
-     * @param array $matches Preg_replace's matches array
+     * @param string $name     The header name
+     * @param string $value    The header data to encode
+     * @param string $charset  Character set name
+     * @param string $encoding Encoding name (base64 or quoted-printable)
+     * @param string $eol      End-of-line sequence. Default: "\r\n"
      *
-     * @return string        Encoded character string
+     * @return string          Encoded header data (without a name)
+     * @access public
+     * @since 1.6.1
+     */
+    function encodeHeader($name, $value, $charset='ISO-8859-1',
+        $encoding='quoted-printable', $eol="\r\n"
+    ) {
+        // Structured headers
+        $comma_headers = array(
+            'from', 'to', 'cc', 'bcc', 'sender', 'reply-to',
+            'resent-from', 'resent-to', 'resent-cc', 'resent-bcc',
+            'resent-sender', 'resent-reply-to',
+            'return-receipt-to', 'disposition-notification-to',
+        );
+        $other_headers = array(
+            'references', 'in-reply-to', 'message-id', 'resent-message-id',
+        );
+
+        $name = strtolower($name);
+
+        if (in_array($name, $comma_headers)) {
+            $separator = ',';
+        } else if (in_array($name, $other_headers)) {
+            $separator = ' ';
+        }
+
+        if (!$charset) {
+            $charset = 'ISO-8859-1';
+        }
+
+        // Structured header (make sure addr-spec inside is not encoded)
+        if (!empty($separator)) {
+            $parts = Mail_mimePart::_explodeQuotedString($separator, $value);
+            $value = '';
+
+            foreach ($parts as $part) {
+                $part = preg_replace('/\r?\n[\s\t]*/', $eol . ' ', $part);
+                $part = trim($part);
+
+                if (!$part) {
+                    continue;
+                }
+                if ($value) {
+                    $value .= $separator==',' ? $separator.' ' : ' ';
+                } else {
+                    $value = $name . ': ';
+                }
+
+                // let's find phrase (name) and/or addr-spec
+                if (preg_match('/^<\S+@\S+>$/', $part)) {
+                    $value .= $part;
+                } else if (preg_match('/^\S+@\S+$/', $part)) {
+                    // address without brackets and without name
+                    $value .= $part;
+                } else if (preg_match('/<*\S+@\S+>*$/', $part, $matches)) {
+                    // address with name (handle name)
+                    $address = $matches[0];
+                    $word = str_replace($address, '', $part);
+                    $word = trim($word);
+                    // check if phrase requires quoting
+                    if ($word) {
+                        // non-ASCII: require encoding
+                        if (preg_match('#([\x80-\xFF]){1}#', $word)) {
+                            if ($word[0] == '"' && $word[strlen($word)-1] == '"') {
+                                // de-quote quoted-string, encoding changes
+                                // string to atom
+                                $search = array("\\\"", "\\\\");
+                                $replace = array("\"", "\\");
+                                $word = str_replace($search, $replace, $word);
+                                $word = substr($word, 1, -1);
+                            }
+                            // find length of last line
+                            if (($pos = strrpos($value, $eol)) !== false) {
+                                $last_len = strlen($value) - $pos;
+                            } else {
+                                $last_len = strlen($value);
+                            }
+                            $word = Mail_mimePart::encodeHeaderValue(
+                                $word, $charset, $encoding, $last_len, $eol
+                            );
+                        } else if (($word[0] != '"' || $word[strlen($word)-1] != '"')
+                            && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $word)
+                        ) {
+                            // ASCII: quote string if needed
+                            $word = '"'.addcslashes($word, '\\"').'"';
+                        }
+                    }
+                    $value .= $word.' '.$address;
+                } else {
+                    // addr-spec not found, don't encode (?)
+                    $value .= $part;
+                }
+
+                // RFC2822 recommends 78 characters limit, use 76 from RFC2047
+                $value = wordwrap($value, 76, $eol . ' ');
+            }
+
+            // remove header name prefix (there could be EOL too)
+            $value = preg_replace(
+                '/^'.$name.':('.preg_quote($eol, '/').')* /', '', $value
+            );
+
+        } else {
+            // Unstructured header
+            // non-ASCII: require encoding
+            if (preg_match('#([\x80-\xFF]){1}#', $value)) {
+                if ($value[0] == '"' && $value[strlen($value)-1] == '"') {
+                    // de-quote quoted-string, encoding changes
+                    // string to atom
+                    $search = array("\\\"", "\\\\");
+                    $replace = array("\"", "\\");
+                    $value = str_replace($search, $replace, $value);
+                    $value = substr($value, 1, -1);
+                }
+                $value = Mail_mimePart::encodeHeaderValue(
+                    $value, $charset, $encoding, strlen($name) + 2, $eol
+                );
+            } else if (strlen($name.': '.$value) > 78) {
+                // ASCII: check if header line isn't too long and use folding
+                $value = preg_replace('/\r?\n[\s\t]*/', $eol . ' ', $value);
+                $tmp = wordwrap($name.': '.$value, 78, $eol . ' ');
+                $value = preg_replace('/^'.$name.':\s*/', '', $tmp);
+                // hard limit 998 (RFC2822)
+                $value = wordwrap($value, 998, $eol . ' ', true);
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Explode quoted string
+     *
+     * @param string $delimiter Delimiter expression string for preg_match()
+     * @param string $string    Input string
+     *
+     * @return array            String tokens array
      * @access private
      */
-    function _encodeReplaceCallback($matches)
+    function _explodeQuotedString($delimiter, $string)
     {
-        return sprintf('%%%02X', ord($matches[1]));
+        $result = array();
+        $strlen = strlen($string);
+
+        for ($q=$p=$i=0; $i < $strlen; $i++) {
+            if ($string[$i] == "\""
+                && (empty($string[$i-1]) || $string[$i-1] != "\\")
+            ) {
+                $q = $q ? false : true;
+            } else if (!$q && preg_match("/$delimiter/", $string[$i])) {
+                $result[] = substr($string, $p, $i - $p);
+                $p = $i + 1;
+            }
+        }
+
+        $result[] = substr($string, $p);
+        return $result;
+    }
+
+    /**
+     * Encodes a header value as per RFC2047
+     *
+     * @param string $value      The header data to encode
+     * @param string $charset    Character set name
+     * @param string $encoding   Encoding name (base64 or quoted-printable)
+     * @param int    $prefix_len Prefix length. Default: 0
+     * @param string $eol        End-of-line sequence. Default: "\r\n"
+     *
+     * @return string            Encoded header data
+     * @access public
+     * @since 1.6.1
+     */
+    function encodeHeaderValue($value, $charset, $encoding, $prefix_len=0, $eol="\r\n")
+    {
+        if ($encoding == 'base64') {
+            // Base64 encode the entire string
+            $value = base64_encode($value);
+
+            // Generate the header using the specified params and dynamicly 
+            // determine the maximum length of such strings.
+            // 75 is the value specified in the RFC.
+            $prefix = '=?' . $charset . '?B?';
+            $suffix = '?=';
+            $maxLength = 75 - strlen($prefix . $suffix) - 2;
+            $maxLength1stLine = $maxLength - $prefix_len;
+
+            // We can cut base4 every 4 characters, so the real max
+            // we can get must be rounded down.
+            $maxLength = $maxLength - ($maxLength % 4);
+            $maxLength1stLine = $maxLength1stLine - ($maxLength1stLine % 4);
+
+            $cutpoint = $maxLength1stLine;
+            $value_out = $value;
+            $output = '';
+            while ($value_out) {
+                // Split translated string at every $maxLength
+                $part = substr($value_out, 0, $cutpoint);
+                $value_out = substr($value_out, $cutpoint);
+                $cutpoint = $maxLength;
+                // RFC 2047 specifies that any split header should
+                // be seperated by a CRLF SPACE. 
+                if ($output) {
+                    $output .= $eol . ' ';
+                }
+                $output .= $prefix . $part . $suffix;
+            }
+            $value = $output;
+        } else {
+            // quoted-printable encoding has been selected
+            $value = Mail_mimePart::encodeQP($value);
+
+            // Generate the header using the specified params and dynamicly 
+            // determine the maximum length of such strings.
+            // 75 is the value specified in the RFC.
+            $prefix = '=?' . $charset . '?Q?';
+            $suffix = '?=';
+            $maxLength = 75 - strlen($prefix . $suffix) - 3;
+            $maxLength1stLine = $maxLength - $prefix_len;
+            $maxLength = $maxLength - 1;
+
+            // This regexp will break QP-encoded text at every $maxLength
+            // but will not break any encoded letters.
+            $reg1st = "|(.{0,$maxLength1stLine}[^\=][^\=])|";
+            $reg2nd = "|(.{0,$maxLength}[^\=][^\=])|";
+
+            $value_out = $value;
+            $realMax = $maxLength1stLine + strlen($prefix . $suffix);
+            if (strlen($value_out) >= $realMax) {
+                // Begin with the regexp for the first line.
+                $reg = $reg1st;
+                $output = '';
+                while ($value_out) {
+                    // Split translated string at every $maxLength
+                    // But make sure not to break any translated chars.
+                    $found = preg_match($reg, $value_out, $matches);
+
+                    // After this first line, we need to use a different
+                    // regexp for the first line.
+                    $reg = $reg2nd;
+
+                    // Save the found part and encapsulate it in the
+                    // prefix & suffix. Then remove the part from the
+                    // $value_out variable.
+                    if ($found) {
+                        $part = $matches[0];
+                        $len = strlen($matches[0]);
+                        $value_out = substr($value_out, $len);
+                    } else {
+                        $part = $value_out;
+                        $value_out = "";
+                    }
+
+                    // RFC 2047 specifies that any split header should 
+                    // be seperated by a CRLF SPACE
+                    if ($output) {
+                        $output .= $eol . ' ';
+                    }
+                    $output .= $prefix . $part . $suffix;
+                }
+                $value_out = $output;
+            } else {
+                $value_out = $prefix . $value_out . $suffix;
+            }
+            $value = $value_out;
+        }
+
+        return $value;
     }
 
     /**
@@ -817,6 +1090,20 @@ class Mail_mimePart
     function _qpReplaceCallback($matches)
     {
         return sprintf('=%02X', ord($matches[1]));
+    }
+
+    /**
+     * Callback function to replace extended characters (\x80-xFF) with their
+     * ASCII values (RFC2231)
+     *
+     * @param array $matches Preg_replace's matches array
+     *
+     * @return string        Encoded character string
+     * @access private
+     */
+    function _encodeReplaceCallback($matches)
+    {
+        return sprintf('%%%02X', ord($matches[1]));
     }
 
 } // End of class

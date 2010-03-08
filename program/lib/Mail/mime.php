@@ -388,6 +388,7 @@ class Mail_mime
      *                            or base64) instead
      * @param string $f_encoding  Encoding for attachment filename (Content-Disposition)
      *                            See $n_encoding description
+     * @param string $description Content-Description header
      *
      * @return mixed              True on success or PEAR_Error object
      * @access public
@@ -402,7 +403,8 @@ class Mail_mime
         $language    = '',
         $location    = '',
         $n_encoding  = null,
-        $f_encoding  = null
+        $f_encoding  = null,
+        $description = ''
     ) {
         $bodyfile = null;
 
@@ -440,6 +442,7 @@ class Mail_mime
             'language'    => $language,
             'location'    => $location,
             'disposition' => $disposition,
+            'description' => $description,
             'name_encoding'     => $n_encoding,
             'filename_encoding' => $f_encoding
         );
@@ -668,6 +671,9 @@ class Mail_mime
         if (!empty($value['filename_encoding'])) {
             $params['filename_encoding'] = $value['filename_encoding'];
         }
+        if (!empty($value['description'])) {
+            $params['description'] = $value['description'];
+        }
 
         $ret = $obj->addSubpart($value['body'], $params);
         return $ret;
@@ -865,11 +871,13 @@ class Mail_mime
             }
         }
 
+        $this->_checkParams();
+
         $null        = null;
         $attachments = count($this->_parts)                 ? true : false;
         $html_images = count($this->_html_images)           ? true : false;
         $html        = strlen($this->_htmlbody)             ? true : false;
-        $text        = (!$html && strlen($this->_txtbody)) ? true : false;
+        $text        = (!$html && strlen($this->_txtbody))  ? true : false;
 
         switch (true) {
         case $text && !$attachments:
@@ -1233,265 +1241,9 @@ class Mail_mime
      */
     function encodeHeader($name, $value, $charset, $encoding)
     {
-        // Structured headers
-        $comma_headers = array(
-            'from', 'to', 'cc', 'bcc', 'sender', 'reply-to',
-            'resent-from', 'resent-to', 'resent-cc', 'resent-bcc',
-            'resent-sender', 'resent-reply-to',
-	    'return-receipt-to', 'disposition-notification-to',
+        return Mail_mimePart::encodeHeader(
+            $name, $value, $charset, $encoding, $this->_build_params['eol']
         );
-        $other_headers = array(
-            'references', 'in-reply-to', 'message-id', 'resent-message-id',
-        );
-
-        $name = strtolower($name);
-        $eol = $this->_build_params['eol'];
-
-        if (in_array($name, $comma_headers)) {
-            $separator = ',';
-        } else if (in_array($name, $other_headers)) {
-            $separator = ' ';
-        }
-
-        if (!$charset) {
-            $charset = 'ISO-8859-1';
-        }
-
-        // Structured header (make sure addr-spec inside is not encoded)
-        if (!empty($separator)) {
-            $parts = $this->_explodeQuotedString($separator, $value);
-            $value = '';
-
-            foreach ($parts as $part) {
-                $part = preg_replace('/\r?\n[\s\t]*/', $eol . ' ', $part);
-                $part = trim($part);
-
-                if (!$part) {
-                    continue;
-                }
-                if ($value) {
-                    $value .= $separator==',' ? $separator.' ' : ' ';
-                } else {
-                    $value = $name . ': ';
-                }
-
-                // let's find phrase (name) and/or addr-spec
-                if (preg_match('/^<\S+@\S+>$/', $part)) {
-                    $value .= $part;
-                } else if (preg_match('/^\S+@\S+$/', $part)) {
-                    // address without brackets and without name
-                    $value .= $part;
-                } else if (preg_match('/<*\S+@\S+>*$/', $part, $matches)) {
-                    // address with name (handle name)
-                    $address = $matches[0];
-                    $word = str_replace($address, '', $part);
-                    $word = trim($word);
-                    // check if phrase requires quoting
-                    if ($word) {
-                        // non-ASCII: require encoding
-                        if (preg_match('#([\x80-\xFF]){1}#', $word)) {
-                            if ($word[0] == '"' && $word[strlen($word)-1] == '"') {
-                                // de-quote quoted-string, encoding changes
-                                // string to atom
-                                $search = array("\\\"", "\\\\");
-                                $replace = array("\"", "\\");
-                                $word = str_replace($search, $replace, $word);
-                                $word = substr($word, 1, -1);
-                            }
-                            // find length of last line
-                            if (($pos = strrpos($value, $eol)) !== false) {
-                                $last_len = strlen($value) - $pos;
-                            } else {
-                                $last_len = strlen($value);
-                            }
-                            $word = $this->_encodeString(
-                                $word, $charset, $encoding, $last_len
-                            );
-                        } else if (($word[0] != '"' || $word[strlen($word)-1] != '"')
-                            && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $word)
-                        ) {
-                            // ASCII: quote string if needed
-                            $word = '"'.addcslashes($word, '\\"').'"';
-                        }
-                    }
-                    $value .= $word.' '.$address;
-                } else {
-                    // addr-spec not found, don't encode (?)
-                    $value .= $part;
-                }
-
-                // RFC2822 recommends 78 characters limit, use 76 from RFC2047
-                $value = wordwrap($value, 76, $eol . ' ');
-            }
-
-            // remove header name prefix (there could be EOL too)
-            $value = preg_replace(
-                '/^'.$name.':('.preg_quote($eol, '/').')* /', '', $value
-            );
-
-        } else {
-            // Unstructured header
-            // non-ASCII: require encoding
-            if (preg_match('#([\x80-\xFF]){1}#', $value)) {
-                if ($value[0] == '"' && $value[strlen($value)-1] == '"') {
-                    // de-quote quoted-string, encoding changes
-                    // string to atom
-                    $search = array("\\\"", "\\\\");
-                    $replace = array("\"", "\\");
-                    $value = str_replace($search, $replace, $value);
-                    $value = substr($value, 1, -1);
-                }
-                $value = $this->_encodeString(
-                    $value, $charset, $encoding, strlen($name) + 2
-                );
-            } else if (strlen($name.': '.$value) > 78) {
-                // ASCII: check if header line isn't too long and use folding
-                $value = preg_replace('/\r?\n[\s\t]*/', $eol . ' ', $value);
-                $tmp = wordwrap($name.': '.$value, 78, $eol . ' ');
-                $value = preg_replace('/^'.$name.':\s*/', '', $tmp);
-                // hard limit 998 (RFC2822)
-                $value = wordwrap($value, 998, $eol . ' ', true);
-            }
-        }
-
-        return $value;
-    }
-
-    /**
-     * Encodes a header value as per RFC2047
-     *
-     * @param string $value      The header data to encode
-     * @param string $charset    Character set name
-     * @param string $encoding   Encoding name (base64 or quoted-printable)
-     * @param int    $prefix_len Prefix length
-     *
-     * @return string            Encoded header data
-     * @access private
-     */
-    function _encodeString($value, $charset, $encoding, $prefix_len=0)
-    {
-        if ($encoding == 'base64') {
-            // Base64 encode the entire string
-            $value = base64_encode($value);
-
-            // Generate the header using the specified params and dynamicly 
-            // determine the maximum length of such strings.
-            // 75 is the value specified in the RFC.
-            $prefix = '=?' . $charset . '?B?';
-            $suffix = '?=';
-            $maxLength = 75 - strlen($prefix . $suffix) - 2;
-            $maxLength1stLine = $maxLength - $prefix_len;
-
-            // We can cut base4 every 4 characters, so the real max
-            // we can get must be rounded down.
-            $maxLength = $maxLength - ($maxLength % 4);
-            $maxLength1stLine = $maxLength1stLine - ($maxLength1stLine % 4);
-
-            $cutpoint = $maxLength1stLine;
-            $value_out = $value;
-            $output = '';
-            while ($value_out) {
-                // Split translated string at every $maxLength
-                $part = substr($value_out, 0, $cutpoint);
-                $value_out = substr($value_out, $cutpoint);
-                $cutpoint = $maxLength;
-                // RFC 2047 specifies that any split header should
-                // be seperated by a CRLF SPACE. 
-                if ($output) {
-                    $output .= $this->_build_params['eol'] . ' ';
-                }
-                $output .= $prefix . $part . $suffix;
-            }
-            $value = $output;
-        } else {
-            // quoted-printable encoding has been selected
-            $value = Mail_mimePart::encodeQP($value);
-
-            // Generate the header using the specified params and dynamicly 
-            // determine the maximum length of such strings.
-            // 75 is the value specified in the RFC.
-            $prefix = '=?' . $charset . '?Q?';
-            $suffix = '?=';
-            $maxLength = 75 - strlen($prefix . $suffix) - 3;
-            $maxLength1stLine = $maxLength - $prefix_len;
-            $maxLength = $maxLength - 1;
-
-            // This regexp will break QP-encoded text at every $maxLength
-            // but will not break any encoded letters.
-            $reg1st = "|(.{0,$maxLength1stLine}[^\=][^\=])|";
-            $reg2nd = "|(.{0,$maxLength}[^\=][^\=])|";
-
-            $value_out = $value;
-            $realMax = $maxLength1stLine + strlen($prefix . $suffix);
-            if (strlen($value_out) >= $realMax) {
-                // Begin with the regexp for the first line.
-                $reg = $reg1st;
-                $output = '';
-                while ($value_out) {
-                    // Split translated string at every $maxLength
-                    // But make sure not to break any translated chars.
-                    $found = preg_match($reg, $value_out, $matches);
-
-                    // After this first line, we need to use a different
-                    // regexp for the first line.
-                    $reg = $reg2nd;
-
-                    // Save the found part and encapsulate it in the
-                    // prefix & suffix. Then remove the part from the
-                    // $value_out variable.
-                    if ($found) {
-                        $part = $matches[0];
-                        $len = strlen($matches[0]);
-                        $value_out = substr($value_out, $len);
-                    } else {
-                        $part = $value_out;
-                        $value_out = "";
-                    }
-
-                    // RFC 2047 specifies that any split header should 
-                    // be seperated by a CRLF SPACE
-                    if ($output) {
-                        $output .= $this->_build_params['eol'] . ' ';
-                    }
-                    $output .= $prefix . $part . $suffix;
-                }
-                $value_out = $output;
-            } else {
-                $value_out = $prefix . $value_out . $suffix;
-            }
-            $value = $value_out;
-        }
-
-        return $value;
-    }
-
-    /**
-     * Explode quoted string
-     *
-     * @param string $delimiter Delimiter expression string for preg_match()
-     * @param string $string    Input string
-     *
-     * @return array            String tokens array
-     * @access private
-     */
-    function _explodeQuotedString($delimiter, $string)
-    {
-        $result = array();
-        $strlen = strlen($string);
-
-        for ($q=$p=$i=0; $i < $strlen; $i++) {
-            if ($string[$i] == "\""
-                && (empty($string[$i-1]) || $string[$i-1] != "\\")
-            ) {
-                $q = $q ? false : true;
-            } else if (!$q && preg_match("/$delimiter/", $string[$i])) {
-                $result[] = substr($string, $p, $i - $p);
-                $p = $i + 1;
-            }
-        }
-
-        $result[] = substr($string, $p);
-        return $result;
     }
 
     /**
@@ -1556,6 +1308,8 @@ class Mail_mime
             return $headers;
         }
 
+        $this->_checkParams();
+
         $eol = !empty($this->_build_params['eol'])
             ? $this->_build_params['eol'] : "\r\n";
 
@@ -1588,6 +1342,44 @@ class Mail_mime
         }
 
         return $headers;
+    }
+
+    /**
+     * Validate and set build parameters
+     *
+     * @return void
+     * @access private
+     */
+    function _checkParams()
+    {
+        $encodings = array('7bit', '8bit', 'base64', 'quoted-printable');
+
+        $this->_build_params['text_encoding']
+            = strtolower($this->_build_params['text_encoding']);
+        $this->_build_params['html_encoding']
+            = strtolower($this->_build_params['html_encoding']);
+
+        if (!in_array($this->_build_params['text_encoding'], $encodings)) {
+            $this->_build_params['text_encoding'] = '7bit';
+        }
+        if (!in_array($this->_build_params['html_encoding'], $encodings)) {
+            $this->_build_params['html_encoding'] = '7bit';
+        }
+
+        // text body
+        if ($this->_build_params['text_encoding'] == '7bit'
+            && !preg_match('/ascii/i', $this->_build_params['text_charset'])
+            && preg_match('/[^\x00-\x7F]/', $this->_txtbody)
+        ) {
+            $this->_build_params['text_encoding'] = 'quoted-printable';
+        }
+        // html body
+        if ($this->_build_params['html_encoding'] == '7bit'
+            && !preg_match('/ascii/i', $this->_build_params['html_charset'])
+            && preg_match('/[^\x00-\x7F]/', $this->_htmlbody)
+        ) {
+            $this->_build_params['html_encoding'] = 'quoted-printable';
+        }
     }
 
 } // End of class
