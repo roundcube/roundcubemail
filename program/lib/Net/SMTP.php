@@ -952,7 +952,7 @@ class Net_SMTP
 
         /* If we have a separate headers string, send it first. */
         if (!is_null($headers)) {
-            $this->quotedata($line);
+            $this->quotedata($headers);
             if (PEAR::isError($result = $this->_send($headers . "\r\n\r\n"))) {
                 return $result;
             }
