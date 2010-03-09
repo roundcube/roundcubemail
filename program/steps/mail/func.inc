@@ -682,13 +682,13 @@ function rcmail_check_safe(&$message)
 function rcmail_wash_html($html, $p = array(), $cid_replaces)
 {
   global $REMOTE_OBJECTS;
-  
+
   $p += array('safe' => false, 'inline_html' => true);
 
   // special replacements (not properly handled by washtml class)
   $html_search = array(
     '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-    '/<title[^>]*>.*<\/title>/i',		// PHP bug #32547 workaround: remove title tag
+    '/<title[^>]*>.*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
     '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
     '/<html\s[^>]+>/i',			// washtml/DOMDocument cannot handle xml namespaces
   );
@@ -705,9 +705,9 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
 
   // charset was converted to UTF-8 in rcube_imap::get_message_part(),
   // -> change charset specification in HTML accordingly
-  $charset_pattern = '(<meta\s+[^>]*)(content=[\'"]?\w+\/\w+;\s*charset)=([a-z0-9-_]+)';
+  $charset_pattern = '(<meta\s+[^>]* content=)[\'"]?(\w+\/\w+;\s*charset=)([a-z0-9-_]+[\'"]?)';
   if (preg_match("/$charset_pattern/Ui", $html)) {
-    $html = preg_replace("/$charset_pattern/i", '\\1\\2='.RCMAIL_CHARSET, $html);
+    $html = preg_replace("/$charset_pattern/i", '\\1"\\2'.RCMAIL_CHARSET.'"', $html);
   }
   else {
     // add meta content-type to malformed messages, washtml cannot work without that
