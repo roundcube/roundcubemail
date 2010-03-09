@@ -81,6 +81,6 @@ ALTER TABLE `contacts` ALTER `name` SET DEFAULT '';
 ALTER TABLE `contacts` ALTER `firstname` SET DEFAULT '';
 ALTER TABLE `contacts` ALTER `surname` SET DEFAULT '';
 
-ALTER TABLE `identities` INDEX `user_identities_index` (`user_id`, `del`);
+ALTER TABLE `identities` ADD INDEX `user_identities_index` (`user_id`, `del`);
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
