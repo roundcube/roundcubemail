@@ -3900,7 +3900,15 @@ function rcube_webmail()
     col.className = 'icon';
     col.innerHTML = icon ? '<img src="'+icon+'" alt="" />' : '';
     row.appendChild(col);
-		  
+
+    // build subject link
+    if (!bw.ie && cols.subject) {
+      var action = cols.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
+      var uid_param = cols.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid';
+      cols.subject = '<a href="./?_task=mail&_action='+action+'&_mbox='+urlencode(cols.mbox)+'&'+uid_param+'='+uid+'"'+
+         ' onclick="return rcube_event.cancel(event)">'+cols.subject+'</a>';
+    }
+
     // add each submitted col
     for (var n = 0; n < this.coltypes.length; n++) {
       var c = this.coltypes[n];
