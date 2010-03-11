@@ -447,29 +447,23 @@ class rcube_user
   
   
   /**
-   * Resolve username using a virtuser file
+   * Resolve username using a virtuser plugins
    *
    * @param string E-mail address to resolve
    * @return string Resolved IMAP username
    */
   static function email2user($email)
   {
-    $r = self::findinvirtual('/^' . preg_quote($email, '/') . '\s/');
+    $rcmail = rcmail::get_instance();
+    $plugin = $rcmail->plugins->exec_hook('email2user',
+      array('email' => $email, 'user' => NULL));
 
-    for ($i=0; $i<count($r); $i++)
-    {
-      $data = trim($r[$i]);
-      $arr = preg_split('/\s+/', $data);
-      if (count($arr) > 0)
-        return trim($arr[count($arr)-1]);
-    }
-
-    return NULL;
+    return $plugin['user'];
   }
 
 
   /**
-   * Resolve e-mail address from virtuser file/table
+   * Resolve e-mail address from virtuser plugins
    *
    * @param string User name
    * @param boolean If true returns first found entry
@@ -478,70 +472,12 @@ class rcube_user
    */
   static function user2email($user, $first=true, $extended=false)
   {
-    $result = array();
     $rcmail = rcmail::get_instance();
-    $dbh = $rcmail->get_dbh();
+    $plugin = $rcmail->plugins->exec_hook('user2email',
+      array('email' => NULL, 'user' => $user,
+        'first' => $first, 'extended' => $extended));
 
-    // SQL lookup
-    if ($virtuser_query = $rcmail->config->get('virtuser_query')) {
-      $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($user), $virtuser_query));
-      while ($sql_arr = $dbh->fetch_array($sql_result))
-        if (strpos($sql_arr[0], '@')) {
-          $result[] = ($extended && count($sql_arr) > 1) ? $sql_arr : $sql_arr[0];
-          if ($first)
-            return $result[0];
-        }
-    }
-    // File lookup
-    $r = self::findinvirtual('/\s' . preg_quote($user, '/') . '\s*$/');
-    for ($i=0; $i<count($r); $i++)
-    {
-      $data = $r[$i];
-      $arr = preg_split('/\s+/', $data);
-      if (count($arr) > 0 && strpos($arr[0], '@'))
-      {
-        $result[] = trim(str_replace('\\@', '@', $arr[0]));
-
-        if ($first)
-          return $result[0];
-      }
-    }
-    
-    return empty($result) ? NULL : $result;
+    return empty($plugin['email']) ? NULL : $plugin['email'];
   }
   
-  
-  /**
-   * Find matches of the given pattern in virtuser file
-   * 
-   * @param string Regular expression to search for
-   * @return array Matching entries
-   */
-  private static function findinvirtual($pattern)
-  {
-    $result = array();
-    $virtual = null;
-    
-    if ($virtuser_file = rcmail::get_instance()->config->get('virtuser_file'))
-      $virtual = file($virtuser_file);
-    
-    if (empty($virtual))
-      return $result;
-    
-    // check each line for matches
-    foreach ($virtual as $line)
-    {
-      $line = trim($line);
-      if (empty($line) || $line{0}=='#')
-        continue;
-        
-      if (preg_match($pattern, $line))
-        $result[] = $line;
-    }
-    
-    return $result;
-  }
-
 }
-
-

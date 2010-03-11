@@ -167,15 +167,6 @@ $rcmail_config['username_domain'] = '';
 // Specify an array with 'host' => 'domain' values to support multiple hosts
 $rcmail_config['mail_domain'] = '';
 
-// Path to a virtuser table file to resolve user names and e-mail addresses
-$rcmail_config['virtuser_file'] = '';
-
-// Query to resolve user names and e-mail addresses from the database
-// %u will be replaced with the current username for login.
-// The query should select the user's e-mail address as first column
-// and optional identity name as second column
-$rcmail_config['virtuser_query'] = '';
-
 // Password charset.
 // Use it if your authentication backend doesn't support UTF-8.
 // Defaults to ISO-8859-1 for backward compatibility
