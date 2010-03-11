@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix forwarding message omits CC header (#1486305)
 - Add 'default_charset' option to user preferences (#1485451)
 - Add 'delete_always' option to user preferences
 - Support/Require tls:// prefix in 'smtp_server' option for TLS connections

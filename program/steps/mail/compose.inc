@@ -621,8 +621,12 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
     $prefix .= 'Date: ' . $MESSAGE->headers->date . "\n";
     $prefix .= 'From: ' . $MESSAGE->get_header('from') . "\n";
     $prefix .= 'To: ' . $MESSAGE->get_header('to') . "\n";
+
+    if ($MESSAGE->headers->cc)
+      $prefix .= 'Cc: ' . $MESSAGE->get_header('cc') . "\n";
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
       $prefix .= 'Reply-To: ' . $MESSAGE->get_header('replyto') . "\n";
+
     $prefix .= "\n";
   }
   else
@@ -643,6 +647,10 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
       Q($MESSAGE->headers->date),
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()),
       htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+
+    if ($MESSAGE->headers->cc)
+      $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Cc: </th><td>%s</td></tr>",
+        htmlspecialchars(Q($MESSAGE->get_header('cc'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
 
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Reply-To: </th><td>%s</td></tr>",
