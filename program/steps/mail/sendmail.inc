@@ -313,12 +313,12 @@ else if (!empty($identity_arr['reply-to']))
 
 if (!empty($_SESSION['compose']['reply_msgid']))
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
-
+  
 // remember reply/forward UIDs in special headers
 if (!empty($_SESSION['compose']['reply_uid']) && $savedraft)
-  $headers['X-Reply-UID'] = $_SESSION['compose']['reply_uid'];
+  $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $_SESSION['compose']['reply_uid']);
 else if (!empty($_SESSION['compose']['forward_uid']) && $savedraft)
-  $headers['X-Forward-UID'] = $_SESSION['compose']['forward_uid'];
+  $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $_SESSION['compose']['forward_uid']);
 
 if (!empty($_SESSION['compose']['references']))
   $headers['References'] = $_SESSION['compose']['references'];
@@ -340,6 +340,9 @@ if (!empty($_POST['_receipt']))
 // additional headers
 $headers['Message-ID'] = $message_id;
 $headers['X-Sender'] = $from;
+
+if (is_array($headers['X-Draft-Info']))
+  $headers['X-Draft-Info'] = rcmail_draftinfo_encode($headers['X-Draft-Info'] + array('folder' => $_SESSION['compose']['mailbox']));
 
 if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];

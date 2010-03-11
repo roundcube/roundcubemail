@@ -151,18 +151,27 @@ if (!empty($msg_uid))
 
     if (!empty($_SESSION['compose']['param']['all']))
       $MESSAGE->reply_all = 1;
-      
+
     $OUTPUT->set_env('compose_mode', 'reply');
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
   {
-    if($MESSAGE->headers->in_reply_to)
+    if ($MESSAGE->headers->others['x-draft-info'])
     {
       // get reply_uid/forward_uid to flag the original message when sending
-      $_SESSION['compose']['reply_uid'] = $MESSAGE->headers->others['x-reply-uid'];
-      $_SESSION['compose']['forward_uid'] = $MESSAGE->headers->others['x-forward-uid'];
-      $_SESSION['compose']['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
+      $info = rcmail_draftinfo_decode($MESSAGE->headers->others['x-draft-info']);
+
+      if ($info['type'] == 'reply')
+        $_SESSION['compose']['reply_uid'] = $info['uid'];
+      else if ($info['type'] == 'forward')
+        $_SESSION['compose']['forward_uid'] = $info['uid'];
+
+      $_SESSION['compose']['mailbox'] = $info['folder'];
     }
+    
+    if ($MESSAGE->headers->in_reply_to)
+      $_SESSION['compose']['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
+
     $_SESSION['compose']['references']  = $MESSAGE->headers->references;
   }
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)

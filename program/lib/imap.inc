@@ -1451,7 +1451,7 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 	$request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
 	$request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
 	$request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY ";
-	$request .= "X-REPLY-UID X-FORWARD-UID".$add.")])";
+	$request .= "X-DRAFT-INFO".$add.")])";
 
 	if (!iil_PutLine($fp, $request)) {
 		return false;

@@ -1288,6 +1288,30 @@ function rcmail_wrap_quoted($text, $max = 76)
 }
 
 
+function rcmail_draftinfo_encode($p)
+{
+  $parts = array();
+  foreach ($p as $key => $val)
+    $parts[] = $key . '=' . ($key == 'folder' ? base64_encode($val) : $val);
+  
+  return join('; ', $parts);
+}
+
+
+function rcmail_draftinfo_decode($str)
+{
+  $info = array();
+  foreach (preg_split('/;\s+/', $str) as $part) {
+    list($key, $val) = explode('=', $part, 2);
+    if ($key == 'folder')
+      $val = base64_decode($val);
+    $info[$key] = $val;
+  }
+  
+  return $info;
+}
+
+
 function rcmail_message_part_controls()
   {
   global $MESSAGE;
