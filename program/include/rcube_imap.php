@@ -43,7 +43,6 @@ class rcube_imap
 {
   var $db;
   var $conn;
-  var $root_ns = '';
   var $root_dir = '';
   var $mailbox = 'INBOX';
   var $list_page = 1;
@@ -145,10 +144,7 @@ class rcube_imap
     if ($this->conn)
       {
       if (!empty($this->conn->rootdir))
-        {
         $this->set_rootdir($this->conn->rootdir);
-        $this->root_ns = preg_replace('/[.\/]$/', '', $this->conn->rootdir);
-        }
       if (empty($this->delimiter))
 	$this->get_hierarchy_delimiter();
       }
@@ -2925,7 +2921,7 @@ class rcube_imap
    */
   function mod_mailbox($mbox_name, $mode='in')
     {
-    if ((!empty($this->root_ns) && $this->root_ns == $mbox_name) || $mbox_name == 'INBOX')
+    if ($mbox_name == 'INBOX')
       return $mbox_name;
 
     if (!empty($this->root_dir)) {
