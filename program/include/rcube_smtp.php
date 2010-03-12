@@ -392,14 +392,14 @@ class rcube_smtp {
     
     $addresses = array();
     $recipients = rcube_explode_quoted_string(',', $recipients);
-  
+
     reset($recipients);
     while (list($k, $recipient) = each($recipients))
     {
       $a = explode(" ", $recipient);
       while (list($k2, $word) = each($a))
       {
-        if ((strpos($word, "@") > 0) && (strpos($word, "\"")===false))
+        if (strpos($word, "@") > 0 && $word[strlen($word)-1] != '"')
         {
           $word = preg_replace('/^<|>$/', '', trim($word));
           if (in_array($word, $addresses)===false)
@@ -411,5 +411,3 @@ class rcube_smtp {
   }
 
 }
-
-?>

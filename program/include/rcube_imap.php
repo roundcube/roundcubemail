@@ -2675,8 +2675,12 @@ class rcube_imap
     foreach ($a as $val)
       {
       $j++;
-      $address = $val['address'];
-      $name = preg_replace(array('/^[\'"]/', '/[\'"]$/'), '', trim($val['name']));
+      $address = trim($val['address']);
+      $name = trim($val['name']);
+
+      if (preg_match('/^[\'"]/', $name) && preg_match('/[\'"]$/', $name))
+        $name = preg_replace(array('/^[\'"]/', '/[\'"]$/'), '', $name);
+
       if ($name && $address && $name != $address)
         $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
       else if ($address)
@@ -2687,7 +2691,7 @@ class rcube_imap
       $out[$j] = array('name' => $name,
                        'mailto' => $address,
                        'string' => $string);
-              
+
       if ($max && $j==$max)
         break;
       }
