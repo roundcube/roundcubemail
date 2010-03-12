@@ -1197,7 +1197,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
     if ($PRINT_MODE) {
       $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
     }
-    else if (preg_match("/$EMAIL_ADDRESS_PATTERN/i", $part['mailto'])) {
+    else if (check_email($part['mailto'], false)) {
       if ($linked) {
         $out .= html::a(array(
             'href' => 'mailto:'.$part['mailto'],

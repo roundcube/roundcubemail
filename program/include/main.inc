@@ -1505,7 +1505,7 @@ function rcube_sess_unset($var_name=null)
 /**
  * E-mail address validation
  */
-function check_email($email)
+function check_email($email, $dns_check=true)
 {
   // Check for invalid characters
   if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $email))
@@ -1515,42 +1515,49 @@ function check_email($email)
   if (strlen($email) > 254) 
     return false;
 
+  $email_array = explode('@', $email);
+
   // Check that there's one @ symbol
-  if (!preg_match('/^([^@]+)@([^@]+)$/', $email, $email_array))
+  if (count($email_array) < 2)
     return false;
 
-  // Check local part
-  $local_array = explode('.', $email_array[1]);
-  foreach ($local_array as $local_part)
-    if (!preg_match('/^(([A-Za-z0-9!#$%&\'*+\/=?^_`{|}~-]+)|("[^"]+"))$/', $local_part))
-      return false;
+  $domain_part = array_pop($email_array);
+  $local_part = implode('@', $email_array);
+
+  // from PEAR::Validate
+  $regexp = '&^(?:
+	("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")| 			 	#1 quoted name
+	([-\w!\#\$%\&\'*+~/^`|{}]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}]+)*)) 	#2 OR dot-atom
+	$&xi';
+
+  if (!preg_match($regexp, $local_part))
+    return false;
 
   // Check domain part
-  if (preg_match('/^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}$/', $email_array[2]) 
-      || preg_match('/^\[(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\]$/', $email_array[2]))
-    return true; // If an IP address
+  if (preg_match('/^\[*(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\]*$/', $domain_part))
+    return true; // IP address
   else {
     // If not an IP address
-    $domain_array = explode('.', $email_array[2]);
+    $domain_array = explode('.', $domain_part);
     if (sizeof($domain_array) < 2)
       return false; // Not enough parts to be a valid domain
 
-    foreach ($domain_array as $domain_part)
-      if (!preg_match('/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $domain_part))
+    foreach ($domain_array as $part)
+      if (!preg_match('/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $part))
         return false;
 
-    if (!rcmail::get_instance()->config->get('email_dns_check'))
+    if (!$dns_check || !rcmail::get_instance()->config->get('email_dns_check'))
       return true;
 
     if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<'))
       return true;
 
     // find MX record(s)
-    if (getmxrr($email_array[2], $mx_records))
+    if (getmxrr($domain_part, $mx_records))
       return true;
 
     // find any DNS record
-    if (checkdnsrr($email_array[2], 'ANY'))
+    if (checkdnsrr($domain_part, 'ANY'))
       return true;
   }
 
