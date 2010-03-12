@@ -67,7 +67,7 @@ class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
      */
     function getTableFieldDefinition($table_name, $field_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -184,7 +184,7 @@ class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
      */
     function getTableIndexDefinition($table_name, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -268,7 +268,7 @@ class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
      */
     function getTableConstraintDefinition($table_name, $constraint_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -403,7 +403,7 @@ class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
      */
     function getTriggerDefinition($trigger)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -483,7 +483,7 @@ class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -564,7 +564,7 @@ class MDB2_Driver_Reverse_sqlsrv extends MDB2_Driver_Reverse_Common
      */
     function _mssql_field_flags($table, $column)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

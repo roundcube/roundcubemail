@@ -479,7 +479,7 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
         $query = $this->_modifyQuery($query, $is_manip, $this->limit, $this->offset);
         $this->offset = $this->limit = 0;
         
-        $result =& $this->_doQuery($query, $is_manip, $connection);
+        $result = $this->_doQuery($query, $is_manip, $connection);
         if (!PEAR::isError($result)) {
             $result = $this->_affectedRows($connection, $result);
         }
@@ -500,7 +500,7 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
      * @return result or error object
      * @access protected
      */
-    function &_doQuery($query, $is_manip = false, $connection = null, $database_name = null)
+    function _doQuery($query, $is_manip = false, $connection = null, $database_name = null)
     {
         $this->last_query = $query;
         $result = $this->debug($query, 'query', array('is_manip' => $is_manip, 'when' => 'pre'));
@@ -539,7 +539,7 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
 	$query = preg_replace('/DATE_FORMAT\(([\w|.]*)\, \'\%Y\-\%m\-\%d %H\:00\:00\'\)/i','CONVERT(varchar(13),$1,120)+\':00:00\'',$query); 
         $result = @sqlsrv_query($connection,$query);
         if (!$result) {
-            $err =& $this->raiseError(null, null, null,
+            $err = $this->raiseError(null, null, null,
                 'Could not execute statement', __FUNCTION__);
             return $err;
         }
@@ -689,7 +689,7 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
         } else {
             $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (0)";
         }
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         $this->popExpect();
         $this->popErrorHandling();
         if (PEAR::isError($result)) {
@@ -723,7 +723,7 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
         $value = $this->lastInsertID($sequence_name);
         if (is_numeric($value)) {
             $query = "DELETE FROM $sequence_name WHERE $seqcol_name < $value";
-            $result =& $this->_doQuery($query, true);
+            $result = $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 $this->warnings[] = 'nextID: could not delete previous sequence table values from '.$seq_name;
             }
@@ -764,15 +764,15 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
  */
 class MDB2_Result_sqlsrv extends MDB2_Result_Common
 {
-    // {{{ constructor: function __construct(&$db, &$result, $limit = 0, $offset = 0)
+    // {{{ constructor: function __construct($db, $result, $limit = 0, $offset = 0)
 
     /**
      * Constructor
      */
-    function __construct(&$db, &$result, $limit = 0, $offset = 0)
+    function __construct($db, $result, $limit = 0, $offset = 0)
 {
-        $this->db =& $db;
-        $this->result =& $result;
+        $this->db = $db;
+        $this->result = $result;
         $this->offset = $offset;
         $this->limit = max(0, $limit - 1);
 		$this->cursor = 0;
@@ -787,11 +787,12 @@ class MDB2_Result_sqlsrv extends MDB2_Result_Common
 					continue;
 				}
 				foreach ($row as $k => $v) {
-					if (is_object($v) && method_exists($v, 'format')) {//DateTime Object
-						$row[$k] = $v->format("Y-m-d H:i:s");
+					if (is_object($v) && method_exists($v, 'format')) {
+                        //DateTime Object
+						$row[$k] = $v->format('Y-m-d H:i:s');
 					}
 				}
-				$this->rows[] = $row;//read results into memory, cursors are not supported
+				$this->rows[] = $row; //read results into memory, cursors are not supported
 			}
 		}
 		$this->rowcnt = count($this->rows);
@@ -848,14 +849,13 @@ class MDB2_Result_sqlsrv extends MDB2_Result_Common
      * @return int data array on success, a MDB2 error on failure
      * @access public
      */
-    function &fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
+    function fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
     {
         if (!$this->result) {
             return $this->db->raiseError(MDB2_ERROR_INVALID, null, null, 'no valid statement given', __FUNCTION__);
         }
         if (($this->limit && $this->rownum >= $this->limit) || ($this->cursor >= $this->rowcnt || $this->rowcnt == 0)) {
-            $null = null;
-            return $null;
+            return null;
         }
         if (null !== $rownum) {
             $seek = $this->seek($rownum);
@@ -911,12 +911,11 @@ class MDB2_Result_sqlsrv extends MDB2_Result_Common
         }
         if (!$row) {
             if (false === $this->result) {
-                $err =& $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
+                $err = $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
                 return $err;
             }
-            $null = null;
-            return $null;
+            return null;
         }
         $mode = $this->db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL;
         $rtrim = false;

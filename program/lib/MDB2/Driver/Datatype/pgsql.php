@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 292715 2009-12-28 14:06:34Z quipo $
+// $Id: pgsql.php 295587 2010-02-28 17:16:38Z quipo $
 
 require_once 'MDB2/Driver/Datatype/Common.php';
 
@@ -117,7 +117,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function getTypeDeclaration($field)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -198,7 +198,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function _getIntegerDeclaration($name, $field)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -219,6 +219,9 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         }
 
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+        if (empty($default) && empty($notnull)) {
+            $default = ' DEFAULT NULL';
+        }
         $name = $db->quoteIdentifier($name, true);
         return $name.' '.$this->getTypeDeclaration($field).$default.$notnull;
     }
@@ -239,7 +242,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function _quoteCLOB($value, $quote, $escape_wildcards)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -271,7 +274,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         if (!$quote) {
             return $value;
         }
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -333,7 +336,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function matchPattern($pattern, $operator = null, $field = null)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -388,7 +391,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function patternEscapeString()
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -514,7 +517,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
             $length = null;
             break;
         default:
-            $db =& $this->getDBInstance();
+            $db = $this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
             }
@@ -541,7 +544,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function mapPrepareDatatype($type)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php 292715 2009-12-28 14:06:34Z quipo $
+// $Id: sqlite.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
 /**
@@ -206,7 +206,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
             register_shutdown_function('MDB2_closeOpenTransactions');
         }
         $query = 'BEGIN TRANSACTION '.$this->options['base_transaction_name'];
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -241,7 +241,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         }
 
         $query = 'COMMIT TRANSACTION '.$this->options['base_transaction_name'];
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -276,7 +276,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         }
 
         $query = 'ROLLBACK TRANSACTION '.$this->options['base_transaction_name'];
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -295,12 +295,16 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
      *                  READ COMMITTED (prevents dirty reads)
      *                  REPEATABLE READ (prevents nonrepeatable reads)
      *                  SERIALIZABLE (prevents phantom reads)
+     * @param   array some transaction options:
+     *                  'wait' => 'WAIT' | 'NO WAIT'
+     *                  'rw'   => 'READ WRITE' | 'READ ONLY'
+     *
      * @return  mixed   MDB2_OK on success, a MDB2 error on failure
      *
      * @access  public
      * @since   2.1.1
      */
-    function setTransactionIsolation($isolation)
+    function setTransactionIsolation($isolation, $options = array())
     {
         $this->debug('Setting transaction isolation level', __FUNCTION__, array('is_manip' => true));
         switch ($isolation) {
@@ -500,7 +504,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
      * @return result or error object
      * @access protected
      */
-    function &_doQuery($query, $is_manip = false, $connection = null, $database_name = null)
+    function _doQuery($query, $is_manip = false, $connection = null, $database_name = null)
     {
         $this->last_query = $query;
         $result = $this->debug($query, 'query', array('is_manip' => $is_manip, 'when' => 'pre'));
@@ -539,7 +543,11 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $this->_lasterror = $php_errormsg;
 
         if (!$result) {
-            $err =& $this->raiseError(null, null, null,
+            $code = null;
+            if (0 === strpos($this->_lasterror, 'no such table')) {
+                $code = MDB2_ERROR_NOSUCHTABLE;
+            }
+            $err = $this->raiseError($code, null, null,
                 'Could not execute statement', __FUNCTION__);
             return $err;
         }
@@ -754,7 +762,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
 
         $table = $this->quoteIdentifier($table, true);
         $query = "REPLACE INTO $table ($query) VALUES ($values)";
-        $result =& $this->_doQuery($query, true, $connection);
+        $result = $this->_doQuery($query, true, $connection);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -782,7 +790,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
         $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError(MDB2_ERROR_NOSUCHTABLE);
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         $this->popExpect();
         $this->popErrorHandling();
         if (PEAR::isError($result)) {
@@ -801,7 +809,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $value = $this->lastInsertID();
         if (is_numeric($value)) {
             $query = "DELETE FROM $sequence_name WHERE $seqcol_name < $value";
-            $result =& $this->_doQuery($query, true);
+            $result = $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 $this->warnings[] = 'nextID: could not delete previous sequence table values from '.$seq_name;
             }
@@ -874,7 +882,7 @@ class MDB2_Result_sqlite extends MDB2_Result_Common
      * @return int data array on success, a MDB2 error on failure
      * @access public
      */
-    function &fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
+    function fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
     {
         if (null !== $rownum) {
             $seek = $this->seek($rownum);
@@ -897,12 +905,11 @@ class MDB2_Result_sqlite extends MDB2_Result_Common
         }
         if (!$row) {
             if (false === $this->result) {
-                $err =& $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
+                $err = $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
                 return $err;
             }
-            $null = null;
-            return $null;
+            return null;
         }
         $mode = $this->db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL;
         $rtrim = false;

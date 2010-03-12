@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 268669 2008-11-09 19:46:50Z quipo $
+// $Id: pgsql.php 295587 2010-02-28 17:16:38Z quipo $
 
 require_once 'MDB2/Driver/Function/Common.php';
 
@@ -69,9 +69,9 @@ class MDB2_Driver_Function_pgsql extends MDB2_Driver_Function_Common
      * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
+    function executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

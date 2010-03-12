@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php 292659 2009-12-26 17:31:01Z quipo $
+// $Id: mysql.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
 /**
@@ -338,7 +338,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             register_shutdown_function('MDB2_closeOpenTransactions');
         }
         $query = $this->start_transaction ? 'START TRANSACTION' : 'SET AUTOCOMMIT = 0';
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -385,13 +385,13 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
                 'transactions are not supported', __FUNCTION__);
         }
 
-        $result =& $this->_doQuery('COMMIT', true);
+        $result = $this->_doQuery('COMMIT', true);
         if (PEAR::isError($result)) {
             return $result;
         }
         if (!$this->start_transaction) {
             $query = 'SET AUTOCOMMIT = 1';
-            $result =& $this->_doQuery($query, true);
+            $result = $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 return $result;
             }
@@ -431,13 +431,13 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         }
 
         $query = 'ROLLBACK';
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
         if (!$this->start_transaction) {
             $query = 'SET AUTOCOMMIT = 1';
-            $result =& $this->_doQuery($query, true);
+            $result = $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 return $result;
             }
@@ -457,12 +457,16 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      *                  READ COMMITTED (prevents dirty reads)
      *                  REPEATABLE READ (prevents nonrepeatable reads)
      *                  SERIALIZABLE (prevents phantom reads)
+     * @param   array some transaction options:
+     *                  'wait' => 'WAIT' | 'NO WAIT'
+     *                  'rw'   => 'READ WRITE' | 'READ ONLY'
+     *
      * @return  mixed   MDB2_OK on success, a MDB2 error on failure
      *
      * @access  public
      * @since   2.1.1
      */
-    function setTransactionIsolation($isolation)
+    function setTransactionIsolation($isolation, $options = array())
     {
         $this->debug('Setting transaction isolation level', __FUNCTION__, array('is_manip' => true));
         if (!$this->supports('transactions')) {
@@ -626,7 +630,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $client_info = mysql_get_client_info();
         if (function_exists('mysql_set_charset') && version_compare($client_info, '5.0.6')) {
             if (!$result = mysql_set_charset($charset, $connection)) {
-                $err =& $this->raiseError(null, null, null,
+                $err = $this->raiseError(null, null, null,
                     'Could not set client character set', __FUNCTION__);
                 return $err;
             }
@@ -709,7 +713,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
     // }}}
     // {{{ standaloneQuery()
 
-   /**
+    /**
      * execute a query as DBA
      *
      * @param string $query the SQL query
@@ -719,7 +723,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function &standaloneQuery($query, $types = null, $is_manip = false)
+    function standaloneQuery($query, $types = null, $is_manip = false)
     {
         $user = $this->options['DBA_username']? $this->options['DBA_username'] : $this->dsn['username'];
         $pass = $this->options['DBA_password']? $this->options['DBA_password'] : $this->dsn['password'];
@@ -733,7 +737,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $this->offset = $this->limit = 0;
         $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
         
-        $result =& $this->_doQuery($query, $is_manip, $connection, $this->database_name);
+        $result = $this->_doQuery($query, $is_manip, $connection, $this->database_name);
         if (!PEAR::isError($result)) {
             $result = $this->_affectedRows($connection, $result);
         }
@@ -754,7 +758,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      * @return result or error object
      * @access protected
      */
-    function &_doQuery($query, $is_manip = false, $connection = null, $database_name = null)
+    function _doQuery($query, $is_manip = false, $connection = null, $database_name = null)
     {
         $this->last_query = $query;
         $result = $this->debug($query, 'query', array('is_manip' => $is_manip, 'when' => 'pre'));
@@ -794,7 +798,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             ? 'mysql_query' : 'mysql_unbuffered_query';
         $result = @$function($query, $connection);
         if (!$result && 0 !== mysql_errno($connection)) {
-            $err =& $this->raiseError(null, null, null,
+            $err = $this->raiseError(null, null, null,
                 'Could not execute statement', __FUNCTION__);
             return $err;
         }
@@ -1032,7 +1036,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      * @access public
      * @see bindParam, execute
      */
-    function &prepare($query, $types = null, $result_types = null, $lobs = array())
+    function prepare($query, $types = null, $result_types = null, $lobs = array())
     {
         // connect to get server capabilities (http://pear.php.net/bugs/16147)
         $connection = $this->getConnection();
@@ -1043,8 +1047,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         if ($this->options['emulate_prepared']
             || $this->supported['prepared_statements'] !== true
         ) {
-            $obj =& parent::prepare($query, $types, $result_types, $lobs);
-            return $obj;
+            return parent::prepare($query, $types, $result_types, $lobs);
         }
         $is_manip = ($result_types === MDB2_PREPARE_MANIP);
         $offset = $this->offset;
@@ -1104,7 +1107,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
                     $regexp = '/^.{'.($position+1).'}('.$this->options['bindname_format'].').*$/s';
                     $parameter = preg_replace($regexp, '\\1', $query);
                     if ($parameter === '') {
-                        $err =& $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
+                        $err = $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
                             'named parameter name must match "bindname_format" option', __FUNCTION__);
                         return $err;
                     }
@@ -1123,7 +1126,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $statement_name = sprintf($this->options['statement_format'], $this->phptype, $prep_statement_counter++ . sha1(microtime() + mt_rand()));
         $statement_name = substr(strtolower($statement_name), 0, $this->options['max_identifiers_length']);
         $query = "PREPARE $statement_name FROM ".$this->quote($query, 'text');
-        $statement =& $this->_doQuery($query, true, $connection);
+        $statement = $this->_doQuery($query, true, $connection);
         if (PEAR::isError($statement)) {
             return $statement;
         }
@@ -1243,7 +1246,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
 
         $table = $this->quoteIdentifier($table, true);
         $query = "REPLACE INTO $table ($query) VALUES ($values)";
-        $result =& $this->_doQuery($query, true, $connection);
+        $result = $this->_doQuery($query, true, $connection);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -1271,7 +1274,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
         $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError(MDB2_ERROR_NOSUCHTABLE);
-        $result =& $this->_doQuery($query, true);
+        $result = $this->_doQuery($query, true);
         $this->popExpect();
         $this->popErrorHandling();
         if (PEAR::isError($result)) {
@@ -1290,7 +1293,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $value = $this->lastInsertID();
         if (is_numeric($value)) {
             $query = "DELETE FROM $sequence_name WHERE $seqcol_name < $value";
-            $result =& $this->_doQuery($query, true);
+            $result = $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 $this->warnings[] = 'nextID: could not delete previous sequence table values from '.$seq_name;
             }
@@ -1355,7 +1358,7 @@ class MDB2_Result_mysql extends MDB2_Result_Common
      * @return int data array on success, a MDB2 error on failure
      * @access public
      */
-    function &fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
+    function fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
     {
         if (!is_null($rownum)) {
             $seek = $this->seek($rownum);
@@ -1379,12 +1382,11 @@ class MDB2_Result_mysql extends MDB2_Result_Common
 
         if (!$row) {
             if ($this->result === false) {
-                $err =& $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
+                $err = $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
                 return $err;
             }
-            $null = null;
-            return $null;
+            return null;
         }
         $mode = $this->db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL;
         $rtrim = false;
@@ -1597,10 +1599,10 @@ class MDB2_Statement_mysql extends MDB2_Statement_Common
      *               a MDB2 error on failure
      * @access private
      */
-    function &_execute($result_class = true, $result_wrap_class = false)
+    function _execute($result_class = true, $result_wrap_class = false)
     {
         if (is_null($this->statement)) {
-            $result =& parent::_execute($result_class, $result_wrap_class);
+            $result = parent::_execute($result_class, $result_wrap_class);
             return $result;
         }
         $this->db->last_query = $this->query;
@@ -1668,7 +1670,7 @@ class MDB2_Statement_mysql extends MDB2_Statement_Common
             return $affected_rows;
         }
 
-        $result =& $this->db->_wrapResult($result, $this->result_types,
+        $result = $this->db->_wrapResult($result, $this->result_types,
             $result_class, $result_wrap_class, $this->limit, $this->offset);
         $this->db->debug($this->query, 'execute', array('is_manip' => $this->is_manip, 'when' => 'post', 'result' => $result));
         return $result;

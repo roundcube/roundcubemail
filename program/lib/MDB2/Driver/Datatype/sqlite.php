@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php 292715 2009-12-28 14:06:34Z quipo $
+// $Id: sqlite.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -101,7 +101,7 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
      */
     function getTypeDeclaration($field)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -199,7 +199,7 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
      */
     function _getIntegerDeclaration($name, $field)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -216,6 +216,9 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
 
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
         $unsigned = empty($field['unsigned']) ? '' : ' UNSIGNED';
+        if (empty($default) && empty($notnull)) {
+            $default = ' DEFAULT NULL';
+        }
         $name = $db->quoteIdentifier($name, true);
         return $name.' '.$this->getTypeDeclaration($field).$unsigned.$default.$notnull.$autoinc;
     }
@@ -237,7 +240,7 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
      */
     function matchPattern($pattern, $operator = null, $field = null)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -394,7 +397,7 @@ class MDB2_Driver_Datatype_sqlite extends MDB2_Driver_Datatype_Common
             $length = null;
             break;
         default:
-            $db =& $this->getDBInstance();
+            $db = $this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
             }

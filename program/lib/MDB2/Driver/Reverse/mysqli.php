@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysqli.php 292715 2009-12-28 14:06:34Z quipo $
+// $Id: mysqli.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
 require_once 'MDB2/Driver/Reverse/Common.php';
@@ -123,7 +123,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
      */
     function getTableFieldDefinition($table_name, $field_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -171,9 +171,17 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
                         $default = '';
                     }
                 }
+                $definition[0] = array(
+                    'notnull' => $notnull,
+                    'nativetype' => preg_replace('/^([a-z]+)[^a-z].*/i', '\\1', $column['type'])
+                );
                 $autoincrement = false;
-                if (!empty($column['extra']) && $column['extra'] == 'auto_increment') {
-                    $autoincrement = true;
+                if (!empty($column['extra'])) {
+                    if ($column['extra'] == 'auto_increment') {
+                        $autoincrement = true;
+                    } else {
+                        $definition[0]['extra'] = $column['extra'];
+                    }
                 }
                 $collate = null;
                 if (!empty($column['collation'])) {
@@ -181,10 +189,6 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
                     $charset = preg_replace('/(.+?)(_.+)?/', '$1', $collate);
                 }
 
-                $definition[0] = array(
-                    'notnull' => $notnull,
-                    'nativetype' => preg_replace('/^([a-z]+)[^a-z].*/i', '\\1', $column['type'])
-                );
                 if (null !== $length) {
                     $definition[0]['length'] = $length;
                 }
@@ -235,7 +239,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
      */
     function getTableIndexDefinition($table_name, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -310,7 +314,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
      */
     function getTableConstraintDefinition($table_name, $constraint_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -410,10 +414,16 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
      */
     function _getTableFKConstraintDefinition($table, $constraint_name, $definition)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
+        //Use INFORMATION_SCHEMA instead?
+        //SELECT *
+        //  FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+        // WHERE CONSTRAINT_SCHEMA = '$dbname'
+        //   AND TABLE_NAME = '$table'
+        //   AND CONSTRAINT_NAME = '$constraint_name';
         $query = 'SHOW CREATE TABLE '. $db->escape($table);
         $constraint = $db->queryOne($query, 'text', 1);
         if (!PEAR::isError($constraint) && !empty($constraint)) {
@@ -426,10 +436,10 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
             }
             $constraint_name_original = $constraint_name;
             $constraint_name = $db->getIndexName($constraint_name);
-            $pattern = '/\bCONSTRAINT\s+'.$constraint_name.'\s+FOREIGN KEY\s+\(([^\)]+)\) \bREFERENCES\b ([^ ]+) \(([^\)]+)\)/i';
+            $pattern = '/\bCONSTRAINT\s+'.$constraint_name.'\s+FOREIGN KEY\s+\(([^\)]+)\) \bREFERENCES\b ([^\s]+) \(([^\)]+)\)(?: ON DELETE ([^\s]+))?(?: ON UPDATE ([^\s]+))?/i';
             if (!preg_match($pattern, str_replace('`', '', $constraint), $matches)) {
                 //fallback to original constraint name
-                $pattern = '/\bCONSTRAINT\s+'.$constraint_name_original.'\s+FOREIGN KEY\s+\(([^\)]+)\) \bREFERENCES\b ([^ ]+) \(([^\)]+)\)/i';
+                $pattern = '/\bCONSTRAINT\s+'.$constraint_name_original.'\s+FOREIGN KEY\s+\(([^\)]+)\) \bREFERENCES\b ([^\s]+) \(([^\)]+)\)(?: ON DELETE ([^\s]+))?(?: ON UPDATE ([^\s]+))?/i';
             }
             if (preg_match($pattern, str_replace('`', '', $constraint), $matches)) {
                 $definition['foreign'] = true;
@@ -451,8 +461,8 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
                         'position' => $colpos++
                     );
                 }
-                $definition['onupdate'] = 'NO ACTION';
-                $definition['ondelete'] = 'NO ACTION';
+                $definition['ondelete'] = empty($matches[4]) ? 'RESTRICT' : strtoupper($matches[4]);
+                $definition['onupdate'] = empty($matches[5]) ? 'RESTRICT' : strtoupper($matches[5]);
                 $definition['match']    = 'SIMPLE';
                 return $definition;
             }
@@ -478,7 +488,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
      */
     function getTriggerDefinition($trigger)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -530,7 +540,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_Common
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

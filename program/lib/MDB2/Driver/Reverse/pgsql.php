@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 292715 2009-12-28 14:06:34Z quipo $
+// $Id: pgsql.php 295587 2010-02-28 17:16:38Z quipo $
 
 require_once 'MDB2/Driver/Reverse/Common.php';
 
@@ -69,7 +69,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTableFieldDefinition($table_name, $field_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -199,7 +199,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTableIndexDefinition($table_name, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -257,7 +257,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTableConstraintDefinition($table_name, $constraint_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -444,7 +444,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTriggerDefinition($trigger)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -518,7 +518,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

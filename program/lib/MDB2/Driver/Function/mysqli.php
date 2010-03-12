@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysqli.php 253106 2008-02-17 18:54:08Z quipo $
+// $Id: mysqli.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
 require_once 'MDB2/Driver/Function/Common.php';
@@ -71,9 +71,9 @@ class MDB2_Driver_Function_mysqli extends MDB2_Driver_Function_Common
      * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
+    function executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -84,7 +84,7 @@ class MDB2_Driver_Function_mysqli extends MDB2_Driver_Function_Common
         }
         $query = 'CALL '.$name;
         $query .= $params ? '('.implode(', ', $params).')' : '()';
-        $result =& $db->query($query, $types, $result_class, $result_wrap_class);
+        $result = $db->query($query, $types, $result_class, $result_wrap_class);
         if (!$multi_query) {
             $db->setOption('multi_query', false);
         }
