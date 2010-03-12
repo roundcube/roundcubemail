@@ -233,7 +233,13 @@ class rcube_smtp {
     // Send the message's headers and the body as SMTP data.
     if (PEAR::isError($result = $this->conn->data($data, $text_headers)))
     {
-      $this->error = array('label' => 'smtperror', 'vars' => array('msg' => $result->getMessage()));
+      $err = $this->conn->getResponse();
+      if (count($err)>1 && $err[0] != 354 && $err[0] != 250)
+        $msg = sprintf('[%d] %s', $err[0], $err[1]);
+      else
+        $msg = $result->getMessage();
+
+      $this->error = array('label' => 'smtperror', 'vars' => array('msg' => $msg));
       $this->response[] .= "Failed to send data";
       $this->reset();
       return false;
