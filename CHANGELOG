@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- virtuser_query: support other identity data (#1486148)
 - Options virtuser_* replaced with virtuser_* plugins
 - Plugin API: Implemented 'email2user' and 'user2email' hooks
 - Fix forwarding message omits CC header (#1486305)

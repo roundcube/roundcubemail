@@ -359,7 +359,7 @@ class rcube_user
 
     // try to resolve user in virtuser table and file
     if ($email_list = self::user2email($user, false, true)) {
-      $user_email = is_array($email_list[0]) ? $email_list[0][0] : $email_list[0];
+      $user_email = is_array($email_list[0]) ? $email_list[0]['email'] : $email_list[0];
     }
 
     $data = $rcmail->plugins->exec_hook('create_user',
@@ -407,24 +407,23 @@ class rcube_user
       // create new identities records
       $standard = 1;
       foreach ($email_list as $row) {
+	$record = array();
+
         if (is_array($row)) {
-          $email = $row[0];
-          $name = $row[1] ? $row[1] : $user_name;
+	  $record = $row;
         }
         else {
-          $email = $row;
-          $name = $user_name;
+          $record['email'] = $row;
         }
 
-        $plugin = $rcmail->plugins->exec_hook('create_identity', array(
-          'login' => true,
-          'record' => array(
-            'user_id' => $user_id,
-            'name' => strip_newlines($name),
-            'email' => $email,
-            'standard' => $standard,
-          ),
-        ));
+	if (empty($record['name']))
+	  $record['name'] = $user_name;
+        $record['name'] = strip_newlines($record['name']);
+        $record['user_id'] = $user_id;
+        $record['standard'] = $standard;
+
+        $plugin = $rcmail->plugins->exec_hook('create_identity',
+	  array('login' => true, 'record' => $record));
           
         if (!$plugin['abort'] && $plugin['record']['email']) {
           $rcmail->user->insert_identity($plugin['record']);
