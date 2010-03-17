@@ -2832,7 +2832,7 @@ function rcube_webmail()
     {
     if (!this.gui_objects.uploadbox)
       return false;
-      
+
     var elm, list;
     if (elm = this.gui_objects.uploadbox)
       {
@@ -2842,8 +2842,8 @@ function rcube_webmail()
         elm.style.top = (pos.top + list.offsetHeight + 10) + 'px';
         elm.style.left = pos.left + 'px';
         }
-      
-      elm.style.visibility = a ? 'visible' : 'hidden';
+
+      $(elm).toggle();
       }
       
     // clear upload form

@@ -330,6 +330,25 @@ img
   padding-right: 10px;
 }
 
+.popupmenu
+{
+  position: absolute;
+  top: 32px;
+  left: 90px;
+  width: auto;
+  display: none;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #999;
+  padding: 4px;
+  z-index: 240;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-box-shadow: 1px 1px 12px #999;
+  -webkit-box-shadow: #999 1px 1px 12px;
+}
+
 
 /***** common table settings ******/
 
@@ -532,7 +551,7 @@ a.rcmContactAddress:hover
   opacity: 0.8;
 }
 
-
+			      
 /***** onclick menu list *****/
 
 ul.toolbarmenu
