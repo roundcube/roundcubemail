@@ -209,8 +209,8 @@ function rcube_charset_convert($str, $from, $to=NULL)
   // convert charset using iconv module  
   if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
     if ($iconv_options === null) {
-      // transliterate characters not available in output charset
-      $iconv_options = '//TRANSLIT';
+      // ignore characters not available in output charset
+      $iconv_options = '//IGNORE';
       if (iconv('', $iconv_options, '') === false) {
         // iconv implementation does not support options
         $iconv_options = '';
