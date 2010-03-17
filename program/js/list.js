@@ -1021,7 +1021,8 @@ drag_mouse_move: function(e)
             if ((r = this.rows[row.uid])) {
               if (!r.depth || r.depth <= depth)
                 break;
-              this.select_row(r.uid, CONTROL_KEY);
+              if (!this.in_selection(r.uid))
+                this.select_row(r.uid, CONTROL_KEY);
             }
           }
           row = row.nextSibling;
