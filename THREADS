@@ -1,3 +1,7 @@
+
+*** Current status of THREADS implementation ***
+
+
 CHANGES IN RELATION TO ORIGINAL PATCH
     - don't add nested messages into selection on collapse if parent message
       is in selection
@@ -17,6 +21,10 @@ TODO (must have):
     - updating threaded message list on message delete
     - don't reload messages list on check_recent
 
+KNOWN ISSUES:
+    - on new message (check_recent) the whole list is reloaded
+    - css issues on IE6
+
 TODO (other):
     - performance: fetching all messages for list in "expand all" state only,
       if "expand all" is disabled we should fetch only root messages and fetch
@@ -26,18 +34,7 @@ TODO (other):
     	      all headers for each child
     - button in #listcontrols to mark all messages in current thread (with selected
       root or child message),
-    + thread tree icons
-    + thread css: message row height, thread/status icon alignment
-      (change size of all list icons to 14x14)
-    - remove 'indexsort' label from localization files
+    - icons for thread tree structure
 
 TODO (by the way):
     - use jQuery.inArray instead of find_in_array() (common.js)
-    + use only one function (js) to generate messages list
-
-KNOWN ISSUES:
-    - on new message (check_recent) the whole list is reloaded
-    + table header replacement doesn't work on IE
-    - css issues on IE6
-    + css issues on IE7
-

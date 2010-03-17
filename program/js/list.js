@@ -840,7 +840,7 @@ highlight_row: function(id, multiple)
     }
     else  // unselect row
     {
-      var p = find_in_array(id, this.selection);
+      var p = jQuery.inArray(id, this.selection);
       var a_pre = this.selection.slice(0, p);
       var a_post = this.selection.slice(p+1, this.selection.length);
       this.selection = a_pre.concat(a_post);

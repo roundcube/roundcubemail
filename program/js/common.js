@@ -469,27 +469,6 @@ function rcube_check_email(input, inline)
   }
   
 
-// find a value in a specific array and returns the index
-function find_in_array()
-  {
-  var args = find_in_array.arguments;
-  if(!args.length) return -1;
-
-  var haystack = typeof(args[0])=='object' ? args[0] : args.length>1 && typeof(args[1])=='object' ? args[1] : new Array();
-  var needle = typeof(args[0])!='object' ? args[0] : args.length>1 && typeof(args[1])!='object' ? args[1] : '';
-  var nocase = args.length==3 ? args[2] : false;
-
-  if(!haystack.length) return -1;
-
-  for(var i=0; i<haystack.length; i++)
-    if(nocase && haystack[i].toLowerCase()==needle.toLowerCase())
-      return i;
-    else if(haystack[i]==needle)
-      return i;
-
-  return -1;
-  }
-
 // recursively copy an object
 function rcube_clone_object(obj)
 {

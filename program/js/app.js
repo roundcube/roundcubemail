@@ -733,7 +733,7 @@ function rcube_webmail()
         var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
         
         // open attachment in frame if it's of a supported mimetype
-        if (this.env.uid && props.mimetype && find_in_array(props.mimetype, this.mimetypes)>=0)
+        if (this.env.uid && props.mimetype && jQuery.inArray(props.mimetype, this.mimetypes)>=0)
           {
           if (props.mimetype == 'text/html')
             qstring += '&_safe=1';
@@ -4276,12 +4276,12 @@ function rcube_webmail()
     this.env.flagged_col = null;
 
     var found;
-    if((found = find_in_array('subject', this.env.coltypes)) >= 0) {
+    if((found = jQuery.inArray('subject', this.env.coltypes)) >= 0) {
       this.set_env('subject_col', found);
       if (this.message_list)
         this.message_list.subject_col = found+1;
       }
-    if((found = find_in_array('flag', this.env.coltypes)) >= 0)
+    if((found = jQuery.inArray('flag', this.env.coltypes)) >= 0)
       this.set_env('flagged_col', found);
   };
 
