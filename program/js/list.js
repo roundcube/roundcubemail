@@ -1007,6 +1007,27 @@ drag_mouse_move: function(e)
   
     if (!this.draglayer)
       this.draglayer = $('<div>').attr('id', 'rcmdraglayer').css({ position:'absolute', display:'none', 'z-index':2000 }).appendTo(document.body);
+      
+    // also select childs of (collapsed) threads for dragging
+    var selection = $.merge([], this.selection);
+    var depth, row, uid, r;
+    for (var n=0; n < selection.length; n++) {
+      uid = selection[n];
+      if (this.rows[uid].has_children /*&& !this.rows[uid].expanded*/) {
+        depth = this.rows[uid].depth;
+        row = this.rows[uid].obj.nextSibling;
+        while (row) {
+          if (row.nodeType == 1) {
+            if ((r = this.rows[row.uid])) {
+              if (!r.depth || r.depth <= depth)
+                break;
+              this.select_row(r.uid, CONTROL_KEY);
+            }
+          }
+          row = row.nextSibling;
+        }
+      }
+    }
 
     // get subjects of selected messages
     var names = '';
