@@ -252,7 +252,6 @@ $labels['advancedoptions'] = 'Opcions avançades';
 $labels['focusonnewmessage'] = 'Enviar el focus al navegador quan hi hagi un nou missatge';
 $labels['checkallfolders'] = 'Comprovar totes les carpetes per missatges nous';
 $labels['displaynext'] = 'Mostrar el següent missatge després de esborrar-ne o moure\'n un';
-$labels['indexsort'] = 'Usar l\'índex dels missatges per a l\'ordenament per data';
 $labels['mainoptions'] = 'Opcions principals';
 $labels['section'] = 'Secció';
 $labels['maintenance'] = 'Manteniment';

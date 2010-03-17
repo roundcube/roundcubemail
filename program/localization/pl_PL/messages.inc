@@ -18,7 +18,7 @@
  |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 
- @version $Id: messages.inc 1245 2008-04-03 13:17:34Z alec $
+ @version $Id$
 
 */
 

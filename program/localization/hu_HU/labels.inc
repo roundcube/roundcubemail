@@ -253,7 +253,6 @@ $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
 $labels['checkallfolders'] = 'Új üzenetek ellenőrzése minden (al)mappában';
 $labels['displaynext'] = 'Levél törlése/mozgatása után jelenjen meg a következő üzenet';
-$labels['indexsort'] = 'Üzenetindexek használata dátum szerinti sorbarendezésnél';
 $labels['mainoptions'] = 'Általános beállítások';
 $labels['section'] = 'Szakasz';
 $labels['maintenance'] = 'Karbantartás';

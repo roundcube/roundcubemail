@@ -17,7 +17,7 @@
 |         http://www.netsud.com                                         |
 +-----------------------------------------------------------------------+
 
-@version $Id: labels.inc 2115 2009-01-13 11:40:34Z alec $
+@version $Id$
 
 */
 
@@ -255,7 +255,6 @@ $labels['advancedoptions'] = 'Opciones Avanzadas';
 $labels['focusonnewmessage'] = 'Traer al frente la ventana del navegador cuando haya nuevos mensajes';
 $labels['checkallfolders'] = 'Verificar todas las carpetas por nuevos mensajes';
 $labels['displaynext'] = 'Luedo de eliminar/mover, mostrar el próximo mensaje';
-$labels['indexsort'] = 'Usar el índice de mensaje para ordenar por fecha';
 $labels['mainoptions'] = 'Opciones Principales';
 $labels['section'] = 'Selección';
 $labels['maintenance'] = 'Mantenimiento';

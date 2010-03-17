@@ -253,7 +253,6 @@ $labels['advancedoptions'] = '顯示進階設定選項';
 $labels['focusonnewmessage'] = '收到新郵件時使瀏覽器獲得焦點';
 $labels['checkallfolders'] = '檢查所有資料夾中的新郵件';
 $labels['displaynext'] = '郵件刪除／移動時顯示下一個郵件';
-$labels['indexsort'] = '用 message index 以日期排序';
 $labels['mainoptions'] = '主要選項';
 $labels['section'] = '分類';
 $labels['maintenance'] = '管理';

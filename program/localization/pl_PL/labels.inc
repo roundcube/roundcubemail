@@ -18,7 +18,7 @@
  |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 
- @version $Id: labels.inc 1404 2008-05-19 08:12:54Z alec $
+ @version $Id$
 
 */
 
@@ -244,7 +244,6 @@ $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwa
 $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
 $labels['deletealways'] = 'Usuń wiadomości, gdy przenoszenie do Kosza zawiedzie';
 $labels['autosavedraft'] = 'Automatycznie zapisuj tworzoną wiadomość';
-$labels['indexsort'] = 'Stosuj indeks wiadomości do sortowania wg daty';
 $labels['keepalive']  = 'Sprawdzaj czy nadeszły nowe wiadomości';
 $labels['everynminutes']  = 'co $n minut(y)';
 $labels['never'] = 'nigdy';
@@ -296,7 +295,32 @@ $labels['replyremovesignature'] = 'Podczas odpowiedzi usuń podpis z cytowanej t
 $labels['replysignaturepos'] = 'Podczas odpowiedzi wstaw podpis';
 $labels['belowquote'] = 'poniżej cytowanej treści';
 $labels['abovequote'] = 'ponad cytowaną treścią';
-
+$labels['threadsfromto'] = 'Wątki od $from do $to z $count';
+$labels['messagenrof'] = 'Wiadomość $nr z $count';
+$labels['invert'] = 'Odwróć';
+$labels['filter'] = 'Filtr';
+$labels['list'] = 'Lista';
+$labels['threads'] = 'Wątki';
+$labels['expand-all'] = 'Rozwiń wszystkie';
+$labels['expand-unread'] = 'Rozwiń nieprzeczytane';
+$labels['collapse-all'] = 'Zwiń wszystkie';
+$labels['threaded'] = 'Powątkowane';
+$labels['autoexpand_threads'] = 'Rozwijaj wątki'; 
+$labels['do_expand'] = 'wszystkie';
+$labels['expand_only_unread'] = 'tylko nieprzeczytane';
+$labels['fromto'] = 'Nadawca/Odbiorca';
+$labels['flag'] = 'Flaga';
+$labels['attachment'] = 'Załącznik';
+$labels['nonesort'] = 'Brak';
+$labels['sentdate'] = 'Data wysyłki';
+$labels['arrival'] = 'Data odbioru';
+$labels['asc'] = 'rosnąco';
+$labels['desc'] = 'malejąco';
+$labels['listcolumns'] = 'Kolumny';
+$labels['listsorting'] = 'Porządek sortowania';
+$labels['listorder'] = 'Kierunek sortowania';
+$labels['listmode'] = 'Typ listy';
+ 
 $labels['unicode'] = 'uniwersalny';
 $labels['english'] = 'angielski';
 $labels['westerneuropean'] = 'zachodnioeuropejski';

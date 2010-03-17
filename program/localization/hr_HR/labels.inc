@@ -251,7 +251,6 @@ $labels['advancedoptions'] = 'Napredne postavke';
 $labels['focusonnewmessage'] = 'Fokusiraj browser pri novoj poruci';
 $labels['checkallfolders'] = 'Provjeri nove poruke u svim mapama';
 $labels['displaynext'] = 'Nakon brisanja/micanja poruke, prikaži slijedeću';
-$labels['indexsort'] = 'Koristi indeks za sortiranje po datumu';
 $labels['mainoptions'] = 'Glavne postavke';
 $labels['section'] = 'Sekcija';
 $labels['maintenance'] = 'Održavanje';

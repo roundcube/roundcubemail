@@ -276,7 +276,6 @@ $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
 $labels['displaynext'] = 'Zeige nächste Nachricht nach verschieben/löschen';
-$labels['indexsort'] = 'Benutze Index für Sortierung nach Datum (schneller)';
 $labels['mainoptions'] = 'Allgemein';
 $labels['section'] = 'Bereich';
 $labels['maintenance'] = 'Wartung';

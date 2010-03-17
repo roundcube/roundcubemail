@@ -252,7 +252,6 @@ $labels['advancedoptions'] = 'Opţiuni avansate';
 $labels['focusonnewmessage'] = 'Focus pe fereastra browser-ului la mesaje noi';
 $labels['checkallfolders'] = 'Verifică toate dosarele pentru mesaje noi';
 $labels['displaynext'] = 'După ştergerea sau mutarea unui mesaj afişează-l pe următorul din listă';
-$labels['indexsort'] = 'Folosiţi indexul de sortare după dată';
 $labels['mainoptions'] = 'Opţiuni principale';
 $labels['section'] = 'Secţiune';
 $labels['maintenance'] = 'Mentenanţă';

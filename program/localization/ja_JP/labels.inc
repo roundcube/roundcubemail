@@ -252,7 +252,6 @@ $labels['advancedoptions'] = '高度な設定';
 $labels['focusonnewmessage'] = '新着メールが届いたらブラウザをアクティブ化';
 $labels['checkallfolders'] = 'すべてのフォルダで新着メールを表示';
 $labels['displaynext'] = 'メールの削除・移動後に次のメールを表示';
-$labels['indexsort'] = '日付での整列にメッセージインデックスを使用';
 $labels['mainoptions'] = '基本設定';
 $labels['section'] = '設定項目';
 $labels['maintenance'] = 'メンテナンス設定';

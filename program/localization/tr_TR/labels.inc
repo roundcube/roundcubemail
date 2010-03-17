@@ -252,7 +252,6 @@ $labels['advancedoptions'] = 'Gelişmiş seçenekler';
 $labels['focusonnewmessage'] = 'Yeni posta geldiğinde web tarayıcı penceresine odaklan.';
 $labels['checkallfolders'] = 'Tüm klasörlerdeki yeni postaları denetle';
 $labels['displaynext'] = 'Posta silindikten/taşındıktan sonra sıradaki postayı göster';
-$labels['indexsort'] = 'Tarihe göre sıralarken posta indeksini kullan';
 $labels['mainoptions'] = 'Ana Seçenekler';
 $labels['section'] = 'Bölüm';
 $labels['maintenance'] = 'Bakım';

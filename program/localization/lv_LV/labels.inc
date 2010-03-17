@@ -253,7 +253,6 @@ $labels['advancedoptions'] = 'Paplašināti iestatījumi';
 $labels['focusonnewmessage'] = 'Uztādīt pārluka fokusu uz jaunu vēstuli';
 $labels['checkallfolders'] = 'Pārbaudīt visas mapes pēc jaunām vēstulēm';
 $labels['displaynext'] = 'Rādīt nākamo vēstuli pēc dzēšanas/pārvietošanas ';
-$labels['indexsort'] = 'Izmantot vēstuļu indeksu kārtošanai pēc datuma';
 $labels['mainoptions'] = 'Galvenie iestatījumi';
 $labels['section'] = 'Kategorija';
 $labels['maintenance'] = 'Uzturēšana';

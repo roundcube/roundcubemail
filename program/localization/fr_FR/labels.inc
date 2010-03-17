@@ -253,7 +253,6 @@ $labels['advancedoptions'] = 'Options avancées';
 $labels['focusonnewmessage'] = 'Placer le focus sur la fenêtre quand un nouveau message arrive';
 $labels['checkallfolders'] = 'Vérifier tous les dossiers pour les nouveaux messages';
 $labels['displaynext'] = 'Après suppression/déplacement du message, afficher le message suivant';
-$labels['indexsort'] = 'Utiliser l\'index des messages pour trier par date';
 $labels['mainoptions'] = 'Options principales';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';

@@ -254,7 +254,6 @@ $labels['advancedoptions'] = 'Avanserte alternativer';
 $labels['focusonnewmessage'] = 'Gi nettleservindu fokus ved nye meldinger';
 $labels['checkallfolders'] = 'Kontroller alle mapper for nye meldinger';
 $labels['displaynext'] = 'Vis neste melding etter sletting/flytting av en melding';
-$labels['indexsort'] = 'Bruk meldingsindeks ved datosortering';
 $labels['mainoptions'] = 'Hovedinnstillinger';
 $labels['section'] = 'Kategori';
 $labels['maintenance'] = 'Vedlikehold';

@@ -253,7 +253,6 @@ $labels['advancedoptions'] = 'Avancerade inställningar';
 $labels['focusonnewmessage'] = 'Fokusera webbläsarens fönster vid nytt meddelande';
 $labels['checkallfolders'] = 'Genomsök samtliga kataloger efter nya meddelanden';
 $labels['displaynext'] = 'Visa nästa meddelande efter radering/flyttning av meddelande';
-$labels['indexsort'] = 'Använd meddelandets index vid sortering i datumordning';
 $labels['mainoptions'] = 'Huvudalternativ';
 $labels['section'] = 'Avdelning';
 $labels['maintenance'] = 'Underhåll';

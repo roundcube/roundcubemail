@@ -254,7 +254,6 @@ $labels['advancedoptions'] = 'Lisäasetukset';
 $labels['focusonnewmessage'] = 'Tarkenna selainikkuna uuteen viestiin';
 $labels['checkallfolders'] = 'Tarkista kaikki kansiot uusien viestien varalta';
 $labels['displaynext'] = 'Viestin siirron tai poiston jälkeen, näytä seuraava viesti';
-$labels['indexsort'] = 'Käytä viesti-indeksiä kun järjestetään päiväyksen mukaan';
 $labels['mainoptions'] = 'Pääasetukset';
 $labels['section'] = 'Kohta';
 $labels['maintenance'] = 'Huolto';

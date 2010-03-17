@@ -254,7 +254,6 @@ $labels['advancedoptions'] = 'Geavanceerde opties';
 $labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
 $labels['checkallfolders'] = 'Controleer alle mappen op nieuwe berichten';
 $labels['displaynext'] = 'Na verplaatsen/verwijderen het volgende bericht tonen';
-$labels['indexsort'] = 'Gebruik berichtindex bij het sorteren op datum';
 $labels['mainoptions'] = 'Hoofdopties';
 $labels['section'] = 'Sectie';
 $labels['maintenance'] = 'Onderhoud';

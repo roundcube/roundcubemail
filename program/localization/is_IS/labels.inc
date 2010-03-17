@@ -13,7 +13,7 @@
 | Author: Hakon Orri Asgeirsson <hakon at opex.is>                      |
 +-----------------------------------------------------------------------+
 
-@version $Id: labels.inc 543 2007-04-28 18:07:12Z thomasb $
+@version $Id$
 
 */
 

@@ -13,7 +13,7 @@
  | Author: Weiran Zhang (weiran@weiran.co.uk)                            |
  +-----------------------------------------------------------------------+
 
- @version $Id: messages.inc 466 2007-02-06 09:17:01Z tomekp $
+ @version $Id$
 
 */
 

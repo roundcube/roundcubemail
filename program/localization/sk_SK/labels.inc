@@ -254,7 +254,6 @@ $labels['advancedoptions'] = 'Rozšírené nastavenia';
 $labels['focusonnewmessage'] = 'Aktivovať okno prehliadača pri príchozí správe';
 $labels['checkallfolders'] = 'Kontrolovať nové správy vo všetkých zložkách';
 $labels['displaynext'] = 'Zobraziť ďalšiu správu po zmazanie / prenosu správy';
-$labels['indexsort'] = 'Používať index na radenie správ podľa dátumu';
 $labels['mainoptions'] = 'Hlavné nastavenia';
 $labels['section'] = 'Sekcia';
 $labels['maintenance'] = 'Údržba';

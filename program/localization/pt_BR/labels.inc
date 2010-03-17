@@ -258,7 +258,6 @@ $labels['advancedoptions'] = 'Opções avançadas';
 $labels['focusonnewmessage'] = 'Focar janela do navegador na nova mensagem';
 $labels['checkallfolders'] = 'Verificar se há novas mensagens em todas as pastas';
 $labels['displaynext'] = 'Exibir a mensagem seguinte após apagar/mover uma mensagem';
-$labels['indexsort'] = 'Utilize o índice de mensagens para ordenar por data';
 $labels['mainoptions'] = 'Opções Principais';
 $labels['section'] = 'Seção';
 $labels['maintenance'] = 'Manutenção';

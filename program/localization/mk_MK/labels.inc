@@ -2,7 +2,7 @@
 
 /*
 +-----------------------------------------------------------------------+
-| language/mk_MK/labels.inc                                                |
+| language/mk_MK/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
@@ -250,7 +250,6 @@ $labels['advancedoptions'] = 'Напредни можности';
 $labels['focusonnewmessage'] = 'Фокусирај го прозорецот на прелистувачот на новото писмо';
 $labels['checkallfolders'] = 'Провери ги сите папки за нови писма';
 $labels['displaynext'] = 'По бришење/преместување на писмото прикажи го следното писмо';
-$labels['indexsort'] = 'Корисни индекс на писма за сортирање по датум';
 $labels['mainoptions'] = 'Главни можности';
 $labels['section'] = 'Заглавие';
 $labels['maintenance'] = 'Одржување';

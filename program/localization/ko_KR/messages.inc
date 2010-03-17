@@ -13,7 +13,7 @@
 | Author: lordmiss <lordmiss@lordmiss.com>                              |
 +-----------------------------------------------------------------------+
 
-@version $Id: labels.inc 560 2007-05-17 15:01:26Z thomasb $
+@version $Id$
 
 */
 

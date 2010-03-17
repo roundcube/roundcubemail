@@ -253,7 +253,6 @@ $labels['advancedoptions'] = 'Dodatne možnosti';
 $labels['focusonnewmessage'] = 'Usmeri okno brskalnika na novo sporočilo';
 $labels['checkallfolders'] = 'Preglej nova sporočila za vse mape';
 $labels['displaynext'] = 'Po izbrisu/premikanju sporočila prikaži naslednje sporočilo';
-$labels['indexsort'] = 'Uporabite seznam sporočil za razvrščanje po datumu';
 $labels['mainoptions'] = 'Osnovne nastavitve';
 $labels['section'] = 'Razdelek';
 $labels['maintenance'] = 'Vzdrževanje';

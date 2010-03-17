@@ -13,7 +13,7 @@
  | Author: Wiraphan Treeratphan <webmaster@modoeye.com>                  |
  +-----------------------------------------------------------------------+
 
- @version $Id: messages.inc 543 2007-04-28 18:07:12Z thomasb $
+ @version $Id$
 
 */
 

@@ -252,7 +252,6 @@ $labels['advancedoptions'] = 'Настройки за напреднали';
 $labels['focusonnewmessage'] = 'Премигване на прозореца при ново писмо';
 $labels['checkallfolders'] = 'Провери всички папки за нови писма';
 $labels['displaynext'] = 'След изтриване / премини към следващото писмо';
-$labels['indexsort'] = 'Използвай индекса на писмата при сортиране по дата';
 $labels['mainoptions'] = 'Основни настройки';
 $labels['section'] = 'Раздел';
 $labels['maintenance'] = 'Поддръжка';
