@@ -6,7 +6,7 @@
 | language/nl_NL/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -48,14 +48,12 @@ $labels['organization'] = 'Organisatie';
 $labels['reply-to'] = 'Antwoord-aan';
 $labels['mailboxlist'] = 'Mappen';
 $labels['messagesfromto'] = 'Bericht $from t/m $to van $count';
+$labels['threadsfromto'] = 'Conversatie $from t/m $to van $count';
 $labels['messagenrof'] = 'Bericht $nr van $count';
 $labels['moveto'] = 'Verplaats naar...';
 $labels['download'] = 'Download';
 $labels['filename'] = 'Bestandsnaam';
 $labels['filesize'] = 'Bestandsgrootte';
-$labels['preferhtml'] = 'Toon HTML';
-$labels['htmlmessage'] = 'HTML-Bericht';
-$labels['prettydate'] = 'Gebruiksvriendelijke data';
 $labels['addtoaddressbook'] = 'Toevoegen aan adresboek';
 $labels['sun'] = 'Zo';
 $labels['mon'] = 'Ma';
@@ -129,6 +127,27 @@ $labels['unanswered'] = 'Onbeantwoord';
 $labels['deleted'] = 'Verwijderd';
 $labels['invert'] = 'Selectie omdraaien';
 $labels['filter'] = 'Filter';
+$labels['list'] = 'Lijst';
+$labels['threads'] = 'Conversaties';
+$labels['expand-all'] = 'Alles uitklappen';
+$labels['expand-unread'] = 'Ongelezen uitklappen';
+$labels['collapse-all'] = 'Alles inklappen';
+$labels['threaded'] = 'Conversaties';
+$labels['autoexpand_threads'] = 'Klap alle conversaties uit';
+$labels['do_expand'] = 'alle conversaties';
+$labels['expand_only_unread'] = 'alleen met ongelezen berichten';
+$labels['fromto'] = 'Afzender/Ontvanger';
+$labels['flag'] = 'Markeer';
+$labels['attachment'] = 'Bijlage';
+$labels['nonesort'] = 'Geen';
+$labels['sentdate'] = 'Verzend datum';
+$labels['arrival'] = 'Aankomst datum';
+$labels['asc'] = 'oplopend';
+$labels['desc'] = 'aflopend';
+$labels['listcolumns'] = 'Kolommen';
+$labels['listsorting'] = 'Sorteerkolom';
+$labels['listorder'] = 'Sorteervolgorde';
+$labels['listmode'] = 'Lijstweergave mode';
 $labels['compact'] = 'Opschonen';
 $labels['empty'] = 'Legen';
 $labels['purge'] = 'Verwijderen';
@@ -213,6 +232,10 @@ $labels['manageidentities'] = 'Beheer identiteiten voor dit account';
 $labels['newidentity'] = 'Identiteit toevoegen';
 $labels['newitem'] = 'Nieuw item';
 $labels['edititem'] = 'Wijzig item';
+$labels['preferhtml'] = 'Toon HTML';
+$labels['defaultcharset'] = 'Standaard karakterset';
+$labels['htmlmessage'] = 'HTML-Bericht';
+$labels['prettydate'] = 'Gebruiksvriendelijke data';
 $labels['setdefault'] = 'Stel in als standaard';
 $labels['autodetect'] = 'Automatisch';
 $labels['language'] = 'Taal';
@@ -236,6 +259,7 @@ $labels['ignore'] = 'negeer';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
 $labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren ';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';
+$labels['deletealways'] = 'Verwijder bericht wanneer verplaatsen naar Prullenbak mislukt';
 $labels['showremoteimages'] = 'Geef externe toegevoegde berichten weer';
 $labels['fromknownsenders'] = 'Van bekende afzenders';
 $labels['always'] = 'altijd';
@@ -250,6 +274,7 @@ $labels['mimeparamfolding'] = 'Namen van bijlagen';
 $labels['2231folding'] = 'Volledig RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Volledig RFC 2047 (andere)';
+$labels['force7bit'] = 'Gebruik MIME codering voor 8-bit karakters';
 $labels['advancedoptions'] = 'Geavanceerde opties';
 $labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
 $labels['checkallfolders'] = 'Controleer alle mappen op nieuwe berichten';
@@ -290,5 +315,23 @@ $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
+$labels['unicode'] = 'Unicode';
+$labels['english'] = 'Engels';
+$labels['westerneuropean'] = 'West-Europeaans';
+$labels['easterneuropean'] = 'Oost-Europeaans';
+$labels['southeasterneuropean'] = 'Zuidoost Europees';
+$labels['baltic'] = 'Baltisch';
+$labels['cyrillic'] = 'Cyrillisch';
+$labels['arabic'] = 'Arabisch';
+$labels['greek'] = 'Grieks';
+$labels['hebrew'] = 'Hebreeuws';
+$labels['turkish'] = 'Turks';
+$labels['nordic'] = 'Noord-Germaans';
+$labels['thai'] = 'Thais';
+$labels['celtic'] = 'Keltisch';
+$labels['vietnamese'] = 'Vietnamees';
+$labels['japanese'] = 'Japans';
+$labels['korean'] = 'Koreaans';
+$labels['chinese'] = 'Chinees';
 
 ?>
