@@ -25,7 +25,7 @@ ob_end_clean();
 if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
 {
   $headers = $IMAP->get_headers($uid);
-  $charset = $headers->charset ? $headers->charset : $IMAP->default_charset;
+  $charset = $headers->charset ? $headers->charset : $CONFIG['default_charset'];
   header("Content-Type: text/plain; charset={$charset}");
 
   if (!empty($_GET['_save'])) {

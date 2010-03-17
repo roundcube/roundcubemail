@@ -1,6 +1,10 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Threaded message listing now available
+- Added sorting by ARRIVAL and CC
+- Message list columns configurable by the user
+- Removed 'index_sort' option, now we're using empty 'message_sort_col' for this
 - virtuser_query: support other identity data (#1486148)
 - Options virtuser_* replaced with virtuser_* plugins
 - Plugin API: Implemented 'email2user' and 'user2email' hooks

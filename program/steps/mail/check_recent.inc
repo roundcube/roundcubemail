@@ -32,13 +32,12 @@ foreach ($a_mailboxes as $mbox_name) {
       }
       
       // get overall message count; allow caching because rcube_imap::recent_uids() did a refresh
-      $all_count = $IMAP->messagecount();
+      $all_count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
       
       $unread_count = $IMAP->messagecount(NULL, 'UNSEEN', TRUE);
       $_SESSION['unseen_count'][$mbox_name] = $unread_count;
 
       $OUTPUT->set_env('messagecount', $all_count);
-      $OUTPUT->set_env('pagesize', $IMAP->page_size);
       $OUTPUT->set_env('pagecount', ceil($all_count/$IMAP->page_size));
       $OUTPUT->command('set_unread_count', $mbox_name, $unread_count, ($mbox_name == 'INBOX'));
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($all_count));
@@ -56,17 +55,27 @@ foreach ($a_mailboxes as $mbox_name) {
       if (empty($_GET['_list']))
         continue;
 
-      // use SEARCH/SORT to find recent messages
-      $search_str = 'UID '.min($recents).':'.max($recents);
-      if ($search_request)
-        $search_str .= ' '.$IMAP->search_string;
+      if ($IMAP->threading) {
+        $OUTPUT->command('message_list.clear');
+        $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
+        $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
+        $result_h = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
+        // add to the list
+        rcmail_js_message_list($result_h);
+      }
+      else {
+        // use SEARCH/SORT to find recent messages
+        $search_str = 'UID '.min($recents).':'.max($recents);
+        if ($search_request)
+          $search_str .= ' '.$IMAP->search_string;
 
-      if ($IMAP->search($mbox_name, $search_str, NULL, 'date')) {
-        // revert sort order
-        $order = $_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC' ? 'ASC' : 'DESC';
-        // get the headers and add them to the list
-        $result_h = $IMAP->list_headers($mbox_name, 1, 'date', $order);
-        rcmail_js_message_list($result_h, true, false);
+        if ($IMAP->search($mbox_name, $search_str, NULL, 'date')) {
+          // revert sort order
+          $order = $_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC' ? 'ASC' : 'DESC';
+          // get the headers and add them to the list
+          $result_h = $IMAP->list_headers($mbox_name, 1, 'date', $order);
+          rcmail_js_message_list($result_h, true, false);
+        }
       }
     }
     else {

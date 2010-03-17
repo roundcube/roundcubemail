@@ -173,18 +173,10 @@ class iilBasicHeader
 	var $forwarded = false;
 	var $junk = false;
 	var $flagged = false;
+	var $has_children = false;
+	var $depth = 0;
+	var $unread_children = 0;
 	var $others = array();
-}
-
-/**
- * @todo Change class vars to public/private
- */
-class iilThreadHeader
-{
-	var $id;
-	var $sbj;
-	var $irt;
-	var $mid;
 }
 
 function iil_xor($string, $string2) {
@@ -873,7 +865,7 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 	
 	$fields = array('ARRIVAL' => 1,'CC' => 1,'DATE' => 1,
         'FROM' => 1, 'SIZE' => 1, 'SUBJECT' => 1, 'TO' => 1);
-	
+
 	if (!$fields[$field]) {
 	    return false;
 	}
@@ -885,9 +877,12 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
     
 	$is_uid = $is_uid ? 'UID ' : '';
 	
-	if (!empty($add)) {
+	// message IDs
+	if (is_array($add))
+		$add = iil_CompressMessageSet(join(',', $add));
+
+	if (!empty($add))
 	    $add = " $add";
-	}
 
 	$command  = 's ' . $is_uid . 'SORT (' . $field . ') ';
 	$command .= $encoding . ' ALL' . $add;
@@ -917,20 +912,27 @@ function iil_C_Sort(&$conn, $mailbox, $field, $add='', $is_uid=FALSE,
 
 function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='', $skip_deleted=true, $uidfetch=false) {
 
-	list($from_idx, $to_idx) = explode(':', $message_set);
-	if (empty($message_set) ||
-		(isset($to_idx) && $to_idx != '*' && (int)$from_idx > (int)$to_idx)) {
-		return false;
+	if (is_array($message_set)) {
+		if (!($message_set = iil_CompressMessageSet(join(',', $message_set))))
+			return false;
+	} else {
+		list($from_idx, $to_idx) = explode(':', $message_set);
+		if (empty($message_set) ||
+			(isset($to_idx) && $to_idx != '*' && (int)$from_idx > (int)$to_idx)) {
+			return false;
+		}
 	}
-
+	
 	$index_field = empty($index_field) ? 'DATE' : strtoupper($index_field);
 	
 	$fields_a['DATE']         = 1;
 	$fields_a['INTERNALDATE'] = 4;
+	$fields_a['ARRIVAL'] 	  = 4;
 	$fields_a['FROM']         = 1;
 	$fields_a['REPLY-TO']     = 1;
 	$fields_a['SENDER']       = 1;
 	$fields_a['TO']           = 1;
+	$fields_a['CC']           = 1;
 	$fields_a['SUBJECT']      = 1;
 	$fields_a['UID']          = 2;
 	$fields_a['SIZE']         = 2;
@@ -1031,22 +1033,6 @@ function iil_C_FetchHeaderIndex(&$conn, $mailbox, $message_set, $index_field='',
 		}
 	} while (!iil_StartsWith($line, $key, true));
 
-/*
-	//check number of elements...
-	if (is_numeric($from_idx) && is_numeric($to_idx)) {
-		//count how many we should have
-		$should_have = $to_idx - $from_idx + 1;
-		
-		//if we have less, try and fill in the "gaps"
-		if (count($result) < $should_have) {
-			for ($i=$from_idx; $i<=$to_idx; $i++) {
-				if (!isset($result[$i])) {
-			    		$result[$i] = '';
-            			}
-        		}
-		}
-	}
-*/
 	return $result;	
 }
 
@@ -1122,307 +1108,6 @@ function iil_C_FetchUIDs(&$conn,$mailbox) {
 	return iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID');
 }
 
-function iil_SortThreadHeaders($headers, $index_a, $uids) {
-	asort($index_a);
-	$result = array();
-	foreach ($index_a as $mid=>$foobar) {
-		$uid = $uids[$mid];
-		$result[$uid] = $headers[$uid];
-	}
-	return $result;
-}
-
-function iil_C_FetchThreadHeaders(&$conn, $mailbox, $message_set) {
-	global $clock;
-	global $index_a;
-	
-	list($from_idx, $to_idx) = explode(':', $message_set);
-	if (empty($message_set) || (isset($to_idx)
-        && (int)$from_idx > (int)$to_idx)) {
-		return false;
-	}
-
-	$result = array();
-	$uids   = iil_C_FetchUIDs($conn, $mailbox);
-	$debug  = false;
-	
-	$message_set = iil_CompressMessageSet($message_set);
-    
-	/* if we're missing any, get them */
-	if ($message_set) {
-		/* FETCH date,from,subject headers */
-		$key        = 'fh';
-		$fp         = $conn->fp;
-		$request    = $key . " FETCH $message_set ";
-    		$request   .= "(BODY.PEEK[HEADER.FIELDS (SUBJECT MESSAGE-ID IN-REPLY-TO)])";
-		$mid_to_id  = array();
-		if (!iil_PutLine($fp, $request)) {
-		    return false;
-    		}
-		do {
-			$line = chop(iil_ReadLine($fp, 1024));
-			if ($debug) {
-			    echo $line . "\n";
-        		}
-			if (preg_match('/\{[0-9]+\}$/', $line)) {
-				$a 	 = explode(' ', $line);
-				$new = array();
-
-				$new_thhd = new iilThreadHeader;
-				$new_thhd->id = $a[1];
-				do {
-					$line = chop(iil_ReadLine($fp, 1024), "\r\n");
-					if (iil_StartsWithI($line, 'Message-ID:')
-                    				|| (iil_StartsWithI($line,'In-Reply-To:'))
-                    				|| (iil_StartsWithI($line,'SUBJECT:'))) {
-
-						$pos        = strpos($line, ':');
-						$field_name = substr($line, 0, $pos);
-						$field_val  = substr($line, $pos+1);
-
-						$new[strtoupper($field_name)] = trim($field_val);
-
-					} else if (preg_match('/^\s+/', $line)) {
-						$new[strtoupper($field_name)] .= trim($line);
-					}
-				} while ($line[0] != ')');
-                
-				$new_thhd->sbj = $new['SUBJECT'];
-				$new_thhd->mid = substr($new['MESSAGE-ID'], 1, -1);
-				$new_thhd->irt = substr($new['IN-REPLY-TO'], 1, -1);
-				
-				$result[$uids[$new_thhd->id]] = $new_thhd;
-			}
-		} while (!iil_StartsWith($line, 'fh'));
-	}
-	
-	/* sort headers */
-	if (is_array($index_a)) {
-		$result = iil_SortThreadHeaders($result, $index_a, $uids);	
-	}
-	
-	//echo 'iil_FetchThreadHeaders:'."\n";
-	//print_r($result);
-	
-	return $result;
-}
-
-function iil_C_BuildThreads2(&$conn, $mailbox, $message_set, &$clock) {
-	global $index_a;
-
-	list($from_idx, $to_idx) = explode(':', $message_set);
-	if (empty($message_set) || (isset($to_idx)
-    		&& (int)$from_idx > (int)$to_idx)) {
-		return false;
-	}
-    
-	$result    = array();
-	$roots     = array();
-	$root_mids = array();
-	$sub_mids  = array();
-	$strays    = array();
-	$messages  = array();
-	$fp        = $conn->fp;
-	$debug     = false;
-	
-	$sbj_filter_pat = '/[a-z]{2,3}(\[[0-9]*\])?:(\s*)/i';
-	
-	/*  Do "SELECT" command */
-	if (!iil_C_Select($conn, $mailbox)) {
-	    return false;
-	}
-    
-	/* FETCH date,from,subject headers */
-	$mid_to_id = array();
-	$messages  = array();
-	$headers   = iil_C_FetchThreadHeaders($conn, $mailbox, $message_set);
-	if ($clock) {
-	    $clock->register('fetched headers');
-	}
-    
-	if ($debug) {
-	    print_r($headers);
-	}
-    
-	/* go through header records */
-	foreach ($headers as $header) {
-		//$id = $header['i'];
-		//$new = array('id'=>$id, 'MESSAGE-ID'=>$header['m'], 
-		//			'IN-REPLY-TO'=>$header['r'], 'SUBJECT'=>$header['s']);
-		$id  = $header->id;
-		$new = array('id' => $id, 'MESSAGE-ID' => $header->mid, 
-        		'IN-REPLY-TO' => $header->irt, 'SUBJECT' => $header->sbj);
-
-		/* add to message-id -> mid lookup table */
-		$mid_to_id[$new['MESSAGE-ID']] = $id;
-		
-		/* if no subject, use message-id */
-		if (empty($new['SUBJECT'])) {
-		    $new['SUBJECT'] = $new['MESSAGE-ID'];
-		}
-        
-		/* if subject contains 'RE:' or has in-reply-to header, it's a reply */
-		$sbj_pre = '';
-		$has_re = false;
-		if (preg_match($sbj_filter_pat, $new['SUBJECT'])) {
-		    $has_re = true;
-		}
-    		if ($has_re || $new['IN-REPLY-TO']) {
-        	    $sbj_pre = 'RE:';
-		}
-        
-		/* strip out 're:', 'fw:' etc */
-		if ($has_re) {
-		    $sbj = preg_replace($sbj_filter_pat, '', $new['SUBJECT']);
-		} else {
-		    $sbj = $new['SUBJECT'];
-		}
-    		$new['SUBJECT'] = $sbj_pre.$sbj;
-		
-		
-		/* if subject not a known thread-root, add to list */
-		if ($debug) {
-		    echo $id . ' ' . $new['SUBJECT'] . "\t" . $new['MESSAGE-ID'] . "\n";
-		}
-    		$root_id = $roots[$sbj];
-		
-		if ($root_id && ($has_re || !$root_in_root[$root_id])) {
-			if ($debug) {
-			    echo "\tfound root: $root_id\n";
-			}
-        		$sub_mids[$new['MESSAGE-ID']] = $root_id;
-			$result[$root_id][]           = $id;
-		} else if (!isset($roots[$sbj]) || (!$has_re && $root_in_root[$root_id])) {
-			/* try to use In-Reply-To header to find root 
-				unless subject contains 'Re:' */
-			if ($has_re&&$new['IN-REPLY-TO']) {
-				if ($debug) {
-				    echo "\tlooking: ".$new['IN-REPLY-TO']."\n";
-				}
-				//reply to known message?
-				$temp = $sub_mids[$new['IN-REPLY-TO']];
-				
-				if ($temp) {
-					//found it, root:=parent's root
-					if ($debug) {
-					    echo "\tfound parent: ".$new['SUBJECT']."\n";
-					}
-                			$result[$temp][]              = $id;
-					$sub_mids[$new['MESSAGE-ID']] = $temp;
-					$sbj                          = '';
-				} else {
-					//if we can't find referenced parent, it's a "stray"
-					$strays[$id] = $new['IN-REPLY-TO'];
-				}
-			}
-			
-			//add subject as root
-			if ($sbj) {
-				if ($debug) {
-				    echo "\t added to root\n";
-				}
-            			$roots[$sbj]                  = $id;
-				$root_in_root[$id]            = !$has_re;
-				$sub_mids[$new['MESSAGE-ID']] = $id;
-				$result[$id]                  = array($id);
-			}
-			if ($debug) {
-			    echo $new['MESSAGE-ID'] . "\t" . $sbj . "\n";
-        		}
-		}
-	}
-	
-	//now that we've gone through all the messages,
-	//go back and try and link up the stray threads
-	if (count($strays) > 0) {
-		foreach ($strays as $id=>$irt) {
-			$root_id = $sub_mids[$irt];
-			if (!$root_id || $root_id==$id) {
-			    continue;
-			}
-        		$result[$root_id] = array_merge($result[$root_id],$result[$id]);
-			unset($result[$id]);
-		}
-	}
-	
-	if ($clock) {
-	    $clock->register('data prepped');
-	}
-    
-	if ($debug) {
-	    print_r($roots);
-	}
-
-	return $result;
-}
-
-function iil_SortThreads(&$tree, $index, $sort_order = 'ASC') {
-	if (!is_array($tree) || !is_array($index)) {
-	    return false;
-	}
-    
-	//create an id to position lookup table
-	$i = 0;
-	foreach ($index as $id=>$val) {
-		$i++;
-		$index[$id] = $i;
-	}
-	$max = $i+1;
-	
-	//for each tree, set array key to position
-	$itree = array();
-	foreach ($tree as $id=>$node) {
-		if (count($tree[$id])<=1) {
-			//for "threads" with only one message, key is position of that message
-			$n         = $index[$id];
-			$itree[$n] = array($n=>$id);
-		} else {
-			//for "threads" with multiple messages, 
-			$min   = $max;
-			$new_a = array();
-			foreach ($tree[$id] as $mid) {
-				$new_a[$index[$mid]] = $mid;		//create new sub-array mapping position to id
-				$pos                 = $index[$mid];
-				if ($pos&&$pos<$min) {
-				    $min = $index[$mid];	//find smallest position
-				}
-			}
-			$n = $min;	//smallest position of child is thread position
-			
-			//assign smallest position to root level key
-			//set children array to one created above
-			ksort($new_a);
-			$itree[$n] = $new_a;
-		}
-	}
-	
-	//sort by key, this basically sorts all threads
-	ksort($itree);
-	$i   = 0;
-	$out = array();
-	foreach ($itree as $k=>$node) {
-		$out[$i] = $itree[$k];
-		$i++;
-	}
-	
-	return $out;
-}
-
-function iil_IndexThreads(&$tree) {
-	/* creates array mapping mid to thread id */
-	
-	if (!is_array($tree)) {
-	    return false;
-	}
-    
-	$t_index = array();
-	foreach ($tree as $pos=>$kids) {
-		foreach ($kids as $kid) $t_index[$kid] = $pos;
-	}
-	
-	return $t_index;
-}
-
 function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bodystr=false, $add='')
 {
 	global $IMAP_USE_INTERNAL_DATE;
@@ -1435,6 +1120,9 @@ function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bo
 		$conn->error = "Couldn't select $mailbox";
 		return false;
 	}
+
+	if (is_array($message_set))
+		$message_set = join(',', $message_set);
 
 	$message_set = iil_CompressMessageSet($message_set);
 
@@ -1876,6 +1564,87 @@ function iil_C_ID2UID(&$conn, $folder, $id) {
 		}
 	}
 	return $result;
+}
+
+// Don't be tempted to change $str to pass by reference to speed this up - it will slow it down by about
+// 7 times instead :-) See comments on http://uk2.php.net/references and this article:
+// http://derickrethans.nl/files/phparch-php-variables-article.pdf
+function iil_ParseThread($str, $begin, $end, $root, $parent, $depth, &$depthmap, &$haschildren) {
+	$node = array();
+	if ($str[$begin] != '(') {
+		$stop = $begin + strspn($str, "1234567890", $begin, $end - $begin);
+		$msg = substr($str, $begin, $stop - $begin);
+		if ($msg == 0)
+		    return $node;
+		if (is_null($root))
+			$root = $msg;
+		$depthmap[$msg] = $depth;
+		$haschildren[$msg] = false;
+		if (!is_null($parent))
+			$haschildren[$parent] = true;
+		if ($stop + 1 < $end)
+			$node[$msg] = iil_ParseThread($str, $stop + 1, $end, $root, $msg, $depth + 1, $depthmap, $haschildren);
+		else
+			$node[$msg] = array();
+	} else {
+		$off = $begin;
+		while ($off < $end) {
+			$start = $off;
+			$off++;
+			$n = 1;
+			while ($n > 0) {
+				$p = strpos($str, ')', $off);
+				if ($p === false) {
+					error_log('Mismatched brackets parsing IMAP THREAD response:');
+					error_log(substr($str, ($begin < 10) ? 0 : ($begin - 10), $end - $begin + 20));
+					error_log(str_repeat(' ', $off - (($begin < 10) ? 0 : ($begin - 10))));
+					return $node;
+				}
+				$p1 = strpos($str, '(', $off);
+				if ($p1 !== false && $p1 < $p) {
+					$off = $p1 + 1;
+					$n++;
+				} else {
+					$off = $p + 1;
+					$n--;
+				}
+			}
+			$node += iil_ParseThread($str, $start + 1, $off - 1, $root, $parent, $depth, $depthmap, $haschildren);
+		}
+	}
+	
+	return $node;
+}
+
+function iil_C_Thread(&$conn, $folder, $algorithm='REFERENCES', $criteria='',
+    $encoding='US-ASCII') {
+
+	if (iil_C_Select($conn, $folder)) {
+	
+		$encoding = $encoding ? trim($encoding) : 'US-ASCII';
+		$algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
+		$criteria = $criteria ? 'ALL '.trim($criteria) : 'ALL';
+		
+		iil_PutLineC($conn->fp, "thrd1 THREAD $algorithm $encoding $criteria");
+		do {
+			$line = trim(iil_ReadLine($conn->fp, 10000));
+			if (preg_match('/^\* THREAD/', $line)) {
+				$str = trim(substr($line, 8));
+				$depthmap = array();
+				$haschildren = array();
+				$tree = iil_ParseThread($str, 0, strlen($str), null, null, 0, $depthmap, $haschildren);
+			}
+		} while (!iil_StartsWith($line, 'thrd1', true));
+
+		$result_code = iil_ParseResult($line);
+		if ($result_code == 0) {
+		    return array($tree, $depthmap, $haschildren);
+		}
+		$conn->error = 'iil_C_Thread: ' . $line . "\n";
+		return false;	
+	}
+	$conn->error = "iil_C_Thread: Couldn't select \"$folder\"\n";
+	return false;
 }
 
 function iil_C_Search(&$conn, $folder, $criteria) {

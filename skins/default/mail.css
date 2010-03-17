@@ -164,25 +164,38 @@
   padding-left: 2px;
 }
 
-#markmessagemenu,
-#searchmenu,
-#messagemenu
+.popupmenu
 {
   position: absolute;
   top: 32px;
   left: 90px;
   width: auto;
   display: none;
-  background-color: #F9F9F9;
-  border: 1px solid #CCC;
-  padding: 1px;
-  opacity: 0.9;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #999;
+  padding: 4px;
   z-index: 240;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-box-shadow: 1px 1px 12px #999;
+  -webkit-box-shadow: #999 1px 1px 12px;
 }
 
 #searchmenu
 {
-  width: 172px;
+  width: 160px;
+}
+
+#searchmenu ul.toolbarmenu
+{
+  margin: 0;
+}
+
+#searchmenu ul.toolbarmenu li
+{
+  margin: 1px 4px 1px;
 }
 
 #messagemenu li a.active:hover,
@@ -194,53 +207,53 @@
 
 #messagemenu li a
 {
-  background: url('images/messageactions.png') no-repeat 1px 0;
-  background-position: 0px 20px;
+  background: url('images/messageactions.png') no-repeat 7px 0;
+  background-position: 7px 20px;
 }
 
 #messagemenu li a.printlink
 {
-  background-position: 1px 1px;
+  background-position: 7px 1px;
 }
 
 #messagemenu li a.downloadlink
 {
-  background-position: 1px -17px;
+  background-position: 7px -17px;
 }
 
 #messagemenu li a.sourcelink
 {
-  background-position: 1px -35px;
+  background-position: 7px -35px;
 }
 
 #messagemenu li a.openlink
 {
-  background-position: 1px -53px;
+  background-position: 7px -53px;
 }
 
 #messagemenu li a.editlink
 {
-  background-position: 1px -71px;
+  background-position: 7px -71px;
 }
 
 #markmessagemenu a.readlink
 {
-  background: url('images/icons/dot.png') no-repeat 2px;
+  background: url('images/icons/dot.png') no-repeat 7px 2px;
 }
 
 #markmessagemenu a.unreadlink
 {
-  background: url('images/icons/unread.png') no-repeat 2px;
+  background: url('images/icons/unread.png') no-repeat 7px 2px;
 }
 
 #markmessagemenu a.flaggedlink
 {
-  background: url('images/icons/flagged.png') no-repeat 2px;
+  background: url('images/icons/flagged.png') no-repeat 7px 2px;
 }
 
 #markmessagemenu a.unflaggedlink
 {
-  background: url('images/icons/unflagged.png') no-repeat 2px;
+  background: url('images/icons/unflagged.png') no-repeat 7px 2px;
 }
 
 #searchfilter
@@ -613,6 +626,30 @@ td.formlinks a:visited
   background-position: -75px -15px;
 }
 
+#listcontrols a.expand-all {
+  background-position: -90px 0;
+}
+
+#listcontrols a.expand-allsel {
+  background-position: -90px -15px;
+}
+
+#listcontrols a.collapse-all {
+  background-position: -105px 0;
+}
+
+#listcontrols a.collapse-allsel {
+  background-position: -105px -15px;
+}
+
+#listcontrols a.expand-unread {
+  background-position: -120px 0;
+}
+
+#listcontrols a.expand-unreadsel {
+  background-position: -120px -15px;
+}
+
 #countcontrols
 {
   height: 15px;
@@ -720,20 +757,69 @@ body.messagelist
   vertical-align: middle;
 }
 
+#messagelist thead tr td.subject
+{
+  padding-left: 22px;
+}
+
 #messagelist thead tr td.icon,
-#messagelist thead tr td.flag
+#messagelist thead tr td.flag,
+#messagelist thead tr td.threads
 {
   width: 22px;
   padding: 0;
   text-align: center;
 }
 
-#messagelist tbody tr td.icon,
+#messagelist thead tr td.threads
+{
+  width: 18px;
+}
+
 #messagelist tbody tr td.flag
 {
   padding: 2px 3px 2px 3px;
   vertical-align: middle;
   cursor: pointer;
+}
+
+#messagelist tr td span.branch
+{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+}
+
+#messagelist tr td.subject img.msgicon
+{
+  vertical-align: middle;
+}
+
+#messagelist tbody td img.msgicon
+{
+  position: relative;
+  top: 0px;
+  margin-right: 5px;
+}
+
+#messagelist tr td div.collapsed,
+#messagelist tr td div.expanded,
+#messagelist tr td img.flagicon,
+#messagelist tr td img.msgicon
+{
+  cursor: pointer;
+}
+
+#messagelist tr td div.collapsed
+{
+  display: block;
+  background: url('images/messageactions.png') center -91px no-repeat;
+}
+
+#messagelist tr td div.expanded
+{
+  display: block;
+  background: url('images/messageactions.png') center -109px no-repeat;
 }
 
 #messagelist tbody tr td.flag img:hover,
@@ -747,6 +833,12 @@ body.messagelist
   overflow: hidden;
   vertical-align: middle;
   width: 99%;
+}
+
+/* thread parent message with unread children */
+#messagelist tbody tr.unroot td.subject a
+{
+  text-decoration: underline;
 }
 
 #messagelist tr td.size
@@ -1266,4 +1358,28 @@ td.hide-headers
 font.bold
 {
   font-weight: bold;
+}
+
+#listmenu
+{
+  padding: 6px;
+}
+
+#listmenu legend
+{
+  color: #999999;
+}
+
+#listmenu fieldset
+{
+  border: 1px solid #999999;
+  margin: 0 5px;
+  float: left;
+}
+
+#listmenu div
+{
+  padding: 8px 0 3px 0;
+  text-align: center;
+  clear: both;
 }

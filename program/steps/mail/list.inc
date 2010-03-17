@@ -33,8 +33,6 @@ if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
   $save_arr = array();
   $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
   $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
-  
-  $RCMAIL->user->save_prefs($save_arr);
 }
 else
 {
@@ -42,6 +40,16 @@ else
   $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
   $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
 }
+
+// is there a set of columns for this request?
+if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
+{
+  $save_arr = array();
+  $_SESSION['list_columns'] = $save_arr['list_cols'] = explode(',', $cols);
+}
+
+if ($save_arr)  
+  $RCMAIL->user->save_prefs($save_arr);
 
 $mbox_name = $IMAP->get_mailbox_name();
 
@@ -55,8 +63,12 @@ if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 }
 
 // fetch message headers
-if ($count = $IMAP->messagecount($mbox_name, 'ALL', !empty($_REQUEST['_refresh'])))
+if ($count = $IMAP->messagecount($mbox_name, $IMAP->threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh'])))
   $a_headers = $IMAP->list_headers($mbox_name, NULL, $sort_col, $sort_order);
+
+// update search set (possible change of threading mode)
+if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
+  $_SESSION['search'][$_REQUEST['_search']] = $IMAP->get_search_set();
 
 // update mailboxlist
 rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']));
@@ -65,13 +77,14 @@ rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']));
 $pages = ceil($count/$IMAP->page_size);
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->set_env('threading', (bool) $IMAP->threading);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows
+rcmail_js_message_list($a_headers, FALSE, TRUE, (bool) $cols);
 if (isset($a_headers) && count($a_headers))
 {
-  rcmail_js_message_list($a_headers);
   if ($search_request)
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
 }

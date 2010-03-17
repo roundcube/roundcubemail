@@ -37,6 +37,7 @@ function rcube_list_widget(list, p)
   this.subject_col = -1;
   this.shiftkey = false;
   this.multiselect = false;
+  this.multiexpand = false;
   this.multi_selecting = false;
   this.draggable = false;
   this.keyboard = false;
@@ -76,7 +77,7 @@ init: function()
     for(var r=0; r<this.list.tBodies[0].childNodes.length; r++)
     {
       row = this.list.tBodies[0].childNodes[r];
-      while (row && (row.nodeType != 1 || row.style.display == 'none'))
+      while (row && row.nodeType != 1)
       {
         row = row.nextSibling;
         r++;
@@ -108,7 +109,7 @@ init_row: function(row)
     var p = this;
     var uid = RegExp.$1;
     row.uid = uid;
-    this.rows[uid] = {uid:uid, id:row.id, obj:row, classname:row.className};
+    this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
     // set eventhandlers to table row
     row.onmousedown = function(e){ return p.drag_row(e, this.uid); };
@@ -319,6 +320,188 @@ click_row: function(e, id)
 },
 
 
+expand_row: function(e, id)
+{
+  var row = this.rows[id];
+  var evtarget = rcube_event.get_target(e);
+  var mod_key = rcube_event.get_modifier(e);
+
+  // Don't select this message
+  this.dont_select = true;
+  // Don't treat double click on the expando as double click on the message.
+  row.clicked = 0;
+
+  if (row.expanded) {
+    evtarget.className = "collapsed";
+    if (mod_key == CONTROL_KEY || this.multiexpand)
+      this.collapse_all(row);
+    else
+      this.collapse(row);
+  }
+  else {
+    evtarget.className = "expanded";
+    if (mod_key == CONTROL_KEY || this.multiexpand)
+      this.expand_all(row);
+    else
+     this.expand(row);
+  }
+},
+
+collapse: function(row)
+{
+  row.expanded = false;
+  this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+  var depth = row.depth;
+  var new_row = row ? row.obj.nextSibling : null;
+  var r;
+
+  while (new_row) {
+    if (new_row.nodeType == 1) {
+      var r = this.rows[new_row.uid];
+      if (r && r.depth <= depth)
+        break;
+      $(new_row).hide();
+      r.expanded = false;
+      this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+    }
+    new_row = new_row.nextSibling;
+  }
+
+  return false;
+},
+
+expand: function(row)
+{
+  var depth, new_row;
+  var last_expanded_parent_depth;
+
+  if (row) {
+    row.expanded = true;
+    depth = row.depth;
+    new_row = row.obj.nextSibling;
+    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+  }
+  else {
+    var tbody = this.list.tBodies[0];
+    new_row = tbody.firstChild;
+    depth = 0;
+    last_expanded_parent_depth = 0;
+  }
+
+  while (new_row) {
+    if (new_row.nodeType == 1) {
+      var r = this.rows[new_row.uid];
+      if (r) {
+        if (row && (!r.depth || r.depth <= depth))
+          break;
+
+        if (r.parent_uid) {
+          var p = this.rows[r.parent_uid];
+          if (p && p.expanded) {
+            if ((row && p == row) || last_expanded_parent_depth >= p.depth - 1) {
+              last_expanded_parent_depth = p.depth;
+              $(new_row).show();
+              r.expanded = true;
+              this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+            }
+          }
+          else
+            if (row && (! p || p.depth <= depth))
+              break;
+        }
+      }
+    }
+    new_row = new_row.nextSibling;
+  }
+
+  return false;
+},
+
+
+collapse_all: function(row)
+{
+  var depth, new_row;
+  var r;
+
+  if (row) {
+    row.expanded = false;
+    depth = row.depth;
+    new_row = row.obj.nextSibling;
+    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+    
+    // don't collapse sub-root tree in multiexpand mode 
+    if (depth && this.multiexpand)
+      return false; 
+  }
+  else {
+    var tbody = this.list.tBodies[0];
+    new_row = tbody.firstChild;
+    depth = 0;
+  }
+
+  while (new_row) {
+    if (new_row.nodeType == 1) {
+      var r = this.rows[new_row.uid];
+      if (r) {
+        if (row && (!r.depth || r.depth <= depth))
+          break;
+
+        if (row || r.depth)
+          $(new_row).hide();
+        if (r.has_children) {
+          r.expanded = false;
+          var expando = document.getElementById('rcmexpando' + r.uid);
+          if (expando)
+            expando.className = 'collapsed';
+          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+        }
+      }
+    }
+    new_row = new_row.nextSibling;
+  }
+
+  return false;
+},
+
+expand_all: function(row)
+{
+  var depth, new_row;
+  var r;
+
+  if (row) {
+    row.expanded = true;
+    depth = row.depth;
+    new_row = row.obj.nextSibling;
+    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+  }
+  else {
+    var tbody = this.list.tBodies[0];
+    new_row = tbody.firstChild;
+    depth = 0;
+  }
+
+  while (new_row) {
+    if (new_row.nodeType == 1) {
+      var r = this.rows[new_row.uid];
+      if (r) {
+        if (row && r.depth <= depth)
+          break;
+
+        $(new_row).show();
+        if (r.has_children) {
+          r.expanded = true;
+          var expando = document.getElementById('rcmexpando' + r.uid);
+          if (expando)
+            expando.className = 'expanded';
+          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+        }
+      }
+    }
+    new_row = new_row.nextSibling;
+  }
+  return false;
+},
+
 /**
  * get first/next/previous/last rows that are not hidden
  */
@@ -495,13 +678,15 @@ shift_select: function(id, control)
   {
     if ((this.rows[n].obj.rowIndex >= i) && (this.rows[n].obj.rowIndex <= j))
     {
-      if (!this.in_selection(n))
+      if (!this.in_selection(n)) {
         this.highlight_row(n, true);
+      }
     }
     else
     {
-      if  (this.in_selection(n) && !control)
+      if  (this.in_selection(n) && !control) {
         this.highlight_row(n, true);
+      }
     }
   }
 },
@@ -516,7 +701,7 @@ in_selection: function(id)
     if (this.selection[n]==id)
       return true;
 
-  return false;    
+  return false;
 },
 
 
@@ -567,7 +752,7 @@ invert_selection: function()
   var select_before = this.selection.join(',');
   
   for (var n in this.rows)
-    this.highlight_row(n, true);    
+    this.highlight_row(n, true);
 
   // trigger event if selection changed
   if (this.selection.join(',') != select_before)
@@ -685,6 +870,16 @@ key_press: function(e)
       // Stop propagation so that the browser doesn't scroll
       rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
+    case 61:
+    case 107: // Plus sign on a numeric keypad (fc11 + firefox 3.5.2)
+    case 109:
+    case 32:
+      // Stop propagation
+      rcube_event.cancel(e);
+      var ret = this.use_plusminus_key(keyCode, mod_key);
+      this.key_pressed = keyCode;
+      this.triggerEvent('keypress');
+      return ret;
     default:
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
@@ -712,6 +907,10 @@ key_down: function(e)
     case 38: 
     case 63233:
     case 63232:
+    case 61:
+    case 107:
+    case 109:
+    case 32:
       if (!rcube_event.get_modifier(e) && this.focused)
         return rcube_event.cancel(e);
         
@@ -740,6 +939,36 @@ use_arrow_key: function(keyCode, mod_key)
     this.select_row(new_row.uid, mod_key, true);
     this.scrollto(new_row.uid);
   }
+
+  return false;
+},
+
+
+/**
+ * Special handling method for +/- keys
+ */
+use_plusminus_key: function(keyCode, mod_key)
+{
+  var selected_row = this.rows[this.last_selected];
+  if (!selected_row)
+    return;
+
+  if (keyCode == 32)
+    keyCode = selected_row.expanded ? 109 : 61;
+  if (keyCode == 61 || keyCode == 107)
+    if (mod_key == CONTROL_KEY || this.multiexpand)
+      this.expand_all(selected_row);
+    else
+     this.expand(selected_row);
+  else
+    if (mod_key == CONTROL_KEY || this.multiexpand)
+      this.collapse_all(selected_row);
+    else
+      this.collapse(selected_row);
+
+  var expando = document.getElementById('rcmexpando' + selected_row.uid);
+  if (expando)
+    expando.className = selected_row.expanded?'expanded':'collapsed';
 
   return false;
 },
@@ -779,9 +1008,9 @@ drag_mouse_move: function(e)
     if (!this.draglayer)
       this.draglayer = $('<div>').attr('id', 'rcmdraglayer').css({ position:'absolute', display:'none', 'z-index':2000 }).appendTo(document.body);
 
-    // get subjects of selectedd messages
+    // get subjects of selected messages
     var names = '';
-    var c, i, node, subject, obj;
+    var c, i, subject, obj;
     for(var n=0; n<this.selection.length; n++)
     {
       if (n>12)  // only show 12 lines
@@ -790,24 +1019,29 @@ drag_mouse_move: function(e)
         break;
       }
 
-      if (this.rows[this.selection[n]].obj)
+      if (obj = this.rows[this.selection[n]].obj)
       {
-        obj = this.rows[this.selection[n]].obj;
         subject = '';
 
-        for(c=0, i=0; i<obj.childNodes.length; i++)
+        for (c=0, i=0; i<obj.childNodes.length; i++)
         {
-          if (obj.childNodes[i].nodeName == 'TD')
+	  if (obj.childNodes[i].nodeName == 'TD')
           {
-            if (((node = obj.childNodes[i].firstChild) && (node.nodeType==3 || node.nodeName=='A')) &&
-              (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)))
-            {
-	      if (n == 0) {
-	        if (node.nodeType == 3)
-		  this.drag_start_pos = $(obj.childNodes[i]).offset();
-		else
-                  this.drag_start_pos = $(node).offset();
+            if (n == 0)
+	      this.drag_start_pos = $(obj.childNodes[i]).offset();
+
+	    if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c))
+	    {
+	      var node, tmp_node, nodes = obj.childNodes[i].childNodes;
+	      // find text node
+	      for (m=0; m<nodes.length; m++) {
+	        if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
+	          node = tmp_node;
 	      }
+	      
+	      if (!node)
+	        break;
+
               subject = node.nodeType==3 ? node.data : node.innerHTML;
 	      // remove leading spaces
 	      subject = subject.replace(/^\s+/i, '');

@@ -292,7 +292,7 @@ triggerEvent: function(evt, e)
     e = this;
   else if (typeof e == 'object')
     e.event = evt;
-  
+
   if (this._events && this._events[evt] && !this._event_exec) {
     this._event_exec = true;
     for (var i=0; i < this._events[evt].length; i++) {

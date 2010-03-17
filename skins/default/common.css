@@ -537,7 +537,7 @@ a.rcmContactAddress:hover
 
 ul.toolbarmenu
 {
-  margin: 0;
+  margin: -4px 0 -4px 0;
   padding: 0;
   list-style: none;
 }
@@ -547,13 +547,14 @@ ul.toolbarmenu li
   font-size: 11px;
   white-space: nowrap;
   min-width: 130px;
+  margin: 3px -4px;
 }
 
 ul.toolbarmenu li a
 {
   display: block;
   color: #a0a0a0;
-  padding: 2px 8px 3px 22px;
+  padding: 2px 12px 3px 28px;
   text-decoration: none;
   min-height: 14px;
 }
@@ -596,4 +597,9 @@ ul.toolbarmenu li.separator_above
   border-top: 1px solid #ccc;
   margin-top: 2px;
   padding-top: 2px;
+}
+
+.disabled
+{
+  color: #999;
 }

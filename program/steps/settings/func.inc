@@ -248,17 +248,6 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    // Show checkbox for toggling 'index_sort' 
-    if (!isset($no_override['index_sort'])) {
-      $field_id = 'rcmfd_indexsort';
-      $input_indexsort = new html_checkbox(array('name' => '_index_sort', 'id' => $field_id, 'value' => 1));
-
-      $blocks['list']['options']['index_sort'] = array(
-        'title' => html::label($field_id, Q(rcube_label('indexsort'))),
-        'content' => $input_indexsort->show($config['index_sort']?1:0),
-      );
-    }
-
     // show drop-down for available skins
     if (!isset($no_override['skin'])) {
       $skins = rcmail_get_skins();
@@ -308,6 +297,19 @@ function rcmail_user_prefs($current=null)
       $blocks['main']['options']['mdn_requests'] = array(
         'title' => html::label($field_id, Q(rcube_label('mdnrequests'))),
         'content' => $select_mdn_requests->show($config['mdn_requests']),
+      );
+    }
+
+    if (!isset($no_override['autoexpand_threads'])) {
+      $field_id = 'rcmfd_autoexpand_threads';
+      $select_autoexpand_threads = new html_select(array('name' => '_autoexpand_threads', 'id' => $field_id));
+      $select_autoexpand_threads->add(rcube_label('never'), 0);
+      $select_autoexpand_threads->add(rcube_label('do_expand'), 1);
+      $select_autoexpand_threads->add(rcube_label('expand_only_unread'), 2);
+      
+      $blocks['main']['options']['autoexpand_threads'] = array(
+	'title' => html::label($field_id, Q(rcube_label('autoexpand_threads'))),
+	'content' => $select_autoexpand_threads->show($config['autoexpand_threads']),
       );
     }
 

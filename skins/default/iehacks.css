@@ -24,13 +24,9 @@ input, textarea
   filter: alpha(opacity=85);
 }
 
-#markmessagemenu,
-#searchmenu,
-#messagemenu
+.popupmenu
 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
-  filter: alpha(opacity=90);
-
+	background-color: #ffffff;
 }
 
 #tabsbar
@@ -160,6 +156,11 @@ input, textarea
   border-collapse: collapse;
 }
 
+#messagelist tbody tr.unroot td.subject
+{
+  text-decoration: underline;
+}
+
 #messageframe
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-180)+'px');
@@ -243,6 +244,11 @@ div.message-part div.pre
   filter: alpha(opacity=70);
 }
 
+ul.toolbarmenu
+{
+  margin: 0 0 -4px 0;
+}
+
 ul.toolbarmenu li
 {
   min-width: auto;
@@ -262,4 +268,10 @@ ul.toolbarmenu li a
 table.records-table thead tr td
 {
   height: 19px;
+}
+
+#listmenu fieldset
+{
+  margin: 0 4px;
+  padding: 0.8em;
 }

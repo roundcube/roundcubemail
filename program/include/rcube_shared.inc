@@ -608,6 +608,26 @@ function rcube_explode_quoted_string($delimiter, $string)
 
 
 /**
+ * Get all keys from array (recursive)
+ * 
+ * @param array Input array
+ * @return array
+ */
+function array_keys_recursive($array)
+{
+  $keys = array();
+  
+  if (!empty($array))
+    foreach ($array as $key => $child) {
+      $keys[] = $key;
+      if ($children = array_keys_recursive($child))
+        $keys = array_merge($keys, $children);
+    }
+  return $keys;
+}
+
+
+/**
  * mbstring replacement functions
  */
 

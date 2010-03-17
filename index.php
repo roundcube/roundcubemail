@@ -226,6 +226,8 @@ $action_map = array(
     'delete-folder' => 'manage_folders.inc',
     'subscribe'     => 'manage_folders.inc',
     'unsubscribe'   => 'manage_folders.inc',
+    'enable-threading'  => 'manage_folders.inc',
+    'disable-threading' => 'manage_folders.inc',
     'add-identity'  => 'edit_identity.inc',
   )
 );

@@ -56,6 +56,7 @@ $labels['reply-to'] = $labels['replyto'];
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
+$labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Message $nr of $count';
 
 $labels['moveto']   = 'Move to...';
@@ -149,6 +150,29 @@ $labels['unanswered'] = 'Unanswered';
 $labels['deleted'] = 'Deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
+
+$labels['list'] = 'List';
+$labels['threads'] = 'Threads';
+$labels['expand-all'] = 'Expand All';
+$labels['expand-unread'] = 'Expand Unread';
+$labels['collapse-all'] = 'Collapse All';
+$labels['threaded'] = 'Threaded';
+
+$labels['autoexpand_threads'] = 'Expand message threads';
+$labels['do_expand'] = 'all threads';
+$labels['expand_only_unread'] = 'only with unread messages';
+$labels['fromto'] = 'Sender/Recipient';
+$labels['flag'] = 'Flag';
+$labels['attachment'] = 'Attachment';
+$labels['nonesort'] = 'None';
+$labels['sentdate'] = 'Sent date';
+$labels['arrival'] = 'Arrival date';
+$labels['asc'] = 'ascending';
+$labels['desc'] = 'descending';
+$labels['listcolumns'] = 'List columns';
+$labels['listsorting'] = 'Sorting column';
+$labels['listorder'] = 'Sorting order';
+$labels['listmode'] = 'List view mode';
 
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
@@ -308,7 +332,6 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
-$labels['indexsort'] = 'Use message index for sorting by date';
 $labels['mainoptions'] = 'Main Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';

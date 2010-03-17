@@ -24,7 +24,7 @@ if (!$OUTPUT->ajax_call)
   return;
 
 // count messages before changing anything
-$old_count = $IMAP->messagecount();
+$old_count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $IMAP->page_size);
 
 // move messages
@@ -50,6 +50,7 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
 else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
     $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
+
     $del = $IMAP->delete_message($uids, $mbox);
   
     if (!$del) {
@@ -82,7 +83,7 @@ if ($_POST['_from'] == 'show')
 }
 else
 {
-  $msg_count      = $IMAP->messagecount();
+  $msg_count      = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
   $pages          = ceil($msg_count / $IMAP->page_size);
   $nextpage_count = $old_count - $IMAP->page_size * $IMAP->list_page;
   $remaining      = $msg_count - $IMAP->page_size * ($IMAP->list_page - 1);
@@ -116,8 +117,11 @@ else
   $OUTPUT->command('set_quota', rcmail_quota_content());
   $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
+  if ($IMAP->threading)
+    $count = get_input_value('_count', RCUBE_INPUT_POST);
+
   // add new rows from next page (if any)
-  if ($addrows && ($jump_back || $nextpage_count > 0)) {
+  if ($addrows && $count && ($jump_back || $nextpage_count > 0)) {
     $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
     $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
 

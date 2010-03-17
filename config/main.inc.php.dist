@@ -232,10 +232,11 @@ $rcmail_config['plugins'] = array();
 // USER INTERFACE
 // ----------------------------------
 
-// default sort col
-$rcmail_config['message_sort_col'] = 'date';
+// default messages sort column. Use empty value for default server's sorting, 
+// or 'arrival', 'date', 'subject', 'from', 'to', 'size', 'cc'
+$rcmail_config['message_sort_col'] = '';
 
-// default sort order
+// default messages sort order
 $rcmail_config['message_sort_order'] = 'DESC';
 
 // These cols are shown in the message list. Available cols are:
@@ -461,8 +462,10 @@ $rcmail_config['check_all_folders'] = false;
 // If true, after message delete/move, the next message will be displayed
 $rcmail_config['display_next'] = false;
 
-// If true, messages list will be sorted by message index instead of message date
-$rcmail_config['index_sort'] = true;
+// 0 - Do not expand threads 
+// 1 - Expand all threads automatically 
+// 2 - Expand only threads with unread messages 
+$rcmail_config['autoexpand_threads'] = 0;
 
 // When replying place cursor above original message (top posting)
 $rcmail_config['top_posting'] = false;

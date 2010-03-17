@@ -89,8 +89,8 @@ function export_mailbox($mbox, $filename)
 		$from = current($IMAP->decode_address_list($headers->from, 1, false));
 		
 		fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
-		fwrite($out, iil_C_FetchPartHeader($IMAP->conn, $IMAP->mailbox, $i, null));
-		fwrite($out, iil_C_HandlePartBody($IMAP->conn, $IMAP->mailbox, $i, null, 1));
+		fwrite($out, iil_C_FetchPartHeader($IMAP->conn, $mbox, $i, null));
+		fwrite($out, iil_C_HandlePartBody($IMAP->conn, $mbox, $i, null, 1));
 		fwrite($out, "\n\n\n");
 		
 		progress_update($i, $count);

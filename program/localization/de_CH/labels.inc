@@ -127,6 +127,30 @@ $labels['unanswered'] = 'Unbeantwortete';
 $labels['deleted'] = 'Gelöschte';
 $labels['invert'] = 'Umkehren';
 $labels['filter'] = 'Filter';
+
+$labels['list'] = 'Liste';
+$labels['threads'] = 'Konversationen';
+$labels['expand-all'] = 'All aufklappen';
+$labels['expand-unread'] = 'Ungelesene aufklappen';
+$labels['collapse-all'] = 'Alle zuklappen';
+$labels['threaded'] = 'Gruppiert';
+
+$labels['autoexpand_threads'] = 'Konversationen aufklappen';
+$labels['do_expand'] = 'alle';
+$labels['expand_only_unread'] = 'nur ungelesene';
+$labels['fromto'] = 'Sender/Empfänger';
+$labels['flag'] = 'Markierung';
+$labels['attachment'] = 'Anhang';
+$labels['nonesort'] = 'Keine';
+$labels['sentdate'] = 'Sendedatum';
+$labels['arrival'] = 'Empfangsdatum';
+$labels['asc'] = 'aufsteigend';
+$labels['desc'] = 'absteigend';
+$labels['listcolumns'] = 'Spalten';
+$labels['listsorting'] = 'Sortierung';
+$labels['listorder'] = 'Ordnung';
+$labels['listmode'] = 'Anzeigemodus';
+
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['purge'] = 'Aufräumen';

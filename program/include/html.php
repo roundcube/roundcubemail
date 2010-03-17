@@ -5,7 +5,7 @@
  | program/include/html.php                                              |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2009, RoundCube Dev, - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -34,8 +34,7 @@ class html
 
     public static $lc_tags = true;
     public static $common_attrib = array('id','class','style','title','align');
-    public static $containers = array('iframe','div','span','p','h1','h2','h3',
-	'form','textarea','table','tr','th','td','style','script');
+    public static $containers = array('iframe','div','span','p','h1','h2','h3','form','textarea','table','thead','tbody','tr','th','td','style','script');
 
     /**
      * Constructor

@@ -38,6 +38,20 @@ else if ($RCMAIL->action=='unsubscribe')
     $IMAP->unsubscribe(array($mbox));
   }
 
+// enable threading for one or more mailboxes
+else if ($RCMAIL->action=='enable-threading')
+  {
+  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
+    rcube_set_threading($mbox, true);
+  }
+
+// enable threading for one or more mailboxes
+else if ($RCMAIL->action=='disable-threading')
+  {
+  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
+    rcube_set_threading($mbox, false);
+  }
+
 // create a new mailbox
 else if ($RCMAIL->action=='create-folder')
   {
@@ -77,6 +91,24 @@ else if ($RCMAIL->action=='rename-folder')
     $oldname = rcube_charset_convert($oldname_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
 
     $rename = $IMAP->rename_mailbox($oldname, $name);
+    }
+
+  // update per-folder options for modified folder and its subfolders
+  if ($rename) {
+    $a_threaded = $RCMAIL->config->get('message_threading', array()); 
+    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $oldprefix = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
+    foreach ($a_threaded as $key => $val)
+      if ($key == $oldname) {
+        unset($a_threaded[$key]);
+	$a_threaded[$name] = true;
+        }
+      else if (preg_match($oldprefix, $key)) {
+        unset($a_threaded[$key]);
+	$a_threaded[preg_replace($oldprefix, $name.$delimiter, $key)] = true;      
+      }
+      
+    $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
     }
 
   if ($rename && $OUTPUT->ajax_call)
@@ -159,7 +191,11 @@ if ($OUTPUT->ajax_call)
 // build table with all folders listed by server
 function rcube_subscription_form($attrib)
   {
-  global $IMAP, $CONFIG, $OUTPUT;
+  global $RCMAIL, $IMAP, $CONFIG, $OUTPUT;
+
+  $threading_supported = $IMAP->get_capability('thread=references')
+    || $IMAP->get_capability('thread=orderedsubject')
+    || $IMAP->get_capability('thread=refs');
 
   list($form_start, $form_end) = get_form_tags($attrib, 'folders');
   unset($attrib['form']);
@@ -173,15 +209,17 @@ function rcube_subscription_form($attrib)
   $table->add_header('name', rcube_label('foldername'));
   $table->add_header('msgcount', rcube_label('messagecount'));
   $table->add_header('subscribed', rcube_label('subscribed'));
+  if ($threading_supported)
+    $table->add_header('threaded', rcube_label('threaded'));
   $table->add_header('rename', '&nbsp;');
   $table->add_header('delete', '&nbsp;');
-
 
   // get folders from server
   $IMAP->clear_cache('mailboxes');
 
   $a_unsubscribed = $IMAP->list_unsubscribed();
   $a_subscribed = $IMAP->list_mailboxes();
+  $a_threaded = $a_threaded_copy = $RCMAIL->config->get('message_threading', array()); 
   $delimiter = $IMAP->get_hierarchy_delimiter();
   $a_js_folders = $seen_folders = $list_folders = array();
 
@@ -203,13 +241,27 @@ function rcube_subscription_form($attrib)
       }
     }
     
+    unset($a_threaded_copy[$folder]);
+    
     $list_folders[] = array('id' => $folder, 'name' => $name, 'level' => $level);
     $seen[$folder]++;
+  }
+
+  // remove 'message_threading' option for not existing folders
+  if ($a_threaded_copy) {
+    foreach ($a_threaded_copy as $key => $val)
+      unset($a_threaded[$key]);
+    unset($a_threaded_copy);
+    $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
   }
 
   $checkbox_subscribe = new html_checkbox(array(
     'name' => '_subscribed[]',
     'onclick' => JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)",
+  ));
+  $checkbox_threaded = new html_checkbox(array(
+    'name' => '_threaded[]',
+    'onclick' => JS_OBJECT_NAME.".command(this.checked?'enable-threading':'disable-threading',this.value)",
   ));
   
   if (!empty($attrib['deleteicon']))
@@ -226,6 +278,7 @@ function rcube_subscription_form($attrib)
   foreach ($list_folders as $i => $folder) {
     $idx = $i + 1;
     $subscribed = in_array($folder['id'], $a_subscribed);
+    $threaded = $a_threaded[$folder['id']];
     $protected = ($CONFIG['protect_default_folders'] == true && in_array($folder['id'], $CONFIG['default_imap_folders']));
     $classes = array($i%2 ? 'even' : 'odd');
     $folder_js = JQ($folder['id']);
@@ -238,9 +291,13 @@ function rcube_subscription_form($attrib)
     $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
     
     $table->add('name', Q($display_folder));
-    $table->add('msgcount', ($folder['virtual'] ? '' : $IMAP->messagecount($folder['id'])));
+    $table->add('msgcount', ($folder['virtual'] ? '' : $IMAP->messagecount($folder['id']))); // XXX: Use THREADS or ALL?
     $table->add('subscribed', ($protected || $folder['virtual']) ? ($subscribed ? '&nbsp;&#x2022;' : '&nbsp;') :
         $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''), array('value' => $folder_utf8)));
+    if ($IMAP->get_capability('thread=references')) {
+      $table->add('threaded',
+                  $checkbox_threaded->show(($threaded ? $folder_utf8 : ''), array('value' => $folder_utf8)));
+    }
     
     // add rename and delete buttons
     if (!$protected && !$folder['virtual']) {
@@ -334,6 +391,27 @@ function rcube_rename_folder_form($attrib)
   
   return $out;
   }
+
+
+// (un)set 'threading' for selected folder
+function rcube_set_threading($mbox, $state=true)
+  {
+  global $RCMAIL;
+  $mbox = (array)$mbox;
+  $a_prefs = (array)$RCMAIL->config->get('message_threading');
+
+  if ($state) {
+    foreach ($mbox as $box)
+      $a_prefs[$box] = true;
+    }
+  else {
+    foreach ($mbox as $box)
+      unset($a_prefs[$box]);
+    }
+
+  $RCMAIL->user->save_prefs(array('message_threading' => $a_prefs));
+  }
+
 
 $OUTPUT->set_pagetitle(rcube_label('folders'));
 $OUTPUT->include_script('list.js');

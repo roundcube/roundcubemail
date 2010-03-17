@@ -104,7 +104,7 @@ if ($search_str)
 
 // Get the headers
 $result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
-$count = $IMAP->messagecount();
+$count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
 
 // save search results in session
 if (!is_array($_SESSION['search']))
@@ -120,7 +120,7 @@ if (!empty($result_h))
 {
   rcmail_js_message_list($result_h);
   if ($search_str)
-    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
+    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $IMAP->messagecount(NULL, 'ALL')));
 }
 else
 {
