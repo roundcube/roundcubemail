@@ -216,6 +216,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
         $iconv_options = '';
       }
     }
+
     // throw an exception if iconv reports an illegal character in input
     // it means that input string has been truncated
     set_error_handler('rcube_error_handler', E_NOTICE);
@@ -734,6 +735,9 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
     while ($table_data && ($sql_arr = $db->fetch_assoc($table_data)))
     {
       $zebra_class = $c % 2 ? 'even' : 'odd';
+      if (!empty($row_data['class']))
+        $zebra_class .= ' '.$row_data['class'];
+
       $table->add_row(array('id' => 'rcmrow' . $sql_arr[$id_col], 'class' => $zebra_class));
 
       // format each col
@@ -748,6 +752,9 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
     foreach ($table_data as $row_data)
     {
       $zebra_class = $c % 2 ? 'even' : 'odd';
+      if (!empty($row_data['class']))
+        $zebra_class .= ' '.$row_data['class'];
+
       $table->add_row(array('id' => 'rcmrow' . $row_data[$id_col], 'class' => $zebra_class));
 
       // format each col
