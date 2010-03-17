@@ -35,10 +35,10 @@ $rcmail_config['syslog_id'] = 'roundcube';
 // For possible values see installer or http://php.net/manual/en/function.openlog.php
 $rcmail_config['syslog_facility'] = LOG_USER;
 
-// Log sent messages
+// Log sent messages to <log_dir>/sendmail or to syslog
 $rcmail_config['smtp_log'] = true;
 
-// Log successful logins
+// Log successful logins to <log_dir>/userlogins or to syslog
 $rcmail_config['log_logins'] = false;
 
 // Log SQL queries to <log_dir>/sql or to syslog
