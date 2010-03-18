@@ -475,8 +475,19 @@ function rcmail_compose_body($attrib)
 
   $plugin = $RCMAIL->plugins->exec_hook('message_compose_body',
     array('body' => $body, 'html' => $isHtml, 'mode' => $compose_mode));
-  $body = $plugin['body'];  
+  $body = $plugin['body'];
+  unset($plugin);
 
+  // add blocked.gif attachment (#1486516)
+  if ($isHtml && preg_match('#<img src="\./program/blocked\.gif"#', $body)) {
+    if ($attachment = rcmail_save_image('program/blocked.gif', 'image/gif')) {
+      $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+      $body = preg_replace('#\./program/blocked\.gif#',
+        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'],
+        $body);
+    }
+  }
+  
   $out = $form_start ? "$form_start\n" : '';
 
   $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE->headers->messageID) : ''));
@@ -779,6 +790,37 @@ function rcmail_save_attachment(&$message, $pid)
   return false;
 }
 
+function rcmail_save_image($path, $mimetype='')
+{
+  // handle attachments in memory
+  $data = file_get_contents($path);
+
+  $attachment = array(
+    'name' => rcmail_basename($path),
+    'mimetype' => $mimetype ? $mimetype : rc_mime_content_type($path, $name),
+    'data' => $data,
+    'size' => strlen($data),
+  );
+
+  $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+
+  if ($attachment['status']) {
+    unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
+    return $attachment;
+  }
+  
+  return false;
+}
+
+function rcmail_basename($filename)
+{
+  // basename() is not unicode safe and locale dependent
+  if (stristr(PHP_OS, 'win') || stristr(PHP_OS, 'netware')) {
+    return preg_replace('/^.*[\\\\\\/]/', '', $filename);
+  } else {
+    return preg_replace('/^.*[\/]/', '', $filename);
+  }
+}
 
 function rcmail_compose_subject($attrib)
 {

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix blocked.gif attachment is not attached to the message (#1486516)
 - Managesieve: import from Horde-INGO
 - Managesieve: support for more than one match (#1486078)
 - Managesieve: support for selectively disabling rules within a single sieve script (#1485882)
