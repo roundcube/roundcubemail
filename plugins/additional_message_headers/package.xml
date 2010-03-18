@@ -24,9 +24,7 @@
   <api>stable</api>
  </stability>
  <license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</license>
- <notes>
-Something about the release!
- </notes>
+ <notes>-</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <file name="additional_message_headers.php" role="php">
