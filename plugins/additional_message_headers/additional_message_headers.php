@@ -5,16 +5,16 @@
  *
  * Very simple plugin which will add additional headers to or remove them from outgoing messages.
  *
- * @version 1.1
+ * @version @package_version@
  * @author Ziba Scott
  * @website http://roundcube.net
  *
- * See config.inc.php.disc 
+ * See config.inc.php.dist
  */
 class additional_message_headers extends rcube_plugin
 {
     public $task = 'mail';
-    
+
     function init()
     {
         $this->add_hook('outgoing_message_headers', array($this, 'message_headers'));
