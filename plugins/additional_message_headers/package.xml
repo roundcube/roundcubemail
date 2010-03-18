@@ -23,9 +23,9 @@
   <release>stable</release>
   <api>stable</api>
  </stability>
- <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</license>
  <notes>
-This is an alpha release, see README.md for examples.
+Something about the release!
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
