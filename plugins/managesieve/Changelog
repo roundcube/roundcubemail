@@ -1,3 +1,10 @@
+* version 2.3 [2010-03-18]
+-----------------------------------------------------------
+- Added import from Horde-INGO
+- Support for more than one match using if+stop instead of if+elsif structures (#1486078)
+- Support for selectively disabling rules within a single sieve script (#1485882)
+- Added vertical splitter
+
 * version 2.2 [2010-02-06]
 -----------------------------------------------------------
 - Fix handling of "<>" characters in filter names (#1486477)

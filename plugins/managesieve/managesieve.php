@@ -7,7 +7,7 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 2.2
+ * @version 2.3
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist)
@@ -46,9 +46,7 @@ class managesieve extends rcube_plugin
   
   function managesieve_start()
   {
-    $rcmail = rcmail::get_instance();
-    $this->rc = &$rcmail;
-
+    $this->rc = rcmail::get_instance();
     $this->load_config();
 
     // register UI objects
@@ -302,6 +300,7 @@ class managesieve extends rcube_plugin
       foreach ($sizeitems as $item)
 	$items[] = $item;
 
+      $this->form['disabled'] = $_POST['_disabled'] ? true : false;
       $this->form['join'] = $join=='allof' ? true : false;
       $this->form['name'] = $name;
       $this->form['tests'] = array();
@@ -486,8 +485,10 @@ class managesieve extends rcube_plugin
 	if ($save && $fid !== false)
 	{
 	  $this->rc->output->show_message('managesieve.filtersaved', 'confirmation');
-	  $this->rc->output->add_script(sprintf("rcmail.managesieve_updatelist('%s', '%s', %d);",
-	    isset($new) ? 'add' : 'update', Q($this->form['name']), $fid), 'foot');
+	  $this->rc->output->add_script(
+            sprintf("rcmail.managesieve_updatelist('%s', '%s', %d, %d);",
+	      isset($new) ? 'add' : 'update', Q($this->form['name']), $fid, $this->form['disabled']),
+              'foot');
 	}
 	else
 	{
@@ -504,10 +505,12 @@ class managesieve extends rcube_plugin
   {
     // Handle form action 
     if (isset($_GET['_framed']) || isset($_POST['_framed'])) {
-      if (isset($_GET['_newset']) || isset($_POST['_newset']))
+      if (isset($_GET['_newset']) || isset($_POST['_newset'])) {
         $this->rc->output->send('managesieve.setedit');
-      else
+      }
+      else {
         $this->rc->output->send('managesieve.filteredit');
+      }
     } else {
       $this->rc->output->set_pagetitle($this->gettext('filters'));
       $this->rc->output->send('managesieve.managesieve');
@@ -525,8 +528,12 @@ class managesieve extends rcube_plugin
     $a_show_cols = array('managesieve.filtername');
 
     foreach($this->script as $idx => $filter)
-      $result[] = array('managesieve.filtername' => $filter['name'], 'id' => $idx);
-    
+      $result[] = array(
+        'managesieve.filtername' => $filter['name'],
+        'id' => $idx,
+        'class' => $filter['disabled'] ? 'disabled' : '',
+      );
+
     // create XHTML table
     $out = rcube_table_output($attrib, $result, $a_show_cols, 'id');
 
@@ -722,7 +729,10 @@ class managesieve extends rcube_plugin
     $out .= "</div>\n";
 
     $out .= "</fieldset>\n";
-
+    
+    if ($scr['disabled']) {
+      $this->rc->output->set_env('rule_disabled', true);
+    }
     $this->rc->output->add_label('managesieve.ruledeleteconfirm');
     $this->rc->output->add_label('managesieve.actiondeleteconfirm');
     $this->rc->output->add_gui_object('sieveform', 'filterform');

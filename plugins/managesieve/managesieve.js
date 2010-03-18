@@ -26,9 +26,10 @@ if (window.rcmail) {
 
     if (rcmail.env.action == 'plugin.managesieve')
       {
-	if (rcmail.gui_objects.sieveform)
+	if (rcmail.gui_objects.sieveform) {
 	  rcmail.enable_command('plugin.managesieve-save', true);
-	else {
+	}
+        else {
 	  rcmail.enable_command('plugin.managesieve-del', 'plugin.managesieve-up',
 	    'plugin.managesieve-down', false);
           rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
@@ -47,6 +48,8 @@ if (window.rcmail) {
     	    rcmail.filters_list.focus();
 	  }
       }
+    if (rcmail.gui_objects.sieveform && rcmail.env.rule_disabled)
+      $('#disabled').attr('checked', true);
   });
 
   /*********************************************************/
@@ -91,7 +94,7 @@ if (window.rcmail) {
 	return i;
     }
 
-  rcube_webmail.prototype.managesieve_updatelist = function(action, name, id)
+  rcube_webmail.prototype.managesieve_updatelist = function(action, name, id, disabled)
     {
     this.set_busy(true);
 
@@ -114,7 +117,7 @@ if (window.rcmail) {
 
       case 'down':
         var rows = this.filters_list.rows;
-	var from;
+	var from, fromstatus, status;
 
 	// we need only to replace filter names...
         for (var i=0; i<rows.length; i++)
@@ -122,11 +125,15 @@ if (window.rcmail) {
 	  if (rows[i]==null) { // removed row
 	    continue;
           } else if (rows[i].uid == id) {
-	    from = rows[i].obj.cells[0];
+	    from = rows[i].obj;
+            fromstatus = $(from).hasClass('disabled');
 	  } else if (rows[i].uid == id+1){
 	    name = rows[i].obj.cells[0].innerHTML;
-	    rows[i].obj.cells[0].innerHTML = from.innerHTML;
-	    from.innerHTML = name;
+            status = $(rows[i].obj).hasClass('disabled');
+	    rows[i].obj.cells[0].innerHTML = from.cells[0].innerHTML;
+	    from.cells[0].innerHTML = name;
+            $(from)[status?'addClass':'removeClass']('disabled');
+            $(rows[i].obj)[fromstatus?'addClass':'removeClass']('disabled');
 	    this.filters_list.highlight_row(i);
 	    break;
 	  }
@@ -137,7 +144,7 @@ if (window.rcmail) {
 
       case 'up':
         var rows = this.filters_list.rows;
-	var from;
+	var from, status, fromstatus;
 
 	// we need only to replace filter names...
         for (var i=0; i<rows.length; i++)
@@ -145,12 +152,16 @@ if (window.rcmail) {
 	  if (rows[i]==null) { // removed row
 	    continue;
           } else if (rows[i].uid == id-1) {
-	    from = rows[i].obj.cells[0];
+	    from = rows[i].obj;
+            fromstatus = $(from).hasClass('disabled');
 	    this.filters_list.highlight_row(i);
 	  } else if (rows[i].uid == id) {
 	    name = rows[i].obj.cells[0].innerHTML;
-	    rows[i].obj.cells[0].innerHTML = from.innerHTML;
-	    from.innerHTML = name;
+            status = $(rows[i].obj).hasClass('disabled');
+	    rows[i].obj.cells[0].innerHTML = from.cells[0].innerHTML;
+	    from.cells[0].innerHTML = name;
+            $(from)[status?'addClass':'removeClass']('disabled');
+            $(rows[i].obj)[fromstatus?'addClass':'removeClass']('disabled');
 	    break;
 	  }
 	}
@@ -164,6 +175,10 @@ if (window.rcmail) {
 	  if (rows[i] && rows[i].uid == id)
 	    {
 	    rows[i].obj.cells[0].innerHTML = name;
+            if (disabled)
+              $(rows[i].obj).addClass('disabled');
+            else
+              $(rows[i].obj).removeClass('disabled');
 	    break;
 	    }
         break;
@@ -186,6 +201,8 @@ if (window.rcmail) {
     	    td = parent.document.createElement('td');
     	    new_row.appendChild(td);
 	    list.insert_row(new_row, false);
+            if (disabled)
+              $(new_row).addClass('disabled');
 
     	    if (row.cells[0].className)
     	      td.className = row.cells[0].className;

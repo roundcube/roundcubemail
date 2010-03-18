@@ -99,9 +99,15 @@ function rule_join_radio(value)
 <div id="filter-form">
 <roundcube:object name="filterform" />
 
-<p>
+<div id="footer">
+<div class="footerleft">
 <roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
-</p>
+</div>
+<div class="footerright">
+<label for="disabled"><roundcube:label name="managesieve.filterdisabled" /></label>
+<input type="checkbox" id="disabled" name="_disabled" value="1" />
+</div>
+</div>
 
 </form>
 </div>

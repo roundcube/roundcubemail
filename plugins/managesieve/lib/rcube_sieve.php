@@ -58,6 +58,10 @@ class rcube_sieve
         $this->disabled = $disabled;
     }
 
+    public function __destruct() {
+        $this->sieve->disconnect();
+    }
+
     /**
     * Getter for error code
     */
@@ -221,14 +225,24 @@ class rcube_sieve
 	// try to parse from Roundcube format
         $this->script = new rcube_sieve_script($script, $this->disabled);
 
-        // ... else try Squirrelmail format
-        if (empty($this->script->content) && $name == 'phpscript') {
-
-    	    $script = $this->sieve->getScript('phpscript');
-    	    $script = $this->_convert_from_squirrel_rules($script);
-
+        // ... else try to import from different formats
+        if (empty($this->script->content)) {
+    	    $script = $this->_import_rules($script);
     	    $this->script = new rcube_sieve_script($script, $this->disabled);
     	}
+
+        // replace all elsif with if+stop, we support only ifs
+        foreach ($this->script->content as $idx => $rule) {
+            if (!isset($this->script->content[$idx+1])
+                || preg_match('/^else|elsif$/', $this->script->content[$idx+1]['type'])) {
+                // 'stop' not found?
+                if (!preg_match('/^(stop|vacation)$/', $rule['actions'][count($rule['actions'])-1]['type'])) {
+                    $this->script->content[$idx]['actions'][] = array(
+                        'type' => 'stop'
+                    );
+                }
+            }
+        }
 
     	$this->current = $name;
 
@@ -254,23 +268,38 @@ class rcube_sieve
     }
 
 
-    private function _convert_from_squirrel_rules($script)
+    private function _import_rules($script)
     {
         $i = 0;
         $name = array();
 
-        // tokenize rules
-        if ($tokens = preg_split('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE))
+        // Squirrelmail (Avelsieve)
+        if ($tokens = preg_split('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE)) {
     	    foreach($tokens as $token) {
         	if (preg_match('/^#START_SIEVE_RULE.*/', $token, $matches)) {
 	    	    $name[$i] = "unnamed rule ".($i+1);
-            	    $content .= "# rule:[".$name[$i]."]\n";
+                    $content .= "# rule:[".$name[$i]."]\n";
                 }
         	elseif (isset($name[$i])) {
 	    	    $content .= "if $token\n";
 		    $i++;
                 }
             }
+        }
+        // Horde (INGO)
+        else if ($tokens = preg_split('/(# .+)\r?\n/i', $script, -1, PREG_SPLIT_DELIM_CAPTURE)) {
+            foreach($tokens as $token) {
+                if (preg_match('/^# (.+)/i', $token, $matches)) {
+                    $name[$i] = $matches[1];
+                    $content .= "# rule:[" . $name[$i] . "]\n";
+                }
+                elseif (isset($name[$i])) {
+                    $token = str_replace(":comparator \"i;ascii-casemap\" ", "", $token);
+                    $content .= $token . "\n";
+                    $i++;
+                }
+            }
+        }
 
         return $content;
     }
@@ -293,563 +322,553 @@ class rcube_sieve
 
 class rcube_sieve_script
 {
-  public $content = array();	// script rules array   
+    public $content = array();	// script rules array   
 
-  private $supported = array(	// extensions supported by class
-    'fileinto',
-    'reject',
-    'ereject',
-    'vacation', 	// RFC5230
+    private $supported = array(	// extensions supported by class
+        'fileinto',
+        'reject',
+        'ereject',
+        'vacation', 	// RFC5230
     // TODO: (most wanted first) body, imapflags, notify, regex
     );
   
-  /**
+    /**
     * Object constructor
     *
     * @param  string  Script's text content
     * @param  array   Disabled extensions
     */
-  public function __construct($script, $disabled=NULL)
+    public function __construct($script, $disabled=NULL)
     {
-      if (!empty($disabled))
-        foreach ($disabled as $ext)
-          if (($idx = array_search($ext, $this->supported)) !== false)
-	    unset($this->supported[$idx]);
+        if (!empty($disabled))
+            foreach ($disabled as $ext)
+                if (($idx = array_search($ext, $this->supported)) !== false)
+	            unset($this->supported[$idx]);
 
-      $this->content = $this->_parse_text($script);
+        $this->content = $this->_parse_text($script);
     }
 
-  /**
+    /**
     * Adds script contents as text to the script array (at the end)
     *
     * @param	string	Text script contents
     */
-  public function add_text($script)
+    public function add_text($script)
     {
-      $content = $this->_parse_text($script);
-      $result = false;
-      
-      // check existsing script rules names
-      foreach ($this->content as $idx => $elem)
-        $names[$elem['name']] = $idx;
-      
-      foreach ($content as $elem)
-        if (!isset($names[$elem['name']]))
-	  {
-            array_push($this->content, $elem);
-	    $result = true;
-	  }
+        $content = $this->_parse_text($script);
+        $result = false;
 
-      return $result;
+        // check existsing script rules names
+        foreach ($this->content as $idx => $elem) {
+            $names[$elem['name']] = $idx;
+        }
+
+        foreach ($content as $elem) {
+            if (!isset($names[$elem['name']])) {
+                array_push($this->content, $elem);
+	        $result = true;
+	    }
+        }
+
+        return $result;
     }
 
-  /**
+    /**
     * Adds rule to the script (at the end)
     *
     * @param	string	Rule name
     * @param	array	Rule content (as array)
     */
-  public function add_rule($content)
+    public function add_rule($content)
     {
-      // TODO: check this->supported
-      array_push($this->content, $content);
-      return sizeof($this->content)-1;
+        // TODO: check this->supported
+        array_push($this->content, $content);
+        return sizeof($this->content)-1;
     }
 
-  public function delete_rule($index)
+    public function delete_rule($index)
     {
-      if(isset($this->content[$index]))
-        {
-          unset($this->content[$index]);
-	  return true;
+        if(isset($this->content[$index])) {
+            unset($this->content[$index]);
+	    return true;
 	}
-      return false;
+        return false;
     }
 
-  public function size()
+    public function size()
     {
-      return sizeof($this->content);
+        return sizeof($this->content);
     }
 
-  public function update_rule($index, $content)
+    public function update_rule($index, $content)
     {
-      // TODO: check this->supported
-      if ($this->content[$index])
-        {
-	  $this->content[$index] = $content;
-	  return $index;
+        // TODO: check this->supported
+        if ($this->content[$index]) {
+	    $this->content[$index] = $content;
+	    return $index;
 	}
-      return false;
+        return false;
     }
 
-  /**
+    /**
     * Returns script as text
     */
-  public function as_text()
+    public function as_text()
     {
-      $script = '';
-      $exts = array();
-      $idx = 0;
-      
-      // rules
-      foreach ($this->content as $rule)
-        {
-	  $extension = '';
-	  $tests = array();
-	  $i = 0;
-	  
-	  // header
-	  $script .= '# rule:[' . $rule['name'] . "]\n";
+        $script = '';
+        $exts = array();
+        $idx = 0;
+
+        // rules
+        foreach ($this->content as $rule) {
+	    $extension = '';
+	    $tests = array();
+	    $i = 0;
+
+	    // header
+	    $script .= '# rule:[' . $rule['name'] . "]\n";
   
-	  // constraints expressions
-	  foreach ($rule['tests'] as $test)
-	    {
-	      $tests[$i] = '';
-	      switch ($test['test'])
-	        {
-		  case 'size':
-		    $tests[$i] .= ($test['not'] ? 'not ' : '');
-		    $tests[$i] .= 'size :' . ($test['type']=='under' ? 'under ' : 'over ') . $test['arg'];
-		  break;
-		  case 'true':
-		    $tests[$i] .= ($test['not'] ? 'not true' : 'true');
-		  break;
-		  case 'exists':
-		    $tests[$i] .= ($test['not'] ? 'not ' : '');
-		    if (is_array($test['arg']))
-			$tests[$i] .= 'exists ["' . implode('", "', $this->_escape_string($test['arg'])) . '"]';
-		    else
-			$tests[$i] .= 'exists "' . $this->_escape_string($test['arg']) . '"';
-		  break;    
-		  case 'header':
-		    $tests[$i] .= ($test['not'] ? 'not ' : '');
-		    $tests[$i] .= 'header :' . $test['type'];
-		    if (is_array($test['arg1']))
-			$tests[$i] .= ' ["' . implode('", "', $this->_escape_string($test['arg1'])) . '"]';
-		    else
-			$tests[$i] .= ' "' . $this->_escape_string($test['arg1']) . '"';
-		    if (is_array($test['arg2']))
-			$tests[$i] .= ' ["' . implode('", "', $this->_escape_string($test['arg2'])) . '"]';
-		    else
-			$tests[$i] .= ' "' . $this->_escape_string($test['arg2']) . '"';
-		  break;
+	    // constraints expressions
+	    foreach ($rule['tests'] as $test) {
+	        $tests[$i] = '';
+	        switch ($test['test']) {
+		    case 'size':
+		        $tests[$i] .= ($test['not'] ? 'not ' : '');
+		        $tests[$i] .= 'size :' . ($test['type']=='under' ? 'under ' : 'over ') . $test['arg'];
+		    break;
+		    case 'true':
+		        $tests[$i] .= ($test['not'] ? 'not true' : 'true');
+		    break;
+		    case 'exists':
+		        $tests[$i] .= ($test['not'] ? 'not ' : '');
+		        if (is_array($test['arg']))
+			    $tests[$i] .= 'exists ["' . implode('", "', $this->_escape_string($test['arg'])) . '"]';
+		        else
+			    $tests[$i] .= 'exists "' . $this->_escape_string($test['arg']) . '"';
+		    break;    
+		    case 'header':
+		        $tests[$i] .= ($test['not'] ? 'not ' : '');
+		        $tests[$i] .= 'header :' . $test['type'];
+		        if (is_array($test['arg1']))
+			    $tests[$i] .= ' ["' . implode('", "', $this->_escape_string($test['arg1'])) . '"]';
+		        else
+			    $tests[$i] .= ' "' . $this->_escape_string($test['arg1']) . '"';
+		        if (is_array($test['arg2']))
+			    $tests[$i] .= ' ["' . implode('", "', $this->_escape_string($test['arg2'])) . '"]';
+		        else
+			    $tests[$i] .= ' "' . $this->_escape_string($test['arg2']) . '"';
+		    break;
 		}
-	      $i++;
-	    }
-  
-	  $script .= ($idx>0 ? 'els' : '').($rule['join'] ? 'if allof (' : 'if anyof (');
-	  if (sizeof($tests) > 1)
-	    $script .= implode(",\n\t", $tests);
-	  elseif (sizeof($tests))
-	    $script .= $tests[0];
-	  else
-	    $script .= 'true';
-	  $script .= ")\n{\n";
-  
-	  // action(s)
-	  foreach ($rule['actions'] as $action)
-          {
-	    switch ($action['type'])
-	    {
-	      case 'fileinto':
-	        $extension = 'fileinto';
-		$script .= "\tfileinto \"" . $this->_escape_string($action['target']) . "\";\n";
-	      break;
-	      case 'redirect':
-		$script .= "\tredirect \"" . $this->_escape_string($action['target']) . "\";\n";
-	      break;
-	      case 'reject':
-	      case 'ereject':
-	        $extension = $action['type'];
-		if (strpos($action['target'], "\n")!==false)
-		  $script .= "\t".$action['type']." text:\n" . $action['target'] . "\n.\n;\n";
-		else
-		  $script .= "\t".$action['type']." \"" . $this->_escape_string($action['target']) . "\";\n";
-	      break;
-	      case 'keep':
-	      case 'discard':
-	      case 'stop':
-	        $script .= "\t" . $action['type'] .";\n";
-	      break;
-	      case 'vacation':
-                $extension = 'vacation';
-                $script .= "\tvacation";
-		if ($action['days'])
-		  $script .= " :days " . $action['days'];
-		if ($action['addresses'])
-		  $script .= " :addresses " . $this->_print_list($action['addresses']);
-		if ($action['subject'])
-		  $script .= " :subject \"" . $this->_escape_string($action['subject']) . "\"";
-		if ($action['handle'])
-		  $script .= " :handle \"" . $this->_escape_string($action['handle']) . "\"";
-		if ($action['from'])
-		  $script .= " :from \"" . $this->_escape_string($action['from']) . "\"";
-		if ($action['mime'])
-		  $script .= " :mime";
-		if (strpos($action['reason'], "\n")!==false)
-		  $script .= " text:\n" . $action['reason'] . "\n.\n;\n";
-		else
-		  $script .= " \"" . $this->_escape_string($action['reason']) . "\";\n";
-	      break;
+	        $i++;
 	    }
 
-	    if ($extension && !isset($exts[$extension]))
-	      $exts[$extension] = $extension;
-	  }
+//            $script .= ($idx>0 ? 'els' : '').($rule['join'] ? 'if allof (' : 'if anyof (');
+            // disabled rule: if false #....
+            $script .= 'if' . ($rule['disabled'] ? ' false #' : '');
+	    $script .= $rule['join'] ? ' allof (' : ' anyof (';
+	    if (sizeof($tests) > 1)
+	        $script .= implode(",\n\t", $tests);
+	    else if (sizeof($tests))
+	        $script .= $tests[0];
+	    else
+	        $script .= 'true';
+	    $script .= ")\n{\n";
+  
+	    // action(s)
+	    foreach ($rule['actions'] as $action) {
+	        switch ($action['type']) {
+	            case 'fileinto':
+	                $extension = 'fileinto';
+		        $script .= "\tfileinto \"" . $this->_escape_string($action['target']) . "\";\n";
+	            break;
+	            case 'redirect':
+		        $script .= "\tredirect \"" . $this->_escape_string($action['target']) . "\";\n";
+	            break;
+	            case 'reject':
+	            case 'ereject':
+	                $extension = $action['type'];
+		        if (strpos($action['target'], "\n")!==false)
+		            $script .= "\t".$action['type']." text:\n" . $action['target'] . "\n.\n;\n";
+		        else
+		            $script .= "\t".$action['type']." \"" . $this->_escape_string($action['target']) . "\";\n";
+	            break;
+	            case 'keep':
+	            case 'discard':
+	            case 'stop':
+	                $script .= "\t" . $action['type'] .";\n";
+	            break;
+	            case 'vacation':
+                        $extension = 'vacation';
+                        $script .= "\tvacation";
+		        if ($action['days'])
+		            $script .= " :days " . $action['days'];
+		        if ($action['addresses'])
+		            $script .= " :addresses " . $this->_print_list($action['addresses']);
+		        if ($action['subject'])
+		            $script .= " :subject \"" . $this->_escape_string($action['subject']) . "\"";
+		        if ($action['handle'])
+		            $script .= " :handle \"" . $this->_escape_string($action['handle']) . "\"";
+		        if ($action['from'])
+		            $script .= " :from \"" . $this->_escape_string($action['from']) . "\"";
+		        if ($action['mime'])
+		            $script .= " :mime";
+		        if (strpos($action['reason'], "\n")!==false)
+		            $script .= " text:\n" . $action['reason'] . "\n.\n;\n";
+		        else
+		            $script .= " \"" . $this->_escape_string($action['reason']) . "\";\n";
+	            break;
+	        }
 
-	  $script .= "}\n";
-	  $idx++;
+	        if ($extension && !isset($exts[$extension]))
+	            $exts[$extension] = $extension;
+	    }
+
+	    $script .= "}\n";
+	    $idx++;
 	}
       
-      // requires
-      if (sizeof($exts))
-        $script = 'require ["' . implode('","', $exts) . "\"];\n" . $script;
+        // requires
+        if (sizeof($exts))
+            $script = 'require ["' . implode('","', $exts) . "\"];\n" . $script;
 
-      return $script;
+        return $script;
     }
 
-  /**
+    /**
     * Returns script object
     *
     */
-  public function as_array()
+    public function as_array()
     {
-      return $this->content;
+        return $this->content;
     }
 
-  /**
+    /**
     * Returns array of supported extensions
     *
     */
-  public function get_extensions()
+    public function get_extensions()
     {
-      return array_values($this->supported);
+        return array_values($this->supported);
     }
 
-  /**
+    /**
     * Converts text script to rules array
     *
     * @param	string	Text script
     */
-  private function _parse_text($script)
+    private function _parse_text($script)
     {
-      $i = 0;
-      $content = array();
+        $i = 0;
+        $content = array();
 
-      // remove C comments
-      $script = preg_replace('|/\*.*?\*/|sm', '', $script);
+        // remove C comments
+        $script = preg_replace('|/\*.*?\*/|sm', '', $script);
 
-      // tokenize rules
-      if ($tokens = preg_split('/(# rule:\[.*\])\r?\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE))
-        foreach($tokens as $token)
-	  {
-	    if (preg_match('/^# rule:\[(.*)\]/', $token, $matches))
-	      {
-	        $content[$i]['name'] = $matches[1];
-	      }
-	    elseif (isset($content[$i]['name']) && sizeof($content[$i]) == 1)
-	      {
-	        if ($rule = $this->_tokenize_rule($token))
-		  {
-	    	    $content[$i] = array_merge($content[$i], $rule);
-	    	    $i++;
-		  }
-		else // unknown rule format
-		    unset($content[$i]);
-	      }
-	  }
+        // tokenize rules
+        if ($tokens = preg_split('/(# rule:\[.*\])\r?\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE)) {
+            foreach($tokens as $token) {
+	        if (preg_match('/^# rule:\[(.*)\]/', $token, $matches)) {
+	            $content[$i]['name'] = $matches[1];
+	        }
+	        elseif (isset($content[$i]['name']) && sizeof($content[$i]) == 1) {
+	            if ($rule = $this->_tokenize_rule($token)) {
+	    	        $content[$i] = array_merge($content[$i], $rule);
+	    	        $i++;
+		    }
+		    else // unknown rule format
+		        unset($content[$i]);
+	        }
+	    }
+        }
 
-      return $content;
+        return $content;
     }
 
-  /**
+    /**
     * Convert text script fragment to rule object
     *
     * @param	string	Text rule
     */
-  private function _tokenize_rule($content)
+    private function _tokenize_rule($content)
     {
-      $result = NULL;
+        $result = NULL;
     
-      if (preg_match('/^(if|elsif|else)\s+((true|not\s+true|allof|anyof|exists|header|not|size)(.*))\s+\{(.*)\}$/sm', trim($content), $matches))
-        {
-	  list($tests, $join) = $this->_parse_tests(trim($matches[2]));
-	  $actions = $this->_parse_actions(trim($matches[5]));
+        if (preg_match('/^(if|elsif|else)\s+((true|false|not\s+true|allof|anyof|exists|header|not|size)(.*))\s+\{(.*)\}$/sm',
+            trim($content), $matches)) {
 
-	  if ($tests && $actions)
-	    $result = array(
+            $tests = trim($matches[2]);
+
+            // disabled rule (false + comment): if false #.....
+            if ($matches[3] == 'false') {
+                $tests = preg_replace('/^false\s+#\s+/', '', $tests);
+                $disabled = true;
+            }
+            else
+                $disabled = false;
+
+	    list($tests, $join) = $this->_parse_tests($tests);
+	    $actions = $this->_parse_actions(trim($matches[5]));
+
+	    if ($tests && $actions)
+	        $result = array(
+                    'type' => $matches[1],
 		    'tests' => $tests,
 		    'actions' => $actions,
 		    'join' => $join,
-	    );
+                    'disabled' => $disabled,
+	        );
 	}
 
-      return $result;
+        return $result;
     }    
 
-  /**
+    /**
     * Parse body of actions section
     *
     * @param	string	Text body
     * @return	array	Array of parsed action type/target pairs
     */
-  private function _parse_actions($content)
+    private function _parse_actions($content)
     {
-      $result = NULL;
+        $result = NULL;
 
-      // supported actions
-      $patterns[] = '^\s*discard;';
-      $patterns[] = '^\s*keep;';
-      $patterns[] = '^\s*stop;';
-      $patterns[] = '^\s*redirect\s+(.*?[^\\\]);';
-      if (in_array('fileinto', $this->supported))
-        $patterns[] = '^\s*fileinto\s+(.*?[^\\\]);';
-      if (in_array('reject', $this->supported)) {
-        $patterns[] = '^\s*reject\s+text:(.*)\n\.\n;';
-        $patterns[] = '^\s*reject\s+(.*?[^\\\]);';
-        $patterns[] = '^\s*ereject\s+text:(.*)\n\.\n;';
-        $patterns[] = '^\s*ereject\s+(.*?[^\\\]);';
-      }
-      if (in_array('vacation', $this->supported))
-        $patterns[] = '^\s*vacation\s+(.*?[^\\\]);';
+        // supported actions
+        $patterns[] = '^\s*discard;';
+        $patterns[] = '^\s*keep;';
+        $patterns[] = '^\s*stop;';
+        $patterns[] = '^\s*redirect\s+(.*?[^\\\]);';
+        if (in_array('fileinto', $this->supported))
+            $patterns[] = '^\s*fileinto\s+(.*?[^\\\]);';
+        if (in_array('reject', $this->supported)) {
+            $patterns[] = '^\s*reject\s+text:(.*)\n\.\n;';
+            $patterns[] = '^\s*reject\s+(.*?[^\\\]);';
+            $patterns[] = '^\s*ereject\s+text:(.*)\n\.\n;';
+            $patterns[] = '^\s*ereject\s+(.*?[^\\\]);';
+        }
+        if (in_array('vacation', $this->supported))
+            $patterns[] = '^\s*vacation\s+(.*?[^\\\]);';
 
-      $pattern = '/(' . implode('$)|(', $patterns) . '$)/ms';
+        $pattern = '/(' . implode('$)|(', $patterns) . '$)/ms';
 
-      // parse actions body
-      if (preg_match_all($pattern, $content, $mm, PREG_SET_ORDER))
-      {
-    	foreach ($mm as $m)
-	{
-	  $content = trim($m[0]);
+        // parse actions body
+        if (preg_match_all($pattern, $content, $mm, PREG_SET_ORDER)) {
+    	    foreach ($mm as $m) {
+	        $content = trim($m[0]);
 	  
-    	  if(preg_match('/^(discard|keep|stop)/', $content, $matches))
-    	    {
-	      $result[] = array('type' => $matches[1]);
-	    }
-          elseif(preg_match('/^fileinto/', $content))
-    	    {
-	      $result[] = array('type' => 'fileinto', 'target' => $this->_parse_string($m[sizeof($m)-1])); 
-	    }
-          elseif(preg_match('/^redirect/', $content))
-    	    {
-	      $result[] = array('type' => 'redirect', 'target' => $this->_parse_string($m[sizeof($m)-1])); 
-	    }
-    	  elseif(preg_match('/^(reject|ereject)\s+(.*);$/sm', $content, $matches))
-    	    {
-	      $result[] = array('type' => $matches[1], 'target' => $this->_parse_string($matches[2])); 
-	    }
-          elseif(preg_match('/^vacation\s+(.*);$/sm', $content, $matches))
-            {
-	      $vacation = array('type' => 'vacation');
+    	        if(preg_match('/^(discard|keep|stop)/', $content, $matches)) {
+	            $result[] = array('type' => $matches[1]);
+	        }
+                elseif(preg_match('/^fileinto/', $content)) {
+	            $result[] = array('type' => 'fileinto', 'target' => $this->_parse_string($m[sizeof($m)-1])); 
+	        }
+                elseif(preg_match('/^redirect/', $content)) {
+	            $result[] = array('type' => 'redirect', 'target' => $this->_parse_string($m[sizeof($m)-1])); 
+	        }
+    	        elseif(preg_match('/^(reject|ereject)\s+(.*);$/sm', $content, $matches)) {
+	            $result[] = array('type' => $matches[1], 'target' => $this->_parse_string($matches[2])); 
+	        }
+                elseif(preg_match('/^vacation\s+(.*);$/sm', $content, $matches)) {
+	            $vacation = array('type' => 'vacation');
 
-    	      if (preg_match('/:(days)\s+([0-9]+)/', $content, $vm)) {
-	        $vacation['days'] = $vm[2];
-		$content = preg_replace('/:(days)\s+([0-9]+)/', '', $content); 
-	      }
-    	      if (preg_match('/:(subject)\s+(".*?[^\\\]")/', $content, $vm)) {
-	        $vacation['subject'] = $vm[2];
-		$content = preg_replace('/:(subject)\s+(".*?[^\\\]")/', '', $content); 
-	      }
-    	      if (preg_match('/:(addresses)\s+\[(.*?[^\\\])\]/', $content, $vm)) {
-	        $vacation['addresses'] = $this->_parse_list($vm[2]);
-		$content = preg_replace('/:(addresses)\s+\[(.*?[^\\\])\]/', '', $content); 
-	      }
-    	      if (preg_match('/:(handle)\s+(".*?[^\\\]")/', $content, $vm)) {
-	        $vacation['handle'] = $vm[2];
-		$content = preg_replace('/:(handle)\s+(".*?[^\\\]")/', '', $content); 
-	      }
-    	      if (preg_match('/:(from)\s+(".*?[^\\\]")/', $content, $vm)) {
-	        $vacation['from'] = $vm[2];
-		$content = preg_replace('/:(from)\s+(".*?[^\\\]")/', '', $content); 
-	      }
-	      $content = preg_replace('/^vacation/', '', $content);	     
-	      $content = preg_replace('/;$/', '', $content);
-	      $content = trim($content);
-    	      if (preg_match('/^:(mime)/', $content, $vm)) {
-	        $vacation['mime'] = true;
-		$content = preg_replace('/^:mime/', '', $content); 
-	      }
+    	            if (preg_match('/:(days)\s+([0-9]+)/', $content, $vm)) {
+	                $vacation['days'] = $vm[2];
+		        $content = preg_replace('/:(days)\s+([0-9]+)/', '', $content); 
+	            }
+    	            if (preg_match('/:(subject)\s+(".*?[^\\\]")/', $content, $vm)) {
+	                $vacation['subject'] = $vm[2];
+    		        $content = preg_replace('/:(subject)\s+(".*?[^\\\]")/', '', $content); 
+    	            }
+    	            if (preg_match('/:(addresses)\s+\[(.*?[^\\\])\]/', $content, $vm)) {
+	                $vacation['addresses'] = $this->_parse_list($vm[2]);
+		        $content = preg_replace('/:(addresses)\s+\[(.*?[^\\\])\]/', '', $content); 
+	            }
+    	            if (preg_match('/:(handle)\s+(".*?[^\\\]")/', $content, $vm)) {
+	                $vacation['handle'] = $vm[2];
+		        $content = preg_replace('/:(handle)\s+(".*?[^\\\]")/', '', $content); 
+	            }
+    	            if (preg_match('/:(from)\s+(".*?[^\\\]")/', $content, $vm)) {
+	                $vacation['from'] = $vm[2];
+		        $content = preg_replace('/:(from)\s+(".*?[^\\\]")/', '', $content); 
+	            }
 
-	      $vacation['reason'] = $this->_parse_string($content);
+	            $content = preg_replace('/^vacation/', '', $content);	     
+	            $content = preg_replace('/;$/', '', $content);
+	            $content = trim($content);
 
-              $result[] = $vacation;
+    	            if (preg_match('/^:(mime)/', $content, $vm)) {
+	                $vacation['mime'] = true;
+		        $content = preg_replace('/^:mime/', '', $content); 
+	            }
+
+	            $vacation['reason'] = $this->_parse_string($content);
+
+                    $result[] = $vacation;
+                }
             }
         }
-      }
 
-      return $result;
+        return $result;
     }    
     
-   /**
+    /**
     * Parse test/conditions section
     *
     * @param	string	Text 
     */
-
-  private function _parse_tests($content)
+    private function _parse_tests($content)
     {
-      $result = NULL;
+        $result = NULL;
 
-      // lists
-      if (preg_match('/^(allof|anyof)\s+\((.*)\)$/sm', $content, $matches))
-	{
-	  $content = $matches[2];
-	  $join = $matches[1]=='allof' ? true : false;
+        // lists
+        if (preg_match('/^(allof|anyof)\s+\((.*)\)$/sm', $content, $matches)) {
+	    $content = $matches[2];
+	    $join = $matches[1]=='allof' ? true : false;
 	}
-      else
-	  $join = false;
+        else
+	    $join = false;
       
-      // supported tests regular expressions
-      // TODO: comparators, envelope
-      $patterns[] = '(not\s+)?(exists)\s+\[(.*?[^\\\])\]';
-      $patterns[] = '(not\s+)?(exists)\s+(".*?[^\\\]")';
-      $patterns[] = '(not\s+)?(true)';
-      $patterns[] = '(not\s+)?(size)\s+:(under|over)\s+([0-9]+[KGM]{0,1})';
-      $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+\[(.*?[^\\\]")\]\s+\[(.*?[^\\\]")\]';
-      $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+(".*?[^\\\]")\s+(".*?[^\\\]")';
-      $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+\[(.*?[^\\\]")\]\s+(".*?[^\\\]")';
-      $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+(".*?[^\\\]")\s+\[(.*?[^\\\]")\]';
+        // supported tests regular expressions
+        // TODO: comparators, envelope
+        $patterns[] = '(not\s+)?(exists)\s+\[(.*?[^\\\])\]';
+        $patterns[] = '(not\s+)?(exists)\s+(".*?[^\\\]")';
+        $patterns[] = '(not\s+)?(true)';
+        $patterns[] = '(not\s+)?(size)\s+:(under|over)\s+([0-9]+[KGM]{0,1})';
+        $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+\[(.*?[^\\\]")\]\s+\[(.*?[^\\\]")\]';
+        $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+(".*?[^\\\]")\s+(".*?[^\\\]")';
+        $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+\[(.*?[^\\\]")\]\s+(".*?[^\\\]")';
+        $patterns[] = '(not\s+)?(header)\s+:(contains|is|matches)\s+(".*?[^\\\]")\s+\[(.*?[^\\\]")\]';
       
-      // join patterns...
-      $pattern = '/(' . implode(')|(', $patterns) . ')/';
+        // join patterns...
+        $pattern = '/(' . implode(')|(', $patterns) . ')/';
 
-      // ...and parse tests list
-      if (preg_match_all($pattern, $content, $matches, PREG_SET_ORDER))
-        {
-	  foreach ($matches as $match)
-	    {
-	      $size = sizeof($match);
+        // ...and parse tests list
+        if (preg_match_all($pattern, $content, $matches, PREG_SET_ORDER)) {
+	    foreach ($matches as $match) {
+	        $size = sizeof($match);
 	      
-	      if (preg_match('/^(not\s+)?size/', $match[0]))
-	        {
-		  $result[] = array(
-		    'test' 	=> 'size',
-		    'not' 	=> $match[$size-4] ? true : false,
-		    'type' 	=> $match[$size-2], // under/over
-		    'arg'	=> $match[$size-1], // value
-		  );
+	        if (preg_match('/^(not\s+)?size/', $match[0])) {
+		    $result[] = array(
+		        'test' 	=> 'size',
+		        'not' 	=> $match[$size-4] ? true : false,
+		        'type' 	=> $match[$size-2], // under/over
+		        'arg'	=> $match[$size-1], // value
+		    );
 		}
-	      elseif (preg_match('/^(not\s+)?header/', $match[0]))
-	    	{
-		  $result[] = array(
-		    'test'	=> 'header',
-		    'not' 	=> $match[$size-5] ? true : false,
-		    'type'	=> $match[$size-3], // is/contains/matches
-		    'arg1' 	=> $this->_parse_list($match[$size-2]), // header(s)
-		    'arg2'	=> $this->_parse_list($match[$size-1]), // string(s)
-		  );  
+	        elseif (preg_match('/^(not\s+)?header/', $match[0])) {
+		    $result[] = array(
+		        'test'	=> 'header',
+		        'not' 	=> $match[$size-5] ? true : false,
+		        'type'	=> $match[$size-3], // is/contains/matches
+		        'arg1' 	=> $this->_parse_list($match[$size-2]), // header(s)
+		        'arg2'	=> $this->_parse_list($match[$size-1]), // string(s)
+		    );  
 		}
-	      elseif (preg_match('/^(not\s+)?exists/', $match[0]))
-		{
-		  $result[] = array(
-		    'test' 	=> 'exists',
-		    'not' 	=> $match[$size-3] ? true : false,
-		    'arg' 	=> $this->_parse_list($match[$size-1]), // header(s)
-		  );
+	        elseif (preg_match('/^(not\s+)?exists/', $match[0])) {
+		    $result[] = array(
+		        'test' 	=> 'exists',
+		        'not' 	=> $match[$size-3] ? true : false,
+		        'arg' 	=> $this->_parse_list($match[$size-1]), // header(s)
+		    );
 	        }
-	      elseif (preg_match('/^(not\s+)?true/', $match[0]))
-		{
-		  $result[] = array(
-		    'test' 	=> 'true',
-		    'not' 	=> $match[$size-2] ? true : false,
-		  );
+	        elseif (preg_match('/^(not\s+)?true/', $match[0])) {
+		    $result[] = array(
+		        'test' 	=> 'true',
+		        'not' 	=> $match[$size-2] ? true : false,
+		    );
 	        }
 	    }
 	}
 
-      return array($result, $join);
+        return array($result, $join);
     }    
 
-   /**
+    /**
     * Parse string value
     *
     * @param	string	Text 
     */
-  private function _parse_string($content)
+    private function _parse_string($content)
     {
-      $text = '';
-      $content = trim($content);
+        $text = '';
+        $content = trim($content);
 
-      if (preg_match('/^text:(.*)\.$/sm', $content, $matches))
-        $text = trim($matches[1]);
-      elseif (preg_match('/^"(.*)"$/', $content, $matches))
-        $text = str_replace('\"', '"', $matches[1]);
+        if (preg_match('/^text:(.*)\.$/sm', $content, $matches))
+            $text = trim($matches[1]);
+        elseif (preg_match('/^"(.*)"$/', $content, $matches))
+            $text = str_replace('\"', '"', $matches[1]);
 
-      return $text;
+        return $text;
     }    
 
-   /**
+    /**
     * Escape special chars in string value
     *
     * @param	string	Text 
     */
-  private function _escape_string($content)
+    private function _escape_string($content)
     {
-      $replace['/"/'] = '\\"';
+        $replace['/"/'] = '\\"';
       
-      if (is_array($content))
-        {
-	  for ($x=0, $y=sizeof($content); $x<$y; $x++)
-	    $content[$x] = preg_replace(array_keys($replace), array_values($replace), $content[$x]);
+        if (is_array($content)) {
+	    for ($x=0, $y=sizeof($content); $x<$y; $x++)
+	        $content[$x] = preg_replace(array_keys($replace), array_values($replace), $content[$x]);
         
-	  return $content;
+	    return $content;
 	}
-      else
-        return preg_replace(array_keys($replace), array_values($replace), $content);
+        else
+            return preg_replace(array_keys($replace), array_values($replace), $content);
     }
 
-   /**
+    /**
     * Parse string or list of strings to string or array of strings
     *
     * @param	string	Text 
     */
-  private function _parse_list($content)
+    private function _parse_list($content)
     {
-      $result = array();
+        $result = array();
       
-      for ($x=0, $len=strlen($content); $x<$len; $x++)
-        {
-	  switch ($content[$x])
-	    {
-	      case '\\':
-	        $str .= $content[++$x];
-              break;
-	      case '"':
-	        if (isset($str))
-	    	  {
-		    $result[] = $str;
-		    unset($str);
-		  }
-	        else
-	          $str = '';
-	      break;
-	      default:
-	        if(isset($str))
-	          $str .= $content[$x];
-	      break;
+        for ($x=0, $len=strlen($content); $x<$len; $x++) {
+	    switch ($content[$x]) {
+	        case '\\':
+	            $str .= $content[++$x];
+                break;
+	        case '"':
+	            if (isset($str)) {
+		        $result[] = $str;
+		        unset($str);
+		    }
+	            else
+	                $str = '';
+	        break;
+	        default:
+	            if(isset($str))
+	                $str .= $content[$x];
+	        break;
 	    }
 	}
       
-      if (sizeof($result)>1)
-        return $result;
-      elseif (sizeof($result) == 1)
-	return $result[0];
-      else
-        return NULL;
+        if (sizeof($result)>1)
+            return $result;
+        elseif (sizeof($result) == 1)
+	    return $result[0];
+        else
+            return NULL;
     }    
 
-   /**
+    /**
     * Convert array of elements to list of strings
     *
     * @param	string	Text 
     */
-  private function _print_list($list)
+    private function _print_list($list)
     {
-      $list = (array) $list;
-      foreach($list as $idx => $val)
-        $list[$idx] = $this->_escape_string($val);
+        $list = (array) $list;
+        foreach($list as $idx => $val)
+            $list[$idx] = $this->_escape_string($val);
     
-      return '["' . implode('","', $list) . '"]';
+        return '["' . implode('","', $list) . '"]';
     }
 }
 

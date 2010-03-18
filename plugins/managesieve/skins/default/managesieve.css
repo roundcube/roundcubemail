@@ -5,7 +5,6 @@
 {
   position: absolute;
   left: 20px;
-  width: 220px;
   top: 120px;
   bottom: 30px;
   border: 1px solid #999999;
@@ -28,6 +27,11 @@
   cursor: pointer;
 }
 
+#filters-table tbody tr.disabled td
+{
+  color: #999999;
+}
+
 #filtersbuttons
 {
   position: absolute;
@@ -38,7 +42,7 @@
 #filtersetsbuttons
 {
   position: absolute;
-  left: 250px;
+  left: 230px;
   top: 85px;
 }
 
@@ -131,7 +135,7 @@
 #filtersetselect
 {
   position: absolute;
-  left: 380px;
+  left: 360px;
   top: 90px;
 }
 
@@ -139,7 +143,6 @@
 {
   position: absolute;
   top: 120px;
-  left: 250px;
   right: 20px;
   bottom: 30px;
   border: 1px solid #999999;
@@ -168,12 +171,6 @@ body.iframe
   white-space: nowrap;
   background-color: #F9F9F9;
   padding: 20px 10px 10px 10px;
-}
-
-#filter-form input, select
-{
-  font-size: 10pt;
-  font-family: inherit;
 }
 
 fieldset
@@ -247,4 +244,25 @@ span.label
   color: #666666;
   font-size: 10px;
   white-space: nowrap;
+}
+
+#footer
+{
+  padding-top: 5px;
+  width: 100%;
+}
+  
+#footer .footerleft
+{
+  padding-left: 2px;
+  white-space: nowrap;
+  float: left;
+}
+
+#footer .footerright
+{
+  padding-right: 2px;
+  white-space: nowrap;
+  text-align: right;
+  float: right;
 }

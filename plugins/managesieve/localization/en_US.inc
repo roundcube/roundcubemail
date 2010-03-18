@@ -46,6 +46,7 @@ $labels['newfilterset'] = 'New filters set';
 $labels['active'] = 'active';
 $labels['copyfromset'] = 'Copy filters from set';
 $labels['none'] = '- none -';
+$labels['filterdisabled'] = 'Filter disabled';
 
 $messages = array();
 $messages['filterunknownerror'] = 'Unknown server error';

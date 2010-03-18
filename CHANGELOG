@@ -1,6 +1,9 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Managesieve: import from Horde-INGO
+- Managesieve: support for more than one match (#1486078)
+- Managesieve: support for selectively disabling rules within a single sieve script (#1485882)
 - Threaded message listing now available
 - Added sorting by ARRIVAL and CC
 - Message list columns configurable by the user

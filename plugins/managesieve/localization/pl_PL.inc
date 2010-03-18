@@ -47,6 +47,7 @@ $labels['newfilterset'] = 'Nowy zbiór filtrów';
 $labels['active'] = 'aktywny';
 $labels['copyfromset'] = 'Skopiuj filtry ze zbioru';
 $labels['none'] = '- brak -';
+$labels['filterdisabled'] = 'Filtr wyłączony';
 
 $messages = array();
 $messages['filterunknownerror'] = 'Nieznany błąd serwera';

@@ -5,6 +5,15 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
 <script type="text/javascript" src="/functions.js"></script>
+<script type="text/javascript" src="/splitter.js"></script>
+
+<style type="text/css">
+#filterslist { width: <roundcube:exp expression="!empty(cookie:sieveviewsplitter) ? cookie:sieveviewsplitter-5 : 210" />px; }
+#filter-box { left: <roundcube:exp expression="!empty(cookie:sieveviewsplitter) ? cookie:sieveviewsplitter+5 : 220" />px;
+<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:sieveviewsplitter) ? cookie:sieveviewsplitter+5 : 220).')+\\'px\\');') : ''" />
+}
+</style>
+
 </head>
 <body>
 
@@ -32,7 +41,10 @@
 <div id="filterslist">
 <roundcube:object name="filterslist" id="filters-table" class="records-table" cellspacing="0" summary="Filters list" />
 </div>
-
+<script type="text/javascript">
+  var sieveviewsplit = new rcube_splitter({id:'sieveviewsplitter', p1: 'filterslist', p2: 'filter-box', orientation: 'v', relative: true, start: 215});
+  rcmail.add_onload('sieveviewsplit.init()');
+</script>
 <div id="filter-box">
 <roundcube:object name="filterframe" id="filter-frame" width="100%" height="100%" frameborder="0" src="/watermark.html" />
 </div>
