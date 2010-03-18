@@ -682,17 +682,19 @@ class rcube_imap
           $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);
       }
     // use SORT command
-    else if ($this->get_capability('sort') && ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
+    else if ($this->get_capability('sort'))
       {
-      list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
-      $max = max($msg_index);
-      $msg_index = array_slice($msg_index, $begin, $end-$begin);
+      if ($msg_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')) {
+        list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
+        $max = max($msg_index);
+        $msg_index = array_slice($msg_index, $begin, $end-$begin);
 
-      if ($slice)
-        $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
+        if ($slice)
+          $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
 
-      // fetch reqested headers from server
-      $this->_fetch_headers($mailbox, join(',', $msg_index), $a_msg_headers, $cache_key);
+        // fetch reqested headers from server
+        $this->_fetch_headers($mailbox, join(',', $msg_index), $a_msg_headers, $cache_key);
+        }
       }
     // fetch specified header for all messages and sort
     else if ($a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted))
@@ -773,7 +775,7 @@ class rcube_imap
       // get all threads
       list ($thread_tree, $msg_depth, $has_children) = iil_C_Thread($this->conn,
         $mailbox, $this->threading, $this->skip_deleted ? 'UNDELETED' : '');
-    
+   
       // add to internal (fast) cache
       $this->icache['threads'] = array();
       $this->icache['threads']['tree'] = $thread_tree;
@@ -1082,25 +1084,25 @@ class rcube_imap
     // fetch reqested headers from server
     $a_header_index = iil_C_FetchHeaders($this->conn, $mailbox, $msgs, false, false, $this->fetch_add_headers);
 
-    if (!empty($a_header_index))
-      {
-      // cache is incomplete
-      $cache_index = $this->get_message_cache_index($cache_key);
+    if (empty($a_header_index))
+      return 0;
 
-      foreach ($a_header_index as $i => $headers) {
-        if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid) {
-          // prevent index duplicates
-          if ($cache_index[$headers->id]) {
-            $this->remove_message_cache($cache_key, $headers->id, true);
-            unset($cache_index[$headers->id]);
+    // cache is incomplete
+    $cache_index = $this->get_message_cache_index($cache_key);
+
+    foreach ($a_header_index as $i => $headers) {
+      if ($this->caching_enabled && $cache_index[$headers->id] != $headers->uid) {
+        // prevent index duplicates
+        if ($cache_index[$headers->id]) {
+          $this->remove_message_cache($cache_key, $headers->id, true);
+          unset($cache_index[$headers->id]);
           }
-          // add message to cache
-          $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
-            !in_array($headers->uid, $cache_index));
+        // add message to cache
+        $this->add_message_cache($cache_key, $headers->id, $headers, NULL,
+          !in_array($headers->uid, $cache_index));
         }
 
-        $a_msg_headers[$headers->uid] = $headers;
-        }
+      $a_msg_headers[$headers->uid] = $headers;
       }
 
     return count($a_msg_headers);
@@ -1223,17 +1225,16 @@ class rcube_imap
       $this->cache[$key] = $a_index;
       }
     // fetch complete message index
-    else if ($this->get_capability('sort') && ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')))
+    else if ($this->get_capability('sort'))
       {
-      if ($this->sort_order == 'DESC')
-        $a_index = array_reverse($a_index);
-
-      $this->cache[$key] = $a_index;
+      if ($a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')) {
+        if ($this->sort_order == 'DESC')
+          $a_index = array_reverse($a_index);
+	
+        $this->cache[$key] = $a_index;
+	}
       }
-    else
-      {
-      $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted);
-
+    else if ($a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, "1:*", $this->sort_field, $this->skip_deleted)) {
       if ($this->sort_order=="ASC")
         asort($a_index);
       else if ($this->sort_order=="DESC")
@@ -1461,6 +1462,9 @@ class rcube_imap
     else if ($sort_field && $this->get_capability('sort')) {
       $charset = $charset ? $charset : $this->default_charset;
       $a_messages = iil_C_Sort($this->conn, $mailbox, $sort_field, $criteria, FALSE, $charset);
+
+      if (!$a_messages)
+	return array();
       }
     else {
       if ($orig_criteria == 'ALL') {
@@ -1469,7 +1473,10 @@ class rcube_imap
         }
       else {
         $a_messages = iil_C_Search($this->conn, $mailbox, ($charset ? "CHARSET $charset " : '') . $criteria);
-    
+
+	if (!$a_messages)
+	  return array();
+
         // I didn't found that SEARCH always returns sorted IDs
         if (!$this->sort_field)
           sort($a_messages);
@@ -1500,7 +1507,7 @@ class rcube_imap
     // THREAD=REFS: 		sorting by the most recent date in each thread
     // default sorting
     if (!$this->sort_field || ($this->sort_field == 'date' && $this->threading == 'REFS')) {
-        return array_keys($thread_tree);
+        return array_keys((array)$thread_tree);
       }
     // here we'll implement REFS sorting, for performance reason
     else { // ($sort_field == 'date' && $this->threading != 'REFS')
@@ -1508,11 +1515,20 @@ class rcube_imap
       if ($this->get_capability('sort')) {
         $a_index = iil_C_Sort($this->conn, $mailbox, $this->sort_field,
 	    !empty($ids) ? $ids : ($this->skip_deleted ? 'UNDELETED' : ''));
+
+	// return unsorted tree if we've got no index data
+	if (!$a_index)
+	  return array_keys((array)$thread_tree);
         }
       else {
         // fetch specified headers for all messages and sort them
         $a_index = iil_C_FetchHeaderIndex($this->conn, $mailbox, !empty($ids) ? $ids : "1:*",
 	    $this->sort_field, $this->skip_deleted);
+
+	// return unsorted tree if we've got no index data
+	if (!$a_index)
+	  return array_keys((array)$thread_tree);
+
         asort($a_index); // ASC
 	$a_index = array_values($a_index);
         }

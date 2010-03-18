@@ -741,32 +741,6 @@ function iil_ExplodeQuotedString($delimiter, $string) {
 	return $result;
 }
 
-function iil_CheckForRecent($host, $user, $password, $mailbox) {
-	if (empty($mailbox)) {
-		$mailbox = 'INBOX';
-	}
-    
-	$conn = iil_Connect($host, $user, $password, 'plain');
-	$fp   = $conn->fp;
-	if ($fp) {
-		iil_PutLine($fp, "a002 EXAMINE \"".iil_Escape($mailbox)."\"");
-		do {
-			$line=chop(iil_ReadLine($fp, 300));
-			$a=explode(' ', $line);
-			if (($a[0] == '*') && (strcasecmp($a[2], 'RECENT') == 0)) {
-			    $result = (int) $a[1];
-        		}
-		} while (!iil_StartsWith($a[0], 'a002', true));
-
-		iil_PutLine($fp, "a003 LOGOUT");
-		fclose($fp);
-	} else {
-	    $result = -2;
-	}
-    
-	return $result;
-}
-
 function iil_C_Select(&$conn, $mailbox) {
 
 	if (empty($mailbox)) {
@@ -1619,61 +1593,66 @@ function iil_ParseThread($str, $begin, $end, $root, $parent, $depth, &$depthmap,
 function iil_C_Thread(&$conn, $folder, $algorithm='REFERENCES', $criteria='',
     $encoding='US-ASCII') {
 
-	if (iil_C_Select($conn, $folder)) {
-	
-		$encoding = $encoding ? trim($encoding) : 'US-ASCII';
-		$algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
-		$criteria = $criteria ? 'ALL '.trim($criteria) : 'ALL';
-		
-		iil_PutLineC($conn->fp, "thrd1 THREAD $algorithm $encoding $criteria");
-		do {
-			$line = trim(iil_ReadLine($conn->fp, 10000));
-			if (preg_match('/^\* THREAD/', $line)) {
-				$str = trim(substr($line, 8));
-				$depthmap = array();
-				$haschildren = array();
-				$tree = iil_ParseThread($str, 0, strlen($str), null, null, 0, $depthmap, $haschildren);
-			}
-		} while (!iil_StartsWith($line, 'thrd1', true));
-
-		$result_code = iil_ParseResult($line);
-		if ($result_code == 0) {
-		    return array($tree, $depthmap, $haschildren);
-		}
-		$conn->error = 'iil_C_Thread: ' . $line . "\n";
-		return false;	
+	if (!iil_C_Select($conn, $folder)) {
+		$conn->error = "Couldn't select $folder";
+		return false;
 	}
-	$conn->error = "iil_C_Thread: Couldn't select \"$folder\"\n";
-	return false;
+
+	$encoding = $encoding ? trim($encoding) : 'US-ASCII';
+	$algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
+	$criteria = $criteria ? 'ALL '.trim($criteria) : 'ALL';
+		
+	if (!iil_PutLineC($conn->fp, "thrd1 THREAD $algorithm $encoding $criteria")) {
+		return false;
+	}
+	do {
+		$line = trim(iil_ReadLine($conn->fp, 10000));
+		if (preg_match('/^\* THREAD/', $line)) {
+			$str = trim(substr($line, 8));
+			$depthmap = array();
+			$haschildren = array();
+			$tree = iil_ParseThread($str, 0, strlen($str), null, null, 0, $depthmap, $haschildren);
+		}
+	} while (!iil_StartsWith($line, 'thrd1', true));
+
+	$result_code = iil_ParseResult($line);
+	if ($result_code == 0) {
+	    return array($tree, $depthmap, $haschildren);
+	}
+
+	$conn->error = 'iil_C_Thread: ' . $line . "\n";
+	return false;	
 }
 
 function iil_C_Search(&$conn, $folder, $criteria) {
 
-	if (iil_C_Select($conn, $folder)) {
-		$data = '';
-		
-		$query = 'srch1 SEARCH ' . chop($criteria);
-		if (!iil_PutLineC($conn->fp, $query)) {
-			return false;
-		}
-		do {
-			$line = trim(iil_ReadLine($conn->fp));
-			if (iil_StartsWith($line, '* SEARCH')) {
-				$data .= substr($line, 8);
-    			} else if (preg_match('/^[0-9 ]+$/', $line)) {
-				$data .= $line;
-			}
-		} while (!iil_StartsWith($line, 'srch1', true));
-
-		$result_code = iil_ParseResult($line);
-		if ($result_code == 0) {
-		    return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
-		}
-		$conn->error = 'iil_C_Search: ' . $line . "\n";
-		return false;	
+	if (!iil_C_Select($conn, $folder)) {
+		$conn->error = "Couldn't select $folder";
+		return false;
 	}
-	$conn->error = "iil_C_Search: Couldn't select \"$folder\"\n";
-	return false;
+
+	$data = '';
+	$query = 'srch1 SEARCH ' . chop($criteria);
+
+	if (!iil_PutLineC($conn->fp, $query)) {
+		return false;
+	}
+	do {
+		$line = trim(iil_ReadLine($conn->fp));
+		if (iil_StartsWith($line, '* SEARCH')) {
+			$data .= substr($line, 8);
+		} else if (preg_match('/^[0-9 ]+$/', $line)) {
+			$data .= $line;
+		}
+	} while (!iil_StartsWith($line, 'srch1', true));
+
+	$result_code = iil_ParseResult($line);
+	if ($result_code == 0) {
+		return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
+	}
+
+	$conn->error = 'iil_C_Search: ' . $line . "\n";
+	return false;	
 }
 
 function iil_C_Move(&$conn, $messages, $from, $to) {
