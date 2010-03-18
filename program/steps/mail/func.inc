@@ -43,7 +43,6 @@ if (!in_array($RCMAIL->action, $NOIMAP_ACTIONS) && !$RCMAIL->imap_connect()) {
   $OUTPUT->send('login');
 }
 
-
 // set imap properties and session vars
 if ($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC))
   $IMAP->set_mailbox(($_SESSION['mbox'] = $mbox));

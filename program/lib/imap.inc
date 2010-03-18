@@ -1748,9 +1748,6 @@ function iil_C_GetHierarchyDelimiter(&$conn) {
 }
 
 function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
-	global $IGNORE_FOLDERS;
-	
-	$ignore = $IGNORE_FOLDERS[strtolower($conn->host)];
 		
 	$fp = $conn->fp;
 	
@@ -1779,12 +1776,7 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
         		// split one line
 			$a = iil_ExplodeQuotedString(' ', $line);
         		// last string is folder name
-			$folder = preg_replace(array('/^"/', '/"$/'), '', iil_UnEscape($a[count($a)-1]));
-            
-        		if (empty($ignore) || (!empty($ignore)
-            			&& !preg_match('/'.preg_quote(ignore, '/').'/i', $folder))) {
-            			$folders[$i] = $folder;
-        		}
+			$folders[$i] = preg_replace(array('/^"/', '/"$/'), '', iil_UnEscape($a[count($a)-1]));
             
 		        // second from last is delimiter
         		$delim = trim($a[count($a)-2], '"');
@@ -1812,9 +1804,6 @@ function iil_C_ListMailboxes(&$conn, $ref, $mailbox) {
 }
 
 function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
-	global $IGNORE_FOLDERS;
-	
-	$ignore = $IGNORE_FOLDERS[strtolower($conn->host)];
 	
 	$fp = $conn->fp;
 	if (empty($mailbox)) {
@@ -1846,9 +1835,9 @@ function iil_C_ListSubscribed(&$conn, $ref, $mailbox) {
 			$a = iil_ExplodeQuotedString(' ', $line);
         		// last string is folder name
     			$folder = preg_replace(array('/^"/', '/"$/'), '', iil_UnEscape($a[count($a)-1]));
-        
-			if ((!in_array($folder, $folders)) && (empty($ignore)
-            			|| (!empty($ignore) && !preg_match('/'.preg_quote(ignore, '/').'/i', $folder)))) {
+
+			// @TODO: do we need this check???
+			if (!in_array($folder, $folders)) {
 			    $folders[$i] = $folder;
         		}
             
