@@ -300,7 +300,12 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    if (!isset($no_override['autoexpand_threads'])) {
+    $RCMAIL->imap_connect();
+    $threading_supported = $RCMAIL->imap->get_capability('thread=references')
+      || $RCMAIL->imap->get_capability('thread=orderedsubject')
+      || $RCMAIL->imap->get_capability('thread=refs');
+
+    if (!isset($no_override['autoexpand_threads']) && $threading_supported) {
       $field_id = 'rcmfd_autoexpand_threads';
       $select_autoexpand_threads = new html_select(array('name' => '_autoexpand_threads', 'id' => $field_id));
       $select_autoexpand_threads->add(rcube_label('never'), 0);
@@ -532,9 +537,16 @@ function rcmail_user_prefs($current=null)
 
     // Configure special folders
     if (!isset($no_override['default_imap_folders'])) {
+
       $RCMAIL->imap_connect();
-      $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
-        'maxlength' => 30, 'exceptions' => array('INBOX')));
+
+      // load folders list only when needed
+      if ($current) {
+        $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
+          'maxlength' => 30, 'exceptions' => array('INBOX')));
+      }
+      else // dummy select
+        $select = new html_select();
 
       if (!isset($no_override['drafts_mbox']))
         $blocks['main']['options']['drafts_mbox'] = array(

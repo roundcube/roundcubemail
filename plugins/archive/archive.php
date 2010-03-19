@@ -110,12 +110,19 @@ class archive extends rcube_plugin
 
   function prefs_table($args)
   {
+    global $CURR_SECTION;
+
     if ($args['section'] == 'folders') {
       $this->add_texts('localization');
-      
+
       $rcmail = rcmail::get_instance();
-      $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
-        'maxlength' => 30, 'exceptions' => array('INBOX')));
+
+      // load folders list when needed
+      if ($CURR_SECTION)
+        $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
+          'maxlength' => 30, 'exceptions' => array('INBOX')));
+      else
+        $select = new html_select();
 
       $args['blocks']['main']['options']['archive_mbox'] = array(
           'title' => $this->gettext('archivefolder'),
