@@ -294,7 +294,7 @@ function rcube_subscription_form($attrib)
     $table->add('msgcount', ($folder['virtual'] ? '' : $IMAP->messagecount($folder['id']))); // XXX: Use THREADS or ALL?
     $table->add('subscribed', ($protected || $folder['virtual']) ? ($subscribed ? '&nbsp;&#x2022;' : '&nbsp;') :
         $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''), array('value' => $folder_utf8)));
-    if ($IMAP->get_capability('thread=references')) {
+    if ($threading_supported) {
       $table->add('threaded',
                   $checkbox_threaded->show(($threaded ? $folder_utf8 : ''), array('value' => $folder_utf8)));
     }
