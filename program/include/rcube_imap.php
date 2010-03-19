@@ -2167,7 +2167,7 @@ class rcube_imap
     $mailbox = $this->mod_mailbox($mbox_name);
 
     // make sure mailbox exists
-    if ($mailbox == 'INBOX' || $this->mailbox_exists($mbox_name)) {
+    if ($this->mailbox_exists($mbox_name, true)) {
       if ($is_file) {
         $separator = rcmail::get_instance()->config->header_delimiter();
         $saved = iil_C_AppendFromFile($this->conn, $mailbox, $message,
@@ -2210,7 +2210,7 @@ class rcube_imap
       return false;
 
     // make sure mailbox exists
-    if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox))
+    if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox, true))
       {
       if (in_array($tbox, $this->default_folders))
         $this->create_mailbox($tbox, true);
@@ -2292,7 +2292,7 @@ class rcube_imap
       return false;
 
     // make sure mailbox exists
-    if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox))
+    if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox, true))
       {
       if (in_array($tbox, $this->default_folders))
         $this->create_mailbox($tbox, true);
@@ -2620,7 +2620,7 @@ class rcube_imap
         {
         $mailbox = $this->mod_mailbox($mbox_name);
         $sub_mboxes = iil_C_ListMailboxes($this->conn, $this->mod_mailbox(''),
-	  $mailbox . $this->delimiter . '*');
+	  $mbox_name . $this->delimiter . '*');
 
         // unsubscribe mailbox before deleting
         iil_C_UnSubscribe($this->conn, $mailbox);
@@ -2634,11 +2634,11 @@ class rcube_imap
 	  
         foreach ($sub_mboxes as $c_mbox)
           if ($c_mbox != 'INBOX') {
-          iil_C_UnSubscribe($this->conn, $c_mbox);
-          $result = iil_C_DeleteFolder($this->conn, $c_mbox);
-          if ($result >= 0) {
-            $deleted = true;
-    	    $this->clear_message_cache($c_mbox.'.msg');
+            iil_C_UnSubscribe($this->conn, $c_mbox);
+            $result = iil_C_DeleteFolder($this->conn, $c_mbox);
+            if ($result >= 0) {
+              $deleted = true;
+    	      $this->clear_message_cache($c_mbox.'.msg');
             }
           }
         }
@@ -2680,16 +2680,14 @@ class rcube_imap
       if ($mbox_name == 'INBOX')
         return true;
 
-      $mbox = $this->mod_mailbox($mbox_name);
-      
       if ($subscription) {
-        if ($a_folders = iil_C_ListSubscribed($this->conn, $this->mod_mailbox(''), $mbox))
+        if ($a_folders = iil_C_ListSubscribed($this->conn, $this->mod_mailbox(''), $mbox_name))
           return true;
         }
       else {
-        $a_folders = iil_C_ListMailboxes($this->conn, $this->mod_mailbox(''), $mbox);
+        $a_folders = iil_C_ListMailboxes($this->conn, $this->mod_mailbox(''), $mbox_mbox);
 	
-	if (is_array($a_folders) && in_array($mbox, $a_folders))
+	if (is_array($a_folders) && in_array($this->mod_mailbox($mbox_name), $a_folders))
           return true;
         }
       }
