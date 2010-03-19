@@ -6,7 +6,7 @@
  | language/pl_PL/messages.inc                                           |
  |                                                                       |
  | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -89,6 +89,7 @@ $messages['copyerror'] = 'Nie można skopiować żadnego adresu';
 $messages['sourceisreadonly'] = 'Źródło adresu jest tylko do odczytu';
 $messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu';
 $messages['movingmessage'] = 'Przenoszenie wiadomości...';
+$messages['copyingmessage'] = 'Kopiowanie wiadomości...';
 $messages['receiptsent'] = 'Pomyślnie wysłano potwierdzenie dostarczenia';
 $messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia';
 $messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';

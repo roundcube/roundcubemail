@@ -197,7 +197,7 @@ function rcube_webmail()
         
         if (this.env.action=='show' || this.env.action=='preview')
           {
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete',
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete',
             'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
 
           if (this.env.next_uid)
@@ -672,6 +672,11 @@ function rcube_webmail()
           this.move_messages(props);
         else if (this.task == 'addressbook' && this.drag_active)
           this.copy_contact(null, props);
+        break;
+
+      case 'copy':
+        if (this.task == 'mail')
+          this.copy_messages(props);
         break;
 
       case 'mark':
@@ -1194,10 +1199,14 @@ function rcube_webmail()
 
     // handle mouse release when dragging
     if (this.drag_active && model && this.env.last_folder_target) {
+      var mbox = model[this.env.last_folder_target].id;
+
       $(this.get_folder_li(this.env.last_folder_target)).removeClass('droptarget');
-      this.command('moveto', model[this.env.last_folder_target].id);
       this.env.last_folder_target = null;
       list.draglayer.hide();
+
+      if (!this.drag_menu(e, mbox))
+        this.command('moveto', mbox);
     }
     
     // reset 'pressed' buttons
@@ -1207,6 +1216,29 @@ function rcube_webmail()
           this.button_out(this.buttons_sel[id], id);
       this.buttons_sel = {};
     }
+  };
+
+  this.drag_menu = function(e, mbox)
+  {
+    var modkey = rcube_event.get_modifier(e);
+    var menu = $('#'+this.gui_objects.message_dragmenu);
+
+    if (menu && modkey == SHIFT_KEY) {
+      var pos = rcube_event.get_mouse_pos(e);
+      this.env.drag_mbox = mbox;
+      menu.css({top: (pos.y-10)+'px', left: (pos.x-10)+'px'}).show();
+      return true;
+    }
+  };
+
+  this.drag_menu_action = function(action)
+  {
+    var menu = $('#'+this.gui_objects.message_dragmenu);
+    if (menu) {
+      menu.hide();
+    }
+    this.command(action, this.env.drag_mbox);
+    this.env.drag_mbox = null;
   };
 
   this.drag_start = function(list)
@@ -1389,12 +1421,12 @@ function rcube_webmail()
       {
       this.enable_command('reply', 'reply-all', 'forward', false);
       this.enable_command('show', 'print', 'open', 'edit', 'download', 'viewsource', selected);
-      this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
+      this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
       }
     else
       {
       this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'edit', 'open', 'download', 'viewsource', selected);
-      this.enable_command('delete', 'moveto', 'mark', (list.selection.length > 0 ? true : false));
+      this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
       }
 
     // start timer for message preview (wait for double click)
@@ -2119,6 +2151,32 @@ function rcube_webmail()
       $(row.obj).addClass('unroot');
     else
       $(row.obj).removeClass('unroot');
+    };
+
+  // copy selected messages to the specified mailbox
+  this.copy_messages = function(mbox)
+    {
+    // exit if current or no mailbox specified or if selection is empty
+    if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
+      return;
+
+    var add_url = '&_target_mbox='+urlencode(mbox)+'&_from='+(this.env.action ? this.env.action : '');
+    var a_uids = new Array();
+
+    if (this.env.uid)
+      a_uids[0] = this.env.uid;
+    else
+    {
+      var selection = this.message_list.get_selection();
+      var id;
+      for (var n=0; n<selection.length; n++) {
+        id = selection[n];
+        a_uids[a_uids.length] = id;
+      }
+    }
+
+    // send request to server
+    this.http_post('copy', '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, false);
     };
 
   // move selected messages to the specified mailbox
@@ -4625,7 +4683,7 @@ function rcube_webmail()
           if (this.env.contentframe)
             this.show_contentframe(false);
           // disable commands useless when mailbox is empty
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'delete', 
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete', 
             'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment', 
             'purge', 'expunge', 'select-all', 'select-none', 'sort',
             'expand-all', 'expand-unread', 'collapse-all', false);

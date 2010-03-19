@@ -2202,6 +2202,13 @@ class rcube_imap
     $to_mbox = $this->mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->mod_mailbox($from_mbox) : $this->mailbox;
 
+    // convert the list of uids to array
+    $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
+
+    // exit if no message uids are specified
+    if (!is_array($a_uids) || empty($a_uids))
+      return false;
+
     // make sure mailbox exists
     if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox))
       {
@@ -2210,13 +2217,6 @@ class rcube_imap
       else
         return false;
       }
-
-    // convert the list of uids to array
-    $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
-
-    // exit if no message uids are specified
-    if (!is_array($a_uids) || empty($a_uids))
-      return false;
 
     // flag messages as read before moving them
     $config = rcmail::get_instance()->config;
@@ -2266,6 +2266,49 @@ class rcube_imap
     }
 
     return $moved;
+  }
+
+
+  /**
+   * Copy a message from one mailbox to another
+   *
+   * @param string List of UIDs to copy, separated by comma
+   * @param string Target mailbox
+   * @param string Source mailbox
+   * @return boolean True on success, False on error
+   */
+  function copy_message($uids, $to_mbox, $from_mbox='')
+  {
+    $fbox = $from_mbox;
+    $tbox = $to_mbox;
+    $to_mbox = $this->mod_mailbox($to_mbox);
+    $from_mbox = $from_mbox ? $this->mod_mailbox($from_mbox) : $this->mailbox;
+
+    // convert the list of uids to array
+    $a_uids = is_string($uids) ? explode(',', $uids) : (is_array($uids) ? $uids : NULL);
+
+    // exit if no message uids are specified
+    if (!is_array($a_uids) || empty($a_uids))
+      return false;
+
+    // make sure mailbox exists
+    if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox))
+      {
+      if (in_array($tbox, $this->default_folders))
+        $this->create_mailbox($tbox, true);
+      else
+        return false;
+      }
+
+    // copy messages
+    $iil_copy = iil_C_Copy($this->conn, join(',', $a_uids), $from_mbox, $to_mbox);
+    $copied = !($iil_copy === false || $iil_copy < 0);
+
+    if ($copied) {
+      $this->_clear_messagecount($to_mbox);
+    }
+
+    return $copied;
   }
 
 

@@ -125,6 +125,7 @@ function rcube_mail_ui()
   this.searchmenu = $('#searchmenu');
   this.messagemenu = $('#messagemenu');
   this.listmenu = $('#listmenu');
+  this.dragmessagemenu = $('#dragmessagemenu');
 }
 
 rcube_mail_ui.prototype = {
@@ -259,6 +260,8 @@ body_mouseup: function(evt, p)
     this.show_markmenu(false);
   else if (this.messagemenu && this.messagemenu.is(':visible') && target != rcube_find_object('messagemenulink'))
     this.show_messagemenu(false);
+  else if (this.dragmessagemenu && this.dragmessagemenu.is(':visible') && !rcube_mouse_is_over(evt, rcube_find_object('dragmessagemenu')))
+    this.dragmessagemenu.hide();
   else if (this.listmenu && this.listmenu.is(':visible') && target != rcube_find_object('listmenulink')) {
     var menu = rcube_find_object('listmenu');
     while (target.parentNode) {
@@ -290,6 +293,8 @@ body_keypress: function(evt, p)
       this.show_messagemenu(false);
     if (this.listmenu && this.listmenu.is(':visible'))
       this.show_listmenu(false);
+    if (this.dragmessagemenu && this.dragmessagemenu.is(':visible'))
+      this.dragmessagemenu.hide();
   }
 }
 
@@ -304,4 +309,5 @@ function rcube_init_mail_ui()
   rcube_event.add_listener({ object:rcmail_ui, method:'body_keypress', event:'keypress' });
   rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
   rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
+  rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
 }

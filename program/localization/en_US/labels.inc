@@ -59,6 +59,8 @@ $labels['messagesfromto'] = 'Messages $from to $to of $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Message $nr of $count';
 
+$labels['copy']     = 'Copy';
+$labels['move']     = 'Move';
 $labels['moveto']   = 'Move to...';
 $labels['download'] = 'Download';
 

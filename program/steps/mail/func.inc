@@ -130,7 +130,8 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
     $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
 
   if (!$OUTPUT->ajax_call)
-    $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
+    $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
+      'movingmessage', 'copyingmessage', 'copy', 'move');
 
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($mbox_name));
   }
@@ -1457,7 +1458,6 @@ function rcmail_send_mdn($uid, &$smtp_error)
   return false;
 }
 
-
 function rcmail_search_filter($attrib)
 {
   global $OUTPUT, $CONFIG;
@@ -1489,6 +1489,7 @@ function rcmail_search_filter($attrib)
 
   return $out;										
 }
+
 
 // register UI objects
 $OUTPUT->add_handlers(array(

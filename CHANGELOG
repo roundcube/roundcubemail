@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Implemented messages copying using drag&drop + SHIFT (#1484086)
 - Improved performance of folders operations (#1486525)
 - Fix blocked.gif attachment is not attached to the message (#1486516)
 - Managesieve: import from Horde-INGO

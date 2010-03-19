@@ -86,6 +86,7 @@ $messages['copyerror'] = 'Could not copy any addresses';
 $messages['sourceisreadonly'] = 'This address source is read only';
 $messages['errorsavingcontact'] = 'Could not save the contact address';
 $messages['movingmessage'] = 'Moving message...';
+$messages['copyingmessage'] = 'Copying message...';
 $messages['receiptsent'] = 'Successfully sent a read receipt';
 $messages['errorsendingreceipt'] = 'Could not send the receipt';
 $messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';

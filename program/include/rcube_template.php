@@ -860,7 +860,7 @@ class rcube_template extends rcube_html_page
         if (!$attrib['href']) {
             $attrib['href'] = '#';
         }
-        if ($command) {
+        if ($command && !$attrib['onclick']) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this)",
                 JS_OBJECT_NAME,

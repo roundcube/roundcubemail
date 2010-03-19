@@ -349,6 +349,44 @@ img
   -webkit-box-shadow: #999 1px 1px 12px;
 }
 
+.popupmenu ul
+{
+  margin: -4px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.popupmenu ul li
+{
+  font-size: 11px;
+  white-space: nowrap;
+  min-width: 100px;
+  margin: 3px -4px;
+}
+
+.popupmenu li a
+{
+  display: block;
+  color: #a0a0a0;
+  padding: 2px 10px;
+  text-decoration: none;
+  min-height: 14px;
+}
+
+.popupmenu li a.active,
+.popupmenu li a.active:active,
+.popupmenu li a.active:visited
+{
+  color: #333;
+}
+
+.popupmenu li a.active:hover
+{
+  color: #fff;
+  background-color: #c00;
+}
+
+    
 
 /***** common table settings ******/
 
