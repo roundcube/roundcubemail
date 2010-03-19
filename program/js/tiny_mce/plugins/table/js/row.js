@@ -8,7 +8,7 @@ function init() {
 
 	var inst = tinyMCEPopup.editor;
 	var dom = inst.dom;
-	var trElm = dom.getParent(inst.selection.getNode(), "tr");
+	var trElm = dom.getParent(inst.selection.getStart(), "tr");
 	var formObj = document.forms[0];
 	var st = dom.parseStyle(dom.getAttrib(trElm, "style"));
 
@@ -24,27 +24,32 @@ function init() {
 	var lang = dom.getAttrib(trElm, 'lang');
 	var dir = dom.getAttrib(trElm, 'dir');
 
-	// Setup form
-	addClassesToList('class', 'table_row_styles');
-	TinyMCE_EditableSelects.init();
-
-	formObj.bgcolor.value = bgcolor;
-	formObj.backgroundimage.value = backgroundimage;
-	formObj.height.value = height;
-	formObj.id.value = id;
-	formObj.lang.value = lang;
-	formObj.style.value = dom.serializeStyle(st);
-	selectByValue(formObj, 'align', align);
-	selectByValue(formObj, 'valign', valign);
-	selectByValue(formObj, 'class', className, true, true);
 	selectByValue(formObj, 'rowtype', rowtype);
-	selectByValue(formObj, 'dir', dir);
 
-	// Resize some elements
-	if (isVisible('backgroundimagebrowser'))
-		document.getElementById('backgroundimage').style.width = '180px';
+	// Any cells selected
+	if (dom.select('td.mceSelected,th.mceSelected', trElm).length == 0) {
+		// Setup form
+		addClassesToList('class', 'table_row_styles');
+		TinyMCE_EditableSelects.init();
 
-	updateColor('bgcolor_pick', 'bgcolor');
+		formObj.bgcolor.value = bgcolor;
+		formObj.backgroundimage.value = backgroundimage;
+		formObj.height.value = height;
+		formObj.id.value = id;
+		formObj.lang.value = lang;
+		formObj.style.value = dom.serializeStyle(st);
+		selectByValue(formObj, 'align', align);
+		selectByValue(formObj, 'valign', valign);
+		selectByValue(formObj, 'class', className, true, true);
+		selectByValue(formObj, 'dir', dir);
+
+		// Resize some elements
+		if (isVisible('backgroundimagebrowser'))
+			document.getElementById('backgroundimage').style.width = '180px';
+
+		updateColor('bgcolor_pick', 'bgcolor');
+	} else
+		tinyMCEPopup.dom.hide('action');
 }
 
 function updateAction() {
@@ -52,8 +57,28 @@ function updateAction() {
 	var action = getSelectValue(formObj, 'action');
 
 	tinyMCEPopup.restoreSelection();
-	trElm = dom.getParent(inst.selection.getNode(), "tr");
-	tableElm = dom.getParent(inst.selection.getNode(), "table");
+	trElm = dom.getParent(inst.selection.getStart(), "tr");
+	tableElm = dom.getParent(inst.selection.getStart(), "table");
+
+	// Update all selected rows
+	if (dom.select('td.mceSelected,th.mceSelected', trElm).length > 0) {
+		tinymce.each(tableElm.rows, function(tr) {
+			var i;
+
+			for (i = 0; i < tr.cells.length; i++) {
+				if (dom.hasClass(tr.cells[i], 'mceSelected')) {
+					updateRow(tr, true);
+					return;
+				}
+			}
+		});
+
+		inst.addVisual();
+		inst.nodeChanged();
+		inst.execCommand('mceEndUndoLevel');
+		tinyMCEPopup.close();
+		return;
+	}
 
 	inst.execCommand('mceBeginUndoLevel');
 

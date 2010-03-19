@@ -1,8 +1,11 @@
- /**
- * $Id: editor_plugin_src.js 42 2006-08-08 14:32:24Z spocke $
+/**
+ * element_common.js
  *
- * @author Moxiecode - based on work by Andrew Tetlaw
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 tinyMCEPopup.requireLangPack();
@@ -157,9 +160,6 @@ SXE.insertElement = function(element_name) {
 		if(s.length > 0) {
 			tagName = element_name;
 
-			if (tinymce.isIE && element_name.indexOf('html:') == 0)
-				element_name = element_name.substring(5).toLowerCase();
-
 			insertInlineElement(element_name);
 			var elementArray = tinymce.grep(SXE.inst.dom.select(element_name));
 			for (var i=0; i<elementArray.length; i++) {
@@ -194,7 +194,7 @@ SXE.removeElement = function(element_name){
 }
 
 SXE.showRemoveButton = function() {
-		document.getElementById("remove").style.display = 'block';
+		document.getElementById("remove").style.display = '';
 }
 
 SXE.containsClass = function(elm,cl) {

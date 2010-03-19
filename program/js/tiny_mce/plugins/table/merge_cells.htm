@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="js/merge_cells.js"></script>
 </head>
 <body style="margin: 8px">
-<form onsubmit="mergeCells();return false;" action="#">
+<form onsubmit="MergeCellsDialog.merge();return false;" action="#">
 	<fieldset>
 		<legend>{#table_dlg.merge_cells_title}</legend>
 		  <table border="0" cellpadding="0" cellspacing="3" width="100%">
@@ -24,13 +24,8 @@
 	</fieldset>
 
 	<div class="mceActionPanel">
-		<div style="float: left">
-			<input type="submit" id="insert" name="insert" value="{#update}" />
-		</div>
-
-		<div style="float: right">
-			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
-		</div>
+		<input type="submit" id="insert" name="insert" value="{#update}" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>
 </form>
 </body>

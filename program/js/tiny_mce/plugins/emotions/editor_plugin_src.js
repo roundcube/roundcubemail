@@ -1,11 +1,14 @@
 /**
- * $Id: editor_plugin_src.js 520 2008-01-07 16:30:32Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function() {
+(function(tinymce) {
 	tinymce.create('tinymce.plugins.EmotionsPlugin', {
 		init : function(ed, url) {
 			// Register commands
@@ -37,4 +40,4 @@
 
 	// Register plugin
 	tinymce.PluginManager.add('emotions', tinymce.plugins.EmotionsPlugin);
-})();
+})(tinymce);

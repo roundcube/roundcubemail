@@ -1,8 +1,11 @@
 /**
- * $Id: editor_plugin_src.js 1222 2009-09-03 17:26:47Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -234,7 +237,7 @@
 			if (stc) {
 				ob = dom.create('span', {
 					id : p.id,
-					mce_name : 'object',
+					_mce_name : 'object',
 					type : 'application/x-shockwave-flash',
 					data : p.src,
 					style : dom.getAttrib(n, 'style'),
@@ -244,7 +247,7 @@
 			} else {
 				ob = dom.create('span', {
 					id : p.id,
-					mce_name : 'object',
+					_mce_name : 'object',
 					classid : "clsid:" + o.classid,
 					style : dom.getAttrib(n, 'style'),
 					codebase : o.codebase,
@@ -260,12 +263,12 @@
 						k = 'url';
 
 					if (v)
-						dom.add(ob, 'span', {mce_name : 'param', name : k, '_mce_value' : v});
+						dom.add(ob, 'span', {_mce_name : 'param', name : k, '_mce_value' : v});
 				}
 			});
 
 			if (!stc)
-				dom.add(ob, 'span', tinymce.extend({mce_name : 'embed', type : o.type, style : dom.getAttrib(n, 'style')}, p));
+				dom.add(ob, 'span', tinymce.extend({_mce_name : 'embed', type : o.type, style : dom.getAttrib(n, 'style')}, p));
 
 			return ob;
 		},

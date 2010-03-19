@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- TinyMCE 3.3.1
 - Implemented messages copying using drag&drop + SHIFT (#1484086)
 - Improved performance of folders operations (#1486525)
 - Fix blocked.gif attachment is not attached to the message (#1486516)
