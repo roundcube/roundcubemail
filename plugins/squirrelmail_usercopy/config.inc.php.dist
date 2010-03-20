@@ -1,5 +1,0 @@
-<?php
-
-// full path to the squirrelmail data directory
-$rcmail_config['squirrelmail_data_dir'] = '';
-
