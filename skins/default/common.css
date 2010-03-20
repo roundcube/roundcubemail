@@ -74,13 +74,21 @@ textarea
   background-color: #ffffff;
 }
 
-input, textarea, select
+input, textarea
 {
   font-size: 9pt;
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   color: black;
   padding-left: 3px;
   padding-right: 3px;
+}
+
+select
+{
+  font-size: 11px;
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  color: black;
+  height: 18px;
 }
 
 input.button

@@ -137,13 +137,10 @@
   background-position: -416px -32px;
 }
 
-
 #messagetoolbar select,
 #compose-container select
 {
   font-size: 11px;
-  color: #333333;
-  height: 21px;
 }
 
 #messagetoolbar select.mboxlist
