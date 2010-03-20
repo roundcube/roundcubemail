@@ -128,7 +128,7 @@
   left: 20px;
   right: 20px;
   border: 1px solid #999999;
-  background-color: #F9F9F9;
+  background-color: #F2F2F2;
   padding-bottom: 4ex;
   overflow: auto;
 }
@@ -149,6 +149,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  background-color: #FFFFFF;
 }
 
 #directorylist ul li
@@ -210,7 +211,7 @@
 body.iframe,
 #contact-frame
 {
-  background-color: #F9F9F9;
+  background-color: #F2F2F2;
 }
 
 #contact-frame

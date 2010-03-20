@@ -2,7 +2,7 @@
 /* You can extend this CSS by adding your own CSS file with the the content_css option */
 
 body, td, pre {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: "Lucida Grande", Verdana,  Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
   

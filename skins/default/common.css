@@ -3,7 +3,7 @@
 body
 {
   margin: 8px;
-  background-color: #F6F6F6; /* #EBEBEB; */
+  background-color: #F6F6F6;
   color: #000000;
 }
 
@@ -32,9 +32,7 @@ th
 
 h3
 {
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 18px;
-  color: #000000;
 }
 
 a, a:active, a:visited
@@ -68,8 +66,6 @@ input[type="button"],
 input[type="password"],
 textarea
 {
-  font-size: 9pt;
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   padding: 1px;
   padding-left: 3px;
   padding-right: 3px;
@@ -78,7 +74,7 @@ textarea
   background-color: #ffffff;
 }
 
-input, textarea
+input, textarea, select
 {
   font-size: 9pt;
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
@@ -322,6 +318,7 @@ img
 .boxcontent
 {
   padding: 15px 10px 10px 10px;
+  background-color: #F2F2F2;
 }
 
 .boxcontent table td.title

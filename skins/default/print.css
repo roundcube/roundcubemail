@@ -114,24 +114,24 @@ div.message-part div.pre
 
 div.message-part blockquote
 {
-	color: blue;
-	border-left: 2px solid blue;
-	border-right: 2px solid blue;
-	background-color: #F6F6F6;
-	margin: 0.5em 0em 0.5em 0em;
-	padding: 0.25em 1em 0.25em 1em;
+  color: blue;
+  border-left: 2px solid blue;
+  border-right: 2px solid blue;
+  background-color: #F6F6F6;
+  margin: 0.5em 0em 0.5em 0em;
+  padding: 0.25em 1em 0.25em 1em;
 }
 
 div.message-part blockquote blockquote
 {
-	color: green;
-	border-left: 2px solid green;
-	border-right: 2px solid green;
+  color: green;
+  border-left: 2px solid green;
+  border-right: 2px solid green;
 }
 
 div.message-part blockquote blockquote blockquote
 {
-	color: #990000;
-	border-left: 2px solid #bb0000;
-	border-right: 2px solid #bb0000;
+  color: #990000;
+  border-left: 2px solid #bb0000;
+  border-right: 2px solid #bb0000;
 }

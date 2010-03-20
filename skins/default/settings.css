@@ -91,7 +91,6 @@ span.tablink-selected a
 {
   width: 420px;
   table-layout: fixed;
-  background-color: #F9F9F9;
 }
 
 #subscription-table
@@ -196,6 +195,7 @@ span.tablink-selected a
   bottom: 60px;
   border: 1px solid #999999;
   overflow: auto;
+  background-color: #F2F2F2;
 }
 
 #identity-details table td.title
@@ -281,7 +281,7 @@ legend
 body.iframe,
 #prefs-frame
 {
-  background-color: #F9F9F9;
+  background-color: #F2F2F2;
   border: none;
 }
 

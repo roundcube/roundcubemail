@@ -141,7 +141,6 @@
 #messagetoolbar select,
 #compose-container select
 {
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 11px;
   color: #333333;
   height: 21px;
@@ -1234,7 +1233,7 @@ div.message-htmlpart div.rcmBody
   min-height: 100px;
   height: 100%;
   font-size: 9pt;
-  font-family: "Courier New", Courier, monospace;
+  font-family: monospace;
 }
 
 #compose-attachments

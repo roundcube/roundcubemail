@@ -18,12 +18,10 @@
   padding: 1px 4px;
   margin: 1px 0px;
   font-size: 9pt;
-  font-family: "Courier New", Courier, monospace;
+  font-family: monospace;
 }
 
 .googie_edit_layer span {
-  font-size: 9pt;
-  font-family: "Courier New", Courier, monospace;
 }
 
 .googie_list {
