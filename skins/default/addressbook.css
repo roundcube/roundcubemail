@@ -23,7 +23,7 @@
   padding: 0;
   margin-right: 10px;
   overflow: hidden;
-  background: url('images/abook_toolbar.png') 0 0 no-repeat transparent;
+  background: url(images/abook_toolbar.png) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 
@@ -69,7 +69,7 @@
 
 #abooktoolbar span.separator {
   width: 5px;
-  background-image: url('images/abook_toolbar.png');
+  background-image: url(images/abook_toolbar.png);
   background-position: -162px 0;
 }
 

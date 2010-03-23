@@ -2,7 +2,7 @@
 
 img
 {
-  behavior: url('skins/default/pngbehavior.htc');
+  behavior: url(skins/default/pngbehavior.htc);
 }
 
 #message div.notice,
@@ -11,19 +11,19 @@ img
 #message div.confirmation,
 #remote-objects-message
 {
-  background-image: url('images/display/icons.gif');
+  background-image: url(images/display/icons.gif);
 }
 
 #messagemenu li a,
 #messagelist tr td div.expanded,
 #messagelist tr td div.collapsed
 {
-  background-image: url('images/messageactions.gif');
+  background-image: url(images/messageactions.gif);
 }
 
 #mailboxlist li
 {
-  background-image: url('images/icons/folders.gif');
+  background-image: url(images/icons/folders.gif);
 }
 
 #attachment-list
@@ -40,13 +40,13 @@ img
 
 #messagetoolbar a.button,
 #messagetoolbar a.buttonPas {
-  background-image: url('images/mail_toolbar.gif');
+  background-image: url(images/mail_toolbar.gif);
 }
 
 #abooktoolbar a.button,
 #abooktoolbar a.buttonPas,
 #abooktoolbar span.separator {
-  background-image: url('images/abook_toolbar.gif');
+  background-image: url(images/abook_toolbar.gif);
 }
 
 ul.toolbarmenu li a

@@ -29,7 +29,7 @@
   padding: 0;
   margin-right: 10px;
   overflow: hidden;
-  background: url('images/mail_toolbar.png') 0 0 no-repeat transparent;
+  background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 
@@ -184,7 +184,7 @@
 
 #messagemenu li a
 {
-  background: url('images/messageactions.png') no-repeat 7px 0;
+  background: url(images/messageactions.png) no-repeat 7px 0;
   background-position: 7px 20px;
 }
 
@@ -215,22 +215,22 @@
 
 #markmessagemenu a.readlink
 {
-  background: url('images/icons/dot.png') no-repeat 7px 2px;
+  background: url(images/icons/dot.png) no-repeat 7px 2px;
 }
 
 #markmessagemenu a.unreadlink
 {
-  background: url('images/icons/unread.png') no-repeat 7px 2px;
+  background: url(images/icons/unread.png) no-repeat 7px 2px;
 }
 
 #markmessagemenu a.flaggedlink
 {
-  background: url('images/icons/flagged.png') no-repeat 7px 2px;
+  background: url(images/icons/flagged.png) no-repeat 7px 2px;
 }
 
 #markmessagemenu a.unflaggedlink
 {
-  background: url('images/icons/unflagged.png') no-repeat 7px 2px;
+  background: url(images/icons/unflagged.png) no-repeat 7px 2px;
 }
 
 #searchfilter
@@ -404,7 +404,7 @@ td.formlinks a:visited
   display: block;
   position: relative;
   font-size: 11px;
-  background: url('images/icons/folders.png') 5px 0 no-repeat;
+  background: url(images/icons/folders.png) 5px 0 no-repeat;
   border-bottom: 1px solid #EBEBEB;
 }
 
@@ -426,12 +426,12 @@ td.formlinks a:visited
 
 #mailboxlist li div.collapsed
 {
-  background: url('images/icons/collapsed.png') bottom right no-repeat;
+  background: url(images/icons/collapsed.png) bottom right no-repeat;
 }
 
 #mailboxlist li div.expanded
 {
-  background: url('images/icons/expanded.png') bottom right no-repeat;
+  background: url(images/icons/expanded.png) bottom right no-repeat;
 }
 
 #mailboxlist li.inbox
@@ -545,7 +545,7 @@ td.formlinks a:visited
   padding: 0;
   margin-right: 2px;
   overflow: hidden;
-  background: url('images/mail_footer.png') 0 0 no-repeat transparent;
+  background: url(images/mail_footer.png) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 
@@ -670,7 +670,7 @@ body.messagelist
   vertical-align: middle;
   border-bottom: 1px solid #999999;
   color: #333333;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
+  background: url(images/listheader.gif) top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
 }
@@ -683,12 +683,12 @@ body.messagelist
 
 #messagelist thead tr td.sortedASC a
 {
-  background: url('images/icons/sort.gif') right 0 no-repeat;
+  background: url(images/icons/sort.gif) right 0 no-repeat;
 }
 
 #messagelist thead tr td.sortedDESC a
 {
-  background: url('images/icons/sort.gif') right -14px no-repeat;
+  background: url(images/icons/sort.gif) right -14px no-repeat;
 }
 
 #messagelist thead tr td a
@@ -790,13 +790,13 @@ body.messagelist
 #messagelist tr td div.collapsed
 {
   display: block;
-  background: url('images/messageactions.png') center -91px no-repeat;
+  background: url(images/messageactions.png) center -91px no-repeat;
 }
 
 #messagelist tr td div.expanded
 {
   display: block;
-  background: url('images/messageactions.png') center -109px no-repeat;
+  background: url(images/messageactions.png) center -109px no-repeat;
 }
 
 #messagelist tbody tr td.flag img:hover,

@@ -21,7 +21,7 @@ span.tablink-selected
   height: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: url('images/tabs.gif') top left no-repeat;
+  background: url(images/tabs.gif) top left no-repeat;
 }
 
 span.tablink-selected

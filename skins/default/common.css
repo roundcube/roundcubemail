@@ -161,7 +161,7 @@ img
   color: #666666;
   text-decoration: none;
   padding: 6px 14px 6px 27px;
-  background: url('images/taskicons.gif') no-repeat;
+  background: url(images/taskicons.gif) no-repeat;
 }
 
 #taskbar a:hover
@@ -211,7 +211,7 @@ img
 #message div.notice,
 #remote-objects-message
 {
-  background: url('images/display/icons.png') 6px 3px no-repeat;
+  background: url(images/display/icons.png) 6px 3px no-repeat;
   background-color: #F7FDCB;
   border: 1px solid #C2D071;
 }
@@ -219,21 +219,21 @@ img
 #message div.error,
 #message div.warning
 {
-  background: url('images/display/icons.png') 6px -97px no-repeat;
+  background: url(images/display/icons.png) 6px -97px no-repeat;
   background-color: #EF9398;
   border: 1px solid #DC5757;
 }
 
 #message div.confirmation
 {
-  background: url('images/display/icons.png') 6px -47px no-repeat;
+  background: url(images/display/icons.png) 6px -47px no-repeat;
   background-color: #A6EF7B;
   border: 1px solid #76C83F;
 }
 
 #message div.loading
 {
-  background: url('images/display/loading.gif') 6px 3px no-repeat;
+  background: url(images/display/loading.gif) 6px 3px no-repeat;
   background-color: #EBEBEB;
   border: 1px solid #CCCCCC;
 }
@@ -255,7 +255,7 @@ img
   padding: 0;
   margin: 1px;
   overflow: hidden;
-  background: url('images/pagenav.gif') 0 0 no-repeat transparent;
+  background: url(images/pagenav.gif) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 
@@ -320,7 +320,7 @@ img
   color: #333;
   font-size: 11px;
   font-weight: bold;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
+  background: url(images/listheader.gif) top left repeat-x #CCC;
 }
 
 .boxcontent
@@ -402,7 +402,7 @@ table.records-table thead tr td
   vertical-align: middle;
   border-bottom: 1px solid #999999;
   color: #333333;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
+  background: url(images/listheader.gif) top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
 }
@@ -450,7 +450,7 @@ table.records-table tr.unfocused td
   width: 182px;
   height: 20px;
   text-align: right;
-  background: url('images/searchfield.gif') top left no-repeat;
+  background: url(images/searchfield.gif) top left no-repeat;
 }
 
 #searchreset
