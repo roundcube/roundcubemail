@@ -532,16 +532,16 @@ class rcube_imap
     if (!is_array($a_mailbox_cache[$mailbox]))
       $a_mailbox_cache[$mailbox] = array();
 
-    if ($mode == 'THREADS')
-      $count = $this->_threadcount($mailbox);
-
+    if ($mode == 'THREADS') {
+      $count = $this->_threadcount($mailbox, $msg_count);
+      $_SESSION['maxuid'][$mailbox] = $msg_count ? $this->_id2uid($msg_count) : 0;
+      }
     // RECENT count is fetched a bit different
-    else if ($mode == 'RECENT')
+    else if ($mode == 'RECENT') {
        $count = iil_C_CheckForRecent($this->conn, $mailbox);
-
+      }
     // use SEARCH for message counting
-    else if ($this->skip_deleted)
-      {
+    else if ($this->skip_deleted) {
       $search_str = "ALL UNDELETED";
 
       // get message count and store in cache
@@ -585,12 +585,14 @@ class rcube_imap
    * @access  private
    * @see     rcube_imap::messagecount()
    */
-  private function _threadcount($mailbox)
+  private function _threadcount($mailbox, &$msg_count)
     {
     if (!empty($this->icache['threads']))
       return count($this->icache['threads']['tree']);
     
     list ($thread_tree, $msg_depth, $has_children) = $this->_fetch_threads($mailbox);
+    
+    $msg_count = count($msg_depth);
 
 //    $this->update_thread_cache($mailbox, $thread_tree, $msg_depth, $has_children);
     return count($thread_tree);  
