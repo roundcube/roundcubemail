@@ -377,7 +377,7 @@ function rcmail_compose_header_from($attrib)
       if ($compose_mode == RCUBE_COMPOSE_REPLY && is_array($MESSAGE->compose_from))
         $MESSAGE->compose_from[] = $sql_arr['email'];
 
-      if (empty($_POST['_from']))
+      if (empty($_POST['_from']) && empty($_SESSION['compose']['param']['from']))
       {
         // set draft's identity
         if ($compose_mode == RCUBE_COMPOSE_DRAFT && strstr($MESSAGE->headers->from, $sql_arr['email']))
@@ -391,6 +391,8 @@ function rcmail_compose_header_from($attrib)
     // overwrite identity selection with post parameter
     if (!empty($_POST['_from']))
       $from_id = get_input_value('_from', RCUBE_INPUT_POST);
+    else if (!empty($_SESSION['compose']['param']['from']))
+      $from_id = $_SESSION['compose']['param']['from'];
 
     $out = $select_from->show($from_id);
 
