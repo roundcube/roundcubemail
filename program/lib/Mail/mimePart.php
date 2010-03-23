@@ -1066,16 +1066,17 @@ class Mail_mimePart
      */
     function encodeQP($str)
     {
-        // Replace all special characters used by the encoder
-        $search  = array('=',   '_',   '?',   ' ');
-        $replace = array('=3D', '=5F', '=3F', '_');
-        $str = str_replace($search, $replace, $str);
+        // Bug #17226 RFC 2047 restricts some characters
+        // if the word is inside a phrase, permit chars are only:
+        // ASCII letters, decimal digits, "!", "*", "+", "-", "/", "=", and "_"
 
-        // Replace all extended characters (\x80-xFF) with their
-        // ASCII values.
-        return preg_replace_callback(
-            '/([\x80-\xFF])/', array('Mail_mimePart', '_qpReplaceCallback'), $str
+        // "=",  "_",  "?" must be encoded
+        $regexp = '/([\x22-\x29\x2C\x2E\x3A-\x40\x5B-\x60\x7B-\x7E\x80-\xFF])/';
+        $str = preg_replace_callback(
+            $regexp, array('Mail_mimePart', '_qpReplaceCallback'), $str
         );
+
+        return str_replace(' ', '_', $str);
     }
 
     /**
