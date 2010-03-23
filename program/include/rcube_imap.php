@@ -490,7 +490,7 @@ class rcube_imap
    * Get message count for a specific mailbox
    *
    * @param   string   Mailbox/folder name
-   * @param   string   Mode for count [ALL|UNSEEN|RECENT]
+   * @param   string   Mode for count [ALL|THREADS|UNSEEN|RECENT]
    * @param   boolean  Force reading from server and update cache
    * @return  int      Number of messages
    * @access  public
@@ -550,7 +550,12 @@ class rcube_imap
 
       // get message count using SEARCH
       // not very performant but more precise (using UNDELETED)
+      // disable THREADS for this request
+      $threads = $this->threading;
+      $this->threading = false;
       $index = $this->_search_index($mailbox, $search_str);
+      $this->threading = $threads;
+      
       $count = is_array($index) ? count($index) : 0;
 
       if ($mode == 'ALL')
