@@ -1527,14 +1527,14 @@ function rcube_webmail()
       var tbody = this.message_list.background;
     else
       var tbody = this.gui_objects.messagelist.tBodies[0];
-    
+
     var rows = this.message_list.rows;
     var rowcount = tbody.rows.length;
     var even = rowcount%2;
-    
+
     if (!this.env.messages[uid])
       this.env.messages[uid] = {};
-    
+
     // merge flags over local message object
     $.extend(this.env.messages[uid], {
       deleted: flags.deleted?1:0,
@@ -1555,35 +1555,33 @@ function rcube_webmail()
         + (flags.unread ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
-        + (flags.unread_children && !flags.unread ? ' unroot' : '')
+        + (flags.unread_children && !flags.unread && !this.env.autoexpand_threads ? ' unroot' : '')
         + (this.message_list.in_selection(uid) ? ' selected' : '');
 
     // for performance use DOM instead of jQuery here
     var row = document.createElement('tr');
     row.id = 'rcmrow'+uid;
     row.className = css_class;
-    
+
     var icon = this.env.messageicon;
     if (!flags.unread && flags.unread_children > 0 && this.env.unreadchildrenicon)
       icon = this.env.unreadchildrenicon;
     else if (flags.deleted && this.env.deletedicon)
       icon = this.env.deletedicon;
-    else if (flags.replied && this.env.repliedicon)
-      {
+    else if (flags.replied && this.env.repliedicon) {
       if (flags.forwarded && this.env.forwardedrepliedicon)
         icon = this.env.forwardedrepliedicon;
       else
         icon = this.env.repliedicon;
-      }
+    }
     else if (flags.forwarded && this.env.forwardedicon)
       icon = this.env.forwardedicon;
     else if(flags.unread && this.env.unreadicon)
       icon = this.env.unreadicon;
- 
+
     var tree = expando = '';
 
-    if (this.env.threading)
-      {
+    if (this.env.threading) {
       // This assumes that div width is hardcoded to 15px,
       var width = message.depth * 15;
       if (message.depth) {
@@ -1594,7 +1592,7 @@ function rcube_webmail()
         }
         else
           message.expanded = true;
-      }
+        }
       else if (message.has_children) {
         if (typeof(message.expanded) == 'undefined' && (this.env.autoexpand_threads == 1 || (this.env.autoexpand_threads == 2 && message.unread_children))) {
           message.expanded = true;
@@ -1606,7 +1604,7 @@ function rcube_webmail()
 
       if (message.has_children && !message.depth)
         expando = '<div id="rcmexpando' + uid + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
-      }
+    }
 
     tree += icon ? '<img id="msgicn'+uid+'" src="'+icon+'" alt="" class="msgicon" />' : '';
     
