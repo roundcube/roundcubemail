@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added 'imap_force_caps' option for after-login CAPABILITY checking (#1485750)
 - Password: Support dovecotpw encryption
 - TinyMCE 3.3.1
 - Implemented messages copying using drag&drop + SHIFT (#1484086)

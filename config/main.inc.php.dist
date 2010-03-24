@@ -75,6 +75,11 @@ $rcmail_config['imap_auth_type'] = null;
 $rcmail_config['imap_root'] = null;
 $rcmail_config['imap_delimiter'] = null;
 
+// By default IMAP capabilities are readed after connection to IMAP server
+// In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
+// after login. Set to True if you've got this case.
+$rcmail_config['imap_force_caps'] = false;
+
 // ----------------------------------
 // SMTP
 // ----------------------------------

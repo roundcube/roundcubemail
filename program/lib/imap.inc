@@ -389,7 +389,7 @@ function iil_C_GetCapability(&$conn, $name)
 	return false;
 }
 
-function iil_ClearCapability()
+function iil_C_ClearCapability($conn)
 {
 	$conn->capability = array();
 	$conn->capability_readed = false;
@@ -550,26 +550,19 @@ function iil_Connect($host, $user, $password, $options=null) {
 	$iil_error = '';
 	$iil_errornum = 0;
 
-	// set some imap options
+	// set options
 	if (is_array($options)) {
-		foreach($options as $optkey => $optval) {
-			if ($optkey == 'auth_method') {
-				$auth_method = strtoupper($optval);
-			} else if ($optkey == 'rootdir') {
-    				$my_prefs['rootdir'] = $optval;
-			} else if ($optkey == 'delimiter') {
-    				$my_prefs['delimiter'] = $optval;
-			} else if ($optkey == 'debug_mode') {
-    				$my_prefs['debug_mode'] = $optval;
-			}
-		}
-	}
-
-	if (empty($auth_method))
+        $my_prefs = $options;
+    }
+    // set auth method
+    if (!empty($my_prefs['auth_method'])) {
+            $auth_method = strtoupper($my_prefs['auth_method']);
+	} else {
     		$auth_method = 'CHECK';
-		
+    }
+
 	$message = "INITIAL: $auth_method\n";
-		
+
 	$result = false;
 	
 	// initialize connection
@@ -579,13 +572,13 @@ function iil_Connect($host, $user, $password, $options=null) {
 	$conn->selected    = '';
 	$conn->user        = $user;
 	$conn->host        = $host;
-	
+
 	if ($my_prefs['sort_field'] == 'INTERNALDATE') {
 		$IMAP_USE_INTERNAL_DATE = true;
 	} else if ($my_prefs['sort_field'] == 'DATE') {
     		$IMAP_USE_INTERNAL_DATE = false;
 	}
-	
+
 	//check input
 	if (empty($host)) {
 		$iil_error = "Empty host";
@@ -660,7 +653,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 			}
 			
 			// Now we're authenticated, capabilities need to be reread
-			iil_ClearCapability();
+			iil_C_ClearCapability($conn);
         	}
 	}
 
@@ -705,6 +698,9 @@ function iil_Connect($host, $user, $password, $options=null) {
 	}
 
 	if (is_resource($result)) {
+        if ($my_prefs['force_caps']) {
+			iil_C_ClearCapability($conn);
+        }
 		iil_C_Namespace($conn);
 		return $conn;
 	} else {

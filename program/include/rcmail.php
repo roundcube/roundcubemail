@@ -426,6 +426,7 @@ class rcmail
       'delimiter' => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
       'rootdir' => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
       'debug_mode' => (bool) $this->config->get('imap_debug', 0),
+      'force_caps' => (bool) $this->config->get('imap_force_caps'),
     );
 
     $this->imap->set_options($options);
