@@ -938,7 +938,7 @@ function rcmail_message_body($attrib)
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
         if ($part->ctype_secondary == 'html')
-          $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id']));
+          $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id'] . ' div.rcmBody'));
         else
           $out .= html::div('message-part', $body);
         }
@@ -1035,6 +1035,9 @@ function rcmail_html4inline($body, $container_id)
     array('/<body([^>]*)>/i', '/<\/body>/i'),
     array('<div class="rcmBody"\\1>', '</div>'),
     $out);
+
+  if (!preg_match('/<div class="rcmBody"/', $out))
+    $out = '<div class="rcmBody">' . $out . '</div>';
 
   // quote <? of php and xml files that are specified as text/html
   $out = preg_replace(array('/<\?/', '/\?>/'), array('&lt;?', '?&gt;'), $out);
