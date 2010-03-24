@@ -658,6 +658,29 @@ select_first: function()
     this.select_row(first_row, false, false);  
 },
 
+/**
+ * Add all childs of the given row to selection
+ */
+select_childs: function(uid)
+{
+  if (!this.rows[uid] || !this.rows[uid].has_children)
+    return;
+  
+  var depth = this.rows[uid].depth;
+  var row = this.rows[uid].obj.nextSibling;
+  while (row) {
+    if (row.nodeType == 1) {
+      if ((r = this.rows[row.uid])) {
+        if (!r.depth || r.depth <= depth)
+          break;
+        if (!this.in_selection(r.uid))
+          this.select_row(r.uid, CONTROL_KEY);
+      }
+    }
+    row = row.nextSibling;
+  }
+},
+
 
 /**
  * Perform selection when shift key is pressed
@@ -1013,21 +1036,8 @@ drag_mouse_move: function(e)
     var depth, row, uid, r;
     for (var n=0; n < selection.length; n++) {
       uid = selection[n];
-      if (this.rows[uid].has_children /*&& !this.rows[uid].expanded*/) {
-        depth = this.rows[uid].depth;
-        row = this.rows[uid].obj.nextSibling;
-        while (row) {
-          if (row.nodeType == 1) {
-            if ((r = this.rows[row.uid])) {
-              if (!r.depth || r.depth <= depth)
-                break;
-              if (!this.in_selection(r.uid))
-                this.select_row(r.uid, CONTROL_KEY);
-            }
-          }
-          row = row.nextSibling;
-        }
-      }
+      if (this.rows[uid].has_children && !this.rows[uid].expanded)
+        this.select_childs(uid);
     }
 
     // get subjects of selected messages

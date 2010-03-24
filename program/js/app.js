@@ -2203,32 +2203,38 @@ function rcube_webmail()
 
   // delete selected messages from the current mailbox
   this.delete_messages = function()
-    {
-    var selection = this.message_list ? this.message_list.get_selection() : new Array();
+  {
+    var selection = this.message_list ? $.merge([], this.message_list.get_selection()) : new Array();
 
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && !selection.length)
       return;
-
+      
+    // also select childs of collapsed rows
+    for (var uid, i=0; i < selection.length; i++) {
+      uid = selection[i];
+      if (this.message_list.rows[uid].has_children && !this.message_list.rows[uid].expanded)
+        this.message_list.select_childs(uid);
+    }
+    
     // if config is set to flag for deletion
     if (this.env.flag_for_deletion) {
       this.mark_message('delete');
       return false;
-      }
+    }
     // if there isn't a defined trash mailbox or we are in it
     else if (!this.env.trash_mailbox || this.env.mailbox == this.env.trash_mailbox) 
       this.permanently_remove_messages();
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
-      if (this.message_list && this.message_list.shiftkey)
-        {
+      if (this.message_list && this.message_list.shiftkey) {
         if (confirm(this.get_label('deletemessagesconfirm')))
           this.permanently_remove_messages();
-        }
+      }
       else
         this.move_messages(this.env.trash_mailbox);
-      }
+    }
 
     return true;
   };
@@ -2260,7 +2266,7 @@ function rcube_webmail()
       for (var n=0; n<selection.length; n++) {
         id = selection[n];
         a_uids[a_uids.length] = id;
-	count += this.update_thread(id);
+        count += this.update_thread(id);
         this.message_list.remove_row(id, (this.env.display_next && n == selection.length-1));
       }
       // make sure there are no selected rows
