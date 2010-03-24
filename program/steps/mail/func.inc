@@ -938,7 +938,7 @@ function rcmail_message_body($attrib)
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
         if ($part->ctype_secondary == 'html')
-          $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id'] . ' div.rcmBody'));
+          $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id'], 'div.rcmBody'));
         else
           $out .= html::div('message-part', $body);
         }
@@ -997,7 +997,7 @@ function rcmail_resolve_base($body)
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id)
+function rcmail_html4inline($body, $container_id, $body_id='')
   {
   $last_style_pos = 0;
   $body_lc = strtolower($body);
@@ -1008,7 +1008,7 @@ function rcmail_html4inline($body, $container_id)
     $pos = strpos($body_lc, '>', $pos)+1;
 
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id);
+    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id.($body_id ? ' '.$body_id : ''));
 
     $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
     $body_lc = strtolower($body);
@@ -1020,27 +1020,39 @@ function rcmail_html4inline($body, $container_id)
   $body = preg_replace_callback('/<(a|link)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
   unset($GLOBALS['rcmail_html_container_id']);
 
-  // add comments arround html and other tags
   $out = preg_replace(array(
+      // add comments arround html and other tags
       '/(<!DOCTYPE[^>]*>)/i',
       '/(<\?xml[^>]*>)/i',
       '/(<\/?html[^>]*>)/i',
       '/(<\/?head[^>]*>)/i',
       '/(<title[^>]*>.*<\/title>)/Ui',
-      '/(<\/?meta[^>]*>)/i'),
-    '<!--\\1-->',
+      '/(<\/?meta[^>]*>)/i',
+      // quote <? of php and xml files that are specified as text/html
+      '/<\?/',
+      '/\?>/',
+      // replace <body> with <div>
+      '/<body([^>]*)>/i',
+      '/<\/body>/i',
+      ),
+    array(
+      '<!--\\1-->',
+      '<!--\\1-->',
+      '<!--\\1-->',
+      '<!--\\1-->',
+      '<!--\\1-->',
+      '<!--\\1-->',
+      '&lt;?',
+      '?&gt;',
+      '<div class="rcmBody"\\1>',
+      '</div>',
+      ),
     $body);
 
-  $out = preg_replace(
-    array('/<body([^>]*)>/i', '/<\/body>/i'),
-    array('<div class="rcmBody"\\1>', '</div>'),
-    $out);
-
+  // make sure there's 'rcmBody' div, we need it for proper css modification
+  // its name is hardcoded in rcmail_message_body() also
   if (!preg_match('/<div class="rcmBody"/', $out))
     $out = '<div class="rcmBody">' . $out . '</div>';
-
-  // quote <? of php and xml files that are specified as text/html
-  $out = preg_replace(array('/<\?/', '/\?>/'), array('&lt;?', '?&gt;'), $out);
 
   return $out;
   }
