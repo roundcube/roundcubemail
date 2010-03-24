@@ -113,6 +113,11 @@ function rcmail_init_compose_form()
     var form = rcube_find_object('form');
     form.onkeydown = function (e) { if (rcube_event.get_keycode(e) == 27) rcube_event.cancel(e); };
   }
+
+  // fix editor position on some browsers
+  var div = document.getElementById('compose-div');
+  var headers_div = document.getElementById('compose-headers-div');
+  div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
 }
 
 /**

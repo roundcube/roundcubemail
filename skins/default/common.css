@@ -85,10 +85,8 @@ input, textarea
 
 select
 {
-  font-size: 11px;
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   color: black;
-  height: 18px;
 }
 
 input.button

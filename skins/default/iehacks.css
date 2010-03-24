@@ -52,32 +52,27 @@ input, textarea
 
 #messagetoolbar select.mboxlist
 {
-  top: -8px;
+  margin: 0 8px;
+  top: 8px;
 }
 
 #abooktoolbar a.buttonPas
 {
   filter: alpha(opacity=35);
-  background-image: url(images/abook_toolbar.gif);
+  background-image: url('images/abook_toolbar.gif');
 }
 
 #messagetoolbar a.buttonPas
 {
   filter: alpha(opacity=35);
-  background-image: url(images/mail_toolbar.gif);
+  background-image: url('images/mail_toolbar.gif');
 }
 
 #listcontrols a.buttonPas,
 #mailboxcontrols a.buttonPas
 {
   filter: alpha(opacity=35);
-  background-image: url(images/mail_footer.png);
-}
-
-#messagetoolbar select.mboxlist
-{
-  margin: 0 8px;
-  top: 8px;
+  background-image: url('images/mail_footer.png');
 }
 
 #quicksearchbar
