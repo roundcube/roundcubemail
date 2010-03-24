@@ -37,8 +37,6 @@ if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
   
     if (!$copied) {
         // send error message
-	    if ($_POST['_from'] != 'show')
-            $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errorcopying', 'error');
         $OUTPUT->send();
         exit;
