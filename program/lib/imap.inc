@@ -389,7 +389,7 @@ function iil_C_GetCapability(&$conn, $name)
 	return false;
 }
 
-function iil_C_ClearCapability(&$conn)
+function iil_ClearCapability()
 {
 	$conn->capability = array();
 	$conn->capability_readed = false;
@@ -660,7 +660,7 @@ function iil_Connect($host, $user, $password, $options=null) {
 			}
 			
 			// Now we're authenticated, capabilities need to be reread
-			iil_C_ClearCapability($conn);
+			iil_ClearCapability();
         	}
 	}
 
@@ -1425,10 +1425,10 @@ function iil_C_Expunge(&$conn, $mailbox, $messages=NULL) {
 
 		iil_PutLine($conn->fp, "exp1 $command");
 		do {
-			$line=chop(iil_ReadLine($conn->fp, 100));
+			$line = iil_ReadLine($conn->fp, 100);
 			if ($line[0] == '*') {
-            			$c++;
-        		}
+            	$c++;
+        	}
 		} while (!iil_StartsWith($line, 'exp1', true));
 		
 		if (iil_ParseResult($line) == 0) {
@@ -1447,29 +1447,27 @@ function iil_C_ModFlag(&$conn, $mailbox, $messages, $flag, $mod) {
 	    return -1;
 	}
     
-	$fp    = $conn->fp;
 	$flags = $GLOBALS['IMAP_FLAGS'];
-        
-	$flag = strtoupper($flag);
-	$flag = $flags[$flag];
+	$flag = $flags[strtoupper($flag)];
     
-	if (iil_C_Select($conn, $mailbox)) {
-		$c = 0;
-		iil_PutLine($fp, "flg UID STORE $messages " . $mod . "FLAGS (" . $flag . ")");
-		do {
-			$line=chop(iil_ReadLine($fp, 100));
-			if ($line[0] == '*') {
-			    $c++;
-        		}
-		} while (!iil_StartsWith($line, 'flg', true));
-
-		if (iil_ParseResult($line) == 0) {
-			return $c;
-		}
-		$conn->error = $line;
-		return -1;
+	if (!iil_C_Select($conn, $mailbox)) {
+	    return -1;
 	}
-	$conn->error = 'Select failed';
+    
+    $c = 0;
+	iil_PutLine($conn->fp, "flg UID STORE $messages " . $mod . "FLAGS (" . $flag . ")");
+	do {
+		$line = iil_ReadLine($conn->fp, 1000);
+		if ($line[0] == '*') {
+		    $c++;
+        }
+	} while (!iil_StartsWith($line, 'flg', true));
+
+	if (iil_ParseResult($line) == 0) {
+		return $c;
+	}
+
+	$conn->error = $line;
 	return -1;
 }
 
@@ -1486,28 +1484,25 @@ function iil_C_Delete(&$conn, $mailbox, $messages) {
 }
 
 function iil_C_Copy(&$conn, $messages, $from, $to) {
-	$fp = $conn->fp;
 
 	if (empty($from) || empty($to)) {
 	    return -1;
 	}
     
-	if (iil_C_Select($conn, $from)) {
-		$c=0;
-		
-		iil_PutLine($fp, "cpy1 UID COPY $messages \"".iil_Escape($to)."\"");
-		$line = iil_ReadReply($fp);
-		return iil_ParseResult($line);
-	} else {
-		return -1;
+	if (!iil_C_Select($conn, $from)) {
+        return -1;
 	}
+	
+    iil_PutLine($conn->fp, "cpy1 UID COPY $messages \"".iil_Escape($to)."\"");
+	$line = iil_ReadReply($conn->fp);
+	return iil_ParseResult($line);
 }
 
 function iil_C_CountUnseen(&$conn, $folder) {
-        $index = iil_C_Search($conn, $folder, 'ALL UNSEEN');
-        if (is_array($index))
-                return count($index);
-        return false;
+    $index = iil_C_Search($conn, $folder, 'ALL UNSEEN');
+    if (is_array($index))
+        return count($index);
+    return false;
 }
 
 function iil_C_UID2ID(&$conn, $folder, $uid) {
