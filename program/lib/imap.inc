@@ -389,7 +389,7 @@ function iil_C_GetCapability(&$conn, $name)
 	return false;
 }
 
-function iil_C_ClearCapability($conn)
+function iil_C_ClearCapability(&$conn)
 {
 	$conn->capability = array();
 	$conn->capability_readed = false;
