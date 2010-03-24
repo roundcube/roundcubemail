@@ -29,7 +29,7 @@ $old_pages = ceil($old_count / $IMAP->page_size);
 
 // move messages
 if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
-    $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
+    $uids = get_input_value('_uid', RCUBE_INPUT_POST);
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST);
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
@@ -37,8 +37,8 @@ if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
   
     if (!$copied) {
         // send error message
-	if ($_POST['_from'] != 'show')
-          $OUTPUT->command('list_mailbox');
+	    if ($_POST['_from'] != 'show')
+            $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errorcopying', 'error');
         $OUTPUT->send();
         exit;
