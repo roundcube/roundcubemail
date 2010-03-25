@@ -2115,7 +2115,7 @@ class rcube_imap
     $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
     $flag = strtoupper($flag);
-    list($uids, $all_mode) = $this->_parse_uids($uids);
+    list($uids, $all_mode) = $this->_parse_uids($uids, $mailbox);
 
     if (strpos($flag, 'UN') === 0)
       $result = iil_C_UnFlag($this->conn, $mailbox, $uids, substr($flag, 2));
@@ -2209,7 +2209,7 @@ class rcube_imap
     $to_mbox = $this->mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->mod_mailbox($from_mbox) : $this->mailbox;
 
-    list($uids, $all_mode) = $this->_parse_uids($uids);
+    list($uids, $all_mode) = $this->_parse_uids($uids, $from_mbox);
 
     // exit if no message uids are specified
     if (empty($uids))
@@ -2291,7 +2291,7 @@ class rcube_imap
     $to_mbox = $this->mod_mailbox($to_mbox);
     $from_mbox = $from_mbox ? $this->mod_mailbox($from_mbox) : $this->mailbox;
 
-    list($uids, $all_mode) = $this->_parse_uids($uids);
+    list($uids, $all_mode) = $this->_parse_uids($uids, $from_mbox);
 
     // exit if no message uids are specified
     if (empty($uids))
@@ -2329,7 +2329,7 @@ class rcube_imap
   {
     $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
-    list($uids, $all_mode) = $this->_parse_uids($uids);
+    list($uids, $all_mode) = $this->_parse_uids($uids, $mailbox);
 
     // exit if no message uids are specified
     if (empty($uids))
@@ -2450,14 +2450,32 @@ class rcube_imap
    * Parse message UIDs input
    *
    * @param mixed  UIDs array or comma-separated list or '*' or '1:*'
+   * @param string Mailbox name
    * @return array Two elements array with UIDs converted to list and ALL flag 
    * @access private
    */
-  private function _parse_uids($uids)
+  private function _parse_uids($uids, $mailbox)
     {
     if ($uids === '*' || $uids === '1:*') {
-      $uids = '1:*';
-      $all = true;
+      if (empty($this->search_set)) {
+        $uids = '1:*';
+        $all = true;
+        }
+      // get UIDs from current search set
+      // @TODO: skip iil_C_FetchUIDs() and work with IDs instead of UIDs (?)
+      else {
+        if ($this->search_threads)
+          $uids = iil_C_FetchUIDs($this->conn, $mailbox, array_keys($this->search_set['depth']));
+        else
+          $uids = iil_C_FetchUIDs($this->conn, $mailbox, $this->search_set);
+      
+        // save ID-to-UID mapping in local cache
+        if (is_array($uids))
+          foreach ($uids as $id => $uid)
+            $this->uid_id_map[$mailbox][$uid] = $id;
+
+        $uids = join(',', $uids);
+        }
       }
     else {
       if (is_array($uids))

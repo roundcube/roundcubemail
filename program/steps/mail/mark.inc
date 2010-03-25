@@ -52,14 +52,14 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     exit;
   }
 
-  if($flag == 'DELETED' && $CONFIG['read_when_deleted'] && !empty($_POST['_ruid'])) {
-    $uids = get_input_value('_ruid', RCUBE_INPUT_POST);
-    $read = $IMAP->set_flag($uids, 'SEEN');
+  if ($flag == 'DELETED' && $CONFIG['read_when_deleted'] && !empty($_POST['_ruid'])) {
+    $ruids = get_input_value('_ruid', RCUBE_INPUT_POST);
+    $read = $IMAP->set_flag($ruids, 'SEEN');
     
     if ($read != -1 && !$CONFIG['skip_deleted'])
-      $OUTPUT->command('flag_deleted_as_read', $uids);
+      $OUTPUT->command('flag_deleted_as_read', $ruids);
   }
-    
+
   if ($flag == 'SEEN' || $flag == 'UNSEEN' || ($flag == 'DELETED' && !$CONFIG['skip_deleted'])) {
     rcmail_send_unread_count($IMAP->get_mailbox_name());
   }
@@ -99,20 +99,20 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
 
       if ($old_unseen != $unseen_count) {
         $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
-	$_SESSION['unseen_count'][$mbox] = $unseen_count;
+	    $_SESSION['unseen_count'][$mbox] = $unseen_count;
       }
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 
       if ($IMAP->threading)
-	$count = get_input_value('_count', RCUBE_INPUT_POST);
+	    $count = get_input_value('_count', RCUBE_INPUT_POST);
 
       // add new rows from next page (if any)
-      if ($count && ($jump_back || $nextpage_count > 0)) {
+      if ($count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
         $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
         $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
   
         $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order,
-	  $jump_back ? NULL : $count);
+	    $jump_back ? NULL : $count);
       
         rcmail_js_message_list($a_headers, false, false);
       }

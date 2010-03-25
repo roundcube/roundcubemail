@@ -132,6 +132,7 @@ $labels['markunflagged'] = 'Jako nieoflagowane';
 $labels['messageactions'] = 'Więcej akcji...';
 $labels['select'] = 'Zaznacz';
 $labels['all'] = 'Wszystkie';
+$labels['currpage'] = 'Bieżąca strona';
 $labels['none'] = 'Brak';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';

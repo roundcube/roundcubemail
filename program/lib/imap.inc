@@ -1066,16 +1066,15 @@ function iil_C_UIDToMID(&$conn, $mailbox, $uid) {
         return false;
 }
 
-function iil_C_FetchUIDs(&$conn,$mailbox) {
+function iil_C_FetchUIDs(&$conn, $mailbox, $message_set=null) {
 	global $clock;
+
+	if (is_array($message_set))
+		$message_set = join(',', $message_set);
+    else if (empty($message_set))
+		$message_set = '1:*';
 	
-	$num = iil_C_CountMessages($conn, $mailbox);
-	if ($num == 0) {
-	    return array();
-	}
-	$message_set = '1' . ($num>1?':' . $num:'');
-	
-	return iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID');
+	return iil_C_FetchHeaderIndex($conn, $mailbox, $message_set, 'UID', false);
 }
 
 function iil_C_FetchHeaders(&$conn, $mailbox, $message_set, $uidfetch=false, $bodystr=false, $add='')

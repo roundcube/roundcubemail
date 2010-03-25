@@ -489,8 +489,8 @@ function rcube_webmail()
 
       case 'menu-open':
       case 'menu-save':
-	this.triggerEvent(command, {props:props});
-	return false;
+	    this.triggerEvent(command, {props:props});
+	    return false;
         break;
 
       case 'open':
@@ -753,10 +753,11 @@ function rcube_webmail()
         break;
         
       case 'select-all':
+        this.select_all_mode = props ? false : true;
         if (props == 'invert')
           this.message_list.invert_selection();
         else
-          this.message_list.select_all(props);
+          this.message_list.select_all(props == 'page' ? '' : props);
         break;
 
       case 'select-none':
@@ -1833,9 +1834,10 @@ function rcube_webmail()
 
     // unselect selected messages
     this.last_selected = 0;
-    if (this.message_list)
+    if (this.message_list) {
       this.message_list.clear_selection();
-    
+      this.select_all_mode = false;
+    }
     this.select_folder(mbox, this.env.mailbox);
     this.env.mailbox = mbox;
 
@@ -2254,8 +2256,8 @@ function rcube_webmail()
   // @private
   this._with_selected_messages = function(action, lock, add_url)
   {
-    var a_uids = new Array();
-    var count = 0;
+    var a_uids = new Array(),
+      count = 0;
 
     if (this.env.uid)
       a_uids[0] = this.env.uid;
@@ -2287,8 +2289,10 @@ function rcube_webmail()
       // remove threads from the end of the list
       this.delete_excessive_thread_rows();
 
+    add_url += '&_uid='+this.uids_to_list(a_uids);
+
     // send request to server
-    this.http_post(action, '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
+    this.http_post(action, '_mbox='+urlencode(this.env.mailbox)+add_url, lock);
   };
 
   // set a specific flag to one or more messages
@@ -2355,7 +2359,7 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
 
-    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
+    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag);
 
     for (var i=0; i<a_uids.length; i++)
       this.update_thread_root(a_uids[i], flag);
@@ -2368,7 +2372,7 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
 
-    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag='+flag);
+    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag);
   };
   
   // mark all message rows as deleted/undeleted
@@ -2412,49 +2416,48 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'deleted', false);
 
-    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag=undelete');
+    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete');
     return true;
   };
 
   this.flag_as_deleted = function(a_uids)
   {
-    var add_url = '';
-    var r_uids = new Array();
-    var rows = this.message_list ? this.message_list.rows : new Array();
-    var count = 0;
+    var add_url = '',
+      r_uids = new Array(),
+      rows = this.message_list ? this.message_list.rows : new Array(),
+      count = 0;
 
-    for (var i=0; i<a_uids.length; i++)
-      {
+    for (var i=0; i<a_uids.length; i++) {
       uid = a_uids[i];
-      if (rows[uid])
-        {
+      if (rows[uid]) {
         if (rows[uid].unread)
           r_uids[r_uids.length] = uid;
 
-	if (this.env.skip_deleted) {
-	  count += this.update_thread(uid);
+	    if (this.env.skip_deleted) {
+	      count += this.update_thread(uid);
           this.message_list.remove_row(uid, (this.env.display_next && i == this.message_list.selection.length-1));
-	  }
-	else
-	  this.set_message(uid, 'deleted', true);
-        }
+	    }
+	    else
+	      this.set_message(uid, 'deleted', true);
       }
+    }
 
     // make sure there are no selected rows
     if (this.env.skip_deleted && this.message_list) {
       if(!this.env.display_next)
-      this.message_list.clear_selection();
+        this.message_list.clear_selection();
       if (count < 0)
         add_url += '&_count='+(count*-1);
       else if (count > 0) 
         // remove threads from the end of the list
         this.delete_excessive_thread_rows();
-      }
+    }
 
     add_url = '&_from='+(this.env.action ? this.env.action : '');
     
+    // ??
     if (r_uids.length)
-      add_url += '&_ruid='+r_uids.join(',');
+      add_url += '&_ruid='+this.uids_to_list(r_uids);
 
     if (this.env.skip_deleted) {
       // also send search request to get the right messages 
@@ -2464,7 +2467,7 @@ function rcube_webmail()
         add_url += '&_next_uid='+this.env.next_uid;
     }
     
-    this.http_post('mark', '_uid='+a_uids.join(',')+'&_flag=delete'+add_url);
+    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag=delete'+add_url);
     return true;  
   };
 
@@ -2472,21 +2475,25 @@ function rcube_webmail()
   // argument should be a coma-separated list of uids
   this.flag_deleted_as_read = function(uids)
   {
-    var icn_src;
-    var rows = this.message_list ? this.message_list.rows : new Array();
-    var str = String(uids);
-    var a_uids = new Array();
+    var icn_src, uid,
+      rows = this.message_list ? this.message_list.rows : new Array(),
+      str = String(uids),
+      a_uids = str.split(',');
 
-    a_uids = str.split(',');
-
-    for (var uid, i=0; i<a_uids.length; i++)
-      {
+    for (var i=0; i<a_uids.length; i++) {
       uid = a_uids[i];
       if (rows[uid])
         this.set_message(uid, 'unread', false);
       }
   };
 
+  // Converts array of message UIDs to comma-separated list for use in URL
+  // with select_all mode checking
+  this.uids_to_list = function(uids)
+  {
+    return this.select_all_mode ? '*' : uids.join(',');
+  };
+  
 
   /*********************************************************/
   /*********       mailbox folders methods         *********/

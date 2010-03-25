@@ -34,11 +34,11 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
     $moved = $IMAP->move_message($uids, $target, $mbox);
-  
+
     if (!$moved) {
         // send error message
-	if ($_POST['_from'] != 'show')
-          $OUTPUT->command('list_mailbox');
+	    if ($_POST['_from'] != 'show')
+            $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errormoving', 'error');
         $OUTPUT->send();
         exit;
@@ -55,8 +55,8 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
   
     if (!$del) {
         // send error message
-	if ($_POST['_from'] != 'show')
-          $OUTPUT->command('list_mailbox');
+	    if ($_POST['_from'] != 'show')
+            $OUTPUT->command('list_mailbox');
         $OUTPUT->show_message('errordeleting', 'error');
         $OUTPUT->send();
         exit;
@@ -121,7 +121,7 @@ else
     $count = get_input_value('_count', RCUBE_INPUT_POST);
 
   // add new rows from next page (if any)
-  if ($addrows && $count && ($jump_back || $nextpage_count > 0)) {
+  if ($addrows && $count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
     $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
     $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
 
