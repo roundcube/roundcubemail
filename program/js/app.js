@@ -1456,6 +1456,10 @@ function rcube_webmail()
       this.command('delete');
     else if (list.key_pressed == list.BACKSPACE_KEY)
       this.command('delete');
+    else if (list.key_pressed == 33)
+      this.command('previouspage');
+    else if (list.key_pressed == 34)
+      this.command('nextpage');
     else
       list.shiftkey = false;
     };
