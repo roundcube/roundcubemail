@@ -320,6 +320,20 @@ click_row: function(e, id)
 },
 
 
+/*
+ * Returns thread root ID for specified row ID
+ */
+find_root: function(uid)
+{
+   var r = this.rows[uid];
+
+   if (r && r.parent_uid)
+     return this.find_root(r.parent_uid);
+   else
+     return uid;
+},
+
+
 expand_row: function(e, id)
 {
   var row = this.rows[id];
@@ -379,6 +393,7 @@ expand: function(row)
     row.expanded = true;
     depth = row.depth;
     new_row = row.obj.nextSibling;
+    this.update_expando(row.uid, true);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
   }
   else {
@@ -427,6 +442,7 @@ collapse_all: function(row)
     row.expanded = false;
     depth = row.depth;
     new_row = row.obj.nextSibling;
+    this.update_expando(row.uid);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
     
     // don't collapse sub-root tree in multiexpand mode 
@@ -450,9 +466,7 @@ collapse_all: function(row)
           $(new_row).hide();
         if (r.has_children) {
           r.expanded = false;
-          var expando = document.getElementById('rcmexpando' + r.uid);
-          if (expando)
-            expando.className = 'collapsed';
+          this.update_expando(r.uid);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
         }
       }
@@ -472,6 +486,7 @@ expand_all: function(row)
     row.expanded = true;
     depth = row.depth;
     new_row = row.obj.nextSibling;
+    this.update_expando(row.uid, true);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
   }
   else {
@@ -490,9 +505,7 @@ expand_all: function(row)
         $(new_row).show();
         if (r.has_children) {
           r.expanded = true;
-          var expando = document.getElementById('rcmexpando' + r.uid);
-          if (expando)
-            expando.className = 'expanded';
+          this.update_expando(r.uid, true);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
         }
       }
@@ -501,6 +514,14 @@ expand_all: function(row)
   }
   return false;
 },
+
+update_expando: function(uid, expanded)
+{
+  var expando = document.getElementById('rcmexpando' + uid);
+  if (expando)
+    expando.className = expanded ? 'expanded' : 'collapsed';
+},
+
 
 /**
  * get first/next/previous/last rows that are not hidden
@@ -648,15 +669,38 @@ select_next: function()
     this.select_row(new_row.uid, false, false);  
 },
 
+
 /**
  * Select first row 
  */
-select_first: function()
+select_first: function(mod_key)
 {
-  var first_row = this.get_first_row();
-  if (first_row)
-    this.select_row(first_row, false, false);  
+  var row = this.get_first_row();
+  if (row && mod_key) {
+    this.shift_select(row, mod_key);
+    this.triggerEvent('select');
+    this.scrollto(row);
+  }
+  else if (row)
+    this.select(row);
 },
+
+
+/**
+ * Select last row 
+ */
+select_last: function(mod_key)
+{
+  var row = this.get_last_row();
+  if (row && mod_key) {
+    this.shift_select(row, mod_key);
+    this.triggerEvent('select');
+    this.scrollto(row);    
+  }
+  else if (row)
+    this.select(row);
+},
+
 
 /**
  * Add all childs of the given row to selection
@@ -903,6 +947,12 @@ key_press: function(e)
       this.key_pressed = keyCode;
       this.triggerEvent('keypress');
       return ret;
+    case 36: // Home
+      this.select_first(mod_key);
+      return rcube_event.cancel(e);
+    case 35: // End
+      this.select_last(mod_key);
+      return rcube_event.cancel(e);
     default:
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
@@ -1006,6 +1056,13 @@ scrollto: function(id)
   if (row && this.frame)
   {
     var scroll_to = Number(row.offsetTop);
+
+    // expand thread if target row is hidden (collapsed)
+    if (!scroll_to && this.rows[id].parent_uid) {
+      var parent = this.find_root(this.rows[id].uid);
+      this.expand_all(this.rows[parent]);
+      scroll_to = Number(row.offsetTop);
+    }
 
     if (scroll_to < Number(this.frame.scrollTop))
       this.frame.scrollTop = scroll_to;

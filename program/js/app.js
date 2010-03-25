@@ -1927,7 +1927,7 @@ function rcube_webmail()
     if (!this.env.threading)
       return;
 
-    var root = this.find_thread_root(uid);
+    var root = this.message_list.find_root(uid);
     
     if (uid == root)
       return;
@@ -1947,17 +1947,6 @@ function rcube_webmail()
     this.set_unread_children(root);
   };
 
-  // finds root message for specified thread
-  this.find_thread_root = function(uid)
-  {
-    var r = this.message_list.rows[uid];
-  
-    if (r.parent_uid)
-      return this.find_thread_root(r.parent_uid);
-    else
-      return uid;
-  }
-
   // update thread indicators for all messages in a thread below the specified message
   // return number of removed/added root level messages
   this.update_thread = function (uid)
@@ -1975,7 +1964,7 @@ function rcube_webmail()
       count--;
     else if (row.unread) {
       // update unread_children for thread root
-      var parent = this.find_thread_root(uid);
+      var parent = this.message_list.find_root(uid);
       rows[parent].unread_children--;
       this.set_unread_children(parent);
       }
