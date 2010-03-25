@@ -681,7 +681,7 @@ class rcube_ldap extends rcube_addressbook
     // list of known attribute aliases
     $aliases = array(
       'gn' => 'givenname',
-      'rfc822mailbox' => 'mail',
+      'rfc822mailbox' => 'email',
       'userid' => 'uid',
       'emailaddress' => 'email',
       'pkcs9email' => 'email',
