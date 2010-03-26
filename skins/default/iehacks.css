@@ -86,9 +86,14 @@ input, textarea
   height: expression((parseInt(document.documentElement.clientHeight)-101)+'px');
 }
 
-#directorylist
+#directorylistbox
 {
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');  
+  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+}
+
+#directorylistwrap
+{
+  height: expression((parseInt(document.getElementById('directorylistbox').offsetHeight)-42)+'px');
 }
 
 #addresslist,
