@@ -3655,6 +3655,14 @@ function rcube_webmail()
   this.insert_contact_group = function(prop)
   {
     this.reset_add_input();
+    
+    prop.type = 'group';
+    var key = 'G'+prop.id;
+    this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
+
+    var link = $('<a>').attr('href', '#').attr('onclick', "return rcmail.command('listgroup','"+prop.id+"',this)").html(prop.name);
+    var li = $('<li>').attr('id', 'rcmli'+key).addClass('contactgroup').append(link);
+    $(this.gui_objects.folderlist).append(li);
   }
 
 
