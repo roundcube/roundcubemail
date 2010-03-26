@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix bugs on unexpected IMAP connection close (#1486190, #1486270)
+- Iloha's imap.inc rewritten into rcube_imap_generic class
 - Added contact groups in address book (not finished yet)
 - Added PageUp/PageDown/Home/End keys support on lists (#1486430)
 - Added possibility to select all messages in a folder (#1484756)

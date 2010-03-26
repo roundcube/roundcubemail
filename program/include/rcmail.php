@@ -456,21 +456,21 @@ class rcmail
    */
   public function imap_connect()
   {
-    $conn = false;
-
     if (!$this->imap)
       $this->imap_init();
     
-    if ($_SESSION['imap_host'] && !$this->imap->conn) {
-      if (!($conn = $this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl']))) {
+    if ($_SESSION['imap_host'] && !$this->imap->conn->connected()) {
+      if (!$this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'])) {
         if ($this->output)
           $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
       }
-
-      $this->set_imap_prop();
+      else {
+        $this->set_imap_prop();
+        return $this->imap->conn;
+      }
     }
 
-    return $conn;
+    return false;
   }
 
 
@@ -957,10 +957,8 @@ class rcmail
    */
   public function shutdown()
   {
-    if (is_object($this->imap)) {
+    if (is_object($this->imap))
       $this->imap->close();
-      $this->imap->write_cache();
-    }
 
     if (is_object($this->smtp))
       $this->smtp->disconnect();

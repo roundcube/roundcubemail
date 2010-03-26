@@ -1,25 +1,47 @@
 <form action="index.php" method="get">
 <?php
 
-$required_php_exts = array('PCRE' => 'pcre', 'DOM' => 'dom',
-    'Session' => 'session', 'XML' => 'xml', 'JSON' => 'json');
-
-$optional_php_exts = array('FileInfo' => 'fileinfo', 'Libiconv' => 'iconv',
-    'Multibyte' => 'mbstring', 'OpenSSL' => 'openssl', 'Mcrypt' => 'mcrypt',
+$required_php_exts = array(
+    'PCRE'      => 'pcre',
+    'DOM'       => 'dom',
+    'Session'   => 'session',
+    'XML'       => 'xml',
+    'JSON'      => 'json'
 );
 
-$required_libs = array('PEAR' => 'PEAR.php', 'MDB2' => 'MDB2.php',
-    'Net_SMTP' => 'Net/SMTP.php', 'Mail_mime' => 'Mail/mime.php',
-    'iilConnection' => 'lib/imap.inc');
+$optional_php_exts = array(
+    'FileInfo'  => 'fileinfo',
+    'Libiconv'  => 'iconv',
+    'Multibyte' => 'mbstring',
+    'OpenSSL'   => 'openssl',
+    'Mcrypt'    => 'mcrypt',
+);
 
-$supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
-    'PostgreSQL' => 'pgsql', 'SQLite (v2)' => 'sqlite');
+$required_libs = array(
+    'PEAR'      => 'PEAR.php',
+    'MDB2'      => 'MDB2.php',
+    'Net_SMTP'  => 'Net/SMTP.php',
+    'Mail_mime' => 'Mail/mime.php',
+);
 
-$ini_checks = array('file_uploads' => 1, 'session.auto_start' => 0,
-    'zend.ze1_compatibility_mode' => 0, 'mbstring.func_overload' => 0,
-    'suhosin.session.encrypt' => 0);
+$supported_dbs = array(
+    'MySQL'         => 'mysql',
+    'MySQLi'        => 'mysqli',
+    'PostgreSQL'    => 'pgsql',
+    'SQLite (v2)'   => 'sqlite',
+);
 
-$optional_checks = array('date.timezone' => '-NOTEMPTY-');
+$ini_checks = array(
+    'file_uploads'                  => 1,
+    'session.auto_start'            => 0,
+    'zend.ze1_compatibility_mode'   => 0,
+    'mbstring.func_overload'        => 0,
+    'suhosin.session.encrypt'       => 0,
+);
+
+$optional_checks = array(
+    'date.timezone' => '-NOTEMPTY-',
+);
 
 $source_urls = array(
     'Sockets' => 'http://www.php.net/manual/en/book.sockets.php',
