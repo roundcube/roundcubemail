@@ -217,6 +217,10 @@ $action_map = array(
   
   'addressbook' => array(
     'add' => 'edit.inc',
+    'create-group' => 'groups.inc',
+    'delete-group' => 'groups.inc',
+    'removefromgroup' => 'groups.inc',
+    'add2group' => 'groups.inc',
   ),
   
   'settings' => array(

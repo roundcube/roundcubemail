@@ -4,27 +4,16 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <script type="text/javascript" src="/splitter.js"></script>
-
+<script type="text/javascript" src="/functions.js"></script>
 <style type="text/css">
-<roundcube:if condition="count(env:address_sources) &lt;= 1" />
-#abookcountbar { left: 20px; }
-#addressscreen { left: 20px; 
-<roundcube:exp expression="browser:ie ? 'width:expression((parseInt(document.documentElement.clientWidth)-40)+\\'px\\');' : ''" />
-}
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
 #contacts-box { left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
-<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255).')+\\'px\\');') : ''" />
+	<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255).')+\\'px\\');') : ''" />
 }
-<roundcube:else />
-#addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
-#contacts-box { left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
-<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255).')+\\'px\\');') : ''" />
-}
-<roundcube:endif />
 </style>
 
 </head>
-<body>
+<body onload="rcube_init_mail_ui()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -45,12 +34,24 @@
 <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
 
-<roundcube:if condition="count(env:address_sources) &gt; 1" />
-<div id="directorylist">
+<div id="directorylistbox">
 <div id="groups-title" class="boxtitle"><roundcube:label name="groups" /></div>
-<roundcube:object name="directorylist" id="directories-list" />
+<div id="directorylistwarp">
+  <roundcube:object name="directorylist" id="directorylist" />
+  <roundcube:object name="groupslist" id="contactgroupslist" />
 </div>
-<roundcube:endif />
+<div id="directoylistbuttons">
+  <roundcube:button command="add-group" type="link" title="newcontactgroup" class="buttonPas addgroup" classAct="button addgroup" content=" " />
+  <roundcube:button name="groupactions" id="groupactionslink" type="link" title="groupactions" class="button groupactions" onclick="rcmail_ui.show_groupmenu();return false" content=" " />
+</div>
+</div>
+
+<div id="groupoptionsmenu" class="popupmenu">
+  <ul>
+    <li><roundcube:button command="rename-group" label="rename" classAct="active" /></li>
+    <li><roundcube:button command="delete-group" label="delete" classAct="active" /></li>
+  </ul>
+</div>
 
 <div id="addressscreen">
 

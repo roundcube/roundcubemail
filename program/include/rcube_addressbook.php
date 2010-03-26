@@ -29,6 +29,7 @@ abstract class rcube_addressbook
 {
     /** public properties */
     var $primary_key;
+    var $groups = false;
     var $readonly = true;
     var $ready = false;
     var $list_page = 1;
@@ -61,6 +62,13 @@ abstract class rcube_addressbook
      * @return array  Indexed list of contact records, each a hash array
      */
     abstract function list_records($cols=null, $subset=0);
+
+    /**
+     * List all active contact groups of this source
+     *
+     * @return array  Indexed list of contact groups, each a hash array
+     */
+    function list_groups() { }
 
     /**
      * Search records
@@ -122,6 +130,12 @@ abstract class rcube_addressbook
     {
       $this->page_size = (int)$size;
     }
+
+    /**
+     * Setter for the current group
+     * (empty, has to be re-implemented by extending class)
+     */
+    function set_group($gid) { }
 
     /**
      * Create a new contact record

@@ -83,4 +83,27 @@ ALTER TABLE `contacts` ALTER `surname` SET DEFAULT '';
 
 ALTER TABLE `identities` ADD INDEX `user_identities_index` (`user_id`, `del`);
 
+CREATE TABLE `contactgroups` (
+  `contactgroup_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `changed` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `del` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY(`contactgroup_id`),
+  CONSTRAINT `user_id_fk_contactgroups` FOREIGN KEY (`user_id`)
+    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  INDEX `contactgroups_user_index` (`user_id`,`del`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
+CREATE TABLE `contactgroupmembers` (
+  `contactgroup_id` int(10) UNSIGNED NOT NULL,
+  `contact_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`contactgroup_id`, `contact_id`),
+  CONSTRAINT `contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`)
+    REFERENCES `contactgroups`(`contactgroup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `contact_id_fk_contacts` FOREIGN KEY (`contact_id`)
+    REFERENCES `contacts`(`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) /*!40000 ENGINE=INNODB */;
+
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;

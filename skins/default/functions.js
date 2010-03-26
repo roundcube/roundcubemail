@@ -126,37 +126,52 @@ function rcmail_init_compose_form()
 
 function rcube_mail_ui()
 {
-  this.markmenu = $('#markmessagemenu');
-  this.searchmenu = $('#searchmenu');
-  this.messagemenu = $('#messagemenu');
-  this.listmenu = $('#listmenu');
-  this.dragmessagemenu = $('#dragmessagemenu');
+  this.popupmenus = {
+    markmenu:'markmessagemenu',
+    searchmenu:'searchmenu',
+    messagemenu:'messagemenu',
+    listmenu:'listmenu',
+    dragmessagemenu:'dragmessagemenu',
+    groupmenu:'groupoptionsmenu'
+  };
+  
+  var obj;
+  for (var k in this.popupmenus) {
+    obj = $('#'+this.popupmenus[k])
+    if (obj.length)
+      this[k] = obj;
+  }
 }
 
 rcube_mail_ui.prototype = {
 
-show_markmenu: function(show)
+show_popupmenu: function(obj, refname, show, above)
 {
   if (typeof show == 'undefined')
-    show = this.markmenu.is(':visible') ? false : true;
+    show = obj.is(':visible') ? false : true;
   
-  var ref = rcube_find_object('markreadbutton');
-  if (show && ref)
-    this.markmenu.css({ left:ref.offsetLeft, top:(ref.offsetTop + ref.offsetHeight) });
+  var ref = rcube_find_object(refname);
+  if (show && ref) {
+    var pos = $(ref).offset();
+    obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
+  }
   
-  this.markmenu[show?'show':'hide']();
+  obj[show?'show':'hide']();
+},
+
+show_markmenu: function(show)
+{
+  this.show_popupmenu(this.markmenu, 'markreadbutton', show);
 },
 
 show_messagemenu: function(show)
 {
-  if (typeof show == 'undefined')
-    show = this.messagemenu.is(':visible') ? false : true;
+  this.show_popupmenu(this.messagemenu, 'messagemenulink', show);
+},
 
-  var ref = rcube_find_object('messagemenulink');
-  if (show && ref)
-    this.messagemenu.css({ left:ref.offsetLeft, top:(ref.offsetTop + ref.offsetHeight) });
-
-  this.messagemenu[show?'show':'hide']();
+show_groupmenu: function(show)
+{
+  this.show_popupmenu(this.groupmenu, 'groupactionslink', show, true);
 },
 
 show_searchmenu: function(show)
@@ -267,6 +282,8 @@ body_mouseup: function(evt, p)
     this.show_messagemenu(false);
   else if (this.dragmessagemenu && this.dragmessagemenu.is(':visible') && !rcube_mouse_is_over(evt, rcube_find_object('dragmessagemenu')))
     this.dragmessagemenu.hide();
+  else if (this.groupmenu &&  this.groupmenu.is(':visible') && target != rcube_find_object('groupactionslink'))
+    this.show_groupmenu(false);
   else if (this.listmenu && this.listmenu.is(':visible') && target != rcube_find_object('listmenulink')) {
     var menu = rcube_find_object('listmenu');
     while (target.parentNode) {
@@ -290,16 +307,10 @@ body_mouseup: function(evt, p)
 body_keypress: function(evt, p)
 {
   if (rcube_event.get_keycode(evt) == 27) {
-    if (this.markmenu && this.markmenu.is(':visible'))
-      this.show_markmenu(false);
-    if (this.searchmenu && this.searchmenu.is(':visible'))
-      this.show_searchmenu(false);
-    if (this.messagemenu && this.messagemenu.is(':visible'))
-      this.show_messagemenu(false);
-    if (this.listmenu && this.listmenu.is(':visible'))
-      this.show_listmenu(false);
-    if (this.dragmessagemenu && this.dragmessagemenu.is(':visible'))
-      this.dragmessagemenu.hide();
+    for (var k in this.popupmenus) {
+      if (this[k] && this[k].is(':visible'))
+        this[k].hide();
+    }
   }
 }
 
@@ -312,7 +323,9 @@ function rcube_init_mail_ui()
   rcmail_ui = new rcube_mail_ui();
   rcube_event.add_listener({ object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
   rcube_event.add_listener({ object:rcmail_ui, method:'body_keypress', event:'keypress' });
-  rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
-  rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
-  rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
+  if (rcmail.env.task == 'mail') {
+    rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
+    rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
+    rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
+  }
 }

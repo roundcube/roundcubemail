@@ -39,8 +39,10 @@ class rcube_contacts extends rcube_addressbook
   /** public properties */
   var $primary_key = 'contact_id';
   var $readonly = false;
+  var $groups = true;
   var $list_page = 1;
   var $page_size = 10;
+  var $group_id = 0;
   var $ready = false;
 
   
@@ -82,6 +84,16 @@ class rcube_contacts extends rcube_addressbook
 
 
   /**
+   * Setter for the current group
+   * (empty, has to be re-implemented by extending class)
+   */
+  function set_group($gid)
+  {
+    $this->group_id = $gid;
+  }
+
+
+  /**
    * Reset all saved results and search parameters
    */
   function reset()
@@ -92,6 +104,32 @@ class rcube_contacts extends rcube_addressbook
     $this->search_string = null;
   }
   
+  /**
+   * List all active contact groups of this source
+   *
+   * @param string  Search string to match group name
+   * @return array  Indexed list of contact groups, each a hash array
+   */
+  function list_groups($search = null)
+  {
+    $results = array();
+    $sql_filter = $search ? "AND " . $this->db->ilike('name', '%'.$search.'%') : '';
+
+    $sql_result = $this->db->query(
+      "SELECT * FROM ".get_table_name('contactgroups')."
+       WHERE  del<>1
+       AND    user_id=?
+       $sql_filter
+       ORDER BY name",
+      $this->user_id);
+
+    while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
+      $sql_arr['ID'] = $sql_arr['contactgroup_id'];
+      $results[] = $sql_arr;
+    }
+    
+    return $results;
+  }
   
   /**
    * List the current set of contact records
@@ -109,18 +147,24 @@ class rcube_contacts extends rcube_addressbook
     // get contacts from DB
     if ($this->result->count)
     {
+      if ($this->group_id)
+        $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS rcmgrouplinks".
+          " ON (rcmgrouplinks.contact_id=rcmcontacts.".$this->primary_key.")";
+      
       $start_row = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
       $length = $subset != 0 ? abs($subset) : $this->page_size;
       
       $sql_result = $this->db->limitquery(
-        "SELECT * FROM ".$this->db_name."
-         WHERE  del<>1
-         AND    user_id=?" .
+        "SELECT * FROM ".$this->db_name." AS rcmcontacts ".$join."
+         WHERE  rcmcontacts.del<>1
+         AND    rcmcontacts.user_id=?" .
+        ($this->group_id ? " AND rcmgrouplinks.contactgroup_id=?" : "").
         ($this->filter ? " AND (".$this->filter.")" : "") .
-        " ORDER BY name",
+        " ORDER BY rcmcontacts.name",
         $start_row,
         $length,
-        $this->user_id);
+        $this->user_id,
+        $this->group_id);
     }
     
     while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result)))
@@ -184,14 +228,20 @@ class rcube_contacts extends rcube_addressbook
    */
   function count()
   {
+    if ($this->group_id)
+      $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS rcmgrouplinks".
+        " ON (rcmgrouplinks.contact_id=rcmcontacts.".$this->primary_key.")";
+      
     // count contacts for this user
     $sql_result = $this->db->query(
-      "SELECT COUNT(contact_id) AS rows
-       FROM ".$this->db_name."
-       WHERE  del<>1
-       AND    user_id=?".
+      "SELECT COUNT(rcmcontacts.contact_id) AS rows
+       FROM ".$this->db_name." AS rcmcontacts ".$join."
+       WHERE  rcmcontacts.del<>1
+       AND    rcmcontacts.user_id=?".
+       ($this->group_id ? " AND rcmgrouplinks.contactgroup_id=?" : "").
        ($this->filter ? " AND (".$this->filter.")" : ""),
-      $this->user_id);
+      $this->user_id,
+      $this->group_id);
 
     $sql_arr = $this->db->fetch_assoc($sql_result);
     return new rcube_result_set($sql_arr['rows'], ($this->list_page-1) * $this->page_size);;
@@ -357,4 +407,114 @@ class rcube_contacts extends rcube_addressbook
     return $this->db->affected_rows();
   }
 
+
+  /**
+   * Create a contact group with the given name
+   *
+   * @param string The group name
+   * @return False on error, array with record props in success
+   */
+  function create_group($name)
+  {
+    $result = false;
+    
+    $sql_result = $this->db->query(
+      "SELECT * FROM ".get_table_name('contactgroups')."
+       WHERE  del<>1
+       AND    user_id=?
+       AND    name LIKE ?",
+      $this->user_id,
+      $name . '%');
+    
+    // make sure we have a unique name
+    if ($num = $this->db->num_rows($sql_result))
+      $name .= ' ' . ($num+1);
+    
+    $this->db->query(
+      "INSERT INTO ".get_table_name('contactgroups')." (user_id, changed, name)
+       VALUES (".intval($this->user_id).", ".$this->db->now().", ".$this->db->quote($name).")"
+      );
+    
+    if ($insert_id = $this->db->insert_id('contactgroups'))
+      $result = array('id' => $insert_id, 'name' => $name);
+    
+    return $result;
+  }
+
+  /**
+   * Delete the given group and all linked group members
+   *
+   * @param string Group identifier
+   */
+  function delete_group($gid)
+  {
+    $sql_result = $this->db->query(
+      "DELETE FROM ".get_table_name('contactgroupmembers')."
+       WHERE  contactgroup_id=?",
+      $gid);
+    
+    $sql_result = $this->db->query(
+      "UPDATE ".get_table_name('contactgroups')."
+       SET del=1, changed=".$this->db->now()."
+       WHERE  contactgroup_id=?",
+      $gid);
+    
+    return $this->db->affected_rows();
+  }
+
+  /**
+   * Add the given contact records the a certain group
+   *
+   * @param string  Group identifier
+   * @param array   List of contact identifiers to be added
+   */
+  function add_to_group($group_id, $ids)
+  {
+    if (!is_array($ids))
+      $ids = explode(',', $ids);
+    
+    $added = 0;
+    
+    foreach ($ids as $contact_id) {
+      $sql_result = $this->db->query(
+        "SELECT 1 FROM ".get_table_name('contactgroupmembers')."
+         WHERE  contactgroup_id=?
+         AND    contact_id=?",
+      $group_id,
+      $contact_id);
+      
+      if (!$this->db->num_rows($sql_result)) {
+        $this->db->query(
+          "INSERT INTO ".get_table_name('contactgroupmembers')." (contactgroup_id, contact_id, created)
+           VALUES (".intval($group_id).", ".intval($contact_id).", ".$this->db->now().")"
+        );
+        if (!$this->db->db_error)
+          $added++;
+      }
+    }
+    
+    return $added;
+  }
+  
+  
+  /**
+   * Remove the given contact records from a certain group
+   *
+   * @param string  Group identifier
+   * @param array   List of contact identifiers to be removed
+   */
+  function remove_from_group($group_id, $ids)
+  {
+    if (!is_array($ids))
+      $ids = explode(',', $ids);
+    
+    $sql_result = $this->db->query(
+      "DELETE FROM ".get_table_name('contactgroupmembers')."
+       WHERE  contactgroup_id=?
+       AND    contact_id IN (".join(',', array_map(array($this->db, 'quote'), $ids)).")",
+      $group_id);
+    
+    return $this->db->affected_rows();
+  }
+  
 }

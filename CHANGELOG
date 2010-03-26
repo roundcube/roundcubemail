@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added contact groups in address book (not finished yet)
 - Added PageUp/PageDown/Home/End keys support on lists (#1486430)
 - Added possibility to select all messages in a folder (#1484756)
 - Added 'imap_force_caps' option for after-login CAPABILITY checking (#1485750)

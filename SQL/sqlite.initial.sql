@@ -19,7 +19,7 @@ CREATE INDEX ix_cache_created ON cache(created);
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table contacts
+-- Table structure for table contacts and related
 -- 
 
 CREATE TABLE contacts (
@@ -35,6 +35,26 @@ CREATE TABLE contacts (
 );
 
 CREATE INDEX ix_contacts_user_id ON contacts(user_id, email);
+
+
+CREATE TABLE contactgroups (
+  contactgroup_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL default '0',
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
+  name varchar(128) NOT NULL default ''
+);
+
+CREATE INDEX ix_contactgroups_user_id ON contactgroups(user_id, del);
+
+
+CREATE TABLE contactgroupmembers (
+  contactgroup_id integer NOT NULL,
+  contact_id integer NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY (contactgroup_id, contact_id)
+);
+
 
 -- --------------------------------------------------------
 

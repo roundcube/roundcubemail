@@ -258,12 +258,15 @@ $labels['contactsfromto'] = 'Contacts $from to $to of $count';
 $labels['print']          = 'Print';
 $labels['export']         = 'Export';
 $labels['exportvcards']   = 'Export contacts in vCard format';
+$labels['newcontactgroup'] = 'Create new contact group';
+$labels['groupactions']   = 'Actions for contact groups...';
 
 $labels['previouspage']   = 'Show previous set';
 $labels['firstpage']      = 'Show first set';
 $labels['nextpage']       = 'Show next set';
 $labels['lastpage']       = 'Show last set';
 
+$labels['group'] = 'Group';
 $labels['groups'] = 'Groups';
 $labels['personaladrbook'] = 'Personal Addresses';
 

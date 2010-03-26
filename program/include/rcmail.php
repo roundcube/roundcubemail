@@ -300,19 +300,21 @@ class rcmail
     if ($abook_type != 'ldap') {
       $list['0'] = array(
         'id' => 0,
-	'name' => rcube_label('personaladrbook'),
+        'name' => rcube_label('personaladrbook'),
+        'groups' => true,
         'readonly' => false,
-	'autocomplete' => in_array('sql', $autocomplete)
+        'autocomplete' => in_array('sql', $autocomplete)
       );
     }
 
     if (is_array($ldap_config)) {
       foreach ($ldap_config as $id => $prop)
         $list[$id] = array(
-	  'id' => $id,
-	  'name' => $prop['name'],
-	  'readonly' => !$prop['writable'],
-	  'autocomplete' => in_array('sql', $autocomplete)
+          'id' => $id,
+          'name' => $prop['name'],
+          'groups' => false,
+          'readonly' => !$prop['writable'],
+          'autocomplete' => in_array('sql', $autocomplete)
         );
     }
 

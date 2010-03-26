@@ -39,6 +39,9 @@ if (!empty($_GET['_page']))
   $CONTACTS->set_page(($_SESSION['page'] = intval($_GET['_page'])));
 else
   $CONTACTS->set_page(isset($_SESSION['page']) ?$_SESSION['page'] : 1);
+  
+if (!empty($_REQUEST['_gid']))
+  $CONTACTS->set_group(get_input_value('_gid', RCUBE_INPUT_GPC));
 
 // set message set for search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
@@ -60,7 +63,7 @@ function rcmail_directory_list($attrib)
   $out = '';
   $local_id = '0';
   $current = get_input_value('_source', RCUBE_INPUT_GPC);
-  $line_templ = html::tag('li', array('id' => 'rcmli%s', 'class' => '%s'),
+  $line_templ = html::tag('li', array('id' => 'rcmli%s', 'class' => 'addressbook %s'),
     html::a(array('href' => '%s', 'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
 
   if (!$current && strtolower($RCMAIL->config->get('address_book_type', 'sql')) != 'ldap') {
@@ -79,10 +82,36 @@ function rcmail_directory_list($attrib)
     $out .= sprintf($line_templ, $dom_id, ($current == $id ? 'selected' : ''),
       Q(rcmail_url(null, array('_source' => $id))), $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
   }
+  
+  $out .= rcmail_contact_groups(array('items' => true));
 
   $OUTPUT->add_gui_object('folderlist', $attrib['id']);
   
   return html::tag('ul', $attrib, $out, html::$common_attrib);
+}
+
+
+function rcmail_contact_groups($attrib)
+{
+  global $CONTACTS, $OUTPUT;
+  
+  if (!$attrib['id'])
+    $attrib['id'] = 'rcmgroupslist';
+  
+  $groups = $CONTACTS->list_groups();
+  $line_templ = html::tag('li', array('id' => 'rcmliG%s', 'class' => 'contactgroup'),
+    html::a(array('href' => '#', 'onclick' => "return ".JS_OBJECT_NAME.".command('listgroup','%s',this)"), '%s'));
+
+  $jsdata = array();
+  foreach ($groups as $group) {
+    $out .= sprintf($line_templ, $group['ID'], $group['ID'], Q($group['name']));
+    $jsdata['G'.$group['ID']] = array('id' => $group['ID'], 'name' => $group['name'], 'type' => 'group');
+  }
+  
+  $OUTPUT->set_env('contactgroups', $jsdata);
+  //$OUTPUT->add_gui_object('groupslist', $attrib['id']);
+  
+  return $attrib['items'] ? $out : html::tag('ul', $attrib, $out, html::$common_attrib);
 }
 
 
@@ -200,6 +229,7 @@ $OUTPUT->set_pagetitle(rcube_label('addressbook'));
 // register UI objects
 $OUTPUT->add_handlers(array(
   'directorylist' => 'rcmail_directory_list',
+//  'groupslist' => 'rcmail_contact_groups',
   'addresslist' => 'rcmail_contacts_list',
   'addressframe' => 'rcmail_contact_frame',
   'recordscountdisplay' => 'rcmail_rowcount_display',

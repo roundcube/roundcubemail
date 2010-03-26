@@ -44,6 +44,10 @@ $rcmail_config['db_table_identities'] = 'identities';
 
 $rcmail_config['db_table_contacts'] = 'contacts';
 
+$rcmail_config['db_table_contactgroups'] = 'contactgroups';
+
+$rcmail_config['db_table_contactgroupmembers'] = 'contactgroupmembers';
+
 $rcmail_config['db_table_session'] = 'session';
 
 $rcmail_config['db_table_cache'] = 'cache';

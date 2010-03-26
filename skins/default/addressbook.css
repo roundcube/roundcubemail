@@ -4,7 +4,7 @@
 {
   position: absolute;
   top: 45px;
-  left: 205px;
+  left: 225px;
   height: 35px;
 }
 
@@ -76,8 +76,8 @@
 #abookcountbar
 {
   position: absolute;
-  bottom: 16px;
-  left: 200px;
+  bottom: 6px;
+  left: 225px;
   width: 240px;
   height: 20px;
   text-align: left;
@@ -94,20 +94,78 @@
   position: absolute;
   top: 85px;
   right: 20px;
-  bottom: 40px;
-  left: 205px;
+  bottom: 30px;
+  left: 225px;
 }
 
-#directorylist
+#directorylistbox
 {
   position: absolute;
   top: 85px;
-  bottom: 40px;
+  bottom: 30px;
   left: 20px;
-  width: 175px;
+  width: 195px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
+}
+
+#directorylistwarp
+{
+  position: absolute;
+  top: 20px;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+
+#groups-title
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+#directorylistbox input
+{
+  display: absolute;
+  margin: 2px;
+}
+
+#directoylistbuttons
+{
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 22px;
+  border-top: 1px solid #999;
+  background: url('images/listheader.gif') top left repeat-x #CCC;
+}
+
+#directoylistbuttons a.button,
+#directoylistbuttons a.buttonPas
+{
+  display: block;
+  float: left;
+  width: 34px;
+  height: 22px;
+  padding: 0px;
+  margin: 0;
+  overflow: hidden;
+  background: url('images/icons/groupactions.png') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+#directoylistbuttons a.groupactions {
+  background-position: 0 -26px;
+}
+
+#directoylistbuttons a.buttonPas {
+  opacity: 0.35;
 }
 
 #addresslist
@@ -118,6 +176,11 @@
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: auto;
+}
+
+#contactgroupslist
+{
+  border-top: 1px solid #999;
 }
 
 #importbox
@@ -136,7 +199,7 @@
 #addresslist
 {
   left: 0px;
-  width: 340px;
+  width: 280px;
 }
 
 #importbox a
@@ -144,7 +207,7 @@
   color: blue;
 }
 
-#directorylist ul
+#directorylist
 {
   list-style: none;
   margin: 0;
@@ -152,21 +215,29 @@
   background-color: #FFFFFF;
 }
 
-#directorylist ul li
+#directorylist li
 {
+  display: block;
   font-size: 11px;
+  background: url(images/icons/folders.png) 5px -108px no-repeat;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
 }
 
-#directorylist ul li a
+#directorylist li a
 {
+  cursor: default;
   display: block;
-  padding-left: 6px;
+  padding-left: 25px;
   padding-top: 2px;
   padding-bottom: 2px;
   text-decoration: none;
   white-space: nowrap;
+}
+
+#directorylist li.contactgroup
+{
+  background-position: 5px -144px;
 }
 
 #directorylist li.selected
@@ -201,7 +272,7 @@
 {
   position: absolute;
   top: 0px;
-  left: 555px;
+  left: 290px;
   right: 0px;
   bottom: 0px;
   border: 1px solid #999999;

@@ -686,7 +686,7 @@ body.messagelist
 #messagelist thead tr td.sortedASC,
 #messagelist thead tr td.sortedDESC
 {
-  background-position: 0 -20px;
+  background-position: 0 -22px;
 }
 
 #messagelist thead tr td.sortedASC a
