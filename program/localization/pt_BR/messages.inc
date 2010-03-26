@@ -15,6 +15,7 @@
 |         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
 |         Gervasio Antonio <gdsa32-translations@yahoo.com.br>           |
 |         Victor Benincasa <vbenincasa@gmail.com>                       |
+|         Jarbas Peixoto Junior <jarbas.peixoto@gmail.com>              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -51,6 +52,7 @@ $messages['senttooquickly'] = 'Aguarde $sec s para enviar a mensagem';
 $messages['errorsavingsent'] = 'Ocorreu um erro ao salvar a mensagem enviada';
 $messages['errorsaving'] = 'Ocorreu um erro ao salvar';
 $messages['errormoving'] = 'Não foi possível mover a mensagem';
+$messages['errorcopying'] = 'Não foi possível copiar a(s) mensagem(ns)';
 $messages['errordeleting'] = 'Não foi possível apagar a mensagem';
 $messages['errormarking'] = 'Não foi possível marcar a mensagem';
 $messages['deletecontactconfirm'] = 'Deseja realmente excluir o(s) contato(s) selecionado(s)?';
@@ -90,6 +92,7 @@ $messages['copyerror'] = 'Não foi possível copiar os endereços';
 $messages['sourceisreadonly'] = 'Esta fonte de endereço é somente leitura';
 $messages['errorsavingcontact'] = 'Não foi possível salvar o endereço de contato';
 $messages['movingmessage'] = 'Movendo mensagem...';
+$messages['copyingmessage'] = 'Copiando mensagem...';
 $messages['receiptsent'] = 'Confirmação de recebimento enviada com sucesso';
 $messages['errorsendingreceipt'] = 'Não foi possível enviar a confirmação de recebimento';
 $messages['nodeletelastidentity'] = 'Você não pode excluir a única identidade';

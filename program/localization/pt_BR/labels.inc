@@ -15,6 +15,7 @@
 |         Alessandro Lenzi <alessandro@mistymountain.com.br>            |
 |         Gervasio Antonio <gdsa32-translations@yahoo.com.br>           |
 |         Victor Benincasa <vbenincasa@gmail.com>                       |
+|         Jarbas Peixoto Junior <jarbas.peixoto@gmail.com>              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -49,7 +50,10 @@ $labels['organization'] = 'Organização';
 $labels['reply-to'] = 'Responder para';
 $labels['mailboxlist'] = 'Pastas';
 $labels['messagesfromto'] = 'Mensagens $from - $to de $count';
+$labels['threadsfromto'] = 'Tópicos $from - $to de $count';
 $labels['messagenrof'] = 'Mensagem $nr de $count';
+$labels['copy'] = 'Copiar';
+$labels['move'] = 'Mover';
 $labels['moveto'] = 'Mover para...';
 $labels['download'] = 'Download';
 $labels['filename'] = 'Arquivo';
@@ -121,12 +125,34 @@ $labels['messageactions'] = 'Mais ações...';
 $labels['select'] = 'Selecionar';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Nenhuma';
+$labels['currpage'] = 'Página atual';
 $labels['unread'] = 'Não lidas';
 $labels['flagged'] = 'Sinalizada';
 $labels['unanswered'] = 'Não respondida';
 $labels['deleted'] = 'Excluída';
 $labels['invert'] = 'Inverter';
 $labels['filter'] = 'Exibir';
+$labels['list'] = 'Lista';
+$labels['threads'] = 'Tópicos';
+$labels['expand-all'] = 'Expandir Tudo';
+$labels['expand-unread'] = 'Expandir Não Lidas';
+$labels['collapse-all'] = 'Recolher Tudo';
+$labels['threaded'] = 'Agrupado';
+$labels['autoexpand_threads'] = 'Expandir mensagens agrupadas';
+$labels['do_expand'] = 'todos os tópicos';
+$labels['expand_only_unread'] = 'somente com mensagem(s) não lidas';
+$labels['fromto'] = 'Remetente/Destinatário';
+$labels['flag'] = 'Marca';
+$labels['attachment'] = 'Anexo';
+$labels['nonesort'] = 'Nenhuma';
+$labels['sentdate'] = 'Data de Envio';
+$labels['arrival'] = 'Data da Chegada';
+$labels['asc'] = 'crescente';
+$labels['desc'] = 'decrescente';
+$labels['listcolumns'] = 'Lista de colunas';
+$labels['listsorting'] = 'Seleção de coluna';
+$labels['listorder'] = 'Ordem de classificação';
+$labels['listmode'] = 'Modo de visão de Lista';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Esvaziar';
 $labels['purge'] = 'Apagar';
@@ -236,7 +262,7 @@ $labels['askuser'] = 'perguntar ao usuário';
 $labels['autosend'] = 'enviar automaticamente';
 $labels['ignore'] = 'ignorar';
 $labels['readwhendeleted'] = 'Marcar a mensagem como lida ao excluir';
-$labels['flagfordeletion'] = 'Sinalizar a mensagem para exclusão ao invés de excluir';
+$labels['flagfordeletion'] = 'Marcar a mensagem para exclusão ao invés de excluir';
 $labels['skipdeleted'] = 'Não exibir mensagens excluídas';
 $labels['deletealways'] = 'Apagar as mensagens se movê-las para a lixeira falhar';
 $labels['showremoteimages'] = 'Exibir imagens externas';
