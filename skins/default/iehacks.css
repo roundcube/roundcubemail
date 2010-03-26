@@ -205,7 +205,7 @@ div.message-part div.pre
 
 #addressscreen
 {
-  width: expression((parseInt(document.documentElement.clientWidth)-220)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-245)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
