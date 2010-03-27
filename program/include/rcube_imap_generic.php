@@ -415,7 +415,7 @@ class rcube_imap_generic
         return $result;
     }
 
-    function namespace()
+    function getNamespace()
     {
 	    if (isset($this->prefs['rootdir']) && is_string($this->prefs['rootdir'])) {
     		$this->rootdir = $this->prefs['rootdir'];
@@ -684,7 +684,7 @@ class rcube_imap_generic
             if ($this->prefs['force_caps']) {
 			    $this->clearCapability();
             }
-		    $this->namespace();
+		    $this->getNamespace();
             $this->logged = true;
 		    return true;
 	    } else {
