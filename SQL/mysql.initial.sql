@@ -99,7 +99,7 @@ CREATE TABLE `contacts` (
 CREATE TABLE `contactgroups` (
   `contactgroup_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `changed` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `del` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY(`contactgroup_id`),
@@ -111,7 +111,7 @@ CREATE TABLE `contactgroups` (
 CREATE TABLE `contactgroupmembers` (
   `contactgroup_id` int(10) UNSIGNED NOT NULL,
   `contact_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   PRIMARY KEY (`contactgroup_id`, `contact_id`),
   CONSTRAINT `contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`)
     REFERENCES `contactgroups`(`contactgroup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
