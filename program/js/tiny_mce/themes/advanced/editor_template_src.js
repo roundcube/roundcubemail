@@ -522,7 +522,7 @@
 		},
 
 		resizeTo : function(w, h) {
-			var ed = this.editor, s = ed.settings, e = DOM.get(ed.id + '_tbl'), ifr = DOM.get(ed.id + '_ifr');
+			var ed = this.editor, s = this.settings, e = DOM.get(ed.id + '_tbl'), ifr = DOM.get(ed.id + '_ifr');
 
 			// Boundery fix box
 			w = Math.max(s.theme_advanced_resizing_min_width || 100, w);
@@ -531,8 +531,17 @@
 			h = Math.min(s.theme_advanced_resizing_max_height || 0xFFFF, h);
 
 			// Resize iframe and container
-			DOM.setStyles(e, {width : '', height : ''});
-			DOM.setStyles(ifr, {width : w, height : h});
+			DOM.setStyle(e, 'height', '');
+			DOM.setStyle(ifr, 'height', h);
+
+			if (s.theme_advanced_resize_horizontal) {
+				DOM.setStyle(e, 'width', '');
+				DOM.setStyle(ifr, 'width', w);
+
+				// Make sure that the size is never smaller than the over all ui
+				if (w < e.clientWidth)
+					DOM.setStyle(ifr, 'width', e.clientWidth);
+			}
 		},
 
 		destroy : function() {
@@ -752,7 +761,8 @@
 
 				ed.onPostRender.add(function() {
 					Event.add(ed.id + '_resize', 'mousedown', function(e) {
-						var mouseMoveHandler1, mouseMoveHandler2, mouseUpHandler,
+						var mouseMoveHandler1, mouseMoveHandler2,
+							mouseUpHandler1, mouseUpHandler2,
 							startX, startY, startWidth, startHeight, width, height, ifrElm;
 
 						function resizeOnMove(e) {
@@ -760,6 +770,22 @@
 							height = startHeight + (e.screenY - startY);
 
 							t.resizeTo(width, height);
+						};
+
+						function endResize(e) {
+							// Stop listening
+							Event.remove(DOM.doc, 'mousemove', mouseMoveHandler1);
+							Event.remove(ed.getDoc(), 'mousemove', mouseMoveHandler2);
+							Event.remove(DOM.doc, 'mouseup', mouseUpHandler1);
+							Event.remove(ed.getDoc(), 'mouseup', mouseUpHandler2);
+
+							// Store away the size
+							if (s.theme_advanced_resizing_use_cookie) {
+								Cookie.setHash("TinyMCE_" + ed.id + "_size", {
+									cw : width,
+									ch : height
+								});
+							}
 						};
 
 						e.preventDefault();
@@ -774,20 +800,8 @@
 						// Register envent handlers
 						mouseMoveHandler1 = Event.add(DOM.doc, 'mousemove', resizeOnMove);
 						mouseMoveHandler2 = Event.add(ed.getDoc(), 'mousemove', resizeOnMove);
-						mouseUpHandler = Event.add(DOM.doc, 'mouseup', function(e) {
-							// Stop listening
-							Event.remove(DOM.doc, 'mousemove', mouseMoveHandler1);
-							Event.remove(ed.getDoc(), 'mousemove', mouseMoveHandler2);
-							Event.remove(DOM.doc, 'mouseup', mouseUpHandler);
-
-							// Store away the size
-							if (s.theme_advanced_resizing_use_cookie) {
-								Cookie.setHash("TinyMCE_" + ed.id + "_size", {
-									cw : width,
-									ch : height
-								});
-							}
-						});
+						mouseUpHandler1 = Event.add(DOM.doc, 'mouseup', endResize);
+						mouseUpHandler2 = Event.add(ed.getDoc(), 'mouseup', endResize);
 					});
 				});
 			}
@@ -797,7 +811,7 @@
 		},
 
 		_nodeChanged : function(ed, cm, n, co, ob) {
-			var t = this, p, de = 0, v, c, s = t.settings, cl, fz, fn;
+			var t = this, p, de = 0, v, c, s = t.settings, cl, fz, fn, formatNames, matches;
 
 			tinymce.each(t.stateControls, function(c) {
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
@@ -847,10 +861,13 @@
 			if (c = cm.get('styleselect')) {
 				t._importClasses();
 
-				// Check each format and update
-				c.select(function(fmt) {
-					return !!ed.formatter.match(fmt);
+				formatNames = [];
+				each(c.items, function(item) {
+					formatNames.push(item.value);
 				});
+
+				matches = ed.formatter.matchAll(formatNames);
+				c.select(matches[0]);
 			}
 
 			if (c = cm.get('formatselect')) {
