@@ -610,17 +610,17 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
     // build reply (quote content)
-    $prefix = sprintf("On %s, %s wrote:<br />\n",
+    $prefix = sprintf("<p>On %s, %s wrote:</p>\n",
       $MESSAGE->headers->date,
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $RCMAIL->output->get_charset()));
     $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
-    
+
     if ($RCMAIL->config->get('top_posting')) {
-      $prefix = "<p></p>" . $prefix;
-      $suffix = "</blockquote>";
+      $prefix = '<br>' . $prefix;
+      $suffix = '</blockquote>';
     }
     else {
-      $suffix = "</blockquote><p></p>";
+      $suffix = '</blockquote><p></p>';
     }
   }
 
@@ -659,7 +659,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
     $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
     $prefix = sprintf(
-      "<p></p><p>-------- Original Message --------</p>" .
+      "<br /><p>-------- Original Message --------</p>" .
         "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Subject: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Date: </th><td>%s</td></tr>" .

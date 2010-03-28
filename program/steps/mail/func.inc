@@ -629,7 +629,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     'cid_map' => $cid_replaces,
     'html_elements' => array('body'),
   );
-    
+
   if (!$p['inline_html']) {
     $wash_opts['html_elements'] = array('html','head','title','body');
   }
