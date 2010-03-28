@@ -366,10 +366,15 @@ $isHtml = ($isHtmlVal == "1");
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 if (!$savedraft) {
-  // remove signature's div ID
-  if ($isHtml)
+  if ($isHtml) {
+    // remove signature's div ID
     $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
 
+    // add inline css for blockquotes
+    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%';
+    $message_body = preg_replace('/<blockquote>/',
+	'<blockquote type="cite" style="'.$bstyle.'">', $message_body);
+  }
   // generic footer for all messages
   if (!empty($CONFIG['generic_message_footer'])) {
     $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));

@@ -613,7 +613,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $prefix = sprintf("<p>On %s, %s wrote:</p>\n",
       $MESSAGE->headers->date,
       htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $RCMAIL->output->get_charset()));
-    $prefix .= '<blockquote type="cite" style="padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%">';
+    $prefix .= '<blockquote>';
 
     if ($RCMAIL->config->get('top_posting')) {
       $prefix = '<br>' . $prefix;

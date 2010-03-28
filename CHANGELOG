@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Re-organize editor buttons, add blockquote and search buttons
+- Make possible to write inside or after a quoted html message (#1485476)
 - Fix bugs on unexpected IMAP connection close (#1486190, #1486270)
 - Iloha's imap.inc rewritten into rcube_imap_generic class
 - Added contact groups in address book (not finished yet)
