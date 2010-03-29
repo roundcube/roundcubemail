@@ -273,7 +273,7 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
         $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
       }
 
-      $mail_object  = new rcube_mail_mime();
+      $mail_object  = new Mail_mime();
       $send_headers = $mail_object->headers($headers);
 
       $SMTP = new rcube_smtp();
