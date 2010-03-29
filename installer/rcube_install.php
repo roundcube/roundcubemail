@@ -249,9 +249,9 @@ class rcube_install
         $out['dependencies'][] = array('prop' => 'spellcheck_engine',
           'explain' => 'This requires the <tt>pspell</tt> extension which could not be loaded.');
       }
-      if (!empty($this->config['spellcheck_languages'])) {
+      else if (!empty($this->config['spellcheck_languages'])) {
         foreach ($this->config['spellcheck_languages'] as $lang => $descr)
-	  if (!pspell_new($lang))
+          if (!pspell_new($lang))
             $out['dependencies'][] = array('prop' => 'spellcheck_languages',
               'explain' => "You are missing pspell support for language $lang ($descr)");
       }
@@ -348,7 +348,8 @@ class rcube_install
       'portability' => true
     );
     
-    $schema =& MDB2_Schema::factory($this->config['db_dsnw'], $options);
+    $dsnw = $this->config['db_dsnw'];
+    $schema = MDB2_Schema::factory($dsnw, $options);
     $schema->db->supported['transactions'] = false;
     
     if (PEAR::isError($schema)) {
@@ -365,10 +366,11 @@ class rcube_install
       }
       
       // load reference schema
-      $dsn = MDB2::parseDSN($this->config['db_dsnw']);
-      $ref_schema = INSTALL_PATH . 'SQL/' . $dsn['phptype'] . '.schema.xml';
+      $dsn_arr = MDB2::parseDSN($this->config['db_dsnw']);
+
+      $ref_schema = INSTALL_PATH . 'SQL/' . $dsn_arr['phptype'] . '.schema.xml';
       
-      if (is_file($ref_schema)) {
+      if (is_readable($ref_schema)) {
         $reference = $schema->parseDatabaseDefinition($ref_schema, false, array(), $schema->options['fail_on_invalid_names']);
         
         if (PEAR::isError($reference)) {
