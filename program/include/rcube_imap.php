@@ -135,6 +135,8 @@ class rcube_imap
                 $this->set_rootdir($this->conn->rootdir);
             if (empty($this->delimiter))
 	            $this->get_hierarchy_delimiter();
+
+            return true;
         }
         // write error log
         else if ($this->conn->error) {
@@ -144,7 +146,7 @@ class rcube_imap
                 'message' => $this->conn->error), true, false);
         }
 
-        return $this->conn ? true : false;
+        return false;
     }
 
 

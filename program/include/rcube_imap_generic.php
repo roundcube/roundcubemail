@@ -566,7 +566,7 @@ class rcube_imap_generic
 	    // check input
 	    if (empty($host)) {
 		    $this->error    = "Empty host";
-		    $this->errornum = -1;
+		    $this->errornum = -2;
 		    return false;
 	    }
         if (empty($user)) {
