@@ -2312,9 +2312,9 @@ function rcube_webmail()
   // set a specific flag to one or more messages
   this.mark_message = function(flag, uid)
     {
-    var a_uids = new Array();
-    var r_uids = new Array();
-    var selection = this.message_list ? this.message_list.get_selection() : new Array();
+    var a_uids = new Array(),
+      r_uids = new Array(),
+      selection = this.message_list ? this.message_list.get_selection() : new Array();
 
     if (uid)
       a_uids[0] = uid;
@@ -2346,7 +2346,7 @@ function rcube_webmail()
       }
 
     // nothing to do
-    if (!r_uids.length)
+    if (!r_uids.length && !this.select_all_mode)
       return;
 
     switch (flag)
@@ -2405,15 +2405,12 @@ function rcube_webmail()
     }
     
     var all_deleted = true;
-    for (var i=0; i<a_uids.length; i++)
+    for (var uid, i=0; i<a_uids.length; i++)
     {
       uid = a_uids[i];
-      if (rows[uid]) {
-        if (!rows[uid].deleted)
-        {
-          all_deleted = false;
-          break;
-        }
+      if (rows[uid] && !rows[uid].deleted) {
+        all_deleted = false;
+        break;
       }
     }
     
