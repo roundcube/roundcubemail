@@ -55,7 +55,7 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
       gecko_spellcheck : true,
       relative_urls : false,
       remove_script_host : false,
-      rc_client: rcmail,
+      rc_client : rcmail,
       oninit : 'rcmail_editor_callback'
     });
 }
@@ -75,10 +75,12 @@ function rcmail_editor_tabindex()
 {
   if (rcmail.env.task == 'mail') {
     var editor = tinyMCE.get(rcmail.env.composebody);
-    var textarea = editor.getElement();
-    var node = editor.getContentAreaContainer().childNodes[0];
-    if (textarea && node)
-      node.tabIndex = textarea.tabIndex;
+    if (editor) {
+      var textarea = editor.getElement();
+      var node = editor.getContentAreaContainer().childNodes[0];
+      if (textarea && node)
+        node.tabIndex = textarea.tabIndex;
+    }
   }
 }
 
@@ -98,8 +100,9 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
     rcmail.display_spellcheck_controls(false);
 
     rcmail.plain2html(composeElement.value, textAreaId);
-    tinyMCE.execCommand('mceAddControl', true, textAreaId);
-    rcmail_editor_tabindex();
+    tinyMCE.execCommand('mceToggleEditor', false, textAreaId);
+    // #1486593
+    setTimeout("rcmail_editor_tabindex();", 500);
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '1';
     }
@@ -118,7 +121,7 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
       rcmail.html2plain(existingHtml, textAreaId);
       }
 
-    tinyMCE.execCommand('mceRemoveControl', true, textAreaId);
+    tinyMCE.execCommand('mceToggleEditor', false, textAreaId);
     rcmail.display_spellcheck_controls(true);
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '0';
