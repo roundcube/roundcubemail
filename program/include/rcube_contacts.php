@@ -399,6 +399,13 @@ class rcube_contacts extends rcube_addressbook
     if (is_array($ids))
       $ids = join(',', $ids);
 
+    // delete all group members linked with these contacts
+    if ($this->groups) {
+      $this->db->query(
+        "DELETE FROM ".get_table_name('contactgroupmembers')."
+         WHERE  contact_id IN (".$ids.")");
+    }
+
     $this->db->query(
       "UPDATE ".$this->db_name."
        SET    del=1
