@@ -39,7 +39,7 @@ class rcube_contacts extends rcube_addressbook
   /** public properties */
   var $primary_key = 'contact_id';
   var $readonly = false;
-  var $groups = true;
+  var $groups = false;
   var $list_page = 1;
   var $page_size = 10;
   var $group_id = 0;
@@ -58,6 +58,9 @@ class rcube_contacts extends rcube_addressbook
     $this->db_name = get_table_name('contacts');
     $this->user_id = $user;
     $this->ready = $this->db && !$this->db->is_error();
+    
+    if (in_array('contactgroups', $this->db->list_tables()))
+      $this->groups = true;
   }
 
 
@@ -113,6 +116,10 @@ class rcube_contacts extends rcube_addressbook
   function list_groups($search = null)
   {
     $results = array();
+    
+    if (!$this->groups)
+      return $results;
+      
     $sql_filter = $search ? "AND " . $this->db->ilike('name', '%'.$search.'%') : '';
 
     $sql_result = $this->db->query(
@@ -134,33 +141,34 @@ class rcube_contacts extends rcube_addressbook
   /**
    * List the current set of contact records
    *
-   * @param  array  List of cols to show
-   * @param  int    Only return this number of records, use negative values for tail
+   * @param  array   List of cols to show
+   * @param  int     Only return this number of records, use negative values for tail
+   * @param  boolean True to skip the count query (select only)
    * @return array  Indexed list of contact records, each a hash array
    */
-  function list_records($cols=null, $subset=0)
+  function list_records($cols=null, $subset=0, $nocount=false)
   {
     // count contacts for this user
-    $this->result = $this->count();
+    $this->result = $nocount ? new rcube_result_set(1) : $this->count();
     $sql_result = NULL;
 
     // get contacts from DB
     if ($this->result->count)
     {
       if ($this->group_id)
-        $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS rcmgrouplinks".
-          " ON (rcmgrouplinks.contact_id=rcmcontacts.".$this->primary_key.")";
+        $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
+          " ON (m.contact_id=c.".$this->primary_key.")";
       
       $start_row = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
       $length = $subset != 0 ? abs($subset) : $this->page_size;
       
       $sql_result = $this->db->limitquery(
-        "SELECT * FROM ".$this->db_name." AS rcmcontacts ".$join."
-         WHERE  rcmcontacts.del<>1
-         AND    rcmcontacts.user_id=?" .
-        ($this->group_id ? " AND rcmgrouplinks.contactgroup_id=?" : "").
+        "SELECT * FROM ".$this->db_name." AS c ".$join."
+         WHERE  c.del<>1
+         AND    c.user_id=?" .
+        ($this->group_id ? " AND m.contactgroup_id=?" : "").
         ($this->filter ? " AND (".$this->filter.")" : "") .
-        " ORDER BY rcmcontacts.name",
+        " ORDER BY c.name",
         $start_row,
         $length,
         $this->user_id,
@@ -176,6 +184,9 @@ class rcube_contacts extends rcube_addressbook
       $this->result->add($sql_arr);
     }
     
+    if ($nocount)
+      $this->result->count = count($this->result->records);
+    
     return $this->result;
   }
 
@@ -187,9 +198,10 @@ class rcube_contacts extends rcube_addressbook
    * @param string  Search value
    * @param boolean True for strict (=), False for partial (LIKE) matching
    * @param boolean True if results are requested, False if count only
+   * @param boolean True to skip the count query (select only)
    * @return Indexed list of contact records and 'count' value
    */
-  function search($fields, $value, $strict=false, $select=true)
+  function search($fields, $value, $strict=false, $select=true, $nocount=false)
   {
     if (!is_array($fields))
       $fields = array($fields);
@@ -212,7 +224,7 @@ class rcube_contacts extends rcube_addressbook
     {
       $this->set_search_set(join(' OR ', $add_where));
       if ($select)
-        $this->list_records();
+        $this->list_records(null, 0, $nocount);
       else
         $this->result = $this->count();
     }
@@ -229,16 +241,16 @@ class rcube_contacts extends rcube_addressbook
   function count()
   {
     if ($this->group_id)
-      $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS rcmgrouplinks".
-        " ON (rcmgrouplinks.contact_id=rcmcontacts.".$this->primary_key.")";
+      $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
+        " ON (m.contact_id=c.".$this->primary_key.")";
       
     // count contacts for this user
     $sql_result = $this->db->query(
-      "SELECT COUNT(rcmcontacts.contact_id) AS rows
-       FROM ".$this->db_name." AS rcmcontacts ".$join."
-       WHERE  rcmcontacts.del<>1
-       AND    rcmcontacts.user_id=?".
-       ($this->group_id ? " AND rcmgrouplinks.contactgroup_id=?" : "").
+      "SELECT COUNT(c.contact_id) AS rows
+       FROM ".$this->db_name." AS c ".$join."
+       WHERE  c.del<>1
+       AND    c.user_id=?".
+       ($this->group_id ? " AND m.contactgroup_id=?" : "").
        ($this->filter ? " AND (".$this->filter.")" : ""),
       $this->user_id,
       $this->group_id);

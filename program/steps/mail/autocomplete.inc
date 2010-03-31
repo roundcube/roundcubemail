@@ -20,16 +20,28 @@
 */
 
 $MAXNUM = 15;
-$contacts = array();
 $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
 
-if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, true)) {
+if ($RCMAIL->action == 'group-expand') {
+  $abook = $RCMAIL->get_address_book(get_input_value('_source', RCUBE_INPUT_GPC));
+  if ($gid = get_input_value('_gid', RCUBE_INPUT_GPC)) {
+    $members = array();
+    $abook->set_pagesize(1000);  // TODO: limit number of group members by config
+    $result = $abook->list_records(array('email','name'));
+    while ($result && ($sql_arr = $result->iterate()))
+      $members[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
+      
+    $OUTPUT->command('replace_group_recipients', $gid, join(', ', $members));
+  }
+}
+else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, true)) {
+  $contacts = array();
 
   foreach ($book_types as $id) {
     $abook = $RCMAIL->get_address_book($id);
     $abook->set_pagesize($MAXNUM);
 
-    if ($result = $abook->search(array('email','name'), $search)) {
+    if ($result = $abook->search(array('email','name'), $search, false, true, true)) {
       while ($sql_arr = $result->iterate()) {
           $contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
           if (count($contacts) >= $MAXNUM)
@@ -40,15 +52,12 @@ if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, true)) 
     // also list matching contact groups
     if ($abook->groups) {
       foreach ($abook->list_groups($search) as $group) {
-        $members = array();
         $abook->reset();
         $abook->set_group($group['ID']);
-        $result = $abook->list_records(array('email','name'));
-        while ($result && ($sql_arr = $result->iterate()))
-          $members[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
+        $result = $abook->count();
         
-        if (count($members)) {
-          $contacts[] = array('name' => $group['name'] . ' (' . rcube_label('group') . ')', 'members' => $members);
+        if ($result->count) {
+          $contacts[] = array('name' => $group['name'] . ' (' . intval($result->count) . ')', 'id' => $group['ID'], 'source' => $id);
           if (count($contacts) >= $MAXNUM)
             break;
         }

@@ -35,6 +35,8 @@
  */
 class rcube_mdb2
   {
+  private static $tables;
+  
   var $db_dsnw;               // DSN for write operations
   var $db_dsnr;               // DSN for read operations
   var $db_connected = false;  // Already connected ?
@@ -267,7 +269,7 @@ class rcube_mdb2
         $this->db_error_msg = $q->userinfo;
 
         raise_error(array('code' => 500, 'type' => 'db',
-	  'line' => __LINE__, 'file' => __FILE__,
+          'line' => __LINE__, 'file' => __FILE__,
           'message' => $this->db_error_msg), TRUE, TRUE);
         }
       else
@@ -391,6 +393,34 @@ class rcube_mdb2
 
     return $result->fetchRow($mode);
     }
+
+
+  /**
+   * Wrapper for the SHOW TABLES command
+   *
+   * @return array List of all tables of the current database
+   */
+  function list_tables()
+  {
+    // get tables if not cached
+    if (!self::$tables) {
+      self::$tables = array();
+
+      switch ($this->db_provider) {
+        case 'sqlite':
+          $result = $this->db_handle->query("SELECT name FROM sqlite_master WHERE type='table'");
+          break;
+        default:
+          $result = $this->db_handle->query("SHOW TABLES");
+      }
+
+      if ($result !== false && !PEAR::isError($result))
+        while ($rec = $result->fetchRow(MDB2_FETCHMODE_ORDERED))
+          self::$tables[] = $rec[0];
+    }
+
+    return self::$tables;
+  }
 
 
   /**

@@ -3238,9 +3238,11 @@ function rcube_webmail()
     var insert = '';
     
     // insert all members of a group
-    if (typeof this.env.contacts[id] == 'object' && this.env.contacts[id].members) {
-      for (var i=0; i < this.env.contacts[id].members.length; i++)
-        insert += this.env.contacts[id].members[i] + ', ';
+    if (typeof this.env.contacts[id] == 'object' && this.env.contacts[id].id) {
+      insert += this.env.contacts[id].name + ', ';
+      this.group2expand = $.extend({}, this.env.contacts[id]);
+      this.group2expand.input = this.ksearch_input;
+      this.http_request('group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
     }
     else if (typeof this.env.contacts[id] == 'string')
       insert = this.env.contacts[id] + ', ';
@@ -3251,6 +3253,14 @@ function rcube_webmail()
     cpos = p+insert.length;
     if (this.ksearch_input.setSelectionRange)
       this.ksearch_input.setSelectionRange(cpos, cpos);
+  };
+  
+  this.replace_group_recipients = function(id, recipients)
+  {
+    if (this.group2expand && this.group2expand.id == id) {
+      this.group2expand.input.value = this.group2expand.input.value.replace(this.group2expand.name, recipients);
+      this.group2expand = null;
+    }
   };
 
   // address search processor

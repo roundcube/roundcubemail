@@ -298,10 +298,11 @@ class rcmail
 
     // We are using the DB address book
     if ($abook_type != 'ldap') {
+      $contacts = new rcube_contacts($this->db, null);
       $list['0'] = array(
         'id' => 0,
         'name' => rcube_label('personaladrbook'),
-        'groups' => true,
+        'groups' => $contacts->groups,
         'readonly' => false,
         'autocomplete' => in_array('sql', $autocomplete)
       );
@@ -324,7 +325,7 @@ class rcmail
     if ($writeable && !empty($list)) {
       foreach ($list as $idx => $item) {
         if ($item['readonly']) {
-	  unset($list[$idx]);
+          unset($list[$idx]);
         }
       }
     }
