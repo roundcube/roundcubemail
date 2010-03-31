@@ -1414,6 +1414,27 @@ class rcube_imap
         return $a_messages;
     }
     
+
+    /**
+     * Direct (real and simple) SEARCH request to IMAP server,
+     * without result sorting and caching
+     *
+     * @param  string  Mailbox name to search in
+     * @param  string  Search string
+     * @param  boolean True if UIDs should be returned
+     * @return array   Search results as list of message IDs or UIDs
+     * @access public
+     */
+    function search_once($mbox_name='', $str=NULL, $ret_uid=false)
+    {
+        if (!$str)
+            return false;
+    
+        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+
+        return $this->conn->search($mailbox, $str, $ret_uid);
+    }
+
   
     /**
      * Sort thread

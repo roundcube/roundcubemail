@@ -366,7 +366,7 @@ class rcube_imap_generic
         }
     
         // generate hash
-        $hash  = md5($this->xor($pass,$opad) . pack("H*", md5($this->xor($pass, $ipad) . base64_decode($encChallenge))));
+        $hash  = md5($this->_xor($pass,$opad) . pack("H*", md5($this->_xor($pass, $ipad) . base64_decode($encChallenge))));
     
         // generate reply
         $reply = base64_encode($user . ' ' . $hash);
@@ -1553,18 +1553,19 @@ class rcube_imap_generic
 	    return false;	
     }
 
-    function search($folder, $criteria)
+    function search($folder, $criteria, $return_uid=false)
     {
 	    if (!$this->select($folder)) {
     		return false;
 	    }
 
     	$data = '';
-	    $query = "srch1 SEARCH " . chop($criteria);
+	    $query = 'srch1 ' . ($return_uid ? 'UID ' : '') . 'SEARCH ' . chop($criteria);
 
 	    if (!$this->putLineC($query)) {
 		    return false;
 	    }
+
     	do {
 	    	$line = trim($this->readLine());
 		    if ($this->startsWith($line, '* SEARCH')) {
@@ -2150,7 +2151,7 @@ class rcube_imap_generic
 	    return $result;
     }
 
-    private function xor($string, $string2)
+    private function _xor($string, $string2)
     {
 	    $result = '';
 	    $size = strlen($string);
