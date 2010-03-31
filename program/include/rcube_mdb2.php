@@ -35,8 +35,6 @@
  */
 class rcube_mdb2
   {
-  private static $tables;
-  
   var $db_dsnw;               // DSN for write operations
   var $db_dsnr;               // DSN for read operations
   var $db_connected = false;  // Already connected ?
@@ -48,6 +46,8 @@ class rcube_mdb2
 
   var $a_query_results = array('dummy');
   var $last_res_id = 0;
+  
+  private $tables;
 
 
   /**
@@ -403,8 +403,8 @@ class rcube_mdb2
   function list_tables()
   {
     // get tables if not cached
-    if (!self::$tables) {
-      self::$tables = array();
+    if (!$this->tables) {
+      $this->tables = array();
 
       switch ($this->db_provider) {
         case 'sqlite':
@@ -416,10 +416,10 @@ class rcube_mdb2
 
       if ($result !== false && !PEAR::isError($result))
         while ($rec = $result->fetchRow(MDB2_FETCHMODE_ORDERED))
-          self::$tables[] = $rec[0];
+          $this->tables[] = $rec[0];
     }
 
-    return self::$tables;
+    return $this->tables;
   }
 
 
