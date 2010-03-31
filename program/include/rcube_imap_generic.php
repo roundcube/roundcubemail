@@ -2150,7 +2150,7 @@ class rcube_imap_generic
 	    return $result;
     }
 
-    private function iil_xor($string, $string2)
+    private function xor($string, $string2)
     {
 	    $result = '';
 	    $size = strlen($string);
