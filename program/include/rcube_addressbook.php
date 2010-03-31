@@ -179,5 +179,67 @@ abstract class rcube_addressbook
       /* empty for read-only address books */
     }
 
+    /**
+     * Create a contact group with the given name
+     *
+     * @param string The group name
+     * @return False on error, array with record props in success
+     */
+    function create_group($name)
+    {
+      /* empty for address books don't supporting groups */
+      return false;
+    }
+    
+    /**
+     * Delete the given group and all linked group members
+     *
+     * @param string Group identifier
+     * @return boolean True on success, false if no data was changed
+     */
+    function delete_group($gid)
+    {
+      /* empty for address books don't supporting groups */
+      return false;
+    }
+    
+    /**
+     * Rename a specific contact group
+     *
+     * @param string Group identifier
+     * @param string New name to set for this group
+     * @return boolean New name on success, false if no data was changed
+     */
+    function rename_group($gid, $newname)
+    {
+      /* empty for address books don't supporting groups */
+      return false;
+    }
+    
+    /**
+     * Add the given contact records the a certain group
+     *
+     * @param string  Group identifier
+     * @param array   List of contact identifiers to be added
+     * @return int    Number of contacts added 
+     */
+    function add_to_group($group_id, $ids)
+    {
+      /* empty for address books don't supporting groups */
+      return 0;
+    }
+    
+    /**
+     * Remove the given contact records from a certain group
+     *
+     * @param string  Group identifier
+     * @param array   List of contact identifiers to be removed
+     * @return int    Number of deleted group members
+     */
+    function remove_from_group($group_id, $ids)
+    {
+      /* empty for address books don't supporting groups */
+      return 0;
+    }
 }
  
