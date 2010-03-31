@@ -417,18 +417,9 @@ class rcube_contacts extends rcube_addressbook
   function create_group($name)
   {
     $result = false;
-    
-    $sql_result = $this->db->query(
-      "SELECT * FROM ".get_table_name('contactgroups')."
-       WHERE  del<>1
-       AND    user_id=?
-       AND    name LIKE ?",
-      $this->user_id,
-      $name . '%');
-    
+
     // make sure we have a unique name
-    if ($num = $this->db->num_rows($sql_result))
-      $name .= ' ' . ($num+1);
+    $name = $this->unique_groupname($name);
     
     $this->db->query(
       "INSERT INTO ".get_table_name('contactgroups')." (user_id, changed, name)
@@ -445,6 +436,7 @@ class rcube_contacts extends rcube_addressbook
    * Delete the given group and all linked group members
    *
    * @param string Group identifier
+   * @return boolean True on success, false if no data was changed
    */
   function delete_group($gid)
   {
@@ -460,6 +452,27 @@ class rcube_contacts extends rcube_addressbook
       $gid);
     
     return $this->db->affected_rows();
+  }
+  
+  /**
+   * Rename a specific contact group
+   *
+   * @param string Group identifier
+   * @param string New name to set for this group
+   * @return boolean New name on success, false if no data was changed
+   */
+  function rename_group($gid, $newname)
+  {
+    // make sure we have a unique name
+    $name = $this->unique_groupname($newname);
+    
+    $sql_result = $this->db->query(
+      "UPDATE ".get_table_name('contactgroups')."
+       SET name=".$this->db->quote($name).", changed=".$this->db->now()."
+       WHERE  contactgroup_id=?",
+      $gid);
+    
+    return $this->db->affected_rows() ? $name : false;
   }
 
   /**
@@ -517,4 +530,31 @@ class rcube_contacts extends rcube_addressbook
     return $this->db->affected_rows();
   }
   
+  /**
+   * Check for existing groups with the same name
+   *
+   * @param string Name to check
+   * @return string A group name which is unique for the current use
+   */
+  private function unique_groupname($name)
+  {
+    $checkname = $name;
+    $num = 2; $hit = false;
+    
+    do {
+      $sql_result = $this->db->query(
+        "SELECT 1 FROM ".get_table_name('contactgroups')."
+         WHERE  del<>1
+         AND    user_id=?
+         AND    name LIKE ?",
+        $this->user_id,
+        $checkname);
+    
+      // append number to make name unique
+      if ($hit = $this->db->num_rows($sql_result))
+        $checkname = $name . ' ' . $num++;
+    } while ($hit > 0);
+    
+    return $checkname;
+  }
 }

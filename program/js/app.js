@@ -317,7 +317,7 @@ function rcube_webmail()
         
         if (this.env.address_sources && this.env.address_sources[this.env.source] && !this.env.address_sources[this.env.source].readonly) {
           this.enable_command('add', 'import', true);
-          this.enable_command('add-group', this.env.address_sources[this.env.source].groups);
+          this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
         }
         
         if (this.env.cid)
@@ -1001,8 +1001,16 @@ function rcube_webmail()
           this.list_contacts(this.env.source, this.env.group);
         break;
 
-      case 'add-group':
+      case 'group-create':
         this.add_contact_group(props)
+        break;
+        
+      case 'group-rename':
+        this.rename_contact_group();
+        break;
+        
+      case 'group-delete':
+        this.delete_contact_group();
         break;
 
       case 'import':
@@ -3501,7 +3509,7 @@ function rcube_webmail()
       cid = this.contact_list.get_selection().join(',');
 
     if (to.type == 'group')
-      this.http_post('add2group', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(to.id));
+      this.http_post('group-addmember', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(to.id));
     else if (to.id != this.env.source && cid && this.env.address_sources[to.id] && !this.env.address_sources[to.id].readonly)
       this.http_post('copy', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_to='+urlencode(to.id));
     };
@@ -3540,7 +3548,7 @@ function rcube_webmail()
 
     // send request to server
     if (this.env.group)
-      this.http_post('removefromgroup', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+qs);
+      this.http_post('group-delmember', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+qs);
     else
       this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_from='+(this.env.action ? this.env.action : '')+qs);
       
@@ -3618,6 +3626,45 @@ function rcube_webmail()
     this.name_input.select();
   };
   
+  this.rename_contact_group = function()
+  {
+    if (!this.env.group || !this.gui_objects.folderlist)
+      return;
+    
+    if (!this.name_input) {
+      this.name_input = document.createElement('input');
+      this.name_input.type = 'text';
+      this.name_input.value = this.env.contactgroups['G'+this.env.group].name;
+      this.name_input.onkeypress = function(e){ return rcmail.add_input_keypress(e); };
+      this.env.group_renaming = true;
+
+      var link, li = this.get_folder_li(this.env.group, 'rcmliG');
+      if (li && (link = li.firstChild)) {
+        $(link).hide();
+        li.insertBefore(this.name_input, link);
+      }
+    }
+
+    this.name_input.select();
+  };
+  
+  this.delete_contact_group = function()
+  {
+    if (this.env.group)
+      this.http_post('group-delete', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group), true);
+  };
+  
+  // callback from server upon group-delete command
+  this.remove_group_item = function(id)
+  {
+    var li, key = 'G'+id;
+    if ((li = this.get_folder_li(key))) {
+      li.parentNode.removeChild(li);
+      delete this.env.contactfolders[key];
+      delete this.env.contactgroups[key];
+    }
+  };
+  
   // handler for keyboard events on the input field
   this.add_input_keypress = function(e)
   {
@@ -3629,7 +3676,10 @@ function rcube_webmail()
       
       if (newname) {
         this.set_busy(true, 'loading');
-        this.http_post('create-group', '_source='+urlencode(this.env.source)+'&_name='+urlencode(newname), true);
+        if (this.env.group_renaming)
+          this.http_post('group-rename', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+'&_name='+urlencode(newname), true);
+        else
+          this.http_post('group-create', '_source='+urlencode(this.env.source)+'&_name='+urlencode(newname), true);
       }
       return false;
     }
@@ -3643,6 +3693,12 @@ function rcube_webmail()
   this.reset_add_input = function()
   {
     if (this.name_input) {
+      if (this.env.group_renaming) {
+        var li = this.name_input.parentNode;
+        $(li.lastChild).show();
+        this.env.group_renaming = false;
+      }
+      
       this.name_input.parentNode.removeChild(this.name_input);
       this.name_input = null;
     }
@@ -3660,7 +3716,20 @@ function rcube_webmail()
     var link = $('<a>').attr('href', '#').attr('onclick', "return rcmail.command('listgroup','"+prop.id+"',this)").html(prop.name);
     var li = $('<li>').attr('id', 'rcmli'+key).addClass('contactgroup').append(link);
     $(this.gui_objects.folderlist).append(li);
-  }
+  };
+  
+  // callback for renaming a contact group
+  this.update_contact_group = function(id, name)
+  {
+    this.reset_add_input();
+    
+    var key = 'G'+id;
+    var link, li = this.get_folder_li(key);
+    if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a')
+      link.innerHTML = name;
+    
+    this.env.contactfolders[key].name = this.env.contactgroups[key].name = name;
+  };
 
 
   /*********************************************************/
@@ -4830,8 +4899,8 @@ function rcube_webmail()
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
           
           if (response.action == 'list') {
-            this.enable_command('add-group', this.env.address_sources[this.env.source].groups);
-            // disabeld for now: this.enable_command('rename-group', 'delete-group', this.env.address_sources[this.env.source].groups && this.env.group);
+            this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
+            this.enable_command('group-rename', 'group-delete', this.env.address_sources[this.env.source].groups && this.env.group);
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
         }

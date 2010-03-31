@@ -41,15 +41,15 @@
   <roundcube:object name="groupslist" id="contactgroupslist" />
 </div>
 <div id="directoylistbuttons">
-  <roundcube:button command="add-group" type="link" title="newcontactgroup" class="buttonPas addgroup" classAct="button addgroup" content=" " />
+  <roundcube:button command="group-create" type="link" title="newcontactgroup" class="buttonPas addgroup" classAct="button addgroup" content=" " />
   <roundcube:button name="groupactions" id="groupactionslink" type="link" title="groupactions" class="button groupactions" onclick="rcmail_ui.show_groupmenu();return false" content=" " />
 </div>
 </div>
 
 <div id="groupoptionsmenu" class="popupmenu">
   <ul>
-    <li><roundcube:button command="rename-group" label="rename" classAct="active" /></li>
-    <li><roundcube:button command="delete-group" label="delete" classAct="active" /></li>
+    <li><roundcube:button command="group-rename" label="rename" classAct="active" /></li>
+    <li><roundcube:button command="group-delete" label="delete" classAct="active" /></li>
   </ul>
 </div>
 
