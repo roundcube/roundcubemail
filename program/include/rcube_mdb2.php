@@ -404,19 +404,11 @@ class rcube_mdb2
   {
     // get tables if not cached
     if (!$this->tables) {
-      $this->tables = array();
-
-      switch ($this->db_provider) {
-        case 'sqlite':
-          $result = $this->db_handle->query("SELECT name FROM sqlite_master WHERE type='table'");
-          break;
-        default:
-          $result = $this->db_handle->query("SHOW TABLES");
-      }
-
-      if ($result !== false && !PEAR::isError($result))
-        while ($rec = $result->fetchRow(MDB2_FETCHMODE_ORDERED))
-          $this->tables[] = $rec[0];
+      $this->db_handle->loadModule('Manager');
+      if (!PEAR::isError($result = $this->db_handle->listTables()))
+        $this->tables = $result;
+      else
+        $this->tables = array();
     }
 
     return $this->tables;
