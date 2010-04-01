@@ -3659,10 +3659,14 @@ function rcube_webmail()
   {
     var li, key = 'G'+id;
     if ((li = this.get_folder_li(key))) {
+      this.triggerEvent('removegroup', { id:id, li:li });
+      
       li.parentNode.removeChild(li);
       delete this.env.contactfolders[key];
       delete this.env.contactgroups[key];
     }
+    
+    this.list_contacts(null, 0);
   };
   
   // handler for keyboard events on the input field
@@ -3716,6 +3720,8 @@ function rcube_webmail()
     var link = $('<a>').attr('href', '#').attr('onclick', "return rcmail.command('listgroup','"+prop.id+"',this)").html(prop.name);
     var li = $('<li>').attr('id', 'rcmli'+key).addClass('contactgroup').append(link);
     $(this.gui_objects.folderlist).append(li);
+    
+    this.triggerEvent('insertgroup', { id:prop.id, name:prop.name, li:li[0] });
   };
   
   // callback for renaming a contact group

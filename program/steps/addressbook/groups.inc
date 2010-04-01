@@ -41,9 +41,8 @@ if ($RCMAIL->action == 'group-addmembers') {
 else if ($RCMAIL->action == 'group-delmembers') {
   if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = get_input_value('_cid', RCUBE_INPUT_POST))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_delmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
-    $ids = $plugin['ids'];
     
-    if (!$plugin['abort'] && $CONTACTS->remove_from_group($gid, $ids))
+    if (!$plugin['abort'] && $CONTACTS->remove_from_group($gid, $plugin['ids']))
       $OUTPUT->show_message('contactremovedfromgroup');
     else if ($plugin['message'])
       $OUTPUT->show_message($plugin['message'], 'warning');
