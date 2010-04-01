@@ -29,7 +29,7 @@ $source = get_input_value('_source', RCUBE_INPUT_GPC);
 
 if ($RCMAIL->action == 'group-addmembers') {
   if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = get_input_value('_cid', RCUBE_INPUT_POST))) {
-    $plugin = $RCMAIL->plugins->exec_hook('group_addmember', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
+    $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
     
     if (!$plugin['abort'] && $CONTACTS->add_to_group($gid, $plugin['ids']))
       $OUTPUT->show_message('contactaddedtogroup');
