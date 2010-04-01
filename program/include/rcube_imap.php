@@ -21,10 +21,6 @@
 */
 
 
-require_once('lib/mime.inc');
-require_once('lib/tnef_decoder.inc');
-
-
 /**
  * Interface class for accessing an IMAP server
  *
@@ -1614,9 +1610,10 @@ class rcube_imap
             return $headers->structure;
         }
 
-        if (!$structure_str)
+        if (!$structure_str) {
             $structure_str = $this->conn->fetchStructureString($this->mailbox, $uid, true);
-        $structure = iml_GetRawStructureArray($structure_str);
+        }
+        $structure = rcube_mime_struct::parseStructure($structure_str);
         $struct = false;
 
         // parse structure and add headers
@@ -1966,16 +1963,16 @@ class rcube_imap
         // get part encoding if not provided
         if (!is_object($o_part)) {
             $structure_str = $this->conn->fetchStructureString($this->mailbox, $uid, true); 
-            $structure = iml_GetRawStructureArray($structure_str);
+            $structure = new rcube_mime_struct();
             // error or message not found
-            if (empty($structure))
+            if (!$structure->loadStructure($structure_str)) {
                 return false;
+            }
 
-            $part_type = iml_GetPartTypeCode($structure, $part);
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary = $part_type==0 ? 'text' : ($part_type==2 ? 'message' : 'other');
-            $o_part->encoding = strtolower(iml_GetPartEncodingString($structure, $part));
-            $o_part->charset = iml_GetPartCharset($structure, $part);
+            $o_part->ctype_primary = strtolower($structure->getPartType($part));
+            $o_part->encoding      = strtolower($structure->getPartEncoding($part));
+            $o_part->charset       = $structure->getPartCharset($part);
         }
       
         // TODO: Add caching for message parts
@@ -3330,6 +3327,8 @@ class rcube_imap
     {
         if (!isset($part->body))
             $part->body = $this->get_message_part($uid, $part->mime_id, $part);
+
+        require_once('lib/tnef_decoder.inc');
 
         $pid = 0;
         $tnef_parts = array();
