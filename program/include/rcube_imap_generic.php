@@ -65,6 +65,10 @@ class rcube_mail_header
 	public $others = array();
 }
 
+// For backward compatibility with cached messages (#1486602)
+class iilBasicHeader extends rcube_mail_header
+{
+}
 
 class rcube_imap_generic
 {
