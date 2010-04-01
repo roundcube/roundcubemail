@@ -1064,23 +1064,25 @@ class rcmail
       mcrypt_generic_deinit($td);
       mcrypt_module_close($td);
     }
-    else if (function_exists('des'))
-    {
-      define('DES_IV_SIZE', 8);
-      $iv = '';
-      for ($i = 0; $i < constant('DES_IV_SIZE'); $i++)
-        $iv .= sprintf("%c", mt_rand(0, 255));
-      $cipher = $iv . des($this->config->get_crypto_key($key), $clear, 1, 1, $iv);
+    else {
+      @include_once('lib/des.inc');
+
+      if (function_exists('des')) {
+        $des_iv_size = 8;
+        $iv = '';
+        for ($i = 0; $i < $des_iv_size; $i++)
+          $iv .= sprintf("%c", mt_rand(0, 255));
+        $cipher = $iv . des($this->config->get_crypto_key($key), $clear, 1, 1, $iv);
+      }
+      else {
+        raise_error(array(
+          'code' => 500, 'type' => 'php',
+          'file' => __FILE__, 'line' => __LINE__,
+          'message' => "Could not perform encryption; make sure Mcrypt is installed or lib/des.inc is available"
+        ), true, true);
+      }
     }
-    else
-    {
-      raise_error(array(
-        'code' => 500, 'type' => 'php',
-        'file' => __FILE__, 'line' => __LINE__,
-        'message' => "Could not perform encryption; make sure Mcrypt is installed or lib/des.inc is available"
-      ), true, true);
-    }
-  
+
     return $base64 ? base64_encode($cipher) : $cipher;
   }
 
@@ -1110,22 +1112,24 @@ class rcmail
       mcrypt_generic_deinit($td);
       mcrypt_module_close($td);
     }
-    else if (function_exists('des'))
-    {
-      define('DES_IV_SIZE', 8);
-      $iv = substr($cipher, 0, constant('DES_IV_SIZE'));
-      $cipher = substr($cipher, constant('DES_IV_SIZE'));
-      $clear = des($this->config->get_crypto_key($key), $cipher, 0, 1, $iv);
+    else {
+      @include_once('lib/des.inc');
+    
+      if (function_exists('des')) {
+        $des_iv_size = 8;
+        $iv = substr($cipher, 0, $des_iv_size);
+        $cipher = substr($cipher, $des_iv_size);
+        $clear = des($this->config->get_crypto_key($key), $cipher, 0, 1, $iv);
+      }
+      else {
+        raise_error(array(
+          'code' => 500, 'type' => 'php',
+          'file' => __FILE__, 'line' => __LINE__,
+          'message' => "Could not perform decryption; make sure Mcrypt is installed or lib/des.inc is available"
+        ), true, true);
+      }
     }
-    else
-    {
-      raise_error(array(
-        'code' => 500, 'type' => 'php',
-        'file' => __FILE__, 'line' => __LINE__,
-        'message' => "Could not perform decryption; make sure Mcrypt is installed or lib/des.inc is available"
-      ), true, true);
-    }
-  
+
     /*-
      * Trim PHP's padding and the canary byte; see note in
      * rcmail::encrypt() and http://php.net/mcrypt_generic#68082

@@ -30,7 +30,6 @@ require_once('lib/utf7.inc');
 require_once('include/rcube_shared.inc');
 
 // fallback if not PHP modules are available
-@include_once('lib/des.inc');
 @include_once('lib/utf8.class.php');
 
 // define constannts for input reading
