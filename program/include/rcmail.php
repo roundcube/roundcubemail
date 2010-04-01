@@ -292,8 +292,8 @@ class rcmail
   public function get_address_sources($writeable = false)
   {
     $abook_type = strtolower($this->config->get('address_book_type'));
-    $ldap_config = (array)$this->config->get('ldap_public');
-    $autocomplete = (array)$this->config->get('autocomplete_addressbooks');
+    $ldap_config = $this->config->get('ldap_public');
+    $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
     $list = array();
 
     // We are using the DB address book
@@ -308,7 +308,8 @@ class rcmail
       );
     }
 
-    if (is_array($ldap_config)) {
+    if ($ldap_config) {
+      $ldap_config = (array) $ldap_config;
       foreach ($ldap_config as $id => $prop)
         $list[$id] = array(
           'id' => $id,
@@ -329,7 +330,7 @@ class rcmail
         }
       }
     }
-    
+
     return $list;
   }
   
