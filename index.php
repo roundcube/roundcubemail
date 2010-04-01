@@ -221,8 +221,8 @@ $action_map = array(
     'group-create' => 'groups.inc',
     'group-rename' => 'groups.inc',
     'group-delete' => 'groups.inc',
-    'group-addmember' => 'groups.inc',
-    'group-delmenber' => 'groups.inc',
+    'group-addmembers' => 'groups.inc',
+    'group-delmembers' => 'groups.inc',
   ),
   
   'settings' => array(

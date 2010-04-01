@@ -3238,11 +3238,9 @@ function rcube_webmail()
     var insert = '';
     
     // insert all members of a group
-    if (typeof this.env.contacts[id] == 'object' && this.env.contacts[id].id) {
-      insert += this.env.contacts[id].name + ', ';
-      this.group2expand = $.extend({}, this.env.contacts[id]);
-      this.group2expand.input = this.ksearch_input;
-      this.http_request('group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
+    if (typeof this.env.contacts[id] == 'object' && this.env.contacts[id].members) {
+      for (var i=0; i < this.env.contacts[id].members.length; i++)
+        insert += this.env.contacts[id].members[i] + ', ';
     }
     else if (typeof this.env.contacts[id] == 'string')
       insert = this.env.contacts[id] + ', ';
@@ -3253,14 +3251,6 @@ function rcube_webmail()
     cpos = p+insert.length;
     if (this.ksearch_input.setSelectionRange)
       this.ksearch_input.setSelectionRange(cpos, cpos);
-  };
-  
-  this.replace_group_recipients = function(id, recipients)
-  {
-    if (this.group2expand && this.group2expand.id == id) {
-      this.group2expand.input.value = this.group2expand.input.value.replace(this.group2expand.name, recipients);
-      this.group2expand = null;
-    }
   };
 
   // address search processor
@@ -3519,7 +3509,7 @@ function rcube_webmail()
       cid = this.contact_list.get_selection().join(',');
 
     if (to.type == 'group')
-      this.http_post('group-addmember', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(to.id));
+      this.http_post('group-addmembers', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(to.id));
     else if (to.id != this.env.source && cid && this.env.address_sources[to.id] && !this.env.address_sources[to.id].readonly)
       this.http_post('copy', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_to='+urlencode(to.id));
     };
@@ -3558,7 +3548,7 @@ function rcube_webmail()
 
     // send request to server
     if (this.env.group)
-      this.http_post('group-delmember', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+qs);
+      this.http_post('group-delmembers', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+qs);
     else
       this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_from='+(this.env.action ? this.env.action : '')+qs);
       
