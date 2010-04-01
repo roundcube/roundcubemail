@@ -422,8 +422,8 @@ class rcmail
     // set pagesize from config
     $this->imap->set_pagesize($this->config->get('pagesize', 50));
     
-    // Setting root and delimiter before iil_Connect can save time detecting them
-    // using NAMESPACE and LIST 
+    // Setting root and delimiter before establishing the connection
+    // can save time detecting them using NAMESPACE and LIST 
     $options = array(
       'auth_method' => $this->config->get('imap_auth_type', 'check'),
       'delimiter' => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
