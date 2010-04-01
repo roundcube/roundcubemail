@@ -20,6 +20,20 @@
 
 */
 
+// Some users are not using Installer, so we'll check some
+// critical PHP settings here. Only these, which doesn't provide
+// an error/warning in the logs later. See (#1486307).
+$crit_opts = array(
+    'mbstring.func_overload' => 0,
+    'suhosin.session.encrypt' => 0,
+    'session.auto_start' => 0,
+    'file_uploads' => 1,
+);
+foreach ($crit_opts as $optname => $optval) {
+    if ($optval != ini_get($optname)) {
+        die("ERROR: Wrong '$optname' option value. Read REQUIREMENTS section in INSTALL file or use Roundcube Installer, please!");
+    }
+}
 
 // application constants
 define('RCMAIL_VERSION', '0.3-trunk');
