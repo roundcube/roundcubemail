@@ -149,10 +149,10 @@ function rcmail_attach_emoticons(&$mime_message)
   return $body;
 }
 
-// parse email address input
-function rcmail_email_input_format($mailto)
+// parse email address input (and count addresses)
+function rcmail_email_input_format($mailto, $count=false)
 {
-  global $EMAIL_FORMAT_ERROR;
+  global $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
 
   $regexp = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/', '/(\S{1})(<\S+@\S+>)/U');
   $replace = array(', ', ', ', '', ',', '\\1 \\2');
@@ -197,6 +197,10 @@ function rcmail_email_input_format($mailto)
     }
   }
 
+  if ($count) {
+    $RECIPIENT_COUNT += count($result);
+  }
+
   return implode(', ', $result);
 }
 
@@ -212,10 +216,11 @@ $input_charset = $OUTPUT->get_charset();
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
 
 $EMAIL_FORMAT_ERROR = NULL;
+$RECIPIENT_COUNT = 0;
 
-$mailto = rcmail_email_input_format(get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset));
-$mailcc = rcmail_email_input_format(get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset));
-$mailbcc = rcmail_email_input_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset));
+$mailto = rcmail_email_input_format(get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset), true);
+$mailcc = rcmail_email_input_format(get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset), true);
+$mailbcc = rcmail_email_input_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset), true);
 
 if ($EMAIL_FORMAT_ERROR) {
   $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR)); 
@@ -297,8 +302,17 @@ if (!empty($mailcc))
 if (!empty($mailbcc))
   $headers['Bcc'] = $mailbcc;
   
-if (!empty($identity_arr['bcc']))
+if (!empty($identity_arr['bcc'])) {
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
+  $RECIPIENT_COUNT ++;
+}
+
+if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
+  if ($RECIPIENT_COUNT > $max_recipients) {
+    $OUTPUT->show_message('toomanyrecipients', 'error', array('max' => $max_recipients));
+    $OUTPUT->send('iframe');
+  }
+}
 
 // add subject
 $headers['Subject'] = trim(get_input_value('_subject', RCUBE_INPUT_POST, TRUE, $message_charset));
@@ -359,8 +373,7 @@ else
   $headers = $data['headers'];
 
 
-$isHtmlVal = strtolower(get_input_value('_is_html', RCUBE_INPUT_POST));
-$isHtml = ($isHtmlVal == "1");
+$isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
 
 // fetch message body
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);

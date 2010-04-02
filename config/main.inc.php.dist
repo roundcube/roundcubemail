@@ -180,6 +180,9 @@ $rcmail_config['password_charset'] = 'ISO-8859-1';
 // How many seconds must pass between emails sent by a user
 $rcmail_config['sendmail_delay'] = 0;
 
+// Maximum number of recipients per message. Default: 0 (no limit)
+$rcmail_config['max_recipients'] = 0; 
+
 // add this user-agent to message headers when sending
 $rcmail_config['useragent'] = 'RoundCube Webmail/'.RCMAIL_VERSION;
 

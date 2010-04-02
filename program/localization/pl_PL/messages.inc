@@ -114,5 +114,6 @@ $messages['smtperror'] = 'Błąd SMTP: $msg';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
 $messages['emailformaterror'] = 'Błędny adres e-mail: $email';
 $messages['notuploadedwarning'] = 'Nie wszystkie załączniki zostały pobrane. Poczekaj lub anuluj pobieranie.';
+$messages['toomanyrecipients'] = 'Zbyt wielu odbiorców. Zmniejsz ich liczbę do $max.';
 
 ?>

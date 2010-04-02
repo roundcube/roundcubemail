@@ -111,5 +111,6 @@ $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to"';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Incorrect e-mail address: $email';
+$messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
 
 ?>

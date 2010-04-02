@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added optional (max_recipients) support to restrict total number of recipients per message (#1484542)
 - Re-organize editor buttons, add blockquote and search buttons
 - Make possible to write inside or after a quoted html message (#1485476)
 - Fix bugs on unexpected IMAP connection close (#1486190, #1486270)
