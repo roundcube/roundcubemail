@@ -712,7 +712,6 @@ body.messagelist
 {
   height: 16px;
   padding: 2px;
-  padding-right: 4px;
   font-size: 11px;
   overflow: hidden;
   white-space: nowrap;
@@ -775,13 +774,9 @@ body.messagelist
   height: 15px;
 }
 
-#messagelist tr td.subject img.msgicon
-{
-  vertical-align: middle;
-}
-
 #messagelist tbody td img.msgicon
 {
+  vertical-align: middle;
   position: relative;
   top: 0px;
   margin-right: 5px;
@@ -797,14 +792,12 @@ body.messagelist
 
 #messagelist tr td div.collapsed
 {
-  display: block;
-  background: url(images/messageactions.png) center -91px no-repeat;
+  background: url(images/messageactions.png) -1px -91px no-repeat;
 }
 
 #messagelist tr td div.expanded
 {
-  display: block;
-  background: url(images/messageactions.png) center -109px no-repeat;
+  background: url(images/messageactions.png) -1px -109px no-repeat;
 }
 
 #messagelist tbody tr td.flag img:hover,
