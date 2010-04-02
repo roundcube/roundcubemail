@@ -100,7 +100,7 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
     rcmail.display_spellcheck_controls(false);
 
     rcmail.plain2html(composeElement.value, textAreaId);
-    tinyMCE.execCommand('mceToggleEditor', false, textAreaId);
+    tinyMCE.execCommand('mceAddControl', false, textAreaId);
     // #1486593
     setTimeout("rcmail_editor_tabindex();", 500);
     if (flagElement && (flag = rcube_find_object(flagElement)))
@@ -121,7 +121,7 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
       rcmail.html2plain(existingHtml, textAreaId);
       }
 
-    tinyMCE.execCommand('mceToggleEditor', false, textAreaId);
+    tinyMCE.execCommand('mceRemoveControl', false, textAreaId);
     rcmail.display_spellcheck_controls(true);
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '0';
