@@ -31,7 +31,12 @@ if ($RCMAIL->action == 'group-addmembers') {
   if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = get_input_value('_cid', RCUBE_INPUT_POST))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
     
-    if (!$plugin['abort'] && $CONTACTS->add_to_group($gid, $plugin['ids']))
+    $CONTACTS->set_group($gid);
+    $num2add = count(explode(',', $plugin['ids']));
+    
+    if (!$plugin['abort'] && ($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + $num2add > $maxnum))
+      $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
+    else if (!$plugin['abort'] && $CONTACTS->add_to_group($gid, $plugin['ids']))
       $OUTPUT->show_message('contactaddedtogroup');
     else if ($plugin['message'])
       $OUTPUT->show_message($plugin['message'], 'warning');

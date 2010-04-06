@@ -183,6 +183,10 @@ $rcmail_config['sendmail_delay'] = 0;
 // Maximum number of recipients per message. Default: 0 (no limit)
 $rcmail_config['max_recipients'] = 0; 
 
+// Maximum allowednumber of members of an address group. Default: 0 (no limit)
+// If 'max_recipients' is set this value should be less or equal
+$rcmail_config['max_group_members'] = 0; 
+
 // add this user-agent to message headers when sending
 $rcmail_config['useragent'] = 'RoundCube Webmail/'.RCMAIL_VERSION;
 
