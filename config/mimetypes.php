@@ -42,6 +42,7 @@ return array(
   'xps' => 'application/vnd.ms-xpsdocument',
   'rar' => 'application/x-rar-compressed',
   'vcf' => 'text/vcard',
+  'ics' => 'text/calendar',
 );
 
 ?>
