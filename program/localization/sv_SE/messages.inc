@@ -88,6 +88,7 @@ $messages['copyerror'] = 'Kunde inte kopiera några adresser';
 $messages['sourceisreadonly'] = 'Denna adresskälla är skrivskyddad';
 $messages['errorsavingcontact'] = 'Kunde inte spara kontaktadressen';
 $messages['movingmessage'] = 'Flyttar meddelande...';
+$messages['copyingmessage'] = 'Kopierar meddelande...';
 $messages['receiptsent'] = 'Mottagarkvitto har skickats';
 $messages['errorsendingreceipt'] = 'Kunde inte skicka mottagarkvitto';
 $messages['nodeletelastidentity'] = 'Du kan inte radera den här identiteten, det är din sista.';

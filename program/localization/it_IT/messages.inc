@@ -29,6 +29,7 @@ $messages['nomessagesfound'] = 'Nessun messaggio trovato in questa cartella';
 $messages['loggedout'] = 'Sessione chiusa correttamente. Arrivederci!';
 $messages['mailboxempty'] = 'La cartella è vuota';
 $messages['loading'] = 'Caricamento...';
+$messages['uploading'] = 'Caricamento file...';
 $messages['loadingdata'] = 'Caricamento dati...';
 $messages['checkingmail'] = 'Controllo nuovi messaggi...';
 $messages['sendingmessage'] = 'Invio messaggio in corso...';
@@ -69,6 +70,7 @@ $messages['notsentwarning'] = 'Il messaggio non è stato inviato. Vuoi annullare
 $messages['noldapserver'] = 'Per favore, scegli un server LDAP in cui ricercare';
 $messages['nocontactsreturned'] = 'Nessun contatto trovato';
 $messages['nosearchname'] = 'Per favore, immetti un nome o un indirizzo e-mail';
+$messages['notuploadedwarning'] = 'Non tutti gli allegati sono stati ancora caricati. Prego attendere, oppure cancellare il caricamento.';
 $messages['searchsuccessful'] = '$nr messaggi trovati';
 $messages['searchnomatch'] = 'La ricerca non ha dato nessun risultato';
 $messages['searching'] = 'Ricerca...';
@@ -105,5 +107,6 @@ $messages['smtpfromerror'] = 'Errore SMTP ($code): Fallita l\'impostazione del m
 $messages['smtptoerror'] = 'Errore SMTP ($code): Fallito l\'inserimento del destinatario "$to"';
 $messages['smtprecipientserror'] = 'Errore SMTP: Impossibile processare la lista dei destinatari';
 $messages['smtperror'] = 'Errore SMTP: $msg';
+$messages['emailformaterror'] = 'Indirizzo e-mail non corretto: $email';
 
 ?>

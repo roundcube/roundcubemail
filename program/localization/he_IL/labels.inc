@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  09112009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  20032010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -43,14 +43,14 @@ $labels['organization'] = 'ארגון';
 $labels['reply-to'] = 'כתובת למענה';
 $labels['mailboxlist'] = 'תיקים';
 $labels['messagesfromto'] = 'הודעות $from עד $to מתוך $count';
+$labels['threadsfromto'] = 'שרשור $from עד $to מתוך $count';
 $labels['messagenrof'] = 'הודעה $nr מתוך $count';
+$labels['copy'] = 'העתק';
+$labels['move'] = 'העבר';
 $labels['moveto'] = 'תיוק ב...';
 $labels['download'] = 'הורדה';
 $labels['filename'] = 'שם קובץ';
 $labels['filesize'] = 'גודל קובץ';
-$labels['preferhtml'] = 'הצגת HTML';
-$labels['htmlmessage'] = 'תוכן HTML';
-$labels['prettydate'] = 'תאריכים מעוצבים';
 $labels['addtoaddressbook'] = 'הוספה לפנקס כתובות';
 $labels['sun'] = 'יום א';
 $labels['mon'] = 'יום ב';
@@ -124,6 +124,27 @@ $labels['unanswered'] = 'לא נענה';
 $labels['deleted'] = 'נמחק';
 $labels['invert'] = 'היפוך הסימון';
 $labels['filter'] = 'סינון';
+$labels['list'] = 'רשימה';
+$labels['threads'] = 'שרשור';
+$labels['expand-all'] = 'הרחבה כלית';
+$labels['expand-unread'] = 'הרחבה טרם נקרא';
+$labels['collapse-all'] = 'כינוס כללי';
+$labels['threaded'] = 'משורשר';
+$labels['autoexpand_threads'] = 'הרחבת הודעות משורשרות';
+$labels['do_expand'] = 'כל השרשורים';
+$labels['expand_only_unread'] = 'רק עם הודעות שטרם נקראו';
+$labels['fromto'] = 'שולח/נמען';
+$labels['flag'] = 'דגל';
+$labels['attachment'] = 'צרופה';
+$labels['nonesort'] = 'כלום';
+$labels['sentdate'] = 'תאריך משלוח';
+$labels['arrival'] = 'תאריך הגעה';
+$labels['asc'] = 'בסדר עולה';
+$labels['desc'] = 'בסדר יורד';
+$labels['listcolumns'] = 'רשימת עמודות';
+$labels['listsorting'] = 'המיון לפי העמודה';
+$labels['listorder'] = 'סדר מיון';
+$labels['listmode'] = 'אופן הצגת רשימה';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
 $labels['purge'] = 'מחיקה';
@@ -208,6 +229,10 @@ $labels['manageidentities'] = 'ניהול זהויות לחשבון זה';
 $labels['newidentity'] = 'זהות חדשה';
 $labels['newitem'] = 'רשומה חדשה';
 $labels['edititem'] = 'עריכת רשומה';
+$labels['preferhtml'] = 'הצגת HTML';
+$labels['defaultcharset'] = 'ברירת מחדל של תווים';
+$labels['htmlmessage'] = 'תוכן HTML';
+$labels['prettydate'] = 'תאריכים מעוצבים';
 $labels['setdefault'] = 'קביעה כברירת מחדל';
 $labels['autodetect'] = 'אוטומטי';
 $labels['language'] = 'שפה';
@@ -231,6 +256,7 @@ $labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
 $labels['skipdeleted'] = 'הסתרת הודעות שנמחקו';
+$labels['deletealways'] = 'אם העברה לתיקית מחיקה נכשלת יש למחוק לתמיד';
 $labels['showremoteimages'] = 'הצגת תמונות משרת מרוחק בגוף ההודעה';
 $labels['fromknownsenders'] = 'משולחים מוכרים';
 $labels['always'] = 'תמיד';
@@ -245,6 +271,7 @@ $labels['mimeparamfolding'] = 'שמות קבצים מצורפים';
 $labels['2231folding'] = 'תאימות מלאה 2231 תאנדרבירד';
 $labels['miscfolding'] = 'תאימות 2047/2231 אאוטלוק';
 $labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
+$labels['force7bit'] = 'קידוד MIME עבור תווים בעלי 8 ביטים';
 $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקים';
@@ -285,5 +312,23 @@ $labels['B'] = 'בייט';
 $labels['KB'] = 'ק"ב';
 $labels['MB'] = 'מ"ב';
 $labels['GB'] = 'ג"ב';
+$labels['unicode'] = 'יוניקוד';
+$labels['english'] = 'אנגלית';
+$labels['westerneuropean'] = 'מערב אירופי';
+$labels['easterneuropean'] = 'מזרח אירופי';
+$labels['southeasterneuropean'] = 'דרום מזרח אירופה';
+$labels['baltic'] = 'בלטי';
+$labels['cyrillic'] = 'קירילי';
+$labels['arabic'] = 'ערבי';
+$labels['greek'] = 'יווני';
+$labels['hebrew'] = 'עברי';
+$labels['turkish'] = 'טורקי';
+$labels['nordic'] = 'נורדי';
+$labels['thai'] = 'תאי';
+$labels['celtic'] = 'קלטי';
+$labels['vietnamese'] = 'וויטנאמי';
+$labels['japanese'] = 'יפני';
+$labels['korean'] = 'קוריאני';
+$labels['chinese'] = 'סיני';
 
 ?>

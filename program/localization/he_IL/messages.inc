@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  25102009                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  20032010                |
 +-----------------------------------------------------------------------+
 
 */
@@ -85,6 +85,7 @@ $messages['copyerror'] = 'לא ניתן להעתיק אף כתובת';
 $messages['sourceisreadonly'] = 'המקור לכתובת הוא לקריאה בלבד';
 $messages['errorsavingcontact'] = 'לא ניתן לשמור את כתובת איש הקשר';
 $messages['movingmessage'] = 'תיוק ההודעה...';
+$messages['copyingmessage'] = 'הודעת מועתקת...';
 $messages['receiptsent'] = 'אישור הקבלה נשלח בהצלחה';
 $messages['errorsendingreceipt'] = 'לא ניתן לשלוח אישור קבלה';
 $messages['nodeletelastidentity'] = 'זו הזהות האחרונה ולכן לא ניתן לבטלה';
