@@ -26,6 +26,7 @@ if ($RCMAIL->action == 'group-expand') {
   $abook = $RCMAIL->get_address_book(get_input_value('_source', RCUBE_INPUT_GPC));
   if ($gid = get_input_value('_gid', RCUBE_INPUT_GPC)) {
     $members = array();
+    $abook->set_group($gid);
     $abook->set_pagesize(1000);  // TODO: limit number of group members by config
     $result = $abook->list_records(array('email','name'));
     while ($result && ($sql_arr = $result->iterate()))
