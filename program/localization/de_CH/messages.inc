@@ -6,7 +6,7 @@
 | language/de_CH/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -28,8 +28,8 @@ $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner';
 $messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wiedersehen!';
 $messages['mailboxempty'] = 'Ordner ist leer';
 $messages['loading'] = 'Daten werden geladen...';
-$messages['loadingdata'] = 'Daten werden geladen...';
 $messages['uploading'] = 'Datei wird hochgeladen...';
+$messages['loadingdata'] = 'Daten werden geladen...';
 $messages['checkingmail'] = 'Überprüfung auf neue Nachrichten...';
 $messages['sendingmessage'] = 'Nachricht wird gesendet...';
 $messages['messagesent'] = 'Nachricht erfolgreich gesendet';
@@ -47,6 +47,7 @@ $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden d
 $messages['errorsavingsent'] = 'Ein Fehler ist beim Speichern der gesendeten Nachricht aufgetreten';
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 $messages['errormoving'] = 'Nachricht konnte nicht verschoben werden';
+$messages['errorcopying'] = 'Konnte Nachrichten nicht kopieren';
 $messages['errordeleting'] = 'Nachricht konnte nicht gelöscht werden';
 $messages['errormarking'] = 'Nachricht konnte nicht markiert werden';
 $messages['deletecontactconfirm'] = 'Wollen Sie die ausgewählten Kontakte wirklich löschen?';
@@ -86,6 +87,7 @@ $messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
 $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
 $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
 $messages['movingmessage'] = 'Die E-Mail wird verschoben...';
+$messages['copyingmessage'] = 'Kopiere Nachrichten...';
 $messages['receiptsent'] = 'Lesebestätigung erfolgreich gesendet';
 $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 $messages['nodeletelastidentity'] = 'Diese Identität kann nicht gelöscht werden, da dies die letzte ist.';

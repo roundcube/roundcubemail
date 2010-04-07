@@ -6,12 +6,11 @@
 | language/de_CH/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author:      Thomas Bruederli <roundcube@gmail.com>                   |
-| Corrections: Alexander Stiebing <ja.stiebing[NOSPAM]@web.de>          |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -46,14 +45,14 @@ $labels['organization'] = 'Organisation';
 $labels['reply-to'] = 'Antwort an';
 $labels['mailboxlist'] = 'Ordner';
 $labels['messagesfromto'] = 'Nachrichten $from bis $to von $count';
+$labels['threadsfromto'] = 'Konversationen $from bis $to von $count';
 $labels['messagenrof'] = 'Nachricht $nr von $count';
+$labels['copy'] = 'Kopieren';
+$labels['move'] = 'Verschieben';
 $labels['moveto'] = 'Verschieben nach...';
 $labels['download'] = 'Download';
 $labels['filename'] = 'Dateiname';
 $labels['filesize'] = 'Dateigrösse';
-$labels['preferhtml'] = 'HTML bevorzugen';
-$labels['htmlmessage'] = 'HTML Nachricht';
-$labels['prettydate'] = 'Kurze Datumsanzeige';
 $labels['addtoaddressbook'] = 'Ins Adressbuch übernehmen';
 $labels['sun'] = 'So';
 $labels['mon'] = 'Mo';
@@ -117,24 +116,23 @@ $labels['markread'] = 'Als gelesen';
 $labels['markunread'] = 'Als ungelesen';
 $labels['markflagged'] = 'Stern hinzufügen';
 $labels['markunflagged'] = 'Stern entfernen';
-$labels['messageactions']   = 'Weitere Aktionen...';
+$labels['messageactions'] = 'Weitere Aktionen...';
 $labels['select'] = 'Auswählen';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Keine';
+$labels['currpage'] = 'Aktuelle Seite';
 $labels['unread'] = 'Ungelesene';
 $labels['flagged'] = 'Markierte';
 $labels['unanswered'] = 'Unbeantwortete';
 $labels['deleted'] = 'Gelöschte';
 $labels['invert'] = 'Umkehren';
 $labels['filter'] = 'Filter';
-
 $labels['list'] = 'Liste';
 $labels['threads'] = 'Konversationen';
-$labels['expand-all'] = 'All aufklappen';
+$labels['expand-all'] = 'Alle aufklappen';
 $labels['expand-unread'] = 'Ungelesene aufklappen';
 $labels['collapse-all'] = 'Alle zuklappen';
 $labels['threaded'] = 'Gruppiert';
-
 $labels['autoexpand_threads'] = 'Konversationen aufklappen';
 $labels['do_expand'] = 'alle';
 $labels['expand_only_unread'] = 'nur ungelesene';
@@ -150,7 +148,6 @@ $labels['listcolumns'] = 'Spalten';
 $labels['listsorting'] = 'Sortierung';
 $labels['listorder'] = 'Ordnung';
 $labels['listmode'] = 'Anzeigemodus';
-
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['purge'] = 'Aufräumen';
@@ -159,8 +156,8 @@ $labels['unknown'] = 'unbekannt';
 $labels['unlimited'] = 'unlimitiert';
 $labels['quicksearch'] = 'Schnellsuche';
 $labels['resetsearch'] = 'Löschen';
-$labels['searchmod']  = 'Suchkriterien ändern';
-$labels['msgtext']  = 'Ganze Nachricht';
+$labels['searchmod'] = 'Suchkriterien ändern';
+$labels['msgtext'] = 'Ganze Nachricht';
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Herunterladen (.eml)';
 $labels['compose'] = 'Neue Nachricht verfassen';
@@ -215,7 +212,7 @@ $labels['print'] = 'Drucken';
 $labels['export'] = 'Exportieren';
 $labels['exportvcards'] = 'Kontakte im vCard-Format exportieren';
 $labels['newcontactgroup'] = 'Neue Adressgruppe erstellen';
-$labels['groupactions']   = 'Aktionen für Kontaktgruppen...';
+$labels['groupactions'] = 'Aktionen für Kontaktgruppen...';
 $labels['previouspage'] = 'Eine Seite zurück';
 $labels['firstpage'] = 'Erste Seite';
 $labels['nextpage'] = 'Nächste Seite';
@@ -238,6 +235,10 @@ $labels['manageidentities'] = 'Absender für dieses Konto verwalten';
 $labels['newidentity'] = 'Neuer Absender';
 $labels['newitem'] = 'Neuer Eintrag';
 $labels['edititem'] = 'Eintrag bearbeiten';
+$labels['preferhtml'] = 'HTML bevorzugen';
+$labels['defaultcharset'] = 'Standard-Zeichensatz';
+$labels['htmlmessage'] = 'HTML Nachricht';
+$labels['prettydate'] = 'Kurze Datumsanzeige';
 $labels['setdefault'] = 'Als Standard';
 $labels['autodetect'] = 'Automatisch';
 $labels['language'] = 'Sprache';
@@ -261,6 +262,7 @@ $labels['ignore'] = 'ignorieren';
 $labels['readwhendeleted'] = 'Beim Löschen als gelesen markieren';
 $labels['flagfordeletion'] = 'Als gelöscht markieren anstatt in den Papierkorb verschieben';
 $labels['skipdeleted'] = 'Zeige keine gelöschten Nachrichten an';
+$labels['deletealways'] = 'Löschen wenn Verschieben in den Papierkorb nicht möglich';
 $labels['showremoteimages'] = 'Eingebettete Bilder vom Internet laden';
 $labels['fromknownsenders'] = 'bei bekannten Absendern';
 $labels['always'] = 'immer';
@@ -275,6 +277,7 @@ $labels['mimeparamfolding'] = 'Namen der Dateianhänge';
 $labels['2231folding'] = 'Vollständig RFC 2231 kompatibel (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 kompatibel (Microsoft Outlook)';
 $labels['2047folding'] = 'Vollständig RFC 2047 kompatibel (andere)';
+$labels['force7bit'] = 'MIME-Kodierung für 8-bit Zeichen';
 $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
@@ -315,5 +318,23 @@ $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
+$labels['unicode'] = 'Unicode';
+$labels['english'] = 'Englisch';
+$labels['westerneuropean'] = 'Westeuropäisch';
+$labels['easterneuropean'] = 'Osteuropäisch';
+$labels['southeasterneuropean'] = 'Südosteuropäisch';
+$labels['baltic'] = 'Baltisch';
+$labels['cyrillic'] = 'Kyrillisch';
+$labels['arabic'] = 'Arabisch';
+$labels['greek'] = 'Griechisch';
+$labels['hebrew'] = 'Hebräisch';
+$labels['turkish'] = 'Türkisch';
+$labels['nordic'] = 'Skandinavisch';
+$labels['thai'] = 'Thailändisch';
+$labels['celtic'] = 'Keltisch';
+$labels['vietnamese'] = 'Vietnamesisch';
+$labels['japanese'] = 'Japanisch';
+$labels['korean'] = 'Koreanisch';
+$labels['chinese'] = 'Chinesisch';
 
 ?>
