@@ -3408,8 +3408,7 @@ function rcube_webmail()
     // currently all groups belong to the local address book
     if (group)
       src = 0;
-    
-    if (!src)
+    else if (!src)
       src = this.env.source;
     
     if (page && this.current_page == page && src == this.env.source && group == this.env.group)
@@ -3632,6 +3631,7 @@ function rcube_webmail()
       return;
     
     if (!this.name_input) {
+      this.enable_command('list', 'listgroup', false);
       this.name_input = document.createElement('input');
       this.name_input.type = 'text';
       this.name_input.value = this.env.contactgroups['G'+this.env.group].name;
@@ -3706,6 +3706,8 @@ function rcube_webmail()
       this.name_input.parentNode.removeChild(this.name_input);
       this.name_input = null;
     }
+
+    this.enable_command('list', 'listgroup', true);
   };
   
   // callback for creating a new contact group
@@ -3735,6 +3737,7 @@ function rcube_webmail()
       link.innerHTML = name;
     
     this.env.contactfolders[key].name = this.env.contactgroups[key].name = name;
+    this.triggerEvent('updategroup', { id:id, name:name, li:li[0] });
   };
 
 
