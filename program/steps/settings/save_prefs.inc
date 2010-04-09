@@ -40,7 +40,8 @@ switch ($CURR_SECTION)
   case 'mailbox':
     $a_user_prefs = array(
       'focus_on_new_message' => isset($_POST['_focus_on_new_message']) ? TRUE : FALSE,
-      'preview_pane' 	     => isset($_POST['_preview_pane']) ? TRUE : FALSE,
+      'preview_pane'         => isset($_POST['_preview_pane']) ? TRUE : FALSE,
+      'preview_pane_mark_read' => isset($_POST['_preview_pane_mark_read']) ? intval($_POST['_preview_pane_mark_read']) : $CONFIG['preview_pane_mark_read'],
       'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
       'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
       'keep_alive'           => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],

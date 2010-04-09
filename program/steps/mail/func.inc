@@ -121,7 +121,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
     $OUTPUT->set_env('skip_deleted', true);
   if ($CONFIG['display_next'])
     $OUTPUT->set_env('display_next', true);
-	  
+
+  $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
+
   if ($CONFIG['trash_mbox'])
     $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
   if ($CONFIG['drafts_mbox'])

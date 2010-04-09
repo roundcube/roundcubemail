@@ -279,11 +279,32 @@ function rcmail_user_prefs($current=null)
     // show config parameter for preview pane
     if (!isset($no_override['preview_pane'])) {
       $field_id = 'rcmfd_preview';
-      $input_preview = new html_checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1));
+      $input_preview = new html_checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1,
+        'onchange' => JS_OBJECT_NAME.'.toggle_preview_pane(this)'));
 
       $blocks['main']['options']['preview_pane'] = array(
         'title' => html::label($field_id, Q(rcube_label('previewpane'))),
         'content' => $input_preview->show($config['preview_pane']?1:0),
+      );
+    }
+
+    // show config parameter for preview pane auto mark as read delay
+    if (!isset($no_override['preview_pane_mark_read'])) {
+      // apply default if config option is not set at all
+      $config['preview_pane_mark_read'] = $RCMAIL->config->get('preview_pane_mark_read', 0);
+      
+      $field_id = 'rcmfd_preview_pane_mark_read';
+      $select_delay = new html_select(array('name' => '_preview_pane_mark_read', 'id' => $field_id,
+        'disabled' => $config['preview_pane']?0:1));
+
+      $select_delay->add(rcube_label('never'), '-1');
+      $select_delay->add(rcube_label('immediately'), 0);
+      foreach(array(5, 10, 20, 30) as $sec)
+        $select_delay->add(rcube_label(array('name' => 'afternseconds', 'vars' => array('n' => $sec))), $sec);
+
+      $blocks['main']['options']['preview_pane_mark_read'] = array(
+        'title' => html::label($field_id, Q(rcube_label('previewpanemarkread'))),
+        'content' => $select_delay->show(intval($config['preview_pane_mark_read'])),
       );
     }
 

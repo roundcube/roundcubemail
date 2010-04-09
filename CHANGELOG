@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added option not to mark messages as read when viewed in preview pane (#1485012)
+- Allow plugins modify the Sent folder when composing (#1486548)
 - Added optional (max_recipients) support to restrict total number of recipients per message (#1484542)
 - Re-organize editor buttons, add blockquote and search buttons
 - Make possible to write inside or after a quoted html message (#1485476)

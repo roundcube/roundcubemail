@@ -140,7 +140,7 @@ if ($_GET['_uid']) {
       $OUTPUT->set_env('last_uid', $last);
     }
 
-  if (!$MESSAGE->headers->seen)
+  if (!$MESSAGE->headers->seen && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
     $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid,
       'mailbox' => $mbox_name, 'message' => $MESSAGE));
 }
@@ -226,7 +226,7 @@ else
 
 
 // mark message as read
-if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen)
+if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
   $IMAP->set_flag($MESSAGE->uid, 'SEEN');
 
 exit;

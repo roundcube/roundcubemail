@@ -327,6 +327,7 @@ $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minute(s)';
 $labels['keepalive']  = 'Check for new messages on';
 $labels['never']  = 'never';
+$labels['immediately']  = 'immediately';
 $labels['messagesdisplaying'] = 'Displaying Messages';
 $labels['messagescomposition'] = 'Composing Messages';
 $labels['mimeparamfolding'] = 'Attachment names';
@@ -355,6 +356,8 @@ $labels['replysignaturepos'] = 'When replying or forwarding place signature';
 $labels['belowquote'] = 'below the quote';
 $labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
+$labels['previewpanemarkread']  = 'Mark previewed messages as read';
+$labels['afternseconds']  = 'after $n seconds';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

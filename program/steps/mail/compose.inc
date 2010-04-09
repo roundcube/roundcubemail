@@ -143,6 +143,10 @@ if (!empty($msg_uid))
   $CONFIG['prefer_html'] = $CONFIG['prefer_html'] || $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
   $MESSAGE = new rcube_message($msg_uid);
   
+  // make sure message is marked as read
+  if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen)
+    $IMAP->set_flag($msg_uid, 'SEEN');
+
   if (!empty($MESSAGE->headers->charset))
     $IMAP->set_charset($MESSAGE->headers->charset);
     

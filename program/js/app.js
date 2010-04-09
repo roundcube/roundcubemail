@@ -1273,6 +1273,9 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
     
+    if (this.preview_read_timer)
+      clearTimeout(this.preview_read_timer);
+
     // save folderlist and folders location/sizes for droptarget calculation in drag_move()
     if (this.gui_objects.folderlist && model)
       {
@@ -1438,6 +1441,9 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
+    if (this.preview_read_timer)
+      clearTimeout(this.preview_read_timer);
+
     var selected = list.get_single_selection() != null;
 
     // Hide certain command buttons when Drafts folder is selected
@@ -1464,6 +1470,9 @@ function rcube_webmail()
     {
       if (this.preview_timer)
         clearTimeout(this.preview_timer);
+
+      if (this.preview_read_timer)
+        clearTimeout(this.preview_read_timer);
 
     var uid = list.get_single_selection();
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
@@ -1754,24 +1763,25 @@ function rcube_webmail()
     var url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.env.mailbox)+add_url;
     if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
       this.show_contentframe(true);
-    else
-      {
+    else {
       this.set_busy(true, 'loading');
       target.location.href = this.env.comm_path+url;
 
       // mark as read and change mbox unread counter
-      if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread)
-        {
-        this.set_message(id, 'unread', false);
-        this.update_thread_root(id, 'read');
-        if (this.env.unread_counts[this.env.mailbox])
-          {
-          this.env.unread_counts[this.env.mailbox] -= 1;
-          this.set_unread_count(this.env.mailbox, this.env.unread_counts[this.env.mailbox], this.env.mailbox == 'INBOX');
+      if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
+        this.preview_read_timer = window.setTimeout(function() {
+          ref.set_message(id, 'unread', false);
+          ref.update_thread_root(id, 'read');
+          if (ref.env.unread_counts[ref.env.mailbox]) {
+            ref.env.unread_counts[ref.env.mailbox] -= 1;
+            ref.set_unread_count(ref.env.mailbox, ref.env.unread_counts[ref.env.mailbox], ref.env.mailbox == 'INBOX');
           }
-        }
+          if (ref.env.preview_pane_mark_read > 0)
+            ref.http_post('mark', '_uid='+id+'&_flag=read');
+        }, this.env.preview_pane_mark_read * 1000);
       }
-    };
+    }
+  };
 
   this.show_contentframe = function(show)
     {
@@ -4659,6 +4669,13 @@ function rcube_webmail()
     var addrbook_show_images;
     if (addrbook_show_images = document.getElementById('rcmfd_addrbook_show_images'))
       addrbook_show_images.disabled = !checkbox.checked;
+    }
+
+  this.toggle_preview_pane = function(checkbox)
+    {
+    var preview_pane_mark_read;
+    if (preview_pane_mark_read = document.getElementById('rcmfd_preview_pane_mark_read'))
+      preview_pane_mark_read.disabled = !checkbox.checked;
     }
 
   // display fetched raw headers

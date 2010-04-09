@@ -434,6 +434,10 @@ $rcmail_config['draft_autosave'] = 300;
 // default setting if preview pane is enabled
 $rcmail_config['preview_pane'] = false;
 
+// Mark as read when viewed in preview pane (delay in seconds)
+// Set to -1 if messages in preview pane should not be marked as read
+$rcmail_config['preview_pane_mark_read'] = 0;
+
 // focus new window if new message arrives
 $rcmail_config['focus_on_new_message'] = true;
 
