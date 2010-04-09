@@ -55,9 +55,12 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
     }
   }
   
+  // select folder where to save the sent message
+  $_SESSION['compose']['param']['sent_mbox'] = $RCMAIL->config->get('sent_mbox');
+  
   // pipe compose parameters thru plugins
   $plugin = $RCMAIL->plugins->exec_hook('message_compose', $_SESSION['compose']);
-  $_SESSION['compose']['param'] = array_merge($_SESSION['compose']['param'], $plugin['param']);   
+  $_SESSION['compose']['param'] = array_merge($_SESSION['compose']['param'], $plugin['param']);
 
   // add attachments listed by message_compose hook
   if (is_array($plugin['attachments'])) {
@@ -1061,7 +1064,7 @@ function rcmail_store_target_selection($attrib)
 {
   $attrib['name'] = '_store_target';
   $select = rcmail_mailbox_select(array_merge($attrib, array('noselection' => '- '.rcube_label('dontsave').' -')));
-  return $select->show(rcmail::get_instance()->config->get('sent_mbox'), $attrib);
+  return $select->show($_SESSION['compose']['param']['sent_mbox'], $attrib);
 }
 
 
