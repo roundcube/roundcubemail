@@ -13,6 +13,7 @@
 | Author: Martin Mrajca <martin@moonlake.cz>                            |
 |        joe <joe@humlak.cz>                                            |
 |        Jiri Kaderavek <jiri.kaderavek@webstep.net>                    |
+|        Ales Pospichal <ales@pospichalales.info>                       |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -49,6 +50,7 @@ $messages['senttooquickly'] = 'Prosím počkejte $sec sekund před odesláním z
 $messages['errorsavingsent'] = 'Nastala chyba při ukládání odeslané zprávy';
 $messages['errorsaving'] = 'Vyskytla se chyba při ukládání';
 $messages['errormoving'] = 'Nemohu přesunout zprávu';
+$messages['errorcopying'] = 'Nemohu zkopírovat zprávu';
 $messages['errordeleting'] = 'Nemohu smazat zprávu';
 $messages['errormarking'] = 'Zpráva nelze označit';
 $messages['deletecontactconfirm'] = 'Opravdu chcete smazat označené kontakty?';
@@ -88,6 +90,7 @@ $messages['copyerror'] = 'Nemohu zkopírovat žádnou adresu';
 $messages['sourceisreadonly'] = 'Tento zdroj adres je pouze pro čtení';
 $messages['errorsavingcontact'] = 'Nemohu uložit adresu kontaktu';
 $messages['movingmessage'] = 'Přesouvám zprávu...';
+$messages['copyingmessage'] = 'Kopíruji zprávu...';
 $messages['receiptsent'] = 'Potvrzení o přřijetí zprávy odesláno';
 $messages['errorsendingreceipt'] = 'Potvrzení o přijetí zprávy nebylo možné odeslat';
 $messages['nodeletelastidentity'] = 'Alespoň jedna identita musí být ponechána. Identitu nelze odstranit.';
@@ -95,6 +98,8 @@ $messages['addsubfolderhint'] = 'Tato složka bude vytvořena jako podsložka ak
 $messages['forbiddencharacter'] = 'Název složky obsahuje zakázaný znak';
 $messages['selectimportfile'] = 'Prosím vyberte soubor k nahrání';
 $messages['addresswriterror'] = 'Vybraný seznam kontaktů není zapisovatelný';
+$messages['contactaddedtogroup'] = 'Kontakty byly úspěšně přidány do této skupiny';
+$messages['contactremovedfromgroup'] = 'Kontakty byly odstraněny z této skupiny';
 $messages['importwait'] = 'Importuji, prosím čekejte...';
 $messages['importerror'] = 'Během importu nastala chyba! Nahraný soubor není ve formátu vCard.';
 $messages['importconfirm'] = '<b>Úspěšně naimportováno $inserted kontaktů, $skipped existujících záznamů přeskočeno</b>:<p><em>$names</em></p>';
@@ -109,5 +114,7 @@ $messages['smtptoerror'] = 'Chyba SMTP ($code): Nelze přidat příjemce "$to"';
 $messages['smtprecipientserror'] = 'Chyba SMTP: Nelze zpracovat seznam příjemců';
 $messages['smtperror'] = 'Chyba SMTP: $msg';
 $messages['emailformaterror'] = 'Neplatná e-mailová adresa: $email';
+$messages['toomanyrecipients'] = 'Příliš mnoho příjemců. Změňte počet příjemců na $max.';
+$messages['maxgroupmembersreached'] = 'Počet členských skupin dosáhl maximum z $max';
 
 ?>

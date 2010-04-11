@@ -100,6 +100,8 @@ $messages['addsubfolderhint'] = 'Esta pasta será criada como uma sub-pasta da q
 $messages['forbiddencharacter'] = 'O nome da pasta contém um caractere não permitido';
 $messages['selectimportfile'] = 'Selecione o arquivo para envio';
 $messages['addresswriterror'] = 'O catálogo de endereços selecionado não tem permissão de modificação';
+$messages['contactaddedtogroup'] = 'Adicionado os contatos a este grupo com sucesso';
+$messages['contactremovedfromgroup'] = 'Removido contatos deste grupo com sucesso';
 $messages['importwait'] = 'Importando, aguarde por favor...';
 $messages['importerror'] = 'Falha na importação! O arquivo enviado não é um arquivo vCard válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contatos, e $skipped contatos foram ignorados</b>:<p><em>$names</em></p>';
@@ -114,5 +116,7 @@ $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatári
 $messages['smtprecipientserror'] = 'Erro SMTP: Não é possível analisar a lista destinatários';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de Email incorreto: $email';
+$messages['toomanyrecipients'] = 'Muitos destinatários. Reduza o número de destinatários para $max.';
+$messages['maxgroupmembersreached'] = 'O número de membros do grupo excede o máximo de $max';
 
 ?>

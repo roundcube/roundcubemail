@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Joel S. <joel.s@spijoprod.net>                                |
+| Author: Joel S. <joel.s@spijoprod.com>                                |
 |         Jerome Lipowicz <jerome@yayel.com>                            |
 |         Maximilien Cuony <theglu@theglu.org>                          |
 +-----------------------------------------------------------------------+
@@ -48,6 +48,8 @@ $labels['reply-to'] = 'Répondre à';
 $labels['mailboxlist'] = 'Dossiers';
 $labels['messagesfromto'] = 'Messages de $from à $to sur $count';
 $labels['messagenrof'] = 'Message $nr sur $count';
+$labels['copy'] = 'Copier';
+$labels['move'] = 'Déplacer';
 $labels['moveto'] = 'Déplacer vers...';
 $labels['download'] = 'Télécharger';
 $labels['filename'] = 'Nom du fichier';
@@ -119,12 +121,30 @@ $labels['messageactions'] = 'Actions supplémentaires...';
 $labels['select'] = 'Sélectionner';
 $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
+$labels['currpage'] = 'Page courante';
 $labels['unread'] = 'Non lus';
 $labels['flagged'] = 'Marqué';
 $labels['unanswered'] = 'Non répondu';
 $labels['deleted'] = 'Supprimé';
 $labels['invert'] = 'Inverser';
 $labels['filter'] = 'Filtre';
+$labels['list'] = 'Lister';
+$labels['expand-all'] = 'Afficher Tous';
+$labels['expand-unread'] = 'Afficher Non-lus';
+$labels['collapse-all'] = 'Fermer Tous';
+$labels['expand_only_unread'] = 'uniquement avec des messages non-lus';
+$labels['fromto'] = 'Expéditeur/Destinataire';
+$labels['flag'] = 'Drapeau';
+$labels['attachment'] = 'Pièce jointe';
+$labels['nonesort'] = 'Aucun';
+$labels['sentdate'] = 'Date d\'envoi';
+$labels['arrival'] = 'Date d\'arrivée';
+$labels['asc'] = 'Ascendant';
+$labels['desc'] = 'Descendant';
+$labels['listcolumns'] = 'Lister les colonnes';
+$labels['listsorting'] = 'Colonne de tri';
+$labels['listorder'] = 'Ordre de tri';
+$labels['listmode'] = 'Mode d\'affichage de la liste';
 $labels['compact'] = 'Compacter';
 $labels['empty'] = 'Vider';
 $labels['purge'] = 'Purger';
@@ -188,10 +208,13 @@ $labels['contactsfromto'] = 'Contacts de $from à $to sur $count';
 $labels['print'] = 'Imprimer';
 $labels['export'] = 'Exporter';
 $labels['exportvcards'] = 'Exporter les contacts au format vCard';
+$labels['newcontactgroup'] = 'Créer un nouveau groupe de contacts';
+$labels['groupactions'] = 'Actions pour les groupes de contacts';
 $labels['previouspage'] = 'Montrer page précédente';
 $labels['firstpage'] = 'Voir la première page';
 $labels['nextpage'] = 'Montrer page suivante';
 $labels['lastpage'] = 'Voir la dernière page';
+$labels['group'] = 'Groupe';
 $labels['groups'] = 'Groupes';
 $labels['personaladrbook'] = 'Adresses personnelles';
 $labels['import'] = 'Importer';
@@ -245,6 +268,7 @@ $labels['autosavedraft'] = 'Sauvegarde automatique des brouillons';
 $labels['everynminutes'] = 'toutes les $n minute(s)';
 $labels['keepalive'] = 'Chercher les nouveaux messages';
 $labels['never'] = 'jamais';
+$labels['immediately'] = 'Immédiatement';
 $labels['messagesdisplaying'] = 'Affichage des messages';
 $labels['messagescomposition'] = 'Ecriture des messages';
 $labels['mimeparamfolding'] = 'Nom du fichier attaché';
@@ -256,7 +280,6 @@ $labels['advancedoptions'] = 'Options avancées';
 $labels['focusonnewmessage'] = 'Placer le focus sur la fenêtre quand un nouveau message arrive';
 $labels['checkallfolders'] = 'Vérifier tous les dossiers pour les nouveaux messages';
 $labels['displaynext'] = 'Après suppression/déplacement du message, afficher le message suivant';
-$labels['indexsort'] = 'Utiliser l\'index des messages pour trier par date';
 $labels['mainoptions'] = 'Options principales';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
@@ -274,6 +297,8 @@ $labels['replysignaturepos'] = 'En répondant ou en transférant, placer la sign
 $labels['belowquote'] = 'en-dessous de la citation';
 $labels['abovequote'] = 'au-dessus de la citation';
 $labels['insertsignature'] = 'Insérer la signature';
+$labels['previewpanemarkread'] = 'Marquer les messages prévisualisés comme lus';
+$labels['afternseconds'] = 'après $n secondes';
 $labels['folder'] = 'Dossier';
 $labels['folders'] = 'Dossiers';
 $labels['foldername'] = 'Nom du dossier';

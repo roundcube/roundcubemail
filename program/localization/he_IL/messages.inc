@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  20032010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  09042010                |
 +-----------------------------------------------------------------------+
 
 */
@@ -46,6 +46,7 @@ $messages['senttooquickly'] = 'נא להמתין $sec שניות לפני מסי
 $messages['errorsavingsent'] = 'נגרמה שגיאה במהלך שמירת ההודעה בתיק הודעות יוצאות';
 $messages['errorsaving'] = 'נגרמה שגיאה במהלך השמירה';
 $messages['errormoving'] = 'לא ניתן לתייק את ההודעה';
+$messages['errorcopying'] = 'העתקת ההודעות נכשלה';
 $messages['errordeleting'] = 'לא ניתן למחוק את ההודעה';
 $messages['errormarking'] = 'לא ניתן לסמן ההודעה';
 $messages['deletecontactconfirm'] = 'האם למחוק את איש הקשר?';
@@ -93,6 +94,8 @@ $messages['addsubfolderhint'] = 'תיקיה זו תוקם תחת התיקיה ש
 $messages['forbiddencharacter'] = 'שם התיקיה מכיל תוים אסורים';
 $messages['selectimportfile'] = 'נא לבחור קובץ לייבוא';
 $messages['addresswriterror'] = 'פנקס הכתובות שנבחר אינו ניתן לכתיבה';
+$messages['contactaddedtogroup'] = 'אנשי הקשר נוספו בהצלחה לקבוצה';
+$messages['contactremovedfromgroup'] = 'אנשי הקשר הוסרו בהצלחה מהקבוצה';
 $messages['importwait'] = 'ייבוא, נא להמתין..';
 $messages['importerror'] = 'חוקי vCard הייבוא נכשל כי הקובץ אינו בפורמט';
 $messages['importconfirm'] = '<b>יובאו $inserted אנשי קשר, $skipped היו קיימים </b>:<p><em>$names</em></p>';
@@ -107,5 +110,7 @@ $messages['smtptoerror'] = 'SMTP ($code): "$to" לא נרשמה כתובת המ�
 $messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
 $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
+$messages['toomanyrecipients'] = 'יותר מדי נמענים. יש להקטין מספרם ל - $max';
+$messages['maxgroupmembersreached'] = 'מספרם של חברי הקבוצה אינו יכול לעבור $max';
 
 ?>

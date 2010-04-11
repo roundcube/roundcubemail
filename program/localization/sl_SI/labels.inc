@@ -1,4 +1,3 @@
-<!-- Update from SVN: sl_SI/labels.inc-->
 <?php
 
 /*

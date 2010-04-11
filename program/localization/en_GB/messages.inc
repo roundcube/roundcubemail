@@ -2,18 +2,18 @@
 
 /*
 
- +-----------------------------------------------------------------------+
- | language/en_GB/messages.inc                                           |
- |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Weiran Zhang (weiran@weiran.co.uk)                            |
- +-----------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| language/en_GB/messages.inc                                           |
+|                                                                       |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Licensed under the GNU GPL                                            |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Weiran Zhang (weiran@weiran.co.uk)                            |
++-----------------------------------------------------------------------+
 
- @version $Id$
+@version $Id$
 
 */
 
@@ -95,6 +95,8 @@ $messages['addsubfolderhint'] = 'This folder will be created as subfolder of the
 $messages['forbiddencharacter'] = 'Folder name contains a forbidden character';
 $messages['selectimportfile'] = 'Please select a file to upload';
 $messages['addresswriterror'] = 'The selected address book is not writeable';
+$messages['contactaddedtogroup'] = 'Successfully added the contacts to this group';
+$messages['contactremovedfromgroup'] = 'Successfully remove contacts from this group';
 $messages['importwait'] = 'Importing, please wait...';
 $messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts, $skipped existing entries skipped</b>:<p><em>$names</em></p>';
@@ -109,5 +111,7 @@ $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to"';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Incorrect e-mail address: $email';
+$messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
+$messages['maxgroupmembersreached'] = 'The number of group members exceeds the maximum of $max';
 
 ?>

@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  20032010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  09042010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -118,6 +118,7 @@ $labels['messageactions'] = 'פעולות נוספות';
 $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
+$labels['currpage'] = 'דף נוכחי';
 $labels['unread'] = 'לא נקראו';
 $labels['flagged'] = 'מסומן';
 $labels['unanswered'] = 'לא נענה';
@@ -208,10 +209,13 @@ $labels['contactsfromto'] = 'אנשי קשר $from עד $to מתוך $count';
 $labels['print'] = 'הדפסה';
 $labels['export'] = 'ייצוא';
 $labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard ';
+$labels['newcontactgroup'] = 'יצירת קבוצה חדשה של אנשי קשר';
+$labels['groupactions'] = 'פעולות על קבוצת אנשי הקשר...';
 $labels['previouspage'] = 'הצגת הקבוצה הקודמת';
 $labels['firstpage'] = 'הצגת הקבוצה הראשונה';
 $labels['nextpage'] = 'הצגת הקבוצה הבאה';
 $labels['lastpage'] = 'הצגת הקבוצה האחרונה';
+$labels['group'] = 'קבוצה';
 $labels['groups'] = 'קבוצות';
 $labels['personaladrbook'] = 'כתובות פרטיות';
 $labels['import'] = 'ייבוא';
@@ -265,6 +269,7 @@ $labels['autosavedraft'] = 'שמירה אוטומטית של טיוטה';
 $labels['everynminutes'] = 'כל $n דקות';
 $labels['keepalive'] = 'בדיקת הגעה של הודעות חדשות';
 $labels['never'] = 'אף פעם';
+$labels['immediately'] = 'מיידית';
 $labels['messagesdisplaying'] = 'הצגת הודעות';
 $labels['messagescomposition'] = 'כתיבת הודעות';
 $labels['mimeparamfolding'] = 'שמות קבצים מצורפים';
@@ -293,6 +298,8 @@ $labels['replysignaturepos'] = 'במענה או בהעברת הודעה, החת�
 $labels['belowquote'] = 'בסוף ההודעה המקורית';
 $labels['abovequote'] = 'בתחילת ההודעה המקורית';
 $labels['insertsignature'] = 'שיבוץ חתימה';
+$labels['previewpanemarkread'] = 'סימון הודעה שנצפתה כנקראה';
+$labels['afternseconds'] = 'לאחר $n שניות';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';

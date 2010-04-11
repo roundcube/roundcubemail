@@ -49,6 +49,7 @@ $messages['senttooquickly'] = 'Vänta ytterligare $sec sekunder med att skicka m
 $messages['errorsavingsent'] = 'Ett fel inträffade när det skickade meddelandet sparades';
 $messages['errorsaving'] = 'Meddelandet kunde inte sparads';
 $messages['errormoving'] = 'Meddelandet kunde inte flyttas';
+$messages['errorcopying'] = 'Kunde inte kopiera meddelande(n)';
 $messages['errordeleting'] = 'Meddelandet kunde inte raderas';
 $messages['errormarking'] = 'Meddelandet kunde inte markeras';
 $messages['deletecontactconfirm'] = 'Vill du verkligen radera valda kontakter?';
@@ -96,6 +97,8 @@ $messages['addsubfolderhint'] = 'Den här katalogen kommer att skapas som en und
 $messages['forbiddencharacter'] = 'Katalognamnet innehåller otillåtna tecken';
 $messages['selectimportfile'] = 'Välj en fil att ladda upp';
 $messages['addresswriterror'] = 'Angiven adressbok är skrivskyddad';
+$messages['contactaddedtogroup'] = 'Lyckades lägga till kontakt(erna) till den här gruppen';
+$messages['contactremovedfromgroup'] = 'Lyckades ta bort kontakt(erna) från den här gruppen';
 $messages['importwait'] = 'Importerar, var god vänta...';
 $messages['importerror'] = 'Importen misslyckades! Filen är inte i vCard-format.';
 $messages['importconfirm'] = '<b>Lyckad import av $inserted kontakter, $skipped dubbletter har ignorerats:</b><p><em>$names</em></p>';
@@ -110,5 +113,7 @@ $messages['smtptoerror'] = 'SMTP-fel ($code): Kan inte lägga till mottagaradres
 $messages['smtprecipientserror'] = 'SMTP-fel: Felaktigt formaterad lista med mottagaradresser';
 $messages['smtperror'] = 'SMTP-fel: $msg';
 $messages['emailformaterror'] = 'Felaktig adress: $email';
+$messages['toomanyrecipients'] = 'För många mottagare. Minska antalet mottagare till under $max st.';
+$messages['maxgroupmembersreached'] = 'Antalet medlemmar i kontaktgruppen överstiger det maximala antalet av $max';
 
 ?>
