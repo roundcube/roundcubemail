@@ -11,8 +11,9 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Mark Moses <mark@katmoda.com>                                 |
-|         Lazlo Westerhof <roundcube@lazlo.me>                        	|
+|         Lazlo Westerhof <roundcube@lazlo.me>                          |
 |         Frits Letteboer <f.letteboer@radiotwenterand.nl>              |
+|         Justin van Beusekom <j.v.beusekom@beus-it.nl>                 |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -49,6 +50,7 @@ $messages['senttooquickly'] = 'Je moet $sec seconden wachten om het bericht te v
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht';
 $messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan';
 $messages['errormoving'] = 'Kan het bericht niet verplaatsen';
+$messages['errorcopying'] = 'Kan de bericht(en) niet kopiëren';
 $messages['errordeleting'] = 'Kan het bericht niet verwijderen';
 $messages['errormarking'] = 'Kon bericht niet markeren';
 $messages['deletecontactconfirm'] = 'Weet u zeker dat u de geselecteerde contactperso(o)n/en wilt verwijderen?';
@@ -88,6 +90,7 @@ $messages['copyerror'] = 'Kan geen adressen kopiëren';
 $messages['sourceisreadonly'] = 'Het adres is alleen-lezen';
 $messages['errorsavingcontact'] = 'Kan het ontvanger-adres niet opslaan';
 $messages['movingmessage'] = 'Bericht verplaatsen...';
+$messages['copyingmessage'] = 'Kopiëren bericht...';
 $messages['receiptsent'] = 'Ontvangstbevestiging is verstuurd';
 $messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen';
 $messages['nodeletelastidentity'] = 'U kunt uw enige identiteit niet verwijderen';
@@ -95,6 +98,8 @@ $messages['addsubfolderhint'] = 'Deze map zal worden aangemaakt onder de geselec
 $messages['forbiddencharacter'] = 'De naam van de map bevat een karakter dat niet is toegestaan';
 $messages['selectimportfile'] = 'Selecteer een bestand om de uploaden';
 $messages['addresswriterror'] = 'Het geselecteerde adresboek is alleen lezen';
+$messages['contactaddedtogroup'] = 'Contact(en) met succes toegevoegd aan de groep';
+$messages['contactremovedfromgroup'] = 'Contact(en) met succes verwijderd aan de groep';
 $messages['importwait'] = 'Importeren, even geduld...';
 $messages['importerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig vCard bestand.';
 $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
@@ -109,5 +114,7 @@ $messages['smtptoerror'] = 'SMTP Fout ($code): Kon ontvanger "$to" niet toevoege
 $messages['smtprecipientserror'] = 'SMTP Fout: Kon lijst van ontvangers niet verwerken';
 $messages['smtperror'] = 'SMTP Fout: $msg';
 $messages['emailformaterror'] = 'Ongeldig e-mailadres: $email';
+$messages['toomanyrecipients'] = 'Te veel afzender. Verminder de hoeveelheid afzenders tot $max.';
+$messages['maxgroupmembersreached'] = 'Het aantal leden van de groep groter is dan de maximale van $max';
 
 ?>

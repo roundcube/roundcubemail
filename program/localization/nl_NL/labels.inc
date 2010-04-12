@@ -14,6 +14,7 @@
 |         Lazlo Westerhof <roundcube@lazlo.me>                          |
 |         Laurens Vets <laurens@daemon.be>                              |
 |         Frits Letteboer <f.letteboer@radiotwenterand.nl>              |
+|         Justin van Beusekom <j.v.beusekom@beus-it.nl>                 |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -50,6 +51,8 @@ $labels['mailboxlist'] = 'Mappen';
 $labels['messagesfromto'] = 'Bericht $from t/m $to van $count';
 $labels['threadsfromto'] = 'Conversatie $from t/m $to van $count';
 $labels['messagenrof'] = 'Bericht $nr van $count';
+$labels['copy'] = 'Kopiëren';
+$labels['move'] = 'Verplaats';
 $labels['moveto'] = 'Verplaats naar...';
 $labels['download'] = 'Download';
 $labels['filename'] = 'Bestandsnaam';
@@ -121,6 +124,7 @@ $labels['messageactions'] = 'Meer acties...';
 $labels['select'] = 'Selecteer';
 $labels['all'] = 'Allemaal';
 $labels['none'] = 'Geen';
+$labels['currpage'] = 'Huidige pagina';
 $labels['unread'] = 'Ongelezen';
 $labels['flagged'] = 'Geselecteerd';
 $labels['unanswered'] = 'Onbeantwoord';
@@ -211,10 +215,13 @@ $labels['contactsfromto'] = 'Contacten $from t/m $to van $count';
 $labels['print'] = 'Afdrukken';
 $labels['export'] = 'Exporteren';
 $labels['exportvcards'] = 'Exporteer contactpersonen in vCard formaat';
+$labels['newcontactgroup'] = 'Maak een nieuwe contactgroep';
+$labels['groupactions'] = 'Acties voor contactgroepen...';
 $labels['previouspage'] = 'Vorige pagina';
 $labels['firstpage'] = 'Eerste pagina';
 $labels['nextpage'] = 'Volgende pagina';
 $labels['lastpage'] = 'Laatste pagina';
+$labels['group'] = 'Groep';
 $labels['groups'] = 'Groepen';
 $labels['personaladrbook'] = 'Persoonlijk Adresboek';
 $labels['import'] = 'Importeer';
@@ -268,6 +275,7 @@ $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
 $labels['keepalive'] = 'Controleer op nieuwe berichten';
 $labels['never'] = 'nooit';
+$labels['immediately'] = 'onmiddellijk';
 $labels['messagesdisplaying'] = 'Berichten weergave';
 $labels['messagescomposition'] = 'Berichten aanmaken';
 $labels['mimeparamfolding'] = 'Namen van bijlagen';
@@ -296,6 +304,8 @@ $labels['replysignaturepos'] = 'Ondertekening plaatsen bij antwoorden of doorstu
 $labels['belowquote'] = 'onder het citaat';
 $labels['abovequote'] = 'boven het citaat';
 $labels['insertsignature'] = 'Ondertekening invoegen';
+$labels['previewpanemarkread'] = 'Markeer voorbeeld bericht als gelezen';
+$labels['afternseconds'] = 'Na $n seconden';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Mapnaam';
