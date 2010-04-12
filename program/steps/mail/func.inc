@@ -1437,7 +1437,6 @@ function rcmail_send_mdn($uid, &$smtp_error)
       'Subject' => rcube_label('receiptread') . ': ' . $message->subject,
       'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.mt_rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host'])),
       'X-Sender' => $identity['email'],
-      'Content-Type' => 'multipart/report; report-type=disposition-notification',
     );
     
     if ($agent = $RCMAIL->config->get('useragent'))
@@ -1460,6 +1459,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
                "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
     
     $compose->headers($headers);
+    $compose->setContentType('multipart/report', array('report-type'=> 'disposition-notification'));
     $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 

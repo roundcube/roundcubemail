@@ -1028,6 +1028,7 @@ class Mail_mime
      * $array['header-name'] = 'header-value';
      *
      * @param array $xtra_headers Assoc array with any extra headers (optional)
+     *                            (Don't set Content-Type for multipart messages here!)
      * @param bool  $overwrite    Overwrite already existing headers.
      * @param bool  $skip_content Don't return content headers: Content-Type,
      *                            Content-Disposition and Content-Transfer-Encoding
@@ -1064,6 +1065,8 @@ class Mail_mime
             unset($headers['Content-Type']);
             unset($headers['Content-Transfer-Encoding']);
             unset($headers['Content-Disposition']);
+        } else if (!empty($this->_build_params['ctype'])) {
+            $headers['Content-Type'] = $this->_build_params['ctype'];
         }
 
         $encodedHeaders = $this->_encodeHeaders($headers);
@@ -1075,6 +1078,7 @@ class Mail_mime
      * (usefull if you want to use the PHP mail() function)
      *
      * @param array $xtra_headers Assoc array with any extra headers (optional)
+     *                            (Don't set Content-Type for multipart messages here!)
      * @param bool  $overwrite    Overwrite the existing headers with new.
      * @param bool  $skip_content Don't return content headers: Content-Type,
      *                            Content-Disposition and Content-Transfer-Encoding
@@ -1108,6 +1112,54 @@ class Mail_mime
         }
 
         return $ret;
+    }
+
+    /**
+     * Sets message Content-Type header.
+     * Use it to build messages with various content-types e.g. miltipart/raport
+     * not supported by _contentHeaders() function.
+     *
+     * @param string $type   Type name
+     * @param array  $params Hash array of header parameters
+     *
+     * @return void
+     * @access public
+     * @since 1.7.0
+     */
+    function setContentType($type, $params = array())
+    {
+        $header = $type;
+
+        $eol = !empty($this->_build_params['eol'])
+            ? $this->_build_params['eol'] : "\r\n";
+
+        // add parameters
+        $token_regexp = '#([^\x21,\x23-\x27,\x2A,\x2B,\x2D'
+            . ',\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#';
+        if (is_array($params)) {
+            foreach ($params as $name => $value) {
+                if ($name == 'boundary') {
+                    $this->_build_params['boundary'] = $value;
+                }
+                if (!preg_match($token_regexp, $value)) {
+                    $header .= ";$eol $name=$value";
+                } else {
+                    $value = addcslashes($value, '\\"');
+                    $header .= ";$eol $name=\"$value\"";
+                }
+            }
+        }
+
+        // add required boundary parameter if not defined
+        if (preg_match('/^multipart\//i', $type)) {
+            if (empty($this->_build_params['boundary'])) {
+                $this->_build_params['boundary'] = '=_' . md5(rand() . microtime());              
+            }
+
+            $header .= ";$eol boundary=\"".$this->_build_params['boundary']."\"";
+        }
+
+        $this->_build_params['ctype'] = $header;
     }
 
     /**
