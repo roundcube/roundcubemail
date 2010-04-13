@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix address book/group selection (#1486619)
+- Assign newly created contacts to the active group (#1486626)
 - Added option not to mark messages as read when viewed in preview pane (#1485012)
 - Allow plugins modify the Sent folder when composing (#1486548)
 - Added optional (max_recipients) support to restrict total number of recipients per message (#1484542)

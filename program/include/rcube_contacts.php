@@ -212,7 +212,7 @@ class rcube_contacts extends rcube_addressbook
       if ($col == 'ID' || $col == $this->primary_key)
       {
         $ids = !is_array($value) ? explode(',', $value) : $value;
-        $add_where[] = $this->primary_key.' IN ('.join(',', $ids).')';
+        $add_where[] = 'c.' . $this->primary_key.' IN ('.join(',', $ids).')';
       }
       else if ($strict)
         $add_where[] = $this->db->quoteIdentifier($col).'='.$this->db->quote($value);
@@ -336,6 +336,10 @@ class rcube_contacts extends rcube_addressbook
         
       $insert_id = $this->db->insert_id('contacts');
     }
+    
+    // also add the newly created contact to the active group
+    if ($insert_id && $this->group_id)
+      $this->add_to_group($this->group_id, $insert_id);
 
     return $insert_id;
   }

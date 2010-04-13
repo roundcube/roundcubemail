@@ -88,6 +88,7 @@ function get_form_tags($attrib)
   
   if (empty($EDIT_FORM)) {
     $hiddenfields = new html_hiddenfield(array('name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
+    $hiddenfields->add(array('name' => '_gid', 'value' => $CONTACTS->group_id));
     
     if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
       $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));

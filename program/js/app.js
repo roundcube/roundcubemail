@@ -525,7 +525,7 @@ function rcube_webmail()
             this.reset_qsearch();
 
           this.list_contacts(props);
-          this.enable_command('add', 'import', (this.env.address_sources && !this.env.address_sources[props].readonly));
+          this.enable_command('add', 'import', (this.env.address_sources && !this.env.address_sources[this.env.source].readonly));
           }
         break;
 
@@ -3443,8 +3443,7 @@ function rcube_webmail()
     else if (group != this.env.group)
       page = this.env.current_page = 1;
 
-    this.select_folder(src, this.env.source);
-    this.select_folder(group, this.env.group, 'rcmliG');
+    this.select_folder((group ? 'G'+group : src), (this.env.group ? 'G'+this.env.group : this.env.source));
     
     this.env.source = src;
     this.env.group = group;
@@ -3516,7 +3515,7 @@ function rcube_webmail()
     if (action && (cid || action=='add') && !this.drag_active)
       {
       this.set_busy(true);
-      target.location.href = this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_cid='+urlencode(cid) + add_url;
+      target.location.href = this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+'&_cid='+urlencode(cid) + add_url;
       }
     return true;
     };
