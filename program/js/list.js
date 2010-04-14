@@ -91,8 +91,8 @@ init: function()
 
     // set body events
     if (this.keyboard) {
-      rcube_event.add_listener({element:document, event:bw.opera?'keypress':'keydown', object:this, method:'key_press'});
-      rcube_event.add_listener({element:document, event:'keydown', object:this, method:'key_down'});
+      rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object:this, method:'key_press'});
+      rcube_event.add_listener({event:'keydown', object:this, method:'key_down'});
     }
   }
 },
@@ -239,38 +239,19 @@ drag_row: function(e, id)
   {
     this.drag_start = true;
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
-    rcube_event.add_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
-    rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
+    rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
+    rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
 
-    // add listener for iframes
-    var iframes = document.getElementsByTagName('iframe');
-    this.iframe_events = Object();
-    for (var n in iframes)
-    {
-      var iframedoc = null;
-      if (iframes[n].contentDocument)
-        iframedoc = iframes[n].contentDocument;
-      else if (iframes[n].contentWindow)
-        iframedoc = iframes[n].contentWindow.document;
-      else if (iframes[n].document)
-        iframedoc = iframes[n].document;
-
-      if (iframedoc)
-      {
-        var list = this;
-        var pos = $('#'+iframes[n].id).offset();
-        this.iframe_events[n] = function(e) { e._offset = pos; return list.drag_mouse_move(e); }
-
-        if (iframedoc.addEventListener)
-          iframedoc.addEventListener('mousemove', this.iframe_events[n], false);
-        else if (iframes[n].attachEvent)
-          iframedoc.attachEvent('onmousemove', this.iframe_events[n]);
-        else
-          iframedoc['onmousemove'] = this.iframe_events[n];
-
-        rcube_event.add_listener({element:iframedoc, event:'mouseup', object:this, method:'drag_mouse_up'});
-      }
-    }
+    // enable dragging over iframes
+    $('iframe').each(function() {
+      $('<div class="iframe-dragdrop-fix"></div>')
+        .css({background: '#fff',
+          width: this.offsetWidth+'px', height: this.offsetHeight+'px',
+          position: 'absolute', opacity: '0.001', zIndex: 1000
+        })
+        .css($(this).offset())
+        .appendTo('body');
+    });                                                                
   }
 
   return false;
@@ -1179,35 +1160,15 @@ drag_mouse_up: function(e)
   }
 
   this.drag_active = false;
+
+  rcube_event.remove_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
+  rcube_event.remove_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
+
+  // remove temp divs
+  $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
+
   this.triggerEvent('dragend');
-
-  rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'drag_mouse_move'});
-  rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'drag_mouse_up'});
-
-  var iframes = document.getElementsByTagName('iframe');
-  for (var n in iframes) {
-    var iframedoc;
     
-    if (iframes[n].contentDocument)
-      iframedoc = iframes[n].contentDocument;
-    else if (iframes[n].contentWindow)
-      iframedoc = iframes[n].contentWindow.document;
-    else if (iframes[n].document)
-      iframedoc = iframes[n].document;
-
-    if (iframedoc) {
-      if (this.iframe_events[n]) {
-	if (iframedoc.removeEventListener)
-	  iframedoc.removeEventListener('mousemove', this.iframe_events[n], false);
-	else if (iframedoc.detachEvent)
-	  iframedoc.detachEvent('onmousemove', this.iframe_events[n]);
-	else
-	  iframedoc['onmousemove'] = null;
-	}
-      rcube_event.remove_listener({element:iframedoc, event:'mouseup', object:this, method:'drag_mouse_up'});
-      }
-    }
-
   return rcube_event.cancel(e);
 },
 
