@@ -3738,7 +3738,9 @@ function rcube_webmail()
     var key = 'G'+prop.id;
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
 
-    var link = $('<a>').attr('href', '#').attr('onclick', "return rcmail.command('listgroup','"+prop.id+"',this)").html(prop.name);
+    var link = $('<a>').attr('href', '#')
+      .bind('click', function() { return rcmail.command('listgroup', prop.id, this);})
+      .html(prop.name);
     var li = $('<li>').attr('id', 'rcmli'+key).addClass('contactgroup').append(link);
     $(this.gui_objects.folderlist).append(li);
     
