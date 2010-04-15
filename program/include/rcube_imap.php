@@ -2541,24 +2541,23 @@ class rcube_imap
      */
     function list_unsubscribed($root='')
     {
-        static $sa_unsubscribed;
+        static $a_folders;
     
-        if (is_array($sa_unsubscribed))
-            return $sa_unsubscribed;
+        if (is_array($a_folders))
+            return $a_folders;
       
         // retrieve list of folders from IMAP server
         $a_mboxes = $this->conn->listMailboxes($this->mod_mailbox($root), '*');
 
         // modify names with root dir
         foreach ($a_mboxes as $mbox_name) {
-            $name = $this->mod_mailbox($mbox_name, 'out');
-            if (strlen($name))
+            if ($name = $this->mod_mailbox($mbox_name, 'out'))
                 $a_folders[] = $name;
         }
 
         // filter folders and sort them
-        $sa_unsubscribed = $this->_sort_mailbox_list($a_folders);
-        return $sa_unsubscribed;
+        $a_folders = $this->_sort_mailbox_list($a_folders);
+        return $a_folders;
     }
 
 
@@ -3533,7 +3532,7 @@ class rcube_imap
             if (($p = array_search($folder, $this->default_folders)) !== false && !$a_defaults[$p])
                 $a_defaults[$p] = $folder;
             else
-                $folders[$folder] = mb_strtolower(rcube_charset_convert($folder, 'UTF7-IMAP'));
+                $folders[$folder] = rcube_charset_convert($folder, 'UTF7-IMAP');
         }
 
         // sort folders and place defaults on the top
