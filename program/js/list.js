@@ -1159,6 +1159,8 @@ drag_mouse_up: function(e)
       this.draglayer.hide();
   }
 
+  if (this.drag_active)
+    this.focus();
   this.drag_active = false;
 
   rcube_event.remove_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
@@ -1168,7 +1170,7 @@ drag_mouse_up: function(e)
   $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
 
   this.triggerEvent('dragend');
-    
+
   return rcube_event.cancel(e);
 },
 

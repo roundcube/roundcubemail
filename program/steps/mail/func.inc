@@ -175,7 +175,6 @@ function rcmail_message_list($attrib)
   $message_count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
   
   // set client env
-  $OUTPUT->add_gui_object('mailcontframe', 'mailcontframe');
   $OUTPUT->add_gui_object('messagelist', $attrib['id']);
   $OUTPUT->set_env('autoexpand_threads', intval($CONFIG['autoexpand_threads']));
   $OUTPUT->set_env('messagecount', $message_count);
