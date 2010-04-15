@@ -403,16 +403,10 @@ class rcube_contacts extends rcube_addressbook
     if (is_array($ids))
       $ids = join(',', $ids);
 
-    // delete all group members linked with these contacts
-    if ($this->groups) {
-      $this->db->query(
-        "DELETE FROM ".get_table_name('contactgroupmembers')."
-         WHERE  contact_id IN (".$ids.")");
-    }
-
+    // flag record as deleted
     $this->db->query(
       "UPDATE ".$this->db_name."
-       SET    del=1
+       SET    del=1, changed=".$this->db->now()."
        WHERE  user_id=?
        AND    contact_id IN (".$ids.")",
       $this->user_id);
@@ -456,18 +450,14 @@ class rcube_contacts extends rcube_addressbook
   }
 
   /**
-   * Delete the given group and all linked group members
+   * Delete the given group (and all linked group members)
    *
    * @param string Group identifier
    * @return boolean True on success, false if no data was changed
    */
   function delete_group($gid)
   {
-    $sql_result = $this->db->query(
-      "DELETE FROM ".get_table_name('contactgroupmembers')."
-       WHERE  contactgroup_id=?",
-      $gid);
-    
+    // flag group record as deleted
     $sql_result = $this->db->query(
       "UPDATE ".get_table_name('contactgroups')."
        SET del=1, changed=".$this->db->now()."

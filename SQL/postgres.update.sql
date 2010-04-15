@@ -49,6 +49,8 @@ CREATE INDEX contacts_user_id_idx ON contacts (user_id, email);
 DROP INDEX identities_user_id_idx;
 CREATE INDEX identities_user_id_idx ON identities (user_id, del);
 
+ALTER TABLE identities ADD changed timestamp with time zone DEFAULT now() NOT NULL AFTER user_id;
+
 CREATE SEQUENCE contactgroups_ids
     INCREMENT BY 1
     NO MAXVALUE

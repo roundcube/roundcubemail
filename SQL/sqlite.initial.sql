@@ -65,6 +65,7 @@ CREATE TABLE contactgroupmembers (
 CREATE TABLE identities (
   identity_id integer NOT NULL PRIMARY KEY,
   user_id integer NOT NULL default '0',
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
   del tinyint NOT NULL default '0',
   standard tinyint NOT NULL default '0',
   name varchar(128) NOT NULL default '',

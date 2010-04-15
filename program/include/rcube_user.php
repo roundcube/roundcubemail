@@ -194,7 +194,7 @@ class rcube_user
     $query_params[] = $this->ID;
 
     $sql = "UPDATE ".get_table_name('identities')."
-       SET ".join(', ', $query_cols)."
+       SET    changed=".$this->db->now().", ".join(', ', $query_cols)."
        WHERE  identity_id=?
        AND    user_id=?
        AND    del<>1";
@@ -229,8 +229,8 @@ class rcube_user
     $insert_values[] = $this->ID;
 
     $sql = "INSERT INTO ".get_table_name('identities')."
-        (".join(', ', $insert_cols).")
-       VALUES (".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
+        (changed, ".join(', ', $insert_cols).")
+       VALUES (".$this->db->now().", ".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
 
     call_user_func_array(array($this->db, 'query'),
                         array_merge(array($sql), $insert_values));
@@ -250,9 +250,9 @@ class rcube_user
     if (!$this->ID)
       return false;
 
-    $sql_result = $this->db->query("SELECT count(*) AS ident_count FROM " .
-      get_table_name('identities') .
-      " WHERE user_id = ? AND del <> 1",
+    $sql_result = $this->db->query(
+      "SELECT count(*) AS ident_count FROM ".get_table_name('identities')."
+       WHERE user_id = ? AND del <> 1",
       $this->ID);
 
     $sql_arr = $this->db->fetch_assoc($sql_result);
@@ -261,7 +261,7 @@ class rcube_user
     
     $this->db->query(
       "UPDATE ".get_table_name('identities')."
-       SET    del=1
+       SET    del=1, changed=".$this->db->now()."
        WHERE  user_id=?
        AND    identity_id=?",
       $this->ID,

@@ -23,6 +23,7 @@ GO
 CREATE TABLE [dbo].[identities] (
 	[identity_id] [int] IDENTITY (1, 1) NOT NULL ,
 	[user_id] [int] NOT NULL ,
+	[changed] [datetime] NOT NULL ,
 	[del] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[standard] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[name] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,

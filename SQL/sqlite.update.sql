@@ -48,6 +48,8 @@ CREATE INDEX ix_contacts_user_id ON contacts(user_id, email);
 DROP INDEX ix_identities_user_id;
 CREATE INDEX ix_identities_user_id ON identities (user_id, del);
 
+ALTER TABLE identities ADD COLUMN changed datetime NOT NULL default '0000-00-00 00:00:00';
+
 CREATE TABLE contactgroups (
   contactgroup_id integer NOT NULL PRIMARY KEY,
   user_id integer NOT NULL default '0',

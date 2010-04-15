@@ -82,6 +82,7 @@ ALTER TABLE `contacts` ALTER `firstname` SET DEFAULT '';
 ALTER TABLE `contacts` ALTER `surname` SET DEFAULT '';
 
 ALTER TABLE `identities` ADD INDEX `user_identities_index` (`user_id`, `del`);
+ALTER TABLE `identities` ADD `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' AFTER `user_id`;
 
 CREATE TABLE `contactgroups` (
   `contactgroup_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,

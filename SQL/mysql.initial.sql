@@ -124,6 +124,8 @@ CREATE TABLE `contactgroupmembers` (
 
 CREATE TABLE `identities` (
  `identity_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `del` tinyint(1) NOT NULL DEFAULT '0',
  `standard` tinyint(1) NOT NULL DEFAULT '0',
  `name` varchar(128) NOT NULL,
@@ -133,7 +135,6 @@ CREATE TABLE `identities` (
  `bcc` varchar(128) NOT NULL DEFAULT '',
  `signature` text,
  `html_signature` tinyint(1) NOT NULL DEFAULT '0',
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`identity_id`),
  CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,

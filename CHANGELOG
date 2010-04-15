@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Always set changed date when flagging a DB record as deleted + provide a cleanup script
 - Fix address book/group selection (#1486619)
 - Assign newly created contacts to the active group (#1486626)
 - Added option not to mark messages as read when viewed in preview pane (#1485012)

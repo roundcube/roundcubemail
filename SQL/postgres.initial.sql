@@ -68,6 +68,7 @@ CREATE TABLE identities (
     identity_id integer DEFAULT nextval('identity_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL
 	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
     del smallint DEFAULT 0 NOT NULL,
     standard smallint DEFAULT 0 NOT NULL,
     name varchar(128) NOT NULL,
