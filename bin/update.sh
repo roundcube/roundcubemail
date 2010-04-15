@@ -12,7 +12,10 @@ $RCI = rcube_install::get_instance();
 $RCI->load_config();
 
 if ($RCI->configured) {
+  $success = true;
+  
   if ($messages = $RCI->check_config()) {
+    $success = false;
     $err = 0;
 
     // list missing config options
@@ -100,9 +103,26 @@ if ($RCI->configured) {
       echo "Please fix your config files and run this script again!\n";
       echo "See ya.\n";
     }
-
   }
-  else {
+
+  // check database schema
+  if ($RCI->config['db_dsnw']) {
+    $DB = new rcube_mdb2($RCI->config['db_dsnw'], '', false);
+    $DB->db_connect('w');
+    if ($db_error_msg = $DB->is_error()) {
+      echo "Error connecting to database: $db_error_msg\n";
+      $success = false;
+    }
+    else if ($RCI->db_schema_check($DB, false)) {
+      $updatefile = INSTALL_PATH . 'SQL/' . $DB->db_provider . '.update.sql';
+      echo "WARNING: Database schema needs to be updated!\n";
+      echo "Open $updatefile and execute all queries that are superscribed with the currently installed version number\n";
+      $success = false;
+    }
+  }
+  
+  
+  if ($success) {
     echo "This instance of RoundCube is up-to-date.\n";
     echo "Have fun!\n";
   }

@@ -1,12 +1,9 @@
 UPGRADING instructions
 ======================
 
-First you should remove all subfolders from /program/localization/
-because most language codes have changed in 0.2-alpha. This way you
-can make sure that no old localization files remain on your disk.
-
-Then follow these instructions if upgrading from a previous version
-of RoundCube Webmail.
+Follow these instructions if upgrading from a previous version
+of Roundcube Webmail. We recommend to carefully backup the existing
+installation as well as the database before executig the following steps.
 
 1. Replace index.php and all files in
    - ./bin/
@@ -16,8 +13,8 @@ of RoundCube Webmail.
    - ./skins/default/
    - ./plugins/
 2. Run ./bin/update.sh from the commandline OR
-   open http://url-to-roundcube/installer/ in a browser. To enable
-   the latter one, you have to temporary set 'enable_installer' to true
+   open http://url-to-roundcube/installer/ in a browser and choose "3 Test config".
+   To enable the latter one, you have to temporary set 'enable_installer' to true
    in your local config/main.inc.php file.
 3. Let the update script/installer check your configuration and
    update your config files as suggested by the updater.
@@ -28,100 +25,3 @@ of RoundCube Webmail.
 6. Check .htaccess settings (some php settings could become required)
 
 
-For manually upgrading your RoundCube installation follow the instructions
-that match the currently installed version:
-
-from version 0.2-alpha
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /installer/
-* replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql
-  below the line "-- Updates from version 0.2-alpha"
-* check the config/main.inc.php.dist for new configuration 
-  options and add them to your config 
-  WARNING: 'skin_path' option was replaced by 'skin' option
-* WARNING: 'db_backend' option has been removed, now only
-  PEAR::MDB2 driver is supported
-
-
-from version 0.1.1
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql
-  below the line "-- Updates from version 0.1.1"
-* check the config/main.inc.php.dist for new configuration 
-  options and add them to your config 
-
-
-from version 0.1-stable
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql
-* check the config/main.inc.php.dist for new configuration options
-  and add them to your config 
-
-
-from version 0.1-rc2
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql
-
-
-from version 0.1-rc1
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /skins/default/
-* If you have LDAP servers configured you should re-configure
-  the config entries using the template given in /config/main.inc.php.dist
-
-
-from version 0.1-beta2
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql or
-  re-initalize the database with [yourdbtype].initial.sql
-* add these lines to /config/main.inc.php
-   $rcmail_config['draft_autosave'] = 300;
-   $rcmail_config['date_today'] = 'H:i';
-* If you have LDAP servers configured you should re-configure
-  the config entries using the template given in /config/main.inc.php.dist
-
-
-form version 0.1-beta
-----------------------------------------
-* replace index.php
-* replace all files in folder /bin/
-* replace all files in folder /program/
-* replace all files in folder /skins/default/
-* run all commands in SQL/[yourdbtype].update.sql or
-  re-initalize the database with [yourdbtype].initial.sql
-* add this line to /config/db.inc.php
-   $rcmail_config['db_persistent'] = false;
-* add these lines to /config/main.inc.php
-   $rcmail_config['drafts_mbox'] = 'Drafts';
-   $rcmail_config['junk_mbox'] = 'Junk';
-   $rcmail_config['product_name'] = 'RoundCube Webmail';
-   $rcmail_config['read_when_deleted'] = false;
-   $rcmail_config['enable_spellcheck'] = false;
-   $rcmail_config['protect_default_folders'] = false;
-* replace the following line from /config/main.inc.php
-   @include($_SERVER['HTTP_HOST'].'.inc.php');
-  with 
-   $rcmail_config['include_host_config'] = false;

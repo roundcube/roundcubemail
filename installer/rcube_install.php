@@ -40,8 +40,8 @@ class rcube_install
     'addrbook_show_images' => 'show_images',
   );
   
-  // these config options are optional or can be set to null
-  var $required_config = array('db_dsnw', 'des_key');
+  // these config options are required for a working system
+  var $required_config = array('db_dsnw', 'db_table_contactgroups', 'db_table_contactgroupmembers', 'des_key');
   
   /**
    * Constructor
@@ -325,6 +325,43 @@ class rcube_install
     }
   }
   
+  /**
+   * Compare the local database schema with the reference schema
+   * required for this version of RoundCube
+   *
+   * @param boolean True if the schema schould be updated
+   * @return boolean True if the schema is up-to-date, false if not or an error occured
+   */
+  function db_schema_check($DB, $update = false)
+  {
+    if (!$this->configured)
+      return false;
+    
+    // simple ad hand-made db schema
+    $db_schema = array(
+      'users' => array(),
+      'identities' => array(),
+      'contacts' => array(),
+      'contactgroups' => array(),
+      'contactgroupmembers' => array(),
+      'cache' => array(),
+      'messages' => array(),
+      'session' => array(),
+    );
+    
+    $errors = array();
+    
+    // check list of tables
+    $existing_tables = $DB->list_tables();
+    foreach ($db_schema as $table => $cols) {
+      if (!in_array($this->config['db_table_'.$table], $existing_tables))
+        $errors[] = "Missing table ".$table;
+      
+      // TODO: check cols and indices
+    }
+    
+    return !empty($errors) ? $errors : false;
+  }
   
   /**
    * Compare the local database schema with the reference schema
@@ -333,7 +370,7 @@ class rcube_install
    * @param boolean True if the schema schould be updated
    * @return boolean True if the schema is up-to-date, false if not or an error occured
    */
-  function db_schema_check($update = false)
+  function mdb2_schema_check($update = false)
   {
     if (!$this->configured)
       return false;

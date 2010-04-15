@@ -164,15 +164,12 @@ if ($db_working) {
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
         $db_working = false;
     }
-  /*
-    else if (!$RCI->db_schema_check($update = !empty($_POST['updatedb']))) {
+    else if ($RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
-        
-        echo $update ? '<p class="warning">Failed to update the database schema! Please manually execute the SQL statements from the SQL/*.update.sql file on your database</p>' :
-          '<p><input type="submit" name="updatedb" value="Update schema now" /></p>';
+        $updatefile = INSTALL_PATH . 'SQL/' . $DB->db_provider . '.update.sql';
+        echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database</p>';
         $db_working = false;
     }
-  */
     else {
         $RCI->pass('DB Schema');
         echo '<br />';
