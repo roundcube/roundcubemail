@@ -2591,16 +2591,14 @@ function rcube_webmail()
     this.init_address_input_events($("[name='_cc']"));
     this.init_address_input_events($("[name='_bcc']"));
     
-    if (!html_mode)
+    if (!html_mode) {
+      // add signature according to selected identity
+      // if we have HTML editor, signature is added in callback
+      if (input_from.attr('type') == 'select-one' && $("input[name='_draft_saveid']").val() == '') {
+        this.change_identity(input_from[0]);
+      }
       this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
-
-    // add signature according to selected identity
-    if (input_from.attr('type') == 'select-one' && $("input[name='_draft_saveid']").val() == ''
-        && !html_mode) {  // if we have HTML editor, signature is added in callback
-      this.change_identity(input_from[0]);
     }
-    else if (!html_mode) 
-      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
 
     if (input_to.val() == '')
       input_to.focus();
@@ -2635,21 +2633,19 @@ function rcube_webmail()
     var input_message = $("[name='_message']");
 
     // check sender (if have no identities)
-    if (input_from.attr('type') == 'text' && !rcube_check_email(input_from.val(), true))
-      {
+    if (input_from.attr('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
       alert(this.get_label('nosenderwarning'));
       input_from.focus();
       return false;
-      }
+    }
 
     // check for empty recipient
     var recipients = input_to.val() ? input_to.val() : (input_cc.val() ? input_cc.val() : input_bcc.val());
-    if (!rcube_check_email(recipients.replace(/^\s+/, '').replace(/[\s,;]+$/, ''), true))
-      {
+    if (!rcube_check_email(recipients.replace(/^\s+/, '').replace(/[\s,;]+$/, ''), true)) {
       alert(this.get_label('norecipientwarning'));
       input_to.focus();
       return false;
-      }
+    }
 
     // check if all files has been uploaded
     for (var key in this.env.attachments) {
@@ -2711,31 +2707,31 @@ function rcube_webmail()
         this.stop_spellchecking();
 
       $(this.env.spellcheck.spell_container).css('visibility', vis ? 'visible' : 'hidden');
-      }
+    }
   };
 
   this.set_spellcheck_state = function(s)
-    {
+  {
     this.spellcheck_ready = (s == 'ready' || s == 'no_error_found');
     this.enable_command('spellcheck', this.spellcheck_ready);
-    };
+  };
 
   this.set_draft_id = function(id)
-    {
+  {
     $("input[name='_draft_saveid']").val(id);
-    };
+  };
 
   this.auto_save_start = function()
-    {
+  {
     if (this.env.draft_autosave)
       this.save_timer = self.setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
 
     // Unlock interface now that saving is complete
     this.busy = false;
-    };
+  };
 
   this.compose_field_hash = function(save)
-    {
+  {
     // check input fields
     var value_to = $("[name='_to']").val();
     var value_cc = $("[name='_cc']").val();
@@ -2766,7 +2762,7 @@ function rcube_webmail()
       this.cmp_hash = str;
 
     return str;
-    };
+  };
     
   this.change_identity = function(obj, show_sig)
   {
@@ -2898,22 +2894,20 @@ function rcube_webmail()
   };
 
   this.show_attachment_form = function(a)
-    {
+  {
     if (!this.gui_objects.uploadbox)
       return false;
 
     var elm, list;
-    if (elm = this.gui_objects.uploadbox)
-      {
-      if (a && (list = this.gui_objects.attachmentlist))
-        {
+    if (elm = this.gui_objects.uploadbox) {
+      if (a && (list = this.gui_objects.attachmentlist)) {
         var pos = $(list).offset();
         elm.style.top = (pos.top + list.offsetHeight + 10) + 'px';
         elm.style.left = pos.left + 'px';
-        }
+      }
 
       $(elm).toggle();
-      }
+    }
       
     // clear upload form
     try {
@@ -2923,38 +2917,34 @@ function rcube_webmail()
     catch(e){}  // ignore errors
     
     return true;
-    };
+  };
 
   // upload attachment file
   this.upload_file = function(form)
-    {
+  {
     if (!form)
       return false;
       
     // get file input fields
     var send = false;
     for (var n=0; n<form.elements.length; n++)
-      if (form.elements[n].type=='file' && form.elements[n].value)
-        {
+      if (form.elements[n].type=='file' && form.elements[n].value) {
         send = true;
         break;
-        }
+      }
     
     // create hidden iframe and post upload form
-    if (send)
-      {
+    if (send) {
       var ts = new Date().getTime();
       var frame_name = 'rcmupload'+ts;
 
       // have to do it this way for IE
       // otherwise the form will be posted to a new window
-      if(document.all)
-        {
+      if (document.all) {
         var html = '<iframe name="'+frame_name+'" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
         document.body.insertAdjacentHTML('BeforeEnd',html);
-        }
-      else  // for standards-compilant browsers
-        {
+      }
+      else { // for standards-compilant browsers
         var frame = document.createElement('iframe');
         frame.name = frame_name;
         frame.style.border = 'none';
@@ -2962,7 +2952,7 @@ function rcube_webmail()
         frame.style.height = 0;
         frame.style.visibility = 'hidden';
         document.body.appendChild(frame);
-        }
+      }
 
       // handle upload errors, parsing iframe content in onload
       var fr = document.getElementsByName(frame_name)[0];
@@ -3000,12 +2990,12 @@ function rcube_webmail()
       if (this.env.cancelicon)
         content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
       this.add2attachment_list(ts, { name:'', html:content, complete:false });
-      }
+    }
     
     // set reference to the form object
     this.gui_objects.attachmentform = form;
     return true;
-    };
+  };
 
   // add file name to attachment list
   // called from upload page
@@ -3048,37 +3038,36 @@ function rcube_webmail()
   };
 
   this.remove_attachment = function(name)
-    {
+  {
     if (name && this.env.attachments[name])
       this.http_post('remove-attachment', '_file='+urlencode(name));
 
     return true;
-    };
+  };
 
   this.cancel_attachment_upload = function(name, frame_name)
-    {
+  {
     if (!name || !frame_name)
       return false;
 
     this.remove_from_attachment_list(name);
     $("iframe[name='"+frame_name+"']").remove();
     return false;
-    };
+  };
 
   // send remote request to add a new contact
   this.add_contact = function(value)
-    {
+  {
     if (value)
       this.http_post('addcontact', '_address='+value);
     
     return true;
-    };
+  };
 
   // send remote request to search mail or contacts
   this.qsearch = function(value)
-    {
-    if (value != '')
-      {
+  {
+    if (value != '') {
       var addurl = '';
       if (this.message_list) {
         this.message_list.clear();
@@ -3089,12 +3078,12 @@ function rcube_webmail()
             for (var n in mods)
               head_arr.push(n);
             addurl += '&_headers='+head_arr.join(',');
-            }
           }
-        } else if (this.contact_list) {
+        }
+      } else if (this.contact_list) {
         this.contact_list.clear(true);
         this.show_contentframe(false);
-        }
+      }
 
       if (this.gui_objects.search_filter)
         addurl += '&_filter=' + this.gui_objects.search_filter.value;
@@ -3107,25 +3096,25 @@ function rcube_webmail()
         + (this.env.source ? '&_source='+urlencode(this.env.source) : '')
         + (this.env.group ? '&_gid='+urlencode(this.env.group) : '')
         + (addurl ? addurl : ''), true);
-      }
+    }
     return true;
-    };
+  };
 
   // reset quick-search form
   this.reset_qsearch = function()
-    {
+  {
     if (this.gui_objects.qsearchbox)
       this.gui_objects.qsearchbox.value = '';
       
     this.env.search_request = null;
     return true;
-    };
+  };
 
   this.sent_successfully = function(type, msg)
-    {
+  {
     this.list_mailbox();
     this.display_message(msg, type, true);
-    }
+  };
 
 
   /*********************************************************/
