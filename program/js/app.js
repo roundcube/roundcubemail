@@ -170,6 +170,7 @@ function rcube_webmail()
             {multiselect:true, multiexpand:true, draggable:true, keyboard:true, dblclick_time:this.dblclick_time});
           this.message_list.row_init = function(o){ p.init_message_row(o); };
           this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
+          this.message_list.addEventListener('click', function(o){ p.msglist_click(o); });
           this.message_list.addEventListener('keypress', function(o){ p.msglist_keypress(o); });
           this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
           this.message_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
@@ -1396,7 +1397,7 @@ function rcube_webmail()
   };
 
   this.click_on_list = function(e)
-    {
+  {
     if (this.gui_objects.qsearchbox)
       this.gui_objects.qsearchbox.blur();
 
@@ -1406,10 +1407,10 @@ function rcube_webmail()
       this.contact_list.focus();
 
     return true;
-    };
+  };
 
   this.msglist_select = function(list)
-    {
+  {
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
@@ -1419,42 +1420,53 @@ function rcube_webmail()
     var selected = list.get_single_selection() != null;
 
     // Hide certain command buttons when Drafts folder is selected
-    if (this.env.mailbox == this.env.drafts_mailbox)
-      {
+    if (this.env.mailbox == this.env.drafts_mailbox) {
       this.enable_command('reply', 'reply-all', 'forward', false);
       this.enable_command('show', 'print', 'open', 'edit', 'download', 'viewsource', selected);
       this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
-      }
-    else
-      {
+    }
+    else {
       this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'edit', 'open', 'download', 'viewsource', selected);
       this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
-      }
+    }
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting)
       this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
     else if (this.env.contentframe)
       this.show_contentframe(false);
-    };
+  };
+
+  // This allow as to re-select selected message and display it in preview frame
+  this.msglist_click = function(list)
+  {
+    if (list.multi_selecting || !this.env.contentframe)
+      return;
+
+    if (list.get_single_selection() && window.frames && window.frames[this.env.contentframe]) {
+      if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)>=0) {
+        this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
+      }
+    }
+  };
 
   this.msglist_dbl_click = function(list)
-    {
-      if (this.preview_timer)
-        clearTimeout(this.preview_timer);
+  {
+    if (this.preview_timer)
+      clearTimeout(this.preview_timer);
 
-      if (this.preview_read_timer)
-        clearTimeout(this.preview_read_timer);
+    if (this.preview_read_timer)
+      clearTimeout(this.preview_read_timer);
 
     var uid = list.get_single_selection();
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
       this.goto_url('compose', '_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
     else if (uid)
       this.show_message(uid, false, false);
-    };
+  };
 
   this.msglist_keypress = function(list)
-    {
+  {
     if (list.key_pressed == list.ENTER_KEY)
       this.command('show');
     else if (list.key_pressed == list.DELETE_KEY)
@@ -1467,7 +1479,7 @@ function rcube_webmail()
       this.command('nextpage');
     else
       list.shiftkey = false;
-    };
+  };
 
   this.msglist_get_preview = function()
   {
@@ -1671,13 +1683,13 @@ function rcube_webmail()
 
   // messages list handling in background (for performance)
   this.offline_message_list = function(flag)
-    {
-      if (this.message_list)
-      	this.message_list.set_background_mode(flag);
-    };
+  {
+    if (this.message_list)
+   	  this.message_list.set_background_mode(flag);
+  };
 
   this.set_list_sorting = function(sort_col, sort_order)
-    {
+  {
     // set table header class
     $('#rcm'+this.env.sort_col).removeClass('sorted'+(this.env.sort_order.toUpperCase()));
     if (sort_col)
@@ -1685,45 +1697,44 @@ function rcube_webmail()
     
     this.env.sort_col = sort_col;
     this.env.sort_order = sort_order;
-    }
+  };
 
   this.set_list_options = function(cols, sort_col, sort_order, threads)
-    {
+  {
     var update, add_url = '';
 
     if (this.env.sort_col != sort_col || this.env.sort_order != sort_order) {
       update = 1;
       this.set_list_sorting(sort_col, sort_order);
-      }
+    }
     
     if (this.env.threading != threads) {
       update = 1;
       add_url += '&_threads=' + threads;     
-      }
+    }
 
     if (cols.join() != this.env.coltypes.join()) {
       update = 1;
       add_url += '&_cols=' + cols.join(',');
-      }
+    }
 
     if (update)
       this.list_mailbox('', '', sort_col+'_'+sort_order, add_url);
-    }
+  };
 
   // when user doble-clicks on a row
   this.show_message = function(id, safe, preview)
-    {
+  {
     if (!id) return;
-    
+
     var add_url = '';
     var action = preview ? 'preview': 'show';
     var target = window;
-    
-    if (preview && this.env.contentframe && window.frames && window.frames[this.env.contentframe])
-      {
+
+    if (preview && this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
       target = window.frames[this.env.contentframe];
       add_url = '&_framed=1';
-      }
+    }
 
     if (safe)
       add_url = '&_safe=1';
@@ -1756,26 +1767,24 @@ function rcube_webmail()
   };
 
   this.show_contentframe = function(show)
-    {
+  {
     var frm;
-    if (this.env.contentframe && (frm = $('#'+this.env.contentframe)) && frm.length)
-      {
-      if (!show && window.frames[this.env.contentframe])
-        {
+    if (this.env.contentframe && (frm = $('#'+this.env.contentframe)) && frm.length) {
+      if (!show && window.frames[this.env.contentframe]) {
         if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
           window.frames[this.env.contentframe].location.href = this.env.blankpage;
-        }
+      }
       else if (!bw.safari && !bw.konq)
         frm[show ? 'show' : 'hide']();
       }
 
     if (!show && this.busy)
       this.set_busy(false);
-    };
+  };
 
   // list a specific page
   this.list_page = function(page)
-    {
+  {
     if (page=='next')
       page = this.env.current_page+1;
     if (page=='last')
@@ -1784,38 +1793,37 @@ function rcube_webmail()
       page = this.env.current_page-1;
     if (page=='first' && this.env.current_page>1)
       page = 1;
-      
-    if (page > 0 && page <= this.env.pagecount)
-      {
+
+    if (page > 0 && page <= this.env.pagecount) {
       this.env.current_page = page;
       
       if (this.task=='mail')
         this.list_mailbox(this.env.mailbox, page);
       else if (this.task=='addressbook')
         this.list_contacts(this.env.source, null, page);
-      }
-    };
+    }
+  };
 
   // list messages of a specific mailbox using filter
   this.filter_mailbox = function(filter)
-    {
-      var search;
-      if (this.gui_objects.qsearchbox)
-        search = this.gui_objects.qsearchbox.value;
-      
-      this.message_list.clear();
+  {
+    var search;
+    if (this.gui_objects.qsearchbox)
+      search = this.gui_objects.qsearchbox.value;
 
-      // reset vars
-      this.env.current_page = 1;
-      this.set_busy(true, 'searching');
-      this.http_request('search', '_filter='+filter
-          + (search ? '&_q='+urlencode(search) : '')
-          + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : ''), true);
-    }
+    this.message_list.clear();
+
+    // reset vars
+    this.env.current_page = 1;
+    this.set_busy(true, 'searching');
+    this.http_request('search', '_filter='+filter
+        + (search ? '&_q='+urlencode(search) : '')
+        + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : ''), true);
+  };
 
   // list messages of a specific mailbox
   this.list_mailbox = function(mbox, page, sort, add_url)
-    {
+  {
     var url = '';
     var target = window;
 
@@ -1834,12 +1842,11 @@ function rcube_webmail()
       url += '&_search='+this.env.search_request;
 
     // set page=1 if changeing to another mailbox
-    if (!page && this.env.mailbox != mbox)
-      {
+    if (!page && this.env.mailbox != mbox) {
       page = 1;
       this.env.current_page = page;
       this.show_contentframe(false);
-      }
+    }
 
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       url += '&_refresh=1';
@@ -1854,29 +1861,26 @@ function rcube_webmail()
     this.env.mailbox = mbox;
 
     // load message list remotely
-    if (this.gui_objects.messagelist)
-      {
+    if (this.gui_objects.messagelist) {
       this.list_mailbox_remote(mbox, page, url);
       return;
-      }
+    }
     
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe])
-      {
+    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
       target = window.frames[this.env.contentframe];
       url += '&_framed=1';
-      }
+    }
 
     // load message list to target frame/window
-    if (mbox)
-      {
+    if (mbox) {
       this.set_busy(true, 'loading');
       target.location.href = this.env.comm_path+'&_mbox='+urlencode(mbox)+(page ? '&_page='+page : '')+url;
-      }
-    };
+    }
+  };
 
   // send remote request to load message list
   this.list_mailbox_remote = function(mbox, page, add_url)
-    {
+  {
     // clear message list first
     this.message_list.clear();
 
@@ -1884,11 +1888,11 @@ function rcube_webmail()
     var url = '_mbox='+urlencode(mbox)+(page ? '&_page='+page : '');
     this.set_busy(true, 'loading');
     this.http_request('list', url+add_url, true);
-    };
+  };
 
   // expand all threads with unread children
   this.expand_unread = function()
-    {
+  {
     var tbody = this.gui_objects.messagelist.tBodies[0];
     var new_row = tbody.firstChild;
     var r;
@@ -1896,20 +1900,20 @@ function rcube_webmail()
     while (new_row) {
       if (new_row.nodeType == 1 && (r = this.message_list.rows[new_row.uid])
 	    && r.unread_children) {
-	this.message_list.expand_all(r);
-	var expando = document.getElementById('rcmexpando' + r.uid);
-	if (expando)
-	  expando.className = 'expanded';
-	this.set_unread_children(r.uid);
-        }
-      new_row = new_row.nextSibling;
+	    this.message_list.expand_all(r);
+	    var expando = document.getElementById('rcmexpando' + r.uid);
+	    if (expando)
+	      expando.className = 'expanded';
+	      this.set_unread_children(r.uid);
       }
+      new_row = new_row.nextSibling;
+    }
     return false;
-    };
+  };
 
   // thread expanding/collapsing handler    
   this.expand_message_row = function(e, uid)
-    {
+  {
     var row = this.message_list.rows[uid];
 
     // handle unread_children mark
@@ -1918,20 +1922,20 @@ function rcube_webmail()
     row.expanded = !row.expanded;
 
     this.message_list.expand_row(e, uid);
-    };
+  };
 
   // message list expanding
   this.expand_threads = function()
-    {    
+  {    
     if (!this.env.threading || !this.env.autoexpand_threads || !this.message_list)
       return;
-    
+
     switch (this.env.autoexpand_threads) {
       case 2: this.expand_unread(); break;
       case 1: this.message_list.expand_all(); break;
-      }
-    //  this.message_list.expand(null);
     }
+    //  this.message_list.expand(null);
+  }
 
   // update parent in a thread
   this.update_thread_root = function(uid, flag)
@@ -1979,7 +1983,7 @@ function rcube_webmail()
       var parent = this.message_list.find_root(uid);
       rows[parent].unread_children--;
       this.set_unread_children(parent);
-      }
+    }
 
     parent = row.parent_uid;
 
@@ -1987,39 +1991,38 @@ function rcube_webmail()
     row = row.obj.nextSibling;
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
-	if (!r.depth || r.depth <= depth)
-	  break;
+	    if (!r.depth || r.depth <= depth)
+	      break;
 
-	r.depth--; // move left
-	$('#rcmtab'+r.uid).width(r.depth * 15);
+	    r.depth--; // move left
+	    $('#rcmtab'+r.uid).width(r.depth * 15);
         if (!r.depth) { // a new root
-	  count++; // increase roots count
-	  r.parent_uid = 0;
-	  if (r.has_children) {
-	    // replace 'leaf' with 'collapsed'
-	    $('#rcmrow'+r.uid+' '+'.leaf:first')
+	      count++; // increase roots count
+	      r.parent_uid = 0;
+	      if (r.has_children) {
+	        // replace 'leaf' with 'collapsed'
+	        $('#rcmrow'+r.uid+' '+'.leaf:first')
               .attr('id', 'rcmexpando' + r.uid)
-	      .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
+	          .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
     	      .bind('mousedown', {uid:r.uid, p:this},
-	        function(e) { return e.data.p.expand_message_row(e, e.data.uid); });
+	            function(e) { return e.data.p.expand_message_row(e, e.data.uid); });
 
-	    r.unread_children = 0;
-	    roots[roots.length] = r;
+	        r.unread_children = 0;
+	        roots[roots.length] = r;
+	      }
+	      // show if it was hidden
+	      if (r.obj.style.display == 'none')
+	        $(r.obj).show();
 	    }
-	  // show if it was hidden
-	  if (r.obj.style.display == 'none')
-	    $(r.obj).show();
-	  }
-	else {
-	  if (r.depth == depth)
-	    r.parent_uid = parent;
-	  if (r.unread && roots.length) {
-	    roots[roots.length-1].unread_children++;
+	    else {
+	      if (r.depth == depth)
+	        r.parent_uid = parent;
+	      if (r.unread && roots.length)
+	        roots[roots.length-1].unread_children++;
 	    }
 	  }
-	}
-	row = row.nextSibling;
-      }
+	  row = row.nextSibling;
+    }
     
     // update unread_children for roots
     for (var i=0; i<roots.length; i++)
@@ -2037,15 +2040,15 @@ function rcube_webmail()
     
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
-	if (!r.depth && cnt)
-	  cnt--;
+	    if (!r.depth && cnt)
+	      cnt--;
 
         if (!cnt)
-	  this.message_list.remove_row(row.uid);
-	}
-	row = row.nextSibling;
-      }
-  }
+	      this.message_list.remove_row(row.uid);
+	  }
+	  row = row.nextSibling;
+    }
+  };
 
   // set message icon
   this.set_message_icon = function(uid)
@@ -2060,13 +2063,12 @@ function rcube_webmail()
     }
     else if (rows[uid].deleted && this.env.deletedicon)
       icn_src = this.env.deletedicon;
-    else if (rows[uid].replied && this.env.repliedicon)
-      {
+    else if (rows[uid].replied && this.env.repliedicon) {
       if (rows[uid].forwarded && this.env.forwardedrepliedicon)
         icn_src = this.env.forwardedrepliedicon;
       else
         icn_src = this.env.repliedicon;
-      }
+    }
     else if (rows[uid].forwarded && this.env.forwardedicon)
       icn_src = this.env.forwardedicon;
     else if (rows[uid].unread && this.env.unreadicon)
@@ -2085,11 +2087,11 @@ function rcube_webmail()
       icn_src = this.env.unflaggedicon;
     if (rows[uid].flagged_icon && icn_src)
       rows[uid].flagged_icon.src = icn_src;
-  }
+  };
 
   // set message status
   this.set_message_status = function(uid, flag, status)
-    {
+  {
     var rows = this.message_list.rows;
 
     if (!rows[uid]) return false;
@@ -2106,11 +2108,11 @@ function rcube_webmail()
       rows[uid].flagged = status;
 
 //    this.env.messages[uid] = rows[uid];
-    }
+  };
 
   // set message row status, class and icon
   this.set_message = function(uid, flag, status)
-    {
+  {
     var rows = this.message_list.rows;
 
     if (!rows[uid]) return false;
@@ -2137,13 +2139,13 @@ function rcube_webmail()
 
     this.set_unread_children(uid);
     this.set_message_icon(uid);
-    };
+  };
 
   // sets unroot (unread_children) class of parent row
   this.set_unread_children = function(uid)
-    {
+  {
     var row = this.message_list.rows[uid];
-    
+
     if (row.parent_uid || !row.has_children)
       return;
 
@@ -2151,11 +2153,11 @@ function rcube_webmail()
       $(row.obj).addClass('unroot');
     else
       $(row.obj).removeClass('unroot');
-    };
+  };
 
   // copy selected messages to the specified mailbox
   this.copy_messages = function(mbox)
-    {
+  {
     // exit if current or no mailbox specified or if selection is empty
     if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
       return;
@@ -2165,8 +2167,7 @@ function rcube_webmail()
 
     if (this.env.uid)
       a_uids[0] = this.env.uid;
-    else
-    {
+    else {
       var selection = this.message_list.get_selection();
       var id;
       for (var n=0; n<selection.length; n++) {
@@ -2177,11 +2178,11 @@ function rcube_webmail()
 
     // send request to server
     this.http_post('copy', '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, false);
-    };
+  };
 
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
-    {
+  {
     if (mbox && typeof mbox == 'object')
       mbox = mbox.id;
       
@@ -2193,11 +2194,10 @@ function rcube_webmail()
     var add_url = '&_target_mbox='+urlencode(mbox)+'&_from='+(this.env.action ? this.env.action : '');
 
     // show wait message
-    if (this.env.action=='show')
-      {
+    if (this.env.action=='show') {
       lock = true;
       this.set_busy(true, 'movingmessage');
-      }
+    }
     else
       this.show_contentframe(false);
 
@@ -2205,7 +2205,7 @@ function rcube_webmail()
     this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', false);
 
     this._with_selected_messages('moveto', lock, add_url);
-    };
+  };
 
   // delete selected messages from the current mailbox
   this.delete_messages = function()
@@ -2247,14 +2247,14 @@ function rcube_webmail()
 
   // delete the selected messages permanently
   this.permanently_remove_messages = function()
-    {
+  {
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length))
       return;
       
     this.show_contentframe(false);
     this._with_selected_messages('delete', false, '&_from='+(this.env.action ? this.env.action : ''));
-    };
+  };
 
   // Send a specifc moveto/delete request with UIDs of all selected messages
   // @private
@@ -2265,8 +2265,7 @@ function rcube_webmail()
 
     if (this.env.uid)
       a_uids[0] = this.env.uid;
-    else
-    {
+    else {
       var selection = this.message_list.get_selection();
       var id;
       for (var n=0; n<selection.length; n++) {
@@ -2301,7 +2300,7 @@ function rcube_webmail()
 
   // set a specific flag to one or more messages
   this.mark_message = function(flag, uid)
-    {
+  {
     var a_uids = new Array(),
       r_uids = new Array(),
       selection = this.message_list ? this.message_list.get_selection() : new Array();
@@ -2310,19 +2309,16 @@ function rcube_webmail()
       a_uids[0] = uid;
     else if (this.env.uid)
       a_uids[0] = this.env.uid;
-    else if (this.message_list)
-      {
-      for (var n=0; n<selection.length; n++)
-        {
+    else if (this.message_list) {
+      for (var n=0; n<selection.length; n++) {
           a_uids[a_uids.length] = selection[n];
-        }
       }
+    }
 
     if (!this.message_list)
       r_uids = a_uids;
     else
-      for (var id, n=0; n<a_uids.length; n++)
-      {
+      for (var id, n=0; n<a_uids.length; n++) {
         id = a_uids[n];
         if ((flag=='read' && this.message_list.rows[id].unread) 
             || (flag=='unread' && !this.message_list.rows[id].unread)
@@ -2339,8 +2335,7 @@ function rcube_webmail()
     if (!r_uids.length && !this.select_all_mode)
       return;
 
-    switch (flag)
-      {
+    switch (flag) {
         case 'read':
         case 'unread':
           this.toggle_read_status(flag, r_uids);
@@ -2353,8 +2348,8 @@ function rcube_webmail()
         case 'unflagged':
           this.toggle_flagged_status(flag, a_uids);
           break;
-      }
-    };
+    }
+  };
 
   // set class to read/unread
   this.toggle_read_status = function(flag, a_uids)
@@ -2833,11 +2828,11 @@ function rcube_webmail()
         cursor_pos = this.env.top_posting ? 0 : message.length;
 
       input_message.val(message);
-      
+
       // move cursor before the signature
       this.set_caret_pos(input_message.get(0), cursor_pos);
     }
-    else if (is_html && show_sig && this.env.signatures) {  // html
+    else if (show_sig && this.env.signatures) {  // html
       var editor = tinyMCE.get(this.env.composebody);
       var sigElem = editor.dom.get('_rc_sig');
 
@@ -2845,14 +2840,14 @@ function rcube_webmail()
       if (!sigElem) {
         var body = editor.getBody();
         var doc = editor.getDoc();
-          
+
         sigElem = doc.createElement('div');
         sigElem.setAttribute('id', '_rc_sig');
-          
+
         if (this.env.sig_above) {
           // if no existing sig and top posting then insert at caret pos
           editor.getWin().focus(); // correct focus in IE
-            
+
           var node = editor.selection.getNode();
           if (node.nodeName == 'BODY') {
             // no real focus, insert at start

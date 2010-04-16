@@ -21,7 +21,7 @@ var CONTROL_SHIFT_KEY = 3;
 
 /**
  * Default browser check class
- * @construcotr
+ * @constructor
  */
 function roundcube_browser()
   {
