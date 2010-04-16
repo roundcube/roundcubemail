@@ -24,7 +24,7 @@ var CONTROL_SHIFT_KEY = 3;
  * @constructor
  */
 function roundcube_browser()
-  {
+{
   this.ver = parseFloat(navigator.appVersion);
   this.appver = navigator.appVersion;
   this.agent = navigator.userAgent;
@@ -72,7 +72,6 @@ function roundcube_browser()
   else if(this.konq && window.RegExp)
     this.vendver = (/khtml\/([0-9\.]+)/i.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
 
-
   // get real language out of safari's user agent
   if(this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/i.test(this.agent)))
     this.lang = RegExp.$1;
@@ -85,13 +84,12 @@ function roundcube_browser()
   this.cookies = navigator.cookieEnabled;
   
   // test for XMLHTTP support
-  this.xmlhttp_test = function()
-    {
+  this.xmlhttp_test = function() {
     var activeX_test = new Function("try{var o=new ActiveXObject('Microsoft.XMLHTTP');return true;}catch(err){return false;}");
     this.xmlhttp = (window.XMLHttpRequest || (window.ActiveXObject && activeX_test())) ? true : false;
     return this.xmlhttp;
-    }
   }
+};
 
 
 // static functions for DOM event handling
@@ -132,16 +130,14 @@ get_modifier: function(e)
   var opcode = 0;
   e = e || window.event;
 
-  if (bw.mac && e)
-    {
+  if (bw.mac && e) {
     opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
     return opcode;    
-    }
-  if (e)
-    {
+  }
+  if (e) {
     opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
     return opcode;
-    }
+  }
 },
 
 /**
@@ -153,8 +149,7 @@ get_mouse_pos: function(e)
   var mX = (e.pageX) ? e.pageX : e.clientX;
   var mY = (e.pageY) ? e.pageY : e.clientY;
 
-  if (document.body && document.all)
-  {
+  if (document.body && document.all) {
     mX += document.body.scrollLeft;
     mY += document.body.scrollTop;
   }
@@ -186,13 +181,12 @@ add_listener: function(p)
 
   if (p.element.addEventListener)
     p.element.addEventListener(p.event, p.object._rc_events[key], false);
-  else if (p.element.attachEvent)
-    {
+  else if (p.element.attachEvent) {
     // IE allows multiple events with the same function to be applied to the same object
     // forcibly detach the event, then attach
     p.element.detachEvent('on'+p.event, p.object._rc_events[key]);
     p.element.attachEvent('on'+p.event, p.object._rc_events[key]);
-    }
+  }
   else
     p.element['on'+p.event] = p.object._rc_events[key];
 },
@@ -241,7 +235,7 @@ cancel: function(evt)
 function rcube_event_engine()
 {
   this._events = {};
-}
+};
 
 rcube_event_engine.prototype = {
 
@@ -313,7 +307,7 @@ triggerEvent: function(evt, e)
   return ret;
 }
 
-}  // end rcube_event_engine.prototype
+};  // end rcube_event_engine.prototype
 
 
 
@@ -328,7 +322,7 @@ function rcube_layer(id, attributes)
   
   // create a new layer in the current document
   this.create = function(arg)
-    {
+  {
     var l = (arg.x) ? arg.x : 0;
     var t = (arg.y) ? arg.y : 0;
     var w = arg.width;
@@ -340,22 +334,20 @@ function rcube_layer(id, attributes)
 
     obj = document.createElement('DIV');
 
-    with(obj)
-      {
+    with(obj) {
       id = this.name;
-      with(style)
-        {
-	position = 'absolute';
+      with(style) {
+	    position = 'absolute';
         visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
         left = l+'px';
         top = t+'px';
         if (w)
-	  width = w.toString().match(/\%$/) ? w : w+'px';
+	      width = w.toString().match(/\%$/) ? w : w+'px';
         if (h)
-	  height = h.toString().match(/\%$/) ? h : h+'px';
+	      height = h.toString().match(/\%$/) ? h : h+'px';
         if(z) zIndex = z;
-	}
-      }
+	  }
+    }
 
     if (parent)
       parent.appendChild(obj);
@@ -363,18 +355,15 @@ function rcube_layer(id, attributes)
       document.body.appendChild(obj);
 
     this.elm = obj;
-    };
-
+  };
 
   // create new layer
-  if(attributes!=null)
-    {
+  if(attributes != null) {
     this.create(attributes);
     this.name = this.elm.id;
-    }
+  }
   else  // just refer to the object
     this.elm = document.getElementById(id);
-
 
   if(!this.elm)
     return false;
@@ -393,63 +382,56 @@ function rcube_layer(id, attributes)
 
   // ********* layer object methods *********
 
-
   // move the layer to a specific position
   this.move = function(x, y)
-    {
+  {
     this.x = x;
     this.y = y;
     this.css.left = Math.round(this.x)+'px';
     this.css.top = Math.round(this.y)+'px';
-    }
+  };
 
   // change the layers width and height
   this.resize = function(w,h)
-    {
+  {
     this.css.width  = w+'px';
     this.css.height = h+'px';
     this.width = w;
     this.height = h;
-    }
-
+  };
 
   // show or hide the layer
   this.show = function(a)
-    {
-    if(a==1)
-      {
+  {
+    if(a == 1) {
       this.css.visibility = 'visible';
       this.visible = true;
-      }
-    else if(a==2)
-      {
+    }
+    else if(a == 2) {
       this.css.visibility = 'inherit';
       this.visible = true;
-      }
-    else
-      {
+    }
+    else {
       this.css.visibility = 'hidden';
       this.visible = false;
-      }
     }
-
+  };
 
   // write new content into a Layer
   this.write = function(cont)
-    {
+  {
     this.elm.innerHTML = cont;
-    }
+  };
 
-}
+};
 
 
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
 function rcube_check_email(input, inline)
-  {
-  if (input && window.RegExp)
-    {
+{
+  if (input && window.RegExp) {
     var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
     var dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
     var atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
@@ -464,10 +446,10 @@ function rcube_check_email(input, inline)
     var delim = '[,;\s\n]';
     var reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
     return reg1.test(input) ? true : false;
-    }
-  return false;
   }
-  
+  return false;
+};
+
 
 // recursively copy an object
 function rcube_clone_object(obj)
@@ -482,13 +464,13 @@ function rcube_clone_object(obj)
   }
   
   return out;
-}
+};
 
 // make a string URL safe
 function urlencode(str)
 {
   return window.encodeURIComponent ? encodeURIComponent(str) : escape(str);
-}
+};
 
 
 // get any type of html objects by id/name
@@ -523,7 +505,7 @@ function rcube_find_object(id, d)
   }
 
   return obj;
-}
+};
 
 // determine whether the mouse is over the given object or not
 function rcube_mouse_is_over(ev, obj)
@@ -533,40 +515,38 @@ function rcube_mouse_is_over(ev, obj)
 
   return ((mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
     (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight)));
-}
+};
 
 
 // cookie functions by GoogieSpell
 function setCookie(name, value, expires, path, domain, secure)
-  {
+{
   var curCookie = name + "=" + escape(value) +
       (expires ? "; expires=" + expires.toGMTString() : "") +
       (path ? "; path=" + path : "") +
       (domain ? "; domain=" + domain : "") +
       (secure ? "; secure" : "");
   document.cookie = curCookie;
-  }
-
-roundcube_browser.prototype.set_cookie = setCookie;
+};
 
 function getCookie(name)
-  {
+{
   var dc = document.cookie;
   var prefix = name + "=";
   var begin = dc.indexOf("; " + prefix);
-  if (begin == -1)
-    {
+  if (begin == -1) {
     begin = dc.indexOf(prefix);
     if (begin != 0) return null;
-    }
+  }
   else
     begin += 2;  
   var end = document.cookie.indexOf(";", begin);
   if (end == -1)
     end = dc.length;
   return unescape(dc.substring(begin + prefix.length, end));
-  }
+};
 
+roundcube_browser.prototype.set_cookie = setCookie;
 roundcube_browser.prototype.get_cookie = getCookie;
 
 // tiny replacement for Firebox functionality
@@ -597,7 +577,7 @@ function rcube_console()
     if (box)
       box.innerText = box.value = '';
   };
-}
+};
 
 var bw = new roundcube_browser();
 if (!window.console) 
@@ -607,17 +587,17 @@ if (!window.console)
 // Add escape() method to RegExp object
 // http://dev.rubyonrails.org/changeset/7271
 RegExp.escape = function(str)
-  {
+{
   return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
-  }
+};
 
 
 // Make getElementById() case-sensitive on IE
 if (bw.ie)
-  {
+{
   document._getElementById = document.getElementById;
   document.getElementById = function(id)
-    {
+  {
     var i = 0;
     var o = document._getElementById(id);
 
@@ -626,5 +606,5 @@ if (bw.ie)
         i++;
 
     return o;
-    }
   }
+};

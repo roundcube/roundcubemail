@@ -22,18 +22,18 @@
  * @contructor
  */
 function rcube_list_widget(list, p)
-  {
+{
   // static contants
   this.ENTER_KEY = 13;
   this.DELETE_KEY = 46;
   this.BACKSPACE_KEY = 8;
-  
+
   this.list = list ? list : null;
   this.frame = null;
   this.rows = [];
   this.selection = [];
   this.rowcount = 0;
-  
+
   this.subject_col = -1;
   this.shiftkey = false;
   this.multiselect = false;
@@ -42,7 +42,7 @@ function rcube_list_widget(list, p)
   this.draggable = false;
   this.keyboard = false;
   this.toggleselect = false;
-  
+
   this.dont_select = false;
   this.drag_active = false;
   this.last_selected = 0;
@@ -52,12 +52,12 @@ function rcube_list_widget(list, p)
   this.drag_mouse_start = null;
   this.dblclick_time = 600;
   this.row_init = function(){};
-  
+
   // overwrite default paramaters
-  if (p && typeof(p)=='object')
+  if (p && typeof(p) == 'object')
     for (var n in p)
       this[n] = p[n];
-  }
+};
 
 
 rcube_list_widget.prototype = {
@@ -68,17 +68,14 @@ rcube_list_widget.prototype = {
  */
 init: function()
 {
-  if (this.list && this.list.tBodies[0])
-  {
-    this.rows = new Array();
+  if (this.list && this.list.tBodies[0]) {
+    this.rows = [];
     this.rowcount = 0;
 
     var row;
-    for(var r=0; r<this.list.tBodies[0].childNodes.length; r++)
-    {
+    for(var r=0; r<this.list.tBodies[0].childNodes.length; r++) {
       row = this.list.tBodies[0].childNodes[r];
-      while (row && row.nodeType != 1)
-      {
+      while (row && row.nodeType != 1) {
         row = row.nextSibling;
         r++;
       }
@@ -104,8 +101,7 @@ init: function()
 init_row: function(row)
 {
   // make references in internal array and set event handlers
-  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i))
-  {
+  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i)) {
     var p = this;
     var uid = RegExp.$1;
     row.uid = uid;
@@ -131,10 +127,11 @@ clear: function(sel)
   var tbody = document.createElement('tbody');
   this.list.insertBefore(tbody, this.list.tBodies[0]);
   this.list.removeChild(this.list.tBodies[1]);
-  this.rows = new Array();
+  this.rows = [];
   this.rowcount = 0;
-  
-  if (sel) this.clear_selection();
+
+  if (sel)
+    this.clear_selection();
 },
 
 
@@ -181,8 +178,7 @@ insert_row: function(row, attop)
 focus: function(e)
 {
   this.focused = true;
-  for (var n=0; n<this.selection.length; n++)
-  {
+  for (var n=0; n<this.selection.length; n++) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
@@ -201,8 +197,7 @@ blur: function()
 {
   var id;
   this.focused = false;
-  for (var n=0; n<this.selection.length; n++)
-  {
+  for (var n=0; n<this.selection.length; n++) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).removeClass('selected').addClass('unfocused');
@@ -221,22 +216,20 @@ drag_row: function(e, id)
   var tagname = evtarget.tagName.toLowerCase();
   if (this.dont_select || (evtarget && (tagname == 'input' || tagname == 'img')))
     return true;
-    
+
   // accept right-clicks
   if (rcube_event.get_button(e) == 2)
     return true;
-  
+
   this.in_selection_before = this.in_selection(id) ? id : false;
 
   // selects currently unselected row
-  if (!this.in_selection_before)
-  {
+  if (!this.in_selection_before) {
     var mod_key = rcube_event.get_modifier(e);
     this.select_row(id, mod_key, false);
   }
 
-  if (this.draggable && this.selection.length)
-  {
+  if (this.draggable && this.selection.length) {
     this.drag_start = true;
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
@@ -272,12 +265,11 @@ click_row: function(e, id)
     return true;
 
   // don't do anything (another action processed before)
-  if (this.dont_select)
-    {
+  if (this.dont_select) {
     this.dont_select = false;
     return false;
     }
-    
+
   var dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
   // unselects currently selected row
@@ -425,7 +417,7 @@ collapse_all: function(row)
     new_row = row.obj.nextSibling;
     this.update_expando(row.uid);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
-    
+
     // don't collapse sub-root tree in multiexpand mode 
     if (depth && this.multiexpand)
       return false; 
@@ -535,28 +527,28 @@ get_prev_row: function()
 
 get_first_row: function()
 {
-  if (this.rowcount)
-    {
+  if (this.rowcount) {
     var rows = this.list.tBodies[0].rows;
 
     for(var i=0; i<rows.length-1; i++)
       if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+
 	return RegExp.$1;
-    }
+  }
 
   return null;
 },
 
 get_last_row: function()
 {
-  if (this.rowcount)
-    {
+  if (this.rowcount) {
     var rows = this.list.tBodies[0].rows;
 
     for(var i=rows.length-1; i>=0; i--)
       if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+
 	return RegExp.$1;
-    }
+  }
 
   return null;
 },
@@ -570,20 +562,17 @@ select_row: function(id, mod_key, with_mouse)
   var select_before = this.selection.join(',');
   if (!this.multiselect)
     mod_key = 0;
-    
+
   if (!this.shift_start)
     this.shift_start = id
 
-  if (!mod_key)
-  {
+  if (!mod_key) {
     this.shift_start = id;
     this.highlight_row(id, false);
     this.multi_selecting = false;
   }
-  else
-  {
-    switch (mod_key)
-    {
+  else {
+    switch (mod_key) {
       case SHIFT_KEY:
         this.shift_select(id, false);
         break;
@@ -612,8 +601,7 @@ select_row: function(id, mod_key, with_mouse)
     $(this.rows[this.last_selected].obj).removeClass('focused');
 
   // unselect if toggleselect is active and the same row was clicked again
-  if (this.toggleselect && this.last_selected == id)
-  {
+  if (this.toggleselect && this.last_selected == id) {
     this.clear_selection();
     id = null;
   }
@@ -690,7 +678,7 @@ select_childs: function(uid)
 {
   if (!this.rows[uid] || !this.rows[uid].has_children)
     return;
-  
+
   var depth = this.rows[uid].depth;
   var row = this.rows[uid].obj.nextSibling;
   while (row) {
@@ -722,16 +710,13 @@ shift_select: function(id, control)
   var j = ((from_rowIndex > to_rowIndex)? from_rowIndex : to_rowIndex);
 
   // iterate through the entire message list
-  for (var n in this.rows)
-  {
-    if ((this.rows[n].obj.rowIndex >= i) && (this.rows[n].obj.rowIndex <= j))
-    {
+  for (var n in this.rows) {
+    if ((this.rows[n].obj.rowIndex >= i) && (this.rows[n].obj.rowIndex <= j)) {
       if (!this.in_selection(n)) {
         this.highlight_row(n, true);
       }
     }
-    else
-    {
+    else {
       if  (this.in_selection(n) && !control) {
         this.highlight_row(n, true);
       }
@@ -763,17 +748,14 @@ select_all: function(filter)
 
   // reset but remember selection first
   var select_before = this.selection.join(',');
-  this.selection = new Array();
-  
-  for (var n in this.rows)
-  {
-    if (!filter || (this.rows[n] && this.rows[n][filter] == true))
-    {
+  this.selection = [];
+
+  for (var n in this.rows) {
+    if (!filter || (this.rows[n] && this.rows[n][filter] == true)) {
       this.last_selected = n;
       this.highlight_row(n, true);
     }
-    else if (this.rows[n])
-    {
+    else if (this.rows[n]) {
       $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
     }
   }
@@ -798,7 +780,7 @@ invert_selection: function()
 
   // remember old selection
   var select_before = this.selection.join(',');
-  
+
   for (var n in this.rows)
     this.highlight_row(n, true);
 
@@ -820,24 +802,22 @@ clear_selection: function(id)
   var num_select = this.selection.length;
 
   // one row
-  if (id)
-    {
+  if (id) {
     for (var n=0; n<this.selection.length; n++)
       if (this.selection[n] == id) {
         this.selection.splice(n,1);
         break;
       }
-    }
+  }
   // all rows
-  else
-    {
+  else {
     for (var n=0; n<this.selection.length; n++)
       if (this.rows[this.selection[n]]) {
         $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
-        }
-    
-    this.selection = new Array();
-    }
+      }
+
+    this.selection = [];
+  }
 
   if (num_select && !this.selection.length)
     this.triggerEvent('select');
@@ -870,25 +850,20 @@ get_single_selection: function()
  */
 highlight_row: function(id, multiple)
 {
-  if (this.rows[id] && !multiple)
-  {
-    if (this.selection.length > 1 || !this.in_selection(id))
-    {
+  if (this.rows[id] && !multiple) {
+    if (this.selection.length > 1 || !this.in_selection(id)) {
       this.clear_selection();
       this.selection[0] = id;
       $(this.rows[id].obj).addClass('selected');
     }
   }
-  else if (this.rows[id])
-  {
-    if (!this.in_selection(id))  // select row
-    {
+  else if (this.rows[id]) {
+    if (!this.in_selection(id)) { // select row
       this.selection[this.selection.length] = id;
       $(this.rows[id].obj).addClass('selected');
     }
-    else  // unselect row
-    {
-      var p = jQuery.inArray(id, this.selection);
+    else { // unselect row
+      var p = $.inArray(id, this.selection);
       var a_pre = this.selection.slice(0, p);
       var a_post = this.selection.slice(p+1, this.selection.length);
       this.selection = a_pre.concat(a_post);
@@ -909,8 +884,7 @@ key_press: function(e)
   var keyCode = rcube_event.get_keycode(e);
   var mod_key = rcube_event.get_modifier(e);
 
-  switch (keyCode)
-  {
+  switch (keyCode) {
     case 40:
     case 38: 
     case 63233: // "down", in safari keypress
@@ -938,11 +912,11 @@ key_press: function(e)
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
       this.triggerEvent('keypress');
-      
+
       if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);
   }
-  
+
   return true;
 },
 
@@ -951,12 +925,11 @@ key_press: function(e)
  */
 key_down: function(e)
 {
-  switch (rcube_event.get_keycode(e))
-  {
+  switch (rcube_event.get_keycode(e)) {
     case 27:
       if (this.drag_active)
 	return this.drag_mouse_up(e);
-	
+
     case 40:
     case 38: 
     case 63233:
@@ -967,10 +940,10 @@ key_down: function(e)
     case 32:
       if (!rcube_event.get_modifier(e) && this.focused)
         return rcube_event.cancel(e);
-        
+
     default:
   }
-  
+
   return true;
 },
 
@@ -988,8 +961,7 @@ use_arrow_key: function(keyCode, mod_key)
   else if (keyCode == 38 || keyCode == 63232) // up arrow key pressed
     new_row = this.get_prev_row();
 
-  if (new_row)
-  {
+  if (new_row) {
     this.select_row(new_row.uid, mod_key, true);
     this.scrollto(new_row.uid);
   }
@@ -1034,8 +1006,7 @@ use_plusminus_key: function(keyCode, mod_key)
 scrollto: function(id)
 {
   var row = this.rows[id].obj;
-  if (row && this.frame)
-  {
+  if (row && this.frame) {
     var scroll_to = Number(row.offsetTop);
 
     // expand thread if target row is hidden (collapsed)
@@ -1058,17 +1029,16 @@ scrollto: function(id)
  */
 drag_mouse_move: function(e)
 {
-  if (this.drag_start)
-  {
+  if (this.drag_start) {
     // check mouse movement, of less than 3 pixels, don't start dragging
     var m = rcube_event.get_mouse_pos(e);
 
     if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3))
       return false;
-  
+
     if (!this.draglayer)
       this.draglayer = $('<div>').attr('id', 'rcmdraglayer').css({ position:'absolute', display:'none', 'z-index':2000 }).appendTo(document.body);
-      
+
     // also select childs of (collapsed) threads for dragging
     var selection = $.merge([], this.selection);
     var depth, row, uid, r;
@@ -1081,42 +1051,37 @@ drag_mouse_move: function(e)
     // get subjects of selected messages
     var names = '';
     var c, i, subject, obj;
-    for(var n=0; n<this.selection.length; n++)
-    {
-      if (n>12)  // only show 12 lines
-      {
+    for(var n=0; n<this.selection.length; n++) {
+      // only show 12 lines
+      if (n>12) {
         names += '...';
         break;
       }
 
-      if (obj = this.rows[this.selection[n]].obj)
-      {
+      if (obj = this.rows[this.selection[n]].obj) {
         subject = '';
 
-        for (c=0, i=0; i<obj.childNodes.length; i++)
-        {
-	  if (obj.childNodes[i].nodeName == 'TD')
-          {
+        for (c=0, i=0; i<obj.childNodes.length; i++) {
+	      if (obj.childNodes[i].nodeName == 'TD') {
             if (n == 0)
-	      this.drag_start_pos = $(obj.childNodes[i]).offset();
+	          this.drag_start_pos = $(obj.childNodes[i]).offset();
 
-	    if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c))
-	    {
-	      var node, tmp_node, nodes = obj.childNodes[i].childNodes;
-	      // find text node
-	      for (m=0; m<nodes.length; m++) {
-	        if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
-	          node = tmp_node;
-	      }
-	      
-	      if (!node)
-	        break;
+	        if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)) {
+	          var node, tmp_node, nodes = obj.childNodes[i].childNodes;
+	          // find text node
+	          for (m=0; m<nodes.length; m++) {
+	            if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
+	              node = tmp_node;
+	          }
+
+	          if (!node)
+	            break;
 
               subject = node.nodeType==3 ? node.data : node.innerHTML;
-	      // remove leading spaces
-	      subject = subject.replace(/^\s+/i, '');
+	          // remove leading spaces
+	          subject = subject.replace(/^\s+/i, '');
               // truncate line to 50 characters
-	      names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
+	          names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
               break;
             }
             c++;
@@ -1132,8 +1097,7 @@ drag_mouse_move: function(e)
     this.triggerEvent('dragstart');
   }
 
-  if (this.drag_active && this.draglayer)
-  {
+  if (this.drag_active && this.draglayer) {
     var pos = rcube_event.get_mouse_pos(e);
     this.draglayer.css({ left:(pos.x+20)+'px', top:(pos.y-5 + (bw.ie ? document.documentElement.scrollTop : 0))+'px' });
     this.triggerEvent('dragmove', e?e:window.event);
