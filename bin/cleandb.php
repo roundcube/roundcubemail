@@ -40,12 +40,18 @@ $db = $RCMAIL->get_dbh();
 if (!$db->is_connected() || $db->is_error)
   die("No DB connection");
 
+if (!empty($_SERVER['argv'][1]))
+  $days = intval($_SERVER['argv'][1]);
+else
+  $days = 7;
+
 // remove all deleted records older than two days
-$threshold = date('Y-m-d 00:00:00', time() - 2 * 86400);
+$threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
 foreach (array('contacts','contactgroups','identities') as $table) {
   // also delete linked records
   // could be skipped for databases which respect foreign key constraints
+/*
   if ($table == 'contacts' || $table == 'contactgroups') {
     $ids = array();
     $pk = $primary_keys[$table];
@@ -65,7 +71,7 @@ foreach (array('contacts','contactgroups','identities') as $table) {
       echo $db->affected_rows() . " records deleted from '".get_table_name('contactgroupmembers')."'\n";
     }
   }
-
+*/
   // delete outdated records
   $db->query(
     "DELETE FROM ".get_table_name($table)."
