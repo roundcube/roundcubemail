@@ -1,5 +1,10 @@
 /* CSS hacks for IE versions 5,6 */
 
+taskbar
+{
+  background: url(images/taskbar.gif) top right no-repeat;
+}
+
 img
 {
   behavior: url(skins/default/pngbehavior.htc);
