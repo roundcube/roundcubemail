@@ -1185,9 +1185,9 @@ function rcube_webmail()
     var model = this.task == 'mail' ? this.env.mailboxes : this.env.contactfolders;
 
     this.drag_active = true;
+
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
-
     if (this.preview_read_timer)
       clearTimeout(this.preview_read_timer);
 
@@ -1397,7 +1397,6 @@ function rcube_webmail()
   {
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
-
     if (this.preview_read_timer)
       clearTimeout(this.preview_read_timer);
 
@@ -1429,6 +1428,10 @@ function rcube_webmail()
 
     if (list.get_single_selection() && window.frames && window.frames[this.env.contentframe]) {
       if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)>=0) {
+        if (this.preview_timer)
+          clearTimeout(this.preview_timer);
+        if (this.preview_read_timer)
+          clearTimeout(this.preview_read_timer);
         this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
       }
     }
