@@ -522,16 +522,36 @@ function rcmail_compose_body($attrib)
   // include GoogieSpell
   if (!empty($CONFIG['enable_spellcheck'])) {
 
-    $lang = strtolower(substr($_SESSION['language'], 0, 2));
-  
-    $spellcheck_langs = (array)$RCMAIL->config->get('spellcheck_languages', array('da'=>'Dansk', 'de'=>'Deutsch', 'en' => 'English', 'es'=>'Español', 'fr'=>'Français', 'it'=>'Italiano', 'nl'=>'Nederlands', 'pl'=>'Polski', 'pt'=>'Português', 'fi'=>'Suomi', 'sv'=>'Svenska'));
+    $engine = $RCMAIL->config->get('spellcheck_engine','googie');
+    $spellcheck_langs = (array) $RCMAIL->config->get('spellcheck_languages',
+      array('da'=>'Dansk', 'de'=>'Deutsch', 'en' => 'English', 'es'=>'Español',
+            'fr'=>'Français', 'it'=>'Italiano', 'nl'=>'Nederlands', 'pl'=>'Polski',
+            'pt'=>'Português', 'fi'=>'Suomi', 'sv'=>'Svenska'));
+
+    // googie works only with two-letter codes
+    if ($engine == 'googie') {
+      $lang = strtolower(substr($_SESSION['language'], 0, 2));
+
+      $spellcheck_langs_googie = array();
+      foreach ($spellcheck_langs as $key => $name)
+        $spellcheck_langs_googie[strtolower(substr($key,0,2))] = $name;
+        $spellcheck_langs = $spellcheck_langs_googie;
+    }
+    else {
+      $lang = $_SESSION['language'];
+
+      // if not found in the list, try with two-letter code
+      if (!$spellcheck_langs[$lang])
+        $lang = strtolower(substr($lang, 0, 2));
+    }
+
     if (!$spellcheck_langs[$lang])
       $lang = 'en';
-    
+
     $editor_lang_set = array();
     foreach ($spellcheck_langs as $key => $name) {
       $editor_lang_set[] = ($key == $lang ? '+' : '') . JQ($name).'='.JQ($key);
-      }
+    }
     
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf(

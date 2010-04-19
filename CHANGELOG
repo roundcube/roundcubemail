@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix setting spellcheck languages with extended codes (#1486605)
 - Fix messages list scrolling in FF3.6 (#1486472)
 - Fix quicksearch input focus (#1486637)
 - Always set changed date when flagging a DB record as deleted + provide a cleanup script
