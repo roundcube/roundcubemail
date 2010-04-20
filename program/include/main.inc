@@ -325,9 +325,13 @@ function rcube_charset_convert($str, $from, $to=NULL)
  * @param  string  Input charset name
  * @return The validated charset name
  */
-function rcube_parse_charset($charset)
+function rcube_parse_charset($input)
   {
-  $charset = strtoupper($charset);
+  static $charsets = array();
+  $charset = strtoupper($input);
+
+  if (isset($charsets[$input]))
+    return $charsets[$input];
 
   $charset = preg_replace(array(
     '/^[^0-9A-Z]+/',	// e.g. _ISO-8859-JP$SIO
@@ -367,24 +371,28 @@ function rcube_parse_charset($charset)
   $str = preg_replace(array('/[^A-Z0-9]/', '/^X+/'), '', $charset);
 
   if (isset($aliases[$str]))
-    return $aliases[$str];
-
-  if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m))
-    return 'UTF-' . $m[1] . $m[2];
-
-  if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
+    $result = $aliases[$str];
+  // UTF
+  else if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m))
+    $result = 'UTF-' . $m[1] . $m[2];
+  // ISO-8859
+  else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
     $iso = 'ISO-8859-' . ($m[1] ? $m[1] : 1);
-    # some clients sends windows-1252 text as latin1,
-    # it is safe to use windows-1252 for all latin1
-    return $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
+    // some clients sends windows-1252 text as latin1,
+    // it is safe to use windows-1252 for all latin1
+    $result = $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
     }
-
   // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
-  if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
-    return 'WINDOWS-' . $m[2];
+  else if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
+    $result = 'WINDOWS-' . $m[2];
+    }
+  else {
+    $result = $charset;
     }
 
-  return $charset;
+  $charsets[$input] = $result;
+
+  return $result;
   }
 
 
