@@ -4854,7 +4854,7 @@ function rcube_webmail()
     if (this.busy)
       return;
 
-    var addurl = '_t=' + (new Date().getTime());
+    var addurl = '_t=' + (new Date().getTime()) + '&_mbox=' + urlencode(this.env.mailbox);
 
     if (refresh) {
       this.set_busy(true, 'checkingmail');
