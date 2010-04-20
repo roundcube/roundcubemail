@@ -285,8 +285,11 @@ click_row: function(e, id)
   else
     this.triggerEvent('click');
 
-  if (!this.drag_active)
+  if (!this.drag_active) {
+    // remove temp divs
+    $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
     rcube_event.cancel(e);
+  }
 
   this.rows[id].clicked = now;
   return false;
