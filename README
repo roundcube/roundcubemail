@@ -11,18 +11,18 @@ installation is highly recommended.
 
 Introduction:
 -------------
-RoundCube Webmail is a browser-based multilingual IMAP client with an
+Roundcube Webmail is a browser-based multilingual IMAP client with an
 application-like user interface. It provides full functionality you expect
 from an e-mail client, including MIME support, address book, folder management,
-message searching and spell checking. RoundCube Webmail is written in PHP and
-requires the MySQL, PostgreSQL or SQLite database. The user interface is fully
-skinnable using XHTML and CSS 2.
+message searching and spell checking. Roundcube Webmail is written in PHP and
+requires the MySQL, PostgreSQL or SQLite database. With its plugin API it is
+easily extendable and the user interface is fully customizable using skins
+which are pure XHTML and CSS 2.
 
-This project is meant to be a modern webmail solution which is easy to
-install/configure and that runs on a standard PHP plus MySQL, PostgreSQL or SQLite
-configuration. It includes open-source classes/libraries like PEAR
-(http://pear.php.net) and the IMAP wrapper from IlohaMail
-(http://www.ilohamail.org).
+This project includes other open-source classes/libraries from PEAR
+(http://pear.php.net), an IMAP library derrived from IlohaMail
+the TinyMCE rich text editor, Googiespell library for spell checking
+or the HTML sanitizer by Frederic Motte.
 
 The current development skin uses icons designed by Stephen Horlander and Kevin 
 Gerich for Mozilla.org.
@@ -42,8 +42,8 @@ LICENSE for more information about our license.
 
 Contribution:
 -------------
-Want to help make RoundCube the best webmail solution ever?
-RoundCube is open source software. Our developers and contributors all
+Want to help make Roundcube the best webmail solution ever?
+Roundcube is open source software. Our developers and contributors all
 are volunteers and we're always looking for new additions and resources.
 For more information visit http://roundcube.net/contribute
 

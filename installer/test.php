@@ -167,7 +167,8 @@ if ($db_working) {
     else if ($RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
         $updatefile = INSTALL_PATH . 'SQL/' . $DB->db_provider . '.update.sql';
-        echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database</p>';
+        echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database.<br/>';
+        echo 'See comments in the file and execute queries that are superscribed with the currently installed version number.</p>';
         $db_working = false;
     }
     else {
