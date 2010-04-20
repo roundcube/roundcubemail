@@ -380,8 +380,8 @@ function rcube_parse_charset($charset)
     }
 
   // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
-  if (preg_match('/WINDOWS([0-9]+)/', $str, $m)) {
-    return 'WINDOWS-' . $m[1];
+  if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
+    return 'WINDOWS-' . $m[2];
     }
 
   return $charset;
