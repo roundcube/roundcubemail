@@ -103,12 +103,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $RCMAIL->authenticate_session();
 
     // log successful login
-    if ($RCMAIL->config->get('log_logins')) {
-      write_log('userlogins', sprintf('Successful login for %s (id %d) from %s',
-        $RCMAIL->user->get_username(),
-        $RCMAIL->user->ID,
-        $_SERVER['REMOTE_ADDR']));
-    }
+    rcmail_log_login();
 
     // restore original request parameters
     $query = array();

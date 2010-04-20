@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add HTTP_X_REAL_IP and HTTP_X_FORWARDED_FOR to successful logins log (#1486441)
 - Fix setting spellcheck languages with extended codes (#1486605)
 - Fix messages list scrolling in FF3.6 (#1486472)
 - Fix quicksearch input focus (#1486637)
