@@ -1024,7 +1024,7 @@ class rcube_template extends rcube_html_page
         $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
         $input_host   = null;
 
-        if (is_array($default_host)) {
+        if (is_array($default_host) && count($default_host) > 1) {
             $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost'));
 
             foreach ($default_host as $key => $value) {
@@ -1036,6 +1036,11 @@ class rcube_template extends rcube_html_page
                     break;
                 }
             }
+        }
+        else if (is_array($default_host) && ($host = array_pop($default_host))) {
+            $hide_host = true;
+            $input_host = new html_hiddenfield(array(
+                'name' => '_host', 'id' => 'rcmloginhost', 'value' => $host) + $attrib);
         }
         else if (empty($default_host)) {
             $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost') + $attrib);
@@ -1054,7 +1059,7 @@ class rcube_template extends rcube_html_page
         $table->add(null, $input_pass->show());
 
         // add host selection row
-        if (is_object($input_host)) {
+        if (is_object($input_host) && !$hide_host) {
             $table->add('title', html::label('rcmloginhost', Q(rcube_label('server'))));
             $table->add(null, $input_host->show(get_input_value('_host', RCUBE_INPUT_POST)));
         }
@@ -1063,10 +1068,14 @@ class rcube_template extends rcube_html_page
         $out .= $input_tzone->show();
         $out .= $input_url->show();
         $out .= $table->show();
+        
+        if ($hide_host) {
+            $out .= $input_host->show();
+        }
 
         // surround html output with a form tag
         if (empty($attrib['form'])) {
-            $out = $this->form_tag(array('name' => $form_name, 'method' => "post"), $out);
+            $out = $this->form_tag(array('name' => $form_name, 'method' => 'post'), $out);
         }
 
         return $out;

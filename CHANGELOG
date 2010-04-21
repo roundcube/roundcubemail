@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Hide IMAP host dropdown when single host is defined (#1486326)
 - Add images pre-loading on login page (#1451160)
 - Add HTTP_X_REAL_IP and HTTP_X_FORWARDED_FOR to successful logins log (#1486441)
 - Fix setting spellcheck languages with extended codes (#1486605)
