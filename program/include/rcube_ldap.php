@@ -627,7 +627,9 @@ class rcube_ldap extends rcube_addressbook
 
       $this->_debug("C: Search [".$filter."]");
 
-      if ($this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $filter, array_values($this->fieldmap), 0, 0)) {
+      if ($this->ldap_result = @$function($this->conn, $this->prop['base_dn'], $filter,
+          array_values($this->fieldmap), 0, (int) $this->prop['sizelimit'], (int) $this->prop['timelimit'])
+      ) {
         $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
         return true;
       } else
