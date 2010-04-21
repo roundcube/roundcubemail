@@ -2,14 +2,14 @@
 
 /*
 +-----------------------------------------------------------------------+
-| language/_NEW_/messages.inc                                           |
+| language/sl_SLI/messages.inc                                          |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2008, RoundQube Dev. - Switzerland                      |
+| Copyright (C) 2008-2010, RoundQube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author:   Barbara Krasovec -  barbarak@arnes.si                                                            |
+| Author:   Barbara Krasovec -  barbarak@arnes.si                       |
 +-----------------------------------------------------------------------+
 
 */
@@ -108,5 +108,7 @@ $messages['smtptoerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektrons
 $messages['smtprecipientserror'] = 'Napaka pri pošiljanju: Seznama prejemnikov ni bilo mogoče razčleniti';
 $messages['smtperror'] = 'Napaka pri pošiljanju:$msg';
 $messages['emailformaterror'] = 'Nepravilen elektronski naslov: $email';
+$messages['toomanyrecipients'] = 'Navedli ste preveč prejemnikov. Zmanjšajte število prejemnikov na $max';
+$messages['maxgroupmembersreached'] = 'Število članov skupine presega največje dovoljeno število $max.';
 
 ?>

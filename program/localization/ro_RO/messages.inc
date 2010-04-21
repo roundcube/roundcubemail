@@ -4,14 +4,14 @@
 +-----------------------------------------------------------------------+
 | language/ro_RO/messages.inc                                           |
 |                                                                       |
-| Language file of the RoundCube Webmail client                        |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Language file of the RoundCube Webmail client                         |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
 |         Zeno Popovici <zeno.popovici at ulbsibiu.ro>                  |
-|		      Cristian Nastase <cristian.nastase@itcaffe.net>			         	|
+|         Cristian Nastase <cristian.nastase@itcaffe.net>               |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -47,9 +47,10 @@ $messages['sendingfailed'] = 'Nu s-a reuşit trimiterea mesajului';
 $messages['senttooquickly'] = 'Vă rugăm aşteptaţi $sec sec. înainte de a trimite acest mesaj';
 $messages['errorsavingsent'] = 'A intervenit o eroare în timp ce se efectua salvarea mesajului trimis';
 $messages['errorsaving'] = 'A intervenit o eroare în timp ce se efectua salvarea';
-$messages['errormoving'] = 'Nu s-a putut muta mesajul';
-$messages['errordeleting'] = 'Nu s-a putut şterge mesajul';
-$messages['errormarking'] = 'Nu s-a putut marca mesajul';
+$messages['errormoving'] = 'Mesajul(e) nu a(u) putut fi mutat(e)';
+$messages['errorcopying'] = 'Mesajul(e) nu a(u) putut fi copiat(e)';
+$messages['errordeleting'] = 'Mesajul(e) nu a(u) putut fi şters(e)';
+$messages['errormarking'] = 'Mesajul(e) nu a(u) putut fi marcat(e)';
 $messages['deletecontactconfirm'] = 'Sunteţi sigur că doriţi să ştergeţi contactul(ele) selectate?';
 $messages['deletemessagesconfirm'] = 'Chiar doriţi să ştergeţi mesajele selectate ?';
 $messages['deletefolderconfirm'] = 'Sunteţi sigur că doriţi să ştergeţi acest dosar?';
@@ -87,6 +88,7 @@ $messages['copyerror'] = 'Nu s-a putut copia nicio adresă';
 $messages['sourceisreadonly'] = 'Sursa acestei adrese este "read-only"(se poate doar citi)';
 $messages['errorsavingcontact'] = 'Nu s-a putut salva adresa de contact';
 $messages['movingmessage'] = 'Mutare mesaj....';
+$messages['copyingmessage'] = 'Copiere mesaj...';
 $messages['receiptsent'] = 'Confirmarea de citire a fost trimisă cu succes';
 $messages['errorsendingreceipt'] = 'Confirmarea nu a putut fi trimisă';
 $messages['nodeletelastidentity'] = 'Nu puteţi şterge această identitate, este ultima.';
@@ -94,6 +96,8 @@ $messages['addsubfolderhint'] = 'Acest dosar va fi creat ca subdosar al celui se
 $messages['forbiddencharacter'] = 'Numele dosarului conţine un caracter nepermis.';
 $messages['selectimportfile'] = 'Va rugăm să selectaţi fişierul pentru încărcare';
 $messages['addresswriterror'] = 'Agenda selectată nu poate fi actualizată';
+$messages['contactaddedtogroup'] = 'Contactele au fost adăugate cu succes la acest grup';
+$messages['contactremovedfromgroup'] = 'Contactele au fost şterse cu succes din acest grup';
 $messages['importwait'] = 'Datele sunt importate, vă rugăm să aşteptaţi...';
 $messages['importerror'] = 'Importul a eşuat! Fişierul încărcat nu este un fişier vCard valid.';
 $messages['importconfirm'] = 'Contactele $inserted au fost importate cu succes, $skipped intrări au fost ignorate deoarece ele există deja:$names';
@@ -108,5 +112,7 @@ $messages['smtptoerror'] = 'Eroare SMTP  ($code): Nu s-a putut adăuga destinata
 $messages['smtprecipientserror'] = 'Eroare SMTP: Nu s-a putut procesa lista cu destinatari';
 $messages['smtperror'] = 'Eroare SMTP: $msg';
 $messages['emailformaterror'] = 'Adresă de e-mail incorectă: $email';
+$messages['toomanyrecipients'] = 'Prea mulţi destinatari. Reduceţi numărul de destinatari la $max.';
+$messages['maxgroupmembersreached'] = 'Numărul de membri ai grupului depăşeşte maximul de $max.';
 
 ?>

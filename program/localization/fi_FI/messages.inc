@@ -1,12 +1,11 @@
 <?php
 
 /*
-
 +-----------------------------------------------------------------------+
-| language/fi/messages.inc                                              |
+| language/fi_FI/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -49,6 +48,7 @@ $messages['senttooquickly'] = 'Odota $sec sekunti(a) ennen viestin lähettämist
 $messages['errorsavingsent'] = 'Lähetetyn viestin tallennuksessa tapahtui virhe';
 $messages['errorsaving'] = 'Tallennuksessa tapahtui virhe';
 $messages['errormoving'] = 'Viestiä ei voitu siirtää';
+$messages['errorcopying'] = 'Viestiä ei voitu kopioida';
 $messages['errordeleting'] = 'Viestiä ei voitu poistaa';
 $messages['errormarking'] = 'Viestiä ei voitu merkiä';
 $messages['deletecontactconfirm'] = 'Haluatko varmasti poistaa valitut kontaktit?';
@@ -88,6 +88,7 @@ $messages['copyerror'] = 'Yhtään osoitetta ei voitu kopioida';
 $messages['sourceisreadonly'] = 'Tämän osoitteen lähde on kirjoitussuojattu';
 $messages['errorsavingcontact'] = 'Yhteystietoa ei voitu tallentaa';
 $messages['movingmessage'] = 'Siirretään viestiä...';
+$messages['copyingmessage'] = 'Kopioidaan viestiä...';
 $messages['receiptsent'] = 'Lukukuittaus lähetetty onnistuneesti';
 $messages['errorsendingreceipt'] = 'Lukukuittausta ei voitu lähettää';
 $messages['nodeletelastidentity'] = 'Et voi poistaa tätä identiteettiä, koska se on ainoa jäljelläoleva';
@@ -95,6 +96,8 @@ $messages['addsubfolderhint'] = 'Uusi kansio luodaan valitun kansion alikansiona
 $messages['forbiddencharacter'] = 'Kansion nimessä on kiellettyjä merkkejä';
 $messages['selectimportfile'] = 'Valitse lähetettävä tiedosto';
 $messages['addresswriterror'] = 'Valittuun osoitekirjaan ei voi kirjoittaa';
+$messages['contactaddedtogroup'] = 'Kontaktit lisätty ryhmään';
+$messages['contactremovedfromgroup'] = 'Kontaktit poistettu ryhmästä';
 $messages['importwait'] = 'Tuodaan, odota...';
 $messages['importerror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole vCard -muodossa.';
 $messages['importconfirm'] = '<b>$inserted kontaktia tuotu onnistuneesti $inserted kontaktioa, $skipped olemassaolevaa kontaktia hypättiin yli</b>:<p><em>$names</em></p>';
@@ -109,5 +112,7 @@ $messages['smtptoerror'] = 'SMTP-virhe ($code): Vastaanottajan "$to" lisäämine
 $messages['smtprecipientserror'] = 'SMTP-virhe: Ei voida jäsentää vastaanottajien listaa';
 $messages['smtperror'] = 'SMTP-virhe: $msg';
 $messages['emailformaterror'] = 'Väärä sähköpostiosoite: $email';
+$messages['toomanyrecipients'] = 'Liikaa vastaanottajia. Vähennä vastaanottajien määrä maksimiin $max.';
+$messages['maxgroupmembersreached'] = 'Ryhmän jäsenten määrä ylittää maksimin $max';
 
 ?>

@@ -6,7 +6,7 @@
 | language/ja_JP/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -48,6 +48,7 @@ $messages['senttooquickly'] = 'このメールを送信するまで $sec 秒 お
 $messages['errorsavingsent'] = '送信メールの保存中にエラーが発生しました。';
 $messages['errorsaving'] = '保存中にエラーが発生しました。';
 $messages['errormoving'] = 'メールを移動できません。';
+$messages['errorcopying'] = 'メールをコピーできません。';
 $messages['errordeleting'] = 'メールを削除できません。';
 $messages['errormarking'] = 'メールをマークできません。';
 $messages['deletecontactconfirm'] = '選択した連絡先を本当に削除しますか？';
@@ -87,6 +88,7 @@ $messages['copyerror'] = 'アドレスをコピーできません。';
 $messages['sourceisreadonly'] = 'このアドレス情報は読取専用です。';
 $messages['errorsavingcontact'] = '連絡先のアドレスを保存できません。';
 $messages['movingmessage'] = 'メールを移動しています...';
+$messages['copyingmessage'] = 'メールをコピーしています...';
 $messages['receiptsent'] = '開封確認を送信しました。';
 $messages['errorsendingreceipt'] = '開封確認を送信できません。';
 $messages['nodeletelastidentity'] = '削除できません。少なくとも1つの個人情報が必要です。';
@@ -94,6 +96,8 @@ $messages['addsubfolderhint'] = '現在選択しているフォルダのサブ�
 $messages['forbiddencharacter'] = 'フォルダ名に利用できない文字が含まれています。';
 $messages['selectimportfile'] = 'アップロードするファイルを選択してください。';
 $messages['addresswriterror'] = '選択したアドレス帳に書き込めません。';
+$messages['contactaddedtogroup'] = 'グループに連絡先を追加しました。';
+$messages['contactremovedfromgroup'] = 'グループから連絡先を削除しました。';
 $messages['importwait'] = 'インポート中です。しばらくお待ちください...';
 $messages['importerror'] = 'インポートに失敗しました。アップロードしたファイルは不正な vCard ファイルです。';
 $messages['importconfirm'] = '<b>$inserted 件の連絡先をインポートしました。<br />既登録の連絡先 $skipped 件をスキップしました</b>：<p><em>$names</em></p>';
@@ -108,5 +112,7 @@ $messages['smtptoerror'] = 'SMTP Error ($code): 宛先 "$to" を追加できま�
 $messages['smtprecipientserror'] = 'SMTP Error: 宛先のリストを解析できません';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = '不正確なメールアドレスです: $email';
+$messages['toomanyrecipients'] = '宛先が多すぎます。$max 件以内にしてください。';
+$messages['maxgroupmembersreached'] = 'グループメンバーが多すぎます。$max 人以内にしてください。';
 
 ?>

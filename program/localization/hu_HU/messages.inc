@@ -6,13 +6,14 @@
 | language/hu_HU/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Zark Bonfire (ikkhares@gmail.com)                             |
 |         Levente Farkas <lfarkas at lfarkas dot org>                   |
 |         Ervin Hegedűs <airween@damson.hu>                             |
+|         Barnabás Bóna <bsi at hosember dot hu>                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -49,6 +50,7 @@ $messages['senttooquickly'] = 'Kérem várjon még $sec másodpercet az üzenet 
 $messages['errorsavingsent'] = 'Hiba történt az elküldött üzenet mentése közben';
 $messages['errorsaving'] = 'A mentés során hiba lépett fel';
 $messages['errormoving'] = 'Az üzenetet nem sikerült áthelyezni';
+$messages['errorcopying'] = 'Az üzenetet nem sikerült másolni';
 $messages['errordeleting'] = 'Az üzenetet nem sikerült törölni';
 $messages['errormarking'] = 'Az üzenetet nem sikerült megjelölni';
 $messages['deletecontactconfirm'] = 'Biztos, hogy törölni szeretné a kijelölt címe(ke)t?';
@@ -88,6 +90,7 @@ $messages['copyerror'] = 'Egyetlen cím sem másolható';
 $messages['sourceisreadonly'] = 'Ez a címforrás csak olvasható';
 $messages['errorsavingcontact'] = 'A kapcsolat címe nem menthető';
 $messages['movingmessage'] = 'Üzenet mozgatása...';
+$messages['copyingmessage'] = 'Üzenet másolása...';
 $messages['receiptsent'] = 'Az Olvasási Értesítés el lett küldve';
 $messages['errorsendingreceipt'] = 'Az Olvasási Értesítést nem sikerült elküldeni';
 $messages['nodeletelastidentity'] = 'Nem törölheti ezt a profilt, ez az egyetlen';
@@ -95,6 +98,8 @@ $messages['addsubfolderhint'] = 'Az új könyvtár az aktuálisan kiválasztott 
 $messages['forbiddencharacter'] = 'A mappa neve tiltott karaktert tartalmaz';
 $messages['selectimportfile'] = 'Kérjük válassza ki a feltölteni kívánt fájlt';
 $messages['addresswriterror'] = 'A kiválasztott címjegyzék nem írható';
+$messages['contactaddedtogroup'] = 'A cím hozzáadása a csoporthoz sikeresen megtörtént';
+$messages['contactremovedfromgroup'] = 'A cím törlése a csoportból sikeresen megtörtént';
 $messages['importwait'] = 'Importálás folyamatban, kérem várjon...';
 $messages['importerror'] = 'Az importálás sikertelen! A feltöltött állomány nem egy érvényes vCard fájl.';
 $messages['importconfirm'] = '<b>Sikeresen importálásra került $inserted kapcsolat, kihagyva $skipped már létező bejegyzés</b>:<p><em>$names</em></p>';
@@ -109,5 +114,7 @@ $messages['smtptoerror'] = 'SMTP hiba ($code): Nem sikerült a következő címz
 $messages['smtprecipientserror'] = 'SMTP hiba ($code): A címzett lista feldolgozása sikertelen';
 $messages['smtperror'] = 'SMTP hiba ($code): $msg';
 $messages['emailformaterror'] = 'Helytelen formátumú e-mail cím: $email';
+$messages['toomanyrecipients'] = 'Túl sok a címzett. Csökkentse a címzettek számát $max címre.';
+$messages['maxgroupmembersreached'] = 'A csoport létszáma meghaladja a maximum $max címet.';
 
 ?>

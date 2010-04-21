@@ -1,12 +1,11 @@
 <?php
 
 /*
-
 +-----------------------------------------------------------------------+
-| language/sl/labels.inc                                                |
+| language/sl_SI/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -273,6 +272,7 @@ $labels['autosavedraft'] = 'Samodejno shrani osnutke';
 $labels['everynminutes'] = '$n minut';
 $labels['keepalive'] = 'Preglej nova sporočila na';
 $labels['never'] = 'nikoli';
+$labels['immediately'] = 'takoj';
 $labels['messagesdisplaying'] = 'Prikazovanje sporočil';
 $labels['messagescomposition'] = 'Sestavljanje sporočil';
 $labels['mimeparamfolding'] = 'Imena priponk';
@@ -301,6 +301,8 @@ $labels['replysignaturepos'] = 'Pri odgovoru ali posredovanju sporočila vstavi 
 $labels['belowquote'] = 'pod citiran tekst';
 $labels['abovequote'] = 'nad citiran tekst';
 $labels['insertsignature'] = 'Vstavi podpis';
+$labels['previewpanemarkread'] = 'Označi predogledana sporočila kot prebrana';
+$labels['afternseconds'] = 'po $n sekundah';
 $labels['folder'] = 'Mapa';
 $labels['folders'] = 'Mape';
 $labels['foldername'] = 'Ime mape';

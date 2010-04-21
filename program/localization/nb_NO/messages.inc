@@ -12,8 +12,8 @@
 +-----------------------------------------------------------------------+
 | Author: Kjetil Waage - Nextline AS <kjetil@nextline.no>               |
 | Author: Tor Erik Linnerud - JKLM <tel@jklm.no>                        |
-| Author: Odd Henriksen <odd@digicon.no>                                |
 | Author: Axel Sjøstedt <roundcube@sjostedt.no>                         |
+| Author: Odd Henriksen <odd@digicon.no>                                |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -49,9 +49,10 @@ $messages['sendingfailed'] = 'Kunne ikke sende e-posten';
 $messages['senttooquickly'] = 'Vennligst vent $sec sekund(er) før du sender denne meldingen';
 $messages['errorsavingsent'] = 'En feil oppsto under lagring av sendt melding';
 $messages['errorsaving'] = 'Det oppstod en feil ved lagring av data';
-$messages['errormoving'] = 'Kunne ikke flytte meldingen';
-$messages['errordeleting'] = 'Kunne ikke slette meldingen';
-$messages['errormarking'] = 'Kunne ikke markere meldingen';
+$messages['errormoving'] = 'Kunne ikke flytte meldingen(e)';
+$messages['errorcopying'] = 'Kunne ikke kopiere meldingen(e)';
+$messages['errordeleting'] = 'Kunne ikke slette meldingen(e)';
+$messages['errormarking'] = 'Kunne ikke markere meldingen(e)';
 $messages['deletecontactconfirm'] = 'Vil du virkelig slette valgte kontakt(er)?';
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette de(n) valgte meldingen(e)?';
 $messages['deletefolderconfirm'] = 'Vil du virkelig slette denne mappen?';
@@ -89,6 +90,7 @@ $messages['copyerror'] = 'Kunne ikke kopiere';
 $messages['sourceisreadonly'] = 'Denne adressekilden er skrivebeskyttet';
 $messages['errorsavingcontact'] = 'Kunne ikke lagre adressen';
 $messages['movingmessage'] = 'Flytter e-post...';
+$messages['copyingmessage'] = 'Kopierer e-post...';
 $messages['receiptsent'] = 'Kvittering er sent';
 $messages['errorsendingreceipt'] = 'Kunne ikke sende kvittering';
 $messages['nodeletelastidentity'] = 'Du kan ikke slette denne identiteten, det er din eneste.';
@@ -96,6 +98,8 @@ $messages['addsubfolderhint'] = 'Mappen vil bli opprettet som en undermappe av n
 $messages['forbiddencharacter'] = 'Mappenavnet inneholder tegn som ikke er tillatt';
 $messages['selectimportfile'] = 'Vennligst velg en fil for opplasting';
 $messages['addresswriterror'] = 'Den valgte adresseboken er ikke skrivbar';
+$messages['contactaddedtogroup'] = 'Kontaktene ble vellykket lagt til i denne gruppen';
+$messages['contactremovedfromgroup'] = 'Kontaktene ble vellykket fjernet fra denne gruppen';
 $messages['importwait'] = 'Importerer, vennligst vent...';
 $messages['importerror'] = 'Feil ved importering! Den opplastede filen er ikke en gyldig vCard-fil.';
 $messages['importconfirm'] = '<b>Importerte $inserted kontakter, hoppet over $skipped oppføringer som allerede eksisterte</b>: <p><em>$names</em></p>';
@@ -103,12 +107,14 @@ $messages['opnotpermitted'] = 'Handling ikke tillatt!';
 $messages['nofromaddress'] = 'E-postadresse mangler i valgt identitet';
 $messages['editorwarning'] = 'Ved å bytte for mat til ren tekst vil all tekstformatering gå tapt. Ønsker du å fortsette?';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppsto. Vennligst kontakt systemansvarlig umiddelbart. <b>Din melding kunne ikke sendes.</b>';
-$messages['smtpconnerror'] = 'SMTP Feil ($code): Klarte ikke koble til server';
-$messages['smtpautherror'] = 'SMTP Feil ($code): Pålogging feilet';
-$messages['smtpfromerror'] = 'SMTP Feil ($code): Kunne ikke sette avsender "$from"';
-$messages['smtptoerror'] = 'SMTP Feil ($code): Kunne ikke legge til mottaker "$to"';
-$messages['smtprecipientserror'] = 'SMTP Feil ($code): Kunne ikke lese mottakerliste';
-$messages['smtperror'] = 'SMTP Feil ($code): $msg';
+$messages['smtpconnerror'] = 'SMTP-feil ($code): Klarte ikke koble til server';
+$messages['smtpautherror'] = 'SMTP-feil ($code): Pålogging feilet';
+$messages['smtpfromerror'] = 'SMTP-feil ($code): Kunne ikke sette avsender "$from"';
+$messages['smtptoerror'] = 'SMTP-feil ($code): Kunne ikke legge til mottaker "$to"';
+$messages['smtprecipientserror'] = 'SMTP-feil ($code): Kunne ikke lese mottakerliste';
+$messages['smtperror'] = 'SMTP-feil ($code): $msg';
 $messages['emailformaterror'] = 'Feil e-postadresse: $email';
+$messages['toomanyrecipients'] = 'For mange mottakere. Reduser antall mottakere til $max.';
+$messages['maxgroupmembersreached'] = 'Antall gruppemedlemmer overskrider maksgrensen på $max';
 
 ?>

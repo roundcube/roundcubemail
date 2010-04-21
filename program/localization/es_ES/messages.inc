@@ -113,7 +113,7 @@ $messages['smtptoerror'] = 'Error SMTP ($code): No se ha podido establecer remit
 $messages['smtprecipientserror'] = 'Error SMTP: No es posible analizar la lista de destinatarios';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Dirección e-mail incorrecta: $email';
-$messages['toomanyrecipients'] = 'Hay demasiados destinatarios. Reduce el número de destinatarios a $max.';
+$messages['toomanyrecipients'] = 'Hay demasiados destinatarios. Reduzca el número de destinatarios a $max.';
 $messages['maxgroupmembersreached'] = 'El número de miembros del grupo excede el máximo de $max.';
 
 ?>

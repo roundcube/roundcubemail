@@ -1,19 +1,18 @@
 <?php
 
 /*
-
 +-----------------------------------------------------------------------+
-| language/fi/labels.inc                                                |
+| language/fi_FI/labels.inc                                             |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Ville Alatalo <ville@alatalo.org>                             |
 |         Veljo Velling <veve@utu.fi>                                   |
 |         Jorma Tuomainen <jt@wiza.fi>                                  |
-|		  Olli <ollinpostit@gmail.com>
+|         Olli <ollinpostit@gmail.com>                                  |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -48,14 +47,14 @@ $labels['organization'] = 'Organisaatio';
 $labels['reply-to'] = 'Vastaus osoitteeseen';
 $labels['mailboxlist'] = 'Kansiot';
 $labels['messagesfromto'] = 'Viestit $from-$to/$count';
+$labels['threadsfromto'] = 'Viestiketjut $from-$to/$count';
 $labels['messagenrof'] = 'Viesti $nr/$count';
+$labels['copy'] = 'Kopioi';
+$labels['move'] = 'Siirrä';
 $labels['moveto'] = 'siirrä kansioon...';
 $labels['download'] = 'lataa';
 $labels['filename'] = 'Tiedoston nimi';
 $labels['filesize'] = 'Tiedoston koko';
-$labels['preferhtml'] = 'Käytä HTML:aa';
-$labels['htmlmessage'] = 'HTML-viesti';
-$labels['prettydate'] = 'Nätit päiväykset';
 $labels['addtoaddressbook'] = 'Lisää osoitekirjaan';
 $labels['sun'] = 'Su';
 $labels['mon'] = 'Ma';
@@ -123,12 +122,31 @@ $labels['messageactions'] = 'Lisää toimintoja...';
 $labels['select'] = 'Valitse';
 $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mitään';
+$labels['currpage'] = 'Nykyinen sivu';
 $labels['unread'] = 'Lukemattomat';
 $labels['flagged'] = 'Korostettu';
 $labels['unanswered'] = 'Vastaamaton';
 $labels['deleted'] = 'Poistettu';
 $labels['invert'] = 'Käännä';
 $labels['filter'] = 'Suodin';
+$labels['list'] = 'Listaus';
+$labels['threads'] = 'Viestiketjut';
+$labels['expand-all'] = 'Laajenna kaikki';
+$labels['expand-unread'] = 'Laajenna lukemattomat';
+$labels['collapse-all'] = 'Kutista kaikki';
+$labels['autoexpand_threads'] = 'Laajenna viestiketjut automaattisesti';
+$labels['do_expand'] = 'kaikki viestiketjut';
+$labels['expand_only_unread'] = 'vain ne joissa lukemattomia viestejä';
+$labels['fromto'] = 'Lähettäjä/Vastaanottaja';
+$labels['attachment'] = 'Liite';
+$labels['nonesort'] = 'Ei mikään';
+$labels['sentdate'] = 'Lähetysaika';
+$labels['arrival'] = 'Saapumisaika';
+$labels['asc'] = 'nouseva';
+$labels['desc'] = 'laskeva';
+$labels['listcolumns'] = 'Näkyvät kentät';
+$labels['listsorting'] = 'Lajittelu kenttä';
+$labels['listorder'] = 'Lajittelu järjestys';
 $labels['compact'] = 'Tiivistä';
 $labels['empty'] = 'Tyhjennä';
 $labels['purge'] = 'Puhdista';
@@ -192,10 +210,13 @@ $labels['contactsfromto'] = 'Kontaktit $from-$to/$count';
 $labels['print'] = 'Tulosta';
 $labels['export'] = 'Vie (export)';
 $labels['exportvcards'] = 'Vie kontaktit vCard-muodossa';
+$labels['newcontactgroup'] = 'Luo uusi kontaktiryhmä';
+$labels['groupactions'] = 'Kontaktiryhmän toiminnot...';
 $labels['previouspage'] = 'Näytä edellinen luettelo';
 $labels['firstpage'] = 'Näytä ensimmäinen luettelo';
 $labels['nextpage'] = 'Näytä seuraava luettelo';
 $labels['lastpage'] = 'Näytä viimeinen luettelo';
+$labels['group'] = 'Ryhmä';
 $labels['groups'] = 'Ryhmät';
 $labels['personaladrbook'] = 'Henkilökohtaiset osoitteet';
 $labels['import'] = 'Tuo';
@@ -213,6 +234,10 @@ $labels['manageidentities'] = 'Muokkaa tunnuksen identiteettejä';
 $labels['newidentity'] = 'Uusi identiteetti';
 $labels['newitem'] = 'Uusi';
 $labels['edititem'] = 'Muokkaa';
+$labels['preferhtml'] = 'Käytä HTML:aa';
+$labels['defaultcharset'] = 'Oletusmerkistökoodaus';
+$labels['htmlmessage'] = 'HTML-viesti';
+$labels['prettydate'] = 'Nätit päiväykset';
 $labels['setdefault'] = 'Aseta vakioksi';
 $labels['autodetect'] = 'Automaattinen';
 $labels['language'] = 'Kieli';
@@ -236,6 +261,7 @@ $labels['ignore'] = 'jätä huomiotta';
 $labels['readwhendeleted'] = 'Merkitse poistettavat viestit luetuiksi';
 $labels['flagfordeletion'] = 'Poistamisen sijaan, merkitse viestit poistettavaksi';
 $labels['skipdeleted'] = 'Älä näytä poistettuja viestejä';
+$labels['deletealways'] = 'Poista viestit, joiden siirtäminen roskakoriin epäonnistuu';
 $labels['showremoteimages'] = 'Näytä ulkopuoliset kuvat viestissä';
 $labels['fromknownsenders'] = 'tunnetuilta lähettäjiltä';
 $labels['always'] = 'aina';
@@ -244,12 +270,14 @@ $labels['autosavedraft'] = 'Tallenna luonnos automaattisesti';
 $labels['everynminutes'] = 'joka $n minuutti';
 $labels['keepalive'] = 'Tarkasta uudet viestit';
 $labels['never'] = 'ei koskaan';
+$labels['immediately'] = 'välittömästi';
 $labels['messagesdisplaying'] = 'Viestien näyttäminen';
 $labels['messagescomposition'] = 'Viestien kirjoittaminen';
 $labels['mimeparamfolding'] = 'Liitetiedostojen nimet';
 $labels['2231folding'] = 'Täysin RFC 2231 mukainen (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 mukainen (MS Outlook)';
 $labels['2047folding'] = 'Täysin RFC 2047 mukainen (muut)';
+$labels['force7bit'] = 'Käytä MIME-koodausta 8-bittisille merkeille';
 $labels['advancedoptions'] = 'Lisäasetukset';
 $labels['focusonnewmessage'] = 'Tarkenna selainikkuna uuteen viestiin';
 $labels['checkallfolders'] = 'Tarkista kaikki kansiot uusien viestien varalta';
@@ -271,6 +299,8 @@ $labels['replysignaturepos'] = 'Vastattaessa tai välitettäessä laita allekirj
 $labels['belowquote'] = 'lainauksen alle';
 $labels['abovequote'] = 'lainauksen ylle';
 $labels['insertsignature'] = 'Lisää allekirjoitus';
+$labels['previewpanemarkread'] = 'Merkitse esikatsellut viestit luetuiksi';
+$labels['afternseconds'] = '$n sekunnin jälkeen';
 $labels['folder'] = 'Kansio';
 $labels['folders'] = 'Kansiot';
 $labels['foldername'] = 'Kansion nimi';
@@ -290,5 +320,23 @@ $labels['B'] = 't';
 $labels['KB'] = 'Kt';
 $labels['MB'] = 'Mt';
 $labels['GB'] = 'Gt';
+$labels['unicode'] = 'Unicode';
+$labels['english'] = 'Englantilainen';
+$labels['westerneuropean'] = 'Länsieurooppalainen';
+$labels['easterneuropean'] = 'Itäeurooppalainen';
+$labels['southeasterneuropean'] = 'Eteläeurooppalainen';
+$labels['baltic'] = 'Balttilainen';
+$labels['cyrillic'] = 'Kyrillinen';
+$labels['arabic'] = 'Arabialainen';
+$labels['greek'] = 'Kreikkalainen';
+$labels['hebrew'] = 'Heprealainen';
+$labels['turkish'] = 'Turkkilainen';
+$labels['nordic'] = 'Pohjoismaalainen';
+$labels['thai'] = 'Thaimaalainen';
+$labels['celtic'] = 'Kelttiläinen';
+$labels['vietnamese'] = 'Vietnamilainen';
+$labels['japanese'] = 'Japanilainen';
+$labels['korean'] = 'Korealainen';
+$labels['chinese'] = 'Kiinalainen';
 
 ?>
