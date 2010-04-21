@@ -27,6 +27,7 @@ if (!defined('SIMPLETEST'))   define('SIMPLETEST', '/www/simpletest/');
 if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 
 define('TESTS_DIR', dirname(__FILE__) . '/');
+define('RCMAIL_CONFIG_DIR', TESTS_DIR . 'config');
 
 require_once(SIMPLETEST . 'unit_tester.php');
 require_once(SIMPLETEST . 'reporter.php');
