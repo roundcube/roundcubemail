@@ -486,21 +486,15 @@ table.records-table tr.unfocused td
 
 /***** roundcube webmail pre-defined classes *****/
 
-#rcversion
+#rcmversion
 {
   position: absolute;
-  top: 67px;
-  left: 20px;
-  width: 160px;
-  text-align: center;
-
-  font-weight: normal;
-  font-size: x-small;
-  font-variant: small-caps;
-  
-  color: #999999;
-  /*border: 1px solid #308014;
-  background-color: #b4eeb4;*/
+  bottom: 10px;
+  right: 20px;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 8pt;
+  color: #999;
 }
 
 #rcmdraglayer
