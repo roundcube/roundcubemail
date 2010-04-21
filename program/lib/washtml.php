@@ -213,7 +213,7 @@ class washtml
         } else if(isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
           $dump .= '<' . $tagName . $this->wash_attribs($node) .
-            ($content || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
+            ($content != '' || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
         } else if(isset($this->_ignore_elements[$tagName])) {
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
         } else {
