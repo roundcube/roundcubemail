@@ -39,7 +39,7 @@ class rcube_contacts extends rcube_addressbook
   /** public properties */
   var $primary_key = 'contact_id';
   var $readonly = false;
-  var $groups = false;
+  var $groups = true;
   var $list_page = 1;
   var $page_size = 10;
   var $group_id = 0;
@@ -58,9 +58,6 @@ class rcube_contacts extends rcube_addressbook
     $this->db_name = get_table_name('contacts');
     $this->user_id = $user;
     $this->ready = $this->db && !$this->db->is_error();
-    
-    if (in_array('contactgroups', $this->db->list_tables()))
-      $this->groups = true;
   }
 
 
