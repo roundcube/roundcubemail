@@ -80,6 +80,7 @@ class rcube_template extends rcube_html_page
         // register common UI objects
         $this->add_handlers(array(
             'loginform'       => array($this, 'login_form'),
+            'preloader'       => array($this, 'preloader'),
             'username'        => array($this, 'current_username'),
             'message'         => array($this, 'message_container'),
             'charsetselector' => array($this, 'charset_selector'),
@@ -1069,6 +1070,30 @@ class rcube_template extends rcube_html_page
         }
 
         return $out;
+    }
+
+
+    /**
+     * GUI object 'preloader'
+     * Loads javascript code for images preloading
+     *
+     * @param array Named parameters
+     * @return void
+     */
+    private function preloader($attrib)
+    {
+        $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, PREG_SPLIT_NO_EMPTY);
+        $images = array_map(array($this, 'abs_url'), $images);
+
+        if (empty($images) || $this->app->task == 'logout')
+            return;
+
+        $this->add_script('$(document).ready(function(){
+            var images = ' . json_serialize($images) .';
+            for (var i=0; i<images.length; i++) {
+                img = new Image();
+                img.src = images[i];
+            }});', 'foot');
     }
 
 
