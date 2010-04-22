@@ -1459,15 +1459,15 @@ function rcmail_folder_classname($folder_id)
 {
   global $CONFIG;
 
+  if ($folder_id == 'INBOX')
+    return 'inbox';
+
   // for these mailboxes we have localized labels and css classes
   foreach (array('sent', 'drafts', 'trash', 'junk') as $smbx)
   {
     if ($folder_id == $CONFIG[$smbx.'_mbox'])
       return $smbx;
   }
-
-  if ($folder_id == 'INBOX')
-    return 'inbox';
 }
 
 
