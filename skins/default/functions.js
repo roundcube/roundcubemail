@@ -27,57 +27,52 @@ function rcube_show_advanced(visible)
 
 function rcmail_show_header_form(id)
 {
-  var link, row, parent, ns, ps;
-  
-  link = document.getElementById(id + '-link');
-  parent = link.parentNode;
+  var row, s,
+    link = document.getElementById(id + '-link');
 
-  if ((ns = rcmail_next_sibling(link)))
-    ns.style.display = 'none';
-  else if ((ps = rcmail_prev_sibling(link)))
-    ps.style.display = 'none';
+  if ((s = rcmail_next_sibling(link)))
+    s.style.display = 'none';
+  else if ((s = rcmail_prev_sibling(link)))
+    s.style.display = 'none';
     
   link.style.display = 'none';
 
-  if ((row = document.getElementById('compose-' + id)))
-    {
-    var div = document.getElementById('compose-div');
-    var headers_div = document.getElementById('compose-headers-div');
+  if ((row = document.getElementById('compose-' + id))) {
+    var div = document.getElementById('compose-div'),
+      headers_div = document.getElementById('compose-headers-div');
     row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
     div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
-    }
+  }
 
   return false;
 }
 
 function rcmail_hide_header_form(id)
 {
-  var row, parent, ns, link, links;
+  var row, ns,
+    link = document.getElementById(id + '-link'),
+    parent = link.parentNode,
+    links = parent.getElementsByTagName('a');
 
-  link = document.getElementById(id + '-link');
   link.style.display = '';
-  
-  parent = link.parentNode;
-  links = parent.getElementsByTagName('a');
 
   for (var i=0; i<links.length; i++)
     if (links[i].style.display != 'none')
       for (var j=i+1; j<links.length; j++)
-	if (links[j].style.display != 'none')
+	    if (links[j].style.display != 'none')
           if ((ns = rcmail_next_sibling(links[i]))) {
-	    ns.style.display = '';
-	    break;
-	  }
+	        ns.style.display = '';
+	        break;
+	      }
 
   document.getElementById('_' + id).value = '';
 
-  if ((row = document.getElementById('compose-' + id)))
-    {
-    var div = document.getElementById('compose-div');
-    var headers_div = document.getElementById('compose-headers-div');
+  if ((row = document.getElementById('compose-' + id))) {
+    var div = document.getElementById('compose-div'),
+      headers_div = document.getElementById('compose-headers-div');
     row.style.display = 'none';
     div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
-    }
+  }
 
   return false;
 }
@@ -100,23 +95,27 @@ function rcmail_prev_sibling(elm)
 
 function rcmail_init_compose_form()
 {
-  var cc_field = document.getElementById('_cc');
-  if (cc_field && cc_field.value!='')
+  var cc_field = document.getElementById('_cc'),
+    bcc_field = document.getElementById('_bcc'),
+    div = document.getElementById('compose-div'),
+    headers_div = document.getElementById('compose-headers-div');
+
+  if (cc_field && cc_field.value != '')
     rcmail_show_header_form('cc');
 
-  var bcc_field = document.getElementById('_bcc');
-  if (bcc_field && bcc_field.value!='')
+  if (bcc_field && bcc_field.value != '')
     rcmail_show_header_form('bcc');
 
   // prevent from form data loss when pressing ESC key in IE
   if (bw.ie) {
     var form = rcube_find_object('form');
-    form.onkeydown = function (e) { if (rcube_event.get_keycode(e) == 27) rcube_event.cancel(e); };
+    form.onkeydown = function (e) {
+      if (rcube_event.get_keycode(e) == 27)
+        rcube_event.cancel(e);
+    };
   }
 
   // fix editor position on some browsers
-  var div = document.getElementById('compose-div');
-  var headers_div = document.getElementById('compose-headers-div');
   div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
 }
 
@@ -263,11 +262,11 @@ save_listmenu: function()
 {
   this.show_listmenu();
 
-  var sort = $('input[name="sort_col"]:checked').val();
-  var ord = $('input[name="sort_ord"]:checked').val();
-  var thread = $('input[name="view"]:checked').val();
-  var cols = $('input[name="list_col[]"]:checked')
-    .map(function(){ return this.value; }).get();
+  var sort = $('input[name="sort_col"]:checked').val(),
+    ord = $('input[name="sort_ord"]:checked').val(),
+    thread = $('input[name="view"]:checked').val(),
+    cols = $('input[name="list_col[]"]:checked')
+      .map(function(){ return this.value; }).get();
 
   rcmail.set_list_options(cols, sort, ord, thread == 'thread' ? 1 : 0);
 },
