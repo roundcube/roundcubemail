@@ -595,7 +595,7 @@ class rcube_contacts extends rcube_addressbook
                 "SELECT 1 FROM ".get_table_name('contactgroups').
                 " WHERE del<>1".
                     " AND user_id=?".
-                    " AND name LIKE ?",
+                    " AND name=?",
                 $this->user_id,
                 $checkname);
     
