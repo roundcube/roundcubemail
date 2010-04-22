@@ -34,6 +34,7 @@ class rcube_contacts extends rcube_addressbook
     private $result = null;
     private $search_fields;
     private $search_string;
+    private $cache;
     private $table_cols = array('name', 'email', 'firstname', 'surname', 'vcard');
   
     /** public properties */
@@ -69,6 +70,7 @@ class rcube_contacts extends rcube_addressbook
     function set_search_set($filter)
     {
         $this->filter = $filter;
+        $this->cache = null;
     }
 
   
@@ -90,6 +92,7 @@ class rcube_contacts extends rcube_addressbook
     function set_group($gid)
     {
         $this->group_id = $gid;
+        $this->cache = null;
     }
 
 
@@ -102,6 +105,7 @@ class rcube_contacts extends rcube_addressbook
         $this->filter = null;
         $this->search_fields = null;
         $this->search_string = null;
+        $this->cache = null;
     }
   
 
@@ -165,9 +169,9 @@ class rcube_contacts extends rcube_addressbook
         $sql_result = $this->db->limitquery(
             "SELECT * FROM ".$this->db_name." AS c ".$join .
             " WHERE c.del<>1" .
-            " AND c.user_id=?" .
-            ($this->group_id ? " AND m.contactgroup_id=?" : "").
-            ($this->filter ? " AND (".$this->filter.")" : "") .
+                " AND c.user_id=?" .
+                ($this->group_id ? " AND m.contactgroup_id=?" : "").
+                ($this->filter ? " AND (".$this->filter.")" : "") .
             " ORDER BY c.name",
             $start_row,
             $length,
@@ -212,12 +216,13 @@ class rcube_contacts extends rcube_addressbook
     {
         if (!is_array($fields))
             $fields = array($fields);
-      
+
         $add_where = array();
         foreach ($fields as $col) {
             if ($col == 'ID' || $col == $this->primary_key) {
                 $ids         = !is_array($value) ? explode(',', $value) : $value;
-                $add_where[] = 'c.' . $this->primary_key.' IN ('.join(',', $ids).')';
+                $ids         = join(',', array_map(array($this->db, 'quote'), $ids));
+                $add_where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
             }
             else if ($strict)
                 $add_where[] = $this->db->quoteIdentifier($col).'='.$this->db->quote($value);
@@ -244,7 +249,9 @@ class rcube_contacts extends rcube_addressbook
      */
     function count()
     {
-        return new rcube_result_set($this->_count(), ($this->list_page-1) * $this->page_size);
+        $count = isset($this->cache['count']) ? $this->cache['count'] : $this->_count();
+    
+        return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
     }
 
 
@@ -272,7 +279,10 @@ class rcube_contacts extends rcube_addressbook
         );
 
         $sql_arr = $this->db->fetch_assoc($sql_result);
-        return (int) $sql_arr['rows'];
+
+        $this->cache['count'] = (int) $sql_arr['rows'];
+
+        return $this->cache['count'];
     }
 
 
@@ -356,6 +366,8 @@ class rcube_contacts extends rcube_addressbook
         if ($insert_id && $this->group_id)
             $this->add_to_group($this->group_id, $insert_id);
 
+        $this->cache = null;
+
         return $insert_id;
     }
 
@@ -416,8 +428,8 @@ class rcube_contacts extends rcube_addressbook
      */
     function delete($ids)
     {
-        if (is_array($ids))
-            $ids = join(',', $ids);
+        if (!is_array($ids))
+            $ids = explode(',', $ids);
 
         $ids = join(',', array_map(array($this->db, 'quote'), $ids));
 
@@ -430,6 +442,8 @@ class rcube_contacts extends rcube_addressbook
             $this->user_id
         );
 
+        $this->cache = null;
+
         return $this->db->affected_rows();
     }
 
@@ -440,6 +454,7 @@ class rcube_contacts extends rcube_addressbook
     function delete_all()
     {
         $this->db->query("DELETE FROM {$this->db_name} WHERE user_id=?", $this->user_id);
+        $this->cache = null;
         return $this->db->affected_rows();
     }
 
@@ -485,6 +500,8 @@ class rcube_contacts extends rcube_addressbook
             " WHERE contactgroup_id=?",
             $gid
         );
+
+        $this->cache = null;
 
         return $this->db->affected_rows();
     }
