@@ -736,8 +736,7 @@ function mdb2_debug_handler(&$db, $scope, $message, $context = array())
 {
   if ($scope != 'prepare')
   {
-    $debug_output = $scope . '('.$db->db_index.'): ';
-    $debug_output .= $message . $db->getOption('log_line_break');
+    $debug_output = $scope . '('.$db->db_index.'): ' . $message;
     write_log('sql', $debug_output);
   }
 }
