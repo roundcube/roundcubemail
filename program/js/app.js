@@ -3431,8 +3431,8 @@ function rcube_webmail()
   // load contact record
   this.load_contact = function(cid, action, framed)
   {
-    var add_url = '';
-    var target = window;
+    var add_url = '', target = window;
+
     if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
       add_url = '&_framed=1';
       target = window.frames[this.env.contentframe];
@@ -3442,8 +3442,11 @@ function rcube_webmail()
       return false;
 
     if (action && (cid || action=='add') && !this.drag_active) {
+      if (this.env.group)
+        add_url += '&_gid='+urlencode(this.env.group);
+
       this.set_busy(true);
-      target.location.href = this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+'&_cid='+urlencode(cid) + add_url;
+      target.location.href = this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_cid='+urlencode(cid) + add_url;
     }
     return true;
   };
