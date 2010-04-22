@@ -93,7 +93,7 @@ else
 {
   // check for existing contacts
   $existing = $CONTACTS->search('email', $a_record['email'], true, false);
-  
+
   // show warning message
   if ($existing->count)
   {
@@ -121,8 +121,7 @@ else
 
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
-    rcmail_overwrite_action('show');
-    $_GET['_cid'] = $insert_id;
+    $OUTPUT->send('iframe');
   }
   else
   {
