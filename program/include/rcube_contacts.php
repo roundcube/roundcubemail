@@ -163,11 +163,12 @@ class rcube_contacts extends rcube_addressbook
         $length = $subset != 0 ? abs($subset) : $this->page_size;
 
         if ($this->group_id)
-            $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
+            $join = " LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
                 " ON (m.contact_id = c.".$this->primary_key.")";
 
         $sql_result = $this->db->limitquery(
-            "SELECT * FROM ".$this->db_name." AS c ".$join .
+            "SELECT * FROM ".$this->db_name." AS c" .
+            $join .
             " WHERE c.del<>1" .
                 " AND c.user_id=?" .
                 ($this->group_id ? " AND m.contactgroup_id=?" : "").
@@ -194,6 +195,8 @@ class rcube_contacts extends rcube_addressbook
         else if ($this->list_page <= 1) {
             if ($cnt < $this->page_size && $subset == 0)
                 $this->result->count = $cnt;
+            else if (isset($this->cache['count']))
+                $this->result->count = $this->cache['count'];
             else
                 $this->result->count = $this->_count();
         }
@@ -263,14 +266,15 @@ class rcube_contacts extends rcube_addressbook
     private function _count()
     {
         if ($this->group_id)
-            $join = "LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
+            $join = " LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
                 " ON (m.contact_id=c.".$this->primary_key.")";
       
         // count contacts for this user
         $sql_result = $this->db->query(
             "SELECT COUNT(c.contact_id) AS rows".
-            " FROM ".$this->db_name." AS c ".$join.
-            " WHERE  c.del<>1".
+            " FROM ".$this->db_name." AS c".
+                $join.
+            " WHERE c.del<>1".
             " AND c.user_id=?".
             ($this->group_id ? " AND m.contactgroup_id=?" : "").
             ($this->filter ? " AND (".$this->filter.")" : ""),
