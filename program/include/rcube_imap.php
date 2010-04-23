@@ -408,16 +408,17 @@ class rcube_imap
     /**
      * Get message count for a specific mailbox
      *
-     * @param   string   Mailbox/folder name
-     * @param   string   Mode for count [ALL|THREADS|UNSEEN|RECENT]
-     * @param   boolean  Force reading from server and update cache
-     * @return  int      Number of messages
-     * @access  public
+     * @param  string  Mailbox/folder name
+     * @param  string  Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param  boolean Force reading from server and update cache
+     * @param  boolean Enables MAXUIDs checking
+     * @return int     Number of messages
+     * @access public
      */
-    function messagecount($mbox_name='', $mode='ALL', $force=false)
+    function messagecount($mbox_name='', $mode='ALL', $force=false, $maxuid=true)
     {
         $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
-        return $this->_messagecount($mailbox, $mode, $force);
+        return $this->_messagecount($mailbox, $mode, $force, $maxuid);
     }
 
 
@@ -427,7 +428,7 @@ class rcube_imap
      * @access  private
      * @see     rcube_imap::messagecount()
      */
-    private function _messagecount($mailbox='', $mode='ALL', $force=false)
+    private function _messagecount($mailbox='', $mode='ALL', $force=false, $maxuid=true)
     {
         $mode = strtoupper($mode);
 
@@ -453,7 +454,8 @@ class rcube_imap
 
         if ($mode == 'THREADS') {
             $count = $this->_threadcount($mailbox, $msg_count);
-            $_SESSION['maxuid'][$mailbox] = $msg_count ? $this->_id2uid($msg_count) : 0;
+            if ($maxuid)
+                $_SESSION['maxuid'][$mailbox] = $msg_count ? $this->_id2uid($msg_count, $mailbox) : 0;
         }
         // RECENT count is fetched a bit different
         else if ($mode == 'RECENT') {
@@ -477,15 +479,16 @@ class rcube_imap
       
             $count = is_array($index) ? count($index) : 0;
 
-            if ($mode == 'ALL')
-                $_SESSION['maxuid'][$mailbox] = $index ? $this->_id2uid(max($index)) : 0;
+            if ($mode == 'ALL' && $maxuid)
+                $_SESSION['maxuid'][$mailbox] = $index ? $this->_id2uid(max($index), $mailbox) : 0;
         }
         else {
             if ($mode == 'UNSEEN')
                 $count = $this->conn->countUnseen($mailbox);
             else {
                 $count = $this->conn->countMessages($mailbox);
-                $_SESSION['maxuid'][$mailbox] = $count ? $this->_id2uid($count) : 0;
+                if ($maxuid)
+                    $_SESSION['maxuid'][$mailbox] = $count ? $this->_id2uid($count, $mailbox) : 0;
             }
         }
 
@@ -1571,7 +1574,7 @@ class rcube_imap
     function get_headers($id, $mbox_name=NULL, $is_uid=true, $bodystr=false)
     {
         $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
-        $uid = $is_uid ? $id : $this->_id2uid($id);
+        $uid = $is_uid ? $id : $this->_id2uid($id, $mailbox);
 
         // get cached headers
         if ($uid && ($headers = &$this->get_cached_message($mailbox.'.msg', $uid)))
