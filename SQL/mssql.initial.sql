@@ -20,6 +20,22 @@ CREATE TABLE [dbo].[contacts] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[contactgroups] (
+	[contactgroup_id] [int] IDENTITY (1, 1) NOT NULL ,
+	[user_id] [int] NOT NULL ,
+	[changed] [datetime] NOT NULL ,
+	[del] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[name] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[contactgroupmembers] (
+	[contactgroup_id] [int] NOT NULL ,
+	[contact_id] [int] NOT NULL ,
+	[created] [datetime] NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
 CREATE TABLE [dbo].[identities] (
 	[identity_id] [int] IDENTITY (1, 1) NOT NULL ,
 	[user_id] [int] NOT NULL ,
@@ -90,6 +106,20 @@ ALTER TABLE [dbo].[contacts] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
+ALTER TABLE [dbo].[contactgroups] WITH NOCHECK ADD 
+	CONSTRAINT [PK_contactgroups_contactgroup_id] PRIMARY KEY CLUSTERED 
+	(
+		[contactgroup_id]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[contactgroupmembers] WITH NOCHECK ADD 
+	CONSTRAINT [PK_contactgroupmembers_id] PRIMARY KEY CLUSTERED 
+	(
+		[contactgroup_id], [contact_id]
+	)  ON [PRIMARY] 
+GO
+
 ALTER TABLE [dbo].[identities] WITH NOCHECK ADD 
 	 PRIMARY KEY  CLUSTERED 
 	(
@@ -124,13 +154,13 @@ ALTER TABLE [dbo].[cache] ADD
 	CONSTRAINT [DF_cache_created] DEFAULT (getdate()) FOR [created]
 GO
 
- CREATE  INDEX [IX_cache_user_id] ON [dbo].[cache]([user_id]) ON [PRIMARY]
+CREATE  INDEX [IX_cache_user_id] ON [dbo].[cache]([user_id]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
+CREATE  INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_cache_created] ON [dbo].[cache]([created]) ON [PRIMARY]
+CREATE  INDEX [IX_cache_created] ON [dbo].[cache]([created]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contacts] ADD 
@@ -144,8 +174,26 @@ ALTER TABLE [dbo].[contacts] ADD
 	CONSTRAINT [CK_contacts_del] CHECK ([del] = '1' or [del] = '0')
 GO
 
- CREATE  INDEX [IX_contacts_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
+CREATE  INDEX [IX_contacts_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
 GO
+
+ALTER TABLE [dbo].[contactgroups] ADD 
+	CONSTRAINT [DF_contactgroups_user_id] DEFAULT (0) FOR [user_id],
+	CONSTRAINT [DF_contactgroups_changed] DEFAULT (getdate()) FOR [changed],
+	CONSTRAINT [DF_contactgroups_del] DEFAULT ('0') FOR [del],
+	CONSTRAINT [DF_contactgroups_name] DEFAULT ('') FOR [name],
+	CONSTRAINT [CK_contactgroups_del] CHECK ([del] = '1' or [del] = '0')
+GO
+
+CREATE  INDEX [IX_contactgroups_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[contactgroupmembers] ADD 
+	CONSTRAINT [DF_contactgroupmembers_contactgroup_id] DEFAULT (0) FOR [contactgroup_id],
+	CONSTRAINT [DF_contactgroupmembers_contact_id] DEFAULT (0) FOR [contact_id],
+	CONSTRAINT [DF_contactgroupmembers_created] DEFAULT (getdate()) FOR [created]
+GO
+
 
 ALTER TABLE [dbo].[identities] ADD 
 	CONSTRAINT [DF_identities_user] DEFAULT ('0') FOR [user_id],
