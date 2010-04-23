@@ -209,7 +209,7 @@ ALTER TABLE [dbo].[identities] ADD
 	 CHECK ([del] = '1' or [del] = '0')
 GO
 
- CREATE  INDEX [IX_identities_user_id] ON [dbo].[identities]([user_id]) ON [PRIMARY]
+CREATE  INDEX [IX_identities_user_id] ON [dbo].[identities]([user_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[messages] ADD 
@@ -227,16 +227,16 @@ ALTER TABLE [dbo].[messages] ADD
 	CONSTRAINT [DF_messages_size] DEFAULT (0) FOR [size]
 GO
 
- CREATE  INDEX [IX_messages_user_id] ON [dbo].[messages]([user_id]) ON [PRIMARY]
+CREATE  INDEX [IX_messages_user_id] ON [dbo].[messages]([user_id]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_messages_cache_key] ON [dbo].[messages]([cache_key]) ON [PRIMARY]
+CREATE  INDEX [IX_messages_cache_key] ON [dbo].[messages]([cache_key]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_messages_uid] ON [dbo].[messages]([uid]) ON [PRIMARY]
+CREATE  INDEX [IX_messages_uid] ON [dbo].[messages]([uid]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_messages_created] ON [dbo].[messages]([created]) ON [PRIMARY]
+CREATE  INDEX [IX_messages_created] ON [dbo].[messages]([created]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[session] ADD 
@@ -245,7 +245,7 @@ ALTER TABLE [dbo].[session] ADD
 	CONSTRAINT [DF_session_ip] DEFAULT ('') FOR [ip]
 GO
 
- CREATE  INDEX [IX_session_changed] ON [dbo].[session]([changed]) ON [PRIMARY]
+CREATE  INDEX [IX_session_changed] ON [dbo].[session]([changed]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[users] ADD 
@@ -255,9 +255,44 @@ ALTER TABLE [dbo].[users] ADD
 	CONSTRAINT [DF_users_created] DEFAULT (getdate()) FOR [created]
 GO
 
- CREATE  INDEX [IX_users_username] ON [dbo].[users]([username]) ON [PRIMARY]
+CREATE  INDEX [IX_users_username] ON [dbo].[users]([username]) ON [PRIMARY]
 GO
 
- CREATE  INDEX [IX_users_alias] ON [dbo].[users]([alias]) ON [PRIMARY]
+CREATE  INDEX [IX_users_alias] ON [dbo].[users]([alias]) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[identities] ADD
+    FOREIGN KEY ([FK_identities_user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[contacts] ADD
+    FOREIGN KEY ([FK_contacts_user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[contactgroups] ADD
+    FOREIGN KEY ([FK_contactgroups_user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[cache] ADD
+    FOREIGN KEY ([FK_cache_user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[messages] ADD
+    FOREIGN KEY ([FK_messages_user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[contactgroupmembers] ADD
+    FOREIGN KEY ([FK_contactgroupmembers_contactgroup_id]) REFERENCES [dbo].[contactgroups] ([contactgroup_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[contactgroupmembers] ADD
+    FOREIGN KEY ([FK_contactgroupmembers_contact_id]) REFERENCES [dbo].[contacts] ([contact_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
