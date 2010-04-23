@@ -2773,7 +2773,7 @@ class rcube_imap
                     return true;
             }
             else {
-                $a_folders = $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_mbox);
+                $a_folders = $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
 	
 	        if (is_array($a_folders) && in_array($this->mod_mailbox($mbox_name), $a_folders))
                 return true;
