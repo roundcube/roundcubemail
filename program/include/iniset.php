@@ -5,7 +5,7 @@
  | program/include/iniset.php                                            |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2008-2009, RoundCube Dev, - Switzerland                 |
+ | Copyright (C) 2008-2010, RoundCube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -36,7 +36,7 @@ foreach ($crit_opts as $optname => $optval) {
 }
 
 // application constants
-define('RCMAIL_VERSION', '0.3-trunk');
+define('RCMAIL_VERSION', '0.4-beta');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 define('RCMAIL_START', microtime(true));

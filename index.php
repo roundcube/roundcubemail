@@ -2,9 +2,9 @@
 /*
  +-------------------------------------------------------------------------+
  | RoundCube Webmail IMAP Client                                           |
- | Version 0.3-20090814                                                    |
+ | Version 0.4-beta                                                        |
  |                                                                         |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                   |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                   |
  |                                                                         |
  | This program is free software; you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License version 2          |

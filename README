@@ -3,10 +3,10 @@ Roundcube Webmail (http://roundcube.net)
 
 ATTENTION
 ---------
-This is just a snapshot of the current SVN repository and is NOT A STABLE
-version of Roundcube. It's not recommended to replace an existing installation
-of Roundcube with this version. Also using a separate database for this
-installation is highly recommended.
+The database schema has changed since the 0.3 release. If you're updating an
+existing installation please carefully read the UPGRADING instructions and
+make sure that the according SQL statements from SQL/*.update.sql are executed
+on the database.
 
 
 Introduction:
