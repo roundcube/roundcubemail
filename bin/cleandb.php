@@ -29,8 +29,8 @@ require INSTALL_PATH.'program/include/iniset.php';
 
 // mapping for table name => primary key
 $primary_keys = array(
-  'contacts' => "contact_id",
-  'contactgroups' => "contactgroup_id",
+    'contacts' => "contact_id",
+    'contactgroups' => "contactgroup_id",
 );
 
 // connect to DB
@@ -38,46 +38,43 @@ $RCMAIL = rcmail::get_instance();
 $db = $RCMAIL->get_dbh();
 
 if (!$db->is_connected() || $db->is_error)
-  die("No DB connection");
+    die("No DB connection");
 
 if (!empty($_SERVER['argv'][1]))
-  $days = intval($_SERVER['argv'][1]);
+    $days = intval($_SERVER['argv'][1]);
 else
-  $days = 7;
+    $days = 7;
 
 // remove all deleted records older than two days
 $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
 foreach (array('contacts','contactgroups','identities') as $table) {
-  // also delete linked records
-  // could be skipped for databases which respect foreign key constraints
-/*
-  if ($table == 'contacts' || $table == 'contactgroups') {
-    $ids = array();
-    $pk = $primary_keys[$table];
 
-    $result = $db->query(
-      "SELECT $pk FROM ".get_table_name($table)."
-       WHERE del=1 AND changed < ".$db->quote($threshold));
+    $sqltable = get_table_name($table);
 
-    while ($result && ($sql_arr = $db->fetch_assoc($result)))
-      $ids[] = $sql_arr[$pk];
+    // also delete linked records
+    // could be skipped for databases which respect foreign key constraints
+    if ($db->db_provider == 'sqlite'
+        && ($table == 'contacts' || $table == 'contactgroups')
+    ) {
+        $pk = $primary_keys[$table];
+        $memberstable = get_table_name('contactgroupmembers');
 
-    if (count($ids)) {
-      $db->query(
-        "DELETE FROM ".get_table_name('contactgroupmembers')."
-         WHERE $pk IN (".join(',', $ids).")");
+        $db->query(
+            "DELETE FROM $memberstable".
+            " WHERE $pk IN (".
+                "SELECT $pk FROM $sqltable".
+                " WHERE del=1 AND changed < ?".
+            ")",
+            $threshold);
 
-      echo $db->affected_rows() . " records deleted from '".get_table_name('contactgroupmembers')."'\n";
+        echo $db->affected_rows() . " records deleted from '$memberstable'\n";
     }
-  }
-*/
-  // delete outdated records
-  $db->query(
-    "DELETE FROM ".get_table_name($table)."
-     WHERE del=1 AND changed < ".$db->quote($threshold));
 
-  echo $db->affected_rows() . " records deleted from '$table'\n";
+    // delete outdated records
+    $db->query("DELETE FROM $sqltable WHERE del=1 AND changed < ?", $threshold);
+
+    echo $db->affected_rows() . " records deleted from '$table'\n";
 }
 
 ?>
