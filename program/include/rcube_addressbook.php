@@ -117,7 +117,7 @@ abstract class rcube_addressbook
      */
     function set_page($page)
     {
-      $this->list_page = (int)$page;
+        $this->list_page = (int)$page;
     }
 
     /**
@@ -128,7 +128,7 @@ abstract class rcube_addressbook
      */
     function set_pagesize($size)
     {
-      $this->page_size = (int)$size;
+        $this->page_size = (int)$size;
     }
 
     /**
@@ -146,7 +146,7 @@ abstract class rcube_addressbook
      */
     function insert($save_data, $check=false)
     {
-      /* empty for read-only address books */
+        /* empty for read-only address books */
     }
 
     /**
@@ -158,7 +158,7 @@ abstract class rcube_addressbook
      */
     function update($id, $save_cols)
     {
-      /* empty for read-only address books */
+        /* empty for read-only address books */
     }
 
     /**
@@ -168,7 +168,7 @@ abstract class rcube_addressbook
      */
     function delete($ids)
     {
-      /* empty for read-only address books */
+        /* empty for read-only address books */
     }
 
     /**
@@ -176,7 +176,7 @@ abstract class rcube_addressbook
      */
     function delete_all()
     {
-      /* empty for read-only address books */
+        /* empty for read-only address books */
     }
 
     /**
@@ -187,8 +187,8 @@ abstract class rcube_addressbook
      */
     function create_group($name)
     {
-      /* empty for address books don't supporting groups */
-      return false;
+        /* empty for address books don't supporting groups */
+        return false;
     }
     
     /**
@@ -199,8 +199,8 @@ abstract class rcube_addressbook
      */
     function delete_group($gid)
     {
-      /* empty for address books don't supporting groups */
-      return false;
+        /* empty for address books don't supporting groups */
+        return false;
     }
     
     /**
@@ -212,8 +212,8 @@ abstract class rcube_addressbook
      */
     function rename_group($gid, $newname)
     {
-      /* empty for address books don't supporting groups */
-      return false;
+        /* empty for address books don't supporting groups */
+        return false;
     }
     
     /**
@@ -225,8 +225,8 @@ abstract class rcube_addressbook
      */
     function add_to_group($group_id, $ids)
     {
-      /* empty for address books don't supporting groups */
-      return 0;
+        /* empty for address books don't supporting groups */
+        return 0;
     }
     
     /**
@@ -238,8 +238,7 @@ abstract class rcube_addressbook
      */
     function remove_from_group($group_id, $ids)
     {
-      /* empty for address books don't supporting groups */
-      return 0;
+        /* empty for address books don't supporting groups */
+        return 0;
     }
 }
- 

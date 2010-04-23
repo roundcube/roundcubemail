@@ -5,7 +5,7 @@
  | program/include/rcube_template.php                                    |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2006-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2006-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -536,7 +536,7 @@ class rcube_template extends rcube_html_page
     
     
     /**
-     *
+     * Inserts hidden field with CSRF-prevention-token into POST forms
      */
     private function alter_form_tag($matches)
     {
@@ -1124,7 +1124,7 @@ class rcube_template extends rcube_html_page
             $attrib['id'] = 'rcmqsearchbox';
         }
         if ($attrib['type'] == 'search' && !$this->browser->khtml) {
-          unset($attrib['type'], $attrib['results']);
+            unset($attrib['type'], $attrib['results']);
         }
         
         $input_q = new html_inputfield($attrib);
@@ -1138,7 +1138,7 @@ class rcube_template extends rcube_html_page
                 'name' => "rcmqsearchform",
                 'onsubmit' => JS_OBJECT_NAME . ".command('search');return false;",
                 'style' => "display:inline"),
-              $out);
+                $out);
         }
 
         return $out;
@@ -1215,15 +1215,15 @@ class rcube_template extends rcube_html_page
         );
 
         if (!empty($_POST['_charset']))
-	    $set = $_POST['_charset'];
-	else if (!empty($attrib['selected']))
-	    $set = $attrib['selected'];
-	else
-	    $set = $this->get_charset();
+	        $set = $_POST['_charset'];
+	    else if (!empty($attrib['selected']))
+	        $set = $attrib['selected'];
+	    else
+	        $set = $this->get_charset();
 
-	$set = strtoupper($set);
-	if (!isset($charsets[$set]))
-	    $charsets[$set] = $set;
+	    $set = strtoupper($set);
+	    if (!isset($charsets[$set]))
+	        $charsets[$set] = $set;
 
         $select = new html_select($field_attrib);
         $select->add(array_values($charsets), array_keys($charsets));
