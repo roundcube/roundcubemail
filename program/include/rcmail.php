@@ -350,7 +350,7 @@ class rcmail
       $this->output = new rcube_template($this->task, $framed);
 
     // set keep-alive/check-recent interval
-    if ($keep_alive = $this->session->get_keep_alive()) {
+    if ($this->session && ($keep_alive = $this->session->get_keep_alive())) {
       $this->output->set_env('keep_alive', $keep_alive);
     }
 
@@ -481,6 +481,10 @@ class rcmail
    */
   public function session_init()
   {
+    // session started (Installer?)
+    if (session_id())
+      return;
+
     $lifetime = $this->config->get('session_lifetime', 0) * 60;
 
     // set session domain
@@ -522,6 +526,9 @@ class rcmail
    */
   public function session_configure()
   {
+    if (!$this->session)
+      return;
+
     $lifetime = $this->config->get('session_lifetime', 0) * 60;
 
     // set keep-alive/check-recent interval
@@ -980,7 +987,10 @@ class rcmail
         $mem .= '/'.show_bytes(memory_get_peak_usage());
 
       $log = $this->task . ($this->action ? '/'.$this->action : '') . ($mem ? " [$mem]" : '');
-      rcube_print_time(RCMAIL_START, $log);
+      if (defined('RCMAIL_START'))
+        rcube_print_time(RCMAIL_START, $log);
+      else
+        console($log);
     }
   }
   
