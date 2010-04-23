@@ -1,6 +1,11 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix listing of attachments of some types e.g. "x-epoc/x-sisx-app" (#1486653)
+- Fix DB Schema checking when some db_table_* options are not set (#1486654)
+
+RELEASE 0.4-beta
+----------------
 - Add sizelimit and timelimit variables in LDAP config (#1486544)
 - Hide IMAP host dropdown when single host is defined (#1486326)
 - Add images pre-loading on login page (#1451160)
