@@ -23,7 +23,12 @@
 
 */
 
-                    
+/**
+ * Helper class to process IMAP's BODYSTRUCTURE string
+ *
+ * @package    Mail
+ * @author     Aleksander Machniak <alec@alec.pl>
+ */
 class rcube_mime_struct
 {
     private $structure;

@@ -26,6 +26,12 @@
 */
 
 
+/**
+ * Struct representing an e-mail message header
+ *
+ * @package    Mail
+ * @author     Aleksander Machniak <alec@alec.pl> 
+ */
 class rcube_mail_header
 {
 	public $id;
@@ -70,6 +76,12 @@ class iilBasicHeader extends rcube_mail_header
 {
 }
 
+/**
+ * PHP based wrapper class to connect to an IMAP server
+ *
+ * @package    Mail
+ * @author     Aleksander Machniak <alec@alec.pl> 
+ */
 class rcube_imap_generic
 {
     public $error;

@@ -1,15 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-if [ -z "$SSH_TTY" ]
-then
-  if [ -z "$DEV_TTY" ]
-  then
-    echo "Not on the shell."
-    exit 1
-  fi
-fi
-
-TITLE="RoundCube Classes"
+TITLE="Roundcube Classes"
 PACKAGES="Core"
 
 INSTALL_PATH="`dirname $0`/.."

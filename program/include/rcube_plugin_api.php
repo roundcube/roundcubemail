@@ -22,7 +22,7 @@
 /**
  * The plugin loader and global API
  *
- * @package Core
+ * @package PluginAPI
  */
 class rcube_plugin_api
 {

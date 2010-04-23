@@ -22,7 +22,7 @@
 /**
  * Plugin interface class
  *
- * @package Core
+ * @package PluginAPI
  */
 abstract class rcube_plugin
 {

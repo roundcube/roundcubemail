@@ -26,7 +26,8 @@
  *
  * @package    Mail
  * @author     Thomas Bruederli <roundcube@gmail.com>
- * @version    1.6
+ * @author     Aleksander Machniak <alec@alec.pl> 
+ * @version    2.0
  */
 class rcube_imap
 {

@@ -5,7 +5,7 @@
  | program/include/rcube_smtp.php                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -22,7 +22,15 @@
 // define headers delimiter
 define('SMTP_MIME_CRLF', "\r\n");
 
-class rcube_smtp {
+/**
+ * Class to provide SMTP functionality using PEAR Net_SMTP
+ *
+ * @package    Mail
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @author     Aleksander Machniak <alec@alec.pl>
+ */
+class rcube_smtp
+{
 
   private $conn = null;
   private $response;
@@ -124,7 +132,7 @@ class rcube_smtp {
         $this->error = array('label' => 'smtpautherror', 'vars' => array('code' => $this->conn->_code));
         $this->response[] .= 'Authentication failure: ' . $result->getMessage() . ' (Code: ' . $result->getCode() . ')';
         $this->reset();
-	$this->disconnect();
+        $this->disconnect();
         return false;
       }
     }
