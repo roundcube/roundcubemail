@@ -394,14 +394,12 @@ class rcube_imap_generic
         // process result
         $result = $this->parseResult($line);
         if ($result == 0) {
-            $this->error    .= '';
-            $this->errornum  = 0;
+            $this->errornum = 0;
             return $this->fp;
         }
 
-        $this->error    .= 'Authentication for ' . $user . ' failed (AUTH): "';
-        $this->error    .= htmlspecialchars($line) . '"';
-        $this->errornum  = $result;
+        $this->error    = "Authentication for $user failed (AUTH): $line";
+        $this->errornum = $result;
 
         return $result;
     }
@@ -416,17 +414,15 @@ class rcube_imap_generic
         $result = $this->parseResult($line);
 
         if ($result == 0) {
-            $this->error    .= '';
-            $this->errornum  = 0;
+            $this->errornum = 0;
             return $this->fp;
         }
 
         fclose($this->fp);
         $this->fp = false;
     
-        $this->error    .= 'Authentication for ' . $user . ' failed (LOGIN): "';
-        $this->error    .= htmlspecialchars($line)."\"";
-        $this->errornum  = $result;
+        $this->error    = "Authentication for $user failed (LOGIN): $line";
+        $this->errornum = $result;
 
         return $result;
     }
