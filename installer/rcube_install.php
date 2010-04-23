@@ -353,10 +353,11 @@ class rcube_install
     
     // check list of tables
     $existing_tables = $DB->list_tables();
+
     foreach ($db_schema as $table => $cols) {
-      if (!in_array($this->config['db_table_'.$table], $existing_tables))
+      $table = !empty($this->config['db_table_'.$table]) ? $this->config['db_table_'.$table] : $table;
+      if (!in_array($table, $existing_tables))
         $errors[] = "Missing table ".$table;
-      
       // TODO: check cols and indices
     }
     
