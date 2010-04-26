@@ -82,7 +82,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     }
 
     // deliver part content
-    if ($ctype_primary == 'text' && $ctype_secondary == 'html') {
+    if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($_GET['_download'])) {
       // get part body if not available
       if (!$part->body)
         $part->body = $MESSAGE->get_part_content($part->mime_id);
