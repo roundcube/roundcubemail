@@ -27,8 +27,10 @@
  */
 class rcube_contacts extends rcube_addressbook
 {
+    // protected for backward compat. with some plugins
+    // maybe changed in the future
+    protected $db_name = '';
     private $db = null;
-    private $db_name = '';
     private $user_id = 0;
     private $filter = null;
     private $result = null;
