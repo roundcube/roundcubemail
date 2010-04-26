@@ -2,7 +2,7 @@
 
 /*
 +-----------------------------------------------------------------------+
-| language/sl_SLI/messages.inc                                          |
+| language/sl_SL/messages.inc                                          |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2008-2010, RoundQube Dev. - Switzerland                 |

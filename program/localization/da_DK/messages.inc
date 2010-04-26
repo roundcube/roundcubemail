@@ -5,7 +5,7 @@
 | language/da_DK/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -48,6 +48,7 @@ $messages['senttooquickly'] = 'Vent venligst $sec sekunder før du sender denne 
 $messages['errorsavingsent'] = 'Der opstod en fejl da den sendte besked blev gemt';
 $messages['errorsaving'] = 'Der opstod en fejl ved lagring af data';
 $messages['errormoving'] = 'Beskeden kunne ikke flyttes';
+$messages['errorcopying'] = 'Beskeden kunne ikke kopieres';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes';
 $messages['errormarking'] = 'Beskeden kunne ikke markeres';
 $messages['deletecontactconfirm'] = 'Vil du virkelig slette den/de valgte kontakt(er)?';
@@ -87,6 +88,7 @@ $messages['copyerror'] = 'Kunne ikke kopiere adresserne';
 $messages['sourceisreadonly'] = 'Denne adressekilde er kun til læsning';
 $messages['errorsavingcontact'] = 'Kunne ikke gemme kontakt adressen';
 $messages['movingmessage'] = 'Flytter besked...';
+$messages['copyingmessage'] = 'Kopierer besked...';
 $messages['receiptsent'] = 'Kvittering for læsning er sendt';
 $messages['errorsendingreceipt'] = 'Kvitteringen kunne ikke sendes';
 $messages['nodeletelastidentity'] = 'Du kan ikke slette denne identitet, da det er den eneste der er tilbage.';
@@ -94,6 +96,8 @@ $messages['addsubfolderhint'] = 'Denne mappe vil blive oprettet som en undermapp
 $messages['forbiddencharacter'] = 'Mappe-navnet indeholder ugyldige tegn';
 $messages['selectimportfile'] = 'Vælg venligst den fil der skal uploades';
 $messages['addresswriterror'] = 'Der kan ikke skrives i den valgte adressebog';
+$messages['contactaddedtogroup'] = 'Succesfuldt tilføjet kontakten til denne gruppe';
+$messages['contactremovedfromgroup'] = 'Succesfuldt fjernet kontakten fra denne gruppe';
 $messages['importwait'] = 'Importerer, vent venligst...';
 $messages['importerror'] = 'Fejl i importen! Den uploadede fil er ikke en gyldig vCard fil.';
 $messages['importconfirm'] = '<b>Importerede $inserted kontakter, sprang over $skipped allerede eksisterende kontakter</b>:<p><em>$names</em></p>';
@@ -108,5 +112,7 @@ $messages['smtptoerror'] = 'SMTP fejl ($code): Kunne ikke tilføje modtageren "$
 $messages['smtprecipientserror'] = 'SMTP fejl: kan ikke fortolke listen af modtagere';
 $messages['smtperror'] = 'SMTP fejl: $msg';
 $messages['emailformaterror'] = 'Ugyldig email-adresse: $email';
+$messages['toomanyrecipients'] = 'For mange modtagere. Reducer antallet af modtagere til $max';
+$messages['maxgroupmembersreached'] = 'Antallet af gruppemedlemmer overstiger maksimum på $max';
 
 ?>
