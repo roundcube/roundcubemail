@@ -92,7 +92,7 @@ class rcube_imap
      */
     function connect($host, $user, $pass, $port=143, $use_ssl=null)
     {
-        // check for Open-SSL support in PHP build
+        // check for OpenSSL support in PHP build
         if ($use_ssl && extension_loaded('openssl'))
             $this->options['ssl_mode'] = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
         else if ($use_ssl) {
@@ -3150,7 +3150,7 @@ class rcube_imap
         if (!$this->caching_enabled)
             return;
     
-        // check for an existing record (probly headers are cached but structure not)
+        // check for an existing record (probably headers are cached but structure not)
         if (!$force) {
             $sql_result = $this->db->query(
                 "SELECT message_id".
