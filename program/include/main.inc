@@ -1588,8 +1588,15 @@ function check_email($email, $dns_check=true)
     if (!$dns_check || !rcmail::get_instance()->config->get('email_dns_check'))
       return true;
 
-    if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<'))
-      return true;
+    if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<')) {
+      $lookup = array();
+      @exec("nslookup -type=MX " . escapeshellarg($domain_part) . " 2>&1", $lookup);
+      foreach ($lookup as $line) {
+        if (strpos($line, 'MX preference'))
+          return true;
+      }
+      return false;
+    }
 
     // find MX record(s)
     if (getmxrr($domain_part, $mx_records))
