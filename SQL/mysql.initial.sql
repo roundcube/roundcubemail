@@ -24,7 +24,7 @@ CREATE TABLE `users` (
  `mail_host` varchar(128) NOT NULL,
  `alias` varchar(128) NOT NULL,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
- `last_login` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `last_login` datetime DEFAULT NULL,
  `language` varchar(5),
  `preferences` text,
  PRIMARY KEY(`user_id`),

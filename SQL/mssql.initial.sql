@@ -86,7 +86,7 @@ CREATE TABLE [dbo].[users] (
 	[mail_host] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[alias] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
-	[last_login] [datetime] NOT NULL ,
+	[last_login] [datetime] NULL ,
 	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NULL ,
 	[preferences] [text] COLLATE Latin1_General_CI_AI NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]

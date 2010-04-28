@@ -22,7 +22,7 @@ CREATE TABLE users (
     mail_host varchar(128) DEFAULT '' NOT NULL,
     alias varchar(128) DEFAULT '' NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
-    last_login timestamp with time zone DEFAULT now() NOT NULL,
+    last_login timestamp with time zone DEFAULT NULL,
     "language" varchar(5),
     preferences text DEFAULT ''::text NOT NULL
 );

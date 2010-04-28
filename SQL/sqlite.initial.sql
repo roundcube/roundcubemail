@@ -92,7 +92,7 @@ CREATE TABLE users (
   mail_host varchar(128) NOT NULL default '',
   alias varchar(128) NOT NULL default '',
   created datetime NOT NULL default '0000-00-00 00:00:00',
-  last_login datetime NOT NULL default '0000-00-00 00:00:00',
+  last_login datetime DEFAULT NULL,
   language varchar(5),
   preferences text NOT NULL default ''
 );
