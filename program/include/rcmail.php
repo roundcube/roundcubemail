@@ -640,7 +640,7 @@ class rcmail
       else {
         raise_error(array(
           'code' => 600, 'type' => 'php',
-	  'file' => __FILE__, 'line' => __LINE__,
+	      'file' => __FILE__, 'line' => __LINE__,
           'message' => "Failed to create a user record. Maybe aborted by a plugin?"
           ), true, false);
       }

@@ -2482,10 +2482,10 @@ class rcube_imap
         $a_out = array();
         $a_mboxes = $this->_list_mailboxes($root, $filter);
 
-        foreach ($a_mboxes as $mbox_row) {
-            $name = $this->mod_mailbox($mbox_row, 'out');
-            if (strlen($name))
+        foreach ($a_mboxes as $idx => $mbox_row) {
+            if ($name = $this->mod_mailbox($mbox_row, 'out'))
                 $a_out[] = $name;
+            unset($a_mboxes[$idx]);
         }
 
         // INBOX should always be available
@@ -2554,10 +2554,15 @@ class rcube_imap
         $a_mboxes = $this->conn->listMailboxes($this->mod_mailbox($root), '*');
 
         // modify names with root dir
-        foreach ($a_mboxes as $mbox_name) {
+        foreach ($a_mboxes as $idx => $mbox_name) {
             if ($name = $this->mod_mailbox($mbox_name, 'out'))
                 $a_folders[] = $name;
+            unset($a_mboxes[$idx]);
         }
+
+        // INBOX should always be available
+        if (!in_array('INBOX', $a_folders))
+            array_unshift($a_folders, 'INBOX');
 
         // filter folders and sort them
         $a_folders = $this->_sort_mailbox_list($a_folders);
@@ -2708,7 +2713,7 @@ class rcube_imap
             foreach ($a_mboxes as $mbox_name) {
                 $mailbox = $this->mod_mailbox($mbox_name);
                 $sub_mboxes = $this->conn->listMailboxes($this->mod_mailbox(''),
-	            $mbox_name . $this->delimiter . '*');
+	                $mbox_name . $this->delimiter . '*');
 
                 // unsubscribe mailbox before deleting
                 $this->conn->unsubscribe($mailbox);
@@ -2770,13 +2775,13 @@ class rcube_imap
                 return true;
 
             if ($subscription) {
-                if ($a_folders = $this->conn->listSubscribed($this->mod_mailbox(''), $mbox_name))
-                    return true;
+                $a_folders = $this->conn->listSubscribed($this->mod_mailbox(''), $mbox_name);
             }
             else {
                 $a_folders = $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
-	
-	        if (is_array($a_folders) && in_array($this->mod_mailbox($mbox_name), $a_folders))
+	        }
+	        
+            if (is_array($a_folders) && in_array($this->mod_mailbox($mbox_name), $a_folders)) {
                 return true;
             }
         }

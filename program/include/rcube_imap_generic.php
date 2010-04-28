@@ -1612,6 +1612,16 @@ class rcube_imap_generic
 
     function listMailboxes($ref, $mailbox)
     {
+        return $this->_listMailboxes($ref, $mailbox, false);
+    }
+
+    function listSubscribed($ref, $mailbox)
+    {
+        return $this->_listMailboxes($ref, $mailbox, true);
+    }
+
+    private function _listMailboxes($ref, $mailbox, $subscribed=false)
+    {
 		if (empty($mailbox)) {
 	        $mailbox = '*';
 	    }
@@ -1620,105 +1630,44 @@ class rcube_imap_generic
 	        $ref = $this->rootdir;
 	    }
     
+        if ($subscribed) {
+            $key     = 'lsb';
+            $command = 'LSUB';
+        }
+        else {
+            $key     = 'lmb';
+            $command = 'LIST';
+        }
+
     	// send command
-	    if (!$this->putLine("lmb LIST \"". $this->escape($ref) ."\" \"". $this->escape($mailbox) ."\"")) {
+	    if (!$this->putLine($key." ".$command." \"". $this->escape($ref) ."\" \"". $this->escape($mailbox) ."\"")) {
+		    $this->error = "Couldn't send $command command";
 	        return false;
 	    }
     
-	    $i = 0;
 	    // get folder list
 	    do {
 		    $line = $this->readLine(500);
 		    $line = $this->multLine($line, true);
+		    $a    = explode(' ', $line);
 
-		    $a = explode(' ', $line);
-		    if (($line[0] == '*') && ($a[1] == 'LIST')) {
+		    if (($line[0] == '*') && ($a[1] == $command)) {
 			    $line = rtrim($line);
         		// split one line
 			    $a = rcube_explode_quoted_string(' ', $line);
         		// last string is folder name
-			    $folders[$i] = preg_replace(array('/^"/', '/"$/'), '', $this->unEscape($a[count($a)-1]));
+			    $folders[] = preg_replace(array('/^"/', '/"$/'), '', $this->unEscape($a[count($a)-1]));
 		        // second from last is delimiter
         		$delim = trim($a[count($a)-2], '"');
-        		// is it a container?
-        		$i++;
 		    }
-	    } while (!$this->startsWith($line, 'lmb', true));
+	    } while (!$this->startsWith($line, $key, true));
 
 	    if (is_array($folders)) {
-    	    if (!empty($ref)) {
-            	// if rootdir was specified, make sure it's the first element
-        	    // some IMAP servers (i.e. Courier) won't return it
-            	if ($ref[strlen($ref)-1]==$delim)
-	    	        $ref = substr($ref, 0, strlen($ref)-1);
-    	    	if ($folders[0]!=$ref)
-		            array_unshift($folders, $ref);
-    	    }
     	    return $folders;
 	    } else if ($this->parseResult($line) == 0) {
-		    return array('INBOX');
+            return array();
         }
 
-	    $this->error = $line;
-    	return false;
-    }
-
-    function listSubscribed($ref, $mailbox)
-    {
-	    if (empty($mailbox)) {
-		    $mailbox = '*';
-	    }
-	    if (empty($ref) && $this->rootdir) {
-		    $ref = $this->rootdir;
-	    }
-
-	    $folders = array();
-
-    	// send command
-	    if (!$this->putLine('lsb LSUB "'. $this->escape($ref) . '" "' . $this->escape($mailbox).'"')) {
-		    $this->error = "Couldn't send LSUB command";
-		    return false;
-	    }
-	
-    	$i = 0;
-	
-	    // get folder list
-	    do {
-		    $line = $this->readLine(500);
-    		$line = $this->multLine($line, true);
-	    	$a    = explode(' ', $line);
-        
-		    if (($line[0] == '*') && ($a[1] == 'LSUB' || $a[1] == 'LIST')) {
-			    $line = rtrim($line);
-            
-        		// split one line
-			    $a = rcube_explode_quoted_string(' ', $line);
-        		// last string is folder name
-    			$folder = preg_replace(array('/^"/', '/"$/'), '', $this->UnEscape($a[count($a)-1]));
-	    		// @TODO: do we need this check???
-		    	if (!in_array($folder, $folders)) {
-			        $folders[$i] = $folder;
-        		}
-        		// second from last is delimiter
-        		$delim = trim($a[count($a)-2], '"');
-        		// is it a container?
-        		$i++;
-		    }
-	    } while (!$this->startsWith($line, 'lsb', true));
-
-	    if (is_array($folders)) {
-    	    if (!empty($ref)) {
-            	// if rootdir was specified, make sure it's the first element
-        	    // some IMAP servers (i.e. Courier) won't return it
-            	if ($ref[strlen($ref)-1]==$delim) {
-            	    $ref = substr($ref, 0, strlen($ref)-1);
-            	}
-            	if ($folders[0]!=$ref) {
-            	    array_unshift($folders, $ref);
-        	    }
-    	    }
-    	    return $folders;
-	    }
 	    $this->error = $line;
     	return false;
     }

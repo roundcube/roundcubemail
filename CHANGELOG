@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix folder subscription checking (#1486684)
+- Fix INBOX appears (sometimes) twice in mailbox list (#1486672)
 - Fix listing of attachments of some types e.g. "x-epoc/x-sisx-app" (#1486653)
 - Fix DB Schema checking when some db_table_* options are not set (#1486654)
 
