@@ -186,8 +186,8 @@ class rcube_imap_generic
     		$buffer = fgets($this->fp, $size);
 
     		if ($buffer === false) {
-                fclose($this->fp);
-                $this->fp = null;
+            	@fclose($this->fp);
+            	$this->fp = null;
         		break;
     		}
 		    if (!empty($this->prefs['debug_mode'])) {
@@ -263,7 +263,7 @@ class rcube_imap_generic
 		    } else if ($res == 'BAD') {
 			    return -2;
 		    } else if ($res == 'BYE') {
-                fclose($this->fp);
+                @fclose($this->fp);
                 $this->fp = null;
 			    return -3;
 		    }
@@ -286,7 +286,7 @@ class rcube_imap_generic
 	    }
 	    if ($error && preg_match('/^\* (BYE|BAD) /i', $string, $m)) {
             if (strtoupper($m[1]) == 'BYE') {
-                fclose($this->fp);
+                @fclose($this->fp);
                 $this->fp = null;
             }
 		    return true;
@@ -311,7 +311,7 @@ class rcube_imap_generic
 	    }
 	    if ($error && preg_match('/^\* (BYE|BAD) /i', $string, $m)) {
             if (strtoupper($m[1]) == 'BYE') {
-                fclose($this->fp);
+                @fclose($this->fp);
                 $this->fp = null;
             }
 		    return true;
@@ -418,7 +418,7 @@ class rcube_imap_generic
             return $this->fp;
         }
 
-        fclose($this->fp);
+        @fclose($this->fp);
         $this->fp = false;
     
         $this->error    = "Authentication for $user failed (LOGIN): $line";
