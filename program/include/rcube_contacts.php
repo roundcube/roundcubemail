@@ -226,7 +226,7 @@ class rcube_contacts extends rcube_addressbook
         foreach ($fields as $col) {
             if ($col == 'ID' || $col == $this->primary_key) {
                 $ids         = !is_array($value) ? explode(',', $value) : $value;
-                $ids         = join(',', array_map(array($this->db, 'quote'), $ids));
+                $ids         = $this->db->array2list($ids, 'integer');
                 $add_where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
             }
             else if ($strict)
@@ -437,7 +437,7 @@ class rcube_contacts extends rcube_addressbook
         if (!is_array($ids))
             $ids = explode(',', $ids);
 
-        $ids = join(',', array_map(array($this->db, 'quote'), $ids));
+        $ids = $this->db->array2list($ids, 'integer');
 
         // flag record as deleted
         $this->db->query(
@@ -589,8 +589,8 @@ class rcube_contacts extends rcube_addressbook
         if (!is_array($ids))
             $ids = explode(',', $ids);
 
-        $ids = join(',', array_map(array($this->db, 'quote'), $ids));
-    
+        $ids = $this->db->array2list($ids, 'integer');
+
         $sql_result = $this->db->query(
             "DELETE FROM ".get_table_name('contactgroupmembers').
             " WHERE contactgroup_id=?".
