@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add 'loading' message while login is in progress (#1486667)
 - Fix quota_zero_as_unlimited (#1486662)
 - Fix folder subscription checking (#1486684)
 - Fix INBOX appears (sometimes) twice in mailbox list (#1486672)

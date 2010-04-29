@@ -370,6 +370,11 @@ function rcube_webmail()
         // detect client timezone
         $('#rcmlogintz').val(new Date().getTimezoneOffset() / -60);
 
+        // display 'loading' message on form submit
+        $('form').submit(function () { 
+          rcmail.display_message(rcmail.get_label('loading'), 'loading', true); 
+        }); 
+
         this.enable_command('login', true);
         break;
 
