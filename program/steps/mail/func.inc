@@ -447,10 +447,10 @@ function rcmail_quota_content($attrib=NULL)
   $quota = $RCMAIL->imap->get_quota();
   $quota = $RCMAIL->plugins->exec_hook('quota', $quota);
 
-  if (!isset($quota['used']) || !isset($quota['total']))
-    return rcube_label('unknown');
+  if (!$quota['total'] && $RCMAIL->config->get('quota_zero_as_unlimited'))
+    return rcube_label('unlimited');
 
-  if (!($quota['total']==0 && $RCMAIL->config->get('quota_zero_as_unlimited')))
+  if ($quota['total'])
     {
     if (!isset($quota['percent']))
       $quota['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
@@ -463,18 +463,18 @@ function rcmail_quota_content($attrib=NULL)
       $quota_result = array(
     	'percent' 	=> $quota['percent'],
         'title'		=> $quota_result,
-	);
+	  );
 
       if ($attrib['width'])
         $quota_result['width'] = $attrib['width'];
       if ($attrib['height'])
         $quota_result['height']	= $attrib['height'];
       }
-    }
-  else
-    return rcube_label('unlimited');
 
-  return $quota_result;
+      return $quota_result;
+    }
+
+  return rcube_label('unknown');
   }
 
 

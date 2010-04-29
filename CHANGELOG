@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix quota_zero_as_unlimited (#1486662)
 - Fix folder subscription checking (#1486684)
 - Fix INBOX appears (sometimes) twice in mailbox list (#1486672)
 - Fix listing of attachments of some types e.g. "x-epoc/x-sisx-app" (#1486653)
