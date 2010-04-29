@@ -1589,7 +1589,7 @@ class rcube_imap
             if ($headers->uid && $headers->id)
                 $this->uid_id_map[$mailbox][$headers->uid] = $headers->id;
 
-            $this->add_message_cache($mailbox.'.msg', $headers->id, $headers, NULL, true);
+            $this->add_message_cache($mailbox.'.msg', $headers->id, $headers, NULL);
         }
 
         return $headers;
