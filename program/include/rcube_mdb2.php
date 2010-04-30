@@ -63,7 +63,7 @@ class rcube_mdb2
         $this->db_dsnw = $db_dsnw;
         $this->db_dsnr = $db_dsnr;
         $this->db_pconn = $pconn;
-    
+
         $dsn_array = MDB2::parseDSN($db_dsnw);
         $this->db_provider = $dsn_array['phptype'];
     }
@@ -84,7 +84,7 @@ class rcube_mdb2
             'emulate_prepared' => $this->debug_mode,
             'debug'            => $this->debug_mode,
             'debug_handler'    => 'mdb2_debug_handler',
-            'portability'      => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_null);
+            'portability'      => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 
         if ($this->db_provider == 'pgsql') {
             $db_options['disable_smart_seqname'] = true;
@@ -96,7 +96,7 @@ class rcube_mdb2
         if (MDB2::isError($dbh)) {
             $this->db_error = true;
             $this->db_error_msg = $dbh->getMessage();
-      
+
             raise_error(array('code' => 500, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
                 'message' => $dbh->getUserInfo()), true, false);
@@ -197,7 +197,7 @@ class rcube_mdb2
     {
         if (!$this->is_connected())
             return null;
-    
+
         $params = func_get_args();
         $query = array_shift($params);
 
@@ -332,7 +332,7 @@ class rcube_mdb2
         }
 
         $id = $this->db_handle->lastInsertID($table);
-    
+
         return $this->db_handle->isError($id) ? null : $id;
     }
 
@@ -471,7 +471,7 @@ class rcube_mdb2
     {
         if (!$this->db_handle)
             $this->db_connect('r');
-   
+
         return $this->db_handle->escape($str);
     }
 
@@ -507,7 +507,7 @@ class rcube_mdb2
     {
         if (!is_array($arr))
             return $this->quote($arr, $type);
-    
+
         foreach ($arr as $idx => $item)
             $arr[$idx] = $this->quote($item, $type);
 
@@ -530,7 +530,7 @@ class rcube_mdb2
 
             case 'mssql':
             case 'sqlsrv':
-	            return "DATEDIFF(second, '19700101', $field) + DATEDIFF(second, GETDATE(), GETUTCDATE())";
+                return "DATEDIFF(second, '19700101', $field) + DATEDIFF(second, GETDATE(), GETUTCDATE())";
 
             default:
                 return "UNIX_TIMESTAMP($field)";
@@ -641,12 +641,12 @@ class rcube_mdb2
             $this->db_error = true;
             $this->db_error_msg = $res->getMessage();
             raise_error(array('code' => 500, 'type' => 'db',
-    	        'line' => __LINE__, 'file' => __FILE__,
-    	        'message' => $res->getMessage() . " Query: " 
-	            . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)),
-	            true, false);
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => $res->getMessage() . " Query: " 
+                . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)),
+                true, false);
         }
-    
+
         $res_id = sizeof($this->a_query_results);
         $this->last_res_id = $res_id;
         $this->a_query_results[$res_id] = $res;
@@ -670,7 +670,7 @@ class rcube_mdb2
         if (isset($this->a_query_results[$res_id]))
             if (!PEAR::isError($this->a_query_results[$res_id]))
                 return $this->a_query_results[$res_id];
-    
+
         return false;
     }
 
@@ -692,7 +692,7 @@ class rcube_mdb2
         if (strlen($data))
             if (!sqlite_exec($dbh->connection, $data, $error) || MDB2::isError($dbh)) 
                 raise_error(array('code' => 500, 'type' => 'db',
-	                'line' => __LINE__, 'file' => __FILE__,
+                    'line' => __LINE__, 'file' => __FILE__,
                     'message' => $error), true, false); 
     }
 
@@ -729,3 +729,4 @@ function mdb2_debug_handler(&$db, $scope, $message, $context = array())
         write_log('sql', $debug_output);
     }
 }
+
