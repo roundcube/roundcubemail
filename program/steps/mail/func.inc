@@ -1436,6 +1436,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
       'Subject' => rcube_label('receiptread') . ': ' . $message->subject,
       'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.mt_rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host'])),
       'X-Sender' => $identity['email'],
+      'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
     );
     
     if ($agent = $RCMAIL->config->get('useragent'))
