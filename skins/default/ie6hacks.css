@@ -1,6 +1,6 @@
 /* CSS hacks for IE versions 5,6 */
 
-taskbar
+#taskbar
 {
   background: url(images/taskbar.gif) top right no-repeat;
 }
