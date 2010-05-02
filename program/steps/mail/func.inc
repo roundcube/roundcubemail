@@ -154,13 +154,16 @@ function rcmail_message_list($attrib)
     $attrib['id'] = 'rcubemessagelist';
 
   // define list of cols to be displayed based on parameter or config
-  if (empty($attrib['columns']))
-      $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
-  else
-      $a_show_cols = preg_split('/[\s,;]+/', strip_quotes($attrib['columns']));
+  if (empty($attrib['columns'])) {
+    $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+    $OUTPUT->set_env('col_movable', !in_array('list_cols', (array)$CONFIG['dont_override']));
+  }
+  else {
+    $a_show_cols = preg_split('/[\s,;]+/', strip_quotes($attrib['columns']));
+    $attrib['columns'] = $a_show_cols;
+  }
 
   // save some variables for use in ajax list
-  $_SESSION['list_columns'] = $a_show_cols;
   $_SESSION['list_attrib'] = $attrib;
   
   $mbox = $IMAP->get_mailbox_name();
@@ -220,7 +223,7 @@ function rcmail_message_list($attrib)
     $attrib,
     html::tag('thead', null, html::tag('tr', null, $thead)) .
       html::tag('tbody', null, ''),
-    array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
+        array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
 }
 
 
@@ -232,10 +235,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE, $h
 {
   global $CONFIG, $IMAP, $OUTPUT;
 
-  if (empty($_SESSION['list_columns']))
-    $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  if (!empty($_SESSION['list_attrib']['columns']))
+    $a_show_cols = $_SESSION['list_attrib']['columns'];
   else
-    $a_show_cols = $_SESSION['list_columns'];
+    $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
 
   $mbox = $IMAP->get_mailbox_name();
   $delim = $IMAP->get_hierarchy_delimiter();
@@ -324,7 +327,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE, $h
 
   if ($browser->ie && $replace)
     $OUTPUT->command('offline_message_list', false);
-  }
+}
 
 
 /*

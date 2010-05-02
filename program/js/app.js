@@ -166,7 +166,8 @@ function rcube_webmail()
         if (this.gui_objects.messagelist) {
 
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist,
-            {multiselect:true, multiexpand:true, draggable:true, keyboard:true, dblclick_time:this.dblclick_time});
+            {multiselect:true, multiexpand:true, draggable:true, keyboard:true,
+            column_movable:this.env.col_movable, column_fixed:0, dblclick_time:this.dblclick_time});
           this.message_list.row_init = function(o){ p.init_message_row(o); };
           this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
           this.message_list.addEventListener('click', function(o){ p.msglist_click(o); });
@@ -176,11 +177,11 @@ function rcube_webmail()
           this.message_list.addEventListener('dragmove', function(e){ p.drag_move(e); });
           this.message_list.addEventListener('dragend', function(e){ p.drag_end(e); });
           this.message_list.addEventListener('expandcollapse', function(e){ p.msglist_expand(e); });
+          this.message_list.addEventListener('column_replace', function(e){ p.msglist_set_coltypes(e); });
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
           this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
 
-          this.set_message_coltypes(this.env.coltypes);
           this.message_list.init();
           this.enable_command('toggle_status', 'toggle_flag', 'menu-open', 'menu-save', true);
 
@@ -1487,6 +1488,24 @@ function rcube_webmail()
     if (this.env.messages[row.uid])
       this.env.messages[row.uid].expanded = row.expanded;
   };
+  
+  this.msglist_set_coltypes = function(list)
+  {
+    var i, found, name, cols = list.list.tHead.rows[0].cells;
+    
+    this.env.coltypes = [];
+    
+    for (i=0; i<cols.length; i++)
+      if (cols[i].id && cols[i].id.match(/^rcm/)) {
+        name = cols[i].id.replace(/^rcm/, '');
+        this.env.coltypes[this.env.coltypes.length] = name == 'to' ? 'from' : name;
+      }
+
+    if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
+      this.set_env('flagged_col', found);
+
+    this.http_post('save-pref', { '_name':'list_cols', '_value':this.env.coltypes });
+  };
 
   this.check_droptarget = function(id)
   {
@@ -1692,6 +1711,9 @@ function rcube_webmail()
   {
     var update, add_url = '';
 
+    if (!sort_col) sort_col = this.env.sort_col;
+    if (!sort_order) sort_order = this.env.sort_order;
+
     if (this.env.sort_col != sort_col || this.env.sort_order != sort_order) {
       update = 1;
       this.set_list_sorting(sort_col, sort_order);
@@ -1702,9 +1724,25 @@ function rcube_webmail()
       add_url += '&_threads=' + threads;     
     }
 
-    if (cols.join() != this.env.coltypes.join()) {
-      update = 1;
-      add_url += '&_cols=' + cols.join(',');
+    if (cols && cols.length) {
+      // make sure new columns are added at the end of the list
+      var i, idx, name, newcols = [], oldcols = this.env.coltypes;
+      for (i=0; i<oldcols.length; i++) {
+        name = oldcols[i] == 'to' ? 'from' : oldcols[i];
+        idx = $.inArray(name, cols);
+        if (idx != -1) {
+          newcols[newcols.length] = name;
+          delete cols[idx];
+        }
+      }
+      for (i=0; i<cols.length; i++)
+        if (cols[i])
+          newcols[newcols.length] = cols[i];
+      
+      if (newcols.join() != this.env.coltypes.join()) {
+        update = 1;
+        add_url += '&_cols=' + newcols.join(',');
+      }
     }
 
     if (update)
@@ -4439,13 +4477,15 @@ function rcube_webmail()
     this.env.flagged_col = null;
 
     var found;
-    if((found = $.inArray('subject', this.env.coltypes)) >= 0) {
+    if ((found = $.inArray('subject', this.env.coltypes)) >= 0) {
       this.set_env('subject_col', found);
       if (this.message_list)
         this.message_list.subject_col = found+1;
     }
-    if((found = $.inArray('flag', this.env.coltypes)) >= 0)
+    if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
       this.set_env('flagged_col', found);
+
+    this.message_list.init_header();
   };
 
   // replace content of row count display

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Allow columns order change per user - drag&drop (#1485795)
 - Add References header in read receipt (#1486681)
 - Fix database constraint violation when opening a message (#1486696)
 - Add 'loading' message while login is in progress (#1486667)

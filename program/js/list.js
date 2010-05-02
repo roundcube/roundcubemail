@@ -33,6 +33,7 @@ function rcube_list_widget(list, p)
   this.rows = [];
   this.selection = [];
   this.rowcount = 0;
+  this.colcount = 0;
 
   this.subject_col = -1;
   this.shiftkey = false;
@@ -40,11 +41,14 @@ function rcube_list_widget(list, p)
   this.multiexpand = false;
   this.multi_selecting = false;
   this.draggable = false;
+  this.column_movable = false;
   this.keyboard = false;
   this.toggleselect = false;
 
   this.dont_select = false;
   this.drag_active = false;
+  this.col_drag_active = false;
+  this.column_fixed = null;
   this.last_selected = 0;
   this.shift_start = 0;
   this.in_selection_before = false;
@@ -72,18 +76,15 @@ init: function()
     this.rows = [];
     this.rowcount = 0;
 
-    var row;
-    for(var r=0; r<this.list.tBodies[0].childNodes.length; r++) {
-      row = this.list.tBodies[0].childNodes[r];
-      while (row && row.nodeType != 1) {
-        row = row.nextSibling;
-        r++;
-      }
+    var row, r;
 
+    for (r=0; r<this.list.tBodies[0].rows.length; r++) {
+      row = this.list.tBodies[0].rows[r];
       this.init_row(row);
       this.rowcount++;
     }
 
+    this.init_header();
     this.frame = this.list.parentNode;
 
     // set body events
@@ -115,6 +116,29 @@ init_row: function(row)
       row.onselectstart = function() { return false; };
 
     this.row_init(this.rows[uid]);
+  }
+},
+
+
+/**
+ * Init list column headers and set mouse events on them
+ */
+init_header: function()
+{
+  if (this.list && this.list.tHead) {
+    this.colcount = 0;
+
+    var col, r, p = this;
+    // add events for list columns moving
+    if (this.column_movable && this.list.tHead && this.list.tHead.rows) {
+      for (r=0; r<this.list.tHead.rows[0].cells.length; r++) {
+        if (this.column_fixed == r)
+          continue;
+        col = this.list.tHead.rows[0].cells[r];
+        col.onmousedown = function(e){ return p.drag_column(e, this); };
+        this.colcount++;
+      }
+    }
   }
 },
 
@@ -207,6 +231,34 @@ blur: function()
 
 
 /**
+ * onmousedown-handler of message list column
+ */
+drag_column: function(e, col)
+{
+  if (this.colcount > 1) {
+    this.drag_start = true;
+    this.drag_mouse_start = rcube_event.get_mouse_pos(e);
+
+    rcube_event.add_listener({event:'mousemove', object:this, method:'column_drag_mouse_move'});
+    rcube_event.add_listener({event:'mouseup', object:this, method:'column_drag_mouse_up'});
+
+    // enable dragging over iframes
+    this.add_dragfix();
+
+    // find selected column number
+    for (var i=0; i<this.list.tHead.rows[0].cells.length; i++) {
+      if (col == this.list.tHead.rows[0].cells[i]) {
+        this.selected_column = i;
+        break;
+      }
+    }
+  }
+
+  return false;
+},
+
+
+/**
  * onmousedown-handler of message list row
  */
 drag_row: function(e, id)
@@ -236,15 +288,7 @@ drag_row: function(e, id)
     rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
 
     // enable dragging over iframes
-    $('iframe').each(function() {
-      $('<div class="iframe-dragdrop-fix"></div>')
-        .css({background: '#fff',
-          width: this.offsetWidth+'px', height: this.offsetHeight+'px',
-          position: 'absolute', opacity: '0.001', zIndex: 1000
-        })
-        .css($(this).offset())
-        .appendTo('body');
-    });                                                                
+    this.add_dragfix();
   }
 
   return false;
@@ -287,7 +331,7 @@ click_row: function(e, id)
 
   if (!this.drag_active) {
     // remove temp divs
-    $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
+    this.del_dragfix();
     rcube_event.cancel(e);
   }
 
@@ -931,7 +975,11 @@ key_down: function(e)
   switch (rcube_event.get_keycode(e)) {
     case 27:
       if (this.drag_active)
-	return this.drag_mouse_up(e);
+	    return this.drag_mouse_up(e);
+      if (this.col_drag_active) {
+        this.selected_column = null;
+	    return this.column_drag_mouse_up(e);
+      }
 
     case 40:
     case 38: 
@@ -1040,7 +1088,9 @@ drag_mouse_move: function(e)
       return false;
 
     if (!this.draglayer)
-      this.draglayer = $('<div>').attr('id', 'rcmdraglayer').css({ position:'absolute', display:'none', 'z-index':2000 }).appendTo(document.body);
+      this.draglayer = $('<div>').attr('id', 'rcmdraglayer')
+        .css({ position:'absolute', display:'none', 'z-index':2000 })
+        .appendTo(document.body);
 
     // also select childs of (collapsed) threads for dragging
     var selection = $.merge([], this.selection);
@@ -1134,11 +1184,190 @@ drag_mouse_up: function(e)
   rcube_event.remove_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
 
   // remove temp divs
-  $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
+  this.del_dragfix();
 
   this.triggerEvent('dragend');
 
   return rcube_event.cancel(e);
+},
+
+
+/**
+ * Handler for mouse move events for dragging list column
+ */
+column_drag_mouse_move: function(e)
+{
+  if (this.drag_start) {
+    // check mouse movement, of less than 3 pixels, don't start dragging
+    var i, m = rcube_event.get_mouse_pos(e);
+
+    if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3))
+      return false;
+
+    if (!this.col_draglayer) {
+      var lpos = $(this.list).offset(),
+        cells = this.list.tHead.rows[0].cells;
+
+      // create dragging layer
+      this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
+        .css(lpos).css({ position:'absolute', 'z-index':2001,
+           'background-color':'white', opacity:0.75,
+           height: (this.frame.offsetHeight-2)+'px', width: (this.frame.offsetWidth-2)+'px' })
+        .appendTo(document.body)
+        // ... and column position indicator
+       .append($('<div>').attr('id', 'rcmcolumnindicator')
+          .css({ position:'absolute', 'border-right':'2px dotted #555', 
+          'z-index':2002, height: (this.frame.offsetHeight-2)+'px' }));
+
+      this.cols = [];
+      this.list_pos = this.list_min_pos = lpos.left;
+      // save columns positions
+      for (i=0; i<cells.length; i++) {
+        this.cols[i] = cells[i].offsetWidth;
+        if (this.column_fixed !== null && i <= this.column_fixed) {
+          this.list_min_pos += this.cols[i];
+        }
+      }
+    }
+
+    this.col_draglayer.show();
+    this.col_drag_active = true;
+    this.triggerEvent('column_dragstart');
+  }
+
+  // set column indicator position
+  if (this.col_drag_active && this.col_draglayer) {
+    var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
+
+    for (i=0; i<this.cols.length; i++) {
+      if (pos.x >= this.cols[i]/2 + this.list_pos + cpos)
+        cpos += this.cols[i];
+      else
+        break;
+    }
+
+    // handle fixed columns on left
+    if (i == 0 && this.list_min_pos > pos.x)
+      cpos = this.list_min_pos - this.list_pos;
+    // empty list needs some assignment
+    else if (!this.list.rowcount && i == this.cols.length)
+      cpos -= 2;
+    $('#rcmcolumnindicator').css({ width: cpos+'px'});
+    this.triggerEvent('column_dragmove', e?e:window.event);
+  }
+
+  this.drag_start = false;
+
+  return false;
+},
+
+
+/**
+ * Handler for mouse up events for dragging list columns
+ */
+column_drag_mouse_up: function(e)
+{
+  document.onmousemove = null;
+
+  if (this.col_draglayer) {
+    (this.col_draglayer).remove();
+    this.col_draglayer = null;
+  }
+
+  if (this.col_drag_active)
+    this.focus();
+  this.col_drag_active = false;
+
+  rcube_event.remove_listener({event:'mousemove', object:this, method:'column_drag_mouse_move'});
+  rcube_event.remove_listener({event:'mouseup', object:this, method:'column_drag_mouse_up'});
+  // remove temp divs
+  this.del_dragfix();
+
+  if (this.selected_column !== null && this.cols && this.cols.length) {
+    var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
+
+    // find destination position
+    for (i=0; i<this.cols.length; i++) {
+      if (pos.x >= this.cols[i]/2 + this.list_pos + cpos)
+        cpos += this.cols[i];
+      else
+        break;
+    }
+
+    if (i != this.selected_column && i != this.selected_column+1) {
+      this.column_replace(this.selected_column, i);
+    }
+  }
+
+  this.triggerEvent('column_dragend');
+
+  return rcube_event.cancel(e);
+},
+
+
+/**
+ * Creates a layer for drag&drop over iframes
+ */
+add_dragfix: function()
+{
+  $('iframe').each(function() {
+    $('<div class="iframe-dragdrop-fix"></div>')
+      .css({background: '#fff',
+        width: this.offsetWidth+'px', height: this.offsetHeight+'px',
+        position: 'absolute', opacity: '0.001', zIndex: 1000
+      })
+      .css($(this).offset())
+      .appendTo(document.body);
+  });                                                                
+},
+
+
+/**
+ * Removes the layer for drag&drop over iframes
+ */
+del_dragfix: function()
+{
+  $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
+},
+
+
+/**
+ * Replaces two columns
+ */
+column_replace: function(from, to)
+{
+  var cells = this.list.tHead.rows[0].cells,
+    elem = cells[from],
+    before = cells[to],
+    td = document.createElement('td');
+
+  // replace header cells
+  if (before)
+    cells[0].parentNode.insertBefore(td, before);
+  else
+    cells[0].parentNode.appendChild(td);
+  cells[0].parentNode.replaceChild(elem, td);
+
+  // replace list cells
+  for (r=0; r<this.list.tBodies[0].rows.length; r++) {
+    row = this.list.tBodies[0].rows[r];
+
+    elem = row.cells[from];
+    before = row.cells[to];
+    td = document.createElement('td');
+
+    if (before)
+      row.insertBefore(td, before);
+    else
+      row.appendChild(td);
+    row.replaceChild(elem, td);
+  }
+
+  // update subject column position
+  if (this.subject_col == from)
+    this.subject_col = to > from ? to - 1 : to;
+
+  this.triggerEvent('column_replace');
 },
 
 

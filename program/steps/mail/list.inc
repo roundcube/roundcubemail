@@ -45,7 +45,7 @@ else
 if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
 {
   $save_arr = array();
-  $_SESSION['list_columns'] = $save_arr['list_cols'] = explode(',', $cols);
+  $save_arr['list_cols'] = explode(',', $cols);
 }
 
 if ($save_arr)  
