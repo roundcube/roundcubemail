@@ -2774,6 +2774,10 @@ class rcube_imap
             if ($mbox_name == 'INBOX')
                 return true;
 
+            $key = $subscription ? 'subscribed' : 'existing';
+            if (is_array($this->icache[$key]) && in_array($mbox_name, $this->icache[$key]))
+                return true;
+
             if ($subscription) {
                 $a_folders = $this->conn->listSubscribed($this->mod_mailbox(''), $mbox_name);
             }
@@ -2782,6 +2786,7 @@ class rcube_imap
 	        }
 	        
             if (is_array($a_folders) && in_array($this->mod_mailbox($mbox_name), $a_folders)) {
+                $this->icache[$key][] = $mbox_name;
                 return true;
             }
         }

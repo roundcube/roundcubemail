@@ -566,17 +566,14 @@ else
 
 if ($store_target)
   {
-  // check if mailbox exists
-  if (!in_array($store_target, $IMAP->list_mailboxes()))
-    {
-      // folder may be existing but not subscribed (#1485241)
-      if (!in_array($store_target, $IMAP->list_unsubscribed()))
-        $store_folder = $IMAP->create_mailbox($store_target, TRUE);
-      else if ($IMAP->subscribe($store_target))
-        $store_folder = TRUE;
-    }
-  else
-    $store_folder = TRUE;
+  // check if folder is subscribed
+  if ($IMAP->mailbox_exists($store_target, true))
+    $store_folder = true;
+  // folder may be existing but not subscribed (#1485241)
+  else if (!$IMAP->mailbox_exists($store_target))
+    $store_folder = $IMAP->create_mailbox($store_target, true);
+  else if ($IMAP->subscribe($store_target))
+    $store_folder = true;
 
   // append message to sent box
   if ($store_folder) {
