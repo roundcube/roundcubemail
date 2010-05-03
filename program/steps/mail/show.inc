@@ -226,8 +226,12 @@ else
 
 
 // mark message as read
-if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
-  $IMAP->set_flag($MESSAGE->uid, 'SEEN');
+if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen &&
+  ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
+{
+  if ($IMAP->set_flag($MESSAGE->uid, 'SEEN') && $_SESSION['unseen_count'][$mbox_name])
+    $_SESSION['unseen_count'][$mbox_name] -= 1;
+}
 
 exit;
 
