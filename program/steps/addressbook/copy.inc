@@ -32,7 +32,7 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
   $TARGET = $RCMAIL->get_address_book($target);
 
   if ($TARGET && $TARGET->ready && !$TARGET->readonly) {
-    $arr_cids = split(',', $cid);
+    $arr_cids = explode(',', $cid);
     foreach ($arr_cids as $cid) {
       $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $CONTACTS->get_record($cid, true), 'source' => $target));
     $a_record = $plugin['record'];
