@@ -63,11 +63,18 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
 // react to real individual tinyMCE editor init
 function rcmail_editor_callback(editor)
 {
-  var input_from = rcube_find_object('_from');
-  if (input_from && input_from.type=='select-one')
-    rcmail.change_identity(input_from);
+  var editor, elem = rcube_find_object('_from');
+  if (elem && elem.type=='select-one')
+    rcmail.change_identity(elem);
   // set tabIndex
   rcmail_editor_tabindex();
+  // set focus to element that was focused before
+  if (elem = rcmail.env.compose_focus_elem) {
+    if (elem.id == rcmail.env.composebody && (editor = tinyMCE.get(rcmail.env.composebody)))
+      editor.getWin().focus();
+    else
+      elem.focus();
+  }
 }
 
 // set tabIndex on tinyMCE editor

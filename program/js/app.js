@@ -2621,8 +2621,10 @@ function rcube_webmail()
       input_to.focus();
     else if (input_subject.val() == '')
       input_subject.focus();
-    else if (input_message && !html_mode)
+    else if (input_message)
       input_message.focus();
+
+    this.env.compose_focus_elem = document.activeElement;
 
     // get summary of all field values
     this.compose_field_hash(true);
@@ -2789,12 +2791,12 @@ function rcube_webmail()
     if (!show_sig)
       show_sig = this.env.show_sig;
 
-    var id = obj.options[obj.selectedIndex].value;
-    var input_message = $("[name='_message']");
-    var message = input_message.val();
-    var is_html = ($("input[name='_is_html']").val() == '1');
-    var sig_separator = this.env.sig_above && (this.env.compose_mode == 'reply' || this.env.compose_mode == 'forward') ? '---' : '-- ';
-    var sig, cursor_pos, p = -1;
+    var sig, cursor_pos, p = -1,
+      id = obj.options[obj.selectedIndex].value,
+      input_message = $("[name='_message']"),
+      message = input_message.val(),
+      is_html = ($("input[name='_is_html']").val() == '1'),
+      sig_separator = this.env.sig_above && (this.env.compose_mode == 'reply' || this.env.compose_mode == 'forward') ? '---' : '-- ';
 
     if (!this.env.identity)
       this.env.identity = id
@@ -2830,7 +2832,7 @@ function rcube_webmail()
           if (p >= 0) { // in place of removed signature
             message = message.substring(0, p) + sig + message.substring(p, message.length);
             cursor_pos = p - 1;
-          } 
+          }
           else if (pos = this.get_caret_pos(input_message.get(0))) { // at cursor position
             message = message.substring(0, pos) + '\n' + sig + '\n\n' + message.substring(pos, message.length);
             cursor_pos = pos;
@@ -2838,7 +2840,7 @@ function rcube_webmail()
           else { // on top
             cursor_pos = 0;
             message = '\n\n' + sig + '\n\n' + message.replace(/^[\r\n]+/, '');
-          } 
+          }
         }
         else {
           message = message.replace(/[\r\n]+$/, '');
@@ -2855,20 +2857,20 @@ function rcube_webmail()
       this.set_caret_pos(input_message.get(0), cursor_pos);
     }
     else if (show_sig && this.env.signatures) {  // html
-      var editor = tinyMCE.get(this.env.composebody);
-      var sigElem = editor.dom.get('_rc_sig');
+      var editor = tinyMCE.get(this.env.composebody),
+        sigElem = editor.dom.get('_rc_sig');
 
       // Append the signature as a div within the body
       if (!sigElem) {
-        var body = editor.getBody();
-        var doc = editor.getDoc();
+        var body = editor.getBody(),
+          doc = editor.getDoc();
 
         sigElem = doc.createElement('div');
         sigElem.setAttribute('id', '_rc_sig');
 
         if (this.env.sig_above) {
           // if no existing sig and top posting then insert at caret pos
-          editor.getWin().focus(); // correct focus in IE
+          editor.getWin().focus(); // correct focus in IE & Chrome
 
           var node = editor.selection.getNode();
           if (node.nodeName == 'BODY') {
