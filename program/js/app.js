@@ -1404,7 +1404,8 @@ function rcube_webmail()
     this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
 
     // reset all-pages-selection
-    this.select_all_mode = false;
+    if (selected || list.selection.length != list.rowcount)
+      this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting)
