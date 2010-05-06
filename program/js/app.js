@@ -165,9 +165,10 @@ function rcube_webmail()
 
         if (this.gui_objects.messagelist) {
 
-          this.message_list = new rcube_list_widget(this.gui_objects.messagelist,
-            {multiselect:true, multiexpand:true, draggable:true, keyboard:true,
-            column_movable:this.env.col_movable, column_fixed:0, dblclick_time:this.dblclick_time});
+          this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
+            multiselect:true, multiexpand:true, draggable:true, keyboard:true,
+            column_movable:this.env.col_movable, column_fixed:0, dblclick_time:this.dblclick_time
+            });
           this.message_list.row_init = function(o){ p.init_message_row(o); };
           this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
           this.message_list.addEventListener('click', function(o){ p.msglist_click(o); });
@@ -186,8 +187,7 @@ function rcube_webmail()
           this.enable_command('toggle_status', 'toggle_flag', 'menu-open', 'menu-save', true);
 
           // load messages
-          if (this.env.messagecount)
-            this.command('list');
+          this.command('list');
         }
 
         if (this.gui_objects.qsearchbox) {
@@ -246,16 +246,6 @@ function rcube_webmail()
         // show printing dialog
         else if (this.env.action == 'print')
           window.print();
-
-        if (this.env.messagecount) {
-          this.enable_command('select-all', 'select-none', 'expunge', true);
-          this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading);
-        }
-
-        if (this.purge_mailbox_test())
-          this.enable_command('purge', true);
-
-        this.set_page_buttons();
 
         // get unread count for each mailbox
         if (this.gui_objects.mailboxlist) {
