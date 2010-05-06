@@ -4237,13 +4237,13 @@ function rcube_webmail()
 
       // set image according to button state
       if (obj && button.type=='image' && button[state]) {
-        button.status = state;        
+        button.status = state;
         obj.src = button[state];
       }
       // set class name according to button state
       else if (obj && typeof(button[state])!='undefined') {
-        button.status = state;        
-        obj.className = button[state];        
+        button.status = state;
+        obj.className = button[state];
       }
       // disable/enable input buttons
       if (obj && button.type=='input') {
@@ -4833,21 +4833,20 @@ function rcube_webmail()
       case 'search':
       case 'list':
         if (this.task == 'mail') {
-          if (this.message_list && (response.action == 'list' || response.action == 'search')) {
-            this.msglist_select(this.message_list);
-            this.expand_threads();
-          }
           this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
           this.enable_command('purge', this.purge_mailbox_test());
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
 
-          if (response.action == 'list')
+          if (response.action == 'list' || response.action == 'search') {
+            this.msglist_select(this.message_list);
+            this.expand_threads();
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
+          }
         }
         else if (this.task == 'addressbook') {
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
 
-          if (response.action == 'list') {
+          if (response.action == 'list' || response.action == 'search') {
             this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
             this.enable_command('group-rename', 'group-delete', this.env.address_sources[this.env.source].groups && this.env.group);
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
