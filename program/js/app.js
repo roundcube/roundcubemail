@@ -87,7 +87,7 @@ function rcube_webmail()
     if (sel) button_prop.sel = sel;
     if (over) button_prop.over = over;
 
-    this.buttons[command][this.buttons[command].length] = button_prop;    
+    this.buttons[command][this.buttons[command].length] = button_prop;
   };
 
   // register a specific gui object
@@ -1399,15 +1399,12 @@ function rcube_webmail()
     var selected = list.get_single_selection() != null;
 
     // Hide certain command buttons when Drafts folder is selected
-    if (this.env.mailbox == this.env.drafts_mailbox) {
-      this.enable_command('reply', 'reply-all', 'forward', false);
-      this.enable_command('show', 'print', 'open', 'edit', 'download', 'viewsource', selected);
-      this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
-    }
-    else {
-      this.enable_command('show', 'reply', 'reply-all', 'forward', 'print', 'edit', 'open', 'download', 'viewsource', selected);
-      this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
-    }
+    this.enable_command('reply', 'reply-all', 'forward', this.env.mailbox == this.env.drafts_mailbox ? false : selected);
+    this.enable_command('show', 'print', 'open', 'edit', 'download', 'viewsource', selected);
+    this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
+
+    // reset all-pages-selection
+    this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting)

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix select_all_mode value after selecting a message (#1486720)
 - Set focus to editor on reply in HTML mode (#1486632)
 - Fix composing in HTML jumps cursor to body instead of recipients (#1486674)
 - Allow columns order change per user - drag&drop (#1485795)
