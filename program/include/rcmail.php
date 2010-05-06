@@ -107,7 +107,7 @@ class rcmail
     $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
 
     // reset some session parameters when changing task
-    if ($_SESSION['task'] != $this->task)
+    if ($this->session && $_SESSION['task'] != $this->task)
       $this->session->remove('page');
 
     // set current task to session
