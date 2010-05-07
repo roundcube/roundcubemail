@@ -2597,12 +2597,12 @@ function rcube_webmail()
     this.init_address_input_events($("[name='_bcc']"));
 
     if (!html_mode) {
+      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
       if (input_from.attr('type') == 'select-one' && $("input[name='_draft_saveid']").val() == '') {
         this.change_identity(input_from[0]);
       }
-      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
     }
 
     if (input_to.val() == '')
@@ -2779,15 +2779,13 @@ function rcube_webmail()
     if (!show_sig)
       show_sig = this.env.show_sig;
 
-    var sig, cursor_pos, p = -1,
+    var cursor_pos, p = -1,
       id = obj.options[obj.selectedIndex].value,
       input_message = $("[name='_message']"),
       message = input_message.val(),
       is_html = ($("input[name='_is_html']").val() == '1'),
+      sig = this.env.identity,
       sig_separator = this.env.sig_above && (this.env.compose_mode == 'reply' || this.env.compose_mode == 'forward') ? '---' : '-- ';
-
-    if (!this.env.identity)
-      this.env.identity = id
 
     // enable manual signature insert
     if (this.env.signatures && this.env.signatures[id])
@@ -2797,8 +2795,8 @@ function rcube_webmail()
 
     if (!is_html) {
       // remove the 'old' signature
-      if (show_sig && this.env.identity && this.env.signatures && this.env.signatures[this.env.identity]) {
-        sig = this.env.signatures[this.env.identity].is_html ? this.env.signatures[this.env.identity].plain_text : this.env.signatures[this.env.identity].text;
+      if (show_sig && sig && this.env.signatures && this.env.signatures[sig]) {
+        sig = this.env.signatures[sig].is_html ? this.env.signatures[sig].plain_text : this.env.signatures[sig].text;
         sig = sig.replace(/\r\n/, '\n');
 
         if (!sig.match(/^--[ -]\n/))
