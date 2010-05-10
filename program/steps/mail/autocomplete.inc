@@ -77,7 +77,7 @@ function contact_results_sort($a, $b)
 {
   $name_a = is_array($a) ? $a['name'] : $a;
   $name_b = is_array($b) ? $b['name'] : $b;
-  return strcmp(trim($name_a, '" '), trim($name_b, '" '));
+  return strcoll(trim($name_a, '" '), trim($name_b, '" '));
 }
 
 ?>
