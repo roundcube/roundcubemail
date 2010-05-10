@@ -1699,8 +1699,10 @@ function rcube_webmail()
   {
     var update, add_url = '';
 
-    if (!sort_col) sort_col = this.env.sort_col;
-    if (!sort_order) sort_order = this.env.sort_order;
+    if (sort_col === null)
+      sort_col = this.env.sort_col;
+    if (!sort_order)
+      sort_order = this.env.sort_order;
 
     if (this.env.sort_col != sort_col || this.env.sort_order != sort_order) {
       update = 1;
@@ -1709,7 +1711,7 @@ function rcube_webmail()
 
     if (this.env.threading != threads) {
       update = 1;
-      add_url += '&_threads=' + threads;     
+      add_url += '&_threads=' + threads;
     }
 
     if (cols && cols.length) {
@@ -1726,7 +1728,7 @@ function rcube_webmail()
       for (i=0; i<cols.length; i++)
         if (cols[i])
           newcols[newcols.length] = cols[i];
-      
+
       if (newcols.join() != this.env.coltypes.join()) {
         update = 1;
         add_url += '&_cols=' + newcols.join(',');
@@ -1926,7 +1928,7 @@ function rcube_webmail()
     return false;
   };
 
-  // thread expanding/collapsing handler    
+  // thread expanding/collapsing handler
   this.expand_message_row = function(e, uid)
   {
     var row = this.message_list.rows[uid];
@@ -1941,7 +1943,7 @@ function rcube_webmail()
 
   // message list expanding
   this.expand_threads = function()
-  {    
+  {
     if (!this.env.threading || !this.env.autoexpand_threads || !this.message_list)
       return;
 
