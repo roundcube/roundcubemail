@@ -31,7 +31,7 @@ if ($RCMAIL->action == 'group-expand') {
     $result = $abook->list_records(array('email','name'));
     while ($result && ($sql_arr = $result->iterate()))
       $members[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
-      
+
     $OUTPUT->command('replace_group_recipients', $gid, join(', ', $members));
   }
 }
@@ -42,21 +42,21 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
     $abook = $RCMAIL->get_address_book($id);
     $abook->set_pagesize($MAXNUM);
 
-    if ($result = $abook->search(array('email','name'), $search, false, true, true)) {
+    if ($result = $abook->search(array('email','name'), $search, false, true, true, 'email')) {
       while ($sql_arr = $result->iterate()) {
           $contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
           if (count($contacts) >= $MAXNUM)
             break 2;
       }
     }
-    
+
     // also list matching contact groups
     if ($abook->groups) {
       foreach ($abook->list_groups($search) as $group) {
         $abook->reset();
         $abook->set_group($group['ID']);
         $result = $abook->count();
-        
+
         if ($result->count) {
           $contacts[] = array('name' => $group['name'] . ' (' . intval($result->count) . ')', 'id' => $group['ID'], 'source' => $id);
           if (count($contacts) >= $MAXNUM)
@@ -65,7 +65,7 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
       }
     }
   }
-  
+
   usort($contacts, 'contact_results_sort');
 }
 

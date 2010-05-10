@@ -38,7 +38,7 @@ class rcube_contacts extends rcube_addressbook
     private $search_string;
     private $cache;
     private $table_cols = array('name', 'email', 'firstname', 'surname', 'vcard');
-  
+
     /** public properties */
     var $primary_key = 'contact_id';
     var $readonly = false;
@@ -48,7 +48,7 @@ class rcube_contacts extends rcube_addressbook
     var $group_id = 0;
     var $ready = false;
 
-  
+
     /**
      * Object constructor
      *
@@ -75,7 +75,7 @@ class rcube_contacts extends rcube_addressbook
         $this->cache = null;
     }
 
-  
+
     /**
      * Getter for saved search properties
      *
@@ -109,7 +109,7 @@ class rcube_contacts extends rcube_addressbook
         $this->search_string = null;
         $this->cache = null;
     }
-  
+
 
     /**
      * List all active contact groups of this source
@@ -120,7 +120,7 @@ class rcube_contacts extends rcube_addressbook
     function list_groups($search = null)
     {
         $results = array();
-    
+
         if (!$this->groups)
             return $results;
 
@@ -188,7 +188,7 @@ class rcube_contacts extends rcube_addressbook
                 $sql_arr['name'] = $sql_arr['email'];
             $this->result->add($sql_arr);
         }
-    
+
         $cnt = count($this->result->records);
 
         // update counter
@@ -202,7 +202,7 @@ class rcube_contacts extends rcube_addressbook
             else
                 $this->result->count = $this->_count();
         }
-    
+
         return $this->result;
     }
 
@@ -215,28 +215,42 @@ class rcube_contacts extends rcube_addressbook
      * @param boolean True for strict (=), False for partial (LIKE) matching
      * @param boolean True if results are requested, False if count only
      * @param boolean True to skip the count query (select only)
+     * @param array   List of fields that cannot be empty
      * @return Indexed list of contact records and 'count' value
      */
-    function search($fields, $value, $strict=false, $select=true, $nocount=false)
+    function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
     {
         if (!is_array($fields))
             $fields = array($fields);
+        if (!is_array($required) && !empty($required))
+            $required = array($required);
 
-        $add_where = array();
+        $where = $and_where = array();
+
         foreach ($fields as $col) {
             if ($col == 'ID' || $col == $this->primary_key) {
-                $ids         = !is_array($value) ? explode(',', $value) : $value;
-                $ids         = $this->db->array2list($ids, 'integer');
-                $add_where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
+                $ids     = !is_array($value) ? explode(',', $value) : $value;
+                $ids     = $this->db->array2list($ids, 'integer');
+                $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
             }
             else if ($strict)
-                $add_where[] = $this->db->quoteIdentifier($col).'='.$this->db->quote($value);
+                $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($value);
             else
-                $add_where[] = $this->db->ilike($col, '%'.$value.'%');
+                $where[] = $this->db->ilike($col, '%'.$value.'%');
         }
-    
-        if (!empty($add_where)) {
-            $this->set_search_set(join(' OR ', $add_where));
+
+        foreach ($required as $col) {
+            $and_where[] = $this->db->quoteIdentifier($col).' <> '.$this->db->quote('');
+        }
+
+        if (!empty($where))
+            $where = join(' OR ', $where);
+
+        if (!empty($and_where))
+            $where = ($where ? "($where) AND " : '') . join(' AND ', $and_where);
+
+        if (!empty($where)) {
+            $this->set_search_set($where);
             if ($select)
                 $this->list_records(null, 0, $nocount);
             else
@@ -255,7 +269,7 @@ class rcube_contacts extends rcube_addressbook
     function count()
     {
         $count = isset($this->cache['count']) ? $this->cache['count'] : $this->_count();
-    
+
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
     }
 
@@ -270,7 +284,7 @@ class rcube_contacts extends rcube_addressbook
         if ($this->group_id)
             $join = " LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
                 " ON (m.contact_id=c.".$this->primary_key.")";
-      
+
         // count contacts for this user
         $sql_result = $this->db->query(
             "SELECT COUNT(c.contact_id) AS rows".
@@ -301,8 +315,8 @@ class rcube_contacts extends rcube_addressbook
     {
         return $this->result;
     }
-  
-  
+
+
     /**
      * Get a specific contact record
      *
@@ -314,7 +328,7 @@ class rcube_contacts extends rcube_addressbook
         // return cached result
         if ($this->result && ($first = $this->result->first()) && $first[$this->primary_key] == $id)
             return $assoc ? $first : $this->result;
-      
+
         $this->db->query(
             "SELECT * FROM ".$this->db_name.
             " WHERE contact_id=?".
@@ -422,7 +436,7 @@ class rcube_contacts extends rcube_addressbook
 
             $updated = $this->db->affected_rows();
         }
-    
+
         return $updated;
     }
 
@@ -477,16 +491,16 @@ class rcube_contacts extends rcube_addressbook
 
         // make sure we have a unique name
         $name = $this->unique_groupname($name);
-    
+
         $this->db->query(
             "INSERT INTO ".get_table_name('contactgroups').
             " (user_id, changed, name)".
             " VALUES (".intval($this->user_id).", ".$this->db->now().", ".$this->db->quote($name).")"
         );
-    
+
         if ($insert_id = $this->db->insert_id('contactgroups'))
             $result = array('id' => $insert_id, 'name' => $name);
-    
+
         return $result;
     }
 
@@ -524,7 +538,7 @@ class rcube_contacts extends rcube_addressbook
     {
         // make sure we have a unique name
         $name = $this->unique_groupname($newname);
-    
+
         $sql_result = $this->db->query(
             "UPDATE ".get_table_name('contactgroups').
             " SET name=?, changed=".$this->db->now().
@@ -547,9 +561,9 @@ class rcube_contacts extends rcube_addressbook
     {
         if (!is_array($ids))
             $ids = explode(',', $ids);
-    
+
         $added = 0;
-    
+
         foreach ($ids as $contact_id) {
             $sql_result = $this->db->query(
                 "SELECT 1 FROM ".get_table_name('contactgroupmembers').
@@ -612,7 +626,7 @@ class rcube_contacts extends rcube_addressbook
     {
         $checkname = $name;
         $num = 2; $hit = false;
-    
+
         do {
             $sql_result = $this->db->query(
                 "SELECT 1 FROM ".get_table_name('contactgroups').
@@ -621,12 +635,12 @@ class rcube_contacts extends rcube_addressbook
                     " AND name=?",
                 $this->user_id,
                 $checkname);
-    
+
             // append number to make name unique
             if ($hit = $this->db->num_rows($sql_result))
                 $checkname = $name . ' ' . $num++;
         } while ($hit > 0);
-    
+
         return $checkname;
     }
 

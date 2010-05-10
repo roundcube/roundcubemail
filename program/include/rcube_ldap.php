@@ -306,9 +306,11 @@ class rcube_ldap extends rcube_addressbook
    * @param string  Search value
    * @param boolean True for strict, False for partial (fuzzy) matching
    * @param boolean True if results are requested, False if count only
+   * @param boolean (Not used)
+   * @param array   List of fields that cannot be empty
    * @return array  Indexed list of contact records and 'count' value
    */
-  function search($fields, $value, $strict=false, $select=true)
+  function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
   {
     // special treatment for ID-based search
     if ($fields == 'ID' || $fields == $this->primary_key)
@@ -339,10 +341,19 @@ class rcube_ldap extends rcube_addressbook
           $filter .= "($f=$wc" . rcube_ldap::quote_string($value) . "$wc)";
     }
     $filter .= ')';
-    
+
+    // add required (non empty) fields filter
+    $req_filter = '';
+    foreach ((array)$required as $field)
+      if ($f = $this->_map_field($field))
+        $req_filter .= "($f=*)";
+
+    if (!empty($req_filter))
+      $filter = '(&' . $req_filter . $filter . ')';
+
     // avoid double-wildcard if $value is empty
     $filter = preg_replace('/\*+/', '*', $filter);
-    
+
     // add general filter to query
     if (!empty($this->prop['filter']))
       $filter = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['filter']) . ')' . $filter . ')';

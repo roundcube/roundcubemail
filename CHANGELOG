@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix autocomplete shows entries without email (#1486452)
 - Fix listupdate event doesn't trigger on search response (#1486708)
 - Fix select_all_mode value after selecting a message (#1486720)
 - Set focus to editor on reply in HTML mode (#1486632)
