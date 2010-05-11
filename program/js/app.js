@@ -2798,8 +2798,9 @@ function rcube_webmail()
     if (!is_html) {
       // remove the 'old' signature
       if (show_sig && sig && this.env.signatures && this.env.signatures[sig]) {
+
         sig = this.env.signatures[sig].is_html ? this.env.signatures[sig].plain_text : this.env.signatures[sig].text;
-        sig = sig.replace(/\r\n/, '\n');
+        sig = sig.replace(/\r\n/g, '\n');
 
         if (!sig.match(/^--[ -]\n/))
           sig = sig_separator + '\n' + sig;
@@ -2811,7 +2812,7 @@ function rcube_webmail()
       // add the new signature string
       if (show_sig && this.env.signatures && this.env.signatures[id]) {
         sig = this.env.signatures[id]['is_html'] ? this.env.signatures[id]['plain_text'] : this.env.signatures[id]['text'];
-        sig = sig.replace(/\r\n/, '\n');
+        sig = sig.replace(/\r\n/g, '\n');
 
         if (!sig.match(/^--[ -]\n/))
           sig = sig_separator + '\n' + sig;
@@ -4167,7 +4168,7 @@ function rcube_webmail()
   /*********           GUI functionality           *********/
   /*********************************************************/
 
-  // eable/disable buttons for page shifting
+  // enable/disable buttons for page shifting
   this.set_page_buttons = function()
   {
     this.enable_command('nextpage', (this.env.pagecount > this.env.current_page));
