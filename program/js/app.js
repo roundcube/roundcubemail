@@ -1404,7 +1404,7 @@ function rcube_webmail()
     this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
 
     // reset all-pages-selection
-    if (selected || list.selection.length != list.rowcount)
+    if (selected || (list.selection.length && list.selection.length != list.rowcount))
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
@@ -1562,11 +1562,13 @@ function rcube_webmail()
       has_children: flags.has_children?1:0,
       depth: flags.depth?flags.depth:0,
       unread_children: flags.unread_children,
-      parent_uid: flags.parent_uid
+      parent_uid: flags.parent_uid,
+      selected: this.select_all_mode || this.message_list.in_selection(uid)
     });
 
     var c, tree = expando = '',
-      rows = this.message_list.rows,
+      list = this.message_list,
+      rows = list.rows,
       rowcount = tbody.rows.length,
       even = rowcount%2,
       message = this.env.messages[uid],
@@ -1576,7 +1578,7 @@ function rcube_webmail()
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
         + (flags.unread_children && !flags.unread && !this.env.autoexpand_threads ? ' unroot' : '')
-        + (this.message_list.in_selection(uid) ? ' selected' : ''),
+        + (message.selected ? ' selected' : ''),
       // for performance use DOM instead of jQuery here
       row = document.createElement('tr'),
       col = document.createElement('td');
@@ -1601,19 +1603,25 @@ function rcube_webmail()
     else if(flags.unread && this.env.unreadicon)
       icon = this.env.unreadicon;
 
+    // update selection
+    if (message.selected && !list.in_selection(uid))
+      list.selection.push(uid);
+
     // threads
     if (this.env.threading) {
       // This assumes that div width is hardcoded to 15px,
       var width = message.depth * 15;
       if (message.depth) {
-        if ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2) &&
-            (!rows[message.parent_uid] || !rows[message.parent_uid].expanded)) {
+        if ((rows[message.parent_uid] && rows[message.parent_uid].expanded === false)
+          || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2) &&
+            (!rows[message.parent_uid] || !rows[message.parent_uid].expanded))
+        ) {
           row.style.display = 'none';
           message.expanded = false;
         }
         else
           message.expanded = true;
-        }
+      }
       else if (message.has_children) {
         if (typeof(message.expanded) == 'undefined' && (this.env.autoexpand_threads == 1 || (this.env.autoexpand_threads == 2 && message.unread_children))) {
           message.expanded = true;
@@ -1667,13 +1675,13 @@ function rcube_webmail()
       row.appendChild(col);
     }
 
-    this.message_list.insert_row(row, attop);
+    list.insert_row(row, attop);
 
     // remove 'old' row
-    if (attop && this.env.pagesize && this.message_list.rowcount > this.env.pagesize) {
-      var uid = this.message_list.get_last_row();
-      this.message_list.remove_row(uid);
-      this.message_list.clear_selection(uid);
+    if (attop && this.env.pagesize && list.rowcount > this.env.pagesize) {
+      var uid = list.get_last_row();
+      list.remove_row(uid);
+      list.clear_selection(uid);
     }
   };
 
@@ -1859,9 +1867,10 @@ function rcube_webmail()
       url += '&_search='+this.env.search_request;
 
     // set page=1 if changeing to another mailbox
-    if (!page && this.env.mailbox != mbox) {
+    if (this.env.mailbox != mbox) {
       page = 1;
       this.env.current_page = page;
+      this.select_all_mode = false;
       this.show_contentframe(false);
     }
 
@@ -1872,7 +1881,6 @@ function rcube_webmail()
     this.last_selected = 0;
     if (this.message_list) {
       this.message_list.clear_selection();
-      this.select_all_mode = false;
     }
     this.select_folder(mbox, this.env.mailbox);
     this.env.mailbox = mbox;
@@ -1906,6 +1914,20 @@ function rcube_webmail()
     this.set_busy(true, 'loading');
     this.http_request('list', url+add_url, true);
   };
+
+  // removes messages that doesn't exists from list selection array
+  this.update_selection = function()
+  {
+    var selected = this.message_list.selection,
+      rows = this.message_list.rows,
+      i, selection = [];
+
+    for (i in selected)
+      if (rows[selected[i]])
+        selection.push(selected[i]);
+
+    this.message_list.selection = selection;
+  }
 
   // expand all threads with unread children
   this.expand_unread = function()
@@ -2176,6 +2198,9 @@ function rcube_webmail()
   // copy selected messages to the specified mailbox
   this.copy_messages = function(mbox)
   {
+    if (mbox && typeof mbox == 'object')
+      mbox = mbox.id;
+
     // exit if current or no mailbox specified or if selection is empty
     if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
       return;
@@ -4869,23 +4894,26 @@ function rcube_webmail()
       this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');
   };
 
-  // use an image to send a keep-alive siganl to the server
-  this.send_keep_alive = function()
-  {
-    var d = new Date();
-    this.http_request('keep-alive', '_t='+d.getTime());
-  };
-
-  // start interval for keep-alive/recent_check signal
+  // starts interval for keep-alive/check-recent signal
   this.start_keepalive = function()
   {
+    if (this._int)
+      clearInterval(this._int);
+
     if (this.env.keep_alive && !this.env.framed && this.task=='mail' && this.gui_objects.mailboxlist)
       this._int = setInterval(function(){ ref.check_for_recent(false); }, this.env.keep_alive * 1000);
     else if (this.env.keep_alive && !this.env.framed && this.task!='login')
       this._int = setInterval(function(){ ref.send_keep_alive(); }, this.env.keep_alive * 1000);
   };
 
-  // send periodic request to check for recent messages
+  // sends keep-alive signal to the server
+  this.send_keep_alive = function()
+  {
+    var d = new Date();
+    this.http_request('keep-alive', '_t='+d.getTime());
+  };
+
+  // sends request to check for recent messages
   this.check_for_recent = function(refresh)
   {
     if (this.busy)
@@ -4896,6 +4924,8 @@ function rcube_webmail()
     if (refresh) {
       this.set_busy(true, 'checkingmail');
       addurl += '&_refresh=1';
+      // reset check-recent interval
+      this.start_keepalive();
     }
 
     if (this.gui_objects.messagelist)

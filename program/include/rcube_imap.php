@@ -412,14 +412,15 @@ class rcube_imap
      * @param  string  Mailbox/folder name
      * @param  string  Mode for count [ALL|THREADS|UNSEEN|RECENT]
      * @param  boolean Force reading from server and update cache
-     * @param  boolean Enables MAXUIDs checking
+     * @param  boolean Enables storing folder status info (max UID/count),
+     *                 required for mailbox_status()
      * @return int     Number of messages
      * @access public
      */
-    function messagecount($mbox_name='', $mode='ALL', $force=false, $maxuid=true)
+    function messagecount($mbox_name='', $mode='ALL', $force=false, $status=true)
     {
         $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
-        return $this->_messagecount($mailbox, $mode, $force, $maxuid);
+        return $this->_messagecount($mailbox, $mode, $force, $status);
     }
 
 
@@ -429,7 +430,7 @@ class rcube_imap
      * @access  private
      * @see     rcube_imap::messagecount()
      */
-    private function _messagecount($mailbox='', $mode='ALL', $force=false, $maxuid=true)
+    private function _messagecount($mailbox='', $mode='ALL', $force=false, $status=true)
     {
         $mode = strtoupper($mode);
 
@@ -455,8 +456,10 @@ class rcube_imap
 
         if ($mode == 'THREADS') {
             $count = $this->_threadcount($mailbox, $msg_count);
-            if ($maxuid)
-                $_SESSION['maxuid'][$mailbox] = $msg_count ? $this->_id2uid($msg_count, $mailbox) : 0;
+            if ($status) {
+                $this->set_folder_stats($mailbox, 'cnt', $msg_count);
+                $this->set_folder_stats($mailbox, 'maxuid', $msg_count ? $this->_id2uid($msg_count, $mailbox) : 0);
+            }
         }
         // RECENT count is fetched a bit different
         else if ($mode == 'RECENT') {
@@ -480,16 +483,20 @@ class rcube_imap
       
             $count = is_array($index) ? count($index) : 0;
 
-            if ($mode == 'ALL' && $maxuid)
-                $_SESSION['maxuid'][$mailbox] = $index ? $this->_id2uid(max($index), $mailbox) : 0;
+            if ($mode == 'ALL' && $status) {
+                $this->set_folder_stats($mailbox, 'cnt', $count);
+                $this->set_folder_stats($mailbox, 'maxuid', $index ? $this->_id2uid(max($index), $mailbox) : 0);
+            }
         }
         else {
             if ($mode == 'UNSEEN')
                 $count = $this->conn->countUnseen($mailbox);
             else {
                 $count = $this->conn->countMessages($mailbox);
-                if ($maxuid)
-                    $_SESSION['maxuid'][$mailbox] = $count ? $this->_id2uid($count, $mailbox) : 0;
+                if ($status) {
+                    $this->set_folder_stats($mailbox,'cnt', $count);
+                    $this->set_folder_stats($mailbox, 'maxuid', $count ? $this->_id2uid($count, $mailbox) : 0);
+                }
             }
         }
 
@@ -1033,32 +1040,70 @@ class rcube_imap
         return count($a_msg_headers);
     }
   
+
     /**
-     * Fetches IDS of pseudo recent messages.
+     * Returns current status of mailbox
      *
      * We compare the maximum UID to determine the number of
      * new messages because the RECENT flag is not reliable.
      *
-     * @param string  Mailbox/folder name
-     * @return array  List of recent message UIDs
+     * @param string Mailbox/folder name
+     * @return int   Folder status
      */
-    function recent_uids($mbox_name = null, $nofetch = false)
+    function mailbox_status($mbox_name = null)
     {
         $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
-        $old_maxuid = intval($_SESSION['maxuid'][$mailbox]);
-    
-        // refresh message count -> will update $_SESSION['maxuid'][$mailbox]
+        $old = $this->get_folder_stats($mailbox);
+
+        // refresh message count -> will update 
         $this->_messagecount($mailbox, 'ALL', true);
-    
-        if ($_SESSION['maxuid'][$mailbox] > $old_maxuid) {
-            $maxuid = max(1, $old_maxuid+1);
-            return array_values((array)$this->conn->fetchHeaderIndex(
-                $mailbox, "$maxuid:*", 'UID', $this->skip_deleted, true));
-        }
-    
-        return array();
+
+        $result = 0;
+        $new = $this->get_folder_stats($mailbox);
+
+        // got new messages
+        if ($new['maxuid'] > $old['maxuid'])
+            $result += 1;
+        // some messages has been deleted
+        if ($new['cnt'] < $old['cnt'])
+            $result += 2;
+
+        // @TODO: optional checking for messages flags changes (?)
+        // @TODO: UIDVALIDITY checking
+
+        return $result;
     }
-  
+
+
+    /**
+     * Stores folder statistic data in session
+     * @TODO: move to separate DB table (cache?)
+     *
+     * @param string Mailbox name
+     * @param string Data name
+     * @param mixed  Data value
+     */
+    private function set_folder_stats($mbox_name, $name, $data)
+    {
+        $_SESSION['folders'][$mbox_name][$name] = $data;
+    }
+
+
+    /**
+     * Gets folder statistic data
+     *
+     * @param string Mailbox name
+     * @return array Stats data
+     */
+    private function get_folder_stats($mbox_name)
+    {
+        if ($_SESSION['folders'][$mbox_name])
+            return (array) $_SESSION['folders'][$mbox_name];
+        else
+            return array();
+    }
+
+
     /**
      * Return sorted array of message IDs (not UIDs)
      *
@@ -1538,9 +1583,8 @@ class rcube_imap
     {
         if (!empty($this->search_string))
             $this->search_set = $this->search('', $this->search_string, $this->search_charset,
+    	        $this->search_sort_field, $this->search_threads);
 
-    	$this->search_sort_field, $this->search_threads);
-      
         return $this->get_search_set();
     }
   

@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix check-recent action issues and performance (#1486526)
+- Fix messages order after checking for recent (#1484664)
 - Fix autocomplete shows entries without email (#1486452)
 - Fix listupdate event doesn't trigger on search response (#1486708)
 - Fix select_all_mode value after selecting a message (#1486720)
