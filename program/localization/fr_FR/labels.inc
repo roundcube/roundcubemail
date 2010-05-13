@@ -47,6 +47,7 @@ $labels['organization'] = 'Organisation';
 $labels['reply-to'] = 'Répondre à';
 $labels['mailboxlist'] = 'Dossiers';
 $labels['messagesfromto'] = 'Messages de $from à $to sur $count';
+$labels['threadsfromto'] = 'Fil de $from à $to sur $count';
 $labels['messagenrof'] = 'Message $nr sur $count';
 $labels['copy'] = 'Copier';
 $labels['move'] = 'Déplacer';
@@ -336,5 +337,9 @@ $labels['vietnamese'] = 'Vietnamien';
 $labels['japanese'] = 'Japonais';
 $labels['korean'] = 'Coréen';
 $labels['chinese'] = 'Chinois';
+$labels['threads'] = 'Sujets';
+$labels['threaded'] = 'Par sujet';
+$labels['autoexpand_threads'] = 'Développer les sujets';
+$labels['do_expand'] = 'Tous les sujets';
 
 ?>
