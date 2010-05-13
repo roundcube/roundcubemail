@@ -123,7 +123,7 @@ class rcube_contacts extends rcube_addressbook
 
         if (!$this->groups)
             return $results;
-console('---------------');
+
         $sql_filter = $search ? " AND " . $this->db->ilike('name', '%'.$search.'%') : '';
 
         $sql_result = $this->db->query(
