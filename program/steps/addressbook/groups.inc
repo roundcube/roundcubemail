@@ -19,7 +19,6 @@
 
 */
 
-
 if ($CONTACTS->readonly || !$CONTACTS->groups) {
   $OUTPUT->show_message('sourceisreadonly', 'warning');
   $OUTPUT->send();
@@ -62,6 +61,7 @@ else if ($RCMAIL->action == 'group-create') {
   }
   
   if ($created && $OUTPUT->ajax_call) {
+    $created['source'] = $source;
     $OUTPUT->command('insert_contact_group', $created);
   }
   else if (!$created) {
@@ -77,7 +77,7 @@ else if ($RCMAIL->action == 'group-rename') {
   }
 
   if ($newname && $OUTPUT->ajax_call)
-    $OUTPUT->command('update_contact_group', $gid, $newname);
+    $OUTPUT->command('update_contact_group', array('source' => $source, 'id' => $gid, 'name' => $newname));
   else if (!$newname)
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
 }
@@ -90,7 +90,7 @@ else if ($RCMAIL->action == 'group-delete') {
   }
 
   if ($deleted)
-    $OUTPUT->command('remove_group_item', $gid);
+    $OUTPUT->command('remove_group_item', array('source' => $source, 'id' => $gid));
   else
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
 }

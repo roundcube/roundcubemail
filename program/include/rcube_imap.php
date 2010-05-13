@@ -2768,7 +2768,7 @@ class rcube_imap
                     $deleted = true;
                     $this->clear_message_cache($mailbox.'.msg');
 	            }
-	  
+
                 foreach ($sub_mboxes as $c_mbox) {
                     if ($c_mbox != 'INBOX') {
                         $this->conn->unsubscribe($c_mbox);

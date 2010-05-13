@@ -117,7 +117,8 @@
   bottom: 22px;
   left: 0;
   right: 0;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #groups-title
@@ -237,7 +238,8 @@
 
 #directorylist li.contactgroup
 {
-  background-position: 5px -144px;
+  padding-left: 15px;
+  background-position: 20px -144px;
 }
 
 #directorylist li.selected
