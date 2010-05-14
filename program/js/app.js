@@ -2327,7 +2327,7 @@ function rcube_webmail()
     }
 
     // also send search request to get the right messages 
-    if (this.env.search_request) 
+    if (this.env.search_request)
       add_url += '&_search='+this.env.search_request;
 
     if (this.env.display_next && this.env.next_uid)
@@ -2404,7 +2404,13 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
 
-    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag);
+    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag;
+
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      url += '&_search='+this.env.search_request;
+
+    this.http_post('mark', url);
 
     for (var i=0; i<a_uids.length; i++)
       this.update_thread_root(a_uids[i], flag);
@@ -2417,7 +2423,13 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
 
-    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag);
+    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag;
+
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      url += '&_search='+this.env.search_request;
+
+    this.http_post('mark', url);
   };
 
   // mark all message rows as deleted/undeleted
@@ -2456,7 +2468,13 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'deleted', false);
 
-    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete');
+    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete';
+
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      url += '&_search='+this.env.search_request;
+
+    this.http_post('mark', url);
     return true;
   };
 
@@ -2500,12 +2518,13 @@ function rcube_webmail()
       add_url += '&_ruid='+this.uids_to_list(r_uids);
 
     if (this.env.skip_deleted) {
-      // also send search request to get the right messages 
-      if (this.env.search_request) 
-        add_url += '&_search='+this.env.search_request;
       if (this.env.display_next && this.env.next_uid)
         add_url += '&_next_uid='+this.env.next_uid;
     }
+
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      add_url += '&_search='+this.env.search_request;
 
     this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag=delete'+add_url);
     return true;  
