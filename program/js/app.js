@@ -734,6 +734,7 @@ function rcube_webmail()
         break;
 
       case 'select-none':
+        this.select_all_mode = false;
         this.message_list.clear_selection();
         break;
 
