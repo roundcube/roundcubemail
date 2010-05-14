@@ -4859,8 +4859,6 @@ function rcube_webmail()
           // re-enable commands on move/delete error
           this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', true);
         }
-        else if (this.message_list)
-          this.message_list.init();
         break;
 
       case 'purge':
