@@ -72,7 +72,7 @@ foreach ($a_mailboxes as $mbox_name) {
         if ($all_count) {
             $a_headers = $IMAP->list_headers($mbox_name, null, $_SESSION['sort_col'], $_SESSION['sort_order']);
             // add message rows
-            rcmail_js_message_list($a_headers, false, false);
+            rcmail_js_message_list($a_headers, false);
             // remove messages that don't exists from list selection array
             $OUTPUT->command('update_selection');
         }

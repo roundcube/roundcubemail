@@ -83,7 +83,7 @@ $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows
-rcmail_js_message_list($a_headers, FALSE, TRUE, (bool) $cols);
+rcmail_js_message_list($a_headers, FALSE, (bool) $cols);
 if (isset($a_headers) && count($a_headers))
 {
   if ($search_request)

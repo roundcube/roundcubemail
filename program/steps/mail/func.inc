@@ -221,7 +221,7 @@ function rcmail_message_list($attrib)
  * return javascript commands to add rows to the message list
  * or to replace the whole list (IE only)
  */
-function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE, $head_replace=FALSE)
+function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FALSE)
 {
   global $CONFIG, $IMAP, $OUTPUT;
 
@@ -250,9 +250,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE, $h
     unset($a_show_cols[$key]);
   if(($key = array_search('flag', $a_show_cols)) !== FALSE)
     unset($a_show_cols[$key]);
-
-  if ($OUTPUT->browser->ie && $replace)
-    $OUTPUT->command('offline_message_list', true);
 
   // loop through message headers
   foreach ($a_headers as $n => $header)
@@ -314,9 +311,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $replace=TRUE, $h
       $a_msg_flags,
       $insert_top);
     }
-
-  if ($browser->ie && $replace)
-    $OUTPUT->command('offline_message_list', false);
 }
 
 

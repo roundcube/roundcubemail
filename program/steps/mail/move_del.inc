@@ -128,7 +128,7 @@ else
     $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order,
       $jump_back ? NULL : $count);
 
-    rcmail_js_message_list($a_headers, false, false);
+    rcmail_js_message_list($a_headers, false);
   }
 }
 

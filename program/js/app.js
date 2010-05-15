@@ -1690,13 +1690,6 @@ function rcube_webmail()
     }
   };
 
-  // messages list handling in background (for performance)
-  this.offline_message_list = function(flag)
-  {
-    if (this.message_list)
-   	  this.message_list.set_background_mode(flag);
-  };
-
   this.set_list_sorting = function(sort_col, sort_order)
   {
     // set table header class
