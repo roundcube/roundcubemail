@@ -1930,17 +1930,13 @@ function rcube_webmail()
   // expand all threads with unread children
   this.expand_unread = function()
   {
-    var r, expando,
-      tbody = this.gui_objects.messagelist.tBodies[0],
+    var r, tbody = this.gui_objects.messagelist.tBodies[0],
       new_row = tbody.firstChild;
 
     while (new_row) {
       if (new_row.nodeType == 1 && (r = this.message_list.rows[new_row.uid])
 	    && r.unread_children) {
 	    this.message_list.expand_all(r);
-	    expando = document.getElementById('rcmexpando' + r.uid);
-	    if (expando)
-	      expando.className = 'expanded';
 	    this.set_unread_children(r.uid);
       }
       new_row = new_row.nextSibling;
