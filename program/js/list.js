@@ -486,7 +486,8 @@ collapse_all: function(row)
           $(new_row).hide();
         if (r.has_children) {
           r.expanded = false;
-          this.update_expando(r.uid);
+          if (!r.depth || !this.multiexpand)
+            this.update_expando(r.uid, false);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
         }
       }
@@ -525,7 +526,12 @@ expand_all: function(row)
         $(new_row).show();
         if (r.has_children) {
           r.expanded = true;
-          this.update_expando(r.uid, true);
+          // in multiexpand mode only root has expando icon
+          // so we don't need to set it for children, this
+          // improves performance because getElementById()
+          // is relatively slow on IE 
+          if (!r.depth || !this.multiexpand)
+            this.update_expando(r.uid, true);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
         }
       }
@@ -1043,9 +1049,7 @@ use_plusminus_key: function(keyCode, mod_key)
     else
       this.collapse(selected_row);
 
-  var expando = document.getElementById('rcmexpando' + selected_row.uid);
-  if (expando)
-    expando.className = selected_row.expanded?'expanded':'collapsed';
+  this.update_expando(selected_row.uid, selected_row.expanded);
 
   return false;
 },
