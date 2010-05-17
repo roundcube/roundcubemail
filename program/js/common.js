@@ -598,13 +598,14 @@ if (bw.ie)
   document._getElementById = document.getElementById;
   document.getElementById = function(id)
   {
-    var i = 0;
-    var o = document._getElementById(id);
+    var i = 0, obj = document._getElementById(id);
 
-    if (!o || o.id != id)
-      while ((o = document.all[i]) && o.id != id)
-        i++;
+    if (!obj || obj.id == id)
+      return obj;
 
-    return o;
+    while ((obj = document.all[i]) && obj.id != id)
+      i++;
+
+    return obj;
   }
 };
