@@ -146,8 +146,9 @@ get_modifier: function(e)
 get_mouse_pos: function(e)
 {
   if (!e) e = window.event;
-  var mX = (e.pageX) ? e.pageX : e.clientX;
-  var mY = (e.pageY) ? e.pageY : e.clientY;
+
+  var mX = (e.pageX) ? e.pageX : e.clientX,
+    mY = (e.pageY) ? e.pageY : e.clientY;
 
   if (document.body && document.all) {
     mX += document.body.scrollLeft;
@@ -323,20 +324,18 @@ function rcube_layer(id, attributes)
   // create a new layer in the current document
   this.create = function(arg)
   {
-    var l = (arg.x) ? arg.x : 0;
-    var t = (arg.y) ? arg.y : 0;
-    var w = arg.width;
-    var h = arg.height;
-    var z = arg.zindex;
-    var vis = arg.vis;
-    var parent = arg.parent;
-    var obj;
+    var l = (arg.x) ? arg.x : 0,
+      t = (arg.y) ? arg.y : 0,
+      w = arg.width,
+      h = arg.height,
+      z = arg.zindex,
+      vis = arg.vis,
+      parent = arg.parent,
+      obj = document.createElement('DIV');
 
-    obj = document.createElement('DIV');
-
-    with(obj) {
+    with (obj) {
       id = this.name;
-      with(style) {
+      with (style) {
 	    position = 'absolute';
         visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
         left = l+'px';
@@ -432,19 +431,20 @@ function rcube_layer(id, attributes)
 function rcube_check_email(input, inline)
 {
   if (input && window.RegExp) {
-    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
-    var dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
-    var atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
-    var quoted_pair = '\\x5c[\\x00-\\x7f]';
-    var domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d';
-    var quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22';
-    var sub_domain = '('+atom+'|'+domain_literal+')';
-    var word = '('+atom+'|'+quoted_string+')';
-    var domain = sub_domain+'(\\x2e'+sub_domain+')*';
-    var local_part = word+'(\\x2e'+word+')*';
-    var addr_spec = local_part+'\\x40'+domain;
-    var delim = '[,;\s\n]';
-    var reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
+      dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
+      atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
+      quoted_pair = '\\x5c[\\x00-\\x7f]',
+      domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
+      quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22',
+      sub_domain = '('+atom+'|'+domain_literal+')',
+      word = '('+atom+'|'+quoted_string+')',
+      domain = sub_domain+'(\\x2e'+sub_domain+')*',
+      local_part = word+'(\\x2e'+word+')*',
+      addr_spec = local_part+'\\x40'+domain,
+      delim = '[,;\s\n]',
+      reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+
     return reg1.test(input) ? true : false;
   }
   return false;
@@ -510,8 +510,8 @@ function rcube_find_object(id, d)
 // determine whether the mouse is over the given object or not
 function rcube_mouse_is_over(ev, obj)
 {
-  var mouse = rcube_event.get_mouse_pos(ev);
-  var pos = $(obj).offset();
+  var mouse = rcube_event.get_mouse_pos(ev),
+    pos = $(obj).offset();
 
   return ((mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
     (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight)));
@@ -531,18 +531,22 @@ function setCookie(name, value, expires, path, domain, secure)
 
 function getCookie(name)
 {
-  var dc = document.cookie;
-  var prefix = name + "=";
-  var begin = dc.indexOf("; " + prefix);
+  var dc = document.cookie,
+    prefix = name + "=",
+    end, begin = dc.indexOf("; " + prefix);
+
   if (begin == -1) {
     begin = dc.indexOf(prefix);
-    if (begin != 0) return null;
+    if (begin != 0)
+      return null;
   }
   else
     begin += 2;  
-  var end = document.cookie.indexOf(";", begin);
+
+  end = document.cookie.indexOf(";", begin);
   if (end == -1)
     end = dc.length;
+
   return unescape(dc.substring(begin + prefix.length, end));
 };
 
@@ -600,11 +604,9 @@ if (bw.ie)
   {
     var i = 0, obj = document._getElementById(id);
 
-    if (!obj || obj.id == id)
-      return obj;
-
-    while ((obj = document.all[i]) && obj.id != id)
-      i++;
+    if (obj && obj.id != id)
+      while ((obj = document.all[i]) && obj.id != id)
+        i++;
 
     return obj;
   }
