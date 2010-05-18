@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Some files from /bin + spellchecking actions moved to the new 'utils' task
 - Added thread tree icons
 - Extend contact groups support (#1486682)
 - Fix check-recent action issues and performance (#1486526)

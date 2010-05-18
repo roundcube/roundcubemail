@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/mail/spell_pspell.inc                                   |
+ | program/steps/utils/spell_pspell.inc                                  |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Licensed under the GNU GPL                                            |
@@ -25,7 +25,7 @@ if (!extension_loaded('pspell')) {
       'type' => 'php',
       'file' => __FILE__, 'line' => __LINE__,
       'message' => "Pspell extension not available"), true, false);
-      
+
     header('HTTP/1.1 404 Not Found');
     exit;
 }

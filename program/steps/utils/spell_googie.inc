@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/mail/spell.inc                                          |
+ | program/steps/utils/spell.inc                                         |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
@@ -67,7 +67,7 @@ header("Content-Length: " . strlen($store));
 
 // Don't use server's default Content-Type charset (#1486406)
 header("Content-Type: text/xml; charset=".RCMAIL_CHARSET);
-print $store;  
+print $store;
 exit;
 
 ?>

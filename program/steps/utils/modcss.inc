@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | bin/modcss.php                                                        |
+ | program/steps/utils/modcss.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2007-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2007-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -19,19 +19,7 @@
 
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/');
-require INSTALL_PATH . 'program/include/iniset.php';
-
-$RCMAIL = rcmail::get_instance();
-
 $source = '';
-$error  = 'Requires a valid user session and source url';
-
-if (empty($RCMAIL->user->ID)) {
-    header('HTTP/1.1 403 Forbidden');
-    echo $error;
-    exit;
-}
 
 $url = preg_replace('![^a-z0-9:./\-_?$&=%]!i', '', $_GET['u']);
 if ($url === null) {
@@ -106,3 +94,5 @@ else
 header('HTTP/1.0 404 Not Found');
 echo $error;
 exit;
+
+?>

@@ -2716,7 +2716,7 @@ class rcube_imap
 
         if ($result) {
             $delm = $this->get_hierarchy_delimiter();
-      
+
             // check if mailbox children are subscribed
             foreach ($a_subscribed as $c_subscribed)
                 if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_subscribed)) {
@@ -2727,7 +2727,7 @@ class rcube_imap
 
             // clear cache
             $this->clear_message_cache($mailbox.'.msg');
-            $this->clear_cache('mailboxes');      
+            $this->clear_cache('mailboxes');
         }
 
         // try to subscribe it

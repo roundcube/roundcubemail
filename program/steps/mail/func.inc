@@ -27,7 +27,7 @@ $SEARCH_MODS_DEFAULT = array('*' => array('subject'=>1, 'from'=>1), $SENT_MBOX =
 $EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
 
 // actions that do not require imap connection
-$NOIMAP_ACTIONS = array('spell', 'addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment');
+$NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment');
 
 // always instantiate imap object (but not yet connect to server)
 $RCMAIL->imap_init();
@@ -1068,7 +1068,8 @@ function rcmail_alter_html_link($matches)
   $end = '>';
 
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
-    $attrib['href'] = "./bin/modcss.php?u=" . urlencode($attrib['href']) . "&amp;c=" . urlencode($GLOBALS['rcmail_html_container_id']);
+    $attrib['href'] = "?_task=utils&amp;_action=modcss&amp;u=" . urlencode($attrib['href'])
+        . "&amp;c=" . urlencode($GLOBALS['rcmail_html_container_id']);
     $end = ' />';
   }
   else if (preg_match('/^mailto:'.$EMAIL_ADDRESS_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {

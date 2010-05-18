@@ -1315,7 +1315,7 @@ add_dragfix: function()
       })
       .css($(this).offset())
       .appendTo(document.body);
-  });                                                                
+  });
 },
 
 

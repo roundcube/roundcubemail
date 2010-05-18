@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/mail/spell.inc                                          |
+ | program/steps/utils/spell.inc                                         |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Licensed under the GNU GPL                                            |

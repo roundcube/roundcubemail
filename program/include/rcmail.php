@@ -28,10 +28,10 @@
  */
 class rcmail
 {
-  static public $main_tasks = array('mail','settings','addressbook','login','logout','dummy');
-  
+  static public $main_tasks = array('mail','settings','addressbook','login','logout','utils','dummy');
+
   static private $instance;
-  
+
   public $config;
   public $user;
   public $db;
@@ -43,10 +43,10 @@ class rcmail
   public $task;
   public $action = '';
   public $comm_path = './';
-  
+
   private $texts;
-  
-  
+
+
   /**
    * This implements the 'singleton' design pattern
    *
@@ -107,11 +107,12 @@ class rcmail
     $this->action = asciiwords(get_input_value('_action', RCUBE_INPUT_GPC));
 
     // reset some session parameters when changing task
-    if ($this->session && $_SESSION['task'] != $this->task)
-      $this->session->remove('page');
-
-    // set current task to session
-    $_SESSION['task'] = $this->task;
+    if ($this->task != 'utils') {
+      if ($this->session && $_SESSION['task'] != $this->task)
+        $this->session->remove('page');
+      // set current task to session
+      $_SESSION['task'] = $this->task;
+    }
 
     // init output class
     if (!empty($_REQUEST['_remote']))

@@ -50,7 +50,6 @@ function rcube_webmail()
   this.env.request_timeout = 180;  // seconds
   this.env.draft_autosave = 0;     // seconds
   this.env.comm_path = './';
-  this.env.bin_path = './bin/';
   this.env.blankpage = 'program/blank.gif';
 
   // set jQuery ajax options
@@ -4825,8 +4824,7 @@ function rcube_webmail()
     }
 
     // replace quota image
-    obj.innerHTML = '';
-    $(obj).append(bar1).append(bar2).append(main);
+    $(obj).html('').append(bar1).append(bar2).append(main);
   };
 
   /********************************************************/
@@ -4836,7 +4834,7 @@ function rcube_webmail()
   this.html2plain = function(htmlText, id)
   {
     var rcmail = this,
-      url = this.env.bin_path + 'html2text.php';
+      url = '?_task=utils&_action=html2text';
 
     this.set_busy(true, 'converting');
     console.log('HTTP POST: ' + url);

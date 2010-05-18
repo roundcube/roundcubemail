@@ -855,9 +855,9 @@ this.flashNoSpellingErrorState = function(on_finish) {
     	    no_spell_errors = function () { ref.checkSpellingState() };
 
         var rsm = $('<span>').text(this.lang_no_error_found);
-        
+
         $(this.switch_lan_pic).hide();
-	$(this.spell_span).empty().append(rsm)
+	    $(this.spell_span).empty().append(rsm)
 	    .removeClass().addClass('googie_check_spelling_ok');
 
         window.setTimeout(no_spell_errors, 1000);
