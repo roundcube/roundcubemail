@@ -242,7 +242,7 @@ class rcube_imap_generic
     }
 
     // don't use it in loops, until you exactly know what you're doing
-    private function readReply($untagged=null)
+    private function readReply(&$untagged=null)
     {
 	    do {
 		    $line = trim($this->readLine(1024));
