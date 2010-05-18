@@ -4907,11 +4907,6 @@ function rcube_webmail()
   // handle HTTP response
   this.http_response = function(response)
   {
-  if (window.console) {
-          var date1 = new Date();
-          var milliseconds1 = date1.getTime();
-        }
-  
     if (response.unlock)
       this.set_busy(false);
 
@@ -4996,12 +4991,6 @@ function rcube_webmail()
         }
         break;
     }
-if (window.console) {
-       var date2 = new Date();
-       var milliseconds2 = date2.getTime();
-       console.log('Response execution time: ' + (milliseconds2 - milliseconds1) + 'ms');
-     }
-
   };
 
   // handle HTTP request errors
