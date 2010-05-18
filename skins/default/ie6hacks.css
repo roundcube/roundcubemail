@@ -10,6 +10,12 @@ img
   behavior: url(skins/default/pngbehavior.htc);
 }
 
+#header img
+{
+  width: 178px;
+  height: 47px;
+}
+
 #message div.notice,
 #message div.error,
 #message div.warning,

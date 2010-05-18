@@ -9,7 +9,3 @@ TODO (must have):
 TODO (other):
     - button in #listcontrols to mark all messages in current thread (with selected
       root or child message),
-
-KNOWN ISSUES:
-    - IE6: message, flag, attachment icons are not displayed in 
-      initially collapsed child rows
