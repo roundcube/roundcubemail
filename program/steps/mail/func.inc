@@ -285,6 +285,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
 
     if ($header->depth)
       $a_msg_flags['depth'] = $header->depth;
+    else if ($header->has_children)
+      $roots[] = $header->uid;
     if ($header->parent_uid)
       $a_msg_flags['parent_uid'] = $header->parent_uid;
     if ($header->has_children)
@@ -310,6 +312,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
       $a_msg_cols,
       $a_msg_flags,
       $insert_top);
+    }
+
+    if ($IMAP->threading && $a_headers) {
+      $OUTPUT->command('init_threads', (array) $roots);
     }
 }
 

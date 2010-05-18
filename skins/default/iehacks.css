@@ -156,6 +156,12 @@ input, textarea
   border-collapse: collapse;
 }
 
+#messagelist thead tr td,
+#messagelist tbody tr td
+{
+  height: 18px;
+}
+  
 #messagelist tbody tr.unroot td.subject
 {
   text-decoration: underline;

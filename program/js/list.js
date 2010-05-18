@@ -76,11 +76,10 @@ init: function()
     this.rows = [];
     this.rowcount = 0;
 
-    var row, r;
+    var r, len, rows = this.list.tBodies[0].rows;
 
-    for (r=0; r<this.list.tBodies[0].rows.length; r++) {
-      row = this.list.tBodies[0].rows[r];
-      this.init_row(row);
+    for (r=0, len=rows.length; r<len; r++) {
+      this.init_row(rows[r]);
       this.rowcount++;
     }
 
@@ -170,7 +169,7 @@ remove_row: function(uid, sel_next)
   if (sel_next)
     this.select_next();
 
-  this.rows[uid] = null;
+  delete this.rows[uid];
   this.rowcount--;
 },
 
@@ -180,10 +179,7 @@ remove_row: function(uid, sel_next)
  */
 insert_row: function(row, attop)
 {
-  if (this.background)
-    var tbody = this.background;
-  else
-    var tbody = this.list.tBodies[0];
+  var tbody = this.list.tBodies[0];
 
   if (attop && tbody.rows.length)
     tbody.insertBefore(row, tbody.firstChild);
@@ -201,8 +197,9 @@ insert_row: function(row, attop)
  */
 focus: function(e)
 {
+  var id;
   this.focused = true;
-  for (var n=0; n<this.selection.length; n++) {
+  for (var n in this.selection) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
@@ -221,7 +218,7 @@ blur: function()
 {
   var id;
   this.focused = false;
-  for (var n=0; n<this.selection.length; n++) {
+  for (var n in this.selection) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).removeClass('selected').addClass('unfocused');
@@ -581,12 +578,11 @@ get_prev_row: function()
 get_first_row: function()
 {
   if (this.rowcount) {
-    var rows = this.list.tBodies[0].rows;
+    var i, len, rows = this.list.tBodies[0].rows;
 
-    for(var i=0; i<rows.length-1; i++)
-      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
-
-	return RegExp.$1;
+    for (i=0, len=rows.length-1; i<len; i++)
+      if (rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+	    return RegExp.$1;
   }
 
   return null;
@@ -595,12 +591,11 @@ get_first_row: function()
 get_last_row: function()
 {
   if (this.rowcount) {
-    var rows = this.list.tBodies[0].rows;
+    var i, rows = this.list.tBodies[0].rows;
 
-    for(var i=rows.length-1; i>=0; i--)
-      if(rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
-
-	return RegExp.$1;
+    for (i=rows.length-1; i>=0; i--)
+      if (rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+        return RegExp.$1;
   }
 
   return null;
@@ -756,15 +751,14 @@ shift_select: function(id, control)
   if (!this.rows[this.shift_start] || !this.selection.length)
     this.shift_start = id;
 
-  var from_rowIndex = this.rows[this.shift_start].obj.rowIndex;
-  var to_rowIndex = this.rows[id].obj.rowIndex;
-
-  var i = ((from_rowIndex < to_rowIndex)? from_rowIndex : to_rowIndex);
-  var j = ((from_rowIndex > to_rowIndex)? from_rowIndex : to_rowIndex);
+  var from_rowIndex = this.rows[this.shift_start].obj.rowIndex,
+    to_rowIndex = this.rows[id].obj.rowIndex,
+    i = ((from_rowIndex < to_rowIndex)? from_rowIndex : to_rowIndex),
+    j = ((from_rowIndex > to_rowIndex)? from_rowIndex : to_rowIndex);
 
   // iterate through the entire message list
   for (var n in this.rows) {
-    if ((this.rows[n].obj.rowIndex >= i) && (this.rows[n].obj.rowIndex <= j)) {
+    if (this.rows[n].obj.rowIndex >= i && this.rows[n].obj.rowIndex <= j) {
       if (!this.in_selection(n)) {
         this.highlight_row(n, true);
       }
@@ -804,11 +798,11 @@ select_all: function(filter)
   this.selection = [];
 
   for (var n in this.rows) {
-    if (!filter || (this.rows[n] && this.rows[n][filter] == true)) {
+    if (!filter || this.rows[n][filter] == true) {
       this.last_selected = n;
       this.highlight_row(n, true);
     }
-    else if (this.rows[n]) {
+    else {
       $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
     }
   }
@@ -856,7 +850,7 @@ clear_selection: function(id)
 
   // one row
   if (id) {
-    for (var n=0; n<this.selection.length; n++)
+    for (var n=0 in this.selection)
       if (this.selection[n] == id) {
         this.selection.splice(n,1);
         break;
@@ -864,7 +858,7 @@ clear_selection: function(id)
   }
   // all rows
   else {
-    for (var n=0; n<this.selection.length; n++)
+    for (var n in this.selection)
       if (this.rows[this.selection[n]]) {
         $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
       }
@@ -1097,9 +1091,8 @@ drag_mouse_move: function(e)
         .appendTo(document.body);
 
     // also select childs of (collapsed) threads for dragging
-    var selection = $.merge([], this.selection);
-    var depth, row, uid, r;
-    for (var n=0; n < selection.length; n++) {
+    var n, uid, selection = $.merge([], this.selection);
+    for (n in selection) {
       uid = selection[n];
       if (this.rows[uid].has_children && !this.rows[uid].expanded)
         this.select_childs(uid);
@@ -1108,7 +1101,7 @@ drag_mouse_move: function(e)
     // get subjects of selected messages
     var names = '';
     var c, i, subject, obj;
-    for(var n=0; n<this.selection.length; n++) {
+    for (var n=0; n<this.selection.length; n++) {
       // only show 12 lines
       if (n>12) {
         names += '...';
@@ -1372,20 +1365,6 @@ column_replace: function(from, to)
     this.subject_col = to > from ? to - 1 : to;
 
   this.triggerEvent('column_replace');
-},
-
-
-/**
- * Creating the list in background
- */
-set_background_mode: function(flag)
-{
-  if (flag) {
-    this.background = document.createElement('tbody');
-  } else if (this.background) {
-    this.list.replaceChild(this.background, this.list.tBodies[0]);
-    this.background = null;
-  }
 }
 
 };

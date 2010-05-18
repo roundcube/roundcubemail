@@ -2,12 +2,13 @@
 
 TODO (must have):
     - threads caching
-    - (better) updating threaded message list on message delete and check-recent
+    - better updating of threaded message list after message(s) deletion (?),
+      in some cases  when some children rows has been removed threads needs
+      to be reordered
 
 TODO (other):
     - button in #listcontrols to mark all messages in current thread (with selected
       root or child message),
-    - icons for thread tree structure
 
 KNOWN ISSUES:
     - IE6: message, flag, attachment icons are not displayed in 

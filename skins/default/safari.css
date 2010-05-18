@@ -14,3 +14,9 @@ div.message-part div.pre
 {
   word-wrap: break-word;
 }
+
+#messagelist thead tr td,
+#messagelist tbody tr td
+{
+  height: 18px;
+}

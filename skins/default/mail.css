@@ -397,6 +397,7 @@ td.formlinks a:visited
   list-style-type: none;
   overflow: hidden;
   white-space: nowrap;
+  background-color: #FFF;
 }
 
 #mailboxlist li
@@ -506,7 +507,7 @@ td.formlinks a:visited
   border-top: 1px solid #EBEBEB;  
   padding-left: 15px;
   background-position: 25px 1px;
-  background-color: #F9F9F9;
+  background-color: #FFF;
   color: blue;
   font-weight: normal;
 }
@@ -671,10 +672,7 @@ body.messagelist
 #messagelist thead tr td
 {
   height: 20px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 2px;
-  padding-right: 4px;
+  padding: 0 4px 0 2px;
   vertical-align: middle;
   border-bottom: 1px solid #999999;
   color: #333333;
@@ -708,12 +706,23 @@ body.messagelist
   text-decoration: none;
 }
 
+#messagelist thead tr td.size
+{
+  text-align: left;
+}
+
+#messagelist thead tr td.subject
+{
+  padding-left: 18px;
+}
+
 #messagelist tbody tr td
 {
-  height: 16px;
-  padding: 2px;
+  height: 20px;
+  padding: 0;
   font-size: 11px;
   overflow: hidden;
+  vertical-align: middle;
   white-space: nowrap;
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
@@ -729,75 +738,45 @@ body.messagelist
   cursor: inherit;
 }
 
-#messagelist tbody tr td.subject a
+#messagelist tr td.icon,
+#messagelist tr td.threads,
+#messagelist tr td.attachment,
+#messagelist tr td.flag
 {
-  cursor: default;
+  width: 20px;
+  padding: 0px 1px 1px 1px;
 }
 
-#messagelist col
+#messagelist tbody td span.branch,
+#messagelist tbody td img
 {
-  display: table-column;
-  text-align: left;
   vertical-align: middle;
-}
-
-#messagelist thead tr td.subject
-{
-  padding-left: 22px;
-}
-
-#messagelist thead tr td.icon,
-#messagelist thead tr td.flag,
-#messagelist thead tr td.threads
-{
-  width: 22px;
-  padding: 0;
-  text-align: center;
-}
-
-#messagelist thead tr td.threads
-{
-  width: 18px;
-}
-
-#messagelist tbody tr td.flag
-{
-  padding: 2px 3px 2px 3px;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
-#messagelist tr td span.branch
-{
   display: inline-block;
-  width: 15px;
-  height: 15px;
 }
 
 #messagelist tbody td img.msgicon
 {
-  vertical-align: middle;
-  position: relative;
-  top: 0px;
-  margin-right: 5px;
+  margin-right: 2px;
 }
 
 #messagelist tr td div.collapsed,
 #messagelist tr td div.expanded,
 #messagelist tr td img.flagicon,
-#messagelist tr td img.msgicon
+#messagelist tr td img.msgicon,
+#messagelist tbody tr td.flag,
+#messagelist tbody tr td.subject a
 {
   cursor: pointer;
 }
 
 #messagelist tr td div.collapsed
 {
-  background: url(images/messageactions.png) -1px -91px no-repeat;
+  background: url(images/messageactions.png) 1px -91px no-repeat;
 }
 
 #messagelist tr td div.expanded
 {
-  background: url(images/messageactions.png) -1px -109px no-repeat;
+  background: url(images/messageactions.png) 1px -109px no-repeat;
 }
 
 #messagelist tbody tr td.flag img:hover,
@@ -806,10 +785,8 @@ body.messagelist
   background: url(images/icons/unflagged.png) center no-repeat;
 }
 
-#messagelist tr td.subject
+#messagelist tbody tr td.subject
 {
-  overflow: hidden;
-  vertical-align: middle;
   width: 99%;
 }
 
@@ -821,14 +798,9 @@ body.messagelist
 
 #messagelist tr td.size
 {
-  width: 70px;
+  width: 60px;
   text-align: right;
-  vertical-align: middle;
-}
-
-#messagelist thead tr td.size
-{
-  text-align: left;
+  padding: 0 2px;
 }
 
 #messagelist tr td.from,
@@ -837,18 +809,18 @@ body.messagelist
 #messagelist tr td.replyto
 {
   width: 180px;
-  vertical-align: middle;
+  padding: 0 2px;
 }
 
 #messagelist tr td.date
 {
   width: 118px;
-  vertical-align: middle;
+  padding: 0 2px;
 }
 
 #messagelist tr.message
 {
-  background-color: #FFFFFF;
+  background-color: #FFF;
 }
 
 /*
@@ -897,6 +869,37 @@ body.messagelist
 {
   color: #CCCCCC;
 }
+
+/***** tree indicators *****/
+
+td span.branch div
+{
+  float: left;
+  height: 16px;
+}
+
+td span.branch div.tree
+{
+  height: 17px;
+  width: 15px;
+  background: url(images/tree.gif) 0px 0px no-repeat;
+}
+
+td span.branch div.l1
+{
+  background-position: 0px 0px; /* L */
+}
+
+td span.branch div.l2
+{
+  background-position: -30px 0px; /* | */
+}
+
+td span.branch div.l3
+{
+  background-position: -15px 0px; /* |- */
+}
+
 
 .quota_text {
   text-align: center;
