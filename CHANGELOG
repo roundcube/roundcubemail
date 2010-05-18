@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Renamed all php-cli scripts to use .sh extension
 - Some files from /bin + spellchecking actions moved to the new 'utils' task
 - Added thread tree icons
 - Extend contact groups support (#1486682)

@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | bin/cleandb.php                                                       |
+ | bin/cleandb.sh                                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2010, RoundCube Dev. - Switzerland                      |

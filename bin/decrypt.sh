@@ -3,7 +3,7 @@
 /*
 
  +-----------------------------------------------------------------------+
- | bin/decrypt.php                                                       |
+ | bin/decrypt.sh                                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
@@ -37,7 +37,7 @@
  *
  * Using this tool, they can be decrypted into plain text:
  *
- * $ bin/decrypt_received.php 'my0nUbjZXKtl7KVBZcsvWOxxtyVFxza4' \
+ * $ bin/decrypt.sh 'my0nUbjZXKtl7KVBZcsvWOxxtyVFxza4' \
  * > 'DzgkvJBO5+bw+oje5JACeNIa/uSI4mRw2cy5YoPBba73eyBmjtyHnQ=='
  * 84.3.187.208
  * 5403BBD0.catv.pool.telekom.hu
