@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Parse untagged CAPABILITY response for LOGIN command (#1486742)
 - Renamed all php-cli scripts to use .sh extension
 - Some files from /bin + spellchecking actions moved to the new 'utils' task
 - Added thread tree icons
