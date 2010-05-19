@@ -3393,13 +3393,13 @@ class rcube_imap
 
         foreach ($tnef_arr as $winatt) {
             $tpart = new rcube_message_part;
-            $tpart->filename = $winatt["name"];
+            $tpart->filename = trim($winatt['name']);
             $tpart->encoding = 'stream';
-            $tpart->ctype_primary = $winatt["type0"];
-            $tpart->ctype_secondary = $winatt["type1"];
-            $tpart->mimetype = strtolower($winatt["type0"] . "/" . $winatt["type1"]);
+            $tpart->ctype_primary = trim(strtolower($winatt['type0']));
+            $tpart->ctype_secondary = trim(strtolower($winatt['type1']));
+            $tpart->mimetype = $tpart->ctype_primary . '/' . $tpart->ctype_secondary;
             $tpart->mime_id = "winmail." . $part->mime_id . ".$pid";
-            $tpart->size = $winatt["size"];
+            $tpart->size = $winatt['size'];
             $tpart->body = $winatt['stream'];
 
             $tnef_parts[] = $tpart;
