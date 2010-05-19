@@ -113,9 +113,6 @@ class MDB2_Driver_sqlsrv extends MDB2_Driver_Common
     function errorInfo($error = null, $connection = null)
     {
         if (null === $connection) {
-			if (!$this->connection) {
-                $this->connect();
-            }
             $connection = $this->connection;
         }
 
