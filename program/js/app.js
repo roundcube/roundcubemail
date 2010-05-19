@@ -1969,8 +1969,8 @@ function rcube_webmail()
   this.init_threads = function(roots)
   {
     for (var n=0, len=roots.length; n<len; n++)
-      setTimeout(function() { rcmail.add_tree_icons(roots[n]);}, 1);
-    setTimeout(function() { rcmail.expand_threads();}, 1);
+      this.add_tree_icons(roots[n]);
+    this.expand_threads();
   };
 
   // adds threads tree icons to the list (or specified thread)

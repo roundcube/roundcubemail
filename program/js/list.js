@@ -148,6 +148,7 @@ init_header: function()
 clear: function(sel)
 {
   var tbody = document.createElement('tbody');
+
   this.list.insertBefore(tbody, this.list.tBodies[0]);
   this.list.removeChild(this.list.tBodies[1]);
   this.rows = [];
@@ -261,8 +262,9 @@ drag_column: function(e, col)
 drag_row: function(e, id)
 {
   // don't do anything (another action processed before)
-  var evtarget = rcube_event.get_target(e);
-  var tagname = evtarget.tagName.toLowerCase();
+  var evtarget = rcube_event.get_target(e),
+    tagname = evtarget.tagName.toLowerCase();
+
   if (this.dont_select || (evtarget && (tagname == 'input' || tagname == 'img')))
     return true;
 
@@ -297,10 +299,10 @@ drag_row: function(e, id)
  */
 click_row: function(e, id)
 {
-  var now = new Date().getTime();
-  var mod_key = rcube_event.get_modifier(e);
-  var evtarget = rcube_event.get_target(e);
-  var tagname = evtarget.tagName.toLowerCase();
+  var now = new Date().getTime(),
+    mod_key = rcube_event.get_modifier(e),
+    evtarget = rcube_event.get_target(e),
+    tagname = evtarget.tagName.toLowerCase();
 
   if ((evtarget && (tagname == 'input' || tagname == 'img')))
     return true;
@@ -353,9 +355,9 @@ find_root: function(uid)
 
 expand_row: function(e, id)
 {
-  var row = this.rows[id];
-  var evtarget = rcube_event.get_target(e);
-  var mod_key = rcube_event.get_modifier(e);
+  var row = this.rows[id],
+    evtarget = rcube_event.get_target(e),
+    mod_key = rcube_event.get_modifier(e);
 
   // Don't select this message
   this.dont_select = true;
@@ -363,14 +365,14 @@ expand_row: function(e, id)
   row.clicked = 0;
 
   if (row.expanded) {
-    evtarget.className = "collapsed";
+    evtarget.className = 'collapsed';
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.collapse_all(row);
     else
       this.collapse(row);
   }
   else {
-    evtarget.className = "expanded";
+    evtarget.className = 'expanded';
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.expand_all(row);
     else
@@ -392,8 +394,10 @@ collapse: function(row)
       if (r && r.depth <= depth)
         break;
       $(new_row).hide();
-      r.expanded = false;
-      this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+      if (r.expanded) {
+        r.expanded = false;
+        this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+      }
     }
     new_row = new_row.nextSibling;
   }
@@ -452,8 +456,7 @@ expand: function(row)
 
 collapse_all: function(row)
 {
-  var depth, new_row;
-  var r;
+  var depth, new_row, r;
 
   if (row) {
     row.expanded = false;
@@ -464,27 +467,24 @@ collapse_all: function(row)
 
     // don't collapse sub-root tree in multiexpand mode 
     if (depth && this.multiexpand)
-      return false; 
+      return false;
   }
   else {
-    var tbody = this.list.tBodies[0];
-    new_row = tbody.firstChild;
+    new_row = this.list.tBodies[0].firstChild;
     depth = 0;
   }
 
   while (new_row) {
     if (new_row.nodeType == 1) {
-      var r = this.rows[new_row.uid];
-      if (r) {
+      if (r = this.rows[new_row.uid]) {
         if (row && (!r.depth || r.depth <= depth))
           break;
 
         if (row || r.depth)
           $(new_row).hide();
-        if (r.has_children) {
+        if (r.has_children && r.expanded) {
           r.expanded = false;
-          if (!r.depth || !this.multiexpand)
-            this.update_expando(r.uid, false);
+          this.update_expando(r.uid, false);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
         }
       }
@@ -497,8 +497,7 @@ collapse_all: function(row)
 
 expand_all: function(row)
 {
-  var depth, new_row;
-  var r;
+  var depth, new_row, r;
 
   if (row) {
     row.expanded = true;
@@ -508,27 +507,20 @@ expand_all: function(row)
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
   }
   else {
-    var tbody = this.list.tBodies[0];
-    new_row = tbody.firstChild;
+    new_row = this.list.tBodies[0].firstChild;
     depth = 0;
   }
 
   while (new_row) {
     if (new_row.nodeType == 1) {
-      var r = this.rows[new_row.uid];
-      if (r) {
+      if (r = this.rows[new_row.uid]) {
         if (row && r.depth <= depth)
           break;
 
         $(new_row).show();
-        if (r.has_children) {
+        if (r.has_children && !r.expanded) {
           r.expanded = true;
-          // in multiexpand mode only root has expando icon
-          // so we don't need to set it for children, this
-          // improves performance because getElementById()
-          // is relatively slow on IE 
-          if (!r.depth || !this.multiexpand)
-            this.update_expando(r.uid, true);
+          this.update_expando(r.uid, true);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
         }
       }
@@ -554,8 +546,9 @@ get_next_row: function()
   if (!this.rows)
     return false;
 
-  var last_selected_row = this.rows[this.last_selected];
-  var new_row = last_selected_row ? last_selected_row.obj.nextSibling : null;
+  var last_selected_row = this.rows[this.last_selected],
+    new_row = last_selected_row ? last_selected_row.obj.nextSibling : null;
+
   while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none'))
     new_row = new_row.nextSibling;
 
@@ -567,8 +560,9 @@ get_prev_row: function()
   if (!this.rows)
     return false;
 
-  var last_selected_row = this.rows[this.last_selected];
-  var new_row = last_selected_row ? last_selected_row.obj.previousSibling : null;
+  var last_selected_row = this.rows[this.last_selected],
+    new_row = last_selected_row ? last_selected_row.obj.previousSibling : null;
+
   while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none'))
     new_row = new_row.previousSibling;
 
