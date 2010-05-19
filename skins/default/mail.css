@@ -763,8 +763,7 @@ body.messagelist
 #messagelist tr td div.expanded,
 #messagelist tr td img.flagicon,
 #messagelist tr td img.msgicon,
-#messagelist tbody tr td.flag,
-#messagelist tbody tr td.subject a
+#messagelist tbody tr td.flag
 {
   cursor: pointer;
 }
@@ -788,6 +787,11 @@ body.messagelist
 #messagelist tbody tr td.subject
 {
   width: 99%;
+}
+
+#messagelist tbody tr td.subject a
+{
+  cursor: default;
 }
 
 /* thread parent message with unread children */
