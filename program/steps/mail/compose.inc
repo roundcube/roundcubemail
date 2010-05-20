@@ -738,13 +738,25 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
   global $OUTPUT;
 
-  $cid_map = array();
+  $cid_map = $messages = array();
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if (($part->ctype_primary != 'message' || !$bodyIsHtml) && $part->ctype_primary != 'multipart' && 
         ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename))
     {
-      if ($attachment = rcmail_save_attachment($message, $pid)) {
+      $skip = false;
+      if ($part->mimetype == 'message/rfc822') {
+        $messages[] = $part->mime_id;
+      } else if ($messages) {
+        // skip attachments included in message/rfc822 attachment (#1486487)
+        foreach ($messages as $mimeid)
+          if (strpos($part->mime_id, $mimeid.'.') === 0) {
+            $skip = true;
+            break;
+          }
+      }
+
+      if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && $part->content_id) {
           $cid_map['cid:'.$part->content_id] = $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];

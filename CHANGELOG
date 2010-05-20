@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix duplicated attachments when forwarding a message (#1486487)
 - Fix message/rfc822 attachments containing only attachments are not parsed properly (#1486743)
 - Fix %00 character in winmail.dat attachments names (#1486738)
 - Fix handling errors of folder deletion (#1486705)
