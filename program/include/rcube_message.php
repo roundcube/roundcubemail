@@ -198,6 +198,10 @@ class rcube_message
 
       if ($mimetype == 'text/plain') {
         $out = $this->imap->get_message_part($this->uid, $mime_id, $part);
+        
+        // re-format format=flowed content
+        if ($part->ctype_secondary == "plain" && $part->ctype_parameters['format'] == "flowed")
+          $out = self::unfold_flowed($out);
         break;
       }
       else if ($mimetype == 'text/html') {
@@ -476,6 +480,38 @@ class rcube_message
         $this->get_mime_numbers($part->parts[$i]);
   }
 
+
+  /**
+   * Interpret a format=flowed message body according to RFC 2646
+   *
+   * @param string  Raw body formatted as flowed text
+   * @return string Interpreted text with unwrapped lines and stuffed space removed
+   */
+  public static function unfold_flowed($text)
+  {
+    return preg_replace(
+      array('/-- (\r?\n)/',   '/^ /m',  '/(.) \r?\n/',  '/--%SIGEND%(\r?\n)/'),
+      array('--%SIGEND%\\1',  '',       '\\1 ',         '-- \\1'),
+      $text);
+  }
+  
+  /**
+   * Wrap the given text to comply with RFC 2646
+   */
+  public static function format_flowed($text, $length = 72)
+  {
+    $out = '';
+    
+    foreach (preg_split('/\r?\n/', trim($text)) as $line) {
+      // don't wrap quoted lines (to avoid wrapping problems)
+      if ($line[0] != '>')
+        $line = rc_wordwrap(rtrim($line), $length - 1, " \r\n");
+
+      $out .= $line . "\r\n";
+    }
+    
+    return $out;
+  }
 
 }
 

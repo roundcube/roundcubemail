@@ -933,6 +933,10 @@ function rcmail_message_body($attrib)
         if (!isset($part->body))
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
+        // re-format format=flowed content
+        if ($part->ctype_secondary == "plain" && $part->ctype_parameters['format'] == "flowed")
+          $part->body = rcube_message::unfold_flowed($part->body);
+
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
         if ($part->ctype_secondary == 'html')
@@ -1161,40 +1165,37 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
 
 /**
  * Wrap text to a given number of characters per line
- * but respect the mail quotation of replies messages (>)
+ * but respect the mail quotation of replies messages (>).
+ * Finally add another quotation level by prpending the lines
+ * with >
  *
  * @param string Text to wrap
  * @param int The line width
  * @return string The wrapped text
  */
-function rcmail_wrap_quoted($text, $max = 76)
+function rcmail_wrap_and_quote($text, $length = 72)
 {
   // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
+  $max = min(78, $length + 8);
   $lines = preg_split('/\r?\n/', trim($text));
   $out = '';
 
   foreach ($lines as $line) {
-    if (strlen($line) > $max) {
-      if (preg_match('/^([>\s]+)/', $line, $regs)) {
-        $length = strlen($regs[0]);
-        $prefix = substr($line, 0, $length);
-
-        // Remove '> ' from the line, then wordwrap() the line
-        $line = rc_wordwrap(substr($line, $length), $max - $length);
-
-        // Rebuild the line with '> ' at the beginning of each 'subline'
-        $newline = '';
-        foreach (explode("\n", $line) as $l) {
-          $newline .= $prefix . $l . "\n";
-        }
-
-        // Remove the righest newline char
-        $line = rtrim($newline);
+    // don't wrap already quoted lines
+    if ($line[0] == '>')
+      $line = '>' . rtrim($line);
+    else if (mb_strlen($line) > $max) {
+      $newline = '';
+      foreach(explode("\n", rc_wordwrap($line, $length - 2)) as $l) {
+        if (strlen($l))
+          $newline .= '> ' . $l . "\n";
+        else
+          $newline .= ">\n";
       }
-      else {
-        $line = rc_wordwrap($line, $max);
-      }
+      $line = rtrim($newline);
     }
+    else
+      $line = '> ' . $line;
 
     // Append the line
     $out .= $line . "\n";

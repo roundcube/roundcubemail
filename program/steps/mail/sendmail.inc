@@ -5,7 +5,7 @@
  | program/steps/mail/sendmail.inc                                       |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -440,11 +440,16 @@ if ($isHtml) {
   // look for "emoticon" images from TinyMCE and copy into message as attachments
   $message_body = rcmail_attach_emoticons($MAIL_MIME);
 }
-else
-  {
-  $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
+else {
   if ($footer)
     $message_body .= "\r\n" . $footer;
+  
+  // compose format=flowed content if enabled and not a reply message
+  if (empty($_SESSION['compose']['reply_msgid']) && ($flowed = $RCMAIL->config->get('send_format_flowed', true)))
+    $message_body = rcube_message::format_flowed($message_body, $LINE_LENGTH);
+  else
+    $message_body = rc_wordwrap($message_body, min(79, $LINE_LENGTH + 8), "\r\n");  // +8: be generous with quoted lines
+  
   $message_body = wordwrap($message_body, 998, "\r\n", true);
   if (!strlen($message_body)) { 
     // empty message body breaks attachment handling in drafts 
@@ -503,7 +508,7 @@ $MAIL_MIME->setParam('html_encoding', 'quoted-printable');
 $MAIL_MIME->setParam('head_encoding', 'quoted-printable');
 $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
-$MAIL_MIME->setParam('text_charset', $message_charset);
+$MAIL_MIME->setParam('text_charset', $message_charset . ($flowed ? ";\r\n format=flowed" : ''));
 
 // encoding subject header with mb_encode provides better results with asian characters
 if (function_exists('mb_encode_mimeheader'))

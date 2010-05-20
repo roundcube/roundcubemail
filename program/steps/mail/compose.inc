@@ -134,7 +134,7 @@ else
   $OUTPUT->set_env('show_sig', false);
 
 // set line length for body wrapping
-$LINE_LENGTH = $RCMAIL->config->get('line_length', 75);
+$LINE_LENGTH = $RCMAIL->config->get('line_length', 72);
 
 if (!empty($msg_uid))
 {
@@ -597,30 +597,13 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         $body = substr($body, 0, max(0, $sp-1));
     }
 
-    // soft-wrap message first
-    $body = rcmail_wrap_quoted($body, $LINE_LENGTH);
-
-    $body = rtrim($body, "\r\n");
-
-    if ($body) {
-      // split body into single lines
-      $a_lines = preg_split('/\r?\n/', $body);
-
-      // add > to each line
-      for ($n=0; $n<sizeof($a_lines); $n++) {
-        if (strpos($a_lines[$n], '>')===0)
-          $a_lines[$n] = '>'.$a_lines[$n];
-        else
-          $a_lines[$n] = '> '.$a_lines[$n];
-      }
- 
-      $body = join("\n", $a_lines);
-    }
+    // soft-wrap and quote message text
+    $body = rcmail_wrap_and_quote(rtrim($body, "\r\n"), $LINE_LENGTH);
 
     // add title line(s)
-    $prefix = rc_wordwrap(sprintf("On %s, %s wrote:\n",
+    $prefix = sprintf("On %s, %s wrote:\n",
       $MESSAGE->headers->date,
-      $MESSAGE->get_header('from')), $LINE_LENGTH);
+      $MESSAGE->get_header('from'));
 
     $suffix = '';
     

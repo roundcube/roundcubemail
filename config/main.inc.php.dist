@@ -5,7 +5,7 @@
  | Main configuration file                                               |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -188,10 +188,10 @@ $rcmail_config['max_recipients'] = 0;
 $rcmail_config['max_group_members'] = 0; 
 
 // add this user-agent to message headers when sending
-$rcmail_config['useragent'] = 'RoundCube Webmail/'.RCMAIL_VERSION;
+$rcmail_config['useragent'] = 'Roundcube Webmail/'.RCMAIL_VERSION;
 
 // use this name to compose page titles
-$rcmail_config['product_name'] = 'RoundCube Webmail';
+$rcmail_config['product_name'] = 'Roundcube Webmail';
 
 // try to load host-specific configuration
 // see http://trac.roundcube.net/wiki/Howto_Config for more details
@@ -213,6 +213,13 @@ $rcmail_config['http_received_header_encrypt'] = false;
 // this string is used as a delimiter for message headers when sending
 // leave empty for auto-detection
 $rcmail_config['mail_header_delimiter'] = NULL;
+
+// number of chars allowed for line when wrapping text.
+// text wrapping is done when composing/sending messages
+$rcmail_config['line_length'] = 66;
+
+// send plaintext messages as format=flowed
+$rcmail_config['send_format_flowed'] = true;
 
 // session domain: .example.org
 $rcmail_config['session_domain'] = '';
