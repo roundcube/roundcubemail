@@ -393,7 +393,7 @@ class rcube_message
         // ignore "virtual" protocol parts
         else if ($primary_type == 'protocol')
           continue;
-          
+
         // part is Microsoft Outlook TNEF (winmail.dat)
         else if ($part_mimetype == 'application/ms-tnef') {
           foreach ((array)$this->imap->tnef_decode($mail_part, $structure->headers['uid']) as $tnef_part) {
@@ -401,7 +401,6 @@ class rcube_message
             $this->attachments[] = $tnef_part;
           }
         }
-
         // part is a file/attachment
         else if (preg_match('/^(inline|attach)/', $mail_part->disposition) ||
                  $mail_part->headers['content-id'] || (empty($mail_part->disposition) && $mail_part->filename)) {
@@ -418,8 +417,12 @@ class rcube_message
               $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
             if ($mail_part->headers['content-location'])
               $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
-              
+
             $this->inline_parts[] = $mail_part;
+          }
+          // attachment encapsulated within message/rfc822 part needs further decoding (#1486743)
+          else if ($part_orig_mimetype == 'message/rfc822') {
+            $this->parse_structure($mail_part, true);
           }
           // is a regular attachment
           else if (preg_match('!^[a-z0-9-.+]+/[a-z0-9-.+]+$!i', $part_mimetype)) {

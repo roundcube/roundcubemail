@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix message/rfc822 attachments containing only attachments are not parsed properly (#1486743)
 - Fix %00 character in winmail.dat attachments names (#1486738)
 - Fix handling errors of folder deletion (#1486705)
 - Parse untagged CAPABILITY response for LOGIN command (#1486742)
