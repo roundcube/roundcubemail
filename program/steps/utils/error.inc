@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/error.inc                                               |
+ | program/steps/utils/error.inc                                         |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -46,7 +46,7 @@ else if ($ERROR_CODE==401) {
   $__error_text  = "Could not verify that you are authorized to access this service!<br />\n".
                    "Please contact your server-administrator.";
 }
-  
+
 // failed request (wrong step in URL)
 else if ($ERROR_CODE==404) {
   $__error_title = "REQUEST FAILED/FILE NOT FOUND";

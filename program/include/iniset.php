@@ -123,6 +123,5 @@ function rcube_pear_error($err)
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
 
 // include global functions
-require_once 'include/bugs.inc';
 require_once 'include/main.inc';
 require_once 'include/rcube_shared.inc';
