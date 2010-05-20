@@ -448,7 +448,7 @@ else {
   if (empty($_SESSION['compose']['reply_msgid']) && ($flowed = $RCMAIL->config->get('send_format_flowed', true)))
     $message_body = rcube_message::format_flowed($message_body, $LINE_LENGTH);
   else
-    $message_body = rc_wordwrap($message_body, min(79, $LINE_LENGTH + 8), "\r\n");  // +8: be generous with quoted lines
+    $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
   
   $message_body = wordwrap($message_body, 998, "\r\n", true);
   if (!strlen($message_body)) { 
