@@ -466,7 +466,7 @@ if (is_array($_SESSION['compose']['attachments']))
     if ($isHtml && (preg_match($dispurl, $message_body) > 0)) {
       $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'" ', $message_body);
       $MAIL_MIME->setHTMLBody($message_body);
-      
+
       if ($attachment['data'])
         $MAIL_MIME->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false);
       else
@@ -481,9 +481,7 @@ if (is_array($_SESSION['compose']['attachments']))
         $ctype, 
         $attachment['name'],
         ($attachment['data'] ? false : true),
-        // @TODO: quoted-printable for message/rfc822 is safe,
-	// but we should check that 7bit or 8bit is possible here
-        ($ctype == 'message/rfc822' ? 'quoted-printable' : 'base64'),
+        ($ctype == 'message/rfc822' ? '8bit' : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
         $message_charset, '', '', 
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
