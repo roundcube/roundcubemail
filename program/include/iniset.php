@@ -62,7 +62,7 @@ $include_path.= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
 $include_path.= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
-    die('Fatal error: ini_set/set_include_path does not work.');
+    die("Fatal error: ini_set/set_include_path does not work.");
 }
 
 ini_set('error_reporting', E_ALL&~E_NOTICE);
@@ -74,7 +74,7 @@ ini_set('error_reporting', E_ALL&~E_NOTICE);
 // set internal encoding for mbstring extension
 if(extension_loaded('mbstring'))
     mb_internal_encoding(RCMAIL_CHARSET);
-	      
+
 
 /**
  * Use PHP5 autoload for dynamic class loading
@@ -91,7 +91,6 @@ function rcube_autoload($classname)
             '/Net_(.+)/',
             '/^html_.+/',
             '/^utf8$/',
-            '/html2text/'
         ),
         array(
             'MDB2/\\1',
@@ -99,7 +98,6 @@ function rcube_autoload($classname)
             'Net/\\1',
             'html',
             'utf8.class',
-            'lib/html2text'  // see #1485505
         ),
         $classname
     );
