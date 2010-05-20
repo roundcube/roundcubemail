@@ -396,7 +396,7 @@ if (!$savedraft) {
 }
 
 // set line length for body wrapping
-$LINE_LENGTH = $RCMAIL->config->get('line_length', 75);
+$LINE_LENGTH = $RCMAIL->config->get('line_length', 72);
 
 // Since we can handle big messages with disk usage, we need more time to work
 @set_time_limit(0);

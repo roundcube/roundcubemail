@@ -216,7 +216,7 @@ $rcmail_config['mail_header_delimiter'] = NULL;
 
 // number of chars allowed for line when wrapping text.
 // text wrapping is done when composing/sending messages
-$rcmail_config['line_length'] = 66;
+$rcmail_config['line_length'] = 72;
 
 // send plaintext messages as format=flowed
 $rcmail_config['send_format_flowed'] = true;
