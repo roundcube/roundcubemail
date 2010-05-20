@@ -259,7 +259,12 @@ function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
   $para = explode($break, $string);
   $string = '';
   while (count($para)) {
-    $list = explode(' ', array_shift($para));
+    $line = array_shift($para);
+    if ($line[0] == '>') {
+      $string .= $line.$break;
+      continue;
+    }
+    $list = explode(' ', $line);
     $len = 0;
     while (count($list)) {
       $line = array_shift($list);
@@ -270,25 +275,25 @@ function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
         $string .= ($len ? ' ' : '').$line;
         $len += (1 + $l);
       } else {
-	if ($l > $width) {
-	  if ($cut) {
-	    $start = 0;
-	    while ($l) {
-	      $str = mb_substr($line, $start, $width);
-	      $strlen = mb_strlen($str);
-	      $string .= ($len ? $break : '').$str;
-	      $start += $strlen;
-	      $l -= $strlen;
-	      $len = $strlen;
-	    }
-	  } else {
-            $string .= ($len ? $break : '').$line;
-	    if (count($list)) $string .= $break;
-	    $len = 0;
-	  }
-	} else {
+        if ($l > $width) {
+          if ($cut) {
+            $start = 0;
+            while ($l) {
+              $str = mb_substr($line, $start, $width);
+              $strlen = mb_strlen($str);
+              $string .= ($len ? $break : '').$str;
+              $start += $strlen;
+              $l -= $strlen;
+              $len = $strlen;
+            }
+          } else {
+                $string .= ($len ? $break : '').$line;
+            if (count($list)) $string .= $break;
+            $len = 0;
+          }
+        } else {
           $string .= $break.$line;
-	  $len = $l;
+          $len = $l;
         }
       }
     }
