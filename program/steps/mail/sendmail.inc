@@ -95,18 +95,14 @@ function rcmail_get_identity($id)
 
 /**
  * go from this:
- * <img src=".../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="http[s]://.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  *
  * to this:
  *
- * <IMG src="cid:smiley-cool.gif"/>
+ * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  * ...
- * ------part...
- * Content-Type: image/gif
- * Content-Transfer-Encoding: base64
- * Content-ID: <smiley-cool.gif>
  */
-function rcmail_attach_emoticons(&$mime_message)
+function rcmail_fix_emoticon_paths(&$mime_message)
 {
   global $CONFIG;
 
@@ -437,8 +433,9 @@ if ($isHtml) {
   $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
   $MAIL_MIME->setTXTBody($plugin['body']);
 
-  // look for "emoticon" images from TinyMCE and copy into message as attachments
-  $message_body = rcmail_attach_emoticons($MAIL_MIME);
+  // look for "emoticon" images from TinyMCE and change their src paths to
+  // be file paths on the server instead of URL paths.
+  $message_body = rcmail_fix_emoticon_paths($MAIL_MIME);
 }
 else {
   if ($footer)

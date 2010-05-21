@@ -848,8 +848,10 @@ class Mail_mime
                 $domainID = "@localhost";
             }
             foreach ($this->_html_images as $i => $img) {
-                $this->_html_images[$i]['cid']
-                    = $this->_html_images[$i]['cid'] . $domainID;
+                $cid = $this->_html_images[$i]['cid'];
+                if (!preg_match('#'.preg_quote($domainID).'$#', $cid)) {
+                    $this->_html_images[$i]['cid'] = $cid . $domainID;
+                }
             }
         }
 
