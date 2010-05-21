@@ -439,7 +439,8 @@ function rcube_webmail()
       return ret !== null ? ret : (obj ? false : true);
     }
 
-    // trigger plugin hook
+    // trigger plugin hooks
+    this.triggerEvent('actionbefore', {props:props, action:command});
     var event_ret = this.triggerEvent('before'+command, props);
     if (typeof event_ret != 'undefined') {
       // abort if one the handlers returned false
@@ -865,7 +866,7 @@ function rcube_webmail()
         // all checks passed, send message
         this.set_busy(true, 'sendingmessage');
         var form = this.gui_objects.messageform;
-        form.target = "savetarget";     
+        form.target = 'savetarget';
         form._draft.value = '';
         form.submit();
 
@@ -880,7 +881,7 @@ function rcube_webmail()
         // Reset the auto-save timer
         self.clearTimeout(this.save_timer);
 
-        this.upload_file(props)      
+        this.upload_file(props)
         break;
 
       case 'remove-attachment':
@@ -896,7 +897,7 @@ function rcube_webmail()
         var uid;
         if (uid = this.get_single_uid())
           this.goto_url('compose', '_reply_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(command=='reply-all' ? '&_all=1' : ''), true);
-        break;      
+        break;
 
       case 'forward':
         var uid;
@@ -1045,6 +1046,7 @@ function rcube_webmail()
     }
 
     this.triggerEvent('after'+command, props);
+    this.triggerEvent('actionafter', {props:props, action:command});
 
     return obj ? false : true;
   };
@@ -4908,6 +4910,9 @@ function rcube_webmail()
     if (response.unlock)
       this.set_busy(false);
 
+    this.triggerEvent('responsebefore', {response: response});
+    this.triggerEvent('responsebefore'+response.action, {response: response});
+
     // set env vars
     if (response.env)
       this.set_env(response.env);
@@ -4923,12 +4928,6 @@ function rcube_webmail()
     if (response.exec) {
       console.log(response.exec);
       eval(response.exec);
-    }
-
-    // execute callback functions of plugins
-    if (response.callbacks && response.callbacks.length) {
-      for (var i=0; i < response.callbacks.length; i++)
-        this.triggerEvent(response.callbacks[i][0], response.callbacks[i][1]);
     }
 
     // process the response data according to the sent action
@@ -4989,6 +4988,9 @@ function rcube_webmail()
         }
         break;
     }
+
+    this.triggerEvent('responseafter', {response: response});
+    this.triggerEvent('responseafter'+response.action, {response: response});
   };
 
   // handle HTTP request errors

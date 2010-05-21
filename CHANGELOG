@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added 'actionbefore', 'actionafter', 'responsebefore', 'responseafter' events
+- Removed response.callbacks feature
 - Fix double-addition of e-mail domain to content ID in HTML images
 - Read and send messages with format=flowed (#1484370), fixes word wrapping issues (#1486543)
 - Fix duplicated attachments when forwarding a message (#1486487)
