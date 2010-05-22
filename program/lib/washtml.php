@@ -73,6 +73,7 @@
  * Roundcube Changes:
  * - added $block_elements
  * - changed $ignore_elements behaviour
+ * - added RFC2397 support
  */
 
 class washtml
@@ -131,31 +132,34 @@ class washtml
   private function wash_style($style) {
     $s = '';
 
-    foreach(explode(';', $style) as $declaration) {
-      if(preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
+    foreach (explode(';', $style) as $declaration) {
+      if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
         $cssid = $match[1];
         $str = $match[2];
         $value = '';
-        while(sizeof($str) > 0 &&
+        while (sizeof($str) > 0 &&
           preg_match('/^(url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)'./*1,2*/
                  '|rgb\(\s*[0-9]+\s*,\s*[0-9]+\s*,\s*[0-9]+\s*\)'.
                  '|-?[0-9.]+\s*(em|ex|px|cm|mm|in|pt|pc|deg|rad|grad|ms|s|hz|khz|%)?'.
                  '|#[0-9a-f]{3,6}|[a-z0-9\-]+'.
                  ')\s*/i', $str, $match)) {
-          if($match[2]) {
-            if($src = $this->config['cid_map'][$match[2]])
-              $value .= ' url(\''.htmlspecialchars($src, ENT_QUOTES) . '\')';
-            else if(preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
-              if($this->config['allow_remote'])
-                $value .= ' url(\''.htmlspecialchars($url[0], ENT_QUOTES).'\')';
+          if ($match[2]) {
+            if ($src = $this->config['cid_map'][$match[2]])
+              $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
+            else if (preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
+              if ($this->config['allow_remote'])
+                $value .= ' url('.htmlspecialchars($url[0], ENT_QUOTES).')';
               else
                 $this->extlinks = true;
             }
-          } else if($match[0] != 'url' && $match[0] != 'rbg')//whitelist ?
+            else if (preg_match('/^data:.+/i', $url)) { // RFC2397
+              $value .= ' url('.htmlspecialchars($url, ENT_QUOTES).')';
+            }
+          } else if ($match[0] != 'url' && $match[0] != 'rbg') //whitelist ?
             $value .= ' ' . $match[0];
           $str = substr($str, strlen($match[0]));
         }
-        if($value)
+        if ($value)
           $s .= ($s?' ':'') . $cssid . ':' . $value . ';';
       }
     }
@@ -167,26 +171,29 @@ class washtml
     $t = '';
     $washed;
 
-    foreach($node->attributes as $key => $plop) {
+    foreach ($node->attributes as $key => $plop) {
       $key = strtolower($key);
       $value = $node->getAttribute($key);
-      if(isset($this->_html_attribs[$key]) ||
+      if (isset($this->_html_attribs[$key]) ||
          ($key == 'href' && preg_match('/^(http:|https:|ftp:|mailto:|#).+/i', $value)))
         $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
-      else if($key == 'style' && ($style = $this->wash_style($value)))
+      else if ($key == 'style' && ($style = $this->wash_style($value)))
         $t .= ' style="' . $style . '"';
-      else if($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
-        if($src = $this->config['cid_map'][$value]) {
+      else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
+        if ($src = $this->config['cid_map'][$value]) {
           $t .= ' ' . $key . '="' . htmlspecialchars($src, ENT_QUOTES) . '"';
         }
-        else if(preg_match('/^(http|https|ftp):.+/i', $value)) {
-          if($this->config['allow_remote'])
+        else if (preg_match('/^(http|https|ftp):.+/i', $value)) {
+          if ($this->config['allow_remote'])
             $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
           else {
             $this->extlinks = true;
             if ($this->config['blocked_src'])
               $t .= ' ' . $key . '="' . htmlspecialchars($this->config['blocked_src'], ENT_QUOTES) . '"';
           }
+        }
+        else if (preg_match('/^data:.+/i', $value)) { // RFC2397
+          $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
         }
       } else
         $washed .= ($washed?' ':'') . $key;
