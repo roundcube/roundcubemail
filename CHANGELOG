@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Added list_mailboxes hook in rcube_imap::list_unsubscribed() (#1486668)
 - Fix wrong message on file upload error (#1486725)
 - Add support for data URI scheme [RFC2397] (#1486740)
 - Added 'actionbefore', 'actionafter', 'responsebefore', 'responseafter' events

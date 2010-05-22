@@ -2512,7 +2512,7 @@ class rcube_imap
      * --------------------------------*/
 
     /**
-     * Public method for mailbox listing.
+     * Public method for listing subscribed folders
      *
      * Converts mailbox name with root dir first
      *
@@ -2552,16 +2552,16 @@ class rcube_imap
      */
     private function _list_mailboxes($root='', $filter='*')
     {
-        $a_defaults = $a_out = array();
-
         // get cached folder list
         $a_mboxes = $this->get_cache('mailboxes');
         if (is_array($a_mboxes))
             return $a_mboxes;
 
+        $a_defaults = $a_out = array();
+
         // Give plugins a chance to provide a list of mailboxes
         $data = rcmail::get_instance()->plugins->exec_hook('list_mailboxes',
-            array('root'=>$root,'filter'=>$filter));
+            array('root' => $root, 'filter' => $filter, 'mode' => 'LSUB'));
 
         if (isset($data['folders'])) {
             $a_folders = $data['folders'];
@@ -2585,17 +2585,26 @@ class rcube_imap
      * Get a list of all folders available on the IMAP server
      *
      * @param string IMAP root dir
+     * @param string Optional filter for mailbox listing
      * @return array Indexed array with folder names
      */
-    function list_unsubscribed($root='')
+    function list_unsubscribed($root='', $filter='*')
     {
-        static $a_folders;
+        // Give plugins a chance to provide a list of mailboxes
+        $data = rcmail::get_instance()->plugins->exec_hook('list_mailboxes',
+            array('root' => $root, 'filter' => $filter, 'mode' => 'LIST'));
 
-        if (is_array($a_folders))
-            return $a_folders;
-
-        // retrieve list of folders from IMAP server
-        $a_mboxes = $this->conn->listMailboxes($this->mod_mailbox($root), '*');
+        if (isset($data['folders'])) {
+            $a_mboxes = $data['folders'];
+        }
+        else {
+            // retrieve list of folders from IMAP server
+            $a_mboxes = $this->conn->listMailboxes($this->mod_mailbox($root), $filter);
+        }
+        
+        $a_folders = array();
+        if (!is_array($a_mboxes))
+            $a_mboxes = array();
 
         // modify names with root dir
         foreach ($a_mboxes as $idx => $mbox_name) {
