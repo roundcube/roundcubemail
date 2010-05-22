@@ -92,6 +92,8 @@ $messages['addsubfolderhint'] = 'Mi fydd y ffolder yma\'n cael ei greu fel is-ff
 $messages['forbiddencharacter'] = 'Mae enw\'r ffolder yn cynnwys llythyren annerbynniol';
 $messages['selectimportfile'] = 'Dewiswch ffeil i\'w lwytho fyny';
 $messages['addresswriterror'] = 'Nid yw\'n bosib ysgrifennu i\'r llyfr cyfeiriadau ';
+$messages['contactaddedtogroup'] = 'Ychwanegwyd y cysylltiadau i\'r grŵp yma yn llwyddiannus';
+$messages['contactremovedfromgroup'] = 'Dilëwyd y cysylltiadau o\'r grŵp yma yn llwyddiannus';
 $messages['importwait'] = 'Yn mewnforio, arhoswch os gwelwch yn dda...';
 $messages['importerror'] = 'Methwyd a mewnforio! Nid yw\'r ffeil a lwythwyd fyny yn ffeil vCard dilys.';
 $messages['importconfirm'] = '<b>Fe mewnforiwyd $inserted cyswllt yn llwyddiannus, anwybyddwyd $skipped cofnod presennol</b>:<p><em>$names</em></p>';
@@ -106,5 +108,7 @@ $messages['smtptoerror'] = 'Gwall SMTP ($code): Methwyd ychwanegu derbynwr "$to"
 $messages['smtprecipientserror'] = 'Gwall SMTP: Nid oedd yn bosib darllen y rhestr o dderbynnwyr';
 $messages['smtperror'] = 'Gwall SMTP: $msg';
 $messages['emailformaterror'] = 'Cyfeiriad e-bost anghywir: $email';
+$messages['toomanyrecipients'] = 'Gormod o dderbynnwyr. Lleihewch y nifer i $max';
+$messages['maxgroupmembersreached'] = 'Mae nifer o aelodau\'r grŵp yn fwy na\'r uchafswm o $max';
 
 ?>
