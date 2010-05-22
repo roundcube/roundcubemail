@@ -3103,20 +3103,20 @@ function rcube_webmail()
       }
 
       // handle upload errors, parsing iframe content in onload
-      var fr = document.getElementsByName(frame_name)[0];
-      $(fr).bind('load', {ts:ts}, function(e) {
-        var content = '';
+      $(frame_name).bind('load', {ts:ts}, function(e) {
+        var d, content = '';
         try {
           if (this.contentDocument) {
-            var d = this.contentDocument;
+            d = this.contentDocument;
           } else if (this.contentWindow) {
-            var d = this.contentWindow.document;
+            d = this.contentWindow.document;
           }
           content = d.childNodes[0].innerHTML;
         } catch (e) {}
 
-        if (!String(content).match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
-          rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
+        if (!content.match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
+          if (!content.match(/display_message/))
+            rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
           rcmail.remove_from_attachment_list(e.data.ts);
         }
         // Opera hack: handle double onload
