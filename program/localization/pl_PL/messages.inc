@@ -118,5 +118,6 @@ $messages['smtperror'] = 'Błąd SMTP: $msg';
 $messages['emailformaterror'] = 'Błędny adres e-mail: $email';
 $messages['toomanyrecipients'] = 'Zbyt wielu odbiorców. Zmniejsz ich liczbę do $max.';
 $messages['maxgroupmembersreached'] = 'Liczba członków grupy nie może być większa niż $max';
+$messages['internalerror'] = 'Wystąpił wewnętrzny błąd systemu. Spróbuj jeszcze raz'
 
 ?>

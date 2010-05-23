@@ -29,11 +29,11 @@ $savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
 /****** checks ********/
 
 if (!isset($_SESSION['compose']['id'])) {
-  raise_error(array('code' => 500, 'type' => 'smtp',
+  raise_error(array('code' => 500, 'type' => 'php',
     'file' => __FILE__, 'line' => __LINE__,
     'message' => "Invalid compose ID"), true, false);
 
-  $OUTPUT->show_message("An internal error occured. Please try again.", 'error');
+  $OUTPUT->show_message('internalerror', 'error');
   $OUTPUT->send('iframe');
 }
 
