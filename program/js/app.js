@@ -4931,6 +4931,11 @@ function rcube_webmail()
       eval(response.exec);
     }
 
+    // execute callback functions of plugins
+    if (response.callbacks && response.callbacks.length) {
+      for (var i=0; i < response.callbacks.length; i++)
+        this.triggerEvent(response.callbacks[i][0], response.callbacks[i][1]);
+
     // process the response data according to the sent action
     switch (response.action) {
       case 'delete':
@@ -4955,8 +4960,8 @@ function rcube_webmail()
           if (this.env.contentframe)
             this.show_contentframe(false);
           // disable commands useless when mailbox is empty
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete', 
-            'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment', 
+          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete',
+            'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment',
             'purge', 'expunge', 'select-all', 'select-none', 'sort',
             'expand-all', 'expand-unread', 'collapse-all', false);
         }
