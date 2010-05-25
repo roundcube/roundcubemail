@@ -3732,12 +3732,12 @@ function rcube_webmail()
       return;
 
     if (!this.name_input) {
-      this.name_input = document.createElement('input');
-      this.name_input.type = 'text';
-      this.name_input.onkeypress = function(e){ return rcmail.add_input_keypress(e); };
+      this.name_input = $('<input>').attr('type', 'text');
+      this.name_input.bind('keypress', function(e){ return rcmail.add_input_keypress(e); });
+      this.name_input_li = $('<li>').addClass('contactgroup').append(this.name_input);
 
       var li = this.get_folder_li(this.env.source)
-      $(this.name_input).insertAfter(li);
+      this.name_input_li.insertAfter(li);
     }
 
     this.name_input.select();
@@ -3750,16 +3750,13 @@ function rcube_webmail()
 
     if (!this.name_input) {
       this.enable_command('list', 'listgroup', false);
-      this.name_input = document.createElement('input');
-      this.name_input.type = 'text';
-      this.name_input.value = this.env.contactgroups['G'+this.env.source+this.env.group].name;
-      this.name_input.onkeypress = function(e){ return rcmail.add_input_keypress(e); };
+      this.name_input = $('<input>').attr('type', 'text').val(this.env.contactgroups['G'+this.env.source+this.env.group].name);
+      this.name_input.bind('keypress', function(e){ return rcmail.add_input_keypress(e); });
       this.env.group_renaming = true;
 
-      var li = this.get_folder_li(this.env.source+this.env.group, 'rcmliG');
+      var link, li = this.get_folder_li(this.env.source+this.env.group, 'rcmliG');
       if (li && (link = li.firstChild)) {
-        $(link).hide();
-        li.insertBefore(this.name_input, link);
+        $(link).hide().before(this.name_input);
       }
     }
 
@@ -3794,7 +3791,7 @@ function rcube_webmail()
 
     // enter
     if (key == 13) {
-      var newname = this.name_input.value;
+      var newname = this.name_input.val();
 
       if (newname) {
         this.set_busy(true, 'loading');
@@ -3816,13 +3813,17 @@ function rcube_webmail()
   {
     if (this.name_input) {
       if (this.env.group_renaming) {
-        var li = this.name_input.parentNode;
-        $(li.lastChild).show();
+        var li = this.name_input.parent();
+        li.children().last().show();
         this.env.group_renaming = false;
       }
 
-      this.name_input.parentNode.removeChild(this.name_input);
-      this.name_input = null;
+      this.name_input.remove();
+      
+      if (this.name_input_li)
+        this.name_input_li.remove();
+      
+      this.name_input = this.name_input_li = null;
     }
 
     this.enable_command('list', 'listgroup', true);
