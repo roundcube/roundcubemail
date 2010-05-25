@@ -199,9 +199,11 @@ function rcube_webmail()
         if (this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox)
           this.set_alttext('delete', 'movemessagetotrash');
 
+        this.env.message_commands = ['show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete',
+          'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers'];
+
         if (this.env.action=='show' || this.env.action=='preview') {
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete',
-            'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
+          this.enable_command(this.env.message_commands, true);
 
           if (this.env.next_uid) {
             this.enable_command('nextmessage', 'lastmessage', true);
@@ -1047,21 +1049,22 @@ function rcube_webmail()
     return obj ? false : true;
   };
 
-  // set command enabled or disabled
+  // set command(s) enabled or disabled
   this.enable_command = function()
   {
-    var args = arguments, len = args.length;
-    if (!len)
-      return -1;
-
-    var command, enable = args[len-1];
+    var args = arguments, len = args.length,
+      command, enable = args[len-1];
 
     for (var n=0, len=len-1; n<len; n++) {
+      if (typeof args[n] === 'object') {
+        for (var i in args[n])
+          this.enable_command(args[n][i], enable);
+        continue;
+      }
       command = args[n];
       this.commands[command] = enable;
       this.set_button(command, (enable ? 'act' : 'pas'));
     }
-    return true;
   };
 
   // lock/unlock interface
@@ -1398,9 +1401,12 @@ function rcube_webmail()
 
     var selected = list.get_single_selection() != null;
 
+    this.enable_command(this.env.message_commands, selected);
     // Hide certain command buttons when Drafts folder is selected
-    this.enable_command('reply', 'reply-all', 'forward', this.env.mailbox == this.env.drafts_mailbox ? false : selected);
-    this.enable_command('show', 'print', 'open', 'edit', 'download', 'viewsource', selected);
+    if (selected && this.env.mailbox == this.env.drafts_mailbox) {
+      this.enable_command('reply', 'reply-all', 'forward', false);
+    }
+    // Multi-message commands
     this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
 
     // reset all-pages-selection
@@ -2325,7 +2331,7 @@ function rcube_webmail()
       this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
-    this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', false);
+    this.enable_command(this.env.message_commands, false);
 
     this._with_selected_messages('moveto', lock, add_url);
   };
@@ -4930,6 +4936,7 @@ function rcube_webmail()
     if (response.callbacks && response.callbacks.length) {
       for (var i=0; i < response.callbacks.length; i++)
         this.triggerEvent(response.callbacks[i][0], response.callbacks[i][1]);
+    }
 
     // process the response data according to the sent action
     switch (response.action) {
@@ -4944,7 +4951,7 @@ function rcube_webmail()
       case 'moveto':
         if (this.env.action == 'show') {
           // re-enable commands on move/delete error
-          this.enable_command('reply', 'reply-all', 'forward', 'delete', 'mark', 'print', 'open', 'edit', 'viewsource', 'download', true);
+          this.enable_command(this.env.message_commands, true);
         }
         break;
 
@@ -4955,8 +4962,7 @@ function rcube_webmail()
           if (this.env.contentframe)
             this.show_contentframe(false);
           // disable commands useless when mailbox is empty
-          this.enable_command('show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete',
-            'mark', 'viewsource', 'open', 'edit', 'download', 'print', 'load-attachment',
+          this.enable_command(this.env.message_commands,
             'purge', 'expunge', 'select-all', 'select-none', 'sort',
             'expand-all', 'expand-unread', 'collapse-all', false);
         }
