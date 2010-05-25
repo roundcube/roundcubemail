@@ -204,12 +204,10 @@ function rcube_webmail()
             'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers', true);
 
           if (this.env.next_uid) {
-            this.enable_command('nextmessage', true);
-            this.enable_command('lastmessage', true);
+            this.enable_command('nextmessage', 'lastmessage', true);
           }
           if (this.env.prev_uid) {
-            this.enable_command('previousmessage', true);
-            this.enable_command('firstmessage', true);
+            this.enable_command('previousmessage', 'firstmessage', true);
           }
 
           if (this.env.blockedobjects) {
@@ -326,8 +324,7 @@ function rcube_webmail()
         else if (this.env.action=='folders')
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', 'delete-folder', 'enable-threading', 'disable-threading', true);
 
-        if (this.gui_objects.identitieslist)
-          {
+        if (this.gui_objects.identitieslist) {
           this.identity_list = new rcube_list_widget(this.gui_objects.identitieslist, {multiselect:false, draggable:false, keyboard:false});
           this.identity_list.addEventListener('select', function(o){ p.identity_select(o); });
           this.identity_list.init();
@@ -335,9 +332,8 @@ function rcube_webmail()
 
           if (this.env.iid)
             this.identity_list.highlight_row(this.env.iid);
-          }
-        else if (this.gui_objects.sectionslist)
-          {
+        }
+        else if (this.gui_objects.sectionslist) {
           this.sections_list = new rcube_list_widget(this.gui_objects.sectionslist, {multiselect:false, draggable:false, keyboard:false});
           this.sections_list.addEventListener('select', function(o){ p.section_select(o); });
           this.sections_list.init();
@@ -1073,7 +1069,7 @@ function rcube_webmail()
   {
     if (a && message) {
       var msg = this.get_label(message);
-      if (msg == message)        
+      if (msg == message)
         msg = 'Loading...';
 
       this.display_message(msg, 'loading', true);
@@ -2028,7 +2024,7 @@ function rcube_webmail()
         this.set_tree_icons(uid[i], tmp[i]);
       }
     }
-  };                                              
+  };
 
   // adds tree icons to specified message row
   this.set_tree_icons = function(uid, tree)
@@ -2048,14 +2044,14 @@ function rcube_webmail()
       else
         divs.push({'class': null, width: 15});
     }
-    
+
     for (i=divs.length-1; i>=0; i--) {
       if (divs[i]['class'])
         html += '<div class="tree '+divs[i]['class']+'" />';
       else
         html += '<div style="width:'+divs[i].width+'px" />';
     }
-    
+
     if (html)
       $('#rcmtab'+uid).html(html);
   };
@@ -2690,8 +2686,8 @@ function rcube_webmail()
   // test if purge command is allowed
   this.purge_mailbox_test = function()
   {
-    return (this.env.messagecount && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox 
-      || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter)) 
+    return (this.env.messagecount && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
+      || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter))
       || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
   };
 
@@ -3819,10 +3815,10 @@ function rcube_webmail()
       }
 
       this.name_input.remove();
-      
+
       if (this.name_input_li)
         this.name_input_li.remove();
-      
+
       this.name_input = this.name_input_li = null;
     }
 
@@ -4310,10 +4306,8 @@ function rcube_webmail()
   // enable/disable buttons for page shifting
   this.set_page_buttons = function()
   {
-    this.enable_command('nextpage', (this.env.pagecount > this.env.current_page));
-    this.enable_command('lastpage', (this.env.pagecount > this.env.current_page));
-    this.enable_command('previouspage', (this.env.current_page > 1));
-    this.enable_command('firstpage', (this.env.current_page > 1));
+    this.enable_command('nextpage', 'lastpage', (this.env.pagecount > this.env.current_page));
+    this.enable_command('previouspage', 'firstpage', (this.env.current_page > 1));
   };
 
   // set event handlers on registered buttons
