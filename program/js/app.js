@@ -3837,9 +3837,10 @@ function rcube_webmail()
     var link = $('<a>').attr('href', '#')
       .bind('click', function() { return rcmail.command('listgroup', prop, this);})
       .html(prop.name);
-    var li = $('<li>').attr('id', 'rcmli'+key).addClass('contactgroup').append(link);
-    var pli = this.get_folder_li(prop.source)
-    $(li).insertAfter(pli);
+    var li = $('<li>').attr('id', 'rcmli'+key)
+      .addClass('contactgroup')
+      .append(link)
+      .insertAfter(this.get_folder_li(prop.source));
 
     this.triggerEvent('insertgroup', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
   };
