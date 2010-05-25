@@ -4953,18 +4953,26 @@ function rcube_webmail()
           // re-enable commands on move/delete error
           this.enable_command(this.env.message_commands, true);
         }
+        else if (this.task == 'mail') {
+          this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
+        }
+        else if (this.task == 'addressbook') {
+          this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
+        }
         break;
 
       case 'purge':
       case 'expunge':
-        if (!this.env.messagecount && this.task == 'mail') {
-          // clear preview pane content
-          if (this.env.contentframe)
-            this.show_contentframe(false);
-          // disable commands useless when mailbox is empty
-          this.enable_command(this.env.message_commands,
-            'purge', 'expunge', 'select-all', 'select-none', 'sort',
-            'expand-all', 'expand-unread', 'collapse-all', false);
+        if (this.task == 'mail') {
+          if (!this.env.messagecount) {
+            // clear preview pane content
+            if (this.env.contentframe)
+              this.show_contentframe(false);
+            // disable commands useless when mailbox is empty
+            this.enable_command(this.env.message_commands, 'purge', 'expunge',
+              'select-all', 'select-none', 'sort', 'expand-all', 'expand-unread', 'collapse-all', false);
+          }
+          this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
         }
         break;
 
