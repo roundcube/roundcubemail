@@ -28,8 +28,11 @@
 class rcube_contacts extends rcube_addressbook
 {
     // protected for backward compat. with some plugins
-    // maybe changed in the future
+    // deprecated: re-implement $this->get_table_name() instead
     protected $db_name = '';
+    protected $db_groups = '';
+    protected $db_groupmembers = '';
+    
     private $db = null;
     private $user_id = 0;
     private $filter = null;
@@ -58,7 +61,10 @@ class rcube_contacts extends rcube_addressbook
     function __construct($dbconn, $user)
     {
         $this->db = $dbconn;
-        $this->db_name = get_table_name('contacts');
+        $this->db_name = $this->get_table_name('contacts');
+        $this->db_groups = $this->get_table_name('contactgroups');
+        $this->db_groupmembers = $this->get_table_name('contactgroupmembers');
+        
         $this->user_id = $user;
         $this->ready = $this->db && !$this->db->is_error();
     }
@@ -127,7 +133,7 @@ class rcube_contacts extends rcube_addressbook
         $sql_filter = $search ? " AND " . $this->db->ilike('name', '%'.$search.'%') : '';
 
         $sql_result = $this->db->query(
-            "SELECT * FROM ".get_table_name('contactgroups').
+            "SELECT * FROM ".$this->db_groups.
             " WHERE del<>1".
             " AND user_id=?".
             $sql_filter.
@@ -165,7 +171,7 @@ class rcube_contacts extends rcube_addressbook
         $length = $subset != 0 ? abs($subset) : $this->page_size;
 
         if ($this->group_id)
-            $join = " LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
+            $join = " LEFT JOIN ".$this->db_groupmembers." AS m".
                 " ON (m.contact_id = c.".$this->primary_key.")";
 
         $sql_result = $this->db->limitquery(
@@ -282,7 +288,7 @@ class rcube_contacts extends rcube_addressbook
     private function _count()
     {
         if ($this->group_id)
-            $join = " LEFT JOIN ".get_table_name('contactgroupmembers')." AS m".
+            $join = " LEFT JOIN ".$this->db_groupmembers." AS m".
                 " ON (m.contact_id=c.".$this->primary_key.")";
 
         // count contacts for this user
@@ -379,7 +385,7 @@ class rcube_contacts extends rcube_addressbook
                 " VALUES (".intval($this->user_id).", ".$this->db->now().", 0, ".join(', ', $a_insert_values).")"
             );
 
-            $insert_id = $this->db->insert_id('contacts');
+            $insert_id = $this->db->insert_id($this->get_sequence_name('contacts'));
         }
 
         // also add the newly created contact to the active group
@@ -493,12 +499,12 @@ class rcube_contacts extends rcube_addressbook
         $name = $this->unique_groupname($name);
 
         $this->db->query(
-            "INSERT INTO ".get_table_name('contactgroups').
+            "INSERT INTO ".$this->db_groups.
             " (user_id, changed, name)".
             " VALUES (".intval($this->user_id).", ".$this->db->now().", ".$this->db->quote($name).")"
         );
 
-        if ($insert_id = $this->db->insert_id('contactgroups'))
+        if ($insert_id = $this->db->insert_id($this->get_sequence_name('contactgroups')))
             $result = array('id' => $insert_id, 'name' => $name);
 
         return $result;
@@ -515,7 +521,7 @@ class rcube_contacts extends rcube_addressbook
     {
         // flag group record as deleted
         $sql_result = $this->db->query(
-            "UPDATE ".get_table_name('contactgroups').
+            "UPDATE ".$this->db_groups.
             " SET del=1, changed=".$this->db->now().
             " WHERE contactgroup_id=?",
             $gid
@@ -540,7 +546,7 @@ class rcube_contacts extends rcube_addressbook
         $name = $this->unique_groupname($newname);
 
         $sql_result = $this->db->query(
-            "UPDATE ".get_table_name('contactgroups').
+            "UPDATE ".$this->db_groups.
             " SET name=?, changed=".$this->db->now().
             " WHERE contactgroup_id=?",
             $name, $gid
@@ -566,7 +572,7 @@ class rcube_contacts extends rcube_addressbook
 
         foreach ($ids as $contact_id) {
             $sql_result = $this->db->query(
-                "SELECT 1 FROM ".get_table_name('contactgroupmembers').
+                "SELECT 1 FROM ".$this->db_groupmembers.
                 " WHERE contactgroup_id=?".
                     " AND contact_id=?",
                 $group_id,
@@ -575,7 +581,7 @@ class rcube_contacts extends rcube_addressbook
 
             if (!$this->db->num_rows($sql_result)) {
                 $this->db->query(
-                    "INSERT INTO ".get_table_name('contactgroupmembers').
+                    "INSERT INTO ".$this->db_groupmembers.
                     " (contactgroup_id, contact_id, created)".
                     " VALUES (?, ?, ".$this->db->now().")",
                     $group_id,
@@ -606,7 +612,7 @@ class rcube_contacts extends rcube_addressbook
         $ids = $this->db->array2list($ids, 'integer');
 
         $sql_result = $this->db->query(
-            "DELETE FROM ".get_table_name('contactgroupmembers').
+            "DELETE FROM ".$this->db_groupmembers.
             " WHERE contactgroup_id=?".
                 " AND contact_id IN ($ids)",
             $group_id
@@ -629,7 +635,7 @@ class rcube_contacts extends rcube_addressbook
 
         do {
             $sql_result = $this->db->query(
-                "SELECT 1 FROM ".get_table_name('contactgroups').
+                "SELECT 1 FROM ".$this->db_groups.
                 " WHERE del<>1".
                     " AND user_id=?".
                     " AND name=?",
@@ -642,6 +648,25 @@ class rcube_contacts extends rcube_addressbook
         } while ($hit > 0);
 
         return $checkname;
+    }
+
+
+    /**
+     * Wrapper for global get_table_name() which can be re-implemented
+     * by a derived class
+     */
+    protected function get_table_name($table)
+    {
+        return get_table_name($table);
+    }
+
+    /**
+     * Wrapper for global get_sequence_name() which can be re-implemented
+     * by a derived class
+     */
+    protected function get_sequence_name($table)
+    {
+        return get_sequence_name($table);
     }
 
 }
