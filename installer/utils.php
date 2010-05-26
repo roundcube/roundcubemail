@@ -50,4 +50,3 @@ function raise_error($p)
   $rci = rcube_install::get_instance();
   $rci->raise_error($p);
 }
-

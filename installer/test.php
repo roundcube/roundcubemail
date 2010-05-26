@@ -119,7 +119,7 @@ else {
 
 ?>
 
-<h3>Check configured database settings</h3>
+<h3>Check DB config</h3>
 <?php
 
 $db_working = false;
@@ -211,7 +211,7 @@ if ($db_working) {
 
 ?>
 
-<h3>Test SMTP settings</h3>
+<h3>Test SMTP config</h3>
 
 <p>
 Server: <?php echo $RCI->getprop('smtp_server', 'PHP mail()'); ?><br />
@@ -244,10 +244,10 @@ $to_field = new html_inputfield(array('name' => '_to', 'id' => 'sendmailto'));
 
 <?php
 
-if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to'])) {
-  
+if (isset($_POST['sendmail'])) {
+
   echo '<p>Trying to send email...<br />';
-  
+
   if (preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_from'])) &&
       preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
 
@@ -326,7 +326,7 @@ if (isset($_POST['sendmail']) && !empty($_POST['_from']) && !empty($_POST['_to']
 <p><input type="submit" name="sendmail" value="Send test mail" /></p>
 
 
-<h3>Test IMAP configuration</h3>
+<h3>Test IMAP config</h3>
 
 <?php
 
