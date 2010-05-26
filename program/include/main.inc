@@ -1630,6 +1630,7 @@ class rcube_base_replacer
   }
 }
 
+
 /**
  * Throw system error and show error page
  *
@@ -1642,6 +1643,8 @@ class rcube_base_replacer
  * @param boolean True to log the error
  * @param boolean Terminate script execution
  */
+// may be defined in Installer
+if (!function_exists('raise_error')) {
 function raise_error($arg=array(), $log=false, $terminate=false)
 {
     global $__page_content, $CONFIG, $OUTPUT, $ERROR_CODE, $ERROR_MESSAGE;
@@ -1657,6 +1660,7 @@ function raise_error($arg=array(), $log=false, $terminate=false)
         include('program/steps/utils/error.inc');
         exit;
     }
+}
 }
 
 
