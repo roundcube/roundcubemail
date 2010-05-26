@@ -20,7 +20,6 @@ input, textarea
 
 #message
 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
   filter: alpha(opacity=85);
 }
 
@@ -59,20 +58,19 @@ input, textarea
 #abooktoolbar a.buttonPas
 {
   filter: alpha(opacity=35);
-  background-image: url('images/abook_toolbar.gif');
+  background-image: url(images/abook_toolbar.gif);
 }
 
 #messagetoolbar a.buttonPas
 {
   filter: alpha(opacity=35);
-  background-image: url('images/mail_toolbar.gif');
+  background-image: url(images/mail_toolbar.gif);
 }
 
 #listcontrols a.buttonPas,
 #mailboxcontrols a.buttonPas
 {
   filter: alpha(opacity=35);
-  background-image: url('images/mail_footer.png');
 }
 
 #quicksearchbar
@@ -246,7 +244,6 @@ div.message-part div.pre
 
 #rcmdraglayer
 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
   filter: alpha(opacity=70);
 }
 
@@ -267,7 +264,6 @@ ul.toolbarmenu li a
 
 #console
 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
   filter: alpha(opacity=80);
 }
 
