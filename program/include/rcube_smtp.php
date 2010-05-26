@@ -242,7 +242,7 @@ class rcube_smtp
     if (PEAR::isError($result = $this->conn->data($data, $text_headers)))
     {
       $err = $this->conn->getResponse();
-      if (count($err)>1 && $err[0] != 354 && $err[0] != 250)
+      if (!in_array($err[0], array(354, 250, 221)))
         $msg = sprintf('[%d] %s', $err[0], $err[1]);
       else
         $msg = $result->getMessage();
