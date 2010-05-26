@@ -393,7 +393,7 @@ collapse: function(row)
       var r = this.rows[new_row.uid];
       if (r && r.depth <= depth)
         break;
-      $(new_row).hide();
+      $(new_row).css('display', 'none');
       if (r.expanded) {
         r.expanded = false;
         this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
@@ -436,7 +436,7 @@ expand: function(row)
           if (p && p.expanded) {
             if ((row && p == row) || last_expanded_parent_depth >= p.depth - 1) {
               last_expanded_parent_depth = p.depth;
-              $(new_row).show();
+              $(new_row).css('display', '');
               r.expanded = true;
               this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
             }
@@ -481,7 +481,7 @@ collapse_all: function(row)
           break;
 
         if (row || r.depth)
-          $(new_row).hide();
+          $(new_row).css('display', 'none');
         if (r.has_children && r.expanded) {
           r.expanded = false;
           this.update_expando(r.uid, false);
@@ -517,7 +517,7 @@ expand_all: function(row)
         if (row && r.depth <= depth)
           break;
 
-        $(new_row).show();
+        $(new_row).css('display', '');
         if (r.has_children && !r.expanded) {
           r.expanded = true;
           this.update_expando(r.uid, true);
