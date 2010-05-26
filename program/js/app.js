@@ -1052,18 +1052,21 @@ function rcube_webmail()
   // set command(s) enabled or disabled
   this.enable_command = function()
   {
-    var args = arguments, len = args.length,
-      command, enable = args[len-1];
+    var args = Array.prototype.slice.call(arguments),
+      enable = args.pop(), cmd;
 
-    for (var n=0, len=len-1; n<len; n++) {
-      if (typeof args[n] === 'object') {
-        for (var i in args[n])
-          this.enable_command(args[n][i], enable);
-        continue;
+    for (var n=0; n<args.length; n++) {
+      cmd = args[n];
+      // argument of type array
+      if (typeof cmd === 'string') {
+        this.commands[cmd] = enable;
+        this.set_button(cmd, (enable ? 'act' : 'pas'));
       }
-      command = args[n];
-      this.commands[command] = enable;
-      this.set_button(command, (enable ? 'act' : 'pas'));
+      // push array elements into commands array
+      else {
+        for (var i in cmd)
+          args.push(cmd[i]);
+      }
     }
   };
 
@@ -4953,13 +4956,9 @@ function rcube_webmail()
           // re-enable commands on move/delete error
           this.enable_command(this.env.message_commands, true);
         }
-        else if (this.task == 'mail') {
-          this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
-        }
         else if (this.task == 'addressbook') {
           this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
         }
-        break;
 
       case 'purge':
       case 'expunge':
