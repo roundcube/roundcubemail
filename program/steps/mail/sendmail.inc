@@ -463,7 +463,7 @@ if (is_array($_SESSION['compose']['attachments']))
     // This hook retrieves the attachment contents from the file storage backend
     $attachment = $RCMAIL->plugins->exec_hook('get_attachment', $attachment);
 
-    $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\s\'"]\s*/';
+    $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\s\'"]*/';
     $message_body = $MAIL_MIME->getHTMLBody();
     if ($isHtml && (preg_match($dispurl, $message_body) > 0)) {
       $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'" ', $message_body);
