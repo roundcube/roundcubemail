@@ -74,6 +74,7 @@
  * - added $block_elements
  * - changed $ignore_elements behaviour
  * - added RFC2397 support
+ * - base URL support
  */
 
 class washtml
@@ -144,8 +145,10 @@ class washtml
                  '|#[0-9a-f]{3,6}|[a-z0-9\-]+'.
                  ')\s*/i', $str, $match)) {
           if ($match[2]) {
-            if ($src = $this->config['cid_map'][$match[2]])
+            if (($src = $this->config['cid_map'][$match[2]])
+                || ($src = $this->config['cid_map'][$this->config['base_url'].$match[2]])) {
               $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
+            }
             else if (preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
               if ($this->config['allow_remote'])
                 $value .= ' url('.htmlspecialchars($url[0], ENT_QUOTES).')';
@@ -180,7 +183,8 @@ class washtml
       else if ($key == 'style' && ($style = $this->wash_style($value)))
         $t .= ' style="' . $style . '"';
       else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
-        if ($src = $this->config['cid_map'][$value]) {
+        if (($src = $this->config['cid_map'][$value])
+            || ($src = $this->config['cid_map'][$this->config['base_url'].$value])) {
           $t .= ' ' . $key . '="' . htmlspecialchars($src, ENT_QUOTES) . '"';
         }
         else if (preg_match('/^(http|https|ftp):.+/i', $value)) {
@@ -215,18 +219,21 @@ class washtml
       switch($node->nodeType) {
       case XML_ELEMENT_NODE: //Check element
         $tagName = strtolower($node->tagName);
-        if($callback = $this->handlers[$tagName]) {
+        if ($callback = $this->handlers[$tagName]) {
           $dump .= call_user_func($callback, $tagName, $this->wash_attribs($node), $this->dumpHtml($node));
-        } else if(isset($this->_html_elements[$tagName])) {
+        }
+        else if (isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
           $dump .= '<' . $tagName . $this->wash_attribs($node) .
             ($content != '' || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
-        } else if(isset($this->_ignore_elements[$tagName])) {
+        }
+        else if (isset($this->_ignore_elements[$tagName])) {
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
-        } else {
+        }
+        else {
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
           $dump .= $this->dumpHtml($node); // ignore tags not its content
-	}
+        }
         break;
       case XML_CDATA_SECTION_NODE:
         $dump .= $node->nodeValue;
@@ -249,10 +256,18 @@ class washtml
 
   /* Main function, give it untrusted HTML, tell it if you allow loading
    * remote images and give it a map to convert "cid:" urls. */
-  public function wash($html) {
-    //Charset seems to be ignored (probably if defined in the HTML document)
+  public function wash($html)
+  {
+    // Charset seems to be ignored (probably if defined in the HTML document)
     $node = new DOMDocument('1.0', $this->config['charset']);
     $this->extlinks = false;
+
+    // Find base URL for images
+    if (preg_match('/<base\s+href=[\'"]*([^\'"]+)/is', $html, $matches))
+      $this->config['base_url'] = $matches[1];
+    else
+      $this->config['base_url'] = '';
+
     @$node->loadHTML($html);
     return $this->dumpHtml($node);
   }
