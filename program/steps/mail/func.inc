@@ -1524,4 +1524,3 @@ $OUTPUT->add_handlers(array(
 ));
 
 ?>
-
