@@ -80,6 +80,9 @@ $rcmail_config['imap_delimiter'] = null;
 // after login. Set to True if you've got this case.
 $rcmail_config['imap_force_caps'] = false;
 
+// IMAP connection timeout, in seconds. Default: 0 (no limit)
+$rcmail_config['imap_timeout'] = 0;
+
 // ----------------------------------
 // SMTP
 // ----------------------------------
@@ -110,6 +113,9 @@ $rcmail_config['smtp_auth_type'] = '';
 // Leave this blank and you will get the server variable 'server_name' or 
 // localhost if that isn't defined. 
 $rcmail_config['smtp_helo_host'] = '';
+
+// SMTP connection timeout, in seconds. Default: 0 (no limit)
+$rcmail_config['smtp_timeout'] = 0;
 
 // ----------------------------------
 // SYSTEM

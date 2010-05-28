@@ -428,10 +428,11 @@ class rcmail
     // can save time detecting them using NAMESPACE and LIST
     $options = array(
       'auth_method' => $this->config->get('imap_auth_type', 'check'),
-      'delimiter' => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
-      'rootdir' => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
-      'debug_mode' => (bool) $this->config->get('imap_debug', 0),
-      'force_caps' => (bool) $this->config->get('imap_force_caps'),
+      'delimiter'   => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
+      'rootdir'     => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
+      'debug_mode'  => (bool) $this->config->get('imap_debug', 0),
+      'force_caps'  => (bool) $this->config->get('imap_force_caps'),
+      'timeout'     => (int) $this->config->get('imap_timeout', 0),
     );
 
     $this->imap->set_options($options);

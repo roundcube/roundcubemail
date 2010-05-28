@@ -611,14 +611,21 @@ class rcube_imap_generic
 		    $host = $this->prefs['ssl_mode'] . '://' . $host;
 	    }
 
-	    $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, 10);
+        // Connect
+        if ($this->prefs['timeout'] > 0)
+	        $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
+	    else
+	        $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr);
+
 	    if (!$this->fp) {
     		$this->error    = sprintf("Could not connect to %s:%d: %s", $host, $this->prefs['port'], $errstr);
     		$this->errornum = -2;
 		    return false;
 	    }
 
-	    stream_set_timeout($this->fp, 10);
+        if ($this->prefs['timeout'] > 0)
+	        stream_set_timeout($this->fp, $this->prefs['timeout']);
+
 	    $line = trim(fgets($this->fp, 8192));
 
 	    if ($this->prefs['debug_mode'] && $line) {
