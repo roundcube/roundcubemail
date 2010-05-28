@@ -3779,7 +3779,7 @@ function rcube_webmail()
   {
     var li, key = 'G'+prop.source+prop.id;
     if ((li = this.get_folder_li(key))) {
-      this.triggerEvent('removegroup', { source:prop.source, id:prop.id, li:li });
+      this.triggerEvent('group_delete', { source:prop.source, id:prop.id, li:li });
 
       li.parentNode.removeChild(li);
       delete this.env.contactfolders[key];
@@ -3851,7 +3851,7 @@ function rcube_webmail()
       .append(link)
       .insertAfter(this.get_folder_li(prop.source));
 
-    this.triggerEvent('insertgroup', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
+    this.triggerEvent('group_insert', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
   };
 
   // callback for renaming a contact group
@@ -3865,7 +3865,7 @@ function rcube_webmail()
       link.innerHTML = prop.name;
 
     this.env.contactfolders[key].name = this.env.contactgroups[key].name = name;
-    this.triggerEvent('updategroup', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
+    this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
   };
 
 
