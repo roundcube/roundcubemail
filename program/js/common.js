@@ -46,7 +46,7 @@ function roundcube_browser()
   this.dom = document.getElementById ? true : false;
   this.dom2 = (document.addEventListener && document.removeEventListener);
 
-  this.ie = (document.all && !window.opery);
+  this.ie = (document.all && !window.opera);
   this.ie4 = (this.ie && !this.dom);
   this.ie5 = (this.dom && this.appver.indexOf('MSIE 5')>0);
   this.ie8 = (this.dom && this.appver.indexOf('MSIE 8')>0);
@@ -88,7 +88,7 @@ function roundcube_browser()
                    (this.ie && this.win && this.vendver >= 5.5) || this.safari);
   this.opacity = (this.mz || (this.ie && this.vendver >= 5.5 && !this.opera) || (this.safari && this.vendver >= 100));
   this.cookies = navigator.cookieEnabled;
-  
+
   // test for XMLHTTP support
   this.xmlhttp_test = function()
   {
@@ -96,7 +96,7 @@ function roundcube_browser()
     this.xmlhttp = (window.XMLHttpRequest || (window.ActiveXObject && activeX_test()));
     return this.xmlhttp;
   };
-  
+
   // set class names to html tag according to the current user agent detection
   // this allows browser-specific css selectors like "html.chrome .someclass"
   this.set_html_class = function()
@@ -178,7 +178,7 @@ get_modifier: function(e)
 
   if (bw.mac && e) {
     opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
-    return opcode;    
+    return opcode;
   }
   if (e) {
     opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
@@ -192,8 +192,8 @@ get_modifier: function(e)
 get_mouse_pos: function(e)
 {
   if (!e) e = window.event;
-  var mX = (e.pageX) ? e.pageX : e.clientX;
-  var mY = (e.pageY) ? e.pageY : e.clientY;
+  var mX = (e.pageX) ? e.pageX : e.clientX,
+    mY = (e.pageY) ? e.pageY : e.clientY;
 
   if (document.body && document.all) {
     mX += document.body.scrollLeft;
@@ -220,7 +220,7 @@ add_listener: function(p)
 
   if (!p.object._rc_events)
     p.object._rc_events = [];
-  
+
   var key = p.event + '*' + p.method;
   if (!p.object._rc_events[key])
     p.object._rc_events[key] = function(e){ return p.object[p.method](e); };
@@ -298,7 +298,7 @@ addEventListener: function(evt, func, obj)
     this._events = {};
   if (!this._events[evt])
     this._events[evt] = [];
-    
+
   var e = {func:func, obj:obj ? obj : window};
   this._events[evt][this._events[evt].length] = e;
 },
@@ -313,7 +313,7 @@ removeEventListener: function(evt, func, obj)
 {
   if (typeof obj == 'undefined')
     obj = window;
-    
+
   for (var h,i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
     if ((h = this._events[evt][i]) && h.func == func && h.obj == obj)
       this._events[evt][i] = null;
@@ -341,7 +341,7 @@ triggerEvent: function(evt, e)
           ret = h.func.call ? h.func.call(h.obj, e) : h.func(e);
         else if (typeof h.obj[h.func] == 'function')
           ret = h.obj[h.func](e);
-              
+
         // cancel event execution
         if (typeof ret != 'undefined' && !ret)
           break;
@@ -365,24 +365,22 @@ triggerEvent: function(evt, e)
 function rcube_layer(id, attributes)
 {
   this.name = id;
-  
+
   // create a new layer in the current document
   this.create = function(arg)
   {
-    var l = (arg.x) ? arg.x : 0;
-    var t = (arg.y) ? arg.y : 0;
-    var w = arg.width;
-    var h = arg.height;
-    var z = arg.zindex;
-    var vis = arg.vis;
-    var parent = arg.parent;
-    var obj;
+    var l = (arg.x) ? arg.x : 0,
+      t = (arg.y) ? arg.y : 0,
+      w = arg.width,
+      h = arg.height,
+      z = arg.zindex,
+      vis = arg.vis,
+      parent = arg.parent,
+      obj = document.createElement('DIV');
 
-    obj = document.createElement('DIV');
-
-    with(obj) {
+    with (obj) {
       id = this.name;
-      with(style) {
+      with (style) {
 	    position = 'absolute';
         visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
         left = l+'px';
@@ -391,7 +389,8 @@ function rcube_layer(id, attributes)
 	      width = w.toString().match(/\%$/) ? w : w+'px';
         if (h)
 	      height = h.toString().match(/\%$/) ? h : h+'px';
-        if(z) zIndex = z;
+        if (z)
+          zIndex = z;
 	  }
     }
 
@@ -404,14 +403,14 @@ function rcube_layer(id, attributes)
   };
 
   // create new layer
-  if(attributes != null) {
+  if (attributes != null) {
     this.create(attributes);
     this.name = this.elm.id;
   }
   else  // just refer to the object
     this.elm = document.getElementById(id);
 
-  if(!this.elm)
+  if (!this.elm)
     return false;
 
 
@@ -501,14 +500,14 @@ function rcube_check_email(input, inline)
 function rcube_clone_object(obj)
 {
   var out = {};
-  
+
   for (var key in obj) {
     if (obj[key] && typeof obj[key] == 'object')
       out[key] = clone_object(obj[key]);
     else
       out[key] = obj[key];
   }
-  
+
   return out;
 };
 
@@ -654,4 +653,4 @@ if (bw.ie)
 
     return obj;
   }
-};
+}
