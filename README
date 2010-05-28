@@ -20,24 +20,29 @@ easily extendable and the user interface is fully customizable using skins
 which are pure XHTML and CSS 2.
 
 This project includes other open-source classes/libraries from PEAR
-(http://pear.php.net), an IMAP library derrived from IlohaMail
+(http://pear.php.net), an IMAP library derived from IlohaMail
 the TinyMCE rich text editor, Googiespell library for spell checking
 or the HTML sanitizer by Frederic Motte.
 
-The current development skin uses icons designed by Stephen Horlander and Kevin 
+The current default skin uses icons designed by Stephen Horlander and Kevin 
 Gerich for Mozilla.org.
 
 
 Installation:
 -------------
-For detailed instructions on how to install RoundCube webmail on your server,
+For detailed instructions on how to install Roundcube webmail on your server,
 please refer to the INSTALL document in the same directory as this document.
 
 
 Licensing:
 ----------
-This product is distributed under the GPL. Please read through the file
-LICENSE for more information about our license.
+This product is distributed under the GNU General Public License Version 2.
+Please read through the file LICENSE for more information about our license.
+
+Even if skins might contain some programming work, they are not considered
+as a linked part of the application and therefore skins DO NOT fall under
+the provisions of the GPL license. See the README file located in the skins
+folder for details on the skin license.
 
 
 Contribution:
