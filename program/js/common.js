@@ -270,6 +270,11 @@ cancel: function(evt)
   e.cancelBubble = true;
   e.returnValue = false;
   return false;
+},
+
+touchevent: function(e)
+{
+  return { pageX:e.pageX, pageY:e.pageY, offsetX:e.pageX - e.target.offsetLeft, offsetY:e.pageY - e.target.offsetTop, target:e.target, istouch:true };
 }
 
 };

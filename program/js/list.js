@@ -102,14 +102,28 @@ init_row: function(row)
 {
   // make references in internal array and set event handlers
   if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i)) {
-    var p = this;
+    var self = this;
     var uid = RegExp.$1;
     row.uid = uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
     // set eventhandlers to table row
-    row.onmousedown = function(e){ return p.drag_row(e, this.uid); };
-    row.onmouseup = function(e){ return p.click_row(e, this.uid); };
+    row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
+    row.onmouseup = function(e){ return self.click_row(e, this.uid); };
+    
+    if (bw.iphone || bw.ipad) {
+      row.addEventListener('touchstart', function(e) {
+        if (e.touches.length == 1) {
+          if (!self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid))
+            e.preventDefault();
+        }
+      }, false);
+      row.addEventListener('touchend', function(e) {
+        if (e.changedTouches.length == 1)
+          if (!self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid))
+            e.preventDefault();
+      }, false);
+    }
 
     if (document.all)
       row.onselectstart = function() { return false; };
@@ -285,6 +299,10 @@ drag_row: function(e, id)
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
     rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
+    if (bw.iphone || bw.ipad) {
+      rcube_event.add_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
+      rcube_event.add_listener({event:'touchend', object:this, method:'drag_mouse_up'});
+    }
 
     // enable dragging over iframes
     this.add_dragfix();
@@ -311,7 +329,7 @@ click_row: function(e, id)
   if (this.dont_select) {
     this.dont_select = false;
     return false;
-    }
+  }
 
   var dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
@@ -1072,6 +1090,14 @@ scrollto: function(id)
  */
 drag_mouse_move: function(e)
 {
+  // convert touch event
+  if (e.type == 'touchmove') {
+    if (e.changedTouches.length == 1)
+      e = rcube_event.touchevent(e.changedTouches[0]);
+    else
+      return rcube_event.cancel(e);
+  }
+  
   if (this.drag_start) {
     // check mouse movement, of less than 3 pixels, don't start dragging
     var m = rcube_event.get_mouse_pos(e);
@@ -1159,6 +1185,11 @@ drag_mouse_move: function(e)
 drag_mouse_up: function(e)
 {
   document.onmousemove = null;
+  
+  if (e.type == 'touchend') {
+    if (e.changedTouches.length != 1)
+      return rcube_event.cancel(e);
+  }
 
   if (this.draglayer && this.draglayer.is(':visible')) {
     if (this.drag_start_pos)
@@ -1173,6 +1204,11 @@ drag_mouse_up: function(e)
 
   rcube_event.remove_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
+  
+  if (bw.iphone || bw.ipad) {
+    rcube_event.remove_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
+    rcube_event.remove_listener({event:'touchend', object:this, method:'drag_mouse_up'});
+  }
 
   // remove temp divs
   this.del_dragfix();
