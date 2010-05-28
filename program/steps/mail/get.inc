@@ -50,16 +50,7 @@ if (!empty($_GET['_frame'])) {
 }
 
 else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
-  // TNEF encoded attachment part
-  if (preg_match('/^winmail\.([0-9.]+)\.([0-9]+)$/', $pid, $nt)) {
-    $pid = $nt[1]; $i = $nt[2];
-    if ($part = $MESSAGE->mime_parts[$pid]) {
-      $tnef_arr = $IMAP->tnef_decode($part, $MESSAGE->uid);
-      if (is_a($tnef_arr[$i], 'rcube_message_part'))
-        $MESSAGE->mime_parts[$pid] = $tnef_arr[$i];
-    }
-  }
-  
+
   if ($part = $MESSAGE->mime_parts[$pid]) {
     $ctype_primary = strtolower($part->ctype_primary);
     $ctype_secondary = strtolower($part->ctype_secondary);

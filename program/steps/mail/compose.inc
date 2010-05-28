@@ -725,8 +725,9 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if (($part->ctype_primary != 'message' || !$bodyIsHtml) && $part->ctype_primary != 'multipart' && 
-        ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename))
-    {
+        ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename)
+        && $part->mimetype != 'application/ms-tnef'
+    ) {
       $skip = false;
       if ($part->mimetype == 'message/rfc822') {
         $messages[] = $part->mime_id;

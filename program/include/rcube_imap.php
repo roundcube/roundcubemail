@@ -472,7 +472,6 @@ class rcube_imap
             // get message count and store in cache
             if ($mode == 'UNSEEN')
                 $search_str .= " UNSEEN";
-
             // get message count using SEARCH
             // not very performant but more precise (using UNDELETED)
             // disable THREADS for this request
@@ -2034,7 +2033,7 @@ class rcube_imap
             return true;
 
         // convert charset (if text or message part)
-        if ($o_part->ctype_primary=='text' || $o_part->ctype_primary=='message') {
+        if ($o_part->ctype_primary == 'text' || $o_part->ctype_primary == 'message') {
             // assume default if no charset specified
             if (empty($o_part->charset) || strtolower($o_part->charset) == 'us-ascii')
                 $o_part->charset = $this->default_charset;
@@ -3379,43 +3378,6 @@ class rcube_imap
         }
 
         return $out;
-    }
-
-
-    /**
-     * Decode a Microsoft Outlook TNEF part (winmail.dat)
-     *
-     * @param object rcube_message_part Message part to decode
-     * @param string UID of the message
-     * @return array List of rcube_message_parts extracted from windmail.dat
-     */
-    function tnef_decode(&$part, $uid)
-    {
-        if (!isset($part->body))
-            $part->body = $this->get_message_part($uid, $part->mime_id, $part);
-
-        require_once('lib/tnef_decoder.inc');
-
-        $pid = 0;
-        $tnef_parts = array();
-        $tnef_arr = tnef_decode($part->body);
-
-        foreach ($tnef_arr as $winatt) {
-            $tpart = new rcube_message_part;
-            $tpart->filename = trim($winatt['name']);
-            $tpart->encoding = 'stream';
-            $tpart->ctype_primary = trim(strtolower($winatt['type0']));
-            $tpart->ctype_secondary = trim(strtolower($winatt['type1']));
-            $tpart->mimetype = $tpart->ctype_primary . '/' . $tpart->ctype_secondary;
-            $tpart->mime_id = "winmail." . $part->mime_id . ".$pid";
-            $tpart->size = $winatt['size'];
-            $tpart->body = $winatt['stream'];
-
-            $tnef_parts[] = $tpart;
-            $pid++;
-        }
-
-        return $tnef_parts;
     }
 
 
