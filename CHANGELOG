@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix use RFC-compliant line-delimiter when saving messages on IMAP (#1486712)
 - Add 'imap_timeout' option (#1486760)
 - Fix forwarding of messages with winmail attachments
 - Fix handling of uuencoded attachments in message body (#1485839)

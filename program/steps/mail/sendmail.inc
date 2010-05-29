@@ -249,7 +249,7 @@ $headers = array();
 // if configured, the Received headers goes to top, for good measure
 if ($CONFIG['http_received_header'])
 {
-  $nldlm = $RCMAIL->config->header_delimiter() . "\t";
+  $nldlm = "\r\n\t";
   // FROM/VIA
   $http_header = 'from ';
   if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -398,7 +398,7 @@ $LINE_LENGTH = $RCMAIL->config->get('line_length', 72);
 @set_time_limit(0);
 
 // create PEAR::Mail_mime instance
-$MAIL_MIME = new Mail_mime($RCMAIL->config->header_delimiter());
+$MAIL_MIME = new Mail_mime("\r\n");
 
 // Check if we have enough memory to handle the message in it
 // It's faster than using files, so we'll do this if we only can
@@ -419,7 +419,9 @@ if (is_array($_SESSION['compose']['attachments']) && $CONFIG['smtp_server']
 // the HTML part and the plain-text part
 
 if ($isHtml) {
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $message_body, 'type' => 'html', 'message' => $MAIL_MIME));
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+    array('body' => $message_body, 'type' => 'html', 'message' => $MAIL_MIME));
+
   $MAIL_MIME->setHTMLBody($plugin['body'] . ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
 
   // add a plain text version of the e-mail as an alternative part.
@@ -430,7 +432,14 @@ if ($isHtml) {
     // empty message body breaks attachment handling in drafts 
     $plainTextPart = "\r\n"; 
   }
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
+  else {
+    // make sure all line endings are CRLF (#1486712)
+    $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
+  }
+
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+    array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
+
   $MAIL_MIME->setTXTBody($plugin['body']);
 
   // look for "emoticon" images from TinyMCE and change their src paths to
@@ -452,7 +461,10 @@ else {
     // empty message body breaks attachment handling in drafts 
     $message_body = "\r\n"; 
   }
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body', array('body' => $message_body, 'type' => 'plain', 'message' => $MAIL_MIME));
+
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+    array('body' => $message_body, 'type' => 'plain', 'message' => $MAIL_MIME));
+
   $MAIL_MIME->setTXTBody($plugin['body'], false, true);
 }
 
@@ -512,7 +524,7 @@ if (function_exists('mb_encode_mimeheader'))
 {
   mb_internal_encoding($message_charset);
   $headers['Subject'] = mb_encode_mimeheader($headers['Subject'],
-    $message_charset, 'Q', $RCMAIL->config->header_delimiter(), 8);
+    $message_charset, 'Q', "\r\n", 8);
   mb_internal_encoding(RCMAIL_CHARSET);
 }
 

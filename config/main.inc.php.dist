@@ -216,8 +216,8 @@ $rcmail_config['http_received_header'] = false;
 // when tracking down issues.
 $rcmail_config['http_received_header_encrypt'] = false;
 
-// this string is used as a delimiter for message headers when sending
-// leave empty for auto-detection
+// This string is used as a delimiter for message headers when sending
+// a message via mail() function. Leave empty for auto-detection
 $rcmail_config['mail_header_delimiter'] = NULL;
 
 // number of chars allowed for line when wrapping text.

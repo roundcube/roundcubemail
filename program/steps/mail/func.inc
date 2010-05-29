@@ -1366,8 +1366,8 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
       if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
         $headers_enc['To'] = implode(', ', $m[1]);
-        }
       }
+    }
 
     $msg_body = $message->get();
 
@@ -1376,10 +1376,23 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
             'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not create message: ".$msg_body->getMessage()),
             TRUE, FALSE);
-    else if (ini_get('safe_mode'))
-      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str);
-    else
-      $sent = mail($headers_enc['To'], $headers_enc['Subject'], $msg_body, $header_str, "-f$from");
+    else {
+      $delim   = $RCMAIL->config->header_delimiter();
+      $to      = $headers_enc['To'];
+      $subject = $headers_enc['Subject'];
+
+      if ($delim != "\r\n") {
+        $header_str = str_replace("\r\n", $delim, $header_str);
+        $msg_body   = str_replace("\r\n", $delim, $msg_body);
+        $to         = str_replace("\r\n", $delim, $to);
+        $subject    = str_replace("\r\n", $delim, $subject);
+      }
+
+      if (ini_get('safe_mode'))
+        $sent = mail($to, $subject, $msg_body, $header_str);
+      else
+        $sent = mail($to, $subject, $msg_body, $header_str, "-f$from");
+    }
   }
 
   if ($sent) {
@@ -1418,7 +1431,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
     $recipient = array_shift($IMAP->decode_address_list($message->headers->mdn_to));
     $mailto = $recipient['mailto'];
 
-    $compose = new Mail_mime($RCMAIL->config->header_delimiter());
+    $compose = new Mail_mime("\r\n");
 
     $compose->setParam('text_encoding', 'quoted-printable');
     $compose->setParam('html_encoding', 'quoted-printable');
