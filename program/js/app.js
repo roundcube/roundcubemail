@@ -1727,16 +1727,13 @@ function rcube_webmail()
         name = oldcols[i] == 'to' ? 'from' : oldcols[i];
         idx = $.inArray(name, cols);
         if (idx != -1) {
-          newcols[newcols.length] = name;
+          newcols.push(name);
           delete cols[idx];
-        }
-        else if (name == 'threads') {
-          delete oldcols[i];
         }
       }
       for (i=0; i<cols.length; i++)
         if (cols[i])
-          newcols[newcols.length] = cols[i];
+          newcols.push(cols[i]);
 
       if (newcols.join() != oldcols.join()) {
         update = 1;
@@ -4566,58 +4563,54 @@ function rcube_webmail()
   // for reordering column array (Konqueror workaround)
   // and for setting some message list global variables
   this.set_message_coltypes = function(coltypes, repl)
-  { 
+  {
     this.env.coltypes = coltypes;
 
     // set correct list titles
-    var thead = this.gui_objects.messagelist ? this.gui_objects.messagelist.tHead : null;
+    var thead = this.gui_objects.messagelist ? this.gui_objects.messagelist.tHead : null,
+      cell, col, n, len;
 
     // replace old column headers
-    if (thead && repl) {
-      for (var cell, c=0; c < repl.length; c++) {
-        cell = thead.rows[0].cells[c];
-        if (!cell) {
+    if (thead) {
+      if (repl) {
+        var th = document.createElement('thead'),
+          tr = document.createElement('tr');
+        for (c=0, len=repl.length; c < len; c++) {
           cell = document.createElement('td');
-          thead.rows[0].appendChild(cell);
+          cell.innerHTML = repl[c].html;
+          if (repl[c].id) cell.id = repl[c].id;
+          if (repl[c].className) cell.className = repl[c].className;
+          tr.appendChild(cell);
         }
-        cell.innerHTML = repl[c].html;
-        if (repl[c].id) cell.id = repl[c].id;
-        if (repl[c].className) cell.className = repl[c].className;
+        th.appendChild(tr);
+        thead.parentNode.replaceChild(th, thead);
+      }
+
+      for (n=0, len=this.env.coltypes.length; n<len; n++) {
+        col = this.env.coltypes[n];
+        if ((cell = thead.rows[0].cells[n]) && (col=='from' || col=='to')) {
+          cell.id = 'rcm'+col;
+          // if we have links for sorting, it's a bit more complicated...
+          if (cell.firstChild && cell.firstChild.tagName.toLowerCase()=='a') {
+            cell = cell.firstChild;
+            cell.onclick = function(){ return rcmail.command('sort', this.__col, this); };
+            cell.__col = col;
+          }
+          cell.innerHTML = this.get_label(col);
+        }
       }
     }
-
-    var cell, col, n;
-    for (n=0; thead && n<this.env.coltypes.length; n++) {
-      col = this.env.coltypes[n];
-      if ((cell = thead.rows[0].cells[n]) && (col=='from' || col=='to')) {
-        // if we have links for sorting, it's a bit more complicated...
-        if (cell.firstChild && cell.firstChild.tagName.toLowerCase()=='a') {
-          cell.firstChild.innerHTML = this.get_label(this.env.coltypes[n]);
-          cell.firstChild.onclick = function(){ return rcmail.command('sort', this.__col, this); };
-          cell.firstChild.__col = col;
-        }
-        else
-          cell.innerHTML = this.get_label(this.env.coltypes[n]);
-
-        cell.id = 'rcm'+col;
-      }
-    }
-
-    // remove excessive columns
-    for (var i=n+1; thead && i<thead.rows[0].cells.length; i++)
-      thead.rows[0].removeChild(thead.rows[0].cells[i]);
 
     this.env.subject_col = null;
     this.env.flagged_col = null;
 
-    var found;
-    if ((found = $.inArray('subject', this.env.coltypes)) >= 0) {
-      this.set_env('subject_col', found);
+    if ((n = $.inArray('subject', this.env.coltypes)) >= 0) {
+      this.set_env('subject_col', n);
       if (this.message_list)
-        this.message_list.subject_col = found;
+        this.message_list.subject_col = n;
     }
-    if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
-      this.set_env('flagged_col', found);
+    if ((n = $.inArray('flag', this.env.coltypes)) >= 0)
+      this.set_env('flagged_col', n);
 
     this.message_list.init_header();
   };
