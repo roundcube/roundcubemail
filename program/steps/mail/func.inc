@@ -171,6 +171,10 @@ function rcmail_message_list($attrib)
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
+  // make sure 'threads' column is present 
+  if (!in_array('threads', $a_show_cols))
+    array_unshift($a_show_cols, 'threads');
+
   $skin_path = $_SESSION['skin_path'] = $CONFIG['skin_path'];
 
   // set client env
@@ -238,6 +242,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
+  // make sure 'threads' column is present 
+  if (!in_array('threads', $a_show_cols))
+    array_unshift($a_show_cols, 'threads');
+
   $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
   $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead);
@@ -245,10 +253,12 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
   if (empty($a_headers))
     return;
 
-  // remove 'attachment' and 'flag' columns, we don't need them here
-  if(($key = array_search('attachment', $a_show_cols)) !== FALSE)
+  // remove 'threads', 'attachment', 'flag' columns, we don't need them here
+  if (($key = array_search('attachment', $a_show_cols)) !== FALSE)
     unset($a_show_cols[$key]);
-  if(($key = array_search('flag', $a_show_cols)) !== FALSE)
+  if (($key = array_search('flag', $a_show_cols)) !== FALSE)
+    unset($a_show_cols[$key]);
+  if (($key = array_search('threads', $a_show_cols)) !== FALSE)
     unset($a_show_cols[$key]);
 
   // loop through message headers
@@ -345,7 +355,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   else
     $list_menu = '';
 
-  $cells = array(array('className' => 'threads', 'html' => $list_menu));
+  $cells = array();
 
   foreach ($a_show_cols as $col) {
     // get column name
@@ -355,6 +365,9 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         break;
       case 'attachment':
         $col_name = sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '');
+        break;
+      case 'threads':
+        $col_name = $list_menu;
         break;
       default:
         $col_name = Q(rcube_label($col));

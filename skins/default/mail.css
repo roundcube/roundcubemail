@@ -743,8 +743,8 @@ body.messagelist
 #messagelist tr td.attachment,
 #messagelist tr td.flag
 {
-  width: 20px;
-  padding: 0px 1px 1px 1px;
+  width: 18px;
+  padding: 0px 1px 1px 3px;
 }
 
 #messagelist tbody td span.branch,
@@ -756,7 +756,7 @@ body.messagelist
 
 #messagelist tbody td img.msgicon
 {
-  margin-right: 2px;
+  margin: 0 2px;
 }
 
 #messagelist tr td div.collapsed,
@@ -770,12 +770,12 @@ body.messagelist
 
 #messagelist tr td div.collapsed
 {
-  background: url(images/messageactions.png) 1px -91px no-repeat;
+  background: url(images/messageactions.png) -1px -91px no-repeat;
 }
 
 #messagelist tr td div.expanded
 {
-  background: url(images/messageactions.png) 1px -109px no-repeat;
+  background: url(images/messageactions.png) -1px -109px no-repeat;
 }
 
 #messagelist tbody tr td.flag img:hover,

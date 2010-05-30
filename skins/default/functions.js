@@ -148,7 +148,7 @@ show_popupmenu: function(obj, refname, show, above)
 {
   if (typeof show == 'undefined')
     show = obj.is(':visible') ? false : true;
-  
+
   var ref = rcube_find_object(refname);
   if (show && ref) {
     var pos = $(ref).offset();
@@ -214,7 +214,13 @@ show_listmenu: function(show)
 
   var ref = rcube_find_object('listmenulink');
   if (show && ref) {
-    var pos = $(ref).offset();
+    var pos = $(ref).offset(),
+      menuwidth = this.listmenu.width(),
+      pagewidth = $(document).width();
+
+    if (pagewidth - pos.left < menuwidth && pos.left > menuwidth)
+      pos.left = pos.left - menuwidth;
+
     this.listmenu.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
     // set form values
     $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').attr('checked', 1);

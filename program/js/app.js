@@ -166,7 +166,7 @@ function rcube_webmail()
 
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
             multiselect:true, multiexpand:true, draggable:true, keyboard:true,
-            column_movable:this.env.col_movable, column_fixed:0, dblclick_time:this.dblclick_time
+            column_movable:this.env.col_movable, dblclick_time:this.dblclick_time
             });
           this.message_list.row_init = function(o){ p.init_message_row(o); };
           this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
@@ -1645,11 +1645,6 @@ function rcube_webmail()
 
     tree += icon ? '<img id="msgicn'+uid+'" src="'+icon+'" alt="" class="msgicon" />' : '';
 
-    // first col is always there
-    col.className = 'threads';
-    col.innerHTML = expando;
-    row.appendChild(col);
-
     // build subject link 
     if (!bw.ie && cols.subject) {
       var action = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
@@ -1671,6 +1666,8 @@ function rcube_webmail()
         else if(!flags.flagged && this.env.unflaggedicon)
           html = '<img id="flaggedicn'+uid+'" src="'+this.env.unflaggedicon+'" class="flagicon" alt="" />';
       }
+      else if (c == 'threads')
+        html = expando;
       else if (c == 'attachment')
         html = flags.attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '&nbsp;';
       else if (c == 'subject')
@@ -1733,12 +1730,15 @@ function rcube_webmail()
           newcols[newcols.length] = name;
           delete cols[idx];
         }
+        else if (name == 'threads') {
+          delete oldcols[i];
+        }
       }
       for (i=0; i<cols.length; i++)
         if (cols[i])
           newcols[newcols.length] = cols[i];
 
-      if (newcols.join() != this.env.coltypes.join()) {
+      if (newcols.join() != oldcols.join()) {
         update = 1;
         add_url += '&_cols=' + newcols.join(',');
       }
@@ -4589,7 +4589,7 @@ function rcube_webmail()
     var cell, col, n;
     for (n=0; thead && n<this.env.coltypes.length; n++) {
       col = this.env.coltypes[n];
-      if ((cell = thead.rows[0].cells[n+1]) && (col=='from' || col=='to')) {
+      if ((cell = thead.rows[0].cells[n]) && (col=='from' || col=='to')) {
         // if we have links for sorting, it's a bit more complicated...
         if (cell.firstChild && cell.firstChild.tagName.toLowerCase()=='a') {
           cell.firstChild.innerHTML = this.get_label(this.env.coltypes[n]);
@@ -4614,7 +4614,7 @@ function rcube_webmail()
     if ((found = $.inArray('subject', this.env.coltypes)) >= 0) {
       this.set_env('subject_col', found);
       if (this.message_list)
-        this.message_list.subject_col = found+1;
+        this.message_list.subject_col = found;
     }
     if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
       this.set_env('flagged_col', found);
