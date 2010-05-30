@@ -135,7 +135,7 @@
   margin: 2px;
 }
 
-#directoylistbuttons
+#directorylistbuttons
 {
   display: block;
   position: absolute;
@@ -147,8 +147,8 @@
   background: url('images/listheader.gif') top left repeat-x #CCC;
 }
 
-#directoylistbuttons a.button,
-#directoylistbuttons a.buttonPas
+#directorylistbuttons a.button,
+#directorylistbuttons a.buttonPas
 {
   display: block;
   float: left;
@@ -161,11 +161,11 @@
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 
-#directoylistbuttons a.groupactions {
+#directorylistbuttons a.groupactions {
   background-position: 0 -26px;
 }
 
-#directoylistbuttons a.buttonPas {
+#directorylistbuttons a.buttonPas {
   opacity: 0.35;
 }
 
