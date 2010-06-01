@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add 'messages_list' hook (#1486266)
 - Add request* event triggers in http_post/http_request (#1486054)
 - Fix use RFC-compliant line-delimiter when saving messages on IMAP (#1486712)
 - Add 'imap_timeout' option (#1486760)

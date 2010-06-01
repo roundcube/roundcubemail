@@ -227,7 +227,7 @@ function rcmail_message_list($attrib)
  */
 function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FALSE)
 {
-  global $CONFIG, $IMAP, $OUTPUT;
+  global $CONFIG, $IMAP, $RCMAIL, $OUTPUT;
 
   if (!empty($_SESSION['list_attrib']['columns']))
     $a_show_cols = $_SESSION['list_attrib']['columns'];
@@ -246,6 +246,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
 
+  // Plugins may set header's list_cols/list_flags and other rcube_mail_header variables
+  // and list columns
+  $plugin = $RCMAIL->plugins->exec_hook('messages_list',
+    array('messages' => $a_headers, 'cols' => $a_show_cols));
+
+  $a_show_cols = $plugin['cols'];
+  $a_headers   = $plugin['messages'];
+
   $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
   $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead);
@@ -260,15 +268,15 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
     unset($a_show_cols[$key]);
   if (($key = array_search('threads', $a_show_cols)) !== FALSE)
     unset($a_show_cols[$key]);
-
   // loop through message headers
+
   foreach ($a_headers as $n => $header)
     {
-    $a_msg_cols = array();
-    $a_msg_flags = array();
-
     if (empty($header))
       continue;
+
+    $a_msg_cols = array();
+    $a_msg_flags = array();
 
     $IMAP->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
 
@@ -317,6 +325,12 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
       $a_msg_flags['attachment'] = 1;
     $a_msg_flags['mbox'] = $mbox;
 
+    // merge with plugin result
+    if (!empty($header->list_flags) && is_array($header->list_flags))
+      $a_msg_flags = array_merge($a_msg_flags, $header->list_flags);
+    if (!empty($header->list_cols) && is_array($header->list_cols))
+      $a_msg_cols = array_merge($a_msg_cols, $header->list_cols);
+
     $OUTPUT->command('add_message_row',
       $header->uid,
       $a_msg_cols,
@@ -324,7 +338,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
       $insert_top);
     }
 
-    if ($IMAP->threading && $a_headers) {
+    if ($IMAP->threading) {
       $OUTPUT->command('init_threads', (array) $roots);
     }
 }
