@@ -115,5 +115,6 @@ $messages['smtperror'] = 'SMTP-fel: $msg';
 $messages['emailformaterror'] = 'Felaktig adress: $email';
 $messages['toomanyrecipients'] = 'Förmånga mottagare. Minska antalet till högst $max.';
 $messages['maxgroupmembersreached'] = 'Antalet gruppmedlemmar får inte överstiga $max';
+$messages['internalerror'] = 'Ett internt fel uppstod. Vänligen försök igen.';
 
 ?>

@@ -71,6 +71,7 @@ $messages['notsentwarning'] = 'Kirja saatmine nurjus. Soovid selle ära visata?'
 $messages['noldapserver'] = 'Palun vali otsinguks LDAPi server';
 $messages['nocontactsreturned'] = 'Ühtegi kontakti ei leitud';
 $messages['nosearchname'] = 'Palun sisesta kontakti nimi või e-posti aadress';
+$messages['notuploadedwarning'] = 'Kõiki manuseid ei ole veel üles laaditud. Palun oota või tühista üleslaadimine.';
 $messages['searchsuccessful'] = 'Leiti $nr kirja';
 $messages['searchnomatch'] = 'Otsingule vastavaid kirju ei leitud';
 $messages['searching'] = 'Otsin...';
@@ -113,5 +114,6 @@ $messages['smtperror'] = 'SMTP tõrge: $msg';
 $messages['emailformaterror'] = 'Lubamatu e-posti aadress: $email';
 $messages['toomanyrecipients'] = 'Liiga palju adressaate. Vähenda kirja saajate hulka $max-ni.';
 $messages['maxgroupmembersreached'] = 'Grupi liikmete arv ületab suurima lubatud $max';
+$messages['internalerror'] = 'Ilmnes sisemine tõrge. Palun proovi uuesti.';
 
 ?>

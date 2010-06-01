@@ -116,5 +116,6 @@ $messages['smtperror'] = 'SMTP hiba ($code): $msg';
 $messages['emailformaterror'] = 'Helytelen formátumú e-mail cím: $email';
 $messages['toomanyrecipients'] = 'Túl sok a címzett. Csökkentse a címzettek számát $max címre.';
 $messages['maxgroupmembersreached'] = 'A csoport létszáma meghaladja a maximum $max címet.';
+$messages['internalerror'] = 'Belső hiba történt, kérjük próbálja újra!';
 
 ?>

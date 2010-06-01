@@ -110,5 +110,6 @@ $messages['smtperror'] = 'Gwall SMTP: $msg';
 $messages['emailformaterror'] = 'Cyfeiriad e-bost anghywir: $email';
 $messages['toomanyrecipients'] = 'Gormod o dderbynnwyr. Lleihewch y nifer i $max';
 $messages['maxgroupmembersreached'] = 'Mae nifer o aelodau\'r grŵp yn fwy na\'r uchafswm o $max';
+$messages['internalerror'] = 'Fe gafwyd gwall mewnol. Rhowch gynnig arni eto.';
 
 ?>

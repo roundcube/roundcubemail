@@ -116,5 +116,6 @@ $messages['smtperror'] = 'Chyba SMTP: $msg';
 $messages['emailformaterror'] = 'Neplatná e-mailová adresa: $email';
 $messages['toomanyrecipients'] = 'Příliš mnoho příjemců. Změňte počet příjemců na $max.';
 $messages['maxgroupmembersreached'] = 'Počet členských skupin dosáhl maximum z $max';
+$messages['internalerror'] = 'Došlo k interní chybě. Zkuste to znovu';
 
 ?>

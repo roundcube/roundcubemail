@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  09042010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  30052010                |
 +-----------------------------------------------------------------------+
 
 */
@@ -112,5 +112,6 @@ $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
 $messages['toomanyrecipients'] = 'יותר מדי נמענים. יש להקטין מספרם ל - $max';
 $messages['maxgroupmembersreached'] = 'מספרם של חברי הקבוצה אינו יכול לעבור $max';
+$messages['internalerror'] = 'שגיאת מערכת. נא לנסות שנית';
 
 ?>

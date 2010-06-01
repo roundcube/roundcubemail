@@ -103,7 +103,7 @@ $messages['importwait'] = 'Importation, veuillez patienter...';
 $messages['importerror'] = 'Importation échouée ! Le fichier envoyé n\'est pas un fichier vCard valide.';
 $messages['importconfirm'] = '<b>$inserted contacts importés avec succès, $skipped entrées existantes ignorées</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
-$messages['nofromaddress'] = 'Il manque une adresse e-mail dans l\'identitée sélectionnée';
+$messages['nofromaddress'] = 'Il manque une adresse e-mail dans l\'identité sélectionnée';
 $messages['editorwarning'] = 'Passer à l\'éditeur texte seul causera la perte du formatage du texte. Voulez-vous continuer ?';
 $messages['httpreceivedencrypterror'] = 'Une erreur fatale de configuration est survenue. Veuillez contacter votre administrateur immédiatement. <b>Votre message n\'a pas pu être envoyé.</b>';
 $messages['smtpconnerror'] = 'Erreur SMTP ($code): Echec de la connexion au serveur';
@@ -115,5 +115,6 @@ $messages['smtperror'] = 'Erreur SMTP: $msg';
 $messages['emailformaterror'] = 'Adresse email incorrecte: $email';
 $messages['toomanyrecipients'] = 'Trop de destinataires. Réduisez leur nombre à $max maximum.';
 $messages['maxgroupmembersreached'] = 'Le nombre de membres du groupe dépasse le maximum de $max.';
+$messages['internalerror'] = 'Une erreur interne est survenue. Merci de réessayer';
 
 ?>
