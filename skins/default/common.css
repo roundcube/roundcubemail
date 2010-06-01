@@ -510,7 +510,26 @@ table.records-table tr.unfocused td
   padding-bottom: 3px;
   font-size: 11px;
   white-space: nowrap;
-  opacity: 0.7;
+  opacity: 0.82;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-box-shadow: 1px 1px 12px #999;
+  -webkit-box-shadow: #999 1px 1px 12px;
+}
+
+.draglayernormal:before {
+  
+}
+
+.draglayercopy:before {
+  position: absolute;
+  bottom: -5px;
+  left: -6px;
+  content: " ";
+  width: 14px;
+  height: 14px;
+  background: url(images/messageactions.png) -2px -128px no-repeat;
 }
 
 a.rcmContactAddress

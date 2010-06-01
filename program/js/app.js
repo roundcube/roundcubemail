@@ -1243,7 +1243,11 @@ function rcube_webmail()
       var boffset = bw.ie ? -document.documentElement.scrollTop : this.initialBodyScrollTop;
       var moffset = this.initialListScrollTop-this.gui_objects.folderlist.parentNode.scrollTop;
       var toffset = -moffset-boffset;
-      var li, div, pos, mouse;
+      var li, div, pos, mouse, check, oldclass,
+        layerclass = 'draglayernormal';
+      
+      if (this.contact_list && this.contact_list.draglayer)
+        oldclass = this.contact_list.draglayer.attr('class');
 
       mouse = rcube_event.get_mouse_pos(e);
       pos = this.env.folderlist_coords;
@@ -1256,6 +1260,8 @@ function rcube_webmail()
           this.env.folder_coords[this.env.last_folder_target].on = 0;
           this.env.last_folder_target = null;
         }
+        if (layerclass != oldclass && this.contact_list && this.contact_list.draglayer)
+          this.contact_list.draglayer.attr('class', layerclass);
         return;
       }
 
@@ -1263,7 +1269,7 @@ function rcube_webmail()
       for (var k in this.env.folder_coords) {
         pos = this.env.folder_coords[k];
         if (mouse.x >= pos.x1 && mouse.x < pos.x2 && mouse.y >= pos.y1 && mouse.y < pos.y2){
-         if (this.check_droptarget(k)) {
+         if ((check = this.check_droptarget(k))) {
             li = this.get_folder_li(k);
             div = $(li.getElementsByTagName('div')[0]);
 
@@ -1286,6 +1292,7 @@ function rcube_webmail()
             $(li).addClass('droptarget');
             this.env.folder_coords[k].on = 1;
             this.env.last_folder_target = k;
+            layerclass = 'draglayer' + (check > 1 ? 'copy' : 'normal');
           } else { // Clear target, otherwise drag end will trigger move into last valid droptarget
             this.env.last_folder_target = null;
           }
@@ -1295,6 +1302,9 @@ function rcube_webmail()
           this.env.folder_coords[k].on = 0;
         }
       }
+      
+      if (layerclass != oldclass && this.contact_list && this.contact_list.draglayer)
+        this.contact_list.draglayer.attr('class', layerclass);
     }
   };
 
@@ -1509,16 +1519,27 @@ function rcube_webmail()
 
   this.check_droptarget = function(id)
   {
+    var allow = false, copy = false;
+    
     if (this.task == 'mail')
-      return (this.env.mailboxes[id] && this.env.mailboxes[id].id != this.env.mailbox && !this.env.mailboxes[id].virtual);
-    else if (this.task == 'addressbook')
-      return (id != this.env.source && this.env.contactfolders[id] && !this.env.contactfolders[id].readonly &&
-        !(!this.env.source && this.env.contactfolders[id].group) &&
-        !(this.env.contactfolders[id].type == 'group' && this.env.contactfolders[this.env.source].readonly) &&
-        !(this.env.contactfolders[id].type == 'group' && this.env.contactfolders[id].source != this.env.source) &&
-        !(this.env.contactfolders[id].type == 'group' && this.env.contactfolders[id].id == this.env.group));
+      allow = (this.env.mailboxes[id] && this.env.mailboxes[id].id != this.env.mailbox && !this.env.mailboxes[id].virtual);
     else if (this.task == 'settings')
-      return (id != this.env.folder);
+      allow = (id != this.env.folder);
+    else if (this.task == 'addressbook') {
+      if (id != this.env.source && this.env.contactfolders[id]) {
+        if (this.env.contactfolders[id].type == 'group') {
+          var target_abook = this.env.contactfolders[id].source;
+          allow = this.env.contactfolders[id].id != this.env.group && !this.env.contactfolders[target_abook].readonly;
+          copy = target_abook != this.env.source;
+        }
+        else {
+          allow = !this.env.contactfolders[id].readonly;
+          copy = true;
+        }
+      }
+    }
+    
+    return allow ? (copy ? 2 : 1) : 0;
   };
 
 
@@ -3633,10 +3654,24 @@ function rcube_webmail()
     if (!cid)
       cid = this.contact_list.get_selection().join(',');
 
-    if (to.type == 'group')
-      this.http_post('group-addmembers', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(to.id));
-    else if (to.id != this.env.source && cid && this.env.address_sources[to.id] && !this.env.address_sources[to.id].readonly)
-      this.http_post('copy', '_cid='+urlencode(cid)+'&_source='+urlencode(this.env.source)+'&_to='+urlencode(to.id)+(this.env.group ? '&_gid='+urlencode(this.env.group) : ''));
+    if (to.type == 'group' && to.source == this.env.source) {
+      this.http_post('group-addmembers', '_cid='+urlencode(cid)
+        + '&_source='+urlencode(this.env.source)
+        + '&_gid='+urlencode(to.id));
+    }
+    else if (to.type == 'group' && !this.env.address_sources[to.source].readonly) {
+      this.http_post('copy', '_cid='+urlencode(cid)
+        + '&_source='+urlencode(this.env.source)
+        + '&_to='+urlencode(to.source)
+        + '&_togid='+urlencode(to.id)
+        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''));
+    }
+    else if (to.id != this.env.source && cid && this.env.address_sources[to.id] && !this.env.address_sources[to.id].readonly) {
+      this.http_post('copy', '_cid='+urlencode(cid)
+        + '&_source='+urlencode(this.env.source)
+        + '&_to='+urlencode(to.id)
+        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''));
+    }
   };
 
 

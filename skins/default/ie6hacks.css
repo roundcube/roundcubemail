@@ -69,3 +69,7 @@ ul.toolbarmenu li.separator_below
 {
   padding-bottom: 8px;
 }
+
+.draglayercopy:before {
+  background-image: url(images/messageactions.png);
+}

@@ -25,6 +25,7 @@ if (!$OUTPUT->ajax_call)
 
 $cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $target = get_input_value('_to', RCUBE_INPUT_POST);
+$target_group = get_input_value('_togid', RCUBE_INPUT_POST);
 
 if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($target) && $target !== $source)
 {
@@ -32,12 +33,19 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
   $TARGET = $RCMAIL->get_address_book($target);
 
   if ($TARGET && $TARGET->ready && !$TARGET->readonly) {
+    if ($target_group && $TARGET->groups)
+      $TARGET->set_group($target_group);
+    
     $arr_cids = explode(',', $cid);
     foreach ($arr_cids as $cid) {
-      $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $CONTACTS->get_record($cid, true), 'source' => $target));
-    $a_record = $plugin['record'];
+      $plugin = $RCMAIL->plugins->exec_hook('create_contact', array(
+        'record' => $CONTACTS->get_record($cid, true),
+        'source' => $target,
+        'group' => $target_group,
+      ));
+      $a_record = $plugin['record'];
 
-    if (!$plugin['abort'])
+      if (!$plugin['abort'])
         if ($TARGET->insert($a_record, true))
           $success++;
     }
