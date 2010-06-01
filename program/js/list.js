@@ -1393,6 +1393,10 @@ column_replace: function(from, to)
   // update subject column position
   if (this.subject_col == from)
     this.subject_col = to > from ? to - 1 : to;
+  else if (this.subject_col < from && to <= this.subject_col)
+    this.subject_col++;
+  else if (this.subject_col > from && to >= this.subject_col)
+    this.subject_col--;
 
   this.triggerEvent('column_replace');
 }

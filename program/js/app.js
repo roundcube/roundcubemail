@@ -1501,6 +1501,9 @@ function rcube_webmail()
     if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
       this.set_env('flagged_col', found);
 
+    if ((found = $.inArray('subject', this.env.coltypes)) >= 0)
+      this.set_env('subject_col', found);
+
     this.http_post('save-pref', { '_name':'list_cols', '_value':this.env.coltypes });
   };
 
