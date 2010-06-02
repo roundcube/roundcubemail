@@ -33,10 +33,9 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
   $TARGET = $RCMAIL->get_address_book($target);
 
   if ($TARGET && $TARGET->ready && !$TARGET->readonly) {
-    if ($target_group && $TARGET->groups)
-      $TARGET->set_group($target_group);
-    
     $arr_cids = explode(',', $cid);
+    $ids = array();
+
     foreach ($arr_cids as $cid) {
       $plugin = $RCMAIL->plugins->exec_hook('create_contact', array(
         'record' => $CONTACTS->get_record($cid, true),
@@ -45,9 +44,41 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
       ));
       $a_record = $plugin['record'];
 
-      if (!$plugin['abort'])
-        if ($TARGET->insert($a_record, true))
-          $success++;
+      if (!$plugin['abort']) {
+        // check if contact exists, if so, we'll need it's ID
+        $result = $TARGET->search('email', $a_record['email'], true, true);
+
+        // insert contact record
+        if (!$result->count) {
+          if ($insert_id = $TARGET->insert($a_record, false)) {
+            $ids[] = $insert_id;
+            $success++;
+          }
+        }
+        else {
+          $record = $result->first();
+          $ids[] = $record['ID'];
+        }
+      }
+    }
+
+    // assign to group
+    if ($target_group && $TARGET->groups && !empty($ids)) {
+      $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
+        'group_id' => $target_group, 'ids' => $ids, 'source' => $target));
+
+      if (!$plugin['abort']) {
+        $TARGET->reset();
+        $TARGET->set_group($target_group);
+
+        if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($TARGET->count()->count + count($plugin['ids']) > $maxnum)) {
+          $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
+          $OUTPUT->send();
+        }
+
+        if (($cnt = $TARGET->add_to_group($target_group, $plugin['ids'])) && $cnt > $success)
+          $success = $cnt;
+      }
     }
   }
 
@@ -55,9 +86,6 @@ if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($t
     $OUTPUT->show_message('copyerror', 'error');
   else
     $OUTPUT->show_message('copysuccess', 'notice', array('nr' => $success));
-    
-  // close connection to second address directory
-  $TARGET->close();
 }
 
 // send response
