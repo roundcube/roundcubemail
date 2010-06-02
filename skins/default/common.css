@@ -503,7 +503,7 @@ table.records-table tr.unfocused td
   width: auto !important;
   width: 300px;
   border: 1px solid #999999;
-  background-color: #F9F9F9;
+  background-color: #fff;
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
@@ -518,11 +518,8 @@ table.records-table tr.unfocused td
   -webkit-box-shadow: #999 1px 1px 12px;
 }
 
-.draglayernormal:before {
-  
-}
-
-.draglayercopy:before {
+.draglayercopy:before
+{
   position: absolute;
   bottom: -5px;
   left: -6px;

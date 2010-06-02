@@ -244,7 +244,20 @@ div.message-part div.pre
 
 #rcmdraglayer
 {
-  filter: alpha(opacity=70);
+  filter: alpha(opacity=82);
+  padding-left: 20px;
+}
+
+div.draglayercopy
+{
+  border-color: #00cc00;
+  background: url(images/messageactions.png) 0 -125px no-repeat #fff;
+}
+
+html.ie8 .draglayercopy:before
+{
+  content: "";
+  display: none;
 }
 
 ul.toolbarmenu
@@ -277,3 +290,5 @@ table.records-table thead tr td
   margin: 0 4px;
   padding: 0.8em;
 }
+
+
