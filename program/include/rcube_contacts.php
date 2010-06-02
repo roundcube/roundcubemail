@@ -564,28 +564,32 @@ class rcube_contacts extends rcube_addressbook
             $ids = explode(',', $ids);
 
         $added = 0;
+        $exists = array();
+
+        // get existing assignments ...
+        $sql_result = $this->db->query(
+            "SELECT contact_id FROM ".get_table_name($this->db_groupmembers).
+            " WHERE contactgroup_id=?".
+                " AND contact_id IN (".$this->db->array2list($ids, 'integer').")",
+            $group_id
+        );
+        while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
+            $exists[] = $sql_arr['contact_id'];
+        }
+        // ... and remove them from the list
+        $ids = array_diff($ids, $exists);
 
         foreach ($ids as $contact_id) {
-            $sql_result = $this->db->query(
-                "SELECT 1 FROM ".get_table_name($this->db_groupmembers).
-                " WHERE contactgroup_id=?".
-                    " AND contact_id=?",
+            $this->db->query(
+                "INSERT INTO ".get_table_name($this->db_groupmembers).
+                " (contactgroup_id, contact_id, created)".
+                " VALUES (?, ?, ".$this->db->now().")",
                 $group_id,
                 $contact_id
             );
 
-            if (!$this->db->num_rows($sql_result)) {
-                $this->db->query(
-                    "INSERT INTO ".get_table_name($this->db_groupmembers).
-                    " (contactgroup_id, contact_id, created)".
-                    " VALUES (?, ?, ".$this->db->now().")",
-                    $group_id,
-                    $contact_id
-                );
-
-                if (!$this->db->db_error)
-                    $added++;
-            }
+            if (!$this->db->db_error)
+                $added++;
         }
 
         return $added;
