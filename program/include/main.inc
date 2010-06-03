@@ -1532,12 +1532,28 @@ function rcube_https_check($port=null, $use_https=true)
   return false;
 }
 
+
 // for backward compatibility
 function rcube_sess_unset($var_name=null)
 {
   global $RCMAIL;
 
   $RCMAIL->session->remove($var_name);
+}
+
+
+// Replaces hostname variables
+function rcube_parse_host($name)
+{
+  // %n - host
+  $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
+  // %d - domain name without first part, e.g. %d=mail.domain.tld, %m=domain.tld
+  $d = preg_replace('/^[^\.]+\./', '', $n);
+  // %h - IMAP host
+  $h = $_SESSION['imap_host'];
+
+  $name = str_replace(array('%n', '%d', '%h'), array($n, $d, $h), $name);
+  return $name;
 }
 
 

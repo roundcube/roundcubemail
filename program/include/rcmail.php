@@ -575,7 +575,7 @@ class rcmail
       if (!$allowed)
         return false;
       }
-    else if (!empty($config['default_host']) && $host != $config['default_host'])
+    else if (!empty($config['default_host']) && $host != rcube_parse_host($config['default_host']))
       return false;
 
     // parse $host URL
@@ -743,7 +743,7 @@ class rcmail
       $host = get_input_value('_host', RCUBE_INPUT_POST);
     }
     else
-      $host = $default_host;
+      $host = rcube_parse_host($default_host);
 
     return $host;
   }

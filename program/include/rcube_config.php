@@ -277,12 +277,12 @@ class rcube_config
                 $domain = $this->prop['mail_domain'][$host];
         }
         else if (!empty($this->prop['mail_domain']))
-            $domain = $this->prop['mail_domain'];
-    
+            $domain = rcube_parse_host($this->prop['mail_domain']);
+
         return $domain;
     }
-  
-  
+
+
     /**
      * Getter for error state
      *

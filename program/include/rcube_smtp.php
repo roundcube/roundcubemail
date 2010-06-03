@@ -73,7 +73,7 @@ class rcube_smtp
       'smtp_timeout'   => $RCMAIL->config->get('smtp_timeout'),
     ));
 
-    $smtp_host = str_replace('%h', $_SESSION['imap_host'], $CONFIG['smtp_server']);
+    $smtp_host = rcube_parse_host($CONFIG['smtp_server']);
     // when called from Installer it's possible to have empty $smtp_host here
     if (!$smtp_host) $smtp_host = 'localhost';
     $smtp_port = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;

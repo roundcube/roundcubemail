@@ -61,6 +61,10 @@ $rcmail_config['smtp_debug'] = false;
 // leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// Supported replacement variables:
+// %n - http hostname ($_SERVER['SERVER_NAME'])
+// %d - domain (http hostname without the first part)
+// For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['default_host'] = '';
 
 // TCP port used for IMAP connections
@@ -90,7 +94,11 @@ $rcmail_config['imap_timeout'] = 0;
 // SMTP server host (for sending mails).
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
 // If left blank, the PHP mail() function is used
-// Use %h variable as replacement for user's IMAP hostname
+// Supported replacement variables:
+// %h - user's IMAP hostname
+// %n - http hostname ($_SERVER['SERVER_NAME'])
+// %d - domain (http hostname without the first part)
+// For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['smtp_server'] = '';
 
 // SMTP port (default is 25; 465 for SSL)
@@ -176,6 +184,11 @@ $rcmail_config['username_domain'] = '';
 
 // This domain will be used to form e-mail addresses of new users
 // Specify an array with 'host' => 'domain' values to support multiple hosts
+// Supported replacement variables:
+// %h - user's IMAP hostname
+// %n - http hostname ($_SERVER['SERVER_NAME'])
+// %d - domain (http hostname without the first part)
+// For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['mail_domain'] = '';
 
 // Password charset.
@@ -374,6 +387,11 @@ $rcmail_config['ldap_public'] = array();
  *
 $rcmail_config['ldap_public']['Verisign'] = array(
   'name'          => 'Verisign.com',
+  // Replacement variables supported in host names:
+  // %h - user's IMAP hostname
+  // %n - http hostname ($_SERVER['SERVER_NAME'])
+  // %d - domain (http hostname without the first part)
+  // For example %n = mail.domain.tld, %d = domain.tld
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'	    => false,
