@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Multiple identity and database support for squirrelmail_usercopy plugin (#1486517)
 - Support dynamic hostname (%d/%n) variables in configuration options (#1485438)
 - Add 'messages_list' hook (#1486266)
 - Add request* event triggers in http_post/http_request (#1486054)
