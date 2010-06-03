@@ -214,7 +214,7 @@ if ($db_working) {
 <h3>Test SMTP config</h3>
 
 <p>
-Server: <?php echo $RCI->getprop('smtp_server', 'PHP mail()'); ?><br />
+Server: <?php echo rcube_parse_host($RCI->getprop('smtp_server', 'PHP mail()')); ?><br />
 Port: <?php echo $RCI->getprop('smtp_port'); ?><br />
 
 <?php
