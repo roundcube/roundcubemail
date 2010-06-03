@@ -148,7 +148,6 @@ class html2text
         '/[ ]{2,}/',                             // Runs of spaces, pre-handling
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
-        //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
         '/<p[^>]*>/i',                           // <P>
         '/<br[^>]*>/i',                          // <br>
         '/<i[^>]*>(.*?)<\/i>/i',                 // <i>
@@ -158,6 +157,7 @@ class html2text
         '/<li[^>]*>(.*?)<\/li>/i',               // <li> and </li>
         '/<li[^>]*>/i',                          // <li>
         '/<hr[^>]*>/i',                          // <hr>
+        '/<div[^>]*>/i',                         // <div>
         '/(<table[^>]*>|<\/table>)/i',           // <table> and </table>
         '/(<tr[^>]*>|<\/tr>)/i',                 // <tr> and </tr>
         '/<td[^>]*>(.*?)<\/td>/i',               // <td> and </td>
@@ -192,8 +192,7 @@ class html2text
         ' ',                                    // Runs of spaces, pre-handling
         '',                                     // <script>s -- which strip_tags supposedly has problems with
         '',                                     // <style>s -- which strip_tags supposedly has problems with
-        //'',                                     // Comments -- which strip_tags might have problem a with
-        "\n\n",                               // <P>
+        "\n\n",                                 // <P>
         "\n",                                   // <br>
         '_\\1_',                                // <i>
         '_\\1_',                                // <em>
@@ -202,6 +201,7 @@ class html2text
         "\t* \\1\n",                            // <li> and </li>
         "\n\t* ",                               // <li>
         "\n-------------------------\n",        // <hr>
+        "<div>\n",                                   // <div>
         "\n\n",                                 // <table> and </table>
         "\n",                                   // <tr> and </tr>
         "\t\t\\1\n",                            // <td> and </td>
