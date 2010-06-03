@@ -3476,7 +3476,7 @@ function rcube_webmail()
       for (i=0; i < a_results.length; i++) {
         text = typeof a_results[i] == 'object' ? a_results[i].name : a_results[i];
         li = document.createElement('LI');
-        li.innerHTML = text.replace(new RegExp('('+s_val+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
+        li.innerHTML = text.replace(new RegExp('('+RegExp.escape(s_val)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
         li._rcm_id = i;
