@@ -34,6 +34,7 @@ class rcube_plugin_api
   
   public $handlers = array();
   private $plugins = array();
+  private $tasks = array();
   private $actions = array();
   private $actionmap = array();
   private $objectsmap = array();
@@ -206,11 +207,14 @@ class rcube_plugin_api
    * @param string Action name (_task=mail&_action=plugin.foo)
    * @param string Plugin name that registers this action
    * @param mixed Callback: string with global function name or array($obj, 'methodname')
+   * @param string Task name registered by this plugin
    */
-  public function register_action($action, $owner, $callback)
+  public function register_action($action, $owner, $callback, $task = null)
   {
     // check action name
-    if (strpos($action, 'plugin.') !== 0)
+    if ($task)
+      $action = $task.'.'.$action;
+    else if (strpos($action, 'plugin.') !== 0)
       $action = 'plugin.'.$action;
     
     // can register action only if it's not taken or registered by myself
@@ -271,6 +275,45 @@ class rcube_plugin_api
   }
   
   
+  /**
+   * Register this plugin to be responsible for a specific task
+   *
+   * @param string Task name (only characters [a-z0-9_.-] are allowed)
+   * @param string Plugin name that registers this action
+   */
+  public function register_task($task, $owner)
+  {
+    if ($task != asciiwords($task)) {
+      raise_error(array('code' => 526, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Invalid task name: $task. Only characters [a-z0-9_.-] are allowed"), true, false);
+    }
+    else if (in_array($task, rcmail::$main_tasks)) {
+      raise_error(array('code' => 526, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Cannot register taks $task; already taken by another plugin or the application itself"), true, false);
+    }
+    else {
+      $this->tasks[$task] = $owner;
+      rcmail::$main_tasks[] = $task;
+      return true;
+    }
+    
+    return false;
+  }
+
+
+  /**
+   * Checks whether the given task is registered by a plugin
+   *
+   * @return boolean True if registered, otherwise false
+   */
+  public function is_plugin_task($task)
+  {
+    return $this->tasks[$task] ? true : false;
+  }
+
+
   /**
    * Check if a plugin hook is currently processing.
    * Mainly used to prevent loops and recursion.

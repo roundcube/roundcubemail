@@ -242,9 +242,13 @@ $redirects = 0; $incstep = null;
 while ($redirects < 5) {
   $stepfile = !empty($action_map[$RCMAIL->task][$RCMAIL->action]) ?
     $action_map[$RCMAIL->task][$RCMAIL->action] : strtr($RCMAIL->action, '-', '_') . '.inc';
-
+    
   // execute a plugin action
-  if (preg_match('/^plugin\./', $RCMAIL->action)) {
+  if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
+    $RCMAIL->plugins->exec_action($RCMAIL->task.'.'.$RCMAIL->action);
+    break;
+  }
+  else if (preg_match('/^plugin\./', $RCMAIL->action)) {
     $RCMAIL->plugins->exec_action($RCMAIL->action);
     break;
   }
