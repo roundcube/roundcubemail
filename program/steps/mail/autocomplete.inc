@@ -37,6 +37,7 @@ if ($RCMAIL->action == 'group-expand') {
 }
 else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, true)) {
   $contacts = array();
+  $books_num = count($book_types);
 
   foreach ($book_types as $id) {
     $abook = $RCMAIL->get_address_book($id);
@@ -44,9 +45,13 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
 
     if ($result = $abook->search(array('email','name'), $search, false, true, true, 'email')) {
       while ($sql_arr = $result->iterate()) {
-          $contacts[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
+        $contact = format_email_recipient($sql_arr['email'], $sql_arr['name']);
+        // when we've got more than one book, we need to skip duplicates
+        if ($books_num == 1 || !in_array($contact, $contacts)) {
+          $contacts[] = $contact;
           if (count($contacts) >= $MAXNUM)
             break 2;
+        }
       }
     }
 
