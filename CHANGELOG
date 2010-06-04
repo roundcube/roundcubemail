@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix related parts aren't displayed when got mimetype other than image/* (#1486432)
 - Multiple identity and database support for squirrelmail_usercopy plugin (#1486517)
 - Support dynamic hostname (%d/%n) variables in configuration options (#1485438)
 - Add 'messages_list' hook (#1486266)
