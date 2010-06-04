@@ -70,8 +70,13 @@ if ($count = $IMAP->messagecount($mbox_name, $IMAP->threading ? 'THREADS' : 'ALL
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
   $_SESSION['search'][$_REQUEST['_search']] = $IMAP->get_search_set();
 
+// empty result? we'll skip UNSEEN counting in rcmail_send_unread_count()
+if (empty($search_request) && empty($a_headers)) {
+    $unseen = 0;
+}
+
 // update mailboxlist
-rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']));
+rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
 
 // update message count display
 $pages = ceil($count/$IMAP->page_size);

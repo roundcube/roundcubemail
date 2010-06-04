@@ -551,12 +551,16 @@ function rcmail_get_mailbox_name_text()
 }
 
 
-function rcmail_send_unread_count($mbox_name, $force=false)
+function rcmail_send_unread_count($mbox_name, $force=false, $count=null)
 {
   global $RCMAIL;
 
   $old_unseen = $_SESSION['unseen_count'][$mbox_name];
-  $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', $force);
+
+  if ($count === null)
+    $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', $force);
+  else
+    $unseen = $count;
 
   if ($unseen != $old_unseen || ($mbox_name == 'INBOX'))
     $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
