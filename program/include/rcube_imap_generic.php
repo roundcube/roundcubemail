@@ -848,7 +848,6 @@ class rcube_imap_generic
 	    } while (!$this->startsWith($line, 's ', true, true));
 
 	    $result_code = $this->parseResult($line);
-
 	    if ($result_code != 0) {
             $this->error = "Sort: $line";
             return false;

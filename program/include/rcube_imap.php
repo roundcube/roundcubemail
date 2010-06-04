@@ -297,7 +297,9 @@ class rcube_imap
     {
         if (is_array($str) && $msgs == null)
             list($str, $msgs, $charset, $sort_field, $threads) = $str;
-        if ($msgs != null && !is_array($msgs))
+        if ($msgs === false)
+            $msgs = array();
+        else if ($msgs != null && !is_array($msgs))
             $msgs = explode(',', $msgs);
 
         $this->search_string     = $str;
@@ -607,7 +609,7 @@ class rcube_imap
             else
                 $msg_index = array();
 
-            if ($slice)
+            if ($slice && $msg_index)
                 $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
 
             // fetch reqested headers from server
@@ -1197,20 +1199,20 @@ class rcube_imap
                 $a_index = range(1, $max);
             }
 
-            if ($this->sort_order == 'DESC')
+            if ($a_index !== false && $this->sort_order == 'DESC')
                 $a_index = array_reverse($a_index);
 
             $this->cache[$key] = $a_index;
         }
         // fetch complete message index
         else if ($this->get_capability('SORT')) {
-            if ($a_index = $this->conn->sort($mailbox,
-                $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')) {
-                if ($this->sort_order == 'DESC')
-                    $a_index = array_reverse($a_index);
+            $a_index = $this->conn->sort($mailbox,
+                $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '');
 
-                $this->cache[$key] = $a_index;
-	        }
+            if ($a_index !== false && $this->sort_order == 'DESC')
+                $a_index = array_reverse($a_index);
+
+            $this->cache[$key] = $a_index;
         }
         else if ($a_index = $this->conn->fetchHeaderIndex(
             $mailbox, "1:*", $this->sort_field, $this->skip_deleted)) {
@@ -1222,7 +1224,7 @@ class rcube_imap
             $this->cache[$key] = array_keys($a_index);
         }
 
-        return $this->cache[$key];
+        return $this->cache[$key] !== false ? $this->cache[$key] : array();
     }
 
 
@@ -1379,32 +1381,6 @@ class rcube_imap
 
         $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
-        // try search with US-ASCII charset (should be supported by server)
-        // only if UTF-8 search is not supported
-        if (empty($results) && !is_array($results) && !empty($charset) && $charset != 'US-ASCII')
-        {
-            // convert strings to US_ASCII
-            if(preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE)) {
-                $last = 0; $res = '';
-                foreach($matches[1] as $m)
-                {
-                    $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
-                    $string = substr($str, $string_offset - 1, $m[0]);
-                    $string = rcube_charset_convert($string, $charset, 'US-ASCII');
-                    if (!$string)
-                        continue;
-                    $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
-                    $last = $m[0] + $string_offset - 1;
-                }
-                if ($last < strlen($str))
-                    $res .= substr($str, $last, strlen($str)-$last);
-            }
-            else // strings for conversion not found
-                $res = $str;
-
-            $results = $this->search($mbox_name, $res, NULL, $sort_field);
-        }
-
         $this->set_search_set($str, $results, $charset, $sort_field, (bool)$this->threading);
 
         return $results;
@@ -1426,21 +1402,32 @@ class rcube_imap
             $criteria = 'UNDELETED '.$criteria;
 
         if ($this->threading) {
-            list ($thread_tree, $msg_depth, $has_children) = $this->conn->thread(
-                $mailbox, $this->threading, $criteria, $charset);
+            $a_messages = $this->conn->thread($mailbox, $this->threading, $criteria, $charset);
 
-            $a_messages = array(
-                'tree' 	=> $thread_tree,
-	            'depth'	=> $msg_depth,
-	            'children' => $has_children
-            );
+            // Error, try with US-ASCII (RFC5256: SORT/THREAD must support US-ASCII and UTF-8,
+            // but I've seen that Courier doesn't support UTF-8)
+            if ($a_messages === false && $charset && $charset != 'US-ASCII')
+                $a_messages = $this->conn->thread($mailbox, $this->threading,
+                    $this->convert_criteria($criteria, $charset), 'US-ASCII');
+
+            if ($a_messages !== false) {
+                list ($thread_tree, $msg_depth, $has_children) = $a_messages;
+                $a_messages = array(
+                    'tree' 	=> $thread_tree,
+	                'depth'	=> $msg_depth,
+	                'children' => $has_children
+                );
+            }
         }
         else if ($sort_field && $this->get_capability('SORT')) {
             $charset = $charset ? $charset : $this->default_charset;
             $a_messages = $this->conn->sort($mailbox, $sort_field, $criteria, false, $charset);
 
-            if (!$a_messages)
-	            return array();
+            // Error, try with US-ASCII (RFC5256: SORT/THREAD must support US-ASCII and UTF-8,
+            // but I've seen that Courier doesn't support UTF-8)
+            if ($a_messages === false && $charset && $charset != 'US-ASCII')
+                $a_messages = $this->conn->sort($mailbox, $sort_field,
+                    $this->convert_criteria($criteria, $charset), false, 'US-ASCII');
         }
         else {
             if ($orig_criteria == 'ALL') {
@@ -1449,14 +1436,16 @@ class rcube_imap
             }
             else {
                 $a_messages = $this->conn->search($mailbox,
-                        ($charset ? "CHARSET $charset " : '') . $criteria);
+                    ($charset ? "CHARSET $charset " : '') . $criteria);
 
-	        if (!$a_messages)
-	            return array();
+                // Error, try with US-ASCII (some servers may support only US-ASCII)
+                if ($a_messages === false && $charset && $charset != 'US-ASCII')
+                    $a_messages = $this->conn->search($mailbox,
+                        'CHARSET US-ASCII ' . $this->convert_criteria($criteria, $charset));
 
-            // I didn't found that SEARCH always returns sorted IDs
-            if (!$this->sort_field)
-                sort($a_messages);
+                // I didn't found that SEARCH should return sorted IDs
+	            if (is_array($a_messages) && !$this->sort_field)
+                    sort($a_messages);
             }
         }
 
@@ -1487,6 +1476,39 @@ class rcube_imap
         $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
         return $this->conn->search($mailbox, $str, $ret_uid);
+    }
+
+
+    /**
+     * Converts charset of search criteria string
+     *
+     * @param  string  Search string
+     * @param  string  Original charset
+     * @param  string  Destination charset (default US-ASCII)
+     * @return string  Search string
+     * @access private
+     */
+    private function convert_criteria($str, $charset, $dest_charset='US-ASCII')
+    {
+        // convert strings to US_ASCII
+        if (preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE)) {
+            $last = 0; $res = '';
+            foreach ($matches[1] as $m) {
+                $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
+                $string = substr($str, $string_offset - 1, $m[0]);
+                $string = rcube_charset_convert($string, $charset, $dest_charset);
+                if (!$string)
+                    continue;
+                $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
+                $last = $m[0] + $string_offset - 1;
+            }
+            if ($last < strlen($str))
+                $res .= substr($str, $last, strlen($str)-$last);
+        }
+        else // strings for conversion not found
+            $res = $str;
+
+        return $res;
     }
 
 
