@@ -822,8 +822,11 @@ class rcube_imap
             return $this->_list_thread_header_set($mailbox, $page, $sort_field, $sort_order, $slice);
 
         // search set is threaded, we need a new one
-        if ($this->search_threads)
+        if ($this->search_threads) {
+            if (empty($this->search_set['tree']))
+                return array();
             $this->search('', $this->search_string, $this->search_charset, $sort_field);
+        }
 
         $msgs = $this->search_set;
         $a_msg_headers = array();
@@ -945,8 +948,15 @@ class rcube_imap
     private function _list_thread_header_set($mailbox, $page=NULL, $sort_field=NULL, $sort_order=NULL, $slice=0)
     {
         // update search_set if previous data was fetched with disabled threading
-        if (!$this->search_threads)
+        if (!$this->search_threads) {
+            if (empty($this->search_set))
+                return array();
             $this->search('', $this->search_string, $this->search_charset, $sort_field);
+        }
+
+        // empty result
+        if (empty($this->search_set['tree']))
+            return array();
 
         $thread_tree = $this->search_set['tree'];
         $msg_depth = $this->search_set['depth'];
