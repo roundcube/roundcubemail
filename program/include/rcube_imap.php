@@ -476,11 +476,7 @@ class rcube_imap
                 $search_str .= " UNSEEN";
             // get message count using SEARCH
             // not very performant but more precise (using UNDELETED)
-            // disable THREADS for this request
-            $threads = $this->threading;
-            $this->threading = false;
-            $index = $this->_search_index($mailbox, $search_str);
-            $this->threading = $threads;
+            $index = $this->conn->search($mailbox, $search_str);
 
             $count = is_array($index) ? count($index) : 0;
 

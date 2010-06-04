@@ -1584,8 +1584,15 @@ class rcube_imap_generic
 
     function search($folder, $criteria, $return_uid=false)
     {
+        $old_sel = $this->selected;
+
 	    if (!$this->select($folder)) {
     		return false;
+	    }
+
+        // return empty result when folder is empty and we're just after SELECT
+        if ($old_sel != $folder && !$this->exists) {
+            return array();
 	    }
 
     	$data = '';
