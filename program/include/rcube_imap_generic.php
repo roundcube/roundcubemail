@@ -1552,8 +1552,15 @@ class rcube_imap_generic
 
     function thread($folder, $algorithm='REFERENCES', $criteria='', $encoding='US-ASCII')
     {
+        $old_sel = $this->selected;
+
 	    if (!$this->select($folder)) {
-		    return false;
+    		return false;
+	    }
+
+        // return empty result when folder is empty and we're just after SELECT
+        if ($old_sel != $folder && !$this->exists) {
+            return array(array(), array(), array());
 	    }
 
     	$encoding  = $encoding ? trim($encoding) : 'US-ASCII';
