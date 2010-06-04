@@ -1506,7 +1506,7 @@ class rcube_imap_generic
     {
 	    $node = array();
 	    if ($str[$begin] != '(') {
-		    $stop = $begin + strspn($str, "1234567890", $begin, $end - $begin);
+		    $stop = $begin + strspn($str, '1234567890', $begin, $end - $begin);
 		    $msg = substr($str, $begin, $stop - $begin);
 		    if ($msg == 0)
 		        return $node;
@@ -1566,23 +1566,26 @@ class rcube_imap_generic
     	$encoding  = $encoding ? trim($encoding) : 'US-ASCII';
 	    $algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
 	    $criteria  = $criteria ? 'ALL '.trim($criteria) : 'ALL';
+        $data      = '';
 
 	    if (!$this->putLineC("thrd1 THREAD $algorithm $encoding $criteria")) {
 		    return false;
 	    }
 	    do {
-		    $line = trim($this->readLine(10000));
-		    if (preg_match('/^\* THREAD/', $line)) {
-			    $str         = trim(substr($line, 8));
-	    		$depthmap    = array();
-		    	$haschildren = array();
-			    $tree = $this->parseThread($str, 0, strlen($str), null, null, 0, $depthmap, $haschildren);
+		    $line = trim($this->readLine());
+		    if ($this->startsWith($line, '* THREAD')) {
+    			$data .= substr($line, 9);
+	    	} else if (preg_match('/^[0-9() ]+$/', $line)) {
+		    	$data .= $line;
 		    }
 	    } while (!$this->startsWith($line, 'thrd1', true, true));
 
     	$result_code = $this->parseResult($line);
 	    if ($result_code == 0) {
-    	    return array($tree, $depthmap, $haschildren);
+            $depthmap    = array();
+            $haschildren = array();
+            $tree = $this->parseThread($data, 0, strlen($data), null, null, 0, $depthmap, $haschildren);
+            return array($tree, $depthmap, $haschildren);
 	    }
 
     	$this->error = "Thread: $line";
