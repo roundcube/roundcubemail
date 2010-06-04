@@ -440,7 +440,6 @@ class rcube_message
 
                     // part belongs to a related message and is linked
                     if ($mimetype == 'multipart/related'
-                        && preg_match('!^image/!', $part_mimetype)
                         && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
                         if ($mail_part->headers['content-id'])
                             $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
