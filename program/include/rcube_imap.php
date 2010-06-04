@@ -1757,7 +1757,7 @@ class rcube_imap
 
             // build parts list for headers pre-fetching
             for ($i=0, $count=0; $i<count($part); $i++) {
-                if (is_array($part[$i]) && count($part[$i]) > 3) {
+                if (is_array($part[$i]) && count($part[$i]) > 4) {
                     // fetch message headers if message/rfc822
                     // or named part (could contain Content-Location header)
                     if (!is_array($part[$i][0])) {
@@ -1787,7 +1787,7 @@ class rcube_imap
             }
             $struct->parts = array();
             for ($i=0, $count=0; $i<count($part); $i++) {
-                if (is_array($part[$i]) && count($part[$i]) > 3) {
+                if (is_array($part[$i]) && count($part[$i]) > 4) {
                     $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
                     $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id,
                     $mime_part_headers[$tmp_part_id], $raw_part_headers[$tmp_part_id]);
