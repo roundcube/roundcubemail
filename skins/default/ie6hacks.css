@@ -69,3 +69,10 @@ ul.toolbarmenu li.separator_below
 {
   padding-bottom: 8px;
 }
+
+#directorylistbuttons,
+#groups-title,
+#directorylist li a
+{
+  width: 100%;
+}
