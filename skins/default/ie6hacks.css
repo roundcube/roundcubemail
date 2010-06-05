@@ -60,14 +60,17 @@ img
   background-image: url(images/abook_toolbar.gif);
 }
 
-ul.toolbarmenu li a
+ul.toolbarmenu li a,
+.popupmenu li a
 {
   clear: left;
+  height: expression(Math.min(14, parseInt(document.documentElement.clientHeight))+'px');
+  width: expression(Math.min(130, parseInt(document.documentElement.clientWidth))+'px');
 }
 
 ul.toolbarmenu li.separator_below
 {
-  padding-bottom: 8px;
+  padding-bottom: 3px;
 }
 
 #directorylistbuttons,
