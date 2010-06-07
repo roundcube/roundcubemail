@@ -155,10 +155,11 @@ class washtml
               else
                 $this->extlinks = true;
             }
-            else if (preg_match('/^data:.+/i', $url)) { // RFC2397
-              $value .= ' url('.htmlspecialchars($url, ENT_QUOTES).')';
+            else if (preg_match('/^data:.+/i', $match[2])) { // RFC2397
+              $value .= ' url('.htmlspecialchars($match[2], ENT_QUOTES).')';
             }
-          } else if ($match[0] != 'url' && $match[0] != 'rbg') //whitelist ?
+          }
+          else if ($match[0] != 'url' && $match[0] != 'rbg') //whitelist ?
             $value .= ' ' . $match[0];
           $str = substr($str, strlen($match[0]));
         }
