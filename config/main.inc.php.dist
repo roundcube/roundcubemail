@@ -180,6 +180,11 @@ $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 // Automatically add this domain to user names for login
 // Only for IMAP servers that require full e-mail addresses for login
 // Specify an array with 'host' => 'domain' values to support multiple hosts
+// Supported replacement variables:
+// %h - user's IMAP hostname
+// %n - http hostname ($_SERVER['SERVER_NAME'])
+// %d - domain (http hostname without the first part)
+// For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['username_domain'] = '';
 
 // This domain will be used to form e-mail addresses of new users

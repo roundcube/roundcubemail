@@ -597,9 +597,9 @@ class rcmail
     // Check if we need to add domain
     if (!empty($config['username_domain']) && !strpos($username, '@')) {
       if (is_array($config['username_domain']) && isset($config['username_domain'][$host]))
-        $username .= '@'.$config['username_domain'][$host];
+        $username .= '@'.rcube_parse_host($config['username_domain'][$host]);
       else if (is_string($config['username_domain']))
-        $username .= '@'.$config['username_domain'];
+        $username .= '@'.rcube_parse_host($config['username_domain']);
     }
 
     // try to resolve email address from virtuser table
