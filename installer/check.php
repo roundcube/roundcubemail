@@ -82,7 +82,7 @@ if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
 $ext_dir = ini_get('extension_dir');
 
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
-foreach ($required_php_exts AS $name => $ext) {
+foreach ($required_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
     } else {
@@ -98,7 +98,7 @@ foreach ($required_php_exts AS $name => $ext) {
 <p class="hint">The next couple of extensions are <em>optional</em> and recommended to get the best performance:</p>
 <?php
 
-foreach ($optional_php_exts AS $name => $ext) {
+foreach ($optional_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
     }
@@ -119,7 +119,7 @@ foreach ($optional_php_exts AS $name => $ext) {
 <?php
 
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
-foreach ($supported_dbs AS $database => $ext) {
+foreach ($supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($database);
     }
