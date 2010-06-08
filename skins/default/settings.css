@@ -75,9 +75,20 @@ span.tablink-selected a
 
 #identities-list
 {
-  bottom: 60px;
+  bottom: 30px;
   width: 420px;
   border: 1px solid #999999;
+}
+
+#identitieslistwarp
+{
+  position: absolute;
+  top: 0px;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #listbuttons
@@ -192,7 +203,7 @@ span.tablink-selected a
   top: 95px;
   left: 450px;
   right: 20px;
-  bottom: 60px;
+  bottom: 30px;
   border: 1px solid #999999;
   overflow: auto;
   background-color: #F2F2F2;

@@ -26,8 +26,14 @@
 <div id="mainscreen">
 <div id="mailleftcontainer">
 <div id="mailboxlist-container">
-<div class="boxtitle"><roundcube:label name="mailboxlist" /></div>
+<div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
+<div id="directorylistwarp">
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="25" />
+</div>
+<div id="directorylistbuttons">
+  <!--><roundcube:button name="togglequota" type="link" title="showquota" class="buttonPas showinfo" classAct="button showinfo" onclick="rcmail_ui.toggle_quotadisplay();return false" content=" " />-->
+  <roundcube:button name="mboxactions" id="mboxactionslink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_mailboxmenu();return false" content=" " />
+</div>
 </div>
 
 <script type="text/javascript">
@@ -35,12 +41,6 @@
   rcmail.add_onload('mailviewsplitv.init()');
 </script>
 
-<div id="mailboxcontrols">
-  <span><roundcube:label name="folder" />:&nbsp;</span>
-  <roundcube:button command="expunge" type="link" title="compact" class="buttonPas expunge" classAct="button expunge" classSel="button expungesel" content=" " />
-  <roundcube:button command="purge" type="link" title="empty" class="buttonPas purge" classAct="button purge" classSel="button purgesel" content=" " />
-  <roundcube:container name="mailboxcontrols" id="mailboxcontrols" />
-</div>
 </div>
 
 <div id="mailrightcontainer">
@@ -158,6 +158,15 @@
   <ul>
     <li><roundcube:button command="moveto" onclick="return rcmail.drag_menu_action('moveto')" label="move" classAct="active" /></li>
     <li><roundcube:button command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
+  </ul>
+</div>
+
+<div id="mailboxoptionsmenu" class="popupmenu">
+  <ul>
+    <li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
+    <li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
+    <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
 </div>
 

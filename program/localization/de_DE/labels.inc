@@ -148,6 +148,7 @@ $labels['listcolumns'] = 'Spalten';
 $labels['listsorting'] = 'Sortierung';
 $labels['listorder'] = 'Ordnung';
 $labels['listmode'] = 'Anzeigemodus';
+$labels['folderactions'] = 'Ordneraktionen...';
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['purge'] = 'Bereinigen';

@@ -770,7 +770,6 @@ class rcube_template extends rcube_html_page
      */
     public function button($attrib)
     {
-        static $sa_buttons = array();
         static $s_button_count = 100;
 
         // these commands can be called directly via url
@@ -787,26 +786,11 @@ class rcube_template extends rcube_html_page
         else {
             $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
         }
+
         $command = $attrib['command'];
 
-        // take the button from the stack
-        if ($attrib['name'] && $sa_buttons[$attrib['name']]) {
-            $attrib = $sa_buttons[$attrib['name']];
-        }
-        else if($attrib['image'] || $attrib['imageact'] || $attrib['imagepas'] || $attrib['class']) {
-            // add button to button stack
-            if (!$attrib['name']) {
-                $attrib['name'] = $command;
-            }
-            if (!$attrib['image']) {
-                $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
-            }
-            $sa_buttons[$attrib['name']] = $attrib;
-        }
-        else if ($command && $sa_buttons[$command]) {
-            // get saved button for this command/name
-            $attrib = $sa_buttons[$command];
-        }
+        if ($attrib['task'])
+          $command = $attrib['task'] . '.' . $command;
 
         if (!$attrib['id']) {
             $attrib['id'] =  sprintf('rcmbtn%d', $s_button_count++);
@@ -849,6 +833,9 @@ class rcube_template extends rcube_html_page
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = rcmail_url(null, null, $attrib['command']);
             }
+            else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
+                $attrib['href'] = rcmail_url($attrib['command'], null, $attrib['task']);
+            }
             else if (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = rcmail_url($attrib['command']);
             }
@@ -861,7 +848,11 @@ class rcube_template extends rcube_html_page
         if (!$attrib['href']) {
             $attrib['href'] = '#';
         }
-        if ($command && !$attrib['onclick']) {
+        if ($attrib['task']) {
+            if ($attrib['classact'])
+                $attrib['class'] = $attrib['classact'];
+        }
+        else if ($command && !$attrib['onclick']) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this)",
                 JS_OBJECT_NAME,

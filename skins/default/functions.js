@@ -131,7 +131,8 @@ function rcube_mail_ui()
     messagemenu:'messagemenu',
     listmenu:'listmenu',
     dragmessagemenu:'dragmessagemenu',
-    groupmenu:'groupoptionsmenu'
+    groupmenu:'groupoptionsmenu',
+    mailboxmenu:'mailboxoptionsmenu'
   };
   
   var obj;
@@ -171,6 +172,11 @@ show_messagemenu: function(show)
 show_groupmenu: function(show)
 {
   this.show_popupmenu(this.groupmenu, 'groupactionslink', show, true);
+},
+
+show_mailboxmenu: function(show)
+{
+  this.show_popupmenu(this.mailboxmenu, 'mboxactionslink', show, true);
 },
 
 show_searchmenu: function(show)
@@ -289,6 +295,8 @@ body_mouseup: function(evt, p)
     this.dragmessagemenu.hide();
   else if (this.groupmenu &&  this.groupmenu.is(':visible') && target != rcube_find_object('groupactionslink'))
     this.show_groupmenu(false);
+  else if (this.mailboxmenu &&  this.mailboxmenu.is(':visible') && target != rcube_find_object('mboxactionslink'))
+    this.show_mailboxmenu(false);
   else if (this.listmenu && this.listmenu.is(':visible') && target != rcube_find_object('listmenulink')) {
     var menu = rcube_find_object('listmenu');
     while (target.parentNode) {

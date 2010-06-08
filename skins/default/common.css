@@ -389,7 +389,59 @@ img
   background-color: #c00;
 }
 
-    
+#directorylist-title
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+#directorylistwarp
+{
+  position: absolute;
+  top: 20px;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#directorylistbuttons
+{
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 22px;
+  border-top: 1px solid #999;
+  background: url('images/listheader.gif') top left repeat-x #CCC;
+}
+
+#directorylistbuttons a.button,
+#directorylistbuttons a.buttonPas
+{
+  display: block;
+  float: left;
+  width: 34px;
+  height: 22px;
+  padding: 0px;
+  margin: 0;
+  overflow: hidden;
+  background: url('images/icons/groupactions.png') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+#directorylistbuttons a.groupactions {
+  background-position: 0 -26px;
+}
+
+#directorylistbuttons a.buttonPas {
+  opacity: 0.35;
+}
+
 
 /***** common table settings ******/
 
@@ -655,6 +707,7 @@ ul.toolbarmenu li img
   margin: 0 2px;
 }
 
+div.popupmenu ul li.separator_below,
 ul.toolbarmenu li.separator_below
 {
   border-bottom: 1px solid #ccc;
@@ -662,6 +715,7 @@ ul.toolbarmenu li.separator_below
   padding-bottom: 2px;
 }
 
+div.popupmenu ul li.separator_above,
 ul.toolbarmenu li.separator_above
 {
   border-top: 1px solid #ccc;
