@@ -196,7 +196,9 @@ class rcube_smtp
     // set From: address
     if (PEAR::isError($this->conn->mailFrom($from)))
     {
-      $this->error = array('label' => 'smtpfromerror', 'vars' => array('from' => $from, 'code' => $this->conn->_code));
+      $err = $this->conn->getResponse();
+      $this->error = array('label' => 'smtpfromerror', 'vars' => array(
+        'from' => $from, 'code' => $this->conn->_code, 'msg' => $err[1]));
       $this->response[] .= "Failed to set sender '$from'";
       $this->reset();
       return false;
@@ -215,7 +217,9 @@ class rcube_smtp
     foreach ($recipients as $recipient)
     {
       if (PEAR::isError($this->conn->rcptTo($recipient))) {
-        $this->error = array('label' => 'smtptoerror', 'vars' => array('to' => $recipient, 'code' => $this->conn->_code));
+        $err = $this->conn->getResponse();
+        $this->error = array('label' => 'smtptoerror', 'vars' => array(
+          'to' => $recipient, 'code' => $this->conn->_code, 'msg' => $err[1]));
         $this->response[] .= "Failed to add recipient '$recipient'";
         $this->reset();
         return false;

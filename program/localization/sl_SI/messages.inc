@@ -2,7 +2,7 @@
 
 /*
 +-----------------------------------------------------------------------+
-| language/sl_SL/messages.inc                                          |
+| language/sl_SL/messages.inc                                           |
 |                                                                       |
 | Language file of the RoundCube Webmail client                         |
 | Copyright (C) 2008-2010, RoundQube Dev. - Switzerland                 |
@@ -103,8 +103,8 @@ $messages['editorwarning'] = 'Preklop v splošen urejevalnik onemogoča uporabo 
 $messages['httpreceivedencrypterror'] = 'Prišlo je do večje napake v konfiguraciji.Obrnite se na skrbnika sistema.  <b>Sporočila ni bilo mogoče poslati.</b>';
 $messages['smtpconnerror'] = 'Napaka pri pošiljanju ($code): Povezava s strežnikom je spodletela';
 $messages['smtpautherror'] = 'Napaka pri pošiljanju($code): Avtentikacija je spodletela';
-$messages['smtpfromerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov pošiljatelja "$from"';
-$messages['smtptoerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov prejemnika "$to"';
+$messages['smtpfromerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov pošiljatelja "$from" ($msg)';
+$messages['smtptoerror'] = 'Napaka pri pošiljanju ($code): Neveljaven elektronski naslov prejemnika "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Napaka pri pošiljanju: Seznama prejemnikov ni bilo mogoče razčleniti';
 $messages['smtperror'] = 'Napaka pri pošiljanju:$msg';
 $messages['emailformaterror'] = 'Nepravilen elektronski naslov: $email';

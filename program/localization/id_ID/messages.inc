@@ -100,8 +100,8 @@ $messages['editorwarning'] = 'Beralih pada editor teks murni akan mengakibatkan 
 $messages['httpreceivedencrypterror'] = 'Terjadi sebuah kesalahan pengaturan. Segera hubungi administrator Anda. <b> Pesan Anda tidak bisa terkirim.</b>';
 $messages['smtpconnerror'] = 'SMTP Error ($code): Koneksi ke server gagal';
 $messages['smtpautherror'] = 'SMTP Error ($code): Otentifikasi gagal';
-$messages['smtpfromerror'] = 'SMTP Error ($code): Gagal mengatur pengirim "$from"';
-$messages['smtptoerror'] = 'SMTP Error ($code): Gagal menambah penerima "$to"';
+$messages['smtpfromerror'] = 'SMTP Error ($code): Gagal mengatur pengirim "$from" ($msg)';
+$messages['smtptoerror'] = 'SMTP Error ($code): Gagal menambah penerima "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Error ($code): Tidak dapat menguraikan daftar penerima';
 $messages['smtperror'] = 'SMTP Error : $msg';
 
