@@ -2061,7 +2061,7 @@ class rcube_imap
             return true;
 
         // convert charset (if text or message part)
-        if ($o_part->ctype_primary == 'text' || $o_part->ctype_primary == 'message') {
+        if ($body && ($o_part->ctype_primary == 'text' || $o_part->ctype_primary == 'message')) {
             // assume default if no charset specified
             if (empty($o_part->charset) || strtolower($o_part->charset) == 'us-ascii')
                 $o_part->charset = $this->default_charset;
@@ -2628,7 +2628,7 @@ class rcube_imap
             // retrieve list of folders from IMAP server
             $a_mboxes = $this->conn->listMailboxes($this->mod_mailbox($root), $filter);
         }
-        
+
         $a_folders = array();
         if (!is_array($a_mboxes))
             $a_mboxes = array();

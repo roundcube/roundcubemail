@@ -5,7 +5,7 @@
  | program/include/rcube_message.php                                     |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2008-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2008-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -63,14 +63,17 @@ class rcube_message
     {
         $this->app = rcmail::get_instance();
         $this->imap = $this->app->imap;
-    
+
         $this->uid = $uid;
         $this->headers = $this->imap->get_headers($uid, NULL, true, true);
+
+        if (!$this->headers)
+            return;
 
         $this->subject = rcube_imap::decode_mime_string(
             $this->headers->subject, $this->headers->charset);
         list(, $this->sender) = each($this->imap->decode_address_list($this->headers->from));
-    
+
         $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$uid]));
         $this->opt = array(
             'safe' => $this->is_safe,

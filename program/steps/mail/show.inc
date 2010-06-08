@@ -22,28 +22,18 @@
 $PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 
 // similar code as in program/steps/mail/get.inc
-if ($_GET['_uid']) {
-  $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
+if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
+  $MESSAGE = new rcube_message($uid);
 
   // if message not found (wrong UID)...
   if (empty($MESSAGE->headers)) {
-    $OUTPUT->show_message('messageopenerror', 'error');
-    // ... display error or preview page
-    if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messageerror'))
-      $OUTPUT->send('messageerror');
-    else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
-      $OUTPUT->send('messagepreview');
-    // ... go back to the list
-    else {
-      rcmail_overwrite_action('');
-      return;
-    }
+    rcmail_message_error($uid);
   }
 
   send_nocacheing_headers();
 
   $mbox_name = $IMAP->get_mailbox_name();
-  
+
   // show images?
   rcmail_check_safe($MESSAGE);
 
@@ -52,7 +42,7 @@ if ($_GET['_uid']) {
     $IMAP->set_charset($MESSAGE->headers->charset);
 
   $OUTPUT->set_pagetitle($MESSAGE->subject);
-  
+
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE->uid);
   // set environement

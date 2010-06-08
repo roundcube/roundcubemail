@@ -1777,12 +1777,11 @@ class rcube_imap_generic
 		    	$mode = 0;
 	    }
 
-   		$reply_key = '* ' . $id;
-    	$result = false;
-
     	// format request
-		$key     = 'ftch0';
-		$request = $key . ($is_uid ? ' UID' : '') . " FETCH $id (BODY.PEEK[$part])";
+   		$reply_key = '* ' . $id;
+		$key       = 'ftch0';
+		$request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id (BODY.PEEK[$part])";
+
     	// send request
 		if (!$this->putLine($request)) {
 		    return false;
@@ -1794,7 +1793,8 @@ class rcube_imap_generic
        		$a    = explode(' ', $line);
    		} while (!($end = $this->startsWith($line, $key, true)) && $a[2] != 'FETCH');
 
-   		$len = strlen($line);
+   		$len    = strlen($line);
+    	$result = false;
 
 		// handle empty "* X FETCH ()" response
     	if ($line[$len-1] == ')' && $line[$len-2] != '(') {
@@ -1890,7 +1890,7 @@ class rcube_imap_generic
         			$line = $this->readLine(1024);
 			} while (!$this->startsWith($line, $key, true));
 
-   		if ($result) {
+   		if ($result !== false) {
 	    	if ($file) {
 		    	fwrite($file, $result);
    			} else if ($print) {

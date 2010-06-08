@@ -203,7 +203,7 @@ function rcube_webmail()
           'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers'];
 
         if (this.env.action=='show' || this.env.action=='preview') {
-          this.enable_command(this.env.message_commands, true);
+          this.enable_command(this.env.message_commands, this.env.uid);
 
           if (this.env.next_uid) {
             this.enable_command('nextmessage', 'lastmessage', true);
@@ -243,7 +243,7 @@ function rcube_webmail()
           this.init_messageform();
         }
         // show printing dialog
-        else if (this.env.action == 'print')
+        else if (this.env.action == 'print' && this.env.uid)
           window.print();
 
         // get unread count for each mailbox

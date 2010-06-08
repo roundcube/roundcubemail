@@ -964,6 +964,11 @@ function rcmail_message_body($attrib)
         if (!isset($part->body))
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
+        // message is cached but not exists (#1485443), or other error
+        if ($part->body === false) {
+          rcmail_message_error($MESSAGE->uid);
+        }
+
         // re-format format=flowed content
         if ($part->ctype_secondary == "plain" && $part->ctype_parameters['format'] == "flowed")
           $part->body = rcube_message::unfold_flowed($part->body);
@@ -1550,6 +1555,21 @@ function rcmail_search_filter($attrib)
   return $out;
 }
 
+function rcmail_message_error($uid=null)
+{
+  global $RCMAIL;
+
+  // Set env variables for messageerror.html template
+  if ($RCMAIL->action == 'show') {
+    $mbox_name = $RCMAIL->imap->get_mailbox_name();
+    $RCMAIL->output->set_env('mailbox', $mbox_name);
+    $RCMAIL->output->set_env('uid', null);
+  }
+  // display error message
+  $RCMAIL->output->show_message('messageopenerror', 'error');
+  // ... display message error page
+  $RCMAIL->output->send('messageerror');
+}
 
 // register UI objects
 $OUTPUT->add_handlers(array(
