@@ -791,6 +791,10 @@ class rcube_template extends rcube_html_page
 
         if ($attrib['task'])
           $command = $attrib['task'] . '.' . $command;
+          
+        if (!$attrib['image']) {
+            $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
+        }
 
         if (!$attrib['id']) {
             $attrib['id'] =  sprintf('rcmbtn%d', $s_button_count++);
