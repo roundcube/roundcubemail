@@ -344,6 +344,6 @@ $labels['vietnamese'] = 'wietnamski';
 $labels['japanese'] = 'japoński';
 $labels['korean'] = 'koreański';
 $labels['chinese'] = 'chiński';
-$labels['folderctions'] = 'Działania na folderach...';
+$labels['folderactions'] = 'Działania na folderach...';
 
 ?>
