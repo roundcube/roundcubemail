@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
  +-----------------------------------------------------------------------+
@@ -843,7 +843,7 @@ function rcmail_mod_css_styles($source, $container_id)
   $styles = preg_replace(
     array(
       '/(^\s*<!--)|(-->\s*$)/',
-      '/(^\s*|,\s*|\}\s*)([a-z0-9\._#][a-z0-9\.\-_]*)/im',
+      '/(^\s*|,\s*|\}\s*)([a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
       "/$container_id\s+body/i",
     ),
     array(
