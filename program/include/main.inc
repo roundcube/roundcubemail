@@ -732,8 +732,9 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
   $table = new html_table(/*array('cols' => count($a_show_cols))*/);
     
   // add table header
-  foreach ($a_show_cols as $col)
-    $table->add_header($col, Q(rcube_label($col)));
+  if (!$attrib['noheader'])
+    foreach ($a_show_cols as $col)
+      $table->add_header($col, Q(rcube_label($col)));
   
   $c = 0;
   if (!is_array($table_data)) 

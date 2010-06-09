@@ -384,7 +384,7 @@ td.formlinks a:visited
   bottom: 20px;
   border: 1px solid #999;
   background-color: #F9F9F9;
-  overflow: auto;
+  overflow: hidden;
 }
 
 #mailboxlist
@@ -919,7 +919,7 @@ td span.branch div.l3
 .quota_text_high { color: white; }
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }
-	  
+
 
 /** message view styles */
 

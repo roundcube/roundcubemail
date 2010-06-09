@@ -69,14 +69,20 @@ function rcmail_identities_list($attrib)
   if (!strlen($attrib['id']))
     $attrib['id'] = 'rcmIdentitiesList';
 
+  // get identities list and define 'mail' column
+  $list = $USER->list_identities();
+  foreach ($list as $idx => $row)
+    $list[$idx]['mail'] = trim($row['name'] . ' <' . $row['email'] .'>');
+
   // get all identites from DB and define list of cols to be displayed
   $plugin = $RCMAIL->plugins->exec_hook('list_identities', array(
-    'list' => $USER->list_identities(),
-    'cols' => array('name', 'email')));
+    'list' => $list,
+    'cols' => array('mail')));
 
-  // create XHTML table  
+  // @TODO: use <UL> instead of <TABLE> for identities list
+  // create XHTML table
   $out = rcube_table_output($attrib, $plugin['list'], $plugin['cols'], 'identity_id');
-  
+
   // set client env
   $OUTPUT->add_gui_object('identitieslist', $attrib['id']);
 

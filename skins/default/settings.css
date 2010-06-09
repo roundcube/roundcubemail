@@ -50,7 +50,6 @@ span.tablink-selected a
   width: 300px;
 }
 
-#identities-list,
 #folder-manager
 {
   position: absolute;
@@ -71,13 +70,6 @@ span.tablink-selected a
 {
   border: 1px solid #CC3333;
   background-color: #FFFFA6;
-}
-
-#identities-list
-{
-  bottom: 30px;
-  width: 420px;
-  border: 1px solid #999999;
 }
 
 #listbuttons
@@ -109,16 +101,7 @@ span.tablink-selected a
   cursor: default;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#identities-table thead td.name
-{
-  width: 55%;
-}
-
-#identities-table thead td.email
-{
-  width: 45%;
+  -o-text-overflow: ellipsis;
 }
 
 #subscription-table tbody td
@@ -189,10 +172,9 @@ span.tablink-selected a
 #identity-details
 {
   position: absolute;
-  top: 95px;
-  left: 450px;
-  right: 20px;
-  bottom: 30px;
+  top: 0;
+  right: 0;
+  bottom: 0;
   border: 1px solid #999999;
   overflow: auto;
   background-color: #F2F2F2;
@@ -246,6 +228,7 @@ legend
   left: 20px;
 }
 
+#identities-list,
 #sectionslist
 {
   position: absolute;
@@ -254,7 +237,7 @@ legend
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  overflow: auto;
+  overflow: hidden;
 }
 
 #sections-table

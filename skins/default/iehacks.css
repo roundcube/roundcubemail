@@ -38,11 +38,6 @@ input, textarea
   height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
 }
 
-#identities-list
-{
-  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
-}
-
 #messagetoolbar
 {
   width: expression((parseInt(document.documentElement.clientWidth)-215)+'px');
@@ -95,7 +90,8 @@ input, textarea
 }
 
 #addresslist,
-#sectionslist
+#sectionslist,
+#identities-list
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
