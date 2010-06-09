@@ -21,8 +21,8 @@
 
 // get contacts for this user
 $CONTACTS->set_page(1);
-$CONTACTS->set_pagesize(999);
-$result = $CONTACTS->list_records();
+$CONTACTS->set_pagesize(99999);
+$result = $CONTACTS->list_records(null, 0, true);
 
 // send downlaod headers
 send_nocacheing_headers();
