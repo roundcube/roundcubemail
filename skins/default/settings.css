@@ -80,17 +80,6 @@ span.tablink-selected a
   border: 1px solid #999999;
 }
 
-#identitieslistwarp
-{
-  position: absolute;
-  top: 0px;
-  bottom: 22px;
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 #listbuttons
 {
   position: absolute;
