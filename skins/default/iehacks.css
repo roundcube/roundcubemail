@@ -1,4 +1,3 @@
-/* CSS hacks for IE versions <= 8 */
 
 input, textarea
 {
@@ -84,19 +83,12 @@ input, textarea
   height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
 }
 
-#directorylistwrap
-{
-  height: expression((parseInt(document.getElementById('directorylistbox').offsetHeight)-42)+'px');
-}
-
 #addresslist,
 #sectionslist,
-#identities-list
-{
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
-}
-
-#mailleftcontainer
+#identities-list,
+#mailleftcontainer,
+#mailcontframe,
+#identity-details
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
@@ -107,25 +99,16 @@ input, textarea
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
-#mailrightcontent
-{
-  width: 100%;
-}
-
 #messagepartcontainer
 {
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-100)+'px');
 }
 
-#mailcontframe
-{
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
-}
-
 #mailrightcontent
 {
   height: expression((parseInt(this.parentNode.offsetHeight)-20)+'px');
+  width: 100%;
 }
 
 #partheader
@@ -217,7 +200,8 @@ div.message-part div.pre
 
 #importbox
 {
-  height: expression((parseInt(document.documentElement.clientHeight)-135)+'px');
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-145)+'px');
 }
 
 #contacts-table
@@ -230,12 +214,6 @@ div.message-part div.pre
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
   width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
-}
-
-#identity-details
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-470)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-155)+'px');
 }
 
 #rcmdraglayer
@@ -286,5 +264,3 @@ table.records-table thead tr td
   margin: 0 4px;
   padding: 0.8em;
 }
-
-

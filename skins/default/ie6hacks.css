@@ -73,9 +73,19 @@ ul.toolbarmenu li.separator_below
   padding-bottom: 3px;
 }
 
-.boxfooter,
+.boxfooter
+{
+  width: 100%;
+}
+
 .boxtitle,
 #directorylist li a
 {
+  width: auto;
+}
+
+.boxlistcontent
+{
+  height: expression((parseInt(this.parentNode.offsetHeight)-42)+'px');
   width: 100%;
 }
