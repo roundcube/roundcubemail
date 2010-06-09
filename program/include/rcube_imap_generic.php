@@ -645,7 +645,6 @@ class rcube_imap_generic
 	    // RFC3501 [7.1] optional CAPABILITY response
 	    if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
 		    $this->capability = explode(' ', strtoupper($matches[1]));
-		    $this->capability_readed = true;
 	    }
 
 	    $this->message .= $line;
@@ -710,7 +709,7 @@ class rcube_imap_generic
 		    // do plain text auth
 		    $result = $this->login($user, $password);
 	    }
-
+write_log('imap', '----------');
 	    if (is_resource($result)) {
             if ($this->prefs['force_caps']) {
 			    $this->clearCapability();
