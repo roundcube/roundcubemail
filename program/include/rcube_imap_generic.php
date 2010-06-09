@@ -709,7 +709,7 @@ class rcube_imap_generic
 		    // do plain text auth
 		    $result = $this->login($user, $password);
 	    }
-write_log('imap', '----------');
+
 	    if (is_resource($result)) {
             if ($this->prefs['force_caps']) {
 			    $this->clearCapability();
