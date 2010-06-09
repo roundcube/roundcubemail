@@ -5022,7 +5022,8 @@ function rcube_webmail()
             this.enable_command(this.env.message_commands, 'purge', 'expunge',
               'select-all', 'select-none', 'sort', 'expand-all', 'expand-unread', 'collapse-all', false);
           }
-          this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
+          if (this.message_list)
+            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
         }
         break;
 

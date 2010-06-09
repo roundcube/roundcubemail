@@ -41,7 +41,12 @@
 <div id="mailleftcontainer">
 <div id="mailboxlist-container">
 <div class="boxtitle"><roundcube:label name="mailboxlist" /></div>
+<div class="boxlistcontent">
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="25" />
+</div>
+<div class="boxfooter">
+  <roundcube:button name="mboxactions" id="mboxactionslink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_mailboxmenu();return false" content=" " />
+</div>
 </div>
 </div>
 
@@ -57,6 +62,15 @@
     var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailboxlist-container', p2: 'messageframe', orientation: 'v', relative: true, start: 165});
     rcmail.add_onload('mailviewsplitv.init()');
 </script>
+
+<div id="mailboxoptionsmenu" class="popupmenu">
+  <ul>
+    <li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
+    <li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
+    <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
+  </ul>
+</div>
 
 </body>
 <roundcube:endif />

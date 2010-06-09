@@ -64,7 +64,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
 
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');
-        
+
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
       !$MESSAGE->headers->mdn_sent && !$MESSAGE->headers->seen &&
@@ -128,6 +128,9 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
       $OUTPUT->set_env('next_uid', $next);
     if ($last > 0)
       $OUTPUT->set_env('last_uid', $last);
+
+    // Don't need a real messages count value
+    $OUTPUT->set_env('messagecount', 1);
     }
 
   if (!$MESSAGE->headers->seen && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
