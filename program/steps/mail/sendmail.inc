@@ -384,11 +384,20 @@ if (!$savedraft) {
     $message_body = preg_replace('/<blockquote>/',
 	'<blockquote type="cite" style="'.$bstyle.'">', $message_body);
   }
+
   // generic footer for all messages
-  if (!empty($CONFIG['generic_message_footer'])) {
+  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
+      $footer = file_get_contents(realpath($CONFIG['generic_message_footer_html']));
+      $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
+  }
+  else if (!empty($CONFIG['generic_message_footer'])) {
     $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));
     $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
+    if ($isHtml)
+      $footer = '<pre>'.$footer.'</pre>';
   }
+  if ($footer)
+    $message_body .= "\r\n" . $footer;
 }
 
 // set line length for body wrapping
@@ -422,13 +431,13 @@ if ($isHtml) {
   $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
     array('body' => $message_body, 'type' => 'html', 'message' => $MAIL_MIME));
 
-  $MAIL_MIME->setHTMLBody($plugin['body'] . ($footer ? "\r\n<pre>".$footer.'</pre>' : ''));
+  $MAIL_MIME->setHTMLBody($plugin['body']);
 
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($plugin['body'], false, true, 0);
-  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n") . ($footer ? "\r\n".$footer : '');
+  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n");
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
-  if (!strlen($plainTextPart)) {
+  if (!$plainTextPart) {
     // empty message body breaks attachment handling in drafts 
     $plainTextPart = "\r\n"; 
   }
@@ -447,25 +456,24 @@ if ($isHtml) {
   $message_body = rcmail_fix_emoticon_paths($MAIL_MIME);
 }
 else {
-  if ($footer)
-    $message_body .= "\r\n" . $footer;
-  
+  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+    array('body' => $message_body, 'type' => 'plain', 'message' => $MAIL_MIME));
+
+  $message_body = $plugin['body'];
+
   // compose format=flowed content if enabled and not a reply message
   if (empty($_SESSION['compose']['reply_msgid']) && ($flowed = $RCMAIL->config->get('send_format_flowed', true)))
     $message_body = rcube_message::format_flowed($message_body, $LINE_LENGTH);
   else
     $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
-  
+
   $message_body = wordwrap($message_body, 998, "\r\n", true);
   if (!strlen($message_body)) { 
     // empty message body breaks attachment handling in drafts 
     $message_body = "\r\n"; 
   }
 
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
-    array('body' => $message_body, 'type' => 'plain', 'message' => $MAIL_MIME));
-
-  $MAIL_MIME->setTXTBody($plugin['body'], false, true);
+  $MAIL_MIME->setTXTBody($message_body, false, true);
 }
 
 // add stored attachments, if any

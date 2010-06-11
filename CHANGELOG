@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add option to set separate footer for HTML messages (#1486660)
 - Add real SMTP error description to displayed error messages (#1485927)
 - Fix some IMAP errors handling when opening the message (#1485443)
 - Fix related parts aren't displayed when got mimetype other than image/* (#1486432)
