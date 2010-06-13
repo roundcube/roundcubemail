@@ -24,7 +24,7 @@ input, textarea
 
 .popupmenu
 {
-	background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 #tabsbar
@@ -239,11 +239,13 @@ ul.toolbarmenu
   margin: 0 0 -4px 0;
 }
 
+.popupmenu ul li,
 ul.toolbarmenu li
 {
   min-width: auto;
 }
 
+.popupmenu ul li a,
 ul.toolbarmenu li a
 {
   min-height: auto;
