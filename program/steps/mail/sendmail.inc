@@ -287,7 +287,7 @@ if ($CONFIG['http_received_header'])
   $headers['Received'] = $http_header;
 }
 
-$headers['Date'] = date('r');
+$headers['Date'] = rcmail_user_date();
 $headers['From'] = rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset);
 $headers['To'] = $mailto;
 

@@ -1478,7 +1478,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
 
     // compose headers array
     $headers = array(
-      'Date' => date('r'),
+      'Date' => rcmail_user_date(),
       'From' => $sender,
       'To'   => $message->headers->mdn_to,
       'Subject' => rcube_label('receiptread') . ': ' . $message->subject,
@@ -1522,6 +1522,30 @@ function rcmail_send_mdn($uid, &$smtp_error)
 
   return false;
 }
+
+// Returns RFC2822 formatted current date in user's timezone
+function rcmail_user_date()
+{
+  global $CONFIG;
+
+  // get user's timezone
+  if ($CONFIG['timezone'] === 'auto') {
+  console($_SESSION['timezone']);
+    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
+  }
+  else {
+    $tz = $CONFIG['timezone'];
+    if ($CONFIG['dst_active'])
+      $tz++;
+  }
+
+  $date = time() + $tz * 60 * 60;
+  $date = gmdate('r', $date);
+  $date = preg_replace('/[+-][0-9]{4}$/', sprintf('%+05d', $tz * 100), $date);
+
+  return $date;
+}
+
 
 function rcmail_search_filter($attrib)
 {
