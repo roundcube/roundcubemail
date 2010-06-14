@@ -403,7 +403,8 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 <p class="warning">
 
 After completing the installation and the final tests please <b>remove</b> the whole
-installer folder from the document root of the webserver.<br />
+installer folder from the document root of the webserver or make sure that
+enable_installer option in main.inc.php is disabled.<br />
 <br />
 
 These files may expose sensitive configuration data like server passwords and encryption keys
