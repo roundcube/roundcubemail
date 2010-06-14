@@ -69,13 +69,13 @@ ALTER TABLE `contacts` DROP FOREIGN KEY `user_id_fk_contacts`;
 ALTER TABLE `identities` DROP FOREIGN KEY `user_id_fk_identities`;
 
 ALTER TABLE `messages` ADD CONSTRAINT `user_id_fk_messages` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`);
+ REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `cache` ADD CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`);
+ REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `contacts` ADD CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`);
+ REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `identities` ADD CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
- REFERENCES `users`(`user_id`);
+ REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `contacts` ALTER `name` SET DEFAULT '';
 ALTER TABLE `contacts` ALTER `firstname` SET DEFAULT '';
