@@ -500,7 +500,7 @@ class rcube_message
     {
         if (strlen($part->mime_id))
             $this->mime_parts[$part->mime_id] = &$part;
-      
+
         if (is_array($part->parts))
             for ($i=0; $i<count($part->parts); $i++)
                 $this->get_mime_numbers($part->parts[$i]);
@@ -518,18 +518,17 @@ class rcube_message
         if (!isset($part->body))
             $part->body = $this->imap->get_message_part($this->uid, $part->mime_id, $part);
 
-        require_once('lib/tnef_decoder.inc');
-
         $parts = array();
-        $tnef_arr = tnef_decode($part->body);
+        $tnef = new tnef_decoder;
+        $tnef_arr = $tnef->decompress($part->body);
 
         foreach ($tnef_arr as $pid => $winatt) {
             $tpart = new rcube_message_part;
 
             $tpart->filename        = trim($winatt['name']);
             $tpart->encoding        = 'stream';
-            $tpart->ctype_primary   = trim(strtolower($winatt['type0']));
-            $tpart->ctype_secondary = trim(strtolower($winatt['type1']));
+            $tpart->ctype_primary   = trim(strtolower($winatt['type']));
+            $tpart->ctype_secondary = trim(strtolower($winatt['subtype']));
             $tpart->mimetype        = $tpart->ctype_primary . '/' . $tpart->ctype_secondary;
             $tpart->mime_id         = 'winmail.' . $part->mime_id . '.' . $pid;
             $tpart->size            = $winatt['size'];
@@ -538,7 +537,7 @@ class rcube_message
             $parts[] = $tpart;
             unset($tnef_arr[$pid]);
         }
-        
+
         return $parts;
     }
 
@@ -584,7 +583,7 @@ class rcube_message
                 unset($matches[$pid]);
             }
         }
-        
+
         return $parts;
     }
 
