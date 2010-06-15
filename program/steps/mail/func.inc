@@ -1530,7 +1530,6 @@ function rcmail_user_date()
 
   // get user's timezone
   if ($CONFIG['timezone'] === 'auto') {
-  console($_SESSION['timezone']);
     $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
   }
   else {
