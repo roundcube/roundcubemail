@@ -27,7 +27,7 @@ $cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $target = get_input_value('_to', RCUBE_INPUT_POST);
 $target_group = get_input_value('_togid', RCUBE_INPUT_POST);
 
-if ($cid && preg_match('/^[a-z0-9\-_=]+(,[a-z0-9\-_=]+)*$/i', $cid) && strlen($target) && $target !== $source)
+if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) && strlen($target) && $target !== $source)
 {
   $success = 0;
   $TARGET = $RCMAIL->get_address_book($target);
