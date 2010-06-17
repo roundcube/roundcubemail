@@ -45,15 +45,14 @@
 </div>
 
 <div id="messageframe">
-<div id="messagecanvas">
+<div class="boxlistcontent" style="top:0">
 <roundcube:object name="messageHeaders" class="headers-table" cellspacing="0" cellpadding="2" addicon="/images/icons/silhouette.png" summary="Message headers" />
 <roundcube:object name="messageAttachments" id="attachment-list" />
 
 <roundcube:object name="blockedObjects" id="remote-objects-message" />
 <roundcube:object name="messageBody" id="messagebody" />
 </div>
-</div>
-
+<div class="boxfooter">
 <div id="countcontrols" class="pagenav">
   <roundcube:button command="lastmessage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastmessage" content=" " />
   <roundcube:button command="nextmessage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextmessage" content=" " />
@@ -61,6 +60,9 @@
   <roundcube:button command="previousmessage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previousmessage" content=" " />
   <roundcube:button command="firstmessage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstmessage" content=" " />
 </div>
+</div>
+</div>
+
 </div>
 
 <script type="text/javascript">
@@ -76,6 +78,8 @@
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
 </div>
+
+<div id="rcmversion"><roundcube:object name="productname" /> <roundcube:object name="version" /></div>
 
 </body>
 </html>

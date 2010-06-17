@@ -243,6 +243,83 @@ img
   left: 20px;
 }
 
+.boxtitle
+{
+  height: 12px !important;
+  padding: 2px 10px 5px 5px;
+  border-bottom: 1px solid #999;
+  color: #333;
+  font-size: 11px;
+  font-weight: bold;
+  background: url(images/listheader.gif) top left repeat-x #CCC;
+}
+
+.boxcontent
+{
+  padding: 15px 10px 10px 10px;
+  background-color: #F2F2F2;
+}
+
+.boxcontent table td.title
+{
+  color: #666;
+  padding-right: 10px;
+}
+
+.boxlistcontent
+{
+  position: absolute;
+  top: 20px;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.boxfooter
+{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: hidden;
+  height: 22px;
+  border-top: 1px solid #999;
+  background: url('images/listheader.gif') top left repeat-x #CCC;
+}
+
+.boxfooter a.button,
+.boxfooter a.buttonPas
+{
+  display: block;
+  float: left;
+  width: 34px;
+  height: 22px;
+  padding: 0px;
+  margin: 0;
+  overflow: hidden;
+  background: url('images/icons/groupactions.png') 0 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
+.boxfooter a.groupactions
+{
+  background-position: 0 -26px;
+}
+
+.boxfooter a.buttonPas
+{
+  opacity: 0.35;
+}
+
+.pagenav span
+{
+  color: #666;
+  font-size: 11px;
+  text-shadow: white 1px 1px;
+}
+
 .pagenav a.button,
 .pagenav a.buttonPas
 {
@@ -310,75 +387,6 @@ img
   background-position: 2px center;
 }
 
-.boxtitle
-{
-  height: 12px !important;
-  padding: 2px 10px 5px 5px;
-  border-bottom: 1px solid #999;
-  color: #333;
-  font-size: 11px;
-  font-weight: bold;
-  background: url(images/listheader.gif) top left repeat-x #CCC;
-}
-
-.boxcontent
-{
-  padding: 15px 10px 10px 10px;
-  background-color: #F2F2F2;
-}
-
-.boxcontent table td.title
-{
-  color: #666;
-  padding-right: 10px;
-}
-
-.boxlistcontent
-{
-  position: absolute;
-  top: 20px;
-  bottom: 22px;
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.boxfooter
-{
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  height: 22px;
-  border-top: 1px solid #999;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
-}
-
-.boxfooter a.button,
-.boxfooter a.buttonPas
-{
-  display: block;
-  float: left;
-  width: 34px;
-  height: 22px;
-  padding: 0px;
-  margin: 0;
-  overflow: hidden;
-  background: url('images/icons/groupactions.png') 0 0 no-repeat transparent;
-  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
-}
-
-.boxfooter a.groupactions
-{
-  background-position: 0 -26px;
-}
-
-.boxfooter a.buttonPas
-{
-  opacity: 0.35;
-}
-
 .popupmenu
 {
   position: absolute;
@@ -434,7 +442,6 @@ img
   color: #fff;
   background-color: #c00;
 }
-
 
 
 /***** common table settings ******/

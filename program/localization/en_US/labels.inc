@@ -142,6 +142,7 @@ $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
 $labels['messageactions']   = 'More actions...';
+$labels['preview']          = 'Preview';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
@@ -246,6 +247,7 @@ $labels['email']     = 'E-Mail';
 
 $labels['addcontact'] = 'Add new contact';
 $labels['editcontact'] = 'Edit contact';
+$labels['contacts'] = 'Contacts';
 
 $labels['edit']   = 'Edit';
 $labels['cancel'] = 'Cancel';

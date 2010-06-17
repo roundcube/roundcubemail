@@ -10,7 +10,7 @@ img
   behavior: url(skins/default/pngbehavior.htc);
 }
 
-#header img
+#logo
 {
   width: 178px;
   height: 47px;
@@ -49,6 +49,11 @@ img
   padding-right: 10px;
 }
 
+#listcontrols a.button,
+#listcontrols a.buttonPas {
+  background-image: url(images/mail_footer.gif);
+}
+
 #messagetoolbar a.button,
 #messagetoolbar a.buttonPas {
   background-image: url(images/mail_toolbar.gif);
@@ -76,6 +81,7 @@ ul.toolbarmenu li.separator_below
 .boxfooter
 {
   width: 100%;
+  bottom: -1px;
 }
 
 .boxtitle,
@@ -86,6 +92,6 @@ ul.toolbarmenu li.separator_below
 
 .boxlistcontent
 {
-  height: expression((parseInt(this.parentNode.offsetHeight)-42)+'px');
-  width: 100%;
+  top: 21px;
+  height: expression((parseInt(this.parentNode.offsetHeight)-24-parseInt(this.style.top?this.style.top:21))+'px');
 }

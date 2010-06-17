@@ -407,14 +407,15 @@ function rcmail_message_list_head($attrib, $a_show_cols)
  */
 function rcmail_messagecontent_frame($attrib)
   {
-  global $OUTPUT;
+  global $OUTPUT, $RCMAIL;
 
   if (empty($attrib['id']))
     $attrib['id'] = 'rcmailcontentwindow';
 
   $attrib['name'] = $attrib['id'];
 
-  $OUTPUT->set_env('contentframe', $attrib['id']);
+  if ($RCMAIL->config->get('preview_pane'))
+    $OUTPUT->set_env('contentframe', $attrib['id']);
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
 
   return html::iframe($attrib);

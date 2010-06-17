@@ -265,36 +265,36 @@ td.formlinks a:visited
   position: absolute;
   top: 85px;
   right: 20px;
-  bottom: 16px;
+  bottom: 30px;
   left: 20px;
 }
 
 #mailleftcontainer
 {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 195px;
 }
 
 #mailrightcontainer
 {
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 170px;
-  bottom: 0px;
-  right: 0px;
+  bottom: 0;
+  right: 0;
   min-width: 600px;
 }
 
 #mailrightcontent
 {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 #messagepartcontainer
@@ -310,13 +310,11 @@ td.formlinks a:visited
 {
   position: absolute;
   width: 100%;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  overflow: auto;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #mailpreviewframe
@@ -372,16 +370,31 @@ td.formlinks a:visited
   font-weight: bold;
 }
 
+#quota
+{
+  position: absolute;
+  bottom: 12px;
+  left: 20px;
+}
+
+#quota span
+{
+  display: block;
+  float: left;
+  font-size: 11px;
+  color: #666;
+}
+
 
 /** mailbox list styles */
 
 #mailboxlist-container
 {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100%;
-  bottom: 20px;
+  bottom: 0;
   border: 1px solid #999;
   background-color: #F9F9F9;
   overflow: hidden;
@@ -512,32 +525,32 @@ td.formlinks a:visited
   font-weight: normal;
 }
 
-#listcontrols,
-#mailboxcontrols
+#listcontrols
 {
-  position: absolute;
+  position: relative;
   white-space: nowrap;
-  left: 0px;
-  bottom: 0px;
-  height: 15px;
+  left: 4px;
+  height: 22px;
   width: auto;
   min-width: 300px;
 }
 
 #listcontrols a,
-#listcontrols span,
-#mailboxcontrols a,
-#mailboxcontrols span
+#listcontrols span
 {
   display: block;
   float: left;
+  margin-top: 4px;
   font-size: 11px;
 }
 
+#listcontrols input
+{
+  margin-top: 6px;
+}
+
 #listcontrols a.button,
-#listcontrols a.buttonPas,
-#mailboxcontrols a.button,
-#mailboxcontrols a.buttonPas
+#listcontrols a.buttonPas
 {
   display: block;
   float: left;
@@ -550,26 +563,9 @@ td.formlinks a:visited
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 
-#listcontrols a.buttonPas,
-#mailboxcontrols a.buttonPas
+#listcontrols a.buttonPas
 {
   opacity: 0.35;
-}
-
-#mailboxcontrols a.expunge {
-  background-position: 0 0;
-}
-
-#mailboxcontrols a.expungesel {
-  background-position: 0 -15px;
-}
-
-#mailboxcontrols a.purge {
-  background-position: -15px 0;
-}
-
-#mailboxcontrols a.purgesel {
-  background-position: -15px -15px;
 }
 
 #listcontrols a.all {
@@ -638,10 +634,9 @@ td.formlinks a:visited
 
 #countcontrols
 {
-  height: 15px;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  top: 4px;
+  right: 4px;
   min-width: 25em;
   white-space: nowrap;
   font-size: 11px;
@@ -926,10 +921,10 @@ td span.branch div.l3
 #messageframe
 {
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 180px;
-  right: 0px;
-  bottom: 20px;
+  right: 0;
+  bottom: 0;
   border: 1px solid #999;
   background-color: #FFF;
   overflow: auto;
@@ -1155,13 +1150,6 @@ div.message-htmlpart div.rcmBody
   white-space: nowrap;
 }
 
-#priority-selector,
-#receipt-selector
-{
-  padding-left: 30px;
-  white-space: nowrap;
-}
-
 #compose-container
 {
   position: absolute;
@@ -1176,11 +1164,6 @@ div.message-htmlpart div.rcmBody
 {
   text-align: right;
   padding-top: 3px;
-}
-
-#editor-select
-{
-  float: left;
 }
 
 #compose-div
@@ -1207,7 +1190,7 @@ div.message-htmlpart div.rcmBody
 #compose-subject td.title
 {
   width: 80px !important;
-  color: #666666;
+  color: #666;
   font-size: 11px;
   font-weight: bold;
   padding-right: 10px;
@@ -1300,6 +1283,26 @@ div.message-htmlpart div.rcmBody
 #attachment-form div.buttons
 {
   margin-top: 4px;
+}
+
+#editor-select
+{
+  float: left;
+  white-space: nowrap;
+  width: auto;
+}
+
+#editor-select label
+{
+  color: #666;
+  font-size: 11px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+
+#editor-select input
+{
+  width: auto !important;
 }
 
 td.show-headers

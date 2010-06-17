@@ -61,8 +61,7 @@ input, textarea
   background-image: url(images/mail_toolbar.gif);
 }
 
-#listcontrols a.buttonPas,
-#mailboxcontrols a.buttonPas
+#listcontrols a.buttonPas
 {
   filter: alpha(opacity=35);
 }
@@ -75,12 +74,12 @@ input, textarea
 #mainscreen
 {
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-101)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-96)+'px');
 }
 
 #directorylistbox
 {
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-115)+'px');
 }
 
 #addresslist,
@@ -102,7 +101,7 @@ input, textarea
 #messagepartcontainer
 {
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-100)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-90)+'px');
 }
 
 #mailrightcontent
@@ -148,11 +147,7 @@ input, textarea
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-180)+'px');
   height: expression((parseInt(this.parentNode.offsetHeight)-20)+'px');
-}
-
-#messagecanvas 
-{
-  width: expression((parseInt(this.parentNode.offsetWidth)-20)+'px');
+  overflow: hidden;
 }
 
 #countcontrols
@@ -189,7 +184,7 @@ div.message-part div.pre
 #addressscreen
 {
   width: expression((parseInt(document.documentElement.clientWidth)-245)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-115)+'px');
 }
 
 #prefsscreen
@@ -201,7 +196,7 @@ div.message-part div.pre
 #importbox
 {
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-145)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');
 }
 
 #contacts-table
@@ -265,4 +260,9 @@ table.records-table thead tr td
 {
   margin: 0 4px;
   padding: 0.8em;
+}
+
+#listcontrols input
+{
+  margin-top: 2px;
 }
