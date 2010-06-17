@@ -32,20 +32,21 @@
  */
 function send_nocacheing_headers()
 {
+  global $OUTPUT;
+
   if (headers_sent())
     return;
 
   header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
   header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-  header("Cache-Control: private, must-revalidate, post-check=0, pre-check=0");
+  header("Cache-Control: private, no-cache, must-revalidate, post-check=0, pre-check=0");
   header("Pragma: no-cache");
   // Request browser to disable DNS prefetching (CVE-2010-0464)
   header("X-DNS-Prefetch-Control: off");
-  
+
   // We need to set the following headers to make downloads work using IE in HTTPS mode.
-  if (rcube_https_check()) {
-    header('Pragma: ');
-    header('Cache-Control: ');
+  if ($OUTPUT->browser->ie && rcube_https_check()) {
+    header('Pragma: private');
   }
 }
 

@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix no-cache headers on https to prevent content caching by proxies (#1486798)
 - Fix attachment filenames broken with TNEF decoder using long filenames (#1486795)
 - Use user's timezone in Date header, not server's timezone (#1486119)
 - Add option to set separate footer for HTML messages (#1486660)
