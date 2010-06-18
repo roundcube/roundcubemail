@@ -830,6 +830,9 @@ function rcmail_mod_css_styles($source, $container_id)
   if (preg_match('/expression|behavior|url\(|import/', $stripped))
     return '/* evil! */';
 
+  // remove css comments (sometimes used for some ugly hacks)
+  $source = preg_replace('!/\*(.+)\*/!Ums', '', $source);
+
   // cut out all contents between { and }
   while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
   {
@@ -837,7 +840,7 @@ function rcmail_mod_css_styles($source, $container_id)
     $source = substr($source, 0, $pos+1) . $replacements->get_replacement($key) . substr($source, $pos2, strlen($source)-$pos2);
     $last_pos = $pos+2;
   }
-  
+
   // remove html comments and add #container to each tag selector.
   // also replace body definition because we also stripped off the <body> tag
   $styles = preg_replace(
