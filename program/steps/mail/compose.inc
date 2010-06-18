@@ -197,23 +197,23 @@ function rcmail_compose_headers($attrib)
   static $sa_recipients = array();
 
   list($form_start, $form_end) = get_form_tags($attrib);
-  
+
   $out = '';
   $part = strtolower($attrib['part']);
-  
+
   switch ($part)
   {
     case 'from':
-      return rcmail_compose_header_from($attrib);
+      return $form_start . rcmail_compose_header_from($attrib);
 
     case 'to':
       $fname = '_to';
       $header = $param = 'to';
-      
+
       // we have a set of recipients stored is session
       if (($mailto_id = $_SESSION['compose']['param']['mailto']) && $_SESSION['mailto'][$mailto_id])
         $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
-      
+
     case 'cc':
       if (!$fname)
       {
@@ -226,7 +226,7 @@ function rcmail_compose_headers($attrib)
         $fname = '_bcc';
         $header = $param = 'bcc';
       }
-        
+
       $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'tabindex');
       $field_type = 'html_textarea';
       break;
@@ -411,9 +411,6 @@ function rcmail_compose_header_from($attrib)
     $input_from = new html_inputfield($field_attrib);
     $out = $input_from->show($_POST['_from']);
   }
-  
-  if ($form_start)
-    $out = $form_start.$out;
 
   return $out;
 }
@@ -1001,7 +998,7 @@ function rcmail_priority_selector($attrib)
   
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
-  
+
   $attrib['name'] = '_priority';
   $selector = new html_select($attrib);
 
@@ -1011,7 +1008,7 @@ function rcmail_priority_selector($attrib)
                        rcube_label('high'),
                        rcube_label('highest')),
                  array(5, 4, 0, 2, 1));
-                 
+
   if (isset($_POST['_priority']))
     $sel = $_POST['_priority'];
   else if (intval($MESSAGE->headers->priority) != 3)
@@ -1022,7 +1019,7 @@ function rcmail_priority_selector($attrib)
   $out = $form_start ? "$form_start\n" : '';
   $out .= $selector->show($sel);
   $out .= $form_end ? "\n$form_end" : '';
-         
+
   return $out;
 }
 
@@ -1030,10 +1027,10 @@ function rcmail_priority_selector($attrib)
 function rcmail_receipt_checkbox($attrib)
 {
   global $MESSAGE, $compose_mode;
-  
+
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
-  
+
   if (!isset($attrib['id']))
     $attrib['id'] = 'receipt';  
 
@@ -1066,7 +1063,7 @@ function rcmail_editor_selector($attrib)
 
   if (empty($attrib['name']))
     $attrib['name'] = 'editorSelect';
-    
+
   $attrib['onchange'] = "return rcmail_toggle_editor(this, '".$attrib['editorid']."', '_is_html')";
 
   $select = new html_select($attrib);
@@ -1100,7 +1097,7 @@ function get_form_tags($attrib)
   global $RCMAIL, $MESSAGE_FORM;
 
   $form_start = '';
-  if (!strlen($MESSAGE_FORM))
+  if (!$MESSAGE_FORM)
   {
     $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
@@ -1109,10 +1106,10 @@ function get_form_tags($attrib)
     $form_start .= $hiddenfields->show();
   }
     
-  $form_end = (strlen($MESSAGE_FORM) && !strlen($attrib['form'])) ? '</form>' : '';
+  $form_end = ($MESSAGE_FORM && !strlen($attrib['form'])) ? '</form>' : '';
   $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
   
-  if (!strlen($MESSAGE_FORM))
+  if (!$MESSAGE_FORM)
     $RCMAIL->output->add_gui_object('messageform', $form_name);
   
   $MESSAGE_FORM = $form_name;
