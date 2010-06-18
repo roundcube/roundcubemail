@@ -1302,7 +1302,7 @@ function rcube_webmail()
           this.env.folder_coords[k].on = 0;
         }
       }
-      
+
       if (layerclass != oldclass && this.contact_list && this.contact_list.draglayer)
         this.contact_list.draglayer.attr('class', layerclass);
     }
@@ -1495,13 +1495,13 @@ function rcube_webmail()
     if (this.env.messages[row.uid])
       this.env.messages[row.uid].expanded = row.expanded;
   };
-  
+
   this.msglist_set_coltypes = function(list)
   {
     var i, found, name, cols = list.list.tHead.rows[0].cells;
-    
+
     this.env.coltypes = [];
-    
+
     for (i=0; i<cols.length; i++)
       if (cols[i].id && cols[i].id.match(/^rcm/)) {
         name = cols[i].id.replace(/^rcm/, '');
@@ -1520,7 +1520,7 @@ function rcube_webmail()
   this.check_droptarget = function(id)
   {
     var allow = false, copy = false;
-    
+
     if (this.task == 'mail')
       allow = (this.env.mailboxes[id] && this.env.mailboxes[id].id != this.env.mailbox && !this.env.mailboxes[id].virtual);
     else if (this.task == 'settings')
@@ -1896,6 +1896,7 @@ function rcube_webmail()
       this.env.current_page = page;
       this.select_all_mode = false;
       this.show_contentframe(false);
+      this.env.messages = {};
     }
 
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
@@ -2260,8 +2261,6 @@ function rcube_webmail()
       rows[uid].forwarded = status;
     else if (flag == 'flagged')
       rows[uid].flagged = status;
-
-//    this.env.messages[uid] = rows[uid];
   };
 
   // set message row status, class and icon
