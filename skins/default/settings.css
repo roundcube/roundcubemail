@@ -81,7 +81,7 @@ span.tablink-selected a
 
 #identities-table
 {
-  width: 420px;
+  width: 100%;
   table-layout: fixed;
 }
 
