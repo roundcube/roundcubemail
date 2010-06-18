@@ -336,23 +336,34 @@ switch_preview_pane: function(elem)
     if (mailviewsplit.layer) {
       mailviewsplit.resize();
       mailviewsplit.layer.elm.style.display = '';
-    } else
+    }
+    else
       mailviewsplit.init();
+
+    if (bw.opera) {
+      $('#messagelistcontainer').css({height: ''});
+    }
     prev_frm.show();
+
     if (uid = rcmail.message_list.get_single_selection())
       rcmail.show_message(uid, false, true);
     rcmail.http_post('save-pref', '_name=preview_pane&_value=1');
-  } else {
+  }
+  else {
     prev_frm.hide();
     if (bw.ie6 || bw.ie7) {
       var fr = document.getElementById('mailcontframe');
       fr.style.bottom = 0;
-      fr.style.height = parseInt(fr.parentNode.offsetHeight)+'px';  
+      fr.style.height = parseInt(fr.parentNode.offsetHeight)+'px';
     }
-    else
+    else {
       $('#mailcontframe').css({height: 'auto', bottom: 0});
+      if (bw.opera)
+        $('#messagelistcontainer').css({height: 'auto'});
+    }
     if (mailviewsplit.layer)
       mailviewsplit.layer.elm.style.display = 'none';
+
     rcmail.env.contentframe = null;
     rcmail.show_contentframe(false);
     rcmail.http_post('save-pref', '_name=preview_pane&_value=0');
