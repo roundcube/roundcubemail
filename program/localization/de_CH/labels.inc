@@ -199,6 +199,7 @@ $labels['name'] = 'Anzeigename';
 $labels['firstname'] = 'Vorname';
 $labels['surname'] = 'Nachname';
 $labels['email'] = 'E-Mail';
+$labels['contacts'] = 'Kontakte';
 $labels['addcontact'] = 'Kontakt hinzufügen';
 $labels['editcontact'] = 'Kontakt bearbeiten';
 $labels['edit'] = 'Bearbeiten';
