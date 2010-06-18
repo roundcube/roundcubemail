@@ -1538,7 +1538,7 @@ function rcube_webmail()
         }
       }
     }
-    
+
     return allow ? (copy ? 2 : 1) : 0;
   };
 
@@ -1594,7 +1594,9 @@ function rcube_webmail()
       depth: flags.depth?flags.depth:0,
       unread_children: flags.unread_children?flags.unread_children:0,
       parent_uid: flags.parent_uid?flags.parent_uid:0,
-      selected: this.select_all_mode || this.message_list.in_selection(uid)
+      selected: this.select_all_mode || this.message_list.in_selection(uid),
+      // flags from plugins
+      flags: flags.extra_flags
     });
 
     var c, tree = expando = '',
@@ -4927,7 +4929,7 @@ function rcube_webmail()
 
     querystring += (querystring ? '&' : '') + '_remote=1';
     var url = this.env.comm_path + '&_action=' + action + '&' + querystring;
-                                              
+
     // send request
     console.log('HTTP GET: ' + url);
     $.get(url, { _unlock:(lock?1:0) }, function(data){ ref.http_response(data); }, 'json');
