@@ -368,9 +368,22 @@ function rcube_init_mail_ui()
   rcmail_ui = new rcube_mail_ui();
   rcube_event.add_listener({ object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
   rcube_event.add_listener({ object:rcmail_ui, method:'body_keypress', event:'keypress' });
+
+  $('iframe').load(iframe_events)
+    .contents().mouseup(function(e){parent.rcmail_ui.body_mouseup(e)});
+
   if (rcmail.env.task == 'mail') {
     rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
     rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
     rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
   }
 }
+
+// Events handling in iframes (eg. preview pane)
+function iframe_events()
+{
+  // this==iframe
+  var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+  parent.rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+}
+
