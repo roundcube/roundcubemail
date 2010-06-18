@@ -272,6 +272,7 @@ img
   bottom: 22px;
   left: 0;
   right: 0;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
