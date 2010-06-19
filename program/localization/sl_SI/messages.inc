@@ -95,7 +95,7 @@ $messages['addresswriterror'] = 'Izbran imenik ni zapisljiv';
 $messages['contactaddedtogroup'] = 'Stik je bil uspešno dodan v skupino';
 $messages['contactremovedfromgroup'] = 'Stik je bil uspešno izbrisan iz skupine';
 $messages['importwait'] = 'Uvažanje poteka...';
-$messages['importerror'] = 'Uvažanje je spodletelo. Naložena datoteka ni veljavena vCard datoteka.';
+$messages['importerror'] = 'Uvažanje je spodletelo. Naložena datoteka ni veljavna vCard datoteka.';
 $messages['importconfirm'] = '<b>Uspešno uvoženi $inserted stiki, $skipped stikov že obstaja v imeniku</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Operacija ni dovoljena.';
 $messages['nofromaddress'] = 'V izbrani identiteti manjka elektronski naslov.';
@@ -110,5 +110,6 @@ $messages['smtperror'] = 'Napaka pri pošiljanju:$msg';
 $messages['emailformaterror'] = 'Nepravilen elektronski naslov: $email';
 $messages['toomanyrecipients'] = 'Navedli ste preveč prejemnikov. Zmanjšajte število prejemnikov na $max';
 $messages['maxgroupmembersreached'] = 'Število članov skupine presega največje dovoljeno število $max.';
+$messages['internalerror'] = 'Prišlo je do napake. Poskusite znova.';
 
 ?>

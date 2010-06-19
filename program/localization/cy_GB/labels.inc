@@ -145,6 +145,7 @@ $labels['listcolumns'] = 'Rhestr colofnau';
 $labels['listsorting'] = 'Colofn trefnu';
 $labels['listorder'] = 'Trefn didoli';
 $labels['listmode'] = 'Golwg rhestr';
+$labels['folderactions'] = 'Gweithredoedd ffolder...';
 $labels['compact'] = 'Crynhoi';
 $labels['empty'] = 'Gwagio';
 $labels['purge'] = 'Glanhau';

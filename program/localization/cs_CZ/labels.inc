@@ -152,6 +152,7 @@ $labels['listcolumns'] = 'Seznam sloupců';
 $labels['listsorting'] = 'Třídění sloupců';
 $labels['listorder'] = 'Uspořádání';
 $labels['listmode'] = 'Režim zobrazení seznamu';
+$labels['folderactions'] = 'Složka akcí...';
 $labels['compact'] = 'Zmenšit';
 $labels['empty'] = 'Vymazat';
 $labels['purge'] = 'Vyprázdnit';

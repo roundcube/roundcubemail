@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  09042010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  12062010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -146,6 +146,7 @@ $labels['listcolumns'] = 'רשימת עמודות';
 $labels['listsorting'] = 'המיון לפי העמודה';
 $labels['listorder'] = 'סדר מיון';
 $labels['listmode'] = 'אופן הצגת רשימה';
+$labels['folderactions'] = 'פעולות על תיקים';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
 $labels['purge'] = 'מחיקה';

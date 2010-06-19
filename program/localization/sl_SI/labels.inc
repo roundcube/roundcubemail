@@ -19,7 +19,7 @@
 */
 
 $labels = array();
-$labels['welcome'] = 'Dobrodošel v $product';
+$labels['welcome'] = 'Dobrodošli v $product';
 $labels['username'] = 'Uporabniško ime';
 $labels['password'] = 'Geslo';
 $labels['server'] = 'Strežnik';
@@ -149,6 +149,7 @@ $labels['listcolumns'] = 'Seznam stolpcev';
 $labels['listsorting'] = 'Urejanje stolpcev';
 $labels['listorder'] = 'Vrstni red';
 $labels['listmode'] = 'Način prikaza seznama';
+$labels['folderactions'] = 'Upravljanje map...';
 $labels['compact'] = 'Stisni';
 $labels['empty'] = 'Izprazni';
 $labels['purge'] = 'Počisti';
