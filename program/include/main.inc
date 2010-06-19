@@ -1586,7 +1586,7 @@ function check_email($email, $dns_check=true)
   // from PEAR::Validate
   $regexp = '&^(?:
 	("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")| 			 	#1 quoted name
-	([-\w!\#\$%\&\'*+~/^`|{}]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}]+)*)) 	#2 OR dot-atom
+	([-\w!\#\$%\&\'*+~/^`|{}=]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}=]+)*)) 	#2 OR dot-atom (RFC5322)
 	$&xi';
 
   if (!preg_match($regexp, $local_part))
