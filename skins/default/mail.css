@@ -373,16 +373,17 @@ td.formlinks a:visited
 #quota
 {
   position: absolute;
-  bottom: 12px;
-  left: 20px;
+  top: 3px;
+  right: 8px;
+  width: 100px;
 }
 
-#quota span
+#quotaimg
 {
-  display: block;
-  float: left;
-  font-size: 11px;
-  color: #666;
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  z-index: 101;
 }
 
 

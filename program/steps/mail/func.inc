@@ -130,7 +130,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
 
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
-      'movingmessage', 'copyingmessage', 'copy', 'move');
+      'movingmessage', 'copyingmessage', 'copy', 'move', 'quota');
 
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($mbox_name));
   }
@@ -449,13 +449,10 @@ function rcmail_quota_display($attrib)
 
   $quota = rcmail_quota_content($attrib);
 
-  if (is_array($quota)) {
-    $OUTPUT->add_script('$(document).ready(function(){
+  $OUTPUT->add_script('$(document).ready(function(){
 	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
-    $quota = '';
-    }
 
-  return html::span($attrib, $quota);
+  return html::span($attrib, '');
   }
 
 
@@ -463,39 +460,37 @@ function rcmail_quota_content($attrib=NULL)
   {
   global $COMM_PATH, $RCMAIL;
 
-  $display = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
-
   $quota = $RCMAIL->imap->get_quota();
   $quota = $RCMAIL->plugins->exec_hook('quota', $quota);
 
-  if (!$quota['total'] && $RCMAIL->config->get('quota_zero_as_unlimited'))
-    return rcube_label('unlimited');
+  $quota_result = (array) $quota;
+  $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
-  if ($quota['total'])
-    {
+  if (!$quota['total'] && $RCMAIL->config->get('quota_zero_as_unlimited')) {
+    $quota_result['title'] = rcube_label('unlimited');
+    $quota_result['percent'] = 0;
+    }
+  else if ($quota['total']) {
     if (!isset($quota['percent']))
-      $quota['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
+      $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
 
-    $quota_result = sprintf('%s / %s (%.0f%%)',
+    $title = sprintf('%s / %s (%.0f%%)',
         show_bytes($quota['used'] * 1024), show_bytes($quota['total'] * 1024),
-        $quota['percent']);
+        $quota_result['percent']);
 
-    if ($display == 'image') {
-      $quota_result = array(
-    	'percent' 	=> $quota['percent'],
-        'title'		=> $quota_result,
-	  );
+    $quota_result['title'] = $title;
 
-      if ($attrib['width'])
-        $quota_result['width'] = $attrib['width'];
-      if ($attrib['height'])
-        $quota_result['height']	= $attrib['height'];
-      }
-
-      return $quota_result;
+    if ($attrib['width'])
+      $quota_result['width'] = $attrib['width'];
+    if ($attrib['height'])
+      $quota_result['height']	= $attrib['height'];
+    }
+  else {
+    $quota_result['title'] = rcube_label('unknown');
+    $quota_result['percent'] = 0;
     }
 
-  return rcube_label('unknown');
+  return $quota_result;
   }
 
 

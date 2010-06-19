@@ -49,6 +49,18 @@ img
   padding-right: 10px;
 }
 
+.boxfooter a.button,
+.boxfooter a.buttonPas
+{
+  background-image: url(images/icons/groupactions.gif);
+}
+
+.pagenav a.button,
+.pagenav a.buttonPas
+{
+  background-image: url(images/pagenav.gif);
+}
+
 #listcontrols a.button,
 #listcontrols a.buttonPas {
   background-image: url(images/mail_footer.gif);

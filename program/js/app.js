@@ -4674,7 +4674,7 @@ function rcube_webmail()
   this.set_quota = function(content)
   {
     if (content && this.gui_objects.quotadisplay) {
-      if (typeof(content) == 'object')
+      if (typeof(content) == 'object' && content.type == 'image')
         this.percent_indicator(this.gui_objects.quotadisplay, content);
       else
         $(this.gui_objects.quotadisplay).html(content);
@@ -4834,6 +4834,9 @@ function rcube_webmail()
       quota = 100; 
     }
 
+    if (data.title)
+      data.title = this.get_label('quota') + ': ' +  data.title;
+
     // main div
     var main = $('<div>');
     main.css({position: 'absolute', top: pos.top, left: pos.left,
@@ -4864,6 +4867,8 @@ function rcube_webmail()
 
     // replace quota image
     $(obj).html('').append(bar1).append(bar2).append(main);
+    // update #quotaimg title
+    $('#quotaimg').attr('title', data.title);
   };
 
   /********************************************************/

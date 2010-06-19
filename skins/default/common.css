@@ -286,7 +286,7 @@ img
   overflow: hidden;
   height: 22px;
   border-top: 1px solid #999;
-  background: url('images/listheader.gif') top left repeat-x #CCC;
+  background: url(images/listheader.gif) top left repeat-x #CCC;
 }
 
 .boxfooter a.button,
@@ -299,7 +299,7 @@ img
   padding: 0px;
   margin: 0;
   overflow: hidden;
-  background: url('images/icons/groupactions.png') 0 0 no-repeat transparent;
+  background: url(images/icons/groupactions.png) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
 }
 

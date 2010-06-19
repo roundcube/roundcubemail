@@ -33,6 +33,13 @@
 <div class="boxfooter">
   <!--<roundcube:button name="togglequota" type="link" title="showquota" class="buttonPas showinfo" classAct="button showinfo" onclick="rcmail_ui.toggle_quotadisplay();return false" content=" " />-->
   <roundcube:button name="mboxactions" id="mboxactionslink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_mailboxmenu();return false" content=" " />
+
+<roundcube:if condition="env:quota" />
+<img id="quotaimg" src="/images/quota.gif" alt="" />
+<div id="quota">
+  <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
+</div>
+<roundcube:endif />
 </div>
 </div>
 
@@ -214,13 +221,6 @@
   <roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
 </div>
 </div>
-
-<roundcube:if condition="env:quota" />
-<div id="quota">
-  <span style="margin-right: 5px"><roundcube:label name="quota" />:</span>
-  <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
-</div>
-<roundcube:endif />
 
 <div id="rcmversion"><roundcube:object name="productname" /> <roundcube:object name="version" /></div>
 
