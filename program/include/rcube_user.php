@@ -5,7 +5,7 @@
  | program/include/rcube_user.inc                                        |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -62,15 +62,30 @@ class rcube_user
     /**
      * Build a user name string (as e-mail address)
      *
-     * @return string Full user name
+     * @param string Username part (empty or 'local' or 'domain')
+     * @return string Full user name or its part
      */
-    function get_username()
+    function get_username($part = null)
     {
         if ($this->data['username']) {
-            if (!strpos($this->data['username'], '@'))
-                return $this->data['username'] . '@' . $this->data['mail_host'];
+            list($local, $domain) = explode('@', $this->data['username']);
+
+            // at least we should always have the local part
+            if ($part == 'local') {
+                return $local;
+            }
+            // if no domain was provided use the default if available
+            if (empty($domain))
+                $domain = $this->data['mail_host'];
+
+            if ($part == 'domain') {
+                return $domain;
+            }
+
+            if (!empty($domain))
+                return $local . '@' . $domain;
             else
-                return $this->data['username'];
+                return $local;
         }
 
         return false;
@@ -86,14 +101,14 @@ class rcube_user
     {
         if (!empty($this->language))
             $prefs = array('language' => $this->language);
-    
+
         if ($this->ID && $this->data['preferences'])
             $prefs += (array)unserialize($this->data['preferences']);
-    
+
         return $prefs;
     }
-  
-  
+
+
     /**
      * Write the given user prefs to the user's record
      *
@@ -484,5 +499,5 @@ class rcube_user
 
         return empty($plugin['email']) ? NULL : $plugin['email'];
     }
-  
+
 }
