@@ -409,6 +409,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   //       address, uses the username_domain value if not an email address.
   // %u  - The username prior to the '@'.
   // %d  - The domain name after the '@'.
+  // %dc - The domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
   'base_dn'       => '',
   'bind_dn'       => '',
   'bind_pass'     => '',

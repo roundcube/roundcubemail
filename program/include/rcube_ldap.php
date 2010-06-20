@@ -132,13 +132,14 @@ class rcube_ldap extends rcube_addressbook
         // Get the pieces needed for variable replacement.
         $fu = $RCMAIL->user->get_username();
         list($u, $d) = explode('@', $fu);
-        
+        $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
+
         // Replace the bind_dn and base_dn variables.
-        $replaces = array('%fu' => $fu, '%u' => $u, '%d' => $d);
+        $replaces = array('%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
         $this->prop['bind_dn'] = strtr($this->prop['bind_dn'], $replaces);
         $this->prop['base_dn'] = strtr($this->prop['base_dn'], $replaces);
       }
-      
+
       if (!empty($this->prop['bind_dn']) && !empty($this->prop['bind_pass']))
         $this->ready = $this->bind($this->prop['bind_dn'], $this->prop['bind_pass']);
     }

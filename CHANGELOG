@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Add %dc variable support in base_dn/bind_dn config (#1486779)
 - Add button to hide/unhide the preview pane (#1484215)
 - Fix no-cache headers on https to prevent content caching by proxies (#1486798)
 - Fix attachment filenames broken with TNEF decoder using long filenames (#1486795)
