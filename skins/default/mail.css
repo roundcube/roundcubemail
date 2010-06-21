@@ -370,22 +370,6 @@ td.formlinks a:visited
   font-weight: bold;
 }
 
-#quota
-{
-  position: absolute;
-  top: 3px;
-  right: 8px;
-  width: 100px;
-}
-
-#quotaimg
-{
-  position: absolute;
-  top: 3px;
-  right: 6px;
-  z-index: 101;
-}
-
 
 /** mailbox list styles */
 
@@ -901,21 +885,6 @@ td span.branch div.l3
 }
 
 
-.quota_text {
-  text-align: center;
-  font-size: 10px;
-  color: #666;
-  border: 1px solid #999;
-  cursor: default;
-}
-.quota_bg { background-color: white; }
-.quota_high { background-color: #F33131; }
-.quota_mid { background-color: #F5AD3C; }
-.quota_low { background-color: #91E164; }
-.quota_text_high { color: white; }
-.quota_text_mid { color: #666; }
-.quota_text_low { color: #666; }
-
 
 /** message view styles */
 
@@ -1365,3 +1334,37 @@ font.bold
   text-align: center;
   clear: both;
 }
+
+/** quota indicator */
+
+#quota
+{
+  position: absolute;
+  top: 3px;
+  right: 8px;
+  width: 100px;
+}
+
+#quotaimg
+{
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  z-index: 101;
+}
+
+.quota_text {
+  text-align: center;
+  font-size: 10px;
+  color: #666;
+  border: 1px solid #999;
+  cursor: default;
+}
+.quota_bg { background-color: white; }
+.quota_high { background-color: #F33131; }
+.quota_mid { background-color: #F5AD3C; }
+.quota_low { background-color: #91E164; }
+.quota_text_high { color: white; }
+.quota_text_mid { color: #666; }
+.quota_text_low { color: #666; }
+
