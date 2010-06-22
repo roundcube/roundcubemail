@@ -476,7 +476,7 @@ class html2text
         $text = preg_replace_callback($this->callback_search, array('html2text', '_preg_callback'), $text);
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
-        $text = preg_replace('/&[^&;]+;/i', '', $text); 
+        $text = preg_replace('/&#?[a-z0-9]{2,7};/i', '', $text); 
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
