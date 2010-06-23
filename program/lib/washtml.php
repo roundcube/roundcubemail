@@ -89,7 +89,7 @@ class washtml
   static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir');  
 
   /* Block elements which could be empty but cannot be returned in short form (<tag />) */
-  static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font');
+  static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font', 'center', 'table', 'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'dl');
   
   /* State for linked objects in HTML */
   public $extlinks = false;
@@ -226,7 +226,9 @@ class washtml
         else if (isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
           $dump .= '<' . $tagName . $this->wash_attribs($node) .
-            ($content != '' || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
+            // create closing tag for block elements, but also for elements
+            // with content or with some attributes (eg. style, class) (#1486812)
+            ($content != '' || $node->hasAttributes() || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
         }
         else if (isset($this->_ignore_elements[$tagName])) {
           $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
