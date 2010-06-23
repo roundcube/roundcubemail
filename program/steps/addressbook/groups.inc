@@ -98,4 +98,3 @@ else if ($RCMAIL->action == 'group-delete') {
 // send response
 $OUTPUT->send();
 
-?>

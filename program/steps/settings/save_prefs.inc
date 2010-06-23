@@ -160,4 +160,4 @@ if ($USER->save_prefs($a_user_prefs))
 // display the form again
 rcmail_overwrite_action('edit-prefs');
 
-?>
+

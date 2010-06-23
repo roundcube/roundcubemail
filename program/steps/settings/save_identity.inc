@@ -123,4 +123,4 @@ if ($default_id)
 // go to next step
 rcmail_overwrite_action('identities');
 
-?>
+

@@ -427,4 +427,4 @@ $OUTPUT->add_handlers(array(
 $OUTPUT->add_label('deletefolderconfirm','addsubfolderhint','forbiddencharacter','folderdeleting','folderrenaming','foldercreating','foldermoving');
 
 $OUTPUT->send('managefolders');
-?>
+

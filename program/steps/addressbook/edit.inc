@@ -110,4 +110,4 @@ if (!$CONTACTS->get_result() && $OUTPUT->template_exists('addcontact'))
 
 // this will be executed if no template for addcontact exists
 $OUTPUT->send('editcontact');
-?>
+

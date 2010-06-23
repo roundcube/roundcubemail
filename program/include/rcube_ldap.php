@@ -732,4 +732,3 @@ class rcube_ldap extends rcube_addressbook
 
 }
 
-?>

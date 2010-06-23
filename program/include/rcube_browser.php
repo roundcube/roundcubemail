@@ -69,5 +69,5 @@ class rcube_browser
         $this->pngalpha = $this->mz || $this->safari || ($this->ie && $this->ver>=5.5) ||
             ($this->ie && $this->ver>=5 && $this->mac) || ($this->opera && $this->ver>=7) ? true : false;
     }
-  }
+}
 

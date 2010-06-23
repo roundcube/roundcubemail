@@ -55,7 +55,7 @@ function rcmail_user_prefs_form($attrib)
       $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $table->show($attrib));
       }
     }
-								      
+
   return $out . $form_end;
 }
 
@@ -75,4 +75,4 @@ $OUTPUT->add_handlers(array(
 
 $OUTPUT->send('settingsedit');
 
-?>
+

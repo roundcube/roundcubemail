@@ -85,4 +85,3 @@ function contact_results_sort($a, $b)
   return strcoll(trim($name_a, '" '), trim($name_b, '" '));
 }
 
-?>

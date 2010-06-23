@@ -47,4 +47,4 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_POST))
 
 exit;
 
-?>
+

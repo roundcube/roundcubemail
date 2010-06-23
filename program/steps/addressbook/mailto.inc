@@ -47,4 +47,3 @@ else
 // send response
 $OUTPUT->send();
 
-?>

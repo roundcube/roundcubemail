@@ -72,4 +72,3 @@ function rcmail_contact_details($attrib)
 //$OUTPUT->framed = $_framed;
 $OUTPUT->add_handler('contactdetails', 'rcmail_contact_details');
 $OUTPUT->send('showcontact');
-?>

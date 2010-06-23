@@ -70,4 +70,4 @@ header("Content-Type: text/xml; charset=".RCMAIL_CHARSET);
 print $store;
 exit;
 
-?>
+

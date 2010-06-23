@@ -1134,4 +1134,4 @@ $OUTPUT->add_handlers(array(
 
 $OUTPUT->send('compose');
 
-?>
+

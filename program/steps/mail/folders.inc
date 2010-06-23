@@ -71,4 +71,4 @@ else if ($RCMAIL->action=='purge' && ($mbox = get_input_value('_mbox', RCUBE_INP
 
 $OUTPUT->send($commands);
 
-?>
+

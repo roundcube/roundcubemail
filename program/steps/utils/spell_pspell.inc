@@ -75,4 +75,4 @@ header("Content-Type: text/xml; charset=".RCMAIL_CHARSET);
 echo $out;
 exit;
 
-?>
+

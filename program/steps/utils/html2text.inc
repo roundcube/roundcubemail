@@ -25,4 +25,4 @@ header('Content-Type: text/plain; charset=UTF-8');
 print trim($converter->get_text());
 exit;
 
-?>
+

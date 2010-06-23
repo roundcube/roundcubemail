@@ -135,4 +135,4 @@ if ($RCMAIL->action=='add-identity' && $OUTPUT->template_exists('addidentity'))
 
 $OUTPUT->send('editidentity');
 
-?>
+

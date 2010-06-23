@@ -719,4 +719,3 @@ class html_table extends html
     }
 }
 
-?>

@@ -60,4 +60,4 @@ if (!$done)
   $OUTPUT->show_message('errorsavingcontact', 'warning');
 
 $OUTPUT->send();
-?>
+

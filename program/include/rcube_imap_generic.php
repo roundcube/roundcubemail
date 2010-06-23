@@ -2236,4 +2236,3 @@ class rcube_imap_generic
 
 }
 
-?>

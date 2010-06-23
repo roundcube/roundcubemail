@@ -1606,4 +1606,4 @@ $OUTPUT->add_handlers(array(
   'searchform' => array($OUTPUT, 'search_form'),
 ));
 
-?>
+

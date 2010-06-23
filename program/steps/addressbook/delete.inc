@@ -49,4 +49,4 @@ if ($OUTPUT->ajax_call &&
   }
 
 exit;
-?>
+

@@ -32,4 +32,3 @@ rcmail_js_contacts_list($result);
 // send response
 $OUTPUT->send();
 
-?>

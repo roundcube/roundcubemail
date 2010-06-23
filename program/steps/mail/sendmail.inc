@@ -695,4 +695,4 @@ else
   $OUTPUT->send('iframe');
   }
 
-?>
+

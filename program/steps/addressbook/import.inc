@@ -188,5 +188,3 @@ $OUTPUT->add_handlers(array(
 
 // render page
 $OUTPUT->send('importcontacts');
-
-?>

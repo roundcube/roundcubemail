@@ -40,5 +40,3 @@ else {
 }
 
 $OUTPUT->send();
-
-?>

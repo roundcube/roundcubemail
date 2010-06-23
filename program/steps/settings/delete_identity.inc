@@ -49,4 +49,4 @@ if ($OUTPUT->ajax_call)
 // go to identities page
 rcmail_overwrite_action('identities');
 
-?>
+

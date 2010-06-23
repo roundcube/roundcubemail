@@ -84,4 +84,4 @@ foreach ($a_mailboxes as $mbox_name) {
 
 $OUTPUT->send();
 
-?>
+

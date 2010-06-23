@@ -152,4 +152,3 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $OUTPUT->command('auto_save_start', false);
 $OUTPUT->send('iframe');
 
-?>

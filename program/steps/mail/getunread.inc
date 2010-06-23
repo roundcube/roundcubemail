@@ -42,4 +42,4 @@ if (!empty($a_folders))
 
 $OUTPUT->send();
 
-?>
+

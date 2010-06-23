@@ -91,4 +91,3 @@ if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) &
 // send response
 $OUTPUT->send();
 
-?>

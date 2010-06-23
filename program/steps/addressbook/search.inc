@@ -49,5 +49,3 @@ $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text());
   
 // send response
 $OUTPUT->send();
-
-?>

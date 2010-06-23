@@ -674,4 +674,3 @@ if (!extension_loaded('mbstring'))
     }
 }
 
-?>

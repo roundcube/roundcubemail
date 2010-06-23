@@ -729,4 +729,3 @@ $OUTPUT->add_handlers(array(
   'identitieslist' => 'rcmail_identities_list',
 ));
 
-?>

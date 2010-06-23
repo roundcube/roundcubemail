@@ -49,4 +49,4 @@ if (PEAR::isError($res)) {
 echo "Cache cleared\n";
 exit;
 
-?>
+

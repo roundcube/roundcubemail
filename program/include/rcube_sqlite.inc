@@ -73,5 +73,4 @@ function rcube_sqlite_debug($str)
 {
     //console($str);
 }
-  
-?>
+

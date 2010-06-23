@@ -45,4 +45,3 @@ $OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
 
 $OUTPUT->send('identities');
-?>

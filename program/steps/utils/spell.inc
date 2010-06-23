@@ -25,4 +25,4 @@ if ($spell_engine = $RCMAIL->config->get('spellcheck_engine', 'googie')) {
 header('HTTP/1.1 404 Not Found');
 exit;
 
-?>
+

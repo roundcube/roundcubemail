@@ -126,4 +126,4 @@ $__page_content
 EOF;
 
 exit;
-?>
+

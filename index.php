@@ -274,5 +274,4 @@ raise_error(array(
   'line' => __LINE__,
   'file' => __FILE__,
   'message' => "Invalid request"), true, true);
-                      
-?>
+

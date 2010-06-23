@@ -559,4 +559,4 @@ $rcmail_config['search_mods'] = null;  // Example: array('*' => array('subject'=
 $rcmail_config['delete_always'] = false;
 
 // end of config file
-?>
+

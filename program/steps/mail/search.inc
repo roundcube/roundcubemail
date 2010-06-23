@@ -134,4 +134,4 @@ $OUTPUT->set_env('pagecount', ceil($count/$IMAP->page_size));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1));
 $OUTPUT->send();
 
-?>
+

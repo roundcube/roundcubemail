@@ -41,4 +41,3 @@ while ($result && ($row = $result->next())) {
 
 exit;
 
-?>
