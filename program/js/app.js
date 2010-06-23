@@ -1731,7 +1731,7 @@ function rcube_webmail()
   {
     var update, add_url = '';
 
-    if (sort_col === null)
+    if (typeof sort_col == 'undefined')
       sort_col = this.env.sort_col;
     if (!sort_order)
       sort_order = this.env.sort_order;
