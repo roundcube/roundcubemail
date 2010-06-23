@@ -86,8 +86,10 @@
         <roundcube:button command="expand-unread" type="link" title="expand-unread" class="buttonPas expand-unread" classAct="button expand-unread" classSel="button expand-unreadsel" content=" " />
         <roundcube:button command="collapse-all" type="link" title="collapse-all" class="buttonPas collapse-all" classAct="button collapse-all" classSel="button collapse-allsel" content=" " />
     <roundcube:endif />
+    <roundcube:if condition="!in_array('preview_pane', (array)config:dont_override)" />
         <label><span style="margin-left: 12px"><roundcube:label name="previewpane" />:&nbsp;</span>
-        <input type="checkbox" onclick="rcmail_ui.switch_preview_pane(this)"<roundcube:if condition="config:preview_pane == true" /> checked="checked"<roundcube:endif /> /></label>
+        <input type="checkbox" onclick="rcmail_ui.switch_preview_pane(this)"<roundcube:exp expression="config:preview_pane == true ? ' checked=checked' : ''" /> /></label>
+    <roundcube:endif />
     </div>
     <div id="countcontrols" class="pagenav">
         <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastmessages" content=" " />
