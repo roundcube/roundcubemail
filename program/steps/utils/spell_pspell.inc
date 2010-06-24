@@ -30,9 +30,6 @@ if (!extension_loaded('pspell')) {
     exit;
 }
 
-// max. number of suggestions for one word
-define('MAX_SUGGESTIONS', 10);
-
 // read input
 $data = file_get_contents('php://input');
 
@@ -59,7 +56,7 @@ foreach ($words as $w) {
     if ($word && $plink && preg_match('/[^0-9\.]/', $word)
 	&& !pspell_check($plink, $word)) {
         $suggestions = pspell_suggest($plink, $word);
-	if (sizeof($suggestions)>10)
+	if (sizeof($suggestions)>MAX_SUGGESTIONS)
 	  $suggestions = array_slice($suggestions, 0, MAX_SUGGESTIONS);
 
         $out .= '<c o="'.$pos.'" l="'.$len.'">';

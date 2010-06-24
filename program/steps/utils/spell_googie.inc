@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/steps/utils/spell.inc                                         |
+ | program/steps/utils/spell_googie.inc                                  |
  |                                                                       |
  | This file is part of the RoundCube Webmail client                     |
  | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
@@ -52,7 +52,7 @@ if ($fp = fsockopen($host, $port, $errno, $errstr, 30))
   $out .= "Connection: Close\r\n\r\n";
   $out .= $data;
   fwrite($fp, $out);
-  
+
   while (!feof($fp))
     $store .= fgets($fp, 128);
   fclose($fp);

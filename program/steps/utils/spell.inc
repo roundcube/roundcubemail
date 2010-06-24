@@ -18,11 +18,15 @@
 
 */
 
+// max. number of suggestions for one word
+define('MAX_SUGGESTIONS', 10);
+
+$tiny = !empty($_GET['tiny']) ? 'html_' : '';
+
 if ($spell_engine = $RCMAIL->config->get('spellcheck_engine', 'googie')) {
-    include('spell_'.$spell_engine.'.inc');
+    include('spell_'.$tiny.$spell_engine.'.inc');
 }
 
 header('HTTP/1.1 404 Not Found');
 exit;
-
 
