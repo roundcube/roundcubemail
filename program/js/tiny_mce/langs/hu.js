@@ -1,17 +1,17 @@
 tinyMCE.addI18n({hu:{
 common:{
-edit_confirm:"Haszn\u00E1lni akarja a WYSIWYG m\u00F3dot ebben a sz\u00F6vegdobozban?",
-apply:"Alkalmaz",
-insert:"Besz\u00FAr",
-update:"Friss\u00EDt",
-cancel:"M\u00E9gse",
-close:"Bez\u00E1r",
-browse:"Tall\u00F3z",
+edit_confirm:"Haszn\u00E1lni k\u00EDv\u00E1nja a WYSIWYG m\u00F3dot ebben a sz\u00F6vegdobozban?",
+apply:"Alkalmaz\u00E1s",
+insert:"Besz\u00FAr\u00E1s",
+update:"Friss\u00EDt\u00E9s",
+cancel:"M\u00E9gsem",
+close:"Bez\u00E1r\u00E1s",
+browse:"Tall\u00F3z\u00E1s",
 class_name:"Oszt\u00E1ly",
 not_set:"-- Nincs megadva --",
-clipboard_msg:"A M\u00E1sol\u00E1s/Kiv\u00E1g\u00E1s/Besz\u00FAr\u00E1s funkci\u00F3k nem el\u00E9rhet\u0151k Mozilla \u00E9s Firefox alatt.\nK\u00EDv\u00E1n t\u00F6bbet tudni err\u0151l a t\u00E9m\u00E1r\u00F3l?",
+clipboard_msg:"A M\u00E1sol\u00E1s/Kiv\u00E1g\u00E1s/Besz\u00FAr\u00E1s funkci\u00F3k nem \u00E9rhet\u0151ek el Mozilla \u00E9s Firefox alatt.\nK\u00EDv\u00E1n t\u00F6bbet tudni err\u0151l a t\u00E9m\u00E1r\u00F3l?",
 clipboard_no_support:"Jelenleg nem t\u00E1mogatja a b\u00F6ng\u00E9sz\u0151je, haszn\u00E1lja a billenty\u0171kombin\u00E1ci\u00F3kat helyette.",
-popup_blocked:"A felugr\u00F3 ablakok tilt\u00E1sa miatt nem tudtunk megjelen\u00EDteni egy, az alkalmaz\u00E1shoz sz\u00FCks\u00E9ges ablakot. Enged\u00E9lyezze a b\u00F6ng\u00E9sz\u0151j\u00E9ben a felugr\u00F3 ablakokat, hogy minden funkci\u00F3t haszn\u00E1lhasson.",
+popup_blocked:"A felugr\u00F3 ablakok tilt\u00E1sa miatt nem siker\u00FClt megjelen\u00EDteni egy, az alkalmaz\u00E1shoz sz\u00FCks\u00E9ges ablakot. Enged\u00E9lyezze a b\u00F6ng\u00E9sz\u0151j\u00E9ben a felugr\u00F3 ablakokat, hogy minden funkci\u00F3t haszn\u00E1lhasson.",
 invalid_data:"Hiba: \u00C9rv\u00E9nytelen adatok, pirossal jel\u00F6lve.",
 more_colors:"T\u00F6bb sz\u00EDn"
 },
@@ -28,7 +28,7 @@ time_fmt:"%H:%M:%S",
 insertdate_desc:"D\u00E1tum besz\u00FAr\u00E1sa",
 inserttime_desc:"Id\u0151 besz\u00FAr\u00E1sa",
 months_long:"janu\u00E1r,febru\u00E1r,m\u00E1rcius,\u00E1prilis,m\u00E1jus,j\u00FAnius,j\u00FAlius,augusztus,szeptember,okt\u00F3ber,november,december",
-months_short:"jan,feb,m\u00E1r,\u00E1pr,m\u00E1j,j\u00FAn,j\u00FAl,aug,szep,okt,nov,dec",
+months_short:"jan,feb,m\u00E1r,\u00E1pr,m\u00E1j,j\u00FAn,j\u00FAl,aug,szept,okt,nov,dec",
 day_long:"vas\u00E1rnap,h\u00E9tf\u0151,kedd,szerda,cs\u00FCt\u00F6rt\u00F6k,p\u00E9ntek,szombat,vas\u00E1rnap",
 day_short:"V,H,K,Sze,Cs,P,Szo,V"
 },
@@ -90,7 +90,9 @@ desc:"CSS st\u00EDlus szerkeszt\u00E9se"
 paste:{
 paste_text_desc:"Besz\u00FAr\u00E1s sz\u00F6vegk\u00E9nt",
 paste_word_desc:"Besz\u00FAr\u00E1s Wordb\u0151l",
-selectall_desc:"Mindent kijel\u00F6l"
+selectall_desc:"Mindent kijel\u00F6l",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Haszn\u00E1lja a Ctrl+V-t a billenty\u0171zet\u00E9n a beilleszt\u00E9shez.",
@@ -120,7 +122,9 @@ col:"Oszlop",
 cell:"Cella"
 },
 autosave:{
-unload_msg:"A m\u00F3dos\u00EDt\u00E1sok nem lesznek mentve, ha elhagyja az oldalt."
+unload_msg:"A m\u00F3dos\u00EDt\u00E1sok nem lesznek mentve, ha elhagyja az oldalt.",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"Teljesk\u00E9perny\u0151s m\u00F3d ki-/bekapcsol\u00E1sa"
@@ -151,4 +155,16 @@ no_mpell:"Nem tal\u00E1ltam helyes\u00EDr\u00E1si hib\u00E1t."
 },
 pagebreak:{
 desc:"Oldalt\u00F6r\u00E9s besz\u00FAr\u00E1sa."
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"K\u00F6r",
+disc:"Lemez",
+square:"Square"
 }}});

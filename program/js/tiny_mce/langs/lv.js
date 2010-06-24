@@ -77,50 +77,54 @@ advlink:{
 link_desc:"Ievietot/Redi\u0123\u0113t saiti"
 },
 xhtmlxtras:{
-cite_desc:"Citation",
-abbr_desc:"Abbreviation",
+cite_desc:"Cit\u0101ts",
+abbr_desc:"Sa\u012Bsin\u0101jums",
 acronym_desc:"Acronym",
 del_desc:"Deletion",
 ins_desc:"Insertion",
-attribs_desc:"Insert/Edit Attributes"
+attribs_desc:"Pielikt/redi\u0123\u0113t \u012Bpa\u0161\u012Bbas"
 },
 style:{
 desc:"Edit CSS Style"
 },
 paste:{
-paste_text_desc:"Paste as Plain Text",
-paste_word_desc:"Paste from Word",
-selectall_desc:"Select All"
+paste_text_desc:"Iekop\u0113t ka parasto tekstu",
+paste_word_desc:"Iekop\u0113t no Word",
+selectall_desc:"Iez\u012Bm\u0113t visu",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
-text_title:"Use CTRL+V on your keyboard to paste the text into the window.",
-text_linebreaks:"Keep linebreaks",
-word_title:"Use CTRL+V on your keyboard to paste the text into the window."
+text_title:"Izmantojiet CTRL+V uz j\u016Bsu tastat\u016Bras lai iekop\u0113t tekstu log\u0101.",
+text_linebreaks:"Sagl\u0101b\u0101t l\u012Bniju sadal\u012Bt\u0101jus",
+word_title:"Izmantojiet CTRL+V uz j\u016Bsu tastat\u016Bras lai iekop\u0113t tekstu log\u0101."
 },
 table:{
-desc:"Inserts a new table",
-row_before_desc:"Insert row before",
-row_after_desc:"Insert row after",
-delete_row_desc:"Delete row",
-col_before_desc:"Insert column before",
-col_after_desc:"Insert column after",
-delete_col_desc:"Remove column",
-split_cells_desc:"Split merged table cells",
-merge_cells_desc:"Merge table cells",
-row_desc:"Table row properties",
-cell_desc:"Table cell properties",
-props_desc:"Table properties",
-paste_row_before_desc:"Paste table row before",
-paste_row_after_desc:"Paste table row after",
-cut_row_desc:"Cut table row",
-copy_row_desc:"Copy table row",
-del:"Delete table",
-row:"Row",
-col:"Column",
-cell:"Cell"
+desc:"Ielikt jaunu tabulu",
+row_before_desc:"Ielikt jaunu rindu priek\u0161\u0101",
+row_after_desc:"Ielikt jaunu rindu aiz",
+delete_row_desc:"Izdz\u0113st rindu",
+col_before_desc:"Ielikt jaunu stabu priek\u0161\u0101",
+col_after_desc:"Ielikt jaunu stabu aiz",
+delete_col_desc:"Izdz\u0113st stabu",
+split_cells_desc:"Sadal\u012Bt apvienotas tabules ailes",
+merge_cells_desc:"Apvienot tabulas ailes",
+row_desc:"Tabulas rindas \u012Bpa\u0161\u012Bbas",
+cell_desc:"Tabulas ailes \u012Bpa\u0161\u012Bbas",
+props_desc:"Tabulas \u012Bpa\u0161\u012Bbas",
+paste_row_before_desc:"Ielikt tabulas rindu priek\u0161\u0101",
+paste_row_after_desc:"Ielikt tabulas rindu aiz",
+cut_row_desc:"Izgriezt tabulas rindu",
+copy_row_desc:"Kop\u0113t tabulas rindu",
+del:"Izdz\u0113st tabulu",
+row:"Rinda",
+col:"St\u0101bs",
+cell:"Aile"
 },
 autosave:{
-unload_msg:"The changes you made will be lost if you navigate away from this page."
+unload_msg:"The changes you made will be lost if you navigate away from this page.",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"Toggle fullscreen mode"
@@ -151,4 +155,16 @@ no_mpell:"No misspellings found."
 },
 pagebreak:{
 desc:"Insert page break."
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"Circle",
+disc:"Disc",
+square:"Square"
 }}});

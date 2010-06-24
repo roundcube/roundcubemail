@@ -1,6 +1,6 @@
 tinyMCE.addI18n({es:{
 common:{
-edit_confirm:"\u00BFDesea utilizar el modo WYSIWYG para esta caja de texto?",
+edit_confirm:" \u00BFDesea utilizar el modo WYSIWYG para esta caja de texto?",
 apply:"Aplicar",
 insert:"Insertar",
 update:"Actualizar",
@@ -9,7 +9,7 @@ close:"Cerrar",
 browse:"Examinar",
 class_name:"Clase",
 not_set:"-- Ninguno --",
-clipboard_msg:"Copiar/Cortar/Pegar no se encuentra disponible en Mozilla y Firefox.\n\u00BFDesea obtener m\u00E1s informaci\u00F3n acerca de este tema?",
+clipboard_msg:"Copiar/Cortar/Pegar no se encuentra disponible en Mozilla y Firefox.\n \u00BFDesea obtener m\u00E1s informaci\u00F3n acerca de este tema?",
 clipboard_no_support:"Su navegador no soporta las funciones de cortapapeles, use los accesos por teclado.",
 popup_blocked:"Lo sentimos, su bloqueo de ventanas emergentes ha deshabilitado una ventana que provee funcionalidades a la aplicaci\u00F3n. Necesita deshabilitar este bloqueo en este sitio para poder utilizar todas las funciones.",
 invalid_data:"Error: Introdujo un valor no v\u00E1lido, est\u00E1n marcados en rojo.",
@@ -58,7 +58,7 @@ nonbreaking_desc:"Insertar caracter de espacio 'non-breaking'"
 },
 iespell:{
 iespell_desc:"Corrector ortogr\u00E1fico",
-download:"No se detect\u00F3 'ieSpell'. \u00BFDesea instalarlo ahora?"
+download:"No se detect\u00F3 'ieSpell'.  \u00BFDesea instalarlo ahora?"
 },
 advhr:{
 advhr_desc:"Regla horizontal"
@@ -90,7 +90,9 @@ desc:"Editar Estilo CSS"
 paste:{
 paste_text_desc:"Pegar como texto plano",
 paste_word_desc:"Pegar desde Word",
-selectall_desc:"Seleccionar todo"
+selectall_desc:"Elegir todo",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Use CTRL+V en su teclado para pegar el texto en la ventana.",
@@ -120,7 +122,9 @@ col:"Columna",
 cell:"Celda"
 },
 autosave:{
-unload_msg:"Los cambios realizados se perder\u00E1n si sale de esta p\u00E1gina."
+unload_msg:"Los cambios realizados se perder\u00E1n si sale de esta p\u00E1gina.",
+restore_content:"Reestablecer contenido guardado autom\u00E1ticamente",
+warning_message:"Se reestablece en contenido guardado, perder\u00E1 todo el contenido que est\u00E1 actualmente en el editor.\n\nEst\u00E1 seguro de que quiere reestablecer el contenido guardado."
 },
 fullscreen:{
 desc:"Cambiar a modo Pantalla Completa"
@@ -130,7 +134,9 @@ desc:"Insertar/editar medio embebido",
 edit:"Editar medio embebido"
 },
 fullpage:{
-desc:"Propiedades del documento"
+desc:"Propiedades del documento",
+delta_width:"Ancho",
+delta_height:"Alto"
 },
 template:{
 desc:"Insertar contenido de plantilla predefinida"
@@ -151,4 +157,16 @@ no_mpell:"No se encontraron errores."
 },
 pagebreak:{
 desc:"Insertar fin de p\u00E1gina"
+},
+advlist:{
+types:"Tipo",
+def:"Preestablecido",
+lower_alpha:"Menos opaco",
+lower_greek:"Menos greek",
+lower_roman:"Menos roman",
+upper_alpha:"M\u00E1s opaco",
+upper_roman:"M\u00E1s roman",
+circle:"Circulo",
+disc:"Disc",
+square:"Cuadro"
 }}});

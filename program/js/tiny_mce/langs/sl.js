@@ -90,7 +90,9 @@ desc:"Uredi sloge CSS"
 paste:{
 paste_text_desc:"Prilepi kot golo besedilo",
 paste_word_desc:"Prilepi iz Word-a",
-selectall_desc:"Izberi vse"
+selectall_desc:"Izberi vse",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Uporabite kombinacijo tipk CTRL+V, da prilepite vsebino v okno.",
@@ -121,7 +123,9 @@ cell:"Celica",
 cellprops_delta_width:"100"
 },
 autosave:{
-unload_msg:"Ce se premaknete na drugo stran, bodo narejene spremembe izgubljene!"
+unload_msg:"Ce se premaknete na drugo stran, bodo narejene spremembe izgubljene!",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"Preklopi celozaslonski na\u010Din"
@@ -152,4 +156,16 @@ no_mpell:"Napa\u010Dnega \u010Drkovanja nisem na\u0161el."
 },
 pagebreak:{
 desc:"Vstavi lom strani."
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"Circle",
+disc:"Disc",
+square:"Square"
 }}});

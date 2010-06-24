@@ -1,6 +1,6 @@
 tinyMCE.addI18n('ro.emotions_dlg',{
-title:"Insereaz\u0103 emoticon",
-desc:"Emo\u0163ii",
+title:"Insereaz\u0103 o figurin\u0103",
+desc:"Figurine emotive",
 cool:"Cool",
 cry:"Trist",
 embarassed:"Ru\u015Finat",
@@ -16,5 +16,5 @@ surprised:"Surprins",
 tongue_out:"Cu limba afar\u0103",
 undecided:"Indecis",
 wink:"Face cu ochiul",
-yell:"\u0162ipa"
+yell:"\u0162ip\u0103"
 });

@@ -90,7 +90,9 @@ desc:"Rediger CSS-stil"
 paste:{
 paste_text_desc:"Lim inn som vanlig tekst",
 paste_word_desc:"Lim inn fra Word",
-selectall_desc:"Marker al"
+selectall_desc:"Marker al",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Bruk CTRL+V p\u00E5 tastaturet for \u00E5 lime inn i dette vinduet.",
@@ -120,7 +122,9 @@ col:"Kolonne",
 cell:"Celle"
 },
 autosave:{
-unload_msg:"Endringene du gjorde g\u00E5r tapt dersom du velger \u00E5 forlate denne siden!"
+unload_msg:"Endringene du gjorde g\u00E5r tapt dersom du velger \u00E5 forlate denne siden!",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"Skift til/fra fullskjermmodus"
@@ -151,4 +155,16 @@ no_mpell:"Ingen stavefeil funnet"
 },
 pagebreak:{
 desc:"Sett inn sideskift"
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"Circle",
+disc:"Disc",
+square:"Square"
 }}});

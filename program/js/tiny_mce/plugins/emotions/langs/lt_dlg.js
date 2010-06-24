@@ -1,6 +1,6 @@
 tinyMCE.addI18n('lt.emotions_dlg',{
-title:"\u012Eterpti emotikon\u0105",
-desc:"Emotikonai",
+title:"\u012Eterpti jaustuk\u0105",
+desc:"Jaustukai",
 cool:"J\u0117ga",
 cry:"Verksmas",
 embarassed:"Susig\u0117d\u0119s",

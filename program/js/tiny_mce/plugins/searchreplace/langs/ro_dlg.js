@@ -2,7 +2,7 @@ tinyMCE.addI18n('ro.searchreplace_dlg',{
 searchnext_desc:"Caut\u0103 din nou",
 notfound:"C\u0103utarea a fost terminat\u0103. Nu am g\u0103sit termenul c\u0103utat.",
 search_title:"Caut\u0103",
-replace_title:"Caut\u0103/\u00CEnlocuie\u015Fte",
+replace_title:"Caut\u0103/\u00EEnlocuie\u015Fte",
 allreplaced:"Toate instan\u0163ele termenului c\u0103utat au fost \u00EEnlocuite.",
 findwhat:"Termen c\u0103utat:",
 replacewith:"\u00CEnlocuie\u015Fte cu:",

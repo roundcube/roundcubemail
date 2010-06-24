@@ -90,7 +90,9 @@ desc:"Uredi CSS"
 paste:{
 paste_text_desc:"Zalijepi kao obi\u010Dni tekst",
 paste_word_desc:"Zalijepi iz Worda",
-selectall_desc:"Odaberi sve"
+selectall_desc:"Odaberi sve",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Koristite CTRL+V na tipkovnici da zalijepite tekst u prozor.",
@@ -120,7 +122,9 @@ col:"Stupac",
 cell:"\u0106elija"
 },
 autosave:{
-unload_msg:"Promjene u dokumentu \u0107e biti izgubljene ako iza\u0111ete s ove stranice."
+unload_msg:"Promjene u dokumentu \u0107e biti izgubljene ako iza\u0111ete s ove stranice.",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"Uklju\u010Di/isklju\u010Di prikaz preko cijelog ekrana"
@@ -151,4 +155,16 @@ no_mpell:"Nije prona\u0111ena nijedna pravopisna gre\u0161ke."
 },
 pagebreak:{
 desc:"Umetni prijelom."
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"Circle",
+disc:"Disc",
+square:"Square"
 }}});

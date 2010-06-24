@@ -8,7 +8,7 @@ cancel:"Anuluj",
 close:"Zamknij",
 browse:"Przegl\u0105daj",
 class_name:"Klasa",
-not_set:"-- Nie ustawiony --",
+not_set:"-- Brak --",
 clipboard_msg:"Akcje Kopiuj/Wytnij/Wklej nie s\u0105 dost\u0119pne w Mozilli i Firefox.\nCzy chcesz wi\u0119cej informacji o tym problemie?",
 clipboard_no_support:"Aktualnie nie jest wspomagany przez Twoj\u0105 przegl\u0105dark\u0119, u\u017Cyj skr\u00F3t\u00F3w klawiaturowych w zamian.",
 popup_blocked:"Zauwa\u017Cyli\u015Bmy, \u017Ce Twoje blokowanie wyskakuj\u0105cych okienek wy\u0142\u0105czy\u0142o okno, kt\u00F3re dostarcza funkcjonalno\u015B\u0107 aplikacji. B\u0119dziesz potrzebowa\u0142 wy\u0142\u0105czy\u0107 blokowanie wyskakuj\u0105cych okienek na tej stronie aby w pe\u0142ni wykorzysta\u0107 to narz\u0119dzie.",
@@ -20,7 +20,7 @@ align:"Wyr\u00F3wnanie",
 left:"Lewy",
 center:"\u015Arodkowy",
 right:"Prawy",
-full:"Wype\u0142niony"
+full:"Wyjustuj"
 },
 insertdatetime:{
 date_fmt:"%Y-%m-%d",
@@ -28,9 +28,9 @@ time_fmt:"%H:%M:%S",
 insertdate_desc:"Wstaw dat\u0119",
 inserttime_desc:"Wstaw czas",
 months_long:"Stycze\u0144, Luty, Marzec, Kwiecie\u0144, Maj, Czerwiec, Lipiec, Sierpie\u0144, Wrzesie\u0144, Pa\u017Adziernik, Listopad, Grudzie\u0144",
-months_short:"Sty,Lut,Mar,Kw,Maj,Cze,Lip,Sier,Wrz,Pa\u017A,Lis,Gru",
+months_short:"Sty,Lut,Mar,Kwi,Maj,Cze,Lip,Sie,Wrz,Pa\u017A,Lis,Gru",
 day_long:"Niedziela, Poniedzia\u0142ek, Wtorek, \u015Aroda, Czwartek, Pi\u0105tek, Sobota, Niedziela",
-day_short:"Niedz,Pon,Wt,\u015Ar,Czw,Pt,Sob,Niedz"
+day_short:"N,Pn,Wt,\u015Ar,Cz,Pt,So,N"
 },
 print:{
 print_desc:"Drukuj"
@@ -50,7 +50,7 @@ absolute_desc:"Prze\u0142\u0105cz pozycjonowanie absolutne",
 content:"Nowa warstwa..."
 },
 save:{
-save_desc:"Zachowaj",
+save_desc:"Zachowaj\u015B\u017A\u0142",
 cancel_desc:"Anuluj wszystkie zmiany"
 },
 nonbreaking:{
@@ -58,7 +58,7 @@ nonbreaking_desc:"Wklej tward\u0105 spacj\u0119"
 },
 iespell:{
 iespell_desc:"Sprawd\u017A pisowni\u0119",
-download:"ieSpell nie wykryte. Czy chcesz to teraz zainstalowa\u0107?"
+download:"ieSpell nie wykryte. Czy przeprowadzi\u0107 instalacj\u0119 tego komponentu?"
 },
 advhr:{
 advhr_desc:"Pozioma linia"
@@ -88,9 +88,11 @@ style:{
 desc:"Edytuj Style CSS"
 },
 paste:{
-paste_text_desc:"Wklej jako Zwyk\u0142y Tekst",
+paste_text_desc:"Wklej jako zwyk\u0142y tekst",
 paste_word_desc:"Wklej z Worda",
-selectall_desc:"Zaznacz wszystko"
+selectall_desc:"Zaznacz wszystko",
+plaintext_mode_sticky:"Wklejanie jest teraz dost\u0119pne w trybie tekstowym. Kliknij ponownie, aby prze\u0142\u0105czy\u0107 si\u0119 z powrotem do trybu wklejania sformatowanego tekstu. Po wklejeniu tekstu nast\u0105pi powr\u00F3t do trybu wklejania zformatowanego tekstu.",
+plaintext_mode:"Wklejanie jest teraz dost\u0119pne w trybie tekstowym. Kliknij ponownie, aby prze\u0142\u0105czy\u0107 si\u0119 z powrotem do trybu wklejania sformatowanego tekstu."
 },
 paste_dlg:{
 text_title:"U\u017Cyj CTRL+V na swojej klawiaturze \u017Ceby wklei\u0107 tekst do okna.",
@@ -99,20 +101,20 @@ word_title:"U\u017Cyj CTRL+V na swojej klawiaturze \u017Ceby wklei\u0107 tekst d
 },
 table:{
 desc:"Wstaw now\u0105 tabel\u0119",
-row_before_desc:"Wstaw nowy wierdz przed...",
+row_before_desc:"Wstaw nowy wiersz przed...",
 row_after_desc:"Wstaw nowy wiersz po...",
 delete_row_desc:"Usu\u0144 wiersz",
-col_before_desc:"Wstaw kolumne przed...",
-col_after_desc:"Wstaw kolumne po...",
+col_before_desc:"Wstaw kolumn\u0119 przed...",
+col_after_desc:"Wstaw kolumn\u0119 po...",
 delete_col_desc:"Usu\u0144 kolumn\u0119",
 split_cells_desc:"Podziel kom\u00F3rk\u0119",
 merge_cells_desc:"Po\u0142\u0105cz kom\u00F3rki",
 row_desc:"W\u0142a\u015Bciwo\u015Bci wiersza",
 cell_desc:"W\u0142a\u015Bciwo\u015Bci kom\u00F3rki",
-props_desc:"Table properties",
+props_desc:"W\u0142a\u015Bciwo\u015Bci tabeli",
 paste_row_before_desc:"Wklej wiersz przed...",
 paste_row_after_desc:"Wklej wiersz po...",
-cut_row_desc:"Wynij wiersz...",
+cut_row_desc:"Wytnij wiersz...",
 copy_row_desc:"Kopiuj wiersz...",
 del:"Usu\u0144 tabel\u0119",
 row:"Wiersz",
@@ -120,23 +122,25 @@ col:"Kolumna",
 cell:"Kom\u00F3rka"
 },
 autosave:{
-unload_msg:"Zmiany, kt\u00F3re zrobi\u0142e\u015B zostan\u0105 utracone je\u015Bli opu\u015Bcisz t\u0119 stron\u0119."
+unload_msg:"Zmiany, kt\u00F3re zrobi\u0142e\u015B zostan\u0105 utracone je\u015Bli opu\u015Bcisz t\u0119 stron\u0119.",
+restore_content:"Przywr\u00F3\u0107 automatycznie zapisan\u0105 tre\u015B\u0107.",
+warning_message:"Je\u015Bli przywr\u00F3cisz zapisan\u0105 tre\u015B\u0107, stracisz ca\u0142\u0105 tre\u015B\u0107, kt\u00F3ra teraz si\u0119 znajduje w edytorze.\n\nJeste\u015B pewien, \u017Ce chcesz przywr\u00F3ci\u0107 zapisan\u0105 tre\u015B\u0107?."
 },
 fullscreen:{
 desc:"Prze\u0142\u0105cz tryb pe\u0142noekranowy"
 },
 media:{
-desc:"Insert / edit embedded media",
-edit:"Edit embedded media"
+desc:"Wstaw/Edytuj wbudowane media",
+edit:"Edytuj wbudowane media"
 },
 fullpage:{
-desc:"Document properties"
+desc:"W\u0142a\u015Bciwo\u015Bci dokumentu"
 },
 template:{
 desc:"Wstaw szablon dokumentu"
 },
 visualchars:{
-desc:"Visual control characters on/off."
+desc:"Graficzna kontrola pisma w\u0142\u0105cz/wy\u0142\u0105cz."
 },
 spellchecker:{
 desc:"Sprawdzanie pisowni",
@@ -146,9 +150,21 @@ ignore_words:"Ignoruj wszystkie",
 langs:"J\u0119zyki",
 wait:"Prosz\u0119 poczeka\u0107...",
 sug:"Sugestie",
-no_sug:"Nie ma sugestii",
+no_sug:"Brak sugestii",
 no_mpell:"\u017Badnych brakuj\u0105cych nie znaleziono."
 },
 pagebreak:{
 desc:"Wstaw lini\u0119."
+},
+advlist:{
+types:"Typy",
+def:"Domy\u015Blny",
+lower_alpha:"Ma\u0142e alfabetu",
+lower_greek:"Ma\u0142e greckie",
+lower_roman:"Ma\u0142e rzymskie",
+upper_alpha:"Du\u017Ce alfabetu",
+upper_roman:"Du\u017Ce rzymskie",
+circle:"Ko\u0142o",
+disc:"Elipsa",
+square:"Kwadrat"
 }}});

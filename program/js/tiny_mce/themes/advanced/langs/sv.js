@@ -3,7 +3,7 @@ style_select:"Stilar",
 font_size:"Fontstorlek",
 fontdefault:"Fontfamilj",
 block:"Format",
-paragraph:"Paragraf",
+paragraph:"Stycke",
 div:"Div",
 address:"Adress",
 pre:"F\u00F6rformaterad",
@@ -56,5 +56,5 @@ blockquote_desc:"Blockcitat",
 clipboard_msg:"Kopiera/klipp ut/klistra in \u00E4r inte tillg\u00E4ngligt i din webbl\u00E4sare.\nVill du veta mer om detta?",
 path:"Element",
 newdocument:"\u00C4r du s\u00E4ker p\u00E5 att du vill radera allt inneh\u00E5ll?",
-toolbar_focus:"Hoppa till verktygsf\u00E4ltet - Alt+Q, Hoppa till redigeraren - Alt-Z, Hoppa till element listan - Alt-X"
+toolbar_focus:"Hoppa till verktygsf\u00E4ltet - Alt+Q, Hoppa till redigeraren - Alt-Z, Hoppa till elementlistan - Alt-X"
 });

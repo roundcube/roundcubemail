@@ -1,6 +1,6 @@
 tinyMCE.addI18n('ar.emotions_dlg',{
-title:"\u0625\u062F\u0631\u0627\u062C \u0627\u0628\u062A\u0633\u0627\u0645\u0629",
-desc:"\u0627\u0644\u0625\u0628\u062A\u0633\u0627\u0645\u0627\u062A",
+title:"Insert emotion",
+desc:"Emotions",
 cool:"Cool",
 cry:"Cry",
 embarassed:"Embarassed",

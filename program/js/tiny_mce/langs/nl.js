@@ -1,6 +1,6 @@
 tinyMCE.addI18n({nl:{
 common:{
-edit_confirm:"Weet je zeker dat je tekst in WYSIWYG mode wilt bewerken in dit tekstveld?",
+edit_confirm:"Weet u zeker dat u tekst in WYSIWYG mode wilt bewerken in dit tekstveld?",
 apply:"Toepassen",
 insert:"Invoegen",
 update:"Bijwerken",
@@ -10,8 +10,8 @@ browse:"Bladeren",
 class_name:"Klasse",
 not_set:"- Standaard -",
 clipboard_msg:"Kopi\u00EBren/knippen/plakken is niet beschikbaar in Mozilla en Firefox.\nWilt u meer informatie over deze beperking?",
-clipboard_no_support:"Kopi\u00EBren/knippen/plakken is niet ondersteund door uw browser, gebruik hiervoor de sneltoetsen.",
-popup_blocked:"U zult uw popup-blocker tijdelijk moeten uitschakelen voor deze website om gebruik te kunnen maken van alle fucties van deze teksteditor.",
+clipboard_no_support:"Kopi\u00EBren/knippen/plakken wordt niet ondersteund door uw browser, gebruik hiervoor de sneltoetsen.",
+popup_blocked:"U zult uw popup-blocker tijdelijk moeten uitschakelen voor deze website om gebruik te kunnen maken van alle functies van deze teksteditor.",
 invalid_data:"Fout: Er zijn ongeldige waardes ingevoerd, deze zijn rood gemarkeerd.",
 more_colors:"Meer kleuren"
 },
@@ -30,7 +30,7 @@ inserttime_desc:"Tijd invoegen",
 months_long:"Januari,Februari,Maart,April,Mei,Juni,Juli,Augustus,September,Oktober,November,December",
 months_short:"Jan,Feb,Mar,Apr,Mei,Jun,Jul,Aug,Sep,Okt,Nov,Dec",
 day_long:"Zondag,Maandag,Dinsdag,Woensdag,Donderdag,Vrijdag,Zaterdag,Zondag",
-day_short:"Zo,Ma,Di,Wo,Do,Vr,Zat,Zon"
+day_short:"zo,ma,di,wo,do,vr,za,zo"
 },
 print:{
 print_desc:"Afdrukken"
@@ -90,7 +90,9 @@ desc:"CSS Stijl bewerken"
 paste:{
 paste_text_desc:"Als platte tekst plakken",
 paste_word_desc:"Vanuit Word plakken",
-selectall_desc:"Alles selecteren"
+selectall_desc:"Alles selecteren",
+plaintext_mode_sticky:"Plakken is nu in plattetekstmodus. Klik nog een keer om terug te gaan naar normaal plakken. Nadat u iets plakt, keert u terug naar normaal plakken.",
+plaintext_mode:"Plakken is nu in plattetekstmoduse. Klik nog een keer om terug te gaan naar normaal plakken."
 },
 paste_dlg:{
 text_title:"Gebruik Ctrl+V om tekst in het venster te plakken.",
@@ -120,7 +122,9 @@ col:"Kolom",
 cell:"Cel"
 },
 autosave:{
-unload_msg:"De wijzigingen zullen verloren gaan als u nu deze pagina verlaat."
+unload_msg:"De wijzigingen zullen verloren gaan als u nu deze pagina verlaat.",
+restore_content:"Automatisch opgeslagen inhoud laden.",
+warning_message:"Als u de opgeslagen inhoud laadt, verliest u de inhoud die zich momenteel in de editor bevindt.\n\nWeet u zeker dat u de opgeslagen inhoud wilt laden?"
 },
 fullscreen:{
 desc:"Volledig scherm"
@@ -133,7 +137,7 @@ fullpage:{
 desc:"Documenteigenschappen"
 },
 template:{
-desc:"Voorgedefineerd sjabloon invoegen"
+desc:"Voorgedefinieerd sjabloon invoegen"
 },
 visualchars:{
 desc:"Zichtbare symbolen"
@@ -144,11 +148,23 @@ menu:"Instellingen spellingcontrole",
 ignore_word:"Woord negeren",
 ignore_words:"Alles negeren",
 langs:"Talen",
-wait:"Een ogenblik geduld...",
+wait:"Een ogenblik geduld\u2026",
 sug:"Suggesties",
 no_sug:"Geen suggesties",
 no_mpell:"Geen spelfouten gevonden."
 },
 pagebreak:{
 desc:"Pagina-einde invoegen"
+},
+advlist:{
+types:"Types",
+def:"Standaard",
+lower_alpha:"Alfa (klein)",
+lower_greek:"Griekse letters (klein)",
+lower_roman:"Romeinse letters (klein)",
+upper_alpha:"Alfa (groot)",
+upper_roman:"Romeinse letters (groot)",
+circle:"Cirkel",
+disc:"Schijf",
+square:"Vierkant"
 }}});

@@ -77,12 +77,12 @@ advlink:{
 link_desc:"Sisesta/redigeeri link"
 },
 xhtmlxtras:{
-cite_desc:"Citation",
-abbr_desc:"Abbreviation",
-acronym_desc:"Acronym",
-del_desc:"Deletion",
-ins_desc:"Insertion",
-attribs_desc:"Insert/Edit Attributes"
+cite_desc:"Tsitaat",
+abbr_desc:"L\u00FChend",
+acronym_desc:"Akron\u00FC\u00FCm",
+del_desc:"Kustutus",
+ins_desc:"Lisandus",
+attribs_desc:"Sisesta muuda atribuute"
 },
 style:{
 desc:"Redigeeri CSS stiili"
@@ -90,7 +90,9 @@ desc:"Redigeeri CSS stiili"
 paste:{
 paste_text_desc:"Kleebi tavalise tekstina",
 paste_word_desc:"Kleebi Wordist",
-selectall_desc:"Vali k\u00F5ik"
+selectall_desc:"Vali k\u00F5ik",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Vajuta CTRL+V oma klaviatuuril teksti aknasse kleepimiseks.",
@@ -120,7 +122,9 @@ col:"Veerg",
 cell:"Lahter"
 },
 autosave:{
-unload_msg:"Tehtud muudatused kaovad, kui lahkute siit lehelt."
+unload_msg:"Tehtud muudatused kaovad, kui lahkute siit lehelt.",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"L\u00FClita \u00FCmber t\u00E4isekraani re\u017Eiim"
@@ -151,4 +155,16 @@ no_mpell:"Valesti kirjutamisi ei leitud."
 },
 pagebreak:{
 desc:"Sisesta lehevahetus."
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"Circle",
+disc:"Disc",
+square:"Square"
 }}});

@@ -1,0 +1,20 @@
+tinyMCE.addI18n('az.emotions_dlg',{
+title:"Smayl \u0259lav\u0259 et",
+desc:"Smayllar",
+cool:"Bomba",
+cry:"A\u011Flay\u0131r",
+embarassed:"Mat qalm\u0131\u015F",
+foot_in_mouth:"Ayaqlar_m\u0259nim_a\u011Fz\u0131ma!",
+frown:"Qa\u015Fqabaql\u0131",
+innocent:"G\u00FCnahs\u0131z",
+kiss:"\u00D6p\u00FC\u015F",
+laughing:"G\u00FCl\u00FCr",
+money_mouth:"\u00C7oxlu pul",
+sealed:"M\u00F6h\u00FCrl\u0259nib",
+smile:"G\u00FCl\u00FCms\u0259yir",
+surprised:"T\u0259\u0259c\u00FCbl\u0259nib",
+tongue_out:"Dil g\u00F6st\u0259rir",
+undecided:"Q\u0259rars\u0131zl\u0131qda",
+wink:"G\u00F6z vurur",
+yell:"Ba\u011F\u0131r\u0131r"
+});

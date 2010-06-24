@@ -91,7 +91,9 @@ desc:"\u0395\u03C0\u03B5\u03BE\u03B5\u03C1\u03B3\u03B1\u03C3\u03AF\u03B1 \u03A3\
 paste:{
 paste_text_desc:"\u0395\u03C0\u03B9\u03BA\u03CC\u03BB\u03BB\u03B7\u03C3\u03B7 \u03C9\u03C2 \u03B1\u03C0\u03BB\u03CC \u03BA\u03B5\u03AF\u03BC\u03B5\u03BD\u03BF",
 paste_word_desc:"\u0395\u03C0\u03B9\u03BA\u03CC\u03BB\u03BB\u03B7\u03C3\u03B7 \u03B1\u03C0\u03CC \u03C4\u03BF Word",
-selectall_desc:"\u0395\u03C0\u03B9\u03BB\u03BF\u03B3\u03AE \u03CC\u03BB\u03C9\u03BD"
+selectall_desc:"\u0395\u03C0\u03B9\u03BB\u03BF\u03B3\u03AE \u03CC\u03BB\u03C9\u03BD",
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"\u03A7\u03C1\u03B7\u03C3\u03B9\u03BC\u03BF\u03C0\u03BF\u03B9\u03AE\u03C3\u03C4\u03B5 CTRL+V \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03BA\u03AC\u03BD\u03B5\u03C4\u03B5 \u03B5\u03C0\u03B9\u03BA\u03CC\u03BB\u03BB\u03B7\u03C3\u03B7 \u03BA\u03B5\u03B9\u03BC\u03AD\u03BD\u03BF\u03C5 \u03C3\u03C4\u03BF \u03C0\u03B1\u03C1\u03AC\u03B8\u03C5\u03C1\u03BF.",
@@ -122,7 +124,9 @@ cell:"\u039A\u03B5\u03BB\u03AF",
 cellprops_delta_width:"60"
 },
 autosave:{
-unload_msg:"\u039F\u03B9 \u03B1\u03BB\u03BB\u03B1\u03B3\u03AD\u03C2 \u03C0\u03BF\u03C5 \u03BA\u03AC\u03BD\u03B1\u03C4\u03B5 \u03B8\u03B1 \u03C7\u03B1\u03B8\u03BF\u03CD\u03BD \u03B1\u03BD \u03C6\u03CD\u03B3\u03B5\u03C4\u03B5 \u03C3\u03B5 \u03AC\u03BB\u03BB\u03B7 \u03C3\u03B5\u03BB\u03AF\u03B4\u03B1."
+unload_msg:"\u039F\u03B9 \u03B1\u03BB\u03BB\u03B1\u03B3\u03AD\u03C2 \u03C0\u03BF\u03C5 \u03BA\u03AC\u03BD\u03B1\u03C4\u03B5 \u03B8\u03B1 \u03C7\u03B1\u03B8\u03BF\u03CD\u03BD \u03B1\u03BD \u03C6\u03CD\u03B3\u03B5\u03C4\u03B5 \u03C3\u03B5 \u03AC\u03BB\u03BB\u03B7 \u03C3\u03B5\u03BB\u03AF\u03B4\u03B1.",
+restore_content:"Restore auto-saved content.",
+warning_message:"If you restore the saved content, you will lose all the content that is currently in the editor.\n\nAre you sure you want to restore the saved content?."
 },
 fullscreen:{
 desc:"\u0395\u03BD\u03B1\u03BB\u03BB\u03B1\u03B3\u03AE \u03C0\u03BB\u03AE\u03C1\u03BF\u03C5\u03C2 \u03BF\u03B8\u03CC\u03BD\u03B7\u03C2"
@@ -155,4 +159,16 @@ no_mpell:"\u03A3\u03C9\u03C3\u03C4\u03AE \u03BF\u03C1\u03B8\u03BF\u03B3\u03C1\u0
 },
 pagebreak:{
 desc:"\u0395\u03B9\u03C3\u03B1\u03B3\u03C9\u03B3\u03AE \u03B1\u03BB\u03BB\u03B1\u03B3\u03AE\u03C2 \u03C3\u03B5\u03BB\u03AF\u03B4\u03B1\u03C2."
+},
+advlist:{
+types:"Types",
+def:"Default",
+lower_alpha:"Lower alpha",
+lower_greek:"Lower greek",
+lower_roman:"Lower roman",
+upper_alpha:"Upper alpha",
+upper_roman:"Upper roman",
+circle:"Circle",
+disc:"Disc",
+square:"Square"
 }}});

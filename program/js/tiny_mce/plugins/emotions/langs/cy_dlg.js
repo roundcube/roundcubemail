@@ -1,0 +1,20 @@
+tinyMCE.addI18n('cy.emotions_dlg',{
+title:"Mewnosod emosiwn",
+desc:"Emosiynau",
+cool:"Iawn",
+cry:"Crio",
+embarassed:"Rhwystrus",
+foot_in_mouth:"Troed yn ceg",
+frown:"Cuchio",
+innocent:"Dieuog",
+kiss:"Sws",
+laughing:"Chwerthin",
+money_mouth:"Ceg arian",
+sealed:"Wedi'i selio",
+smile:"Gw\u00EAn",
+surprised:"Wedi synnu",
+tongue_out:"Tafod allan",
+undecided:"Heb penderfynu",
+wink:"Wincio",
+yell:"Gweiddi"
+});
