@@ -65,7 +65,8 @@ class GoogleSpell extends SpellChecker {
 		}
 
 		// Setup XML request
-		$xml = '<?xml version="1.0" encoding="utf-8" ?><spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1"><text>' . $str . '</text></spellrequest>';
+		$xml = '<?xml version="1.0" encoding="utf-8" ?>\
+		<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1"><text>' . $str . '</text></spellrequest>';
 
 		$header  = "POST ".$path." HTTP/1.0 \r\n";
 		$header .= "MIME-Version: 1.0 \r\n";

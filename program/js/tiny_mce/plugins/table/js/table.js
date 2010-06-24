@@ -316,7 +316,7 @@ function init() {
 		style = dom.serializeStyle(st);
 		dir = dom.getAttrib(elm, 'dir');
 		lang = dom.getAttrib(elm, 'lang');
-		background = getStyle(elm, 'background', 'backgroundImage').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+		background = getStyle(elm, 'background', 'backgroundImage').replace(new RegExp("url\\(['\"]?([^'\"]*)['\"]?\\)", 'gi'), "$1");
 		formObj.caption.checked = elm.getElementsByTagName('caption').length > 0;
 
 		orgTableWidth = width;
@@ -425,7 +425,7 @@ function changedStyle() {
 	var st = dom.parseStyle(formObj.style.value);
 
 	if (st['background-image'])
-		formObj.backgroundimage.value = st['background-image'].replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+		formObj.backgroundimage.value = st['background-image'].replace(new RegExp("url\\(['\"]?([^'\"]*)['\"]?\\)", 'gi'), "$1");
 	else
 		formObj.backgroundimage.value = '';
 

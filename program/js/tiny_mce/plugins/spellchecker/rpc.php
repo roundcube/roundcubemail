@@ -51,6 +51,7 @@ if (!$raw) {
 if (!$raw)
 	die('{"result":null,"id":null,"error":{"errstr":"Could not get raw post data.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
 
+
 // Passthrough request to remote server
 if (isset($config['general.remote_rpc_url'])) {
 	$url = parse_url($config['general.remote_rpc_url']);
@@ -87,6 +88,7 @@ if (isset($config['general.remote_rpc_url'])) {
 	die();
 }
 
+console($raw);
 // Get JSON data
 $json = new Moxiecode_JSON();
 $input = $json->decode($raw);
@@ -105,6 +107,7 @@ $output = array(
 	"error" => null
 );
 
+console($json->encode($output));
 // Return JSON encoded string
 echo $json->encode($output);
 
