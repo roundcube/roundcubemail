@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix RC forgets search results (#1483883)
+- TinyMCE 3.3.7
 - Improve parsing of styled empty tags in HTML messages (#1486812)
 - Add %dc variable support in base_dn/bind_dn config (#1486779)
 - Add button to hide/unhide the preview pane (#1484215)

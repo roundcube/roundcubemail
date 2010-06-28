@@ -487,7 +487,7 @@ function rcube_webmail()
       // misc list commands
       case 'list':
         if (this.task=='mail') {
-          if (this.env.search_request<0 || (props != '' && (this.env.search_request && props != this.env.mailbox)))
+          if (!this.env.search_request || (props && props != this.env.mailbox))
             this.reset_qsearch();
 
           this.list_mailbox(props);
@@ -496,7 +496,7 @@ function rcube_webmail()
             this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
         }
         else if (this.task=='addressbook') {
-          if (this.env.search_request<0 || (this.env.search_request && props != this.env.source))
+          if (!this.env.search_request || (props != this.env.source))
             this.reset_qsearch();
 
           this.list_contacts(props);
