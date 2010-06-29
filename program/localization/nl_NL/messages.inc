@@ -114,7 +114,7 @@ $messages['smtptoerror'] = 'SMTP Fout ($code): Kon ontvanger "$to" niet toevoege
 $messages['smtprecipientserror'] = 'SMTP Fout: Kon lijst van ontvangers niet verwerken';
 $messages['smtperror'] = 'SMTP Fout: $msg';
 $messages['emailformaterror'] = 'Ongeldig e-mailadres: $email';
-$messages['toomanyrecipients'] = 'Te veel afzender. Verminder de hoeveelheid afzenders tot $max.';
+$messages['toomanyrecipients'] = 'Te veel geadresseerden. Verminder de hoeveelheid geadresseerden tot $max';
 $messages['maxgroupmembersreached'] = 'Het aantal leden van de groep groter is dan de maximale van $max';
 
 ?>
