@@ -53,15 +53,10 @@ span.tablink-selected a
 #folder-manager
 {
   position: absolute;
-  top: 95px;
-  left: 20px;
-  overflow: auto;
-}
-
-#folder-manager
-{
   width: 600px;
-  bottom: 140px;
+  top: 0;
+  left: 0;
+  bottom: 105px;
   overflow: auto;
   border: 1px solid #999999;
 }
@@ -195,16 +190,9 @@ input.disabled
 {
   position: absolute;
   width: 600px;
-  height: 120px;
-  left: 20px;
-  bottom: 25px;
-}
-
-div.settingsbox
-{
-  width: 600px;
-  margin-top: 20px;
-  border: 1px solid #999999;
+  height: 95px;
+  left: 0;
+  bottom: 0;
 }
 
 fieldset 
@@ -219,22 +207,13 @@ legend
   color: #999999;
 }
 
-#prefsscreen
-{
-  position: absolute;
-  top: 95px;
-  right: 20px;
-  bottom: 30px;
-  left: 20px;
-}
-
 #identities-list,
 #sectionslist
 {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
+  top: 0;
+  left: 0;
+  bottom: 0;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
@@ -254,9 +233,9 @@ legend
 #prefs-box
 {
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
+  top: 0;
+  right: 0;
+  bottom: 0;
   border: 1px solid #999999;
   overflow: hidden;
 }

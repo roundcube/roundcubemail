@@ -128,6 +128,15 @@ img
 
 /** common user interface objects */
 
+#mainscreen
+{
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+}
+
 #header
 {
   position: absolute;
@@ -235,11 +244,9 @@ img
   border: 1px solid #CCCCCC;
 }
 
-#pagecontent
+.box
 {
-  position: absolute;
-  top: 95px;
-  left: 20px;
+  border: 1px solid #999;
 }
 
 .boxtitle
@@ -250,6 +257,7 @@ img
   color: #333;
   font-size: 11px;
   font-weight: bold;
+  overflow: hidden;
   background: url(images/listheader.gif) top left repeat-x #CCC;
 }
 
@@ -275,6 +283,18 @@ img
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.boxsubject
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: hidden;
+  height: 22px;
+  border-bottom: 1px solid #999;
+  background: url(images/listheader.gif) top left repeat-x #CCC;
 }
 
 .boxfooter
@@ -318,6 +338,7 @@ img
   color: #444;
   font-size: 11px;
   text-shadow: white 1px 1px;
+  white-space: nowrap;
 }
 
 .pagenav a.button,
@@ -728,3 +749,9 @@ ul.toolbarmenu li.separator_above
 {
   color: #999;
 }
+
+font.bold
+{
+  font-weight: bold;
+}
+  

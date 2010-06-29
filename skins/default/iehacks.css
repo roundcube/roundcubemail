@@ -32,9 +32,15 @@ input, textarea
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
+#mainscreen
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
+}
+
 #folder-manager
 {
-  height: expression((parseInt(document.documentElement.clientHeight)-235)+'px');
+  height: expression((parseInt(this.parentNode.offsetHeight)-105)+'px');
 }
 
 #messagetoolbar
@@ -71,23 +77,20 @@ input, textarea
   z-index: 250;
 }
 
-#mainscreen
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-96)+'px');
-}
-
-#directorylistbox
-{
-  height: expression((parseInt(document.documentElement.clientHeight)-115)+'px');
-}
-
 #addresslist,
 #sectionslist,
 #identities-list,
 #mailleftcontainer,
+#mailrightcontainer,
+#compose-container,
+#compose-attachments,
 #mailcontframe,
-#identity-details
+#mailboxlist-container,
+#mailrightcontent,
+#messageframe,
+#identity-details,
+#contacts-box,
+#prefs-box
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
@@ -95,7 +98,6 @@ input, textarea
 #mailrightcontainer
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #messagepartcontainer
@@ -106,18 +108,17 @@ input, textarea
 
 #mailrightcontent
 {
-  height: expression((parseInt(this.parentNode.offsetHeight)-20)+'px');
   width: 100%;
+}
+
+#compose-div
+{
+  height: expression((parseInt(this.parentNode.offsetHeight)-1-parseInt(document.getElementById('compose-headers').offsetHeight))+'px');
 }
 
 #partheader
 {
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
-}
-
-#mailboxlist-container
-{
-  height: expression((parseInt(this.parentNode.offsetHeight)-20)+'px');
 }
 
 #subscription-table
@@ -137,7 +138,7 @@ input, textarea
 {
   height: 18px;
 }
-  
+
 #messagelist tbody tr.unroot td.subject
 {
   text-decoration: underline;
@@ -146,7 +147,6 @@ input, textarea
 #messageframe
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-180)+'px');
-  height: expression((parseInt(this.parentNode.offsetHeight)-20)+'px');
   overflow: hidden;
 }
 
@@ -161,13 +161,6 @@ body.iframe
   width: expression((parseInt(document.documentElement.clientWidth))+'px');
 }
 
-#compose-container
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-230)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
-}
-
-#compose-body,
 #compose-headers td textarea,
 #compose-headers td input
 {
@@ -184,19 +177,7 @@ div.message-part div.pre
 #addressscreen
 {
   width: expression((parseInt(document.documentElement.clientWidth)-245)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-115)+'px');
-}
-
-#prefsscreen
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-125)+'px');
-}
-
-#importbox
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');
+  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }
 
 #contacts-table
@@ -207,7 +188,6 @@ div.message-part div.pre
 #contacts-box,
 #prefs-box
 {
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
   width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
 }
 

@@ -225,7 +225,7 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.enable_command('add-attachment', 'send-attachment', 'remove-attachment', 'send', true);
+          this.enable_command('send-attachment', 'remove-attachment', 'send', true);
 
           if (this.env.spellcheck) {
             this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
@@ -871,9 +871,6 @@ function rcube_webmail()
         // clear timeout (sending could take longer)
         clearTimeout(this.request_timer);
         break;
-
-      case 'add-attachment':
-        this.show_attachment_form(true);
 
       case 'send-attachment':
         // Reset the auto-save timer
@@ -3068,32 +3065,6 @@ function rcube_webmail()
     return true;
   };
 
-  this.show_attachment_form = function(a)
-  {
-    if (!this.gui_objects.uploadbox)
-      return false;
-
-    var elm, list;
-    if (elm = this.gui_objects.uploadbox) {
-      if (a && (list = this.gui_objects.attachmentlist)) {
-        var pos = $(list).offset();
-        elm.style.top = (pos.top + list.offsetHeight + 10) + 'px';
-        elm.style.left = pos.left + 'px';
-      }
-
-      $(elm).toggle();
-    }
-
-    // clear upload form
-    try {
-      if (!a && this.gui_objects.attachmentform != this.gui_objects.messageform)
-        this.gui_objects.attachmentform.reset();
-    }
-    catch(e){}  // ignore errors
-
-    return true;
-  };
-
   // upload attachment file
   this.upload_file = function(form)
   {
@@ -3156,8 +3127,6 @@ function rcube_webmail()
       form.setAttribute('enctype', 'multipart/form-data');
       form.submit();
 
-      // hide upload form
-      this.show_attachment_form(false);
       // display upload indicator and cancel button
       var content = this.get_label('uploading');
       if (this.env.loadingicon)

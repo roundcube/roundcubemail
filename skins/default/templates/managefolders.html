@@ -13,6 +13,8 @@
 
 <form name="subscriptionform" action="./" onsubmit="rcmail.command('create-folder');return false;">
 
+<div id="mainscreen">
+
 <div id="folder-manager">
 <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"
   cellpadding="1" cellspacing="0" summary="Folder subscription table" class="records-table"
@@ -20,8 +22,7 @@
   renameIcon="/images/icons/rename.png" />
 </div>
 
-<div id="bottomboxes">
-<div class="settingsbox">
+<div id="bottomboxes" class="box">
 <div class="boxtitle"><roundcube:label name="createfolder" /></div>
 
 <div class="boxcontent">
@@ -35,8 +36,6 @@
 </div>
 
 </form>
-
-<div id="rcmversion"><roundcube:object name="productname" /> <roundcube:object name="version" /></div>
 
 </body>
 </html>

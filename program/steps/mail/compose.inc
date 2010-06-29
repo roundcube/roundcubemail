@@ -188,8 +188,11 @@ if (!empty($msg_uid))
   }
 }
 
-/****** compose mode functions ********/
+// process $MESSAGE body/attachments, set $MESSAGE_BODY/$HTML_MODE vars and some session data
+$MESSAGE_BODY = rcmail_prepare_message_body();
 
+
+/****** compose mode functions ********/
 
 function rcmail_compose_headers($attrib)
 {
@@ -318,7 +321,6 @@ function rcmail_compose_headers($attrib)
 }
 
 
-
 function rcmail_compose_header_from($attrib)
 {
   global $IMAP, $MESSAGE, $DB, $USER, $OUTPUT, $compose_mode;
@@ -416,17 +418,9 @@ function rcmail_compose_header_from($attrib)
 }
 
 
-function rcmail_compose_body($attrib)
+function rcmail_prepare_message_body()
 {
-  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $LINE_LENGTH;
-  
-  list($form_start, $form_end) = get_form_tags($attrib);
-  unset($attrib['form']);
-  
-  if (empty($attrib['id']))
-    $attrib['id'] = 'rcmComposeBody';
-
-  $attrib['name'] = '_message';
+  global $RCMAIL, $CONFIG, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE;
 
   if ($CONFIG['htmleditor'] || (($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) && $MESSAGE->has_html_part()))
     $isHtml = true;
@@ -494,6 +488,25 @@ function rcmail_compose_body($attrib)
     }
   }
   
+  $HTML_MODE = $isHtml;
+  
+  return $body;
+}
+
+function rcmail_compose_body($attrib)
+{
+  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE, $MESSAGE_BODY;
+  
+  list($form_start, $form_end) = get_form_tags($attrib);
+  unset($attrib['form']);
+  
+  if (empty($attrib['id']))
+    $attrib['id'] = 'rcmComposeBody';
+
+  $attrib['name'] = '_message';
+
+  $isHtml = $HTML_MODE;
+  
   $out = $form_start ? "$form_start\n" : '';
 
   $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE->headers->messageID) : ''));
@@ -508,7 +521,7 @@ function rcmail_compose_body($attrib)
   // If desired, set this textarea to be editable by TinyMCE
   if ($isHtml) $attrib['class'] = 'mce_editor';
   $textarea = new html_textarea($attrib);
-  $out .= $textarea->show($body);
+  $out .= $textarea->show($MESSAGE_BODY);
   $out .= $form_end ? "\n$form_end" : '';
 
   $OUTPUT->set_env('composebody', $attrib['id']);
@@ -908,7 +921,7 @@ function rcmail_compose_attachment_list($attrib)
   
   $out = "\n";
   $jslist = array();
-  
+
   if (is_array($_SESSION['compose']['attachments']))
   {
     if ($attrib['deleteicon']) {
@@ -972,7 +985,7 @@ function rcmail_compose_attachment_form($attrib)
       html::div(null, rcmail_compose_attachment_field(array('size' => $attrib[attachmentfieldsize]))) .
       html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
       html::div('buttons',
-        $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
+//        $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
         $button->show(rcube_label('upload'), array('class' => 'button mainaction', 'onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
       )
     )

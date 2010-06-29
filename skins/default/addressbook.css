@@ -84,7 +84,7 @@
   position: absolute;
   top: 85px;
   right: 20px;
-  bottom: 30px;
+  bottom: 20px;
   left: 225px;
 }
 
@@ -92,7 +92,7 @@
 {
   position: absolute;
   top: 85px;
-  bottom: 30px;
+  bottom: 20px;
   left: 20px;
   width: 195px;
   border: 1px solid #999999;
@@ -109,8 +109,8 @@
 #addresslist
 {
   position: absolute;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
@@ -121,28 +121,10 @@
   border-top: 1px solid #999;
 }
 
-#importbox
-{
-  position: absolute;
-  top: 85px;
-  bottom: 30px;
-  left: 20px;
-  right: 20px;
-  border: 1px solid #999999;
-  background-color: #F2F2F2;
-  padding-bottom: 4ex;
-  overflow: auto;
-}
-
 #addresslist
 {
   left: 0px;
   width: 280px;
-}
-
-#importbox a
-{
-  color: blue;
 }
 
 #directorylist

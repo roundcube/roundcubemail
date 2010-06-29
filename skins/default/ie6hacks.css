@@ -55,6 +55,11 @@ img
   background-image: url(images/icons/groupactions.gif);
 }
 
+.pagenav
+{
+  width: 200px;
+}
+
 .pagenav a.button,
 .pagenav a.buttonPas
 {
@@ -106,4 +111,9 @@ ul.toolbarmenu li.separator_below
 {
   top: 21px;
   height: expression((parseInt(this.parentNode.offsetHeight)-24-parseInt(this.style.top?this.style.top:21))+'px');
+}
+
+#directorylistbox
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }

@@ -82,6 +82,8 @@ function rcube_splitter(attrib)
         this.p2.style.width = (new_width > 0 ? new_width : 0) + 'px';
       }
     }
+    $(this.p2).resize();
+    $(this.p1).resize();
   };
 
   /**

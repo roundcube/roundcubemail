@@ -767,6 +767,27 @@ this.hideLangWindow = function() {
     $(this.switch_lan_pic).removeClass().addClass('googie_lang_3d_on');
 };
 
+this.showLangWindow = function(elm) {
+    if (this.show_menu_observer)
+        this.show_menu_observer(this);
+
+    this.createLangWindow();
+    $('body').append(this.language_window);
+
+    var pos = $(elm).offset(),
+        height = $(elm).height(),
+        width = $(elm).width(),
+        h = $(this.language_window).height(),
+        pageheight = $(document).height(),
+        left = this.change_lang_pic_placement == 'right' ?
+	        pos.left - 100 + width : pos.left + width,
+        top = pos.top + h < pageheight ? pos.top + height : pos.top - h - 4;
+
+    $(this.language_window).css({'visibility': 'visible', 'top' : top+'px','left' : left+'px'});
+
+    this.highlightCurSel();
+};
+
 this.deHighlightCurSel = function() {
     $(this.lang_cur_elm).removeClass().addClass('googie_list_onout');
 };
@@ -776,30 +797,13 @@ this.highlightCurSel = function() {
         GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG;
     for (var i=0; i < this.lang_elms.length; i++) {
         if ($(this.lang_elms[i]).attr('googieId') == GOOGIE_CUR_LANG) {
-            this.lang_elms[i].className = "googie_list_selected";
+            this.lang_elms[i].className = 'googie_list_selected';
             this.lang_cur_elm = this.lang_elms[i];
         }
         else {
-            this.lang_elms[i].className = "googie_list_onout";
+            this.lang_elms[i].className = 'googie_list_onout';
         }
     }
-};
-
-this.showLangWindow = function(elm) {
-    if (this.show_menu_observer)
-        this.show_menu_observer(this);
-
-    this.createLangWindow();
-    $('body').append(this.language_window);
-
-    var pos = $(elm).offset(),
-        top = pos.top + $(elm).height(),
-        left = this.change_lang_pic_placement == 'right' ?
-	        pos.left - 100 + $(elm).width() : pos.left + $(elm).width();
-
-    $(this.language_window).css({'visibility': 'visible', 'top' : top+'px','left' : left+'px'});
-
-    this.highlightCurSel();
 };
 
 this.createChangeLangPic = function() {

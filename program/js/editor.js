@@ -103,8 +103,7 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
   else
     ishtml = select.value == 'html';
 
-  if (ishtml)
-    {
+  if (ishtml) {
     rcmail.display_spellcheck_controls(false);
 
     rcmail.plain2html(composeElement.value, textAreaId);
@@ -113,25 +112,24 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
     setTimeout("rcmail_editor_tabindex();", 500);
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '1';
-    }
-  else
-    {
+  }
+  else {
     var thisMCE = tinyMCE.get(textAreaId);
     var existingHtml = thisMCE.getContent();
 
     if (existingHtml) {
       if (!confirm(rcmail.get_label('editorwarning'))) {
         if (select.tagName == 'SELECT')
-	  select.value = 'html';
+	      select.value = 'html';
         return false;
-	}
+	  }
 
       rcmail.html2plain(existingHtml, textAreaId);
-      }
+    }
 
     tinyMCE.execCommand('mceRemoveControl', false, textAreaId);
     rcmail.display_spellcheck_controls(true);
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '0';
-    }
-};
+  }
+}

@@ -41,7 +41,8 @@ function rcmail_show_header_form(id)
     var div = document.getElementById('compose-div'),
       headers_div = document.getElementById('compose-headers-div');
     row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
-    div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
+    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+    rcmail_resize_compose_body();
   }
 
   return false;
@@ -71,7 +72,8 @@ function rcmail_hide_header_form(id)
     var div = document.getElementById('compose-div'),
       headers_div = document.getElementById('compose-headers-div');
     row.style.display = 'none';
-    div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
+    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+    rcmail_resize_compose_body();
   }
 
   return false;
@@ -115,8 +117,30 @@ function rcmail_init_compose_form()
     };
   }
 
-  // fix editor position on some browsers
-  div.style.top = parseInt(headers_div.offsetHeight, 10) + 'px';
+  $(window).resize(function() {
+    rcmail_resize_compose_body();
+  });
+
+  $('#compose-container').resize(function() {
+    rcmail_resize_compose_body();
+  });
+
+  div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+  $(window).resize();
+}
+
+function rcmail_resize_compose_body(elem)
+{
+  var ed, div = $('#compose-div'), w = div.width(), h = div.height();
+  w = w-4;
+  h = h-25;
+
+  $('#compose-body').width(w-(bw.ie || bw.opera || bw.safari ? 2 : 0)+'px').height(h+'px');
+
+  if (window.tinyMCE && tinyMCE.get('compose-body')) {
+    $('#compose-body_tbl').width((w+4)+'px').height('');
+    $('#compose-body_ifr').width((w+2)+'px').height((h-54)+'px');
+  }
 }
 
 /**
@@ -132,7 +156,9 @@ function rcube_mail_ui()
     listmenu:'listmenu',
     dragmessagemenu:'dragmessagemenu',
     groupmenu:'groupoptionsmenu',
-    mailboxmenu:'mailboxoptionsmenu'
+    mailboxmenu:'mailboxoptionsmenu',
+    composemenu:'composeoptionsmenu',
+    uploadform:'attachment-form'
   };
   
   var obj;
@@ -177,6 +203,20 @@ show_groupmenu: function(show)
 show_mailboxmenu: function(show)
 {
   this.show_popupmenu(this.mailboxmenu, 'mboxactionslink', show, true);
+},
+
+show_composemenu: function(show)
+{
+  this.show_popupmenu(this.composemenu, 'composemenulink', show, true);
+},
+
+show_uploadform: function(show)
+{
+  if (typeof show == 'object') // called as event handler
+    show = false;
+  if (!show)
+    $('input[type=file]').val('');
+  this.show_popupmenu(this.uploadform, 'uploadformlink', show, true);
 },
 
 show_searchmenu: function(show)
@@ -297,24 +337,33 @@ body_mouseup: function(evt, p)
     this.show_groupmenu(false);
   else if (this.mailboxmenu &&  this.mailboxmenu.is(':visible') && target != rcube_find_object('mboxactionslink'))
     this.show_mailboxmenu(false);
-  else if (this.listmenu && this.listmenu.is(':visible') && target != rcube_find_object('listmenulink')) {
-    var menu = rcube_find_object('listmenu');
-    while (target.parentNode) {
-      if (target.parentNode == menu)
-        return;
-      target = target.parentNode;
-    }
+  else if (this.composemenu &&  this.composemenu.is(':visible') && target != rcube_find_object('composemenulink')
+    && !this.target_overlaps(target, this.popupmenus.composemenu)) {
+    this.show_composemenu(false);
+  }
+  else if (this.uploadform &&  this.uploadform.is(':visible') && target != rcube_find_object('uploadformlink')
+    && !this.target_overlaps(target, this.popupmenus.uploadform)) {
+    this.show_uploadform(false);
+  }
+  else if (this.listmenu && this.listmenu.is(':visible') && target != rcube_find_object('listmenulink')
+    && !this.target_overlaps(target, this.popupmenus.listmenu)) {
     this.show_listmenu(false);
   }
-  else if (this.searchmenu && this.searchmenu.is(':visible') && target != rcube_find_object('searchmod')) {
-    var menu = rcube_find_object('searchmenu');
-    while (target.parentNode) {
-      if (target.parentNode == menu)
-        return;
-      target = target.parentNode;
-    }
+  else if (this.searchmenu && this.searchmenu.is(':visible') && target != rcube_find_object('searchmod')
+    && !this.target_overlaps(target, this.popupmenus.searchmenu)) {
     this.show_searchmenu(false);
   }
+},
+
+target_overlaps: function (target, elementid)
+{
+  var element = rcube_find_object(elementid);
+  while (target.parentNode) {
+    if (target.parentNode == element)
+      return true;
+    target = target.parentNode;
+  }
+  return false;
 },
 
 body_keypress: function(evt, p)
@@ -386,6 +435,7 @@ function rcube_init_mail_ui()
   if (rcmail.env.task == 'mail') {
     rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
     rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
+    rcmail.addEventListener('aftersend-attachment', 'show_uploadform', rcmail_ui);
     rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
   }
 }

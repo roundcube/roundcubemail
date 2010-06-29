@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Improved compose screen: resizable body and attachments list, vertical splitter, options menu
 - Fix RC forgets search results (#1483883)
 - TinyMCE 3.3.7
 - Improve parsing of styled empty tags in HTML messages (#1486812)

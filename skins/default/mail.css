@@ -246,29 +246,6 @@
   font-size: 11px;
 }
 
-td.formlinks a,
-td.formlinks a:visited
-{
-  color: #999999;
-  font-size: 11px;
-  text-decoration: none;
-}
-
-td.formlinks a,
-td.formlinks a:visited
-{
-  color: #CC0000;
-}
-
-#mainscreen
-{
-  position: absolute;
-  top: 85px;
-  right: 20px;
-  bottom: 30px;
-  left: 20px;
-}
-
 #mailleftcontainer
 {
   position: absolute;
@@ -515,7 +492,7 @@ td.formlinks a:visited
   position: relative;
   white-space: nowrap;
   left: 4px;
-  height: 22px;
+  line-height: 22px;
   width: auto;
   min-width: 300px;
 }
@@ -525,7 +502,6 @@ td.formlinks a:visited
 {
   display: block;
   float: left;
-  margin-top: 4px;
   font-size: 11px;
 }
 
@@ -542,6 +518,7 @@ td.formlinks a:visited
   width: 15px;
   height: 15px;
   padding: 0;
+  margin-top: 4px;
   margin-right: 2px;
   overflow: hidden;
   background: url(images/mail_footer.png) 0 0 no-repeat transparent;
@@ -1115,40 +1092,49 @@ div.message-htmlpart div.rcmBody
 
 /** message compose styles */
 
-#compose-toolbar
-{
-  white-space: nowrap;
-}
-
 #compose-container
 {
   position: absolute;
-  top: 90px;
-  left: 205px;
-  right: 25px;
-  bottom: 30px;
-  margin: 0px;
-}
-
-#spellcheck-control
-{
-  text-align: right;
-  padding-top: 3px;
+  top: 0;
+  left: 185px;
+  right: 0;
+  bottom: 0;
+  margin: 0;
 }
 
 #compose-div
 {
   position: absolute;
-  top: 130px;
-  bottom: 30px;
+  top: 85px;
+  bottom: 0;
+  margin: 0;
   width: 100%;
-  vertical-align: top;
-  padding-top: 2px;
+  border: 1px solid #999;
+}
+
+#compose-body
+{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  font-size: 9pt;
+  border: none;
+  font-family: monospace;
+  resize: none;
 }
 
 #compose-headers
 {
   width: 100%;
+}
+
+#compose-headers td.editfield
+{
+  padding-right: 5px;
+  min-width: 200px;
 }
 
 #compose-headers td.top
@@ -1160,23 +1146,28 @@ div.message-htmlpart div.rcmBody
 #compose-subject td.title
 {
   width: 80px !important;
-  color: #666;
   font-size: 11px;
   font-weight: bold;
   padding-right: 10px;
   white-space: nowrap;
 }
 
-#compose-body,
 #compose-headers td textarea,
 #compose-headers td input
+{
+  resize: none;
+  width: 100%;
+  border: 1px solid #999;
+}
+
+#compose-headers td select
 {
   width: 100%;
 }
 
 #compose-headers td textarea
 {
-  height: 38px;
+  height: 32px;
 }
 
 #compose-cc,
@@ -1186,28 +1177,60 @@ div.message-htmlpart div.rcmBody
   display: none;
 }
 
-#compose-body
+#formlinks
 {
-  min-height: 100px;
-  height: 100%;
-  font-size: 9pt;
-  font-family: monospace;
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;
+  padding-left: 5px;
+}
+
+#formlinks a,
+#formlinks a:visited
+{
+  color: #999999;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+#formlinks a,
+#formlinks a:visited
+{
+  color: #CC0000;
+}
+
+#compose-editorfooter
+{
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+  text-align: right;
+  line-height: 22px;
+}
+
+#compose-buttons
+{
+  position: absolute;
+  left: 40px;
+  top: 1px;
 }
 
 #compose-attachments
 {
   position: absolute;
-  top: 100px;
-  left: 20px;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 175px;
+  border: 1px solid #999;
+  background-color: #F9F9F9;
 }
 
 #compose-attachments ul
 {
   margin: 0px;
   padding: 0px;
-  border: 1px solid #CCCCCC;
-  background-color: #F9F9F9;
+  background-color: #FFF;
   list-style-image: none;
   list-style-type: none;
 }
@@ -1230,16 +1253,6 @@ div.message-htmlpart div.rcmBody
   vertical-align: middle;
 }
 
-#attachment-title
-{
-  color: #666666;
-  font-weight: bold;
-  font-size: 11px;
-  background: url(images/icons/attachment.png) top left no-repeat;
-  padding: 0px 0px 3px 18px;
-  margin-left: 3px;
-}
-
 #attachment-form
 {
   padding: 6px;
@@ -1253,26 +1266,6 @@ div.message-htmlpart div.rcmBody
 #attachment-form div.buttons
 {
   margin-top: 4px;
-}
-
-#editor-select
-{
-  float: left;
-  white-space: nowrap;
-  width: auto;
-}
-
-#editor-select label
-{
-  color: #666;
-  font-size: 11px;
-  font-weight: bold;
-  padding-left: 20px;
-}
-
-#editor-select input
-{
-  width: auto !important;
 }
 
 td.show-headers
@@ -1304,11 +1297,6 @@ td.hide-headers
   display: none;
   text-align: left;
   color: #333;
-}
-
-font.bold
-{
-  font-weight: bold;
 }
 
 #listmenu

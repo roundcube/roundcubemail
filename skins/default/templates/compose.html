@@ -5,8 +5,15 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
 <script type="text/javascript" src="/functions.js"></script>
+<script type="text/javascript" src="/splitter.js"></script>
+<style type="text/css">
+#compose-attachments { width: <roundcube:exp expression="!empty(cookie:composesplitterv) ? cookie:composesplitterv-5 : 175" />px; }
+#compose-container { left: <roundcube:exp expression="!empty(cookie:composesplitterv) ? cookie:composesplitterv+5 : 185" />px;
+<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:composesplitterv) ? cookie:composesplitterv+5 : 180).')+\\'px\\');') : ''" />
+}
+</style>
 </head>
-<body onload="rcmail_init_compose_form()">
+<body onload="rcmail_init_compose_form(); rcube_init_mail_ui()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -14,89 +21,117 @@
 <form name="form" action="./" method="post">
 
 <div id="messagetoolbar">
-<table border="0" cellspacing="0" cellpadding="0"><tr>
-    <td id="compose-toolbar">
-      <roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
-      <roundcube:button command="send" type="link" class="buttonPas send" classAct="button send" classSel="button sendSel" title="sendmessage" content=" " />
-      <roundcube:button command="spellcheck" type="link" class="buttonPas spellcheck" classAct="button spellcheck" classSel="button spellcheckSel" title="checkspelling" content=" " />
-      <roundcube:button command="add-attachment" type="link" class="buttonPas attach" classAct="button attach" classSel="button attachSel" title="addattachment" content=" " />
-      <roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
-      <roundcube:button command="savedraft" type="link" class="buttonPas savedraft" classAct="button savedraft" classSel="button savedraftSel" title="savemessage" content=" " />
-      <roundcube:container name="toolbar" id="compose-toolbar" />
-    </td>
-</tr></table>
+    <roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
+    <roundcube:button command="send" type="link" class="buttonPas send" classAct="button send" classSel="button sendSel" title="sendmessage" content=" " />
+    <roundcube:button command="spellcheck" type="link" class="buttonPas spellcheck" classAct="button spellcheck" classSel="button spellcheckSel" title="checkspelling" content=" " />
+    <roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
+    <roundcube:button command="savedraft" type="link" class="buttonPas savedraft" classAct="button savedraft" classSel="button savedraftSel" title="savemessage" content=" " />
+    <roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
+
+<div id="mainscreen">
+
+<div id="compose-attachments">
+<div class="boxtitle"><roundcube:label name="attachments" /></div>
+<div class="boxlistcontent">
+  <roundcube:object name="composeAttachmentList" deleteIcon="/images/icons/delete.png" cancelIcon="/images/icons/delete.png" loadingIcon="/images/display/loading_blue.gif" />
+</div>
+<div class="boxfooter">
+  <roundcube:button name="uploadform" id="uploadformlink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_uploadform();return false" content=" " />
+</div>
+</div>
+
+<script type="text/javascript">
+  var composesplitv = new rcube_splitter({id:'composesplitterv', p1: 'compose-attachments', p2: 'compose-container', orientation: 'v', relative: true, start: 165});
+  rcmail.add_onload('composesplitv.init()');
+</script>
 
 <div id="compose-container">
     <div id="compose-headers-div" style="width: 100%;">
-	<table border="0" cellspacing="0" cellpadding="1" id="compose-headers" summary="">
-	<tbody>
+	    <table border="0" cellspacing="0" cellpadding="1" id="compose-headers">
 	    <tr>
-		<td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" /></td>
+		    <td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
+		    <td class="editfield">
+                <roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
+            </td>
+            <td id="formlinks">
+		        <a href="#cc" onclick="return rcmail_show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
+		        <span class="separator">|</span>
+		        <a href="#bcc" onclick="return rcmail_show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
+		        <span class="separator">|</span>
+		        <a href="#reply-to" onclick="return rcmail_show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
+            </td>
 	    </tr><tr>
-		<td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="2" tabindex="2" /></td>
+		    <td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
+		    <td colspan="2" class="editfield">
+                <roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="2" tabindex="2" />
+            </td>
 	    </tr><tr id="compose-cc">
-		<td class="title top"><a href="#cc" onclick="return rcmail_hide_header_form('cc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
-		<label for="_cc"><roundcube:label name="cc" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="2" tabindex="3" /></td>
+		    <td class="title top">
+                <a href="#cc" onclick="return rcmail_hide_header_form('cc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+		        <label for="_cc"><roundcube:label name="cc" /></label>
+            </td>
+		    <td colspan="2" class="editfield">
+                <roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="2" tabindex="3" />
+            </td>
 	    </tr><tr id="compose-bcc">
-		<td class="title top"><a href="#bcc" onclick="return rcmail_hide_header_form('bcc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
-		<label for="_bcc"><roundcube:label name="bcc" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="2" tabindex="4" /></td>
+		    <td class="title top">
+                <a href="#bcc" onclick="return rcmail_hide_header_form('bcc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+		        <label for="_bcc"><roundcube:label name="bcc" /></label>
+            </td>
+		    <td colspan="2" class="editfield">
+                <roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="2" tabindex="4" />
+            </td>
 	    </tr><tr id="compose-replyto">
-		<td class="title top"><a href="#replyto" onclick="return rcmail_hide_header_form('replyto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
-		<label for="_replyto"><roundcube:label name="replyto" /></label></td>
-		<td><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" /></td>
-	    </tr><tr id="compose-links">
-		<td></td>
-		<td class="formlinks">
-		    <a href="#cc" onclick="return rcmail_show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
-		    <span class="separator">|</span>
-		    <a href="#bcc" onclick="return rcmail_show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
-		    <span class="separator">|</span>
-		    <a href="#reply-to" onclick="return rcmail_show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
-		</td>
-	    </tr><tr>
-		<td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>
-		<td><roundcube:object name="composeSubject" id="compose-subject" form="form" tabindex="6" /></td>
-	    </tr><tr>
-		<td class="title"><roundcube:label name="editortype" /></td>
-		<td>
-		    <div id="editor-select">
-                <roundcube:object name="editorSelector" editorid="compose-body" tabindex="7" />
-                <label for="rcmcomposepriority"><roundcube:label name="priority" /></label>
-                <roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" />
-                <label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" /></label>
-                <roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" />
-            </div>
-		    <div id="spellcheck-control"></div>
-		</td>
-	    </tr>
-	</tbody>
-	</table>
+		    <td class="title top">
+                <a href="#replyto" onclick="return rcmail_hide_header_form('replyto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+		        <label for="_replyto"><roundcube:label name="replyto" /></label>
+            </td>
+		    <td colspan="2" class="editfield">
+                <roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" />
+            </td>
+        </tr><tr>
+		    <td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>
+		    <td colspan="2" class="editfield">
+                <roundcube:object name="composeSubject" id="compose-subject" form="form" tabindex="6" />
+            </td>
+        </table>
     </div>
     <div id="compose-div">
-	<roundcube:object name="composeBody" id="compose-body" form="form" cols="70" rows="20" tabindex="8" />
-	<table border="0" cellspacing="0" summary="" style="width:100%; margin-top: 5px;"><tbody>
-	    <tr>
-		<td style="white-space: nowrap">
-		    <roundcube:button type="input" command="send" class="button mainaction" label="sendmessage" tabindex="9" />
-		    <roundcube:button type="input" command="list" class="button" label="cancel" tabindex="10" />
-		</td>
-		<td style="text-align:right; white-space: nowrap">
-		    <label><roundcube:label name="savesentmessagein" />: <roundcube:object name="storetarget" maxlength="30" tabindex="11" /></label>
-		</td>
-	    </tr>
-	</tbody></table>
+        <div class="boxlistcontent" style="overflow: hidden; top: 0">
+	        <roundcube:object name="composeBody" id="compose-body" form="form" cols="70" rows="20" tabindex="7" />
+        </div>
+        <div class="boxfooter">
+            <roundcube:button name="messageoptions" id="composemenulink" type="link" title="messageoptions" class="button groupactions" onclick="rcmail_ui.show_composemenu();return false" content=" " />
+            <span id="compose-buttons">
+		    <roundcube:button type="input" command="send" class="button mainaction" label="sendmessage" tabindex="8" />
+		    <roundcube:button type="input" command="list" class="button" label="cancel" tabindex="9" />
+            </span>
+            <div id="compose-editorfooter" class="pagenav">
+                <span id="spellcheck-control" style="margin-right: 10px"></span>
+                <span>
+                <roundcube:label name="editortype" />
+                <roundcube:object name="editorSelector" editorid="compose-body" tabindex="10" />
+                </span>
+            </div>
+        </div>
     </div>
 </div>
 
-<div id="compose-attachments">
-<div id="attachment-title"><roundcube:label name="attachments" /></div>
-<roundcube:object name="composeAttachmentList" deleteIcon="/images/icons/delete.png" cancelIcon="/images/icons/delete.png" loadingIcon="/images/display/loading_blue.gif" />
-<p><roundcube:button command="add-attachment" imagePas="/images/buttons/add_pas.png" imageSel="/images/buttons/add_sel.png" imageAct="/images/buttons/add_act.png" width="23" height="18" title="addattachment" /></p>
+</div>
+
+<div id="composeoptionsmenu" class="popupmenu">
+    <table>
+        <tr><td><label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" />:</label></td>
+            <td><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /></td>
+        </tr>
+        <tr><td><label for="rcmcomposepriority"><roundcube:label name="priority" />:</label></td>
+            <td><roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></td>
+        </tr>
+        <tr><td><label><roundcube:label name="savesentmessagein" />:</label></td>
+            <td><roundcube:object name="storetarget" maxlength="30" /></td>
+        </tr>
+    </table>
 </div>
 
 </form>
