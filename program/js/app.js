@@ -484,7 +484,6 @@ function rcube_webmail()
         }
         break;
 
-      // misc list commands
       case 'list':
         if (this.task=='mail') {
           if (!this.env.search_request || (props && props != this.env.mailbox))
@@ -504,16 +503,9 @@ function rcube_webmail()
         }
         break;
 
-
-      case 'listgroup':
-        this.list_contacts(props.source, props.id);
-        break;
-
-
       case 'load-headers':
         this.load_headers(obj);
         break;
-
 
       case 'sort':
         var sort_order, sort_col = props;
@@ -557,7 +549,6 @@ function rcube_webmail()
           this.purge_mailbox(this.env.mailbox);
         break;
 
-
       // common commands used in multiple tasks
       case 'show':
         if (this.task=='mail') {
@@ -597,7 +588,6 @@ function rcube_webmail()
         }
         break;
 
-      case 'save-identity':
       case 'save':
         if (this.gui_objects.editform) {
           var input_pagesize = $("input[name='_pagesize']");
@@ -879,10 +869,6 @@ function rcube_webmail()
         this.upload_file(props)
         break;
 
-      case 'remove-attachment':
-        this.remove_attachment(props);
-        break;
-
       case 'insert-sig':
         this.change_identity($("[name='_from']")[0], true);
         break;
@@ -927,10 +913,6 @@ function rcube_webmail()
           this.goto_url('viewsource', '&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+'&_save=1');
         break;
 
-      case 'add-contact':
-        this.add_contact(props);
-        break;
-
       // quicksearch
       case 'search':
         if (!props && this.gui_objects.qsearchbox)
@@ -951,16 +933,8 @@ function rcube_webmail()
           this.list_contacts(this.env.source, this.env.group);
         break;
 
-      case 'group-create':
-        this.add_contact_group(props)
-        break;
-
-      case 'group-rename':
-        this.rename_contact_group();
-        break;
-
-      case 'group-delete':
-        this.delete_contact_group();
+      case 'listgroup':
+        this.list_contacts(props.source, props.id);
         break;
 
       case 'import':
@@ -988,12 +962,6 @@ function rcube_webmail()
         }
         break;
 
-      // collapse/expand folder
-      case 'collapse-folder':
-        if (props)
-          this.collapse_folder(props);
-        break;
-
       // user settings commands
       case 'preferences':
         this.goto_url('');
@@ -1003,41 +971,17 @@ function rcube_webmail()
         this.goto_url('identities');
         break;
 
-      case 'delete-identity':
-        this.delete_identity();
-
       case 'folders':
         this.goto_url('folders');
         break;
 
-      case 'subscribe':
-        this.subscribe_folder(props);
+      // unified command call (command name == function name)
+      default:
+        var func = command.replace('-', '_');
+        alert(func);
+        if (this[func] && typeof this[func] == 'function')
+          this[func](props);
         break;
-
-      case 'unsubscribe':
-        this.unsubscribe_folder(props);
-        break;
-
-      case 'enable-threading':
-        this.enable_threading(props);
-        break;
-
-      case 'disable-threading':
-        this.disable_threading(props);
-        break;
-
-      case 'create-folder':
-        this.create_folder(props);
-        break;
-
-      case 'rename-folder':
-        this.rename_folder(props);
-        break;
-
-      case 'delete-folder':
-        this.delete_folder(props);
-        break;
-
     }
 
     this.triggerEvent('after'+command, props);
@@ -3736,7 +3680,7 @@ function rcube_webmail()
   };
 
 
-  this.add_contact_group = function()
+  this.group_create = function()
   {
     if (!this.gui_objects.folderlist || !this.env.address_sources[this.env.source].groups)
       return;
@@ -3753,7 +3697,7 @@ function rcube_webmail()
     this.name_input.select();
   };
 
-  this.rename_contact_group = function()
+  this.group_rename = function()
   {
     if (!this.env.group || !this.gui_objects.folderlist)
       return;
@@ -3773,7 +3717,7 @@ function rcube_webmail()
     this.name_input.select();
   };
 
-  this.delete_contact_group = function()
+  this.group_delete = function()
   {
     if (this.env.group)
       this.http_post('group-delete', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group), true);
@@ -3888,9 +3832,9 @@ function rcube_webmail()
     this.subscription_list.row_init = function (row) {
       var anchors = row.obj.getElementsByTagName('a');
       if (anchors[0])
-        anchors[0].onclick = function() { p.rename_folder(row.id); return false; };
+        anchors[0].onclick = function() { p.command('rename-folder', row.id); return false; };
       if (anchors[1])
-        anchors[1].onclick = function() { p.delete_folder(row.id); return false; };
+        anchors[1].onclick = function() { p.command('delete-folder', row.id); return false; };
       row.obj.onmouseover = function() { p.focus_subscription(row.id); };
       row.obj.onmouseout = function() { p.unfocus_subscription(row.id); };
     };
@@ -4257,13 +4201,13 @@ function rcube_webmail()
       form.elements['_folder_newname'].value = '';
   };
 
-  this.subscribe_folder = function(folder)
+  this.subscribe = function(folder)
   {
     if (folder)
       this.http_post('subscribe', '_mbox='+urlencode(folder));
   };
 
-  this.unsubscribe_folder = function(folder)
+  this.unsubscribe = function(folder)
   {
     if (folder)
       this.http_post('unsubscribe', '_mbox='+urlencode(folder));
