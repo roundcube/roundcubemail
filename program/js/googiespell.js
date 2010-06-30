@@ -567,7 +567,7 @@ this.showErrorWindow = function(elm, id) {
 this.createEditLayer = function(width, height) {
     this.edit_layer = document.createElement('div');
     $(this.edit_layer).addClass('googie_edit_layer').attr('id', 'googie_edit_layer')
-        .width(width).height(height);
+        .width('auto').height(height);
 
     if (this.text_area.nodeName.toLowerCase() != 'input' || $(this.text_area).val() == '') {
         $(this.edit_layer).css('overflow', 'auto').height(height-4);

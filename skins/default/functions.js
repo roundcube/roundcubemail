@@ -345,7 +345,7 @@ resize_compose_body: function()
     $('#compose-body_ifr').width((w+2)+'px').height((h-54)+'px');
   }
   else {
-    $('#googie_edit_layer').width(w-(bw.ie || bw.opera || bw.safari ? 2 : 0)+'px').height(h+'px');
+    $('#googie_edit_layer').height(h+'px');
   }
 },
 
