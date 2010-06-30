@@ -1374,10 +1374,6 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
     $smtp_response = $RCMAIL->smtp->get_response();
     $smtp_error = $RCMAIL->smtp->get_error();
 
-    if (is_resource($msg_body)) {
-      fclose($msg_body);
-    }
-
     // log error
     if (!$sent)
       raise_error(array('code' => 800, 'type' => 'smtp', 'line' => __LINE__, 'file' => __FILE__,
@@ -1440,6 +1436,10 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
         $mailto,
         !empty($smtp_response) ? join('; ', $smtp_response) : ''));
     }
+  }
+
+  if (is_resource($msg_body)) {
+    fclose($msg_body);
   }
 
   $message->_headers = array();
