@@ -344,6 +344,9 @@ resize_compose_body: function()
     $('#compose-body_tbl').width((w+4)+'px').height('');
     $('#compose-body_ifr').width((w+2)+'px').height((h-54)+'px');
   }
+  else {
+    $('#googie_edit_layer').width(w-(bw.ie || bw.opera || bw.safari ? 2 : 0)+'px').height(h+'px');
+  }
 },
 
 show_header_form: function(id)

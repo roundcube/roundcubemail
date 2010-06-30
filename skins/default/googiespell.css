@@ -13,10 +13,8 @@
 }
 
 .googie_edit_layer {
-  border: 1px solid #666666;
   background-color: #ffffff;
-  padding: 1px 4px;
-  margin: 1px 0px;
+  padding: 0 4px;
   font-size: 9pt;
   font-family: monospace;
 }
@@ -75,6 +73,8 @@
   color: #b91414;
   text-decoration: underline;
   cursor: pointer;
+  font-size: 9pt;
+  font-family: monospace;
 }
 
 .googie_check_spelling_link {  

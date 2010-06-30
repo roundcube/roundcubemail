@@ -111,9 +111,8 @@ this.decorateTextarea = function(id) {
 
         this.checkSpellingState();
     }
-    else 
-        if (this.report_ta_not_found)
-            alert('Text area not found');
+    else if (this.report_ta_not_found)
+        alert('Text area not found');
 };
 
 //////
@@ -393,11 +392,7 @@ this.showErrorWindow = function(elm, id) {
         table = document.createElement('table'),
         list = document.createElement('tbody');
 
-    pos.top -= this.edit_layer.scrollTop;
-
-    $(this.error_window).css({'visibility': 'visible',
-	'top': (pos.top+20)+'px', 'left': (pos.left)+'px'}).html('');
-
+    $(this.error_window).html('');
     $(table).addClass('googie_list').attr('googie_action_btn', '1');
 
     // Check if we should use custom menu builder, if not we use the default
@@ -541,6 +536,16 @@ this.showErrorWindow = function(elm, id) {
     table.appendChild(list);
     this.error_window.appendChild(table);
 
+    // calculate and set position
+    var height = $(this.error_window).height(),
+        width = $(this.error_window).width(),
+        pageheight = $(document).height(),
+        pagewidth = $(document).width(),
+        top = pos.top + height + 20 < pageheight ? pos.top + 20 : pos.top - height,
+        left = pos.left + width < pagewidth ? pos.left : pos.left - width;
+
+    $(this.error_window).css({'visibility': 'visible', 'top': top+'px', 'left': left+'px'});
+
     // Dummy for IE - dropdown bug fix
     if ($.browser.msie) {
 	    if (!this.error_window_iframe) {
@@ -561,7 +566,8 @@ this.showErrorWindow = function(elm, id) {
 //////
 this.createEditLayer = function(width, height) {
     this.edit_layer = document.createElement('div');
-    $(this.edit_layer).addClass('googie_edit_layer').width(width-10).height(height);
+    $(this.edit_layer).addClass('googie_edit_layer').attr('id', 'googie_edit_layer')
+        .width(width).height(height);
 
     if (this.text_area.nodeName.toLowerCase() != 'input' || $(this.text_area).val() == '') {
         $(this.edit_layer).css('overflow', 'auto').height(height-4);
@@ -621,7 +627,7 @@ this.createErrorLink = function(text, id) {
         };
 
     $(elm).html(text).addClass('googie_link').bind('click', d)
-	.attr({'googie_action_btn' : '1', 'g_id' : id, 'is_corrected' : false});
+	    .attr({'googie_action_btn' : '1', 'g_id' : id, 'is_corrected' : false});
 
     return elm;
 };
@@ -702,7 +708,7 @@ this.showErrorsInIframe = function() {
 this.createLangWindow = function() {
     this.language_window = document.createElement('div');
     $(this.language_window).addClass('googie_window')
-	.width(100).attr('googie_action_btn', '1');
+	    .width(100).attr('googie_action_btn', '1');
 
     // Build up the result list
     var table = document.createElement('table'),
