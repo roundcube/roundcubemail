@@ -22,129 +22,7 @@ function rcube_show_advanced(visible)
 }
 
 /**
- * Mail Composing
- */
-
-function rcmail_show_header_form(id)
-{
-  var row, s,
-    link = document.getElementById(id + '-link');
-
-  if ((s = rcmail_next_sibling(link)))
-    s.style.display = 'none';
-  else if ((s = rcmail_prev_sibling(link)))
-    s.style.display = 'none';
-    
-  link.style.display = 'none';
-
-  if ((row = document.getElementById('compose-' + id))) {
-    var div = document.getElementById('compose-div'),
-      headers_div = document.getElementById('compose-headers-div');
-    row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
-    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
-    rcmail_resize_compose_body();
-  }
-
-  return false;
-}
-
-function rcmail_hide_header_form(id)
-{
-  var row, ns,
-    link = document.getElementById(id + '-link'),
-    parent = link.parentNode,
-    links = parent.getElementsByTagName('a');
-
-  link.style.display = '';
-
-  for (var i=0; i<links.length; i++)
-    if (links[i].style.display != 'none')
-      for (var j=i+1; j<links.length; j++)
-	    if (links[j].style.display != 'none')
-          if ((ns = rcmail_next_sibling(links[i]))) {
-	        ns.style.display = '';
-	        break;
-	      }
-
-  document.getElementById('_' + id).value = '';
-
-  if ((row = document.getElementById('compose-' + id))) {
-    var div = document.getElementById('compose-div'),
-      headers_div = document.getElementById('compose-headers-div');
-    row.style.display = 'none';
-    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
-    rcmail_resize_compose_body();
-  }
-
-  return false;
-}
-
-function rcmail_next_sibling(elm)
-{
-  var ns = elm.nextSibling;
-  while (ns && ns.nodeType == 3)
-    ns = ns.nextSibling;
-  return ns;
-}
-
-function rcmail_prev_sibling(elm)
-{
-  var ps = elm.previousSibling;
-  while (ps && ps.nodeType == 3)
-    ps = ps.previousSibling;
-  return ps;
-}
-
-function rcmail_init_compose_form()
-{
-  var cc_field = document.getElementById('_cc'),
-    bcc_field = document.getElementById('_bcc'),
-    div = document.getElementById('compose-div'),
-    headers_div = document.getElementById('compose-headers-div');
-
-  if (cc_field && cc_field.value != '')
-    rcmail_show_header_form('cc');
-
-  if (bcc_field && bcc_field.value != '')
-    rcmail_show_header_form('bcc');
-
-  // prevent from form data loss when pressing ESC key in IE
-  if (bw.ie) {
-    var form = rcube_find_object('form');
-    form.onkeydown = function (e) {
-      if (rcube_event.get_keycode(e) == 27)
-        rcube_event.cancel(e);
-    };
-  }
-
-  $(window).resize(function() {
-    rcmail_resize_compose_body();
-  });
-
-  $('#compose-container').resize(function() {
-    rcmail_resize_compose_body();
-  });
-
-  div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
-  $(window).resize();
-}
-
-function rcmail_resize_compose_body(elem)
-{
-  var ed, div = $('#compose-div'), w = div.width(), h = div.height();
-  w = w-4;
-  h = h-25;
-
-  $('#compose-body').width(w-(bw.ie || bw.opera || bw.safari ? 2 : 0)+'px').height(h+'px');
-
-  if (window.tinyMCE && tinyMCE.get('compose-body')) {
-    $('#compose-body_tbl').width((w+4)+'px').height('');
-    $('#compose-body_ifr').width((w+2)+'px').height((h-54)+'px');
-  }
-}
-
-/**
- * Mailbox view
+ * Mail UI
  */
 
 function rcube_mail_ui()
@@ -160,7 +38,7 @@ function rcube_mail_ui()
     composemenu:'composeoptionsmenu',
     uploadform:'attachment-form'
   };
-  
+
   var obj;
   for (var k in this.popupmenus) {
     obj = $('#'+this.popupmenus[k])
@@ -181,7 +59,7 @@ show_popupmenu: function(obj, refname, show, above)
     var pos = $(ref).offset();
     obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
   }
-  
+
   obj[show?'show':'hide']();
 },
 
@@ -238,15 +116,15 @@ show_searchmenu: function(show)
   }
   this.searchmenu[show?'show':'hide']();
 },
- 
+
 set_searchmod: function(elem)
 {
   if (!rcmail.env.search_mods)
     rcmail.env.search_mods = {};
-  
+
   if (!rcmail.env.search_mods[rcmail.env.mailbox])
     rcmail.env.search_mods[rcmail.env.mailbox] = rcube_clone_object(rcmail.env.search_mods['*']);
-  
+
   if (!elem.checked)
     delete(rcmail.env.search_mods[rcmail.env.mailbox][elem.value]);
   else
@@ -417,9 +295,129 @@ switch_preview_pane: function(elem)
     rcmail.show_contentframe(false);
     rcmail.http_post('save-pref', '_name=preview_pane&_value=0');
   }
+},
+
+/* Message composing */
+init_compose_form: function()
+{
+  var cc_field = document.getElementById('_cc'),
+    bcc_field = document.getElementById('_bcc'),
+    div = document.getElementById('compose-div'),
+    headers_div = document.getElementById('compose-headers-div');
+
+  if (cc_field && cc_field.value != '')
+    rcmail_show_header_form('cc');
+
+  if (bcc_field && bcc_field.value != '')
+    rcmail_show_header_form('bcc');
+
+  // prevent from form data loss when pressing ESC key in IE
+  if (bw.ie) {
+    var form = rcube_find_object('form');
+    form.onkeydown = function (e) {
+      if (rcube_event.get_keycode(e) == 27)
+        rcube_event.cancel(e);
+    };
+  }
+
+  $(window).resize(function() {
+    rcmail_ui.resize_compose_body();
+  });
+
+  $('#compose-container').resize(function() {
+    rcmail_ui.resize_compose_body();
+  });
+
+  div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+  $(window).resize();
+},
+
+resize_compose_body: function()
+{
+  var ed, div = $('#compose-div'), w = div.width(), h = div.height();
+  w = w-4;
+  h = h-25;
+
+  $('#compose-body').width(w-(bw.ie || bw.opera || bw.safari ? 2 : 0)+'px').height(h+'px');
+
+  if (window.tinyMCE && tinyMCE.get('compose-body')) {
+    $('#compose-body_tbl').width((w+4)+'px').height('');
+    $('#compose-body_ifr').width((w+2)+'px').height((h-54)+'px');
+  }
+},
+
+show_header_form: function(id)
+{
+  var row, s,
+    link = document.getElementById(id + '-link');
+
+  if ((s = this.next_sibling(link)))
+    s.style.display = 'none';
+  else if ((s = this.prev_sibling(link)))
+    s.style.display = 'none';
+
+  link.style.display = 'none';
+
+  if ((row = document.getElementById('compose-' + id))) {
+    var div = document.getElementById('compose-div'),
+      headers_div = document.getElementById('compose-headers-div');
+    row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
+    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+    this.resize_compose_body();
+  }
+
+  return false;
+},
+
+hide_header_form: function(id)
+{
+  var row, ns,
+    link = document.getElementById(id + '-link'),
+    parent = link.parentNode,
+    links = parent.getElementsByTagName('a');
+
+  link.style.display = '';
+
+  for (var i=0; i<links.length; i++)
+    if (links[i].style.display != 'none')
+      for (var j=i+1; j<links.length; j++)
+	    if (links[j].style.display != 'none')
+          if ((ns = this.next_sibling(links[i]))) {
+	        ns.style.display = '';
+	        break;
+	      }
+
+  document.getElementById('_' + id).value = '';
+
+  if ((row = document.getElementById('compose-' + id))) {
+    var div = document.getElementById('compose-div'),
+      headers_div = document.getElementById('compose-headers-div');
+    row.style.display = 'none';
+    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+    this.resize_compose_body();
+  }
+
+  return false;
+},
+
+next_sibling: function(elm)
+{
+  var ns = elm.nextSibling;
+  while (ns && ns.nodeType == 3)
+    ns = ns.nextSibling;
+  return ns;
+},
+
+prev_sibling: function(elm)
+{
+  var ps = elm.previousSibling;
+  while (ps && ps.nodeType == 3)
+    ps = ps.previousSibling;
+  return ps;
 }
 
 };
+
 
 var rcmail_ui;
 
@@ -436,7 +434,11 @@ function rcube_init_mail_ui()
     rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
     rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
     rcmail.addEventListener('aftersend-attachment', 'show_uploadform', rcmail_ui);
+    rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body', rcmail_ui);
     rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
+
+    if (rcmail.env.action == 'compose')
+      rcmail_ui.init_compose_form();
   }
 }
 

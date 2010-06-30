@@ -225,7 +225,7 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.enable_command('send-attachment', 'remove-attachment', 'send', true);
+          this.enable_command('send-attachment', 'remove-attachment', 'send', 'toggle-editor', true);
 
           if (this.env.spellcheck) {
             this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
@@ -321,7 +321,7 @@ function rcube_webmail()
         }
         else if (this.env.action=='edit-identity' || this.env.action=='add-identity') {
           this.enable_command('add', this.env.identities_level < 2);
-          this.enable_command('save', 'delete', 'edit', true);
+          this.enable_command('save', 'delete', 'edit', 'toggle-editor', true);
         }
         else if (this.env.action=='folders')
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', 'delete-folder', 'enable-threading', 'disable-threading', true);
@@ -978,7 +978,6 @@ function rcube_webmail()
       // unified command call (command name == function name)
       default:
         var func = command.replace('-', '_');
-        alert(func);
         if (this[func] && typeof this[func] == 'function')
           this[func](props);
         break;
@@ -2804,6 +2803,30 @@ function rcube_webmail()
     // move body from html editor to textarea (just to be sure, #1485860)
     if (window.tinyMCE && tinyMCE.get(this.env.composebody))
       tinyMCE.triggerSave();
+
+    return true;
+  };
+
+  this.toggle_editor = function(props)
+  {
+    if (props.mode == 'html') {
+      this.display_spellcheck_controls(false);
+      this.plain2html($('#'+props.id).val(), props.id);
+      tinyMCE.execCommand('mceAddControl', false, props.id);
+    }
+    else {
+      var thisMCE = tinyMCE.get(props.id),
+        existingHtml = thisMCE.getContent();
+
+      if (existingHtml) {
+        if (!confirm(this.get_label('editorwarning'))) {
+          return false;
+	    }
+        this.html2plain(existingHtml, props.id);
+      }
+      tinyMCE.execCommand('mceRemoveControl', false, props.id);
+      this.display_spellcheck_controls(true);
+    }
 
     return true;
   };
@@ -5116,3 +5139,4 @@ function rcube_webmail()
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_webmail.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_webmail.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+

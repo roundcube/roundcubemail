@@ -13,7 +13,7 @@
 }
 </style>
 </head>
-<body onload="rcmail_init_compose_form(); rcube_init_mail_ui()">
+<body onload="rcube_init_mail_ui()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -55,11 +55,11 @@
                 <roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
             </td>
             <td id="formlinks">
-		        <a href="#cc" onclick="return rcmail_show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
+		        <a href="#cc" onclick="return rcmail_ui.show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
 		        <span class="separator">|</span>
-		        <a href="#bcc" onclick="return rcmail_show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
+		        <a href="#bcc" onclick="return rcmail_ui.show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
 		        <span class="separator">|</span>
-		        <a href="#reply-to" onclick="return rcmail_show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
+		        <a href="#reply-to" onclick="return rcmail_ui.show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
             </td>
 	    </tr><tr>
 		    <td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
@@ -68,7 +68,7 @@
             </td>
 	    </tr><tr id="compose-cc">
 		    <td class="title top">
-                <a href="#cc" onclick="return rcmail_hide_header_form('cc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+                <a href="#cc" onclick="return rcmail_ui.hide_header_form('cc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
 		        <label for="_cc"><roundcube:label name="cc" /></label>
             </td>
 		    <td colspan="2" class="editfield">
@@ -76,7 +76,7 @@
             </td>
 	    </tr><tr id="compose-bcc">
 		    <td class="title top">
-                <a href="#bcc" onclick="return rcmail_hide_header_form('bcc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+                <a href="#bcc" onclick="return rcmail_ui.hide_header_form('bcc');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
 		        <label for="_bcc"><roundcube:label name="bcc" /></label>
             </td>
 		    <td colspan="2" class="editfield">
@@ -84,7 +84,7 @@
             </td>
 	    </tr><tr id="compose-replyto">
 		    <td class="title top">
-                <a href="#replyto" onclick="return rcmail_hide_header_form('replyto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+                <a href="#replyto" onclick="return rcmail_ui.hide_header_form('replyto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
 		        <label for="_replyto"><roundcube:label name="replyto" /></label>
             </td>
 		    <td colspan="2" class="editfield">
