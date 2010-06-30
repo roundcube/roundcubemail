@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix handling of messages with Content-Type: application/* and no filename (#1484050)
 - Improved compose screen: resizable body and attachments list, vertical splitter, options menu
 - Fix RC forgets search results (#1483883)
 - TinyMCE 3.3.7

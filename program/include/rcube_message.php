@@ -488,6 +488,11 @@ class rcube_message
         else if ($structure->filename) {
             $this->attachments[] = $structure;
         }
+        // message is a single part non-text (without filename)
+        else if (preg_match('/application\//i', $mimetype)) {
+            $structure->filename = 'Part '.$structure->mime_id;
+            $this->attachments[] = $structure;
+        }
     }
 
 
