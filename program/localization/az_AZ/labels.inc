@@ -199,6 +199,7 @@ $labels['surname'] = 'Soyadı';
 $labels['email'] = 'E-Poçt';
 $labels['addcontact'] = 'Ünvanlara əlavə et';
 $labels['editcontact'] = 'Ünvanı redaktə et';
+$labels['contacts'] = 'Əlaqələr';
 $labels['edit'] = 'Redaktə et';
 $labels['cancel'] = 'Ləğv et';
 $labels['save'] = 'Saxla';

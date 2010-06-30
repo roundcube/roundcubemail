@@ -176,6 +176,7 @@ $labels['revertto'] = 'Pööra tagasi';
 $labels['attachments'] = 'Manused';
 $labels['upload'] = 'Kinnita manus';
 $labels['close'] = 'Sulge';
+$labels['messageoptions'] = 'Kirja valikud...';
 $labels['low'] = 'Madal';
 $labels['lowest'] = 'Madalaim';
 $labels['normal'] = 'Tavaline';

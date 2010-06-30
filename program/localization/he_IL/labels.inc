@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  12062010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  23062010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -199,6 +199,7 @@ $labels['surname'] = 'שם משפחה';
 $labels['email'] = 'כתובת דוא"ל';
 $labels['addcontact'] = 'הוספת איש קשר';
 $labels['editcontact'] = 'עריכת איש קשר';
+$labels['contacts'] = 'אנשי קשר';
 $labels['edit'] = 'עריכה';
 $labels['cancel'] = 'ביטול';
 $labels['save'] = 'שמירה';

@@ -198,6 +198,7 @@ $labels['surname'] = 'Enw olaf';
 $labels['email'] = 'E-bost';
 $labels['addcontact'] = 'Ychwanegu cyswllt newydd';
 $labels['editcontact'] = 'Golygu cyswllt';
+$labels['contacts'] = 'Cysylltiadau';
 $labels['edit'] = 'Golygu';
 $labels['cancel'] = 'Canslo';
 $labels['save'] = 'Cadw';
