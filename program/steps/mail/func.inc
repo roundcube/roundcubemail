@@ -321,7 +321,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FAL
       $a_msg_flags['forwarded'] = 1;
     if ($header->flagged)
       $a_msg_flags['flagged'] = 1;
-    if(preg_match("/multipart\/m/i", $header->ctype))
+    if (preg_match("/(application\/|multipart\/m)/i", $header->ctype))
       $a_msg_flags['attachment'] = 1;
     $a_msg_flags['mbox'] = $mbox;
 
