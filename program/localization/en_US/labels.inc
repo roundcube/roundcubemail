@@ -211,6 +211,7 @@ $labels['revertto']      = 'Revert to';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
 $labels['close']  = 'Close';
+$labels['messageoptions']  = 'Message options...';
 
 $labels['low']     = 'Low';
 $labels['lowest']  = 'Lowest';

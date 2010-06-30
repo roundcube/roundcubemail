@@ -346,5 +346,6 @@ $labels['korean'] = 'koreański';
 $labels['chinese'] = 'chiński';
 $labels['folderactions'] = 'Działania na folderach...';
 $labels['contacts'] = 'Kontakty';
+$labels['messageoptions'] = 'Opcje wiadomości...';
 
 ?>
