@@ -93,10 +93,14 @@ if ($request['method'] == 'checkWords') {
         $result['result'][] = mb_substr($wordstr, $matches[$i][1], $matches[$i][2], RCMAIL_CHARSET);
 }
 else if ($request['method'] == 'getSuggestions') {
-    $suggestions = explode("\t", $matches[0][4]);
-    if (sizeof($suggestions)>MAX_SUGGESTIONS)
-        $suggestions = array_slice($suggestions, 0, MAX_SUGGESTIONS);
-    $result['result'] = $suggestions;
+    if ($matches[0][4]) {
+        $suggestions = explode("\t", $matches[0][4]);
+        if (sizeof($suggestions)>MAX_SUGGESTIONS)
+            $suggestions = array_slice($suggestions, 0, MAX_SUGGESTIONS);
+        $result['result'] = $suggestions;
+    }
+    else
+        $result['result'] = array();
 }
 
 // send output
