@@ -334,7 +334,7 @@ init_compose_form: function()
 
 resize_compose_body: function()
 {
-  var ed, div = $('#compose-div'), w = div.width(), h = div.height();
+  var div = $('#compose-div'), w = div.width(), h = div.height();
   w = w-4;
   h = h-25;
 
@@ -347,6 +347,11 @@ resize_compose_body: function()
   else {
     $('#googie_edit_layer').height(h+'px');
   }
+},
+
+resize_compose_body_ev: function()
+{
+  window.setTimeout(function(){rcmail_ui.resize_compose_body();}, 100);
 },
 
 show_header_form: function(id)
@@ -437,7 +442,7 @@ function rcube_init_mail_ui()
     rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
     rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
     rcmail.addEventListener('aftersend-attachment', 'show_uploadform', rcmail_ui);
-    rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body', rcmail_ui);
+    rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
     rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
 
     if (rcmail.env.action == 'compose')
