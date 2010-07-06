@@ -55,7 +55,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     $ctype_primary = strtolower($part->ctype_primary);
     $ctype_secondary = strtolower($part->ctype_secondary);
     $mimetype = sprintf('%s/%s', $ctype_primary, $ctype_secondary);
-    
+
     $browser = new rcube_browser;
 
     // send download headers
@@ -84,20 +84,21 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     else {
       // don't kill the connection if download takes more than 30 sec.
       @set_time_limit(0);
-      
+
       $filename = $part->filename ? $part->filename : ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . '.'.$ctype_secondary;
-      
+      $filename = preg_replace('[\r\n]', '', $filename);
+
       if ($browser->ie && $browser->ver < 7)
         $filename = rawurlencode(abbreviate_string($filename, 55));
       else if ($browser->ie)
         $filename = rawurlencode($filename);
       else
         $filename = addcslashes($filename, '"');
-      
+
       $disposition = !empty($_GET['_download']) ? 'attachment' : 'inline';
-      
+
       header("Content-Disposition: $disposition; filename=\"$filename\"");
-      
+
       // turn off output buffering and print part content
       if ($part->body)
         echo $part->body;
