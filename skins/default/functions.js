@@ -306,10 +306,10 @@ init_compose_form: function()
     headers_div = document.getElementById('compose-headers-div');
 
   if (cc_field && cc_field.value != '')
-    rcmail_show_header_form('cc');
+    rcmail_ui.show_header_form('cc');
 
   if (bcc_field && bcc_field.value != '')
-    rcmail_show_header_form('bcc');
+    rcmail_ui.show_header_form('bcc');
 
   // prevent from form data loss when pressing ESC key in IE
   if (bw.ie) {
