@@ -161,12 +161,6 @@ body.iframe
   width: expression((parseInt(document.documentElement.clientWidth))+'px');
 }
 
-#compose-headers td textarea,
-#compose-headers td input
-{
-  width: 99%;
-}
-
 div.message-part pre,
 div.message-htmlpart pre,
 div.message-part div.pre
