@@ -1108,7 +1108,18 @@ div.message-htmlpart div.rcmBody
   bottom: 0;
   margin: 0;
   width: 100%;
-  border: 1px solid #999;
+}
+
+#compose-div .boxfooter
+{
+  height: 26px;
+  background: none;
+  border-top: 0;
+}
+
+#compose-div .boxlistcontent
+{
+  bottom: 26px;
 }
 
 #compose-body
@@ -1120,8 +1131,8 @@ div.message-htmlpart div.rcmBody
   bottom: 0;
   margin: 0;
   font-size: 9pt;
-  border: none;
   font-family: monospace;
+  border: 1px solid #999;
   resize: none;
 }
 
@@ -1133,7 +1144,7 @@ div.message-htmlpart div.rcmBody
 #compose-headers td.editfield
 {
   padding-right: 5px;
-  min-width: 200px;
+  width: 95%;
 }
 
 #compose-headers td.top
@@ -1159,11 +1170,6 @@ div.message-htmlpart div.rcmBody
   border: 1px solid #999;
 }
 
-#compose-headers td select
-{
-  width: 100%;
-}
-
 #compose-headers td textarea
 {
   height: 32px;
@@ -1178,9 +1184,7 @@ div.message-htmlpart div.rcmBody
 
 #formlinks
 {
-  text-align: right;
   white-space: nowrap;
-  width: 1%;
   padding-left: 5px;
 }
 
@@ -1202,16 +1206,16 @@ div.message-htmlpart div.rcmBody
 {
   position: absolute;
   right: 5px;
-  bottom: 0;
+  bottom: 2px;
   text-align: right;
-  line-height: 22px;
 }
 
 #compose-buttons
 {
   position: absolute;
-  left: 40px;
-  top: 1px;
+  left: 0;
+  bottom: 0;
+  width: auto;
 }
 
 #compose-attachments

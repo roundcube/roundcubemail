@@ -57,6 +57,8 @@ show_popupmenu: function(obj, refname, show, above)
   var ref = rcube_find_object(refname);
   if (show && ref) {
     var pos = $(ref).offset();
+    if (!above && pos.top + ref.offsetHeight + obj.height() > window.innerHeight)
+      above = true;
     obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
   }
 
@@ -85,7 +87,7 @@ show_mailboxmenu: function(show)
 
 show_composemenu: function(show)
 {
-  this.show_popupmenu(this.composemenu, 'composemenulink', show, true);
+  this.show_popupmenu(this.composemenu, 'composemenulink', show);
 },
 
 show_uploadform: function(show)
@@ -93,8 +95,12 @@ show_uploadform: function(show)
   if (typeof show == 'object') // called as event handler
     show = false;
   if (!show)
-    $('input[type=file]').val('');
+    $('#attachment-form input[type=file]').val('');
+
   this.show_popupmenu(this.uploadform, 'uploadformlink', show, true);
+
+  if (this.uploadform.is(':visible'))
+    $('#attachment-form input[type=file]').click();
 },
 
 show_searchmenu: function(show)
@@ -328,21 +334,21 @@ init_compose_form: function()
     rcmail_ui.resize_compose_body();
   });
 
-  div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+  div.style.top = (parseInt(headers_div.offsetHeight, 10) + 3) + 'px';
   $(window).resize();
 },
 
 resize_compose_body: function()
 {
-  var div = $('#compose-div'), w = div.width(), h = div.height();
-  w = w-4;
-  h = h-25;
+  var div = $('#compose-div .boxlistcontent'), w = div.width(), h = div.height();
+  w -= 8;  // 2 x 3px padding + 2 x 1px border
+  h -= 4;
 
-  $('#compose-body').width(w-(bw.ie || bw.opera || bw.safari ? 2 : 0)+'px').height(h+'px');
+  $('#compose-body').width(w+'px').height(h+'px');
 
   if (window.tinyMCE && tinyMCE.get('compose-body')) {
-    $('#compose-body_tbl').width((w+4)+'px').height('');
-    $('#compose-body_ifr').width((w+2)+'px').height((h-54)+'px');
+    $('#compose-body_tbl').width((w+6)+'px').height('');
+    $('#compose-body_ifr').width((w+6)+'px').height((h-54)+'px');
   }
   else {
     $('#googie_edit_layer').height(h+'px');
@@ -370,7 +376,7 @@ show_header_form: function(id)
     var div = document.getElementById('compose-div'),
       headers_div = document.getElementById('compose-headers-div');
     row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
-    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 1) + 'px';
+    div.style.top = (parseInt(headers_div.offsetHeight, 10) + 3) + 'px';
     this.resize_compose_body();
   }
 

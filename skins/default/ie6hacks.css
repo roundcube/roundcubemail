@@ -113,6 +113,11 @@ ul.toolbarmenu li.separator_below
   height: expression((parseInt(this.parentNode.offsetHeight)-24-parseInt(this.style.top?this.style.top:21))+'px');
 }
 
+#compose-div .boxlistcontent
+{
+  height: expression((parseInt(this.parentNode.offsetHeight)-28-parseInt(this.style.top?this.style.top:21))+'px');
+}
+
 #directorylistbox
 {
   height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
