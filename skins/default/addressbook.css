@@ -187,6 +187,8 @@
 #contacts-table tbody td
 {
   cursor: default;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
 }
 
 #contacts-box

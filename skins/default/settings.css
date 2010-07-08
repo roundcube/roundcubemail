@@ -91,7 +91,8 @@ span.tablink-selected a
 }
 
 #subscription-table tbody td,
-#identities-table tbody td
+#identities-table tbody td,
+#sections-table tbody td
 {
   cursor: default;
   overflow: hidden;
@@ -195,7 +196,7 @@ input.disabled
   bottom: 0;
 }
 
-fieldset 
+fieldset
 {
   margin-bottom: 0.5em;
   border: 1px solid #999999;
@@ -223,11 +224,6 @@ legend
 {
   width: 100%;
   table-layout: fixed;
-}
-
-#sections-table tbody td
-{
-  cursor: default;
 }
 
 #prefs-box

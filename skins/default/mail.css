@@ -1248,6 +1248,8 @@ div.message-htmlpart div.rcmBody
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
 }
 
 #compose-attachments ul li img
