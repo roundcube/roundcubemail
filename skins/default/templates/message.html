@@ -25,7 +25,7 @@
 <roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
 <roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletemessage" content=" " />
 <roundcube:container name="toolbar" id="messagetoolbar" />
-<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" content=" " />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
 </div>
 
@@ -39,7 +39,7 @@
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="25" />
 </div>
 <div class="boxfooter">
-  <roundcube:button name="mboxactions" id="mboxactionslink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_mailboxmenu();return false" content=" " />
+  <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 </div>
 </div>
 </div>

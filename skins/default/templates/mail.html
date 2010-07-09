@@ -31,8 +31,7 @@
 <roundcube:object name="mailboxlist" id="mailboxlist" maxlength="25" />
 </div>
 <div class="boxfooter">
-  <!--<roundcube:button name="togglequota" type="link" title="showquota" class="buttonPas showinfo" classAct="button showinfo" onclick="rcmail_ui.toggle_quotadisplay();return false" content=" " />-->
-  <roundcube:button name="mboxactions" id="mboxactionslink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_mailboxmenu();return false" content=" " />
+  <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 
 <roundcube:if condition="env:quota" />
 <img id="quotaimg" src="/images/quota.gif" alt="" />
@@ -125,8 +124,8 @@
 <roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
 <roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletemessage" content=" " />
 <roundcube:container name="toolbar" id="messagetoolbar" />
-<roundcube:button name="markreadbutton" id="markreadbutton" type="link" class="button markmessage" title="markmessages" onclick="rcmail_ui.show_markmenu();return false" content=" " />
-<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_messagemenu();return false" content=" " />
+<roundcube:button name="markmenulink" id="markmenulink" type="link" class="button markmessage" title="markmessages" onclick="rcmail_ui.show_popup('markmenu');return false" content=" " />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
 </div>
 
 <div id="markmessagemenu" class="popupmenu">
@@ -157,7 +156,7 @@
   <label for="rcmlistfilter"><roundcube:label name="filter" /></label>:
   <roundcube:object name="searchfilter" class="searchfilter" />
 </div>
-<roundcube:button name="searchmod" id="searchmod" image="/images/icons/glass_roll.png" onclick="rcmail_ui.show_searchmenu();return false" title="searchmod" />
+<roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass_roll.png" onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" />
 <roundcube:object name="searchform" id="quicksearchbox" />
 <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>

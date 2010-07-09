@@ -24,11 +24,11 @@
     <roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
     <roundcube:button command="send" type="link" class="buttonPas send" classAct="button send" classSel="button sendSel" title="sendmessage" content=" " />
     <roundcube:button command="spellcheck" type="link" class="buttonPas spellcheck" classAct="button spellcheck" classSel="button spellcheckSel" title="checkspelling" content=" " />
-    <roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attachSel" title="addattachment" onclick="rcmail_ui.show_uploadform();return false" content=" " />
+    <roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attachSel" title="addattachment" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
     <roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
     <roundcube:button command="savedraft" type="link" class="buttonPas savedraft" classAct="button savedraft" classSel="button savedraftSel" title="savemessage" content=" " />
     <roundcube:container name="toolbar" id="compose-toolbar" />
-    <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_composemenu();return false" content=" " />
+    <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_popup('composemenu', true);return false" content=" " />
 </div>
 
 <div id="mainscreen">
@@ -39,7 +39,7 @@
     <roundcube:object name="composeAttachmentList" deleteIcon="/images/icons/delete.png" cancelIcon="/images/icons/delete.png" loadingIcon="/images/display/loading_blue.gif" />
 </div>
 <div class="boxfooter">
-  <roundcube:button name="uploadform" id="uploadformlink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_uploadform();return false" content=" " />
+  <roundcube:button name="uploadmenulink" id="uploadmenulink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
 </div>
 </div>
 

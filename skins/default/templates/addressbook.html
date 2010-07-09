@@ -29,7 +29,7 @@
 </div>
 
 <div id="quicksearchbar">
-<roundcube:button name="searchmod" id="searchmod" image="/images/icons/glass.png" />
+<roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass.png" />
 <roundcube:object name="searchform" id="quicksearchbox" />
 <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
@@ -42,7 +42,7 @@
 </div>
 <div class="boxfooter">
   <roundcube:button command="group-create" type="link" title="newcontactgroup" class="buttonPas addgroup" classAct="button addgroup" content=" " />
-  <roundcube:button name="groupactions" id="groupactionslink" type="link" title="groupactions" class="button groupactions" onclick="rcmail_ui.show_groupmenu();return false" content=" " />
+  <roundcube:button name="groupmenulink" id="groupmenulink" type="link" title="groupactions" class="button groupactions" onclick="rcmail_ui.show_popup('groupmenu');return false" content=" " />
 </div>
 </div>
 
