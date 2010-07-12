@@ -214,7 +214,7 @@ body_mouseup: function(evt, p)
       && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
       && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
     ) {
-      this.show_popup(i, false);
+      window.setTimeout('$("#'+this.popups[i].id+'").hide()', 50);
     }
   }
 },
