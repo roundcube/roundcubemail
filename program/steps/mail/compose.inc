@@ -91,6 +91,15 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
     }
   }
 
+  // check if folder for saving sent messages exists and is subscribed (#1486802)
+  if (($sent_folder = $_SESSION['compose']['param']['sent_mbox']) && !$IMAP->mailbox_exists($sent_folder, true)) {
+    // folder may exist but isn't subscribed (#1485241)
+    if (!$IMAP->mailbox_exists($sent_folder))
+      $IMAP->create_mailbox($sent_folder, true);
+    else
+      $IMAP->subscribe($sent_folder);
+  }
+
   // redirect to a unique URL with all parameters stored in session
   $OUTPUT->redirect(array('_action' => 'compose', '_id' => $_SESSION['compose']['id']));
 }
