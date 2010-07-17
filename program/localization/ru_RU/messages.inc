@@ -113,5 +113,6 @@ $messages['smtperror'] = 'SMTP Error ($code): $msg';
 $messages['emailformaterror'] = 'Неверный адрес: $email';
 $messages['toomanyrecipients'] = 'Слишком много получателей, уменьшите их количество до $max.';
 $messages['maxgroupmembersreached'] = 'Размер группы больше максимально разрешенного - $max';
+$messages['internalerror'] = 'Произошла внутренняя ошибка. Попробуйте ещё раз';
 
 ?>

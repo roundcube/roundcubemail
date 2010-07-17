@@ -116,5 +116,6 @@ $messages['smtperror'] = 'SMTP Fout: $msg';
 $messages['emailformaterror'] = 'Ongeldig e-mailadres: $email';
 $messages['toomanyrecipients'] = 'Te veel geadresseerden. Verminder de hoeveelheid geadresseerden tot $max';
 $messages['maxgroupmembersreached'] = 'Het aantal leden van de groep groter is dan de maximale van $max';
+$messages['internalerror'] = 'Er is een interne fout opgetreden. Probeer het nogmaals';
 
 ?>

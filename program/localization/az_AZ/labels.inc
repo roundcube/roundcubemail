@@ -173,6 +173,7 @@ $labels['revertto'] = 'Dəyişiklikləri ləğv et';
 $labels['attachments'] = 'Əlavələr';
 $labels['upload'] = 'Yüklə';
 $labels['close'] = 'Bağla';
+$labels['messageoptions'] = 'Məktub xüsusiyyətləri...';
 $labels['low'] = 'Alçaq';
 $labels['lowest'] = 'Çox alçaq';
 $labels['normal'] = 'Normal';

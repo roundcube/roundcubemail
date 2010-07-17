@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  23062010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  04072010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -173,6 +173,7 @@ $labels['revertto'] = 'חזור למצב קודם';
 $labels['attachments'] = 'קבצים מצורפים';
 $labels['upload'] = 'העלאה';
 $labels['close'] = 'סגירה';
+$labels['messageoptions'] = 'אפשרויות הודעה...';
 $labels['low'] = 'נמוך';
 $labels['lowest'] = 'נמוך ביותר';
 $labels['normal'] = 'רגיל';

@@ -177,6 +177,7 @@ $labels['revertto'] = '恢復至';
 $labels['attachments'] = '附加檔案';
 $labels['upload'] = '上傳';
 $labels['close'] = '關閉';
+$labels['messageoptions'] = '郵件選項...';
 $labels['low'] = '低';
 $labels['lowest'] = '最低';
 $labels['normal'] = '普通';
