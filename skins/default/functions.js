@@ -93,7 +93,7 @@ uploadmenu: function(show)
 
   this.show_popupmenu('uploadmenu', show);
 
-  if (this.popups.uploadmenu.obj.is(':visible'))
+  if (!document.all && this.popups.uploadmenu.obj.is(':visible'))
     $('#attachment-form input[type=file]').click();
 },
 
