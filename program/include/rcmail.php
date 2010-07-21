@@ -585,7 +585,7 @@ class rcmail
       $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
       if(!empty($a_host['port']))
         $imap_port = $a_host['port'];
-      else if ($imap_ssl && $imap_ssl != 'tls')
+      else if ($imap_ssl && $imap_ssl != 'tls' && (!$config['default_port'] || $config['default_port'] == 143))
         $imap_port = 993;
     }
 

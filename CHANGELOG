@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix default IMAP port configuration (#1486864)
+- Create Sent folder when starting to compose a new message (#1486802)
 - Fix handling of messages with Content-Type: application/* and no filename (#1484050)
 - Improved compose screen: resizable body and attachments list, vertical splitter, options menu
 - Fix RC forgets search results (#1483883)
