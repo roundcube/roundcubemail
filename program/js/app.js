@@ -3663,7 +3663,7 @@ function rcube_webmail()
         this.contact_list.remove_row(cid);
         this.contact_list.init_row(row);
         this.contact_list.selection[0] = newcid;
-        ow.style.display = '';
+        row.style.display = '';
       }
 
       return true;
