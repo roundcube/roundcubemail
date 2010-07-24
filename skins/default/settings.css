@@ -126,17 +126,15 @@ span.tablink-selected a
 
 #subscription-table thead td.name
 {
-  width: 360px;
+  width: 95%;
 }
 
-#subscription-table thead td.msgcount
+#subscription-table thead td.msgcount,
+#subscription-table thead td.subscribed,
+#subscription-table thead td.threaded
 {
-  width: 90px;
-}
-
-#subscription-table thead td.subscribed
-{
-  width: 90px;
+  white-space: nowrap;
+  min-width: 50px;
 }
 
 #subscription-table tbody td.subscribed,
@@ -155,7 +153,7 @@ span.tablink-selected a
 #subscription-table td.name input
 {
   font: inherit;
-  width: 240px;
+  width: 90%;
 }
 
 #identity-frame
