@@ -977,7 +977,7 @@ function rcube_webmail()
 
       // unified command call (command name == function name)
       default:
-        var func = command.replace('-', '_');
+        var func = command.replace(/-/g, '_');
         if (this[func] && typeof this[func] == 'function')
           this[func](props);
         break;
