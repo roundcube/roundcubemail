@@ -88,8 +88,12 @@ uploadmenu: function(show)
 {
   if (typeof show == 'object') // called as event handler
     show = false;
-  if (!show)
-    $('#attachment-form input[type=file]').val('');
+
+  // clear upload form
+  if (!show) {
+    try { $('#attachment-form form')[0].reset(); }
+    catch(e){}  // ignore errors
+  }
 
   this.show_popupmenu('uploadmenu', show);
 
