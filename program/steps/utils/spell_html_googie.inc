@@ -30,7 +30,7 @@ function googie_get($host, $port, $path, $data)
     $store = '';
     if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
         $out = "POST $path HTTP/1.0\r\n";
-        $out .= "Host: $host\r\n";
+        $out .= "Host: " . str_replace('ssl://', '', $host) . "\r\n";
         $out .= "Content-Length: " . strlen($data) . "\r\n";
         $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
         $out .= "Connection: Close\r\n\r\n";
