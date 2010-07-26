@@ -1525,8 +1525,10 @@ function rcube_html_editor($mode='')
 function rcube_https_check($port=null, $use_https=true)
 {
   global $RCMAIL;
-  
+
   if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')
+    return true;
+  if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')
     return true;
   if ($port && $_SERVER['SERVER_PORT'] == $port)
     return true;
