@@ -102,8 +102,8 @@
 
 #directorylistbox input
 {
-  display: absolute;
   margin: 2px;
+  width: 90%;
 }
 
 #addresslist
