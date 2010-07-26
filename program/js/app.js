@@ -3710,7 +3710,7 @@ function rcube_webmail()
 
     if (!this.name_input) {
       this.name_input = $('<input>').attr('type', 'text');
-      this.name_input.bind('keypress', function(e){ return rcmail.add_input_keypress(e); });
+      this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
       this.name_input_li = $('<li>').addClass('contactgroup').append(this.name_input);
 
       var li = this.get_folder_li(this.env.source)
@@ -3728,7 +3728,7 @@ function rcube_webmail()
     if (!this.name_input) {
       this.enable_command('list', 'listgroup', false);
       this.name_input = $('<input>').attr('type', 'text').val(this.env.contactgroups['G'+this.env.source+this.env.group].name);
-      this.name_input.bind('keypress', function(e){ return rcmail.add_input_keypress(e); });
+      this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
       this.env.group_renaming = true;
 
       var link, li = this.get_folder_li(this.env.source+this.env.group, 'rcmliG');
@@ -3762,7 +3762,7 @@ function rcube_webmail()
   };
 
   // handler for keyboard events on the input field
-  this.add_input_keypress = function(e)
+  this.add_input_keydown = function(e)
   {
     var key = rcube_event.get_keycode(e);
 
