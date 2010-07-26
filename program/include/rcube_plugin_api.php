@@ -77,16 +77,17 @@ class rcube_plugin_api
   {
     $rcmail = rcmail::get_instance();
     $this->output = $rcmail->output;
-    
+
     $plugins_dir = dir($this->dir);
+    $plugins_dir = unslashify($plugins_dir->path);
     $plugins_enabled = (array)$rcmail->config->get('plugins', array());
-    
+
     foreach ($plugins_enabled as $plugin_name) {
-      $fn = $plugins_dir->path . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
-      
+      $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+
       if (file_exists($fn)) {
         include($fn);
-        
+
         // instantiate class if exists
         if (class_exists($plugin_name, false)) {
           $plugin = new $plugin_name($this);
@@ -121,7 +122,8 @@ class rcube_plugin_api
       
       // load required core plugin if no derivate was found
       if (!$loaded) {
-        $fn = $plugins_dir->path . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+        $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+
         if (file_exists($fn)) {
           include_once($fn);
           
