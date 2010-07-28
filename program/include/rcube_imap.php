@@ -1295,8 +1295,10 @@ class rcube_imap
         $all_ids = array();
         foreach($msg_index as $root) {
             $all_ids[] = $root;
-            if (!empty($thread_tree[$root]))
-                $all_ids = array_merge($all_ids, array_keys_recursive($thread_tree[$root]));
+            if (!empty($thread_tree[$root])) {
+                foreach (array_keys_recursive($thread_tree[$root]) as $val)
+                    $all_ids[] = $val;
+            }
         }
 
         return $all_ids;
