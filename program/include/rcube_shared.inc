@@ -632,8 +632,8 @@ function array_keys_recursive($array)
   if (!empty($array))
     foreach ($array as $key => $child) {
       $keys[] = $key;
-      if ($children = array_keys_recursive($child))
-        $keys = array_merge($keys, $children);
+      foreach (array_keys_recursive($child) as $val)
+        $keys[] = $val;
     }
   return $keys;
 }
