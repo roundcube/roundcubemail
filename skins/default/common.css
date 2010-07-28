@@ -332,6 +332,11 @@ img
   opacity: 0.35;
 }
 
+.pagenav
+{
+  min-width: 250px;
+}
+
 .pagenav span
 {
   color: #444;
