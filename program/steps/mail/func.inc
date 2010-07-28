@@ -626,6 +626,21 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   );
   $html = preg_replace($html_search, $html_replace, $html);
 
+  // PCRE errors handling (#1486856), should we use something like for every preg_* use?
+  if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
+    $errstr = "Could not clean up HTML message! PCRE Error: $preg_error.";
+
+    if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR)
+      $errstr .= " Consider raising pcre.backtrack_limit!";
+    if ($preg_error == PREG_RECURSION_LIMIT_ERROR)
+      $errstr .= " Consider raising pcre.recursion_limit!";
+
+    raise_error(array('code' => 600, 'type' => 'php',
+        'line' => __LINE__, 'file' => __FILE__,
+        'message' => $errstr), true, false);
+    return '';
+  }
+
   // fix (unknown/malformed) HTML tags before "wash"
   $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', 'rcmail_html_tag_callback', $html);
 
