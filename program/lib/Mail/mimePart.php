@@ -215,32 +215,43 @@ class Mail_mimePart
             }
         }
 
+        // Default content-type
+        if (empty($c_type['type'])) {
+            $c_type['type'] = 'text/plain';
+        }
+
         // Content-Type
-        if (isset($c_type['type'])) {
+        if (!empty($c_type['type'])) {
             $headers['Content-Type'] = $c_type['type'];
-            if (isset($c_type['name'])) {
+            if (!empty($c_type['charset'])) {
+                $charset = "charset={$c_type['charset']}";
+                // place charset parameter in the same line, if possible
+                if ((strlen($headers['Content-Type']) + strlen($charset) + 16) <= 76) {
+                    $headers['Content-Type'] .= '; ';
+                } else {
+                    $headers['Content-Type'] .= ';' . $this->_eol . ' ';
+                }
+                $headers['Content-Type'] .= $charset;
+            }
+            if (!empty($c_type['name'])) {
                 $headers['Content-Type'] .= ';' . $this->_eol;
                 $headers['Content-Type'] .= $this->_buildHeaderParam(
-                    'name', $c_type['name'], 
-                    isset($c_type['charset']) ? $c_type['charset'] : 'US-ASCII', 
+                    'name', $c_type['name'],
+                    isset($c_type['charset']) ? $c_type['charset'] : 'US-ASCII',
                     isset($c_type['language']) ? $c_type['language'] : null,
                     isset($params['name_encoding']) ?  $params['name_encoding'] : null
                 );
             }
-            if (isset($c_type['charset'])) {
-                $headers['Content-Type']
-                    .= ';' . $this->_eol . " charset={$c_type['charset']}";
-            }
         }
 
         // Content-Disposition
-        if (isset($c_disp['disp'])) {
+        if (!empty($c_disp['disp'])) {
             $headers['Content-Disposition'] = $c_disp['disp'];
-            if (isset($c_disp['filename'])) {
+            if (!empty($c_disp['filename'])) {
                 $headers['Content-Disposition'] .= ';' . $this->_eol;
                 $headers['Content-Disposition'] .= $this->_buildHeaderParam(
-                    'filename', $c_disp['filename'], 
-                    isset($c_disp['charset']) ? $c_disp['charset'] : 'US-ASCII', 
+                    'filename', $c_disp['filename'],
+                    isset($c_disp['charset']) ? $c_disp['charset'] : 'US-ASCII',
                     isset($c_disp['language']) ? $c_disp['language'] : null,
                     isset($params['filename_encoding']) ?  $params['filename_encoding'] : null
                 );
@@ -254,11 +265,6 @@ class Mail_mimePart
                 isset($params['name_encoding']) ?  $params['name_encoding'] : 'quoted-printable',
                 $this->_eol
             );
-        }
-
-        // Default content-type
-        if (!isset($headers['Content-Type'])) {
-            $headers['Content-Type'] = 'text/plain';
         }
 
         // Default encoding
@@ -960,33 +966,39 @@ class Mail_mimePart
      */
     function encodeHeaderValue($value, $charset, $encoding, $prefix_len=0, $eol="\r\n")
     {
-        if ($encoding == 'base64') {
+        // #17311: Use multibyte aware method (requires mbstring extension)
+        if ($result = Mail_mimePart::encodeMB($value, $charset, $encoding, $prefix_len, $eol)) {
+            return $result;
+        }
+
+        // Generate the header using the specified params and dynamicly
+        // determine the maximum length of such strings.
+        // 75 is the value specified in the RFC.
+        $encoding = $encoding == 'base64' ? 'B' : 'Q';
+        $prefix = '=?' . $charset . '?' . $encoding .'?';
+        $suffix = '?=';
+        $maxLength = 75 - strlen($prefix . $suffix);
+        $maxLength1stLine = $maxLength - $prefix_len;
+
+        if ($encoding == 'B') {
             // Base64 encode the entire string
             $value = base64_encode($value);
 
-            // Generate the header using the specified params and dynamicly 
-            // determine the maximum length of such strings.
-            // 75 is the value specified in the RFC.
-            $prefix = '=?' . $charset . '?B?';
-            $suffix = '?=';
-            $maxLength = 75 - strlen($prefix . $suffix) - 2;
-            $maxLength1stLine = $maxLength - $prefix_len;
-
-            // We can cut base4 every 4 characters, so the real max
+            // We can cut base64 every 4 characters, so the real max
             // we can get must be rounded down.
             $maxLength = $maxLength - ($maxLength % 4);
             $maxLength1stLine = $maxLength1stLine - ($maxLength1stLine % 4);
 
             $cutpoint = $maxLength1stLine;
-            $value_out = $value;
             $output = '';
-            while ($value_out) {
+
+            while ($value) {
                 // Split translated string at every $maxLength
-                $part = substr($value_out, 0, $cutpoint);
-                $value_out = substr($value_out, $cutpoint);
+                $part = substr($value, 0, $cutpoint);
+                $value = substr($value, $cutpoint);
                 $cutpoint = $maxLength;
                 // RFC 2047 specifies that any split header should
-                // be seperated by a CRLF SPACE. 
+                // be seperated by a CRLF SPACE.
                 if ($output) {
                     $output .= $eol . ' ';
                 }
@@ -997,30 +1009,19 @@ class Mail_mimePart
             // quoted-printable encoding has been selected
             $value = Mail_mimePart::encodeQP($value);
 
-            // Generate the header using the specified params and dynamicly 
-            // determine the maximum length of such strings.
-            // 75 is the value specified in the RFC.
-            $prefix = '=?' . $charset . '?Q?';
-            $suffix = '?=';
-            $maxLength = 75 - strlen($prefix . $suffix) - 3;
-            $maxLength1stLine = $maxLength - $prefix_len;
-            $maxLength = $maxLength - 1;
-
             // This regexp will break QP-encoded text at every $maxLength
             // but will not break any encoded letters.
             $reg1st = "|(.{0,$maxLength1stLine}[^\=][^\=])|";
             $reg2nd = "|(.{0,$maxLength}[^\=][^\=])|";
 
-            $value_out = $value;
-            $realMax = $maxLength1stLine + strlen($prefix . $suffix);
-            if (strlen($value_out) >= $realMax) {
+            if (strlen($value) > $maxLength1stLine) {
                 // Begin with the regexp for the first line.
                 $reg = $reg1st;
                 $output = '';
-                while ($value_out) {
+                while ($value) {
                     // Split translated string at every $maxLength
                     // But make sure not to break any translated chars.
-                    $found = preg_match($reg, $value_out, $matches);
+                    $found = preg_match($reg, $value, $matches);
 
                     // After this first line, we need to use a different
                     // regexp for the first line.
@@ -1032,24 +1033,23 @@ class Mail_mimePart
                     if ($found) {
                         $part = $matches[0];
                         $len = strlen($matches[0]);
-                        $value_out = substr($value_out, $len);
+                        $value = substr($value, $len);
                     } else {
-                        $part = $value_out;
-                        $value_out = "";
+                        $part = $value;
+                        $value = '';
                     }
 
-                    // RFC 2047 specifies that any split header should 
+                    // RFC 2047 specifies that any split header should
                     // be seperated by a CRLF SPACE
                     if ($output) {
                         $output .= $eol . ' ';
                     }
                     $output .= $prefix . $part . $suffix;
                 }
-                $value_out = $output;
+                $value = $output;
             } else {
-                $value_out = $prefix . $value_out . $suffix;
+                $value = $prefix . $value . $suffix;
             }
-            $value = $value_out;
         }
 
         return $value;
@@ -1067,7 +1067,7 @@ class Mail_mimePart
     function encodeQP($str)
     {
         // Bug #17226 RFC 2047 restricts some characters
-        // if the word is inside a phrase, permit chars are only:
+        // if the word is inside a phrase, permitted chars are only:
         // ASCII letters, decimal digits, "!", "*", "+", "-", "/", "=", and "_"
 
         // "=",  "_",  "?" must be encoded
@@ -1077,6 +1077,110 @@ class Mail_mimePart
         );
 
         return str_replace(' ', '_', $str);
+    }
+
+    /**
+     * Encodes the given string using base64 or quoted-printable.
+     * This method makes sure that encoded-word represents an integral
+     * number of characters as per RFC2047.
+     *
+     * @param string $str        String to encode
+     * @param string $charset    Character set name
+     * @param string $encoding   Encoding name (base64 or quoted-printable)
+     * @param int    $prefix_len Prefix length. Default: 0
+     * @param string $eol        End-of-line sequence. Default: "\r\n"
+     *
+     * @return string     Encoded string
+     * @access public
+     * @since 1.8.0
+     */
+    function encodeMB($str, $charset, $encoding, $prefix_len=0, $eol="\r\n")
+    {
+        if (!function_exists('mb_substr') || !function_exists('mb_strlen')) {
+            return;
+        }
+
+        $encoding = $encoding == 'base64' ? 'B' : 'Q';
+        // 75 is the value specified in the RFC
+        $prefix = '=?' . $charset . '?'.$encoding.'?';
+        $suffix = '?=';
+        $maxLength = 75 - strlen($prefix . $suffix);
+
+        // A multi-octet character may not be split across adjacent encoded-words
+        // So, we'll loop over each character
+        // mb_stlen() with wrong charset will generate a warning here and return null
+        $length      = mb_strlen($str, $charset);
+        $result      = '';
+        $line_length = $prefix_len;
+
+        if ($encoding == 'B') {
+            // base64
+            $start = 0;
+            $prev  = '';
+
+            for ($i=1; $i<=$length; $i++) {
+                // See #17311
+                $chunk = mb_substr($str, $start, $i-$start, $charset);
+                $chunk = base64_encode($chunk);
+                $chunk_len = strlen($chunk);
+
+                if ($line_length + $chunk_len == $maxLength || $i == $length) {
+                    if ($result) {
+                        $result .= "\n";
+                    }
+                    $result .= $chunk;
+                    $line_length = 0;
+                    $start = $i;
+                } else if ($line_length + $chunk_len > $maxLength) {
+                    if ($result) {
+                        $result .= "\n";
+                    }
+                    if ($prev) {
+                        $result .= $prev;
+                    }
+                    $line_length = 0;
+                    $start = $i - 1;
+                } else {
+                    $prev = $chunk;
+                }
+            }
+        } else {
+            // quoted-printable
+            // see encodeQP()
+            $regexp = '/([\x22-\x29\x2C\x2E\x3A-\x40\x5B-\x60\x7B-\x7E\x80-\xFF])/';
+
+            for ($i=0; $i<=$length; $i++) {
+                $char = mb_substr($str, $i, 1, $charset);
+                // RFC recommends underline (instead of =20) in place of the space
+                // that's one of the reasons why we're not using iconv_mime_encode()
+                if ($char == ' ') {
+                    $char = '_';
+                    $char_len = 1;
+                } else {
+                    $char = preg_replace_callback(
+                        $regexp, array('Mail_mimePart', '_qpReplaceCallback'), $char
+                    );
+                    $char_len = strlen($char);
+                }
+
+                if ($line_length + $char_len > $maxLength) {
+                    if ($result) {
+                        $result .= "\n";
+                    }
+                    $line_length = 0;
+                }
+
+                $result      .= $char;
+                $line_length += $char_len;
+            }
+        }
+
+        if ($result) {
+            $result = $prefix
+                .str_replace("\n", $suffix.$eol.' '.$prefix, $result).$suffix;
+        }
+
+        return $result;
     }
 
     /**

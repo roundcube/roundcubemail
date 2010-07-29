@@ -842,13 +842,13 @@ class Mail_mime
 
         if (isset($this->_headers['From'])) {
             // Bug #11381: Illegal characters in domain ID
-            if (preg_match("|(@[0-9a-zA-Z\-\.]+)|", $this->_headers['From'], $matches)) {
+            if (preg_match('#(@[0-9a-zA-Z\-\.]+)#', $this->_headers['From'], $matches)) {
                 $domainID = $matches[1];
             } else {
-                $domainID = "@localhost";
+                $domainID = '@localhost';
             }
             foreach ($this->_html_images as $i => $img) {
-                $cid = $this->_html_images[$i]['cid'];
+                $cid = $this->_html_images[$i]['cid']; 
                 if (!preg_match('#'.preg_quote($domainID).'$#', $cid)) {
                     $this->_html_images[$i]['cid'] = $cid . $domainID;
                 }
@@ -995,7 +995,7 @@ class Mail_mime
             $ret = null;
             return $ret;
         }
-        
+
         // Use saved boundary
         if (!empty($this->_build_params['boundary'])) {
             $boundary = $this->_build_params['boundary'];
@@ -1155,7 +1155,7 @@ class Mail_mime
         // add required boundary parameter if not defined
         if (preg_match('/^multipart\//i', $type)) {
             if (empty($this->_build_params['boundary'])) {
-                $this->_build_params['boundary'] = '=_' . md5(rand() . microtime());              
+                $this->_build_params['boundary'] = '=_' . md5(rand() . microtime());
             }
 
             $header .= ";$eol boundary=\"".$this->_build_params['boundary']."\"";
@@ -1188,6 +1188,24 @@ class Mail_mime
     function setFrom($email)
     {
         $this->_headers['From'] = $email;
+    }
+
+    /**
+     * Add an email to the To header
+     * (multiple calls to this method are allowed)
+     *
+     * @param string $email The email direction to add
+     *
+     * @return void
+     * @access public
+     */
+    function addTo($email)
+    {
+        if (isset($this->_headers['To'])) {
+            $this->_headers['To'] .= ", $email";
+        } else {
+            $this->_headers['To'] = $email;
+        }
     }
 
     /**
