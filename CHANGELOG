@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Include all recipients in sendmail log
 - Support HTTP_X_FORWARDED_PROTO header for HTTPS detecting (#1486866)
 - Fix default IMAP port configuration (#1486864)
 - Create Sent folder when starting to compose a new message (#1486802)

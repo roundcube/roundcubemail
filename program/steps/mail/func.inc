@@ -1444,6 +1444,14 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
     // remove MDN headers after sending
     unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
 
+    // get all recipients
+    if ($headers['Cc'])
+      $mailto .= $headers['Cc'];
+    if ($headers['Bcc'])
+      $mailto .= $headers['Bcc'];
+    if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m))
+      $mailto = implode(', ', array_unique($m[1]));
+
     if ($CONFIG['smtp_log']) {
       write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
         $RCMAIL->user->get_username(),
