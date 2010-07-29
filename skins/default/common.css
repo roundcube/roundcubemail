@@ -153,6 +153,7 @@ img
   top: 0px;
   right: 0px;
   height: 24px;
+  width: 100%;
   background: url(images/taskbar.png) top right no-repeat;
   padding: 10px 4px 5px 0px;
   text-align: right;
