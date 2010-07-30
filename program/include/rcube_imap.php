@@ -1738,7 +1738,7 @@ class rcube_imap
      *
      * @access private
      */
-    function &_structure_part($part, $count=0, $parent='', $mime_headers=null, $raw_headers=null)
+    function &_structure_part($part, $count=0, $parent='', $mime_headers=null)
     {
         $struct = new rcube_message_part;
         $struct->mime_id = empty($parent) ? (string)$count : "$parent.$count";
@@ -1778,7 +1778,6 @@ class rcube_imap
                 if (!is_array($part[$i][0])) {
                     $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
-                        $raw_part_headers[] = $tmp_part_id;
                         $mime_part_headers[] = $tmp_part_id;
                     }
                     else if (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')) {
@@ -1794,11 +1793,6 @@ class rcube_imap
                 $mime_part_headers = $this->conn->fetchMIMEHeaders($this->mailbox,
                     $this->_msg_id, $mime_part_headers);
             }
-            // we'll need a real content-type of message/rfc822 part
-            if ($raw_part_headers) {
-                $raw_part_headers = $this->conn->fetchMIMEHeaders($this->mailbox,
-                    $this->_msg_id, $raw_part_headers, false);
-            }
 
             $struct->parts = array();
             for ($i=0, $count=0; $i<count($part); $i++) {
@@ -1806,7 +1800,7 @@ class rcube_imap
                     break;
                 $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
                 $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id,
-                    $mime_part_headers[$tmp_part_id], $raw_part_headers[$tmp_part_id]);
+                    $mime_part_headers[$tmp_part_id]);
             }
 
             return $struct;
@@ -1898,24 +1892,24 @@ class rcube_imap
             }
             $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
 
-            // get real headers for message of type 'message/rfc822'
+            // get real content-type of message/rfc822
             if ($struct->mimetype == 'message/rfc822') {
-                if (empty($raw_headers)) {
-                    $raw_headers = $this->conn->fetchMIMEHeaders(
-                        $this->mailbox, $this->_msg_id, (array)$struct->mime_id, false);
-                }
-                $struct->real_headers = $this->_parse_headers($raw_headers);
-
-                // get real content-type of message/rfc822
-                if (preg_match('/^([a-z0-9_\/-]+)/i', $struct->real_headers['content-type'], $matches)) {
-                    $struct->real_mimetype = strtolower($matches[1]);
+                // single-part
+                if (!is_array($part[8][0]))
+                    $struct->real_mimetype = strtolower($part[8][0] . '/' . $part[8][1]);
+                // multi-part
+                else {
+                    for ($n=0; $n<count($part[8]); $n++)
+                        if (!is_array($part[8][$n]))
+                            break;
+                    $struct->real_mimetype = 'multipart/' . strtolower($part[8][$n]);
                 }
             }
-        }
 
-        if ($struct->ctype_primary == 'message') {
-            if (is_array($part[8]) && $di != 8 && empty($struct->parts))
-                $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
+            if ($struct->ctype_primary == 'message' && empty($struct->parts)) {
+                if (is_array($part[8]) && $di != 8)
+                    $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
+            }
         }
 
         // normalize filename property
