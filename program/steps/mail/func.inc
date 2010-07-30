@@ -986,8 +986,14 @@ function rcmail_message_body($attrib)
 
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
-        if ($part->ctype_secondary == 'html')
-          $out .= html::div('message-htmlpart', rcmail_html4inline($body, $attrib['id'], 'div.rcmBody'));
+        if ($part->ctype_secondary == 'html') {
+          $body = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $color);
+          $div_attr = array('class' => 'message-htmlpart');
+          if ($color)
+            $div_attr['style'] = 'background-color: '.$color;
+
+          $out .= html::div($div_attr, $body);
+        }
         else
           $out .= html::div('message-part', $body);
         }
@@ -1046,7 +1052,7 @@ function rcmail_resolve_base($body)
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_id='')
+function rcmail_html4inline($body, $container_id, $body_id='', &$body_color='')
   {
   $last_style_pos = 0;
   $body_lc = strtolower($body);
@@ -1057,7 +1063,8 @@ function rcmail_html4inline($body, $container_id, $body_id='')
     $pos = strpos($body_lc, '>', $pos)+1;
 
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos), $container_id.($body_id ? ' '.$body_id : ''));
+    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos),
+      $container_id.($body_id ? ' div.'.$body_id : ''));
 
     $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
     $body_lc = strtolower($body);
@@ -1093,15 +1100,22 @@ function rcmail_html4inline($body, $container_id, $body_id='')
       '<!--\\1-->',
       '&lt;?',
       '?&gt;',
-      '<div class="rcmBody"\\1>',
+      '<div class="'.$body_id.'"\\1>',
       '</div>',
       ),
     $body);
 
+  // Get rcmBody's bgcolor attribute, we'll set the color to the body container
+  // as background-color, bgcolor doesn't work with a div
+  if (preg_match('/<div class="' . preg_quote($body_id, '/') . '" ([^>]+)>/', $out, $m)) {
+    if (preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/', $m[0], $mb)) {
+      $body_color = $mb[1];
+    }
+  }
   // make sure there's 'rcmBody' div, we need it for proper css modification
   // its name is hardcoded in rcmail_message_body() also
-  if (!preg_match('/<div class="rcmBody"/', $out))
-    $out = '<div class="rcmBody">' . $out . '</div>';
+  else
+    $out = '<div class="' . $body_id . '">' . $out . '</div>';
 
   return $out;
   }
