@@ -43,6 +43,33 @@ class rcube_plugin_api
   private $required_plugins = array('filesystem_attachments');
   private $active_hook = false;
 
+  // Deprecated names of hooks, will be removed after 0.5-stable release
+  private $deprecated_hooks = array(
+    'create_user'       => 'user_create',
+    'kill_session'      => 'session_destroy',
+    'upload_attachment' => 'attachment_upload',
+    'save_attachment'   => 'attachment_save',
+    'get_attachment'    => 'attachment_get',
+    'cleanup_attachments' => 'attachments_cleanup',
+    'display_attachment' => 'attachment_display',
+    'remove_attachment' => 'attachment_delete',
+    'outgoing_message_headers' => 'message_outgoing_headers',
+    'outgoing_message_body' => 'message_outgoing_body',
+    'address_sources'   => 'addressbooks_list',
+    'get_address_book'  => 'addressbook_get',
+    'create_contact'    => 'contact_create',
+    'save_contact'      => 'contact_save',
+    'delete_contact'    => 'contact_delete',
+    'manage_folders'    => 'folders_list',
+    'list_mailboxes'    => 'mailboxes_list',
+    'save_preferences'  => 'preferences_save',
+    'user_preferences'  => 'preferences_list',
+    'list_prefs_sections' => 'preferences_sections_list',
+    'list_identities'   => 'identities_list',
+    'create_identity'   => 'identity_create',
+    'save_identity'     => 'identity_save',
+  );
+
   /**
    * This implements the 'singleton' design pattern
    *
@@ -164,8 +191,17 @@ class rcube_plugin_api
    */
   public function register_hook($hook, $callback)
   {
-    if (is_callable($callback))
+    if (is_callable($callback)) {
+      if (isset($this->deprecated_hooks[$hook])) {
+        /* Uncoment after 0.4-stable release
+        raise_error(array('code' => 522, 'type' => 'php',
+          'file' => __FILE__, 'line' => __LINE__,
+          'message' => "Deprecated hook name. ".$hook.' -> '.$this->deprecated_hooks[$hook]), true, false);
+        */
+        $hook = $this->deprecated_hooks[$hook];
+      }
       $this->handlers[$hook][] = $callback;
+    }
     else
       raise_error(array('code' => 521, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,

@@ -37,7 +37,7 @@ if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) &
     $ids = array();
 
     foreach ($arr_cids as $cid) {
-      $plugin = $RCMAIL->plugins->exec_hook('create_contact', array(
+      $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
         'record' => $CONTACTS->get_record($cid, true),
         'source' => $target,
         'group' => $target_group,

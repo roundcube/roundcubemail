@@ -312,7 +312,7 @@ function rcube_subscription_form($attrib)
     $a_js_folders['rcmrow'.$idx] = array($folder_utf8, $display_folder, $protected || $folder['virtual']);
   }
 
-  rcmail::get_instance()->plugins->exec_hook('manage_folders', array('table'=>$table));
+  rcmail::get_instance()->plugins->exec_hook('folders_list', array('table'=>$table));
 
   $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
   $OUTPUT->set_env('subscriptionrows', $a_js_folders);

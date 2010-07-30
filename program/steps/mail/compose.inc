@@ -81,7 +81,7 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_v
       
       // save attachment if valid
       if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
-        $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+        $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
       }
       
       if ($attachment['status'] && !$attachment['abort']) {
@@ -829,7 +829,7 @@ function rcmail_save_attachment(&$message, $pid)
     'size' => $path ? filesize($path) : strlen($data),
   );
 
-  $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+  $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
 
   if ($attachment['status']) {
     unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
@@ -853,7 +853,7 @@ function rcmail_save_image($path, $mimetype='')
     'size' => strlen($data),
   );
 
-  $attachment = rcmail::get_instance()->plugins->exec_hook('save_attachment', $attachment);
+  $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
 
   if ($attachment['status']) {
     unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);

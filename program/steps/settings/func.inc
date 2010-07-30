@@ -75,7 +75,7 @@ function rcmail_identities_list($attrib)
     $list[$idx]['mail'] = trim($row['name'] . ' <' . $row['email'] .'>');
 
   // get all identites from DB and define list of cols to be displayed
-  $plugin = $RCMAIL->plugins->exec_hook('list_identities', array(
+  $plugin = $RCMAIL->plugins->exec_hook('identities_list', array(
     'list' => $list,
     'cols' => array('mail')));
 
@@ -131,7 +131,7 @@ function rcmail_user_prefs($current=null)
   $sections['server'] = array('id' => 'server',  'section' => rcube_label('serversettings'));
 
   // hook + define list cols
-  $plugin = $RCMAIL->plugins->exec_hook('list_prefs_sections',
+  $plugin = $RCMAIL->plugins->exec_hook('preferences_sections_list',
         array('list' => $sections, 'cols' => array('section')));
 
   $sections = $plugin['list'];
@@ -676,7 +676,7 @@ function rcmail_user_prefs($current=null)
     break;
     }
 
-    $data = $RCMAIL->plugins->exec_hook('user_preferences', array('section' => $sect['id'], 'blocks' => $blocks));
+    $data = $RCMAIL->plugins->exec_hook('preferences_list', array('section' => $sect['id'], 'blocks' => $blocks));
     $found = false;
     
     // create output

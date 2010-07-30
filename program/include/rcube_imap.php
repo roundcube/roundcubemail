@@ -2589,7 +2589,7 @@ class rcube_imap
         $a_defaults = $a_out = array();
 
         // Give plugins a chance to provide a list of mailboxes
-        $data = rcmail::get_instance()->plugins->exec_hook('list_mailboxes',
+        $data = rcmail::get_instance()->plugins->exec_hook('mailboxes_list',
             array('root' => $root, 'filter' => $filter, 'mode' => 'LSUB'));
 
         if (isset($data['folders'])) {
@@ -2620,7 +2620,7 @@ class rcube_imap
     function list_unsubscribed($root='', $filter='*')
     {
         // Give plugins a chance to provide a list of mailboxes
-        $data = rcmail::get_instance()->plugins->exec_hook('list_mailboxes',
+        $data = rcmail::get_instance()->plugins->exec_hook('mailboxes_list',
             array('root' => $root, 'filter' => $filter, 'mode' => 'LIST'));
 
         if (isset($data['folders'])) {

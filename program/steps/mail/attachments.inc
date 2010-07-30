@@ -32,7 +32,7 @@ if ($RCMAIL->action=='remove-attachment')
   if (preg_match('/^rcmfile(\w+)$/', $_POST['_file'], $regs))
     $id = $regs[1];
   if ($attachment = $_SESSION['compose']['attachments'][$id])
-    $attachment = $RCMAIL->plugins->exec_hook('remove_attachment', $attachment);
+    $attachment = $RCMAIL->plugins->exec_hook('attachment_delete', $attachment);
   if ($attachment['status']) {
     if (is_array($_SESSION['compose']['attachments'][$id])) {
       unset($_SESSION['compose']['attachments'][$id]);
@@ -50,7 +50,7 @@ if ($RCMAIL->action=='display-attachment')
   if (preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs))
     $id = $regs[1];
   if ($attachment = $_SESSION['compose']['attachments'][$id])
-    $attachment = $RCMAIL->plugins->exec_hook('display_attachment', $attachment);
+    $attachment = $RCMAIL->plugins->exec_hook('attachment_display', $attachment);
     
   if ($attachment['status']) {
     if (empty($attachment['size']))
@@ -87,7 +87,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i])
     );
 
-    $attachment = $RCMAIL->plugins->exec_hook('upload_attachment', $attachment);
+    $attachment = $RCMAIL->plugins->exec_hook('attachment_upload', $attachment);
 
     if ($attachment['status'] && !$attachment['abort']) {
       $id = $attachment['id'];

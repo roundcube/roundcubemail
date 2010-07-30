@@ -61,7 +61,7 @@ if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3)
 if ($_POST['_iid'])
 {
   $iid = get_input_value('_iid', RCUBE_INPUT_POST);
-  $plugin = $RCMAIL->plugins->exec_hook('save_identity', array('id' => $iid, 'record' => $save_data));
+  $plugin = $RCMAIL->plugins->exec_hook('identity_save', array('id' => $iid, 'record' => $save_data));
   $save_data = $plugin['record'];
 
   if (!$plugin['abort'] && ($updated = $USER->update_identity($iid, $save_data)))
@@ -92,7 +92,7 @@ else if (IDENTITIES_LEVEL < 2)
   if (IDENTITIES_LEVEL == 1)
     $save_data['email'] = $RCMAIL->user->get_username();
 
-  $plugin = $RCMAIL->plugins->exec_hook('create_identity', array('record' => $save_data));
+  $plugin = $RCMAIL->plugins->exec_hook('identity_create', array('record' => $save_data));
   $save_data = $plugin['record'];
 
   if (!$plugin['abort'] && $save_data['email'] && ($insert_id = $USER->insert_identity($save_data)))

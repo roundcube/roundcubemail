@@ -385,7 +385,7 @@ class rcube_user
             $user_email = is_array($email_list[0]) ? $email_list[0]['email'] : $email_list[0];
         }
 
-        $data = $rcmail->plugins->exec_hook('create_user',
+        $data = $rcmail->plugins->exec_hook('user_create',
 	        array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email));
 
         // plugin aborted this operation
@@ -444,7 +444,7 @@ class rcube_user
                 $record['user_id'] = $user_id;
                 $record['standard'] = $standard;
 
-                $plugin = $rcmail->plugins->exec_hook('create_identity',
+                $plugin = $rcmail->plugins->exec_hook('identity_create',
 	                array('login' => true, 'record' => $record));
           
                 if (!$plugin['abort'] && $plugin['record']['email']) {

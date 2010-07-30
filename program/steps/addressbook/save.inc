@@ -54,7 +54,7 @@ foreach ($a_save_cols as $col)
 // update an existing contact
 if (!empty($cid))
 {
-  $plugin = $RCMAIL->plugins->exec_hook('save_contact', array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  $plugin = $RCMAIL->plugins->exec_hook('contact_save', array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
   $a_record = $plugin['record'];
   
   if (!$plugin['abort'] && ($result = $CONTACTS->update($cid, $a_record)))
@@ -102,7 +102,7 @@ else
     return;
   }
 
-  $plugin = $RCMAIL->plugins->exec_hook('create_contact', array('record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  $plugin = $RCMAIL->plugins->exec_hook('contact_create', array('record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
   $a_record = $plugin['record'];
 
   // insert record and send response

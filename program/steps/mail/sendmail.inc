@@ -358,7 +358,7 @@ if (!empty($CONFIG['useragent']))
   $headers['User-Agent'] = $CONFIG['useragent'];
 
 // exec hook for header checking and manipulation
-$data = $RCMAIL->plugins->exec_hook('outgoing_message_headers', array('headers' => $headers));
+$data = $RCMAIL->plugins->exec_hook('message_outgoing_headers', array('headers' => $headers));
 
 // sending aborted by plugin
 if ($data['abort'] && !$savedraft) {
@@ -428,7 +428,7 @@ if (is_array($_SESSION['compose']['attachments']) && $CONFIG['smtp_server']
 // the HTML part and the plain-text part
 
 if ($isHtml) {
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+  $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
     array('body' => $message_body, 'type' => 'html', 'message' => $MAIL_MIME));
 
   $MAIL_MIME->setHTMLBody($plugin['body']);
@@ -446,7 +446,7 @@ if ($isHtml) {
     $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
   }
 
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+  $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
     array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
 
   $MAIL_MIME->setTXTBody($plugin['body']);
@@ -456,7 +456,7 @@ if ($isHtml) {
   $message_body = rcmail_fix_emoticon_paths($MAIL_MIME);
 }
 else {
-  $plugin = $RCMAIL->plugins->exec_hook('outgoing_message_body',
+  $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
     array('body' => $message_body, 'type' => 'plain', 'message' => $MAIL_MIME));
 
   $message_body = $plugin['body'];
@@ -481,7 +481,7 @@ if (is_array($_SESSION['compose']['attachments']))
 {
   foreach ($_SESSION['compose']['attachments'] as $id => $attachment) {
     // This hook retrieves the attachment contents from the file storage backend
-    $attachment = $RCMAIL->plugins->exec_hook('get_attachment', $attachment);
+    $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
     $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\s\'"]*/';
     $message_body = $MAIL_MIME->getHTMLBody();

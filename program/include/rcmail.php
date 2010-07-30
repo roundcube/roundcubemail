@@ -255,7 +255,7 @@ class rcmail
     $ldap_config = (array)$this->config->get('ldap_public');
     $abook_type = strtolower($this->config->get('address_book_type'));
 
-    $plugin = $this->plugins->exec_hook('get_address_book', array('id' => $id, 'writeable' => $writeable));
+    $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
 
     // plugin returned instance of a rcube_addressbook
     if ($plugin['instance'] instanceof rcube_addressbook) {
@@ -321,7 +321,7 @@ class rcmail
         );
     }
 
-    $plugin = $this->plugins->exec_hook('address_sources', array('sources' => $list));
+    $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
     $list = $plugin['sources'];
 
     if ($writeable && !empty($list)) {
@@ -928,7 +928,7 @@ class rcmail
    */
   public function kill_session()
   {
-    $this->plugins->exec_hook('kill_session');
+    $this->plugins->exec_hook('session_destroy');
 
     $this->session->remove();
     $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
