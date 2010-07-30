@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix message structure parsing when it lacks optional fields (#1486881)
 - Include all recipients in sendmail log
 - Support HTTP_X_FORWARDED_PROTO header for HTTPS detecting (#1486866)
 - Fix default IMAP port configuration (#1486864)

@@ -1747,6 +1747,18 @@ class rcube_imap
         if (is_array($part[0])) {
             $struct->ctype_primary = 'multipart';
 
+        /* RFC3501: BODYSTRUCTURE fields of multipart part
+            part1 array
+            part2 array
+            part3 array
+            ....
+            1. subtype
+            2. parameters (optional)
+            3. description (optional)
+            4. language (optional)
+            5. location (optional)
+        */
+
             // find first non-array entry
             for ($i=1; $i<count($part); $i++) {
                 if (!is_array($part[$i])) {
@@ -1758,19 +1770,19 @@ class rcube_imap
             $struct->mimetype = 'multipart/'.$struct->ctype_secondary;
 
             // build parts list for headers pre-fetching
-            for ($i=0, $count=0; $i<count($part); $i++) {
-                if (is_array($part[$i]) && count($part[$i]) > 4) {
-                    // fetch message headers if message/rfc822
-                    // or named part (could contain Content-Location header)
-                    if (!is_array($part[$i][0])) {
-                        $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
-                        if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
-                            $raw_part_headers[] = $tmp_part_id;
-                            $mime_part_headers[] = $tmp_part_id;
-                        }
-                        else if (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')) {
-                            $mime_part_headers[] = $tmp_part_id;
-                        }
+            for ($i=0; $i<count($part); $i++) {
+                if (!is_array($part[$i]))
+                    break;
+                // fetch message headers if message/rfc822
+                // or named part (could contain Content-Location header)
+                if (!is_array($part[$i][0])) {
+                    $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
+                    if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
+                        $raw_part_headers[] = $tmp_part_id;
+                        $mime_part_headers[] = $tmp_part_id;
+                    }
+                    else if (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')) {
+                        $mime_part_headers[] = $tmp_part_id;
                     }
                 }
             }
@@ -1787,17 +1799,39 @@ class rcube_imap
                 $raw_part_headers = $this->conn->fetchMIMEHeaders($this->mailbox,
                     $this->_msg_id, $raw_part_headers, false);
             }
+
             $struct->parts = array();
             for ($i=0, $count=0; $i<count($part); $i++) {
-                if (is_array($part[$i]) && count($part[$i]) > 4) {
-                    $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
-                    $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id,
+                if (!is_array($part[$i]))
+                    break;
+                $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
+                $struct->parts[] = $this->_structure_part($part[$i], ++$count, $struct->mime_id,
                     $mime_part_headers[$tmp_part_id], $raw_part_headers[$tmp_part_id]);
-                }
             }
 
             return $struct;
         }
+
+        /* RFC3501: BODYSTRUCTURE fields of non-multipart part
+            0. type
+            1. subtype
+            2. parameters
+            3. id
+            4. description
+            5. encoding
+            6. size
+          -- text
+            7. lines
+          -- message/rfc822
+            7. envelope structure
+            8. body structure
+            9. lines
+          --
+            x. md5 (optional)
+            x. disposition (optional)
+            x. language (optional)
+            x. location (optional)
+        */
 
         // regular part
         $struct->ctype_primary = strtolower($part[0]);
@@ -1825,9 +1859,11 @@ class rcube_imap
             $struct->size = intval($part[6]);
 
         // read part disposition
-        $di = count($part) - 2;
-        if ((is_array($part[$di]) && count($part[$di]) == 2 && is_array($part[$di][1])) ||
-            (is_array($part[--$di]) && count($part[$di]) == 2)) {
+        $di = 8;
+        if ($struct->ctype_primary == 'text') $di += 1;
+        else if ($struct->mimetype == 'message/rfc822') $di += 3;
+
+        if (is_array($part[$di]) && count($part[$di]) == 2) {
             $struct->disposition = strtolower($part[$di][0]);
 
             if (is_array($part[$di][1]))
@@ -1835,12 +1871,14 @@ class rcube_imap
                     $struct->d_parameters[strtolower($part[$di][1][$n])] = $part[$di][1][$n+1];
         }
 
-        // get child parts
+        // get message/rfc822's child-parts
         if (is_array($part[8]) && $di != 8) {
             $struct->parts = array();
-            for ($i=0, $count=0; $i<count($part[8]); $i++)
-                if (is_array($part[8][$i]) && count($part[8][$i]) > 5)
-                    $struct->parts[] = $this->_structure_part($part[8][$i], ++$count, $struct->mime_id);
+            for ($i=0, $count=0; $i<count($part[8]); $i++) {
+                if (!is_array($part[8][$i]))
+                    break;
+                $struct->parts[] = $this->_structure_part($part[8][$i], ++$count, $struct->mime_id);
+            }
         }
 
         // get part ID
@@ -1875,7 +1913,7 @@ class rcube_imap
             }
         }
 
-        if ($struct->ctype_primary=='message') {
+        if ($struct->ctype_primary == 'message') {
             if (is_array($part[8]) && $di != 8 && empty($struct->parts))
                 $struct->parts[] = $this->_structure_part($part[8], ++$count, $struct->mime_id);
         }
