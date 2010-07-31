@@ -1,6 +1,7 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Fix JS errors on compose mode switch (#1486870)
 - Fix message structure parsing when it lacks optional fields (#1486881)
 - Include all recipients in sendmail log
 - Support HTTP_X_FORWARDED_PROTO header for HTTPS detecting (#1486866)

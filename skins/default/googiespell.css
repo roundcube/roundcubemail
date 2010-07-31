@@ -17,6 +17,7 @@
   padding: 0 4px;
   font-size: 9pt;
   font-family: monospace;
+  border: 1px solid #666;
 }
 
 .googie_edit_layer span {

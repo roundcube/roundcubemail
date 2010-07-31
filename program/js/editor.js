@@ -67,19 +67,12 @@ function rcmail_editor_callback(editor)
   var editor, elem = rcube_find_object('_from');
   if (elem && elem.type=='select-one')
     rcmail.change_identity(elem);
-  // set tabIndex
-  rcmail_editor_tabindex();
-  // set focus to element that was focused before
-  if (elem = rcmail.env.compose_focus_elem) {
-    if (elem.id == rcmail.env.composebody && (editor = tinyMCE.get(rcmail.env.composebody)))
-      editor.getWin().focus();
-    else
-      elem.focus();
-  }
+  // set tabIndex and set focus to element that was focused before
+  rcmail_editor_tabindex(rcmail.env.compose_focus_elem && rcmail.env.compose_focus_elem.id == rcmail.env.composebody);
 }
 
 // set tabIndex on tinyMCE editor
-function rcmail_editor_tabindex()
+function rcmail_editor_tabindex(focus)
 {
   if (rcmail.env.task == 'mail') {
     var editor = tinyMCE.get(rcmail.env.composebody);
@@ -88,6 +81,8 @@ function rcmail_editor_tabindex()
       var node = editor.getContentAreaContainer().childNodes[0];
       if (textarea && node)
         node.tabIndex = textarea.tabIndex;
+      if (focus)
+        editor.getWin().focus();
     }
   }
 }
@@ -106,14 +101,16 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
 
   if (ishtml) {
     // #1486593
-    setTimeout("rcmail_editor_tabindex();", 500);
+    setTimeout("rcmail_editor_tabindex(true);", 500);
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '1';
   }
   else {
     if (!res && select.tagName == 'SELECT')
-	  select.value = 'html';
+      select.value = 'html';
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '0';
+
+    rcube_find_object(rcmail.env.composebody).focus();
   }
 }

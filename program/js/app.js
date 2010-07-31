@@ -2815,13 +2815,14 @@ function rcube_webmail()
       tinyMCE.execCommand('mceAddControl', false, props.id);
     }
     else {
-      var thisMCE = tinyMCE.get(props.id),
-        existingHtml = thisMCE.getContent();
-
-      if (existingHtml) {
+      var thisMCE = tinyMCE.get(props.id), existingHtml;
+      if (thisMCE.plugins.spellchecker && thisMCE.plugins.spellchecker.active)
+        thisMCE.execCommand('mceSpellCheck', false);
+      
+      if (existingHtml = thisMCE.getContent()) {
         if (!confirm(this.get_label('editorwarning'))) {
           return false;
-	    }
+        }
         this.html2plain(existingHtml, props.id);
       }
       tinyMCE.execCommand('mceRemoveControl', false, props.id);
