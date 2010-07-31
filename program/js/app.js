@@ -1018,9 +1018,10 @@ function rcube_webmail()
       if (msg == message)
         msg = 'Loading...';
 
-      this.display_message(msg, 'loading', true);
+      if (this.gui_objects.message && this.gui_objects.message.__type != 'error')
+        this.display_message(msg, 'loading', true);
     }
-    else if (!a)
+    else if (!a && this.gui_objects.message && this.gui_objects.message.__type != 'error')
       this.hide_message();
 
     this.busy = a;
@@ -4489,6 +4490,7 @@ function rcube_webmail()
       cont = '<div class="'+type+'">'+cont+'</div>';
 
     var obj = $(this.gui_objects.message).html(cont).show();
+    this.gui_objects.message.__type = type;
 
     if (type!='loading')
       obj.bind('mousedown', function(){ ref.hide_message(); return true; });
