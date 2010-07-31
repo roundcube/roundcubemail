@@ -36,7 +36,7 @@ function rcube_mail_ui()
     groupmenu:      {id:'groupoptionsmenu', above:1},
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
     composemenu:    {id:'composeoptionsmenu', editable:1},
-    uploadmenu:     {id:'attachment-form', editable:1, above:1}
+    uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:bw.safari&&bw.win }
   };
 
   var obj;
@@ -68,6 +68,8 @@ show_popupmenu: function(popup, show)
 
   if (typeof show == 'undefined')
     show = obj.is(':visible') ? false : true;
+  else if (this.popups[popup].toggle && show && this.popups[popup].obj.is(':visible') )
+    show = false;
 
   if (show && ref) {
     var pos = $(ref).offset();
@@ -215,6 +217,7 @@ body_mouseup: function(evt, p)
 
   for (i in this.popups) {
     if (this.popups[i].obj.is(':visible') && target != rcube_find_object(i+'link')
+      && !this.popups[i].toggle
       && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
       && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
     ) {
