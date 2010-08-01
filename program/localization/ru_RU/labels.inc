@@ -11,6 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Artur Smolkin <artsmolkin@ya.ru>                              |
+| Updates: Sergey Dukachev <iam@dukess.ru>                              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -148,6 +149,7 @@ $labels['listcolumns'] = 'Колонки';
 $labels['listsorting'] = 'Сортировать по';
 $labels['listorder'] = 'Порядок сортировки';
 $labels['listmode'] = 'Режим просмотра';
+$labels['folderactions'] = 'Операции над папкой...';
 $labels['compact'] = 'Сжать';
 $labels['empty'] = 'Опустошить';
 $labels['purge'] = 'Очистить';
@@ -328,11 +330,13 @@ $labels['english'] = 'Английский';
 $labels['westerneuropean'] = 'Западноевропейский';
 $labels['easterneuropean'] = 'Восточноевропейский';
 $labels['southeasterneuropean'] = 'Юго-Восточноевропейский';
+$labels['baltic'] = 'Прибалтийский';
 $labels['cyrillic'] = 'Кириллица';
 $labels['arabic'] = 'Арабский';
 $labels['greek'] = 'Греческий';
 $labels['hebrew'] = 'Иврит';
 $labels['turkish'] = 'Турецкий';
+$labels['nordic'] = 'Скандинавский';
 $labels['thai'] = 'Тайский';
 $labels['celtic'] = 'Кельтский';
 $labels['vietnamese'] = 'Вьетнамский';
