@@ -295,8 +295,8 @@ function rcube_subscription_form($attrib)
     $table->add('subscribed', ($protected || $folder['virtual']) ? ($subscribed ? '&nbsp;&#x2022;' : '&nbsp;') :
         $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''), array('value' => $folder_utf8)));
     if ($threading_supported) {
-      $table->add('threaded',
-                  $checkbox_threaded->show(($threaded ? $folder_utf8 : ''), array('value' => $folder_utf8)));
+      $table->add('threaded', $folder['virtual'] ? '' :
+            $checkbox_threaded->show(($threaded ? $folder_utf8 : ''), array('value' => $folder_utf8)));
     }
     
     // add rename and delete buttons
