@@ -469,6 +469,11 @@ img
   background-color: #c00;
 }
 
+.darkbg
+{
+  background-color: #F2F2F2 !important;
+}
+
 
 /***** common table settings ******/
 
@@ -681,7 +686,7 @@ a.rcmContactAddress:hover
   opacity: 0.8;
 }
 
-			      
+
 /***** onclick menu list *****/
 
 ul.toolbarmenu

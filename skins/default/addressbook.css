@@ -205,10 +205,6 @@ body.iframe,
 #contact-frame
 {
   background-color: #F2F2F2;
-}
-
-#contact-frame
-{
   border: none;
 }
 
@@ -217,3 +213,4 @@ body.iframe,
   font-weight: bold;
   text-align: right;
 }
+
