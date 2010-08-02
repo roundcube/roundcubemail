@@ -1836,18 +1836,14 @@ function rcube_webmail()
       page = 1;
       this.env.current_page = page;
       this.select_all_mode = false;
-      this.show_contentframe(false);
-      this.env.messages = {};
     }
+
+    // unselect selected messages and clear the list and message data
+    this.clear_message_list();
 
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       url += '&_refresh=1';
 
-    // unselect selected messages
-    this.last_selected = 0;
-    if (this.message_list) {
-      this.message_list.clear_selection();
-    }
     this.select_folder(mbox, this.env.mailbox);
     this.env.mailbox = mbox;
 
@@ -1867,6 +1863,16 @@ function rcube_webmail()
       this.set_busy(true, 'loading');
       target.location.href = this.env.comm_path+'&_mbox='+urlencode(mbox)+(page ? '&_page='+page : '')+url;
     }
+  };
+
+  this.clear_message_list = function()
+  {
+      this.env.messages = {};
+      this.last_selected = 0;
+
+      this.show_contentframe(false);
+      if (this.message_list)
+        this.message_list.clear(true);
   };
 
   // send remote request to load message list
@@ -2819,7 +2825,7 @@ function rcube_webmail()
       var thisMCE = tinyMCE.get(props.id), existingHtml;
       if (thisMCE.plugins.spellchecker && thisMCE.plugins.spellchecker.active)
         thisMCE.execCommand('mceSpellCheck', false);
-      
+
       if (existingHtml = thisMCE.getContent()) {
         if (!confirm(this.get_label('editorwarning'))) {
           return false;
@@ -3183,7 +3189,7 @@ function rcube_webmail()
     if (value != '') {
       var addurl = '';
       if (this.message_list) {
-        this.message_list.clear();
+        this.clear_message_list();
         if (this.env.search_mods) {
           var mods = this.env.search_mods[this.env.mailbox] ? this.env.search_mods[this.env.mailbox] : this.env.search_mods['*'];
           if (mods) {
