@@ -172,6 +172,7 @@ $labels['revertto'] = 'Dychwelyd i';
 $labels['attachments'] = 'Atodiadau';
 $labels['upload'] = 'Llwytho fyny';
 $labels['close'] = 'Cau';
+$labels['messageoptions'] = 'Dewisiadau neges...';
 $labels['low'] = 'Isel';
 $labels['lowest'] = 'Isaf';
 $labels['normal'] = 'Cyffredin';

@@ -178,6 +178,7 @@ $labels['revertto'] = 'Vissza erre:';
 $labels['attachments'] = 'Csatolmányok';
 $labels['upload'] = 'Feltöltés';
 $labels['close'] = 'Bezárás';
+$labels['messageoptions'] = 'Üzenetbeállítások...';
 $labels['low'] = 'Alacsony';
 $labels['lowest'] = 'Legkisebb';
 $labels['normal'] = 'Normál';
