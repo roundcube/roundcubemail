@@ -172,6 +172,7 @@ $labels['revertto'] = 'Voltar a';
 $labels['attachments'] = 'Ficheiros anexos';
 $labels['upload'] = 'Cargar';
 $labels['close'] = 'Pechar';
+$labels['messageoptions'] = 'Opcións da mensaxe...';
 $labels['low'] = 'Baixa';
 $labels['lowest'] = 'A máis baixa';
 $labels['normal'] = 'Normal';
