@@ -4045,7 +4045,7 @@ function rcube_webmail()
 
       reg = new RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
       this.name_input.__parent = this.env.subscriptionrows[id][0].replace(reg, '');
-      this.name_input.onkeypress = function(e){ rcmail.name_input_keypress(e); };
+      this.name_input.onkeydown = function(e){ rcmail.name_input_keydown(e); };
 
       row.cells[0].replaceChild(this.name_input, row.cells[0].firstChild);
       this.edit_folder = id;
@@ -4068,7 +4068,7 @@ function rcube_webmail()
   };
 
   // handler for keyboard events on the input field
-  this.name_input_keypress = function(e)
+  this.name_input_keydown = function(e)
   {
     var key = rcube_event.get_keycode(e);
 
