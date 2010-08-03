@@ -64,7 +64,7 @@ $messages['nonamewarning'] = 'الرجاء إدخال اسم';
 $messages['nopagesizewarning'] = 'الرجاء إدخال حجم الصفحة';
 $messages['nosenderwarning'] = 'رجاء اكتب عنوان البريد الالكتروني للمُرسل';
 $messages['norecipientwarning'] = 'الرجاء إدخال اسم مستقبل واحد على الأقل';
-$messages['nosubjectwarning'] = 'حقل \\"الموضوع\\" فارغ. هل تريد كتابة موضوع للرسالة؟';
+$messages['nosubjectwarning'] = 'حقل \"الموضوع\" فارغ. هل تريد كتابة موضوع للرسالة؟';
 $messages['nobodywarning'] = 'إرسال هذه الرسالة دون نص؟';
 $messages['notsentwarning'] = 'لم يتم إرسال الرسالة. هل تريد تجاهل الرسالة؟';
 $messages['noldapserver'] = 'الرجاء اختيار خادم ldap للبحث فيه';
@@ -113,5 +113,6 @@ $messages['smtperror'] = 'خطأ SMTP: $msg';
 $messages['emailformaterror'] = 'عنوان بريد إلكتروني غير صالح: $email';
 $messages['toomanyrecipients'] = 'عدد المرسل إليهم كبير. قلص العدد إلى $max.';
 $messages['maxgroupmembersreached'] = 'عدد أعضاء المجموعة أكثر من $max';
+$messages['internalerror'] = 'حدث خطأ داخلي. الرجاء المحاولة مرة أخرى';
 
 ?>
