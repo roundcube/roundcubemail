@@ -175,6 +175,7 @@ $labels['revertto'] = 'Zurück zu';
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
 $labels['close'] = 'Schliessen';
+$labels['messageoptions']  = 'Optionen...';
 $labels['low'] = 'Niedrig';
 $labels['lowest'] = 'Niedrigste';
 $labels['normal'] = 'Normal';
