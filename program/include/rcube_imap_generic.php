@@ -191,7 +191,7 @@ class rcube_imap_generic
         		break;
     		}
 		    if (!empty($this->prefs['debug_mode'])) {
-			    write_log('imap', 'S: '. chop($buffer));
+			    write_log('imap', 'S: '. rtrim($buffer));
     		}
             $line .= $buffer;
 	    } while ($buffer[strlen($buffer)-1] != "\n");
@@ -201,7 +201,7 @@ class rcube_imap_generic
 
     private function multLine($line, $escape=false)
     {
-	    $line = chop($line);
+	    $line = rtrim($line);
 	    if (preg_match('/\{[0-9]+\}$/', $line)) {
 		    $out = '';
 
@@ -749,7 +749,7 @@ class rcube_imap_generic
 
 	    if ($this->putLine("sel1 SELECT \"".$this->escape($mailbox).'"')) {
 		    do {
-			    $line = chop($this->readLine(300));
+			    $line = rtrim($this->readLine(300));
 			    $a = explode(' ', $line);
 			    if (count($a) == 3) {
 				    $token = strtoupper($a[2]);
@@ -840,7 +840,7 @@ class rcube_imap_generic
 	        return false;
 	    }
 	    do {
-		    $line = chop($this->readLine());
+		    $line = rtrim($this->readLine());
 		    if ($this->startsWith($line, '* SORT')) {
 			    $data .= substr($line, 7);
     		} else if (preg_match('/^[0-9 ]+$/', $line)) {
@@ -924,7 +924,7 @@ class rcube_imap_generic
 	    $result = array();
 
 	    do {
-		    $line = chop($this->readLine(200));
+		    $line = rtrim($this->readLine(200));
 		    $line = $this->multLine($line);
 
 		    if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
@@ -1053,7 +1053,7 @@ class rcube_imap_generic
 	    $result = -1;
 		if ($this->putLine("fuid FETCH $id (UID)")) {
 		    do {
-			    $line = chop($this->readLine(1024));
+			    $line = rtrim($this->readLine(1024));
 				if (preg_match("/^\* $id FETCH \(UID (.*)\)/i", $line, $r)) {
 					$result = $r[1];
 				}
@@ -1111,10 +1111,8 @@ class rcube_imap_generic
             if (!$line)
                 break;
 
-		    $a    = explode(' ', $line);
-
-		    if (($line[0] == '*') && ($a[2] == 'FETCH')) {
-			    $id = $a[1];
+		    if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
+			    $id = $m[1];
 
 			    $result[$id]            = new rcube_mail_header;
 			    $result[$id]->id        = $id;
@@ -1188,7 +1186,7 @@ class rcube_imap_generic
 				// to the next valid header line.
 
 			    do {
-				    $line = chop($this->readLine(300), "\r\n");
+				    $line = rtrim($this->readLine(300), "\r\n");
 
     				// The preg_match below works around communigate imap, which outputs " UID <number>)".
 	    			// Without this, the while statement continues on and gets the "FH0 OK completed" message.
@@ -1290,8 +1288,6 @@ class rcube_imap_generic
 						    break;
     					} // end switch ()
 	    			} // end while ()
-		    	} else {
-			    	$a = explode(' ', $line);
 			    }
 
     			// process flags
@@ -1300,7 +1296,6 @@ class rcube_imap_generic
 			    	$flags_a   = explode(' ', $flags_str);
 
 				    if (is_array($flags_a)) {
-    				//	reset($flags_a);
 	    				foreach($flags_a as $flag) {
 		    				$flag = strtoupper($flag);
 			    			if ($flag == 'SEEN') {
@@ -1451,7 +1446,7 @@ class rcube_imap_generic
         }
 
 	    do {
-		    $line = $this->readLine(1000);
+		    $line = $this->readLine();
 		    if ($line[0] == '*') {
 		        $c++;
             }
@@ -1607,7 +1602,7 @@ class rcube_imap_generic
 	    }
 
     	$data = '';
-	    $query = 'srch1 ' . ($return_uid ? 'UID ' : '') . 'SEARCH ' . chop($criteria);
+	    $query = 'srch1 ' . ($return_uid ? 'UID ' : '') . 'SEARCH ' . trim($criteria);
 
 	    if (!$this->putLineC($query)) {
 		    return false;
@@ -1732,7 +1727,7 @@ class rcube_imap_generic
 	    }
 
 	    do {
-        	$line = $this->readLine(1000);
+        	$line = $this->readLine(1024);
         	$line = $this->multLine($line);
 
 		    if (preg_match('/BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
@@ -1788,7 +1783,7 @@ class rcube_imap_generic
 
    		// receive reply line
    		do {
-       		$line = chop($this->readLine(1000));
+       		$line = rtrim($this->readLine(1024));
        		$a    = explode(' ', $line);
    		} while (!($end = $this->startsWith($line, $key, true)) && $a[2] != 'FETCH');
 
@@ -2113,7 +2108,7 @@ class rcube_imap_generic
 	    // get line(s) containing quota info
 	    if ($this->putLine('QUOT1 GETQUOTAROOT "INBOX"')) {
 		    do {
-			    $line = chop($this->readLine(5000));
+			    $line = rtrim($this->readLine(5000));
 			    if ($this->startsWith($line, '* QUOTA ')) {
 				    $quota_lines[] = $line;
         		}
