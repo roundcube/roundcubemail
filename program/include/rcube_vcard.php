@@ -86,6 +86,13 @@ class rcube_vcard
       $this->email[0] = $this->email[$pref_index];
       $this->email[$pref_index] = $tmp;
     }
+
+    // make sure displayname is not empty (required by RFC2426)
+    if (!strlen($this->displayname)) {
+      // the same method is used in steps/mail/addcontact.inc
+      $this->displayname = ucfirst(preg_replace('/[\.\-]/', ' ',
+        substr($this->email[0], 0, strpos($this->email[0], '@'))));
+    }
   }
 
 
