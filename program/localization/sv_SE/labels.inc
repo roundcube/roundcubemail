@@ -177,6 +177,7 @@ $labels['revertto'] = 'Återgå till';
 $labels['attachments'] = 'Bilagor';
 $labels['upload'] = 'Bifoga';
 $labels['close'] = 'Stäng';
+$labels['messageoptions'] = 'Meddelandealternativ';
 $labels['low'] = 'Låg';
 $labels['lowest'] = 'Lägst';
 $labels['normal'] = 'Normal';
