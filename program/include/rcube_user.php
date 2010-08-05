@@ -74,9 +74,11 @@ class rcube_user
             if ($part == 'local') {
                 return $local;
             }
-            // if no domain was provided use the default if available
-            if (empty($domain))
-                $domain = $this->data['mail_host'];
+            // if no domain was provided...
+            if (empty($domain)) {
+                $rcmail = rcmail::get_instance();
+                $domain = $rcmail->config->mail_domain($this->data['mail_host']);
+            }
 
             if ($part == 'domain') {
                 return $domain;
