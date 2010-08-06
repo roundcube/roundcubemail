@@ -406,7 +406,7 @@ class rcube_user
             strip_newlines($user),
             strip_newlines($host),
             strip_newlines($data['alias'] ? $data['alias'] : $user_email),
-            $_SESSION['language']);
+            strip_newlines($data['language'] ? $data['language'] : $_SESSION['language']));
 
         if ($user_id = $dbh->insert_id('users')) {
             // create rcube_user instance to make plugin hooks work
