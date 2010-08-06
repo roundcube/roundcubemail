@@ -247,17 +247,11 @@ class rcube_message
      */
     private function parse_structure($structure, $recursive = false)
     {
-        $message_ctype_primary = $structure->ctype_primary;
-        $message_ctype_secondary = $structure->ctype_secondary;
-        $mimetype = $structure->mimetype;
-
         // real content-type of message/rfc822 part
-        if ($mimetype == 'message/rfc822') {
-            if ($structure->real_mimetype) {
-                $mimetype = $structure->real_mimetype;
-                list($message_ctype_primary, $message_ctype_secondary) = explode('/', $mimetype);
-            }
-        }
+        if ($mimetype == 'message/rfc822' && $structure->real_mimetype)
+            $mimetype = $structure->real_mimetype;
+        else
+            $mimetype = $structure->mimetype;
 
         // show message headers
         if ($recursive && is_array($structure->headers) && isset($structure->headers['subject'])) {
@@ -266,6 +260,17 @@ class rcube_message
             $c->headers = &$structure->headers;
             $this->parts[] = $c;
         }
+
+        // Allow plugins to handle message parts
+        $plugin = $this->app->plugins->exec_hook('message_part_structure',
+            array('object' => $this, 'structure' => $structure,
+                'mimetype' => $mimetype, 'recursive' => $recursive));
+
+        if ($plugin['abort'])
+            return;
+
+        $structure = $plugin['structure'];
+        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $plugin['mimetype']);
 
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
@@ -278,8 +283,6 @@ class rcube_message
                     $this->mime_parts[$uupart->mime_id] = $uupart;
                     $this->attachments[] = $uupart;
                 }
-
-            // @TODO: plugin hook?
         }
         // the same for pgp signed messages
         else if ($mimetype == 'application/pgp' && !$recursive) {
@@ -360,17 +363,6 @@ class rcube_message
             $p->ctype_secondary = 'plain';
             $p->body            = rcube_label('encryptedmessage');
             $p->size            = strlen($p->body);
-      
-            // maybe some plugins are able to decode this encrypted message part
-            $data = $this->app->plugins->exec_hook('message_part_encrypted',
-                array('object' => $this, 'struct' => $structure, 'part' => $p));
-
-            if (is_array($data['parts'])) {
-                $this->parts = array_merge($this->parts, $data['parts']);
-            }
-            else if ($data['part']) {
-                $this->parts[] = $p;
-            }
         }
         // message contains multiple parts
         else if (is_array($structure->parts) && !empty($structure->parts)) {
