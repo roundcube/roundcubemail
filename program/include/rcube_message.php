@@ -248,7 +248,7 @@ class rcube_message
     private function parse_structure($structure, $recursive = false)
     {
         // real content-type of message/rfc822 part
-        if ($mimetype == 'message/rfc822' && $structure->real_mimetype)
+        if ($structure->mimetype == 'message/rfc822' && $structure->real_mimetype)
             $mimetype = $structure->real_mimetype;
         else
             $mimetype = $structure->mimetype;
