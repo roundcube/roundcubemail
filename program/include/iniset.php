@@ -45,7 +45,9 @@ if (!defined('INSTALL_PATH')) {
     define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
 }
 
-define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+if (!defined('RCMAIL_CONFIG_DIR')) {
+    define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+}
 
 // make sure path_separator is defined
 if (!defined('PATH_SEPARATOR')) {

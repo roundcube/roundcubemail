@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+RELEASE 0.4
+-----------
 - Fix disapearing upload form disapears when user selects a file on Safari (#1486823)
 - Don't replace error messages with loading info (#1486300)
 - Fix JS errors on compose mode switch (#1486870)

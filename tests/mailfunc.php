@@ -15,7 +15,7 @@ class rcube_test_mailfunc extends UnitTestCase
     // simulate environment to successfully include func.inc
     $GLOBALS['RCMAIL'] = $RCMAIL = rcmail::get_instance();
     $GLOBALS['OUTPUT'] = $OUTPUT = $RCMAIL->load_gui();
-    $RCMAIL->action = 'spell';
+    $RCMAIL->action = 'autocomplete';
     $RCMAIL->imap_init(false);
     $IMAP = $RCMAIL->imap;
     
@@ -65,9 +65,9 @@ class rcube_test_mailfunc extends UnitTestCase
     
     $this->assertPattern('/<style [^>]+>/', $html2, "Allow styles in safe mode");
     $this->assertPattern('#src="http://evilsite.net/mailings/ex3.jpg"#', $html2, "Allow external images in HTML (safe mode)");
-    $this->assertPattern("#url\('http://evilsite.net/newsletter/image/bg/bg-64.jpg'\)#", $html2, "Allow external images in CSS (safe mode)");
+    $this->assertPattern("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html2, "Allow external images in CSS (safe mode)");
     
-    $css = '<link rel="stylesheet" type="text/css" href="./bin/modcss.php?u='.urlencode('http://anysite.net/styles/mail.css').'&amp;c=foo"';
+    $css = '<link rel="stylesheet" type="text/css" href="?_task=utils&amp;_action=modcss&amp;u='.urlencode('http://anysite.net/styles/mail.css').'&amp;c=foo"';
     $this->assertPattern('#'.preg_quote($css).'#', $html2, "Filter external styleseehts with bin/modcss.php");
   }
 
