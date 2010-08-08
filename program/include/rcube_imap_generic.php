@@ -749,31 +749,24 @@ class rcube_imap_generic
 
 	    if ($this->putLine("sel1 SELECT \"".$this->escape($mailbox).'"')) {
 		    do {
-			    $line = rtrim($this->readLine(300));
-			    $a = explode(' ', $line);
-			    if (count($a) == 3) {
-				    $token = strtoupper($a[2]);
-				    if ($token == 'EXISTS') {
-					    $this->exists = (int) $a[1];
-				    }
-				    else if ($token == 'RECENT') {
-					    $this->recent = (int) $a[1];
-				    }
+			    $line = rtrim($this->readLine(512));
+
+			    if (preg_match('/^\* ([0-9]+) (EXISTS|RECENT)$/', $line, $m)) {
+			        $token = strtolower($m[2]);
+			        $this->$token = (int) $m[1];
 			    }
 			    else if (preg_match('/\[?PERMANENTFLAGS\s+\(([^\)]+)\)\]/U', $line, $match)) {
 				    $this->permanentflags = explode(' ', $match[1]);
 			    }
 		    } while (!$this->startsWith($line, 'sel1', true, true));
 
-		    if (strcasecmp($a[1], 'OK') == 0) {
+            if ($this->parseResult($line) == 0) {
 			    $this->selected = $mailbox;
 			    return true;
 		    }
-            else {
-                $this->error = "Couldn't select $mailbox";
-            }
 	    }
 
+        $this->error = "Couldn't select $mailbox";
         return false;
     }
 
