@@ -1669,8 +1669,11 @@ class rcube_imap_generic
             $command = 'LIST';
         }
 
+        $ref = $this->escape($ref);
+        $mailbox = $this->escape($mailbox);
+
     	// send command
-	    if (!$this->putLine($key." ".$command." \"". $this->escape($ref) ."\" \"". $this->escape($mailbox) ."\"")) {
+	    if (!$this->putLine($key." ".$command." \"". $ref ."\" \"". $mailbox ."\"")) {
 		    $this->error = "Couldn't send $command command";
 	        return false;
 	    }
@@ -1679,16 +1682,15 @@ class rcube_imap_generic
 	    do {
 		    $line = $this->readLine(500);
 		    $line = $this->multLine($line, true);
-		    $a    = explode(' ', $line);
+		    $line = trim($line);
 
-		    if (($line[0] == '*') && ($a[1] == $command)) {
-			    $line = rtrim($line);
-        		// split one line
-			    $a = rcube_explode_quoted_string(' ', $line);
-        		// last string is folder name
-			    $folders[] = preg_replace(array('/^"/', '/"$/'), '', $this->unEscape($a[count($a)-1]));
-		        // second from last is delimiter
-        		$delim = trim($a[count($a)-2], '"');
+		    if (preg_match('/^\* '.$command.' \(([^\)]*)\) "*([^"]+)"* (.*)$/', $line, $m)) {
+        		// folder name
+   			    $folders[] = preg_replace(array('/^"/', '/"$/'), '', $this->unEscape($m[3]));
+		        // attributes
+//        		$attrib = explode(' ', $m[1]);
+		        // delimiter
+//        		$delim = $m[2];
 		    }
 	    } while (!$this->startsWith($line, $key, true));
 
