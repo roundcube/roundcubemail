@@ -1714,7 +1714,7 @@ class rcube_imap
         if ($headers->ctype && !is_array($structure[0]) && $headers->ctype != 'text/plain'
             && strtolower($structure[0].'/'.$structure[1]) == 'text/plain') {
             // we can handle single-part messages, by simple fix in structure (#1486898)
-            if (preg_match('/^(text|application)\/(.*)/i', $headers->ctype, $m)) {
+            if (preg_match('/^(text|application)\/(.*)/', $headers->ctype, $m)) {
                 $structure[0] = $m[1];
                 $structure[1] = $m[2];
             }
