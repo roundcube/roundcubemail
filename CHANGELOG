@@ -1,6 +1,8 @@
 CHANGELOG RoundCube Webmail
 ===========================
 
+- Improve handling of single-part messages with bogus BODYSTRUCTURE (#1486898)
+
 RELEASE 0.4
 -----------
 - Fix disapearing upload form disapears when user selects a file on Safari (#1486823)
