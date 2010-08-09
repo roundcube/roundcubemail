@@ -58,7 +58,8 @@ class rcube_plugin_api
     'address_sources'   => 'addressbooks_list',
     'get_address_book'  => 'addressbook_get',
     'create_contact'    => 'contact_create',
-    'save_contact'      => 'contact_save',
+    'save_contact'      => 'contact_update',
+    'contact_save'      => 'contact_update',
     'delete_contact'    => 'contact_delete',
     'manage_folders'    => 'folders_list',
     'list_mailboxes'    => 'mailboxes_list',
@@ -67,7 +68,9 @@ class rcube_plugin_api
     'list_prefs_sections' => 'preferences_sections_list',
     'list_identities'   => 'identities_list',
     'create_identity'   => 'identity_create',
-    'save_identity'     => 'identity_save',
+    'delete_identity'   => 'identity_delete',
+    'save_identity'     => 'identity_update',
+    'identity_save'     => 'identity_update',
   );
 
   /**
@@ -193,11 +196,9 @@ class rcube_plugin_api
   {
     if (is_callable($callback)) {
       if (isset($this->deprecated_hooks[$hook])) {
-        /* Uncoment after 0.4-stable release
         raise_error(array('code' => 522, 'type' => 'php',
           'file' => __FILE__, 'line' => __LINE__,
           'message' => "Deprecated hook name. ".$hook.' -> '.$this->deprecated_hooks[$hook]), true, false);
-        */
         $hook = $this->deprecated_hooks[$hook];
       }
       $this->handlers[$hook][] = $callback;
