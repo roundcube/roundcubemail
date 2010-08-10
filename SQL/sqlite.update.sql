@@ -121,8 +121,6 @@ CREATE TABLE tmp_users (
 INSERT INTO tmp_users (user_id, username, mail_host, alias, created, last_login, language, preferences)
     SELECT user_id, username, mail_host, alias, created, last_login, language, preferences FROM users;
 
-DROP INDEX ix_users_username ON users(username);
-DROP INDEX ix_users_alias ON users(alias);
 DROP TABLE users;
 
 CREATE TABLE users (

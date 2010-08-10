@@ -3,6 +3,7 @@ CHANGELOG RoundCube Webmail
 
 - Improve handling of single-part messages with bogus BODYSTRUCTURE (#1486898)
 - Fix path to SQL files when using pgsql/mysqli/sqlsrv drivers (#1486902)
+- Fix upgrade script for SQLite (#1486903)
 
 RELEASE 0.4
 -----------
