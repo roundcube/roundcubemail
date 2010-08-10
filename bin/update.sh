@@ -114,7 +114,8 @@ if ($RCI->configured) {
       $success = false;
     }
     else if ($RCI->db_schema_check($DB, false)) {
-      $updatefile = INSTALL_PATH . 'SQL/' . $DB->db_provider . '.update.sql';
+      $db_map = array('pgsql' => 'postgres', 'mysqli' => 'mysql', 'sqlsrv' => 'mssql');
+      $updatefile = INSTALL_PATH . 'SQL/' . (isset($db_map[$DB->db_provider]) ? $db_map[$DB->db_provider] : $DB->db_provider) . '.update.sql';
       echo "WARNING: Database schema needs to be updated!\n";
       echo "Open $updatefile and execute all queries that are superscribed with the currently installed version number\n";
       $success = false;
