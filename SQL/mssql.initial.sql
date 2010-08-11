@@ -26,14 +26,14 @@ CREATE TABLE [dbo].[contactgroups] (
 	[changed] [datetime] NOT NULL ,
 	[del] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[name] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY] 
 GO
 
 CREATE TABLE [dbo].[contactgroupmembers] (
 	[contactgroup_id] [int] NOT NULL ,
 	[contact_id] [int] NOT NULL ,
 	[created] [datetime] NOT NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY] 
 GO
 
 CREATE TABLE [dbo].[identities] (
@@ -261,38 +261,38 @@ GO
 CREATE  INDEX [IX_users_alias] ON [dbo].[users]([alias]) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[identities] ADD
-    FOREIGN KEY ([FK_identities_user_id]) REFERENCES [dbo].[users] ([user_id])
+ALTER TABLE [dbo].[identities] ADD CONSTRAINT [FK_identities_user_id] 
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[contacts] ADD
-    FOREIGN KEY ([FK_contacts_user_id]) REFERENCES [dbo].[users] ([user_id])
+ALTER TABLE [dbo].[contacts] ADD CONSTRAINT [FK_contacts_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[contactgroups] ADD
-    FOREIGN KEY ([FK_contactgroups_user_id]) REFERENCES [dbo].[users] ([user_id])
+ALTER TABLE [dbo].[contactgroups] ADD CONSTRAINT [FK_contactgroups_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[cache] ADD
-    FOREIGN KEY ([FK_cache_user_id]) REFERENCES [dbo].[users] ([user_id])
+ALTER TABLE [dbo].[cache] ADD CONSTRAINT [FK_cache_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[messages] ADD
-    FOREIGN KEY ([FK_messages_user_id]) REFERENCES [dbo].[users] ([user_id])
+ALTER TABLE [dbo].[messages] ADD CONSTRAINT [FK_messages_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[contactgroupmembers] ADD
-    FOREIGN KEY ([FK_contactgroupmembers_contactgroup_id]) REFERENCES [dbo].[contactgroups] ([contactgroup_id])
+ALTER TABLE [dbo].[contactgroupmembers] ADD CONSTRAINT [FK_contactgroupmembers_contactgroup_id]
+    FOREIGN KEY ([contactgroup_id]) REFERENCES [dbo].[contactgroups] ([contactgroup_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[contactgroupmembers] ADD
-    FOREIGN KEY ([FK_contactgroupmembers_contact_id]) REFERENCES [dbo].[contacts] ([contact_id])
+ALTER TABLE [dbo].[contactgroupmembers] ADD CONSTRAINT [FK_contactgroupmembers_contact_id] 
+    FOREIGN KEY ([contact_id]) REFERENCES [dbo].[contacts] ([contact_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
