@@ -1759,11 +1759,11 @@ function rcube_webmail()
 
   this.show_contentframe = function(show)
   {
-    var frm;
+    var frm, win;
     if (this.env.contentframe && (frm = $('#'+this.env.contentframe)) && frm.length) {
-      if (!show && window.frames[this.env.contentframe]) {
-        if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)<0)
-          window.frames[this.env.contentframe].location.href = this.env.blankpage;
+      if (!show && (win = window.frames[this.env.contentframe])) {
+        if (win.location && win.location.href.indexOf(this.env.blankpage)<0)
+          win.location.href = this.env.blankpage;
       }
       else if (!bw.safari && !bw.konq)
         frm[show ? 'show' : 'hide']();
@@ -3725,7 +3725,7 @@ function rcube_webmail()
       this.name_input_li.insertAfter(li);
     }
 
-    this.name_input.select();
+    this.name_input.select().focus();
   };
 
   this.group_rename = function()
@@ -3745,7 +3745,7 @@ function rcube_webmail()
       }
     }
 
-    this.name_input.select();
+    this.name_input.select().focus();
   };
 
   this.group_delete = function()
@@ -3904,7 +3904,7 @@ function rcube_webmail()
     if (action=='edit-identity' && (!id || id==this.env.iid))
       return false;
 
-    var add_url = '',  target = window;
+    var add_url = '', target = window;
 
     if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
       add_url = '&_framed=1';
