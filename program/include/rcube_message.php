@@ -393,6 +393,17 @@ class rcube_message
                 else if ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment') ||
                     $part_mimetype == 'message/delivery-status' || $part_mimetype == 'message/disposition-notification'
                 ) {
+                    // Allow plugins to handle also this part
+                    $plugin = $this->app->plugins->exec_hook('message_part_structure',
+                        array('object' => $this, 'structure' => $mail_part,
+                            'mimetype' => $part_mimetype, 'recursive' => true));
+
+                    if ($plugin['abort'])
+                        continue;
+
+                    $mail_part = $plugin['structure'];
+                    list($primary_type, $secondary_type) = explode('/', $plugin['mimetype']);
+
                     // add text part if it matches the prefs
                     if (!$this->parse_alternative ||
                         ($secondary_type == 'html' && $this->opt['prefer_html']) ||
