@@ -64,24 +64,25 @@ if ($_POST['_iid'])
   $plugin = $RCMAIL->plugins->exec_hook('identity_update', array('id' => $iid, 'record' => $save_data));
   $save_data = $plugin['record'];
 
-  if (!$plugin['abort']) {
-    if ($updated = $USER->update_identity($iid, $save_data)) {
-      $OUTPUT->show_message('successfullysaved', 'confirmation');
-
-      if (!empty($_POST['_standard']))
-        $default_id = get_input_value('_iid', RCUBE_INPUT_POST);
-
-      if ($_POST['_framed']) {
-        // update the changed col in list
-        // ...
-      }
+  if (!$plugin['abort'] && ($updated = $USER->update_identity($iid, $save_data)))
+  {
+    $OUTPUT->show_message('successfullysaved', 'confirmation');
+    
+    if (!empty($_POST['_standard']))
+      $default_id = get_input_value('_iid', RCUBE_INPUT_POST);
+    
+    if ($_POST['_framed'])
+    {
+      // update the changed col in list
+      // ...      
     }
-    else if ($DB->is_error()) {
-      // show error message
-      $OUTPUT->show_message('errorsaving', 'error', null, false);
-      rcmail_overwrite_action('edit-identity');
-      return;
-    }
+  }
+  else if ($plugin['abort'] || $DB->is_error())
+  {
+    // show error message
+    $OUTPUT->show_message('errorsaving', 'error', null, false);
+    rcmail_overwrite_action('edit-identity');
+    return;
   }
 }
 
@@ -94,21 +95,21 @@ else if (IDENTITIES_LEVEL < 2)
   $plugin = $RCMAIL->plugins->exec_hook('identity_create', array('record' => $save_data));
   $save_data = $plugin['record'];
 
-  if (!$plugin['abort']) {
-    if ($save_data['email'] && ($insert_id = $USER->insert_identity($save_data))) {
-      $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
+  if (!$plugin['abort'] && $save_data['email'] && ($insert_id = $USER->insert_identity($save_data)))
+  {
+    $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
+    
+    $_GET['_iid'] = $insert_id;
 
-      $_GET['_iid'] = $insert_id;
-
-      if (!empty($_POST['_standard']))
-        $default_id = $insert_id;
-    }
-    else {
-      // show error message
-      $OUTPUT->show_message('errorsaving', 'error', null, false);
-      rcmail_overwrite_action('edit-identity');
-      return;
-    }
+    if (!empty($_POST['_standard']))
+      $default_id = $insert_id;
+  }
+  else
+  {
+    // show error message
+    $OUTPUT->show_message('errorsaving', 'error', null, false);
+    rcmail_overwrite_action('edit-identity');
+    return;
   }
 }
 else
