@@ -2,19 +2,21 @@
 
 /*
 
-+-----------------------------------------------------------------------+
-| language/ja_JP/messages.inc                                           |
-|                                                                       |
-| Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
-|         Takashi Takamatsu <taka717@gmail.com>                         |
-+-----------------------------------------------------------------------+
+ +-----------------------------------------------------------------------+
+ | language/ja_JP/messages.inc                                           |
+ |                                                                       |
+ | Language file of the RoundCube Webmail client                         |
+ | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
+ |         Takashi Takamatsu <taka717@gmail.com>                         |
+ +-----------------------------------------------------------------------+
 
 @version $Id$
+
+//  EN-Revision: 3891
 
 */
 
@@ -59,7 +61,7 @@ $messages['foldercreating'] = 'フォルダーを作成しています...';
 $messages['folderdeleting'] = 'フォルダーを削除しています...';
 $messages['folderrenaming'] = 'フォルダー名を変更しています...';
 $messages['foldermoving'] = 'フォルダーを移動しています...';
-$messages['formincomplete'] = 'フォームの項目がすべて入力されていません。';
+$messages['formincomplete'] = 'すべてのフォームの項目を入力していません。';
 $messages['noemailwarning'] = '有効なメールアドレスを入力してください。';
 $messages['nonamewarning'] = '名前を入力してください。';
 $messages['nopagesizewarning'] = 'ページのサイズを入力してください。';
