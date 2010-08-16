@@ -944,7 +944,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
  */
 function rcmail_message_body($attrib)
   {
-  global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $REMOTE_OBJECTS;
+  global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $RCMAIL, $REMOTE_OBJECTS;
 
   if (!is_array($MESSAGE->parts) && empty($MESSAGE->body))
     return '';
@@ -980,6 +980,9 @@ function rcmail_message_body($attrib)
           rcmail_message_error($MESSAGE->uid);
         }
 
+        $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix', array(
+          'part' => $part, 'prefix' => ''));
+
         // re-format format=flowed content
         if ($part->ctype_secondary == "plain" && $part->ctype_parameters['format'] == "flowed")
           $part->body = rcube_message::unfold_flowed($part->body);
@@ -998,16 +1001,20 @@ function rcmail_message_body($attrib)
           if (!empty($style))
             $div_attr['style'] = implode('; ', $style);
 
-          $out .= html::div($div_attr, $body);
+          $out .= html::div($div_attr, $plugin['prefix'] . $body);
         }
         else
-          $out .= html::div('message-part', $body);
+          $out .= html::div('message-part', $plugin['prefix'] . $body);
         }
       }
     }
-  else
-    $out .= html::div('message-part', html::tag('pre', array(),
+  else {
+    $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix', array(
+      'part' => $MESSAGE, 'prefix' => ''));
+
+    $out .= html::div('message-part', $plugin['prefix'] . html::tag('pre', array(),
       rcmail_plain_body(Q($MESSAGE->body, 'strict', false))));
+    }
 
   $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
   $ctype_secondary = strtolower($MESSAGE->structure->ctype_secondary);
