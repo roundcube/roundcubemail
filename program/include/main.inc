@@ -1117,14 +1117,14 @@ function write_log($name, $line)
       return true;
   }
  
-  $log_entry = sprintf("[%s]: %s\n", $date, $line);
-
   if ($CONFIG['log_driver'] == 'syslog') {
     $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
-    syslog($prio, $log_entry);
+    syslog($prio, $line);
     return true;
   }
   else {
+    $line = sprintf("[%s]: %s\n", $date, $line);
+
     // log_driver == 'file' is assumed here
     if (empty($CONFIG['log_dir']))
       $CONFIG['log_dir'] = INSTALL_PATH.'logs';
@@ -1132,7 +1132,7 @@ function write_log($name, $line)
     // try to open specific log file for writing
     $logfile = $CONFIG['log_dir'].'/'.$name;
     if ($fp = @fopen($logfile, 'a')) {
-      fwrite($fp, $log_entry);
+      fwrite($fp, $line);
       fflush($fp);
       fclose($fp);
       return true;
