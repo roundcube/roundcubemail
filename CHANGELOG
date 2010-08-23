@@ -5,6 +5,8 @@ CHANGELOG RoundCube Webmail
 - Fix path to SQL files when using pgsql/mysqli/sqlsrv drivers (#1486902)
 - Fix upgrade script for SQLite (#1486903)
 - Fixes in SQL init script + added update script for MSSQL database
+- Remove redundant date in syslog messages (#1486945)
+- Fix contacts list page controls when a group is selected (#1486946)
 
 RELEASE 0.4
 -----------
