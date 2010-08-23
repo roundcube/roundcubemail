@@ -1791,7 +1791,7 @@ function rcube_webmail()
       if (this.task == 'mail')
         this.list_mailbox(this.env.mailbox, page);
       else if (this.task == 'addressbook')
-        this.list_contacts(this.env.source, null, page);
+        this.list_contacts(this.env.source, this.env.group, page);
     }
   };
 
@@ -3500,8 +3500,8 @@ function rcube_webmail()
 
   this.list_contacts = function(src, group, page)
   {
-    var add_url = '';
-    var target = window;
+    var add_url = '',
+      target = window;
 
     if (!src)
       src = this.env.source;
@@ -3510,8 +3510,7 @@ function rcube_webmail()
       return false;
 
     if (src != this.env.source) {
-      page = 1;
-      this.env.current_page = page;
+      page = this.env.current_page = 1;
       this.reset_qsearch();
     }
     else if (group != this.env.group)
