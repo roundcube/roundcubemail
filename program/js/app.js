@@ -1018,11 +1018,13 @@ function rcube_webmail()
       if (msg == message)
         msg = 'Loading...';
 
-      if (this.gui_objects.message && this.gui_objects.message.__type != 'error')
+      // @TODO: show many messages at a time (one below the other ?)
+      if (this.message_type() != 'error')
         this.display_message(msg, 'loading', true);
     }
-    else if (!a && this.gui_objects.message && this.gui_objects.message.__type != 'error')
+    else if (!a && this.message_type() != 'error') {
       this.hide_message();
+    }
 
     this.busy = a;
     //document.body.style.cursor = a ? 'wait' : 'default';
@@ -4509,6 +4511,15 @@ function rcube_webmail()
   {
     if (this.gui_objects.message)
       $(this.gui_objects.message).unbind()[(fade?'fadeOut':'hide')]();
+  };
+
+  // get type of currently displayed message
+  this.message_type = function()
+  {
+      if (this.gui_objects.message)
+        return this.gui_objects.message.__type;
+      else if (this.env.framed && parent.rcmail && parent.rcmail.gui_objects.message)
+        return parent.rcmail.gui_objects.message.__type;
   };
 
   // mark a mailbox as selected and set environment variable
