@@ -38,21 +38,16 @@ class rcube_smtp
 
 
   /**
-   * Object constructor
-   *
-   * @param 
-   */
-  function __construct()
-  {
-  }
-
-
-  /**
    * SMTP Connection and authentication
+   *
+   * @param string Server host
+   * @param string Server port
+   * @param string User name
+   * @param string Password
    *
    * @return bool  Returns true on success, or false on error
    */
-  public function connect()
+  public function connect($host=null, $port=null, $user=null, $pass=null)
   {
     $RCMAIL = rcmail::get_instance();
   
@@ -64,10 +59,10 @@ class rcube_smtp
   
     // let plugins alter smtp connection config
     $CONFIG = $RCMAIL->plugins->exec_hook('smtp_connect', array(
-      'smtp_server' => $RCMAIL->config->get('smtp_server'),
-      'smtp_port'   => $RCMAIL->config->get('smtp_port', 25),
-      'smtp_user'   => $RCMAIL->config->get('smtp_user'),
-      'smtp_pass'   => $RCMAIL->config->get('smtp_pass'),
+      'smtp_server' => $host ? $host : $RCMAIL->config->get('smtp_server'),
+      'smtp_port'   => $port ? $port : $RCMAIL->config->get('smtp_port', 25),
+      'smtp_user'   => $user ? $user : $RCMAIL->config->get('smtp_user'),
+      'smtp_pass'   => $pass ? $pass : $RCMAIL->config->get('smtp_pass'),
       'smtp_auth_type' => $RCMAIL->config->get('smtp_auth_type'),
       'smtp_helo_host' => $RCMAIL->config->get('smtp_helo_host'),
       'smtp_timeout'   => $RCMAIL->config->get('smtp_timeout'),

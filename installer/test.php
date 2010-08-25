@@ -276,7 +276,8 @@ if (isset($_POST['sendmail'])) {
       $send_headers = $mail_object->headers($headers);
 
       $SMTP = new rcube_smtp();
-      $SMTP->connect();
+      $SMTP->connect(rcube_parse_host($RCI->getprop('smtp_server')),
+        $RCI->getprop('smtp_port'), $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
       $status = $SMTP->send_mail($headers['From'], $headers['To'],
           ($foo = $mail_object->txtHeaders($send_headers)), $body);
