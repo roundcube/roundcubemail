@@ -1505,7 +1505,11 @@ function rcube_html_editor($mode='')
   if ($hook['abort'])
     return;  
 
-  $lang = strtolower(substr($_SESSION['language'], 0, 2));
+  $lang = strtolower($_SESSION['language']);
+
+  // TinyMCE uses 'tw' for zh_TW (which is wrong, because tw is a code of Twi language)
+  $lang = ($lang == 'zh_tw') ? 'tw' : substr($lang, 0, 2);
+
   if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$lang.'.js'))
     $lang = 'en';
 
