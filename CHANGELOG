@@ -8,6 +8,7 @@ CHANGELOG RoundCube Webmail
 - Remove redundant date in syslog messages (#1486945)
 - Fix contacts list page controls when a group is selected (#1486946)
 - Fix SMTP test in Installer (#1486952)
+- Fix "Select all" causes message to be opened in folder with exactly one message (#1486913)
 
 RELEASE 0.4
 -----------

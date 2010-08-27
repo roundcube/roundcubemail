@@ -715,10 +715,12 @@ function rcube_webmail()
 
       case 'select-all':
         this.select_all_mode = props ? false : true;
+        this.dummy_select = true; // prevent msg opening if there's only one msg on the list
         if (props == 'invert')
           this.message_list.invert_selection();
         else
           this.message_list.select_all(props == 'page' ? '' : props);
+        this.dummy_select = null;
         break;
 
       case 'select-none':
@@ -1370,7 +1372,7 @@ function rcube_webmail()
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
-    if (selected && this.env.contentframe && !list.multi_selecting)
+    if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select)
       this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
     else if (this.env.contentframe)
       this.show_contentframe(false);
