@@ -69,6 +69,8 @@ function rcmail_editor_callback(editor)
     rcmail.change_identity(elem);
   // set tabIndex and set focus to element that was focused before
   rcmail_editor_tabindex(rcmail.env.compose_focus_elem && rcmail.env.compose_focus_elem.id == rcmail.env.composebody);
+  // Trigger resize (needed for proper editor resizing in some browsers using default skin)
+  $(window).resize();
 }
 
 // set tabIndex on tinyMCE editor
