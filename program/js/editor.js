@@ -54,8 +54,8 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
       spellchecker_languages : (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
       spellchecker_rpc_url : '?_task=utils&_action=spell&tiny=1',
       gecko_spellcheck : true,
-      relative_urls : false,
       remove_script_host : false,
+      relative_urls : false,
       rc_client : rcmail,
       oninit : 'rcmail_editor_callback'
     });
@@ -65,8 +65,11 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
 function rcmail_editor_callback(editor)
 {
   var editor, elem = rcube_find_object('_from');
-  if (elem && elem.type=='select-one')
+  if (elem && elem.type=='select-one') {
     rcmail.change_identity(elem);
+    // Focus previously focused element
+    rcmail.env.compose_focus_elem.focus();
+  }
   // set tabIndex and set focus to element that was focused before
   rcmail_editor_tabindex(rcmail.env.compose_focus_elem && rcmail.env.compose_focus_elem.id == rcmail.env.composebody);
   // Trigger resize (needed for proper editor resizing in some browsers using default skin)
