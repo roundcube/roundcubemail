@@ -4148,19 +4148,18 @@ function rcube_webmail()
       this.goto_url('folders');
       return false;
     }
-    else {
-      // clone a table row if there are existing rows
-      var row = this.clone_table_row(refrow);
-      row.id = id;
 
-      if (before && (before = this.get_folder_row_id(before)))
-        tbody.insertBefore(row, document.getElementById(before));
-      else
-        tbody.appendChild(row);
+    // clone a table row if there are existing rows
+    var row = this.clone_table_row(refrow);
+    row.id = id;
 
-      if (replace)
-        tbody.removeChild(replace);
-    }
+    if (before && (before = this.get_folder_row_id(before)))
+      tbody.insertBefore(row, document.getElementById(before));
+    else
+      tbody.appendChild(row);
+
+    if (replace)
+      tbody.removeChild(replace);
 
     // add to folder/row-ID map
     this.env.subscriptionrows[row.id] = [name, display_name, 0];
@@ -4168,21 +4167,22 @@ function rcube_webmail()
     // set folder name
     row.cells[0].innerHTML = display_name;
 
-    // set messages count to zero
-    if (!replace)
+    if (!replace) {
+      // set messages count to zero
       row.cells[1].innerHTML = '*';
 
-    if (!replace && row.cells[2] && row.cells[2].firstChild.tagName.toLowerCase()=='input') {
-      row.cells[2].firstChild.value = name;
-      row.cells[2].firstChild.checked = true;
-    }
+      // update subscription/threading checkboxes
+      $('input[name="_subscribed[]"]', row).val(name).attr('checked', true);
+      $('input[name="_threaded[]"]', row).val(name).attr('checked', false);
 
-    // add new folder to rename-folder list and clear input field
-    if (!replace && (form = this.gui_objects.editform)) {
-      if (form.elements['_folder_oldname'])
-        form.elements['_folder_oldname'].options[form.elements['_folder_oldname'].options.length] = new Option(name,name);
-      if (form.elements['_folder_name'])
-        form.elements['_folder_name'].value = ''; 
+      var elem;
+      // add new folder to rename-folder list and clear input field
+      if (form = this.gui_objects.editform) {
+        if (elem = form.elements['_folder_oldname'])
+          elem.options[elem.options.length] = new Option(name, name);
+        if (elem = form.elements['_folder_name'])
+          elem.value = ''; 
+      }
     }
 
     this.init_subscription_list();
@@ -4236,8 +4236,8 @@ function rcube_webmail()
       }
     }
 
-    if (form && form.elements['_folder_newname'])
-      form.elements['_folder_newname'].value = '';
+    if (form && (elm = form.elements['_folder_newname']))
+      elm.value = '';
   };
 
   this.subscribe = function(folder)
