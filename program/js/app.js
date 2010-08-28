@@ -2847,7 +2847,8 @@ function rcube_webmail()
   {
     var ed;
     if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
-      ed.execCommand('mceSpellCheck');
+      if (ed.plugins.spellchecker.active)
+        ed.execCommand('mceSpellCheck');
     }
     else if ((ed = this.env.spellcheck) && !this.spellcheck_ready) {
       $(ed.spell_span).trigger('click');
