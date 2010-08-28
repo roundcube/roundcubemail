@@ -1022,8 +1022,7 @@ function rcmail_message_body($attrib)
   // list images after mail body
   if ($CONFIG['inline_images']
       && $ctype_primary == 'multipart'
-      && !empty($MESSAGE->attachments) 
-      && !strstr($message_body, '<html'))
+      && !empty($MESSAGE->attachments))
     {
     foreach ($MESSAGE->attachments as $attach_prop) {
       if (strpos($attach_prop->mimetype, 'image/') === 0) {
