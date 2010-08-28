@@ -1025,7 +1025,13 @@ function rcmail_message_body($attrib)
       && !empty($MESSAGE->attachments))
     {
     foreach ($MESSAGE->attachments as $attach_prop) {
-      if (strpos($attach_prop->mimetype, 'image/') === 0) {
+      // Content-Type: image/*...
+      if (preg_match('/^image\//i', $attach_prop->mimetype) ||
+        // ...or known file extension: many clients are using application/octet-stream
+        ($attach_prop->filename &&
+          preg_match('/^application\/octet-stream$/i', $attach_prop->mimetype) &&
+          preg_match('/\.(jpg|jpeg|png|gif|bmp)$/i', $attach_prop->filename))
+      ) {
         $out .= html::tag('hr') . html::p(array('align' => "center"),
           html::img(array(
             'src' => $MESSAGE->get_part_url($attach_prop->mime_id),
