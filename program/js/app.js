@@ -2752,12 +2752,12 @@ function rcube_webmail()
   this.check_compose_input = function()
   {
     // check input fields
-    var input_to = $("[name='_to']");
-    var input_cc = $("[name='_cc']");
-    var input_bcc = $("[name='_bcc']");
-    var input_from = $("[name='_from']");
-    var input_subject = $("[name='_subject']");
-    var input_message = $("[name='_message']");
+    var ed, input_to = $("[name='_to']"),
+      input_cc = $("[name='_cc']"),
+      input_bcc = $("[name='_bcc']"),
+      input_from = $("[name='_from']"),
+      input_subject = $("[name='_subject']"),
+      input_message = $("[name='_message']");
 
     // check sender (if have no identities)
     if (input_from.attr('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
@@ -2795,25 +2795,25 @@ function rcube_webmail()
         input_subject.val((subject ? subject : this.get_label('nosubject')));
     }
 
-    // check for empty body
-    if ((!window.tinyMCE || !tinyMCE.get(this.env.composebody))
-        && input_message.val() == '' && !confirm(this.get_label('nobodywarning'))) {
-      input_message.focus();
-      return false;
-    }
-    else if (window.tinyMCE && tinyMCE.get(this.env.composebody)
-        && !tinyMCE.get(this.env.composebody).getContent()
-        && !confirm(this.get_label('nobodywarning'))) {
-      tinyMCE.get(this.env.composebody).focus();
-      return false;
-    }
-
     // Apply spellcheck changes if spell checker is active
     this.stop_spellchecking();
 
-    // move body from html editor to textarea (just to be sure, #1485860)
-    if (window.tinyMCE && tinyMCE.get(this.env.composebody))
+    if (window.tinyMCE)
+      ed = tinyMCE.get(this.env.composebody);
+
+    // check for empty body
+    if (!ed && input_message.val() == '' && !confirm(this.get_label('nobodywarning'))) {
+      input_message.focus();
+      return false;
+    }
+    else if (ed) {
+      if (!ed.getContent() && !confirm(this.get_label('nobodywarning'))) {
+        ed.focus();
+        return false;
+      }
+      // move body from html editor to textarea (just to be sure, #1485860)
       tinyMCE.triggerSave();
+    }
 
     return true;
   };
@@ -2845,8 +2845,12 @@ function rcube_webmail()
 
   this.stop_spellchecking = function()
   {
-    if (this.env.spellcheck && !this.spellcheck_ready) {
-      $(this.env.spellcheck.spell_span).trigger('click');
+    var ed;
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
+      ed.execCommand('mceSpellCheck');
+    }
+    else if ((ed = this.env.spellcheck) && !this.spellcheck_ready) {
+      $(ed.spell_span).trigger('click');
       this.set_spellcheck_state('ready');
     }
   };

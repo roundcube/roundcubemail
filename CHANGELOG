@@ -12,6 +12,7 @@ CHANGELOG RoundCube Webmail
 - Fix Tab key doesn't work in HTML editor in Google Chrome (#1486925)
 - Fix TinyMCE uses zh_CN when zh_TW locale is set (#1486929)
 - Fix TinyMCE buttons are hidden in Opera (#1486922)
+- Fix JS error on IE when trying to send HTML message with enabled spellchecker (#1486940)
 
 RELEASE 0.4
 -----------
