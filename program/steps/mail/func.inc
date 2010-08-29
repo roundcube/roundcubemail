@@ -1602,7 +1602,8 @@ function rcmail_user_date()
 
   $date = time() + $tz * 60 * 60;
   $date = gmdate('r', $date);
-  $date = preg_replace('/[+-][0-9]{4}$/', sprintf('%+05d', $tz * 100), $date);
+  $tz   = sprintf('%+05d', intval($tz) * 100 + ($tz - intval($tz)) * 60);
+  $date = preg_replace('/[+-][0-9]{4}$/', $tz, $date);
 
   return $date;
 }
