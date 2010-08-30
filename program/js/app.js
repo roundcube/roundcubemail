@@ -5145,19 +5145,28 @@ function rcube_webmail()
     }
   };
 
-  // set all fields of a form disabled
+  // disable/enable all fields of a form
   this.lock_form = function(form, lock)
   {
     if (!form || !form.elements)
       return;
 
-    var type;
-    for (var n=0, len=form.elements.length; n<len; n++) {
-      type = form.elements[n];
-      if (type == 'hidden')
+    var n, len, elm;
+
+    if (lock)
+      this.disabled_form_elements = [];
+
+    for (n=0, len=form.elements.length; n<len; n++) {
+      elm = form.elements[n];
+
+      if (elm.type == 'hidden')
         continue;
 
-      form.elements[n].disabled = lock;
+      // remember which elem was disabled before lock
+      if (lock && elm.disabled)
+        this.disabled_form_elements.push(elm);
+      else if (lock || $.inArray(elm, this.disabled_form_elements)<0)
+        elm.disabled = lock;
     }
   };
 
