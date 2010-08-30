@@ -16,6 +16,7 @@ CHANGELOG RoundCube Webmail
 - Display inline images with known extensions and non-image content-type (#1486934)
 - Fix "Threaded" checkbox after subfolder creation (#1486928)
 - Fix timezone string in sent mail (#1486961)
+- Show disabled checkboxes for protected folders instead of dots (#1485498)
 
 RELEASE 0.4
 -----------
