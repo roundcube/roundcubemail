@@ -4516,9 +4516,15 @@ function rcube_webmail()
   // make a message row disapear
   this.hide_message = function(fade)
   {
-    if (this.gui_objects.message) {
-      $(this.gui_objects.message).unbind()[(fade?'fadeOut':'hide')]();
-      this.gui_objects.message.__type = null;
+    var msg;
+    if (this.gui_objects.message)
+      msg = this.gui_objects.message;
+    else if (this.env.framed && parent.rcmail)
+      msg = parent.rcmail.gui_objects.message;
+
+    if (msg) {
+      $(msg).unbind()[(fade?'fadeOut':'hide')]();
+      msg.__type = null;
     }
   };
 
