@@ -1782,11 +1782,11 @@ function rcube_webmail()
   {
     if (page == 'next')
       page = this.env.current_page+1;
-    if (page == 'last')
+    else if (page == 'last')
       page = this.env.pagecount;
-    if (page == 'prev' && this.env.current_page > 1)
+    else if (page == 'prev' && this.env.current_page > 1)
       page = this.env.current_page-1;
-    if (page == 'first' && this.env.current_page > 1)
+    else if (page == 'first' && this.env.current_page > 1)
       page = 1;
 
     if (page > 0 && page <= this.env.pagecount) {
