@@ -1544,7 +1544,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
       'From' => $sender,
       'To'   => $message->headers->mdn_to,
       'Subject' => rcube_label('receiptread') . ': ' . $message->subject,
-      'Message-ID' => sprintf('<%s@%s>', md5(uniqid('rcmail'.mt_rand(),true)), $RCMAIL->config->mail_domain($_SESSION['imap_host'])),
+      'Message-ID' => rcmail_gen_message_id(),
       'X-Sender' => $identity['email'],
       'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
     );
@@ -1583,6 +1583,29 @@ function rcmail_send_mdn($uid, &$smtp_error)
   }
 
   return false;
+}
+
+// Returns unique Message-ID
+function rcmail_gen_message_id()
+{
+  global $RCMAIL;
+
+  $local_part  = md5(uniqid('rcmail'.mt_rand(),true));
+  $domain_part = $RCMAIL->user->get_username('domain');
+
+  // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
+  if (!preg_match('/\.[a-z]+$/i', $domain_part)) {
+    if (($host = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']))
+      && preg_match('/\.[a-z]+$/i', $host)) {
+        $domain_part = $host;
+    }
+    else if (($host = preg_replace('/:[0-9]+$/', '', $_SERVER['SERVER_NAME']))
+      && preg_match('/\.[a-z]+$/i', $host)) {
+        $domain_part = $host;
+    }
+  }
+
+  return sprintf('<%s@%s>', $local_part, $domain_part);
 }
 
 // Returns RFC2822 formatted current date in user's timezone
