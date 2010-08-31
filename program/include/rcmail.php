@@ -1071,7 +1071,7 @@ class rcmail
     if (function_exists('mcrypt_module_open') &&
         ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, "")))
     {
-      $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+      $iv = $this->create_iv(mcrypt_enc_get_iv_size($td));
       mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
       $cipher = $iv . mcrypt_generic($td, $clear);
       mcrypt_generic_deinit($td);
@@ -1082,9 +1082,7 @@ class rcmail
 
       if (function_exists('des')) {
         $des_iv_size = 8;
-        $iv = '';
-        for ($i = 0; $i < $des_iv_size; $i++)
-          $iv .= sprintf("%c", mt_rand(0, 255));
+        $iv = $this->create_iv($des_iv_size);
         $cipher = $iv . des($this->config->get_crypto_key($key), $clear, 1, 1, $iv);
       }
       else {
@@ -1150,6 +1148,22 @@ class rcmail
     $clear = substr(rtrim($clear, "\0"), 0, -1);
 
     return $clear;
+  }
+
+  /**
+   * Generates encryption initialization vector (IV)
+   *
+   * @param int Vector size
+   * @return string Vector string
+   */
+  private function create_iv($size)
+  {
+    // mcrypt_create_iv() can be slow when system lacks entrophy
+    // we'll generate IV vector manually
+    $iv = '';
+    for ($i = 0; $i < $size; $i++)
+        $iv .= chr(mt_rand(0, 255));
+    return $iv;
   }
 
   /**
