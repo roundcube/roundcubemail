@@ -114,5 +114,6 @@ $messages['smtperror'] = 'Errore SMTP: $msg';
 $messages['emailformaterror'] = 'Indirizzo e-mail non corretto: $email';
 $messages['toomanyrecipients'] = 'Numero eccessivo di destinatari, ridurlo a $max';
 $messages['maxgroupmembersreached'] = 'Il numero dei membri del gruppo eccede il massimo di $max';
+$messages['internalerror'] = 'Si è verificato un errore interno. Si prega di riprovare di nuovo.';
 
 ?>

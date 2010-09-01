@@ -113,5 +113,6 @@ $messages['smtperror'] = 'Помилка SMTP-сервера: $msg';
 $messages['emailformaterror'] = 'Невірна електронна адреса: $email';
 $messages['toomanyrecipients'] = 'Занадто багато отримувачів. Зменшіть їх число до $max.';
 $messages['maxgroupmembersreached'] = 'Число адрес у групі перевищило максимум у $max.';
+$messages['internalerror'] = 'Виникла внутрішня помилка. Будь ласка, спробуйте ще раз';
 
 ?>

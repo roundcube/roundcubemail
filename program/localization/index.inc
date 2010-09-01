@@ -63,6 +63,7 @@ $rcube_languages = array(
   'ga_IE' => 'Irish (Gaedhilge)',
   'it_IT' => 'Italian (Italiano)',
   'ja_JP' => 'Japanese (日本語)',
+  'kh_KH' => 'Khmer (ភាសាខ្មែរ)',
   'ko_KR' => 'Korean (한국어)',
   'ku'    => 'Kurdish (Kurmancî)',
   'lv_LV' => 'Latvian (Latviešu)',
