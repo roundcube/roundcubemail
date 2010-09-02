@@ -62,13 +62,14 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
 }
 
 // react to real individual tinyMCE editor init
-function rcmail_editor_callback(editor)
+function rcmail_editor_callback()
 {
-  var editor, elem = rcube_find_object('_from');
+  var elem = rcube_find_object('_from');
   if (elem && elem.type=='select-one') {
     rcmail.change_identity(elem);
     // Focus previously focused element
-    rcmail.env.compose_focus_elem.focus();
+    if (rcmail.env.compose_focus_elem.id != rcmail.env.composebody)
+      rcmail.env.compose_focus_elem.focus();
   }
   // set tabIndex and set focus to element that was focused before
   rcmail_editor_tabindex(rcmail.env.compose_focus_elem && rcmail.env.compose_focus_elem.id == rcmail.env.composebody);
