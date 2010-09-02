@@ -25,7 +25,7 @@ if (!$OUTPUT->ajax_call)
 
 // similar function as /steps/settings/identities.inc::rcmail_identity_frame()
 function rcmail_preferences_frame($attrib)
-  {
+{
   global $OUTPUT;
 
   if (!$attrib['id'])
@@ -37,11 +37,11 @@ function rcmail_preferences_frame($attrib)
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
   
   return html::iframe($attrib);
-  }
+}
 
 
 function rcmail_sections_list($attrib)
-  {
+{
   global $RCMAIL;
   
   // add id to message list table if not specified
@@ -58,11 +58,11 @@ function rcmail_sections_list($attrib)
   $RCMAIL->output->include_script('list.js');
 
   return $out;
-  }
+}
 
 
 function rcmail_identities_list($attrib)
-  {
+{
   global $OUTPUT, $USER, $RCMAIL;
 
   // add id to message list table if not specified
@@ -87,12 +87,12 @@ function rcmail_identities_list($attrib)
   $OUTPUT->add_gui_object('identitieslist', $attrib['id']);
 
   return $out;
-  }
+}
 
 
 // similar function as in /steps/addressbook/edit.inc
 function get_form_tags($attrib, $action, $id = null, $hidden = null)
-  {
+{
   global $EDIT_FORM, $RCMAIL;
 
   $form_start = $form_end = '';
@@ -100,9 +100,13 @@ function get_form_tags($attrib, $action, $id = null, $hidden = null)
   if (empty($EDIT_FORM)) {
     $request_key = $action . (isset($id) ? '.'.$id : '');
     $form_start = $RCMAIL->output->request_form(array(
-	'name' => 'form', 'method' => 'post',
-	'task' => $RCMAIL->task, 'action' => $action,
-	'request' => $request_key, 'noclose' => true) + $attrib);
+	  'name'    => 'form',
+	  'method'  => 'post',
+	  'task'    => $RCMAIL->task,
+	  'action'  => $action,
+	  'request' => $request_key,
+	  'noclose' => true
+	) + $attrib);
     
     if (is_array($hidden)) {
       $hiddenfields = new html_hiddenfield($hidden);
@@ -116,7 +120,7 @@ function get_form_tags($attrib, $action, $id = null, $hidden = null)
   }
 
   return array($form_start, $form_end);
-  }
+}
 
 
 function rcmail_user_prefs($current=null)

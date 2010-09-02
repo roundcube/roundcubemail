@@ -17,6 +17,7 @@ CHANGELOG RoundCube Webmail
 - Fix "Threaded" checkbox after subfolder creation (#1486928)
 - Fix timezone string in sent mail (#1486961)
 - Show disabled checkboxes for protected folders instead of dots (#1485498)
+- Added fieldsets in Identity form, added 'identity_form' hook
 
 RELEASE 0.4
 -----------
