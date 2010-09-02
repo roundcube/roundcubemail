@@ -116,6 +116,7 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '0';
 
-    rcube_find_object(rcmail.env.composebody).focus();
+    if (rcmail.env.composebody)
+      rcube_find_object(rcmail.env.composebody).focus();
   }
 }
