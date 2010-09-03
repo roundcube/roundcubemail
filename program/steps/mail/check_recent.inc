@@ -21,9 +21,18 @@
 
 $current = $IMAP->get_mailbox_name();
 $check_all = !empty($_GET['_refresh']) || (bool)$RCMAIL->config->get('check_all_folders');
-$a_mailboxes = $check_all ? $IMAP->list_mailboxes() : (array)$current;
 
-// check recent/unseen counts for all mailboxes
+// list of folders to check
+if ($check_all) {
+    $a_mailboxes = $IMAP->list_mailboxes();
+}
+else {
+    $a_mailboxes = (array) $current;
+    if ($a_mailboxes[0] != 'INBOX')
+        $a_mailboxes[] = 'INBOX';
+}
+
+// check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
     if ($mbox_name == $current && ($status = $IMAP->mailbox_status($mbox_name))) {
 
@@ -83,5 +92,3 @@ foreach ($a_mailboxes as $mbox_name) {
 }
 
 $OUTPUT->send();
-
-
