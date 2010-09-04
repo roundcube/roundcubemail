@@ -1996,7 +1996,7 @@ class rcube_imap_generic
 	    return false;
     }
 
-    function appendFromFile($folder, $path, $headers=null, $separator="\n\n")
+    function appendFromFile($folder, $path, $headers=null)
     {
 	    if (!$folder) {
 	        return false;
@@ -2012,14 +2012,16 @@ class rcube_imap_generic
 		    return false;
 	    }
 
+        $body_separator = "\r\n\r\n";
 	    $len = filesize($path);
+
 	    if (!$len) {
 		    return false;
 	    }
 
         if ($headers) {
             $headers = preg_replace('/[\r\n]+$/', '', $headers);
-            $len += strlen($headers) + strlen($separator);
+            $len += strlen($headers) + strlen($body_separator);
         }
 
     	// send APPEND command
@@ -2035,7 +2037,7 @@ class rcube_imap_generic
 
             // send headers with body separator
             if ($headers) {
-			    $this->putLine($headers . $separator, false);
+			    $this->putLine($headers . $body_separator, false);
             }
 
 		    // send file

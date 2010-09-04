@@ -2239,11 +2239,8 @@ class rcube_imap
 
         // make sure mailbox exists
         if ($this->mailbox_exists($mbox_name, true)) {
-            if ($is_file) {
-                $separator = rcmail::get_instance()->config->header_delimiter();
-                $saved = $this->conn->appendFromFile($mailbox, $message,
-                    $headers, $separator.$separator);
-            }
+            if ($is_file)
+                $saved = $this->conn->appendFromFile($mailbox, $message, $headers);
             else
                 $saved = $this->conn->append($mailbox, $message);
         }
