@@ -247,8 +247,17 @@ class rcube_config
     public function header_delimiter()
     {
         // use the configured delimiter for headers
-        if (!empty($this->prop['mail_header_delimiter']))
-            return $this->prop['mail_header_delimiter'];
+        if (!empty($this->prop['mail_header_delimiter'])) {
+            $delim = $this->prop['mail_header_delimiter'];
+            if ($delim == "\n" || $delim == "\r\n")
+                return $delim;
+            else
+                raise_error(array(
+                    'code' => 500, 'type' => 'php',
+	                'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Invalid mail_header_delimiter setting"
+                ), true, false);
+        }
 
         $php_os = strtolower(substr(PHP_OS, 0, 3));
 
