@@ -45,7 +45,7 @@ class rcube_browser
         $this->mz  = stristr($HTTP_USER_AGENT, 'mozilla/5');
         $this->chrome = stristr($HTTP_USER_AGENT, 'chrome');
         $this->khtml = stristr($HTTP_USER_AGENT, 'khtml');
-        $this->safari = ($this->khtml || stristr($HTTP_USER_AGENT, 'safari'));
+        $this->safari = !$this->chrome && ($this->khtml || stristr($HTTP_USER_AGENT, 'safari'));
 
         if ($this->ns || $this->chrome) {
             $test = preg_match('/(mozilla|chrome)\/([0-9.]+)/i', $HTTP_USER_AGENT, $regs);
