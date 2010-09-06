@@ -211,7 +211,7 @@ save_listmenu: function()
   rcmail.set_list_options(cols, sort, ord, thread == 'thread' ? 1 : 0);
 },
 
-body_mouseup: function(evt, p)
+body_mousedown: function(evt, p)
 {
   var i, target = rcube_event.get_target(evt);
 
@@ -425,11 +425,11 @@ var rcmail_ui;
 function rcube_init_mail_ui()
 {
   rcmail_ui = new rcube_mail_ui();
-  rcube_event.add_listener({ object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+  rcube_event.add_listener({ object:rcmail_ui, method:'body_mousedown', event:'mousedown' });
   rcube_event.add_listener({ object:rcmail_ui, method:'body_keypress', event:'keypress' });
 
   $('iframe').load(iframe_events)
-    .contents().mouseup(function(e){rcmail_ui.body_mouseup(e)});
+    .contents().mouseup(function(e){rcmail_ui.body_mousedown(e)});
 
   if (rcmail.env.task == 'mail') {
     rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
@@ -448,6 +448,6 @@ function iframe_events()
 {
   // this==iframe
   var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-  rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+  rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mousedown', event:'mousedown' });
 }
 
