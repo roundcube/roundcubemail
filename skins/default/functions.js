@@ -237,7 +237,7 @@ target_overlaps: function (target, elementid)
   return false;
 },
 
-body_keypress: function(evt, p)
+body_keydown: function(evt, p)
 {
   if (rcube_event.get_keycode(evt) == 27) {
     for (var k in this.popups) {
@@ -426,7 +426,7 @@ function rcube_init_mail_ui()
 {
   rcmail_ui = new rcube_mail_ui();
   rcube_event.add_listener({ object:rcmail_ui, method:'body_mousedown', event:'mousedown' });
-  rcube_event.add_listener({ object:rcmail_ui, method:'body_keypress', event:'keypress' });
+  rcube_event.add_listener({ object:rcmail_ui, method:'body_keydown', event:'keydown' });
 
   $('iframe').load(iframe_events)
     .contents().mouseup(function(e){rcmail_ui.body_mousedown(e)});
