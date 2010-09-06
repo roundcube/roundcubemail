@@ -990,7 +990,7 @@ function rcmail_compose_attachment_form($attrib)
   $button = new html_inputfield(array('type' => 'button'));
   
   $out = html::div($attrib,
-    $OUTPUT->form_tag(array('name' => 'form', 'method' => 'post', 'enctype' => 'multipart/form-data'),
+    $OUTPUT->form_tag(array('name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
       html::div(null, rcmail_compose_attachment_field(array('size' => $attrib[attachmentfieldsize]))) .
       html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
       html::div('buttons',
