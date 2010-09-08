@@ -725,7 +725,8 @@ class rcube_mdb2
 function mdb2_debug_handler(&$db, $scope, $message, $context = array())
 {
     if ($scope != 'prepare') {
-        $debug_output = $scope . '('.$db->db_index.'): ' . $message;
+        $debug_output = sprintf('%s(%d): %s;',
+            $scope, $db->db_index, rtrim($message, ';'));
         write_log('sql', $debug_output);
     }
 }
