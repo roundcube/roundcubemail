@@ -444,7 +444,10 @@ class rcube_template extends rcube_html_page
      */
     public function abs_url($str)
     {
-        return preg_replace('/^\//', $this->config['skin_path'].'/', $str);
+        if ($str[0] == '/')
+            return $this->config['skin_path'] . $str;
+        else
+            return $str;
     }
 
 

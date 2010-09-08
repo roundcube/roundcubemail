@@ -1258,7 +1258,7 @@ class rcube_imap_generic
 					    	}
         					break;
 					    case 'in-reply-to':
-			    			$result[$id]->in_reply_to = preg_replace('/[\n<>]/', '', $string);
+			    			$result[$id]->in_reply_to = str_replace(array("\n", '<', '>'), '', $string);
 				    		break;
     					case 'references':
 	    					$result[$id]->references = $string;
@@ -2115,7 +2115,7 @@ class rcube_imap_generic
 	    // return false if not found, parse if found
 	    $min_free = PHP_INT_MAX;
 	    foreach ($quota_lines as $key => $quota_line) {
-		    $quota_line   = preg_replace('/[()]/', '', $quota_line);
+		    $quota_line   = str_replace(array('(', ')'), '', $quota_line);
 		    $parts        = explode(' ', $quota_line);
 		    $storage_part = array_search('STORAGE', $parts);
 

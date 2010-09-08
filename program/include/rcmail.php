@@ -810,9 +810,9 @@ class rcmail
     if (($attrib['uppercase'] && strtolower($attrib['uppercase']=='first')) || $attrib['ucfirst'])
       return ucfirst($text);
     else if ($attrib['uppercase'])
-      return strtoupper($text);
+      return mb_strtoupper($text);
     else if ($attrib['lowercase'])
-      return strtolower($text);
+      return mb_strtolower($text);
 
     return $text;
   }
@@ -874,7 +874,7 @@ class rcmail
 
       if ($dh = @opendir(INSTALL_PATH . 'program/localization')) {
         while (($name = readdir($dh)) !== false) {
-          if ($name{0}=='.' || !is_dir(INSTALL_PATH . 'program/localization/' . $name))
+          if ($name[0] == '.' || !is_dir(INSTALL_PATH . 'program/localization/' . $name))
             continue;
 
           if ($label = $rcube_languages[$name])

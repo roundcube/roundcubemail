@@ -3426,7 +3426,7 @@ class rcube_imap
             $name = trim($val['name']);
 
             if (preg_match('/^[\'"]/', $name) && preg_match('/[\'"]$/', $name))
-                $name = preg_replace(array('/^[\'"]/', '/[\'"]$/'), '', $name);
+                $name = trim($name, '\'"');
 
             if ($name && $address && $name != $address)
                 $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
@@ -3458,7 +3458,7 @@ class rcube_imap
     function decode_header($input, $remove_quotes=false)
     {
         $str = rcube_imap::decode_mime_string((string)$input, $this->default_charset);
-        if ($str{0}=='"' && $remove_quotes)
+        if ($str[0] == '"' && $remove_quotes)
             $str = str_replace('"', '', $str);
 
         return $str;

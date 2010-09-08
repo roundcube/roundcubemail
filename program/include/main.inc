@@ -700,7 +700,7 @@ function asciiwords($str, $css_id = false, $replace_with = '')
  */
 function strip_quotes($str)
 {
-  return preg_replace('/[\'"]/', '', $str);
+  return str_replace(array("'", '"'), '', $str);
 }
 
 
