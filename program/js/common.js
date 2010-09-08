@@ -25,18 +25,20 @@ var CONTROL_SHIFT_KEY = 3;
  */
 function roundcube_browser()
 {
-  this.ver = parseFloat(navigator.appVersion);
-  this.appver = navigator.appVersion;
-  this.agent = navigator.userAgent;
-  this.agent_lc = navigator.userAgent.toLowerCase();
-  this.name = navigator.appName;
-  this.vendor = navigator.vendor ? navigator.vendor : '';
-  this.vendver = navigator.vendorSub ? parseFloat(navigator.vendorSub) : 0;
-  this.product = navigator.product ? navigator.product : '';
-  this.platform = String(navigator.platform).toLowerCase();
-  this.lang = (navigator.language) ? navigator.language.substring(0,2) :
-              (navigator.browserLanguage) ? navigator.browserLanguage.substring(0,2) :
-              (navigator.systemLanguage) ? navigator.systemLanguage.substring(0,2) : 'en';
+  var n = navigator;
+
+  this.ver = parseFloat(n.appVersion);
+  this.appver = n.appVersion;
+  this.agent = n.userAgent;
+  this.agent_lc = n.userAgent.toLowerCase();
+  this.name = n.appName;
+  this.vendor = n.vendor ? n.vendor : '';
+  this.vendver = n.vendorSub ? parseFloat(n.vendorSub) : 0;
+  this.product = n.product ? n.product : '';
+  this.platform = String(n.platform).toLowerCase();
+  this.lang = (n.language) ? n.language.substring(0,2) :
+              (n.browserLanguage) ? n.browserLanguage.substring(0,2) :
+              (n.systemLanguage) ? n.systemLanguage.substring(0,2) : 'en';
 
   this.win = (this.platform.indexOf('win') >= 0);
   this.mac = (this.platform.indexOf('mac') >= 0);
@@ -58,7 +60,7 @@ function roundcube_browser()
   this.ns6 = (this.ns && parseInt(this.vendver) == 6);  // (this.mz && this.ns) ? true : false;
   this.ns7 = (this.ns && parseInt(this.vendver) == 7);  // this.agent.indexOf('Netscape/7')>0);
   this.chrome = (this.agent_lc.indexOf('chrome') > 0);
-  this.safari = (!this.chrome && (this.agent_lc.indexOf('safari') > 0 || this.agent.toLowerCase().indexOf('applewebkit') > 0));
+  this.safari = (!this.chrome && (this.agent_lc.indexOf('safari') > 0 || this.agent_lc.indexOf('applewebkit') > 0));
   this.konq   = (this.agent_lc.indexOf('konqueror') > 0);
   this.iphone = (this.safari && this.agent_lc.indexOf('iphone') > 0);
   this.ipad = (this.safari && this.agent_lc.indexOf('ipad') > 0);
@@ -66,20 +68,20 @@ function roundcube_browser()
   this.opera = window.opera ? true : false;
 
   if (this.opera && window.RegExp)
-    this.vendver = (/opera(\s|\/)([0-9\.]+)/i.test(navigator.userAgent)) ? parseFloat(RegExp.$2) : -1;
+    this.vendver = (/opera(\s|\/)([0-9\.]+)/.test(this.agent_lc)) ? parseFloat(RegExp.$2) : -1;
   else if (this.chrome && window.RegExp)
-    this.vendver = (/chrome\/([0-9\.]+)/i.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
+    this.vendver = (/chrome\/([0-9\.]+)/.test(this.agent_lc)) ? parseFloat(RegExp.$1) : 0;
   else if (!this.vendver && this.safari)
-    this.vendver = (/(safari|applewebkit)\/([0-9]+)/i.test(this.agent)) ? parseInt(RegExp.$2) : 0;
+    this.vendver = (/(safari|applewebkit)\/([0-9]+)/.test(this.agent_lc)) ? parseInt(RegExp.$2) : 0;
   else if ((!this.vendver && this.mz) || this.agent.indexOf('Camino')>0)
     this.vendver = (/rv:([0-9\.]+)/.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
   else if (this.ie && window.RegExp)
-    this.vendver = (/msie\s+([0-9\.]+)/i.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
+    this.vendver = (/msie\s+([0-9\.]+)/.test(this.agent_lc)) ? parseFloat(RegExp.$1) : 0;
   else if (this.konq && window.RegExp)
-    this.vendver = (/khtml\/([0-9\.]+)/i.test(this.agent)) ? parseFloat(RegExp.$1) : 0;
+    this.vendver = (/khtml\/([0-9\.]+)/.test(this.agent_lc)) ? parseFloat(RegExp.$1) : 0;
 
   // get real language out of safari's user agent
-  if(this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/i.test(this.agent)))
+  if(this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
     this.lang = RegExp.$1;
 
   this.dhtml = ((this.ie4 && this.win) || this.ie5 || this.ie6 || this.ns4 || this.mz);
@@ -87,7 +89,7 @@ function roundcube_browser()
   this.pngalpha = (this.mz || (this.opera && this.vendver >= 6) || (this.ie && this.mac && this.vendver >= 5) ||
                    (this.ie && this.win && this.vendver >= 5.5) || this.safari);
   this.opacity = (this.mz || (this.ie && this.vendver >= 5.5 && !this.opera) || (this.safari && this.vendver >= 100));
-  this.cookies = navigator.cookieEnabled;
+  this.cookies = n.cookieEnabled;
 
   // test for XMLHTTP support
   this.xmlhttp_test = function()
