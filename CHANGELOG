@@ -18,6 +18,7 @@ CHANGELOG RoundCube Webmail
 - Fix timezone string in sent mail (#1486961)
 - Show disabled checkboxes for protected folders instead of dots (#1485498)
 - Added fieldsets in Identity form, added 'identity_form' hook
+- Re-added 'Close' button in upload form (#1486930, #1486823)
 
 RELEASE 0.4
 -----------

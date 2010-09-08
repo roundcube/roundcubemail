@@ -36,7 +36,8 @@ function rcube_mail_ui()
     groupmenu:      {id:'groupoptionsmenu', above:1},
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
     composemenu:    {id:'composeoptionsmenu', editable:1},
-    uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:bw.safari&&bw.win }
+    // toggle: #1486823, #1486930
+    uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:!bw.ie&&!bw.linux }
   };
 
   var obj;
