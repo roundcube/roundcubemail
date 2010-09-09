@@ -19,6 +19,7 @@ CHANGELOG RoundCube Webmail
 - Show disabled checkboxes for protected folders instead of dots (#1485498)
 - Added fieldsets in Identity form, added 'identity_form' hook
 - Re-added 'Close' button in upload form (#1486930, #1486823)
+- Fix handling of charsets with LATIN-* label
 
 RELEASE 0.4
 -----------
