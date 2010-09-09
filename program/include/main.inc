@@ -388,19 +388,19 @@ function rcube_parse_charset($input)
     $result = 'WINDOWS-' . $m[2];
     }
   // LATIN
-  else if (preg_match('/(CSISOLATIN|LATIN)(.*)/', $str, $m)) {
+  else if (preg_match('/LATIN(.*)/', $str, $m)) {
     $aliases = array('2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
         '7' => 13, '8' => 14, '9' => 15, '10' => 16,
-        'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'HEBREW' => 8);
+        'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8);
 
     // some clients sends windows-1252 text as latin1,
     // it is safe to use windows-1252 for all latin1
-    if ($m[2] == 1) {
+    if ($m[1] == 1) {
       $result = 'WINDOWS-1252';
       }
     // if iconv is not supported we need ISO labels, it's also safe for iconv
-    else if (!empty($aliases[$m[2]])) {
-      $result = 'ISO-8859-'.$aliases[$m[2]];
+    else if (!empty($aliases[$m[1]])) {
+      $result = 'ISO-8859-'.$aliases[$m[1]];
       }
     // iconv requires convertion of e.g. LATIN-1 to LATIN1
     else {
