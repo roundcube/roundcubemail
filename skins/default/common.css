@@ -18,7 +18,7 @@ body.extwin
   margin: 10px;
 }
 
-body, td, th, div, p, h3
+body, td, th, div, p, h3, select, input, textarea
 {
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -65,9 +65,6 @@ input[type="button"],
 input[type="password"],
 textarea
 {
-  padding: 1px;
-  padding-left: 3px;
-  padding-right: 3px;
   border: 1px solid #666666;
   color: #333333;
   background-color: #ffffff;
@@ -75,17 +72,8 @@ textarea
 
 input, textarea
 {
-  font-size: 9pt;
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   color: black;
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
-select
-{
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-  color: black;
+  padding: 1px 3px;
 }
 
 input.button

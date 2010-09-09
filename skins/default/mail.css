@@ -137,11 +137,6 @@
   background-position: -416px -32px;
 }
 
-#messagetoolbar select
-{
-  font-size: 11px;
-}
-
 #messagetoolbar select.mboxlist
 {
   position: relative;
