@@ -135,7 +135,7 @@ class rcube_imap_generic
     private function putLineC($string, $endln=true)
     {
         if (!$this->fp)
-            return NULL;
+            return false;
 
 	    if ($endln)
 		    $string .= "\r\n";
