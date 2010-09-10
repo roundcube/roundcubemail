@@ -119,7 +119,7 @@ class rcube_imap_generic
     {
     }
 
-    private function putLine($string, $endln=true)
+    function putLine($string, $endln=true)
     {
         if (!$this->fp)
             return false;
@@ -128,11 +128,18 @@ class rcube_imap_generic
     		write_log('imap', 'C: '. rtrim($string));
 	    }
 
-        return fputs($this->fp, $string . ($endln ? "\r\n" : ''));
+        $res = fwrite($this->fp, $string . ($endln ? "\r\n" : ''));
+
+   		if ($res === false) {
+           	@fclose($this->fp);
+           	$this->fp = null;
+   		}
+
+        return $res;
     }
 
     // $this->putLine replacement with Command Continuation Requests (RFC3501 7.5) support
-    private function putLineC($string, $endln=true)
+    function putLineC($string, $endln=true)
     {
         if (!$this->fp)
             return false;
@@ -166,7 +173,7 @@ class rcube_imap_generic
 	    return $res;
     }
 
-    private function readLine($size=1024)
+    function readLine($size=1024)
     {
 		$line = '';
 
@@ -199,7 +206,7 @@ class rcube_imap_generic
 	    return $line;
     }
 
-    private function multLine($line, $escape=false)
+    function multLine($line, $escape=false)
     {
 	    $line = rtrim($line);
 	    if (preg_match('/\{[0-9]+\}$/', $line)) {
@@ -220,7 +227,7 @@ class rcube_imap_generic
         return $line;
     }
 
-    private function readBytes($bytes)
+    function readBytes($bytes)
     {
 	    $data = '';
 	    $len  = 0;
@@ -242,7 +249,7 @@ class rcube_imap_generic
     }
 
     // don't use it in loops, until you exactly know what you're doing
-    private function readReply(&$untagged=null)
+    function readReply(&$untagged=null)
     {
 	    do {
 		    $line = trim($this->readLine(1024));
@@ -257,7 +264,7 @@ class rcube_imap_generic
 	    return $line;
     }
 
-    private function parseResult($string)
+    function parseResult($string)
     {
 	    $a = explode(' ', trim($string));
 	    if (count($a) >= 2) {
@@ -278,7 +285,7 @@ class rcube_imap_generic
     }
 
     // check if $string starts with $match (or * BYE/BAD)
-    private function startsWith($string, $match, $error=false, $nonempty=false)
+    function startsWith($string, $match, $error=false, $nonempty=false)
     {
 	    $len = strlen($match);
 	    if ($len == 0) {
@@ -288,31 +295,6 @@ class rcube_imap_generic
             return true;
         }
 	    if (strncmp($string, $match, $len) == 0) {
-		    return true;
-	    }
-	    if ($error && preg_match('/^\* (BYE|BAD) /i', $string, $m)) {
-            if (strtoupper($m[1]) == 'BYE') {
-                @fclose($this->fp);
-                $this->fp = null;
-            }
-		    return true;
-	    }
-        if ($nonempty && !strlen($string)) {
-            return true;
-        }
-	    return false;
-    }
-
-    private function startsWithI($string, $match, $error=false, $nonempty=false)
-    {
-	    $len = strlen($match);
-	    if ($len == 0) {
-		    return false;
-	    }
-        if (!$this->fp) {
-            return true;
-        }
-	    if (strncasecmp($string, $match, $len) == 0) {
 		    return true;
 	    }
 	    if ($error && preg_match('/^\* (BYE|BAD) /i', $string, $m)) {
@@ -346,14 +328,10 @@ class rcube_imap_generic
         }
 	    do {
 		    $line = trim($this->readLine(1024));
-		    $a = explode(' ', $line);
-		    if ($line[0] == '*') {
-			    while (list($k, $w) = each($a)) {
-				    if ($w != '*' && $w != 'CAPABILITY')
-    					$this->capability[] = strtoupper($w);
-			    }
-		    }
-	    } while ($a[0] != 'cp01');
+	        if (preg_match('/^\* CAPABILITY (.+)/i', $line, $matches)) {
+		        $this->capability = explode(' ', strtoupper($matches[1]));
+	        }
+	    } while (!$this->startsWith($line, 'cp01', true));
 
 	    $this->capability_readed = true;
 
@@ -454,7 +432,7 @@ class rcube_imap_generic
         }
 	    do {
 		    $line = $this->readLine(1024);
-		    if ($this->startsWith($line, '* NAMESPACE')) {
+		    if (preg_match('/^\* NAMESPACE/', $line)) {
 			    $i    = 0;
 			    $line = $this->unEscape($line);
 			    $data = $this->parseNamespace(substr($line,11), $i, 0, 0);
@@ -532,7 +510,7 @@ class rcube_imap_generic
 
 	    do {
 		    $line = $this->readLine(1024);
-		    if ($this->startsWith($line, '* NAMESPACE')) {
+		    if (preg_match('/^\* NAMESPACE/', $line)) {
 			    $i = 0;
 			    $line = $this->unEscape($line);
 			    $data = $this->parseNamespace(substr($line,11), $i, 0, 0);
@@ -655,7 +633,7 @@ class rcube_imap_generic
                	$this->putLine("tls0 STARTTLS");
 
 			    $line = $this->readLine(4096);
-                if (!$this->startsWith($line, "tls0 OK")) {
+                if (!preg_match('/^tls0 OK/', $line)) {
 				    $this->error    = "Server responded to STARTTLS with: $line";
 				    $this->errornum = -2;
                     return false;
@@ -824,7 +802,8 @@ class rcube_imap_generic
 		    $add = $this->compressMessageSet(join(',', $add));
 
 	    $command  = "s ".$is_uid."SORT ($field) $encoding ALL";
-	    $line     = $data = '';
+	    $line     = '';
+	    $data     = '';
 
 	    if (!empty($add))
 	        $command .= ' '.$add;
@@ -834,7 +813,7 @@ class rcube_imap_generic
 	    }
 	    do {
 		    $line = rtrim($this->readLine());
-		    if ($this->startsWith($line, '* SORT')) {
+		    if (!$data && preg_match('/^\* SORT/', $line)) {
 			    $data .= substr($line, 7);
     		} else if (preg_match('/^[0-9 ]+$/', $line)) {
 			    $data .= $line;
@@ -1562,7 +1541,7 @@ class rcube_imap_generic
 	    }
 	    do {
 		    $line = trim($this->readLine());
-		    if ($this->startsWith($line, '* THREAD')) {
+		    if (!$data && preg_match('/^\* THREAD/', $line)) {
     			$data .= substr($line, 9);
 	    	} else if (preg_match('/^[0-9() ]+$/', $line)) {
 		    	$data .= $line;
@@ -1603,7 +1582,7 @@ class rcube_imap_generic
 
     	do {
 	    	$line = trim($this->readLine());
-		    if ($this->startsWith($line, '* SEARCH')) {
+		    if (!$data && preg_match('/^\* SEARCH/', $line)) {
     			$data .= substr($line, 8);
 	    	} else if (preg_match('/^[0-9 ]+$/', $line)) {
 		    	$data .= $line;
@@ -1816,6 +1795,10 @@ class rcube_imap_generic
 
         	while ($bytes > 0) {
     		    $line = $this->readLine(1024);
+
+    		    if ($line === NULL)
+    		        break;
+
             	$len  = strlen($line);
 
 		        if ($len > $bytes) {
@@ -2106,7 +2089,7 @@ class rcube_imap_generic
 	    if ($this->putLine('QUOT1 GETQUOTAROOT "INBOX"')) {
 		    do {
 			    $line = rtrim($this->readLine(5000));
-			    if ($this->startsWith($line, '* QUOTA ')) {
+			    if (preg_match('/^\* QUOTA /', $line)) {
 				    $quota_lines[] = $line;
         		}
 		    } while (!$this->startsWith($line, 'QUOT1', true, true));
