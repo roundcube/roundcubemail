@@ -621,7 +621,7 @@ class rcube_message
         foreach (preg_split('/\r?\n/', trim($text)) as $line) {
             // don't wrap quoted lines (to avoid wrapping problems)
             if ($line[0] != '>')
-                $line = rc_wordwrap(rtrim($line), $length - 1, " \r\n");
+                $line = rc_wordwrap(rtrim($line, "\r\n"), $length - 1, " \r\n");
 
             $out .= $line . "\r\n";
         }
