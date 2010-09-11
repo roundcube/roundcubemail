@@ -994,12 +994,12 @@ function rcmail_message_body($attrib)
           $div_attr = array('class' => 'message-htmlpart');
           $style = array();
 
-          if (!empty($attrs['color']))
-            $style[] = 'background-color: '.$attrs['color'];
-          if (!empty($attrs['image']))
-            $style[] = 'background-image: url('.$attrs['image'].')';
-          if (!empty($style))
-            $div_attr['style'] = implode('; ', $style);
+          if (!empty($attrs)) {
+            foreach ($attrs as $a_idx => $a_val)
+              $style[] = $a_idx . ': ' . $a_val;
+            if (!empty($style))
+              $div_attr['style'] = implode('; ', $style);
+          }
 
           $out .= html::div($div_attr, $plugin['prefix'] . $body);
         }
@@ -1071,30 +1071,31 @@ function rcmail_resolve_base($body)
  * modify a HTML message that it can be displayed inside a HTML page
  */
 function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null)
-  {
+{
   $last_style_pos = 0;
   $body_lc = strtolower($body);
+  $cont_id = $container_id.($body_id ? ' div.'.$body_id : '');
 
   // find STYLE tags
   while (($pos = strpos($body_lc, '<style', $last_style_pos)) && ($pos2 = strpos($body_lc, '</style>', $pos)))
-    {
+  {
     $pos = strpos($body_lc, '>', $pos)+1;
 
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles(substr($body, $pos, $pos2-$pos),
-      $container_id.($body_id ? ' div.'.$body_id : ''));
+    $styles = rcmail_mod_css_styles(
+      substr($body, $pos, $pos2-$pos), $cont_id);
 
     $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
     $body_lc = strtolower($body);
     $last_style_pos = $pos2;
-    }
+  }
 
   // modify HTML links to open a new window if clicked
   $GLOBALS['rcmail_html_container_id'] = $container_id;
   $body = preg_replace_callback('/<(a|link)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
   unset($GLOBALS['rcmail_html_container_id']);
 
-  $out = preg_replace(array(
+  $body = preg_replace(array(
       // add comments arround html and other tags
       '/(<!DOCTYPE[^>]*>)/i',
       '/(<\?xml[^>]*>)/i',
@@ -1126,28 +1127,40 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
   $attributes = array();
 
   // Handle body attributes that doesn't play nicely with div elements
-  if (preg_match('/<div class="' . preg_quote($body_id, '/') . '" ([^>]+)/', $out, $m)) {
+  if (preg_match('/<div class="' . preg_quote($body_id, '/') . '" ([^>]+)/', $body, $m)) {
     $attrs = $m[0];
     // Get bgcolor, we'll set it as background-color of the message container
     if (preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/', $attrs, $mb)) {
-      $attributes['color'] = $mb[1];
+      $attributes['background-color'] = $mb[1];
       $attrs = preg_replace('/bgcolor=["\']*([a-z0-9#]+)["\']*/', '', $attrs);
     }
     // Get background, we'll set it as background-image of the message container
     if (preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
-      $attributes['image'] = $mb[1];
+      $attributes['background-image'] = 'url('.$mb[1].')';
       $attrs = preg_replace('/background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
     }
     if (!empty($attributes))
-      $out = preg_replace('/<div class="' . preg_quote($body_id, '/') . '" [^>]+/', rtrim($attrs), $out, 1);
+      $body = preg_replace('/<div class="' . preg_quote($body_id, '/') . '" [^>]+/', rtrim($attrs), $body, 1);
+
+    // handle body styles related to background image
+    if ($attributes['background-image']) {
+      // get body style
+      if (preg_match('/#'.preg_quote($cont_id, '/').'\s+\{([^}]+)}/i', $body, $m)) {
+        // get background related style
+        if (preg_match_all('/(background-position|background-repeat)\s*:\s*([^;]+);/i', $m[1], $ma, PREG_SET_ORDER)) {
+          foreach ($ma as $style)
+            $attributes[$style[1]] = $style[2];
+        }
+      }
+    }
   }
   // make sure there's 'rcmBody' div, we need it for proper css modification
   // its name is hardcoded in rcmail_message_body() also
   else
-    $out = '<div class="' . $body_id . '">' . $out . '</div>';
+    $body = '<div class="' . $body_id . '">' . $body . '</div>';
 
-  return $out;
-  }
+  return $body;
+}
 
 
 /**

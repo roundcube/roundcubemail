@@ -845,7 +845,7 @@ function rcmail_mod_css_styles($source, $container_id)
   {
   $last_pos = 0;
   $replacements = new rcube_string_replacer;
-  
+
   // ignore the whole block if evil styles are detected
   $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entity_decode($source));
   if (preg_match('/expression|behavior|url\(|import/', $stripped))
@@ -868,15 +868,15 @@ function rcmail_mod_css_styles($source, $container_id)
     array(
       '/(^\s*<!--)|(-->\s*$)/',
       '/(^\s*|,\s*|\}\s*)([a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
-      "/$container_id\s+body/i",
+      '/'.preg_quote($container_id, '/').'\s+body/i',
     ),
     array(
       '',
       "\\1#$container_id \\2",
-      "$container_id div.rcmBody",
+      $container_id,
     ),
     $source);
-  
+
   // put block contents back in
   $styles = $replacements->resolve($styles);
 
