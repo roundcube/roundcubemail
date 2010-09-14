@@ -612,7 +612,8 @@ class rcube_message
                 $q = strlen(str_replace(' ', '', $regs[0]));
                 $line = substr($line, strlen($regs[0]));
 
-                if ($q == $q_level && isset($text[$last])
+                if ($q == $q_level && $line
+                    && isset($text[$last])
                     && $text[$last][strlen($text[$last])-1] == ' '
                 ) {
                     $text[$last] .= $line;
@@ -631,7 +632,7 @@ class rcube_message
                     // remove space-stuffing
                     $line = preg_replace('/^\s/', '', $line);
 
-                    if (isset($text[$last])
+                    if (isset($text[$last]) && $line
                         && $text[$last] != '-- '
                         && $text[$last][strlen($text[$last])-1] == ' '
                     ) {
