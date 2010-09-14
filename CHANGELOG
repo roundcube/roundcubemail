@@ -21,6 +21,7 @@ CHANGELOG RoundCube Webmail
 - Re-added 'Close' button in upload form (#1486930, #1486823)
 - Fix handling of charsets with LATIN-* label
 - Fix messages background image handling in some cases (#1486990)
+- Fix format=flowed handling (#1486989)
 
 RELEASE 0.4
 -----------

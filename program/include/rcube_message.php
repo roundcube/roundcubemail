@@ -214,23 +214,22 @@ class rcube_message
 
             if ($mimetype == 'text/plain') {
                 $out = $this->imap->get_message_part($this->uid, $mime_id, $part);
-        
+
                 // re-format format=flowed content
                 if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed')
                     $out = self::unfold_flowed($out);
                 break;
             }
             else if ($mimetype == 'text/html') {
-                $html_part = $this->imap->get_message_part($this->uid, $mime_id, $part);
+                $out = $this->imap->get_message_part($this->uid, $mime_id, $part);
 
                 // remove special chars encoding
                 $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
-                $html_part = strtr($html_part, $trans);
+                $out = strtr($out, $trans);
 
                 // create instance of html2text class
-                $txt = new html2text($html_part);
+                $txt = new html2text($out);
                 $out = $txt->get_text();
-                break;
             }
         }
 
@@ -604,10 +603,51 @@ class rcube_message
      */
     public static function unfold_flowed($text)
     {
-        return preg_replace(
-            array('/-- (\r?\n)/',   '/^ /m',  '/(.) \r?\n/',  '/--%SIGEND%(\r?\n)/'),
-            array('--%SIGEND%\\1',  '',       '\\1 ',         '-- \\1'),
-            $text);
+        $text = preg_split('/\r?\n/', $text);
+        $last = -1;
+        $q_level = 0;
+
+        foreach ($text as $idx => $line) {
+            if ($line[0] == '>' && preg_match('/^(>+\s*)/', $line, $regs)) {
+                $q = strlen(str_replace(' ', '', $regs[0]));
+                $line = substr($line, strlen($regs[0]));
+
+                if ($q == $q_level && isset($text[$last])
+                    && $text[$last][strlen($text[$last])-1] == ' '
+                ) {
+                    $text[$last] .= $line;
+                    unset($text[$idx]);
+                }
+                else {
+                    $last = $idx;
+                }
+            }
+            else {
+                $q = 0;
+                if ($line == '-- ') {
+                    $last = $idx;
+                }
+                else {
+                    // remove space-stuffing
+                    $line = preg_replace('/^\s/', '', $line);
+
+                    if (isset($text[$last])
+                        && $text[$last] != '-- '
+                        && $text[$last][strlen($text[$last])-1] == ' '
+                    ) {
+                        $text[$last] .= $line;
+                        unset($text[$idx]);
+                    }
+                    else {
+                        $text[$idx] = $line;
+                        $last = $idx;
+                    }
+                }
+            }
+            $q_level = $q;
+        }
+
+        return implode("\r\n", $text);
     }
 
 
@@ -616,17 +656,25 @@ class rcube_message
      */
     public static function format_flowed($text, $length = 72)
     {
-        $out = '';
-    
-        foreach (preg_split('/\r?\n/', trim($text)) as $line) {
-            // don't wrap quoted lines (to avoid wrapping problems)
-            if ($line[0] != '>')
-                $line = rc_wordwrap(rtrim($line, "\r\n"), $length - 1, " \r\n");
+        $text = preg_split('/\r?\n/', $text);
 
-            $out .= $line . "\r\n";
+        foreach ($text as $idx => $line) {
+            if ($line != '-- ') {
+                if ($line[0] == '>' && preg_match('/^(>+)/', $line, $regs)) {
+                    $prefix = $regs[0];
+                    $level = strlen($prefix);
+                    $line  = rtrim(substr($line, $level));
+                    $line  = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix ");
+                }
+                else {
+                    $line = ' ' . rc_wordwrap(rtrim($line), $length - 2, " \r\n ");
+                }
+
+                $text[$idx] = $line;
+            }
         }
-    
-        return $out;
+
+        return implode("\r\n", $text);
     }
 
 }

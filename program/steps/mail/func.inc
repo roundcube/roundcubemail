@@ -735,7 +735,7 @@ function rcmail_print_body($part, $p = array())
 
   // plaintext postprocessing
   if ($part->ctype_secondary == 'plain')
-    $body = rcmail_plain_body($body);
+    $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
 
   // allow post-processing of the message body
   $data = $RCMAIL->plugins->exec_hook('message_part_after', array('type' => $part->ctype_secondary, 'body' => $body) + $data);
@@ -747,75 +747,102 @@ function rcmail_print_body($part, $p = array())
 /**
  * Handle links and citation marks in plain text message
  *
- * @param string  Plain text string 
+ * @param string  Plain text string
+ * @param boolean Text uses format=flowed
+ *
  * @return string Formatted HTML string
  */
-function rcmail_plain_body($body)
+function rcmail_plain_body($body, $flowed=false)
 {
   // make links and email-addresses clickable
-  $replacements = new rcube_string_replacer;
+  $replacer = new rcube_string_replacer;
 
   // search for patterns like links and e-mail addresses
-  $body = preg_replace_callback($replacements->link_pattern, array($replacements, 'link_callback'), $body);
-  $body = preg_replace_callback($replacements->mailto_pattern, array($replacements, 'mailto_callback'), $body);
+  $body = preg_replace_callback($replacer->link_pattern, array($replacer, 'link_callback'), $body);
+  $body = preg_replace_callback($replacer->mailto_pattern, array($replacer, 'mailto_callback'), $body);
 
   // split body into single lines
   $a_lines = preg_split('/\r?\n/', $body);
-  $q_lines = array();
   $quote_level = 0;
+  $last = -1;
 
   // find/mark quoted lines...
   for ($n=0, $cnt=count($a_lines); $n < $cnt; $n++) {
-    $q = 0;
-
     if ($a_lines[$n][0] == '>' && preg_match('/^(>+\s*)+/', $a_lines[$n], $regs)) {
       $q = strlen(preg_replace('/\s/', '', $regs[0]));
-        $a_lines[$n] = substr($a_lines[$n], strlen($regs[0]));
+      $a_lines[$n] = substr($a_lines[$n], strlen($regs[0]));
 
       if ($q > $quote_level)
-        $q_lines[$n]['quote'] = $q - $quote_level;
+        $a_lines[$n] = $replacer->get_replacement($replacer->add(
+          str_repeat('<blockquote>', $q - $quote_level))) . $a_lines[$n];
       else if ($q < $quote_level)
-        $q_lines[$n]['endquote'] = $quote_level - $q;
+        $a_lines[$n] = $replacer->get_replacement($replacer->add(
+          str_repeat('</blockquote>', $quote_level - $q))) . $a_lines[$n];
+      else if ($flowed) {
+        // previous line is flowed
+        if (isset($a_lines[$last])
+          && $a_lines[$last][strlen($a_lines[$last])-1] == ' ') {
+          // merge lines (and remove space-stuffing)
+          $a_lines[$last] .= $a_lines[$n];
+          unset($a_lines[$n]);
+        }
+        else
+          $last = $n;
+      }
     }
-    else if ($quote_level > 0)
-      $q_lines[$n]['endquote'] = $quote_level;
+    else {
+      $q = 0;
+      if ($flowed) {
+        // sig separator - line is fixed
+        if ($a_lines[$n] == '-- ') {
+          $last = $n;
+        }
+        else {
+          // remove space-stuffing
+          if ($a_lines[$n][0] == ' ')
+            $a_lines[$n] = substr($a_lines[$n], 1);
+
+          // previous line is flowed?
+          if (isset($a_lines[$last])
+            && $a_lines[$last] != '-- '
+            && $a_lines[$last][strlen($a_lines[$last])-1] == ' '
+          ) {
+            $a_lines[$last] .= $a_lines[$n];
+            unset($a_lines[$n]);
+          }
+          else {
+            $last = $n;
+          }
+        }
+        if ($quote_level > 0)
+          $a_lines[$last] = $replacer->get_replacement($replacer->add(
+            str_repeat('</blockquote>', $quote_level))) . $a_lines[$last];
+      }
+      else if ($quote_level > 0)
+        $a_lines[$n] = $replacer->get_replacement($replacer->add(
+          str_repeat('</blockquote>', $quote_level))) . $a_lines[$n];
+    }
 
     $quote_level = $q;
   }
 
   // quote plain text
-  $body = Q(join("\n", $a_lines), 'replace', false);
+  $body = Q(join("\n", $a_lines), '', false);
 
   // colorize signature
-  if (($sp = strrpos($body, '-- ')) !== false)
-    if (($sp == 0 || $body[$sp-1] == "\n") && $body[$sp+3] == "\n") {
-      $body = substr($body, 0, max(0, $sp))
-	.'<span class="sig">'.substr($body, $sp).'</span>';
+  if (($sp = strrpos($body, "-- \n")) !== false) {
+    if (($sp == 0 || $body[$sp-1] == "\n")) {
+      // do not touch blocks with more that 10 lines
+      if (substr_count($body, "\n", $sp) < 10)
+        $body = substr($body, 0, max(0, $sp))
+          .'<span class="sig">'.substr($body, $sp).'</span>';
     }
+  }
 
-  // colorize quoted lines
-  $a_lines = preg_split('/\n/', $body);
-  foreach ($q_lines as $i => $q)
-    if ($q['quote'])
-      $a_lines[$i] = str_repeat('<blockquote>', $q['quote']) . $a_lines[$i];
-    else if ($q['endquote'])
-      $a_lines[$i] = str_repeat('</blockquote>', $q['endquote']) . $a_lines[$i];
+  // insert url/mailto links and citation tags
+  $body = $replacer->resolve($body);
 
-  // insert the links for urls and mailtos
-  $body = $replacements->resolve(join("\n", $a_lines));
-    
   return $body;
-}
-
-
-/**
- * add a string to the replacement array and return a replacement string
- */
-function rcmail_str_replacement($str, &$rep)
-{
-  static $count = 0;
-  $rep[$count] = stripslashes($str);
-  return "##string_replacement{".($count++)."}##";
 }
 
 
@@ -982,10 +1009,6 @@ function rcmail_message_body($attrib)
 
         $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix', array(
           'part' => $part, 'prefix' => ''));
-
-        // re-format format=flowed content
-        if ($part->ctype_secondary == "plain" && $part->ctype_parameters['format'] == "flowed")
-          $part->body = rcube_message::unfold_flowed($part->body);
 
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
