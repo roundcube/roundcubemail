@@ -754,6 +754,8 @@ function rcmail_print_body($part, $p = array())
  */
 function rcmail_plain_body($body, $flowed=false)
 {
+  global $RCMAIL;
+
   // make links and email-addresses clickable
   $replacer = new rcube_string_replacer;
 
@@ -780,9 +782,9 @@ function rcmail_plain_body($body, $flowed=false)
           str_repeat('</blockquote>', $quote_level - $q))) . $a_lines[$n];
       else if ($flowed) {
         // previous line is flowed
-        if (isset($a_lines[$last])
+        if (isset($a_lines[$last]) && $a_lines[$n]
           && $a_lines[$last][strlen($a_lines[$last])-1] == ' ') {
-          // merge lines (and remove space-stuffing)
+          // merge lines
           $a_lines[$last] .= $a_lines[$n];
           unset($a_lines[$n]);
         }
@@ -803,7 +805,7 @@ function rcmail_plain_body($body, $flowed=false)
             $a_lines[$n] = substr($a_lines[$n], 1);
 
           // previous line is flowed?
-          if (isset($a_lines[$last])
+          if (isset($a_lines[$last]) && $a_lines[$n]
             && $a_lines[$last] != '-- '
             && $a_lines[$last][strlen($a_lines[$last])-1] == ' '
           ) {
@@ -830,12 +832,14 @@ function rcmail_plain_body($body, $flowed=false)
   $body = Q(join("\n", $a_lines), '', false);
 
   // colorize signature
-  if (($sp = strrpos($body, "-- \n")) !== false) {
-    if (($sp == 0 || $body[$sp-1] == "\n")) {
-      // do not touch blocks with more that 10 lines
-      if (substr_count($body, "\n", $sp) < 10)
+  $len = strlen($body);
+  while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
+    if ($sp == 0 || $body[$sp-1] == "\n") {
+      // do not touch blocks with more that X lines
+      if (substr_count($body, "\n", $sp) < $RCMAIL->config->get('sig_max_lines', 15))
         $body = substr($body, 0, max(0, $sp))
           .'<span class="sig">'.substr($body, $sp).'</span>';
+      break;
     }
   }
 

@@ -610,14 +610,24 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
   if (!$bodyIsHtml) {
+    $body = preg_replace('/\r?\n/', "\n", $body);
+  
     // try to remove the signature
-    if ($RCMAIL->config->get('strip_existing_sig', true) && ($sp = strrpos($body, '-- ')) !== false && ($sp == 0 || $body{$sp-1} == "\n")) {
-      if ($body{$sp+3}==' ' || $body{$sp+3}=="\n" || $body{$sp+3}=="\r")
-        $body = substr($body, 0, max(0, $sp-1));
+    if ($RCMAIL->config->get('strip_existing_sig', true)) {
+      $len = strlen($body);
+      while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
+        if ($sp == 0 || $body[$sp-1] == "\n") {
+          // do not touch blocks with more that X lines
+          if (substr_count($body, "\n", $sp) < $RCMAIL->config->get('sig_max_lines', 15)) {
+            $body = substr($body, 0, max(0, $sp-1));
+          }
+          break;
+        }
+      }
     }
 
     // soft-wrap and quote message text
-    $body = rcmail_wrap_and_quote(rtrim($body, "\r\n"), $LINE_LENGTH);
+    $body = rcmail_wrap_and_quote(rtrim($body, "\n"), $LINE_LENGTH);
 
     // add title line(s)
     $prefix = sprintf("On %s, %s wrote:\n",
