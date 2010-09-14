@@ -53,7 +53,6 @@ ALTER TABLE `users` ENGINE=InnoDB;
 ALTER TABLE `contacts` ENGINE=InnoDB;
 ALTER TABLE `identities` ENGINE=InnoDB;
 
-
 -- Updates from version 0.3-stable
 
 TRUNCATE `messages`;
@@ -68,6 +67,8 @@ ALTER TABLE `contacts`
     ADD INDEX `user_contacts_index` (`user_id`,`email`);
 
 -- Updates from version 0.3.1
+-- WARNING: Make sure that all tables are using InnoDB engine!!!
+--          If not, use: ALTER TABLE xxx ENGINE=InnoDB;
 
 /* MySQL bug workaround: http://bugs.mysql.com/bug.php?id=46293 */
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
