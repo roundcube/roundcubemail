@@ -205,8 +205,8 @@ function rcube_charset_convert($str, $from, $to=NULL)
   if ($from == $to || empty($str) || empty($from))
     return $str;
 
-  // convert charset using iconv module  
-  if (function_exists('iconv') && $from != 'UTF-7' && $to != 'UTF-7') {
+  // convert charset using iconv module
+  if (function_exists('iconv') && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
     if ($iconv_options === null) {
       // ignore characters not available in output charset
       $iconv_options = '//IGNORE';
