@@ -357,15 +357,21 @@ function rcube_parse_charset($input)
     'ISO88599'	    => 'WINDOWS-1254',
     'ISO885911'	    => 'WINDOWS-874',
     'MACROMAN'	    => 'MACINTOSH',
-    '238'           => 'WINDOWS-1250',
-    '178'           => 'WINDOWS-1256',
-    '177'           => 'WINDOWS-1255',
-    '204'           => 'WINDOWS-1251',
-    '161'           => 'WINDOWS-1253',
-    '222'           => 'WINDOWS-874',
+    '77'            => 'MAC',
+    '128'           => 'SHIFT-JIS',
+    '129'           => 'CP949',
+    '130'           => 'CP1361',
     '134'           => 'GBK',
+    '136'           => 'BIG5',
+    '161'           => 'WINDOWS-1253',
+    '162'           => 'WINDOWS-1254',
+    '163'           => 'WINDOWS-1258',
+    '177'           => 'WINDOWS-1255',
+    '178'           => 'WINDOWS-1256',
+    '186'           => 'WINDOWS-1257',
+    '204'           => 'WINDOWS-1251',
+    '222'           => 'WINDOWS-874',
     '238'           => 'WINDOWS-1250',
-    '128'           => 'SHIFT-JIS'
   );
 
   // allow A-Z and 0-9 only
