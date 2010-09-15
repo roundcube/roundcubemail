@@ -34,27 +34,30 @@ function rcmail_user_prefs_form($attrib)
   $RCMAIL->output->add_label('nopagesizewarning');
 
   unset($attrib['form']);
-  
+
   list($form_start, $form_end) = get_form_tags($attrib, 'save-prefs', null,
     array('name' => '_section', 'value' => $CURR_SECTION));
 
   $out = $form_start;
 
   foreach ($SECTIONS[$CURR_SECTION]['blocks'] as $idx => $block) {
-    if ($block['options']) {
+    if (!empty($block['options'])) {
       $table = new html_table(array('cols' => 2));
 
       foreach ($block['options'] as $option) {
         if ($option['advanced'])
-	  $table->set_row_attribs('advanced');
-    
+	      $table->set_row_attribs('advanced');
+
         $table->add('title', $option['title']);
-	$table->add(null, $option['content']);
-        }
-    
-      $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $table->show($attrib));
+	    $table->add(null, $option['content']);
       }
+
+      $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $table->show($attrib));
     }
+    else if (!empty($block['content'])) {
+      $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $block['content']);
+    }
+  }
 
   return $out . $form_end;
 }
