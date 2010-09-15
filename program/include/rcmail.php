@@ -45,6 +45,7 @@ class rcmail
   public $comm_path = './';
 
   private $texts;
+  private $books = array();
 
 
   /**
@@ -279,6 +280,10 @@ class rcmail
     else { // $id == 'sql'
       $contacts = new rcube_contacts($this->db, $this->user->ID);
     }
+
+    // add to the 'books' array for shutdown function
+    if (!in_array($contacts, $this->books))
+      $this->books[] = $contacts;
 
     return $contacts;
   }
@@ -974,8 +979,9 @@ class rcmail
     if (is_object($this->smtp))
       $this->smtp->disconnect();
 
-    if (is_object($this->contacts))
-      $this->contacts->close();
+    foreach ($this->books as $book)
+      if (is_object($book))
+        $book->close();
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'])
