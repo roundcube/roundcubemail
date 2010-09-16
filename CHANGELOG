@@ -22,6 +22,7 @@ CHANGELOG RoundCube Webmail
 - Fix handling of charsets with LATIN-* label
 - Fix messages background image handling in some cases (#1486990)
 - Fix format=flowed handling (#1486989)
+- Fix when IMAP connection fails in 'get' action session shouldn't be destroyed (#1486995)
 
 RELEASE 0.4
 -----------

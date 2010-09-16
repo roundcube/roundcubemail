@@ -35,6 +35,30 @@ if (!empty($_GET['_preload'])) {
 
 ob_end_clean();
 
+// Now we need IMAP connection
+if (!$RCMAIL->imap_connect()) {
+  // Get action is often executed simultanously.
+  // Some servers have MAXPERIP or other limits.
+  // To workaround this we'll wait for some time
+  // and try again (once).
+  // Note: When message contains more inline parts and the server limit is low
+  // this stil maybe the issue, while we're using the same sleep interval, but
+  // I didn't found better solution.
+  if (!isset($_GET['_redirected'])) {
+    sleep(2);
+    header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
+  }
+  else {
+    raise_error(array(
+      'code' => 500, 'type' => 'php',
+      'file' => __FILE__, 'line' => __LINE__,
+      'message' => 'Unable to get/display message part. IMAP connection error'),
+      true, true);
+  }
+  // Don't kill session, just quit (#1486995)
+  exit;
+}
+
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
   $RCMAIL->config->set('prefer_html', true);

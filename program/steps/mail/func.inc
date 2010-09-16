@@ -26,8 +26,8 @@ $SEARCH_MODS_DEFAULT = array('*' => array('subject'=>1, 'from'=>1), $SENT_MBOX =
 
 $EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
 
-// actions that do not require imap connection
-$NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment');
+// actions that do not require imap connection here
+$NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment', 'get');
 
 // always instantiate imap object (but not yet connect to server)
 $RCMAIL->imap_init();
