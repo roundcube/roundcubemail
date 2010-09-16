@@ -41,11 +41,10 @@ if (!$RCMAIL->imap_connect()) {
   // Some servers have MAXPERIP or other limits.
   // To workaround this we'll wait for some time
   // and try again (once).
-  // Note: When message contains more inline parts and the server limit is low
-  // this stil maybe the issue, while we're using the same sleep interval, but
-  // I didn't found better solution.
+  // Note: Random sleep interval is used to minimize concurency
+  // in getting message parts
   if (!isset($_GET['_redirected'])) {
-    sleep(2);
+    usleep(rand(10,30)*100000); // 1-3 sec.
     header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
   }
   else {
