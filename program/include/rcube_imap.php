@@ -138,9 +138,10 @@ class rcube_imap
         // write error log
         else if ($this->conn->error) {
             $this->error_code = $this->conn->errornum;
-            raise_error(array('code' => 403, 'type' => 'imap',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => $this->conn->error), true, false);
+            if ($pass && $user)
+                raise_error(array('code' => 403, 'type' => 'imap',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => $this->conn->error), true, false);
         }
 
         return false;
