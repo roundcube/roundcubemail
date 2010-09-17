@@ -1288,7 +1288,7 @@ function rcube_webmail()
       }
     }
 
-    this.http_post('save-pref', '_name=collapsed_folders&_value='+urlencode(this.env.collapsed_folders));
+    this.http_post('utils/save-pref', '_name=collapsed_folders&_value='+urlencode(this.env.collapsed_folders));
     this.set_unread_count_display(id, false);
   };
 
@@ -1459,7 +1459,7 @@ function rcube_webmail()
     if ((found = $.inArray('subject', this.env.coltypes)) >= 0)
       this.set_env('subject_col', found);
 
-    this.http_post('save-pref', { '_name':'list_cols', '_value':this.env.coltypes });
+    this.http_post('utils/save-pref', { '_name':'list_cols', '_value':this.env.coltypes, '_session':'list_attrib/columns' });
   };
 
   this.check_droptarget = function(id)
@@ -4894,8 +4894,17 @@ function rcube_webmail()
   // send a http request to the server
   this.http_request = function(action, querystring, lock)
   {
+    var url = this.env.comm_path;
+
+    // overwrite task name
+    if (action.match(/([a-z]+)\/([a-z-_]+)/)) {
+      action = RegExp.$2;
+      url = url.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
+    }
+
     // trigger plugin hook
     var result = this.triggerEvent('request'+action, querystring);
+
     if (typeof result != 'undefined') {
       // abort if one the handlers returned false
       if (result === false)
@@ -4904,8 +4913,7 @@ function rcube_webmail()
         querystring = result;
     }
 
-    querystring += (querystring ? '&' : '') + '_remote=1';
-    var url = this.env.comm_path + '&_action=' + action + '&' + querystring;
+    url += '&_remote=1&_action=' + action + (querystring ? '&' : '') + querystring;
 
     // send request
     console.log('HTTP GET: ' + url);
@@ -4915,7 +4923,15 @@ function rcube_webmail()
   // send a http POST request to the server
   this.http_post = function(action, postdata, lock)
   {
-    var url = this.env.comm_path+'&_action=' + action;
+    var url = this.env.comm_path;
+
+    // overwrite task name
+    if (action.match(/([a-z]+)\/([a-z-_]+)/)) {
+      action = RegExp.$2;
+      url = url.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
+    }
+
+    url += '&_action=' + action;
 
     if (postdata && typeof(postdata) == 'object') {
       postdata._remote = 1;

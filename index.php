@@ -187,12 +187,6 @@ if ($RCMAIL->action == 'keep-alive') {
   $OUTPUT->reset();
   $OUTPUT->send();
 }
-// save preference value
-else if ($RCMAIL->action == 'save-pref') {
-  $RCMAIL->user->save_prefs(array(get_input_value('_name', RCUBE_INPUT_POST) => get_input_value('_value', RCUBE_INPUT_POST)));
-  $OUTPUT->reset();
-  $OUTPUT->send();
-}
 
 
 // map task/action to a certain include file

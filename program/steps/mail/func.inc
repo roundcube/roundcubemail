@@ -171,7 +171,9 @@ function rcmail_message_list($attrib)
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
-  // make sure 'threads' column is present 
+  // make sure 'threads' and 'subject' columns are present
+  if (!in_array('subject', $a_show_cols))
+    array_unshift($a_show_cols, 'subject');
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
 
@@ -223,28 +225,41 @@ function rcmail_message_list($attrib)
 
 /**
  * return javascript commands to add rows to the message list
- * or to replace the whole list (IE only)
  */
-function rcmail_js_message_list($a_headers, $insert_top=FALSE, $head_replace=FALSE)
+function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null)
 {
   global $CONFIG, $IMAP, $RCMAIL, $OUTPUT;
 
-  if (!empty($_SESSION['list_attrib']['columns']))
-    $a_show_cols = $_SESSION['list_attrib']['columns'];
-  else
-    $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  if (empty($a_show_cols)) {
+    if (!empty($_SESSION['list_attrib']['columns']))
+      $a_show_cols = $_SESSION['list_attrib']['columns'];
+    else
+      $a_show_cols = is_array($CONFIG['list_cols']) ? $CONFIG['list_cols'] : array('subject');
+  }
+  else {
+    if (!is_array($a_show_cols))
+      $a_show_cols = preg_split('/[\s,;]+/', strip_quotes($a_show_cols));
+    $head_replace = true;
+  }
 
   $mbox = $IMAP->get_mailbox_name();
   $delim = $IMAP->get_hierarchy_delimiter();
+
+  // make sure 'threads' and 'subject' columns are present
+  if (!in_array('subject', $a_show_cols))
+    array_unshift($a_show_cols, 'subject');
+  if (!in_array('threads', $a_show_cols))
+    array_unshift($a_show_cols, 'threads');
+
+  $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
   // show 'to' instead of 'from' in sent/draft messages
   if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
       && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
     $a_show_cols[$f] = 'to';
 
-  // make sure 'threads' column is present 
-  if (!in_array('threads', $a_show_cols))
-    array_unshift($a_show_cols, 'threads');
+  // Make sure there are no duplicated columns (#1486999)
+  $a_show_cols = array_unique($a_show_cols);
 
   // Plugins may set header's list_cols/list_flags and other rcube_mail_header variables
   // and list columns

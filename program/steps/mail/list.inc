@@ -48,7 +48,7 @@ if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
   $save_arr['list_cols'] = explode(',', $cols);
 }
 
-if ($save_arr)  
+if ($save_arr)
   $RCMAIL->user->save_prefs($save_arr);
 
 $mbox_name = $IMAP->get_mailbox_name();
@@ -88,7 +88,7 @@ $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
 $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows
-rcmail_js_message_list($a_headers, FALSE, (bool) $cols);
+rcmail_js_message_list($a_headers, FALSE, $cols);
 if (isset($a_headers) && count($a_headers))
 {
   if ($search_request)
