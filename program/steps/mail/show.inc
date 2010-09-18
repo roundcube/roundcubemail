@@ -29,7 +29,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if (empty($MESSAGE->headers)) {
     rcmail_message_error($uid);
   }
-
+sleep(5);
   send_nocacheing_headers();
 
   $mbox_name = $IMAP->get_mailbox_name();

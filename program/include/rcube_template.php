@@ -138,13 +138,21 @@ class rcube_template extends rcube_html_page
      */
     public function set_skin($skin)
     {
-        if (!empty($skin) && is_dir('skins/'.$skin) && is_readable('skins/'.$skin))
+        $valid = false;
+        
+        if (!empty($skin) && is_dir('skins/'.$skin) && is_readable('skins/'.$skin)) {
             $skin_path = 'skins/'.$skin;
-        else
+            $valid = true;
+        }
+        else {
             $skin_path = $this->config['skin_path'] ? $this->config['skin_path'] : 'skins/default';
+            $valid = !$skin;
+        }
 
         $this->app->config->set('skin_path', $skin_path);
         $this->config['skin_path'] = $skin_path;
+        
+        return $valid;
     }
 
     /**

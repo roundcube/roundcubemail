@@ -116,8 +116,9 @@ switch ($CURR_SECTION)
       $OUTPUT->command('reload', 500);
     }
 
-    // switch skin
-    $OUTPUT->set_skin($a_user_prefs['skin']);
+    // switch skin (if valid, otherwise unset the pref and fall back to default)
+    if (!$OUTPUT->set_skin($a_user_prefs['skin']))
+      unset($a_user_prefs['skin']);
 
     // force min size
     if ($a_user_prefs['pagesize'] < 1)
