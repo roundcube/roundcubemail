@@ -8,8 +8,8 @@
 | Copyright (C) 2008-2009, RoundQube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
-| Language: Khmer (ភាសាខ្មែរ)  	                                            |
-| Resources: http://www.khmeros.info                                    |
+| Language: Khmer (ភាសាខ្មែរ)												|
+| Resources: http://www.khmeros.info									|
 |																		|
 +-----------------------------------------------------------------------+
 | Author:  Mr. KOSAL SOVAN VISAL - <sal@sovanvisal.com>                 |
@@ -144,6 +144,11 @@ $labels['sentdate'] = 'ថ្ងៃផ្ញើ';
 $labels['arrival'] = 'ថ្ងៃទទួល';
 $labels['asc'] = 'ពីតូចទៅធំ';
 $labels['desc'] = 'ពីធំមកតូច';
+$labels['listcolumns'] = 'តារាងជួរឈ';
+$labels['listsorting'] = 'តំរៀបជួរឈ';
+$labels['listorder'] = 'លំដាប់នៃការតំរៀប';
+$labels['listmode'] = 'បង្ហាញជាតារាង';
+$labels['folderactions'] = 'កំនត់សកម្មភាពលើថត';
 $labels['compact'] = 'បង្រួម';
 $labels['empty'] = 'ទទេរ';
 $labels['purge'] = 'បំផ្លាញ';
@@ -152,6 +157,7 @@ $labels['unknown'] = 'មិនស្គាល់';
 $labels['unlimited'] = 'គ្មានកំនត់';
 $labels['quicksearch'] = 'ស្វែងរករហាស់';
 $labels['resetsearch'] = 'Reset ការស្វែងរក';
+$labels['searchmod'] = 'កែសំរួល';
 $labels['msgtext'] = 'អត្ថន័យសារ';
 $labels['openinextwin'] = 'បើកក្នុង Windows ថ្មី';
 $labels['emlsave'] = 'ទាញយកជា (.eml)';
@@ -275,12 +281,42 @@ $labels['mimeparamfolding'] = 'ឈ្មោះឯកសារភ្ជាប់'
 $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
+$labels['force7bit'] = 'ប្រើការបំលែង MIME សំរាប់ 8-bit characters';
+$labels['advancedoptions'] = 'ការកំនត់ផ្សេងៗ';
+$labels['focusonnewmessage'] = 'ផ្តោតលើ Browser window សំរាប់សារថ្មី';
+$labels['checkallfolders'] = 'ត្រួតគ្រប់ថតសំរាប់សារថ្មី';
+$labels['displaynext'] = 'បន្ទាប់ពីសារលុប​ ឬផ្ទេរ បង្ហាញសារបន្ទាប់';
+$labels['mainoptions'] = 'ការកំនត់គោល';
+$labels['section'] = 'ផ្នែក';
+$labels['maintenance'] = 'ការថែរក្សា';
+$labels['newmessage'] = 'សារថ្មី';
+$labels['listoptions'] = 'កំនត់តារាង';
+$labels['signatureoptions'] = 'កំនត់ហត្ថលេខា';
+$labels['whenreplying'] = 'នៅពេលឆ្លើយតប';
+$labels['replytopposting'] = 'ចាប់ផ្តើម​សារ​ពី​លើ​សារ​ដើម';
+$labels['replybottomposting'] = 'ចាប់ផ្តើមសារពីក្រោមសារដើម';
+$labels['replyremovesignature'] = 'នៅ​ពេល​ឆ្មើយ​តប​លុប​ហត្ថលេខា​ចេញ​ពីសារ';
+$labels['autoaddsignature'] = 'ដាក់ហត្តលេខាដោយស្វ័យប្រវត្តិ';
+$labels['newmessageonly'] = 'សំរាប់សារថ្មីតែប៉ុណ្ណោះ';
+$labels['replyandforwardonly'] = 'ឆើ្លយតប​ និង ផ្ញើបន្តតែ​ប៉ុណ្ណោះ';
+$labels['replysignaturepos'] = 'នៅពេលឆើ្លយតប​ និង ផ្ញើបន្ត​ដាក់ហត្តលេខា';
+$labels['belowquote'] = 'ពីក្រោមសម្រង់ពាក្យ';
+$labels['abovequote'] = 'ពីលើសម្រង់ពាក្យ';
 $labels['insertsignature'] = 'បញ្ចូល Signature';
+$labels['previewpanemarkread'] = 'ដាក់សារ​ដែល​បាន​បង្ហាញ​​ជា​សារ​បាន​អាន​រួច';
 $labels['afternseconds'] = 'ក្រោយពី $n វិនាទី';
+$labels['folder'] = 'ថត';
+$labels['folders'] = 'ថតទាំងអស់';
 $labels['foldername'] = 'ឈ្មោះ Folder';
+$labels['subscribed'] = 'ភ្ជាប់ជាប្រចាំ';
 $labels['messagecount'] = 'សារ';
 $labels['create'] = 'បង្កើត';
 $labels['createfolder'] = 'បង្កើត Folder ថ្មី';
+$labels['rename'] = 'ប្តូឈ្មោះ';
+$labels['renamefolder'] = 'ប្តូឈ្មោះថត';
+$labels['deletefolder'] = 'លុបថត';
+$labels['managefolders'] = 'រៀបចំថត';
+$labels['specialfolders'] = 'ថតពិសេស';
 $labels['sortby'] = 'តំរៀបតាម';
 $labels['sortasc'] = 'តំរៀបពីតូចទៅធំ';
 $labels['sortdesc'] = 'តំរៀបពីធំទៅតូច';
@@ -290,9 +326,18 @@ $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['unicode'] = 'យូនីកូដ';
 $labels['english'] = 'អង់គ្លេស';
+$labels['westerneuropean'] = 'អឺរ៉ុបខាងលិច';
+$labels['easterneuropean'] = 'អីរ៉ុបខាងកើត';
+$labels['southeasterneuropean'] = 'អឺរ៉ុបភាគអាគ្នេយ៍';
+$labels['baltic'] = 'បាល់តិក';
+$labels['cyrillic'] = 'ស៊ីរីលិក';
 $labels['arabic'] = 'អារ៉ាប់';
 $labels['greek'] = 'ក្រិក';
+$labels['hebrew'] = 'ហ៊ីបប្រ៊ូ';
+$labels['turkish'] = 'ភាសាទកគី';
+$labels['nordic'] = 'ណរឌីក';
 $labels['thai'] = 'សៀម';
+$labels['celtic'] = 'សេលតិច';
 $labels['vietnamese'] = 'វៀតណាម';
 $labels['japanese'] = 'ជប៉ុន';
 $labels['korean'] = 'កូរ៉េ';

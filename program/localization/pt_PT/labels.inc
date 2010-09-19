@@ -11,10 +11,10 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
-|          João Vale <jpvale@gmail.com>                                 |
+|          João Vale <jpvale@gmail.com>                                |
 |          Fernando Silva <fernando.silva@openquest.pt>                 |
 |          Nuno Costa <nuno@criacaoweb.net>                             |
-|          Teotónio Ricardo <teotonio.ricardo@webtuga.pt>               |
+|          Teotónio Ricardo <teotonio.ricardo@webtuga.pt>              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -28,18 +28,18 @@ $labels['password'] = 'Palavra-passe';
 $labels['server'] = 'Servidor';
 $labels['login'] = 'Entrar';
 $labels['logout'] = 'Sair';
-$labels['mail'] = 'E-mail';
+$labels['mail'] = 'Lista de mensagens';
 $labels['settings'] = 'Configurações pessoais';
-$labels['addressbook'] = 'Lista de Contactos';
-$labels['inbox'] = 'Recebidas';
+$labels['addressbook'] = 'Lista de contactos';
+$labels['inbox'] = 'A Receber';
 $labels['drafts'] = 'Rascunhos';
-$labels['sent'] = 'Enviadas';
+$labels['sent'] = 'Itens Enviados';
 $labels['trash'] = 'Reciclagem';
 $labels['junk'] = 'Spam';
 $labels['subject'] = 'Assunto';
 $labels['from'] = 'Remetente';
 $labels['to'] = 'Para';
-$labels['cc'] = 'Cópia';
+$labels['cc'] = 'Cc';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'Responder para';
 $labels['date'] = 'Data';
@@ -48,8 +48,8 @@ $labels['priority'] = 'Prioridade';
 $labels['organization'] = 'Organização';
 $labels['reply-to'] = 'Responder para';
 $labels['mailboxlist'] = 'Pastas';
-$labels['messagesfromto'] = 'Mensagens de $from para $to de $count';
-$labels['threadsfromto'] = 'Tópicos de $from para $to de $count';
+$labels['messagesfromto'] = 'Mensagens de $from a $to de $count';
+$labels['threadsfromto'] = 'Tópicos de $from a $to de $count';
 $labels['messagenrof'] = 'Mensagem $nr de $count';
 $labels['copy'] = 'Copiar';
 $labels['move'] = 'Mover';
@@ -129,14 +129,14 @@ $labels['unread'] = 'Não lidas';
 $labels['flagged'] = 'Sinalizadas';
 $labels['unanswered'] = 'Não respondidas';
 $labels['deleted'] = 'Eliminadas';
-$labels['invert'] = 'Inverter';
+$labels['invert'] = 'Inverter selecção';
 $labels['filter'] = 'Filtro';
-$labels['list'] = 'Lista';
-$labels['threads'] = 'Tópicos';
+$labels['list'] = 'Em lista';
+$labels['threads'] = 'Agrupar por tópicos';
 $labels['expand-all'] = 'Expandir tudo';
 $labels['expand-unread'] = 'Expandir não lidas';
 $labels['collapse-all'] = 'Recolher tudo';
-$labels['threaded'] = 'Agrupado';
+$labels['threaded'] = 'Agrupar tópicos';
 $labels['autoexpand_threads'] = 'Expandir tópicos das mensagens';
 $labels['do_expand'] = 'Todos os tópicos';
 $labels['expand_only_unread'] = 'só com mensagens não lidas';
@@ -144,14 +144,14 @@ $labels['fromto'] = 'Remetente/Destinatário';
 $labels['flag'] = 'Sinalizar';
 $labels['attachment'] = 'Anexo';
 $labels['nonesort'] = 'Nenhum';
-$labels['sentdate'] = 'Data envio';
-$labels['arrival'] = 'Data recepção';
-$labels['asc'] = 'ascendente';
-$labels['desc'] = 'descendente';
+$labels['sentdate'] = 'Data de envio';
+$labels['arrival'] = 'Data de recepção';
+$labels['asc'] = 'Ascendente';
+$labels['desc'] = 'Descendente';
 $labels['listcolumns'] = 'Lista de colunas';
-$labels['listsorting'] = 'Ordenar coluna';
+$labels['listsorting'] = 'Ordenar por';
 $labels['listorder'] = 'Ordenação';
-$labels['listmode'] = 'Modo de visualização da lista';
+$labels['listmode'] = 'Modo de visualização';
 $labels['folderactions'] = 'Acções das pastas...';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Vazio';
@@ -196,7 +196,7 @@ $labels['maxuploadsize'] = 'Tamanho máximo permitido do ficheiro é $size';
 $labels['addcc'] = 'Adicionar Cc';
 $labels['addbcc'] = 'Adicionar Bcc';
 $labels['addreplyto'] = 'Adicionar Responder para';
-$labels['mdnrequest'] = 'O remetente desta mensagem pediu para ser notificado quando esta fosse lida. Deseja enviar uma notificação?';
+$labels['mdnrequest'] = 'O remetente desta mensagem pediu para ser notificado quando esta mensagem fosse lida. Deseja enviar uma notificação?';
 $labels['receiptread'] = 'Recibo de leitura';
 $labels['yourmessage'] = 'Isto é um recibo de leitura da sua mensagem';
 $labels['receiptnote'] = 'Nota: este recibo apenas indica que a mensagem foi aberta pelo destinatário. Não garante que a mensagem foi lida ou compreendida.';
@@ -312,7 +312,7 @@ $labels['afternseconds'] = 'após $n segundos';
 $labels['folder'] = 'Pasta';
 $labels['folders'] = 'Pastas';
 $labels['foldername'] = 'Nome da pasta';
-$labels['subscribed'] = 'Subscrito';
+$labels['subscribed'] = 'Subscrita';
 $labels['messagecount'] = 'Mensagens';
 $labels['create'] = 'Criar';
 $labels['createfolder'] = 'Criar nova pasta';
@@ -324,6 +324,7 @@ $labels['specialfolders'] = 'Pastas especiais';
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc'] = 'Ordenação Ascendente';
 $labels['sortdesc'] = 'Ordenação Descendente';
+$labels['version'] = 'Versão';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
