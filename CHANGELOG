@@ -25,6 +25,7 @@ CHANGELOG RoundCube Webmail
 - Fix format=flowed handling (#1486989)
 - Fix when IMAP connection fails in 'get' action session shouldn't be destroyed (#1486995)
 - Fix list_cols is not updated after column dragging (#1486999)
+- Support %z variable in host configuration options (#1487003)
 
 RELEASE 0.4
 -----------

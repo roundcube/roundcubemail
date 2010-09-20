@@ -1588,8 +1588,10 @@ function rcube_parse_host($name)
   $d = preg_replace('/^[^\.]+\./', '', $n);
   // %h - IMAP host
   $h = $_SESSION['imap_host'];
+  // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
+  $z = preg_replace('/^[^\.]+\./', '', $h);
 
-  $name = str_replace(array('%n', '%d', '%h'), array($n, $d, $h), $name);
+  $name = str_replace(array('%n', '%d', '%h', '%z'), array($n, $d, $h, $z), $name);
   return $name;
 }
 

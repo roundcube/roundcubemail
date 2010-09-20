@@ -98,6 +98,7 @@ $rcmail_config['imap_timeout'] = 0;
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
+// %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['smtp_server'] = '';
 
@@ -184,6 +185,7 @@ $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
+// %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['username_domain'] = '';
 
@@ -193,6 +195,7 @@ $rcmail_config['username_domain'] = '';
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
+// %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['mail_domain'] = '';
 
@@ -400,6 +403,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // %h - user's IMAP hostname
   // %n - http hostname ($_SERVER['SERVER_NAME'])
   // %d - domain (http hostname without the first part)
+  // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %d = domain.tld
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
