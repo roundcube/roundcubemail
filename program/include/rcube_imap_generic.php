@@ -708,7 +708,7 @@ class rcube_imap_generic
 
     function close()
     {
-	    if ($this->putLine("I LOGOUT")) {
+	    if ($this->logged && $this->putLine("I LOGOUT")) {
 		    if (!feof($this->fp))
 			    fgets($this->fp, 1024);
 	    }

@@ -156,8 +156,7 @@ class rcube_imap
      */
     function close()
     {
-        if ($this->conn && $this->conn->connected())
-            $this->conn->close();
+        $this->conn->close();
         $this->write_cache();
     }
 
