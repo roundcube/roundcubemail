@@ -79,7 +79,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     $ctype_secondary = strtolower($part->ctype_secondary);
     $mimetype = sprintf('%s/%s', $ctype_primary, $ctype_secondary);
 
-    $browser = new rcube_browser;
+    $browser = $RCMAIL->output->browser;
 
     // send download headers
     if ($_GET['_download']) {

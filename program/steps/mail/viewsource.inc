@@ -30,8 +30,8 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
 
   if (!empty($_GET['_save'])) {
     $filename = ($headers->subject ? $IMAP->decode_header($headers->subject) : 'roundcube') . '.eml';
-    $browser = new rcube_browser;
-    
+    $browser = $RCMAIL->output->browser;
+
     if ($browser->ie && $browser->ver < 7)
       $filename = rawurlencode(abbreviate_string($filename, 55));
     else if ($browser->ie)
@@ -42,7 +42,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
     header("Content-Length: {$headers->size}");
     header("Content-Disposition: attachment; filename=\"$filename\"");
   }
-  
+
   $IMAP->print_raw_body($uid);
 }
 else
