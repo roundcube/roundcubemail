@@ -36,16 +36,18 @@ class rcube_json_output
     private $callbacks = array();
     private $message = null;
 
+    public $browser;
     public $type = 'js';
     public $ajax_call = true;
-    
-    
+
+
     /**
      * Constructor
      */
-    public function __construct($task)
+    public function __construct($task=null)
     {
-        $this->config = rcmail::get_instance()->config;
+        $this->config  = rcmail::get_instance()->config;
+        $this->browser = new rcube_browser();
     }
 
 
