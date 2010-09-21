@@ -30,7 +30,7 @@
  * @author     David Saez Padros <david@ols.es>
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Lukas Kahwe Smith <smith@pooteeweet.org>
- * @version    1.16
+ * @version    1.17
  * @link       http://pear.php.net/package/MDB2
  */
 class rcube_mdb2
@@ -121,15 +121,13 @@ class rcube_mdb2
      */
     function db_connect($mode)
     {
-        $this->db_mode = $mode;
-
         // Already connected
         if ($this->db_connected) {
             // no replication, current connection is ok
-            if ($this->db_dsnw == $this->db_dsnr)
+            if (empty($this->db_dsnr) || $this->db_dsnw == $this->db_dsnr)
                 return;
 
-            // connected to master, current connection is ok
+            // connected to read-write db, current connection is ok
             if ($this->db_mode == 'w')
                 return;
 
@@ -141,7 +139,8 @@ class rcube_mdb2
         $dsn = ($mode == 'r') ? $this->db_dsnr : $this->db_dsnw;
 
         $this->db_handle = $this->dsn_connect($dsn);
-        $this->db_connected = true;
+        $this->db_connected = !PEAR::isError($this->db_handle);
+        $this->db_mode = $mode;
     }
 
 
@@ -195,9 +194,6 @@ class rcube_mdb2
      */
     function query()
     {
-        if (!$this->is_connected())
-            return null;
-
         $params = func_get_args();
         $query = array_shift($params);
 
@@ -242,6 +238,10 @@ class rcube_mdb2
         $mode = (strtolower(substr(trim($query),0,6)) == 'select') ? 'r' : 'w';
 
         $this->db_connect($mode);
+
+        // check connection before proceeding
+        if (!$this->is_connected())
+            return null;
 
         if ($this->db_provider == 'sqlite')
             $this->_sqlite_prepare();
