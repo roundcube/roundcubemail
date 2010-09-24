@@ -268,7 +268,6 @@ switch_preview_pane: function(elem)
 
     if (uid = rcmail.message_list.get_single_selection())
       rcmail.show_message(uid, false, true);
-    rcmail.http_post('save-pref', '_name=preview_pane&_value=1');
   }
   else {
     prev_frm.hide();
@@ -287,8 +286,8 @@ switch_preview_pane: function(elem)
 
     rcmail.env.contentframe = null;
     rcmail.show_contentframe(false);
-    rcmail.http_post('save-pref', '_name=preview_pane&_value=0');
   }
+  rcmail.http_post('utils/save-pref', '_name=preview_pane&_value='+(elem.checked?1:0));
 },
 
 /* Message composing */
