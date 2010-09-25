@@ -844,7 +844,7 @@ function rcmail_plain_body($body, $flowed=false)
   }
 
   // quote plain text
-  $body = Q(join("\n", $a_lines), '', false);
+  $body = Q(join("\n", $a_lines), 'dummy', false);
 
   // colorize signature
   $len = strlen($body);
