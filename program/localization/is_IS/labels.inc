@@ -5,8 +5,8 @@
 +-----------------------------------------------------------------------+
 | language/is_IS/labels.inc                                             |
 |                                                                       |
-| Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2009, RoundCube Dev. - Switzerland                      |
+| Language file of the Roundcube Webmail client                         |
+| Copyright (C) 2009, Roundcube Dev. - Switzerland                      |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+

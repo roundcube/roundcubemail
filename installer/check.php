@@ -75,7 +75,7 @@ if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
 ?>
 
 <h3>Checking PHP extensions</h3>
-<p class="hint">The following modules/extensions are <em>required</em> to run RoundCube:</p>
+<p class="hint">The following modules/extensions are <em>required</em> to run Roundcube:</p>
 <?php
 
 // get extensions location
@@ -154,7 +154,7 @@ foreach ($required_libs as $classname => $file) {
 ?>
 
 <h3>Checking php.ini/.htaccess settings</h3>
-<p class="hint">The following settings are <em>required</em> to run RoundCube:</p>
+<p class="hint">The following settings are <em>required</em> to run Roundcube:</p>
 
 <?php
 
@@ -205,7 +205,7 @@ foreach ($optional_checks as $var => $val) {
 <?php
 
 if ($RCI->failures) {
-  echo '<p class="warning">Sorry but your webserver does not meet the requirements for RoundCube!<br />
+  echo '<p class="warning">Sorry but your webserver does not meet the requirements for Roundcube!<br />
             Please install the missing modules or fix the php.ini settings according to the above check results.<br />
             Hint: only checks showing <span class="fail">NOT OK</span> need to be fixed.</p>';
 }

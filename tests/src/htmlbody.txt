@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-<title>RoundCube Test Message</title>
+<title>Roundcube Test Message</title>
 <link rel="stylesheet" type="text/css" href="http://anysite.net/styles/mail.css">
 <style type="text/css">
 

@@ -8,9 +8,9 @@
 |
                                                                        |
 |
- Language file of the RoundCube Webmail client                         |
+ Language file of the Roundcube Webmail client                         |
 |
- Copyright (C) 2009, RoundCube Dev. - Switzerland                      |
+ Copyright (C) 2009, Roundcube Dev. - Switzerland                      |
 |
  Licensed under the GNU GPL                                            |
 |

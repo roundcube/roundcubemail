@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | rcube_shared.inc                                                      |
  |                                                                       |
- | This file is part of the RoundCube PHP suite                          |
- | Copyright (C) 2005-2007, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube PHP suite                          |
+ | Copyright (C) 2005-2007, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |
@@ -21,7 +21,7 @@
 
 
 /**
- * RoundCube shared functions
+ * Roundcube shared functions
  * 
  * @package Core
  */

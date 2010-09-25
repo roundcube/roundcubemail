@@ -4,7 +4,7 @@
  +-----------------------------------------------------------------------+
  | program/steps/utils/spell_pspell.inc                                  |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
+ | This file is part of the Roundcube Webmail client                     |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |

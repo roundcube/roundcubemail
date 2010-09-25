@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | language/ku/labels.inc                                                |
  |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2006, RoundCube Dev. - Switzerland                      |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2006, Roundcube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+

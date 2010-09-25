@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | program/include/rcube_template.php                                    |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2006-2010, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2006-2010, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -687,7 +687,7 @@ class rcube_template extends rcube_html_page
                     $content = call_user_func($handler, $attrib);
                 }
                 else if ($object == 'productname') {
-                    $name = !empty($this->config['product_name']) ? $this->config['product_name'] : 'RoundCube Webmail';
+                    $name = !empty($this->config['product_name']) ? $this->config['product_name'] : 'Roundcube Webmail';
                     $content = Q($name);
                 }
                 else if ($object == 'version') {

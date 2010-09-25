@@ -1,4 +1,4 @@
--- RoundCube Webmail initial database structure
+-- Roundcube Webmail initial database structure
 
 --
 -- Sequence "user_ids"

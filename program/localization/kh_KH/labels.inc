@@ -4,7 +4,7 @@
 +-----------------------------------------------------------------------+
 | language/kh_KH/labels.inc                                             |
 |                                                                       |
-| Language file of the RoundCube Webmail client                         |
+| Language file of the Roundcube Webmail client                         |
 | Copyright (C) 2008-2009, RoundQube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |

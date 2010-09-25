@@ -1,7 +1,7 @@
 INTRODUCTION
 ============
 
-This file describes the basic steps to install RoundCube Webmail on your
+This file describes the basic steps to install Roundcube Webmail on your
 web server. For additional information, please also consult the project's
 wiki page at http://trac.roundcube.net/wiki
 
@@ -42,7 +42,7 @@ INSTALLATION
    are writable by the webserver
    - /temp
    - /logs
-3. Create a new database and a database user for RoundCube (see DATABASE SETUP)
+3. Create a new database and a database user for Roundcube (see DATABASE SETUP)
 4. Point your browser to http://url-to-roundcube/installer/
 5. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
 6. After creating and testing the configuration, remove the installer directory

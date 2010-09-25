@@ -1,4 +1,4 @@
--- RoundCube Webmail initial database structure
+-- Roundcube Webmail initial database structure
 
 
 /*!40014  SET FOREIGN_KEY_CHECKS=0 */;

@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | program/include/rcube_string_replacer.php                             |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2009, RoundCube Dev. - Switzerland                      |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2009, Roundcube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |

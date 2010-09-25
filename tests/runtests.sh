@@ -5,8 +5,8 @@
  +-----------------------------------------------------------------------+
  | tests/runtests.sh                                                     |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2009, RoundCube Dev. - Switzerland                      |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2009, Roundcube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -42,7 +42,7 @@ else {
   $testfiles = glob(TESTS_DIR . '*.php');
 }
 
-$test = new TestSuite('RoundCube unit tests');
+$test = new TestSuite('Roundcube unit tests');
 $reporter = new TextReporter();
 
 foreach ($testfiles as $fn) {

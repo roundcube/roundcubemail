@@ -1,9 +1,9 @@
 /*
  +-----------------------------------------------------------------------+
- | RoundCube common js library                                           |
+ | Roundcube common js library                                           |
  |                                                                       |
- | This file is part of the RoundCube web development suite              |
- | Copyright (C) 2005-2007, RoundCube Dev, - Switzerland                 |
+ | This file is part of the Roundcube web development suite              |
+ | Copyright (C) 2005-2007, Roundcube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -365,7 +365,7 @@ triggerEvent: function(evt, e)
 
 
 /**
- * RoundCube generic layer (floating box) class
+ * Roundcube generic layer (floating box) class
  *
  * @constructor
  */

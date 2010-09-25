@@ -1,9 +1,9 @@
 /*
  +-----------------------------------------------------------------------+
- | RoundCube Webmail Client Script                                       |
+ | Roundcube Webmail Client Script                                       |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2010, RoundCube Dev, - Switzerland                 |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2010, Roundcube Dev, - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -56,7 +56,7 @@ function rcube_webmail()
   $.ajaxSetup({
     cache:false,
     error:function(request, status, err){ ref.http_error(request, status, err); },
-    beforeSend:function(xmlhttp){ xmlhttp.setRequestHeader('X-RoundCube-Request', ref.env.request_token); }
+    beforeSend:function(xmlhttp){ xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
   });
 
   // set environment variable(s)

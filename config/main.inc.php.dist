@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | Main configuration file                                               |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -105,11 +105,11 @@ $rcmail_config['smtp_server'] = '';
 // SMTP port (default is 25; 465 for SSL)
 $rcmail_config['smtp_port'] = 25;
 
-// SMTP username (if required) if you use %u as the username RoundCube
+// SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login
 $rcmail_config['smtp_user'] = '';
 
-// SMTP password (if required) if you use %p as the password RoundCube
+// SMTP password (if required) if you use %p as the password Roundcube
 // will use the current user's password for login
 $rcmail_config['smtp_pass'] = '';
 
@@ -154,7 +154,7 @@ $rcmail_config['message_cache_lifetime'] = '10d';
 // set the port for the ssl connection as value of this option if it differs from the default 443
 $rcmail_config['force_https'] = false;
 
-// automatically create a new RoundCube user when log-in the first time.
+// automatically create a new Roundcube user when log-in the first time.
 // a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = true;
@@ -225,11 +225,11 @@ $rcmail_config['product_name'] = 'Roundcube Webmail';
 $rcmail_config['include_host_config'] = false;
 
 // path to a text file which will be added to each sent message
-// paths are relative to the RoundCube root folder
+// paths are relative to the Roundcube root folder
 $rcmail_config['generic_message_footer'] = '';
 
 // path to a text file which will be added to each sent HTML message
-// paths are relative to the RoundCube root folder
+// paths are relative to the Roundcube root folder
 $rcmail_config['generic_message_footer_html'] = '';
 
 // add a received header to outgoing mails containing the creators IP and hostname

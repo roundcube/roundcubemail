@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | program/include/rcmail.php                                            |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2008-2010, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2008-2010, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -21,7 +21,7 @@
 
 
 /**
- * Application class of RoundCube Webmail
+ * Application class of Roundcube Webmail
  * implemented as singleton
  *
  * @package Core
@@ -1172,7 +1172,7 @@ class rcmail
   }
 
   /**
-   * Build a valid URL to this instance of RoundCube
+   * Build a valid URL to this instance of Roundcube
    *
    * @param mixed Either a string with the action or url parameters as key-value pairs
    * @return string Valid application URL

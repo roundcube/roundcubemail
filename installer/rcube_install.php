@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | rcube_install.php                                                     |
  |                                                                       |
- | This file is part of the RoundCube Webmail package                    |
- | Copyright (C) 2008-2009, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube Webmail package                    |
+ | Copyright (C) 2008-2009, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU Public License                                 |
  +-----------------------------------------------------------------------+
 
@@ -15,10 +15,10 @@
 
 
 /**
- * Class to control the installation process of the RoundCube Webmail package
+ * Class to control the installation process of the Roundcube Webmail package
  *
  * @category Install
- * @package  RoundCube
+ * @package  Roundcube
  * @author Thomas Bruederli
  */
 class rcube_install
@@ -327,7 +327,7 @@ class rcube_install
   
   /**
    * Compare the local database schema with the reference schema
-   * required for this version of RoundCube
+   * required for this version of Roundcube
    *
    * @param boolean True if the schema schould be updated
    * @return boolean True if the schema is up-to-date, false if not or an error occured
@@ -366,7 +366,7 @@ class rcube_install
   
   /**
    * Compare the local database schema with the reference schema
-   * required for this version of RoundCube
+   * required for this version of Roundcube
    *
    * @param boolean True if the schema schould be updated
    * @return boolean True if the schema is up-to-date, false if not or an error occured
@@ -624,7 +624,7 @@ class rcube_install
   }
   
   /**
-   * Handler for RoundCube errors
+   * Handler for Roundcube errors
    */
   function raise_error($p)
   {

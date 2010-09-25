@@ -4,14 +4,14 @@
  +-----------------------------------------------------------------------+
  | localization/ne/messages.inc                                          |
  |                                                                       |
- | Language file of the RoundCube Webmail client                         |
- | Copyright (C) 2007, RoundCube Dev. - Switzerland                      |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2007, Roundcube Dev. - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Nepali Translation by:                                                |
  | Prasanna Singh <prasanna@bhunet.com>, <prasanna@bhunet.com>           |
- | RoundCubeAuthor: Thomas Bruederli <roundcube@gmail.com>               |
+ | RoundcubeAuthor: Thomas Bruederli <roundcube@gmail.com>               |
  +-----------------------------------------------------------------------+
 */
 

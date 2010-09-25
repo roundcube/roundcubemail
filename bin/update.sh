@@ -124,12 +124,12 @@ if ($RCI->configured) {
   
   
   if ($success) {
-    echo "This instance of RoundCube is up-to-date.\n";
+    echo "This instance of Roundcube is up-to-date.\n";
     echo "Have fun!\n";
   }
 }
 else {
-  echo "This instance of RoundCube is not yet configured!\n";
+  echo "This instance of Roundcube is not yet configured!\n";
   echo "Open http://url-to-roundcube/installer/ in your browser and follow the instuctions.\n";
 }
 

@@ -35,7 +35,7 @@ Note:
 */
 
 // Charset maps
-// Adapted to fit RoundCube
+// Adapted to fit Roundcube
 define("UTF8_MAP_DIR", "program/lib/encoding");
 
 //Error constants

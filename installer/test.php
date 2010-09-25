@@ -88,7 +88,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 ?>
 
 <h3>Check if directories are writable</h3>
-<p>RoundCube may need to write/save files into these directories</p>
+<p>Roundcube may need to write/save files into these directories</p>
 <?php
 
 if ($RCI->configured) {
@@ -255,10 +255,10 @@ if (isset($_POST['sendmail'])) {
     $headers = array(
       'From'    => trim($_POST['_from']),
       'To'      => trim($_POST['_to']),
-      'Subject' => 'Test message from RoundCube',
+      'Subject' => 'Test message from Roundcube',
     );
 
-    $body = 'This is a test to confirm that RoundCube can send email.';
+    $body = 'This is a test to confirm that Roundcube can send email.';
     $smtp_response = array();
     
     // send mail using configured SMTP server

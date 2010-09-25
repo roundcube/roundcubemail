@@ -1,4 +1,4 @@
--- RoundCube Webmail update script for MySQL databases
+-- Roundcube Webmail update script for MySQL databases
 
 -- Updates from version 0.1-stable
 

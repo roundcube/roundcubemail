@@ -1,6 +1,6 @@
 
 /**
- * RoundCube splitter GUI class
+ * Roundcube splitter GUI class
  *
  * @constructor
  */

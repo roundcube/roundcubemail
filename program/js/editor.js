@@ -1,9 +1,9 @@
 /*
  +-----------------------------------------------------------------------+
- | RoundCube editor js library                                           |
+ | Roundcube editor js library                                           |
  |                                                                       |
- | This file is part of the RoundCube web development suite              |
- | Copyright (C) 2006, RoundCube Dev, - Switzerland                      |
+ | This file is part of the Roundcube web development suite              |
+ | Copyright (C) 2006, Roundcube Dev, - Switzerland                      |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+

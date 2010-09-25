@@ -4,8 +4,8 @@
 +-----------------------------------------------------------------------+
 | language/bn_BD/messages.inc                                           |
 |                                                                       |
-| Language file of the RoundCube Webmail client                         |
-| Copyright (C) 2008, RoundCube Dev. - Switzerland                      |
+| Language file of the Roundcube Webmail client                         |
+| Copyright (C) 2008, Roundcube Dev. - Switzerland                      |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+

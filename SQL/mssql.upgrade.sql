@@ -1,4 +1,4 @@
--- RoundCube Webmail update script for MSSQL databases
+-- Roundcube Webmail update script for MSSQL databases
 
 -- Updates from version 0.3.1
 

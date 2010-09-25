@@ -58,7 +58,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>RoundCube Webmail Installer</title>
+<title>Roundcube Webmail Installer</title>
 <meta name="Robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -69,7 +69,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 <div id="banner">
   <div id="header">
-    <div class="banner-logo"><a href="http://www.roundcube.net"><img src="images/banner_logo.gif" width="200" height="56" border="0" alt="RoundCube Webmal Project" /></a></div>
+    <div class="banner-logo"><a href="http://www.roundcube.net"><img src="images/banner_logo.gif" width="200" height="56" border="0" alt="Roundcube Webmal Project" /></a></div>
     <div class="banner-right"><img src="images/banner_right.gif" width="10" height="56" alt="" /></div>
   </div>
   <div id="topnav">
@@ -92,7 +92,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
   
 ?>
 
-<h1>RoundCube Webmail Installer</h1>
+<h1>Roundcube Webmail Installer</h1>
 
 <ol id="progress">
 <?php
@@ -120,7 +120,7 @@ else {
 </div>
 
 <div id="footer">
-  Installer by the RoundCube Dev Team. Copyright &copy; 2008 - Published under the GNU Public License;&nbsp;
+  Installer by the Roundcube Dev Team. Copyright &copy; 2008 - Published under the GNU Public License;&nbsp;
   Icons by <a href="http://famfamfam.com">famfamfam</a>
 </div>
 </body>

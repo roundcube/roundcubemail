@@ -1,4 +1,4 @@
--- RoundCube Webmail update script for Postgres databases
+-- Roundcube Webmail update script for Postgres databases
 -- Updates from version 0.1-stable to 0.1.1
 
 CREATE INDEX cache_user_id_idx ON cache (user_id, cache_key);

@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | program/include/rcube_html_page.php                                   |
  |                                                                       |
- | This file is part of the RoundCube PHP suite                          |
- | Copyright (C) 2005-2009, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube PHP suite                          |
+ | Copyright (C) 2005-2009, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |
@@ -149,7 +149,7 @@ class rcube_html_page
 
         // set default page title
         if (empty($this->title)) {
-            $this->title = 'RoundCube Mail';
+            $this->title = 'Roundcube Mail';
         }
 
         // replace specialchars in content

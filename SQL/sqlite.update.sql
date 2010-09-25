@@ -1,4 +1,4 @@
--- RoundCube Webmail update script for SQLite databases
+-- Roundcube Webmail update script for SQLite databases
 -- Updates from version 0.1-stable to 0.1.1
 
 DROP TABLE messages;

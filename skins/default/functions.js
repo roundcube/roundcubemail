@@ -1,5 +1,5 @@
 /**
- * RoundCube functions for default skin interface
+ * Roundcube functions for default skin interface
  */
 
 /**

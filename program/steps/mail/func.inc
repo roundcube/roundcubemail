@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | program/steps/mail/func.inc                                           |
  |                                                                       |
- | This file is part of the RoundCube Webmail client                     |
- | Copyright (C) 2005-2010, RoundCube Dev. - Switzerland                 |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -1613,7 +1613,7 @@ function rcmail_send_mdn($uid, &$smtp_error)
       "\t" . rcube_label("sent") . ': ' . format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
       "\r\n" . rcube_label("receiptnote") . "\r\n";
 
-    $ua = $RCMAIL->config->get('useragent', "RoundCube Webmail (Version ".RCMAIL_VERSION.")");
+    $ua = $RCMAIL->config->get('useragent', "Roundcube Webmail (Version ".RCMAIL_VERSION.")");
     $report = "Reporting-UA: $ua\r\n";
 
     if ($message->headers->to)
