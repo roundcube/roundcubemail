@@ -4887,12 +4887,20 @@ function rcube_webmail()
 
   this.goto_url = function(action, query, lock)
   {
-    var querystring = query ? '&'+query : '';
-    this.redirect(this.env.comm_path+'&_action='+action+querystring, lock);
+    var url = this.env.comm_path,
+     querystring = query ? '&'+query : '';
+
+    // overwrite task name
+    if (action.match(/([a-z]+)\/([a-z-_]+)/)) {
+      action = RegExp.$2;
+      url = url.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
+    }
+
+    this.redirect(url+'&_action='+action+querystring, lock);
   };
 
   // send a http request to the server
-  this.http_request = function(action, querystring, lock)
+  this.http_request = function(action, query, lock)
   {
     var url = this.env.comm_path;
 
@@ -4903,17 +4911,17 @@ function rcube_webmail()
     }
 
     // trigger plugin hook
-    var result = this.triggerEvent('request'+action, querystring);
+    var result = this.triggerEvent('request'+action, query);
 
     if (typeof result != 'undefined') {
       // abort if one the handlers returned false
       if (result === false)
         return false;
       else
-        querystring = result;
+        query = result;
     }
 
-    url += '&_remote=1&_action=' + action + (querystring ? '&' : '') + querystring;
+    url += '&_remote=1&_action=' + action + (query ? '&' : '') + query;
 
     // send request
     console.log('HTTP GET: ' + url);
