@@ -41,7 +41,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if (!empty($MESSAGE->headers->charset))
     $IMAP->set_charset($MESSAGE->headers->charset);
 
-  $OUTPUT->set_pagetitle($MESSAGE->subject);
+  $OUTPUT->set_pagetitle(abbreviate_string($MESSAGE->subject, 128, '...', true));
 
   // give message uid to the client
   $OUTPUT->set_env('uid', $MESSAGE->uid);

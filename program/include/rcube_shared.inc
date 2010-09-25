@@ -407,20 +407,24 @@ function get_offset_time($offset_str, $factor=1)
 
 
 /**
- * Replace the middle part of a string with ...
- * if it is longer than the allowed length
+ * Truncate string if it is longer than the allowed length
+ * Replace the middle or the ending part of a string with a placeholder
  *
  * @param string Input string
  * @param int    Max. length
  * @param string Replace removed chars with this
+ * @param bool   Set to True if string should be truncated from the end
  * @return string Abbreviated string
  */
-function abbreviate_string($str, $maxlength, $place_holder='...')
+function abbreviate_string($str, $maxlength, $place_holder='...', $ending=false)
 {
   $length = mb_strlen($str);
   
   if ($length > $maxlength)
   {
+    if ($ending)
+      return mb_substr($str, 0, $maxlength) . $place_holder;
+
     $place_holder_length = mb_strlen($place_holder);
     $first_part_length = floor(($maxlength - $place_holder_length)/2);
     $second_starting_location = $length - $maxlength + $first_part_length + $place_holder_length;
