@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make alias setting in squirrelmail_usercopy plugin configurable (patch by pommi, #1487007)
 - Prevent from saving a non-existing skin path in user prefs (#1486936)
 - Improve handling of single-part messages with bogus BODYSTRUCTURE (#1486898)
 - Fix path to SQL files when using pgsql/mysqli/sqlsrv drivers (#1486902)

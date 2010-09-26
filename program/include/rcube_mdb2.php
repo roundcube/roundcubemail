@@ -123,15 +123,15 @@ class rcube_mdb2
     {
         // Already connected
         if ($this->db_connected) {
+            // connected to read-write db, current connection is ok
+            if ($this->db_mode == 'w')
+                return;
+
             // no replication, current connection is ok for read and write
             if (empty($this->db_dsnr) || $this->db_dsnw == $this->db_dsnr) {
                 $this->db_mode = 'w';
                 return;
             }
-
-            // connected to read-write db, current connection is ok
-            if ($this->db_mode == 'w')
-                return;
 
             // Same mode, current connection is ok
             if ($this->db_mode == $mode)
