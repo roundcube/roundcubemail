@@ -611,10 +611,6 @@ class rcmail
       if ($virtuser = rcube_user::email2user($username))
         $username = $virtuser;
 
-    // lowercase username if it's an e-mail address (#1484473)
-    if (strpos($username, '@'))
-      $username = mb_strtolower($username);
-
     // user already registered -> overwrite username
     if ($user = rcube_user::query($username, $host))
       $username = $user->data['username'];
@@ -622,8 +618,16 @@ class rcmail
     if (!$this->imap)
       $this->imap_init();
 
+    // try IMAP login
+    if (!($imap_login = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl))) {
+      // lowercase username if it's an e-mail address (#1484473)
+      $username_lc = mb_strtolower($username);
+      if ($username_lc != $username && ($imap_login = $this->imap->connect($host, $username_lc, $pass, $imap_port, $imap_ssl)))
+        $username = $username_lc;
+    }
+
     // exit if IMAP login failed
-    if (!($imap_login  = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl)))
+    if (!$imap_login)
       return false;
 
     $this->set_imap_prop();
@@ -646,7 +650,7 @@ class rcmail
       else {
         raise_error(array(
           'code' => 600, 'type' => 'php',
-	      'file' => __FILE__, 'line' => __LINE__,
+          'file' => __FILE__, 'line' => __LINE__,
           'message' => "Failed to create a user record. Maybe aborted by a plugin?"
           ), true, false);
       }

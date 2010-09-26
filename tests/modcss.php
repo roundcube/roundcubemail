@@ -18,7 +18,7 @@ class rcube_test_modcss extends UnitTestCase
     $css = file_get_contents(TESTS_DIR . 'src/valid.css');
     $mod = rcmail_mod_css_styles($css, 'rcmbody');
 
-    $this->assertPattern('/#rcmbody div.rcmBody\s+\{/', $mod, "Replace body style definition");
+    $this->assertPattern('/#rcmbody\s+\{/', $mod, "Replace body style definition");
     $this->assertPattern('/#rcmbody h1\s\{/', $mod, "Prefix tag styles (single)");
     $this->assertPattern('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, "Prefix tag styles (multiple)");
     $this->assertPattern('/#rcmbody \.noscript\s+\{/', $mod, "Prefix class styles");
