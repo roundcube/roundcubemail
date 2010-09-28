@@ -3193,7 +3193,7 @@ class rcube_imap
                 // featch headers if unserialize failed
                 if (empty($this->cache[$cache_key][$uid]))
                     $this->cache[$cache_key][$uid] = $this->conn->fetchHeader(
-                            preg_replace('/.msg$/', '', $key), $uid, true, $this->fetch_add_headers);
+                            preg_replace('/.msg$/', '', $key), $uid, true, false, $this->fetch_add_headers);
             }
         }
 
