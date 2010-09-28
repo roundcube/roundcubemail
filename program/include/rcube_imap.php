@@ -1349,8 +1349,8 @@ class rcube_imap
 
         // fetch complete headers and add to cache
         if (!empty($for_update)) {
-            if ($headers = $this->conn->fetchHeader($mailbox,
-                    join(',', $for_update), false, $this->fetch_add_headers)) {
+            if ($headers = $this->conn->fetchHeaders($mailbox,
+                    join(',', $for_update), false, false, $this->fetch_add_headers)) {
                 foreach ($headers as $header) {
                     $this->add_message_cache($cache_key, $header->id, $header, NULL,
                         in_array($header->uid, (array)$for_remove));
