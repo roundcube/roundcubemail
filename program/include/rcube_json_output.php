@@ -28,6 +28,11 @@
  */
 class rcube_json_output
 {
+    /**
+     * Stores configuration object.
+     *
+     * @var rcube_config
+     */
     private $config;
     private $charset = RCMAIL_CHARSET;
     private $env = array();
@@ -54,8 +59,8 @@ class rcube_json_output
     /**
      * Set environment variable
      *
-     * @param string Property name
-     * @param mixed Property value
+     * @param string $name Property name
+     * @param mixed $value Property value
      */
     public function set_env($name, $value)
     {
@@ -66,7 +71,7 @@ class rcube_json_output
     /**
      * Issue command to set page title
      *
-     * @param string New page title
+     * @param string $title New page title
      */
     public function set_pagetitle($title)
     {
@@ -98,8 +103,8 @@ class rcube_json_output
     /**
      * Register a template object handler
      *
-     * @param  string Object name
-     * @param  string Function name to call
+     * @param  string $obj Object name
+     * @param  string $func Function name to call
      * @return void
      */
     public function add_handler($obj, $func)
@@ -111,7 +116,7 @@ class rcube_json_output
     /**
      * Register a list of template object handlers
      *
-     * @param  array Hash array with object=>handler pairs
+     * @param  array $arr Hash array with object=>handler pairs
      * @return void
      */
     public function add_handlers($arr)
@@ -155,10 +160,10 @@ class rcube_json_output
     /**
      * Invoke display_message command
      *
-     * @param string Message to display
-     * @param string Message type [notice|confirm|error]
-     * @param array Key-value pairs to be replaced in localized text
-     * @param boolean Override last set message
+     * @param string  $message  Message to display
+     * @param string  $type     Message type [notice|confirm|error]
+     * @param array   $vars     Key-value pairs to be replaced in localized text
+     * @param boolean $override Override last set message
      * @uses self::command()
      */
     public function show_message($message, $type='notice', $vars=null, $override=true)
@@ -188,7 +193,8 @@ class rcube_json_output
     /**
      * Redirect to a certain url
      *
-     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @param mixed $p Either a string with the action or url parameters as key-value pairs
+     * @param int $delay Delay in seconds
      * @see rcmail::url()
      */
     public function redirect($p = array(), $delay = 1)
@@ -212,7 +218,7 @@ class rcube_json_output
     /**
      * Send an AJAX response with executable JS code
      *
-     * @param  string  Additional JS code
+     * @param  string  $add Additional JS code
      * @param  boolean True if output buffer should be flushed
      * @return void
      * @deprecated

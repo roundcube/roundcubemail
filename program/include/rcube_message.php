@@ -29,7 +29,18 @@
  */
 class rcube_message
 {
+    /**
+     * Instace of rcmail.
+     *
+     * @var rcmail
+     */
     private $app;
+
+    /**
+     * Instance of imap class
+     *
+     * @var rcube_imap
+     */
     private $imap;
     private $opt = array();
     private $inline_parts = array();
@@ -98,8 +109,8 @@ class rcube_message
     /**
      * Return a (decoded) message header
      *
-     * @param string Header name
-     * @param bool   Don't mime-decode the value
+     * @param string $name Header name
+     * @param bool   $row  Don't mime-decode the value
      * @return string Header value
      */
     public function get_header($name, $raw = false)
@@ -112,7 +123,7 @@ class rcube_message
     /**
      * Set is_safe var and session data
      *
-     * @param bool enable/disable
+     * @param bool $safe enable/disable
      */
     public function set_safe($safe = true)
     {
@@ -124,7 +135,7 @@ class rcube_message
     /**
      * Compose a valid URL for getting a message part
      *
-     * @param string Part MIME-ID
+     * @param string $mime_id Part MIME-ID
      * @return string URL or false if part does not exist
      */
     public function get_part_url($mime_id)
@@ -139,8 +150,8 @@ class rcube_message
     /**
      * Get content of a specific part of this message
      *
-     * @param string Part MIME-ID
-     * @param resource File pointer to save the message part
+     * @param string $mime_id Part MIME-ID
+     * @param resource $fp File pointer to save the message part
      * @return string Part content
      */
     public function get_part_content($mime_id, $fp=NULL)
@@ -241,8 +252,8 @@ class rcube_message
      * Raad the message structure returend by the IMAP server
      * and build flat lists of content parts and attachments
      *
-     * @param object rcube_message_part Message structure node
-     * @param bool  True when called recursively
+     * @param rcube_message_part $structure Message structure node
+     * @param bool               $recursive True when called recursively
      */
     private function parse_structure($structure, $recursive = false)
     {
@@ -501,7 +512,7 @@ class rcube_message
     /**
      * Fill aflat array with references to all parts, indexed by part numbers
      *
-     * @param object rcube_message_part Message body structure
+     * @param rcube_message_part $part Message body structure
      */
     private function get_mime_numbers(&$part)
     {
@@ -517,7 +528,8 @@ class rcube_message
     /**
      * Decode a Microsoft Outlook TNEF part (winmail.dat)
      *
-     * @param object rcube_message_part Message part to decode
+     * @param rcube_message_part $part Message part to decode
+     * @return array
      */
     function tnef_decode(&$part)
     {
@@ -552,7 +564,8 @@ class rcube_message
     /**
      * Parse message body for UUencoded attachments bodies
      *
-     * @param object rcube_message_part Message part to decode
+     * @param rcube_message_part $part Message part to decode
+     * @return array
      */
     function uu_decode(&$part)
     {
@@ -598,7 +611,7 @@ class rcube_message
     /**
      * Interpret a format=flowed message body according to RFC 2646
      *
-     * @param string  Raw body formatted as flowed text
+     * @param string  $text Raw body formatted as flowed text
      * @return string Interpreted text with unwrapped lines and stuffed space removed
      */
     public static function unfold_flowed($text)
@@ -654,6 +667,10 @@ class rcube_message
 
     /**
      * Wrap the given text to comply with RFC 2646
+     *
+     * @param string $text Text to wrap
+     * @param int $length Length
+     * @return string Wrapped text
      */
     public static function format_flowed($text, $length = 72)
     {

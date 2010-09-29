@@ -76,7 +76,7 @@ class rcube_plugin_api
   /**
    * This implements the 'singleton' design pattern
    *
-   * @return object rcube_plugin_api The one and only instance if this class
+   * @return rcube_plugin_api The one and only instance if this class
    */
   static function get_instance()
   {
@@ -189,8 +189,8 @@ class rcube_plugin_api
   /**
    * Allows a plugin object to register a callback for a certain hook
    *
-   * @param string Hook name
-   * @param mixed String with global function name or array($obj, 'methodname')
+   * @param string $hook Hook name
+   * @param mixed  $callback String with global function name or array($obj, 'methodname')
    */
   public function register_hook($hook, $callback)
   {
@@ -214,8 +214,8 @@ class rcube_plugin_api
    * Triggers a plugin hook.
    * This is called from the application and executes all registered handlers
    *
-   * @param string Hook name
-   * @param array Named arguments (key->value pairs)
+   * @param string $hook Hook name
+   * @param array $args Named arguments (key->value pairs)
    * @return array The (probably) altered hook arguments
    */
   public function exec_hook($hook, $args = array())
@@ -243,10 +243,10 @@ class rcube_plugin_api
   /**
    * Let a plugin register a handler for a specific request
    *
-   * @param string Action name (_task=mail&_action=plugin.foo)
-   * @param string Plugin name that registers this action
-   * @param mixed Callback: string with global function name or array($obj, 'methodname')
-   * @param string Task name registered by this plugin
+   * @param string $action Action name (_task=mail&_action=plugin.foo)
+   * @param string $owner Plugin name that registers this action
+   * @param mixed  $callback Callback: string with global function name or array($obj, 'methodname')
+   * @param string $task Task name registered by this plugin
    */
   public function register_action($action, $owner, $callback, $task = null)
   {
@@ -273,7 +273,7 @@ class rcube_plugin_api
    * This method handles requests like _task=mail&_action=plugin.foo
    * It executes the callback function that was registered with the given action.
    *
-   * @param string Action name
+   * @param string $action Action name
    */
   public function exec_action($action)
   {
@@ -291,9 +291,9 @@ class rcube_plugin_api
   /**
    * Register a handler function for template objects
    *
-   * @param string Object name
-   * @param string Plugin name that registers this action
-   * @param mixed Callback: string with global function name or array($obj, 'methodname')
+   * @param string $name Object name
+   * @param string $owner Plugin name that registers this action
+   * @param mixed  $callback Callback: string with global function name or array($obj, 'methodname')
    */
   public function register_handler($name, $owner, $callback)
   {
@@ -317,8 +317,8 @@ class rcube_plugin_api
   /**
    * Register this plugin to be responsible for a specific task
    *
-   * @param string Task name (only characters [a-z0-9_.-] are allowed)
-   * @param string Plugin name that registers this action
+   * @param string $task Task name (only characters [a-z0-9_.-] are allowed)
+   * @param string $owner Plugin name that registers this action
    */
   public function register_task($task, $owner)
   {
@@ -345,6 +345,7 @@ class rcube_plugin_api
   /**
    * Checks whether the given task is registered by a plugin
    *
+   * @param string $task Task name
    * @return boolean True if registered, otherwise false
    */
   public function is_plugin_task($task)
@@ -357,7 +358,7 @@ class rcube_plugin_api
    * Check if a plugin hook is currently processing.
    * Mainly used to prevent loops and recursion.
    *
-   * @param string Hook to check (optional)
+   * @param string $hook Hook to check (optional)
    * @return boolean True if any/the given hook is currently processed, otherwise false
    */
   public function is_processing($hook = null)
@@ -367,6 +368,8 @@ class rcube_plugin_api
   
   /**
    * Include a plugin script file in the current HTML page
+   *
+   * @param string $fn Path to script
    */
   public function include_script($fn)
   {
@@ -378,6 +381,8 @@ class rcube_plugin_api
 
   /**
    * Include a plugin stylesheet in the current HTML page
+   *
+   * @param string $fn Path to stylesheet
    */
   public function include_stylesheet($fn)
   {
@@ -389,6 +394,9 @@ class rcube_plugin_api
   
   /**
    * Save the given HTML content to be added to a template container
+   *
+   * @param string $html HTML content
+   * @param string $container Template container identifier
    */
   public function add_content($html, $container)
   {
@@ -397,6 +405,9 @@ class rcube_plugin_api
   
   /**
    * Callback for template_container hooks
+   *
+   * @param array $attrib
+   * @return array
    */
   private function template_container_hook($attrib)
   {
@@ -406,6 +417,9 @@ class rcube_plugin_api
   
   /**
    * Make the given file name link into the plugins directory
+   *
+   * @param string $fn Filename
+   * @return string 
    */
   private function resource_url($fn)
   {

@@ -83,14 +83,14 @@ abstract class rcube_addressbook
     /**
      * Count number of available contacts in database
      *
-     * @return object rcube_result_set Result set with values for 'count' and 'first'
+     * @return rcube_result_set Result set with values for 'count' and 'first'
      */
     abstract function count();
 
     /**
      * Return the last result set
      *
-     * @return object rcube_result_set Current result set or NULL if nothing selected yet
+     * @return rcube_result_set Current result set or NULL if nothing selected yet
      */
     abstract function get_result();
 
@@ -142,7 +142,7 @@ abstract class rcube_addressbook
      *
      * @param array Assoziative array with save data
      * @param boolean True to check for duplicates first
-     * @return The created record ID on success, False on error
+     * @return mixed The created record ID on success, False on error
      */
     function insert($save_data, $check=false)
     {
@@ -154,7 +154,7 @@ abstract class rcube_addressbook
      *
      * @param mixed Record identifier
      * @param array Assoziative array with save data
-     * @return True on success, False on error
+     * @return boolean True on success, False on error
      */
     function update($id, $save_cols)
     {
@@ -183,7 +183,7 @@ abstract class rcube_addressbook
      * Create a contact group with the given name
      *
      * @param string The group name
-     * @return False on error, array with record props in success
+     * @return mixed False on error, array with record props in success
      */
     function create_group($name)
     {

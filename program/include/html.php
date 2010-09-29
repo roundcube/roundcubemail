@@ -39,7 +39,7 @@ class html
     /**
      * Constructor
      *
-     * @param array Hash array with tag attributes
+     * @param array $attrib Hash array with tag attributes
      */
     public function __construct($attrib = array())
     {
@@ -63,10 +63,10 @@ class html
     /**
      * Generic method to create a HTML tag
      *
-     * @param string Tag name
-     * @param array  Tag attributes as key/value pairs
-     * @param string Optinal Tag content (creates a container tag)
-     * @param array  List with allowed attributes, omit to allow all
+     * @param string $tagname Tag name
+     * @param array  $attrib  Tag attributes as key/value pairs
+     * @param string $content Optinal Tag content (creates a container tag)
+     * @param array  $allowed_attrib List with allowed attributes, omit to allow all
      * @return string The XHTML tag
      */
     public static function tag($tagname, $attrib = array(), $content = null, $allowed_attrib = null)
@@ -88,8 +88,8 @@ class html
     /**
      * Derrived method for <div> containers
      *
-     * @param mixed  Hash array with tag attributes or string with class name
-     * @param string Div content
+     * @param mixed  $attr Hash array with tag attributes or string with class name
+     * @param string $cont Div content
      * @return string HTML code
      * @see html::tag()
      */
@@ -104,8 +104,8 @@ class html
     /**
      * Derrived method for <p> blocks
      *
-     * @param mixed  Hash array with tag attributes or string with class name
-     * @param string Paragraph content
+     * @param mixed  $attr Hash array with tag attributes or string with class name
+     * @param string $cont Paragraph content
      * @return string HTML code
      * @see html::tag()
      */
@@ -120,7 +120,7 @@ class html
     /**
      * Derrived method to create <img />
      *
-     * @param mixed Hash array with tag attributes or string with image source (src)
+     * @param mixed $attr Hash array with tag attributes or string with image source (src)
      * @return string HTML code
      * @see html::tag()
      */
@@ -136,8 +136,8 @@ class html
     /**
      * Derrived method for link tags
      *
-     * @param mixed  Hash array with tag attributes or string with link location (href)
-     * @param string Link content
+     * @param mixed  $attr Hash array with tag attributes or string with link location (href)
+     * @param string $cont Link content
      * @return string HTML code
      * @see html::tag()
      */
@@ -153,8 +153,8 @@ class html
     /**
      * Derrived method for inline span tags
      *
-     * @param mixed  Hash array with tag attributes or string with class name
-     * @param string Tag content
+     * @param mixed  $attr Hash array with tag attributes or string with class name
+     * @param string $cont Tag content
      * @return string HTML code
      * @see html::tag()
      */
@@ -169,8 +169,8 @@ class html
     /**
      * Derrived method for form element labels
      *
-     * @param mixed  Hash array with tag attributes or string with 'for' attrib
-     * @param string Tag content
+     * @param mixed  $attr Hash array with tag attributes or string with 'for' attrib
+     * @param string $cont Tag content
      * @return string HTML code
      * @see html::tag()
      */
@@ -185,7 +185,7 @@ class html
     /**
      * Derrived method to create <iframe></iframe>
      *
-     * @param mixed Hash array with tag attributes or string with frame source (src)
+     * @param mixed $attr Hash array with tag attributes or string with frame source (src)
      * @return string HTML code
      * @see html::tag()
      */
@@ -212,8 +212,8 @@ class html
     /**
      * Create string with attributes
      *
-     * @param array Associative arry with tag attributes
-     * @param array List of allowed attributes
+     * @param array $attrib Associative arry with tag attributes
+     * @param array $allowed List of allowed attributes
      * @return string Valid attribute string
      */
     public static function attrib_string($attrib = array(), $allowed = null)
@@ -270,6 +270,11 @@ class html_inputfield extends html
 	'autocomplete','checked','onchange','onclick','disabled','readonly',
 	'spellcheck','results','maxlength','src');
 
+    /**
+     * Object constructor
+     *
+     * @param array $attrib Associative array with tag attributes
+     */
     public function __construct($attrib = array())
     {
         if (is_array($attrib)) {
@@ -288,8 +293,8 @@ class html_inputfield extends html
     /**
      * Compose input tag
      *
-     * @param string Field value
-     * @param array Additional attributes to override
+     * @param string $value Field value
+     * @param array  $attrib Additional attributes to override
      * @return string HTML output
      */
     public function show($value = null, $attrib = null)
@@ -334,7 +339,7 @@ class html_hiddenfield extends html_inputfield
     /**
      * Constructor
      *
-     * @param array Named tag attributes
+     * @param array $attrib Named tag attributes
      */
     public function __construct($attrib = null)
     {
@@ -346,7 +351,7 @@ class html_hiddenfield extends html_inputfield
     /**
      * Add a hidden field to this instance
      *
-     * @param array Named tag attributes
+     * @param array $attrib Named tag attributes
      */
     public function add($attrib)
     {
@@ -380,8 +385,8 @@ class html_radiobutton extends html_inputfield
     /**
      * Get HTML code for this object
      *
-     * @param string Value of the checked field
-     * @param array Additional attributes to override
+     * @param string $value  Value of the checked field
+     * @param array  $attrib Additional attributes to override
      * @return string HTML output
      */
     public function show($value = '', $attrib = null)
@@ -410,8 +415,8 @@ class html_checkbox extends html_inputfield
     /**
      * Get HTML code for this object
      *
-     * @param string Value of the checked field
-     * @param array Additional attributes to override
+     * @param string $value  Value of the checked field
+     * @param array  $attrib Additional attributes to override
      * @return string HTML output
      */
     public function show($value = '', $attrib = null)
@@ -442,8 +447,8 @@ class html_textarea extends html
     /**
      * Get HTML code for this object
      *
-     * @param string Textbox value
-     * @param array Additional attributes to override
+     * @param string $value  Textbox value
+     * @param array  $attrib Additional attributes to override
      * @return string HTML output
      */
     public function show($value = '', $attrib = null)
@@ -501,8 +506,8 @@ class html_select extends html
     /**
      * Add a new option to this drop-down
      *
-     * @param mixed Option name or array with option names
-     * @param mixed Option value or array with option values
+     * @param mixed $names  Option name or array with option names
+     * @param mixed $values Option value or array with option values
      */
     public function add($names, $values = null)
     {
@@ -520,8 +525,8 @@ class html_select extends html
     /**
      * Get HTML code for this object
      *
-     * @param string Value of the selection option
-     * @param array Additional attributes to override
+     * @param string $select Value of the selection option
+     * @param array  $attrib Additional attributes to override
      * @return string HTML output
      */
     public function show($select = array(), $attrib = null)
@@ -562,7 +567,11 @@ class html_table extends html
     private $rowindex = 0;
     private $colindex = 0;
 
-
+    /**
+     * Constructor
+     *
+     * @param array $attrib Named tag attributes
+     */
     public function __construct($attrib = array())
     {
         $this->attrib = array_merge($attrib, array('summary' => '', 'border' => 0));
@@ -571,8 +580,8 @@ class html_table extends html
     /**
      * Add a table cell
      *
-     * @param array Cell attributes
-     * @param string Cell content
+     * @param array  $attr Cell attributes
+     * @param string $cont Cell content
      */
     public function add($attr, $cont)
     {
@@ -595,8 +604,8 @@ class html_table extends html
     /**
      * Add a table header cell
      *
-     * @param array Cell attributes
-     * @param string Cell content
+     * @param array  $attr Cell attributes
+     * @param string $cont Cell content
      */
     public function add_header($attr, $cont)
     {
@@ -640,7 +649,7 @@ class html_table extends html
     /**
      * Jump to next row
      *
-     * @param array Row attributes
+     * @param array $attr Row attributes
      */
     public function add_row($attr = array())
     {
@@ -654,7 +663,7 @@ class html_table extends html
     /**
      * Set current row attrib
      *
-     * @param array Row attributes
+     * @param array $attr Row attributes
      */
     public function set_row_attribs($attr = array())
     {
@@ -667,7 +676,7 @@ class html_table extends html
     /**
      * Build HTML output of the table data
      *
-     * @param array Table attributes
+     * @param array $attrib Table attributes
      * @return string The final table HTML code
      */
     public function show($attrib = null)

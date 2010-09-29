@@ -151,6 +151,7 @@ function rcmail_temp_gc()
 /**
  * Garbage collector for cache entries.
  * Remove all expired message cache records
+ * @return void
  */
 function rcmail_cache_gc()
   {
@@ -187,7 +188,7 @@ function rcube_error_handler($errno, $errstr)
  * @param  string Input string
  * @param  string Suspected charset of the input string
  * @param  string Target charset to convert to; defaults to RCMAIL_CHARSET
- * @return Converted string
+ * @return string Converted string
  */
 function rcube_charset_convert($str, $from, $to=NULL)
   {
@@ -322,8 +323,8 @@ function rcube_charset_convert($str, $from, $to=NULL)
  * Sometimes charset string is malformed, there are also charset aliases 
  * but we need strict names for charset conversion (specially utf8 class)
  *
- * @param  string  Input charset name
- * @return The validated charset name
+ * @param  string Input charset name
+ * @return string The validated charset name
  */
 function rcube_parse_charset($input)
   {
@@ -427,7 +428,7 @@ function rcube_parse_charset($input)
  * Converts string from standard UTF-7 (RFC 2152) to UTF-8.
  *
  * @param  string  Input string
- * @return The converted string
+ * @return string  The converted string
  */
 function rcube_utf7_to_utf8($str)
 {
@@ -486,7 +487,7 @@ function rcube_utf7_to_utf8($str)
  * Converts string from UTF-16 to UTF-8 (helper for utf-7 to utf-8 conversion)
  *
  * @param  string  Input string
- * @return The converted string
+ * @return string  The converted string
  */
 function rcube_utf16_to_utf8($str)
 {
@@ -517,7 +518,7 @@ function rcube_utf16_to_utf8($str)
  * @param  string  Encoding type: text|html|xml|js|url
  * @param  string  Replace mode for tags: show|replace|remove
  * @param  boolean Convert newlines
- * @return The quoted string
+ * @return string  The quoted string
  */
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
   {
@@ -1087,6 +1088,7 @@ function format_email_recipient($email, $name='')
  * Print or write debug messages
  *
  * @param mixed Debug message or data
+ * @return void
  */
 function console()
   {
@@ -1121,6 +1123,7 @@ function console()
  *
  * @param $name name of log file
  * @param line Line to append
+ * @return void
  */
 function write_log($name, $line)
   {
@@ -1173,6 +1176,8 @@ function write_log($name, $line)
 
 /**
  * Write login data (name, ID, IP address) to the 'userlogins' log file.
+ *
+ * @return void
  */
 function rcmail_log_login()
 {
@@ -1201,6 +1206,7 @@ function rcmail_log_login()
 
 /**
  * @access private
+ * @return mixed
  */
 function rcube_timer()
 {
@@ -1210,6 +1216,7 @@ function rcube_timer()
 
 /**
  * @access private
+ * @return void
  */
 function rcube_print_time($timer, $label='Timer', $dest='console')
 {
@@ -1292,7 +1299,7 @@ function rcmail_mailbox_list($attrib)
  * Return the mailboxlist as html_select object
  *
  * @param array Named parameters
- * @return object html_select HTML drop-down object
+ * @return html_select HTML drop-down object
  */
 function rcmail_mailbox_select($p = array())
 {
@@ -1319,6 +1326,7 @@ function rcmail_mailbox_select($p = array())
 /**
  * Create a hierarchical array of the mailbox list
  * @access private
+ * @return void
  */
 function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 {
@@ -1354,6 +1362,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 /**
  * Return html for a structured list &lt;ul&gt; for the mailbox tree
  * @access private
+ * @return string
  */
 function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel=0)
 {
@@ -1452,6 +1461,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
 /**
  * Return html for a flat list <select> for the mailbox tree
  * @access private
+ * @return string
  */
 function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0)
   {
@@ -1485,6 +1495,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
 /**
  * Return internal name for the given folder if it matches the configured special folders
  * @access private
+ * @return string
  */
 function rcmail_folder_classname($folder_id)
 {
@@ -1522,6 +1533,7 @@ function rcmail_localize_foldername($name)
  * Output HTML editor scripts
  *
  * @param string Editor mode
+ * @return void
  */
 function rcube_html_editor($mode='')
 {
@@ -1552,6 +1564,7 @@ function rcube_html_editor($mode='')
  *
  * @param integer HTTPS port number
  * @param boolean Enables 'use_https' option checking
+ * @return boolean
  */
 function rcube_https_check($port=null, $use_https=true)
 {
@@ -1570,7 +1583,13 @@ function rcube_https_check($port=null, $use_https=true)
 }
 
 
-// for backward compatibility
+/**
+ * For backward compatibility.
+ *
+ * @global rcmail $RCMAIL
+ * @param string $var_name Variable name.
+ * @return void
+ */
 function rcube_sess_unset($var_name=null)
 {
   global $RCMAIL;
@@ -1579,7 +1598,13 @@ function rcube_sess_unset($var_name=null)
 }
 
 
-// Replaces hostname variables
+
+/**
+ * Replaces hostname variables
+ *
+ * @param string $name Hostname
+ * @return string
+ */
 function rcube_parse_host($name)
 {
   // %n - host
@@ -1598,6 +1623,10 @@ function rcube_parse_host($name)
 
 /**
  * E-mail address validation
+ *
+ * @param string $email Email address
+ * @param boolean $dns_check True to check dns
+ * @return boolean
  */
 function check_email($email, $dns_check=true)
 {
@@ -1723,6 +1752,7 @@ function raise_error($arg=array(), $log=false, $terminate=false)
  * Report error according to configured debug_level
  *
  * @param array Named parameters
+ * @return void
  * @see raise_error()
  */
 function log_bug($arg_arr)

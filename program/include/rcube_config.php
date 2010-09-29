@@ -130,7 +130,7 @@ class rcube_config
      * Read configuration from a file
      * and merge with the already stored config values
      *
-     * @param string Full path to the config file to be loaded
+     * @param string $fpath Full path to the config file to be loaded
      * @return booelan True on success, false on failure
      */
     public function load_from_file($fpath)
@@ -150,8 +150,8 @@ class rcube_config
     /**
      * Getter for a specific config parameter
      *
-     * @param  string Parameter name
-     * @param  mixed  Default value if not set
+     * @param  string $name Parameter name
+     * @param  mixed  $def  Default value if not set
      * @return mixed  The requested config value
      */
     public function get($name, $def = null)
@@ -163,8 +163,8 @@ class rcube_config
     /**
      * Setter for a config parameter
      *
-     * @param string Parameter name
-     * @param mixed  Parameter value
+     * @param string $name  Parameter name
+     * @param mixed  $value Parameter value
      */
     public function set($name, $value)
     {
@@ -175,7 +175,7 @@ class rcube_config
     /**
      * Override config options with the given values (eg. user prefs)
      *
-     * @param array Hash array with config props to merge over
+     * @param array $prefs Hash array with config props to merge over
      */
     public function merge($prefs)
     {
@@ -187,7 +187,7 @@ class rcube_config
      * Merge the given prefs over the current config
      * and make sure that they survive further merging.
      *
-     * @param array  Hash array with user prefs
+     * @param array $prefs Hash array with user prefs
      */
     public function set_user_prefs($prefs)
     {
@@ -210,7 +210,7 @@ class rcube_config
     /**
      * Return requested DES crypto key.
      *
-     * @param string Crypto key name
+     * @param string $key Crypto key name
      * @return string Crypto key
      */
     public function get_crypto_key($key)
@@ -274,8 +274,8 @@ class rcube_config
     /**
      * Return the mail domain configured for the given host
      *
-     * @param string  IMAP host
-     * @param boolean If true, domain name will be converted to IDN ASCII
+     * @param string  $host   IMAP host
+     * @param boolean $encode If true, domain name will be converted to IDN ASCII
      * @return string Resolved SMTP host
      */
     public function mail_domain($host, $encode=true)

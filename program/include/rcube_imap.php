@@ -40,8 +40,19 @@ class rcube_imap
     public $delimiter = NULL;
     public $threading = false;
     public $fetch_add_headers = '';
-    public $conn; // rcube_imap_generic object
 
+    /**
+     * Instance of rcube_imap_generic
+     *
+     * @var rcube_imap_generic
+     */
+    public $conn;
+
+    /**
+     * Instance of rcube_mdb2
+     *
+     * @var rcube_mdb2
+     */
     private $db;
     private $root_ns = '';
     private $mailbox = 'INBOX';
@@ -83,11 +94,11 @@ class rcube_imap
     /**
      * Connect to an IMAP server
      *
-     * @param  string   Host to connect
-     * @param  string   Username for IMAP account
-     * @param  string   Password for IMAP account
-     * @param  number   Port to connect to
-     * @param  string   SSL schema (either ssl or tls) or null if plain connection
+     * @param  string   $host    Host to connect
+     * @param  string   $user    Username for IMAP account
+     * @param  string   $pass    Password for IMAP account
+     * @param  integer  $port    Port to connect to
+     * @param  string   $use_ssl SSL schema (either ssl or tls) or null if plain connection
      * @return boolean  TRUE on success, FALSE on failure
      * @access public
      */
@@ -180,6 +191,8 @@ class rcube_imap
 
     /**
      * Set options to be used in rcube_imap_generic::connect()
+     *
+     * @param array $opt Options array
      */
     function set_options($opt)
     {
@@ -192,7 +205,7 @@ class rcube_imap
      * Only folders within this root folder will be displayed
      * and all folder paths will be translated using this folder name
      *
-     * @param  string   Root folder
+     * @param  string   $root Root folder
      * @access public
      */
     function set_rootdir($root)
@@ -213,7 +226,7 @@ class rcube_imap
      *
      * This will be used for message decoding if a charset specification is not available
      *
-     * @param  string   Charset string
+     * @param  string $cs Charset string
      * @access public
      */
     function set_charset($cs)
@@ -225,7 +238,7 @@ class rcube_imap
     /**
      * This list of folders will be listed above all other folders
      *
-     * @param  array  Indexed list of folder names
+     * @param  array $arr Indexed list of folder names
      * @access public
      */
     function set_default_mailboxes($arr)
@@ -245,7 +258,7 @@ class rcube_imap
      *
      * All operations will be perfomed on this mailbox/folder
      *
-     * @param  string  Mailbox/Folder name
+     * @param  string $new_mbox Mailbox/Folder name
      * @access public
      */
     function set_mailbox($new_mbox)
@@ -265,7 +278,7 @@ class rcube_imap
     /**
      * Set internal list page
      *
-     * @param  number  Page number to list
+     * @param  number $page Page number to list
      * @access public
      */
     function set_page($page)
@@ -277,7 +290,7 @@ class rcube_imap
     /**
      * Set internal page size
      *
-     * @param  number  Number of messages to display on one page
+     * @param  number $size Number of messages to display on one page
      * @access public
      */
     function set_pagesize($size)
@@ -344,7 +357,7 @@ class rcube_imap
     /**
      * Returns the IMAP server's capability
      *
-     * @param   string  Capability name
+     * @param   string  $cap Capability name
      * @return  mixed   Capability value or TRUE if supported, FALSE if not
      * @access  public
      */
@@ -357,7 +370,7 @@ class rcube_imap
     /**
      * Sets threading flag to the best supported THREAD algorithm
      *
-     * @param  boolean  TRUE to enable and FALSE
+     * @param  boolean  $enable TRUE to enable and FALSE
      * @return string   Algorithm or false if THREAD is not supported
      * @access public
      */
@@ -382,7 +395,7 @@ class rcube_imap
      * Checks the PERMANENTFLAGS capability of the current mailbox
      * and returns true if the given flag is supported by the IMAP server
      *
-     * @param   string  Permanentflag name
+     * @param   string  $flag Permanentflag name
      * @return  mixed   True if this flag is supported
      * @access  public
      */
@@ -415,11 +428,11 @@ class rcube_imap
     /**
      * Get message count for a specific mailbox
      *
-     * @param  string  Mailbox/folder name
-     * @param  string  Mode for count [ALL|THREADS|UNSEEN|RECENT]
-     * @param  boolean Force reading from server and update cache
-     * @param  boolean Enables storing folder status info (max UID/count),
-     *                 required for mailbox_status()
+     * @param  string  $mbox_name Mailbox/folder name
+     * @param  string  $mode      Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param  boolean $force     Force reading from server and update cache
+     * @param  boolean $status    Enables storing folder status info (max UID/count),
+     *                            required for mailbox_status()
      * @return int     Number of messages
      * @access public
      */
@@ -433,6 +446,12 @@ class rcube_imap
     /**
      * Private method for getting nr of messages
      *
+     * @param string  $mailbox Mailbox name
+     * @param string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param boolean $force   Force reading from server and update cache
+     * @param boolean $status  Enables storing folder status info (max UID/count),
+     *                         required for mailbox_status()
+     * @return int Number of messages
      * @access  private
      * @see     rcube_imap::messagecount()
      */
@@ -513,6 +532,8 @@ class rcube_imap
     /**
      * Private method for getting nr of threads
      *
+     * @param string $mailbox
+     * @param int    $msg_count
      * @access  private
      * @see     rcube_imap::messagecount()
      */
@@ -534,11 +555,11 @@ class rcube_imap
      * Public method for listing headers
      * convert mailbox name with root dir first
      *
-     * @param   string   Mailbox/folder name
-     * @param   int      Current page to list
-     * @param   string   Header field to sort by
-     * @param   string   Sort order [ASC|DESC]
-     * @param   boolean  Number of slice items to extract from result array
+     * @param   string   $mbox_name  Mailbox/folder name
+     * @param   int      $page       Current page to list
+     * @param   string   $sort_field Header field to sort by
+     * @param   string   $sort_order Sort order [ASC|DESC]
+     * @param   int      $slice      Number of slice items to extract from result array
      * @return  array    Indexed array with message header objects
      * @access  public
      */
@@ -552,6 +573,12 @@ class rcube_imap
     /**
      * Private method for listing message headers
      *
+     * @param   string   $mailbox    Mailbox name
+     * @param   int      $page       Current page to list
+     * @param   string   $sort_field Header field to sort by
+     * @param   string   $sort_order Sort order [ASC|DESC]
+     * @param   int      $slice      Number of slice items to extract from result array
+     * @return  array    Indexed array with message header objects
      * @access  private
      * @see     rcube_imap::list_headers
      */
@@ -676,6 +703,13 @@ class rcube_imap
     /**
      * Private method for listing message headers using threads
      *
+     * @param   string   $mailbox    Mailbox/folder name
+     * @param   int      $page       Current page to list
+     * @param   string   $sort_field Header field to sort by
+     * @param   string   $sort_order Sort order [ASC|DESC]
+     * @param   boolean  $recursive  
+     * @param   int      $slice      Number of slice items to extract from result array
+     * @return  array    Indexed array with message header objects
      * @access  private
      * @see     rcube_imap::list_headers
      */
@@ -703,7 +737,7 @@ class rcube_imap
     /**
      * Private method for fetching threads data
      *
-     * @param   string   Mailbox/folder name
+     * @param   string   $mailbox Mailbox/folder name
      * @return  array    Array with thread data
      * @access  private
      */
@@ -732,6 +766,13 @@ class rcube_imap
     /**
      * Private method for fetching threaded messages headers
      *
+     * @param string  $mailbox Mailbox name
+     * @param string  $thread_tree
+     * @param int     $msg_depth
+     * @param boolean $has_children
+     * @param int     $msg_index
+     * @param int     $page
+     * @param int     $slice
      * @access  private
      */
     private function _fetch_thread_headers($mailbox, $thread_tree, $msg_depth, $has_children, $msg_index, $page, $slice=0)
@@ -779,9 +820,9 @@ class rcube_imap
      * Private method for setting threaded messages flags:
      * depth, has_children and unread_children
      *
-     * @param  array   Reference to headers array indexed by message ID
-     * @param  array   Array of messages depth indexed by message ID
-     * @param  array   Array of messages children flags indexed by message ID
+     * @param  array  $headers      Reference to headers array indexed by message ID
+     * @param  array  $msg_depth    Array of messages depth indexed by message ID
+     * @param  array  $msg_children Array of messages children flags indexed by message ID
      * @return array   Message headers array indexed by message ID
      * @access private
      */
@@ -810,11 +851,11 @@ class rcube_imap
     /**
      * Private method for listing a set of message headers (search results)
      *
-     * @param   string   Mailbox/folder name
-     * @param   int      Current page to list
-     * @param   string   Header field to sort by
-     * @param   string   Sort order [ASC|DESC]
-     * @param   boolean  Number of slice items to extract from result array
+     * @param   string   $mailbox    Mailbox/folder name
+     * @param   int      $page       Current page to list
+     * @param   string   $sort_field Header field to sort by
+     * @param   string   $sort_order Sort order [ASC|DESC]
+     * @param   int  $slice      Number of slice items to extract from result array
      * @return  array    Indexed array with message header objects
      * @access  private
      * @see     rcube_imap::list_header_set()
@@ -943,11 +984,11 @@ class rcube_imap
     /**
      * Private method for listing a set of threaded message headers (search results)
      *
-     * @param   string   Mailbox/folder name
-     * @param   int      Current page to list
-     * @param   string   Header field to sort by
-     * @param   string   Sort order [ASC|DESC]
-     * @param   boolean  Number of slice items to extract from result array
+     * @param   string   $mailbox    Mailbox/folder name
+     * @param   int      $page       Current page to list
+     * @param   string   $sort_field Header field to sort by
+     * @param   string   $sort_order Sort order [ASC|DESC]
+     * @param   int      $slice      Number of slice items to extract from result array
      * @return  array    Indexed array with message header objects
      * @access  private
      * @see     rcube_imap::list_header_set()
@@ -985,8 +1026,8 @@ class rcube_imap
     /**
      * Helper function to get first and last index of the requested set
      *
-     * @param  int     message count
-     * @param  mixed   page number to show, or string 'all'
+     * @param  int     $max  message count
+     * @param  mixed   $page page number to show, or string 'all'
      * @return array   array with two values: first index, last index
      * @access private
      */
@@ -1084,7 +1125,7 @@ class rcube_imap
      * We compare the maximum UID to determine the number of
      * new messages because the RECENT flag is not reliable.
      *
-     * @param string Mailbox/folder name
+     * @param string $mbox_name Mailbox/folder name
      * @return int   Folder status
      */
     function mailbox_status($mbox_name = null)
@@ -1116,9 +1157,9 @@ class rcube_imap
      * Stores folder statistic data in session
      * @TODO: move to separate DB table (cache?)
      *
-     * @param string Mailbox name
-     * @param string Data name
-     * @param mixed  Data value
+     * @param string $mbox_name Mailbox name
+     * @param string $name      Data name
+     * @param mixed  $data      Data value
      */
     private function set_folder_stats($mbox_name, $name, $data)
     {
@@ -1129,7 +1170,7 @@ class rcube_imap
     /**
      * Gets folder statistic data
      *
-     * @param string Mailbox name
+     * @param string $mbox_name Mailbox name
      * @return array Stats data
      */
     private function get_folder_stats($mbox_name)
@@ -1144,9 +1185,9 @@ class rcube_imap
     /**
      * Return sorted array of message IDs (not UIDs)
      *
-     * @param string Mailbox to get index from
-     * @param string Sort column
-     * @param string Sort order [ASC, DESC]
+     * @param string $mbox_name  Mailbox to get index from
+     * @param string $sort_field Sort column
+     * @param string $sort_order Sort order [ASC, DESC]
      * @return array Indexed array with message ids
      */
     function message_index($mbox_name='', $sort_field=NULL, $sort_order=NULL)
@@ -1257,9 +1298,9 @@ class rcube_imap
     /**
      * Return sorted array of threaded message IDs (not UIDs)
      *
-     * @param string Mailbox to get index from
-     * @param string Sort column
-     * @param string Sort order [ASC, DESC]
+     * @param string $mbox_name  Mailbox to get index from
+     * @param string $sort_field Sort column
+     * @param string $sort_order Sort order [ASC, DESC]
      * @return array Indexed array with message IDs
      */
     function thread_index($mbox_name='', $sort_field=NULL, $sort_order=NULL)
@@ -1303,10 +1344,10 @@ class rcube_imap
     /**
      * Return array of threaded messages (all, not only roots)
      *
-     * @param string Mailbox to get index from
-     * @param array  Threaded messages array (see _fetch_threads())
-     * @param array  Message IDs if we know what we need (e.g. search result)
-     *               for better performance
+     * @param string $mailbox     Mailbox to get index from
+     * @param array  $thread_tree Threaded messages array (see _fetch_threads())
+     * @param array  $ids         Message IDs if we know what we need (e.g. search result)
+     *                            for better performance
      * @return array Indexed array with message IDs
      *
      * @access private
@@ -1336,6 +1377,7 @@ class rcube_imap
 
 
     /**
+     * @param string $mailbox Mailbox name
      * @access private
      */
     private function sync_header_index($mailbox)
@@ -1430,10 +1472,10 @@ class rcube_imap
     /**
      * Invoke search request to IMAP server
      *
-     * @param  string  mailbox name to search in
-     * @param  string  search string
-     * @param  string  search string charset
-     * @param  string  header field to sort by
+     * @param  string  $mbox_name  mailbox name to search in
+     * @param  string  $str        search string
+     * @param  string  $charset    search string charset
+     * @param  string  $sort_field header field to sort by
      * @return array   search results as list of message ids
      * @access public
      */
@@ -1456,6 +1498,10 @@ class rcube_imap
     /**
      * Private search method
      *
+     * @param string $mailbox    Mailbox name
+     * @param string $criteria   Search criteria
+     * @param string $charset    Charset
+     * @param string $sort_field Sorting field
      * @return array   search results as list of message ids
      * @access private
      * @see rcube_imap::search()
@@ -1532,9 +1578,9 @@ class rcube_imap
      * Direct (real and simple) SEARCH request to IMAP server,
      * without result sorting and caching
      *
-     * @param  string  Mailbox name to search in
-     * @param  string  Search string
-     * @param  boolean True if UIDs should be returned
+     * @param  string  $mbox_name Mailbox name to search in
+     * @param  string  $str       Search string
+     * @param  boolean $ret_uid   True if UIDs should be returned
      * @return array   Search results as list of message IDs or UIDs
      * @access public
      */
@@ -1552,9 +1598,9 @@ class rcube_imap
     /**
      * Converts charset of search criteria string
      *
-     * @param  string  Search string
-     * @param  string  Original charset
-     * @param  string  Destination charset (default US-ASCII)
+     * @param  string  $str          Search string
+     * @param  string  $charset      Original charset
+     * @param  string  $dest_charset Destination charset (default US-ASCII)
      * @return string  Search string
      * @access private
      */
@@ -1585,9 +1631,9 @@ class rcube_imap
     /**
      * Sort thread
      *
-     * @param string Mailbox name
-     * @param  array Unsorted thread tree (rcube_imap_generic::thread() result)
-     * @param  array Message IDs if we know what we need (e.g. search result)
+     * @param string $mailbox     Mailbox name
+     * @param  array $thread_tree Unsorted thread tree (rcube_imap_generic::thread() result)
+     * @param  array $ids         Message IDs if we know what we need (e.g. search result)
      * @return array Sorted roots IDs
      * @access private
      */
@@ -1632,8 +1678,8 @@ class rcube_imap
     /**
      * THREAD=REFS sorting implementation
      *
-     * @param  array   Thread tree array (message identifiers as keys)
-     * @param  array   Array of sorted message identifiers
+     * @param  array $tree  Thread tree array (message identifiers as keys)
+     * @param  array $index Array of sorted message identifiers
      * @return array   Array of sorted roots messages
      * @access private
      */
@@ -1693,6 +1739,7 @@ class rcube_imap
     /**
      * Check if the given message ID is part of the current search set
      *
+     * @param string $msgid Message id
      * @return boolean True on match or if no search request is stored
      */
     function in_searchset($msgid)
@@ -1711,10 +1758,10 @@ class rcube_imap
     /**
      * Return message headers object of a specific message
      *
-     * @param int     Message ID
-     * @param string  Mailbox to read from
-     * @param boolean True if $id is the message UID
-     * @param boolean True if we need also BODYSTRUCTURE in headers
+     * @param int     $id        Message ID
+     * @param string  $mbox_name Mailbox to read from
+     * @param boolean $is_uid    True if $id is the message UID
+     * @param boolean $bodystr   True if we need also BODYSTRUCTURE in headers
      * @return object Message headers representation
      */
     function get_headers($id, $mbox_name=NULL, $is_uid=true, $bodystr=false)
@@ -1745,8 +1792,8 @@ class rcube_imap
      * Fetch body structure from the IMAP server and build
      * an object structure similar to the one generated by PEAR::Mail_mimeDecode
      *
-     * @param int Message UID to fetch
-     * @param string Message BODYSTRUCTURE string (optional)
+     * @param int    $uid           Message UID to fetch
+     * @param string $structure_str Message BODYSTRUCTURE string (optional)
      * @return object rcube_message_part Message part tree or False on failure
      */
     function &get_structure($uid, $structure_str='')
@@ -1817,6 +1864,9 @@ class rcube_imap
     /**
      * Build message part object
      *
+     * @param array  $part
+     * @param int    $count
+     * @param string $parent
      * @access private
      */
     function &_structure_part($part, $count=0, $parent='', $mime_headers=null)
@@ -2004,8 +2054,8 @@ class rcube_imap
      * Set attachment filename from message part structure
      *
      * @access private
-     * @param  object rcube_message_part Part object
-     * @param  string Part's raw headers
+     * @param  rcube_message_part $part    Part object
+     * @param  string             $headers Part's raw headers
      */
     private function _set_part_filename(&$part, $headers=null)
     {
@@ -2125,7 +2175,7 @@ class rcube_imap
      * Get charset name from message structure (first part)
      *
      * @access private
-     * @param  array  Message structure
+     * @param  array $structure Message structure
      * @return string Charset name
      */
     function _structure_charset($structure)
@@ -2141,11 +2191,11 @@ class rcube_imap
     /**
      * Fetch message body of a specific message from the server
      *
-     * @param  int    Message UID
-     * @param  string Part number
-     * @param  object rcube_message_part Part object created by get_structure()
-     * @param  mixed  True to print part, ressource to write part contents in
-     * @param  resource File pointer to save the message part
+     * @param  int                $uid    Message UID
+     * @param  string             $part   Part number
+     * @param  rcube_message_part $o_part Part object created by get_structure()
+     * @param  mixed              $print  True to print part, ressource to write part contents in
+     * @param  resource           $fp     File pointer to save the message part
      * @return string Message/part body if not printed
      */
     function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL)
@@ -2191,8 +2241,8 @@ class rcube_imap
     /**
      * Fetch message body of a specific message from the server
      *
-     * @param  int    Message UID
-     * @return string Message/part body
+     * @param  int    $uid  Message UID
+     * @return string $part Message/part body
      * @see    rcube_imap::get_message_part()
      */
     function &get_body($uid, $part=1)
@@ -2206,7 +2256,7 @@ class rcube_imap
     /**
      * Returns the whole message source as string
      *
-     * @param int  Message UID
+     * @param int $uid Message UID
      * @return string Message source string
      */
     function &get_raw_body($uid)
@@ -2218,7 +2268,7 @@ class rcube_imap
     /**
      * Returns the message headers as string
      *
-     * @param int  Message UID
+     * @param int $uid  Message UID
      * @return string Message headers string
      */
     function &get_raw_headers($uid)
@@ -2230,7 +2280,7 @@ class rcube_imap
     /**
      * Sends the whole message source to stdout
      *
-     * @param int  Message UID
+     * @param int $uid Message UID
      */
     function print_raw_body($uid)
     {
@@ -2241,10 +2291,10 @@ class rcube_imap
     /**
      * Set message flag to one or several messages
      *
-     * @param mixed   Message UIDs as array or comma-separated string, or '*'
-     * @param string  Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
-     * @param string  Folder name
-     * @param boolean True to skip message cache clean up
+     * @param mixed   $uids       Message UIDs as array or comma-separated string, or '*'
+     * @param string  $flag       Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
+     * @param string  $mbox_name  Folder name
+     * @param boolean $skip_cache True to skip message cache clean up
      * @return int    Number of flagged messages, -1 on failure
      */
     function set_flag($uids, $flag, $mbox_name=NULL, $skip_cache=false)
@@ -2284,9 +2334,9 @@ class rcube_imap
     /**
      * Remove message flag for one or several messages
      *
-     * @param mixed  Message UIDs as array or comma-separated string, or '*'
-     * @param string Flag to unset: SEEN, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
-     * @param string Folder name
+     * @param mixed  $uids      Message UIDs as array or comma-separated string, or '*'
+     * @param string $flag      Flag to unset: SEEN, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
+     * @param string $mbox_name Folder name
      * @return int   Number of flagged messages, -1 on failure
      * @see set_flag
      */
@@ -2299,10 +2349,10 @@ class rcube_imap
     /**
      * Append a mail message (source) to a specific mailbox
      *
-     * @param string   Target mailbox
-     * @param string   The message source string or filename
-     * @param string   Headers string if $message contains only the body
-     * @param boolean  True if $message is a filename
+     * @param string  $mbox_name Target mailbox
+     * @param string  $message   The message source string or filename
+     * @param string  $headers   Headers string if $message contains only the body
+     * @param boolean $is_file   True if $message is a filename
      *
      * @return boolean True on success, False on error
      */
@@ -2330,9 +2380,9 @@ class rcube_imap
     /**
      * Move a message from one mailbox to another
      *
-     * @param mixed  Message UIDs as array or comma-separated string, or '*'
-     * @param string Target mailbox
-     * @param string Source mailbox
+     * @param mixed  $uids      Message UIDs as array or comma-separated string, or '*'
+     * @param string $to_mbox   Target mailbox
+     * @param string $from_mbox Source mailbox
      * @return boolean True on success, False on error
      */
     function move_message($uids, $to_mbox, $from_mbox='')
@@ -2411,9 +2461,9 @@ class rcube_imap
     /**
      * Copy a message from one mailbox to another
      *
-     * @param mixed  Message UIDs as array or comma-separated string, or '*'
-     * @param string Target mailbox
-     * @param string Source mailbox
+     * @param mixed  $uids      Message UIDs as array or comma-separated string, or '*'
+     * @param string $to_mbox   Target mailbox
+     * @param string $from_mbox Source mailbox
      * @return boolean True on success, False on error
      */
     function copy_message($uids, $to_mbox, $from_mbox='')
@@ -2452,8 +2502,8 @@ class rcube_imap
     /**
      * Mark messages as deleted and expunge mailbox
      *
-     * @param mixed  Message UIDs as array or comma-separated string, or '*'
-     * @param string Source mailbox
+     * @param mixed  $uids      Message UIDs as array or comma-separated string, or '*'
+     * @param string $mbox_name Source mailbox
      * @return boolean True on success, False on error
      */
     function delete_message($uids, $mbox_name='')
@@ -2506,7 +2556,7 @@ class rcube_imap
     /**
      * Clear all messages in a specific mailbox
      *
-     * @param string Mailbox name
+     * @param string $mbox_name Mailbox name
      * @return int Above 0 on success
      */
     function clear_mailbox($mbox_name=NULL)
@@ -2535,8 +2585,8 @@ class rcube_imap
     /**
      * Send IMAP expunge command and clear cache
      *
-     * @param string Mailbox name
-     * @param boolean False if cache should not be cleared
+     * @param string  $mbox_name   Mailbox name
+     * @param boolean $clear_cache False if cache should not be cleared
      * @return boolean True on success
      */
     function expunge($mbox_name='', $clear_cache=true)
@@ -2549,9 +2599,9 @@ class rcube_imap
     /**
      * Send IMAP expunge command and clear cache
      *
-     * @param string 	 Mailbox name
-     * @param boolean  False if cache should not be cleared
-     * @param mixed    Message UIDs as array or comma-separated string, or '*'
+     * @param string  $mailbox     Mailbox name
+     * @param boolean $clear_cache False if cache should not be cleared
+     * @param mixed   $uids        Message UIDs as array or comma-separated string, or '*'
      * @return boolean True on success
      * @access private
      * @see rcube_imap::expunge()
@@ -2577,8 +2627,8 @@ class rcube_imap
     /**
      * Parse message UIDs input
      *
-     * @param mixed  UIDs array or comma-separated list or '*' or '1:*'
-     * @param string Mailbox name
+     * @param mixed  $uids    UIDs array or comma-separated list or '*' or '1:*'
+     * @param string $mailbox Mailbox name
      * @return array Two elements array with UIDs converted to list and ALL flag
      * @access private
      */
@@ -2620,8 +2670,8 @@ class rcube_imap
     /**
      * Translate UID to message ID
      *
-     * @param int    Message UID
-     * @param string Mailbox name
+     * @param int    $uid       Message UID
+     * @param string $mbox_name Mailbox name
      * @return int   Message ID
      */
     function get_id($uid, $mbox_name=NULL)
@@ -2634,8 +2684,8 @@ class rcube_imap
     /**
      * Translate message number to UID
      *
-     * @param int    Message ID
-     * @param string Mailbox name
+     * @param int    $id        Message ID
+     * @param string $mbox_name Mailbox name
      * @return int   Message UID
      */
     function get_uid($id,$mbox_name=NULL)
@@ -2655,8 +2705,8 @@ class rcube_imap
      *
      * Converts mailbox name with root dir first
      *
-     * @param   string  Optional root folder
-     * @param   string  Optional filter for mailbox listing
+     * @param   string  $root   Optional root folder
+     * @param   string  $filter Optional filter for mailbox listing
      * @return  array   List of mailboxes/folders
      * @access  public
      */
@@ -2685,6 +2735,8 @@ class rcube_imap
     /**
      * Private method for mailbox listing
      *
+     * @param   string  $root   Optional root folder
+     * @param   string  $filter Optional filter for mailbox listing
      * @return  array   List of mailboxes/folders
      * @see     rcube_imap::list_mailboxes()
      * @access  private
@@ -2723,8 +2775,8 @@ class rcube_imap
     /**
      * Get a list of all folders available on the IMAP server
      *
-     * @param string IMAP root dir
-     * @param string Optional filter for mailbox listing
+     * @param string $root   IMAP root dir
+     * @param string $filter Optional filter for mailbox listing
      * @return array Indexed array with folder names
      */
     function list_unsubscribed($root='', $filter='*')
@@ -2780,7 +2832,7 @@ class rcube_imap
     /**
      * Subscribe to a specific mailbox(es)
      *
-     * @param array Mailbox name(s)
+     * @param array $a_mboxes Mailbox name(s)
      * @return boolean True on success
      */
     function subscribe($a_mboxes)
@@ -2796,7 +2848,7 @@ class rcube_imap
     /**
      * Unsubscribe mailboxes
      *
-     * @param array Mailbox name(s)
+     * @param array $a_mboxes Mailbox name(s)
      * @return boolean True on success
      */
     function unsubscribe($a_mboxes)
@@ -2812,8 +2864,8 @@ class rcube_imap
     /**
      * Create a new mailbox on the server and register it in local cache
      *
-     * @param string  New mailbox name (as utf-7 string)
-     * @param boolean True if the new mailbox should be subscribed
+     * @param string  $name      New mailbox name (as utf-7 string)
+     * @param boolean $subscribe True if the new mailbox should be subscribed
      * @param string  Name of the created mailbox, false on error
      */
     function create_mailbox($name, $subscribe=false)
@@ -2836,8 +2888,8 @@ class rcube_imap
     /**
      * Set a new name to an existing mailbox
      *
-     * @param string Mailbox to rename (as utf-7 string)
-     * @param string New mailbox name (as utf-7 string)
+     * @param string $mbox_name Mailbox to rename (as utf-7 string)
+     * @param string $new_name  New mailbox name (as utf-7 string)
      * @return string Name of the renames mailbox, False on error
      */
     function rename_mailbox($mbox_name, $new_name)
@@ -2889,7 +2941,7 @@ class rcube_imap
     /**
      * Remove mailboxes from server
      *
-     * @param string Mailbox name(s) string/array
+     * @param string|array $mbox_name sMailbox name(s) string/array
      * @return boolean True on success
      */
     function delete_mailbox($mbox_name)
@@ -2956,8 +3008,8 @@ class rcube_imap
     /**
      * Checks if folder exists and is subscribed
      *
-     * @param string   Folder name
-     * @param boolean  Enable subscription checking
+     * @param string   $mbox_name    Folder name
+     * @param boolean  $subscription Enable subscription checking
      * @return boolean TRUE or FALSE
      */
     function mailbox_exists($mbox_name, $subscription=false)
@@ -2990,8 +3042,8 @@ class rcube_imap
     /**
      * Modify folder name for input/output according to root dir and namespace
      *
-     * @param string  Folder name
-     * @param string  Mode
+     * @param string  $mbox_name Folder name
+     * @param string  $mode      Mode
      * @return string Folder name
      */
     function mod_mailbox($mbox_name, $mode='in')
@@ -3015,6 +3067,9 @@ class rcube_imap
      * --------------------------------*/
 
     /**
+     * Enable or disable caching
+     *
+     * @param boolean $set Flag
      * @access public
      */
     function set_caching($set)
@@ -3026,6 +3081,10 @@ class rcube_imap
     }
 
     /**
+     * Returns cached value
+     *
+     * @param string $key Cache key
+     * @return mixed
      * @access public
      */
     function get_cache($key)
@@ -3039,6 +3098,10 @@ class rcube_imap
     }
 
     /**
+     * Update cache
+     *
+     * @param string $key  Cache key
+     * @param mixed  $data Data
      * @access private
      */
     private function update_cache($key, $data)
@@ -3049,6 +3112,8 @@ class rcube_imap
     }
 
     /**
+     * Writes the cache
+     *
      * @access private
      */
     private function write_cache()
@@ -3062,6 +3127,9 @@ class rcube_imap
     }
 
     /**
+     * Clears the cache.
+     *
+     * @param string $key Cache key
      * @access public
      */
     function clear_cache($key=NULL)
@@ -3085,6 +3153,10 @@ class rcube_imap
     }
 
     /**
+     * Returns cached entry
+     *
+     * @param string $key Cache key
+     * @return mixed Cached value
      * @access private
      */
     private function _read_cache_record($key)
@@ -3110,6 +3182,10 @@ class rcube_imap
     }
 
     /**
+     * Writes single cache record
+     *
+     * @param string $key  Cache key
+     * @param mxied  $data Cache value
      * @access private
      */
     private function _write_cache_record($key, $data)
@@ -3153,6 +3229,9 @@ class rcube_imap
     }
 
     /**
+     * Clears cache for single record
+     *
+     * @param string $ket Cache key
      * @access private
      */
     private function _clear_cache_record($key)
@@ -3176,8 +3255,8 @@ class rcube_imap
     /**
      * Checks if the cache is up-to-date
      *
-     * @param string Mailbox name
-     * @param string Internal cache key
+     * @param string $mailbox   Mailbox name
+     * @param string $cache_key Internal cache key
      * @return int   Cache status: -3 = off, -2 = incomplete, -1 = dirty, 1 = OK
      */
     private function check_cache_status($mailbox, $cache_key)
@@ -3232,6 +3311,11 @@ class rcube_imap
     }
 
     /**
+     * @param string $key Cache key
+     * @param string $from
+     * @param string $to
+     * @param string $sort_field
+     * @param string $sort_order
      * @access private
      */
     private function get_message_cache($key, $from, $to, $sort_field, $sort_order)
@@ -3271,6 +3355,9 @@ class rcube_imap
     }
 
     /**
+     * @param string $key Cache key
+     * @param int    $uid User id
+     * @return mixed
      * @access private
      */
     private function &get_cached_message($key, $uid)
@@ -3302,6 +3389,10 @@ class rcube_imap
     }
 
     /**
+     * @param string  $key   Cache key
+     * @param boolean $force Force flag
+     * @param string  $sort_field
+     * @param string  $sort_order
      * @access private
      */
     private function get_message_cache_index($key, $sort_field='idx', $sort_order='ASC')
@@ -3439,6 +3530,8 @@ class rcube_imap
     }
 
     /**
+     * @param string $key         Cache key
+     * @param int    $start_index Start index
      * @access private
      */
     private function clear_message_cache($key, $start_index=1)
@@ -3494,9 +3587,9 @@ class rcube_imap
     /**
      * Split an address list into a structured array list
      *
-     * @param string  Input string
-     * @param int     List only this number of addresses
-     * @param boolean Decode address strings
+     * @param string  $input  Input string
+     * @param int     $max    List only this number of addresses
+     * @param boolean $decode Decode address strings
      * @return array  Indexed list of addresses
      */
     function decode_address_list($input, $max=null, $decode=true)
@@ -3544,8 +3637,8 @@ class rcube_imap
     /**
      * Decode a message header value
      *
-     * @param string  Header value
-     * @param boolean Remove quotes if necessary
+     * @param string  $input         Header value
+     * @param boolean $remove_quotas Remove quotes if necessary
      * @return string Decoded string
      */
     function decode_header($input, $remove_quotes=false)
@@ -3617,6 +3710,8 @@ class rcube_imap
     /**
      * Decode a part of a mime-encoded string
      *
+     * @param string $str String to decode
+     * @return string Decoded string
      * @access private
      */
     private function _decode_mime_string_part($str)
@@ -3647,8 +3742,8 @@ class rcube_imap
     /**
      * Decode a mime part
      *
-     * @param string Input string
-     * @param string Part encoding
+     * @param string $input    Input string
+     * @param string $encoding Part encoding
      * @return string Decoded string
      */
     function mime_decode($input, $encoding='7bit')
@@ -3673,8 +3768,8 @@ class rcube_imap
     /**
      * Convert body charset to RCMAIL_CHARSET according to the ctype_parameters
      *
-     * @param string Part body to decode
-     * @param string Charset to convert from
+     * @param string $body        Part body to decode
+     * @param string $ctype_param Charset to convert from
      * @return string Content converted to internal charset
      */
     function charset_decode($body, $ctype_param)
@@ -3693,6 +3788,9 @@ class rcube_imap
 
     /**
      * Validate the given input and save to local properties
+     *
+     * @param string $sort_field Sort column
+     * @param string $sort_order Sort order
      * @access private
      */
     private function _set_sort_order($sort_field, $sort_order)
@@ -3705,6 +3803,8 @@ class rcube_imap
 
     /**
      * Sort mailboxes first by default folders and then in alphabethical order
+     *
+     * @param array $a_folders Mailboxes list
      * @access private
      */
     private function _sort_mailbox_list($a_folders)
@@ -3762,6 +3862,9 @@ class rcube_imap
 
 
     /**
+     * @param int    $uid       User id
+     * @param string $mbox_name Mailbox name
+     * @return int 
      * @access private
      */
     private function _uid2id($uid, $mbox_name=NULL)
@@ -3776,6 +3879,9 @@ class rcube_imap
     }
 
     /**
+     * @param int    $id        Id
+     * @param string $mbox_name Mailbox name
+     * @return int
      * @access private
      */
     private function _id2uid($id, $mbox_name=NULL)
@@ -3980,7 +4086,7 @@ class rcube_header_sorter
     /**
      * Set the predetermined sort order.
      *
-     * @param array Numerically indexed array of IMAP message sequence numbers
+     * @param array $seqnums Numerically indexed array of IMAP message sequence numbers
      */
     function set_sequence_numbers($seqnums)
     {
@@ -3990,7 +4096,7 @@ class rcube_header_sorter
     /**
      * Sort the array of header objects
      *
-     * @param array Array of rcube_mail_header objects indexed by UID
+     * @param array $headers Array of rcube_mail_header objects indexed by UID
      */
     function sort_headers(&$headers)
     {
@@ -4006,6 +4112,9 @@ class rcube_header_sorter
 
     /**
      * Sort method called by uasort()
+     *
+     * @param rcube_mail_header $a
+     * @param rcube_mail_header $b
      */
     function compare_seqnums($a, $b)
     {

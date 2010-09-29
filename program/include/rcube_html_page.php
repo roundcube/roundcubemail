@@ -84,6 +84,8 @@ class rcube_html_page
 
     /**
      * Add HTML code to the page header
+     *
+     * @param string $str HTML code
      */
     public function add_header($str)
     {
@@ -93,6 +95,8 @@ class rcube_html_page
     /**
      * Add HTML code to the page footer
      * To be added right befor </body>
+     *
+     * @param string $str HTML code
      */
     public function add_footer($str)
     {
@@ -101,6 +105,8 @@ class rcube_html_page
 
     /**
      * Setter for page title
+     *
+     * @param string $t Page title
      */
     public function set_title($t)
     {
@@ -110,6 +116,8 @@ class rcube_html_page
     /**
      * Setter for output charset.
      * To be specified in a meta tag and sent as http-header
+     *
+     * @param string $charset Charset
      */
     public function set_charset($charset)
     {
@@ -118,6 +126,8 @@ class rcube_html_page
 
     /**
      * Getter for output charset
+     *
+     * @return string Output charset
      */
     public function get_charset()
     {
@@ -263,6 +273,8 @@ class rcube_html_page
     
     /**
      * Callback function for preg_replace_callback in write()
+     *
+     * @return string Parsed string
      */
     private function file_callback($matches)
     {

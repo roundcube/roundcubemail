@@ -32,6 +32,11 @@ class rcube_contacts extends rcube_addressbook
     protected $db_groups = 'contactgroups';
     protected $db_groupmembers = 'contactgroupmembers';
 
+    /**
+     * Store database connection.
+     *
+     * @var rcube_mdb2
+     */
     private $db = null;
     private $user_id = 0;
     private $filter = null;
@@ -310,7 +315,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Return the last result set
      *
-     * @return Result array or NULL if nothing selected yet
+     * @return mixed Result array or NULL if nothing selected yet
      */
     function get_result()
     {
@@ -322,7 +327,7 @@ class rcube_contacts extends rcube_addressbook
      * Get a specific contact record
      *
      * @param mixed record identifier(s)
-     * @return Result object with all record fields or False if not found
+     * @return mixed Result object with all record fields or False if not found
      */
     function get_record($id, $assoc=false)
     {
@@ -353,7 +358,7 @@ class rcube_contacts extends rcube_addressbook
      * Create a new contact record
      *
      * @param array Assoziative array with save data
-     * @return The created record ID on success, False on error
+     * @return integer|boolean The created record ID on success, False on error
      */
     function insert($save_data, $check=false)
     {
@@ -412,7 +417,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed Record identifier
      * @param array Assoziative array with save data
-     * @return True on success, False on error
+     * @return boolean True on success, False on error
      */
     function update($id, $save_cols)
     {
@@ -484,7 +489,7 @@ class rcube_contacts extends rcube_addressbook
      * Create a contact group with the given name
      *
      * @param string The group name
-     * @return False on error, array with record props in success
+     * @return mixed False on error, array with record props in success
      */
     function create_group($name)
     {

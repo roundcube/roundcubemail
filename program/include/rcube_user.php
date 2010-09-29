@@ -33,13 +33,19 @@ class rcube_user
     public $data = null;
     public $language = null;
 
+    /**
+     * Holds database connection.
+     *
+     * @var rcube_mdb2
+     */
     private $db = null;
 
 
     /**
      * Object constructor
      *
-     * @param object DB Database connection
+     * @param int   $id      User id
+     * @param array $sql_arr SQL result set
      */
     function __construct($id = null, $sql_arr = null)
     {
@@ -62,7 +68,7 @@ class rcube_user
     /**
      * Build a user name string (as e-mail address)
      *
-     * @param string Username part (empty or 'local' or 'domain')
+     * @param  string $part Username part (empty or 'local' or 'domain')
      * @return string Full user name or its part
      */
     function get_username($part = null)
@@ -114,7 +120,7 @@ class rcube_user
     /**
      * Write the given user prefs to the user's record
      *
-     * @param array User prefs to save
+     * @param array $a_user_prefs User prefs to save
      * @return boolean True on success, False on failure
      */
     function save_prefs($a_user_prefs)
@@ -161,7 +167,7 @@ class rcube_user
     /**
      * Get default identity of this user
      *
-     * @param int  Identity ID. If empty, the default identity is returned
+     * @param  int   $id Identity ID. If empty, the default identity is returned
      * @return array Hash array with all cols of the identity record
      */
     function get_identity($id = null)
@@ -174,6 +180,7 @@ class rcube_user
     /**
      * Return a list of all identities linked with this user
      *
+     * @param string $sql_add Optional WHERE clauses
      * @return array List of identities
      */
     function list_identities($sql_add = '')
@@ -198,8 +205,8 @@ class rcube_user
     /**
      * Update a specific identity record
      *
-     * @param int    Identity ID
-     * @param array  Hash array with col->value pairs to save
+     * @param int    $iid  Identity ID
+     * @param array  $data Hash array with col->value pairs to save
      * @return boolean True if saved successfully, false if nothing changed
      */
     function update_identity($iid, $data)
@@ -232,7 +239,7 @@ class rcube_user
     /**
      * Create a new identity record linked with this user
      *
-     * @param array  Hash array with col->value pairs to save
+     * @param array $data Hash array with col->value pairs to save
      * @return int  The inserted identity ID or false on error
      */
     function insert_identity($data)
@@ -264,7 +271,7 @@ class rcube_user
     /**
      * Mark the given identity as deleted
      *
-     * @param int  Identity ID
+     * @param  int     $iid Identity ID
      * @return boolean True if deleted successfully, false if nothing changed
      */
     function delete_identity($iid)
@@ -298,7 +305,7 @@ class rcube_user
     /**
      * Make this identity the default one for this user
      *
-     * @param int The identity ID
+     * @param int $iid The identity ID
      */
     function set_default($iid)
     {
@@ -343,9 +350,9 @@ class rcube_user
     /**
      * Find a user record matching the given name and host
      *
-     * @param string IMAP user name
-     * @param string IMAP host name
-     * @return object rcube_user New user instance
+     * @param string $user IMAP user name
+     * @param string $host IMAP host name
+     * @return rcube_user New user instance
      */
     static function query($user, $host)
     {
@@ -372,9 +379,9 @@ class rcube_user
     /**
      * Create a new user record and return a rcube_user instance
      *
-     * @param string IMAP user name
-     * @param string IMAP host
-     * @return object rcube_user New user instance
+     * @param string $user IMAP user name
+     * @param string $host IMAP host
+     * @return rcube_user New user instance
      */
     static function create($user, $host)
     {
@@ -471,7 +478,7 @@ class rcube_user
     /**
      * Resolve username using a virtuser plugins
      *
-     * @param string E-mail address to resolve
+     * @param string $email E-mail address to resolve
      * @return string Resolved IMAP username
      */
     static function email2user($email)
@@ -487,9 +494,9 @@ class rcube_user
     /**
      * Resolve e-mail address from virtuser plugins
      *
-     * @param string User name
-     * @param boolean If true returns first found entry
-     * @param boolean If true returns email as array (email and name for identity)
+     * @param string $user User name
+     * @param boolean $first If true returns first found entry
+     * @param boolean $extended If true returns email as array (email and name for identity)
      * @return mixed Resolved e-mail address string or array of strings
      */
     static function user2email($user, $first=true, $extended=false)

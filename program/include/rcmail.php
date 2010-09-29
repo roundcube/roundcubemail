@@ -28,19 +28,88 @@
  */
 class rcmail
 {
+  /**
+   * Main tasks.
+   *
+   * @var array
+   */
   static public $main_tasks = array('mail','settings','addressbook','login','logout','utils','dummy');
 
+  /**
+   * Singleton instace of rcmail
+   *
+   * @var rcmail
+   */
   static private $instance;
 
+  /**
+   * Stores instance of rcube_config.
+   *
+   * @var rcube_config
+   */
   public $config;
+
+  /**
+   * Stores rcube_user instance.
+   *
+   * @var rcube_user
+   */
   public $user;
+
+  /**
+   * Instace of database class.
+   *
+   * @var rcube_mdb2
+   */
   public $db;
+
+  /**
+   * Instace of rcube_session class.
+   *
+   * @var rcube_session
+   */
   public $session;
+
+  /**
+   * Instance of rcube_smtp class.
+   *
+   * @var rcube_smtp
+   */
   public $smtp;
+
+  /**
+   * Instance of rcube_imap class.
+   *
+   * @var rcube_imap
+   */
   public $imap;
+
+  /**
+   * Instance of rcube_template class.
+   *
+   * @var rcube_template
+   */
   public $output;
+
+  /**
+   * Instance of rcube_plugin_api.
+   *
+   * @var rcube_plugin_api
+   */
   public $plugins;
+
+  /**
+   * Current task.
+   *
+   * @var string
+   */
   public $task;
+
+  /**
+   * Current action.
+   *
+   * @var string
+   */
   public $action = '';
   public $comm_path = './';
 
@@ -51,7 +120,7 @@ class rcmail
   /**
    * This implements the 'singleton' design pattern
    *
-   * @return object rcmail The one and only instance
+   * @return rcmail The one and only instance
    */
   static function get_instance()
   {
@@ -154,7 +223,7 @@ class rcmail
   /**
    * Setter for system user object
    *
-   * @param object rcube_user Current user instance
+   * @param rcube_user Current user instance
    */
   public function set_user($user)
   {
@@ -226,7 +295,7 @@ class rcmail
   /**
    * Get the current database connection
    *
-   * @return object rcube_mdb2  Database connection object
+   * @return rcube_mdb2  Database connection object
    */
   public function get_dbh()
   {
@@ -247,7 +316,7 @@ class rcmail
    *
    * @param string  Address book identifier
    * @param boolean True if the address book needs to be writeable
-   * @return object rcube_contacts Address book object
+   * @return rcube_contacts Address book object
    */
   public function get_address_book($id, $writeable = false)
   {
@@ -346,7 +415,7 @@ class rcmail
    * environment vars according to the current session and configuration
    *
    * @param boolean True if this request is loaded in a (i)frame
-   * @return object rcube_template Reference to HTML output object
+   * @return rcube_template Reference to HTML output object
    */
   public function load_gui($framed = false)
   {
@@ -379,7 +448,7 @@ class rcmail
   /**
    * Create an output object for JSON responses
    *
-   * @return object rcube_json_output Reference to JSON output object
+   * @return rcube_json_output Reference to JSON output object
    */
   public function json_init()
   {
