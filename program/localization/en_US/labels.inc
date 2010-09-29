@@ -363,6 +363,7 @@ $labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
+$labels['reqmdn'] = 'Always request a return receipt';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

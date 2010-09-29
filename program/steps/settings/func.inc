@@ -510,6 +510,16 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['mdn_default'])) {
+      $field_id = 'rcmfd_mdn_default';
+      $input_mdn = new html_checkbox(array('name' => '_mdn_default', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['mdn_default'] = array(
+        'title' => html::label($field_id, Q(rcube_label('reqmdn'))),
+        'content' => $input_mdn->show($config['mdn_default']?1:0),
+      );
+    }
+
     if (!isset($no_override['top_posting'])) {
       $field_id = 'rcmfd_top_posting';
       $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id, 'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));

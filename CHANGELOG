@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Add link to identities in compose window (#1486729)
 - Add Internationalized Domain Name (IDNA) support (#1483894)
 - Add option to automatically send read notifications for known senders (1485883)
+- Add option to "Return receipt" will be always checked (1486352)
 
 RELEASE 0.4.1
 -------------

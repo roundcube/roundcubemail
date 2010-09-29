@@ -1073,7 +1073,7 @@ function rcmail_priority_selector($attrib)
 
 function rcmail_receipt_checkbox($attrib)
 {
-  global $MESSAGE, $compose_mode;
+  global $RCMAIL, $MESSAGE, $compose_mode;
 
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -1085,9 +1085,13 @@ function rcmail_receipt_checkbox($attrib)
   $attrib['value'] = '1';
   $checkbox = new html_checkbox($attrib);
 
+  if ($MESSAGE && in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
+    $mdn_default = (bool) $MESSAGE->headers->mdn_to;
+  else
+    $mdn_default = $RCMAIL->config->get('mdn_default');
+
   $out = $form_start ? "$form_start\n" : '';
-  $out .= $checkbox->show(in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))
-	&& $MESSAGE->headers->mdn_to ? 1 : 0);
+  $out .= $checkbox->show($mdn_default);
   $out .= $form_end ? "\n$form_end" : '';
 
   return $out;
