@@ -1,45 +1,10 @@
 #!/usr/bin/env php
 <?php
-if (php_sapi_name() != 'cli') {
-    die('Not on the "shell" (php-cli).');
-}
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 ini_set('memory_limit', -1);
 
-require_once INSTALL_PATH.'program/include/iniset.php';
-
-/**
- * Parse commandline arguments into a hash array
- */
-function get_opt($aliases=array())
-{
-	$args = array();
-	for ($i=1; $i<count($_SERVER['argv']); $i++)
-	{
-		$arg = $_SERVER['argv'][$i];
-		if (substr($arg, 0, 2) == '--')
-		{
-			$sp = strpos($arg, '=');
-			$key = substr($arg, 2, $sp - 2);
-			$value = substr($arg, $sp+1);
-		}
-		else if ($arg{0} == '-')
-		{
-			$key = substr($arg, 1);
-			$value = $_SERVER['argv'][++$i];
-		}
-		else
-			continue;
-
-		$args[$key] = preg_replace(array('/^["\']/', '/["\']$/'), '', $value);
-		
-		if ($alias = $aliases[$key])
-			$args[$alias] = $args[$key];
-	}
-
-	return $args;
-}
+require_once INSTALL_PATH.'program/include/clisetup.php';
 
 function print_usage()
 {
@@ -82,11 +47,7 @@ if (empty($args['user']))
 // prompt for password
 if (empty($args['pass']))
 {
-	echo "Password: ";
-	$args['pass'] = trim(fgets(STDIN));
-
-	// clear password input
-	echo chr(8)."\rPassword: ".str_repeat("*", strlen($args['pass']))."\n";
+	$args['pass'] = prompt_silent("Password: ");
 }
 
 // parse $host URL
