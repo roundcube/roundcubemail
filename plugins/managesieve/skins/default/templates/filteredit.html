@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
+</head>
+<body class="iframe">
+
+<script type="text/javascript">
+
+function header_select(id)
+{
+    var obj = document.getElementById('header'+id);
+
+    if (obj.value == 'size')
+    {
+	document.getElementById('rule_size' + id).style.display = 'inline';
+	document.getElementById('rule_op' + id).style.display = 'none';
+	document.getElementById('rule_target' + id).style.display = 'none';
+	document.getElementById('custom_header' + id).style.display = 'none';
+    }
+    else
+    {
+	if (obj.value != '...')
+	    document.getElementById('custom_header' + id).style.display = 'none';
+	else
+	    document.getElementById('custom_header' + id).style.display = 'inline';
+    
+	document.getElementById('rule_size' + id).style.display = 'none';
+	document.getElementById('rule_op' + id).style.display = 'inline';
+	rule_op_select(id);
+    }
+}
+
+function rule_op_select(id)
+{
+    var obj = document.getElementById('rule_op'+id);
+
+    if (obj.value == 'exists' || obj.value == 'notexists')
+    {
+	document.getElementById('rule_target' + id).style.display = 'none';
+    }
+    else
+    {
+	document.getElementById('rule_target' + id).style.display = 'inline';
+    }
+}
+
+function action_type_select(id)
+{
+    var obj = document.getElementById('action_type'+id);
+
+    if (obj.value == 'fileinto' || obj.value == 'fileinto_copy')
+    {
+	document.getElementById('action_mailbox' + id).style.display = 'inline';
+	document.getElementById('action_target' + id).style.display = 'none';
+	document.getElementById('action_target_area' + id).style.display = 'none';
+	document.getElementById('action_vacation' + id).style.display = 'none';
+    }
+    else if (obj.value == 'redirect' || obj.value == 'redirect_copy')
+    {
+	document.getElementById('action_target' + id).style.display = 'inline';
+	document.getElementById('action_mailbox' + id).style.display = 'none';
+	document.getElementById('action_target_area' + id).style.display = 'none';
+	document.getElementById('action_vacation' + id).style.display = 'none';
+    }
+    else if (obj.value.match(/^reject|ereject$/))
+    {
+	document.getElementById('action_target_area' + id).style.display = 'inline';
+	document.getElementById('action_vacation' + id).style.display = 'none';
+	document.getElementById('action_target' + id).style.display = 'none';
+	document.getElementById('action_mailbox' + id).style.display = 'none';
+    }
+    else if (obj.value == 'vacation')
+    {
+	document.getElementById('action_vacation' + id).style.display = 'inline';
+        document.getElementById('action_target_area' + id).style.display = 'none';
+	document.getElementById('action_target' + id).style.display = 'none';
+	document.getElementById('action_mailbox' + id).style.display = 'none';
+    }
+    else // discard, keep, stop
+    {
+	document.getElementById('action_target_area' + id).style.display = 'none';
+	document.getElementById('action_vacation' + id).style.display = 'none';
+	document.getElementById('action_target' + id).style.display = 'none';
+	document.getElementById('action_mailbox' + id).style.display = 'none';
+    }
+}
+
+function rule_join_radio(value)
+{
+    document.getElementById('rules').style.display = (value=='any' ? 'none' : 'block');
+}
+</script>
+
+<div id="filter-title" class="boxtitle"><roundcube:label name="managesieve.filterdef" /></div>
+
+<div id="filter-form" class="boxcontent">
+<roundcube:object name="filterform" />
+
+<div id="footer">
+<div class="footerleft">
+<roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
+</div>
+<div class="footerright">
+<label for="disabled"><roundcube:label name="managesieve.filterdisabled" /></label>
+<input type="checkbox" id="disabled" name="_disabled" value="1" />
+</div>
+</div>
+
+</form>
+</div>
+
+
+</body>
+</html>
