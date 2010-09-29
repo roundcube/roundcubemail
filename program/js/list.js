@@ -862,7 +862,7 @@ clear_selection: function(id)
 
   // one row
   if (id) {
-    for (var n=0 in this.selection)
+    for (var n in this.selection)
       if (this.selection[n] == id) {
         this.selection.splice(n,1);
         break;
