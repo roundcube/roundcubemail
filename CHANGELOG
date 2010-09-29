@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix space-stuffing in format=flowed messages (#1487018)
 - Fix msgexport.sh now using the new imap wrapper
 - Avoid displaying password on shell (#1486947)
 - Only lower-case user name if first login attempt failed (#1486393)
