@@ -301,10 +301,14 @@ function rcube_webmail()
         if (this.env.cid)
           this.enable_command('show', 'edit', true);
 
-        if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform)
+        if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform) {
           this.enable_command('save', true);
-        else
+          $("input[type='text']").first().select();
+        }
+        else if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
+          $(this.gui_objects.qsearchbox).select();
+        }
 
         if (this.contact_list && this.contact_list.rowcount > 0)
           this.enable_command('export', true);
