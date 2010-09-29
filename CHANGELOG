@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Add option to "Return receipt" will be always checked (#1486352)
 - Fix HTML to plain text conversion doesn't handle citation blocks (#1486921)
 - Use custom sorting when SORT is disabled by IMAP admin (#1486959)
+- Allow setting some washtml options from plugin (#1486578)
 
 RELEASE 0.4.1
 -------------

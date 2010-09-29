@@ -695,11 +695,21 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     $wash_opts['html_attribs'] = array('rel','type');
   }
 
+  // overwrite washer options with options from plugins
+  if (isset($p['html_elements']))
+    $wash_opts['html_elements'] = $p['html_elements'];
+  if (isset($p['html_attribs']))
+    $wash_opts['html_attribs'] = $p['html_attribs'];
+
+  // initialize HTML washer
   $washer = new washtml($wash_opts);
-  $washer->add_callback('form', 'rcmail_washtml_callback');
+
+  if (!$p['skip_washer_form_callback'])
+    $washer->add_callback('form', 'rcmail_washtml_callback');
 
   // allow CSS styles, will be sanitized by rcmail_washtml_callback()
-  $washer->add_callback('style', 'rcmail_washtml_callback');
+  if (!$p['skip_washer_style_callback'])
+    $washer->add_callback('style', 'rcmail_washtml_callback');
 
   $html = $washer->wash($html);
   $REMOTE_OBJECTS = $washer->extlinks;
