@@ -1084,7 +1084,7 @@ class rcube_imap_generic
                 break;
 
 		    if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
-			    $id = $m[1];
+			    $id = intval($m[1]);
 
 			    $result[$id]            = new rcube_mail_header;
 			    $result[$id]->id        = $id;
@@ -1111,9 +1111,9 @@ class rcube_imap_generic
 				    if ($parts_count>=6) {
 					    for ($i=0; $i<$parts_count; $i=$i+2) {
 						    if ($a[$i] == 'UID')
-							    $result[$id]->uid = $a[$i+1];
+							    $result[$id]->uid = intval($a[$i+1]);
 						    else if ($a[$i] == 'RFC822.SIZE')
-							    $result[$id]->size = $a[$i+1];
+							    $result[$id]->size = intval($a[$i+1]);
     						else if ($a[$i] == 'INTERNALDATE')
 	    						$time_str = $a[$i+1];
 		    				else if ($a[$i] == 'FLAGS')

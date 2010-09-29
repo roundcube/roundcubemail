@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Messages caching: performance improvements, fixed syncing, fixes related with #1486748
+
+RELEASE 0.4.1
+-------------
 - Fix space-stuffing in format=flowed messages (#1487018)
 - Fix msgexport.sh now using the new imap wrapper
 - Avoid displaying password on shell (#1486947)
