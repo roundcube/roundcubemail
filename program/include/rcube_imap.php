@@ -62,6 +62,7 @@ class rcube_imap
     private $search_charset = '';
     private $search_sort_field = '';
     private $search_threads = false;
+    private $search_sorted = false;
     private $db_header_fields = array('idx', 'uid', 'subject', 'from', 'to', 'cc', 'date', 'size');
     private $options = array('auth_method' => 'check');
     private $host, $user, $pass, $port, $ssl;
@@ -292,8 +293,9 @@ class rcube_imap
      * @param  array   List of message ids or NULL if empty
      * @param  string  Charset of search string
      * @param  string  Sorting field
+     * @param  string  True if set is sorted (SORT was used for searching)
      */
-    function set_search_set($str=null, $msgs=null, $charset=null, $sort_field=null, $threads=false)
+    function set_search_set($str=null, $msgs=null, $charset=null, $sort_field=null, $threads=false, $sorted=false)
     {
         if (is_array($str) && $msgs == null)
             list($str, $msgs, $charset, $sort_field, $threads) = $str;
@@ -307,6 +309,7 @@ class rcube_imap
         $this->search_charset    = $charset;
         $this->search_sort_field = $sort_field;
         $this->search_threads    = $threads;
+        $this->search_sorted     = $sorted;
     }
 
 
@@ -321,6 +324,7 @@ class rcube_imap
         	$this->search_charset,
         	$this->search_sort_field,
         	$this->search_threads,
+        	$this->search_sorted,
 	    );
     }
 
@@ -615,8 +619,11 @@ class rcube_imap
                 $this->_fetch_headers($mailbox, join(",", $msg_index), $a_msg_headers, $cache_key);
         }
         // use SORT command
-        else if ($this->get_capability('SORT')) {
-            if ($msg_index = $this->conn->sort($mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')) {
+        else if ($this->get_capability('SORT') &&
+            // Courier-IMAP provides SORT capability but allows to disable it by admin (#1486959)
+            ($msg_index = $this->conn->sort($mailbox, $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')) !== false
+        ) {
+            if (!empty($msg_index)) {
                 list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
                 $max = max($msg_index);
                 $msg_index = array_slice($msg_index, $begin, $end-$begin);
@@ -858,7 +865,7 @@ class rcube_imap
         }
 
         // sorted messages, so we can first slice array and then fetch only wanted headers
-        if ($this->get_capability('SORT')) { // SORT searching result
+        if ($this->search_sorted) { // SORT searching result
             // reset search set if sorting field has been changed
             if ($this->sort_field && $this->search_sort_field != $this->sort_field)
                 $msgs = $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
@@ -1168,7 +1175,7 @@ class rcube_imap
                     $this->cache[$key] = $msgs;
             }
             // sort with SORT command
-            else if ($this->get_capability('SORT')) {
+            else if ($this->search_sorted) {
                 if ($this->sort_field && $this->search_sort_field != $this->sort_field)
                     $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
 
@@ -1224,11 +1231,11 @@ class rcube_imap
             $this->cache[$key] = $a_index;
         }
         // fetch complete message index
-        else if ($this->get_capability('SORT')) {
-            $a_index = $this->conn->sort($mailbox,
-                $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '');
-
-            if ($a_index !== false && $this->sort_order == 'DESC')
+        else if ($this->get_capability('SORT') &&
+            ($a_index = $this->conn->sort($mailbox,
+                $this->sort_field, $this->skip_deleted ? 'UNDELETED' : '')) !== false
+        ) {
+            if ($this->sort_order == 'DESC')
                 $a_index = array_reverse($a_index);
 
             $this->cache[$key] = $a_index;
@@ -1439,7 +1446,8 @@ class rcube_imap
 
         $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
-        $this->set_search_set($str, $results, $charset, $sort_field, (bool)$this->threading);
+        $this->set_search_set($str, $results, $charset, $sort_field, (bool)$this->threading,
+            $this->threading || $this->search_sorted ? true : false);
 
         return $results;
     }
@@ -1476,8 +1484,11 @@ class rcube_imap
 	                'children' => $has_children
                 );
             }
+
+            return $a_messages;
         }
-        else if ($sort_field && $this->get_capability('SORT')) {
+        
+        if ($sort_field && $this->get_capability('SORT')) {
             $charset = $charset ? $charset : $this->default_charset;
             $a_messages = $this->conn->sort($mailbox, $sort_field, $criteria, false, $charset);
 
@@ -1486,31 +1497,32 @@ class rcube_imap
             if ($a_messages === false && $charset && $charset != 'US-ASCII')
                 $a_messages = $this->conn->sort($mailbox, $sort_field,
                     $this->convert_criteria($criteria, $charset), false, 'US-ASCII');
+
+            if ($a_messages !== false) {
+                $this->search_sorted = true;
+                return $a_messages;
+            }
+        }
+
+        if ($orig_criteria == 'ALL') {
+            $max = $this->_messagecount($mailbox);
+            $a_messages = $max ? range(1, $max) : array();
         }
         else {
-            if ($orig_criteria == 'ALL') {
-                $max = $this->_messagecount($mailbox);
-                $a_messages = $max ? range(1, $max) : array();
-            }
-            else {
+            $a_messages = $this->conn->search($mailbox,
+                ($charset ? "CHARSET $charset " : '') . $criteria);
+
+            // Error, try with US-ASCII (some servers may support only US-ASCII)
+            if ($a_messages === false && $charset && $charset != 'US-ASCII')
                 $a_messages = $this->conn->search($mailbox,
-                    ($charset ? "CHARSET $charset " : '') . $criteria);
+                    'CHARSET US-ASCII ' . $this->convert_criteria($criteria, $charset));
 
-                // Error, try with US-ASCII (some servers may support only US-ASCII)
-                if ($a_messages === false && $charset && $charset != 'US-ASCII')
-                    $a_messages = $this->conn->search($mailbox,
-                        'CHARSET US-ASCII ' . $this->convert_criteria($criteria, $charset));
-
-                // I didn't found that SEARCH should return sorted IDs
-	            if (is_array($a_messages) && !$this->sort_field)
-                    sort($a_messages);
-            }
+            // I didn't found that SEARCH should return sorted IDs
+            if (is_array($a_messages) && !$this->sort_field)
+                sort($a_messages);
         }
 
-        // update messagecount cache ?
-//      $a_mailbox_cache = get_cache('messagecount');
-//      $a_mailbox_cache[$mailbox][$criteria] = sizeof($a_messages);
-//      $this->update_cache('messagecount', $a_mailbox_cache);
+        $this->search_sorted = false;
 
         return $a_messages;
     }
@@ -1591,10 +1603,10 @@ class rcube_imap
         // here we'll implement REFS sorting, for performance reason
         else { // ($sort_field == 'date' && $this->threading != 'REFS')
             // use SORT command
-            if ($this->get_capability('SORT')) {
-                $a_index = $this->conn->sort($mailbox, $this->sort_field,
-	                !empty($ids) ? $ids : ($this->skip_deleted ? 'UNDELETED' : ''));
-
+            if ($this->get_capability('SORT') && 
+                ($a_index = $this->conn->sort($mailbox, $this->sort_field,
+	                !empty($ids) ? $ids : ($this->skip_deleted ? 'UNDELETED' : ''))) !== false
+            ) {
 	            // return unsorted tree if we've got no index data
 	            if (!$a_index)
 	                return array_keys((array)$thread_tree);
@@ -1672,7 +1684,7 @@ class rcube_imap
     {
         if (!empty($this->search_string))
             $this->search_set = $this->search('', $this->search_string, $this->search_charset,
-    	        $this->search_sort_field, $this->search_threads);
+    	        $this->search_sort_field, $this->search_threads, $this->search_sorted);
 
         return $this->get_search_set();
     }

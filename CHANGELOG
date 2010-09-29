@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Add option to automatically send read notifications for known senders (#1485883)
 - Add option to "Return receipt" will be always checked (#1486352)
 - Fix HTML to plain text conversion doesn't handle citation blocks (#1486921)
+- Use custom sorting when SORT is disabled by IMAP admin (#1486959)
 
 RELEASE 0.4.1
 -------------
