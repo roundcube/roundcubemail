@@ -22,7 +22,7 @@
 $converter = new html2text($HTTP_RAW_POST_DATA);
 
 header('Content-Type: text/plain; charset=UTF-8');
-print trim($converter->get_text());
+print rtrim($converter->get_text());
 exit;
 
 

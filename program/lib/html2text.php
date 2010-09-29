@@ -201,7 +201,7 @@ class html2text
         "\t* \\1\n",                            // <li> and </li>
         "\n\t* ",                               // <li>
         "\n-------------------------\n",        // <hr>
-        "<div>\n",                                   // <div>
+        "<div>\n",                              // <div>
         "\n\n",                                 // <table> and </table>
         "\n",                                   // <tr> and </tr>
         "\t\t\\1\n",                            // <td> and </td>
@@ -445,12 +445,7 @@ class html2text
     }
 
     /**
-     *  Workhorse function that does actual conversion.
-     *
-     *  First performs custom tag replacement specified by $search and
-     *  $replace arrays. Then strips any remaining HTML tags, reduces whitespace
-     *  and newlines to a readable format, and word wraps the text to
-     *  $width characters.
+     *  Workhorse function that does actual conversion (calls _converter() method).
      *
      *  @access private
      *  @return void
@@ -462,6 +457,37 @@ class html2text
         $this->_link_list = '';
 
         $text = trim(stripslashes($this->html));
+
+        // Convert HTML to TXT
+        $this->_converter($text);
+
+        // Add link list
+        if ( !empty($this->_link_list) ) {
+            $text .= "\n\nLinks:\n------\n" . $this->_link_list;
+        }
+
+        $this->text = $text;
+
+        $this->_converted = true;
+    }
+
+    /**
+     *  Workhorse function that does actual conversion.
+     *
+     *  First performs custom tag replacement specified by $search and
+     *  $replace arrays. Then strips any remaining HTML tags, reduces whitespace
+     *  and newlines to a readable format, and word wraps the text to
+     *  $width characters.
+     *
+     *  @param string Reference to HTML content string
+     *
+     *  @access private
+     *  @return void
+     */
+    function _converter(&$text)
+    {
+        // Convert <BLOCKQUOTE> (before PRE!)
+        $this->_convert_blockquotes($text);
 
         // Convert <PRE>
         $this->_convert_pre($text);
@@ -485,21 +511,12 @@ class html2text
         $text = preg_replace("/\n\s+\n/", "\n\n", $text);
         $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
 
-        // Add link list
-        if ( !empty($this->_link_list) ) {
-            $text .= "\n\nLinks:\n------\n" . $this->_link_list;
-        }
-
         // Wrap the text to a readable format
         // for PHP versions >= 4.0.2. Default width is 75
         // If width is 0 or less, don't wrap the text.
         if ( $this->width > 0 ) {
         	$text = wordwrap($text, $this->width);
         }
-
-        $this->text = $text;
-
-        $this->_converted = true;
     }
 
     /**
@@ -517,20 +534,22 @@ class html2text
      */
     function _build_link_list( $link, $display )
     {
-	if ( !$this->_do_links ) return $display;
-	
-	if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
-             substr($link, 0, 7) == 'mailto:' ) {
+	    if ( !$this->_do_links )
+	        return $display;
+
+	    if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
+            substr($link, 0, 7) == 'mailto:'
+        ) {
             $this->_link_count++;
-            $this->_link_list .= "[" . $this->_link_count . "] $link\n";
+            $this->_link_list .= '[' . $this->_link_count . "] $link\n";
             $additional = ' [' . $this->_link_count . ']';
-	} elseif ( substr($link, 0, 11) == 'javascript:' ) {
-		// Don't count the link; ignore it
-		$additional = '';
+	    } elseif ( substr($link, 0, 11) == 'javascript:' ) {
+		    // Don't count the link; ignore it
+		    $additional = '';
 		// what about href="#anchor" ?
         } else {
             $this->_link_count++;
-            $this->_link_list .= "[" . $this->_link_count . "] " . $this->url;
+            $this->_link_list .= '[' . $this->_link_count . '] ' . $this->url;
             if ( substr($link, 0, 1) != '/' ) {
                 $this->_link_list .= '/';
             }
@@ -540,7 +559,7 @@ class html2text
 
         return $display . $additional;
     }
-    
+
     /**
      *  Helper function for PRE body conversion.
      *
@@ -549,9 +568,65 @@ class html2text
      */
     function _convert_pre(&$text)
     {
-        while(preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches)) {
+        while (preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches)) {
             $result = preg_replace($this->pre_search, $this->pre_replace, $matches[1]);
             $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text, 1);
+        }
+    }
+
+    /**
+     *  Helper function for BLOCKQUOTE body conversion.
+     *
+     *  @param string HTML content
+     *  @access private
+     */
+    function _convert_blockquotes(&$text)
+    {
+        if (preg_match_all('/<\/*blockquote[^>]*>/i', $text, $matches, PREG_OFFSET_CAPTURE)) {
+            $level = 0;
+            $diff = 0;
+            foreach ($matches[0] as $m) {
+                if ($m[0][0] == '<' && $m[0][1] == '/') {
+                    $level--;
+                    if ($level < 0) {
+                        $level = 0; // malformed HTML: go to next blockquote
+                    }
+                    else if ($level > 0) {
+                        // skip inner blockquote
+                    }
+                    else {
+                        $end  = $m[1];
+                        $len  = $end - $taglen - $start;
+                        // Get blockquote content
+                        $body = substr($text, $start + $taglen - $diff, $len);
+
+                        // Set text width
+                        $p_width = $this->width;
+                        if ($this->width > 0) $this->width -= 2;
+                        // Convert blockquote content
+                        $body = trim($body);
+                        $this->_converter($body);
+                        // Add citation markers and create PRE block
+                        $body = preg_replace('/((^|\n)>*)/', '\\1> ', trim($body));
+                        $body = '<pre>' . htmlspecialchars($body) . '</pre>';
+                        // Re-set text width
+                        $this->width = $p_width;
+                        // Replace content
+                        $text = substr($text, 0, $start - $diff)
+                            . $body . substr($text, $end + strlen($m[0]) - $diff);
+
+                        $diff = $len + $taglen + strlen($m[0]) - strlen($body);
+                        unset($body);
+                    }
+                }
+                else {
+                    if ($level == 0) {
+                        $start = $m[1];
+                        $taglen = strlen($m[0]);
+                    }
+                    $level ++;
+                }
+            }
         }
     }
 
@@ -592,5 +667,3 @@ class html2text
             return strtoupper($str);
     }
 }
-
-?>
