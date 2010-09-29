@@ -994,15 +994,19 @@ class rcube_template extends rcube_html_page
             return $username;
         }
 
+        // Current username is an e-mail address
+        if (strpos($_SESSION['username'], '@')) {
+            $username = $_SESSION['username'];
+        }
         // get e-mail address from default identity
-        if ($sql_arr = $this->app->user->get_identity()) {
+        else if ($sql_arr = $this->app->user->get_identity()) {
             $username = $sql_arr['email'];
         }
         else {
             $username = $this->app->user->get_username();
         }
 
-        return $username;
+        return idn_to_utf8($username);
     }
 
 

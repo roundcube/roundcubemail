@@ -274,10 +274,11 @@ class rcube_config
     /**
      * Return the mail domain configured for the given host
      *
-     * @param string IMAP host
+     * @param string  IMAP host
+     * @param boolean If true, domain name will be converted to IDN ASCII
      * @return string Resolved SMTP host
      */
-    public function mail_domain($host)
+    public function mail_domain($host, $encode=true)
     {
         $domain = $host;
 
@@ -287,6 +288,9 @@ class rcube_config
         }
         else if (!empty($this->prop['mail_domain']))
             $domain = rcube_parse_host($this->prop['mail_domain']);
+
+        if ($encode)
+            $domain = idn_to_ascii($domain);
 
         return $domain;
     }

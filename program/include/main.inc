@@ -1764,4 +1764,3 @@ function log_bug($arg_arr)
         flush();
     }
 }
-

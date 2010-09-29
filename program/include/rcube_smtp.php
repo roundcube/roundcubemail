@@ -98,6 +98,9 @@ class rcube_smtp
     else
       $helo_host = 'localhost';
 
+    // IDNA Support
+    $smtp_host = idn_to_ascii($smtp_host);
+
     $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
     if($RCMAIL->config->get('smtp_debug'))
@@ -116,10 +119,14 @@ class rcube_smtp
     $smtp_user = str_replace('%u', $_SESSION['username'], $CONFIG['smtp_user']);
     $smtp_pass = str_replace('%p', $RCMAIL->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
     $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
-    
+
     // attempt to authenticate to the SMTP server
     if ($smtp_user && $smtp_pass)
     {
+      // IDNA Support
+      if (strpos($smtp_user, '@'))
+        $smtp_user = idn_to_ascii($smtp_user);
+
       $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls);
 
       if (PEAR::isError($result))

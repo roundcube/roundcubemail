@@ -249,18 +249,21 @@ if (isset($_POST['sendmail'])) {
 
   echo '<p>Trying to send email...<br />';
 
-  if (preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_from'])) &&
-      preg_match('/^' . $RCI->email_pattern . '$/i', trim($_POST['_to']))) {
+  $from = idn_to_ascii(trim($_POST['_from']));
+  $to   = idn_to_ascii(trim($_POST['_to']));
 
+  if (preg_match('/^' . $RCI->email_pattern . '$/i', $from) &&
+      preg_match('/^' . $RCI->email_pattern . '$/i', $to)
+  ) {
     $headers = array(
-      'From'    => trim($_POST['_from']),
-      'To'      => trim($_POST['_to']),
+      'From'    => $from,
+      'To'      => $to,
       'Subject' => 'Test message from Roundcube',
     );
 
     $body = 'This is a test to confirm that Roundcube can send email.';
     $smtp_response = array();
-    
+
     // send mail using configured SMTP server
     if ($RCI->getprop('smtp_server')) {
       $CONFIG = $RCI->config;
@@ -383,9 +386,12 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
     $imap_host = trim($_POST['_host']);
     $imap_port = $RCI->getprop('default_port');
   }
-  
+
+  $imap_host = idn_to_ascii($imap_host);
+  $imap_user = idn_to_ascii($_POST['_user']);
+
   $imap = new rcube_imap(null);
-  if ($imap->connect($imap_host, $_POST['_user'], $_POST['_pass'], $imap_port, $imap_ssl)) {
+  if ($imap->connect($imap_host, $imap_user, $_POST['_pass'], $imap_port, $imap_ssl)) {
     $RCI->pass('IMAP connect', 'SORT capability: ' . ($imap->get_capability('SORT') ? 'yes' : 'no'));
     $imap->close();
   }

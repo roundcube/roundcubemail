@@ -587,7 +587,7 @@ class rcmail
     if ($a_host['host']) {
       $host = $a_host['host'];
       $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
-      if(!empty($a_host['port']))
+      if (!empty($a_host['port']))
         $imap_port = $a_host['port'];
       else if ($imap_ssl && $imap_ssl != 'tls' && (!$config['default_port'] || $config['default_port'] == 143))
         $imap_port = 993;
@@ -617,6 +617,12 @@ class rcmail
 
     if (!$this->imap)
       $this->imap_init();
+
+    // Here we need IDNA ASCII
+    // Only rcube_contacts class is using domain names in Unicode
+    $host = idn_to_ascii($host);
+    if (strpos($username, '@'))
+      $username = idn_to_ascii($username);
 
     // try IMAP login
     if (!($imap_login = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl))) {

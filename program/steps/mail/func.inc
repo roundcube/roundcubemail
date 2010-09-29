@@ -24,7 +24,9 @@ $SENT_MBOX = $RCMAIL->config->get('sent_mbox');
 $DRAFTS_MBOX = $RCMAIL->config->get('drafts_mbox');
 $SEARCH_MODS_DEFAULT = array('*' => array('subject'=>1, 'from'=>1), $SENT_MBOX => array('subject'=>1, 'to'=>1), $DRAFTS_MBOX => array('subject'=>1, 'to'=>1));
 
-$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
+// Simplified for IDN in Unicode
+//$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
+$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^.].*\\.[a-z]{2,5})';
 
 // actions that do not require imap connection here
 $NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment', 'get');
@@ -1241,7 +1243,7 @@ function rcmail_alter_html_link($matches)
  */
 function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
 {
-  global $IMAP, $RCMAIL, $PRINT_MODE, $CONFIG, $OUTPUT, $EMAIL_ADDRESS_PATTERN;
+  global $IMAP, $RCMAIL, $PRINT_MODE, $CONFIG;
   static $got_writable_abook = null;
 
   $a_parts = $IMAP->decode_address_list($input);
@@ -1259,27 +1261,40 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
 
   foreach ($a_parts as $part) {
     $j++;
+
+    $name   = $part['name'];
+    $mailto = $part['mailto'];
+    $string = $part['string'];
+
+    // IDNA ASCII to Unicode
+    if ($name == $mailto)
+      $name = idn_to_utf8($name);
+    if ($string == $mailto)
+      $string = idn_to_utf8($string);
+    $mailto = idn_to_utf8($mailto);
+
     if ($PRINT_MODE) {
-      $out .= sprintf('%s &lt;%s&gt;', Q($part['name']), $part['mailto']);
+      $out .= sprintf('%s &lt;%s&gt;', Q($name), $mailto);
     }
     else if (check_email($part['mailto'], false)) {
       if ($linked) {
         $out .= html::a(array(
-            'href' => 'mailto:'.$part['mailto'],
-            'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($part['mailto'])),
-            'title' => $part['mailto'],
+            'href' => 'mailto:'.$mailto,
+            'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
+            'title' => $mailto,
             'class' => "rcmContactAddress",
           ),
-        Q($part['name']));
+        Q($name ? $name : $mailto));
       }
       else {
-        $out .= html::span(array('title' => $part['mailto'], 'class' => "rcmContactAddress"), Q($part['name']));
+        $out .= html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),
+          Q($name ? $name : $mailto));
       }
 
       if ($addicon && $got_writable_abook) {
         $out .= '&nbsp;' . html::a(array(
             'href' => "#add",
-            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($part['string'])),
+            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($string)),
             'title' => rcube_label('addtoaddressbook'),
           ),
           html::img(array(
@@ -1289,10 +1304,10 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
       }
     }
     else {
-      if ($part['name'])
-        $out .= Q($part['name']);
-      if ($part['mailto'])
-        $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', Q($part['mailto']));
+      if ($name)
+        $out .= Q($name);
+      if ($mailto)
+        $out .= (strlen($out) ? ' ' : '') . sprintf('&lt;%s&gt;', Q($mailto));
     }
 
     if ($c>$j)
@@ -1375,7 +1390,7 @@ function rcmail_draftinfo_decode($str)
 
 
 function rcmail_message_part_controls()
-  {
+{
   global $MESSAGE;
 
   $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
@@ -1397,12 +1412,12 @@ function rcmail_message_part_controls()
   }
 
   return $table->show($attrib);
-  }
+}
 
 
 
 function rcmail_message_part_frame($attrib)
-  {
+{
   global $MESSAGE;
 
   $part = $MESSAGE->mime_parts[asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
@@ -1411,21 +1426,21 @@ function rcmail_message_part_frame($attrib)
   $attrib['src'] = './?' . str_replace('_frame=', ($ctype_primary=='text' ? '_show=' : '_preload='), $_SERVER['QUERY_STRING']);
 
   return html::iframe($attrib);
-  }
+}
 
 
 /**
  * clear message composing settings
  */
 function rcmail_compose_cleanup()
-  {
+{
   if (!isset($_SESSION['compose']))
     return;
 
   $rcmail = rcmail::get_instance();
   $rcmail->plugins->exec_hook('attachments_cleanup', array());
   $rcmail->session->remove('compose');
-  }
+}
 
 
 /**

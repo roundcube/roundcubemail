@@ -60,8 +60,7 @@ if (!$savedraft) {
 function rcmail_encrypt_header($what)
 {
   global $CONFIG, $RCMAIL;
-  if (!$CONFIG['http_received_header_encrypt'])
-  {
+  if (!$CONFIG['http_received_header_encrypt']) {
     return $what;
   }
   return $RCMAIL->encrypt($what);
@@ -69,29 +68,20 @@ function rcmail_encrypt_header($what)
 
 // get identity record
 function rcmail_get_identity($id)
-  {
+{
   global $USER, $OUTPUT;
   
-  if ($sql_arr = $USER->get_identity($id))
-    {
+  if ($sql_arr = $USER->get_identity($id)) {
     $out = $sql_arr;
     $out['mailto'] = $sql_arr['email'];
-    
-    // Special chars as defined by RFC 822 need to in quoted string (or escaped).
-    if (preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $sql_arr['name']))
-      $name = '"' . addcslashes($sql_arr['name'], '"') . '"';
-    else
-      $name = $sql_arr['name'];
-
-    $out['string'] = rcube_charset_convert($name, RCMAIL_CHARSET, $OUTPUT->get_charset());
-    if ($sql_arr['email'])
-      $out['string'] .= ' <' . $sql_arr['email'] . '>';
+    $out['string'] = format_email_recipient($sql_arr['email'],
+      rcube_charset_convert($sql_arr['name'], RCMAIL_CHARSET, $OUTPUT->get_charset()));
 
     return $out;
-    }
-
-  return FALSE;  
   }
+
+  return FALSE;
+}
 
 /**
  * go from this:
@@ -146,7 +136,7 @@ function rcmail_fix_emoticon_paths(&$mime_message)
 }
 
 // parse email address input (and count addresses)
-function rcmail_email_input_format($mailto, $count=false)
+function rcmail_email_input_format($mailto, $count=false, $check=true)
 {
   global $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
 
@@ -163,9 +153,11 @@ function rcmail_email_input_format($mailto, $count=false)
     $item = trim($item);
     // address in brackets without name (do nothing)
     if (preg_match('/^<\S+@\S+>$/', $item)) {
+      $item = idn_to_ascii($item);
       $result[] = $item;
     // address without brackets and without name (add brackets)
     } else if (preg_match('/^\S+@\S+$/', $item)) {
+      $item = idn_to_ascii($item);
       $result[] = '<'.$item.'>';
     // address with name (handle name)
     } else if (preg_match('/\S+@\S+>*$/', $item, $matches)) {
@@ -176,6 +168,7 @@ function rcmail_email_input_format($mailto, $count=false)
           && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
 	  $name = '"'.addcslashes($name, '"').'"';
       }
+      $address = idn_to_ascii($address);
       if (!preg_match('/^<\S+@\S+>$/', $address))
         $address = '<'.$address.'>';
 
@@ -187,7 +180,7 @@ function rcmail_email_input_format($mailto, $count=false)
 
     // check address format
     $item = trim($item, '<>');
-    if ($item && !check_email($item)) {
+    if ($item && $check && !check_email($item)) {
       $EMAIL_FORMAT_ERROR = $item;
       return;
     }
@@ -297,7 +290,7 @@ if (!empty($mailcc))
 
 if (!empty($mailbcc))
   $headers['Bcc'] = $mailbcc;
-  
+
 if (!empty($identity_arr['bcc'])) {
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
   $RECIPIENT_COUNT ++;
@@ -319,11 +312,11 @@ if (!empty($identity_arr['organization']))
 if (!empty($_POST['_replyto']))
   $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
 else if (!empty($identity_arr['reply-to']))
-  $headers['Reply-To'] = $identity_arr['reply-to'];
+  $headers['Reply-To'] = rcmail_email_input_format($identity_arr['reply-to'], false, true);
 
 if (!empty($_SESSION['compose']['reply_msgid']))
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
-  
+
 // remember reply/forward UIDs in special headers
 if (!empty($_SESSION['compose']['reply_uid']) && $savedraft)
   $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $_SESSION['compose']['reply_uid']);

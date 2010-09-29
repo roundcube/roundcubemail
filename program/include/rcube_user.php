@@ -44,7 +44,7 @@ class rcube_user
     function __construct($id = null, $sql_arr = null)
     {
         $this->db = rcmail::get_instance()->get_dbh();
-    
+
         if ($id && !$sql_arr) {
             $sql_result = $this->db->query(
                 "SELECT * FROM ".get_table_name('users')." WHERE user_id = ?", $id);
@@ -121,14 +121,14 @@ class rcube_user
     {
         if (!$this->ID)
             return false;
-      
+
         $config = rcmail::get_instance()->config;
         $old_prefs = (array)$this->get_prefs();
 
         // merge (partial) prefs array with existing settings
         $save_prefs = $a_user_prefs + $old_prefs;
         unset($save_prefs['language']);
-    
+
         // don't save prefs with default values if they haven't been changed yet
         foreach ($a_user_prefs as $key => $value) {
             if (!isset($old_prefs[$key]) && ($value == $config->get($key)))
@@ -186,11 +186,11 @@ class rcube_user
             ($sql_add ? " ".$sql_add : "").
             " ORDER BY ".$this->db->quoteIdentifier('standard')." DESC, name ASC, identity_id ASC",
             $this->ID);
-    
+
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
             $result[] = $sql_arr;
         }
-    
+
         return $result;
     }
 
@@ -208,7 +208,7 @@ class rcube_user
             return false;
 
         $query_cols = $query_params = array();
-    
+
         foreach ((array)$data as $col => $value) {
             $query_cols[]   = $this->db->quoteIdentifier($col) . ' = ?';
             $query_params[] = $value;
@@ -224,11 +224,11 @@ class rcube_user
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $query_params));
-    
+
         return $this->db->affected_rows();
     }
-  
-  
+
+
     /**
      * Create a new identity record linked with this user
      *
@@ -259,8 +259,8 @@ class rcube_user
 
         return $this->db->insert_id('identities');
     }
-  
-  
+
+
     /**
      * Mark the given identity as deleted
      *
@@ -282,7 +282,7 @@ class rcube_user
         // we'll not delete last identity
         if ($sql_arr['ident_count'] <= 1)
             return false;
-    
+
         $this->db->query(
             "UPDATE ".get_table_name('identities').
             " SET del = 1, changed = ".$this->db->now().
@@ -293,8 +293,8 @@ class rcube_user
 
         return $this->db->affected_rows();
     }
-  
-  
+
+
     /**
      * Make this identity the default one for this user
      *
@@ -313,8 +313,8 @@ class rcube_user
                 $iid);
         }
     }
-  
-  
+
+
     /**
      * Update user's last_login timestamp
      */
@@ -328,8 +328,8 @@ class rcube_user
                 $this->ID);
         }
     }
-  
-  
+
+
     /**
      * Clear the saved object state
      */
@@ -338,8 +338,8 @@ class rcube_user
         $this->ID = null;
         $this->data = null;
     }
-  
-  
+
+
     /**
      * Find a user record matching the given name and host
      *
@@ -350,25 +350,25 @@ class rcube_user
     static function query($user, $host)
     {
         $dbh = rcmail::get_instance()->get_dbh();
-    
+
         // query for matching user name
         $query = "SELECT * FROM ".get_table_name('users')." WHERE mail_host = ? AND %s = ?";
         $sql_result = $dbh->query(sprintf($query, 'username'), $host, $user);
-    
+
         // query for matching alias
         if (!($sql_arr = $dbh->fetch_assoc($sql_result))) {
             $sql_result = $dbh->query(sprintf($query, 'alias'), $host, $user);
             $sql_arr = $dbh->fetch_assoc($sql_result);
         }
-    
+
         // user already registered -> overwrite username
         if ($sql_arr)
             return new rcube_user($sql_arr['user_id'], $sql_arr);
         else
             return false;
     }
-  
-  
+
+
     /**
      * Create a new user record and return a rcube_user instance
      *
@@ -448,7 +448,7 @@ class rcube_user
 
                 $plugin = $rcmail->plugins->exec_hook('identity_create',
 	                array('login' => true, 'record' => $record));
-          
+
                 if (!$plugin['abort'] && $plugin['record']['email']) {
                     $rcmail->user->insert_identity($plugin['record']);
                 }
@@ -463,11 +463,11 @@ class rcube_user
                 'file' => __FILE__,
                 'message' => "Failed to create new user"), true, false);
         }
-    
+
         return $user_id ? $user_instance : false;
     }
-  
-  
+
+
     /**
      * Resolve username using a virtuser plugins
      *

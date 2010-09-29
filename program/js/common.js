@@ -484,21 +484,26 @@ function rcube_layer(id, attributes)
 function rcube_check_email(input, inline)
 {
   if (input && window.RegExp) {
-    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
-    var dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
-    var atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
-    var quoted_pair = '\\x5c[\\x00-\\x7f]';
-    var domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d';
-    var quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22';
-    var sub_domain = '('+atom+'|'+domain_literal+')';
-    var word = '('+atom+'|'+quoted_string+')';
-    var domain = sub_domain+'(\\x2e'+sub_domain+')*';
-    var local_part = word+'(\\x2e'+word+')*';
-    var addr_spec = local_part+'\\x40'+domain;
-    var delim = '[,;\s\n]';
-    var reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
+      dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
+      atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
+      quoted_pair = '\\x5c[\\x00-\\x7f]',
+      quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22',
+      // Use simplified domain matching, because we need to allow Unicode characters here
+      // So, e-mail address should be validated also on server side after idn_to_ascii() use
+      sub_domain = '[^@]+',
+      //domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
+      //sub_domain = '('+atom+'|'+domain_literal+')',
+      word = '('+atom+'|'+quoted_string+')',
+      delim = '[,;\s\n]',
+      domain = sub_domain+'(\\x2e'+sub_domain+')*',
+      local_part = word+'(\\x2e'+word+')*',
+      addr_spec = local_part+'\\x40'+domain,
+      reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+
     return reg1.test(input) ? true : false;
   }
+
   return false;
 };
 

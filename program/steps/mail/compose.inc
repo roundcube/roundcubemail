@@ -227,14 +227,12 @@ function rcmail_compose_headers($attrib)
         $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
 
     case 'cc':
-      if (!$fname)
-      {
+      if (!$fname) {
         $fname = '_cc';
         $header = $param = 'cc';
       }
     case 'bcc':
-      if (!$fname)
-      {
+      if (!$fname) {
         $fname = '_bcc';
         $header = $param = 'bcc';
       }
@@ -251,7 +249,7 @@ function rcmail_compose_headers($attrib)
       $field_type = 'html_inputfield';
       break;
   }
- 
+
   if ($fname && !empty($_POST[$fname])) {
     $fvalue = get_input_value($fname, RCUBE_INPUT_POST, TRUE);
   }
@@ -262,13 +260,10 @@ function rcmail_compose_headers($attrib)
     // get recipent address(es) out of the message headers
     if ($header=='to' && !empty($MESSAGE->headers->replyto))
       $fvalue = $MESSAGE->headers->replyto;
-
     else if ($header=='to' && !empty($MESSAGE->headers->from))
       $fvalue = $MESSAGE->headers->from;
-
     // add recipent of original message if reply to all
-    else if ($header=='cc' && !empty($MESSAGE->reply_all))
-    {
+    else if ($header=='cc' && !empty($MESSAGE->reply_all)) {
       if ($v = $MESSAGE->headers->to)
         $fvalue .= $v;
 
@@ -277,39 +272,58 @@ function rcmail_compose_headers($attrib)
     }
 
     // split recipients and put them back together in a unique way
-    if (!empty($fvalue))
-    {
+    if (!empty($fvalue)) {
       $to_addresses = $IMAP->decode_address_list($fvalue);
       $fvalue = '';
 
-      foreach ($to_addresses as $addr_part)
-      {
-        if (!empty($addr_part['mailto'])
-            && !in_array($addr_part['mailto'], $sa_recipients)
+      foreach ($to_addresses as $addr_part) {
+        if (empty($addr_part['mailto']))
+          continue;
+
+        $mailto = idn_to_utf8($addr_part['mailto']);
+
+        if (!in_array($mailto, $sa_recipients)
             && (!$MESSAGE->compose_from
-                || !in_array_nocase($addr_part['mailto'], $MESSAGE->compose_from)
-                || (count($to_addresses)==1 && $header=='to'))) // allow reply to yourself
-        {
-          $fvalue .= (strlen($fvalue) ? ', ':'').$addr_part['string'];
+                || !in_array_nocase($mailto, $MESSAGE->compose_from)
+                || (count($to_addresses)==1 && $header=='to')) // allow reply to yourself
+        ) {
+          if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
+            $string = format_email_recipient($mailto, $addr_part['name']);
+          else
+            $string = $mailto;
+          $fvalue .= (strlen($fvalue) ? ', ':'') . $string;
           $sa_recipients[] = $addr_part['mailto'];
         }
       }
     }
   }
-  else if ($header && in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
-  {
+  else if ($header && in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
     // get drafted headers
     if ($header=='to' && !empty($MESSAGE->headers->to))
       $fvalue = $MESSAGE->get_header('to');
-
-    if ($header=='cc' && !empty($MESSAGE->headers->cc))
+    else if ($header=='cc' && !empty($MESSAGE->headers->cc))
       $fvalue = $MESSAGE->get_header('cc');
-
-    if ($header=='bcc' && !empty($MESSAGE->headers->bcc))
+    else if ($header=='bcc' && !empty($MESSAGE->headers->bcc))
       $fvalue = $MESSAGE->get_header('bcc');
+
+    $addresses = $IMAP->decode_address_list($fvalue);
+    $fvalue = '';
+
+    foreach ($addresses as $addr_part) {
+      if (empty($addr_part['mailto']))
+        continue;
+
+      $mailto = idn_to_utf8($addr_part['mailto']);
+
+      if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
+        $string = format_email_recipient($mailto, $addr_part['name']);
+      else
+        $string = $mailto;
+      $fvalue .= (strlen($fvalue) ? ', ':'') . $string;
+    }
   }
 
-        
+
   if ($fname && $field_type)
   {
     // pass the following attributes to the form class
@@ -326,7 +340,7 @@ function rcmail_compose_headers($attrib)
   if ($form_start)
     $out = $form_start.$out;
 
-  return $out;  
+  return $out;
 }
 
 
@@ -350,7 +364,7 @@ function rcmail_compose_header_from($attrib)
     foreach ($a_to as $addr)
     {
       if (!empty($addr['mailto']))
-        $a_recipients[] = mb_strtolower($addr['mailto']);
+        $a_recipients[] = mb_strtolower(idn_to_utf8($addr['mailto']));
     }
 
     if (!empty($MESSAGE->headers->cc))
@@ -359,7 +373,7 @@ function rcmail_compose_header_from($attrib)
       foreach ($a_cc as $addr)
       {
         if (!empty($addr['mailto']))
-          $a_recipients[] = mb_strtolower($addr['mailto']);
+          $a_recipients[] = mb_strtolower(idn_to_utf8($addr['mailto']));
       }
     }
   }
@@ -377,6 +391,7 @@ function rcmail_compose_header_from($attrib)
 
     foreach ($user_identities as $sql_arr)
     {
+      $sql_arr['email'] = mb_strtolower(idn_to_utf8($sql_arr['email']));
       $identity_id = $sql_arr['identity_id'];
       $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);
 
@@ -401,7 +416,7 @@ function rcmail_compose_header_from($attrib)
         if ($compose_mode == RCUBE_COMPOSE_DRAFT && strstr($MESSAGE->headers->from, $sql_arr['email']))
           $from_id = $sql_arr['identity_id'];
         // set identity if it's one of the reply-message recipients (with prio for default identity)
-        else if (in_array(mb_strtolower($sql_arr['email']), $a_recipients) && (empty($from_id) || $sql_arr['standard']))
+        else if (in_array($sql_arr['email'], $a_recipients) && (empty($from_id) || $sql_arr['standard']))
           $from_id = $sql_arr['identity_id'];
       }
     }
@@ -925,7 +940,7 @@ function rcmail_compose_subject($attrib)
   $out = $form_start ? "$form_start\n" : '';
   $out .= $textfield->show($subject);
   $out .= $form_end ? "\n$form_end" : '';
-         
+
   return $out;
 }
 

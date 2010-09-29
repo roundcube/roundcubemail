@@ -3505,7 +3505,7 @@ class rcube_imap
             $address = trim($val['address']);
             $name = trim($val['name']);
 
-            if (preg_match('/^[\'"]/', $name) && preg_match('/[\'"]$/', $name))
+            if ($name && preg_match('/^[\'"]/', $name) && preg_match('/[\'"]$/', $name))
                 $name = trim($name, '\'"');
 
             if ($name && $address && $name != $address)
@@ -3515,7 +3515,8 @@ class rcube_imap
             else if ($name)
                 $string = $name;
 
-            $out[$j] = array('name' => $name,
+            $out[$j] = array(
+                'name'   => $name,
                 'mailto' => $address,
                 'string' => $string
             );
@@ -3912,9 +3913,9 @@ class rcube_imap
                     $result[$key]['name'] .= (empty($result[$key]['name'])?'':' ').str_replace("\"",'',stripslashes($v));
             }
 
-            if (empty($result[$key]['name']))
-                $result[$key]['name'] = $result[$key]['address'];
-            elseif (empty($result[$key]['address']))
+//          if (empty($result[$key]['name']))
+//              $result[$key]['name'] = $result[$key]['address'];
+            if (empty($result[$key]['address']))
                 $result[$key]['address'] = $result[$key]['name'];
         }
 

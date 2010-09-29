@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Messages caching: performance improvements, fixed syncing, fixes related with #1486748
 - Add link to identities in compose window (#1486729)
+- Add Internationalized Domain Name (IDNA) support (#1483894)
 
 RELEASE 0.4.1
 -------------

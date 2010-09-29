@@ -36,7 +36,9 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
       'email' => $contact_arr[1]['mailto'],
       'name' => $contact_arr[1]['name']
     );
-    
+
+    $contact['email'] = idn_to_utf8($contact['email']);
+
     // use email address part for name
     if (empty($contact['name']) || $contact['name'] == $contact['email'])
       $contact['name'] = ucfirst(preg_replace('/[\.\-]/', ' ', substr($contact['email'], 0, strpos($contact['email'], '@'))));

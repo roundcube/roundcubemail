@@ -680,3 +680,51 @@ if (!extension_loaded('mbstring'))
     }
 }
 
+/**
+ * intl replacement functions
+ */
+
+if (!function_exists('idn_to_utf8'))
+{
+    function idn_to_utf8($domain, $flags=null)
+    {
+        static $idn, $loaded;
+
+        if (!$loaded) {
+            $idn = new Net_IDNA2();
+            $loaded = true;
+        }
+
+        if ($idn && $domain && preg_match('/(^|@|\.)xn--/i', $domain)) {
+            try {
+                $domain = $idn->decode($domain);
+            }
+            catch (Exception $e) {
+            }
+        }
+        return $domain;
+    }
+}
+
+if (!function_exists('idn_to_ascii'))
+{
+    function idn_to_ascii($domain, $flags=null)
+    {
+        static $idn, $loaded;
+
+        if (!$loaded) {
+            $idn = new Net_IDNA2();
+            $loaded = true;
+        }
+
+        if ($idn && $domain && preg_match('/[^\x20-\x7E]/', $domain)) {
+            try {
+                $domain = $idn->encode($domain);
+            }
+            catch (Exception $e) {
+            }
+        }
+        return $domain;
+    }
+}
+
