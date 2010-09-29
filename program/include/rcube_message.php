@@ -667,7 +667,7 @@ class rcube_message
                     $line  = rtrim(substr($line, $level));
                     $line  = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix ");
                 }
-                else {
+                else if ($line) {
                     $line = ' ' . rc_wordwrap(rtrim($line), $length - 2, " \r\n ");
                 }
 
