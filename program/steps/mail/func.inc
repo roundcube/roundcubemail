@@ -1584,12 +1584,20 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
   return $sent;
 }
 
-
-function rcmail_send_mdn($uid, &$smtp_error)
+/**
+ * Send the MDN response
+ *
+ * @param mixed $message    Original message object (rcube_message) or UID
+ * @param array $smtp_error SMTP error array (reference)
+ *
+ * @return boolean Send status
+ */
+function rcmail_send_mdn($message, &$smtp_error)
 {
   global $RCMAIL, $IMAP;
 
-  $message = new rcube_message($uid);
+  if (!is_a($message, rcube_message))
+    $message = new rcube_message($message);
 
   if ($message->headers->mdn_to && !$message->headers->mdn_sent &&
     ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*')))

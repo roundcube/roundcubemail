@@ -72,17 +72,19 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
       $mbox_name != $CONFIG['drafts_mbox'] &&
       $mbox_name != $CONFIG['sent_mbox'])
   {
-    if (intval($CONFIG['mdn_requests']) === 1)
-    {
-      if (rcmail_send_mdn($MESSAGE->uid, $smtp_error))
+    $mdn_cfg = intval($CONFIG['mdn_requests']);
+
+    if ($mdn_cfg == 1 || ($mdn_cfg == 3 && rcmail_contact_exists($MESSAGE->sender['mailto']))) {
+      // Send MDN
+      if (rcmail_send_mdn($MESSAGE, $smtp_error))
         $OUTPUT->show_message('receiptsent', 'confirmation');
       else if ($smtp_error)
         $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
       else	
         $OUTPUT->show_message('errorsendingreceipt', 'error');
     }
-    else if (empty($CONFIG['mdn_requests']))
-    {
+    else if ($mdn_cfg != 2) {
+      // Ask user
       $OUTPUT->add_label('mdnrequest');
       $OUTPUT->set_env('mdn_request', true);
     }
@@ -181,8 +183,6 @@ function rcmail_message_attachments($attrib)
   return $out;
 }
 
-
-
 function rcmail_remote_objects_msg($attrib)
 {
   global $MESSAGE, $RCMAIL;
@@ -201,6 +201,21 @@ function rcmail_remote_objects_msg($attrib)
   
   $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
   return html::div($attrib, $msg);
+}
+
+function rcmail_contact_exists($email)
+{
+  global $RCMAIL;
+
+  if ($email) {
+    // @TODO: search in all address books?
+    $CONTACTS = $RCMAIL->get_address_book(null, true);
+    $existing = $CONTACTS->search('email', $email, true, false);
+    if ($existing->count)
+      return true;
+  }
+
+  return false;
 }
 
 
@@ -227,5 +242,4 @@ if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen &&
 }
 
 exit;
-
 

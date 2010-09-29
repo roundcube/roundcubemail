@@ -315,9 +315,10 @@ $labels['logoutcompact'] = 'Compact Inbox on logout';
 $labels['uisettings'] = 'User Interface';
 $labels['serversettings'] = 'Server Settings';
 $labels['mailboxview'] = 'Mailbox View';
-$labels['mdnrequests'] = 'Sender notifications';
-$labels['askuser'] = 'ask the user';
-$labels['autosend'] = 'send automatically';
+$labels['mdnrequests'] = 'On request for return receipt';
+$labels['askuser'] = 'ask me';
+$labels['autosend'] = 'send receipt';
+$labels['autosendknown'] = 'send receipt to my contacts only';
 $labels['ignore'] = 'ignore';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
@@ -405,5 +406,5 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-																												
+
 ?>

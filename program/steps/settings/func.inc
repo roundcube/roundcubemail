@@ -323,6 +323,7 @@ function rcmail_user_prefs($current=null)
       $select_mdn_requests = new html_select(array('name' => '_mdn_requests', 'id' => $field_id));
       $select_mdn_requests->add(rcube_label('askuser'), 0);
       $select_mdn_requests->add(rcube_label('autosend'), 1);
+      $select_mdn_requests->add(rcube_label('autosendknown'), 3);
       $select_mdn_requests->add(rcube_label('ignore'), 2);
 
       $blocks['main']['options']['mdn_requests'] = array(
