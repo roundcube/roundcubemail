@@ -1233,16 +1233,16 @@ td.hide-headers
   display: none;
 }
 
-#formlinks a,
-#formlinks a:visited
+.formlinks a,
+.formlinks a:visited
 {
   color: #999999;
   font-size: 11px;
   text-decoration: none;
 }
 
-#formlinks a,
-#formlinks a:visited
+.formlinks a,
+.formlinks a:visited
 {
   color: #CC0000;
 }

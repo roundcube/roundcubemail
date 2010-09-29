@@ -225,17 +225,20 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.enable_command('send-attachment', 'remove-attachment', 'send', 'toggle-editor', true);
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'toggle-editor'];
+
+          if (this.env.drafts_mailbox)
+            this.env.compose_commands.push('savedraft')
+
+          this.enable_command(this.env.compose_commands, 'identities', true);
 
           if (this.env.spellcheck) {
             this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
+            this.env.compose_commands.push('spellcheck')
             this.set_spellcheck_state('ready');
             if ($("input[name='_is_html']").val() == '1')
               this.display_spellcheck_controls(false);
           }
-
-          if (this.env.drafts_mailbox)
-            this.enable_command('savedraft', true);
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
 
@@ -425,8 +428,7 @@ function rcube_webmail()
     }
 
     // check input before leaving compose step
-    if (this.task=='mail' && this.env.action=='compose'
-        && (command == 'list' || command == 'mail' || command == 'addressbook' || command == 'settings')) {
+    if (this.task=='mail' && this.env.action=='compose' && $.inArray(command, this.env.compose_commands)<0) {
       if (this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
         return false;
     }
@@ -974,11 +976,11 @@ function rcube_webmail()
         break;
 
       case 'identities':
-        this.goto_url('identities');
+        this.goto_url('settings/identities');
         break;
 
       case 'folders':
-        this.goto_url('folders');
+        this.goto_url('settings/folders');
         break;
 
       // unified command call (command name == function name)
@@ -2942,8 +2944,10 @@ function rcube_webmail()
       sig_separator = this.env.sig_above && (this.env.compose_mode == 'reply' || this.env.compose_mode == 'forward') ? '---' : '-- ';
 
     // enable manual signature insert
-    if (this.env.signatures && this.env.signatures[id])
+    if (this.env.signatures && this.env.signatures[id]) {
       this.enable_command('insert-sig', true);
+      this.env.compose_commands.push('insert-sig');
+    }
     else
       this.enable_command('insert-sig', false);
 

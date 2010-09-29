@@ -204,6 +204,7 @@ $labels['charset']        = 'Charset';
 $labels['editortype']     = 'Editor type';
 $labels['returnreceipt']  = 'Return receipt';
 
+$labels['editidents']    = 'Edit identities';
 $labels['checkspelling'] = 'Check spelling';
 $labels['resumeediting'] = 'Resume editing';
 $labels['revertto']      = 'Revert to';

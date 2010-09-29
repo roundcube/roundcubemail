@@ -53,7 +53,10 @@
         <table border="0" cellspacing="0" cellpadding="1" id="compose-headers">
         <tr>
             <td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
-            <td class="editfield"><roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" /></td>
+            <td class="editfield formlinks">
+                <roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
+                <a href="#identities" onclick="return rcmail.command('identities')"><roundcube:label name="editidents" /></a>
+            </td>
         </tr><tr>
             <td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
             <td class="editfield"><roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="2" tabindex="2" /></td>
@@ -77,7 +80,7 @@
             <td class="editfield"><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" /></td>
         </tr><tr>
             <td></td>
-            <td id="formlinks">
+            <td class="formlinks">
                 <a href="#cc" onclick="return rcmail_ui.show_header_form('cc')" id="cc-link"><roundcube:label name="addcc" /></a>
                 <span class="separator">|</span>
                 <a href="#bcc" onclick="return rcmail_ui.show_header_form('bcc')" id="bcc-link"><roundcube:label name="addbcc" /></a>
