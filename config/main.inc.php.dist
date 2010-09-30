@@ -407,16 +407,22 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // For example %n = mail.domain.tld, %d = domain.tld
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
-  'use_tls'	    => false,
+  'use_tls'	      => false,
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
   // %fu - The full username provided, assumes the username is an email
   //       address, uses the username_domain value if not an email address.
   // %u  - The username prior to the '@'.
   // %d  - The domain name after the '@'.
   // %dc - The domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
+  // %dn - DN found by ldap search when search_filter/search_base_dn are used
   'base_dn'       => '',
   'bind_dn'       => '',
   'bind_pass'     => '',
+  // It's possible to bind for an individual address book
+  // The login name is used to search for the DN to bind with
+  'search_base_dn' => '',
+  'search_filter'  => '',   // e.g. '(&(objectClass=posixAccount)(uid=%u))'
+
   'writable'      => false,   // Indicates if we can write to the LDAP directory or not.
   // If writable is true then these fields need to be populated:
   // LDAP_Object_Classes, required_fields, LDAP_rdn

@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix HTML to plain text conversion doesn't handle citation blocks (#1486921)
 - Use custom sorting when SORT is disabled by IMAP admin (#1486959)
 - Allow setting some washtml options from plugin (#1486578)
+- Add option do bind for an individual LDAP address book (#1486997)
 
 RELEASE 0.4.1
 -------------
