@@ -32,12 +32,13 @@ if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid))
 {
   $plugin = $RCMAIL->plugins->exec_hook('identity_delete', array('id' => $iid));
   
-  if (!$plugin['abort'] && $USER->delete_identity($iid)) {
+  $deleted = !$plugin['abort'] ? $USER->delete_identity($iid) : $plugin['result'];
+
+  if ($deleted)
     $OUTPUT->show_message('deletedsuccessfully', 'confirmation', null, false);
-  }
-  else {
-    $OUTPUT->show_message('nodeletelastidentity', 'error', null, false);
-  }
+  else
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'nodeletelastidentity', 'error', null, false);
+
   // send response
   if ($OUTPUT->ajax_call)
     $OUTPUT->send();
@@ -48,5 +49,3 @@ if ($OUTPUT->ajax_call)
 
 // go to identities page
 rcmail_overwrite_action('identities');
-
-

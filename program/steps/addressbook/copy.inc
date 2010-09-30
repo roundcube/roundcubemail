@@ -37,28 +37,30 @@ if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) &
     $ids = array();
 
     foreach ($arr_cids as $cid) {
-      $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
-        'record' => $CONTACTS->get_record($cid, true),
-        'source' => $target,
-        'group' => $target_group,
-      ));
-      $a_record = $plugin['record'];
+      $a_record = $CONTACTS->get_record($cid, true);
 
-      if (!$plugin['abort']) {
-        // check if contact exists, if so, we'll need it's ID
-        $result = $TARGET->search('email', $a_record['email'], true, true);
+      // check if contact exists, if so, we'll need it's ID
+      $result = $TARGET->search('email', $a_record['email'], true, true);
 
-        // insert contact record
-        if (!$result->count) {
+      // insert contact record
+      if (!$result->count) {
+        $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
+          'record' => $a_record, 'source' => $target, 'group' => $target_group));
+
+        if (!$plugin['abort']) {
           if ($insert_id = $TARGET->insert($a_record, false)) {
             $ids[] = $insert_id;
             $success++;
           }
         }
-        else {
-          $record = $result->first();
-          $ids[] = $record['ID'];
+        else if ($plugin['result']) {
+          $ids = array_merge($ids, $plugin['result']);
+          $success++;
         }
+      }
+      else {
+        $record = $result->first();
+        $ids[] = $record['ID'];
       }
     }
 
@@ -79,6 +81,8 @@ if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) &
         if (($cnt = $TARGET->add_to_group($target_group, $plugin['ids'])) && $cnt > $success)
           $success = $cnt;
       }
+      else if ($plugin['result'])
+        $success = $plugin['result'];
     }
   }
 

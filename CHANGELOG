@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Add option do bind for an individual LDAP address book (#1486997)
 - Change reply prefix to display email address only if sender name doesn't exist (#1486550)
 - Fix charset replacement in HTML message bodies (#1487021)
+- Plugin API: improved 'abort' flag handling, added 'result' item in some hooks (#1486914) 
 
 RELEASE 0.4.1
 -------------

@@ -159,7 +159,12 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
       $a_record = $plugin['record'];
 
       // insert record and send response
-      if (!$plugin['abort'] && ($success = $CONTACTS->insert($a_record))) {
+      if (!$plugin['abort'])
+        $success = $CONTACTS->insert($a_record);
+      else
+        $success = $plugin['result'];
+
+      if ($success) {
         $IMPORT_STATS->inserted++;
         $IMPORT_STATS->names[] = $vcard->displayname;
       } else {

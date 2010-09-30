@@ -30,8 +30,7 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
 {
   $contact_arr = $IMAP->decode_address_list(get_input_value('_address', RCUBE_INPUT_POST, true), 1, false);
   
-  if (!empty($contact_arr[1]['mailto']))
-  {
+  if (!empty($contact_arr[1]['mailto'])) {
     $contact = array(
       'email' => $contact_arr[1]['mailto'],
       'name' => $contact_arr[1]['name']
@@ -45,21 +44,23 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
 
     // check for existing contacts
     $existing = $CONTACTS->search('email', $contact['email'], true, false);
+
     if ($done = $existing->count)
       $OUTPUT->show_message('contactexists', 'warning');
-    else
-    {
+    else {
       $plugin = $RCMAIL->plugins->exec_hook('contact_create', array('record' => $contact, 'source' => null));
       $contact = $plugin['record'];
 
-      if (!$plugin['abort'] && ($done = $CONTACTS->insert($contact)))
+      $done = !$plugin['abort'] ? $CONTACTS->insert($contact) : $plugin['result'];
+
+      if ($done)
         $OUTPUT->show_message('addedsuccessfully', 'confirmation');
     }
   }
 }
 
 if (!$done)
-  $OUTPUT->show_message('errorsavingcontact', 'warning');
+  $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsavingcontact', 'warning');
 
 $OUTPUT->send();
 

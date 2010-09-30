@@ -58,8 +58,12 @@ if (!empty($cid))
     array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
   $a_record = $plugin['record'];
   
-  if (!$plugin['abort'] && ($result = $CONTACTS->update($cid, $a_record)))
-  {
+  if (!$plugin['abort'])
+    $result = $CONTACTS->update($cid, $a_record);
+  else
+    $result = $plugin['result'];
+
+  if ($result) {
     // LDAP DN change
     if (is_string($result) && strlen($result)>1) {
       $newcid = $result;
@@ -81,34 +85,37 @@ if (!empty($cid))
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
     rcmail_overwrite_action('show');
   }
-  else
-  {
+  else {
     // show error message
-    $OUTPUT->show_message('errorsaving', 'error', null, false);
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
     rcmail_overwrite_action('show');
   }
 }
 
 // insert a new contact
-else
-{
+else {
   // check for existing contacts
   $existing = $CONTACTS->search('email', $a_record['email'], true, false);
 
   // show warning message
-  if ($existing->count)
-  {
+  if ($existing->count) {
     $OUTPUT->show_message('contactexists', 'warning', null, false);
     rcmail_overwrite_action('add');
     return;
   }
 
-  $plugin = $RCMAIL->plugins->exec_hook('contact_create', array('record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
+    'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
   $a_record = $plugin['record'];
 
   // insert record and send response
-  if (!$plugin['abort'] && ($insert_id = $CONTACTS->insert($a_record)))
-  {
+  if (!$plugin['abort'])
+    $insert_id = $CONTACTS->insert($a_record);
+  else
+    $insert_id = $plugin['result'];
+
+
+  if ($insert_id) {
     // add contact row or jump to the page where it should appear
     $CONTACTS->reset();
     $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
@@ -124,12 +131,9 @@ else
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
     $OUTPUT->send('iframe');
   }
-  else
-  {
+  else {
     // show error message
-    $OUTPUT->show_message('errorsaving', 'error', null, false);
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
     rcmail_overwrite_action('add');
   }
 }
-
-

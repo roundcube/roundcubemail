@@ -23,14 +23,15 @@ if ($OUTPUT->ajax_call &&
     ($cid = get_input_value('_cid', RCUBE_INPUT_POST)) &&
     preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)
 ) {
-  $plugin = $RCMAIL->plugins->exec_hook('contact_delete', array('id' => $cid, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+  $plugin = $RCMAIL->plugins->exec_hook('contact_delete', array(
+    'id' => $cid, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
 
-  $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid) : false;
-  if (!$deleted)
-    {
+  $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid) : $plugin['result'];
+
+  if (!$deleted) {
     // send error message
     exit;
-    }
+  }
 
   // count contacts for this user
   $result = $CONTACTS->count();
@@ -46,7 +47,7 @@ if ($OUTPUT->ajax_call &&
 
   // send response
   $OUTPUT->send();
-  }
+}
 
 exit;
 

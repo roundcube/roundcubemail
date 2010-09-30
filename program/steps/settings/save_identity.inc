@@ -83,23 +83,25 @@ if ($_POST['_iid'])
   if ($save_data['reply-to'])
     $save_data['reply-to'] = idn_to_ascii($save_data['reply-to']);
 
-  if (!$plugin['abort'] && ($updated = $USER->update_identity($iid, $save_data)))
-  {
+  if (!$plugin['abort'])
+    $updated = $USER->update_identity($iid, $save_data);
+  else
+    $updated = $plugin['result'];
+
+  if ($updated) {
     $OUTPUT->show_message('successfullysaved', 'confirmation');
-    
+
     if (!empty($_POST['_standard']))
       $default_id = get_input_value('_iid', RCUBE_INPUT_POST);
-    
-    if ($_POST['_framed'])
-    {
+
+    if ($_POST['_framed']) {
       // update the changed col in list
       // ...
     }
   }
-  else if ($plugin['abort'] || $DB->is_error())
-  {
+  else {
     // show error message
-    $OUTPUT->show_message('errorsaving', 'error', null, false);
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
     rcmail_overwrite_action('edit-identity');
     return;
   }
@@ -118,8 +120,12 @@ else if (IDENTITIES_LEVEL < 2)
   $save_data['bcc']      = idn_to_ascii($save_data['bcc']);
   $save_data['reply-to'] = idn_to_ascii($save_data['reply-to']);
 
-  if (!$plugin['abort'] && $save_data['email'] && ($insert_id = $USER->insert_identity($save_data)))
-  {
+  if (!$plugin['abort'])
+    $insert_id = $save_data['email'] ? $USER->insert_identity($save_data) : null;
+  else
+    $insert_id = $plugin['result'];
+
+  if ($insert_id) {
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
     
     $_GET['_iid'] = $insert_id;
@@ -127,10 +133,9 @@ else if (IDENTITIES_LEVEL < 2)
     if (!empty($_POST['_standard']))
       $default_id = $insert_id;
   }
-  else
-  {
+  else {
     // show error message
-    $OUTPUT->show_message('errorsaving', 'error', null, false);
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
     rcmail_overwrite_action('edit-identity');
     return;
   }
@@ -145,5 +150,3 @@ if ($default_id)
 
 // go to next step
 rcmail_overwrite_action('identities');
-
-
