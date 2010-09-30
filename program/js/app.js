@@ -3635,7 +3635,6 @@ function rcube_webmail()
     }
   };
 
-
   this.delete_contacts = function()
   {
     // exit if no mailbox specified or if selection is empty
@@ -3725,7 +3724,6 @@ function rcube_webmail()
 
     this.enable_command('export', (this.contact_list.rowcount > 0));
   };
-
 
   this.group_create = function()
   {
@@ -3860,7 +3858,7 @@ function rcube_webmail()
     if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a')
       link.innerHTML = prop.name;
 
-    this.env.contactfolders[key].name = this.env.contactgroups[key].name = name;
+    this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
     this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
   };
 
