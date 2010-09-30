@@ -624,9 +624,14 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 {
   global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
+  // build reply prefix
+  $from = array_pop($RCMAIL->imap->decode_address_list($MESSAGE->get_header('from')));
+  $prefix = sprintf("On %s, %s wrote:",
+    $MESSAGE->headers->date, $from['name'] ? $from['name'] : idn_to_utf8($from['email']));
+
   if (!$bodyIsHtml) {
     $body = preg_replace('/\r?\n/', "\n", $body);
-  
+
     // try to remove the signature
     if ($RCMAIL->config->get('strip_existing_sig', true)) {
       $len = strlen($body);
@@ -644,13 +649,9 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     // soft-wrap and quote message text
     $body = rcmail_wrap_and_quote(rtrim($body, "\n"), $LINE_LENGTH);
 
-    // add title line(s)
-    $prefix = sprintf("On %s, %s wrote:\n",
-      $MESSAGE->headers->date,
-      $MESSAGE->get_header('from'));
-
+    $prefix .= "\n";
     $suffix = '';
-    
+
     if ($RCMAIL->config->get('top_posting'))
       $prefix = "\n\n\n" . $prefix;
   }
@@ -663,9 +664,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
     // build reply (quote content)
-    $prefix = sprintf("<p>On %s, %s wrote:</p>\n",
-      $MESSAGE->headers->date,
-      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $RCMAIL->output->get_charset()));
+    $prefix = '<p>' . Q($prefix) . "</p>\n";
     $prefix .= '<blockquote>';
 
     if ($RCMAIL->config->get('top_posting')) {

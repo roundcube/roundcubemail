@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Use custom sorting when SORT is disabled by IMAP admin (#1486959)
 - Allow setting some washtml options from plugin (#1486578)
 - Add option do bind for an individual LDAP address book (#1486997)
+- Change reply prefix to display email address only if sender name doesn't exist (#1486550)
 
 RELEASE 0.4.1
 -------------
