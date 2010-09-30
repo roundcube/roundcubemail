@@ -520,8 +520,11 @@ class rcmail
     // support this parameter for backward compatibility but log warning
     if ($connect) {
       $this->imap_connect();
-      raise_error(array('code' => 800, 'type' => 'imap', 'file' => __FILE__,
-        'message' => "rcube::imap_init(true) is deprecated, use rcube::imap_connect() instead"), true, false);
+      raise_error(array(
+        'code' => 800, 'type' => 'imap',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "rcube::imap_init(true) is deprecated, use rcube::imap_connect() instead"),
+        true, false);
     }
   }
 
