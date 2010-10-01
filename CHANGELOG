@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: improved 'abort' flag handling, added 'result' item in some hooks (#1486914)
 - Fix: contact group input is empty when using rename action more than once on the same group record
 - Fix "Server Error! (Not Found)" when using utils/save-pref action (#1487023)
+- Fix handling of Thunderbird's vCards (#1487024)
 
 RELEASE 0.4.1
 -------------
