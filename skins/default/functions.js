@@ -287,7 +287,7 @@ switch_preview_pane: function(elem)
     rcmail.env.contentframe = null;
     rcmail.show_contentframe(false);
   }
-  rcmail.http_post('utils/save-pref', '_name=preview_pane&_value='+(elem.checked?1:0));
+  rcmail.http_post('save-pref', '_name=preview_pane&_value='+(elem.checked?1:0));
 },
 
 /* Message composing */

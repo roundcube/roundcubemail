@@ -1294,7 +1294,7 @@ function rcube_webmail()
       }
     }
 
-    this.http_post('utils/save-pref', '_name=collapsed_folders&_value='+urlencode(this.env.collapsed_folders));
+    this.http_post('save-pref', '_name=collapsed_folders&_value='+urlencode(this.env.collapsed_folders));
     this.set_unread_count_display(id, false);
   };
 
@@ -1465,7 +1465,7 @@ function rcube_webmail()
     if ((found = $.inArray('subject', this.env.coltypes)) >= 0)
       this.set_env('subject_col', found);
 
-    this.http_post('utils/save-pref', { '_name':'list_cols', '_value':this.env.coltypes, '_session':'list_attrib/columns' });
+    this.http_post('save-pref', { '_name':'list_cols', '_value':this.env.coltypes, '_session':'list_attrib/columns' });
   };
 
   this.check_droptarget = function(id)
