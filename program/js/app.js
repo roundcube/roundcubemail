@@ -199,11 +199,13 @@ function rcube_webmail()
         if (this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox)
           this.set_alttext('delete', 'movemessagetotrash');
 
-        this.env.message_commands = ['show', 'reply', 'reply-all', 'forward', 'moveto', 'copy', 'delete',
-          'open', 'mark', 'edit', 'viewsource', 'download', 'print', 'load-attachment', 'load-headers'];
+        this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list', 'forward',
+          'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'download',
+          'print', 'load-attachment', 'load-headers'];
 
         if (this.env.action=='show' || this.env.action=='preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
+          this.enable_command('reply-list', this.env.list_post);
 
           if (this.env.next_uid) {
             this.enable_command('nextmessage', 'lastmessage', true);
@@ -882,10 +884,19 @@ function rcube_webmail()
         break;
 
       case 'reply-all':
+      case 'reply-list':
       case 'reply':
         var uid;
-        if (uid = this.get_single_uid())
-          this.goto_url('compose', '_reply_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(command=='reply-all' ? '&_all=1' : ''), true);
+        if (uid = this.get_single_uid()) {
+          var url = '_reply_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
+          if (command == 'reply-all')
+            // do reply-list, when list is detected and popup menu wasn't used 
+            url += '&_all=' + (!props && this.commands['reply-list'] ? 'list' : 'all');
+          else if (command == 'reply-list')
+            url += '&_all=list';
+
+          this.goto_url('compose', url, true);
+        }
         break;
 
       case 'forward':
@@ -1366,9 +1377,16 @@ function rcube_webmail()
     var selected = list.get_single_selection() != null;
 
     this.enable_command(this.env.message_commands, selected);
-    // Hide certain command buttons when Drafts folder is selected
-    if (selected && this.env.mailbox == this.env.drafts_mailbox) {
-      this.enable_command('reply', 'reply-all', 'forward', false);
+    if (selected) {
+      // Hide certain command buttons when Drafts folder is selected
+      if (this.env.mailbox == this.env.drafts_mailbox)
+        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', false);
+      // Disable reply-list when List-Post header is not set
+      else {
+        var msg = this.env.messages[list.get_single_selection()];
+        if (!msg.ml)
+          this.enable_command('reply-list', false);
+      }
     }
     // Multi-message commands
     this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
@@ -1546,6 +1564,7 @@ function rcube_webmail()
       unread_children: flags.unread_children?flags.unread_children:0,
       parent_uid: flags.parent_uid?flags.parent_uid:0,
       selected: this.select_all_mode || this.message_list.in_selection(uid),
+      ml: flags.ml?1:0,
       // flags from plugins
       flags: flags.extra_flags
     });
@@ -5015,6 +5034,8 @@ function rcube_webmail()
         if (this.env.action == 'show') {
           // re-enable commands on move/delete error
           this.enable_command(this.env.message_commands, true);
+          if (!this.env.list_post)
+            this.enable_command('reply-list', false);
         }
         else if (this.task == 'addressbook') {
           this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });

@@ -17,6 +17,8 @@ CHANGELOG Roundcube Webmail
 - Fix "Server Error! (Not Found)" when using utils/save-pref action (#1487023)
 - Fix handling of Thunderbird's vCards (#1487024)
 - Fix mailto optional params in plain text messages aren't handled (#1487026)
+- Add Reply-to-List feature (#1484252)
+- Add Mail-Followup-To/Mail-Reply-To support (#1485547)
 
 RELEASE 0.4.1
 -------------

@@ -1071,7 +1071,8 @@ class rcube_imap_generic
 	    $request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
 	    $request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
 	    $request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY ";
-	    $request .= "X-DRAFT-INFO".$add.")])";
+	    $request .= "X-DRAFT-INFO LIST-POST MAIL-FOLLOWUP-TO MAIL-REPLY-TO ";
+        $request .= "RETURN-PATH".$add.")])";
 
 	    if (!$this->putLine($request)) {
 		    return false;

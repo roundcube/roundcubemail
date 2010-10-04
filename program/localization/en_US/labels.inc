@@ -46,6 +46,8 @@ $labels['to']      = 'Recipient';
 $labels['cc']      = 'Copy';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Reply-To';
+$labels['mailreplyto'] = 'Mail-Reply-To';
+$labels['mailfollowupto'] = 'Mail-Followup-To';
 $labels['date']    = 'Date';
 $labels['size']    = 'Size';
 $labels['priority'] = 'Priority';
@@ -53,6 +55,8 @@ $labels['organization'] = 'Organization';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
+$labels['mailreply-to'] = $labels['mailreplyto'];
+$labels['mailfollowup-to'] = $labels['mailfollowupto'];
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
@@ -121,7 +125,9 @@ $labels['today'] = 'Today';
 $labels['checkmail']        = 'Check for new messages';
 $labels['writenewmessage']  = 'Create a new message';
 $labels['replytomessage']   = 'Reply to sender';
-$labels['replytoallmessage'] = 'Reply to sender and all recipients';
+$labels['replytoallmessage'] = 'Reply to list or to sender and all recipients';
+$labels['replyall']         = 'Reply all';
+$labels['replylist']        = 'Reply list';
 $labels['forwardmessage']   = 'Forward the message';
 $labels['deletemessage']    = 'Delete message';
 $labels['movemessagetotrash'] = 'Move message to trash';
@@ -233,6 +239,8 @@ $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
+$labels['addmailreplyto'] = 'Add Mail-Reply-To';
+$labels['addmailfollowupto'] = 'Add Mail-Followup-To';
 
 // mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';

@@ -314,6 +314,11 @@ if (!empty($_POST['_replyto']))
 else if (!empty($identity_arr['reply-to']))
   $headers['Reply-To'] = rcmail_email_input_format($identity_arr['reply-to'], false, true);
 
+if (!empty($_POST['_mailfollowupto']))
+  $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_mailfollowupto', RCUBE_INPUT_POST, TRUE, $message_charset));
+if (!empty($_POST['_mailreplyto']))
+  $headers['Mail-Reply-To'] = rcmail_email_input_format(get_input_value('_mailreplyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+
 if (!empty($_SESSION['compose']['reply_msgid']))
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
 

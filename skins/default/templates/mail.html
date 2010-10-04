@@ -120,7 +120,9 @@
 <roundcube:button command="checkmail" type="link" class="button checkmail" classAct="button checkmail" classSel="button checkmailSel" title="checkmail" content=" " />
 <roundcube:button command="compose" type="link" class="button compose" classAct="button compose" classSel="button composeSel" title="writenewmessage" content=" " />
 <roundcube:button command="reply" type="link" class="buttonPas reply" classAct="button reply" classSel="button replySel" title="replytomessage" content=" " />
+<span class="dropbutton">
 <roundcube:button command="reply-all" type="link" class="buttonPas replyAll" classAct="button replyAll" classSel="button replyAllSel" title="replytoallmessage" content=" " />
+<span id="replyallmenulink" onclick="rcmail_ui.show_popup('replyallmenu');return false"></span></span>
 <roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
 <roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletemessage" content=" " />
 <roundcube:container name="toolbar" id="messagetoolbar" />
@@ -138,6 +140,7 @@
   </ul>
 </div>
 
+<roundcube:include file="/includes/replyallmenu.html" />
 <roundcube:include file="/includes/messagemenu.html" />
 
 <div id="searchmenu" class="popupmenu">

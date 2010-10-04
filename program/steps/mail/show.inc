@@ -61,6 +61,8 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     $OUTPUT->set_env('skip_deleted', true);
   if ($CONFIG['display_next'])
     $OUTPUT->set_env('display_next', true);
+  if ($MESSAGE->headers->others['list-post'])
+    $OUTPUT->set_env('list_post', true);
 
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash', 'movingmessage');

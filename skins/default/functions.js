@@ -29,6 +29,7 @@ function rcube_mail_ui()
 {
   this.popups = {
     markmenu:       {id:'markmessagemenu'},
+    replyallmenu:   {id:'replyallmenu'},
     searchmenu:     {id:'searchmenu', editable:1},
     messagemenu:    {id:'messagemenu'},
     listmenu:       {id:'listmenu', editable:1},
@@ -293,16 +294,15 @@ switch_preview_pane: function(elem)
 /* Message composing */
 init_compose_form: function()
 {
-  var cc_field = document.getElementById('_cc'),
-    bcc_field = document.getElementById('_bcc'),
+  var f, field, fields = ['cc', 'bcc', 'replyto', 'mailreplyto', 'mailfollowupto'],
     div = document.getElementById('compose-div'),
     headers_div = document.getElementById('compose-headers-div');
 
-  if (cc_field && cc_field.value != '')
-    rcmail_ui.show_header_form('cc');
-
-  if (bcc_field && bcc_field.value != '')
-    rcmail_ui.show_header_form('bcc');
+  // Show input elements with non-empty value
+  for (f=0; f<fields.length; f++) {
+    if ((field = $('#_'+fields[f])) && field.length && field.val() != '')
+      rcmail_ui.show_header_form(fields[f]);
+  }
 
   // prevent from form data loss when pressing ESC key in IE
   if (bw.ie) {

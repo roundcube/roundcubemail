@@ -462,6 +462,30 @@ img
   background-color: #F2F2F2 !important;
 }
 
+.dropbutton,
+.dropbutton span
+{
+  float: left;
+  height: 32px;
+}
+
+.dropbutton:hover
+{
+  background: url(images/dbutton.png) 0 0 no-repeat transparent;
+}
+
+.dropbutton span
+{
+  width: 9px;
+  background: url(images/dbutton.png) -53px 0 no-repeat transparent;
+}
+
+.dropbutton span:hover
+{
+  cursor: pointer;
+  background-position: -64px 0;
+}
+
 
 /***** common table settings ******/
 
@@ -752,4 +776,3 @@ font.bold
 {
   font-weight: bold;
 }
-  

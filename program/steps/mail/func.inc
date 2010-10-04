@@ -338,6 +338,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_flags['forwarded'] = 1;
     if ($header->flagged)
       $a_msg_flags['flagged'] = 1;
+    if ($header->others['list-post'])
+      $a_msg_flags['ml'] = 1;
     if (preg_match("/(application\/|multipart\/m)/i", $header->ctype))
       $a_msg_flags['attachment'] = 1;
     $a_msg_flags['mbox'] = $mbox;
@@ -942,33 +944,49 @@ function rcmail_message_headers($attrib, $headers=NULL)
     $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
 
   // show these headers
-  $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto', 'date');
+  $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto',
+    'mail-reply-to', 'mail-followup-to', 'date');
   $output_headers = array();
 
   foreach ($standard_headers as $hkey) {
-    if (!$headers[$hkey])
+    if ($headers[$hkey])
+      $value = $headers[$hkey];
+    else if ($headers['others'][$hkey])
+      $value = $headers['others'][$hkey];
+    else
       continue;
 
     if ($hkey == 'date') {
       if ($PRINT_MODE)
-        $header_value = format_date($headers[$hkey], $RCMAIL->config->get('date_long', 'x'));
+        $header_value = format_date($value, $RCMAIL->config->get('date_long', 'x'));
       else
-        $header_value = format_date($headers[$hkey]);
+        $header_value = format_date($value);
     }
     else if ($hkey == 'replyto') {
       if ($headers['replyto'] != $headers['from'])
-        $header_value = rcmail_address_string($headers['replyto'], null, true, $attrib['addicon']);
+        $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
       else
         continue;
     }
+    else if ($hkey == 'mail-reply-to') {
+      if ($headers['mail-replyto'] != $headers['reply-to']
+        && $headers['reply-to'] != $headers['from']
+      )
+        $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+      else
+        continue;
+    }
+    else if ($hkey == 'mail-followup-to') {
+      $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+    }
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc')))
-      $header_value = rcmail_address_string($headers[$hkey], null, true, $attrib['addicon']);
-    else if ($hkey == 'subject' && empty($headers[$hkey]))
+      $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+    else if ($hkey == 'subject' && empty($value))
       $header_value = rcube_label('nosubject');
     else
-      $header_value = trim($IMAP->decode_header($headers[$hkey]));
+      $header_value = trim($IMAP->decode_header($value));
 
-    $output_headers[$hkey] = array('title' => rcube_label($hkey), 'value' => $header_value, 'raw' => $headers[$hkey]);
+    $output_headers[$hkey] = array('title' => rcube_label($hkey), 'value' => $header_value, 'raw' => $value);
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('message_headers_output', array('output' => $output_headers, 'headers' => $MESSAGE->headers));

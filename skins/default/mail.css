@@ -13,7 +13,7 @@
 /*  border: 1px solid #cccccc; */
 }
 
-#messagetoolbar > a
+#messagetoolbar a
 {
   display: block;
   float: left;
@@ -27,7 +27,7 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  margin-right: 10px;
+  margin: 0 5px;
   overflow: hidden;
   background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
@@ -1228,7 +1228,9 @@ td.hide-headers
 
 #compose-cc,
 #compose-bcc,
-#compose-replyto
+#compose-replyto,
+#compose-mailreplyto,
+#compose-mailfollowupto
 {
   display: none;
 }
