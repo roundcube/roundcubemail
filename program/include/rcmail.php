@@ -683,6 +683,15 @@ class rcmail
       if ($virtuser = rcube_user::email2user($username))
         $username = $virtuser;
 
+    // Here we need IDNA ASCII
+    // Only rcube_contacts class is using domain names in Unicode
+    $host = idn_to_ascii($host);
+    if (strpos($username, '@')) {
+      // lowercase username if it's an e-mail address (#1484473)
+      $username = mb_strtolower($username);
+      $username = idn_to_ascii($username);
+    }
+
     // user already registered -> overwrite username
     if ($user = rcube_user::query($username, $host))
       $username = $user->data['username'];
@@ -690,15 +699,9 @@ class rcmail
     if (!$this->imap)
       $this->imap_init();
 
-    // Here we need IDNA ASCII
-    // Only rcube_contacts class is using domain names in Unicode
-    $host = idn_to_ascii($host);
-    if (strpos($username, '@'))
-      $username = idn_to_ascii($username);
-
     // try IMAP login
     if (!($imap_login = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl))) {
-      // lowercase username if it's an e-mail address (#1484473)
+      // try with lowercase
       $username_lc = mb_strtolower($username);
       if ($username_lc != $username && ($imap_login = $this->imap->connect($host, $username_lc, $pass, $imap_port, $imap_ssl)))
         $username = $username_lc;
