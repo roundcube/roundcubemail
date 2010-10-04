@@ -35,13 +35,13 @@ class rcube_string_replacer
 
   function __construct()
   {
-    $url_chars = 'a-z0-9_\-\+\*\$\/&%=@#:;';
-    $url_chars_within = '\?\.~,!';
+    // Simplified domain expression for UTF8 characters handling
+    $utf_domain = '[^&@"\'\\/\s\r\t\n]+\\.[a-z]{2,5}';
 
-    $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)([a-z0-9\-\.]+[a-z]{2,4}([$url_chars$url_chars_within]*[$url_chars])?)/i";
+    $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)($utf_domain(\S+)?)/i";
     $this->mailto_pattern = "/("
         ."[-\w!\#\$%&\'*+~\/^`|{}=]+(?:\.[-\w!\#\$%&\'*+~\/^`|{}=]+)*"  // local-part
-        ."@([a-z0-9]([-a-z0-9]*[a-z0-9])?\\.)+[a-z]{2,5}"               // domain-part
+        ."@$utf_domain"                                                 // domain-part
         ."(\?\S+)?"                                                     // e.g. ?subject=test...
         .")/i";
   }
