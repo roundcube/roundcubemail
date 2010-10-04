@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix: contact group input is empty when using rename action more than once on the same group record
 - Fix "Server Error! (Not Found)" when using utils/save-pref action (#1487023)
 - Fix handling of Thunderbird's vCards (#1487024)
+- Fix mailto optional params in plain text messages aren't handled (#1487026)
 
 RELEASE 0.4.1
 -------------
