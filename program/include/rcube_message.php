@@ -74,6 +74,7 @@ class rcube_message
     {
         $this->app = rcmail::get_instance();
         $this->imap = $this->app->imap;
+        $this->imap->get_all_headers = true;
 
         $this->uid = $uid;
         $this->headers = $this->imap->get_headers($uid, NULL, true, true);

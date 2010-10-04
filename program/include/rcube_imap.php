@@ -40,6 +40,7 @@ class rcube_imap
     public $delimiter = NULL;
     public $threading = false;
     public $fetch_add_headers = '';
+    public $get_all_headers = false;
 
     /**
      * Instance of rcube_imap_generic
@@ -77,6 +78,29 @@ class rcube_imap
     private $db_header_fields = array('idx', 'uid', 'subject', 'from', 'to', 'cc', 'date', 'size');
     private $options = array('auth_method' => 'check');
     private $host, $user, $pass, $port, $ssl;
+
+    /**
+     * All (additional) headers used (in any way) by Roundcube
+     * Not listed here: DATE, FROM, TO, SUBJECT, CONTENT-TYPE, LIST-POST
+     * (used for messages listing) are hardcoded in rcube_imap_generic::fetchHeaders()
+     *
+     * @var array
+     * @see rcube_imap::fetch_add_headers
+     */
+    private $all_headers = array(
+        'REPLY-TO',
+        'IN-REPLY-TO',
+        'CC',
+        'BCC',
+        'MESSAGE-ID',
+        'CONTENT-TRANSFER-ENCODING',
+        'REFERENCES',
+        'X-PRIORITY',
+        'X-DRAFT-INFO',
+        'MAIL-FOLLOWUP-TO',
+        'MAIL-REPLY-TO',
+        'RETURN-PATH',
+    );
 
 
     /**
@@ -1071,7 +1095,7 @@ class rcube_imap
     {
         // fetch reqested headers from server
         $a_header_index = $this->conn->fetchHeaders(
-            $mailbox, $msgs, false, false, $this->fetch_add_headers);
+            $mailbox, $msgs, false, false, $this->get_fetch_headers());
 
         if (empty($a_header_index))
             return 0;
@@ -1396,7 +1420,7 @@ class rcube_imap
             while (true) {
                 // do this in loop to save memory (1000 msgs ~= 10 MB)
                 if ($headers = $this->conn->fetchHeaders($mailbox,
-                    "$start:$end", false, false, $this->fetch_add_headers)
+                    "$start:$end", false, false, $this->get_fetch_headers())
                 ) {
                     foreach ($headers as $header) {
                         $this->add_message_cache($cache_key, $header->id, $header, NULL, true);
@@ -1458,7 +1482,7 @@ class rcube_imap
             $for_update = array_chunk($for_update, $chunk_size);
             foreach ($for_update as $uids) {
                 if ($headers = $this->conn->fetchHeaders($mailbox,
-                    $uids, false, false, $this->fetch_add_headers)
+                    $uids, false, false, $this->get_fetch_headers())
                 ) {
                     foreach ($headers as $header) {
                         $this->add_message_cache($cache_key, $header->id, $header, NULL, true);
@@ -1774,7 +1798,7 @@ class rcube_imap
             return $headers;
 
         $headers = $this->conn->fetchHeader(
-            $mailbox, $id, $is_uid, $bodystr, $this->fetch_add_headers);
+            $mailbox, $id, $is_uid, $bodystr, $this->get_fetch_headers());
 
         // write headers cache
         if ($headers) {
@@ -3062,6 +3086,23 @@ class rcube_imap
     }
 
 
+    /**
+     * Get message header names for rcube_imap_generic::fetchHeader(s)
+     *
+     * @return string Space-separated list of header names
+     */
+    private function get_fetch_headers()
+    {
+        $headers = explode(' ', $this->fetch_add_headers);
+        $headers = array_map('strtoupper', $headers);
+
+        if ($this->caching_enabled || $this->get_all_headers)
+            $headers = array_merge($headers, $this->all_headers);
+
+        return implode(' ', array_unique($headers));
+    }
+
+
     /* --------------------------------
      *   internal caching methods
      * --------------------------------*/
@@ -3348,7 +3389,7 @@ class rcube_imap
             // featch headers if unserialize failed
             if (empty($result[$uid]))
                 $result[$uid] = $this->conn->fetchHeader(
-                    preg_replace('/.msg$/', '', $key), $uid, true, false, $this->fetch_add_headers);
+                    preg_replace('/.msg$/', '', $key), $uid, true, false, $this->get_fetch_headers());
         }
 
         return $result;

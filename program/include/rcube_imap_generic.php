@@ -1059,7 +1059,7 @@ class rcube_imap_generic
 	    $message_set = $this->compressMessageSet($message_set);
 
 	    if ($add)
-		    $add = ' '.strtoupper(trim($add));
+		    $add = ' '.trim($add);
 
 	    /* FETCH uid, size, flags and headers */
 	    $key  	  = 'FH12';
@@ -1067,12 +1067,8 @@ class rcube_imap_generic
 	    $request .= "(UID RFC822.SIZE FLAGS INTERNALDATE ";
 	    if ($bodystr)
 		    $request .= "BODYSTRUCTURE ";
-	    $request .= "BODY.PEEK[HEADER.FIELDS ";
-	    $request .= "(DATE FROM TO SUBJECT REPLY-TO IN-REPLY-TO CC BCC ";
-	    $request .= "CONTENT-TRANSFER-ENCODING CONTENT-TYPE MESSAGE-ID ";
-	    $request .= "REFERENCES DISPOSITION-NOTIFICATION-TO X-PRIORITY ";
-	    $request .= "X-DRAFT-INFO LIST-POST MAIL-FOLLOWUP-TO MAIL-REPLY-TO ";
-        $request .= "RETURN-PATH".$add.")])";
+	    $request .= "BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT CONTENT-TYPE ";
+	    $request .= "LIST-POST DISPOSITION-NOTIFICATION-TO".$add.")])";
 
 	    if (!$this->putLine($request)) {
 		    return false;
