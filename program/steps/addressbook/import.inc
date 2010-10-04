@@ -134,6 +134,9 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
         $IMPORT_STATS->nomail++;
         continue;
       }
+
+      // We're using UTF8 internally
+      $email = idn_to_utf8($email);
       
       if (!$replace) {
         // compare e-mail address
