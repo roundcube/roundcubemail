@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Add Mail-Followup-To/Mail-Reply-To support (#1485547)
 - Fix confirmation message isn't displayed after sending mail on Chrome (#1486177)
 - Fix keyboard doesn't work with autocomplete list with Chrome (#1487029)
+- Fix handling of backslash as IMAP delimiter
 
 RELEASE 0.4.1
 -------------
