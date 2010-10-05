@@ -2768,9 +2768,8 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj)
   {
-    var handler = function(e){ return ref.ksearch_keypress(e,this); };
-    obj.bind((bw.safari || bw.ie ? 'keydown' : 'keypress'), handler);
-    obj.attr('autocomplete', 'off');
+    obj.keydown(function(e){ return ref.ksearch_keydown(e, this); })
+      .attr('autocomplete', 'off');
   };
 
   // checks the input fields before sending a message
@@ -3278,7 +3277,7 @@ function rcube_webmail()
   /*********************************************************/
 
   // handler for keyboard events on address-fields
-  this.ksearch_keypress = function(e, obj)
+  this.ksearch_keydown = function(e, obj)
   {
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
