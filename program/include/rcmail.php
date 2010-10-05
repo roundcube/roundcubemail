@@ -687,8 +687,9 @@ class rcmail
     // Only rcube_contacts class is using domain names in Unicode
     $host = idn_to_ascii($host);
     if (strpos($username, '@')) {
-      // lowercase username if it's an e-mail address (#1484473)
-      $username = mb_strtolower($username);
+      // lowercase domain name
+      list($local, $domain) = explode('@', $username);
+      $username = $local . '@' . mb_strtolower($domain);
       $username = idn_to_ascii($username);
     }
 
