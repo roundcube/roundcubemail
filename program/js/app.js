@@ -2768,7 +2768,7 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj)
   {
-    obj.keydown(function(e){ return ref.ksearch_keydown(e, this); })
+    obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e){ return ref.ksearch_keydown(e, this); })
       .attr('autocomplete', 'off');
   };
 
