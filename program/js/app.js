@@ -3267,8 +3267,9 @@ function rcube_webmail()
 
   this.sent_successfully = function(type, msg)
   {
-    this.list_mailbox();
     this.display_message(msg, type, true);
+    // before redirect we need to wait some time for Chrome (#1486177)
+    window.setTimeout(function(){ ref.list_mailbox(); }, 500);
   };
 
 
