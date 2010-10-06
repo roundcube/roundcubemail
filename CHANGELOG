@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Improve tabs to fixed width and add tabs in identities info (#1486974)
 - Add unique index on users.username+users.mail_host
 - Make htmleditor option more consistent and add option to use HTML on reply to HTML message (#1485840)
+- Use empty envelope sender address for message disposition notifications (RFC2298.3)
 
 RELEASE 0.4.2
 -------------
