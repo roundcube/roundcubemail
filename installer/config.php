@@ -574,7 +574,8 @@ echo $select_autosave->show(intval($RCI->getprop('draft_autosave')));
 $mdn_opts = array(
     0 => 'ask the user',
     1 => 'send automatically',
-    3 => 'send receipt to user contacts only',
+    3 => 'send receipt to user contacts, otherwise ask the user',
+    4 => 'send receipt to user contacts, otherwise ignore',
     2 => 'ignore',
 );
 

@@ -263,7 +263,8 @@ $labels['mailboxview'] = 'Widok skrzynki pocztowej';
 $labels['mdnrequests'] = 'Na żadanie potwierdzenia odbioru';
 $labels['askuser'] = 'pytaj mnie';
 $labels['autosend'] = 'wyślij potwierdzenie';
-$labels['autosendknown'] = 'wyślij potwierdzenie tylko do moich kontaktów';
+$labels['autosendknown'] = 'wyślij potwierdzenie tylko do moich kontaktów, pytaj o pozostałe';
+$labels['autosendknownignore'] = 'wyślij potwierdzenie tylko do moich kontaktów, pozostałe ignoruj';
 $labels['ignore'] = 'ignoruj';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
@@ -349,5 +350,14 @@ $labels['chinese'] = 'chiński';
 $labels['folderactions'] = 'Działania na folderach...';
 $labels['contacts'] = 'Kontakty';
 $labels['messageoptions'] = 'Opcje wiadomości...';
+$labels['mailreplyto'] = 'Mail-Reply-To';
+$labels['mailfollowupto'] = 'Mail-Followup-To';
+$labels['mailreply-to'] = 'Mail-Reply-To';
+$labels['mailfollowup-to'] = 'Mail-Followup-To';
+$labels['replyall'] = 'Odpowiedz wszystkim';
+$labels['replylist'] = 'Odpowiedz na listę';
+$labels['editidents'] = 'Edytuj tożsamości';
+$labels['addmailreplyto'] = 'Dodaj Mail-Reply-To';
+$labels['addmailfollowupto'] = 'Dodaj Mail-Followup-To';
 
 ?>

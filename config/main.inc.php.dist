@@ -337,6 +337,7 @@ $rcmail_config['quota_zero_as_unlimited'] = false;
 // Behavior if a received message requests a message delivery notification (read receipt)
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
 // 3 = send automatically if sender is in addressbook, otherwise ask the user
+// 4 = send automatically if sender is in addressbook, otherwise ignore
 $rcmail_config['mdn_requests'] = 0;
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
