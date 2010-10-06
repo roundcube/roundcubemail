@@ -11,18 +11,21 @@ CHANGELOG Roundcube Webmail
 - Allow setting some washtml options from plugin (#1486578)
 - Add option do bind for an individual LDAP address book (#1486997)
 - Change reply prefix to display email address only if sender name doesn't exist (#1486550)
-- Fix charset replacement in HTML message bodies (#1487021)
 - Plugin API: improved 'abort' flag handling, added 'result' item in some hooks (#1486914)
-- Fix: contact group input is empty when using rename action more than once on the same group record
-- Fix "Server Error! (Not Found)" when using utils/save-pref action (#1487023)
-- Fix handling of Thunderbird's vCards (#1487024)
 - Fix mailto optional params in plain text messages aren't handled (#1487026)
 - Add Reply-to-List feature (#1484252)
 - Add Mail-Followup-To/Mail-Reply-To support (#1485547)
 - Fix confirmation message isn't displayed after sending mail on Chrome (#1486177)
 - Fix keyboard doesn't work with autocomplete list with Chrome (#1487029)
-- Fix handling of backslash as IMAP delimiter
 - Improve tabs to fixed width and add tabs in identities info (#1486974)
+
+RELEASE 0.4.2
+-------------
+- Fix handling of backslash as IMAP delimiter
+- Fix charset replacement in HTML message bodies (#1487021)
+- Fix: contact group input is empty when using rename action more than once on the same group record
+- Fix "Server Error! (Not Found)" when using utils/save-pref action (#1487023)
+- Fix handling of Thunderbird's vCards (#1487024)
 
 RELEASE 0.4.1
 -------------
