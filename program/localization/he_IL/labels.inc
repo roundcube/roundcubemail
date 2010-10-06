@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  04072010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  29092010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -167,6 +167,7 @@ $labels['addattachment'] = 'צירוף קובץ';
 $labels['charset'] = 'קידוד';
 $labels['editortype'] = 'סוג עורך';
 $labels['returnreceipt'] = 'אישור קבלה';
+$labels['editidents'] = 'עריכת זהויות';
 $labels['checkspelling'] = 'בדיקת איות';
 $labels['resumeediting'] = 'המשך עריכה';
 $labels['revertto'] = 'חזור למצב קודם';
@@ -259,6 +260,7 @@ $labels['mailboxview'] = 'הצגת תיבת ההודעות';
 $labels['mdnrequests'] = 'משלוח אישור מסירה';
 $labels['askuser'] = 'שאל את המשתמש';
 $labels['autosend'] = 'שליחה אוטומטית';
+$labels['autosendknown'] = 'משלוח אישור קבלה רק לאנשי הקשר שלי ';
 $labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
@@ -303,6 +305,7 @@ $labels['abovequote'] = 'בתחילת ההודעה המקורית';
 $labels['insertsignature'] = 'שיבוץ חתימה';
 $labels['previewpanemarkread'] = 'סימון הודעה שנצפתה כנקראה';
 $labels['afternseconds'] = 'לאחר $n שניות';
+$labels['reqmdn'] = 'תמיד יש לדרוש אישור קבלה';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';

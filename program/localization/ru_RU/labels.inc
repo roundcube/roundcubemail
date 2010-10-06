@@ -10,8 +10,9 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Artur Smolkin <artsmolkin@ya.ru>                              |
+| Author: Artur Smolkin <artsmolkin@gmail.com>                          |
 | Updates: Sergey Dukachev <iam@dukess.ru>                              |
+| Support: www.roundcube.ru                                             |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -170,6 +171,7 @@ $labels['addattachment'] = 'Добавить вложение';
 $labels['charset'] = 'Кодировка';
 $labels['editortype'] = 'Редактор';
 $labels['returnreceipt'] = 'Запрос ответа';
+$labels['editidents'] = 'Изменить данные';
 $labels['checkspelling'] = 'Проверить орфографию';
 $labels['resumeediting'] = 'Продолжить редактирование';
 $labels['revertto'] = 'Отменить правки';
@@ -262,6 +264,7 @@ $labels['mailboxview'] = 'Вид почтового ящика';
 $labels['mdnrequests'] = 'Уведомления о прочтении';
 $labels['askuser'] = 'спросить перед отправкой';
 $labels['autosend'] = 'отправлять автоматически';
+$labels['autosendknown'] = 'отправлять уведомления только контактам из адресной книги';
 $labels['ignore'] = 'игнорировать';
 $labels['readwhendeleted'] = 'Помечать как прочитанное при удалении';
 $labels['flagfordeletion'] = 'Помечать для удаления вместо удаления';
@@ -306,6 +309,7 @@ $labels['abovequote'] = 'до цитаты';
 $labels['insertsignature'] = 'Вставить подпись';
 $labels['previewpanemarkread'] = 'Отмечать просмотренные сообщения как прочитанные';
 $labels['afternseconds'] = 'через $n секунд';
+$labels['reqmdn'] = 'Всегда запрашивать уведомление о доставке';
 $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Имя папки';

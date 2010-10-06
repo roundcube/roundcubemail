@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/sk/labels.inc                                                |
+| language/sk_SK/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
 | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
@@ -172,6 +172,7 @@ $labels['addattachment'] = 'Pridať prílohu';
 $labels['charset'] = 'Znaková sada';
 $labels['editortype'] = 'Typ editora';
 $labels['returnreceipt'] = 'Potvrdenie o doručení';
+$labels['editidents'] = 'Editovať identity';
 $labels['checkspelling'] = 'Skontrolovať pravopis';
 $labels['resumeediting'] = 'Pokračovať v úpravách';
 $labels['revertto'] = 'Vrátiť sa na';
@@ -263,7 +264,8 @@ $labels['serversettings'] = 'Nastavenia servera';
 $labels['mailboxview'] = 'Pohľad na schránku';
 $labels['mdnrequests'] = 'Upozornenia odosielateľovi';
 $labels['askuser'] = 'spýtať sa používateľa';
-$labels['autosend'] = 'poslať automaticky';
+$labels['autosend'] = 'poslať potvrdenie automaticky';
+$labels['autosendknown'] = 'poslať potvrdenie iba mojím kontaktom';
 $labels['ignore'] = 'ignorovať';
 $labels['readwhendeleted'] = 'Označiť správu ';
 $labels['flagfordeletion'] = 'Pri odstránení správy iba označiť správu ako odstránenú';
@@ -308,6 +310,7 @@ $labels['abovequote'] = 'pod citáciu';
 $labels['insertsignature'] = 'Vložit podpis';
 $labels['previewpanemarkread'] = 'Označiť zobrazenej správy ako prečítané';
 $labels['afternseconds'] = 'po $ sekundách';
+$labels['reqmdn'] = 'Vždy požadovať doručenku';
 $labels['folder'] = 'Priečinok';
 $labels['folders'] = 'Priečinky';
 $labels['foldername'] = 'Názov priečinku';

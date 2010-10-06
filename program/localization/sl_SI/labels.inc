@@ -170,6 +170,7 @@ $labels['addattachment'] = 'Pripni datoteko';
 $labels['charset'] = 'Nabor znakov';
 $labels['editortype'] = 'Vrsta urejevalnika';
 $labels['returnreceipt'] = 'Potrdilo prejemnika';
+$labels['editidents'] = 'Uredi identitete';
 $labels['checkspelling'] = 'Preglej pravopis';
 $labels['resumeediting'] = 'Nadaljuj z urejanjem';
 $labels['revertto'] = 'Razveljavi';
@@ -261,7 +262,8 @@ $labels['serversettings'] = 'Nastavitve strežnika';
 $labels['mailboxview'] = 'Pogled poštnega predala';
 $labels['mdnrequests'] = 'Obvestila pošiljatelja';
 $labels['askuser'] = 'vprašaj uporabnika';
-$labels['autosend'] = 'pošlji samodejno';
+$labels['autosend'] = 'pošlji povratnico samodejno';
+$labels['autosendknown'] = 'pošlji povratnico samodejno samo mojim stikom';
 $labels['ignore'] = 'ne upoštevaj';
 $labels['readwhendeleted'] = 'Označi izbrisano sporočilo kot prebrano';
 $labels['flagfordeletion'] = 'Ne izbriši sporočila, le označi kot izbrisano';
@@ -306,6 +308,7 @@ $labels['abovequote'] = 'nad citiran tekst';
 $labels['insertsignature'] = 'Vstavi podpis';
 $labels['previewpanemarkread'] = 'Označi predogledana sporočila kot prebrana';
 $labels['afternseconds'] = 'po $n sekundah';
+$labels['reqmdn'] = 'Vedno zahtevaj povratnico';
 $labels['folder'] = 'Mapa';
 $labels['folders'] = 'Mape';
 $labels['foldername'] = 'Ime mape';
@@ -345,3 +348,4 @@ $labels['korean'] = 'Korejsko';
 $labels['chinese'] = 'Kitajsko';
 
 ?>
+
