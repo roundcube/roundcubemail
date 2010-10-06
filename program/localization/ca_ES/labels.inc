@@ -12,7 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
 |         Simo <sim6@graciasensefils.net>                               |
-|         Jordi Sanfeliu <jordi@fibranet.cat>                           |         
+|         Jordi Sanfeliu <jordi@fibranet.cat>                           |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -171,12 +171,14 @@ $labels['addattachment'] = 'Afegeix un fitxer';
 $labels['charset'] = 'Codificació de caràcters';
 $labels['editortype'] = 'Tipus d\'editor';
 $labels['returnreceipt'] = 'Confirmació de recepció';
+$labels['editidents'] = 'Editar identitats';
 $labels['checkspelling'] = 'Comprova l\'ortografia';
 $labels['resumeediting'] = 'Continua l\'edició';
 $labels['revertto'] = 'Torna a';
 $labels['attachments'] = 'Adjunts';
 $labels['upload'] = 'Afegeix';
 $labels['close'] = 'Cancel·la';
+$labels['messageoptions'] = 'Opcions de missatge...';
 $labels['low'] = 'Baixa';
 $labels['lowest'] = 'Molt baixa';
 $labels['normal'] = 'Normal';
@@ -203,6 +205,7 @@ $labels['surname'] = 'Cognom';
 $labels['email'] = 'E-Mail';
 $labels['addcontact'] = 'Afegeix nou contacte';
 $labels['editcontact'] = 'Edita contacte';
+$labels['contacts'] = 'Contactes';
 $labels['edit'] = 'Edita';
 $labels['cancel'] = 'Cancel·la';
 $labels['save'] = 'Desa';
@@ -261,6 +264,7 @@ $labels['mailboxview'] = 'Vista de la bústia';
 $labels['mdnrequests'] = 'Notificacions de recepció';
 $labels['askuser'] = 'Pregunta-ho a l\'usuari';
 $labels['autosend'] = 'Envia-les automàticament';
+$labels['autosendknown'] = 'Envia-les automàticament només als meus contactes';
 $labels['ignore'] = 'Ignora-les';
 $labels['readwhendeleted'] = 'Marca el missatge com a llegit quan se suprimeixi';
 $labels['flagfordeletion'] = 'Afegeix marca d\'esborrat en comptes d\'esborrar-lo';
@@ -305,6 +309,7 @@ $labels['abovequote'] = 'sobre les cometes';
 $labels['insertsignature'] = 'Inserta signatura';
 $labels['previewpanemarkread'] = 'Marca missatges previsualitzats com a llegits';
 $labels['afternseconds'] = 'després de $n segons';
+$labels['reqmdn'] = 'Demana sempre la confirmació de recepció';
 $labels['folder'] = 'Carpeta';
 $labels['folders'] = 'Carpetes';
 $labels['foldername'] = 'Nom de carpeta';
