@@ -28,7 +28,7 @@ CREATE TABLE `users` (
  `language` varchar(5),
  `preferences` text,
  PRIMARY KEY(`user_id`),
- INDEX `username_index` (`username`),
+ UNIQUE `username` (`username`, `mail_host`),
  INDEX `alias_index` (`alias`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 

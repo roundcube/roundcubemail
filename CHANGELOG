@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix confirmation message isn't displayed after sending mail on Chrome (#1486177)
 - Fix keyboard doesn't work with autocomplete list with Chrome (#1487029)
 - Improve tabs to fixed width and add tabs in identities info (#1486974)
+- Add unique index on users.username+users.mail_host
 
 RELEASE 0.4.2
 -------------

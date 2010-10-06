@@ -123,3 +123,9 @@ CREATE TABLE `contactgroupmembers` (
 
 ALTER TABLE `users` CHANGE `last_login` `last_login` datetime DEFAULT NULL;
 UPDATE `users` SET `last_login` = NULL WHERE `last_login` = '1000-01-01 00:00:00';
+
+-- Updates from version 0.4.2
+
+ALTER TABLE `users` DROP INDEX `username_index`;
+ALTER TABLE `users` ADD UNIQUE `username` (`username`, `mail_host`);
+

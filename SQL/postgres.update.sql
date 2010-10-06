@@ -56,7 +56,7 @@ CREATE SEQUENCE contactgroups_ids
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-		
+
 CREATE TABLE contactgroups (
     contactgroup_id integer DEFAULT nextval('contactgroups_ids'::text) PRIMARY KEY,
     user_id 	integer		NOT NULL
@@ -81,3 +81,9 @@ CREATE TABLE contactgroupmembers (
 
 ALTER TABLE users ALTER last_login DROP NOT NULL;
 ALTER TABLE users ALTER last_login SET DEFAULT NULL;
+
+-- Updates from version 0.4.2
+
+DROP INDEX users_username_id_idx;
+ALTER TABLE users ADD UNIQUE (username, mail_host);
+

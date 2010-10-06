@@ -140,3 +140,9 @@ INSERT INTO users (user_id, username, mail_host, alias, created, last_login, lan
 CREATE INDEX ix_users_username ON users(username);
 CREATE INDEX ix_users_alias ON users(alias);
 DROP TABLE tmp_users;
+
+-- Updates from version 0.4.2
+
+DROP INDEX ix_users_username;
+CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
+

@@ -255,7 +255,7 @@ ALTER TABLE [dbo].[users] ADD
 	CONSTRAINT [DF_users_created] DEFAULT (getdate()) FOR [created]
 GO
 
-CREATE  INDEX [IX_users_username] ON [dbo].[users]([username]) ON [PRIMARY]
+CREATE  UNIQUE INDEX [IX_users_username] ON [dbo].[users]([username],[mail_host]) ON [PRIMARY]
 GO
 
 CREATE  INDEX [IX_users_alias] ON [dbo].[users]([alias]) ON [PRIMARY]

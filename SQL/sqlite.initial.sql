@@ -97,7 +97,7 @@ CREATE TABLE users (
   preferences text NOT NULL default ''
 );
 
-CREATE INDEX ix_users_username ON users(username);
+CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
 CREATE INDEX ix_users_alias ON users(alias);
 
 -- --------------------------------------------------------

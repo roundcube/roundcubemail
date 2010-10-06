@@ -87,3 +87,10 @@ ALTER TABLE [dbo].[contactgroups] ADD CONSTRAINT [FK_contactgroups_user_id]
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
+-- Updates from version 0.4.2
+
+DROP INDEX [IX_users_username]
+GO
+CREATE UNIQUE INDEX [IX_users_username] ON [dbo].[users]([username],[mail_host]) ON [PRIMARY]
+GO
+

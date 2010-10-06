@@ -24,10 +24,10 @@ CREATE TABLE users (
     created timestamp with time zone DEFAULT now() NOT NULL,
     last_login timestamp with time zone DEFAULT NULL,
     "language" varchar(5),
-    preferences text DEFAULT ''::text NOT NULL
+    preferences text DEFAULT ''::text NOT NULL,
+    UNIQUE (username, mail_host)
 );
 
-CREATE INDEX users_username_id_idx ON users (username);
 CREATE INDEX users_alias_id_idx ON users (alias);
 
   
@@ -146,7 +146,7 @@ CREATE INDEX contactgroups_user_id_idx ON contactgroups (user_id, del);
 -- Table "contactgroupmembers"
 -- Name: contactgroupmembers; Type: TABLE; Schema: public; Owner: postgres
 --
-					    
+
 CREATE TABLE contactgroupmembers (
     contactgroup_id integer NOT NULL
         REFERENCES contactgroups(contactgroup_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -216,9 +216,9 @@ CREATE TABLE messages (
     date timestamp with time zone NOT NULL,
     size integer DEFAULT 0 NOT NULL,
     headers text NOT NULL,
-    structure text
+    structure text,
+    UNIQUE (user_id, cache_key, uid)
 );
 
-ALTER TABLE messages ADD UNIQUE (user_id, cache_key, uid);
 CREATE INDEX messages_index_idx ON messages (user_id, cache_key, idx);
 CREATE INDEX messages_created_idx ON messages (created);
