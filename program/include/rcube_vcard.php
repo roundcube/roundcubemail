@@ -218,7 +218,9 @@ class rcube_vcard
       if ($in_vcard_block && !empty($line))
         $vcard_block .= $line . "\n";
 
-      if (trim($line) == 'END:VCARD') {
+      $line = trim($line);
+
+      if (preg_match('/^END:VCARD$/i', $line)) {
         // parse vcard
         $obj = new rcube_vcard(self::cleanup($vcard_block), $charset);
         if (!empty($obj->displayname))
@@ -226,7 +228,7 @@ class rcube_vcard
 
         $in_vcard_block = false;
       }
-      else if (trim($line) == 'BEGIN:VCARD') {
+      else if (preg_match('/^BEGIN:VCARD$/i', $line)) {
         $vcard_block = $line . "\n";
         $in_vcard_block = true;
       }

@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 0.4.1                                                           |
+ | Version 0.4.2                                                           |
  |                                                                         |
  | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                   |
  |                                                                         |
@@ -141,22 +141,6 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 
   }
 }
 
-// don't check for valid request tokens in these actions
-$request_check_whitelist = array('login'=>1, 'spell'=>1);
-
-// check client X-header to verify request origin
-if ($OUTPUT->ajax_call) {
-  if (!$RCMAIL->config->get('devel_mode') && rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !empty($RCMAIL->user->ID)) {
-    header('HTTP/1.1 404 Not Found');
-    die("Invalid Request");
-  }
-}
-// check request token in POST form submissions
-else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAIL->check_request()) {
-  $OUTPUT->show_message('invalidrequest', 'error');
-  $OUTPUT->send($RCMAIL->task);
-}
-
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
   if ($OUTPUT->ajax_call)
@@ -176,16 +160,36 @@ if (empty($RCMAIL->user->ID)) {
       )
     );
   }
-  
+
   $OUTPUT->set_env('task', 'login');
   $OUTPUT->send('login');
 }
+// CSRF prevention
+else {
+  // don't check for valid request tokens in these actions
+  $request_check_whitelist = array('login'=>1, 'spell'=>1);
 
+  // check client X-header to verify request origin
+  if ($OUTPUT->ajax_call) {
+    if (rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token()) {
+      header('HTTP/1.1 404 Not Found');
+      die("Invalid Request");
+    }
+  }
+  // check request token in POST form submissions
+  else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAIL->check_request()) {
+    $OUTPUT->show_message('invalidrequest', 'error');
+    $OUTPUT->send($RCMAIL->task);
+  }
+}
 
-// handle keep-alive signal
+// handle special actions
 if ($RCMAIL->action == 'keep-alive') {
   $OUTPUT->reset();
   $OUTPUT->send();
+}
+else if ($RCMAIL->action == 'save-pref') {
+  include 'steps/utils/save_pref.inc';
 }
 
 

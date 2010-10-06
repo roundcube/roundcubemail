@@ -661,7 +661,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
 
   // charset was converted to UTF-8 in rcube_imap::get_message_part(),
   // -> change charset specification in HTML accordingly
-  $charset_pattern = '(<meta\s+[^>]* content=)[\'"]?(\w+\/\w+;\s*charset=)([a-z0-9-_]+[\'"]?)';
+  $charset_pattern = '(<meta\s+[^>]*content=)[\'"]?(\w+\/\w+;\s*charset=)([a-z0-9-_]+[\'"]?)';
   if (preg_match("/$charset_pattern/Ui", $html)) {
     $html = preg_replace("/$charset_pattern/i", '\\1"\\2'.RCMAIL_CHARSET.'"', $html);
   }
@@ -671,7 +671,6 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
       $html = '<head></head>'. $html;
     $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
   }
-
   // turn relative into absolute urls
   $html = rcmail_resolve_base($html);
 

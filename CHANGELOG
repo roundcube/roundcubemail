@@ -1,6 +1,15 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of backslash as IMAP delimiter
+- Fix charset replacement in HTML message bodies (#1487021)
+- Fix: contact group input is empty when using rename action more than once on the same group record
+- Fix "Server Error! (Not Found)" when using utils/save-pref action (#1487023)
+- Fix handling of Thunderbird's vCards (#1487024)
+
+RELEASE 0.4.1
+-------------
+
 - Fix space-stuffing in format=flowed messages (#1487018)
 - Fix msgexport.sh now using the new imap wrapper
 - Avoid displaying password on shell (#1486947)

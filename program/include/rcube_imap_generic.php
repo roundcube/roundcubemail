@@ -423,23 +423,7 @@ class rcube_imap_generic
 		    return true;
 	    }
 
-        if (!$this->getCapability('NAMESPACE')) {
-	        return false;
-	    }
-
-	    if (!$this->putLine("ns1 NAMESPACE")) {
-            return false;
-        }
-	    do {
-		    $line = $this->readLine(1024);
-		    if (preg_match('/^\* NAMESPACE/', $line)) {
-			    $i    = 0;
-			    $line = $this->unEscape($line);
-			    $data = $this->parseNamespace(substr($line,11), $i, 0, 0);
-		    }
-	    } while (!$this->startsWith($line, 'ns1', true, true));
-
-	    if (!is_array($data)) {
+	    if (!is_array($data = $this->_namespace())) {
 	        return false;
 	    }
 
@@ -488,13 +472,9 @@ class rcube_imap_generic
 	    }
 
 	    do {
-		    $line = $this->readLine(500);
-		    if ($line[0] == '*') {
-			    $line = rtrim($line);
-			    $a = rcube_explode_quoted_string(' ', $this->unEscape($line));
-			    if ($a[0] == '*') {
-			        $delimiter = str_replace('"', '', $a[count($a)-2]);
-        		}
+		    $line = $this->readLine(1024);
+		    if (preg_match('/^\* LIST \([^\)]*\) "*([^"]+)"* ""/', $line, $m)) {
+    	        $delimiter = $this->unEscape($m[1]);
 		    }
 	    } while (!$this->startsWith($line, 'ghd', true, true));
 
@@ -504,22 +484,9 @@ class rcube_imap_generic
 
 	    // if that fails, try namespace extension
 	    // try to fetch namespace data
-	    if (!$this->putLine("ns1 NAMESPACE")) {
+	    if (!is_array($data = $this->_namespace())) {
             return false;
         }
-
-	    do {
-		    $line = $this->readLine(1024);
-		    if (preg_match('/^\* NAMESPACE/', $line)) {
-			    $i = 0;
-			    $line = $this->unEscape($line);
-			    $data = $this->parseNamespace(substr($line,11), $i, 0, 0);
-		    }
-	    } while (!$this->startsWith($line, 'ns1', true, true));
-
-	    if (!is_array($data)) {
-	        return false;
-	    }
 
 	    // extract user space data (opposed to global/shared space)
 	    $user_space_data = $data[0];
@@ -537,6 +504,31 @@ class rcube_imap_generic
 	    $delimiter = $first_userspace[1];
 
 	    return $delimiter;
+    }
+
+    function _namespace()
+    {
+        if (!$this->getCapability('NAMESPACE')) {
+	        return false;
+	    }
+
+	    if (!$this->putLine("ns1 NAMESPACE")) {
+            return false;
+        }
+
+	    do {
+		    $line = $this->readLine(1024);
+		    if (preg_match('/^\* NAMESPACE/', $line)) {
+			    $i = 0;
+			    $data = $this->parseNamespace(substr($line,11), $i, 0, 0);
+		    }
+	    } while (!$this->startsWith($line, 'ns1', true, true));
+
+	    if (!is_array($data)) {
+	        return false;
+	    }
+
+        return $data;
     }
 
     function connect($host, $user, $password, $options=null)
@@ -1660,9 +1652,9 @@ class rcube_imap_generic
         		// folder name
    			    $folders[] = preg_replace(array('/^"/', '/"$/'), '', $this->unEscape($m[3]));
 		        // attributes
-//        		$attrib = explode(' ', $m[1]);
+//        		$attrib = explode(' ', $this->unEscape($m[1]));
 		        // delimiter
-//        		$delim = $m[2];
+//        		$delim = $this->unEscape($m[2]);
 		    }
 	    } while (!$this->startsWith($line, $key, true));
 
@@ -2173,7 +2165,7 @@ class rcube_imap_generic
 	    $in_quotes = false;
 	    $elem      = 0;
 
-        for ($i;$i<$len;$i++) {
+        for ($i; $i<$len; $i++) {
 		    $c = (string)$str[$i];
 		    if ($c == '(' && !$in_quotes) {
 			    $i++;
@@ -2184,7 +2176,7 @@ class rcube_imap_generic
     		} else if ($c == '\\') {
 			    $i++;
 			    if ($in_quotes) {
-				    $data[$elem] .= $c.$str[$i];
+				    $data[$elem] .= $str[$i];
         		}
 		    } else if ($c == '"') {
 			    $in_quotes = !$in_quotes;
