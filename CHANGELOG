@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Fix confirmation message isn't displayed after sending mail on Chrome (#1486177)
 - Fix keyboard doesn't work with autocomplete list with Chrome (#1487029)
 - Fix handling of backslash as IMAP delimiter
+- Improve tabs to fixed width and add tabs in identities info (#1486974)
 
 RELEASE 0.4.1
 -------------

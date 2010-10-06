@@ -41,12 +41,13 @@
 
 <div class="boxcontent">
 <roundcube:object name="identityform" size="40" textareacols="60" textarearows="6" />
-
-<p><br />
+<p>
 <roundcube:button command="delete" type="input" class="button" label="delete" condition="env:action=='edit-identity'" style="margin-right:0.5em" />
 <roundcube:button command="save" type="input" class="button mainaction" label="save" />
 </p>
 </div>
+<script type="text/javascript">rcube_init_tabs('identity-details')</script>
+
 </div>
 
 </div>

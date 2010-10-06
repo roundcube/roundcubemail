@@ -698,6 +698,16 @@ a.rcmContactAddress:hover
   opacity: 0.8;
 }
 
+.disabled
+{
+  color: #999;
+}
+
+font.bold
+{
+  font-weight: bold;
+}
+
 
 /***** onclick menu list *****/
 
@@ -767,12 +777,75 @@ ul.toolbarmenu li.separator_above
   padding-top: 2px;
 }
 
-.disabled
+
+/***** tabbed interface elements *****/
+
+div.tabsbar,
+#tabsbar
 {
-  color: #999;
+  position: absolute;
+  top: 50px;
+  left: 220px;
+  right: 20px;
+  height: 22px;
+  border-bottom: 1px solid #999999;
+  white-space: nowrap;
 }
 
-font.bold
+div.tabsbar
 {
-  font-weight: bold;
+  top: 35px;
+  left: 12px;
+  right: 12px;
 }
+
+span.tablink,
+span.tablink-selected
+{
+  float: left;
+  height: 23px !important;
+  height: 22px;
+  overflow: hidden;
+  background: url(images/tabs-left.gif) top left no-repeat;
+}
+
+span.tablink
+{
+  cursor: pointer;
+}
+
+span.tablink-selected
+{
+  cursor: default;
+  background-position: 0px -23px;
+}
+
+span.tablink a,
+span.tablink-selected a
+{
+  display: block;
+  padding: 5px 10px 0 5px;
+  margin-left: 5px;
+  height: 23px;
+  color: #555555;
+  max-width: 185px;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  background: url(images/tabs-right.gif) top right no-repeat;
+}
+
+span.tablink-selected a
+{
+  cursor: inherit;
+  color: #000000;
+  background-position: right -23px;
+}
+
+fieldset.tabbed
+{
+  margin-top: 22px;
+  padding-top: 12px;
+}
+

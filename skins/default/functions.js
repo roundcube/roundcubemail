@@ -21,6 +21,56 @@ function rcube_show_advanced(visible)
   $('tr.advanced').css('display', (visible ? (bw.ie ? 'block' : 'table-row') : 'none'));
 }
 
+// Fieldsets-to-tabs converter
+// Warning: don't place "caller" <script> inside page element (id)
+function rcube_init_tabs(id, current)
+{
+  var content = document.getElementById(id),
+    fs = $('fieldset', content);
+
+  current = current ? current : 0;
+
+  // first hide not selected tabs
+  fs.each(function(idx) { if (idx != current) $(this).hide(); });
+
+  // create tabs container
+  var tabs = $('<div>').addClass('tabsbar').appendTo($(content));
+
+  // convert fildsets into tabs
+  fs.each(function(idx) {
+    var tab, a, elm = $(this), legend = $('legend', elm);
+
+    // create a tab
+    a   = $('<a>').text(legend.text()).attr('href', '#');
+    tab = $('<span>').attr({'id': 'tab'+idx, 'class': 'tablink'})
+        .click(function() { return rcube_show_tab(id, idx); })
+
+    // remove legend
+    legend.remove();
+    // style fieldset
+    elm.addClass('tabbed');
+    // style selected tab
+    if (idx == current)
+      tab.addClass('tablink-selected');
+
+    // add the tab to container
+    tab.append(a).appendTo(tabs);
+  });
+}
+
+function rcube_show_tab(id, index)
+{
+  var content = document.getElementById(id),
+    fs = $('fieldset', content);
+
+  fs.each(function(idx) {
+    // Show/hide fieldset (tab content)
+    $(this)[index==idx ? 'show' : 'hide']();
+    // Select/unselect tab
+    $('#tab'+idx).toggleClass('tablink-selected', idx==index);
+  });
+}
+
 /**
  * Mail UI
  */

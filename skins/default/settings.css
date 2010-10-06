@@ -1,50 +1,5 @@
 /***** Roundcube|Mail settings task styles *****/
 
-
-#tabsbar
-{
-  position: absolute;
-  top: 50px;
-  left: 220px;
-  right: 20px;
-  height: 22px;
-  border-bottom: 1px solid #999999;
-  white-space: nowrap;
-}
-
-span.tablink,
-span.tablink-selected
-{
-  float: left;
-  width: 100px;
-  height: 24px !important;
-  height: 22px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  background: url(images/tabs.gif) top left no-repeat;
-}
-
-span.tablink-selected
-{
-  background-position: -102px 0;
-}
-
-span.tablink a,
-span.tablink-selected a
-{
-  display: block;
-  padding-left: 10px;
-  padding-top: 5px;
-  color: #555555;
-  text-decoration: none;
-}
-
-span.tablink-selected a
-{
-  color: #000000;
-  cursor: default;
-}
-
 #rcmfd_timezone
 {
   width: 300px;
