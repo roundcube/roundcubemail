@@ -315,6 +315,7 @@ $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight saving time';
 $labels['htmleditor'] = 'Compose HTML messages';
+$labels['htmlonreply'] = 'on reply to HTML message only';
 $labels['htmlsignature'] = 'HTML signature';
 $labels['previewpane'] = 'Show preview pane';
 $labels['skin'] = 'Interface skin';

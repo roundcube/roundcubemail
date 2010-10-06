@@ -252,6 +252,7 @@ $labels['pagesize'] = 'Liczba wierszy na stronie';
 $labels['signature'] = 'Podpis';
 $labels['dstactive'] = 'Czas letni';
 $labels['htmleditor'] = 'Twórz wiadomości HTML';
+$labels['htmlonreply'] = 'tylko w odpowiedzi na wiadomość HTML';
 $labels['htmlsignature'] = 'Podpis w HTML';
 $labels['previewpane'] = 'Pokaż podgląd wiadomości';
 $labels['skin'] = 'Wygląd interfejsu';
