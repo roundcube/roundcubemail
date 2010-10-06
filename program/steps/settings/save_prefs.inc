@@ -58,11 +58,10 @@ switch ($CURR_SECTION)
       'default_charset' => get_input_value('_default_charset', RCUBE_INPUT_POST),
     );
 
-
   break;
   case 'compose':
     $a_user_prefs = array(
-      'htmleditor'         => isset($_POST['_htmleditor']) ? TRUE : FALSE,
+      'htmleditor'         => intval($_POST['_htmleditor']),
       'draft_autosave'     => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
       'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
       'force_7bit'         => isset($_POST['_force_7bit']) ? TRUE : FALSE,

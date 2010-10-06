@@ -358,7 +358,6 @@ function rcmail_compose_headers($attrib)
     }
   }
 
-
   if ($fname && $field_type)
   {
     // pass the following attributes to the form class
@@ -491,48 +490,74 @@ function rcmail_compose_header_from($attrib)
 }
 
 
+function rcmail_compose_editor_mode()
+{
+  global $RCMAIL, $MESSAGE, $compose_mode;
+  static $useHtml;
+
+  if ($useHtml !== null)
+    return $useHtml;
+
+  $html_editor = intval($RCMAIL->config->get('htmleditor'));
+
+  if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
+    $useHtml = $MESSAGE->has_html_part();
+  }
+  else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
+    $useHtml = ($html_editor == 1 || ($html_editor == 2 && $MESSAGE->has_html_part()));
+  }
+  else { // RCUBE_COMPOSE_FORWARD or NEW
+    $useHtml = ($html_editor == 1);
+  }
+
+  return $useHtml;
+}
+
+
 function rcmail_prepare_message_body()
 {
-  global $RCMAIL, $CONFIG, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE;
-
-  if ($CONFIG['htmleditor'] || (($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) && $MESSAGE->has_html_part()))
-    $isHtml = true;
-  else
-    $isHtml = false;
-
-  $body = '';
+  global $RCMAIL, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE;
 
   // use posted message body
-  if (!empty($_POST['_message']))
-  {
+  if (!empty($_POST['_message'])) {
     $body = get_input_value('_message', RCUBE_INPUT_POST, true);
+    $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
   }
-  else if ($_SESSION['compose']['param']['body'])
-  {
+  else if ($_SESSION['compose']['param']['body']) {
     $body = $_SESSION['compose']['param']['body'];
     $isHtml = false;
   }
-  else if ($compose_mode)
-  {
+  // reply/edit/draft/forward
+  else if ($compose_mode) {
     $has_html_part = $MESSAGE->has_html_part();
-    if (($isHtml || $compose_mode == RCUBE_COMPOSE_DRAFT) && $has_html_part)
-    {
-      $body = $MESSAGE->first_html_part();
-      $isHtml = true;
+    $isHtml = rcmail_compose_editor_mode();
+
+    if ($isHtml) {
+      if ($has_html_part) {
+        $body = $MESSAGE->first_html_part();
+      }
+      else {
+        $body = rcmail_plain_body($MESSAGE->first_text_part());
+        if ($body)
+          $body = '<pre>' . $body . '</pre>';
+      }
     }
-    else if ($has_html_part)
-    {
-      // use html part if it has been used for message (pre)viewing
-      // decrease line length for quoting
-      $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
-      $txt = new html2text($MESSAGE->first_html_part(), false, true, $len);
-      $body = $txt->get_text();
-      $isHtml = false;
-    }
-    else
-    {
-      $body = $MESSAGE->first_text_part();
-      $isHtml = false;
+    else {
+      if ($has_html_part) {
+        // use html part if it has been used for message (pre)viewing
+        // decrease line length for quoting
+        $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
+        $txt = new html2text($MESSAGE->first_html_part(), false, true, $len);
+        $body = $txt->get_text();
+      }
+      else {
+        $body = $MESSAGE->first_text_part($part);
+        if ($body && $part && $part->ctype_secondary == 'plain'
+            && $part->ctype_parameters['format'] == 'flowed'
+        ) {
+          $body = rcube_message::unfold_flowed($body);
+        }
+      }
     }
 
     // compose reply-body
@@ -544,6 +569,9 @@ function rcmail_prepare_message_body()
     // load draft message body
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT)
       $body = rcmail_create_draft_body($body, $isHtml);
+  }
+  else { // new message
+    $isHtml = rcmail_compose_editor_mode();
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('message_compose_body',
@@ -1151,11 +1179,7 @@ function rcmail_editor_selector($attrib)
   global $CONFIG, $MESSAGE, $compose_mode;
 
   // determine whether HTML or plain text should be checked
-  if ($compose_mode)
-    $useHtml = (($CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT)
-	&& $MESSAGE->has_html_part());
-  else
-    $useHtml = $CONFIG['htmleditor'] ? true : false;
+  $useHtml = rcmail_compose_editor_mode();
 
   if (empty($attrib['editorid']))
     $attrib['editorid'] = 'rcmComposeBody';
@@ -1172,8 +1196,7 @@ function rcmail_editor_selector($attrib)
 
   return $select->show($useHtml ? 'html' : 'plain');
 
-  foreach ($choices as $value => $text)
-  {
+  foreach ($choices as $value => $text) {
     $attrib['id'] = '_' . $value;
     $attrib['value'] = $value;
     $selector .= $radio->show($chosenvalue, $attrib) . html::label($attrib['id'], Q(rcube_label($text)));

@@ -466,11 +466,14 @@ function rcmail_user_prefs($current=null)
     // Show checkbox for HTML Editor
     if (!isset($no_override['htmleditor'])) {
       $field_id = 'rcmfd_htmleditor';
-      $input_htmleditor = new html_checkbox(array('name' => '_htmleditor', 'id' => $field_id, 'value' => 1));
+      $select_htmleditor = new html_select(array('name' => '_htmleditor', 'id' => $field_id));
+      $select_htmleditor->add(rcube_label('never'), 0);
+      $select_htmleditor->add(rcube_label('always'), 1);
+      $select_htmleditor->add(rcube_label('htmlonreply'), 2);
 
       $blocks['main']['options']['htmleditor'] = array(
         'title' => html::label($field_id, Q(rcube_label('htmleditor'))),
-        'content' => $input_htmleditor->show($config['htmleditor']?1:0),
+        'content' => $select_htmleditor->show(intval($config['htmleditor'])),
       );
     }
 

@@ -14,7 +14,6 @@ $RCI->bool_config_props = array(
   'smtp_log' => 1,
   'prefer_html' => 1,
   'preview_pane' => 1,
-  'htmleditor' => 1,
   'debug_level' => 1,
 );
 
@@ -543,13 +542,16 @@ echo $check_prevpane->show(intval($RCI->getprop('preview_pane')));
 
 <dt class="propname">htmleditor <span class="userconf">*</span></dt>
 <dd>
+<label for="cfghtmlcompose">Compose HTML formatted messages</label>
 <?php
 
-$check_htmlcomp = new html_checkbox(array('name' => '_htmleditor', 'id' => "cfghtmlcompose", 'value' => 1));
-echo $check_htmlcomp->show(intval($RCI->getprop('htmleditor')));
+$select_htmlcomp = new html_select(array('name' => '_htmleditor', 'id' => "cfghtmlcompose"));
+$select_htmlcomp->add('never', 0);
+$select_htmlcomp->add('always', 1);
+$select_htmlcomp->add('on reply to HTML message only', 2);
+echo $select_htmlcomp->show(intval($RCI->getprop('htmleditor')));
 
 ?>
-<label for="cfghtmlcompose">Compose HTML formatted messages</label><br />
 </dd>
 
 <dt class="propname">draft_autosave <span class="userconf">*</span></dt>

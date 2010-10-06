@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix keyboard doesn't work with autocomplete list with Chrome (#1487029)
 - Improve tabs to fixed width and add tabs in identities info (#1486974)
 - Add unique index on users.username+users.mail_host
+- Make htmleditor option more consistent and add option to use HTML on reply to HTML message (#1485840)
 
 RELEASE 0.4.2
 -------------

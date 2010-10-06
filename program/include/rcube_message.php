@@ -214,27 +214,21 @@ class rcube_message
     /**
      * Return the first text part of this message
      *
+     * @param rcube_message_part $part Reference to the part if found
      * @return string Plain text message/part content
      */
-    function first_text_part()
+    function first_text_part(&$part=null)
     {
         // no message structure, return complete body
         if (empty($this->parts))
             return $this->body;
-
-        $out = null;
 
         // check all message parts
         foreach ($this->mime_parts as $mime_id => $part) {
             $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
 
             if ($mimetype == 'text/plain') {
-                $out = $this->imap->get_message_part($this->uid, $mime_id, $part);
-
-                // re-format format=flowed content
-                if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed')
-                    $out = self::unfold_flowed($out);
-                break;
+                return $this->imap->get_message_part($this->uid, $mime_id, $part);
             }
             else if ($mimetype == 'text/html') {
                 $out = $this->imap->get_message_part($this->uid, $mime_id, $part);
@@ -245,11 +239,12 @@ class rcube_message
 
                 // create instance of html2text class
                 $txt = new html2text($out);
-                $out = $txt->get_text();
+                return $txt->get_text();
             }
         }
 
-        return $out;
+        $part = null;
+        return null;
     }
 
 
