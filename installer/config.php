@@ -571,8 +571,15 @@ echo $select_autosave->show(intval($RCI->getprop('draft_autosave')));
 <dd>
 <?php
 
+$mdn_opts = array(
+    0 => 'ask the user',
+    1 => 'send automatically',
+    3 => 'send receipt to user contacts only',
+    2 => 'ignore',
+);
+
 $select_mdnreq = new html_select(array('name' => '_mdn_requests', 'id' => "cfgmdnreq"));
-$select_mdnreq->add(array('ask the user', 'send automatically', 'ignore'), array(0, 1, 2));
+$select_mdnreq->add(array_values($mdn_opts), array_keys($mdn_opts));
 echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
 
 ?>
