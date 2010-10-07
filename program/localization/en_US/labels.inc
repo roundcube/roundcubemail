@@ -209,6 +209,7 @@ $labels['addattachment']  = 'Attach a file';
 $labels['charset']        = 'Charset';
 $labels['editortype']     = 'Editor type';
 $labels['returnreceipt']  = 'Return receipt';
+$labels['dsn']            = 'Delivery status notification';
 
 $labels['editidents']    = 'Edit identities';
 $labels['checkspelling'] = 'Check spelling';
@@ -374,6 +375,7 @@ $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
+$labels['reqdsn'] = 'Always request a delivery status notification';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

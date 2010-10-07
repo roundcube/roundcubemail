@@ -360,5 +360,7 @@ $labels['replylist'] = 'Odpowiedz na listę';
 $labels['editidents'] = 'Edytuj tożsamości';
 $labels['addmailreplyto'] = 'Dodaj Mail-Reply-To';
 $labels['addmailfollowupto'] = 'Dodaj Mail-Followup-To';
+$labels['dsn'] = 'Status dostarczenia (DSN)';
+$labels['reqdsn'] = 'Zawsze żądaj statusu dostarczenia (DSN)';
 
 ?>

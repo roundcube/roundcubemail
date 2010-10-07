@@ -399,9 +399,9 @@ class rcube_message
                     if ($part_orig_mimetype == 'message/rfc822' && !empty($mail_part->filename))
                         $this->attachments[] = $mail_part;
                 }
-                // part text/[plain|html] OR message/delivery-status
+                // part text/[plain|html] or delivery status
                 else if ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment') ||
-                    $part_mimetype == 'message/delivery-status' || $part_mimetype == 'message/disposition-notification'
+                    in_array($part_mimetype, array('message/delivery-status', 'text/rfc822-headers', 'message/disposition-notification'))
                 ) {
                     // Allow plugins to handle also this part
                     $plugin = $this->app->plugins->exec_hook('message_part_structure',

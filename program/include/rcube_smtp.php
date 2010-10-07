@@ -153,17 +153,16 @@ class rcube_smtp
    *               each RFC822 valid. This may contain recipients not
    *               specified in the headers, for Bcc:, resending
    *               messages, etc.
-   *
    * @param mixed  The message headers to send with the mail
    *               Either as an associative array or a finally
    *               formatted string
-   *
    * @param mixed  The full text of the message body, including any Mime parts
    *               or file handle
+   * @param array  Delivery options (e.g. DSN request)
    *
    * @return bool  Returns true on success, or false on error
    */
-  public function send_mail($from, $recipients, &$headers, &$body)
+  public function send_mail($from, $recipients, &$headers, &$body, $opts=null)
   {
     if (!is_object($this->conn))
       return false;
@@ -183,7 +182,7 @@ class rcube_smtp
     else
     {
       $this->reset();
-      $this->response[] .= "Invalid message headers";
+      $this->response[] = "Invalid message headers";
       return false;
     }
 
@@ -191,8 +190,22 @@ class rcube_smtp
     if (!isset($from))
     {
       $this->reset();
-      $this->response[] .= "No From address has been provided";
+      $this->response[] = "No From address has been provided";
       return false;
+    }
+
+    // RFC3461: Delivery Status Notification
+    if ($opts['dsn']) {
+      $exts = $this->conn->getServiceExtensions();
+
+      if (!isset($exts['DSN'])) {
+        $this->error = array('label' => 'smtpdsnerror');
+        $this->response[] = "DSN not supported";
+        return false;
+      }
+
+      $from_params      = 'RET=HDRS';
+      $recipient_params = 'NOTIFY=SUCCESS,FAILURE';
     }
 
     // RFC2298.3: remove envelope sender address
@@ -203,12 +216,12 @@ class rcube_smtp
     }
 
     // set From: address
-    if (PEAR::isError($this->conn->mailFrom($from)))
+    if (PEAR::isError($this->conn->mailFrom($from, $from_params)))
     {
       $err = $this->conn->getResponse();
       $this->error = array('label' => 'smtpfromerror', 'vars' => array(
         'from' => $from, 'code' => $this->conn->_code, 'msg' => $err[1]));
-      $this->response[] .= "Failed to set sender '$from'";
+      $this->response[] = "Failed to set sender '$from'";
       $this->reset();
       return false;
     }
@@ -225,11 +238,11 @@ class rcube_smtp
     // set mail recipients
     foreach ($recipients as $recipient)
     {
-      if (PEAR::isError($this->conn->rcptTo($recipient))) {
+      if (PEAR::isError($this->conn->rcptTo($recipient, $recipient_params))) {
         $err = $this->conn->getResponse();
         $this->error = array('label' => 'smtptoerror', 'vars' => array(
           'to' => $recipient, 'code' => $this->conn->_code, 'msg' => $err[1]));
-        $this->response[] .= "Failed to add recipient '$recipient'";
+        $this->response[] = "Failed to add recipient '$recipient'";
         $this->reset();
         return false;
       }
@@ -261,7 +274,7 @@ class rcube_smtp
         $msg = $result->getMessage();
 
       $this->error = array('label' => 'smtperror', 'vars' => array('msg' => $msg));
-      $this->response[] .= "Failed to send data";
+      $this->response[] = "Failed to send data";
       $this->reset();
       return false;
     }

@@ -334,12 +334,6 @@ $rcmail_config['protect_default_folders'] = true;
 // if in your system 0 quota means no limit set this option to true 
 $rcmail_config['quota_zero_as_unlimited'] = false;
 
-// Behavior if a received message requests a message delivery notification (read receipt)
-// 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
-// 3 = send automatically if sender is in addressbook, otherwise ask the user
-// 4 = send automatically if sender is in addressbook, otherwise ignore
-$rcmail_config['mdn_requests'] = 0;
-
 // Make use of the built-in spell checker. It is based on GoogieSpell.
 // Since Google only accepts connections over https your PHP installatation
 // requires to be compiled with Open SSL support
@@ -571,5 +565,16 @@ $rcmail_config['search_mods'] = null;  // Example: array('*' => array('subject'=
 // when user is over quota and Trash is included in the quota.
 $rcmail_config['delete_always'] = false;
 
-// end of config file
+// Behavior if a received message requests a message delivery notification (read receipt)
+// 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
+// 3 = send automatically if sender is in addressbook, otherwise ask the user
+// 4 = send automatically if sender is in addressbook, otherwise ignore
+$rcmail_config['mdn_requests'] = 0;
 
+// Return receipt checkbox default state
+$rcmail_config['mdn_default'] = 0;
+
+// Delivery Status Notification checkbox default state
+$rcmail_config['dsn_default'] = 0;
+
+// end of config file

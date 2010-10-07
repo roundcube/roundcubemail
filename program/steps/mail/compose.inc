@@ -1174,6 +1174,28 @@ function rcmail_receipt_checkbox($attrib)
 }
 
 
+function rcmail_dsn_checkbox($attrib)
+{
+  global $RCMAIL;
+
+  list($form_start, $form_end) = get_form_tags($attrib);
+  unset($attrib['form']);
+
+  if (!isset($attrib['id']))
+    $attrib['id'] = 'dsn';
+
+  $attrib['name'] = '_dsn';
+  $attrib['value'] = '1';
+  $checkbox = new html_checkbox($attrib);
+
+  $out = $form_start ? "$form_start\n" : '';
+  $out .= $checkbox->show($RCMAIL->config->get('dsn_default'));
+  $out .= $form_end ? "\n$form_end" : '';
+
+  return $out;
+}
+
+
 function rcmail_editor_selector($attrib)
 {
   global $CONFIG, $MESSAGE, $compose_mode;
@@ -1251,6 +1273,7 @@ $OUTPUT->add_handlers(array(
   'priorityselector' => 'rcmail_priority_selector',
   'editorselector' => 'rcmail_editor_selector',
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
+  'dsncheckbox' => 'rcmail_dsn_checkbox',
   'storetarget' => 'rcmail_store_target_selection',
 ));
 

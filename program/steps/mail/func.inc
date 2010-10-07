@@ -1478,10 +1478,11 @@ function rcmail_compose_cleanup()
  * @param array  $mailto     Array of recipient address strings
  * @param array  $smtp_error SMTP error array (reference)
  * @param string $body_file  Location of file with saved message body (reference)
+ * @param array  $smtp_opts  SMTP options (e.g. DSN request)
  *
  * @return boolean Send status.
  */
-function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file)
+function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file, $smtp_opts=null)
 {
   global $CONFIG, $RCMAIL;
 
@@ -1525,7 +1526,7 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
     if (!is_object($RCMAIL->smtp))
       $RCMAIL->smtp_init(true);
 
-    $sent = $RCMAIL->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body);
+    $sent = $RCMAIL->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $smtp_opts);
     $smtp_response = $RCMAIL->smtp->get_response();
     $smtp_error = $RCMAIL->smtp->get_error();
 

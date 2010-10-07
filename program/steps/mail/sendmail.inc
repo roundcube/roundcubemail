@@ -546,7 +546,13 @@ if (!$savedraft)
     $OUTPUT->send('iframe'); 
   }
 
-  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $mailbody_file);
+  // Handle Delivery Status Notification request
+  if (!empty($_POST['_dsn'])) {
+    $smtp_opts['dsn'] = true;
+  }
+
+  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto,
+    $smtp_error, $mailbody_file, $smtp_opts);
 
   // return to compose page if sending failed
   if (!$sent)

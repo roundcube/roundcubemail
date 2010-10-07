@@ -109,6 +109,7 @@ $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Failed to set sender "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list';
+$messages['smtpdsnerror'] = 'SMTP Error: No support for Delivery Status Notifications';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Invalid e-mail address: $email';
 $messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
