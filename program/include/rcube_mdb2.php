@@ -199,6 +199,10 @@ class rcube_mdb2
         $params = func_get_args();
         $query = array_shift($params);
 
+        // Support one argument of type array, instead of n arguments
+        if (count($params) == 1 && is_array($params[0]))
+            $params = $params[0];
+
         return $this->_query($query, 0, 0, $params);
     }
 
