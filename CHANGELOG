@@ -23,6 +23,7 @@ CHANGELOG Roundcube Webmail
 - Use empty envelope sender address for message disposition notifications (RFC2298.3)
 - Support SMTP Delivery Status Notifications - RFC3461 (#1486142)
 - Use css sprite image for messages list
+- Add (different) attachment icon for messages of type multipart/report (#1486165)
 
 RELEASE 0.4.2
 -------------

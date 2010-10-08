@@ -716,6 +716,7 @@ body.messagelist
 #messagelist tr td div.expanded,
 #messagelist tr td.threads div.listmenu,
 #messagelist tr td.attachment span.attachment,
+#messagelist tr td.attachment span.report,
 #messagelist tr td.flag span.flagged,
 #messagelist tr td.flag span.unflagged:hover,
 #messagelist tr td.subject span.msgicon,
@@ -734,6 +735,11 @@ body.messagelist
 #messagelist tr td.attachment span.attachment
 {
   background-position: 0 -170px;
+}
+
+#messagelist tr td.attachment span.report
+{
+  background-position: 0 -255px;
 }
 
 #messagelist tr td.flag span.flagged

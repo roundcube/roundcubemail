@@ -1661,6 +1661,8 @@ function rcube_webmail()
       else if (c == 'attachment') {
         if (/application\/|multipart\/m/.test(flags.ctype))
           html = '<span class="attachment">&nbsp;</span>';
+        else if (/multipart\/report/.test(flags.ctype))
+          html = '<span class="report">&nbsp;</span>';
         else
           html = '&nbsp;';
       }
