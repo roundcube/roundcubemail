@@ -1565,6 +1565,7 @@ function rcube_webmail()
       parent_uid: flags.parent_uid?flags.parent_uid:0,
       selected: this.select_all_mode || this.message_list.in_selection(uid),
       ml: flags.ml?1:0,
+      ctype: flags.ctype,
       // flags from plugins
       flags: flags.extra_flags
     });
@@ -1658,7 +1659,10 @@ function rcube_webmail()
         html = '<span id="flagicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
       }
       else if (c == 'attachment') {
-        html = flags.attachment ? '<span class="attachment">&nbsp;</span>' : '&nbsp;';
+        if (/application\/|multipart\/m/.test(flags.ctype))
+          html = '<span class="attachment">&nbsp;</span>';
+        else
+          html = '&nbsp;';
       }
       else if (c == 'threads')
         html = expando;

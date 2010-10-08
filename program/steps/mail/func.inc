@@ -318,8 +318,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_flags['flagged'] = 1;
     if ($header->others['list-post'])
       $a_msg_flags['ml'] = 1;
-    if (preg_match("/(application\/|multipart\/m)/i", $header->ctype))
-      $a_msg_flags['attachment'] = 1;
+
+    $a_msg_flags['ctype'] = Q($header->ctype);
     $a_msg_flags['mbox'] = $mbox;
 
     // merge with plugin result
