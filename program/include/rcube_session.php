@@ -91,7 +91,7 @@ class rcube_session
 
     return false;
   }
-  
+
 
   // save session data
   public function write($key, $vars)
@@ -105,7 +105,7 @@ class rcube_session
     } else { // else read data again from DB
       $oldvars = $this->read($key);
     }
-    
+
     if ($oldvars !== false) {
       $a_oldvars = $this->unserialize($oldvars); 
       foreach ((array)$this->unsets as $k)
@@ -114,25 +114,28 @@ class rcube_session
       $newvars = $this->serialize(array_merge(
         (array)$a_oldvars, (array)$this->unserialize($vars)));
 
-      if ($this->keep_alive>0) {
-	$timeout = min($this->lifetime * 0.5, 
-		       $this->lifetime - $this->keep_alive);
+      if (!$this->lifetime) {
+        $timeout = 600;
+      }
+      else if ($this->keep_alive>0) {
+        $timeout = min($this->lifetime * 0.5,
+		  $this->lifetime - $this->keep_alive);
       } else {
-	$timeout = 0;
+        $timeout = 0;
       }
 
       if (!($newvars === $oldvars) || ($ts - $this->changed > $timeout)) {
         $this->db->query(
-	  sprintf("UPDATE %s SET vars = ?, changed = %s WHERE sess_id = ?",
-	    get_table_name('session'), $now),
-	  $newvars, $key);
+          sprintf("UPDATE %s SET vars = ?, changed = %s WHERE sess_id = ?",
+            get_table_name('session'), $now),
+          $newvars, $key);
       }
     }
     else {
       $this->db->query(
         sprintf("INSERT INTO %s (sess_id, vars, ip, created, changed) ".
           "VALUES (?, ?, ?, %s, %s)",
-	  get_table_name('session'), $now, $now),
+          get_table_name('session'), $now, $now),
         $key, $vars, (string)$_SERVER['REMOTE_ADDR']);
     }
 
