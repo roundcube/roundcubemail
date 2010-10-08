@@ -207,24 +207,29 @@
   background-position: 7px -71px;
 }
 
-#markmessagemenu a.readlink
+#markmessagemenu li a
 {
-  background: url(images/icons/dot.png) no-repeat 7px 2px;
+  background: url(images/messageicons.png) no-repeat;
 }
 
-#markmessagemenu a.unreadlink
+#markmessagemenu li a.readlink
 {
-  background: url(images/icons/unread.png) no-repeat 7px 2px;
+  background-position: 7px -51px;
 }
 
-#markmessagemenu a.flaggedlink
+#markmessagemenu li a.unreadlink
 {
-  background: url(images/icons/flagged.png) no-repeat 7px 2px;
+  background-position: 7px -119px;
 }
 
-#markmessagemenu a.unflaggedlink
+#markmessagemenu li a.flaggedlink
 {
-  background: url(images/icons/unflagged.png) no-repeat 7px 2px;
+  background-position: 7px -153px;
+}
+
+#markmessagemenu li a.unflaggedlink
+{
+  background-position: 7px -136px;
 }
 
 #searchfilter
@@ -728,67 +733,67 @@ body.messagelist
 
 #messagelist tr td.attachment span.attachment
 {
-  background-position: -150px 0;
+  background-position: 0 -170px;
 }
 
 #messagelist tr td.flag span.flagged
 {
-  background-position: -135px 0;
+  background-position: 0 -153px;
 }
 
 #messagelist tr td.flag span.unflagged:hover
 {
-  background-position: -120px 0;
+  background-position: 0 -136px;
 }
 
 #messagelist tr td.subject span.msgicon,
 #messagelist tr td.subject span.msgicon.unreadchildren
 {
-  background-position: -45px 0;
+  background-position: 0 -51px;
   margin: 0 2px;
   cursor: pointer;
 }
 
 #messagelist tr td.subject span.msgicon.replied
 {
-  background-position: -60px 0;
+  background-position: 0 -68px;
 }
 
 #messagelist tr td.subject span.msgicon.forwarded
 {
-  background-position: -75px 0;
+  background-position: 0 -85px;
 }
 
 #messagelist tr td.subject span.msgicon.replied.forwarded
 {
-  background-position: -90px 0;
+  background-position: 0 -102px;
 }
 
 #messagelist tr td.subject span.msgicon.deleted
 {
-  background-position: -165px 0;
+  background-position: 0 -187px;
 }
 
 #messagelist tr td.subject span.msgicon.unread
 {
-  background-position: -105px 0;
+  background-position: 0 -119px;
 }
 
 #messagelist tr td div.collapsed
 {
-  background-position: -195px 0;
+  background-position: 0 -221px;
   cursor: pointer;
 }
 
 #messagelist tr td div.expanded
 {
-  background-position: -180px 0;
+  background-position: 0 -204px;
   cursor: pointer;
 }
 
 #messagelist tr td.threads div.listmenu
 {
-  background-position: -210px 1px;
+  background-position: 0 -238px;
   cursor: pointer;
 }
 

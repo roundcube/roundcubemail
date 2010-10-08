@@ -123,6 +123,7 @@ ul.toolbarmenu li.separator_below
 
 #messagelist tr td div.collapsed,
 #messagelist tr td div.expanded,
+#messagelist tr td.threads div.listmenu,
 #messagelist tr td.attachment span.attachment,
 #messagelist tr td.flag span.flagged,
 #messagelist tr td.flag span.unflagged:hover,
