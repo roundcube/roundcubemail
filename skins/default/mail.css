@@ -696,8 +696,6 @@ body.messagelist
   display: inline-block;
 }
 
-#messagelist tr td div.collapsed,
-#messagelist tr td div.expanded,
 #messagelist tbody tr td.flag
 {
   cursor: pointer;
@@ -711,6 +709,7 @@ body.messagelist
 
 #messagelist tr td div.collapsed,
 #messagelist tr td div.expanded,
+#messagelist tr td.threads div.listmenu,
 #messagelist tr td.attachment span.attachment,
 #messagelist tr td.flag span.flagged,
 #messagelist tr td.flag span.unflagged:hover,
@@ -778,11 +777,19 @@ body.messagelist
 #messagelist tr td div.collapsed
 {
   background-position: -195px 0;
+  cursor: pointer;
 }
 
 #messagelist tr td div.expanded
 {
   background-position: -180px 0;
+  cursor: pointer;
+}
+
+#messagelist tr td.threads div.listmenu
+{
+  background-position: -210px 1px;
+  cursor: pointer;
 }
 
 #messagelist tbody tr td.subject

@@ -358,11 +358,17 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   // define sortable columns
   $a_sort_cols = array('subject', 'date', 'from', 'to', 'size', 'cc');
 
-  if (!empty($attrib['optionsmenuicon']))
-    $list_menu = html::a(
-      array('href' => '#', 'onclick' => 'return '.JS_OBJECT_NAME.".command('menu-open', 'messagelistmenu')"),
-      html::img(array('src' => $skin_path . $attrib['optionsmenuicon'], 'id' => 'listmenulink', 'title' => rcube_label('listoptions')))
-    );
+  if (!empty($attrib['optionsmenuicon'])) {
+    $onclick = 'return ' . JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
+    if ($attrib['optionsmenuicon'] === true || $attrib['optionsmenuicon'] == 'true')
+      $list_menu = html::div(array('onclick' => $onclick, 'class' => 'listmenu',
+        'id' => 'listmenulink', 'title' => rcube_label('listoptions')));
+    else
+      $list_menu = html::a(array('href' => '#', 'onclick' => $onclick),
+        html::img(array('src' => $skin_path . $attrib['optionsmenuicon'],
+          'id' => 'listmenulink', 'title' => rcube_label('listoptions')))
+      );
+  }
   else
     $list_menu = '';
 
