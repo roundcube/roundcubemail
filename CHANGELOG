@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Make htmleditor option more consistent and add option to use HTML on reply to HTML message (#1485840)
 - Use empty envelope sender address for message disposition notifications (RFC2298.3)
 - Support SMTP Delivery Status Notifications - RFC3461 (#1486142)
+- Use css sprite image for messages list
 
 RELEASE 0.4.2
 -------------

@@ -186,28 +186,6 @@ function rcmail_message_list($attrib)
   $OUTPUT->set_env('autoexpand_threads', intval($CONFIG['autoexpand_threads']));
   $OUTPUT->set_env('sort_col', $_SESSION['sort_col']);
   $OUTPUT->set_env('sort_order', $_SESSION['sort_order']);
-
-  if ($attrib['messageicon'])
-    $OUTPUT->set_env('messageicon', $skin_path . $attrib['messageicon']);
-  if ($attrib['deletedicon'])
-    $OUTPUT->set_env('deletedicon', $skin_path . $attrib['deletedicon']);
-  if ($attrib['unreadicon'])
-    $OUTPUT->set_env('unreadicon', $skin_path . $attrib['unreadicon']);
-  if ($attrib['repliedicon'])
-    $OUTPUT->set_env('repliedicon', $skin_path . $attrib['repliedicon']);
-  if ($attrib['forwardedicon'])
-    $OUTPUT->set_env('forwardedicon', $skin_path . $attrib['forwardedicon']);
-  if ($attrib['forwardedrepliedicon'])
-    $OUTPUT->set_env('forwardedrepliedicon', $skin_path . $attrib['forwardedrepliedicon']);
-  if ($attrib['attachmenticon'])
-    $OUTPUT->set_env('attachmenticon', $skin_path . $attrib['attachmenticon']);
-  if ($attrib['flaggedicon'])
-    $OUTPUT->set_env('flaggedicon', $skin_path . $attrib['flaggedicon']);
-  if ($attrib['unflaggedicon'])
-    $OUTPUT->set_env('unflaggedicon', $skin_path . $attrib['unflaggedicon']);
-  if ($attrib['unreadchildrenicon'])
-    $OUTPUT->set_env('unreadchildrenicon', $skin_path . $attrib['unreadchildrenicon']);
-
   $OUTPUT->set_env('messages', array());
   $OUTPUT->set_env('coltypes', $a_show_cols);
 
@@ -394,10 +372,10 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     // get column name
     switch ($col) {
       case 'flag':
-        $col_name = sprintf($image_tag, $skin_path, $attrib['unflaggedicon'], '');
+        $col_name = '<span class="flagged">&nbsp;</span>';
         break;
       case 'attachment':
-        $col_name = sprintf($image_tag, $skin_path, $attrib['attachmenticon'], '');
+        $col_name = '<span class="attachment">&nbsp;</span>';
         break;
       case 'threads':
         $col_name = $list_menu;
@@ -411,7 +389,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
       $col_name = html::a(array('href'=>"./#sort", 'onclick' => 'return '.JS_OBJECT_NAME.".command('sort','".$col."',this)", 'title' => rcube_label('sortby')), $col_name);
 
     $sort_class = $col == $sort_col ? " sorted$sort_order" : '';
-    $class_name = $col == 'attachment' ? 'icon' : $col.$sort_class;
+    $class_name = $col.$sort_class;
 
     // put it all together
     $cells[] = array('className' => $class_name, 'id' => "rcm$col", 'html' => $col_name);

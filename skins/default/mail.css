@@ -689,50 +689,100 @@ body.messagelist
   cursor: inherit;
 }
 
-#messagelist tr td.icon,
-#messagelist tr td.threads,
-#messagelist tr td.attachment,
-#messagelist tr td.flag
-{
-  width: 18px;
-  padding: 0px 1px 1px 3px;
-}
-
-#messagelist tbody td span.branch,
-#messagelist tbody td img
+#messagelist td span,
+#messagelist td img
 {
   vertical-align: middle;
   display: inline-block;
 }
 
-#messagelist tbody td img.msgicon
-{
-  margin: 0 2px;
-}
-
 #messagelist tr td div.collapsed,
 #messagelist tr td div.expanded,
-#messagelist tr td img.flagicon,
-#messagelist tr td img.msgicon,
 #messagelist tbody tr td.flag
 {
   cursor: pointer;
 }
 
+#messagelist tr td.flag span,
+#messagelist tr td.attachment span
+{
+  width: 15px;
+}
+
+#messagelist tr td div.collapsed,
+#messagelist tr td div.expanded,
+#messagelist tr td.attachment span.attachment,
+#messagelist tr td.flag span.flagged,
+#messagelist tr td.flag span.unflagged:hover,
+#messagelist tr td.subject span.msgicon,
+#messagelist tr td.subject span.msgicon.replied,
+#messagelist tr td.subject span.msgicon.forwarded,
+#messagelist tr td.subject span.msgicon.deleted,
+#messagelist tr td.subject span.msgicon.unread,
+#messagelist tr td.subject span.msgicon.unreadchildren
+{
+  vertical-align: middle;
+  height: 17px;
+  width: 15px;
+  background: url(images/messageicons.png) center no-repeat;
+}
+
+#messagelist tr td.attachment span.attachment
+{
+  background-position: -150px 0;
+}
+
+#messagelist tr td.flag span.flagged
+{
+  background-position: -135px 0;
+}
+
+#messagelist tr td.flag span.unflagged:hover
+{
+  background-position: -120px 0;
+}
+
+#messagelist tr td.subject span.msgicon,
+#messagelist tr td.subject span.msgicon.unreadchildren
+{
+  background-position: -45px 0;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+#messagelist tr td.subject span.msgicon.replied
+{
+  background-position: -60px 0;
+}
+
+#messagelist tr td.subject span.msgicon.forwarded
+{
+  background-position: -75px 0;
+}
+
+#messagelist tr td.subject span.msgicon.replied.forwarded
+{
+  background-position: -90px 0;
+}
+
+#messagelist tr td.subject span.msgicon.deleted
+{
+  background-position: -165px 0;
+}
+
+#messagelist tr td.subject span.msgicon.unread
+{
+  background-position: -105px 0;
+}
+
 #messagelist tr td div.collapsed
 {
-  background: url(images/messageactions.png) -1px -91px no-repeat;
+  background-position: -195px 0;
 }
 
 #messagelist tr td div.expanded
 {
-  background: url(images/messageactions.png) -1px -109px no-repeat;
-}
-
-#messagelist tbody tr td.flag img:hover,
-#messagelist thead tr td.flag img
-{
-  background: url(images/icons/unflagged.png) center no-repeat;
+  background-position: -180px 0;
 }
 
 #messagelist tbody tr td.subject
@@ -749,6 +799,14 @@ body.messagelist
 #messagelist tbody tr.unroot td.subject a
 {
   text-decoration: underline;
+}
+
+#messagelist tr td.attachment,
+#messagelist tr td.threads,
+#messagelist tr td.flag
+{
+  width: 19px;
+  padding: 0 2px;
 }
 
 #messagelist tr td.size

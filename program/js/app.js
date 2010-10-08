@@ -368,7 +368,7 @@ function rcube_webmail()
         $('#rcmlogintz').val(new Date().getTimezoneOffset() / -60);
 
         // display 'loading' message on form submit
-        $('form').submit(function () { 
+        $('form').submit(function () {
           rcmail.display_message(rcmail.get_label('loading'), 'loading', true); 
         }); 
 
@@ -1526,13 +1526,13 @@ function rcube_webmail()
     // set eventhandler to message icon
     if (this.env.subject_col != null && (row.icon = document.getElementById('msgicn'+row.uid))) {
       row.icon._row = row.obj;
-      row.icon.onmousedown = function(e) { self.command('toggle_status', this); };
+      row.icon.onmousedown = function(e) { self.command('toggle_status', this); rcube_event.cancel(e); };
     }
 
     // set eventhandler to flag icon, if icon found
-    if (this.env.flagged_col != null && (row.flagged_icon = document.getElementById('flaggedicn'+row.uid))) {
+    if (this.env.flagged_col != null && (row.flagged_icon = document.getElementById('flagicn'+row.uid))) {
       row.flagged_icon._row = row.obj;
-      row.flagged_icon.onmousedown = function(e) { self.command('toggle_flag', this); };
+      row.flagged_icon.onmousedown = function(e) { self.command('toggle_flag', this); rcube_event.cancel(e); };
     }
 
     if (!row.depth && row.has_children && (expando = document.getElementById('rcmexpando'+row.uid))) {
@@ -1569,7 +1569,7 @@ function rcube_webmail()
       flags: flags.extra_flags
     });
 
-    var c, tree = expando = '',
+    var c, html, tree = expando = '',
       list = this.message_list,
       rows = list.rows,
       tbody = this.gui_objects.messagelist.tBodies[0],
@@ -1591,21 +1591,19 @@ function rcube_webmail()
     row.className = css_class;
 
     // message status icon
-    var icon = this.env.messageicon;
-    if (!flags.unread && flags.unread_children > 0 && this.env.unreadchildrenicon)
-      icon = this.env.unreadchildrenicon;
-    else if (flags.deleted && this.env.deletedicon)
-      icon = this.env.deletedicon;
-    else if (flags.replied && this.env.repliedicon) {
-      if (flags.forwarded && this.env.forwardedrepliedicon)
-        icon = this.env.forwardedrepliedicon;
-      else
-        icon = this.env.repliedicon;
+    css_class = 'msgicon';
+    if (!flags.unread && flags.unread_children > 0)
+      css_class += ' unreadchildren';
+    if (flags.deleted)
+      css_class += ' deleted';
+    else if (flags.replied || flags.forwarded) {
+      if (flags.replied)
+        css_class += ' replied';
+      if (flags.forwarded)
+        css_class += ' forwarded';
     }
-    else if (flags.forwarded && this.env.forwardedicon)
-      icon = this.env.forwardedicon;
-    else if(flags.unread && this.env.unreadicon)
-      icon = this.env.unreadicon;
+    else if (flags.unread)
+      css_class += ' unread';
 
     // update selection
     if (message.selected && !list.in_selection(uid))
@@ -1639,7 +1637,7 @@ function rcube_webmail()
         expando = '<div id="rcmexpando' + uid + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
     }
 
-    tree += icon ? '<img id="msgicn'+uid+'" src="'+icon+'" alt="" class="msgicon" />' : '';
+    tree += '<span id="msgicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
 
     // build subject link 
     if (!bw.ie && cols.subject) {
@@ -1655,17 +1653,15 @@ function rcube_webmail()
       col = document.createElement('td');
       col.className = String(c).toLowerCase();
 
-      var html;
       if (c == 'flag') {
-        if (flags.flagged && this.env.flaggedicon)
-          html = '<img id="flaggedicn'+uid+'" src="'+this.env.flaggedicon+'" class="flagicon" alt="" />';
-        else if(!flags.flagged && this.env.unflaggedicon)
-          html = '<img id="flaggedicn'+uid+'" src="'+this.env.unflaggedicon+'" class="flagicon" alt="" />';
+        css_class = (flags.flagged ? 'flagged' : 'unflagged');
+        html = '<span id="flagicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
+      }
+      else if (c == 'attachment') {
+        html = flags.attachment ? '<span class="attachment">&nbsp;</span>' : '&nbsp;';
       }
       else if (c == 'threads')
         html = expando;
-      else if (c == 'attachment')
-        html = flags.attachment && this.env.attachmenticon ? '<img src="'+this.env.attachmenticon+'" alt="" />' : '&nbsp;';
       else if (c == 'subject')
         html = tree + cols[c];
       else
@@ -2184,40 +2180,34 @@ function rcube_webmail()
   // set message icon
   this.set_message_icon = function(uid)
   {
-    var icn_src,
+    var css_class,
       rows = this.message_list.rows;
 
     if (!rows[uid])
       return false;
-    if (!rows[uid].unread && rows[uid].unread_children && this.env.unreadchildrenicon) {
-      icn_src = this.env.unreadchildrenicon;
+
+    if (rows[uid].icon) {
+      css_class = 'msgicon';
+      if (!rows[uid].unread && rows[uid].unread_children)
+        css_class += ' unreadchildren';
+      if (rows[uid].deleted)
+        css_class += ' deleted';
+      else if (rows[uid].replied || rows[uid].forwarded) {
+        if (rows[uid].replied)
+          css_class += ' replied';
+        if (rows[uid].forwarded)
+          css_class += ' forwarded';
+      }
+      else if (rows[uid].unread)
+        css_class += ' unread';
+
+      rows[uid].icon.className = css_class;
     }
-    else if (rows[uid].deleted && this.env.deletedicon)
-      icn_src = this.env.deletedicon;
-    else if (rows[uid].replied && this.env.repliedicon) {
-      if (rows[uid].forwarded && this.env.forwardedrepliedicon)
-        icn_src = this.env.forwardedrepliedicon;
-      else
-        icn_src = this.env.repliedicon;
+
+    if (rows[uid].flagged_icon) {
+      css_class = (rows[uid].flagged ? 'flagged' : 'unflagged');
+      rows[uid].flagged_icon.className = css_class;
     }
-    else if (rows[uid].forwarded && this.env.forwardedicon)
-      icn_src = this.env.forwardedicon;
-    else if (rows[uid].unread && this.env.unreadicon)
-      icn_src = this.env.unreadicon;
-    else if (this.env.messageicon)
-      icn_src = this.env.messageicon;
-
-    if (icn_src && rows[uid].icon)
-      rows[uid].icon.src = icn_src;
-
-    icn_src = '';
-
-    if (rows[uid].flagged && this.env.flaggedicon)
-      icn_src = this.env.flaggedicon;
-    else if (!rows[uid].flagged && this.env.unflaggedicon)
-      icn_src = this.env.unflaggedicon;
-    if (rows[uid].flagged_icon && icn_src)
-      rows[uid].flagged_icon.src = icn_src;
   };
 
   // set message status
