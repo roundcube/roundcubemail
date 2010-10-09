@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Use css sprite image for messages list
 - Add (different) attachment icon for messages of type multipart/report (#1486165)
 - Prevent from inserting empty link when composing HTML message (#1486944)
+- Add caching support in id2uid and uid2id functions (#1487019)
 
 RELEASE 0.4.2
 -------------

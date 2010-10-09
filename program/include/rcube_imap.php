@@ -114,7 +114,7 @@ class rcube_imap
         $this->conn = new rcube_imap_generic();
     }
 
-
+    
     /**
      * Connect to an IMAP server
      *
@@ -183,7 +183,7 @@ class rcube_imap
         return false;
     }
 
-
+    
     /**
      * Close IMAP connection
      * Usually done on script shutdown
@@ -196,7 +196,7 @@ class rcube_imap
         $this->write_cache();
     }
 
-
+    
     /**
      * Close IMAP connection and re-connect
      * This is used to avoid some strange socket errors when talking to Courier IMAP
@@ -213,6 +213,7 @@ class rcube_imap
             $this->conn->select($this->mailbox);
     }
 
+    
     /**
      * Set options to be used in rcube_imap_generic::connect()
      *
@@ -223,6 +224,7 @@ class rcube_imap
         $this->options = array_merge($this->options, (array)$opt);
     }
 
+    
     /**
      * Set a root folder for the IMAP connection.
      *
@@ -244,7 +246,7 @@ class rcube_imap
             $this->get_hierarchy_delimiter();
     }
 
-
+    
     /**
      * Set default message charset
      *
@@ -258,7 +260,7 @@ class rcube_imap
         $this->default_charset = $cs;
     }
 
-
+    
     /**
      * This list of folders will be listed above all other folders
      *
@@ -276,7 +278,7 @@ class rcube_imap
         }
     }
 
-
+    
     /**
      * Set internal mailbox reference.
      *
@@ -298,7 +300,7 @@ class rcube_imap
         $this->_clear_messagecount($mailbox);
     }
 
-
+    
     /**
      * Set internal list page
      *
@@ -310,7 +312,7 @@ class rcube_imap
         $this->list_page = (int)$page;
     }
 
-
+    
     /**
      * Set internal page size
      *
@@ -322,7 +324,7 @@ class rcube_imap
         $this->page_size = (int)$size;
     }
 
-
+    
     /**
      * Save a set of message ids for future message listing methods
      *
@@ -349,7 +351,7 @@ class rcube_imap
         $this->search_sorted     = $sorted;
     }
 
-
+    
     /**
      * Return the saved search set as hash array
      * @return array Search set
@@ -365,7 +367,7 @@ class rcube_imap
 	    );
     }
 
-
+    
     /**
      * Returns the currently used mailbox name
      *
@@ -377,7 +379,7 @@ class rcube_imap
         return $this->conn->connected() ? $this->mod_mailbox($this->mailbox, 'out') : '';
     }
 
-
+    
     /**
      * Returns the IMAP server's capability
      *
@@ -390,7 +392,7 @@ class rcube_imap
         return $this->conn->getCapability(strtoupper($cap));
     }
 
-
+    
     /**
      * Sets threading flag to the best supported THREAD algorithm
      *
@@ -414,13 +416,13 @@ class rcube_imap
         return $this->threading;
     }
 
-
+    
     /**
      * Checks the PERMANENTFLAGS capability of the current mailbox
      * and returns true if the given flag is supported by the IMAP server
      *
      * @param   string  $flag Permanentflag name
-     * @return  mixed   True if this flag is supported
+     * @return  boolean True if this flag is supported
      * @access  public
      */
     function check_permflag($flag)
@@ -430,7 +432,7 @@ class rcube_imap
         return (in_array_nocase($imap_flag, $this->conn->permanentflags));
     }
 
-
+    
     /**
      * Returns the delimiter that is used by the IMAP server for folder separation
      *
@@ -448,7 +450,7 @@ class rcube_imap
         return $this->delimiter;
     }
 
-
+    
     /**
      * Get message count for a specific mailbox
      *
@@ -466,7 +468,7 @@ class rcube_imap
         return $this->_messagecount($mailbox, $mode, $force, $status);
     }
 
-
+    
     /**
      * Private method for getting nr of messages
      *
@@ -556,8 +558,8 @@ class rcube_imap
     /**
      * Private method for getting nr of threads
      *
-     * @param string $mailbox
-     * @param int    $msg_count
+     * @param string $mailbox   Folder name
+     * @param int    $msg_count Number of messages in the folder
      * @access  private
      * @see     rcube_imap::messagecount()
      */
@@ -574,7 +576,7 @@ class rcube_imap
         return count($thread_tree);
     }
 
-
+    
     /**
      * Public method for listing headers
      * convert mailbox name with root dir first
@@ -593,7 +595,7 @@ class rcube_imap
         return $this->_list_headers($mailbox, $page, $sort_field, $sort_order, false, $slice);
     }
 
-
+    
     /**
      * Private method for listing message headers
      *
@@ -723,7 +725,7 @@ class rcube_imap
         return array_values($a_msg_headers);
     }
 
-
+    
     /**
      * Private method for listing message headers using threads
      *
@@ -731,7 +733,7 @@ class rcube_imap
      * @param   int      $page       Current page to list
      * @param   string   $sort_field Header field to sort by
      * @param   string   $sort_order Sort order [ASC|DESC]
-     * @param   boolean  $recursive  
+     * @param   boolean  $recursive  True if called recursively
      * @param   int      $slice      Number of slice items to extract from result array
      * @return  array    Indexed array with message header objects
      * @access  private
@@ -790,13 +792,14 @@ class rcube_imap
     /**
      * Private method for fetching threaded messages headers
      *
-     * @param string  $mailbox Mailbox name
-     * @param string  $thread_tree
-     * @param int     $msg_depth
-     * @param boolean $has_children
-     * @param int     $msg_index
-     * @param int     $page
-     * @param int     $slice
+     * @param string  $mailbox      Mailbox name
+     * @param array   $thread_tree  Thread tree data
+     * @param array   $msg_depth    Thread depth data
+     * @param array   $has_children Thread children data
+     * @param array   $msg_index    Messages index
+     * @param int     $page         List page number
+     * @param int     $slice        Number of threads to slice
+     * @return array  Messages headers
      * @access  private
      */
     private function _fetch_thread_headers($mailbox, $thread_tree, $msg_depth, $has_children, $msg_index, $page, $slice=0)
@@ -1050,9 +1053,9 @@ class rcube_imap
     /**
      * Helper function to get first and last index of the requested set
      *
-     * @param  int     $max  message count
-     * @param  mixed   $page page number to show, or string 'all'
-     * @return array   array with two values: first index, last index
+     * @param  int     $max  Messages count
+     * @param  mixed   $page Page number to show, or string 'all'
+     * @return array   Array with two values: first index, last index
      * @access private
      */
     private function _get_message_range($max, $page)
@@ -1081,13 +1084,12 @@ class rcube_imap
 
 
     /**
-     * Fetches message headers
-     * Used for loop
+     * Fetches message headers (used for loop)
      *
-     * @param  string  Mailbox name
-     * @param  string  Message index to fetch
-     * @param  array   Reference to message headers array
-     * @param  string  Cache index string
+     * @param  string  $mailbox       Mailbox name
+     * @param  string  $msgs          Message index to fetch
+     * @param  array   $a_msg_headers Reference to message headers array
+     * @param  string  $cache_key     Cache index key
      * @return int     Messages count
      * @access private
      */
@@ -1212,7 +1214,7 @@ class rcube_imap
      * @param string $mbox_name  Mailbox to get index from
      * @param string $sort_field Sort column
      * @param string $sort_order Sort order [ASC, DESC]
-     * @return array Indexed array with message ids
+     * @return array Indexed array with message IDs
      */
     function message_index($mbox_name='', $sort_field=NULL, $sort_order=NULL)
     {
@@ -1496,11 +1498,11 @@ class rcube_imap
     /**
      * Invoke search request to IMAP server
      *
-     * @param  string  $mbox_name  mailbox name to search in
-     * @param  string  $str        search string
-     * @param  string  $charset    search string charset
-     * @param  string  $sort_field header field to sort by
-     * @return array   search results as list of message ids
+     * @param  string  $mbox_name  Mailbox name to search in
+     * @param  string  $str        Search criteria
+     * @param  string  $charset    Search charset
+     * @param  string  $sort_field Header field to sort by
+     * @return array   search results as list of message IDs
      * @access public
      */
     function search($mbox_name='', $str=NULL, $charset=NULL, $sort_field=NULL)
@@ -2077,9 +2079,9 @@ class rcube_imap
     /**
      * Set attachment filename from message part structure
      *
-     * @access private
      * @param  rcube_message_part $part    Part object
      * @param  string             $headers Part's raw headers
+     * @access private
      */
     private function _set_part_filename(&$part, $headers=null)
     {
@@ -2198,11 +2200,11 @@ class rcube_imap
     /**
      * Get charset name from message structure (first part)
      *
-     * @access private
      * @param  array $structure Message structure
      * @return string Charset name
+     * @access private
      */
-    function _structure_charset($structure)
+    private function _structure_charset($structure)
     {
         while (is_array($structure)) {
             if (is_array($structure[2]) && $structure[2][0] == 'charset')
@@ -3121,6 +3123,7 @@ class rcube_imap
             $this->caching_enabled = false;
     }
 
+
     /**
      * Returns cached value
      *
@@ -3138,6 +3141,7 @@ class rcube_imap
         return $this->cache[$key];
     }
 
+
     /**
      * Update cache
      *
@@ -3151,6 +3155,7 @@ class rcube_imap
         $this->cache_changed = true;
         $this->cache_changes[$key] = true;
     }
+
 
     /**
      * Writes the cache
@@ -3166,6 +3171,7 @@ class rcube_imap
             }
         }
     }
+
 
     /**
      * Clears the cache.
@@ -3192,6 +3198,7 @@ class rcube_imap
             unset($this->cache[$key]);
         }
     }
+
 
     /**
      * Returns cached entry
@@ -3221,6 +3228,7 @@ class rcube_imap
 
         return $this->cache[$key];
     }
+
 
     /**
      * Writes single cache record
@@ -3268,6 +3276,7 @@ class rcube_imap
                 $this->cache_keys[$key] = $sql_arr['cache_id'];
         }
     }
+
 
     /**
      * Clears cache for single record
@@ -3351,6 +3360,7 @@ class rcube_imap
             return -2;
     }
 
+
     /**
      * @param string $key Cache key
      * @param string $from
@@ -3395,9 +3405,10 @@ class rcube_imap
         return $result;
     }
 
+
     /**
      * @param string $key Cache key
-     * @param int    $uid User id
+     * @param int    $uid Message UID
      * @return mixed
      * @access private
      */
@@ -3429,11 +3440,12 @@ class rcube_imap
         return $this->icache[$internal_key][$uid];
     }
 
+
     /**
-     * @param string  $key   Cache key
-     * @param boolean $force Force flag
-     * @param string  $sort_field
-     * @param string  $sort_order
+     * @param string  $key        Cache key
+     * @param string  $sort_field Sorting column
+     * @param string  $sort_order Sorting order
+     * @return array Messages index
      * @access private
      */
     private function get_message_cache_index($key, $sort_field='idx', $sort_order='ASC')
@@ -3445,19 +3457,21 @@ class rcube_imap
         if (!$sort_field || !in_array($sort_field, $this->db_header_fields))
             $sort_field = 'idx';
 
-        $ord = $sort_field . $sort_order;
-
         if (array_key_exists('index', $this->icache)
             && $this->icache['index']['key'] == $key
-            && $this->icache['index']['ord'] == $ord
+            && $this->icache['index']['sort_field'] == $sort_field
         ) {
-            return $this->icache['index']['result'];
+            if ($this->icache['index']['sort_order'] == $sort_order)
+                return $this->icache['index']['result'];
+            else
+                return array_reverse($this->icache['index']['result'], true);
         }
 
         $this->icache['index'] = array(
-            'result' => array(),
-            'ord'    => $ord,
-            'key'    => $key,
+            'result'     => array(),
+            'key'        => $key,
+            'sort_field' => $sort_field,
+            'sort_order' => $sort_order,
         );
 
         $sql_result = $this->db->query(
@@ -3474,6 +3488,7 @@ class rcube_imap
 
         return $this->icache['index']['result'];
     }
+
 
     /**
      * @access private
@@ -3551,6 +3566,7 @@ class rcube_imap
         unset($this->icache['index']);
     }
 
+
     /**
      * @access private
      */
@@ -3569,6 +3585,7 @@ class rcube_imap
 
         unset($this->icache['index']);
     }
+
 
     /**
      * @param string $key         Cache key
@@ -3589,6 +3606,7 @@ class rcube_imap
 
         unset($this->icache['index']);
     }
+
 
     /**
      * @access private
@@ -3618,6 +3636,70 @@ class rcube_imap
             return $sql_arr['minidx'];
         else
             return 0;
+    }
+
+
+    /**
+     * @param string $key Cache key
+     * @param int    $id  Message (sequence) ID
+     * @return int Message UID
+     * @access private
+     */
+    private function get_cache_id2uid($key, $id)
+    {
+        if (!$this->caching_enabled)
+            return null;
+
+        if (array_key_exists('index', $this->icache)
+            && $this->icache['index']['key'] == $key
+        ) {
+            return $this->icache['index']['result'][$id];
+        }
+
+        $sql_result = $this->db->query(
+            "SELECT uid".
+            " FROM ".get_table_name('messages').
+            " WHERE user_id=?".
+            " AND cache_key=?".
+            " AND idx=?",
+            $_SESSION['user_id'], $key, $id);
+
+        if ($sql_arr = $this->db->fetch_assoc($sql_result))
+            return intval($sql_arr['uid']);
+
+        return null;
+    }
+
+
+    /**
+     * @param string $key Cache key
+     * @param int    $uid Message UID
+     * @return int Message (sequence) ID
+     * @access private
+     */
+    private function get_cache_uid2id($key, $uid)
+    {
+        if (!$this->caching_enabled)
+            return null;
+
+        if (array_key_exists('index', $this->icache)
+            && $this->icache['index']['key'] == $key
+        ) {
+            return array_search($uid, $this->icache['index']['result']);
+        }
+
+        $sql_result = $this->db->query(
+            "SELECT idx".
+            " FROM ".get_table_name('messages').
+            " WHERE user_id=?".
+            " AND cache_key=?".
+            " AND uid=?",
+            $_SESSION['user_id'], $key, $uid);
+
+        if ($sql_arr = $this->db->fetch_assoc($sql_result))
+            return intval($sql_arr['idx']);
+
+        return null;
     }
 
 
@@ -3842,6 +3924,7 @@ class rcube_imap
             $this->sort_order = strtoupper($sort_order) == 'DESC' ? 'DESC' : 'ASC';
     }
 
+
     /**
      * Sort mailboxes first by default folders and then in alphabethical order
      *
@@ -3903,9 +3986,9 @@ class rcube_imap
 
 
     /**
-     * @param int    $uid       User id
+     * @param int    $uid       Message UID
      * @param string $mbox_name Mailbox name
-     * @return int 
+     * @return int Message (sequence) ID
      * @access private
      */
     private function _uid2id($uid, $mbox_name=NULL)
@@ -3913,16 +3996,21 @@ class rcube_imap
         if (!$mbox_name)
             $mbox_name = $this->mailbox;
 
-        if (!isset($this->uid_id_map[$mbox_name][$uid]))
-            $this->uid_id_map[$mbox_name][$uid] = $this->conn->UID2ID($mbox_name, $uid);
+        if (!isset($this->uid_id_map[$mbox_name][$uid])) {
+            if (!($id = $this->get_cache_uid2id($mbox_name.'.msg', $uid)))
+                $id = $this->conn->UID2ID($mbox_name, $uid);
+
+            $this->uid_id_map[$mbox_name][$uid] = $id;
+        }
 
         return $this->uid_id_map[$mbox_name][$uid];
     }
 
+
     /**
-     * @param int    $id        Id
+     * @param int    $id        Message (sequence) ID
      * @param string $mbox_name Mailbox name
-     * @return int
+     * @return int Message UID
      * @access private
      */
     private function _id2uid($id, $mbox_name=NULL)
@@ -3933,7 +4021,9 @@ class rcube_imap
         if ($uid = array_search($id, (array)$this->uid_id_map[$mbox_name]))
             return $uid;
 
-        $uid = $this->conn->ID2UID($mbox_name, $id);
+        if (!($uid = $this->get_cache_id2uid($mbox_name.'.msg', $id)))
+            $uid = $this->conn->ID2UID($mbox_name, $id);
+
         $this->uid_id_map[$mbox_name][$uid] = $id;
 
         return $uid;
