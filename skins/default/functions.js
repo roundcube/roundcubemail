@@ -124,9 +124,12 @@ show_popupmenu: function(popup, show)
     show = false;
 
   if (show && ref) {
-    var pos = $(ref).offset();
+    var parent = $(ref).parent(),
+      pos = parent.hasClass('dropbutton') ? parent.offset() : $(ref).offset();
+
     if (!above && pos.top + ref.offsetHeight + obj.height() > window.innerHeight)
       above = true;
+
     obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
   }
 
