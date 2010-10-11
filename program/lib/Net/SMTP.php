@@ -504,13 +504,15 @@ class Net_SMTP
      * @param string The requested authentication method.  If none is
      *               specified, the best supported method will be used.
      * @param bool   Flag indicating whether or not TLS should be attempted.
+     * @param string An optional authorization identifier.  If specified, this
+     *               identifier will be used as the authorization proxy.
      *
      * @return mixed Returns a PEAR_Error with an error message on any
      *               kind of failure, or true on success.
      * @access public
      * @since  1.0
      */
-    function auth($uid, $pwd , $method = '', $tls = true)
+    function auth($uid, $pwd , $method = '', $tls = true, $authz = '')
     {
         /* We can only attempt a TLS connection if one has been requested,
          * we're running PHP 5.1.0 or later, have access to the OpenSSL 
@@ -558,7 +560,7 @@ class Net_SMTP
 
         switch ($method) {
         case 'DIGEST-MD5':
-            $result = $this->_authDigest_MD5($uid, $pwd);
+            $result = $this->_authDigest_MD5($uid, $pwd, $authz);
             break;
 
         case 'CRAM-MD5':
@@ -570,7 +572,7 @@ class Net_SMTP
             break;
 
         case 'PLAIN':
-            $result = $this->_authPlain($uid, $pwd);
+            $result = $this->_authPlain($uid, $pwd, $authz);
             break;
 
         default:
@@ -591,13 +593,14 @@ class Net_SMTP
      *
      * @param string The userid to authenticate as.
      * @param string The password to authenticate with.
+     * @param string The optional authorization proxy identifier.
      *
      * @return mixed Returns a PEAR_Error with an error message on any
      *               kind of failure, or true on success.
      * @access private
      * @since  1.1.0
      */
-    function _authDigest_MD5($uid, $pwd)
+    function _authDigest_MD5($uid, $pwd, $authz = '')
     {
         if (PEAR::isError($error = $this->_put('AUTH', 'DIGEST-MD5'))) {
             return $error;
@@ -614,7 +617,7 @@ class Net_SMTP
         $challenge = base64_decode($this->_arguments[0]);
         $digest = &Auth_SASL::factory('digestmd5');
         $auth_str = base64_encode($digest->getResponse($uid, $pwd, $challenge,
-                                                       $this->host, "smtp"));
+                                                       $this->host, "smtp", $authz));
 
         if (PEAR::isError($error = $this->_put($auth_str))) {
             return $error;
@@ -725,13 +728,14 @@ class Net_SMTP
      *
      * @param string The userid to authenticate as.
      * @param string The password to authenticate with.
+     * @param string The optional authorization proxy identifier.
      *
      * @return mixed Returns a PEAR_Error with an error message on any
      *               kind of failure, or true on success.
      * @access private
      * @since  1.1.0
      */
-    function _authPlain($uid, $pwd)
+    function _authPlain($uid, $pwd, $authz = '')
     {
         if (PEAR::isError($error = $this->_put('AUTH', 'PLAIN'))) {
             return $error;
@@ -745,7 +749,7 @@ class Net_SMTP
             return $error;
         }
 
-        $auth_str = base64_encode(chr(0) . $uid . chr(0) . $pwd);
+        $auth_str = base64_encode($authz . chr(0) . $uid . chr(0) . $pwd);
 
         if (PEAR::isError($error = $this->_put($auth_str))) {
             return $error;
@@ -969,18 +973,46 @@ class Net_SMTP
                     return $result;
                 }
             }
-
-            /* Finally, send the DATA terminator sequence. */
-            if (PEAR::isError($result = $this->_send("\r\n.\r\n"))) {
-                return $result;
-            }
         } else {
-            /* Just send the entire quoted string followed by the DATA 
-             * terminator. */
-            $this->quotedata($data);
-            if (PEAR::isError($result = $this->_send($data . "\r\n.\r\n"))) {
-                return $result;
+            /*
+             * Break up the data by sending one chunk (up to 512k) at a time.  
+             * This approach reduces our peak memory usage.
+             */
+            for ($offset = 0; $offset < $size;) {
+                $end = $offset + 512000;
+
+                /*
+                 * Ensure we don't read beyond our data size or span multiple 
+                 * lines.  quotedata() can't properly handle character data 
+                 * that's split across two line break boundaries.
+                 */
+                if ($end >= $size) {
+                    $end = $size;
+                } else {
+                    for (; $end < $size; $end++) {
+                        if ($data[$end] != "\n") {
+                            break;
+                        }
+                    }
+                }
+
+                /* Extract our chunk and run it through the quoting routine. */
+                $chunk = substr($data, $offset, $end - $offset);
+                $this->quotedata($chunk);
+
+                /* If we run into a problem along the way, abort. */
+                if (PEAR::isError($result = $this->_send($chunk))) {
+                    return $result;
+                }
+
+                /* Advance the offset to the end of this chunk. */
+                $offset = $end;
             }
+        }
+
+        /* Finally, send the DATA terminator sequence. */
+        if (PEAR::isError($result = $this->_send("\r\n.\r\n"))) {
+            return $result;
         }
 
         /* Verify that the data was successfully received by the server. */
