@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Add (different) attachment icon for messages of type multipart/report (#1486165)
 - Prevent from inserting empty link when composing HTML message (#1486944)
 - Add caching support in id2uid and uid2id functions (#1487019)
+- Add SASL proxy authentication for SMTP (#1486693)
 
 RELEASE 0.4.2
 -------------

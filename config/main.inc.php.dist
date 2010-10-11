@@ -117,6 +117,9 @@ $rcmail_config['smtp_pass'] = '';
 // best server supported one)
 $rcmail_config['smtp_auth_type'] = '';
 
+// Optional SMTP authorization identifier to be used as authorization proxy
+$rcmail_config['smtp_authzid'] = null;
+
 // SMTP HELO host 
 // Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages 
 // Leave this blank and you will get the server variable 'server_name' or 

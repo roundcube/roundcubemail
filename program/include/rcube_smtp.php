@@ -44,10 +44,11 @@ class rcube_smtp
    * @param string Server port
    * @param string User name
    * @param string Password
+   * @param string Optional authorization ID to be used as authorization proxy
    *
    * @return bool  Returns true on success, or false on error
    */
-  public function connect($host=null, $port=null, $user=null, $pass=null)
+  public function connect($host=null, $port=null, $user=null, $pass=null, $authz=null)
   {
     $RCMAIL = rcmail::get_instance();
   
@@ -59,10 +60,11 @@ class rcube_smtp
   
     // let plugins alter smtp connection config
     $CONFIG = $RCMAIL->plugins->exec_hook('smtp_connect', array(
-      'smtp_server' => $host ? $host : $RCMAIL->config->get('smtp_server'),
-      'smtp_port'   => $port ? $port : $RCMAIL->config->get('smtp_port', 25),
-      'smtp_user'   => $user ? $user : $RCMAIL->config->get('smtp_user'),
-      'smtp_pass'   => $pass ? $pass : $RCMAIL->config->get('smtp_pass'),
+      'smtp_server'    => $host ? $host : $RCMAIL->config->get('smtp_server'),
+      'smtp_port'      => $port ? $port : $RCMAIL->config->get('smtp_port', 25),
+      'smtp_user'      => $user ? $user : $RCMAIL->config->get('smtp_user'),
+      'smtp_pass'      => $pass ? $pass : $RCMAIL->config->get('smtp_pass'),
+      'smtp_authzid'   => $authz ? $authz : $RCMAIL->config->get('smtp_authzid'),
       'smtp_auth_type' => $RCMAIL->config->get('smtp_auth_type'),
       'smtp_helo_host' => $RCMAIL->config->get('smtp_helo_host'),
       'smtp_timeout'   => $RCMAIL->config->get('smtp_timeout'),
@@ -105,7 +107,7 @@ class rcube_smtp
 
     if($RCMAIL->config->get('smtp_debug'))
       $this->conn->setDebug(true, array($this, 'debug_handler'));
-    
+
     // try to connect to server and exit on failure
     $result = $this->conn->connect($smtp_timeout);
     if (PEAR::isError($result))
@@ -120,6 +122,11 @@ class rcube_smtp
     $smtp_pass = str_replace('%p', $RCMAIL->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
     $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
 
+    if (!empty($CONFIG['smtp_authzid'])) {
+      $smtp_authz = $smtp_user;
+      $smtp_user  = $CONFIG['smtp_authzid'];
+    }
+
     // attempt to authenticate to the SMTP server
     if ($smtp_user && $smtp_pass)
     {
@@ -127,7 +134,7 @@ class rcube_smtp
       if (strpos($smtp_user, '@'))
         $smtp_user = idn_to_ascii($smtp_user);
 
-      $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls);
+      $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls, $smtp_authz);
 
       if (PEAR::isError($result))
       {
