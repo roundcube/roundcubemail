@@ -1833,7 +1833,7 @@ function rcube_webmail()
     if (this.gui_objects.qsearchbox)
       search = this.gui_objects.qsearchbox.value;
 
-    this.message_list.clear();
+    this.clear_message_list();
 
     // reset vars
     this.env.current_page = 1;
