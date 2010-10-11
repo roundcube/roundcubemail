@@ -974,6 +974,8 @@ class Net_SMTP
                 }
             }
         } else {
+            if (!isset($size))
+                $size = strlen($data);
             /*
              * Break up the data by sending one chunk (up to 512k) at a time.  
              * This approach reduces our peak memory usage.
