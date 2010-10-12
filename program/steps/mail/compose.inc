@@ -537,7 +537,12 @@ function rcmail_prepare_message_body()
         $body = $MESSAGE->first_html_part();
       }
       else {
-        $body = rcmail_plain_body($MESSAGE->first_text_part());
+        $body = $MESSAGE->first_text_part();
+        // try to remove the signature
+        if ($RCMAIL->config->get('strip_existing_sig', true))
+          $body = rcmail_remove_signature($body);
+        // add HTML formatting
+        $body = rcmail_plain_body($body);
         if ($body)
           $body = '<pre>' . $body . '</pre>';
       }
@@ -710,18 +715,8 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $body = preg_replace('/\r?\n/', "\n", $body);
 
     // try to remove the signature
-    if ($RCMAIL->config->get('strip_existing_sig', true)) {
-      $len = strlen($body);
-      while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
-        if ($sp == 0 || $body[$sp-1] == "\n") {
-          // do not touch blocks with more that X lines
-          if (substr_count($body, "\n", $sp) < $RCMAIL->config->get('sig_max_lines', 15)) {
-            $body = substr($body, 0, max(0, $sp-1));
-          }
-          break;
-        }
-      }
-    }
+    if ($RCMAIL->config->get('strip_existing_sig', true))
+      $body = rcmail_remove_signature($body);
 
     // soft-wrap and quote message text
     $body = rcmail_wrap_and_quote(rtrim($body, "\n"), $LINE_LENGTH);
@@ -835,8 +830,29 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
   
   return $body;
 }
-  
-  
+
+
+function rcmail_remove_signature($body)
+{
+  global $RCMAIL;
+
+  $len = strlen($body);
+  $sig_max_lines = $RCMAIL->config->get('sig_max_lines', 15);
+
+  while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
+    if ($sp == 0 || $body[$sp-1] == "\n") {
+      // do not touch blocks with more that X lines
+      if (substr_count($body, "\n", $sp) < $sig_max_lines) {
+        $body = substr($body, 0, max(0, $sp-1));
+      }
+      break;
+    }
+  }
+
+  return $body;
+}
+
+
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
   global $OUTPUT;

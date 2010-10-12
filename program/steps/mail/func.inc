@@ -843,12 +843,13 @@ function rcmail_plain_body($body, $flowed=false)
   // quote plain text
   $body = Q(join("\n", $a_lines), 'dummy', false);
 
-  // colorize signature
+  // colorize signature (up to <sig_max_lines> lines)
   $len = strlen($body);
+  $sig_max_lines = $RCMAIL->config->get('sig_max_lines', 15);
   while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
     if ($sp == 0 || $body[$sp-1] == "\n") {
       // do not touch blocks with more that X lines
-      if (substr_count($body, "\n", $sp) < $RCMAIL->config->get('sig_max_lines', 15))
+      if (substr_count($body, "\n", $sp) < $sig_max_lines)
         $body = substr($body, 0, max(0, $sp))
           .'<span class="sig">'.substr($body, $sp).'</span>';
       break;
