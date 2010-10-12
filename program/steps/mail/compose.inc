@@ -466,10 +466,11 @@ function rcmail_compose_header_from($attrib)
       // Set identity
       foreach ($user_identities as $sql_arr) {
         // set draft's identity
-        if ($compose_mode == RCUBE_COMPOSE_DRAFT) {
-          if (strstr($MESSAGE->headers->from, $sql_arr['email']))
+        if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
+          if ($MESSAGE->headers->from == format_email_recipient($sql_arr['email'], $sql_arr['name'])) {
             $from_id = $sql_arr['identity_id'];
             break;
+          }
         }
         // set identity if it's one of the reply-message recipients (with prio for default identity)
         else if (in_array($sql_arr['email'], $a_recipients) && (empty($from_id) || $sql_arr['standard']))
