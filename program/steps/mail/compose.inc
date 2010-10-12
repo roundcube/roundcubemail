@@ -33,9 +33,17 @@ $MESSAGE = NULL;
 // Since there are many ways to leave the compose page improperly, it seems necessary to clean-up an old
 // compose when a "new/forward/reply/draft" is called - otherwise the old session attachments will appear
 
-if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_value('_id', RCUBE_INPUT_GET))
+$MESSAGE_ID = get_input_value('_id', RCUBE_INPUT_GET);
+if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != $MESSAGE_ID)
 {
   rcmail_compose_cleanup();
+
+  // Infinite redirect prevention in case of broken session (#1487028)
+  if ($MESSAGE_ID)
+    raise_error(array('code' => 500, 'type' => 'php',
+      'file' => __FILE__, 'line' => __LINE__,
+      'message' => "Invalid session"), true, true);
+
   $_SESSION['compose'] = array(
     'id' => uniqid(mt_rand()),
     'param' => request2param(RCUBE_INPUT_GET),
