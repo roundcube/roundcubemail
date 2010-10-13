@@ -40,8 +40,10 @@ foreach ($a_mailboxes as $mbox_name) {
 
         // refresh saved search set
         $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
-        if ($search_request && isset($_SESSION['search'][$search_request])) {
-            $_SESSION['search'][$search_request] = $IMAP->refresh_search();
+        if ($search_request && isset($_SESSION['search'])
+            && $_SESSION['search_request'] == $search_request
+        ) {
+            $_SESSION['search'] = $IMAP->refresh_search();
         }
 
         if (!empty($_GET['_quota']))

@@ -72,33 +72,32 @@ if (isset($_GET['_threads'])) {
 $IMAP->set_threading($a_threading[$_SESSION['mbox']]);
 
 // set message set for search result
-if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
-  {
-  $IMAP->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
+if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
+    && $_SESSION['search_request'] == $_REQUEST['_search']
+) {
+  $IMAP->set_search_set($_SESSION['search']);
   $OUTPUT->set_env('search_request', $_REQUEST['_search']);
   $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
-  }
+}
 
 // set main env variables, labels and page title
-if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
-  {
+if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   $mbox_name = $IMAP->get_mailbox_name();
 
-  if (empty($RCMAIL->action))
-    {
+  if (empty($RCMAIL->action)) {
     // initialize searching result if search_filter is used
-    if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
-      {
+    if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
       $search_request = md5($mbox_name.$_SESSION['search_filter']);
 
       $IMAP->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $_SESSION['sort_col']);
-      $_SESSION['search'][$search_request] = $IMAP->get_search_set();
+      $_SESSION['search'] = $IMAP->get_search_set();
+      $_SESSION['search_request'] = $search_request;
       $OUTPUT->set_env('search_request', $search_request);
       }
 
       $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
       $OUTPUT->set_env('search_mods', $search_mods);
-    }
+  }
 
   // set current mailbox and some other vars in client environment
   $OUTPUT->set_env('mailbox', $mbox_name);
@@ -135,7 +134,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list')
       'movingmessage', 'copyingmessage', 'copy', 'move', 'quota');
 
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($mbox_name));
-  }
+}
 
 
 /**
