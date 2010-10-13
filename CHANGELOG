@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Prevent from inserting empty link when composing HTML message (#1486944)
 - Add caching support in id2uid and uid2id functions (#1487019)
 - Add SASL proxy authentication for SMTP (#1486693)
+- Improve displaying of UI messages (#1486977)
 
 RELEASE 0.4.2
 -------------

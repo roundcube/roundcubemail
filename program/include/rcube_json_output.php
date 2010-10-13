@@ -134,14 +134,14 @@ class rcube_json_output
     public function command()
     {
         $cmd = func_get_args();
-        
+
         if (strpos($cmd[0], 'plugin.') === 0)
           $this->callbacks[] = $cmd;
         else
           $this->commands[] = $cmd;
     }
-    
-    
+
+
     /**
      * Add a localized label to the client environment
      */
@@ -150,7 +150,7 @@ class rcube_json_output
         $args = func_get_args();
         if (count($args) == 1 && is_array($args[0]))
             $args = $args[0];
-        
+
         foreach ($args as $name) {
             $this->texts[$name] = rcube_label($name);
         }
@@ -203,8 +203,8 @@ class rcube_json_output
         $this->remote_response("window.setTimeout(\"location.href='{$location}'\", $delay);");
         exit;
     }
-    
-    
+
+
     /**
      * Send an AJAX response to the client.
      */
@@ -213,8 +213,8 @@ class rcube_json_output
         $this->remote_response();
         exit;
     }
-    
-    
+
+
     /**
      * Send an AJAX response with executable JS code
      *
@@ -237,17 +237,17 @@ class rcube_json_output
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
         $rcmail = rcmail::get_instance();
-        $response = array('action' => $rcmail->action, 'unlock' => (bool)$_REQUEST['_unlock']);
-        
+        $response = array('action' => $rcmail->action, 'unlock' => get_input_value('_unlock', RCUBE_INPUT_GPC));
+
         if (!empty($this->env))
             $response['env'] = $this->env;
-          
+
         if (!empty($this->texts))
             $response['texts'] = $this->texts;
 
         // send function calls
         $response['exec'] = $this->get_js_commands() . $add;
-        
+
         if (!empty($this->callbacks))
             $response['callbacks'] = $this->callbacks;
 

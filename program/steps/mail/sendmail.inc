@@ -24,7 +24,7 @@
 $OUTPUT->reset();
 $OUTPUT->framed = TRUE;
 
-$savedraft = !empty($_POST['_draft']) ? TRUE : FALSE;
+$savedraft = !empty($_POST['_draft']) ? true : false;
 
 /****** checks ********/
 

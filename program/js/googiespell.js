@@ -977,13 +977,13 @@ this.removeIndicator = function(elm) {
     //$(this.indicator).remove();
     // roundcube mod.
     if (window.rcmail)
-	rcmail.set_busy(false);
+        rcmail.set_busy(false, null, this.rc_msg_id);
 };
 
 this.appendIndicator = function(elm) {
     // modified by roundcube
     if (window.rcmail)
-	    rcmail.set_busy(true, 'checking');
+	    this.rc_msg_id = rcmail.set_busy(true, 'checking');
 /*
     this.indicator = document.createElement('img');
     $(this.indicator).attr('src', this.img_dir + 'indicator.gif')
