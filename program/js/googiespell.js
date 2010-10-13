@@ -82,9 +82,10 @@ function GoogieSpell(img_dir, server_url) {
 
     // Set document's onclick to hide the language and error menu
     $(document).bind('click', function(e) {
-        if($(e.target).attr('googie_action_btn') != '1' && ref.isLangWindowShown())
+        var target = $(e.target);
+        if(target.attr('googie_action_btn') != '1' && ref.isLangWindowShown())
 	        ref.hideLangWindow();
-	    if($(e.target).attr('googie_action_btn') != '1' && ref.isErrorWindowShown())
+	    if(target.attr('googie_action_btn') != '1' && ref.isErrorWindowShown())
             ref.hideErrorWindow();
     });
 
@@ -577,8 +578,9 @@ this.createEditLayer = function(width, height) {
     }
 
     var ref = this;
+
     if (this.edit_layer_dbl_click) {
-        $(this.edit_layer).bind('click', function(e) {
+        $(this.edit_layer).dblclick(function(e) {
             if (e.target.className != 'googie_link' && !ref.isErrorWindowShown()) {
                 ref.resumeEditing();
                 var fn1 = function() {
@@ -766,7 +768,7 @@ this.createLangWindow = function() {
 };
 
 this.isLangWindowShown = function() {
-    return $(this.language_window).is(':hidden');
+    return $(this.language_window).is(':visible');
 };
 
 this.hideLangWindow = function() {
