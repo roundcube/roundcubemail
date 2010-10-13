@@ -90,8 +90,8 @@ function rcube_identity_form($attrib)
 
   // disable some field according to access level
   if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
-    $form['adressing']['content']['email']['disabled'] = true;
-    $form['adressing']['content']['email']['class'] = 'disabled';
+    $form['addressing']['content']['email']['disabled'] = true;
+    $form['addressing']['content']['email']['class'] = 'disabled';
   }
 
   $IDENTITY_RECORD['email']    = idn_to_utf8($IDENTITY_RECORD['email']);
