@@ -3,13 +3,8 @@
 .googie_window {
   font-size: 11px;
   width: 185px;
-  text-align: left;
-  border: 1px solid #666666;
-  background-color: #ffffff;
   margin: 0;
   padding: 0;
-  position: absolute;
-  visibility: hidden;
 }
 
 .googie_edit_layer {
@@ -17,10 +12,11 @@
   padding: 0 4px;
   font-size: 9pt;
   font-family: monospace;
-  border: 1px solid #666;
+  border: 1px solid #999;
 }
 
 .googie_edit_layer span {
+  font-family: monospace;
 }
 
 .googie_list {
@@ -70,6 +66,7 @@
 .googie_list_revert:hover {
   color: #fff;
 }
+
 .googie_link {
   color: #b91414;
   text-decoration: underline;
@@ -78,7 +75,7 @@
   font-family: monospace;
 }
 
-.googie_check_spelling_link {  
+.googie_check_spelling_link {
   color: #CC0000;
   font-size: 11px;
   text-decoration: none;
@@ -93,7 +90,7 @@
   text-decoration: none;
 }
 
-.googie_check_spelling_ok, 
+.googie_check_spelling_ok,
 .googie_resume_editing {
   color: green;
   font-size: 11px;

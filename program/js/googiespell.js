@@ -316,7 +316,7 @@ this.parseResult = function(r_text) {
 /////
 this.createErrorWindow = function() {
     this.error_window = document.createElement('div');
-    $(this.error_window).addClass('googie_window').attr('googie_action_btn', '1');
+    $(this.error_window).addClass('googie_window popupmenu').attr('googie_action_btn', '1');
 };
 
 this.isErrorWindowShown = function() {
@@ -324,8 +324,8 @@ this.isErrorWindowShown = function() {
 };
 
 this.hideErrorWindow = function() {
-    $(this.error_window).css('visibility', 'hidden');
-    $(this.error_window_iframe).css('visibility', 'hidden');
+    $(this.error_window).hide();
+    $(this.error_window_iframe).hide();
 };
 
 this.updateOrginalText = function(offset, old_value, new_value, id) {
@@ -544,7 +544,7 @@ this.showErrorWindow = function(elm, id) {
         top = pos.top + height + 20 < pageheight ? pos.top + 20 : pos.top - height,
         left = pos.left + width < pagewidth ? pos.left : pos.left - width;
 
-    $(this.error_window).css({'visibility': 'visible', 'top': top+'px', 'left': left+'px'});
+    $(this.error_window).css({'top': top+'px', 'left': left+'px'}).show();
 
     // Dummy for IE - dropdown bug fix
     if ($.browser.msie) {
@@ -554,9 +554,10 @@ this.showErrorWindow = function(elm, id) {
     	    this.error_window_iframe = iframe;
         }
 
-	    $(this.error_window_iframe).css({'visibility': 'visible',
-	        'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
-    	    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight});
+	    $(this.error_window_iframe)
+	        .css({'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
+    	        'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight})
+    	    .show();
     }
 };
 
@@ -707,7 +708,7 @@ this.showErrorsInIframe = function() {
 //////
 this.createLangWindow = function() {
     this.language_window = document.createElement('div');
-    $(this.language_window).addClass('googie_window')
+    $(this.language_window).addClass('googie_window popupmenu')
 	    .width(100).attr('googie_action_btn', '1');
 
     // Build up the result list
@@ -769,7 +770,7 @@ this.isLangWindowShown = function() {
 };
 
 this.hideLangWindow = function() {
-    $(this.language_window).css('visibility', 'hidden');
+    $(this.language_window).hide();
     $(this.switch_lan_pic).removeClass().addClass('googie_lang_3d_on');
 };
 
@@ -789,7 +790,7 @@ this.showLangWindow = function(elm) {
 	        pos.left - 100 + width : pos.left + width,
         top = pos.top + h < pageheight ? pos.top + height : pos.top - h - 4;
 
-    $(this.language_window).css({'visibility': 'visible', 'top' : top+'px','left' : left+'px'});
+    $(this.language_window).css({'top' : top+'px','left' : left+'px'}).show();
 
     this.highlightCurSel();
 };
