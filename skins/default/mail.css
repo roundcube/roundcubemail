@@ -762,12 +762,12 @@ body.messagelist
 
 #messagelist tr td.subject span.msgicon.replied
 {
-  background-position: 0 -68px;
+  background-position: 0 -85px;
 }
 
 #messagelist tr td.subject span.msgicon.forwarded
 {
-  background-position: 0 -85px;
+  background-position: 0 -68px;
 }
 
 #messagelist tr td.subject span.msgicon.replied.forwarded
