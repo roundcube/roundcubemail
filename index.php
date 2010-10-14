@@ -118,8 +118,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $OUTPUT->redirect($redir);
   }
   else {
-    $OUTPUT->show_message($IMAP->error_code < -1 ? 'imaperror' : 'loginfailed', 'warning');
-    $RCMAIL->plugins->exec_hook('login_failed', array('code' => $IMAP->error_code, 'host' => $auth['host'], 'user' => $auth['user']));
+    $OUTPUT->show_message($IMAP->get_error_code() < -1 ? 'imaperror' : 'loginfailed', 'warning');
+    $RCMAIL->plugins->exec_hook('login_failed', array(
+      'code' => $IMAP->get_error_code(), 'host' => $auth['host'], 'user' => $auth['user']));
     $RCMAIL->kill_session();
   }
 }

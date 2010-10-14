@@ -32,7 +32,6 @@
 class rcube_imap
 {
     public $debug_level = 1;
-    public $error_code = 0;
     public $skip_deleted = false;
     public $root_dir = '';
     public $page_size = 10;
@@ -173,7 +172,6 @@ class rcube_imap
         }
         // write error log
         else if ($this->conn->error) {
-            $this->error_code = $this->conn->errornum;
             if ($pass && $user)
                 raise_error(array('code' => 403, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -213,7 +211,29 @@ class rcube_imap
             $this->conn->select($this->mailbox);
     }
 
+
+    /**
+     * Returns code of last error
+     *
+     * @return int Error code
+     */
+    function get_error_code()
+    {
+        return ($this->conn) ? $this->conn->errornum : 0;
+    }
+
+
+    /**
+     * Returns message of last error
+     *
+     * @return string Error message
+     */
+    function get_error_str()
+    {
+        return ($this->conn) ? $this->conn->error : '';
+    }
     
+
     /**
      * Set options to be used in rcube_imap_generic::connect()
      *
@@ -568,11 +588,11 @@ class rcube_imap
         if (!empty($this->icache['threads']))
             return count($this->icache['threads']['tree']);
 
-        list ($thread_tree, $msg_depth, $has_children) = $this->_fetch_threads($mailbox);
+        if (is_array($result = $this->_fetch_threads($mailbox)))
+            $thread_tree = array_shift($result);
 
-        $msg_count = count($msg_depth);
-
-//    $this->update_thread_cache($mailbox, $thread_tree, $msg_depth, $has_children);
+//        list ($thread_tree, $msg_depth, $has_children) = $result;
+//        $this->update_thread_cache($mailbox, $thread_tree, $msg_depth, $has_children);
         return count($thread_tree);
     }
 
