@@ -460,7 +460,7 @@ function rcmail_compose_header_from($attrib)
       $from_id = get_input_value('_from', RCUBE_INPUT_POST);
     else if (!empty($_SESSION['compose']['param']['from']))
       $from_id = $_SESSION['compose']['param']['from'];
-    else {
+    else if (count($user_identities) > 1) {
       $return_path = $MESSAGE->headers->others['return-path'];
 
       // Set identity
