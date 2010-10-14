@@ -28,6 +28,7 @@ $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['imaperror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
+$messages['servererrormsg'] = 'Błąd serwera: $msg';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
 $messages['nomessagesfound'] = 'Brak wiadomości w skrzynce.';
 $messages['loggedout'] = 'Użytkownik wylogował się poprawnie.';

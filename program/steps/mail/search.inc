@@ -122,6 +122,11 @@ if (!empty($result_h)) {
   if ($search_str)
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $IMAP->messagecount(NULL, 'ALL')));
 }
+// handle IMAP errors (e.g. #1486905)
+else  if ($err_code = $IMAP->get_error_code()) {
+  $err_str = $IMAP->get_error_str();
+  $OUTPUT->show_message('servererrormsg', 'error', array('msg' => $err_str));
+}
 else {
   $OUTPUT->show_message('searchnomatch', 'notice');
 }

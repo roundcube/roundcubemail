@@ -23,6 +23,7 @@ $messages['cookiesdisabled'] = 'Your browser does not accept cookies';
 $messages['sessionerror'] = 'Your session is invalid or expired';
 $messages['imaperror'] = 'Connection to IMAP server failed';
 $messages['servererror'] = 'Server Error!';
+$messages['servererrormsg'] = 'Server Error: $msg';
 $messages['invalidrequest'] = 'Invalid request! No data was saved.';
 $messages['nomessagesfound'] = 'No messages found in this mailbox';
 $messages['loggedout'] = 'You have successfully terminated the session. Good bye!';

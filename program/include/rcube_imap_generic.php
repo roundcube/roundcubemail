@@ -278,7 +278,7 @@ class rcube_imap_generic
             $str = trim($matches[2]);
 
 		    if ($res == 'OK') {
-			    return self::ERROR_OK;
+			    return $this->errornum = self::ERROR_OK;
 		    } else if ($res == 'NO') {
                 $this->errornum = self::ERROR_NO;
 		    } else if ($res == 'BAD') {
