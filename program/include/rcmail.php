@@ -542,7 +542,7 @@ class rcmail
     if ($_SESSION['imap_host'] && !$this->imap->conn->connected()) {
       if (!$this->imap->connect($_SESSION['imap_host'], $_SESSION['username'], $this->decrypt($_SESSION['password']), $_SESSION['imap_port'], $_SESSION['imap_ssl'])) {
         if ($this->output)
-          $this->output->show_message($this->imap->error_code == -1 ? 'imaperror' : 'sessionerror', 'error');
+          $this->output->show_message($this->imap->get_error_code() == -1 ? 'imaperror' : 'sessionerror', 'error');
       }
       else {
         $this->set_imap_prop();
