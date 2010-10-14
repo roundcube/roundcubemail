@@ -35,13 +35,13 @@ class rcube_json_output
      */
     private $config;
     private $charset = RCMAIL_CHARSET;
-    private $env = array();
     private $texts = array();
     private $commands = array();
     private $callbacks = array();
     private $message = null;
 
     public $browser;
+    public $env = array();
     public $type = 'js';
     public $ajax_call = true;
 

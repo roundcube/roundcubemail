@@ -247,7 +247,7 @@ abstract class rcube_plugin
    */
   protected function local_skin_path()
   {
-      $skin_path = 'skins/'.$this->api->output->config['skin'];
+      $skin_path = 'skins/'.$this->api->config->get('skin');
       if (!is_dir(realpath(slashify($this->home) . $skin_path)))
         $skin_path = 'skins/default';
     return $skin_path;

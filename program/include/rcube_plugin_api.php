@@ -31,6 +31,7 @@ class rcube_plugin_api
   public $dir;
   public $url = 'plugins/';
   public $output;
+  public $config;
   
   public $handlers = array();
   private $plugins = array();
@@ -39,7 +40,6 @@ class rcube_plugin_api
   private $actionmap = array();
   private $objectsmap = array();
   private $template_contents = array();
-  
   private $required_plugins = array('filesystem_attachments');
   private $active_hook = false;
 
@@ -107,6 +107,7 @@ class rcube_plugin_api
   {
     $rcmail = rcmail::get_instance();
     $this->output = $rcmail->output;
+    $this->config = $rcmail->config;
 
     $plugins_dir = dir($this->dir);
     $plugins_dir = unslashify($plugins_dir->path);

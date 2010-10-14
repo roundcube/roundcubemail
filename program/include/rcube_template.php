@@ -30,17 +30,17 @@
  */
 class rcube_template extends rcube_html_page
 {
-    var $app;
-    var $config;
-    var $framed = false;
-    var $pagetitle = '';
-    var $message = null;
-    var $env = array();
-    var $js_env = array();
-    var $js_commands = array();
-    var $object_handlers = array();
+    private $app;
+    private $config;
+    private $pagetitle = '';
+    private $message = null;
+    private $js_env = array();
+    private $js_commands = array();
+    private $object_handlers = array();
 
     public $browser;
+    public $framed = false;
+    public $env = array();
     public $type = 'html';
     public $ajax_call = false;
 
