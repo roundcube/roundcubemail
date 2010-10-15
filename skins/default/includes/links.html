@@ -1,7 +1,7 @@
 <link rel="index" href="$__comm_path" />
 <link rel="shortcut icon" href="/images/favicon.ico"/>
 <link rel="stylesheet" type="text/css" href="/common.css" />
-<roundcube:if condition="env:task != 'login' && env:task != 'dummy'" />
+<roundcube:if condition="!empty(env:task) && !in_array(env:task, array('login', 'dummy', 'utils'))" />
 <link rel="stylesheet" type="text/css" href="/<roundcube:var name="env:task" />.css" />
 <roundcube:endif />
 <roundcube:if condition="browser:ie" />
