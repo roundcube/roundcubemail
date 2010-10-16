@@ -864,7 +864,7 @@ function rcmail_remove_signature($body)
 
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
-  global $OUTPUT;
+  global $RCMAIL;
 
   $cid_map = $messages = array();
   foreach ((array)$message->mime_parts as $pid => $part)
@@ -888,7 +888,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
-          $url = $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
+          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
           if ($part->content_id)
             $cid_map['cid:'.$part->content_id] = $url;
           else
@@ -906,14 +906,14 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 
 function rcmail_write_inline_attachments(&$message)
 {
-  global $OUTPUT;
+  global $RCMAIL;
 
   $cid_map = array();
   foreach ((array)$message->mime_parts as $pid => $part) {
     if (($part->content_id || $part->content_location) && $part->filename) {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
-        $url = $OUTPUT->app->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
+        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
         if ($part->content_id)
           $cid_map['cid:'.$part->content_id] = $url;
         else
