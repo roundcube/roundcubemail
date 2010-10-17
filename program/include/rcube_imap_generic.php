@@ -158,15 +158,23 @@ class rcube_imap_generic
 	    if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
 		    for ($i=0, $cnt=count($parts); $i<$cnt; $i++) {
 			    if (preg_match('/^\{[0-9]+\}\r\n$/', $parts[$i+1])) {
+                    // LITERAL+ support
+                    if ($this->prefs['literal+'])
+                        $parts[$i+1] = preg_replace('/([0-9]+)/', '\\1+', $parts[$i+1]);
+                
 				    $bytes = $this->putLine($parts[$i].$parts[$i+1], false);
                     if ($bytes === false)
                         return false;
                     $res += $bytes;
-				    $line = $this->readLine(1000);
-				    // handle error in command
-				    if ($line[0] != '+')
-					    return false;
-				    $i++;
+
+                    // don't wait if server supports LITERAL+ capability
+                    if (!$this->prefs['literal+']) {
+				        $line = $this->readLine(1000);
+				        // handle error in command
+				        if ($line[0] != '+')
+					        return false;
+				    }
+                    $i++;
 			    }
 			    else {
 				    $bytes = $this->putLine($parts[$i], false);
@@ -348,7 +356,7 @@ class rcube_imap_generic
 	    do {
 		    $line = trim($this->readLine(1024));
 	        if (preg_match('/^\* CAPABILITY (.+)/i', $line, $matches)) {
-		        $this->capability = explode(' ', strtoupper($matches[1]));
+		        $this->parseCapability($matches[1]);
 	        }
 	    } while (!$this->startsWith($line, 'cp01', true));
 
@@ -413,7 +421,7 @@ class rcube_imap_generic
 
         // re-set capabilities list if untagged CAPABILITY response provided
 	    if (preg_match('/\* CAPABILITY (.+)/i', $untagged, $matches)) {
-		    $this->capability = explode(' ', strtoupper($matches[1]));
+		    $this->parseCapability($matches[1]);
 	    }
 
         // process result
@@ -624,7 +632,7 @@ class rcube_imap_generic
 
 	    // RFC3501 [7.1] optional CAPABILITY response
 	    if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-		    $this->capability = explode(' ', strtoupper($matches[1]));
+		    $this->parseCapability($matches[1]);
 	    }
 
 	    $this->message .= $line;
@@ -1989,15 +1997,19 @@ class rcube_imap_generic
 		    return false;
 	    }
 
-	    $request = 'a APPEND "' . $this->escape($folder) .'" (\\Seen) {' . $len . '}';
+	    $request = sprintf("a APPEND \"%s\" (\\Seen) {%d%s}", $this->escape($folder),
+            $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
-		    $line = $this->readLine(512);
+            // Don't wait when LITERAL+ is supported
+            if (!$this->prefs['literal+']) {
+                $line = $this->readLine(512);
 
-    		if ($line[0] != '+') {
-	    		$this->parseResult($line, 'APPEND: ');
-			    return false;
-    		}
+    		    if ($line[0] != '+') {
+	    		    $this->parseResult($line, 'APPEND: ');
+			        return false;
+    		    }
+            }
 
 	    	if (!$this->putLine($message)) {
                 return false;
@@ -2045,14 +2057,19 @@ class rcube_imap_generic
         }
 
     	// send APPEND command
-	    $request    = 'a APPEND "' . $this->escape($folder) . '" (\\Seen) {' . $len . '}';
-	    if ($this->putLine($request)) {
-		    $line = $this->readLine(512);
+	    $request = sprintf("a APPEND \"%s\" (\\Seen) {%d%s}", $this->escape($folder),
+            $len, ($this->prefs['literal+'] ? '+' : ''));
 
-		    if ($line[0] != '+') {
-			    $this->parseResult($line, 'APPEND: ');
-			    return false;
-		    }
+	    if ($this->putLine($request)) {
+            // Don't wait when LITERAL+ is supported
+            if (!$this->prefs['literal+']) {
+    		    $line = $this->readLine(512);
+
+	    	    if ($line[0] != '+') {
+		    	    $this->parseResult($line, 'APPEND: ');
+			        return false;
+		        }
+            }
 
             // send headers with body separator
             if ($headers) {
@@ -2239,6 +2256,15 @@ class rcube_imap_generic
 	    }
 
         return $data;
+    }
+
+    private function parseCapability($str)
+    {
+        $this->capability = explode(' ', strtoupper($str));
+
+        if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
+            $this->prefs['literal+'] = true;
+        }
     }
 
     private function escape($string)
