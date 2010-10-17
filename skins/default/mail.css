@@ -701,12 +701,14 @@ body.messagelist
   display: inline-block;
 }
 
-#messagelist tbody tr td.flag
+#messagelist tbody tr td.flag,
+#messagelist tbody tr td.status
 {
   cursor: pointer;
 }
 
 #messagelist tr td.flag span,
+#messagelist tr td.status span,
 #messagelist tr td.attachment span
 {
   width: 15px;
@@ -719,11 +721,13 @@ body.messagelist
 #messagelist tr td.attachment span.report,
 #messagelist tr td.flag span.flagged,
 #messagelist tr td.flag span.unflagged:hover,
+#messagelist tr td.status span.status,
+#messagelist tr td.status span.msgicon,
+#messagelist tr td.status span.deleted,
+#messagelist tr td.status span.unread,
 #messagelist tr td.subject span.msgicon,
 #messagelist tr td.subject span.msgicon.replied,
 #messagelist tr td.subject span.msgicon.forwarded,
-#messagelist tr td.subject span.msgicon.deleted,
-#messagelist tr td.subject span.msgicon.unread,
 #messagelist tr td.subject span.msgicon.unreadchildren
 {
   vertical-align: middle;
@@ -757,7 +761,6 @@ body.messagelist
 {
   background-position: 0 -51px;
   margin: 0 2px;
-  cursor: pointer;
 }
 
 #messagelist tr td.subject span.msgicon.replied
@@ -775,12 +778,18 @@ body.messagelist
   background-position: 0 -102px;
 }
 
-#messagelist tr td.subject span.msgicon.deleted
+#messagelist tr td.status span.msgicon
+{
+  background-position: 0 -51px;
+}
+
+#messagelist tr td.status span.deleted
 {
   background-position: 0 -187px;
 }
 
-#messagelist tr td.subject span.msgicon.unread
+#messagelist tr td.status span.status,
+#messagelist tr td.status span.unread
 {
   background-position: 0 -119px;
 }
@@ -821,10 +830,11 @@ body.messagelist
 
 #messagelist tr td.attachment,
 #messagelist tr td.threads,
+#messagelist tr td.status,
 #messagelist tr td.flag
 {
-  width: 19px;
-  padding: 0 2px;
+  width: 17px;
+  padding: 0 0 0 2px;
 }
 
 #messagelist tr td.size

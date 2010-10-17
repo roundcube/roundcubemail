@@ -45,6 +45,7 @@ $labels['bcc'] = 'Ukryta kopia';
 $labels['replyto'] = 'Odp. do';
 $labels['date'] = 'Data';
 $labels['size'] = 'Rozmiar';
+$labels['readstatus'] = 'Przeczytano';
 $labels['priority'] = 'Priorytet';
 $labels['organization'] = 'Organizacja';
 $labels['reply-to'] = 'Odpowiedz do';

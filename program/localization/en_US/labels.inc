@@ -52,6 +52,7 @@ $labels['date']    = 'Date';
 $labels['size']    = 'Size';
 $labels['priority'] = 'Priority';
 $labels['organization'] = 'Organization';
+$labels['readstatus'] = 'Read status';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];

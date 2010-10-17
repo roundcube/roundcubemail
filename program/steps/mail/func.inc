@@ -255,17 +255,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   if (empty($a_headers))
     return;
 
-  // remove 'threads', 'attachment', 'flag' columns, we don't need them here
-  if (($key = array_search('attachment', $a_show_cols)) !== FALSE)
-    unset($a_show_cols[$key]);
-  if (($key = array_search('flag', $a_show_cols)) !== FALSE)
-    unset($a_show_cols[$key]);
-  if (($key = array_search('threads', $a_show_cols)) !== FALSE)
-    unset($a_show_cols[$key]);
-  // loop through message headers
+  // remove 'threads', 'attachment', 'flag', 'status' columns, we don't need them here
+  foreach (array('threads', 'attachment', 'flag', 'status') as $col) {
+    if (($key = array_search($col, $a_show_cols)) !== FALSE)
+      unset($a_show_cols[$key]);
+  }
 
-  foreach ($a_headers as $n => $header)
-    {
+  // loop through message headers
+  foreach ($a_headers as $n => $header) {
     if (empty($header))
       continue;
 
@@ -275,16 +272,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     $IMAP->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
 
     // format each col; similar as in rcmail_message_list()
-    foreach ($a_show_cols as $col)
-      {
+    foreach ($a_show_cols as $col) {
       if (in_array($col, array('from', 'to', 'cc', 'replyto')))
         $cont = Q(rcmail_address_string($header->$col, 3), 'show');
-      else if ($col=='subject')
-        {
+      else if ($col=='subject') {
         $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
         if (!$cont) $cont = rcube_label('nosubject');
         $cont = Q($cont);
-        }
+      }
       else if ($col=='size')
         $cont = show_bytes($header->$col);
       else if ($col=='date')
@@ -293,7 +288,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
         $cont = Q($header->$col);
 
       $a_msg_cols[$col] = $cont;
-      }
+    }
 
     if ($header->depth)
       $a_msg_flags['depth'] = $header->depth;
@@ -332,11 +327,11 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_cols,
       $a_msg_flags,
       $insert_top);
-    }
+  }
 
-    if ($IMAP->threading) {
-      $OUTPUT->command('init_threads', (array) $roots);
-    }
+  if ($IMAP->threading) {
+    $OUTPUT->command('init_threads', (array) $roots);
+  }
 }
 
 
@@ -380,7 +375,8 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $col_name = '<span class="flagged">&nbsp;</span>';
         break;
       case 'attachment':
-        $col_name = '<span class="attachment">&nbsp;</span>';
+      case 'status':
+        $col_name = '<span class="' . $col .'">&nbsp;</span>';
         break;
       case 'threads':
         $col_name = $list_menu;

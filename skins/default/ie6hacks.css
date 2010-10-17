@@ -128,11 +128,13 @@ ul.toolbarmenu li.separator_below
 #messagelist tr td.attachment span.report,
 #messagelist tr td.flag span.flagged,
 #messagelist tr td.flag span.unflagged:hover,
+#messagelist tr td.status span.status,
+#messagelist tr td.status span.msgicon,
+#messagelist tr td.status span.unread,
+#messagelist tr td.status span.deleted,
 #messagelist tr td.subject span.msgicon,
 #messagelist tr td.subject span.msgicon.replied,
 #messagelist tr td.subject span.msgicon.forwarded,
-#messagelist tr td.subject span.msgicon.deleted,
-#messagelist tr td.subject span.msgicon.unread,
 #messagelist tr td.subject span.msgicon.unreadchildren
 {
   background-image: url(images/messageicons.gif);

@@ -31,6 +31,7 @@ CHANGELOG Roundcube Webmail
 - Fix double e-mail filed in identity form (#1487054)
 - Display IMAP errors for LIST/THREAD/SEARCH commands (#1486905)
 - Add LITERAL+ (IMAP4 non-synchronizing literals) support (RFC2088)
+- Add separate column for message status icon (#1486665)
 
 RELEASE 0.4.2
 -------------

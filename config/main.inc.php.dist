@@ -293,8 +293,8 @@ $rcmail_config['message_sort_col'] = '';
 $rcmail_config['message_sort_order'] = 'DESC';
 
 // These cols are shown in the message list. Available cols are:
-// subject, from, to, cc, replyto, date, size, flag, attachment
-$rcmail_config['list_cols'] = array('subject', 'from', 'date', 'size', 'flag', 'attachment');
+// subject, from, to, cc, replyto, date, size, status, flag, attachment
+$rcmail_config['list_cols'] = array('subject', 'status', 'from', 'date', 'size', 'flag', 'attachment');
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR

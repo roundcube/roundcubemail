@@ -1550,8 +1550,10 @@ function rcube_webmail()
     if (uid && this.env.messages[uid])
       $.extend(row, this.env.messages[uid]);
 
-    // set eventhandler to message icon
-    if (this.env.subject_col != null && (row.icon = document.getElementById('msgicn'+row.uid))) {
+    row.msgicon = document.getElementById('msgicn'+row.uid);
+
+    // set eventhandler to message status icon
+    if (row.icon = document.getElementById('statusicn'+row.uid)) {
       row.icon._row = row.obj;
       row.icon.onmousedown = function(e) { self.command('toggle_status', this); rcube_event.cancel(e); };
     }
@@ -1618,20 +1620,14 @@ function rcube_webmail()
     row.id = 'rcmrow'+uid;
     row.className = css_class;
 
-    // message status icon
+    // message status icons
     css_class = 'msgicon';
     if (!flags.unread && flags.unread_children > 0)
       css_class += ' unreadchildren';
-    if (flags.deleted)
-      css_class += ' deleted';
-    else if (flags.replied || flags.forwarded) {
-      if (flags.replied)
-        css_class += ' replied';
-      if (flags.forwarded)
-        css_class += ' forwarded';
-    }
-    else if (flags.unread)
-      css_class += ' unread';
+    if (flags.replied)
+      css_class += ' replied';
+    if (flags.forwarded)
+      css_class += ' forwarded';
 
     // update selection
     if (message.selected && !list.in_selection(uid))
@@ -1692,6 +1688,15 @@ function rcube_webmail()
           html = '<span class="report">&nbsp;</span>';
         else
           html = '&nbsp;';
+      }
+      else if (c == 'status') {
+        if (flags.deleted)
+          css_class = 'deleted';
+        else if (flags.unread)
+          css_class = 'unread';
+        else
+          css_class = 'msgicon';
+        html = '<span id="statusicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
       }
       else if (c == 'threads')
         html = expando;
@@ -2221,21 +2226,26 @@ function rcube_webmail()
       return false;
 
     if (rows[uid].icon) {
+      if (rows[uid].deleted)
+        css_class = 'deleted';
+      else if (rows[uid].unread)
+        css_class = 'unread';
+      else
+        css_class = 'msgicon';
+
+      rows[uid].icon.className = css_class;
+    }
+
+    if (rows[uid].msgicon) {
       css_class = 'msgicon';
       if (!rows[uid].unread && rows[uid].unread_children)
         css_class += ' unreadchildren';
-      if (rows[uid].deleted)
-        css_class += ' deleted';
-      else if (rows[uid].replied || rows[uid].forwarded) {
-        if (rows[uid].replied)
-          css_class += ' replied';
-        if (rows[uid].forwarded)
-          css_class += ' forwarded';
-      }
-      else if (rows[uid].unread)
-        css_class += ' unread';
+      if (rows[uid].replied)
+        css_class += ' replied';
+      if (rows[uid].forwarded)
+        css_class += ' forwarded';
 
-      rows[uid].icon.className = css_class;
+      rows[uid].msgicon.className = css_class;
     }
 
     if (rows[uid].flagged_icon) {
