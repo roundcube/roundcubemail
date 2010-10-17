@@ -373,6 +373,7 @@ function rcube_parse_charset($input)
     '204'           => 'WINDOWS-1251',
     '222'           => 'WINDOWS-874',
     '238'           => 'WINDOWS-1250',
+    'MS950'         => 'CP950',
   );
 
   // allow A-Z and 0-9 only
