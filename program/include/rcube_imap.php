@@ -585,18 +585,22 @@ class rcube_imap
      */
     private function _threadcount($mailbox, &$msg_count)
     {
-        if (!empty($this->icache['threads']))
+        if (!empty($this->icache['threads'])) {
+            $msg_count = count($this->icache['threads']['depth']);
             return count($this->icache['threads']['tree']);
+        }
 
-        if (is_array($result = $this->_fetch_threads($mailbox)))
+        if (is_array($result = $this->_fetch_threads($mailbox))) {
             $thread_tree = array_shift($result);
+            $msg_count = count($result[0]);
+        }
 
 //        list ($thread_tree, $msg_depth, $has_children) = $result;
 //        $this->update_thread_cache($mailbox, $thread_tree, $msg_depth, $has_children);
         return count($thread_tree);
     }
 
-    
+
     /**
      * Public method for listing headers
      * convert mailbox name with root dir first
@@ -615,7 +619,7 @@ class rcube_imap
         return $this->_list_headers($mailbox, $page, $sort_field, $sort_order, false, $slice);
     }
 
-    
+
     /**
      * Private method for listing message headers
      *
@@ -745,7 +749,7 @@ class rcube_imap
         return array_values($a_msg_headers);
     }
 
-    
+
     /**
      * Private method for listing message headers using threads
      *
@@ -1150,7 +1154,7 @@ class rcube_imap
 
                 $for_create[] = $headers->uid;
             }
-            
+
             if ($for_remove)
                 $this->remove_message_cache($cache_key, $for_remove);
 
