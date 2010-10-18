@@ -702,7 +702,8 @@ body.messagelist
 }
 
 #messagelist tbody tr td.flag,
-#messagelist tbody tr td.status
+#messagelist tbody tr td.status,
+#messagelist tbody tr td.subject span.status
 {
   cursor: pointer;
 }
@@ -725,10 +726,13 @@ body.messagelist
 #messagelist tr td.status span.msgicon,
 #messagelist tr td.status span.deleted,
 #messagelist tr td.status span.unread,
+#messagelist tr td.status span.unreadchildren,
 #messagelist tr td.subject span.msgicon,
-#messagelist tr td.subject span.msgicon.replied,
-#messagelist tr td.subject span.msgicon.forwarded,
-#messagelist tr td.subject span.msgicon.unreadchildren
+#messagelist tr td.subject span.deleted,
+#messagelist tr td.subject span.unread,
+#messagelist tr td.subject span.replied,
+#messagelist tr td.subject span.forwarded,
+#messagelist tr td.subject span.unreadchildren
 {
   vertical-align: middle;
   height: 17px;
@@ -757,39 +761,47 @@ body.messagelist
 }
 
 #messagelist tr td.subject span.msgicon,
-#messagelist tr td.subject span.msgicon.unreadchildren
+#messagelist tr td.subject span.unreadchildren
 {
   background-position: 0 -51px;
   margin: 0 2px;
 }
 
-#messagelist tr td.subject span.msgicon.replied
+#messagelist tr td.subject span.replied
 {
   background-position: 0 -85px;
 }
 
-#messagelist tr td.subject span.msgicon.forwarded
+#messagelist tr td.subject span.forwarded
 {
   background-position: 0 -68px;
 }
 
-#messagelist tr td.subject span.msgicon.replied.forwarded
+#messagelist tr td.subject span.replied.forwarded
 {
   background-position: 0 -102px;
 }
 
-#messagelist tr td.status span.msgicon
+#messagelist tr td.status span.msgicon,
+#messagelist tr td.status span.unreadchildren
 {
-  background-position: 0 -51px;
+  background-position: 0 17px; /* no icon */
 }
 
-#messagelist tr td.status span.deleted
+#messagelist tr td.status span.msgicon:hover
+{
+  background-position: 0 -272px;
+}
+
+#messagelist tr td.status span.deleted,
+#messagelist tr td.subject span.deleted
 {
   background-position: 0 -187px;
 }
 
 #messagelist tr td.status span.status,
-#messagelist tr td.status span.unread
+#messagelist tr td.status span.unread,
+#messagelist tr td.subject span.unread
 {
   background-position: 0 -119px;
 }

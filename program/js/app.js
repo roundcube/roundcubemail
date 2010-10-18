@@ -1545,23 +1545,28 @@ function rcube_webmail()
 
   this.init_message_row = function(row)
   {
-    var expando, self = this, uid = row.uid;
+    var expando, self = this, uid = row.uid,
+      status_icon = (this.env.status_col != null ? 'status' : 'msg') + 'icn' + row.uid;
 
     if (uid && this.env.messages[uid])
       $.extend(row, this.env.messages[uid]);
 
-    row.msgicon = document.getElementById('msgicn'+row.uid);
-
-    // set eventhandler to message status icon
-    if (row.icon = document.getElementById('statusicn'+row.uid)) {
+    // set eventhandler to status icon
+    if (row.icon = document.getElementById(status_icon)) {
       row.icon._row = row.obj;
       row.icon.onmousedown = function(e) { self.command('toggle_status', this); rcube_event.cancel(e); };
     }
 
+    // save message icon position too
+    if (this.env.status_col != null)
+      row.msgicon = document.getElementById('msgicn'+row.uid);
+    else
+      row.msgicon = row.icon;
+
     // set eventhandler to flag icon, if icon found
-    if (this.env.flagged_col != null && (row.flagged_icon = document.getElementById('flagicn'+row.uid))) {
-      row.flagged_icon._row = row.obj;
-      row.flagged_icon.onmousedown = function(e) { self.command('toggle_flag', this); rcube_event.cancel(e); };
+    if (this.env.flagged_col != null && (row.flagicon = document.getElementById('flagicn'+row.uid))) {
+      row.flagicon._row = row.obj;
+      row.flagicon.onmousedown = function(e) { self.command('toggle_flag', this); rcube_event.cancel(e); };
     }
 
     if (!row.depth && row.has_children && (expando = document.getElementById('rcmexpando'+row.uid))) {
@@ -1622,8 +1627,15 @@ function rcube_webmail()
 
     // message status icons
     css_class = 'msgicon';
-    if (!flags.unread && flags.unread_children > 0)
-      css_class += ' unreadchildren';
+    if (this.env.status_col === null) {
+      css_class += ' status';
+      if (flags.deleted)
+        css_class += ' deleted';
+      else if (flags.unread)
+        css_class += ' unread';
+      else if (flags.unread_children > 0)
+        css_class += ' unreadchildren';
+    }
     if (flags.replied)
       css_class += ' replied';
     if (flags.forwarded)
@@ -1694,6 +1706,8 @@ function rcube_webmail()
           css_class = 'deleted';
         else if (flags.unread)
           css_class = 'unread';
+        else if (flags.unread_children > 0)
+          css_class = 'unreadchildren';
         else
           css_class = 'msgicon';
         html = '<span id="statusicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
@@ -2220,84 +2234,94 @@ function rcube_webmail()
   this.set_message_icon = function(uid)
   {
     var css_class,
-      rows = this.message_list.rows;
+      row = this.message_list.rows[uid];
 
-    if (!rows[uid])
+    if (!row)
       return false;
 
-    if (rows[uid].icon) {
-      if (rows[uid].deleted)
-        css_class = 'deleted';
-      else if (rows[uid].unread)
-        css_class = 'unread';
-      else
-        css_class = 'msgicon';
+    if (row.icon) {
+      css_class = 'msgicon';
+      if (row.deleted)
+        css_class += ' deleted';
+      else if (row.unread)
+        css_class += ' unread';
+      else if (row.unread_children)
+        css_class += ' unreadchildren';
+      if (row.msgicon == row.icon) {
+        if (row.replied)
+          css_class += ' replied';
+        if (row.forwarded)
+          css_class += ' forwarded';
+        css_class += ' status';
+      }
 
-      rows[uid].icon.className = css_class;
+      row.icon.className = css_class;
     }
 
-    if (rows[uid].msgicon) {
+    if (row.msgicon && row.msgicon != row.icon) {
       css_class = 'msgicon';
-      if (!rows[uid].unread && rows[uid].unread_children)
+      if (!row.unread && row.unread_children)
         css_class += ' unreadchildren';
-      if (rows[uid].replied)
+      if (row.replied)
         css_class += ' replied';
-      if (rows[uid].forwarded)
+      if (row.forwarded)
         css_class += ' forwarded';
 
-      rows[uid].msgicon.className = css_class;
+      row.msgicon.className = css_class;
     }
 
-    if (rows[uid].flagged_icon) {
-      css_class = (rows[uid].flagged ? 'flagged' : 'unflagged');
-      rows[uid].flagged_icon.className = css_class;
+    if (row.flagicon) {
+      css_class = (row.flagged ? 'flagged' : 'unflagged');
+      row.flagicon.className = css_class;
     }
   };
 
   // set message status
   this.set_message_status = function(uid, flag, status)
   {
-    var rows = this.message_list.rows;
+    var row = this.message_list.rows[uid];
 
-    if (!rows[uid]) return false;
+    if (!row)
+      return false;
 
     if (flag == 'unread')
-      rows[uid].unread = status;
+      row.unread = status;
     else if(flag == 'deleted')
-      rows[uid].deleted = status;
+      row.deleted = status;
     else if (flag == 'replied')
-      rows[uid].replied = status;
+      row.replied = status;
     else if (flag == 'forwarded')
-      rows[uid].forwarded = status;
+      row.forwarded = status;
     else if (flag == 'flagged')
-      rows[uid].flagged = status;
+      row.flagged = status;
   };
 
   // set message row status, class and icon
   this.set_message = function(uid, flag, status)
   {
-    var rows = this.message_list.rows;
+    var row = this.message_list.rows[uid];
 
-    if (!rows[uid]) return false;
+    if (!row)
+      return false;
 
     if (flag)
       this.set_message_status(uid, flag, status);
 
-    var rowobj = $(rows[uid].obj);
+    var rowobj = $(row.obj);
 
-    if (rows[uid].unread && !rowobj.hasClass('unread'))
+    if (row.unread && !rowobj.hasClass('unread'))
       rowobj.addClass('unread');
-    else if (!rows[uid].unread && rowobj.hasClass('unread'))
+    else if (!row.unread && rowobj.hasClass('unread'))
       rowobj.removeClass('unread');
 
-    if (rows[uid].deleted && !rowobj.hasClass('deleted'))
+    if (row.deleted && !rowobj.hasClass('deleted'))
       rowobj.addClass('deleted');
-    else if (!rows[uid].deleted && rowobj.hasClass('deleted'))
+    else if (!row.deleted && rowobj.hasClass('deleted'))
       rowobj.removeClass('deleted');
 
-    if (rows[uid].flagged && !rowobj.hasClass('flagged'))
+    if (row.flagged && !rowobj.hasClass('flagged'))
       rowobj.addClass('flagged');
-    else if (!rows[uid].flagged && rowobj.hasClass('flagged'))
+    else if (!row.flagged && rowobj.hasClass('flagged'))
       rowobj.removeClass('flagged');
 
     this.set_unread_children(uid);
@@ -4681,6 +4705,7 @@ function rcube_webmail()
 
     this.env.subject_col = null;
     this.env.flagged_col = null;
+    this.env.status_col = null;
 
     if ((n = $.inArray('subject', this.env.coltypes)) >= 0) {
       this.set_env('subject_col', n);
@@ -4689,6 +4714,8 @@ function rcube_webmail()
     }
     if ((n = $.inArray('flag', this.env.coltypes)) >= 0)
       this.set_env('flagged_col', n);
+    if ((n = $.inArray('status', this.env.coltypes)) >= 0)
+      this.set_env('status_col', n);
 
     this.message_list.init_header();
   };
