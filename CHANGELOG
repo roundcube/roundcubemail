@@ -32,6 +32,9 @@ CHANGELOG Roundcube Webmail
 - Display IMAP errors for LIST/THREAD/SEARCH commands (#1486905)
 - Add LITERAL+ (IMAP4 non-synchronizing literals) support (RFC2088)
 - Add separate column for message status icon (#1486665)
+- Add ACL extension support into IMAP classes (RFC4314)
+- Add ANNOTATEMORE extension support into IMAP classes (draft-daboo-imap-annotatemore)
+- Add METADATA extension support into IMAP classes (RFC5464)
 
 RELEASE 0.4.2
 -------------

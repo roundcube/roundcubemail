@@ -3125,6 +3125,251 @@ class rcube_imap
     }
 
 
+    /* -----------------------------------------
+     *   ACL and METADATA/ANNOTATEMORE methods
+     * ----------------------------------------*/
+
+    /**
+     * Changes the ACL on the specified mailbox (SETACL)
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $user    User name
+     * @param string $acl     ACL string
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function set_acl($mailbox, $user, $acl)
+    {
+        $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('ACL'))
+            return $this->conn->setACL($mailbox, $user, $acl);
+
+        return false;
+    }
+
+
+    /**
+     * Removes any <identifier,rights> pair for the
+     * specified user from the ACL for the specified
+     * mailbox (DELETEACL)
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $user    User name
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function delete_acl($mailbox, $user)
+    {
+        $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('ACL'))
+            return $this->conn->deleteACL($mailbox, $user);
+
+        return false;
+    }
+
+
+    /**
+     * Returns the access control list for mailbox (GETACL)
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return array User-rights array on success, NULL on error
+     * @access public
+     * @since 0.5-beta
+     */
+    function get_acl($mailbox)
+    {
+        $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('ACL'))
+            return $this->conn->getACL($mailbox);
+
+        return NULL;
+    }
+
+
+    /**
+     * Returns information about what rights can be granted to the
+     * user (identifier) in the ACL for the mailbox (LISTRIGHTS)
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $user    User name
+     *
+     * @return array List of user rights
+     * @access public
+     * @since 0.5-beta
+     */
+    function list_rights($mailbox, $user)
+    {
+        $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('ACL'))
+            return $this->conn->listRights($mailbox, $user);
+
+        return NULL;
+    }
+
+
+    /**
+     * Returns the set of rights that the current user has to
+     * mailbox (MYRIGHTS)
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return array MYRIGHTS response on success, NULL on error
+     * @access public
+     * @since 0.5-beta
+     */
+    function my_rights($mailbox)
+    {
+        $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('ACL'))
+            return $this->conn->myRights($mailbox);
+
+        return NULL;
+    }
+
+
+    /**
+     * Sets IMAP metadata/annotations (SETMETADATA/SETANNOTATION)
+     *
+     * @param string $mailbox Mailbox name (empty for server metadata)
+     * @param array  $entries Entry-value array (use NULL value as NIL)
+     *
+     * @return boolean True on success, False on failure
+     * @access public
+     * @since 0.5-beta
+     */
+    function set_metadata($mailbox, $entries)
+    {
+        if ($mailbox)
+            $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('METADATA') || 
+            empty($mailbox) && $this->get_capability('METADATA-SERVER')
+        ) {
+            return $this->conn->setMetadata($mailbox, $entries);
+        }
+        else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
+            foreach ($entries as $entry => $value) {
+                list($ent, $attr) = $this->md2annotate($entry);
+                $entries[$entry] = array($ent, $attr, $value);
+            }
+            return $this->conn->setAnnotation($mailbox, $entries);
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Unsets IMAP metadata/annotations (SETMETADATA/SETANNOTATION)
+     *
+     * @param string $mailbox Mailbox name (empty for server metadata)
+     * @param array  $entries Entry names array
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function delete_metadata($mailbox, $entries)
+    {
+        if ($mailbox)
+            $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('METADATA') || 
+            empty($mailbox) && $this->get_capability('METADATA-SERVER')
+        ) {
+            return $this->conn->deleteMetadata($mailbox, $entries);
+        }
+        else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
+            foreach ($entries as $idx => $entry) {
+                list($ent, $attr) = $this->md2annotate($entry);
+                $entries[$idx] = array($ent, $attr, NULL);
+            }
+            return $this->conn->setAnnotation($mailbox, $entries);
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Returns IMAP metadata/annotations (GETMETADATA/GETANNOTATION)
+     *
+     * @param string $mailbox Mailbox name (empty for server metadata)
+     * @param array  $entries Entries
+     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
+     *
+     * @return array Metadata entry-value hash array on success, NULL on error
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function get_metadata($mailbox, $entries, $options=array())
+    {
+        if ($mailbox)
+            $mailbox = $this->mod_mailbox($mailbox);
+
+        if ($this->get_capability('METADATA') || 
+            empty($mailbox) && $this->get_capability('METADATA-SERVER')
+        ) {
+            return $this->conn->getMetadata($mailbox, $entries, $options);
+        }
+        else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
+            $queries = array();
+            $res     = array();
+
+            // Convert entry names
+            foreach ($entries as $entry) {
+                list($ent, $attr) = $this->md2annotate($entry);
+                $queries[$attr][] = $ent;
+            }
+
+            // @TODO: Honor MAXSIZE and DEPTH options
+            foreach ($queries as $attrib => $entry)
+                if ($result = $this->conn->getAnnotation($mailbox, $entry, $attrib))
+                    $res = array_merge($res, $result);
+
+            return $res;
+        }
+
+        return NULL;
+    }
+
+
+    /**
+     * Converts the METADATA extension entry name into the correct
+     * entry-attrib names for older ANNOTATEMORE version.
+     *
+     * @param string Entry name
+     *
+     * @return array Entry-attribute list, NULL if not supported (?)
+     */
+    private function md2annotate($name)
+    {
+        if (substr($entry, 0, 7) == '/shared') {
+            return array(substr($entry, 7), 'value.shared');
+        }
+        else if (substr($entry, 0, 8) == '/private') {
+            return array(substr($entry, 8), 'value.priv');
+        }
+
+        // @TODO: log error
+        return NULL;
+    }
+
+
     /* --------------------------------
      *   internal caching methods
      * --------------------------------*/

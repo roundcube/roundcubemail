@@ -2181,6 +2181,607 @@ class rcube_imap_generic
 	    return $result;
     }
 
+    /**
+     * Send the SETACL command (RFC4314)
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $user    User name
+     * @param mixed  $acl     ACL string or array
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function setACL($mailbox, $user, $acl)
+    {
+        if (is_array($acl)) {
+            $acl = implode('', $acl);
+        }
+
+        $key     = 'acl1';
+        $command = sprintf("%s SETACL \"%s\" \"%s\" %s",
+            $key, $this->escape($mailbox), $this->escape($user), strtolower($acl));
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return false;
+        }
+
+		$line = $this->readReply();
+	    return ($this->parseResult($line, 'SETACL: ') == self::ERROR_OK);
+    }
+
+    /**
+     * Send the DELETEACL command (RFC4314)
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $user    User name
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function deleteACL($mailbox, $user)
+    {
+        $key     = 'acl2';
+        $command = sprintf("%s DELETEACL \"%s\" \"%s\"", 
+            $key, $this->escape($mailbox), $this->escape($user));
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return false;
+        }
+
+		$line = $this->readReply();
+	    return ($this->parseResult($line, 'DELETEACL: ') == self::ERROR_OK);
+    }
+
+    /**
+     * Send the GETACL command (RFC4314)
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return array User-rights array on success, NULL on error
+     * @access public
+     * @since 0.5-beta
+     */
+    function getACL($mailbox)
+    {
+        $key     = 'acl3';
+        $command = sprintf("%s GETACL \"%s\"", $key, $this->escape($mailbox));
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
+            return NULL;
+        }
+
+        $response = '';
+
+		do {
+		    $line = $this->readLine(4096);
+            $response .= $line;
+        } while (!$this->startsWith($line, $key, true, true));
+        
+        if ($this->parseResult($line, 'GETACL: ') == self::ERROR_OK) {
+            // Parse server response (remove "* ACL " and "\r\nacl3 OK...")
+            $response = substr($response, 6, -(strlen($line)+2));
+            $ret  = $this->tokenizeResponse($response);
+            $mbox = array_unshift($ret);
+            $size = count($ret);
+
+            // Create user-rights hash array
+            // @TODO: consider implementing fixACL() method according to RFC4314.2.1.1
+            // so we could return only standard rights defined in RFC4314,
+            // excluding 'c' and 'd' defined in RFC2086.
+            if ($size % 2 == 0) {
+                for ($i=0; $i<$size; $i++) {
+                    $ret[$ret[$i]] = str_split($ret[++$i]);
+                    unset($ret[$i-1]);
+                    unset($ret[$i]);
+                }
+                return $ret;
+            }
+
+            $this->set_error(self::ERROR_COMMAND, "Incomplete ACL response");
+            return NULL;
+        }
+
+        return NULL;
+    }
+
+    /**
+     * Send the LISTRIGHTS command (RFC4314)
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $user    User name
+     *
+     * @return array List of user rights
+     * @access public
+     * @since 0.5-beta
+     */
+    function listRights($mailbox, $user)
+    {
+        $key     = 'acl4';
+        $command = sprintf("%s LISTRIGHTS \"%s\" \"%s\"",
+            $key, $this->escape($mailbox), $this->escape($user));
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return NULL;
+        }
+
+        $response = '';
+
+		do {
+		    $line = $this->readLine(4096);
+            $response .= $line;
+        } while (!$this->startsWith($line, $key, true, true));
+
+        if ($this->parseResult($line, 'LISTRIGHTS: ') == self::ERROR_OK) {
+            // Parse server response (remove "* LISTRIGHTS " and "\r\nacl3 OK...")
+            $response = substr($response, 13, -(strlen($line)+2));
+
+            $ret_mbox = $this->tokenizeResponse($response, 1);
+            $ret_user = $this->tokenizeResponse($response, 1);
+            $granted  = $this->tokenizeResponse($response, 1);
+            $optional = trim($response);
+
+            return array(
+                'granted'  => str_split($granted),
+                'optional' => explode(' ', $optional),
+            );
+        }
+
+        return NULL;
+    }
+
+    /**
+     * Send the MYRIGHTS command (RFC4314)
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return array MYRIGHTS response on success, NULL on error
+     * @access public
+     * @since 0.5-beta
+     */
+    function myRights($mailbox)
+    {
+        $key = 'acl5';
+        $command = sprintf("%s MYRIGHTS \"%s\"", $key, $this->escape(mailbox));
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return NULL;
+        }
+
+        $response = '';
+
+		do {
+            $line = $this->readLine(1024);
+            $response .= $line;
+        } while (!$this->startsWith($line, $key, true, true));
+
+        if ($this->parseResult($line, 'MYRIGHTS: ') == self::ERROR_OK) {
+            // Parse server response (remove "* MYRIGHTS " and "\r\nacl5 OK...")
+            $response = substr($response, 11, -(strlen($line)+2));
+
+            $ret_mbox = $this->tokenizeResponse($response, 1);
+            $rights   = $this->tokenizeResponse($response, 1);
+
+            return str_split($rights);
+        }
+
+        return NULL;
+    }
+
+    /**
+     * Send the SETMETADATA command (RFC5464)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $entries Entry-value array (use NULL value as NIL)
+     *
+     * @return boolean True on success, False on failure
+     * @access public
+     * @since 0.5-beta
+     */
+    function setMetadata($mailbox, $entries)
+    {
+        if (!is_array($entries) || empty($entries)) {
+            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETMETADATA command");        
+            return false;
+        }
+
+        foreach ($entries as $name => $value) {
+            if ($value === null)
+                $value = 'NIL';
+            else
+                $value = sprintf("{%d}\r\n%s", strlen($value), $value);
+
+            $entries[$name] = '"' . $this->escape($name) . '" ' . $value;
+        }
+
+        $entries = implode(' ', $entries);
+        $key     = 'md1';
+        $command = sprintf("%s SETMETADATA \"%s\" (%s)", 
+            $key, $this->escape($mailbox), $entries);
+
+		if (!$this->putLineC($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return false;
+        }
+
+        $line = $this->readReply();
+        return ($this->parseResult($line, 'SETMETADATA: ') == self::ERROR_OK);
+    }
+
+    /**
+     * Send the SETMETADATA command with NIL values (RFC5464)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $entries Entry names array
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function deleteMetadata($mailbox, $entries)
+    {
+        if (!is_array($entries) && !empty($entries))
+            $entries = explode(' ', $entries);
+
+        if (empty($entries)) {
+            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETMETADATA command");
+            return false;
+        }
+
+        foreach ($entries as $entry)
+            $data[$entry] = NULL;
+    
+        return $this->setMetadata($mailbox, $data);
+    }
+
+    /**
+     * Send the GETMETADATA command (RFC5464)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $entries Entries
+     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
+     *
+     * @return array GETMETADATA result on success, NULL on error
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function getMetadata($mailbox, $entries, $options=array())
+    {
+        if (!is_array($entries)) {
+            $entries = array($entries);
+        }
+
+        // create entries string
+        foreach ($entries as $idx => $name) {
+            $entries[$idx] = '"' . $this->escape($name) . '"';
+        }
+
+        $optlist = '';
+        $entlist = '(' . implode(' ', $entries) . ')';
+
+        // create options string
+        if (is_array($options)) {
+            $options = array_change_key_case($options, CASE_UPPER);
+            $opts = array();
+
+            if (!empty($options['MAXSIZE']))
+                $opts[] = 'MAXSIZE '.intval($options['MAXSIZE']);
+            if (!empty($options['DEPTH']))
+                $opts[] = 'DEPTH '.intval($options['DEPTH']);
+
+            if ($opts)
+                $optlist = '(' . implode(' ', $opts) . ')';
+        }
+
+        $optlist .= ($optlist ? ' ' : '') . $entlist;
+
+        $key     = 'md2';
+        $command = sprintf("%s GETMETADATA \"%s\" %s",
+            $key, $this->escape($mailbox), $optlist);
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return NULL;
+        }
+
+        $response = '';
+
+		do {
+		    $line = $this->readLine(4096);
+            $response .= $line;
+        } while (!$this->startsWith($line, $key, true, true));
+
+        if ($this->parseResult($line, 'GETMETADATA: ') == self::ERROR_OK) {
+            // Parse server response (remove "* METADATA " and "\r\nmd2 OK...")
+            $response = substr($response, 11, -(strlen($line)+2));
+            $ret_mbox = $this->tokenizeResponse($response, 1);
+            $data     = $this->tokenizeResponse($response);
+
+            // The METADATA response can contain multiple entries in a single
+            // response or multiple responses for each entry or group of entries
+            if (!empty($data) && ($size = count($data))) {
+                for ($i=0; $i<$size; $i++) {
+                    if (is_array($data[$i])) {
+                        $size_sub = count($data[$i]);
+                        for ($x=0; $x<$size_sub; $x++) {
+                            $data[$data[$i][$x]] = $data[$i][++$x];                        
+                        }
+                        unset($data[$i]);
+                    }
+                    else if ($data[$i] == '*' && $data[$i+1] == 'METADATA') {
+                        unset($data[$i]);   // "*"
+                        unset($data[++$i]); // "METADATA"
+                        unset($data[++$i]); // Mailbox
+                    }
+                    else {
+                        $data[$data[$i]] = $data[++$i];
+                        unset($data[$i]);
+                        unset($data[$i-1]);
+                    }
+                }
+            }
+
+            return $data;
+        }
+        
+        return NULL;
+    }
+
+    /**
+     * Send the SETANNOTATION command (draft-daboo-imap-annotatemore)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $data    Data array where each item is an array with
+     *                        three elements: entry name, attribute name, value
+     *
+     * @return boolean True on success, False on failure
+     * @access public
+     * @since 0.5-beta
+     */
+    function setAnnotation($mailbox, $data)
+    {
+        if (!is_array($data) || empty($data)) {
+            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETANNOTATION command");        
+            return false;
+        }
+
+        foreach ($data as $entry) {
+            $name  = $entry[0];
+            $attr  = $entry[1];
+            $value = $entry[2];
+
+            if ($value === null)
+                $value = 'NIL';
+            else
+                $value = sprintf("{%d}\r\n%s", strlen($value), $value);
+
+            $entries[] = sprintf('"%s" ("%s" %s)',
+                $this->escape($name), $this->escape($attr), $value);
+        }
+
+        $entries = implode(' ', $entries);
+        $key     = 'an1';
+        $command = sprintf("%s SETANNOTATION \"%s\" %s",
+            $key, $this->escape($mailbox), $entries);
+
+		if (!$this->putLineC($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return false;
+        }
+
+        $line = $this->readReply();
+        return ($this->parseResult($line, 'SETANNOTATION: ') == self::ERROR_OK);
+    }
+
+    /**
+     * Send the SETANNOTATION command with NIL values (draft-daboo-imap-annotatemore)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $data    Data array where each item is an array with
+     *                        two elements: entry name and attribute name
+     *
+     * @return boolean True on success, False on failure
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function deleteAnnotation($mailbox, $data)
+    {
+        if (!is_array($data) || empty($data)) {
+            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETANNOTATION command");
+            return false;
+        }
+
+        return $this->setAnnotation($mailbox, $data);
+    }
+
+    /**
+     * Send the GETANNOTATION command (draft-daboo-imap-annotatemore)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $entries Entries names
+     * @param array  $attribs Attribs names
+     *
+     * @return array Annotations result on success, NULL on error
+     *
+     * @access public
+     * @since 0.5-beta
+     */
+    function getAnnotation($mailbox, $entries, $attribs)
+    {
+        if (!is_array($entries)) {
+            $entries = array($entries);
+        }
+        // create entries string
+        foreach ($entries as $idx => $name) {
+            $entries[$idx] = '"' . $this->escape($name) . '"';
+        }
+        $entries = '(' . implode(' ', $entries) . ')';
+
+        if (!is_array($attribs)) {
+            $attribs = array($attribs);
+        }
+        // create entries string
+        foreach ($attribs as $idx => $name) {
+            $attribs[$idx] = '"' . $this->escape($name) . '"';
+        }
+        $attribs = '(' . implode(' ', $attribs) . ')';
+
+        $key     = 'an2';
+        $command = sprintf("%s GETANNOTATION \"%s\" %s %s",
+            $key, $this->escape($mailbox), $entries, $attribs);
+
+		if (!$this->putLine($command)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            return NULL;
+        }
+
+        $response = '';
+
+		do {
+		    $line = $this->readLine(4096);
+            $response .= $line;
+        } while (!$this->startsWith($line, $key, true, true));
+
+        if ($this->parseResult($line, 'GETANNOTATION: ') == self::ERROR_OK) {
+            // Parse server response (remove "* ANNOTATION " and "\r\nan2 OK...")
+            $response = substr($response, 13, -(strlen($line)+2));
+            $ret_mbox = $this->tokenizeResponse($response, 1);
+            $data     = $this->tokenizeResponse($response);
+            $res      = array();
+
+            // Here we returns only data compatible with METADATA result format
+            if (!empty($data) && ($size = count($data))) {
+                for ($i=0; $i<$size; $i++) {
+                    $entry = $data[$i++];
+                    if (is_array($entry)) {
+                        $attribs = $entry;
+                        $entry   = $last_entry;
+                    }
+                    else
+                        $attribs = $data[$i++];
+
+                    if (!empty($attribs)) {
+                        for ($x=0, $len=count($attribs); $x<$len;) {
+                            $attr  = $attribs[$x++];
+                            $value = $attribs[$x++];
+                            if ($attr == 'value.priv')
+                                $res['/private' . $entry] = $value;
+                            else if ($attr == 'value.shared')
+                                $res['/shared' . $entry] = $value;
+                        }
+                    }
+                    $last_entry = $entry;
+                    unset($data[$i-1]);
+                    unset($data[$i-2]);
+                }
+            }
+
+            return $res;
+        }
+        
+        return NULL;
+    }
+
+    /**
+     * Splits IMAP response into string tokens
+     *
+     * @param string &$str The IMAP's server response
+     * @param int    $num  Number of tokens to return
+     *
+     * @return mixed Tokens array or string if $num=1
+     * @access public
+     * @since 0.5-beta
+     */
+    static function tokenizeResponse(&$str, $num=0)
+    {
+        $result = array();
+
+        while (!$num || count($result) < $num) {
+            // remove spaces from the beginning of the string
+            $str = ltrim($str);
+
+            switch ($str[0]) {
+
+            // String literal
+            case '{':
+                if (($epos = strpos($str, "}\r\n", 1)) == false) {
+                    // error
+                }
+                if (!is_numeric(($bytes = substr($str, 1, $epos - 1)))) {
+                    // error
+                }
+                $result[] = substr($str, $epos + 3, $bytes);
+                // Advance the string
+                $str = substr($str, $epos + 3 + $bytes);
+            break;
+
+            // Quoted string
+            case '"':
+                $len = strlen($str);
+
+                for ($pos=1; $pos<$len; $pos++) {
+                    if ($str[$pos] == '"') {
+                        break;
+                    }
+                    if ($str[$pos] == "\\") {
+                        if ($str[$pos + 1] == '"' || $str[$pos + 1] == "\\") {
+                            $pos++;
+                        }
+                    }
+                }
+                if ($str[$pos] != '"') {
+                    // error
+                }
+                // we need to strip slashes for a quoted string
+                $result[] = stripslashes(substr($str, 1, $pos - 1));
+                $str      = substr($str, $pos + 1);
+            break;
+
+            // Parenthesized list
+            case '(':
+                $str = substr($str, 1);
+                $result[] = self::tokenizeResponse($str);
+            break;
+            case ')':
+                $str = substr($str, 1);
+                return $result;
+            break;
+
+            // String atom, number, NIL, *, %
+            default:
+                // empty or one character      
+                if ($str === '') {
+                    break 2;
+                }
+                if (strlen($str) < 2) {
+                    $result[] = $str;
+                    $str = '';
+                    break;
+                }
+
+                // excluded chars: SP, CTL, (, ), {, ", ], %
+                if (preg_match('/^([\x21\x23\x24\x26\x27\x2A-\x5C\x5E-\x7A\x7C-\x7E]+)/', $str, $m)) {
+                    $result[] = $m[1] == 'NIL' ? NULL : $m[1];
+                    $str = substr($str, strlen($m[1]));
+                }
+            break;
+            }
+        }
+
+        return $num == 1 ? $result[0] : $result;
+    }
+
     private function _xor($string, $string2)
     {
 	    $result = '';
@@ -2191,6 +2792,13 @@ class rcube_imap_generic
 	    return $result;
     }
 
+    /**
+     * Converts datetime string into unix timestamp
+     *
+     * @param string $date Date string
+     *
+     * @return int Unix timestamp
+     */
     private function strToTime($date)
     {
 	    // support non-standard "GMTXXXX" literal
@@ -2278,4 +2886,3 @@ class rcube_imap_generic
     }
 
 }
-
