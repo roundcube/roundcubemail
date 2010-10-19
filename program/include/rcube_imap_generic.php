@@ -110,6 +110,8 @@ class rcube_imap_generic
 	private $capability = array();
 	private $capability_readed = false;
     private $prefs;
+    private $cmd_tag;
+    private $cmd_num = 0;
 
     const ERROR_OK = 0;
     const ERROR_NO = -1;
@@ -117,6 +119,8 @@ class rcube_imap_generic
     const ERROR_BYE = -3;
     const ERROR_COMMAND = -5;
     const ERROR_UNKNOWN = -4;
+
+    const COMMAND_NORESPONSE = 1;
 
     /**
      * Object constructor
@@ -347,17 +351,11 @@ class rcube_imap_generic
 
 	    // get capabilities (only once) because initial
 	    // optional CAPABILITY response may differ
-	    $this->capability = array();
+        $result = $this->execute('CAPABILITY');
 
-	    if (!$this->putLine("cp01 CAPABILITY")) {
-            return false;
+        if ($result[0] == self::ERROR_OK) {
+            $this->parseCapability($result[1]);
         }
-	    do {
-		    $line = trim($this->readLine(1024));
-	        if (preg_match('/^\* CAPABILITY (.+)/i', $line, $matches)) {
-		        $this->parseCapability($matches[1]);
-	        }
-	    } while (!$this->startsWith($line, 'cp01', true));
 
 	    $this->capability_readed = true;
 
@@ -414,28 +412,22 @@ class rcube_imap_generic
 
     function login($user, $password)
     {
-        $this->putLine(sprintf("a001 LOGIN %s %s",
+        list($code, $response) = $this->execute('LOGIN', array(
             $this->escape($user), $this->escape($password)));
 
-        $line = $this->readReply($untagged);
-
         // re-set capabilities list if untagged CAPABILITY response provided
-	    if (preg_match('/\* CAPABILITY (.+)/i', $untagged, $matches)) {
+	    if (preg_match('/\* CAPABILITY (.+)/i', $response, $matches)) {
 		    $this->parseCapability($matches[1]);
 	    }
 
-        // process result
-        $result = $this->parseResult($line);
-
-        if ($result == self::ERROR_OK) {
+        if ($code == self::ERROR_OK) {
             return $this->fp;
         }
 
         @fclose($this->fp);
         $this->fp    = false;
-        $this->error = "Authentication for $user failed (LOGIN): $line";
 
-        return $result;
+        return $code;
     }
 
     function getNamespace()
@@ -486,23 +478,19 @@ class rcube_imap_generic
     	    return ($this->delimiter = $this->prefs['delimiter']);
 	    }
 
-	    $delimiter = false;
-
 	    // try (LIST "" ""), should return delimiter (RFC2060 Sec 6.3.8)
-	    if (!$this->putLine('ghd LIST "" ""')) {
-	        return false;
-	    }
+	    list($code, $response) = $this->execute('LIST',
+	        array($this->escape(''), $this->escape('')));
 
-	    do {
-		    $line = $this->readLine(1024);
-		    if (preg_match('/^\* LIST \([^\)]*\) "*([^"]+)"* ""/', $line, $m)) {
-    	        $delimiter = $this->unEscape($m[1]);
-		    }
-	    } while (!$this->startsWith($line, 'ghd', true, true));
+        if ($code == self::ERROR_OK) {
+            $args = $this->tokenizeResponse($response, 4);
+            $delimiter = $args[3];
 
-	    if (strlen($delimiter)>0) {
-	        return $delimiter;
-	    }
+	        if (strlen($delimiter) > 0) {
+	            $this->delimiter = $delimiter;
+	            return $delimiter;
+	        }
+        }
 
 	    // if that fails, try namespace extension
 	    // try to fetch namespace data
@@ -523,9 +511,7 @@ class rcube_imap_generic
 	    }
 
 	    // extract delimiter
-	    $delimiter = $first_userspace[1];
-
-	    return $delimiter;
+	    return $this->delimiter = $first_userspace[1];
     }
 
     function _namespace()
@@ -534,17 +520,11 @@ class rcube_imap_generic
 	        return false;
 	    }
 
-	    if (!$this->putLine("ns1 NAMESPACE")) {
-            return false;
-        }
+	    list($code, $response) = $this->execute('NAMESPACE');
 
-	    do {
-		    $line = $this->readLine(1024);
-		    if (preg_match('/^\* NAMESPACE/', $line)) {
-			    $i = 0;
-			    $data = $this->parseNamespace(substr($line,11), $i, 0, 0);
-		    }
-	    } while (!$this->startsWith($line, 'ns1', true, true));
+		if ($code == self::ERROR_OK && preg_match('/^\* NAMESPACE /', $response)) {
+	        $data = $this->parseNamespace(substr($response, 11), $i, 0, 0);
+		}
 
 	    if (!is_array($data)) {
 	        return false;
@@ -640,11 +620,9 @@ class rcube_imap_generic
 	    // TLS connection
 	    if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
         	if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
-               	$this->putLine("tls0 STARTTLS");
+               	$res = $this->execute('STARTTLS');
 
-			    $line = $this->readLine(4096);
-                if (!preg_match('/^tls0 OK/', $line)) {
-				    $this->set_error(self::ERROR_BAD, "Server responded to STARTTLS with: $line");
+                if ($res[0] != self::ERROR_OK) {
                     return false;
                 }
 
@@ -673,7 +651,7 @@ class rcube_imap_generic
 
 	    if ($auth_method == 'AUTH') {
 		    // do CRAM-MD5 authentication
-		    $this->putLine("a000 AUTHENTICATE CRAM-MD5");
+		    $this->putLine($this->next_tag() . " AUTHENTICATE CRAM-MD5");
 		    $line = trim($this->readLine(1024));
 
 		    if ($line[0] == '+') {
@@ -716,7 +694,7 @@ class rcube_imap_generic
 
     function close()
     {
-	    if ($this->logged && $this->putLine("I LOGOUT")) {
+	    if ($this->logged && $this->putLine($this->next_tag() . ' LOGOUT')) {
 		    if (!feof($this->fp))
 			    fgets($this->fp, 1024);
 	    }
@@ -733,7 +711,8 @@ class rcube_imap_generic
 		    return true;
 	    }
 
-        $command = "sel1 SELECT " . $this->escape($mailbox);
+        $key = $this->next_tag();
+        $command = "$key SELECT " . $this->escape($mailbox);
 
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -750,7 +729,7 @@ class rcube_imap_generic
 			else if (preg_match('/\[?PERMANENTFLAGS\s+\(([^\)]+)\)\]/U', $line, $match)) {
 			    $this->permanentflags = explode(' ', $match[1]);
 			}
-		} while (!$this->startsWith($line, 'sel1', true, true));
+		} while (!$this->startsWith($line, $key, true, true));
 
         if ($this->parseResult($line, 'SELECT: ') == self::ERROR_OK) {
 		    $this->selected = $mailbox;
@@ -807,38 +786,20 @@ class rcube_imap_generic
 	        return false;
 	    }
 
-	    $is_uid = $is_uid ? 'UID ' : '';
-
 	    // message IDs
 	    if (is_array($add))
 		    $add = $this->compressMessageSet(join(',', $add));
 
-	    $command  = "s ".$is_uid."SORT ($field) $encoding ALL";
-	    $line     = '';
-	    $data     = '';
+	    list($code, $response) = $this->execute($is_uid ? 'UID SORT' : 'SORT',
+	        array("($field)", $encoding, 'ALL' . (!empty($add) ? ' '.$add : '')));
 
-	    if (!empty($add))
-	        $command .= ' '.$add;
-
-	    if (!$this->putLineC($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-	        return false;
-	    }
-	    do {
-		    $line = rtrim($this->readLine());
-		    if (!$data && preg_match('/^\* SORT/', $line)) {
-			    $data .= substr($line, 7);
-    		} else if (preg_match('/^[0-9 ]+$/', $line)) {
-			    $data .= $line;
-		    }
-	    } while (!$this->startsWith($line, 's ', true, true));
-
-	    $result_code = $this->parseResult($line, 'SORT: ');
-	    if ($result_code != self::ERROR_OK) {
-            return false;
+	    if ($code == self::ERROR_OK) {
+	        // remove prefix and \r\n from raw response
+            $response = str_replace("\r\n", '', substr($response, 7));
+	        return preg_split('/\s+/', $response, -1, PREG_SPLIT_NO_EMPTY);
 	    }
 
-	    return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
+        return false;
     }
 
     function fetchHeaderIndex($mailbox, $message_set, $index_field='', $skip_deleted=true, $uidfetch=false)
@@ -881,7 +842,7 @@ class rcube_imap_generic
 	    }
 
     	// build FETCH command string
-	    $key     = 'fhi0';
+	    $key     = $this->next_tag();
 	    $cmd     = $uidfetch ? 'UID FETCH' : 'FETCH';
 	    $deleted = $skip_deleted ? ' FLAGS' : '';
 
@@ -1035,20 +996,12 @@ class rcube_imap_generic
             return -1;
         }
 
-	    $result = -1;
-        $command = "fuid FETCH $id (UID)";
+	    $result  = -1;
+        list($code, $response) = $this->execute('FETCH', array($id, '(UID)'));
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return -1;
+        if ($code == self::ERROR_OK && preg_match("/^\* $id FETCH \(UID (.*)\)/i", $response, $m)) {
+			$result = $m[1];
         }
-
-	    do {
-		    $line = rtrim($this->readLine(1024));
-			if (preg_match("/^\* $id FETCH \(UID (.*)\)/i", $line, $r)) {
-				$result = $r[1];
-			}
-		} while (!$this->startsWith($line, 'fuid', true, true));
 
     	return $result;
     }
@@ -1080,7 +1033,7 @@ class rcube_imap_generic
 		    $add = ' '.trim($add);
 
 	    /* FETCH uid, size, flags and headers */
-	    $key  	  = 'FH12';
+	    $key  	  = $this->next_tag();
 	    $request  = $key . ($uidfetch ? ' UID' : '') . " FETCH $message_set ";
 	    $request .= "(UID RFC822.SIZE FLAGS INTERNALDATE ";
 	    if ($bodystr)
@@ -1391,30 +1344,18 @@ class rcube_imap_generic
     function expunge($mailbox, $messages=NULL)
     {
 	    if (!$this->select($mailbox)) {
-            return -1;
+            return false;
         }
 
-        $c = 0;
-		$command = $messages ? "exp1 UID EXPUNGE $messages" : "exp1 EXPUNGE";
+		$result = $this->execute($messages ? 'UID EXPUNGE' : 'EXPUNGE',
+		    array($messages), self::COMMAND_NORESPONSE);
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return -1;
-        }
-
-		do {
-			$line = $this->readLine(100);
-			if ($line[0] == '*') {
-            	$c++;
-        	}
-		} while (!$this->startsWith($line, 'exp1', true, true));
-
-		if ($this->parseResult($line, 'EXPUNGE: ') == self::ERROR_OK) {
+		if ($result == self::ERROR_OK) {
 			$this->selected = ''; // state has changed, need to reselect
-			return $c;
+			return true;
 		}
 
-	    return -1;
+	    return false;
     }
 
     function modFlag($mailbox, $messages, $flag, $mod)
@@ -1430,10 +1371,11 @@ class rcube_imap_generic
 	    }
 
         $c = 0;
-        $command = "flg UID STORE $messages {$mod}FLAGS ($flag)";
+        $key = $this->next_tag();
+        $command = "$key UID STORE $messages {$mod}FLAGS ($flag)";
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
+            return -1;
         }
 
 	    do {
@@ -1441,7 +1383,7 @@ class rcube_imap_generic
 		    if ($line[0] == '*') {
 		        $c++;
             }
-	    } while (!$this->startsWith($line, 'flg', true, true));
+	    } while (!$this->startsWith($line, $key, true, true));
 
 	    if ($this->parseResult($line, 'STORE: ') == self::ERROR_OK) {
 		    return $c;
@@ -1472,14 +1414,10 @@ class rcube_imap_generic
             return -1;
 	    }
 
-        $command = "cpy1 UID COPY $messages ".$this->escape($to);
+        $result = $this->execute('UID COPY', array($messages, $this->escape($to)),
+            self::COMMAND_NORESPONSE);
 
-        if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-        }
-
-        $line = $this->readReply();
-	    return $this->parseResult($line, 'COPY: ');
+	    return $result;
     }
 
     function countUnseen($folder)
@@ -1559,26 +1497,18 @@ class rcube_imap_generic
 	    $criteria  = $criteria ? 'ALL '.trim($criteria) : 'ALL';
         $data      = '';
 
-        $command = "thrd1 THREAD $algorithm $encoding $criteria";
+        list($code, $response) = $this->execute('THREAD', array(
+            $algorithm, $encoding, $criteria));
 
-	    if (!$this->putLineC($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-		    return false;
-	    }
-	    do {
-		    $line = trim($this->readLine());
-		    if (!$data && preg_match('/^\* THREAD/', $line)) {
-    			$data .= substr($line, 9);
-	    	} else if (preg_match('/^[0-9() ]+$/', $line)) {
-		    	$data .= $line;
-		    }
-	    } while (!$this->startsWith($line, 'thrd1', true, true));
-
-    	$result_code = $this->parseResult($line, 'THREAD: ');
-	    if ($result_code == self::ERROR_OK) {
+	    if ($code == self::ERROR_OK && preg_match('/^\* THREAD /i', $response)) {
+	        // remove prefix and \r\n from raw response
+	        $response    = str_replace("\r\n", '', substr($response, 9));
             $depthmap    = array();
             $haschildren = array();
-            $tree = $this->parseThread($data, 0, strlen($data), null, null, 0, $depthmap, $haschildren);
+
+            $tree = $this->parseThread($response, 0, strlen($response),
+                null, null, 0, $depthmap, $haschildren);
+
             return array($tree, $depthmap, $haschildren);
 	    }
 
@@ -1598,26 +1528,13 @@ class rcube_imap_generic
             return array();
 	    }
 
-    	$data = '';
-	    $query = 'srch1 ' . ($return_uid ? 'UID ' : '') . 'SEARCH ' . trim($criteria);
+	    list($code, $response) = $this->execute($return_uid ? 'UID SEARCH' : 'SEARCH',
+	        array(trim($criteria)));
 
-	    if (!$this->putLineC($query)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $query");
-		    return false;
-	    }
-
-    	do {
-	    	$line = trim($this->readLine());
-		    if (!$data && preg_match('/^\* SEARCH/', $line)) {
-    			$data .= substr($line, 8);
-	    	} else if (preg_match('/^[0-9 ]+$/', $line)) {
-		    	$data .= $line;
-		    }
-    	} while (!$this->startsWith($line, 'srch1', true, true));
-
-	    $result_code = $this->parseResult($line, 'SEARCH: ');
-	    if ($result_code == self::ERROR_OK) {
-		    return preg_split('/\s+/', $data, -1, PREG_SPLIT_NO_EMPTY);
+	    if ($code == self::ERROR_OK) {
+	        // remove prefix and \r\n from raw response
+	        $response = str_replace("\r\n", '', substr($response, 9));
+		    return preg_split('/\s+/', $response, -1, PREG_SPLIT_NO_EMPTY);
 	    }
 
 	    return false;
@@ -1657,16 +1574,10 @@ class rcube_imap_generic
 	        $ref = $this->rootdir;
 	    }
 
-        if ($subscribed) {
-            $key     = 'lsb';
-            $command = 'LSUB';
-        }
-        else {
-            $key     = 'lmb';
-            $command = 'LIST';
-        }
-
-        $query = sprintf("%s %s %s %s", $key, $command, $this->escape($ref), $this->escape($mailbox));
+        $command = $subscribed ? 'LSUB' : 'LIST';
+        $key     = $this->next_tag();
+        $query   = sprintf("%s %s %s %s", $key, $command,
+            $this->escape($ref), $this->escape($mailbox));
 
     	// send command
 	    if (!$this->putLine($query)) {
@@ -1707,7 +1618,7 @@ class rcube_imap_generic
 
     	$result = false;
 	    $parts  = (array) $parts;
-    	$key    = 'fmh0';
+    	$key    = $this->next_tag();
 	    $peeks  = '';
     	$idx    = 0;
         $type   = $mime ? 'MIME' : 'HEADER';
@@ -1771,7 +1682,7 @@ class rcube_imap_generic
 
     	// format request
    		$reply_key = '* ' . $id;
-		$key       = 'ftch0';
+		$key       = $this->next_tag();
 		$request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id (BODY.PEEK[$part])";
 
     	// send request
@@ -1819,7 +1730,7 @@ class rcube_imap_generic
 			$prev	  = '';
 
         	while ($bytes > 0) {
-    		    $line = $this->readLine(1024);
+    		    $line = $this->readLine(4096);
 
     		    if ($line === NULL)
     		        break;
@@ -1902,48 +1813,26 @@ class rcube_imap_generic
 
     function createFolder($folder)
     {
-        $command = sprintf("c CREATE %s", $this->escape($folder));
+        $result = $this->execute('CREATE', array($this->escape($folder)),
+	        self::COMMAND_NORESPONSE);
 
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-	    do {
-		    $line = $this->readLine(300);
-	    } while (!$this->startsWith($line, 'c ', true, true));
-
-	    return ($this->parseResult($line, 'CREATE: ') == self::ERROR_OK);
+	    return ($result == self::ERROR_OK);
     }
 
     function renameFolder($from, $to)
     {
-        $command = sprintf("r RENAME %s %s", $this->escape($from), $this->escape($to));
+        $result = $this->execute('RENAME', array($this->escape($from), $this->escape($to)),
+	        self::COMMAND_NORESPONSE);
 
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-		do {
-		    $line = $this->readLine(300);
-		} while (!$this->startsWith($line, 'r ', true, true));
-
-		return ($this->parseResult($line, 'RENAME: ') == self::ERROR_OK);
+		return ($result == self::ERROR_OK);
     }
 
     function deleteFolder($folder)
     {
-        $command = sprintf("d DELETE %s", $this->escape($folder));
+        $result = $this->execute('DELETE', array($this->escape($folder)),
+	        self::COMMAND_NORESPONSE);
 
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-	    do {
-		    $line = $this->readLine(300);
-	    } while (!$this->startsWith($line, 'd ', true, true));
-
-	    return ($this->parseResult($line, 'DELETE: ') == self::ERROR_OK);
+	    return ($result == self::ERROR_OK);
     }
 
     function clearFolder($folder)
@@ -1957,28 +1846,18 @@ class rcube_imap_generic
 
     function subscribe($folder)
     {
-	    $command = sprintf("sub1 SUBSCRIBE %s", $this->escape($folder));
+	    $result = $this->execute('SUBSCRIBE', array($this->escape($folder)),
+	        self::COMMAND_NORESPONSE);
 
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-    	$line = trim($this->readLine(512));
-	    return ($this->parseResult($line, 'SUBSCRIBE: ') == self::ERROR_OK);
+	    return ($result == self::ERROR_OK);
     }
 
     function unsubscribe($folder)
     {
-        $command = sprintf("usub1 UNSUBSCRIBE %s", $this->escape($folder));
+	    $result = $this->execute('UNSUBSCRIBE', array($this->escape($folder)),
+	        self::COMMAND_NORESPONSE);
 
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-	    $line = trim($this->readLine(512));
-	    return ($this->parseResult($line, 'UNSUBSCRIBE: ') == self::ERROR_OK);
+	    return ($result == self::ERROR_OK);
     }
 
     function append($folder, &$message)
@@ -1995,7 +1874,8 @@ class rcube_imap_generic
 		    return false;
 	    }
 
-	    $request = sprintf("a APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
+        $key = $this->next_tag();
+	    $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
             $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
@@ -2015,7 +1895,7 @@ class rcube_imap_generic
 
 		    do {
 			    $line = $this->readLine();
-    		} while (!$this->startsWith($line, 'a ', true, true));
+    		} while (!$this->startsWith($line, $key, true, true));
 
     		return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
 	    }
@@ -2055,7 +1935,8 @@ class rcube_imap_generic
         }
 
     	// send APPEND command
-	    $request = sprintf("a APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
+    	$key = $this->next_tag();
+	    $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
             $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
@@ -2088,7 +1969,7 @@ class rcube_imap_generic
 		    // read response
 		    do {
 			    $line = $this->readLine();
-		    } while (!$this->startsWith($line, 'a ', true, true));
+		    } while (!$this->startsWith($line, $key, true, true));
 
 
 		    return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
@@ -2106,7 +1987,7 @@ class rcube_imap_generic
             return false;
         }
 
-		$key = 'F1247';
+		$key = $this->next_tag();
     	$result = false;
         $command = $key . ($is_uid ? ' UID' : '') ." FETCH $id (BODYSTRUCTURE)";
 
@@ -2114,7 +1995,7 @@ class rcube_imap_generic
 			do {
 				$line = $this->readLine(5000);
 				$line = $this->multLine($line, true);
-				if (!preg_match("/^$key/", $line))
+				if (!preg_match("/^$key /", $line))
 					$result .= $line;
 			} while (!$this->startsWith($line, $key, true, true));
 
@@ -2137,7 +2018,8 @@ class rcube_imap_generic
          */
 	    $result      = false;
 	    $quota_lines = array();
-        $command     = 'QUOT1 GETQUOTAROOT "INBOX"';
+	    $key         = $this->next_tag();
+        $command     = $key . ' GETQUOTAROOT INBOX';
 
 	    // get line(s) containing quota info
 	    if ($this->putLine($command)) {
@@ -2146,7 +2028,7 @@ class rcube_imap_generic
 			    if (preg_match('/^\* QUOTA /', $line)) {
 				    $quota_lines[] = $line;
         		}
-		    } while (!$this->startsWith($line, 'QUOT1', true, true));
+		    } while (!$this->startsWith($line, $key, true, true));
 	    }
         else {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -2197,17 +2079,11 @@ class rcube_imap_generic
             $acl = implode('', $acl);
         }
 
-        $key     = 'acl1';
-        $command = sprintf("%s SETACL %s %s %s",
-            $key, $this->escape($mailbox), $this->escape($user), strtolower($acl));
+        $result = $this->execute('SETACL', array(
+            $this->escape($mailbox), $this->escape($user), strtolower($acl)),
+            self::COMMAND_NORESPONSE);
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-		$line = $this->readReply();
-	    return ($this->parseResult($line, 'SETACL: ') == self::ERROR_OK);
+	    return ($result == self::ERROR_OK);
     }
 
     /**
@@ -2223,17 +2099,11 @@ class rcube_imap_generic
      */
     function deleteACL($mailbox, $user)
     {
-        $key     = 'acl2';
-        $command = sprintf("%s DELETEACL %s %s",
-            $key, $this->escape($mailbox), $this->escape($user));
+        $result = $this->execute('DELETEACL', array(
+            $this->escape($mailbox), $this->escape($user)),
+            self::COMMAND_NORESPONSE);
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-		$line = $this->readReply();
-	    return ($this->parseResult($line, 'DELETEACL: ') == self::ERROR_OK);
+	    return ($result == self::ERROR_OK);
     }
 
     /**
@@ -2247,24 +2117,11 @@ class rcube_imap_generic
      */
     function getACL($mailbox)
     {
-        $key     = 'acl3';
-        $command = sprintf("%s GETACL %s", $key, $this->escape($mailbox));
+        list($code, $response) = $this->execute('GETACL', $this->escape($mailbox));
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return NULL;
-        }
-
-        $response = '';
-
-		do {
-		    $line = $this->readLine(4096);
-            $response .= $line;
-        } while (!$this->startsWith($line, $key, true, true));
-
-        if ($this->parseResult($line, 'GETACL: ') == self::ERROR_OK) {
-            // Parse server response (remove "* ACL " and "\r\nacl3 OK...")
-            $response = substr($response, 6, -(strlen($line)+2));
+        if ($code == self::ERROR_OK && preg_match('/^\* ACL /i', $response)) {
+            // Parse server response (remove "* ACL ")
+            $response = substr($response, 6);
             $ret  = $this->tokenizeResponse($response);
             $mbox = array_unshift($ret);
             $size = count($ret);
@@ -2301,25 +2158,12 @@ class rcube_imap_generic
      */
     function listRights($mailbox, $user)
     {
-        $key     = 'acl4';
-        $command = sprintf("%s LISTRIGHTS %s %s",
-            $key, $this->escape($mailbox), $this->escape($user));
+        list($code, $response) = $this->execute('LISTRIGHTS', array(
+            $this->escape($mailbox), $this->escape($user)));
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return NULL;
-        }
-
-        $response = '';
-
-		do {
-		    $line = $this->readLine(4096);
-            $response .= $line;
-        } while (!$this->startsWith($line, $key, true, true));
-
-        if ($this->parseResult($line, 'LISTRIGHTS: ') == self::ERROR_OK) {
-            // Parse server response (remove "* LISTRIGHTS " and "\r\nacl3 OK...")
-            $response = substr($response, 13, -(strlen($line)+2));
+        if ($code == self::ERROR_OK && preg_match('/^\* LISTRIGHTS /i', $response)) {
+            // Parse server response (remove "* LISTRIGHTS ")
+            $response = substr($response, 13);
 
             $ret_mbox = $this->tokenizeResponse($response, 1);
             $ret_user = $this->tokenizeResponse($response, 1);
@@ -2346,24 +2190,11 @@ class rcube_imap_generic
      */
     function myRights($mailbox)
     {
-        $key = 'acl5';
-        $command = sprintf("%s MYRIGHTS %s", $key, $this->escape(mailbox));
+        list($code, $response) = $this->execute('MYRIGHTS', array($this->escape(mailbox)));
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return NULL;
-        }
-
-        $response = '';
-
-		do {
-            $line = $this->readLine(1024);
-            $response .= $line;
-        } while (!$this->startsWith($line, $key, true, true));
-
-        if ($this->parseResult($line, 'MYRIGHTS: ') == self::ERROR_OK) {
-            // Parse server response (remove "* MYRIGHTS " and "\r\nacl5 OK...")
-            $response = substr($response, 11, -(strlen($line)+2));
+        if ($code == self::ERROR_OK && preg_match('/^\* MYRIGHTS /i', $response)) {
+            // Parse server response (remove "* MYRIGHTS ")
+            $response = substr($response, 11);
 
             $ret_mbox = $this->tokenizeResponse($response, 1);
             $rights   = $this->tokenizeResponse($response, 1);
@@ -2401,17 +2232,11 @@ class rcube_imap_generic
         }
 
         $entries = implode(' ', $entries);
-        $key     = 'md1';
-        $command = sprintf("%s SETMETADATA %s (%s)",
-            $key, $this->escape($mailbox), $entries);
+        $result = $this->execute('SETMETADATA', array(
+            $this->escape($mailbox), '(' . $entries . ')'),
+            self::COMMAND_NORESPONSE);
 
-		if (!$this->putLineC($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-        $line = $this->readReply();
-        return ($this->parseResult($line, 'SETMETADATA: ') == self::ERROR_OK);
+        return ($result == self::ERROR_OK);
     }
 
     /**
@@ -2483,25 +2308,12 @@ class rcube_imap_generic
 
         $optlist .= ($optlist ? ' ' : '') . $entlist;
 
-        $key     = 'md2';
-        $command = sprintf("%s GETMETADATA %s %s",
-            $key, $this->escape($mailbox), $optlist);
+        list($code, $response) = $this->execute('GETMETADATA', array(
+            $this->escape($mailbox), $optlist));
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return NULL;
-        }
-
-        $response = '';
-
-		do {
-		    $line = $this->readLine(4096);
-            $response .= $line;
-        } while (!$this->startsWith($line, $key, true, true));
-
-        if ($this->parseResult($line, 'GETMETADATA: ') == self::ERROR_OK) {
-            // Parse server response (remove "* METADATA " and "\r\nmd2 OK...")
-            $response = substr($response, 11, -(strlen($line)+2));
+        if ($code == self::ERROR_OK && preg_match('/^\* METADATA /i', $response)) {
+            // Parse server response (remove "* METADATA ")
+            $response = substr($response, 11);
             $ret_mbox = $this->tokenizeResponse($response, 1);
             $data     = $this->tokenizeResponse($response);
 
@@ -2531,7 +2343,7 @@ class rcube_imap_generic
 
             return $data;
         }
-        
+
         return NULL;
     }
 
@@ -2568,17 +2380,10 @@ class rcube_imap_generic
         }
 
         $entries = implode(' ', $entries);
-        $key     = 'an1';
-        $command = sprintf("%s SETANNOTATION %s %s",
-            $key, $this->escape($mailbox), $entries);
+        $result  = $this->execute('SETANNOTATION', array(
+            $this->escape($mailbox), $entries), self::COMMAND_NORESPONSE);
 
-		if (!$this->putLineC($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
-
-        $line = $this->readReply();
-        return ($this->parseResult($line, 'SETANNOTATION: ') == self::ERROR_OK);
+        return ($result == self::ERROR_OK);
     }
 
     /**
@@ -2635,25 +2440,12 @@ class rcube_imap_generic
         }
         $attribs = '(' . implode(' ', $attribs) . ')';
 
-        $key     = 'an2';
-        $command = sprintf("%s GETANNOTATION %s %s %s",
-            $key, $this->escape($mailbox), $entries, $attribs);
+        list($code, $response) = $this->execute('GETANNOTATION', array(
+            $this->escape($mailbox), $entries, $attribs));
 
-		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return NULL;
-        }
-
-        $response = '';
-
-		do {
-		    $line = $this->readLine(4096);
-            $response .= $line;
-        } while (!$this->startsWith($line, $key, true, true));
-
-        if ($this->parseResult($line, 'GETANNOTATION: ') == self::ERROR_OK) {
-            // Parse server response (remove "* ANNOTATION " and "\r\nan2 OK...")
-            $response = substr($response, 13, -(strlen($line)+2));
+        if ($code == self::ERROR_OK && preg_match('/^\* ANNOTATION /i', $response)) {
+            // Parse server response (remove "* ANNOTATION ")
+            $response = substr($response, 13);
             $ret_mbox = $this->tokenizeResponse($response, 1);
             $data     = $this->tokenizeResponse($response);
             $res      = array();
@@ -2689,6 +2481,66 @@ class rcube_imap_generic
         }
 
         return NULL;
+    }
+
+    /**
+     * Creates next command identifier (tag)
+     *
+     * @return string Command identifier
+     * @access public
+     * @since 0.5-beta
+     */
+    function next_tag()
+    {
+        $this->cmd_num++;
+        $this->cmd_tag = sprintf('A%04d', $this->cmd_num);
+
+        return $this->cmd_tag;
+    }
+
+    /**
+     * Sends IMAP command and parses result
+     *
+     * @param string $command   IMAP command
+     * @param array  $arguments Command arguments
+     * @param int    $options   Execution options
+     *
+     * @return mixed Response code or list of response code and data
+     * @access public
+     * @since 0.5-beta
+     */
+    function execute($command, $arguments=array(), $options=0)
+    {
+        $tag      = $this->next_tag();
+        $query    = $tag . ' ' . $command;
+        $noresp   = ($options & self::COMMAND_NORESPONSE);
+        $response = $noresp ? null : '';
+
+        if (!empty($arguments))
+            $query .= ' ' . implode(' ', $arguments);
+
+        // Send command
+	    if (!$this->putLineC($query)) {
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $query");
+		    return $noresp ? self::ERROR_COMMAND : array(self::ERROR_COMMAND, '');
+	    }
+
+        // Parse response
+    	do {
+	    	$line = $this->readLine(4096);
+	    	if ($response !== null)
+	    	    $response .= $line;
+    	} while (!$this->startsWith($line, $tag . ' ', true, true));
+
+	    $code = $this->parseResult($line, $command . ': ');
+
+        // Remove last line from response
+    	if ($response) {
+    	    $line_len = min(strlen($response), strlen($line) + 2);
+            $response = substr($response, 0, -$line_len);
+        }
+
+	    return $noresp ? $code : array($code, $response);
     }
 
     /**
@@ -2866,6 +2718,8 @@ class rcube_imap_generic
 
     private function parseCapability($str)
     {
+        $str = preg_replace('/^\* CAPABILITY /i', '', $str);
+
         $this->capability = explode(' ', strtoupper($str));
 
         if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
