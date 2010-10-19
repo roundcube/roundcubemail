@@ -161,7 +161,7 @@ class rcube_imap_generic
                     // LITERAL+ support
                     if ($this->prefs['literal+'])
                         $parts[$i+1] = preg_replace('/([0-9]+)/', '\\1+', $parts[$i+1]);
-                
+
 				    $bytes = $this->putLine($parts[$i].$parts[$i+1], false);
                     if ($bytes === false)
                         return false;
@@ -236,7 +236,7 @@ class rcube_imap_generic
 			    $out .= $line;
 		    }
 
-		    $line = $a[1][0] . '"' . ($escape ? $this->Escape($out) : $out) . '"';
+		    $line = $a[1][0] . ($escape ? $this->escape($out) : $out);
 	    }
 
         return $line;
@@ -415,7 +415,8 @@ class rcube_imap_generic
 
     function login($user, $password)
     {
-        $this->putLine('a001 LOGIN "'.$this->escape($user).'" "'.$this->escape($password).'"');
+        $this->putLine(sprintf("a001 LOGIN %s %s",
+            $this->escape($user), $this->escape($password)));
 
         $line = $this->readReply($untagged);
 
@@ -733,7 +734,7 @@ class rcube_imap_generic
 		    return true;
 	    }
 
-        $command = "sel1 SELECT \"".$this->escape($mailbox).'"';
+        $command = "sel1 SELECT " . $this->escape($mailbox);
 
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -1472,7 +1473,7 @@ class rcube_imap_generic
             return -1;
 	    }
 
-        $command = "cpy1 UID COPY $messages \"".$this->escape($to)."\"";
+        $command = "cpy1 UID COPY $messages ".$this->escape($to);
 
         if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -1666,9 +1667,7 @@ class rcube_imap_generic
             $command = 'LIST';
         }
 
-        $ref = $this->escape($ref);
-        $mailbox = $this->escape($mailbox);
-        $query = $key." ".$command." \"". $ref ."\" \"". $mailbox ."\"";
+        $query = sprintf("%s %s %s %s", $key, $command, $this->escape($ref), $this->escape($mailbox));
 
     	// send command
 	    if (!$this->putLine($query)) {
@@ -1904,8 +1903,8 @@ class rcube_imap_generic
 
     function createFolder($folder)
     {
-        $command = 'c CREATE "' . $this->escape($folder) . '"';
-    
+        $command = sprintf("c CREATE %s", $this->escape($folder));
+
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
@@ -1920,8 +1919,8 @@ class rcube_imap_generic
 
     function renameFolder($from, $to)
     {
-        $command = 'r RENAME "' . $this->escape($from) . '" "' . $this->escape($to) . '"';
-    
+        $command = sprintf("r RENAME %s %s", $this->escape($from), $this->escape($to));
+
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
@@ -1935,8 +1934,8 @@ class rcube_imap_generic
 
     function deleteFolder($folder)
     {
-        $command = 'd DELETE "' . $this->escape($folder). '"';
-    
+        $command = sprintf("d DELETE %s", $this->escape($folder));
+
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
@@ -1959,7 +1958,7 @@ class rcube_imap_generic
 
     function subscribe($folder)
     {
-	    $command = 'sub1 SUBSCRIBE "' . $this->escape($folder). '"';
+	    $command = sprintf("sub1 SUBSCRIBE %s", $this->escape($folder));
 
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -1972,7 +1971,7 @@ class rcube_imap_generic
 
     function unsubscribe($folder)
     {
-        $command = 'usub1 UNSUBSCRIBE "' . $this->escape($folder) . '"';
+        $command = sprintf("usub1 UNSUBSCRIBE %s", $this->escape($folder));
 
 	    if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -1997,7 +1996,7 @@ class rcube_imap_generic
 		    return false;
 	    }
 
-	    $request = sprintf("a APPEND \"%s\" (\\Seen) {%d%s}", $this->escape($folder),
+	    $request = sprintf("a APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
             $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
@@ -2057,7 +2056,7 @@ class rcube_imap_generic
         }
 
     	// send APPEND command
-	    $request = sprintf("a APPEND \"%s\" (\\Seen) {%d%s}", $this->escape($folder),
+	    $request = sprintf("a APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
             $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
@@ -2092,7 +2091,7 @@ class rcube_imap_generic
 			    $line = $this->readLine();
 		    } while (!$this->startsWith($line, 'a ', true, true));
 
-		    
+
 		    return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
 	    }
         else {
@@ -2200,11 +2199,11 @@ class rcube_imap_generic
         }
 
         $key     = 'acl1';
-        $command = sprintf("%s SETACL \"%s\" \"%s\" %s",
+        $command = sprintf("%s SETACL %s %s %s",
             $key, $this->escape($mailbox), $this->escape($user), strtolower($acl));
 
 		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
         }
 
@@ -2226,11 +2225,11 @@ class rcube_imap_generic
     function deleteACL($mailbox, $user)
     {
         $key     = 'acl2';
-        $command = sprintf("%s DELETEACL \"%s\" \"%s\"", 
+        $command = sprintf("%s DELETEACL %s %s",
             $key, $this->escape($mailbox), $this->escape($user));
 
 		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
         }
 
@@ -2250,7 +2249,7 @@ class rcube_imap_generic
     function getACL($mailbox)
     {
         $key     = 'acl3';
-        $command = sprintf("%s GETACL \"%s\"", $key, $this->escape($mailbox));
+        $command = sprintf("%s GETACL %s", $key, $this->escape($mailbox));
 
 		if (!$this->putLine($command)) {
             $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
@@ -2263,7 +2262,7 @@ class rcube_imap_generic
 		    $line = $this->readLine(4096);
             $response .= $line;
         } while (!$this->startsWith($line, $key, true, true));
-        
+
         if ($this->parseResult($line, 'GETACL: ') == self::ERROR_OK) {
             // Parse server response (remove "* ACL " and "\r\nacl3 OK...")
             $response = substr($response, 6, -(strlen($line)+2));
@@ -2304,11 +2303,11 @@ class rcube_imap_generic
     function listRights($mailbox, $user)
     {
         $key     = 'acl4';
-        $command = sprintf("%s LISTRIGHTS \"%s\" \"%s\"",
+        $command = sprintf("%s LISTRIGHTS %s %s",
             $key, $this->escape($mailbox), $this->escape($user));
 
 		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return NULL;
         }
 
@@ -2349,10 +2348,10 @@ class rcube_imap_generic
     function myRights($mailbox)
     {
         $key = 'acl5';
-        $command = sprintf("%s MYRIGHTS \"%s\"", $key, $this->escape(mailbox));
+        $command = sprintf("%s MYRIGHTS %s", $key, $this->escape(mailbox));
 
 		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return NULL;
         }
 
@@ -2389,7 +2388,7 @@ class rcube_imap_generic
     function setMetadata($mailbox, $entries)
     {
         if (!is_array($entries) || empty($entries)) {
-            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETMETADATA command");        
+            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETMETADATA command");
             return false;
         }
 
@@ -2399,16 +2398,16 @@ class rcube_imap_generic
             else
                 $value = sprintf("{%d}\r\n%s", strlen($value), $value);
 
-            $entries[$name] = '"' . $this->escape($name) . '" ' . $value;
+            $entries[$name] = $this->escape($name) . ' ' . $value;
         }
 
         $entries = implode(' ', $entries);
         $key     = 'md1';
-        $command = sprintf("%s SETMETADATA \"%s\" (%s)", 
+        $command = sprintf("%s SETMETADATA %s (%s)",
             $key, $this->escape($mailbox), $entries);
 
 		if (!$this->putLineC($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
         }
 
@@ -2439,7 +2438,7 @@ class rcube_imap_generic
 
         foreach ($entries as $entry)
             $data[$entry] = NULL;
-    
+
         return $this->setMetadata($mailbox, $data);
     }
 
@@ -2463,7 +2462,7 @@ class rcube_imap_generic
 
         // create entries string
         foreach ($entries as $idx => $name) {
-            $entries[$idx] = '"' . $this->escape($name) . '"';
+            $entries[$idx] = $this->escape($name);
         }
 
         $optlist = '';
@@ -2486,11 +2485,11 @@ class rcube_imap_generic
         $optlist .= ($optlist ? ' ' : '') . $entlist;
 
         $key     = 'md2';
-        $command = sprintf("%s GETMETADATA \"%s\" %s",
+        $command = sprintf("%s GETMETADATA %s %s",
             $key, $this->escape($mailbox), $optlist);
 
 		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return NULL;
         }
 
@@ -2514,7 +2513,7 @@ class rcube_imap_generic
                     if (is_array($data[$i])) {
                         $size_sub = count($data[$i]);
                         for ($x=0; $x<$size_sub; $x++) {
-                            $data[$data[$i][$x]] = $data[$i][++$x];                        
+                            $data[$data[$i][$x]] = $data[$i][++$x];
                         }
                         unset($data[$i]);
                     }
@@ -2551,7 +2550,7 @@ class rcube_imap_generic
     function setAnnotation($mailbox, $data)
     {
         if (!is_array($data) || empty($data)) {
-            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETANNOTATION command");        
+            $this->set_error(self::ERROR_COMMAND, "Wrong argument for SETANNOTATION command");
             return false;
         }
 
@@ -2565,17 +2564,17 @@ class rcube_imap_generic
             else
                 $value = sprintf("{%d}\r\n%s", strlen($value), $value);
 
-            $entries[] = sprintf('"%s" ("%s" %s)',
+            $entries[] = sprintf('%s (%s %s)',
                 $this->escape($name), $this->escape($attr), $value);
         }
 
         $entries = implode(' ', $entries);
         $key     = 'an1';
-        $command = sprintf("%s SETANNOTATION \"%s\" %s",
+        $command = sprintf("%s SETANNOTATION %s %s",
             $key, $this->escape($mailbox), $entries);
 
 		if (!$this->putLineC($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return false;
         }
 
@@ -2624,7 +2623,7 @@ class rcube_imap_generic
         }
         // create entries string
         foreach ($entries as $idx => $name) {
-            $entries[$idx] = '"' . $this->escape($name) . '"';
+            $entries[$idx] = $this->escape($name);
         }
         $entries = '(' . implode(' ', $entries) . ')';
 
@@ -2633,16 +2632,16 @@ class rcube_imap_generic
         }
         // create entries string
         foreach ($attribs as $idx => $name) {
-            $attribs[$idx] = '"' . $this->escape($name) . '"';
+            $attribs[$idx] = $this->escape($name);
         }
         $attribs = '(' . implode(' ', $attribs) . ')';
 
         $key     = 'an2';
-        $command = sprintf("%s GETANNOTATION \"%s\" %s %s",
+        $command = sprintf("%s GETANNOTATION %s %s %s",
             $key, $this->escape($mailbox), $entries, $attribs);
 
 		if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");        
+            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
             return NULL;
         }
 
@@ -2689,7 +2688,7 @@ class rcube_imap_generic
 
             return $res;
         }
-        
+
         return NULL;
     }
 
@@ -2760,7 +2759,7 @@ class rcube_imap_generic
 
             // String atom, number, NIL, *, %
             default:
-                // empty or one character      
+                // empty or one character
                 if ($str === '') {
                     break 2;
                 }
@@ -2875,12 +2874,34 @@ class rcube_imap_generic
         }
     }
 
-    private function escape($string)
+    /**
+     * Escapes a string when it contains special characters (RFC3501)
+     *
+     * @param string $string IMAP string
+     *
+     * @return string Escaped string
+     * @todo String literals, lists
+     */
+    static function escape($string)
     {
-	    return strtr($string, array('"'=>'\\"', '\\' => '\\\\'));
+        // NIL
+        if ($string === null) {
+            return 'NIL';
+        }
+        // empty string
+        else if ($string === '') {
+            return '""';
+        }
+        // string: special chars: SP, CTL, (, ), {, %, *, ", \, ]
+        else if (preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5C\x5D\x7F]+)/', $string)) {
+	        return '"' . strtr($string, array('"'=>'\\"', '\\' => '\\\\')) . '"';
+        }
+
+        // atom
+        return $string;
     }
 
-    private function unEscape($string)
+    static function unEscape($string)
     {
 	    return strtr($string, array('\\"'=>'"', '\\\\' => '\\'));
     }
