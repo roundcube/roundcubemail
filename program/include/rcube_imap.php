@@ -449,7 +449,7 @@ class rcube_imap
     {
         $flag = strtoupper($flag);
         $imap_flag = $this->conn->flags[$flag];
-        return (in_array_nocase($imap_flag, $this->conn->permanentflags));
+        return (in_array_nocase($imap_flag, $this->conn->data['PERMANENTFLAGS']));
     }
 
     

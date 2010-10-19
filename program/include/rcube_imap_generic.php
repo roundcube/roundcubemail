@@ -88,7 +88,7 @@ class rcube_imap_generic
 	public $message;
 	public $rootdir;
 	public $delimiter;
-	public $permanentflags = array();
+    public $data = array();
     public $flags = array(
         'SEEN'     => '\\Seen',
         'DELETED'  => '\\Deleted',
@@ -101,8 +101,6 @@ class rcube_imap_generic
         '*'        => '\\*',
     );
 
-	private $exists;
-	private $recent;
     private $selected;
 	private $fp;
 	private $host;
@@ -707,31 +705,27 @@ class rcube_imap_generic
 	    if (empty($mailbox)) {
 		    return false;
 	    }
+
 	    if ($this->selected == $mailbox) {
 		    return true;
 	    }
 
-        $key = $this->next_tag();
-        $command = "$key SELECT " . $this->escape($mailbox);
+        list($code, $response) = $this->execute('SELECT', array($this->escape($mailbox)));
 
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return false;
-        }
+        if ($code == self::ERROR_OK) {
+            $response = explode("\r\n", $response);
+            foreach ($response as $line) {
+    			if (preg_match('/^\* ([0-9]+) (EXISTS|RECENT)$/i', $line, $m)) {
+	    		    $this->data[strtoupper($m[2])] = (int) $m[1];
+		    	}
+			    else if (preg_match('/^\* OK \[(UIDNEXT|UIDVALIDITY|UNSEEN) ([0-9]+)\]/i', $line, $match)) {
+			        $this->data[strtoupper($match[1])] = (int) $match[2];
+			    }
+			    else if (preg_match('/^\* OK \[PERMANENTFLAGS \(([^\)]+)\)\]/iU', $line, $match)) {
+			        $this->data['PERMANENTFLAGS'] = explode(' ', $match[1]);
+			    }
+            }
 
-		do {
-			$line = rtrim($this->readLine(512));
-
-			if (preg_match('/^\* ([0-9]+) (EXISTS|RECENT)$/', $line, $m)) {
-			    $token = strtolower($m[2]);
-			    $this->$token = (int) $m[1];
-			}
-			else if (preg_match('/\[?PERMANENTFLAGS\s+\(([^\)]+)\)\]/U', $line, $match)) {
-			    $this->permanentflags = explode(' ', $match[1]);
-			}
-		} while (!$this->startsWith($line, $key, true, true));
-
-        if ($this->parseResult($line, 'SELECT: ') == self::ERROR_OK) {
 		    $this->selected = $mailbox;
 			return true;
 		}
@@ -747,7 +741,7 @@ class rcube_imap_generic
 
 	    $this->select($mailbox);
 	    if ($this->selected == $mailbox) {
-		    return $this->recent;
+		    return $this->data['RECENT'];
 	    }
 
 	    return false;
@@ -761,7 +755,7 @@ class rcube_imap_generic
 
 	    $this->select($mailbox);
 	    if ($this->selected == $mailbox) {
-		    return $this->exists;
+		    return $this->data['EXISTS'];
 	    }
 
         return false;
@@ -781,7 +775,6 @@ class rcube_imap_generic
 	        return false;
 	    }
 
-	    /*  Do "SELECT" command */
 	    if (!$this->select($mailbox)) {
 	        return false;
 	    }
@@ -1488,7 +1481,7 @@ class rcube_imap_generic
 	    }
 
         // return empty result when folder is empty and we're just after SELECT
-        if ($old_sel != $folder && !$this->exists) {
+        if ($old_sel != $folder && !$this->data['EXISTS']) {
             return array(array(), array(), array());
 	    }
 
@@ -1524,7 +1517,7 @@ class rcube_imap_generic
 	    }
 
         // return empty result when folder is empty and we're just after SELECT
-        if ($old_sel != $folder && !$this->exists) {
+        if ($old_sel != $folder && !$this->data['EXISTS']) {
             return array();
 	    }
 
@@ -1574,37 +1567,17 @@ class rcube_imap_generic
 	        $ref = $this->rootdir;
 	    }
 
-        $command = $subscribed ? 'LSUB' : 'LIST';
-        $key     = $this->next_tag();
-        $query   = sprintf("%s %s %s %s", $key, $command,
-            $this->escape($ref), $this->escape($mailbox));
+        list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST',
+            array($this->escape($ref), $this->escape($mailbox)));
 
-    	// send command
-	    if (!$this->putLine($query)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $query");
-	        return false;
-	    }
-
-	    // get folder list
-	    do {
-		    $line = $this->readLine(500);
-		    $line = $this->multLine($line, true);
-		    $line = trim($line);
-
-		    if (preg_match('/^\* '.$command.' \(([^\)]*)\) "*([^"]+)"* (.*)$/', $line, $m)) {
+        if ($code == self::ERROR_OK) {
+            $folders = array();
+            while ($this->tokenizeResponse($response, 1) == '*') {
+                list (,$opts, $delim, $folder) = $this->tokenizeResponse($response, 4);
         		// folder name
-   			    $folders[] = preg_replace(array('/^"/', '/"$/'), '', $this->unEscape($m[3]));
-		        // attributes
-//        		$attrib = explode(' ', $this->unEscape($m[1]));
-		        // delimiter
-//        		$delim = $this->unEscape($m[2]);
+   			    $folders[] = $folder;
 		    }
-	    } while (!$this->startsWith($line, $key, true));
-
-	    if (is_array($folders)) {
-    	    return $folders;
-	    } else if ($this->parseResult($line, $command.': ') == self::ERROR_OK) {
-            return array();
+            return $folders;
         }
 
     	return false;
