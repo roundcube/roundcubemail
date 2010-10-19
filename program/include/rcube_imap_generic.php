@@ -50,7 +50,6 @@ class rcube_mail_header
 	public $ctype;
 	public $flags;
 	public $timestamp;
-	public $f;
 	public $body_structure;
 	public $internaldate;
 	public $references;
