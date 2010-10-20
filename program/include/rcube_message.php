@@ -448,7 +448,9 @@ class rcube_message
                 }
                 // part is a file/attachment
                 else if (preg_match('/^(inline|attach)/', $mail_part->disposition) ||
-                    $mail_part->headers['content-id'] || (empty($mail_part->disposition) && $mail_part->filename)
+                    $mail_part->headers['content-id'] ||
+                    ($mail_part->filename &&
+                        (empty($mail_part->disposition) || preg_match('/^[a-z0-9!#$&.+^_-]+$/i', $mail_part->disposition)))
                 ) {
                     // skip apple resource forks
                     if ($message_ctype_secondary == 'appledouble' && $secondary_type == 'applefile')
