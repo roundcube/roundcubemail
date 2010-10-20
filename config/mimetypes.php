@@ -7,6 +7,7 @@ return array(
   'xlc' => 'application/vnd.ms-excel',
   'xlt' => 'application/vnd.ms-excel',
   'xlw' => 'application/vnd.ms-excel',
+  'pdf' => 'application/pdf',
   'ppt' => 'application/vnd.ms-powerpoint',
   'pps' => 'application/vnd.ms-powerpoint',
   'pot' => 'application/vnd.ms-powerpoint',
