@@ -91,6 +91,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
       header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ? $part->charset : RCMAIL_CHARSET));
     }
     else {
+      $mimetype = rcmail_fix_mimetype($mimetype);
       header("Content-Type: $mimetype");
       header("Content-Transfer-Encoding: binary");
     }

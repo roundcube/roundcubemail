@@ -172,7 +172,7 @@ function rcmail_message_attachments($attrib)
               'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
               JS_OBJECT_NAME,
               $attach_prop->mime_id,
-              $attach_prop->mimetype),
+              rcmail_fix_mimetype($attach_prop->mimetype)),
               'title' => Q($title),
             ),
             Q($filename)));
