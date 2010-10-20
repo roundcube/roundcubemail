@@ -539,19 +539,26 @@ class rcube_imap
         // use SEARCH for message counting
         else if ($this->skip_deleted) {
             $search_str = "ALL UNDELETED";
+            $keys       = array('COUNT');
+            $need_uid   = false;
 
-            // get message count and store in cache
-            if ($mode == 'UNSEEN')
+            if ($mode == 'UNSEEN') {
                 $search_str .= " UNSEEN";
-            // get message count using SEARCH
-            // not very performant but more precise (using UNDELETED)
-            $index = $this->conn->search($mailbox, $search_str);
+            }
+            else if ($status) {
+                $keys[]   = 'MAX';
+                $need_uid = true;
+            }
 
-            $count = is_array($index) ? count($index) : 0;
+            // get message count using (E)SEARCH
+            // not very performant but more precise (using UNDELETED)
+            $index = $this->conn->search($mailbox, $search_str, $need_uid, $keys);
+
+            $count = is_array($index) ? $index['COUNT'] : 0;
 
             if ($mode == 'ALL' && $status) {
                 $this->set_folder_stats($mailbox, 'cnt', $count);
-                $this->set_folder_stats($mailbox, 'maxuid', $index ? $this->_id2uid(max($index), $mailbox) : 0);
+                $this->set_folder_stats($mailbox, 'maxuid', is_array($index) ? $index['MAX'] : 0);
             }
         }
         else {

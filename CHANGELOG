@@ -38,6 +38,7 @@ CHANGELOG Roundcube Webmail
 - Fix decoding of e-mail address strings in message headers (#1487068)
 - Fix handling of attachments when Content-Disposition is not inline nor attachment (#1487051)
 - Improve performance of unseen messages counting (#1487058)
+- Improve performance of messages counting using ESEARCH extension (RFC4731)
 
 RELEASE 0.4.2
 -------------

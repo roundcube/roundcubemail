@@ -813,10 +813,9 @@ class rcube_imap_generic
         }
 
         // Invoke SEARCH as a fallback
-        // @TODO: ESEARCH support
-        $index = $this->search($mailbox, 'ALL UNSEEN');
+        $index = $this->search($mailbox, 'ALL UNSEEN', false, array('COUNT'));
         if (is_array($index)) {
-            return count($index);
+            return (int) $index['COUNT'];
         }
 
         return false;
@@ -983,17 +982,17 @@ class rcube_imap_generic
 	    return $result;
     }
 
-    private function compressMessageSet($message_set)
+    private function compressMessageSet($message_set, $force=false)
     {
 	    // given a comma delimited list of independent mid's,
 	    // compresses by grouping sequences together
 
 	    // if less than 255 bytes long, let's not bother
-	    if (strlen($message_set)<255) {
+	    if (!$force && strlen($message_set)<255) {
 	        return $message_set;
 	    }
 
-	    // see if it's already been compress
+	    // see if it's already been compressed
 	    if (strpos($message_set, ':') !== false) {
 	        return $message_set;
 	    }
@@ -1561,27 +1560,92 @@ class rcube_imap_generic
 	    return false;
     }
 
-    function search($folder, $criteria, $return_uid=false)
+    /**
+     * Executes SEARCH command
+     *
+     * @param string $mailbox    Mailbox name
+     * @param string $criteria   Searching criteria
+     * @param bool   $return_uid Enable UID in result instead of sequence ID
+     * @param array  $items      Return items (MIN, MAX, COUNT, ALL)
+     *
+     * @return array Message identifiers or item-value hash 
+     */
+    function search($mailbox, $criteria, $return_uid=false, $items=array())
     {
         $old_sel = $this->selected;
 
-	    if (!$this->select($folder)) {
+	    if (!$this->select($mailbox)) {
     		return false;
 	    }
 
         // return empty result when folder is empty and we're just after SELECT
-        if ($old_sel != $folder && !$this->data['EXISTS']) {
-            return array();
+        if ($old_sel != $mailbox && !$this->data['EXISTS']) {
+            if (!empty($items))
+                return array_combine($items, array_fill(0, count($items), 0));
+            else
+                return array();
 	    }
 
+        $esearch  = empty($items) ? false : $this->getCapability('ESEARCH');
+        $criteria = trim($criteria);
+        $params   = '';
+
+        // RFC4731: ESEARCH
+        if (!empty($items) && $esearch) {
+            $params .= 'RETURN (' . implode(' ', $items) . ')';
+        }
+        if (!empty($criteria)) {
+            $params .= ($params ? ' ' : '') . $criteria;
+        }
+        else {
+            $params .= 'ALL';
+        }
+
 	    list($code, $response) = $this->execute($return_uid ? 'UID SEARCH' : 'SEARCH',
-	        array(trim($criteria)));
+	        array($params));
 
 	    if ($code == self::ERROR_OK) {
 	        // remove prefix and \r\n from raw response
-	        $response = str_replace("\r\n", '', substr($response, 9));
-		    return preg_split('/\s+/', $response, -1, PREG_SPLIT_NO_EMPTY);
-	    }
+            $response = substr($response, $esearch ? 10 : 9);
+	        $response = str_replace("\r\n", '', $response);
+
+            if ($esearch) {
+                // Skip prefix: ... (TAG "A285") UID ...      
+                $this->tokenizeResponse($response, $return_uid ? 2 : 1);
+
+                $result = array();
+                for ($i=0; $i<count($items); $i++) {
+                    // If the SEARCH results in no matches, the server MUST NOT
+                    // include the item result option in the ESEARCH response
+                    if ($ret = $this->tokenizeResponse($response, 2)) {
+                        list ($name, $value) = $ret;
+                        $result[$name] = $value;
+                    }
+                }
+
+                return $result;
+            }
+	        else {
+                $response = preg_split('/\s+/', $response, -1, PREG_SPLIT_NO_EMPTY);
+
+                if (!empty($items)) {
+                    $result = array();
+                    if (in_array('COUNT', $items))
+                        $result['COUNT'] = count($response);
+                    if (in_array('MIN', $items))
+                        $result['MIN'] = !empty($response) ? min($response) : 0;
+                    if (in_array('MAX', $items))
+                        $result['MAX'] = !empty($response) ? max($response) : 0;
+                    if (in_array('ALL', $items))
+                        $result['ALL'] = $this->compressMessageSet(implode(',', $response), true);
+
+                    return $result;                    
+                }
+                else {
+                    return $response;
+                }
+	        }
+        }
 
 	    return false;
     }
