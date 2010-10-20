@@ -132,5 +132,3 @@ class rcube_test_mailfunc extends UnitTestCase
   }
 
 }
-
-?>
