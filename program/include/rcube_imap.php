@@ -4000,10 +4000,7 @@ class rcube_imap
         foreach ($a as $val) {
             $j++;
             $address = trim($val['address']);
-            $name = trim($val['name']);
-
-            if ($name && preg_match('/^[\'"]/', $name) && preg_match('/[\'"]$/', $name))
-                $name = trim($name, '\'"');
+            $name    = trim($val['name']);
 
             if ($name && $address && $name != $address)
                 $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
@@ -4419,22 +4416,40 @@ class rcube_imap
         $result = array();
 
         foreach ($a as $key => $val) {
-            $val = preg_replace("/([\"\w])</", "$1 <", $val);
-            $sub_a = rcube_explode_quoted_string(' ', $decode ? $this->decode_header($val) : $val);
-            $result[$key]['name'] = '';
+            $name    = '';
+            $address = '';
+            $val     = trim($val);
 
-            foreach ($sub_a as $k => $v) {
-	            // use angle brackets in regexp to not handle names with @ sign
-                if (preg_match('/^<\S+@\S+>$/', $v))
-                    $result[$key]['address'] = trim($v, '<>');
-                else
-                    $result[$key]['name'] .= (empty($result[$key]['name'])?'':' ').str_replace("\"",'',stripslashes($v));
+            if (preg_match('/(.*)<(\S+@\S+)>$/', $val, $m)) {
+                $address = $m[2];
+                $name    = trim($m[1]);
+            }
+            else if (preg_match('/^(\S+@\S+)$/', $val, $m)) {
+                $address = $m[1];
+                $name    = '';
+            }
+            else {
+                $name = $val;
             }
 
-//          if (empty($result[$key]['name']))
-//              $result[$key]['name'] = $result[$key]['address'];
-            if (empty($result[$key]['address']))
-                $result[$key]['address'] = $result[$key]['name'];
+            // dequote and/or decode name
+            if ($name) {
+                if ($name[0] == '"') {
+                    $name = substr($name, 1, -1);
+                    $name = stripslashes($name);
+                }
+                else if ($decode) {
+                    $name = $this->decode_header($name);
+                }
+            }
+
+            if (!$address && $name) {
+                $address = $name;
+            }
+
+            if ($address) {
+                $result[$key] = array('name' => $name, 'address' => $address);
+            }
         }
 
         return $result;

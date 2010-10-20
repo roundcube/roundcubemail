@@ -35,6 +35,7 @@ CHANGELOG Roundcube Webmail
 - Add ACL extension support into IMAP classes (RFC4314)
 - Add ANNOTATEMORE extension support into IMAP classes (draft-daboo-imap-annotatemore)
 - Add METADATA extension support into IMAP classes (RFC5464)
+- Fix decoding of e-mail address strings in message headers (#1487068)
 
 RELEASE 0.4.2
 -------------
