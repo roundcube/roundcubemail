@@ -733,6 +733,41 @@ class rcube_imap_generic
         return false;
     }
 
+    /**
+     * Executes STATUS comand
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $items   Requested item names
+     *
+     * @return array Status item-value hash
+     * @access public
+     * @since 0.5-beta
+     */
+    function status($mailbox, $items)
+    {
+	    if (empty($mailbox) || empty($items)) {
+		    return false;
+	    }
+
+        list($code, $response) = $this->execute('STATUS', array($this->escape($mailbox),
+            '(' . implode(' ', (array) $items) . ')'));
+
+        if ($code == self::ERROR_OK && preg_match('/\* STATUS /i', $response)) {
+            $result   = array();
+            $response = substr($response, 9); // remove prefix "* STATUS "
+
+            list($mbox, $items) = $this->tokenizeResponse($response, 2);
+
+            for ($i=0, $len=count($items); $i<$len; $i += 2) {
+                $result[$items[$i]] = (int) $items[$i+1];
+            }
+
+			return $result;
+		}
+
+        return false;
+    }
+
     function checkForRecent($mailbox)
     {
 	    if (empty($mailbox)) {
@@ -757,6 +792,32 @@ class rcube_imap_generic
 	    if ($this->selected == $mailbox) {
 		    return $this->data['EXISTS'];
 	    }
+
+        return false;
+    }
+
+    /**
+     * Returns count of messages without \Seen flag in a specified folder
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return int Number of messages, False on error
+     * @access public
+     */
+    function countUnseen($mailbox)
+    {
+        // Try STATUS, should be faster
+        $counts = $this->status($mailbox, array('UNSEEN'));
+        if (is_array($counts)) {
+            return (int) $counts['UNSEEN'];
+        }
+
+        // Invoke SEARCH as a fallback
+        // @TODO: ESEARCH support
+        $index = $this->search($mailbox, 'ALL UNSEEN');
+        if (is_array($index)) {
+            return count($index);
+        }
 
         return false;
     }
@@ -1411,14 +1472,6 @@ class rcube_imap_generic
             self::COMMAND_NORESPONSE);
 
 	    return $result;
-    }
-
-    function countUnseen($folder)
-    {
-        $index = $this->search($folder, 'ALL UNSEEN');
-        if (is_array($index))
-            return count($index);
-        return false;
     }
 
     // Don't be tempted to change $str to pass by reference to speed this up - it will slow it down by about
