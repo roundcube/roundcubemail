@@ -45,7 +45,7 @@ class rcube_message
     private $opt = array();
     private $inline_parts = array();
     private $parse_alternative = false;
-  
+
     public $uid = null;
     public $headers;
     public $structure;
@@ -55,7 +55,7 @@ class rcube_message
     public $subject = '';
     public $sender = null;
     public $is_safe = false;
-  
+
 
     /**
      * __construct
@@ -105,8 +105,8 @@ class rcube_message
         // notify plugins and let them analyze this structured message object
         $this->app->plugins->exec_hook('message_load', array('object' => $this));
     }
-  
-  
+
+
     /**
      * Return a (decoded) message header
      *
@@ -124,7 +124,7 @@ class rcube_message
         return $raw ? $value : $this->imap->decode_header($value);
     }
 
-  
+
     /**
      * Set is_safe var and session data
      *
@@ -468,8 +468,8 @@ class rcube_message
                     else if ($part_orig_mimetype == 'message/rfc822') {
                         $this->parse_structure($mail_part, true);
                     }
-                    // is a regular attachment
-                    else if (preg_match('!^[a-z0-9-.+_]+/[a-z0-9-.+_]+$!i', $part_mimetype)) {
+                    // is a regular attachment (content-type name regexp according to RFC4288.4.2)
+                    else if (preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
                         if (!$mail_part->filename)
                             $mail_part->filename = 'Part '.$mail_part->mime_id;
                         $this->attachments[] = $mail_part;
