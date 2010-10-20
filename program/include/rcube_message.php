@@ -469,7 +469,7 @@ class rcube_message
                         $this->parse_structure($mail_part, true);
                     }
                     // is a regular attachment
-                    else if (preg_match('!^[a-z0-9-.+]+/[a-z0-9-.+]+$!i', $part_mimetype)) {
+                    else if (preg_match('!^[a-z0-9-.+_]+/[a-z0-9-.+_]+$!i', $part_mimetype)) {
                         if (!$mail_part->filename)
                             $mail_part->filename = 'Part '.$mail_part->mime_id;
                         $this->attachments[] = $mail_part;
