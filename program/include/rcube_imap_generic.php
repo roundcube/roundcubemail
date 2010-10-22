@@ -1664,17 +1664,52 @@ class rcube_imap_generic
         return $r;
     }
 
-    function listMailboxes($ref, $mailbox)
+    /**
+     * Returns list of mailboxes
+     *
+     * @param string $ref         Reference name
+     * @param string $mailbox     Mailbox name
+     * @param array  $status_opts (see self::_listMailboxes)
+     *
+     * @return array List of mailboxes or hash of options if $status_opts argument
+     *               is non-empty.
+     * @access public
+     */
+    function listMailboxes($ref, $mailbox, $status_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, false);
+        return $this->_listMailboxes($ref, $mailbox, false, $status_opts);
     }
 
-    function listSubscribed($ref, $mailbox)
+    /**
+     * Returns list of subscribed mailboxes
+     *
+     * @param string $ref         Reference name
+     * @param string $mailbox     Mailbox name
+     * @param array  $status_opts (see self::_listMailboxes)
+     *
+     * @return array List of mailboxes or hash of options if $status_ops argument
+     *               is non-empty.
+     * @access public
+     */
+    function listSubscribed($ref, $mailbox, $status_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, true);
+        return $this->_listMailboxes($ref, $mailbox, true, $status_opts);
     }
 
-    private function _listMailboxes($ref, $mailbox, $subscribed=false)
+    /**
+     * IMAP LIST/LSUB command
+     *
+     * @param string $ref         Reference name
+     * @param string $mailbox     Mailbox name
+     * @param bool   $subscribed  Enables returning subscribed mailboxes only
+     * @param array  $status_opts List of STATUS options (RFC5819: LIST-STATUS)
+     *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN
+     *
+     * @return array List of mailboxes or hash of options if $status_ops argument
+     *               is non-empty.
+     * @access private
+     */
+    private function _listMailboxes($ref, $mailbox, $subscribed=false, $status_opts=array())
     {
 		if (empty($mailbox)) {
 	        $mailbox = '*';
@@ -1684,16 +1719,42 @@ class rcube_imap_generic
 	        $ref = $this->rootdir;
 	    }
 
-        list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST',
-            array($this->escape($ref), $this->escape($mailbox)));
+        $args = array($this->escape($ref), $this->escape($mailbox));
+
+        if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
+            $status_opts = array($status_opts);
+            $lstatus = true;
+
+            $args[] = 'RETURN (STATUS (' . implode(' ', $status_opts) . '))';
+        }
+
+        list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST', $args);
 
         if ($code == self::ERROR_OK) {
             $folders = array();
             while ($this->tokenizeResponse($response, 1) == '*') {
-                list (,$opts, $delim, $folder) = $this->tokenizeResponse($response, 4);
-        		// folder name
-   			    $folders[] = $folder;
+                $cmd = strtoupper($this->tokenizeResponse($response, 1));
+                // * LIST (<options>) <delimiter> <mailbox>
+                if (!$lstatus || $cmd == 'LIST' || $cmd == 'LSUB') {
+                    list($opts, $delim, $folder) = $this->tokenizeResponse($response, 3);
+                    if (!$lstatus) {
+           			    $folders[] = $folder;
+                    }
+                    else {
+                        $folders[$folder] = array();
+                    }
+                }
+                // * STATUS <mailbox> (<result>)
+                else if ($cmd == 'STATUS') {
+                    list($folder, $status) = $this->tokenizeResponse($response, 2);
+
+                    for ($i=0, $len=count($status); $i<$len; $i += 2) {
+                        list($name, $value) = $this->tokenizeResponse($status, 2);
+                        $folders[$folder][$name] = $value;
+                    }
+                }
 		    }
+
             return $folders;
         }
 
