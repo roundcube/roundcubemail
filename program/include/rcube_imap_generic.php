@@ -370,44 +370,95 @@ class rcube_imap_generic
 	    $this->capability_readed = false;
     }
 
-    function authenticate($user, $pass, $encChallenge)
+    /**
+     * CRAM-MD5/PLAIN Authentication
+     *
+     * @param string $user
+     * @param string $pass
+     * @param string $type Authentication type (PLAIN or CRAM-MD5)
+     *
+     * @return resource Connection resourse on success, error code on error
+     */
+    function authenticate($user, $pass, $type='PLAIN')
     {
-        $ipad = '';
-        $opad = '';
+        if ($type == 'CRAM-MD5') {
+            $ipad = '';
+            $opad = '';
 
-        // initialize ipad, opad
-        for ($i=0; $i<64; $i++) {
-            $ipad .= chr(0x36);
-            $opad .= chr(0x5C);
+            // initialize ipad, opad
+            for ($i=0; $i<64; $i++) {
+                $ipad .= chr(0x36);
+                $opad .= chr(0x5C);
+            }
+
+            // pad $pass so it's 64 bytes
+            $padLen = 64 - strlen($pass);
+            for ($i=0; $i<$padLen; $i++) {
+                $pass .= chr(0);
+            }
+
+		    $this->putLine($this->next_tag() . " AUTHENTICATE CRAM-MD5");
+		    $line = trim($this->readLine(1024));
+
+		    if ($line[0] == '+') {
+			    $challenge = substr($line,2);
+            }
+            else {
+			    return self::ERROR_BYE;
+		    }
+
+            // generate hash
+            $hash  = md5($this->_xor($pass, $opad) . pack("H*", md5($this->_xor($pass, $ipad) . base64_decode($encChallenge))));
+            $reply = base64_encode($user . ' ' . $hash);
+
+            // send result, get reply and process it
+            $this->putLine($reply);
+            $line = $this->readLine(1024);
+            $result = $this->parseResult($line);
+            if ($result != self::ERROR_OK) {
+                $this->set_error($result, "Unble to authenticate user (CRAM-MD5): $line");
+            }
+        }
+        else { // PLAIN
+            $reply = base64_encode($user . chr(0) . $user . chr(0) . $pass);
+
+            // RFC 4959 (SASL-IR): save one round trip
+            if ($this->getCapability('SASL-IR')) {
+                $result = $this->execute("AUTHENTICATE PLAIN", array($reply), self::COMMAND_NORESPONSE);
+            }
+            else {
+    		    $this->putLine($this->next_tag() . " AUTHENTICATE PLAIN");
+	    	    $line = trim($this->readLine(1024));
+
+		        if ($line[0] != '+') {
+    			    return self::ERROR_BYE;
+	    	    }
+
+                // send result, get reply and process it
+                $this->putLine($reply);
+                $line = $this->readLine(1024);
+                $result = $this->parseResult($line);
+                if ($result != self::ERROR_OK) {
+                    $this->set_error($result, "Unble to authenticate user (AUTH): $line");
+                }
+            }
         }
 
-        // pad $pass so it's 64 bytes
-        $padLen = 64 - strlen($pass);
-        for ($i=0; $i<$padLen; $i++) {
-            $pass .= chr(0);
-        }
-
-        // generate hash
-        $hash  = md5($this->_xor($pass,$opad) . pack("H*", md5($this->_xor($pass, $ipad) . base64_decode($encChallenge))));
-
-        // generate reply
-        $reply = base64_encode($user . ' ' . $hash);
-
-        // send result, get reply
-        $this->putLine($reply);
-        $line = $this->readLine(1024);
-
-        // process result
-        $result = $this->parseResult($line);
         if ($result == self::ERROR_OK) {
             return $this->fp;
         }
 
-        $this->error = "Authentication for $user failed (AUTH): $line";
-
         return $result;
     }
 
+    /**
+     * LOGIN Authentication
+     *
+     * @param string $user
+     * @param string $pass
+     *
+     * @return resource Connection resourse on success, error code on error
+     */
     function login($user, $password)
     {
         list($code, $response) = $this->execute('LOGIN', array(
@@ -421,9 +472,6 @@ class rcube_imap_generic
         if ($code == self::ERROR_OK) {
             return $this->fp;
         }
-
-        @fclose($this->fp);
-        $this->fp    = false;
 
         return $code;
     }
@@ -634,44 +682,48 @@ class rcube_imap_generic
         	}
 	    }
 
-	    $orig_method = $auth_method;
+	    $auth_methods = array();
+        $result       = null;
 
+	    // check for supported auth methods
 	    if ($auth_method == 'CHECK') {
-		    // check for supported auth methods
 		    if ($this->getCapability('AUTH=CRAM-MD5') || $this->getCapability('AUTH=CRAM_MD5')) {
-			    $auth_method = 'AUTH';
+			    $auth_methods[] = 'AUTH';
 		    }
-		    else {
-			    // default to plain text auth
-			    $auth_method = 'PLAIN';
+		    if ($this->getCapability('AUTH=PLAIN')) {
+			    $auth_methods[] = 'PLAIN';
+		    }
+            // RFC 2595 (LOGINDISABLED) LOGIN disabled when connection is not secure
+		    if (!$this->getCapability('LOGINDISABLED')) {
+			    $auth_methods[] = 'LOGIN';
+		    }
+	    }
+        else {
+            $auth_methods[] = $auth_method;
+        }
+
+        // Authenticate
+        foreach ($auth_methods as $method) {
+            switch ($method) {
+            case 'AUTH':
+			    $result = $this->authenticate($user, $password, 'CRAM-MD5');
+		        break;
+	        case 'PLAIN':
+			    $result = $this->authenticate($user, $password, 'PLAIN');
+		        break;
+            case 'LOGIN':
+       	        $result = $this->login($user, $password);
+                break;
+            default:
+                $this->set_error(self::ERROR_BAD, "Configuration error. Unknown auth method: $method");
+            }
+
+		    if (is_resource($result)) {
+			    break;
 		    }
 	    }
 
-	    if ($auth_method == 'AUTH') {
-		    // do CRAM-MD5 authentication
-		    $this->putLine($this->next_tag() . " AUTHENTICATE CRAM-MD5");
-		    $line = trim($this->readLine(1024));
-
-		    if ($line[0] == '+') {
-			    // got a challenge string, try CRAM-MD5
-			    $result = $this->authenticate($user, $password, substr($line,2));
-
-			    // stop if server sent BYE response
-			    if ($result == self::ERROR_BYE) {
-				    return false;
-			    }
-		    }
-
-		    if (!is_resource($result) && $orig_method == 'CHECK') {
-			    $auth_method = 'PLAIN';
-		    }
-	    }
-
-	    if ($auth_method == 'PLAIN') {
-		    // do plain text auth
-		    $result = $this->login($user, $password);
-	    }
-
+        // Connected and authenticated
 	    if (is_resource($result)) {
             if ($this->prefs['force_caps']) {
 			    $this->clearCapability();
@@ -680,9 +732,13 @@ class rcube_imap_generic
             $this->logged = true;
 
 		    return true;
-	    } else {
-		    return false;
-	    }
+        }
+
+        // Close connection
+        @fclose($this->fp);
+        $this->fp = false;
+
+	    return false;
     }
 
     function connected()
