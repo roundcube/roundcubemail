@@ -87,6 +87,12 @@ $rcmail_config['imap_force_caps'] = false;
 // IMAP connection timeout, in seconds. Default: 0 (no limit)
 $rcmail_config['imap_timeout'] = 0;
 
+// Optional IMAP authentication identifier to be used as authorization proxy
+$rcmail_config['imap_auth_cid'] = null;
+
+// Optional IMAP authentication password to be used for imap_auth_cid
+$rcmail_config['imap_auth_pw'] = null;
+
 // ----------------------------------
 // SMTP
 // ----------------------------------
@@ -120,7 +126,7 @@ $rcmail_config['smtp_auth_type'] = '';
 // Optional SMTP authentication identifier to be used as authorization proxy
 $rcmail_config['smtp_auth_cid'] = null;
 
-// Optional SMTP authorization password to be used for smtp_auth_cid
+// Optional SMTP authentication password to be used for smtp_auth_cid
 $rcmail_config['smtp_auth_pw'] = null;
 
 // SMTP HELO host 

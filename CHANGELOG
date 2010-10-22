@@ -44,7 +44,8 @@ CHANGELOG Roundcube Webmail
 - Add SASL-IR support in IMAP (RFC 4959)
 - Add LOGINDISABLED support (RFC 2595)
 - Add support for AUTH=PLAIN in IMAP authentication
-- Re-implemented SMTP proxy authorization support
+- Re-implemented SMTP proxy authentication support
+- Add support for IMAP proxy authentication (#1486690)
 
 RELEASE 0.4.2
 -------------

@@ -420,7 +420,16 @@ class rcube_imap_generic
             }
         }
         else { // PLAIN
-            $reply = base64_encode($user . chr(0) . $user . chr(0) . $pass);
+            // proxy authentication
+            if (!empty($this->prefs['auth_cid'])) {
+                $authc = $this->prefs['auth_cid'];
+                $pass  = $this->prefs['auth_pw'];
+            }
+            else {
+                $authc = $user;
+            }
+
+            $reply = base64_encode($user . chr(0) . $authc . chr(0) . $pass);
 
             // RFC 4959 (SASL-IR): save one round trip
             if ($this->getCapability('SASL-IR')) {

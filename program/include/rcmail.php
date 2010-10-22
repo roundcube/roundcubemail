@@ -501,6 +501,8 @@ class rcmail
     // can save time detecting them using NAMESPACE and LIST
     $options = array(
       'auth_method' => $this->config->get('imap_auth_type', 'check'),
+      'auth_cid'    => $this->config->get('imap_auth_cid'),
+      'auth_pw'     => $this->config->get('imap_auth_pw'),
       'delimiter'   => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
       'rootdir'     => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
       'debug_mode'  => (bool) $this->config->get('imap_debug', 0),
