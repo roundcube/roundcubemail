@@ -149,18 +149,6 @@ input.disabled
   bottom: 0;
 }
 
-fieldset
-{
-  margin-bottom: 0.5em;
-  border: 1px solid #999999;
-  padding: 4px 8px 9px 8px; 
-}
-
-legend
-{
-  color: #999999;
-}
-
 #identities-list,
 #sectionslist
 {

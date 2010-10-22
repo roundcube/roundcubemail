@@ -843,6 +843,18 @@ span.tablink-selected a
   background-position: right -23px;
 }
 
+fieldset
+{
+  margin-bottom: 1em;
+  border: 1px solid #999999;
+  padding: 4px 8px 9px 8px; 
+}
+
+legend
+{
+  color: #999999;
+}
+
 fieldset.tabbed
 {
   margin-top: 22px;

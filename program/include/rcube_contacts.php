@@ -355,6 +355,33 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
+     * Get group assignments of a specific contacr record
+     *
+     * @param mixed Record identifier
+     * @param array List of assigned groups as ID=>Name pairs
+     */
+    function get_record_groups($id)
+    {
+      $results = array();
+
+      if (!$this->groups)
+          return $results;
+
+      $sql_result = $this->db->query(
+        "SELECT cgm.contactgroup_id, cg.name FROM " . get_table_name($this->db_groupmembers) . " AS cgm" .
+        " LEFT JOIN " . get_table_name($this->db_groups) . " AS cg ON (cgm.contactgroup_id = cg.contactgroup_id AND cg.del<>1)" .
+        " WHERE cgm.contact_id=?",
+        $id
+      );
+      while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
+        $results[$sql_arr['contactgroup_id']] = $sql_arr['name'];
+      }
+
+      return $results;
+    }
+
+
+    /**
      * Create a new contact record
      *
      * @param array Assoziative array with save data

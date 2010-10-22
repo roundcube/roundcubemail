@@ -9,9 +9,20 @@
 <div id="contact-title" class="boxtitle"><roundcube:object name="contactdetails" part="name" /></div>
 
 <div id="contact-details" class="boxcontent">
-<roundcube:object name="contactdetails" />
+<fieldset>
+  <legend><roundcube:label name="contactproperties" /></legend>
+  <roundcube:object name="contactdetails" />
 
-<p><br /><roundcube:button command="edit" type="input" class="button" label="editcontact" condition="!ENV:readonly" /></p>
+  <p><br /><roundcube:button command="edit" type="input" class="button" label="editcontact" condition="!ENV:readonly" /></p>
+</fieldset>
+
+<roundcube:if condition="ENV:groups" />
+<fieldset>
+  <legend><roundcube:label name="groups" /></legend>
+  <roundcube:object name="contactgroups" />
+</fieldset>
+<roundcube:endif />
+
 </div>
 
 </body>

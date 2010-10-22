@@ -201,6 +201,7 @@ $labels['firstname'] = 'Vorname';
 $labels['surname'] = 'Nachname';
 $labels['email'] = 'E-Mail';
 $labels['contacts'] = 'Kontakte';
+$labels['contactproperties'] = 'Kontaktdaten';
 $labels['addcontact'] = 'Kontakt hinzufügen';
 $labels['editcontact'] = 'Kontakt bearbeiten';
 $labels['edit'] = 'Bearbeiten';

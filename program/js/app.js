@@ -306,8 +306,18 @@ function rcube_webmail()
           this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
         }
 
-        if (this.env.cid)
+        if (this.env.cid) {
           this.enable_command('show', 'edit', true);
+          // register handlers for group assignment via checkboxes
+          if (this.gui_objects.editform) {
+            $('input.groupmember').change(function(){
+              var cmd = this.checked ? 'group-addmembers' : 'group-delmembers';
+              ref.http_post(cmd, '_cid='+urlencode(ref.env.cid)
+                + '&_source='+urlencode(ref.env.source)
+                + '&_gid='+urlencode(this.value));
+            });
+          }
+        }
 
         if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform) {
           this.enable_command('save', true);
@@ -3713,7 +3723,7 @@ function rcube_webmail()
   {
     // exit if no mailbox specified or if selection is empty
     var selection = this.contact_list.get_selection();
-    if (!(selection.length || this.env.cid) || (!this.env.group && !confirm(this.get_label('deletecontactconfirm'))))
+    if (!(selection.length || this.env.cid) || !confirm(this.get_label('deletecontactconfirm')))
       return;
 
     var id, a_cids = [], qs = '';
@@ -3737,10 +3747,7 @@ function rcube_webmail()
       qs += '&_search='+this.env.search_request;
 
     // send request to server
-    if (this.env.group)
-      this.http_post('group-delmembers', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+qs);
-    else
-      this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_from='+(this.env.action ? this.env.action : '')+qs);
+    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_from='+(this.env.action ? this.env.action : '')+qs);
 
     return true;
   };

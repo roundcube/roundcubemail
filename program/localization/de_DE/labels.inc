@@ -204,6 +204,7 @@ $labels['email'] = 'E-Mail';
 $labels['addcontact'] = 'Kontakt hinzufügen';
 $labels['editcontact'] = 'Kontakt bearbeiten';
 $labels['contacts'] = 'Kontakte';
+$labels['contactproperties'] = 'Kontaktdaten';
 $labels['edit'] = 'Bearbeiten';
 $labels['cancel'] = 'Abbrechen';
 $labels['save'] = 'Speichern';
