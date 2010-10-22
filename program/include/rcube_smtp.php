@@ -44,11 +44,10 @@ class rcube_smtp
    * @param string Server port
    * @param string User name
    * @param string Password
-   * @param string Optional authorization ID to be used as authorization proxy
    *
    * @return bool  Returns true on success, or false on error
    */
-  public function connect($host=null, $port=null, $user=null, $pass=null, $authz=null)
+  public function connect($host=null, $port=null, $user=null, $pass=null)
   {
     $RCMAIL = rcmail::get_instance();
   
@@ -64,7 +63,8 @@ class rcube_smtp
       'smtp_port'      => $port ? $port : $RCMAIL->config->get('smtp_port', 25),
       'smtp_user'      => $user ? $user : $RCMAIL->config->get('smtp_user'),
       'smtp_pass'      => $pass ? $pass : $RCMAIL->config->get('smtp_pass'),
-      'smtp_authzid'   => $authz ? $authz : $RCMAIL->config->get('smtp_authzid'),
+      'smtp_auth_cid'  => $RCMAIL->config->get('smtp_auth_cid'),
+      'smtp_auth_pw'   => $RCMAIL->config->get('smtp_auth_pw'),
       'smtp_auth_type' => $RCMAIL->config->get('smtp_auth_type'),
       'smtp_helo_host' => $RCMAIL->config->get('smtp_helo_host'),
       'smtp_timeout'   => $RCMAIL->config->get('smtp_timeout'),
@@ -110,8 +110,8 @@ class rcube_smtp
 
     // try to connect to server and exit on failure
     $result = $this->conn->connect($smtp_timeout);
-    if (PEAR::isError($result))
-    {
+
+    if (PEAR::isError($result)) {
       $this->response[] = "Connection failed: ".$result->getMessage();
       $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => $this->conn->_code));
       $this->conn = null;
@@ -122,9 +122,10 @@ class rcube_smtp
     $smtp_pass = str_replace('%p', $RCMAIL->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
     $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
 
-    if (!empty($CONFIG['smtp_authzid'])) {
+    if (!empty($CONFIG['smtp_auth_cid'])) {
       $smtp_authz = $smtp_user;
-      $smtp_user  = $CONFIG['smtp_authzid'];
+      $smtp_user  = $CONFIG['smtp_auth_cid'];
+      $smtp_pass  = $CONFIG['smtp_auth_pw'];
     }
 
     // attempt to authenticate to the SMTP server
