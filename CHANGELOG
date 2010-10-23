@@ -47,6 +47,7 @@ CHANGELOG Roundcube Webmail
 - Re-implemented SMTP proxy authentication support
 - Add support for IMAP proxy authentication (#1486690)
 - Add support for AUTH=DIGEST-MD5 in IMAP (RFC 2831)
+- Fix parent folder with unread subfolder not bold when message is open (#1487078)
 
 RELEASE 0.4.2
 -------------
