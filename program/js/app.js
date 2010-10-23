@@ -4622,14 +4622,14 @@ function rcube_webmail()
     }
     else {
       // 'loading' message
-      var k, n;
-      for (k in this.messages) {
-        for (n in this.messages[k].elements) {
-          if (this.messages[k].elements[n] == obj) {
-            this.messages[k].elements.splice(n, 1);
-            if (!this.messages[k].elements.length) {
-              this.messages[k].obj[fade?'fadeOut':'hide']();
-              delete this.messages[k];
+      var k, n, m = this.messages;
+      for (k in m) {
+        for (n in m[k].elements) {
+          if (m[k] && m[k].elements[n] == obj) {
+            m[k].elements.splice(n, 1);
+            if (!m[k].elements.length) {
+              m[k].obj[fade?'fadeOut':'hide']();
+              delete m[k];
             }
           }
         }
