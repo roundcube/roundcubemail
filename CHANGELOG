@@ -46,6 +46,7 @@ CHANGELOG Roundcube Webmail
 - Add support for AUTH=PLAIN in IMAP authentication
 - Re-implemented SMTP proxy authentication support
 - Add support for IMAP proxy authentication (#1486690)
+- Add support for AUTH=DIGEST-MD5 in IMAP (RFC 2831)
 
 RELEASE 0.4.2
 -------------

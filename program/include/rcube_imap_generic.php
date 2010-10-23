@@ -371,56 +371,99 @@ class rcube_imap_generic
     }
 
     /**
-     * CRAM-MD5/PLAIN Authentication
+     * DIGEST-MD5/CRAM-MD5/PLAIN Authentication
      *
      * @param string $user
      * @param string $pass
-     * @param string $type Authentication type (PLAIN or CRAM-MD5)
+     * @param string $type Authentication type (PLAIN/CRAM-MD5/DIGEST-MD5)
      *
      * @return resource Connection resourse on success, error code on error
      */
     function authenticate($user, $pass, $type='PLAIN')
     {
-        if ($type == 'CRAM-MD5') {
-            $ipad = '';
-            $opad = '';
-
-            // initialize ipad, opad
-            for ($i=0; $i<64; $i++) {
-                $ipad .= chr(0x36);
-                $opad .= chr(0x5C);
+        if ($type == 'CRAM-MD5' || $type == 'DIGEST-MD5') {
+            if ($type == 'DIGEST-MD5' && !class_exists('Auth_SASL')) {
+                $this->set_error(self::ERROR_BYE,
+                    "The Auth_SASL package is required for DIGEST-MD5 authentication");
+			    return self::ERROR_BAD;
             }
 
-            // pad $pass so it's 64 bytes
-            $padLen = 64 - strlen($pass);
-            for ($i=0; $i<$padLen; $i++) {
-                $pass .= chr(0);
-            }
-
-		    $this->putLine($this->next_tag() . " AUTHENTICATE CRAM-MD5");
+		    $this->putLine($this->next_tag() . " AUTHENTICATE $type");
 		    $line = trim($this->readLine(1024));
 
 		    if ($line[0] == '+') {
-			    $challenge = substr($line,2);
+			    $challenge = substr($line, 2);
             }
             else {
-			    return self::ERROR_BYE;
+                return $this->parseResult($line);
 		    }
 
-            // generate hash
-            $hash  = md5($this->_xor($pass, $opad) . pack("H*", md5($this->_xor($pass, $ipad) . base64_decode($encChallenge))));
-            $reply = base64_encode($user . ' ' . $hash);
+            if ($type == 'CRAM-MD5') {
+                // RFC2195: CRAM-MD5
+                $ipad = '';
+                $opad = '';
 
-            // send result, get reply and process it
-            $this->putLine($reply);
+                // initialize ipad, opad
+                for ($i=0; $i<64; $i++) {
+                    $ipad .= chr(0x36);
+                    $opad .= chr(0x5C);
+                }
+
+                // pad $pass so it's 64 bytes
+                $padLen = 64 - strlen($pass);
+                for ($i=0; $i<$padLen; $i++) {
+                    $pass .= chr(0);
+                }
+
+                // generate hash
+                $hash  = md5($this->_xor($pass, $opad) . pack("H*",
+                    md5($this->_xor($pass, $ipad) . base64_decode($challenge))));
+                $reply = base64_encode($user . ' ' . $hash);
+
+                // send result
+                $this->putLine($reply);
+            }
+            else {
+                // RFC2831: DIGEST-MD5
+                // proxy authorization
+                if (!empty($this->prefs['auth_cid'])) {
+                    $authc = $this->prefs['auth_cid'];
+                    $pass  = $this->prefs['auth_pw'];
+                }
+                else {
+                    $authc = $user;
+                }
+                $auth_sasl = Auth_SASL::factory('digestmd5');
+                $reply = base64_encode($auth_sasl->getResponse($authc, $pass,
+                    base64_decode($challenge), $this->host, 'imap', $user));
+
+                // send result
+                $this->putLine($reply);
+                $line = $this->readLine(1024);
+                
+                if ($line[0] == '+') {
+			        $challenge = substr($line, 2);
+                }
+                else {
+                    return $this->parseResult($line);
+                }
+
+                // check response
+                $challenge = base64_decode($challenge);
+                if (strpos($challenge, 'rspauth=') === false) {
+                    $this->set_error(self::ERROR_BAD,
+                        "Unexpected response from server to DIGEST-MD5 response");
+                    return self::ERROR_BAD;
+                }
+
+                $this->putLine('');
+            }
+
             $line = $this->readLine(1024);
             $result = $this->parseResult($line);
-            if ($result != self::ERROR_OK) {
-                $this->set_error($result, "Unble to authenticate user (CRAM-MD5): $line");
-            }
         }
         else { // PLAIN
-            // proxy authentication
+            // proxy authorization
             if (!empty($this->prefs['auth_cid'])) {
                 $authc = $this->prefs['auth_cid'];
                 $pass  = $this->prefs['auth_pw'];
@@ -440,21 +483,21 @@ class rcube_imap_generic
 	    	    $line = trim($this->readLine(1024));
 
 		        if ($line[0] != '+') {
-    			    return self::ERROR_BYE;
+    			    return $this->parseResult($line);
 	    	    }
 
                 // send result, get reply and process it
                 $this->putLine($reply);
                 $line = $this->readLine(1024);
                 $result = $this->parseResult($line);
-                if ($result != self::ERROR_OK) {
-                    $this->set_error($result, "Unble to authenticate user (AUTH): $line");
-                }
             }
         }
 
         if ($result == self::ERROR_OK) {
             return $this->fp;
+        }
+        else {
+            $this->set_error($result, "Unable to authenticate user ($type): $line");
         }
 
         return $result;
@@ -696,8 +739,11 @@ class rcube_imap_generic
 
 	    // check for supported auth methods
 	    if ($auth_method == 'CHECK') {
+		    if ($this->getCapability('AUTH=DIGEST-MD5')) {
+			    $auth_methods[] = 'DIGEST-MD5';
+		    }
 		    if ($this->getCapability('AUTH=CRAM-MD5') || $this->getCapability('AUTH=CRAM_MD5')) {
-			    $auth_methods[] = 'AUTH';
+			    $auth_methods[] = 'CRAM-MD5';
 		    }
 		    if ($this->getCapability('AUTH=PLAIN')) {
 			    $auth_methods[] = 'PLAIN';
@@ -708,17 +754,17 @@ class rcube_imap_generic
 		    }
 	    }
         else {
-            $auth_methods[] = $auth_method;
+            // replace AUTH with CRAM-MD5 for backward compat.
+            $auth_methods[] = $auth_method == 'AUTH' ? 'CRAM-MD5' : $auth_method;
         }
 
         // Authenticate
         foreach ($auth_methods as $method) {
             switch ($method) {
-            case 'AUTH':
-			    $result = $this->authenticate($user, $password, 'CRAM-MD5');
-		        break;
+            case 'DIGEST-MD5':
+            case 'CRAM-MD5':
 	        case 'PLAIN':
-			    $result = $this->authenticate($user, $password, 'PLAIN');
+			    $result = $this->authenticate($user, $password, $method);
 		        break;
             case 'LOGIN':
        	        $result = $this->login($user, $password);

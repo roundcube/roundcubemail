@@ -70,8 +70,8 @@ $rcmail_config['default_host'] = '';
 // TCP port used for IMAP connections
 $rcmail_config['default_port'] = 143;
 
-// IMAP auth type. Can be "auth" (CRAM-MD5), "plain" (PLAIN), "login" (LOGIN)
-// or "check" (or empty) to auto detect. Optional, defaults to "check"
+// IMAP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
+// best server supported one)
 $rcmail_config['imap_auth_type'] = null;
 
 // If you know your imap's root directory and its folder delimiter,
