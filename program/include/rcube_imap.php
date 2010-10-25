@@ -3121,6 +3121,31 @@ class rcube_imap
 
 
     /**
+     * Gets folder options from LIST/LSUB response, e.g. \Noselect, \Noinferiors
+     *
+     * @param string $mbox_name Folder name
+     *
+     * @return array Options list
+     */
+    function mailbox_options($mbox_name)
+    {
+        $mbox = $this->mod_mailbox($mbox_name);
+
+        if ($mbox == 'INBOX') {
+            return array();
+        }
+
+        if (!is_array($this->conn->data['LIST']) || !is_array($this->conn->data['LIST'][$mbox])) {
+            $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
+        }
+
+        $opts = $this->conn->data['LIST'][$mbox];
+
+        return is_array($opts) ? $opts : array();
+    }
+
+
+    /**
      * Get message header names for rcube_imap_generic::fetchHeader(s)
      *
      * @return string Space-separated list of header names

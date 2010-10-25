@@ -221,7 +221,7 @@ function rcube_subscription_form($attrib)
   $a_subscribed = $IMAP->list_mailboxes();
   $a_threaded = $a_threaded_copy = $RCMAIL->config->get('message_threading', array()); 
   $delimiter = $IMAP->get_hierarchy_delimiter();
-  $a_js_folders = $seen_folders = $list_folders = array();
+  $a_js_folders = $seen = $list_folders = array();
 
   // pre-process folders list
   foreach ($a_unsubscribed as $i => $folder) {
@@ -233,11 +233,11 @@ function rcube_subscription_form($attrib)
     // add any necessary "virtual" parent folders
     if ($parent_folder && !$seen[$parent_folder]) {
       for ($i=1; $i<=$level; $i++) {
-	$ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
-	if ($ancestor_folder && !$seen[$ancestor_folder]++) {
-	  $ancestor_name = rcube_charset_convert($foldersplit[$i-1], 'UTF7-IMAP');
-	  $list_folders[] = array('id' => $ancestor_folder, 'name' => $ancestor_name, 'level' => $i-1, 'virtual' => true);
-	}
+	    $ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
+	    if ($ancestor_folder && !$seen[$ancestor_folder]++) {
+	      $ancestor_name = rcube_charset_convert($foldersplit[$i-1], 'UTF7-IMAP');
+	      $list_folders[] = array('id' => $ancestor_folder, 'name' => $ancestor_name, 'level' => $i-1, 'virtual' => true);
+	    }
       }
     }
     
@@ -246,6 +246,8 @@ function rcube_subscription_form($attrib)
     $list_folders[] = array('id' => $folder, 'name' => $name, 'level' => $level);
     $seen[$folder]++;
   }
+
+  unset($seen);
 
   // remove 'message_threading' option for not existing folders
   if ($a_threaded_copy) {
@@ -285,15 +287,21 @@ function rcube_subscription_form($attrib)
     $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level']) . ($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
     $folder_utf8 = rcube_charset_convert($folder['id'], 'UTF7-IMAP');
     
-    if ($folder['virtual'])
+    if ($folder['virtual']) {
       $classes[] = 'virtual';
-    
+    }
+
+    if (!$protected) {
+      $opts = $IMAP->mailbox_options($folder['id']);
+      $noselect = in_array('\\Noselect', $opts);
+    }
+
     $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
     
     $table->add('name', Q($display_folder));
     $table->add('msgcount', ($folder['virtual'] ? '' : $IMAP->messagecount($folder['id'], 'ALL', false, false)));
     $table->add('subscribed', $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
-      array('value' => $folder_utf8, 'disabled' => $protected ? 'disabled' : '')));
+      array('value' => $folder_utf8, 'disabled' => ($protected || $noselect) ? 'disabled' : '')));
     if ($threading_supported) {
       $table->add('threaded', $folder['virtual'] ? '' :
             $checkbox_threaded->show(($threaded ? $folder_utf8 : ''), array('value' => $folder_utf8)));

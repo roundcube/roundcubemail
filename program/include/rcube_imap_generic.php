@@ -857,6 +857,12 @@ class rcube_imap_generic
 		    return true;
 	    }
 
+        if (is_array($this->data['LIST']) && is_array($opts = $this->data['LIST'][$mailbox])) {
+            if (in_array('\\Noselect', $opts)) {
+                return false;
+            }
+        }
+
         list($code, $response) = $this->execute('SELECT', array($this->escape($mailbox)));
 
         if ($code == self::ERROR_OK) {
@@ -1861,11 +1867,11 @@ class rcube_imap_generic
 		if (empty($mailbox)) {
 	        $mailbox = '*';
 	    }
-/*
+
 	    if (empty($ref) && $this->prefs['rootdir']) {
 	        $ref = $this->prefs['rootdir'];
 	    }
-*/
+
         $args = array($this->escape($ref), $this->escape($mailbox));
 
         if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
@@ -1884,11 +1890,16 @@ class rcube_imap_generic
                 // * LIST (<options>) <delimiter> <mailbox>
                 if (!$lstatus || $cmd == 'LIST' || $cmd == 'LSUB') {
                     list($opts, $delim, $folder) = $this->tokenizeResponse($response, 3);
+
                     if (!$lstatus) {
            			    $folders[] = $folder;
                     }
                     else {
                         $folders[$folder] = array();
+                    }
+
+                    if ($cmd == 'LIST') {
+                        $this->data['LIST'][$folder] = $opts;
                     }
                 }
                 // * STATUS <mailbox> (<result>)

@@ -1332,6 +1332,8 @@ function rcmail_mailbox_select($p = array())
  */
 function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 {
+  global $RCMAIL;
+
   $pos = strpos($folder, $delm);
 
   if ($pos !== false) {
@@ -1353,6 +1355,12 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   }
 
   $path .= $currentFolder;
+
+  // Check \Noselect option
+  if (!$virtual) {
+    $opts = $RCMAIL->imap->mailbox_options($path);
+    $virtual = in_array('\\Noselect', $opts);
+  }
 
   if (!isset($arrFolders[$currentFolder])) {
     $arrFolders[$currentFolder] = array(
