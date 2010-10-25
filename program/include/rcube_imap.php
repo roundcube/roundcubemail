@@ -163,8 +163,9 @@ class rcube_imap
             }
 
             // get server properties
-            if (!empty($this->conn->rootdir))
-                $this->set_rootdir($this->conn->rootdir);
+            $rootdir = $this->conn->getRootDir();
+            if (!empty($rootdir))
+                $this->set_rootdir($rootdir);
             if (empty($this->delimiter))
 	            $this->get_hierarchy_delimiter();
 

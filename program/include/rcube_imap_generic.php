@@ -86,8 +86,6 @@ class rcube_imap_generic
     public $error;
     public $errornum;
 	public $message;
-	public $rootdir;
-	public $delimiter;
     public $data = array();
     public $flags = array(
         'SEEN'     => '\\Seen',
@@ -128,6 +126,14 @@ class rcube_imap_generic
     {
     }
 
+    /**
+     * Send simple (one line) command to the connection stream
+     *
+     * @param string $string Command string
+     * @param bool   $endln  True if CRLF need to be added at the end of command
+     *
+     * @param int Number of bytes sent, False on error
+     */
     function putLine($string, $endln=true)
     {
         if (!$this->fp)
@@ -147,7 +153,15 @@ class rcube_imap_generic
         return $res;
     }
 
-    // $this->putLine replacement with Command Continuation Requests (RFC3501 7.5) support
+    /**
+     * Send command to the connection stream with Command Continuation
+     * Requests (RFC3501 7.5) and LITERAL+ (RFC2088) support
+     *
+     * @param string $string Command string
+     * @param bool   $endln  True if CRLF need to be added at the end of command
+     *
+     * @param int Number of bytes sent, False on error
+     */
     function putLineC($string, $endln=true)
     {
         if (!$this->fp)
@@ -534,11 +548,15 @@ class rcube_imap_generic
         return $code;
     }
 
+    /**
+     * Gets the root directory and delimiter (of personal namespace)
+     *
+     * @return mixed A root directory name, or false.
+     */
     function getRootDir()
     {
 	    if (isset($this->prefs['rootdir']) && is_string($this->prefs['rootdir'])) {
-    		$this->rootdir = $this->prefs['rootdir'];
-		    return true;
+    		return $this->prefs['rootdir'];
 	    }
 
 	    if (!is_array($data = $this->getNamespace())) {
@@ -551,16 +569,15 @@ class rcube_imap_generic
 	    }
 
 	    $first_userspace = $user_space_data[0];
-	    if (count($first_userspace) !=2 ) {
+	    if (count($first_userspace) !=2) {
 	        return false;
 	    }
 
-	    $this->rootdir            = $first_userspace[0];
-	    $this->delimiter          = $first_userspace[1];
-	    $this->prefs['rootdir']   = substr($this->rootdir, 0, -1);
-	    $this->prefs['delimiter'] = $this->delimiter;
+        $rootdir                  = $first_userspace[0];
+	    $this->prefs['delimiter'] = $first_userspace[1];
+	    $this->prefs['rootdir']   = $rootdir ? substr($rootdir, 0, -1) : '';
 
-	    return true;
+	    return $this->prefs['rootdir'];
     }
 
     /**
@@ -574,11 +591,11 @@ class rcube_imap_generic
      */
     function getHierarchyDelimiter()
     {
-	    if ($this->delimiter) {
-    		return $this->delimiter;
+	    if ($this->prefs['delimiter']) {
+    		return $this->prefs['delimiter'];
 	    }
 	    if (!empty($this->prefs['delimiter'])) {
-    	    return ($this->delimiter = $this->prefs['delimiter']);
+    	    return $this->prefs['delimiter'];
 	    }
 
 	    // try (LIST "" ""), should return delimiter (RFC2060 Sec 6.3.8)
@@ -590,8 +607,7 @@ class rcube_imap_generic
             $delimiter = $args[3];
 
 	        if (strlen($delimiter) > 0) {
-	            $this->delimiter = $delimiter;
-	            return $delimiter;
+	            return ($this->prefs['delimiter'] = $delimiter);
 	        }
         }
 
@@ -614,7 +630,7 @@ class rcube_imap_generic
 	    }
 
 	    // extract delimiter
-	    return $this->delimiter = $first_userspace[1];
+	    return $this->prefs['delimiter'] = $first_userspace[1];
     }
 
     /**
@@ -1845,11 +1861,11 @@ class rcube_imap_generic
 		if (empty($mailbox)) {
 	        $mailbox = '*';
 	    }
-
-	    if (empty($ref) && $this->rootdir) {
-	        $ref = $this->rootdir;
+/*
+	    if (empty($ref) && $this->prefs['rootdir']) {
+	        $ref = $this->prefs['rootdir'];
 	    }
-
+*/
         $args = array($this->escape($ref), $this->escape($mailbox));
 
         if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
