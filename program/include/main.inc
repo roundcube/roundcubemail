@@ -1270,7 +1270,7 @@ function rcmail_mailbox_list($attrib)
     foreach ($a_folders as $folder)
       rcmail_build_folder_tree($a_mailboxes, $folder, $delimiter);
   }
-  
+
   // allow plugins to alter the folder tree or to localize folder names
   $hook = $RCMAIL->plugins->exec_hook('render_mailboxlist', array('list' => $a_mailboxes, 'delimiter' => $delimiter));
 
@@ -1333,10 +1333,18 @@ function rcmail_mailbox_select($p = array())
 function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 {
   $pos = strpos($folder, $delm);
+
   if ($pos !== false) {
     $subFolders = substr($folder, $pos+1);
     $currentFolder = substr($folder, 0, $pos);
-    $virtual = !isset($arrFolders[$currentFolder]);
+
+    // sometimes folder has a delimiter as the last character
+    if (empty($subFolders))
+      $virtual = false;
+    else if (!isset($arrFolders[$currentFolder]))
+      $virtual = true;
+    else
+      $virtual = $arrFolders[$currentFolder]['virtual'];
   }
   else {
     $subFolders = false;
