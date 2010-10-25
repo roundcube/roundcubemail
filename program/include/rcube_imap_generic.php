@@ -534,24 +534,24 @@ class rcube_imap_generic
         return $code;
     }
 
-    function getNamespace()
+    function getRootDir()
     {
 	    if (isset($this->prefs['rootdir']) && is_string($this->prefs['rootdir'])) {
     		$this->rootdir = $this->prefs['rootdir'];
 		    return true;
 	    }
 
-	    if (!is_array($data = $this->_namespace())) {
+	    if (!is_array($data = $this->getNamespace())) {
 	        return false;
 	    }
 
-	    $user_space_data = $data[0];
+	    $user_space_data = $data['personal'];
 	    if (!is_array($user_space_data)) {
 	        return false;
 	    }
 
 	    $first_userspace = $user_space_data[0];
-	    if (count($first_userspace)!=2) {
+	    if (count($first_userspace) !=2 ) {
 	        return false;
 	    }
 
@@ -562,7 +562,6 @@ class rcube_imap_generic
 
 	    return true;
     }
-
 
     /**
      * Gets the delimiter, for example:
@@ -598,12 +597,12 @@ class rcube_imap_generic
 
 	    // if that fails, try namespace extension
 	    // try to fetch namespace data
-	    if (!is_array($data = $this->_namespace())) {
+	    if (!is_array($data = $this->getNamespace())) {
             return false;
         }
 
 	    // extract user space data (opposed to global/shared space)
-	    $user_space_data = $data[0];
+	    $user_space_data = $data['personal'];
 	    if (!is_array($user_space_data)) {
 	        return false;
 	    }
@@ -618,23 +617,38 @@ class rcube_imap_generic
 	    return $this->delimiter = $first_userspace[1];
     }
 
-    function _namespace()
+    /**
+     * NAMESPACE handler (RFC 2342)
+     *
+     * @return array Namespace data hash (personal, other, shared)
+     */
+    function getNamespace()
     {
+        if (array_key_exists('namespace', $this->prefs)) {
+            return $this->prefs['namespace'];
+        }
+    
         if (!$this->getCapability('NAMESPACE')) {
-	        return false;
+	        return self::ERROR_BAD;
 	    }
 
 	    list($code, $response) = $this->execute('NAMESPACE');
 
 		if ($code == self::ERROR_OK && preg_match('/^\* NAMESPACE /', $response)) {
-	        $data = $this->parseNamespace(substr($response, 11), $i, 0, 0);
+	        $data = $this->tokenizeResponse(substr($response, 11));
 		}
 
 	    if (!is_array($data)) {
-	        return false;
+	        return $code;
 	    }
 
-        return $data;
+        $this->prefs['namespace'] = array(
+            'personal' => $data[0],
+            'other'    => $data[1],
+            'shared'   => $data[2],
+        );
+
+        return $this->prefs['namespace'];
     }
 
     function connect($host, $user, $password, $options=null)
@@ -789,7 +803,7 @@ class rcube_imap_generic
             if ($this->prefs['force_caps']) {
 			    $this->clearCapability();
             }
-		    $this->getNamespace();
+		    $this->getRootDir();
             $this->logged = true;
 
 		    return true;
@@ -2951,44 +2965,6 @@ class rcube_imap_generic
 		    return $res;
 	    }
     	return $string;
-    }
-
-    private function parseNamespace($str, &$i, $len=0, $l)
-    {
-	    if (!$l) {
-	        $str = str_replace('NIL', '()', $str);
-	    }
-	    if (!$len) {
-	        $len = strlen($str);
-	    }
-	    $data      = array();
-	    $in_quotes = false;
-	    $elem      = 0;
-
-        for ($i; $i<$len; $i++) {
-		    $c = (string)$str[$i];
-		    if ($c == '(' && !$in_quotes) {
-			    $i++;
-			    $data[$elem] = $this->parseNamespace($str, $i, $len, $l++);
-			    $elem++;
-		    } else if ($c == ')' && !$in_quotes) {
-			    return $data;
-    		} else if ($c == '\\') {
-			    $i++;
-			    if ($in_quotes) {
-				    $data[$elem] .= $str[$i];
-        		}
-		    } else if ($c == '"') {
-			    $in_quotes = !$in_quotes;
-			    if (!$in_quotes) {
-				    $elem++;
-        		}
-		    } else if ($in_quotes) {
-			    $data[$elem].=$c;
-		    }
-	    }
-
-        return $data;
     }
 
     private function parseCapability($str)
