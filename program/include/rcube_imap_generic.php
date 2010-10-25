@@ -119,6 +119,7 @@ class rcube_imap_generic
     const ERROR_UNKNOWN = -4;
 
     const COMMAND_NORESPONSE = 1;
+    const COMMAND_CAPABILITY = 2;
 
     /**
      * Object constructor
@@ -476,7 +477,8 @@ class rcube_imap_generic
 
             // RFC 4959 (SASL-IR): save one round trip
             if ($this->getCapability('SASL-IR')) {
-                $result = $this->execute("AUTHENTICATE PLAIN", array($reply), self::COMMAND_NORESPONSE);
+                $result = $this->execute("AUTHENTICATE PLAIN", array($reply),
+                    self::COMMAND_NORESPONSE | self::COMMAND_CAPABILITY);
             }
             else {
     		    $this->putLine($this->next_tag() . " AUTHENTICATE PLAIN");
@@ -494,6 +496,10 @@ class rcube_imap_generic
         }
 
         if ($result == self::ERROR_OK) {
+    	    // optional CAPABILITY response
+	        if ($line && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
+		        $this->parseCapability($matches[1]);
+	        }
             return $this->fp;
         }
         else {
@@ -514,7 +520,7 @@ class rcube_imap_generic
     function login($user, $password)
     {
         list($code, $response) = $this->execute('LOGIN', array(
-            $this->escape($user), $this->escape($password)));
+            $this->escape($user), $this->escape($password)), self::COMMAND_CAPABILITY);
 
         // re-set capabilities list if untagged CAPABILITY response provided
 	    if (preg_match('/\* CAPABILITY (.+)/i', $response, $matches)) {
@@ -2801,6 +2807,13 @@ class rcube_imap_generic
     	    $line_len = min(strlen($response), strlen($line) + 2);
             $response = substr($response, 0, -$line_len);
         }
+
+   	    // optional CAPABILITY response
+	    if (($options & self::COMMAND_CAPABILITY) && $code == self::ERROR_OK
+            && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)
+        ) {
+		    $this->parseCapability($matches[1]);
+	    }
 
 	    return $noresp ? $code : array($code, $response);
     }
