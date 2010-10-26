@@ -2816,8 +2816,27 @@ class rcube_imap
             $a_folders = $data['folders'];
         }
         else {
-            // retrieve list of folders from IMAP server
-            $a_folders = $this->conn->listSubscribed($this->mod_mailbox($root), $filter);
+            // Server supports LIST-EXTENDED, we can use selection options
+            if ($this->get_capability('LIST-EXTENDED')) {
+                // This will also set mailbox options, LSUB doesn't do that
+                $a_folders = $this->conn->listMailboxes($this->mod_mailbox($root), $filter,
+                    NULL, array('SUBSCRIBED'));
+
+                // remove non-existent folders
+                if (is_array($a_folders)) {
+                    foreach ($a_folders as $idx => $folder) {
+                        if ($this->conn->data['LIST'] && ($opts = $this->conn->data['LIST'][$folder])
+                            && in_array('\\NonExistent', $opts)
+                        ) {
+                            unset($a_folders[$idx]);
+                        } 
+                    }
+                }
+            }
+            // retrieve list of folders from IMAP server using LSUB
+            else {
+                $a_folders = $this->conn->listSubscribed($this->mod_mailbox($root), $filter);
+            }
         }
 
         if (!is_array($a_folders) || !sizeof($a_folders))
@@ -3121,13 +3140,15 @@ class rcube_imap
 
 
     /**
-     * Gets folder options from LIST/LSUB response, e.g. \Noselect, \Noinferiors
+     * Gets folder options from LIST response, e.g. \Noselect, \Noinferiors
      *
      * @param string $mbox_name Folder name
+     * @param bool   $force     Set to True if options should be refreshed
+     *                          Options are available after LIST command only
      *
      * @return array Options list
      */
-    function mailbox_options($mbox_name)
+    function mailbox_options($mbox_name, $force=false)
     {
         $mbox = $this->mod_mailbox($mbox_name);
 
@@ -3136,7 +3157,12 @@ class rcube_imap
         }
 
         if (!is_array($this->conn->data['LIST']) || !is_array($this->conn->data['LIST'][$mbox])) {
-            $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
+            if ($force) {
+                $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
+            }
+            else {
+                return array();
+            }
         }
 
         $opts = $this->conn->data['LIST'][$mbox];

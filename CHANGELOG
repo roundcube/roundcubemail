@@ -49,6 +49,8 @@ CHANGELOG Roundcube Webmail
 - Add support for AUTH=DIGEST-MD5 in IMAP (RFC 2831)
 - Fix parent folder with unread subfolder not bold when message is open (#1487078)
 - Add basic IMAP LIST's \Noselect option support
+- Add support for selection options from LIST-EXTENDED extension (RFC 5258)
+- Don't list subscribed but non-existent folders (#1486225)
 
 RELEASE 0.4.2
 -------------

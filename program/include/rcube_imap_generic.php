@@ -1826,14 +1826,15 @@ class rcube_imap_generic
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
      * @param array  $status_opts (see self::_listMailboxes)
+     * @param array  $select_opts (see self::_listMailboxes)
      *
      * @return array List of mailboxes or hash of options if $status_opts argument
      *               is non-empty.
      * @access public
      */
-    function listMailboxes($ref, $mailbox, $status_opts=array())
+    function listMailboxes($ref, $mailbox, $status_opts=array(), $select_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, false, $status_opts);
+        return $this->_listMailboxes($ref, $mailbox, false, $status_opts, $select_opts);
     }
 
     /**
@@ -1843,13 +1844,13 @@ class rcube_imap_generic
      * @param string $mailbox     Mailbox name
      * @param array  $status_opts (see self::_listMailboxes)
      *
-     * @return array List of mailboxes or hash of options if $status_ops argument
+     * @return array List of mailboxes or hash of options if $status_opts argument
      *               is non-empty.
      * @access public
      */
     function listSubscribed($ref, $mailbox, $status_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, true, $status_opts);
+        return $this->_listMailboxes($ref, $mailbox, true, $status_opts, NULL);
     }
 
     /**
@@ -1860,12 +1861,15 @@ class rcube_imap_generic
      * @param bool   $subscribed  Enables returning subscribed mailboxes only
      * @param array  $status_opts List of STATUS options (RFC5819: LIST-STATUS)
      *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN
+     * @param array  $select_opts List of selection options (RFC5258: LIST-EXTENDED)
+     *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE
      *
      * @return array List of mailboxes or hash of options if $status_ops argument
      *               is non-empty.
      * @access private
      */
-    private function _listMailboxes($ref, $mailbox, $subscribed=false, $status_opts=array())
+    private function _listMailboxes($ref, $mailbox, $subscribed=false,
+        $status_opts=array(), $select_opts=array())
     {
 		if (empty($mailbox)) {
 	        $mailbox = '*';
@@ -1875,10 +1879,19 @@ class rcube_imap_generic
 	        $ref = $this->prefs['rootdir'];
 	    }
 
-        $args = array($this->escape($ref), $this->escape($mailbox));
+        $args = array();
+
+        if (!empty($select_opts) && $this->getCapability('LIST-EXTENDED')) {
+            $select_opts = (array) $select_opts;
+
+            $args[] = '(' . implode(' ', $select_opts) . ')';
+        }
+
+        $args[] = $this->escape($ref);
+        $args[] = $this->escape($mailbox);
 
         if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
-            $status_opts = array($status_opts);
+            $status_opts = (array) $status_opts;
             $lstatus = true;
 
             $args[] = 'RETURN (STATUS (' . implode(' ', $status_opts) . '))';
@@ -1894,6 +1907,7 @@ class rcube_imap_generic
                 if (!$lstatus || $cmd == 'LIST' || $cmd == 'LSUB') {
                     list($opts, $delim, $folder) = $this->tokenizeResponse($response, 3);
 
+                    // Add to result array
                     if (!$lstatus) {
            			    $folders[] = $folder;
                     }
@@ -1901,8 +1915,13 @@ class rcube_imap_generic
                         $folders[$folder] = array();
                     }
 
-                    if ($cmd == 'LIST') {
-                        $this->data['LIST'][$folder] = $opts;
+                    // Add to options array
+                    if (!empty($opts)) {
+                        if (empty($this->data['LIST'][$folder]))
+                            $this->data['LIST'][$folder] = $opts;
+                        else
+                            $this->data['LIST'][$folder] = array_unique(array_merge(
+                                $this->data['LIST'][$folder], $opts));
                     }
                 }
                 // * STATUS <mailbox> (<result>)

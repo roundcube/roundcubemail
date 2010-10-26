@@ -1356,9 +1356,8 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 
   $path .= $currentFolder;
 
-  // Check \Noselect option
-  if (!$virtual) {
-    $opts = $RCMAIL->imap->mailbox_options($path);
+  // Check \Noselect option (if options are in cache)
+  if (!$virtual && ($opts = $RCMAIL->imap->mailbox_options($path))) {
     $virtual = in_array('\\Noselect', $opts);
   }
 
