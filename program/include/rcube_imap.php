@@ -1259,7 +1259,7 @@ class rcube_imap
         $key = "{$mailbox}:{$this->sort_field}:{$this->sort_order}:{$this->search_string}.msgi";
 
         // we have a saved search result, get index from there
-        if (!isset($this->cache[$key]) && $this->search_string
+        if (!isset($this->icache[$key]) && $this->search_string
             && !$this->search_threads && $mailbox == $this->mailbox) {
             // use message index sort as default sorting
             if (!$this->sort_field) {
@@ -1269,9 +1269,9 @@ class rcube_imap
                     sort($msgs);
 
                 if ($this->sort_order == 'DESC')
-                    $this->cache[$key] = array_reverse($msgs);
+                    $this->icache[$key] = array_reverse($msgs);
                 else
-                    $this->cache[$key] = $msgs;
+                    $this->icache[$key] = $msgs;
             }
             // sort with SORT command
             else if ($this->search_sorted) {
@@ -1279,9 +1279,9 @@ class rcube_imap
                     $this->search('', $this->search_string, $this->search_charset, $this->sort_field);
 
                 if ($this->sort_order == 'DESC')
-                    $this->cache[$key] = array_reverse($this->search_set);
+                    $this->icache[$key] = array_reverse($this->search_set);
                 else
-                    $this->cache[$key] = $this->search_set;
+                    $this->icache[$key] = $this->search_set;
             }
             else {
                 $a_index = $this->conn->fetchHeaderIndex($mailbox,
@@ -1293,17 +1293,17 @@ class rcube_imap
                     else if ($this->sort_order=="DESC")
                         arsort($a_index);
 
-                    $this->cache[$key] = array_keys($a_index);
+                    $this->icache[$key] = array_keys($a_index);
                 }
                 else {
-                    $this->cache[$key] = array();
+                    $this->icache[$key] = array();
                 }
             }
         }
 
         // have stored it in RAM
-        if (isset($this->cache[$key]))
-            return $this->cache[$key];
+        if (isset($this->icache[$key]))
+            return $this->icache[$key];
 
         // check local cache
         $cache_key = $mailbox.'.msg';
@@ -1327,7 +1327,7 @@ class rcube_imap
             if ($a_index !== false && $this->sort_order == 'DESC')
                 $a_index = array_reverse($a_index);
 
-            $this->cache[$key] = $a_index;
+            $this->icache[$key] = $a_index;
         }
         // fetch complete message index
         else if ($this->get_capability('SORT') &&
@@ -1337,7 +1337,7 @@ class rcube_imap
             if ($this->sort_order == 'DESC')
                 $a_index = array_reverse($a_index);
 
-            $this->cache[$key] = $a_index;
+            $this->icache[$key] = $a_index;
         }
         else if ($a_index = $this->conn->fetchHeaderIndex(
             $mailbox, "1:*", $this->sort_field, $this->skip_deleted)) {
@@ -1346,10 +1346,10 @@ class rcube_imap
             else if ($this->sort_order=="DESC")
                 arsort($a_index);
 
-            $this->cache[$key] = array_keys($a_index);
+            $this->icache[$key] = array_keys($a_index);
         }
 
-        return $this->cache[$key] !== false ? $this->cache[$key] : array();
+        return $this->icache[$key] !== false ? $this->icache[$key] : array();
     }
 
 
@@ -1369,16 +1369,16 @@ class rcube_imap
         $key = "{$mailbox}:{$this->sort_field}:{$this->sort_order}:{$this->search_string}.thi";
 
         // we have a saved search result, get index from there
-        if (!isset($this->cache[$key]) && $this->search_string
+        if (!isset($this->icache[$key]) && $this->search_string
             && $this->search_threads && $mailbox == $this->mailbox) {
             // use message IDs for better performance
             $ids = array_keys_recursive($this->search_set['tree']);
-            $this->cache[$key] = $this->_flatten_threads($mailbox, $this->search_set['tree'], $ids);
+            $this->icache[$key] = $this->_flatten_threads($mailbox, $this->search_set['tree'], $ids);
         }
 
         // have stored it in RAM
-        if (isset($this->cache[$key]))
-            return $this->cache[$key];
+        if (isset($this->icache[$key]))
+            return $this->icache[$key];
 /*
         // check local cache
         $cache_key = $mailbox.'.msg';
@@ -1393,9 +1393,9 @@ class rcube_imap
         // get all threads (default sort order)
         list ($thread_tree) = $this->_fetch_threads($mailbox);
 
-        $this->cache[$key] = $this->_flatten_threads($mailbox, $thread_tree);
+        $this->icache[$key] = $this->_flatten_threads($mailbox, $thread_tree);
 
-        return $this->cache[$key];
+        return $this->icache[$key];
     }
 
 
