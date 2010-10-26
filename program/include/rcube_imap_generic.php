@@ -747,6 +747,7 @@ class rcube_imap_generic
 	    // RFC3501 [7.1] optional CAPABILITY response
 	    if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
 		    $this->parseCapability($matches[1]);
+            $this->capability_readed = true;
 	    }
 
 	    $this->message .= $line;
@@ -765,7 +766,7 @@ class rcube_imap_generic
 				    return false;
 			    }
 
-			    // Now we're authenticated, capabilities need to be reread
+			    // Now we're secure, capabilities need to be reread
 			    $this->clearCapability();
         	}
 	    }
@@ -817,7 +818,11 @@ class rcube_imap_generic
         // Connected and authenticated
 	    if (is_resource($result)) {
             if ($this->prefs['force_caps']) {
+                // forget current capabilities
 			    $this->clearCapability();
+            } else {
+                // pre-login capabilities can be not complete
+                $this->capability_readed = false;
             }
 		    $this->getRootDir();
             $this->logged = true;
