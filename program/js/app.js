@@ -3368,10 +3368,6 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
-      case 9:  // tab
-        if(mod == SHIFT_KEY)
-          break;
-
       case 13:  // enter
         if (this.ksearch_selected===null || !this.ksearch_input || !this.ksearch_value)
           break;
