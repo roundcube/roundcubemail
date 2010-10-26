@@ -237,7 +237,11 @@ class rcube_json_output
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
         $rcmail = rcmail::get_instance();
-        $response = array('action' => $rcmail->action, 'unlock' => get_input_value('_unlock', RCUBE_INPUT_GPC));
+        $response['action'] = $rcmail->action;
+
+        if ($unlock = get_input_value('_unlock', RCUBE_INPUT_GPC)) {
+            $response['unlock'] = $unlock;
+        }
 
         if (!empty($this->env))
             $response['env'] = $this->env;
