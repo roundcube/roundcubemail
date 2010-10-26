@@ -37,7 +37,7 @@ class rcube_string_replacer
   {
     // Simplified domain expression for UTF8 characters handling
     $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.[a-z]{2,5}';
-    $url = '[a-z0-9%=#+?.:&\\/_-]+';
+    $url = '[a-z0-9%=#+?.:&\\/_~-]+';
 
     $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)($utf_domain($url)?)/i";
     $this->mailto_pattern = "/("
