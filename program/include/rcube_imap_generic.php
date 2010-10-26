@@ -512,7 +512,7 @@ class rcube_imap_generic
         if ($result == self::ERROR_OK) {
     	    // optional CAPABILITY response
 	        if ($line && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-		        $this->parseCapability($matches[1]);
+		        $this->parseCapability($matches[1], true);
 	        }
             return $this->fp;
         }
@@ -538,7 +538,7 @@ class rcube_imap_generic
 
         // re-set capabilities list if untagged CAPABILITY response provided
 	    if (preg_match('/\* CAPABILITY (.+)/i', $response, $matches)) {
-		    $this->parseCapability($matches[1]);
+		    $this->parseCapability($matches[1], true);
 	    }
 
         if ($code == self::ERROR_OK) {
@@ -746,8 +746,7 @@ class rcube_imap_generic
 
 	    // RFC3501 [7.1] optional CAPABILITY response
 	    if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-		    $this->parseCapability($matches[1]);
-            $this->capability_readed = true;
+		    $this->parseCapability($matches[1], true);
 	    }
 
 	    $this->message .= $line;
@@ -795,6 +794,9 @@ class rcube_imap_generic
             $auth_methods[] = $auth_method == 'AUTH' ? 'CRAM-MD5' : $auth_method;
         }
 
+        // pre-login capabilities can be not complete
+        $this->capability_readed = false;
+
         // Authenticate
         foreach ($auth_methods as $method) {
             switch ($method) {
@@ -818,11 +820,7 @@ class rcube_imap_generic
         // Connected and authenticated
 	    if (is_resource($result)) {
             if ($this->prefs['force_caps']) {
-                // forget current capabilities
 			    $this->clearCapability();
-            } else {
-                // pre-login capabilities can be not complete
-                $this->capability_readed = false;
             }
 		    $this->getRootDir();
             $this->logged = true;
@@ -2858,7 +2856,7 @@ class rcube_imap_generic
 	    if (($options & self::COMMAND_CAPABILITY) && $code == self::ERROR_OK
             && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)
         ) {
-		    $this->parseCapability($matches[1]);
+		    $this->parseCapability($matches[1], true);
 	    }
 
 	    return $noresp ? $code : array($code, $response);
@@ -2999,7 +2997,7 @@ class rcube_imap_generic
     	return $string;
     }
 
-    private function parseCapability($str)
+    private function parseCapability($str, $trusted=false)
     {
         $str = preg_replace('/^\* CAPABILITY /i', '', $str);
 
@@ -3007,6 +3005,10 @@ class rcube_imap_generic
 
         if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
             $this->prefs['literal+'] = true;
+        }
+
+        if ($trusted) {
+            $this->capability_readed = true;
         }
     }
 
