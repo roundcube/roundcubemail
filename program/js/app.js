@@ -1191,8 +1191,7 @@ function rcube_webmail()
       clearTimeout(this.preview_read_timer);
 
     // save folderlist and folders location/sizes for droptarget calculation in drag_move()
-    if (this.gui_objects.folderlist && model)
-      {
+    if (this.gui_objects.folderlist && model) {
       this.initialBodyScrollTop = bw.ie ? 0 : window.pageYOffset;
       this.initialListScrollTop = this.gui_objects.folderlist.parentNode.scrollTop;
 
@@ -1858,7 +1857,7 @@ function rcube_webmail()
       }
 
     if (!show && this.busy)
-      this.set_busy(false);
+      this.set_busy(false, null, this.env.frame_lock);
   };
 
   // list a specific page
