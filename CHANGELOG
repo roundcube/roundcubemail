@@ -51,7 +51,7 @@ CHANGELOG Roundcube Webmail
 - Add basic IMAP LIST's \Noselect option support
 - Add support for selection options from LIST-EXTENDED extension (RFC 5258)
 - Don't list subscribed but non-existent folders (#1486225)
-- Fix handling of URLs with tilde (~) character (#1487087)
+- Fix handling of URLs with tilde (~) or semicolon (;) character (#1487087, #1487088)
 
 RELEASE 0.4.2
 -------------
