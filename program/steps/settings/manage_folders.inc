@@ -299,7 +299,7 @@ function rcube_subscription_form($attrib)
     $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
     
     $table->add('name', Q($display_folder));
-    $table->add('msgcount', ($folder['virtual'] ? '' : $IMAP->messagecount($folder['id'], 'ALL', false, false)));
+    $table->add('msgcount', (($folder['virtual'] || $noselect) ? '' : $IMAP->messagecount($folder['id'], 'ALL', false, false)));
     $table->add('subscribed', $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
       array('value' => $folder_utf8, 'disabled' => ($protected || $noselect) ? 'disabled' : '')));
     if ($threading_supported) {

@@ -944,10 +944,15 @@ class rcube_imap_generic
 		    $this->selected = '';
 	    }
 
-	    $this->select($mailbox);
 	    if ($this->selected == $mailbox) {
 		    return $this->data['EXISTS'];
 	    }
+
+        // Try STATUS, should be faster
+        $counts = $this->status($mailbox, array('MESSAGES'));
+        if (is_array($counts)) {
+            return (int) $counts['MESSAGES'];
+        }
 
         return false;
     }
