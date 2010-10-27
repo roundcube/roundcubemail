@@ -52,7 +52,7 @@ function GoogieSpell(img_dir, server_url) {
 
     this.show_spell_img = false; // roundcube mod.
     this.decoration = true;
-    this.use_close_btn = true;
+    this.use_close_btn = false;
     this.edit_layer_dbl_click = true;
     this.report_ta_not_found = true;
 
