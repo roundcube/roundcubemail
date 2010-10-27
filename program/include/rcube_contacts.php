@@ -355,10 +355,10 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
-     * Get group assignments of a specific contacr record
+     * Get group assignments of a specific contact record
      *
      * @param mixed Record identifier
-     * @param array List of assigned groups as ID=>Name pairs
+     * @return array List of assigned groups as ID=>Name pairs
      */
     function get_record_groups($id)
     {
@@ -384,7 +384,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Create a new contact record
      *
-     * @param array Assoziative array with save data
+     * @param array Associative array with save data
      * @return integer|boolean The created record ID on success, False on error
      */
     function insert($save_data, $check=false)

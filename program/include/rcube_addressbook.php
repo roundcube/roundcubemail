@@ -64,13 +64,6 @@ abstract class rcube_addressbook
     abstract function list_records($cols=null, $subset=0);
 
     /**
-     * List all active contact groups of this source
-     *
-     * @return array  Indexed list of contact groups, each a hash array
-     */
-    function list_groups() { }
-
-    /**
      * Search records
      *
      * @param array   List of fields to search in
@@ -99,6 +92,7 @@ abstract class rcube_addressbook
      *
      * @param mixed record identifier(s)
      * @param boolean True to return record as associative array, otherwise a result set is returned
+     *
      * @return mixed Result object with all record fields or False if not found
      */
     abstract function get_record($id, $assoc=false);
@@ -130,12 +124,6 @@ abstract class rcube_addressbook
     {
         $this->page_size = (int)$size;
     }
-
-    /**
-     * Setter for the current group
-     * (empty, has to be re-implemented by extending class)
-     */
-    function set_group($gid) { }
 
     /**
      * Create a new contact record
@@ -180,6 +168,23 @@ abstract class rcube_addressbook
     }
 
     /**
+     * Setter for the current group
+     * (empty, has to be re-implemented by extending class)
+     */
+    function set_group($gid) { }
+
+    /**
+     * List all active contact groups of this source
+     *
+     * @return array  Indexed list of contact groups, each a hash array
+     */
+    function list_groups()
+    {
+        /* empty for address books don't supporting groups */
+        return array();
+    }
+
+    /**
      * Create a contact group with the given name
      *
      * @param string The group name
@@ -190,7 +195,7 @@ abstract class rcube_addressbook
         /* empty for address books don't supporting groups */
         return false;
     }
-    
+
     /**
      * Delete the given group and all linked group members
      *
@@ -202,7 +207,7 @@ abstract class rcube_addressbook
         /* empty for address books don't supporting groups */
         return false;
     }
-    
+
     /**
      * Rename a specific contact group
      *
@@ -215,20 +220,20 @@ abstract class rcube_addressbook
         /* empty for address books don't supporting groups */
         return false;
     }
-    
+
     /**
      * Add the given contact records the a certain group
      *
      * @param string  Group identifier
      * @param array   List of contact identifiers to be added
-     * @return int    Number of contacts added 
+     * @return int    Number of contacts added
      */
     function add_to_group($group_id, $ids)
     {
         /* empty for address books don't supporting groups */
         return 0;
     }
-    
+
     /**
      * Remove the given contact records from a certain group
      *
@@ -241,4 +246,19 @@ abstract class rcube_addressbook
         /* empty for address books don't supporting groups */
         return 0;
     }
+
+    /**
+     * Get group assignments of a specific contact record
+     *
+     * @param mixed Record identifier
+     *
+     * @return array List of assigned groups as ID=>Name pairs
+     * @since 0.5-beta
+     */
+    function get_record_groups($id)
+    {
+        /* empty for address books don't supporting groups */
+        return array();
+    }
 }
+
