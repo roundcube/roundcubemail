@@ -680,8 +680,6 @@ class rcube_imap_generic
     		$auth_method = 'CHECK';
         }
 
-	    $message = "INITIAL: $auth_method\n";
-
 	    $result = false;
 
 	    // initialize connection
@@ -737,10 +735,12 @@ class rcube_imap_generic
 	    // Connected to wrong port or connection error?
 	    if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
 		    if ($line)
-			    $this->error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
+			    $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
 		    else
-			    $this->error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
-	        $this->errornum = self::ERROR_BAD;
+			    $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
+
+	        $this->set_error(self::ERROR_BAD, $error);
+            $this->close();
 	        return false;
 	    }
 
@@ -749,7 +749,7 @@ class rcube_imap_generic
 		    $this->parseCapability($matches[1], true);
 	    }
 
-	    $this->message .= $line;
+	    $this->message = $line;
 
 	    // TLS connection
 	    if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
@@ -757,11 +757,13 @@ class rcube_imap_generic
                	$res = $this->execute('STARTTLS');
 
                 if ($res[0] != self::ERROR_OK) {
+                    $this->close();
                     return false;
                 }
 
 			    if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
 				    $this->set_error(self::ERROR_BAD, "Unable to negotiate TLS");
+                    $this->close();
 				    return false;
 			    }
 
@@ -790,6 +792,12 @@ class rcube_imap_generic
 		    }
 	    }
         else {
+            // Prevent from sending credentials in plain text when connection is not secure
+		    if ($auth_method == 'LOGIN' && $this->getCapability('LOGINDISABLED')) {
+			    $this->set_error(self::ERROR_BAD, "Login disabled by IMAP server");
+                $this->close();
+			    return false;
+            }
             // replace AUTH with CRAM-MD5 for backward compat.
             $auth_methods[] = $auth_method == 'AUTH' ? 'CRAM-MD5' : $auth_method;
         }
@@ -829,10 +837,9 @@ class rcube_imap_generic
         }
 
         // Close connection
-        @fclose($this->fp);
-        $this->fp = false;
+        $this->close();
 
-	    return false;
+        return false;
     }
 
     function connected()
@@ -842,10 +849,10 @@ class rcube_imap_generic
 
     function close()
     {
-	    if ($this->logged && $this->putLine($this->next_tag() . ' LOGOUT')) {
-		    if (!feof($this->fp))
-			    fgets($this->fp, 1024);
-	    }
+	    if ($this->putLine($this->next_tag() . ' LOGOUT')) {
+    	    $this->readReply();
+        }
+
 		@fclose($this->fp);
 		$this->fp = false;
     }
