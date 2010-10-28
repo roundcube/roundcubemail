@@ -1000,6 +1000,11 @@ class rcube_imap_generic
 	        return false;
 	    }
 
+        // RFC 5957: SORT=DISPLAY
+        if (($field == 'FROM' || $field == 'TO') && $this->getCapability('SORT=DISPLAY')) {
+            $field = 'DISPLAY' . $field;
+        }
+
 	    // message IDs
 	    if (is_array($add))
 		    $add = $this->compressMessageSet(join(',', $add));
