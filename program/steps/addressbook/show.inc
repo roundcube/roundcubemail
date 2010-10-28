@@ -22,88 +22,108 @@
 
 // read contact record
 if (($cid = get_input_value('_cid', RCUBE_INPUT_GPC)) && ($record = $CONTACTS->get_record($cid, true))) {
-  $OUTPUT->set_env('cid', $record['ID']);
+    $OUTPUT->set_env('cid', $record['ID']);
 }
-
-$GROUPS = $CONTACTS->list_groups();
-$OUTPUT->set_env('groups', !empty($GROUPS));
 
 
 function rcmail_contact_details($attrib)
 {
-  global $CONTACTS, $OUTPUT;
+    global $CONTACTS, $RCMAIL;
 
-  // check if we have a valid result
-  if (!(($result = $CONTACTS->get_result()) && ($record = $result->first()))) {
-    $OUTPUT->show_message('contactnotfound');
-    return false;
-  }
-  
-  // a specific part is requested
-  if ($attrib['part']) {
-    return Q($record[$attrib['part']]);
-  }
-
-  // return the complete address record as table
-  $table = new html_table(array('cols' => 2));
-
-  $a_show_cols = array('name', 'firstname', 'surname', 'email');
-  $microformats = array('name' => 'fn', 'email' => 'email');
-
-  foreach ($a_show_cols as $col) {
-    if ($col == 'email' && !empty($record[$col])) {
-      $value = html::a(array(
-        'href' => 'mailto:' . $record[$col],
-        'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($record[$col])),
-        'title' => rcube_label('composeto'),
-        'class' => $microformats[$col],
-      ), Q($record[$col]));
+    // check if we have a valid result
+    if (!(($result = $CONTACTS->get_result()) && ($record = $result->first()))) {
+        $RCMAIL->output->show_message('contactnotfound');
+        return false;
     }
-    else if (!empty($record[$col])) {
-      $value = html::span($microformats[$col], Q($record[$col]));
+
+    $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
+    $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
+    $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
+
+    $microformats = array('name' => 'fn', 'email' => 'email');
+
+    $form = array(
+        'info' => array(
+            'name'    => rcube_label('contactproperties'),
+            'content' => array(
+                'name' => array('type' => 'text', 'size' => $i_size),
+                'firstname' => array('type' => 'text', 'size' => $i_size),
+                'surname' => array('type' => 'text', 'size' => $i_size),
+                'email' => array('type' => 'text', 'size' => $i_size),
+            ),
+        ),
+        'groups' => array(
+            'name'    => rcube_label('groups'),
+            'content' => '',
+        ),
+    );
+
+    // Get content of groups fieldset
+    if ($groups = rcmail_contact_record_groups($record['ID'])) {
+        $form['groups']['content'] = $groups;    
     }
-    else
-      $value = '';
-    
-    $table->add('title', Q(rcube_label($col)));
-    $table->add(null, $value);
-  }
-  
-  return $table->show($attrib + array('class' => 'vcard'));
+    else {
+        unset($form['groups']);
+    }
+
+    if (!empty($record['email'])) {
+        $form['info']['content']['email']['value'] = html::a(array(
+            'href' => 'mailto:' . $record['email'],
+            'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($record['email'])),
+            'title' => rcube_label('composeto'),
+            'class' => $microformats['email'],
+        ), Q($record['email']));
+    }
+    foreach (array('name', 'firstname', 'surname') as $col) {
+        if ($record[$col]) {
+            $form['info']['content'][$col]['value'] = html::span($microformats[$col], Q($record[$col]));
+        }
+    }
+
+    return rcmail_contact_form($form, $record);
 }
 
 
-function rcmail_contact_record_groups($attrib)
+function rcmail_contact_record_groups($contact_id)
 {
-  global $RCMAIL, $CONTACTS, $GROUPS;
-  
-  // check if we have a valid result
-  if (!(($result = $CONTACTS->get_result()) && ($record = $result->first())))
-    return false;
-  
-  $table = new html_table(array('cols' => 2, 'cellspacing' => 0, 'border' => 0));
-  
-  $members = $CONTACTS->get_record_groups($record['ID']);
-  $checkbox = new html_checkbox(array('name' => '_gid[]', 'class' => 'groupmember', 'disabled' => $CONTACTS->readonly));
-  foreach ($GROUPS as $group) {
-    $gid = $group['ID'];
-    $table->add(null, $checkbox->show($members[$gid] ? $gid : null, array('value' => $gid, 'id' => 'ff_gid' . $gid)));
-    $table->add(null, html::label('ff_gid' . $gid, Q($group['name'])));
-  }
-  
-  $hiddenfields = new html_hiddenfield(array('name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
-  $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
-  
-  $form_start = $RCMAIL->output->request_form(array('name' => "form", 'method' => "post", 'task' => $RCMAIL->task, 'action' => 'save', 'request' => 'save.'.intval($record['ID']), 'noclose' => true) + $attrib, $hiddenfields->show());
-  $form_end = !strlen($attrib['form']) ? '</form>' : '';
+    global $RCMAIL, $CONTACTS, $GROUPS;
 
-  $RCMAIL->output->add_gui_object('editform', !empty($attrib['form']) ? $attrib['form'] : 'form');
+    $GROUPS = $CONTACTS->list_groups();
+
+    if (empty($GROUPS)) {
+        return '';
+    }
+
+    $table = new html_table(array('cols' => 2, 'cellspacing' => 0, 'border' => 0));
+
+    $members = $CONTACTS->get_record_groups($contact_id);
+    $checkbox = new html_checkbox(array('name' => '_gid[]',
+        'class' => 'groupmember', 'disabled' => $CONTACTS->readonly));
+
+    foreach ($GROUPS as $group) {
+        $gid = $group['ID'];
+        $table->add(null, $checkbox->show($members[$gid] ? $gid : null,
+            array('value' => $gid, 'id' => 'ff_gid' . $gid)));
+        $table->add(null, html::label('ff_gid' . $gid, Q($group['name'])));
+    }
+
+    $hiddenfields = new html_hiddenfield(array('name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
+    $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
+
+    $form_start = $RCMAIL->output->request_form(array(
+        'name' => "form", 'method' => "post",
+        'task' => $RCMAIL->task, 'action' => 'save',
+        'request' => 'save.'.intval($contact_id),
+        'noclose' => true), $hiddenfields->show());
+    $form_end = '</form>';
+
+    $RCMAIL->output->add_gui_object('editform', 'form');
   
-  return $form_start . $table->show($attrib) . $form_end;
+    return $form_start . $table->show() . $form_end;
 }
 
 
 //$OUTPUT->framed = $_framed;
 $OUTPUT->add_handler('contactdetails', 'rcmail_contact_details');
-$OUTPUT->add_handler('contactgroups', 'rcmail_contact_record_groups');
+
 $OUTPUT->send('showcontact');

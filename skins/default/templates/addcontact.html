@@ -3,21 +3,20 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
+<script type="text/javascript" src="/functions.js"></script>
 </head>
 <body class="iframe">
 
 <div id="contact-title" class="boxtitle"><roundcube:label name="addcontact" /></div>
-
 <div id="contact-details" class="boxcontent">
-<roundcube:object name="contacteditform" size="40" />
-
-<p><br />
-<input type="button" value="<roundcube:label name="cancel" />" class="button" onclick="history.back()" />&nbsp;
-<roundcube:button command="save" type="input" class="button mainaction" label="save" />
-</p>
-
+  <roundcube:object name="contacteditform" size="40" />
+  <p>
+    <input type="button" value="<roundcube:label name="cancel" />" class="button" onclick="history.back()" />&nbsp;
+    <roundcube:button command="save" type="input" class="button mainaction" label="save" />
+  </p>
 </form>
 </div>
+<script type="text/javascript">rcube_init_tabs('contact-details')</script>
 
 </body>
 </html>

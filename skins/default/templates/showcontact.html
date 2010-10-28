@@ -3,27 +3,18 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
+<script type="text/javascript" src="/functions.js"></script>
 </head>
 <body class="iframe">
 
-<div id="contact-title" class="boxtitle"><roundcube:object name="contactdetails" part="name" /></div>
-
+<div id="contact-title" class="boxtitle"><roundcube:label name="contactproperties" /></div>
 <div id="contact-details" class="boxcontent">
-<fieldset>
-  <legend><roundcube:label name="contactproperties" /></legend>
   <roundcube:object name="contactdetails" />
-
-  <p><br /><roundcube:button command="edit" type="input" class="button" label="editcontact" condition="!ENV:readonly" /></p>
-</fieldset>
-
-<roundcube:if condition="ENV:groups" />
-<fieldset>
-  <legend><roundcube:label name="groups" /></legend>
-  <roundcube:object name="contactgroups" />
-</fieldset>
-<roundcube:endif />
-
+  <p>
+    <roundcube:button command="edit" type="input" class="button" label="editcontact" condition="!ENV:readonly" />
+  </p>
 </div>
+<script type="text/javascript">rcube_init_tabs('contact-details')</script>
 
 </body>
 </html>
