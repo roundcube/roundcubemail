@@ -57,6 +57,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: add possibility to disable plugin in AJAX mode, 'noajax' property
 - Plugin API: add possibility to disable plugin in framed mode, 'noframe' property
 - Improve performance of setting IMAP flags using .SILENT suffix
+- Improve performance of message cache status checking with skip_disabled=true
 
 RELEASE 0.4.2
 -------------

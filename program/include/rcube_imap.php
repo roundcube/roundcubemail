@@ -546,9 +546,14 @@ class rcube_imap
             if ($mode == 'UNSEEN') {
                 $search_str .= " UNSEEN";
             }
-            else if ($status) {
-                $keys[]   = 'MAX';
-                $need_uid = true;
+            else {
+                if ($this->caching_enabled) {
+                    $keys[] = 'ALL';
+                }
+                if ($status) {
+                    $keys[]   = 'MAX';
+                    $need_uid = true;
+                }
             }
 
             // get message count using (E)SEARCH
@@ -557,9 +562,15 @@ class rcube_imap
 
             $count = is_array($index) ? $index['COUNT'] : 0;
 
-            if ($mode == 'ALL' && $status) {
-                $this->set_folder_stats($mailbox, 'cnt', $count);
-                $this->set_folder_stats($mailbox, 'maxuid', is_array($index) ? $index['MAX'] : 0);
+            if ($mode == 'ALL') {
+                if ($need_uid && $this->caching_enabled) {
+                    // Save messages index for check_cache_status()
+                    $this->icache['all_undeleted_idx'] = $index['ALL'];
+                }
+                if ($status) {
+                    $this->set_folder_stats($mailbox, 'cnt', $count);
+                    $this->set_folder_stats($mailbox, 'maxuid', is_array($index) ? $index['MAX'] : 0);
+                }
             }
         }
         else {
@@ -3646,45 +3657,43 @@ class rcube_imap
         $cache_count = count($cache_index);
 
         // empty mailbox
-        if (!$msg_count)
+        if (!$msg_count) {
             return $cache_count ? -2 : 1;
+        }
 
         if ($cache_count == $msg_count) {
             if ($this->skip_deleted) {
-	            $h_index = $this->conn->fetchHeaderIndex($mailbox, "1:*", 'UID', $this->skip_deleted);
-
-                // Save index in internal cache, will be used when syncing the cache
-                $this->icache['folder_index'] = $h_index;
-
-                if (empty($h_index))
-                    return -2;
-
-	            if (sizeof($h_index) == $cache_count) {
-	                $cache_index = array_flip($cache_index);
-	                foreach ($h_index as $idx => $uid)
-                        unset($cache_index[$uid]);
-
-	                if (empty($cache_index))
-	                    return 1;
-	            }
-	            return -2;
+                if (!empty($this->icache['all_undeleted_idx'])) {
+                    $uids = rcube_imap_generic::uncompressMessageSet($this->icache['all_undeleted_idx']);
+                    $uids = array_flip($uids);
+                    foreach ($cache_index as $uid) {
+                        unset($uids[$uid]);
+                    }
+                }
+                else {
+                    // get all undeleted messages excluding cached UIDs
+                    $uids = $this->search_once($mailbox, 'ALL UNDELETED NOT UID '.
+                        rcube_imap_generic::compressMessageSet($cache_index));
+                }
+                if (empty($uids)) {
+                    return 1;
+                }
             } else {
                 // get UID of the message with highest index
                 $uid = $this->_id2uid($msg_count, $mailbox);
                 $cache_uid = array_pop($cache_index);
 
                 // uids of highest message matches -> cache seems OK
-                if ($cache_uid == $uid)
+                if ($cache_uid == $uid) {
                     return 1;
+                }
             }
             // cache is dirty
             return -1;
         }
+
         // if cache count differs less than 10% report as dirty
-        else if (abs($msg_count - $cache_count) < $msg_count/10)
-            return -1;
-        else
-            return -2;
+        return (abs($msg_count - $cache_count) < $msg_count/10) ? -1 : -2;
     }
 
 

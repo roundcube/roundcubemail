@@ -1008,8 +1008,8 @@ class rcube_imap_generic
 	    }
 
 	    // message IDs
-	    if (is_array($add))
-		    $add = $this->compressMessageSet(join(',', $add));
+	    if (!empty($add))
+		    $add = $this->compressMessageSet($add);
 
 	    list($code, $response) = $this->execute($is_uid ? 'UID SORT' : 'SORT',
 	        array("($field)", $encoding, 'ALL' . (!empty($add) ? ' '.$add : '')));
@@ -1026,7 +1026,7 @@ class rcube_imap_generic
     function fetchHeaderIndex($mailbox, $message_set, $index_field='', $skip_deleted=true, $uidfetch=false)
     {
 	    if (is_array($message_set)) {
-		    if (!($message_set = $this->compressMessageSet(join(',', $message_set))))
+		    if (!($message_set = $this->compressMessageSet($message_set)))
 			    return false;
 	    } else {
 		    list($from_idx, $to_idx) = explode(':', $message_set);
@@ -1150,12 +1150,12 @@ class rcube_imap_generic
 	    return $result;
     }
 
-    private function compressMessageSet($messages, $force=false)
+    static function compressMessageSet($messages, $force=false)
     {
 	    // given a comma delimited list of independent mid's,
 	    // compresses by grouping sequences together
 
-        if (!is_array($message_set)) {
+        if (!is_array($messages)) {
 	        // if less than 255 bytes long, let's not bother
 	        if (!$force && strlen($messages)<255) {
 	            return $messages;
@@ -1197,6 +1197,23 @@ class rcube_imap_generic
 
 	    // return as comma separated string
 	    return implode(',', $result);
+    }
+
+    static function uncompressMessageSet($messages)
+    {
+	    $result   = array();
+	    $messages = explode(',', $messages);
+
+        foreach ($messages as $part) {
+            $items = explode(':', $part);
+            $max   = max($items[0], $items[1]);
+
+            for ($x=$items[0]; $x<=$max; $x++) {
+                $result[] = $x;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -1264,9 +1281,6 @@ class rcube_imap_generic
 	    if (!$this->select($mailbox)) {
 		    return false;
 	    }
-
-	    if (is_array($message_set))
-		    $message_set = join(',', $message_set);
 
 	    $message_set = $this->compressMessageSet($message_set);
 
@@ -1824,7 +1838,7 @@ class rcube_imap_generic
                     if (in_array('MAX', $items))
                         $result['MAX'] = !empty($response) ? max($response) : 0;
                     if (in_array('ALL', $items))
-                        $result['ALL'] = $this->compressMessageSet(implode(',', $response), true);
+                        $result['ALL'] = $this->compressMessageSet($response, true);
 
                     return $result;                    
                 }
