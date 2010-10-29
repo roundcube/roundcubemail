@@ -2620,13 +2620,11 @@ class rcube_imap
     function clear_mailbox($mbox_name=NULL)
     {
         $mailbox = !empty($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
-        $msg_count = $this->_messagecount($mailbox, 'ALL');
 
-        if (!$msg_count) {
-            return 0;
+        // SELECT will set messages count for clearFolder()
+        if ($this->conn->select($mailbox)) {
+            $cleared = $this->conn->clearFolder($mailbox);
         }
-
-        $cleared = $this->conn->clearFolder($mailbox);
 
         // make sure the message count cache is cleared as well
         if ($cleared) {
