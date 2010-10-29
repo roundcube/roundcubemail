@@ -26,18 +26,45 @@
  */
 abstract class rcube_plugin
 {
+  /**
+   * Class name of the plugin instance
+   *
+   * @var string
+   */
   public $ID;
 
   /**
-   * Holds an istance of Plugin API
+   * Instance of Plugin API
    *
    * @var rcube_plugin_api
    */
   public $api;
+
+  /**
+   * Regular expression defining task(s) to bind with 
+   *
+   * @var string
+   */
   public $task;
+
+  /**
+   * Disables plugin in AJAX requests
+   *
+   * @var boolean
+   */
+  public $noajax = false;
+
+  /**
+   * Disables plugin in framed mode
+   *
+   * @var boolean
+   */
+  public $noframe = false;
+
   protected $home;
   protected $urlbase;
   private $mytask;
+
 
   /**
    * Default constructor.

@@ -122,10 +122,16 @@ class rcube_plugin_api
         // instantiate class if exists
         if (class_exists($plugin_name, false)) {
           $plugin = new $plugin_name($this);
-          // check inheritance and task specification
-          if (is_subclass_of($plugin, 'rcube_plugin') && (!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task))) {
-            $plugin->init();
-            $this->plugins[] = $plugin;
+          // check inheritance...
+          if (is_subclass_of($plugin, 'rcube_plugin')) {
+            // ... task, request type and framed mode
+            if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task))
+                && (!$plugin->noajax || is_a($this->output, 'rcube_template'))
+                && (!$plugin->noframe || empty($_REQUEST['_framed']))
+            ) {
+              $plugin->init();
+              $this->plugins[] = $plugin;
+            }
           }
         }
         else {
@@ -256,7 +262,7 @@ class rcube_plugin_api
       $action = $task.'.'.$action;
     else if (strpos($action, 'plugin.') !== 0)
       $action = 'plugin.'.$action;
-    
+
     // can register action only if it's not taken or registered by myself
     if (!isset($this->actionmap[$action]) || $this->actionmap[$action] == $owner) {
       $this->actions[$action] = $callback;
