@@ -56,6 +56,7 @@ CHANGELOG Roundcube Webmail
 - Add SORT=DISPLAY support (RFC 5957)
 - Plugin API: add possibility to disable plugin in AJAX mode, 'noajax' property
 - Plugin API: add possibility to disable plugin in framed mode, 'noframe' property
+- Improve performance of setting IMAP flags using .SILENT suffix
 
 RELEASE 0.4.2
 -------------

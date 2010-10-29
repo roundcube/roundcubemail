@@ -2353,7 +2353,7 @@ class rcube_imap
      * @param string  $flag       Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
      * @param string  $mbox_name  Folder name
      * @param boolean $skip_cache True to skip message cache clean up
-     * @return int    Number of flagged messages, -1 on failure
+     * @return boolean  Operation status
      */
     function set_flag($uids, $flag, $mbox_name=NULL, $skip_cache=false)
     {
@@ -2367,7 +2367,7 @@ class rcube_imap
         else
             $result = $this->conn->flag($mailbox, $uids, $flag);
 
-        if ($result >= 0) {
+        if ($result) {
             // reload message headers if cached
             if ($this->caching_enabled && !$skip_cache) {
                 $cache_key = $mailbox.'.msg';
@@ -2376,13 +2376,15 @@ class rcube_imap
                 else
                     $this->remove_message_cache($cache_key, explode(',', $uids));
             }
-            // update counters
-            if ($flag=='SEEN')
-                $this->_set_messagecount($mailbox, 'UNSEEN', $result*(-1));
-            else if ($flag=='UNSEEN')
-                $this->_set_messagecount($mailbox, 'UNSEEN', $result);
-            else if ($flag=='DELETED')
-                $this->_set_messagecount($mailbox, 'ALL', $result*(-1));
+
+            // clear cached counters
+            if ($flag == 'SEEN' || $flag == 'UNSEEN') {
+                $this->_clear_messagecount($mailbox, 'SEEN');
+                $this->_clear_messagecount($mailbox, 'UNSEEN');
+            }
+            else if ($flag == 'DELETED') {
+                $this->_clear_messagecount($mailbox, 'DELETED');
+            }
         }
 
         return $result;
@@ -4425,15 +4427,19 @@ class rcube_imap
      * Remove messagecount of a specific mailbox from cache
      * @access private
      */
-    private function _clear_messagecount($mbox_name='')
+    private function _clear_messagecount($mbox_name='', $mode=null)
     {
-        $a_mailbox_cache = false;
         $mailbox = $mbox_name ? $mbox_name : $this->mailbox;
 
         $a_mailbox_cache = $this->get_cache('messagecount');
 
         if (is_array($a_mailbox_cache[$mailbox])) {
-            unset($a_mailbox_cache[$mailbox]);
+            if ($mode) {
+                unset($a_mailbox_cache[$mailbox][$mode]);
+            }
+            else {
+                unset($a_mailbox_cache[$mailbox]);
+            }
             $this->update_cache('messagecount', $a_mailbox_cache);
         }
     }

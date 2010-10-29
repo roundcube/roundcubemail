@@ -1007,11 +1007,6 @@ class rcube_imap_generic
 	        return false;
 	    }
 
-        // RFC 5957: SORT=DISPLAY
-        if (($field == 'FROM' || $field == 'TO') && $this->getCapability('SORT=DISPLAY')) {
-            $field = 'DISPLAY' . $field;
-        }
-
 	    // message IDs
 	    if (is_array($add))
 		    $add = $this->compressMessageSet(join(',', $add));
@@ -1155,29 +1150,32 @@ class rcube_imap_generic
 	    return $result;
     }
 
-    private function compressMessageSet($message_set, $force=false)
+    private function compressMessageSet($messages, $force=false)
     {
 	    // given a comma delimited list of independent mid's,
 	    // compresses by grouping sequences together
 
-	    // if less than 255 bytes long, let's not bother
-	    if (!$force && strlen($message_set)<255) {
-	        return $message_set;
-	    }
+        if (!is_array($message_set)) {
+	        // if less than 255 bytes long, let's not bother
+	        if (!$force && strlen($messages)<255) {
+	            return $messages;
+	        }
 
-	    // see if it's already been compressed
-	    if (strpos($message_set, ':') !== false) {
-	        return $message_set;
-	    }
+    	    // see if it's already been compressed
+	        if (strpos($messages, ':') !== false) {
+	            return $messages;
+	        }
 
-	    // separate, then sort
-	    $ids = explode(',', $message_set);
-	    sort($ids);
+	        // separate, then sort
+	        $messages = explode(',', $messages);
+        }
+
+	    sort($messages);
 
 	    $result = array();
-	    $start  = $prev = $ids[0];
+	    $start  = $prev = $messages[0];
 
-	    foreach ($ids as $id) {
+	    foreach ($messages as $id) {
 		    $incr = $id - $prev;
 		    if ($incr > 1) {			//found a gap
 			    if ($start == $prev) {
@@ -1191,7 +1189,7 @@ class rcube_imap_generic
 	    }
 
 	    // handle the last sequence/id
-	    if ($start==$prev) {
+	    if ($start == $prev) {
 	        $result[] = $prev;
 	    } else {
     	    $result[] = $start.':'.$prev;
@@ -1587,35 +1585,19 @@ class rcube_imap_generic
     function modFlag($mailbox, $messages, $flag, $mod)
     {
 	    if ($mod != '+' && $mod != '-') {
-	        return -1;
+            $mod = '+';
 	    }
-
-	    $flag = $this->flags[strtoupper($flag)];
 
 	    if (!$this->select($mailbox)) {
-	        return -1;
+	        return false;
 	    }
 
-        $c = 0;
-        $key = $this->next_tag();
-        $command = "$key UID STORE $messages {$mod}FLAGS ($flag)";
-	    if (!$this->putLine($command)) {
-            $this->set_error(self::ERROR_COMMAND, "Unable to send command: $command");
-            return -1;
-        }
+	    $flag   = $this->flags[strtoupper($flag)];
+        $result = $this->execute('UID STORE', array(
+            $this->compressMessageSet($messages), $mod . 'FLAGS.SILENT', "($flag)"),
+            self::COMMAND_NORESPONSE);
 
-	    do {
-		    $line = $this->readLine();
-		    if ($line[0] == '*') {
-		        $c++;
-            }
-	    } while (!$this->startsWith($line, $key, true, true));
-
-	    if ($this->parseResult($line, 'STORE: ') == self::ERROR_OK) {
-		    return $c;
-	    }
-
-	    return -1;
+	    return ($result == self::ERROR_OK);
     }
 
     function flag($mailbox, $messages, $flag) {
@@ -1640,7 +1622,8 @@ class rcube_imap_generic
             return -1;
 	    }
 
-        $result = $this->execute('UID COPY', array($messages, $this->escape($to)),
+        $result = $this->execute('UID COPY', array(
+            $this->compressMessageSet($messages), $this->escape($to)),
             self::COMMAND_NORESPONSE);
 
 	    return $result;

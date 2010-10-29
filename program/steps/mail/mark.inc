@@ -43,7 +43,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
 
   $marked = $IMAP->set_flag($uids, $flag);
 
-  if ($marked == -1) {
+  if (!$marked) {
     // send error message
     if ($_POST['_from'] != 'show')
       $OUTPUT->command('list_mailbox');
@@ -56,7 +56,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     $ruids = get_input_value('_ruid', RCUBE_INPUT_POST);
     $read = $IMAP->set_flag($ruids, 'SEEN');
 
-    if ($read != -1 && !$CONFIG['skip_deleted'])
+    if ($read && !$CONFIG['skip_deleted'])
       $OUTPUT->command('flag_deleted_as_read', $ruids);
   }
 
