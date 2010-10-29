@@ -4495,7 +4495,7 @@ class rcube_imap
                     $name = substr($name, 1, -1);
                     $name = stripslashes($name);
                 }
-                else if ($decode) {
+                if ($decode) {
                     $name = $this->decode_header($name);
                 }
             }
