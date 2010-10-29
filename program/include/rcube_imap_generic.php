@@ -1199,35 +1199,52 @@ class rcube_imap_generic
 	    return implode(',', $result);
     }
 
-    function UID2ID($folder, $uid)
+    /**
+     * Returns message sequence identifier
+     *
+     * @param string $mailbox Mailbox name
+     * @param int    $uid     Message unique identifier (UID)
+     *
+     * @return int Message sequence identifier
+     * @access public
+     */
+    function UID2ID($mailbox, $uid)
     {
 	    if ($uid > 0) {
-    		$id_a = $this->search($folder, "UID $uid");
+    		$id_a = $this->search($mailbox, "UID $uid");
 	    	if (is_array($id_a) && count($id_a) == 1) {
-		    	return $id_a[0];
+		    	return (int) $id_a[0];
 		    }
 	    }
-	    return false;
+	    return null;
     }
 
-    function ID2UID($folder, $id)
+    /**
+     * Returns message unique identifier (UID)
+     *
+     * @param string $mailbox Mailbox name
+     * @param int    $uid     Message sequence identifier
+     *
+     * @return int Message unique identifier
+     * @access public
+     */
+    function ID2UID($mailbox, $id)
     {
-	    if (empty($id)) {
-	        return 	-1;
+	    if (empty($id) || $id < 0) {
+	        return 	null;
 	    }
 
     	if (!$this->select($folder)) {
-            return -1;
+            return null;
         }
 
-	    $result  = -1;
         list($code, $response) = $this->execute('FETCH', array($id, '(UID)'));
 
         if ($code == self::ERROR_OK && preg_match("/^\* $id FETCH \(UID (.*)\)/i", $response, $m)) {
-			$result = $m[1];
+			return (int) $m[1];
         }
 
-    	return $result;
+    	return null;
     }
 
     function fetchUIDs($mailbox, $message_set=null)
@@ -1615,18 +1632,32 @@ class rcube_imap_generic
     function copy($messages, $from, $to)
     {
 	    if (empty($from) || empty($to)) {
-	        return -1;
+	        return false;
 	    }
 
 	    if (!$this->select($from)) {
-            return -1;
+	        return false;
 	    }
 
         $result = $this->execute('UID COPY', array(
             $this->compressMessageSet($messages), $this->escape($to)),
             self::COMMAND_NORESPONSE);
 
-	    return $result;
+	    return ($result == self::ERROR_OK);
+    }
+
+    function move($messages, $from, $to)
+    {
+        if (!$from || !$to) {
+            return false;
+        }
+
+        $r = $this->copy($messages, $from, $to);
+
+        if ($r) {
+            return $this->delete($from, $messages);
+        }
+        return $r;
     }
 
     // Don't be tempted to change $str to pass by reference to speed this up - it will slow it down by about
@@ -1804,20 +1835,6 @@ class rcube_imap_generic
         }
 
 	    return false;
-    }
-
-    function move($messages, $from, $to)
-    {
-        if (!$from || !$to) {
-            return -1;
-        }
-
-        $r = $this->copy($messages, $from, $to);
-
-        if ($r==0) {
-            return $this->delete($from, $messages);
-        }
-        return $r;
     }
 
     /**

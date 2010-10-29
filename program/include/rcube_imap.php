@@ -2474,8 +2474,7 @@ class rcube_imap
         }
 
         // move messages
-        $move = $this->conn->move($uids, $from_mbox, $to_mbox);
-        $moved = !($move === false || $move < 0);
+        $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
         // send expunge command in order to have the moved message
         // really deleted from the source mailbox
@@ -2536,8 +2535,9 @@ class rcube_imap
         list($uids, $all_mode) = $this->_parse_uids($uids, $from_mbox);
 
         // exit if no message uids are specified
-        if (empty($uids))
+        if (empty($uids)) {
             return false;
+        }
 
         // make sure mailbox exists
         if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox, true)) {
@@ -2548,8 +2548,7 @@ class rcube_imap
         }
 
         // copy messages
-        $copy = $this->conn->copy($uids, $from_mbox, $to_mbox);
-        $copied = !($copy === false || $copy < 0);
+        $copied = $this->conn->copy($uids, $from_mbox, $to_mbox);
 
         if ($copied) {
             $this->_clear_messagecount($to_mbox);
@@ -3650,7 +3649,7 @@ class rcube_imap
         if (!$msg_count)
             return $cache_count ? -2 : 1;
 
-        if ($cache_count==$msg_count) {
+        if ($cache_count == $msg_count) {
             if ($this->skip_deleted) {
 	            $h_index = $this->conn->fetchHeaderIndex($mailbox, "1:*", 'UID', $this->skip_deleted);
 
