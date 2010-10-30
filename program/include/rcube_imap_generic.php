@@ -900,17 +900,26 @@ class rcube_imap_generic
      * Executes STATUS comand
      *
      * @param string $mailbox Mailbox name
-     * @param array  $items   Requested item names
+     * @param array  $items   Additional requested item names. By default
+     *                        MESSAGES and UNSEEN are requested. Other defined
+     *                        in RFC3501: UIDNEXT, UIDVALIDITY, RECENT
      *
      * @return array Status item-value hash
      * @access public
      * @since 0.5-beta
      */
-    function status($mailbox, $items)
+    function status($mailbox, $items=array())
     {
-	    if (empty($mailbox) || empty($items)) {
+	    if (empty($mailbox)) {
 		    return false;
 	    }
+
+        if (!in_array('MESSAGES', $items)) {
+            $items[] = 'MESSAGES';
+        }
+        if (!in_array('UNSEEN', $items)) {
+            $items[] = 'UNSEEN';
+        }
 
         list($code, $response) = $this->execute('STATUS', array($this->escape($mailbox),
             '(' . implode(' ', (array) $items) . ')'));
@@ -924,6 +933,8 @@ class rcube_imap_generic
             for ($i=0, $len=count($items); $i<$len; $i += 2) {
                 $result[$items[$i]] = (int) $items[$i+1];
             }
+
+            $this->data['STATUS:'.$mailbox] = $result;
 
 			return $result;
 		}
@@ -955,8 +966,14 @@ class rcube_imap_generic
 		    return $this->data['EXISTS'];
 	    }
 
-        // Try STATUS, should be faster
-        $counts = $this->status($mailbox, array('MESSAGES'));
+        // Check internal cache
+        $cache = $this->data['STATUS:'.$mailbox];
+        if (!empty($cache) && isset($cache['MESSAGES'])) {
+            return (int) $cache['MESSAGES'];
+        }
+
+        // Try STATUS (should be faster than SELECT)
+        $counts = $this->status($mailbox);
         if (is_array($counts)) {
             return (int) $counts['MESSAGES'];
         }
@@ -974,8 +991,14 @@ class rcube_imap_generic
      */
     function countUnseen($mailbox)
     {
-        // Try STATUS, should be faster
-        $counts = $this->status($mailbox, array('UNSEEN'));
+        // Check internal cache
+        $cache = $this->data['STATUS:'.$mailbox];
+        if (!empty($cache) && isset($cache['UNSEEN'])) {
+            return (int) $cache['UNSEEN'];
+        }
+
+        // Try STATUS (should be faster than SELECT+SEARCH)
+        $counts = $this->status($mailbox);
         if (is_array($counts)) {
             return (int) $counts['UNSEEN'];
         }
@@ -1602,6 +1625,9 @@ class rcube_imap_generic
             return false;
         }
 
+        // Clear internal status cache
+        unset($this->data['STATUS:'.$mailbox]);
+
 		$result = $this->execute($messages ? 'UID EXPUNGE' : 'EXPUNGE',
 		    array($messages), self::COMMAND_NORESPONSE);
 
@@ -1622,6 +1648,11 @@ class rcube_imap_generic
 	    if (!$this->select($mailbox)) {
 	        return false;
 	    }
+
+        // Clear internal status cache
+        if ($flag == 'SEEN') {
+            unset($this->data['STATUS:'.$mailbox]['UNSEEN']);
+        }
 
 	    $flag   = $this->flags[strtoupper($flag)];
         $result = $this->execute('UID STORE', array(
@@ -1653,6 +1684,9 @@ class rcube_imap_generic
 	        return false;
 	    }
 
+        // Clear internal status cache
+        unset($this->data['STATUS:'.$to]);
+
         $result = $this->execute('UID COPY', array(
             $this->compressMessageSet($messages), $this->escape($to)),
             self::COMMAND_NORESPONSE);
@@ -1669,6 +1703,9 @@ class rcube_imap_generic
         $r = $this->copy($messages, $from, $to);
 
         if ($r) {
+            // Clear internal status cache
+            unset($this->data['STATUS:'.$from]);
+        
             return $this->delete($from, $messages);
         }
         return $r;
@@ -2259,6 +2296,9 @@ class rcube_imap_generic
 			    $line = $this->readLine();
     		} while (!$this->startsWith($line, $key, true, true));
 
+            // Clear internal status cache
+            unset($this->data['STATUS:'.$folder]);
+
     		return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
 	    }
         else {
@@ -2333,6 +2373,8 @@ class rcube_imap_generic
 			    $line = $this->readLine();
 		    } while (!$this->startsWith($line, $key, true, true));
 
+            // Clear internal status cache
+            unset($this->data['STATUS:'.$folder]);
 
 		    return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
 	    }
