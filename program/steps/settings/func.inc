@@ -534,6 +534,16 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['reply_same_folder'])) {
+      $field_id = 'rcmfd_reply_same_folder';
+      $input_reply_same_folder = new html_checkbox(array('name' => '_reply_same_folder', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['reply_same_folder'] = array(
+        'title' => html::label($field_id, Q(rcube_label('replysamefolder'))),
+        'content' => $input_reply_same_folder->show($config['reply_same_folder']?1:0),
+      );
+    }
+
     if (!isset($no_override['top_posting'])) {
       $field_id = 'rcmfd_top_posting';
       $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id, 'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));

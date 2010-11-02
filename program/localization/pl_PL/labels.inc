@@ -363,5 +363,7 @@ $labels['addmailreplyto'] = 'Dodaj Mail-Reply-To';
 $labels['addmailfollowupto'] = 'Dodaj Mail-Followup-To';
 $labels['dsn'] = 'Status dostarczenia (DSN)';
 $labels['reqdsn'] = 'Zawsze żądaj statusu dostarczenia (DSN)';
+$labels['replysamefolder'] = 'Umieszczaj odpowiedzi w folderze wiadomości, na którą odpowiadam';
+$labels['contactproperties'] = 'Właściwości';
 
 ?>

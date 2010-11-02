@@ -378,6 +378,7 @@ $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
+$labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

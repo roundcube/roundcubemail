@@ -100,12 +100,8 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != $MESSAGE_ID
   }
 
   // check if folder for saving sent messages exists and is subscribed (#1486802)
-  if (($sent_folder = $_SESSION['compose']['param']['sent_mbox']) && !$IMAP->mailbox_exists($sent_folder, true)) {
-    // folder may exist but isn't subscribed (#1485241)
-    if (!$IMAP->mailbox_exists($sent_folder))
-      $IMAP->create_mailbox($sent_folder, true);
-    else
-      $IMAP->subscribe($sent_folder);
+  if ($sent_folder = $_SESSION['compose']['param']['sent_mbox']) {
+    rcmail_check_sent_folder($sent_folder, true);
   }
 
   // redirect to a unique URL with all parameters stored in session
@@ -177,6 +173,13 @@ if (!empty($msg_uid))
       $MESSAGE->reply_all = $_SESSION['compose']['param']['all'];
 
     $OUTPUT->set_env('compose_mode', 'reply');
+
+    // Save the sent message in the same folder of the message being replied to
+    if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $_SESSION['compose']['mailbox'])
+      && rcmail_check_sent_folder($sent_folder, false)
+    ) {
+      $_SESSION['compose']['param']['sent_mbox'] = $sent_folder;
+    }
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
   {
@@ -191,8 +194,15 @@ if (!empty($msg_uid))
         $_SESSION['compose']['forward_uid'] = $info['uid'];
 
       $_SESSION['compose']['mailbox'] = $info['folder'];
+
+      // Save the sent message in the same folder of the message being replied to
+      if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $info['folder'])
+        && rcmail_check_sent_folder($sent_folder, false)
+      ) {
+        $_SESSION['compose']['param']['sent_mbox'] = $sent_folder;
+      }
     }
-    
+
     if ($MESSAGE->headers->in_reply_to)
       $_SESSION['compose']['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
 
@@ -1261,6 +1271,26 @@ function rcmail_store_target_selection($attrib)
 }
 
 
+function rcmail_check_sent_folder($folder, $create=false)
+{
+  global $IMAP;
+
+  if ($IMAP->mailbox_exists($folder, true)) {
+    return true;
+  }
+
+  // folder may exist but isn't subscribed (#1485241)
+  if ($create) {
+    if (!$IMAP->mailbox_exists($folder))
+      return $IMAP->create_mailbox($folder, true);
+    else
+      return $IMAP->subscribe($folder);
+  }
+
+  return false;
+}
+
+
 function get_form_tags($attrib)
 {
   global $RCMAIL, $MESSAGE_FORM;
@@ -1274,13 +1304,13 @@ function get_form_tags($attrib)
     $form_start = empty($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();
   }
-    
+
   $form_end = ($MESSAGE_FORM && !strlen($attrib['form'])) ? '</form>' : '';
   $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
-  
+
   if (!$MESSAGE_FORM)
     $RCMAIL->output->add_gui_object('messageform', $form_name);
-  
+
   $MESSAGE_FORM = $form_name;
 
   return array($form_start, $form_end);

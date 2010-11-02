@@ -589,4 +589,7 @@ $rcmail_config['mdn_default'] = 0;
 // Delivery Status Notification checkbox default state
 $rcmail_config['dsn_default'] = 0;
 
+// Place replies in the folder of the message being replied to
+$rcmail_config['reply_same_folder'] = false;
+
 // end of config file

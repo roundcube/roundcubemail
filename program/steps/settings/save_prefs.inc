@@ -67,6 +67,7 @@ switch ($CURR_SECTION)
       'force_7bit'         => isset($_POST['_force_7bit']) ? TRUE : FALSE,
       'mdn_default'        => isset($_POST['_mdn_default']) ? TRUE : FALSE,
       'dsn_default'        => isset($_POST['_dsn_default']) ? TRUE : FALSE,
+      'reply_same_folder'  => isset($_POST['_reply_same_folder']) ? TRUE : FALSE,
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'top_posting'        => !empty($_POST['_top_posting']),
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
