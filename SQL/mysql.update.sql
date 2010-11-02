@@ -129,3 +129,5 @@ UPDATE `users` SET `last_login` = NULL WHERE `last_login` = '1000-01-01 00:00:00
 ALTER TABLE `users` DROP INDEX `username_index`;
 ALTER TABLE `users` ADD UNIQUE `username` (`username`, `mail_host`);
 
+ALTER TABLE `contacts` MODIFY `email` varchar(255) NOT NULL;
+

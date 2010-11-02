@@ -86,4 +86,5 @@ ALTER TABLE users ALTER last_login SET DEFAULT NULL;
 
 DROP INDEX users_username_id_idx;
 ALTER TABLE users ADD UNIQUE (username, mail_host);
+ALTER TABLE contacts ALTER email TYPE varchar(255);
 

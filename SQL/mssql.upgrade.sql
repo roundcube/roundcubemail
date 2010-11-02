@@ -22,7 +22,7 @@ ALTER TABLE [dbo].[identities] ADD CONSTRAINT [FK_identities_user_id]
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[identities] add [changed] [datetime] NULL 
+ALTER TABLE [dbo].[identities] ADD [changed] [datetime] NULL 
 GO
 
 CREATE TABLE [dbo].[contactgroups] (
@@ -92,5 +92,7 @@ GO
 DROP INDEX [IX_users_username]
 GO
 CREATE UNIQUE INDEX [IX_users_username] ON [dbo].[users]([username],[mail_host]) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[contacts] ALTER COLUMN [email] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL
 GO
 

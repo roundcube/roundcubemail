@@ -58,6 +58,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: add possibility to disable plugin in framed mode, 'noframe' property
 - Improve performance of setting IMAP flags using .SILENT suffix
 - Improve performance of message cache status checking with skip_disabled=true
+- Support contact's email addresses up to 255 characters long (#1487095)
 
 RELEASE 0.4.2
 -------------

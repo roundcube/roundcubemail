@@ -107,7 +107,7 @@ CREATE TABLE contacts (
     changed timestamp with time zone DEFAULT now() NOT NULL,
     del smallint DEFAULT 0 NOT NULL,
     name varchar(128) DEFAULT '' NOT NULL,
-    email varchar(128) DEFAULT '' NOT NULL,
+    email varchar(255) DEFAULT '' NOT NULL,
     firstname varchar(128) DEFAULT '' NOT NULL,
     surname varchar(128) DEFAULT '' NOT NULL,
     vcard text

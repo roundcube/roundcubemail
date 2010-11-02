@@ -491,12 +491,11 @@ function rcube_check_email(input, inline)
       quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22',
       // Use simplified domain matching, because we need to allow Unicode characters here
       // So, e-mail address should be validated also on server side after idn_to_ascii() use
-      sub_domain = '[^@]+',
       //domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
       //sub_domain = '('+atom+'|'+domain_literal+')',
+      domain = '([^@\\x2e]+\\x2e)+[a-z]{2,}',
       word = '('+atom+'|'+quoted_string+')',
       delim = '[,;\s\n]',
-      domain = sub_domain+'(\\x2e'+sub_domain+')*',
       local_part = word+'(\\x2e'+word+')*',
       addr_spec = local_part+'\\x40'+domain,
       reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');

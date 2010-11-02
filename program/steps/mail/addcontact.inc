@@ -29,12 +29,22 @@ $CONTACTS = $RCMAIL->get_address_book(null, true);
 if (!empty($_POST['_address']) && is_object($CONTACTS))
 {
   $contact_arr = $IMAP->decode_address_list(get_input_value('_address', RCUBE_INPUT_POST, true), 1, false);
-  
+
   if (!empty($contact_arr[1]['mailto'])) {
     $contact = array(
       'email' => $contact_arr[1]['mailto'],
       'name' => $contact_arr[1]['name']
     );
+
+    // Validity checks
+    if (empty($contact['email'])) {
+      $OUTPUT->show_message('errorsavingcontact', 'error');
+      $OUTPUT->send();
+    }
+    else if (!check_email($contact['email'], false)) {
+      $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']));
+      $OUTPUT->send();
+    }
 
     $contact['email'] = idn_to_utf8($contact['email']);
 
@@ -60,7 +70,7 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
 }
 
 if (!$done)
-  $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsavingcontact', 'warning');
+  $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsavingcontact', 'error');
 
 $OUTPUT->send();
 

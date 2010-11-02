@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[contacts] (
 	[changed] [datetime] NOT NULL ,
 	[del] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[name] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[email] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[email] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[firstname] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[surname] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[vcard] [text] COLLATE Latin1_General_CI_AI NULL 

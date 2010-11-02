@@ -20,19 +20,17 @@
 */
 
 $cid = get_input_value('_cid', RCUBE_INPUT_POST);
-$return_action = empty($cid) ? 'add' : 'show';
+$return_action = empty($cid) ? 'add' : 'edit';
 
 // cannot edit record
-if ($CONTACTS->readonly)
-{
+if ($CONTACTS->readonly) {
   $OUTPUT->show_message('contactreadonly', 'error');
   rcmail_overwrite_action($return_action);
   return;
 }
 
-// check input
-if ((!get_input_value('_name', RCUBE_INPUT_POST) || !get_input_value('_email', RCUBE_INPUT_POST)))
-{
+// Basic input checks
+if ((!get_input_value('_name', RCUBE_INPUT_POST) || !get_input_value('_email', RCUBE_INPUT_POST))) {
   $OUTPUT->show_message('formincomplete', 'warning');
   rcmail_overwrite_action($return_action);
   return;
@@ -44,11 +42,18 @@ $a_save_cols = array('name', 'firstname', 'surname', 'email');
 $a_record = array();
 
 // read POST values into hash array
-foreach ($a_save_cols as $col)
-{
+foreach ($a_save_cols as $col) {
   $fname = '_'.$col;
   if (isset($_POST[$fname]))
     $a_record[$col] = get_input_value($fname, RCUBE_INPUT_POST);
+}
+
+// Validity checks
+$_email = idn_to_ascii($a_record['email']);
+if (!check_email($_email, false)) {
+  $OUTPUT->show_message('emailformaterror', 'warning', array('email' => $_email));
+  rcmail_overwrite_action($return_action);
+  return;
 }
 
 // update an existing contact
@@ -57,7 +62,7 @@ if (!empty($cid))
   $plugin = $RCMAIL->plugins->exec_hook('contact_update',
     array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
   $a_record = $plugin['record'];
-  
+
   if (!$plugin['abort'])
     $result = $CONTACTS->update($cid, $a_record);
   else
@@ -70,7 +75,7 @@ if (!empty($cid))
       // change cid in POST for 'show' action
       $_POST['_cid'] = $newcid;
     }
-    
+
     // define list of cols to be displayed
     $a_js_cols = array();
     $record = $CONTACTS->get_record($newcid ? $newcid : $cid, true);
@@ -80,7 +85,7 @@ if (!empty($cid))
 
     // update the changed col in list
     $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid);
-      
+
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
     rcmail_overwrite_action('show');
