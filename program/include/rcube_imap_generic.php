@@ -455,7 +455,7 @@ class rcube_imap_generic
                 // send result
                 $this->putLine($reply);
                 $line = $this->readLine(1024);
-                
+
                 if ($line[0] == '+') {
 			        $challenge = substr($line, 2);
                 }
@@ -643,7 +643,7 @@ class rcube_imap_generic
         if (array_key_exists('namespace', $this->prefs)) {
             return $this->prefs['namespace'];
         }
-    
+
         if (!$this->getCapability('NAMESPACE')) {
 	        return self::ERROR_BAD;
 	    }
@@ -1324,7 +1324,7 @@ class rcube_imap_generic
 		    return false;
 	    }
 	    do {
-		    $line = $this->readLine(1024);
+		    $line = $this->readLine(4096);
 		    $line = $this->multLine($line);
 
             if (!$line)
@@ -1565,17 +1565,15 @@ class rcube_imap_generic
 	    if ($field == 'date' || $field == 'internaldate') {
 	        $field = 'timestamp';
 	    }
+
     	if (empty($flag)) {
 	        $flag = 'ASC';
 	    } else {
         	$flag = strtoupper($flag);
         }
 
-	    $stripArr = ($field=='subject') ? array('Re: ','Fwd: ','Fw: ','"') : array('"');
-
 	    $c = count($a);
 	    if ($c > 0) {
-
 			// Strategy:
 			// First, we'll create an "index" array.
 			// Then, we'll use sort() on that array,
@@ -1593,14 +1591,17 @@ class rcube_imap_generic
 			    } else {
 				    $data = $val->$field;
 				    if (is_string($data)) {
-					    $data = strtoupper(str_replace($stripArr, '', $data));
+				        $data = str_replace('"', '', $data);
+                	    if ($field == 'subject') {
+				            $data = preg_replace('/^(Re: \s*|Fwd:\s*|Fw:\s*)+/i', '', $data);
+                        }
+					    $data = strtoupper($data);
             		}
 			    }
-    			$index[$key]=$data;
+    			$index[$key] = $data;
 	    	}
 
 		    // sort index
-    		$i = 0;
 	    	if ($flag == 'ASC') {
 		    	asort($index);
     		} else {
@@ -1611,8 +1612,7 @@ class rcube_imap_generic
 	    	$result = array();
 		    reset($index);
     		while (list($key, $val) = each($index)) {
-	    		$result[$key]=$a[$key];
-		    	$i++;
+	    		$result[$key] = $a[$key];
 		    }
 	    }
 
