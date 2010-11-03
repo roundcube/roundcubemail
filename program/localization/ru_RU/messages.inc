@@ -11,6 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Artur Smolkin <artsmolkin@ya.ru>                              |
+| Updates: Sergey Dukachev <iam@dukess.ru>                              |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -108,7 +109,8 @@ $messages['smtpconnerror'] = 'SMTP Error ($code): Соединение с сер
 $messages['smtpautherror'] = 'SMTP Error ($code): Ошибка авторизации';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Невозможно установить отправителя "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Error ($code): Невозможно добавить получателя "$to" ($msg)';
-$messages['smtprecipientserror'] = 'SMTP Error ($code): Невозможно обработать список получателей';
+$messages['smtprecipientserror'] = 'SMTP Error: Невозможно обработать список получателей';
+$messages['smtpdsnerror'] = 'SMTP Error: Уведомления о состоянии доставки не поддерживаются';
 $messages['smtperror'] = 'SMTP Error ($code): $msg';
 $messages['emailformaterror'] = 'Неверный адрес: $email';
 $messages['toomanyrecipients'] = 'Слишком много получателей, уменьшите их количество до $max.';

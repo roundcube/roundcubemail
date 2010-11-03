@@ -112,6 +112,7 @@ $messages['smtpautherror'] = 'Erro SMTP ($code): A autenticação falhou';
 $messages['smtpfromerror'] = 'Erro SMTP ($code): Falha ao definir o remetente "$from" ($msg)';
 $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatário: "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Erro SMTP: Impossível analisar a lista de destinatários';
+$messages['smtpdsnerror'] = 'Erro SMTP: Não há suporte para recibo de entrega';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de e-mail incorrecto: $email';
 $messages['toomanyrecipients'] = 'Demasiados destinatários. Reduza o numero de destinatários para o máximo de $max.';

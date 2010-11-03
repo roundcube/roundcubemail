@@ -110,6 +110,7 @@ $messages['smtpautherror'] = 'Errore SMTP ($code): Autenticazione fallita';
 $messages['smtpfromerror'] = 'Errore SMTP ($code): Fallita l\'impostazione del mittente "$from" ($msg)';
 $messages['smtptoerror'] = 'Errore SMTP ($code): Fallito l\'inserimento del destinatario "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Errore SMTP: Impossibile processare la lista dei destinatari';
+$messages['smtpdsnerror'] = 'Errore SMTP: Ricevuta di consegna non supportata';
 $messages['smtperror'] = 'Errore SMTP: $msg';
 $messages['emailformaterror'] = 'Indirizzo e-mail non corretto: $email';
 $messages['toomanyrecipients'] = 'Numero eccessivo di destinatari, ridurlo a $max';

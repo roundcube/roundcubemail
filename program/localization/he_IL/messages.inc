@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  30052010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  18102010                |
 +-----------------------------------------------------------------------+
 
 */
@@ -22,6 +22,7 @@ $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
 $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או שפג תוקפה';
 $messages['imaperror'] = 'הקשר לשרת הדואר נכשל';
 $messages['servererror'] = '! שגיאת שרת';
+$messages['servererrormsg'] = '$msg  שגיאת שרת';
 $messages['invalidrequest'] = 'בקשה לא חוקית. המידע לא נשמר';
 $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
 $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
@@ -105,9 +106,10 @@ $messages['editorwarning'] = 'המעבר לעורך רגיל יגרום לאיב
 $messages['httpreceivedencrypterror'] = 'ארעה שגיאת תצורה חמורה. נא להודיע מייד למנהל/ת המערכת. <B> הודעתך לא תשלח <B> ';
 $messages['smtpconnerror'] = 'SMTP ($code): אבד הקשר לשרת';
 $messages['smtpautherror'] = 'SMTP ($code): ההזדהות נכשלה';
-$messages['smtpfromerror'] = 'SMTP ($code): "$from" לא נרשמה כתובת השולח';
-$messages['smtptoerror'] = 'SMTP ($code): "$to" לא נרשמה כתובת המקבל';
+$messages['smtpfromerror'] = ' ($msg) SMTP ($code): "$from" לא נרשמה כתובת השולח';
+$messages['smtptoerror'] = ' ($msg) SMTP ($code): "$to" לא נרשמה כתובת המקבל';
 $messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
+$messages['smtpdsnerror'] = 'שגיאת SMTP: אין תמיכה בהודעה על מצב מסירה';
 $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
 $messages['toomanyrecipients'] = 'יותר מדי נמענים. יש להקטין מספרם ל - $max';

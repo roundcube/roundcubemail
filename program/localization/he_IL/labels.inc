@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  29092010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  18102010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -36,11 +36,16 @@ $labels['to'] = 'הנמען';
 $labels['cc'] = 'לידיעה';
 $labels['bcc'] = 'מכותב מוסתר';
 $labels['replyto'] = 'כתובת למענה';
+$labels['mailreplyto'] = 'כתובת למענה';
+$labels['mailfollowupto'] = 'כתובת להעברת הודעה';
 $labels['date'] = 'תאריך';
 $labels['size'] = 'גודל';
 $labels['priority'] = 'עדיפות';
 $labels['organization'] = 'ארגון';
+$labels['readstatus'] = 'נקרא';
 $labels['reply-to'] = 'כתובת למענה';
+$labels['mailreply-to'] = 'כתובת למענה';
+$labels['mailfollowup-to'] = 'כתובת להעברת הודעה';
 $labels['mailboxlist'] = 'תיקים';
 $labels['messagesfromto'] = 'הודעות $from עד $to מתוך $count';
 $labels['threadsfromto'] = 'שרשור $from עד $to מתוך $count';
@@ -95,6 +100,8 @@ $labels['checkmail'] = 'משיכת הודעות חדשות';
 $labels['writenewmessage'] = 'יצירת הודעה חדשה';
 $labels['replytomessage'] = 'מענה לשולח';
 $labels['replytoallmessage'] = 'מענה לשולח ולכל הנמענים';
+$labels['replyall'] = 'מענה לכולם';
+$labels['replylist'] = 'מענה לרשימת תפוצה';
 $labels['forwardmessage'] = 'העבר הודעה';
 $labels['deletemessage'] = 'מחיקה';
 $labels['movemessagetotrash'] = 'השלכה לאשפה';
@@ -167,6 +174,7 @@ $labels['addattachment'] = 'צירוף קובץ';
 $labels['charset'] = 'קידוד';
 $labels['editortype'] = 'סוג עורך';
 $labels['returnreceipt'] = 'אישור קבלה';
+$labels['dsn'] = 'הודעה על מצב המסירה';
 $labels['editidents'] = 'עריכת זהויות';
 $labels['checkspelling'] = 'בדיקת איות';
 $labels['resumeediting'] = 'המשך עריכה';
@@ -191,6 +199,8 @@ $labels['maxuploadsize'] = 'גודל מקסימלי לקובץ הוא  $size';
 $labels['addcc'] = 'הוספת מכותב לידיעה';
 $labels['addbcc'] = 'הוספת מכותב נסתר';
 $labels['addreplyto'] = 'הוספת כתובת למענה';
+$labels['addmailreplyto'] = 'הוספת כתובת למענה';
+$labels['addmailfollowupto'] = 'הוספת כתובת להעברת הודעה';
 $labels['mdnrequest'] = 'השולח ביקש לדעת אם ההודעה נקראה. האם להודיע לשולח?';
 $labels['receiptread'] = 'אישור קבלה (נקרא)';
 $labels['yourmessage'] = 'אישור קבלה להודעתך';
@@ -249,6 +259,7 @@ $labels['pagesize'] = 'מספר שורות בדף';
 $labels['signature'] = 'חתימה';
 $labels['dstactive'] = 'שעון קיץ';
 $labels['htmleditor'] = 'יצירת הודעה מעוצבת';
+$labels['htmlonreply'] = 'רק במענה להודעת HTML';
 $labels['htmlsignature'] = 'חתימה מעוצבת';
 $labels['previewpane'] = 'תצוגה מוקדמת';
 $labels['skin'] = 'ערכת מראה';
@@ -261,6 +272,7 @@ $labels['mdnrequests'] = 'משלוח אישור מסירה';
 $labels['askuser'] = 'שאל את המשתמש';
 $labels['autosend'] = 'שליחה אוטומטית';
 $labels['autosendknown'] = 'משלוח אישור קבלה רק לאנשי הקשר שלי ';
+$labels['autosendknownignore'] = 'משלוח אישור קבלה לאנשי הקשר שלי בלבד ולהתעלם מאחרים';
 $labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
@@ -306,6 +318,7 @@ $labels['insertsignature'] = 'שיבוץ חתימה';
 $labels['previewpanemarkread'] = 'סימון הודעה שנצפתה כנקראה';
 $labels['afternseconds'] = 'לאחר $n שניות';
 $labels['reqmdn'] = 'תמיד יש לדרוש אישור קבלה';
+$labels['reqdsn'] = 'תמיד לבקש הודעה על מצב המסירה';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';
