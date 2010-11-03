@@ -60,6 +60,8 @@ CHANGELOG Roundcube Webmail
 - Improve performance of message cache status checking with skip_disabled=true
 - Support contact's email addresses up to 255 characters long (#1487095)
 - Add option to place replies in the folder of the message being replied to (#1485945)
+- Add missing confirmation/error messages on contact/group/message actions (#1486845)
+- Add 'loading' message on message move/copy/delete/mark actions
 
 RELEASE 0.4.2
 -------------

@@ -43,6 +43,9 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_targe
         $OUTPUT->send();
         exit;
     }
+    else {
+      $OUTPUT->show_message('messagemoved', 'confirmation');
+    }
 
     $addrows = true;
 }
@@ -52,7 +55,7 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
     $del = $IMAP->delete_message($uids, $mbox);
-  
+
     if (!$del) {
         // send error message
 	    if ($_POST['_from'] != 'show')
@@ -61,7 +64,10 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
         $OUTPUT->send();
         exit;
     }
-    
+    else {
+      $OUTPUT->show_message('messagedeleted', 'confirmation');
+    }
+
     $addrows = true;
 }
 // unknown action or missing query param

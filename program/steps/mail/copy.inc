@@ -34,12 +34,15 @@ if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
     $copied = $IMAP->copy_message($uids, $target, $mbox);
-  
+
     if (!$copied) {
         // send error message
         $OUTPUT->show_message('errorcopying', 'error');
         $OUTPUT->send();
         exit;
+    }
+    else {
+        $OUTPUT->show_message('messagecopied', 'confirmation');
     }
 
     rcmail_send_unread_count($target, true);

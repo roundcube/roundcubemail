@@ -87,8 +87,10 @@ $messages['copysuccess'] = 'Successfully copied $nr addresses';
 $messages['copyerror'] = 'Could not copy any addresses';
 $messages['sourceisreadonly'] = 'This address source is read only';
 $messages['errorsavingcontact'] = 'Could not save the contact address';
-$messages['movingmessage'] = 'Moving message...';
-$messages['copyingmessage'] = 'Copying message...';
+$messages['movingmessage'] = 'Moving message(s)...';
+$messages['copyingmessage'] = 'Copying message(s)...';
+$messages['deletingmessage'] = 'Deleting message(s)...';
+$messages['markingmessage'] = 'Marking message(s)...';
 $messages['receiptsent'] = 'Successfully sent a read receipt';
 $messages['errorsendingreceipt'] = 'Could not send the receipt';
 $messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';
@@ -116,5 +118,14 @@ $messages['emailformaterror'] = 'Invalid e-mail address: $email';
 $messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
 $messages['maxgroupmembersreached'] = 'The number of group members exceeds the maximum of $max';
 $messages['internalerror'] = 'An internal error occured. Please try again';
+$messages['contactdelerror'] = 'Could not delete contact(s)';
+$messages['contactdeleted'] = 'Contact(s) deleted successfully';
+$messages['groupdeleted'] = 'Group deleted successfully';
+$messages['grouprenamed'] = 'Group renamed successfully';
+$messages['groupcreated'] = 'Group created successfully';
+$messages['messagedeleted'] = 'Message(s) deleted successfully';
+$messages['messagemoved'] = 'Message(s) moved successfully';
+$messages['messagecopied'] = 'Message(s) copied successfully';
+$messages['messagemarked'] = 'Message(s) marked successfully';
 
 ?>

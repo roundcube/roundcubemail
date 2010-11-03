@@ -23,30 +23,33 @@ if ($OUTPUT->ajax_call &&
     ($cid = get_input_value('_cid', RCUBE_INPUT_POST)) &&
     preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)
 ) {
-  $plugin = $RCMAIL->plugins->exec_hook('contact_delete', array(
-    'id' => $cid, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+    $plugin = $RCMAIL->plugins->exec_hook('contact_delete', array(
+        'id' => $cid, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
 
-  $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid) : $plugin['result'];
+    $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid) : $plugin['result'];
 
-  if (!$deleted) {
-    // send error message
-    exit;
-  }
+    if (!$deleted) {
+        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'contactdelerror', 'error');
+        $OUTPUT->command('list_contacts');
+    }
+    else {
+        $OUTPUT->show_message('contactdeleted', 'confirmation');
 
-  // count contacts for this user
-  $result = $CONTACTS->count();
+        // count contacts for this user
+        $result = $CONTACTS->count();
 
-  // update message count display
-  $OUTPUT->set_env('pagecount', ceil($result->count / $CONTACTS->page_size));
-  $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result->count));
+        // update message count display
+        $OUTPUT->set_env('pagecount', ceil($result->count / $CONTACTS->page_size));
+        $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result->count));
 
-  // add new rows from next page (if any)
-  $pages = ceil(($result->count + $deleted) / $CONTACTS->page_size);
-  if ($_GET['_from'] != 'show' && $pages > 1 && $CONTACTS->list_page < $pages)
-    rcmail_js_contacts_list($CONTACTS->list_records(null, -$deleted));
+        // add new rows from next page (if any)
+        $pages = ceil(($result->count + $deleted) / $CONTACTS->page_size);
+        if ($_GET['_from'] != 'show' && $pages > 1 && $CONTACTS->list_page < $pages)
+            rcmail_js_contacts_list($CONTACTS->list_records(null, -$deleted));
+    }
 
-  // send response
-  $OUTPUT->send();
+    // send response
+    $OUTPUT->send();
 }
 
 exit;

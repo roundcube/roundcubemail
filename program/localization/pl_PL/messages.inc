@@ -94,6 +94,8 @@ $messages['sourceisreadonly'] = 'Źródło adresu jest tylko do odczytu';
 $messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu';
 $messages['movingmessage'] = 'Przenoszenie wiadomości...';
 $messages['copyingmessage'] = 'Kopiowanie wiadomości...';
+$messages['deletingmessage'] = 'Usuwanie wiadomości...';
+$messages['markingmessage'] = 'Oznaczanie wiadomości...';
 $messages['receiptsent'] = 'Pomyślnie wysłano potwierdzenie dostarczenia';
 $messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia';
 $messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';
@@ -120,6 +122,15 @@ $messages['smtperror'] = 'Błąd SMTP: $msg';
 $messages['emailformaterror'] = 'Błędny adres e-mail: $email';
 $messages['toomanyrecipients'] = 'Zbyt wielu odbiorców. Zmniejsz ich liczbę do $max.';
 $messages['maxgroupmembersreached'] = 'Liczba członków grupy nie może być większa niż $max';
-$messages['internalerror'] = 'Wystąpił wewnętrzny błąd systemu. Spróbuj jeszcze raz'
+$messages['internalerror'] = 'Wystąpił wewnętrzny błąd systemu. Spróbuj jeszcze raz';
+$messages['contactdelerror'] = 'Usuwanie kontaktów nie powiodło się';
+$messages['contactdeleted'] = 'Kontakt(y) został(y) usunięte';
+$messages['groupdeleted'] = 'Grupa została usunięta';
+$messages['grouprenamed'] = 'Nazwa grupy została zmieniona';
+$messages['groupcreated'] = 'Grupa została utworzona';
+$messages['messagedeleted'] = 'Wiadomości zostały usunięte';
+$messages['messagemoved'] = 'Wiadomości zostały przeniesione';
+$messages['messagecopied'] = 'Wiadomości zostały skopiowane';
+$messages['messagemarked'] = 'Wiadomości zostały oznaczone';
 
 ?>

@@ -2362,6 +2362,7 @@ function rcube_webmail()
       return;
 
     var a_uids = [],
+      lock = this.display_message(this.get_label('copyingmessage'), 'loading'),
       add_url = '&_target_mbox='+urlencode(mbox)+'&_from='+(this.env.action ? this.env.action : '');
 
     if (this.env.uid)
@@ -2374,7 +2375,7 @@ function rcube_webmail()
     }
 
     // send request to server
-    this.http_post('copy', '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, false);
+    this.http_post('copy', '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
   };
 
   // move selected messages to the specified mailbox
@@ -2425,7 +2426,7 @@ function rcube_webmail()
       return false;
     }
     // if there isn't a defined trash mailbox or we are in it
-    else if (!this.env.trash_mailbox || this.env.mailbox == this.env.trash_mailbox) 
+    else if (!this.env.trash_mailbox || this.env.mailbox == this.env.trash_mailbox)
       this.permanently_remove_messages();
     // if there is a trash mailbox defined and we're not currently in it
     else {
@@ -2456,7 +2457,7 @@ function rcube_webmail()
   // @private
   this._with_selected_messages = function(action, lock, add_url)
   {
-    var a_uids = [], count = 0;
+    var a_uids = [], count = 0, msg;
 
     if (this.env.uid)
       a_uids[0] = this.env.uid;
@@ -2486,7 +2487,7 @@ function rcube_webmail()
       }
     }
 
-    // also send search request to get the right messages 
+    // also send search request to get the right messages
     if (this.env.search_request)
       add_url += '&_search='+this.env.search_request;
 
@@ -2500,6 +2501,11 @@ function rcube_webmail()
       this.delete_excessive_thread_rows();
 
     add_url += '&_uid='+this.uids_to_list(a_uids);
+
+    if (!lock) {
+      msg = action == 'moveto' ? 'movingmessage' : 'deletingmessage';
+      lock = this.display_message(this.get_label(msg), 'loading');
+    }
 
     // send request to server
     this.http_post(action, '_mbox='+urlencode(this.env.mailbox)+add_url, lock);
@@ -2564,13 +2570,14 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
 
-    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag;
+    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag,
+      lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // also send search request to get the right messages
     if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
-    this.http_post('mark', url);
+    this.http_post('mark', url, lock);
 
     for (var i=0; i<a_uids.length; i++)
       this.update_thread_root(a_uids[i], flag);
@@ -2583,13 +2590,14 @@ function rcube_webmail()
     for (var i=0; i<a_uids.length; i++)
       this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
 
-    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag;
+    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag,
+      lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // also send search request to get the right messages
     if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
-    this.http_post('mark', url);
+    this.http_post('mark', url, lock);
   };
 
   // mark all message rows as deleted/undeleted
@@ -2628,13 +2636,14 @@ function rcube_webmail()
     for (var i=0, len=a_uids.length; i<len; i++)
       this.set_message(a_uids[i], 'deleted', false);
 
-    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete';
+    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete',
+      lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // also send search request to get the right messages
     if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
-    this.http_post('mark', url);
+    this.http_post('mark', url, lock);
     return true;
   };
 
@@ -2671,7 +2680,8 @@ function rcube_webmail()
         this.delete_excessive_thread_rows();
     }
 
-    add_url = '&_from='+(this.env.action ? this.env.action : '');
+    add_url = '&_from='+(this.env.action ? this.env.action : ''),
+      lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // ??
     if (r_uids.length)
@@ -2686,8 +2696,8 @@ function rcube_webmail()
     if (this.env.search_request)
       add_url += '&_search='+this.env.search_request;
 
-    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag=delete'+add_url);
-    return true;  
+    this.http_post('mark', '_uid='+this.uids_to_list(a_uids)+'&_flag=delete'+add_url, lock);
+    return true;
   };
 
   // flag as read without mark request (called from backend)

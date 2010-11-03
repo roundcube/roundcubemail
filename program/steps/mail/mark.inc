@@ -51,6 +51,9 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     $OUTPUT->send();
     exit;
   }
+  else {
+    $OUTPUT->show_message('messagemarked', 'confirmation');
+  }
 
   if ($flag == 'DELETED' && $CONFIG['read_when_deleted'] && !empty($_POST['_ruid'])) {
     $ruids = get_input_value('_ruid', RCUBE_INPUT_POST);
