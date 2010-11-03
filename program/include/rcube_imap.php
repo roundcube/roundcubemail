@@ -2827,7 +2827,9 @@ class rcube_imap
         }
         else {
             // Server supports LIST-EXTENDED, we can use selection options
-            if ($this->get_capability('LIST-EXTENDED')) {
+            $config = rcmail::get_instance()->config;
+            // #1486225: Some dovecot versions returns wrong result using LIST-EXTENDED
+            if (!$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED')) {
                 // This will also set mailbox options, LSUB doesn't do that
                 $a_folders = $this->conn->listMailboxes($this->mod_mailbox($root), $filter,
                     NULL, array('SUBSCRIBED'));

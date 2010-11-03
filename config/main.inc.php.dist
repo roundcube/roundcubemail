@@ -84,6 +84,12 @@ $rcmail_config['imap_delimiter'] = null;
 // after login. Set to True if you've got this case.
 $rcmail_config['imap_force_caps'] = false;
 
+// By default list of subscribed folders is determined using LIST-EXTENDED
+// extension if available. Some servers (dovecot 1.x) returns wrong results
+// for shared namespaces in this case. http://trac.roundcube.net/ticket/1486225
+// Enable this option to force LSUB command usage instead.
+$rcmail_config['imap_force_lsub'] = false;
+
 // IMAP connection timeout, in seconds. Default: 0 (no limit)
 $rcmail_config['imap_timeout'] = 0;
 
