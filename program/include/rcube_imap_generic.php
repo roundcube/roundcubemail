@@ -1274,7 +1274,7 @@ class rcube_imap_generic
 	        return 	null;
 	    }
 
-    	if (!$this->select($folder)) {
+    	if (!$this->select($mailbox)) {
             return null;
         }
 
@@ -1762,16 +1762,16 @@ class rcube_imap_generic
 	    return $node;
     }
 
-    function thread($folder, $algorithm='REFERENCES', $criteria='', $encoding='US-ASCII')
+    function thread($mailbox, $algorithm='REFERENCES', $criteria='', $encoding='US-ASCII')
     {
         $old_sel = $this->selected;
 
-	    if (!$this->select($folder)) {
+	    if (!$this->select($mailbox)) {
     		return false;
 	    }
 
         // return empty result when folder is empty and we're just after SELECT
-        if ($old_sel != $folder && !$this->data['EXISTS']) {
+        if ($old_sel != $mailbox && !$this->data['EXISTS']) {
             return array(array(), array(), array());
 	    }
 
@@ -1973,32 +1973,32 @@ class rcube_imap_generic
                 $cmd = strtoupper($this->tokenizeResponse($response, 1));
                 // * LIST (<options>) <delimiter> <mailbox>
                 if (!$lstatus || $cmd == 'LIST' || $cmd == 'LSUB') {
-                    list($opts, $delim, $folder) = $this->tokenizeResponse($response, 3);
+                    list($opts, $delim, $mailbox) = $this->tokenizeResponse($response, 3);
 
                     // Add to result array
                     if (!$lstatus) {
-           			    $folders[] = $folder;
+           			    $folders[] = $mailbox;
                     }
                     else {
-                        $folders[$folder] = array();
+                        $folders[$mailbox] = array();
                     }
 
                     // Add to options array
                     if (!empty($opts)) {
-                        if (empty($this->data['LIST'][$folder]))
-                            $this->data['LIST'][$folder] = $opts;
+                        if (empty($this->data['LIST'][$mailbox]))
+                            $this->data['LIST'][$mailbox] = $opts;
                         else
-                            $this->data['LIST'][$folder] = array_unique(array_merge(
-                                $this->data['LIST'][$folder], $opts));
+                            $this->data['LIST'][$mailbox] = array_unique(array_merge(
+                                $this->data['LIST'][$mailbox], $opts));
                     }
                 }
                 // * STATUS <mailbox> (<result>)
                 else if ($cmd == 'STATUS') {
-                    list($folder, $status) = $this->tokenizeResponse($response, 2);
+                    list($mailbox, $status) = $this->tokenizeResponse($response, 2);
 
                     for ($i=0, $len=count($status); $i<$len; $i += 2) {
                         list($name, $value) = $this->tokenizeResponse($status, 2);
-                        $folders[$folder][$name] = $value;
+                        $folders[$mailbox][$name] = $value;
                     }
                 }
 		    }
@@ -2210,9 +2210,9 @@ class rcube_imap_generic
 	    return false;
     }
 
-    function createFolder($folder)
+    function createFolder($mailbox)
     {
-        $result = $this->execute('CREATE', array($this->escape($folder)),
+        $result = $this->execute('CREATE', array($this->escape($mailbox)),
 	        self::COMMAND_NORESPONSE);
 
 	    return ($result == self::ERROR_OK);
@@ -2226,42 +2226,42 @@ class rcube_imap_generic
 		return ($result == self::ERROR_OK);
     }
 
-    function deleteFolder($folder)
+    function deleteFolder($mailbox)
     {
-        $result = $this->execute('DELETE', array($this->escape($folder)),
+        $result = $this->execute('DELETE', array($this->escape($mailbox)),
 	        self::COMMAND_NORESPONSE);
 
 	    return ($result == self::ERROR_OK);
     }
 
-    function clearFolder($folder)
+    function clearFolder($mailbox)
     {
-	    $num_in_trash = $this->countMessages($folder);
+	    $num_in_trash = $this->countMessages($mailbox);
 	    if ($num_in_trash > 0) {
-		    $this->delete($folder, '1:*');
+		    $this->delete($mailbox, '1:*');
 	    }
-	    return ($this->expunge($folder) >= 0);
+	    return ($this->expunge($mailbox) >= 0);
     }
 
-    function subscribe($folder)
+    function subscribe($mailbox)
     {
-	    $result = $this->execute('SUBSCRIBE', array($this->escape($folder)),
+	    $result = $this->execute('SUBSCRIBE', array($this->escape($mailbox)),
 	        self::COMMAND_NORESPONSE);
 
 	    return ($result == self::ERROR_OK);
     }
 
-    function unsubscribe($folder)
+    function unsubscribe($mailbox)
     {
-	    $result = $this->execute('UNSUBSCRIBE', array($this->escape($folder)),
+	    $result = $this->execute('UNSUBSCRIBE', array($this->escape($mailbox)),
 	        self::COMMAND_NORESPONSE);
 
 	    return ($result == self::ERROR_OK);
     }
 
-    function append($folder, &$message)
+    function append($mailbox, &$message)
     {
-	    if (!$folder) {
+	    if (!$mailbox) {
 		    return false;
 	    }
 
@@ -2274,7 +2274,7 @@ class rcube_imap_generic
 	    }
 
         $key = $this->next_tag();
-	    $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
+	    $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($mailbox),
             $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
@@ -2297,7 +2297,7 @@ class rcube_imap_generic
     		} while (!$this->startsWith($line, $key, true, true));
 
             // Clear internal status cache
-            unset($this->data['STATUS:'.$folder]);
+            unset($this->data['STATUS:'.$mailbox]);
 
     		return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
 	    }
@@ -2308,9 +2308,9 @@ class rcube_imap_generic
 	    return false;
     }
 
-    function appendFromFile($folder, $path, $headers=null)
+    function appendFromFile($mailbox, $path, $headers=null)
     {
-	    if (!$folder) {
+	    if (!$mailbox) {
 	        return false;
 	    }
 
@@ -2338,7 +2338,7 @@ class rcube_imap_generic
 
     	// send APPEND command
     	$key = $this->next_tag();
-	    $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($folder),
+	    $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($mailbox),
             $len, ($this->prefs['literal+'] ? '+' : ''));
 
 	    if ($this->putLine($request)) {
@@ -2374,7 +2374,7 @@ class rcube_imap_generic
 		    } while (!$this->startsWith($line, $key, true, true));
 
             // Clear internal status cache
-            unset($this->data['STATUS:'.$folder]);
+            unset($this->data['STATUS:'.$mailbox]);
 
 		    return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
 	    }
@@ -2385,9 +2385,9 @@ class rcube_imap_generic
 	    return false;
     }
 
-    function fetchStructureString($folder, $id, $is_uid=false)
+    function fetchStructureString($mailbox, $id, $is_uid=false)
     {
-	    if (!$this->select($folder)) {
+	    if (!$this->select($mailbox)) {
             return false;
         }
 
