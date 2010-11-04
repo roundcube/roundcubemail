@@ -113,7 +113,7 @@ class rcube_imap
         $this->conn = new rcube_imap_generic();
     }
 
-    
+
     /**
      * Connect to an IMAP server
      *
@@ -182,7 +182,7 @@ class rcube_imap
         return false;
     }
 
-    
+
     /**
      * Close IMAP connection
      * Usually done on script shutdown
@@ -195,7 +195,7 @@ class rcube_imap
         $this->write_cache();
     }
 
-    
+
     /**
      * Close IMAP connection and re-connect
      * This is used to avoid some strange socket errors when talking to Courier IMAP
@@ -233,7 +233,7 @@ class rcube_imap
     {
         return ($this->conn) ? $this->conn->error : '';
     }
-    
+
 
     /**
      * Set options to be used in rcube_imap_generic::connect()
@@ -245,7 +245,7 @@ class rcube_imap
         $this->options = array_merge($this->options, (array)$opt);
     }
 
-    
+
     /**
      * Set a root folder for the IMAP connection.
      *
@@ -267,7 +267,7 @@ class rcube_imap
             $this->get_hierarchy_delimiter();
     }
 
-    
+
     /**
      * Set default message charset
      *
@@ -281,7 +281,7 @@ class rcube_imap
         $this->default_charset = $cs;
     }
 
-    
+
     /**
      * This list of folders will be listed above all other folders
      *
@@ -299,7 +299,7 @@ class rcube_imap
         }
     }
 
-    
+
     /**
      * Set internal mailbox reference.
      *
@@ -321,7 +321,27 @@ class rcube_imap
         $this->_clear_messagecount($mailbox);
     }
 
-    
+
+    /**
+     * Forces selection of a mailbox
+     *
+     * @param  string $mailbox Mailbox/Folder name
+     * @access public
+     */
+    function select_mailbox($mailbox)
+    {
+        $mailbox = $this->mod_mailbox($mailbox);
+
+        $selected = $this->conn->select($mailbox);
+
+        if ($selected && $this->mailbox != $mailbox) {
+            // clear messagecount cache for this mailbox
+            $this->_clear_messagecount($mailbox);
+            $this->mailbox = $mailbox;
+        }
+    }
+
+
     /**
      * Set internal list page
      *
@@ -333,7 +353,7 @@ class rcube_imap
         $this->list_page = (int)$page;
     }
 
-    
+
     /**
      * Set internal page size
      *
@@ -345,7 +365,7 @@ class rcube_imap
         $this->page_size = (int)$size;
     }
 
-    
+
     /**
      * Save a set of message ids for future message listing methods
      *
@@ -372,7 +392,7 @@ class rcube_imap
         $this->search_sorted     = $sorted;
     }
 
-    
+
     /**
      * Return the saved search set as hash array
      * @return array Search set
@@ -388,7 +408,7 @@ class rcube_imap
 	    );
     }
 
-    
+
     /**
      * Returns the currently used mailbox name
      *
@@ -400,7 +420,7 @@ class rcube_imap
         return $this->conn->connected() ? $this->mod_mailbox($this->mailbox, 'out') : '';
     }
 
-    
+
     /**
      * Returns the IMAP server's capability
      *
@@ -413,7 +433,7 @@ class rcube_imap
         return $this->conn->getCapability(strtoupper($cap));
     }
 
-    
+
     /**
      * Sets threading flag to the best supported THREAD algorithm
      *
@@ -437,7 +457,7 @@ class rcube_imap
         return $this->threading;
     }
 
-    
+
     /**
      * Checks the PERMANENTFLAGS capability of the current mailbox
      * and returns true if the given flag is supported by the IMAP server
@@ -453,7 +473,7 @@ class rcube_imap
         return (in_array_nocase($imap_flag, $this->conn->data['PERMANENTFLAGS']));
     }
 
-    
+
     /**
      * Returns the delimiter that is used by the IMAP server for folder separation
      *
@@ -471,7 +491,7 @@ class rcube_imap
         return $this->delimiter;
     }
 
-    
+
     /**
      * Get message count for a specific mailbox
      *
@@ -489,7 +509,7 @@ class rcube_imap
         return $this->_messagecount($mailbox, $mode, $force, $status);
     }
 
-    
+
     /**
      * Private method for getting nr of messages
      *

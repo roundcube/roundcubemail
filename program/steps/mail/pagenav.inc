@@ -20,7 +20,13 @@
 */
 
 $uid = get_input_value('_uid', RCUBE_INPUT_GET);
-$cnt  = $IMAP->messagecount(NULL, 'ALL'); // Only messages, no threads here
+
+// Select mailbox first, for better performance
+$mbox_name = $IMAP->get_mailbox_name();
+$IMAP->select_mailbox($mbox_name);
+
+// Get messages count (only messages, no threads here)
+$cnt  = $IMAP->messagecount(NULL, 'ALL');
 
 if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] != 'DESC'
     && empty($_REQUEST['_search']) && !$CONFIG['skip_deleted'] && !$IMAP->threading
