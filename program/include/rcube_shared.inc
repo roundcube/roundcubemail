@@ -476,6 +476,11 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
     if (!$mime_type) {
         $mime_type = $failover;
     }
+    else {
+        // sometimes content-type contains charset definition,
+        // remove useless "charset=binary", should we remove any charset def. here?
+        $mime_type = preg_replace('/; charset=binary;*/i', '', $mime_type);
+    }
 
     return $mime_type;
 }
