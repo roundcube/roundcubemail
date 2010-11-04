@@ -23,10 +23,6 @@
 if (!$OUTPUT->ajax_call)
   return;
 
-// count messages before changing anything
-$old_count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
-$old_pages = ceil($old_count / $IMAP->page_size);
-
 // move messages
 if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
     $uids = get_input_value('_uid', RCUBE_INPUT_POST);
