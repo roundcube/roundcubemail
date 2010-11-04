@@ -62,6 +62,7 @@ CHANGELOG Roundcube Webmail
 - Add option to place replies in the folder of the message being replied to (#1485945)
 - Add missing confirmation/error messages on contact/group/message actions (#1486845)
 - Add 'loading' message on message move/copy/delete/mark actions
+- Improve responsiveness of messages displaying (#1486986)
 
 RELEASE 0.4.2
 -------------

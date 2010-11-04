@@ -210,11 +210,9 @@ function rcube_webmail()
           this.enable_command(this.env.message_commands, this.env.uid);
           this.enable_command('reply-list', this.env.list_post);
 
-          if (this.env.next_uid) {
-            this.enable_command('nextmessage', 'lastmessage', true);
-          }
-          if (this.env.prev_uid) {
-            this.enable_command('previousmessage', 'firstmessage', true);
+          if (this.env.action == 'show') {
+            this.http_request('pagenav', '_uid='+this.env.uid+'&_mbox='+urlencode(this.env.mailbox),
+              this.display_message('', 'loading'));
           }
 
           if (this.env.blockedobjects) {
@@ -4595,10 +4593,15 @@ function rcube_webmail()
     var date = new Date(),
       id = type + date.getTime();
 
-    // The same message of type 'loading' is already displayed
-    if (type == 'loading' && this.messages[msg]) {
-       this.messages[msg].elements.push(id);
-       return id;
+    if (type == 'loading') {
+      if (!msg)
+        msg = this.get_label('loading');
+
+      // The same message of type 'loading' is already displayed
+      if (this.messages[msg]) {
+        this.messages[msg].elements.push(id);
+        return id;
+      }
     }
 
     var ref = this,

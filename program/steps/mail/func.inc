@@ -423,14 +423,16 @@ function rcmail_messagecontent_frame($attrib)
 
 function rcmail_messagecount_display($attrib)
   {
-  global $IMAP, $OUTPUT;
+  global $RCMAIL;
 
   if (!$attrib['id'])
     $attrib['id'] = 'rcmcountdisplay';
 
-  $OUTPUT->add_gui_object('countdisplay', $attrib['id']);
+  $RCMAIL->output->add_gui_object('countdisplay', $attrib['id']);
 
-  return html::span($attrib, rcmail_get_messagecount_text());
+  $content =  $RCMAIL->action != 'show' ? rcmail_get_messagecount_text() : rcube_label('loading');
+
+  return html::span($attrib, $content);
   }
 
 
@@ -495,14 +497,7 @@ function rcmail_quota_content($attrib=NULL)
 
 function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   {
-  global $RCMAIL, $IMAP, $MESSAGE;
-
-  if (isset($MESSAGE->index))
-    {
-    return rcube_label(array('name' => 'messagenrof',
-        'vars' => array('nr'  => $MESSAGE->index+1,
-        'count' => $count!==NULL ? $count : $IMAP->messagecount(NULL, 'ALL')))); // Only messages, no threads here
-    }
+  global $RCMAIL, $IMAP;
 
   if ($page===NULL)
     $page = $IMAP->list_page;
