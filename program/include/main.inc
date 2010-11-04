@@ -197,7 +197,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
   static $mbstring_list = null;
   static $convert_warning = false;
   static $conv = null;
-  
+
   $error = false;
 
   $to = empty($to) ? strtoupper(RCMAIL_CHARSET) : rcube_parse_charset($to);
@@ -340,6 +340,9 @@ function rcube_parse_charset($input)
     '/UNICODE-1-1-*/',  // RFC1641/1642
     '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
     ), '', $charset);
+
+  if ($charset == 'BINARY')
+    return $charsets[$input] = null;
 
   # Aliases: some of them from HTML5 spec.
   $aliases = array(
