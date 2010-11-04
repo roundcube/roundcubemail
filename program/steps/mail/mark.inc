@@ -51,7 +51,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     $OUTPUT->send();
     exit;
   }
-  else {
+  else if (empty($_POST['_quiet'])) {
     $OUTPUT->show_message('messagemarked', 'confirmation');
   }
 

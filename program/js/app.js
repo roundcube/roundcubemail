@@ -1838,7 +1838,7 @@ function rcube_webmail()
             ref.set_unread_count(ref.env.mailbox, ref.env.unread_counts[ref.env.mailbox], ref.env.mailbox == 'INBOX');
           }
           if (ref.env.preview_pane_mark_read > 0)
-            ref.http_post('mark', '_uid='+id+'&_flag=read');
+            ref.http_post('mark', '_uid='+id+'&_flag=read&_quiet=1');
         }, this.env.preview_pane_mark_read * 1000);
       }
     }
