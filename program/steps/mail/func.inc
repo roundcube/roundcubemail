@@ -1540,6 +1540,7 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
       $delim   = $RCMAIL->config->header_delimiter();
       $to      = $headers_enc['To'];
       $subject = $headers_enc['Subject'];
+      $header_str = rtrim($header_str);
 
       if ($delim != "\r\n") {
         $header_str = str_replace("\r\n", $delim, $header_str);
