@@ -188,8 +188,8 @@ img
   position: absolute;
   display: none;
   top: -1px;
-  left: 200px;
-  right: 200px;
+  margin-left: -225px;
+  left: 50%;
   z-index: 5000;
   opacity: 0.85;
 }
