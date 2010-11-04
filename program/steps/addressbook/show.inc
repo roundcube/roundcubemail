@@ -126,4 +126,4 @@ function rcmail_contact_record_groups($contact_id)
 //$OUTPUT->framed = $_framed;
 $OUTPUT->add_handler('contactdetails', 'rcmail_contact_details');
 
-$OUTPUT->send('showcontact');
+$OUTPUT->send('contact');

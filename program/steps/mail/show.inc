@@ -149,7 +149,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
 function rcmail_message_attachments($attrib)
 {
   global $PRINT_MODE, $MESSAGE;
-  
+
   $out = $ol = '';
 
   if (sizeof($MESSAGE->attachments)) {
@@ -182,27 +182,27 @@ function rcmail_message_attachments($attrib)
     }
 
     $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
-  } 
-  
+  }
+
   return $out;
 }
 
 function rcmail_remote_objects_msg($attrib)
 {
   global $MESSAGE, $RCMAIL;
-  
+
   if (!$attrib['id'])
     $attrib['id'] = 'rcmremoteobjmsg';
-  
+
   $msg = Q(rcube_label('blockedimages')) . '&nbsp;';
   $msg .= html::a(array('href' => "#loadimages", 'onclick' => JS_OBJECT_NAME.".command('load-images')"), Q(rcube_label('showimages')));
-  
+
   // add link to save sender in addressbook and reload message
   if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
     $msg .= ' ' . html::a(array('href' => "#alwaysload", 'onclick' => JS_OBJECT_NAME.".command('always-load')", 'style' => "white-space:nowrap"),
       Q(rcube_label(array('name' => 'alwaysshow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
   }
-  
+
   $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
   return html::div($attrib, $msg);
 }
@@ -229,8 +229,8 @@ $OUTPUT->add_handlers(array(
   'blockedobjects' => 'rcmail_remote_objects_msg'));
 
 
-if ($RCMAIL->action=='print' && $OUTPUT->template_exists('printmessage'))
-  $OUTPUT->send('printmessage', false);
+if ($RCMAIL->action=='print' && $OUTPUT->template_exists('messageprint'))
+  $OUTPUT->send('messageprint', false);
 else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
   $OUTPUT->send('messagepreview', false);
 else

@@ -79,15 +79,15 @@ function get_form_tags($attrib)
     global $CONTACTS, $EDIT_FORM, $RCMAIL;
 
     $form_start = $form_end = '';
-  
+
     if (empty($EDIT_FORM)) {
         $hiddenfields = new html_hiddenfield(array(
             'name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
         $hiddenfields->add(array('name' => '_gid', 'value' => $CONTACTS->group_id));
-    
+
         if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
             $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
-    
+
         $form_start = $RCMAIL->output->request_form(array(
             'name' => "form", 'method' => "post",
             'task' => $RCMAIL->task, 'action' => 'save',
@@ -105,8 +105,8 @@ function get_form_tags($attrib)
 
 $OUTPUT->add_handler('contacteditform', 'rcmail_contact_editform');
 
-if (!$CONTACTS->get_result() && $OUTPUT->template_exists('addcontact'))
-    $OUTPUT->send('addcontact');
+if (!$CONTACTS->get_result() && $OUTPUT->template_exists('contactadd'))
+    $OUTPUT->send('contactadd');
 
 // this will be executed if no template for addcontact exists
-$OUTPUT->send('editcontact');
+$OUTPUT->send('contactedit');

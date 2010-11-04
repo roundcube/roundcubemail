@@ -153,9 +153,9 @@ $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
 
 $OUTPUT->set_pagetitle(rcube_label(($RCMAIL->action=='add-identity' ? 'newidentity' : 'edititem')));
 
-if ($RCMAIL->action=='add-identity' && $OUTPUT->template_exists('addidentity'))
-  $OUTPUT->send('addidentity');
+if ($RCMAIL->action=='add-identity' && $OUTPUT->template_exists('identityadd'))
+  $OUTPUT->send('identityadd');
 
-$OUTPUT->send('editidentity');
+$OUTPUT->send('identityedit');
 
 
