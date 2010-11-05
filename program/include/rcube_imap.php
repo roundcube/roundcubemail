@@ -547,10 +547,12 @@ class rcube_imap
             $a_mailbox_cache[$mailbox] = array();
 
         if ($mode == 'THREADS') {
-            $count = $this->_threadcount($mailbox, $msg_count);
+            $res   = $this->_threadcount($mailbox, $msg_count);
+            $count = $res['count'];
+
             if ($status) {
-                $this->set_folder_stats($mailbox, 'cnt', $msg_count);
-                $this->set_folder_stats($mailbox, 'maxuid', $msg_count ? $this->_id2uid($msg_count, $mailbox) : 0);
+                $this->set_folder_stats($mailbox, 'cnt', $res['msgcount']);
+                $this->set_folder_stats($mailbox, 'maxuid', $res['maxuid'] ? $this->_id2uid($res['maxuid'], $mailbox) : 0);
             }
         }
         // RECENT count is fetched a bit different
@@ -618,25 +620,33 @@ class rcube_imap
      * Private method for getting nr of threads
      *
      * @param string $mailbox   Folder name
-     * @param int    $msg_count Number of messages in the folder
+     *
+     * @returns array Array containing items: 'count' - threads count,
+     *                'msgcount' = messages count, 'maxuid' = max. UID in the set
      * @access  private
-     * @see     rcube_imap::messagecount()
      */
-    private function _threadcount($mailbox, &$msg_count)
+    private function _threadcount($mailbox)
     {
+        $result = array();
+
         if (!empty($this->icache['threads'])) {
-            $msg_count = count($this->icache['threads']['depth']);
-            return count($this->icache['threads']['tree']);
+            $result = array(
+                'count'    => count($this->icache['threads']['tree']),
+                'msgcount' => count($this->icache['threads']['depth']),
+                'maxuid'   => max(array_keys($this->icache['threads']['depth'])),
+            );
         }
-
-        if (is_array($result = $this->_fetch_threads($mailbox))) {
-            $thread_tree = array_shift($result);
-            $msg_count = count($result[0]);
-        }
-
+        else if (is_array($result = $this->_fetch_threads($mailbox))) {
 //        list ($thread_tree, $msg_depth, $has_children) = $result;
 //        $this->update_thread_cache($mailbox, $thread_tree, $msg_depth, $has_children);
-        return count($thread_tree);
+            $result = array(
+                'count'    => count($result[0]),
+                'msgcount' => count($result[1]),
+                'maxuid'   => max(array_keys($result[1])),
+            );
+        }
+
+        return $result;
     }
 
 
