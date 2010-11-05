@@ -1005,7 +1005,6 @@ table.headers-table
 {
   width: 100%;
   background-color: #EBEBEB;
-  table-layout: fixed;
 }
 
 #messagebody table.headers-table
@@ -1027,19 +1026,23 @@ table.headers-table tr td
   border-bottom:1px solid #FFFFFF;
 }
 
-table.headers-table td.header-title
+table.headers-table tr td.header-title
 {
-  width: 80px;
+  width: 1%;
   color: #666666;
   font-weight: bold;
   text-align: right;
   white-space: nowrap;
-  padding-right: 4px;
+  padding: 0 4px;
+}
+
+table.headers-table tr td.header
+{
+  width: 99%;
 }
 
 table.headers-table tr td.subject
 {
-  width: 90%;
   font-weight: bold;
 }
 
@@ -1064,12 +1067,12 @@ table.headers-table tr td.more-headers
 
 #attachment-list
 {
-  margin: 0px;
-  padding: 0px 0px 0px 72px;
+  margin: 0;
+  padding: 0 4px 0 8px;
   min-height: 16px;
   list-style-image: none;
   list-style-type: none;
-  background: url(images/icons/attachment.png) 60px 2px no-repeat #DFDFDF;
+  background: url(images/icons/attachment.png) 4px 2px no-repeat #DFDFDF;
 }
 
 #attachment-list:after

@@ -266,19 +266,19 @@ function rcmail_compose_headers($attrib)
       $header = 'reply-to';
 
     case 'mailreplyto':
-    case 'mailreply-to':
+    case 'mail-reply-to':
       if (!$fname) {
         $fname = '_mailreplyto';
         $param = 'mailreplyto';
-        $header = 'mailreply-to';
+        $header = 'mail-reply-to';
       }
 
     case 'mailfollowupto':
-    case 'mailfollowup-to':
+    case 'mail-followup-to':
       if (!$fname) {
         $fname = '_mailfollowupto';
         $param = 'mailfollowupto';
-        $header = 'mailfollowup-to';
+        $header = 'mail-followup-to';
       }
 
       $allow_attrib = array('id', 'class', 'style', 'size', 'tabindex');

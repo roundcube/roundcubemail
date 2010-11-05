@@ -56,8 +56,8 @@ $labels['readstatus'] = 'Read status';
 
 // aliases
 $labels['reply-to'] = $labels['replyto'];
-$labels['mailreply-to'] = $labels['mailreplyto'];
-$labels['mailfollowup-to'] = $labels['mailfollowupto'];
+$labels['mail-reply-to'] = $labels['mailreplyto'];
+$labels['mail-followup-to'] = $labels['mailfollowupto'];
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
