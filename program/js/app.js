@@ -2801,17 +2801,18 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    //this.messageform = this.gui_objects.messageform;
-    var input_from = $("[name='_from']");
-    var input_to = $("[name='_to']");
-    var input_subject = $("input[name='_subject']");
-    var input_message = $("[name='_message']").get(0);
-    var html_mode = $("input[name='_is_html']").val() == '1';
+    var input_from = $("[name='_from']"),
+      input_to = $("[name='_to']"),
+      input_subject = $("input[name='_subject']"),
+      input_message = $("[name='_message']").get(0),
+      html_mode = $("input[name='_is_html']").val() == '1',
+      ac_fields = ['cc', 'bcc', 'replyto', 'mailreplyto', 'mailfollowupto'];
 
     // init live search events
     this.init_address_input_events(input_to);
-    this.init_address_input_events($("[name='_cc']"));
-    this.init_address_input_events($("[name='_bcc']"));
+    for (var i in ac_fields) {
+      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"));
+    }
 
     if (!html_mode) {
       this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
