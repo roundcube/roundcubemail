@@ -44,6 +44,15 @@ class rcube_template extends rcube_html_page
     public $type = 'html';
     public $ajax_call = false;
 
+    // deprecated names of templates used before 0.5
+    private $deprecated_templates = array(
+        'contact' => 'showcontact',
+        'contactadd' => 'addcontact',
+        'contactedit' => 'editcontact',
+        'identityedit' => 'editidentity',
+        'messageprint' => 'printmessage',
+    );
+
     /**
      * Constructor
      *
@@ -165,8 +174,7 @@ class rcube_template extends rcube_html_page
     public function template_exists($name)
     {
         $filename = $this->config['skin_path'] . '/templates/' . $name . '.html';
-
-        return (is_file($filename) && is_readable($filename));
+        return (is_file($filename) && is_readable($filename)) || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]));
     }
 
     /**
@@ -379,6 +387,15 @@ class rcube_template extends rcube_html_page
         }
 
         $path = "$skin_path/templates/$name.html";
+
+        if (!is_readable($path) && $this->deprecated_templates[$name]) {
+            $path = "$skin_path/templates/".$this->deprecated_templates[$name].".html";
+            if (is_readable($path))
+                raise_error(array('code' => 502, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Using deprecated template '".$this->deprecated_templates[$name]."' in ".$this->config['skin_path']."/templates. Please rename to '".$name."'"),
+                true, false);
+        }
 
         // read template file
         if (($templ = @file_get_contents($path)) === false) {
