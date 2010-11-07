@@ -75,7 +75,7 @@ abstract class rcube_plugin
   {
     $this->ID = get_class($this);
     $this->api = $api;
-    $this->home = $api->dir . DIRECTORY_SEPARATOR . $this->ID;
+    $this->home = $api->dir . $this->ID;
     $this->urlbase = $api->url . $this->ID . '/';
   }
   
