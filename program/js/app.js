@@ -3426,14 +3426,14 @@ function rcube_webmail()
       return;
 
     // get cursor pos
-    var inp_value = this.ksearch_input.value;
-    var cpos = this.get_caret_pos(this.ksearch_input);
-    var p = inp_value.lastIndexOf(this.ksearch_value, cpos);
+    var inp_value = this.ksearch_input.value,
+      cpos = this.get_caret_pos(this.ksearch_input),
+      p = inp_value.lastIndexOf(this.ksearch_value, cpos),
+      insert = '',
 
-    // replace search string with full address
-    var pre = this.ksearch_input.value.substring(0, p);
-    var end = this.ksearch_input.value.substring(p+this.ksearch_value.length, this.ksearch_input.value.length);
-    var insert = '';
+      // replace search string with full address
+      pre = inp_value.substring(0, p),
+      end = inp_value.substring(p+this.ksearch_value.length, inp_value.length);
 
     // insert all members of a group
     if (typeof this.env.contacts[id] == 'object' && this.env.contacts[id].id) {
@@ -3465,6 +3465,7 @@ function rcube_webmail()
   this.ksearch_get_results = function()
   {
     var inp_value = this.ksearch_input ? this.ksearch_input.value : null;
+
     if (inp_value === null)
       return;
 
@@ -3472,9 +3473,10 @@ function rcube_webmail()
       this.ksearch_pane.hide();
 
     // get string from current cursor pos to last comma
-    var cpos = this.get_caret_pos(this.ksearch_input);
-    var p = inp_value.lastIndexOf(',', cpos-1);
-    var q = inp_value.substring(p+1, cpos);
+    var cpos = this.get_caret_pos(this.ksearch_input),
+      p = inp_value.lastIndexOf(',', cpos-1),
+      q = inp_value.substring(p+1, cpos),
+      min = this.env.autocomplete_min_length;
 
     // trim query string
     q = q.replace(/(^\s+|\s+$)/g, '');
@@ -3482,6 +3484,18 @@ function rcube_webmail()
     // Don't (re-)search if the last results are still active
     if (q == this.ksearch_value)
       return;
+
+    if (q.length < min) {
+      if (!this.env.acinfo) {
+        var label = this.get_label('autocompletechars');
+        label = label.replace('$min', min);
+        this.env.acinfo = this.display_message(label);
+      }
+      return;
+    }
+    else if (this.env.acinfo && q.length == min) {
+      this.hide_message(this.env.acinfo);
+    }
 
     var old_value = this.ksearch_value;
     this.ksearch_value = q;

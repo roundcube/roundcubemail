@@ -127,5 +127,6 @@ $messages['messagedeleted'] = 'Message(s) deleted successfully';
 $messages['messagemoved'] = 'Message(s) moved successfully';
 $messages['messagecopied'] = 'Message(s) copied successfully';
 $messages['messagemarked'] = 'Message(s) marked successfully';
+$messages['autocompletechars'] = 'Enter at least $min characters for autocompletion';
 
 ?>

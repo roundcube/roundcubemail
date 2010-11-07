@@ -462,6 +462,11 @@ $rcmail_config['ldap_public']['Verisign'] = array(
 // when populating address autocomplete fields server-side. ex: array('sql','Verisign');
 $rcmail_config['autocomplete_addressbooks'] = array('sql');
 
+// The minimum number of characters required to be typed in an autocomplete field
+// before address books will be searched. Most useful for LDAP directories that
+// may need to do lengthy results building given overly-broad searches
+$rcmail_config['autocomplete_min_length'] = 1;
+
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------

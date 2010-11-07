@@ -112,7 +112,8 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != $MESSAGE_ID
 // add some labels to client
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
-    'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'fileuploaderror');
+    'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'fileuploaderror',
+    'autocompletechars');
 
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
@@ -123,6 +124,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
 $OUTPUT->set_env('sig_above', $CONFIG['sig_above']);
 $OUTPUT->set_env('top_posting', $CONFIG['top_posting']);
+$OUTPUT->set_env('autocomplete_min_length', $CONFIG['autocomplete_min_length']);
 
 // get reference message and set compose mode
 if ($msg_uid = $_SESSION['compose']['param']['reply_uid'])

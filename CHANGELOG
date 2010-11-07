@@ -63,6 +63,7 @@ CHANGELOG Roundcube Webmail
 - Add missing confirmation/error messages on contact/group/message actions (#1486845)
 - Add 'loading' message on message move/copy/delete/mark actions
 - Improve responsiveness of messages displaying (#1486986)
+- Add option for minimum length of autocomplete's string (#1486428)
 
 RELEASE 0.4.2
 -------------
