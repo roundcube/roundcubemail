@@ -1824,6 +1824,8 @@ function rcube_webmail()
     else {
       if (!this.env.frame_lock)
         this.env.frame_lock = this.set_busy(true, 'loading');
+      if (preview)
+        url += '&_unlock='+this.env.frame_lock;
       target.location.href = this.env.comm_path+url;
 
       // mark as read and change mbox unread counter
