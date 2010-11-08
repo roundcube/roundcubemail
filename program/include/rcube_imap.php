@@ -2462,7 +2462,7 @@ class rcube_imap
         $mailbox = $this->mod_mailbox($mbox_name);
 
         // make sure mailbox exists
-        if ($this->mailbox_exists($mbox_name, true)) {
+        if ($this->mailbox_exists($mbox_name)) {
             if ($is_file)
                 $saved = $this->conn->appendFromFile($mailbox, $message, $headers);
             else
@@ -2500,7 +2500,7 @@ class rcube_imap
             return false;
 
         // make sure mailbox exists
-        if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox, true)) {
+        if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox)) {
             if (in_array($tbox, $this->default_folders))
                 $this->create_mailbox($tbox, true);
             else
@@ -2581,7 +2581,7 @@ class rcube_imap
         }
 
         // make sure mailbox exists
-        if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox, true)) {
+        if ($to_mbox != 'INBOX' && !$this->mailbox_exists($tbox)) {
             if (in_array($tbox, $this->default_folders))
                 $this->create_mailbox($tbox, true);
             else
