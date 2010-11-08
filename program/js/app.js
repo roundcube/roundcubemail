@@ -37,7 +37,7 @@ function rcube_webmail()
 
   // webmail client settings
   this.dblclick_time = 500;
-  this.message_time = 3000;
+  this.message_time = 1500;
 
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
@@ -4630,8 +4630,9 @@ function rcube_webmail()
       return id;
     }
     else {
-      obj.appendTo(cont).bind('mousedown', function(){ return ref.hide_message(obj); });
-      window.setTimeout(function(){ ref.hide_message(obj, true); }, this.message_time);
+      obj.appendTo(cont).bind('mousedown', function() { return ref.hide_message(obj); });
+      window.setTimeout(function() { ref.hide_message(obj, true); },
+        this.message_time * (type == 'error' ? 2 : 1));
       return obj;
     }
   };
