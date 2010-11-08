@@ -1802,30 +1802,28 @@ function rcube_webmail()
     if (!id)
       return;
 
-    var add_url = '',
-      target = window,
-      action = preview ? 'preview': 'show';
+    var target = window,
+      action = preview ? 'preview': 'show',
+      url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.env.mailbox);
 
     if (preview && this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
       target = window.frames[this.env.contentframe];
-      add_url = '&_framed=1';
+      url += '&_framed=1';
     }
 
     if (safe)
-      add_url = '&_safe=1';
+      url += '&_safe=1';
 
     // also send search request to get the right messages
     if (this.env.search_request)
-      add_url += '&_search='+this.env.search_request;
+      url += '&_search='+this.env.search_request;
 
-    var url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.env.mailbox)+add_url;
     if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
       this.show_contentframe(true);
     else {
-      if (!this.env.frame_lock)
-        this.env.frame_lock = this.set_busy(true, 'loading');
-      if (preview)
-        url += '&_unlock='+this.env.frame_lock;
+      if (!this.env.frame_lock) {
+        (parent.rcmail ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
+      }
       target.location.href = this.env.comm_path+url;
 
       // mark as read and change mbox unread counter
