@@ -33,10 +33,8 @@ class rcube_imap
 {
     public $debug_level = 1;
     public $skip_deleted = false;
-    public $root_dir = '';
     public $page_size = 10;
     public $list_page = 1;
-    public $delimiter = NULL;
     public $threading = false;
     public $fetch_add_headers = '';
     public $get_all_headers = false;
@@ -54,8 +52,9 @@ class rcube_imap
      * @var rcube_mdb2
      */
     private $db;
-    private $root_ns = '';
     private $mailbox = 'INBOX';
+    private $delimiter = NULL;
+    private $namespace = NULL;
     private $sort_field = '';
     private $sort_order = 'DESC';
     private $caching_enabled = false;
@@ -156,18 +155,13 @@ class rcube_imap
         $this->port = $port;
         $this->ssl  = $use_ssl;
 
-        // print trace messages
         if ($this->conn->connected()) {
+            // print trace messages
             if ($this->conn->message && ($this->debug_level & 8)) {
                 console($this->conn->message);
             }
-
-            // get server properties
-            $rootdir = $this->conn->getRootDir();
-            if (!empty($rootdir))
-                $this->set_rootdir($rootdir);
-            if (empty($this->delimiter))
-	            $this->get_hierarchy_delimiter();
+            // get namespace and delimiter
+            $this->set_env();
 
             return true;
         }
@@ -243,28 +237,6 @@ class rcube_imap
     function set_options($opt)
     {
         $this->options = array_merge($this->options, (array)$opt);
-    }
-
-
-    /**
-     * Set a root folder for the IMAP connection.
-     *
-     * Only folders within this root folder will be displayed
-     * and all folder paths will be translated using this folder name
-     *
-     * @param  string   $root Root folder
-     * @access public
-     */
-    function set_rootdir($root)
-    {
-        if (preg_match('/[.\/]$/', $root)) //(substr($root, -1, 1)==='/')
-            $root = substr($root, 0, -1);
-
-        $this->root_dir = $root;
-        $this->options['rootdir'] = $root;
-
-        if (empty($this->delimiter))
-            $this->get_hierarchy_delimiter();
     }
 
 
@@ -482,13 +454,101 @@ class rcube_imap
      */
     function get_hierarchy_delimiter()
     {
-        if ($this->conn && empty($this->delimiter))
-            $this->delimiter = $this->conn->getHierarchyDelimiter();
-
-        if (empty($this->delimiter))
-            $this->delimiter = '/';
-
         return $this->delimiter;
+    }
+
+
+    /**
+     * Get namespace
+     *
+     * @return  array  Namespace data
+     * @access  public
+     */
+    function get_namespace()
+    {
+        return $this->namespace;
+    }
+
+
+    /**
+     * Sets delimiter and namespaces
+     *
+     * @access private
+     */
+    private function set_env()
+    {
+        if ($this->delimiter !== null && $this->namespace !== null) {
+            return;
+        }
+
+        if (isset($_SESSION['imap_namespace']) && isset($_SESSION['imap_delimiter'])) {
+            $this->namespace = $_SESSION['imap_namespace'];
+            $this->delimiter = $_SESSION['imap_delimiter'];
+            return;
+        }
+
+        $config = rcmail::get_instance()->config;
+        $imap_personal  = $config->get('imap_ns_personal');
+        $imap_other     = $config->get('imap_ns_other');
+        $imap_shared    = $config->get('imap_ns_shared');
+        $imap_delimiter = $config->get('imap_delimiter');
+
+        if ($imap_delimiter) {
+            $this->delimiter = $imap_delimiter;
+        }
+
+        if (!$this->conn)
+            return;
+
+        $ns = $this->conn->getNamespace();
+
+        // NAMESPACE supported
+        if (is_array($ns)) {
+            $this->namespace = $ns;
+
+            if (empty($this->delimiter))
+                $this->delimiter = $ns['personal'][0][1];
+            if (empty($this->delimiter))
+                $this->delimiter = $this->conn->getHierarchyDelimiter();
+            if (empty($this->delimiter))
+                $this->delimiter = '/';
+        }
+        // not supported, get namespace from config
+        else if ($imap_personal !== null || $imap_shared !== null || $imap_other !== null) {
+            if (empty($this->delimiter))
+                $this->delimiter = $this->conn->getHierarchyDelimiter();
+            if (empty($this->delimiter))
+                $this->delimiter = '/';
+
+            $this->namespace = array(
+                'personal' => NULL,
+                'other'    => NULL,
+                'shared'   => NULL,
+            );
+
+            if ($imap_personal !== null) {
+                foreach ((array)$imap_personal as $dir) {
+                    $this->namespace['personal'][] = array($dir, $this->delimiter);
+                }
+            }
+            if ($imap_other !== null) {
+                foreach ((array)$imap_other as $dir) {
+                    if ($dir) {
+                        $this->namespace['other'][] = array($dir, $this->delimiter);
+                    }
+                }
+            }
+            if ($imap_shared !== null) {
+                foreach ((array)$imap_shared as $dir) {
+                    if ($dir) {
+                        $this->namespace['shared'][] = array($dir, $this->delimiter);
+                    }
+                }
+            }
+        }
+
+        $_SESSION['imap_namespace'] = $this->namespace;
+        $_SESSION['imap_delimiter'] = $this->delimiter;
     }
 
 
@@ -891,7 +951,7 @@ class rcube_imap
         // flatten threads array
         // @TODO: fetch children only in expanded mode (?)
         $all_ids = array();
-        foreach($msg_index as $root) {
+        foreach ($msg_index as $root) {
             $all_ids[] = $root;
             if (!empty($thread_tree[$root]))
                 $all_ids = array_merge($all_ids, array_keys_recursive($thread_tree[$root]));
@@ -1463,7 +1523,7 @@ class rcube_imap
 
         // flatten threads array
         $all_ids = array();
-        foreach($msg_index as $root) {
+        foreach ($msg_index as $root) {
             $all_ids[] = $root;
             if (!empty($thread_tree[$root])) {
                 foreach (array_keys_recursive($thread_tree[$root]) as $val)
@@ -3073,10 +3133,11 @@ class rcube_imap
             $a_mboxes = explode(',', $mbox_name);
 
         if (is_array($a_mboxes)) {
+            $delimiter = $this->get_hierarchy_delimiter();
+        
             foreach ($a_mboxes as $mbox_name) {
                 $mailbox = $this->mod_mailbox($mbox_name);
-                $sub_mboxes = $this->conn->listMailboxes($this->mod_mailbox(''),
-	                $mbox_name . $this->delimiter . '*');
+                $sub_mboxes = $this->conn->listMailboxes('', $mbox_name . $delimiter . '*');
 
                 // unsubscribe mailbox before deleting
                 $this->conn->unsubscribe($mailbox);
@@ -3137,19 +3198,20 @@ class rcube_imap
             if ($mbox_name == 'INBOX')
                 return true;
 
-            $key = $subscription ? 'subscribed' : 'existing';
-            if (is_array($this->icache[$key]) && in_array($mbox_name, $this->icache[$key]))
+            $key  = $subscription ? 'subscribed' : 'existing';
+            $mbox = $this->mod_mailbox($mbox_name)
+            if (is_array($this->icache[$key]) && in_array($mbox, $this->icache[$key]))
                 return true;
 
             if ($subscription) {
-                $a_folders = $this->conn->listSubscribed($this->mod_mailbox(''), $mbox_name);
+                $a_folders = $this->conn->listSubscribed('', $mbox);
             }
             else {
-                $a_folders = $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
+                $a_folders = $this->conn->listMailboxes('', $mbox);
 	        }
 
-            if (is_array($a_folders) && in_array($this->mod_mailbox($mbox_name), $a_folders)) {
-                $this->icache[$key][] = $mbox_name;
+            if (is_array($a_folders) && in_array($mbox, $a_folders)) {
+                $this->icache[$key][] = $mbox;
                 return true;
             }
         }
@@ -3167,14 +3229,52 @@ class rcube_imap
      */
     function mod_mailbox($mbox_name, $mode='in')
     {
-        if ($mbox_name == 'INBOX')
-            return $mbox_name;
+        if (empty($mbox_name))
+            return '';
 
-        if (!empty($this->root_dir)) {
-            if ($mode=='in')
-                $mbox_name = $this->root_dir.$this->delimiter.$mbox_name;
-            else if (!empty($mbox_name)) // $mode=='out'
-                $mbox_name = substr($mbox_name, strlen($this->root_dir)+1);
+        if ($mode == 'in') {
+            // If folder contains namespace prefix, don't modify it
+            if (is_array($this->namespace['shared'])) {
+                foreach ($this->namespace['shared'] as $ns) {
+                    foreach ((array)$ns as $root) {
+                        if (strpos($mbox_name, $root[0]) === 0) {
+                            return $mbox_name;
+                        }
+                    }
+                }
+            }
+            if (is_array($this->namespace['other'])) {
+                foreach ($this->namespace['other'] as $ns) {
+                    foreach ((array)$ns as $root) {
+                        if (strpos($mbox_name, $root[0]) === 0) {
+                            return $mbox_name;
+                        }
+                    }
+                }
+            }
+            if (is_array($this->namespace['personal'])) {
+                foreach ($this->namespace['personal'] as $ns) {
+                    foreach ((array)$ns as $root) {
+                        if ($root[0] && strpos($mbox_name, $root[0]) === 0) {
+                            return $mbox_name;
+                        }
+                    }
+                }
+                // Add prefix if first personal namespace is non-empty
+                if ($this->namespace['personal'][0][0]) {
+                    return $this->namespace['personal'][0][0].$mbox_name;
+                }
+            }
+        }
+        else {
+            // Remove prefix if folder is from first ("non-empty") personal namespace
+            if (is_array($this->namespace['personal'])) {
+                if ($prefix = $this->namespace['personal'][0][0]) {
+                    if (strpos($mbox_name, $prefix) === 0) {
+                        return substr($mbox_name, strlen($prefix));
+                    }
+                }
+            }
         }
 
         return $mbox_name;
@@ -3200,7 +3300,7 @@ class rcube_imap
 
         if (!is_array($this->conn->data['LIST']) || !is_array($this->conn->data['LIST'][$mbox])) {
             if ($force) {
-                $this->conn->listMailboxes($this->mod_mailbox(''), $mbox_name);
+                $this->conn->listMailboxes('', $mbox_name);
             }
             else {
                 return array();

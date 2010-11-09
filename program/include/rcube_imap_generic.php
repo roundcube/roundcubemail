@@ -549,53 +549,14 @@ class rcube_imap_generic
     }
 
     /**
-     * Gets the root directory and delimiter (of personal namespace)
+     * Gets the delimiter
      *
-     * @return mixed A root directory name, or false.
-     */
-    function getRootDir()
-    {
-	    if (isset($this->prefs['rootdir']) && is_string($this->prefs['rootdir'])) {
-    		return $this->prefs['rootdir'];
-	    }
-
-	    if (!is_array($data = $this->getNamespace())) {
-	        return false;
-	    }
-
-	    $user_space_data = $data['personal'];
-	    if (!is_array($user_space_data)) {
-	        return false;
-	    }
-
-	    $first_userspace = $user_space_data[0];
-	    if (count($first_userspace) !=2) {
-	        return false;
-	    }
-
-        $rootdir                  = $first_userspace[0];
-	    $this->prefs['delimiter'] = $first_userspace[1];
-	    $this->prefs['rootdir']   = $rootdir ? substr($rootdir, 0, -1) : '';
-
-	    return $this->prefs['rootdir'];
-    }
-
-    /**
-     * Gets the delimiter, for example:
-     * INBOX.foo -> .
-     * INBOX/foo -> /
-     * INBOX\foo -> \
-     *
-     * @return mixed A delimiter (string), or false.
-     * @see connect()
+     * @return string The delimiter
      */
     function getHierarchyDelimiter()
     {
 	    if ($this->prefs['delimiter']) {
     		return $this->prefs['delimiter'];
-	    }
-	    if (!empty($this->prefs['delimiter'])) {
-    	    return $this->prefs['delimiter'];
 	    }
 
 	    // try (LIST "" ""), should return delimiter (RFC2060 Sec 6.3.8)
@@ -611,26 +572,7 @@ class rcube_imap_generic
 	        }
         }
 
-	    // if that fails, try namespace extension
-	    // try to fetch namespace data
-	    if (!is_array($data = $this->getNamespace())) {
-            return false;
-        }
-
-	    // extract user space data (opposed to global/shared space)
-	    $user_space_data = $data['personal'];
-	    if (!is_array($user_space_data)) {
-	        return false;
-	    }
-
-	    // get first element
-	    $first_userspace = $user_space_data[0];
-	    if (!is_array($first_userspace)) {
-	        return false;
-	    }
-
-	    // extract delimiter
-	    return $this->prefs['delimiter'] = $first_userspace[1];
+        return NULL;
     }
 
     /**
@@ -830,7 +772,6 @@ class rcube_imap_generic
             if ($this->prefs['force_caps']) {
 			    $this->clearCapability();
             }
-		    $this->getRootDir();
             $this->logged = true;
 
 		    return true;
@@ -1941,10 +1882,6 @@ class rcube_imap_generic
     {
 		if (empty($mailbox)) {
 	        $mailbox = '*';
-	    }
-
-	    if (empty($ref) && $this->prefs['rootdir']) {
-	        $ref = $this->prefs['rootdir'];
 	    }
 
         $args = array();

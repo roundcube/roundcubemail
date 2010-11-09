@@ -503,8 +503,6 @@ class rcmail
       'auth_method' => $this->config->get('imap_auth_type', 'check'),
       'auth_cid'    => $this->config->get('imap_auth_cid'),
       'auth_pw'     => $this->config->get('imap_auth_pw'),
-      'delimiter'   => isset($_SESSION['imap_delimiter']) ? $_SESSION['imap_delimiter'] : $this->config->get('imap_delimiter'),
-      'rootdir'     => isset($_SESSION['imap_root']) ? $_SESSION['imap_root'] : $this->config->get('imap_root'),
       'debug_mode'  => (bool) $this->config->get('imap_debug', 0),
       'force_caps'  => (bool) $this->config->get('imap_force_caps'),
       'timeout'     => (int) $this->config->get('imap_timeout', 0),
@@ -790,10 +788,6 @@ class rcmail
     if (isset($_SESSION['page'])) {
       $this->imap->set_page($_SESSION['page']);
     }
-
-    // cache IMAP root and delimiter in session for performance reasons
-    $_SESSION['imap_root'] = $this->imap->root_dir;
-    $_SESSION['imap_delimiter'] = $this->imap->delimiter;
   }
 
 

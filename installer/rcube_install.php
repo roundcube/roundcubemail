@@ -38,6 +38,7 @@ class rcube_install
     'locale_string' => 'language',
     'multiple_identities' => 'identities_level',
     'addrbook_show_images' => 'show_images',
+    'imap_root' => 'imap_ns_personal',
   );
   
   // these config options are required for a working system
@@ -169,16 +170,17 @@ class rcube_install
       else if ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
         $value = '%p';
       }
-      else if ($prop == 'default_imap_folders'){
-	$value = Array();
-	foreach($this->config['default_imap_folders'] as $_folder){
-	  switch($_folder) {
-	  case 'Drafts': $_folder = $this->config['drafts_mbox']; break;
-	  case 'Sent':   $_folder = $this->config['sent_mbox']; break;
-	  case 'Junk':   $_folder = $this->config['junk_mbox']; break;
-	  case 'Trash':  $_folder = $this->config['trash_mbox']; break;
+      else if ($prop == 'default_imap_folders') {
+	    $value = Array();
+	    foreach ($this->config['default_imap_folders'] as $_folder) {
+	      switch($_folder) {
+	      case 'Drafts': $_folder = $this->config['drafts_mbox']; break;
+	      case 'Sent':   $_folder = $this->config['sent_mbox']; break;
+	      case 'Junk':   $_folder = $this->config['junk_mbox']; break;
+	      case 'Trash':  $_folder = $this->config['trash_mbox']; break;
           }
-	  if (!in_array($_folder, $value))  $value[] = $_folder;
+	    if (!in_array($_folder, $value))
+	      $value[] = $_folder;
         }
       }
       else if (is_bool($default)) {

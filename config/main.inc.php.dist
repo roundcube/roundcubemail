@@ -74,10 +74,16 @@ $rcmail_config['default_port'] = 143;
 // best server supported one)
 $rcmail_config['imap_auth_type'] = null;
 
-// If you know your imap's root directory and its folder delimiter,
-// you can specify them here. Otherwise they will be determined automatically.
-$rcmail_config['imap_root'] = null;
+// If you know your imap's folder delimiter, you can specify it here.
+// Otherwise it will be determined automatically
 $rcmail_config['imap_delimiter'] = null;
+
+// If IMAP server doesn't support NAMESPACE extension, but you're
+// using shared folders or personal root folder is non-empty, you'll need to
+// set these options. All can be strings or arrays of strings.
+$rcmail_config['imap_ns_personal'] = null;
+$rcmail_config['imap_ns_other']    = null;
+$rcmail_config['imap_ns_shared']   = null;
 
 // By default IMAP capabilities are readed after connection to IMAP server
 // In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
