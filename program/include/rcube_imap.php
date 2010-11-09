@@ -3199,7 +3199,8 @@ class rcube_imap
                 return true;
 
             $key  = $subscription ? 'subscribed' : 'existing';
-            $mbox = $this->mod_mailbox($mbox_name)
+            $mbox = $this->mod_mailbox($mbox_name);
+
             if (is_array($this->icache[$key]) && in_array($mbox, $this->icache[$key]))
                 return true;
 
