@@ -118,6 +118,7 @@ class rcube_imap_generic
 
     const COMMAND_NORESPONSE = 1;
     const COMMAND_CAPABILITY = 2;
+    const COMMAND_LASTLINE   = 4;
 
     /**
      * Object constructor
@@ -491,8 +492,8 @@ class rcube_imap_generic
 
             // RFC 4959 (SASL-IR): save one round trip
             if ($this->getCapability('SASL-IR')) {
-                $result = $this->execute("AUTHENTICATE PLAIN", array($reply),
-                    self::COMMAND_NORESPONSE | self::COMMAND_CAPABILITY);
+                list($result, $line) = $this->execute("AUTHENTICATE PLAIN", array($reply),
+                    self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY);
             }
             else {
     		    $this->putLine($this->nextTag() . " AUTHENTICATE PLAIN");
@@ -2887,6 +2888,11 @@ class rcube_imap_generic
         ) {
 		    $this->parseCapability($matches[1], true);
 	    }
+
+        // return last line only (without command tag and result)
+        if ($line && ($options & self::COMMAND_LASTLINE)) {
+            $response = preg_replace("/^$tag (OK|NO|BAD|BYE|PREAUTH)?\s*/i", '', trim($line));
+        }
 
 	    return $noresp ? $code : array($code, $response);
     }
