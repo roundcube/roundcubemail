@@ -2080,6 +2080,7 @@ class rcube_imap_generic
 		        }
             	$bytes -= $len;
 
+                // BASE64
 		        if ($mode == 1) {
 					$line = rtrim($line, "\t\r\n\0\x0B");
 					// create chunks with proper length for base64 decoding
@@ -2092,40 +2093,30 @@ class rcube_imap_generic
 					}
 					else
 						$prev = '';
-
-					if ($file)
-						fwrite($file, base64_decode($line));
-            		else if ($print)
-						echo base64_decode($line);
-					else
-						$result .= base64_decode($line);
+					$line = base64_decode($line);
+                // QUOTED-PRINTABLE
 				} else if ($mode == 2) {
 					$line = rtrim($line, "\t\r\0\x0B");
-					if ($file)
-						fwrite($file, quoted_printable_decode($line));
-            		else if ($print)
-						echo quoted_printable_decode($line);
-					else
-						$result .= quoted_printable_decode($line);
+                    $line = quoted_printable_decode($line);
+                    // Remove NULL characters (#1486189)
+                    $line = str_replace("\x00", '', $line);
+                // UUENCODE
 				} else if ($mode == 3) {
 					$line = rtrim($line, "\t\r\n\0\x0B");
 					if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line))
 						continue;
-					if ($file)
-						fwrite($file, convert_uudecode($line));
-            		else if ($print)
-						echo convert_uudecode($line);
-					else
-						$result .= convert_uudecode($line);
+                    $line = convert_uudecode($line);
+                // default
 				} else {
-					$line = rtrim($line, "\t\r\n\0\x0B");
-					if ($file)
-						fwrite($file, $line . "\n");
-            		else if ($print)
-						echo $line . "\n";
-					else
-						$result .= $line . "\n";
+					$line = rtrim($line, "\t\r\n\0\x0B") . "\n";
 				}
+
+    			if ($file)
+					fwrite($file, $line);
+           		else if ($print)
+					echo $line;
+				else
+					$result .= $line;
         	}
     	}
 
