@@ -16,7 +16,7 @@
 
 @version $Id$
 
-//  EN-Revision: 3891
+//  EN-Revision: 4190
 
 */
 
@@ -26,6 +26,7 @@ $messages['cookiesdisabled'] = 'ブラウザで Cookie が無効に設定され�
 $messages['sessionerror'] = 'セッションが正しくないか期限切れです。';
 $messages['imaperror'] = 'IMAP サーバーへの接続に失敗しました。';
 $messages['servererror'] = 'サーバーでエラーが発生しました。';
+$messages['servererrormsg'] = 'サーバー エラー: $msg';
 $messages['invalidrequest'] = '不正なリクエストです。データは保存されませんでした。';
 $messages['nomessagesfound'] = 'メールはありません。';
 $messages['loggedout'] = 'ログアウトしました。';
@@ -52,7 +53,7 @@ $messages['errorsaving'] = '保存中にエラーが発生しました。';
 $messages['errormoving'] = 'メールを移動できません。';
 $messages['errorcopying'] = 'メールをコピーできません。';
 $messages['errordeleting'] = 'メールを削除できません。';
-$messages['errormarking'] = 'メールをマークできません。';
+$messages['errormarking'] = 'メールのマークを設定できません。';
 $messages['deletecontactconfirm'] = '選択した連絡先を本当に削除しますか?';
 $messages['deletemessagesconfirm'] = '選択したメールを本当に削除しますか?';
 $messages['deletefolderconfirm'] = 'このフォルダーを本当に削除しますか?';
@@ -91,6 +92,8 @@ $messages['sourceisreadonly'] = 'このアドレス情報は読み取り専用�
 $messages['errorsavingcontact'] = '連絡先のアドレスを保存できません。';
 $messages['movingmessage'] = 'メールを移動しています...';
 $messages['copyingmessage'] = 'メールをコピーしています...';
+$messages['deletingmessage'] = 'メールを削除しています...';
+$messages['markingmessage'] = 'メールのマークを設定しています...';
 $messages['receiptsent'] = '開封確認を送信しました。';
 $messages['errorsendingreceipt'] = '開封確認を送信できません。';
 $messages['nodeletelastidentity'] = '削除できません。少なくとも 1 つの個人情報が必要です。';
@@ -107,15 +110,26 @@ $messages['opnotpermitted'] = '許可されていない操作です。';
 $messages['nofromaddress'] = '選択中の個人情報にメールアドレスが含まれていません。';
 $messages['editorwarning'] = 'テキスト エディターに切り替えるとすべての書式が失われます。よろしいですか?';
 $messages['httpreceivedencrypterror'] = '致命的な設定エラーが発生しました。<b>メッセージは送信されませんでした。</b>システム管理者に至急連絡してください。';
-$messages['smtpconnerror'] = 'SMTP Error ($code): サーバーへの接続に失敗しました';
-$messages['smtpautherror'] = 'SMTP Error ($code): 認証に失敗しました';
+$messages['smtpconnerror'] = 'SMTP Error ($code): サーバーへの接続に失敗しました。';
+$messages['smtpautherror'] = 'SMTP Error ($code): 認証に失敗しました。';
 $messages['smtpfromerror'] = 'SMTP Error ($code): 差出人 "$from" を設定できません ($msg)';
 $messages['smtptoerror'] = 'SMTP Error ($code): 宛先 "$to" を追加できません ($msg)';
-$messages['smtprecipientserror'] = 'SMTP Error: 宛先のリストを解析できません';
-$messages['smtperror'] = 'SMTP Error: $msg';
+$messages['smtprecipientserror'] = 'SMTP Error: 宛先の一覧を解析できません。';
+$messages['smtpdsnerror'] = 'SMTP エラー: 配送状況通知をサポートしていません。';
+$messages['smtperror'] = 'SMTP エラー: $msg';
 $messages['emailformaterror'] = 'メールアドレスが正しくありません: $email';
 $messages['toomanyrecipients'] = '宛先が多すぎます。$max 件以内にしてください。';
 $messages['maxgroupmembersreached'] = 'グループのメンバーが多すぎます。$max 件以内にしてください。';
 $messages['internalerror'] = '内部エラーが発生しました。もう一度やり直してください。';
+$messages['contactdelerror'] = '連絡先を削除できませんでした。';
+$messages['contactdeleted'] = '連絡先を削除しました。';
+$messages['groupdeleted'] = 'グループを削除しました。';
+$messages['grouprenamed'] = 'グループ名を変更しました．';
+$messages['groupcreated'] = 'グループを作成しました。';
+$messages['messagedeleted'] = 'メールを削除しました。';
+$messages['messagemoved'] = 'メールを移動しました。';
+$messages['messagecopied'] = 'メールをコピーしました。';
+$messages['messagemarked'] = 'メールのマークを設定しました。';
+$messages['autocompletechars'] = '自動補完には少なくとも $min 文字入力してください。';
 
 ?>
