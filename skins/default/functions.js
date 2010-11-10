@@ -26,7 +26,11 @@ function rcube_show_advanced(visible)
 function rcube_init_tabs(id, current)
 {
   var content = document.getElementById(id),
-    fs = $('fieldset', content);
+    // get fieldsets of the higher-level (skip nested fieldsets)
+    fs = $('fieldset', content).not('fieldset > fieldset');
+
+  if (!fs.length)
+    return;
 
   current = current ? current : 0;
 
@@ -38,7 +42,9 @@ function rcube_init_tabs(id, current)
 
   // convert fildsets into tabs
   fs.each(function(idx) {
-    var tab, a, elm = $(this), legend = $('legend', elm);
+    var tab, a, elm = $(this),
+      // get first legend element
+      legend = $(elm).children('legend');
 
     // create a tab
     a   = $('<a>').text(legend.text()).attr('href', '#');
