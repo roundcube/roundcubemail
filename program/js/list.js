@@ -1151,7 +1151,7 @@ drag_mouse_move: function(e)
 
               subject = $(node).text();
 	          // remove leading spaces
-	          subject = subject.replace(/^\s+/i, '');
+              subject = $.trim(subject);
               // truncate line to 50 characters
               subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
 

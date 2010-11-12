@@ -3479,7 +3479,7 @@ function rcube_webmail()
       min = this.env.autocomplete_min_length;
 
     // trim query string
-    q = q.replace(/(^\s+|\s+$)/g, '');
+    q = $.trim(q);
 
     // Don't (re-)search if the last results are still active
     if (q == this.ksearch_value)
@@ -4056,7 +4056,8 @@ function rcube_webmail()
   this.focus_subscription = function(id)
   {
     var row, folder,
-      reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
+      delim = RegExp.escape(this.env.delimiter),
+      reg = RegExp('['+delim+']?[^'+delim+']+$');
 
     if (this.drag_active && this.env.folder && (row = document.getElementById(id)))
       if (this.env.subscriptionrows[id] &&
@@ -4069,7 +4070,7 @@ function rcube_webmail()
           $(row).addClass('droptarget');
         }
       }
-      else if (this.env.folder.match(new RegExp(RegExp.escape(this.env.delimiter)))) {
+      else if (this.env.folder.match(new RegExp(delim))) {
         this.set_env('dstfolder', this.env.delimiter);
         $(this.subscription_list.frame).addClass('droptarget');
       }
@@ -4102,10 +4103,12 @@ function rcube_webmail()
 
   this.subscription_move_folder = function(list)
   {
-    var reg = RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
+    var delim = RegExp.escape(this.env.delimiter),
+      reg = RegExp('['+delim+']?[^'+delim+']+$');
+
     if (this.env.folder && this.env.dstfolder && (this.env.dstfolder != this.env.folder) &&
         (this.env.dstfolder != this.env.folder.replace(reg, ''))) {
-      var reg = new RegExp('[^'+RegExp.escape(this.env.delimiter)+']*['+RegExp.escape(this.env.delimiter)+']', 'g');
+      var reg = new RegExp('[^'+delim+']*['+delim+']', 'g');
       var basename = this.env.folder.replace(reg, '');
       var newname = this.env.dstfolder==this.env.delimiter ? basename : this.env.dstfolder+this.env.delimiter+basename;
 
@@ -4155,12 +4158,14 @@ function rcube_webmail()
     }
 
     if (id && this.env.subscriptionrows[id] && (row = document.getElementById(id))) {
-      var reg = new RegExp('.*['+RegExp.escape(this.env.delimiter)+']');
+      var delim = RegExp.escape(this.env.delimiter),
+        reg = new RegExp('.*['+delim+']');
+
       this.name_input = document.createElement('input');
       this.name_input.type = 'text';
       this.name_input.value = this.env.subscriptionrows[id][0].replace(reg, '');
 
-      reg = new RegExp('['+RegExp.escape(this.env.delimiter)+']?[^'+RegExp.escape(this.env.delimiter)+']+$');
+      reg = new RegExp('['+delim+']?[^'+delim+']+$');
       this.name_input.__parent = this.env.subscriptionrows[id][0].replace(reg, '');
       this.name_input.onkeydown = function(e){ rcmail.name_input_keydown(e); };
 
