@@ -67,6 +67,7 @@ CHANGELOG Roundcube Webmail
 - Fix operations on messages in unsubscribed folder (#1487107)
 - Add support for shared folders (#1403507)
 - Fix handling of folders with name "0" (#1487119)
+- Fix handling of folders with "<>" characters in name
 - jQuery 1.4.4
 
 RELEASE 0.4.2

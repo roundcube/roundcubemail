@@ -539,7 +539,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     {
     if (!$html_encode_arr)
       {
-      $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);        
+      $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);
       unset($html_encode_arr['?']);
       }
 

@@ -26,8 +26,8 @@ if (!$OUTPUT->ajax_call)
 // move messages
 if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
     $uids = get_input_value('_uid', RCUBE_INPUT_POST);
-    $target = get_input_value('_target_mbox', RCUBE_INPUT_POST);
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
+    $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
+    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 
     $copied = $IMAP->copy_message($uids, $target, $mbox);
 

@@ -46,7 +46,7 @@ if (!in_array($RCMAIL->action, $NOIMAP_ACTIONS) && !$RCMAIL->imap_connect()) {
 }
 
 // set imap properties and session vars
-if (strlen(trim($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC))))
+if (strlen(trim($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC, true))))
   $IMAP->set_mailbox(($_SESSION['mbox'] = $mbox));
 else if ($IMAP)
   $_SESSION['mbox'] = $IMAP->get_mailbox_name();
