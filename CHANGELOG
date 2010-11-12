@@ -66,6 +66,7 @@ CHANGELOG Roundcube Webmail
 - Add option for minimum length of autocomplete's string (#1486428)
 - Fix operations on messages in unsubscribed folder (#1487107)
 - Add support for shared folders (#1403507)
+- Fix handling of folders with name "0" (#1487119)
 
 RELEASE 0.4.2
 -------------

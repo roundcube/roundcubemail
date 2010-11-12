@@ -565,7 +565,7 @@ class rcube_imap
      */
     function messagecount($mbox_name='', $mode='ALL', $force=false, $status=true)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         return $this->_messagecount($mailbox, $mode, $force, $status);
     }
 
@@ -586,7 +586,7 @@ class rcube_imap
     {
         $mode = strtoupper($mode);
 
-        if (empty($mailbox))
+        if (!strlen($mailbox))
             $mailbox = $this->mailbox;
 
         // count search set
@@ -2551,7 +2551,7 @@ class rcube_imap
         $fbox = $from_mbox;
         $tbox = $to_mbox;
         $to_mbox = $this->mod_mailbox($to_mbox);
-        $from_mbox = $from_mbox ? $this->mod_mailbox($from_mbox) : $this->mailbox;
+        $from_mbox = strlen($from_mbox) ? $this->mod_mailbox($from_mbox) : $this->mailbox;
 
         list($uids, $all_mode) = $this->_parse_uids($uids, $from_mbox);
 
@@ -2721,7 +2721,7 @@ class rcube_imap
      */
     function clear_mailbox($mbox_name=NULL)
     {
-        $mailbox = !empty($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
         // SELECT will set messages count for clearFolder()
         if ($this->conn->select($mailbox)) {
@@ -2874,7 +2874,7 @@ class rcube_imap
         $a_mboxes = $this->_list_mailboxes($root, $filter);
 
         foreach ($a_mboxes as $idx => $mbox_row) {
-            if ($name = $this->mod_mailbox($mbox_row, 'out'))
+            if (strlen($name = $this->mod_mailbox($mbox_row, 'out')))
                 $a_out[] = $name;
             unset($a_mboxes[$idx]);
         }
@@ -2978,7 +2978,7 @@ class rcube_imap
 
         // modify names with root dir
         foreach ($a_mboxes as $idx => $mbox_name) {
-            if ($name = $this->mod_mailbox($mbox_name, 'out'))
+            if (strlen($name = $this->mod_mailbox($mbox_name, 'out')))
                 $a_folders[] = $name;
             unset($a_mboxes[$idx]);
         }
@@ -3194,27 +3194,25 @@ class rcube_imap
      */
     function mailbox_exists($mbox_name, $subscription=false)
     {
-        if ($mbox_name) {
-            if ($mbox_name == 'INBOX')
-                return true;
+        if ($mbox_name == 'INBOX')
+            return true;
 
-            $key  = $subscription ? 'subscribed' : 'existing';
-            $mbox = $this->mod_mailbox($mbox_name);
+        $key  = $subscription ? 'subscribed' : 'existing';
+        $mbox = $this->mod_mailbox($mbox_name);
 
-            if (is_array($this->icache[$key]) && in_array($mbox, $this->icache[$key]))
-                return true;
+        if (is_array($this->icache[$key]) && in_array($mbox, $this->icache[$key]))
+            return true;
 
-            if ($subscription) {
-                $a_folders = $this->conn->listSubscribed('', $mbox);
-            }
-            else {
-                $a_folders = $this->conn->listMailboxes('', $mbox);
-	        }
+        if ($subscription) {
+            $a_folders = $this->conn->listSubscribed('', $mbox);
+        }
+        else {
+            $a_folders = $this->conn->listMailboxes('', $mbox);
+       }
 
-            if (is_array($a_folders) && in_array($mbox, $a_folders)) {
-                $this->icache[$key][] = $mbox;
-                return true;
-            }
+        if (is_array($a_folders) && in_array($mbox, $a_folders)) {
+            $this->icache[$key][] = $mbox;
+            return true;
         }
 
         return false;
@@ -3230,7 +3228,7 @@ class rcube_imap
      */
     function mod_mailbox($mbox_name, $mode='in')
     {
-        if (empty($mbox_name))
+        if (!strlen($mbox_name))
             return '';
 
         if ($mode == 'in') {
@@ -3460,8 +3458,8 @@ class rcube_imap
         if ($mailbox)
             $mailbox = $this->mod_mailbox($mailbox);
 
-        if ($this->get_capability('METADATA') || 
-            empty($mailbox) && $this->get_capability('METADATA-SERVER')
+        if ($this->get_capability('METADATA') ||
+            (!strlen($mailbox) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->setMetadata($mailbox, $entries);
         }
@@ -3494,7 +3492,7 @@ class rcube_imap
             $mailbox = $this->mod_mailbox($mailbox);
 
         if ($this->get_capability('METADATA') || 
-            empty($mailbox) && $this->get_capability('METADATA-SERVER')
+            (!strlen($mailbox) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->deleteMetadata($mailbox, $entries);
         }
@@ -3528,7 +3526,7 @@ class rcube_imap
             $mailbox = $this->mod_mailbox($mailbox);
 
         if ($this->get_capability('METADATA') || 
-            empty($mailbox) && $this->get_capability('METADATA-SERVER')
+            !strlen(($mailbox) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->getMetadata($mailbox, $entries, $options);
         }

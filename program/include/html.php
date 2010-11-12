@@ -75,7 +75,7 @@ class html
         $suffix = $attrib['nl'] || ($content && $attrib['nl'] !== false && !in_array($tagname, $inline_tags)) ? "\n" : '';
 
         $tagname = self::$lc_tags ? strtolower($tagname) : $tagname;
-        if ($content || in_array($tagname, self::$containers)) {
+        if (isset($content) || in_array($tagname, self::$containers)) {
             $templ = $attrib['noclose'] ? "<%s%s>%s" : "<%s%s>%s</%s>%s";
             unset($attrib['noclose']);
             return sprintf($templ, $tagname, self::attrib_string($attrib, $allowed_attrib), $content, $tagname, $suffix);

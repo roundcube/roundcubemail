@@ -801,7 +801,7 @@ class rcube_imap_generic
 
     function select($mailbox)
     {
-	    if (empty($mailbox)) {
+	    if (!strlen($mailbox)) {
 		    return false;
 	    }
 
@@ -852,7 +852,7 @@ class rcube_imap_generic
      */
     function status($mailbox, $items=array())
     {
-	    if (empty($mailbox)) {
+	    if (!strlen($mailbox)) {
 		    return false;
 	    }
 
@@ -886,11 +886,12 @@ class rcube_imap_generic
 
     function checkForRecent($mailbox)
     {
-	    if (empty($mailbox)) {
+	    if (!strlen($mailbox)) {
 		    $mailbox = 'INBOX';
 	    }
 
 	    $this->select($mailbox);
+
 	    if ($this->selected == $mailbox) {
 		    return $this->data['RECENT'];
 	    }
@@ -1618,10 +1619,6 @@ class rcube_imap_generic
 
     function copy($messages, $from, $to)
     {
-	    if (empty($from) || empty($to)) {
-	        return false;
-	    }
-
 	    if (!$this->select($from)) {
 	        return false;
 	    }
@@ -1638,10 +1635,6 @@ class rcube_imap_generic
 
     function move($messages, $from, $to)
     {
-        if (!$from || !$to) {
-            return false;
-        }
-
         $r = $this->copy($messages, $from, $to);
 
         if ($r) {
@@ -1881,7 +1874,7 @@ class rcube_imap_generic
     private function _listMailboxes($ref, $mailbox, $subscribed=false,
         $status_opts=array(), $select_opts=array())
     {
-		if (empty($mailbox)) {
+		if (!strlen($mailbox)) {
 	        $mailbox = '*';
 	    }
 

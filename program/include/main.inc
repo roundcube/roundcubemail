@@ -1348,7 +1348,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
     $currentFolder = substr($folder, 0, $pos);
 
     // sometimes folder has a delimiter as the last character
-    if (empty($subFolders))
+    if (!strlen($subFolders))
       $virtual = false;
     else if (!isset($arrFolders[$currentFolder]))
       $virtual = true;
@@ -1378,7 +1378,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   else
     $arrFolders[$currentFolder]['virtual'] = $virtual;
 
-  if (!empty($subFolders))
+  if (strlen($subFolders))
     rcmail_build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
 }
   

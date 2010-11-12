@@ -27,35 +27,39 @@ $RCMAIL->imap_connect();
 // subscribe to one or more mailboxes
 if ($RCMAIL->action=='subscribe')
   {
-  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
+  $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP');
+  if (strlen($mbox))
     $IMAP->subscribe(array($mbox));
   }
 
 // unsubscribe one or more mailboxes
 else if ($RCMAIL->action=='unsubscribe')
   {
-  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
+  $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP');
+  if (strlen($mbox))
     $IMAP->unsubscribe(array($mbox));
   }
 
 // enable threading for one or more mailboxes
 else if ($RCMAIL->action=='enable-threading')
   {
-  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
+  $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP');
+  if (strlen($mbox))
     rcube_set_threading($mbox, true);
   }
 
 // enable threading for one or more mailboxes
 else if ($RCMAIL->action=='disable-threading')
   {
-  if ($mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP'))
+  $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, false, 'UTF7-IMAP');
+  if (strlen($mbox))
     rcube_set_threading($mbox, false);
   }
 
 // create a new mailbox
 else if ($RCMAIL->action=='create-folder')
   {
-  if (!empty($_POST['_name']))
+  if (strlen(trim($_POST['_name'])))
     {
     $name = trim(get_input_value('_name', RCUBE_INPUT_POST, FALSE, 'UTF7-IMAP'));
     $create = $IMAP->create_mailbox($name, TRUE);
@@ -83,7 +87,7 @@ else if ($RCMAIL->action=='create-folder')
 // rename a mailbox
 else if ($RCMAIL->action=='rename-folder')
   {
-  if (!empty($_POST['_folder_oldname']) && !empty($_POST['_folder_newname']))
+  if (strlen(trim($_POST['_folder_oldname'])) && strlen(trim($_POST['_folder_newname'])))
     {
     $name_utf8 = trim(get_input_value('_folder_newname', RCUBE_INPUT_POST));
     $oldname_utf8 = get_input_value('_folder_oldname', RCUBE_INPUT_POST);
@@ -101,13 +105,13 @@ else if ($RCMAIL->action=='rename-folder')
     foreach ($a_threaded as $key => $val)
       if ($key == $oldname) {
         unset($a_threaded[$key]);
-	$a_threaded[$name] = true;
+	    $a_threaded[$name] = true;
         }
       else if (preg_match($oldprefix, $key)) {
         unset($a_threaded[$key]);
-	$a_threaded[preg_replace($oldprefix, $name.$delimiter, $key)] = true;      
+	    $a_threaded[preg_replace($oldprefix, $name.$delimiter, $key)] = true;
       }
-      
+
     $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
     }
 
@@ -163,7 +167,7 @@ else if ($RCMAIL->action=='delete-folder')
   $mboxes_utf8 = get_input_value('_mboxes', RCUBE_INPUT_POST);
   $mboxes = rcube_charset_convert($mboxes_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
 
-  if ($mboxes)
+  if (strlen($mboxes))
     $deleted = $IMAP->delete_mailbox(array($mboxes));
 
   if ($OUTPUT->ajax_call && $deleted)
@@ -284,7 +288,7 @@ function rcube_subscription_form($attrib)
     $protected = ($CONFIG['protect_default_folders'] == true && in_array($folder['id'], $CONFIG['default_imap_folders']));
     $classes = array($i%2 ? 'even' : 'odd');
     $folder_js = JQ($folder['id']);
-    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level']) . ($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
+    $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level']) . Q($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
     $folder_utf8 = rcube_charset_convert($folder['id'], 'UTF7-IMAP');
     
     if ($folder['virtual']) {
@@ -298,7 +302,7 @@ function rcube_subscription_form($attrib)
 
     $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
     
-    $table->add('name', Q($display_folder));
+    $table->add('name', $display_folder);
     $table->add('msgcount', (($folder['virtual'] || $noselect) ? '' : $IMAP->messagecount($folder['id'], 'ALL', false, false)));
     $table->add('subscribed', $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
       array('value' => $folder_utf8, 'disabled' => ($protected || $noselect) ? 'disabled' : '')));
@@ -320,7 +324,7 @@ function rcube_subscription_form($attrib)
     $a_js_folders['rcmrow'.$idx] = array($folder_utf8, $display_folder, $protected || $folder['virtual']);
   }
 
-  rcmail::get_instance()->plugins->exec_hook('folders_list', array('table'=>$table));
+  rcmail::get_instance()->plugins->exec_hook('folders_list', array('table' => $table));
 
   $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
   $OUTPUT->set_env('subscriptionrows', $a_js_folders);

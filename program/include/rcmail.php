@@ -782,7 +782,7 @@ class rcmail
     if ($default_folders = $this->config->get('default_imap_folders')) {
       $this->imap->set_default_mailboxes($default_folders);
     }
-    if (!empty($_SESSION['mbox'])) {
+    if (isset($_SESSION['mbox'])) {
       $this->imap->set_mailbox($_SESSION['mbox']);
     }
     if (isset($_SESSION['page'])) {

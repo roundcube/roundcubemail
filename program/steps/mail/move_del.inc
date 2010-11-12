@@ -28,7 +28,7 @@ $old_count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $IMAP->page_size);
 
 // move messages
-if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
+if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
     $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST);
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
@@ -116,7 +116,7 @@ else
     $_SESSION['unseen_count'][$mbox] = $unseen_count;
   }
 
-  if ($RCMAIL->action=='moveto' && $target) {
+  if ($RCMAIL->action=='moveto' && strlen($target)) {
     rcmail_send_unread_count($target, true);
   }
 
