@@ -724,7 +724,7 @@ class rcube_imap
      */
     function list_headers($mbox_name='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $slice=0)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         return $this->_list_headers($mailbox, $page, $sort_field, $sort_order, false, $slice);
     }
 
@@ -1289,7 +1289,7 @@ class rcube_imap
      */
     function mailbox_status($mbox_name = null)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         $old = $this->get_folder_stats($mailbox);
 
         // refresh message count -> will update
@@ -1356,7 +1356,7 @@ class rcube_imap
 
         $this->_set_sort_order($sort_field, $sort_order);
 
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         $key = "{$mailbox}:{$this->sort_field}:{$this->sort_order}:{$this->search_string}.msgi";
 
         // we have a saved search result, get index from there
@@ -1466,7 +1466,7 @@ class rcube_imap
     {
         $this->_set_sort_order($sort_field, $sort_order);
 
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         $key = "{$mailbox}:{$this->sort_field}:{$this->sort_order}:{$this->search_string}.thi";
 
         // we have a saved search result, get index from there
@@ -1643,7 +1643,7 @@ class rcube_imap
         if (!$str)
             return false;
 
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
         $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
@@ -1748,7 +1748,7 @@ class rcube_imap
         if (!$str)
             return false;
 
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
         return $this->conn->search($mailbox, $str, $ret_uid);
     }
@@ -1925,7 +1925,7 @@ class rcube_imap
      */
     function get_headers($id, $mbox_name=NULL, $is_uid=true, $bodystr=false)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         $uid = $is_uid ? $id : $this->_id2uid($id, $mailbox);
 
         // get cached headers
@@ -2458,7 +2458,7 @@ class rcube_imap
      */
     function set_flag($uids, $flag, $mbox_name=NULL, $skip_cache=false)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
         $flag = strtoupper($flag);
         list($uids, $all_mode) = $this->_parse_uids($uids, $mailbox);
@@ -2668,7 +2668,7 @@ class rcube_imap
      */
     function delete_message($uids, $mbox_name='')
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
 
         list($uids, $all_mode) = $this->_parse_uids($uids, $mailbox);
 
@@ -2749,7 +2749,7 @@ class rcube_imap
      */
     function expunge($mbox_name='', $clear_cache=true)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         return $this->_expunge($mailbox, $clear_cache);
     }
 
@@ -2834,7 +2834,7 @@ class rcube_imap
      */
     function get_id($uid, $mbox_name=NULL)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         return $this->_uid2id($uid, $mailbox);
     }
 
@@ -2846,9 +2846,9 @@ class rcube_imap
      * @param string $mbox_name Mailbox name
      * @return int   Message UID
      */
-    function get_uid($id,$mbox_name=NULL)
+    function get_uid($id, $mbox_name=NULL)
     {
-        $mailbox = $mbox_name ? $this->mod_mailbox($mbox_name) : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $this->mod_mailbox($mbox_name) : $this->mailbox;
         return $this->_id2uid($id, $mailbox);
     }
 
@@ -4457,7 +4457,7 @@ class rcube_imap
      */
     private function _uid2id($uid, $mbox_name=NULL)
     {
-        if (!$mbox_name)
+        if (!strlen($mbox_name))
             $mbox_name = $this->mailbox;
 
         if (!isset($this->uid_id_map[$mbox_name][$uid])) {
@@ -4479,7 +4479,7 @@ class rcube_imap
      */
     private function _id2uid($id, $mbox_name=NULL)
     {
-        if (!$mbox_name)
+        if (!strlen($mbox_name))
             $mbox_name = $this->mailbox;
 
         if ($uid = array_search($id, (array)$this->uid_id_map[$mbox_name]))
@@ -4540,7 +4540,7 @@ class rcube_imap
     private function _set_messagecount($mbox_name, $mode, $increment)
     {
         $a_mailbox_cache = false;
-        $mailbox = $mbox_name ? $mbox_name : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $mbox_name : $this->mailbox;
         $mode = strtoupper($mode);
 
         $a_mailbox_cache = $this->get_cache('messagecount');
@@ -4568,7 +4568,7 @@ class rcube_imap
      */
     private function _clear_messagecount($mbox_name='', $mode=null)
     {
-        $mailbox = $mbox_name ? $mbox_name : $this->mailbox;
+        $mailbox = strlen($mbox_name) ? $mbox_name : $this->mailbox;
 
         $a_mailbox_cache = $this->get_cache('messagecount');
 
