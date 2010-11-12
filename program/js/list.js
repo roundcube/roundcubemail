@@ -1118,13 +1118,15 @@ drag_mouse_move: function(e)
         this.select_childs(uid);
     }
 
+    // reset content
+    this.draglayer.html('');
+
     // get subjects of selected messages
-    var names = '';
-    var c, i, subject, obj;
-    for (var n=0; n<this.selection.length; n++) {
+    var c, i, n, subject, obj;
+    for (n=0; n<this.selection.length; n++) {
       // only show 12 lines
       if (n>12) {
-        names += '...';
+        this.draglayer.append('...');
         break;
       }
 
@@ -1137,7 +1139,7 @@ drag_mouse_move: function(e)
 	          this.drag_start_pos = $(obj.childNodes[i]).offset();
 
 	        if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)) {
-	          var node, tmp_node, nodes = obj.childNodes[i].childNodes;
+	          var entry, node, tmp_node, nodes = obj.childNodes[i].childNodes;
 	          // find text node
 	          for (m=0; m<nodes.length; m++) {
 	            if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
@@ -1147,11 +1149,14 @@ drag_mouse_move: function(e)
 	          if (!node)
 	            break;
 
-              subject = node.nodeType==3 ? node.data : node.innerHTML;
+              subject = $(node).text();
 	          // remove leading spaces
 	          subject = subject.replace(/^\s+/i, '');
               // truncate line to 50 characters
-	          names += (subject.length > 50 ? subject.substring(0, 50)+'...' : subject) + '<br />';
+              subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
+
+              entry = $('<div>').text(subject);
+	          this.draglayer.append(entry);
               break;
             }
             c++;
@@ -1160,9 +1165,7 @@ drag_mouse_move: function(e)
       }
     }
 
-    this.draglayer.html(names);
     this.draglayer.show();
-
     this.drag_active = true;
     this.triggerEvent('dragstart');
   }
