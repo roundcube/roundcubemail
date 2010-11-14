@@ -167,7 +167,6 @@ class html2text
         '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
         '/&gt;/i',                               // Greater-than
         '/&lt;/i',                               // Less-than
-        '/&(amp|#38);/i',                        // Ampersand
         '/&(copy|#169);/i',                      // Copyright
         '/&(trade|#8482|#153);/i',               // Trademark
         '/&(reg|#174);/i',                       // Registered
@@ -176,6 +175,7 @@ class html2text
         '/&(bull|#149|#8226);/i',                // Bullet
         '/&(pound|#163);/i',                     // Pound sign
         '/&(euro|#8364);/i',                     // Euro sign
+        '/&(amp|#38);/i',                        // Ampersand: see _converter()
         '/[ ]{2,}/'                              // Runs of spaces, post-handling
     );
 
@@ -210,7 +210,6 @@ class html2text
         "'",                                    // Single quotes
         '>',
         '<',
-        '&',
         '(c)',
         '(tm)',
         '(R)',
@@ -219,6 +218,7 @@ class html2text
         '*',
         'Â£',
         'EUR',                                  // Euro sign. € ?
+        '|+|amp|+|',                            // Ampersand: see _converter()
         ' '                                     // Runs of spaces, post-handling
     );
 
@@ -502,7 +502,11 @@ class html2text
         $text = preg_replace_callback($this->callback_search, array('html2text', '_preg_callback'), $text);
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
-        $text = preg_replace('/&#?[a-z0-9]{2,7};/i', '', $text); 
+        $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
+
+        // Convert "|+|amp|+|" into "&", need to be done after handling of unknown entities
+        // This properly handles situation of "&amp;quot;" in input string
+        $text = str_replace('|+|amp|+|', '&', $text);
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);

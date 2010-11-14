@@ -646,9 +646,20 @@ function rcmail_compose_body($attrib)
   $out .= $msgtype->show();
 
   // If desired, set this textarea to be editable by TinyMCE
-  if ($isHtml) $attrib['class'] = 'mce_editor';
-  $textarea = new html_textarea($attrib);
-  $out .= $textarea->show($MESSAGE_BODY);
+  if ($isHtml) {
+    $attrib['class'] = 'mce_editor';
+    $textarea = new html_textarea($attrib);
+    $out .= $textarea->show($MESSAGE_BODY);
+  }
+  else {
+    $textarea = new html_textarea($attrib);
+    $out .= $textarea->show('');
+    // quote plain text, inject into textarea
+    $table = get_html_translation_table(HTML_SPECIALCHARS);
+    $MESSAGE_BODY = strtr($MESSAGE_BODY, $table);
+    $out = substr($out, 0, -11) . $MESSAGE_BODY . '</textarea>';
+  }
+
   $out .= $form_end ? "\n$form_end" : '';
 
   $OUTPUT->set_env('composebody', $attrib['id']);
