@@ -560,9 +560,7 @@ function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
     $out = strtr($str, $encode_arr);
 
     // avoid douple quotation of &
-    // commented out, because this breaks displaying of text with entity strings
-    // in text messages.
-    //$out = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $out);
+    $out = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $out);
 
     return $newlines ? nl2br($out) : $out;
     }

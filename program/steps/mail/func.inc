@@ -831,8 +831,12 @@ function rcmail_plain_body($body, $flowed=false)
     $quote_level = $q;
   }
 
-  // quote plain text
-  $body = Q(join("\n", $a_lines), 'dummy', false);
+  $body = join("\n", $a_lines);
+
+  // quote plain text (don't use Q() here, to display entities "as is")
+  $table = get_html_translation_table(HTML_SPECIALCHARS);
+  unset($table['?']);
+  $body = strtr($body, $table);
 
   // colorize signature (up to <sig_max_lines> lines)
   $len = strlen($body);
