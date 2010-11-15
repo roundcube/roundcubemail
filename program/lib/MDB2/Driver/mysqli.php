@@ -1803,10 +1803,8 @@ class MDB2_Statement_mysqli extends MDB2_Statement_Common
             $result = $this->db->_wrapResult($result, $this->result_types,
                 $result_class, $result_wrap_class, $this->limit, $this->offset);
         } else {
-//echo '<pre>'; var_dump($this->statement, mysqli_stmt_error($this->statement));exit;
 
             if (!mysqli_stmt_execute($this->statement)) {
-echo '<pre>'; var_dump($this->statement, mysqli_stmt_error($this->statement));exit;
                 $err = $this->db->raiseError(null, null, null,
                     'Unable to execute statement', __FUNCTION__);
                 return $err;
