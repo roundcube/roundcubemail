@@ -214,12 +214,16 @@ focus: function(e)
 {
   var id;
   this.focused = true;
+
   for (var n in this.selection) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
     }
   }
+
+  // Un-focus already focused elements
+  $('*:focus').blur();
 
   if (e || (e = window.event))
     rcube_event.cancel(e);

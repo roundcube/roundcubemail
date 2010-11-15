@@ -70,6 +70,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of folders with "<>" characters in name
 - jQuery 1.4.4
 - Fix handling of HTML entity strings in plain text messages
+- Fix focused elements aren't unfocused when clicking on the list (#1487123)
 
 RELEASE 0.4.2
 -------------
