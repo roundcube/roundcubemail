@@ -71,6 +71,7 @@ CHANGELOG Roundcube Webmail
 - jQuery 1.4.4
 - Fix handling of HTML entity strings in plain text messages
 - Fix focused elements aren't unfocused when clicking on the list (#1487123)
+- Fix error in MSSQL DDL scripts (#1487112)
 
 RELEASE 0.4.2
 -------------

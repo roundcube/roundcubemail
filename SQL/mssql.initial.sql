@@ -291,8 +291,11 @@ ALTER TABLE [dbo].[contactgroupmembers] ADD CONSTRAINT [FK_contactgroupmembers_c
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
-ALTER TABLE [dbo].[contactgroupmembers] ADD CONSTRAINT [FK_contactgroupmembers_contact_id] 
-    FOREIGN KEY ([contact_id]) REFERENCES [dbo].[contacts] ([contact_id])
-    ON DELETE CASCADE ON UPDATE CASCADE
+-- Use trigger instead of foreign key (#1487112)
+-- "Introducing FOREIGN KEY constraint ... may cause cycles or multiple cascade paths."
+CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
+    AFTER DELETE AS
+    DELETE FROM [dbo].[contactgroupmembers]
+    WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
