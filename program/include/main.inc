@@ -1576,8 +1576,9 @@ function rcube_html_editor($mode='')
 
   $RCMAIL->output->include_script('tiny_mce/tiny_mce.js');
   $RCMAIL->output->include_script('editor.js');
-  $RCMAIL->output->add_script('rcmail_editor_init("$__skin_path",
-    "'.JQ($lang).'", '.intval($CONFIG['enable_spellcheck']).', "'.$mode.'");');
+  $RCMAIL->output->add_script(sprintf("rcmail_editor_init('%s', '%s', %d, '%s');",
+    $__skin_path, JQ($lang), intval($CONFIG['enable_spellcheck']), $mode),
+    'foot');
 }
 
 
