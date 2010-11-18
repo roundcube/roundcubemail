@@ -904,14 +904,14 @@ class rcube_imap
     {
         if (empty($this->icache['threads'])) {
             // get all threads
-            list ($thread_tree, $msg_depth, $has_children) = $this->conn->thread(
-                $mailbox, $this->threading, $this->skip_deleted ? 'UNDELETED' : '');
+            $result = $this->conn->thread($mailbox, $this->threading,
+                $this->skip_deleted ? 'UNDELETED' : '');
 
             // add to internal (fast) cache
             $this->icache['threads'] = array();
-            $this->icache['threads']['tree'] = $thread_tree;
-            $this->icache['threads']['depth'] = $msg_depth;
-            $this->icache['threads']['has_children'] = $has_children;
+            $this->icache['threads']['tree'] = is_array($result) ? $result[0] : array();
+            $this->icache['threads']['depth'] = is_array($result) ? $result[1] : array();
+            $this->icache['threads']['has_children'] = is_array($result) ? $result[2] : array();
         }
 
         return array(
@@ -1692,7 +1692,7 @@ class rcube_imap
 
             return $a_messages;
         }
-        
+
         if ($sort_field && $this->get_capability('SORT')) {
             $charset = $charset ? $charset : $this->default_charset;
             $a_messages = $this->conn->sort($mailbox, $sort_field, $criteria, false, $charset);
