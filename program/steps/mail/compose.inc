@@ -505,7 +505,7 @@ function rcmail_compose_header_from($attrib)
   else {
     $field_attrib['class'] = 'from_address';
     $input_from = new html_inputfield($field_attrib);
-    $out = $input_from->show($from_id);
+    $out = $input_from->show($_POST['_from']);
   }
 
   return $out;
