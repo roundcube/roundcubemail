@@ -1329,6 +1329,11 @@ td.hide-headers
   height: 32px;
 }
 
+input.from_address
+{
+  width: 80% !important;
+}
+
 #compose-cc,
 #compose-bcc,
 #compose-replyto,

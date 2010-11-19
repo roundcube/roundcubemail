@@ -472,7 +472,7 @@ function rcmail_compose_header_from($attrib)
       $from_id = get_input_value('_from', RCUBE_INPUT_POST);
     else if (!empty($_SESSION['compose']['param']['from']))
       $from_id = $_SESSION['compose']['param']['from'];
-    else if (count($user_identities) > 1) {
+    else {
       $return_path = $MESSAGE->headers->others['return-path'];
 
       // Set identity
@@ -501,10 +501,11 @@ function rcmail_compose_header_from($attrib)
     // add signatures to client
     $OUTPUT->set_env('signatures', $a_signatures);
   }
-  else
-  {
+  // no identities, display text input field
+  else {
+    $field_attrib['class'] = 'from_address';
     $input_from = new html_inputfield($field_attrib);
-    $out = $input_from->show($_POST['_from']);
+    $out = $input_from->show($from_id);
   }
 
   return $out;

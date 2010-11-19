@@ -212,7 +212,7 @@ $mailcc = rcmail_email_input_format(get_input_value('_cc', RCUBE_INPUT_POST, TRU
 $mailbcc = rcmail_email_input_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset), true);
 
 if ($EMAIL_FORMAT_ERROR) {
-  $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR)); 
+  $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR));
   $OUTPUT->send('iframe');
 }
 
@@ -223,18 +223,30 @@ if (empty($mailto) && !empty($mailcc)) {
 else if (empty($mailto))
   $mailto = 'undisclosed-recipients:;';
 
-// get sender name and address
+// Get sender name and address...
 $from = get_input_value('_from', RCUBE_INPUT_POST, true, $message_charset);
-$identity_arr = rcmail_get_identity($from);
+// ... from identity...
+if (is_numeric($from)) {
+  if (is_array($identity_arr = rcmail_get_identity($from))) {
+    if ($identity_arr['mailto'])
+      $from = $identity_arr['mailto'];
+    if ($identity_arr['string'])
+      $from_string = $identity_arr['string'];
+  }
+  else {
+    $from = null;
+  }
+}
+// ... if there is no identity record, this might be a custom from
+else if ($from_string = rcmail_email_input_format($from)) {
+  if (preg_match('/(\S+@\S+)/', $from_string, $m))
+    $from = trim($m[1], '<>');
+  else
+    $from = null;
+}
 
-if (!$identity_arr && ($from = rcmail_email_input_format($from))) {
-  if (preg_match('/(\S+@\S+)/', $from, $m))
-    $identity_arr['mailto'] = $m[1];
-} else
-  $from = $identity_arr['mailto'];
-
-if (empty($identity_arr['string']))
-  $identity_arr['string'] = $from;
+if (!$from_string && $from)
+  $from_string = $from;
 
 // compose headers array
 $headers = array();
@@ -281,7 +293,7 @@ if ($CONFIG['http_received_header'])
 }
 
 $headers['Date'] = rcmail_user_date();
-$headers['From'] = rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset);
+$headers['From'] = rcube_charset_convert($from_string, RCMAIL_CHARSET, $message_charset);
 $headers['To'] = $mailto;
 
 // additional recipients
@@ -331,19 +343,17 @@ else if (!empty($_SESSION['compose']['forward_uid']) && $savedraft)
 if (!empty($_SESSION['compose']['references']))
   $headers['References'] = $_SESSION['compose']['references'];
 
-if (!empty($_POST['_priority']))
-  {
+if (!empty($_POST['_priority'])) {
   $priority = intval($_POST['_priority']);
   $a_priorities = array(1=>'highest', 2=>'high', 4=>'low', 5=>'lowest');
   if ($str_priority = $a_priorities[$priority])
     $headers['X-Priority'] = sprintf("%d (%s)", $priority, ucfirst($str_priority));
-  }
+}
 
-if (!empty($_POST['_receipt']))
-  {
-  $headers['Return-Receipt-To'] = $identity_arr['string'];
-  $headers['Disposition-Notification-To'] = $identity_arr['string'];
-  }
+if (!empty($_POST['_receipt'])) {
+  $headers['Return-Receipt-To'] = $from_string;
+  $headers['Disposition-Notification-To'] = $from_string;
+}
 
 // additional headers
 $headers['Message-ID'] = $message_id;
@@ -526,8 +536,7 @@ $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $message_charset . ($flowed ? ";\r\n format=flowed" : ''));
 
 // encoding subject header with mb_encode provides better results with asian characters
-if (function_exists('mb_encode_mimeheader'))
-{
+if (function_exists('mb_encode_mimeheader')) {
   mb_internal_encoding($message_charset);
   $headers['Subject'] = mb_encode_mimeheader($headers['Subject'],
     $message_charset, 'Q', "\r\n", 8);
@@ -537,13 +546,13 @@ if (function_exists('mb_encode_mimeheader'))
 // pass headers to message object
 $MAIL_MIME->headers($headers);
 
-// Begin SMTP Delivery Block 
+// Begin SMTP Delivery Block
 if (!$savedraft)
 {
-  // check for 'From' address (identity may be incomplete)
-  if ($identity_arr && !$identity_arr['mailto']) {
+  // check 'From' address (identity may be incomplete)
+  if (empty($from)) {
     $OUTPUT->show_message('nofromaddress', 'error');
-    $OUTPUT->send('iframe'); 
+    $OUTPUT->send('iframe');
   }
 
   // Handle Delivery Status Notification request
