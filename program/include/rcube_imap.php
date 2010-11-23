@@ -693,7 +693,8 @@ class rcube_imap
             $result = array(
                 'count'    => count($this->icache['threads']['tree']),
                 'msgcount' => count($this->icache['threads']['depth']),
-                'maxuid'   => max(array_keys($this->icache['threads']['depth'])),
+                'maxuid'   => !empty($this->icache['threads']['depth']) ?
+                    max(array_keys($this->icache['threads']['depth'])) : 0,
             );
         }
         else if (is_array($result = $this->_fetch_threads($mailbox))) {
@@ -702,7 +703,7 @@ class rcube_imap
             $result = array(
                 'count'    => count($result[0]),
                 'msgcount' => count($result[1]),
-                'maxuid'   => max(array_keys($result[1])),
+                'maxuid'   => !empty($result[1]) ? max(array_keys($result[1])) : 0,
             );
         }
 
