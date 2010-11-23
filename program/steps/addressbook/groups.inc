@@ -79,7 +79,8 @@ else if ($RCMAIL->action == 'group-create') {
 
   if ($created && $OUTPUT->ajax_call) {
     $OUTPUT->show_message('groupcreated', 'confirmation');
-    $OUTPUT->command('insert_contact_group', array('source' => $created));
+    $OUTPUT->command('insert_contact_group', array(
+      'source' => $source, 'id' => $created['id'], 'name' => $created['name']));
   }
   else if (!$created) {
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
@@ -98,7 +99,8 @@ else if ($RCMAIL->action == 'group-rename') {
 
   if ($newname && $OUTPUT->ajax_call) {
     $OUTPUT->show_message('grouprenamed', 'confirmation');
-    $OUTPUT->command('update_contact_group', array('source' => $source, 'id' => $gid, 'name' => $newname));
+    $OUTPUT->command('update_contact_group', array(
+      'source' => $source, 'id' => $gid, 'name' => $newname));
   }
   else if (!$newname)
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
