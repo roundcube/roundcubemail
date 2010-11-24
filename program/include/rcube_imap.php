@@ -3245,7 +3245,7 @@ class rcube_imap
             if (is_array($this->namespace['other'])) {
                 foreach ($this->namespace['other'] as $ns) {
                     foreach ((array)$ns as $root) {
-                        if (strpos($mbox_name, $root[0]) === 0) {
+                        if ($root[0] && strpos($mbox_name, $root[0]) === 0) {
                             return $mbox_name;
                         }
                     }
