@@ -180,6 +180,9 @@ $rcmail_config['message_cache_lifetime'] = '10d';
 // set the port for the ssl connection as value of this option if it differs from the default 443
 $rcmail_config['force_https'] = false;
 
+// Allow browser-autocompletion on login form
+$rcmail_config['login_autocomplete'] = false;
+
 // automatically create a new Roundcube user when log-in the first time.
 // a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service

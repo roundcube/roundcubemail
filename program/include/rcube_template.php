@@ -37,6 +37,7 @@ class rcube_template extends rcube_html_page
     private $js_env = array();
     private $js_commands = array();
     private $object_handlers = array();
+    private $plugin_skin_path;
 
     public $browser;
     public $framed = false;
@@ -373,16 +374,17 @@ class rcube_template extends rcube_html_page
     {
         $skin_path = $this->config['skin_path'];
         $plugin = false;
+        $this->plugin_skin_path = null;
 
         $temp = explode(".", $name, 2);
         if (count($temp) > 1) {
             $plugin = $temp[0];
             $name = $temp[1];
             $skin_dir = $plugin . '/skins/' . $this->config['skin'];
-            $skin_path = $this->app->plugins->dir . $skin_dir;
+            $skin_path = $this->plugin_skin_path = $this->app->plugins->dir . $skin_dir;
             if (!is_dir($skin_path)) {  // fallback to default skin
                 $skin_dir = $plugin . '/skins/default';
-                $skin_path = $this->app->plugins->dir . $skin_dir;
+                $skin_path = $this->plugin_skin_path = $this->app->plugins->dir . $skin_dir;
             }
         }
 
@@ -664,7 +666,9 @@ class rcube_template extends rcube_html_page
 
             // include a file
             case 'include':
-                $path = realpath($this->config['skin_path'].$attrib['file']);
+                if (!$this->plugin_skin_path || !is_file($path = realpath($this->plugin_skin_path . $attrib['file'])))
+                    $path = realpath(($attrib['skin_path'] ? $attrib['skin_path'] : $this->config['skin_path']).$attrib['file']);
+                
                 if (is_readable($path)) {
                     if ($this->config['skin_include_php']) {
                         $incl = $this->include_php($path);
@@ -1041,6 +1045,7 @@ class rcube_template extends rcube_html_page
     private function login_form($attrib)
     {
         $default_host = $this->config['default_host'];
+        $attrib['autocomplete'] = $this->config['login_autocomplete'] ? null : 'off';
 
         $_SESSION['temp'] = true;
 
