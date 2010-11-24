@@ -808,13 +808,16 @@ class rcube_imap_generic
 	    if ($this->selected == $mailbox) {
 		    return true;
 	    }
+/*
+    Temporary commented out because Courier returns \Noselect for INBOX
+    Requires more investigation
 
         if (is_array($this->data['LIST']) && is_array($opts = $this->data['LIST'][$mailbox])) {
             if (in_array('\\Noselect', $opts)) {
                 return false;
             }
         }
-
+*/
         list($code, $response) = $this->execute('SELECT', array($this->escape($mailbox)));
 
         if ($code == self::ERROR_OK) {
