@@ -1,4 +1,4 @@
-<?php
+<?php	
 
 /*
 
@@ -10,10 +10,9 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Zark Bonfire (ikkhares@gmail.com)                             |
-|         Levente Farkas <lfarkas at lfarkas dot org>                   |
-|         Ervin Hegedűs <airween@damson.hu>                             |
-|         Barnabás Bóna <bsi at hosember dot hu>                        |
+| Author: Zark Bonfire <ikkhares at gmail dot com>                      |
+|         Peter Szabo <pete at teamlupus dot hu>                        |
+|         Barnabas Bona <bsi at hosember dot hu>                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -41,11 +40,16 @@ $labels['to'] = 'Címzett';
 $labels['cc'] = 'Másolat';
 $labels['bcc'] = 'Titkos másolat';
 $labels['replyto'] = 'Válaszcím';
+$labels['mailreplyto'] = 'Hírcsoport';
+$labels['mailfollowupto'] = 'Hírcsoport válasz';
 $labels['date'] = 'Dátum';
 $labels['size'] = 'Méret';
 $labels['priority'] = 'Sürgősség';
 $labels['organization'] = 'Szervezet';
+$labels['readstatus'] = 'Olvasott';
 $labels['reply-to'] = 'Válaszcím';
+$labels['mailreply-to'] = 'Hírcsoport';
+$labels['mailfollowup-to'] = 'Hírcsoport válasz';
 $labels['mailboxlist'] = 'Mappák';
 $labels['messagesfromto'] = 'Üzenetek: $from - $to / $count';
 $labels['threadsfromto'] = 'Témák ($from - $to, összesen $count)';
@@ -99,7 +103,9 @@ $labels['today'] = 'Ma';
 $labels['checkmail'] = 'Új üzenetek ellenőrzése';
 $labels['writenewmessage'] = 'Új üzenet';
 $labels['replytomessage'] = 'Válasz';
-$labels['replytoallmessage'] = 'Válasz a feladónak és az összes címzettnek';
+$labels['replytoallmessage'] = 'Válasz a listának vagy a feladónak és az összes címzettnek';
+$labels['replyall'] = 'Válasz mindenkinek';
+$labels['replylist'] = 'Válasz a listának';
 $labels['forwardmessage'] = 'Továbbítás';
 $labels['deletemessage'] = 'Törlés';
 $labels['movemessagetotrash'] = 'Üzenet törlése';
@@ -171,7 +177,9 @@ $labels['sendmessage'] = 'Üzenet küldése';
 $labels['addattachment'] = 'Fájl csatolása';
 $labels['charset'] = 'Karakterkészlet';
 $labels['editortype'] = 'Szerkesztő típusa';
-$labels['returnreceipt'] = 'Értesítés';
+$labels['returnreceipt'] = 'Olvasási visszaigazolás';
+$labels['dsn'] = 'Kézbesítési visszaigazolás';
+$labels['editidents'] = 'Azonosítók szerkesztése';
 $labels['checkspelling'] = 'Helyesírás-ellenőrzés';
 $labels['resumeediting'] = 'Helyesírás kész';
 $labels['revertto'] = 'Vissza erre:';
@@ -193,12 +201,14 @@ $labels['savesentmessagein'] = 'Elküldött üzenet mentése ide:';
 $labels['dontsave'] = 'nincs mentés';
 $labels['maxuploadsize'] = 'A maximális feltölthető fájl mérete $size';
 $labels['addcc'] = 'Cc (Másolati cím) hozzáadása';
-$labels['addbcc'] = 'Bcc (Titkos másolati cím) hozzáadása';
+$labels['addbcc'] = 'Bcc (titkos másolati cím) hozzáadása';
 $labels['addreplyto'] = 'Válaszcím hozzáadása';
-$labels['mdnrequest'] = 'Az üzenet küldője értesítést kér arról, hogy elolvasta a levelet. El legyen küldve az Olvasási Értesítés?';
-$labels['receiptread'] = 'Olvasási Értesítés (olvasott)';
-$labels['yourmessage'] = 'Ez az üzenete Olvasási Értesítése';
-$labels['receiptnote'] = 'Megjegyzés: Ez az Olvasási Értesítés csak azt igazolja, hogy az üzenet megjelenítésre került a címzett számítógépén. Nincs rá garancia, hogy a címzett elolvasta volna az üzenetet illetve megértette volna annak tartalmát.';
+$labels['addmailreplyto'] = 'Hírcsoport hozzáadása';
+$labels['addmailfollowupto'] = 'Hírcsoport válasz hozzáadása';
+$labels['mdnrequest'] = 'Az üzenet küldője értesítést kér arról, hogy elolvasta a levelet. El legyen küldve az olvasási visszaigazolás?';
+$labels['receiptread'] = 'Olvasási visszaigazolás (olvasott)';
+$labels['yourmessage'] = 'Ez az üzenete olvasási visszaigazolása';
+$labels['receiptnote'] = 'Megjegyzés: Ez az olvasási visszaigazolás csak azt igazolja, hogy az üzenet megjelenítésre került a címzett számítógépén. Nincs rá garancia, hogy a címzett elolvasta volna az üzenetet illetve megértette volna annak tartalmát.';
 $labels['name'] = 'Megjelenített név';
 $labels['firstname'] = 'Keresztnév';
 $labels['surname'] = 'Vezetéknév';
@@ -206,11 +216,12 @@ $labels['email'] = 'E-mail cím';
 $labels['addcontact'] = 'Új kapcsolat hozzáadása';
 $labels['editcontact'] = 'Kapcsolat szerkesztése';
 $labels['contacts'] = 'Kapcsolatok';
+$labels['contactproperties'] = 'Kapcsolatok tulajdonságai';
 $labels['edit'] = 'Szerkesztés';
 $labels['cancel'] = 'Mégsem';
 $labels['save'] = 'Mentés';
 $labels['delete'] = 'Törlés';
-$labels['newcontact'] = 'Új névjegykártya létrehozása';
+$labels['newcontact'] = 'Új kapcsolat létrehozása';
 $labels['deletecontact'] = 'Kijelölt kapcsolatok törlése';
 $labels['composeto'] = 'E-mail küldése erre a címre';
 $labels['contactsfromto'] = 'Kapcsolatok: $from - $to / $count';
@@ -253,6 +264,7 @@ $labels['pagesize'] = 'Sorok száma egy oldalon';
 $labels['signature'] = 'Aláírás';
 $labels['dstactive'] = 'Nyári időszámítás';
 $labels['htmleditor'] = 'HTML üzenet írása';
+$labels['htmlonreply'] = 'csak HTML üzenetre válaszolva';
 $labels['htmlsignature'] = 'HTML aláírás';
 $labels['previewpane'] = 'Előnézeti kép';
 $labels['skin'] = 'Kinézet';
@@ -261,9 +273,11 @@ $labels['logoutcompact'] = 'Beérkezett üzenetek mappa tömörítése kilépés
 $labels['uisettings'] = 'Felhasználói felület';
 $labels['serversettings'] = 'Szerverbeállítások';
 $labels['mailboxview'] = 'Postafiók nézet';
-$labels['mdnrequests'] = 'Olvasási értesítés küldése';
+$labels['mdnrequests'] = 'Olvasási visszaigazolás küldése';
 $labels['askuser'] = 'kérdezzen rá';
 $labels['autosend'] = 'automatikus küldés';
+$labels['autosendknown'] = 'visszaigazolás küldése csak a kapcsolataimnak, egyéb esetben kérdezzen rá';
+$labels['autosendknownignore'] = 'visszaigazolás küldése csak a kapcsolataimnak, egyéb esetben hagyja figyelmen kívül';
 $labels['ignore'] = 'hagyja figyelmen kívül';
 $labels['readwhendeleted'] = 'Üzenet olvasottként jelölése törléskor';
 $labels['flagfordeletion'] = 'Üzenet törlendőnek jelölése törlés helyett ';
@@ -308,6 +322,8 @@ $labels['abovequote'] = 'az idézett szöveg fölé';
 $labels['insertsignature'] = 'Aláírás beillesztése';
 $labels['previewpanemarkread'] = 'Előnézetben megjelent üzenetek megjelölése olvasottként';
 $labels['afternseconds'] = '$n másodperc elteltével';
+$labels['reqmdn'] = 'Olvasási visszaigazolás megkövetelése';
+$labels['reqdsn'] = 'Kézbesítési visszaigazolás megkövetelése';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Mappák';
 $labels['foldername'] = 'Mappa neve';

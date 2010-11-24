@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  18102010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  10112010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -212,6 +212,7 @@ $labels['email'] = 'כתובת דוא"ל';
 $labels['addcontact'] = 'הוספת איש קשר';
 $labels['editcontact'] = 'עריכת איש קשר';
 $labels['contacts'] = 'אנשי קשר';
+$labels['contactproperties'] = 'מאפייני איש קשר';
 $labels['edit'] = 'עריכה';
 $labels['cancel'] = 'ביטול';
 $labels['save'] = 'שמירה';
@@ -319,6 +320,7 @@ $labels['previewpanemarkread'] = 'סימון הודעה שנצפתה כנקרא�
 $labels['afternseconds'] = 'לאחר $n שניות';
 $labels['reqmdn'] = 'תמיד יש לדרוש אישור קבלה';
 $labels['reqdsn'] = 'תמיד לבקש הודעה על מצב המסירה';
+$labels['replysamefolder'] = 'המענה ישמר בתיקיה של ההודעה המקורית';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';

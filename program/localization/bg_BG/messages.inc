@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/bg/messages.inc                                              |
+| language/bg_BG/messages.inc                                           |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
 | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
@@ -11,7 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Todor Dragnev <todor.dragnev@gmail.com>                       |
-|	  Nickolay Bunev <just4nick@gmail.com>								|
+|   Nickolay Bunev <just4nick@gmail.com>                                |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -90,6 +90,8 @@ $messages['sourceisreadonly'] = 'Този източник на адреси е 
 $messages['errorsavingcontact'] = 'Грешка при записването на адреса';
 $messages['movingmessage'] = 'Преместване на писмото...';
 $messages['copyingmessage'] = 'Копиране на съобщение...';
+$messages['deletingmessage'] = 'Изтриване на съобщение';
+$messages['markingmessage'] = 'Маркиране на съобщение';
 $messages['receiptsent'] = 'Обратната разписка е изпратена.';
 $messages['errorsendingreceipt'] = 'Грешка при изпращането на обратна разписка.';
 $messages['nodeletelastidentity'] = 'Не можете да изтриете тази самоличност, трябва да имате поне една.';
@@ -117,5 +119,15 @@ $messages['emailformaterror'] = 'Невалиден e-mail адрес: $email';
 $messages['toomanyrecipients'] = 'Прекалено много адреси за изпращане (максимум: $max).';
 $messages['maxgroupmembersreached'] = 'Броя на членовете на групата е повече от максималния: $max.';
 $messages['internalerror'] = 'Възникна вътрешна грешка. Моля опитайте отново';
+$messages['contactdelerror'] = 'Не мога да изтрия контакта';
+$messages['contactdeleted'] = 'Контактът беше изтрит';
+$messages['groupdeleted'] = 'Групата беше  изтрита';
+$messages['grouprenamed'] = 'Групата беше преименувана ';
+$messages['groupcreated'] = 'Групата беше създадена';
+$messages['messagedeleted'] = 'Съобщението  беше  изтрито';
+$messages['messagemoved'] = 'Съобщението беше преместено';
+$messages['messagecopied'] = 'Съобщението беше копирано';
+$messages['messagemarked'] = 'Съобщението беше маркирано';
+$messages['autocompletechars'] = 'Въведете минимум $min знака, за да започне автоматичното попълване';
 
 ?>

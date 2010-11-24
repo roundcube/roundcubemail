@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
 |         Raivo Hool <raivo.hool@gmail.com>                             |
+|         Elan Ruusamäe <glen@delfi.ee>                                 |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -39,11 +40,16 @@ $labels['to'] = 'Saaja';
 $labels['cc'] = 'Koopia';
 $labels['bcc'] = 'Pimekoopia';
 $labels['replyto'] = 'Vastus aadressile';
+$labels['mailreplyto'] = 'Mail-Reply-To';
+$labels['mailfollowupto'] = 'Mail-Followup-To';
 $labels['date'] = 'Kuupäev';
 $labels['size'] = 'Suurus';
 $labels['priority'] = 'Tähtsus';
 $labels['organization'] = 'Organisatsioon';
+$labels['readstatus'] = 'Lugemise staatus';
 $labels['reply-to'] = 'Vastus aadressile';
+$labels['mail-reply-to'] = 'Mail-Reply-To';
+$labels['mail-followup-to'] = 'Mail-Followup-To';
 $labels['mailboxlist'] = 'Kaustad';
 $labels['messagesfromto'] = 'Kirjed $from kuni $to, kokku $count';
 $labels['threadsfromto'] = 'Lõimed $from kuni $to, kokku $count';
@@ -98,6 +104,8 @@ $labels['checkmail'] = 'Kontrolli uusi kirju';
 $labels['writenewmessage'] = 'Kirjuta uus kiri';
 $labels['replytomessage'] = 'Vasta kirjale';
 $labels['replytoallmessage'] = 'Vasta saatjale ja teistele kirja saanutele';
+$labels['replyall'] = 'Vasta kõigile';
+$labels['replylist'] = 'Vasta meilinglisti';
 $labels['forwardmessage'] = 'Edasta see kiri';
 $labels['deletemessage'] = 'Kustuta kiri';
 $labels['movemessagetotrash'] = 'Liiguta kiri prügikasti';
@@ -170,6 +178,8 @@ $labels['addattachment'] = 'Lisa fail';
 $labels['charset'] = 'Märgistik';
 $labels['editortype'] = 'Redaktori tüüp';
 $labels['returnreceipt'] = 'Kättesaamiskinnitus';
+$labels['dsn'] = 'Kohalejõudmise teavitus';
+$labels['editidents'] = 'Muuda Identiteete';
 $labels['checkspelling'] = 'Kontrolli õigekirja';
 $labels['resumeediting'] = 'Jätka muutmist';
 $labels['revertto'] = 'Pööra tagasi';
@@ -193,6 +203,8 @@ $labels['maxuploadsize'] = 'Faili maksimaalne lubatud suurus on $size';
 $labels['addcc'] = 'Lisa koopia';
 $labels['addbcc'] = 'Lisa pimekoopia';
 $labels['addreplyto'] = 'Lisa vastus aadressile';
+$labels['addmailreplyto'] = 'Lisa Mail-Reply-To';
+$labels['addmailfollowupto'] = 'Lisa Mail-Followup-To';
 $labels['mdnrequest'] = 'Selle kirja saatja soovib saada kinnitust kirja lugemise kohta. Kas soovid kinnituse saata?';
 $labels['receiptread'] = 'Kättesaamiskinnitus (leotud)';
 $labels['yourmessage'] = 'See on sinu saadetud kirja kättesaamiskinnitus';
@@ -204,6 +216,7 @@ $labels['email'] = 'E-post';
 $labels['addcontact'] = 'Uue kontakti lisamine';
 $labels['editcontact'] = 'Muuda kontakti';
 $labels['contacts'] = 'Kontaktid';
+$labels['contactproperties'] = 'Kontakti omadused';
 $labels['edit'] = 'Muuda';
 $labels['cancel'] = 'Katkesta';
 $labels['save'] = 'Salvesta';
@@ -251,6 +264,7 @@ $labels['pagesize'] = 'Ridu lehe kohta';
 $labels['signature'] = 'Allkiri';
 $labels['dstactive'] = 'Suveaeg';
 $labels['htmleditor'] = 'Kasuta HTML redaktorit';
+$labels['htmlonreply'] = 'vaid HTML kirja vastamisel';
 $labels['htmlsignature'] = 'HTML allkiri';
 $labels['previewpane'] = 'Näita eelvaate akent';
 $labels['skin'] = 'Kliendi välimus';
@@ -262,6 +276,8 @@ $labels['mailboxview'] = 'Postkasti vaade';
 $labels['mdnrequests'] = 'Kättesaamis kinnitus';
 $labels['askuser'] = 'küsi kasutajalt';
 $labels['autosend'] = 'saada automaatselt';
+$labels['autosendknown'] = 'saada automaatselt minu kontaktidele, teised küsi üle';
+$labels['autosendknownignore'] = 'saada automaatselt minu kontaktidele, teised ignoreeri';
 $labels['ignore'] = 'ignoreeri';
 $labels['readwhendeleted'] = 'Märgi kiri kustutamisel loetuks';
 $labels['flagfordeletion'] = 'Kustutamise asemel märgi kiri kustutatavaks';
@@ -306,6 +322,9 @@ $labels['abovequote'] = 'tsiteeritu kohale';
 $labels['insertsignature'] = 'Sisesta allkiri';
 $labels['previewpanemarkread'] = 'Märgi eelvaadatud kirjad loetuks';
 $labels['afternseconds'] = '$n sekundi pärast';
+$labels['reqmdn'] = 'Alati nõua kättesaamise kinnitust';
+$labels['reqdsn'] = 'Alati nõua kohalejõudmise teavitust';
+$labels['replysamefolder'] = 'Paiguta vastused samasse kausta, millele vastatakse';
 $labels['folder'] = 'Kaust';
 $labels['folders'] = 'Kaustad';
 $labels['foldername'] = 'Kausta nimi';

@@ -10,10 +10,9 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Zark Bonfire (ikkhares@gmail.com)                             |
-|         Levente Farkas <lfarkas at lfarkas dot org>                   |
-|         Ervin Hegedűs <airween@damson.hu>                             |
-|         Barnabás Bóna <bsi at hosember dot hu>                        |
+| Author: Zark Bonfire <ikkhares at gmail dot com>                      |
+|         Peter Szabo <pete at teamlupus dot hu>                        |
+|         Barnabas Bona <bsi at hosember dot hu>                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -26,6 +25,7 @@ $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használat
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 $messages['imaperror'] = 'Nem sikerült a kapcsolódás az IMAP szerverhez';
 $messages['servererror'] = 'Szerverhiba!';
+$messages['servererrormsg'] = 'Szerverhiba: $msg';
 $messages['invalidrequest'] = 'Érvénytelen kérés! Az adatok nem lettek elmentve.';
 $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 $messages['loggedout'] = 'Sikeres kijelentkezés. Viszontlátásra!';
@@ -91,9 +91,9 @@ $messages['sourceisreadonly'] = 'Ez a címforrás csak olvasható';
 $messages['errorsavingcontact'] = 'A kapcsolat címe nem menthető';
 $messages['movingmessage'] = 'Üzenet mozgatása...';
 $messages['copyingmessage'] = 'Üzenet másolása...';
-$messages['receiptsent'] = 'Az Olvasási Értesítés el lett küldve';
-$messages['errorsendingreceipt'] = 'Az Olvasási Értesítést nem sikerült elküldeni';
-$messages['nodeletelastidentity'] = 'Nem törölheti ezt a profilt, ez az egyetlen';
+$messages['receiptsent'] = 'Az olvasási visszaigazolás el lett küldve';
+$messages['errorsendingreceipt'] = 'Az olvasási visszaigazolást nem sikerült elküldeni';
+$messages['nodeletelastidentity'] = 'Nem törölheti ezt az azonosítót, ez az egyetlen';
 $messages['addsubfolderhint'] = 'Az új könyvtár az aktuálisan kiválasztott alkönyvtáraként lesz létrehozva';
 $messages['forbiddencharacter'] = 'A mappa neve tiltott karaktert tartalmaz';
 $messages['selectimportfile'] = 'Kérjük válassza ki a feltölteni kívánt fájlt';
@@ -111,7 +111,8 @@ $messages['smtpconnerror'] = 'SMTP hiba ($code): Sikertelen kapcsolódás a szer
 $messages['smtpautherror'] = 'SMTP hiba ($code): Sikertelen bejelentkezés';
 $messages['smtpfromerror'] = 'SMTP hiba ($code): Nem sikerült a feladó beállítása: "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP hiba ($code): Nem sikerült a következő címzett hozzáadása: "$to" ($msg)';
-$messages['smtprecipientserror'] = 'SMTP hiba ($code): A címzett lista feldolgozása sikertelen';
+$messages['smtprecipientserror'] = 'SMTP hiba ($code): A címzettlista feldolgozása sikertelen';
+$messages['smtpdsnerror'] = 'SMTP hiba: A kézbesítési visszaigazolásokat a szerver nem támogatja';
 $messages['smtperror'] = 'SMTP hiba ($code): $msg';
 $messages['emailformaterror'] = 'Helytelen formátumú e-mail cím: $email';
 $messages['toomanyrecipients'] = 'Túl sok a címzett. Csökkentse a címzettek számát $max címre.';

@@ -3,15 +3,15 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/bg/labels.inc                                                |
+| language/bg_BG/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
 | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Todor Dragnev <todor.dragnev@gmail.com>  						|
-|	  Nickolay Bunev <just4nick@gmail.com>								|
+| Author: Todor Dragnev <todor.dragnev@gmail.com>                       |
+|   Nickolay Bunev <just4nick@gmail.com>                                |
 +-----------------------------------------------------------------------+
 
 @version $Id$

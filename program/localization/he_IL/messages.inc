@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  18102010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  10112010                |
 +-----------------------------------------------------------------------+
 
 */
@@ -88,6 +88,8 @@ $messages['sourceisreadonly'] = 'המקור לכתובת הוא לקריאה ב�
 $messages['errorsavingcontact'] = 'לא ניתן לשמור את כתובת איש הקשר';
 $messages['movingmessage'] = 'תיוק ההודעה...';
 $messages['copyingmessage'] = 'הודעת מועתקת...';
+$messages['deletingmessage'] = 'המחיקה בתהליך...';
+$messages['markingmessage'] = 'סימון ההודעה בתהליך...';
 $messages['receiptsent'] = 'אישור הקבלה נשלח בהצלחה';
 $messages['errorsendingreceipt'] = 'לא ניתן לשלוח אישור קבלה';
 $messages['nodeletelastidentity'] = 'זו הזהות האחרונה ולכן לא ניתן לבטלה';
@@ -115,5 +117,15 @@ $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
 $messages['toomanyrecipients'] = 'יותר מדי נמענים. יש להקטין מספרם ל - $max';
 $messages['maxgroupmembersreached'] = 'מספרם של חברי הקבוצה אינו יכול לעבור $max';
 $messages['internalerror'] = 'שגיאת מערכת. נא לנסות שנית';
+$messages['contactdelerror'] = 'לא ניתן למחוק איש קשר';
+$messages['contactdeleted'] = 'איש הקשר נמחק';
+$messages['groupdeleted'] = 'הקבוצה נמחקה בהצלחה';
+$messages['grouprenamed'] = 'שם הקבוצה שונה בהצלחה';
+$messages['groupcreated'] = 'הקבוצה נוצרה בהצלחה';
+$messages['messagedeleted'] = 'ההודעה נמחקה בהצלחה';
+$messages['messagemoved'] = 'ההודעה הועברה בהצלחה';
+$messages['messagecopied'] = 'ההודעה הועתקה בהצלחה';
+$messages['messagemarked'] = 'ההודעה סומנה בהצלחה';
+$messages['autocompletechars'] = 'יש להקיש לפחות $min תווים להשלמה אוטומטית של המחרוזת';
 
 ?>

@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
 |         Raivo Hool <raivo.hool@gmail.com>                             |
+|         Elan Ruusamäe <glen@delfi.ee>                                 |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -24,6 +25,7 @@ $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu'
 $messages['sessionerror'] = 'Sinu seanss on aegunud või vigane';
 $messages['imaperror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
 $messages['servererror'] = 'Serveri tõrge!';
+$messages['servererrormsg'] = 'Serveri tõrge: $msg';
 $messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
@@ -89,6 +91,8 @@ $messages['sourceisreadonly'] = 'Aadressi asukohas puuduvad kirjutusõigused';
 $messages['errorsavingcontact'] = 'Kontakti aadressi salvestamine ebaõnnestus';
 $messages['movingmessage'] = 'Liigutan kirja...';
 $messages['copyingmessage'] = 'Kopeerin kirja...';
+$messages['deletingmessage'] = 'Kustutan kirja...';
+$messages['markingmessage'] = 'Märgin kirja...';
 $messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
 $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
 $messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
@@ -110,10 +114,24 @@ $messages['smtpautherror'] = 'SMTP tõrge ($code): autentimine nurjus';
 $messages['smtpfromerror'] = 'SMTP tõrge ($code): "$from" saatjaks määramine nurjus ($msg)';
 $messages['smtptoerror'] = 'SMTP tõrge ($code): "$to" saajaks määramine nurjus ($msg)';
 $messages['smtprecipientserror'] = 'SMTP tõrge: saajate nimekirja parsimine nurjus';
+$messages['smtpdsnerror'] = 'SMTP tõrge: puudub kohalejõudmise teavituse toetus';
 $messages['smtperror'] = 'SMTP tõrge: $msg';
 $messages['emailformaterror'] = 'Lubamatu e-posti aadress: $email';
 $messages['toomanyrecipients'] = 'Liiga palju adressaate. Vähenda kirja saajate hulka $max-ni.';
 $messages['maxgroupmembersreached'] = 'Grupi liikmete arv ületab suurima lubatud $max';
 $messages['internalerror'] = 'Ilmnes sisemine tõrge. Palun proovi uuesti.';
+$messages['contactdelerror'] = 'Kontaktide kustutamine nurjus';
+$messages['contactdeleted'] = 'Kontaktide kustutamine õnnestus';
+$messages['groupdeleted'] = 'Grupi kustutamine õnnestus';
+$messages['grouprenamed'] = 'Grupi kustutamine õnnestus';
+$messages['groupcreated'] = 'Grupi loomine õnnestus';
+$messages['messagedeleted'] = 'Kiri edukalt kustutatud';
+$messages['messagemoved'] = 'Kiri edukalt liigutatud';
+$messages['messagecopied'] = 'Kiri edukalt kopeeritud';
+$messages['messagemarked'] = 'Kiri edukalt märgitud';
+$messages['autocompletechars'] = 'Sisesta vähemalt $min märki autocompleteks';
 
 ?>
+
+
+
