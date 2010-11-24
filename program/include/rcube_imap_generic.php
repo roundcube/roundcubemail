@@ -1574,8 +1574,10 @@ class rcube_imap_generic
         // Clear internal status cache
         unset($this->data['STATUS:'.$mailbox]);
 
-		$result = $this->execute($messages ? 'UID EXPUNGE' : 'EXPUNGE',
-		    array($messages), self::COMMAND_NORESPONSE);
+		if ($messages)
+			$result = $this->execute('UID EXPUNGE', array($messages), self::COMMAND_NORESPONSE);
+		else
+			$result = $this->execute('EXPUNGE', null, self::COMMAND_NORESPONSE);
 
 		if ($result == self::ERROR_OK) {
 			$this->selected = ''; // state has changed, need to reselect
