@@ -690,20 +690,19 @@ class rcube_imap
         $result = array();
 
         if (!empty($this->icache['threads'])) {
+            $dcount = count($this->icache['threads']['depth']);
             $result = array(
                 'count'    => count($this->icache['threads']['tree']),
-                'msgcount' => count($this->icache['threads']['depth']),
-                'maxuid'   => !empty($this->icache['threads']['depth']) ?
-                    max(array_keys($this->icache['threads']['depth'])) : 0,
+                'msgcount' => $dcount,
+                'maxuid'   => $dcount ? max(array_keys($this->icache['threads']['depth'])) : 0,
             );
         }
         else if (is_array($result = $this->_fetch_threads($mailbox))) {
-//        list ($thread_tree, $msg_depth, $has_children) = $result;
-//        $this->update_thread_cache($mailbox, $thread_tree, $msg_depth, $has_children);
+            $dcount = count($result[1]);
             $result = array(
                 'count'    => count($result[0]),
-                'msgcount' => count($result[1]),
-                'maxuid'   => !empty($result[1]) ? max(array_keys($result[1])) : 0,
+                'msgcount' => $dcount,
+                'maxuid'   => $dcount ? max(array_keys($result[1])) : 0,
             );
         }
 
