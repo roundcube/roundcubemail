@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/it/labels.inc                                                |
+| language/it_IT/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
 | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
@@ -46,8 +46,8 @@ $labels['size'] = 'Dimensione';
 $labels['priority'] = 'Priorità';
 $labels['organization'] = 'Società';
 $labels['reply-to'] = 'Rispondi a';
-$labels['mail-reply-to'] = 'Mail-Reply-To';
-$labels['mail-followup-to'] = 'Mail-Followup-To';
+$labels['mailreply-to'] = 'Mail-Reply-To';
+$labels['mailfollowup-to'] = 'Mail-Followup-To';
 $labels['mailboxlist'] = 'Cartelle';
 $labels['messagesfromto'] = 'Messaggi da $from a $to di $count';
 $labels['threadsfromto'] = 'Thread da $from a $to di $count';
