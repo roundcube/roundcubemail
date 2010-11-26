@@ -77,6 +77,7 @@ CHANGELOG Roundcube Webmail
 - Lock submit button in onsubmit event on login page (#1487036)
 - Don't set attachment's charset in Content-type header (#1487122)
 - Fix handling of message bodies (quoted-printable encoded) with NULL characters (#1486189)
+- Add workaround for MSOE's multipart/related messages with non-related attachments
 
 RELEASE 0.4.2
 -------------

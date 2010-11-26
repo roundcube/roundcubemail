@@ -411,6 +411,10 @@ class rcube_message
                     if ($plugin['abort'])
                         continue;
 
+                    if ($part_mimetype == 'text/html') {
+                        $got_html_part = true;
+                    }
+
                     $mail_part = $plugin['structure'];
                     list($primary_type, $secondary_type) = explode('/', $plugin['mimetype']);
 
@@ -487,8 +491,17 @@ class rcube_message
                     $part_url = $this->get_part_url($inline_object->mime_id);
                     if ($inline_object->content_id)
                         $a_replaces['cid:'.$inline_object->content_id] = $part_url;
-                    if ($inline_object->content_location)
+                    if ($inline_object->content_location) {
                         $a_replaces[$inline_object->content_location] = $part_url;
+                    }
+                    // MS Outlook sends sometimes non-related attachments as related
+                    // In this case multipart/related message has only one text part
+                    // We'll add all such attachments to the attachments list
+                    if (!isset($got_html_part) && empty($inline_object->content_id)
+                        && !empty($inline_object->filename)
+                    ) {
+                        $this->attachments[] = $inline_object;
+                    }
                 }
 
                 // add replace array to each content part
