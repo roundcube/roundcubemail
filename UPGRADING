@@ -22,6 +22,6 @@ installation as well as the database before executig the following steps.
    ./SQL/[yourdbtype].update.sql that are superscribed with the
    currently installed version number.
 5. Make sure 'enable_installer' is set to false again.
-6. Check .htaccess settings (some php settings could become required)
-
+6. IMPORTANT: clear all records from the sessions table in your database.
+   The session storage format has changed so all existing data cannot be read anymore.
 
