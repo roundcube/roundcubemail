@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>vcard_attachments</name>
+	<channel>pear.roundcube.net</channel>
+	<summary>vCard handler for Roundcube</summary>
+	<description>This plugin detects vCard attachments/bodies and shows a button(s) to add them to address book</description>
+	<lead>
+		<name>Thomas Bruederli</name>
+		<user>thomasb</user>
+		<email>roundcube@gmail.com</email>
+		<active>yes</active>
+	</lead>
+	<lead>
+		<name>Aleksander Machniak</name>
+		<user>alec</user>
+		<email>alec@alec.pl</email>
+		<active>yes</active>
+	</lead>
+	<date>2010-10-14</date>
+	<time>19:00</time>
+	<version>
+		<release>3.0</release>
+		<api>3.0</api>
+	</version>
+	<stability>
+		<release>stable</release>
+		<api>stable</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<notes>
+- Exec contact_create hook when adding contact (#1486964)
+- Make icons skinable
+- Display vcard icon on messages list when message is of type vcard
+    </notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="vcard_attachments.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="vcardattach.js" role="data">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="localization/cs_CZ.inc" role="data"></file>
+			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/de_CH.inc" role="data"></file>
+			<file name="localization/de_DE.inc" role="data"></file>
+			<file name="localization/es_ES.inc" role="data"></file>
+			<file name="localization/et_EE.inc" role="data"></file>
+			<file name="localization/ja_JP.inc" role="data"></file>
+			<file name="localization/es_ES.inc" role="data"></file>
+			<file name="localization/pl_PL.inc" role="data"></file>
+			<file name="localization/ru_RU.inc" role="data"></file>
+			<file name="localization/sv_SE.inc" role="data"></file>
+			<file name="localization/zh_TW.inc" role="data"></file>
+			<file name="skins/default/vcard_add_contact.png" role="data"></file>
+			<file name="skins/default/vcard.png" role="data"></file>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.1</min>
+			</php>
+			<pearinstaller>
+				<min>1.7.0</min>
+			</pearinstaller>
+		</required>
+	</dependencies>
+	<phprelease/>
+	<changelog>
+	    <release>
+        	<date>2010-04-28</date>
+        	<time>12:00:00</time>
+            <version>
+        		<release>2.0</release>
+		        <api>2.0</api>
+        	</version>
+        	<stability>
+		        <release>stable</release>
+        		<api>stable</api>
+	        </stability>
+        	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	        <notes>
+- Added support for Content-Type: text/directory; profile=vCard
+- Added handler for message bodies of type vCard (#1486683)
+- Added support for more than one vCard attachment/body
+- Added support for more than one contact in one vCard file
+- Created package.xml
+            </notes>
+        </release>
+	</changelog>
+</package>

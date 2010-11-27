@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>markasjunk</name>
+	<channel>pear.roundcube.net</channel>
+	<summary>Mark messages as Junk</summary>
+	<description>Adds a new button to the mailbox toolbar to mark the selected messages as Junk and move them to the configured Junk folder.</description>
+	<lead>
+		<name>Thomas Bruederli</name>
+		<user>thomasb</user>
+		<email>roundcube@gmail.com</email>
+		<active>yes</active>
+	</lead>
+	<date>2010-03-29</date>
+	<time>13:20:00</time>
+	<version>
+		<release>1.0</release>
+		<api>1.0</api>
+	</version>
+	<stability>
+		<release>stable</release>
+		<api>stable</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<notes>-</notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="markasjunk.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="markasjunk.js" role="data">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="localization/cs_CZ.inc" role="data"></file>
+			<file name="localization/da_DK.inc" role="data"></file>
+			<file name="localization/de_DE.inc" role="data"></file>
+			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/es_AR.inc" role="data"></file>
+			<file name="localization/es_ES.inc" role="data"></file>
+			<file name="localization/et_EE.inc" role="data"></file>
+			<file name="localization/ja_JP.inc" role="data"></file>
+			<file name="localization/pl_PL.inc" role="data"></file>
+			<file name="localization/ru_RU.inc" role="data"></file>
+			<file name="localization/sv_SE.inc" role="data"></file>
+			<file name="localization/zh_TW.inc" role="data"></file>
+			<file name="skins/default/junk_act.png" role="data"></file>
+			<file name="skins/default/junk_pas.png" role="data"></file>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.1</min>
+			</php>
+			<pearinstaller>
+				<min>1.7.0</min>
+			</pearinstaller>
+		</required>
+	</dependencies>
+	<phprelease/>
+</package>
