@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make session data storage more robust against garbage session data (#1487136)
 - Config option for autocomplete on login screen
 - Allow plugin templates to include local files (#1487133)
 - List groups in address detail view and allow to subscribe/unsubscribe from there (#1486753)

@@ -81,12 +81,12 @@ class rcube_session
 
     if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
       $this->changed = $sql_arr['changed'];
-      $this->vars = $sql_arr['vars'];
-      $this->ip = $sql_arr['ip'];
-      $this->key = $key; 
+      $this->ip      = $sql_arr['ip'];
+      $this->vars    = base64_decode($sql_arr['vars']);
+      $this->key     = $key;
 
-      if (!empty($sql_arr['vars']))
-        return $sql_arr['vars'];
+      if (!empty($this->vars))
+        return $this->vars;
     }
 
     return false;
@@ -107,19 +107,22 @@ class rcube_session
     }
 
     if ($oldvars !== false) {
-      $a_oldvars = $this->unserialize($oldvars); 
-      foreach ((array)$this->unsets as $k)
-        unset($a_oldvars[$k]);
+      $a_oldvars = $this->unserialize($oldvars);
+      if (is_array($a_oldvars)) {
+        foreach ((array)$this->unsets as $k)
+          unset($a_oldvars[$k]);
 
-      $newvars = $this->serialize(array_merge(
-        (array)$a_oldvars, (array)$this->unserialize($vars)));
+        $newvars = $this->serialize(array_merge(
+          (array)$a_oldvars, (array)$this->unserialize($vars)));
+      }
+      else
+        $newvars = $vars;
 
       if (!$this->lifetime) {
         $timeout = 600;
       }
       else if ($this->keep_alive>0) {
-        $timeout = min($this->lifetime * 0.5,
-		  $this->lifetime - $this->keep_alive);
+        $timeout = min($this->lifetime * 0.5, $this->lifetime - $this->keep_alive);
       } else {
         $timeout = 0;
       }
@@ -128,7 +131,7 @@ class rcube_session
         $this->db->query(
           sprintf("UPDATE %s SET vars = ?, changed = %s WHERE sess_id = ?",
             get_table_name('session'), $now),
-          $newvars, $key);
+          base64_encode($newvars), $key);
       }
     }
     else {
@@ -136,7 +139,7 @@ class rcube_session
         sprintf("INSERT INTO %s (sess_id, vars, ip, created, changed) ".
           "VALUES (?, ?, ?, %s, %s)",
           get_table_name('session'), $now, $now),
-        $key, $vars, (string)$_SERVER['REMOTE_ADDR']);
+        $key, base64_encode($vars), (string)$_SERVER['REMOTE_ADDR']);
     }
 
     $this->unsets = array();
