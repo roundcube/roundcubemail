@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Plugin API: Add 'pass' argument in 'authenticate' hook (#1487134)
+- Fix attachments of type message/rfc822 are not listed on attachments list
 
 RELEASE 0.5-BETA
 ----------------

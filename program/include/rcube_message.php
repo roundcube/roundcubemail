@@ -426,7 +426,7 @@ class rcube_message
                         $mail_part->type = 'content';
                         $this->parts[] = $mail_part;
                     }
-          
+
                     // list as attachment as well
                     if (!empty($mail_part->filename))
                         $this->attachments[] = $mail_part;
@@ -473,6 +473,10 @@ class rcube_message
                     // attachment encapsulated within message/rfc822 part needs further decoding (#1486743)
                     else if ($part_orig_mimetype == 'message/rfc822') {
                         $this->parse_structure($mail_part, true);
+
+                        // list as attachment as well (mostly .eml)
+                        if (!empty($mail_part->filename))
+                            $this->attachments[] = $mail_part;
                     }
                     // is a regular attachment (content-type name regexp according to RFC4288.4.2)
                     else if (preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
