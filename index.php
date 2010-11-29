@@ -77,16 +77,14 @@ $RCMAIL->action = $startup['action'];
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   // purge the session in case of new login when a session already exists 
   $RCMAIL->kill_session();
-  
+
   $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
     'host' => $RCMAIL->autoselect_host(),
     'user' => trim(get_input_value('_user', RCUBE_INPUT_POST)),
+    'pass' => get_input_value('_pass', RCUBE_INPUT_POST, true,
+       $RCMAIL->config->get('password_charset', 'ISO-8859-1')),
     'cookiecheck' => true,
   ));
-  
-  if (!isset($auth['pass']))
-    $auth['pass'] = get_input_value('_pass', RCUBE_INPUT_POST, true,
-        $RCMAIL->config->get('password_charset', 'ISO-8859-1'));
 
   // check if client supports cookies
   if ($auth['cookiecheck'] && empty($_COOKIE)) {
