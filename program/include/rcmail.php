@@ -1203,8 +1203,14 @@ class rcmail
     if (function_exists('mcrypt_module_open') &&
         ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, "")))
     {
-      $iv = substr($cipher, 0, mcrypt_enc_get_iv_size($td));
-      $cipher = substr($cipher, mcrypt_enc_get_iv_size($td));
+      $iv_size = mcrypt_enc_get_iv_size($td);
+      $iv = substr($cipher, 0, $iv_size);
+
+      // session corruption? (#1485970)
+      if (strlen($iv) < $iv_size)
+        return '';
+
+      $cipher = substr($cipher, $iv_size);
       mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
       $clear = mdecrypt_generic($td, $cipher);
       mcrypt_generic_deinit($td);
