@@ -223,7 +223,7 @@ focus: function(e)
   }
 
   // Un-focus already focused elements
-  $('*:focus').blur();
+  $('*:focus', window).blur();
 
   if (e || (e = window.event))
     rcube_event.cancel(e);
