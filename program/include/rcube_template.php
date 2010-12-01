@@ -1045,7 +1045,7 @@ class rcube_template extends rcube_html_page
     private function login_form($attrib)
     {
         $default_host = $this->config['default_host'];
-        $attrib['autocomplete'] = $this->config['login_autocomplete'] ? null : 'off';
+        $autocomplete = (int) $this->config['login_autocomplete'];
 
         $_SESSION['temp'] = true;
 
@@ -1054,11 +1054,18 @@ class rcube_template extends rcube_html_page
         if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
             $url = $_SERVER['QUERY_STRING'];
 
-        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser') + $attrib);
-        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd') + $attrib);
+        // set atocomplete attribute
+        $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
+        $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
+        $pass_attrib = $autocomplete > 1 ? array() : array('autocomplete' => 'off');
+
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
         $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
+        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser')
+            + $attrib + $user_attrib);
+        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd')
+            + $attrib + $pass_attrib);
         $input_host   = null;
 
         if (is_array($default_host) && count($default_host) > 1) {
@@ -1080,7 +1087,8 @@ class rcube_template extends rcube_html_page
                 'name' => '_host', 'id' => 'rcmloginhost', 'value' => $host) + $attrib);
         }
         else if (empty($default_host)) {
-            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost') + $attrib);
+            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')
+                + $attrib + $host_attrib);
         }
 
         $form_name  = !empty($attrib['form']) ? $attrib['form'] : 'form';
