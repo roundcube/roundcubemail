@@ -545,7 +545,7 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null)
 {
   global $RCMAIL;
 
-  $old_unseen = $_SESSION['unseen_count'][$mbox_name];
+  $old_unseen = rcmail_get_unseen_count($mbox_name);
 
   if ($count === null)
     $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', $force);
@@ -555,10 +555,30 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null)
   if ($unseen != $old_unseen || ($mbox_name == 'INBOX'))
     $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
 
-  // @TODO: this data is doubled (session and cache tables) if caching is enabled
-  $_SESSION['unseen_count'][$mbox_name] = $unseen;
+  rcmail_set_unseen_count($mbox_name, $unseen);
 
   return $unseen;
+}
+
+
+function rcmail_set_unseen_count($mbox_name, $count)
+{
+  // @TODO: this data is doubled (session and cache tables) if caching is enabled
+
+  // Make sure we have an array here (#1487066)
+  if (!is_array($_SESSION['unseen_count']))
+    $_SESSION['unseen_count'] = array();
+
+  $_SESSION['unseen_count'][$mbox_name] = $count;
+}
+
+
+function rcmail_get_unseen_count($mbox_name)
+{
+  if (is_array($_SESSION['unseen_count']) && array_key_exists($mbox_name, $_SESSION['unseen_count']))
+    return $_SESSION['unseen_count'][$mbox_name];
+  else
+    return null;
 }
 
 

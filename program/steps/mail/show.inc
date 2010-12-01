@@ -196,8 +196,11 @@ else
 if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen &&
   ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
 {
-  if ($IMAP->set_flag($MESSAGE->uid, 'SEEN') && $_SESSION['unseen_count'][$mbox_name])
-    $_SESSION['unseen_count'][$mbox_name] -= 1;
+  if ($IMAP->set_flag($MESSAGE->uid, 'SEEN')) {
+    if ($count = rcmail_get_unseen_count($mbox_name)) {
+      rcmail_set_unseen_count($mbox_name, $count - 1);
+    }
+  }
 }
 
 exit;

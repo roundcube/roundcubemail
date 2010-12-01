@@ -98,11 +98,11 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       // update mailboxlist
       $mbox = $IMAP->get_mailbox_name();
       $unseen_count = $msg_count ? $IMAP->messagecount($mbox, 'UNSEEN') : 0;
-      $old_unseen = $_SESSION['unseen_count'][$mbox];
+      $old_unseen = rcmail_get_unseen_count($mbox);
 
       if ($old_unseen != $unseen_count) {
         $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
-	    $_SESSION['unseen_count'][$mbox] = $unseen_count;
+        rcmail_set_unseen_count($mbox, $unseen_count);
       }
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
 

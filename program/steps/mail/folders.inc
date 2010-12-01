@@ -53,7 +53,7 @@ else if ($RCMAIL->action=='purge')
     || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox))
   {
     $success = $IMAP->clear_mailbox($mbox);
-  
+
     if ($success && !empty($_REQUEST['_reload']))
     {
       $OUTPUT->set_env('messagecount', 0);
@@ -62,7 +62,7 @@ else if ($RCMAIL->action=='purge')
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
       $OUTPUT->command('set_unread_count', $mbox, 0);
       $OUTPUT->command('set_quota', rcmail_quota_content());
-      $_SESSION['unseen_count'][$mbox] = 0;
+      rcmail_set_unseen_count($mbox, 0);
     }
     else
       $commands = "// purged: $success";
