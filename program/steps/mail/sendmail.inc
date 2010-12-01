@@ -513,9 +513,10 @@ if (is_array($_SESSION['compose']['attachments']))
         ($attachment['data'] ? false : true),
         ($ctype == 'message/rfc822' ? '8bit' : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
-        $message_charset, '', '',
+        '', '', '',
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
-        $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
+        $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL,
+        '', RCMAIL_CHARSET
       );
     }
   }

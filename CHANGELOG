@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Add 'login_lc' config option for case-insensitive authentication (#1487113)
 - Fix window is blur'ed in IE when selecting a message (#1487316)
 - Fix cursor position on compose form in Webkit browsers (#1486674)
+- Fix setting charset of attachment filenames (#1487122)
 
 RELEASE 0.5-BETA
 ----------------
