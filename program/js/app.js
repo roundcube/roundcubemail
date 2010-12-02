@@ -148,7 +148,7 @@ function rcube_webmail()
     this.init_buttons();
 
     // tell parent window that this frame is loaded
-    if (this.env.framed && parent.rcmail && parent.rcmail.set_busy) {
+    if (this.is_framed()) {
       parent.rcmail.set_busy(false, null, parent.rcmail.env.frame_lock);
       parent.rcmail.env.frame_lock = null;
     }
@@ -222,7 +222,7 @@ function rcube_webmail()
           }
 
           // make preview/message frame visible
-          if (this.env.action == 'preview' && this.env.framed && parent.rcmail) {
+          if (this.env.action == 'preview' && this.is_framed()) {
             this.enable_command('compose', 'add-contact', false);
             parent.rcmail.show_contentframe(true);
           }
@@ -435,7 +435,7 @@ function rcube_webmail()
     // command not supported or allowed
     if (!this.commands[command]) {
       // pass command to parent window
-      if (this.env.framed && parent.rcmail && parent.rcmail.command)
+      if (this.is_framed())
         parent.rcmail.command(command, props);
 
       return false;
@@ -1120,7 +1120,7 @@ function rcube_webmail()
 
   this.reload = function(delay)
   {
-    if (this.env.framed && parent.rcmail)
+    if (this.is_framed())
       parent.rcmail.reload(delay);
     else if (delay)
       window.setTimeout(function(){ rcmail.reload(); }, delay);
@@ -1148,6 +1148,12 @@ function rcube_webmail()
     else
       return url + '?' + name + '=' + value;
   };
+
+  this.is_framed = function()
+  {
+    return (this.env.framed && parent.rcmail);
+  };
+
 
   /*********************************************************/
   /*********        event handling methods         *********/
@@ -1823,7 +1829,7 @@ function rcube_webmail()
       this.show_contentframe(true);
     else {
       if (!this.env.frame_lock) {
-        (parent.rcmail ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
+        (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
       }
       target.location.href = this.env.comm_path+url;
 
@@ -4599,7 +4605,7 @@ function rcube_webmail()
   this.display_message = function(msg, type)
   {
     // pass command to parent window
-    if (this.env.framed && parent.rcmail)
+    if (this.is_framed())
       return parent.rcmail.display_message(msg, type);
 
     if (!this.gui_objects.message) {
@@ -4647,7 +4653,7 @@ function rcube_webmail()
   this.hide_message = function(obj, fade)
   {
     // pass command to parent window
-    if (this.env.framed && parent.rcmail)
+    if (this.is_framed())
       return parent.rcmail.hide_message(obj, fade);
 
     if (typeof(obj) == 'object') {
