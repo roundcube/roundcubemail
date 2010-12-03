@@ -11,7 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Todor Dragnev <todor.dragnev@gmail.com>                       |
-|   Nickolay Bunev <just4nick@gmail.com>                                |
+|	  Nickolay Bunev <just4nick@gmail.com>								|
 +-----------------------------------------------------------------------+
 
 @version $Id$

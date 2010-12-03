@@ -132,6 +132,3 @@ $messages['messagemarked'] = 'Kiri edukalt märgitud';
 $messages['autocompletechars'] = 'Sisesta vähemalt $min märki autocompleteks';
 
 ?>
-
-
-

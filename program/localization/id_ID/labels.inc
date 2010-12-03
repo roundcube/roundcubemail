@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
+| Author: Putu Arya Sabda Wijaya <ptaryasw@isi-dps.ac.id>                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -38,11 +38,16 @@ $labels['to'] = 'Penerima';
 $labels['cc'] = 'Lampiran';
 $labels['bcc'] = 'Lampiran tersembunyi';
 $labels['replyto'] = 'Balas kepada';
+$labels['mailreplyto'] = 'Surat Balasan Untuk';
+$labels['mailfollowupto'] = 'Surat Tindak Lanjut Untuk';
 $labels['date'] = 'Tanggal';
 $labels['size'] = 'Ukuran';
 $labels['priority'] = 'Prioritas';
 $labels['organization'] = 'Organisasi';
+$labels['readstatus'] = 'Status Terbaca';
 $labels['reply-to'] = 'Balas kepada';
+$labels['mail-reply-to'] = 'Surat Balasan Untuk';
+$labels['mail-followup-to'] = 'Surat Tindak Lanjut Untuk';
 $labels['mailboxlist'] = 'Map';
 $labels['messagesfromto'] = 'Pesan ke $from sampai $to dari $count';
 $labels['threadsfromto'] = 'Untaian ke $from sampai $to dari $count';
@@ -97,6 +102,8 @@ $labels['checkmail'] = 'Periksa pesan baru';
 $labels['writenewmessage'] = 'Buat pesan baru';
 $labels['replytomessage'] = 'Balas pesan';
 $labels['replytoallmessage'] = 'Balas ke pengirim dan yang lain';
+$labels['replyall'] = 'Balas ke semua';
+$labels['replylist'] = 'Balas ke milis';
 $labels['forwardmessage'] = 'Teruskan pesan';
 $labels['deletemessage'] = 'Hapus pesan';
 $labels['movemessagetotrash'] = 'Pindahkan pesan ke tong sampah';
@@ -168,7 +175,9 @@ $labels['sendmessage'] = 'Kirim pesan sekarang';
 $labels['addattachment'] = 'Sisipkan sebuah berkas';
 $labels['charset'] = 'Set karakter';
 $labels['editortype'] = 'Tipe penyunting';
-$labels['returnreceipt'] = 'Kembalikan penerima';
+$labels['returnreceipt'] = 'Tanda terima kembali';
+$labels['dsn'] = 'Pemberitahuan status terkirim';
+$labels['editidents'] = 'Ubah identitas';
 $labels['checkspelling'] = 'Pemeriksaan ejaan';
 $labels['resumeediting'] = 'Lanjutkan menyunting';
 $labels['revertto'] = 'Balikkan ke';
@@ -192,6 +201,8 @@ $labels['maxuploadsize'] = 'Ukuran file maksimal adalah $size';
 $labels['addcc'] = 'Tambah Cc';
 $labels['addbcc'] = 'Tambah Bcc';
 $labels['addreplyto'] = 'Tambah Balas Ke';
+$labels['addmailreplyto'] = 'Tambahkan Balas-Ke';
+$labels['addmailfollowupto'] = 'Tambahkan Tindak-Lanjut-Ke';
 $labels['mdnrequest'] = 'Pengirim pesan ini telah meminta untuk diberitahu ketika Anda membaca pesan ini. Apakah anda ingin memberitahu pengirim?';
 $labels['receiptread'] = 'Tanda Terima (baca)';
 $labels['yourmessage'] = 'Ini adalah Tanda Terima untuk pesan Anda';
@@ -203,6 +214,7 @@ $labels['email'] = 'E-Mail';
 $labels['addcontact'] = 'Tambah kontak baru';
 $labels['editcontact'] = 'Ubah kontak';
 $labels['contacts'] = 'Daftar kontak';
+$labels['contactproperties'] = 'Properti kontak';
 $labels['edit'] = 'Ubah';
 $labels['cancel'] = 'Batal';
 $labels['save'] = 'Simpan';
@@ -250,6 +262,7 @@ $labels['pagesize'] = 'Baris per halaman';
 $labels['signature'] = 'Tanda tangan';
 $labels['dstactive'] = 'Waktu Musim Panas';
 $labels['htmleditor'] = 'Tulis pesan HTML';
+$labels['htmlonreply'] = 'balasan untuk pesan HTML saja';
 $labels['htmlsignature'] = 'Tandatangan HTML';
 $labels['previewpane'] = 'Perlihatkan tempat melihat';
 $labels['skin'] = 'Tampilan antarmuka';
@@ -258,9 +271,11 @@ $labels['logoutcompact'] = 'Mampatkan Kotak Masuk saat keluar';
 $labels['uisettings'] = 'Antarmuka pengguna';
 $labels['serversettings'] = 'Pengaturan Server';
 $labels['mailboxview'] = 'Tampilan Kotak Surat';
-$labels['mdnrequests'] = 'Pemberitahuan pada pengirim';
+$labels['mdnrequests'] = 'Sedang dimintakan tanda terima kembali';
 $labels['askuser'] = 'tanya pengguna';
 $labels['autosend'] = 'kirim otomatis';
+$labels['autosendknown'] = 'kirim tanda terima kepada kontak saya, selain itu tanyai saya';
+$labels['autosendknownignore'] = 'kirim tanda terima kepada kontak saya, selain acuhkan';
 $labels['ignore'] = 'acuhkan';
 $labels['readwhendeleted'] = 'Tandai pesan sebagai terbaca saat dihapus';
 $labels['flagfordeletion'] = 'Tandai pesan untuk penghapusan daripada dihapus';
@@ -305,6 +320,9 @@ $labels['abovequote'] = 'Diatas kutipan';
 $labels['insertsignature'] = 'Isi tanda tangan';
 $labels['previewpanemarkread'] = 'Tandai pesan yang sudah dilihat ';
 $labels['afternseconds'] = 'setelah $n detik';
+$labels['reqmdn'] = 'Selalu meminta tanda terima kembali';
+$labels['reqdsn'] = 'Selalu meminta pemberitahuan status terkirim';
+$labels['replysamefolder'] = 'Taruh balasan di folder yang sama dengan pesan yang dibalas';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Map-map';
 $labels['foldername'] = 'Nama map';

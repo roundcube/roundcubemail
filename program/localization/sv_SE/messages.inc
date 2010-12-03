@@ -91,6 +91,8 @@ $messages['sourceisreadonly'] = 'Denna adresskälla är skrivskyddad';
 $messages['errorsavingcontact'] = 'Kunde inte spara kontaktadressen';
 $messages['movingmessage'] = 'Flyttar meddelande...';
 $messages['copyingmessage'] = 'Kopierar meddelande...';
+$messages['deletingmessage'] = 'Raderar meddelande...';
+$messages['markingmessage'] = 'Markerar meddelande...';
 $messages['receiptsent'] = 'Mottagarkvitto har skickats';
 $messages['errorsendingreceipt'] = 'Kunde inte skicka mottagarkvitto';
 $messages['nodeletelastidentity'] = 'Du kan inte radera den här identiteten, det är din sista.';
@@ -118,5 +120,15 @@ $messages['emailformaterror'] = 'Felaktig adress: $email';
 $messages['toomanyrecipients'] = 'Förmånga mottagare. Minska antalet till högst $max.';
 $messages['maxgroupmembersreached'] = 'Antalet gruppmedlemmar får inte överstiga $max';
 $messages['internalerror'] = 'Ett internt fel uppstod. Vänligen försök igen.';
+$messages['contactdelerror'] = 'Kunde inte radera kontakt';
+$messages['contactdeleted'] = 'Kontakt raderad';
+$messages['groupdeleted'] = 'Grupp raderad';
+$messages['grouprenamed'] = 'Gruppnamn ändrat';
+$messages['groupcreated'] = 'Grupp skapad';
+$messages['messagedeleted'] = 'Meddelande raderat';
+$messages['messagemoved'] = 'Meddelande flyttat';
+$messages['messagecopied'] = 'Meddelande kopierat';
+$messages['messagemarked'] = 'Meddelande markerat';
+$messages['autocompletechars'] = 'Ange minst $min tecken för automatisk komplettering';
 
 ?>

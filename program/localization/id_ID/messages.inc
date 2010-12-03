@@ -10,7 +10,7 @@
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Putu Arya Sabda Wijaya <klunxer@gmail.com>                    |
+| Author: Putu Arya Sabda Wijaya <ptaryasw@isi-dps.ac.id>                    |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -23,6 +23,7 @@ $messages['cookiesdisabled'] = 'Browser Anda tidak menerima cookies';
 $messages['sessionerror'] = 'Session Anda invalid atau kadaluwarsa';
 $messages['imaperror'] = 'Koneksi ke IMAP server gagal';
 $messages['servererror'] = 'Server Error!';
+$messages['servererrormsg'] = 'Server Error: $msg';
 $messages['invalidrequest'] = 'Permintaan tidak valid! Tidak ada data yang tersimpan.';
 $messages['nomessagesfound'] = 'Surat tidak ditemukan di kotak masuk ini';
 $messages['loggedout'] = 'Anda berhasil mengakhiri session. Selamat Tinggal!';
@@ -34,7 +35,7 @@ $messages['checkingmail'] = 'Memeriksa pesan baru...';
 $messages['sendingmessage'] = 'Mengirim pesan...';
 $messages['messagesent'] = 'Pesan terkirim';
 $messages['savingmessage'] = 'Menyimpan pesan...';
-$messages['messagesaved'] = 'MMenyimpan pesan ke daftar tunggu';
+$messages['messagesaved'] = 'Menyimpan pesan ke daftar tunggu';
 $messages['successfullysaved'] = 'Berhasil disimpan';
 $messages['addedsuccessfully'] = 'Kontak berhasil ditambahkan ke buku alamat';
 $messages['contactexists'] = 'Kontak dengan alamat e-mail ini sudah ada';
@@ -88,6 +89,8 @@ $messages['sourceisreadonly'] = 'Sumber dari alamat ini hanya dapat dibaca';
 $messages['errorsavingcontact'] = 'Tidak bisa menyimpan alamat kontak';
 $messages['movingmessage'] = 'Memindahkan pesan...';
 $messages['copyingmessage'] = 'Menyalin pesan...';
+$messages['deletingmessage'] = 'Menghapus pesan...';
+$messages['markingmessage'] = 'Menandai Pesan...';
 $messages['receiptsent'] = 'Berhasil mengirim pemberitahuan tanda terima telah terbaca';
 $messages['errorsendingreceipt'] = 'Tidak dapat mengirim tanda terima';
 $messages['nodeletelastidentity'] = 'Anda tidak bida mengapus identitas ini, ini identitas yang terakhir';
@@ -109,10 +112,21 @@ $messages['smtpautherror'] = 'SMTP Error ($code): Otentifikasi gagal';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Gagal mengatur pengirim "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Error ($code): Gagal menambah penerima "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Error ($code): Tidak dapat menguraikan daftar penerima';
+$messages['smtpdsnerror'] = 'SMTP Error: Tidak ada dukungan untuk pemberitahuan status terkirim';
 $messages['smtperror'] = 'SMTP Error : $msg';
 $messages['emailformaterror'] = 'Alamat e-mail salah: $email';
 $messages['toomanyrecipients'] = 'Terlalu banyak penerima. Batas maksimal penerima adalah $max';
 $messages['maxgroupmembersreached'] = 'Jumlah grup melebihi jumlah maksimum $max';
 $messages['internalerror'] = 'Terjadi kesalahan internal. Silahkan diulang kembali';
+$messages['contactdelerror'] = 'Kontak tidak bisa dihapus';
+$messages['contactdeleted'] = 'Kontak berhasil dihapus';
+$messages['groupdeleted'] = 'Grup berhasil dihapus';
+$messages['grouprenamed'] = 'Grup berhasil dinamai kembali';
+$messages['groupcreated'] = 'Grub berhasil dibuat';
+$messages['messagedeleted'] = 'Pesan berhasil dihapus';
+$messages['messagemoved'] = 'Pesan berhasil dipindahkan';
+$messages['messagecopied'] = 'Pesan berhasil disalin';
+$messages['messagemarked'] = 'Pesan berhasil ditandai';
+$messages['autocompletechars'] = 'Masukkan setidaknya $min karakter untuk swaparipurna';
 
 ?>

@@ -129,5 +129,6 @@ $messages['messagedeleted'] = '訊息成功刪除';
 $messages['messagemoved'] = '訊息成功移動';
 $messages['messagecopied'] = '訊息成功複製';
 $messages['messagemarked'] = '訊息成功標示';
+$messages['autocompletechars'] = '輸入至少 $min 字元才能自動完成自動完成';
 
 ?>
