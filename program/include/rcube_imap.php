@@ -2582,7 +2582,6 @@ class rcube_imap
 
         // send expunge command in order to have the moved message
         // really deleted from the source mailbox
-$aa = rcube_timer();
         if ($moved) {
             $this->_expunge($from_mbox, false, $uids);
             $this->_clear_messagecount($from_mbox);
@@ -2592,7 +2591,7 @@ $aa = rcube_timer();
         else if ($config->get('delete_always', false) && $tbox == $config->get('trash_mbox')) {
             $moved = $this->delete_message($uids, $fbox);
         }
-rcube_print_time($aa);
+
         if ($moved) {
             // unset threads internal cache
             unset($this->icache['threads']);
