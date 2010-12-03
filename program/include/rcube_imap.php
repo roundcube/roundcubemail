@@ -185,7 +185,7 @@ class rcube_imap
      */
     function close()
     {
-        $this->conn->close();
+        $this->conn->closeConnection();
         $this->write_cache();
     }
 
@@ -198,7 +198,7 @@ class rcube_imap
      */
     function reconnect()
     {
-        $this->close();
+        $this->closeConnection();
         $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
 
         // issue SELECT command to restore connection status
@@ -617,7 +617,7 @@ class rcube_imap
         }
         // RECENT count is fetched a bit different
         else if ($mode == 'RECENT') {
-            $count = $this->conn->checkForRecent($mailbox);
+            $count = $this->conn->countRecent($mailbox);
         }
         // use SEARCH for message counting
         else if ($this->skip_deleted) {
@@ -2582,6 +2582,7 @@ class rcube_imap
 
         // send expunge command in order to have the moved message
         // really deleted from the source mailbox
+$aa = rcube_timer();
         if ($moved) {
             $this->_expunge($from_mbox, false, $uids);
             $this->_clear_messagecount($from_mbox);
@@ -2591,7 +2592,7 @@ class rcube_imap
         else if ($config->get('delete_always', false) && $tbox == $config->get('trash_mbox')) {
             $moved = $this->delete_message($uids, $fbox);
         }
-
+rcube_print_time($aa);
         if ($moved) {
             // unset threads internal cache
             unset($this->icache['threads']);
@@ -2774,7 +2775,11 @@ class rcube_imap
         else
             $a_uids = NULL;
 
-        $result = $this->conn->expunge($mailbox, $a_uids);
+        // CLOSE(+SELECT) should be faster than EXPUNGE
+        if (empty($a_uids) || $a_uids == '1:*')
+            $result = $this->conn->close();
+        else
+            $result = $this->conn->expunge($mailbox, $a_uids);
 
         if ($result && $clear_cache) {
             $this->clear_message_cache($mailbox.'.msg');

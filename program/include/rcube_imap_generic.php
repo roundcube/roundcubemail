@@ -683,7 +683,7 @@ class rcube_imap_generic
 			    $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
 
 	        $this->setError(self::ERROR_BAD, $error);
-            $this->close();
+            $this->closeConnection();
 	        return false;
 	    }
 
@@ -700,13 +700,13 @@ class rcube_imap_generic
                	$res = $this->execute('STARTTLS');
 
                 if ($res[0] != self::ERROR_OK) {
-                    $this->close();
+                    $this->closeConnection();
                     return false;
                 }
 
 			    if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
 				    $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
-                    $this->close();
+                    $this->closeConnection();
 				    return false;
 			    }
 
@@ -738,7 +738,7 @@ class rcube_imap_generic
             // Prevent from sending credentials in plain text when connection is not secure
 		    if ($auth_method == 'LOGIN' && $this->getCapability('LOGINDISABLED')) {
 			    $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
-                $this->close();
+                $this->closeConnection();
 			    return false;
             }
             // replace AUTH with CRAM-MD5 for backward compat.
@@ -778,8 +778,7 @@ class rcube_imap_generic
 		    return true;
         }
 
-        // Close connection
-        $this->close();
+        $this->closeConnection();
 
         return false;
     }
@@ -789,7 +788,7 @@ class rcube_imap_generic
 		return ($this->fp && $this->logged) ? true : false;
     }
 
-    function close()
+    function closeConnection()
     {
 	    if ($this->putLine($this->nextTag() . ' LOGOUT')) {
     	    $this->readReply();
@@ -799,6 +798,14 @@ class rcube_imap_generic
 		$this->fp = false;
     }
 
+    /**
+     * Executes SELECT command (if mailbox is already not in selected state)
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return boolean True on success, false on error
+     * @access public
+     */
     function select($mailbox)
     {
 	    if (!strlen($mailbox)) {
@@ -842,7 +849,7 @@ class rcube_imap_generic
     }
 
     /**
-     * Executes STATUS comand
+     * Executes STATUS command
      *
      * @param string $mailbox Mailbox name
      * @param array  $items   Additional requested item names. By default
@@ -887,21 +894,133 @@ class rcube_imap_generic
         return false;
     }
 
-    function checkForRecent($mailbox)
+    /**
+     * Executes EXPUNGE command
+     *
+     * @param string $mailbox  Mailbox name
+     * @param string $messages Message UIDs to expunge
+     *
+     * @return boolean True on success, False on error
+     * @access public
+     */
+    function expunge($mailbox, $messages=NULL)
     {
-	    if (!strlen($mailbox)) {
-		    $mailbox = 'INBOX';
-	    }
+	    if (!$this->select($mailbox)) {
+            return false;
+        }
 
-	    $this->select($mailbox);
+        // Clear internal status cache
+        unset($this->data['STATUS:'.$mailbox]);
 
-	    if ($this->selected == $mailbox) {
-		    return $this->data['RECENT'];
-	    }
+		if ($messages)
+			$result = $this->execute('UID EXPUNGE', array($messages), self::COMMAND_NORESPONSE);
+		else
+			$result = $this->execute('EXPUNGE', null, self::COMMAND_NORESPONSE);
+
+		if ($result == self::ERROR_OK) {
+			$this->selected = ''; // state has changed, need to reselect
+			return true;
+		}
 
 	    return false;
     }
 
+    /**
+     * Executes CLOSE command
+     *
+     * @return boolean True on success, False on error
+     * @access public
+     * @since 0.5
+     */
+    function close()
+    {
+        $result = $this->execute('CLOSE', NULL, self::COMMAND_NORESPONSE);
+
+        if ($result == self::ERROR_OK) {
+            $this->selected = '';
+            return true;
+        }
+
+	    return false;
+    }
+
+    /**
+     * Executes SUBSCRIBE command
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return boolean True on success, False on error
+     * @access public
+     */
+    function subscribe($mailbox)
+    {
+	    $result = $this->execute('SUBSCRIBE', array($this->escape($mailbox)),
+	        self::COMMAND_NORESPONSE);
+
+	    return ($result == self::ERROR_OK);
+    }
+
+    /**
+     * Executes UNSUBSCRIBE command
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return boolean True on success, False on error
+     * @access public
+     */
+    function unsubscribe($mailbox)
+    {
+	    $result = $this->execute('UNSUBSCRIBE', array($this->escape($mailbox)),
+	        self::COMMAND_NORESPONSE);
+
+	    return ($result == self::ERROR_OK);
+    }
+
+    /**
+     * Executes DELETE command
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return boolean True on success, False on error
+     * @access public
+     */
+    function deleteFolder($mailbox)
+    {
+        $result = $this->execute('DELETE', array($this->escape($mailbox)),
+	        self::COMMAND_NORESPONSE);
+
+	    return ($result == self::ERROR_OK);
+    }
+
+    /**
+     * Removes all messages in a folder
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return boolean True on success, False on error
+     * @access public
+     */
+    function clearFolder($mailbox)
+    {
+	    $num_in_trash = $this->countMessages($mailbox);
+	    if ($num_in_trash > 0) {
+		    $this->delete($mailbox, '1:*');
+	    }
+
+        $res = $this->close();
+//	    $res = $this->expunge($mailbox);
+
+	    return $res;
+    }
+
+    /**
+     * Returns count of all messages in a folder
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return int Number of messages, False on error
+     * @access public
+     */
     function countMessages($mailbox, $refresh = false)
     {
 	    if ($refresh) {
@@ -925,6 +1044,29 @@ class rcube_imap_generic
         }
 
         return false;
+    }
+
+    /**
+     * Returns count of messages with \Recent flag in a folder
+     *
+     * @param string $mailbox Mailbox name
+     *
+     * @return int Number of messages, False on error
+     * @access public
+     */
+    function countRecent($mailbox)
+    {
+	    if (!strlen($mailbox)) {
+		    $mailbox = 'INBOX';
+	    }
+
+	    $this->select($mailbox);
+
+	    if ($this->selected == $mailbox) {
+		    return $this->data['RECENT'];
+	    }
+
+	    return false;
     }
 
     /**
@@ -1565,27 +1707,6 @@ class rcube_imap_generic
 	    return $result;
     }
 
-    function expunge($mailbox, $messages=NULL)
-    {
-	    if (!$this->select($mailbox)) {
-            return false;
-        }
-
-        // Clear internal status cache
-        unset($this->data['STATUS:'.$mailbox]);
-
-		if ($messages)
-			$result = $this->execute('UID EXPUNGE', array($messages), self::COMMAND_NORESPONSE);
-		else
-			$result = $this->execute('EXPUNGE', null, self::COMMAND_NORESPONSE);
-
-		if ($result == self::ERROR_OK) {
-			$this->selected = ''; // state has changed, need to reselect
-			return true;
-		}
-
-	    return false;
-    }
 
     function modFlag($mailbox, $messages, $flag, $mod)
     {
@@ -2151,39 +2272,6 @@ class rcube_imap_generic
 	        self::COMMAND_NORESPONSE);
 
 		return ($result == self::ERROR_OK);
-    }
-
-    function deleteFolder($mailbox)
-    {
-        $result = $this->execute('DELETE', array($this->escape($mailbox)),
-	        self::COMMAND_NORESPONSE);
-
-	    return ($result == self::ERROR_OK);
-    }
-
-    function clearFolder($mailbox)
-    {
-	    $num_in_trash = $this->countMessages($mailbox);
-	    if ($num_in_trash > 0) {
-		    $this->delete($mailbox, '1:*');
-	    }
-	    return ($this->expunge($mailbox) >= 0);
-    }
-
-    function subscribe($mailbox)
-    {
-	    $result = $this->execute('SUBSCRIBE', array($this->escape($mailbox)),
-	        self::COMMAND_NORESPONSE);
-
-	    return ($result == self::ERROR_OK);
-    }
-
-    function unsubscribe($mailbox)
-    {
-	    $result = $this->execute('UNSUBSCRIBE', array($this->escape($mailbox)),
-	        self::COMMAND_NORESPONSE);
-
-	    return ($result == self::ERROR_OK);
     }
 
     function append($mailbox, &$message)

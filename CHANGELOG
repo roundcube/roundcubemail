@@ -12,6 +12,8 @@ CHANGELOG Roundcube Webmail
 - Fix invalid Request when creating a folder (#1487443)
 - Add folder size and quota indicator in folder manager (#1485780)
 - Add possibility to move a subfolder into root folder (#1486791)
+- Fix copying all messages in a folder copies only messages from current page
+- Improve performance of moving or copying of all messages in a folder
 
 RELEASE 0.5-BETA
 ----------------
