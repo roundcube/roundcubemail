@@ -2386,8 +2386,10 @@ function rcube_webmail()
       }
     }
 
+    add_url += '&_uid='+this.uids_to_list(a_uids);
+
     // send request to server
-    this.http_post('copy', '_uid='+a_uids.join(',')+'&_mbox='+urlencode(this.env.mailbox)+add_url, lock);
+    this.http_post('copy', '_mbox='+urlencode(this.env.mailbox)+add_url, lock);
   };
 
   // move selected messages to the specified mailbox
@@ -2400,8 +2402,8 @@ function rcube_webmail()
     if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
       return;
 
-    var lock = false;
-    var add_url = '&_target_mbox='+urlencode(mbox)+'&_from='+(this.env.action ? this.env.action : '');
+    var lock = false,
+      add_url = '&_target_mbox='+urlencode(mbox)+'&_from='+(this.env.action ? this.env.action : '');
 
     // show wait message
     if (this.env.action == 'show') {
