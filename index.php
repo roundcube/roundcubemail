@@ -218,16 +218,15 @@ $action_map = array(
     'group-addmembers' => 'groups.inc',
     'group-delmembers' => 'groups.inc',
   ),
-  
+
   'settings' => array(
-    'folders'       => 'manage_folders.inc',
-    'create-folder' => 'manage_folders.inc',
-    'rename-folder' => 'manage_folders.inc',
-    'delete-folder' => 'manage_folders.inc',
-    'subscribe'     => 'manage_folders.inc',
-    'unsubscribe'   => 'manage_folders.inc',
-    'enable-threading'  => 'manage_folders.inc',
-    'disable-threading' => 'manage_folders.inc',
+    'folders'       => 'folders.inc',
+    'rename-folder' => 'folders.inc',
+    'delete-folder' => 'folders.inc',
+    'subscribe'     => 'folders.inc',
+    'unsubscribe'   => 'folders.inc',
+    'purge'         => 'folders.inc',
+    'folder-size'   => 'folders.inc',
     'add-identity'  => 'edit_identity.inc',
   )
 );

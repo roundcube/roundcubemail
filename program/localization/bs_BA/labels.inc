@@ -218,12 +218,8 @@ $labels['never'] ='nikada';
 $labels['folder']  = 'Fascikla';
 $labels['folders']  = 'Fascikle';
 $labels['foldername']  = 'Ime fascikle';
-$labels['subscribed']  = 'Pretplaćen';
 $labels['create']  = 'Napravi';
 $labels['createfolder']  = 'Napravi novu fasciklu';
-$labels['rename'] = 'Preimenuj';
-$labels['renamefolder'] = 'Preimenuj fasciklu';
-$labels['deletefolder']  = 'Obriši fasciklu';
 $labels['managefolders']  = 'Podesi fasciklu';
 
 $labels['sortby'] = 'Sortiraj po';

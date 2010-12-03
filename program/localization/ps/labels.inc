@@ -283,13 +283,9 @@ $labels['checkallfolders'] = 'په ټولو پوښيو کې نوي استوزي 
 $labels['folder']  = 'پوښۍ ';
 $labels['folders']  = 'پوښۍ';
 $labels['foldername']  = 'پوښۍ نوم ';
-$labels['subscribed']  = 'ګډ شو ';
 $labels['messagecount'] = 'استوزي ';
 $labels['create']  = 'جوړول، رامنځ ته کول ';
 $labels['createfolder']  = 'نوې پوښۍ جوړ کړه ';
-$labels['rename'] = 'بيانومول ';
-$labels['renamefolder'] = 'پوښۍ بيانومول ';
-$labels['deletefolder']  = 'پوښۍ ړنګول ';
 $labels['managefolders']  = 'پوښيو څارل ';
 $labels['specialfolders'] = 'ځانګړي پوښۍۍ';
 

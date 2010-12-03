@@ -861,3 +861,17 @@ fieldset.tabbed
   padding-top: 12px;
 }
 
+.quota_text {
+  text-align: center;
+  font-size: 10px;
+  color: #666;
+  border: 1px solid #999;
+  cursor: default;
+}
+.quota_bg { background-color: white; }
+.quota_high { background-color: #F33131; }
+.quota_mid { background-color: #F5AD3C; }
+.quota_low { background-color: #91E164; }
+.quota_text_high { color: white; }
+.quota_text_mid { color: #666; }
+.quota_text_low { color: #666; }

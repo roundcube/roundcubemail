@@ -38,11 +38,6 @@ input, textarea
   height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }
 
-#folder-manager
-{
-  height: expression((parseInt(this.parentNode.offsetHeight)-105)+'px');
-}
-
 #messagetoolbar
 {
   width: expression((parseInt(document.documentElement.clientWidth)-215)+'px');
@@ -90,7 +85,8 @@ input, textarea
 #messageframe,
 #identity-details,
 #contacts-box,
-#prefs-box
+#prefs-box,
+#folder-box
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }

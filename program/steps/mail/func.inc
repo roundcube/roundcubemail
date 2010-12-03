@@ -436,65 +436,6 @@ function rcmail_messagecount_display($attrib)
   }
 
 
-function rcmail_quota_display($attrib)
-  {
-  global $OUTPUT;
-
-  if (!$attrib['id'])
-    $attrib['id'] = 'rcmquotadisplay';
-
-  if(isset($attrib['display']))
-    $_SESSION['quota_display'] = $attrib['display'];
-
-  $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
-
-  $quota = rcmail_quota_content($attrib);
-
-  $OUTPUT->add_script('$(document).ready(function(){
-	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
-
-  return html::span($attrib, '');
-  }
-
-
-function rcmail_quota_content($attrib=NULL)
-  {
-  global $COMM_PATH, $RCMAIL;
-
-  $quota = $RCMAIL->imap->get_quota();
-  $quota = $RCMAIL->plugins->exec_hook('quota', $quota);
-
-  $quota_result = (array) $quota;
-  $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
-
-  if (!$quota['total'] && $RCMAIL->config->get('quota_zero_as_unlimited')) {
-    $quota_result['title'] = rcube_label('unlimited');
-    $quota_result['percent'] = 0;
-    }
-  else if ($quota['total']) {
-    if (!isset($quota['percent']))
-      $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
-
-    $title = sprintf('%s / %s (%.0f%%)',
-        show_bytes($quota['used'] * 1024), show_bytes($quota['total'] * 1024),
-        $quota_result['percent']);
-
-    $quota_result['title'] = $title;
-
-    if ($attrib['width'])
-      $quota_result['width'] = $attrib['width'];
-    if ($attrib['height'])
-      $quota_result['height']	= $attrib['height'];
-    }
-  else {
-    $quota_result['title'] = rcube_label('unknown');
-    $quota_result['percent'] = 0;
-    }
-
-  return $quota_result;
-  }
-
-
 function rcmail_get_messagecount_text($count=NULL, $page=NULL)
   {
   global $RCMAIL, $IMAP;

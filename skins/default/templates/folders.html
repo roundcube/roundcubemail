@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<script type="text/javascript" src="/functions.js"></script>
+<script type="text/javascript" src="/splitter.js"></script>
+<style type="text/css">
+#folder-manager { width: <roundcube:exp expression="!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter-5 : 295" />px; }
+#folder-box { left: <roundcube:exp expression="!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter+5 : 305" />px;
+    <roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter+5 : 305).')+\\'px\\');') : ''" />
+}
+</style>
+</head>
+<body onload="rcube_init_mail_ui()">
+
+<roundcube:include file="/includes/taskbar.html" />
+<roundcube:include file="/includes/header.html" />
+<roundcube:include file="/includes/settingstabs.html" />
+
+<div id="mainscreen">
+
+<div id="folder-manager">
+<div id="folder-title" class="boxtitle"><roundcube:label name="folders" /></div>
+<div class="boxlistcontent">
+    <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" noheader="true"
+        cellpadding="1" cellspacing="0" summary="Folder subscription table" class="records-table" />
+</div>
+<div class="boxfooter">
+    <roundcube:button command="create-folder" type="link" title="createfolder" class="buttonPas addgroup" classAct="button addgroup" content=" " />
+    <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
+
+    <roundcube:if condition="env:quota" />
+    <img id="quotaimg" src="/images/quota.gif" alt="" />
+    <div id="quota">
+        <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
+    </div>
+    <roundcube:endif />
+</div>
+</div>
+
+<script type="text/javascript">
+    var folderviewsplit = new rcube_splitter({id:'folderviewsplitter', p1: 'folder-manager', p2: 'folder-box', orientation: 'v', relative: true, start: 300 });
+    rcmail.add_onload('folderviewsplit.init()');
+</script>
+
+<div id="folder-box">
+    <roundcube:object name="folderframe" id="folder-frame" width="100%" height="100%" frameborder="0" src="/watermark.html" />
+</div>
+
+</div>
+
+<div id="mailboxoptionsmenu" class="popupmenu">
+  <ul>
+    <li><roundcube:button command="delete-folder" label="delete" classAct="active" /></li>
+    <li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
+  </ul>
+</div>
+
+</body>
+</html>

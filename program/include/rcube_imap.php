@@ -2553,6 +2553,9 @@ class rcube_imap
         $to_mbox = $this->mod_mailbox($to_mbox);
         $from_mbox = strlen($from_mbox) ? $this->mod_mailbox($from_mbox) : $this->mailbox;
 
+        if ($to_mbox === $from_mbox)
+            return false;
+
         list($uids, $all_mode) = $this->_parse_uids($uids, $from_mbox);
 
         // exit if no message uids are specified
@@ -3009,6 +3012,26 @@ class rcube_imap
 
 
     /**
+     * Get mailbox size (size of all messages in a mailbox)
+     *
+     * @param string $name Mailbox name    
+     * @return int Mailbox size in bytes, False on error
+     */
+    function get_mailbox_size($name)
+    {
+        $name = $this->mod_mailbox($name);
+
+        // @TODO: could we try to use QUOTA here?
+        $result = $this->conn->fetchHeaderIndex($name, '1:*', 'SIZE', false);
+
+        if (is_array($result))
+            $result = array_sum($result);
+
+        return $result;
+    }
+
+
+    /**
      * Subscribe to a specific mailbox(es)
      *
      * @param array $a_mboxes Mailbox name(s)
@@ -3043,48 +3066,42 @@ class rcube_imap
     /**
      * Create a new mailbox on the server and register it in local cache
      *
-     * @param string  $name      New mailbox name (as utf-7 string)
+     * @param string  $name      New mailbox name
      * @param boolean $subscribe True if the new mailbox should be subscribed
-     * @param string  Name of the created mailbox, false on error
+     * @param boolean True on success
      */
     function create_mailbox($name, $subscribe=false)
     {
-        $result = false;
-
-        // reduce mailbox name to 100 chars
-        $name = substr($name, 0, 100);
+        $result   = false;
         $abs_name = $this->mod_mailbox($name);
-        $result = $this->conn->createFolder($abs_name);
+        $result   = $this->conn->createFolder($abs_name);
 
         // try to subscribe it
         if ($result && $subscribe)
             $this->subscribe($name);
 
-        return $result ? $name : false;
+        return $result;
     }
 
 
     /**
      * Set a new name to an existing mailbox
      *
-     * @param string $mbox_name Mailbox to rename (as utf-7 string)
-     * @param string $new_name  New mailbox name (as utf-7 string)
-     * @return string Name of the renames mailbox, False on error
+     * @param string $mbox_name Mailbox to rename
+     * @param string $new_name  New mailbox name
+     * @return boolean True on success
      */
     function rename_mailbox($mbox_name, $new_name)
     {
         $result = false;
 
-        // encode mailbox name and reduce it to 100 chars
-        $name = substr($new_name, 0, 100);
-
         // make absolute path
-        $mailbox = $this->mod_mailbox($mbox_name);
-        $abs_name = $this->mod_mailbox($name);
+        $mailbox  = $this->mod_mailbox($mbox_name);
+        $abs_name = $this->mod_mailbox($new_name);
 
         // check if mailbox is subscribed
         $a_subscribed = $this->_list_mailboxes();
-        $subscribed = in_array($mailbox, $a_subscribed);
+        $subscribed   = in_array($mailbox, $a_subscribed);
 
         // unsubscribe folder
         if ($subscribed)
@@ -3113,14 +3130,14 @@ class rcube_imap
         if ($result && $subscribed)
             $this->conn->subscribe($abs_name);
 
-        return $result ? $name : false;
+        return $result;
     }
 
 
     /**
      * Remove mailboxes from server
      *
-     * @param string|array $mbox_name sMailbox name(s) string/array
+     * @param string|array $mbox_name Mailbox name(s) string/array
      * @return boolean True on success
      */
     function delete_mailbox($mbox_name)
@@ -3208,7 +3225,7 @@ class rcube_imap
         }
         else {
             $a_folders = $this->conn->listMailboxes('', $mbox);
-       }
+        }
 
         if (is_array($a_folders) && in_array($mbox, $a_folders)) {
             $this->icache[$key][] = $mbox;

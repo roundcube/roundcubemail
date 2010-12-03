@@ -315,13 +315,9 @@ $labels['afternseconds'] = 'po $n sekundach';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Foldery';
 $labels['foldername'] = 'Nazwa folderu';
-$labels['subscribed'] = 'Zasubskrybowany';
 $labels['messagecount'] = 'Wiadomości';
 $labels['create'] = 'Utwórz';
 $labels['createfolder'] = 'Utwórz nowy folder';
-$labels['rename'] = 'Zmień nazwę';
-$labels['renamefolder'] = 'Zmień nazwę folderu';
-$labels['deletefolder'] = 'Usuń folder';
 $labels['managefolders'] = 'Zarządzaj folderami';
 $labels['specialfolders'] = 'Foldery specjalne';
 $labels['sortby'] = 'Sortuj wg';
@@ -365,5 +361,12 @@ $labels['dsn'] = 'Status dostarczenia (DSN)';
 $labels['reqdsn'] = 'Zawsze żądaj statusu dostarczenia (DSN)';
 $labels['replysamefolder'] = 'Umieszczaj odpowiedzi w folderze wiadomości, na którą odpowiadam';
 $labels['contactproperties'] = 'Właściwości';
+$labels['properties'] = 'Właściwości';
+$labels['folderproperties'] = 'Włąściwości folderu';
+$labels['parentfolder'] = 'Folder nadrzędny';
+$labels['location'] = 'Położenie';
+$labels['info'] = 'Informacje';
+$labels['getfoldersize'] = 'Kliknij aby pobrać rozmiar folderu';
+$labels['changesubscription'] = 'Kliknij aby zmienić subskrypcję';
 
 ?>
