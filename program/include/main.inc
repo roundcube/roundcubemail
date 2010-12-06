@@ -1647,6 +1647,43 @@ function rcube_html_editor($mode='')
 
 
 /**
+ * Replaces TinyMCE's emoticon images with plain-text representation
+ *
+ * @param string HTML content
+ * @return string HTML content
+ */
+function rcmail_replace_emoticons($html)
+{
+  $emoticons = array(
+    '8-)' => 'smiley-cool',
+    ':-#' => 'smiley-foot-in-mouth',
+    ':-*' => 'smiley-kiss',
+    ':-X' => 'smiley-sealed',
+    ':-P' => 'smiley-tongue-out',
+    ':-@' => 'smiley-yell',
+    ":'(" => 'smiley-cry',
+    ':-(' => 'smiley-frown',
+    ':-D' => 'smiley-laughing',
+    ':-)' => 'smiley-smile',
+    ':-/' => 'smiley-undecided',
+    ':-X' => 'smiley-embarassed',
+    '0:-)' => 'smiley-innocent',
+    ':-|' => 'smiley-money-mouth',
+    ':-0' => 'smiley-surprised',
+    ';-)' => 'smiley-wink',
+  );
+
+  foreach ($emoticons as $idx => $file) {
+    // <img title="Cry" src="http://.../program/js/tiny_mce/plugins/emotions/img/smiley-cry.gif" border="0" alt="Cry" />
+    $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tiny_mce\/plugins\/emotions\/img\/'.$file.'.gif"[^>]+\/>/i';
+    $replace[] = $idx;
+  }
+
+  return preg_replace($search, $replace, $html);
+}
+
+
+/**
  * Check if working in SSL mode
  *
  * @param integer HTTPS port number
@@ -1881,3 +1918,4 @@ function log_bug($arg_arr)
         flush();
     }
 }
+

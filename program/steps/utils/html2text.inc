@@ -19,7 +19,12 @@
 
 */
 
-$converter = new html2text($HTTP_RAW_POST_DATA);
+$html = $HTTP_RAW_POST_DATA;
+
+// Replace emoticon images with its text representation
+$html = rcmail_replace_emoticons($html);
+
+$converter = new html2text($html);
 
 header('Content-Type: text/plain; charset=UTF-8');
 print rtrim($converter->get_text());

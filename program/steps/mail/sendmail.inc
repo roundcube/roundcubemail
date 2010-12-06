@@ -70,7 +70,7 @@ function rcmail_encrypt_header($what)
 function rcmail_get_identity($id)
 {
   global $USER, $OUTPUT;
-  
+
   if ($sql_arr = $USER->get_identity($id)) {
     $out = $sql_arr;
     $out['mailto'] = $sql_arr['email'];
@@ -100,7 +100,7 @@ function rcmail_fix_emoticon_paths(&$mime_message)
 
   // remove any null-byte characters before parsing
   $body = preg_replace('/\x00/', '', $body);
-  
+
   $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
   $offset = 0;
 
@@ -192,6 +192,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
 
   return implode(', ', $result);
 }
+
 
 /****** compose message ********/
 
@@ -441,13 +442,16 @@ if ($isHtml) {
 
   $MAIL_MIME->setHTMLBody($plugin['body']);
 
+  // replace emoticons
+  $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
+
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($plugin['body'], false, true, 0);
   $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n");
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
   if (!$plainTextPart) {
-    // empty message body breaks attachment handling in drafts 
-    $plainTextPart = "\r\n"; 
+    // empty message body breaks attachment handling in drafts
+    $plainTextPart = "\r\n";
   }
   else {
     // make sure all line endings are CRLF (#1486712)

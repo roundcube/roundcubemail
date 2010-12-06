@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Add possibility to move a subfolder into root folder (#1486791)
 - Fix copying all messages in a folder copies only messages from current page
 - Improve performance of moving or copying of all messages in a folder
+- Fix plaintext versions of HTML messages don't contain placeholders for emotions (#1485206)
 
 RELEASE 0.5-BETA
 ----------------
