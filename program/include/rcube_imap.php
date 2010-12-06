@@ -3018,7 +3018,7 @@ class rcube_imap
     /**
      * Get mailbox size (size of all messages in a mailbox)
      *
-     * @param string $name Mailbox name    
+     * @param string $name Mailbox name
      * @return int Mailbox size in bytes, False on error
      */
     function get_mailbox_size($name)
@@ -3093,6 +3093,7 @@ class rcube_imap
      *
      * @param string $mbox_name Mailbox to rename
      * @param string $new_name  New mailbox name
+     *
      * @return boolean True on success
      */
     function rename_mailbox($mbox_name, $new_name)
@@ -3102,92 +3103,87 @@ class rcube_imap
         // make absolute path
         $mailbox  = $this->mod_mailbox($mbox_name);
         $abs_name = $this->mod_mailbox($new_name);
+        $delm     = $this->get_hierarchy_delimiter();
 
-        // check if mailbox is subscribed
-        $a_subscribed = $this->_list_mailboxes();
-        $subscribed   = in_array($mailbox, $a_subscribed);
-
-        // unsubscribe folder
-        if ($subscribed)
-            $this->conn->unsubscribe($mailbox);
+        // get list of subscribed folders
+        if ((strpos($mailbox, '%') === false) && (strpos($mailbox, '*') === false)) {
+            $a_subscribed = $this->_list_mailboxes('', $mbox_name . $delm . '*');
+            $subscribed   = $this->mailbox_exists($mbox_name, true);
+        }
+        else {
+            $a_subscribed = $this->_list_mailboxes();
+            $subscribed   = in_array($mailbox, $a_subscribed);
+        }
 
         if (strlen($abs_name))
             $result = $this->conn->renameFolder($mailbox, $abs_name);
 
         if ($result) {
-            $delm = $this->get_hierarchy_delimiter();
+            // unsubscribe the old folder, subscribe the new one
+            if ($subscribed) {
+                $this->conn->unsubscribe($mailbox);
+                $this->conn->subscribe($abs_name);
+            }
 
             // check if mailbox children are subscribed
-            foreach ($a_subscribed as $c_subscribed)
+            foreach ($a_subscribed as $c_subscribed) {
                 if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_subscribed)) {
                     $this->conn->unsubscribe($c_subscribed);
                     $this->conn->subscribe(preg_replace('/^'.preg_quote($mailbox, '/').'/',
                         $abs_name, $c_subscribed));
                 }
+            }
 
             // clear cache
             $this->clear_message_cache($mailbox.'.msg');
             $this->clear_cache('mailboxes');
         }
 
-        // try to subscribe it
-        if ($result && $subscribed)
-            $this->conn->subscribe($abs_name);
-
         return $result;
     }
 
 
     /**
-     * Remove mailboxes from server
+     * Remove mailbox from server
      *
-     * @param string|array $mbox_name Mailbox name(s) string/array
+     * @param string $mbox_name Mailbox name
+     *
      * @return boolean True on success
      */
     function delete_mailbox($mbox_name)
     {
-        $deleted = false;
+        $result  = false;
+        $mailbox = $this->mod_mailbox($mbox_name);
+        $delm    = $this->get_hierarchy_delimiter();
 
-        if (is_array($mbox_name))
-            $a_mboxes = $mbox_name;
-        else if (is_string($mbox_name) && strlen($mbox_name))
-            $a_mboxes = explode(',', $mbox_name);
+        // get list of folders
+        if ((strpos($mailbox, '%') === false) && (strpos($mailbox, '*') === false))
+            $sub_mboxes = $this->list_unsubscribed('', $mailbox . $delm . '*');
+        else
+            $sub_mboxes = $this->list_unsubscribed();
 
-        if (is_array($a_mboxes)) {
-            $delimiter = $this->get_hierarchy_delimiter();
-        
-            foreach ($a_mboxes as $mbox_name) {
-                $mailbox = $this->mod_mailbox($mbox_name);
-                $sub_mboxes = $this->conn->listMailboxes('', $mbox_name . $delimiter . '*');
+        // send delete command to server
+        $result = $this->conn->deleteFolder($mailbox);
 
-                // unsubscribe mailbox before deleting
-                $this->conn->unsubscribe($mailbox);
+        if ($result) {
+            // unsubscribe mailbox
+            $this->conn->unsubscribe($mailbox);
 
-                // send delete command to server
-                $result = $this->conn->deleteFolder($mailbox);
-                if ($result) {
-                    $deleted = true;
-                    $this->clear_message_cache($mailbox.'.msg');
-	            }
-
-                foreach ($sub_mboxes as $c_mbox) {
-                    if ($c_mbox != 'INBOX') {
-                        $this->conn->unsubscribe($c_mbox);
-                        $result = $this->conn->deleteFolder($c_mbox);
-                        if ($result) {
-                            $deleted = true;
-    	                    $this->clear_message_cache($c_mbox.'.msg');
-                        }
+            foreach ($sub_mboxes as $c_mbox) {
+                if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_mbox)) {
+                    $this->conn->unsubscribe($c_mbox);
+                    if ($this->conn->deleteFolder($c_mbox)) {
+	                    $this->clear_message_cache($c_mbox.'.msg');
                     }
                 }
             }
+
+            // clear mailbox-related cache
+            $this->clear_message_cache($mailbox.'.msg');
+            $this->clear_cache('mailboxes');
         }
 
-        // clear mailboxlist cache
-        if ($deleted)
-            $this->clear_cache('mailboxes');
-
-        return $deleted;
+        return $result;
     }
 
 

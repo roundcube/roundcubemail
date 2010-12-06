@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix copying all messages in a folder copies only messages from current page
 - Improve performance of moving or copying of all messages in a folder
 - Fix plaintext versions of HTML messages don't contain placeholders for emotions (#1485206)
+- Improve performance of folder rename and delete actions
 
 RELEASE 0.5-BETA
 ----------------
