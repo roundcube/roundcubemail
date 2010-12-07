@@ -156,13 +156,8 @@ class rcube_imap
         $this->ssl  = $use_ssl;
 
         if ($this->conn->connected()) {
-            // print trace messages
-            if ($this->conn->message && ($this->debug_level & 8)) {
-                console($this->conn->message);
-            }
             // get namespace and delimiter
             $this->set_env();
-
             return true;
         }
         // write error log

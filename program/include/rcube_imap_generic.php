@@ -85,7 +85,6 @@ class rcube_imap_generic
 {
     public $error;
     public $errornum;
-	public $message;
     public $data = array();
     public $flags = array(
         'SEEN'     => '\\Seen',
@@ -691,8 +690,6 @@ class rcube_imap_generic
 	    if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
 		    $this->parseCapability($matches[1], true);
 	    }
-
-	    $this->message = $line;
 
 	    // TLS connection
 	    if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
