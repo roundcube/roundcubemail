@@ -193,11 +193,11 @@ class rcube_imap
      */
     function reconnect()
     {
-        $this->closeConnection();
-        $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
+        $this->conn->closeConnection();
+        $connected = $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
 
         // issue SELECT command to restore connection status
-        if ($this->mailbox)
+        if ($connected && strlen($this->mailbox))
             $this->conn->select($this->mailbox);
     }
 
