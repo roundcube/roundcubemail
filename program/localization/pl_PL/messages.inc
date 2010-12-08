@@ -135,9 +135,12 @@ $messages['folderunsubscribing'] = 'Odsubskrybowanie folderu...';
 $messages['foldersubscribed'] = 'Folder pomyślnie zasubskrybowany';
 $messages['folderunsubscribed'] = 'Folder pomyślnie odsubskrybowany';
 $messages['folderpurged'] = 'Folder pomyślnie wyczyszczony';
+$messages['folderexpunged'] = 'Folder pomyślnie opróżniony';
 $messages['namecannotbeempty'] = 'Nazwa nie może być pusta';
 $messages['nametoolong'] = 'Name jest zbyt długa';
 $messages['folderupdated'] = 'Folder pomyślnie zaktualizowany';
 $messages['foldercreated'] = 'Folder pomyślnie utworzony';
+$messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu';
+$messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień';
 
 ?>

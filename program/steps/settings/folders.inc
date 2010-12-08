@@ -34,7 +34,7 @@ if ($RCMAIL->action == 'subscribe')
 
         // Handle virtual (non-existing) folders
         if (!$result && $IMAP->get_error_code() == -1 &&
-            strpos($IMAP->get_error_str(), '[TRYCREATE]')
+            $IMAP->get_response_code() == rcube_imap::TRYCREATE
         ) {
             $result = $IMAP->create_mailbox($mbox, true);
             if ($result) {
@@ -45,7 +45,7 @@ if ($RCMAIL->action == 'subscribe')
         if ($result)
             $OUTPUT->show_message('foldersubscribed', 'confirmation');
         else
-            $OUTPUT->show_message('errorsaving', 'error');
+            rcmail_display_server_error('errorsaving');
     }
 }
 
@@ -58,7 +58,7 @@ else if ($RCMAIL->action == 'unsubscribe')
         if ($result)
             $OUTPUT->show_message('folderunsubscribed', 'confirmation');
         else
-            $OUTPUT->show_message('errorsaving', 'error');
+            rcmail_display_server_error('errorsaving');
     }
 }
 
@@ -92,7 +92,7 @@ else if ($RCMAIL->action == 'delete-folder')
         $OUTPUT->command('set_quota', rcmail_quota_content());
     }
     else if (!$deleted) {
-        $OUTPUT->show_message('errorsaving', 'error');
+        rcmail_display_server_error('errorsaving');
     }
 }
 
@@ -141,7 +141,7 @@ else if ($RCMAIL->action == 'rename-folder')
             rcube_charset_convert($name, 'UTF7-IMAP'), $display_rename, $before);
     }
     else if (!$rename) {
-        $OUTPUT->show_message('errorsaving', 'error');
+        rcmail_display_server_error('errorsaving');
     }
 }
 
@@ -179,7 +179,7 @@ else if ($RCMAIL->action == 'purge')
         $OUTPUT->command('show_folder', $mbox_utf8, null, true);
     }
     else {
-        $OUTPUT->show_message('errorsaving', 'error');
+        rcmail_display_server_error('errorsaving');
     }
 }
 
@@ -194,6 +194,9 @@ else if ($RCMAIL->action == 'folder-size')
 
     if ($size !== false) {
         $OUTPUT->command('folder_size_update', show_bytes($size));
+    }
+    else {
+        rcmail_display_server_error();
     }
 }
 

@@ -47,7 +47,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     // send error message
     if ($_POST['_from'] != 'show')
       $OUTPUT->command('list_mailbox');
-    $OUTPUT->show_message('errormarking', 'error');
+    rcmail_display_server_error('errormarking');
     $OUTPUT->send();
     exit;
   }

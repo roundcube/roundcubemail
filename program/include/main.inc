@@ -1616,6 +1616,38 @@ function rcmail_quota_content($attrib=NULL)
 
 
 /**
+ * Outputs error message according to server error/response codes
+ *
+ * @param string Fallback message label
+ * @param string Fallback message label arguments
+ *
+ * @return void
+ */
+function rcmail_display_server_error($fallback=null, $fallback_args=null)
+{
+    global $RCMAIL;
+
+    $err_code = $RCMAIL->imap->get_error_code();
+    $res_code = $RCMAIL->imap->get_response_code();
+
+    if ($res_code == rcube_imap::NOPERM) {
+        $RCMAIL->output->show_message('errornoperm', 'error');
+    }
+    else if ($res_code == rcube_imap::READONLY) {
+        $RCMAIL->output->show_message('errorreadonly', 'error');
+    }
+    else if ($err_code && ($err_str = $RCMAIL->imap->get_error_str())) {
+        $RCMAIL->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
+    }
+    else if ($fallback) {
+        $RCMAIL->output->show_message($fallback, 'error', $fallback_args);
+    }
+
+    return true;
+}
+
+
+/**
  * Output HTML editor scripts
  *
  * @param string Editor mode

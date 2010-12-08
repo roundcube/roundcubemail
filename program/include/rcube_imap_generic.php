@@ -85,6 +85,8 @@ class rcube_imap_generic
 {
     public $error;
     public $errornum;
+    public $result;
+    public $resultcode;
     public $data = array();
     public $flags = array(
         'SEEN'     => '\\Seen',
@@ -112,8 +114,9 @@ class rcube_imap_generic
     const ERROR_NO = -1;
     const ERROR_BAD = -2;
     const ERROR_BYE = -3;
-    const ERROR_COMMAND = -5;
     const ERROR_UNKNOWN = -4;
+    const ERROR_COMMAND = -5;
+    const ERROR_READONLY = -6;
 
     const COMMAND_NORESPONSE = 1;
     const COMMAND_CAPABILITY = 2;
@@ -302,7 +305,7 @@ class rcube_imap_generic
             $str = trim($matches[2]);
 
 		    if ($res == 'OK') {
-			    return $this->errornum = self::ERROR_OK;
+			    $this->errornum = self::ERROR_OK;
 		    } else if ($res == 'NO') {
                 $this->errornum = self::ERROR_NO;
 		    } else if ($res == 'BAD') {
@@ -313,15 +316,29 @@ class rcube_imap_generic
 			    $this->errornum = self::ERROR_BYE;
 		    }
 
-            if ($str)
-                $this->error = $err_prefix ? $err_prefix.$str : $str;
+            if ($str) {
+                $str = trim($str);
+                // get response string and code (RFC5530)
+                if (preg_match("/^\[([a-z-]+)\]/i", $str, $m)) {
+                    $this->resultcode = strtoupper($m[1]);
+                    $str = trim(substr($str, strlen($m[1]) + 2));
+                }
+                else {
+                    $this->resultcode = null;
+                }
+                $this->result = $str;
+
+                if ($this->errornum != self::ERROR_OK) {
+                    $this->error = $err_prefix ? $err_prefix.$str : $str;
+                }
+            }
 
 	        return $this->errornum;
 	    }
 	    return self::ERROR_UNKNOWN;
     }
 
-    private function setError($code, $msg='')
+    function setError($code, $msg='')
     {
         $this->errornum = $code;
         $this->error    = $msg;
@@ -838,6 +855,8 @@ class rcube_imap_generic
 			    }
             }
 
+            $this->data['READ-WRITE'] = $this->resultcode != 'READ-ONLY';
+
 		    $this->selected = $mailbox;
 			return true;
 		}
@@ -903,6 +922,11 @@ class rcube_imap_generic
     function expunge($mailbox, $messages=NULL)
     {
 	    if (!$this->select($mailbox)) {
+            return false;
+        }
+
+        if (!$this->data['READ-WRITE']) {
+            $this->setError(self::ERROR_READONLY, "Mailbox is read-only", 'EXPUNGE');
             return false;
         }
 
@@ -1001,11 +1025,15 @@ class rcube_imap_generic
     {
 	    $num_in_trash = $this->countMessages($mailbox);
 	    if ($num_in_trash > 0) {
-		    $this->delete($mailbox, '1:*');
+		    $res = $this->delete($mailbox, '1:*');
 	    }
 
-        $res = $this->close();
-//	    $res = $this->expunge($mailbox);
+        if ($res) {
+            if ($this->selected == $mailbox)
+                $res = $this->close();
+            else
+    	        $res = $this->expunge($mailbox);
+        }
 
 	    return $res;
     }
@@ -1715,6 +1743,11 @@ class rcube_imap_generic
 	        return false;
 	    }
 
+        if (!$this->data['READ-WRITE']) {
+            $this->setError(self::ERROR_READONLY, "Mailbox is read-only", 'STORE');
+            return false;
+        }
+
         // Clear internal status cache
         if ($flag == 'SEEN') {
             unset($this->data['STATUS:'.$mailbox]['UNSEEN']);
@@ -1758,6 +1791,15 @@ class rcube_imap_generic
 
     function move($messages, $from, $to)
     {
+	    if (!$this->select($from)) {
+	        return false;
+	    }
+
+        if (!$this->data['READ-WRITE']) {
+            $this->setError(self::ERROR_READONLY, "Mailbox is read-only", 'STORE');
+            return false;
+        }
+
         $r = $this->copy($messages, $from, $to);
 
         if ($r) {
@@ -2963,9 +3005,9 @@ class rcube_imap_generic
 		    $this->parseCapability($matches[1], true);
 	    }
 
-        // return last line only (without command tag and result)
+        // return last line only (without command tag, result and response code)
         if ($line && ($options & self::COMMAND_LASTLINE)) {
-            $response = preg_replace("/^$tag (OK|NO|BAD|BYE|PREAUTH)?\s*/i", '', trim($line));
+            $response = preg_replace("/^$tag (OK|NO|BAD|BYE|PREAUTH)?\s*(\[[a-z-]+\])?\s*/i", '', trim($line));
         }
 
 	    return $noresp ? $code : array($code, $response);

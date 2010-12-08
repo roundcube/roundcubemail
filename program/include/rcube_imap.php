@@ -100,6 +100,16 @@ class rcube_imap
         'RETURN-PATH',
     );
 
+    const UNKNOWN       = 0;
+    const NOPERM        = 1;
+    const READONLY      = 2;
+    const TRYCREATE     = 3;
+    const INUSE         = 4;
+    const OVERQUOTA     = 5;
+    const ALREADYEXISTS = 6;
+    const NONEXISTENT   = 7;
+    const CONTACTADMIN  = 8;
+
 
     /**
      * Object constructor
@@ -220,7 +230,51 @@ class rcube_imap
      */
     function get_error_str()
     {
-        return ($this->conn) ? $this->conn->error : '';
+        return ($this->conn) ? $this->conn->error : null;
+    }
+
+
+    /**
+     * Returns code of last command response
+     *
+     * @return int Response code
+     */
+    function get_response_code()
+    {
+        if (!$this->conn)
+            return self::UNKNOWN;
+
+        switch ($this->conn->resultcode) {
+            case 'NOPERM':
+                return self::NOPERM;
+            case 'READ-ONLY':
+                return self::READONLY;
+            case 'TRYCREATE':
+                return self::TRYCREATE;
+            case 'INUSE':
+                return self::INUSE;
+            case 'OVERQUOTA':
+                return self::OVERQUOTA;
+            case 'ALREADYEXISTS':
+                return self::ALREADYEXISTS;
+            case 'NONEXISTENT':
+                return self::NONEXISTENT;
+            case 'CONTACTADMIN':
+                return self::CONTACTADMIN;
+            default:
+                return self::UNKNOWN;
+        }
+    }
+
+
+    /**
+     * Returns last command response
+     *
+     * @return string Response
+     */
+    function get_response_str()
+    {
+        return ($this->conn) ? $this->conn->result : null;
     }
 
 
@@ -295,9 +349,9 @@ class rcube_imap
      * @param  string $mailbox Mailbox/Folder name
      * @access public
      */
-    function select_mailbox($mailbox)
+    function select_mailbox($mailbox=null)
     {
-        $mailbox = $this->mod_mailbox($mailbox);
+        $mailbox = strlen($mailbox) ? $this->mod_mailbox($mailbox) : $this->mailbox;
 
         $selected = $this->conn->select($mailbox);
 
@@ -2768,6 +2822,18 @@ class rcube_imap
             $a_uids = is_array($uids) ? join(',', $uids) : $uids;
         else
             $a_uids = NULL;
+
+        // force mailbox selection and check if mailbox is writeable
+        // to prevent a situation when CLOSE is executed on closed
+        // or EXPUNGE on read-only mailbox
+        $result = $this->conn->select($mailbox);
+        if (!$result) {
+            return false;
+        }
+        if (!$this->conn->data['READ-WRITE']) {
+            $this->conn->setError(rcube_imap_generic::ERROR_READONLY, "Mailbox is read-only");
+            return false;
+        }
 
         // CLOSE(+SELECT) should be faster than EXPUNGE
         if (empty($a_uids) || $a_uids == '1:*')

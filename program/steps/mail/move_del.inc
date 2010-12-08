@@ -39,7 +39,7 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_targe
         // send error message
 	    if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        $OUTPUT->show_message('errormoving', 'error');
+        rcmail_display_server_error('errormoving');
         $OUTPUT->send();
         exit;
     }
@@ -60,7 +60,7 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
         // send error message
 	    if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        $OUTPUT->show_message('errordeleting', 'error');
+        rcmail_display_server_error('errordeleting');
         $OUTPUT->send();
         exit;
     }
