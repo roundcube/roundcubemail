@@ -4239,7 +4239,7 @@ function rcube_webmail()
   this.subscribe = function(folder)
   {
     if (folder) {
-      var lock = this.display_message('foldersubscribing', 'loading');
+      var lock = this.display_message(this.get_label('foldersubscribing'), 'loading');
       this.http_post('subscribe', '_mbox='+urlencode(folder), lock);
     }
   };
@@ -4247,7 +4247,7 @@ function rcube_webmail()
   this.unsubscribe = function(folder)
   {
     if (folder) {
-      var lock = this.display_message('folderunsubscribing', 'loading');
+      var lock = this.display_message(this.get_label('folderunsubscribing'), 'loading');
       this.http_post('unsubscribe', '_mbox='+urlencode(folder), lock);
     }
   };
