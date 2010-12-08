@@ -742,7 +742,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   // build reply prefix
   $from = array_pop($RCMAIL->imap->decode_address_list($MESSAGE->get_header('from')));
   $prefix = sprintf("On %s, %s wrote:",
-    $MESSAGE->headers->date, $from['name'] ? $from['name'] : idn_to_utf8($from['email']));
+    $MESSAGE->headers->date, $from['name'] ? $from['name'] : idn_to_utf8($from['mailto']));
 
   if (!$bodyIsHtml) {
     $body = preg_replace('/\r?\n/', "\n", $body);
