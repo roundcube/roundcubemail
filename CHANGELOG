@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Improve performance of folder rename and delete actions
 - Better support for READ-ONLY and NOPERM responses handling (#1487083)
 - Add confirmation message on purge/expunge command response
+- Fix handling of untagged responses for AUTHENTICATE command (#1487450)
 
 RELEASE 0.5-BETA
 ----------------

@@ -282,7 +282,6 @@ class rcube_imap_generic
 	    return $data;
     }
 
-    // don't use it in loops, until you exactly know what you're doing
     function readReply(&$untagged=null)
     {
 	    do {
@@ -421,7 +420,7 @@ class rcube_imap_generic
             }
 
 		    $this->putLine($this->nextTag() . " AUTHENTICATE $type");
-		    $line = trim($this->readLine(1024));
+		    $line = trim($this->readReply());
 
 		    if ($line[0] == '+') {
 			    $challenge = substr($line, 2);
@@ -471,7 +470,7 @@ class rcube_imap_generic
 
                 // send result
                 $this->putLine($reply);
-                $line = $this->readLine(1024);
+                $line = trim($this->readReply());
 
                 if ($line[0] == '+') {
 			        $challenge = substr($line, 2);
@@ -491,7 +490,7 @@ class rcube_imap_generic
                 $this->putLine('');
             }
 
-            $line = $this->readLine(1024);
+            $line = $this->readReply();
             $result = $this->parseResult($line);
         }
         else { // PLAIN
@@ -513,7 +512,7 @@ class rcube_imap_generic
             }
             else {
     		    $this->putLine($this->nextTag() . " AUTHENTICATE PLAIN");
-	    	    $line = trim($this->readLine(1024));
+	    	    $line = trim($this->readReply());
 
 		        if ($line[0] != '+') {
     			    return $this->parseResult($line);
@@ -521,7 +520,7 @@ class rcube_imap_generic
 
                 // send result, get reply and process it
                 $this->putLine($reply);
-                $line = $this->readLine(1024);
+                $line = $this->readReply();
                 $result = $this->parseResult($line);
             }
         }
