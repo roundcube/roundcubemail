@@ -322,15 +322,16 @@ $headers['Subject'] = trim(get_input_value('_subject', RCUBE_INPUT_POST, TRUE, $
 if (!empty($identity_arr['organization']))
   $headers['Organization'] = $identity_arr['organization'];
 
-if (!empty($_POST['_replyto']))
-  $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+if (!empty($_POST['_replyto'])) {
+  $reply_to = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+  $headers['Reply-To'] = $reply_to;
+  $headers['Mail-Reply-To'] = $reply_to;
+}
 else if (!empty($identity_arr['reply-to']))
   $headers['Reply-To'] = rcmail_email_input_format($identity_arr['reply-to'], false, true);
 
-if (!empty($_POST['_mailfollowupto']))
-  $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_mailfollowupto', RCUBE_INPUT_POST, TRUE, $message_charset));
-if (!empty($_POST['_mailreplyto']))
-  $headers['Mail-Reply-To'] = rcmail_email_input_format(get_input_value('_mailreplyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+if (!empty($_POST['_followupto']))
+  $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_followupto', RCUBE_INPUT_POST, TRUE, $message_charset));
 
 if (!empty($_SESSION['compose']['reply_msgid']))
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];

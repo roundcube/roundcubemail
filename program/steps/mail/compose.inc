@@ -267,19 +267,11 @@ function rcmail_compose_headers($attrib)
       $param = 'replyto';
       $header = 'reply-to';
 
-    case 'mailreplyto':
-    case 'mail-reply-to':
+    case 'followupto':
+    case 'followup-to':
       if (!$fname) {
-        $fname = '_mailreplyto';
-        $param = 'mailreplyto';
-        $header = 'mail-reply-to';
-      }
-
-    case 'mailfollowupto':
-    case 'mail-followup-to':
-      if (!$fname) {
-        $fname = '_mailfollowupto';
-        $param = 'mailfollowupto';
+        $fname = '_followupto';
+        $param = 'followupto';
         $header = 'mail-followup-to';
       }
 
@@ -354,10 +346,10 @@ function rcmail_compose_headers($attrib)
       $fvalue = $MESSAGE->get_header('cc');
     else if ($header=='bcc' && !empty($MESSAGE->headers->bcc))
       $fvalue = $MESSAGE->get_header('bcc');
+    else if ($header=='reply-to' && !empty($MESSAGE->headers->others['mail-reply-to']))
+      $fvalue = $MESSAGE->get_header('mail-reply-to');
     else if ($header=='reply-to' && !empty($MESSAGE->headers->replyto))
       $fvalue = $MESSAGE->get_header('reply-to');
-    else if ($header=='mail-reply-to' && !empty($MESSAGE->headers->others['mail-reply-to']))
-      $fvalue = $MESSAGE->get_header('followup-to');
     else if ($header=='mail-followup-to' && !empty($MESSAGE->headers->others['mail-followup-to']))
       $fvalue = $MESSAGE->get_header('mail-followup-to');
 

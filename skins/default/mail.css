@@ -1337,8 +1337,7 @@ input.from_address
 #compose-cc,
 #compose-bcc,
 #compose-replyto,
-#compose-mailreplyto,
-#compose-mailfollowupto
+#compose-followupto
 {
   display: none;
 }

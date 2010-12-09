@@ -927,10 +927,14 @@ function rcmail_message_headers($attrib, $headers=NULL)
     else
       $header_value = trim($IMAP->decode_header($value));
 
-    $output_headers[$hkey] = array('title' => rcube_label($hkey), 'value' => $header_value, 'raw' => $value);
+    $output_headers[$hkey] = array(
+        'title' => rcube_label(preg_replace('/(^mail-|-)/', '', $hkey)),
+        'value' => $header_value, 'raw' => $value
+    );
   }
 
-  $plugin = $RCMAIL->plugins->exec_hook('message_headers_output', array('output' => $output_headers, 'headers' => $MESSAGE->headers));
+  $plugin = $RCMAIL->plugins->exec_hook('message_headers_output',
+    array('output' => $output_headers, 'headers' => $MESSAGE->headers));
 
   // compose html table
   $table = new html_table(array('cols' => 2));

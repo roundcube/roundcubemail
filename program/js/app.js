@@ -2819,7 +2819,7 @@ function rcube_webmail()
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
       html_mode = $("input[name='_is_html']").val() == '1',
-      ac_fields = ['cc', 'bcc', 'replyto', 'mailreplyto', 'mailfollowupto'];
+      ac_fields = ['cc', 'bcc', 'replyto', 'followupto'];
 
     // init live search events
     this.init_address_input_events(input_to);

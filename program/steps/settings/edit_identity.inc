@@ -126,7 +126,8 @@ function rcube_identity_form($attrib)
       foreach ($fieldset['content'] as $col => $colprop) {
         $colprop['id'] = 'rcmfd_'.$col;
 
-        $label = !empty($colprop['label']) ? $colprop['label'] : rcube_label($col);
+        $label = !empty($colprop['label']) ? $colprop['label'] :
+            rcube_label(str_replace('-', '', $col));
         $value = !empty($colprop['value']) ? $colprop['value'] :
             rcmail_get_edit_field($col, $IDENTITY_RECORD[$col], $colprop, $colprop['type']);
 
