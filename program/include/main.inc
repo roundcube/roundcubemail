@@ -1193,21 +1193,33 @@ function rcmail_log_login()
   if (!$RCMAIL->config->get('log_logins') || !$RCMAIL->user)
     return;
 
-  $address = $_SERVER['REMOTE_ADDR'];
-  // append the NGINX X-Real-IP header, if set
-  if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-    $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
-  }
-  // append the X-Forwarded-For header, if set
-  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
-  }
-
-  if (!empty($remote_ip))
-    $address .= '(' . implode(',', $remote_ip) . ')';
-
   write_log('userlogins', sprintf('Successful login for %s (ID: %d) from %s',
-    $RCMAIL->user->get_username(), $RCMAIL->user->ID, $address));
+    $RCMAIL->user->get_username(), $RCMAIL->user->ID, rcmail_remote_ip()));
+}
+
+
+/**
+ * Returns remote IP address and forwarded addresses if found
+ *
+ * @return string Remote IP address(es)
+ */
+function rcmail_remote_ip()
+{
+    $address = $_SERVER['REMOTE_ADDR'];
+
+    // append the NGINX X-Real-IP header, if set
+    if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
+    }
+    // append the X-Forwarded-For header, if set
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+
+    if (!empty($remote_ip))
+        $address .= '(' . implode(',', $remote_ip) . ')';
+
+    return $address;
 }
 
 
@@ -1219,7 +1231,7 @@ function rcube_timer()
 {
   return microtime(true);
 }
-  
+
 
 /**
  * @access private

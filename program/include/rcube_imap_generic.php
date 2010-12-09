@@ -533,7 +533,7 @@ class rcube_imap_generic
             return $this->fp;
         }
         else {
-            $this->setError($result, "Unable to authenticate user ($type): $line");
+            $this->setError($result, "AUTHENTICATE $type: $line");
         }
 
         return $result;

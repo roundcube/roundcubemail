@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Better support for READ-ONLY and NOPERM responses handling (#1487083)
 - Add confirmation message on purge/expunge command response
 - Fix handling of untagged responses for AUTHENTICATE command (#1487450)
+- Add username and IP address to log message on unsuccessful login (#1487626)
 
 RELEASE 0.5-BETA
 ----------------
