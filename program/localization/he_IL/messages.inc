@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  10112010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  09122010                |
 +-----------------------------------------------------------------------+
 
 */
@@ -23,6 +23,8 @@ $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או 
 $messages['imaperror'] = 'הקשר לשרת הדואר נכשל';
 $messages['servererror'] = '! שגיאת שרת';
 $messages['servererrormsg'] = '$msg  שגיאת שרת';
+$messages['errorreadonly'] = 'לא ניתן לבצע הפעולה כי התיק ניתן לקריאה בלבד';
+$messages['errornoperm'] = 'לא ניתן לבצע הפעולה כי אין הרשאה לבצעה';
 $messages['invalidrequest'] = 'בקשה לא חוקית. המידע לא נשמר';
 $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
 $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
@@ -56,6 +58,8 @@ $messages['deletefolderconfirm'] = 'האם למחוק תיק זה?';
 $messages['purgefolderconfirm'] = 'האם למחוק את כל ההודעות בתיק זה?';
 $messages['folderdeleting'] = 'התיקיה נמחקת...';
 $messages['foldermoving'] = 'העברת תיקיה...';
+$messages['foldersubscribing'] = 'התיק נרשם...';
+$messages['folderunsubscribing'] = 'רישום התיק בוטל...';
 $messages['formincomplete'] = 'לא הוזנו כל השדות בטופס זה';
 $messages['noemailwarning'] = 'נא להוסיף כתובת דוא\"ל חוקית';
 $messages['nonamewarning'] = 'נא להוסיף שם';
@@ -75,6 +79,10 @@ $messages['searching'] = 'חיפוש...';
 $messages['checking'] = 'בדיקה...';
 $messages['nospellerrors'] = 'לא נמצאו שגיאות כתיב';
 $messages['folderdeleted'] = 'התיק נמחק בהצלחה';
+$messages['foldersubscribed'] = 'התיק נרשם בהצלחה';
+$messages['folderunsubscribed'] = 'ביטול רישום תיק הצליח';
+$messages['folderpurged'] = 'התיק נמחק בהצלחה';
+$messages['folderexpunged'] = 'התיק רוקן בהצלחה';
 $messages['deletedsuccessfully'] = 'המחיקה הסתיימה בהצלחה';
 $messages['converting'] = 'הסרת העיצוב מההודעה';
 $messages['messageopenerror'] = 'לא ניתן לטעון ההודעה מהשרת';
@@ -124,5 +132,9 @@ $messages['messagemoved'] = 'ההודעה הועברה בהצלחה';
 $messages['messagecopied'] = 'ההודעה הועתקה בהצלחה';
 $messages['messagemarked'] = 'ההודעה סומנה בהצלחה';
 $messages['autocompletechars'] = 'יש להקיש לפחות $min תווים להשלמה אוטומטית של המחרוזת';
+$messages['namecannotbeempty'] = 'השם אינו יכול להיות ריק';
+$messages['nametoolong'] = 'השם ארוך מדי';
+$messages['folderupdated'] = 'התיק עודכן בהצלחה';
+$messages['foldercreated'] = 'התיק נוצר בהצלחה';
 
 ?>

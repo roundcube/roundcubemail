@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  10112010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  09122010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -329,6 +329,13 @@ $labels['create'] = 'יצירה';
 $labels['createfolder'] = 'יצירת תיק חדש';
 $labels['managefolders'] = 'ניהול תיקים';
 $labels['specialfolders'] = 'תיקים מיוחדים';
+$labels['properties'] = 'מאפיינים';
+$labels['folderproperties'] = 'מאפייני תיק';
+$labels['parentfolder'] = 'תיק אב';
+$labels['location'] = 'מיקום';
+$labels['info'] = 'מידע';
+$labels['getfoldersize'] = 'הקשה להצגה של גודל תיק';
+$labels['changesubscription'] = 'הקשה לשינוי הרשמה';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';
