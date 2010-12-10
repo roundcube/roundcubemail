@@ -1709,11 +1709,11 @@ function rcmail_replace_emoticons($html)
     ':-(' => 'smiley-frown',
     ':-D' => 'smiley-laughing',
     ':-)' => 'smiley-smile',
-    ':-/' => 'smiley-undecided',
-    ':-X' => 'smiley-embarassed',
-    '0:-)' => 'smiley-innocent',
+    ':-S' => 'smiley-undecided',
+    ':-$' => 'smiley-embarassed',
+    'O:-)' => 'smiley-innocent',
     ':-|' => 'smiley-money-mouth',
-    ':-0' => 'smiley-surprised',
+    ':-O' => 'smiley-surprised',
     ';-)' => 'smiley-wink',
   );
 
