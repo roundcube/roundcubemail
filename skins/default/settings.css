@@ -157,3 +157,8 @@ body.iframe,
   right: 6px;
   z-index: 101;
 }
+
+#rcmfd_signature
+{
+  font-family: monospace;
+}
