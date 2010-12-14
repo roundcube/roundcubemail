@@ -2429,20 +2429,21 @@ class rcube_imap
 
         // TODO: Add caching for message parts
 
-        if (!$part) $part = 'TEXT';
+        if (!$part) {
+            $part = 'TEXT';
+        }
 
         $body = $this->conn->handlePartBody($this->mailbox, $uid, true, $part,
             $o_part->encoding, $print, $fp);
 
-        if ($fp || $print)
+        if ($fp || $print) {
             return true;
+        }
 
-        // convert charset (if text or message part)
-        if ($body && ($o_part->ctype_primary == 'text' || $o_part->ctype_primary == 'message')) {
-            // assume default if no charset specified
-            if (empty($o_part->charset) || strtolower($o_part->charset) == 'us-ascii')
-                $o_part->charset = $this->default_charset;
-
+        // convert charset (if text or message part) and part's charset is specified
+        if ($body && $o_part->charset
+            && preg_match('/^(text|message)$/', $o_part->ctype_primary)
+        ) {
             $body = rcube_charset_convert($body, $o_part->charset);
         }
 

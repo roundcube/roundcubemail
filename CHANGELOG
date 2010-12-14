@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of untagged responses for AUTHENTICATE command (#1487450)
 - Add username and IP address to log message on unsuccessful login (#1487626)
 - Improved Mail-Followup-To and Mail-Reply-To headers handling
+- Fix charset conversion for text attachments without charset specification (#1487634)
 
 RELEASE 0.5-BETA
 ----------------
