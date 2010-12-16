@@ -110,7 +110,7 @@ init_row: function(row)
     // set eventhandlers to table row
     row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
     row.onmouseup = function(e){ return self.click_row(e, this.uid); };
-    
+
     if (bw.iphone || bw.ipad) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
@@ -224,6 +224,7 @@ focus: function(e)
 
   // Un-focus already focused elements
   $('*:focus', window).blur();
+  $('iframe').each(function() { this.blur(); });
 
   if (e || (e = window.event))
     rcube_event.cancel(e);
@@ -699,7 +700,7 @@ select_next: function()
   var prev_row = this.get_prev_row();
   var new_row = (next_row) ? next_row : prev_row;
   if (new_row)
-    this.select_row(new_row.uid, false, false);  
+    this.select_row(new_row.uid, false, false);
 },
 
 
@@ -728,7 +729,7 @@ select_last: function(mod_key)
   if (row && mod_key) {
     this.shift_select(row, mod_key);
     this.triggerEvent('select');
-    this.scrollto(row);    
+    this.scrollto(row);
   }
   else if (row)
     this.select(row);
