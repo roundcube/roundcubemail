@@ -220,6 +220,7 @@ $labels['messagescomposition'] = 'Mezuak sortu';
 $labels['folder'] = 'Karpeta';
 $labels['folders'] = 'Karpetak';
 $labels['foldername'] = 'Karpeta izena';
+$labels['subscribed'] = 'Harpideturik';
 $labels['messagecount'] = 'Mezuak';
 $labels['create'] = 'Sortu';
 $labels['createfolder'] = 'Karpeta berria sortu';

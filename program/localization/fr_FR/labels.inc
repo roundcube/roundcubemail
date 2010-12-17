@@ -322,6 +322,7 @@ $labels['replysamefolder'] = 'Placer les réponses dans le dossier du message é
 $labels['folder'] = 'Dossier';
 $labels['folders'] = 'Dossiers';
 $labels['foldername'] = 'Nom du dossier';
+$labels['subscribed'] = 'Abonné';
 $labels['messagecount'] = 'Messages';
 $labels['create'] = 'Créer';
 $labels['createfolder'] = 'Créer un nouveau dossier';

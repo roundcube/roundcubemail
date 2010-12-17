@@ -270,6 +270,7 @@ $labels['insertsignature'] = 'Вметни потпис';
 $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Име на папката';
+$labels['subscribed'] = 'Претплатен';
 $labels['messagecount'] = 'Пораки';
 $labels['create'] = 'Создај';
 $labels['createfolder'] = 'Создај нова папка';

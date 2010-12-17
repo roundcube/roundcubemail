@@ -164,6 +164,7 @@ $labels['never'] = 'riamh';
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';
+$labels['subscribed'] = 'Síntiú';
 $labels['create'] = 'Cruthaigh';
 $labels['createfolder'] = 'Cruthaigh fillteán nua';
 $labels['managefolders'] = 'Stiúir na fillteán';

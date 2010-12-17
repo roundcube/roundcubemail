@@ -176,6 +176,7 @@ $labels['never'] = 'kurrë';
 $labels['folder'] = 'Kutia';
 $labels['folders'] = 'Kutitë';
 $labels['foldername'] = 'Emër kutie';
+$labels['subscribed'] = 'Regjistruar';
 $labels['messagecount'] = 'Mesazhe';
 $labels['create'] = 'Krijo';
 $labels['createfolder'] = 'Krijo kuti të re';

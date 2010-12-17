@@ -175,6 +175,7 @@ $labels['never'] = 'කිසි විටෙකත් නැති';
 $labels['folder'] = 'ෆෝල්ඩරය';
 $labels['folders'] = 'ෆෝල්ඩර';
 $labels['foldername'] = 'ෆෝල්ඩරයේ නම';
+$labels['subscribed'] = 'සාමාජික';
 $labels['messagecount'] = 'පනිවුඩ';
 $labels['create'] = 'සෑදීම';
 $labels['createfolder'] = 'අඵත් ෆෝල්ඩරයක් සෑදීම';

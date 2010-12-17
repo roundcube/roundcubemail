@@ -308,6 +308,7 @@ $labels['afternseconds'] = 'ក្រោយពី $n វិនាទី';
 $labels['folder'] = 'ថត';
 $labels['folders'] = 'ថតទាំងអស់';
 $labels['foldername'] = 'ឈ្មោះ Folder';
+$labels['subscribed'] = 'ភ្ជាប់ជាប្រចាំ';
 $labels['messagecount'] = 'សារ';
 $labels['create'] = 'បង្កើត';
 $labels['createfolder'] = 'បង្កើត Folder ថ្មី';

@@ -163,6 +163,7 @@ $labels['never'] = 'काहिलै नहुने';
 $labels['folder'] = 'फोल्डर';
 $labels['folders'] = 'फोल्डरहरु';
 $labels['foldername'] = 'फोल्डरको नाम';
+$labels['subscribed'] = 'सबस्क्राईब गरियो';
 $labels['create'] = 'बनाउनुहोस';
 $labels['createfolder'] = 'नया फोलडर बनाउनुहोस';
 $labels['managefolders'] = 'फोलडर व्यवस्थित गर्नुहोस';

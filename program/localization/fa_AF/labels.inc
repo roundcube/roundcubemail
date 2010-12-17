@@ -283,6 +283,7 @@ $labels['checkallfolders'] = 'تمام پوشه ها را بخاطر پیام ه
 $labels['folder']  = 'پوشه ';
 $labels['folders']  = 'پوشه ها';
 $labels['foldername']  = 'نام پوشه ';
+$labels['subscribed']  = 'مشترک ';
 $labels['messagecount'] = 'پيغام ها ';
 $labels['create']  = 'ایجاد کردن';
 $labels['createfolder']  = 'ایجاد پوشه جدید';

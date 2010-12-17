@@ -52,12 +52,13 @@
 
 #subscription-table td.name
 {
-  width: 99%;
+  width: auto;
 }
 
 #subscription-table td.subscribed
 {
-  width: 18px;
+  text-align: right;
+  padding-right: 12px;
 }
 
 #identity-frame

@@ -243,6 +243,7 @@ $labels['checkallfolders'] = 'সবগুলো মেইলবক্সে ন
 $labels['folder'] = 'ফোল্ডার/মেইলবক্স';
 $labels['folders'] = 'ফোল্ডার/মেইলবক্স';
 $labels['foldername'] = 'ফোল্ডার/মেইলবক্স এর নাম';
+$labels['subscribed'] = 'গ্রহনকারি';
 $labels['messagecount'] = 'মেইল/চিঠি';
 $labels['create'] = 'প্রস্তুত করুন';
 $labels['createfolder'] = 'নতুন ফোল্ডার / মেইলবক্স প্রস্তুত করুন';

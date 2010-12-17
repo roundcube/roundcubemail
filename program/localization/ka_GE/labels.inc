@@ -270,6 +270,7 @@ $labels['insertsignature'] = 'ხელმოცერის ჩასმა';
 $labels['folder'] = 'საქაღალდე';
 $labels['folders'] = 'საქაღალდეები';
 $labels['foldername'] = 'საქაღალდის დასახელება';
+$labels['subscribed'] = 'გამოწერილია';
 $labels['messagecount'] = 'შეტყობინებები';
 $labels['create'] = 'შექმნა';
 $labels['createfolder'] = 'საქაღალდის შექმნა';

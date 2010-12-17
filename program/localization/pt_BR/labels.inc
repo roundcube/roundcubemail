@@ -312,6 +312,7 @@ $labels['afternseconds'] = 'depois de $n segundos';
 $labels['folder'] = 'Pasta';
 $labels['folders'] = 'Pastas';
 $labels['foldername'] = 'Nome da pasta';
+$labels['subscribed'] = 'Ativo';
 $labels['messagecount'] = 'Mensagens';
 $labels['create'] = 'Criar';
 $labels['createfolder'] = 'Criar nova pasta';

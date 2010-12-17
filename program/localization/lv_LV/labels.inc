@@ -273,6 +273,7 @@ $labels['insertsignature'] = 'Ievietot parakstu';
 $labels['folder'] = 'Mapi';
 $labels['folders'] = 'Mapes';
 $labels['foldername'] = 'Mapes nosaukums';
+$labels['subscribed'] = 'Abonēta';
 $labels['messagecount'] = 'Vēstules';
 $labels['create'] = 'Izveidot';
 $labels['createfolder'] = 'Izveidot jaunu mapi';

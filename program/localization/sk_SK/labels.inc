@@ -314,6 +314,7 @@ $labels['reqmdn'] = 'Vždy požadovať doručenku';
 $labels['folder'] = 'Priečinok';
 $labels['folders'] = 'Priečinky';
 $labels['foldername'] = 'Názov priečinku';
+$labels['subscribed'] = 'Prihlásený k odberu';
 $labels['messagecount'] = 'Počet správ';
 $labels['create'] = 'Vytvoriť';
 $labels['createfolder'] = 'Vytvor nový priečinok';

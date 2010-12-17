@@ -313,6 +313,7 @@ $labels['reqmdn'] = 'Demana sempre la confirmació de recepció';
 $labels['folder'] = 'Carpeta';
 $labels['folders'] = 'Carpetes';
 $labels['foldername'] = 'Nom de carpeta';
+$labels['subscribed'] = 'Subscriure\'s';
 $labels['messagecount'] = 'Missatges';
 $labels['create'] = 'Crea';
 $labels['createfolder'] = 'Crea nova carpeta';

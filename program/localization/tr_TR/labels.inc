@@ -309,6 +309,7 @@ $labels['afternseconds'] = '$n saniye sonra';
 $labels['folder'] = 'Klasör';
 $labels['folders'] = 'Klasörler';
 $labels['foldername'] = 'Klasör ismi';
+$labels['subscribed'] = 'Abonelik';
 $labels['messagecount'] = 'Postalar';
 $labels['create'] = 'Oluştur';
 $labels['createfolder'] = 'Yeni klasör oluştur';

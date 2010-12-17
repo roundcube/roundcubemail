@@ -249,6 +249,11 @@ img
   background: url(images/listheader.gif) top left repeat-x #CCC;
 }
 
+.boxtitle .rightalign
+{
+  float: right;
+}
+
 .boxcontent
 {
   padding: 15px 10px 10px 10px;

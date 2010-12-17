@@ -202,6 +202,7 @@ $labels['dstactive']  = 'Giờ mùa hè';
 $labels['folder']  = 'Thư mục';
 $labels['folders']  = 'Thư mục';
 $labels['foldername']  = 'Tên thư mục';
+$labels['subscribed']  = 'Cho sử dụng';
 $labels['create']  = 'Tạo';
 $labels['createfolder']  = 'Tạo thư mục mới';
 $labels['managefolders']  = 'Quản trị thư mục';

@@ -81,6 +81,7 @@ $messages['folderdeleted'] = 'Ordner erfolgreich gelöscht';
 $messages['foldersubscribed'] = 'Der Ordner wurde erfolgreich abonniert';
 $messages['folderunsubscribed'] = 'Der Ordner wurde erfolgreich abbestellt';
 $messages['folderpurged'] = 'Der Ordner wurde erfolgreich gelöscht';
+$messages['folderexpunged'] = 'Der Ordner wurde erfolgreich gepackt';
 $messages['deletedsuccessfully'] = 'Erfolgreich gelöscht';
 $messages['converting'] = 'Entferne Formatierungen der Nachricht...';
 $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen werden';
@@ -134,5 +135,7 @@ $messages['namecannotbeempty'] = 'Der Name darf nicht leer sein';
 $messages['nametoolong'] = 'Der Name ist zu lang';
 $messages['folderupdated'] = 'Der Ordner wurde erfolgreich aktualisiert';
 $messages['foldercreated'] = 'Der Ordner wurde erfolgreich erstellt';
+$messages['errorreadonly'] = 'Die Aktion nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
+$messages['errornoperm'] = 'Die Aktion nicht ausgeführt werden. Zugriff verweigert.';
 
 ?>

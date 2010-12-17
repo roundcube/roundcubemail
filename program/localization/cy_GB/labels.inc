@@ -318,6 +318,7 @@ $labels['replysamefolder'] = 'Rhoi atebion yn yr un ffolder i\'r neges sy\'n cae
 $labels['folder'] = 'Ffolder';
 $labels['folders'] = 'Ffolderi';
 $labels['foldername'] = 'Enw ffolder';
+$labels['subscribed'] = 'Tanysgrifwyd';
 $labels['messagecount'] = 'Negeseuon';
 $labels['create'] = 'Creu';
 $labels['createfolder'] = 'Creu ffolder newydd';

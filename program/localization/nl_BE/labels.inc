@@ -317,6 +317,7 @@ $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Naam';
+$labels['subscribed'] = 'Gebruiken';
 $labels['messagecount'] = 'Berichten';
 $labels['create'] = 'Aanmaken';
 $labels['createfolder'] = 'Nieuwe map aanmaken';

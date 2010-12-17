@@ -245,6 +245,7 @@ $labels['checkallfolders'] = 'Ստուգել բոլոր դարակները նո�
 $labels['folder'] = 'Դարակ';
 $labels['folders'] = 'Դարակներ';
 $labels['foldername'] = 'Դարակի անուն';
+$labels['subscribed'] = 'Բաժանորդագրված';
 $labels['messagecount'] = 'Նամակներ';
 $labels['create'] = 'Ստեղծել';
 $labels['createfolder'] = 'Բացել նոր դարակ';

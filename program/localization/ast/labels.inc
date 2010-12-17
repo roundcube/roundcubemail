@@ -261,6 +261,7 @@ $labels['listoptions'] = 'Allistar opciones';
 $labels['folder'] = 'Bandexa';
 $labels['folders'] = 'Bandexes';
 $labels['foldername'] = 'Nome de bandexa';
+$labels['subscribed'] = 'Soscrita';
 $labels['messagecount'] = 'Mensaxes';
 $labels['create'] = 'Facer';
 $labels['createfolder'] = 'Facer una bandexa nueva';

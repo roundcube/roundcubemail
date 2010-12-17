@@ -306,6 +306,7 @@ $labels['afternseconds'] = '$n saniyədən sonra';
 $labels['folder'] = 'Qovluq';
 $labels['folders'] = 'Qovluqlar';
 $labels['foldername'] = 'Qovluq adı';
+$labels['subscribed'] = 'İmzalanıb';
 $labels['messagecount'] = 'Məktublar';
 $labels['create'] = 'Yarad';
 $labels['createfolder'] = 'Yeni qovluq yarad';

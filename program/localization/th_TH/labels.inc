@@ -159,6 +159,7 @@ $labels['never'] = 'ไม่ใช้';
 $labels['folder'] = 'กล่องจดหมาย';
 $labels['folders'] = 'กล่องจดหมาย';
 $labels['foldername'] = 'ชื่อกล่องจดหมาย';
+$labels['subscribed'] = 'ลงชื่อ';
 $labels['create'] = 'สร้าง';
 $labels['createfolder'] = 'สร้างกล่องจดหมาย';
 $labels['managefolders'] = 'จัดการกล่องจดหมาย';

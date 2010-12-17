@@ -307,6 +307,7 @@ $labels['afternseconds'] = '$n 秒之后';
 $labels['folder'] = '邮件夹';
 $labels['folders'] = '邮件夹';
 $labels['foldername'] = '邮件夹名称';
+$labels['subscribed'] = '已订阅';
 $labels['messagecount'] = '邮件数量';
 $labels['create'] = '建立';
 $labels['createfolder'] = '建立新邮件夹';

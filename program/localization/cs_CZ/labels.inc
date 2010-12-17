@@ -315,6 +315,7 @@ $labels['reqmdn'] = 'Vždy požadovat doručenku';
 $labels['folder'] = 'Složka';
 $labels['folders'] = 'Složky';
 $labels['foldername'] = 'Jméno složky';
+$labels['subscribed'] = 'Vybráno';
 $labels['messagecount'] = 'Počet zpráv';
 $labels['create'] = 'Vytvořit';
 $labels['createfolder'] = 'Vytvořit novou složku';

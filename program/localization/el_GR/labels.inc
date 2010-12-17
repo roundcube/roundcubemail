@@ -234,6 +234,7 @@ $labels['newmessage'] = 'Νέο Μήνυμα';
 $labels['folder'] = 'Φάκελος';
 $labels['folders'] = 'Φάκελοι';
 $labels['foldername'] = 'Όνομα φακέλου';
+$labels['subscribed'] = 'Εγγραφή';
 $labels['messagecount'] = 'Μηνύματα';
 $labels['create'] = 'Δημιουργία';
 $labels['createfolder'] = 'Δημιουργία νέου φακέλου';

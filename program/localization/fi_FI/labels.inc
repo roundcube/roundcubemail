@@ -304,6 +304,7 @@ $labels['afternseconds'] = '$n sekunnin jälkeen';
 $labels['folder'] = 'Kansio';
 $labels['folders'] = 'Kansiot';
 $labels['foldername'] = 'Kansion nimi';
+$labels['subscribed'] = 'Näytetään';
 $labels['messagecount'] = 'Viestejä';
 $labels['create'] = 'Luo uusi';
 $labels['createfolder'] = 'Luo uusi kansio';

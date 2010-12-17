@@ -216,6 +216,7 @@ $labels['messagescomposition'] = 'Mesaĝo-verkado';
 $labels['folder'] = 'Dosierujo';
 $labels['folders'] = 'Dosierujoj';
 $labels['foldername'] = 'Dosierujo-nomo';
+$labels['subscribed'] = 'Abonata';
 $labels['messagecount'] = 'Mesaĝoj';
 $labels['create'] = 'Kreu';
 $labels['createfolder'] = 'Kreu novan dosierujon';

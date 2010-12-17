@@ -297,6 +297,7 @@ $labels['afternseconds'] = 'despues de $n segundos';
 $labels['folder'] = 'Carpeta';
 $labels['folders'] = 'Carpetas';
 $labels['foldername'] = 'Nombre de carpeta';
+$labels['subscribed'] = 'Suscripta';
 $labels['messagecount'] = 'Mensajes';
 $labels['create'] = 'Crear';
 $labels['createfolder'] = 'Crear nueva carpeta';

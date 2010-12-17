@@ -306,6 +306,7 @@ $labels['afternseconds'] = 'după $n secunde';
 $labels['folder'] = 'Dosar';
 $labels['folders'] = 'Dosare';
 $labels['foldername'] = 'Nume dosar';
+$labels['subscribed'] = 'Înscris';
 $labels['messagecount'] = 'Mesaje';
 $labels['create'] = 'Creează';
 $labels['createfolder'] = 'Creează dosar nou';

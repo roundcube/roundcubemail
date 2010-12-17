@@ -246,6 +246,7 @@ $labels['checkallfolders'] = '새 메시지를 위해 모든 폴더 체크';
 $labels['folder'] = '폴더';
 $labels['folders'] = '폴더';
 $labels['foldername'] = '폴더 이름';
+$labels['subscribed'] = '가입됨';
 $labels['messagecount'] = '메시지';
 $labels['create'] = '만들기';
 $labels['createfolder'] = '새 폴더 만들기';

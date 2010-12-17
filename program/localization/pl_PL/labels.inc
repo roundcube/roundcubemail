@@ -314,6 +314,7 @@ $labels['afternseconds'] = 'po $n sekundach';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Foldery';
 $labels['foldername'] = 'Nazwa folderu';
+$labels['subscribed'] = 'Zasubskrybowany';
 $labels['messagecount'] = 'Wiadomości';
 $labels['create'] = 'Utwórz';
 $labels['createfolder'] = 'Utwórz nowy folder';

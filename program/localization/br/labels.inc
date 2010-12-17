@@ -168,6 +168,7 @@ $labels['never'] = 'ebet';
 $labels['folder'] = 'Renkell';
 $labels['folders'] = 'Renkelloù';
 $labels['foldername'] = 'Anv ar renkell';
+$labels['subscribed'] = 'Koumananer';
 $labels['create'] = 'Krouiñ';
 $labels['createfolder'] = 'Krouiñ ur renkell nevez';
 $labels['managefolders'] = 'Aozañ ar renkelloù';

@@ -211,6 +211,7 @@ $labels['never'] = 'tidak pernah';
 $labels['folder'] = 'Kabinet Fail';
 $labels['folders'] = 'Kabinet Fail';
 $labels['foldername'] = 'Nama Kabinet Fail';
+$labels['subscribed'] = 'Dilanggan';
 $labels['messagecount'] = 'Mesej-mesej';
 $labels['create'] = 'Cipta';
 $labels['createfolder'] = 'Cipta kabinet fail baru';

@@ -374,6 +374,7 @@ $labels['afternseconds'] = '$n क्षणानंतर';
 $labels['folder'] = 'फोल्डर';
 $labels['folders'] = 'फोल्डर्स';
 $labels['foldername'] = 'फोल्डरचे नाव';
+$labels['subscribed'] = 'वर्गणिदार होणे';
 $labels['messagecount'] = 'संदेश';
 $labels['create'] = 'तयार करा';
 $labels['createfolder'] = 'नवीन फोल्डर तयार करा';

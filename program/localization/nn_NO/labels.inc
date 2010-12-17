@@ -306,6 +306,7 @@ $labels['afternseconds'] = 'etter $n sekund';
 $labels['folder'] = 'Mappe';
 $labels['folders'] = 'Mapper';
 $labels['foldername'] = 'Mappenamn';
+$labels['subscribed'] = 'Abonnert';
 $labels['messagecount'] = 'Meldingar';
 $labels['create'] = 'Opprette';
 $labels['createfolder'] = 'Opprett ny mappe';

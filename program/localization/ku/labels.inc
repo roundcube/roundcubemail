@@ -173,6 +173,7 @@ $labels['never'] = 'qet';
 $labels['folder'] = 'Peldank';
 $labels['folders'] = 'Peldank';
 $labels['foldername'] = 'Navê peldankê';
+$labels['subscribed'] = 'Ni şanenav';
 $labels['messagecount'] = 'Peyam';
 $labels['create'] = 'Biafirîne';
 $labels['createfolder'] = 'Peldankeke nû biafirîne';

@@ -246,6 +246,7 @@ $labels['checkallfolders'] = 'Athuga ný skeyti í öllum möppum';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Möppur';
 $labels['foldername'] = 'Nafn möppu';
+$labels['subscribed'] = 'Valin';
 $labels['messagecount'] = 'Skeyti';
 $labels['create'] = 'Búa til';
 $labels['createfolder'] = 'Búa til nýja möppu';

@@ -176,6 +176,7 @@ $labels['never'] = 'никад';
 $labels['folder'] = 'Фасцикла';
 $labels['folders'] = 'Фасцикле';
 $labels['foldername'] = 'Име фасцикле';
+$labels['subscribed'] = 'Потписана';
 $labels['messagecount'] = 'Поруке';
 $labels['create'] = 'Креирај';
 $labels['createfolder'] = 'Креирај нову фасциклу';
