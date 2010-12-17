@@ -546,56 +546,56 @@ class rcube_imap
         $imap_shared    = $config->get('imap_ns_shared');
         $imap_delimiter = $config->get('imap_delimiter');
 
-        if ($imap_delimiter) {
-            $this->delimiter = $imap_delimiter;
-        }
-
         if (!$this->conn)
             return;
 
         $ns = $this->conn->getNamespace();
 
-        // NAMESPACE supported
+        // Set namespaces (NAMESPACE supported)
         if (is_array($ns)) {
             $this->namespace = $ns;
-
-            if (empty($this->delimiter))
-                $this->delimiter = $ns['personal'][0][1];
-            if (empty($this->delimiter))
-                $this->delimiter = $this->conn->getHierarchyDelimiter();
-            if (empty($this->delimiter))
-                $this->delimiter = '/';
         }
-        // not supported, get namespace from config
-        else if ($imap_personal !== null || $imap_shared !== null || $imap_other !== null) {
-            if (empty($this->delimiter))
-                $this->delimiter = $this->conn->getHierarchyDelimiter();
-            if (empty($this->delimiter))
-                $this->delimiter = '/';
-
+        else {
             $this->namespace = array(
                 'personal' => NULL,
                 'other'    => NULL,
                 'shared'   => NULL,
             );
+        }
 
-            if ($imap_personal !== null) {
-                foreach ((array)$imap_personal as $dir) {
-                    $this->namespace['personal'][] = array($dir, $this->delimiter);
+        if ($imap_delimiter) {
+            $this->delimiter = $imap_delimiter;
+        }
+        if (empty($this->delimiter)) {
+            $this->delimiter = $this->namespace['personal'][0][1];
+        }
+        if (empty($this->delimiter)) {
+            $this->delimiter = $this->conn->getHierarchyDelimiter();
+        }
+        if (empty($this->delimiter)) {
+            $this->delimiter = '/';
+        }
+
+        // Overwrite namespaces
+        if ($imap_personal !== null) {
+            $this->namespace['personal'] = NULL;
+            foreach ((array)$imap_personal as $dir) {
+                $this->namespace['personal'][] = array($dir, $this->delimiter);
+            }
+        }
+        if ($imap_other !== null) {
+            $this->namespace['other'] = NULL;
+            foreach ((array)$imap_other as $dir) {
+                if ($dir) {
+                    $this->namespace['other'][] = array($dir, $this->delimiter);
                 }
             }
-            if ($imap_other !== null) {
-                foreach ((array)$imap_other as $dir) {
-                    if ($dir) {
-                        $this->namespace['other'][] = array($dir, $this->delimiter);
-                    }
-                }
-            }
-            if ($imap_shared !== null) {
-                foreach ((array)$imap_shared as $dir) {
-                    if ($dir) {
-                        $this->namespace['shared'][] = array($dir, $this->delimiter);
-                    }
+        }
+        if ($imap_shared !== null) {
+            $this->namespace['shared'] = NULL;
+            foreach ((array)$imap_shared as $dir) {
+                if ($dir) {
+                    $this->namespace['shared'][] = array($dir, $this->delimiter);
                 }
             }
         }

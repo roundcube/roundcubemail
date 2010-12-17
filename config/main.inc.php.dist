@@ -83,6 +83,7 @@ $rcmail_config['imap_delimiter'] = null;
 // set these options. All can be strings or arrays of strings.
 // Folders need to be ended with directory separator, e.g. "INBOX."
 // (special directory "~" is an exception to this rule)
+// These can be used also to overwrite server's namespaces
 $rcmail_config['imap_ns_personal'] = null;
 $rcmail_config['imap_ns_other']    = null;
 $rcmail_config['imap_ns_shared']   = null;
