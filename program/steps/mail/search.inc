@@ -124,8 +124,7 @@ if (!empty($result_h)) {
 }
 // handle IMAP errors (e.g. #1486905)
 else  if ($err_code = $IMAP->get_error_code()) {
-  $err_str = $IMAP->get_error_str();
-  $OUTPUT->show_message('servererrormsg', 'error', array('msg' => $err_str));
+  rcmail_display_server_error();
 }
 else {
   $OUTPUT->show_message('searchnomatch', 'notice');

@@ -70,7 +70,7 @@ function rcmail_encrypt_header($what)
 function rcmail_get_identity($id)
 {
   global $USER, $OUTPUT;
-  
+
   if ($sql_arr = $USER->get_identity($id)) {
     $out = $sql_arr;
     $out['mailto'] = $sql_arr['email'];
@@ -100,7 +100,7 @@ function rcmail_fix_emoticon_paths(&$mime_message)
 
   // remove any null-byte characters before parsing
   $body = preg_replace('/\x00/', '', $body);
-  
+
   $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
   $offset = 0;
 
@@ -192,6 +192,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
 
   return implode(', ', $result);
 }
+
 
 /****** compose message ********/
 
@@ -297,12 +298,12 @@ $headers['From'] = rcube_charset_convert($from_string, RCMAIL_CHARSET, $message_
 $headers['To'] = $mailto;
 
 // additional recipients
-if (!empty($mailcc))
+if (!empty($mailcc)) {
   $headers['Cc'] = $mailcc;
-
-if (!empty($mailbcc))
+}
+if (!empty($mailbcc)) {
   $headers['Bcc'] = $mailbcc;
-
+}
 if (!empty($identity_arr['bcc'])) {
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
   $RECIPIENT_COUNT ++;
@@ -318,36 +319,43 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
 // add subject
 $headers['Subject'] = trim(get_input_value('_subject', RCUBE_INPUT_POST, TRUE, $message_charset));
 
-if (!empty($identity_arr['organization']))
+if (!empty($identity_arr['organization'])) {
   $headers['Organization'] = $identity_arr['organization'];
-
-if (!empty($_POST['_replyto']))
+}
+if (!empty($_POST['_replyto'])) {
   $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
-else if (!empty($identity_arr['reply-to']))
+}
+else if (!empty($identity_arr['reply-to'])) {
   $headers['Reply-To'] = rcmail_email_input_format($identity_arr['reply-to'], false, true);
-
-if (!empty($_POST['_mailfollowupto']))
-  $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_mailfollowupto', RCUBE_INPUT_POST, TRUE, $message_charset));
-if (!empty($_POST['_mailreplyto']))
-  $headers['Mail-Reply-To'] = rcmail_email_input_format(get_input_value('_mailreplyto', RCUBE_INPUT_POST, TRUE, $message_charset));
-
-if (!empty($_SESSION['compose']['reply_msgid']))
+}
+if (!empty($headers['Reply-To'])) {
+  $headers['Mail-Reply-To'] = $headers['Reply-To'];
+}
+if (!empty($_POST['_followupto'])) {
+  $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_followupto', RCUBE_INPUT_POST, TRUE, $message_charset));
+}
+if (!empty($_SESSION['compose']['reply_msgid'])) {
   $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
+}
 
 // remember reply/forward UIDs in special headers
-if (!empty($_SESSION['compose']['reply_uid']) && $savedraft)
+if (!empty($_SESSION['compose']['reply_uid']) && $savedraft) {
   $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $_SESSION['compose']['reply_uid']);
-else if (!empty($_SESSION['compose']['forward_uid']) && $savedraft)
+}
+else if (!empty($_SESSION['compose']['forward_uid']) && $savedraft) {
   $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $_SESSION['compose']['forward_uid']);
+}
 
-if (!empty($_SESSION['compose']['references']))
+if (!empty($_SESSION['compose']['references'])) {
   $headers['References'] = $_SESSION['compose']['references'];
+}
 
 if (!empty($_POST['_priority'])) {
   $priority = intval($_POST['_priority']);
   $a_priorities = array(1=>'highest', 2=>'high', 4=>'low', 5=>'lowest');
-  if ($str_priority = $a_priorities[$priority])
+  if ($str_priority = $a_priorities[$priority]) {
     $headers['X-Priority'] = sprintf("%d (%s)", $priority, ucfirst($str_priority));
+  }
 }
 
 if (!empty($_POST['_receipt'])) {
@@ -359,11 +367,12 @@ if (!empty($_POST['_receipt'])) {
 $headers['Message-ID'] = $message_id;
 $headers['X-Sender'] = $from;
 
-if (is_array($headers['X-Draft-Info']))
+if (is_array($headers['X-Draft-Info'])) {
   $headers['X-Draft-Info'] = rcmail_draftinfo_encode($headers['X-Draft-Info'] + array('folder' => $_SESSION['compose']['mailbox']));
-
-if (!empty($CONFIG['useragent']))
+}
+if (!empty($CONFIG['useragent'])) {
   $headers['User-Agent'] = $CONFIG['useragent'];
+}
 
 // exec hook for header checking and manipulation
 $data = $RCMAIL->plugins->exec_hook('message_outgoing_headers', array('headers' => $headers));
@@ -441,13 +450,16 @@ if ($isHtml) {
 
   $MAIL_MIME->setHTMLBody($plugin['body']);
 
+  // replace emoticons
+  $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
+
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new html2text($plugin['body'], false, true, 0);
   $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n");
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
   if (!$plainTextPart) {
-    // empty message body breaks attachment handling in drafts 
-    $plainTextPart = "\r\n"; 
+    // empty message body breaks attachment handling in drafts
+    $plainTextPart = "\r\n";
   }
   else {
     // make sure all line endings are CRLF (#1486712)
@@ -513,9 +525,10 @@ if (is_array($_SESSION['compose']['attachments']))
         ($attachment['data'] ? false : true),
         ($ctype == 'message/rfc822' ? '8bit' : 'base64'),
         ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
-        $message_charset, '', '',
+        '', '', '',
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
-        $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL
+        $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL,
+        '', RCMAIL_CHARSET
       );
     }
   }

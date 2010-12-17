@@ -18,7 +18,7 @@ function password_save($currpass, $newpass)
     $username = $_SESSION['username'];
 
     $handle = popen($cmd, "w");
-    fwrite($handle, "$username:$newpass");
+    fwrite($handle, "$username:$newpass\n");
 
     if (pclose($handle) == 0) {
         return PASSWORD_SUCCESS;

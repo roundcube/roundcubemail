@@ -127,6 +127,7 @@ $rcmail_config['password_ldap_adminPW'] = null;
 // '%login' will be replaced by the current roundcube user's login
 // '%name' will be replaced by the current roundcube user's name part
 // '%domain' will be replaced by the current roundcube user's domain part
+// '%dc' will be replaced by domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
 // Exemple: 'uid=%login,ou=people,dc=exemple,dc=com'
 $rcmail_config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=exemple,dc=com';
 
@@ -164,6 +165,7 @@ $rcmail_config['password_ldap_search_base'] = 'ou=people,dc=example,dc=com';
 // '%login' will be replaced by the current roundcube user's login
 // '%name' will be replaced by the current roundcube user's name part
 // '%domain' will be replaced by the current roundcube user's domain part
+// '%dc' will be replaced by domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
 // Example: '(uid=%login)'
 // Example: '(&(objectClass=posixAccount)(uid=%login))'
 $rcmail_config['password_ldap_search_filter'] = '(uid=%login)';

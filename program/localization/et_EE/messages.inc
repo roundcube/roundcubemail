@@ -26,6 +26,8 @@ $messages['sessionerror'] = 'Sinu seanss on aegunud või vigane';
 $messages['imaperror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
 $messages['servererror'] = 'Serveri tõrge!';
 $messages['servererrormsg'] = 'Serveri tõrge: $msg';
+$messages['errorreadonly'] = 'Operatsioon nurjus. Kaustale on vaid lugemisõigus';
+$messages['errornoperm'] = 'Operatsioon nurjus. Ligipääsu õigused puuduvad';
 $messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
@@ -57,10 +59,10 @@ $messages['deletecontactconfirm'] = 'Soovid valitud kontaktid kustutada?';
 $messages['deletemessagesconfirm'] = 'Soovid valitud kirja(d) kustutada?';
 $messages['deletefolderconfirm'] = 'Soovid selle kataloogi kindlasti kustutada?';
 $messages['purgefolderconfirm'] = 'Soovid sellest kaustast kõik kirjad kustutada?';
-$messages['foldercreating'] = 'Loon kausta...';
 $messages['folderdeleting'] = 'Kustutan kausta...';
-$messages['folderrenaming'] = 'Nimetan kausta ümber...';
 $messages['foldermoving'] = 'Liigutan kausta...';
+$messages['foldersubscribing'] = 'Tellin kausta...';
+$messages['folderunsubscribing'] = 'Peatan kausta tellimuse...';
 $messages['formincomplete'] = 'Vormi kõik väljad ei ole täidetud';
 $messages['noemailwarning'] = 'Palun sisesta toimiv e-posti aadress';
 $messages['nonamewarning'] = 'Palun sisesta nimi';
@@ -80,6 +82,10 @@ $messages['searching'] = 'Otsin...';
 $messages['checking'] = 'Kontrollin...';
 $messages['nospellerrors'] = 'Õigekirjavigu ei leitud';
 $messages['folderdeleted'] = 'Kausta kustutamine õnnestus';
+$messages['foldersubscribed'] = 'Kausta tellimine õnnestus';
+$messages['folderunsubscribed'] = 'Kausta tellimise peatamine õnnestus';
+$messages['folderpurged'] = 'Kaust puhastatud edukalt';
+$messages['folderexpunged'] = 'Kaust tühjendatud edukalt';
 $messages['deletedsuccessfully'] = 'Edukalt kustutatud';
 $messages['converting'] = 'Eemaldan kirjast vormindust...';
 $messages['messageopenerror'] = 'Kirjade serverist laadimine ebaõnnestus';
@@ -96,7 +102,6 @@ $messages['markingmessage'] = 'Märgin kirja...';
 $messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
 $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
 $messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
-$messages['addsubfolderhint'] = 'See kataloog luuakse valitud kausta alamkataloogina.';
 $messages['forbiddencharacter'] = 'Kausta nimi sisaldab keelatud sümbolit';
 $messages['selectimportfile'] = 'Palun vali üleslaadimiseks fail';
 $messages['addresswriterror'] = 'Valitud aadressiraamat pole kirjutatav';
@@ -130,8 +135,9 @@ $messages['messagemoved'] = 'Kiri edukalt liigutatud';
 $messages['messagecopied'] = 'Kiri edukalt kopeeritud';
 $messages['messagemarked'] = 'Kiri edukalt märgitud';
 $messages['autocompletechars'] = 'Sisesta vähemalt $min märki autocompleteks';
+$messages['namecannotbeempty'] = 'Nimi ei saa olla tühi';
+$messages['nametoolong'] = 'Nimi liiga pikk';
+$messages['folderupdated'] = 'Kaust uuendatud edukalt';
+$messages['foldercreated'] = 'Kaust loodud edukalt';
 
 ?>
-
-
-

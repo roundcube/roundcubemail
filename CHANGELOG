@@ -1,6 +1,30 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Plugin API: Add 'pass' argument in 'authenticate' hook (#1487134)
+- Fix attachments of type message/rfc822 are not listed on attachments list
+- Add 'login_lc' config option for case-insensitive authentication (#1487113)
+- Fix window is blur'ed in IE when selecting a message (#1487316)
+- Fix cursor position on compose form in Webkit browsers (#1486674)
+- Fix setting charset of attachment filenames (#1487122)
+- Allow setting autocomplete attribute for all inputs separately (#1487313)
+- New Folder Manager UI
+- Fix invalid Request when creating a folder (#1487443)
+- Add folder size and quota indicator in folder manager (#1485780)
+- Add possibility to move a subfolder into root folder (#1486791)
+- Fix copying all messages in a folder copies only messages from current page
+- Improve performance of moving or copying of all messages in a folder
+- Fix plaintext versions of HTML messages don't contain placeholders for emotions (#1485206)
+- Improve performance of folder rename and delete actions
+- Better support for READ-ONLY and NOPERM responses handling (#1487083)
+- Add confirmation message on purge/expunge command response
+- Fix handling of untagged responses for AUTHENTICATE command (#1487450)
+- Add username and IP address to log message on unsuccessful login (#1487626)
+- Improved Mail-Followup-To and Mail-Reply-To headers handling
+- Fix charset conversion for text attachments without charset specification (#1487634)
+
+RELEASE 0.5-BETA
+----------------
 - Make session data storage more robust against garbage session data (#1487136)
 - Config option for autocomplete on login screen
 - Allow plugin templates to include local files (#1487133)

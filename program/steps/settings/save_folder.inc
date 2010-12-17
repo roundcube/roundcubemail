@@ -1,0 +1,176 @@
+<?php
+
+/*
+ +-----------------------------------------------------------------------+
+ | program/steps/settings/save_folder.inc                                |
+ |                                                                       |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2009, Roundcube Dev. - Switzerland                 |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Provide functionality to create/edit a folder                       |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
+ +-----------------------------------------------------------------------+
+
+ $Id$
+
+*/
+
+// WARNING: folder names in UI are encoded with RCMAIL_CHARSET
+
+// init IMAP connection
+$RCMAIL->imap_connect();
+
+
+$name = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
+$old  = trim(get_input_value('_mbox', RCUBE_INPUT_POST, true));
+$path = trim(get_input_value('_parent', RCUBE_INPUT_POST, true));
+
+$name_imap = rcube_charset_convert($name, RCMAIL_CHARSET, 'UTF7-IMAP');
+$old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');
+// $path is in UTF7-IMAP already
+
+$delimiter = $IMAP->get_hierarchy_delimiter();
+$special   = (strlen($old_imap) && in_array($old_imap, (array) $RCMAIL->config->get('default_imap_folders')));
+$protected = ($special && $RCMAIL->config->get('protect_default_folders'));
+
+
+// Folder name checks
+if ($protected) {
+}
+else if (!strlen($name)) {
+    $error = rcube_label('cannotbeempty');
+}
+else if (mb_strlen($name) > 128) {
+    $error = rcube_label('nametoolong');
+}
+else {
+    // these characters are problematic e.g. when used in LIST/LSUB
+    foreach (array($delimiter, '%', '*') as $char) {
+        if (strpos($name, $delimiter) !== false) {
+            $error = rcube_label('forbiddencharacter') . " ($char)";
+            break;
+        }
+    }
+}
+
+if ($error) {
+    $OUTPUT->command('display_message', $error, 'error');
+}
+else {
+    if ($protected) {
+        $name_imap = $old_imap;
+    }
+    else if (strlen($path)) {
+        $name_imap = $path . $delimiter . $name_imap;
+    }
+
+    $folder['name']     = $name_imap;
+    $folder['oldname']  = $old_imap;
+    $folder['settings'] = array(
+        // List view mode: 0-list, 1-threads
+        'view_mode'   => (int) get_input_value('_viewmode', RCUBE_INPUT_POST),
+        'sort_column' => get_input_value('_sortcol', RCUBE_INPUT_POST),
+        'sort_order'  => get_input_value('_sortord', RCUBE_INPUT_POST),
+    );
+}
+
+// create a new mailbox
+if (!$error && !strlen($old)) {
+
+    $plugin = $RCMAIL->plugins->exec_hook('folder_create', array('record' => $folder));
+
+    $folder = $plugin['record'];
+
+    if (!$plugin['abort']) {
+        $created = $IMAP->create_mailbox($folder['name'], TRUE);
+    }
+    else {
+        $created = $plugin['result'];
+    }
+
+    if ($created) {
+        // Save folder settings
+        if (isset($_POST['_viewmode'])) {
+            $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
+
+            if ($_POST['_viewmode'])
+                $a_threaded[$folder['name']] = true;
+            else
+                unset($a_threaded[$folder['name']]);
+
+            $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
+        }
+
+        $OUTPUT->show_message('foldercreated', 'confirmation');
+        $OUTPUT->command('reload', 250);
+        $OUTPUT->send('iframe');
+    }
+    else {
+        // show error message
+        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
+    }
+}
+
+// update a mailbox
+else if (!$error) {
+    $plugin = $RCMAIL->plugins->exec_hook('folder_update', array('record' => $folder));
+
+    $folder = $plugin['record'];
+    $rename = ($folder['oldname'] != $folder['name']);
+
+    if (!$plugin['abort']) {
+        if ($rename) {
+            $updated = $RCMAIL->imap->rename_mailbox($folder['oldname'], $folder['name']);
+        }
+        else {
+            $updated = true;
+        }
+    }
+    else {
+        $updated = $plugin['result'];
+    }
+
+    if ($updated) {
+        // Update folder settings,
+        if (isset($_POST['_viewmode'])) {
+            $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
+
+            // In case of name change update names of childrens in settings
+            if ($rename) {
+                $delimiter  = $RCMAIL->imap->get_hierarchy_delimiter();
+                $oldprefix  = '/^' . preg_quote($folder['oldname'] . $delimiter, '/') . '/';
+                foreach ($a_threaded as $key => $val) {
+                    if ($key == $folder['oldname']) {
+                        unset($a_threaded[$key]);
+                    }
+                    else if (preg_match($oldprefix, $key)) {
+                        unset($a_threaded[$key]);
+  	                    $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = true;
+                    }
+                }
+            }
+            if ($_POST['_viewmode'])
+                $a_threaded[$folder['name']] = true;
+            else
+                unset($a_threaded[$folder['name']]);
+
+            $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
+        }
+
+        $OUTPUT->show_message('folderupdated', 'confirmation');
+        if ($rename) {
+            $OUTPUT->command('reload', 250);
+            $OUTPUT->send('iframe');
+        }
+    }
+    else {
+        // show error message
+        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
+    }
+}
+
+rcmail_overwrite_action('edit-folder');

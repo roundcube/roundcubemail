@@ -365,30 +365,28 @@ class Mail_mime
      * Adds a file to the list of attachments.
      *
      * @param string $file        The file name of the file to attach
-     *                            OR the file contents itself
+     *                            or the file contents itself
      * @param string $c_type      The content type
      * @param string $name        The filename of the attachment
      *                            Only use if $file is the contents
-     * @param bool   $isfile      Whether $file is a filename or not
-     *                            Defaults to true
-     * @param string $encoding    The type of encoding to use.
-     *                            Defaults to base64.
-     *                            Possible values: 7bit, 8bit, base64, 
-     *                            or quoted-printable.
+     * @param bool   $isfile      Whether $file is a filename or not. Defaults to true
+     * @param string $encoding    The type of encoding to use. Defaults to base64.
+     *                            Possible values: 7bit, 8bit, base64 or quoted-printable.
      * @param string $disposition The content-disposition of this file
      *                            Defaults to attachment.
      *                            Possible values: attachment, inline.
-     * @param string $charset     The character set used in the filename
-     *                            of this attachment.
+     * @param string $charset     The character set of attachment's content.
      * @param string $language    The language of the attachment
      * @param string $location    The RFC 2557.4 location of the attachment
-     * @param string $n_encoding  Encoding for attachment name (Content-Type)
+     * @param string $n_encoding  Encoding of the attachment's name in Content-Type
      *                            By default filenames are encoded using RFC2231 method
      *                            Here you can set RFC2047 encoding (quoted-printable
      *                            or base64) instead
-     * @param string $f_encoding  Encoding for attachment filename (Content-Disposition)
-     *                            See $n_encoding description
+     * @param string $f_encoding  Encoding of the attachment's filename
+     *                            in Content-Disposition header.
      * @param string $description Content-Description header
+     * @param string $h_charset   The character set of the headers e.g. filename
+     *                            If not specified, $charset will be used
      *
      * @return mixed              True on success or PEAR_Error object
      * @access public
@@ -404,7 +402,8 @@ class Mail_mime
         $location    = '',
         $n_encoding  = null,
         $f_encoding  = null,
-        $description = ''
+        $description = '',
+        $h_charset   = null
     ) {
         $bodyfile = null;
 
@@ -437,14 +436,15 @@ class Mail_mime
             'body_file'   => $bodyfile,
             'name'        => $filename,
             'c_type'      => $c_type,
-            'encoding'    => $encoding,
             'charset'     => $charset,
+            'encoding'    => $encoding,
             'language'    => $language,
             'location'    => $location,
             'disposition' => $disposition,
             'description' => $description,
             'name_encoding'     => $n_encoding,
-            'filename_encoding' => $f_encoding
+            'filename_encoding' => $f_encoding,
+            'headers_charset'   => $h_charset,
         );
 
         return true;
@@ -621,7 +621,7 @@ class Mail_mime
         $params['content_type'] = $value['c_type'];
         $params['encoding']     = 'base64';
         $params['disposition']  = 'inline';
-        $params['dfilename']    = $value['name'];
+        $params['filename']     = $value['name'];
         $params['cid']          = $value['cid'];
         $params['body_file']    = $value['body_file'];
         $params['eol']          = $this->_build_params['eol'];
@@ -650,19 +650,25 @@ class Mail_mime
     function &_addAttachmentPart(&$obj, $value)
     {
         $params['eol']          = $this->_build_params['eol'];
-        $params['dfilename']    = $value['name'];
+        $params['filename']     = $value['name'];
         $params['encoding']     = $value['encoding'];
         $params['content_type'] = $value['c_type'];
         $params['body_file']    = $value['body_file'];
         $params['disposition']  = isset($value['disposition']) ? 
                                   $value['disposition'] : 'attachment';
-        if ($value['charset']) {
+
+        // content charset
+        if (!empty($value['charset'])) {
             $params['charset'] = $value['charset'];
         }
-        if ($value['language']) {
+        // headers charset (filename, description)
+        if (!empty($value['headers_charset'])) {
+            $params['headers_charset'] = $value['headers_charset'];
+        }
+        if (!empty($value['language'])) {
             $params['language'] = $value['language'];
         }
-        if ($value['location']) {
+        if (!empty($value['location'])) {
             $params['location'] = $value['location'];
         }
         if (!empty($value['name_encoding'])) {
@@ -1387,18 +1393,23 @@ class Mail_mime
 
         if ($headers['Content-Type'] == 'text/plain') {
             // single-part message: add charset and encoding
+            $charset = 'charset=' . $this->_build_params['text_charset'];
+            // place charset parameter in the same line, if possible
+            // 26 = strlen("Content-Type: text/plain; ")
             $headers['Content-Type']
-                .= ";$eol charset=" . $this->_build_params['text_charset'];
+                .= (strlen($charset) + 26 <= 76) ? "; $charset" : ";$eol $charset";
             $headers['Content-Transfer-Encoding']
                 = $this->_build_params['text_encoding'];
         } else if ($headers['Content-Type'] == 'text/html') {
             // single-part message: add charset and encoding
+            $charset = 'charset=' . $this->_build_params['html_charset'];
+            // place charset parameter in the same line, if possible
             $headers['Content-Type']
-                .= ";$eol charset=" . $this->_build_params['html_charset'];
+                .= (strlen($charset) + 25 <= 76) ? "; $charset" : ";$eol $charset";
             $headers['Content-Transfer-Encoding']
                 = $this->_build_params['html_encoding'];
         } else {
-            // multipart message: add charset and boundary
+            // multipart message: and boundary
             if (!empty($this->_build_params['boundary'])) {
                 $boundary = $this->_build_params['boundary'];
             } else if (!empty($this->_headers['Content-Type'])

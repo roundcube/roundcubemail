@@ -46,18 +46,12 @@ $labels['to']      = 'Recipient';
 $labels['cc']      = 'Copy';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Reply-To';
-$labels['mailreplyto'] = 'Mail-Reply-To';
-$labels['mailfollowupto'] = 'Mail-Followup-To';
+$labels['followupto'] = 'Followup-To';
 $labels['date']    = 'Date';
 $labels['size']    = 'Size';
 $labels['priority'] = 'Priority';
 $labels['organization'] = 'Organization';
 $labels['readstatus'] = 'Read status';
-
-// aliases
-$labels['reply-to'] = $labels['replyto'];
-$labels['mail-reply-to'] = $labels['mailreplyto'];
-$labels['mail-followup-to'] = $labels['mailfollowupto'];
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
@@ -241,8 +235,7 @@ $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
-$labels['addmailreplyto'] = 'Add Mail-Reply-To';
-$labels['addmailfollowupto'] = 'Add Mail-Followup-To';
+$labels['addfollowupto'] = 'Add Followup-To';
 
 // mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
@@ -387,11 +380,15 @@ $labels['subscribed']  = 'Subscribed';
 $labels['messagecount'] = 'Messages';
 $labels['create']  = 'Create';
 $labels['createfolder']  = 'Create new folder';
-$labels['rename'] = 'Rename';
-$labels['renamefolder'] = 'Rename folder';
-$labels['deletefolder']  = 'Delete folder';
 $labels['managefolders']  = 'Manage folders';
 $labels['specialfolders'] = 'Special Folders';
+$labels['properties'] = 'Properties';
+$labels['folderproperties'] = 'Folder properties';
+$labels['parentfolder'] = 'Parent folder';
+$labels['location'] = 'Location';
+$labels['info'] = 'Information';
+$labels['getfoldersize'] = 'Click to get folder size';
+$labels['changesubscription'] = 'Click to change subscription';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';

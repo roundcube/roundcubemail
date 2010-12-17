@@ -353,7 +353,7 @@ switch_preview_pane: function(elem)
 /* Message composing */
 init_compose_form: function()
 {
-  var f, field, fields = ['cc', 'bcc', 'replyto', 'mailreplyto', 'mailfollowupto'],
+  var f, field, fields = ['cc', 'bcc', 'replyto', 'followupto'],
     div = document.getElementById('compose-div'),
     headers_div = document.getElementById('compose-headers-div');
 

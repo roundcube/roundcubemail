@@ -77,6 +77,5 @@ $messages['movingmessage'] = 'Po lëviz mesazhin...';
 $messages['receiptsent'] = 'U dërgua me sukses një njoftim leximi';
 $messages['errorsendingreceipt'] = 'Nuk mund të dërgohet njoftimi';
 $messages['nodeletelastidentity'] = 'Ju nuk mund ta fshini këtë identitet sepse nuk ju ka mbetur tjetër.';
-$messages['addsubfolderhint'] = 'Kjo kuti do të krijohet si një nënkuti e asaj që është e zgjedhur';
 
 ?>

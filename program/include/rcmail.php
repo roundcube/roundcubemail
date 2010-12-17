@@ -678,10 +678,16 @@ class rcmail
         $username .= '@'.rcube_parse_host($config['username_domain']);
     }
 
+    // Convert username to lowercase. If IMAP backend
+    // is case-insensitive we need to store always the same username (#1487113)
+    if ($config['login_lc']) {
+      $username = mb_strtolower($username);
+    }
+
     // try to resolve email address from virtuser table
-    if (strpos($username, '@'))
-      if ($virtuser = rcube_user::email2user($username))
-        $username = $virtuser;
+    if (strpos($username, '@') && ($virtuser = rcube_user::email2user($username))) {
+      $username = $virtuser;
+    }
 
     // Here we need IDNA ASCII
     // Only rcube_contacts class is using domain names in Unicode
@@ -704,8 +710,14 @@ class rcmail
     if (!($imap_login = $this->imap->connect($host, $username, $pass, $imap_port, $imap_ssl))) {
       // try with lowercase
       $username_lc = mb_strtolower($username);
-      if ($username_lc != $username && ($imap_login = $this->imap->connect($host, $username_lc, $pass, $imap_port, $imap_ssl)))
-        $username = $username_lc;
+      if ($username_lc != $username) {
+        // try to find user record again -> overwrite username
+        if (!$user && ($user = rcube_user::query($username_lc, $host)))
+          $username_lc = $user->data['username'];
+
+        if ($imap_login = $this->imap->connect($host, $username_lc, $pass, $imap_port, $imap_ssl))
+          $username = $username_lc;
+      }
     }
 
     // exit if IMAP login failed
@@ -1203,8 +1215,14 @@ class rcmail
     if (function_exists('mcrypt_module_open') &&
         ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, "")))
     {
-      $iv = substr($cipher, 0, mcrypt_enc_get_iv_size($td));
-      $cipher = substr($cipher, mcrypt_enc_get_iv_size($td));
+      $iv_size = mcrypt_enc_get_iv_size($td);
+      $iv = substr($cipher, 0, $iv_size);
+
+      // session corruption? (#1485970)
+      if (strlen($iv) < $iv_size)
+        return '';
+
+      $cipher = substr($cipher, $iv_size);
       mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
       $clear = mdecrypt_generic($td, $cipher);
       mcrypt_generic_deinit($td);

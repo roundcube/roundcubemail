@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 0.5-beta                                                        |
+ | Version 0.5-rc                                                          |
  |                                                                         |
  | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                   |
  |                                                                         |
@@ -77,16 +77,14 @@ $RCMAIL->action = $startup['action'];
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   // purge the session in case of new login when a session already exists 
   $RCMAIL->kill_session();
-  
+
   $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
     'host' => $RCMAIL->autoselect_host(),
     'user' => trim(get_input_value('_user', RCUBE_INPUT_POST)),
+    'pass' => get_input_value('_pass', RCUBE_INPUT_POST, true,
+       $RCMAIL->config->get('password_charset', 'ISO-8859-1')),
     'cookiecheck' => true,
   ));
-  
-  if (!isset($auth['pass']))
-    $auth['pass'] = get_input_value('_pass', RCUBE_INPUT_POST, true,
-        $RCMAIL->config->get('password_charset', 'ISO-8859-1'));
 
   // check if client supports cookies
   if ($auth['cookiecheck'] && empty($_COOKIE)) {
@@ -220,16 +218,15 @@ $action_map = array(
     'group-addmembers' => 'groups.inc',
     'group-delmembers' => 'groups.inc',
   ),
-  
+
   'settings' => array(
-    'folders'       => 'manage_folders.inc',
-    'create-folder' => 'manage_folders.inc',
-    'rename-folder' => 'manage_folders.inc',
-    'delete-folder' => 'manage_folders.inc',
-    'subscribe'     => 'manage_folders.inc',
-    'unsubscribe'   => 'manage_folders.inc',
-    'enable-threading'  => 'manage_folders.inc',
-    'disable-threading' => 'manage_folders.inc',
+    'folders'       => 'folders.inc',
+    'rename-folder' => 'folders.inc',
+    'delete-folder' => 'folders.inc',
+    'subscribe'     => 'folders.inc',
+    'unsubscribe'   => 'folders.inc',
+    'purge'         => 'folders.inc',
+    'folder-size'   => 'folders.inc',
     'add-identity'  => 'edit_identity.inc',
   )
 );

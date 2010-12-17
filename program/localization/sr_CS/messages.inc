@@ -77,6 +77,5 @@ $messages['movingmessage'] = 'Премештам поруку...';
 $messages['receiptsent'] = 'Успешно послато обавештење о приспећу';
 $messages['errorsendingreceipt'] = 'Неуспело слање обавештења о приспећу';
 $messages['nodeletelastidentity'] = 'Не можете обрисати овај идентитет, он Вам је последњи.';
-$messages['addsubfolderhint'] = 'Ова фасцикла ће бити креирана као подфасцикла тренутне';
 
 ?>

@@ -5,7 +5,7 @@
  *
  * Sample plugin to replace emoticons in plain text message body with real icons
  *
- * @version 1.2.0
+ * @version 1.3
  * @author Thomas Bruederli
  * @author Aleksander Machniak
  * @website http://roundcube.net
@@ -35,38 +35,30 @@ class emoticons extends rcube_plugin
 
         // map of emoticon replacements
         $map = array(
-            '/:\)/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-smile.gif',
-                'title' => ':)'
-            )),
-            '/:-\)/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-smile.gif',
-                'title' => ':-)'
-            )),
-            '/(?<!mailto):D/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-laughing.gif',
-                'title' => ':D'
-            )),
-            '/:-D/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-laughing.gif',
-                'title' => ':-D'
-            )),
-            '/:\(/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-frown.gif',
-                'title' => ':('
-            )),
-            '/:-\(/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-frown.gif',
-                'title' => ':-('
-            )),
-            '/'.$entity.';\)/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-wink.gif',
-                'title' => ';)'
-            )),
-            '/'.$entity.';-\)/' => html::img(array(
-                'src'   => './program/js/tiny_mce/plugins/emotions/img/smiley-wink.gif',
-                'title' => ';-)'
-            )),
+            '/:\)/'             => $this->img_tag('smiley-smile.gif',       ':)'    ),
+            '/:-\)/'            => $this->img_tag('smiley-smile.gif',       ':-)'   ),
+            '/(?<!mailto):D/'   => $this->img_tag('smiley-laughing.gif',    ':D'    ),
+            '/:-D/'             => $this->img_tag('smiley-laughing.gif',    ':-D'   ),
+            '/:\(/'             => $this->img_tag('smiley-frown.gif',       ':('    ),
+            '/:-\(/'            => $this->img_tag('smiley-frown.gif',       ':-('   ),
+            '/'.$entity.';\)/'  => $this->img_tag('smiley-wink.gif',        ';)'    ),
+            '/'.$entity.';-\)/' => $this->img_tag('smiley-wink.gif',        ';-)'   ),
+            '/8\)/'             => $this->img_tag('smiley-cool.gif',        '8)'    ),
+            '/8-\)/'            => $this->img_tag('smiley-cool.gif',        '8-)'   ),
+            '/(?<!mailto):O/i'  => $this->img_tag('smiley-surprised.gif',   ':O'    ),
+            '/(?<!mailto):-O/i' => $this->img_tag('smiley-surprised.gif',   ':-O'   ),
+            '/(?<!mailto):P/i'  => $this->img_tag('smiley-tongue-out.gif',  ':P'    ),
+            '/(?<!mailto):-P/i' => $this->img_tag('smiley-tongue-out.gif',  ':-P'   ),
+            '/(?<!mailto):@/i'  => $this->img_tag('smiley-yell.gif',        ':@'    ),
+            '/(?<!mailto):-@/i' => $this->img_tag('smiley-yell.gif',        ':-@'   ),
+            '/O:\)/i'           => $this->img_tag('smiley-innocent.gif',    'O:)'   ),
+            '/O:-\)/i'          => $this->img_tag('smiley-innocent.gif',    'O:-)'  ),
+            '/(?<!mailto):$/'   => $this->img_tag('smiley-embarassed.gif',  ':$'    ),
+            '/(?<!mailto):-$/'  => $this->img_tag('smiley-embarassed.gif',  ':-$'   ),
+            '/(?<!mailto):\*/i'  => $this->img_tag('smiley-kiss.gif',       ':*'    ),
+            '/(?<!mailto):-\*/i' => $this->img_tag('smiley-kiss.gif',       ':-*'   ),
+            '/(?<!mailto):S/i'  => $this->img_tag('smiley-undecided.gif',   ':S'    ),
+            '/(?<!mailto):-S/i' => $this->img_tag('smiley-undecided.gif',   ':-S'   ),
         );
 
         if ($args['type'] == 'plain') {
@@ -77,4 +69,9 @@ class emoticons extends rcube_plugin
         return $args;
     }
 
+    private function img_tag($ico, $title)
+    { 
+        $path = './program/js/tiny_mce/plugins/emotions/img/';
+        return html::img(array('src' => $path.$ico, 'title' => $title));
+    }
 }

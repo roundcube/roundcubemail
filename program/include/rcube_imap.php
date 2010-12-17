@@ -100,6 +100,16 @@ class rcube_imap
         'RETURN-PATH',
     );
 
+    const UNKNOWN       = 0;
+    const NOPERM        = 1;
+    const READONLY      = 2;
+    const TRYCREATE     = 3;
+    const INUSE         = 4;
+    const OVERQUOTA     = 5;
+    const ALREADYEXISTS = 6;
+    const NONEXISTENT   = 7;
+    const CONTACTADMIN  = 8;
+
 
     /**
      * Object constructor
@@ -156,21 +166,20 @@ class rcube_imap
         $this->ssl  = $use_ssl;
 
         if ($this->conn->connected()) {
-            // print trace messages
-            if ($this->conn->message && ($this->debug_level & 8)) {
-                console($this->conn->message);
-            }
             // get namespace and delimiter
             $this->set_env();
-
             return true;
         }
         // write error log
         else if ($this->conn->error) {
-            if ($pass && $user)
+            if ($pass && $user) {
+                $message = sprintf("Login failed for %s from %s. %s",
+                    $user, rcmail_remote_ip(), $this->conn->error);
+
                 raise_error(array('code' => 403, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => $this->conn->error), true, false);
+                    'message' => $message), true, false);
+            }
         }
 
         return false;
@@ -185,7 +194,7 @@ class rcube_imap
      */
     function close()
     {
-        $this->conn->close();
+        $this->conn->closeConnection();
         $this->write_cache();
     }
 
@@ -198,11 +207,11 @@ class rcube_imap
      */
     function reconnect()
     {
-        $this->close();
-        $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
+        $this->conn->closeConnection();
+        $connected = $this->connect($this->host, $this->user, $this->pass, $this->port, $this->ssl);
 
         // issue SELECT command to restore connection status
-        if ($this->mailbox)
+        if ($connected && strlen($this->mailbox))
             $this->conn->select($this->mailbox);
     }
 
@@ -225,7 +234,51 @@ class rcube_imap
      */
     function get_error_str()
     {
-        return ($this->conn) ? $this->conn->error : '';
+        return ($this->conn) ? $this->conn->error : null;
+    }
+
+
+    /**
+     * Returns code of last command response
+     *
+     * @return int Response code
+     */
+    function get_response_code()
+    {
+        if (!$this->conn)
+            return self::UNKNOWN;
+
+        switch ($this->conn->resultcode) {
+            case 'NOPERM':
+                return self::NOPERM;
+            case 'READ-ONLY':
+                return self::READONLY;
+            case 'TRYCREATE':
+                return self::TRYCREATE;
+            case 'INUSE':
+                return self::INUSE;
+            case 'OVERQUOTA':
+                return self::OVERQUOTA;
+            case 'ALREADYEXISTS':
+                return self::ALREADYEXISTS;
+            case 'NONEXISTENT':
+                return self::NONEXISTENT;
+            case 'CONTACTADMIN':
+                return self::CONTACTADMIN;
+            default:
+                return self::UNKNOWN;
+        }
+    }
+
+
+    /**
+     * Returns last command response
+     *
+     * @return string Response
+     */
+    function get_response_str()
+    {
+        return ($this->conn) ? $this->conn->result : null;
     }
 
 
@@ -300,9 +353,9 @@ class rcube_imap
      * @param  string $mailbox Mailbox/Folder name
      * @access public
      */
-    function select_mailbox($mailbox)
+    function select_mailbox($mailbox=null)
     {
-        $mailbox = $this->mod_mailbox($mailbox);
+        $mailbox = strlen($mailbox) ? $this->mod_mailbox($mailbox) : $this->mailbox;
 
         $selected = $this->conn->select($mailbox);
 
@@ -493,56 +546,56 @@ class rcube_imap
         $imap_shared    = $config->get('imap_ns_shared');
         $imap_delimiter = $config->get('imap_delimiter');
 
-        if ($imap_delimiter) {
-            $this->delimiter = $imap_delimiter;
-        }
-
         if (!$this->conn)
             return;
 
         $ns = $this->conn->getNamespace();
 
-        // NAMESPACE supported
+        // Set namespaces (NAMESPACE supported)
         if (is_array($ns)) {
             $this->namespace = $ns;
-
-            if (empty($this->delimiter))
-                $this->delimiter = $ns['personal'][0][1];
-            if (empty($this->delimiter))
-                $this->delimiter = $this->conn->getHierarchyDelimiter();
-            if (empty($this->delimiter))
-                $this->delimiter = '/';
         }
-        // not supported, get namespace from config
-        else if ($imap_personal !== null || $imap_shared !== null || $imap_other !== null) {
-            if (empty($this->delimiter))
-                $this->delimiter = $this->conn->getHierarchyDelimiter();
-            if (empty($this->delimiter))
-                $this->delimiter = '/';
-
+        else {
             $this->namespace = array(
                 'personal' => NULL,
                 'other'    => NULL,
                 'shared'   => NULL,
             );
+        }
 
-            if ($imap_personal !== null) {
-                foreach ((array)$imap_personal as $dir) {
-                    $this->namespace['personal'][] = array($dir, $this->delimiter);
+        if ($imap_delimiter) {
+            $this->delimiter = $imap_delimiter;
+        }
+        if (empty($this->delimiter)) {
+            $this->delimiter = $this->namespace['personal'][0][1];
+        }
+        if (empty($this->delimiter)) {
+            $this->delimiter = $this->conn->getHierarchyDelimiter();
+        }
+        if (empty($this->delimiter)) {
+            $this->delimiter = '/';
+        }
+
+        // Overwrite namespaces
+        if ($imap_personal !== null) {
+            $this->namespace['personal'] = NULL;
+            foreach ((array)$imap_personal as $dir) {
+                $this->namespace['personal'][] = array($dir, $this->delimiter);
+            }
+        }
+        if ($imap_other !== null) {
+            $this->namespace['other'] = NULL;
+            foreach ((array)$imap_other as $dir) {
+                if ($dir) {
+                    $this->namespace['other'][] = array($dir, $this->delimiter);
                 }
             }
-            if ($imap_other !== null) {
-                foreach ((array)$imap_other as $dir) {
-                    if ($dir) {
-                        $this->namespace['other'][] = array($dir, $this->delimiter);
-                    }
-                }
-            }
-            if ($imap_shared !== null) {
-                foreach ((array)$imap_shared as $dir) {
-                    if ($dir) {
-                        $this->namespace['shared'][] = array($dir, $this->delimiter);
-                    }
+        }
+        if ($imap_shared !== null) {
+            $this->namespace['shared'] = NULL;
+            foreach ((array)$imap_shared as $dir) {
+                if ($dir) {
+                    $this->namespace['shared'][] = array($dir, $this->delimiter);
                 }
             }
         }
@@ -617,7 +670,7 @@ class rcube_imap
         }
         // RECENT count is fetched a bit different
         else if ($mode == 'RECENT') {
-            $count = $this->conn->checkForRecent($mailbox);
+            $count = $this->conn->countRecent($mailbox);
         }
         // use SEARCH for message counting
         else if ($this->skip_deleted) {
@@ -2376,20 +2429,21 @@ class rcube_imap
 
         // TODO: Add caching for message parts
 
-        if (!$part) $part = 'TEXT';
+        if (!$part) {
+            $part = 'TEXT';
+        }
 
         $body = $this->conn->handlePartBody($this->mailbox, $uid, true, $part,
             $o_part->encoding, $print, $fp);
 
-        if ($fp || $print)
+        if ($fp || $print) {
             return true;
+        }
 
-        // convert charset (if text or message part)
-        if ($body && ($o_part->ctype_primary == 'text' || $o_part->ctype_primary == 'message')) {
-            // assume default if no charset specified
-            if (empty($o_part->charset) || strtolower($o_part->charset) == 'us-ascii')
-                $o_part->charset = $this->default_charset;
-
+        // convert charset (if text or message part) and part's charset is specified
+        if ($body && $o_part->charset
+            && preg_match('/^(text|message)$/', $o_part->ctype_primary)
+        ) {
             $body = rcube_charset_convert($body, $o_part->charset);
         }
 
@@ -2552,6 +2606,9 @@ class rcube_imap
         $tbox = $to_mbox;
         $to_mbox = $this->mod_mailbox($to_mbox);
         $from_mbox = strlen($from_mbox) ? $this->mod_mailbox($from_mbox) : $this->mailbox;
+
+        if ($to_mbox === $from_mbox)
+            return false;
 
         list($uids, $all_mode) = $this->_parse_uids($uids, $from_mbox);
 
@@ -2771,7 +2828,23 @@ class rcube_imap
         else
             $a_uids = NULL;
 
-        $result = $this->conn->expunge($mailbox, $a_uids);
+        // force mailbox selection and check if mailbox is writeable
+        // to prevent a situation when CLOSE is executed on closed
+        // or EXPUNGE on read-only mailbox
+        $result = $this->conn->select($mailbox);
+        if (!$result) {
+            return false;
+        }
+        if (!$this->conn->data['READ-WRITE']) {
+            $this->conn->setError(rcube_imap_generic::ERROR_READONLY, "Mailbox is read-only");
+            return false;
+        }
+
+        // CLOSE(+SELECT) should be faster than EXPUNGE
+        if (empty($a_uids) || $a_uids == '1:*')
+            $result = $this->conn->close();
+        else
+            $result = $this->conn->expunge($mailbox, $a_uids);
 
         if ($result && $clear_cache) {
             $this->clear_message_cache($mailbox.'.msg');
@@ -3009,6 +3082,26 @@ class rcube_imap
 
 
     /**
+     * Get mailbox size (size of all messages in a mailbox)
+     *
+     * @param string $name Mailbox name
+     * @return int Mailbox size in bytes, False on error
+     */
+    function get_mailbox_size($name)
+    {
+        $name = $this->mod_mailbox($name);
+
+        // @TODO: could we try to use QUOTA here?
+        $result = $this->conn->fetchHeaderIndex($name, '1:*', 'SIZE', false);
+
+        if (is_array($result))
+            $result = array_sum($result);
+
+        return $result;
+    }
+
+
+    /**
      * Subscribe to a specific mailbox(es)
      *
      * @param array $a_mboxes Mailbox name(s)
@@ -3043,130 +3136,120 @@ class rcube_imap
     /**
      * Create a new mailbox on the server and register it in local cache
      *
-     * @param string  $name      New mailbox name (as utf-7 string)
+     * @param string  $name      New mailbox name
      * @param boolean $subscribe True if the new mailbox should be subscribed
-     * @param string  Name of the created mailbox, false on error
+     * @param boolean True on success
      */
     function create_mailbox($name, $subscribe=false)
     {
-        $result = false;
-
-        // reduce mailbox name to 100 chars
-        $name = substr($name, 0, 100);
+        $result   = false;
         $abs_name = $this->mod_mailbox($name);
-        $result = $this->conn->createFolder($abs_name);
+        $result   = $this->conn->createFolder($abs_name);
 
         // try to subscribe it
         if ($result && $subscribe)
             $this->subscribe($name);
 
-        return $result ? $name : false;
+        return $result;
     }
 
 
     /**
      * Set a new name to an existing mailbox
      *
-     * @param string $mbox_name Mailbox to rename (as utf-7 string)
-     * @param string $new_name  New mailbox name (as utf-7 string)
-     * @return string Name of the renames mailbox, False on error
+     * @param string $mbox_name Mailbox to rename
+     * @param string $new_name  New mailbox name
+     *
+     * @return boolean True on success
      */
     function rename_mailbox($mbox_name, $new_name)
     {
         $result = false;
 
-        // encode mailbox name and reduce it to 100 chars
-        $name = substr($new_name, 0, 100);
-
         // make absolute path
-        $mailbox = $this->mod_mailbox($mbox_name);
-        $abs_name = $this->mod_mailbox($name);
+        $mailbox  = $this->mod_mailbox($mbox_name);
+        $abs_name = $this->mod_mailbox($new_name);
+        $delm     = $this->get_hierarchy_delimiter();
 
-        // check if mailbox is subscribed
-        $a_subscribed = $this->_list_mailboxes();
-        $subscribed = in_array($mailbox, $a_subscribed);
-
-        // unsubscribe folder
-        if ($subscribed)
-            $this->conn->unsubscribe($mailbox);
+        // get list of subscribed folders
+        if ((strpos($mailbox, '%') === false) && (strpos($mailbox, '*') === false)) {
+            $a_subscribed = $this->_list_mailboxes('', $mbox_name . $delm . '*');
+            $subscribed   = $this->mailbox_exists($mbox_name, true);
+        }
+        else {
+            $a_subscribed = $this->_list_mailboxes();
+            $subscribed   = in_array($mailbox, $a_subscribed);
+        }
 
         if (strlen($abs_name))
             $result = $this->conn->renameFolder($mailbox, $abs_name);
 
         if ($result) {
-            $delm = $this->get_hierarchy_delimiter();
+            // unsubscribe the old folder, subscribe the new one
+            if ($subscribed) {
+                $this->conn->unsubscribe($mailbox);
+                $this->conn->subscribe($abs_name);
+            }
 
             // check if mailbox children are subscribed
-            foreach ($a_subscribed as $c_subscribed)
+            foreach ($a_subscribed as $c_subscribed) {
                 if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_subscribed)) {
                     $this->conn->unsubscribe($c_subscribed);
                     $this->conn->subscribe(preg_replace('/^'.preg_quote($mailbox, '/').'/',
                         $abs_name, $c_subscribed));
                 }
+            }
 
             // clear cache
             $this->clear_message_cache($mailbox.'.msg');
             $this->clear_cache('mailboxes');
         }
 
-        // try to subscribe it
-        if ($result && $subscribed)
-            $this->conn->subscribe($abs_name);
-
-        return $result ? $name : false;
+        return $result;
     }
 
 
     /**
-     * Remove mailboxes from server
+     * Remove mailbox from server
      *
-     * @param string|array $mbox_name sMailbox name(s) string/array
+     * @param string $mbox_name Mailbox name
+     *
      * @return boolean True on success
      */
     function delete_mailbox($mbox_name)
     {
-        $deleted = false;
+        $result  = false;
+        $mailbox = $this->mod_mailbox($mbox_name);
+        $delm    = $this->get_hierarchy_delimiter();
 
-        if (is_array($mbox_name))
-            $a_mboxes = $mbox_name;
-        else if (is_string($mbox_name) && strlen($mbox_name))
-            $a_mboxes = explode(',', $mbox_name);
+        // get list of folders
+        if ((strpos($mailbox, '%') === false) && (strpos($mailbox, '*') === false))
+            $sub_mboxes = $this->list_unsubscribed('', $mailbox . $delm . '*');
+        else
+            $sub_mboxes = $this->list_unsubscribed();
 
-        if (is_array($a_mboxes)) {
-            $delimiter = $this->get_hierarchy_delimiter();
-        
-            foreach ($a_mboxes as $mbox_name) {
-                $mailbox = $this->mod_mailbox($mbox_name);
-                $sub_mboxes = $this->conn->listMailboxes('', $mbox_name . $delimiter . '*');
+        // send delete command to server
+        $result = $this->conn->deleteFolder($mailbox);
 
-                // unsubscribe mailbox before deleting
-                $this->conn->unsubscribe($mailbox);
+        if ($result) {
+            // unsubscribe mailbox
+            $this->conn->unsubscribe($mailbox);
 
-                // send delete command to server
-                $result = $this->conn->deleteFolder($mailbox);
-                if ($result) {
-                    $deleted = true;
-                    $this->clear_message_cache($mailbox.'.msg');
-	            }
-
-                foreach ($sub_mboxes as $c_mbox) {
-                    if ($c_mbox != 'INBOX') {
-                        $this->conn->unsubscribe($c_mbox);
-                        $result = $this->conn->deleteFolder($c_mbox);
-                        if ($result) {
-                            $deleted = true;
-    	                    $this->clear_message_cache($c_mbox.'.msg');
-                        }
+            foreach ($sub_mboxes as $c_mbox) {
+                if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_mbox)) {
+                    $this->conn->unsubscribe($c_mbox);
+                    if ($this->conn->deleteFolder($c_mbox)) {
+	                    $this->clear_message_cache($c_mbox.'.msg');
                     }
                 }
             }
+
+            // clear mailbox-related cache
+            $this->clear_message_cache($mailbox.'.msg');
+            $this->clear_cache('mailboxes');
         }
 
-        // clear mailboxlist cache
-        if ($deleted)
-            $this->clear_cache('mailboxes');
-
-        return $deleted;
+        return $result;
     }
 
 
@@ -3208,7 +3291,7 @@ class rcube_imap
         }
         else {
             $a_folders = $this->conn->listMailboxes('', $mbox);
-       }
+        }
 
         if (is_array($a_folders) && in_array($mbox, $a_folders)) {
             $this->icache[$key][] = $mbox;

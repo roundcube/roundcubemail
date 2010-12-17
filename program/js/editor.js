@@ -71,8 +71,10 @@ function rcmail_editor_callback()
   if (elem && elem.type == 'select-one') {
     rcmail.change_identity(elem);
     // Focus previously focused element
-    if (fe && fe.id != rcmail.env.composebody)
+    if (fe && fe.id != rcmail.env.composebody) {
+      window.focus(); // for WebKit (#1486674)
       fe.focus();
+    }
   }
 
   // set tabIndex and set focus to element that was focused before

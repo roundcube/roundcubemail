@@ -78,18 +78,12 @@
                 <label for="_replyto"><roundcube:label name="replyto" /></label>
             </td>
             <td class="editfield"><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" /></td>
-        </tr><tr id="compose-mailreplyto">
+        </tr><tr id="compose-followupto">
             <td class="title top">
-                <a href="#mailreplyto" onclick="return rcmail_ui.hide_header_form('mailreplyto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
-                <label for="_mailreplyto"><roundcube:label name="mailreplyto" /></label>
+                <a href="#followupto" onclick="return rcmail_ui.hide_header_form('followupto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
+                <label for="_followupto"><roundcube:label name="followupto" /></label>
             </td>
-            <td class="editfield"><roundcube:object name="composeHeaders" part="mailreplyto" form="form" id="_mailreplyto" size="70" tabindex="6" /></td>
-        </tr><tr id="compose-mailfollowupto">
-            <td class="title top">
-                <a href="#mailfollowupto" onclick="return rcmail_ui.hide_header_form('mailfollowupto');"><img src="/images/icons/minus.gif" alt="" title="<roundcube:label name='delete' />" /></a>
-                <label for="_mailfollowupto"><roundcube:label name="mailfollowupto" /></label>
-            </td>
-            <td class="editfield"><roundcube:object name="composeHeaders" part="mailfollowupto" form="form" id="_mailfollowupto" size="70" tabindex="7" /></td>
+            <td class="editfield"><roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="7" /></td>
         </tr><tr>
             <td></td>
             <td class="formlinks">
@@ -99,9 +93,7 @@
                 <span class="separator">|</span>
                 <a href="#reply-to" onclick="return rcmail_ui.show_header_form('replyto')" id="replyto-link"><roundcube:label name="addreplyto" /></a>
                 <span class="separator">|</span>
-                <a href="#mailreply-to" onclick="return rcmail_ui.show_header_form('mailreplyto')" id="mailreplyto-link"><roundcube:label name="addmailreplyto" /></a>
-                <span class="separator">|</span>
-                <a href="#mailfollowup-to" onclick="return rcmail_ui.show_header_form('mailfollowupto')" id="mailfollowupto-link"><roundcube:label name="addmailfollowupto" /></a>
+                <a href="#followup-to" onclick="return rcmail_ui.show_header_form('followupto')" id="followupto-link"><roundcube:label name="addfollowupto" /></a>
             </td>
         </tr><tr>
             <td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>

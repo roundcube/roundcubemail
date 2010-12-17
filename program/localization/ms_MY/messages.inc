@@ -77,6 +77,5 @@ $messages['movingmessage'] = 'Memindah mesej...';
 $messages['receiptsent'] = 'Berjaya menghantar resip bacaan';
 $messages['errorsendingreceipt'] = 'Tidak dapat menghantar resip';
 $messages['nodeletelastidentity'] = 'Anda tidak boleh membuang identiti ini, ia milik anda yang terakhir.';
-$messages['addsubfolderhint'] = 'Folder ini akan dibina sebagai subfolder kepada folder yang dipilih sekarang';
 
 ?>

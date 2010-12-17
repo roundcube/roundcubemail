@@ -33,7 +33,7 @@ if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
 
     if (!$copied) {
         // send error message
-        $OUTPUT->show_message('errorcopying', 'error');
+        rcmail_display_server_error('errorcopying');
         $OUTPUT->send();
         exit;
     }
@@ -52,5 +52,3 @@ else {
 
 // send response
 $OUTPUT->send();
-
-

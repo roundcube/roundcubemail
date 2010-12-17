@@ -33,7 +33,7 @@ function password_save($curpass, $passwd)
 
     if ($err = $db->is_error())
         return PASSWORD_ERROR;
-    
+
     // crypted password
     if (strpos($sql, '%c') !== FALSE) {
         $salt = '';
@@ -56,7 +56,11 @@ function password_save($curpass, $passwd)
             $dovecotpw = 'dovecotpw';
         if (!($method = $rcmail->config->get('password_dovecotpw_method')))
             $method = 'CRAM-MD5';
-        $tmpfile = tempnam('/tmp', 'roundcube-');
+
+        // use common temp dir
+        $tmp_dir = $rcmail->config->get('temp_dir');
+        $tmpfile = tempnam($tmp_dir, 'roundcube-');
+
         $pipe = popen("'$dovecotpw' -s '$method' > '$tmpfile'", "w");
         if (!$pipe) {
             unlink($tmpfile);

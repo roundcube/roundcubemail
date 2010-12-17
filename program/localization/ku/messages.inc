@@ -74,6 +74,5 @@ $messages['movingmessage'] = 'Ciyê peyamê tê guhertin...';
 $messages['receiptsent'] = 'Rapora şandina serkeftî';
 $messages['errorsendingreceipt'] = 'Rapor nehat şandin';
 $messages['nodeletelastidentity'] = 'Nikarî vê nasnameyê jê bibî. Ew ya dawî ye.';
-$messages['addsubfolderhint'] = 'Ev peldank wê wekî binepeldanka ya heyî bê afirandin';
 
 ?>

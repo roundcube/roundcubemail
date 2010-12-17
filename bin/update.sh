@@ -80,7 +80,7 @@ if ($RCI->configured) {
         // Success!
         if ($write1 && $write2) {
           echo "Done.\n";
-          echo "Your configuration files are now up-tp-date!\n";
+          echo "Your configuration files are now up-to-date!\n";
         }
         else {
           echo "Failed to write config files!\n";

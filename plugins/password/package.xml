@@ -29,6 +29,10 @@
 	<notes>
 - hMail driver: add username_domain detection (#1487100)
 - hMail driver: HTML tags in logged messages should be stripped off (#1487099)
+- Chpasswd driver: add newline at end of input to chpasswd binary (#1487141)
+- Fix usage of configured temp_dir instead of /tmp (#1487447)
+- ldap_simple driver: fix parse error
+- ldap/ldap_simple drivers: support %dc variable in config
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">

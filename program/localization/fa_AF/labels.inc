@@ -287,9 +287,6 @@ $labels['subscribed']  = 'مشترک ';
 $labels['messagecount'] = 'پيغام ها ';
 $labels['create']  = 'ایجاد کردن';
 $labels['createfolder']  = 'ایجاد پوشه جدید';
-$labels['rename'] = 'تغيير نام ';
-$labels['renamefolder'] = 'تغييرنام پوشه ';
-$labels['deletefolder']  = 'حذف کردن پوشه ';
 $labels['managefolders']  = 'اداره کردن پوشه ها ';
 $labels['specialfolders'] = 'پوشه های مخصوص';
 

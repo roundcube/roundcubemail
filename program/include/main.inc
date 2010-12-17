@@ -1193,21 +1193,33 @@ function rcmail_log_login()
   if (!$RCMAIL->config->get('log_logins') || !$RCMAIL->user)
     return;
 
-  $address = $_SERVER['REMOTE_ADDR'];
-  // append the NGINX X-Real-IP header, if set
-  if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-    $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
-  }
-  // append the X-Forwarded-For header, if set
-  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
-  }
-
-  if (!empty($remote_ip))
-    $address .= '(' . implode(',', $remote_ip) . ')';
-
   write_log('userlogins', sprintf('Successful login for %s (ID: %d) from %s',
-    $RCMAIL->user->get_username(), $RCMAIL->user->ID, $address));
+    $RCMAIL->user->get_username(), $RCMAIL->user->ID, rcmail_remote_ip()));
+}
+
+
+/**
+ * Returns remote IP address and forwarded addresses if found
+ *
+ * @return string Remote IP address(es)
+ */
+function rcmail_remote_ip()
+{
+    $address = $_SERVER['REMOTE_ADDR'];
+
+    // append the NGINX X-Real-IP header, if set
+    if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
+    }
+    // append the X-Forwarded-For header, if set
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+
+    if (!empty($remote_ip))
+        $address .= '(' . implode(',', $remote_ip) . ')';
+
+    return $address;
 }
 
 
@@ -1219,7 +1231,7 @@ function rcube_timer()
 {
   return microtime(true);
 }
-  
+
 
 /**
  * @access private
@@ -1314,8 +1326,13 @@ function rcmail_mailbox_select($p = array())
   
   $p += array('maxlength' => 100, 'realnames' => false);
   $a_mailboxes = array();
-  
-  foreach ($RCMAIL->imap->list_mailboxes() as $folder)
+
+  if ($p['unsubscribed'])
+    $list = $RCMAIL->imap->list_unsubscribed();
+  else
+    $list = $RCMAIL->imap->list_mailboxes();
+
+  foreach ($list as $folder)
     if (empty($p['exceptions']) || !in_array($folder, $p['exceptions']))
       rcmail_build_folder_tree($a_mailboxes, $folder, $RCMAIL->imap->get_hierarchy_delimiter());
 
@@ -1551,6 +1568,97 @@ function rcmail_localize_foldername($name)
 }
 
 
+function rcmail_quota_display($attrib)
+{
+  global $OUTPUT;
+
+  if (!$attrib['id'])
+    $attrib['id'] = 'rcmquotadisplay';
+
+  if(isset($attrib['display']))
+    $_SESSION['quota_display'] = $attrib['display'];
+
+  $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
+
+  $quota = rcmail_quota_content($attrib);
+
+  $OUTPUT->add_script('$(document).ready(function(){
+	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
+
+  return html::span($attrib, '');
+}
+
+
+function rcmail_quota_content($attrib=NULL)
+{
+  global $RCMAIL;
+
+  $quota = $RCMAIL->imap->get_quota();
+  $quota = $RCMAIL->plugins->exec_hook('quota', $quota);
+
+  $quota_result = (array) $quota;
+  $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
+
+  if (!$quota['total'] && $RCMAIL->config->get('quota_zero_as_unlimited')) {
+    $quota_result['title'] = rcube_label('unlimited');
+    $quota_result['percent'] = 0;
+  }
+  else if ($quota['total']) {
+    if (!isset($quota['percent']))
+      $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
+
+    $title = sprintf('%s / %s (%.0f%%)',
+        show_bytes($quota['used'] * 1024), show_bytes($quota['total'] * 1024),
+        $quota_result['percent']);
+
+    $quota_result['title'] = $title;
+
+    if ($attrib['width'])
+      $quota_result['width'] = $attrib['width'];
+    if ($attrib['height'])
+      $quota_result['height']	= $attrib['height'];
+  }
+  else {
+    $quota_result['title'] = rcube_label('unknown');
+    $quota_result['percent'] = 0;
+  }
+
+  return $quota_result;
+}
+
+
+/**
+ * Outputs error message according to server error/response codes
+ *
+ * @param string Fallback message label
+ * @param string Fallback message label arguments
+ *
+ * @return void
+ */
+function rcmail_display_server_error($fallback=null, $fallback_args=null)
+{
+    global $RCMAIL;
+
+    $err_code = $RCMAIL->imap->get_error_code();
+    $res_code = $RCMAIL->imap->get_response_code();
+
+    if ($res_code == rcube_imap::NOPERM) {
+        $RCMAIL->output->show_message('errornoperm', 'error');
+    }
+    else if ($res_code == rcube_imap::READONLY) {
+        $RCMAIL->output->show_message('errorreadonly', 'error');
+    }
+    else if ($err_code && ($err_str = $RCMAIL->imap->get_error_str())) {
+        $RCMAIL->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
+    }
+    else if ($fallback) {
+        $RCMAIL->output->show_message($fallback, 'error', $fallback_args);
+    }
+
+    return true;
+}
+
+
 /**
  * Output HTML editor scripts
  *
@@ -1579,6 +1687,43 @@ function rcube_html_editor($mode='')
   $RCMAIL->output->add_script(sprintf("rcmail_editor_init('\$__skin_path', '%s', %d, '%s');",
     JQ($lang), intval($CONFIG['enable_spellcheck']), $mode),
     'foot');
+}
+
+
+/**
+ * Replaces TinyMCE's emoticon images with plain-text representation
+ *
+ * @param string HTML content
+ * @return string HTML content
+ */
+function rcmail_replace_emoticons($html)
+{
+  $emoticons = array(
+    '8-)' => 'smiley-cool',
+    ':-#' => 'smiley-foot-in-mouth',
+    ':-*' => 'smiley-kiss',
+    ':-X' => 'smiley-sealed',
+    ':-P' => 'smiley-tongue-out',
+    ':-@' => 'smiley-yell',
+    ":'(" => 'smiley-cry',
+    ':-(' => 'smiley-frown',
+    ':-D' => 'smiley-laughing',
+    ':-)' => 'smiley-smile',
+    ':-S' => 'smiley-undecided',
+    ':-$' => 'smiley-embarassed',
+    'O:-)' => 'smiley-innocent',
+    ':-|' => 'smiley-money-mouth',
+    ':-O' => 'smiley-surprised',
+    ';-)' => 'smiley-wink',
+  );
+
+  foreach ($emoticons as $idx => $file) {
+    // <img title="Cry" src="http://.../program/js/tiny_mce/plugins/emotions/img/smiley-cry.gif" border="0" alt="Cry" />
+    $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tiny_mce\/plugins\/emotions\/img\/'.$file.'.gif"[^>]+\/>/i';
+    $replace[] = $idx;
+  }
+
+  return preg_replace($search, $replace, $html);
 }
 
 
@@ -1817,3 +1962,4 @@ function log_bug($arg_arr)
         flush();
     }
 }
+

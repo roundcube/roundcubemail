@@ -57,9 +57,7 @@ $messages['deletecontactconfirm'] = '你確定要刪除已選擇的聯絡人？'
 $messages['deletemessagesconfirm'] = '你確定要刪除已選擇的郵件？';
 $messages['deletefolderconfirm'] = '你確定要刪除這個資料夾嗎？';
 $messages['purgefolderconfirm'] = '你確定要刪除這個資料夾裡面所有的郵件嗎？';
-$messages['foldercreating'] = '建立資料夾中...';
 $messages['folderdeleting'] = '刪除資料夾中...';
-$messages['folderrenaming'] = '重新命名資料夾中...';
 $messages['foldermoving'] = '移動資料夾中...';
 $messages['formincomplete'] = '這個表單有部分未填，請完整填寫';
 $messages['noemailwarning'] = '請輸入一個有效的電子郵件位址';
@@ -96,7 +94,6 @@ $messages['markingmessage'] = '標示訊息...';
 $messages['receiptsent'] = '閱讀回條傳送成功';
 $messages['errorsendingreceipt'] = '無法傳送回條';
 $messages['nodeletelastidentity'] = '你不能刪除此身份，因為只剩一個身份。';
-$messages['addsubfolderhint'] = '此資料夾會成為目前所選資料夾的子資料夾';
 $messages['forbiddencharacter'] = '資料夾名稱中包含非法的字元';
 $messages['selectimportfile'] = '請選擇一個上傳的檔案';
 $messages['addresswriterror'] = '無法寫入選擇的通訊錄';
@@ -129,5 +126,6 @@ $messages['messagedeleted'] = '訊息成功刪除';
 $messages['messagemoved'] = '訊息成功移動';
 $messages['messagecopied'] = '訊息成功複製';
 $messages['messagemarked'] = '訊息成功標示';
+$messages['autocompletechars'] = '輸入至少 $min 字元才能自動完成自動完成';
 
 ?>

@@ -5,39 +5,18 @@
   width: 300px;
 }
 
-#folder-manager
-{
-  position: absolute;
-  width: 600px;
-  top: 0;
-  left: 0;
-  bottom: 105px;
-  overflow: auto;
-  border: 1px solid #999999;
-}
-
 #folder-manager.droptarget
 {
   border: 1px solid #CC3333;
   background-color: #FFFFA6;
 }
 
-#listbuttons
-{
-  position: absolute;
-  left: 20px;
-  bottom: 18px;
-}
-
-#identities-table
+#identities-table,
+#subscription-table,
+#sections-table
 {
   width: 100%;
   table-layout: fixed;
-}
-
-#subscription-table
-{
-  width: 100%;
 }
 
 #subscription-table input
@@ -50,14 +29,8 @@
 #sections-table tbody td
 {
   cursor: default;
-  overflow: hidden;
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
-}
-
-#subscription-table tbody td
-{
-  height: 22px !important;
   height: 18px;
 }
 
@@ -66,49 +39,26 @@
   color: #666;
 }
 
-#subscription-table tr.selected td,
-#subscription-table tr.selected td a
+#subscription-table tr.selected td
 {
   color: #FFFFFF;
   background-color: #CC3333;
 }
 
-#subscription-table tr.droptarget td,
-#subscription-table tr.droptarget td a
+#subscription-table tr.droptarget td
 {
   background-color: #FFFFA6;
 }
 
-#subscription-table thead td.name
+#subscription-table td.name
 {
-  width: 95%;
+  width: auto;
 }
 
-#subscription-table thead td.msgcount,
-#subscription-table thead td.subscribed,
-#subscription-table thead td.threaded
+#subscription-table td.subscribed
 {
-  white-space: nowrap;
-  min-width: 50px;
-}
-
-#subscription-table tbody td.subscribed,
-#subscription-table tbody td.rename,
-#subscription-table tbody td.delete
-{
-  padding: 1px 4px;
-}
-
-#subscription-table thead td.rename,
-#subscription-table thead td.delete
-{
-  width: 30px;
-}
-
-#subscription-table td.name input
-{
-  font: inherit;
-  width: 90%;
+  text-align: right;
+  padding-right: 12px;
 }
 
 #identity-frame
@@ -118,7 +68,9 @@
   border: 1px solid #999999;
 }
 
-#identity-details
+#identity-details,
+#folder-box,
+#prefs-box
 {
   position: absolute;
   top: 0;
@@ -129,7 +81,8 @@
   background-color: #F2F2F2;
 }
 
-#identity-details table td.title
+#identity-details table td.title,
+#folder-details table td.title
 {
   font-weight: bold;
   text-align: right;
@@ -150,6 +103,7 @@ input.disabled
 }
 
 #identities-list,
+#folder-manager,
 #sectionslist
 {
   position: absolute;
@@ -161,24 +115,9 @@ input.disabled
   overflow: hidden;
 }
 
-#sections-table
-{
-  width: 100%;
-  table-layout: fixed;
-}
-
-#prefs-box
-{
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  border: 1px solid #999999;
-  overflow: hidden;
-}
-
 body.iframe,
-#prefs-frame
+#prefs-frame,
+#folder-frame
 {
   background-color: #F2F2F2;
   border: none;
@@ -202,4 +141,25 @@ body.iframe,
   white-space: nowrap;
   text-align: right;
   float: right;
+}
+
+#quota
+{
+  position: absolute;
+  top: 3px;
+  right: 8px;
+  width: 100px;
+}
+
+#quotaimg
+{
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  z-index: 101;
+}
+
+#rcmfd_signature
+{
+  font-family: monospace;
 }

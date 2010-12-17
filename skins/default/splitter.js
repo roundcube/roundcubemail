@@ -24,7 +24,7 @@ function rcube_splitter(attrib)
     // create and position the handle for this splitter
     this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
     this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
-    
+
     if (this.horizontal) {
       var top = this.p1pos.top + this.p1.offsetHeight;
       this.layer = new rcube_layer(this.id, {x: 0, y: top, height: 10, 
@@ -92,7 +92,7 @@ function rcube_splitter(attrib)
   this.onDragStart = function(e)
   {
     // disable text selection while dragging the splitter
-    if (window.webkit || bw.safari)
+    if (bw.konq || bw.chrome || bw.safari)
       document.body.style.webkitUserSelect = 'none';
 
     this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
@@ -155,7 +155,7 @@ function rcube_splitter(attrib)
   this.onDragStop = function(e)
   {
     // resume the ability to highlight text
-    if (window.webkit || bw.safari)
+    if (bw.konq || bw.chrome || bw.safari)
       document.body.style.webkitUserSelect = 'auto';
 
     // cancel the listening for drag events

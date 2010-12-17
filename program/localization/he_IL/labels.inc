@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  10112010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  09122010                |
 +-----------------------------------------------------------------------+
 */
 
@@ -36,16 +36,12 @@ $labels['to'] = 'הנמען';
 $labels['cc'] = 'לידיעה';
 $labels['bcc'] = 'מכותב מוסתר';
 $labels['replyto'] = 'כתובת למענה';
-$labels['mailreplyto'] = 'כתובת למענה';
-$labels['mailfollowupto'] = 'כתובת להעברת הודעה';
+$labels['followupto'] = 'כתובת להעברת הודעה';
 $labels['date'] = 'תאריך';
 $labels['size'] = 'גודל';
 $labels['priority'] = 'עדיפות';
 $labels['organization'] = 'ארגון';
 $labels['readstatus'] = 'נקרא';
-$labels['reply-to'] = 'כתובת למענה';
-$labels['mail-reply-to'] = 'כתובת למענה';
-$labels['mail-followup-to'] = 'כתובת להעברת הודעה';
 $labels['mailboxlist'] = 'תיקים';
 $labels['messagesfromto'] = 'הודעות $from עד $to מתוך $count';
 $labels['threadsfromto'] = 'שרשור $from עד $to מתוך $count';
@@ -199,8 +195,7 @@ $labels['maxuploadsize'] = 'גודל מקסימלי לקובץ הוא  $size';
 $labels['addcc'] = 'הוספת מכותב לידיעה';
 $labels['addbcc'] = 'הוספת מכותב נסתר';
 $labels['addreplyto'] = 'הוספת כתובת למענה';
-$labels['addmailreplyto'] = 'הוספת כתובת למענה';
-$labels['addmailfollowupto'] = 'הוספת כתובת להעברת הודעה';
+$labels['addfollowupto'] = 'הוספת כתובת להעברת הודעה';
 $labels['mdnrequest'] = 'השולח ביקש לדעת אם ההודעה נקראה. האם להודיע לשולח?';
 $labels['receiptread'] = 'אישור קבלה (נקרא)';
 $labels['yourmessage'] = 'אישור קבלה להודעתך';
@@ -328,11 +323,15 @@ $labels['subscribed'] = 'מנוי';
 $labels['messagecount'] = 'הודעות';
 $labels['create'] = 'יצירה';
 $labels['createfolder'] = 'יצירת תיק חדש';
-$labels['rename'] = 'שינוי שם';
-$labels['renamefolder'] = 'שינוי שם תיק';
-$labels['deletefolder'] = 'מחיקת תיק';
 $labels['managefolders'] = 'ניהול תיקים';
 $labels['specialfolders'] = 'תיקים מיוחדים';
+$labels['properties'] = 'מאפיינים';
+$labels['folderproperties'] = 'מאפייני תיק';
+$labels['parentfolder'] = 'תיק אב';
+$labels['location'] = 'מיקום';
+$labels['info'] = 'מידע';
+$labels['getfoldersize'] = 'הקשה להצגה של גודל תיק';
+$labels['changesubscription'] = 'הקשה לשינוי הרשמה';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';

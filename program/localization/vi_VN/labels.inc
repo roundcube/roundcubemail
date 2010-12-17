@@ -205,9 +205,6 @@ $labels['foldername']  = 'Tên thư mục';
 $labels['subscribed']  = 'Cho sử dụng';
 $labels['create']  = 'Tạo';
 $labels['createfolder']  = 'Tạo thư mục mới';
-$labels['rename'] = 'Đổi tên';
-$labels['renamefolder'] = 'Đổi tên thư mục';
-$labels['deletefolder']  = 'Xóa thư mục';
 $labels['managefolders']  = 'Quản trị thư mục';
 
 $labels['sortby'] = 'Sắp xếp';

@@ -85,6 +85,7 @@ class new_user_dialog extends rcube_plugin
         "$(document).ready(function () {
           rcmail.message_list.key_press = function(){};
           rcmail.message_list.key_down = function(){};
+          $('input[name=_name]').focus();
           });", 'foot');
 
       $this->include_stylesheet('newuserdialog.css');

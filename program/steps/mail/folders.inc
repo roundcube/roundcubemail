@@ -20,55 +20,61 @@
 
 // only process ajax requests
 if (!$OUTPUT->ajax_call)
-  return;
+    return;
 
 $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 
 // send EXPUNGE command
-if ($RCMAIL->action=='expunge')
-{
-  $success = $IMAP->expunge($mbox);
+if ($RCMAIL->action == 'expunge') {
 
-  // reload message list if current mailbox
-  if ($success && !empty($_REQUEST['_reload']))
-  {
-    $OUTPUT->command('set_quota', rcmail_quota_content());
-    $OUTPUT->command('message_list.clear');
-    $RCMAIL->action = 'list';
-    return;
-  }
-  else
-    $commands = "// expunged: $success\n";
+    $success = $IMAP->expunge($mbox);
+
+    // reload message list if current mailbox
+    if ($success) {
+        $OUTPUT->show_message('folderexpunged', 'confirmation');
+
+        if (!empty($_REQUEST['_reload'])) {
+            $OUTPUT->command('set_quota', rcmail_quota_content());
+            $OUTPUT->command('message_list.clear');
+            $RCMAIL->action = 'list';
+            return;
+        }
+    }
+    else {
+        rcmail_display_server_error();
+    }
 }
 
 // clear mailbox
-else if ($RCMAIL->action=='purge')
+else if ($RCMAIL->action == 'purge')
 {
-  $delimiter = $IMAP->get_hierarchy_delimiter();
-  $trash_regexp = '/^' . preg_quote($CONFIG['trash_mbox'] . $delimiter, '/') . '/';
-  $junk_regexp = '/^' . preg_quote($CONFIG['junk_mbox'] . $delimiter, '/') . '/';
+    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $trash_regexp = '/^' . preg_quote($CONFIG['trash_mbox'] . $delimiter, '/') . '/';
+    $junk_regexp  = '/^' . preg_quote($CONFIG['junk_mbox'] . $delimiter, '/') . '/';
 
-  // we should only be purging trash and junk (or their subfolders)
-  if ($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']
-    || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox))
-  {
-    $success = $IMAP->clear_mailbox($mbox);
-  
-    if ($success && !empty($_REQUEST['_reload']))
-    {
-      $OUTPUT->set_env('messagecount', 0);
-      $OUTPUT->set_env('pagecount', 0);
-      $OUTPUT->command('message_list.clear');
-      $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
-      $OUTPUT->command('set_unread_count', $mbox, 0);
-      $OUTPUT->command('set_quota', rcmail_quota_content());
-      $_SESSION['unseen_count'][$mbox] = 0;
+    // we should only be purging trash and junk (or their subfolders)
+    if ($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']
+        || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox)
+    ) {
+        $success = $IMAP->clear_mailbox($mbox);
+
+        if ($success) {
+            $OUTPUT->show_message('folderpurged', 'confirmation');
+
+            if (!empty($_REQUEST['_reload'])) {
+                $OUTPUT->set_env('messagecount', 0);
+                $OUTPUT->set_env('pagecount', 0);
+                $OUTPUT->command('message_list.clear');
+                $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text());
+                $OUTPUT->command('set_unread_count', $mbox, 0);
+                $OUTPUT->command('set_quota', rcmail_quota_content());
+                rcmail_set_unseen_count($mbox, 0);
+            }
+        }
+        else {
+            rcmail_display_server_error();
+        }
     }
-    else
-      $commands = "// purged: $success";
-  }
 }
 
-$OUTPUT->send($commands);
-
-
+$OUTPUT->send();

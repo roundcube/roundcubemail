@@ -78,7 +78,6 @@ $messages['movingmessage'] = 'Mezua mugitzen...';
 $messages['receiptsent'] = 'Ondo bidalia irakurritako agiria';
 $messages['errorsendingreceipt'] = 'Ezin da agiria bidali';
 $messages['nodeletelastidentity'] = 'Ezin da izaera hau ezabatu, zure bakarra da';
-$messages['addsubfolderhint'] = 'Aukeratutakoaren azpikarpeta bezala sortuko da karpeta hau';
 $messages['forbiddencharacter'] = 'Karpeta izenak debekatutako karaktereak ditu';
 
 ?>

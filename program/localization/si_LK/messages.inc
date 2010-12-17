@@ -76,6 +76,5 @@ $messages['movingmessage'] = 'පනිවුඩය ගෙනයමින් ප
 $messages['receiptsent'] = 'කියවීම් භාර ගැනීම සාර්ථකව යවන ලදී';
 $messages['errorsendingreceipt'] = 'කියවීම් භාර ගැනීම යැවීමට නොහැක';
 $messages['nodeletelastidentity'] = 'අවසාන අනන්‍යතාවය මකා දැමිය නොහැක';
-$messages['addsubfolderhint'] = 'ෆෝල්ඩරය දැනට තෝරාගෙන ඇති ෆෝල්ඩරයෙහි අනු ෆෝල්ඩරයක් ලෙස සෑදේ';
 
 ?>

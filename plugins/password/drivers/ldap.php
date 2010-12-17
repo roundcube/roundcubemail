@@ -18,18 +18,18 @@ function password_save($curpass, $passwd)
 {
     $rcmail = rcmail::get_instance();
     require_once ('Net/LDAP2.php');
-    
+
     // Building user DN
     if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
         $userDN = substitute_vars($userDN);
     } else {
         $userDN = search_userdn($rcmail);
     }
-    
+
     if (empty($userDN)) {
         return PASSWORD_CONNECT_ERROR;
     }
-    
+
     // Connection Method
     switch($rcmail->config->get('password_ldap_method')) {
         case 'admin':
@@ -42,7 +42,7 @@ function password_save($curpass, $passwd)
             $bindpw = $curpass;
             break;
     }
-    
+
     // Configuration array
     $ldapConfig = array (
         'binddn'    => $binddn,
@@ -53,27 +53,27 @@ function password_save($curpass, $passwd)
         'starttls'  => $rcmail->config->get('password_ldap_starttls'),
         'version'   => $rcmail->config->get('password_ldap_version'),
     );
-    
+
     // Connecting using the configuration array
     $ldap = Net_LDAP2::connect($ldapConfig);
-    
+
     // Checking for connection error
     if (PEAR::isError($ldap)) {
         return PASSWORD_CONNECT_ERROR;
     }
-    
+
     // Crypting new password
     $newCryptedPassword = hashPassword($passwd, $rcmail->config->get('password_ldap_encodage'));
     if (!$newCryptedPassword) {
         return PASSWORD_CRYPT_ERROR;
     }
-    
+
     // Writing new crypted password to LDAP
     $userEntry = $ldap->getEntry($userDN);
     if (Net_LDAP2::isError($userEntry)) {
         return PASSWORD_CONNECT_ERROR;
     }
-    
+
     $pwattr = $rcmail->config->get('password_ldap_pwattr');
     $force = $rcmail->config->get('password_ldap_force_replace');
 
@@ -132,25 +132,30 @@ function search_userdn($rcmail)
     if (PEAR::isError($result) || ($result->count() != 1)) {
         return '';
     }
-        
+
     return $result->current()->dn();
 }
 
 /**
- * Substitute %login, %name and %domain in $str.
+ * Substitute %login, %name, %domain, %dc in $str.
  * See plugin config for details.
  */
 function substitute_vars($str)
 {
     $rcmail = rcmail::get_instance();
+    $domain = $rcmail->user->get_username('domain');
+    $dc     = 'dc='.strtr($domain, array('.' => ',dc=')); // hierarchal domain string
+
     $str = str_replace(array(
             '%login',
             '%name',
             '%domain',
+            '%dc',
         ), array(
             $_SESSION['username'],
             $rcmail->user->get_username('local'),
-            $rcmail->user->get_username('domain'),
+            $domain,
+            $dc,
         ), $str
     );
 
@@ -178,7 +183,7 @@ function hashPassword( $passwordClear, $encodageType )
         case 'crypt': 
             $cryptedPassword = '{CRYPT}' . crypt($passwordClear,randomSalt(2)); 
             break;
-            
+
         case 'ext_des':
             // extended des crypt. see OpenBSD crypt man page.
             if ( ! defined( 'CRYPT_EXT_DES' ) || CRYPT_EXT_DES == 0 ) {
@@ -263,8 +268,7 @@ function hashPassword( $passwordClear, $encodageType )
  * @param int $length The length of the salt string to generate.
  * @return string The generated salt string.
  */
- 
-function randomSalt( $length ) 
+function randomSalt( $length )
 {
     $possible = '0123456789'.
         'abcdefghijklmnopqrstuvwxyz'.
@@ -273,8 +277,8 @@ function randomSalt( $length )
     $str = '';
 //    mt_srand((double)microtime() * 1000000);
 
-    while( strlen( $str ) < $length )
-        $str .= substr( $possible, ( rand() % strlen( $possible ) ), 1 );
+    while (strlen($str) < $length)
+        $str .= substr($possible, (rand() % strlen($possible)), 1);
 
     return $str;
 }
