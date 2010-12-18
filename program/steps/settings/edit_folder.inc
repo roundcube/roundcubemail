@@ -40,8 +40,8 @@ function rcube_folder_form($attrib)
     $special   = (strlen($mbox_imap) && in_array($mbox_imap, (array) $RCMAIL->config->get('default_imap_folders')));
     $protected = ($special && $RCMAIL->config->get('protect_default_folders'));
     $threading_supported = $RCMAIL->imap->get_capability('thread=references')
-        || $IMAP->get_capability('thread=orderedsubject')
-        || $IMAP->get_capability('thread=refs');
+        || $RCMAIL->imap->get_capability('thread=orderedsubject')
+        || $RCMAIL->imap->get_capability('thread=refs');
 
     // Get mailbox stats (messages count, etc.), mailbox name and parent
     if (strlen($mbox)) {
