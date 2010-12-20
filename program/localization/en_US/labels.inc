@@ -258,6 +258,7 @@ $labels['edit']   = 'Edit';
 $labels['cancel'] = 'Cancel';
 $labels['save']   = 'Save';
 $labels['delete'] = 'Delete';
+$labels['rename'] = 'Rename';
 
 $labels['newcontact']     = 'Create new contact card';
 $labels['deletecontact']  = 'Delete selected contacts';

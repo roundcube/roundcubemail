@@ -364,5 +364,6 @@ $labels['location'] = 'Położenie';
 $labels['info'] = 'Informacje';
 $labels['getfoldersize'] = 'Kliknij aby pobrać rozmiar folderu';
 $labels['changesubscription'] = 'Kliknij aby zmienić subskrypcję';
+$labels['rename'] = 'Zmień nazwę';
 
 ?>
