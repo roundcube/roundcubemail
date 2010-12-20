@@ -735,7 +735,7 @@ function rcmail_plain_body($body, $flowed=false)
   // find/mark quoted lines...
   for ($n=0, $cnt=count($a_lines); $n < $cnt; $n++) {
     if ($a_lines[$n][0] == '>' && preg_match('/^(>+\s*)+/', $a_lines[$n], $regs)) {
-      $q = strlen(rtrim($regs[0]));
+      $q = strlen(preg_replace('/\s/', '', $regs[0]));
       $a_lines[$n] = substr($a_lines[$n], strlen($regs[0]));
 
       if ($q > $quote_level)
