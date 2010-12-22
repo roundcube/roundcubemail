@@ -155,7 +155,6 @@ $labels['listorder'] = 'Kierunek sortowania';
 $labels['listmode'] = 'Typ listy';
 $labels['compact'] = 'Porządkuj';
 $labels['empty'] = 'Opróżnij';
-$labels['purge'] = 'Oczyść';
 $labels['quota'] = 'Użyte miejsce';
 $labels['unknown'] = 'nieznane';
 $labels['unlimited'] = 'bez limitu';

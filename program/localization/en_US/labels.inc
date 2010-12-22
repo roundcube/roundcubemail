@@ -181,7 +181,6 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
-$labels['purge'] = 'Purge';
 
 $labels['quota'] = 'Disk usage';
 $labels['unknown']  = 'unknown';
