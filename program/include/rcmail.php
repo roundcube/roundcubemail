@@ -929,6 +929,9 @@ class rcmail
     if (empty($this->texts) || $lang != $_SESSION['language']) {
       $this->texts = array();
 
+      // handle empty lines after closing PHP tag in localization files
+      ob_start();
+
       // get english labels (these should be complete)
       @include(INSTALL_PATH . 'program/localization/en_US/labels.inc');
       @include(INSTALL_PATH . 'program/localization/en_US/messages.inc');
@@ -948,6 +951,8 @@ class rcmail
         if (is_array($messages))
           $this->texts = array_merge($this->texts, $messages);
       }
+
+      ob_end_clean();
 
       $_SESSION['language'] = $lang;
     }

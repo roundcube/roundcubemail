@@ -47,10 +47,6 @@ class rcube_config
      */
     private function load()
     {
-        // start output buffering, we don't need any output yet, 
-        // it'll be cleared after reading of config files, etc.
-        ob_start();
-    
         // load main config file
         if (!$this->load_from_file(RCMAIL_CONFIG_DIR . '/main.inc.php'))
             $this->errors[] = 'main.inc.php was not found.';
@@ -98,9 +94,6 @@ class rcube_config
             ini_set('display_errors', 0);
         }
 
-        // clear output buffer
-        ob_end_clean();
-
         // export config data
         $GLOBALS['CONFIG'] = &$this->prop;
     }
@@ -136,7 +129,11 @@ class rcube_config
     public function load_from_file($fpath)
     {
         if (is_file($fpath) && is_readable($fpath)) {
+            // use output buffering, we don't need any output here 
+            ob_start();
             include($fpath);
+            ob_end_clean();
+
             if (is_array($rcmail_config)) {
                 $this->prop = array_merge($this->prop, $rcmail_config, $this->userprefs);
                 return true;

@@ -129,11 +129,16 @@ abstract class rcube_plugin
     $lang = $_SESSION['language'];
     $locdir = slashify(realpath(slashify($this->home) . $dir));
     $texts = array();
-    
+
+    // use buffering to handle empty lines/spaces after closing PHP tag
+    ob_start();
+
     foreach (array('en_US', $lang) as $lng) {
       @include($locdir . $lng . '.inc');
       $texts = (array)$labels + (array)$messages + (array)$texts;
     }
+
+    ob_end_clean();
 
     // prepend domain to text keys and add to the application texts repository
     if (!empty($texts)) {
